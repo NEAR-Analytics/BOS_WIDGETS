@@ -21,9 +21,8 @@ if (!nfts) {
 
 return (
   <>
-    {nfts.map((nft, i) => (
+    {nfts.map((nft) => (
       <a
-        key={i}
         className="text-decoration-none"
         href={`#mob.near/widget/NftImage?tokenId=${nft.token_id}&contractId=${contractId}`}
       >
