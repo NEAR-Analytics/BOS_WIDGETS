@@ -1,102 +1,136 @@
-//I´m using the ?? with example data to make it visible to all users without setting props
-//I need questionBockHeight to be a string but .toString() is reserved so i convert the number into string like this
-const questionBlockHeight = props.questionBlockHeight + "" ?? 79932918;
-const userMakingQuestion =
-  props.accountId ??
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-const question = props.question ?? "Testing multiple choice";
-const questionTimestamp = props.questionTimestamp ?? 1670201835360;
-const questionType = props.questionType ?? "2";
-const choicesOptions = props.choicesOptions ?? ["a", "b", "c"];
+// console.log("props: ", props);
+const question = props.question;
+const questionTimestamp = props.questionTimestamp;
+
+//I need questionBockHeiht to be a string but .toString() is reserved so i convert the number into string like this
+const questionBlockHeight = props.blockHeight + "";
+// console.log("questionBlockHeight: ", questionBlockHeight);
+// console.log(isNaN(questionBlockHeight));
 
 const currentAccountId = context.accountId;
 
-const profile = Social.getr(`${userMakingQuestion}/profile`);
+const profile = Social.getr(`${accountId}/profile`);
 
-State.init({
-  currentAnswer: "",
-  answersData: [{}],
-});
+// You can use this code to know the blockheights of your question in case you need to test. Just use one blockheight in the props.
+// const testBlockHeights = Social.keys(
+//   `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/post/answer__poll/${questionBlockHeight}`,
+//   "final",
+//   {
+//     return_type: "History",
+//   }
+// );
 
-let answersData = Social.index("answer_poll", questionBlockHeight);
+// console.log("testBlockHeights: ", testBlockHeights);
 
-if (JSON.stringify(answersData) !== JSON.stringify(state.answersData)) {
-  State.update({ answersData: answersData });
-}
+// const question = Social.get(
+//   `${accountId}/post/poll__question/question`,
+//   questionBlockHeight
+// );
+
+// const questionTimestamp = Social.get(
+//   `${accountId}/post/poll__question/question_timestamp`,
+//   questionBlockHeight
+// );
 
 const profileLink = (c) => (
   <a
     className="text-decoration-none link-dark"
-    href={`#/mob.near/widget/ProfilePage?accountId=${userMakingQuestion}`}
+    href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
   >
     {c}
   </a>
 );
 
-let countVotes = [];
+// const answerDataFromBlockHeight = Social.keys(
+//   `*/post/answer__poll/${questionBlockHeight}`,
+//   "final",
+//   {
+//     return_type: "History",
+//   }
+// );
+// console.log("answerDataFromBlockHeight: ", answerDataFromBlockHeight);
 
-if (questionType == "0") {
-  countVotes = [0, 0];
-} else if (questionType == "2") {
-  for (let i = 0; i < choicesOptions.length; i++) {
-    countVotes.push(0);
-  }
-}
+let countVotes = [0, 0];
+let answersData = Social.index("answer_poll", questionBlockHeight);
 
-if (state.answersData) {
-  if (questionType == "0") {
-    countVotes = state.answersData.reduce(
-      (acc, curr) => {
-        let vote = curr.value.user_answer;
+// if (answerDataFromBlockHeight) {
+//   answersData = Object.keys(answerDataFromBlockHeight).map((key) => {
+//     // console.log("key: ", key)
+//     return {
+//       accountId: key,
+//       // Social.keys returns in the end a an array of blockHeight related to the query.
+//       // In our case, we only care for one answer, so it's always the first one
+//       blockHeightOfAnswer:
+//         answerDataFromBlockHeight[key].post.answer__poll[
+//           questionBlockHeight
+//         ][0],
+//     };
+//   });
 
-        let voteValue = parseInt(vote);
-
-        if (isNaN(voteValue)) {
-          return acc;
-        } else if (voteValue == 0) {
-          return [acc[0], acc[1] + 1];
-        } else {
-          return [acc[0] + 1, acc[1]];
-        }
-      },
-
-      [0, 0]
-    );
-  } else if (questionType == "2") {
-    let emptyArray = [];
-    for (let i = 0; i < choicesOptions.length; i++) {
-      emptyArray.push(0);
-    }
-
-    countVotes = state.answersData.reduce((acc, curr) => {
-      let vote = curr.value.user_answer;
+// console.log("answData: ", answersData);
+if (answersData) {
+  countVotes = answersData.reduce(
+    (acc, curr) => {
+      // let vote = Social.get(
+      //   `${curr.accountId}/post/answer__poll/${questionBlockHeight}/user_vote`,
+      //   curr.blockHeightOfAnswer
+      // );
+      let vote = curr.value.data.user_vote;
 
       let voteValue = parseInt(vote);
 
+      // console.log("testing votes: ", votes);
+      // console.log(typeof votes);
+
+      //vote can return null for a few seconds
       if (isNaN(voteValue)) {
         return acc;
+      } else if (voteValue == 0) {
+        return [acc[0], acc[1] + 1];
       } else {
-        acc[voteValue] += 1;
-        return acc;
+        return [acc[0] + 1, acc[1]];
       }
-    }, emptyArray);
-  }
+    },
+
+    [0, 0]
+  );
+
+  // console.log("countVotes: ", countVotes, questionBlockHeight);
 }
 
 const haveThisUserAlreadyVoted = () => {
-  if (state.answersData.length == 0) {
+  if (answersData.lenght == 0) {
     return false;
   }
-  for (let i = 0; i < state.answersData.length; i++) {
-    return state.answersData[i].accountId == currentAccountId;
+  for (answerData in answersData) {
+    return answerData.accountId == currentAccountId;
   }
+
+  // if (answersData.length == 0) {
+  //   return false;
+  // }
+  // for (let i = 0; i < answersData.length; i++) {
+  //   return answersData[i].accountId == currentAccountId;
+  // }
 };
 
 const loadComments = () => {
-  return state.answersData.map((answerData) => {
-    let answer = answerData.value.user_answer;
+  // console.log("answrDLength: ", answersData.length);
+  // return answersData.map((answerData) => {
+  return answersData.map((answerData) => {
+    // let answer = Social.get(
+    //   `${answerData.accountId}/post/answer__poll/${questionBlockHeight}/user_answers`
+    // );
 
-    let answerTimeStamp = answerData.value.answer_timestamp;
+    let answer = answerData.value.data.user_answer;
+    // console.log("answer: ", answer);
+
+    // let answerTimeStamp = Social.get(
+    //   `${answerData.accountId}/post/answer__poll/${questionBlockHeight}/answer_timestamps`
+    // );
+
+    let answerTimeStamp = answerData.value.data.answer_timestamp;
+    // console.log("answerTimeStamp: ", answerTimeStamp);
 
     if (answer != undefined) {
       return (
@@ -113,47 +147,55 @@ const loadComments = () => {
   });
 };
 
-const renderYesNoInputs = () => {
-  return (
-    <>
-      <p style={{ marginBottom: "0" }}>Vote:</p>
-      <div className="form-check">
-        <input
-          key={state.currentAnswer}
-          className="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="voteYes"
-          value="1"
-          onChange={onValueChange}
-          checked={state.currentAnswer == "1"}
-        />
-        <label className="form-check-label" for="voteYes">
-          Yes
-        </label>
-      </div>
-      <div className="form-check">
-        <input
-          key={state.currentAnswer}
-          className="form-check-input"
-          type="radio"
-          name="flexRadioDefault"
-          id="voteNo"
-          value="0"
-          onChange={onValueChange}
-          checked={state.currentAnswer == "0"}
-        />
-        <label className="form-check-label" for="voteNo">
-          No
-        </label>
-      </div>
-    </>
-  );
-};
+State.init({ vote: "", currentAnswer: "" });
+// console.log("input vote value: ", state.vote, "textarea value: ", state.currentAnswer);
+const getForm = () => (
+  <div
+    style={{
+      border: "1px solid #e9e9e9",
+      borderRadius: "20px",
+      padding: "1rem",
+    }}
+  >
+    {haveThisUserAlreadyVoted() ? (
+      <h5>Change your opinion</h5>
+    ) : (
+      <h5>Give your opinion</h5>
+    )}
 
-const renderTextinput = () => {
-  return (
-    <>
+    <p style={{ marginBottom: "0" }}>Vote:</p>
+    <div className="form-check">
+      <input
+        key={state.vote}
+        className="form-check-input"
+        type="radio"
+        name="flexRadioDefault"
+        id="voteYes"
+        value="1"
+        onChange={onValueChange}
+        checked={state.vote == "1"}
+      />
+      <label className="form-check-label" for="voteYes">
+        Yes
+      </label>
+    </div>
+    <div className="form-check">
+      <input
+        key={state.vote}
+        className="form-check-input"
+        type="radio"
+        name="flexRadioDefault"
+        id="voteNo"
+        value="0"
+        onChange={onValueChange}
+        checked={state.vote == "0"}
+      />
+      <label className="form-check-label" for="voteNo">
+        No
+      </label>
+    </div>
+
+    <div className="form-group">
       <label for="answer" className="font-weight-bold">
         Write answer:
       </label>
@@ -162,135 +204,38 @@ const renderTextinput = () => {
         id="answer"
         rows="3"
         value={state.currentAnswer}
-        onChange={onValueChange}
+        onChange={(e) => {
+          const currentAnswer = e.target.value;
+          State.update({ currentAnswer });
+        }}
       ></textarea>
-    </>
-  );
-};
-
-const renderMultipleChoiceInputs = () => {
-  return choicesOptions.map((choice, index) => {
-    return (
-      <>
-        <div className="form-check">
-          <input
-            key={state.currentAnswer}
-            className="form-check-input"
-            type="radio"
-            name="flexRadioDefault"
-            id={choice + index}
-            value={index + ""}
-            onChange={onValueChange}
-            checked={state.currentAnswer == index + ""}
-          />
-          <label className="form-check-label" for={choice + index}>
-            {choice}
-          </label>
-        </div>
-      </>
-    );
-  });
-};
-
-const getForm = () => {
-  return (
-    <div
-      style={{
-        border: "1px solid #e9e9e9",
-        borderRadius: "20px",
-        padding: "1rem",
-      }}
-    >
-      <h5>Give your opinion</h5>
-      <div className="form-group">
-        {questionType == "0"
-          ? renderYesNoInputs()
-          : questionType == "1"
-          ? renderTextinput()
-          : questionType == "2" && renderMultipleChoiceInputs()}
-      </div>
-      <CommitButton
-        data={{
-          index: {
-            answer_poll: JSON.stringify({
-              key: questionBlockHeight,
-              value: {
-                user_answer:
-                  state.currentAnswer == ""
-                    ? answer.userVote
-                    : state.currentAnswer,
-                amountOfChoices: choicesOptions.length,
+    </div>
+    <CommitButton
+      data={{
+        index: {
+          answer_poll: JSON.stringify({
+            key: [questionBlockHeight],
+            value: {
+              data: {
+                user_vote: state.vote == "" ? answer.userVote : state.vote,
+                user_answer: state.currentAnswer,
                 answer_timestamp: Date.now(),
               },
-            }),
-          },
-        }}
-      >
-        Confirm
-      </CommitButton>
-    </div>
-  );
-};
+            },
+          }),
+        },
+      }}
+    >
+      Confirm
+    </CommitButton>
+  </div>
+);
 
 function onValueChange(e) {
-  const currentAnswer = e.target.value;
+  const vote = e.target.value;
 
-  State.update({ currentAnswer: currentAnswer });
+  State.update({ vote });
 }
-
-const renderYesNoCounter = () => {
-  return (
-    <div className="d-flex align-items-start">
-      <i
-        className="bi bi-check-circle-fill"
-        style={{ padding: "0 0.3rem" }}
-      ></i>
-      <p className="text-secondary">{countVotes[0]}</p>
-      <i
-        className="bi bi-x-octagon-fill"
-        style={{ padding: "0 0.5rem 0 1rem" }}
-      ></i>
-      <p className="text-secondary">{countVotes[1]}</p>
-    </div>
-  );
-};
-
-function getPercentageOfVotes(index) {
-  let votesForThisOption = countVotes[index];
-  let amountOfvotes = answersData.length;
-
-  if (amountOfvotes == 0) {
-    return 0;
-  } else {
-    return (votesForThisOption / amountOfvotes) * 100;
-  }
-}
-
-const renderChoicesSelectedCounter = () => {
-  return choicesOptions.map((choice, index) => {
-    let percentageOfVotes = getPercentageOfVotes(index);
-    return (
-      <div className="mx-3 d-flex align-items-center justify-content-between">
-        <span
-          style={{
-            border: "1px solid #e9e9e9",
-            borderRadius: "20px",
-            padding: "1rem",
-            marginRight: "1rem",
-            marginTop: "0.2rem",
-            marginBottom: "0.2rem",
-            width: "100%",
-          }}
-        >
-          {choice}
-        </span>
-        <span style={{ width: "40px", textAlign: "center" }}>
-          %{percentageOfVotes}
-        </span>
-      </div>
-    );
-  });
-};
 
 const timeAgo = (diffSec) =>
   diffSec < 60000
@@ -339,13 +284,19 @@ return (
           </div>
         </div>
         <div>{question}</div>
-        <>
-          {questionType == "0"
-            ? renderYesNoCounter()
-            : questionType == "1"
-            ? loadComments()
-            : questionType == "2" && renderChoicesSelectedCounter()}
-        </>
+        <div className="d-flex align-items-start">
+          <i
+            className="bi bi-check-circle-fill"
+            style={{ padding: "0 0.3rem" }}
+          ></i>
+          <p className="text-secondary">{countVotes[0]}</p>
+          <i
+            className="bi bi-x-octagon-fill"
+            style={{ padding: "0 0.5rem 0 1rem" }}
+          ></i>
+          <p className="text-secondary">{countVotes[1]}</p>
+        </div>
+        <>{loadComments()}</>
         <>{getForm()}</>
       </div>
     </div>
