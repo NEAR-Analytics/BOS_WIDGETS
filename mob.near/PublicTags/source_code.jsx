@@ -7,13 +7,14 @@ const extraTags = props.extraTags;
 const tagsPattern = `*/${appName}/${accountId}/tags/*`;
 const tagsObject = Social.keys(tagsPattern, "final");
 
+const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1";
 const addPublicTagHtml = (
   <a
     href={`#/${ownerId}/widget/AllLabels?accountId=${accountId}`}
     className={badgeBtnClass}
   >
-    <div className={`me-1 fw-normal badge bg-primary`}>+ Add Name Tag</div>
+    <div className={`me-1 badge bg-primary`}>+ Add Name Tag</div>
   </a>
 );
 
@@ -66,7 +67,7 @@ return (
           className={badgeBtnClass}
         >
           <span
-            className={`text-success bg-success bg-opacity-10 position-relative fw-normal badge border border-success`}
+            className={`badge ${tagClass} position-relative`}
             title={tag.title}
             style={
               tag.count > 1
