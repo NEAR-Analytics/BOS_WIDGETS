@@ -7,7 +7,7 @@ function readableDate(UNIX_timestamp) {
 
 return (
   <div>
-    <h3>{submission.name}</h3>
+    <h3>Submission: {submission.name}</h3>
     <Widget
       src={`mob.near/widget/ProfileLine`}
       props={{ accountId: submission.account_id }}
