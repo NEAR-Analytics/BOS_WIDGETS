@@ -1,4 +1,10 @@
-const note = Social.get(`urbanite.near/experimental/note`);
+const accountId = context.accountId;
+
+if (!accountId) {
+  return "Please sign in with NEAR wallet";
+}
+
+const note = Social.get(`${accountId}/experimental/note`);
 
 if (note === null) {
   return "Loading";
