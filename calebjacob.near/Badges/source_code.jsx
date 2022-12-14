@@ -1,90 +1,104 @@
-const accountId = props.accountId || context.accountId;
+const accountId = props.accountId;
 
-State.init({ giveBadgeAccountId: "" });
+// State.init({ badges: [] });
 
 if (!accountId) {
-  return <p>No account ID.</p>;
+  return "No account ID";
 }
 
-let queries = [];
-const yourBadgesQuery = Social.keys(`*/badge/*/holder/${accountId}`, "final");
+const badges = Social.getr(`${accountId}/badges/*`);
 
-if (!yourBadgesQuery) {
-  return <p>Loading...</p>;
+if (!badges) {
+  return "Loading";
 }
 
-Object.entries(yourBadgesQuery).forEach(([badgeAccountId, contractData]) => {
-  Object.entries(contractData.badge).forEach(([badgeId, badgeData]) => {
-    const query = Social.getr(`${badgeAccountId}/badge/${badgeId}`);
-    queries.push(query);
-  });
-});
+console.log(Object.values(badges));
 
 return (
   <div className="container">
-    <div className="d-flex gap-2 flex-wrap">
-      {queries.map((badge) => {
+    <div className="grid">
+      {Object.values(badges).map((badge) => {
         return (
-          <div className="card overflow-hidden" style={{ width: "15rem" }}>
-            <img
-              style={{
-                objectFit: "cover",
-                objectPosition: "center",
-                height: "15rem",
-                width: "15rem",
-              }}
-              src={badge.info.image.url}
-              alt={badge.info.name}
-              title={badge.info.description}
-            />
-            <div className="card-body">
-              <h5 className="card-title">{badge.info.name}</h5>
-              <p className="card-text">{badge.info.description}</p>
+          <div className="g-col-6">
+            <div className="card overflow-hidden" style={{ width: "15rem" }}>
+              <img
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  height: "15rem",
+                  width: "15rem",
+                }}
+                src={badge.info.image.url}
+                alt={badge.info.name}
+                title={badge.info.description}
+              />
+              <div className="card-body">
+                <h5 className="card-title">{badge.info.name}</h5>
+                <p className="card-text">{badge.info.description}</p>
+              </div>
             </div>
           </div>
         );
       })}
     </div>
 
-    {props.devMode && (
-      <div
-        class="d-flex flex-row"
-        style={{ marginTop: "2rem", gap: "1rem", whiteSpace: "nowrap" }}
-      >
-        <input
-          className="form-control"
-          type="text"
-          placeholder="Account Address"
-          value={state.giveBadgeAccountId}
-          onChange={(e) => {
-            const accountId = e.target.value
-              .toLowerCase()
-              .replace(/[^a-z0-9_.-]/g, "");
-            State.update({ giveBadgeAccountId: accountId });
-          }}
-        />
-
-        <CommitButton
-          data={{
-            badge: {
-              brownie: {
-                info: {
-                  name: "Brownie",
-                  description: "A cool brownie",
-                  image: {
-                    url: "https://www.inspiredtaste.net/wp-content/uploads/2016/06/Brownies-Recipe-1-1200.jpg",
-                  },
-                },
-                holder: {
-                  [state.giveBadgeAccountId]: "",
+    <div className="mb-2">
+      <CommitButton
+        data={{
+          badges: {
+            goldStar: {
+              info: {
+                name: "Gold Star",
+                description: "A cool gold star",
+                image: {
+                  url: "https://e7.pngegg.com/pngimages/332/562/png-clipart-gold-coin-with-star-golden-star-badge-symmetry-halo.png",
                 },
               },
+              holder: {
+                [accountId]: "",
+              },
             },
-          }}
-        >
-          Give Badge
-        </CommitButton>
-      </div>
-    )}
+            silverMedal: {
+              info: {
+                name: "Silver Medal",
+                description: "A cool silver medal",
+                image: {
+                  url: "https://png.pngtree.com/png-vector/20191212/ourmid/pngtree-second-place-silver-medal-for-sport-podium-winner-png-image_2050419.jpg",
+                },
+              },
+              holder: {
+                [accountId]: "",
+              },
+            },
+            goldenBoot: {
+              info: {
+                name: "Golden Boot",
+                description: "A cool golden boot",
+                image: {
+                  url: "https://www.aljazeera.com/wp-content/uploads/2022/12/000_DV885236.jpg?resize=1920%2C1440",
+                },
+              },
+              holder: {
+                [accountId]: "",
+              },
+            },
+            apple: {
+              info: {
+                name: "Apple",
+                description: "A cool apple",
+                image: {
+                  url: "https://png.pngtree.com/element_our/png/20181129/vector-illustration-of-fresh-red-apple-with-single-leaf-png_248312.jpg",
+                },
+              },
+              holder: {
+                [accountId]: "",
+              },
+            },
+          },
+        }}
+      >
+        Get that badge
+      </CommitButton>
+    </div>
   </div>
 );
