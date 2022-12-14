@@ -8,13 +8,12 @@ if (Rsvp) {
     if (key in uniqueRsvp) {
       return;
     }
-    counter[accountId] = (counter[accountId] || 0) + 1;
+    counter[accountId] = counter[accountId] || 0;
     uniqueRsvp[key] = true;
   });
 }
 
 const top = Object.entries(counter);
-top.sort((a, b) => b[1] - a[1]);
 
 function renderRsvp(accountIds) {
   return (
