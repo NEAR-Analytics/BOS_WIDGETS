@@ -8,18 +8,15 @@ if (!events) {
 }
 console.log(events);
 
-const AllWidgets = styled.div`
-display: flex;
-flex-wrap: wrap;
-align-items: flex-start;
-
-& > * {
- margin: 6px;
-}
-`;
-
 const allWidgets = events.map((event_id) => {
   console.log(event_id);
   return <Widget src={`minz.near/widget/ViewActivity`} props={{ event_id }} />;
 });
-return <AllWidgets>{allWidgets}</AllWidgets>;
+
+// return (
+//   <Widget
+//     src={`minz.near/widget/ViewActivity`}
+//     props={{ event_id: "event_0" }}
+//   />
+// );
+return <>{allWidgets}</>;
