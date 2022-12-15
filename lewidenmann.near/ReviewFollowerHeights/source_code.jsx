@@ -6,6 +6,7 @@ if (!accountId) {
 
 State.init({
   currentFollowerIndex: 0,
+  hasFinishedReviewing: false,
 });
 
 const follows = Social.get(`${accountId}/graph/follow/**`);
@@ -22,16 +23,7 @@ const followers = follows
         };
       })
       .filter((f) => f.height)
-      .filter((f) => {
-        const voted = Near.view(contractId, "get_who_voted_for", {
-          account_id: f.accountId,
-        });
-        console.log("who voted for", f.accountId, ":", voted);
-        return voted ? !voted.includes(accountId) : false;
-      })
   : [];
-
-const hasFinishedReviewing = followers.length === 0;
 
 console.log("followers with a height", followers);
 
@@ -76,8 +68,6 @@ function submitHeightReview(follower, option) {
     account_id: follower.accountId,
     vote: option.enum,
   });
-  // Near.call will kick out to wallet and cause this whole widget to re-render.
-  // Leaving this in just-in-case.
   nextFollower();
 }
 
@@ -94,22 +84,21 @@ function nextFollower() {
     });
   } else {
     State.update({
-      currentFollowerIndex: 0,
+      hasFinishedReviewing: true,
     });
   }
 }
 
 return (
   <div class="card">
-    {hasFinishedReviewing ? (
+    {state.hasFinishedReviewing ? (
       <div className="p-3">
         <h5>Review Your Followers&apos; Heights</h5>
 
         <hr />
 
         <div class="alert alert-success m-0" role="alert">
-          No heights to review right now. Add more followers and get them to add
-          their height!
+          You have reviewed all of your followers&apos; heights.
         </div>
       </div>
     ) : (
@@ -127,7 +116,7 @@ return (
 
           <div className="d-flex flex-row" style={{ gap: "1rem" }}>
             <Widget
-              src="lewidenmann.near/widget/Profile"
+              src="mob.near/widget/Profile"
               props={{ accountId: currentFollower.accountId }}
             />
             <h1 style={{ borderLeft: "1px solid", paddingLeft: "1rem" }}>
