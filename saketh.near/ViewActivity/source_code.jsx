@@ -8,7 +8,9 @@ return (
     <div className="card-body">
       <span className="text-truncate">
         <h5>
-          <b>{data.name}</b>
+          <b>
+            {data.name} ({data.participants_lo}-{data.participants_hi} people)
+          </b>
         </h5>
         Organized by
         <Widget
@@ -20,7 +22,8 @@ return (
         <br />
         <CommitButton>
           Join for <b>{data.cost} NEAR</b>
-        </CommitButton>
+        </CommitButton>{" "}
+        before {data.deadline}
       </span>
     </div>
   </div>
