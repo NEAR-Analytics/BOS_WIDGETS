@@ -1,4 +1,4 @@
-const { questionRef, searchString } = props;
+const { questionRef } = props;
 
 State.init({ questionRef, refInput });
 
@@ -38,29 +38,31 @@ const question = Social.getr(
   `${asker}/experimental/genie/questions/${state.questionRef}`
 );
 
-const BodyText = styled.p`
-  color: #68717A
-`;
-
 return (
   <div className="d-flex flex-column gap-1">
     <div className="d-flex align-items-center">
       <div
         style={{ width: "100%" }}
-        className="d-flex align-items-start justify-content-between"
+        className="d-flex align-items-center justify-content-between"
       >
-        <Widget
-          src="tiffany.near/widget/Profile"
-          props={{ accountId: asker }}
-        />
-        <div>
-          {new Date(
-            parseInt(state.questionRef.split("--")[1])
-          ).toLocaleDateString()}
+        <div className="d-flex align-items-center gap-2">
+          <div
+            style={{
+              backgroundColor: "#000",
+              width: "24px",
+              height: "24px",
+              borderRadius: "50%",
+            }}
+          ></div>
+          <div className="d-flex flex-column">
+            <h6>{asker}</h6>
+            {state.questionRef}
+          </div>
         </div>
+        <div>timestamp</div>
       </div>
     </div>
     <h3>{question.title}</h3>
-    <BodyText>{question.content}</BodyText>
+    <h3>{question.content}</h3>
   </div>
 );
