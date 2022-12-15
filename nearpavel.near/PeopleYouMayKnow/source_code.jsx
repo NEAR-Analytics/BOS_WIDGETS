@@ -3,9 +3,9 @@ const accounts = Social.keys(`*/graph/follow/*`, "final", {
   values_only: true,
 });
 const all_account_tags = Social.getr(`*/profile/tags`, "final");
-const userId = props.testUser || context.accountId;
+const userId = context.accountId;
+const ownerId = context.ownerId;
 const showFollowerStats = props.showFollowerStats ?? true;
-const followingData = Social.keys(`${userId}/graph/follow/*`, "final");
 
 if (!userId) {
   return "Please sign in with NEAR wallet to follow other accounts";
@@ -14,6 +14,7 @@ if (accounts === null) {
   return "Loading";
 }
 
+const followingData = Social.keys(`${userId}/graph/follow/*`, "final");
 if (followingData === null || tagsData === null) {
   return "Loading";
 }
@@ -44,6 +45,7 @@ let followingsPerAccount = Object.keys(accounts).reduce(
   }),
   {}
 );
+
 const tagsPerAccount = Object.keys(all_account_tags).reduce(
   (res, id) => ({
     ...res,
@@ -52,12 +54,11 @@ const tagsPerAccount = Object.keys(all_account_tags).reduce(
   {}
 );
 
+const myFriends = followingsPerAccount[userId];
 const myTags = tagsPerAccount[userId] || [];
 
-const friendsInCommon = (withAccountId) => {
-  return myFriends.filter((a) =>
-    followingsPerAccount[withAccountId].includes(a)
-  );
+const friendsInCommon = (accountId) => {
+  return myFriends.filter((a) => followingsPerAccount[accountId].includes(a));
 };
 
 const tagsInCommon = (accountId) => {
@@ -67,12 +68,12 @@ const tagsInCommon = (accountId) => {
       tagsPerAccount[accountId].includes(a)
   );
 };
-const myFriends = followingsPerAccount[userId] || [
-  "nearpavel.near",
-  "roshaan.near",
-];
 
-function getRecommendations() {
+/* TODO: cold start for a new user
+
+*/
+function getRecommendationsFor(_accountId) {
+  console.log("Total accounts", Object.keys(accounts).length);
   const recommendations = Object.keys(accounts)
     .filter(
       (accountId) => !myFriends.includes(accountId) && accountId !== userId
@@ -86,10 +87,7 @@ function getRecommendations() {
       accountId,
       commonFollows,
       commonTags,
-      score:
-        commonFollows *
-        Math.log2(followingsAll[accountId] || 2) *
-        Math.log2(commonTags || 2),
+      score: commonFollows * (Math.log2(followingsAll[accountId]) || 1),
     }))
     .sort((f, s) => s.score - f.score)
     .slice(0, 20);
@@ -151,7 +149,7 @@ function getCommitData() {
   return data;
 }
 
-const rec = getRecommendations();
+const rec = getRecommendationsFor(userId);
 
 const followingsRows = rec.map(
   ({ accountId, commonFollows, commonTags, score }) => (
@@ -234,19 +232,15 @@ const followingsRows = rec.map(
   )
 );
 
-const commitButton = () => {
-  const data = getCommitData();
-  if (!data.index.graph.includes('"type":"follow"')) return <></>;
-  return (
-    <CommitButton
-      disabled={context.loading}
-      className={`btn ${context.loading ? "btn-outline-dark" : "btn-primary"}`}
-      data={data}
-    >
-      {context.loading ? "Loading" : "Follow Selected"}
-    </CommitButton>
-  );
-};
+const commitButton = (
+  <CommitButton
+    disabled={context.loading}
+    className={`btn ${context.loading ? "btn-outline-dark" : "btn-primary"}`}
+    data={getCommitData()}
+  >
+    {context.loading ? "Loading" : "Follow Selected"}
+  </CommitButton>
+);
 
 const switchMode = () => {
   State.update({ multiSelectMode: !state.multiSelectMode });
@@ -271,8 +265,8 @@ return (
       following accounts.
     </p>
     <div className="mb-3">{switchModeButton}</div>
-    {state.multiSelectMode && <div className="mb-3">{commitButton()}</div>}
+    {state.multiSelectMode && <div className="mb-3">{commitButton}</div>}
     <ul className="list-group">{followingsRows}</ul>
-    <div className="mt-2 mb-3">{commitButton()}</div>
+    <div className="mt-2 mb-3">{commitButton}</div>
   </>
 );
