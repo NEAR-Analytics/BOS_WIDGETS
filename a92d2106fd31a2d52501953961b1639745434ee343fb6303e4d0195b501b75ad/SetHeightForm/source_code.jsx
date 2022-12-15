@@ -6,8 +6,8 @@ if (!accountId) {
 
 State.init({
   heightHasBeenSaved: false,
-  heightFeet: null,
-  heightInches: null,
+  heightFeet: 0,
+  heightInches: 0,
 });
 
 const userHeight = Near.view(contractId, "get_height_inches", {
@@ -15,9 +15,10 @@ const userHeight = Near.view(contractId, "get_height_inches", {
 });
 
 if (userHeight && !state.heightHasBeenSaved) {
+  console.log(userHeight);
   State.update({
     heightHasBeenSaved: true,
-    heightFeet: Math.floor(userHeight / 12),
+    heightFeet: userHeight / 12,
     heightInches: userHeight % 12,
   });
 }
