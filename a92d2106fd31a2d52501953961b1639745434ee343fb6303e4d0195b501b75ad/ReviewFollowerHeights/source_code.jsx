@@ -1,9 +1,3 @@
-const contractId = "proof_of_height.lewidenmann.near";
-const accountId = context.accountId;
-if (!accountId) {
-  return "Please login to use Proof of Height";
-}
-
 State.init({
   currentFollowerIndex: 0,
   hasFinishedReviewing: false,
@@ -14,25 +8,21 @@ const reviewOptions = [
     display: "Definitely Yes",
     className: "btn-success",
     value: 2,
-    enum: "DefinitelyYes",
   },
   {
     display: "Yes",
     className: "btn-primary",
     value: 1,
-    enum: "Yes",
   },
   {
     display: "No",
     className: "btn-warning",
     value: -1,
-    enum: "No",
   },
   {
     display: "Definitely No",
     className: "btn-danger",
     value: -2,
-    enum: "DefinitelyNo",
   },
 ];
 
@@ -58,7 +48,7 @@ function submitHeightReview(follower, option) {
   console.log("Option selected:", follower, option);
   Near.call(contractId, "vote", {
     account_id: follower.accountId,
-    vote: option.enum,
+    vote: option.value,
   });
   nextFollower();
 }
