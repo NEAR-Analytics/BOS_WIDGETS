@@ -53,19 +53,15 @@ return (
       className="d-flex flex-column flex-sm-row align-items-md-center"
       style={{ gap: "1rem" }}
     >
-      {!props.compact && (
-        <div style={{ marginRight: "auto" }}>
-          <Widget
-            src="lewidenmann.near/widget/Profile"
-            props={{ accountId: props.accountId }}
-          />
-        </div>
-      )}
+      <Widget
+        src="mob.near/widget/Profile"
+        props={{ accountId: props.accountId }}
+      />
 
       {typeof user.height === "number" ? (
         <div
           className="d-flex flex-row align-items-center"
-          style={{ gap: "1rem" }}
+          style={{ gap: "1rem", marginLeft: "auto" }}
         >
           <h1 className="m-0">{displayHeight(user.height)}</h1>
 
@@ -86,7 +82,7 @@ return (
           )}
         </div>
       ) : (
-        <div>
+        <div style={{ marginLeft: "auto" }}>
           <span
             style={{ width: "7rem", lineHeight: "1.5rem" }}
             className="badge text-bg-secondary"
