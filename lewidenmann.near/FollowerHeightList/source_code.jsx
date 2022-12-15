@@ -18,7 +18,7 @@ const followers = follows
   : [];
 
 return (
-  <div>
+  <div class="container">
     <div className="card p-3">
       <h5 className="mb-3">Your Followers&apos; Heights</h5>
 
