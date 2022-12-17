@@ -2,12 +2,11 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
-const fast = !!props.fast;
 
 const link =
   props.link &&
   (props.link === true
-    ? `https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`
+    ? `#/mob.near/widget/ProfilePage?accountId=${accountId}`
     : props.link);
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -29,28 +28,8 @@ const tags = Object.keys(profile.tags ?? {});
 
 const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 
-const Wrapper = styled.div`
-  overflow: hidden;
-  margin: 0 -12px; 
-`;
-
-const shareSvg = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    fill="currentColor"
-    viewBox="0 0 16 16"
-    stroke="currentColor"
-    strokeWidth="0.363"
-  >
-    <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" />
-    <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z" />
-  </svg>
-);
-
 return (
-  <Wrapper>
+  <div className="bg-white shadow rounded overflow-hidden">
     <div className="px-4 pt-0 pb-5 bg-dark position-relative">
       {backgroundImage && (
         <Widget
@@ -65,6 +44,15 @@ return (
           }}
         />
       )}
+      {showEditButton && (
+        <a
+          href="#/mob.near/widget/ProfileEditor"
+          className="btn mt-4 btn-outline-light float-end position-relative"
+          style={{ zIndex: 1 }}
+        >
+          Edit profile
+        </a>
+      )}
       <div
         className="profile-picture d-inline-block"
         style={{ transform: "translateY(7rem)" }}
@@ -73,7 +61,6 @@ return (
           src="mob.near/widget/ProfileImage"
           props={{
             profile,
-            fast,
             accountId,
             style: { width: "10rem", height: "10rem" },
             className: "mb-2",
@@ -83,46 +70,24 @@ return (
         />
       </div>
     </div>
-    <div className="px-4 pb-4">
-      <div
-        className="d-flex justify-content-end align-items-center"
-        style={{ height: "4rem" }}
-      >
-        {showEditButton && (
-          <div>
-            <a
-              href="#/mob.near/widget/ProfileEditor"
-              className="btn btn-outline-secondary rounded-5"
-            >
-              Edit profile
-            </a>
-          </div>
-        )}
-      </div>
-      <div className="d-md-flex justify-content-between mb-2 float-clear">
-        <div>
+    <div className="bg-light px-4 pb-4">
+      <div className="d-md-flex justify-content-between pt-3 mb-2">
+        <div style={{ paddingTop: "3rem" }}>
           <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
             <div className="me-2 position-relative">
-              <div className="d-flex text-truncate">
-                {link ? (
-                  <a className="text-truncate text-dark" href={link}>
-                    {nameHeader}
-                  </a>
-                ) : (
-                  nameHeader
-                )}
-                <Widget src="mob.near/widget/Checkmark" props={{ accountId }} />
-              </div>
+              {link ? (
+                <a
+                  className="text-truncate text-dark stretched-link"
+                  href={link}
+                >
+                  {nameHeader}
+                </a>
+              ) : (
+                nameHeader
+              )}
               <div className="small text-truncate">
-                <i className="bi bi-person-fill text-secondary"></i>
+                <i className="bi bi-person-fill text-secondary me-1"></i>
                 {accountId}
-                <Widget
-                  src="mob.near/widget/CopyButton"
-                  props={{
-                    text: accountId,
-                    className: "btn btn-sm btn-outline-dark border-0",
-                  }}
-                />
                 <Widget
                   src="mob.near/widget/FollowsYouBadge"
                   props={{ accountId }}
@@ -155,7 +120,7 @@ return (
           {tags.map((tag, i) => (
             <span
               key={i}
-              className="me-1 mb-1 fw-light badge border border-secondary text-bg-light"
+              className="me-1 fw-light badge border border-secondary text-bg-light"
             >
               #{tag}
             </span>
@@ -164,16 +129,6 @@ return (
       )}
 
       <div>
-        <div className="float-end">
-          <Widget
-            src="mob.near/widget/CopyButton"
-            props={{
-              text: link,
-              label: "Share",
-              clipboardIcon: shareSvg,
-            }}
-          />
-        </div>
         <div className="public-tags collapse show">
           <button
             className="btn btn-sm btn-outline-secondary border-0"
@@ -190,5 +145,5 @@ return (
         </div>
       </div>
     </div>
-  </Wrapper>
+  </div>
 );
