@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
-  return "No account ID";
+  return "Please log in with your NEAR account :)";
 }
 
 const project = props.project ?? Social.getr(`${accountId}/project`);
