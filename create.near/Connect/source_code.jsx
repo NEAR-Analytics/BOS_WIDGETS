@@ -154,7 +154,7 @@ return (
         {context.loading ? "Loading" : "Connect"}
       </CommitButton>
     </div>
-    <h4>Near Social Community</h4>
+    <h5>Near Social Community</h5>
     <ul className="list-group">{leadersBlocks}</ul>
 
     <div className="mt-2 mb-3">
