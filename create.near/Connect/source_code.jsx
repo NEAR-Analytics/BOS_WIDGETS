@@ -5,7 +5,7 @@ if (!userId) {
   return "Please log in with NEAR :)";
 }
 
-const accounts = Social.keys(`*/graph/join/*`, "final", {
+const accounts = Social.keys(`*/graph/connect/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
@@ -14,12 +14,12 @@ if (accounts === null) {
   return "Loading";
 }
 
-const leadersData = Social.keys(`${userId}/graph/join/*`, "final");
+const leadersData = Social.keys(`${userId}/graph/connect/*`, "final");
 if (leadersData === null) {
   return "Loading";
 }
 
-const leaders = leadersData[userId]["graph"]["follow"] ?? {};
+const leaders = leadersData[userId]["graph"]["connect"] ?? {};
 
 let connectDev = prop.connectDev ?? false;
 
@@ -34,7 +34,7 @@ State.init({
 
 let leadersAll = [];
 Object.keys(accounts).forEach((accountId) => {
-  Object.keys(accounts[accountId].graph.follow).forEach((leadersAccountId) => {
+  Object.keys(accounts[accountId].graph.connect).forEach((leadersAccountId) => {
     leadersAll[leadersAccountId] = (leadersAll[leadersAccountId] ?? 0) + 1;
   });
 });
@@ -66,12 +66,12 @@ let leadersBlocks = leadersTop.map((accountId) => (
         type="checkbox"
         value={accountId}
         disabled={accountId == userId}
-        id={`follow-${accountId}`}
-        name={`follow-${accountId}`}
+        id={`connect-${accountId}`}
+        name={`connect-${accountId}`}
         onChange={() => handleChange(accountId)}
         checked={state.leaders[accountId] ?? false}
       />
-      <label className="form-check-label" for={`follow-${accountId}`}>
+      <label className="form-check-label" for={`connect-${accountId}`}>
         <Widget
           src="zavodil.near/widget/ProfileLine"
           props={{
@@ -81,7 +81,7 @@ let leadersBlocks = leadersTop.map((accountId) => (
         />{" "}
         <span
           className="badge rounded-pill bg-primary"
-          title={`${leadersAll[accountId]} followers`}
+          title={`${leadersAll[accountId]} leaders`}
         >
           {leadersAll[accountId]}
         </span>
@@ -97,11 +97,11 @@ let leadersBlocks = leadersTop.map((accountId) => (
   </li>
 ));
 
-let dataFollow = {};
+let dataConnect = {};
 Object.keys(state.leaders).map((accountId) => {
   if (accountId !== userId) {
-    let follow = !!state.leaders[accountId];
-    dataFollow[accountId] = follow ? "" : null;
+    let connect = !!state.leaders[accountId];
+    dataConnect[accountId] = connect ? "" : null;
   }
 });
 
@@ -110,11 +110,11 @@ let dataNotify = [];
 
 Object.keys(state.leaders).map((accountId) => {
   if (leaders[accountId] != state.leaders[accountId]) {
-    let follow = !!state.leaders[accountId];
+    let connect = !!state.leaders[accountId];
     dataGraph.push({
-      key: "follow",
+      key: "connect",
       value: {
-        type: follow ? "follow" : "unfollow",
+        type: connect ? "add" : "remove",
         accountId,
       },
     });
@@ -122,7 +122,7 @@ Object.keys(state.leaders).map((accountId) => {
     dataNotify.push({
       key: accountId,
       value: {
-        type: follow ? "follow" : "unfollow",
+        type: connect ? "add" : "remove",
       },
     });
   }
@@ -130,7 +130,7 @@ Object.keys(state.leaders).map((accountId) => {
 
 const data = {
   graph: {
-    follow: dataFollow,
+    connect: dataConnect,
   },
   index: {
     graph: JSON.stringify(dataGraph),
