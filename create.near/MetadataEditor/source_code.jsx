@@ -7,7 +7,7 @@ State.init({
   metadata: initialMetadata,
   reportedMetadata: initialMetadata,
   image: initialMetadata.image,
-  members: initialMetadata.members ?? {},
+  leaders: initialMetadata.leaders ?? {},
 });
 
 const metadata = {
@@ -17,7 +17,7 @@ const metadata = {
     options.image && state.image && Object.keys(state.image).length > 0
       ? state.image
       : undefined,
-  members: options.members ? state.metadata.members : undefined,
+  leaders: options.leaders ? state.metadata.leaders : undefined,
 };
 
 if (
@@ -65,10 +65,10 @@ return (
         />
       </div>
     )}
-    {options.members && (
+    {options.leaders && (
       <div className="mb-2">
-        {options.members.label ?? "Members"}
-        <input type="text" value={state.metadata.members} />
+        {options.leaders.label ?? "Leaders"}
+        <input type="text" value={state.metadata.leaders} />
       </div>
     )}
   </>
