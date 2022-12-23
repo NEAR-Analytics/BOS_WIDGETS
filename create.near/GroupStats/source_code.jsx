@@ -4,18 +4,18 @@ if (!accountId) {
   return "";
 }
 
-const leaders = Social.keys(`${accountId}/graph/join/*`, "final", {
+const leaders = Social.keys(`${accountId}/graph/connect/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
 
-const members = Social.keys(`*/graph/join/${accountId}`, "final", {
+const members = Social.keys(`*/graph/connect/${accountId}`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
 
 const numLeaders = leaders
-  ? Object.keys(leaders[accountId].graph.join || {}).length
+  ? Object.keys(leaders[accountId].graph.connect || {}).length
   : null;
 const numMembers = members ? Object.keys(members || {}).length : null;
 
