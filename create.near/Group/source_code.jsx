@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
-  return "Please log in with NEAR to make a group :)";
+  return "Please log in with NEAR :)";
 }
 
 const link =
@@ -21,7 +21,7 @@ const showEditButton =
   accountId &&
   accountId === context.accountId;
 
-const name = group.name || "No-name group";
+const name = group.name || "Nameless Group";
 const image = group.image;
 const backgroundImage = group.backgroundImage;
 const tags = Object.keys(group.tags ?? {});
