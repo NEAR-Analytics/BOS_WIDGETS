@@ -21,15 +21,15 @@ if (leadersData === null) {
 
 const leaders = leadersData[userId]["graph"]["follow"] ?? {};
 
-let followDev = prop.followDev ?? false;
+let connectDev = prop.connectDev ?? false;
 
-if (followDev) {
+if (connectDev) {
   leaders[ownerId] = true;
 }
 
 State.init({
   leaders,
-  followDev,
+  connectDev,
 });
 
 let leadersAll = [];
@@ -49,9 +49,9 @@ let handleChange = (accountId) => {
   State.update({ leaders });
 };
 
-let followDevChange = () => {
+let connectDevChange = () => {
   handleChange(ownerId);
-  State.update({ followDev: !state.followDev });
+  State.update({ connectDev: !state.connectDev });
 };
 
 let leadersBlocks = leadersTop.map((accountId) => (
@@ -140,8 +140,8 @@ const data = {
 
 return (
   <>
-    <h3>Group Leaders</h3>
-    <p>Choose from the list of accounts below.</p>
+    <h3>Choose Leaders</h3>
+    <p>Select from the list of accounts below.</p>
 
     <div className="mb-3">
       <CommitButton
