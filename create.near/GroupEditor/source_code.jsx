@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 
 if (!accountId) {
-  return "Please log in with a NEAR account to edit your group :)";
+  return "Please log in with a NEAR account to edit your group.";
 }
 
 let group = Social.getr(`${accountId}/group`);
@@ -18,7 +18,7 @@ return (
   <div className="row">
     <div className="col-lg-6">
       <div>
-        <h4>Edit group of @{accountId}</h4>
+        <h4>Edit Group</h4>
       </div>
       <div className="mb-2">
         <Widget
@@ -29,9 +29,8 @@ return (
             options: {
               name: { label: "Name" },
               description: { label: "About" },
-              image: { label: "Group image" },
-              backgroundImage: { label: "Background image" },
-              members: { label: "Members" },
+              image: { label: "Image" },
+              leaders: { label: "Leaders" },
             },
           }}
         />
