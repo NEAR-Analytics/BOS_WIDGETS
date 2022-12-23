@@ -140,8 +140,8 @@ const data = {
 
 return (
   <>
-    <h1>Group Leaders</h1>
-    <p>Chooese from the list of accounts below.</p>
+    <h3>Group Leaders</h3>
+    <p>Choose from the list of accounts below.</p>
 
     <div className="mb-3">
       <CommitButton
