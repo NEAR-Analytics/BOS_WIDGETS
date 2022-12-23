@@ -7,7 +7,7 @@ if (
 }
 
 const joinEdge = Social.keys(
-  `${context.accountId}/graph/join/${props.accountId}`,
+  `${context.accountId}/graph/connect/${props.accountId}`,
   undefined,
   {
     values_only: true,
@@ -15,7 +15,7 @@ const joinEdge = Social.keys(
 );
 
 const inverseEdge = Social.keys(
-  `${props.accountId}/graph/join/${context.accountId}`,
+  `${props.accountId}/graph/connect/${context.accountId}`,
   undefined,
   {
     values_only: true,
