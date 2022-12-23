@@ -21,7 +21,7 @@ const showEditButton =
   accountId &&
   accountId === context.accountId;
 
-const name = group.name || "No-name profile";
+const name = group.name || "No-name group";
 const image = group.image;
 const backgroundImage = group.backgroundImage;
 const tags = Object.keys(group.tags ?? {});
@@ -87,7 +87,7 @@ return (
               )}
               <div className="small text-truncate">
                 <Widget
-                  src="create.near/widget/MembershipBadge"
+                  src="create.near/widget/MemberBadge"
                   props={{ accountId }}
                 />
               </div>
@@ -100,10 +100,7 @@ return (
             </div>
           </div>
           <div>
-            <Widget
-              src="create.near/widget/MemberStats"
-              props={{ accountId }}
-            />
+            <Widget src="create.near/widget/GroupStats" props={{ accountId }} />
           </div>
         </div>
       </div>
