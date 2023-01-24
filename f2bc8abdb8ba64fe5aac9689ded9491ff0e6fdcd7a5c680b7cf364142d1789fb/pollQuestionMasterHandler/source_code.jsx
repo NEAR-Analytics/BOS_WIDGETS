@@ -1,19 +1,12 @@
 /********** Start initialization ************/
 let sharedBlockHeight = props.sharedBlockHeight;
 
-const TABS = {
-  MY_POLLS: { id: 0, text: "My Polls" },
-  ALL_EXISTING_POLLS: { id: 1, text: "All existing polls" },
-  NEW_POLL: { id: 2, text: "Create a poll" },
-};
-
 State.init({
   displaying: TABS.MY_POLLS.id,
   hoveringElement: "",
   showAbortPollCreation: false,
   abortThroughAllExistingPolls: false,
   profile: {},
-  showLogInRequiredPopup: false,
 });
 
 const profile = Social.getr(`${context.accountId}/profile`);
@@ -23,8 +16,14 @@ if (JSON.stringify(profile) != JSON.stringify(state.profile)) {
 /********** End initialization ************/
 
 /********** Start constants ************/
-const widgetOwner =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+
+const TABS = {
+  MY_POLLS: { id: 0, text: "My Polls" },
+  ALL_EXISTING_POLLS: { id: 1, text: "All existing polls" },
+  NEW_POLL: { id: 2, text: "Create a poll" },
+};
+
+const widgetOwner = "easypoll.near";
 
 const MODAL = "modal";
 
@@ -207,83 +206,6 @@ const renderAbortPollCreationModal = () => {
   );
 };
 
-/********** Start rendering ************/
-
-if (!context.accountId) {
-  return (
-    <div
-      style={{
-        height: "80vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-      }}
-    >
-      <button
-        style={
-          state.hoveringElement == "connect-wallet-button"
-            ? {
-                padding: "20px 32px",
-                width: "50%",
-                backgroundColor: "white",
-                borderRadius: "20px",
-                color: "#010A2D",
-                fontWeight: "500",
-                fontSize: "0.8rem",
-                letterSpacing: "0.01em",
-                border: "1px #010A2D solid",
-              }
-            : {
-                padding: "20px 32px",
-                width: "50%",
-                backgroundColor: "#010A2D",
-                borderRadius: "20px",
-                color: "white",
-                fontWeight: "500",
-                fontSize: "0.8rem",
-                letterSpacing: "0.01em",
-                border: "1px #010A2D solid",
-              }
-        }
-        onMouseEnter={() => {
-          State.update({ hoveringElement: "connect-wallet-button" });
-        }}
-        onMouseLeave={() => {
-          State.update({ hoveringElement: "" });
-        }}
-        onClick={() => State.update({ showLogInRequiredPopup: true })}
-      >
-        Connect wallet
-      </button>
-      {state.showLogInRequiredPopup && (
-        <div
-          className="alert alert-warning rounded-4 mb-3"
-          style={{ position: "absolute", top: "1rem", width: "90%" }}
-        >
-          <div className="text-end">
-            <div className="fw-bold">
-              Sign in by clicking
-              <div
-                className="profile-image d-inline-block"
-                style={{ width: "3em", height: "3em" }}
-              >
-                <img
-                  className="rounded w-100 h-100"
-                  src="https://i.near.social/thumbnail/https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm"
-                  alt="No-name profile @"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <i className="fs-1 align-middle bi bi-arrow-up-right"></i>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 return (
   <div
     className="pb-5"
@@ -301,11 +223,7 @@ return (
         boxShadow: "0px 4px 28px rgba(43, 68, 106, 0.04)",
       }}
     >
-      <a
-        href="https://near.social/#/mob.near/widget/ProfilePage?accountId=easypoll.near"
-        className="d-flex align-items-center"
-        style={{ cursor: "pointer", textDecoration: "none" }}
-      >
+      <div className="d-flex align-items-center">
         <div
           className="d-flex align-items-center justify-content-center"
           style={{
@@ -330,7 +248,7 @@ return (
         >
           EasyPoll
         </h3>
-      </a>
+      </div>
 
       <div
         className="w-100 d-flex justify-content-between"
@@ -449,18 +367,17 @@ return (
         </div>
       </div>
       <div className="p-2">
-        {context.accountId && (
-          <div>
-            <p style={{ margin: "0", fontSize: "0.8rem" }}>
-              {makeAccountIdShorter(state.profile.name, 12)}
-            </p>
-            <p style={{ margin: "0", fontSize: "0.8rem" }}>
-              @{makeAccountIdShorter(context.accountId, 12)}
-            </p>
-          </div>
-        )}
+        <div>
+          <p style={{ margin: "0", fontSize: "0.8rem" }}>
+            {makeAccountIdShorter(state.profile.name, 12)}
+          </p>
+          <p style={{ margin: "0", fontSize: "0.8rem" }}>
+            @{makeAccountIdShorter(context.accountId, 12)}
+          </p>
+        </div>
       </div>
     </div>
+
     {state.displaying == TABS.ALL_EXISTING_POLLS.id ? (
       <div className="px-4">
         <h2 style={{ margin: "2rem 0 0.5rem 0", fontWeight: "700" }}>
@@ -556,4 +473,3 @@ return (
     {state.showAbortPollCreation && renderAbortPollCreationModal()}
   </div>
 );
-/********** End rendering ************/
