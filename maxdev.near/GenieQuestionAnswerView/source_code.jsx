@@ -1,10 +1,10 @@
-const ownerId = "maxdev.near";
+const ownerId = "maxhr.near";
 const { questionRef, searchString } = props;
 
 const asker = questionRef.split("--")[0];
 
 const question = Social.getr(
-  `${asker}/neardevs_beta1/questions/${questionRef}`
+  `${asker}/experimental/genie/questions/${questionRef}`
 );
 
 const BodyText = styled.p`
