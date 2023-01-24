@@ -1,4 +1,4 @@
-const ownerId = "maxdev.near";
+const ownerId = "maxhr.near";
 State.init({ answerContent: "" });
 
 const { questionRef } = props;
@@ -22,13 +22,15 @@ return (
         State.update({ answerContent: "" });
       }}
       data={{
-        neardevs_beta1: {
-          answers: {
-            [questionRef]: state.answerContent,
+        experimental: {
+          genie: {
+            answers: {
+              [questionRef]: state.answerContent,
+            },
           },
         },
         index: {
-          neardevs_beta1: JSON.stringify({
+          genie: JSON.stringify({
             key: `answered/${questionRef}`,
             value: 1,
           }),
