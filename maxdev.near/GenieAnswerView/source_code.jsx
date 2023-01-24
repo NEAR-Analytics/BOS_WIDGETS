@@ -1,4 +1,4 @@
-const ownerId = "maxdev.near";
+const ownerId = "maxhr.near";
 const { answeredBy, questionRef } = props;
 
 if (!answeredBy || !questionRef) {
@@ -6,7 +6,7 @@ if (!answeredBy || !questionRef) {
 }
 
 const answer = Social.get(
-  `${answeredBy}/neardevs_beta1/answers/${questionRef}`
+  `${answeredBy}/experimental/genie/answers/${questionRef}`
 );
 
 const BodyText = styled.p`
@@ -25,6 +25,10 @@ return (
     <div className="d-flex flex-row gap-2">
       <Widget
         src={`${ownerId}/widget/GenieAnswerVote`}
+        props={{ questionRef, answeredBy }}
+      />
+      <Widget
+        src="michaelpeter.near/widget/GenieTip"
         props={{ questionRef, answeredBy }}
       />
     </div>
