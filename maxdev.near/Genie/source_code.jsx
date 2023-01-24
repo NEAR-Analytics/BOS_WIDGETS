@@ -1,7 +1,6 @@
-const ownerId = "maxdev.near";
-const moderators = ["maxdev.near"];
+const ownerId = "maxhr.near";
+const moderatorsIds = ["maxhr.near"];
 
-const isModerator = moderators.includes(context.accountId);
 State.init({ selectedQuestion: "", searchString: "", showAskForm: false });
 
 const clearSelected = () => {
@@ -31,18 +30,6 @@ return (
   >
     <div className="d-flex flex-row" style={{ width: "100%" }}>
       <h1>Devs Q&A</h1>
-      <button
-        style={{ marginLeft: "20px" }}
-        className="btn btn-primary text-nowrap"
-        onClick={() => {
-          State.update({ showAskForm: true });
-        }}
-      >
-        <div>
-          <i class="bi bi-chat" />
-          Ask a question
-        </div>
-      </button>
     </div>
     {state.selectedQuestion && (
       <div
@@ -60,9 +47,7 @@ return (
         </div>
         <Widget
           src={`${ownerId}/widget/GenieQuestionAnswerView`}
-          props={{
-            questionRef: state.selectedQuestion,
-          }}
+          props={{ questionRef: state.selectedQuestion }}
         />
       </div>
     )}
@@ -80,11 +65,7 @@ return (
         </div>
         <Widget
           src={`${ownerId}/widget/GenieSaveQuestion`}
-          props={{
-            searchString: state.searchString,
-            setSearchString,
-            onSubmitFinish: () => State.update({ showAskForm: fase }),
-          }}
+          props={{ searchString: state.searchString, setSearchString }}
         />
       </Wrapper>
     )}
@@ -92,18 +73,15 @@ return (
       <div
         className="d-flex flex-column gap-3 pt-1"
         style={{
-          width: "100%",
+          maxWidth: "50rem",
         }}
       >
-        <div
-          className="d-flex align-items-center gap-3"
-          style={{ marginTop: "30px" }}
-        >
-          Search:
+        <div className="d-flex align-items-center gap-3">
           <i class="bi bi-search" />
           <div class="input-group input-group-lg">
             <input
               type="text"
+              placeholder="Your wish is my command"
               className="form-control input-group input-group-lg"
               value={state.searchString}
               onChange={(e) => {
@@ -111,14 +89,21 @@ return (
               }}
             />
           </div>
+          <button
+            className="btn btn-primary text-nowrap"
+            onClick={() => {
+              State.update({ showAskForm: true });
+            }}
+          >
+            <div>
+              <i class="bi bi-chat" />
+              Ask a question
+            </div>
+          </button>
         </div>
         <Widget
           src={`${ownerId}/widget/GenieQuestionList`}
-          props={{
-            searchString: state.searchString,
-            setSelectedQuestion,
-            moderators,
-          }}
+          props={{ searchString: state.searchString, setSelectedQuestion }}
         />
       </div>
     )}
