@@ -3,14 +3,12 @@ State.init({
   questionContent: "",
   timestamp: Date.now(),
 });
-const { onSubmitFinish } = props;
 
 if (!context.accountId) {
   return <p>Please log in to ask a question</p>;
 }
 
 const questionRef = `${context.accountId}--${Date.now()}`;
-
 return (
   <div className="d-flex flex-column">
     <div className="d-flex flex-column gap-2">
@@ -36,26 +34,24 @@ return (
         disabled={!state.questionTitle || !state.questionContent}
         className="btn btn-primary"
         onCommit={() => {
-          State.update({ questionContent: "", questionTitle: "" });
-          if (typeof onSubmitFinish === "function") {
-            onSubmitFinish();
-          }
+          State.update({ questionContent: "", showAskForm: false });
         }}
         onClick={() => {
           State.update({ timestamp: Date.now() });
         }}
-        // const questionRef = `${context.accountId}--${Date.now()}`;
         data={{
-          neardevs_beta1: {
-            questions: {
-              [questionRef]: {
-                title: state.questionTitle,
-                content: state.questionContent,
+          experimental: {
+            genie: {
+              questions: {
+                [questionRef]: {
+                  title: state.questionTitle,
+                  content: state.questionContent,
+                },
               },
             },
           },
           index: {
-            neardevs_beta1: JSON.stringify({
+            genie: JSON.stringify({
               key: "asked",
               value: questionRef,
             }),
