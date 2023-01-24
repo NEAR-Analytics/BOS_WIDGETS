@@ -1,8 +1,7 @@
-const ownerId = "maxdev.near";
+const ownerId = "maxhr.near";
 const { questionRef, answeredBy } = props;
 
-const votes =
-  Social.index("neardevs_beta1", `vote/${questionRef}/${answeredBy}`) || [];
+const votes = Social.index("genie", `vote/${questionRef}/${answeredBy}`) || [];
 const upvotes = votes.filter((v) => v.value.dir === 1).length;
 const downvotes = votes.filter((v) => v.value.dir === -1).length;
 
@@ -31,7 +30,7 @@ return (
         }}
         data={{
           index: {
-            neardevs_beta1: JSON.stringify([
+            genie: JSON.stringify([
               {
                 key: `vote/${questionRef}/${answeredBy}`,
                 value: {
@@ -56,7 +55,7 @@ return (
         style={{ borderRadius: 0 }}
         data={{
           index: {
-            neardevs_beta1: JSON.stringify({
+            genie: JSON.stringify({
               key: `vote/${questionRef}/${answeredBy}`,
               value: {
                 questionRef,
