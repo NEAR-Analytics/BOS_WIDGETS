@@ -1,3 +1,6 @@
+const APP_OWNER = 'events_v1.near';
+const APP_NAME = 'events_app';
+
 let event = props.event || null;
 
 // return data;
@@ -66,45 +69,10 @@ const EventBody = styled.div`
   padding: 1rem;
 `;
 
-console.log('event', event);
-console.log('props', props);
-
-function gotoEvent() {
-  props.routing.push('show', { event_id: event.id }, 'container', {
-    title: event.name,
-    back: true,
-    dropdownItems: [
-      {
-        component: 'components.dropdown_item',
-        props: {
-          label: 'Edit',
-          onClick: () => {
-            props.routing.push('edit', { event_id: event.id }, 'container', {
-              title: 'Edit Event',
-              back: true,
-            });
-          },
-        },
-        layout: 'dropdown_item',
-        layoutProps: {},
-      },
-    ],
-  });
-}
-
 return (
-  <div
-    onClick={() => {
-      gotoEvent();
-    }}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') {
-        gotoEvent();
-      }
-    }}
+  <a
+    href={`#/${APP_OWNER}/widget/${APP_NAME}__show?event_id=${event.id}`}
     className="text-decoration-none"
-    role="button"
-    tabIndex={0}
   >
     <EventCard>
       <EventHeader>
@@ -118,5 +86,5 @@ return (
         <EventDate>{event.end_date}</EventDate>
       </EventBody>
     </EventCard>
-  </div>
+  </a>
 );
