@@ -1,8 +1,10 @@
 const EVENTS_CONTRACT = 'events_v1.near';
+const APP_OWNER = 'events_v1.near';
+const APP_NAME = 'events_app';
 
 // accountID is used to determine for whom the events are displayed
 // if no accountID is provided, all events are displayed
-const accountId = props.forAccountId;
+const accountId = props.accountId;
 
 let events = [];
 if (accountId === undefined) {
@@ -13,9 +15,15 @@ if (accountId === undefined) {
   });
 }
 
-const Loading = props.Components.Loading;
+console.log({ events });
+
 if (!events) {
-  return <Loading>Loading events</Loading>;
+  return 'Loading';
 }
 
-return <>{props.engine.renderComponent('index.list', { events })}</>;
+return (
+  <Widget
+    src={`${APP_OWNER}/widget/${APP_NAME}__index__list`}
+    props={{ events: events }}
+  />
+);
