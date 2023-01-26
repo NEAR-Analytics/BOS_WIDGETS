@@ -31,13 +31,9 @@ let prices = assets.map((asset) => {
   );
 
   return (
-    <small class="col">
-      {asset_name}:{" "}
-      {`${price
-        .toFixed(price.gt(new Big(1000)) ? 0 : price.gt(new Big(100)) ? 1 : 2)
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-      `}
-    </small>
+    <div class="col">
+      {asset_name}: ${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+    </div>
   );
 });
 
