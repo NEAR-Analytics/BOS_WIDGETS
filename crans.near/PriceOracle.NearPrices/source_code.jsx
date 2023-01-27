@@ -1,4 +1,9 @@
-let keys = props.keys ?? ["wrap.near"];
+let keys = props.keys ?? [
+  "wrap.near",
+  "aurora",
+  "2260fac5e5542a773aa44fbcfedf7c193bc2c599.factory.bridge.near",
+  "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+];
 
 let price_data = Near.view("priceoracle.near", "get_price_data", {});
 if (!price_data) {
