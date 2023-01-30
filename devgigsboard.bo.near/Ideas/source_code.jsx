@@ -16,9 +16,7 @@ if (context.accountId) {
     predecessor_id: ownerId,
     key: context.accountId + "/index/notify",
   });
-  if (grantNotify === null) {
-    return "Initializing ...";
-  }
+  console.log(grantNotify);
   if (grantNotify === false) {
     Near.call(
       "social.near",
@@ -30,6 +28,8 @@ if (context.accountId) {
       30_000_000_000_000n,
       1n
     );
+  } else {
+    console.log(grantNotify);
   }
 }
 
