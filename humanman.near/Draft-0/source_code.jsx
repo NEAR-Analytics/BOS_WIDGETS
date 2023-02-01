@@ -1,17 +1,9 @@
-const wiki = useCache(
-  () =>
-    asyncFetch(
-      "https://github.com/near/wiki/blob/master/website/README.md"
-    ).then((res) => res.body),
-  { subscribe: true }
-);
+const accountId = context.accountId;
 
-// window api unavailable.
-// const parser = new window.DOMParser()
+if (context.loading) {
+  return "Loading";
+}
 
-return (
-  <div>
-    {wiki}
-    <h1>hello</h1>
-  </div>
-);
+if (!accountId) {
+  return "Please sign in with NEAR wallet to use this widget";
+}
