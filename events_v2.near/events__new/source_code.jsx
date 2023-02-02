@@ -1,17 +1,16 @@
-props.controller.setLayout('layouts:modal', {
+props.controller.setLayout('modal', {
   title: 'Create Event',
   back: true,
 });
 
 const EVENTS_CONTRACT = 'events_v2.near';
 
-const latestEvent = props.__engine.contract.view(
-  EVENTS_CONTRACT,
-  'get_latest_event',
-  {
-    account_id: props.__engine.accountId,
-  }
-);
+const latestEvent = Near.view(EVENTS_CONTRACT, 'get_latest_event', {
+  account_id: props.__engine.accountId,
+});
+if (!latestEvent) {
+  // return 'Loading';
+}
 
 const SECONDS_8 = 8000;
 // if event was just created, pop the stack and return
@@ -20,7 +19,7 @@ if (
   new Date().getTime() - new Date(latestEvent.created_at).getTime() < SECONDS_8
 ) {
   props.__engine.pop();
-  return <></>;
+  return 'Event created';
 }
 
 function createEvent(data) {
