@@ -1,6 +1,6 @@
 const onSave = props.onSave;
 if (onSave === undefined || onSave === null) {
-  return props.__engine.helpers.propIsRequiredMessage('onSave');
+  return 'props.onSave is required';
 }
 
 const model = props.model;
@@ -97,8 +97,18 @@ if (!state) {
   } else {
     State.init(DEFAULT_STATE);
   }
-  return props.__engine.loading();
+  return 'Loading...';
 }
+
+const Button = styled.button`
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #ccc;
+`;
 
 const Select = styled.select`
   width: 100%;
@@ -108,9 +118,30 @@ const Select = styled.select`
   border-radius: 4px;
   box-sizing: border-box;
 `;
-const ValidationError = props.__engine.Components.ValidationError;
-const FullActionButton = props.__engine.Components.FullActionButton;
-const FormLabel = props.__engine.Components.FormLabel;
+
+const Label = styled.label`
+  width: 100%;
+  color: #666;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0 0 0;
+  box-sizing: border-box;
+`;
+
+const slideDownSmall = styled.keyframes`
+  0% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const ErrorMessage = styled.div`
+  color: #c00;
+  font-size: 0.8rem;
+  margin: 0.5rem 0 0 0;
+  animation: ${slideDownSmall} 0.3s ease-in-out;
+`;
 
 const LinkTypes = [
   { value: 'register', label: 'Register' },
@@ -337,7 +368,7 @@ return (
     }}
   >
     <div className="mt-3">
-      <FormLabel>Name</FormLabel>
+      <Label>Name</Label>
       <input
         type="text"
         placeholder="Event Name"
@@ -347,10 +378,10 @@ return (
         }}
       />
     </div>
-    <ValidationError>{getErrors('name')}</ValidationError>
+    <ErrorMessage>{getErrors('name')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Description</FormLabel>
+      <Label>Description</Label>
       <textarea
         className="w-100"
         placeholder="Event Description"
@@ -361,10 +392,10 @@ return (
         rows={3}
       />
     </div>
-    <ValidationError>{getErrors('description')}</ValidationError>
+    <ErrorMessage>{getErrors('description')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Type</FormLabel>
+      <Label>Type</Label>
       <Select
         value={state.type}
         onChange={(event) => {
@@ -378,10 +409,10 @@ return (
         ))}
       </Select>
     </div>
-    <ValidationError>{getErrors('type')}</ValidationError>
+    <ErrorMessage>{getErrors('type')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Category</FormLabel>
+      <Label>Category</Label>
       <input
         type="text"
         placeholder="Event Category"
@@ -391,10 +422,10 @@ return (
         }}
       />
     </div>
-    <ValidationError>{getErrors('category')}</ValidationError>
+    <ErrorMessage>{getErrors('category')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Status</FormLabel>
+      <Label>Status</Label>
       <Select
         value={state.status}
         onChange={(event) => {
@@ -408,10 +439,10 @@ return (
         ))}
       </Select>
     </div>
-    <ValidationError>{getErrors('status')}</ValidationError>
+    <ErrorMessage>{getErrors('status')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Start Date</FormLabel>
+      <Label>Start Date</Label>
       <input
         type="date"
         value={state.start_date}
@@ -420,10 +451,10 @@ return (
         }}
       />
     </div>
-    <ValidationError>{getErrors('start_date')}</ValidationError>
+    <ErrorMessage>{getErrors('start_date')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>End Date</FormLabel>
+      <Label>End Date</Label>
       <input
         type="date"
         value={state.end_date}
@@ -432,10 +463,10 @@ return (
         }}
       />
     </div>
-    <ValidationError>{getErrors('end_date')}</ValidationError>
+    <ErrorMessage>{getErrors('end_date')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Location</FormLabel>
+      <Label>Location</Label>
       <textarea
         className="w-100"
         placeholder="Event Location"
@@ -446,10 +477,10 @@ return (
         rows={3}
       />
     </div>
-    <ValidationError>{getErrors('location')}</ValidationError>
+    <ErrorMessage>{getErrors('location')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Images</FormLabel>
+      <Label>Images</Label>
 
       {state.images.map((image, index) => (
         <div key={index} className="mb-4 d-flex">
@@ -481,10 +512,10 @@ return (
         Add Image
       </button>
     </div>
-    <ValidationError>{getErrors('images')}</ValidationError>
+    <ErrorMessage>{getErrors('images')}</ErrorMessage>
 
     <div className="mt-3">
-      <FormLabel>Links</FormLabel>
+      <Label>Links</Label>
       {state.links.map((link, index) => (
         <div key={index} className="mb-4">
           <input
@@ -569,16 +600,16 @@ return (
         Add Link
       </button>
     </div>
-    <ValidationError>{getErrors('links')}</ValidationError>
+    <ErrorMessage>{getErrors('links')}</ErrorMessage>
 
     <br />
-    <FullActionButton
+    <Button
       className="mt-3"
       onClick={() => {
         sanitizeValidateAndCall(state);
       }}
     >
       {buttonText}
-    </FullActionButton>
+    </Button>
   </div>
 );
