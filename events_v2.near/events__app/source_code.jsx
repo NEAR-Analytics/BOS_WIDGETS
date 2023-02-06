@@ -1,6 +1,5 @@
 const APP_OWNER = 'events_v2.near';
 const APP_NAME = 'events';
-const DEBUG = 'true';
 
 return (
   <Widget
@@ -11,7 +10,7 @@ return (
       appName: APP_NAME,
       entryRoute: 'index',
       entryProps: {},
-      DEBUG: /true|1|yes/iu.test(DEBUG),
+      DEBUG: '{{ env.DEBUG }}',
     }}
   />
 );
