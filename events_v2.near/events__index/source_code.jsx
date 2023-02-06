@@ -1,47 +1,25 @@
 props.controller.setLayout('layouts:container', {
+  title: 'ND Events',
   back: false,
 
   primaryAction: {
     label: 'Create new Event',
     onClick: ['push', 'new', {}],
   },
-
-  items: [
-    {
-      label: 'Lists',
-      onClick: [{ appName: 'event_lists', method: 'replace' }, 'index', {}],
-    },
-    {
-      label: 'Events',
-      onClick: [{ appName: 'events', method: 'replace' }, 'index', {}],
-      active: true,
-    },
-  ],
 });
 
-const TextButton = props.__engine.Components.TextButton;
+const Button = props.__engine.Components.Button;
 const Container = props.__engine.Components.Container;
 
 return (
   <Container>
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+    <Button
+      onClick={() => {
+        return props.__engine.push('my_events', {});
       }}
     >
-      <TextButton
-        onClick={() => {
-          return props.__engine.push('my_events', {});
-        }}
-        style={{
-          marginLeft: 'auto',
-        }}
-      >
-        View my events
-      </TextButton>
-    </div>
+      My Events
+    </Button>
 
     <br />
 
