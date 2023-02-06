@@ -1,32 +1,43 @@
 const EVENTS_CONTRACT = 'events_v2.near';
+const TGAS_300 = '300000000000000';
 
 const eventId = props.event_id;
 if (!eventId) {
   return props.__engine.helpers.propIsRequiredMessage('event_id');
 }
 
-const hasEvent = props.__engine.contract.view(EVENTS_CONTRACT, 'has_event', {
+const hasEvent = Near.view(EVENTS_CONTRACT, 'has_event', {
   event_id: props.event_id,
 });
 
 if (hasEvent === null) {
-  return props.__engine.loading();
+  return 'Loading';
 }
 
 if (hasEvent === false) {
+  // props.__engine.replace('not_found', {
+  //   message: `Event with id ${props.event_id} not found.`,
+  // });
   props.__engine.pop();
-  return <></>;
+  return 'Event not found';
 }
 
-const event = props.__engine.contract.view(EVENTS_CONTRACT, 'get_event', {
+const event = Near.view(EVENTS_CONTRACT, 'get_event', {
   event_id: props.event_id,
 });
 if (!event) {
-  return props.__engine.loading();
+  return 'Loading';
 }
 
 const primaryAction = {
   label: 'Edit',
+  // will not work. VM Bug?
+  // onClick: ()=>{props.__engine.push('edit', { event_id: props.event_id })}
+  // Yes. sic!. this is a hack. The Viewer VM 'forgets' about functions
+  // When defining a function here, it will exist, the function will not be
+  // undefined, but executing the function will just do nothing. Thats
+  // why we have to use another method of calling functions.
+  // might be related to us rerendering all the time to implement layouting.
   onClick: ['push', 'edit', { event_id: props.event_id }],
 };
 
@@ -43,7 +54,9 @@ function removeEvent() {
   const args = {
     event_id: event.id,
   };
-  props.__engine.contract.call(contract, method, args);
+  const gas = TGAS_300;
+  const deposit = '0';
+  Near.call(contract, method, args, gas, deposit);
 }
 
 const PageTitle = props.__engine.Components.PageTitle;
@@ -54,6 +67,8 @@ const Text = props.__engine.Components.Text;
 const InlineTag = props.__engine.Components.InlineTag;
 const InfoBarItem = props.__engine.Components.InfoBarItem;
 const InfoBarLink = props.__engine.Components.InfoBarLink;
+
+// console.log('event', event);
 
 return (
   <>
@@ -68,7 +83,7 @@ return (
         borderBottom: '0.3vw solid black',
       }}
     >
-      {props.__engine.renderComponent('components:event_image_slider', {
+      {props.__engine.renderComponent('components.event_image_slider', {
         event,
         mode: 'banner',
       })}
@@ -97,7 +112,7 @@ return (
             borderRadius: 10,
           }}
         >
-          {props.__engine.renderComponent('components:event_image_slider', {
+          {props.__engine.renderComponent('components.event_image_slider', {
             event,
             mode: 'tile',
           })}
@@ -119,7 +134,7 @@ return (
         <Text>
           <i className="bi bi-calendar"></i>
 
-          {props.__engine.renderComponent('components:event_date', { event })}
+          {props.__engine.renderComponent('components.event_date', { event })}
         </Text>
       </InfoBarItem>
 
@@ -162,8 +177,8 @@ return (
             onClick={() => {
               removeEvent();
             }}
-            onKeyDown={(evt) => {
-              if (evt.key === 'Enter') {
+            onKeyDown={() => {
+              if (event.key === 'Enter') {
                 removeEvent();
               }
             }}
