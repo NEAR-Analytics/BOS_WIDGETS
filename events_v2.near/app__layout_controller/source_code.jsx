@@ -28,7 +28,6 @@ let layoutName = layout;
 if (
   layout === '' ||
   layout === 'default' ||
-  layout === 'layouts:default' ||
   layout === null ||
   layout === undefined
 ) {
