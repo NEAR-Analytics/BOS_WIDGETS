@@ -2,23 +2,57 @@ let event = props.event || null;
 
 // return data;
 if (!event) {
-  return props.__engine.loading();
+  return '';
 }
 
-const Card = props.__engine.Components.Card;
-const CardHeaderImage = props.__engine.Components.CardHeaderImage;
-const CardBody = props.__engine.Components.CardBody;
-const CardFooter = props.__engine.Components.CardFooter;
-const CardTitle = props.__engine.Components.CardTitle;
+const BG_CARD = '#ffffff';
 
-const small = props.small || false;
+const EventCard = props.__engine.Components.Card;
+
+const EventHeaderImage = styled.div`
+  height: auto;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+  border-bottom: 0.1vw solid #cccccc;
+  flex-shrink: 0;
+  flex-grow: 0;
+`;
+
+const EventTitle = styled.h1`
+  font-size: calc(max(1.25rem, 1.25vw));
+  font-weight: 500;
+  margin: 0;
+  padding: 1vw calc(max(0.5rem, 0.5vw));
+  width: 100%;
+`;
+
+const EventDate = styled.div`
+  font-size: 0.8vw;
+  font-weight: 400;
+  margin: 0;
+  padding: calc(max(0.5rem, 0.5vw));
+  height: 42px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 100%;
+  border-top: 0.1vw solid #cccccc;
+`;
+
+const EventBody = styled.div`
+  width: 100%;
+  height: auto;
+  flex-grow: 100;
+  flex-shrink: 0;
+`;
 
 function showEvent() {
   props.__engine.push('show', { event_id: event.id });
 }
 
 return (
-  <Card
+  <EventCard
     onClick={() => {
       showEvent();
     }}
@@ -28,28 +62,21 @@ return (
       }
     }}
     role="button"
-    border={props.border === undefined ? true : props.border}
-    shadow={props.shadow === undefined ? true : props.shadow}
     tabIndex={0}
-    style={{
-      height: '100%',
-    }}
   >
-    <CardHeaderImage>
-      {props.__engine.renderComponent('components:event_image_slider', {
+    <EventHeaderImage>
+      {props.__engine.renderComponent('components.event_image_slider', {
         event,
         mode: 'tile',
-        delay: props.delay,
-        duration: props.duration,
       })}
-    </CardHeaderImage>
+    </EventHeaderImage>
 
-    <CardBody small={small}>
-      <CardTitle small={small}>{event.name}</CardTitle>
-    </CardBody>
+    <EventBody>
+      <EventTitle>{event.name}</EventTitle>
+    </EventBody>
 
-    <CardFooter small={small}>
-      {props.__engine.renderComponent('components:event_date', { event })}
-    </CardFooter>
-  </Card>
+    <EventDate>
+      {props.__engine.renderComponent('components.event_date', { event })}
+    </EventDate>
+  </EventCard>
 );
