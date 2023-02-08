@@ -128,11 +128,10 @@ const editorsFooter = props.isPreview ? null : (
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={`nearmax.near/widget/PostEditor`}
+        src={`${ownerId}/widget/PostEditor`}
         props={{
           postType: "Comment",
           parentId: null,
-          referral: props.referral,
         }}
       />
     </div>
@@ -142,11 +141,10 @@ const editorsFooter = props.isPreview ? null : (
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={`nearmax.near/widget/PostEditor`}
+        src={`${ownerId}/widget/PostEditor`}
         props={{
           postType: "Idea",
           parentId: null,
-          referral: props.referral,
         }}
       />
     </div>
@@ -156,11 +154,10 @@ const editorsFooter = props.isPreview ? null : (
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={`nearmax.near/widget/PostEditor`}
+        src={`${ownerId}/widget/PostEditor`}
         props={{
           postType: "Submission",
           parentId: null,
-          referral: props.referral,
         }}
       />
     </div>
@@ -170,11 +167,10 @@ const editorsFooter = props.isPreview ? null : (
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={`nearmax.near/widget/PostEditor`}
+        src={`${ownerId}/widget/PostEditor`}
         props={{
           postType: "Attestation",
           parentId: null,
-          referral: props.referral,
         }}
       />
     </div>
@@ -184,11 +180,10 @@ const editorsFooter = props.isPreview ? null : (
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={`nearmax.near/widget/PostEditor`}
+        src={`${ownerId}/widget/PostEditor`}
         props={{
           postType: "Sponsorship",
           parentId: null,
-          referral: props.referral,
         }}
       />
     </div>
@@ -315,9 +310,7 @@ const navbar = (
           <li class="nav-item">
             <a
               class="nav-link active"
-              href="https://near.social/#/devgovgigs.near/widget/TeamsList"
-              target="_blank"
-              title="View teams and permissions"
+              href="https://near.social/#/nearmax.near/widget/TeamsList"
               role="button"
             >
               <i class="bi-people-fill"> </i>
@@ -353,17 +346,13 @@ return (
       />
     ) : state.selectedPost ? (
       <Widget
-        src={`nearmax.near/widget/Post`}
-        props={{ id: state.selectedPost, referral: props.referral }}
+        src={`${ownerId}/widget/Post`}
+        props={{ id: state.selectedPost }}
       />
     ) : (
       <Widget
         src={`${ownerId}/widget/IdeasList`}
-        props={{
-          recency: state.recency,
-          label: state.label,
-          referral: props.referral,
-        }}
+        props={{ recency: state.recency, label: state.label }}
       />
     )}
   </div>
