@@ -1,1 +1,6 @@
-return <Widget src={'roshaan.near/widget/RegisterIndexerFunctionButton'} />
+return (
+    <>
+        {/* <Editor Window></Editor> */}
+        <Widget src={'roshaan.near/widget/RegisterIndexerFunctionButton'} />
+    </>
+)
