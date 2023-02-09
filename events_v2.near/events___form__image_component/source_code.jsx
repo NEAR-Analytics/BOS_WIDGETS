@@ -1,7 +1,7 @@
 const image = props.image;
 
 if (!image) {
-  return props.__engine.loading();
+  return 'loading';
 }
 
 const ErrorMessage = styled.div`
@@ -25,7 +25,7 @@ if (!state) {
 
     localImg: image.url,
   });
-  return props.__engine.loading();
+  return 'Loading...';
 }
 
 const ImageTypes = [
