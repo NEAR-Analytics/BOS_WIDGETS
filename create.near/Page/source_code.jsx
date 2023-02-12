@@ -32,7 +32,7 @@ return (
           className="btn btn-success mt-3"
           href="#/create.near/widget/PageEditor"
         >
-          Update Your Own Project Page
+          Update Your Featured Widget
         </a>
       </div>
       <div className="mt-3 ">
