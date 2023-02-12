@@ -30,7 +30,7 @@ return (
         />
         <a
           className="btn btn-success mt-3"
-          href="#/create.near/widget/PageEditor"
+          href="#/create.near/widget/ProjectEditor"
         >
           Update Your Featured Widget
         </a>
