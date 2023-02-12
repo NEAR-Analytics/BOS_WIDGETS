@@ -30,9 +30,9 @@ return (
         />
         <a
           className="btn btn-success mt-3"
-          href="#/create.near/widget/ProjectEditor"
+          href="#/create.near/widget/PageEditor"
         >
-          Update Your Featured Widget
+          Update Your Project Page
         </a>
       </div>
       <div className="mt-3 ">
