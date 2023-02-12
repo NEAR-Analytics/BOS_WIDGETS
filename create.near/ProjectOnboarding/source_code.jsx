@@ -39,7 +39,7 @@ if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
       <p>Choose your featured widget.</p>
-      {editProjectButton}
+      <Widget src="create.near/widget/ProjectEditor" />
     </div>
   );
 }
