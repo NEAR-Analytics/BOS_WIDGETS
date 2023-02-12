@@ -20,7 +20,7 @@ return (
           onChange: (project) => State.update({ project }),
           options: {
             featuredWidget: {
-              label: "Project Source: <accountId>.near/widget/<WidgetName>",
+              label: "Widget Source: <accountId>.near/widget/<WidgetName>",
             },
           },
         }}
@@ -32,7 +32,7 @@ return (
       </CommitButton>
       <a
         className="btn btn-outline-primary ms-2"
-        href={`#/gov.near/widget/ProjectPage?accountId=${accountId}`}
+        href={`#/create.near/widget/Page?accountId=${accountId}`}
       >
         View Project
       </a>
