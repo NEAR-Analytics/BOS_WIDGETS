@@ -21,7 +21,7 @@ return (
     <div className="mx-auto">
       <div className="mt-3">
         <Widget
-          src="gov.near/widget/Project"
+          src="create.near/widget/Project"
           props={{
             accountId,
             project,
