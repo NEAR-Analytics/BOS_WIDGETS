@@ -20,7 +20,7 @@ return (
           onChange: (project) => State.update({ project }),
           options: {
             featuredWidget: {
-              label: "Widget Source: <accountId>.near/widget/<WidgetName>",
+              label: "Widget Source ~ Example: mob.near/widget/Applications",
             },
           },
         }}
@@ -28,7 +28,7 @@ return (
     </div>
     <div className="mb-2">
       <CommitButton data={{ project: state.project }}>
-        Save Project
+        Save Featured Widget
       </CommitButton>
     </div>
   </div>
