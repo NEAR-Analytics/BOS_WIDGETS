@@ -2,7 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 
 const project = props.project ?? Social.getr(`${accountId}/project`);
 
-const featuredWidget = project.featuredWidget;
+const featuredWidget = project.featuredWidget || "gov.near/widget/PageEditor";
 
 if (project === null) {
   return { showEditButton };
@@ -46,15 +46,6 @@ return (
         </button>
       </li>
     </ul>
-    {showEditButton && (
-      <a
-        href="#/create.near/widget/PageEditor"
-        className="btn mt-4 btn-outline-light float-end position-relative"
-        style={{ zIndex: 1 }}
-      >
-        Edit Page
-      </a>
-    )}
     <div className="tab-content" id="pills-tabContent">
       <div
         className="tab-pane fade in show active"
