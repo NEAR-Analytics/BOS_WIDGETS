@@ -29,8 +29,8 @@ const widget = project.featuredWidget;
 
 const editProjectButton = (
   <div>
-    <a className="btn btn-success" href="#/create.near/widget/ProjectEditor">
-      Edit Project
+    <a className="btn btn-success" href="#/create.near/widget/PageEditor">
+      Edit Project Page
     </a>
   </div>
 );
