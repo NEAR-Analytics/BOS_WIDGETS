@@ -38,7 +38,6 @@ const editProjectButton = (
 if (!name) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
-      <p>Your project needs a name.</p>
       {editProjectButton}
     </div>
   );
@@ -51,7 +50,6 @@ if (
 ) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
-      <p>Your project is missing a logo.</p>
       {editProjectButton}
     </div>
   );
