@@ -1,5 +1,5 @@
 const rhs = context.accountId
-  ? Social.get(`${context.accountId}/settings/near.social/homepage.rhs`)
+  ? Social.get(`${context.accountId}/settings/near.social/page.rhs`)
   : undefined;
 
 if (rhs === null) {
@@ -11,7 +11,7 @@ const defaultWidgets = [
     src: "create.near/widget/Onboarding.GetInvolved",
   },
   {
-    src: "mob.near/widget/Welcome.Notifications",
+    src: "create.near/widget/Onboarding.Notifications",
     requiresLogin: true,
   },
   {
@@ -19,9 +19,6 @@ const defaultWidgets = [
   },
   {
     src: "mob.near/widget/People",
-  },
-  {
-    src: "mob.near/widget/Welcome.FollowFeed",
   },
 ];
 
@@ -46,7 +43,7 @@ return (
     {context.accountId && (
       <a
         key="edit"
-        href={"#/mob.near/widget/Welcome.RHS.Editor"}
+        href={"#/mob.near/widget/Onboarding.RHS.Editor"}
         className="edit-link position-absolute top-0 end-0 link-secondary me-2 mt-1"
       >
         <i class="bi bi-pencil" /> Edit Menu
