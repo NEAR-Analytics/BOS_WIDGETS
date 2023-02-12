@@ -16,15 +16,6 @@ const showEditButton =
 
 return (
   <>
-    {showEditButton && (
-      <a
-        href="#/create.near/widget/PageEditor"
-        className="btn mt-4 btn-outline-light float-end position-relative"
-        style={{ zIndex: 1 }}
-      >
-        Edit Page
-      </a>
-    )}
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
       <li className="nav-item" role="presentation">
         <button
@@ -55,6 +46,15 @@ return (
         </button>
       </li>
     </ul>
+    {showEditButton && (
+      <a
+        href="#/create.near/widget/PageEditor"
+        className="btn mt-4 btn-outline-light float-end position-relative"
+        style={{ zIndex: 1 }}
+      >
+        Edit Page
+      </a>
+    )}
     <div className="tab-content" id="pills-tabContent">
       <div
         className="tab-pane fade in show active"
