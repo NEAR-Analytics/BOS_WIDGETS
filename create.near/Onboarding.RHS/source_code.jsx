@@ -11,10 +11,6 @@ const defaultWidgets = [
     src: "create.near/widget/Onboarding.GetInvolved",
   },
   {
-    src: "create.near/widget/Onboarding.Notifications",
-    requiresLogin: true,
-  },
-  {
     src: "mob.near/widget/Applications",
   },
   {
