@@ -35,10 +35,33 @@ const editProjectButton = (
   </div>
 );
 
+if (!name) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your project needs a name.</p>
+      {editProjectButton}
+    </div>
+  );
+}
+
+if (
+  !image.ipfs_cid &&
+  (!image.nft.contractId || !image.nft.tokenId) &&
+  !image.url
+) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your project is missing a logo.</p>
+      {editProjectButton}
+    </div>
+  );
+}
+
 if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
       <p>Create your project page by saving a featured widget.</p>
+      {editProjectButton}
     </div>
   );
 }
