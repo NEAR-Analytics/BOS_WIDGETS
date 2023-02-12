@@ -2,7 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 
 const project = props.project ?? Social.getr(`${accountId}/project`);
 
-const featuredWidget = project.featuredWidget || "Edit Here";
+const featuredWidget = project.featuredWidget;
 
 if (project === null) {
   return { showEditButton };
