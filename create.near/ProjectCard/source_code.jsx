@@ -18,7 +18,7 @@ const showEditButton =
   accountId &&
   accountId === context.accountId;
 
-const name = project.name || "Anonymous Project";
+const name = project.name || "Custom Page Builder";
 const image = project.image;
 const backgroundImage = project.backgroundImage;
 const tags = Object.keys(project.tags ?? {});
