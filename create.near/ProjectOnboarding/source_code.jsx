@@ -5,7 +5,7 @@ if (!accountId) {
     <div className="alert alert-warning rounded-4 mb-3">
       <div className="text-end">
         <div className="fw-bold">
-          Join by clicking
+          Join by clicking here
           <Widget
             src="gov.near/widget/ProjectImage"
             props={{ accountId: "" }}
