@@ -25,6 +25,7 @@ if (project === null) {
 
 const name = project.name;
 const image = project.image;
+const widget = project.featuredWidget;
 
 const editProjectButton = (
   <div>
@@ -51,6 +52,15 @@ if (
   return (
     <div className="alert alert-warning rounded-4 mb-3">
       <p>Your project is missing a logo.</p>
+      {editProjectButton}
+    </div>
+  );
+}
+
+if (!widget) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your project is missing a featured widget.</p>
       {editProjectButton}
     </div>
   );
