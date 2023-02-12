@@ -3,15 +3,20 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return (
     <div className="mx-auto">
-      <Widget
-        src="create.near/widget/ProjectCard"
-        props={{
-          accountId,
-          project,
-          link: true,
-          showEditButton: !props.project,
-        }}
-      />
+      <div>
+        <Widget
+          src="create.near/widget/ProjectCard"
+          props={{
+            accountId,
+            project,
+            link: true,
+            showEditButton: !props.project,
+          }}
+        />
+      </div>
+      <div>
+        <Widget src="create.near/widget/Builders" />
+      </div>
     </div>
   );
 }
