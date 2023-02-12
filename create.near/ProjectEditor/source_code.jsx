@@ -13,6 +13,7 @@ State.init({
 return (
   <div className="row">
     <div className="mb-2">
+      <h5>Widget Source</h5>
       <Widget
         src="gov.near/widget/MetadataEditor"
         props={{
@@ -20,7 +21,7 @@ return (
           onChange: (project) => State.update({ project }),
           options: {
             featuredWidget: {
-              label: "Widget Source ~ Example: mob.near/widget/Applications",
+              label: "Example: mob.near/widget/Applications",
             },
           },
         }}
