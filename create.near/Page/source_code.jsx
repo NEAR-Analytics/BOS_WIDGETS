@@ -6,17 +6,6 @@ if (!accountId) {
       <div className="mt-3">
         <Widget src="create.near/widget/Builders" />
       </div>
-      <div className="mt-3">
-        <Widget
-          src="create.near/widget/ProjectEditor"
-          props={{
-            accountId,
-            project,
-            link: true,
-            showEditButton: !props.project,
-          }}
-        />
-      </div>
     </div>
   );
 }
