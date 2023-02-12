@@ -19,17 +19,20 @@ if (project === null) {
 return (
   <div className="py-1 px-1">
     <div className="mx-auto">
-      <div className="mt-3">
+      <div className="mt-3 d-inline-block">
         <Widget
-          src="create.near/widget/Project"
+          src="create.near/widget/Project.InlineBlock"
           props={{
             accountId,
             project,
             showEditButton: !props.project,
           }}
         />
+        <a className="btn btn-success" href="#/create.near/widget/PageEditor">
+          Update Your Project Page
+        </a>
       </div>
-      <div className="mt-3">
+      <div className="mt-3 ">
         <Widget
           src="create.near/widget/PageTabs"
           props={{
