@@ -6,8 +6,14 @@ if (!accountId) {
 const project = props.project ?? Social.getr(`${accountId}/project`);
 
 if (project === null) {
-  return "Loading...";
+  return { showEditButton };
 }
+
+const showEditButton =
+  project !== undefined &&
+  (!props.project || props.showEditButton) &&
+  accountId &&
+  accountId === context.accountId;
 
 const featuredWidget = project.featuredWidget;
 
