@@ -3,7 +3,7 @@ const accountId = props.accountId ?? context.accountId;
 const link =
   props.link &&
   (props.link === true
-    ? `#/gov.near/widget/ProjectPage?accountId=${accountId}`
+    ? `#/create.near/widget/Page?accountId=${accountId}`
     : props.link);
 
 const project = props.project ?? Social.getr(`${accountId}/project`);
