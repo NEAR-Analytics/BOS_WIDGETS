@@ -22,7 +22,11 @@ return (
       <div className="mt-3">
         <Widget
           src="create.near/widget/PageTabs"
-          props={{ accountId, project }}
+          props={{
+            accountId,
+            project,
+            showEditButton: !props.project,
+          }}
         />
       </div>
     </div>
