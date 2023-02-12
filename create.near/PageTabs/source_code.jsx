@@ -62,7 +62,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-comments-tab"
       >
-        <Widget src="devgovgigs.near/widget/Ideas" props={{ accountId }} />
+        <Widget src="mob.near/widget/MainPage.Content" props={{ accountId }} />
       </div>
     </div>
   </>
