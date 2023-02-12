@@ -11,11 +11,6 @@ if (project === null) {
 
 const featuredWidget = project.featuredWidget;
 
-State.init({
-  loadGroups: false,
-  loadComments: false,
-});
-
 return (
   <>
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
@@ -30,7 +25,7 @@ return (
           aria-controls="pills-widget"
           aria-selected="true"
         >
-          Widget
+          Featured Widget
         </button>
       </li>
       <li className="nav-item" role="presentation">
@@ -43,9 +38,6 @@ return (
           role="tab"
           aria-controls="pills-comments"
           aria-selected="false"
-          onClick={() => {
-            !state.loadComments && State.update({ loadComments: true });
-          }}
         >
           Discussion
         </button>
