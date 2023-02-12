@@ -27,9 +27,12 @@ return (
         <p>
           Are you looking for opportunities to explore groundbreaking
           technologies, connect with collaborators, and experiment with on-chain
-          frontend tools? Near Social hackathons provide a welcoming environment
-          for anyone to delve further into this open-source development platform
-          and the underlying data protocol.
+          frontend tools?
+        </p>
+        <p>
+          Near Social hackathons provide a welcoming environment for anyone to
+          delve further into this open-source development platform and the
+          underlying data protocol.
         </p>
         <p>
           Overall, the mission is to activate and support a growing community of
@@ -47,16 +50,16 @@ return (
         <p>
           Review ideas on the hackathon ideas board to discover projects and
           find collaborators. Reply to discuss plans with potential teammates.
-          Once you have agreed to work as a team, complete the following steps
-          to introduce your project:
-        </p>
-        <p>
-          First, create another NEAR account and make a profile for the
-          hackathon project. Then, follow each member of the team, and they can
-          follow back to indicate mutual support. Finally, be sure to save your
-          widget(s) to this profile.
+          Once you have agreed to work as a team, complete the final steps to
+          submit your project.
         </p>
         <h3> 3. SUBMIT PROJECTS</h3>
+        <p>
+          First, create a project-specific NEAR account and make a profile.
+          Then, follow each member of the team, and they can follow back to
+          indicate mutual support. Finally, be sure to save your widget(s) to
+          this profile.
+        </p>
         <div className="mb-3"></div>
         <button href="https://create.near.social">
           Create Project Submission
