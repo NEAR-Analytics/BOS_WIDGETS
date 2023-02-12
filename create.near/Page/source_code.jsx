@@ -1,5 +1,16 @@
 const accountId = props.accountId ?? context.accountId;
 
+if (!accountId) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <div className="text-end">
+        <div className="fw-bold">
+          Please log in with NEAR to edit your project page.
+        </div>
+      </div>
+    </div>
+  );
+}
 const project = props.project ?? Social.getr(`${accountId}/project`);
 
 if (project === null) {
