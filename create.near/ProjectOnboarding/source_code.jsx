@@ -31,7 +31,7 @@ const editProjectButton = (
   <div>
     <h2>Welcome to Near Social!</h2>
     <p>
-      Everything about this platform is customizable, including project pages,
+      Everything about this platform is customizable, including PROJECT PAGES,
       which you can use for onboarding and ecosystem integrations.
     </p>
     <a className="btn btn-success" href="#/create.near/widget/PageEditor">
