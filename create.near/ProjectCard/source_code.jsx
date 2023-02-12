@@ -33,7 +33,7 @@ return (
     <div className="px-4 pt-0 pb-5 bg-dark position-relative">
       {backgroundImage && (
         <Widget
-          src="gov.near/widget/Image"
+          src="mob.near/widget/Image"
           props={{
             image: backgroundImage,
             alt: "project background",
