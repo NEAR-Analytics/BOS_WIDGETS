@@ -21,6 +21,16 @@ return (
     <div className="mx-auto">
       <div className="mt-3">
         <Widget
+          src="create.near/widget/ProjectCard"
+          props={{
+            accountId,
+            project,
+            showEditButton: !props.project,
+          }}
+        />
+      </div>
+      <div className="mt-3">
+        <Widget
           src="create.near/widget/PageTabs"
           props={{
             accountId,
