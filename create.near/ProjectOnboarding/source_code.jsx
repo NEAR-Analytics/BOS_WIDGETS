@@ -35,7 +35,7 @@ const editProjectButton = (
       which you can use for onboarding and ecosystem integrations.
     </p>
     <a className="btn btn-success" href="#/create.near/widget/PageEditor">
-      Edit Your Project Page
+      Update Your Project Page
     </a>
   </div>
 );
