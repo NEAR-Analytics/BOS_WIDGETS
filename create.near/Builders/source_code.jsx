@@ -7,7 +7,7 @@ return (
         <h4>Activating Near Social Development</h4>
         <p>Create a project page for the Near Social hackathon!</p>
         <div className="mb-3"></div>
-        <button href="https://near.social/#/create.near/widget/Onboarding">
+        <button href="https://near.social/#/create.near/widget/Page?accountId=create.near">
           Example
         </button>
         <button href="https://devgovgigs.near.social">Ideas</button>
