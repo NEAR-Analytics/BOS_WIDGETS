@@ -83,13 +83,6 @@ return (
                 nameHeader
               )}
             </div>
-
-            <div>
-              <Widget
-                src="gov.near/widget/FollowButton"
-                props={{ accountId }}
-              />
-            </div>
           </div>
         </div>
         <div style={{ minWidth: "12rem" }}>
