@@ -4,6 +4,9 @@ if (!accountId) {
   return (
     <div className="mx-auto">
       <div className="mt-3">
+        <Widget src="create.near/widget/Builders" />
+      </div>
+      <div className="mt-3">
         <Widget
           src="create.near/widget/ProjectCard"
           props={{
@@ -13,9 +16,6 @@ if (!accountId) {
             showEditButton: !props.project,
           }}
         />
-      </div>
-      <div className="mt-3">
-        <Widget src="create.near/widget/Builders" />
       </div>
     </div>
   );
