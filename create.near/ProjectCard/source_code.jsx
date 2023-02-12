@@ -82,14 +82,6 @@ return (
               ) : (
                 nameHeader
               )}
-              <div className="small text-truncate">
-                <i className="bi bi-wallet-fill text-secondary me-1"></i>
-                {accountId}
-                <Widget
-                  src="gov.near/widget/FollowsYouBadge"
-                  props={{ accountId }}
-                />
-              </div>
             </div>
 
             <div>
@@ -98,9 +90,6 @@ return (
                 props={{ accountId }}
               />
             </div>
-          </div>
-          <div>
-            <Widget src="gov.near/widget/FollowStats" props={{ accountId }} />
           </div>
         </div>
         <div style={{ minWidth: "12rem" }}>
