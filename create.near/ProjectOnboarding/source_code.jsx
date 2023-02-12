@@ -38,7 +38,7 @@ const editProjectButton = (
 if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
-      <p>Customize your project page by selecting a featured widget.</p>
+      <p>Create your project page by saving a featured widget.</p>
     </div>
   );
 }
