@@ -1,9 +1,5 @@
 const accountId = context.accountId;
 
-if (!accountId) {
-  return "Please log in with NEAR wallet to edit your project page";
-}
-
 let project = Social.getr(`${accountId}/project`);
 
 if (project === null) {
