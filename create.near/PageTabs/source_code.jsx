@@ -36,23 +36,6 @@ return (
       <li className="nav-item" role="presentation">
         <button
           className="nav-link"
-          id="pills-groups-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-groups"
-          type="button"
-          role="tab"
-          aria-controls="pills-groups"
-          aria-selected="false"
-          onClick={() => {
-            !state.loadGroups && State.update({ loadGroups: true });
-          }}
-        >
-          Groups
-        </button>
-      </li>
-      <li className="nav-item" role="presentation">
-        <button
-          className="nav-link"
           id="pills-comments-tab"
           data-bs-toggle="pill"
           data-bs-target="#pills-comments"
@@ -64,7 +47,7 @@ return (
             !state.loadComments && State.update({ loadComments: true });
           }}
         >
-          Comments
+          Discussion
         </button>
       </li>
     </ul>
@@ -78,20 +61,12 @@ return (
         <Widget src={featuredWidget} />
       </div>
       <div
-        className="tab-pane fade groups"
-        id="pills-groups"
-        role="tabpanel"
-        aria-labelledby="pills-groups-tab"
-      >
-        <Widget src="gov.near/widget/FollowTabs" props={{ accountId }} />
-      </div>
-      <div
         className="tab-pane fade comments"
         id="pills-comments"
         role="tabpanel"
         aria-labelledby="pills-comments-tab"
       >
-        <Widget src="gov.near/widget/Comments" props={{ accountId }} />
+        <Widget src="devgovgigs.near/widget/Ideas" props={{ accountId }} />
       </div>
     </div>
   </>
