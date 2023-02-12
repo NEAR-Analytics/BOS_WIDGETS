@@ -8,7 +8,7 @@ if (!accountId) {
       </div>
       <div className="mt-3">
         <Widget
-          src="create.near/widget/ProjectCard"
+          src="create.near/widget/PageEditor"
           props={{
             accountId,
             project,
