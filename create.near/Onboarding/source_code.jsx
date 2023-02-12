@@ -1,6 +1,6 @@
 return (
   <>
-    <Widget src="mob.near/widget/ProfileOnboarding" />
+    <Widget src="create.near/widget/ProjectOnboarding" />
     <ul
       className="nav nav-pills nav-fill mb-3 d-lg-none"
       id="pills-tab"
