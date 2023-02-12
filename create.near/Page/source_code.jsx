@@ -3,7 +3,7 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return (
     <div className="mx-auto">
-      <div>
+      <div className="mt-3">
         <Widget
           src="create.near/widget/ProjectCard"
           props={{
@@ -14,7 +14,7 @@ if (!accountId) {
           }}
         />
       </div>
-      <div>
+      <div className="mt-3">
         <Widget src="create.near/widget/Builders" />
       </div>
     </div>
