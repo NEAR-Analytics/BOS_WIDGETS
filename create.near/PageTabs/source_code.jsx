@@ -4,8 +4,12 @@ const project = props.project ?? Social.getr(`${accountId}/project`);
 
 const featuredWidget = project.featuredWidget;
 
-if (project === null) {
-  return "Loading...";
+if (featuredWidget === null) {
+  return (
+    <div>
+      <Widget src="devgovgigs.near/widget/Ideas" props={{ accountId }} />
+    </div>
+  );
 }
 
 return (
