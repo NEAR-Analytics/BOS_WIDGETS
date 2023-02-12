@@ -29,7 +29,7 @@ return (
               },
               image: { label: "Project Logo" },
               backgroundImage: { label: "Background Image" },
-              description: { label: "About the Widget" },
+              description: { label: "About the Project" },
               tags: {
                 label: "Tags",
                 tagsPattern: "*/project/tags/*",
