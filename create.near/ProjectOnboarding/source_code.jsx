@@ -5,7 +5,7 @@ if (!accountId) {
     <div className="alert alert-warning rounded-4 mb-3">
       <div className="text-end">
         <div className="fw-bold">
-          Join by clicking here
+          Start by clicking here
           <Widget
             src="gov.near/widget/ProjectImage"
             props={{ accountId: "" }}
@@ -29,38 +29,16 @@ const widget = project.featuredWidget;
 
 const editProjectButton = (
   <div>
-    <a className="btn btn-success" href="#/create.near/widget/PageEditor">
+    <a className="btn btn-success" href="#/create.near/widget/ProjectEditor">
       Edit Project
     </a>
   </div>
 );
 
-if (!name) {
-  return (
-    <div className="alert alert-warning rounded-4 mb-3">
-      <p>Your project is missing a name.</p>
-      {editProjectButton}
-    </div>
-  );
-}
-
-if (
-  !image.ipfs_cid &&
-  (!image.nft.contractId || !image.nft.tokenId) &&
-  !image.url
-) {
-  return (
-    <div className="alert alert-warning rounded-4 mb-3">
-      <p>Your project is missing a logo.</p>
-      {editProjectButton}
-    </div>
-  );
-}
-
 if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
-      <p>Your project is missing a featured widget.</p>
+      <p>Choose your featured widget.</p>
       {editProjectButton}
     </div>
   );
