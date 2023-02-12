@@ -38,8 +38,7 @@ const editProjectButton = (
 if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
-      <p>Choose your featured widget.</p>
-      <Widget src="create.near/widget/ProjectEditor" />
+      <p>Customize your project page by selecting a featured widget.</p>
     </div>
   );
 }
