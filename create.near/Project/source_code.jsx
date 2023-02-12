@@ -8,7 +8,7 @@ const image = project.image;
 return (
   <div className="project d-inline-block">
     <a
-      href={`#/gov.near/widget/ProjectPage?accountId=${accountId}`}
+      href={`#/create.near/widget/Page?accountId=${accountId}`}
       className="text-decoration-none link-dark"
     >
       <Widget
