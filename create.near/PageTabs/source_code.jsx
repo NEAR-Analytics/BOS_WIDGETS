@@ -2,7 +2,8 @@ const accountId = props.accountId ?? context.accountId;
 
 const project = props.project ?? Social.getr(`${accountId}/project`);
 
-const featuredWidget = project.featuredWidget || "gov.near/widget/PageEditor";
+const featuredWidget =
+  project.featuredWidget || "create.near/widget/PageEditor";
 
 if (project === null) {
   return { showEditButton };
