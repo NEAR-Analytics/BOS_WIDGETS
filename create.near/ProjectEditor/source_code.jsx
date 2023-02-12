@@ -30,12 +30,6 @@ return (
       <CommitButton data={{ project: state.project }}>
         Save Project
       </CommitButton>
-      <a
-        className="btn btn-outline-primary ms-2"
-        href={`#/create.near/widget/Page?accountId=${accountId}`}
-      >
-        View Project
-      </a>
     </div>
   </div>
 );
