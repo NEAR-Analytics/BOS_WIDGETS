@@ -32,9 +32,9 @@ const editProjectButton = (
     <h2>Welcome to Near Social!</h2>
     <p>
       Everything about this open web platform is customizable, including your
-      very own project page, designed to facilitate Near Social onboarding,
-      collaboration, and widget integrations. Click the button below to edit,
-      and be sure to include a Featured Widget.
+      very own project page, designed to facilitate Near Social onboarding and
+      ecosystem integrations. Click the button below to edit, and be sure to
+      include a Featured Widget.
     </p>
     <a className="btn btn-success" href="#/create.near/widget/PageEditor">
       Edit Your Project Page
