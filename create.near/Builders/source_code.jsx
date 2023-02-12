@@ -4,7 +4,7 @@ return (
 
     <div className="row mb-3">
       <div>
-        <h4>Activating Near Social Builders</h4>
+        <h4>Activating Near Social Development</h4>
         <p>Step 1: Create a project page! #hackathon</p>
         <div className="mb-3"></div>
         <button href="https://devs.near.social">Example</button>
