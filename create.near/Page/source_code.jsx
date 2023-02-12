@@ -28,8 +28,11 @@ return (
             showEditButton: !props.project,
           }}
         />
-        <a className="btn btn-success" href="#/create.near/widget/PageEditor">
-          Update Your Project Page
+        <a
+          className="btn btn-success mt-3"
+          href="#/create.near/widget/PageEditor"
+        >
+          Update Your Own Project Page
         </a>
       </div>
       <div className="mt-3 ">
