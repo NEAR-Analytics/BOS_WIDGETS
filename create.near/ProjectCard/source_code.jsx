@@ -1,7 +1,4 @@
 const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "Please log in with your NEAR wallet :)";
-}
 
 const link =
   props.link &&
