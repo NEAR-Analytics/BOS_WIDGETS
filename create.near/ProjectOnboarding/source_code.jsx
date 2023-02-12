@@ -33,7 +33,7 @@ const editProjectButton = (
     <p>
       Everything about this platform is customizable, including project pages,
       which you can use for onboarding and ecosystem integrations. Click the
-      button below to edit, and be sure to include a Featured Widget.
+      button to edit a Featured Widget.
     </p>
     <a className="btn btn-success" href="#/create.near/widget/PageEditor">
       Edit Your Project Page
