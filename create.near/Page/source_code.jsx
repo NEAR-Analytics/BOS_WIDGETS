@@ -12,6 +12,15 @@ if (!accountId) {
           showEditButton: !props.project,
         }}
       />
+      <Widget
+        src="mob.near/widget/Applications"
+        props={{
+          accountId,
+          project,
+          link: true,
+          showEditButton: !props.project,
+        }}
+      />
     </div>
   );
 }
