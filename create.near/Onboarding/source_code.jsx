@@ -17,7 +17,7 @@ return (
           aria-controls="pills-feed"
           aria-selected="true"
         >
-          Feed
+          Customize
         </button>
       </li>
       <li className="nav-item" role="presentation">
@@ -42,7 +42,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-feed-tab"
       >
-        <Widget src="bozon.near/widget/WidgetHistory" />
+        <Widget src="create.near/widget/Page" />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
@@ -50,7 +50,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-explore-tab"
       >
-        <Widget src="mob.near/widget/Welcome.RHS" />
+        <Widget src="create.near/widget/Onboarding.RHS" />
       </div>
     </div>
   </>
