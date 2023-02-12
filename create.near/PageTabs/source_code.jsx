@@ -2,15 +2,17 @@ const accountId = props.accountId ?? context.accountId;
 
 const project = props.project ?? Social.getr(`${accountId}/project`);
 
-const featuredWidget = project.featuredWidget;
+const featuredWidget = project.featuredWidget || "Edit Here";
 
-if (featuredWidget === null) {
-  return (
-    <div>
-      <Widget src="devgovgigs.near/widget/Ideas" props={{ accountId }} />
-    </div>
-  );
+if (project === null) {
+  return { showEditButton };
 }
+
+const showEditButton =
+  project !== undefined &&
+  (!props.project || props.showEditButton) &&
+  accountId &&
+  accountId === context.accountId;
 
 return (
   <>
