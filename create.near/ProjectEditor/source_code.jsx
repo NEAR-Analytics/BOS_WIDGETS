@@ -13,7 +13,7 @@ State.init({
 return (
   <div className="row">
     <div className="mb-2">
-      <h5>Your Project Page Source</h5>
+      <h5>Project Page Widget Source</h5>
       <Widget
         src="gov.near/widget/MetadataEditor"
         props={{
