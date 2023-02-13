@@ -37,26 +37,6 @@ const editProjectButton = (
   </div>
 );
 
-if (!name) {
-  return (
-    <div className="alert alert-warning rounded-4 mb-3">
-      {editProjectButton}
-    </div>
-  );
-}
-
-if (
-  !image.ipfs_cid &&
-  (!image.nft.contractId || !image.nft.tokenId) &&
-  !image.url
-) {
-  return (
-    <div className="alert alert-warning rounded-4 mb-3">
-      {editProjectButton}
-    </div>
-  );
-}
-
 if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
