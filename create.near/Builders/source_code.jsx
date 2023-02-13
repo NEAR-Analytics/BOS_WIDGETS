@@ -71,9 +71,12 @@ return (
           this profile.
         </p>
         <div className="mb-3"></div>
-        <button href="https://create.near.social">
-          Create Project Submission
-        </button>
+        <a
+          className="btn btn-primary"
+          href="https://near.social/#/create.near/widget/PageEditor"
+        >
+          Create Project Page
+        </a>
       </div>
     </div>
   </div>
