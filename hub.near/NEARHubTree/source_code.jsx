@@ -8,6 +8,7 @@ return (
         <div className="mb-3"></div>
         <a
           className="btn btn-outline-primary"
+          onClick={(e) => rollImage()}
           style={{
             width: "200px",
             backgroundColor: "black",
@@ -29,6 +30,7 @@ return (
         <div className="mb-3"></div>
         <a
           className="btn btn-outline-primary"
+          onClick={(e) => rollImage()}
           style={{
             width: "200px",
             backgroundColor: "black",
@@ -53,6 +55,7 @@ return (
         <p>(jitsi server: "https://talk.nearhub.online")</p>
         <a
           className="btn btn-outline-primary"
+          onClick={(e) => rollImage()}
           style={{
             width: "200px",
             backgroundColor: "black",
@@ -74,6 +77,7 @@ return (
         <div className="mb-3"></div>
         <a
           className="btn btn-outline-primary"
+          onClick={(e) => rollImage()}
           style={{
             width: "200px",
             backgroundColor: "black",
@@ -95,6 +99,7 @@ return (
         <div className="mb-3"></div>
         <a
           className="btn btn-outline-primary"
+          onClick={(e) => rollImage()}
           style={{
             width: "200px",
             backgroundColor: "black",
@@ -116,6 +121,7 @@ return (
         <div className="mb-3"></div>
         <a
           className="btn btn-outline-primary"
+          onClick={(e) => rollImage()}
           style={{
             width: "200px",
             backgroundColor: "black",
