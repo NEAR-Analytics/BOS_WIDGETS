@@ -1,51 +1,15 @@
 return (
   <div className="container">
-    <div className="row mb-3"></div>
-
     <div className="row mb-3">
       <div>
         <h4>Activating Near Social Development</h4>
         <p>Create a project page for the Near Social hackathon!</p>
         <div className="mb-3"></div>
-        <button
-          className="nav-link"
-          id="pills-explore-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-explore"
-          type="button"
-          role="tab"
-          aria-controls="pills-explore"
-          aria-selected="false"
-          href="https://near.social/#/create.near/widget/Page?accountId=create.near"
-        >
+        <button href="https://near.social/#/create.near/widget/Page?accountId=create.near">
           Example
         </button>
-        <button
-          className="nav-link"
-          id="pills-ideas-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-ideas"
-          type="button"
-          role="tab"
-          aria-controls="pills-ideas"
-          aria-selected="false"
-          href="https://devgovgigs.near.social"
-        >
-          Ideas
-        </button>
-        <button
-          className="nav-link"
-          id="pills-info-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#pills-info"
-          type="button"
-          role="tab"
-          aria-controls="pills-info"
-          aria-selected="false"
-          href="https://nearbuilders.com"
-        >
-          More Info
-        </button>
+        <button href="https://devgovgigs.near.social">Ideas</button>
+        <button href="https://nearbuilders.com">More Info</button>
       </div>
     </div>
     <div className="row mb-3">
