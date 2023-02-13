@@ -4,44 +4,24 @@ return (
 
     <div className="row mb-3">
       <div>
-        <h4>Example</h4>
-        <div className="mb-3"></div>
+        <h4>Activating Near Social Development</h4>
+        <p>Create a project page with a featured widget!</p>
+        <div className="mb-3"></div> <div className="mb-3"></div>
         <a
           className="btn btn-outline-primary"
           href="https://near.social/#/create.near/widget/Page?accountId=create.near"
         >
           Example
         </a>
-      </div>
-      <div className="mb-3"></div>
-      <br></br>
-      <div>
-        <h4>Ideas</h4>
-        <div className="mb-3"></div>
-        <button href="https://devgovgigs.near.social">Gigs Board</button>
-      </div>
-      <div className="mb-3"></div>
-      <br></br>
-      <div>
-        <h4>Context</h4>
-        <button href="https://talk.nearhub.online">More Info</button>
-      </div>
-      <div className="mb-3"></div>
-      <div>
-        <h4>Activating Near Social Development</h4>
-        <p>Create a project page for the Near Social hackathon!</p>
-        <div className="mb-3"></div>
-        <div>
-          <button href="https://near.social/#/create.near/widget/Page?accountId=create.near">
-            Example
-          </button>
-        </div>
-        <div>
-          <button href="https://devgovgigs.near.social">Ideas</button>
-        </div>
-        <div>
-          <button href="https://nearbuilders.com">More Info</button>
-        </div>
+        <a
+          className="btn btn-outline-primary"
+          href="https://devgovgigs.near.social"
+        >
+          Open Discussion
+        </a>
+        <a className="btn btn-outline-primary" href="https://nearbuilders.com">
+          Learn More
+        </a>
       </div>
     </div>
     <div className="row mb-3">
