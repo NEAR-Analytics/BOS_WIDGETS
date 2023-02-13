@@ -6,9 +6,12 @@ return (
       <div>
         <h4>Example</h4>
         <div className="mb-3"></div>
-        <button href="https://near.social/#/create.near/widget/Page?accountId=create.near">
+        <a
+          className="btn btn-outline-primary"
+          href="https://near.social/#/create.near/widget/Page?accountId=create.near"
+        >
           Example
-        </button>
+        </a>
       </div>
       <div className="mb-3"></div>
       <br></br>
