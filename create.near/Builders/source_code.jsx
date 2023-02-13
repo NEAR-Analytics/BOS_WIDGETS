@@ -1,15 +1,44 @@
 return (
   <div className="container">
+    <div className="row mb-3"></div>
+
     <div className="row mb-3">
       <div>
-        <h4>Activating Near Social Development</h4>
-        <p>Create a project page for the Near Social hackathon!</p>
+        <h4>Example</h4>
         <div className="mb-3"></div>
         <button href="https://near.social/#/create.near/widget/Page?accountId=create.near">
           Example
         </button>
-        <button href="https://devgovgigs.near.social">Ideas</button>
-        <button href="https://nearbuilders.com">More Info</button>
+      </div>
+      <div className="mb-3"></div>
+      <br></br>
+      <div>
+        <h4>Ideas</h4>
+        <div className="mb-3"></div>
+        <button href="https://devgovgigs.near.social">Gigs Board</button>
+      </div>
+      <div className="mb-3"></div>
+      <br></br>
+      <div>
+        <h4>Context</h4>
+        <button href="https://talk.nearhub.online">More Info</button>
+      </div>
+      <div className="mb-3"></div>
+      <div>
+        <h4>Activating Near Social Development</h4>
+        <p>Create a project page for the Near Social hackathon!</p>
+        <div className="mb-3"></div>
+        <div>
+          <button href="https://near.social/#/create.near/widget/Page?accountId=create.near">
+            Example
+          </button>
+        </div>
+        <div>
+          <button href="https://devgovgigs.near.social">Ideas</button>
+        </div>
+        <div>
+          <button href="https://nearbuilders.com">More Info</button>
+        </div>
       </div>
     </div>
     <div className="row mb-3">
