@@ -40,7 +40,6 @@ const editProjectButton = (
 if (!widget) {
   return (
     <div className="alert alert-warning rounded-4 mb-3">
-      <p>Create your project page by saving a featured widget.</p>
       {editProjectButton}
     </div>
   );
