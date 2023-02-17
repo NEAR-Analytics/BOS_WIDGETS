@@ -16,7 +16,7 @@ return (
     {postIds
       ? postIds.map((postId) => {
           return (
-            <Widget src={`${ownerId}/widget/Post`} props={{ id: postId, referral: props.referral}} />
+            <Widget src={`${ownerId}/widget/Post`} props={{ id: postId }} />
           );
         })
       : ""}
