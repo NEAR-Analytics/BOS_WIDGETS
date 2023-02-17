@@ -9,8 +9,6 @@ const snapshot = post.snapshot;
 const isUnderPost = props.isUnderPost ? true : false;
 const parentId = Near.view(ownerId, "get_parent_id", { post_id: postId });
 
-const referralQueryParam = props.referral ? `&referral=${props.referral}` : "";
-
 const childPostIdsUnordered =
   Near.view(ownerId, "get_children_ids", {
     post_id: postId,
@@ -28,7 +26,7 @@ const timestamp = readableDate(
 );
 
 const linkToParent =
-  isUnderPost || !parentId ? (<div></div>) : (
+  isUnderPost || !parentId ? null : (
     <div className="card-header">
       <a
         href={`https://near.social/#/devgovgigs.near/widget/Post?id=${parentId}`}
@@ -83,12 +81,12 @@ const editControl = allowedToEdit ? (
       {btnEditorWidget("Comment", "Edit as a comment")}
     </ul>
   </div>
-) : (<div></div>);
+) : null;
 
-const shareButton = props.isPreview ? (<div></div>) : (
+const shareButton = props.isPreview ? null : (
   <a
     class="card-link"
-    href={`https://near.social/#/devgovgigs.near/widget/Post?id=${postId}${referralQueryParam}`}
+    href={`https://near.social/#/devgovgigs.near/widget/Post?id=${postId}`}
     role="button"
     target="_blank"
     title="Open in new tab"
@@ -187,7 +185,7 @@ const btnCreatorWidget = (postType, icon, name) => {
   );
 };
 
-const buttonsFooter = props.isPreview ? (<div></div>) : (
+const buttonsFooter = props.isPreview ? null : (
   <div class="row">
     <div class="col-8">
       <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -259,7 +257,6 @@ const CreatorWidget = (postType) => {
           postType,
           parentId: postId,
           mode: "Create",
-          referral: props.referral,
         }}
       />
     </div>
@@ -287,14 +284,13 @@ const EditorWidget = (postType) => {
           token: post.snapshot.sponsorship_token,
           supervisor: post.snapshot.supervisor,
           githubLink: post.snapshot.github_link,
-          referral: props.referral,
         }}
       />
     </div>
   );
 };
 
-const editorsFooter = props.isPreview ? (<div></div>) : (
+const editorsFooter = props.isPreview ? null : (
   <div class="row" id={`accordion${postId}`}>
     {CreatorWidget("Comment")}
     {EditorWidget("Comment")}
@@ -326,10 +322,10 @@ const postLables = post.snapshot.labels ? (
       );
     })}
   </div>
-) : (<div></div>);
+) : null;
 
 const postTitle =
-  snapshot.post_type == "Comment" ? (<div></div>) : (
+  snapshot.post_type == "Comment" ? null : (
     <h5 class="card-title">
       <div className="row justify-content-between">
         <div class="col-9">
@@ -354,10 +350,10 @@ const postExtra =
         />
       </h6>
     </div>
-  ) : (<div></div>);
+  ) : null;
 
 const postsList =
-  props.isPreview || childPostIds.length == 0 ? (<div></div>) : (
+  props.isPreview || childPostIds.length == 0 ? null : (
     <div class="row">
       <div class="collapse" id={`collapseChildPosts${postId}`}>
         {childPostIds
@@ -365,8 +361,7 @@ const postsList =
               return (
                 <Widget
                   src={`${ownerId}/widget/Post`}
-                  props={{ id: childId, isUnderPost: true, referral: props.referral }}
-                  key={`subpost${childId}of${postId}`}
+                  props={{ id: childId, isUnderPost: true }}
                 />
               );
             })
