@@ -1,8 +1,8 @@
 let accountId = context.accountId;
 
-// if (!accountId) {
-//   return "Please sign in with NEAR wallet";
-// }
+if (!accountId) {
+  return "Please sign in with NEAR wallet";
+}
 
 const profile = socialGetr(`${accountId}/profile`);
 
@@ -57,7 +57,6 @@ const handleMint = () => {
 initState({
   title: "",
   description: "",
-  accountId: accountId,
 });
 
 const onChangeTitle = (title) => {
@@ -71,50 +70,35 @@ const onChangeDesc = (description) => {
     description,
   });
 };
-// in the future add mint to an address
+
 return (
   <div>
-    <h1>💧Mint NFT on GenaDrop</h1>
-    <div className="row">
-      <div className="col-lg-6">
-        <div>
-          Title:
-          <input type="text" onChange={(e) => onChangeTitle(e.target.value)} />
-        </div>
-        <div>
-          Description:
-          <input type="text" onChange={(e) => onChangeDesc(e.target.value)} />
-        </div>
-      </div>
-      <div className="flex-grow-1">
-        <IpfsImageUpload
-          image={state.image}
-          className="btn btn-outline-secondary border-0 rounded-3"
-        />
-      </div>
-      <div className="col-lg-6">
-        <div>
-          <h2>👀 Preview</h2>
-        </div>
-        <div>
-          <img
-            src={`https://ipfs.io/ipfs/` + state.image.cid}
-            alt="uploaded image"
-            width="800"
-            height="600"
-          />
-        </div>
-        {state.accountId && (
-          <div>
-            <button onClick={handleMint}>Mint</button>
-          </div>
-        )}
-        {!state.accountId && (
-          <div>
-            <button className="btn btn-danger mt-3">Login to Mint</button>
-          </div>
-        )}
-      </div>
+    <div>Mint NFT on genadrop</div>
+    <div>
+      Title:
+      <input type="text" onChange={(e) => onChangeTitle(e.target.value)} />
+    </div>
+    <div>
+      Description:
+      <input type="text" onChange={(e) => onChangeDesc(e.target.value)} />
+    </div>
+    <div className="flex-grow-1">
+      <IpfsImageUpload
+        image={state.image}
+        className="btn btn-outline-secondary border-0 rounded-3"
+      />
+    </div>
+    <div>Preview</div>
+    <div>
+      <img
+        src={`https://ipfs.io/ipfs/` + state.image.cid}
+        alt="uploaded image"
+        width="800"
+        height="600"
+      />
+    </div>
+    <div>
+      <button onClick={handleMint}>Mint</button>
     </div>
   </div>
 );
