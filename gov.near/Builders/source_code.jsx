@@ -1,6 +1,6 @@
 return (
   <div>
-    <h1>Builders</h1>
+    <h5>Builders</h5>
     <div className="mb-2">
       <Widget
         src="mob.near/widget/ProfileSearch"
@@ -43,16 +43,31 @@ return (
       </div>
     )}
     <Widget
-      src="gov.near/widget/BuilderProfiles"
-      props={{ tag: "builder", limit: 39 }}
+      src="mob.near/widget/ComponentSearch.Item"
+      props={{
+        name: `#/${profile.name}`,
+        accountId: profile.accountId,
+        tags: profile.tags,
+        onHide: () => State.update({ profiles: null }),
+        extraButtons: ({ widgetPath }) => (
+          <a
+            target="_blank"
+            className="btn btn-outline-secondary"
+            href={`#/mob.near/widget/ProfilePage?src=${accountId}`}
+          >
+            Source
+          </a>
+        ),
+      }}
     />
-    <div className="mb-3"></div>
-    <h2>Near Social Dev Tools</h2>
+    <Widget src="mob.near/widget/LastProfilesImages" props={{ limit: 24 }} />
     <Widget
       src="mob.near/widget/WidgetIcons"
-      props={{ tag: "dev", limit: 39 }}
+      props={{ tag: "dev", limit: 333 }}
     />
-    <h3>#Template Widgets</h3>
+    <h3>#Template</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "template" }} />
+    <h3>All Builder Profiles</h3>
+    <Widget src="gov.near/widget/BuilderProfiles" />
   </div>
 );
