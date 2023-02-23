@@ -1,9 +1,8 @@
-const ownerId = "gov.near";
 const accountId = props.accountId ?? context.accountId;
 
-const profile = props.profile ?? Social.getr(`${ownerId}/profile`);
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-const name = "NEAR Global";
+const name = profile.name;
 const image = profile.image;
 const tags = Object.keys(profile.tags ?? {});
 
@@ -18,20 +17,31 @@ return (
           src="mob.near/widget/ProfileImage"
           props={{
             profile,
-            ownerId,
+            accountId,
             className: "float-start me-2",
           }}
         />
         <div className="profile-name">
           <span className="fw-bold">{name || "< Profile Name >"}</span>
           <small>
-            <span className="font-monospace m-1">@{ownerId}</span>
+            <span className="font-monospace m-1">@{accountId}</span>
           </small>
         </div>
       </a>
     </div>
-    <div className="profile-tags text-muted ">
-      <Widget src="gov.near/widget/JoinStats" props={{ ownerId }} />
+    <div className="profile-tags text-muted mb-5">
+      {tags.length > 0 && (
+        <>
+          {tags.map((tag, i) => (
+            <span
+              key={i}
+              className="m-1 fw-light badge border border-secondary text-bg-light"
+            >
+              #{tag}
+            </span>
+          ))}
+        </>
+      )}
     </div>
   </div>
 );
