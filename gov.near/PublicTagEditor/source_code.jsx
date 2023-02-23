@@ -2,15 +2,19 @@
 const ownerId = "gov.near";
 const appName = "profile";
 const accountId = context.accountId;
-const contractId = props.contractId ?? accountId;
+const contractId = props.contractId ?? ownerId;
+const debug = props.debug ?? false;
 
 if (!accountId) {
-  return "Please connect your NEAR wallet.";
+  return "Please connect your NEAR wallet";
 }
 
 State.init({ contractId });
 
-const metadata = Social.getr(`${accountId}/${appName}/tags/*`, "final");
+const metadata = Social.getr(
+  `${accountId}/${appName}/${state.contractId}`,
+  "final"
+);
 
 // current user tags only
 const pattern = `*/${appName}/*/tags/*`;
@@ -19,7 +23,7 @@ return (
   <div className="row">
     <div className="col-lg-6">
       <div>
-        <h4>Skill Badges</h4>
+        <h4>Explore Skill Badges</h4>
       </div>
       <div className="mb-2">
         NEAR Wallet ID:
@@ -43,7 +47,7 @@ return (
               },
               options: {
                 tags: {
-                  label: "Domains of Expertise:",
+                  label: "Topics of Expertise:",
                   pattern,
                   placeholder: "dev, art, social, edu, mod",
                 },
@@ -63,31 +67,27 @@ return (
             },
           }}
         >
-          Update Skills
+          Save Profile
         </CommitButton>
-        <a
-          className="btn btn-outline-primary ms-2"
-          href={`#/zavodil.near/widget/AllLabels?accountId=${accountId}`}
-        >
-          View All
-        </a>
       </div>
     </div>
     <div className="col-lg-6">
       <div>
         <h4>Preview</h4>
-        See Labels:
         <br />
       </div>
-      <div className="card">
+      <div className="mb-2 card">
         <div className="card-body">
           <div className="text-truncate">
-            <Widget src={`mob.near/widget/ProfileLine`} props={{ accountId }} />
+            <Widget
+              src={`mob.near/widget/ProfileLine`}
+              props={{ accountId: state.contractId }}
+            />
           </div>
           <Widget
             src={`mob.near/widget/PublicTags`}
             props={{
-              accountId,
+              accountId: state.contractId,
               extraTags: state.metadata.tags,
             }}
           />
