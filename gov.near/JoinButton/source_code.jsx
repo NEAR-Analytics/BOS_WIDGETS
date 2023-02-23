@@ -40,21 +40,11 @@ const data = {
 };
 
 return (
-  <div>
-    <CommitButton
-      disabled={loading}
-      className={`btn ${
-        loading || follow ? "btn-outline-dark" : "btn-secondary"
-      }`}
-      data={data}
-    >
-      {loading
-        ? "Loading"
-        : follow
-        ? "Already Following"
-        : inverse
-        ? "Join to Learn More"
-        : "Follow to Learn More"}
-    </CommitButton>
-  </div>
+  <CommitButton
+    disabled={loading}
+    className={`btn ${loading || follow ? "btn-outline-dark" : "btn-primary"}`}
+    data={data}
+  >
+    {loading ? "Loading" : follow ? "Joined" : inverse ? "Join" : "Join"}
+  </CommitButton>
 );
