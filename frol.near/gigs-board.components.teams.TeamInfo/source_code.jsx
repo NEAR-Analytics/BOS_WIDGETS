@@ -2,13 +2,13 @@
 const nearDevGovGigsContractAccountId = props.nearDevGovGigsContractAccountId || (context.widgetSrc ?? 'devgovgigs.near').split('/', 1)[0];
 const nearDevGovGigsWidgetsAccountId = props.nearDevGovGigsWidgetsAccountId || (context.widgetSrc ?? 'devgovgigs.near').split('/', 1)[0];
 
-function widget(widgetName, props, key) {
-  props = {
-    ...props,
+function widget(widgetName, widgetProps, key) {
+  widgetProps = {
+    ...widgetProps,
     nearDevGovGigsContractAccountId: props.nearDevGovGigsContractAccountId,
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
   };
-  return <Widget src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`} props={props} key={key} />;
+  return <Widget src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`} props={widgetProps} key={key} />;
 }
 
 function href(widgetName, linkProps) {
