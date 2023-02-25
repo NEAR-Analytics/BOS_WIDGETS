@@ -192,11 +192,6 @@ text-transform: capitalize
 `;
 
 const scriptSrc = `
-<head>
-  <meta charset="utf-8">
-  <script src="https://cdn.jsdelivr.net/gh/kasodon/Sky-cross@onyedika/src/components/end.js">
-</script>
-</head>
 <style>
 * {
   margin: 0;
@@ -236,6 +231,7 @@ img {
     <img id="fireBallImage" src="https://ik.imagekit.io/onyedika/skycross/projectile_8OBktN6_A.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676939866264" alt=""/>
     <img id="blastImage" src="https://ik.imagekit.io/onyedika/skycross/blast_ilksOODqF.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676939858435" alt=""/>
     <img id="fruityImage" src="https://ik.imagekit.io/onyedika/skycross/fruity_nBAzOrsrS.png?ik-sdk-version=javascript-1.4.3&updatedAt=1676939862429" alt=""/>
+    <script src="https://gist.githubusercontent.com/kasodon/281ce4ffa29dc7c2313fe0c8a99ae683/raw/dbfaa8185c6d54a248ce9bf0d01d8e0c04b7461b/cdn.js" type="module"></script>
 `;
 
 return (
