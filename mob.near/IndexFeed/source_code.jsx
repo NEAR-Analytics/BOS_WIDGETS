@@ -1,4 +1,4 @@
-const index = JSON.parse(JSON.stringify(props.index));
+const index = props.index;
 if (!index) {
   return "props.index is not defined";
 }
@@ -28,7 +28,7 @@ const initialRenderLimit =
 const addDisplayCount = props.nextLimit ?? initialRenderLimit;
 
 index.options.limit = Math.min(
-  Math.max(initialRenderLimit + addDisplayCount * 2, index.options.limit ?? 0),
+  Math.max(initialRenderLimit + addDisplayCount * 2, index.options.limit),
   100
 );
 const reverse = !!props.reverse;
@@ -60,15 +60,13 @@ const mergeItems = (newItems) => {
 const jInitialItems = JSON.stringify(initialItems);
 if (state.jInitialItems !== jInitialItems) {
   const jIndex = JSON.stringify(index);
-  const nextFetchFrom = computeFetchFrom(initialItems, index.options.limit);
-  if (jIndex !== state.jIndex || nextFetchFrom !== state.initialNextFetchFrom) {
+  if (jIndex !== state.jIndex) {
     State.update({
       jIndex,
       jInitialItems,
       items: initialItems,
       fetchFrom: false,
-      initialNextFetchFrom: nextFetchFrom,
-      nextFetchFrom,
+      nextFetchFrom: computeFetchFrom(initialItems, index.options.limit),
       displayCount: initialRenderLimit,
       cachedItems: {},
     });
@@ -109,7 +107,10 @@ if (filter) {
   }
 }
 
-const maybeFetchMore = () => {
+const makeMoreItems = () => {
+  State.update({
+    displayCount: state.displayCount + addDisplayCount,
+  });
   if (
     filteredItems.length - state.displayCount < addDisplayCount * 2 &&
     !state.fetchFrom &&
@@ -120,15 +121,6 @@ const maybeFetchMore = () => {
       fetchFrom: state.nextFetchFrom,
     });
   }
-};
-
-maybeFetchMore();
-
-const makeMoreItems = () => {
-  State.update({
-    displayCount: state.displayCount + addDisplayCount,
-  });
-  maybeFetchMore();
 };
 
 const loader = (
@@ -144,19 +136,11 @@ const loader = (
 
 const fetchMore =
   props.manual &&
-  !props.hideFetchMore &&
   (state.fetchFrom && filteredItems.length < state.displayCount
     ? loader
     : state.displayCount < filteredItems.length && (
         <div key={"loader more"}>
-          <a
-            className=""
-            style={{ cursor: "pointer" }}
-            onClick={(e) => {
-              e.preventDefault && e.preventDefault();
-              makeMoreItems();
-            }}
-          >
+          <a href="javascript:void" onClick={(e) => makeMoreItems()}>
             {props.loadMoreText ?? "Load more..."}
           </a>
         </div>
@@ -179,7 +163,6 @@ return props.manual ? (
   <InfiniteScroll
     pageStart={0}
     loadMore={makeMoreItems}
-    threshold={props.threshold ?? 250}
     hasMore={state.displayCount < filteredItems.length}
     loader={
       <div className="loader">
@@ -192,8 +175,6 @@ return props.manual ? (
       </div>
     }
   >
-    {props.headerElement}
     {renderedItems}
-    {props.footerElement}
   </InfiniteScroll>
 );
