@@ -1,60 +1,48 @@
-const CONTRACT = "hello.near-examples.near";
-const storedGreeting = Near.view(CONTRACT, "get_greeting");
+const contract = "hello.near-examples.near";
+const greeting = Near.view(contract, "get_greeting", {});
 
-if (!storedGreeting || context.loading) {
-  return "Loading...";
-}
-
-const [greeting, setGreeting] = useState(storedGreeting);
-const [showSpinner, setShowSpinner] = useState(false);
-const loggedIn = !!context.accountId;
+// Use and manipulate state
+State.init({ new_greeting: "" });
 
 const onInputChange = ({ target }) => {
-  setGreeting(target.value);
+  State.update({ new_greeting: target.value });
 };
 
 const onBtnClick = () => {
-  setShowSpinner(true);
-  Near.call(CONTRACT, "set_greeting", { greeting });
-  setShowSpinner(false);
+  Near.call(contract, "set_greeting", {
+    greeting: state.new_greeting,
+  });
 };
 
-const Main = styled.div`
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI
-`;
+// Define components
+const greetingForm = (
+  <>
+    <div class="border border-black p-3">
+      <label>Update greeting</label>
+      <input placeholder="Howdy" onChange={onInputChange} />
+      <button class="btn btn-primary mt-2" onClick={onBtnClick}>
+        Save
+      </button>
+    </div>
+  </>
+);
+
+const notLoggedInWarning = <p> Login to change the greeting </p>;
 
 // Render
 return (
-  <Main>
-    <div className="text-center">
-      <h3 className="font-weight-bold"> Hello Near </h3>
-      <p className="small font-weight-light">
-        A greeting stored in
-        <span className="text-danger">{CONTRACT}</span>
-      </p>
-    </div>
-    <div className="container py-4 px-5 text-dark bg-light rounded">
-      <h2 className="text-center">
+  <>
+    <div class="container border border-info p-3">
+      <h3 class="text-center">
         The contract says:
-        <span className="text-primary"> {greeting} </span>
-      </h2>
+        <span class="text-decoration-underline"> {greeting} </span>
+      </h3>
 
-      <div class="p-4">
-        <div className="input-group" hidden={!loggedIn}>
-          <input placeholder="Store a new greeting" onChange={onInputChange} />
-          <button className="btn btn-primary" onClick={onBtnClick}>
-            <span hidden={showSpinner}>Save</span>
-            <i
-              className="spinner-border spinner-border-sm"
-              hidden={!showSpinner}
-            ></i>
-          </button>
-        </div>
+      <p class="text-center py-2">
+        Look at that! A greeting stored on the NEAR blockchain.
+      </p>
 
-        <p className="text-center py-2" hidden={loggedIn}>
-          Login to change the greeting
-        </p>
-      </div>
+      {context.accountId ? greetingForm : notLoggedInWarning}
     </div>
-  </Main>
+  </>
 );
