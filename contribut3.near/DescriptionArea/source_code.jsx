@@ -2,7 +2,7 @@ const description = props.description || "";
 const lengthCutoff = 100;
 
 State.init({
-  showAll: description <= lengthCutoff,
+  showAll: description.length <= lengthCutoff,
 });
 
 return (
@@ -12,8 +12,13 @@ return (
         state.showAll ? description : description.substring(0, lengthCutoff)
       }
     />
-    {state.showAll ? (
-      <></>
+    {state.showAll && description.length > lengthCutoff ? (
+      <a
+        className="btn fw-bold text-primary ms-2"
+        onClick={() => State.update({ showAll: false })}
+      >
+        Show less
+      </a>
     ) : (
       <a
         className="btn fw-bold text-primary ms-2"
