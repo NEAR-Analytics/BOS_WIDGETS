@@ -6,10 +6,8 @@ State.init({
 });
 
 return (
-  <div className="d-flex flex-row justify-content-start align-items-center">
+  <div className="d-flex flex-row justify-content-start align-items-start">
     <Markdown
-      // className="text-truncate my-2 w-100"
-      // style={{ textOverflow: "ellipsis" }}
       text={
         state.showAll ? description : description.substring(0, lengthCutoff)
       }
@@ -17,7 +15,12 @@ return (
     {state.showAll ? (
       <></>
     ) : (
-      <a onClick={() => State.update({ showAll: true })}>Read more</a>
+      <a
+        className="btn fw-bold text-primary ms-2"
+        onClick={() => State.update({ showAll: true })}
+      >
+        Read more
+      </a>
     )}
   </div>
 );
