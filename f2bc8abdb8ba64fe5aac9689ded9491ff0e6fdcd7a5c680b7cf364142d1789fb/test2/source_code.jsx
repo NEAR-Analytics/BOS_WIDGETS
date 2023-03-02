@@ -1,3 +1,3 @@
-console.log("Hello console");
+const updateState = props.updateState;
 
-return <div>Hello World</div>;
+return <div style={{ color: red }}>{updateState}</div>;
