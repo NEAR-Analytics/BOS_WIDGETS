@@ -52,6 +52,7 @@ function onResultClick(id) {
 
 const Wrapper = styled.div`
   position: relative;
+  background: #ECEEF0;
 
   &::before {
       content: '';
@@ -80,8 +81,7 @@ const Scroller = styled.div`
   }
 
   > * {
-    max-width: 200px;
-    text-align: left;
+    max-width: 175px;
     flex-grow: 0;
     flex-shrink: 0;
     
@@ -123,19 +123,16 @@ return (
 
       {results.map((result) => {
         return (
-          <button
-            className="border-0 btn btn-light"
+          <Widget
             key={result.accountId}
-            onClick={() => onResultClick(result.accountId)}
-          >
-            <Widget
-              key={result.accountId}
-              src="mob.near/widget/Profile.ShortInlineBlock"
-              props={{
-                accountId: result.accountId,
-              }}
-            />
-          </button>
+            src="calebjacob.near/widget/AccountProfile"
+            props={{
+              avatarSize: "34px",
+              accountId: result.accountId,
+              onClick: onResultClick,
+              overlayPlacement: "bottom",
+            }}
+          />
         );
       })}
     </Scroller>
