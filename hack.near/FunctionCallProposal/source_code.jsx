@@ -6,18 +6,17 @@ if (!accountId) {
 }
 
 State.init({
-  receiver_id: "",
-  method_name: "",
-  args: "",
-  deposit: "",
-  gas: "",
-  fc_deposit: "",
-  fc_gas: "",
+  receiver_id: state.receiver_id,
+  method_name: state.method_name,
+  args: state.args,
 });
 
-const proposal_args = Buffer.from(state.args, "utf-8").toString("base64");
-
 const handleProposal = () => {
+  if (!(state.receiver_id && state.method_name && state.args)) {
+    return;
+  }
+  const gas = 200000000000000;
+  const deposit = 100000000000000000000000;
   Near.call([
     {
       contractName: daoId,
@@ -31,17 +30,19 @@ const handleProposal = () => {
               actions: [
                 {
                   method_name: state.method_name,
-                  args: proposal_args,
-                  deposit: state.fc_deposit ?? "1",
-                  gas: state.fc_gas ?? "200000000000000",
+                  args: Buffer.from(JSON.stringify(fc_args), "utf-8").toString(
+                    "base64"
+                  ),
+                  deposit: "1",
+                  gas: "150000000000000",
                 },
               ],
             },
           },
         },
       },
-      deposit: state.deposit ?? "100000000000000000000000",
-      gas: state.gas ?? "200000000000000",
+      deposit: deposit,
+      gas: gas,
     },
   ]);
 };
@@ -64,30 +65,6 @@ const onChangeArgs = (args) => {
   });
 };
 
-const onChangeDeposit = (deposit) => {
-  State.update({
-    deposit,
-  });
-};
-
-const onChangeGas = (gas) => {
-  State.update({
-    gas,
-  });
-};
-
-const onChangeFCDeposit = (fc_deposit) => {
-  State.update({
-    fc_deposit,
-  });
-};
-
-const onChangeFCGas = (fc_gas) => {
-  State.update({
-    fc_gas,
-  });
-};
-
 return (
   <div className="mb-3">
     <div className="mb-3">
@@ -98,26 +75,12 @@ return (
       Method:
       <input type="text" onChange={(e) => onChangeMethod(e.target.value)} />
     </div>
-    <div className="m-2 p-2 d-flex s">
-      <p className="m-2">Deposit:</p>
-      <input type="text" onChange={(e) => onChangeDeposit(e.target.value)} />
-      <p className="m-2">Gas:</p>
-      <input type="text" onChange={(e) => onChangeGas(e.target.value)} />
-    </div>
-    <div className="m-2 p-2 d-flex s">
-      <p className="m-2">FC Deposit:</p>
-      <input type="text" onChange={(e) => onChangeFCDeposit(e.target.value)} />
-      <p className="m-2">FC Gas:</p>
-      <input type="text" onChange={(e) => onChangeFCGas(e.target.value)} />
-    </div>
-    <div className="mb-3 flex flex-row">
+    <div className="mb-3">
       Arguments (JSON):
-      <div>
-        <textarea type="text" onChange={(e) => onChangeArgs(e.target.value)} />
-      </div>
+      <input type="json" onChange={(e) => onChangeArgs(e.target.value)} />
+      <button className="btn btn-outline-danger mt-3" onClick={handleProposal}>
+        Propose Action
+      </button>
     </div>
-    <button className="btn btn-outline-danger mt-3" onClick={handleProposal}>
-      Submit
-    </button>
   </div>
 );
