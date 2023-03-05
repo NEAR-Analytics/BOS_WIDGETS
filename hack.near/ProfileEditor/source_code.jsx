@@ -1,33 +1,22 @@
-const accountId = "meta.sputnik-dao.near";
+const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-let profile = Social.getr(`${accountId}/profile`);
+if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
+
+let profile = Social.getr(`${sender}/profile`);
+
+if (profile === null) {
+  return "Loading";
+}
 
 State.init({
   profile,
 });
 
-const handleSave = () => {
-  Near.call([
-    {
-      contractName: "social.near",
-      methodName: "set",
-      args: {
-        data: {
-          [accountId]: {
-            profile: state.profile,
-          },
-        },
-      },
-      deposit: "1",
-    },
-  ]);
-};
-
 return (
   <div className="row">
     <div className="col-lg-6">
       <div>
-        <h4>Edit profile of @{accountId}</h4>
+        <h4>Edit profile of @{sender}</h4>
       </div>
       <div className="mb-2">
         <Widget
@@ -43,8 +32,7 @@ return (
               tags: {
                 label: "Tags",
                 tagsPattern: "*/profile/tags/*",
-                placeholder:
-                  "rust, engineer, artist, humanguild, nft, learner, founder",
+                placeholder: "bos",
               },
               linktree: {
                 links: [
@@ -75,20 +63,22 @@ return (
         />
       </div>
       <div className="mb-2">
-        <button onClick={handleSave}>Save profile</button>
+        <CommitButton data={{ profile: state.profile }}>
+          Save Profile
+        </CommitButton>
         <a
           className="btn btn-outline-primary ms-2"
-          href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+          href={`#/mob.near/widget/ProfilePage?sender=${sender}`}
         >
-          View profile
+          View Profile
         </a>
       </div>
     </div>
     <div className="col-lg-6">
       <div>
         <Widget
-          src="mob.near/widget/ProfilePage"
-          props={{ accountId, profile: state.profile }}
+          src="hack.near/widget/ProfilePage"
+          props={{ sender, profile: state.profile }}
         />
       </div>
     </div>
