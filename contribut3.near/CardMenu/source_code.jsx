@@ -107,7 +107,10 @@ return (
   <DropdownContainer>
     <MenuIcon
       onClick={() => State.update({ show: !state.show })}
-      onBlur={() => { console.log("blur!")State.update({ show: false }) }}
+      onBlur={() => {
+        console.log("blur!");
+        State.update({ show: false });
+      }}
     >
       <Dot />
       <Dot />
