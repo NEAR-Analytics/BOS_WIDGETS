@@ -24,17 +24,13 @@ const data = {
 };
 
 return (
-  <CommitButton
-    force
-    className={`btn btn btn-dark text-nowrap rounded-5`}
-    data={data}
-  >
+  <CommitButton force className={`btn btn btn-dark text-nowrap`} data={data}>
     <Widget
       src="mob.near/widget/ProfileImage"
       props={{
         accountId: props.accountId,
         style: { width: "1.5rem", height: "1.5rem" },
-        imageClassName: "rounded-5 w-100 h-100 align-bottom",
+        imageClassName: "rounded w-100 h-100 align-bottom",
       }}
     />
     <span role="img" aria-label="poke">
