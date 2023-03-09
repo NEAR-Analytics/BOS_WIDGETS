@@ -17,7 +17,7 @@ const Post = styled.div`
   }
 `;
 
-const renderItem = (a, content) =>
+const renderItem = (a) =>
   a.value.type === "md" && (
     <Post className="post" key={JSON.stringify(a)}>
       <Widget
@@ -29,7 +29,7 @@ const renderItem = (a, content) =>
 
 return (
   <Widget
-    src="roshaan.near/widget/IndexFeed"
+    src="adminalpha.near/widget/IndexFeed"
     props={{ index, renderItem, moderatorAccount: "adminalpha.near" }}
   />
 );
