@@ -1,20 +1,27 @@
 const data = props.data;
 
-const thisWidgetClassNames = props.allWidgetsClassNames.instance_time_review;
-const thisWidgetInlineStyles =
-  props.allWidgetsInlineStyles.instance_time_review;
-
 const _account = props.accountId ?? "All";
 const tabs = props.tabs;
+const owner = context.accountId;
 const text = props.text;
 const updateInstanceTimeState = props.updateInstanceTimeState;
 
+const widgetOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+
 State.init({
-  intervalId: -1,
   is_on: [],
   accounts: [],
 });
 
+const card = {
+  border: "1px solid black",
+  borderRadius: "5px",
+  textAlign: "center",
+  color: "white",
+  padding: "10px",
+  margin: "1rem",
+};
 const days = [
   "Monday",
   "Tuesday",
@@ -25,10 +32,7 @@ const days = [
   "Sunday",
 ];
 
-var sortedData =
-  data && data.length
-    ? data.sort((d1, d2) => d2.blockHeight - d1.blockHeight)
-    : [];
+var sortedData = data.sort((d1, d2) => d2.blockHeight - d1.blockHeight);
 var finalData = [];
 var accountIds = ["All"];
 
@@ -36,8 +40,7 @@ const sortAndRemoveRepeated = (flag, data) => {
   var temp = data;
   const flag1 = data.indexOf(0);
   if (flag) temp.push(0, 168);
-  var sortedTimeData =
-    temp && temp.length ? temp.sort((d2, d1) => d2 - d1) : [];
+  var sortedTimeData = temp.sort((d2, d1) => d2 - d1);
 
   var final = [];
   for (var k = 0; k < sortedTimeData.length; k++) {
@@ -59,7 +62,6 @@ const sortAndRemoveRepeated = (flag, data) => {
   }
   return final;
 };
-
 var date = new Date();
 var utc_offset = -date.getTimezoneOffset() / 60;
 for (let i = 0; i < sortedData.length; i++) {
@@ -131,7 +133,7 @@ const getFormatedTime = (time) => {
   return formated;
 };
 
-function intervalFunction() {
+setInterval(() => {
   const day = new Date().getDay() == 0 ? 6 : new Date().getDay() - 1;
   const hours = new Date().getHours();
   const mins = new Date().getMinutes();
@@ -144,6 +146,7 @@ function intervalFunction() {
     if (temp.on_off == "on") {
       for (var j = 0; j < temp.data.length; j++) {
         if (now >= temp.data[j]._from && now < temp.data[j]._to) {
+          // console.log(now, temp.data[j]._from, temp.data[j]._to, is_on);
           is_on = true;
         }
       }
@@ -153,12 +156,7 @@ function intervalFunction() {
   }
 
   State.update({ is_on: is_on_all, accounts: accounts });
-}
-
-if (state.intervalId === -1) {
-  const intervalId = setInterval(intervalFunction, 20 * 1000);
-  State.update({ intervalId });
-}
+}, 1000);
 
 function makeStringShorter(string, length) {
   if (string.length > length) {
@@ -167,20 +165,19 @@ function makeStringShorter(string, length) {
   return string;
 }
 
-console.log("FD:", finalData);
-console.log("_account:", _account);
-
 return (
   <div
-    className={thisWidgetClassNames.generalContainer}
-    style={thisWidgetInlineStyles.generalContainer}
+    className="px-4"
+    style={{
+      borderRadius: "3px",
+      backgroundColor: "rgb(230, 230, 230)",
+      width: "100%",
+      padding: "0.5rem",
+    }}
   >
-    <div className={thisWidgetClassNames.widgetHeaderContainer}>
-      <h2 style={thisWidgetInlineStyles.titleInHeader}>{text}</h2>
-      <p
-        className={thisWidgetClassNames.textInheader}
-        style={thisWidgetInlineStyles.textInheader}
-      >
+    <div className="d-flex justify-content-between">
+      <h2 style={{ margin: "2rem 0 0.5rem 0", fontWeight: "700" }}>{text}</h2>
+      <p className="m-0 pt-3" style={{ margin: "0px", fontSize: "0.8rem" }}>
         {`Your time is UTC ${getFormatedTime(
           new Date().getTimezoneOffset() / 60
         )} ${new Date()
@@ -192,14 +189,14 @@ return (
       </p>
     </div>
     <div
-      className={thisWidgetClassNames.cardsContainer}
-      style={thisWidgetInlineStyles.cardsContainer}
+      style={{
+        display: "grid",
+        gridTemplateColumns: " repeat(3, 1fr)",
+      }}
     >
       {finalData
         ? finalData.map((d) => {
-            console.log(1, _account, d.accountId);
             if (_account == "All" || _account == d.accountId) {
-              console.log(2, _account, d.accountId);
               const profileName = Social.getr(`${d.accountId}/profile`).name;
 
               if (!profileName) {
@@ -207,9 +204,19 @@ return (
               }
               return (
                 <div
-                  className={thisWidgetClassNames.cardGeneralContainer}
-                  style={thisWidgetInlineStyles.cardGeneralContainer}
+                  style={{
+                    boxSizing: "border-box",
+                    boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
+                    backgroundColor: "white",
+                    color: "black",
+                    borderRadius: "1rem",
+                    margin: "8px",
+                    cursor: "pointer",
+                    disable: context.accountId != d.accountId,
+                    textDecoration: "none",
+                  }}
                   onClick={() => {
+                    console.log("este");
                     updateInstanceTimeState({
                       userScheduleShown: d.accountId,
                       prevTab:
@@ -218,13 +225,29 @@ return (
                           : tabs.MY_SCHEDULE.id,
                       tab: tabs.OPEN_SCHEDULE.id,
                     });
+                    console.log("fin");
                   }}
                 >
-                  <div style={thisWidgetInlineStyles.cardContainer}>
+                  <div
+                    style={{
+                      padding: "1rem",
+                    }}
+                  >
                     <div
-                      style={thisWidgetInlineStyles.cardHeaderGeneralContainer}
+                      style={{
+                        paddingBottom: "0.5rem",
+                        borderBottom: "2px solid grey",
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
                     >
-                      <div style={thisWidgetInlineStyles.cardHeaderUserInfo}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
                         <Widget
                           src="mob.near/widget/ProfileImage"
                           props={{
@@ -239,30 +262,54 @@ return (
                         />
                         <div>{profileName}</div>
                       </div>
-                      <div style={thisWidgetInlineStyles.cardBodyContainer}>
+                      <div
+                        style={{
+                          paddingLeft: "0.5rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          width: "100%",
+                        }}
+                      >
                         <div
-                          style={thisWidgetInlineStyles.cardBodyUserInfo}
-                          title={d.accountId}
+                          style={{
+                            fontSize: "1.5rem",
+                            fontWeight: "800",
+                          }}
                         >
                           {makeStringShorter(d.accountId, 12)}
                         </div>
                         <div
-                          style={
-                            thisWidgetInlineStyles.cardBodyContentContainer
-                          }
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
                         >
                           <div>
                             <div
-                              style={thisWidgetInlineStyles.contentSeparation}
+                              style={{
+                                margin: "0.5rem 0rem",
+                              }}
                             >
                               <span
-                                style={
-                                  state.is_on[
+                                style={{
+                                  backgroundColor: state.is_on[
                                     state.accounts.indexOf(d.accountId)
                                   ]
-                                    ? thisWidgetInlineStyles.statusIndicationOn
-                                    : thisWidgetInlineStyles.statusIndicationOff
-                                }
+                                    ? "rgb(217, 252, 239)"
+                                    : "rgb(255, 229, 229)",
+                                  textAlign: "center",
+                                  borderRadius: "16px",
+                                  fontSize: "0.8rem",
+                                  color: state.is_on[
+                                    state.accounts.indexOf(d.accountId)
+                                  ]
+                                    ? "rgb(0, 179, 125)"
+                                    : "rgb(255, 71, 71)",
+                                  fontWeight: "500",
+                                  padding: "0.5rem 1rem",
+                                }}
                               >
                                 {state.is_on[
                                   state.accounts.indexOf(d.accountId)
@@ -278,21 +325,50 @@ return (
                     </div>
                     {d.value._data.map((week, index) => {
                       return (
-                        <div style={thisWidgetInlineStyles.valuesContainer}>
-                          <div style={thisWidgetInlineStyles.daysContainer}>
-                            {`${days[index]}`}
-                          </div>
-                          <div className="d-flex">
+                        <div
+                          style={{
+                            paddingTop: "1rem",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontSize: "1rem",
+                              fontWeight: "600",
+                            }}
+                          >{`${days[index]}`}</div>
+                          <div
+                            style={{
+                              display: "flex",
+                            }}
+                          >
                             {week.on_off == "on" ? (
                               week.data.map((y) => (
-                                <p style={thisWidgetInlineStyles.timeContainer}>
+                                <p
+                                  style={{
+                                    display: "flex",
+                                    fontSize: "0.9rem",
+                                    paddingRight: "0.9rem",
+                                  }}
+                                >
                                   {getFormatedTime(y._from)}~
                                   {getFormatedTime(y._to)}
                                 </p>
                               ))
                             ) : (
                               <span
-                                style={thisWidgetInlineStyles.offIndication}
+                                style={{
+                                  backgroundColor: "#FFE5E5",
+                                  textAlign: "center",
+                                  borderRadius: "16px",
+                                  marginRight: "1rem",
+                                  fontSize: "0.8rem",
+                                  letterSpacing: "-0.025rem",
+                                  color: "#FF4747",
+                                  fontWeight: "500",
+                                  padding: "0.5rem 2rem",
+                                }}
                               >
                                 Off
                               </span>
