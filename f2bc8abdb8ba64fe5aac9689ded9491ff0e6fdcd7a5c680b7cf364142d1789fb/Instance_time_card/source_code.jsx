@@ -4,9 +4,6 @@ if (!data) {
   return "Loading datas";
 }
 
-const thisWidgetInlineStyles = props.allWidgetsInlineStyles.instance_time_card;
-const thisWidgetClassNames = props.allWidgetsClassNames.instance_time_card;
-
 const accountId = props.accountId ?? context.accountId;
 const updateInstanceTimeState = props.updateInstanceTimeState;
 const tabs = props.tabs;
@@ -21,53 +18,14 @@ State.init({
   is_on: false,
 });
 
-var sortedData =
-  data && data.length
-    ? data.sort((d1, d2) => d1.blockHeight - d2.blockHeight)
-    : [];
-var finalData = {
-  accountId: "",
-  time_zone: "(UTC-04:00) Atlantic Time",
-  value: {
-    _data: [
-      {
-        on_off: "off",
-        data: [],
-      },
-      {
-        on_off: "off",
-        data: [],
-      },
-      {
-        on_off: "off",
-        data: [],
-      },
-      {
-        on_off: "off",
-        data: [],
-      },
-      {
-        on_off: "off",
-        data: [],
-      },
-      {
-        on_off: "off",
-        data: [],
-      },
-      {
-        on_off: "off",
-        data: [],
-      },
-    ],
-  },
-};
+var sortedData = data.sort((d1, d2) => d1.blockHeight - d2.blockHeight);
+var finalData = {};
 
 const sortAndRemoveRepeated = (flag, data) => {
   var temp = data;
   const flag1 = data.indexOf(0);
   if (flag) temp.push(0, 168);
-  var sortedTimeData =
-    temp && temp.length ? temp.sort((d2, d1) => d2 - d1) : [];
+  var sortedTimeData = temp.sort((d2, d1) => d2 - d1);
 
   var final = [];
   for (var k = 0; k < sortedTimeData.length; k++) {
@@ -87,7 +45,6 @@ const sortAndRemoveRepeated = (flag, data) => {
         final.push(sortedTimeData[k]);
     }
   }
-
   return final;
 };
 
@@ -128,8 +85,7 @@ for (let i = 0; i < sortedData.length; i++) {
         }
       }
     }
-    var sortedTimeDataNew =
-      final && final.length ? final.sort((d2, d1) => d2 - d1) : [];
+    var sortedTimeDataNew = final.sort((d2, d1) => d2 - d1);
     var weeklyData = [];
     for (var t = 0; t < 7; t++) {
       var dailyData = [];
@@ -200,27 +156,41 @@ return (
       onMessage={onInterval}
     />
 
-    <div
-      className={thisWidgetClassNames.widgetGeneralContainer}
-      style={thisWidgetInlineStyle.widgetGeneralContainer}
-    >
-      <div style={thisWidgetInlineStyles.generalContainer}>
-        <div className={thisWidgetClassNames.widgetHeaderContainer}>
-          <h2 style={thisWidgetInlineStyles.widgetTitle}>
+    <div className="d-flex content-align-start justify-content-between">
+      <div
+        style={{
+          width: "100%",
+          margin: style == "small" ? "0rem" : "2rem",
+          padding: "0 2rem 1rem 2rem",
+          borderRadius: "18px",
+          background: "white",
+          boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
+        }}
+      >
+        <div className="w-100 d-flex flex-row justify-content-between align-items-center">
+          <h2
+            style={{
+              padding: "2rem",
+              margin: "2rem 0 0.5rem 0",
+              fontWeight: "700",
+            }}
+          >
             {tabs.OPEN_SCHEDULE.text}
           </h2>
           <i
-            className={thisWidgetClassNames.closeIcon}
-            style={thisWidgetInlineStyles.closeIcon}
+            className="bi bi-x-lg"
+            style={{
+              right: "2rem",
+              top: "2rem",
+              cursor: "pointer",
+            }}
             onClick={() => {
-              updateInstanceTimeState({
-                tab: props.prevTab,
-              });
+              updateInstanceTimeState({ tab: props.prevTab });
             }}
           ></i>
         </div>
-        <div className={thisWidgetClassNames.widgetBodyContainer}>
-          <div className={thisWidgetClassNames.userInfoContainer}>
+        <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between">
             <Widget
               src="mob.near/widget/ProfileImage"
               props={{
@@ -237,27 +207,34 @@ return (
               }}
             />
             <div>
-              <p style={thisWidgetInlineStyles.shceduleOfText}>Schedule of</p>
-              <p style={thisWidgetInlineStyles.showAccountId}>
-                {sliceString(accountId, 18)}
-              </p>
+              <p style={{ margin: "0", fontWeight: "300" }}>Schedule of</p>
+              <p style={{ fontWeight: "500" }}>{sliceString(accountId, 18)}</p>
             </div>
           </div>
-          <div className={thisWidgetClassNames.sheculeStatusContainer}>
+          <div className="d-flex">
             <span
-              style={
-                state.is_on
-                  ? thisWidgetInlineStyles.scheduleStatusOn
-                  : thisWidgetInlineStyles.scheduleStatusOff
-              }
+              style={{
+                height: "2.1rem",
+                width: "3rem",
+                marginRight: "1rem",
+                letterSpacing: "-0.025rem",
+                backgroundColor: state.is_on
+                  ? "rgb(217, 252, 239)"
+                  : "rgb(255, 229, 229)",
+                textAlign: "center",
+                borderRadius: "16px",
+                fontSize: font_small,
+                color: state.is_on ? "rgb(0, 179, 125)" : "rgb(255, 71, 71)",
+                fontWeight: "500",
+                padding: "0.5rem 1rem",
+              }}
             >
               {state.is_on ? "on" : "off"}
             </span>
             {accountId == context.accountId && (
               <button
                 onClick={updateInstanceTimeState({
-                  tab: tabs.NEW_SCHEDULE.id,
-                  prevTab: tabs.OPEN_SCHEDULE.id,
+                  tab: tabs.EDIT_SCHEDULE.id,
                 })}
                 onMouseEnter={() => {
                   State.update({ hoveringElement: "edit" });
@@ -267,8 +244,26 @@ return (
                 }}
                 style={
                   state.hoveringElement == "edit"
-                    ? thisWidgetInlineStyles.editScheduleButtonHovering
-                    : thisWidgetInlineStyles.editScheduleButton
+                    ? {
+                        border: "2px solid transparent",
+                        fontWeight: "500",
+                        fontSize: font_big,
+                        padding: "0.3rem 1.5rem",
+                        backgroundColor: "#010A2D",
+                        borderRadius: "12px",
+                        color: "white",
+                        textDecoration: "none",
+                      }
+                    : {
+                        border: "2px solid black",
+                        color: "black",
+                        backgroundColor: "white",
+                        fontWeight: "500",
+                        fontSize: font_big,
+                        padding: "0.3rem 1.5rem",
+                        borderRadius: "12px",
+                        textDecoration: "none",
+                      }
                 }
               >
                 Edit Schedules
@@ -276,28 +271,64 @@ return (
             )}
           </div>
         </div>
-        <div className={thisWidgetClassNames.instanceTimeTextContainer}>
-          <div style={thisWidgetInlineStyles.instanceTimeTextDecorativeDiv}>
+        <div className="d-flex my-3">
+          <div
+            style={{
+              height: "inherit",
+              backgroundColor: "#AAC8F7",
+              width: "0.5rem",
+              minWidth: "5px",
+              marginRight: "0.5rem",
+              borderRadius: "8px",
+            }}
+          >
             {/*Decorative div, do not delete*/}
           </div>
-          <h2 style={thisWidgetInlineStyles.instanceTimeText}>Instance Time</h2>
+          <h2
+            style={{
+              fontWeight: "700",
+              fontSize: style == "small" ? "1.5rem" : "2rem",
+              letterSpacing: "0.1px",
+              color: "#010A2D",
+              wordWrap: "anywhere",
+            }}
+          >
+            Instance Time
+          </h2>
         </div>
         <div
-          style={thisWidgetInlineStyles.otherWidgetsContainer}
-          className={thisWidgetClassNames.otherWidgetsContainer}
+          style={{
+            position: "relative",
+            width: "max-content",
+            display: "flex",
+            padding: `0.5rem ${font_small}`,
+            width: "100%",
+            justifyContent: "space-between",
+          }}
         >
-          <div style={thisWidgetInlineStyles.instanceTimeShareGeneralContainer}>
-            <div style={thisWidgetInlineStyles.instanceTimeShareContainer}>
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                paddingRight: "1rem",
+              }}
+            >
               <Widget
                 src={`${widgetOwner}/widget/Instance_time_share`}
-                props={{
-                  accountId,
-                }}
+                props={{ accountId }}
               />
             </div>
           </div>
 
-          <div style={thisWidgetInlineStyles.showCurrentTimecontainer}>
+          <div
+            style={{
+              paddingRight: style == "small" ? "1.2rem" : "2rem",
+              display: "flex",
+              alignItems: "center",
+              margin: "-1.2rem",
+            }}
+          >
             <Widget
               src={`${widgetOwner}/widget/ShowCurrentTime`}
               props={{
