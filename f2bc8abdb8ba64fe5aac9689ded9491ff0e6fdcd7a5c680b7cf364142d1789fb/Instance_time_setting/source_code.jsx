@@ -1,10 +1,6 @@
 const updateInstanceTimeState = props.updateInstanceTimeState;
 const tabs = props.tabs;
 
-const thisWidgetInlineStyles =
-  props.allWidgetsInlineStyles.instance_time_setting;
-const thisWidgetClassNames = props.allWidgetsClassNames.instance_time_setting;
-
 const sortAndRemoveRepeated = (flag, data) => {
   var temp = data;
   if (flag) temp.push(0, 168);
@@ -78,6 +74,33 @@ State.init({
   hoveringElement: "",
 });
 
+const comboBox = (isActive) => {
+  let colors = isActive ? "rgb(53, 58, 64)" : "rgb(225, 233, 240)";
+  return {
+    backgroundColor: "white",
+    padding: "0.5rem 1.5rem",
+    borderRadius: "0.8rem",
+    border: `1.5px solid ${colors}`,
+    color: colors,
+    letterSpacing: "-0.01em",
+    borderRadius: "1rem",
+    padding: "1rem",
+  };
+};
+
+const table = {
+  display: "flex",
+  flex: "1",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: 600,
+};
+const flex_row = {
+  display: "flex",
+  flex: "1",
+  flexDirection: "row",
+  fontSize: "large",
+};
 const hours = [];
 const days = [
   "Monday",
@@ -173,26 +196,12 @@ const getData = () => {
     },
   };
 };
-const timeSelector = (f, index, size) => {
+const timeSelector = (f, index) => {
   return (
-    <div
-      style={
-        state._is_on[index]
-          ? thisWidgetInlineStyles.timeSelectorContainerActive
-          : thisWidgetInlineStyles.timeSelectorContainerInactive
-      }
-    >
-      <div className={thisWidgetClassNames.timeSelector}>
+    <div style={table}>
+      <div className="d-flex">
         <select
-          style={
-            size == "big"
-              ? state._is_on[index]
-                ? thisWidgetInlineStyles.comboBoxActiveBig
-                : thisWidgetInlineStyles.comboBoxInactiveBig
-              : state._is_on[index]
-              ? thisWidgetInlineStyles.comboBoxActiveSmall
-              : thisWidgetInlineStyles.comboBoxInactiveSmall
-          }
+          style={comboBox(state._is_on[index])}
           value={f ? state._from[index] : state._to[index]}
           disabled={!state._is_on[index]}
           onChange={(e) => {
@@ -204,7 +213,12 @@ const timeSelector = (f, index, size) => {
           ))}
         </select>
       </div>
-      <div className={thisWidgetClassNames.caretsContainer}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <div
           onClick={() => {
             if (state._is_on[index]) {
@@ -214,11 +228,11 @@ const timeSelector = (f, index, size) => {
           }}
         >
           <i
-            className={thisWidgetClassNames.caretUpIcon}
+            className="bi-caret-up"
             style={
               state._is_on[index]
-                ? thisWidgetInlineStyles.colorActive
-                : thisWidgetInlineStyles.colorInactive
+                ? { color: "rgb(53, 58, 64)" }
+                : { color: "rgb(225, 233, 240)" }
             }
           ></i>
         </div>
@@ -231,11 +245,11 @@ const timeSelector = (f, index, size) => {
           }}
         >
           <i
-            className={thisWidgetClassNames.caretDownIcon}
+            className="bi-caret-down"
             style={
               state._is_on[index]
-                ? thisWidgetInlineStyles.colorActive
-                : thisWidgetInlineStyles.colorInactive
+                ? { color: "rgb(53, 58, 64)" }
+                : { color: "rgb(225, 233, 240)" }
             }
           ></i>
         </div>
@@ -244,184 +258,158 @@ const timeSelector = (f, index, size) => {
   );
 };
 
-const renderDayRow = (day, index, size) => {
-  return (
-    <>
-      <div
-        className={`${thisWidgetClassNames.dayContainer} ${
-          size == "big"
-            ? thisWidgetClassNames.showInMidAndBigScreens
-            : thisWidgetClassNames.showInSmallerScreens
-        }`}
-        style={thisWidgetInlineStyles.dayContainer}
-      >
-        <div
-          style={
-            size == "big"
-              ? thisWidgetInlineStyles.dayPartContainerBig
-              : thisWidgetInlineStyles.dayPartContainerSmall
-          }
-        >
-          <div
-            className={thisWidgetClassNames.infoAndTitleContainer}
-            style={
-              size == "big"
-                ? thisWidgetInlineStyles.infoAndTitleContainer
-                : thisWidgetInlineStyles.infoAndTitleContainerSmall
-            }
-          >
-            <p
-              className={thisWidgetClassNames.showInResponsive}
-              style={thisWidgetInlineStyles.fontW600}
-            >
-              {tbl_headers[0]}
-            </p>
-            <p
-              style={
-                size == "big"
-                  ? thisWidgetInlineStyles.fontW600
-                  : { margin: "0" }
-              }
-            >
-              {day}
-            </p>
-          </div>
-          <div
-            className={thisWidgetClassNames.infoAndTitleContainer}
-            style={
-              size == "big"
-                ? thisWidgetInlineStyles.infoAndTitleContainer
-                : thisWidgetInlineStyles.infoAndTitleContainerSmall
-            }
-          >
-            <p
-              className={thisWidgetClassNames.showInResponsive}
-              style={thisWidgetInlineStyles.fontW600}
-            >
-              {tbl_headers[1]}
-            </p>
-
-            <div
-              className="form-check form-switch"
-              style={thisWidgetInlineStyles.inputContainer}
-            >
-              <input
-                style={
-                  state._is_on[index]
-                    ? thisWidgetInlineStyles.inputActive
-                    : thisWidgetInlineStyles.inputInactive
-                }
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                checked={state._is_on[index]}
-                id={day + index}
-                key={day + index + state._is_on[index]}
-                onChange={(e) => {
-                  let temp = state._is_on;
-                  temp[index] = !temp[index];
-                  State.update({ _is_on: temp });
-                  if (!e.target.value) {
-                    state._from[index] = "0";
-                    state._to[index] = "0";
-                    let error_temp = state._validate_error;
-                    State.update({
-                      _error_msg: `${(error_temp[index] = true)}`,
-                    });
-                    validate();
-                  }
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          style={
-            size == "big"
-              ? thisWidgetInlineStyles.dayPartContainerBig
-              : thisWidgetInlineStyles.dayPartContainerSmall
-          }
-        >
-          <div
-            className={thisWidgetClassNames.infoAndTitleContainer}
-            style={
-              size == "big"
-                ? thisWidgetInlineStyles.infoAndTitleContainer
-                : thisWidgetInlineStyles.infoAndTitleContainerSmall
-            }
-          >
-            <p
-              className={thisWidgetClassNames.showInResponsive}
-              style={thisWidgetInlineStyles.fontW600}
-            >
-              {tbl_headers[2]}
-            </p>
-            {timeSelector(true, index, size)}
-          </div>
-          <div
-            className={thisWidgetClassNames.infoAndTitleContainer}
-            style={
-              size == "big"
-                ? thisWidgetInlineStyles.infoAndTitleContainer
-                : thisWidgetInlineStyles.infoAndTitleContainerSmall
-            }
-          >
-            <p
-              className={thisWidgetClassNames.showInResponsive}
-              style={thisWidgetInlineStyles.fontW600}
-            >
-              {tbl_headers[3]}
-            </p>
-            {timeSelector(false, index, size)}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
 return (
   <div>
     {context.accountId ? (
       <div
-        style={thisWidgetInlineStyles.logedInGeneralContainer}
-        className={thisWidgetClassNames.logedInGeneralContainer}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+        className="align-items-center"
       >
-        <div style={thisWidgetInlineStyles.logedInSecondContainer}>
+        <div
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            color: "black",
+            borderRadius: "1rem",
+            flexDirection: "column",
+          }}
+        >
           <div
-            style={thisWidgetInlineStyles.logedInThirdContainer}
-            className={thisWidgetClassNames.logedInThirdContainer}
+            style={{
+              marginTop: "1rem",
+              justifyContent: "center",
+              width: "100%",
+              color: "black",
+              fontWeight: 400,
+              borderRadius: "1rem",
+              flexDirection: "column",
+            }}
           >
             <div
-              style={thisWidgetInlineStyles.headerContainer}
-              className={thisWidgetClassNames.headerContainer}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              className="mt-3"
             >
-              {tbl_headers.map((header) => (
-                <div style={thisWidgetInlineStyles.headerElement}>{header}</div>
+              <div
+                style={{
+                  display: "flex",
+                  background: "white",
+                  padding: "6px",
+                }}
+              >
+                <div style={flex_row}>
+                  {tbl_headers.map((header) => (
+                    <div style={table}>{header}</div>
+                  ))}
+                </div>
+              </div>
+              {days.map((day, index) => (
+                <div
+                  className="mb-2"
+                  style={{
+                    display: "flex",
+                    background: "white",
+                    padding: "6px",
+                    backgroundColor: "white",
+                    padding: "0.5rem 1.5rem",
+                    borderRadius: "0.8rem",
+                    border: "1.5px solid rgb(225, 233, 240)",
+                    color: "rgb(71, 77, 85)",
+                    letterSpacing: "-0.01em",
+                    width: "100%",
+                  }}
+                >
+                  <div style={flex_row}>
+                    <div style={table}>{day}</div>
+                    <div style={table}>
+                      <div className="form-check form-switch">
+                        <input
+                          style={
+                            state._is_on[index]
+                              ? {
+                                  backgroundColor: "rgb(53, 58, 64)",
+                                  borderColor: "rgb(71, 77, 85)",
+                                }
+                              : {
+                                  backgroundColor: "white",
+                                  borderColor: "rgb(118, 123, 142)",
+                                }
+                          }
+                          className="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          checked={state._is_on[index]}
+                          id={day + index}
+                          key={day + index + state._is_on[index]}
+                          onChange={(e) => {
+                            let temp = state._is_on;
+                            temp[index] = !temp[index];
+                            State.update({ _is_on: temp });
+                            if (!e.target.value) {
+                              state._from[index] = "0";
+                              state._to[index] = "0";
+                              let error_temp = state._validate_error;
+                              State.update({
+                                _error_msg: `${(error_temp[index] = true)}`,
+                              });
+                              validate();
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {timeSelector(true, index)}
+                    {timeSelector(false, index)}
+                  </div>
+                </div>
               ))}
             </div>
-            {days.map((day, index) => (
-              <>
-                {renderDayRow(day, index, "big")}
-
-                {renderDayRow(day, index, "small")}
-              </>
-            ))}
           </div>
         </div>
-        <div style={thisWidgetInlineStyles.showErrorContainer}>
+        <div
+          style={{
+            display: "flex",
+            flex: "1",
+            flexDirection: "row",
+            fontSize: "large",
+            color: "red",
+          }}
+        >
           {days.map((day, index) => {
             return !state._validate_error[index] && `${day} `;
           })}
           {!state._validate_result && "time set wrong"}
         </div>
-        <div className={thisWidgetClassNames.buttonsContainer}>
+        <div className="mt-3 w-100 d-flex flex-row-reverse justify-content-between">
           {!state._sent ? (
             <CommitButton
               style={
                 state.hoveringElement == "saveButton"
-                  ? thisWidgetInlineStyles.buttonHovered
-                  : thisWidgetInlineStyles.buttonStandard
+                  ? {
+                      border: "2px solid black",
+                      color: "black",
+                      backgroundColor: "white",
+                      fontWeight: "500",
+                      fontSize: "1rem",
+                      margin: "0",
+                      padding: "0.3rem 1.5rem",
+                      borderRadius: "12px",
+                    }
+                  : {
+                      border: "2px solid transparent",
+                      fontWeight: "500",
+                      fontSize: "1rem",
+                      margin: "0",
+                      padding: "0.3rem 1.5rem",
+                      backgroundColor: "#010A2D",
+                      borderRadius: "12px",
+                      color: "white",
+                    }
               }
               onMouseEnter={() => {
                 State.update({ hoveringElement: "saveButton" });
@@ -444,8 +432,26 @@ return (
               }}
               style={
                 state.hoveringElement == "viewScheduels"
-                  ? thisWidgetInlineStyles.buttonHovered
-                  : thisWidgetInlineStyles.buttonStandard
+                  ? {
+                      border: "2px solid black",
+                      color: "black",
+                      backgroundColor: "white",
+                      fontWeight: "500",
+                      fontSize: "1rem",
+                      margin: "0",
+                      padding: "0.3rem 1.5rem",
+                      borderRadius: "12px",
+                    }
+                  : {
+                      border: "2px solid transparent",
+                      fontWeight: "500",
+                      fontSize: "1rem",
+                      margin: "0",
+                      padding: "0.3rem 1.5rem",
+                      backgroundColor: "#010A2D",
+                      borderRadius: "12px",
+                      color: "white",
+                    }
               }
               onMouseEnter={() => {
                 State.update({ hoveringElement: "viewScheduels" });
@@ -470,8 +476,24 @@ return (
             }}
             style={
               state.hoveringElement == "cancelNewSchedule"
-                ? thisWidgetInlineStyles.buttonHovered
-                : thisWidgetInlineStyles.buttonStandard
+                ? {
+                    border: "2px solid transparent",
+                    fontWeight: "500",
+                    fontSize: "1rem",
+                    padding: "0.3rem 1.5rem",
+                    backgroundColor: "#010A2D",
+                    borderRadius: "12px",
+                    color: "white",
+                  }
+                : {
+                    border: "2px solid black",
+                    color: "black",
+                    backgroundColor: "white",
+                    fontWeight: "500",
+                    fontSize: "1rem",
+                    padding: "0.3rem 1.5rem",
+                    borderRadius: "12px",
+                  }
             }
           >
             Cancel
