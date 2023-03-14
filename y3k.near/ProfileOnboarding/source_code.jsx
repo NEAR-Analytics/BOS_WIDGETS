@@ -1,19 +1,92 @@
 const accountId = props.debugAccountId ?? context.accountId;
 
 // change this back to !accountId
-if (!accountId) {
+if (accountId) {
   return (
-    <div
-      className="alert alert-success rounded-4 mb-3"
-      style={{
-        background:
-          "linear-gradient(to right, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9))",
-      }}
-    >
-      <div className="text-end">
-        <div className="fw-bold">
-          Login With NEAR WALLET
-          <i class="fs-1 align-middle bi bi-arrow-return-right" />
+    <div class="container py-6">
+      <div class="row align-items-center">
+        <div class="col-xl-6">
+          <div class="lc-block mb-3">
+            <div editable="rich">
+              <h2 class="fw-bold display-5">NEAR ATLAS</h2>
+            </div>
+          </div>
+          <div class="lc-block mb-3">
+            <div editable="rich">
+              <p class="fw-light rfs-11">
+                Your Very Own Atlas To Find Everything About NEAR.
+                <br />
+                Map Your Journey With Us.
+                <br />
+              </p>
+            </div>
+          </div>
+          <div class="lc-block">
+            <div editable="rich">
+              <p>
+                {" "}
+                Discover a decentralized world with our all-in-one on-chain
+                atlas. Our atlas brings together explorers, creators, and
+                communities in one accessible location. <br />
+                Experience seamless transactions, secure listings, and a
+                user-friendly interface that makes exploring the NEAR blockchain
+                ecosystem easier than ever before.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 row row-cols-1 row-cols-md-2 g-3 counter-1">
+          <div class="col">
+            <div class="card card-body shadow border-0">
+              <div class="d-inline-flex align-items-center">
+                <div></div>
+                <div>
+                  <p class="lead" editable="inline">
+                    <strong>Projects</strong>Done
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card card-body shadow border-0">
+              <div class="d-inline-flex align-items-center">
+                <div></div>
+
+                <div>
+                  <p editable="inline" class="lead">
+                    <strong>Customers</strong>Satisfied
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card card-body shadow border-0">
+              <div class="d-inline-flex align-items-center">
+                <div></div>
+
+                <div>
+                  <p editable="inline" class="lead">
+                    <strong>Employees</strong>in the World
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card card-body shadow border-0">
+              <div class="d-inline-flex align-items-center">
+                <div></div>
+
+                <div>
+                  <p editable="inline" class="lead">
+                    <strong>Branches</strong>In EU
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
