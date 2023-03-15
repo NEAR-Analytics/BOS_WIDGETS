@@ -1,1 +1,1 @@
-return `Hello ${props.name}`;
+return "Hello World";
