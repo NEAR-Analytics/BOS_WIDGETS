@@ -1,11 +1,14 @@
-const fc = () => {
-  Near.call("hello.near-examples.near", "set_greeting", { greeting: "hi" });
-};
+// const redirectMap = {
+//   "mob.near/widget/ProfileCircle": {code: "return <h2>🤖🤖🤖🤖🤖 OVERRIDE</h2>"},
+//   "mob.near/widget/ProfileImage": {code: "return <h2>🤖🤖🤖🤖🤖 OVERRIDE</h2>"},
+// };
 
 return (
   <>
-    {context.accountId}
-    <br />
-    <button onClick={fc}> Set Greeting </button>
+    <h2> Profile Circle </h2>
+    <Widget src="mob.near/widget/ProfileCircle" />
+
+    <h2> Profile Image </h2>
+    <Widget src="mob.near/widget/ProfileImage" />
   </>
 );
