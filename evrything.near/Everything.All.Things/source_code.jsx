@@ -3,18 +3,18 @@ const LIMIT = 10;
 const NUM_COLUMNS_SM = 1;
 const NUM_COLUMNS_LG = 3;
 
-// const type = props.type;
+const type = props.type;
 
-// if (!type) {
-//   return (
-//     <Widget
-//       src={ERROR_WIDGET}
-//       props={{
-//         message: `provided type: "${props.type}" is not valid.`,
-//       }}
-//     />
-//   );
-// }
+if (type === null) {
+  return (
+    <Widget
+      src={ERROR_WIDGET}
+      props={{
+        message: `provided type: "${props.type}" is not valid.`,
+      }}
+    />
+  );
+}
 
 State.init({
   widgets: [],
@@ -22,19 +22,16 @@ State.init({
 });
 
 const loadThings = async () =>
-  asyncFetch("https://monkfish-app-ginhc.ondigitalocean.app/graphql", {
+  asyncFetch(type.queries?.getAll.url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query:
-        'query findThingsByType($limit: Int, $offset: Int) { findThings(type: {is: "efiz.near/type/Idea" }, limit: $limit, offset: $offset) { id, name, type } }',
+      query: type.queries?.getAll.query
+        .replace("LIMIT", LIMIT)
+        .replace("OFFSET", state.cursor),
     }),
-    variables: {
-      limit: LIMIT,
-      offset: state.cursor,
-    },
   }).then((res) => {
     if (res.body) {
       const things = res.body.data?.findThings;
@@ -47,6 +44,7 @@ const loadThings = async () =>
               props={{
                 thingId: thing.id,
                 type: thing.type,
+                widget: type.widgets?.view,
               }}
             />
           </div>
