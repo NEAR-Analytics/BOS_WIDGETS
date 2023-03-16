@@ -4,57 +4,62 @@ const ThingContainer = styled.div`
   padding: 2px;
 `;
 
-const Toolbar = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: baseline;
-  gap: 8px;
-`;
+const thingId = props.thingId;
 
-const Icon = styled.button`
-  cursor: pointer;
-  text-transform: lowercase !important;
-`;
-
-const src = props.src;
-
-const accountId = props.accountId;
-const blockHeight = parseInt(props.blockHeight);
-const content = JSON.parse(
-  Social.get(`${accountId}/thing/main`, blockHeight) ?? "null"
-);
-
-const hideThing = () => {
-  // this will hide from ALL domains... how can this be selective?
-  // and it only works if hidden by the account...
-  // maybe the "owner" account could have moderation abilities
-  Social.set(
-    {
-      modification: {
-        [blockHeight]: {
-          "": JSON.stringify({ action: "HIDE" }),
-        },
-      },
-    },
-    {
-      force: true,
-    }
+if (thingId === null) {
+  return (
+    <Widget
+      src={ERROR_WIDGET}
+      props={{
+        message: "thing id was not provided.",
+      }}
+    />
   );
-};
+}
+
+const type = props.type;
+
+if (type === null) {
+  return (
+    <Widget
+      src={ERROR_WIDGET}
+      props={{
+        message: `provided type: "${props.type}" is not valid.`,
+      }}
+    />
+  );
+}
+
+const data = fetch(type.queries?.getById.url, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    query: type.queries?.getById.query,
+    variables: {
+      thingId: thingId,
+    },
+  }),
+});
+
+if (data.body.errors) {
+  return (
+    <Widget
+      src={ERROR_WIDGET}
+      props={{
+        message: JSON.stringify(data.body.errors[0].message),
+      }}
+    />
+  );
+}
 
 return (
   <ThingContainer>
-    <Toolbar>
-      <p>thing created by : {accountId}</p>
-      {context.accountId === accountId ? (
-        <Icon onClick={hideThing}>Hide</Icon>
-      ) : null}
-    </Toolbar>
-
     <Widget
-      src={src}
+      src={props.widget}
       props={{
-        data: content,
+        data: data.body.data,
       }}
     />
   </ThingContainer>
