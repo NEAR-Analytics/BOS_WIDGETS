@@ -12,27 +12,11 @@ if (profile === null) {
 const description = profile.description;
 
 const pills = [
-  { id: "overview", title: "Overview" },
   { id: "posts", title: "Posts" },
+  { id: "overview", title: "Overview" },
   { id: "nfts", title: "NFTs" },
   { id: "widget", title: "Widgets" },
 ];
-
-const cssFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-).body;
-
-const css = fetch(
-  "https://raw.githubusercontent.com/cryptosynk/near-social-profile/main/css/mainLight.css"
-).body;
-
-const theme = "light";
-
-const Theme = styled.div`
-  font-family: "Open Sans", sans-serif;
-  ${cssFont}
-  ${css}
-`;
 
 return (
   <>
@@ -60,7 +44,7 @@ return (
     </ul>
     <div className="tab-content" id="pills-tabContent">
       <div
-        className="tab-pane fade "
+        className="tab-pane fade show active"
         id="pills-posts"
         role="tabpanel"
         aria-labelledby="pills-posts-tab"
@@ -79,19 +63,6 @@ return (
             props={{ accounts: [accountId] }}
           />
         </div>
-      </div>
-      <div
-        className="tab-pane fade show active"
-        id="pills-overview"
-        role="tabpanel"
-        aria-labelledby="pills-overview-tab"
-      >
-        <Theme>
-          <Widget
-            src="y3k.near/widget/Profile.RightSection"
-            props={{ accountId, profile, theme }}
-          />
-        </Theme>
       </div>
       <div
         className="tab-pane fade"
