@@ -93,8 +93,6 @@ upvotes.forEach((upvote) => {
 
 const finalData = sortedData;
 
-console.log(1, finalData[0]);
-
 /* BEGIN Common.componse  */
 const composeData = () => {
   const data = {
@@ -180,7 +178,7 @@ const RenderKudoBox = (d) => {
   return (
     <>
       <Widget
-        src={`${widgetOwner}/widget/Kudos.Post`}
+        src={`${widgetOwner}/widget/MainPage.Post`}
         props={{ content: d, upvotes }}
       />
 
@@ -254,7 +252,7 @@ return (
         index: {
           kudo: JSON.stringify(
             {
-              key: "post",
+              key: "answer",
               value: {
                 answer: state.content.text,
                 url: state.url,
