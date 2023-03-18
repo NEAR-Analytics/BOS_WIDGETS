@@ -1,80 +1,64 @@
+const data = props;
+
 const Card = styled.div`
-  background-color: white;
-  padding: 12px;
-  margin: 8px;
+    height: 125px;
+    background-color: white;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 22px;
+    box-shadow: 5px 5px 5px gray;
+    border: solid gray;
 `;
+
 const Icon = styled.div`
-  height: 24px;
-  width: 24px;
+    height: 24px;
+    width: 24px;
 `;
-const Header = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-`;
-const Title = styled.div`
-    font-size: 24px;
-    line-height: 33.6px;
-`;
+
 const Body = styled.div`
-  margin-left: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `;
+
 const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 `;
+
+const Title = styled.div`
+    max-height: 56px;
+    font-size: 20px;
+    line-height: 28px;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+`;
+
+const Preview = styled.div`
+    font-size: 16px;
+    line-height: 20.8px;
+    color: #A6A6A6;
+    overflow: hidden;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+`;
+
 const Caption = styled.div`
     font-size: 12px;
     line-height: 15.6px;
     color: #A6A6A6;
 `;
-
-const thingId = props.data.thingId;
-
-if (thingId === null) {
-  return (
-    <Widget
-      src={ERROR_WIDGET}
-      props={{
-        message: "thing id was not provided.",
-      }}
-    />
-  );
-}
-
-const data = fetch("https://monkfish-app-ginhc.ondigitalocean.app/graphql", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "X-Everything": "simple",
-  },
-  body: JSON.stringify({
-    query:
-      "query findIdeaById($is: ID) { findIdeas(id: {is: $is}) { name, description { md }, creationDate } }",
-    variables: {
-      thingId: thingId,
-    },
-  }),
-});
-
-if (data.body.errors) {
-  return (
-    <Widget
-      src={ERROR_WIDGET}
-      props={{
-        message: JSON.stringify(data.body.errors[0].message),
-      }}
-    />
-  );
-}
-
-data = data.body.data.findIdeas[0];
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -107,10 +91,8 @@ return (
       </Icon>
       <Body>
         <Content>
-          <Title>{data.name}</Title>
-          <Markdown text={data.description.md} />
+          <Title>{JSON.stringify(props)}</Title>
         </Content>
-        <Caption>{formatDate(data.creationDate)}</Caption>
       </Body>
     </div>
   </Card>
