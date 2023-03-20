@@ -1,26 +1,43 @@
-const tabs = {
-  ALL_kUDOS: {
-    id: 0,
-    text: "All Kudos",
+State.init({
+  input: "",
+  url: "",
+  onChange: ({ content }) => {
+    State.update({ content });
   },
-  KUDO: {
-    id: 1,
-    text: "Kudo",
-  },
-};
-
-const blockHeight = props.blockHeight ?? undefined;
-
-const updateGeneralState = props.updateGeneralState;
+});
 
 const thisWidgetInlineStyles = props.allWidgetsInlineStyles.kudos;
 const thisWidgetClassNames = props.allWidgetsClassNames.kudos;
 
-const widgetOwner = props.widgetOwner;
-
+const widgetOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const widgetName = "Kudos";
 const widgetPath = `webuidl.near/widget/${widgetName}`;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
+
+const card = {
+  background: "linear-gradient(to right, #4deeea, #f000ff)",
+  border: "1px solid black",
+  borderRadius: "5px",
+  textAlign: "center",
+  color: "white",
+  padding: "10px",
+};
+
+const button = {
+  borderRadius: "5px",
+  margin: "5px 0",
+  padding: "8px",
+  textAlign: "center",
+  background: "linear-gradient(to left, #FFD50D, #4498E0)",
+  border: "2px solid black",
+  fontWeight: "bold",
+};
+
+const imgWH = {
+  width: "25px",
+  height: "25px",
+};
 
 const urlPrefix = "https://";
 const accountId = props.accountId ?? "*";
@@ -81,23 +98,6 @@ upvotes.forEach((upvote) => {
 
 const finalData = sortedData;
 
-const kudoBlockHeightFiltered = finalData.filter(
-  (d) => d.blockHeight == blockHeight
-);
-
-const openKudo = kudoBlockHeightFiltered[0] ?? {};
-
-State.init({
-  hoveringElement: "",
-  input: "",
-  url: "",
-  onChange: ({ content }) => {
-    State.update({ content });
-  },
-  display: blockHeight ? tabs.KUDO.id : tabs.ALL_kUDOS.id,
-  kudos: openKudo,
-});
-
 /* BEGIN Common.componse  */
 const composeData = () => {
   const data = {
@@ -150,121 +150,138 @@ const composeData = () => {
 
 /* END CommentButton  */
 
-const RenderKudoBox = (d, index) => {
-  return (
-    <Widget
-      src={`${widgetOwner}/widget/kudoBox`}
-      props={{
-        tabs,
-        oppenedTab: state.display,
-        widgetOwner,
-        d,
-        index,
-        upvotes,
-        updateGeneralState,
-        allWidgetsInlineStyles: props.allWidgetsInlineStyles,
-        allWidgetsClassNames: props.allWidgetsClassNames,
-      }}
-    />
-  );
-};
-
-return (
-  <div
-    style={thisWidgetInlineStyles.generalContainer}
-    className={thisWidgetClassNames.generalContainer}
-  >
-    <div className={thisWidgetClassNames.selectedTabContainer}>
-      <h2 style={thisWidgetInlineStyles.selectedTab}>
-        {state.display == tabs.ALL_kUDOS.id
-          ? tabs.ALL_kUDOS.text
-          : `${tabs.KUDO.text}`}
-      </h2>
-      {state.display == tabs.KUDO.id && (
-        <i
-          className="bi bi-x-lg"
-          style={thisWidgetInlineStyles.closeKudoButton}
-          onClick={() => {
-            State.update({ display: tabs.ALL_kUDOS.id, kudo: {} });
-          }}
-        ></i>
-      )}
-    </div>
-
-    {state.display == tabs.ALL_kUDOS.id && (
-      <>
-        <p>An accolade, a Thank You, a Job Well Done. Give em a Kudo!👏 </p>
+/* START CommentBox */
+const RenderAllCommentAnswerBox = (d) => {
+  return d.value.comments.map((c) => {
+    return (
+      <div style={thisWidgetInlineStyles.allCommentAnswerBox.container}>
         <Widget
-          src={`${widgetOwner}/widget/Common.Compose`}
+          src="mob.near/widget/ProfileImage"
           props={{
-            id: "main",
-            textAreaOnly: true,
-            onChange: state.onChange,
-            onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-              State.update({ extractMentionNotifications, extractHashtags });
-            },
+            accountId: c.accountId,
+            className: "d-inline-block",
+            style:
+              thisWidgetInlineStyles.allCommentAnswerBox.profileImageStyles,
           }}
         />
+        <a href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}>
+          {c.accountId}
+        </a>
+        I BuiDL... <b>{c.value.commentAnswer}&nbsp;&nbsp;&nbsp;</b>
+        <Widget
+          src="mob.near/widget/FollowButton"
+          props={{ accountId: c.accountId }}
+        />
+      </div>
+    );
+  });
+};
 
-        <div className={thisWidgetClassNames.urlTextareaContainer}>
-          <p>Url:</p>
-          <textarea
-            style={thisWidgetInlineStyles.urlTextarea}
-            rows="1"
-            value={state.url}
-            onChange={(e) => {
-              State.update({ url: e.target.value });
-            }}
-          />
-        </div>
-        <CommitButton
-          style={
-            state.hoveringElement == "commitButton"
-              ? props.allWidgetsInlineStyles.hoveringButtonStyles
-              : props.allWidgetsInlineStyles.standardButtonStyles
-          }
-          data={{
-            index: {
-              kudo: JSON.stringify(
-                {
-                  key: "answer",
-                  value: {
-                    answer: state.content.text,
-                    url: state.url,
-                  },
-                },
-                undefined,
-                0
-              ),
-            },
-          }}
-          onMouseEnter={() => {
-            State.update({ hoveringElement: "commitButton" });
-          }}
-          onMouseLeave={() => {
-            State.update({ hoveringElement: "" });
-          }}
-          onCommit={() => {
-            State.update({
-              reloadData: true,
-            });
-          }}
-        >
-          Kudos!
-        </CommitButton>
-      </>
-    )}
+/* END CommentBox  */
 
-    {state.display == tabs.ALL_kUDOS.id && (
-      <div className={thisWidgetClassNames.allCardsContainer}>
-        {sortedData
-          ? sortedData.map((d, index) => {
-              return RenderKudoBox(d, index);
-            })
-          : "Loading..."}
+/* START KudoBox */
+const RenderKudoBox = (d) => {
+  return (
+    <>
+      <Widget
+        src={`${widgetOwner}/widget/MainPage.Post`}
+        props={{ content: d, upvotes }}
+      />
+
+      {RenderAllCommentAnswerBox(d)}
+    </>
+  );
+};
+/* END KudoBox  */
+
+return (
+  <div>
+    <div
+      className={thisWidgetClassNames.imageWidgetContainer}
+      style={thisWidgetInlineStyles.imageWidgetContainer}
+    >
+      <Widget
+        src="mob.near/widget/Image"
+        props={{
+          image: metadata.image,
+          className: "w-100 h-100 shadow",
+          style: thisWidgetInlineStyles.imageWidget,
+          thumbnail: false,
+          fallbackUrl:
+            "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e",
+          alt: widgetName,
+        }}
+      />
+    </div>
+    <p>An accolade, a Thank You, a Job Well Done. Give em a Kudo!👏 </p>
+    <Widget
+      src={`${widgetOwner}/widget/Common.Compose`}
+      props={{
+        id: "main",
+        textAreaOnly: true,
+        onChange: state.onChange,
+        onHelper: ({ extractMentionNotifications, extractHashtags }) => {
+          State.update({ extractMentionNotifications, extractHashtags });
+        },
+      }}
+    />
+    {state.content && (
+      <div>
+        <Widget
+          src="mob.near/widget/MainPage.Post"
+          props={{
+            accountId: context.accountId,
+            content: state.content,
+            blockHeight: "now",
+            onChange: state.onChange,
+          }}
+        />
       </div>
     )}
-    {state.display == tabs.KUDO.id && RenderKudoBox(state.kudos, 0)}
+    <div className="d-flex flex-column w-75 my-3 justify-content-around">
+      <p>Url:</p>
+      <textarea
+        style={{
+          backgroundColor: "#fafafa",
+          border: "1px solid #fafafa",
+          borderRadius: "0.375rem",
+        }}
+        rows="1"
+        value={state.url}
+        onChange={(e) => {
+          State.update({ url: e.target.value });
+        }}
+      />
+    </div>
+    <CommitButton
+      style={button}
+      data={{
+        index: {
+          kudo: JSON.stringify(
+            {
+              key: "answer",
+              value: {
+                answer: state.content.text,
+                url: state.url,
+              },
+            },
+            undefined,
+            0
+          ),
+        },
+      }}
+      onCommit={() => {
+        State.update({
+          reloadData: true,
+        });
+      }}
+    >
+      Kudos!
+    </CommitButton>
+    <br />
+    <br />
+    <div>
+      {sortedData ? sortedData.map((d) => RenderKudoBox(d)) : "Loading..."}
+    </div>
   </div>
 );
-s;
