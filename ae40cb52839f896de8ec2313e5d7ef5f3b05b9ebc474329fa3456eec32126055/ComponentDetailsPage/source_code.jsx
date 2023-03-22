@@ -1,6 +1,6 @@
 State.init({
   copiedShareUrl: false,
-  selectedTab: props.tab ?? "source",
+  selectedTab: props.tab ?? "discussion",
 });
 
 if (props.tab && props.tab !== state.selectedTab) {
@@ -17,8 +17,8 @@ const code = Social.get(`${accountId}/widget/${widgetName}`);
 const data = Social.get(`${accountId}/widget/${widgetName}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `#/near/widget/ComponentDetailsPage?src=${src}`;
-const shareUrl = `https://near.org${detailsUrl}`;
+const detailsUrl = `/#/calebjacob.near/widget/ComponentDetailsPage?src=${src}`;
+const shareUrl = `https://alpha.near.org${detailsUrl}`;
 
 const dependencyMatch =
   code && code.matchAll(/<Widget[\s\S]*?src=.*?"(.+)"[\s\S]*?\/>/g);
@@ -30,37 +30,37 @@ dependencySources = dependencySources.filter(
 );
 
 const sourceCode = `
-\`\`\`jsx
-${code}
-\`\`\`
-`;
+  \`\`\`jsx
+  ${code}
+  \`\`\`
+  `;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
-`;
+  `;
 
 const SummaryWrapper = styled.div`
   margin-bottom: 32px;
-`;
+  `;
 
 const Tabs = styled.div`
   display: flex;
   height: 48px;
-  border-bottom: 1px solid #eceef0;
+  border-bottom: 1px solid #ECEEF0;
   margin-bottom: 32px;
   overflow: auto;
   scroll-behavior: smooth;
-
+  
   @media (max-width: 900px) {
-    background: #f8f9fa;
-    border-top: 1px solid #eceef0;
+    background: #F8F9FA;
+    border-top: 1px solid #ECEEF0;
     margin: 0 -12px 48px;
-
+  
     > * {
-      flex: 1;
+    flex: 1;
     }
   }
-`;
+  `;
 
 const TabsButton = styled.a`
   display: inline-flex;
@@ -77,53 +77,53 @@ const TabsButton = styled.a`
   outline: none;
   text-align: center;
   text-decoration: none !important;
-
+  
   &:hover {
-    color: #11181c;
+    color: #11181C;
   }
-
+  
   &::after {
-    content: "";
+    content: '';
     display: ${(p) => (p.selected ? "block" : "none")};
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 3px;
-    background: #59e692;
+    background: #59E692;
   }
-`;
+  `;
 
 const Content = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr) 336px;
   gap: 64px;
-
+  
   @media (max-width: 995px) {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-`;
+  `;
 
 const Sidebar = styled.div`
   > div {
     padding-bottom: 32px;
-    border-bottom: 1px solid #eceef0;
+    border-bottom: 1px solid #ECEEF0;
     margin-bottom: 32px;
-
+  
     &:last-child {
       padding-bottom: 0;
       border-bottom: none;
       margin-bottom: 0;
     }
   }
-
+  
   @media (max-width: 995px) {
     padding-bottom: 32px;
-    border-bottom: 1px solid #eceef0;
+    border-bottom: 1px solid #ECEEF0;
     grid-row: 1;
   }
-`;
+  `;
 
 const SmallTitle = styled.h3`
   color: #687076;
@@ -132,21 +132,21 @@ const SmallTitle = styled.h3`
   line-height: 15px;
   margin-bottom: 32px;
   text-transform: uppercase;
-
+  
   @media (max-width: 770px) {
     margin-bottom: 16px;
   }
-`;
+  `;
 
 const TextLink = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #0091ff;
+  color: #0091FF;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
-`;
+  `;
 
 const Text = styled.p`
   margin: 0;
@@ -155,21 +155,33 @@ const Text = styled.p`
   color: ${(p) => (p.bold ? "#11181C" : "#687076")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
-
+  
   i {
     margin-right: 4px;
   }
-`;
+  `;
 
 const Dependency = styled.div`
   margin-bottom: 24px;
-`;
+  `;
 
 const HistoryContainer = styled.div`
   > div > h1,
   > div > .input-group.mb-3 {
     display: none;
   }
+  `;
+
+const DiscussionContainer = styled.div`
+  @media (max-width: 1200px) {
+    > div:first-child {
+      border-top: none;
+    }
+  }
+`;
+
+const ComposeWrapper = styled.div`
+  border-top: 1px solid #ECEEF0;
 `;
 
 if (!exists) {
@@ -185,7 +197,7 @@ return (
   <Wrapper>
     <SummaryWrapper>
       <Widget
-        src="near/widget/ComponentSummary"
+        src="calebjacob.near/widget/ComponentSummary"
         props={{
           primaryAction: "open",
           size: "large",
@@ -216,7 +228,6 @@ return (
       >
         History
       </TabsButton>
-
       <TabsButton
         href={`${detailsUrl}&tab=discussion`}
         selected={state.selectedTab === "discussion"}
@@ -238,14 +249,14 @@ return (
         <Sidebar>
           {(tags.includes("Coming Soon") || tags.includes("coming-soon")) && (
             <div>
-              <Widget src="near/widget/waitList" />
+              <Widget src="calebjacob.near/widget/waitList" />
             </div>
           )}
 
           <div>
             <SmallTitle>Developer</SmallTitle>
             <Widget
-              src="near/widget/AccountProfile"
+              src="calebjacob.near/widget/AccountProfile"
               props={{
                 accountId: accountId,
               }}
@@ -256,7 +267,7 @@ return (
             <div>
               <SmallTitle>Tags</SmallTitle>
               <Widget
-                src="near/widget/Tags"
+                src="calebjacob.near/widget/Tags"
                 props={{
                   tags,
                 }}
@@ -307,7 +318,7 @@ return (
             {dependencySources.map((source) => (
               <Dependency key={source}>
                 <Widget
-                  src="near/widget/ComponentProfile"
+                  src="calebjacob.near/widget/ComponentProfile"
                   props={{ src: source }}
                 />
               </Dependency>
@@ -327,12 +338,11 @@ return (
     )}
 
     {state.selectedTab === "discussion" && (
-      <Content>
-        <Widget
-          src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions"
-          props={{ identifier: src, notifyAccountId: accountId }}
-        />
-      </Content>
+      <DiscussionContainer>
+        <ComposeWrapper>
+          <Widget src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/ComponentDetailsPage.Discussion.Compose" />
+        </ComposeWrapper>
+      </DiscussionContainer>
     )}
   </Wrapper>
 );
