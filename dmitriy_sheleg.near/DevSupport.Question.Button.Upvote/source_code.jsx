@@ -1,5 +1,8 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
+// const accountId =
+// "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055";
+// const blockHeight = 84207156;
 
 if (accountId === undefined || blockHeight === undefined) {
   return;
@@ -73,12 +76,6 @@ const Button = styled.button`
   border-radius: 50px;
   color: #687076;
   padding: 8px 12px 12px;
-  transition: all .15s ease;
-
-  &:hover {
-    color: #30A46C;
-    border-color: #30A46C;
-  }
 `;
 
 return (
