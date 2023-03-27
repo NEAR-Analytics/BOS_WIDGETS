@@ -4,6 +4,10 @@ if (!context.accountId) {
 
 const item = props.item;
 
+if (!context.accountId) {
+  return "";
+}
+
 const composeData = () => {
   const data = {
     question: {
@@ -34,6 +38,8 @@ const composeData = () => {
     });
   }
 
+  console.log("reply to: ", props.notifyAccountId);
+
   if (notifications.length) {
     data.index.notify = JSON.stringify(
       notifications.length > 1 ? notifications : notifications[0]
@@ -52,29 +58,26 @@ State.init({
 return (
   <>
     <Widget
-      src="dmitriy_sheleg.near/widget/DevSupport.Compose"
+      src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Compose"
       props={{
-        placeholder: `Reply${
-          props.notifyAccountId ? ` to ${props.notifyAccountId}` : ""
-        }`,
+        placeholder: "Reply",
         initialText: props.initialText,
         onChange: state.onChange,
         onHelper: ({ extractTagNotifications }) => {
           State.update({ extractTagNotifications });
         },
-        withProfileImage: context.accountId,
         composeButton: (onCompose) => (
           <CommitButton
             disabled={!state.content}
             force
-            className="commit-post-button"
+            className="btn btn-dark rounded-3"
             data={composeData}
             onCommit={() => {
               onCompose();
               props.onComment && props.onComment(state.content);
             }}
           >
-            Reply
+            Answer
           </CommitButton>
         ),
       }}
