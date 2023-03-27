@@ -23,10 +23,8 @@ const item = {
   path: `${accountId}/question/main`,
   blockHeight,
 };
-const repliesCount = Social.index("answer", item);
 
-const questionUrl = `#/dmitriy_sheleg.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-const shareUrl = `https://near.social${questionUrl}`;
+const link = `#/ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const footer = (
   <div className="card-header p-2" style={{ border: "1px solid #ccc" }}>
@@ -71,151 +69,80 @@ const footer = (
   </div>
 );
 
-const H2 = styled.h2`
-  font-size: 20px;
-  font-weight: 600;
-  color: #11181C;
-  }
-`;
-const H4 = styled.h4`
-  font-size: 14px;
-  font-weight: 500;
-  color: #687076;
-
-  a {
-    color: inherit;
-    transition: color .15s ease;
-    &:hover {
-      color: #30A46C;
-      text-decoration: none;
-    }
-
-    & i {
-      transition: color .1s ease-out;
-      color: inherit;
-    }
-  }
-`;
-const H6 = styled.h6`
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #687076;
-`;
-const SidebarWrapper = styled.div`
-  border-left: 1px solid #ECEEF0;
-`;
-const ShareButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 25px;
-  height: 40px;
-  border-radius: 100px;
-  font-weight: 600;
-  font-size: 12px;
-  text-align: center;
-  cursor: pointer;
-  background: #FBFCFD;
-  border: 1px solid #D7DBDF;
-  color: #006ADC !important;
-  white-space: nowrap;
-
-  &:hover,
-  &:focus {
-    background: #ECEDEE;
-    text-decoration: none;
-    outline: none;
-  }
-
-  i {
-    color: #7E868C;
-  }
-
-  .bi-16 {
-    font-size: 16px;
-  }
-`;
-
 return (
   <div className="container pt-2 pb-5">
-    <H4>
-      <a href="https://near.social/#/dmitriy_sheleg.near/widget/DevSuport.Main">
-        <i class="bi bi-arrow-left me-2" />
-        Back to Discussions
+    <a href="https://near.social/#/ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSuport.Main">
+      Go Back
+    </a>
+
+    <h2 class="mt-3">
+      <a className="text-black" href={link}>
+        {question.title}
       </a>
-    </H4>
+    </h2>
 
-    <div class="row mt-5">
-      <div class="col-8 pe-5">
-        <Widget
-          src="dmitriy_sheleg.near/widget/DevSupport.Question.PreviewDetailed"
-          props={{
-            accountId,
-            blockHeight,
-            admins,
-            adminContract,
-            question,
-            children: (
-              <>
-                {context.accountId && (
-                  <Widget
-                    src="dmitriy_sheleg.near/widget/DevSupport.Answer.Edit"
-                    props={{
-                      notifyAccountId: accountId,
-                      item,
-                      onComment: () => State.update({ showReply: false }),
-                    }}
-                  />
-                )}
+    <Widget
+      src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.LabelsDisplay"
+      props={{ labels: question.labels }}
+    />
 
-                <H2 className="mt-5 mb-4">{repliesCount.length} Replies</H2>
-                <div class="row">
-                  <div class="col-12">
-                    <Widget
-                      src="dmitriy_sheleg.near/widget/DevSupport.Answer.Feed"
-                      props={{ item, admins, adminContract }}
-                    />
-                  </div>
-                </div>
-              </>
-            ),
-          }}
-        />
-      </div>
-      <SidebarWrapper className="col-4 ps-5">
-        <Widget
-          src="dmitriy_sheleg.near/widget/AccountProfileCard"
-          props={{ accountId }}
-        />
-        <H6 className="pt-5 pb-3">share</H6>
-
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-        >
-          <ShareButton
-            className="share-url"
-            type="button"
-            onMouseLeave={() => {
-              State.update({ copiedShareUrl: false });
-            }}
-            onClick={() => {
-              clipboard.writeText(shareUrl).then(() => {
-                State.update({ copiedShareUrl: true });
-              });
-            }}
-          >
-            {state.copiedShareUrl ? (
-              <i className="bi-16 bi bi-check"></i>
-            ) : (
-              <i className="bi-16 bi-link-45deg"></i>
-            )}
-          </ShareButton>
-        </OverlayTrigger>
-      </SidebarWrapper>
+    <div className="py-2 text-break">
+      <Widget
+        src="mob.near/widget/MainPage.Post.Content"
+        props={{ content: { text: question.content.text } }}
+      />
     </div>
-    {/*{footer}*/}
+
+    {question.content.image.ipfs_cid && (
+      <>
+        <div
+          class="text-center mt-1 mb-3 mx-auto"
+          style={{
+            borderBottom: "1px solid #eee",
+            maxHeight: "220px",
+            maxWidth: "78vw",
+            overflow: "scroll",
+            borderTop: "1px solid #eee",
+          }}
+        >
+          <img
+            src={`https://ipfs.near.social/ipfs/${question.content.image.ipfs_cid}`}
+            alt="uploaded"
+          />
+        </div>
+      </>
+    )}
+
+    {footer}
+
+    <div class="mt-3 mb-5" />
+
+    <h4 class="mb-3"> Community Answers </h4>
+
+    <Widget
+      src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Answer.Feed"
+      props={{ item, admins, adminContract }}
+    />
+
+    <div class="mb-5" />
+
+    {context.accountId && (
+      <>
+        <hr class="w-75 mx-auto mb-5" />
+        <div class="p-4" style={{ border: "1px solid rgb(118, 203, 238)" }}>
+          <h4 class="mb-2"> Your Answer </h4>
+
+          <Widget
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Answer.Edit"
+            props={{
+              notifyAccountId: accountId,
+              item,
+              onComment: () => State.update({ showReply: false }),
+            }}
+          />
+        </div>
+        <div class="mb-5" />
+      </>
+    )}
   </div>
 );
