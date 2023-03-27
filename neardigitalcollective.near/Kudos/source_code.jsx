@@ -95,7 +95,7 @@ State.init({
     State.update({ content });
   },
   display: blockHeight ? tabs.KUDO.id : tabs.ALL_kUDOS.id,
-  kudos: openKudo,
+  kudo: openKudo,
 });
 
 /* BEGIN Common.componse  */
@@ -264,7 +264,6 @@ return (
           : "Loading..."}
       </div>
     )}
-    {state.display == tabs.KUDO.id && RenderKudoBox(state.kudos, 0)}
+    {state.display == tabs.KUDO.id && RenderKudoBox(state.kudo, 0)}
   </div>
 );
-s;
