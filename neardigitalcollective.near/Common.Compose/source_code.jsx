@@ -141,7 +141,7 @@ return (
             State.update({ showAccountAutocomplete: false });
           }
         }}
-        placeholder={props.placeholder ?? "Tell em how they did!"}
+        placeholder={props.placeholder ?? "What's happening?"}
       />
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <div className="pt-1 w-100 overflow-hidden">
