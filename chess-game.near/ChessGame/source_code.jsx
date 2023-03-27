@@ -1,68 +1,39 @@
-const { game_id, cancelDate } = props;
+const { game_id } = props;
+if (!game_id) return <div>"game_id" missing in props</div>;
 
-const contractId = "app.chess-game.near";
-const chessBoardWidget = "chess-game.near/widget/ChessBoard";
-const buttonWidget = "chess-game.near/widget/ChessGameButton";
-const loadingWidget = "chess-game.near/widget/ChessGameLoading";
-
-if (!game_id) return <div>"game_id" prop required</div>;
-
-Near.asyncView(contractId, "get_board", {
+const board = Near.view("app.chess-game.near", "get_board", {
   game_id,
-})
-  .then((board) => {
-    State.update({
-      board,
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-    State.update({
-      error: err,
-    });
-  });
-Near.asyncView(contractId, "game_info", {
+});
+if (!board) return <div />;
+
+const gameInfo = Near.view("app.chess-game.near", "game_info", {
   game_id,
-})
-  .then((gameInfo) => {
-    State.update({
-      gameInfo,
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-    State.update({
-      error: err,
-    });
-  });
+});
+if (!gameInfo) return <div />;
 
 State.init({
-  board: state.board,
-  gameInfo: state.gameInfo,
+  board,
+  gameInfo,
   move: "",
-  assetType: state.assetType ?? "default",
-  error: state.error,
 });
 
-if (!state.board || !state.gameInfo) {
-  return <Widget src={loadingWidget} />;
-}
-if (state.error) {
-  return "The game no longer exists. Please return to lobby";
-}
-
 const BoardView = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `;
 const GameInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 1.4rem;
-  margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin: 1rem;
+`;
+const Board = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 `;
 
 const renderPlayer = (color, player) => {
@@ -85,6 +56,153 @@ const renderPlayer = (color, player) => {
   }
 };
 
+const renderPiece = (piece) => {
+  switch (piece) {
+    case " ":
+      return "";
+    case "♟":
+      return (
+        <img
+          alt="black pawn"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/p-black.svg"
+        />
+      );
+    case "♙":
+      return (
+        <img
+          alt="white pawn"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/P-white.svg"
+        />
+      );
+    case "♞":
+      return (
+        <img
+          alt="black knight"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/n-black.svg"
+        />
+      );
+    case "♘":
+      return (
+        <img
+          alt="white knight"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/N-white.svg"
+        />
+      );
+    case "♝":
+      return (
+        <img
+          alt="black bishop"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/b-black.svg"
+        />
+      );
+    case "♗":
+      return (
+        <img
+          alt="white bishop"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/B-white.svg"
+        />
+      );
+    case "♜":
+      return (
+        <img
+          alt="black rook"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/r-black.svg"
+        />
+      );
+    case "♖":
+      return (
+        <img
+          alt="white rook"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/R-white.svg"
+        />
+      );
+    case "♛":
+      return (
+        <img
+          alt="black queen"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/q-black.svg"
+        />
+      );
+    case "♕":
+      return (
+        <img
+          alt="white queen"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/Q-white.svg"
+        />
+      );
+    case "♚":
+      return (
+        <img
+          alt="black king"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/k-black.svg"
+        />
+      );
+    case "♔":
+      return (
+        <img
+          alt="white king"
+          src="https://raw.githubusercontent.com/nikfrank/react-chess-pieces/master/src/K-white.svg"
+        />
+      );
+    default:
+      return "";
+  }
+};
+
+const fieldSize = "3rem";
+const Legend = styled.div`
+        min-width: ${fieldSize};
+        min-height: ${fieldSize};
+        max-width: ${fieldSize};
+        max-height: ${fieldSize};
+        font-size: 1.6rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+`;
+const renderBoard = (board) => {
+  return board.reverse().flatMap((row, rowIndex) => {
+    let res = row.split("").map((c, colIndex) => {
+      const background = (rowIndex + colIndex) % 2 === 0 ? "#ddd" : "#555";
+      const Field = styled.span`
+        min-width: ${fieldSize};
+        min-height: ${fieldSize};
+        max-width: ${fieldSize};
+        max-height: ${fieldSize};
+        background: ${background};
+
+        img {
+            min-width: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        `;
+      return <Field>{renderPiece(c)}</Field>;
+    });
+    res.unshift(<Legend>{8 - rowIndex}</Legend>);
+    const LineBreak = styled.div`
+        flex: 1 0 100%;
+    `;
+    res.push(<LineBreak />);
+    if (rowIndex === board.length - 1) {
+      res = res.concat([
+        <Legend></Legend>,
+        <Legend>A</Legend>,
+        <Legend>B</Legend>,
+        <Legend>C</Legend>,
+        <Legend>D</Legend>,
+        <Legend>E</Legend>,
+        <Legend>F</Legend>,
+        <Legend>G</Legend>,
+        <Legend>H</Legend>,
+      ]);
+    }
+    return res;
+  });
+};
+
 const TurnInput = styled.input`
   border-radius: 4px;
   border: 1px solid black;
@@ -98,16 +216,11 @@ const updateMove = (event) => {
     move: event.target.value,
   });
 };
-const selectAsset = (event) => {
-  State.update({
-    assetType: event.target.value,
-  });
-};
 
 const playMove = () => {
   if (!state.move) return;
   Near.call(
-    contractId,
+    "app.chess-game.near",
     "play_move",
     {
       game_id,
@@ -118,27 +231,19 @@ const playMove = () => {
 };
 
 const Footer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 2rem;
-  max-width: 400px;
+    display: flex;
+    flex-direction: column;
 `;
 
 const text = `
-  _A valid move will be parsed from a string._
-  
-  _Possible valid formats include:_
-  - \"e2e4\"
-  - \"e2 e4\"
-  - \"e2 to e4\"
-  - \"castle queenside\"
-  - \"castle kingside\"'
-
-  _If a game stalls because players stop sending moves, it can be stopped after ~3 days._
-  _Cancelling a game won't affect your ELO rating, but resigning will result in a lost match._
-`;
-const assetText = `
-  _Assets are free to use right now, but will later be unlocked via NFTs._
+    A valid move will be parsed from a string.
+    
+    Possible valid formats include:
+    - \"e2e4\"
+    - \"e2 e4\"
+    - \"e2 to e4\"
+    - \"castle queenside\"
+    - \"castle kingside\"'
 `;
 
 return (
@@ -148,43 +253,21 @@ return (
       {renderPlayer("White", state.gameInfo.white)}
       {renderPlayer("Black", state.gameInfo.black)}
       <div>Turn: {state.gameInfo.turn_color}</div>
-      {cancelDate && <div>Cancellable: {cancelDate.toLocaleString()}</div>}
     </GameInfo>
-    <Widget
-      src={chessBoardWidget}
-      props={{ board: state.board, assetType: state.assetType }}
-    />
+    <Board>{renderBoard(state.board)}</Board>
     <Footer>
       <h3>Your Move:</h3>
-      <div class="text-center">
+      <div>
         <TurnInput
           type="text"
           required
-          autocomplete="off"
           id="turn"
           value={state.move}
           onChange={updateMove}
         />
-        <Widget
-          src={buttonWidget}
-          props={{
-            onClick: playMove,
-            fontSize: "1.2rem",
-            content: "Play",
-            inline: true,
-          }}
-        />
+        <SendButton onClick={playMove}>Play</SendButton>
       </div>
       <Markdown text={text} />
-
-      {
-        // <h3>Assets:</h3>
-        // <select onChange={selectAsset} value={state.assetType}>
-        //   <option value="default">Regular</option>
-        //   <option value="hk">Hollow Knight Style</option>
-        // </select>
-        // <Markdown text={assetText} />
-      }
     </Footer>
   </BoardView>
 );
