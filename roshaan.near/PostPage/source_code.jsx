@@ -1,9 +1,9 @@
 const accountId = props.accountId;
 const commentBlockHeight = parseInt(props.commentBlockHeight);
+let parentPost = null;
 
 State.init({
   parentPostLoaded: false,
-  originalPostLikes: undefined,
   originalAuthorAccountId: undefined,
   originalAuthorBlockHeight: undefined,
   originalPostContent: undefined,
@@ -56,7 +56,18 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
   );
 }
 
-if (commentBlockHeight) {
+const extractParentPost = (item) => {
+  if (!item || item.type !== "social" || !item.path || !item.blockHeight) {
+    return undefined;
+  }
+
+  const accountId = item.path.split("/")[0];
+  return `${accountId}/post/main` === item.path
+    ? { accountId, blockHeight: item.blockHeight }
+    : undefined;
+};
+
+if (commentBlockHeight && accountId) {
   fetchGraphQL(parentPostByComment, "ParentPostByComment", {}).then(
     (result) => {
       if (result.status === 200) {
@@ -72,15 +83,17 @@ if (commentBlockHeight) {
               originalAuthorBlockHeight: post.block_height,
               originalPostContent: content,
               comments: comments,
-              originalPostLikes: post.accounts_liked,
             });
           }
         }
       }
     }
   );
+} else {
+  return "Must pass in an accountId and blockHeight when comment was posted.";
 }
-if (state.parentPostLoaded && commentBlockHeight) {
+
+if (state.parentPostLoaded) {
   return (
     <Widget
       src="roshaan.near/widget/Posts.Post"
@@ -90,15 +103,9 @@ if (state.parentPostLoaded && commentBlockHeight) {
         content: state.originalPostContent,
         highlightComment: { accountId, blockHeight: commentBlockHeight },
         comments: state.comments,
-        likes: state.likes,
       }}
     />
   );
+} else {
+  return "Loading";
 }
-
-return (
-  <Widget
-    src="roshaan.near/widget/Posts.Post"
-    props={{ ...props, commentsLimit: 30, subscribe: true }}
-  />
-);
