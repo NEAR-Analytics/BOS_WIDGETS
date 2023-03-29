@@ -47,7 +47,7 @@ return (
   <Wrapper>
     <Header>
       <H2>Featured</H2>
-      <TextLink href={componentsUrl}>More Info</TextLink>
+      <TextLink href={profileUrl}>More Info</TextLink>
     </Header>
 
     <Items>
