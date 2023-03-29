@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: Storage.privateGet("selectedTab") || "abc",
+  selectedTab: Storage.privateGet("selectedTab") || "all",
 });
 
 const previousSelectedTab = Storage.privateGet("selectedTab");
@@ -122,41 +122,6 @@ const FeedWrapper = styled.div`
   }
 `;
 
-const hashtag = props.hashtag;
-
-if (!state || state.hashtag !== hashtag) {
-  State.update({
-    feedIndex: hashtag ? 2 : context.accountId ? 0 : 1,
-    hashtag,
-  });
-}
-
-const options = [
-  {
-    title: "Your Community",
-    disabled: !context.accountId,
-  },
-  {
-    title: "Everyone",
-  },
-];
-
-if (hashtag) {
-  options.push({
-    title: `#${hashtag}`,
-  });
-}
-
-if (state.feedIndex === 0) {
-  const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
-  if (graph !== null) {
-    accounts = Object.keys(graph[context.accountId].graph.follow || {});
-    accounts.push(context.accountId);
-  } else {
-    accounts = [];
-  }
-}
-
 return (
   <>
     <H2>Posts</H2>
@@ -165,41 +130,33 @@ return (
       {context.accountId && (
         <>
           <ComposeWrapper>
-            {context.accountId && (
-              <div className="mb-3">
-                <Widget src="create.near/widget/Posts.Compose" props={{}} />
-              </div>
-            )}
+            <Widget src="adminalpha.near/widget/Posts.Compose" />
           </ComposeWrapper>
 
           <FilterWrapper>
-            <ul className="nav nav-pills mb-3">
-              {options.map((option, i) => (
-                <li className="nav-item" key={i}>
-                  <button
-                    className={`nav-link ${
-                      state.feedIndex === i ? "active" : ""
-                    } ${option.disabled ? "disabled" : ""}`}
-                    aria-disabled={!!option.disabled}
-                    onClick={() =>
-                      !option.disabled && State.update({ feedIndex: i })
-                    }
-                  >
-                    {option.title}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <PillSelect>
+              <PillSelectButton
+                type="button"
+                onClick={() => selectTab("all")}
+                selected={state.selectedTab === "all"}
+              >
+                All
+              </PillSelectButton>
+
+              <PillSelectButton
+                type="button"
+                onClick={() => selectTab("following")}
+                selected={state.selectedTab === "following"}
+              >
+                Following
+              </PillSelectButton>
+            </PillSelect>
           </FilterWrapper>
         </>
       )}
 
       <FeedWrapper>
-        {state.feedIndex === 2 ? (
-          <Widget src="create.near/widget/Hashtag.Feed" props={{ hashtag }} />
-        ) : (
-          <Widget src="create.near/widget/Posts.Feed" props={{ accounts }} />
-        )}
+        <Widget src="adminalpha.near/widget/Posts.Feed" props={{ accounts }} />
       </FeedWrapper>
     </Content>
   </>
