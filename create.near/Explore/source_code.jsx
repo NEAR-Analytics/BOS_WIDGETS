@@ -8,10 +8,10 @@ if (customWidgets === null) {
 
 const defaultWidgets = [
   {
-    src: "create.near/widget/Links",
+    src: "create.near/widget/LatestPosts",
   },
   {
-    src: "create.near/widget/LatestPosts",
+    src: "create.near/widget/Links",
   },
   {
     src: "create.near/widget/Followers",
