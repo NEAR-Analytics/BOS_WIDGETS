@@ -54,26 +54,26 @@ return (
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "nate.near/widget/mintbase-nft-contract-marketplace" }}
-        />
-      </Item>
-      <Item>
-        <Widget
-          src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "microchipgnu.near/widget/ListFromCollection" }}
-        />
-      </Item>
-      <Item>
-        <Widget
-          src="adminalpha.near/widget/ComponentCard"
           props={{ src: "minorityprogrammers.near/widget/genadropMinter" }}
         />
       </Item>
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "mintbase.near/widget/nft-marketplace" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "mintbase.near/widget/ListToMarket" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="adminalpha.near/widget/ComponentCard"
           props={{
-            src: "9c461db4ac11b66ed1167ff969042ac278eaf2d571712585424be00171a63884/widget/Wallet-Viewer-Indexer-xyz",
+            src: "rub3n.near/widget/NearNFTActivity",
           }}
         />
       </Item>
