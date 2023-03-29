@@ -41,7 +41,7 @@ if (followers !== null && followers.length === 0) {
 
 return (
   <Wrapper>
-    <h3>Followers</h3>
+    <h5>Followers</h5>
     {followers.map(([accountId], i) => (
       <Item key={i}>
         <Widget
