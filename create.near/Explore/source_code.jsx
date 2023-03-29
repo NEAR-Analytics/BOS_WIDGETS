@@ -11,10 +11,10 @@ const defaultWidgets = [
     src: "create.near/widget/Links",
   },
   {
-    src: "create.near/widget/LatestNews",
+    src: "create.near/widget/LatestPosts",
   },
   {
-    src: "create.near/widget/LatestPeople",
+    src: "create.near/widget/Followers",
   },
   {
     src: "create.near/widget/Following",
