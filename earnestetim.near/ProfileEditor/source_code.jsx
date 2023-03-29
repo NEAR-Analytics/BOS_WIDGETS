@@ -87,3 +87,4 @@ return (
     </div>
   </div>
 );
+<Widget src="chloe.near/widget/MJG" props={{}} />;
