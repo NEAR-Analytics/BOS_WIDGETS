@@ -49,7 +49,8 @@ return (
     <div class="row">
       <div class="col">
         {widget("components.layout.FeaturedCommunity", {
-          id: 397, // TODO: make all info except id in smart contract
+          overviewId: 397,
+          eventsId: 401,
           label: "zero-knowledge",
           icon: "https://ipfs.near.social/ipfs/bafkreigthuagbsrl2xbpk5h4bneoteiv4pqa5itokrqrm4wckgasa6d4nm",
           cover:
