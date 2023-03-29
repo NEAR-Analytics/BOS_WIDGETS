@@ -133,13 +133,13 @@ return (
 
     <Main>
       <Section active={state.selectedTab === "apps"}>
-        <Widget src="adminalpha.near/widget/Featured" />
+        <Widget src="create.near/widget/Featured" />
       </Section>
       <Section negativeMargin primary active={state.selectedTab === "posts"}>
-        <Widget src="adminalpha.near/widget/Posts" />
+        <Widget src="create.near/widget/Posts" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
-        <Widget src="adminalpha.near/widget/Explore" />
+        <Widget src="create.near/widget/Explore" />
       </Section>
     </Main>
   </Wrapper>
