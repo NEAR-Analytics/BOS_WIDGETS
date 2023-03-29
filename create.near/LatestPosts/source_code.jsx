@@ -116,7 +116,7 @@ return (
     <H2>Recent</H2>
 
     {indexedPosts !== null && posts.length === 0 ? (
-      <Text>No recent news at the moment. Check back soon!</Text>
+      <Text>No news at the moment. Check back soon!</Text>
     ) : (
       <Items>
         {posts.map((item, i) => (
