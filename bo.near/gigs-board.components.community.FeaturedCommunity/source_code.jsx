@@ -1,6 +1,7 @@
 /* INCLUDE: "common.jsx" */
 const nearDevGovGigsContractAccountId =
-  props.nearDevGovGigsContractAccountId || "devgovgigs.near".split("/", 1)[0];
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -53,7 +54,7 @@ const Hover = styled.div`
 return (
   <Hover className="card">
     <a
-      href={href("Community", {
+      href={href("community.Overview", {
         label: props.label,
       })}
       class="text-decoration-none text-reset"
