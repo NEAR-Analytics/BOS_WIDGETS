@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `/#/mob.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   display: inline-grid;
@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 12px;
   grid-template-columns: auto 1fr;
+  cursor: pointer;
   margin: 0;
   color: #687076 !important;
   outline: none;
@@ -19,6 +20,13 @@ const Wrapper = styled.div`
 
   > * {
     min-width: 0;
+  }
+
+  &:hover,
+  &:focus {
+    div:first-child {
+      border-color: #d0d5dd;
+    }
   }
 `;
 
@@ -32,11 +40,6 @@ const Text = styled.p`
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
   white-space: nowrap;
-`;
-const ProfileLink = styled(Text)`
-  &:hover {
-    color: initial;
-  }
 `;
 
 const Avatar = styled.div`
@@ -61,8 +64,12 @@ const Name = styled.div`
   align-items: center;
 `;
 
-return (
-  <Wrapper>
+const AccountProfile = (
+  <Wrapper
+    // as={props.onClick ? "button" : "a"}
+    // href={!props.onClick && profileUrl}
+    onClick={props.onClick && (() => props.onClick(accountId))}
+  >
     <Avatar>
       <Widget
         src="mob.near/widget/Image"
@@ -77,9 +84,9 @@ return (
 
     <div>
       <Name>
-        <ProfileLink as="a" href={profileUrl} ellipsis bold>
+        <Text ellipsis bold>
           {profile.name || accountId.split(".near")[0]}
-        </ProfileLink>
+        </Text>
 
         {props.inlineContent}
 
@@ -98,4 +105,18 @@ return (
       {!props.hideAccountId && <Text ellipsis>@{accountId}</Text>}
     </div>
   </Wrapper>
+);
+
+if (props.noOverlay) return AccountProfile;
+
+return (
+  <Widget
+    src="adminalpha.near/widget/AccountProfileOverlay"
+    props={{
+      accountId: props.accountId,
+      profile,
+      children: AccountProfile,
+      placement: props.overlayPlacement,
+    }}
+  />
 );
