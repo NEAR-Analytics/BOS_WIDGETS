@@ -121,4 +121,7 @@ const Events = (
   </div>
 );
 
-return widget("components.community.Layout", { children: Events });
+return widget("components.community.Layout", {
+  label: props.label,
+  children: Events,
+});
