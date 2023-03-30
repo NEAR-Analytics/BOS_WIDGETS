@@ -1,19 +1,12 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
+// const profileUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
 const profileUrl = `/#/mob.near/widget/ProfilePage?accountId=${accountId}`;
-const followingUrl = `/#/mob.near/widget/FollowPage?accountId=${accountId}`;
 
 State.init({
   show: false,
 });
-
-const followers = Social.keys(`*/graph/follow/${accountId}`, "final", {
-  return_type: "BlockHeight",
-  values_only: true,
-});
-
-const followersCount = followers ? Object.keys(followers || {}).length : null;
 
 const Card = styled.div`
   display: flex;
@@ -132,13 +125,6 @@ return (
         )}
       </div>
     </CardLeft>
-
-    <TextLink
-      className="my-2 align-self-start"
-      href={`${followingUrl}&tab=followers`}
-    >
-      {followersCount}&nbsp;Followers
-    </TextLink>
 
     {!!context.accountId && context.accountId !== props.accountId && (
       <Widget
