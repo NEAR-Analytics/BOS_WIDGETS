@@ -133,9 +133,6 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
-    title: "#ABC",
-  },
-  {
     title: "Your Community",
     disabled: !context.accountId,
   },
