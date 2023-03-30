@@ -2,8 +2,6 @@ const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const adminContract = props.adminContract;
 const admins = props.admins || [];
-const text = props.text || "Mark as Valid";
-const onClick = props.onClick;
 
 if (accountId === undefined || blockHeight === undefined) {
   return;
@@ -13,18 +11,24 @@ if (context.loading) {
   return "Loading";
 }
 
-// TODO: don't forget to uncomment this lines after demo
 // if (!admins.includes(context.accountId)) {
 //   return "";
 // }
 
+const onClick = () => {
+  Near.call(adminContract, "mark_useful", {
+    id: { account_id: accountId, block_height: blockHeight },
+    amount: "1",
+  });
+};
+
 return (
   <button
     disabled={state.loading || dataLoading || !context.accountId}
-    className={`btn ${props.className}`}
+    className="text-success border-0 bg-white mt-3 float-right"
     onClick={onClick}
   >
-    <i class="bi bi-check-circle me-1" />
-    <span>{text}</span>
+    <i class="bi bi-exclamation-circle" />
+    Mark as Valid
   </button>
 );
