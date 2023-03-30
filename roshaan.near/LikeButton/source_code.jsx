@@ -1,12 +1,11 @@
 const item = props.item;
 
-const likes = JSON.parse(props.likes?.length ? props.likes : "[]") ?? [];
-
-State.init({ likes: props.likes });
+State.init({ likes: props.likes ?? [] });
 
 if (!item) {
   return "";
 }
+const likes = Social.index("like", item);
 
 const dataLoading = likes === null;
 
