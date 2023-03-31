@@ -1,50 +1,57 @@
-const accountId = props.accountId ?? context.accountId;
-
-if (!accountId) {
-  return (
-    <div className="mx-auto">
-      <div className="mt-3">
-        <Widget src="hack.near/widget/Builders" />
-      </div>
-    </div>
-  );
-}
-
-const project = props.project ?? Social.getr(`${accountId}/project`);
-
-if (project === null) {
-  return "Loading";
-}
-
 return (
-  <div className="py-1 px-1">
-    <div className="mx-auto">
-      <div className="mt-3 d-inline-block">
-        <Widget
-          src="create.near/widget/Project.InlineBlock"
-          props={{
-            accountId,
-            project,
-            showEditButton: !props.project,
-          }}
-        />
-        <a
-          className="btn btn-success mt-3"
-          href="#/create.near/widget/PageEditor"
+  <>
+    <Widget src="mob.near/widget/ProfileOnboarding" />
+    <ul
+      className="nav nav-pills nav-fill mb-3 d-lg-none"
+      id="pills-tab"
+      role="tablist"
+    >
+      <li className="nav-item" role="presentation">
+        <button
+          className="nav-link active"
+          id="pills-feed-tab"
+          data-bs-toggle="pill"
+          data-bs-target="#pills-feed"
+          type="button"
+          role="tab"
+          aria-controls="pills-feed"
+          aria-selected="true"
         >
-          Update Your Project Page
-        </a>
+          Feed
+        </button>
+      </li>
+      <li className="nav-item" role="presentation">
+        <button
+          className="nav-link"
+          id="pills-explore-tab"
+          data-bs-toggle="pill"
+          data-bs-target="#pills-explore"
+          type="button"
+          role="tab"
+          aria-controls="pills-explore"
+          aria-selected="false"
+        >
+          Explore
+        </button>
+      </li>
+    </ul>
+    <div className="tab-content row p-0" id="pills-tabContent">
+      <div
+        className="tab-pane show active d-lg-block col-lg-8"
+        id="pills-feed"
+        role="tabpanel"
+        aria-labelledby="pills-feed-tab"
+      >
+        <Widget src="mob.near/widget/MainPage.Content" props={props} />
       </div>
-      <div className="mt-3 ">
-        <Widget
-          src="create.near/widget/PageTabs"
-          props={{
-            accountId,
-            project,
-            showEditButton: !props.project,
-          }}
-        />
+      <div
+        className="tab-pane d-lg-block col-lg-4"
+        id="pills-explore"
+        role="tabpanel"
+        aria-labelledby="pills-explore-tab"
+      >
+        <Widget src="mob.near/widget/Welcome.RHS" props={props} />
       </div>
     </div>
-  </div>
+  </>
 );
