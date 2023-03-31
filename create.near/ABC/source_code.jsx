@@ -136,7 +136,7 @@ return (
         <Widget src="create.near/widget/Featured" />
       </Section>
       <Section negativeMargin primary active={state.selectedTab === "posts"}>
-        <Widget src="create.near/widget/Posts" />
+        <Widget src="create.near/widget/Page.Content" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
         <Widget src="create.near/widget/Explore" />
