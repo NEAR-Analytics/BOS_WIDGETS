@@ -38,8 +38,13 @@ if (state.feedIndex === 0) {
 return (
   <>
     {context.accountId && (
-      <div className="mb-3">
-        <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
+      <div>
+        <div className="mb-3">
+          <Widget src="create.near/widget/Page.Header" />
+        </div>
+        <div className="mb-3">
+          <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
+        </div>
       </div>
     )}
     <ul className="nav nav-pills mb-3">
