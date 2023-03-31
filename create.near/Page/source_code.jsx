@@ -42,7 +42,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-feed-tab"
       >
-        <Widget src="mob.near/widget/MainPage.Content" props={props} />
+        <Widget src="create.near/widget/Page.Content" props={props} />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
@@ -50,7 +50,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-explore-tab"
       >
-        <Widget src="mob.near/widget/Welcome.RHS" props={props} />
+        <Widget src="create.near/widget/Page.RHS" props={props} />
       </div>
     </div>
   </>
