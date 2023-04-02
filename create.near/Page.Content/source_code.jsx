@@ -1,4 +1,4 @@
-const hashtag = props.hashtag;
+const hashtag = "abc";
 
 if (!state || state.hashtag !== hashtag) {
   State.update({
@@ -9,19 +9,13 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
-    title: "My Feed",
-    disabled: !context.accountId,
+    title: `#${hashtag}`,
   },
   {
-    title: "All Posts",
+    title: `Your Network`,
+    disabled: !context.accountId,
   },
 ];
-
-if (hashtag) {
-  options.push({
-    title: `#${hashtag}`,
-  });
-}
 
 let accounts = undefined;
 
