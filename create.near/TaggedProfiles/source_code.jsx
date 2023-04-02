@@ -16,7 +16,9 @@ if (tag) {
   }
 
   keys = Object.entries(taggedProfiles)
-    .map((kv) => Object.keys(kv[1].profile).map((w) => `${kv[0]}/profile/${w}`))
+    .map((kv) =>
+      Object.keys(kv[1].profile.tags).map((t) => `${kv[0]}/profile/tags/${t}`)
+    )
     .flat();
 
   if (!keys.length) {
@@ -40,9 +42,9 @@ const processData = (data) => {
   const allItems = accounts
     .map((account) => {
       const accountId = account[0];
-      return Object.entries(account[1].widget).map((kv) => ({
+      return Object.entries(account[1].profile).map((kv) => ({
         accountId,
-        communityName: kv[0],
+        communityTag: kv[0],
         blockHeight: kv[1],
       }));
     })
@@ -59,16 +61,16 @@ const renderTag = (tag, tagBadge) => (
 const renderItem = (a) => {
   return (
     <a
-      href={`#/${a.accountId}/widget/${a.communityName}`}
+      href={`#/mob.near/widget/ProfilePage?accountId=${a.accountId}`}
       className="text-decoration-none"
       key={JSON.stringify(a)}
     >
       <Widget
-        src="mob.near/widget/WidgetImage"
+        src="mob.near/widget/ProfileImage"
         props={{
           tooltip: true,
           accountId: a.accountId,
-          communityName: a.communityName,
+          communityTag: a.communityTag,
         }}
       />
     </a>
