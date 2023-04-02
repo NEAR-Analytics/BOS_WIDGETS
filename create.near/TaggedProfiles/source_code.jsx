@@ -1,50 +1,34 @@
-const accountId = props.accountId;
 const tag = props.tag;
 
+/*
 let keys = `${accountId ?? "*"}/profile/*`;
 
-console.log(keys);
+const profiles = Social.get(`profile/tags`, "final") || {};
 
-if (tag) {
-  const taggedProfiles = Social.keys(
-    `${accountId}/profile/tags/${tag}`,
-    "final"
-  );
-
-  if (taggedProfiles === null) {
-    return "Loading Tags";
+const profilesWithTags = { ...profiles };
+Object.entries(profiles).forEach(([key, valueObj]) => {
+  if (!valueObj?.profile?.hasOwnProperty("tags")) {
+    delete profilesWithTags[key];
   }
-
-  keys = Object.entries(taggedProfiles)
-    .map((kv) =>
-      Object.keys(kv[1].profile.tags).map((t) => `${kv[0]}/profile/tags/${t}`)
-    )
-    .flat();
-
-  if (!keys.length) {
-    return `No profiles found with tag #${tag}`;
-  }
-}
-
-const data = Social.keys(keys, "final", {
-  return_type: "BlockHeight",
 });
+const taggedProfiles = Social.keys(`profile/tags`, "final") || {};
 
-if (data === null) {
-  return "Loading profiles...";
-}
+const processData = (data) => {
+  const members = Object.entries(data);
 
-console.log(data);
+  members.sort((a, b) => b.blockHeight - a.blockHeight);
+  return members;
+};
 
 const processData = (data) => {
   const accounts = Object.entries(data);
 
-  const allItems = accounts
+  const members = accounts
     .map((account) => {
       const accountId = account[0];
-      return Object.entries(account[1].profile).map((kv) => ({
+      return Object.entries(account[1].widget).map((kv) => ({
         accountId,
-        communityTag: kv[0],
+        widgetName: kv[0],
         blockHeight: kv[1],
       }));
     })
@@ -68,9 +52,9 @@ const renderItem = (a) => {
       <Widget
         src="mob.near/widget/ProfileImage"
         props={{
-          tooltip: true,
           accountId: a.accountId,
-          communityTag: a.communityTag,
+          tooltip: true,
+          className: "d-inline-block overflow-hidden",
         }}
       />
     </a>
@@ -80,14 +64,52 @@ const renderItem = (a) => {
 if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
   State.update({
     data,
-    allItems: processData(data),
+    members: processData(data),
   });
 }
 
 return (
   <div className="d-flex flex-wrap gap-1 my-3">
-    {state.allItems
+    {state.members
       .slice(0, props.limit ? parseInt(props.limit) : 999)
       .map(renderItem)}
   </div>
 );
+*/
+
+const data = Social.keys("*/profile", "final");
+
+const limit = props.limit || 21;
+
+if (!data) {
+  return "Loading";
+}
+
+let accounts = Object.entries(data);
+const numAccounts = accounts.length;
+accounts = accounts.slice(numAccounts - limit, numAccounts);
+
+const allProfiles = [];
+
+for (let i = 0; i < accounts.length; ++i) {
+  const accountId = accounts[i][0];
+
+  allProfiles.push(
+    <a
+      href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+      className="text-decoration-none"
+      key={i}
+    >
+      <Widget
+        src="mob.near/widget/ProfileImage"
+        props={{
+          accountId,
+          tooltip: true,
+          className: "d-inline-block overflow-hidden",
+        }}
+      />
+    </a>
+  );
+}
+
+return <div className="d-flex flex-wrap gap-1">{allProfiles}</div>;
