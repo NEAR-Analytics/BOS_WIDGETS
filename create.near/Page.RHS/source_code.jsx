@@ -8,10 +8,10 @@ if (rhs === null) {
 
 const defaultWidgets = [
   {
-    src: "mob.near/widget/Welcome.GetInvolved",
+    src: "create.near/widget/Page.Links",
   },
   {
-    src: "mob.near/widget/Welcome.Notifications",
+    src: "create.near/widget/Page.Compose",
     requiresLogin: true,
   },
   {
@@ -19,12 +19,6 @@ const defaultWidgets = [
   },
   {
     src: "mob.near/widget/People",
-  },
-  {
-    src: "mob.near/widget/Welcome.FollowFeed",
-  },
-  {
-    src: "mob.near/widget/Welcome.PokeFeed",
   },
 ];
 
