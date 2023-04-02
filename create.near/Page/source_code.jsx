@@ -1,5 +1,3 @@
-const hashtag = "abc";
-
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
@@ -19,7 +17,7 @@ return (
           aria-controls="pills-feed"
           aria-selected="true"
         >
-          Feed
+          Content
         </button>
       </li>
       <li className="nav-item" role="presentation">
@@ -33,7 +31,7 @@ return (
           aria-controls="pills-explore"
           aria-selected="false"
         >
-          Explore
+          Menu
         </button>
       </li>
     </ul>
@@ -44,7 +42,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-feed-tab"
       >
-        <Widget src="create.near/widget/Page.Content" hashtag="abc" />
+        <Widget src="create.near/widget/Page.Content" props={props} />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
