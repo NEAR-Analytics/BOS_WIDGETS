@@ -42,9 +42,6 @@ return (
         <div className="mb-3">
           <Widget src="create.near/widget/Page.Header" />
         </div>
-        <div className="mb-3">
-          <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
-        </div>
       </div>
     )}
     <ul className="nav nav-pills mb-3">
@@ -63,9 +60,9 @@ return (
       ))}
     </ul>
     {state.feedIndex === 2 ? (
-      <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
+      <Widget src="create.near/widget/Hashtag.Feed" props={{ hashtag }} />
     ) : (
-      <Widget src="mob.near/widget/MainPage.Feed.Beta" props={{ accounts }} />
+      <Widget src="create.near/widget/Page.Feed" props={{ accounts }} />
     )}
   </>
 );
