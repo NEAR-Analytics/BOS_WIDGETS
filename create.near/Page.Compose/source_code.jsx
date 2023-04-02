@@ -58,7 +58,8 @@ return (
     <Widget
       src="mob.near/widget/Common.Compose"
       props={{
-        placeholder: "What's happening?",
+        placeholder:
+          "NEAR Generation ~ please nominate impactful ecosystem contributors by mentioning them in a post with a borderless community hashtag: #ABC",
         onChange: state.onChange,
         onHelper: ({ extractMentionNotifications, extractHashtags }) => {
           State.update({ extractMentionNotifications, extractHashtags });
@@ -81,7 +82,7 @@ return (
     {state.content && (
       <div className="mt-3">
         <Widget
-          src="mob.near/widget/MainPage.Post"
+          src="create.near/widget/Page.Post"
           props={{
             accountId: context.accountId,
             content: state.content,
