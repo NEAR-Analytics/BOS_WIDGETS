@@ -15,10 +15,10 @@ const defaultWidgets = [
     requiresLogin: true,
   },
   {
-    src: "mob.near/widget/Applications",
+    src: "create.near/widget/Communities",
   },
   {
-    src: "mob.near/widget/People",
+    src: "create.near/widget/Members",
   },
 ];
 
