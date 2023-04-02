@@ -1,3 +1,5 @@
+const hashtag = "abc";
+
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
@@ -42,7 +44,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-feed-tab"
       >
-        <Widget src="create.near/widget/Page.Content" props={props} />
+        <Widget src="create.near/widget/Page.Content" hashtag="abc" />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
