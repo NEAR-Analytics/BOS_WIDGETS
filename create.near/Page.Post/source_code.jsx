@@ -14,7 +14,7 @@ const item = {
   blockHeight,
 };
 
-const link = `#/create.near/widget/Page.Post.Details?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `#/create.near/widget/Page.Post.Container?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 return (
   <div className="border rounded-4 p-3 pb-1">
