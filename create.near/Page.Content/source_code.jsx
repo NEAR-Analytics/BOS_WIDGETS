@@ -9,13 +9,16 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
-    title: `#${hashtag}`,
-  },
-  {
-    title: `Your Network`,
+    title: "Your Network",
     disabled: !context.accountId,
   },
 ];
+
+if (hashtag) {
+  options.push({
+    title: `#${hashtag}`,
+  });
+}
 
 let accounts = undefined;
 
