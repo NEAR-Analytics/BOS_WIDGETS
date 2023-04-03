@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 
 const lhs = context.accountId
-  ? Social.get(`${context.accountId}/settings/near.social/homepage.lhs`)
+  ? Social.get(`${context.accountId}/settings/near.social/page.lhs`)
   : undefined;
 
 if (lhs === null) {
