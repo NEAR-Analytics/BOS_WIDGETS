@@ -1,4 +1,4 @@
-const hashtag = "abc";
+const hashtag = props.hashtag ?? "abc";
 
 return (
   <>
