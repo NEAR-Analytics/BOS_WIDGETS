@@ -1,15 +1,5 @@
 const hashtag = props.hashtag ?? "abc";
 
-State.init({
-  selectedTab: props.tab || "about",
-});
-
-if (props.tab && props.tab !== state.selectedTab) {
-  State.update({
-    selectedTab: props.tab,
-  });
-}
-
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
@@ -54,7 +44,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-feed-tab"
       >
-        <Widget src="create.near/widget/Page.Content" props={props} />
+        <Widget src="create.near/widget/ABC.Page" props={props} />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
