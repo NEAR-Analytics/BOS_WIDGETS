@@ -1,12 +1,12 @@
 return (
   <div>
-    <h5>Community Pages</h5>
+    <h5>ABC Pages</h5>
     <div className="mb-2">
       <Widget
         src="mob.near/widget/ComponentSearch"
         props={{
           boostedTag: "page",
-          placeholder: "🔍 Search Components",
+          placeholder: "🔍 Search for Building Blocks",
           limit: 10,
           onChange: ({ result }) => {
             State.update({ apps: result });
@@ -40,7 +40,6 @@ return (
         ))}
       </div>
     )}
-
     <Widget
       src="mob.near/widget/WidgetIcons"
       props={{ tag: "page", limit: 24 }}
