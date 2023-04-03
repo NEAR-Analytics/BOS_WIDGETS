@@ -58,7 +58,7 @@ return (
               metadata,
               accountId,
               widgetName,
-              style: { height: "2.5em", width: "2.5em", minWidth: "2.5em" },
+              style: { height: "2em", width: "2em", minWidth: "2em" },
               className: "me-2",
             }}
           />
@@ -130,7 +130,7 @@ return (
         id={`collapseCommentEditorNavbar`}
         data-bs-parent={`#accordionNavbar`}
       >
-        {widget("widgets.posts.PostEditor", {
+        {widget("components.posts.PostEditor", {
           postType: "Comment",
           parentId: null,
           labels: props.labels,
@@ -141,7 +141,7 @@ return (
         id={`collapseIdeaEditorNavbar`}
         data-bs-parent={`#accordionNavbar`}
       >
-        {widget("widgets.posts.PostEditor", {
+        {widget("components.posts.PostEditor", {
           postType: "Idea",
           parentId: null,
           labels: props.labels,
@@ -152,7 +152,7 @@ return (
         id={`collapseSubmissionEditorNavbar`}
         data-bs-parent={`#accordionNavbar`}
       >
-        {widget("widgets.posts.PostEditor", {
+        {widget("components.posts.PostEditor", {
           postType: "Submission",
           parentId: null,
           labels: props.labels,
@@ -163,7 +163,7 @@ return (
         id={`collapseAttestationEditorNavbar`}
         data-bs-parent={`#accordionNavbar`}
       >
-        {widget("widgets.posts.PostEditor", {
+        {widget("components.posts.PostEditor", {
           postType: "Attestation",
           parentId: null,
           labels: props.labels,
@@ -174,7 +174,7 @@ return (
         id={`collapseSponsorshipEditorNavbar`}
         data-bs-parent={`#accordionNavbar`}
       >
-        {widget("widgets.posts.PostEditor", {
+        {widget("components.posts.PostEditor", {
           postType: "Sponsorship",
           parentId: null,
           labels: props.labels,
