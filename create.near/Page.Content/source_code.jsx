@@ -1,11 +1,11 @@
 const accountId = props.accountId ?? context.accountId;
 
-const pagepage = accountId
-  ? Social.get(`${accountId}/settings/near.social/page`)
+const content = accountId
+  ? Social.get(`${accountId}/settings/near.social/page.content`)
   : undefined;
 
-if (homepage === null) {
+if (content === null) {
   return "Loading...";
 }
 
-return <Widget src="create.near/widget/ABC.Content" props={props} />;
+return <Widget src="create.near/widget/ABC.Main" props={props} />;
