@@ -55,7 +55,7 @@ const renderItem =
     // It is important to have a non-zero-height element as otherwise InfiniteScroll loads too many items on initial load
     <div style={{ minHeight: "150px" }}>
       {widget(
-        `components.posts.Post`,
+        `widgets.posts.Post`,
         {
           id: postId,
           expandable: true,
