@@ -1,5 +1,15 @@
 const hashtag = props.hashtag ?? "abc";
 
+State.init({
+  selectedTab: props.tab || "about",
+});
+
+if (props.tab && props.tab !== state.selectedTab) {
+  State.update({
+    selectedTab: props.tab,
+  });
+}
+
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
