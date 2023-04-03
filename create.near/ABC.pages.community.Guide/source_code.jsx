@@ -80,7 +80,7 @@ const communities = {
 if (!props.label) {
   return (
     <div class="alert alert-danger" role="alert">
-      Error: label is required
+      Label is required!
     </div>
   );
 }
@@ -107,11 +107,11 @@ const onMention = (accountId) => (
   </span>
 );
 
-const Overview = (
+const Guide = (
   <div>
     <Markdown
       class="card-text"
-      text={overviewPost.snapshot.description}
+      text={guidePost.snapshot.description}
       onMention={onMention}
     ></Markdown>
   </div>
