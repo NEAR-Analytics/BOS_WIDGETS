@@ -1,7 +1,8 @@
+const hashtag = props.hashtag;
+
 const options = [
   {
     title: "ABC",
-    disabled: !context.accountId,
   },
 ];
 
