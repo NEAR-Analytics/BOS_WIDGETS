@@ -4,7 +4,7 @@ const nearDevGovGigsContractAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  (context.widgetSrc ?? "create.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -15,7 +15,7 @@ function widget(widgetName, widgetProps, key) {
   };
   return (
     <Widget
-      src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
+      src={`${nearDevGovGigsWidgetsAccountId}/widget/ABC.${widgetName}`}
       props={widgetProps}
       key={key}
     />
@@ -38,7 +38,7 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
+  return `#/${nearDevGovGigsWidgetsAccountId}/widget/ABC.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
@@ -47,8 +47,8 @@ function href(widgetName, linkProps) {
 return (
   <>
     {props.header}
-    {widget("components.layout.Controls")}
-    {widget("components.layout.Navbar", {
+    {widget("widgets.layout.Controls")}
+    {widget("widgets.layout.Navbar", {
       children: props.navbarChildren,
     })}
     {props.children}
