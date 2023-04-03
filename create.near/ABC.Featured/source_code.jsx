@@ -48,7 +48,7 @@ const communities = {
     cover:
       "https://pbs.twimg.com/profile_banners/1591547314384035841/1678182210/1080x360",
     title: "Bodega",
-    desc: "Dynamic NFT Launchpad & Marketplace",
+    desc: "Dynamic NFT Launchpad & Trait Marketplace",
   },
   nearweek: {
     icon: "https://pbs.twimg.com/profile_images/1590659386132860928/msOLWbog_400x400.jpg",
@@ -69,7 +69,7 @@ const communities = {
     cover:
       "https://pbs.twimg.com/profile_banners/1486451185804623875/1654488944/1080x360",
     title: "Blunt DAO",
-    desc: "IRL Onboarding Movement for Human DAOs",
+    desc: "IRL Onboarding Movement with Proof of Sesh",
   },
 };
 
