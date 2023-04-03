@@ -1,6 +1,6 @@
 return (
   <div>
-    <h5>ABC Pages</h5>
+    <h5>Community Pages</h5>
     <div className="mb-2">
       <Widget
         src="mob.near/widget/ComponentSearch"
