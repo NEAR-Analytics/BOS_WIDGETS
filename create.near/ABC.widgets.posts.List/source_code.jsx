@@ -9,7 +9,7 @@ const nearDevGovGigsContractAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "create.near").split("/", 1)[0];
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -20,7 +20,7 @@ function widget(widgetName, widgetProps, key) {
   };
   return (
     <Widget
-      src={`${nearDevGovGigsWidgetsAccountId}/widget/ABC.${widgetName}`}
+      src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
       props={widgetProps}
       key={key}
     />
@@ -43,7 +43,7 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/ABC.pages.${widgetName}${
+  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
@@ -55,7 +55,7 @@ const renderItem =
     // It is important to have a non-zero-height element as otherwise InfiniteScroll loads too many items on initial load
     <div style={{ minHeight: "150px" }}>
       {widget(
-        `widgets.posts.Post`,
+        `components.posts.Post`,
         {
           id: postId,
           expandable: true,
