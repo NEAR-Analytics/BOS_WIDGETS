@@ -1,12 +1,12 @@
 return (
   <div>
-    <h5>A Borderless Community</h5>
+    <h5>Welcome to ABC!</h5>
     <div className="mb-2 d-flex gap-2 flex-wrap">
       <a
         className="btn btn-outline-primary"
         href="#/devgovgigs.near/widget/gigs-board.pages.Post?id=352"
       >
-        What is ABC?
+        Group
       </a>
       <a
         className="btn btn-outline-primary"
