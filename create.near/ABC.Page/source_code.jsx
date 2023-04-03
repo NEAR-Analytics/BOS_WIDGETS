@@ -1,3 +1,5 @@
+const hashtag = props.hashtag ?? "abc";
+
 const page = context.accountId
   ? Social.get(`${context.accountId}/settings/near.social/page`)
   : undefined;
@@ -33,7 +35,14 @@ const Div = styled.div`
 
 return (
   <>
-    <Div>
+    <div className="mb-3">
+      <Widget
+        src="miraclx.near/widget/Attribution"
+        props={{
+          dep: true,
+          authors: ["create.near"],
+        }}
+      />
       {context.accountId && (
         <a
           key="edit"
@@ -43,7 +52,7 @@ return (
           <i class="bi bi-pencil" /> Edit Page
         </a>
       )}
-    </Div>
+    </div>
     <Div>
       {widgets.map(
         ({ src, requiresLogin }, i) =>
