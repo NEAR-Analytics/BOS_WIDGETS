@@ -38,7 +38,7 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/ABC.${widgetName}${
+  return `#/${nearDevGovGigsWidgetsAccountId}/widget/ABC.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
@@ -50,7 +50,7 @@ return (
       <div class="container-fluid">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item ">
-            <a class="nav-link active" href={href("Feed")}>
+            <a class="nav-link active" href={href("Guide")}>
               <i class="bi-balloon-heart"> </i>
               Community
             </a>
@@ -58,7 +58,7 @@ return (
           <li class="nav-item">
             <a class="nav-link active" href={href("Widgets")}>
               <i class="bi-gear"> </i>
-              Gadgets
+              Widgets
             </a>
           </li>
 
