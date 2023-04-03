@@ -60,7 +60,7 @@ return (
       src="mob.near/widget/Common.Compose"
       props={{
         placeholder:
-          "Nominate contributors by mentioning them in a post with our hashtag #ABC",
+          "Nominate contributors by mentioning them in a post with our community hashtag #ABC",
         onChange: state.onChange,
         onHelper: ({ extractMentionNotifications, extractHashtags }) => {
           State.update({ extractMentionNotifications, extractHashtags });
