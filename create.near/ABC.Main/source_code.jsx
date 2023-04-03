@@ -16,7 +16,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `/#/create.near/widget/Page?accountId=${accountId}`;
+const accountUrl = `/#/create.near/widget/Page`;
 
 const options = [
   {
@@ -149,34 +149,6 @@ return (
         >
           Content
         </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=apps`}
-          selected={state.selectedTab === "apps"}
-        >
-          Widgets
-        </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=nfts`}
-          selected={state.selectedTab === "nfts"}
-        >
-          NFTs
-        </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=following`}
-          selected={state.selectedTab === "following"}
-        >
-          Following
-        </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=followers`}
-          selected={state.selectedTab === "followers"}
-        >
-          Followers
-        </TabsButton>
       </Tabs>
 
       {state.selectedTab === "about" && (
@@ -185,22 +157,6 @@ return (
 
       {state.selectedTab === "content" && (
         <Widget src="create.near/widget/ABC.Feed" />
-      )}
-
-      {state.selectedTab === "nfts" && (
-        <Widget src="adminalpha.near/widget/NFTCollection?accountId=borderlesscommunity.near" />
-      )}
-
-      {state.selectedTab === "apps" && (
-        <Widget src="adminalpha.near/widget/ComponentCollection?accountId=borderlesscommunity.near" />
-      )}
-
-      {state.selectedTab === "members" && (
-        <Widget src="adminalpha.near/widget/FollowersList?accountId=borderlesscommunity.near" />
-      )}
-
-      {state.selectedTab === "contributors" && (
-        <Widget src="adminalpha.near/widget/FollowingList?accountId=borderlesscommunity.near" />
       )}
     </Content>
   </Wrapper>
