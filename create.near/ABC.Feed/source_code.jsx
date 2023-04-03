@@ -1,4 +1,4 @@
-const hashtag = props.hashtag ?? "near";
+const hashtag = props.hashtag ?? "abc";
 
 const index = {
   action: "hashtag",
