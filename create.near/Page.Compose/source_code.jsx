@@ -5,11 +5,11 @@ if (!context.accountId) {
 const composeData = () => {
   const data = {
     post: {
-      main: JSON.stringify(state.content),
+      abc: JSON.stringify(state.content),
     },
     index: {
       post: JSON.stringify({
-        key: "main",
+        key: "abc",
         value: {
           type: "md",
         },
@@ -19,7 +19,7 @@ const composeData = () => {
 
   const item = {
     type: "social",
-    path: `${context.accountId}/post/main`,
+    path: `${context.accountId}/post/abc`,
   };
 
   const notifications = state.extractMentionNotifications(
@@ -55,7 +55,7 @@ State.init({
 
 return (
   <>
-    <h5>ABC Generation</h5>
+    <h5>NEAR Generation</h5>
     <Widget
       src="mob.near/widget/Common.Compose"
       props={{
