@@ -1,13 +1,6 @@
-if (!state || state.hashtag !== hashtag) {
-  State.update({
-    feedIndex: hashtag ? 2 : context.accountId ? 0 : 1,
-    hashtag,
-  });
-}
-
 const options = [
   {
-    title: "Your Network",
+    title: "ABC",
     disabled: !context.accountId,
   },
 ];
@@ -32,13 +25,9 @@ if (state.feedIndex === 0) {
 
 return (
   <>
-    {context.accountId && (
-      <div>
-        <div className="mb-3">
-          <Widget src="create.near/widget/Page.Header" />
-        </div>
-      </div>
-    )}
+    <div className="mb-3">
+      <Widget src="create.near/widget/Page.Header" />
+    </div>
     <ul className="nav nav-pills mb-3">
       {options.map((option, i) => (
         <li className="nav-item" key={i}>
@@ -54,10 +43,6 @@ return (
         </li>
       ))}
     </ul>
-    {state.feedIndex === 2 ? (
-      <Widget src="create.near/widget/Hashtag.Feed" props={{ hashtag }} />
-    ) : (
-      <Widget src="create.near/widget/Page.Feed" props={{ accounts }} />
-    )}
+    <Widget src="create.near/widget/ABC.Feed" props={{ hashtag }} />
   </>
 );
