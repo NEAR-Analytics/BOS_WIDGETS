@@ -59,7 +59,7 @@ return (
       src="mob.near/widget/Common.Compose"
       props={{
         placeholder:
-          "NEAR Generation ~ please nominate impactful ecosystem contributors by mentioning them in a post with a borderless community hashtag: #ABC",
+          "NEAR Generation: please nominate impactful ecosystem contributors by mentioning them in a post with our hashtag #ABC",
         onChange: state.onChange,
         onHelper: ({ extractMentionNotifications, extractHashtags }) => {
           State.update({ extractMentionNotifications, extractHashtags });
