@@ -15,7 +15,7 @@ function widget(widgetName, widgetProps, key) {
   };
   return (
     <Widget
-      src={`${nearDevGovGigsWidgetsAccountId}/widget/ABC.${widgetName}`}
+      src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
       props={widgetProps}
       key={key}
     />
@@ -38,63 +38,131 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/ABC.pages.${widgetName}${
+  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
 
-/* INCLUDE: "communities.jsx" */
-const communities = {
-  bodega: {
-    icon: "https://pbs.twimg.com/profile_images/1633040448175366145/y0afLMb1_400x400.jpg",
-    cover:
-      "https://pbs.twimg.com/profile_banners/1591547314384035841/1678182210/1080x360",
-    title: "Bodega",
-    desc: "Dynamic NFT Launchpad & Trait Marketplace",
-  },
-  nearweek: {
-    icon: "https://pbs.twimg.com/profile_images/1590659386132860928/msOLWbog_400x400.jpg",
-    cover:
-      "https://pbs.twimg.com/profile_banners/1377963859730911232/1668081831/1500x500",
-    title: "NEARWEEK",
-    desc: "Ecosystem News & Community Platform",
-  },
-  "mr-brown": {
-    icon: "https://pbs.twimg.com/profile_images/1500252631704293376/WgOX5tCA_400x400.png",
-    cover:
-      "https://pbs.twimg.com/profile_banners/1443067475868860417/1640716128/1080x360",
-    title: "Mr. Brown",
-    desc: "Thousands of Mr. Brown's Imaginary Selves",
-  },
-  bluntdao: {
-    icon: "https://pbs.twimg.com/profile_images/1533663210531958785/nMdK8_mg_400x400.jpg",
-    cover:
-      "https://pbs.twimg.com/profile_banners/1486451185804623875/1654488944/1080x360",
-    title: "Blunt DAO",
-    desc: "IRL Onboarding Movement with Proof of Sesh",
-  },
-};
-/* END_INCLUDE: "communities.jsx" */
+const Header = styled.div`
+   {
+    height: 204px;
+    overflow: hidden;
+    background: #f3f3f3;
+    padding: 10px 0;
+    margin-top: -25px;
+    margin-bottom: 25px;
+    padding-left: 32px;
+  }
+`;
 
+const NavUnderline = styled.ul`
+  a {
+    color: #3252a6;
+    text-decoration: none;
+  }
+
+  a.active {
+    font-weight: bold;
+    border-bottom: 2px solid #0c7283;
+  }
+`;
+
+const BreadcrumbLink = styled.a`
+   {
+    color: #3252a6;
+    text-decoration: none;
+  }
+`;
+const BreadcrumbBold = styled.b`
+   {
+    color: #3252a6;
+  }
+`;
+
+// TODO nav-underline is available in bootstrap: https://getbootstrap.com/docs/5.3/components/navs-tabs/#underline,
+// but it's not there in near social, need write such style here
 return (
   <>
-    <div class="h5 pb-3">Featured Communities</div>
-    <div class="row">
-      {Object.entries(communities).map(([label, community]) => {
-        return (
-          <div class="col">
-            {widget(
-              "widgets.community.Featured",
-              {
-                label,
-                ...community,
-              },
-              label
-            )}
-          </div>
-        );
-      })}
-    </div>
+    <Header>
+      <div aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <BreadcrumbLink href={href("Feed")}>
+              Developer Governance
+            </BreadcrumbLink>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <BreadcrumbBold>{props.title}</BreadcrumbBold>
+          </li>
+        </ol>
+      </div>
+      <div class="d-flex flex-row align-items-center pb-3">
+        <img src={props.icon} width="95px" height="95px"></img>
+        <div>
+          <div class="h5 pt-3 ps-3">{props.title}</div>
+          <div class="ps-3 pb-2 text-secondary">{props.desc}</div>
+        </div>
+      </div>
+      <div>
+        <NavUnderline className="nav">
+          <li class="nav-item">
+            <a
+              className={
+                props.tab === "Overview" ? "nav-link active" : "nav-link"
+              }
+              aria-current="page"
+              href={href("community.Overview", { label: props.label })}
+            >
+              <i class="bi-house-door"> </i>
+              Overview
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              className={
+                props.tab === "Discussions" ? "nav-link active" : "nav-link"
+              }
+              href={href("community.Discussions", {
+                label: props.label,
+              })}
+            >
+              <i class="bi-chat-square-text"> </i>
+              Discussions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              className={
+                props.tab === "Sponsorship" ? "nav-link active" : "nav-link"
+              }
+              href={href("community.Sponsorship", {
+                label: props.label,
+              })}
+            >
+              <i class="bi-kanban"> </i>
+              Sponsorship
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              className={
+                props.tab === "Events" ? "nav-link active" : "nav-link"
+              }
+              href={href("community.Events", {
+                label: props.label,
+                tab: "Events",
+              })}
+            >
+              <i class="bi-calendar"> </i>
+              Events
+            </a>
+          </li>
+        </NavUnderline>
+      </div>
+    </Header>
   </>
 );
