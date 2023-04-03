@@ -34,7 +34,7 @@ const Div = styled.div`
 `;
 
 return (
-  <>
+  <Div>
     <div className="mb-3">
       <Widget
         src="miraclx.near/widget/Attribution"
@@ -53,7 +53,7 @@ return (
         </a>
       )}
     </div>
-    <Div>
+    <div>
       {widgets.map(
         ({ src, requiresLogin }, i) =>
           (!requiresLogin || context.accountId) && (
@@ -62,6 +62,6 @@ return (
             </div>
           )
       )}
-    </Div>
-  </>
+    </div>
+  </Div>
 );
