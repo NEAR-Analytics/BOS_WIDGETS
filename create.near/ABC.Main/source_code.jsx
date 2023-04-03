@@ -66,7 +66,7 @@ const Tabs = styled.div`
   display: flex;
   height: 48px;
   border-bottom: 1px solid #eceef0;
-  margin-bottom: 72px;
+  margin-bottom: 23px;
   overflow: auto;
   scroll-behavior: smooth;
 
@@ -110,21 +110,6 @@ const TabsButton = styled.a`
     right: 0;
     height: 3px;
     background: #59e692;
-  }
-`;
-
-const Bio = styled.div`
-  color: #11181c;
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 48px;
-
-  > *:last-child {
-    margin-bottom: 0 !important;
-  }
-
-  @media (max-width: 900px) {
-    margin-bottom: 48px;
   }
 `;
 
