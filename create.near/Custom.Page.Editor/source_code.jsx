@@ -1,10 +1,10 @@
 const accountId = context.accountId;
 
-const rhs = context.accountId
-  ? Social.get(`${context.accountId}/settings/near.social/homepage.rhs`)
+const page = context.accountId
+  ? Social.get(`${context.accountId}/settings/near.social/page`)
   : undefined;
 
-if (rhs === null) {
+if (page === null) {
   return "";
 }
 
@@ -21,7 +21,7 @@ const defaultWidgets = [
   },
 ];
 
-const settingWidgets = rhs && JSON.parse(rhs);
+const settingWidgets = page && JSON.parse(page);
 
 if (state.widgets === undefined) {
   const widgets = settingWidgets ?? defaultWidgets;
@@ -111,7 +111,7 @@ return (
       <CommitButton
         data={{
           settings: {
-            "near.social": { "homepage.rhs": JSON.stringify(state.widgets) },
+            "near.social": { page: JSON.stringify(state.widgets) },
           },
         }}
       >
