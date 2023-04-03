@@ -1,7 +1,7 @@
 const hashtag = props.hashtag ?? "abc";
 
 State.init({
-  selectedTab: props.tab || "overview",
+  selectedTab: props.tab || "about",
 });
 
 const accountId = props.accountId ?? context.accountId;
