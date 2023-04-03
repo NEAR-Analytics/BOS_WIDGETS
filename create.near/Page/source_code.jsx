@@ -11,12 +11,12 @@ return (
       <li className="nav-item" role="presentation">
         <button
           className="nav-link active"
-          id="pills-feed-tab"
+          id="pills-content-tab"
           data-bs-toggle="pill"
-          data-bs-target="#pills-feed"
+          data-bs-target="#pills-content"
           type="button"
           role="tab"
-          aria-controls="pills-feed"
+          aria-controls="pills-content"
           aria-selected="true"
         >
           Content
@@ -25,12 +25,12 @@ return (
       <li className="nav-item" role="presentation">
         <button
           className="nav-link"
-          id="pills-explore-tab"
+          id="pills-menu-tab"
           data-bs-toggle="pill"
-          data-bs-target="#pills-explore"
+          data-bs-target="#pills-menu"
           type="button"
           role="tab"
-          aria-controls="pills-explore"
+          aria-controls="pills-menu"
           aria-selected="false"
         >
           Menu
@@ -40,17 +40,17 @@ return (
     <div className="tab-content row p-0" id="pills-tabContent">
       <div
         className="tab-pane show active d-lg-block col-lg-8"
-        id="pills-feed"
+        id="pills-content"
         role="tabpanel"
-        aria-labelledby="pills-feed-tab"
+        aria-labelledby="pills-content-tab"
       >
         <Widget src="create.near/widget/ABC.Page" props={props} />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
-        id="pills-explore"
+        id="pills-menu"
         role="tabpanel"
-        aria-labelledby="pills-explore-tab"
+        aria-labelledby="pills-menu-tab"
       >
         <Widget src="create.near/widget/ABC.Menu" props={props} />
       </div>
