@@ -1,3 +1,5 @@
+const hashtag = "abc";
+
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
