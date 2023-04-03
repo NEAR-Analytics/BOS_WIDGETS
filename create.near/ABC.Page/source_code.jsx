@@ -10,13 +10,13 @@ if (page === null) {
 
 const defaultWidgets = [
   {
+    src: "create.near/widget/ABC.Navbar",
+  },
+  {
     src: "create.near/widget/Page.Header",
   },
   {
     src: "create.near/widget/ABC.Featured",
-  },
-  {
-    src: "create.near/widget/ABC.Navbar",
   },
   {
     src: "create.near/widget/ABC.Feed",
