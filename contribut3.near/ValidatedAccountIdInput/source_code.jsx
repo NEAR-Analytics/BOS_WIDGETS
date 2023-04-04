@@ -92,9 +92,8 @@ return (
       type="text"
       id="account-id"
       placeholder="social.near, john.near..."
-      className={`form-control ${
-        state.valid ? "" : "was-validated is-invalid"
-      }`}
+      className={`form-control ${state.valid ? "" : "was-validated is-invalid"
+        }`}
       value={value}
       onChange={({ target }) => update(target.value)}
       onBlur={() => validate(value)}
