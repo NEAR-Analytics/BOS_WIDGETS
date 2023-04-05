@@ -96,3 +96,14 @@ const createOption = ({ id, text, href }) => (
     </a>
   </DropdownItem>
 );
+
+return (
+  <>
+    <Label htmlFor={name}>{name}</Label>
+    <DropdownContainer>
+      <DropdownButton>
+        {options.find((option) => option.id === selected).text}
+      </DropdownButton>
+    </DropdownContainer>
+  </>
+)
