@@ -129,7 +129,7 @@ const Container = styled.div`
 
 return (
   <Center>
-    <Label htmlFor={name}>{name}</Label>
+    <Label htmlFor={name}>{name}:</Label>
 
     <DropdownContainer>
       <DropdownButton>
