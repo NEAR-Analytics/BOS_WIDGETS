@@ -3,12 +3,12 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: .5em;
-  padding: .5em .2em;
+  gap: 0.5em;
+  padding: 0.5em 0.2em;
 `;
 
 const Heading = styled.div`
-  padding-bottom: .5em;
+  padding-bottom: 0.5em;
   border-bottom: 1px solid #eceef0;
   font-style: normal;
   font-weight: 600;
