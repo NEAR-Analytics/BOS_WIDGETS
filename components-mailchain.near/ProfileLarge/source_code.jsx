@@ -1,4 +1,4 @@
-const accountId = props.accountId;
+const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
@@ -88,7 +88,7 @@ return (
                 <Widget
                   src="mob.near/widget/CopyButton"
                   props={{
-                    accountId: accountId,
+                    text: accountId,
                     className: "btn btn-sm btn-outline-dark border-0",
                   }}
                 />
@@ -97,7 +97,7 @@ return (
                     src="components-mailchain.near/widget/MailchainWidget"
                     props={{
                       symbol: "icon",
-                      accountId,
+                      profileId,
                       margin: "0 0 0 -7px",
                     }}
                   />{" "}
