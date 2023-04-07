@@ -1,7 +1,7 @@
-const accountId = props.accountId;
+const accountId = props.accountId ?? "chaotictempest.near";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `/#/calebjacob.near/widget/ProfilePage?accountId=${accountId}`;
 const onPointerUp =
   props.onClick ??
   ((event) => {
@@ -113,7 +113,10 @@ return (
 
         {tags.length > 0 && (
           <TagsWrapper>
-            <Widget src="near/widget/Tags" props={{ tags, scroll: true }} />
+            <Widget
+              src="calebjacob.near/widget/Tags"
+              props={{ tags, scroll: true }}
+            />
           </TagsWrapper>
         )}
       </div>
@@ -121,7 +124,7 @@ return (
 
     {!!context.accountId && context.accountId !== props.accountId && (
       <Widget
-        src="near/widget/FollowButton"
+        src="calebjacob.near/widget/FollowButton"
         props={{ accountId: props.accountId }}
       />
     )}
