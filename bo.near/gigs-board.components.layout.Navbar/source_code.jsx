@@ -57,7 +57,7 @@ return (
           </li>
           <li class="nav-item">
             <a class="nav-link active" href={href("Feed", { recency: "all" })}>
-              <i class="bi-envelope-fill"> </i>
+              <i class="bi-fire"> </i>
               Recent
             </a>
           </li>
@@ -68,12 +68,6 @@ return (
             >
               <i class="bi-repeat"> </i>
               Recurrent
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href={href("Feed", { recency: "hot" })}>
-              <i class="bi-fire"> </i>
-              Hottest
             </a>
           </li>
           <li class="nav-item">
@@ -93,49 +87,10 @@ return (
             </a>
           </li>
 
-          {props.children
-            ? props.children.map((child) => (
-                <li class="nav-item active ms-2">{child}</li>
-              ))
-            : null}
+          {props.children ? (
+            <li class="nav-item active ms-2">{props.children}</li>
+          ) : null}
         </ul>
-        <div class="btn-group" role="group">
-          <button
-            type="button"
-            class="btn btn-outline-secondary rounded-circle"
-            style={{
-              width: "30px",
-              height: "30px",
-              padding: "6px 0px",
-              borderWidth: "0.5px",
-              lineHeight: "0px",
-            }}
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="bi bi-question-lg"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-              <a
-                target="_blank"
-                class="dropdown-item"
-                href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&labels=bug&template=bug_report.md&title="
-              >
-                Report a bug
-              </a>
-            </li>
-            <li>
-              <a
-                target="_blank"
-                class="dropdown-item"
-                href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&labels=enhancement&template=feature-request.md&title="
-              >
-                Suggest an improvement
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
   </div>
