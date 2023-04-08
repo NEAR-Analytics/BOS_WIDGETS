@@ -1,9 +1,16 @@
 const accountId = props.accountId || context.accountId;
 const contracts = props.contracts ||
-  context.contracts || ["x.paras.near", "abstractrabbit.near"];
+  context.contracts || [
+    "asac.near",
+    "mrbrownproject.near",
+    "spin-nft-contract.near",
+    "citizen.bodega-lab.near",
+    "ff.nekotoken.near",
+    "abstractrabbit.near",
+  ];
 const marketId = "simple.market.mintbase1.near";
 
-const AFFILIATE_ACCOUNT = props.affiliateAccount || "abstractrabbit.near";
+const AFFILIATE_ACCOUNT = props.affiliateAccount || "mintbase.near";
 
 const data = fetch("https://graph.mintbase.xyz", {
   method: "POST",
@@ -15,7 +22,7 @@ const data = fetch("https://graph.mintbase.xyz", {
   body: JSON.stringify({
     query: `
       query MyQuery($contracts: [String]) {
-        mb_views_active_listings_by_contract(limit: 100, order_by: {created_at: desc}, where: {market_id: {_eq: "simple.market.mintbase1.near, par"}, nft_contract_id: {_in: $contracts}}) {
+        mb_views_active_listings_by_contract(limit: 100, order_by: {created_at: desc}, where: {market_id: {_eq: "simple.market.mintbase1.near"}, nft_contract_id: {_in: $contracts}}) {
             listed_by
             created_at
             price
@@ -96,7 +103,7 @@ return data !== null ? (
                       maxHeight: size,
                       overflowWrap: "break-word",
                     },
-                    thumbnail: "",
+                    thumbnail: "thumbnail",
                     className: "",
                     fallbackUrl:
                       "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
