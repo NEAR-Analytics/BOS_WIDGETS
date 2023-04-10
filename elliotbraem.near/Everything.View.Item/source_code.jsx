@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/elliotbraem.near/widget/Everything.View.Item">view widget</a>!</p>);
