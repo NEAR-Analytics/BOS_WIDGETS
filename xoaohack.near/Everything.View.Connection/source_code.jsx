@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/xoaohack.near/widget/Everything.View.Connection">view widget</a>!</p>);
