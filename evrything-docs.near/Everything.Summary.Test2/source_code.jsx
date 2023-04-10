@@ -1,1 +1,0 @@
-return (<p>Go configure your <a href="/#/edit/evrything-docs.near/widget/Everything.Summary.Test2">summary widget</a>!</p>);
