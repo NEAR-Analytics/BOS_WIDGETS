@@ -16,9 +16,9 @@ if (state.items.length === 0) {
     ownerId,
     accountId
       ? cid
-        ? "get_request_contributions"
-        : "get_project_contributions"
-      : "get_vendors",
+        ? "get_need_contributions"
+        : "get_entity_contributions"
+      : "get_contributors",
     {
       ...(accountId ? { account_id: accountId } : {}),
       ...(cid ? { cid } : {}),
