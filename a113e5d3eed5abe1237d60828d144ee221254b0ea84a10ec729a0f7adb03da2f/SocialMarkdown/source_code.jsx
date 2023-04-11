@@ -65,7 +65,6 @@ function numberWithCommas(x) {
 }
 
 let allRows = [];
-console.log("fake");
 for (let i = 0; i < contractsRanking.body.length; i++) {
   const cR = contractsRanking.body[i];
   allRows.push(
