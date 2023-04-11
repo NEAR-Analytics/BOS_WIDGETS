@@ -64,7 +64,7 @@ return (
     <Wrapper>
       <Header>
         <a
-          href={`/#/${ownerId}/widget/Index?tab=need&accountId=${accountId}&cid=${cid}`}
+          href={`/${ownerId}/widget/Index?tab=need&accountId=${accountId}&cid=${cid}`}
           onClick={() =>
             props.update({
               tab: "need",
