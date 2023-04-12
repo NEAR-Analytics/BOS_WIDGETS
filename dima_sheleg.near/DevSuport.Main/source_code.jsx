@@ -19,31 +19,31 @@ const SidebarWrapper = styled.div`
 `;
 
 return (
-  <div class="container-fluid py-3 mb-5">
+  <div class="container py-3 mb-5">
     <div class="row">
       {/**
     <SidebarWrapper className="col-2 pe-5">
         <Widget
-          src="dima_sheleg.near/widget/DevSupport.Main.Sidebar"
+          src="dmitriy_sheleg.near/widget/DevSupport.Main.Sidebar"
           props={{ categories: sortByCategories, topics: filterByTopic }}
         />
       </SidebarWrapper>
     */}
 
-      <div class="col-12">
+      <div class="col-12 ps-5">
         <Widget
-          src="dima_sheleg.near/widget/DevSupport.Discussion.Title"
+          src="dmitriy_sheleg.near/widget/DevSupport.Discussion.Title"
           props={{ disabled: !context.accountId, onClick: toggleQuestion }}
         />
         {/* Widget to create the question */}
         <div class="my-3">
           {state.askQuestion && (
-            <Widget src="dima_sheleg.near/widget/DevSupport.Question.Edit" />
+            <Widget src="dmitriy_sheleg.near/widget/DevSupport.Question.Edit" />
           )}
         </div>
         {/* Widget to display Feed of Questions */}
         <Widget
-          src="dima_sheleg.near/widget/DevSupport.Feed"
+          src="dmitriy_sheleg.near/widget/DevSupport.Feed"
           props={{ admins, adminContract: adminContract }}
         />
       </div>
