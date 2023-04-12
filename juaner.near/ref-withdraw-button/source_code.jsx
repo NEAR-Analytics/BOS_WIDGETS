@@ -1,25 +1,3 @@
-const Container = styled.div`
-  .greenButton{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background: #00FFD1;
-    border-radius: 12px;
-    height:46px;
-    font-weight: 700;
-    font-size: 18px;
-    color:#000;
-    cursor:pointer;
-    width:100%;
-  }
-  .mt_25{
-    margin-top:25px;
-  }
-  .disabled{
-    opacity:0.3;
-    cursor: not-allowed;
-  }
-`;
 let BURROW_CONTRACT = "contract.main.burrow.near";
 let ORACLE_CONTRACT = "priceoracle.near";
 let accountId = context.accountId;
@@ -45,7 +23,6 @@ const {
   assets,
   availableBalance,
   storageToken,
-  isMax,
 } = props;
 function decimalMax(a, b) {
   a = new B(a);
@@ -62,13 +39,14 @@ const handleWithdraw = () => {
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
+  if (Number(amount) > Number(availableBalance)) {
+    onLoad({ hasError: true });
+    return;
+  }
   const decimals = metadata.decimals + config.extra_decimals;
-  const expandedAmount = expandToken(
-    isMax ? availableBalance : amount,
-    decimals
-  );
+  const expandedAmount = expandToken(amount, decimals);
   const accountSuppliedAsset = account.supplied.find(
-    (a) => a.token_id === selectedTokenId
+    (a) => a.token_id === tokenId
   );
   const suppliedBalance = accountSuppliedAsset?.balance || 0;
   const decreaseCollateralAmount = decimalMax(
@@ -78,7 +56,7 @@ const handleWithdraw = () => {
   const withdrawAction = {
     Withdraw: {
       token_id,
-      max_amount: !isMax ? expandedAmount.toFixed() : undefined,
+      max_amount: expandedAmount.toFixed(),
     },
   };
   const transactions = [];
@@ -124,7 +102,6 @@ const handleWithdraw = () => {
     transactions.push({
       contractName: token_id,
       methodName: "near_withdraw",
-      deposit: new Big("1").toFixed(),
       args: { amount: expandedAmount.sub(10).toFixed(0) },
     });
   }
@@ -142,12 +119,10 @@ const handleWithdraw = () => {
   Near.call(transactions);
 };
 return (
-  <Container>
-    <div
-      class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
-      onClick={handleWithdraw}
-    >
-      Withdraw
-    </div>
-  </Container>
+  <div
+    class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
+    onClick={handleWithdraw}
+  >
+    Withdraw
+  </div>
 );
