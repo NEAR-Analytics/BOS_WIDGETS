@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/lynkable.near/widget/Everything.Summary.Person">summary widget</a>!</p>);
