@@ -10,13 +10,13 @@ if (side === null) {
 
 const defaultWidgets = [
   {
-    src: "hack.near/widget/Guide.Summary",
+    src: "hack.near/widget/Page.Links",
   },
   {
-    src: "mob.near/widget/Applications",
+    src: "hack.near/widget/Components",
   },
   {
-    src: "mob.near/widget/People",
+    src: "hack.near/widget/Page.Supporters",
   },
 ];
 
