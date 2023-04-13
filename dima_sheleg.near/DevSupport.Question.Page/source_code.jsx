@@ -104,10 +104,6 @@ const H6 = styled.h6`
 `;
 const SidebarWrapper = styled.div`
   border-left: 1px solid #ECEEF0;
-
-  @media(max-width: 768px) {
-    border-left: none;
-  }
 `;
 const ShareButton = styled.button`
   display: inline-flex;
@@ -143,16 +139,16 @@ const ShareButton = styled.button`
 `;
 
 return (
-  <div className="pt-2 pb-5">
+  <div className="container pt-2 pb-5">
     <H4>
-      <a href="https://near.social/#/dima_sheleg.near/widget/DevSuport.Main">
+      <a href="https://near.social/#/dmitriy_sheleg.near/widget/DevSuport.Main">
         <i class="bi bi-arrow-left me-2" />
         Back to Discussions
       </a>
     </H4>
 
     <div class="row mt-5">
-      <div class="col-md-8 col-12 pe-md-5">
+      <div class="col-8 pe-5">
         <Widget
           src="dima_sheleg.near/widget/DevSupport.Question.PreviewDetailed"
           props={{
@@ -188,7 +184,7 @@ return (
           }}
         />
       </div>
-      <SidebarWrapper className="col-md-4 col-12 ps-md-5 pt-md-0 pt-5 border-md-0">
+      <SidebarWrapper className="col-4 ps-5">
         <Widget
           src="dmitriy_sheleg.near/widget/AccountProfileCard"
           props={{ accountId }}
