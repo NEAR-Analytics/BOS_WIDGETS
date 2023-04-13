@@ -1,13 +1,9 @@
-const title = props.title;
-const description = props.description;
-
-const accountId = props.accountId;
+const title = props.title ?? "Title";
+const description = props.description ?? "Description";
 
 return (
-  <div className="border-bottom pt-3 pb-1">
-    <Widget
-      src="hack.near/widget/Everything.Summary.Post.Content"
-      props={{ title, description }}
-    />
-  </div>
+  <>
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </>
 );
