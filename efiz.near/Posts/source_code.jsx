@@ -1,15 +1,14 @@
-/**
- * Forked from near/widget/Posts
- *
- * Takes in hashtags to be embedded in the post
- * And a community for dedicated feed
- */
-const hashtags = props.hashtags ?? [];
-const community = props.community || null;
-
 State.init({
   selectedTab: Storage.privateGet("selectedTab") || "all",
 });
+
+const domains = [
+  "apple123456",
+  "banana123456",
+  "cherry123456",
+  "durian123456",
+  "elderberry123456",
+];
 
 const previousSelectedTab = Storage.privateGet("selectedTab");
 
@@ -29,8 +28,6 @@ if (state.selectedTab === "following" && context.accountId) {
   } else {
     accounts = [];
   }
-} else if (state.selectedTab === "members") {
-  accounts = community.members || [];
 } else {
   accounts = undefined;
 }
@@ -67,9 +64,6 @@ const ComposeWrapper = styled.div`
 const FilterWrapper = styled.div`
   border-top: 1px solid #eceef0;
   padding: 24px 24px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 
   @media (max-width: 1200px) {
     padding: 12px;
@@ -138,18 +132,13 @@ const FeedWrapper = styled.div`
 
 return (
   <>
+    <H2>Posts</H2>
+
     <Content>
       {context.accountId && (
         <>
           <ComposeWrapper>
-            <Widget
-              src="efiz.near/widget/Posts.Compose"
-              props={{
-                domain: community.domain,
-                hashtags,
-                members: community.members,
-              }}
-            />
+            <Widget src="efiz.near/widget/Posts.Compose" />
           </ComposeWrapper>
 
           <FilterWrapper>
@@ -161,15 +150,6 @@ return (
               >
                 All
               </PillSelectButton>
-              {community && community.members?.length > 0 && (
-                <PillSelectButton
-                  type="button"
-                  onClick={() => selectTab("members")}
-                  selected={state.selectedTab === "members"}
-                >
-                  Members
-                </PillSelectButton>
-              )}
 
               <PillSelectButton
                 type="button"
@@ -179,6 +159,14 @@ return (
                 Following
               </PillSelectButton>
             </PillSelect>
+            <Typeahead
+              options={domains}
+              multiple
+              onChange={(value) => {
+                State.update({ choose: value });
+              }}
+              placeholder="Domains"
+            />
           </FilterWrapper>
         </>
       )}
@@ -186,12 +174,7 @@ return (
       <FeedWrapper>
         <Widget
           src="efiz.near/widget/Posts.Feed"
-          props={{
-            accounts,
-            domain: community.domain,
-            hashtags,
-            exclusive: false,
-          }}
+          props={{ accounts, domains: state.choose }}
         />
       </FeedWrapper>
     </Content>
