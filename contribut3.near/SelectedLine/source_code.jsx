@@ -15,7 +15,7 @@ const Container = styled.div`
 const Label = styled.div`
   font-style: normal;
   font-weight: 600;
-  font-size: .95em;
+  font-size: 0.95em;
   line-height: 1.25em;
   color: #344054;
 `;
@@ -35,7 +35,10 @@ return (
   <Container>
     <Label>{label}</Label>
     <Card>
-      <Widget src={`${ownerId}/widget/${isProject ? "Project" : "Vendor"}.Line`} props={{ accountId, tall: true }} />
+      <Widget
+        src={`${ownerId}/widget/${isProject ? "Project" : "Vendor"}.Line`}
+        props={{ accountId, tall: true }}
+      />
     </Card>
   </Container>
 );
