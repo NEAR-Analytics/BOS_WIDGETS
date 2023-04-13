@@ -1,4 +1,4 @@
-const owner = props.owner ?? "hack.near";
+const accountId = props.accountId ?? context.accountId;
 const domain = props.domain ?? "abc";
 
 return (
@@ -45,7 +45,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-feed-tab"
       >
-        <Widget src="hack.near/widget/ABC.Page.Content" props={props} />
+        <Widget src="hack.near/widget/ABC.Page.Content" props={domain} />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
