@@ -27,7 +27,7 @@ return (
       description: <Widget src={`${ownerId}/widget/SelectedLine`} props={{ accountId, label: "Vendor", isProject: false }} />,
       trigger: <>{personPlus}Request contribution</>,
       children: <Widget src={`${ownerId}/widget/Vendor.RequestForm`} props={{ accountId }} />,
-      minWidth: "400px",
+      minWidth: "600px",
     }}
   />
 );
