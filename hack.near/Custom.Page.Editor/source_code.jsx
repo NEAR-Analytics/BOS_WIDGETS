@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 
 const page = context.accountId
-  ? Social.get(`${context.accountId}/settings/every/page`)
+  ? Social.get(`${context.accountId}/settings/near.social/page`)
   : undefined;
 
 if (page === null) {
@@ -104,7 +104,7 @@ return (
       <CommitButton
         data={{
           settings: {
-            every: { page: JSON.stringify(state.widgets) },
+            "near.social": { page: JSON.stringify(state.widgets) },
           },
         }}
       >
