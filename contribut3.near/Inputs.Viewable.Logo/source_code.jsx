@@ -1,7 +1,7 @@
 const ownerId = "contribut3.near";
 const id = props.id ?? "text";
 const accountId = props.accountId ?? context.accountId;
-const onSave = props.onSave ?? (() => {});
+const onSave = props.onSave ?? (() => { });
 const canEdit = props.canEdit;
 
 State.init({
@@ -23,12 +23,10 @@ const Input = styled.input`
 
 const LabelArea = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   justify-content: flex-start;
   gap: 0.25em;
-  position: relative;
-
   & input {
     width: 100%;
   }
@@ -74,10 +72,8 @@ return (
       ),
       view: (
         <Widget
-          src={`${ownerId}/widget/${
-            props.isProject ? "Project" : "Vendor"
-          }.Icon`}
-          props={{ accountId: props.accountId, size: "6.5em" }}
+          src={`${ownerId}/widget/Project.Icon`}
+          props={{ accountId: props.accountId, size: "8em" }}
         />
       ),
       canEdit,
