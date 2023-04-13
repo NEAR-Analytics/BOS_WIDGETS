@@ -2,19 +2,18 @@ if (!context.accountId) {
   return <></>;
 }
 
-const embeddedHashtags = props.hashtags || [];
-const community = props.community || null;
-let isMember = false;
-if (community && community.members && community.members.length) {
-  isMember = community.members.includes(context.accountId);
-}
-const key = props.key || "main";
+const domains = [
+  "apple123456",
+  "banana123456",
+  "cherry123456",
+  "durian123456",
+  "elderberry123456",
+];
 
 State.init({
   image: {},
   text: "",
   showPreview: false,
-  public: true,
 });
 
 const profile = Social.getr(`${context.accountId}/profile`);
@@ -56,88 +55,33 @@ function extractTagNotifications(text, item) {
     }));
 }
 
-const extractHashtags = (text) => {
-  const hashtagRegex = /#(\w+)/gi;
-  hashtagRegex.lastIndex = 0;
-  const hashtags = new Set();
-  for (const match of text.matchAll(hashtagRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-    ) {
-      hashtags.add(match[1].toLowerCase());
-    }
-  }
-  return [...hashtags];
-};
-
 function composeData() {
   const data = {
     post: {
       main: JSON.stringify(content),
     },
-    index: {},
+    index: {
+      // post: JSON.stringify({
+      //   key: "main",
+      //   value: {
+      //     type: "md",
+      //   },
+      // }),
+    },
   };
 
-  function mergeArrays(array1, array2) {
-    const mergedArray = [...array1, ...array2];
-    const uniqueArray = [];
-    mergedArray.forEach((item) => {
-      if (!uniqueArray.includes(item)) {
-        uniqueArray.push(item);
-      }
-    });
-    return uniqueArray;
-  }
-
-  const hashtags = extractHashtags(content.text);
-
-  hashtags = mergeArrays(hashtags, embeddedHashtags);
-  /**
-   * If domains have been provided, then we create an index under that "domain"
-   * Otherwise, we post to the catch-all "post" domain
-   */
-
-  if (state.public) {
-    data.index.post = JSON.stringify({
-      key,
-      value: {
-        type: "md",
-      },
-    });
-  }
-  if (isMember) {
-    data.index[community?.domain] = JSON.stringify({
-      key,
-      value: {
-        type: "md",
-      },
+  if (state.choose) {
+    state.choose.map((it) => {
+      data.index[it] = JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      });
     });
   }
 
-  if (hashtags.length) {
-    if (state.public) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: {
-            type: "social",
-            path: `${context.accountId}/post/main`,
-          },
-        }))
-      );
-    } else {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: {
-            type: "social",
-            path: `${context.accountId}/${community?.domain}/main`,
-          },
-        }))
-      );
-    }
-  }
+  console.log(data);
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
@@ -379,14 +323,6 @@ const Actions = styled.div`
   }
 `;
 
-const Domain = styled.div`
-  display: inline-flex;
-  gap: 12px;
-  position: absolute;
-  bottom: var(--padding);
-  left: var(--padding);
-`;
-
 const PreviewWrapper = styled.div`
   position: relative;
   padding: var(--padding);
@@ -405,16 +341,12 @@ const AutoComplete = styled.div`
   }
 `;
 
-const setPublic = () => {
-  State.update({ public: !state.public });
-};
-
 return (
   <Wrapper>
     {state.showPreview ? (
       <PreviewWrapper>
         <Widget
-          src="efiz.near/widget/Posts.Post"
+          src="near/widget/Posts.Post"
           props={{
             accountId: context.accountId,
             blockHeight: "now",
@@ -473,20 +405,6 @@ return (
         />
       </AutoComplete>
     )}
-    {!state.showPreview && isMember && (
-      <Domain>
-        <input
-          className="form-check-input"
-          type="checkbox"
-          checked={state.public}
-          onChange={(e) => {
-            setPublic(e);
-          }}
-          id="public"
-        />
-        <label htmlFor={"public"}>post publicly</label>
-      </Domain>
-    )}
 
     <Actions>
       {!state.showPreview && (
@@ -509,6 +427,15 @@ return (
           <i className="bi bi-eye-fill" />
         )}
       </button>
+      <Typeahead
+        options={domains}
+        multiple
+        onChange={(value) => {
+          State.update({ choose: value });
+        }}
+        placeholder="Domains"
+      />
+
       <CommitButton
         disabled={!state.text}
         force
