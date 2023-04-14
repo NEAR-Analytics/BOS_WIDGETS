@@ -4,7 +4,7 @@ if (!owner) {
   return "Please connect your NEAR account :)";
 }
 
-let page = Social.getr(`${accountId}/page`);
+let page = Social.getr(`${accountId}/every/page`);
 
 if (page === null) {
   return "Loading";
