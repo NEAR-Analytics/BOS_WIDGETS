@@ -1,15 +1,24 @@
 const accountId = context.accountId;
+const typeTag = props.typeTag;
+const template = props.template;
 
 State.init({
   hashtag: "",
 });
 
 const createThing = () => {
+  // Replace the widget below with the
   Social.set(
     {
       widget: {
         [`${state.hashtag}.View.Page`]: {
-          "": `return (<Widget src="efiz.near/widget/TaggedWidgets" props={{hashtag: props.hashtag}} />);`,
+          "": `return (<Widget src=${template} props={{hashtag: props.hashtag}} />);`,
+          metadata: {
+            tags: {
+              page: "",
+              [typeTag]: "",
+            },
+          },
         },
       },
     },
