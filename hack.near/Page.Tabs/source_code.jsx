@@ -1,10 +1,10 @@
-const owner = props.accountId ?? "hack.near";
+const accountId = props.accountId ?? "hack.near";
 const hashtag = props.hashtag ?? "builders";
-if (!owner) {
+if (!accountId) {
   return "No account ID";
 }
 
-const page = props.page ?? Social.getr(`${owner}/page`);
+const page = props.page ?? Social.getr(`${accountId}/page`);
 
 if (page === null) {
   return "Loading";
@@ -53,7 +53,7 @@ return (
         <div className="mx-auto">
           <Widget
             src="hack.near/widget/ForkThis"
-            props={{ accounts: [owner] }}
+            props={{ accounts: [accountId] }}
           />
         </div>
       </div>
@@ -91,7 +91,7 @@ return (
         aria-labelledby="pills-widgets-tab"
       >
         <div className="mx-auto">
-          <Widget src="hack.near/widget/Components" props={{ owner }} />
+          <Widget src="hack.near/widget/Components" props={{ accountId }} />
         </div>
       </div>
     </div>
