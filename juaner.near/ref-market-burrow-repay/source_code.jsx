@@ -1,27 +1,4 @@
 const Container = styled.div`
-    .content input{
-      background: #152528;
-      border-radius: 12px;
-      height: 55px;
-      font-size:20px;
-      color: #7E8A93;
-      padding:0 15px 0 15px;
-      border:none;
-      outline:none;
-      margin-bottom:8px;
-    }
-    .content input:focus{
-      outline:none;
-    }
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
-    .content .balance {
-      font-size:12px;
-      color:#4B6778;
-      margin-left:6px;
-    }
     .template{
       display:flex;
       align-items:center;
