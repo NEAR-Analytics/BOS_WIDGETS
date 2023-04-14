@@ -13,6 +13,9 @@ const Container = styled.div`
       font-size:14px;
       color:#fff;
     }
+    .template .usd{
+        color:#7E8A93;
+    }
     .mt_25{
       margin-top:25px;
     }
@@ -148,6 +151,7 @@ const onLoad = (data) => {
 /** logic start*/
 let apy = 0;
 let cf = "-";
+let asset;
 const getApy = (asset) => {
   if (!asset && !rewards) return 0;
   const r = rewards.find((a) => a.token_id === asset.token_id);
@@ -156,7 +160,7 @@ const getApy = (asset) => {
 };
 if (selectedTokenId && assets) {
   const token = selectedTokenId === "NEAR" ? "wrap.near" : selectedTokenId;
-  const asset = assets.find((a) => a.token_id === token);
+  asset = assets.find((a) => a.token_id === token);
   apy = getApy(asset);
   cf = asset.config.volatility_ratio / 100;
 }
@@ -285,6 +289,10 @@ function getCloseButtonIcon(icon) {
     closeButtonBase64: icon,
   });
 }
+const remainCollateral = amount || remainBalance || 0;
+const remainCollateral$ = B(asset.price.usd || 0)
+  .mul(remainCollateral)
+  .toFixed(2);
 return (
   <Container>
     {/* load data */}
@@ -336,7 +344,8 @@ return (
           <div class="template mt_25">
             <span class="title">Use as Collateral</span>
             <span class="value">
-              {Big(amount || remainBalance || 0).toFixed(4)}
+              {B(remainCollateral).toFixed(4)}
+              <span class="usd">(${remainCollateral$ || "0"})</span>
             </span>
           </div>
           <Widget
