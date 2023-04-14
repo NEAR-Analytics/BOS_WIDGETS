@@ -58,17 +58,31 @@ return (
   <div>
     <Wrapper>
       <Header>
-        <H1>Guide for Builders</H1>
+        <H1>Guide for Hackers</H1>
+
+        <Header>
+          <a className="btn btn-primary" href="https://docs.near.org">
+            NEAR Documentation
+          </a>
+          <a
+            className="btn btn-outline-primary"
+            href="https://banyan-collective.notion.site/LionHack-23-Hacker-Tool-Kit-641c4523e02748fb8451b08eebfcd43a"
+          >
+            Additional Resources
+          </a>
+        </Header>
 
         <Text>
+          <h2>Learn to Earn</h2>
+
           <h5>
-            <b>Step 1:</b> Click "Start Here" below.
+            <b>1.</b> Click "Fork This" below.
           </h5>
           <h5>
-            <b>Step 2:</b> Follow the instructions.
+            <b>2.</b> Follow the instructions.
           </h5>
           <h5>
-            <b>Step 3:</b> Save your widget.
+            <b>3.</b> Save your widget.
           </h5>
         </Text>
 
@@ -77,21 +91,12 @@ return (
             className="btn btn-success"
             href="#/edit/hack.near/widget/ForkThis"
           >
-            Start Here
-          </a>
-        </Header>
-
-        <Header>
-          <a
-            className="btn btn-outline-primary"
-            href="https://banyan-collective.notion.site/LionHack-23-Hacker-Tool-Kit-641c4523e02748fb8451b08eebfcd43a"
-          >
-            NEAR Dev Resources
+            Fork This
           </a>
         </Header>
 
         <Text>
-          <h3>Featured</h3>
+          <h3>Tutorial</h3>
         </Text>
 
         <Items>
