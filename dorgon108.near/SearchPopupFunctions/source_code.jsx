@@ -34,6 +34,8 @@ const Wrapper = styled.div`
   padding-bottom: 48px;
   max-width: 600px;
   margin: 0 auto;
+  padding-top: 50px;
+  padding-bottom: 50px;
 `;
 
 const Header = styled.div`
@@ -60,6 +62,8 @@ const H1 = styled.h1`
 const FixedTabs = styled.div`
     padding: 1rem;
     text-align: right;
+    position:fixed;
+    top:0;
 
   `;
 
@@ -168,6 +172,9 @@ const FixedFooter = styled.div`
     padding: 1rem;
     text-align: right;
     border-top: 1px solid rgba(96, 109, 122, 0.4);
+        position:fixed;
+        bottom:0;
+
   `;
 
 const TabsButton = styled.a`
