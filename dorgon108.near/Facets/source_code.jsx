@@ -20,7 +20,6 @@ const Tabs = styled.div`
   scroll-behavior: smooth;
 
   @media (max-width: 1200px) {
-    background: #f8f9fa;
     margin-left: -12px;
     margin-right: -12px;
     border-bottom: 1px solid rgba(112, 109, 218, 0.15);
