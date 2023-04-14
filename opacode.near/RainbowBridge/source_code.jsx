@@ -36,6 +36,7 @@ const testnetTokens = {
     auroraAddress: undefined,
     decimals: 18,
     origin: "ethereum",
+    icon: "https://rainbowbridge.app/static/tokens/eth.svg",
   },
 
   FAU: {
@@ -58,6 +59,7 @@ const mainnetTokens = {
     auroraAddress: undefined,
     decimals: 18,
     origin: "ethereum",
+    icon: "https://rainbowbridge.app/static/tokens/eth.svg",
   },
   "USDC.e": {
     symbol: "USDC.e",
@@ -67,6 +69,7 @@ const mainnetTokens = {
     auroraAddress: "0xb12bfca5a55806aaf64e99521918a4bf0fc40802",
     decimals: 6,
     origin: "ethereum",
+    icon: "https://rainbowbridge.app/static/tokens/usdc.svg",
   },
 };
 
@@ -176,8 +179,20 @@ const bridgeTokens = () => {
         State.update({ lastTxHash: tx.hash });
         tx.wait().then((receipt) => {
           console.log(receipt);
-          // TODO sync Recent transfers after 10s
-          State.update({ lastTxHash: null });
+          const metadata = state.tokens[state.tokenSymbol];
+          State.update({
+            lastTxHash: null,
+            lastestTransfer: {
+              amount: state.bigNumberAmount.toString(),
+              ethHash: tx.hash,
+              nearReceipt: "",
+              status: "pending",
+              metadata: {
+                address: tokenAddress,
+                ...metadata,
+              },
+            },
+          });
         });
       });
   } else if (state.tokenSymbol === "NEAR") {
@@ -202,7 +217,20 @@ const bridgeTokens = () => {
         tx.wait().then((receipt) => {
           console.log(receipt);
           fetchBalance(state.tokenSymbol);
-          State.update({ lastTxHash: null });
+          const metadata = state.tokens[state.tokenSymbol];
+          State.update({
+            lastTxHash: null,
+            lastestTransfer: {
+              amount: state.bigNumberAmount.toString(),
+              ethHash: tx.hash,
+              nearReceipt: "",
+              status: "pending",
+              metadata: {
+                address: tokenAddress,
+                ...metadata,
+              },
+            },
+          });
         });
       });
   }
@@ -253,7 +281,7 @@ Ethers.provider()
   })
   .catch((error) => console.log(error));
 
-const recentTransfers = useCache(
+const transfers = useCache(
   () =>
     asyncFetch(
       `https://jvea2jh4jzwg4vykyhy3mcdh7i0yfosk.lambda-url.eu-central-1.on.aws/${
@@ -265,6 +293,14 @@ const recentTransfers = useCache(
   "recentTransfers",
   { subscribe: true }
 );
+
+const lastTransferIndexed =
+  transfers &&
+  transfers.find((t) => t.ethHash === state.lastestTransfer?.ethHash);
+const recentTransfers =
+  lastTransferIndexed || !state.lastestTransfer
+    ? transfers
+    : [state.lastestTransfer, ...(transfers ?? [])];
 
 if (!state.theme) {
   State.update({
