@@ -255,7 +255,7 @@ const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
           posts(results["comment, post"], "post-comment")
         ),
       },
-      currentPage: 0,
+      currentPage: pageNumber,
       paginate: {
         hitsTotal,
         hitsPerPage,
