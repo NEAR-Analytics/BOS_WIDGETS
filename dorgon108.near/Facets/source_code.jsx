@@ -41,7 +41,7 @@ const TabsButton = styled.a`
   font-size: 12px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#FFFFFF" : "#687076")};
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
   background: none;
   border: none;
   outline: none;
@@ -156,7 +156,6 @@ const FacetItem =
     min-width: 32px;
 
     &:hover {
-      background-color: rgba(96, 109, 122, 0.5);
       cursor: pointer;
     }
 
