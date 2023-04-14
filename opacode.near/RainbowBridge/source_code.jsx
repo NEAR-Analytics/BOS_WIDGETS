@@ -252,6 +252,17 @@ Ethers.provider()
     }
   });
 
+const recentTransfers = useCache(
+  () =>
+    asyncFetch(
+      `https://jvea2jh4jzwg4vykyhy3mcdh7i0yfosk.lambda-url.eu-central-1.on.aws/${
+        state.isTestnet ? 5 : 1
+      }/${sender}`
+    ).then((res) => res?.body ?? []),
+  "recentTransfers",
+  { subscribe: true }
+);
+
 if (!state.theme) {
   State.update({
     theme: styled.div`
@@ -270,10 +281,27 @@ if (!state.theme) {
         text-align: center;
         margin-top: 30px;
         margin-bottom: 30px;
+      }
+      .networkIcon {
+        border: 3px solid rgb(149,149,149);
+        background-color: rgb(149,149,149);
+      }
+      tr {
+        border-bottom: 1px solid;
+        border-top: 1px solid;
+      }
+      table {
+        width: 100%;
       }`,
   });
 }
 const Theme = state.theme;
+const ethExplorerUrl = state.isTestnet
+  ? "https://goerli.etherscan.io"
+  : "https://etherscan.io";
+const nearExplorerUrl = state.isTestnet
+  ? "https://explorer.testnet.near.org"
+  : "https://explorer.near.org";
 
 const wrongWalletNetwork =
   state.walletChainId !== state.chainIds[state.sourceNetwork];
@@ -452,12 +480,71 @@ return (
       {state.lastTxHash && (
         <div class="mb-3">{`Pending transaction: ${state.lastTxHash}`}</div>
       )}
-      <p class="">
+      <p>
         NOTE: Please make sure that your wallet is compatible with the
-        Destination Network before sending tokens. Only Ethereum ={">"} Aurora
-        transfers available atm from this UI. Visit rainbowbridge.app.
+        Destination Network before sending tokens.
+      </p>
+      <p>
+        This component relies on a new indexed bridge transfers API. The user
+        can view their recent transfers on any browser and will be able to
+        finalize a transfer in one click without having to restore the transfer
+        on
+        <a href="https://rainbowbridge.app/" target="_blank" rel="noreferrer">
+          rainbowbridge.app
+        </a>
+        . Only Ethereum ={">"} Aurora transfers available atm from this UI.
       </p>
       <h3> Recent transfers </h3>
+      <table>
+        <tbody>
+          {recentTransfers.map((t, i) => (
+            <tr>
+              <td>
+                <img
+                  src={
+                    t.metadata.icon?.length
+                      ? t.metadata.icon
+                      : "https://rainbowbridge.app/static/tokens/aurora.svg"
+                  }
+                  width="25"
+                  height="25"
+                  style={{ "margin-bottom": "2px" }}
+                />
+                {ethers.utils.formatUnits(t.amount, t.metadata.decimals)}
+                {t.metadata.symbol}
+              </td>
+              <td>
+                <a
+                  href={`${ethExplorerUrl}/tx/${t.ethHash}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src={"https://rainbowbridge.app/static/tokens/eth.svg"}
+                    class="networkIcon"
+                    width="30"
+                    height="30"
+                  />
+                </a>
+                ={">"}
+                <a
+                  href={`${nearExplorerUrl}/receipts/${t.nearReceipt}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src={"https://rainbowbridge.app/static/tokens/aurora.svg"}
+                    class="networkIcon"
+                    width="30"
+                    height="30"
+                  />
+                </a>
+              </td>
+              <td>{t.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </Theme>
 );
