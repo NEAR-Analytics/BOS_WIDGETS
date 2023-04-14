@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/alyssakim.near/widget/Everything.Summary.Document">summary widget</a>!</p>);
