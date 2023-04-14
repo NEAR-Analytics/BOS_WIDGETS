@@ -1,6 +1,6 @@
 const accountId = props.accountId; // which account's Types to use
 const font = props.font || "Courier"; // custom font for H1
-const hashtag = props.hashtag || "page"; // where to index data from
+const hashtag = props.hashtag || "dev"; // where to index data from
 const text = props.text || hashtag; // text for H1
 const view = props.view || "WIDGETS";
 
