@@ -51,23 +51,23 @@ const Container = styled.div`
     -webkit-appearance: none !important;
     }
 `;
-const { amount, handleAmount, balance, balance$ } = props;
-// const { amount } = state;
-// State.init({
-//   amount: 0,
-// });
+const { handleAmount, balance, balance$ } = props;
+const { amount } = state;
+State.init({
+  amount: 0,
+});
 function changeAmount(e) {
   const value = Number(e.target.value);
   if (Big(value || 0).gt(balance || 0)) return;
-  // State.update({
-  //   amount: value,
-  // });
+  State.update({
+    amount: value,
+  });
   handleAmount(value);
 }
 function changeToMax() {
-  // State.update({
-  //   amount: balance || 0,
-  // });
+  State.update({
+    amount: balance || 0,
+  });
   handleAmount(balance || 0);
 }
 const subBalance = Big(balance || "0").toFixed(4);
