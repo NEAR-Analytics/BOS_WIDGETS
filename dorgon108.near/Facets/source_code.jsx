@@ -79,14 +79,14 @@ const FacetItem =
   props.facetItemStyle ??
   styled.li`
     padding: 0 14px 0 14px;
-  border: 0.99995px solid #606D7A; !important;
-    border-radius: 100px;
-
+    border: 0.99995px solid #606D7A; !important;
+  
+  border-radius: 59.997px;
 
     height: 32px;
     text-align: center;
     margin: auto 4px;
-    color: #606D7A;
+    color: rgba(96, 109, 122, 1);
     display: flex;
     box-sizing: border-box;
     align-items: center;
@@ -96,7 +96,7 @@ const FacetItem =
     min-width: 32px;
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: rgba(96, 109, 122, 0.5);
       cursor: pointer;
     }
 
