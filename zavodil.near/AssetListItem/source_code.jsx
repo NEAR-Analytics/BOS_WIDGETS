@@ -157,8 +157,11 @@ if (!state.theme) {
 
 const Theme = state.theme;
 
-const onLoad = (assetData) => {
-  State.update({ assetData });
+const onLoad = (_assetData) => {
+  State.update({ assetData: _assetData });
+  if (_assetData && !props.assetData && props.saveAssetData && tokenId) {
+    props.saveAssetData(tokenId, _assetData);
+  }
 };
 
 const assetOnClick = () => {
@@ -168,10 +171,6 @@ const assetOnClick = () => {
 };
 
 const assetData = props.assetData ?? state.assetData;
-
-if (assetData && !props.assetData && props.saveAssetData && tokenId) {
-  props.saveAssetData(tokenId, assetData);
-}
 
 const containsSearchBy = () => {
   return (
