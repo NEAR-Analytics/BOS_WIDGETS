@@ -14,7 +14,7 @@ Under "All Tutorials" you should see widgets with the tag.
 
 */
 
-const tag = props.tag ?? "guide";
+const tag = props.tag ?? "widge";
 
 /*
 
