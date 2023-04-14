@@ -12,7 +12,7 @@ const createThing = () => {
     {
       widget: {
         [`${state.hashtag}.View.Page`]: {
-          "": `return (<Widget src=${template} props={{hashtag: props.hashtag}} />);`,
+          "": `return (<Widget src="${template}" props={{hashtag: props.hashtag}} />);`,
           metadata: {
             tags: {
               page: "",
