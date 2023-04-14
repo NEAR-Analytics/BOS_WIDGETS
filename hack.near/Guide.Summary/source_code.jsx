@@ -12,7 +12,7 @@ return (
         className="btn btn-outline-primary"
         href="https://docs.near.org/discovery"
       >
-        Docs
+        Learn More
       </a>
     </div>
     <div className="mb-2 mt-2 d-flex gap-2 flex-wrap">
