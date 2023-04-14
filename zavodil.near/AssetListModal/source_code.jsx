@@ -38,7 +38,6 @@ const css = `
     overflow: hidden;
     flex: 1 1 0%;
     position: relative;
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
     -webkit-box-pack: start;
@@ -46,7 +45,8 @@ const css = `
 }
 
 .asset-list-container{        
-    max-height: 400px;
+    max-height: 300px;
+    min-height: 300px;
     position: relative;
     width: 100%;
     overflow-y: auto;
