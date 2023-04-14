@@ -21,7 +21,7 @@ const Card = styled.div`
   border-radius: 12px;
 
 
-
+  width: 445.85px;
   overflow: hidden;
 `;
 
@@ -71,7 +71,7 @@ const TextLink = styled.a`
   line-height: 18px;
   color: ${(p) => (p.bold ? "#FFFFFF !important" : "#606D7A !important")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "12px" : "14px")};
+  font-size: ${(p) => (p.small ? "14px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
   white-space: nowrap;
