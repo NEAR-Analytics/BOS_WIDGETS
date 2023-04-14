@@ -4,11 +4,11 @@ INSTRUCTIONS
 
 We're using a tag property to filter widgets on the page.
 
---> Change the default tag from "guide" to anything!
+--> Edit your default tag from "guide" to anything!
 
-`Render Preview` to check if any widgets have your tag.
+Click `Render Preview` to check if any widgets have your tag.
 
-Here are some you can use: #dev, #page, #app
+Here are a few common tags you can use: #dev, #page, #app
 
 Under "All Tutorials" you should see widgets with the tag.
 
@@ -205,13 +205,9 @@ Feel free to make any edits you like!
 
 bOS CHALLENGE INSTRUCTIONS
 
-1. Update <Text> with the <b>#tag</b> you input above.
-
-2. Edit `Guide.Header` to feature your own content.
-
-3. Curate pages by updating the widget src paths in <Items>.
-
-    --> Let us know your favorite widgets!
+1. Edit default tag and explore how to filter items on a page.
+2. Update <Widget src=" ... " /> to reference another widget.
+3. Curate featured components by adjusting src and templates.
 
 Don't forget to save!
 
