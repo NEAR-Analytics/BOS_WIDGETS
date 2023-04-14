@@ -14,7 +14,7 @@ Under "All Tutorials" you should see widgets with the tag.
 
 */
 
-const tag = props.tag ?? "game";
+const tag = props.tag ?? "guide";
 
 /*
 
@@ -216,7 +216,7 @@ Don't forget to save!
 return (
   <Wrapper>
     <Header>
-      <Widget src="microchipgnu.near/widget/Game.FlappyBOS" />
+      <Widget src="hack.near/widget/Guide.Header" />
       <h3>All Tutorials</h3>
       <Text>
         These widgets are tagged with: <b>#{tag}</b>
@@ -232,19 +232,19 @@ return (
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "mob.near/widget.Meme" }}
+          props={{ src: "hack.near/widget/Customization" }}
         />
       </Item>
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "mob.near/widget/Memes" }}
+          props={{ src: "hack.near/widget/SocialPosts" }}
         />
       </Item>
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "iam_prometheus.near/widget/genadropMinter" }}
+          props={{ src: "evrything-docs.near/widget/StartHere" }}
         />
       </Item>
     </Items>
