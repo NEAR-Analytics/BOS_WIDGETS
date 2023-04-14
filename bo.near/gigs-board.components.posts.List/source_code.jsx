@@ -210,7 +210,7 @@ const findHottestsPosts = (postIds, period) => {
     };
   });
   modifiedPosts.sort((a, b) => b.postScore - a.postScore);
-  return modifiedPosts.slice(0, 3);
+  return modifiedPosts.map((post) => post.id);
 };
 
 if (props.recency == "hot") {
