@@ -48,7 +48,8 @@ const css = `
     max-height: 400px;
     position: relative;
     width: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     will-change: transform;
     direction: ltr;  
 }
@@ -141,6 +142,8 @@ const CloseButton = styled.button`
   color: #344054;
 `;
 
+const cache = [];
+
 const assetList = assets.map((tokenId) => {
   return (
     <Widget
@@ -149,6 +152,10 @@ const assetList = assets.map((tokenId) => {
         tokenId: tokenId,
         selected: selectedAssets.includes(tokenId),
         searchBy: state.searchBy,
+        saveAssetData: (assetData) => {
+          cache[tokenId] = assetData;
+        },
+        assetData: cache[tokenId],
         onClick: () => {
           console.log(`${tokenId} selected`);
           if (props.onClick) {
