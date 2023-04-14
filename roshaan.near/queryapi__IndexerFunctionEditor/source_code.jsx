@@ -18,6 +18,7 @@ let updateIndexerCode = (data) => {
       function_name: data.indexerName || indexerName,
       code: data.code,
       schema: data.schema,
+      start_block_height: data.blockHeight,
     },
     gas
   );
