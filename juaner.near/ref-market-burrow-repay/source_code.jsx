@@ -132,6 +132,7 @@ if (!accountId) {
 let MAX_RATIO = 10_000;
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
+const NO_STORAGE_DEPOSIT_CONTRACTS = ["aurora", "meta-pool.near"];
 let BURROW_CONTRACT = "contract.main.burrow.near";
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -340,7 +341,10 @@ const handleRepay = () => {
     },
   };
 
-  if (storageToken?.available === "0" || !storageToken?.available) {
+  if (
+    !(storageToken && storageToken.total != "0") &&
+    !NO_STORAGE_DEPOSIT_CONTRACTS.includes(token_id)
+  ) {
     transactions.push({
       contractName: selectedTokenId,
       methodName: "storage_deposit",
@@ -392,7 +396,7 @@ return (
     {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
-        <div class="title">Repay</div>
+        <div class="title">Repay&nbsp; {selectedTokenMeta.symbol}</div>
         <img
           class="btn-close-custom"
           src={closeButtonBase64}
