@@ -18,12 +18,16 @@ State.init({
 });
 
 Near.asyncView(registry_contract_id, "list_indexer_functions").then((data) => {
-  let indexer_paths = Object.keys(data);
-  let indexers = indexer_paths.map((indexer_path) => {
-    return {
-      accountId: indexer_path.split("/")[0],
-      indexerName: indexer_path.split("/").splice(1).join("/"),
-    };
+  const indexers = [];
+  const total_indexers = 0;
+  Object.keys(data.All).forEach((accountId) => {
+    Object.keys(data.All[accountId]).forEach((functionName) => {
+      indexers.push({
+        accountId: accountId,
+        indexerName: functionName,
+      });
+      total_indexers += 1;
+    });
   });
 
   let my_indexers = indexers.filter(
@@ -33,7 +37,7 @@ Near.asyncView(registry_contract_id, "list_indexer_functions").then((data) => {
   State.update({
     my_indexers: my_indexers,
     all_indexers: indexers,
-    totalIndexers: indexer_paths.length,
+    totalIndexers: total_indexers,
   });
 });
 
