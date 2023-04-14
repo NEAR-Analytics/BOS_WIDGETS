@@ -16,7 +16,7 @@ const createThing = () => {
           metadata: {
             tags: {
               page: "",
-              [typeTag]: "",
+              typeTag: "",
             },
           },
         },
