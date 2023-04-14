@@ -1,6 +1,6 @@
-const owner = context.accountId;
+const accountId = context.accountId;
 
-if (!owner) {
+if (!accountId) {
   return "Please connect your NEAR account :)";
 }
 
@@ -19,7 +19,7 @@ return (
     <div className="col-lg-6">
       <div>
         <h4>Edit Project Page</h4>
-        <h6>@{owner}</h6>
+        <h6>@{accountId}</h6>
       </div>
       <div className="mb-2">
         <Widget
@@ -70,7 +70,7 @@ return (
         <CommitButton data={{ page: state.page }}>Save</CommitButton>
         <a
           className="btn btn-outline-primary ms-2"
-          href={`#/hack.near/widget/Project.Page?owner=${owner}`}
+          href={`#/hack.near/widget/Project.Page?accountId=${accountId}`}
         >
           View
         </a>
@@ -80,7 +80,7 @@ return (
       <div>
         <Widget
           src="hack.near/widget/Project.Page"
-          props={{ owner, page: state.page }}
+          props={{ accountId, page: state.page }}
         />
       </div>
     </div>
