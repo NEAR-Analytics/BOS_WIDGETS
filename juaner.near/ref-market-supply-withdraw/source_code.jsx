@@ -13,6 +13,9 @@ const Container = styled.div`
       font-size:14px;
       color:#fff;
     }
+    .template .usd{
+        color:#7E8A93;
+    }
     .mt_25{
       margin-top:25px;
     }
@@ -168,11 +171,11 @@ const storageToken = selectedTokenId
     })
   : null;
 
-const handleAmount = (e) => {
-  const amount = Number(e.target.value);
+const handleAmount = (value) => {
+  const amount = Number(value);
   const newHF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
-    amount: Number(e.target.value),
+    amount,
     selectedTokenId,
     hasError: false,
     newHealthFactor: newHF,
@@ -313,7 +316,10 @@ function computeWithdrawMaxAmount() {
     Math.min(collateral, collateral + supplied - (amount || 0))
   );
   const remainBalance = B(remain).toFixed(4);
-  return [maxAmount.toFixed(), remainBalance];
+  const price = asset.price.usd || 0;
+  const maxAmount$ = maxAmount.mul(price).toFixed(2);
+  const remainBalance$ = B(remain).mul(price).toFixed(2);
+  return [maxAmount.toFixed(), remainBalance, maxAmount$, remainBalance$];
 }
 function decimalMax(a, b) {
   a = new B(a);
@@ -336,7 +342,8 @@ function getCloseButtonIcon(icon) {
     closeButtonBase64: icon,
   });
 }
-const [availableBalance, remainBalance] = computeWithdrawMaxAmount();
+const [availableBalance, remainBalance, availableBalance$, remainBalance$] =
+  computeWithdrawMaxAmount();
 return (
   <Container>
     {/* load data */}
@@ -351,7 +358,7 @@ return (
     {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
-        <div class="title">Withdraw</div>
+        <div class="title">Withdraw&nbsp; {selectedTokenMeta.symbol}</div>
         <img
           class="btn-close-custom"
           src={closeButtonBase64}
@@ -374,10 +381,6 @@ return (
             </p>
           )}
           <div class="template mt_25">
-            <span class="title">Supply APY</span>
-            <span class="value">{apy || "-"}%</span>
-          </div>
-          <div class="template mt_25">
             <span class="title">Health Factor</span>
             <span class="value">
               {newHealthFactor ? newHealthFactor : healthFactor}%
@@ -385,7 +388,10 @@ return (
           </div>
           <div class="template mt_25">
             <span class="title">Remaining Collateral</span>
-            <span class="value">{remainBalance || "-"}</span>
+            <span class="value">
+              {remainBalance || "-"}
+              <span class="usd">(${remainBalance$ || "0"})</span>
+            </span>
           </div>
           <Widget
             src="juaner.near/widget/ref-withdraw-button"
