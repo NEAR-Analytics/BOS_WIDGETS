@@ -51,6 +51,8 @@ const TabsButton = styled.a`
 
   &:hover {
     color: #11181c;
+    border-bottom: 2px solid #9799F8;
+
   }
 
   &::after {
