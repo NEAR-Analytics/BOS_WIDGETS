@@ -185,7 +185,8 @@ const findHottestsPosts = (postIds, period) => {
   } else {
     allPosts = state.allPosts;
   }
-  let posts = postIds.map((id) => allPosts[id]);
+  let postIdsSet = new Set(postIds);
+  let posts = allPosts.filter((post) => postIdsSet.has(post.id));
 
   let periodTime = ONE_DAY;
   if (period === "week") {
