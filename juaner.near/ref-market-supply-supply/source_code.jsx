@@ -157,8 +157,12 @@ const Modal = styled.div`
     }
 `;
 /** base tool start  */
-let BURROW_CONTRACT = "contract.main.burrow.near";
 let accountId = context.accountId;
+if (!accountId) {
+  return <Widget src="juaner.near/widget/ref_account-signin" />;
+}
+let BURROW_CONTRACT = "contract.main.burrow.near";
+const NO_STORAGE_DEPOSIT_CONTRACTS = ["aurora", "meta-pool.near"];
 let MAX_RATIO = 10_000;
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
@@ -192,9 +196,6 @@ if (!showModal) {
   });
 }
 /** base tool end */
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
 const onLoad = (data) => {
   State.update(data);
 };
@@ -221,6 +222,7 @@ if (!account) {
 const b = account.body.result.amount;
 const nearBalance = shrinkToken(b || "0", 24).toFixed(2);
 let vailableBalance = 0;
+let vailableBalance$ = 0;
 let apy = 0;
 let cf = "-";
 const getBalance = (asset) => {
@@ -243,6 +245,9 @@ if (selectedTokenId && assets) {
     selectedTokenId === "NEAR" ? nearBalance : getBalance(asset);
   apy = getApy(asset);
   cf = asset.config.volatility_ratio / 100;
+  vailableBalance$ = Big(asset.price.usd || 0)
+    .mul(vailableBalance || 0)
+    .toFixed(2);
 }
 const storageBurrow = Near.view(BURROW_CONTRACT, "storage_balance_of", {
   account_id: accountId,
@@ -254,14 +259,14 @@ const storageToken = selectedTokenId
     })
   : null;
 
-const handleAmount = (e) => {
-  const amount = Number(e.target.value);
-  const b = recomputeHealthFactor(selectedTokenId, amount);
+const handleAmount = (value) => {
+  const amount = Number(value);
+  const newHF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
-    amount: Number(e.target.value),
+    amount,
     selectedTokenId,
     hasError: false,
-    newHealthFactor: recomputeHealthFactor(selectedTokenId, amount),
+    newHealthFactor: newHF,
   });
 };
 
@@ -310,7 +315,10 @@ const handleDeposit = () => {
     },
   };
 
-  if (storageToken?.available === "0" || !storageToken?.available) {
+  if (
+    !(storageToken && storageToken.total != "0") &&
+    !NO_STORAGE_DEPOSIT_CONTRACTS.includes(token_id)
+  ) {
     transactions.push({
       contractName: token_id,
       methodName: "storage_deposit",
@@ -403,7 +411,7 @@ function switchButtonStatus() {
   });
 }
 const recomputeHealthFactor = (tokenId, amount) => {
-  if (!tokenId || !amount || !assets) return null;
+  if (!tokenId || !amount || !assets || !burrowAccount) return null;
   const asset = assets.find((a) => a.token_id === tokenId);
   const decimals = asset.metadata.decimals + asset.config.extra_decimals;
   const accountCollateralAsset = burrowAccount.collateral.find(
@@ -470,7 +478,7 @@ return (
     {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
-        <div class="title">Supply</div>
+        <div class="title">Supply&nbsp; {selectedTokenMeta.symbol}</div>
         <img
           class="btn-close-custom"
           src={closeButtonBase64}
@@ -483,8 +491,8 @@ return (
             src="juaner.near/widget/ref-input-box"
             props={{
               handleAmount,
-              balance: availableBalance,
-              balance$: availableBalance$,
+              balance: vailableBalance,
+              balance$: vailableBalance$,
             }}
           />
           {hasError && (
@@ -492,10 +500,6 @@ return (
               Amount greater than available
             </p>
           )}
-          <div class="template mt_25">
-            <span class="title">Supply APY</span>
-            <span class="value">{apy}%</span>
-          </div>
           <div class="template mt_25">
             <span class="title">Health Factor</span>
             <span class="value">
@@ -520,7 +524,7 @@ return (
             </div>
           </div>
           <div
-            class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
+            class={`greenButton mt_25  ${Number(amount) ? "" : "disabled"}`}
             onClick={handleDeposit}
           >
             Supply
