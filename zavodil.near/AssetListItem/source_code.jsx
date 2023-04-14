@@ -1,8 +1,8 @@
-const debug = props.debug ?? false;
+const tokenId = props.tokenId;
+const network = props.network ?? "NEAR";
 const selected = props.selected ?? false;
 const searchBy = props.searchBy ?? "";
-
-//State.init({ assetData: props?.assetData });
+const debug = props.debug ?? false;
 
 const css = `
 * {
@@ -157,9 +157,6 @@ if (!state.theme) {
 
 const Theme = state.theme;
 
-const tokenId = props.tokenId;
-const network = props.network ?? "NEAR";
-
 const onLoad = (assetData) => {
   State.update({ assetData });
 };
@@ -172,8 +169,8 @@ const assetOnClick = () => {
 
 const assetData = props.assetData ?? state.assetData;
 
-if (assetData && !props.assetData && props.saveAssetData) {
-  props.saveAssetData(assetData);
+if (assetData && !props.assetData && props.saveAssetData && tokenId) {
+  props.saveAssetData(tokenId, assetData);
 }
 
 const containsSearchBy = () => {
