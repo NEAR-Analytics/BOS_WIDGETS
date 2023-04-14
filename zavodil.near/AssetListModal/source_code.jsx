@@ -1,16 +1,37 @@
 const title = props.title ?? "Select a token";
-const body = props.body;
 const assets = props.assets;
 const selectedAssets = props.selectedAssets ?? [];
 
 const hidden = props.hidden;
 const onClose = props.onClose;
 
+State.init({
+  searchBy: "",
+});
+
 const css = `
 * {
     font-family: 'Inter custom',sans-serif;
+    scrollbar-width: thin;
+    scrollbar-color: #c5c5c5 #fff;
 }
-.asset-list-container{
+
+*::-webkit-scrollbar {
+    width:10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #c5c5c5;
+    border-radius: 20px;
+    border: 3px solid #fff;
+}
+
+.asset-list-scroll {
     background-color: rgb(255, 255, 255);
     width: 100%;
     overflow: hidden;
@@ -22,6 +43,15 @@ const css = `
     -webkit-box-pack: start;
     justify-content: flex-start;
 }
+
+.asset-list-container{        
+    max-height: 400px;
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    will-change: transform;
+    direction: ltr;  
+}
 .asset-list-header {
     padding-left: 20px;
     box-sizing: border-box;
@@ -29,6 +59,36 @@ const css = `
     min-width: 0px;
     font-weight: 500;
     font-size: 16px;
+}
+.asset-search-container{
+    width: 100%;
+    display: flex;
+    padding: 0px;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    min-width: 0px;
+    margin-bottom: 16px;
+}
+.asset-search-container input{
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2399A1BD' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") 12px center / 20px 20px no-repeat scroll rgb(245, 246, 252);
+    position: relative;
+    display: flex;
+    padding: 16px 16px 16px 40px;
+    height: 40px;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    outline: none;
+    border-radius: 12px;
+    color: rgb(13, 17, 28);
+    border: 1px solid rgb(210, 217, 238);
+    appearance: none;
+    font-size: 16px;
+    transition: border 100ms ease 0s;
 }
 `;
 
@@ -88,6 +148,7 @@ const assetList = assets.map((tokenId) => {
       props={{
         tokenId: tokenId,
         selected: selectedAssets.includes(tokenId),
+        searchBy: state.searchBy,
         onClick: () => {
           console.log(`${tokenId} selected`);
           if (props.onClick) {
@@ -98,6 +159,20 @@ const assetList = assets.map((tokenId) => {
     />
   );
 });
+const body = (
+  <div class="asset-search-container">
+    <input
+      class="asset-search-input"
+      placeholder="Search name or paste address"
+      onChange={(e) => {
+        State.update({
+          searchBy: e.target.value,
+        });
+      }}
+      value={state.searchBy}
+    />
+  </div>
+);
 
 return (
   <>
@@ -127,7 +202,9 @@ return (
           </ModalHeader>
           <div>
             {body}
-            <div class="asset-list-container">{assetList}</div>
+            <div class="asset-list-scroll">
+              <div class="asset-list-container">{assetList}</div>
+            </div>
           </div>
         </ModalDialog>
       </Modal>
