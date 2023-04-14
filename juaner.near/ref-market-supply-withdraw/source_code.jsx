@@ -123,7 +123,7 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-const { showModal, closeModal, selectedTokenId } = props;
+const { showModal, closeModal, selectedTokenId, selectedTokenMeta } = props;
 const {
   assets,
   rewards,
