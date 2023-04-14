@@ -268,14 +268,12 @@ if (!state.theme) {
     theme: styled.div`
       .Container{
         box-sizing: border-box;
-        margin: 0px auto;
+        margin: 8px auto;
         min-width: 320px;
         width: 100%;
         padding: 0px 32px;
         max-width: 560px;
         position: relative;
-        margin-top: 8px;
-        margin-bottom: 8px;
       }
       .Header{
         text-align: center;
