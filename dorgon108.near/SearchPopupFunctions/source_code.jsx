@@ -105,29 +105,6 @@ const Text = styled.p`
   }
 `;
 
-// Update the Footer styling
-const Footer = styled.div`
-  display: flex;
-  justify-content: right;
-  padding: 24px 0;
-border-top: 1px solid rgba(96, 109, 122, 0.4);
-`;
-
-const Button = styled.button`
-  background-color: transparent;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: #9799F8;
-  cursor: pointer;
-  padding: 0;
-  text-decoration: underline;
-
-  &:hover {
-    color: #9799F8;
-  }
-`;
-
 const Items = styled.div`
   display: flex;
   flex-direction: column;
@@ -481,25 +458,6 @@ return (
       <H2>No matches were found for "{state.term}".</H2>
     )}
 
-    {state.search?.profiles.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>
-            Users
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              {` ${state.search?.profiles.length ?? 0}`}
-            </span>{" "}
-          </H3>
-        </GroupHeader>
-
-        <Items>{topTwoHits()}</Items>
-      </Group>
-    )}
-
     {state.search?.components.length > 0 && (
       <Group>
         <GroupHeader>
@@ -519,19 +477,24 @@ return (
       </Group>
     )}
 
-    <Footer>
-      <a
-        href={`https://alpha.near.org/chaotictempest.near/widget/Search?term=${props.term}`}
-      >
-        <Button
-          onClick={() => {
-            console.log("redirect you sir/miss)");
-          }}
-        >
-          See All
-        </Button>
-      </a>
-    </Footer>
+    {state.search?.profiles.length > 0 && (
+      <Group>
+        <GroupHeader>
+          <H3>
+            Users
+            <span
+              style={{
+                marginLeft: "10px",
+              }}
+            >
+              {` ${state.search?.profiles.length ?? 0}`}
+            </span>{" "}
+          </H3>
+        </GroupHeader>
+
+        <Items>{topTwoHits()}</Items>
+      </Group>
+    )}
 
     {!props.disableInsights && (
       <Widget
