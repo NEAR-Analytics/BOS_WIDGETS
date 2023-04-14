@@ -60,9 +60,96 @@ const Container = styled.div`
       cursor: not-allowed;
     }
 `;
+const Backdrop = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+`;
+const Modal = styled.div`
+  background-color:#1A2E33;
+  border-radius:12px;
+  position:fixed;
+  z-index:1002;
+  width:30rem;
+  max-width: 95vw;
+  max-height: 80vh;
+  padding:10px 0 20px 0;
+  animation:anishow 0.3s forwards ease-out;
+  left:50%;
+  top:50%;
+  @keyframes anishow {
+    from {
+      opacity: 0;
+      transform:translate(-50%,-70%);
+    }
+    to {
+      opacity: 1;
+      transform:translate(-50%,-50%);
+    }
+  }
+    .modal-header{
+      display:flex;
+      align-items:center;
+      justify-content:start;
+      color:#fff;
+      font-weight: 700;
+      font-size: 18px;
+      padding:12px 20px;
+      margin-bottom:16px;
+      border-bottom:2px solid rgba(48, 67, 82, 0.5);
+    } 
+    .modal-header .title{
+       font-weight: 700;
+       font-size: 18px;
+       color:#fff;
+    }
+    .modal-header .btn-close{
+      position:absolute;
+      right:28px;
+      margin:0;
+    }
+    .modal-body {
+        padding:0 16px;
+    }
+    .modal-body .tab{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:30px;
+    }
+    .modal-body .tab span{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:50%;
+      height:40px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 18px;
+      cursor:pointer;
+      color:#fff;
+    }
+    .modal-body .tab span.active{
+      background: #304352;
+    }
+   .btn-close-custom{
+      position:absolute;
+      right:28px;
+      width:12px;
+      height:12px;
+      cursor:pointer;
+    }
+`;
 /** base tool start  */
-let BURROW_CONTRACT = "contract.main.burrow.near";
 let accountId = context.accountId;
+if (!accountId) {
+  return <Widget src="juaner.near/widget/ref_account-signin" />;
+}
+let BURROW_CONTRACT = "contract.main.burrow.near";
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
@@ -73,8 +160,17 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-const { selectedTokenId, selectedTokenMeta, showModal } = props;
-const { rewards, account, balances, amount, hasError, assets } = state;
+const { selectedTokenId, selectedTokenMeta, showModal, closeModal } = props;
+const {
+  rewards,
+  account,
+  balances,
+  amount,
+  hasError,
+  assets,
+  wnearbase64,
+  closeButtonBase64,
+} = state;
 if (!showModal) {
   State.update({
     amount: "",
@@ -83,9 +179,6 @@ if (!showModal) {
 }
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 /** base tool end */
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
 const onLoad = (data) => {
   State.update(data);
 };
@@ -192,6 +285,16 @@ const handleRepay = () => {
 
   Near.call(transactions);
 };
+function getWnearIcon(icon) {
+  State.update({
+    wnearbase64: icon,
+  });
+}
+function getCloseButtonIcon(icon) {
+  State.update({
+    closeButtonBase64: icon,
+  });
+}
 /** logic end */
 return (
   <Container>
@@ -199,28 +302,52 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    <div class="content">
-      <input type="number" value={amount} onChange={handleAmount} />
-      {selectedTokenId && (
-        <span class="balance">
-          Balance: {availableBalance} {/**(${availableUSD}) */}
-        </span>
-      )}
-      {hasError && (
-        <p class="alert alert-danger mt-10" role="alert">
-          Amount greater than available
-        </p>
-      )}
-      <div class="template mt_25">
-        <span class="title">Borrow APY</span>
-        <span class="value">{apy}%</span>
+    {/* load icons */}
+    <Widget
+      src="juaner.near/widget/ref-icons"
+      props={{ getWnearIcon, getCloseButtonIcon }}
+    />
+    {/** modal */}
+    <Modal style={{ display: showModal ? "block" : "none" }}>
+      <div class="modal-header">
+        <div class="title">Repay</div>
+        <img
+          class="btn-close-custom"
+          src={closeButtonBase64}
+          onClick={closeModal}
+        />
       </div>
-      <div
-        class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
-        onClick={handleRepay}
-      >
-        Repay
+      <div class="modal-body">
+        <div class="content">
+          <Widget
+            src="juaner.near/widget/ref-input-box"
+            props={{
+              handleAmount,
+              balance: availableBalance,
+              balance$: availableUSD,
+            }}
+          />
+          {hasError && (
+            <p class="alert alert-danger mt-10" role="alert">
+              Amount greater than available
+            </p>
+          )}
+          <div class="template mt_25">
+            <span class="title">Borrow APY</span>
+            <span class="value">{apy}%</span>
+          </div>
+          <div
+            class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
+            onClick={handleRepay}
+          >
+            Repay
+          </div>
+        </div>
       </div>
-    </div>
+    </Modal>
+    <Backdrop
+      style={{ display: showModal ? "block" : "none" }}
+      onClick={closeModal}
+    ></Backdrop>
   </Container>
 );
