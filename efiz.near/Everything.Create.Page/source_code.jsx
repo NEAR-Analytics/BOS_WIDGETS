@@ -1,24 +1,18 @@
 const accountId = context.accountId;
-const typeTag = props.typeTag;
-const template = props.template;
 
 State.init({
   hashtag: "",
 });
 
 const createThing = () => {
-  // Replace the widget below with the
   Social.set(
     {
       widget: {
+        [`${state.hashtag}.Summary.Page`]: {
+          "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/${state.hashtag}.Summary.Page">summary widget</a>!</p>);`,
+        },
         [`${state.hashtag}.View.Page`]: {
-          "": `return (<Widget src="${template}" props={{hashtag: props.hashtag}} />);`,
-          metadata: {
-            tags: {
-              page: "",
-              [typeTag]: "",
-            },
-          },
+          "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/${state.hashtag}.View.Page">view widget</a>!</p>);`,
         },
       },
     },
