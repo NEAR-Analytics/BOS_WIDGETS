@@ -8,11 +8,8 @@ const createThing = () => {
   Social.set(
     {
       widget: {
-        [`${state.hashtag}.Summary.Page`]: {
-          "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/${state.hashtag}.Summary.Page">summary widget</a>!</p>);`,
-        },
         [`${state.hashtag}.View.Page`]: {
-          "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/${state.hashtag}.View.Page">view widget</a>!</p>);`,
+          "": `return (<Widget src="efiz.near/widget/TaggedWidgets" props={{hashtag: props.hashtag}} />);`,
         },
       },
     },
