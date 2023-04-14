@@ -13,7 +13,7 @@ const pageTypes = [
   {
     name: "guide",
     hashtag: "guide",
-    template: "efiz.near/widget/Test.Page",
+    template: "hack.near/widget/Test.Page",
   },
 ];
 
