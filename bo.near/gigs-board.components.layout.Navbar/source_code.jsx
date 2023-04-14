@@ -71,9 +71,7 @@ return (
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              href={href("Feed", { recency: "hot" })}>
+            <a class="nav-link active" href={href("Feed", { recency: "hot" })}>
               <i class="bi-fire"> </i>
               Hottest
             </a>
