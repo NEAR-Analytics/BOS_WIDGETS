@@ -14,24 +14,16 @@ const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   subscribe: true,
 });
 
-console.log("Agreements", agreementsForUser);
-
 const tosVersions = Social.keys(tosName, "final", {
   return_type: "BlockHeight",
   // subscribe: true,
 });
 
-//console.log("TosVersions", tosVersions);
-
 // TODO perform path validation before this
 const tosPath = tosName.split("/");
-//console.log("Tos path", tosPath);
-
 const latestTosVersion = tosPath.reduce((acc, curr) => {
   return acc[curr];
 }, tosVersions);
-
-console.log("latest", latestTosVersion);
 
 const Backdrop = styled.div`
   height: 100vh;
@@ -74,6 +66,7 @@ const AcceptSection = styled.div`
   display: flex;
   flex-direction: row;
   column-gap: 1rem;
+
   .continue-button {
     background: #59E692;
     color: #09342E;
@@ -85,11 +78,13 @@ const AcceptSection = styled.div`
     border: none;
     cursor: pointer;
     transition: background 200ms, opacity 200ms;
+
     &:hover,
     &:focus {
       background: rgb(112 242 164);
       outline: none;
     }
+
     &:disabled {
       opacity: 0.5;
       pointer-events: none;
@@ -116,42 +111,6 @@ const expand = (e) => {
   State.update({ expand: e });
 };
 
-if (
-  agreementsForUser.length === 0 ||
-  agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion
-) {
-  const acceptJson = Near.view("social.near", "get", {
-    keys: [context.accountId + "/index/tosAccept"],
-  });
-
-  console.log("acceptJson", acceptJson);
-
-  const latestAccept = acceptJson
-    ? JSON.parse(acceptJson[context.accountId]["index"]["tosAccept"])
-    : undefined;
-  console.log("acceptJson[context.accountId]", acceptJson[context.accountId]);
-  console.log("context.accountId", context.accountId);
-  console.log("latestAccept", latestAccept);
-  console.log("latestAccept.key", latestAccept.key);
-  console.log("latestAccept.value", latestAccept.value);
-  console.log(
-    "latestAccept.key === acceptanceKey",
-    latestAccept.key === acceptanceKey
-  );
-  console.log(
-    "latestAccept.value >= latestTosVersion",
-    latestAccept.value >= latestTosVersion
-  );
-  if (
-    latestAccept &&
-    latestAccept.key === acceptanceKey &&
-    latestAccept.value >= latestTosVersion
-  ) {
-    agreementsForUser = [...agreementsForUser, latestAccept];
-    console.log("LA Agreements", agreementsForUser);
-  }
-}
-
 // we check for existence of Index results because if no results are found
 // we get an empty array. This means that when the existence check fails
 // we are still loading and we do not want to potentially flash the modal
@@ -163,19 +122,6 @@ const showTos =
   agreementsForUser &&
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
-
-// console.log("!state.hasCommittedAcceptance", !state.hasCommittedAcceptance);
-// console.log("context.accountId", context.accountId);
-// console.log("latestTosVersion", latestTosVersion);
-// console.log("agreementsForUser", agreementsForUser);
-// console.log(
-//   "agreementsForUser[agreementsForUser.length - 1].value",
-//   agreementsForUser[agreementsForUser.length - 1].value
-// );
-// console.log(
-//   "agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion",
-//   agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion
-// );
 
 return (
   <div>
