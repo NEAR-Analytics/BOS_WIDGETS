@@ -81,6 +81,15 @@ return (
           </a>
         </Header>
 
+        <Header>
+          <a
+            className="btn btn-outline-primary"
+            href="https://banyan-collective.notion.site/LionHack-23-Hacker-Tool-Kit-641c4523e02748fb8451b08eebfcd43a"
+          >
+            NEAR Dev Resources
+          </a>
+        </Header>
+
         <Text>
           <h3>Featured</h3>
         </Text>
