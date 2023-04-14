@@ -345,58 +345,9 @@ return (
       <tbody>{market_deposit_assets}</tbody>
     </table>
     {/* Modal*/}
-    <>
-      <Modal style={{ display: showModal ? "block" : "none" }}>
-        <div class="modal-header">
-          <div class="flex_center">
-            <img
-              class="tokenIcon"
-              src={selectedTokenMeta.icon || wnearbase64}
-            />
-            {selectedTokenMeta.symbol}
-          </div>
-          <img
-            class="btn-close-custom"
-            src={closeButtonBase64}
-            onClick={closeModal}
-          />
-        </div>
-        <div class="modal-body">
-          <div class="tab">
-            <span
-              onClick={() => {
-                changeTab("supply");
-              }}
-              class={`${tabName != "withdraw" ? "active" : ""}`}
-            >
-              Supply
-            </span>
-            <span
-              onClick={() => {
-                changeTab("withdraw");
-              }}
-              class={`${tabName == "withdraw" ? "active" : ""}`}
-            >
-              Withdraw
-            </span>
-          </div>
-          {tabName == "withdraw" ? (
-            <Widget
-              src="juaner.near/widget/ref-market-supply-withdraw"
-              props={{ selectedTokenId, showModal }}
-            />
-          ) : (
-            <Widget
-              src="juaner.near/widget/ref-market-supply-supply"
-              props={{ selectedTokenId, showModal }}
-            />
-          )}
-        </div>
-      </Modal>
-      <Backdrop
-        style={{ display: showModal ? "block" : "none" }}
-        onClick={closeModal}
-      ></Backdrop>
-    </>
+    <Widget
+      src="juaner.near/widget/ref-market-supply-supply"
+      props={{ selectedTokenId, showModal, closeModal, selectedTokenMeta }}
+    />
   </Container>
 );
