@@ -496,25 +496,6 @@ return (
       </Group>
     )}
 
-    {state.search?.postsAndComments.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>
-            Posts and Comments{" "}
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              {` ${state.search?.postsAndComments.length ?? 0}`}
-            </span>{" "}
-          </H3>
-        </GroupHeader>
-
-        <Items>{topTwoComments()}</Items>
-      </Group>
-    )}
-
     {!props.disableInsights && (
       <Widget
         src="chaotictempest.near/widget/Insights"
