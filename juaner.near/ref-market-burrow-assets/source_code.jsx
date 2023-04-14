@@ -267,7 +267,7 @@ return (
     </table>
     {/* Modal*/}
     <Widget
-      src="juaner.near/widget/ref-market-burrow-repay"
+      src="juaner.near/widget/ref-market-burrow-burrow"
       props={{ selectedTokenId, selectedTokenMeta, showModal, closeModal }}
     />
   </Container>
