@@ -12,6 +12,59 @@ const defaultFacetOptions = props.defaultFacetOptions ?? {
   disableOthersOnSelect: true,
 };
 
+const Tabs = styled.div`
+  display: flex;
+  height: 48px;
+  border-bottom: 1px solid #eceef0;
+  margin-bottom: -24px;
+  overflow: auto;
+  scroll-behavior: smooth;
+
+  @media (max-width: 1200px) {
+    background: #f8f9fa;
+    border-top: 1px solid #eceef0;
+    margin-left: -12px;
+    margin-right: -12px;
+
+    > * {
+      flex: 1;
+    }
+  }
+`;
+
+const TabsButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 12px;
+  position: relative;
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+  flex: 1;
+
+  &:hover {
+    color: #11181c;
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #59e692;
+  }
+`;
+
 const onFacetClick = (facet) => {
   let selected = {};
   if (multiSelect) {
@@ -69,10 +122,15 @@ State.init(initState());
 const FacetContainer =
   props.facetContainerStyle ??
   styled.ul`
-    padding: 5px 2px 5px 2px;
-    display: inline-flex;
-    list-style-type: none;
-    overflow: auto;
+padding: 16px 16px 0px;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;    list-style-type: none;
+
+    gap: 8px;
+    width: 481px;
+height: 36px;
+
   `;
 
 const FacetItem =
@@ -107,13 +165,18 @@ const FacetItem =
 
 return (
   <FacetContainer>
-    {facets?.map((facet) => (
-      <FacetItem
-        className={facet in (state.selected ?? {}) ? "selected" : ""}
-        onClick={() => onFacetClick(facet)}
-      >
-        {facet}
-      </FacetItem>
-    ))}
+    {!state.searchResults && (
+      <Tabs>
+        {facets.map((facet) => (
+          <TabsButton
+            href={`${componentsUrl}?tab=${facet}`}
+            selected={state.selectedTab === facet}
+            onClick={() => onFacetClick(facet)}
+          >
+            {facet}
+          </TabsButton>
+        ))}
+      </Tabs>
+    )}
   </FacetContainer>
 );
