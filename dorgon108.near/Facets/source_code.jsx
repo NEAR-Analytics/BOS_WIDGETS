@@ -41,7 +41,7 @@ const TabsButton = styled.a`
   font-size: 12px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? "#FFFFFF" : "#687076")};
   background: none;
   border: none;
   outline: none;
@@ -50,7 +50,7 @@ const TabsButton = styled.a`
   flex: 1;
 
   &:hover {
-    color: #11181c;
+    color: #FFFFFF;
     border-bottom: 2px solid #9799F8;
 
   }
