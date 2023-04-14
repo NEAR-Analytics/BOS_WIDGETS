@@ -213,9 +213,11 @@ const findHottestsPosts = (postIds, period) => {
   return modifiedPosts.map((post) => post.id);
 };
 
+console.log('a', postIds);
 if (props.recency == "hot") {
   postIds = findHottestsPosts(postIds, "week");
 }
+console.log('b', postIds);
 
 const loader = (
   <div className="loader" key={"loader"}>
