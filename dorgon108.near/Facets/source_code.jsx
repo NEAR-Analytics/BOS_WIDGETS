@@ -15,7 +15,6 @@ const defaultFacetOptions = props.defaultFacetOptions ?? {
 const Tabs = styled.div`
   display: flex;
   height: 48px;
-  margin-bottom: -24px;
   overflow: auto;
   scroll-behavior: smooth;
 
