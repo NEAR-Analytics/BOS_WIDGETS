@@ -250,7 +250,8 @@ Ethers.provider()
         initialized: true,
       });
     }
-  });
+  })
+  .catch((error) => console.log(error));
 
 const recentTransfers = useCache(
   () =>
@@ -258,7 +259,9 @@ const recentTransfers = useCache(
       `https://jvea2jh4jzwg4vykyhy3mcdh7i0yfosk.lambda-url.eu-central-1.on.aws/${
         state.isTestnet ? 5 : 1
       }/${sender}`
-    ).then((res) => res?.body ?? []),
+    )
+      .then((res) => res?.body ?? [])
+      .catch((error) => console.log(error)),
   "recentTransfers",
   { subscribe: true }
 );
