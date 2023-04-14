@@ -49,7 +49,9 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-console.log(props);
+initState({
+  period: "week",
+});
 
 function defaultRenderItem(postId, additionalProps) {
   if (!additionalProps) {
@@ -214,11 +216,9 @@ const findHottestsPosts = (postIds, period) => {
   return modifiedPosts.map((post) => post.id);
 };
 
-console.log('a', postIds);
 if (props.recency == "hot") {
-  postIds = findHottestsPosts(postIds, "week");
+  postIds = findHottestsPosts(postIds, state.period);
 }
-console.log('b', postIds);
 
 const loader = (
   <div className="loader" key={"loader"}>
@@ -234,7 +234,8 @@ const loader = (
 if (postIds === null) {
   return loader;
 }
-const initialItems = props.searchResult || props.recency == 'hot' ? postIds : postIds.reverse();
+const initialItems =
+  props.searchResult || props.recency == "hot" ? postIds : postIds.reverse();
 //const initialItems = postIds.map(postId => ({ id: postId, ...Near.view(nearDevGovGigsContractAccountId, "get_post", { post_id: postId }) }));
 
 // const computeFetchFrom = (items, limit) => {
@@ -333,12 +334,65 @@ console.log(items);
 const renderedItems = items.map(cachedRenderItem);
 
 return (
-  <InfiniteScroll
-    pageStart={0}
-    loadMore={makeMoreItems}
-    hasMore={state.displayCount < state.items.length}
-    loader={loader}
-  >
-    {renderedItems}
-  </InfiniteScroll>
+  <>
+    <div class="row">
+      <div class="fs-5 col-6 align-self-center">
+        <i class="bi-fire"></i>
+        <span>Hottest Posts</span>
+      </div>
+      <div class="col-6 dropdown d-flex justify-content-end">
+        <a
+          class="btn btn-secondary dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuLink"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {getPeriodText(state.period)}
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li>
+            <button
+              class="dropdown-item"
+              onClick={() => {
+                State.update({ period: "day" });
+              }}
+            >
+              {getPeriodText("day")}
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              onClick={() => {
+                State.update({ period: "week" });
+              }}
+            >
+              {getPeriodText("week")}
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              onClick={() => {
+                State.update({ period: "month" });
+              }}
+            >
+              {getPeriodText("month")}
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={makeMoreItems}
+      hasMore={state.displayCount < state.items.length}
+      loader={loader}
+    >
+      {renderedItems}
+    </InfiniteScroll>
+  </>
 );
