@@ -149,6 +149,27 @@ const Tabs = styled.div`
   }
 `;
 
+const Button = styled.button`
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #9799f8;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+
+    &:hover {
+      color: #9799f8;
+    }
+  `;
+
+const FixedFooter = styled.div`
+    padding: 1rem;
+    text-align: right;
+    border-top: 1px solid rgba(96, 109, 122, 0.4);
+  `;
+
 const TabsButton = styled.a`
   display: inline-flex;
   align-items: center;
@@ -527,59 +548,74 @@ return (
         />
       </FixedTabs>
     )}
+    <ScrollableContent>
+      {state.paginate?.hitsTotal == 0 && (
+        <H2>No matches were found for "{state.term}".</H2>
+      )}
 
-    {state.paginate?.hitsTotal == 0 && (
-      <H2>No matches were found for "{state.term}".</H2>
-    )}
+      {state.search?.components.length > 0 && (
+        <Group>
+          <GroupHeader>
+            <H3>
+              Components{" "}
+              <span
+                style={{
+                  marginLeft: "10px",
+                }}
+              >
+                {` ${state.search?.components.length ?? 0}`}
+              </span>{" "}
+            </H3>
+          </GroupHeader>
 
-    {state.search?.components.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>
-            Components{" "}
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              {` ${state.search?.components.length ?? 0}`}
-            </span>{" "}
-          </H3>
-        </GroupHeader>
+          <Items>{topTwoComponents()}</Items>
+        </Group>
+      )}
 
-        <Items>{topTwoComponents()}</Items>
-      </Group>
-    )}
+      {state.search?.profiles.length > 0 && (
+        <Group>
+          <GroupHeader>
+            <H3>
+              Users
+              <span
+                style={{
+                  marginLeft: "10px",
+                }}
+              >
+                {` ${state.search?.profiles.length ?? 0}`}
+              </span>{" "}
+            </H3>
+          </GroupHeader>
 
-    {state.search?.profiles.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>
-            Users
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              {` ${state.search?.profiles.length ?? 0}`}
-            </span>{" "}
-          </H3>
-        </GroupHeader>
+          <Items>{topTwoHits()}</Items>
+        </Group>
+      )}
 
-        <Items>{topTwoHits()}</Items>
-      </Group>
-    )}
+      {!props.disableInsights && (
+        <Widget
+          src="chaotictempest.near/widget/Insights"
+          props={{
+            event: state.event,
+            searchApiKey: SEARCH_API_KEY,
+            appId: APPLICATION_ID,
+            index: INDEX,
+          }}
+        />
+      )}
+    </ScrollableContent>
 
-    {!props.disableInsights && (
-      <Widget
-        src="chaotictempest.near/widget/Insights"
-        props={{
-          event: state.event,
-          searchApiKey: SEARCH_API_KEY,
-          appId: APPLICATION_ID,
-          index: INDEX,
-        }}
-      />
-    )}
+    <FixedFooter>
+      <a
+        href={`https://alpha.near.org/chaotictempest.near/widget/Search?term=${props.term}`}
+      >
+        <Button
+          onClick={() => {
+            console.log("redirect you sir/miss)");
+          }}
+        >
+          See All
+        </Button>
+      </a>
+    </FixedFooter>
   </Wrapper>
 );
