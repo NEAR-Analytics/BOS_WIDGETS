@@ -1,12 +1,12 @@
 return (
   <div>
-    <h5>Earn by Learning</h5>
+    <h5>Claim Reward</h5>
     <div className="mb-2 mt-3 d-flex gap-3 flex-wrap">
       <a
         className="btn btn-outline-success"
         href="#/hack.near/widget/Project.Page.Editor"
       >
-        Submit Project
+        Submit Page
       </a>
       <a
         className="btn btn-outline-primary"
