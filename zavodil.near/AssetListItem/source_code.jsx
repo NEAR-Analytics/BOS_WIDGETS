@@ -1,5 +1,6 @@
 const debug = props.debug ?? false;
 const selected = props.selected ?? false;
+const searchBy = props.searchBy ?? "";
 
 const css = `
 * {
@@ -168,6 +169,15 @@ const assetOnClick = () => {
 };
 
 const assetData = state.assetData;
+
+const containsSearchBy = () => {
+  return (
+    searchBy === "" ||
+    assetData.metadata.symbol.toLowerCase().includes(searchBy.toLowerCase()) ||
+    assetData.metadata.name.toLowerCase().includes(searchBy.toLowerCase())
+  );
+};
+
 return (
   <>
     {!assetData && tokenId && (
@@ -180,7 +190,9 @@ return (
       />
     )}
 
-    {assetData && (
+    {assetData && !containsSearchBy() && <></>}
+
+    {assetData && containsSearchBy() && (
       <Theme>
         <div class={debug ? "asset-item-debug-container" : ""}>
           <div
