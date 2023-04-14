@@ -599,18 +599,6 @@ return (
           <Items>{topTwoHits()}</Items>
         </Group>
       )}
-
-      {!props.disableInsights && (
-        <Widget
-          src="chaotictempest.near/widget/Insights"
-          props={{
-            event: state.event,
-            searchApiKey: SEARCH_API_KEY,
-            appId: APPLICATION_ID,
-            index: INDEX,
-          }}
-        />
-      )}
     </ScrollableContent>
 
     <FixedFooter>
@@ -633,5 +621,16 @@ return (
         </Button>
       </a>
     </FixedFooter>
+    {!props.disableInsights && (
+      <Widget
+        src="chaotictempest.near/widget/Insights"
+        props={{
+          event: state.event,
+          searchApiKey: SEARCH_API_KEY,
+          appId: APPLICATION_ID,
+          index: INDEX,
+        }}
+      />
+    )}
   </Wrapper>
 );
