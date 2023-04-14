@@ -397,7 +397,7 @@ const topTwoComponents = () => {
   return topTwoComponentsArray.map((component, i) => (
     <Item key={component.accountId + component.widgetName}>
       <Widget
-        src="chaotictempest.near/widget/ComponentCard"
+        src="dorgon108.near/widget/ComponentCard"
         props={{
           src: `${component.accountId}/widget/${component.widgetName}`,
           onClick: () =>
