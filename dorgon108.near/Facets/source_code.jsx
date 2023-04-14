@@ -129,7 +129,6 @@ justify-content: center;
 align-items: flex-start;    list-style-type: none;
 
     gap: 8px;
-    width: 481px;
 height: 36px;
 
   `;
