@@ -333,8 +333,8 @@ const items = state.items ? state.items.slice(0, state.displayCount) : [];
 console.log(items);
 const renderedItems = items.map(cachedRenderItem);
 
-return (
-  <>
+const Head =
+  props.recency == "hot" ? (
     <div class="row">
       <div class="fs-5 col-6 align-self-center">
         <i class="bi-fire"></i>
@@ -386,6 +386,13 @@ return (
         </ul>
       </div>
     </div>
+  ) : (
+    <></>
+  );
+
+return (
+  <>
+    {Head}
     <InfiniteScroll
       pageStart={0}
       loadMore={makeMoreItems}
