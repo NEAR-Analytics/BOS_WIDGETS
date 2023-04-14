@@ -130,7 +130,7 @@ let MAX_RATIO = 10_000;
 let BURROW_CONTRACT = "contract.main.burrow.near";
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
-
+const NO_STORAGE_DEPOSIT_CONTRACTS = ["aurora", "meta-pool.near"];
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
@@ -190,22 +190,6 @@ const config = Near.view(BURROW_CONTRACT, "get_config");
 const onLoad = (data) => {
   State.update(data);
 };
-const rewardsMap = rewards
-  ? rewards.reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur.token_id]: cur,
-      };
-    }, {})
-  : {};
-const assetsMap = assets
-  ? assets.reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur.token_id]: cur,
-      };
-    }, {})
-  : {};
 /** logic start */
 function getAdjustedSum(type, account) {
   if (!assets || !account || account[type].length == 0) return B(1);
@@ -293,12 +277,13 @@ const recomputeHealthFactor = (tokenId, amount) => {
 };
 
 // get max ammount can be borrowed
+let cf;
 function getMaxAmount() {
   if (!selectedTokenId || !assets) return 0;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const volatiliyRatio = asset.config.volatility_ratio || 0;
   const price = asset.price?.usd || Infinity;
-
+  cf = asset.config.volatility_ratio / 100;
   const available = Number(
     B(adjustedCollateralSum)
       .sub(B(adjustedBorrowedSum))
@@ -324,18 +309,14 @@ const storageToken = selectedTokenId
       account_id: accountId,
     })
   : null;
-const handleAmount = (e) => {
-  const amount = Number(e.target.value);
+const handleAmount = (value) => {
+  const amount = Number(value);
+  const HF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
     amount,
     selectedTokenId,
     hasError: false,
-  });
-  handleBlur(amount);
-};
-const handleBlur = (amount) => {
-  State.update({
-    newHealthFactor: recomputeHealthFactor(selectedTokenId, amount),
+    newHealthFactor: HF,
   });
 };
 const handleBorrow = () => {
@@ -384,7 +365,10 @@ const handleBorrow = () => {
     },
   };
 
-  if (storageToken?.available === "0" || !storageToken?.available) {
+  if (
+    !(storageToken && storageToken.total != "0") &&
+    !NO_STORAGE_DEPOSIT_CONTRACTS.includes(token_id)
+  ) {
     transactions.push({
       contractName: selectedTokenId,
       methodName: "storage_deposit",
@@ -450,7 +434,7 @@ return (
     {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
-        <div class="title">Burrow</div>
+        <div class="title">Burrow&nbsp;{selectedTokenMeta.symbol}</div>
         <img
           class="btn-close-custom"
           src={closeButtonBase64}
@@ -473,16 +457,14 @@ return (
             </p>
           )}
           <div class="template mt_25">
-            <span class="title">Borrow APY</span>
-            <span class="value">
-              {selectedTokenId && <>{toAPY(reward.apyBaseBorrow)}%</>}
-            </span>
-          </div>
-          <div class="template mt_25">
             <span class="title">Health Factor</span>
             <span class="value">
               {newHealthFactor ? newHealthFactor : healthFactor}%
             </span>
+          </div>
+          <div class="template mt_25">
+            <span class="title">Collateral Factor</span>
+            <span class="value">{cf || "-"}%</span>
           </div>
           <div
             class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
