@@ -10,6 +10,8 @@ We're using a tag property to filter widgets on the page.
 
 Here are some you can use: #dev, #page, #app
 
+Under "All Tutorials" you should see widgets with the tag.
+
 */
 
 const tag = props.tag ?? "guide";
