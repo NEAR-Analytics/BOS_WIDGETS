@@ -7,6 +7,7 @@ const onClose = props.onClose;
 
 State.init({
   searchBy: "",
+  cache: {},
 });
 
 const css = `
@@ -142,35 +143,50 @@ const CloseButton = styled.button`
   color: #344054;
 `;
 
-const cache = [];
-
-const assetList = assets.map((tokenId) => {
+const containsSearchBy = (assetData) => {
   return (
-    <Widget
-      src="zavodil.near/widget/AssetListItem"
-      props={{
-        tokenId: tokenId,
-        selected: selectedAssets.includes(tokenId),
-        searchBy: state.searchBy,
-        saveAssetData: (assetData) => {
-          cache[tokenId] = assetData;
-        },
-        assetData: cache[tokenId],
-        onClick: () => {
-          console.log(`${tokenId} selected`);
-          if (props.onClick) {
-            props.onClick(tokenId);
-          }
-        },
-      }}
-    />
+    !assetData ||
+    state.searchBy === "" ||
+    assetData.metadata?.symbol
+      .toLowerCase()
+      .includes(state.searchBy.toLowerCase()) ||
+    assetData.metadata?.name
+      .toLowerCase()
+      .includes(state.searchBy.toLowerCase())
   );
-});
+};
+
+const assetList = assets
+  .filter((tokenId) => containsSearchBy(state.cache[tokenId]))
+  .map((tokenId) => {
+    return (
+      <Widget
+        src="zavodil.near/widget/AssetListItem"
+        props={{
+          tokenId,
+          selected: selectedAssets.includes(tokenId),
+          searchBy: state.searchBy,
+          saveAssetData: (_tokenId, _assetData) => {
+            const cache = state.cache;
+            cache[_tokenId] = _assetData;
+            State.update({ cache });
+          },
+          assetData: state.cache[tokenId],
+          onClick: () => {
+            console.log(`${tokenId} selected`);
+            if (props.onClick) {
+              props.onClick(tokenId);
+            }
+          },
+        }}
+      />
+    );
+  });
 const body = (
   <div class="asset-search-container">
     <input
       class="asset-search-input"
-      placeholder="Search name or paste address"
+      placeholder="Search name" //  or paste address
       onChange={(e) => {
         State.update({
           searchBy: e.target.value,
@@ -184,7 +200,7 @@ const body = (
 return (
   <>
     <Theme>
-      <Modal hidden={hidden}>
+      <div hidden={hidden}>
         <ModalBackdrop />
         <ModalDialog>
           <ModalHeader>
@@ -214,7 +230,7 @@ return (
             </div>
           </div>
         </ModalDialog>
-      </Modal>
+      </div>
     </Theme>
   </>
 );
