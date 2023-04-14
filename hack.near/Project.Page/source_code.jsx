@@ -3,7 +3,7 @@ if (!owner) {
   return "No account ID";
 }
 
-const page = props.page ?? Social.getr(`${owner}/page`);
+const page = props.page ?? Social.getr(`${owner}/every/page`);
 
 if (page === null) {
   return "Loading";
