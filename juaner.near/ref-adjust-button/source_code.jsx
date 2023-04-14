@@ -129,7 +129,7 @@ return (
       }`}
       onClick={handleAdjust}
     >
-      Adjust
+      Confirm
     </div>
   </Container>
 );
