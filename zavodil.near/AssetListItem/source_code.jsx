@@ -172,7 +172,7 @@ const assetOnClick = () => {
 
 const assetData = state.assetData;
 
-if (assetData && !props.assetData && props.saveAssetData) {
+if (assetData && !!props.assetData && props.saveAssetData) {
   props.saveAssetData(assetData);
 }
 
