@@ -127,7 +127,7 @@ padding: 16px 16px 0px;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;    list-style-type: none;
-
+  width:100%;
     gap: 8px;
 height: 36px;
 
