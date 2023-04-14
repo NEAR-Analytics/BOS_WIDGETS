@@ -12,6 +12,17 @@ const showSearchBar = props.showSearchBar ?? true;
 const showPagination = props.showPagination ?? true;
 const userId = props.accountId ?? context.accountId;
 
+State.init({
+  currentPage: 0,
+  selectedTab: props.tab || "all",
+});
+
+if (props.tab && props.tab !== state.selectedTab) {
+  State.update({
+    selectedTab: props.tab,
+  });
+}
+
 const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
 const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 
@@ -45,6 +56,12 @@ const H1 = styled.h1`
   color: #11181c;
   margin: 0;
 `;
+
+const FixedTabs = styled.div`
+    padding: 1rem;
+    text-align: right;
+
+  `;
 
 const H2 = styled.h2`
   font-weight: 400;
@@ -111,6 +128,63 @@ const Items = styled.div`
   align-items: stretch;
   gap: 12px;
 `;
+
+const Tabs = styled.div`
+  display: flex;
+  height: 48px;
+  border-bottom: 1px solid #eceef0;
+  margin-bottom: -24px;
+  overflow: auto;
+  scroll-behavior: smooth;
+
+  @media (max-width: 1200px) {
+    background: #f8f9fa;
+    border-top: 1px solid #eceef0;
+    margin-left: -12px;
+    margin-right: -12px;
+
+    > * {
+      flex: 1;
+    }
+  }
+`;
+
+const TabsButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 12px;
+  position: relative;
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:hover {
+    color: #11181c;
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #59e692;
+  }
+`;
+
+const ScrollableContent = styled.div`
+    overflow-y: auto;
+    flex-grow: 1;
+  `;
 
 const Item = styled.div``;
 
@@ -442,7 +516,7 @@ if (props.term !== state.lastSyncedTerm) {
 return (
   <Wrapper>
     {state.search && (
-      <Facets>
+      <FixedTabs>
         <Widget
           src="dorgon108.near/widget/Facets"
           props={{
@@ -451,7 +525,7 @@ return (
             defaultFacet: facets[0],
           }}
         />
-      </Facets>
+      </FixedTabs>
     )}
 
     {state.paginate?.hitsTotal == 0 && (
