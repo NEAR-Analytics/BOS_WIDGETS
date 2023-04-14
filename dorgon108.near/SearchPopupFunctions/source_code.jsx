@@ -162,6 +162,8 @@ const Button = styled.button`
     cursor: pointer;
     padding: 0;
     text-decoration: underline;
+            text-align:right
+
 
     &:hover {
       color: #9799f8;
@@ -174,6 +176,7 @@ const FixedFooter = styled.div`
     border-top: 1px solid rgba(96, 109, 122, 0.4);
         position:fixed;
         bottom:0;
+        text-align:right
 
   `;
 
@@ -620,7 +623,14 @@ return (
             console.log("redirect you sir/miss)");
           }}
         >
-          See All
+          See{" "}
+          {` ${
+            state.search?.profiles.length ??
+            0 + state.search?.components ??
+            0 + state.search?.postsAndComments ??
+            0
+          }`}
+          Results
         </Button>
       </a>
     </FixedFooter>
