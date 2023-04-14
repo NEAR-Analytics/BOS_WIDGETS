@@ -388,6 +388,49 @@ const topTwoHits = () => {
   ));
 };
 
+const topTwoComponents = () => {
+  const topTwoComponentsArray = [
+    state.search.components[0],
+    state.search.components[1],
+  ];
+
+  return topTwoComponentsArray.map((component, i) => (
+    <Item key={component.accountId + component.widgetName}>
+      <Widget
+        src="chaotictempest.near/widget/ComponentCard"
+        props={{
+          src: `${component.accountId}/widget/${component.widgetName}`,
+          onClick: () =>
+            onSearchResultClick({
+              searchPosition: component.searchPosition,
+              objectID: `${component.accountId}/widget/${component.widgetName}`,
+              eventName: "Clicked Component After Search",
+            }),
+        }}
+      />
+    </Item>
+  ));
+};
+
+const topTwoComments = () => {
+  const twoCommentsArray = [
+    state.search.postsAndComments[0],
+    state.search.postsAndComments[1],
+  ];
+  return twoCommentsArray.map((post, i) => (
+    <Item key={`${post.accountId}/${post.postType}/${post.blockHeight}`}>
+      <Widget
+        src="chaotictempest.near/widget/SearchPost"
+        props={{
+          accountId: post.accountId,
+          blockHeight: post.blockHeight,
+          content: post.postContent,
+        }}
+      />
+    </Item>
+  ));
+};
+
 if (props.term !== state.lastSyncedTerm) {
   console.log(props.term);
   State.update({
@@ -437,55 +480,38 @@ return (
     {state.search?.components.length > 0 && (
       <Group>
         <GroupHeader>
-          <H3>Components</H3>
-          <Text as="a" href={componentsUrl} small>
-            View All
-          </Text>
+          <H3>
+            Components{" "}
+            <span
+              style={{
+                marginLeft: "10px",
+              }}
+            >
+              {` ${state.search?.components.length ?? 0}`}
+            </span>{" "}
+          </H3>
         </GroupHeader>
 
-        <Items>
-          {state.search.components.map((component, i) => (
-            <Item key={component.accountId + component.widgetName}>
-              <Widget
-                src="chaotictempest.near/widget/ComponentCard"
-                props={{
-                  src: `${component.accountId}/widget/${component.widgetName}`,
-                  onClick: () =>
-                    onSearchResultClick({
-                      searchPosition: component.searchPosition,
-                      objectID: `${component.accountId}/widget/${component.widgetName}`,
-                      eventName: "Clicked Component After Search",
-                    }),
-                }}
-              />
-            </Item>
-          ))}
-        </Items>
+        <Items>{topTwoComponents()}</Items>
       </Group>
     )}
 
     {state.search?.postsAndComments.length > 0 && (
       <Group>
         <GroupHeader>
-          <H3>Posts and Comments</H3>
+          <H3>
+            Posts and Comments{" "}
+            <span
+              style={{
+                marginLeft: "10px",
+              }}
+            >
+              {` ${state.search?.postsAndComments.length ?? 0}`}
+            </span>{" "}
+          </H3>
         </GroupHeader>
 
-        <Items>
-          {state.search.postsAndComments.map((post, i) => (
-            <Item
-              key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
-            >
-              <Widget
-                src="chaotictempest.near/widget/SearchPost"
-                props={{
-                  accountId: post.accountId,
-                  blockHeight: post.blockHeight,
-                  content: post.postContent,
-                }}
-              />
-            </Item>
-          ))}
-        </Items>
+        <Items>{topTwoComments()}</Items>
       </Group>
     )}
 
