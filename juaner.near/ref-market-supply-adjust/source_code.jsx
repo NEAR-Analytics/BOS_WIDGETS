@@ -334,8 +334,10 @@ return (
             </span>
           </div>
           <div class="template mt_25">
-            <span class="title">Amount designated as collateral</span>
-            <span class="value">{amount || remainBalance || "-"}</span>
+            <span class="title">Use as Collateral</span>
+            <span class="value">
+              {Big(amount || remainBalance || 0).toFixed(4)}
+            </span>
           </div>
           <Widget
             src="juaner.near/widget/ref-adjust-button"
