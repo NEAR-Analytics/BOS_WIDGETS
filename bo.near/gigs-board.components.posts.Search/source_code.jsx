@@ -666,9 +666,9 @@ const showMoreSearchResults = () => {
 };
 
 return (
-  <div class="pb-2">
+  <div>
     <div
-      className="d-flex"
+      className="d-flex mb-2"
       style={{
         height: "38px",
       }}
