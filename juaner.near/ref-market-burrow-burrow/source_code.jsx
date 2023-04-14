@@ -1,27 +1,4 @@
 const Container = styled.div`
-    .content input{
-      background: #152528;
-      border-radius: 12px;
-      height: 55px;
-      font-size:20px;
-      color: #7E8A93;
-      padding:0 15px 0 15px;
-      border:none;
-      outline:none;
-      margin-bottom:8px;
-    }
-    .content input:focus{
-      outline:none;
-    }
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
-    .content .balance {
-      font-size:12px;
-      color:#4B6778;
-      margin-left:6px;
-    }
     .template{
       display:flex;
       align-items:center;
@@ -60,10 +37,97 @@ const Container = styled.div`
       cursor: not-allowed;
     }
 `;
+const Backdrop = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+`;
+const Modal = styled.div`
+  background-color:#1A2E33;
+  border-radius:12px;
+  position:fixed;
+  z-index:1002;
+  width:30rem;
+  max-width: 95vw;
+  max-height: 80vh;
+  padding:10px 0 20px 0;
+  animation:anishow 0.3s forwards ease-out;
+  left:50%;
+  top:50%;
+  @keyframes anishow {
+    from {
+      opacity: 0;
+      transform:translate(-50%,-70%);
+    }
+    to {
+      opacity: 1;
+      transform:translate(-50%,-50%);
+    }
+  }
+    .modal-header{
+      display:flex;
+      align-items:center;
+      justify-content:start;
+      color:#fff;
+      font-weight: 700;
+      font-size: 18px;
+      padding:12px 20px;
+      margin-bottom:16px;
+      border-bottom:2px solid rgba(48, 67, 82, 0.5);
+    } 
+    .modal-header .title{
+       font-weight: 700;
+       font-size: 18px;
+       color:#fff;
+    }
+    .modal-header .btn-close{
+      position:absolute;
+      right:28px;
+      margin:0;
+    }
+    .modal-body {
+        padding:0 16px;
+    }
+    .modal-body .tab{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:30px;
+    }
+    .modal-body .tab span{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:50%;
+      height:40px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 18px;
+      cursor:pointer;
+      color:#fff;
+    }
+    .modal-body .tab span.active{
+      background: #304352;
+    }
+   .btn-close-custom{
+      position:absolute;
+      right:28px;
+      width:12px;
+      height:12px;
+      cursor:pointer;
+    }
+`;
 /** base tool start  */
+let accountId = context.accountId;
+if (!accountId) {
+  return <Widget src="juaner.near/widget/ref_account-signin" />;
+}
 let MAX_RATIO = 10_000;
 let BURROW_CONTRACT = "contract.main.burrow.near";
-let accountId = context.accountId;
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
 
@@ -103,8 +167,17 @@ const nFormat = (num, digits) => {
     ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
     : "0";
 };
-const { showModal, selectedTokenId } = props;
-const { rewards, account, balances, amount, hasError, assets } = state;
+const { selectedTokenId, selectedTokenMeta, showModal, closeModal } = props;
+const {
+  rewards,
+  account,
+  balances,
+  amount,
+  hasError,
+  assets,
+  wnearbase64,
+  closeButtonBase64,
+} = state;
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 if (!showModal) {
   State.update({
@@ -113,9 +186,6 @@ if (!showModal) {
   });
 }
 /** base tool end */
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
 const config = Near.view(BURROW_CONTRACT, "get_config");
 const onLoad = (data) => {
   State.update(data);
@@ -356,42 +426,76 @@ const newHealthFactor = state.newHealthFactor
   ? state.newHealthFactor?.toFixed()
   : undefined;
 /** logic end */
+function getWnearIcon(icon) {
+  State.update({
+    wnearbase64: icon,
+  });
+}
+function getCloseButtonIcon(icon) {
+  State.update({
+    closeButtonBase64: icon,
+  });
+}
 return (
   <Container>
     {/* load data */}
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    <div class="content">
-      <input type="number" value={amount} onChange={handleAmount} />
-      {selectedTokenId && (
-        <span class="balance">
-          Balance: {available} (${availableUSD})
-        </span>
-      )}
-      {hasError && (
-        <p class="alert alert-danger mt-10" role="alert">
-          Amount greater than available
-        </p>
-      )}
-      <div class="template mt_25">
-        <span class="title">Borrow APY</span>
-        <span class="value">
-          {selectedTokenId && <>{toAPY(reward.apyBaseBorrow)}%</>}
-        </span>
+    {/* load icons */}
+    <Widget
+      src="juaner.near/widget/ref-icons"
+      props={{ getWnearIcon, getCloseButtonIcon }}
+    />
+    {/** modal */}
+    <Modal style={{ display: showModal ? "block" : "none" }}>
+      <div class="modal-header">
+        <div class="title">Burrow</div>
+        <img
+          class="btn-close-custom"
+          src={closeButtonBase64}
+          onClick={closeModal}
+        />
       </div>
-      <div class="template mt_25">
-        <span class="title">Health Factor</span>
-        <span class="value">
-          {newHealthFactor ? newHealthFactor : healthFactor}%
-        </span>
+      <div class="modal-body">
+        <div class="content">
+          <Widget
+            src="juaner.near/widget/ref-input-box"
+            props={{
+              handleAmount,
+              balance: available,
+              balance$: availableUSD,
+            }}
+          />
+          {hasError && (
+            <p class="alert alert-danger mt-10" role="alert">
+              Amount greater than available
+            </p>
+          )}
+          <div class="template mt_25">
+            <span class="title">Borrow APY</span>
+            <span class="value">
+              {selectedTokenId && <>{toAPY(reward.apyBaseBorrow)}%</>}
+            </span>
+          </div>
+          <div class="template mt_25">
+            <span class="title">Health Factor</span>
+            <span class="value">
+              {newHealthFactor ? newHealthFactor : healthFactor}%
+            </span>
+          </div>
+          <div
+            class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
+            onClick={handleBorrow}
+          >
+            Borrow
+          </div>
+        </div>
       </div>
-      <div
-        class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
-        onClick={handleBorrow}
-      >
-        Borrow
-      </div>
-    </div>
+    </Modal>
+    <Backdrop
+      style={{ display: showModal ? "block" : "none" }}
+      onClick={closeModal}
+    ></Backdrop>
   </Container>
 );
