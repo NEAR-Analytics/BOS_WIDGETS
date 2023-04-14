@@ -106,7 +106,7 @@ if (!state.theme) {
 const Theme = state.theme;
 
 const Modal = styled.div`
-  display: ${({ hidden }) => (hidden ? "none" : "flex")};
+  display: flex;
   position: fixed;
   inset: 0;
   justify-content: center;
@@ -182,25 +182,32 @@ const assetList = assets
       />
     );
   });
+
+const inputOnChange = (e) => {
+  State.update({
+    searchBy: e.target.value,
+  });
+};
+
 const body = (
   <div class="asset-search-container">
     <input
       class="asset-search-input"
       placeholder="Search name" //  or paste address
-      onChange={(e) => {
-        State.update({
-          searchBy: e.target.value,
-        });
-      }}
+      onChange={inputOnChange}
       value={state.searchBy}
     />
   </div>
 );
 
+if (hidden) {
+  return <div />;
+}
+
 return (
   <>
     <Theme>
-      <div hidden={hidden}>
+      <Modal>
         <ModalBackdrop />
         <ModalDialog>
           <ModalHeader>
@@ -230,7 +237,7 @@ return (
             </div>
           </div>
         </ModalDialog>
-      </div>
+      </Modal>
     </Theme>
   </>
 );
