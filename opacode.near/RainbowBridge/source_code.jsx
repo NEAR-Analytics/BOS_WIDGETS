@@ -455,6 +455,7 @@ return (
           <button
             disabled={
               !state.tokenSymbol ||
+              state.sourceNetwork === "aurora" ||
               state.bigNumberAmount.isZero() ||
               state.lastTxHash
             }
@@ -468,6 +469,7 @@ return (
           <button
             disabled={
               !state.tokenSymbol ||
+              state.sourceNetwork === "aurora" ||
               state.bigNumberAmount.isZero() ||
               state.senderBalance.lt(state.bigNumberAmount) ||
               state.lastTxHash
@@ -493,57 +495,58 @@ return (
         <a href="https://rainbowbridge.app/" target="_blank" rel="noreferrer">
           rainbowbridge.app
         </a>
-        . Only Ethereum ={">"} Aurora transfers available atm from this UI.
+        . Only Ethereum ={">"} Aurora transfers available from this UI.
       </p>
       <h3> Recent transfers </h3>
       <table>
         <tbody>
-          {recentTransfers.map((t, i) => (
-            <tr>
-              <td>
-                <img
-                  src={
-                    t.metadata.icon?.length
-                      ? t.metadata.icon
-                      : "https://rainbowbridge.app/static/tokens/aurora.svg"
-                  }
-                  width="25"
-                  height="25"
-                  style={{ "margin-bottom": "2px" }}
-                />
-                {ethers.utils.formatUnits(t.amount, t.metadata.decimals)}
-                {t.metadata.symbol}
-              </td>
-              <td>
-                <a
-                  href={`${ethExplorerUrl}/tx/${t.ethHash}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+          {recentTransfers &&
+            recentTransfers.map((t, i) => (
+              <tr>
+                <td>
                   <img
-                    src={"https://rainbowbridge.app/static/tokens/eth.svg"}
-                    class="networkIcon"
-                    width="30"
-                    height="30"
+                    src={
+                      t.metadata.icon?.length
+                        ? t.metadata.icon
+                        : "https://rainbowbridge.app/static/tokens/aurora.svg"
+                    }
+                    width="25"
+                    height="25"
+                    style={{ "margin-bottom": "2px" }}
                   />
-                </a>
-                ={">"}
-                <a
-                  href={`${nearExplorerUrl}/receipts/${t.nearReceipt}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img
-                    src={"https://rainbowbridge.app/static/tokens/aurora.svg"}
-                    class="networkIcon"
-                    width="30"
-                    height="30"
-                  />
-                </a>
-              </td>
-              <td>{t.status}</td>
-            </tr>
-          ))}
+                  {ethers.utils.formatUnits(t.amount, t.metadata.decimals)}
+                  {t.metadata.symbol}
+                </td>
+                <td>
+                  <a
+                    href={`${ethExplorerUrl}/tx/${t.ethHash}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      src={"https://rainbowbridge.app/static/tokens/eth.svg"}
+                      class="networkIcon"
+                      width="30"
+                      height="30"
+                    />
+                  </a>
+                  ={">"}
+                  <a
+                    href={`${nearExplorerUrl}/receipts/${t.nearReceipt}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      src={"https://rainbowbridge.app/static/tokens/aurora.svg"}
+                      class="networkIcon"
+                      width="30"
+                      height="30"
+                    />
+                  </a>
+                </td>
+                <td>{t.status}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
