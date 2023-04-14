@@ -2,6 +2,8 @@ const debug = props.debug ?? false;
 const selected = props.selected ?? false;
 const searchBy = props.searchBy ?? "";
 
+State.init({ assetData: props.assetData });
+
 const css = `
 * {
     font-family: 'Inter custom',sans-serif;
@@ -169,6 +171,10 @@ const assetOnClick = () => {
 };
 
 const assetData = state.assetData;
+
+if (assetData && props.saveAssetData) {
+  props.saveAssetData(assetData);
+}
 
 const containsSearchBy = () => {
   return (
