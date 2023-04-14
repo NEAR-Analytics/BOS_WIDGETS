@@ -76,7 +76,7 @@ return (
           <h2>Learn to Earn</h2>
 
           <h5>
-            <b>1.</b> Click "Fork This" below.
+            <b>1.</b> Click "Start Here" below.
           </h5>
           <h5>
             <b>2.</b> Follow the instructions.
@@ -91,7 +91,7 @@ return (
             className="btn btn-success"
             href="#/edit/hack.near/widget/ForkThis"
           >
-            Fork This
+            Start Here
           </a>
         </Header>
 
