@@ -13,6 +13,9 @@ const Container = styled.div`
       font-size:14px;
       color:#fff;
     }
+    .template .usd{
+        color:#7E8A93;
+    }
     .mt_25{
       margin-top:25px;
     }
@@ -126,6 +129,9 @@ let accountId = context.accountId;
 if (!accountId) {
   return <Widget src="juaner.near/widget/ref_account-signin" />;
 }
+let MAX_RATIO = 10_000;
+let B = Big();
+B.DP = 60; // set precision to 60 decimals
 let BURROW_CONTRACT = "contract.main.burrow.near";
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -145,6 +151,7 @@ const {
   amount,
   hasError,
   assets,
+  newHealthFactor,
   wnearbase64,
   closeButtonBase64,
 } = state;
@@ -161,7 +168,9 @@ const onLoad = (data) => {
 };
 /** logic start */
 let availableBalance = 0;
+let availableBalance$ = 0;
 let apy = 0;
+let asset;
 
 const getBalance = (asset) => {
   if (!asset) return 0;
@@ -175,29 +184,119 @@ const getApy = (asset) => {
   return toAPY(r.apyBaseBorrow);
 };
 
-if (selectedTokenId && assets) {
+if (selectedTokenId && assets && account) {
   const token = selectedTokenId === "NEAR" ? "wrap.near" : selectedTokenId;
-  const asset = assets.find((a) => a.token_id === token);
-  availableBalance =
+  asset = assets.find((a) => a.token_id === token);
+  const borrowed = account.borrowed.find((a) => a.token_id === token);
+  const decimals = asset.metadata.decimals + asset.config.extra_decimals;
+  const borrowedBalance = shrinkToken(borrowed.balance || 0, decimals);
+  const walletBalance =
     selectedTokenId === "NEAR" ? nearBalance : getBalance(asset);
+  availableBalance = Math.min(borrowedBalance, walletBalance);
+  availableBalance$ = Big(availableBalance)
+    .mul(asset.price.usd || 0)
+    .toFixed(2);
   apy = getApy(asset);
 }
 
 const storageBurrow = Near.view(BURROW_CONTRACT, "storage_balance_of", {
   account_id: accountId,
 });
+function getAdjustedSum(type, account) {
+  if (!assets || !account || account[type].length == 0) return B(1);
+  return account[type]
+    .map((assetInAccount) => {
+      const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
 
+      const price = asset.price
+        ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals))
+        : B(0);
+
+      const pricedBalance = B(assetInAccount.balance)
+        .div(expandToken(1, asset.config.extra_decimals))
+        .mul(price);
+
+      return type === "borrowed"
+        ? pricedBalance
+            .div(asset.config.volatility_ratio)
+            .mul(MAX_RATIO)
+            .toFixed()
+        : pricedBalance
+            .mul(asset.config.volatility_ratio)
+            .div(MAX_RATIO)
+            .toFixed();
+    })
+    .reduce((sum, cur) => B(sum).plus(B(cur)).toFixed());
+}
+
+const adjustedCollateralSum = getAdjustedSum("collateral", account);
+const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
+
+function getHealthFactor() {
+  const healthFactor = B(adjustedCollateralSum)
+    .div(B(adjustedBorrowedSum))
+    .mul(100)
+    .toFixed(0);
+  return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO;
+}
+const healthFactor = getHealthFactor();
+const recomputeHealthFactor = (tokenId, amount) => {
+  if (!tokenId || !amount || !assets) return null;
+  const asset = assets.find((a) => a.token_id === tokenId);
+  const decimals = asset.metadata.decimals + asset.config.extra_decimals;
+  const accountBorrowedAsset = account.borrowed.find(
+    (a) => a.token_id === tokenId
+  );
+  const borrowedBalance = B(accountBorrowedAsset?.balance || 0);
+  const balance = borrowedBalance.minus(expandToken(amount, decimals));
+  const clonedAccount = clone(account);
+  const newBalance = balance.lt(0) ? 0 : balance.toFixed();
+  const updatedToken = {
+    token_id: tokenId,
+    balance: newBalance,
+    shares: newBalance,
+    apr: "0",
+  };
+  if (clonedAccount?.borrowed.length === 0) {
+    clonedAccount.borrowed = updatedToken;
+  } else if (!accountBorrowedAsset) {
+    clonedAccount.borrowed.push(updatedToken);
+  } else {
+    clonedAccount.borrowed = [
+      ...clonedAccount.borrowed.filter((a) => a.token_id !== tokenId),
+      updatedToken,
+    ];
+  }
+  const adjustedCollateralSum = getAdjustedSum("collateral", account);
+  const adjustedBorrowedSum = getAdjustedSum(
+    "borrowed",
+    amount === 0 ? account : clonedAccount
+  );
+  if (B(adjustedBorrowedSum).eq(0)) {
+    return MAX_RATIO;
+  } else {
+    const newHealthFactor = B(adjustedCollateralSum)
+      .div(B(adjustedBorrowedSum))
+      .mul(100)
+      .toFixed(0);
+
+    return Number(newHealthFactor) < MAX_RATIO ? newHealthFactor : MAX_RATIO;
+  }
+};
 const storageToken = selectedTokenId
   ? Near.view(selectedTokenId, "storage_balance_of", {
       account_id: accountId,
     })
   : null;
 
-const handleAmount = (e) => {
+const handleAmount = (value) => {
+  const amount = Number(value);
+  const newHF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
-    amount: Number(e.target.value),
+    amount,
     selectedTokenId,
     hasError: false,
+    newHealthFactor: newHF,
   });
 };
 const handleRepay = () => {
@@ -272,6 +371,12 @@ function getCloseButtonIcon(icon) {
     closeButtonBase64: icon,
   });
 }
+const remainBurrow = Big(availableBalance || 0)
+  .sub(amount || 0)
+  .toFixed(4);
+const remainBurrow$ = Big(asset.price.usd || 0)
+  .mul(remainBurrow)
+  .toFixed(2);
 /** logic end */
 return (
   <Container>
@@ -301,7 +406,7 @@ return (
             props={{
               handleAmount,
               balance: availableBalance,
-              balance$: availableUSD,
+              balance$: availableBalance$,
             }}
           />
           {hasError && (
@@ -310,8 +415,15 @@ return (
             </p>
           )}
           <div class="template mt_25">
-            <span class="title">Borrow APY</span>
-            <span class="value">{apy}%</span>
+            <span class="title">Health Factor</span>
+            <span class="value">{newHealthFactor || healthFactor}%</span>
+          </div>
+          <div class="template mt_25">
+            <span class="title">Remaining Borrow</span>
+            <span class="value">
+              {remainBurrow}
+              <span class="usd">(${remainBurrow$ || "0"})</span>
+            </span>
           </div>
           <div
             class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
