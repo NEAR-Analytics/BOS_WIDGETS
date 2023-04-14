@@ -15,16 +15,16 @@ const defaultFacetOptions = props.defaultFacetOptions ?? {
 const Tabs = styled.div`
   display: flex;
   height: 48px;
-  border-bottom: 1px solid #eceef0;
   margin-bottom: -24px;
   overflow: auto;
   scroll-behavior: smooth;
 
   @media (max-width: 1200px) {
     background: #f8f9fa;
-    border-top: 1px solid #eceef0;
     margin-left: -12px;
     margin-right: -12px;
+    border-bottom: 1px solid rgba(112, 109, 218, 0.15);
+
 
     > * {
       flex: 1;
