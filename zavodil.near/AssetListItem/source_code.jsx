@@ -2,7 +2,7 @@ const debug = props.debug ?? false;
 const selected = props.selected ?? false;
 const searchBy = props.searchBy ?? "";
 
-State.init({ assetData: props.assetData });
+//State.init({ assetData: props?.assetData });
 
 const css = `
 * {
@@ -170,7 +170,7 @@ const assetOnClick = () => {
   }
 };
 
-const assetData = state.assetData;
+const assetData = props.assetData ?? state.assetData;
 
 if (assetData && !props.assetData && props.saveAssetData) {
   props.saveAssetData(assetData);
