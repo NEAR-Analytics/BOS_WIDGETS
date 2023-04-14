@@ -281,18 +281,21 @@ Ethers.provider()
   })
   .catch((error) => console.log(error));
 
-const transfers = useCache(
-  () =>
-    asyncFetch(
-      `https://jvea2jh4jzwg4vykyhy3mcdh7i0yfosk.lambda-url.eu-central-1.on.aws/${
-        state.isTestnet ? 5 : 1
-      }/${sender}`
-    )
-      .then((res) => res?.body ?? [])
-      .catch((error) => console.log(error)),
-  "recentTransfers",
-  { subscribe: true }
-);
+let transfers;
+if (state.initialized) {
+  transfers = useCache(
+    () =>
+      asyncFetch(
+        `https://jvea2jh4jzwg4vykyhy3mcdh7i0yfosk.lambda-url.eu-central-1.on.aws/${
+          state.isTestnet ? 5 : 1
+        }/${sender}`
+      )
+        .then((res) => res?.body ?? [])
+        .catch((error) => console.log(error)),
+    "recentTransfers",
+    { subscribe: true }
+  );
+}
 
 const lastTransferIndexed =
   transfers &&
