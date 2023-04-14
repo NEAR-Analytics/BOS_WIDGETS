@@ -21,7 +21,7 @@ const Card = styled.div`
   border-radius: 12px;
 
 
-  width: 100%;
+
   overflow: hidden;
 `;
 
@@ -71,7 +71,7 @@ const TextLink = styled.a`
   line-height: 18px;
   color: ${(p) => (p.bold ? "#FFFFFF !important" : "#606D7A !important")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "14px" : "14px")};
+  font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
   white-space: nowrap;
@@ -151,6 +151,20 @@ const ButtonLink = styled.a`
 
 return (
   <Card>
+    {
+      <CardTag>
+        <i className="bi bi-clock"></i>{" "}
+        <Widget
+          src="mob.near/widget/TimeAgo"
+          props={{
+            blockHeight: props.blockHeight,
+            keyPath: `${accountId}/widget/${widgetName}`,
+          }}
+        />{" "}
+        ago
+      </CardTag>
+    }
+
     <CardBody>
       <Thumbnail href={detailsUrl} onPointerUp={onPointerUp}>
         <Widget
