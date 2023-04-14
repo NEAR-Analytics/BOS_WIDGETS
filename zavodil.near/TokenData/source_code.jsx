@@ -35,9 +35,9 @@ const getRefPrice = (tokenId) => {
   const refPricesResponse = fetch(
     "https://indexer.ref.finance/list-token-price"
   );
-  if (!refPricesResponse) return;
+  if (!refPricesResponse) return 0;
   const refPrices = JSON.parse(refPricesResponse.body);
-  return parseFloat(refPrices?.[tokenId]?.price);
+  return parseFloat(refPrices?.[tokenId]?.price ?? 0);
 };
 
 switch (network) {
@@ -70,7 +70,8 @@ switch (network) {
       // REF PRICE
       refPrice = getRefPrice(tokenId);
     }
-    if (!balance || !refPrice || !metadata) return;
+    if (balance == undefined || refPrice == undefined || metadata == undefined)
+      return;
 
     res = {
       balance,
