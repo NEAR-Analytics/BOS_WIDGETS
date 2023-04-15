@@ -14,7 +14,7 @@ const defaultFacetOptions = props.defaultFacetOptions ?? {
 
 const Tabs = styled.div`
   display: flex;
-  height: 48px;
+  height: 36px;
   overflow: auto;
   scroll-behavior: smooth;
 
@@ -141,7 +141,6 @@ const FacetItem =
 
     height: 32px;
     text-align: center;
-    margin: auto 4px;
     color: rgba(96, 109, 122, 1);
     display: flex;
     box-sizing: border-box;
