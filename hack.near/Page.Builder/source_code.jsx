@@ -6,14 +6,19 @@ const view = props.view || "WIDGETS";
 
 const pageTypes = [
   {
-    name: "community",
-    hashtag: "community",
+    name: "page",
+    hashtag: "page",
     template: "hack.near/widget/Common.Page",
   },
   {
     name: "feed",
     hashtag: "feed",
-    template: "hack.near/widget/Feed.Template",
+    template: "hack.near/widget/Hashtag.Feed",
+  },
+  {
+    name: "library",
+    hashtag: "library",
+    template: "hack.near/widget/Common.Library",
   },
 ];
 
