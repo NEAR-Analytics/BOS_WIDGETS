@@ -1,216 +1,252 @@
-let Style = styled.div`
+/*
 
-  .barTextH{
-    transition: fill 0.2s;
+INSTRUCTIONS
 
+We're using a tag property to filter widgets on the page.
+
+--> Edit your default tag from "guide" to anything!
+
+Click `Render Preview` to check if any widgets have your tag.
+
+Here are a few common tags you can use: #dev, #page, #app
+
+Under "All Tutorials" you should see widgets with the tag.
+
+*/
+
+const tag = props.tag ?? "create";
+
+/*
+
+Review the following code if you are interested in tag filtering.
+
+- maps over widget data to create an array of keys,
+(consisting of accountId, widgetName, and blockHeight)
+- calls processData function to sort widgets by blockHeight
+- maps over sorted widget data to create a list of items to render
+- renderTag / renderItem functions are used for each tag / widget
+
+No need to make any changes here.
+
+*/
+
+let keys = `${accountId ?? "*"}/widget/*`;
+
+if (tag) {
+  const taggedWidgets = Social.keys(
+    `${accountId ?? "*"}/widget/*/metadata/tags/${tag}`,
+    "final"
+  );
+
+  if (taggedWidgets === null) {
+    return "Loading tags";
   }
-.barTextH:hover{
-    fill: #ad610a;
 
+  keys = Object.entries(taggedWidgets)
+    .map((kv) => Object.keys(kv[1].widget).map((w) => `${kv[0]}/widget/${w}`))
+    .flat();
+
+  if (!keys.length) {
+    return `No widgets found with tag #${tag}`;
   }
-  .bar {
-    transition: fill 0.2s;
-  }
+}
 
-  .bar:hover {
-    fill: #ffa726;
-  }
-
-  .bar-chart {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-    svg {
-      width: 80%;
-    }
-
-    rect {
-      shape-rendering: crispEdges;
-      fill: #61dafb;
-      stroke: #333;
-      stroke-width: 1;
-    }
-
-                      .bar {
-                    transition: fill 0.2s;
-                  }
-
-                  .bar:hover {
-                    fill: #ffa726;
-                  }
-
-                  .bar-chart {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  }
-
-                    svg {
-                      width: 80%;
-                    }
-
-                    rect {
-                      shape-rendering: crispEdges;
-                      fill: #61dafb;
-                      stroke: #333;
-                      stroke-width: 1;
-                    }
-
-                     
-                     
-                        .barTextH{
-                     transition: fill 0.2s;
-
-                }
-                .barTextH:hover{
-                    fill: #ad610a;
-
-                }
-                .bar {
-                    transition: fill 0.2s;
-                }
-
-                .bar:hover {
-                    fill: #ffa726;
-                }
-
-                .bar-chart {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                    svg {
-                    width: 80%;
-                    }
-
-                    rect {
-                    shape-rendering: crispEdges;
-                    fill: #61dafb;
-                    stroke: #333;
-                    stroke-width: 1;
-                    }
-
-
-
-    `;
-
-const sentiment = fetch(
-  "https://fetcher-api.lionhack.workers.dev/api/sentiment",
-  {
-    subscribe: true,
-    method: "GET",
-    headers: {
-      Accept: "*/*",
-    },
-  }
-);
-
-// console.log(sentiment.body.sentiment);
-
-const values = Object.values(sentiment.body.sentiment);
-const labels = Object.keys(sentiment.body.sentiment);
-
-// near social doesn't allow MathPI
-const math_PI = 3.14159;
-
-const total = values.reduce((acc, value) => acc + value, 0);
-let startAngle = 0;
-const [tooltip, setTooltip] = State.init({
-  show: false,
-  value: "",
-  x: 0,
-  y: 0,
+const data = Social.keys(keys, "final", {
+  return_type: "BlockHeight",
 });
 
-const handleMouseEnter = (value, event) => {
-  setTooltip({
-    show: true,
-    value: value,
-    x: event.clientX + 10,
-    y: event.clientY + 10,
+if (data === null) {
+  return "Loading...";
+}
+
+const processData = (data) => {
+  const accounts = Object.entries(data);
+
+  const allItems = accounts
+    .map((account) => {
+      const accountId = account[0];
+      return Object.entries(account[1].widget).map((kv) => ({
+        accountId,
+        widgetName: kv[0],
+        blockHeight: kv[1],
+      }));
+    })
+    .flat();
+
+  allItems.sort((a, b) => b.blockHeight - a.blockHeight);
+  return allItems;
+};
+
+const renderTag = (tag, tagBadge) => (
+  <a href={makeLink(accountId, tag)}>{tagBadge}</a>
+);
+
+const renderItem = (a) => {
+  return (
+    <a
+      href={`#/${a.accountId}/widget/${a.widgetName}`}
+      className="text-decoration-none"
+      key={JSON.stringify(a)}
+    >
+      <Widget
+        src="mob.near/widget/WidgetImage"
+        props={{
+          tooltip: true,
+          accountId: a.accountId,
+          widgetName: a.widgetName,
+        }}
+      />
+    </a>
+  );
+};
+
+if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
+  State.update({
+    data,
+    allItems: processData(data),
   });
-};
+}
 
-const handleMouseLeave = () => {
-  setTooltip({ show: false, value: "", x: 0, y: 0 });
-};
+/*
 
-const actives = fetch("https://fetcher-api.lionhack.workers.dev/api/active");
-// console.log(Object.keys(actives.body.active["0"]));
-const users = Object.keys(actives.body.active["0"]);
-const num = Object.values(actives.body.active["0"]);
-console.log(num);
+Here are a few styled components for you.
 
-const itemList = users.map((item, index) => <li key={index}>{item}</li>);
+These allow using CSS in your JavaScript!
+
+Learn more: https://styled-components.com
+
+*/
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding-bottom: 48px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const H1 = styled.h1`
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 39px;
+  color: #11181c;
+  margin: 0;
+`;
+
+const Text = styled.p`
+  margin: 0;
+  line-height: 1.5rem;
+  color: ${(p) => (p.bold ? "#11181C" : "#687076")} !important;
+  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  font-size: ${(p) => (p.small ? "12px" : "14px")};
+  overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
+  white-space: ${(p) => (p.ellipsis ? "nowrap" : "")};
+  overflow-wrap: anywhere;
+
+  b {
+    font-weight: 600;
+    color: #11181c;
+  }
+
+  &[href] {
+    display: inline-flex;
+    gap: 0.25rem;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const Button = styled.a`
+  display: block;
+  width: 100%;
+  padding: 8px;
+  height: 32px;
+  background: #FBFCFD;
+  border: 1px solid #D7DBDF;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  cursor: pointer;
+  color: #11181C !important;
+  margin: 0;
+
+  &:hover,
+  &:focus {
+    background: #ECEDEE;
+    text-decoration: none;
+    outline: none;
+  }
+`;
+
+const Items = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+`;
+
+const Item = styled.div``;
+
+/*
+
+Last, but certainly not least, is returning the display.
+
+Feel free to make any edits you like!
+
+bOS CHALLENGE INSTRUCTIONS
+
+1. Edit default tag and explore how to filter items on a page.
+2. Update <Widget src=" ... " /> to reference another widget.
+3. Curate featured components by adjusting src and templates.
+
+Don't forget to save!
+
+*/
 
 return (
-  <>
-    <>
-      <h5>Top Posters on NEAR Social</h5>
-      <div className="flex flex-row">
-        <ol>{itemList}</ol>
-        <ul></ul>
+  <Wrapper>
+    <Header>
+      <Widget src="hack.near/widget/Guide.Header" />
+      <h3>All Tutorials</h3>
+      <Text>
+        These widgets are tagged with: <b>#{tag}</b>
+      </Text>
+      <div className="d-flex flex-wrap gap-1 my-3">
+        {state.allItems
+          .slice(0, props.limit ? parseInt(props.limit) : 999)
+          .map(renderItem)}
       </div>
-    </>
-    <svg viewBox="0 0 100 100">
-      {values.map((value, index) => {
-        const angle = (value / total) * 360;
-        const endAngle = startAngle + angle;
+    </Header>
 
-        const largeArc = angle > 180 ? 1 : 0;
-
-        const x1 = 50 + 30 * Math.cos((startAngle - 90) * (math_PI / 180));
-        const y1 = 50 + 30 * Math.sin((startAngle - 90) * (math_PI / 180));
-        const x2 = 50 + 30 * Math.cos((endAngle - 90) * (math_PI / 180));
-        const y2 = 50 + 30 * Math.sin((endAngle - 90) * (math_PI / 180));
-
-        const path = `M 50,50  L ${x1},${y1}  A 30,30 0 ${largeArc} 1 ${x2},${y2} Z`;
-
-        startAngle = endAngle;
-
-        return (
-          <path
-            key={index}
-            d={path}
-            fill={`hsl(${(index * 30) % 360}, 70%, 70%)`}
-            onMouseEnter={handleMouseEnter.bind(null, value)}
-            onMouseLeave={handleMouseLeave}
-          />
-        );
-      })}
-    </svg>
-    {tooltip.show && (
-      <div
-        style={{
-          position: "absolute",
-          left: tooltip.x,
-          top: tooltip.y,
-          backgroundColor: "white",
-          padding: "5px 10px",
-          border: "1px solid black",
-          borderRadius: "5px",
-        }}
-      >
-        {tooltip.value}
-      </div>
-    )}
-    <div style={{ display: "flex", alignItems: "center" }}>
-      {labels.map((label, index) => (
-        <div key={index} style={{ display: "flex", alignItems: "center" }}>
-          <div
-            style={{
-              width: 10,
-              height: 10,
-              backgroundColor: `hsl(${(index * 30) % 360}, 70%, 70%)`,
-              marginRight: 5,
-            }}
-          />
-          {label}
-        </div>
-      ))}
-    </div>
-  </>
+    <Items>
+      <Item>
+        <Widget
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "hack.near/widget/Customization" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "hack.near/widget/SocialPosts" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "evrything-docs.near/widget/StartHere" }}
+        />
+      </Item>
+    </Items>
+  </Wrapper>
 );
