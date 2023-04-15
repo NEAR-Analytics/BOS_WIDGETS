@@ -55,13 +55,13 @@ const handleCreateType = (request, response) => {
         },
         widget: {
           [`Everything.Summary.${payload.name}`]: {
-            "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/Everything.Summary.${payload.name}">summary widget</a>!</p>);`,
+            "": `const data= props.data; return (<><p>Configure <a href="/#/edit/${accountId}/widget/Everything.Summary.${payload.name}">this widget</a> to attractively display your data below:</p><p>{JSON.stringify(data)}</p></>);`,
           },
           [`Everything.View.${payload.name}`]: {
-            "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/Everything.View.${payload.name}">view widget</a>!</p>);`,
+            "": `const data= props.data; return (<><p>Configure <a href="/#/edit/${accountId}/widget/Everything.View.${payload.name}">this widget</a>to attractively display your data below:</p><p>{JSON.stringify(data)}</p></>);`,
           },
           [`Everything.Create.${payload.name}`]: {
-            "": `return (<p>Go configure your <a href="/#/edit/${accountId}/widget/Everything.Create.${payload.name}">create widget</a>!</p>);`,
+            "": `return (<><p>Configure <a href="/#/edit/${accountId}/widget/Everything.Create.${payload.name}">this widget</a> with the app you've deployed.</p><Widget src={"evrything.near/widget/Bridge"} props={{ externalAppUrl: "", type: "${payload.name}" }} /></>);`,
           },
         },
       },
