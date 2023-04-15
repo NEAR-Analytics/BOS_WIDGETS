@@ -126,9 +126,9 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-// const { showModal, closeModal, selectedTokenId } = props;
-const showModal = true;
-const selectedTokenId = "token.burrow.near";
+const { showModal, closeModal, selectedTokenId } = props;
+// const showModal = true;
+// const selectedTokenId = "token.burrow.near";
 
 const {
   assets,
