@@ -8,12 +8,12 @@ const pageTypes = [
   {
     name: "community",
     hashtag: "community",
-    template: "hack.near/widget/Test.Page",
+    template: "hack.near/widget/Common.Page",
   },
   {
-    name: "guide",
-    hashtag: "guide",
-    template: "hack.near/widget/Test.Page",
+    name: "feed",
+    hashtag: "feed",
+    template: "hack.near/widget/Feed.Template",
   },
 ];
 
