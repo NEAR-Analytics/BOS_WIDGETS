@@ -446,6 +446,7 @@ return (
           <Widget
             src="juaner.near/widget/ref-input-box"
             props={{
+              amount,
               handleAmount,
               balance: available,
               balance$: availableUSD,
