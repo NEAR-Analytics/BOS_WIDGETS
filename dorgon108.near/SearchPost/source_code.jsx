@@ -30,7 +30,6 @@ const Post =
   styled.a`
   position: relative;
   overflow:hidden;
-  display: flex;
   flex-direction:column;
   flex:1;
   width:100%
