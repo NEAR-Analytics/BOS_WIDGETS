@@ -176,6 +176,7 @@ const expandToken = (value, decimals) => {
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const { selectedTokenId, showModal, closeModal, selectedTokenMeta } = props;
+const showModal = true;
 const {
   rewards,
   balances,
@@ -490,6 +491,7 @@ return (
           <Widget
             src="juaner.near/widget/ref-input-box"
             props={{
+              amount,
               handleAmount,
               balance: vailableBalance,
               balance$: vailableBalance$,
