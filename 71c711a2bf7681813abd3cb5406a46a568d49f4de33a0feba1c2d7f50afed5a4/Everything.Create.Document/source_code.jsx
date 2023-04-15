@@ -29,7 +29,7 @@ const initialPayload = {};
  */
 const requestHandler = (request, response, Utils) => {
   switch (request.type) {
-    case "create-thing":
+    case "create-idea":
       handleCreateIdea(request, response);
       break;
   }
