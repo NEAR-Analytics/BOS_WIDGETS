@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/michiga.near/widget/Everything.View.Document">view widget</a>!</p>);
