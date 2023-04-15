@@ -187,6 +187,7 @@ return (
         src="zavodil.near/widget/TokenData"
         props={{
           tokenId,
+          network,
           onLoad,
         }}
       />
