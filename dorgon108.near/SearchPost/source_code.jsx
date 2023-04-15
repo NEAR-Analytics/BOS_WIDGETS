@@ -31,14 +31,16 @@ const Post = styled.a`
   flex-direction: row;
   align-items: center;
   width: 100%;
+  height: 34px;
+  overflow:hidden;
 `;
 const Header = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
+
 `;
 const Body = styled.div`
-  display: flex;
   align-items: center;
   flex: 1;
 `;
