@@ -226,6 +226,7 @@ let vailableBalance = 0;
 let vailableBalance$ = 0;
 let apy = 0;
 let cf = "-";
+let asset;
 const getBalance = (asset) => {
   if (!asset) return 0;
   const { token_id, accountBalance, metadata } = asset;
@@ -241,7 +242,7 @@ const getApy = (asset) => {
 };
 if (selectedTokenId && assets) {
   const token = selectedTokenId === "NEAR" ? "wrap.near" : selectedTokenId;
-  const asset = assets.find((a) => a.token_id === token);
+  asset = assets.find((a) => a.token_id === token);
   vailableBalance =
     selectedTokenId === "NEAR" ? nearBalance : getBalance(asset);
   apy = getApy(asset);
@@ -404,11 +405,14 @@ function getHealthFactor() {
   return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO;
 }
 const healthFactor = getHealthFactor();
+const canUseAsCollateral = asset.config.can_use_as_collateral;
 /** logic end */
 function switchButtonStatus() {
-  State.update({
-    cfButtonStatus: !cfButtonStatus,
-  });
+  if (canUseAsCollateral) {
+    State.update({
+      cfButtonStatus: !cfButtonStatus,
+    });
+  }
 }
 const recomputeHealthFactor = (tokenId, amount) => {
   if (!tokenId || !amount || !assets || !burrowAccount) return null;
@@ -515,7 +519,7 @@ return (
             <div class="flex-center">
               <span class="value">{cf}%</span>
               <div
-                class={`switchButton ${
+                class={`switchButton ${canUseAsCollateral ? "" : "disabled"} ${
                   cfButtonStatus ? "justify-end" : "justify-start"
                 }`}
                 onClick={switchButtonStatus}
