@@ -370,6 +370,7 @@ return (
           <Widget
             src="juaner.near/widget/ref-input-box"
             props={{
+              amount,
               handleAmount,
               balance: availableBalance,
               balance$: availableBalance$,
