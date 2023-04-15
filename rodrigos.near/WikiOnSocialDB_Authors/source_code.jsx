@@ -1,6 +1,5 @@
 const addressForArticles = "wikiTest2Article";
-const authorForWidget = "testwiki.near";
-const writersWhiteList = ["testwiki.near", "rodrigos.near"];
+const authorForWidget = "rodrigos.near";
 
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
@@ -10,17 +9,13 @@ const postsIndex = Social.index(addressForArticles, "main", {
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex
-    .reduce((acc, { accountId, blockHeight }) => {
-      const postData = Social.get(
-        `${accountId}/${addressForArticles}/main`,
-        blockHeight
-      );
-      return [...acc, JSON.parse(postData)];
-    }, [])
-    .filter((article) =>
-      writersWhiteList.some((addr) => addr === article.author)
+  postsIndex.reduce((acc, { accountId, blockHeight }) => {
+    const postData = Social.get(
+      `${accountId}/${addressForArticles}/main`,
+      blockHeight
     );
+    return [...acc, JSON.parse(postData)];
+  }, []);
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
