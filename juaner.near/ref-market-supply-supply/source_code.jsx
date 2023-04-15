@@ -193,6 +193,7 @@ if (!showModal) {
   State.update({
     amount: "",
     hasError: false,
+    cfButtonStatus: false,
   });
 }
 /** base tool end */
