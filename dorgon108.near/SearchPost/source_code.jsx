@@ -53,9 +53,8 @@ const Header =
 const Body =
   props.styles?.Body ??
   styled.div`
-  padding-left: 52px;
   padding-bottom: 1px;
-   margin-top: 16px;
+ 
 `;
 
 const Content =
