@@ -25,35 +25,29 @@ const onClick =
     }
   });
 
-const Post =
-  props.styles?.Post ??
-  styled.a`
-  position: relative;
-  overflow:hidden;
-  flex-direction:column;
-  flex:1;
-  width:100%
-
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 19px;
-    top: 52px;
-    bottom: 12px;
-    width: 2px;
-    background: #ECEEF0;
-  }
-`;
-const Header = styled.div`
+const Post = styled.a`
   display: flex;
-  justify-content: space-between;
+  overflow: hidden;
+  flex-direction: row;
   align-items: center;
   width: 100%;
 `;
-const Body = styled.div``;
-
-const Content = styled.div``;
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+`;
+const Body = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+`;
+const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+`;
 
 const ButtonLink = styled.a`
   display: inline-flex;
@@ -93,49 +87,30 @@ return (
         props={{
           accountId,
           hideAccountId: true,
-          inlineContent: (
-            <>
-              <Text as="span">･</Text>
-              <Text>
-                {blockHeight === "now" ? (
-                  "now"
-                ) : (
-                  <>
-                    <Widget
-                      src="mob.near/widget/TimeAgo"
-                      props={{ blockHeight }}
-                    />{" "}
-                    ago
-                  </>
-                )}
-              </Text>
-            </>
-          ),
         }}
       />
-      <ButtonLink href={postUrl} onPointerUp={onClick}>
-        <img src="https://i.imgur.com/dIDX59g.png" alt="Open" />
-      </ButtonLink>
     </Header>
 
     <Body>
-      <Content>
-        {content.text && (
-          <Widget
-            src="calebjacob.near/widget/SocialMarkdown"
-            props={{ text: content.text }}
-          />
-        )}
+      {content.text && (
+        <Widget
+          src="calebjacob.near/widget/SocialMarkdown"
+          props={{ text: content.text }}
+        />
+      )}
 
-        {content.image && (
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: content.image,
-            }}
-          />
-        )}
-      </Content>
+      {content.image && (
+        <Widget
+          src="mob.near/widget/Image"
+          props={{
+            image: content.image,
+          }}
+        />
+      )}
     </Body>
+
+    <ButtonLink href={postUrl} onPointerUp={onClick}>
+      <img src="https://i.imgur.com/dIDX59g.png" alt="Open" />
+    </ButtonLink>
   </Post>
 );
