@@ -231,20 +231,20 @@ return (
     <Items>
       <Item>
         <Widget
-          src="chess-game.near/widget/ChessGameLobby"
-          props={{ src: "hack.near/widget/Customization" }}
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "chess-game.near/widget/ChessGameLobby" }}
         />
       </Item>
       <Item>
         <Widget
-          src="mintbase.near/widget/minsta"
-          props={{ src: "hack.near/widget/SocialPosts" }}
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "mintbase.near/widget/minsta" }}
         />
       </Item>
       <Item>
         <Widget
-          src="denysk.near/widget/PriceStats"
-          props={{ src: "evrything-docs.near/widget/StartHere" }}
+          src="adminalpha.near/widget/ComponentCard"
+          props={{ src: "denysk.near/widget/PriceStats" }}
         />
       </Item>
     </Items>
