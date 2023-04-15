@@ -109,6 +109,7 @@ const suppliedAssets = hasData
       const totalApy = r.apyBase + r.apyRewardTvl + r.apyReward;
 
       const decimals = asset.metadata.decimals + asset.config.extra_decimals;
+      const { can_use_as_collateral } = asset.config;
 
       const supplied = account.supplied.find(
         (s) => s.token_id === depositedTokenId
@@ -167,17 +168,19 @@ const suppliedAssets = hasData
             <span class="text_grey_color">(${usd.toFixed(2)})</span>
           </td>
           <td class="flex-end">
-            <Widget
-              src="juaner.near/widget/ref-operation-button"
-              props={{
-                clickEvent: () => {
-                  changeSelectedToken(asset, "adjust");
-                },
-                buttonType: "solid",
-                actionName: "Adjust",
-                hoverOn: true,
-              }}
-            />
+            {!can_use_as_collateral ? null : (
+              <Widget
+                src="juaner.near/widget/ref-operation-button"
+                props={{
+                  clickEvent: () => {
+                    changeSelectedToken(asset, "adjust");
+                  },
+                  buttonType: "solid",
+                  actionName: "Adjust",
+                  hoverOn: true,
+                }}
+              />
+            )}
             &nbsp;&nbsp;
             <Widget
               src="juaner.near/widget/ref-operation-button"
