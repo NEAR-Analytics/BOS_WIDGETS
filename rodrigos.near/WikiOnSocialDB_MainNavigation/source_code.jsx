@@ -1,6 +1,6 @@
 const currentPill = props.currentNavPill ?? "";
-const writersWhiteList = props.writersWhiteList ?? "";
-const authorForWidget = "testwiki.near";
+const writersWhiteList = props.writersWhiteList ?? [];
+const authorForWidget = "rodrigos.near";
 const pills = [
   {
     id: "articles",
