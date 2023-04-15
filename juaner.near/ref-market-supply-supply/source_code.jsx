@@ -176,7 +176,6 @@ const expandToken = (value, decimals) => {
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const { selectedTokenId, showModal, closeModal, selectedTokenMeta } = props;
-const showModal = true;
 const {
   rewards,
   balances,
