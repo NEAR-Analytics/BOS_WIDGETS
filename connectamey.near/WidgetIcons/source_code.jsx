@@ -1,10 +1,26 @@
-const accountId = props.accountId ?? context.accountId;
-//
-const tag = props.tag;
+// const accountId = props.accountId ?? context.accountId; //context.accountId
 
+// const accountId = *;
+
+// const tag = props.tag;
+
+const handleSearch = () => {};
+
+// const tag = "meme";
+
+//Initializing the state
+State.init({
+  tag: state.tag,
+});
+state.tag ?? meme;
 let keys = `${accountId ?? "*"}/widget/*`;
 
 if (tag) {
+  //   const taggedWidgets = Social.keys(
+  //     `${accountId ?? "*"}/widget/*/metadata/tags/${tag}`,
+  //     "final"
+  //   );
+
   const taggedWidgets = Social.keys(
     `${accountId ?? "*"}/widget/*/metadata/tags/${tag}`,
     "final"
@@ -80,9 +96,17 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 }
 
 return (
-  <div className="d-flex flex-wrap gap-1 my-3">
-    {state.allItems
-      .slice(0, props.limit ? parseInt(props.limit) : 999)
-      .map(renderItem)}
-  </div>
+  <>
+    <div className="mb-2">
+      Enter Tag Name:
+      <input type="text" onChange={(e) => onChangeTag(e.target.value)} />
+    </div>
+
+    <div className="d-flex flex-wrap gap-1 my-3">
+      {state.allItems
+        .slice(0, props.limit ? parseInt(props.limit) : 999)
+        .map(renderItem)}
+    </div>
+  </>
 );
+t;
