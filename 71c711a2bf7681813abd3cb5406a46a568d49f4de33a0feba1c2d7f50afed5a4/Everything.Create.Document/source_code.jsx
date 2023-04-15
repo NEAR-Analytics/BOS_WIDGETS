@@ -1,5 +1,5 @@
 // Repository: https://github.com/near-everything/idea-creator
-const externalAppUrl = "https://idea-creator-seven.vercel.app/";
+const externalAppUrl = "document-creator-theta.vercel.app";
 
 /**
  * Initial Path (optional but recommended)
@@ -29,7 +29,7 @@ const initialPayload = {};
  */
 const requestHandler = (request, response, Utils) => {
   switch (request.type) {
-    case "create-idea":
+    case "create-thing":
       handleCreateIdea(request, response);
       break;
   }
@@ -64,7 +64,7 @@ const handleCreateIdea = (request, response) => {
               everything: JSON.stringify({
                 key: "main",
                 value: {
-                  type: "evrything.near/type/Idea",
+                  type: "71c711a2bf7681813abd3cb5406a46a568d49f4de33a0feba1c2d7f50afed5a4/type/Document",
                 },
               }),
             },
