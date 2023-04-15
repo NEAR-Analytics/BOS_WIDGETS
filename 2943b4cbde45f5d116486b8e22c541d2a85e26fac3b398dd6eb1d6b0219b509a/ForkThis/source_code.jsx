@@ -238,13 +238,13 @@ return (
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "mintbase.near/widget/CollectionSelector" }}
+          props={{ src: "mintbase.near/widget/nft-marketplace" }}
         />
       </Item>
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "mintbase.near/widget/nft-marketplace" }}
+          props={{ src: "mintbase.near/widget/CollectionSelector" }}
         />
       </Item>
     </Items>
