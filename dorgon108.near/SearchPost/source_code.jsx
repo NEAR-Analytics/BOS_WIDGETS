@@ -30,6 +30,10 @@ const Post =
   styled.a`
   position: relative;
   overflow:hidden;
+  display: flex;
+  flex-direction:column;
+  flex:1;
+  width:100%
 
   &::before {
     content: '';
@@ -42,35 +46,39 @@ const Post =
     background: #ECEEF0;
   }
 `;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+const Body = styled.div``;
 
-const Header =
-  props.styles?.Header ??
-  styled.div`
-  margin-bottom: 0;
+const Content = styled.div``;
+
+const ButtonLink = styled.a`
   display: inline-flex;
-`;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
 
-const Body =
-  props.styles?.Body ??
-  styled.div`
-  padding-bottom: 1px;
- 
-`;
-
-const Content =
-  props.styles?.Content ??
-  styled.div`
   img {
-    display: block;
-    max-width: 100%;
-    max-height: 80vh;
-    margin: 0 0 12px;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
   }
 `;
 
-const Text =
-  props.styles?.Text ??
-  styled.p`
+const Text = styled.p`
   display: block;
   margin: 0;
   font-size: 14px;
@@ -79,7 +87,6 @@ const Text =
   color: #687076;
   white-space: nowrap;
 `;
-
 return (
   <Post href={postUrl} onPointerUp={onClick}>
     <Header>
@@ -108,6 +115,9 @@ return (
           ),
         }}
       />
+      <ButtonLink href={postUrl} onPointerUp={onClick}>
+        <img src="https://i.imgur.com/dIDX59g.png" alt="Open" />
+      </ButtonLink>
     </Header>
 
     <Body>
