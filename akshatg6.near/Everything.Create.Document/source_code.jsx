@@ -1,1 +1,10 @@
-return (<p>Go configure your <a href="/#/edit/akshatg6.near/widget/Everything.Create.Document">create widget</a>!</p>);
+return (
+  <Widget
+    src="evrything.near/widget/Everything.Template"
+    props={{
+      accountId: "evrything.near", // which account's Types to use (your near account)
+      font: "Times New Roman", // select a web safe font
+      text: "everything", // main title
+      domain: "everything", // domain data should be saved to
+    }}
+  />
