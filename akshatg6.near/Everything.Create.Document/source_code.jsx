@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/akshatg6.near/widget/Everything.Create.Document">create widget</a>!</p>);
