@@ -1,6 +1,6 @@
 const addressForArticles = "wikiTest2Article";
-const writersWhiteList = props.writersWhiteList ?? "";
-const authorForWidget = "testwiki.near";
+const writersWhiteList = props.writersWhiteList ?? [];
+const authorForWidget = "rodrigos.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
@@ -41,7 +41,7 @@ const getDateLastEdit = (timestamp) => {
 
 return (
   <ol>
-    {filteredArticles &&
+    {filteredArticles.length > 0 &&
       filteredArticles.map((article) => (
         <li key={article.articleId}>
           <a
