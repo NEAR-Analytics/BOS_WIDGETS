@@ -1,4 +1,5 @@
 const title = props.title ?? "Select a token";
+const network = props.network ?? "NEAR";
 const assets = props.assets;
 const selectedAssets = props.selectedAssets ?? [];
 
@@ -164,6 +165,7 @@ const assetList = assets
         src="zavodil.near/widget/AssetListItem"
         props={{
           tokenId,
+          network,
           selected: selectedAssets.includes(tokenId),
           searchBy: state.searchBy,
           saveAssetData: (_tokenId, _assetData) => {
