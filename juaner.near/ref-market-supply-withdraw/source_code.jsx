@@ -308,10 +308,8 @@ function computeWithdrawMaxAmount() {
     maxAmount = maxAmount.add(
       decimalMin(safeDiff, collateralBalance.toFixed()).toFixed()
     );
-    const { metadata, config } = asset;
-    const decimals = metadata.decimals + config.extra_decimals;
-    maxAmount = shrinkToken(maxAmount.toFixed(), decimals);
   }
+  maxAmount = shrinkToken(maxAmount.toFixed(), decimals);
   const remain = Math.abs(
     Math.min(collateral, collateral + supplied - (amount || 0))
   );
