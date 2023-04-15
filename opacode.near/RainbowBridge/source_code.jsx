@@ -71,6 +71,16 @@ const mainnetTokens = {
     origin: "ethereum",
     icon: "https://rainbowbridge.app/static/tokens/usdc.svg",
   },
+  AURORA: {
+    symbol: "AURORA",
+    name: "Aurora",
+    ethereumAddress: "0xaaaaaa20d9e0e2461697782ef11675f668207961",
+    nearAddress: "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
+    auroraAddress: "0x8bec47865ade3b172a928df8f990bc7f2a3b9f79",
+    decimals: 18,
+    origin: "ethereum",
+    icon: "https://rainbowbridge.app/static/tokens/aurora.svg",
+  },
 };
 
 const fetchBalance = (tokenSymbol) => {
