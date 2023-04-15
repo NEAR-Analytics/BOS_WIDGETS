@@ -79,7 +79,6 @@ const ButtonLink = styled.a`
 
 const Text = styled.p`
   display: block;
-  margin: 0;
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
