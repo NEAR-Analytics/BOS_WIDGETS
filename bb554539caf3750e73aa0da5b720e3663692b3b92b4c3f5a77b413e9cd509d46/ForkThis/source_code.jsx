@@ -213,21 +213,6 @@ Don't forget to save!
 
 */
 
-import { useState } from "react";
-
-const [tag, setTag] = useState("default-tag");
-
-const filterItemsByTag = (tag) => {
-  return state.allItems.filter((item) => item.tags.includes(tag));
-};
-
-const renderItem = (item) => (
-  <Widget
-    src="adminalpha.near/widget/ComponentCard"
-    props={{ src: item.src }}
-  />
-);
-
 return (
   <Wrapper>
     <Header>
@@ -237,7 +222,7 @@ return (
         These widgets are tagged with: <b>#{tag}</b>
       </Text>
       <div className="d-flex flex-wrap gap-1 my-3">
-        {filterItemsByTag(tag)
+        {state.allItems
           .slice(0, props.limit ? parseInt(props.limit) : 999)
           .map(renderItem)}
       </div>
