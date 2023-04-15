@@ -1,5 +1,5 @@
 // Repository: https://github.com/near-everything/idea-creator
-const externalAppUrl = "https://abcd-creater.vercel.app/";
+const externalAppUrl = "https://post-creator.vercel.app/";
 
 /**
  * Initial Path (optional but recommended)
