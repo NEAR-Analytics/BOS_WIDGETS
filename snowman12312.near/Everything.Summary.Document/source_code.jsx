@@ -1,1 +1,9 @@
-return (<p>Go configure your <a href="/#/edit/snowman12312.near/widget/Everything.Summary.Document">summary widget</a>!</p>);
+const title = props.title ?? "title";
+const body = props.body ?? "body";
+
+return (
+  <div>
+    <h2>{title}</h2>
+    <p>{body}</p>
+  </div>
+);
