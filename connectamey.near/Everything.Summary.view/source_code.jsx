@@ -1,0 +1,1 @@
+return (<p>Go configure your <a href="/#/edit/connectamey.near/widget/Everything.Summary.view">summary widget</a>!</p>);
