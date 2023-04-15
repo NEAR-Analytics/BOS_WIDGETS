@@ -77,13 +77,16 @@ function getAssets() {
 
     const decimals = metadata?.[i].decimals + asset.config.extra_decimals;
     const availableLiquidity = Number(shrinkToken(temp.toFixed(), decimals));
-
+    const extraPrice = price.price || {
+      decimals: Number(refPrices?.[asset.token_id]?.decimal),
+      multiplier: "1",
+    };
     return {
       ...asset,
       metadata: metadata?.[i],
       accountBalance: accountId ? balances?.[i] : undefined,
       price: {
-        ...price.price,
+        ...extraPrice,
         usd: usd ? usd : parseFloat(refPrices?.[asset.token_id]?.price),
       },
       availableLiquidity,
