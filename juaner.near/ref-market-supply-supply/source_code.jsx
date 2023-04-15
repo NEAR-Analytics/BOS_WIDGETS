@@ -406,7 +406,6 @@ function getHealthFactor() {
 const healthFactor = getHealthFactor();
 /** logic end */
 function switchButtonStatus() {
-  cfButtonStatus;
   State.update({
     cfButtonStatus: !cfButtonStatus,
   });
