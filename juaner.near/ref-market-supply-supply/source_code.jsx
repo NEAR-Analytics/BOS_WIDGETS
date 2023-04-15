@@ -34,7 +34,7 @@ const Container = styled.div`
     }
     .disabled{
       opacity:0.3;
-      cursor: not-allowed;
+      cursor: not-allowed!important;
     }
     .switchButton{
       display:flex;
@@ -524,7 +524,9 @@ return (
                 }`}
                 onClick={switchButtonStatus}
               >
-                <label class="whiteBall"></label>
+                <label
+                  class={`whiteBall ${canUseAsCollateral ? "" : "disabled"}`}
+                ></label>
               </div>
             </div>
           </div>
