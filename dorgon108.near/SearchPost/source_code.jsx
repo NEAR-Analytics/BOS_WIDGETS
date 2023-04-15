@@ -29,6 +29,7 @@ const Post =
   props.styles?.Post ??
   styled.a`
   position: relative;
+  overflow:hidden;
 
   &::before {
     content: '';
@@ -54,6 +55,7 @@ const Body =
   styled.div`
   padding-left: 52px;
   padding-bottom: 1px;
+   margin-top: 16px;
 `;
 
 const Content =
