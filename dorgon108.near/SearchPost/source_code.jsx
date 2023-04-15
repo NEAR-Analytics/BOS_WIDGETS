@@ -33,8 +33,10 @@ const Post =
   &::before {
     content: '';
     display: block;
-
-
+    position: absolute;
+    left: 19px;
+    top: 52px;
+    bottom: 12px;
     width: 2px;
     background: #ECEEF0;
   }
