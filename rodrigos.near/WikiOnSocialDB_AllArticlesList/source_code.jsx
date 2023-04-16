@@ -69,12 +69,12 @@ return (
                     />
                   </div>
                   <div className="col flex-grow-0">
-                    <h6 className="card-subtitle mt-1 text-muted text-end">
+                    <p className="card-subtitle text-muted text-end">
                       {getDateLastEdit(article.timeCreate).date}
-                    </h6>{" "}
-                    <h6 className="card-subtitle text-muted text-end">
+                    </p>{" "}
+                    <p className="card-subtitle text-muted text-end">
                       {getDateLastEdit(article.timeCreate).time}
-                    </h6>
+                    </p>
                   </div>
                 </div>
                 <div className="mt-3 alert alert-secondary">
