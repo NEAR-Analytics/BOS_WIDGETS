@@ -2,6 +2,7 @@ const addressForArticles = "wikiTest2Article";
 const writersWhiteList = props.writersWhiteList ?? [
   "rodrigos.near",
   "testwiki.near",
+  "eugenewolf507.near",
 ];
 const authorForWidget = "rodrigos.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
@@ -49,12 +50,12 @@ return (
     {filteredArticles.length > 0 &&
       filteredArticles.map((article) => (
         <div className="col-sm-12 col-lg-6 col-xl-4">
-          <a
-            className="text-decoration-none"
-            href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
+          <div className="card  h-100" key={article.articleId}>
+            <a
+              className="text-decoration-none text-dark"
+              href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `}
-          >
-            <div className="card text-dark" key={article.articleId}>
+            >
               <div className="card-body">
                 <div className="row d-flex justify-content-center">
                   <div className="col flex-grow-1">
@@ -75,8 +76,8 @@ return (
                   the bulk of the card's content.
                 </p>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
       ))}
   </div>
