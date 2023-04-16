@@ -58,9 +58,8 @@ return (
       {accountId &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
           <a
-            onClick={() => console.log(writersWhiteList)}
             class="btn btn-outline-dark"
-            //href="#/rodrigos.near/widget/WikiOnSocialDB_CreateArticle"
+            href="#/rodrigos.near/widget/WikiOnSocialDB_CreateArticle"
           >
             + Create Article
           </a>
