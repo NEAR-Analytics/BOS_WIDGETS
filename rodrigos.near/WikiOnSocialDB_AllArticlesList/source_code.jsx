@@ -39,18 +39,19 @@ const filteredArticles =
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
-  const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  const dateString = {
+    date: date.toLocaleDateString(),
+    time: date.toLocaleTimeString(),
+  };
   return dateString;
 };
-
-console.log(filteredArticles[0].body);
 
 return (
   <div className="row card-group py-3">
     {filteredArticles.length > 0 &&
       filteredArticles.map((article) => (
         <div className="col-sm-12 col-lg-6 col-2xl-4 gy-2">
-          <div className="card  h-100" key={article.articleId}>
+          <div className="card h-100" key={article.articleId}>
             <a
               className="text-decoration-none text-dark"
               href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
@@ -58,20 +59,25 @@ return (
             >
               <div className="card-body">
                 <div className="row d-flex justify-content-center">
+                  <h5 className="card-title text-center pb-2 border-bottom">
+                    {article.articleId}
+                  </h5>
                   <div className="col flex-grow-1">
-                    <h5 className="card-title">{article.articleId}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">
-                      {getDateLastEdit(article.timeCreate)}
-                    </h6>
-                  </div>
-                  <div className="col flex-grow-0">
                     <Widget
                       src="mob.near/widget/Profile.ShortInlineBlock"
                       props={{ accountId: article.author, tooltip: true }}
                     />
                   </div>
+                  <div className="col flex-grow-0">
+                    <h6 className="card-subtitle mt-1 text-muted text-end">
+                      {getDateLastEdit(article.timeCreate).date}
+                    </h6>{" "}
+                    <h6 className="card-subtitle text-muted text-end">
+                      {getDateLastEdit(article.timeCreate).time}
+                    </h6>
+                  </div>
                 </div>
-                <div className="mt-5 alert alert-secondary">
+                <div className="mt-3 alert alert-secondary">
                   <div>
                     Last edit by{" "}
                     <a
@@ -81,7 +87,7 @@ return (
                       {article.lastEditor}
                     </a>
                     <br />
-                    Edited on {getDateLastEdit(article.timeLastEdit)}
+                    Edited on {getDateLastEdit(article.timeLastEdit).date}
                     <br />
                     Edit versions: {article.version}
                   </div>
