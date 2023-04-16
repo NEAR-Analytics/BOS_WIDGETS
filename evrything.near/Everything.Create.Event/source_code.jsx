@@ -1,1 +1,12 @@
-return (<><p>Click deploy below, configure build directory on vercel as /dist, then put the app url in the <a href="/#/edit/evrything.near/widget/Everything.Create.Event">create widget</a>.</p><Widget src={"evrything.near/widget/Bridge"} props={{ externalAppUrl: "", type: "Event" }} /></>);
+return (
+  <>
+    <Widget
+      src={"evrything.near/widget/Bridge"}
+      props={{
+        externalAppUrl:
+          "https://event-creator-rgpz-pugitg8a2-elliotbraem.vercel.app",
+        type: "evrything.near/type/Event",
+      }}
+    />
+  </>
+);
