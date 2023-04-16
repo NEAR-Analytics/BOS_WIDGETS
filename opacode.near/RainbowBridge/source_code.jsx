@@ -544,13 +544,14 @@ return (
         <a href="https://rainbowbridge.app/" target="_blank" rel="noreferrer">
           rainbowbridge.app
         </a>
-        . Only Ethereum ={">"} Aurora transfers available from this UI.
+        . Currently only Ethereum ={">"} Aurora transfers available from this
+        UI.
       </p>
       <h3> Recent transfers </h3>
       <table>
         <tbody>
           {recentTransfers &&
-            recentTransfers.map((t, i) => (
+            recentTransfers.reverse().map((t, i) => (
               <tr>
                 <td>
                   <img
