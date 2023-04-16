@@ -1,22 +1,22 @@
-const owner = props.owner ?? "hack.near";
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "hack.near";
 const hashtag = props.hashtag ?? "builders";
 
-const main = context.accountId
-  ? Social.get(`${context.accountId}/settings/every/page.main`)
+const content = context.accountId
+  ? Social.get(`${context.accountId}/settings/every/page.content`)
   : undefined;
 
-if (main === null) {
+if (content === null) {
   return "";
 }
 
 const defaultWidgets = [
   {
     src: "hack.near/widget/Page.Tabs",
+    props: { hashtag, accountId },
   },
 ];
 
-const widgets = (main && JSON.parse(main)) ?? defaultWidgets;
+const widgets = (content && JSON.parse(content)) ?? defaultWidgets;
 
 const Div = styled.div`
   position: relative;
@@ -39,7 +39,7 @@ return (
         src="miraclx.near/widget/Attribution"
         props={{
           dep: true,
-          authors: [owner],
+          authors: [accountId],
         }}
       />
       {context.accountId && (
@@ -56,7 +56,7 @@ return (
       ({ src, requiresLogin }, i) =>
         (!requiresLogin || context.accountId) && (
           <div key={i} className="text-bg-light rounded-4 p-3 mb-3">
-            <Widget src={src} props={{ hashtag, owner }} />
+            <Widget src={src} props={{ hashtag, accountId }} />
           </div>
         )
     )}
