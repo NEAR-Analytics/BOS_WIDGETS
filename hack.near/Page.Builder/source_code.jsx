@@ -1,19 +1,19 @@
 const accountId = props.accountId; // which account's Types to use
 const font = props.font || "Courier"; // custom font for H1
-const hashtag = props.hashtag || "dev"; // where to index data from
+const hashtag = props.hashtag || "page"; // where to index data from
 const text = props.text || hashtag; // text for H1
 const view = props.view || "WIDGETS";
 
 const pageTypes = [
   {
-    name: "page",
-    hashtag: "page",
-    template: "hack.near/widget/Common.Page",
+    name: "group",
+    hashtag: "group",
+    template: "hack.near/widget/Common.Group",
   },
   {
     name: "feed",
     hashtag: "feed",
-    template: "hack.near/widget/Hashtag.Feed",
+    template: "hack.near/widget/Common.Feed",
   },
   {
     name: "library",
@@ -109,7 +109,23 @@ return (
           ) : (
             <>
               <Button onClick={() => handleSelectType(null)}>back</Button>
-              <Button onClick={() => handlePageCreate()}>create new</Button>
+              <CommitButton
+                onClick={() => handlePageCreate()}
+                className="create-button"
+                data={{
+                  index: {
+                    create: JSON.stringify({
+                      key: accountId,
+                      value: hashtag,
+                    }),
+                  },
+                }}
+                onCommit={() => {
+                  State.update({ hasCreated: true });
+                }}
+              >
+                create new
+              </CommitButton>
             </>
           )}
         </ButtonRow>
