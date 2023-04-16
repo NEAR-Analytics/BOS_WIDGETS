@@ -17,7 +17,7 @@ const pills = [
 const accountId = props.accountId ?? context.accountId;
 
 return (
-  <div class="navbar navbar-expand-lg">
+  <div class="navbar navbar-expand-lg border-bottom">
     <div class="container-fluid">
       <a
         class="navbar-brand"
