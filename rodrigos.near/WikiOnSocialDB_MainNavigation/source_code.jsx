@@ -66,6 +66,10 @@ return (
             + Create Article
           </a>
         )}
+      <Widget
+        src="mob.near/widget/Profile.ShortInlineBlock"
+        props={{ accountId, tooltip: true }}
+      />
     </div>
   </div>
 );
