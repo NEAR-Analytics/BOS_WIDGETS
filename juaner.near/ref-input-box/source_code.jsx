@@ -169,7 +169,7 @@ return (
         type="range"
         value={amount || 0}
         min="0"
-        max="100"
+        max={balance || 0}
         onChange={changeAmount}
       />
       <span
