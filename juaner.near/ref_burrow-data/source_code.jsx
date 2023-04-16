@@ -234,6 +234,7 @@ const getRewards = (assets, account) => {
         const decimals =
           rewardAsset.metadata.decimals + rewardAsset.config.extra_decimals;
         const price = rewardAsset.price?.usd || 0;
+        if (!totalSupplyUsd) return 0;
         return (
           new Big(reward.reward_per_day)
             .div(new Big(10).pow(decimals))
