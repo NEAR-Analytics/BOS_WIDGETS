@@ -15,28 +15,56 @@ const pills = [
 ];
 
 const accountId = props.accountId ?? context.accountId;
-if (accountId && writersWhiteList.some((whiteAddr) => whiteAddr === accountId))
-  pills.push({
-    id: "create",
-    title: "Create Article",
-    widgetName: "WikiOnSocialDB_CreateArticle",
-  });
 
 return (
-  <div>
-    <ul className="nav nav-pills nav-fill mb-4">
-      {pills.map(({ id, title, widgetName }, i) => (
-        <li className="nav-item">
+  <div class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a
+        class="navbar-brand"
+        href="#/${authorForWidget}/widget/WikiOnSocialDB_MainNavigation"
+      >
+        {"<WikiOnSocialDB>"}
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNav"
+      >
+        <ul class="navbar-nav">
+          {pills.map(({ id, title, widgetName }, i) => (
+            <li className="nav-item">
+              <a
+                href={`#/${authorForWidget}/widget/${widgetName}`}
+                class={`nav-link ${
+                  id === currentPill ? "active" : ""
+                } text-decoration-none`}
+              >
+                {title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {accountId &&
+        writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
           <a
-            href={`#/${authorForWidget}/widget/${widgetName}`}
-            class={`nav-link ${
-              id === currentPill ? "active" : ""
-            } text-decoration-none`}
+            onClick={() => console.log(writersWhiteList)}
+            class="btn btn-outline-dark"
+            //href="#/rodrigos.near/widget/WikiOnSocialDB_CreateArticle"
           >
-            {title}
+            + Create Article
           </a>
-        </li>
-      ))}
-    </ul>
+        )}
+    </div>
   </div>
 );
