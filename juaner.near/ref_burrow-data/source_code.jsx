@@ -1,6 +1,8 @@
 const accountId = context.accountId;
 const BURROW_CONTRACT = "contract.main.burrow.near";
-
+const netLiquidityFarm = Near.view(BURROW_CONTRACT, "get_asset_farm", {
+  farm_id: "NetTvl",
+});
 const unique = (value, index, self) => {
   return self.indexOf(value) === index;
 };
@@ -16,7 +18,40 @@ function power(x, y) {
     return x * power(x, parseInt(y / 2)) * power(x, parseInt(y / 2));
   }
 }
-
+function getGains(account, assets, source) {
+  return account[source]
+    .map((accountAsset) => {
+      const { token_id, balance, apr } = accountAsset;
+      const asset = assets.find((asset) => asset.token_id == token_id);
+      const netTvlMultiplier = asset.config.net_tvl_multiplier / 10000;
+      const balanceUSD = toUsd(balance, asset);
+      return [balanceUSD * (withNetTvlMultiplier ? netTvlMultiplier : 1), apr];
+    })
+    .reduce(
+      ([gain, sum], [balance, apr]) => [gain + balance * apr, sum + balance],
+      [0, 0]
+    );
+}
+function getNetTvlRewards(assets, account) {
+  const hasNetTvlFarm = !!Object.entries(netLiquidityFarm.rewards).length;
+  if (!hasNetTvlFarm) return [];
+  const netTvl = account.farms.find((farm) => farm.farm_id == "NetTvl");
+  return netTvl.rewards.map((reward) => {
+    const { asset_farm_reward, boosted_shares, reward_token_id } = reward;
+    const asset = assets.find((asset) => asset.token_id == reward_token_id);
+    const assetDecimals = asset.metadata.decimals + asset.config.extra_decimals;
+    const boostedShares = Number(shrinkToken(boosted_shares, assetDecimals));
+    const totalBoostedShares = Number(
+      shrinkToken(asset_farm_reward["boosted_shares"], assetDecimals)
+    );
+    const totalRewardsPerDay = Number(
+      shrinkToken(asset_farm_reward["reward_per_day"], assetDecimals)
+    );
+    const dailyAmount =
+      (boostedShares / totalBoostedShares) * totalRewardsPerDay;
+    return { dailyAmount, token_id: reward_token_id, price: asset.price.usd };
+  });
+}
 const toUsd = (balance, asset) =>
   asset?.price?.usd
     ? Number(
@@ -31,7 +66,6 @@ const toUsd = (balance, asset) =>
 const shrinkToken = (value, decimals, fixed) => {
   return new Big(value).div(new Big(10).pow(decimals)).toFixed(fixed);
 };
-
 // get all assets, metadata and pricing from burrow contracts
 function getAssets() {
   const assets = Near.view(BURROW_CONTRACT, "get_assets_paged");
@@ -121,7 +155,7 @@ const getTotalBalance = (assets, source) =>
     })
     .reduce(sumReducer, 0);
 
-const getNetLiquidityAPY = (assets, netLiquidityFarm) => {
+const getNetLiquidityAPY = (assets, netLiquidityFarm, account) => {
   const totalDailyNetLiquidityRewards = Object.entries(netLiquidityFarm.rewards)
     .map(([rewardTokenId, farm]) => {
       const rewardAsset = assets.find((a) => a.token_id === rewardTokenId);
@@ -148,21 +182,34 @@ const getNetLiquidityAPY = (assets, netLiquidityFarm) => {
   const rewardTokens = Object.entries(netLiquidityFarm.rewards).map(
     ([rewardTokenId]) => rewardTokenId
   );
+  let accountNetLiquidtyAPY;
+  if (account) {
+    const [gainCollateral, totalCollateral] = getGains(
+      account,
+      assets,
+      "collateral"
+    );
+    const [gainSupplied, totalSupplied] = getGains(account, assets, "supplied");
+    const accountTvlRewards = getNetTvlRewards(assets, account);
+    const netTvlRewards = accountTvlRewards.reduce(
+      (acc, r) => acc + r.dailyAmount * r.price,
+      0
+    );
+    const netLiquidity = totalCollateral + totalSupplied;
+    accountNetLiquidtyAPY = ((netTvlRewards * 365) / netLiquidity) * 100;
+  }
 
-  return [netLiquidtyAPY, rewardTokens];
+  return [accountNetLiquidtyAPY || netLiquidtyAPY, rewardTokens];
 };
 
 // get all farm rewards for each asset
-const getRewards = (assets) => {
-  const netLiquidityFarm = Near.view(BURROW_CONTRACT, "get_asset_farm", {
-    farm_id: "NetTvl",
-  });
-
+const getRewards = (assets, account) => {
   if (!netLiquidityFarm) return;
 
   const [apyRewardTvl, rewardTokensTVL] = getNetLiquidityAPY(
     assets,
-    netLiquidityFarm
+    netLiquidityFarm,
+    account
   );
 
   const rewards = assets.map((asset) => {
@@ -263,13 +310,14 @@ const assets = getAssets();
 
 if (!assets) return <div />;
 
-const rewards = getRewards(assets);
-
-if (!rewards) return <div />;
-
 const balances = getBalances(assets);
 const account = getAccount();
+const rewards = getRewards(assets, account);
+if (!rewards) return <div />;
 
+console.log("1111111111-rewards", rewards);
+console.log("1111111111-assets", assets);
+console.log("1111111111-account", account);
 const data = {
   assets,
   rewards,
