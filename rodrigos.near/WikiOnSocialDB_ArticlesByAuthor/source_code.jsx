@@ -12,7 +12,10 @@ if (profile === null) {
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
-  const dateString = `${date.toLocaleDateString()} / ${date.toLocaleTimeString()}`;
+  const dateString = {
+    date: date.toLocaleDateString(),
+    time: date.toLocaleTimeString(),
+  };
   return dateString;
 };
 
@@ -59,31 +62,72 @@ return (
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "authors" }}
     />
-    <div>
-      Author:
-      <a
-        href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${authorId}`}
-        target="_blank"
-      >
-        {authorId}
-      </a>
-      <ol>
-        {filteredArticlesByUser &&
-          filteredArticlesByUser.map((article, index) => (
-            <li key={article.articleId}>
+    <div className="card">
+      <div className="d-flex justify-content-between">
+        <Widget
+          key="image"
+          src="mob.near/widget/ProfileImage"
+          props={{
+            style: { width: "5em", height: "5em", marginRight: "0.1em" },
+            profile,
+            accountId,
+            className: "inline",
+            imageClassName: "rounded w-100 h-100 align-top",
+          }}
+        />
+        <div>
+          <h4 className="text-center my-1">{profile.name}</h4>
+          <h4 className="text-center">{accountId}</h4>
+        </div>
+        <div style={{ width: "5em" }}></div>
+      </div>
+    </div>
+    <div className="row card-group py-3">
+      {filteredArticlesByUser &&
+        filteredArticlesByUser.map((article) => (
+          <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3">
+            <div className="card h-100" key={article.articleId}>
               <a
+                className="text-decoration-none text-dark"
                 href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `}
               >
-                {article.articleId}{" "}
-                <small>
-                  (last edited:
-                  {getDateLastEdit(article.timeLastEdit)})
-                </small>
+                <div className="card-body">
+                  <div className="row d-flex justify-content-center">
+                    <h5 className="card-title text-center pb-2 border-bottom">
+                      {article.articleId}
+                    </h5>
+                    <div className="col">
+                      <p className="card-subtitle text-muted text-start">
+                        {getDateLastEdit(article.timeCreate).date}
+                      </p>{" "}
+                    </div>
+                    <div className="col">
+                      <p className="card-subtitle text-muted text-end">
+                        {getDateLastEdit(article.timeCreate).time}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3 alert alert-secondary">
+                    <div>
+                      Last edit by{" "}
+                      <a
+                        href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
+                        style={{ textDecoration: "underline" }}
+                      >
+                        {article.lastEditor}
+                      </a>
+                      <br />
+                      Edited on {getDateLastEdit(article.timeLastEdit).date}
+                      <br />
+                      Edit versions: {article.version}
+                    </div>
+                  </div>
+                </div>
               </a>
-            </li>
-          ))}
-      </ol>
+            </div>
+          </div>
+        ))}
     </div>
   </>
 );
