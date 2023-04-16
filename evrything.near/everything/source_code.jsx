@@ -2,44 +2,11 @@ const Button = styled.button`
   text-transform: lowercase !important;
 `;
 
-const Link = styled.a`
-  text-decoration: none;
-`;
-
-const createEverything = () => {
-  Social.set(
-    {
-      widget: {
-        everything: {
-          "": `return (<Widget src="evrything.near/widget/Everything.Template" props={{ accountId: "${context.accountId}", font: "Times New Roman", type: "everything", text: "${context.accountId}", domain: "everything" }} />);`,
-          metadata: {
-            tags: {
-              everything: "",
-            },
-          },
-        },
-      },
-    },
-    {
-      force: true,
-    }
-  );
-};
-
 return (
   <div className="d-flex flex-column">
     <div className="mt-auto py-3">
       <div className="container">
-        <div className="d-flex justify-content-end gap-2">
-          {context.accountId ? (
-            <Button onClick={createEverything}>
-              create your own everything
-            </Button>
-          ) : (
-            <Link href="https://shard.dog/go?url=https://near.social">
-              <Button>create your own everything</Button>
-            </Link>
-          )}
+        <div className="d-flex justify-content-end">
           <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
             <Button>documentation</Button>
           </a>
