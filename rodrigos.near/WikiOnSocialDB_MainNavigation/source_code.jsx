@@ -24,7 +24,7 @@ return (
     <div class="container-fluid">
       <a
         class="navbar-brand text-decoration-none"
-        href={`#/${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
+        href={`#/${authorForWidget}/widget/WikiOnSocialDB`}
       >
         {"<WikiOnSocialDB>"}
       </a>
