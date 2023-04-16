@@ -167,7 +167,7 @@ return (
       <input
         class="rangeInput"
         type="range"
-        value={amount}
+        value={amount || 0}
         min="0"
         max="100"
         onChange={changeAmount}
