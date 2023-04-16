@@ -1,5 +1,4 @@
 const Container = styled.div`
-    background-color:black;
     padding-bottom:10px;
     .inputArea{
       position:relative;
