@@ -1,10 +1,14 @@
+const Button = styled.button`
+  text-transform: lowercase !important;
+`;
+
 return (
   <div className="d-flex flex-column">
     <div className="mt-auto py-3">
       <div className="container">
         <div className="d-flex justify-content-end">
           <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
-            documentation
+            <Button>documentation</Button>
           </a>
         </div>
       </div>
