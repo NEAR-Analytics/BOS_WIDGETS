@@ -14,7 +14,7 @@ Under "All Tutorials" you should see widgets with the tag.
 
 */
 
-const tag = props.tag ?? "Wyatt's Tag";
+const tag = props.tag ?? "#dev";
 
 /*
 
@@ -232,19 +232,19 @@ return (
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "hack.near/widget/Customization" }}
+          props={{ src: "flyflyfly.near/widget/burrow-dust-repay" }}
         />
       </Item>
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "hack.near/widget/SocialPosts" }}
+          props={{ src: "mob.near/widget/Welcome.PokeFeed" }}
         />
       </Item>
       <Item>
         <Widget
           src="adminalpha.near/widget/ComponentCard"
-          props={{ src: "evrything-docs.near/widget/StartHere" }}
+          props={{ src: "mob.near/widget/Welcome.FollowFeed" }}
         />
       </Item>
     </Items>
