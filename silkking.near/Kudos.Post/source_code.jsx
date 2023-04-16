@@ -23,8 +23,6 @@ const item = {
   blockHeight,
 };
 
-const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
 const startCommentTo = () => {
   State.update({ displayCommentBox: !state.displayCommentBox });
 };
@@ -100,7 +98,6 @@ const RenderKudoBox = (d) => {
             widgetOwner,
             accountId,
             blockHeight: d.blockHeight,
-            link,
             postType: "post",
             flagItem: item,
           }}
@@ -138,6 +135,40 @@ const RenderKudoBox = (d) => {
           </a>
         </div>
       )}
+      <CommitButton
+        style={
+          state.hoveringElement == "repostButton"
+            ? hoveringButtonStyles
+            : standardButtonStyles
+        }
+        onMouseEnter={() => {
+          State.update({ hoveringElement: "repostButton" });
+        }}
+        onMouseLeave={() => {
+          State.update({ hoveringElement: "" });
+        }}
+        data={{
+          index: {
+            repost: JSON.stringify(
+              {
+                key: "kudo",
+                value: {
+                  type: "repost",
+                  item: {
+                    type: "social",
+                    path: "silkking.near/widget/Kudos",
+                    blockHeight: d.blockHeight,
+                  },
+                },
+              },
+              undefined,
+              0
+            ),
+          },
+        }}
+      >
+        Repost
+      </CommitButton>
       <div
         style={thisWidgetInlineStyles.upVoteContainer}
         className={thisWidgetClassNames.upVoteContainer}
