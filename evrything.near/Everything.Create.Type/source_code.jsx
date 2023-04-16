@@ -61,7 +61,7 @@ const handleCreateType = (request, response) => {
             "": `const data= props.data; return (<><p>Configure <a href="/#/edit/${accountId}/widget/Everything.View.${payload.name}">this widget</a>to attractively display your data below:</p><p>{JSON.stringify(data)}</p></>);`,
           },
           [`Everything.Create.${payload.name}`]: {
-            "": `return (<><p>Click deploy below then put the app url in the <a href="/#/edit/${accountId}/widget/Everything.Create.${payload.name}">create widget</a>.</p><Widget src={"evrything.near/widget/Bridge"} props={{ externalAppUrl: "", type: "${accountId}/type/${payload.name}" }} /></>);`,
+            "": `return (<><p>Click deploy below then put the app url in the <a href="/#/edit/${accountId}/widget/Everything.Create.${payload.name}">create widget</a>.</p><a href="https://vercel.com/new/clone?repository-url=https://github.com/near-everything/thing-creator" target="_blank"><img src="https://vercel.com/button" alt="Deploy with Vercel" /></a><Widget src={"evrything.near/widget/Bridge"} props={{ externalAppUrl: "", type: "${accountId}/type/${payload.name}" }} /></>);`,
           },
         },
       },
