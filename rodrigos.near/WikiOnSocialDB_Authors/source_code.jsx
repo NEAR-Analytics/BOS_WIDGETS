@@ -59,24 +59,25 @@ return (
       props={{ currentNavPill: "authors" }}
     />
     <h6>Total authors: {authorsCountArray.length}</h6>
-    <ul>
+
+    <div className="row card-group py-3">
       {authorsCountArray &&
         authorsCountArray.map(([author, quantity]) => (
-          <li>
-            <a
-              href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${author}`}
-              target="_blank"
-            >
-              {author}
-            </a>{" "}
-            -
-            <a
-              href={`#/${authorForWidget}/widget/WikiOnSocialDB_ArticlesByAuthor?author=${author}`}
-            >
-              {quantity}
-            </a>
-          </li>
+          <div className="col-sm-12 col-lg-6 col-xl-4 gy-3">
+            <div className="card h-100 p-3" key={article.articleId}>
+              <Widget
+                src="mob.near/widget/Profile.ShortInlineBlock"
+                props={{ accountId: author, tooltip: true }}
+              />
+              <a
+                className="text-start mt-3"
+                href={`#/${authorForWidget}/widget/WikiOnSocialDB_ArticlesByAuthor?author=${author}`}
+              >
+                {quantity} articles
+              </a>
+            </div>
+          </div>
         ))}
-    </ul>
+    </div>
   </>
 );
