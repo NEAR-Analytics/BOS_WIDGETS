@@ -14,7 +14,7 @@ Under "All Tutorials" you should see widgets with the tag.
 
 */
 
-const tag = props.tag ?? "#dev";
+const tag = props.tag ?? "dev";
 
 /*
 
