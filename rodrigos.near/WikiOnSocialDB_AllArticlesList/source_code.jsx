@@ -1,6 +1,5 @@
 const addressForArticles = "wikiTest2Article";
 const writersWhiteList = props.writersWhiteList ?? [
-  "rodrigos.near",
   "testwiki.near",
   "eugenewolf507.near",
 ];
