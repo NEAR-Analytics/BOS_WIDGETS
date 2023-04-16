@@ -46,8 +46,8 @@ return (
               <a
                 href={`#/${authorForWidget}/widget/${widgetName}`}
                 class={`nav-link ${
-                  id === currentPill ? "active" : ""
-                } text-decoration-none`}
+                  id === currentPill ? "active text-decoration-underline" : ""
+                } `}
               >
                 {title}
               </a>
