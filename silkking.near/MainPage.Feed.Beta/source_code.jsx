@@ -77,15 +77,21 @@ const repostSvg = (
   </svg>
 );
 
-const whitelistPaths = ["silkking.near/widget/Kudos"];
+const whitelistPaths = [
+  {
+    path: "silkking.near/widget/Kudos",
+    key: "kudos",
+  },
+];
 
 const extractParentPost = (item) => {
   if (!item || item.type !== "social" || !item.path || !item.blockHeight) {
     return undefined;
   }
+  // console.log(3, item);
   const accountId = item.path.split("/")[0];
   return `${accountId}/post/main` === item.path ||
-    whitelistPaths.includes(item.path)
+    whitelistPaths.map((w) => w.path).includes(item.path)
     ? { accountId, blockHeight: item.blockHeight }
     : { accountId, blockHeight: item.blockHeight, risk: true };
 };
@@ -102,6 +108,7 @@ const renderRepost = (a) => {
   if (item in renderedPosts) {
     return false;
   }
+  console.log(2, post);
   renderedPosts[item] = true;
 
   return (
@@ -119,8 +126,12 @@ const renderRepost = (a) => {
         />
       </div>
       <Widget
-        src="silkking.near/widget/MainPage.Post"
-        props={{ accountId: post.accountId, blockHeight: post.blockHeight }}
+        src="mob.near/widget/MainPage.Post"
+        props={{
+          accountId: post.accountId,
+          blockHeight: post.blockHeight,
+          whitelistPaths,
+        }}
       />
     </div>
   );
@@ -132,7 +143,7 @@ const renderItem = (item) =>
 return (
   <div>
     <Widget
-      src="mob.near/widget/MergedIndexFeed"
+      src="silkking.near/widget/MergedIndexFeed"
       props={{ index, renderItem }}
     />
   </div>
