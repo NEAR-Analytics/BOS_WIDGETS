@@ -3,7 +3,7 @@ function getContent() {
     return props.content;
   }
   for (let i = 0; i < whitelistedApps.length; i++) {
-    const reposts = Social.index(whitelistedApps[i], "repost");
+    const reposts = Social.index(whitelistedApps[i].key, "repost");
     const content = reposts.find((r) => r.blockHeight === blockHeight);
     if (content) {
       return { text: content.value.answer };
