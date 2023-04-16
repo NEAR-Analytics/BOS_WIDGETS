@@ -56,6 +56,8 @@ const filteredArticlesByUser =
     }
   }, []);
 
+console.log(profile);
+
 return (
   <>
     <Widget
@@ -64,17 +66,21 @@ return (
     />
     <div className="card">
       <div className="d-flex justify-content-between">
-        <Widget
-          key="image"
-          src="mob.near/widget/ProfileImage"
-          props={{
-            style: { width: "5em", height: "5em", marginRight: "0.1em" },
-            profile,
-            authorId,
-            className: "inline",
-            imageClassName: "rounded w-100 h-100 align-top",
-          }}
-        />
+        {profile ? (
+          <Widget
+            key="image"
+            src="mob.near/widget/ProfileImage"
+            props={{
+              style: { width: "5em", height: "5em", marginRight: "0.1em" },
+              profile,
+              authorId,
+              className: "inline",
+              imageClassName: "rounded w-100 h-100 align-top",
+            }}
+          />
+        ) : (
+          <div style={{ width: "5em" }}></div>
+        )}
         <div>
           <h4 className="text-center my-1">{profile.name}</h4>
           <h4 className="text-center">{authorId}</h4>
