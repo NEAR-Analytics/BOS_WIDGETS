@@ -1,5 +1,5 @@
 const addressForArticles = "wikiTest2Article";
-const writersWhiteList = props.writersWhiteList ?? [];
+const writersWhiteList = props.writersWhiteList ?? ["rodrigos.near"];
 const authorForWidget = "rodrigos.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
@@ -35,26 +35,44 @@ const filteredArticles =
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
-  const dateString = `${date.toLocaleDateString()} / ${date.toLocaleTimeString()}`;
+  const dateString = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   return dateString;
 };
 
+console.log(filteredArticles);
+
 return (
-  <ol>
+  <div>
     {filteredArticles.length > 0 &&
       filteredArticles.map((article) => (
-        <li key={article.articleId}>
-          <a
-            href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
+        <a
+          className="text-decoration-none"
+          href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `}
-          >
-            {article.articleId}{" "}
-            <small>
-              (author: {article.author}
-              {getDateLastEdit(article.timeLastEdit)})
-            </small>
-          </a>
-        </li>
+        >
+          <div className="card text-dark" key={article.articleId}>
+            <div className="card-body">
+              <div className="row d-flex justify-content-center">
+                <div className="col flex-grow-1">
+                  <h5 className="card-title">{article.articleId}</h5>
+                  <h6 className="card-subtitle mb-2 text-muted">
+                    {getDateLastEdit(article.timeLastEdit)}
+                  </h6>
+                </div>
+                <div className="col flex-grow-0">
+                  <Widget
+                    src="mob.near/widget/Profile.ShortInlineBlock"
+                    props={{ accountId: article.author, tooltip: true }}
+                  />
+                </div>
+              </div>
+              <p className="card-text">
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </p>
+            </div>
+          </div>
+        </a>
       ))}
-  </ol>
+  </div>
 );
