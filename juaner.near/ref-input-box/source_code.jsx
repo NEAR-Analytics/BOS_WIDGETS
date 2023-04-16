@@ -1,4 +1,5 @@
 const Container = styled.div`
+    background-color:black;
     padding-bottom:10px;
     .inputArea{
       position:relative;
@@ -60,9 +61,8 @@ const Container = styled.div`
     }
     input[type=range]{
       padding:0;
-    }
-    input[type=range] {
-        -webkit-appearance: none;
+      -webkit-appearance: none;
+      background-color:transparent;
     }
    
     input[type=range]::-webkit-slider-runnable-track {
