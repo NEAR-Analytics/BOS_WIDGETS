@@ -43,7 +43,7 @@ const getDateLastEdit = (timestamp) => {
   return dateString;
 };
 
-console.log(filteredArticles);
+console.log(filteredArticles[0].body);
 
 return (
   <div className="row card-group py-3">
@@ -61,7 +61,7 @@ return (
                   <div className="col flex-grow-1">
                     <h5 className="card-title">{article.articleId}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">
-                      {getDateLastEdit(article.timeLastEdit)}
+                      {getDateLastEdit(article.timeCreate)}
                     </h6>
                   </div>
                   <div className="col flex-grow-0">
@@ -71,10 +71,21 @@ return (
                     />
                   </div>
                 </div>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
+                <div className="mt-5 alert alert-secondary">
+                  <div>
+                    Last edit by{" "}
+                    <a
+                      href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
+                      style={{ textDecoration: "underline" }}
+                    >
+                      {article.lastEditor}
+                    </a>
+                    <br />
+                    Edited on {getDateLastEdit(article.timeLastEdit)}
+                    <br />
+                    Edit versions: {article.version}
+                  </div>
+                </div>
               </div>
             </a>
           </div>
