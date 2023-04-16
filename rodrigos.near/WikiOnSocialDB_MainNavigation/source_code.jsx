@@ -59,7 +59,7 @@ return (
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
           <a
             class="btn btn-outline-dark"
-            href="#/rodrigos.near/widget/WikiOnSocialDB_CreateArticle"
+            href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
           >
             + Create Article
           </a>
