@@ -114,6 +114,7 @@ const Modal = styled.div`
   align-items: center;
   opacity: 1;
   z-index: 1;
+  color: rgb(90, 90, 90);
 `;
 
 const ModalBackdrop = styled.div`
