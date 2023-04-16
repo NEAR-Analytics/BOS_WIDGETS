@@ -23,7 +23,8 @@ const Container = styled.div`
       color:#5f8399;
       border: 1px solid #5f8399;
     }
-    input{
+    .normalInput{
+      width:100%;
       background: #152528;
       border-radius: 12px;
       height: 55px;
@@ -33,7 +34,7 @@ const Container = styled.div`
       border:none;
       margin-bottom:4px;
     }
-    input:focus{
+    .normalInput:focus{
       outline:none;
       background: #152528; 
       color: #7E8A93;
@@ -46,35 +47,30 @@ const Container = styled.div`
       color:#4B6778;
       padding:0 6px;
     }
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
+    .normalInput::-webkit-outer-spin-button,
+    .normalInput::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
     }
 `;
 const { amount, handleAmount, balance, balance$ } = props;
-// const { amount } = state;
-// State.init({
-//   amount: 0,
-// });
 function changeAmount(e) {
   const value = Number(e.target.value);
   if (Big(value || 0).gt(balance || 0)) return;
-  // State.update({
-  //   amount: value,
-  // });
   handleAmount(value);
 }
 function changeToMax() {
-  // State.update({
-  //   amount: balance || 0,
-  // });
   handleAmount(balance || 0);
 }
 const subBalance = Big(balance || "0").toFixed(4);
 return (
   <Container>
     <div class="inputArea">
-      <input type="number" value={amount} onChange={changeAmount} />
+      <input
+        class="normalInput"
+        type="number"
+        value={amount}
+        onChange={changeAmount}
+      />
       <span class="maxButton" onClick={changeToMax}>
         Max
       </span>
