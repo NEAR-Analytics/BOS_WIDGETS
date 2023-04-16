@@ -263,21 +263,6 @@ return (
             undefined,
             0
           ),
-          // repost: JSON.stringify(
-          //   {
-          //     key: "kudo",
-          //     value: {
-          //       type: "repost",
-          //       item: {
-          //         blockHeight: "88904674",
-          //         type: "social",
-          //         path: "silkking.near/widget/Kudos",
-          //       },
-          //     },
-          //   },
-          //   undefined,
-          //   0
-          // ),
         },
       }}
       onCommit={() => {
