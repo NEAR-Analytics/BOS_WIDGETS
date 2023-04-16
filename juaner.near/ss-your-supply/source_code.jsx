@@ -104,9 +104,10 @@ let total_supplied_usd = Big(0);
 const suppliedAssets = hasData
   ? [...depositedAssets].map((depositedTokenId) => {
       const asset = assets.find((a) => a.token_id === depositedTokenId);
-
+      const netTvlMultiplier = asset.config.net_tvl_multiplier / 10000;
       const r = rewards.find((a) => a.token_id === asset.token_id);
-      const totalApy = r.apyBase + r.apyRewardTvl + r.apyReward;
+      const totalApy =
+        r.apyBase + r.apyRewardTvl * netTvlMultiplier + r.apyReward;
 
       const decimals = asset.metadata.decimals + asset.config.extra_decimals;
       const { can_use_as_collateral } = asset.config;
