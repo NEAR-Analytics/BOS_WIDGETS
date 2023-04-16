@@ -20,7 +20,7 @@ return (
   <div class="navbar navbar-expand-lg border-bottom">
     <div class="container-fluid">
       <a
-        class="navbar-brand"
+        class="navbar-brand text-decoration-none"
         href="#/${authorForWidget}/widget/WikiOnSocialDB_MainNavigation"
       >
         {"<WikiOnSocialDB>"}
@@ -46,7 +46,9 @@ return (
               <a
                 href={`#/${authorForWidget}/widget/${widgetName}`}
                 class={`nav-link ${
-                  id === currentPill ? "active text-decoration-underline" : ""
+                  id === currentPill
+                    ? "active text-decoration-underline"
+                    : "text-decoration-none"
                 } `}
               >
                 {title}
