@@ -1,4 +1,5 @@
 const Container = styled.div`
+    padding-bottom:10px;
     .inputArea{
       position:relative;
       display:flex;
@@ -51,8 +52,80 @@ const Container = styled.div`
     .normalInput::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
     }
+    .mt_20 {
+      margin-top:20px;
+    }
+    .rangeInput{
+      width:100%;
+    }
+    input[type=range]{
+      padding:0;
+    }
+    input[type=range] {
+        -webkit-appearance: none;
+    }
+   
+    input[type=range]::-webkit-slider-runnable-track {
+      height:6px;
+      background: #0F1D27;
+      border-radius: 5px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      position:relative;
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      margin-top: -5px;
+      background: #00D6AF;
+      border-radius: 50%;
+      cursor:pointer;
+      z-index:10;
+  }
+  .rangeArea{
+    position:relative;
+    width:100%;
+  }
+  .bgLine{
+    position:absolute;
+    left:0;
+    top:12px;
+    height:6px;
+    border-radius: 5px;
+    background: #00D6AF;
+  }
+  .scale{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .scale .item {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:12px;
+    color:#7E8A93;
+  }
+  .item::after{
+    content: '';
+    width:1px;
+    height:5px;
+    margin-top:4px;
+    background-color:#7E8A93;
+  }
 `;
 const { amount, handleAmount, balance, balance$ } = props;
+// const { amount, balance, balance$ } = state;
+// function handleAmount(v) {
+//   State.update({
+//     amount: v,
+//   });
+// }
+// State.init({
+//   amount: 0,
+//   balance: 100,
+//   balance$: 105,
+// });
 function changeAmount(e) {
   const value = Number(e.target.value);
   if (Big(value || 0).gt(balance || 0)) return;
@@ -62,6 +135,10 @@ function changeToMax() {
   handleAmount(balance || 0);
 }
 const subBalance = Big(balance || "0").toFixed(4);
+const bgLineWidth =
+  Number(balance) > 0
+    ? (Number(amount || 0) / Number(balance)) * 100 + "%"
+    : "0%";
 return (
   <Container>
     <div class="inputArea">
@@ -78,6 +155,29 @@ return (
     <div class="valueArea">
       <span class="value">${balance$ || "0"}</span>
       <span>Balance:{subBalance}</span>
+    </div>
+    <div class="scale mt_20">
+      <span class="item">0%</span>
+      <span class="item">25%</span>
+      <span class="item">50%</span>
+      <span class="item">75%</span>
+      <span class="item">100%</span>
+    </div>
+    <div class="rangeArea">
+      <input
+        class="rangeInput"
+        type="range"
+        value={amount}
+        min="0"
+        max="100"
+        onChange={changeAmount}
+      />
+      <span
+        class="bgLine"
+        style={{
+          width: bgLineWidth,
+        }}
+      ></span>
     </div>
   </Container>
 );
