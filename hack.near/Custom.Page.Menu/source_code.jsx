@@ -1,8 +1,8 @@
-const side = context.accountId
-  ? Social.get(`${context.accountId}/settings/every/page.side`)
+const menu = context.accountId
+  ? Social.get(`${context.accountId}/settings/every/page.menu`)
   : undefined;
 
-if (side === null) {
+if (menu === null) {
   return "";
 }
 
@@ -18,7 +18,7 @@ const defaultWidgets = [
   },
 ];
 
-const widgets = (side && JSON.parse(side)) ?? defaultWidgets;
+const widgets = (menu && JSON.parse(menu)) ?? defaultWidgets;
 
 const Div = styled.div`
   position: relative;
