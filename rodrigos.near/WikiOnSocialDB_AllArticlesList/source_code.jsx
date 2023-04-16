@@ -46,10 +46,10 @@ const getDateLastEdit = (timestamp) => {
 console.log(filteredArticles);
 
 return (
-  <div className="row card-group">
+  <div className="row card-group py-3">
     {filteredArticles.length > 0 &&
       filteredArticles.map((article) => (
-        <div className="col-sm-12 col-lg-6 col-xl-4">
+        <div className="col-sm-12 col-lg-6 col-xl-4 gy-2">
           <div className="card  h-100" key={article.articleId}>
             <a
               className="text-decoration-none text-dark"
