@@ -1,11 +1,21 @@
+const accountId = props.accountId;
+const blockHeight =
+  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const whitelistedApps = props.whitelistedApps;
+const subscribe = !!props.subscribe;
+const raw = !!props.raw;
+
 function getContent() {
   if (props.content) {
     return props.content;
   }
   for (let i = 0; i < whitelistedApps.length; i++) {
-    const reposts = Social.index(whitelistedApps[i].key, "repost");
-    const content = reposts.find((r) => r.blockHeight === blockHeight);
-    if (content) {
+    const reposts = Social.index("repost", whitelistedApps[i].key);
+    const repost = reposts.find((r) => r.blockHeight === blockHeight);
+    if (repost) {
+      const content = Social.index(whitelistedApps[i].key, "post").find(
+        (p) => p.blockHeight === repost.value.item.blockHeight
+      );
       return { text: content.value.answer };
     }
   }
@@ -17,14 +27,7 @@ function getContent() {
   return "null";
 }
 
-const accountId = props.accountId;
-const blockHeight =
-  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
-const whitelistedApps = props.whitelistedApps;
 const content = getContent();
-const subscribe = !!props.subscribe;
-const raw = !!props.raw;
-
 const notifyAccountId = accountId;
 const item = {
   type: "social",
