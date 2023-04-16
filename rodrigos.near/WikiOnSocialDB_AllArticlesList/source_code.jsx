@@ -42,37 +42,39 @@ const getDateLastEdit = (timestamp) => {
 console.log(filteredArticles);
 
 return (
-  <div>
+  <div className="row">
     {filteredArticles.length > 0 &&
       filteredArticles.map((article) => (
-        <a
-          className="text-decoration-none"
-          href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
+        <div className="col-sm-12 col-lg-6 col-xl-4">
+          <a
+            className="text-decoration-none"
+            href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `}
-        >
-          <div className="card text-dark" key={article.articleId}>
-            <div className="card-body">
-              <div className="row d-flex justify-content-center">
-                <div className="col flex-grow-1">
-                  <h5 className="card-title">{article.articleId}</h5>
-                  <h6 className="card-subtitle mb-2 text-muted">
-                    {getDateLastEdit(article.timeLastEdit)}
-                  </h6>
+          >
+            <div className="card text-dark" key={article.articleId}>
+              <div className="card-body">
+                <div className="row d-flex justify-content-center">
+                  <div className="col flex-grow-1">
+                    <h5 className="card-title">{article.articleId}</h5>
+                    <h6 className="card-subtitle mb-2 text-muted">
+                      {getDateLastEdit(article.timeLastEdit)}
+                    </h6>
+                  </div>
+                  <div className="col flex-grow-0">
+                    <Widget
+                      src="mob.near/widget/Profile.ShortInlineBlock"
+                      props={{ accountId: article.author, tooltip: true }}
+                    />
+                  </div>
                 </div>
-                <div className="col flex-grow-0">
-                  <Widget
-                    src="mob.near/widget/Profile.ShortInlineBlock"
-                    props={{ accountId: article.author, tooltip: true }}
-                  />
-                </div>
+                <p className="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
               </div>
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </p>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       ))}
   </div>
 );
