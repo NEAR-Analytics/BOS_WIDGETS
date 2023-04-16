@@ -5,7 +5,7 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const profile = props.profile ?? Social.getr(`${authorId}/profile`);
 if (profile === null) {
   return "Loading";
 }
@@ -70,14 +70,14 @@ return (
           props={{
             style: { width: "5em", height: "5em", marginRight: "0.1em" },
             profile,
-            accountId,
+            authorId,
             className: "inline",
             imageClassName: "rounded w-100 h-100 align-top",
           }}
         />
         <div>
           <h4 className="text-center my-1">{profile.name}</h4>
-          <h4 className="text-center">{accountId}</h4>
+          <h4 className="text-center">{authorId}</h4>
         </div>
         <div style={{ width: "5em" }}></div>
       </div>
