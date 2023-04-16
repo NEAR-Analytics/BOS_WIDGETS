@@ -18,8 +18,8 @@ const index = [
     },
   },
   {
-    action: "repost",
-    key: "kudo",
+    action: "kudo",
+    key: "repost",
     options: {
       limit: 10,
       order: "desc",
@@ -101,6 +101,7 @@ const renderRepost = (a) => {
     return false;
   }
   const post = extractParentPost(a.value.item);
+  console.log(1, post);
   if (!post) {
     return false;
   }
@@ -108,7 +109,7 @@ const renderRepost = (a) => {
   if (item in renderedPosts) {
     return false;
   }
-  console.log(2, post);
+  // console.log(2, post);
   renderedPosts[item] = true;
 
   return (
@@ -126,7 +127,7 @@ const renderRepost = (a) => {
         />
       </div>
       <Widget
-        src="mob.near/widget/MainPage.Post"
+        src="silkking.near/widget/MainPage.Post"
         props={{
           accountId: post.accountId,
           blockHeight: post.blockHeight,
