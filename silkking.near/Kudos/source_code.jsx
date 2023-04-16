@@ -93,6 +93,8 @@ upvotes.forEach((upvote) => {
 
 const finalData = sortedData;
 
+console.log(1, finalData[0]);
+
 /* BEGIN Common.componse  */
 const composeData = () => {
   const data = {
@@ -178,7 +180,7 @@ const RenderKudoBox = (d) => {
   return (
     <>
       <Widget
-        src={`${widgetOwner}/widget/MainPage.Post`}
+        src={`${widgetOwner}/widget/Kudos.Post`}
         props={{ content: d, upvotes }}
       />
 
@@ -252,7 +254,7 @@ return (
         index: {
           kudo: JSON.stringify(
             {
-              key: "answer",
+              key: "post",
               value: {
                 answer: state.content.text,
                 url: state.url,
@@ -261,6 +263,21 @@ return (
             undefined,
             0
           ),
+          // repost: JSON.stringify(
+          //   {
+          //     key: "kudo",
+          //     value: {
+          //       type: "repost",
+          //       item: {
+          //         blockHeight: "88904674",
+          //         type: "social",
+          //         path: "silkking.near/widget/Kudos",
+          //       },
+          //     },
+          //   },
+          //   undefined,
+          //   0
+          // ),
         },
       }}
       onCommit={() => {
