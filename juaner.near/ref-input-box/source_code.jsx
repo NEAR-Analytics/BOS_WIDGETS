@@ -115,36 +115,31 @@ const Container = styled.div`
   }
 `;
 const { amount, handleAmount, balance, balance$ } = props;
-// const { amount, balance, balance$ } = state;
-// function handleAmount(v) {
-//   State.update({
-//     amount: v,
-//   });
-// }
-// State.init({
-//   amount: 0,
-//   balance: 100,
-//   balance$: 105,
-// });
+
 function changeAmount(e) {
   const value = Number(e.target.value);
   if (Big(value || 0).gt(balance || 0)) return;
   handleAmount(value);
 }
+function changeRangeAmount(e) {
+  const value = Number(e.target.value);
+  const amount = (Number(balance || 0) * value) / 100;
+  handleAmount(amount);
+}
 function changeToMax() {
   handleAmount(balance || 0);
 }
 const subBalance = Big(balance || "0").toFixed(4);
-const bgLineWidth =
-  Number(balance) > 0
-    ? (Number(amount || 0) / Number(balance)) * 100 + "%"
-    : "0%";
+const rangeAmount =
+  Number(balance) > 0 ? (100 * Number(amount || 0)) / Number(balance) : 0;
+const bgLineWidth = rangeAmount + "%";
 return (
   <Container>
     <div class="inputArea">
       <input
         class="normalInput"
         type="number"
+        step="0.001"
         value={amount}
         onChange={changeAmount}
       />
@@ -167,10 +162,10 @@ return (
       <input
         class="rangeInput"
         type="range"
-        value={amount || 0}
+        value={rangeAmount}
         min="0"
-        max={balance || 0}
-        onChange={changeAmount}
+        max="100"
+        onChange={changeRangeAmount}
       />
       <span
         class="bgLine"
