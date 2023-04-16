@@ -232,7 +232,9 @@ const market_deposit_assets =
   can_deposit_assets.map((asset) => {
     const { token_id, metadata, price, config } = asset;
     const r = rewards.find((a) => a.token_id === asset.token_id);
-    const depositApy = r.apyBase + r.apyRewardTvl + r.apyReward;
+    const netTvlMultiplier = config.net_tvl_multiplier / 10000;
+    const depositApy =
+      r.apyBase + r.apyRewardTvl * netTvlMultiplier + r.apyReward;
     const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
     const rewardMap = hasRewards && rewardsMap[token_id];
     const rewardTokens = rewardMap && rewardMap.rewardTokens;
