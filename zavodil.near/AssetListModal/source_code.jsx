@@ -1,7 +1,7 @@
 const title = props.title ?? "Select a token";
 const network = props.network ?? "NEAR";
 const assets = props.assets;
-const cointGeckoTokenIds = props.cointGeckoTokenIds ?? {};
+const coinGeckoTokenIds = props.coinGeckoTokenIds ?? {};
 const selectedAssets = props.selectedAssets ?? [];
 
 const hidden = props.hidden;
@@ -167,7 +167,7 @@ const assetList = assets
         src="zavodil.near/widget/AssetListItem"
         props={{
           tokenId,
-          cointGeckoTokenId: state.cointGeckoTokenIds?.[tokenId] ?? tokenId,
+          cointGeckoTokenId: coinGeckoTokenIds?.[tokenId] ?? tokenId,
           network,
           selected: selectedAssets.includes(tokenId),
           searchBy: state.searchBy,
