@@ -20,16 +20,16 @@ const pills = [
 const accountId = props.accountId ?? context.accountId;
 
 return (
-  <div class="navbar navbar-expand-lg border-bottom mb-3">
-    <div class="container-fluid">
+  <div className="navbar navbar-expand-md border-bottom mb-3">
+    <div className="container-fluid">
       <a
-        class="navbar-brand text-decoration-none"
+        className="navbar-brand text-decoration-none"
         href={`#/${authorForWidget}/widget/WikiOnSocialDB`}
       >
         {"<WikiOnSocialDB>"}
       </a>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarNav"
@@ -37,18 +37,18 @@ return (
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
       <div
-        class="collapse navbar-collapse justify-content-center"
+        className="collapse navbar-collapse justify-content-center"
         id="navbarNav"
       >
-        <ul class="navbar-nav">
+        <ul className="navbar-nav">
           {pills.map(({ id, title, widgetName }, i) => (
             <li className="nav-item">
               <a
                 href={`#/${authorForWidget}/widget/${widgetName}`}
-                class={`nav-link ${
+                className={`nav-link ${
                   id === currentPill
                     ? "active text-decoration-underline"
                     : "text-decoration-none"
@@ -58,21 +58,34 @@ return (
               </a>
             </li>
           ))}
+          {
+            <div className="mx-2 d-block d-md-none">
+              <a
+                className="btn btn-outline-dark"
+                href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
+              >
+                + Create Article
+              </a>
+            </div>
+          }
         </ul>
       </div>
-      {accountId &&
-        writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+      {
+        <div className="mx-2 d-none d-md-block">
           <a
-            class="btn btn-outline-dark"
+            className="btn btn-outline-dark"
             href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
           >
             + Create Article
           </a>
-        )}
-      <Widget
-        src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId, tooltip: true }}
-      />
+        </div>
+      }
+      <div className="d-none d-md-block">
+        <Widget
+          src="mob.near/widget/Profile.ShortInlineBlock"
+          props={{ accountId, tooltip: true }}
+        />
+      </div>
     </div>
   </div>
 );
