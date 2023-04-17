@@ -126,6 +126,41 @@ const RenderKudoBox = (d) => {
             }}
           />
         </div>
+
+        <CommitButton
+          style={
+            state.hoveringElement == "repostButton"
+              ? hoveringButtonStyles
+              : standardButtonStyles
+          }
+          onMouseEnter={() => {
+            State.update({ hoveringElement: "repostButton" });
+          }}
+          onMouseLeave={() => {
+            State.update({ hoveringElement: "" });
+          }}
+          data={{
+            index: {
+              repost: JSON.stringify(
+                {
+                  key: "kudo",
+                  value: {
+                    type: "repost",
+                    item: {
+                      type: "social",
+                      path: "silkking.near/widget/Kudos",
+                      blockHeight: d.blockHeight,
+                    },
+                  },
+                },
+                undefined,
+                0
+              ),
+            },
+          }}
+        >
+          Repost
+        </CommitButton>
       </div>
       {d.value.url != "" && d.value.url && (
         <div
