@@ -16,6 +16,50 @@ State.init({
   hoveringElement: "",
 });
 
+let item = {
+  type: "social",
+  path: `${accountId}/post/main`,
+  blockHeight,
+};
+
+const reposts = Social.index("repost", item);
+
+const repostsByUsers = Object.fromEntries(
+  (reposts || [])
+    .filter((repost) => repost.value.type === "repost")
+    .map((repost) => [repost.accountId, repost])
+);
+
+if (state.hasRepost === true) {
+  repostsByUsers[context.accountId] = {
+    accountId: context.accountId,
+  };
+}
+
+const hasRepost = context.accountId && !!repostsByUsers[context.accountId];
+
+const repostSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    style={thisWidgetInlineStyles.repostSvg}
+  >
+    <path
+      fill-rule="evenodd"
+      d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"
+      transform="rotate(180, 12, 12), translate(0, 4)"
+    />
+    <path
+      fill-rule="evenodd"
+      d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"
+      transform="translate(0, 4)"
+    />
+  </svg>
+);
+
 const notifyAccountId = accountId;
 const item = {
   type: "social",
@@ -143,9 +187,10 @@ const RenderKudoBox = (d) => {
         <CommitButton
           style={
             state.hoveringElement == "repostButton"
-              ? hoveringButtonStyles
-              : standardButtonStyles
+              ? thisWidgetInlineStyles.repostButtonHovering
+              : thisWidgetInlineStyles.repostButton
           }
+          className={thisWidgetClassNames.repostButton}
           onMouseEnter={() => {
             State.update({ hoveringElement: "repostButton" });
           }}
@@ -172,7 +217,9 @@ const RenderKudoBox = (d) => {
             },
           }}
         >
-          Repost
+          <span style={hasRepost && thisWidgetInlineStyles.repostSvgSpan}>
+            {repostSvg}
+          </span>
         </CommitButton>
 
         <CommitButton
