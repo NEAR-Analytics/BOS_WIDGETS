@@ -19,11 +19,15 @@ const tosVersions = Social.keys(tosName, "final", {
   // subscribe: true,
 });
 
+console.log("TosVersions", tosVersions);
+
 // TODO perform path validation before this
 const tosPath = tosName.split("/");
 const latestTosVersion = tosPath.reduce((acc, curr) => {
   return acc[curr];
 }, tosVersions);
+
+console.log("latest", latestTosVersion);
 
 const Backdrop = styled.div`
   height: 100vh;
@@ -66,7 +70,6 @@ const AcceptSection = styled.div`
   display: flex;
   flex-direction: row;
   column-gap: 1rem;
-
   .continue-button {
     background: #59E692;
     color: #09342E;
@@ -78,13 +81,11 @@ const AcceptSection = styled.div`
     border: none;
     cursor: pointer;
     transition: background 200ms, opacity 200ms;
-
     &:hover,
     &:focus {
       background: rgb(112 242 164);
       outline: none;
     }
-
     &:disabled {
       opacity: 0.5;
       pointer-events: none;
