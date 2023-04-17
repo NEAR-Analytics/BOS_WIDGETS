@@ -190,7 +190,7 @@ const suppliedAssets = hasData
                   changeSelectedToken(asset, "withdraw");
                 },
                 buttonType: "line",
-                actionName: "WithDraw",
+                actionName: "Withdraw",
                 hoverOn: true,
               }}
             />
