@@ -114,8 +114,8 @@ return (
     </Header>
 
     <Body style={{ backgroundColor: "red" }}>
+      Body Body Body
       {console.log("the text is:", content.text)}
-
       {props.text && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
@@ -124,7 +124,6 @@ return (
           }}
         />
       )}
-
       {content.image && (
         <Widget
           src="mob.near/widget/Image"
