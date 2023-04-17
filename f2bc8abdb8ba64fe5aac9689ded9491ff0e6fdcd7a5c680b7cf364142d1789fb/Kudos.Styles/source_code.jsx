@@ -40,6 +40,17 @@ const standardButtonStyles = {
   margin: "0 1rem",
 };
 
+const standardButtonStylesWithoutMargin = {
+  border: "2px solid transparent",
+  fontWeight: "500",
+  fontSize: font_big,
+  padding: "0.3rem 0.5rem",
+  backgroundColor: "#010A2D",
+  borderRadius: "12px",
+  color: "white",
+  textDecoration: "none",
+};
+
 const hoveringButtonStyles = {
   border: "2px solid black",
   color: "black",
@@ -50,6 +61,17 @@ const hoveringButtonStyles = {
   borderRadius: "12px",
   textDecoration: "none",
   margin: "0 1rem",
+};
+
+const hoveringButtonStylesWithoutMargin = {
+  border: "2px solid black",
+  color: "black",
+  backgroundColor: "white",
+  fontWeight: "500",
+  fontSize: font_big,
+  padding: "0.3rem 0.5rem",
+  borderRadius: "12px",
+  textDecoration: "none",
 };
 
 const allWidgetsInlineStyles = {
