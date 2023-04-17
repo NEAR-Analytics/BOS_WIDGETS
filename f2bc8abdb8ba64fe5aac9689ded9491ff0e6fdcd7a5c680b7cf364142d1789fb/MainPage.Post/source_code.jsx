@@ -250,6 +250,16 @@ const RenderKudoBox = (d) => {
             {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
           </span>
         </div>
+        <Widget
+          src="https://near.social/#/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
+          props={{
+            popUpDescription: "Use this link to share the kudo",
+            shareingWidget: "Kudos.Styles",
+            propName: "sharedBlockHeight",
+            blockHeight: d.blockHeight,
+            widgetOwner,
+          }}
+        />
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
     </>
