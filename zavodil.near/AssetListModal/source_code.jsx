@@ -167,7 +167,7 @@ const assetList = assets
         src="zavodil.near/widget/AssetListItem"
         props={{
           tokenId,
-          cointGeckoTokenId: coinGeckoTokenIds?.[tokenId] ?? tokenId,
+          coinGeckoTokenId: coinGeckoTokenIds?.[tokenId] ?? tokenId,
           network,
           selected: selectedAssets.includes(tokenId),
           searchBy: state.searchBy,
