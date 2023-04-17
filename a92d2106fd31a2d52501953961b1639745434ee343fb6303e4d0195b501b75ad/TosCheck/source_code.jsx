@@ -14,6 +14,8 @@ const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   subscribe: true,
 });
 
+console.log("Agreements", agreementsForUser);
+
 const tosVersions = Social.keys(tosName, "final", {
   return_type: "BlockHeight",
   // subscribe: true,
