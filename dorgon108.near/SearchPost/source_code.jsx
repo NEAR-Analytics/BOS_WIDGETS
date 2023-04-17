@@ -43,6 +43,7 @@ const Header = styled.div`
 const Body = styled.div`
   align-items: center;
   flex: 1;
+  color:red;
 `;
 const Content = styled.div`
   display: flex;
@@ -78,11 +79,10 @@ const Text = styled.p`
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
-  color: white;
+  color: #687076;
   white-space: nowrap;
 `;
 
-//687076
 return (
   <Post href={postUrl} onPointerUp={onClick}>
     <Header>
