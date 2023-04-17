@@ -78,9 +78,11 @@ const Text = styled.p`
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
-  color: #687076;
+  color: black;
   white-space: nowrap;
 `;
+
+//687076
 return (
   <Post href={postUrl} onPointerUp={onClick}>
     <Header>
