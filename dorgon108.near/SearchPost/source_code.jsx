@@ -129,6 +129,15 @@ return (
     </Header>
 
     <Body>
+      {console.log("the text is:", content.text)}
+      {content.text && (
+        <Widget
+          src="dorgon108.near/widget/SocialMarkdown"
+          props={{
+            text: "cute puppies",
+          }}
+        />
+      )}
       {content.image && (
         <Widget
           src="mob.near/widget/Image"
