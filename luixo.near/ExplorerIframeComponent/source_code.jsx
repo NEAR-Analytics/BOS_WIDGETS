@@ -2,7 +2,8 @@ const baseUrls = {
   mainnet: "https://explorer.near.org",
   testnet: "https://explorer.testnet.near.org",
 };
-const baseUrl = baseUrls[props.network || "testnet"] || baseUrls.testnet;
+const baseUrl =
+  props.baseUrl || baseUrls[props.network || "testnet"] || baseUrls.testnet;
 const query = { ...props.query, iframe: true };
 const queryString = `?${Object.entries(query)
   .filter(([_key, value]) => value !== undefined && value !== null)
