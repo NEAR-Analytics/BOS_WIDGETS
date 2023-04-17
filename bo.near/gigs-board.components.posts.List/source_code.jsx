@@ -423,10 +423,10 @@ return (
         {renderedItems}
       </InfiniteScroll>
     ) : (
-      <div>
+      <p class="text-secondary">
         No posts {props.searchResult ? "matches search" : ""} in{" "}
         {getPeriodText(state.period).toLowerCase()}
-      </div>
+      </p>
     )}
   </>
 );
