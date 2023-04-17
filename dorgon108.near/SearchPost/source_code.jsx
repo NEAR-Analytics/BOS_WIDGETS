@@ -103,7 +103,7 @@ const highlightWordInParagraph = (paragraph, word) => {
 
 return (
   <Post href={postUrl} onPointerUp={onClick}>
-    <Header style={{ margin: "10px", backgroundColor: "red" }}>
+    <Header>
       <Widget
         src="adminalpha.near/widget/AccountProfile"
         props={{
@@ -113,14 +113,13 @@ return (
       />
     </Header>
 
-    <Body style={{ backgroundColor: "red" }}>
-      Body Body Body
+    <Body>
       {console.log("the text is:", content.text)}
-      {props.text && (
+      {content.text && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(props.text, props.term),
+            text: highlightWordInParagraph(content.text, props.term),
           }}
         />
       )}
