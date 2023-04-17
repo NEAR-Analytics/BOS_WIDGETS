@@ -1,4 +1,5 @@
 const tokenId = props.tokenId;
+const cointGeckoTokenId = props.cointGeckoTokenId;
 const network = props.network ?? "NEAR";
 const selected = props.selected ?? false;
 const searchBy = props.searchBy ?? "";
@@ -187,6 +188,7 @@ return (
         src="zavodil.near/widget/TokenData"
         props={{
           tokenId,
+          cointGeckoTokenId,
           network,
           onLoad,
         }}
