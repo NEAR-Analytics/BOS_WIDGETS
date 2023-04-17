@@ -27,14 +27,30 @@ const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
 const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 
 // Styling Specifications
+
+const typeAheadContainer = {
+  width: "513px",
+  height: "458px",
+  zIndex: "3",
+  backgroundColor: "black",
+  borderRadius: "10px",
+  transform: "translateX(50px)",
+  display: "flex",
+  flexDirection: "column",
+  textAlign: "center",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingLeft: "24px",
+  paddingRight: "24px",
+};
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  padding-bottom: 48px;
   max-width: 600px;
   margin: 0 auto;
-padding:16px;
+padding-left:16px
+padding-right:16px
   width:100%;
 `;
 
@@ -60,7 +76,6 @@ const H1 = styled.h1`
 `;
 
 const FixedTabs = styled.div`
-    padding: 1rem;
     text-align: right;
     top:0;
 
@@ -128,7 +143,7 @@ const Text = styled.p`
 const Items = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   gap: 12px;
 `;
 
@@ -136,7 +151,6 @@ const Tabs = styled.div`
   display: flex;
   height: 48px;
   border-bottom: 1px solid #eceef0;
-  margin-bottom: -24px;
   overflow: auto;
   scroll-behavior: smooth;
 
@@ -173,11 +187,13 @@ const FixedFooter = styled.div`
     padding: 1rem;
     text-align: right;
     border-top: 1px solid rgba(96, 109, 122, 0.4);
-        position:fixed;
-        bottom:0;
-        text-align:right
-
-  `;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    text-align:right
+    height:56px;
+    width: calc(100% - 32px); // 100% minus the parent's left and right padding
+`;
 
 const TabsButton = styled.a`
   display: inline-flex;
@@ -200,7 +216,7 @@ const TabsButton = styled.a`
   }
 
   &::after {
-    content: "";
+    content: "";x
     display: ${(p) => (p.selected ? "block" : "none")};
     position: absolute;
     bottom: 0;
@@ -214,6 +230,9 @@ const TabsButton = styled.a`
 const ScrollableContent = styled.div`
     overflow-y: auto;
     flex-grow: 1;
+    background-color:red
+    width:100%;
+    height:350px
   `;
 
 const Item = styled.div``;
@@ -434,7 +453,6 @@ const configsPerFacet = (facet) => {
 
 const onFacetClick = (facet) => {
   if (facet === state.facet) {
-    console.log("Clicked the same facet");
     return;
   }
 
@@ -521,10 +539,12 @@ const topTwoComments = () => {
     state.search.postsAndComments[0],
     state.search.postsAndComments[1],
   ];
+
   return twoCommentsArray.map((post, i) => (
     <Item key={`${post.accountId}/${post.postType}/${post.blockHeight}`}>
+      {console.log("the content is", JSON.stringify(post.postContent))}
       <Widget
-        src="chaotictempest.near/widget/SearchPost"
+        src="dorgon108.near/widget/SearchPost"
         props={{
           accountId: post.accountId,
           blockHeight: post.blockHeight,
@@ -536,7 +556,6 @@ const topTwoComments = () => {
 };
 
 if (props.term !== state.lastSyncedTerm) {
-  console.log(props.term);
   State.update({
     lastSyncedTerm: props.term,
   });
@@ -544,93 +563,118 @@ if (props.term !== state.lastSyncedTerm) {
 }
 
 return (
-  <Wrapper>
-    {state.search && (
-      <FixedTabs>
-        <Widget
-          src="dorgon108.near/widget/Facets"
-          props={{
-            facets,
-            onFacetClick,
-            defaultFacet: facets[0],
-          }}
-        />
-      </FixedTabs>
-    )}
-    <ScrollableContent>
-      {state.paginate?.hitsTotal == 0 && (
-        <H2>No matches were found for "{state.term}".</H2>
+  <div style={typeAheadContainer}>
+    <Wrapper>
+      {state.search && (
+        <FixedTabs>
+          <Widget
+            src="dorgon108.near/widget/Facets"
+            props={{
+              facets,
+              onFacetClick,
+              defaultFacet: facets[0],
+            }}
+          />
+        </FixedTabs>
       )}
+      <ScrollableContent>
+        {state.paginate?.hitsTotal == 0 && (
+          <H2>No matches were found for "{state.term}".</H2>
+        )}
 
-      {state.search?.components.length > 0 && (
-        <Group>
-          <GroupHeader>
-            <H3>
-              Components{" "}
-              <span
-                style={{
-                  marginLeft: "10px",
-                }}
-              >
-                {` ${state.search?.components.length ?? 0}`}
-              </span>{" "}
-            </H3>
-          </GroupHeader>
+        {state.search?.components.length > 0 && (
+          <Group>
+            <GroupHeader>
+              <H3>
+                Components{" "}
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  {` ${state.search?.components.length ?? 0}`}
+                </span>{" "}
+              </H3>
+            </GroupHeader>
 
-          <Items>{topTwoComponents()}</Items>
-        </Group>
-      )}
+            <Items>{topTwoComponents()}</Items>
+          </Group>
+        )}
 
-      {state.search?.profiles.length > 0 && (
-        <Group>
-          <GroupHeader>
-            <H3>
-              Users
-              <span
-                style={{
-                  marginLeft: "10px",
-                }}
-              >
-                {` ${state.search?.profiles.length ?? 0}`}
-              </span>{" "}
-            </H3>
-          </GroupHeader>
+        {state.search?.profiles.length > 0 && (
+          <Group>
+            <GroupHeader>
+              <H3>
+                Users
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  {` ${state.search?.profiles.length ?? 0}`}
+                </span>{" "}
+              </H3>
+            </GroupHeader>
 
-          <Items>{topTwoHits()}</Items>
-        </Group>
-      )}
-    </ScrollableContent>
+            <Items>{topTwoHits()}</Items>
+          </Group>
+        )}
 
-    <FixedFooter>
-      <a
-        href={`https://alpha.near.org/chaotictempest.near/widget/Search?term=${props.term}`}
-      >
-        <Button
-          onClick={() => {
-            console.log("redirect you sir/miss)");
-          }}
+        {state.search?.postsAndComments.length > 0 && (
+          <Group style={{ marginTop: "20px" }}>
+            <GroupHeader>
+              <H3>
+                Posts and Comments
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  {` ${state.search?.postsAndComments.length ?? 0}`}
+                </span>{" "}
+              </H3>
+            </GroupHeader>
+
+            <Items>{topTwoComments()}</Items>
+          </Group>
+        )}
+      </ScrollableContent>
+
+      <FixedFooter>
+        <a
+          href={`https://alpha.near.org/chaotictempest.near/widget/Search?term=${props.term}`}
         >
-          See{" "}
-          {` ${
-            state.search?.profiles.length ??
+          <Button
+            onClick={() => {
+              console.log("redirect you");
+            }}
+          >
+            {state.search?.profiles.length ??
             0 + state.search?.components ??
             0 + state.search?.postsAndComments ??
             0
-          }`}
-          Results
-        </Button>
-      </a>
-    </FixedFooter>
-    {!props.disableInsights && (
-      <Widget
-        src="chaotictempest.near/widget/Insights"
-        props={{
-          event: state.event,
-          searchApiKey: SEARCH_API_KEY,
-          appId: APPLICATION_ID,
-          index: INDEX,
-        }}
-      />
-    )}
-  </Wrapper>
+              ? ` See ${
+                  state.search?.profiles.length ??
+                  0 + state.search?.components ??
+                  0 + state.search?.postsAndComments ??
+                  0 ??
+                  0
+                }Results`
+              : null}
+          </Button>
+        </a>
+      </FixedFooter>
+      {!props.disableInsights && (
+        <Widget
+          src="chaotictempest.near/widget/Insights"
+          props={{
+            event: state.event,
+            searchApiKey: SEARCH_API_KEY,
+            appId: APPLICATION_ID,
+            index: INDEX,
+          }}
+        />
+      )}
+    </Wrapper>
+  </div>
 );
