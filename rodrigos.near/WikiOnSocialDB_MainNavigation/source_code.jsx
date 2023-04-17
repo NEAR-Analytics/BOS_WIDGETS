@@ -58,28 +58,30 @@ return (
               </a>
             </li>
           ))}
-          {
-            <div className="mx-2 d-block d-md-none">
-              <a
-                className="btn btn-outline-dark"
-                href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
-              >
-                + Create Article
-              </a>
-            </div>
-          }
+          {accountId &&
+            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+              <div className="d-block d-md-none">
+                <a
+                  className="btn btn-outline-dark"
+                  href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
+                >
+                  + Create Article
+                </a>
+              </div>
+            )}
         </ul>
       </div>
-      {
-        <div className="mx-2 d-none d-md-block">
-          <a
-            className="btn btn-outline-dark"
-            href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
-          >
-            + Create Article
-          </a>
-        </div>
-      }
+      {accountId &&
+        writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+          <div className="mx-2 d-none d-md-block">
+            <a
+              className="btn btn-outline-dark"
+              href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
+            >
+              + Create Article
+            </a>
+          </div>
+        )}
       <div className="d-none d-md-block">
         <Widget
           src="mob.near/widget/Profile.ShortInlineBlock"
