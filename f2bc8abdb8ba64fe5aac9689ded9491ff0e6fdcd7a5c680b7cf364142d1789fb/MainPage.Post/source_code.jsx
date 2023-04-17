@@ -61,11 +61,6 @@ const repostSvg = (
 );
 
 const notifyAccountId = accountId;
-const item = {
-  type: "social",
-  path: `${accountId}/post/main`,
-  blockHeight,
-};
 
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
