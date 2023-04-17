@@ -117,50 +117,6 @@ const RenderKudoBox = (d) => {
             props={{ content, raw }}
           />
         </div>
-
-        <div>
-          <Widget
-            src="mob.near/widget/CommentButton"
-            props={{
-              onClick: startCommentTo,
-            }}
-          />
-        </div>
-
-        <CommitButton
-          style={
-            state.hoveringElement == "repostButton"
-              ? hoveringButtonStyles
-              : standardButtonStyles
-          }
-          onMouseEnter={() => {
-            State.update({ hoveringElement: "repostButton" });
-          }}
-          onMouseLeave={() => {
-            State.update({ hoveringElement: "" });
-          }}
-          data={{
-            index: {
-              repost: JSON.stringify(
-                {
-                  key: "kudo",
-                  value: {
-                    type: "repost",
-                    item: {
-                      type: "social",
-                      path: "silkking.near/widget/Kudos",
-                      blockHeight: d.blockHeight,
-                    },
-                  },
-                },
-                undefined,
-                0
-              ),
-            },
-          }}
-        >
-          Repost
-        </CommitButton>
       </div>
       {d.value.url != "" && d.value.url && (
         <div
@@ -209,6 +165,50 @@ const RenderKudoBox = (d) => {
         <span style={thisWidgetInlineStyles.upVoteCounter}>
           {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
         </span>
+
+        <div>
+          <Widget
+            src="mob.near/widget/CommentButton"
+            props={{
+              onClick: startCommentTo,
+            }}
+          />
+        </div>
+
+        <CommitButton
+          style={
+            state.hoveringElement == "repostButton"
+              ? hoveringButtonStyles
+              : standardButtonStyles
+          }
+          onMouseEnter={() => {
+            State.update({ hoveringElement: "repostButton" });
+          }}
+          onMouseLeave={() => {
+            State.update({ hoveringElement: "" });
+          }}
+          data={{
+            index: {
+              repost: JSON.stringify(
+                {
+                  key: "kudo",
+                  value: {
+                    type: "repost",
+                    item: {
+                      type: "social",
+                      path: "silkking.near/widget/Kudos",
+                      blockHeight: d.blockHeight,
+                    },
+                  },
+                },
+                undefined,
+                0
+              ),
+            },
+          }}
+        >
+          Repost
+        </CommitButton>
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
 
