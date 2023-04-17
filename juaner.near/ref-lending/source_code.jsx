@@ -164,6 +164,99 @@ const unclaimedRewards = Object.keys(unclaimedRewardsMap).map((id) => {
     icon: asset.metadata.icon,
   };
 });
+// get net apy
+const getNetAPY = (assets, account) => {
+  const extraDaily = getExtraDaily(assets, account);
+  const [gainCollateral, totalCollateral] = getGains(
+    account,
+    assets,
+    "collateral"
+  );
+  const [gainSupplied, totalSupplied] = getGains(account, assets, "supplied");
+  const [gainBorrowed] = getGains(account, assets, "borrowed");
+
+  const gainExtra = extraDaily * 365;
+
+  const netGains = gainCollateral + gainSupplied + gainExtra - gainBorrowed;
+  const netTotals = totalCollateral + totalSupplied;
+  const netAPY = (netGains / netTotals) * 100;
+
+  return netAPY || 0;
+};
+function getExtraDaily(assets, account) {
+  const farms = account.farms.filter(
+    (farm) => !!(farm.farm_id["Supplied"] || farm.farm_id["Borrowed"])
+  );
+  const farmsRewards = farms
+    .map((farm) => {
+      const token_id = farm.farm_id.Borrowed || farm.farm_id.Supplied;
+      const asset = assets.find((asset) => asset.token_id == token_id);
+      const assetDecimals =
+        asset.metadata.decimals + asset.config.extra_decimals;
+      const rewards = farm.rewards.map((reward) => {
+        const { reward_token_id, boosted_shares, asset_farm_reward } = reward;
+        const assetReward = assets.find(
+          (asset) => asset.token_id == reward_token_id
+        );
+        const rewardAssetDecimals =
+          assetReward.metadata.decimals + assetReward.config.extra_decimals;
+        const boostedShares = Number(
+          shrinkToken(boosted_shares, assetDecimals)
+        );
+        const totalBoostedShares = Number(
+          shrinkToken(asset_farm_reward.boosted_shares, assetDecimals)
+        );
+        const totalRewardsPerDay = Number(
+          shrinkToken(asset_farm_reward.reward_per_day, rewardAssetDecimals)
+        );
+        const dailyAmount =
+          (boostedShares / totalBoostedShares) * totalRewardsPerDay;
+        return { dailyAmount, reward_token_id, token_id };
+      });
+      return rewards;
+    })
+    .flat();
+  const extraDaily$ = farmsRewards.reduce((acc, cur) => {
+    const { dailyAmount, reward_token_id } = cur;
+    const assetReward = assets.find(
+      (asset) => asset.token_id == reward_token_id
+    );
+    const price = assetReward.price.usd || 0;
+    return acc + dailyAmount * price;
+  }, 0);
+  return extraDaily$ || 0;
+}
+function getGains(account, assets, source) {
+  return account[source]
+    .map((accountAsset) => {
+      const { token_id, balance, apr } = accountAsset;
+      const asset = assets.find((asset) => asset.token_id == token_id);
+      const netTvlMultiplier = asset.config.net_tvl_multiplier / 10000;
+      const balanceUSD = toUsd(balance, asset);
+      return [balanceUSD * (withNetTvlMultiplier ? netTvlMultiplier : 1), apr];
+    })
+    .reduce(
+      ([gain, sum], [balance, apr]) => [gain + balance * apr, sum + balance],
+      [0, 0]
+    );
+}
+const toUsd = (balance, asset) =>
+  asset?.price?.usd
+    ? Number(
+        shrinkToken(
+          balance,
+          asset.metadata.decimals + asset.config.extra_decimals
+        )
+      ) * asset.price.usd
+    : 0;
+let apyNetValue;
+if (assets && account && rewards) {
+  const netAPY = getNetAPY(assets, account);
+  const r = rewards[0].apyRewardTvl || 0;
+  apyNetValue = Big(netAPY || 0)
+    .plus(r)
+    .toFixed(2);
+}
 
 const handleClaimAll = () => {
   Near.call({
@@ -205,6 +298,13 @@ return (
           <label class="t">Supplied</label>
           <span class="v">{yourSuppliedUSD || "$0"}</span>
         </div>
+        {!apyNetValue ? null : (
+          <div class="block">
+            <label class="t">Net APY</label>
+            <span class="v">{apyNetValue || "-"}%</span>
+          </div>
+        )}
+
         <div class="block">
           <label class="t">Borrowed</label>
           <span class="v">{yourBurrowedUSD || "$0"}</span>
