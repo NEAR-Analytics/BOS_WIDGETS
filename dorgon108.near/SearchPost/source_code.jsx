@@ -48,8 +48,6 @@ const highlightWordInParagraph = (paragraph, word) => {
   return newParagraph;
 };
 
-const shortenedString = highlightWordInParagraph(content.text, props.term);
-
 const Post = styled.a`
   display: flex;
   overflow: hidden;
@@ -131,15 +129,6 @@ return (
     </Header>
 
     <Body>
-      {console.log("the text is:", shortenedString)}
-      {shortenedString && (
-        <Widget
-          src="dorgon108.near/widget/SocialMarkdown"
-          props={{
-            text: shortenedString,
-          }}
-        />
-      )}
       {content.image && (
         <Widget
           src="mob.near/widget/Image"
