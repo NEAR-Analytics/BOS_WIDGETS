@@ -12,10 +12,10 @@ if (
 ) {
   const res = {
     balance: state.balance,
-    balance_hr: new Big(state.balance)
+    balance_hr: new Big(state.balance ?? 0)
       .div(new Big(10).pow(state.metadata.decimals))
       .toFixed(4),
-    balance_hr_full: new Big(state.balance)
+    balance_hr_full: new Big(state.balance ?? 0)
       .div(new Big(10).pow(state.metadata.decimals))
       .toFixed(),
     price: state.price,
