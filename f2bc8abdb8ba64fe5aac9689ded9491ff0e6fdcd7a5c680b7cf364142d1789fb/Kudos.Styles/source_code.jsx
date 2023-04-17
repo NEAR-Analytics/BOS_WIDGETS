@@ -251,7 +251,7 @@ const allWidgetsInlineStyles = {
       width: "100%",
     },
     upVoteCounter: {
-      marginLeft: "1rem",
+      margin: "0",
     },
     commentInput: {
       container: {
@@ -310,7 +310,7 @@ const allWidgetsClassNames = {
     postUrl: "d-flex",
     repostButton: "btn me-1",
     interactionButtonsContainer:
-      "d-flex align-items-center justify-content-start",
+      "d-flex align-items-center justify-content-between",
     upVoteContainer: "d-flex align-items-center justify-content-center",
     commentInput: {
       container: "d-flex align-items-end flex-column",
