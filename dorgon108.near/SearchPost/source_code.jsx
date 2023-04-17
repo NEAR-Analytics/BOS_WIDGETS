@@ -99,7 +99,7 @@ return (
           src="dorgon108.near/widget/SocialMarkdown"
           props={{ text: content.text }}
         />
-              {console.log("the text is:", context.text)}
+              {console.log("the text is:", content.text)}
 
       )}
 
