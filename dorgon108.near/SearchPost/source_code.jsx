@@ -31,10 +31,11 @@ const Post = styled.a`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 34px;
+  height: 45px;
   overflow:hidden;
   gap:16px;
-  margin:10px
+  margin:10px;
+
   
 `;
 const Header = styled.div`
@@ -42,11 +43,16 @@ const Header = styled.div`
   align-items: center;
   flex: 1;
 
+  img {
+    height:24px
+  }
+
 `;
 const Body = styled.div`
   align-items: center;
   flex: 1;
   font-size:12px
+  
 `;
 const Content = styled.div`
   display: flex;
@@ -84,6 +90,7 @@ const Text = styled.p`
   font-weight: 400;
   color: #687076;
   white-space: nowrap;
+  
 `;
 
 const highlightWordInParagraph = (paragraph, word) => {
