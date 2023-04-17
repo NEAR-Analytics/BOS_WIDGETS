@@ -94,12 +94,13 @@ return (
     </Header>
 
     <Body>
-      {console.log("the text is", context.text)}
       {content.text && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{ text: content.text }}
         />
+              {console.log("the text is:", context.text)}
+
       )}
 
       {content.image && (
