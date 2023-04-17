@@ -41,11 +41,11 @@ const highlightWordInParagraph = (paragraph, word) => {
   const startIndex = Math.max(wordIndex - 3, 0);
   const endIndex = Math.min(wordIndex + 2, words.length - 1);
 
-  let newParagraph = "";
-  for (let i = startIndex; i <= endIndex; i++) {
-    newParagraph = newParagraph + " " + words[i];
+  let newParagraph = words[startIndex];
+  for (let i = startIndex + 1; i <= endIndex; i++) {
+    newParagraph += " " + words[i];
     if (i === endIndex) {
-      newParagraph = newParagraph + "...";
+      newParagraph += "...";
     }
   }
   return newParagraph;
