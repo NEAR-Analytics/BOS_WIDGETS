@@ -41,33 +41,35 @@ if (!account) return <div>loading...</div>;
 // sum all assets to get the health factor
 // https://github.com/burrowfdn/burrowland for detailed explanation
 function getAdjustedSum(type, account) {
-  if (!assets) return B(1);
+  if (!assets || !account) return B(1);
 
-  return account[type]
-    .map((assetInAccount) => {
-      const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
-      const hasPrice = asset.price?.multiplier && asset.price?.decimals;
+  const sumArr = account[type].map((assetInAccount) => {
+    const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
+    const hasPrice = !!asset.price?.multiplier && !!asset.price?.decimals;
 
-      const price = hasPrice
-        ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals))
-        : B(0);
+    const price = hasPrice
+      ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals))
+      : B(0);
 
-      const pricedBalance = B(assetInAccount.balance)
-        .div(expandToken(1, asset.config.extra_decimals))
-        .mul(price);
+    const pricedBalance = B(assetInAccount.balance)
+      .div(expandToken(1, asset.config.extra_decimals))
+      .mul(price);
 
-      return type === "borrowed"
-        ? pricedBalance
-            .div(asset.config.volatility_ratio)
-            .mul(MAX_RATIO)
-            .toFixed()
-        : pricedBalance
-            .mul(asset.config.volatility_ratio)
-            .div(MAX_RATIO)
-            .toFixed();
-    })
-    .reduce((sum, cur) => B(sum).plus(B(cur)), 1)
-    .toFixed();
+    return type === "borrowed"
+      ? pricedBalance
+          .div(asset.config.volatility_ratio)
+          .mul(MAX_RATIO)
+          .toFixed()
+      : pricedBalance
+          .mul(asset.config.volatility_ratio)
+          .div(MAX_RATIO)
+          .toFixed();
+  });
+  // .reduce((acc, cur) => B(acc).plus(B(cur)), 1);
+  // .toFixed();
+  let sum = B(0.001);
+  sumArr.forEach((e) => (sum = sum.plus(B(e))));
+  return sum;
 }
 
 const adjustedCollateralSum = getAdjustedSum("collateral", account);
@@ -148,7 +150,6 @@ function getMaxAmount() {
   );
   return [available, (asset.price.usd * available).toFixed(2)];
 }
-
 const [available, availableUSD] = getMaxAmount();
 
 const listAssets =
@@ -157,7 +158,6 @@ const listAssets =
     ?.filter((a) => a.config.can_borrow)
     ?.map((asset) => {
       const { token_id, metadata } = asset;
-
       return <option value={token_id}>{metadata.symbol}</option>;
     });
 
