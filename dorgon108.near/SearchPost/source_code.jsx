@@ -41,12 +41,12 @@ const Header = styled.div`
 
 `;
 const Body = styled.div`
+  align-items: center;
   flex: 1;
 `;
 const Content = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 2px;
 `;
 
