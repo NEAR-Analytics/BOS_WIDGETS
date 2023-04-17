@@ -47,10 +47,15 @@ const getDateLastEdit = (timestamp) => {
 
 return (
   <div className="row card-group py-3">
+    <a
+      href={`#/${authorForWidget}/widget/WikiOnSocialDB_AllArticlesList#hola7`}
+    >
+      link
+    </a>
     {filteredArticles.length > 0 &&
-      filteredArticles.map((article) => (
+      filteredArticles.map((article, i) => (
         <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3">
-          <div className="card h-100" key={article.articleId}>
+          <div className="card h-100" key={article.articleId} id={`hola${i}`}>
             <a
               className="text-decoration-none text-dark"
               href={`#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
