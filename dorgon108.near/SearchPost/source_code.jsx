@@ -117,11 +117,11 @@ return (
     <Body>
       {console.log("the text is:", content.text)}
 
-      {content.text && (
+      {props.text && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(content.text, props.term),
+            text: highlightWordInParagraph(props.text, props.term),
           }}
         />
       )}
