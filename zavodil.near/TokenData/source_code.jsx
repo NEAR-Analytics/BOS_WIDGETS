@@ -1,5 +1,5 @@
 const tokenId = props.tokenId;
-const cointGeckoTokenId = props.cointGeckoTokenId;
+const coinGeckoTokenId = props.coinGeckoTokenId;
 const accountId = context.accountId;
 const debug = props.debug ?? false;
 
@@ -215,7 +215,7 @@ switch (network) {
       if (network === NETWORK_ETH) {
         tokenIdForCoingeckoAPI = tokenId;
       } else if (network === NETWORK_ZKSYNC) {
-        tokenIdForCoingeckoAPI = cointGeckoTokenId;
+        tokenIdForCoingeckoAPI = coinGeckoTokenId;
       }
 
       const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
