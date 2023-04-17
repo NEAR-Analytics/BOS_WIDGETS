@@ -294,17 +294,16 @@ return (
     <div class="topArea">
       <div class="title_top">Yours</div>
       <div class="flexContainer">
-        <div class="block">
-          <label class="t">Supplied</label>
-          <span class="v">{yourSuppliedUSD || "$0"}</span>
-        </div>
         {!apyNetValue ? null : (
           <div class="block">
             <label class="t">Net APY</label>
             <span class="v">{apyNetValue || "-"}%</span>
           </div>
         )}
-
+        <div class="block">
+          <label class="t">Supplied</label>
+          <span class="v">{yourSuppliedUSD || "$0"}</span>
+        </div>
         <div class="block">
           <label class="t">Borrowed</label>
           <span class="v">{yourBurrowedUSD || "$0"}</span>
