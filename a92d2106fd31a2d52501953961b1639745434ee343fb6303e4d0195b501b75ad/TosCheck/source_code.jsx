@@ -2,6 +2,8 @@ const { tosName, targetComponent, logOut } = props;
 const targetProps = props?.targetProps || {};
 const acceptanceKey = tosName; // may change
 
+console.log("Another version");
+
 State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
