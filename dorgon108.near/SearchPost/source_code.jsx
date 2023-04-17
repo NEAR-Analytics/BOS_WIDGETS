@@ -93,29 +93,6 @@ const Text = styled.p`
   
 `;
 
-const highlightWordInParagraph = (paragraph, word) => {
-  console.log("the word is ", word);
-  paragraph = paragraph.replace(/\n/g, "");
-  const words = paragraph.split(" ");
-  const wordIndex = words.indexOf(word);
-  console.log("the word index is", wordIndex);
-  if (wordIndex === -1) {
-    return paragraph;
-  }
-
-  const startIndex = Math.max(wordIndex - 3, 0);
-  const endIndex = Math.min(wordIndex + 2, words.length - 1);
-
-  let newParagraph = "";
-  for (let i = startIndex; i <= endIndex; i++) {
-    newParagraph = newParagraph + " " + words[i];
-    if (i === endIndex) {
-      newParagraph = newParagraph + "...";
-    }
-  }
-  return newParagraph;
-};
-
 return (
   <Post href={postUrl} onPointerUp={onClick}>
     <Header>
@@ -134,7 +111,7 @@ return (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(content.text, props.term),
+            text: content.text,
           }}
         />
       )}
