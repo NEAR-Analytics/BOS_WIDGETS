@@ -4,7 +4,7 @@ const accountId = context.accountId;
 const debug = props.debug ?? false;
 
 const NETWORK_NEAR = "NEAR";
-const NETWORK_ETH = "ETH",
+const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
 
 const network = props.network ?? NETWORK_NEAR;
@@ -174,7 +174,7 @@ switch (network) {
 
     break;
   }
-  case NETWORK_ETH: 
+  case NETWORK_ETH:
   case NETWORK_ZKSYNC: {
     if (state.ethAccountId === undefined) {
       const accounts = Ethers.send("eth_requestAccounts", []);
@@ -212,13 +212,12 @@ switch (network) {
       );
 
       let tokenIdForCoingeckoAPI;
-      if(network === NETWORK_ETH) {
+      if (network === NETWORK_ETH) {
         tokenIdForCoingeckoAPI = tokenId;
-      }  
-      else if(network === NETWORK_ZKSYNC) {
+      } else if (network === NETWORK_ZKSYNC) {
         tokenIdForCoingeckoAPI = cointGeckoTokenId;
       }
-      
+
       const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
 
       if (tokenDecimals && !metadata.decimals) {
