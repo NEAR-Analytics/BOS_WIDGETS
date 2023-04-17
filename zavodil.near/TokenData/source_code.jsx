@@ -200,7 +200,9 @@ switch (network) {
       getErc20Balance(tokenId, state.ethAccountId).then(
         ({ decimals, balance }) => {
           tokenDecimals = decimals;
-          State.update({ balance });
+          if (balance !== undefined && balance !== null) {
+            State.update({ balance });
+          }
 
           // save decimals to metadata if it is already exists
           if (state.metadata !== undefined) {
