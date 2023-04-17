@@ -1,7 +1,13 @@
 const tokenId = props.tokenId;
-const network = props.network ?? "NEAR";
+const cointGeckoTokenId = props.cointGeckoTokenId;
 const accountId = context.accountId;
 const debug = props.debug ?? false;
+
+const NETWORK_NEAR = "NEAR";
+const NETWORK_ETH = "ETH",
+const NETWORK_ZKSYNC = "ZKSYNC";
+
+const network = props.network ?? NETWORK_NEAR;
 
 if (!tokenId) return;
 
@@ -13,11 +19,11 @@ if (
 ) {
   const res = {
     balance: state.balance,
-    balance_hr: new Big(state.balance ?? 0)
-      .div(new Big(10).pow(state.metadata.decimals))
+    balance_hr: new Big(state?.balance ?? 0)
+      .div(new Big(10).pow(state?.metadata?.decimals ?? 1))
       .toFixed(4),
-    balance_hr_full: new Big(state.balance ?? 0)
-      .div(new Big(10).pow(state.metadata.decimals))
+    balance_hr_full: new Big(state?.balance ?? 0)
+      .div(new Big(10).pow(state?.metadata?.decimals ?? 1))
       .toFixed(),
     price: state.price,
     metadata: state.metadata,
@@ -30,7 +36,7 @@ if (
   return debug ? <>Debug: {JSON.stringify(res)}</> : <div />;
 }
 
-// HELPER METHODS FOR ETH & NEAR:
+// HELPER METHODS FOR NETWORKS
 
 // NEAR **************
 
@@ -131,7 +137,7 @@ const getErc20Tokendata = (tokenId) => {
 // DATA CONNECTOR *******************
 
 switch (network) {
-  case "NEAR": {
+  case NETWORK_NEAR: {
     let balance, metadata, price;
     if (tokenId === "NEAR") {
       metadata = {
@@ -168,7 +174,8 @@ switch (network) {
 
     break;
   }
-  case "ETH": {
+  case NETWORK_ETH: 
+  case NETWORK_ZKSYNC: {
     if (state.ethAccountId === undefined) {
       const accounts = Ethers.send("eth_requestAccounts", []);
       if (accounts.length) {
@@ -204,7 +211,16 @@ switch (network) {
         }
       );
 
-      const { metadata, price } = getErc20Tokendata(tokenId);
+      let tokenIdForCoingeckoAPI;
+      if(network === NETWORK_ETH) {
+        tokenIdForCoingeckoAPI = tokenId;
+      }  
+      else if(network === NETWORK_ZKSYNC) {
+        tokenIdForCoingeckoAPI = cointGeckoTokenId;
+      }
+      
+      const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
+
       if (tokenDecimals && !metadata.decimals) {
         metadata.decimals = tokenDecimals;
       }
