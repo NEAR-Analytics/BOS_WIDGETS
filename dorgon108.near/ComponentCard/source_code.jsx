@@ -151,20 +151,6 @@ const ButtonLink = styled.a`
 
 return (
   <Card>
-    {
-      <CardTag>
-        <i className="bi bi-clock"></i>{" "}
-        <Widget
-          src="mob.near/widget/TimeAgo"
-          props={{
-            blockHeight: props.blockHeight,
-            keyPath: `${accountId}/widget/${widgetName}`,
-          }}
-        />{" "}
-        ago
-      </CardTag>
-    }
-
     <CardBody>
       <Thumbnail href={detailsUrl} onPointerUp={onPointerUp}>
         <Widget
