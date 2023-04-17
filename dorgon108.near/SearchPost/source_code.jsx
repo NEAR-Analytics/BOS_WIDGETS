@@ -85,9 +85,11 @@ const Text = styled.p`
 `;
 
 const highlightWordInParagraph = (paragraph, word) => {
+  console.log("the word is ", word);
   paragraph = paragraph.replace(/\n/g, "");
   const words = paragraph.split(" ");
   const wordIndex = words.indexOf(word);
+  console.log("the word index is", wordIndex);
   if (wordIndex === -1) {
     return paragraph;
   }
