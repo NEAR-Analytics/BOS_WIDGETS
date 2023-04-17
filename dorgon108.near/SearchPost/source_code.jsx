@@ -81,6 +81,27 @@ const Text = styled.p`
   color: #687076;
   white-space: nowrap;
 `;
+
+const highlightWordInParagraph = (paragraph, word) => {
+  const words = paragraph.split(" ");
+  const wordIndex = words.indexOf(word);
+  if (wordIndex === -1) {
+    return paragraph;
+  }
+
+  const startIndex = Math.max(wordIndex - 5, 0);
+  const endIndex = Math.min(wordIndex + 5, words.length - 1);
+
+  let newParagraph = "";
+  for (let i = startIndex; i <= endIndex; i++) {
+    newParagraph = newParagraph + " " + words[i];
+    if (i === endIndex) {
+      newParagraph = newParagraph + "...";
+    }
+  }
+  return newParagraph;
+};
+
 return (
   <Post href={postUrl} onPointerUp={onClick}>
     <Header>
@@ -99,7 +120,12 @@ return (
       {content.text && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
-          props={{ text: content.text }}
+          props={{
+            text: highlightWordInParagraph(
+              "A dog ran up the hill and idk what he did of course prior to ridian on aldena 4 who knows what is happening ",
+              "dog"
+            ),
+          }}
         />
       )}
 
@@ -112,7 +138,6 @@ return (
         />
       )}
     </Body>
-
     <ButtonLink href={postUrl} onPointerUp={onClick}>
       <img src="https://i.imgur.com/dIDX59g.png" alt="Open" />
     </ButtonLink>
