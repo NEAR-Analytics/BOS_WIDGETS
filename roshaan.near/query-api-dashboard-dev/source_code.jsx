@@ -1,33 +1,35 @@
-const indexerPath = props.indexerPath;
-const [selected_accountId, selected_indexerName] = indexerPath
-  ? indexerPath.split("/")
+const accountId = context.accountId;
+const [selected_accountId, selected_indexerName] = props.selectedIndexerPath
+  ? props.selectedIndexerPath.split("/")
   : [undefined, undefined];
-
-const accountId = selected_accountId || props.accountId || context.accountId;
-const indexerName = selected_indexerName || props.indexerName;
 
 const activeTab = props.view ?? "public-indexers";
 const limit = 7;
 let totalIndexers = 0;
 const registry_contract_id =
   props.registry_contract_id || "registry.queryapi.near";
+
 State.init({
   activeTab: activeTab,
   my_indexers: [],
   all_indexers: [],
-  totalIndexers: 0,
   selected_indexer: undefined,
   selected_account: undefined,
 });
 
 Near.asyncView(registry_contract_id, "list_indexer_functions").then((data) => {
-  let indexer_paths = Object.keys(data);
-  let indexers = indexer_paths.map((indexer_path) => {
-    return {
-      accountId: indexer_path.split("/")[0],
-      indexerName: indexer_path.split("/").splice(1).join("/"),
-    };
+  const indexers = [];
+  const total_indexers = 0;
+  Object.keys(data.All).forEach((accountId) => {
+    Object.keys(data.All[accountId]).forEach((functionName) => {
+      indexers.push({
+        accountId: accountId,
+        indexerName: functionName,
+      });
+      total_indexers += 1;
+    });
   });
+
   let my_indexers = indexers.filter(
     (indexer) => indexer.accountId === accountId
   );
@@ -35,13 +37,28 @@ Near.asyncView(registry_contract_id, "list_indexer_functions").then((data) => {
   State.update({
     my_indexers: my_indexers,
     all_indexers: indexers,
-    totalIndexers: indexer_paths.length,
+    totalIndexers: total_indexers,
   });
 });
+
+const Subheading = styled.h2`
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
+  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  font-size: ${(p) => (p.small ? "12px" : "14px")};
+  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
+  white-space: nowrap;
+  outline: none;
+`;
 
 const Wrapper = styled.div`
   margin-top: calc(var(--body-top-padding) * -1);
 `;
+
 const NavBarLogo = styled.a`
     padding-top: 0.3125rem;
     padding-bottom: 0.3125rem;
@@ -60,28 +77,7 @@ const Main = styled.div`
     display: block;
   }
 `;
-const ButtonLink = styled.a`
-  display: block;
-  margin: 10px;
-  padding: 8px;
-  height: 32px;
-  border: 1px solid #d7dbdf;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: center;
-  cursor: pointer;
-  color: ${(p) => (p.primary ? "#006ADC" : "#11181C")} !important;
-  background: #fbfcfd;
 
-  &:hover,
-  &:focus {
-    background: #ecedee;
-    text-decoration: none;
-    outline: none;
-  }
-`;
 const Section = styled.div`
   padding-left: 10px;
   padding-top: 24px;
@@ -159,9 +155,7 @@ const H2 = styled.h2`
   color: #11181c;
   margin: 0 0 24px;
 `;
-
-const indexerView = (accountId, indexerName, idx) => {
-  const Card = styled.div`
+const Card = styled.div`
   border-radius: 12px;
   background: #fff;
   border: ${(div) => (div.selected ? "1px solid black" : "1px solid #eceef0")};
@@ -169,7 +163,7 @@ const indexerView = (accountId, indexerName, idx) => {
     0px 1px 2px rgba(16, 24, 40, 0.06);
 `;
 
-  const CardBody = styled.div`
+const CardBody = styled.div`
   padding: 16px;
   display: flex;
   gap: 16px;
@@ -180,7 +174,7 @@ const indexerView = (accountId, indexerName, idx) => {
   }
 `;
 
-  const CardFooter = styled.div`
+const CardFooter = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -189,7 +183,7 @@ const indexerView = (accountId, indexerName, idx) => {
   border-top: 1px solid #eceef0;
 `;
 
-  const TextLink = styled.a`
+const TextLink = styled.a`
   display: block;
   margin: 0;
   font-size: 14px;
@@ -208,7 +202,7 @@ const indexerView = (accountId, indexerName, idx) => {
   }
 `;
 
-  const Thumbnail = styled.a`
+const Thumbnail = styled.a`
   display: block;
   width: 48px;
   height: 48px;
@@ -231,35 +225,94 @@ const indexerView = (accountId, indexerName, idx) => {
   }
 `;
 
-  const ButtonLink = styled.a`
-  padding: 8px;
+const CardWrapper = styled.div`
+  margin: 0 0 16px;
+`;
+
+const sharedButtonStyles = `
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  margin-bottom: 12px;
   height: 32px;
-  border: 1px solid #d7dbdf;
   border-radius: 6px;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   text-align: center;
   cursor: pointer;
-  color: ${(p) => (p.primary ? "#006ADC" : "#11181C")} !important;
-  background: #fbfcfd;
 
   &:hover,
   &:focus {
-    background: #ecedee;
     text-decoration: none;
     outline: none;
   }
+
+  i {
+    color: #7E868C;
+  }
+
+  .bi-16 {
+    font-size: 16px;
+  }
 `;
+
+const Button = styled.button`
+  ${sharedButtonStyles}
+  color: ${(p) => (p.primary ? "#fff" : "#11181C")} !important;
+  background: ${(p) => (p.primary ? "#0091FF" : "#FBFCFD")};
+  border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+
+  &:hover,
+  &:focus {
+    background: ${(p) => (p.primary ? "#0484e5" : "#ECEDEE")};
+  }
+`;
+
+const ButtonLink = styled.a`
+  ${sharedButtonStyles}
+  color: ${(p) => {
+    if (p.primary) return "#fff";
+    else if (p.danger) return "#fff";
+    else return "#11181C";
+  }} !important;
+  background: ${(p) => {
+    if (p.primary) return "#0091FF";
+    else if (p.danger) return "#dc3545";
+    else return "#FBFCFD";
+  }};
+  border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+
+  &:hover,
+  &:focus {
+    background: ${(p) => {
+      if (p.primary) return "#0484e5";
+      else if (p.danger) return "#b22b38";
+      else return "#ECEDEE";
+    }}
+`;
+
+const indexerView = (accountId, indexerName, idx, view) => {
   const isSelected =
     (selected_accountId === undefined &&
       selected_indexerName === undefined &&
       idx === 0) ||
     (selected_accountId === accountId && selected_indexerName === indexerName);
 
-  const editUrl = `https://near.social/#/roshaan.near/widget/queryapi__QueryApiDashboard?indexer_path=${accountId}/${indexerName}&view=editor-window`;
-  const statusUrl = `https://near.social/#/roshaan.near/widget/queryapi__QueryApiDashboard?indexer_path=${accountId}/${indexerName}&view=indexer-status`;
-
+  const editUrl = `https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
+  const statusUrl = `https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
+  let removeIndexer = (name) => {
+    const gas = 200000000000000;
+    Near.call(
+      registry_contract_id,
+      "remove_indexer_function",
+      {
+        function_name: name,
+      },
+      gas
+    );
+  };
   return (
     <Card selected={isSelected}>
       <CardBody>
@@ -291,8 +344,6 @@ const indexerView = (accountId, indexerName, idx) => {
           onClick={() =>
             State.update({
               activeTab: "indexer-status",
-              selected_indexer: indexerName,
-              selected_account: accountId,
             })
           }
         >
@@ -304,98 +355,27 @@ const indexerView = (accountId, indexerName, idx) => {
           onClick={() =>
             State.update({
               activeTab: "editor-window",
-              selected_indexer: indexerName,
-              selected_account: accountId,
             })
           }
         >
           Edit Indexer
         </ButtonLink>
+        {view === "user" && (
+          <ButtonLink danger onClick={() => removeIndexer(indexerName)}>
+            Delete Indexer
+          </ButtonLink>
+        )}
       </CardFooter>
     </Card>
   );
 };
-const renderIndexers = (indexers) => {
-  const CardWrapper = styled.div`
-  margin: 0 0 16px;
-`;
 
-  const sharedButtonStyles = `
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  height: 32px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: center;
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    outline: none;
-  }
-
-  i {
-    color: #7E868C;
-  }
-
-  .bi-16 {
-    font-size: 16px;
-  }
-`;
-
-  const Button = styled.button`
-  ${sharedButtonStyles}
-  color: ${(p) => (p.primary ? "#fff" : "#11181C")} !important;
-  background: ${(p) => (p.primary ? "#0091FF" : "#FBFCFD")};
-  border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
-
-  &:hover,
-  &:focus {
-    background: ${(p) => (p.primary ? "#0484e5" : "#ECEDEE")};
-  }
-`;
-
-  const ButtonLink = styled.a`
-  ${sharedButtonStyles}
-  color: ${(p) => (p.primary ? "#fff" : "#11181C")} !important;
-  background: ${(p) => (p.primary ? "#0091FF" : "#FBFCFD")};
-  border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
-
-  &:hover,
-  &:focus {
-    background: ${(p) => (p.primary ? "#0484e5" : "#ECEDEE")};
-  }
-`;
-  const Subheading = styled.h2`
-  display: block;
-  margin: 0;
-  font-size: 14px;
-  line-height: 20px;
-  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "12px" : "14px")};
-  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
-  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
-  white-space: nowrap;
-  outline: none;
-`;
-
+const renderIndexers = (indexers, view) => {
   return (
     <>
-      <H2>
-        {accountId}'s Indexers
-        <span>({indexers.length})</span>
-      </H2>
       {indexers.map((indexer, i) => (
         <CardWrapper key={i}>
-          {indexerView(indexer.accountId, indexer.indexerName, i)}
+          {indexerView(indexer.accountId, indexer.indexerName, i, view)}
         </CardWrapper>
       ))}
       {indexers.length === 0 && (
@@ -439,7 +419,7 @@ return (
     <Main>
       <Section active={state.activeTab === "indexers"}>
         <NavBarLogo
-          href="https://near.social/#/roshaan.near/widget/queryapi__QueryApiDashboard"
+          href="https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard"
           title="QueryApi"
           onClick={() => {
             State.update({
@@ -460,18 +440,28 @@ return (
           />
           QueryApi
         </NavBarLogo>
-        <ButtonLink
-          href="/#/roshaan.near/widget/queryapi__QueryApiDashboard/?view=create-new-indexer"
-          onClick={() =>
-            State.update({
-              activeTab: "create-new-indexer",
-              selected_indexer: "",
-            })
-          }
-        >
-          Create New Indexer
-        </ButtonLink>
-        {state.my_indexers && renderIndexers(state.my_indexers)}
+
+        <div>
+          <ButtonLink
+            href="/#/roshaan.near/widget/queryapi__QueryApiDashboard/?view=create-new-indexer"
+            style={{ "margin-top": "10px" }}
+            onClick={() =>
+              State.update({
+                activeTab: "create-new-indexer",
+                selected_indexer: "",
+              })
+            }
+          >
+            Create New Indexer
+          </ButtonLink>
+          {state.my_indexers.length > 0 && (
+            <H2>
+              {accountId}'s Indexers
+              <span>({state.my_indexers.length})</span>
+            </H2>
+          )}
+          {renderIndexers(state.my_indexers, "user")}
+        </div>
       </Section>
 
       <Section
@@ -487,14 +477,16 @@ return (
               ) : (
                 <H2>{state.indexers[0].indexerName}</H2>
               ))}
+            {indexerView(
+              selected_accountId ?? state.indexers[0].accountId,
+              selected_indexerName ?? state.indexers[0].indexerName
+            )}
             <Widget
               src={"roshaan.near/widget/queryapi__IndexerStatus"}
               props={{
                 indexer_name:
-                  state.selected_indexer ??
-                  selected_indexerName ??
-                  state.indexers[0].indexerName,
-                accountId: accountId,
+                  selected_indexerName ?? state.indexers[0].indexerName,
+                accountId: selected_accountId ?? state.indexers[0].accountId,
               }}
             />
           </div>
@@ -507,18 +499,17 @@ return (
               ) : (
                 <H2>{`${state.indexers[0].accountId}/${state.indexers[0].indexerName}`}</H2>
               ))}
+            {indexerView(
+              selected_accountId ?? state.indexers[0].accountId,
+              selected_indexerName ?? state.indexers[0].indexerName
+            )}
             <Widget
-              src={"roshaan.near/widget/queryapi__IndexerFunctionEditor"}
+              src={"roshaan.near/widget/query-api-editor"}
               props={{
                 indexerName:
-                  state.selected_indexer ??
-                  selected_indexerName ??
-                  state.indexers[0].indexerName,
-                accountId:
-                  state.selected_account ??
-                  selected_accountId ??
-                  state.indexers[0].accountId,
-                base: "query-api-editor",
+                  selected_indexerName ?? state.indexers[0].indexerName,
+                accountId: selected_accountId ?? state.indexers[0].accountId,
+                path: "query-api-editor",
               }}
             />
           </div>
@@ -532,17 +523,12 @@ return (
                 <H2>{`${state.indexers[0].accountId}/${state.indexers[0].indexerName}`}</H2>
               ))}
             <Widget
-              src={"roshaan.near/widget/queryapi__IndexerFunctionEditor"}
+              src={"roshaan.near/widget/query-api-editor"}
               props={{
                 indexerName:
-                  state.selected_indexer ??
-                  selected_indexerName ??
-                  state.indexers[0].indexerName,
-                accountId:
-                  state.selected_account ??
-                  selected_accountId ??
-                  state.indexers[0].accountId,
-                base: "create-new-indexer",
+                  selected_indexerName ?? state.indexers[0].indexerName,
+                accountId: selected_accountId ?? state.indexers[0].accountId,
+                path: "create-new-indexer",
               }}
             />
           </div>
@@ -550,7 +536,7 @@ return (
         {state.activeTab === "public-indexers" && (
           <div>
             {state.all_indexers && (
-              <div>{renderIndexers(state.all_indexers)}</div>
+              <div>{renderIndexers(state.all_indexers, "public")}</div>
             )}
           </div>
         )}
