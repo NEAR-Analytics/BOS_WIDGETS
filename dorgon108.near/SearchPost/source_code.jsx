@@ -103,7 +103,7 @@ const highlightWordInParagraph = (paragraph, word) => {
 
 return (
   <Post href={postUrl} onPointerUp={onClick}>
-    <Header>
+    <Header style={{ margin: "10px", backgroundColor: "red" }}>
       <Widget
         src="adminalpha.near/widget/AccountProfile"
         props={{
