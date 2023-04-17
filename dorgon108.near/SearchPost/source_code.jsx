@@ -3,7 +3,7 @@ const accountId = props.accountId ?? context.accountId;
 const blockHeight = props.blockHeight ?? "now";
 const snipContent = props.snipContent ?? false;
 const snippetMaxWords = props.snippetMaxWords ?? 40;
-const content = props.content;
+let content = props.content;
 if (content?.text && snippet) {
   const text = content.text.split(" ");
   content.text = text.slice(0, snippetMaxWords);
@@ -24,6 +24,31 @@ const onClick =
       console.log(`clicked on post: ${postUrl}`);
     }
   });
+
+const highlightWordInParagraph = (paragraph, word) => {
+  console.log("the word is ", word);
+  paragraph = paragraph.replace(/\n/g, "");
+  const words = paragraph.split(" ");
+  const wordIndex = words.indexOf(word);
+  console.log("the word index is", wordIndex);
+  if (wordIndex === -1) {
+    return paragraph;
+  }
+
+  const startIndex = Math.max(wordIndex - 3, 0);
+  const endIndex = Math.min(wordIndex + 2, words.length - 1);
+
+  let newParagraph = "";
+  for (let i = startIndex; i <= endIndex; i++) {
+    newParagraph = newParagraph + " " + words[i];
+    if (i === endIndex) {
+      newParagraph = newParagraph + "...";
+    }
+  }
+  return newParagraph;
+};
+
+const shortenedString = highlightWordInParagraph(content.text, props.term);
 
 const Post = styled.a`
   display: flex;
@@ -106,12 +131,12 @@ return (
     </Header>
 
     <Body>
-      {console.log("the text is:", content.text)}
-      {content.text && (
+      {console.log("the text is:", shortenedString)}
+      {shortenedString && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: content.text,
+            text: shortenedString,
           }}
         />
       )}
