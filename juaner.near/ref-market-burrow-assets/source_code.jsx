@@ -139,6 +139,95 @@ const assetsMap = assets
       };
     }, {})
   : {};
+function getExtraApy(asset) {
+  const asset_token_id = asset.token_id;
+  const borrowFarm = asset.farms.find(
+    (farm) =>
+      farm["farm_id"]["Borrowed"] && Object.keys(farm.rewards || {}).length
+  );
+  if (!borrowFarm) return 0;
+  const assetDecimals = asset.metadata.decimals + asset.config.extra_decimals;
+  const totalBorrowUSD = toUsd(asset.borrowed.balance, asset);
+  const rewards = borrowFarm.rewards;
+  let userFarm;
+  if (account) {
+    userFarm = account.farms.find((farm) => {
+      return (
+        farm["farm_id"]["Borrowed"] == asset.token_id && farm.rewards.length
+      );
+    });
+  }
+  if (!userFarm) {
+    return Object.keys(rewards)
+      .map((reward_token_id) => {
+        const farmData = rewards[reward_token_id];
+        const { reward_per_day, boosted_shares } = farmData;
+        const assetReward = assets.find(
+          (asset) => asset.token_id == reward_token_id
+        );
+        const totalRewardsUsd = toUsd(
+          B(reward_per_day).mul(365).toFixed(),
+          assetReward
+        );
+        if (B(totalBorrowUSD).eq(0)) return 0;
+        const apy = B(totalRewardsUsd).div(totalBorrowUSD).mul(100).toFixed();
+        return apy;
+      })
+      .reduce((acc, cur) => acc + Number(cur), 0);
+  } else {
+    return userFarm.rewards
+      .map((farmData) => {
+        const { reward_token_id, boosted_shares, asset_farm_reward } = farmData;
+        const assetReward = assets.find(
+          (asset) => asset.token_id == reward_token_id
+        );
+        const borrowedShares = Number(
+          shrinkToken(boosted_shares || 0, assetDecimals)
+        );
+        const totalBoostedShares = Number(
+          shrinkToken(asset_farm_reward.boosted_shares, assetDecimals)
+        );
+        const boosterLogBase = Number(
+          shrinkToken(
+            asset_farm_reward.booster_log_base,
+            config.booster_decimals
+          )
+        );
+        const xBRRRAmount = Number(
+          shrinkToken(
+            account.booster_staking["x_booster_amount"],
+            config.booster_decimals
+          )
+        );
+        const log = Math.log(xBRRRAmount) / Math.log(boosterLogBase);
+        const multiplier = log >= 0 ? 1 + log : 1;
+        const userBorrowedBalance =
+          account.borrowed.find((asset) => asset.token_id == asset_token_id)
+            .balance || 0;
+        const totalUserAssetUSD = toUsd(userBorrowedBalance, asset);
+        const totalRewardsUsd = toUsd(
+          B(asset_farm_reward.reward_per_day).mul(365).toFixed(),
+          assetReward
+        );
+        return B(totalRewardsUsd)
+          .mul(borrowedShares / totalBoostedShares)
+          .mul(multiplier)
+          .div(totalUserAssetUSD)
+          .mul(100)
+          .toFixed();
+      })
+      .reduce((acc, cur) => acc + Number(cur), 0);
+  }
+}
+const toUsd = (balance, asset) =>
+  asset.price?.usd
+    ? Number(
+        shrinkToken(
+          balance,
+          asset.metadata.decimals + asset.config.extra_decimals
+        )
+      ) * asset.price.usd
+    : 0;
 // get market can burrow assets
 const can_burrow_assets = assets && assets.filter((a) => a.config.can_borrow);
 const market_burrow_assets =
@@ -147,6 +236,8 @@ const market_burrow_assets =
     const { token_id, metadata, price, config } = asset;
     const r = rewards.find((a) => a.token_id === asset.token_id);
     const borrowApy = r.apyBaseBorrow;
+    const extraApy = getExtraApy(asset);
+    const apy = borrowApy - extraApy;
     const token_usd_price = price && price.usd;
     const liquidity = nFormat(
       B(asset.availableLiquidity || 0)
@@ -177,7 +268,7 @@ const market_burrow_assets =
           <img src={metadata.icon || wnearbase64} class="tokenIcon"></img>
           {metadata.symbol}
         </td>
-        <td>{toAPY(borrowApy)}%</td>
+        <td>{toAPY(apy)}%</td>
         <td class="text-white">
           {rewardTokensImg.length == 0 ? "-" : rewardTokensImg}
         </td>
