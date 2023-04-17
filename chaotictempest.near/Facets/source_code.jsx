@@ -11,6 +11,9 @@ const defaultFacetOptions = props.defaultFacetOptions ?? {
   // Selecting default facet will disable other facets.
   disableOthersOnSelect: true,
 };
+// Differs from a default facet. This will set the initial facet if needed which
+// can be different from a default facet.
+const initialFacet = props.initialFacet ?? defaultFacet;
 
 const onFacetClick = (facet) => {
   let selected = {};
@@ -53,18 +56,22 @@ const onFacetClick = (facet) => {
   }
 };
 
-const initState = () => {
+const initSelected = () => {
   const selected = {};
-  if (defaultFacet && facets.includes(defaultFacet)) {
+  if (facets.includes(initialFacet)) {
+    selected[initialFacet] = true;
+  } else if (facets.includes(defaultFacet)) {
     selected[defaultFacet] = true;
   }
-
-  return {
-    selected,
-  };
+  return selected;
 };
 
-State.init(initState());
+if (!state.initialized) {
+  State.update({
+    initialized: true,
+    selected: initSelected(),
+  });
+}
 
 const FacetContainer =
   props.facetContainerStyle ??
