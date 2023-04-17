@@ -133,47 +133,12 @@ const RenderKudoBox = (d) => {
         style={thisWidgetInlineStyles.upVoteContainer}
         className={thisWidgetClassNames.upVoteContainer}
       >
-        <CommitButton
-          style={
-            state.hoveringElement == "upVoteButton"
-              ? hoveringButtonStyles
-              : standardButtonStyles
-          }
-          onMouseEnter={() => {
-            State.update({ hoveringElement: "upVoteButton" });
+        <Widget
+          src="mob.near/widget/CommentButton"
+          props={{
+            onClick: startCommentTo,
           }}
-          onMouseLeave={() => {
-            State.update({ hoveringElement: "" });
-          }}
-          data={{
-            index: {
-              kudo: JSON.stringify(
-                {
-                  key: "upvote",
-                  value: {
-                    blockHeight: d.blockHeight,
-                  },
-                },
-                undefined,
-                0
-              ),
-            },
-          }}
-        >
-          Upvote
-        </CommitButton>
-        <span style={thisWidgetInlineStyles.upVoteCounter}>
-          {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
-        </span>
-
-        <div>
-          <Widget
-            src="mob.near/widget/CommentButton"
-            props={{
-              onClick: startCommentTo,
-            }}
-          />
-        </div>
+        />
 
         <CommitButton
           style={
@@ -209,6 +174,39 @@ const RenderKudoBox = (d) => {
         >
           Repost
         </CommitButton>
+
+        <CommitButton
+          style={
+            state.hoveringElement == "upVoteButton"
+              ? hoveringButtonStyles
+              : standardButtonStyles
+          }
+          onMouseEnter={() => {
+            State.update({ hoveringElement: "upVoteButton" });
+          }}
+          onMouseLeave={() => {
+            State.update({ hoveringElement: "" });
+          }}
+          data={{
+            index: {
+              kudo: JSON.stringify(
+                {
+                  key: "upvote",
+                  value: {
+                    blockHeight: d.blockHeight,
+                  },
+                },
+                undefined,
+                0
+              ),
+            },
+          }}
+        >
+          Upvote
+        </CommitButton>
+        <span style={thisWidgetInlineStyles.upVoteCounter}>
+          {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
+        </span>
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
 
