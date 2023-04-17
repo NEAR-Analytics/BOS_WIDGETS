@@ -33,6 +33,7 @@ const Post = styled.a`
   width: 100%;
   height: 34px;
   overflow:hidden;
+  gap:16px
   
 `;
 const Header = styled.div`
