@@ -6,6 +6,7 @@ const API_URL =
   `https://${APPLICATION_ID}-dsn.algolia.net/1/indexes/${INDEX}/query?`;
 const INITIAL_PAGE = props.initialPage ?? 0;
 const facets = props.facets ?? ["All", "Users", "Apps", "Components", "Posts"];
+const tab = props.tab ?? "All";
 
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
@@ -14,6 +15,10 @@ const userId = props.accountId ?? context.accountId;
 
 const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
 const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
+
+State.init({
+  facet: tab,
+});
 
 const Wrapper = styled.div`
   display: flex;
@@ -394,6 +399,7 @@ return (
             facets,
             onFacetClick,
             defaultFacet: facets[0],
+            initialFacet: tab,
           }}
         />
       </Facets>
