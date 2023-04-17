@@ -121,7 +121,7 @@ return (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(content.text),
+            text: highlightWordInParagraph(content.text, props.term),
           }}
         />
       )}
