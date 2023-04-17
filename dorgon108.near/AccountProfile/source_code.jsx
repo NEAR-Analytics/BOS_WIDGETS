@@ -34,7 +34,7 @@ const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: ${(p) => (p.bold ? "red" : "red")};
+  color: ${(p) => (p.bold ? "#FFFFFF" : "#FFFFFF")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "10px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
