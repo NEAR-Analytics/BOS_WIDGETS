@@ -169,8 +169,8 @@ const RenderKudoBox = (d) => {
         </div>
       )}
       <div
-        style={thisWidgetInlineStyles.upVoteContainer}
-        className={thisWidgetClassNames.upVoteContainer}
+        style={thisWidgetInlineStyles.interactionButtonsContainer}
+        className={thisWidgetClassNames.interactionButtonsContainer}
       >
         <Widget
           src="mob.near/widget/CommentButton"
@@ -216,39 +216,40 @@ const RenderKudoBox = (d) => {
             {repostSvg}
           </span>
         </CommitButton>
-
-        <CommitButton
-          style={
-            state.hoveringElement == "upVoteButton"
-              ? hoveringButtonStyles
-              : standardButtonStyles
-          }
-          onMouseEnter={() => {
-            State.update({ hoveringElement: "upVoteButton" });
-          }}
-          onMouseLeave={() => {
-            State.update({ hoveringElement: "" });
-          }}
-          data={{
-            index: {
-              kudo: JSON.stringify(
-                {
-                  key: "upvote",
-                  value: {
-                    blockHeight: d.blockHeight,
+        <div className={thisWidgetClassNames.upVoteContainer}>
+          <CommitButton
+            style={
+              state.hoveringElement == "upVoteButton"
+                ? hoveringButtonStyles
+                : standardButtonStyles
+            }
+            onMouseEnter={() => {
+              State.update({ hoveringElement: "upVoteButton" });
+            }}
+            onMouseLeave={() => {
+              State.update({ hoveringElement: "" });
+            }}
+            data={{
+              index: {
+                kudo: JSON.stringify(
+                  {
+                    key: "upvote",
+                    value: {
+                      blockHeight: d.blockHeight,
+                    },
                   },
-                },
-                undefined,
-                0
-              ),
-            },
-          }}
-        >
-          Upvote
-        </CommitButton>
-        <span style={thisWidgetInlineStyles.upVoteCounter}>
-          {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
-        </span>
+                  undefined,
+                  0
+                ),
+              },
+            }}
+          >
+            Upvote
+          </CommitButton>
+          <span style={thisWidgetInlineStyles.upVoteCounter}>
+            {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
+          </span>
+        </div>
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
     </>
