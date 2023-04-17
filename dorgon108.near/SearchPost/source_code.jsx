@@ -121,10 +121,7 @@ return (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(
-              "A dog ran up the hill and idk what he did of course prior to ridian on aldena 4 who knows what is happening ",
-              "dog"
-            ),
+            text: highlightWordInParagraph(content.text),
           }}
         />
       )}
