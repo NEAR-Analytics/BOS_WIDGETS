@@ -33,6 +33,7 @@ const Post = styled.a`
   width: 100%;
   height: 34px;
   overflow:hidden;
+  
 `;
 const Header = styled.div`
   display: flex;
@@ -43,11 +44,13 @@ const Header = styled.div`
 const Body = styled.div`
   align-items: center;
   flex: 1;
+  font-size:12px
 `;
 const Content = styled.div`
   display: flex;
   flex-direction: row;
   gap: 2px;
+  
 `;
 
 const ButtonLink = styled.a`
@@ -74,7 +77,7 @@ const ButtonLink = styled.a`
 
 const Text = styled.p`
   display: block;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 20px;
   font-weight: 400;
   color: #687076;
@@ -82,14 +85,15 @@ const Text = styled.p`
 `;
 
 const highlightWordInParagraph = (paragraph, word) => {
+  paragraph = paragraph.replace(/\n/g, "");
   const words = paragraph.split(" ");
   const wordIndex = words.indexOf(word);
   if (wordIndex === -1) {
     return paragraph;
   }
 
-  const startIndex = Math.max(wordIndex - 5, 0);
-  const endIndex = Math.min(wordIndex + 5, words.length - 1);
+  const startIndex = Math.max(wordIndex - 3, 0);
+  const endIndex = Math.min(wordIndex + 2, words.length - 1);
 
   let newParagraph = "";
   for (let i = startIndex; i <= endIndex; i++) {
@@ -115,11 +119,11 @@ return (
 
     <Body>
       {console.log("the text is:", content.text)}
-      {content.text && (
+      {props.text && (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(content.text, props.term),
+            text: highlightWordInParagraph(props.text, props.term),
           }}
         />
       )}
