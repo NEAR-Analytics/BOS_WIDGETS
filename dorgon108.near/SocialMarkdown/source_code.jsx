@@ -63,7 +63,7 @@ const renderMention =
 const word = () => {};
 
 return (
-  <Wrapper>
+  <Wrapper style={{ fontSize: "12px" }}>
     <Markdown text={props.text} onMention={renderMention} />
   </Wrapper>
 );
