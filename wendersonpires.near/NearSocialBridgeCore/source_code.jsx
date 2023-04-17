@@ -1,5 +1,5 @@
 /**
- * This Component is part of the NEAR Social Bridge library.
+ * This Widget is part of the NEAR Social Bridge library.
  * Visit https://github.com/wpdas/near-social-bridge to get to know more.
  */
 
@@ -10,19 +10,19 @@ if (!props.externalAppUrl) {
       <p
         style={{ fontWeight: 600, color: "#AB2E28", fontFamily: "Courier new" }}
       >
-        This Component is part of the{" "}
-        <a href="https://github.com/wpdas/near-social-bridge" target="_blank">
+        This Widget is part of the{" "}
+        <a href="https://github.com/wpdas/near-social-bridge">
           "near-social-bridge"
         </a>{" "}
         library that makes it possible to develop common ReactJS applications
-        and inject them into the BOS having access to all Discovery API
+        and inject them into the Widget having access to all Discovery API
         resources.
       </p>
       <p
         style={{ fontWeight: 600, color: "#AB2E28", fontFamily: "Courier new" }}
       >
         Learn more here:{" "}
-        <a href="https://github.com/wpdas/near-social-bridge" target="_blank">
+        <a href="https://github.com/wpdas/near-social-bridge">
           https://github.com/wpdas/near-social-bridge
         </a>
       </p>
@@ -69,7 +69,7 @@ const Utils = {
 
     const find = () => {
       const response = caller();
-      if (response !== undefined && response !== null) {
+      if (response) {
         resolve(response);
       } else {
         if (timeoutCheck < timeout) {
@@ -130,7 +130,7 @@ const buildAnswer = (requestType, payload) => {
 };
 
 /**
- * BOS Component's response factory - closure
+ * Widget response factory - closure
  *
  * E.g:
  * const response = responseFactory.build()
@@ -156,7 +156,7 @@ const onMessageHandler = (message) => {
     return;
   }
 
-  // Handles BOS Component's request calls:
+  // Handles Widget request calls:
   // - request: payload sent by External App
   // - response: method to send the answer back to the External App
   // - utils: Utils features like: promisify, ...
@@ -187,50 +187,6 @@ const handlerCoreRequests = (message) => {
       break;
     case "nsb:auth:get-user-info":
       getUserInfo(message.type, message.payload);
-      break;
-
-    // API NEAR
-    case "nsb:near:view":
-      nearView(message.type, message.payload);
-      break;
-    case "nsb:near:call":
-      nearCall(message.type, message.payload);
-      break;
-
-    // API Social
-    case "nsb:social:get":
-      socialGet(message.type, message.payload);
-      break;
-    case "nsb:social:getr":
-      socialGetr(message.type, message.payload);
-      break;
-    case "nsb:social:keys":
-      socialKeys(message.type, message.payload);
-      break;
-    case "nsb:social:index":
-      socialIndex(message.type, message.payload);
-      break;
-    case "nsb:social:set":
-      socialSet(message.type, message.payload);
-      break;
-
-    // API Storage
-    case "nsb:storage:get":
-      storageGet(message.type, message.payload);
-      break;
-    case "nsb:storage:set":
-      storageSet(message.type, message.payload);
-      break;
-    case "nsb:storage:private-get":
-      storagePrivateGet(message.type, message.payload);
-      break;
-    case "nsb:storage:private-set":
-      storagePrivateSet(message.type, message.payload);
-      break;
-
-    // API Fetch
-    case "nsb:fetch:async-fetch":
-      fetchAsyncFetch(message.type, message.payload);
       break;
   }
 };
@@ -298,188 +254,6 @@ const getUserInfo = (requestType) => {
       Utils.sendMessage({ accountId });
     }
   );
-};
-
-// NEAR.view
-const nearView = (requestType, payload) => {
-  const { contractName, methodName, args, blockId } = payload;
-
-  Utils.promisify(
-    () => Near.view(contractName, methodName, args, blockId),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// NEAR.call
-const nearCall = (requestType, payload) => {
-  const { contractName, methodName, args, gas, deposit } = payload;
-
-  // Make the call
-  Near.call(contractName, methodName, args, gas, deposit);
-
-  // Send an immediate answer back to say it was done.
-  // It's not possible for the time being to get the immediate result because the page is
-  // going to refresh after the user accepts the transaction
-  const response = buildAnswer(requestType);
-  Utils.sendMessage(response);
-};
-
-// Social.get
-const socialGet = (requestType, payload) => {
-  const { patterns, finality } = payload;
-
-  Utils.promisify(
-    () => Social.get(patterns, finality),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// Social.getr
-const socialGetr = (requestType, payload) => {
-  const { patterns, finality } = payload;
-
-  Utils.promisify(
-    () => Social.getr(patterns, finality),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// Social.keys
-const socialKeys = (requestType, payload) => {
-  const { patterns, finality, options } = payload;
-
-  Utils.promisify(
-    () => Social.keys(patterns, finality, options),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// Social.index
-const socialIndex = (requestType, payload) => {
-  const { action, key, options } = payload;
-
-  Utils.promisify(
-    () => Social.index(action, key, options),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// Social.set
-const socialSet = (requestType, payload) => {
-  const { data } = payload;
-
-  Social.set(data, {
-    force: true,
-    onCommit: (res) => {
-      const response = buildAnswer(requestType, res);
-      Utils.sendMessage(response);
-    },
-    onCancel: () => {
-      const response = buildAnswer(requestType, {
-        error: "the action was canceled",
-      });
-      Utils.sendMessage(response);
-    },
-  });
-};
-
-// Storage.get
-const storageGet = (requestType, payload) => {
-  const { key, widgetSrc } = payload;
-
-  Utils.promisify(
-    () => Storage.get(key, widgetSrc),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// Storage.set
-const storageSet = (requestType, payload) => {
-  const { key, value } = payload;
-  Storage.set(key, value);
-
-  // Send an immediate answer back to say it was done.
-  const response = buildAnswer(requestType, { ok: true });
-  Utils.sendMessage(response);
-};
-
-// Storage.privateGet
-const storagePrivateGet = (requestType, payload) => {
-  const { key } = payload;
-
-  Utils.promisify(
-    () => Storage.privateGet(key),
-    (data) => {
-      const response = buildAnswer(requestType, data);
-      Utils.sendMessage(response);
-    },
-    () => {
-      const response = buildAnswer(requestType);
-      Utils.sendMessage(response);
-    }
-  );
-};
-
-// Storage.privateSet
-const storagePrivateSet = (requestType, payload) => {
-  const { key, value } = payload;
-  Storage.privateSet(key, value);
-
-  // Send an immediate answer back to say it was done.
-  const response = buildAnswer(requestType, { ok: true });
-  Utils.sendMessage(response);
-};
-
-// Fetch.asyncFetch
-const fetchAsyncFetch = (requestType, payload) => {
-  const { url, options } = payload;
-
-  asyncFetch(url, options).then((res) => {
-    const response = buildAnswer(requestType, res);
-    Utils.sendMessage(response);
-  });
 };
 
 return (
