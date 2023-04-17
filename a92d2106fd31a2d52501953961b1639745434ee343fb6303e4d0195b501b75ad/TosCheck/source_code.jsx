@@ -2,8 +2,6 @@ const { tosName, targetComponent, logOut } = props;
 const targetProps = props?.targetProps || {};
 const acceptanceKey = tosName; // may change
 
-console.log("Another version");
-
 State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
@@ -25,6 +23,8 @@ console.log("TosVersions", tosVersions);
 
 // TODO perform path validation before this
 const tosPath = tosName.split("/");
+console.log("Tos path", tosPath);
+
 const latestTosVersion = tosPath.reduce((acc, curr) => {
   return acc[curr];
 }, tosVersions);
