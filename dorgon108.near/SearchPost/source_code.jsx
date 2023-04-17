@@ -113,7 +113,7 @@ return (
       />
     </Header>
 
-    <Body>
+    <Body style={{ backgroundColor: "red" }}>
       {console.log("the text is:", content.text)}
 
       {props.text && (
