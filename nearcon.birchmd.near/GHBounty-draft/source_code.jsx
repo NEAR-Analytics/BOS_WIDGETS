@@ -214,10 +214,12 @@ const fetchBounties = () => {
   listOpenBounties();
 };
 
+State.update({ payeeAddress: state.sender });
+
 const applyToBounty = () => {
   const output = bountyObject.submitApplication(
     state.bountyID,
-    state.sender,
+    state.payeeAddress,
     state.githubHandle,
     state.comments
   );
@@ -490,20 +492,21 @@ return (
 
       <br />
       <h3>2. Approve an application</h3>
-      <label htmlFor="applicationID">Bounty ID</label>
+      <label htmlFor="applicationID">Application ID</label>
       <input
         value={state.applicationID}
         id="applicationID"
         type="text"
         onChange={(e) => State.update({ applicationID: e.target.value })}
-        placeholder="Enter the bountyID to approve"
+        placeholder="Enter the applicationID to approve"
         required
       />
       <label htmlFor="payeeAddress">Payee address</label>
       <input
-        id="payeeAddress"
+        value={state.payeeAddress}
+        id="payeeAdress"
         type="text"
-        onChange={(e) => State.update({ payeeAddress: e.target.value })}
+        onChange={(e) => State.update({ payeeAdress: e.target.value })}
         placeholder="Enter the payee address"
         required
       />
