@@ -294,10 +294,10 @@ return (
     <div class="topArea">
       <div class="title_top">Yours</div>
       <div class="flexContainer">
-        {!apyNetValue ? null : (
+        {!accountId ? null : (
           <div class="block">
             <label class="t">Net APY</label>
-            <span class="v">{apyNetValue || "-"}%</span>
+            <span class="v">{apyNetValue || "0"}%</span>
           </div>
         )}
         <div class="block">
