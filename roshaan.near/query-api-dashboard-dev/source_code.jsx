@@ -9,6 +9,8 @@ let totalIndexers = 0;
 const registry_contract_id =
   props.registry_contract_id || "registry.queryapi.near";
 
+let widgetName = "query-api-dashboard-dev";
+
 State.init({
   activeTab: activeTab,
   my_indexers: [],
@@ -300,8 +302,8 @@ const indexerView = (accountId, indexerName, idx, view) => {
       idx === 0) ||
     (selected_accountId === accountId && selected_indexerName === indexerName);
 
-  const editUrl = `https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
-  const statusUrl = `https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
+  const editUrl = `/#/roshaan.near/widget/${widgetName}?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
+  const statusUrl = `/#/roshaan.near/widget/${widgetName}?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
   let removeIndexer = (name) => {
     const gas = 200000000000000;
     Near.call(
@@ -419,7 +421,7 @@ return (
     <Main>
       <Section active={state.activeTab === "indexers"}>
         <NavBarLogo
-          href="https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard"
+          href={`/#/roshaan.near/widget/${widgetName}`}
           title="QueryApi"
           onClick={() => {
             State.update({
@@ -443,7 +445,7 @@ return (
 
         <div>
           <ButtonLink
-            href="/#/roshaan.near/widget/queryapi__QueryApiDashboard/?view=create-new-indexer"
+            href={`/#/roshaan.near/widget/${widgetName}/?view=create-new-indexer`}
             style={{ "margin-top": "10px" }}
             onClick={() =>
               State.update({
