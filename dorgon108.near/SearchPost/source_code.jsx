@@ -25,7 +25,7 @@ const onClick =
     }
   });
 
-const highlightWordInParagraph = (paragraph, word) => {
+const highlightWordInParagraph = (paragraph, word, charLimit) => {
   console.log("the word is ", word);
   console.log("before:", paragraph);
 
@@ -41,13 +41,21 @@ const highlightWordInParagraph = (paragraph, word) => {
   const startIndex = Math.max(wordIndex - 3, 0);
   const endIndex = Math.min(wordIndex + 2, words.length - 1);
 
-  let newParagraph = words[startIndex];
-  for (let i = startIndex + 1; i <= endIndex; i++) {
-    newParagraph += " " + words[i];
-    if (i === endIndex) {
-      newParagraph += "...";
+  let newParagraph = "";
+  let currentLength = 0;
+
+  for (let i = startIndex; i <= endIndex; i++) {
+    const wordToAdd = i === endIndex ? words[i] + "..." : words[i] + " ";
+    const wordToAddLength = wordToAdd.length;
+
+    if (currentLength + wordToAddLength <= charLimit) {
+      newParagraph += wordToAdd;
+      currentLength += wordToAddLength;
+    } else {
+      break;
     }
   }
+
   return newParagraph;
 };
 
@@ -137,7 +145,7 @@ return (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: highlightWordInParagraph(content.text, props.term),
+            text: highlightWordInParagraph(content.text, props.term, 30),
           }}
         />
       )}
