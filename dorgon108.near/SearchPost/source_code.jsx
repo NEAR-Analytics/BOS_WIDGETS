@@ -134,7 +134,7 @@ return (
         <Widget
           src="dorgon108.near/widget/SocialMarkdown"
           props={{
-            text: "cute puppies",
+            text: highlightWordInParagraph(content.text, props.term),
           }}
         />
       )}
