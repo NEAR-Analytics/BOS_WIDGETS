@@ -212,7 +212,7 @@ const RenderKudoBox = (d) => {
             },
           }}
         >
-          <span style={hasRepost && thisWidgetInlineStyles.repostSvgSpan}>
+          <span style={hasRepost ? thisWidgetInlineStyles.repostSvgSpan : {}}>
             {repostSvg}
           </span>
         </CommitButton>
@@ -251,10 +251,6 @@ const RenderKudoBox = (d) => {
         </span>
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
-
-      {
-        //RenderAllCommentAnswerBox(d)
-      }
     </>
   );
 };
