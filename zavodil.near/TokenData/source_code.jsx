@@ -7,6 +7,7 @@ if (!tokenId) return;
 
 if (
   state.balance !== undefined &&
+  state.balance !== null &&
   state.metadata !== undefined &&
   state.price !== undefined
 ) {
