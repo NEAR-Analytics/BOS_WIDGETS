@@ -6,7 +6,7 @@ if (context.loading) {
 if (!accountId) {
   return "Please sign in with NEAR wallet to use this widget";
 }
-const pollId = props.pollId;
+const pollId = Number(props.pollId);
 if (pollId == null) {
   return "No pollId";
 }
