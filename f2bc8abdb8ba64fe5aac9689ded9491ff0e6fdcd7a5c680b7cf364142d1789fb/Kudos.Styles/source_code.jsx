@@ -218,6 +218,7 @@ const allWidgetsInlineStyles = {
     followButtonContainer: {
       marginLeft: "0.5rem",
     },
+    interactionButtonsContainer: {},
     repostButton: {
       border: "0",
       display: "inline-flex",
@@ -246,7 +247,7 @@ const allWidgetsInlineStyles = {
     repostSvg: {
       marginTop: "-0.2em",
     },
-    upVoteContainer: {
+    interactionButtonsContainer: {
       width: "100%",
     },
     upVoteCounter: {
@@ -308,8 +309,9 @@ const allWidgetsClassNames = {
     cardContent: "mt-3 text-break w-100 d-flex justify-content-between",
     postUrl: "d-flex",
     repostButton: "btn me-1",
-    upVoteContainer:
-      "d-flex flex-row-reverse align-items-center justify-content-end",
+    interactionButtonsContainer:
+      "d-flex align-items-center justify-content-start",
+    upVoteContainer: "d-flex align-items-center justify-content-center",
     commentInput: {
       container: "d-flex align-items-end flex-column",
     },
