@@ -218,6 +218,34 @@ const allWidgetsInlineStyles = {
     followButtonContainer: {
       marginLeft: "0.5rem",
     },
+    repostButton: {
+      border: "0",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: "50%",
+      width: "2.5em",
+      height: "2.5em",
+      fill: "currentColor",
+    },
+    repostButtonHovering: {
+      border: "0",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: "50%",
+      width: "2.5em",
+      height: "2.5em",
+      fill: "currentColor",
+      color: "rgb(0, 184, 124)",
+      background: "rgb(0, 184, 124, 0.1)",
+    },
+    repostSvgSpan: {
+      color: "rgb(0, 184, 124)",
+    },
+    repostSvg: {
+      marginTop: "-0.2em",
+    },
     upVoteContainer: {
       width: "100%",
     },
@@ -279,7 +307,7 @@ const allWidgetsClassNames = {
     headerContainer: "d-flex justify-content-between",
     cardContent: "mt-3 text-break w-100 d-flex justify-content-between",
     postUrl: "d-flex",
-    cardFooterContainer: "d-flex justify-content-between",
+    repostButton: "btn me-1",
     upVoteContainer:
       "d-flex flex-row-reverse align-items-center justify-content-end",
     commentInput: {
