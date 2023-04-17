@@ -96,7 +96,7 @@ return (
     <Body>
       {content.text && (
         <Widget
-          src="dorgon.near/widget/SocialMarkdown"
+          src="dorgon108.near/widget/SocialMarkdown"
           props={{ text: content.text }}
         />
       )}
