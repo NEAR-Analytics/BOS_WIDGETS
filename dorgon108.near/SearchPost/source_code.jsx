@@ -29,7 +29,6 @@ const Post = styled.a`
   display: flex;
   overflow: hidden;
   flex-direction: row;
-  align-items: center;
   width: 100%;
   height: 34px;
   overflow:hidden;
