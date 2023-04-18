@@ -1,6 +1,6 @@
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
-const dbAction = props.dbAction;
+const dbAction = props.dbAction || "discuss";
 
 const composeWidget =
   props.composeWidget ||
