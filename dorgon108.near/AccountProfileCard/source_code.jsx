@@ -165,7 +165,7 @@ return (
               }}
             >
               <img
-                src="https://i.imgur.com/hOp3Ivj.png"
+                src="https://i.imgur.com/dIDX59g.png"
                 alt="Follow icon"
                 style={{ height: "20px", marginRight: "5px" }}
               />
