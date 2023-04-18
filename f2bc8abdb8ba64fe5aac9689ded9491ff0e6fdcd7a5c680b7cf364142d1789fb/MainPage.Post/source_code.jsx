@@ -185,6 +185,7 @@ const RenderKudoBox = (d) => {
               ? thisWidgetInlineStyles.repostButtonHovering
               : thisWidgetInlineStyles.repostButton
           }
+          title="Repost"
           className={thisWidgetClassNames.repostButton}
           onMouseEnter={() => {
             State.update({ hoveringElement: "repostButton" });
