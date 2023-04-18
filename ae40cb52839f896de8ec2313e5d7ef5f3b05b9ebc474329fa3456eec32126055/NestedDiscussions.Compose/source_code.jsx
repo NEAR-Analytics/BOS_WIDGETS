@@ -89,7 +89,7 @@ function composeData() {
         message: "Commented on a discussion",
         widget: props.singlePageView,
         blockHeight: item.blockHeight,
-        params: identifier,
+        params: { identifier },
       },
     });
   }
