@@ -124,11 +124,14 @@ function changeAmount(e) {
 }
 function changeRangeAmount(e) {
   const value = Number(e.target.value);
-  const amount = (Number(subBalance || 0) * value) / 100;
-  handleAmount(amount, true);
+  const amount = Big(subBalance || 0)
+    .mul(value || 0)
+    .div(100)
+    .toFixed(4);
+  handleAmount(amount);
 }
 function changeToMax() {
-  handleAmount(Big(subBalance || 0).toFixed());
+  handleAmount(Big(subBalance || 0).toFixed(), true);
 }
 const rangeAmount =
   Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
@@ -139,8 +142,7 @@ return (
       <input
         class="normalInput"
         type="number"
-        step="0.001"
-        value={amount || 0}
+        value={amount}
         onChange={changeAmount}
       />
       <span class="maxButton" onClick={changeToMax}>
