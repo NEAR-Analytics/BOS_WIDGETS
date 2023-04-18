@@ -242,10 +242,9 @@ const getApy = (asset) => {
   return toAPY(totalApy);
 };
 if (selectedTokenId && assets) {
-  const token = selectedTokenId === "NEAR" ? "wrap.near" : selectedTokenId;
-  asset = assets.find((a) => a.token_id === token);
+  asset = assets.find((a) => a.token_id === selectedTokenId);
   vailableBalance =
-    selectedTokenId === "NEAR" ? nearBalance : getBalance(asset);
+    selectedTokenId === "wrap.near" ? nearBalance : getBalance(asset);
   apy = getApy(asset);
   cf = asset.config.volatility_ratio / 100;
   vailableBalance$ = Big(asset.price.usd || 0)
@@ -276,25 +275,21 @@ const handleAmount = (value, isMax) => {
 
 const handleDeposit = () => {
   if (!selectedTokenId || !amount || hasError) return;
-
-  if (selectedTokenId === "NEAR") {
-    handleDepositNear(isMax ? balance : amount);
+  const amountValue = isMax ? vailableBalance : amount;
+  if (selectedTokenId === "wrap.near") {
+    handleDepositNear(balance);
     return;
   }
   console.log("11111111111-selectedTokenId", selectedTokenId);
   console.log("11111111111-isMax", isMax);
+  console.log("11111111111-vailableBalance", vailableBalance);
+  console.log("11111111111-amount", amount);
+  console.log("11111111111-amountValue", amountValue);
   const asset = assets.find((a) => a.token_id === selectedTokenId);
-  const { token_id, accountBalance, metadata, config } = asset;
-
-  const balance = formatToken(
-    shrinkToken(accountBalance, metadata.decimals).toFixed()
-  );
-  const expandedAmount = expandToken(
-    isMax ? balance : amount,
-    metadata.decimals
-  ).toFixed();
+  const { token_id, metadata, config } = asset;
+  const expandedAmount = expandToken(amountValue, metadata.decimals).toFixed();
   const collateralAmount = expandToken(
-    isMax ? balance : amount,
+    amountValue,
     metadata.decimals + config.extra_decimals
   ).toFixed();
 
