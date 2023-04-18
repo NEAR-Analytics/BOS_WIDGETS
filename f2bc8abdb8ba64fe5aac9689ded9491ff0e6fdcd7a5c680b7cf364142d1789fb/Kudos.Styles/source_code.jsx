@@ -77,6 +77,8 @@ const hoveringButtonStylesWithoutMargin = {
 const allWidgetsInlineStyles = {
   standardButtonStyles: standardButtonStyles,
   hoveringButtonStyles: hoveringButtonStyles,
+  standardButtonStylesWithoutMargin: standardButtonStylesWithoutMargin,
+  hoveringButtonStylesWithoutMargin: hoveringButtonStylesWithoutMargin,
   styles: {
     container: {
       position: "relative",
