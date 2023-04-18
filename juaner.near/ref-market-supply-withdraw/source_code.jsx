@@ -173,7 +173,7 @@ const storageToken = selectedTokenId
     })
   : null;
 
-const handleAmount = (value) => {
+const handleAmount = (value, isMax) => {
   const amount = Number(value);
   const newHF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
@@ -181,6 +181,7 @@ const handleAmount = (value) => {
     selectedTokenId,
     hasError: false,
     newHealthFactor: newHF,
+    isMax,
   });
 };
 
