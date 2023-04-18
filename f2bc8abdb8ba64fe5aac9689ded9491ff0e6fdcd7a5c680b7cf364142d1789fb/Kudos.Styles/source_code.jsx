@@ -190,6 +190,7 @@ const allWidgetsInlineStyles = {
         margin: "1rem 0.5rem",
         height: "max-content",
         maxWidth: "85vw",
+        minWidth: "318px",
       },
       showCommentsButtonContainerNoComments: {
         margin: "0.5rem auto",
