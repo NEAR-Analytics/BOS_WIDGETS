@@ -40,12 +40,11 @@ const {
   selectedTokenId,
   amount,
   hasError,
-  hasHFError,
+  buttonDisabled,
   account,
   onLoad,
   assets,
   availableBalance,
-  storageToken,
 } = props;
 function decimalMax(a, b) {
   a = new B(a);
@@ -124,9 +123,7 @@ const handleAdjust = () => {
 return (
   <Container>
     <div
-      class={`greenButton mt_25 ${
-        Number(amount) && !hasHFError && !hasError ? "" : "disabled"
-      }`}
+      class={`greenButton mt_25 ${buttonDisabled ? "disabled" : ""}`}
       onClick={handleAdjust}
     >
       Confirm
