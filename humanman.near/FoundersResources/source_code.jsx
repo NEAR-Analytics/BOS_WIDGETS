@@ -8,6 +8,7 @@ const props = {
       description:
         "Free tool that helps you run the Sean Ellis test and measure your company’s product/market fit.",
       img: "",
+      video: "",
       tags: ["business fundamentals", "essentials"],
     },
     {
@@ -25,6 +26,7 @@ const props = {
       description:
         "Y Combinator Managing Director Michael Seibel shares his approach to building an MVP and getting your first users",
       img: "",
+      video: "",
       tags: ["business fundamentals", "mvp"],
     },
     {
@@ -33,6 +35,7 @@ const props = {
       description:
         "Template for plotting out your local ecosystem to help newcomers",
       img: "",
+      video: "",
       tags: ["business fundamentals", "mvp"],
     },
     {
@@ -40,6 +43,7 @@ const props = {
       link: "https://www.ycombinator.com/library/4T-how-to-design-a-better-pitch-deck",
       description: "Here’s how to make a solid Demo Day slide deck.",
       img: "",
+      video: "",
       tags: ["business fundamentals", "pitching"],
     },
   ],
@@ -49,6 +53,7 @@ const props = {
       link: "https://wiki.near.org/governance/legal-checklist",
       description: "Overview of the regulatory best practices",
       img: "",
+      video: "",
       tags: ["legal", "wiki"],
     },
     {
@@ -56,6 +61,7 @@ const props = {
       link: "https://legalnodes.com/article/legal-structure-decentralized-apps",
       description: "Article about the legal structure of decentralized apps",
       img: "",
+      video: "",
       tags: ["legal"],
     },
     {
@@ -64,6 +70,7 @@ const props = {
       description:
         "Discover open roles available within the NEAR Ecosystem, and you can also post open roles within your team as well",
       img: "",
+      video: "",
       tags: ["hr", "recruitment"],
     },
     {
@@ -72,6 +79,7 @@ const props = {
       description:
         "SAFE (simple agreement for future equity) for early-stage fundraising",
       img: "",
+      video: "",
       tags: ["business fundamentals", "fundraising"],
     },
   ],
@@ -82,6 +90,7 @@ const props = {
       description:
         "In-depth overview of best practices and proven strategies for growth & marketing your project in the Web3/crypto space",
       img: "",
+      video: "",
       tags: ["growth&marketing", "ecosystem"],
     },
     {
@@ -90,6 +99,7 @@ const props = {
       description:
         "Community groups focused on building and growing the NEAR ecosystem",
       img: "",
+      video: "",
       tags: ["growth&marketing", "community"],
     },
     {
@@ -98,6 +108,7 @@ const props = {
       description:
         "Free live educational content series tailored to teaching developers the latest tooling, SDKs, and APIs across NEAR",
       img: "",
+      video: "",
       tags: ["growth&marketing", "community"],
     },
     {
@@ -106,6 +117,7 @@ const props = {
       description:
         "Wider visibility into upcoming events, launches, Twitter Spaces, campaigns, etc... Make sure to submit yours!",
       img: "",
+      video: "",
       tags: ["growth&marketing", "events"],
     },
     {
@@ -114,6 +126,7 @@ const props = {
       description:
         "Facilitates the allocation of Community funds for marketing activities under $10,000",
       img: "",
+      video: "",
       tags: ["growth&marketing", "DAO", "fundraising"],
     },
   ],
@@ -124,6 +137,7 @@ const props = {
       description:
         "The gateway to Web3. Build and use Web3 components for any chain or protocol",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools", "bos"],
     },
     {
@@ -131,6 +145,7 @@ const props = {
       link: "https://docs.near.org",
       description: "Your entry point to using NEAR's tech stack",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools"],
     },
     {
@@ -139,6 +154,7 @@ const props = {
       description:
         "Leverage the power of GPT-3 to get answers to your technical questions about NEAR",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools", "chat-gpt"],
     },
     {
@@ -147,6 +163,7 @@ const props = {
       description:
         "The first-ever Web3 startup platform, and main core protocol contributor of NEAR Protocol",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools"],
     },
     {
@@ -154,6 +171,7 @@ const props = {
       link: "https://cron.cat/",
       description: "Decentralized Scheduling for Blockchain Transactions",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools"],
     },
     {
@@ -162,6 +180,7 @@ const props = {
       description:
         "Local development and testing environments for developers in the NEAR ecosystem",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools"],
     },
     {
@@ -170,6 +189,7 @@ const props = {
       description:
         "Allowing deployment of a customisable, easy to use private shard with built-in privacy features",
       img: "",
+      video: "",
       tags: ["technical", "dev-tools"],
     },
     {
@@ -178,6 +198,7 @@ const props = {
       description:
         "A peer-to-peer hypermedia protocol to make the web faster, safer, and more open",
       img: "",
+      video: "",
       tags: ["technical", "storage"],
     },
     {
@@ -186,6 +207,7 @@ const props = {
       description:
         "Developer tools to process blockchain events and make the resulting data easily available",
       img: "",
+      video: "",
       tags: ["technical", "explorers&indexers"],
     },
     {
@@ -194,6 +216,7 @@ const props = {
       description:
         "Provides an abstraction over various wallets within the NEAR ecosystem",
       img: "",
+      video: "",
       tags: ["technical", "wallets"],
     },
     {
@@ -201,6 +224,7 @@ const props = {
       link: "https://www.seda.xyz/",
       description: "Serving as the trust-less data layer for Web3",
       img: "",
+      video: "",
       tags: ["technical", "oracles"],
     },
     {
@@ -209,6 +233,7 @@ const props = {
       description:
         "The NEAR MetaBUILD hackathons will feature exciting themes focused on solving real-world problems.",
       img: "",
+      video: "",
       tags: ["technical", "hackathons"],
     },
     {
@@ -216,6 +241,7 @@ const props = {
       link: "https://aurora.dev/",
       description: "Aurora is an EVM solution built on the NEAR Protocol",
       img: "",
+      video: "",
       tags: ["technical", "interoperability"],
     },
     {
@@ -224,6 +250,7 @@ const props = {
       description:
         "Multichain interoperable crypto-network for launching and running Web3 substrate-based, EVM compatible Appchains",
       img: "",
+      video: "",
       tags: ["technical", "interoperability"],
     },
     {
@@ -231,6 +258,7 @@ const props = {
       link: "hhttps://keypom.xyz/",
       description: "Onboarding toolkit for builders and dApp creators",
       img: "",
+      video: "",
       tags: ["technical", "onboarding"],
     },
   ],
