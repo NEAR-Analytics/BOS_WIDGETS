@@ -3,6 +3,7 @@ props = props || {
   link: props.link,
   description: props.description,
   img: props.img,
+  height: props.height || "350px",
   video:
     props.video ||
     "https://youtu.be/QZLUQSOv7VY?origin=https://alpha.near.org/",
@@ -14,7 +15,7 @@ const Card = styled.button`
   justify-content: top;
   align-items: top;
   width: 300px;
-  height: 420px;
+  height: ${props.height};
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   color: black;
