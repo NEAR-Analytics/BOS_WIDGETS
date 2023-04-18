@@ -90,6 +90,7 @@ const allWidgetsInlineStyles = {
       overflowY: "scroll",
     },
     headerContainer: {
+      maxWidth: "90%",
       backgroundColor: "white",
       boxShadow: "0px 4px 28px rgba(43, 68, 106, 0.04)",
     },
