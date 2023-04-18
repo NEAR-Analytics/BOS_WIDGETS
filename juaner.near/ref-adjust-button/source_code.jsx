@@ -45,6 +45,7 @@ const {
   onLoad,
   assets,
   availableBalance,
+  isMax,
 } = props;
 function decimalMax(a, b) {
   a = new B(a);
@@ -66,7 +67,9 @@ const handleAdjust = () => {
     return;
   }
   const decimals = metadata.decimals + config.extra_decimals;
-  const expandedAmount = expandToken(amount, decimals);
+  const expandedAmount = isMax
+    ? availableBalance
+    : expandToken(amount, decimals);
   const accountSuppliedAsset = account.supplied.find(
     (a) => a.token_id === token_id
   );
