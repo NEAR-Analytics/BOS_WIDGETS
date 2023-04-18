@@ -20,7 +20,9 @@ State.init({
   facet: tab,
 });
 
-const Wrapper = styled.div`
+const Wrapper =
+  props.wrapper ??
+  styled.div`
   display: flex;
   flex-direction: column;
   gap: 48px;
@@ -255,7 +257,9 @@ const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
     State.update({
       search: {
         profiles: profiles(results["profile"]),
-        components: components(results["widget"]),
+        components: components(results["app, widget"]).concat(
+          components(results["widget"])
+        ),
         postsAndComments: posts(results["post"], "post").concat(
           posts(results["comment, post"], "post-comment")
         ),
