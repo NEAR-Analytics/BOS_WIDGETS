@@ -21,6 +21,12 @@ const content = JSON.parse(
 
 const item = {
   type: "social",
+  widget: singlePageView,
+  params: {
+    dbAction,
+    accountId,
+    blockHeight,
+  },
   path: `${accountId}/${dbAction}/main`,
   blockHeight,
 };
@@ -127,7 +133,7 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="calebjacob.near/widget/LikeButton"
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/LikeButton"
             props={{
               item,
               notifyAccountId,
