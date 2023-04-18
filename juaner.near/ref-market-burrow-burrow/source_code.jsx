@@ -177,6 +177,7 @@ const {
   assets,
   wnearbase64,
   closeButtonBase64,
+  isMax,
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 if (!showModal) {
@@ -293,7 +294,7 @@ function getMaxAmount() {
       .div(price)
       .mul(95)
       .div(100)
-      .toFixed(4)
+      .toFixed()
   );
   return [available, (asset.price.usd * available).toFixed(2)];
 }
@@ -310,7 +311,7 @@ const storageToken = selectedTokenId
       account_id: accountId,
     })
   : null;
-const handleAmount = (value) => {
+const handleAmount = (value, isMax) => {
   const amount = Number(value);
   const HF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
@@ -318,21 +319,18 @@ const handleAmount = (value) => {
     selectedTokenId,
     hasError: false,
     newHealthFactor: HF,
+    isMax,
   });
 };
 const handleBorrow = () => {
   if (!selectedTokenId || !amount || hasError) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
-
-  if (amount > available) {
-    State.update({ selectedTokenId, amount, hasError: true });
-    return;
-  }
+  const finalAmount = isMax ? available : amount;
 
   const transactions = [];
 
   const expandedAmount = expandToken(
-    amount,
+    finalAmount,
     asset.metadata.decimals + asset.config.extra_decimals
   );
 
