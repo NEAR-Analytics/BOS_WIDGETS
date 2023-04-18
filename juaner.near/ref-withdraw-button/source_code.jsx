@@ -45,6 +45,7 @@ const {
   assets,
   availableBalance,
   storageToken,
+  isMax,
 } = props;
 function decimalMax(a, b) {
   a = new B(a);
@@ -63,12 +64,14 @@ const handleWithdraw = () => {
   const { token_id, metadata, config } = asset;
   console.log("000000000000-amount", amount);
   console.log("000000000000-availableBalance", availableBalance);
-  if (Number(amount) > Number(availableBalance)) {
-    onLoad({ hasError: true });
-    return;
-  }
+  console.log("000000000000-isMax", isMax);
+
   const decimals = metadata.decimals + config.extra_decimals;
-  const expandedAmount = expandToken(amount, decimals);
+  const expandedAmount = expandToken(
+    isMax ? availableBalance : amount,
+    decimals
+  );
+  console.log("000000000000-isMax", expandedAmount);
   const accountSuppliedAsset = account.supplied.find(
     (a) => a.token_id === tokenId
   );
