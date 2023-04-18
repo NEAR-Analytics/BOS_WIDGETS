@@ -3,7 +3,26 @@ const { type } = value;
 const item = value?.item || {};
 const path = item.path || "";
 
-// Build notification
+const supportedTypes = [
+  "poke",
+  "like",
+  "follow",
+  "unfollow",
+  "comment",
+  "mention",
+  "custom",
+];
+
+// Assert is a valid type
+if (!supportedTypes.includes(type)) return <></>;
+
+// DevGov handles their own type?
+if (type && type.startsWith("devgovgigs/")) {
+  return (
+    <Widget src="mob.near/widget/Notification.Item.DevGov" props={props} />
+  );
+}
+
 const isComment = path.indexOf("/post/comment") > 0 || type === "comment";
 const isPost = !isComment && path.indexOf("/post/main") > 0;
 
@@ -11,31 +30,7 @@ const accountId = type === "like" ? path.split("/")[0] : props.accountId;
 const blockHeight = type === "like" ? item.blockHeight : props.blockHeight;
 const urlBlockHeight = isComment ? "commentBlockHeight" : "blockHeight";
 
-let postUrl = "";
-
-if (type !== "custom") {
-  postUrl = `/#/near/widget/PostPage?accountId=${accountId}&${urlBlockHeight}=${blockHeight}`;
-} else {
-  postUrl = `/#/${value.widget}?${Object.entries(value.params)
-    .map(([k, v]) => `${k}=${v}`)
-    .join("&")}`;
-}
-
-const actionable =
-  type === "like" ||
-  type === "comment" ||
-  type === "mention" ||
-  type === "custom";
-
-let notificationMessage = {
-  follow: "Followed you",
-  unfollow: "Unfollowed you",
-  poke: "Poked you",
-  like: isPost ? "Liked your post" : isComment ? "Liked your comment" : "",
-  comment: "Commented on your post",
-  mention: "Mentioned you",
-  custom: value.message ?? "",
-};
+let postUrl = `/#/near/widget/PostPage?accountId=${accountId}&${urlBlockHeight}=${blockHeight}`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -151,54 +146,51 @@ const Button = styled.a`
   }
 `;
 
-// DevGov handles their own type
-if (type && type.startsWith("devgovgigs/")) {
-  return (
-    <Widget src="mob.near/widget/Notification.Item.DevGov" props={props} />
-  );
-}
-
-// Assert is a valid type
-if (!(type in notificationMessage) || !notificationMessage[type]) return <></>;
-
 return (
-  <>
-    <Wrapper>
-      <div>
+  <Wrapper>
+    <div>
+      <Widget
+        src="near/widget/AccountProfile"
+        props={{ accountId: props.accountId }}
+      />
+    </div>
+
+    <Text bold>
+      {type === "follow" && <>Followed you</>}
+      {type === "unfollow" && <>Unfollowed you</>}
+      {type === "poke" && <>Poked you</>}
+      <Text as="a" href={postUrl}>
+        {type === "like" && isPost && <>Liked your post</>}
+        {type === "like" && isComment && <>Liked your comment</>}
+        {type === "comment" && <>Commented on your post</>}
+        {type === "mention" && <>Mentioned you</>}
+      </Text>
+      <Widget
+        src="mob.near/widget/TimeAgo"
+        props={{ blockHeight: props.blockHeight }}
+      />{" "}
+      ago
+    </Text>
+
+    <div>
+      {(type === "follow" || type === "unfollow") && (
         <Widget
-          src="near/widget/AccountProfile"
+          src="near/widget/FollowButton"
           props={{ accountId: props.accountId }}
         />
-      </div>
+      )}
 
-      <Text bold>
-        <Text as={actionable ? "a" : "p"} href={actionable ? postUrl : ""}>
-          {notificationMessage[type]}
-        </Text>
+      {type === "poke" && (
         <Widget
-          src="mob.near/widget/TimeAgo"
-          props={{ blockHeight: props.blockHeight }}
+          src="near/widget/PokeButton"
+          props={{ accountId: props.accountId, back: true, primary: true }}
         />
-        ago
-      </Text>
+      )}
 
-      <div>
-        {(type === "follow" || type === "unfollow") && (
-          <Widget
-            src="near/widget/FollowButton"
-            props={{ accountId: props.accountId }}
-          />
-        )}
-
-        {type === "poke" && (
-          <Widget
-            src="near/widget/PokeButton"
-            props={{ accountId: props.accountId, back: true, primary: true }}
-          />
-        )}
-
-        {actionable && <Button href={postUrl}>View</Button>}
-      </div>
-    </Wrapper>
-  </>
+      {(type === "like" ||
+        type === "comment" ||
+        type === "mention" ||
+        type === "custom") && <Button href={postUrl}>View</Button>}
+    </div>
+  </Wrapper>
 );
