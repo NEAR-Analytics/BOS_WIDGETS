@@ -41,19 +41,6 @@ if (type !== "custom") {
     .join("&")}`;
 }
 
-const actionable =
-  type === "like" ||
-  type === "comment" ||
-  type === "mention" ||
-  type === "custom";
-const text_as = actionable ? "a" : "";
-
-const message = (
-  <Text as={text_as} href={postUrl}>
-    notificationMessage[type]
-  </Text>
-);
-
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -168,6 +155,13 @@ const Button = styled.a`
   }
 `;
 
+const actionable =
+  type === "like" ||
+  type === "comment" ||
+  type === "mention" ||
+  type === "custom";
+const text_as = actionable ? "a" : "";
+
 return (
   <>
     {JSON.stringify(value)}
@@ -180,7 +174,9 @@ return (
       </div>
 
       <Text bold>
-        {message}
+        <Text as={text_as} href={postUrl}>
+          notificationMessage[type]
+        </Text>
         <Widget
           src="mob.near/widget/TimeAgo"
           props={{ blockHeight: props.blockHeight }}
@@ -203,10 +199,7 @@ return (
           />
         )}
 
-        {(type === "like" ||
-          type === "comment" ||
-          type === "mention" ||
-          type === "custom") && <Button href={postUrl}>View</Button>}
+        {actionable && <Button href={postUrl}>View</Button>}
       </div>
     </Wrapper>
   </>
