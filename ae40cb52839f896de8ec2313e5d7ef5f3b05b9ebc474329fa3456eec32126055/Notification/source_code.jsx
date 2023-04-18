@@ -192,5 +192,6 @@ return (
         type === "mention" ||
         type === "custom") && <Button href={postUrl}>View</Button>}
     </div>
+    <div> {JSON.stringify(props.value)} </div>
   </Wrapper>
 );
