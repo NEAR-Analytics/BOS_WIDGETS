@@ -306,8 +306,6 @@ const storageBurrow = Near.view(BURROW_CONTRACT, "storage_balance_of", {
 });
 
 // get the storage deposit for a token
-console.log("999999999999999-selectedTokenId", selectedTokenId);
-console.log("999999999999999-accountId", accountId);
 const storageToken = selectedTokenId
   ? Near.view(selectedTokenId, "storage_balance_of", {
       account_id: accountId,
@@ -365,10 +363,9 @@ const handleBorrow = () => {
       msg: JSON.stringify(borrowTemplate),
     },
   };
-  console.log("888888888888888-storageToken", storageToken);
   if (
     !(storageToken && storageToken.total != "0") &&
-    !NO_STORAGE_DEPOSIT_CONTRACTS.includes(token_id)
+    !NO_STORAGE_DEPOSIT_CONTRACTS.includes(selectedTokenId)
   ) {
     transactions.push({
       contractName: selectedTokenId,
