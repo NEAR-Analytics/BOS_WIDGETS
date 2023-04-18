@@ -293,6 +293,11 @@ const remainCollateral = amount || remainBalance || 0;
 const remainCollateral$ = B(asset.price.usd || 0)
   .mul(remainCollateral)
   .toFixed(2);
+const buttonDisabled = !(
+  Number(amount) &&
+  !hasError &&
+  Number(newHealthFactor) > 100
+);
 return (
   <Container>
     {/* load data */}
@@ -356,7 +361,7 @@ return (
               selectedTokenId,
               amount,
               hasError,
-              hasHFError,
+              buttonDisabled,
               account,
               onLoad,
               assets,
