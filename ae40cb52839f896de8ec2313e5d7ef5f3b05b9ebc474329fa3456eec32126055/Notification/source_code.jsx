@@ -14,7 +14,7 @@ const supportedTypes = [
 ];
 
 // Assert is a valid type
-if (!supportedTypes.includes(type)) return JSON.stringify(item);
+if (!supportedTypes.includes(type)) return <></>;
 
 // DevGov handles their own type?
 if (type && type.startsWith("devgovgigs/")) {
