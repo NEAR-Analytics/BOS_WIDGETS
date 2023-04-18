@@ -4,16 +4,9 @@ const blockHeight = parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
 const notifyAccountId = accountId;
 
-const composeWidget =
-  props.composeWidget ||
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose";
-const previewWidget =
-  props.previewWidget ||
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
-
-const singlePageView =
-  props.singlePageView ||
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.SinglePageView";
+const composeWidget = props.composeWidget;
+const previewWidget = props.previewWidget;
+const singlePageView = props.singlePageView;
 
 const content = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight) ??
