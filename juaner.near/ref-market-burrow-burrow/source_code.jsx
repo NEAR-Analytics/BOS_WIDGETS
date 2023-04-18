@@ -363,7 +363,7 @@ const handleBorrow = () => {
       msg: JSON.stringify(borrowTemplate),
     },
   };
-
+  console.log("888888888888888-storageToken", storageToken);
   if (
     !(storageToken && storageToken.total != "0") &&
     !NO_STORAGE_DEPOSIT_CONTRACTS.includes(token_id)
