@@ -167,7 +167,7 @@ return (
           {type === "like" && isComment && <>Liked your comment</>}
           {type === "comment" && <>Commented on your post</>}
           {type === "mention" && <>Mentioned you</>}
-          {type === "custom" && (item.message ?? "")}
+          {type === "custom" && (value.message ?? "")}
         </Text>
         <Widget
           src="mob.near/widget/TimeAgo"
