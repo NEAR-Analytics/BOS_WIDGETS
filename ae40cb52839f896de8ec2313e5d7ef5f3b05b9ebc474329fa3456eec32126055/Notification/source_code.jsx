@@ -156,6 +156,7 @@ const Button = styled.a`
 
 return (
   <>
+    {JSON.stringify(value)}
     <Wrapper>
       <div>
         <Widget
