@@ -34,7 +34,8 @@ const Card = styled.button`
 const Anchor = styled.a`
   color: #222;
   transition: all 0.2s ease-in-out;
-  position: absolute:
+  display: inline-block;
+  position: absolute;
   bottom: 15px;
   left: 15px;
   &:hover {
