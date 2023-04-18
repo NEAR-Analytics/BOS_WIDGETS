@@ -27,8 +27,6 @@ const item = {
     accountId,
     blockHeight,
   },
-  path: `${accountId}/${dbAction}/main`,
-  blockHeight,
 };
 
 const postUrl = `https://alpha.near.org/#/${singlePageView}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&previewWidget=${previewWidget}`;
