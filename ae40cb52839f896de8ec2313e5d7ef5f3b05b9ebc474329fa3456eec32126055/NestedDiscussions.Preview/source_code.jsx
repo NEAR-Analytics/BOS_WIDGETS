@@ -20,7 +20,6 @@ const content = JSON.parse(
 ).content;
 
 const item = {
-  type: "social",
   widget: singlePageView,
   params: {
     dbAction,
