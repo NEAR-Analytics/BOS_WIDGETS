@@ -20,7 +20,6 @@ const Card = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   color: black;
-  cursor: pointer;
   margin: 5px;
   padding: 15px;
 
@@ -37,6 +36,7 @@ const Anchor = styled.a`
   display: inline-block;
   position: absolute;
   bottom: 15px;
+  cursor: pointer;
   left: 15px;
   &:hover {
     text-decoration: underline;
@@ -47,6 +47,7 @@ const Anchor = styled.a`
 
 const VideoAnchor = styled.a`
   color: #222;
+  cursor: pointer;
   transition: all 0.2s ease-in-out;
   &:hover {
     text-decoration: underline;
