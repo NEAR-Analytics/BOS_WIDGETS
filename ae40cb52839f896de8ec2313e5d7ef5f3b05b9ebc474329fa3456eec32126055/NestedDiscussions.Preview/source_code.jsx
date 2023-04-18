@@ -156,6 +156,7 @@ return (
             src={composeWidget}
             props={{
               notifyAccountId,
+              singlePageView,
               identifier: item,
               onComment: () => State.update({ showReply: false }),
             }}
