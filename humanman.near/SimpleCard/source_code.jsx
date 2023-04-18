@@ -42,7 +42,15 @@ return (
       <br />
     )}
     {props.video ? (
-      <Widget src={`${user}/widget/YouTubeVideo`} props={{ link: video }} />
+      <Widget
+        src="miraclx.near/widget/YouTubeVideo"
+        props={{
+          videoId: {props.video},
+          width: "90%", height: "auto",
+          autoplay: "true",
+          dep: true
+        }}
+      />
     ) : (
       <br />
     )}
