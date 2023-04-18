@@ -62,10 +62,6 @@ const handleAdjust = () => {
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
-  if (Number(amount) > Number(availableBalance)) {
-    onLoad({ hasError: true });
-    return;
-  }
   const decimals = metadata.decimals + config.extra_decimals;
   const expandedAmount = isMax
     ? availableBalance
