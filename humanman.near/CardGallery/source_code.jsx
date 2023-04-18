@@ -10,11 +10,11 @@ const Gallery = styled.div`
 
 return (
   <Gallery>
-    {props.cardData.map(({ img, link, title, video, description }) => {
+    {props.cardData.map(({ img, link, title, video, description, height }) => {
       return (
         <Widget
           src={`${user}/widget/SimpleCard`}
-          props={{ img, link, title, video, description }}
+          props={{ img, link, title, video, description, height }}
         />
       );
     })}
