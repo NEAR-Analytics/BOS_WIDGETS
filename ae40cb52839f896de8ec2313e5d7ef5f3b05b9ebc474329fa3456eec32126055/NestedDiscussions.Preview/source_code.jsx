@@ -20,9 +20,13 @@ const content = JSON.parse(
 ).content;
 
 const item = {
-  type: "social",
-  path: `${accountId}/${dbAction}/main`,
-  blockHeight,
+  type: "custom",
+  widget: singlePageView,
+  params: {
+    dbAction,
+    accountId,
+    blockHeight,
+  },
 };
 
 const postUrl = `https://alpha.near.org/#/${singlePageView}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&previewWidget=${previewWidget}`;
