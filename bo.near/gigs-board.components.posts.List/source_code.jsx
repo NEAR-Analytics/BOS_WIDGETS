@@ -425,8 +425,8 @@ return (
       </InfiniteScroll>
     ) : (
       <p class="text-secondary">
-        No posts {props.searchResult ? "matches search" : ""} in
-        {getPeriodText(state.period).toLowerCase()}
+        No posts {props.searchResult ? "matches search" : ""}
+        {props.recency == "hot" ? " in " + getPeriodText(state.period).toLowerCase() : ""}
       </p>
     )}
   </>
