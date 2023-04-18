@@ -3,52 +3,59 @@ const user = "humanman.near";
 const props = {
   bdBasics: [
     {
+      height: "425px",
       title: "Product Market Fit Survey",
       link: "https://pmfsurvey.com/",
       description:
         "Free tool that helps you run the Sean Ellis test and measure your company’s product/market fit.",
-      img: "",
-      video: "",
+      img: "https://nearhorizonassets.s3.amazonaws.com/pmf-survey.gif",
+      video: "https://youtu.be/ydvqEWWjqFY",
       tags: ["business fundamentals", "essentials"],
+      height: "425px",
     },
     {
+      height: "425px",
       title: "Essential Startup Advice",
       link: "https://www.ycombinator.com/library/4D-yc-s-essential-startup-advice",
       description:
-        "Y Combinator's collection of tips they consider the most important, most transformative advice for startups",
-      img: "",
+        "Y Combinator's collection of tips they consider the most important, transformative advice for startups",
+      img: "https://nearhorizonassets.s3.amazonaws.com/essential-startup-advice.gif",
       video: "https://youtu.be/QZLUQSOv7VY",
       tags: ["business fundamentals", "essentials"],
     },
     {
+      height: "425px",
       title: "How to Plan an MVP",
       link: "https://www.ycombinator.com/library/6f-how-to-plan-an-mvp",
       description:
         "Y Combinator Managing Director Michael Seibel shares his approach to building an MVP and getting your first users",
-      img: "",
-      video: "",
+      img: "https://nearhorizonassets.s3.amazonaws.com/how-to-plan-an-mvp.gif",
+      video: "https://youtu.be/dfYIIugD5Yc",
       tags: ["business fundamentals", "mvp"],
     },
     {
+      height: "425px",
       title: "Startup Ecosystem Canvas",
       link: "https://fi.co/canvas_template",
       description:
         "Template for plotting out your local ecosystem to help newcomers",
-      img: "",
-      video: "",
+      img: "https://nearhorizonassets.s3.amazonaws.com/startup-ecosystem-canvas.gif",
+      video: "https://youtu.be/7G52FQQszGM",
       tags: ["business fundamentals", "mvp"],
     },
     {
+      height: "425px",
       title: "Designing a Better Pitch Deck",
       link: "https://www.ycombinator.com/library/4T-how-to-design-a-better-pitch-deck",
       description: "Here’s how to make a solid Demo Day slide deck.",
-      img: "",
-      video: "",
+      img: "https://nearhorizonassets.s3.amazonaws.com/designing-a-better-pitch-deck.gif",
+      video: "https://youtu.be/7fiGwvLoHlM",
       tags: ["business fundamentals", "pitching"],
     },
   ],
   legalHR: [
     {
+      height: "325px",
       title: "Legal Checklist",
       link: "https://wiki.near.org/governance/legal-checklist",
       description: "Overview of the regulatory best practices",
@@ -57,6 +64,7 @@ const props = {
       tags: ["legal", "wiki"],
     },
     {
+      height: "325px",
       title: "Dapp Legal Structure",
       link: "https://legalnodes.com/article/legal-structure-decentralized-apps",
       description: "Article about the legal structure of decentralized apps",
@@ -65,6 +73,7 @@ const props = {
       tags: ["legal"],
     },
     {
+      height: "325px",
       title: "NEAR Careers Portal",
       link: "https://careers.near.org/jobs",
       description:
@@ -74,6 +83,7 @@ const props = {
       tags: ["hr", "recruitment"],
     },
     {
+      height: "325px",
       title: "SAFE Template",
       link: "https://www.ycombinator.com/library/6z-fundraising-templates-safe-financing-documents",
       description:
@@ -85,6 +95,7 @@ const props = {
   ],
   growth: [
     {
+      height: "325px",
       title: "Growth & Marketing Toolkit",
       link: "https://docs.google.com/presentation/d/1Abjnbw6qNSC7hu3vAqWqo9hn5pOArakIfU9ZRR0SQTI/edit?usp=sharing",
       description:
@@ -94,6 +105,7 @@ const props = {
       tags: ["growth&marketing", "ecosystem"],
     },
     {
+      height: "325px",
       title: "NEAR Builders",
       link: "https://docs.nearbuilders.com/community-groups/",
       description:
@@ -103,6 +115,7 @@ const props = {
       tags: ["growth&marketing", "community"],
     },
     {
+      height: "325px",
       title: "NEAR Workshops",
       link: "https://nearworkshops.com/watch",
       description:
@@ -112,6 +125,7 @@ const props = {
       tags: ["growth&marketing", "community"],
     },
     {
+      height: "325px",
       title: "Ecosystem Calendar",
       link: "https://nearweek.com/calendar",
       description:
@@ -121,6 +135,7 @@ const props = {
       tags: ["growth&marketing", "events"],
     },
     {
+      height: "325px",
       title: "MarketingDAO",
       link: "https://docs.google.com/document/d/1i1PbFQKlwyWzjGZMoeUIM3gy3ghWKH3Yo4iOi-D8N_U/view",
       description:
@@ -132,6 +147,7 @@ const props = {
   ],
   technical: [
     {
+      height: "325px",
       title: "Blockchain Operating System (BOS)",
       link: "https://alpha.near.org",
       description:
@@ -141,6 +157,7 @@ const props = {
       tags: ["technical", "dev-tools", "bos"],
     },
     {
+      height: "325px",
       title: "NEAR Docs",
       link: "https://docs.near.org",
       description: "Your entry point to using NEAR's tech stack",
@@ -149,6 +166,7 @@ const props = {
       tags: ["technical", "dev-tools"],
     },
     {
+      height: "325px",
       title: "NEAR GPT-3 Docs Chat",
       link: "https://neardocs.online/",
       description:
@@ -158,6 +176,7 @@ const props = {
       tags: ["technical", "dev-tools", "chat-gpt"],
     },
     {
+      height: "325px",
       title: "Pagoda",
       link: "https://www.pagoda.co/",
       description:
@@ -167,6 +186,7 @@ const props = {
       tags: ["technical", "dev-tools"],
     },
     {
+      height: "325px",
       title: "Croncat",
       link: "https://cron.cat/",
       description: "Decentralized Scheduling for Blockchain Transactions",
@@ -175,6 +195,7 @@ const props = {
       tags: ["technical", "dev-tools"],
     },
     {
+      height: "325px",
       title: "Kurtosis",
       link: "https://www.kurtosistech.com/",
       description:
@@ -184,6 +205,7 @@ const props = {
       tags: ["technical", "dev-tools"],
     },
     {
+      height: "325px",
       title: "Calimero",
       link: "https://www.calimero.network/",
       description:
@@ -193,6 +215,7 @@ const props = {
       tags: ["technical", "dev-tools"],
     },
     {
+      height: "325px",
       title: "IPFS",
       link: "https://ipfs.tech/",
       description:
@@ -202,6 +225,7 @@ const props = {
       tags: ["technical", "storage"],
     },
     {
+      height: "325px",
       title: "The Graph",
       link: "https://thegraph.com/",
       description:
@@ -211,6 +235,7 @@ const props = {
       tags: ["technical", "explorers&indexers"],
     },
     {
+      height: "325px",
       title: "NEAR Wallet Selector",
       link: "https://github.com/near/wallet-selector",
       description:
@@ -220,6 +245,7 @@ const props = {
       tags: ["technical", "wallets"],
     },
     {
+      height: "325px",
       title: "Seda (formerly Flux)",
       link: "https://www.seda.xyz/",
       description: "Serving as the trust-less data layer for Web3",
@@ -228,6 +254,7 @@ const props = {
       tags: ["technical", "oracles"],
     },
     {
+      height: "325px",
       title: "MetaBUILD",
       link: "https://near.org/metabuild/",
       description:
@@ -237,6 +264,7 @@ const props = {
       tags: ["technical", "hackathons"],
     },
     {
+      height: "325px",
       title: "Aurora EVM",
       link: "https://aurora.dev/",
       description: "Aurora is an EVM solution built on the NEAR Protocol",
@@ -245,6 +273,7 @@ const props = {
       tags: ["technical", "interoperability"],
     },
     {
+      height: "325px",
       title: "Octopus Network",
       link: "https://oct.network/",
       description:
@@ -254,6 +283,7 @@ const props = {
       tags: ["technical", "interoperability"],
     },
     {
+      height: "325px",
       title: "Keypom",
       link: "hhttps://keypom.xyz/",
       description: "Onboarding toolkit for builders and dApp creators",
