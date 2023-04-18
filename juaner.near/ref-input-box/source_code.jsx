@@ -140,7 +140,7 @@ return (
         class="normalInput"
         type="number"
         step="0.001"
-        value={amount}
+        value={amount || 0}
         onChange={changeAmount}
       />
       <span class="maxButton" onClick={changeToMax}>
