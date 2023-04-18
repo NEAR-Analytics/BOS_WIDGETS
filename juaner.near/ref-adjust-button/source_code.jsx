@@ -63,8 +63,10 @@ const handleAdjust = () => {
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
   const decimals = metadata.decimals + config.extra_decimals;
+  console.log("00000000000000-isMax", isMax);
+  console.log("00000000000000-availableBalance", availableBalance);
   const expandedAmount = isMax
-    ? availableBalance
+    ? B(availableBalance)
     : expandToken(amount, decimals);
   const accountSuppliedAsset = account.supplied.find(
     (a) => a.token_id === token_id
@@ -75,6 +77,8 @@ const handleAdjust = () => {
   const suppliedBalance = accountSuppliedAsset?.balance || 0;
   const collateralBalance = accountCollateralAsset?.balance || 0;
   const transactions = [];
+  console.log("000000000000-expandedAmount", expandedAmount.toFixed());
+  console.log("000000000000-collateralBalance", collateralBalance);
   if (expandedAmount.gt(collateralBalance)) {
     transactions.push({
       contractName: BURROW_CONTRACT,
