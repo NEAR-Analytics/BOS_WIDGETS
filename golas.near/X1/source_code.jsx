@@ -1,3 +1,3 @@
-const x1 = "12345";
+const x1 = "123456";
 
 return <div>{x1}</div>;
