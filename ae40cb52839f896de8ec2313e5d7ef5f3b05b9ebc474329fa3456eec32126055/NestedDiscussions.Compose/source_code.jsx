@@ -56,8 +56,6 @@ function extractTagNotifications(text, item) {
     }));
 }
 
-const notification 
-
 function composeData() {
   const data = { index: {} };
 
@@ -75,16 +73,16 @@ function composeData() {
     },
   });
 
-  if(notifyAccountId){
-    data.index['notify'] = JSON.stringify({
+  if (notifyAccountId) {
+    data.index["notify"] = JSON.stringify({
       key: notifyAccountId,
       value: {
         type: "custom",
         message: "Commented on the discussion",
         widget: props.singlePageView,
         params: identifier,
-      }
-    })
+      },
+    });
   }
 
   const notifications = extractTagNotifications(state.text, {
