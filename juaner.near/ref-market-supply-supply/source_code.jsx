@@ -223,6 +223,7 @@ if (!account) {
 /** logic start */
 const b = account.body.result.amount;
 const nearBalance = shrinkToken(b || "0", 24).toFixed(2);
+console.log("000000000000-nearBalance", nearBalance);
 let vailableBalance = 0;
 let vailableBalance$ = 0;
 let apy = 0;
