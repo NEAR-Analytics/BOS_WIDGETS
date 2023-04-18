@@ -104,7 +104,9 @@ return (
             <i
               className={thisWidgetClassNames.clipboardIcon}
               style={
-                state.linkCopied ? clipBoardIconCopied : clipBoardIconNotCopied
+                state.linkCopied
+                  ? thisWidgetInlineStyles.clipBoardIconCopied
+                  : thisWidgetInlineStyles.clipBoardIconNotCopied
               }
               onClick={() => {
                 clipboard.writeText(
