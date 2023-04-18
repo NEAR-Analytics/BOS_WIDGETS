@@ -153,7 +153,7 @@ return (
           </TextLink>
         </Col>
 
-        <Col>
+        <Col href={profileUrl}>
           {!!context.accountId && context.accountId !== props.accountId && (
             <button
               href={profileUrl}
