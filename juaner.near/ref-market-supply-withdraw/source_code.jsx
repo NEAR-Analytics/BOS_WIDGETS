@@ -137,6 +137,7 @@ const {
   newHealthFactor,
   wnearbase64,
   closeButtonBase64,
+  isMax,
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0;
 if (!showModal) {
@@ -405,6 +406,7 @@ return (
               assets,
               availableBalance,
               storageToken,
+              isMax,
             }}
           />
         </div>
