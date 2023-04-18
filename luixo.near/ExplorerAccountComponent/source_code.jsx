@@ -10,6 +10,7 @@ return (
       url: `${isBeta ? "beta/" : ""}accounts/${accountId}`,
       query: { language: props.language, embedded: true },
       network: props.network,
+      baseUrl: props.baseUrl,
     }}
   />
 );
