@@ -108,7 +108,7 @@ return (
               }
               onClick={() => {
                 clipboard.writeText(
-                  `https://near.social/#/${widgetOwner}/widget/pollQuestionMasterHandler?sharedBlockHeight=${blockHeightToShare}`
+                  `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?${propName}=${blockHeightToShare}`
                 );
                 State.update({ linkCopied: true });
               }}
