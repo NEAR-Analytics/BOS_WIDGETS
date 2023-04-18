@@ -1,9 +1,10 @@
 const dbAction = props.dbAction || "discuss";
 const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
+const notifyAccountId = props.notifyAccountId;
 
 if (!identifier) {
-  return "[NestedDiscussions]: Please setup props.identifier";
+  return "[NestedDiscussions.Compose]: Please setup props.identifier";
 }
 
 if (!context.accountId) {
@@ -55,6 +56,8 @@ function extractTagNotifications(text, item) {
     }));
 }
 
+const notification 
+
 function composeData() {
   const data = { index: {} };
 
@@ -71,6 +74,18 @@ function composeData() {
       type: "md",
     },
   });
+
+  if(notifyAccountId){
+    data.index['notify'] = JSON.stringify({
+      key: notifyAccountId,
+      value: {
+        type: "custom",
+        message: "Commented on the discussion",
+        widget: props.singlePageView,
+        params: identifier,
+      }
+    })
+  }
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
