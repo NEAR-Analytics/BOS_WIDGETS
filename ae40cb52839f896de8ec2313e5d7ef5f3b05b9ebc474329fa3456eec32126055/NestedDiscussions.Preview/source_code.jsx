@@ -2,7 +2,7 @@ const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
-const notifyAccountId = accountId;
+const identifier = props.identifier;
 
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
@@ -17,6 +17,7 @@ const item = {
   dbAction,
   accountId,
   blockHeight,
+  identifier,
 };
 
 const postUrl = `https://alpha.near.org/#/${singlePageView}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&previewWidget=${previewWidget}`;
@@ -125,7 +126,7 @@ return (
             props={{
               item,
               singlePageView,
-              notifyAccountId,
+              notifyAccountId: accountId,
             }}
           />
           <Widget
@@ -150,7 +151,7 @@ return (
           <Widget
             src={composeWidget}
             props={{
-              notifyAccountId,
+              notifyAccountId: accountId,
               singlePageView,
               identifier: item,
               onComment: () => State.update({ showReply: false }),
