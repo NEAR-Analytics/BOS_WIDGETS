@@ -186,6 +186,7 @@ const {
   newHealthFactor,
   wnearbase64,
   closeButtonBase64,
+  isMax,
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0;
 if (!showModal) {
@@ -261,7 +262,7 @@ const storageToken = selectedTokenId
     })
   : null;
 
-const handleAmount = (value) => {
+const handleAmount = (value, isMax) => {
   const amount = Number(value);
   const newHF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
@@ -269,6 +270,7 @@ const handleAmount = (value) => {
     selectedTokenId,
     hasError: false,
     newHealthFactor: newHF,
+    isMax,
   });
 };
 
@@ -276,25 +278,23 @@ const handleDeposit = () => {
   if (!selectedTokenId || !amount || hasError) return;
 
   if (selectedTokenId === "NEAR") {
-    handleDepositNear(amount);
+    handleDepositNear(isMax ? balance : amount);
     return;
   }
-
+  console.log("11111111111-selectedTokenId", selectedTokenId);
+  console.log("11111111111-isMax", isMax);
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, accountBalance, metadata, config } = asset;
 
   const balance = formatToken(
     shrinkToken(accountBalance, metadata.decimals).toFixed()
   );
-
-  if (amount > balance) {
-    State.update({ selectedTokenId, amount, hasError: true });
-    return;
-  }
-
-  const expandedAmount = expandToken(amount, metadata.decimals).toFixed();
+  const expandedAmount = expandToken(
+    isMax ? balance : amount,
+    metadata.decimals
+  ).toFixed();
   const collateralAmount = expandToken(
-    amount,
+    isMax ? balance : amount,
     metadata.decimals + config.extra_decimals
   ).toFixed();
 
