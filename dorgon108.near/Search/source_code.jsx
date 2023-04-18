@@ -28,13 +28,47 @@ border-radius: 32px 32px 0px 0px;
   padding-bottom: 48px;
   max-width: 600px;
   margin: 0 auto;
-  background-color:red;
 `;
 
 const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const TabsButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 12px;
+  position: relative;
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+  flex: 1;
+
+  &:hover {
+    color: #11181C;
+    border-bottom: 4px solid #20A46C;
+
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #59e692;
+  }
 `;
 
 const Search = styled.div``;
@@ -44,8 +78,9 @@ const Facets = styled.div`
 `;
 
 const H1 = styled.h1`
-  font-weight: 600;
-  font-size: 32px;
+font-style: normal; 
+font-weight: 400;
+font-size: 36px;
   line-height: 39px;
   color: #11181c;
   margin: 0;
@@ -60,12 +95,17 @@ const H2 = styled.h2`
 `;
 
 const H3 = styled.h3`
-  color: #687076;
+  color: #11181C;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
-  text-transform: uppercase;
   margin: 0;
+  width: 188px;
+height: 30px;
+font-style: normal;
+font-weight: 600;
+font-size: 19px;
+line-height: 23px;
 `;
 
 const Group = styled.div`
@@ -377,14 +417,13 @@ return (
     {showHeader && (
       <Header>
         <H1>Search</H1>
-        <H2>Explore and find everything on the Blockchain Operating System</H2>
       </Header>
     )}
 
     {showSearchBar && (
       <Search>
         <Widget
-          src="chaotictempest.near/widget/SearchPill"
+          src="dorgon108.near/widget/SearchPill"
           props={{
             onChange: onSearchChange,
             term: props.term,
@@ -396,12 +435,13 @@ return (
     {state.search && (
       <Facets>
         <Widget
-          src="chaotictempest.near/widget/Facets"
+          src="dorgon108.near/widget/Facets"
           props={{
             facets,
             onFacetClick,
             defaultFacet: facets[0],
             initialFacet: tab,
+            tabButtonStyle: TabsButton,
           }}
         />
       </Facets>
@@ -409,6 +449,36 @@ return (
 
     {state.paginate?.hitsTotal == 0 && (
       <H2>No matches were found for "{state.term}".</H2>
+    )}
+
+    {state.search?.components.length > 0 && (
+      <Group>
+        <GroupHeader>
+          <H3>Apps</H3>
+          <Text as="a" href={componentsUrl} small>
+            View All
+          </Text>
+        </GroupHeader>
+
+        <Items>
+          {state.search.components.map((component, i) => (
+            <Item key={component.accountId + component.widgetName}>
+              <Widget
+                src="chaotictempest.near/widget/ComponentCard"
+                props={{
+                  src: `${component.accountId}/widget/${component.widgetName}`,
+                  onClick: () =>
+                    onSearchResultClick({
+                      searchPosition: component.searchPosition,
+                      objectID: `${component.accountId}/widget/${component.widgetName}`,
+                      eventName: "Clicked Component After Search",
+                    }),
+                }}
+              />
+            </Item>
+          ))}
+        </Items>
+      </Group>
     )}
 
     {state.search?.profiles.length > 0 && (
@@ -441,40 +511,10 @@ return (
       </Group>
     )}
 
-    {state.search?.components.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>Components</H3>
-          <Text as="a" href={componentsUrl} small>
-            View All
-          </Text>
-        </GroupHeader>
-
-        <Items>
-          {state.search.components.map((component, i) => (
-            <Item key={component.accountId + component.widgetName}>
-              <Widget
-                src="chaotictempest.near/widget/ComponentCard"
-                props={{
-                  src: `${component.accountId}/widget/${component.widgetName}`,
-                  onClick: () =>
-                    onSearchResultClick({
-                      searchPosition: component.searchPosition,
-                      objectID: `${component.accountId}/widget/${component.widgetName}`,
-                      eventName: "Clicked Component After Search",
-                    }),
-                }}
-              />
-            </Item>
-          ))}
-        </Items>
-      </Group>
-    )}
-
     {state.search?.postsAndComments.length > 0 && (
       <Group>
         <GroupHeader>
-          <H3>Posts and Comments</H3>
+          <H3>Posts</H3>
         </GroupHeader>
 
         <Items>
