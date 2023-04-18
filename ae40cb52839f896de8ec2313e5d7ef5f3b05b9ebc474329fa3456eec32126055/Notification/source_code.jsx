@@ -172,7 +172,7 @@ return (
       </div>
 
       <Text bold>
-        <Text as={actionable ? "a" : ""} href={postUrl}>
+        <Text as={actionable ? "a" : "p"} href={actionable ? postUrl : ""}>
           {notificationMessage[type]}
         </Text>
         <Widget
