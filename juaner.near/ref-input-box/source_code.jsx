@@ -114,23 +114,22 @@ const Container = styled.div`
   }
 `;
 const { amount, handleAmount, balance, balance$ } = props;
-
+const subBalance = Big(balance || "0").toFixed(4);
 function changeAmount(e) {
   const value = Number(e.target.value);
-  if (Big(value || 0).gt(balance || 0)) return;
+  if (Big(value || 0).gt(subBalance || 0)) return;
   handleAmount(value);
 }
 function changeRangeAmount(e) {
   const value = Number(e.target.value);
-  const amount = (Number(balance || 0) * value) / 100;
+  const amount = (Number(subBalance || 0) * value) / 100;
   handleAmount(amount);
 }
 function changeToMax() {
-  handleAmount(Big(balance || 0).toFixed());
+  handleAmount(Big(subBalance || 0).toFixed());
 }
-const subBalance = Big(balance || "0").toFixed(4);
 const rangeAmount =
-  Number(balance) > 0 ? (100 * Number(amount || 0)) / Number(balance) : 0;
+  Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
 const bgLineWidth = rangeAmount + "%";
 return (
   <Container>
