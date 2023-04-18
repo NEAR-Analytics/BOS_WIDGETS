@@ -168,6 +168,7 @@ return (
               <img
                 src="https://i.imgur.com/dIDX59g.png"
                 alt="Follow icon"
+                href={profileUrl}
                 style={{ height: "20px", marginRight: "5px" }}
               />
             </button>
