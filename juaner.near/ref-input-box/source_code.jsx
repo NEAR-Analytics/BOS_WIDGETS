@@ -126,7 +126,7 @@ function changeRangeAmount(e) {
   handleAmount(amount);
 }
 function changeToMax() {
-  handleAmount(balance || 0);
+  handleAmount(Big(balance || 0).toFixed());
 }
 const subBalance = Big(balance || "0").toFixed(4);
 const rangeAmount =
