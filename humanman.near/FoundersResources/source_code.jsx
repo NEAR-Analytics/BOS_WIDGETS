@@ -41,6 +41,14 @@ const props = {
       img: "",
       tags: ["business fundamentals", "pitching"],
     },
+    {
+      title: "Leadership Toolkit",
+      link: "https://wiki.near.org/support/hr-resources/leadership-toolkit",
+      description:
+        "Resources focused on effective leadership, commnication, and resilience provided by Abensur Consulting.",
+      img: "",
+      tags: ["business fundamentals", "pitching", "leadership"],
+    },
   ],
   legalHR: [
     {
@@ -71,7 +79,23 @@ const props = {
       description:
         "SAFE (simple agreement for future equity) for early-stage fundraising",
       img: "",
-      tags: ["business fundamentals", "fundraising"],
+      tags: ["hr", "legal", "fundraising"],
+    },
+    {
+      title: "Starting a Referral Program",
+      link: "https://wiki.near.org/support/hr-resources/referral-programs",
+      description:
+        "Guide to incentivising your team to recuit qualified candidates.",
+      img: "",
+      tags: ["hr", "recruitment"],
+    },
+    {
+      title: "Interviewing Guide",
+      link: "https://wiki.near.org/support/hr-resources/interviewing-guide",
+      description:
+        "Tips on crafting effective job descriptions, and building a framework for positive interview experiences",
+      img: "",
+      tags: ["hr", "recruitment"],
     },
   ],
   growth: [
@@ -194,6 +218,14 @@ const props = {
         "Provides an abstraction over various wallets within the NEAR ecosystem",
       img: "",
       tags: ["technical", "wallets"],
+    },
+    {
+      title: "IT Guide",
+      link: "https://wiki.near.org/support/hr-resources/it-guide",
+      description:
+        "Recommendations and best practices to avoid hacking and viruses",
+      img: "",
+      tags: ["technical", "security"],
     },
     {
       title: "Seda (formerly Flux)",
