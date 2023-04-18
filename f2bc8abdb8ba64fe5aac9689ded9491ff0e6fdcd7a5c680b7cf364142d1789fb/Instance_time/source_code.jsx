@@ -306,18 +306,10 @@ return (
           </div>
         )}
         <div className={thisWidgetClassNames.showUserInfoInHeader}>
-          <p
-            className="m-0"
-            style={thisWidgetInlineStyles.userInfoInHeaderText}
-            title={profile.name}
-          >
+          <p className="m-0" title={profile.name}>
             {makeStringShorter(profile.name, 12)}
           </p>
-          <p
-            className="m-0"
-            style={thisWidgetInlineStyles.userInfoInHeaderText}
-            title={context.accountId}
-          >
+          <p className="m-0" title={context.accountId}>
             @{makeStringShorter(context.accountId, 12)}
           </p>
         </div>
