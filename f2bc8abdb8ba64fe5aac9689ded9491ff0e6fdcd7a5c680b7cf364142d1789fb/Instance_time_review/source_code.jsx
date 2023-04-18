@@ -230,7 +230,10 @@ return (
                         <div>{profileName}</div>
                       </div>
                       <div style={thisWidgetInlineStyles.cardBodyContainer}>
-                        <div style={thisWidgetInlineStyles.cardBodyUserInfo}>
+                        <div
+                          style={thisWidgetInlineStyles.cardBodyUserInfo}
+                          title={d.accountId}
+                        >
                           {makeStringShorter(d.accountId, 12)}
                         </div>
                         <div
