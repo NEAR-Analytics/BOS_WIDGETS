@@ -3,7 +3,9 @@ props = props || {
   link: props.link,
   description: props.description,
   img: props.img,
-  video: props.video,
+  video:
+    props.video ||
+    "https://youtu.be/QZLUQSOv7VY?origin=https://alpha.near.org/",
 };
 const Card = styled.button`
   display: flex;
@@ -42,15 +44,15 @@ return (
       <br />
     )}
     {props.video ? (
-      <Widget
-        src="miraclx.near/widget/YouTubeVideo"
-        props={{
-          videoId: {props.video},
-          width: "90%", height: "auto",
-          autoplay: "true",
-          dep: true
-        }}
-      />
+      <iframe
+        width="100%"
+        height="auto"
+        src="https://youtu.be/QZLUQSOv7VY?origin=https://alpha.near.org/"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
     ) : (
       <br />
     )}
