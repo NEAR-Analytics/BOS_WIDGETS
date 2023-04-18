@@ -120,6 +120,7 @@ function getPostsByAuthor() {
   if (postIds) {
     postIds.reverse();
   }
+  return postIds;
 }
 
 function intersectPostsWithLabel(postIds) {
