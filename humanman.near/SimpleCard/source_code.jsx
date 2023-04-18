@@ -14,13 +14,13 @@ const Card = styled.button`
   justify-content: top;
   align-items: top;
   width: 300px;
-  height: 400px;
+  height: 415px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   color: black;
   cursor: pointer;
   margin: 5px;
-  padding: 3px 15px;
+  padding: 15px;
 
   &:hover {
     background-color: #e9ecef;
