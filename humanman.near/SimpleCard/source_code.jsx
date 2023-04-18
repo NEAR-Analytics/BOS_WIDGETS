@@ -14,7 +14,7 @@ const Card = styled.button`
   justify-content: top;
   align-items: top;
   width: 300px;
-  height: 300px;
+  height: 320px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   color: black;
@@ -31,22 +31,35 @@ const Card = styled.button`
 const Anchor = styled.a`
   color: #222;
   &:hover {
-    text-decoration: none;
+    text-decoration: underline;
     color: #444;
   }
 `;
 
+const VideoAnchor = styled.a`
+  color: #222;
+  &:hover {
+    text-decoration: underline;
+    color: #00EC97;
+    font-weight: bold;
+  }
+  transition: all 0.2s ease-in-out;
+`;
+
 return (
   <Card>
-    {props.img ? (
-      <img style={{ maxWidth: "80%", margin: "auto" }} src={props.img} />
+    {props.img && props.video ? (
+      <VideoAnchor href={props.video}>
+        <img style={{ maxWidth: "80%", margin: "auto" }} src={props.img} />
+        <p>watch key takeaways</p>
+      </VideoAnchor>
     ) : (
       <br />
     )}
-    <Anchor href={props.link}>
-      <h4 style={{ textAlign: "left" }}>{props.title}</h4>
-      <hr />
-      <p style={{ textAlign: "left" }}>{props.description}</p>
-    </Anchor>
+
+    <h4 style={{ textAlign: "left" }}>{props.title}</h4>
+    <hr />
+    <p style={{ textAlign: "left" }}>{props.description}</p>
+    <Anchor href={props.link}>Visit Resource</Anchor>
   </Card>
 );
