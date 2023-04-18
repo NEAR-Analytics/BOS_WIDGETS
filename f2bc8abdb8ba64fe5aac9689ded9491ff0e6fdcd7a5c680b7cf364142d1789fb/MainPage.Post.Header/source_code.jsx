@@ -12,7 +12,7 @@ return (
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
       >
         <Widget
-          src="mob.near/widget/Profile.ShortInlineBlock"
+          src={`${widgetOwner}/widget/Profile.ShortInlineBlock`}
           props={{ accountId, tooltip: true }}
         />
       </a>
