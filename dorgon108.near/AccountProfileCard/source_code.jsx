@@ -156,7 +156,9 @@ return (
         <Col>
           {!!context.accountId && context.accountId !== props.accountId && (
             <button
-              href={profileUrl}
+              onClick={() =>
+                console.log(`redirecting you to the profile`, profileUrl)
+              }
               style={{
                 backgroundColor: "rgba(255, 193, 7, 0)",
                 padding: "10px",
@@ -165,12 +167,13 @@ return (
                 cursor: "pointer",
               }}
             >
-              <img
-                src="https://i.imgur.com/dIDX59g.png"
-                alt="Follow icon"
-                href={profileUrl}
-                style={{ height: "20px", marginRight: "5px" }}
-              />
+              <a href={profileUrl}>
+                <img
+                  src="https://i.imgur.com/dIDX59g.png"
+                  alt="Follow icon"
+                  style={{ height: "20px", marginRight: "5px" }}
+                />
+              </a>
             </button>
           )}
         </Col>
