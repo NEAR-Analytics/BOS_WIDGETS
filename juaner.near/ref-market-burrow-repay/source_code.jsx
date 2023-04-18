@@ -382,7 +382,7 @@ const remainBurrow = Math.max(
       .sub(amount || 0)
       .toFixed(4)
   ),
-  0
+  Big(0).toFixed(4)
 );
 const remainBurrow$ = Math.max(
   Number(
@@ -390,7 +390,7 @@ const remainBurrow$ = Math.max(
       .mul(remainBurrow)
       .toFixed(2)
   ),
-  0
+  Big(0).toFixed(2)
 );
 /** logic end */
 return (
