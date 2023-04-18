@@ -82,7 +82,11 @@ const handleAdjust = () => {
   const suppliedBalance = accountSuppliedAsset?.balance || 0;
   const collateralBalance = accountCollateralAsset?.balance || 0;
   console.log("11111111111-collateralBalance", collateralBalance);
-  console.log("11111111111-expandedAmount", expandedAmount);
+  console.log("11111111111-expandedAmount", expandedAmount.toFixed());
+  console.log(
+    "11111111111-expandedAmount.eq(collateralBalance)",
+    expandedAmount.eq(collateralBalance)
+  );
   const transactions = [];
   if (expandedAmount.gt(collateralBalance)) {
     transactions.push({
