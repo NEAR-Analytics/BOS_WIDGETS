@@ -1,5 +1,5 @@
 const accountId = props.accountId;
-const blockHeight = parseInt(props.blockHeight);
+const blockHeight = props.blockHeight ?? parseInt(props.blockHeight);
 const dbAction = props.dbAction || "discuss";
 
 const composeWidget =
