@@ -155,6 +155,8 @@ const {
   newHealthFactor,
   wnearbase64,
   closeButtonBase64,
+  nearBalance,
+  isMax,
 } = state;
 if (!showModal) {
   State.update({
@@ -187,13 +189,12 @@ const getApy = (asset) => {
 };
 
 if (selectedTokenId && assets && account) {
-  const token = selectedTokenId === "NEAR" ? "wrap.near" : selectedTokenId;
-  asset = assets.find((a) => a.token_id === token);
-  const borrowed = account.borrowed.find((a) => a.token_id === token);
+  asset = assets.find((a) => a.token_id === selectedTokenId);
+  const borrowed = account.borrowed.find((a) => a.token_id === selectedTokenId);
   const decimals = asset.metadata.decimals + asset.config.extra_decimals;
   const borrowedBalance = shrinkToken(borrowed.balance || 0, decimals);
   const walletBalance =
-    selectedTokenId === "NEAR" ? nearBalance : getBalance(asset);
+    selectedTokenId === "wrap.near" ? nearBalance : getBalance(asset);
   availableBalance = Math.min(borrowedBalance, walletBalance);
   availableBalance$ = Big(availableBalance)
     .mul(asset.price.usd || 0)
@@ -291,7 +292,7 @@ const storageToken = selectedTokenId
     })
   : null;
 
-const handleAmount = (value) => {
+const handleAmount = (value, isMax) => {
   const amount = Number(value);
   const newHF = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
@@ -299,6 +300,7 @@ const handleAmount = (value) => {
     selectedTokenId,
     hasError: false,
     newHealthFactor: newHF,
+    isMax,
   });
 };
 const handleRepay = () => {
@@ -306,16 +308,16 @@ const handleRepay = () => {
 
   if (!selectedTokenId || !amount || hasError) return;
 
-  if (amount > availableBalance) {
-    State.update({ selectedTokenId, amount, hasError: true });
-    return;
-  }
+  const finalAmount = isMax ? availableBalance : amount;
   const transactions = [];
-
   const expandedAmount = expandToken(
-    amount,
+    finalAmount,
     asset.metadata.decimals + asset.config.extra_decimals
   );
+  console.log("11111111-finalAmount", finalAmount);
+  console.log("11111111-nearBalance", nearBalance);
+  console.log("11111111-isMax", isMax);
+  console.log("11111111-availableBalance", availableBalance);
 
   const repayTemplate = {
     Execute: {
@@ -337,7 +339,7 @@ const handleRepay = () => {
     gas: expandToken(300, 12),
     args: {
       receiver_id: BURROW_CONTRACT,
-      amount: expandToken(amount, selectedTokenMeta.decimals).toFixed(),
+      amount: expandToken(finalAmount, selectedTokenMeta.decimals).toFixed(),
       msg: JSON.stringify(repayTemplate),
     },
   };
@@ -389,11 +391,12 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    {/* load icons */}
     <Widget
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
+    {/* load icons */}
+    <Widget src="juaner.near/widget/ref-common-api" props={{ onLoad }} />
     {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
