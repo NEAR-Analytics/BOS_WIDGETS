@@ -348,37 +348,55 @@ const AutoComplete = styled.div`
 
 return (
   <Wrapper>
-    <Avatar>
-      <Widget
-        src="mob.near/widget/Image"
-        props={{
-          image: profile.image,
-          alt: profile.name,
-          fallbackUrl:
-            "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-        }}
-      />
-    </Avatar>
+    {state.showPreview ? (
+      <PreviewWrapper>
+        <Widget
+          src="near/widget/Posts.Post"
+          props={{
+            accountId: context.accountId,
+            blockHeight: "now",
+            content,
+          }}
+        />
+      </PreviewWrapper>
+    ) : (
+      <>
+        <Avatar>
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: profile.image,
+              alt: profile.name,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+            }}
+          />
+        </Avatar>
 
-    <Textarea data-value={state.text}>
-      <textarea
-        placeholder={placeholder}
-        onInput={(event) => textareaInputHandler(event.target.value)}
-        onKeyUp={(event) => {
-          if (event.key === "Escape") {
-            State.update({ showAccountAutocomplete: false });
-          }
-        }}
-        value={state.text}
-      />
+        <Textarea data-value={state.text}>
+          <textarea
+            placeholder={placeholder}
+            onInput={(event) => textareaInputHandler(event.target.value)}
+            onKeyUp={(event) => {
+              if (event.key === "Escape") {
+                State.update({ showAccountAutocomplete: false });
+              }
+            }}
+            value={state.text}
+          />
 
-      <TextareaDescription>
-        <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">
-          Markdown
-        </a>
-        is supported
-      </TextareaDescription>
-    </Textarea>
+          <TextareaDescription>
+            <a
+              href="https://www.markdownguide.org/basic-syntax/"
+              target="_blank"
+            >
+              Markdown
+            </a>
+            is supported
+          </TextareaDescription>
+        </Textarea>
+      </>
+    )}
 
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
