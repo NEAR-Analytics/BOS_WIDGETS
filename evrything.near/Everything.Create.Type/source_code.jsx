@@ -9,7 +9,7 @@ const path = props.path;
 /**
  * Initial view height (optional but recommended)
  */
-const initialViewHeight = 500;
+const initialViewHeight = 800;
 const initialPayload = {};
 
 /**
@@ -32,6 +32,12 @@ const requestHandler = (request, response, Utils) => {
   switch (request.type) {
     case "create-type":
       handleCreateType(request, response);
+      break;
+    case "get-types":
+      handleGetTypes(request, response, Utils);
+      break;
+    case "get-type-details":
+      handleGetTypeDetails(request, response, Utils);
       break;
   }
 };
@@ -81,6 +87,60 @@ const handleCreateType = (request, response) => {
   response(request).send({
     error: "type must be provided",
   });
+};
+
+const previewString = (str, maxLength) => {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  const previewLength = Math.floor((maxLength - 3) / 2);
+  const previewStart = str.slice(0, previewLength);
+  const previewEnd = str.slice(str.length - previewLength);
+  return `${previewStart}...${previewEnd}`;
+};
+
+const handleGetTypes = (request, response, Utils) => {
+  const accountId = request.payload.accountId ?? "*";
+  return Utils.promisify(
+    // Cached data (may take a while to return a value)
+    () =>
+      Social.keys(`${accountId}/type/*`, "final", {
+        return_type: "BlockHeight",
+        values_only: true,
+      }),
+    (types) => {
+      types = Object.entries(types).flatMap(([accountId, { type }]) =>
+        Object.entries(type).map(([name]) => ({
+          accountId,
+          name,
+        }))
+      );
+      response(request).send({
+        types,
+      });
+    }
+  );
+};
+
+const handleGetTypeDetails = (request, response, Utils) => {
+  const type = request.payload.type;
+  console.log(JSON.stringify(type));
+  if (type) {
+    return Utils.promisify(
+      // Cached data (may take a while to return a value)
+      () => Social.get(`${type.accountId}/type/${type.name}`),
+      (details) => {
+        console.log(details);
+        response(request).send({
+          details,
+        });
+      }
+    );
+  } else {
+    response(request).send({
+      error: "Type not provided",
+    });
+  }
 };
 
 return (
