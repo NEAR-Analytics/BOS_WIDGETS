@@ -50,8 +50,11 @@ function extractTagNotifications(text, item) {
     .map((accountId) => ({
       key: accountId,
       value: {
-        type: "mention",
-        item,
+        type: "custom",
+        message: "Tagged you on a discussion",
+        widget: props.singlePageView,
+        blockHeight: item.blockHeight,
+        params: identifier,
       },
     }));
 }
@@ -73,12 +76,14 @@ function composeData() {
     },
   });
 
+  let notifications = [];
+
   if (notifyAccountId) {
-    data.index["notify"] = JSON.stringify({
+    notifications.push({
       key: notifyAccountId,
       value: {
         type: "custom",
-        message: "Commented on the discussion",
+        message: "Commented on a discussion",
         widget: props.singlePageView,
         blockHeight: item.blockHeight,
         params: identifier,
@@ -86,10 +91,8 @@ function composeData() {
     });
   }
 
-  const notifications = extractTagNotifications(state.text, {
-    type: "social",
-    path: `${context.accountId}/${dbAction}/main`,
-  });
+  const tag_notifications = extractTagNotifications(state.text);
+  notifications = notifications.concat(tag_notifications);
 
   if (notifications.length) {
     data.index.notify = JSON.stringify(
