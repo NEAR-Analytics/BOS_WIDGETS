@@ -24,6 +24,7 @@ const ListContainer = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.5em;
+  width: 100%;
 `;
 
 const WidgetContainer = styled.div`
