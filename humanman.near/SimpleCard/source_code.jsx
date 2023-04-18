@@ -43,19 +43,6 @@ return (
     ) : (
       <br />
     )}
-    {props.video ? (
-      <iframe
-        width="100%"
-        height="auto"
-        src="https://youtu.be/QZLUQSOv7VY?origin=https://alpha.near.org/"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
-    ) : (
-      <br />
-    )}
     <Anchor href={props.link}>
       <h4 style={{ textAlign: "left" }}>{props.title}</h4>
       <hr />
