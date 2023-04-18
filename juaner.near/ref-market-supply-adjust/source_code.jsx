@@ -143,6 +143,7 @@ if (!showModal) {
     amount: "",
     hasError: false,
     hasHFError: false,
+    newHealthFactor: "",
   });
 }
 /** base tool end */
