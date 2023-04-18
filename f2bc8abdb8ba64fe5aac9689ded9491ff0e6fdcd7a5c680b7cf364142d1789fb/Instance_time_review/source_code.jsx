@@ -199,7 +199,6 @@ return (
                 <div
                   className={thisWidgetClassNames.cardGeneralContainer}
                   style={thisWidgetInlineStyles.cardGeneralContainer}
-                  disabled={context.accountId != d.accountId}
                   onClick={() => {
                     updateInstanceTimeState({
                       userScheduleShown: d.accountId,
