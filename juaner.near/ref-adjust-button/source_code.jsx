@@ -66,7 +66,7 @@ const handleAdjust = () => {
   console.log("00000000000000-isMax", isMax);
   console.log("00000000000000-availableBalance", availableBalance);
   const expandedAmount = isMax
-    ? B(availableBalance)
+    ? expandToken(availableBalance, decimals)
     : expandToken(amount, decimals);
   const accountSuppliedAsset = account.supplied.find(
     (a) => a.token_id === token_id
