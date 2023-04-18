@@ -9,6 +9,7 @@ props = props || {
     "https://youtu.be/QZLUQSOv7VY?origin=https://alpha.near.org/",
 };
 const Card = styled.button`
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -33,6 +34,9 @@ const Card = styled.button`
 const Anchor = styled.a`
   color: #222;
   transition: all 0.2s ease-in-out;
+  position: absolute:
+  bottom: 15px;
+  left: 15px;
   &:hover {
     text-decoration: underline;
     color: #66a0ff;
