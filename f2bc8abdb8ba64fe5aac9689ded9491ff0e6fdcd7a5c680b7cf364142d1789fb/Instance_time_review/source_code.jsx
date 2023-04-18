@@ -201,7 +201,7 @@ return (
                   style={
                     context.accountId != d.accountId
                       ? thisWidgetInlineStyles.cardGeneralContainerDisabled
-                      : cardGeneralContainer
+                      : thisWidgetInlineStyles.cardGeneralContainer
                   }
                   onClick={() => {
                     updateInstanceTimeState({
