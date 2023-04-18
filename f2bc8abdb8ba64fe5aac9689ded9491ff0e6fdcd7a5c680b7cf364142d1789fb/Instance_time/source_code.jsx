@@ -246,7 +246,7 @@ return (
                             state.tab == tabs.ALL_SCHEDULE.id ||
                             state.tab == tabs.MY_SCHEDULE.id
                               ? State.update({ tab: tab.id })
-                              : tab.id == tabs.NEW_SCHEDULE.id
+                              : tab.id == tabs.ALL_SCHEDULE.id
                               ? State.update({
                                   showAbortScheduleCreation: true,
                                   abortThroughAllExistingSchedule: true,
