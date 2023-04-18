@@ -310,13 +310,13 @@ return (
             className="m-0"
             style={thisWidgetInlineStyles.userInfoInHeaderText}
           >
-            {makeStringShorter(profile.name, 12)}
+            {profile.name}
           </p>
           <p
             className="m-0"
             style={thisWidgetInlineStyles.userInfoInHeaderText}
           >
-            @{makeStringShorter(context.accountId, 12)}
+            @{context.accountId}
           </p>
         </div>
       </div>
