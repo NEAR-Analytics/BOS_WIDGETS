@@ -58,19 +58,13 @@ function decimalMin(a, b) {
   return a.lt(b) ? a : b;
 }
 const handleAdjust = () => {
-  console.log("11111111111-selectedTokenId", selectedTokenId);
-  console.log("11111111111-amount", amount);
-  console.log("11111111111-hasError", hasError);
-  console.log("11111111111-account", account);
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
-  console.log("11111111111-bijiao", Number(amount) > Number(availableBalance));
   if (Number(amount) > Number(availableBalance)) {
     onLoad({ hasError: true });
     return;
   }
-  console.log("11111111111-走到这里了");
   const decimals = metadata.decimals + config.extra_decimals;
   const expandedAmount = expandToken(amount, decimals);
   const accountSuppliedAsset = account.supplied.find(
@@ -81,12 +75,6 @@ const handleAdjust = () => {
   );
   const suppliedBalance = accountSuppliedAsset?.balance || 0;
   const collateralBalance = accountCollateralAsset?.balance || 0;
-  console.log("11111111111-collateralBalance", collateralBalance);
-  console.log("11111111111-expandedAmount", expandedAmount.toFixed());
-  console.log(
-    "11111111111-expandedAmount.eq(collateralBalance)",
-    expandedAmount.eq(collateralBalance)
-  );
   const transactions = [];
   if (expandedAmount.gt(collateralBalance)) {
     transactions.push({
