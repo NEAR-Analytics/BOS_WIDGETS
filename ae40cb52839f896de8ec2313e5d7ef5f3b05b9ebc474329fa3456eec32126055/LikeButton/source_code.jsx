@@ -3,7 +3,7 @@ const item = props.item;
 if (!item) {
   return "";
 }
-return "";
+
 const likes = Social.index("like", item);
 return JSON.stringify(likes);
 
