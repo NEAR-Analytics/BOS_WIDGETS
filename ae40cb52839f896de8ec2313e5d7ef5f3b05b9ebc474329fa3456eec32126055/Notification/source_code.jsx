@@ -3,18 +3,15 @@ const { type } = value;
 const item = value?.item || {};
 const path = item.path || "";
 
-const supportedTypes = [
-  "poke",
-  "like",
-  "follow",
-  "unfollow",
-  "comment",
-  "mention",
-  "custom",
-];
-
-// Assert is a valid type
-if (!supportedTypes.includes(type)) return <></>;
+let notificationMessage = {
+  follow: "Followed you",
+  unfollow: "Unfollowed you",
+  poke: "Poked you",
+  like: isPost ? "Liked your post" : isComment ? "Liked your comment" : "",
+  comment: "Commented on your post",
+  mention: "Mentioned you",
+  custom: value.message ?? "",
+};
 
 // DevGov handles their own type?
 if (type && type.startsWith("devgovgigs/")) {
@@ -23,6 +20,10 @@ if (type && type.startsWith("devgovgigs/")) {
   );
 }
 
+// Assert is a valid type
+if (!(type in notificationMessage) || !notificationMessage[type]) return <></>;
+
+// Build notification
 const isComment = path.indexOf("/post/comment") > 0 || type === "comment";
 const isPost = !isComment && path.indexOf("/post/main") > 0;
 
@@ -39,6 +40,19 @@ if (type !== "custom") {
     .map(([k, v]) => `${k}=${v}`)
     .join("&")}`;
 }
+
+const actionable =
+  type === "like" ||
+  type === "comment" ||
+  type === "mention" ||
+  type === "custom";
+const text_as = actionable ? "a" : "";
+
+const message = (
+  <Text as={text_as} href={postUrl}>
+    notificationMessage[type]
+  </Text>
+);
 
 const Wrapper = styled.div`
   display: flex;
@@ -166,16 +180,7 @@ return (
       </div>
 
       <Text bold>
-        {type === "follow" && <>Followed you</>}
-        {type === "unfollow" && <>Unfollowed you</>}
-        {type === "poke" && <>Poked you</>}
-        <Text as="a" href={postUrl}>
-          {type === "like" && isPost && <>Liked your post</>}
-          {type === "like" && isComment && <>Liked your comment</>}
-          {type === "comment" && <>Commented on your post</>}
-          {type === "mention" && <>Mentioned you</>}
-          {type === "custom" && (value.message ?? "")}
-        </Text>
+        {message}
         <Widget
           src="mob.near/widget/TimeAgo"
           props={{ blockHeight: props.blockHeight }}
