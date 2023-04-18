@@ -174,7 +174,7 @@ return (
 
       <Text bold>
         <Text as={actionable ? "a" : ""} href={postUrl}>
-          notificationMessage[type]
+          {notificationMessage[type]}
         </Text>
         <Widget
           src="mob.near/widget/TimeAgo"
