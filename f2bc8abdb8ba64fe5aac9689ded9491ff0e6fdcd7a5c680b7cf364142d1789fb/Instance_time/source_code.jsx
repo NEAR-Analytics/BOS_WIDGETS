@@ -309,12 +309,14 @@ return (
           <p
             className="m-0"
             style={thisWidgetInlineStyles.userInfoInHeaderText}
+            title={profile.name}
           >
             {profile.name}
           </p>
           <p
             className="m-0"
             style={thisWidgetInlineStyles.userInfoInHeaderText}
+            title={context.accountId}
           >
             @{context.accountId}
           </p>
