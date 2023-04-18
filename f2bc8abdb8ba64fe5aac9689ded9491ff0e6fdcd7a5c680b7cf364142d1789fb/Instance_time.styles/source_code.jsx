@@ -331,7 +331,6 @@ const allWidgetsInlineStyles = {
       cursor: "pointer",
       textDecoration: "none",
       maxWidth: "90%",
-      disabled: true,
     },
     cardContainer: {
       padding: "1rem",
