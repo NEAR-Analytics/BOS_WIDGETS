@@ -86,7 +86,9 @@ const handleAdjust = () => {
           {
             IncreaseCollateral: {
               token_id,
-              max_amount: expandedAmount.sub(collateralBalance).toFixed(0),
+              max_amount: !isMax
+                ? expandedAmount.sub(collateralBalance).toFixed(0)
+                : undefined,
             },
           },
         ],
