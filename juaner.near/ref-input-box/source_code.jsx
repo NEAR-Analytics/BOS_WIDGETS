@@ -119,16 +119,16 @@ function changeAmount(e) {
   const value = Number(e.target.value);
   if (Big(value || 0).gt(subBalance || 0)) return;
   const isMax = Big(value || 0).eq(subBalance || 0);
-  cobsole.log("11111111111111-isMax", isMax, value, subBalance);
   handleAmount(value, isMax);
 }
 function changeRangeAmount(e) {
   const value = Number(e.target.value);
+  const isMax = Big(value || 0).eq(subBalance || 0);
   const amount = Big(subBalance || 0)
     .mul(value || 0)
     .div(100)
     .toFixed(4);
-  handleAmount(amount);
+  handleAmount(amount, isMax);
 }
 function changeToMax() {
   handleAmount(Big(subBalance || 0).toFixed(), true);
@@ -142,7 +142,7 @@ return (
       <input
         class="normalInput"
         type="number"
-        value={amount}
+        value={amount || 0}
         onChange={changeAmount}
       />
       <span class="maxButton" onClick={changeToMax}>
