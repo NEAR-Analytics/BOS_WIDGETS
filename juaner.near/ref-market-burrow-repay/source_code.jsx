@@ -339,7 +339,7 @@ const handleRepay = () => {
     gas: expandToken(300, 12),
     args: {
       receiver_id: BURROW_CONTRACT,
-      amount: expandToken(finalAmount, selectedTokenMeta.decimals).toFixed(),
+      amount: expandToken(finalAmount, selectedTokenMeta.decimals).toFixed(0),
       msg: JSON.stringify(repayTemplate),
     },
   };
