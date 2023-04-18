@@ -23,27 +23,30 @@ const Card = styled.button`
   padding: 15px;
 
   &:hover {
-    background-color: #e9ecef;
+    background-color: #efefef;
     box-shadow: #444 1px 1px 5px;
   }
 `;
+//  background-color: #e9ecef;
 
 const Anchor = styled.a`
   color: #222;
+  transition: all 0.2s ease-in-out;
   &:hover {
     text-decoration: underline;
-    color: #444;
+    color: #66a0ff;
+    font-weight: bold;
   }
 `;
 
 const VideoAnchor = styled.a`
   color: #222;
+  transition: all 0.2s ease-in-out;
   &:hover {
     text-decoration: underline;
-    color: #00EC97;
+    color: #66a0ff;
     font-weight: bold;
   }
-  transition: all 0.2s ease-in-out;
 `;
 
 return (
