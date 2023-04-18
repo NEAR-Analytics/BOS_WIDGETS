@@ -136,6 +136,7 @@ const {
   hasHFError,
   newHealthFactor,
   closeButtonBase64,
+  isMax,
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0;
 if (!showModal) {
@@ -166,10 +167,11 @@ if (selectedTokenId && assets) {
   apy = getApy(asset);
   cf = asset.config.volatility_ratio / 100;
 }
-const handleAmount = (value) => {
+const handleAmount = (value, isMax) => {
   const amount = Big(value || 0).toFixed();
   const [newHF, hFErrorStatus] = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
+    isMax,
     amount,
     selectedTokenId,
     hasError: false,
@@ -367,6 +369,7 @@ return (
               onLoad,
               assets,
               availableBalance,
+              isMax,
             }}
           />
         </div>
