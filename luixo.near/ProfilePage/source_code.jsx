@@ -280,7 +280,6 @@ return (
             props={{
               accountId,
               network: context.networkId,
-              height: 800,
               language: "en",
             }}
           />
