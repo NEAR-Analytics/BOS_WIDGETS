@@ -19,16 +19,13 @@ State.init({
 });
 
 const Card = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0px;
+  width: 445.85px;
 
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: flex-start;
-padding: 0px;
-gap: 10px;
-
-width: 445.85px;
-height: 24.1px;
 `;
 
 const CardLeft = styled.div`
@@ -43,7 +40,6 @@ const CardLeft = styled.div`
     flex-direction: row;
     width: 100%;
     min-width: 0;
-    
   }
 `;
 
@@ -51,38 +47,34 @@ const Avatar = styled.a`
   width: 50px;
   height: 50px;
   flex-shrink: 0;
-  border: 1px solid #ECEEF0;
+  border: 1px solid #eceef0;
   overflow: hidden;
   border-radius: 56px;
   transition: border-color 200ms;
 
-
   img {
     object-fit: cover;
- width: 24px;
-height: 24px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
   }
 
   &:hover,
   &:focus {
-    border-color: #D0D5DD;
+    border-color: #d0d5dd;
   }
 `;
 
 const TextLink = styled.a`
-
-width: 107px;
-height: 22px;
   display: block;
   margin: 0;
-  margin-right:42.22;
+  margin-right: 42.22px;
   font-size: 14px;
   line-height: 18px;
-  color: ${(p) => (p.bold ? "#FFFFFF !important" : "#606D7A !important")};
+  color: ${(p) => (p.bold ? "#FFFFFF !important" : "#606d7a !important")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
-  font-style:normal;
+  font-style: normal;
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
   white-space: nowrap;
@@ -94,16 +86,12 @@ height: 22px;
   }
 `;
 
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
-
 const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 0 -10px;
   align-items: center;
+  gap: 10px;
 `;
 
 const Col = styled.div`
@@ -113,6 +101,7 @@ const Col = styled.div`
 
 const col1 = {
   width: "66.32px",
+  backgroundColor: "blue",
 };
 
 const col2 = {
@@ -129,17 +118,15 @@ const col4 = {
   padding: 0,
   justifyContent: "center",
 };
-
 const TagsWrapper = styled.div`
   padding-top: 4px;
-  
 `;
 
 return (
   <Card>
     <CardLeft>
       <Row>
-        <Col style={col1}>
+        <Col>
           <Avatar href={profileUrl} onPointerUp={onPointerUp}>
             <Widget
               src="mob.near/widget/Image"
@@ -153,18 +140,18 @@ return (
           </Avatar>
         </Col>
 
-        <Col style={col2}>
+        <Col>
           <TextLink href={profileUrl} onPointerUp={onPointerUp} ellipsis bold>
             {profile.name || accountId.split(".near")[0]}
           </TextLink>
         </Col>
-        <Col style={col3}>
+        <Col>
           <TextLink href={profileUrl} onPointerUp={onPointerUp} ellipsis>
             @{accountId}
           </TextLink>
         </Col>
 
-        <Col style={col4}>
+        <Col>
           {!!context.accountId && context.accountId !== props.accountId && (
             <button
               style={{
