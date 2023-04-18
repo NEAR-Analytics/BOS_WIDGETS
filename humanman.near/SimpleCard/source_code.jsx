@@ -3,7 +3,7 @@ props = props || {
   link: props.link,
   description: props.description,
   img: props.img,
-  height: props.height || "350px",
+  height: props.height || "375px",
   video:
     props.video ||
     "https://youtu.be/QZLUQSOv7VY?origin=https://alpha.near.org/",
