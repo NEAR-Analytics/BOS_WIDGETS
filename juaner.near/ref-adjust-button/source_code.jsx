@@ -65,10 +65,12 @@ const handleAdjust = () => {
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
+  console.log("11111111111-bijiao", Number(amount) > Number(availableBalance));
   if (Number(amount) > Number(availableBalance)) {
     onLoad({ hasError: true });
     return;
   }
+  console.log("11111111111-走到这里了");
   const decimals = metadata.decimals + config.extra_decimals;
   const expandedAmount = expandToken(amount, decimals);
   const accountSuppliedAsset = account.supplied.find(
