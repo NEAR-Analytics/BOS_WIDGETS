@@ -1,4 +1,4 @@
-const dbAction = props.dbAction || "discuss";
+const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
