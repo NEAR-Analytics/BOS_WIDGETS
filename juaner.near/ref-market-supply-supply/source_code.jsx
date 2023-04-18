@@ -230,10 +230,8 @@ let cf = "-";
 let asset;
 const getBalance = (asset) => {
   if (!asset) return 0;
-  const { token_id, accountBalance, metadata } = asset;
-  return formatToken(
-    shrinkToken(accountBalance, metadata.decimals).toFixed()
-  ).toString();
+  const { accountBalance, metadata } = asset;
+  return shrinkToken(accountBalance, metadata.decimals).toFixed();
 };
 const getApy = (asset) => {
   if (!asset && !rewards) return 0;
