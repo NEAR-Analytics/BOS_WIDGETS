@@ -5,8 +5,11 @@ const link = props.link;
 const widgetOwner = props.widgetOwner;
 
 return (
-  <div className="d-flex flex-row align-items-center">
-    <div className="flex-grow-1 text-truncate">
+  <div
+    className="d-flex flex-row align-items-center"
+    style={{ maxWidth: "100%" }}
+  >
+    <div className="flex-grow-1 text-truncate" style={{ maxWidth: "100%" }}>
       <a
         className="text-dark text-decoration-none text-truncate"
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
