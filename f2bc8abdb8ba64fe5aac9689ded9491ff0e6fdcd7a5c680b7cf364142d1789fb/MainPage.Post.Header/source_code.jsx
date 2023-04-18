@@ -11,6 +11,7 @@ return (
   >
     <div className="flex-grow-1 text-truncate" style={{ maxWidth: "100%" }}>
       <a
+        style={{ maxWidth: "100%" }}
         className="text-dark text-decoration-none text-truncate"
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
       >
