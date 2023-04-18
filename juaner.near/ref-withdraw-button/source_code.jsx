@@ -61,6 +61,8 @@ const handleWithdraw = () => {
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
+  console.log("000000000000-amount", amount);
+  console.log("000000000000-availableBalance", availableBalance);
   if (Number(amount) > Number(availableBalance)) {
     onLoad({ hasError: true });
     return;
