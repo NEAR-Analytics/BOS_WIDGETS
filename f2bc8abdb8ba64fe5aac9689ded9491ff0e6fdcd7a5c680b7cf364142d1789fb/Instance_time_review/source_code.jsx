@@ -6,7 +6,6 @@ const thisWidgetInlineStyles =
 
 const _account = props.accountId ?? "All";
 const tabs = props.tabs;
-const owner = context.accountId;
 const text = props.text;
 const updateInstanceTimeState = props.updateInstanceTimeState;
 
@@ -161,6 +160,8 @@ function makeStringShorter(string, length) {
   }
   return string;
 }
+
+console.log("FD:", finalData);
 
 return (
   <div
