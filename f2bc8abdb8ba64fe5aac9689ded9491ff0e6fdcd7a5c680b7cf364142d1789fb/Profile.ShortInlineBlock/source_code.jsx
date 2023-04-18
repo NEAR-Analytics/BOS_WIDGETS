@@ -5,7 +5,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const name = profile.name;
 
 const inner = (
-  <div className="d-flex flex-row">
+  <div className="d-flex flex-row" style={{ maxWidth: "100%" }}>
     <Widget
       src="mob.near/widget/ProfileImage"
       props={{
@@ -16,9 +16,11 @@ const inner = (
         className: "me-2",
       }}
     />
-    <div className="text-truncate lh-sm">
-      <div className="text-truncate fw-bold">{name}</div>
-      <div className="text-truncate text-muted">
+    <div className="text-truncate lh-sm" style={{ maxWidth: "80%" }}>
+      <div className="text-truncate fw-bold" style={{ maxWidth: "100%" }}>
+        {name}
+      </div>
+      <div className="text-truncate text-muted" style={{ maxWidth: "100%" }}>
         <small>
           <span className="font-monospace">@{accountId}</span>
         </small>
