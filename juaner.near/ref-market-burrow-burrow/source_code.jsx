@@ -183,6 +183,7 @@ if (!showModal) {
   State.update({
     amount: "",
     hasError: false,
+    newHealthFactor: "",
   });
 }
 /** base tool end */
