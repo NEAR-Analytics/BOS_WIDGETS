@@ -169,7 +169,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="near/widget/ProfilePage.Sidebar"
+          src="hack.near/widget/ProfilePage.Sidebar"
           props={{
             accountId,
             profile,
