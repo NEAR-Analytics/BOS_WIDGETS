@@ -22,10 +22,10 @@ const Card = styled.button`
   color: black;
   margin: 5px;
   padding: 15px;
-
   &:hover {
     background-color: #efefef;
     box-shadow: #444 1px 1px 5px;
+    cursor: auto;
   }
 `;
 //  background-color: #e9ecef;
