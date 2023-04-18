@@ -369,8 +369,6 @@ return (
           props={{
             allWidgetsClassNames: props.allWidgetsClassNames,
             allWidgetsInlineStyles: props.allWidgetsInlineStyles,
-            accountId:
-              state.tab == tabs.MY_SCHEDULE.id ? context.accountId : "All",
             text:
               state.tab == tabs.ALL_SCHEDULE.id
                 ? tabs.ALL_SCHEDULE.text
@@ -380,6 +378,8 @@ return (
             updateInstanceTimeState,
             tabs,
             data,
+            accountId:
+              state.tab == tabs.MY_SCHEDULE.id ? context.accountId : "All",
           }}
         />
       ) : (
