@@ -156,7 +156,9 @@ return (
         <Col href={profileUrl}>
           {!!context.accountId && context.accountId !== props.accountId && (
             <button
-              href={profileUrl}
+              onClick={() => {
+                window.location.href = profileUrl;
+              }}
               style={{
                 backgroundColor: "rgba(255, 193, 7, 0)",
                 padding: "10px",
