@@ -49,7 +49,7 @@ return (
         <Widget src={composeWidget} props={{ dbAction, identifier }} />
       </ComposeWrapper>
     ) : (
-      <p> ${notLoggedMessage} </p>
+      <p> {notLoggedMessage} </p>
     )}
     <FeedWrapper>
       <Widget
