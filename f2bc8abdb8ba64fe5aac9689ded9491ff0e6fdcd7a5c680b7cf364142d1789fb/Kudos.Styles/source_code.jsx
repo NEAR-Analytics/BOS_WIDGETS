@@ -189,6 +189,7 @@ const allWidgetsInlineStyles = {
         padding: "10px",
         margin: "1rem 0.5rem",
         height: "max-content",
+        maxWidth: "85vw",
       },
       showCommentsButtonContainerNoComments: {
         margin: "0.5rem auto",
@@ -242,6 +243,7 @@ const allWidgetsInlineStyles = {
     followButtonContainer: {
       marginLeft: "0.5rem",
     },
+    shareingWidgetContainer: { margin: "0 0.5rem" },
     headerContainer: {
       maxWidth: "100%",
     },
