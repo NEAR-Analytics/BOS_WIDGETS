@@ -85,7 +85,9 @@ const Header = styled.div`
 const Body = styled.div`
   align-items: center;
   flex: 1;
-  font-size:12px
+  font-size:12px;
+    overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
   
 `;
 const Content = styled.div`
