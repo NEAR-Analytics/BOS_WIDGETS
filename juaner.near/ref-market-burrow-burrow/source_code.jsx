@@ -306,6 +306,8 @@ const storageBurrow = Near.view(BURROW_CONTRACT, "storage_balance_of", {
 });
 
 // get the storage deposit for a token
+console.log("999999999999999-selectedTokenId", selectedTokenId);
+console.log("999999999999999-accountId", accountId);
 const storageToken = selectedTokenId
   ? Near.view(selectedTokenId, "storage_balance_of", {
       account_id: accountId,
