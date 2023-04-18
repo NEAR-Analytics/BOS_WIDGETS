@@ -321,17 +321,6 @@ const allWidgetsInlineStyles = {
       textDecoration: "none",
       maxWidth: "90%",
     },
-    cardGeneralContainerDisabled: {
-      boxSizing: "border-box",
-      boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
-      backgroundColor: colors.color2,
-      color: "black",
-      borderRadius: "1rem",
-      margin: "1rem",
-      cursor: "pointer",
-      textDecoration: "none",
-      maxWidth: "90%",
-    },
     cardContainer: {
       padding: "1rem",
     },
