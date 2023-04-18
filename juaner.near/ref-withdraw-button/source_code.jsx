@@ -62,16 +62,11 @@ const handleWithdraw = () => {
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
-  console.log("000000000000-amount", amount);
-  console.log("000000000000-availableBalance", availableBalance);
-  console.log("000000000000-isMax", isMax);
-
   const decimals = metadata.decimals + config.extra_decimals;
   const expandedAmount = expandToken(
     isMax ? availableBalance : amount,
     decimals
   );
-  console.log("000000000000-expandedAmount", expandedAmount.toFixed());
   const accountSuppliedAsset = account.supplied.find(
     (a) => a.token_id === selectedTokenId
   );
