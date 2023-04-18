@@ -30,7 +30,15 @@ const accountId = type === "like" ? path.split("/")[0] : props.accountId;
 const blockHeight = type === "like" ? item.blockHeight : props.blockHeight;
 const urlBlockHeight = isComment ? "commentBlockHeight" : "blockHeight";
 
-let postUrl = `/#/near/widget/PostPage?accountId=${accountId}&${urlBlockHeight}=${blockHeight}`;
+let postUrl = "";
+
+if (type !== "custom") {
+  postUrl = `/#/near/widget/PostPage?accountId=${accountId}&${urlBlockHeight}=${blockHeight}`;
+} else {
+  postUrl = `/#/${value.widget}?${Object.entries(value.params)
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+    .join("&")}`;
+}
 
 const Wrapper = styled.div`
   display: flex;
