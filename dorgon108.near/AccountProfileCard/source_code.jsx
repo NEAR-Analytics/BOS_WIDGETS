@@ -97,6 +97,8 @@ const Row = styled.div`
 const Col = styled.div`
   flex: 1;
   padding: 0 10px;
+  overflow: hidden; /* turn off overflow */
+  text-overflow: ellipsis;
 `;
 
 const col1 = {
