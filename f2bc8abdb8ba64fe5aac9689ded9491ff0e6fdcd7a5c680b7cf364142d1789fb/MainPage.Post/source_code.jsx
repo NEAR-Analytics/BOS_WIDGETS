@@ -131,8 +131,11 @@ const RenderKudoBox = (d) => {
   const text = `From @${d.accountId} Kudos ${d.value.answer} `;
   const content = { text };
   return (
-    <>
-      <div className={thisWidgetClassNames.headerContainer}>
+    <div title="pepe">
+      <div
+        style={thisWidgetInlineStyles.headerContainer}
+        className={thisWidgetClassNames.headerContainer}
+      >
         <Widget
           src={`${widgetOwner}/widget/MainPage.Post.Header`}
           props={{
@@ -263,7 +266,7 @@ const RenderKudoBox = (d) => {
         />
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
-    </>
+    </div>
   );
 };
 /* END KudoBox  */
