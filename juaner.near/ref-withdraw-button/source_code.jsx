@@ -71,9 +71,9 @@ const handleWithdraw = () => {
     isMax ? availableBalance : amount,
     decimals
   );
-  console.log("000000000000-isMax", expandedAmount);
+  console.log("000000000000-expandedAmount", expandedAmount.toFixed());
   const accountSuppliedAsset = account.supplied.find(
-    (a) => a.token_id === tokenId
+    (a) => a.token_id === selectedTokenId
   );
   const suppliedBalance = accountSuppliedAsset?.balance || 0;
   const decreaseCollateralAmount = decimalMax(
@@ -83,7 +83,7 @@ const handleWithdraw = () => {
   const withdrawAction = {
     Withdraw: {
       token_id,
-      max_amount: expandedAmount.toFixed(),
+      max_amount: !isMax ? expandedAmount.toFixed() : undefined,
     },
   };
   const transactions = [];
