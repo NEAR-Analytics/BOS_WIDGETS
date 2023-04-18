@@ -324,7 +324,7 @@ const handleRepay = () => {
       actions: [
         {
           Repay: {
-            max_amount: !isMax ? expandedAmount.toFixed(0) : undefined,
+            max_amount: !isMax ? expandedAmount.toFixed(0, 0) : undefined,
             token_id: selectedTokenId,
           },
         },
@@ -339,7 +339,10 @@ const handleRepay = () => {
     gas: expandToken(300, 12),
     args: {
       receiver_id: BURROW_CONTRACT,
-      amount: expandToken(finalAmount, selectedTokenMeta.decimals).toFixed(0),
+      amount: expandToken(finalAmount, selectedTokenMeta.decimals).toFixed(
+        0,
+        0
+      ),
       msg: JSON.stringify(repayTemplate),
     },
   };
