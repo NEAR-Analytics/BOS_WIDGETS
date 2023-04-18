@@ -67,9 +67,10 @@ return (
       <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
     </Header>
     <Type>{proposal.proposal_type}</Type>
-    <div>Submission Time: {proposal.submission_time}</div>
-    <Proposer>{proposal.proposal.proposer}</Proposer>
-
+    <div>
+      <Proposer>{proposal.proposal.proposer}</Proposer>
+      Submission Time: {new Date(proposal.submission_time).toLocaleString()}
+    </div>
     <p>{proposal.proposal.description}</p>
     <div>
       Votes:
