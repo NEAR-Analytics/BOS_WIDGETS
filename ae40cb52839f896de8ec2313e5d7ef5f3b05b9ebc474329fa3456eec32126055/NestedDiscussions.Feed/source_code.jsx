@@ -1,7 +1,7 @@
 const dbAction = props.dbAction || "discuss";
-const previewWidget =
-  props.previewWidget ||
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
+const composeWidget = props.composeWidget;
+const previewWidget = props.previewWidget;
+const singlePageView = props.singlePageView;
 const identifier = props.identifier;
 const moderatorAccount = props.moderatorAccount || "adminalpha.near";
 
@@ -37,7 +37,9 @@ const renderItem = (a) =>
           accountId: a.accountId,
           blockHeight: a.blockHeight,
           dbAction,
+          composeWidget,
           previewWidget,
+          singlePageView,
         }}
       />
     </Post>
