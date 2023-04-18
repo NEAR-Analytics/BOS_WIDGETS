@@ -80,6 +80,7 @@ function composeData() {
         type: "custom",
         message: "Commented on the discussion",
         widget: props.singlePageView,
+        blockHeight: item.blockHeight,
         params: identifier,
       },
     });
