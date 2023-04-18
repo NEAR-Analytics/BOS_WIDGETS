@@ -21,7 +21,7 @@ const Card = styled.div`
   border-radius: 12px;
 
 
-  width: 445.85px;
+  width: 40.85px;
   overflow: hidden;
 `;
 
