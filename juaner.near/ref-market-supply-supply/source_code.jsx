@@ -178,7 +178,6 @@ const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const { selectedTokenId, showModal, closeModal, selectedTokenMeta } = props;
 const {
   rewards,
-  balances,
   account: burrowAccount,
   amount,
   hasError,
@@ -194,6 +193,7 @@ if (!showModal) {
     amount: "",
     hasError: false,
     cfButtonStatus: false,
+    newHealthFactor: "",
   });
 }
 /** base tool end */
@@ -500,11 +500,6 @@ return (
               balance$: vailableBalance$,
             }}
           />
-          {hasError && (
-            <p class="alert alert-danger mt-10" role="alert">
-              Amount greater than available
-            </p>
-          )}
           <div class="template mt_25">
             <span class="title">Health Factor</span>
             <span class="value">
