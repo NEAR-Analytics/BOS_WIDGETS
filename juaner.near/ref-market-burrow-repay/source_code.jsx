@@ -160,6 +160,7 @@ if (!showModal) {
   State.update({
     amount: "",
     hasError: false,
+    newHealthFactor: "",
   });
 }
 const hasData = assets.length > 0 && rewards.length > 0 && account;
