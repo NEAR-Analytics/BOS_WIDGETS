@@ -21,12 +21,6 @@ const content = JSON.parse(
 
 const item = {
   type: "social",
-  widget: singlePageView,
-  params: {
-    dbAction,
-    accountId,
-    blockHeight,
-  },
   path: `${accountId}/${dbAction}/main`,
   blockHeight,
 };
