@@ -325,7 +325,7 @@ const handleAmount = (value, isMax) => {
 const handleBorrow = () => {
   if (!selectedTokenId || !amount || hasError) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
-  const finalAmount = isMax ? available : amount;
+  const finalAmount = isMax ? Math.min(available, amount) : amount;
 
   const transactions = [];
 
