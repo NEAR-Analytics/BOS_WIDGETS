@@ -90,7 +90,6 @@ const allWidgetsInlineStyles = {
       overflowY: "scroll",
     },
     headerContainer: {
-      maxWidth: "90%",
       backgroundColor: "white",
       boxShadow: "0px 4px 28px rgba(43, 68, 106, 0.04)",
     },
@@ -243,6 +242,9 @@ const allWidgetsInlineStyles = {
     followButtonContainer: {
       marginLeft: "0.5rem",
     },
+    headerContainer: {
+      maxWidth: "100%",
+    },
     interactionButtonsContainer: {},
     repostButton: {
       border: "0",
@@ -298,7 +300,7 @@ const allWidgetsInlineStyles = {
 //===============================================================================End inline styles=======================================================================================================
 
 //==============================================================================Start class styles=======================================================================================================
-a;
+
 const allWidgetsClassNames = {
   styles: {
     container: "pb-5",
