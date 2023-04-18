@@ -3,6 +3,7 @@ props = props || {
   link: props.link,
   description: props.description,
   img: props.img,
+  video: props.video,
 };
 const Card = styled.button`
   display: flex;
@@ -37,6 +38,11 @@ return (
   <Card>
     {props.img ? (
       <img style={{ maxWidth: "80%", margin: "auto" }} src={props.img} />
+    ) : (
+      <br />
+    )}
+    {props.video ? (
+      <Widget src={`${user}/widget/YouTubeVideo`} props={{ link: video }} />
     ) : (
       <br />
     )}
