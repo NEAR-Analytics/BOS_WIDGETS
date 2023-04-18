@@ -162,6 +162,7 @@ function makeStringShorter(string, length) {
 }
 
 console.log("FD:", finalData);
+console.log("_account:", _account);
 
 return (
   <div
