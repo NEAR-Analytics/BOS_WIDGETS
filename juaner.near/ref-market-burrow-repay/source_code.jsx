@@ -376,22 +376,19 @@ function getCloseButtonIcon(icon) {
     closeButtonBase64: icon,
   });
 }
-const remainBurrow = Math.max(
-  Number(
-    Big(availableBalance || 0)
-      .sub(amount || 0)
-      .toFixed(4)
-  ),
-  Big(0).toFixed(4)
-);
-const remainBurrow$ = Math.max(
-  Number(
-    Big(asset.price.usd || 0)
-      .mul(remainBurrow)
-      .toFixed(2)
-  ),
-  Big(0).toFixed(2)
-);
+const remainBurrow = Big(
+  Math.max(
+    Number(
+      Big(availableBalance || 0)
+        .sub(amount || 0)
+        .toFixed()
+    ),
+    0
+  )
+).toFixed(4);
+const remainBurrow$ = Big(asset.price.usd || 0)
+  .mul(remainBurrow)
+  .toFixed(2);
 /** logic end */
 return (
   <Container>
