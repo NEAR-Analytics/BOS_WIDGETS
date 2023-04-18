@@ -41,6 +41,12 @@ if (type !== "custom") {
     .join("&")}`;
 }
 
+const actionable =
+  type === "like" ||
+  type === "comment" ||
+  type === "mention" ||
+  type === "custom";
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -155,13 +161,6 @@ const Button = styled.a`
   }
 `;
 
-const actionable =
-  type === "like" ||
-  type === "comment" ||
-  type === "mention" ||
-  type === "custom";
-const text_as = actionable ? "a" : "";
-
 return (
   <>
     {JSON.stringify(value)}
@@ -174,7 +173,7 @@ return (
       </div>
 
       <Text bold>
-        <Text as={text_as} href={postUrl}>
+        <Text as={actionable ? "a" : ""} href={postUrl}>
           notificationMessage[type]
         </Text>
         <Widget
