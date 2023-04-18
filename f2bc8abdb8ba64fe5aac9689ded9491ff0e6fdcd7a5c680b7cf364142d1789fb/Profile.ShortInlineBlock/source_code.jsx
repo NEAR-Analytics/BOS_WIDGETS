@@ -17,10 +17,10 @@ const inner = (
       }}
     />
     <div className="text-truncate lh-sm" style={{ maxWidth: "80%" }}>
-      <div className="text-truncate fw-bold" style={{ maxWidth: "100%" }}>
+      <div className="text-truncate fw-bold" style={{ maxWidth: "80%" }}>
         {name}
       </div>
-      <div className="text-truncate text-muted" style={{ maxWidth: "100%" }}>
+      <div className="text-truncate text-muted" style={{ maxWidth: "80%" }}>
         <small>
           <span className="font-monospace">@{accountId}</span>
         </small>
