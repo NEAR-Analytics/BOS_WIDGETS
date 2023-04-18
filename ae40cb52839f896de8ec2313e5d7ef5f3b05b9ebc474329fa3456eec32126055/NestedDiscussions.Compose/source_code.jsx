@@ -1,4 +1,4 @@
-const dbAction = props.dbAction;
+const dbAction = props.dbAction || "discuss";
 const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
@@ -72,19 +72,6 @@ function composeData() {
       type: "md",
     },
   });
-
-  if (notifyAccountId) {
-    data.index["notify"] = JSON.stringify({
-      key: notifyAccountId,
-      value: {
-        type: "custom",
-        message: "Commented on the discussion",
-        widget: props.singlePageView,
-        blockHeight: item.blockHeight,
-        params: identifier,
-      },
-    });
-  }
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
