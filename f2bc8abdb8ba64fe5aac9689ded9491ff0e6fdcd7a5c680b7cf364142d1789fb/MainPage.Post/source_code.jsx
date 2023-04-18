@@ -220,8 +220,8 @@ const RenderKudoBox = (d) => {
           <CommitButton
             style={
               state.hoveringElement == "upVoteButton"
-                ? hoveringButtonStylesWithoutMargin
-                : standardButtonStylesWithoutMargin
+                ? props.allWidgetsInlineStyles.hoveringButtonStylesWithoutMargin
+                : props.allWidgetsInlineStyles.standardButtonStylesWithoutMargin
             }
             onMouseEnter={() => {
               State.update({ hoveringElement: "upVoteButton" });
