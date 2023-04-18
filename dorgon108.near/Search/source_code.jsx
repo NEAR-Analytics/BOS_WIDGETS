@@ -28,6 +28,7 @@ border-radius: 32px 32px 0px 0px;
   padding-bottom: 48px;
   max-width: 600px;
   margin: 0 auto;
+  background-color:red;
 `;
 
 const Header = styled.div`
