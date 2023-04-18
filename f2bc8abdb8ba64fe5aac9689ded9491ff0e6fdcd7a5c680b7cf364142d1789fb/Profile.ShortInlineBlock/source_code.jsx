@@ -16,7 +16,7 @@ const inner = (
         className: "me-2",
       }}
     />
-    <div className="text-truncate lh-sm" style={{ maxWidth: "80%" }}>
+    <div className="text-truncate lh-sm" style={{ maxWidth: "100%" }}>
       <div className="text-truncate fw-bold" style={{ maxWidth: "80%" }}>
         {name}
       </div>
