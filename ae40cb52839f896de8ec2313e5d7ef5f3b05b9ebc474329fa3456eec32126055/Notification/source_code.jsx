@@ -147,51 +147,54 @@ const Button = styled.a`
 `;
 
 return (
-  <Wrapper>
-    <div>
-      <Widget
-        src="near/widget/AccountProfile"
-        props={{ accountId: props.accountId }}
-      />
-    </div>
+  <>
+    <div> {JSON.stringify(props.value)} </div>
 
-    <Text bold>
-      {type === "follow" && <>Followed you</>}
-      {type === "unfollow" && <>Unfollowed you</>}
-      {type === "poke" && <>Poked you</>}
-      <Text as="a" href={postUrl}>
-        {type === "like" && isPost && <>Liked your post</>}
-        {type === "like" && isComment && <>Liked your comment</>}
-        {type === "comment" && <>Commented on your post</>}
-        {type === "mention" && <>Mentioned you</>}
-      </Text>
-      <Widget
-        src="mob.near/widget/TimeAgo"
-        props={{ blockHeight: props.blockHeight }}
-      />{" "}
-      ago
-    </Text>
-
-    <div>
-      {(type === "follow" || type === "unfollow") && (
+    <Wrapper>
+      <div>
         <Widget
-          src="near/widget/FollowButton"
+          src="near/widget/AccountProfile"
           props={{ accountId: props.accountId }}
         />
-      )}
+      </div>
 
-      {type === "poke" && (
+      <Text bold>
+        {type === "follow" && <>Followed you</>}
+        {type === "unfollow" && <>Unfollowed you</>}
+        {type === "poke" && <>Poked you</>}
+        <Text as="a" href={postUrl}>
+          {type === "like" && isPost && <>Liked your post</>}
+          {type === "like" && isComment && <>Liked your comment</>}
+          {type === "comment" && <>Commented on your post</>}
+          {type === "mention" && <>Mentioned you</>}
+        </Text>
         <Widget
-          src="near/widget/PokeButton"
-          props={{ accountId: props.accountId, back: true, primary: true }}
-        />
-      )}
+          src="mob.near/widget/TimeAgo"
+          props={{ blockHeight: props.blockHeight }}
+        />{" "}
+        ago
+      </Text>
 
-      {(type === "like" ||
-        type === "comment" ||
-        type === "mention" ||
-        type === "custom") && <Button href={postUrl}>View</Button>}
-    </div>
-    <div> {JSON.stringify(props.value)} </div>
-  </Wrapper>
+      <div>
+        {(type === "follow" || type === "unfollow") && (
+          <Widget
+            src="near/widget/FollowButton"
+            props={{ accountId: props.accountId }}
+          />
+        )}
+
+        {type === "poke" && (
+          <Widget
+            src="near/widget/PokeButton"
+            props={{ accountId: props.accountId, back: true, primary: true }}
+          />
+        )}
+
+        {(type === "like" ||
+          type === "comment" ||
+          type === "mention" ||
+          type === "custom") && <Button href={postUrl}>View</Button>}
+      </div>
+    </Wrapper>
+  </>
 );
