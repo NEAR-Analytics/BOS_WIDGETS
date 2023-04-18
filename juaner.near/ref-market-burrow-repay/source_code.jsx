@@ -314,11 +314,6 @@ const handleRepay = () => {
     finalAmount,
     asset.metadata.decimals + asset.config.extra_decimals
   );
-  console.log("11111111-finalAmount", finalAmount);
-  console.log("11111111-nearBalance", nearBalance);
-  console.log("11111111-isMax", isMax);
-  console.log("11111111-availableBalance", availableBalance);
-
   const repayTemplate = {
     Execute: {
       actions: [
@@ -381,12 +376,22 @@ function getCloseButtonIcon(icon) {
     closeButtonBase64: icon,
   });
 }
-const remainBurrow = Big(availableBalance || 0)
-  .sub(amount || 0)
-  .toFixed(4);
-const remainBurrow$ = Big(asset.price.usd || 0)
-  .mul(remainBurrow)
-  .toFixed(2);
+const remainBurrow = Math.max(
+  Number(
+    Big(availableBalance || 0)
+      .sub(amount || 0)
+      .toFixed(4)
+  ),
+  0
+);
+const remainBurrow$ = Math.max(
+  Number(
+    Big(asset.price.usd || 0)
+      .mul(remainBurrow)
+      .toFixed(2)
+  ),
+  0
+);
 /** logic end */
 return (
   <Container>
