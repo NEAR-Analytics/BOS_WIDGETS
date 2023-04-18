@@ -30,7 +30,9 @@ const Tabs = styled.div`
   }
 `;
 
-const TabsButton = styled.a`
+const TabsButton =
+  props.tabButtonStyle ??
+  styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
