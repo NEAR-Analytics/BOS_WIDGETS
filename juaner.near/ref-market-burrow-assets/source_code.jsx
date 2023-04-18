@@ -195,7 +195,7 @@ function getExtraApy(asset) {
         );
         const xBRRRAmount = Number(
           shrinkToken(
-            account.booster_staking["x_booster_amount"],
+            account.booster_staking["x_booster_amount"] || 0,
             config.booster_decimals
           )
         );
