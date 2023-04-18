@@ -324,7 +324,7 @@ const handleRepay = () => {
       actions: [
         {
           Repay: {
-            max_amount: expandedAmount.toFixed(0),
+            max_amount: !isMax ? expandedAmount.toFixed(0) : undefined,
             token_id: selectedTokenId,
           },
         },
