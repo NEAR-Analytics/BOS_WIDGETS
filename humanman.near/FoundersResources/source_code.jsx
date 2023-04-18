@@ -16,6 +16,7 @@ const props = {
       description:
         "Y Combinator's collection of tips they consider the most important, most transformative advice for startups",
       img: "",
+      video: "https://youtu.be/QZLUQSOv7VY",
       tags: ["business fundamentals", "essentials"],
     },
     {
@@ -40,14 +41,6 @@ const props = {
       description: "Here’s how to make a solid Demo Day slide deck.",
       img: "",
       tags: ["business fundamentals", "pitching"],
-    },
-    {
-      title: "Leadership Toolkit",
-      link: "https://wiki.near.org/support/hr-resources/leadership-toolkit",
-      description:
-        "Resources focused on effective leadership, commnication, and resilience provided by Abensur Consulting.",
-      img: "",
-      tags: ["business fundamentals", "pitching", "leadership"],
     },
   ],
   legalHR: [
@@ -79,23 +72,7 @@ const props = {
       description:
         "SAFE (simple agreement for future equity) for early-stage fundraising",
       img: "",
-      tags: ["hr", "legal", "fundraising"],
-    },
-    {
-      title: "Starting a Referral Program",
-      link: "https://wiki.near.org/support/hr-resources/referral-programs",
-      description:
-        "Guide to incentivising your team to recuit qualified candidates.",
-      img: "",
-      tags: ["hr", "recruitment"],
-    },
-    {
-      title: "Interviewing Guide",
-      link: "https://wiki.near.org/support/hr-resources/interviewing-guide",
-      description:
-        "Tips on crafting effective job descriptions, and building a framework for positive interview experiences",
-      img: "",
-      tags: ["hr", "recruitment"],
+      tags: ["business fundamentals", "fundraising"],
     },
   ],
   growth: [
@@ -218,14 +195,6 @@ const props = {
         "Provides an abstraction over various wallets within the NEAR ecosystem",
       img: "",
       tags: ["technical", "wallets"],
-    },
-    {
-      title: "IT Guide",
-      link: "https://wiki.near.org/support/hr-resources/it-guide",
-      description:
-        "Recommendations and best practices to avoid hacking and viruses",
-      img: "",
-      tags: ["technical", "security"],
     },
     {
       title: "Seda (formerly Flux)",
