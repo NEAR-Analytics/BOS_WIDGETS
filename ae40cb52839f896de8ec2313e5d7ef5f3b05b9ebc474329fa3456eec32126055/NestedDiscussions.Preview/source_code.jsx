@@ -20,7 +20,13 @@ const content = JSON.parse(
 ).content;
 
 const item = {
-  type: "social",
+  type: "custom",
+  widget: singlePageView,
+  params: {
+    dbAction,
+    accountId,
+    blockHeight,
+  },
   path: `${accountId}/${dbAction}/main`,
   blockHeight,
 };
