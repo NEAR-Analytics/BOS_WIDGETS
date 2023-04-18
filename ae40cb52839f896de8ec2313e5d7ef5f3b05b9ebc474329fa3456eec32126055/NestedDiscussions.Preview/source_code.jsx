@@ -168,6 +168,9 @@ return (
             limit: props.commentsLimit,
             subscribe,
             raw,
+            composeWidget,
+            previewWidget,
+            singlePageView,
           }}
         />
       </Comments>
