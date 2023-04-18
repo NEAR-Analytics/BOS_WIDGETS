@@ -14,7 +14,7 @@ const Card = styled.button`
   justify-content: top;
   align-items: top;
   width: 300px;
-  height: 375px;
+  height: 400px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   color: black;
