@@ -21,6 +21,7 @@ let thisWidgetInlineStyles = props.allWidgetsInlineStyles.shareWidget ?? {
     borderRadius: "28px",
     zIndex: "1",
     width: "40vw",
+    maxWidth: "100%",
     padding: "1rem",
     border: "1.5px solid #F0F4F7",
   },
