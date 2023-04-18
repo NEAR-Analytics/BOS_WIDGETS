@@ -73,6 +73,19 @@ function composeData() {
     },
   });
 
+  if (notifyAccountId) {
+    data.index["notify"] = JSON.stringify({
+      key: notifyAccountId,
+      value: {
+        type: "custom",
+        message: "Commented on the discussion",
+        widget: props.singlePageView,
+        blockHeight: item.blockHeight,
+        params: identifier,
+      },
+    });
+  }
+
   const notifications = extractTagNotifications(state.text, {
     type: "social",
     path: `${context.accountId}/${dbAction}/main`,
