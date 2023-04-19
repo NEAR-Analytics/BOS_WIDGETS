@@ -22,7 +22,7 @@ if (!state.projectIsFetched) {
   Near.asyncView(
     ownerId,
     "get_project",
-    { project_id: accountId },
+    { account_id: accountId },
     "final",
     false
   ).then((project) => State.update({ project, projectIsFetched: true }));
@@ -211,7 +211,7 @@ return (
           {state.isAdmin ? (
             <>
               {state.project.application_status === "NotSubmitted" ||
-              "Rejected" in state.project.application_status ? (
+                "Rejected" in state.project.application_status ? (
                 <Widget
                   src={`${ownerId}/widget/Buttons.Green`}
                   props={{
