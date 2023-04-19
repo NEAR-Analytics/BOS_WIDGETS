@@ -248,9 +248,7 @@ const allWidgetsInlineStyles = {
       marginLeft: "0.5rem",
     },
     shareingWidgetContainer: { margin: "0 0.5rem" },
-    headerContainer: {
-      maxWidth: "100%",
-    },
+    headerContainer: {},
     interactionButtonsContainer: {},
     repostButton: {
       border: "0",
