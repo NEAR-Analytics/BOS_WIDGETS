@@ -3,8 +3,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: .5em 1em;
-  gap: .5em;
+  padding: 0.5em 1em;
+  gap: 0.5em;
   background: #d9f4ff;
   border-radius: 8px;
   width: 100%;
@@ -16,9 +16,8 @@ const Row = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0px;
-  gap: .5em;
+  gap: 0.5em;
   width: 100%;
-  height: 1.4em;
 `;
 
 const Label = styled.span`
@@ -27,10 +26,10 @@ const Label = styled.span`
   align-items: center;
   justify-content: flex-start;
   padding: 0px;
-  gap: .5em;
+  gap: 0.5em;
   font-style: normal;
   font-weight: 600;
-  font-size: .75em;
+  font-size: 0.75em;
   line-height: 1em;
   color: #11181c;
   width: 35%;
@@ -42,10 +41,10 @@ const Value = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 0px;
-  gap: .5em;
+  gap: 0.5em;
   font-style: normal;
   font-weight: 700;
-  font-size: .75em;
+  font-size: 0.75em;
   line-height: 1.4em;
   color: #11181c;
   width: 65%;
@@ -56,10 +55,6 @@ return (
     <Row>
       <Label>Credits:</Label>
       <Value>0 NHZN</Value>
-    </Row>
-    <Row>
-      <Label>Graduation:</Label>
-      <Value>10%</Value>
     </Row>
     <Row>
       <Label>Profile:</Label>
