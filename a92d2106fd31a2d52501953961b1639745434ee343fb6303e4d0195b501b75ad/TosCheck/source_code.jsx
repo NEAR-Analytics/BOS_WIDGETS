@@ -16,6 +16,18 @@ const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
 
 console.log("Agreements", agreementsForUser);
 
+if (agreementsForUser.length === 0) {
+  const latestAccept = Near.view(
+    "social.near",
+    "get",
+    `{"keys":["${context.accountId}/index/tosAccept"]}`
+  );
+
+  if (latestAccept.key === acceptanceKey) {
+    agreementsForUser = [latestAccept];
+  }
+}
+
 const tosVersions = Social.keys(tosName, "final", {
   return_type: "BlockHeight",
   // subscribe: true,
