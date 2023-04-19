@@ -17,7 +17,12 @@ const voteList = votes
   ? Object.keys(votes).map((voter) => {
       return (
         <>
-          <span>{voter}:</span>
+          <a
+            href={`https://explorer.near.org/accounts/${voter}`}
+            target="_blank"
+          >
+            {voter}
+          </a>
           <span>{votes[voter]}</span>
         </>
       );
@@ -58,6 +63,7 @@ const Header = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 8px;
 `;
 
 const Type = styled.div`
