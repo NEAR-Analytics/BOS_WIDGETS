@@ -10,6 +10,7 @@ const text = props.text;
 const updateInstanceTimeState = props.updateInstanceTimeState;
 
 State.init({
+  intervalId: -1,
   is_on: [],
   accounts: [],
 });
@@ -130,7 +131,7 @@ const getFormatedTime = (time) => {
   return formated;
 };
 
-setInterval(() => {
+function intervalFunction() {
   const day = new Date().getDay() == 0 ? 6 : new Date().getDay() - 1;
   const hours = new Date().getHours();
   const mins = new Date().getMinutes();
@@ -152,7 +153,12 @@ setInterval(() => {
   }
 
   State.update({ is_on: is_on_all, accounts: accounts });
-}, 20 * 1000);
+}
+
+if (state.intervalId === -1) {
+  const intervalId = setInterval(intervalFunction, 20 * 1000);
+  State.update({ intervalId });
+}
 
 function makeStringShorter(string, length) {
   if (string.length > length) {
