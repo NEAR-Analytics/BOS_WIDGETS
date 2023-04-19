@@ -1,4 +1,4 @@
-const dbAction = props.dbAction || "discuss";
+const dbAction = props.dbAction;
 const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
