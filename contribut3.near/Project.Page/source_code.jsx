@@ -4,6 +4,8 @@ const accountId = props.accountId ?? context.accountId;
 State.init({
   isAdmin: false,
   isAdminIsFetched: false,
+  project: null,
+  projectIsFetched: false,
 });
 
 if (!state.isAdminIsFetched) {
@@ -14,6 +16,16 @@ if (!state.isAdminIsFetched) {
     "final",
     false
   ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
+}
+
+if (!state.projectIsFetched) {
+  Near.asyncView(ownerId, "get_project", { project_id: accountId }, "final", false).then(
+    (project) => State.update({ project, projectIsFetched: true })
+  );
+}
+
+if (!state.projectIsFetched || !state.isAdminIsFetched) {
+  return <>Loading...</>;
 }
 
 const availableContent = [
