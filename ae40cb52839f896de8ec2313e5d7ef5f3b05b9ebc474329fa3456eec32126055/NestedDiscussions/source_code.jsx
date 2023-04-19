@@ -1,3 +1,7 @@
+const identifier = props.identifier;
+const dbAction = props.dbAction || "discuss";
+const moderatorAccount = props.moderatorAccount;
+
 const composeWidget =
   props.composeWidget ||
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose";
@@ -6,11 +10,8 @@ const previewWidget =
   props.previewWidget ||
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
 
-const dbAction = props.dbAction || "discuss";
-
-const moderatorAccount = props.moderatorAccount || "bosmod.near";
-
-const identifier = props.identifier;
+const notLoggedMessage =
+  props.notLoggedMessage || "Please login to join the discussion";
 
 if (!identifier) {
   return "[NestedDiscussions]: Please setup props.identifier";
@@ -40,9 +41,6 @@ const FeedWrapper = styled.div`
     }
   }
 `;
-
-const notLoggedMessage =
-  props.notLoggedMessage || "Please login to join the discussion";
 
 return (
   <DiscussionContainer>
