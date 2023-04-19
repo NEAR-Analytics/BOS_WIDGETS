@@ -254,7 +254,7 @@ const Border = styled.hr`
 return (
   <NavContainer>
     {navItem({ text: "Discover", icon: discover, id: "home" })}
-    {navItem({ text: "Pulse", icon: pulse, id: "pulse" })}
+    {/* navItem({ text: "Pulse", icon: pulse, id: "pulse" }) */}
     {navItem({
       text: "Inbox",
       icon: mail,
@@ -266,11 +266,11 @@ return (
       icon: manage,
       id: "manage",
     })}
-    {navItem({
+    {/* navItem({
       text: "Profile",
       icon: profile,
       id: "profile",
-    })}
+    }) */}
     {navItem({
       text: "Learn",
       icon: book,
