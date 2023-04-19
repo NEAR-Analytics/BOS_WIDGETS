@@ -11,12 +11,17 @@ const ProposalCard = styled.div`
   padding: 20px;
 `;
 
+const VoteList = styled.div`
+  display:flex;
+  flex-direction:column;
+`;
+
 const votes = proposal.proposal.votes;
 
 const voteList = votes
   ? Object.keys(votes).map((voter) => {
       return (
-        <>
+        <div>
           <a
             href={`https://explorer.near.org/accounts/${voter}`}
             target="_blank"
@@ -24,7 +29,7 @@ const voteList = votes
             {voter}
           </a>
           <span>{votes[voter]}</span>
-        </>
+        </div>
       );
     })
   : "";
@@ -114,7 +119,7 @@ return (
       </InfoWrapper>
       <InfoWrapper>
         <Label>Votes</Label>
-        <div>{voteList}</div>
+        <VoteList>{voteList}</VoteList>
       </InfoWrapper>
     </PropInfos>
     <InfoWrapper>
