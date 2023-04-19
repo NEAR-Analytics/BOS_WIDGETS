@@ -41,6 +41,7 @@ if (!state.profileIsFetched) {
       profileIsFetched: true,
     })
   );
+  return <>Loading...</>;
 }
 
 return (
