@@ -2,7 +2,6 @@ const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
-const identifier = props.identifier;
 
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
