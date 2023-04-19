@@ -5,8 +5,8 @@ const cid = props.cid;
 State.init({
   request: null,
   requestIsFetched: false,
-  tags: null,
-  tagsIsFetched: false,
+  profile: null,
+  profileIsFetched: false,
 });
 
 if (!state.requestIsFetched) {
@@ -19,14 +19,14 @@ if (!state.requestIsFetched) {
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
-if (!state.foundersIsFetched) {
+if (!state.profileIsFetched) {
   Near.asyncView(
     "social.near",
     "get",
-    { keys: [`${accountId}/profile/tags`] },
+    { keys: [`${accountId}/profile/**`] },
     "final",
     false
-  ).then((tags) => State.update({ tags, tagsIsFetched: true }));
+  ).then((profile) => State.update({ profile, profileIsFetched: true }));
 }
 
 const Title = styled.h3`
@@ -57,7 +57,6 @@ const Item = styled.div`
   padding: 0px;
   gap: 0.4em;
   flex: none;
-  order: 1;
   flex-grow: 0;
   font-style: normal;
   font-weight: 500;
