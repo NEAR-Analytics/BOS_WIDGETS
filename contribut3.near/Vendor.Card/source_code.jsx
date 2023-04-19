@@ -169,7 +169,7 @@ const body = (
       </Details>
     </Container>
     <Tagline>{state.profile.tagline}</Tagline>
-    <p>{state.profile.tagline}</p>
+    <p>{state.profile.description}</p>
     <Widget
       src={`${ownerId}/widget/Tags`}
       props={{ tags: state.profile.tags }}
