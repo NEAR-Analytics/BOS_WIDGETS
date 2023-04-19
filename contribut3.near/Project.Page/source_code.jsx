@@ -20,7 +20,6 @@ const availableContent = [
   "overview",
   "requests",
   "people",
-  "funding",
   "history",
   "graduation",
 ];
@@ -254,10 +253,6 @@ return (
               {
                 id: "people",
                 text: "People",
-              },
-              {
-                id: "funding",
-                text: "Funding",
               },
               {
                 id: "history",
