@@ -178,7 +178,7 @@ return (
         <Widget
           src="mob.near/widget/TimeAgo"
           props={{ blockHeight: props.blockHeight }}
-        />{" "}
+        />
         ago
       </Text>
 
