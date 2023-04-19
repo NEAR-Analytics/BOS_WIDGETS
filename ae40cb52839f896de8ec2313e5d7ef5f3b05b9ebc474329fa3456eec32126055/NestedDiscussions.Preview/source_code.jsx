@@ -6,7 +6,7 @@ const identifier = props.identifier;
 
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
-const singlePageView = props.singlePageView;
+// const singlePageView = props.singlePageView;
 
 const content = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight) ??
@@ -14,13 +14,11 @@ const content = JSON.parse(
 ).content;
 
 const item = {
-  dbAction,
   accountId,
   blockHeight,
-  identifier,
 };
 
-const postUrl = `https://alpha.near.org/#/${singlePageView}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&identifier=${identifier}&previewWidget=${previewWidget}`;
+const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&previewWidget=${previewWidget}`;
 
 const Post = styled.div`
   position: relative;
