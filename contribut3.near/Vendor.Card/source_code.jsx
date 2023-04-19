@@ -30,16 +30,34 @@ if (!state.descriptionIsFetched) {
   );
 }
 
+
 const body = (
   <>
-    <Widget
-      src={`${ownerId}/widget/ProfileLine`}
-      props={{
-        accountId,
-        imageSize: "3em",
-        update: props.update,
-      }}
-    />
+    <Container>
+      <Widget
+        src={`${ownerId}/widget/Vendor.Icon`}
+        props={{ accountId: props.accountId, size: "4em" }}
+      />
+      <Details>
+        <Widget
+          src={`${ownerId}/widget/NameAndAccount`}
+          props={{
+            accountId: props.accountId,
+            name: state.profile.name,
+            nameSize: "1.125em",
+          }}
+        />
+        <Widget
+          src={`${ownerId}/widget/BadgeList`}
+          props={{
+            badges: [
+              { value: "Verified" },
+              { value: "Fundraiser", color: "#62ebe4" },
+            ],
+          }}
+        />
+      </Details>
+    </Container>
     <Widget
       src={`${ownerId}/widget/DescriptionArea`}
       props={{ description: state.description }}
