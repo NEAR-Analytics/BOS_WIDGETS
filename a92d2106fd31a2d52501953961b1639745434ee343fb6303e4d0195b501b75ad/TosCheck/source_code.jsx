@@ -18,11 +18,15 @@ console.log("Agreements", agreementsForUser);
 
 if (agreementsForUser.length === 0 || true) {
   //TODO
-  const acceptJson = Near.view(
-    "social.near",
-    "get",
-    `{"keys":["${context.accountId}/index/tosAccept"]}`
-  );
+  // const acceptJson = Near.view(
+  //   "social.near",
+  //   "get",
+  //   `{"keys":["${context.accountId}/index/tosAccept"]}`
+  // );
+
+  const acceptJson = Near.view("social.near", "get", {
+    keys: [context.accountId + "/index/tosAccept"],
+  });
 
   console.log("acceptJson", acceptJson);
 
