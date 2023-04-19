@@ -41,6 +41,7 @@ const ImageCircle = styled.img`
 `;
 
 const ImageContainer = styled.div`
+  sizing: border-box;
   display: inline-block;
   --size: ${({ size }) => size};
   width: var(--size, 1.5em);
