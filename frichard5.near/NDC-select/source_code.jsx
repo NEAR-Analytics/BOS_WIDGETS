@@ -10,6 +10,7 @@ const Select = styled.select`
   border-radius: 4px;
   top: 0px;
   left: 0px;
+  width: fit-content;
 `;
 
 const Option = styled.option`
