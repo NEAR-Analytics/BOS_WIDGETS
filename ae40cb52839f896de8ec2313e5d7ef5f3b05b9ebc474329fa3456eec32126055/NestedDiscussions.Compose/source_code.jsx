@@ -55,7 +55,7 @@ function extractTagNotifications(text, item) {
         params:
           typeof identifier === "string"
             ? { identifier: identifier }
-            : identifier,
+            : { ...identifier },
       },
     }));
 }
