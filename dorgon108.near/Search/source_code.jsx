@@ -527,7 +527,7 @@ return (
         </GroupHeader>
         <GridItems>
           {state.search.postsAndComments
-            .filter((_, index) => (currentTab !== "Apps" ? index < 2 : true))
+            .filter((_, index) => (currentTab !== "Apps" ? index < 3 : true))
             .map((post, i) => (
               <Item
                 key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
