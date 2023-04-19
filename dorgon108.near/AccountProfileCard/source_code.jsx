@@ -29,6 +29,8 @@ const Card = styled.div`
   padding: 16px;
   width: 408px;
 height: 88px;
+  max-width: 100%;
+
 `;
 
 const CardLeft = styled.div`
