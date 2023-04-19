@@ -159,6 +159,13 @@ const Items = styled.div`
 
 const Item = styled.div``;
 
+// Add the following styles to your CSS or a styled-component
+const GridItems = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 16px;
+`;
+
 const resetSearcheHits = () => {
   State.update({
     currentPage: 0,
@@ -459,25 +466,26 @@ return (
             View All
           </Text>
         </GroupHeader>
-
-        <Items>
-          {state.search.components.map((component, i) => (
-            <Item key={component.accountId + component.widgetName}>
-              <Widget
-                src="chaotictempest.near/widget/ComponentCard"
-                props={{
-                  src: `${component.accountId}/widget/${component.widgetName}`,
-                  onClick: () =>
-                    onSearchResultClick({
-                      searchPosition: component.searchPosition,
-                      objectID: `${component.accountId}/widget/${component.widgetName}`,
-                      eventName: "Clicked Component After Search",
-                    }),
-                }}
-              />
-            </Item>
-          ))}
-        </Items>
+        <GridItems>
+          {state.search.components
+            .filter((_, index) => (currentTab !== "Apps" ? index < 2 : true))
+            .map((component, i) => (
+              <Item key={component.accountId + component.widgetName}>
+                <Widget
+                  src="dorgon108.near/widget/ComponentCard-SearchAll"
+                  props={{
+                    src: `${component.accountId}/widget/${component.widgetName}`,
+                    onClick: () =>
+                      onSearchResultClick({
+                        searchPosition: component.searchPosition,
+                        objectID: `${component.accountId}/widget/${component.widgetName}`,
+                        eventName: "Clicked Component After Search",
+                      }),
+                  }}
+                />
+              </Item>
+            ))}
+        </GridItems>
       </Group>
     )}
 
@@ -489,25 +497,26 @@ return (
             View All
           </Text>
         </GroupHeader>
-
-        <Items>
-          {state.search.profiles.map((profile, i) => (
-            <Item key={profile.accountId}>
-              <Widget
-                src="chaotictempest.near/widget/AccountProfileCard"
-                props={{
-                  accountId: profile.accountId,
-                  onClick: () =>
-                    onSearchResultClick({
-                      searchPosition: profile.searchPosition,
-                      objectID: `${profile.accountId}/profile`,
-                      eventName: "Clicked Profile After Search",
-                    }),
-                }}
-              />
-            </Item>
-          ))}
-        </Items>
+        <GridItems>
+          {state.search.profiles
+            .filter((_, index) => (currentTab !== "People" ? index < 2 : true))
+            .map((profile, i) => (
+              <Item key={profile.accountId}>
+                <Widget
+                  src="dorgon108.near/widget/AccountProfileCard"
+                  props={{
+                    accountId: profile.accountId,
+                    onClick: () =>
+                      onSearchResultClick({
+                        searchPosition: profile.searchPosition,
+                        objectID: `${profile.accountId}/profile`,
+                        eventName: "Clicked Profile After Search",
+                      }),
+                  }}
+                />
+              </Item>
+            ))}
+        </GridItems>
       </Group>
     )}
 
@@ -516,46 +525,34 @@ return (
         <GroupHeader>
           <H3>Posts</H3>
         </GroupHeader>
-
-        <Items>
-          {state.search.postsAndComments.map((post, i) => (
-            <Item
-              key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
-            >
-              <Widget
-                src="chaotictempest.near/widget/SearchPost"
-                props={{
-                  accountId: post.accountId,
-                  blockHeight: post.blockHeight,
-                  content: post.postContent,
-                  snipContent: post.snipContent,
-                  postType: post.postType,
-                  onClick: () =>
-                    onSearchResultClick({
-                      searchPosition: post.searchPosition,
-                      objectID: `${post.accountId}/${post.postType}/${post.blockHeight}`,
-                      eventName: "Clicked Post After Search",
-                    }),
-                }}
-              />
-            </Item>
-          ))}
-        </Items>
+        <GridItems>
+          {state.search.postsAndComments
+            .filter((_, index) => (currentTab !== "Apps" ? index < 2 : true))
+            .map((post, i) => (
+              <Item
+                key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
+              >
+                <Widget
+                  src="dorgon108.near/widget/SearchPost-SearchAll"
+                  props={{
+                    accountId: post.accountId,
+                    blockHeight: post.blockHeight,
+                    content: post.postContent,
+                    snipContent: post.snipContent,
+                    postType: post.postType,
+                    onClick: () =>
+                      onSearchResultClick({
+                        searchPosition: post.searchPosition,
+                        objectID: `${post.accountId}/${post.postType}/${post.blockHeight}`,
+                        eventName: "Clicked Post After Search",
+                      }),
+                  }}
+                />
+              </Item>
+            ))}
+        </GridItems>
       </Group>
     )}
-
-    {showPagination &&
-      state.paginate &&
-      state.paginate.hitsTotal > state.paginate.hitsPerPage && (
-        <Widget
-          src="chaotictempest.near/widget/Paginate"
-          props={{
-            totalCount: state.paginate.hitsTotal,
-            pageSize: state.paginate.hitsPerPage,
-            onPageChange,
-          }}
-        />
-      )}
 
     {!props.disableInsights && (
       <Widget
