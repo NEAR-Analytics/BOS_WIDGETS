@@ -11,7 +11,8 @@ const forgeUrl = (apiUrl, params) =>
   );
 
 const ProposalContainer = styled.div`
-  min-height: 100px
+  margin-top: 40px;
+  min-height: 100px;
 `;
 
 const ProposalFilters = styled.div`
