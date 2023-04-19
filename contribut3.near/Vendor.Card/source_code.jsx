@@ -72,6 +72,10 @@ const body = (
             nameSize: "1.125em",
           }}
         />
+        <Row>
+          {state.profile.organization ? "Organization" : "Individual"}
+          <Widget src={`${ownerId}/widget/ActiveIndicator`} props={{ active: state.profile.active, activeText: "Available", inactiveText: "Not available" }} />
+        </Row>
         <Widget
           src={`${ownerId}/widget/BadgeList`}
           props={{
