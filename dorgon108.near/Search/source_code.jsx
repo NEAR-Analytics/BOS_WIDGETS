@@ -28,7 +28,7 @@ border-radius: 32px 32px 0px 0px;
   flex-direction: column;
   gap: 48px;
   padding-bottom: 48px;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   
 `;
@@ -538,15 +538,10 @@ return (
                 .map((component, i) => (
                   <Item key={component.accountId + component.widgetName}>
                     <Widget
-                      src="dorgon108.near/widget/ComponentCard-SearchAll"
+                      src="near/widget/ComponentCard"
                       props={{
                         src: `${component.accountId}/widget/${component.widgetName}`,
-                        onClick: () =>
-                          onSearchResultClick({
-                            searchPosition: component.searchPosition,
-                            objectID: `${component.accountId}/widget/${component.widgetName}`,
-                            eventName: "Clicked Component After Search",
-                          }),
+                        blockHeight: component.blockHeight,
                       }}
                     />
                   </Item>
