@@ -643,7 +643,7 @@ return (
     </div>
     {console.log(state.isFiltersPanelVisible)}
     {state.isFiltersPanelVisible && (
-      <FiltersPanel>
+      <FiltersPanel style={{ backgroundColor: "red" }}>
         <Widget
           src={`dorgon108.near/widget/FIlterPanel`}
           props={{
