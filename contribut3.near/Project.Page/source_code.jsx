@@ -198,33 +198,34 @@ return (
           props={{ accountId, isAdmin: state.isAdmin }}
         />
         <CTARow>
-          <Widget
-            src={`${ownerId}/widget/Buttons.Green`}
-            props={{
-              onClick: () =>
-                Near.call(ownerId, "apply_for_program", {
-                  account_id: accountId,
-                }),
-              text: <>{circledPlus}Apply to accelerator</>,
-            }}
-          />
-          <Widget
-            src={`${ownerId}/widget/Buttons.Grey`}
-            props={{
-              onClick: () => {
-                console.log("clicked");
-              },
-              text: <>{plus}Create request</>,
-            }}
-          />
-          <Widget
-            src={`${ownerId}/widget/Project.ProposeSideWindow`}
-            props={{ accountId }}
-          />
-          <Widget
-            src={`${ownerId}/widget/Project.ClaimSideWindow`}
-            props={{ accountId }}
-          />
+          {state.isAdmin ? (<>
+            <Widget
+              src={`${ownerId}/widget/Buttons.Green`}
+              props={{
+                onClick: () =>
+                  Near.call(ownerId, "apply_for_program", {
+                    account_id: accountId,
+                  }),
+                text: <>{circledPlus}Apply to accelerator</>,
+              }}
+            />
+            <Widget
+              src={`${ownerId}/widget/Buttons.Grey`}
+              props={{
+                onClick: () => {
+                  console.log("clicked");
+                },
+                text: <>{plus}Create request</>,
+              }}
+            /></>) : (<>
+              <Widget
+                src={`${ownerId}/widget/Project.ProposeSideWindow`}
+                props={{ accountId }}
+              />
+              <Widget
+                src={`${ownerId}/widget/Project.ClaimSideWindow`}
+                props={{ accountId }}
+              /></>)}
         </CTARow>
       </HeaderDetails>
       <HeaderProgress>
