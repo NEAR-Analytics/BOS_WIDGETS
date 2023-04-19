@@ -51,13 +51,30 @@ const thumbDownSvg = (
 const votes = proposal.proposal.votes;
 
 const getVoteSvg = (vote) => {
-  console.log("VOTE", vote);
   switch (vote) {
     case "Reject=0x1":
       return thumbDownSvg;
     case "Approve=0x0":
       return thumbUpSvg;
   }
+};
+
+const parseDescription = (description) => {
+  const parts = description.split(" ");
+
+  const parsedParts = parts.map((p) => {
+    const url = p.match(/^https:\/\/\S*/g);
+    if (url) {
+      return (
+        <a href={p} target="_blank">
+          {p}
+        </a>
+      );
+    }
+    return p + " ";
+  });
+
+  return parsedParts;
 };
 
 const voteList = votes
@@ -166,7 +183,9 @@ return (
     </PropInfos>
     <InfoWrapper>
       <Label>Description</Label>
-      <Description>{proposal.proposal.description}</Description>
+      <Description>
+        {parseDescription(proposal.proposal.description)}
+      </Description>
     </InfoWrapper>
   </ProposalCard>
 );
