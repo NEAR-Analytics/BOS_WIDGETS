@@ -202,7 +202,9 @@ return (
         label: "Company size",
         id: "size",
         value: state.team,
-        onSave: (team) => onSave({ team }),
+        onSave: (team) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { team } } },
+        }),
         canEdit: isAdmin,
       }}
     />
