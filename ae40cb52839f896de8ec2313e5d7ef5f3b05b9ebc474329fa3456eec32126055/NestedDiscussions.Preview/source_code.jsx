@@ -12,6 +12,7 @@ const content = JSON.parse(
 ).content;
 
 const item = {
+  dbAction,
   accountId,
   blockHeight,
 };
