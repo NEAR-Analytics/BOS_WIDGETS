@@ -1,6 +1,7 @@
 const onSave = props.onSave ?? (() => { });
 const ownerId = "contribut3.near";
 const isAdmin = props.isAdmin;
+const accountId = props.accountId;
 
 const Container = styled.div`
   display: flex;
@@ -214,7 +215,7 @@ return (
       props={{
         label: "Tags",
         id: "tags",
-        value: [],//Object.keys(state.profile.tags).map((name) => ({ name })),
+        value: Object.keys(state.profile.tags).map((name) => ({ name })),
         options: [
           { name: "defi" },
           { name: "exchange" },
