@@ -292,7 +292,8 @@ return (
         <Widget
           src={`${ownerId}/widget/Project.Sidebar`}
           props={{
-            accountId: "contribut3.near",
+            accountId,
+            isAdmin: state.isAdmin,
             onSave: (s) => {
               console.log(s);
             },
