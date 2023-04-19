@@ -19,6 +19,7 @@ const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 State.init({
   facet: tab,
   isFiltersPanelVisible: false,
+  numColumns: 3,
 });
 
 const Wrapper = styled.div`
@@ -203,12 +204,19 @@ const Item = styled.div``;
 // Add the following styles to your CSS or a styled-component
 const GridItems = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: ${({ numColumns }) =>
+    numColumns === 3 ? "repeat(3, 1fr)" : "repeat(2, 1fr)"};
   grid-gap: 16px;
 `;
+
 const toggleFiltersPanel = () => {
+  setState((prevState) => ({
+    ...prevState,
+    isFiltersPanelVisible: !prevState.isFiltersPanelVisible,
+  }));
+
   State.update({
-    isFiltersPanelVisible: !state.isFiltersPanelVisible,
+    numColumns: state.numColumns === 3 ? 2 : 3,
   });
 };
 
@@ -524,7 +532,7 @@ return (
                 View All
               </Text>
             </GroupHeader>
-            <GridItems>
+            <GridItems numColumns={state.numColumns}>
               {state.search.components
                 .filter((_, index) =>
                   state.facet === "Apps" || currentTab === "Apps"
@@ -559,7 +567,7 @@ return (
                 View All
               </Text>
             </GroupHeader>
-            <GridItems>
+            <GridItems numColumns={state.numColumns}>
               {state.search.profiles
                 .filter((_, index) =>
                   state.facet === "Users" || currentTab === "Users"
