@@ -63,9 +63,17 @@ const InfoWrapper = styled.div`
 const Type = styled.div`
   font-size: 22px;
   font-weight: 700;
+  margin-bottom: 10px;
 `;
 
 const PropInfos = styled.div`
+  float: right;
+  padding: 10px;
+  background: rgba(68, 152, 224, 0.1);
+  border-radius: 4px;
+`;
+
+const VoteInfos = styled.div`
   float: right;
   padding: 10px;
   background: rgba(68, 152, 224, 0.1);
@@ -98,14 +106,14 @@ return (
         <Label>Submission Time</Label>
         <span>{new Date(proposal.submission_time).toLocaleString()}</span>
       </InfoWrapper>
+      <InfoWrapper>
+        <Label>Votes</Label>
+        <div>{voteList}</div>
+      </InfoWrapper>
     </PropInfos>
     <InfoWrapper>
       <Label>Description</Label>
       <Description>{proposal.proposal.description}</Description>
-    </InfoWrapper>
-    <InfoWrapper>
-      <Label>Votes</Label>
-      <div>{voteList}</div>
     </InfoWrapper>
   </ProposalCard>
 );
