@@ -50,7 +50,7 @@ function extractTagNotifications(text, item) {
       value: {
         type: "custom",
         message: "Tagged you on a discussion",
-        widget: props.singlePageView,
+        widget: props.previewWidget,
         blockHeight: item.blockHeight,
         params:
           typeof identifier === "string"
