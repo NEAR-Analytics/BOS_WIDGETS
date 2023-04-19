@@ -137,6 +137,10 @@ const rate = (
   </Item>
 );
 
+const Description = styled.p`
+  padding: 0;
+`;
+
 const body = (
   <>
     <Container>
