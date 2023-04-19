@@ -1,9 +1,9 @@
-const dbAction = props.dbAction || "discuss";
+const dbAction = props.dbAction;
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
 const singlePageView = props.singlePageView;
 const identifier = props.identifier;
-const moderatorAccount = props.moderatorAccount || "adminalpha.near";
+const moderatorAccount = props.moderatorAccount;
 
 if (!identifier) {
   return "[NestedDiscussions.Feed] Please select an identifier for this discussion";
