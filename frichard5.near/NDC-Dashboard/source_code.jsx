@@ -63,7 +63,7 @@ const ProposalStatus = (
   <Widget
     src={`${widgetProvider}/widget/proposals-status`}
     props={{
-      account,
+      account: state.selectedDao,
       widgetProvider,
     }}
   />
