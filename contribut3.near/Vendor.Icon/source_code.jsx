@@ -33,7 +33,6 @@ const url =
 const imageSrc = `https://i.near.social/thumbnail/${url}`;
 
 const ImageCircle = styled.img`
-  background: #fafafa;
   border-radius: 100%;
   object-fit: cover;
   width: 100%;
@@ -41,6 +40,7 @@ const ImageCircle = styled.img`
 `;
 
 const ImageContainer = styled.div`
+  background: #fafafa;
   sizing: border-box;
   display: inline-block;
   --size: ${({ size }) => size};
