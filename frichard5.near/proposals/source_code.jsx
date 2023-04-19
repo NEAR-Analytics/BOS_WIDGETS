@@ -14,6 +14,9 @@ const ProposalContainer = styled.div`
   min-height: 100px
 `;
 
+const ProposalFilters = styled.div`
+`;
+
 const NoProposal = styled.div`
   text-align: center;
   margin-top: 100px;
@@ -221,8 +224,10 @@ const ProposalInfiniteScroll = (
 
 return (
   <ProposalContainer>
-    {SelectType}
-    {SelectStatus}
+    <ProposalFilters>
+      {SelectType}
+      {SelectStatus}
+    </ProposalFilters>
     {state.proposals.length ? (
       ProposalInfiniteScroll
     ) : (
