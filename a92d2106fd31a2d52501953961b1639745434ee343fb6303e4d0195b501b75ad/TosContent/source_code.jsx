@@ -27,6 +27,8 @@ asyncFetch(`https://alphanear.infura-ipfs.io/ipfs/${privacyCid}`).then(
 //   }
 // );
 
+// BUMP
+
 const Wrapper = styled.div`
 `;
 
