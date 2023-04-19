@@ -131,7 +131,8 @@ if (
     : undefined;
 
   console.log("latestAccept", latestAccept);
-
+  console.log("latestAccept.key", latestAccept.key);
+  console.log("latestAccept.value", latestAccept.value);
   console.log(
     "latestAccept.key === acceptanceKey",
     latestAccept.key === acceptanceKey
