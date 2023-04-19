@@ -28,21 +28,24 @@ if (!state.projectIsFetched) {
 }
 
 return (
-  <>
-    <Widget
-      src={`${ownerId}/widget/Project.Details`}
-      props={{
-        onSave: (project) => {
-          State.update({ project: { application: { ...state.project.application, ...project } } });
-          Near.call(
-            ownerId,
-            "edit_project",
-            { account_id: accountId, project: state.project },
-            gas,
-            "0"
-          );
-        },
-      }}
-    />
-  </>
+  <Widget
+    src={`${ownerId}/widget/Project.Details`}
+    props={{
+      accountId
+      onSave: (project) => {
+        State.update({
+          project: {
+            application: { ...state.project.application, ...project },
+          },
+        });
+        Near.call(
+          ownerId,
+          "edit_project",
+          { account_id: accountId, project: state.project },
+          gas,
+          "0"
+        );
+      },
+    }}
+  />
 );
