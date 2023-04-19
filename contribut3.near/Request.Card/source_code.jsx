@@ -36,7 +36,6 @@ const Title = styled.h3`
   line-height: 1.4em;
   color: #101828;
   flex: none;
-  order: 0;
   flex-grow: 1;
 `;
 
@@ -47,7 +46,6 @@ const Details = styled.div`
   padding: 0.5em 0px 0px;
   gap: 1.5em;
   flex: none;
-  order: 4;
   align-self: stretch;
   flex-grow: 0;
 `;
