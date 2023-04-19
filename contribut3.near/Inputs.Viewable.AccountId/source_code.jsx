@@ -145,20 +145,21 @@ return (
         </>
       ),
       view:
-        <Link href={`/near/widget/ProfilePage?accountId=${value}`}>
-          <Widget
-            src={`${ownerId}/widget/Vendor.Icon`}
-            props={{ accountId: value, size: "2em" }}
-          />
-          <Widget
-            src={`${ownerId}/widget/NameAndAccount`}
-            props={{
-              accountId: value,
-              name,
-              nameSize: "1.125em",
-            }}
-          />
-        </Link>,
+        value ?
+          <Link href={`/near/widget/ProfilePage?accountId=${value}`}>
+            <Widget
+              src={`${ownerId}/widget/Vendor.Icon`}
+              props={{ accountId: value, size: "2em" }}
+            />
+            <Widget
+              src={`${ownerId}/widget/NameAndAccount`}
+              props={{
+                accountId: value,
+                name,
+                nameSize: "1.125em",
+              }}
+            />
+          </Link> : <></>,
       canEdit,
     }}
   />
