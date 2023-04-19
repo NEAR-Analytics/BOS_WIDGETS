@@ -76,7 +76,6 @@ const Search = styled.div``;
 const Facets = styled.div`
   overflow: auto;
   width:100%;
-  backgroundColor:red;
 `;
 
 const FacetContainer = styled.ul`
@@ -458,7 +457,7 @@ return (
     )}
 
     {state.search && (
-      <Facets style={{ backgroundColor: "red" }}>
+      <Facets>
         <Widget
           src="dorgon108.near/widget/Facets"
           props={{
