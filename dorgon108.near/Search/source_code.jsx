@@ -141,6 +141,7 @@ const GroupHeader = styled.div`
   gap: 12px;
 `;
 const FiltersPanel = styled.div`
+border-left: 1px solid #ECEEF0;
   position: fixed;
   top: 0;
   right: 0;
