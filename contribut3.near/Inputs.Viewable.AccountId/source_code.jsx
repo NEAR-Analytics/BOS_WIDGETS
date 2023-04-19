@@ -2,9 +2,9 @@ const ownerId = "contribut3.near";
 const id = props.id ?? "text";
 const label = props.label ?? "Input";
 const value = props.value ?? "";
-const link = props.link ?? "";
-const isLink = link !== "";
+const name = props.name ?? "";
 const onSave = props.onSave ?? (() => { });
+const canEdit = props.canEdit;
 
 State.init({
   valid: true,
@@ -136,7 +136,22 @@ return (
           <Error>{state.valid ? <></> : state.errorMessage}</Error>
         </>
       ),
-      view: isLink ? <a href={link}>{value}</a> : value,
+      view:
+        <Link>
+          <Widget
+            src={`${ownerId}/widget/Vendor.Icon`}
+            props={{ accountId: value, size: "4em" }}
+          />
+          <Widget
+            src={`${ownerId}/widget/NameAndAccount`}
+            props={{
+              accountId: value,
+              name,
+              nameSize: "1.125em",
+            }}
+          />
+        </Link>,
+      canEdit,
     }}
   />
 );
