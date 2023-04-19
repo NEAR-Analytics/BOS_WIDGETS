@@ -83,7 +83,9 @@ return (
           { name: "Social" },
           { name: "Other" },
         ],
-        onSave: ([{ name: category }]) => onSave({ category }),
+        onSave: ([{ name: category }]) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { category } } },
+        }),
         canEdit: isAdmin,
       }}
     />
@@ -94,7 +96,9 @@ return (
         id: "integration",
         value: [{ name: "Native" }],
         options: [{ name: "Native" }, { name: "Multichain" }],
-        onSave: ([{ name: integration }]) => onSave({ integration }),
+        onSave: ([{ name: integration }]) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { integration } } },
+        }),
         canEdit: isAdmin,
       }}
     />
@@ -103,14 +107,16 @@ return (
       props={{
         label: "Development phase",
         id: "phase",
-        value: [{ name: "Testnet launched" }],
+        value: state.profile.phase,
         options: [
           { name: "Testnet launched" },
           { name: "Mainnet launched" },
           { name: "In development" },
           { name: "Concept" },
         ],
-        onSave: ([{ name: phase }]) => onSave({ phase }),
+        onSave: ([{ name: phase }]) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { phase } } },
+        }),
         canEdit: isAdmin,
       }}
     />
@@ -119,8 +125,10 @@ return (
       props={{
         label: "User base (MAA)",
         id: "userbase",
-        value: 3500,
-        onSave: (userbase) => onSave({ userbase }),
+        value: state.userbase,
+        onSave: (userbase) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { userbase } } },
+        }),
         canEdit: isAdmin,
       }}
     />
@@ -169,8 +177,10 @@ return (
       props={{
         label: "CEO",
         id: "ceo",
-        value: state.ceo,
-        onSave: (ceo) => onSave({ ceo }),
+        value: state.profile.ceo,
+        onSave: (ceo) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { ceo } } },
+        }),
         canEdit: isAdmin,
       }}
     />
@@ -179,8 +189,10 @@ return (
       props={{
         label: "CTO",
         id: "cto",
-        value: state.cto,
-        onSave: (cto) => onSave({ cto }),
+        value: state.profile.cto,
+        onSave: (cto) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { cto } } },
+        }),
         canEdit: isAdmin,
       }}
     />
