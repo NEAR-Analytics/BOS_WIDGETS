@@ -7,9 +7,7 @@ if (!identifier) {
   return "[NestedDiscussions.Compose]: Please setup props.identifier";
 }
 
-if (!context.accountId) {
-  return <></>;
-}
+if (!context.accountId) return <></>;
 
 State.init({
   image: {},
