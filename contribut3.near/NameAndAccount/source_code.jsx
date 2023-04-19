@@ -8,6 +8,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 0.5em;
 `;
 
