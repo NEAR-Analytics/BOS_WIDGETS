@@ -46,6 +46,7 @@ const ImageContainer = styled.div`
   width: var(--size, 1.5em);
   height: var(--size, 1.5em);
   border-radius: 100%;
+  overflow: hidden;
 `;
 
 return (
