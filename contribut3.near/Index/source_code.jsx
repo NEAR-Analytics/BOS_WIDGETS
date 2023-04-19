@@ -26,6 +26,12 @@ const tabContent = {
       props={{ content: state.content, search: state.search, update }}
     />
   ),
+  manage: (
+    <Widget
+      src={`${ownerId}/widget/Manage`}
+      props={{ content: state.content, search: state.search, update }}
+    />
+  ),
   project: (
     <Widget
       src={`${ownerId}/widget/Project.Page`}
@@ -72,7 +78,7 @@ const ContentContainer = styled.div`
 `;
 
 const Sidebar = styled.div`
-  display: ${({ show }) => show ? "flex" : "none"};
+  display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: row;
   position: sticky;
   top: 0;
