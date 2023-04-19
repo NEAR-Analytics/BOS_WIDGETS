@@ -25,23 +25,16 @@ if (state.proposalsCount === null) {
   ).then((proposals) => State.update({ proposalsCount: proposals.length }));
 }
 
-if (state.invitesCount === null) {
-  Near.asyncView(
-    ownerId,
-    "get_vendor",
-    { account_id: context.accountId },
-    "final",
-    false
-  ).then((invites) => State.update({ invitesCount: invites.length }));
-}
+const Header = styled.h1`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2em;
+  line-height: 2.5em;
+  color: #101828;
+`;
 
 const header = (
-  <div>
-    <h1 className="fs-2">Inbox</h1>
-    <p className="fw-semibold fs-5 text-muted">
-      Manage invitations and proposals
-    </p>
-  </div>
+  <Header>Inbox</Header>
 );
 
 const contentSelector = (
