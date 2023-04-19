@@ -47,7 +47,7 @@ return (
   <>
     <Widget
       src="adminalpha.near/widget/IndexFeed"
-      props={{ index, renderItem, moderatorAccount, reverse: true }}
+      props={{ index, renderItem, moderatorAccount }}
     />
   </>
 );
