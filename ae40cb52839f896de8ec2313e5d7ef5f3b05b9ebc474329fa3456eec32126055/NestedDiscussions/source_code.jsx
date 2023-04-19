@@ -63,7 +63,6 @@ return (
           previewWidget,
           identifier,
           moderatorAccount,
-          reverse: true,
         }}
       />
     </FeedWrapper>
