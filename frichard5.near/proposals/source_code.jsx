@@ -174,6 +174,8 @@ const SelectType = (
       options: typeOptions,
       selectedOption: state.type,
       onChange: selectType,
+      label: "Type",
+      id: "proposal-type-selector",
     }}
   />
 );
@@ -208,6 +210,8 @@ const SelectStatus = (
       options: statusOptions,
       selectedOption: state.status,
       onChange: selectStatus,
+      label: "Status",
+      id: "proposal-type-selector",
     }}
   />
 );
