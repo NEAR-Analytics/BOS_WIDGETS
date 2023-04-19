@@ -11,10 +11,6 @@ if (!identifier) {
 const index = {
   action: dbAction,
   key: identifier,
-  options: {
-    limit: 10,
-    order: "desc",
-  },
 };
 
 const Post = styled.div`
