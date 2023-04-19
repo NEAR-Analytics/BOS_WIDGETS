@@ -52,6 +52,7 @@ const TabsButton = styled.a`
   text-align: center;
   text-decoration: none !important;
   flex: 1;
+  border-bottom: 1px solid #ECEEF0
 
   &:hover {
     color: #11181C;
@@ -545,7 +546,11 @@ return (
         <PostsGridItems>
           {" "}
           {state.search.postsAndComments
-            .filter((_, index) => (currentTab !== "Apps" ? index < 3 : true))
+            .filter((_, index) =>
+              currentTab !== "Apps"
+                ? index < (showAllPosts ? Infinity : 3)
+                : true
+            )
             .map((post, i) => (
               <Item
                 key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
