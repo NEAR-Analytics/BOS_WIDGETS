@@ -117,6 +117,7 @@ const Tabs = (
           //selected: state.selectedTab === "metrics",
           components: (
             <WidgetsContainer>
+              {ProposalsByMonth}
               {ProposalStatus}
               {ContractMetrics}
             </WidgetsContainer>
