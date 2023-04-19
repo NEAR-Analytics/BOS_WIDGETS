@@ -67,6 +67,7 @@ const Content = styled.div`
   background: #fff;
   z-index: 10;
   min-width: ${minWidth};
+  max-width: 800px;
 `;
 
 const Button = styled.button`
@@ -126,7 +127,6 @@ return (
         </Header>
         <Dialog.Description asChild>
           <Description>{description}</Description>
-
         </Dialog.Description>
         {children}
       </Content>
