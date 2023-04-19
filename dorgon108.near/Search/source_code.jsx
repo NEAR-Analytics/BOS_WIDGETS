@@ -207,6 +207,17 @@ const GridItems = styled.div`
   grid-template-columns: ${({ numColumns }) =>
     numColumns === 3 ? "repeat(3, 1fr)" : "repeat(2, 1fr)"};
   grid-gap: 16px;
+    display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;
 
 const toggleFiltersPanel = () => {
