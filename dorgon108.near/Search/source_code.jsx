@@ -531,7 +531,7 @@ return (
         <GroupHeader>
           <H3>Posts</H3>
         </GroupHeader>
-        <PostsGridItems style={{ flexWrap: "nowrap", overflowX: "auto" }}>
+        <PostsGridItems>
           {" "}
           {state.search.postsAndComments
             .filter((_, index) => (currentTab !== "Apps" ? index < 3 : true))
