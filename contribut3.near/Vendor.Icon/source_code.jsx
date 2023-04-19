@@ -39,6 +39,7 @@ const ImageCircle = styled.img`
 `;
 
 const ImageContainer = styled.div`
+  flex-shrink: 0;
   background: #fafafa;
   sizing: border-box;
   display: inline-block;
