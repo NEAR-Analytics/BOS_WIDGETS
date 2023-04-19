@@ -31,6 +31,6 @@ const Container = styled.div`
 return (
   <Container active={active}>
     <Icon active={active} />
-    <TextSpan>{active ? activeText : inactiveText}</TextSpan>
+    <TextSpan active={active}>{active ? activeText : inactiveText}</TextSpan>
   </Container>
 );
