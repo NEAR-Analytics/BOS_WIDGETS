@@ -16,16 +16,23 @@ const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
 
 console.log("Agreements", agreementsForUser);
 
-if (agreementsForUser.length === 0) {
-  const latestAccept = Near.view(
+if (agreementsForUser.length === 0 || true) {
+  //TODO
+  const acceptJson = Near.view(
     "social.near",
     "get",
     `{"keys":["${context.accountId}/index/tosAccept"]}`
   );
 
+  console.log("acceptJson", acceptJson);
+
+  const latestAccept = acceptJson
+    ? acceptJson[context.accountId][index][tosAccept]
+    : undefined;
+
   console.log("latestAccept", latestAccept);
 
-  if (latestAccept.key === acceptanceKey) {
+  if (latestAccept && latestAccept.key === acceptanceKey) {
     agreementsForUser = [latestAccept];
     console.log("LA Agreements", agreementsForUser);
   }
