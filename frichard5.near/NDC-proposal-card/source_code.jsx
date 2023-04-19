@@ -60,11 +60,13 @@ const getVoteSvg = (vote) => {
 };
 
 const parseDescription = (description) => {
-  const parsedDesc = description.replaceAll("$$$$", " ");
+  const parsedDesc = description
+    .replaceAll("$$$$", " ")
+    .replaceAll("\n\n", " ");
   const parts = parsedDesc.split(" ");
 
   const parsedParts = parts.map((p) => {
-    const url = p.match(/^https:\/\/\S*/g);
+    const url = p.match(/https:\/\/\S*/g);
     if (url) {
       return (
         <a href={p} target="_blank">
