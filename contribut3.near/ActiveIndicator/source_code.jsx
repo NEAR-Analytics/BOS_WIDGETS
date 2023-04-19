@@ -22,8 +22,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: .125em .5em .125em .375em;
-  gap: .25em;
+  padding: 0.125em 0.5em 0.125em 0.375em;
+  gap: 0.25em;
   background: #ecfdf3;
   mix-blend-mode: multiply;
   border-radius: 16px;
