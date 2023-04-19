@@ -19,7 +19,7 @@ const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 State.init({
   facet: tab,
   isFiltersPanelVisible: false,
-  numColumns: 2,
+  numColumns: 3,
 });
 
 const Wrapper = styled.div`
