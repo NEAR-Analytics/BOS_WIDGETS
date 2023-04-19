@@ -29,6 +29,10 @@ if (!state.profileIsFetched) {
   ).then((profile) => State.update({ profile, profileIsFetched: true }));
 }
 
+if (!state.requestIsFetched || !state.profileIsFetched) {
+  return <>Loading...</>;
+}
+
 const Title = styled.h3`
   font-style: normal;
   font-weight: 600;
