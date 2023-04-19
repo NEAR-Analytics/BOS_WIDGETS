@@ -44,6 +44,10 @@ const ProposalId = styled.div`
   color:#8c8c8c;
   font-size: 11px;
 `;
+const Label = styled.span`
+  color:#8c8c8c;
+  font-size: 11px;
+`;
 
 const Header = styled.div`
   display: flex;
@@ -51,13 +55,18 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 
-const Proposer = styled.div`
-
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Type = styled.div`
   font-size: 22px;
   font-weight: 700;
+`;
+
+const PropInfos = styled.div`
+  float: right;
 `;
 
 return (
@@ -67,11 +76,25 @@ return (
       <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
     </Header>
     <Type>{proposal.proposal_type}</Type>
-    <div>
-      <Proposer>{proposal.proposal.proposer}</Proposer>
-      Submission Time: {new Date(proposal.submission_time).toLocaleString()}
-    </div>
-    <p>{proposal.proposal.description}</p>
+    <PropInfos>
+      <InfoWrapper>
+        <Label>Proposer</Label>
+        <a
+          href={`https://explorer.near.org/accounts/${proposal.proposal.proposer}`}
+          target="_blank"
+        >
+          {proposal.proposal.proposer}
+        </a>
+      </InfoWrapper>
+      <InfoWrapper>
+        <Label>Submission Time</Label>
+        <span>{new Date(proposal.submission_time).toLocaleString()}</span>
+      </InfoWrapper>
+    </PropInfos>
+    <InfoWrapper>
+      <Label>Description</Label>
+      <p>{proposal.proposal.description}</p>
+    </InfoWrapper>
     <div>
       Votes:
       {voteList}
