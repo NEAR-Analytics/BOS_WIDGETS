@@ -3,7 +3,7 @@ const id = props.id ?? "text";
 const label = props.label ?? "Input";
 const value = props.value ?? "";
 const name = props.name ?? "";
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 State.init({
@@ -144,22 +144,24 @@ return (
           <Error>{state.valid ? <></> : state.errorMessage}</Error>
         </>
       ),
-      view:
-        value ?
-          <Link href={`/near/widget/ProfilePage?accountId=${value}`}>
-            <Widget
-              src={`${ownerId}/widget/Vendor.Icon`}
-              props={{ accountId: value, size: "2em" }}
-            />
-            <Widget
-              src={`${ownerId}/widget/NameAndAccount`}
-              props={{
-                accountId: value,
-                name,
-                nameSize: "1.125em",
-              }}
-            />
-          </Link> : <></>,
+      view: value ? (
+        <Link href={`/near/widget/ProfilePage?accountId=${value}`}>
+          <Widget
+            src={`${ownerId}/widget/Vendor.Icon`}
+            props={{ accountId: value, size: "2em" }}
+          />
+          <Widget
+            src={`${ownerId}/widget/NameAndAccount`}
+            props={{
+              accountId: value,
+              name,
+              nameSize: "1.125em",
+            }}
+          />
+        </Link>
+      ) : (
+        <></>
+      ),
       canEdit,
     }}
   />
