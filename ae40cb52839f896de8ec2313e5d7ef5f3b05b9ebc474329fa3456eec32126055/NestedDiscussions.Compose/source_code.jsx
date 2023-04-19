@@ -110,6 +110,7 @@ function onCommit() {
     image: {},
     text: "",
   });
+  props.onComment ?? props.onComment();
 }
 
 function textareaInputHandler(value) {
