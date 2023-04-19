@@ -8,7 +8,7 @@ const Select = styled.select`
   cursor: pointer;
   background: rgba(68, 152, 224, 0.7);
   border-radius: 4px;
-  top: -70px;
+  top: 0px;
   left: 0px;
 `;
 
