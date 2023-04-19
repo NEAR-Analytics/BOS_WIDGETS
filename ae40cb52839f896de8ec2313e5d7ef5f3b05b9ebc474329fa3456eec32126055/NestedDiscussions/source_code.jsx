@@ -63,6 +63,7 @@ return (
           composeWidget,
           previewWidget,
           singlePageView,
+          identifier,
         }}
       />
     </FeedWrapper>
