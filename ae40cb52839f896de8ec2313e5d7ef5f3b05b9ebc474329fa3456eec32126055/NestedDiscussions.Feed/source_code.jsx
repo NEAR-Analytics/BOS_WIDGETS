@@ -11,6 +11,7 @@ if (!identifier) {
 const index = {
   action: dbAction,
   key: identifier,
+  options: { subscribe: true },
 };
 
 const Post = styled.div`
