@@ -19,9 +19,13 @@ if (!state.isAdminIsFetched) {
 }
 
 if (!state.projectIsFetched) {
-  Near.asyncView(ownerId, "get_project", { project_id: accountId }, "final", false).then(
-    (project) => State.update({ project, projectIsFetched: true })
-  );
+  Near.asyncView(
+    ownerId,
+    "get_project",
+    { project_id: accountId },
+    "final",
+    false
+  ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
 if (!state.projectIsFetched || !state.isAdminIsFetched) {
@@ -206,8 +210,8 @@ return (
         <CTARow>
           {state.isAdmin ? (
             <>
-              {state.project.application_status === "NotSubmitted" || "Rejected" in state.project.application_status ? (
-
+              {state.project.application_status === "NotSubmitted" ||
+              "Rejected" in state.project.application_status ? (
                 <Widget
                   src={`${ownerId}/widget/Buttons.Green`}
                   props={{
@@ -218,7 +222,9 @@ return (
                     text: <>{circledPlus}Apply to accelerator</>,
                   }}
                 />
-              ) : <></>}
+              ) : (
+                <></>
+              )}
               <Widget
                 src={`${ownerId}/widget/Buttons.Grey`}
                 props={{
