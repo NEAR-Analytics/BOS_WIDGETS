@@ -44,8 +44,11 @@ const renderItem = (a) =>
   );
 
 return (
-  <Widget
-    src="adminalpha.near/widget/IndexFeed"
-    props={{ index, renderItem, moderatorAccount }}
-  />
+  <>
+    {JSON.stringify(identifier)}
+    <Widget
+      src="adminalpha.near/widget/IndexFeed"
+      props={{ index, renderItem, moderatorAccount }}
+    />
+  </>
 );
