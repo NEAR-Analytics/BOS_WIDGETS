@@ -23,6 +23,26 @@ const Heading = styled.div`
   width: 100%;
 `;
 
+State.init({
+  profile: null,
+  profileIsFetched: false,
+});
+
+if (!state.profileIsFetched) {
+  Near.asyncView(
+    "social.near",
+    "get",
+    { keys: [`${accountId}/profile/**`] },
+    "final",
+    false
+  ).then((profile) =>
+    State.update({
+      profile: profile[accountId].profile,
+      profileIsFetched: true,
+    })
+  );
+}
+
 return (
   <Container>
     <Heading>Details</Heading>
@@ -31,8 +51,8 @@ return (
       props={{
         label: "Website",
         id: "website",
-        value: "layers.gg",
-        link: "https://layers.gg",
+        value: state.profile.linktree.website,
+        link: `https://${state.profile.linktree.website}`,
         onSave: (website) => Near.call("social.near", "set", {
           data: { [accountId]: { profile: { linktree: { website } } } },
         }),
@@ -44,8 +64,10 @@ return (
       props={{
         label: "Links",
         id: "links",
-        value: { github: "near-horizon", twitter: "nearhorizon" },
-        onSave: (links) => onSave({ links }),
+        value: state.profile.linktree,
+        onSave: (linktree) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { linktree } } },
+        }),
         canEdit: isAdmin,
       }}
     />
@@ -102,7 +124,7 @@ return (
         canEdit: isAdmin,
       }}
     />
-    <Widget
+    {/*<Widget
       src={`${ownerId}/widget/Inputs.Viewable.Select`}
       props={{
         label: "Stage",
@@ -121,7 +143,7 @@ return (
         onSave: ([{ name: stage }]) => onSave({ stage }),
         canEdit: isAdmin,
       }}
-    />
+    />*/}
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.Number`}
       props={{
