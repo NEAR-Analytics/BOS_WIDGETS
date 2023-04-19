@@ -8,7 +8,7 @@ const previewWidget =
 
 const dbAction = props.dbAction || "discuss";
 
-const moderatorAccount = props.moderatorAccount;
+const moderatorAccount = props.moderatorAccount || "bosmod.near";
 
 const identifier = props.identifier;
 
