@@ -33,11 +33,11 @@ const WidgetContainer = styled.div`
   width: 100%;
 
   @media (min-width: 768px) {
-    width: 50%;
+    width: 49%;
   }
 
   @media (min-width: 2560px) {
-    width: 33.333%;
+    width: 31%;
   }
 `;
 
