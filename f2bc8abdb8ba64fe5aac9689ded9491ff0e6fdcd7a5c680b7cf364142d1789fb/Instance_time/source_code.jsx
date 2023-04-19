@@ -211,8 +211,6 @@ const updateInstanceTimeState = (object) => {
   State.update(object);
 };
 
-debugger;
-
 return (
   <div className="pb-5" style={thisWidgetInlineStyles.generalContainer}>
     <div className={thisWidgetClassNames.siteHeaderContainer}>
