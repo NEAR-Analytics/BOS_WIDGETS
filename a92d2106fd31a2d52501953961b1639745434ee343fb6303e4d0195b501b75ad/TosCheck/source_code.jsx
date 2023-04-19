@@ -23,8 +23,11 @@ if (agreementsForUser.length === 0) {
     `{"keys":["${context.accountId}/index/tosAccept"]}`
   );
 
+  console.log("latestAccept", latestAccept);
+
   if (latestAccept.key === acceptanceKey) {
     agreementsForUser = [latestAccept];
+    console.log("LA Agreements", agreementsForUser);
   }
 }
 
