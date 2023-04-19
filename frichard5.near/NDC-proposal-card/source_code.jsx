@@ -67,6 +67,9 @@ const Type = styled.div`
 
 const PropInfos = styled.div`
   float: right;
+  padding: 10px;
+  background: rgba(68, 152, 224, 0.1);
+  border-radius: 4px;
 `;
 
 return (
@@ -95,9 +98,9 @@ return (
       <Label>Description</Label>
       <p>{proposal.proposal.description}</p>
     </InfoWrapper>
-    <div>
-      Votes:
-      {voteList}
-    </div>
+    <InfoWrapper>
+      <Label>Votes</Label>
+      <div>{voteList}</div>
+    </InfoWrapper>
   </ProposalCard>
 );
