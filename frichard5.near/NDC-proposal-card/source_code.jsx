@@ -72,6 +72,11 @@ const PropInfos = styled.div`
   border-radius: 4px;
 `;
 
+const Description = styled.div`
+  overflow:auto;
+  max-height: 150px;
+`;
+
 return (
   <ProposalCard>
     <Header>
@@ -96,7 +101,7 @@ return (
     </PropInfos>
     <InfoWrapper>
       <Label>Description</Label>
-      <p>{proposal.proposal.description}</p>
+      <Description>{proposal.proposal.description}</Description>
     </InfoWrapper>
     <InfoWrapper>
       <Label>Votes</Label>
