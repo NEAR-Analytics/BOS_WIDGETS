@@ -89,7 +89,7 @@ const body = (
       <Details>
         <Widget
           src={`${ownerId}/widget/NameAndAccount`}
-          props={{ accountId: props.accountId, name: state.profile.name }}
+          props={{ accountId: props.accountId, name: state.profile.name, nameSize: "1.125em" }}
         />
         <Widget
           src={`${ownerId}/widget/BadgeList`}
