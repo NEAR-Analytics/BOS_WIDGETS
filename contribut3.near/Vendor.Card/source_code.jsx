@@ -138,7 +138,7 @@ const rate = (
 );
 
 const Description = styled.p`
-  padding: 0;
+  margin: 0;
 `;
 
 const body = (
