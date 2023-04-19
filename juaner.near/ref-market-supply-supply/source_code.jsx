@@ -223,7 +223,6 @@ if (!account) {
 /** logic start */
 const b = account.body.result.amount;
 const nearBalance = shrinkToken(b || "0", 24).toFixed(2);
-console.log("000000000000-nearBalance", account.body);
 let vailableBalance = 0;
 let vailableBalance$ = 0;
 let apy = 0;
@@ -279,11 +278,6 @@ const handleDeposit = () => {
     handleDepositNear(balance);
     return;
   }
-  console.log("11111111111-selectedTokenId", selectedTokenId);
-  console.log("11111111111-isMax", isMax);
-  console.log("11111111111-vailableBalance", vailableBalance);
-  console.log("11111111111-amount", amount);
-  console.log("11111111111-amountValue", amountValue);
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
   const expandedAmount = expandToken(amountValue, metadata.decimals).toFixed();
