@@ -50,10 +50,7 @@ return (
   <DiscussionContainer>
     {context.accountId ? (
       <ComposeWrapper>
-        <Widget
-          src={composeWidget}
-          props={{ dbAction, singlePageView, identifier }}
-        />
+        <Widget src={composeWidget} props={{ dbAction, identifier }} />
       </ComposeWrapper>
     ) : (
       <p> {notLoggedMessage} </p>
