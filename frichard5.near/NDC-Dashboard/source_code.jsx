@@ -71,7 +71,7 @@ const ProposalStatus = (
 
 const ProposalsByMonth = (
   <Widget
-    src={`${widgetProvider}/widget/proposals-by-month`}
+    src={`${widgetProvider}/widget/proposal-by-month`}
     props={{
       account,
       widgetProvider,
