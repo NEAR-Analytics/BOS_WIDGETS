@@ -16,7 +16,6 @@ State.init({
 });
 
 const profile = Social.getr(`${context.accountId}/profile`);
-const autocompleteEnabled = true;
 
 const content = {
   type: "md",
@@ -401,7 +400,7 @@ return (
       </>
     )}
 
-    {autocompleteEnabled && state.showAccountAutocomplete && (
+    {state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
           src="calebjacob.near/widget/AccountAutocomplete"
