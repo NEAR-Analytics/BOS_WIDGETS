@@ -34,7 +34,6 @@ const Header = styled.h1`
 
 const header = <Header>Inbox</Header>;
 
-
 return (
   <div>
     {header}
