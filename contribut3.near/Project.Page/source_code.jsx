@@ -206,16 +206,19 @@ return (
         <CTARow>
           {state.isAdmin ? (
             <>
-              <Widget
-                src={`${ownerId}/widget/Buttons.Green`}
-                props={{
-                  onClick: () =>
-                    Near.call(ownerId, "apply_for_program", {
-                      account_id: accountId,
-                    }),
-                  text: <>{circledPlus}Apply to accelerator</>,
-                }}
-              />
+              {state.project.application_status === "NotSubmitted" || "Rejected" in state.project.application_status ? (
+
+                <Widget
+                  src={`${ownerId}/widget/Buttons.Green`}
+                  props={{
+                    onClick: () =>
+                      Near.call(ownerId, "apply_for_program", {
+                        account_id: accountId,
+                      }),
+                    text: <>{circledPlus}Apply to accelerator</>,
+                  }}
+                />
+              ) : <></>}
               <Widget
                 src={`${ownerId}/widget/Buttons.Grey`}
                 props={{
