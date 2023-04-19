@@ -33,9 +33,7 @@ const Header = styled.h1`
   color: #101828;
 `;
 
-const header = (
-  <Header>Inbox</Header>
-);
+const header = <Header>Inbox</Header>;
 
 const contentSelector = (
   <Widget
