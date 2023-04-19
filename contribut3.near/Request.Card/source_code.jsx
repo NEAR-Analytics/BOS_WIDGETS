@@ -133,14 +133,21 @@ const contributionType = (
 
 const body = (
   <>
-    <Widget
-      src={`${ownerId}/widget/ProfileLine`}
-      props={{
-        accountId,
-        imageSize: "3em",
-        update: props.update,
-      }}
-    />
+    <Details>
+      <Widget
+        src={`${ownerId}/widget/Project.Icon`}
+        props={{ accountId: props.accountId, size: "2em" }}
+      />
+      <Widget
+        src={`${ownerId}/widget/NameAndAccount`}
+        props={{
+          accountId: props.accountId,
+          name: state.profile.name,
+          nameSize: ".95em",
+          accountSize: ".75em",
+        }}
+      />
+    </Details>
     <Title>{state.request.title}</Title>
     <Widget
       src={`${ownerId}/widget/ActiveIndicator`}
