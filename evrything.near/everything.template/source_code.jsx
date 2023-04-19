@@ -95,21 +95,25 @@ const renderView = () => {
     case "CREATE":
       if (state.type === "everything") {
         return (
-          <Widget
-            src={`evrything.near/widget/Everything.Create.Type`}
-            props={{
-              type,
-            }}
-          />
+          <div className="w-100">
+            <Widget
+              src={`evrything.near/widget/Everything.Create.Type`}
+              props={{
+                type,
+              }}
+            />
+          </div>
         );
       } else {
         return (
-          <Widget
-            src={`${accountId}/widget/Everything.Create.${state.type}`}
-            props={{
-              type,
-            }}
-          />
+          <div className="w-100">
+            <Widget
+              src={`${accountId}/widget/Everything.Create.${state.type}`}
+              props={{
+                type,
+              }}
+            />
+          </div>
         );
       }
     case "THINGS":
