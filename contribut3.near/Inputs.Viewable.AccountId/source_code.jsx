@@ -148,7 +148,7 @@ return (
         <Link href={`/near/widget/ProfilePage?accountId=${value}`}>
           <Widget
             src={`${ownerId}/widget/Vendor.Icon`}
-            props={{ accountId: value, size: "4em" }}
+            props={{ accountId: value, size: "2em" }}
           />
           <Widget
             src={`${ownerId}/widget/NameAndAccount`}
