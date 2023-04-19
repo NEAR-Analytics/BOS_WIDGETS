@@ -153,6 +153,7 @@ return (
           <Widget
             src={composeWidget}
             props={{
+              dbAction,
               notifyAccountId: accountId,
               previewWidget,
               identifier: item,
