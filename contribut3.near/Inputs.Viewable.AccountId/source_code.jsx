@@ -109,6 +109,14 @@ const Error = styled.small`
   color: red;
 `;
 
+const Link = styled.a`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.25em;
+`;
+
 return (
   <Widget
     src={`${ownerId}/widget/Inputs.Viewable`}
@@ -137,7 +145,7 @@ return (
         </>
       ),
       view:
-        <Link>
+        <Link href={`/near/widget/ProfilePage?accountId=${value}`}>
           <Widget
             src={`${ownerId}/widget/Vendor.Icon`}
             props={{ accountId: value, size: "4em" }}
