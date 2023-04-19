@@ -75,7 +75,19 @@ const Search = styled.div``;
 
 const Facets = styled.div`
   overflow: auto;
+  width:100%;
+  backgroundColor:red;
 `;
+
+const FacetContainer = styled.ul`
+padding: 16px 16px 0px;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;    list-style-type: none;
+  width:100%;
+height: 36px;
+
+  `;
 
 const H1 = styled.h1`
 font-style: normal; 
@@ -446,7 +458,7 @@ return (
     )}
 
     {state.search && (
-      <Facets>
+      <Facets style={{ backgroundColor: "red" }}>
         <Widget
           src="dorgon108.near/widget/Facets"
           props={{
