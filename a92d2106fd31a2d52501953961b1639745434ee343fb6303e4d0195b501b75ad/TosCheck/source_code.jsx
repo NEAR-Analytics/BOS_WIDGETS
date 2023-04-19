@@ -16,32 +16,6 @@ const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
 
 console.log("Agreements", agreementsForUser);
 
-if (agreementsForUser.length === 0 || true) {
-  //TODO
-  // const acceptJson = Near.view(
-  //   "social.near",
-  //   "get",
-  //   `{"keys":["${context.accountId}/index/tosAccept"]}`
-  // );
-
-  const acceptJson = Near.view("social.near", "get", {
-    keys: [context.accountId + "/index/tosAccept"],
-  });
-
-  console.log("acceptJson", acceptJson);
-
-  const latestAccept = acceptJson
-    ? acceptJson[context.accountId]["index"]["tosAccept"]
-    : undefined;
-
-  console.log("latestAccept", latestAccept);
-
-  if (latestAccept && latestAccept.key === acceptanceKey) {
-    agreementsForUser = [latestAccept];
-    console.log("LA Agreements", agreementsForUser);
-  }
-}
-
 const tosVersions = Social.keys(tosName, "final", {
   return_type: "BlockHeight",
   // subscribe: true,
@@ -141,6 +115,32 @@ const CheckButton = styled.button`
 const expand = (e) => {
   State.update({ expand: e });
 };
+
+if (
+  agreementsForUser.length === 0 ||
+  agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion
+) {
+  const acceptJson = Near.view("social.near", "get", {
+    keys: [context.accountId + "/index/tosAccept"],
+  });
+
+  console.log("acceptJson", acceptJson);
+
+  const latestAccept = acceptJson
+    ? acceptJson[context.accountId]["index"]["tosAccept"]
+    : undefined;
+
+  console.log("latestAccept", latestAccept);
+
+  if (
+    latestAccept &&
+    latestAccept.key === acceptanceKey &&
+    latestAccept.value >= latestTosVersion
+  ) {
+    agreementsForUser = [...agreementsForUser, latestAccept];
+    console.log("LA Agreements", agreementsForUser);
+  }
+}
 
 // we check for existence of Index results because if no results are found
 // we get an empty array. This means that when the existence check fails
