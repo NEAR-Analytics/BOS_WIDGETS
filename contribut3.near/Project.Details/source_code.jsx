@@ -143,7 +143,7 @@ return (
         onSave: ([{ name: stage }]) => onSave({ stage }),
         canEdit: isAdmin,
       }}
-    />*/}
+    />
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.Number`}
       props={{
@@ -163,7 +163,7 @@ return (
         onSave: (raised) => onSave({ raised }),
         canEdit: isAdmin,
       }}
-    />
+    />*/}
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.AccountId`}
       props={{
@@ -199,19 +199,16 @@ return (
       props={{
         label: "Tags",
         id: "tags",
-        value: [
-          { name: "defi" },
-          { name: "exchange" },
-          { name: "staking" },
-          { name: "farming" },
-        ],
+        value: Object.keys(state.profile.tags).map((name) => ({ name })),
         options: [
           { name: "defi" },
           { name: "exchange" },
           { name: "staking" },
           { name: "farming" },
         ],
-        onSave: (tags) => onSave({ tags: tags.map(({ name }) => name) }),
+        onSave: (tags) => Near.call("social.near", "set", {
+          data: { [accountId]: { profile: { tags: tags.reduce((acc, { name }) => ({ ...acc, [name]: "" }), {}) } } },
+        }),
         canEdit: isAdmin,
       }}
     />
