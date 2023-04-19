@@ -85,7 +85,7 @@ function composeData() {
         type: "custom",
         message: "Commented on a discussion",
         widget: props.previewWidget,
-        blockHeight: identifier.blockHeight,
+        blockHeight: item.blockHeight,
         params:
           typeof identifier === "string"
             ? { identifier: identifier }
