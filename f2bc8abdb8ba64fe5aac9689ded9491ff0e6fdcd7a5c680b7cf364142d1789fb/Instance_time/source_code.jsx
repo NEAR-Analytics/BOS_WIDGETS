@@ -211,6 +211,8 @@ const updateInstanceTimeState = (object) => {
   State.update(object);
 };
 
+debugger;
+
 return (
   <div className="pb-5" style={thisWidgetInlineStyles.generalContainer}>
     <div className={thisWidgetClassNames.siteHeaderContainer}>
@@ -363,7 +365,8 @@ return (
             data,
           }}
         />
-      ) : state.tab != tabs.NEW_SCHEDULE.id ? (
+      ) : state.tab == tabs.ALL_SCHEDULE.id ||
+        state.tab == tabs.MY_SCHEDULE.id ? (
         <Widget
           src={`${widgetOwner}/widget/Instance_time_review`}
           props={{
