@@ -78,7 +78,7 @@ return (
       props={{
         label: "Category",
         id: "category",
-        value: [{ name: "Wallets" }],
+        value: state.profile.category,
         options: [
           { name: "Wallets" },
           { name: "Games" },
@@ -96,7 +96,7 @@ return (
       props={{
         label: "Integration",
         id: "integration",
-        value: [{ name: "Native" }],
+        value: state.profile.integration,
         options: [{ name: "Native" }, { name: "Multichain" }],
         onSave: ([{ name: integration }]) => Near.call("social.near", "set", {
           data: { [accountId]: { profile: { integration } } },
