@@ -22,7 +22,7 @@ const previewWidget =
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
 
 const content = JSON.parse(
-  Social.get(`${accountId}/${dbAction}/main`, blockHeight, { subscribe: true })
+  Social.get(`${accountId}/${dbAction}/main`, blockHeight)
 ).content;
 
 const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
