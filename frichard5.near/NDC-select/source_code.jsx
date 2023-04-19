@@ -1,5 +1,5 @@
-const { options, selectedOption, onChange } = props;
-
+const { options, selectedOption, onChange, label } = props;
+const id = props.id || "";
 const Select = styled.select`
   position: relative;
   border: none;
@@ -28,4 +28,11 @@ options.forEach((o) => {
   );
 });
 
-return <Select onChange={onChange}>{Options}</Select>;
+return (
+  <>
+    {label && <label for={id}>{label}</label>}
+    <Select onChange={onChange} name={id} id={id}>
+      {Options}
+    </Select>
+  </>
+);
