@@ -29,6 +29,7 @@ const ListContainer = styled.div`
 `;
 
 const WidgetContainer = styled.div`
+  flex-shrink: 0;
   width: 100%;
 
   @media (min-width: 768px) {
