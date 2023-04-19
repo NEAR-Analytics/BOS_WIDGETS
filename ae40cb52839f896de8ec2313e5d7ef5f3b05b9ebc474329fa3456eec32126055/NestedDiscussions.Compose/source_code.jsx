@@ -55,7 +55,7 @@ function extractTagNotifications(text, item) {
         params:
           typeof identifier === "string"
             ? { identifier: identifier }
-            : { ...identifier },
+            : identifier,
       },
     }));
 }
@@ -86,7 +86,10 @@ function composeData() {
         message: "Commented on a discussion",
         widget: props.singlePageView,
         blockHeight: item.blockHeight,
-        params: { identifier },
+        params:
+          typeof identifier === "string"
+            ? { identifier: identifier }
+            : identifier,
       },
     });
   }
