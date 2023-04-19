@@ -55,7 +55,7 @@ const FooterButton = styled.a`
   align-items: center;
   padding: 0.5em 1em;
   gap: 0.5em;
-  width: 46%;
+  width: 48%;
   height: 2.5em;
   background: #fafafa;
   border: 1px solid #eceef0;
@@ -68,7 +68,7 @@ const FooterButton = styled.a`
   font-size: 0.9em;
   line-height: 1em;
   text-align: center;
-  color: ${({ blue }) => blue ? "#006ADC" : "#101828"};
+  color: ${({ blue }) => (blue ? "#006ADC" : "#101828")};
 `;
 
 const Footer = styled.div`
@@ -82,10 +82,10 @@ const Footer = styled.div`
 const footer = (
   <Footer>
     <FooterButton
-      href={`/#/${ownerId}/widget/Index?tab=contributor&accountId=${accountId}`}
+      href={`/${ownerId}/widget/Index?tab=vendor&accountId=${accountId}`}
       onClick={() =>
         props.update({
-          tab: "contributor",
+          tab: "vendor",
           content: "",
           search: "",
           accountId,
@@ -96,7 +96,7 @@ const footer = (
     </FooterButton>
     <FooterButton
       blue
-    // href={`/#/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
+    // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
     // onClick={() =>
     //   props.update({
     //     tab: "entity",
