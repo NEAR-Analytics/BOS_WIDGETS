@@ -1,5 +1,11 @@
 const { options, selectedOption, onChange, label } = props;
 const id = props.id || "";
+
+const SelectWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Select = styled.select`
   position: relative;
   border: none;
@@ -29,10 +35,10 @@ options.forEach((o) => {
 });
 
 return (
-  <>
+  <SelectWrapper>
     {label && <label for={id}>{label}</label>}
     <Select onChange={onChange} name={id} id={id}>
       {Options}
     </Select>
-  </>
+  </SelectWrapper>
 );
