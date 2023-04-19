@@ -157,6 +157,12 @@ const Items = styled.div`
   gap: 12px;
 `;
 
+const PostsGridItems = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 16px;
+`;
+
 const Item = styled.div``;
 
 // Add the following styles to your CSS or a styled-component
@@ -525,7 +531,7 @@ return (
         <GroupHeader>
           <H3>Posts</H3>
         </GroupHeader>
-        <GridItems style={{ flexWrap: "nowrap", overflowX: "auto" }}>
+        <PostsGridItems style={{ flexWrap: "nowrap", overflowX: "auto" }}>
           {" "}
           {state.search.postsAndComments
             .filter((_, index) => (currentTab !== "Apps" ? index < 3 : true))
@@ -551,7 +557,7 @@ return (
                 />
               </Item>
             ))}
-        </GridItems>
+        </PostsGridItems>
       </Group>
     )}
 
