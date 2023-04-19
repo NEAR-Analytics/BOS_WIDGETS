@@ -1,1 +1,9 @@
-return (<><p>Click deploy below then put the app url in the <a href="/#/edit/evrything.near/widget/Everything.Create.Event">create widget</a>.</p><a href="https://vercel.com/new/clone?repository-url=https://github.com/near-everything/thing-creator" target="_blank"><img src="https://vercel.com/button" alt="Deploy with Vercel" /></a><Widget src={"evrything.near/widget/Bridge"} props={{ externalAppUrl: "", type: "evrything.near/type/Event" }} /></>);
+return (
+  <Widget
+    src={"evrything.near/widget/Bridge"}
+    props={{
+      externalAppUrl: "https://event-creator-five.vercel.app",
+      type: "evrything.near/type/Event",
+    }}
+  />
+);
