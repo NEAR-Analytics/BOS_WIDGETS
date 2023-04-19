@@ -26,7 +26,7 @@ if (!state.profileIsFetched) {
     { keys: [`${accountId}/profile/**`] },
     "final",
     false
-  ).then((profile) => State.update({ profile, profileIsFetched: true }));
+  ).then((data) => State.update({ profile: data[accountId].profile, profileIsFetched: true }));
 }
 
 if (!state.requestIsFetched || !state.profileIsFetched) {
