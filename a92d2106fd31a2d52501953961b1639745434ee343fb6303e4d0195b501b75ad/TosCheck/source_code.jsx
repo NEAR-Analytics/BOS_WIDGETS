@@ -31,7 +31,7 @@ if (agreementsForUser.length === 0 || true) {
   console.log("acceptJson", acceptJson);
 
   const latestAccept = acceptJson
-    ? acceptJson[context.accountId][index][tosAccept]
+    ? acceptJson[context.accountId]["index"]["tosAccept"]
     : undefined;
 
   console.log("latestAccept", latestAccept);
