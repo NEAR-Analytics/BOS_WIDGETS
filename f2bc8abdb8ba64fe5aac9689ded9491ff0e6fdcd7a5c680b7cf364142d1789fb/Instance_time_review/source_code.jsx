@@ -132,7 +132,6 @@ const getFormatedTime = (time) => {
 };
 
 function intervalFunction() {
-  console.log(1);
   const day = new Date().getDay() == 0 ? 6 : new Date().getDay() - 1;
   const hours = new Date().getHours();
   const mins = new Date().getMinutes();
@@ -198,7 +197,9 @@ return (
     >
       {finalData
         ? finalData.map((d) => {
+            console.log(1, _account, d.accountId);
             if (_account == "All" || _account == d.accountId) {
+              console.log(2, _account, d.accountId);
               const profileName = Social.getr(`${d.accountId}/profile`).name;
 
               if (!profileName) {
