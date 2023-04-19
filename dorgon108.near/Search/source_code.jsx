@@ -16,27 +16,6 @@ const userId = props.accountId ?? context.accountId;
 const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
 const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 
-const [accountId, widget, widgetName] = props.src.split("/");
-const metadata = Social.get(
-  `${accountId}/widget/${widgetName}/metadata/**`,
-  "final"
-);
-const tags = Object.keys(metadata.tags || {});
-
-{
-  tags.length > 0 && (
-    <TagsWrapper>
-      <Widget
-        src="near/widget/Tags"
-        props={{
-          tags,
-          scroll: true,
-        }}
-      />
-    </TagsWrapper>
-  );
-}
-
 State.init({
   facet: tab,
   isFiltersPanelVisible: false,
