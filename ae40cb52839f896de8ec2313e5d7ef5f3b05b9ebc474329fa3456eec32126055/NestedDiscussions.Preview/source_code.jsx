@@ -2,12 +2,14 @@ const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
+
 const composeWidget =
   props.composeWidget ||
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose";
 
-const composeWidget = props.composeWidget;
-const previewWidget = props.previewWidget;
+const previewWidget =
+  props.previewWidget ||
+  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
 
 const content = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight) ??
@@ -20,7 +22,7 @@ const item = {
   blockHeight,
 };
 
-const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&previewWidget=${previewWidget}`;
+const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
 
 const Post = styled.div`
   position: relative;
