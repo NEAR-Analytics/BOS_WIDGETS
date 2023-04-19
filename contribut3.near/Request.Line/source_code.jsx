@@ -8,7 +8,7 @@ State.init({
   requestIsFetched: false,
 });
 
-if (!state.nameIsFetched) {
+if (!state.requestIsFetched) {
   Near.asyncView(
     ownerId,
     "get_request",
