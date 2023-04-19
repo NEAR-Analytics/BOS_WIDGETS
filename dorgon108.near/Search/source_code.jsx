@@ -529,7 +529,7 @@ return (
                 .filter((_, index) =>
                   state.facet === "Apps" || currentTab === "Apps"
                     ? true
-                    : index < 2
+                    : index < 3
                 )
                 .map((component, i) => (
                   <Item key={component.accountId + component.widgetName}>
@@ -564,7 +564,7 @@ return (
                 .filter((_, index) =>
                   state.facet === "Users" || currentTab === "Users"
                     ? true
-                    : index < 2
+                    : index < 3
                 )
                 .map((profile, i) => (
                   <Item key={profile.accountId}>
