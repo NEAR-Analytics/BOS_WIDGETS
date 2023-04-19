@@ -141,10 +141,10 @@ const GroupHeader = styled.div`
   gap: 12px;
 `;
 const FiltersPanel = styled.div`
-border-left: 1px solid #ECEEF0;
-  position: fixed;
+  border-left: 1px solid #ECEEF0;
+  position: absolute;
   top: 0;
-  right: 0;
+  right: initial;
   width: 300px;
   height: 100%;
   background-color: white;
@@ -154,7 +154,6 @@ border-left: 1px solid #ECEEF0;
   box-sizing: border-box;
   overflow-y: auto;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
 `;
 
 const Text = styled.p`
@@ -643,7 +642,13 @@ return (
     </div>
     {console.log(state.isFiltersPanelVisible)}
     {state.isFiltersPanelVisible && (
-      <FiltersPanel style={{ backgroundColor: "red" }}>
+      <FiltersPanel
+        style={{
+          transform: state.isFiltersPanelVisible
+            ? "translateX(0)"
+            : "translateX(100%)",
+        }}
+      >
         <Widget
           src={`dorgon108.near/widget/FIlterPanel`}
           props={{
