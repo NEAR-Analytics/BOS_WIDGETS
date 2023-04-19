@@ -29,6 +29,7 @@ State.init({
   profileIsFetched: false,
 });
 
+console.log("here")
 if (!state.profileIsFetched) {
   Near.asyncView(
     "social.near",
@@ -45,7 +46,6 @@ if (!state.profileIsFetched) {
   return <>Loading...</>;
 }
 
-console.log("here")
 
 return (
   <Container>
