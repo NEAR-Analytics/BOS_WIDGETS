@@ -68,7 +68,6 @@ function composeData() {
   data[`${dbAction}`] = {
     main: JSON.stringify({
       content,
-      identifier,
     }),
   };
 
