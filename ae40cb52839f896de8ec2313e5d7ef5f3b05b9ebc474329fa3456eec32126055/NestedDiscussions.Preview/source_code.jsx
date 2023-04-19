@@ -20,7 +20,7 @@ const item = {
   identifier,
 };
 
-const postUrl = `https://alpha.near.org/#/${singlePageView}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&previewWidget=${previewWidget}`;
+const postUrl = `https://alpha.near.org/#/${singlePageView}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&identifier=${identifier}&previewWidget=${previewWidget}`;
 
 const Post = styled.div`
   position: relative;
