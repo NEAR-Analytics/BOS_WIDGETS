@@ -1,7 +1,4 @@
-const dbAction = props.dbAction;
-const accountId = props.accountId;
-const blockHeight = parseInt(props.blockHeight);
-
+// Base case, they called a preview on a discussion, we simply return the main widget
 if (typeof props.identifier === "string") {
   return (
     <Widget
@@ -10,6 +7,11 @@ if (typeof props.identifier === "string") {
     />
   );
 }
+
+// Otherwise, they want to preview a specific comment
+const dbAction = props.dbAction;
+const accountId = props.accountId;
+const blockHeight = parseInt(props.blockHeight);
 
 const composeWidget =
   props.composeWidget ||
