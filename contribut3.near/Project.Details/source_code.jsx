@@ -214,7 +214,7 @@ return (
       props={{
         label: "Tags",
         id: "tags",
-        value: Object.keys(state.profile.tags).map((name) => ({ name })),
+        value: [],//Object.keys(state.profile.tags).map((name) => ({ name })),
         options: [
           { name: "defi" },
           { name: "exchange" },
