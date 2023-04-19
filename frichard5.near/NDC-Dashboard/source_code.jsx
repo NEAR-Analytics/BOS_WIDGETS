@@ -95,9 +95,20 @@ const Tabs = (
     props={{
       tabs: [
         {
+          value: "overview",
+          label: "Overview",
+          selected: true,
+          //selected: state.selectedTab === "metrics",
+          components: (
+            <WidgetsContainer>
+              {ProposalsByMonth}
+              {ProposalStatus}
+            </WidgetsContainer>
+          ),
+        },
+        {
           value: "proposals",
           label: "Proposals",
-          selected: true,
           components: <WidgetsContainer>{Proposals}</WidgetsContainer>,
         },
         {
@@ -108,18 +119,6 @@ const Tabs = (
               {Balances}
               {NearTransfers}
               {FTransfers}
-            </WidgetsContainer>
-          ),
-        },
-        {
-          value: "metrics",
-          label: "Metrics",
-          //selected: state.selectedTab === "metrics",
-          components: (
-            <WidgetsContainer>
-              {ProposalsByMonth}
-              {ProposalStatus}
-              {ContractMetrics}
             </WidgetsContainer>
           ),
         },
