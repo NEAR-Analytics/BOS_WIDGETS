@@ -480,13 +480,15 @@ return (
       <Group>
         <GroupHeader>
           <H3>Apps</H3>
-          <Text as="a" href={componentsUrl} small>
+          <Text as="a" onClick={() => onFacetClick("Apps")} small>
             View All
           </Text>
         </GroupHeader>
         <GridItems>
           {state.search.components
-            .filter((_, index) => (currentTab !== "Apps" ? index < 2 : true))
+            .filter((_, index) =>
+              state.facet === "Apps" || currentTab === "Apps" ? true : index < 2
+            )
             .map((component, i) => (
               <Item key={component.accountId + component.widgetName}>
                 <Widget
@@ -511,13 +513,17 @@ return (
       <Group>
         <GroupHeader>
           <H3>People</H3>
-          <Text as="a" href={peopleUrl} small>
+          <Text as="a" onClick={() => onFacetClick("Users")} small>
             View All
           </Text>
         </GroupHeader>
         <GridItems>
           {state.search.profiles
-            .filter((_, index) => (currentTab !== "People" ? index < 2 : true))
+            .filter((_, index) =>
+              state.facet === "Users" || currentTab === "Users"
+                ? true
+                : index < 2
+            )
             .map((profile, i) => (
               <Item key={profile.accountId}>
                 <Widget
@@ -542,14 +548,16 @@ return (
       <Group>
         <GroupHeader>
           <H3>Posts</H3>
+          <Text as="a" onClick={() => onFacetClick("Posts")} small>
+            View All
+          </Text>
         </GroupHeader>
         <PostsGridItems>
-          {" "}
           {state.search.postsAndComments
             .filter((_, index) =>
-              currentTab !== "Apps"
-                ? index < (showAllPosts ? Infinity : 3)
-                : true
+              state.facet === "Posts" || currentTab === "Posts"
+                ? true
+                : index < 3
             )
             .map((post, i) => (
               <Item
