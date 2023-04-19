@@ -144,7 +144,7 @@ const FiltersPanel = styled.div`
   border-left: 1px solid #ECEEF0;
   position: absolute;
   top: 0;
-  right: initial;
+  right: 0;
   width: 300px;
   height: 100%;
   background-color: white;
