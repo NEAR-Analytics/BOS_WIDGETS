@@ -84,7 +84,7 @@ function composeData() {
       value: {
         type: "custom",
         message: "Commented on a discussion",
-        widget: props.singlePageView,
+        widget: props.previewWidget,
         blockHeight: item.blockHeight,
         params:
           typeof identifier === "string"
