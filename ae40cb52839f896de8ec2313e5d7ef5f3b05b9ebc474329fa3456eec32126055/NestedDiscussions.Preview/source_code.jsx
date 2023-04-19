@@ -1,7 +1,6 @@
 const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
-const subscribe = !!props.subscribe;
 
 const composeWidget =
   props.composeWidget ||
@@ -169,11 +168,9 @@ return (
           props={{
             identifier: item,
             highlightComment: props.highlightComment,
-            limit: props.commentsLimit,
-            subscribe,
-            raw,
             composeWidget,
             previewWidget,
+            moderatorAccount,
           }}
         />
       </Comments>
