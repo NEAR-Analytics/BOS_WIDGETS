@@ -27,7 +27,7 @@ border-radius: 32px 32px 0px 0px;
   flex-direction: column;
   gap: 48px;
   padding-bottom: 48px;
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
   
 `;
