@@ -169,7 +169,7 @@ return (
       props={{
         label: "CEO",
         id: "ceo",
-        value: "petarvujovic.near",
+        value: state.ceo,
         onSave: (ceo) => onSave({ ceo }),
         canEdit: isAdmin,
       }}
@@ -179,7 +179,7 @@ return (
       props={{
         label: "CTO",
         id: "cto",
-        value: "petarvujovic.near",
+        value: state.cto,
         onSave: (cto) => onSave({ cto }),
         canEdit: isAdmin,
       }}
@@ -189,7 +189,7 @@ return (
       props={{
         label: "Company size",
         id: "size",
-        value: 10,
+        value: state.team,
         onSave: (team) => onSave({ team }),
         canEdit: isAdmin,
       }}
@@ -217,7 +217,7 @@ return (
       props={{
         label: "Location",
         id: "location",
-        value: "San Francisco, CA",
+        value: props.geo,
         onSave: (geo) => onSave({ geo }),
         canEdit: isAdmin,
       }}
