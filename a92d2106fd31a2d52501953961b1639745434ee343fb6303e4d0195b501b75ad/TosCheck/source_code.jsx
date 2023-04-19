@@ -132,6 +132,14 @@ if (
 
   console.log("latestAccept", latestAccept);
 
+  console.log(
+    "latestAccept.key === acceptanceKey",
+    latestAccept.key === acceptanceKey
+  );
+  console.log(
+    "latestAccept.value >= latestTosVersion",
+    latestAccept.value >= latestTosVersion
+  );
   if (
     latestAccept &&
     latestAccept.key === acceptanceKey &&
@@ -154,18 +162,18 @@ const showTos =
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
 
-console.log("!state.hasCommittedAcceptance", !state.hasCommittedAcceptance);
-console.log("context.accountId", context.accountId);
-console.log("latestTosVersion", latestTosVersion);
-console.log("agreementsForUser", agreementsForUser);
-console.log(
-  "agreementsForUser[agreementsForUser.length - 1].value",
-  agreementsForUser[agreementsForUser.length - 1].value
-);
-console.log(
-  "agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion",
-  agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion
-);
+// console.log("!state.hasCommittedAcceptance", !state.hasCommittedAcceptance);
+// console.log("context.accountId", context.accountId);
+// console.log("latestTosVersion", latestTosVersion);
+// console.log("agreementsForUser", agreementsForUser);
+// console.log(
+//   "agreementsForUser[agreementsForUser.length - 1].value",
+//   agreementsForUser[agreementsForUser.length - 1].value
+// );
+// console.log(
+//   "agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion",
+//   agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion
+// );
 
 return (
   <div>
