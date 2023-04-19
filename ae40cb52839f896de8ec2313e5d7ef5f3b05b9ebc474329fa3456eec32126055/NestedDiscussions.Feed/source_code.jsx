@@ -32,7 +32,6 @@ const renderItem = (a) =>
       <Widget
         src={previewWidget}
         props={{
-          identifier,
           accountId: a.accountId,
           blockHeight: a.blockHeight,
           dbAction,
