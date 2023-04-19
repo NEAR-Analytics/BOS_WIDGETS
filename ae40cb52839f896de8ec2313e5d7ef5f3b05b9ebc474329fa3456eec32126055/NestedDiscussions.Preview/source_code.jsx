@@ -5,7 +5,6 @@ const subscribe = !!props.subscribe;
 
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
-// const singlePageView = props.singlePageView;
 
 const content = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight) ??
