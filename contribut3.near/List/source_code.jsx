@@ -20,7 +20,7 @@ const loadMore = () => {
 
 const ListContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.5em;
@@ -52,7 +52,9 @@ return (
     <InfiniteScroll loadMore={loadMore} hasMore={state.hasMore}>
       <ListContainer>
         {state.shown.map((args, index) => (
-          <WidgetContainer key={index} className="cont">{createItem(args)}</WidgetContainer>
+          <WidgetContainer key={index} className="cont">
+            {createItem(args)}
+          </WidgetContainer>
         ))}
       </ListContainer>
     </InfiniteScroll>
