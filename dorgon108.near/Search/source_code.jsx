@@ -18,6 +18,7 @@ const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 
 State.init({
   facet: tab,
+  isFiltersPanelOpen: false,
 });
 
 const Wrapper = styled.div`
@@ -28,6 +29,12 @@ border-radius: 32px 32px 0px 0px;
   padding-bottom: 48px;
   max-width: 600px;
   margin: 0 auto;
+`;
+
+const SearchPageContainer = styled.div`
+  transition: transform 0.3s ease-in-out;
+  transform: ${({ isFiltersPanelOpen }) =>
+    isFiltersPanelOpen ? "translateX(-250px)" : "translateX(0)"};
 `;
 
 const Header = styled.div`
@@ -132,6 +139,20 @@ const GroupHeader = styled.div`
   justify-content: space-between;
   gap: 12px;
 `;
+const FiltersPanel = styled.div`
+  position: fixed;
+  right: ${({ open }) => (open ? "0" : "-250px")};
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  border-left: 1px solid #e6e6e6;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.3s ease-in-out;
+`;
 
 const Text = styled.p`
   margin: 0;
@@ -183,6 +204,13 @@ const GridItems = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 16px;
 `;
+
+const toggleFiltersPanel = () => {
+  State.update((prevState) => ({
+    ...prevState,
+    isFiltersPanelOpen: !prevState.isFiltersPanelOpen,
+  }));
+};
 
 const resetSearcheHits = () => {
   State.update({
@@ -437,171 +465,216 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
   }, 50);
 };
 
+{
+  console.log(state.isFiltersPanelOpen);
+}
+
 return (
-  <Wrapper>
-    {showHeader && (
-      <Header>
-        <H1>Search</H1>
-      </Header>
-    )}
-
-    {showSearchBar && (
-      <Search>
-        <Widget
-          src="dorgon108.near/widget/SearchPill"
-          props={{
-            onChange: onSearchChange,
-            term: props.term,
-          }}
-        />
-      </Search>
-    )}
-
-    {state.search && (
-      <Facets>
-        <Widget
-          src="dorgon108.near/widget/Facets"
-          props={{
-            facets,
-            onFacetClick,
-            defaultFacet: facets[0],
-            initialFacet: tab,
-            tabButtonStyle: TabsButton,
-          }}
-        />
-      </Facets>
-    )}
-
-    {state.paginate?.hitsTotal == 0 && (
-      <H2>No matches were found for "{state.term}".</H2>
-    )}
-
-    {state.search?.components.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>Apps</H3>
-          <Text as="a" onClick={() => onFacetClick("Apps")} small>
-            View All
-          </Text>
-        </GroupHeader>
-        <GridItems>
-          {state.search.components
-            .filter((_, index) =>
-              state.facet === "Apps" || currentTab === "Apps" ? true : index < 2
-            )
-            .map((component, i) => (
-              <Item key={component.accountId + component.widgetName}>
-                <Widget
-                  src="dorgon108.near/widget/ComponentCard-SearchAll"
-                  props={{
-                    src: `${component.accountId}/widget/${component.widgetName}`,
-                    onClick: () =>
-                      onSearchResultClick({
-                        searchPosition: component.searchPosition,
-                        objectID: `${component.accountId}/widget/${component.widgetName}`,
-                        eventName: "Clicked Component After Search",
-                      }),
-                  }}
-                />
-              </Item>
-            ))}
-        </GridItems>
-      </Group>
-    )}
-
-    {state.search?.profiles.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>People</H3>
-          <Text as="a" onClick={() => onFacetClick("Users")} small>
-            View All
-          </Text>
-        </GroupHeader>
-        <GridItems>
-          {state.search.profiles
-            .filter((_, index) =>
-              state.facet === "Users" || currentTab === "Users"
-                ? true
-                : index < 2
-            )
-            .map((profile, i) => (
-              <Item key={profile.accountId}>
-                <Widget
-                  src="dorgon108.near/widget/AccountProfileCard"
-                  props={{
-                    accountId: profile.accountId,
-                    onClick: () =>
-                      onSearchResultClick({
-                        searchPosition: profile.searchPosition,
-                        objectID: `${profile.accountId}/profile`,
-                        eventName: "Clicked Profile After Search",
-                      }),
-                  }}
-                />
-              </Item>
-            ))}
-        </GridItems>
-      </Group>
-    )}
-
-    {state.search?.postsAndComments.length > 0 && (
-      <Group>
-        <GroupHeader>
-          <H3>Posts</H3>
-          <Text as="a" onClick={() => onFacetClick("Posts")} small>
-            View All
-          </Text>
-        </GroupHeader>
-        <PostsGridItems>
-          {state.search.postsAndComments
-            .filter((_, index) =>
-              state.facet === "Posts" || currentTab === "Posts"
-                ? true
-                : index < 3
-            )
-            .map((post, i) => (
-              <Item
-                key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
-              >
-                <Widget
-                  src="dorgon108.near/widget/SearchPost-SearchAll"
-                  props={{
-                    accountId: post.accountId,
-                    blockHeight: post.blockHeight,
-                    content: post.postContent,
-                    snipContent: post.snipContent,
-                    postType: post.postType,
-                    onClick: () =>
-                      onSearchResultClick({
-                        searchPosition: post.searchPosition,
-                        objectID: `${post.accountId}/${post.postType}/${post.blockHeight}`,
-                        eventName: "Clicked Post After Search",
-                      }),
-                  }}
-                />
-              </Item>
-            ))}
-        </PostsGridItems>
-      </Group>
-    )}
-
-    {!props.disableInsights && (
+  <>
+    <FiltersPanel>
       <Widget
-        src="chaotictempest.near/widget/Insights"
+        src={`dorgon108.near/widget/FIlterPanel`}
         props={{
-          event: state.event,
-          searchApiKey: SEARCH_API_KEY,
-          appId: APPLICATION_ID,
-          index: INDEX,
+          filters: {
+            Apps: {
+              Sub1: {},
+              Sub2: {},
+            },
+            Users: {
+              Sub1: {},
+              Sub2: {},
+            },
+            Posts: {
+              Sub1: {},
+              Sub2: {},
+            },
+          },
         }}
       />
-    )}
+    </FiltersPanel>
 
-    {props.debug && (
-      <div>
-        <p>Debug Data:</p>
-        <pre>{JSON.stringify(state, undefined, 2)}</pre>
-      </div>
-    )}
-  </Wrapper>
+    <Wrapper>
+      {showHeader && (
+        <Header>
+          <H1>Search</H1>
+        </Header>
+      )}
+      {showSearchBar && (
+        <Search>
+          <Widget
+            src="dorgon108.near/widget/SearchPill"
+            props={{
+              onChange: onSearchChange,
+              term: props.term,
+            }}
+          />
+          <button onClick={toggleFiltersPanel}>Toggle Filters Panel</button>
+        </Search>
+      )}
+      {state.search && (
+        <Facets>
+          <Widget
+            src="dorgon108.near/widget/Facets"
+            props={{
+              facets,
+              onFacetClick,
+              defaultFacet: facets[0],
+              initialFacet: tab,
+              tabButtonStyle: TabsButton,
+            }}
+          />
+        </Facets>
+      )}
+
+      {state.paginate?.hitsTotal == 0 && (
+        <H2>No matches were found for "{state.term}".</H2>
+      )}
+
+      {state.search?.components.length > 0 && (
+        <Group>
+          <GroupHeader>
+            <H3>Apps</H3>
+            <Text as="a" onClick={() => onFacetClick("Apps")} small>
+              View All
+            </Text>
+          </GroupHeader>
+          <GridItems>
+            {state.search.components
+              .filter((_, index) =>
+                state.facet === "Apps" || currentTab === "Apps"
+                  ? true
+                  : index < 2
+              )
+              .map((component, i) => (
+                <Item key={component.accountId + component.widgetName}>
+                  <Widget
+                    src="dorgon108.near/widget/ComponentCard-SearchAll"
+                    props={{
+                      src: `${component.accountId}/widget/${component.widgetName}`,
+                      onClick: () =>
+                        onSearchResultClick({
+                          searchPosition: component.searchPosition,
+                          objectID: `${component.accountId}/widget/${component.widgetName}`,
+                          eventName: "Clicked Component After Search",
+                        }),
+                    }}
+                  />
+                </Item>
+              ))}
+          </GridItems>
+        </Group>
+      )}
+
+      {state.search?.profiles.length > 0 && (
+        <Group>
+          <GroupHeader>
+            <H3>People</H3>
+            <Text as="a" onClick={() => onFacetClick("Users")} small>
+              View All
+            </Text>
+          </GroupHeader>
+          <GridItems>
+            {state.search.profiles
+              .filter((_, index) =>
+                state.facet === "Users" || currentTab === "Users"
+                  ? true
+                  : index < 2
+              )
+              .map((profile, i) => (
+                <Item key={profile.accountId}>
+                  <Widget
+                    src="dorgon108.near/widget/AccountProfileCard"
+                    props={{
+                      accountId: profile.accountId,
+                      onClick: () =>
+                        onSearchResultClick({
+                          searchPosition: profile.searchPosition,
+                          objectID: `${profile.accountId}/profile`,
+                          eventName: "Clicked Profile After Search",
+                        }),
+                    }}
+                  />
+                </Item>
+              ))}
+          </GridItems>
+        </Group>
+      )}
+
+      {state.search?.postsAndComments.length > 0 && (
+        <Group>
+          <GroupHeader>
+            <H3>Posts</H3>
+            <Text as="a" onClick={() => onFacetClick("Posts")} small>
+              View All
+            </Text>
+          </GroupHeader>
+          <PostsGridItems>
+            {state.search.postsAndComments
+              .filter((_, index) =>
+                state.facet === "Posts" || currentTab === "Posts"
+                  ? true
+                  : index < 3
+              )
+              .map((post, i) => (
+                <Item
+                  key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
+                >
+                  <Widget
+                    src="dorgon108.near/widget/SearchPost-SearchAll"
+                    props={{
+                      accountId: post.accountId,
+                      blockHeight: post.blockHeight,
+                      content: post.postContent,
+                      snipContent: post.snipContent,
+                      postType: post.postType,
+                      onClick: () =>
+                        onSearchResultClick({
+                          searchPosition: post.searchPosition,
+                          objectID: `${post.accountId}/${post.postType}/${post.blockHeight}`,
+                          eventName: "Clicked Post After Search",
+                        }),
+                    }}
+                  />
+                </Item>
+              ))}
+          </PostsGridItems>
+        </Group>
+      )}
+
+      {!props.disableInsights && (
+        <Widget
+          src="chaotictempest.near/widget/Insights"
+          props={{
+            event: state.event,
+            searchApiKey: SEARCH_API_KEY,
+            appId: APPLICATION_ID,
+            index: INDEX,
+          }}
+        />
+      )}
+      {state.isFiltersPanelVisible && (
+        <FiltersPanel>
+          <Widget
+            src={`dorgon108.near/widget/FIlterPanel`}
+            props={{
+              filters: {
+                Apps: {
+                  Sub1: {},
+                  Sub2: {},
+                },
+                Users: {
+                  Sub1: {},
+                  Sub2: {},
+                },
+                Posts: {
+                  Sub1: {},
+                  Sub2: {},
+                },
+              },
+            }}
+          />
+        </FiltersPanel>
+      )}
+    </Wrapper>
+  </>
 );
