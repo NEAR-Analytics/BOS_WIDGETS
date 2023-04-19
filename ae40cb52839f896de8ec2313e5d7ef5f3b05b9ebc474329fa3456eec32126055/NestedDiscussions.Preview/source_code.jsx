@@ -19,9 +19,8 @@ const content = JSON.parse(
 const item = {
   accountId,
   blockHeight,
+  dbAction,
 };
-
-const notificationParams = { dbAction, ...item };
 
 const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
 
