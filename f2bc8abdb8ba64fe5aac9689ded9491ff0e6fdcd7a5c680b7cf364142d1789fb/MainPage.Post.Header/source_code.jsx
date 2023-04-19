@@ -7,7 +7,7 @@ const widgetOwner = props.widgetOwner;
 return (
   <div
     className="d-flex flex-row align-items-center"
-    style={{ maxWidth: "100%" }}
+    style={/*{ maxWidth: "100%" }*/}
   >
     <div className="flex-grow-1 text-truncate" style={{ maxWidth: "100%" }}>
       <a
