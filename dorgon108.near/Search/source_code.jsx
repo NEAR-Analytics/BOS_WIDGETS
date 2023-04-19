@@ -19,7 +19,7 @@ const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 State.init({
   facet: tab,
   isFiltersPanelVisible: false,
-  numColumns: 3,
+  numColumns: 2,
 });
 
 const Wrapper = styled.div`
@@ -210,12 +210,8 @@ const GridItems = styled.div`
 `;
 
 const toggleFiltersPanel = () => {
-  setState((prevState) => ({
-    ...prevState,
-    isFiltersPanelVisible: !prevState.isFiltersPanelVisible,
-  }));
-
   State.update({
+    isFiltersPanelVisible: !state.isFiltersPanelVisible,
     numColumns: state.numColumns === 3 ? 2 : 3,
   });
 };
