@@ -1,7 +1,6 @@
 const dbAction = props.dbAction;
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
-const singlePageView = props.singlePageView;
 const identifier = props.identifier;
 const moderatorAccount = props.moderatorAccount;
 
@@ -39,7 +38,7 @@ const renderItem = (a) =>
           dbAction,
           composeWidget,
           previewWidget,
-          singlePageView,
+          moderatorAccount,
         }}
       />
     </Post>
