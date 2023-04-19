@@ -16,6 +16,27 @@ const userId = props.accountId ?? context.accountId;
 const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
 const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
 
+const [accountId, widget, widgetName] = props.src.split("/");
+const metadata = Social.get(
+  `${accountId}/widget/${widgetName}/metadata/**`,
+  "final"
+);
+const tags = Object.keys(metadata.tags || {});
+
+{
+  tags.length > 0 && (
+    <TagsWrapper>
+      <Widget
+        src="near/widget/Tags"
+        props={{
+          tags,
+          scroll: true,
+        }}
+      />
+    </TagsWrapper>
+  );
+}
+
 State.init({
   facet: tab,
   isFiltersPanelVisible: false,
@@ -484,6 +505,14 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
   console.log(state.isFiltersPanelOpen);
 }
 
+const getComponentTags = (accountId, widgetName) => {
+  const metadata = Social.get(
+    `${accountId}/widget/${widgetName}/metadata/**`,
+    "final"
+  );
+  return Object.keys(metadata.tags || {});
+};
+
 return (
   <>
     <div
@@ -534,18 +563,36 @@ return (
         {state.search?.components.length > 0 && (
           <Group>
             <GroupHeader>
-              <H3>Apps</H3>
-              <Text as="a" onClick={() => onFacetClick("Apps")} small>
+              {state.facet === "Components" || currentTab === "Components" ? (
+                <H3>Components</H3>
+              ) : (
+                <H3>Apps</H3>
+              )}
+
+              <Text as="a" onClick={() => onFacetClick("Components")} small>
                 View All
               </Text>
             </GroupHeader>
             <GridItems numColumns={state.numColumns}>
+              {console.log("dem compoennts", state.search.components)}
               {state.search.components
-                .filter((_, index) =>
-                  state.facet === "Apps" || currentTab === "Apps"
-                    ? true
-                    : index < 3
-                )
+                .filter((component, index) => {
+                  const tags = getComponentTags(
+                    component.accountId,
+                    component.widgetName
+                  );
+
+                  if (
+                    state.facet === "Components" ||
+                    currentTab === "Components"
+                  ) {
+                    return true;
+                  } else if (state.facet === "Apps" || currentTab === "Apps") {
+                    return tags.includes("Apps") && index < 3;
+                  } else {
+                    return index < 3;
+                  }
+                })
                 .map((component, i) => (
                   <Item key={component.accountId + component.widgetName}>
                     <Widget
