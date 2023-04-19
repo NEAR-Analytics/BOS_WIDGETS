@@ -179,7 +179,6 @@ return (
           props={{
             dbAction,
             identifier: item,
-            highlightComment: props.highlightComment,
             composeWidget,
             previewWidget,
             moderatorAccount,
