@@ -23,6 +23,7 @@ const ListContainer = styled.div`
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 0.5em;
   width: 100%;
 `;
