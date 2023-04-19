@@ -165,12 +165,7 @@ const content = {
   overview: (
     <Widget
       src={`${ownerId}/widget/Project.About`}
-      props={{
-        onSave: (s) => {
-          console.log(s);
-        },
-        accountId: props.accountId,
-      }}
+      props={{ accountId: props.accountId }}
     />
   ),
   requests: (
@@ -211,7 +206,7 @@ return (
           {state.isAdmin ? (
             <>
               {state.project.application_status === "NotSubmitted" ||
-              "Rejected" in state.project.application_status ? (
+                "Rejected" in state.project.application_status ? (
                 <Widget
                   src={`${ownerId}/widget/Buttons.Green`}
                   props={{
