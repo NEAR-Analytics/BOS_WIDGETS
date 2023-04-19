@@ -25,13 +25,14 @@ const content = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight)
 ).content;
 
+const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
+
+// all childs will be identified by this object
 const item = {
   accountId,
   blockHeight,
   dbAction,
 };
-
-const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
 
 const Post = styled.div`
   position: relative;
