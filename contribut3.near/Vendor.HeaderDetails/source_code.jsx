@@ -67,11 +67,9 @@ return (
           id: "name",
           accountId,
           onSave: (name) =>
-            Near.call(
-              "social.near",
-              "set",
-              { data: { [accountId]: { profile: { name } }, } },
-            ),
+            Near.call("social.near", "set", {
+              data: { [accountId]: { profile: { name } } },
+            }),
           canEdit: props.isAdmin,
         }}
       />
@@ -81,20 +79,18 @@ return (
           value: state.profile.tagline,
           id: "tagline",
           onSave: (tagline) =>
-            Near.call(
-              "social.near",
-              "set",
-              { data: { [accountId]: { profile: { tagline } }, } },
-            ),
+            Near.call("social.near", "set", {
+              data: { [accountId]: { profile: { tagline } } },
+            }),
           canEdit: props.isAdmin,
         }}
       />
-      <Widget
+      {/*<Widget
         src={`${ownerId}/widget/BadgeList`}
         props={{
           badges: [{ value: "Verified" }],
         }}
-      />
+      />*/}
     </Details>
   </Container>
 );
