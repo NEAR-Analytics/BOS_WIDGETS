@@ -55,7 +55,7 @@ return (
                 [accountId]: { profile: { image: { ipfs_cid: image.cid } } },
               },
             }),
-          canEdit: isAdmin,
+          canEdit: props.isAdmin,
         }}
       />
     </div>
@@ -72,6 +72,7 @@ return (
               "set",
               { data: { [accountId]: { profile: { name } }, } },
             ),
+          canEdit: props.isAdmin,
         }}
       />
       <Widget
@@ -85,7 +86,7 @@ return (
               "set",
               { data: { [accountId]: { profile: { tagline } }, } },
             ),
-
+          canEdit: props.isAdmin,
         }}
       />
       <Widget
