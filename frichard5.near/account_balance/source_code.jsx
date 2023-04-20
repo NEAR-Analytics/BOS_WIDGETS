@@ -68,7 +68,7 @@ return (
     <BalanceContainer>
       <iframe
         style={{
-          width: "40%",
+          width: "35%",
           height: "420px",
           marginTop: "0px",
           overflow: "none",
