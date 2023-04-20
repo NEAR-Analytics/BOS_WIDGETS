@@ -150,7 +150,18 @@ return (
     />
     <div className="row h-100">
       <div className="col-12 col-md-3 border-end">
-        <h4 className="text-center">{state.article.articleId}</h4>
+        <h4
+          className="text-center"
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            console.log(state.article.body);
+            State.update({
+              note: state.article.body,
+            });
+          }}
+        >
+          {state.article.articleId}
+        </h4>
         <hr />
         <button
           className="btn btn-outline-dark w-100 mb-2"
