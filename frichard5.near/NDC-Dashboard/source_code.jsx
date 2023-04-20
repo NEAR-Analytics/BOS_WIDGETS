@@ -89,6 +89,16 @@ const Proposals = (
   />
 );
 
+const Policy = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-policy`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
@@ -127,6 +137,11 @@ const Tabs = (
           label: "Members",
           //selected: state.selectedTab === "members",
           components: <>Coming soon</>,
+        },
+        {
+          value: "policy",
+          label: "Policy",
+          components: <WidgetsContainer>{Policy}</WidgetsContainer>,
         },
       ],
       widgetProvider,
