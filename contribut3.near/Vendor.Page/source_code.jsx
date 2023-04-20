@@ -93,10 +93,7 @@ const CTARow = styled.div`
 
 const content = {
   overview: (
-    <Widget
-      src={`${ownerId}/widget/Vendor.About`}
-      props={{ accountId }}
-    />
+    <Widget src={`${ownerId}/widget/Vendor.About`} props={{ accountId }} />
   ),
   contracts: (
     <Widget src={`${ownerId}/widget/Vendor.Contracts`} props={{ accountId }} />
