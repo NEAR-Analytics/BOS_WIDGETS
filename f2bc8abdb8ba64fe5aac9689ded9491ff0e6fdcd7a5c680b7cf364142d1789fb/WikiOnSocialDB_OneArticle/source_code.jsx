@@ -171,7 +171,7 @@ return (
     className="container-fluid"
     style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0" }}
   >
-    <div style={{ backgroundColor: "white" }}>
+    <div style={{ backgroundColor: "white", width: "90%", minWidth: "360px" }}>
       <Widget
         src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_MainNavigation`}
         props={{ currentNavPill: "articles" }}
