@@ -70,8 +70,6 @@ const validate = async () => {
   }
 
   if (!props.addInfo) {
-
-
     // if (forbiddenIds.has(value)) {
     //   State.update({
     //     valid: false,
@@ -83,6 +81,7 @@ const validate = async () => {
     State.update({ valid: true, errorMessage: "" });
     addInfo(false);
   }
+
   canEdit(value).then((editPermission) => {
     if (!editPermission) {
       State.update({
