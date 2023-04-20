@@ -36,6 +36,7 @@ return (
       onSave: (project) => {
         State.update({
           project: {
+            ...state.project,
             application: { ...state.project.application, ...project },
           },
         });
