@@ -97,12 +97,12 @@ return (
       }}
     />
     <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.PrivateText`}
+      src={`${ownerId}/widget/Inputs.Viewable.TextArea`}
       props={{
         label: "What makes your team uniquely positioned for success?",
-        id: "win_reason",
-        value: state.project.application.private.win_reason,
-        onSave: (value) => onPrivateSave(value),
+        id: "success_position",
+        value: state.project.application.success_position,
+        onSave: (succcess_position) => onSave({ succcess_position }),
       }}
     />
     <Widget
