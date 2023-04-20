@@ -102,7 +102,7 @@ if (!state.isAdminIsFetched) {
   } else {
     Near.asyncView(
       ownerId,
-      "check_is_project_admin",
+      "check_is_vendor_admin",
       { project_id: accountId, account_id: context.accountId },
       "final",
       false
