@@ -229,7 +229,7 @@ const GridItems = styled.div`
 
 const isUserFollowing = (accountId, contextAccountId) => {
   const followEdge = Social.keys(
-    `${contextAccountId}/graph/follow/${accountId}`,
+    `${accountId}/graph/follow/${contextAccountId}`,
     undefined,
     {
       values_only: true,
@@ -704,6 +704,7 @@ return (
                     index < 3;
 
                   const followingCondition = isUserFollowing(
+                    context.accountId,
                     component.accountId
                   );
 
@@ -764,7 +765,10 @@ return (
                     currentTab === "Users" ||
                     index < 3;
 
-                  const followingCondition = isUserFollowing(profile.accountId);
+                  const followingCondition = isUserFollowing(
+                    context.accountId,
+                    profile.accountId
+                  );
 
                   return (
                     hasActiveTag &&
@@ -811,7 +815,10 @@ return (
                       ? true
                       : index < 3;
 
-                  const followingCondition = isUserFollowing(_.accountId);
+                  const followingCondition = isUserFollowing(
+                    context.accountId,
+                    _.accountId
+                  );
 
                   return (
                     displayCondition &&
