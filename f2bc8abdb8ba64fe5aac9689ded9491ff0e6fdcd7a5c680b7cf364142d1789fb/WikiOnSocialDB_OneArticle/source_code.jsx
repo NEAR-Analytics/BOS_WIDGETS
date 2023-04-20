@@ -318,9 +318,10 @@ return (
           )}
           {!state.editArticle && !state.viewHistory && (
             <>
+              {console.log("in")}
               <i
                 className="bi bi-arrow-left"
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", fontSize: "1.5rem" }}
                 onClick={() => {
                   State.update({
                     ...state,
@@ -337,7 +338,7 @@ return (
               <div className="d-flex justify-content-between">
                 <i
                   className="bi bi-arrow-left"
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", fontSize: "1.5rem" }}
                   onClick={() => {
                     State.update({
                       ...state,
