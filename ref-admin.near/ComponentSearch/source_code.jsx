@@ -100,7 +100,7 @@ return (
         className={`form-control ${state.term ? "border-end-0" : ""}`}
         value={state.term ?? ""}
         onChange={(e) => computeResults(e.target.value)}
-        placeholder={props.placeholder ?? `🔍 Search Components`}
+        placeholder={props.placeholder ?? `Search Components`}
       />
 
       {state.term && (
