@@ -157,7 +157,11 @@ const MenuText = styled.span`
 `;
 
 return (
-  <DropdownMenu.Root asChild={true} onOpenChange={(show) => State.update({ show })} open={state.show}>
+  <DropdownMenu.Root
+    asChild={true}
+    onOpenChange={(show) => State.update({ show })}
+    open={state.show}
+  >
     <DropdownMenu.Trigger asChild={true}>
       <MenuIcon>
         {icon}
@@ -176,11 +180,11 @@ return (
         <li>
           <DropdownDivider />
         </li>
-        {createNewButton({
+        {/*createNewButton({
           id: "createvendor",
           text: "Vendor",
           icon: "bi-diagram-2",
-        })}
+        })*/}
       </DropdownList>
     </DropdownMenu.Content>
   </DropdownMenu.Root>
