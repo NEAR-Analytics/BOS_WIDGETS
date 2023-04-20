@@ -17,7 +17,6 @@ const ProposalContainer = styled.div`
 
 const ProposalFilters = styled.div`
   display: flex;
-  justify-content: space-between;
 `;
 
 const NoProposal = styled.div`
