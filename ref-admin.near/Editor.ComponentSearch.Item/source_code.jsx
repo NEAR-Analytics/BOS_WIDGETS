@@ -1,3 +1,14 @@
+const ContainerLine = styled.div`
+  height:80px;
+  padding:12px 16px;
+  :hover{
+    background-color:rgba(0, 0, 0, 0.2);
+  }
+  color:#fff;
+  .btn-white-primary{
+    color:#fff;
+  }
+`;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
 const widgetPath = `${accountId}/widget/${widgetName}`;
@@ -26,7 +37,7 @@ const embedCode = `<Widget src="${widgetPath}" props={{ }} />`;
 // `;
 
 return (
-  <div>
+  <ContainerLine>
     <div className="d-flex justify-content-between align-items-center mb-3">
       <div className="me-2 text-truncate">
         <Widget
@@ -48,7 +59,7 @@ return (
           overlay={<Tooltip>Copy embedding code to clipboard</Tooltip>}
         >
           <button
-            className="btn btn-outline-primary border-0"
+            className="btn btn-white-primary"
             onClick={() => {
               clipboard.writeText(embedCode).then(() => {
                 State.update({ embedCopied: true });
@@ -69,11 +80,11 @@ return (
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
           target="_blank"
-          className="btn btn-outline-secondary border-0"
+          className="btn btn-white-primary"
         >
           <i className="bi bi-file-earmark-code me-1"></i>Source
         </a>
       </div>
     </div>
-  </div>
+  </ContainerLine>
 );
