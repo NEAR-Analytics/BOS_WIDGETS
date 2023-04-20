@@ -4,7 +4,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 1em;
-  padding: 1.25em .625em;
+  padding: 1.25em 0.625em;
   background-color: #fafafa;
   border-radius: 16px;
 `;
@@ -15,13 +15,13 @@ const Value = styled.span`
   font-size: 2em;
   line-height: 1em;
   text-align: center;
-  color: #7269e1;
+  color: #66A0FF;
 `;
 
 const Label = styled.span`
   font-style: normal;
   font-weight: 600;
-  font-size: .95em;
+  font-size: 0.95em;
   line-height: 1em;
   text-align: center;
   color: #000;
