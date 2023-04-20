@@ -9,7 +9,7 @@ const props = {
       description:
         "Free tool that helps you run the Sean Ellis test and measure your company’s product/market fit.",
       img: "https://nearhorizonassets.s3.amazonaws.com/pmf-survey.gif",
-      video: "https://youtu.be/ydvqEWWjqFY",
+      video: "https://youtu.be/A94qh0SAsGQ",
       tags: ["business fundamentals", "essentials"],
       height: "425px",
     },
@@ -20,7 +20,7 @@ const props = {
       description:
         "Y Combinator's collection of tips they consider the most important, transformative advice for startups",
       img: "https://nearhorizonassets.s3.amazonaws.com/essential-startup-advice.gif",
-      video: "https://youtu.be/QZLUQSOv7VY",
+      video: "https://youtu.be/u2kzYj9ck_A",
       tags: ["business fundamentals", "essentials"],
     },
     {
@@ -30,7 +30,7 @@ const props = {
       description:
         "Y Combinator Managing Director Michael Seibel shares his approach to building an MVP and getting your first users",
       img: "https://nearhorizonassets.s3.amazonaws.com/how-to-plan-an-mvp.gif",
-      video: "https://youtu.be/dfYIIugD5Yc",
+      video: "https://youtu.be/ZRJknwo23lE",
       tags: ["business fundamentals", "mvp"],
     },
     {
@@ -40,7 +40,7 @@ const props = {
       description:
         "Template for plotting out your local ecosystem to help newcomers",
       img: "https://nearhorizonassets.s3.amazonaws.com/startup-ecosystem-canvas.gif",
-      video: "https://youtu.be/7G52FQQszGM",
+      video: "https://youtu.be/x0lkHst8bM4",
       tags: ["business fundamentals", "mvp"],
     },
     {
@@ -49,7 +49,7 @@ const props = {
       link: "https://www.ycombinator.com/library/4T-how-to-design-a-better-pitch-deck",
       description: "Here’s how to make a solid Demo Day slide deck.",
       img: "https://nearhorizonassets.s3.amazonaws.com/designing-a-better-pitch-deck.gif",
-      video: "https://youtu.be/7fiGwvLoHlM",
+      video: "https://youtu.be/sT-tA9m7-J8",
       tags: ["business fundamentals", "pitching"],
     },
   ],
