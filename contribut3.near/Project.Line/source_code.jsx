@@ -89,6 +89,12 @@ return (
         <AccountId>@{accountId}</AccountId>
       </Row>
       {props.tall ? <Tagline>{state.tagline}</Tagline> : null}
+      {props.tall && false ? (
+        <Widget
+          src={`${ownerId}/widget/BadgeList`}
+          props={{ badges: [{ value: "Verified" }] }}
+        />
+      ) : null}
     </Column>
   </Container>
 );
