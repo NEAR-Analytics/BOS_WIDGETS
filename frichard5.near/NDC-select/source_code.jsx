@@ -5,6 +5,7 @@ const id = props.id || "";
 const SelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0px 10px;
 `;
 
 const Select = styled.select`
