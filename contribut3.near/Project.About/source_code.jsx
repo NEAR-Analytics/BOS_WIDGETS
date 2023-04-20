@@ -111,7 +111,7 @@ return (
       props={{
         label: "Why are you building on NEAR?",
         id: "why",
-        value: state.project.why,
+        value: state.project.application.why,
         onSave: (why) => onSave({ why }),
       }}
     />
@@ -120,7 +120,7 @@ return (
       props={{
         label: "What's your 5 year vision? 1B users project evolution?",
         id: "vision",
-        value: state.project.vision,
+        value: state.project.application.vision,
         onSave: (vision) => onSave({ vision }),
       }}
     />
