@@ -223,6 +223,18 @@ const GridItems = styled.div`
     grid-template-columns: minmax(0, 1fr);
   }
 `;
+
+const isUserFollowing = (accountId, contextAccountId) => {
+  const followEdge = Social.keys(
+    `${contextAccountId}/graph/follow/${accountId}`,
+    undefined,
+    {
+      values_only: true,
+    }
+  );
+  return Object.keys(followEdge || {}).length > 0;
+};
+
 // Here are the functions
 const toggleFiltersPanel = () => {
   State.update({
@@ -594,6 +606,15 @@ function arraysIntersect(a, b) {
   return false;
 }
 
+const handleCheckboxChange = (checkboxName, isChecked) => {
+  // Update the state based on the checkboxName and isChecked values
+  console.log(checkboxName, isChecked);
+  const updatedState = {};
+  updatedState[checkboxName] = isChecked;
+  State.update(updatedState);
+  console.log("the name check is", state);
+};
+
 // Here is the return.
 return (
   <>
@@ -676,7 +697,13 @@ return (
                       index < 3) ||
                     index < 3;
 
-                  return hasActiveTag && displayCondition;
+                  const followingCondition = isUserFollowing(
+                    component.accountId
+                  );
+
+                  return (
+                    hasActiveTag && displayCondition && !followingCondition
+                  );
                 })
                 .map((component, i) => {
                   const tags = getComponentTags(
@@ -726,7 +753,11 @@ return (
                     currentTab === "Users" ||
                     index < 3;
 
-                  return hasActiveTag && displayCondition;
+                  const followingCondition = isUserFollowing(profile.accountId);
+
+                  return (
+                    hasActiveTag && displayCondition && !followingCondition
+                  );
                 })
 
                 .map((profile, i) => (
@@ -814,6 +845,7 @@ return (
         <Widget
           src={`dorgon108.near/widget/FIlterComponent`}
           props={{
+            onCheckboxChange: handleCheckboxChange,
             updateTags: updateTags,
 
             filters: {
