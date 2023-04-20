@@ -1,4 +1,5 @@
 const { options, selectedOption, onChange, label } = props;
+const top = props.top | "0px";
 const id = props.id || "";
 
 const SelectWrapper = styled.div`
@@ -14,7 +15,7 @@ const Select = styled.select`
   cursor: pointer;
   background: rgba(68, 152, 224, 0.7);
   border-radius: 4px;
-  top: 29px;
+  top: ${top};
   left: 0px;
   width: fit-content;
 `;
