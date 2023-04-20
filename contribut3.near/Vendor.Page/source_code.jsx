@@ -95,12 +95,7 @@ const content = {
   overview: (
     <Widget
       src={`${ownerId}/widget/Vendor.About`}
-      props={{
-        onSave: (s) => {
-          console.log(s);
-        },
-        accountId,
-      }}
+      props={{ accountId }}
     />
   ),
   contracts: (
