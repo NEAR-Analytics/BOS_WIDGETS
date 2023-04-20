@@ -60,12 +60,22 @@ const filteredArticlesByUser =
 console.log(profile);
 
 return (
-  <div className="container-fluid border-start border-end">
+  <div
+    className="container-fluid"
+    style={{
+      backgroundColor: "rgb(230, 230, 230)",
+      borderRadius: "20px",
+      padding: "0",
+    }}
+  >
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "authors" }}
     />
-    <div className="card">
+    <div
+      className="card"
+      style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}
+    >
       <div className="d-flex justify-content-between">
         {profile ? (
           <Widget
