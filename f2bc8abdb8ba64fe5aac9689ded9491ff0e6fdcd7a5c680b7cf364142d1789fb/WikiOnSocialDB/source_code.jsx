@@ -1,6 +1,7 @@
 const addressForArticles = "wikiTest";
 const writersWhiteList = ["testwiki.near", "eugenewolf507.near"];
-const authorForWidget = "rodrigos.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -11,14 +12,21 @@ if (profile === null) {
 }
 
 return (
-  <div className="container-fluid border-start border-end">
+  <div
+    className="container-fluid"
+    style={{
+      backgroundColor: "rgb(230, 230, 230)",
+      borderRadius: "20px",
+      padding: "0",
+    }}
+  >
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
     />
-    <div>
+    <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
-        src={`$f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_AllArticlesList`}
+        src={`${authorForWidget}/widget/WikiOnSocialDB_AllArticlesList`}
         props={{ writersWhiteList }}
       />
     </div>
