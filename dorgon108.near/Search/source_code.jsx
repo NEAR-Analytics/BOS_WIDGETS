@@ -27,7 +27,6 @@ State.init({
 
   showFollowed: false,
   showNotFollowed: false,
-  sortByDate: false,
 });
 
 const Wrapper = styled.div`
@@ -636,16 +635,6 @@ const handleCheckboxChange = (checkboxName, isChecked) => {
   console.log(`the ${checkboxName} check is`, state[checkboxName]);
 };
 
-const toggleSortByDate = () => {
-  State.update({
-    ...State.get(),
-    sortByDate: !State.get().sortByDate,
-  });
-};
-const sortByDateCreated = (a, b) => {
-  return parseInt(b.blockHeight || "0") - parseInt(a.blockHeight || "0");
-};
-
 // Here is the return.
 return (
   <>
@@ -906,11 +895,17 @@ return (
         <Widget
           src={`dorgon108.near/widget/FIlterComponent`}
           props={{
-            showFollowed: state.showFollowed ?? false,
-            showNotFollowed: state.showNotFollowed ?? false,
+            showFollowed: state.showFollowed,
+            showNotFollowed: state.showNotFollowed,
             onCheckboxChange: handleCheckboxChange,
             updateTags: updateTags,
-            // ... rest of the props
+
+            selectedTags: state.allTags,
+            onTagClick: (tags) => {
+              // handle tag click
+              // Update the state with the new activeTags
+              State.update({ activeTags: tags });
+            },
           }}
         />
       </FiltersPanel>
