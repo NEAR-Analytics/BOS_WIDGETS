@@ -475,7 +475,6 @@ const configsPerFacet = (facet) => {
 
 const onFacetClick = (facet) => {
   if (facet === state.facet) {
-    console.log("Clicked the same facet");
     return;
   }
 
@@ -513,25 +512,23 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
 };
 
 {
-  console.log(state.isFiltersPanelOpen);
 }
 
-const getAllTagsFromSearchResults = (searchResults) => {
-  const allTags = new Set();
-
-  searchResults.forEach((result) => {
+const getAllTagsFromSearchResults = (results) => {
+  const allTags = results.reduce((tags, result) => {
     const metadata = Social.get(
       `${result.accountId}/widget/${result.widgetName}/metadata/**`,
       "final"
     );
-    const tags = Object.keys(metadata.tags || {});
+    const widgetTags = Object.keys(metadata.tags || {});
+    return [...tags, ...widgetTags];
+  }, []);
 
-    tags.forEach((tag) => {
-      allTags.add(tag);
-    });
-  });
+  // Filter out duplicates
+  const uniqueTags = [...new Set(allTags)];
 
-  State.update({ selectedTags: Array.from(allTags) });
+  // Update the state with the unique tags
+  State.update({ allTags: uniqueTags });
 };
 
 const getComponentTags = (accountId, widgetName) => {
@@ -614,7 +611,6 @@ return (
               </Text>
             </GroupHeader>
             <GridItems numColumns={state.numColumns}>
-              {console.log("dem compoennts", state.search.components)}
               {state.search.components
                 .filter((component, index) => {
                   const tags = getComponentTags(
@@ -737,7 +733,6 @@ return (
         )}
       </Wrapper>
     </div>
-    {console.log(state.isFiltersPanelVisible)}
     {state.isFiltersPanelVisible && (
       <FiltersPanel
         style={{
@@ -765,7 +760,7 @@ return (
                 Sub2: {},
               },
             },
-            selectedTags: state.selectedTags,
+            selectedTags: state.allTags,
             onTagClick: (tags) => {
               // handle tag click
               // Update the state with the new activeTags
