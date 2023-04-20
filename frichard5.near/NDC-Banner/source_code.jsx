@@ -10,6 +10,7 @@ const Logo = styled.img`
     border-radius: 50%;
     box-shadow:rgba(68, 152, 224, 0.5) -6px 2px 24px;
     margin-right: 30px;
+    margin-left: 30px;
 `;
 
 const Lines = styled.div`
@@ -18,7 +19,7 @@ const Lines = styled.div`
     background: url("https://ipfs.near.social/ipfs/bafybeibrijoowwlrlhxn54skisw2uitt3bex54yirua74nlbo2gkee5d2a");
     background-size: contain;
     background-repeat: no-repeat;
-    -webkit-mask-image:-webkit-gradient(linear, 30% center, left center, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    -webkit-mask-image:-webkit-gradient(linear, 50% center, left center, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 `;
 
 const Header = styled.div`
@@ -32,9 +33,9 @@ const Header = styled.div`
 return (
   <Banner role="banner">
     <Header>
+      <Lines src="https://ipfs.near.social/ipfs/bafybeifjsr4vz2266xw27t4uvlhelnixnbxozfkmr7c7zhpsnkttucrkli" />
       <Logo src="https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq" />
       <h1> Near Digital Collective</h1>
-      <Lines src="https://ipfs.near.social/ipfs/bafybeifjsr4vz2266xw27t4uvlhelnixnbxozfkmr7c7zhpsnkttucrkli" />
     </Header>
   </Banner>
 );
