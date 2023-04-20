@@ -119,7 +119,7 @@ return (
             src={`${ownerId}/widget/Vendor.RequestSideWindow`}
             props={{ accountId }}
           />
-          <Widget
+          {/*<Widget
             src={`${ownerId}/widget/Buttons.Grey`}
             props={{
               onClick: () => {
@@ -127,7 +127,7 @@ return (
               },
               text: <>{chat}Contact</>,
             }}
-          />
+          />*/}
         </CTARow>
       </HeaderDetails>
     </Header>
