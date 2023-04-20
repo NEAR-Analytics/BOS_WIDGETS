@@ -59,7 +59,7 @@ const filteredArticlesByUser =
 console.log(profile);
 
 return (
-  <>
+  <div className="container-fluid border-start border-end">
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "authors" }}
@@ -135,5 +135,5 @@ return (
           </div>
         ))}
     </div>
-  </>
+  </div>
 );
