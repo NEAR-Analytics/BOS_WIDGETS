@@ -2,7 +2,7 @@ if (!context.accountId) {
   return <></>;
 }
 
-const domains = props.domains;
+const domain = props.domain;
 
 State.init({
   image: {},
@@ -49,6 +49,21 @@ function extractTagNotifications(text, item) {
     }));
 }
 
+const extractHashtags = (text) => {
+  const hashtagRegex = /#(\w+)/gi;
+  hashtagRegex.lastIndex = 0;
+  const hashtags = new Set();
+  for (const match of text.matchAll(hashtagRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
+    ) {
+      hashtags.add(match[1].toLowerCase());
+    }
+  }
+  return [...hashtags];
+};
+
 function composeData() {
   const data = {
     post: {
@@ -57,6 +72,11 @@ function composeData() {
     index: {},
   };
 
+  const hashtags = extractHashtags(content.text);
+  /**
+   * If domains have been provided, then we create an index under that "domain"
+   * Otherwise, we post to the catch-all "post" domain
+   */
   if (state.choose) {
     state.choose.map((it) => {
       data.index[it] = JSON.stringify({
@@ -65,6 +85,17 @@ function composeData() {
           type: "md",
         },
       });
+      if (hashtags.length) {
+        data.index.hashtag = JSON.stringify(
+          hashtags.map((hashtag) => ({
+            key: hashtag,
+            value: {
+              type: "social",
+              path: `${context.accountId}/${it}/main`,
+            },
+          }))
+        );
+      }
     });
   } else {
     data.index.post = JSON.stringify({
@@ -73,9 +104,18 @@ function composeData() {
         type: "md",
       },
     });
+    if (hashtags.length) {
+      data.index.hashtag = JSON.stringify(
+        hashtags.map((hashtag) => ({
+          key: hashtag,
+          value: {
+            type: "social",
+            path: `${context.accountId}/post/main`,
+          },
+        }))
+      );
+    }
   }
-
-  console.log(data);
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
