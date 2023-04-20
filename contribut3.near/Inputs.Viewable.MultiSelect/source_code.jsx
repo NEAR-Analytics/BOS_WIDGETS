@@ -46,13 +46,16 @@ const SaveButton = styled.button`
 
 const edit = (update, v) => (
   <LabelArea>
-    <Widget src={`${ownerId}/widget/Inputs.MultiSelect`} props={{
-      id,
-      noLabel: true,
-      value: v,
-      options,
-      onChange: update,
-    }} />
+    <Widget
+      src={`${ownerId}/widget/Inputs.MultiSelect`}
+      props={{
+        id,
+        noLabel: true,
+        value: v,
+        options,
+        onChange: update,
+      }}
+    />
     <SaveButton onClick={() => onSave(v)}>Save</SaveButton>
   </LabelArea>
 );
@@ -66,6 +69,7 @@ return (
       value,
       edit,
       view: value.map(({ name }) => name).join(", "),
+      canEdit: props.canEdit,
     }}
   />
 );
