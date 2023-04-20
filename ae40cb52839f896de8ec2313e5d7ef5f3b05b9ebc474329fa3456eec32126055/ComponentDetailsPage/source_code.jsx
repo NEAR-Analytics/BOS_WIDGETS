@@ -330,7 +330,7 @@ return (
       <Content>
         <Widget
           src="near/widget/NestedDiscussions"
-          params={{ identifier: src }}
+          props={{ identifier: src }}
         />
       </Content>
     )}
