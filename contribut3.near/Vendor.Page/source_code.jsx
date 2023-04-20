@@ -37,6 +37,15 @@ const HeaderDetails = styled.div`
   width: 100%;
 `;
 
+const HeaderProgress = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 20%;
+`;
+
+
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -112,13 +121,22 @@ if (!state.isAdminIsFetched) {
 
 const content = {
   overview: (
-    <Widget src={`${ownerId}/widget/Vendor.About`} props={{ accountId, isAdmin: state.isAdmin }} />
+    <Widget
+      src={`${ownerId}/widget/Vendor.About`}
+      props={{ accountId, isAdmin: state.isAdmin }}
+    />
   ),
   contracts: (
-    <Widget src={`${ownerId}/widget/Vendor.Contracts`} props={{ accountId, isAdmin: state.isAdmin }} />
+    <Widget
+      src={`${ownerId}/widget/Vendor.Contracts`}
+      props={{ accountId, isAdmin: state.isAdmin }}
+    />
   ),
   history: (
-    <Widget src={`${ownerId}/widget/Vendor.History`} props={{ accountId, isAdmin: state.isAdmin }} />
+    <Widget
+      src={`${ownerId}/widget/Vendor.History`}
+      props={{ accountId, isAdmin: state.isAdmin }}
+    />
   ),
 }[getContent(props.content)];
 
@@ -131,12 +149,14 @@ return (
           props={{ accountId, isAdmin: state.isAdmin }}
         />
         <CTARow>
-          {state.isAdmin ? <></> :
+          {state.isAdmin ? (
+            <></>
+          ) : (
             <Widget
               src={`${ownerId}/widget/Vendor.RequestSideWindow`}
               props={{ accountId }}
             />
-          }
+          )}
           {/*<Widget
             src={`${ownerId}/widget/Buttons.Grey`}
             props={{
@@ -148,6 +168,9 @@ return (
           />*/}
         </CTARow>
       </HeaderDetails>
+      <HeaderProgress>
+        <Widget src={`${ownerId}/widget/Project.Progress`} props={{}} />
+      </HeaderProgress>
     </Header>
     <ContentContainer>
       <MainContent>
