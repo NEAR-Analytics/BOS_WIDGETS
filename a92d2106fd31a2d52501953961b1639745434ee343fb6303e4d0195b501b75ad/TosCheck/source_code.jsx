@@ -120,11 +120,9 @@ if (
   agreementsForUser.length === 0 ||
   agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion
 ) {
-  const acceptJson = JSON.parse(
-    Near.view("social.near", "get", {
-      keys: [context.accountId + "/index/tosAccept"],
-    })
-  );
+  const acceptJson = Near.view("social.near", "get", {
+    keys: [context.accountId + "/index/tosAccept"],
+  });
 
   console.log("acceptJson", acceptJson);
 
