@@ -10,7 +10,7 @@ const canEdit = (accountId) => {
   return Near.asyncView(
     "social.near",
     "is_write_permission_granted",
-    { predecessor_account_id: context.accountId, key: accountId },
+    { predecessor_id: context.accountId, key: accountId },
     "final",
     false
   );
