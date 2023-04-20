@@ -95,12 +95,7 @@ const content = {
   overview: (
     <Widget
       src={`${ownerId}/widget/Vendor.About`}
-      props={{
-        onSave: (s) => {
-          console.log(s);
-        },
-        accountId,
-      }}
+      props={{ accountId }}
     />
   ),
   contracts: (
@@ -124,7 +119,7 @@ return (
             src={`${ownerId}/widget/Vendor.RequestSideWindow`}
             props={{ accountId }}
           />
-          <Widget
+          {/*<Widget
             src={`${ownerId}/widget/Buttons.Grey`}
             props={{
               onClick: () => {
@@ -132,7 +127,7 @@ return (
               },
               text: <>{chat}Contact</>,
             }}
-          />
+          />*/}
         </CTARow>
       </HeaderDetails>
     </Header>
@@ -167,12 +162,7 @@ return (
       <Sidebar>
         <Widget
           src={`${ownerId}/widget/Vendor.Sidebar`}
-          props={{
-            accountId: "contribut3.near",
-            onSave: (s) => {
-              console.log(s);
-            },
-          }}
+          props={{ accountId: "contribut3.near" }}
         />
       </Sidebar>
     </ContentContainer>
