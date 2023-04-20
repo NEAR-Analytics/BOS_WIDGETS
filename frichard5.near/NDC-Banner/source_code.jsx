@@ -18,7 +18,7 @@ const Lines = styled.div`
     top:24px;
     left:0;
     width: 100%;
-    height: 270px;
+    height: 200px;
     background: url("https://ipfs.near.social/ipfs/bafybeibrijoowwlrlhxn54skisw2uitt3bex54yirua74nlbo2gkee5d2a");
     background-size: contain;
     background-repeat: no-repeat;
