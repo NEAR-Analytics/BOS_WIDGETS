@@ -60,16 +60,22 @@ if (!state.projectIsFetched || !state.profileIsFetched) {
 const onPrivateSave = (value) => {
   Near.call(ownerId, "edit_project", {
     account_id: accountId,
-    project: { ...state.project, application: { ...state.project.application, private: value } },
+    project: {
+      ...state.project,
+      application: { ...state.project.application, private: value },
+    },
   });
 };
 
 const onSave = (value) => {
   Near.call(ownerId, "edit_project", {
     account_id: accountId,
-    project: { ...state.project, application: { ...state.project.application, ...value } },
+    project: {
+      ...state.project,
+      application: { ...state.project.application, ...value },
+    },
   });
-}
+};
 
 return (
   <Container>
@@ -92,9 +98,10 @@ return (
         label: "What problem(s) are you solving?",
         id: "problem",
         value: state.profile.problem,
-        onSave: (problem) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { problem } } },
-        }),
+        onSave: (problem) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { problem } } },
+          }),
       }}
     />
     <Widget
