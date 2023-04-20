@@ -20,6 +20,7 @@ State.init({
   facet: tab,
   isFiltersPanelVisible: false,
   numColumns: 3,
+  selectedTags: [],
 });
 
 const Wrapper = styled.div`
@@ -489,7 +490,8 @@ const getComponentTags = (accountId, widgetName) => {
     `${accountId}/widget/${widgetName}/metadata/**`,
     "final"
   );
-  return Object.keys(metadata.tags || {});
+  const tags = Object.keys(metadata.tags || {});
+  State.update({ selectedTags: tags });
 };
 
 return (
@@ -702,6 +704,7 @@ return (
                 Sub2: {},
               },
             },
+            selectedTags: state.selectedTags,
           }}
         />
       </FiltersPanel>
