@@ -6,8 +6,8 @@ const onChange = props.onChange ?? (() => { });
 const addInfo = props.addInfo ?? (() => { });
 const accountIdRegex =
   /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
-const canEdit = async (accountId) => {
-  return await Near.asyncView(
+const canEdit = (accountId) => {
+  return Near.asyncView(
     "social.near",
     "is_write_permission_granted",
     { predecessor_account_id: context.accountId, key: accountId },
