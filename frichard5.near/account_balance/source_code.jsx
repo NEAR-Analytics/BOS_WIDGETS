@@ -7,6 +7,7 @@ const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const BalanceContainer = styled.div`
     display: flex;
+    justify-content: space-between;
 `;
 
 const ftFormatter = (ftList) => {
@@ -54,7 +55,7 @@ const GenericTable = (
   <Widget
     src={`${widgetProvider}/widget/generic_table`}
     props={{
-      title: `Balances`,
+      title: ``,
       columns,
       data: state.balance,
     }}
@@ -62,11 +63,19 @@ const GenericTable = (
 );
 
 return (
-  <BalanceContainer>
-    <div style={{ width: "30%" }}>{GenericTable}</div>
-    <iframe
-      style={{ width: "100%", height: "420px", marginTop: "40px" }}
-      src={widgetUrl}
-    ></iframe>
-  </BalanceContainer>
+  <>
+    <h2>Balances</h2>
+    <BalanceContainer>
+      <iframe
+        style={{
+          width: "70%",
+          height: "420px",
+          marginTop: "0px",
+          overflow: "none",
+        }}
+        src={widgetUrl}
+      ></iframe>
+      <div style={{ width: "30%" }}>{GenericTable}</div>
+    </BalanceContainer>
+  </>
 );
