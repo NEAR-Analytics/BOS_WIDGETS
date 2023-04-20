@@ -71,6 +71,8 @@ const onSave = (value) => {
   });
 }
 
+console.log(state.project)
+
 return (
   <Container>
     <Heading>About project</Heading>
