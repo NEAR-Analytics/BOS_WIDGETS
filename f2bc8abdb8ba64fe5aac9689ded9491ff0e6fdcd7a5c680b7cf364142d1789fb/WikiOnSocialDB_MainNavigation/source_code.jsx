@@ -17,10 +17,42 @@ const pills = [
   },
 ];
 
+const Button = styled.button`
+  margin: 0px 1rem;
+  padding: 0;
+  border: 0;
+  background-color: white;
+  
+  a {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+
+    border: 2px solid transparent;
+    font-weight: 500;
+    padding: 0.3rem 0.5rem;
+    background-color: #010A2D;
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;   
+  }
+
+  a:hover {
+    color: #010A2D;
+    background-color: white;
+  }
+`;
+
 const accountId = props.accountId ?? context.accountId;
 
 return (
-  <div className="navbar navbar-expand-md border-bottom mb-3">
+  <div
+    className="navbar navbar-expand-md border-bottom mb-3"
+    style={{ backgroundColor: "white" }}
+  >
     <div className="container-fluid">
       <a
         className="navbar-brand text-decoration-none"
@@ -59,25 +91,25 @@ return (
             </li>
           ))}
           <div className="d-block d-md-none">
-            <a
-              className="btn btn-outline-dark"
-              href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
-            >
-              + Create Article
-            </a>
+            <Button>
+              <a
+                href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
+              >
+                + Create Article
+              </a>
+            </Button>
           </div>
         </ul>
       </div>
       <div className="mx-2 d-none d-md-block">
-        <a
-          className="btn btn-outline-dark"
-          href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
-        >
-          + Create Article
-        </a>
+        <Button>
+          <a href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}>
+            + Create Article
+          </a>
+        </Button>
       </div>
 
-      <div className="d-none d-md-block" style={{ maxWidth: "12vw" }}>
+      <div className="d-none d-md-block">
         <Widget
           src="mob.near/widget/Profile.ShortInlineBlock"
           props={{ accountId, tooltip: true }}
