@@ -125,7 +125,10 @@ return (
                       </p>
                     </div>
                   </div>
-                  <div className="mt-3 alert alert-secondary">
+                  <div
+                    className="mt-3 alert alert-secondary"
+                    style={{ backgroundColor: "white" }}
+                  >
                     <div>
                       Last edit by{" "}
                       <a
