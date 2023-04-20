@@ -360,6 +360,15 @@ const fetchSearchHits = (query, { pageNumber, configs, optionalFilters }) => {
   });
 };
 
+const toggleActiveTag = (tag) => {
+  const newActiveTags = state.activeTags.includes(tag)
+    ? state.activeTags.filter((t) => t !== tag)
+    : [...state.activeTags, tag];
+
+  State.update({ activeTags: newActiveTags });
+  emit("onTagClick", { activeTags: newActiveTags });
+};
+
 const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
   fetchSearchHits(term, { pageNumber, configs }).then((resp) => {
     const { results, hitsTotal, hitsPerPage } = categorizeSearchHits(resp.body);
@@ -688,7 +697,7 @@ return (
         }}
       >
         <Widget
-          src={`dorgon108.near/widget/FIlterComponent`}
+          src={`dorgon108.near/widget/FilterComponent`}
           props={{
             filters: {
               Apps: {
@@ -705,6 +714,9 @@ return (
               },
             },
             selectedTags: state.selectedTags,
+            onTagClick: (activeTags) => {
+              State.update({ activeTags });
+            },
           }}
         />
       </FiltersPanel>
