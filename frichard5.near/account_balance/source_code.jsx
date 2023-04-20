@@ -1,8 +1,13 @@
 const widgetProvider = props.widgetProvider;
 const account = props.account || "foundation.near";
 const ftList = props.ftList;
+const widgetUrl = `https://api.pikespeak.ai/widgets/balance/${account}`;
 const apiUrl = `https://api.pikespeak.ai/account/balance/${account}`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+
+const BalanceContainer = styled.div`
+    display: flex;
+`;
 
 const ftFormatter = (ftList) => {
   return (data) => {
@@ -56,4 +61,12 @@ const GenericTable = (
   />
 );
 
-return <>{GenericTable}</>;
+return (
+  <BalanceContainer>
+    <div style={{ width: "30%" }}>{GenericTable}</div>
+    <iframe
+      style={{ width: "100%", height: "420px", marginTop: "40px" }}
+      src={widgetUrl}
+    ></iframe>
+  </BalanceContainer>
+);
