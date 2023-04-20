@@ -6,6 +6,7 @@ const numberWithCommas = (x) => {
 };
 const defaultFt = { icon: "", symbol: "" };
 const findFt = (ftAddress) => {
+  console.log(ftAddress);
   if (!ftList.length) return defaultFt;
   const ft = ftList.find((f) => ftAddress === f.token_account_id);
   return ft ? ft : defaultFt;
