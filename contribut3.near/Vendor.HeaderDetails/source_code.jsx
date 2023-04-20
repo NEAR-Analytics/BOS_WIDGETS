@@ -56,13 +56,8 @@ return (
           onSave: (name) =>
             Near.call("social.near",
               "set",
-              {
-                data: {
-                  [accountId]: { profile: { name } },
-                }
-              },
-            })
-      ,
+              { data: { [accountId]: { profile: { name } }, } },
+            ),
         }}
       />
       <Widget
