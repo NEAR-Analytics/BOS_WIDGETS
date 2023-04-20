@@ -70,6 +70,7 @@ return (
           Near.call("social.near", "set", {
             data: { [accountId]: { profile: { services } } },
           }),
+        canEdit: props.isAdmin,
       }}
     />
   </Container>
