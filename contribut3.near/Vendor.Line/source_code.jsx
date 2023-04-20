@@ -18,7 +18,11 @@ if (!state.nameIsFetched) {
     "final",
     false
   ).then((name) =>
-    State.update({ name: name[accountId].profile.name, tagline: name[accountId].profile.tagline, nameIsFetched: true })
+    State.update({
+      name: name[accountId].profile.name,
+      tagline: name[accountId].profile.tagline,
+      nameIsFetched: true,
+    })
   );
   return <>Loading...</>;
 }
@@ -70,24 +74,26 @@ const Row = styled.div`
 const Tagline = styled.div`
   font-style: normal;
   font-weight: 400;
-  font-size: .75em;
+  font-size: 0.75em;
   line-height: 1em;
   color: #11181c;
 `;
 
 return (
   <Container>
-    <Widget
-      src={`${ownerId}/widget/Vendor.Icon`}
-      props={{ accountId, size }}
-    />
+    <Widget src={`${ownerId}/widget/Vendor.Icon`} props={{ accountId, size }} />
     <Column>
       <Row>
         <Name>{state.name}</Name>
         <AccountId>@{accountId}</AccountId>
       </Row>
       {props.tall ? <Tagline>{state.tagline}</Tagline> : null}
-      {props.tall ? <Widget src={`${ownerId}/widget/BadgeList`} props={{ badges: [{ value: "Verified" }] }} /> : null}
+      {props.tall && false ? (
+        <Widget
+          src={`${ownerId}/widget/BadgeList`}
+          props={{ badges: [{ value: "Verified" }] }}
+        />
+      ) : null}
     </Column>
   </Container>
 );
