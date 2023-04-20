@@ -22,9 +22,21 @@ const Heading = styled.div`
 `;
 
 State.init({
+  project: null,
+  projectIsFetched: false,
   description: "",
   descriptionIsFetched: false,
 });
+
+if (!state.projectIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_project",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((project) => State.update({ project, projectIsFetched: true }));
+}
 
 if (!state.descriptionIsFetched) {
   Near.asyncView(
@@ -39,6 +51,9 @@ if (!state.descriptionIsFetched) {
       descriptionIsFetched: true,
     })
   );
+}
+
+if (!state.projectIsFetched || !state.descriptionIsFetched) {
   return <>Loading...</>;
 }
 
