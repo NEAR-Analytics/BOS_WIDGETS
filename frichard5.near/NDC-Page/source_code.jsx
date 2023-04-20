@@ -38,6 +38,13 @@ const DashboardContainer = styled.div`
         color: black !important;
     }
   }
+  *.rejected {
+      color:#ff5e03;
+  }
+  *.approved {
+      color:#13a36e;
+  }
+ 
   *::-webkit-scrollbar {
     width: 6px;
     height: 6px;
