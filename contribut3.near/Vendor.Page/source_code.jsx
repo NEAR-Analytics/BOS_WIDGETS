@@ -178,7 +178,7 @@ return (
       <Sidebar>
         <Widget
           src={`${ownerId}/widget/Vendor.Sidebar`}
-          props={{ accountId: "contribut3.near" }}
+          props={{ accountId, isAdmin: state.isAdmin }}
         />
       </Sidebar>
     </ContentContainer>
