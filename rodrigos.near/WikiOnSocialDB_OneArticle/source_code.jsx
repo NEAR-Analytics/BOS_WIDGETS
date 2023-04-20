@@ -154,7 +154,6 @@ return (
           className="text-center"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            console.log(state.article.body);
             State.update({
               note: state.article.body,
             });
