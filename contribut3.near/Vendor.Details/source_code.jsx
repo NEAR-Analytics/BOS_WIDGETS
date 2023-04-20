@@ -45,9 +45,7 @@ if (!state.profileIsFetched) {
 
 const onSave = (profile) => {
   Near.call("social.near", "set", {
-    data: {
-      [accountId]: { profile },
-    },
+    data: { [accountId]: { profile }, },
   });
 };
 
@@ -61,7 +59,7 @@ return (
         id: "website",
         value: state.profile.linktree.website,
         link: `https://${state.profile.linktree.website}`,
-        onSave: (website) => onSave({ website }),
+        onSave: (website) => onSave({ linktree: { website } }),
         canEdit: isAdmin,
       }}
     />
