@@ -77,7 +77,7 @@ return (
         </a>
       </div>
 
-      <div className="d-none d-md-block" style={{maxWidth="12vw"}}>
+      <div className="d-none d-md-block" style={{ maxWidth: "12vw" }}>
         <Widget
           src="mob.near/widget/Profile.ShortInlineBlock"
           props={{ accountId, tooltip: true }}
