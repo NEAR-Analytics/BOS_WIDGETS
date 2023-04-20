@@ -91,15 +91,34 @@ const CTARow = styled.div`
   gap: 0.75em;
 `;
 
+State.init({
+  isAdmin: false,
+  isAdminIsFetched: false,
+});
+
+if (!state.isAdminIsFetched) {
+  if (!context.accountId) {
+    State.update({ isAdmin: false, isAdminIsFetched: true });
+  } else {
+    Near.asyncView(
+      ownerId,
+      "check_is_project_admin",
+      { project_id: accountId, account_id: context.accountId },
+      "final",
+      false
+    ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
+  }
+}
+
 const content = {
   overview: (
-    <Widget src={`${ownerId}/widget/Vendor.About`} props={{ accountId }} />
+    <Widget src={`${ownerId}/widget/Vendor.About`} props={{ accountId, isAdmin: state.isAdmin }} />
   ),
   contracts: (
-    <Widget src={`${ownerId}/widget/Vendor.Contracts`} props={{ accountId }} />
+    <Widget src={`${ownerId}/widget/Vendor.Contracts`} props={{ accountId, isAdmin: state.isAdmin }} />
   ),
   history: (
-    <Widget src={`${ownerId}/widget/Vendor.History`} props={{ accountId }} />
+    <Widget src={`${ownerId}/widget/Vendor.History`} props={{ accountId, isAdmin: state.isAdmin }} />
   ),
 }[getContent(props.content)];
 
@@ -109,7 +128,7 @@ return (
       <HeaderDetails>
         <Widget
           src={`${ownerId}/widget/Vendor.HeaderDetails`}
-          props={{ accountId }}
+          props={{ accountId, isAdmin: state.isAdmin }}
         />
         <CTARow>
           <Widget
