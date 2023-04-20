@@ -2,13 +2,18 @@ if (!context.accountId) {
   return <></>;
 }
 
-const domain = props.domain;
 const embeddedHashtags = props.hashtags || [];
+const community = props.community || null;
+let isMember = false;
+if (community && community.members && community.members.length) {
+  isMember = community.members.includes(context.accountId);
+}
 
 State.init({
   image: {},
   text: "",
   showPreview: false,
+  public: true,
 });
 
 const profile = Social.getr(`${context.accountId}/profile`);
@@ -91,38 +96,42 @@ function composeData() {
    * If domains have been provided, then we create an index under that "domain"
    * Otherwise, we post to the catch-all "post" domain
    */
-  if (domain) {
-    data.index[domain] = JSON.stringify({
-      key: "main",
-      value: {
-        type: "md",
-      },
-    });
-    if (hashtags.length) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: {
-            type: "social",
-            path: `${context.accountId}/${domain}/main`,
-          },
-        }))
-      );
-    }
-  } else {
+
+  if (state.public) {
     data.index.post = JSON.stringify({
       key: "main",
       value: {
         type: "md",
       },
     });
-    if (hashtags.length) {
+  }
+  if (isMember) {
+    data.index[community?.domain] = JSON.stringify({
+      key: "main",
+      value: {
+        type: "md",
+      },
+    });
+  }
+
+  if (hashtags.length) {
+    if (state.public) {
       data.index.hashtag = JSON.stringify(
         hashtags.map((hashtag) => ({
           key: hashtag,
           value: {
             type: "social",
             path: `${context.accountId}/post/main`,
+          },
+        }))
+      );
+    } else {
+      data.index.hashtag = JSON.stringify(
+        hashtags.map((hashtag) => ({
+          key: hashtag,
+          value: {
+            type: "social",
+            path: `${context.accountId}/${community?.domain}/main`,
           },
         }))
       );
@@ -369,6 +378,14 @@ const Actions = styled.div`
   }
 `;
 
+const Domain = styled.div`
+  display: inline-flex;
+  gap: 12px;
+  position: absolute;
+  bottom: var(--padding);
+  left: var(--padding);
+`;
+
 const PreviewWrapper = styled.div`
   position: relative;
   padding: var(--padding);
@@ -386,6 +403,10 @@ const AutoComplete = styled.div`
     padding: calc(var(--padding) / 2);
   }
 `;
+
+const setPublic = () => {
+  State.update({ public: !state.public });
+};
 
 return (
   <Wrapper>
@@ -451,6 +472,20 @@ return (
         />
       </AutoComplete>
     )}
+    {!state.showPreview && isMember && (
+      <Domain>
+        <input
+          className="form-check-input"
+          type="checkbox"
+          checked={state.public}
+          onChange={(e) => {
+            setPublic(e);
+          }}
+          id="public"
+        />
+        <label htmlFor={"public"}>post publicly</label>
+      </Domain>
+    )}
 
     <Actions>
       {!state.showPreview && (
@@ -473,16 +508,6 @@ return (
           <i className="bi bi-eye-fill" />
         )}
       </button>
-      {domains && (
-        <Typeahead
-          options={domains}
-          multiple
-          onChange={(value) => {
-            State.update({ choose: value });
-          }}
-          placeholder="Domains"
-        />
-      )}
       <CommitButton
         disabled={!state.text}
         force
