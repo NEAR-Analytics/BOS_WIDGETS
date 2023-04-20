@@ -299,7 +299,7 @@ const saveHandler = (e) => {
 };
 
 return (
-  <>
+  <div className="container-fluid border-start border-end">
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "create" }}
@@ -310,7 +310,7 @@ return (
         <div>
           <button
             type="submit"
-            className="btn btn-success"
+            className="btn btn-outline-success"
             onClick={saveHandler}
           >
             Save Article
@@ -362,5 +362,5 @@ return (
         </div>
       </div>
     </div>
-  </>
+  </div>
 );
