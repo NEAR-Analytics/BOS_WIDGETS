@@ -92,12 +92,7 @@ return (
       props={{
         label: "Skills",
         id: "skills",
-        value: [
-          { name: "defi" },
-          { name: "exchange" },
-          { name: "staking" },
-          { name: "farming" },
-        ],
+        value: state.profile.skills.map((skill) => ({ name: skill })),
         options: [
           { name: "defi" },
           { name: "exchange" },
