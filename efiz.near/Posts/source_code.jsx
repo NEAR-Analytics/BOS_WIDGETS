@@ -142,7 +142,7 @@ return (
           <ComposeWrapper>
             <Widget
               src="efiz.near/widget/Posts.Compose"
-              props={{ domain, hashtag }}
+              props={{ domain, hashtags }}
             />
           </ComposeWrapper>
 
