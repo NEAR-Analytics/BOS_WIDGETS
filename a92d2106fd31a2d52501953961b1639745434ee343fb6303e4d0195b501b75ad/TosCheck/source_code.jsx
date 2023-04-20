@@ -127,7 +127,7 @@ if (
   console.log("acceptJson", acceptJson);
 
   const latestAccept = acceptJson
-    ? acceptJson[context.accountId]["index"]["tosAccept"]
+    ? JSON.parse(acceptJson[context.accountId]["index"]["tosAccept"])
     : undefined;
   console.log("acceptJson[context.accountId]", acceptJson[context.accountId]);
   console.log("context.accountId", context.accountId);
