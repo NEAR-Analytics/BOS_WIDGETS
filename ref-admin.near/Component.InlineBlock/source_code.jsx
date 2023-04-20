@@ -1,10 +1,4 @@
 const Line = styled.div`
-  // background-color:#fff;
-  height:80px;
-  padding:12px 16px;
-  :hover{
-    background-color:rgba(0, 0, 0, 0.2);
-  }
 `;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
