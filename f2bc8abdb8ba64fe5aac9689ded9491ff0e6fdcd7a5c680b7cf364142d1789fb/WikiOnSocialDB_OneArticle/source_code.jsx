@@ -152,7 +152,7 @@ return (
       <div className="col-12 col-md-3 border-end">
         <h4
           className="text-center"
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}
           onClick={() => {
             State.update({
               note: state.article.body,
