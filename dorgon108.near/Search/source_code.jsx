@@ -24,8 +24,7 @@ State.init({
   searchResults: [], // Assuming search results are stored here
   allTags: [],
   activeTags: [],
-  "You Follow": true,
-  "You Don't Follow": true,
+
   showFollowed: false,
   showNotFollowed: false,
 });
@@ -614,11 +613,6 @@ const handleCheckboxChange = (checkboxName, isChecked) => {
   // Update the state based on the checkboxName and isChecked values
   console.log(checkboxName, isChecked);
   const updatedState = {};
-  if (checkboxName === "You Follow") {
-    checkboxName = "showFollowed";
-  } else {
-    checkboxName = "showNotFollowed";
-  }
   updatedState[checkboxName] = isChecked;
   State.update(updatedState);
   console.log(`the ${checkboxName} check is`, state[checkboxName]);
@@ -877,31 +871,11 @@ return (
         <Widget
           src={`dorgon108.near/widget/FIlterComponent`}
           props={{
-            showFollowed: state.showFollowed,
-            showNotFollowed: state.showNotFollowed,
+            showFollowed: state.showFollowed ?? false,
+            showNotFollowed: state.showNotFollowed ?? false,
             onCheckboxChange: handleCheckboxChange,
             updateTags: updateTags,
-
-            filters: {
-              Apps: {
-                Sub1: {},
-                Sub2: {},
-              },
-              Users: {
-                Sub1: {},
-                Sub2: {},
-              },
-              Posts: {
-                Sub1: {},
-                Sub2: {},
-              },
-            },
-            selectedTags: state.allTags,
-            onTagClick: (tags) => {
-              // handle tag click
-              // Update the state with the new activeTags
-              State.update({ activeTags: tags });
-            },
+            // ... rest of the props
           }}
         />
       </FiltersPanel>
