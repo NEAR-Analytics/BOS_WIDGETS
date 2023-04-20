@@ -135,6 +135,7 @@ return (
             src={`${ownerId}/widget/Vendor.RequestSideWindow`}
             props={{ accountId }}
           />
+          {state.isAdmin ? <></> : }
           {/*<Widget
             src={`${ownerId}/widget/Buttons.Grey`}
             props={{
