@@ -223,7 +223,7 @@ const GridItems = styled.div`
     grid-template-columns: minmax(0, 1fr);
   }
 `;
-
+// Here are the functions
 const toggleFiltersPanel = () => {
   State.update({
     isFiltersPanelVisible: !state.isFiltersPanelVisible,
@@ -550,6 +550,23 @@ const handleClick = (tag) => {
   props.onTagClick(newActiveTags);
 };
 
+const updateSelectedTags = (tags) => {
+  State.update({
+    selectedTags: tags,
+  });
+  updateSearchHits();
+};
+
+function arraysIntersect(a, b) {
+  for (let i = 0; i < b.length; i++) {
+    if (a.includes(b[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Here is the return.
 return (
   <>
     <div
@@ -613,33 +630,44 @@ return (
             <GridItems numColumns={state.numColumns}>
               {state.search.components
                 .filter((component, index) => {
+                  const metadata = Social.get(
+                    `${component.accountId}/widget/${component.widgetName}/metadata/**`,
+                    "final"
+                  );
+                  const tags = Object.keys(metadata.tags || {});
+
+                  const hasActiveTag =
+                    state.activeTags.length === 0 ||
+                    arraysIntersect(state.activeTags, tags);
+
+                  const displayCondition =
+                    state.facet === "Components" ||
+                    currentTab === "Components" ||
+                    ((state.facet === "Apps" || currentTab === "Apps") &&
+                      tags.includes("Apps") &&
+                      index < 3) ||
+                    index < 3;
+
+                  return hasActiveTag && displayCondition;
+                })
+                .map((component, i) => {
                   const tags = getComponentTags(
                     component.accountId,
                     component.widgetName
                   );
 
-                  if (
-                    state.facet === "Components" ||
-                    currentTab === "Components"
-                  ) {
-                    return true;
-                  } else if (state.facet === "Apps" || currentTab === "Apps") {
-                    return tags.includes("Apps") && index < 3;
-                  } else {
-                    return index < 3;
-                  }
-                })
-                .map((component, i) => (
-                  <Item key={component.accountId + component.widgetName}>
-                    <Widget
-                      src="near/widget/ComponentCard"
-                      props={{
-                        src: `${component.accountId}/widget/${component.widgetName}`,
-                        blockHeight: component.blockHeight,
-                      }}
-                    />
-                  </Item>
-                ))}
+                  return (
+                    <Item key={component.accountId + component.widgetName}>
+                      <Widget
+                        src="near/widget/ComponentCard"
+                        props={{
+                          src: `${component.accountId}/widget/${component.widgetName}`,
+                          blockHeight: component.blockHeight,
+                        }}
+                      />
+                    </Item>
+                  );
+                })}
             </GridItems>
           </Group>
         )}
