@@ -120,7 +120,10 @@ return (
           props={{ accountId }}
         />
         <CTARow>
-          <Widget src={`${ownerId}/widget/Vendor.RequestSideWindow`} props={{ accountId }} />
+          <Widget
+            src={`${ownerId}/widget/Vendor.RequestSideWindow`}
+            props={{ accountId }}
+          />
           <Widget
             src={`${ownerId}/widget/Buttons.Grey`}
             props={{
@@ -164,12 +167,7 @@ return (
       <Sidebar>
         <Widget
           src={`${ownerId}/widget/Vendor.Sidebar`}
-          props={{
-            accountId: "contribut3.near",
-            onSave: (s) => {
-              console.log(s);
-            },
-          }}
+          props={{ accountId: "contribut3.near" }}
         />
       </Sidebar>
     </ContentContainer>
