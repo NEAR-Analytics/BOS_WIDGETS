@@ -114,7 +114,7 @@ return (
     </Stack>
 
     {state.edit && canEdit ? (
-      edit((value) => { State.update({ value }); console.log(value) }, state.value)
+      edit((value) => State.update({ value }), state.value)
     ) : noLabel ? (
       <></>
     ) : (
