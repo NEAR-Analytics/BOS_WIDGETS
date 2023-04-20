@@ -27,6 +27,7 @@ State.init({
 
   showFollowed: false,
   showNotFollowed: false,
+  sortByDate: false,
 });
 
 const Wrapper = styled.div`
@@ -503,6 +504,12 @@ const onFacetClick = (facet) => {
     return;
   }
 
+  const sortByDateCreated = (a, b) => {
+    const timeA = getTimeFromBlockHeight(a.blockHeight);
+    const timeB = getTimeFromBlockHeight(b.blockHeight);
+    return timeB - timeA;
+  };
+
   State.update({
     facet,
   });
@@ -618,6 +625,17 @@ const handleCheckboxChange = (checkboxName, isChecked) => {
   console.log(`the ${checkboxName} check is`, state[checkboxName]);
 };
 
+const toggleSortByDate = () => {
+  State.update({
+    ...state,
+    sortByDate: !state.sortByDate,
+  });
+};
+
+const sortByDateCreated = (a, b) => {
+  return parseInt(b.blockHeight || "0") - parseInt(a.blockHeight || "0");
+};
+
 // Here is the return.
 return (
   <>
@@ -716,6 +734,7 @@ return (
                       (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
+                .sort(State.get().sortByDate ? sortByDateCreated : () => 0)
 
                 .map((component, i) => {
                   const tags = getComponentTags(
@@ -778,6 +797,7 @@ return (
                       (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
+                .sort(State.get().sortByDate ? sortByDateCreated : () => 0)
 
                 .map((profile, i) => (
                   <Item key={profile.accountId}>
@@ -827,6 +847,7 @@ return (
                       (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
+                .sort(State.get().sortByDate ? sortByDateCreated : () => 0)
 
                 .map((post, i) => (
                   <Item
@@ -875,16 +896,17 @@ return (
             : "translateX(100%)",
         }}
       >
-        <Widget
-          src={`dorgon108.near/widget/FIlterComponent`}
-          props={{
-            showFollowed: state.showFollowed ?? false,
-            showNotFollowed: state.showNotFollowed ?? false,
-            onCheckboxChange: handleCheckboxChange,
-            updateTags: updateTags,
-            // ... rest of the props
-          }}
-        />
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Widget
+            src="dorgon108.near/widget/SearchPill"
+            props={{
+              onChange: onSearchChange,
+              term: props.term,
+            }}
+          />
+          {/* Add the toggle button here */}
+          <button onClick={toggleSortByDate}></button>
+        </div>
       </FiltersPanel>
     )}
   </>
