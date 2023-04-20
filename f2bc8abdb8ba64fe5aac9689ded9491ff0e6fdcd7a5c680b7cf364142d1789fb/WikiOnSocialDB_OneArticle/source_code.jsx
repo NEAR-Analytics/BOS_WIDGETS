@@ -192,9 +192,11 @@ return (
         <hr />
         <div className="accordion accordion-flush" id="accordionFlushExample">
           {resultHeading.map((arrItem, index1) => {
+            console.log("arrItem: ", arrItem);
             return (
               <div className="accordion-item shadow-none ">
                 {arrItem.map((item, index2) => {
+                  console.log("item: ", item);
                   if (index2 === 0) {
                     return (
                       <h5
