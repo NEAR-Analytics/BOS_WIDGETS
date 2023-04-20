@@ -92,7 +92,7 @@ return (
       props={{
         label: "Skills",
         id: "skills",
-        value: state.profile.skills.map((skill) => ({ name: skill })),
+        value: Object.keys(state.profile.skills).map((name) => ({ name })),
         options: [
           { name: "defi" },
           { name: "exchange" },
@@ -114,7 +114,7 @@ return (
       props={{
         label: "Payment",
         id: "payment",
-        value: [{ name: "Fiat", id: "fiat" }],
+        value: Object.keys(state.profile.payments).map((id) => ({ id, name: id[0].toUpperCase() + id.slice(1) })),
         options: [
           { name: "Fiat", id: "fiat" },
           { name: "Crypto", id: "crypto" },
@@ -135,7 +135,7 @@ return (
       props={{
         label: "Rate",
         id: "rate",
-        value: 35,
+        value: state.profile.rate,
         onSave: (rate) => onSave({ rate }),
         canEdit: isAdmin,
       }}
@@ -145,11 +145,7 @@ return (
       props={{
         label: "Available for",
         id: "work",
-        value: [
-          { name: "Short-term work", id: "short" },
-          { name: "Long-term work", id: "long" },
-          { name: "Full-time job", id: "full" },
-        ],
+        value: Object.keys(state.profile.work).map((id) => ({ id, name: id === "short" ? "Short-term work" : id === "long" ? "Long-term work" : "Full-time job" })),
         options: [
           { name: "Short-term work", id: "short" },
           { name: "Long-term work", id: "long" },
@@ -170,8 +166,8 @@ return (
       props={{
         label: "Location",
         id: "location",
-        value: "San Francisco, CA",
-        onSave: (geo) => onSave({ geo }),
+        value: state.profile.location,
+        onSave: (location) => onSave({ location }),
         canEdit: isAdmin,
       }}
     />
