@@ -194,8 +194,6 @@ switch (network) {
       State.update({ erc20Abi: erc20Abi.body });
     }
 
-    let tokenDecimals;
-
     if (state.ethAccountId && state.erc20Abi) {
       getErc20Balance(tokenId, state.ethAccountId).then(
         ({ decimals, balance }) => {
@@ -210,6 +208,8 @@ switch (network) {
             metadata.decimals = tokenDecimals;
             State.update({ metadata });
           }
+
+          State.update({ tokenDecimals });
         }
       );
 
@@ -222,8 +222,8 @@ switch (network) {
 
       const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
 
-      if (tokenDecimals && !metadata.decimals) {
-        metadata.decimals = tokenDecimals;
+      if (state.tokenDecimals && !metadata.decimals) {
+        metadata.decimals = state.tokenDecimals;
       }
       State.update({ metadata, price });
     }
