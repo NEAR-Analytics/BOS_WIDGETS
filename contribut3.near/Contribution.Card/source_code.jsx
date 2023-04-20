@@ -110,7 +110,10 @@ const body = (
       <Detail>
         <Widget
           src={`${ownerId}/widget/${isVendorView ? "Project" : "Vendor"}.Icon`}
-          props={{ accountId: isVendorView ? projectId : vendorId, size: "2em" }}
+          props={{
+            accountId: isVendorView ? projectId : vendorId,
+            size: "2em",
+          }}
         />
         <Widget
           src={`${ownerId}/widget/NameAndAccount`}
