@@ -1,6 +1,7 @@
 /**
  * Forked from near/widget/Posts.Feed
  *
+ * Takes in a hashtag filter or a domain filter
  */
 const hashtagsFilter = props.hashtagsFilter || [];
 const domainsFilter = props.domainsFilter || ["post"];
