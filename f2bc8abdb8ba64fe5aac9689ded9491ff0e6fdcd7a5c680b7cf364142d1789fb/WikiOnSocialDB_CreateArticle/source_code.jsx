@@ -328,7 +328,7 @@ return (
     style={{
       backgroundColor: "rgb(230, 230, 230)",
       borderRadius: "20px",
-      padding: "0",
+      padding: "0 0 1rem 0 ",
     }}
   >
     <Widget
