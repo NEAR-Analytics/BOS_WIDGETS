@@ -36,7 +36,11 @@ options.forEach((o) => {
 
 return (
   <SelectWrapper>
-    {label && <label for={id}>{label}</label>}
+    {label && (
+      <label style={{ color: "#8c8c8c" }} for={id}>
+        {label}
+      </label>
+    )}
     <Select onChange={onChange} name={id} id={id}>
       {Options}
     </Select>
