@@ -72,7 +72,14 @@ return (
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "authors" }}
     />
-    <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
+    <div
+      style={{
+        margin: "0 auto",
+        width: "90%",
+        minWidth: "360px",
+        backgroundColor: "white",
+      }}
+    >
       <div className="card">
         <div className="d-flex justify-content-between">
           {profile ? (
