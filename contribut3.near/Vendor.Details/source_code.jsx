@@ -1,4 +1,3 @@
-const onSave = props.onSave ?? (() => { });
 const ownerId = "contribut3.near";
 const isAdmin = props.isAdmin;
 
@@ -23,6 +22,35 @@ const Heading = styled.div`
   width: 100%;
 `;
 
+State.init({
+  profile: null,
+  profileIsFetched: false,
+});
+
+if (!state.profileIsFetched) {
+  Near.asyncView(
+    "social.near",
+    "get",
+    { keys: [`${accountId}/profile/**`] },
+    "final",
+    false
+  ).then((profile) =>
+    State.update({
+      profile: profile[accountId].profile,
+      profileIsFetched: true,
+    })
+  );
+  return <>Loading...</>;
+}
+
+const onSave = (profile) => {
+  Near.call("social.near", "set", {
+    data: {
+      [accountId]: { profile },
+    },
+  });
+};
+
 return (
   <Container>
     <Heading>Details</Heading>
@@ -31,8 +59,8 @@ return (
       props={{
         label: "Website",
         id: "website",
-        value: "layers.gg",
-        link: "https://layers.gg",
+        value: state.profile.linktree.website,
+        link: `https://${state.profile.linktree.website}`,
         onSave: (website) => onSave({ website }),
         canEdit: isAdmin,
       }}
