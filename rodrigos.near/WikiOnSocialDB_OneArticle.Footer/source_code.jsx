@@ -5,7 +5,7 @@ const getDate = (timestamp) => {
 };
 
 return (
-  <div className="alert">
+  <div className="alert alert-secondary bg-white">
     <div>
       Created by{" "}
       <a
