@@ -121,7 +121,7 @@ return (
           label: "NEAR Account *",
           placeholder: "layers.near",
           value: state.accountId,
-          options: state.accountsWithPermissions.map((value) => ({ value })),
+          options: state.accountsWithPermissions.map((value) => ({ value, text: value })),
           onChange: (accountId) => State.update({ accountId }),
         }}
       />
