@@ -192,11 +192,9 @@ return (
         <hr />
         <div className="accordion accordion-flush" id="accordionFlushExample">
           {resultHeading.map((arrItem, index1) => {
-            console.log("arrItem: ", arrItem);
             return (
               <div className="accordion-item shadow-none ">
                 {arrItem.map((item, index2) => {
-                  console.log("item: ", item);
                   if (index2 === 0) {
                     return (
                       <h5
@@ -319,7 +317,19 @@ return (
             </>
           )}
           {!state.editArticle && !state.viewHistory && (
-            <Markdown text={state.note || state.article.body} />
+            <>
+              <i
+                className="bi bi-arrow-left"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  State.update({
+                    ...state,
+                    viewHistory: false,
+                  });
+                }}
+              ></i>
+              <Markdown text={state.note || state.article.body} />
+            </>
           )}
           {/* === VIEW HISTORY === */}
           {state.viewHistory && (
