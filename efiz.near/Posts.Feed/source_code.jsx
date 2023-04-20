@@ -1,9 +1,11 @@
 const domains = props.domains;
+const hashtags = props.hashtags;
+
 let index;
-if (domains && domains.length > 0) {
-  index = domains.map((it) => ({
-    action: it,
-    key: "main",
+if (hashtags && hashtags.length > 0) {
+  index = hashtags.map((it) => ({
+    action: "hashtag",
+    key: it.toLowerCase(),
     options: {
       limit: 10,
       order: "desc",
@@ -11,15 +13,27 @@ if (domains && domains.length > 0) {
     },
   }));
 } else {
-  index = {
-    action: "post",
-    key: "main",
-    options: {
-      limit: 10,
-      order: "desc",
-      accountId: props.accounts,
-    },
-  };
+  if (domain !== "") {
+    index = domains.map((it) => ({
+      action: it,
+      key: "main",
+      options: {
+        limit: 10,
+        order: "desc",
+        accountId: props.accounts,
+      },
+    }));
+  } else {
+    index = {
+      action: "post",
+      key: "main",
+      options: {
+        limit: 10,
+        order: "desc",
+        accountId: props.accounts,
+      },
+    };
+  }
 }
 
 const Post = styled.div`
