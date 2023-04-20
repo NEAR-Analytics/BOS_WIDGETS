@@ -131,7 +131,7 @@ return (
           title: "Account ID of project",
           description: <>
             You need to grant permissions the account you are currently logged in with (and any other accounts that may want to allow to edit the projects profile).
-            You can do so by logging in with the account of your project and going to this <a href={`/${ownerId}/widget/Index?tab=permissions&accountId=${context.accountId}`}>link</a> to grant permissions.
+            You can do so by logging in with the account of your project and going to this <a target="_blank" href={`/${ownerId}/widget/Index?tab=permissions&accountId=${context.accountId}`}>link</a> to grant permissions.
             After you do this you can come back here and finish the set up process (with the account you are using now - <b>{context.accountId}</b>).
           </>
         }}
