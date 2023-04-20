@@ -26,8 +26,8 @@ State.init({
   activeTags: [],
   "You Follow": true,
   "You Don't Follow": true,
-  showFollowed: true,
-  showNotFollowed: true,
+  showFollowed: false,
+  showNotFollowed: false,
 });
 
 const Wrapper = styled.div`
@@ -877,6 +877,8 @@ return (
         <Widget
           src={`dorgon108.near/widget/FIlterComponent`}
           props={{
+            showFollowed: state.showFollowed,
+            showNotFollowed: state.showNotFollowed,
             onCheckboxChange: handleCheckboxChange,
             updateTags: updateTags,
 
