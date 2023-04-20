@@ -54,7 +54,8 @@ return (
           id: "name",
           accountId,
           onSave: (name) =>
-            Near.call("social.near",
+            Near.call(
+              "social.near",
               "set",
               { data: { [accountId]: { profile: { name } }, } },
             ),
@@ -65,19 +66,13 @@ return (
         props={{
           value: state.profile.tagline,
           id: "tagline",
-          onSave: (tagline) => {
-            const args = {
-              data: {
-                [accountId]: { profile: { tagline } },
-              },
-            };
-            Near.call({
-              contractName: "social.near",
-              methodName: "set",
-              args,
-              deposit,
-            });
-          },
+          onSave: (tagline) =>
+            Near.call(
+              "social.near",
+              "set",
+              { data: { [accountId]: { profile: { tagline } }, } },
+            ),
+
         }}
       />
       <Widget
