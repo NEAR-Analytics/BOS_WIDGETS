@@ -300,12 +300,19 @@ const saveHandler = (e) => {
 };
 
 return (
-  <div className="container-fluid border-start border-end">
+  <div
+    className="container-fluid"
+    style={{
+      backgroundColor: "rgb(230, 230, 230)",
+      borderRadius: "20px",
+      padding: "0",
+    }}
+  >
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "create" }}
     />
-    <div>
+    <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <h1 className="mb-3"> Create Article</h1>
       <div>
         <div>
