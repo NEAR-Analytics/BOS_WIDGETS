@@ -10,7 +10,13 @@ const columns = [
       const milliTimestamp = Math.trunc(
         Number(data["timestamp"]) / Math.pow(10, 6)
       );
-      return new Date(Number(milliTimestamp)).toISOString();
+      return new Date(Number(milliTimestamp)).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      });
     },
   },
   {
