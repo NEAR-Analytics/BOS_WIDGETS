@@ -710,13 +710,12 @@ return (
                     component.accountId
                   );
 
-                  // Update this line with the new following logic
                   return (
-                    (hasActiveTag &&
-                      displayCondition &&
-                      state.showFollowed &&
-                      followingCondition) ||
-                    (state.showNotFollowed && !followingCondition)
+                    hasActiveTag &&
+                    displayCondition &&
+                    ((state.showFollowed && followingCondition) ||
+                      (state.showNotFollowed && !followingCondition) ||
+                      (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
 
@@ -770,13 +769,12 @@ return (
 
                   const followingCondition = isUserFollowing(profile.accountId);
 
-                  // Update this line with the new following logic
                   return (
-                    (hasActiveTag &&
-                      displayCondition &&
-                      state.showFollowed &&
-                      followingCondition) ||
-                    (state.showNotFollowed && !followingCondition)
+                    hasActiveTag &&
+                    displayCondition &&
+                    ((state.showFollowed && followingCondition) ||
+                      (state.showNotFollowed && !followingCondition) ||
+                      (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
 
@@ -818,12 +816,11 @@ return (
 
                   const followingCondition = isUserFollowing(_.accountId);
 
-                  // Update this line with the new following logic
                   return (
-                    (displayCondition &&
-                      state.showFollowed &&
-                      followingCondition) ||
-                    (state.showNotFollowed && !followingCondition)
+                    displayCondition &&
+                    ((state.showFollowed && followingCondition) ||
+                      (state.showNotFollowed && !followingCondition) ||
+                      (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
 
