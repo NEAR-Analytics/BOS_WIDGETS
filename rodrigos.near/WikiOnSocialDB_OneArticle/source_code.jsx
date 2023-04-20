@@ -108,7 +108,6 @@ const isHeading = (str, headingLevel) => {
 const articleParts = (lineArray) => {
   const resultText = [];
   const resultHeading = [];
-  console.log(lineArray);
   lineArray.forEach((line) => {
     if (isHeading(line, 1)) {
       resultText.push([[]]);
@@ -137,24 +136,23 @@ const handleHeaderClick = (index1, index2) => {
     if (index2 === 0) {
       resp = resultText[index1].map((item) => item.join("\n")).join("\n");
     } else resp = resultText[index1][index2].join("\n");
-    dimensions.one = index1;
-    dimensions.two = index2;
     State.update({
       note: resp,
     });
   }
 };
 
-const dimensions = { one: -1, two: -1 };
-
 return (
-  <div className="container-fluid" style={{ minHeight: "100%" }}>
+  <div
+    className="container-fluid border-start border-end"
+    style={{ minHeight: "100%" }}
+  >
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles" }}
     />
     <div className="row h-100">
-      <div className="col-3 border-end">
+      <div className="col-12 col-md-3 border-end">
         <h4 className="text-center">{state.article.articleId}</h4>
         <hr />
         <button
@@ -197,12 +195,7 @@ return (
                         id="flush-headingOne"
                       >
                         <button
-                          className={
-                            index1 === dimensions.one
-                              ? ""
-                              : "accordion collapsed border-0 bg-white text-dark shadow-none"
-                          }
-                          id={`header-${index1}${index2}`}
+                          className="accordion collapsed border-0 bg-white text-dark shadow-none"
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target={"#flush-collapseOne" + index1}
@@ -237,7 +230,8 @@ return (
           })}
         </div>
       </div>
-      <div className="col-9">
+      <hr className="d-md-none" />
+      <div className="col-12 col-md-9">
         <div>
           {/* === BUTTON - EDIT ARTICLE === */}
           {state.editArticle && (
