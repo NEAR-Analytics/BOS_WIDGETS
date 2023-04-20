@@ -105,7 +105,7 @@ return (
         label: "What makes your team uniquely positioned for success?",
         id: "success_position",
         value: state.project.application.success_position,
-        onSave: (succcess_position) => onSave({ succcess_position }),
+        onSave: (success_position) => onSave({ success_position }),
       }}
     />
     <Widget
