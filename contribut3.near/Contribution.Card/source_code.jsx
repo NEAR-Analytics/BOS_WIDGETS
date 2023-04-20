@@ -45,9 +45,6 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const completedDate = new Date(Number(state.contribution.status.Completed));
-const completedDateString = `Completed ${completedDate.toLocaleDateString()}`;
-
 const Completed = styled.span`
   font-style: normal;
   font-weight: 400;
@@ -75,6 +72,8 @@ const Title = styled.h3`
 `;
 
 const startDate = new Date(Number(state.contribution.actions[0].start_date));
+const completedDate = new Date(Number(state.contribution.status.Completed));
+const completedDateString = `Completed ${completedDate.toLocaleDateString()}`;
 const price = state.contribution.price;
 const type = state.request.request_type;
 const feedback = isVendorView
