@@ -401,6 +401,16 @@ const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
     getAllTagsFromSearchResults(combinedResults);
   });
 });
+const updateFilteredTags = (inputValue) => {
+  State.update({
+    filteredTags: tags.filter((tag) => tag.includes(inputValue)),
+  });
+};
+
+const updateTags = () => {
+  tags = props.selectedTags ?? [];
+  updateFilteredTags(state.inputValue);
+};
 
 const onSearchChange = ({ term }) => {
   writeStateTerm(term);
@@ -739,6 +749,8 @@ return (
         <Widget
           src={`dorgon108.near/widget/FIlterComponent`}
           props={{
+            updateTags: updateTags,
+
             filters: {
               Apps: {
                 Sub1: {},
