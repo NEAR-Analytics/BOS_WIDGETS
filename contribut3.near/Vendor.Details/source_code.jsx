@@ -78,12 +78,12 @@ return (
       props={{
         label: "Vendor type",
         id: "type",
-        value: [{ name: "Individual contributor", id: "individual" }],
+        value: state.profile.vendor_type,
         options: [
           { name: "Individual contributor", id: "individual" },
           { name: "Organization", id: "organization" },
         ],
-        onSave: ([{ id: type }]) => onSave({ type }),
+        onSave: ([{ id: vendor_type }]) => onSave({ vendor_type }),
         canEdit: isAdmin,
       }}
     />
