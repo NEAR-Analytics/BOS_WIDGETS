@@ -261,6 +261,7 @@ return (
                           },
                           category: state.category,
                           team: state.team,
+                          stage: state.dev,
                         },
                       },
                     },
@@ -279,7 +280,6 @@ return (
                     project: {
                       application: {
                         integration: state.integration,
-                        stage: state.dev,
                         geo: state.geo,
                       },
                     },
