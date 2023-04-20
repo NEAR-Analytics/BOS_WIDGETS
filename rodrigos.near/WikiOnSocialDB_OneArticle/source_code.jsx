@@ -131,7 +131,7 @@ const { resultText, resultHeading } = articleParts(
 );
 
 const handleHeaderClick = (index1, index2) => {
-  if (!state.viewHistory && !state.editArticle) {
+  if ((!state.viewHistory && !state.editArticle) || index2 === 0) {
     let resp;
     if (index2 === 0) {
       resp = resultText[index1].map((item) => item.join("\n")).join("\n");
