@@ -13,7 +13,12 @@ if (!state.profileIsFetched) {
     { keys: [`${accountId}/profile/**`] },
     "final",
     false
-  ).then((profile) => State.update({ profile: profile[accountId].profile, profileIsFetched: true }));
+  ).then((profile) =>
+    State.update({
+      profile: profile[accountId].profile,
+      profileIsFetched: true,
+    })
+  );
   return <>Loading...</>;
 }
 
@@ -50,12 +55,17 @@ return (
           accountId,
           onSave: (name) => {
             const args = {
+              ,
+          };
+          Near.call("social.near",
+            "set",
+            {
               data: {
                 [accountId]: { profile: { name } },
               }
-            };
-            Near.call({ contractName: "social.near", methodName: "set", args, deposit });
-          }
+            },
+            });
+          },
         }}
       />
       <Widget
@@ -67,18 +77,21 @@ return (
             const args = {
               data: {
                 [accountId]: { profile: { tagline } },
-              }
+              },
             };
-            Near.call({ contractName: "social.near", methodName: "set", args, deposit });
-          }
+            Near.call({
+              contractName: "social.near",
+              methodName: "set",
+              args,
+              deposit,
+            });
+          },
         }}
       />
       <Widget
         src={`${ownerId}/widget/BadgeList`}
         props={{
-          badges: [
-            { value: "Verified" },
-          ],
+          badges: [{ value: "Verified" }],
         }}
       />
     </Details>
