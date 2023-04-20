@@ -27,16 +27,42 @@ const columns = [
       const milliTimestamp = Math.trunc(
         Number(data["timestamp"]) / Math.pow(10, 6)
       );
-      return new Date(Number(milliTimestamp)).toISOString();
+      return new Date(Number(milliTimestamp)).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      });
     },
   },
   {
     id: "sender",
     label: "sender",
+    formatter: (d) => {
+      return (
+        <a
+          href={`https://explorer.near.org/accounts/${d.sender}`}
+          target="_blank"
+        >
+          {d.sender}
+        </a>
+      );
+    },
   },
   {
     id: "receiver",
     label: "receiver",
+    formatter: (d) => {
+      return (
+        <a
+          href={`https://explorer.near.org/accounts/${d.receiver}`}
+          target="_blank"
+        >
+          {d.receiver}
+        </a>
+      );
+    },
   },
   {
     id: "amount",
@@ -46,6 +72,16 @@ const columns = [
   {
     id: "transaction_id",
     label: "Tx id",
+    formatter: (d) => {
+      return (
+        <a
+          href={`https://explorer.near.org/transactions/${d.transaction_id}`}
+          target="_blank"
+        >
+          {d.transaction_id}
+        </a>
+      );
+    },
   },
 ];
 
