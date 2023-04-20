@@ -175,7 +175,15 @@ return (
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles" }}
     />
-    <div className="row h-100" style={{ width: "90%", minWidth: "360px" }}>
+    <div
+      className="row h-100"
+      style={{
+        width: "90%",
+        minWidth: "360px",
+        margin: "0 auto",
+        backgroundColor: "white",
+      }}
+    >
       <div className="col-12 col-md-3 border-end">
         <h4
           className="text-center"
