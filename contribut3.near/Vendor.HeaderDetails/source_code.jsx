@@ -54,16 +54,13 @@ return (
           id: "name",
           accountId,
           onSave: (name) => {
-            const args = {
-              ,
-          };
-          Near.call("social.near",
-            "set",
-            {
-              data: {
-                [accountId]: { profile: { name } },
-              }
-            },
+            Near.call("social.near",
+              "set",
+              {
+                data: {
+                  [accountId]: { profile: { name } },
+                }
+              },
             });
           },
         }}
