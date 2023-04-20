@@ -5,18 +5,28 @@ const value = props.value ?? "";
 const onChange = props.onChange ?? (() => { });
 const accountIdRegex =
   /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
+const canEdit = async (accountId) => {
+  return await Near.asyncView(
+    "social.near",
+    "is_write_permission_granted",
+    { predecessor_account_id: context.accountId, key: accountId },
+    "final",
+    false
+  );
+}
 
 State.init({
   valid: true,
   errorMessage: <></>,
 });
 
-const validate = () => {
+const validate = async () => {
   if (typeof value !== "string") {
     State.update({
       valid: false,
       errorMessage: "Account ID must be a text value!",
     });
+    addInfo(false);
     return;
   }
 
@@ -25,6 +35,7 @@ const validate = () => {
       valid: false,
       errorMessage: "Account ID must be at least 2 characters long!",
     });
+    addInfo(false);
     return;
   }
 
@@ -33,6 +44,7 @@ const validate = () => {
       valid: false,
       errorMessage: "Account ID must be at most 64 characters long!",
     });
+    addInfo(false);
     return;
   }
 
@@ -42,13 +54,26 @@ const validate = () => {
       errorMessage: (
         <>
           Account ID must follow the rules specified{" "}
-          <a href="https://nomicon.io/DataStructures/Account#account-id-rules" target="_blank">
+          <a
+            href="https://nomicon.io/DataStructures/Account#account-id-rules"
+            target="_blank"
+          >
             here
           </a>
           !
         </>
       ),
     });
+    addInfo(false);
+    return;
+  }
+
+  if (!await canEdit(value)) {
+    State.update({
+      valid: false,
+      errorMessage: "You do not have permission to edit this account!",
+    });
+    addInfo(true);
     return;
   }
 
@@ -61,6 +86,7 @@ const validate = () => {
   // }
   //
   State.update({ valid: true, errorMessage: "" });
+  addInfo(false);
 };
 
 return (
