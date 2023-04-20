@@ -350,7 +350,7 @@ return (
     </div>
 
     <div className={thisWidgetClassNames.bodyContainer}>
-      {state.tab == tabs.OPEN_SCHEDULE.id ? (
+      {state.tab == tabs.OPEN_SCHEDULE.id && (
         <Widget
           src={`${widgetOwner}/widget/Instance_time_card`}
           props={{
@@ -363,27 +363,40 @@ return (
             data,
           }}
         />
-      ) : state.tab == tabs.ALL_SCHEDULE.id ||
-        state.tab == tabs.MY_SCHEDULE.id ? (
+      )}
+      {state.tab == tabs.ALL_SCHEDULE.id && (
         <Widget
           src={`${widgetOwner}/widget/Instance_time_review`}
           props={{
             allWidgetsClassNames: props.allWidgetsClassNames,
             allWidgetsInlineStyles: props.allWidgetsInlineStyles,
-            text:
-              state.tab == tabs.ALL_SCHEDULE.id
-                ? tabs.ALL_SCHEDULE.text
-                : tabs.MY_SCHEDULE.text,
+            text: tabs.ALL_SCHEDULE.text,
             className: "d-inline-block",
             style: { width: "100%", height: "1.5em" },
             updateInstanceTimeState,
             tabs,
             data,
-            accountId:
-              state.tab == tabs.MY_SCHEDULE.id ? context.accountId : "All",
+            accountId: "All",
           }}
         />
-      ) : (
+      )}
+      {state.tab == tabs.MY_SCHEDULE.id && (
+        <Widget
+          src={`${widgetOwner}/widget/Instance_time_review`}
+          props={{
+            allWidgetsClassNames: props.allWidgetsClassNames,
+            allWidgetsInlineStyles: props.allWidgetsInlineStyles,
+            text: tabs.MY_SCHEDULE.text,
+            className: "d-inline-block",
+            style: { width: "100%", height: "1.5em" },
+            updateInstanceTimeState,
+            tabs,
+            data,
+            accountId: context.accountId,
+          }}
+        />
+      )}
+      {state.tab == tabs.NEW_SCHEDULE.id && (
         <Widget
           src={`${widgetOwner}/widget/Instance_time_edit`}
           props={{
