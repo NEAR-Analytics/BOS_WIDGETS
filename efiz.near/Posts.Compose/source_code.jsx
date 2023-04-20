@@ -3,6 +3,7 @@ if (!context.accountId) {
 }
 
 const domain = props.domain;
+const hashtags = props.hashtags || [];
 
 State.init({
   image: {},
@@ -77,26 +78,24 @@ function composeData() {
    * If domains have been provided, then we create an index under that "domain"
    * Otherwise, we post to the catch-all "post" domain
    */
-  if (state.choose) {
-    state.choose.map((it) => {
-      data.index[it] = JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      });
-      if (hashtags.length) {
-        data.index.hashtag = JSON.stringify(
-          hashtags.map((hashtag) => ({
-            key: hashtag,
-            value: {
-              type: "social",
-              path: `${context.accountId}/${it}/main`,
-            },
-          }))
-        );
-      }
+  if (domain) {
+    data.index[it] = JSON.stringify({
+      key: "main",
+      value: {
+        type: "md",
+      },
     });
+    if (hashtags.length) {
+      data.index.hashtag = JSON.stringify(
+        hashtags.map((hashtag) => ({
+          key: hashtag,
+          value: {
+            type: "social",
+            path: `${context.accountId}/${it}/main`,
+          },
+        }))
+      );
+    }
   } else {
     data.index.post = JSON.stringify({
       key: "main",
