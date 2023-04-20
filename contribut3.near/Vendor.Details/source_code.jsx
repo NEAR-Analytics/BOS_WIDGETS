@@ -34,6 +34,7 @@ return (
         value: "layers.gg",
         link: "https://layers.gg",
         onSave: (website) => onSave({ website }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
