@@ -1,5 +1,6 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId ?? context.accountId;
+const isAdmin = props.isAdmin;
 
 State.init({
   profile: null,
@@ -43,8 +44,20 @@ const deposit = "000000000000000000000";
 return (
   <Container>
     <Widget
-      src={`${ownerId}/widget/Vendor.Icon`}
-      props={{ accountId, size: "8em" }}
+      src={`${ownerId}/widget/Inputs.Viewable.Logo`}
+      props={{
+        accountId,
+        value: state.profile.image,
+        isProject: false,
+        id: "image",
+        onSave: (image) =>
+          Near.call("social.near", "set", {
+            data: {
+              [accountId]: { profile: { image: { ipfs_cid: image.cid } } },
+            },
+          }),
+        canEdit: isAdmin,
+      }}
     />
     <Details>
       <Widget
