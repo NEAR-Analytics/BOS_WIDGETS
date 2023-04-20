@@ -68,8 +68,8 @@ return (
       props={{
         label: "Links",
         id: "links",
-        value: { github: "near-horizon", twitter: "nearhorizon" },
-        onSave: (links) => onSave({ links }),
+        value: state.profile.linktree,
+        onSave: (linktree) => onSave({ linktree }),
         canEdit: isAdmin,
       }}
     />
