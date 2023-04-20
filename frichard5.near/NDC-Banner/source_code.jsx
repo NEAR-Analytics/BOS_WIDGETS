@@ -10,7 +10,7 @@ const Logo = styled.img`
     left: 60px;
     z-index: 1;
     border-radius: 50%;
-    background: rgba(68, 152, 224, 0.75);
+    box-shadow:rgba(68, 152, 224, 0.5) -6px 2px 24px;
 `;
 
 const Lines = styled.div`
