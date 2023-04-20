@@ -643,16 +643,19 @@ return (
         )}
         {showSearchBar && (
           <Search>
-            <Widget
-              src="dorgon108.near/widget/SearchPill"
-              props={{
-                onChange: onSearchChange,
-                term: props.term,
-              }}
-            />
-            <button onClick={toggleFiltersPanel}>Toggle Filters Panel</button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Widget
+                src="dorgon108.near/widget/SearchPill"
+                props={{
+                  onChange: onSearchChange,
+                  term: props.term,
+                }}
+              />
+              <button onClick={toggleFiltersPanel}>Toggle Filters Panel</button>
+            </div>
           </Search>
         )}
+
         {state.search && (
           <Facets>
             <Widget
