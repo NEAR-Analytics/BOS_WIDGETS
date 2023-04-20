@@ -197,7 +197,6 @@ switch (network) {
     if (state.ethAccountId && state.erc20Abi) {
       getErc20Balance(tokenId, state.ethAccountId).then(
         ({ decimals, balance }) => {
-          tokenDecimals = decimals;
           if (balance !== undefined && balance !== null) {
             State.update({ balance });
           }
@@ -205,11 +204,12 @@ switch (network) {
           // save decimals to metadata if it is already exists
           if (state.metadata !== undefined) {
             const metadata = state.metadata;
-            metadata.decimals = tokenDecimals;
+            metadata.decimals = decimals;
             State.update({ metadata });
           }
 
-          State.update({ tokenDecimals });
+          // temp value to update metadata after the coingecko responce
+          State.update({ tokenDecimals: decimals });
         }
       );
 
