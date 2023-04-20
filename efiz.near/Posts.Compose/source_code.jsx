@@ -3,7 +3,7 @@ if (!context.accountId) {
 }
 
 const domain = props.domain;
-const hashtags = props.hashtags || [];
+const embeddedHashtags = props.hashtags || [];
 
 State.init({
   image: {},
@@ -73,13 +73,26 @@ function composeData() {
     index: {},
   };
 
+  function mergeArrays(array1, array2) {
+    const mergedArray = [...array1, ...array2];
+    const uniqueArray = [];
+    mergedArray.forEach((item) => {
+      if (!uniqueArray.includes(item)) {
+        uniqueArray.push(item);
+      }
+    });
+    return uniqueArray;
+  }
+
   const hashtags = extractHashtags(content.text);
+
+  hashtags = mergeArrays(hashtags, embeddedHashtags);
   /**
    * If domains have been provided, then we create an index under that "domain"
    * Otherwise, we post to the catch-all "post" domain
    */
   if (domain) {
-    data.index[it] = JSON.stringify({
+    data.index[domain] = JSON.stringify({
       key: "main",
       value: {
         type: "md",
@@ -91,7 +104,7 @@ function composeData() {
           key: hashtag,
           value: {
             type: "social",
-            path: `${context.accountId}/${it}/main`,
+            path: `${context.accountId}/${domain}/main`,
           },
         }))
       );
