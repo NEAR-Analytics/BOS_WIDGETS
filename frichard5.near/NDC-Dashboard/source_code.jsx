@@ -137,7 +137,7 @@ const Tabs = (
 const selectDao = ({ target: { value } }) => {
   State.update({ selectedDao: value });
 };
-console.log("SELECTED DAO", state.selectedDao);
+
 const Select = (
   <Widget
     src={`${widgetProvider}/widget/NDC-select`}
