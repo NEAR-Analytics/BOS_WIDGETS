@@ -299,6 +299,29 @@ const saveHandler = (e) => {
   }
 };
 
+const Button = styled.button`
+  margin: 0px 1rem;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+
+  border: 2px solid transparent;
+  font-weight: 500;
+  padding: 0.3rem 0.5rem;
+  background-color: #010A2D;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;  
+
+  &:hover {
+    color: #010A2D;
+    background-color: white;
+  }
+`;
+
 return (
   <div
     className="container-fluid"
@@ -312,17 +335,20 @@ return (
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "create" }}
     />
-    <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
+    <div
+      style={{
+        margin: "0 auto",
+        width: "90%",
+        minWidth: "360px",
+        backgroundColor: "white",
+      }}
+    >
       <h1 className="mb-3"> Create Article</h1>
       <div>
         <div>
-          <button
-            type="submit"
-            className="btn btn-outline-success"
-            onClick={saveHandler}
-          >
+          <Button type="submit" onClick={saveHandler}>
             Save Article
-          </button>
+          </Button>
         </div>
         <div class="d-flex flex-column pt-3">
           <label for="inputArticleId">
