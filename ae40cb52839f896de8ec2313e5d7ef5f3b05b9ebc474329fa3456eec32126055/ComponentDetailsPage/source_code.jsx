@@ -221,7 +221,7 @@ return (
         href={`${detailsUrl}&tab=discussion`}
         selected={state.selectedTab === "discussion"}
       >
-        History
+        Discussion
       </TabsButton>
     </Tabs>
 
