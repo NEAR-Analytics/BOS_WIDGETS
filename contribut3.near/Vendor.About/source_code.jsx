@@ -33,8 +33,14 @@ if (!state.descriptionIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false,
-  ).then((data) => State.update({ description: data[accountId].profile.description, services: data[accountId].profile.services, descriptionIsFetched: true }));
+    false
+  ).then((data) =>
+    State.update({
+      description: data[accountId].profile.description,
+      services: data[accountId].profile.services,
+      descriptionIsFetched: true,
+    })
+  );
   return <>Loading...</>;
 }
 
@@ -47,7 +53,11 @@ return (
         label: "Description",
         id: "description",
         value: state.description,
-        onSave: (description) => Near.call("social.near", "set", { data: { [accountId]: { profile: { description } } } }),
+        onSave: (description) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { description } } },
+          }),
+        canEdit: props.isAdmin,
       }}
     />
     <Widget
@@ -56,7 +66,10 @@ return (
         label: "Skills and services",
         id: "services",
         value: state.services,
-        onSave: (services) => Near.call("social.near", "set", { data: { [accountId]: { profile: { services } } } }),
+        onSave: (services) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { services } } },
+          }),
       }}
     />
   </Container>
