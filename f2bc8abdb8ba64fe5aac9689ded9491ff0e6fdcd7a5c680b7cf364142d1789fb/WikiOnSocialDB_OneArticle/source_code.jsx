@@ -144,7 +144,7 @@ const handleHeaderClick = (index1, index2) => {
 };
 
 const Button = styled.button`
-  margin: 0px 1rem;
+  margin: 0px auto;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
