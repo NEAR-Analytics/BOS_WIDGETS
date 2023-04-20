@@ -329,7 +329,7 @@ return (
     {state.selectedTab === "discussion" && (
       <Content>
         <Widget
-          src="near/widgets/NestedDiscussions"
+          src="near/widget/NestedDiscussions"
           params={{ identifier: src }}
         />
       </Content>
