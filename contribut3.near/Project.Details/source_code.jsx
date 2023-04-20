@@ -55,9 +55,10 @@ return (
         id: "website",
         value: state.profile.linktree.website,
         link: `https://${state.profile.linktree.website}`,
-        onSave: (website) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { linktree: { website } } } },
-        }),
+        onSave: (website) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { linktree: { website } } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -67,9 +68,10 @@ return (
         label: "Links",
         id: "links",
         value: state.profile.linktree,
-        onSave: (linktree) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { linktree } } },
-        }),
+        onSave: (linktree) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { linktree } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -85,9 +87,10 @@ return (
           { name: "Social" },
           { name: "Other" },
         ],
-        onSave: ([{ name: category }]) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { category } } },
-        }),
+        onSave: ([{ name: category }]) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { category } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -98,9 +101,10 @@ return (
         id: "integration",
         value: state.profile.integration,
         options: [{ name: "Native" }, { name: "Multichain" }],
-        onSave: ([{ name: integration }]) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { integration } } },
-        }),
+        onSave: ([{ name: integration }]) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { integration } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -116,9 +120,10 @@ return (
           { name: "In development" },
           { name: "Concept" },
         ],
-        onSave: ([{ name: phase }]) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { phase } } },
-        }),
+        onSave: ([{ name: phase }]) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { phase } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -128,9 +133,10 @@ return (
         label: "User base (MAA)",
         id: "userbase",
         value: state.userbase,
-        onSave: (userbase) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { userbase } } },
-        }),
+        onSave: (userbase) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { userbase } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -180,9 +186,10 @@ return (
         label: "CEO",
         id: "ceo",
         value: state.profile.ceo,
-        onSave: (ceo) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { ceo } } },
-        }),
+        onSave: (ceo) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { ceo } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -192,9 +199,10 @@ return (
         label: "CTO",
         id: "cto",
         value: state.profile.cto,
-        onSave: (cto) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { cto } } },
-        }),
+        onSave: (cto) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { cto } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -204,9 +212,10 @@ return (
         label: "Company size",
         id: "size",
         value: state.team,
-        onSave: (team) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { team } } },
-        }),
+        onSave: (team) =>
+          Near.call("social.near", "set", {
+            data: { [accountId]: { profile: { team } } },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -222,9 +231,19 @@ return (
           { name: "staking" },
           { name: "farming" },
         ],
-        onSave: (tags) => Near.call("social.near", "set", {
-          data: { [accountId]: { profile: { tags: tags.reduce((acc, { name }) => ({ ...acc, [name]: "" }), {}) } } },
-        }),
+        onSave: (tags) =>
+          Near.call("social.near", "set", {
+            data: {
+              [accountId]: {
+                profile: {
+                  tags: tags.reduce(
+                    (acc, { name }) => ({ ...acc, [name]: "" }),
+                    {}
+                  ),
+                },
+              },
+            },
+          }),
         canEdit: isAdmin,
       }}
     />
@@ -233,7 +252,7 @@ return (
       props={{
         label: "Location",
         id: "location",
-        value: props.geo,
+        value: props.project.application.geo,
         onSave: (geo) => onSave({ geo }),
         canEdit: isAdmin,
       }}
