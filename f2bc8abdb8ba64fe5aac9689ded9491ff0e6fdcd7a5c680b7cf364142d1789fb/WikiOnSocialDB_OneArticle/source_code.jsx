@@ -14,7 +14,7 @@ const raw = !!props.raw;
 
 const notifyAccountId = accountId;
 
-State.init({ showReply: false });
+State.init({ showReply: false, isMain: true });
 
 const article = JSON.parse(
   Social.get(`${lastEditor}/wikiTest2Article/main`, blockHeight)
@@ -137,6 +137,7 @@ const handleHeaderClick = (index1, index2) => {
       resp = resultText[index1].map((item) => item.join("\n")).join("\n");
     } else resp = resultText[index1][index2].join("\n");
     State.update({
+      isMain: index2 === 0,
       note: resp,
     });
   }
@@ -318,13 +319,15 @@ return (
           )}
           {!state.editArticle && !state.viewHistory && (
             <>
-              <i
-                className="bi bi-arrow-left"
-                style={{ cursor: "pointer", fontSize: "1.5rem" }}
-                onClick={() => {
-                  handleHeaderClick(0, 0);
-                }}
-              ></i>
+              {!state.isMain && (
+                <i
+                  className="bi bi-arrow-left"
+                  style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                  onClick={() => {
+                    handleHeaderClick(0, 0);
+                  }}
+                ></i>
+              )}
               <Markdown text={state.note || state.article.body} />
             </>
           )}
