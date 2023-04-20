@@ -44,6 +44,7 @@ return (
         id: "links",
         value: { github: "near-horizon", twitter: "nearhorizon" },
         onSave: (links) => onSave({ links }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
@@ -57,6 +58,7 @@ return (
           { name: "Organization", id: "organization" },
         ],
         onSave: ([{ id: type }]) => onSave({ type }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
@@ -83,6 +85,7 @@ return (
               {}
             ),
           }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
@@ -103,6 +106,7 @@ return (
               {}
             ),
           }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
@@ -112,6 +116,7 @@ return (
         id: "rate",
         value: 35,
         onSave: (rate) => onSave({ rate }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
@@ -136,6 +141,7 @@ return (
               {}
             ),
           }),
+        canEdit: isAdmin,
       }}
     />
     <Widget
@@ -145,6 +151,7 @@ return (
         id: "location",
         value: "San Francisco, CA",
         onSave: (geo) => onSave({ geo }),
+        canEdit: isAdmin,
       }}
     />
   </Container>
