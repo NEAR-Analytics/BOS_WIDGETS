@@ -1,4 +1,9 @@
-const bucket = props.bucket;
+/**
+ * Forked from near/widget/Posts.Feed
+ *
+ */
+
+const bucket = props.bucket; // this should come from type
 const domain = props.domain;
 const hashtags = props.hashtags || [];
 
@@ -7,7 +12,10 @@ if (!domain) {
 }
 
 let index = [];
+
 if (hashtags && hashtags.length > 0) {
+  // either grab all posts matching this hashtag
+  // and filter them out in "renderItem"
   index = hashtags.map((it) => ({
     action: "hashtag",
     key: it.toLowerCase(),
@@ -18,6 +26,7 @@ if (hashtags && hashtags.length > 0) {
     },
   }));
 } else {
+  // or only look at this domain
   index.push({
     action: domain,
     key: "main",
@@ -27,6 +36,7 @@ if (hashtags && hashtags.length > 0) {
       accountId: props.accounts,
     },
   });
+  // option to include all posts
   if (domain !== bucket) {
     index.push({
       action: domain,
@@ -49,15 +59,67 @@ const Post = styled.div`
   }
 `;
 
-const renderItem = (a) =>
-  a.value.type === "md" && (
-    <Post className="post" key={JSON.stringify(a)}>
-      <Widget
-        src="near/widget/Posts.Post"
-        props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
-      />
-    </Post>
-  );
+const renderItem = (a) => {
+  if (domain !== bucket) {
+    return (
+      (a.value.type === "md" && (
+        <Post className="post" key={JSON.stringify(a)}>
+          <Widget
+            src="near/widget/Posts.Post"
+            props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+          />
+        </Post>
+      )) || // check for hashtags
+      (a.value.type === "social" &&
+        `${a.accountId}/${domain}/main` === a.value.path && (
+          <div key={JSON.stringify(a)} className="mb-3">
+            <Widget
+              src="mob.near/widget/MainPage.Post"
+              props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+            />
+          </div>
+        )) ||
+      (a.value.type === "social" &&
+        `${a.accountId}/${domain}/comment` === a.value.path && (
+          <div key={JSON.stringify(a)} className="mb-3">
+            <Widget
+              src="mob.near/widget/MainPage.Comment.Post"
+              props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+            />
+          </div>
+        ))
+    );
+  } else {
+    return (
+      (a.value.type === "md" && (
+        <Post className="post" key={JSON.stringify(a)}>
+          <Widget
+            src="near/widget/Posts.Post"
+            props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+          />
+        </Post>
+      )) || // check for hashtags
+      (a.value.type === "social" &&
+        `${a.accountId}/post/main` === a.value.path && (
+          <div key={JSON.stringify(a)} className="mb-3">
+            <Widget
+              src="mob.near/widget/MainPage.Post"
+              props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+            />
+          </div>
+        )) ||
+      (a.value.type === "social" &&
+        `${a.accountId}/post/comment` === a.value.path && (
+          <div key={JSON.stringify(a)} className="mb-3">
+            <Widget
+              src="mob.near/widget/MainPage.Comment.Post"
+              props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+            />
+          </div>
+        ))
+    );
+  }
+};
 
 return (
   <Widget src="mob.near/widget/MergedIndexFeed" props={{ index, renderItem }} />
