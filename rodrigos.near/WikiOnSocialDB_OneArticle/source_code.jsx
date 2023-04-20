@@ -143,10 +143,7 @@ const handleHeaderClick = (index1, index2) => {
 };
 
 return (
-  <div
-    className="container-fluid border-start border-end"
-    style={{ minHeight: "100%" }}
-  >
+  <div className="container-fluid border-start border-end">
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles" }}
@@ -229,7 +226,19 @@ return (
             );
           })}
         </div>
+        <div className="mb-3" />
+        {/* === FOOTER === */}
+        <Widget
+          src={`${authorForWidget}/widget/WikiOnSocialDB_OneArticle.Footer`}
+          props={{
+            author: state.article.author,
+            lastEditor: state.article.lastEditor,
+            timeLastEdit: state.article.timeLastEdit,
+            version: state.article.version,
+          }}
+        />
       </div>
+      <div className="d-md-none mb-3" />
       <hr className="d-md-none" />
       <div className="col-12 col-md-9">
         <div>
@@ -362,16 +371,6 @@ return (
               }}
             />
           </div>
-          {/* === FOOTER === */}
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_OneArticle.Footer`}
-            props={{
-              author: state.article.author,
-              lastEditor: state.article.lastEditor,
-              timeLastEdit: state.article.timeLastEdit,
-              version: state.article.version,
-            }}
-          />
         </div>
       </div>
     </div>
