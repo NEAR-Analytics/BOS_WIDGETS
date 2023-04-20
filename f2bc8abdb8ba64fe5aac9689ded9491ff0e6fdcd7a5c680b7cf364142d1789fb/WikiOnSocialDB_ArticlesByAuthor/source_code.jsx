@@ -102,7 +102,7 @@ return (
     <div className="row card-group py-3">
       {filteredArticlesByUser &&
         filteredArticlesByUser.map((article) => (
-          <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3">
+          <div className="col-sm-8 col-lg-6 col-2xl-4 gy-3">
             <div className="card h-100" key={article.articleId}>
               <a
                 className="text-decoration-none text-dark"
