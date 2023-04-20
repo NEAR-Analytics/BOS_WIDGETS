@@ -182,6 +182,8 @@ return (
         minWidth: "360px",
         margin: "0 auto",
         backgroundColor: "white",
+        padding: "2rem",
+        borderRadius: "20px",
       }}
     >
       <div className="col-12 col-md-3 border-end">
