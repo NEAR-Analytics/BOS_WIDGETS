@@ -169,7 +169,7 @@ const Button = styled.button`
 return (
   <div
     className="container-fluid border-start border-end"
-    style={{ backgroundColor: "rgb(230, 230, 230)" }}
+    style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0" }}
   >
     <div style={{ backgroundColor: "white" }}>
       <Widget
