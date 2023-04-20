@@ -174,7 +174,7 @@ const Select = (
       ],
       selectedOption: state.selectedDao,
       onChange: selectDao,
-      top: "29px",
+      top: 29,
     }}
   />
 );
