@@ -711,7 +711,11 @@ return (
             <GridItems numColumns={state.numColumns}>
               {state.search.profiles
                 .filter((profile, index) => {
-                  const profileTags = Object.keys(profile.tags || {});
+                  const fetchedProfile = Social.get(
+                    `${profile.accountId}/profile/**`,
+                    "final"
+                  );
+                  const profileTags = Object.keys(fetchedProfile.tags || {});
 
                   const hasActiveTag =
                     state.activeTags.length === 0 ||
@@ -724,6 +728,7 @@ return (
 
                   return hasActiveTag && displayCondition;
                 })
+
                 .map((profile, i) => (
                   <Item key={profile.accountId}>
                     <Widget
