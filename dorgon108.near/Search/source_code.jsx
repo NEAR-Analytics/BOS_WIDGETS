@@ -24,6 +24,10 @@ State.init({
   searchResults: [], // Assuming search results are stored here
   allTags: [],
   activeTags: [],
+  "You Follow": true,
+  "You Don't Follow": true,
+  showFollowed: true,
+  showNotFollowed: true,
 });
 
 const Wrapper = styled.div`
@@ -610,9 +614,14 @@ const handleCheckboxChange = (checkboxName, isChecked) => {
   // Update the state based on the checkboxName and isChecked values
   console.log(checkboxName, isChecked);
   const updatedState = {};
+  if (checkboxName === "You Follow") {
+    checkboxName = "showFollowed";
+  } else {
+    checkboxName = "showNotFollowed";
+  }
   updatedState[checkboxName] = isChecked;
   State.update(updatedState);
-  console.log("the name check is", state);
+  console.log(`the ${checkboxName} check is`, state[checkboxName]);
 };
 
 // Here is the return.
@@ -701,10 +710,16 @@ return (
                     component.accountId
                   );
 
+                  // Update this line with the new following logic
                   return (
-                    hasActiveTag && displayCondition && !followingCondition
+                    (hasActiveTag &&
+                      displayCondition &&
+                      state.showFollowed &&
+                      followingCondition) ||
+                    (state.showNotFollowed && !followingCondition)
                   );
                 })
+
                 .map((component, i) => {
                   const tags = getComponentTags(
                     component.accountId,
@@ -755,8 +770,13 @@ return (
 
                   const followingCondition = isUserFollowing(profile.accountId);
 
+                  // Update this line with the new following logic
                   return (
-                    hasActiveTag && displayCondition && !followingCondition
+                    (hasActiveTag &&
+                      displayCondition &&
+                      state.showFollowed &&
+                      followingCondition) ||
+                    (state.showNotFollowed && !followingCondition)
                   );
                 })
 
@@ -790,11 +810,23 @@ return (
             </GroupHeader>
             <PostsGridItems>
               {state.search.postsAndComments
-                .filter((_, index) =>
-                  state.facet === "Posts" || currentTab === "Posts"
-                    ? true
-                    : index < 3
-                )
+                .filter((_, index) => {
+                  const displayCondition =
+                    state.facet === "Posts" || currentTab === "Posts"
+                      ? true
+                      : index < 3;
+
+                  const followingCondition = isUserFollowing(_.accountId);
+
+                  // Update this line with the new following logic
+                  return (
+                    (displayCondition &&
+                      state.showFollowed &&
+                      followingCondition) ||
+                    (state.showNotFollowed && !followingCondition)
+                  );
+                })
+
                 .map((post, i) => (
                   <Item
                     key={`${post.accountId}/${post.postType}/${post.blockHeight}`}
