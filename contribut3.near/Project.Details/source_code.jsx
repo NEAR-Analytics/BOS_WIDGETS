@@ -101,10 +101,7 @@ return (
         id: "integration",
         value: state.profile.integration,
         options: [{ name: "Native" }, { name: "Multichain" }],
-        onSave: ([{ name: integration }]) =>
-          Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { integration } } },
-          }),
+        onSave: ([{ name: integration }]) => onSave({ integration }),
         canEdit: isAdmin,
       }}
     />
