@@ -67,6 +67,12 @@ const tabContent = {
       }}
     />
   ),
+  permissions: (
+    <Widget
+      src={`${ownerId}/widget/Inputs.SetUpPermissions`}
+      props={{ accountId: state.accountId }}
+    />
+  ),
 }[state.tab];
 
 const ContentContainer = styled.div`
