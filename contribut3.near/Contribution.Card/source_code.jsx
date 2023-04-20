@@ -109,15 +109,20 @@ const Column = styled.div`
 const body = (
   <Column>
     <Row>
-      <Widget
-        src={`${ownerId}/widget/ProfileLine`}
-        props={{
-          accountId: isVendorView ? projectId : vendorId,
-          imageSize: "2em",
-          update: props.update,
-          isEntity: isVendorView,
-        }}
-      />
+      <Detail>
+        <Widget
+          src={`${ownerId}/widget/${isVendorView ? "Project" : "Vendor"}.Icon`}
+          props={{ accountId: isVendorView ? projectId : vendorId, size: "2em" }}
+        />
+        <Widget
+          src={`${ownerId}/widget/NameAndAccount`}
+          props={{
+            accountId: props.accountId,
+            name: state.profile.name,
+            nameSize: "1.125em",
+          }}
+        />
+      </Detail>
       <Completed>{completedDateString}</Completed>
     </Row>
     <Title>{state.request.title}</Title>
