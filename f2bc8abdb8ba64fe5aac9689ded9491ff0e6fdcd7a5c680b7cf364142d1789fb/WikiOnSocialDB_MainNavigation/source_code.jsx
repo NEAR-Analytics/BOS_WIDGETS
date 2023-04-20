@@ -3,7 +3,8 @@ const writersWhiteList = props.writersWhiteList ?? [
   "testwiki.near",
   "eugenewolf507.near",
 ];
-const authorForWidget = "rodrigos.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const pills = [
   {
     id: "articles",
@@ -93,7 +94,7 @@ return (
           <div className="d-block d-md-none">
             <Button>
               <a
-                href={`#/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_CreateArticle`}
+                href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
               >
                 + Create Article
               </a>
