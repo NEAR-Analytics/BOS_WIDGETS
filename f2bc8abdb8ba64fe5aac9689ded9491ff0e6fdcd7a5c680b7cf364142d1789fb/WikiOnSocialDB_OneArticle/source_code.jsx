@@ -180,7 +180,7 @@ return (
       style={{
         width: "90%",
         minWidth: "360px",
-        margin: "0 auto",
+        margin: "0 auto 1rem auto",
         backgroundColor: "white",
         padding: "2rem",
         borderRadius: "20px",
