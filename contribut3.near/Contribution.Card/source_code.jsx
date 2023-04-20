@@ -56,10 +56,6 @@ const Completed = styled.span`
   color: #11181c;
 `;
 
-const feedback = isVendorView
-  ? state.contribution.project_feedback
-  : state.contribution.vendor_feedback;
-
 const Feedback = styled.p`
   font-style: italic;
   font-weight: 400;
@@ -81,6 +77,9 @@ const Title = styled.h3`
 const startDate = new Date(Number(state.contribution.actions[0].start_date));
 const price = state.contribution.price;
 const type = state.request.request_type;
+const feedback = isVendorView
+  ? state.contribution.project_feedback
+  : state.contribution.vendor_feedback;
 
 const Details = styled.div`
   display: flex;
@@ -126,7 +125,7 @@ const body = (
       <Completed>{completedDateString}</Completed>
     </Row>
     <Title>{state.request.title}</Title>
-    <Feedback>"{feedback}"</Feedback>
+    <Feedback>{feedback}</Feedback>
     <Details>
       <Detail>
         <svg
