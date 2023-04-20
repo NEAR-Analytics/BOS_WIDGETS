@@ -21,6 +21,9 @@ State.init({
   isFiltersPanelVisible: false,
   numColumns: 3,
   selectedTags: [],
+  searchResults: [], // Assuming search results are stored here
+  allTags: [],
+  activeTags: [],
 });
 
 const Wrapper = styled.div`
@@ -372,6 +375,13 @@ const toggleActiveTag = (tag) => {
 const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
   fetchSearchHits(term, { pageNumber, configs }).then((resp) => {
     const { results, hitsTotal, hitsPerPage } = categorizeSearchHits(resp.body);
+    const combinedResults = [
+      ...profiles(results["profile"]),
+      ...components(results["widget"]),
+      ...posts(results["post"], "post"),
+      ...posts(results["comment, post"], "post-comment"),
+    ];
+
     State.update({
       search: {
         profiles: profiles(results["profile"]),
@@ -387,6 +397,8 @@ const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
       },
       queryID: resp.body.queryID,
     });
+
+    getAllTagsFromSearchResults(combinedResults);
   });
 });
 
@@ -494,6 +506,24 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
   console.log(state.isFiltersPanelOpen);
 }
 
+const getAllTagsFromSearchResults = (searchResults) => {
+  const allTags = new Set();
+
+  searchResults.forEach((result) => {
+    const metadata = Social.get(
+      `${result.accountId}/widget/${result.widgetName}/metadata/**`,
+      "final"
+    );
+    const tags = Object.keys(metadata.tags || {});
+
+    tags.forEach((tag) => {
+      allTags.add(tag);
+    });
+  });
+
+  State.update({ selectedTags: Array.from(allTags) });
+};
+
 const getComponentTags = (accountId, widgetName) => {
   const metadata = Social.get(
     `${accountId}/widget/${widgetName}/metadata/**`,
@@ -501,6 +531,16 @@ const getComponentTags = (accountId, widgetName) => {
   );
   const tags = Object.keys(metadata.tags || {});
   State.update({ selectedTags: tags });
+};
+
+const handleClick = (tag) => {
+  // Your logic to update activeTags, e.g.:
+  const newActiveTags = state.activeTags.includes(tag)
+    ? state.activeTags.filter((t) => t !== tag)
+    : [...state.activeTags, tag];
+
+  // Call the callback function passed as a prop
+  props.onTagClick(newActiveTags);
 };
 
 return (
@@ -714,8 +754,10 @@ return (
               },
             },
             selectedTags: state.selectedTags,
-            onTagClick: (activeTags) => {
-              State.update({ activeTags });
+            onTagClick: (tags) => {
+              // handle tag click
+              // Update the state with the new activeTags
+              State.update({ activeTags: tags });
             },
           }}
         />
