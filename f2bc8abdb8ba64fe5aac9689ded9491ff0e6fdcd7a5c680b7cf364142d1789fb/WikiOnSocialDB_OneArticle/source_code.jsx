@@ -192,11 +192,9 @@ return (
         <hr />
         <div className="accordion accordion-flush" id="accordionFlushExample">
           {resultHeading.map((arrItem, index1) => {
-            console.log(1, arrItem, index1);
             return (
               <div className="accordion-item shadow-none ">
                 {arrItem.map((item, index2) => {
-                  console.log(2, item, index2);
                   if (index2 === 0) {
                     return (
                       <h5
@@ -320,15 +318,11 @@ return (
           )}
           {!state.editArticle && !state.viewHistory && (
             <>
-              {console.log("in")}
               <i
                 className="bi bi-arrow-left"
                 style={{ cursor: "pointer", fontSize: "1.5rem" }}
                 onClick={() => {
-                  State.update({
-                    ...state,
-                    viewHistory: false,
-                  });
+                  handleHeaderClick(0, 0);
                 }}
               ></i>
               <Markdown text={state.note || state.article.body} />
