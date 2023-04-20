@@ -132,8 +132,8 @@ const Tabs = (
           components: <WidgetsContainer>{Proposals}</WidgetsContainer>,
         },
         {
-          value: "money",
-          label: "Money",
+          value: "treasury",
+          label: "Treasury",
           components: (
             <WidgetsContainer>
               {Balances}
