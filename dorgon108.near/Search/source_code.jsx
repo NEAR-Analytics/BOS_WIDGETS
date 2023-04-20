@@ -686,7 +686,7 @@ return (
         }}
       >
         <Widget
-          src={`dorgon108.near/widget/FIlterPanel`}
+          src={`dorgon108.near/widget/FIlterComponent`}
           props={{
             filters: {
               Apps: {
