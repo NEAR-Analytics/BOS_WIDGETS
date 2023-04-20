@@ -55,7 +55,7 @@ return (
                 [accountId]: { profile: { image: { ipfs_cid: image.cid } } },
               },
             }),
-          isProfile: true,
+          isProject: true,
           canEdit: isAdmin,
         }}
       />
