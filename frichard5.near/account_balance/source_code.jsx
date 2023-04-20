@@ -63,12 +63,12 @@ const GenericTable = (
 );
 
 return (
-  <>
+  <div style={{ marginTop: "40px" }}>
     <h2>Balances</h2>
     <BalanceContainer>
       <iframe
         style={{
-          width: "50%",
+          width: "40%",
           height: "420px",
           marginTop: "0px",
           overflow: "none",
@@ -77,5 +77,5 @@ return (
       ></iframe>
       <div style={{ width: "40%" }}>{GenericTable}</div>
     </BalanceContainer>
-  </>
+  </div>
 );
