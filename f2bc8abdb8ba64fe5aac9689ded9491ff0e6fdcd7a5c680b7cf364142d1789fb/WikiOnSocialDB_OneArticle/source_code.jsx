@@ -169,7 +169,7 @@ const Button = styled.button`
 return (
   <div
     className="container-fluid"
-    style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0" }}
+    style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0 0 1rem 0" }}
   >
     <Widget
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_MainNavigation`}
@@ -180,7 +180,7 @@ return (
       style={{
         width: "90%",
         minWidth: "360px",
-        margin: "0 auto 1rem auto",
+        margin: "0 auto",
         backgroundColor: "white",
         padding: "2rem",
         borderRadius: "20px",
