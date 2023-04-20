@@ -504,10 +504,21 @@ const onFacetClick = (facet) => {
     return;
   }
 
-  const sortByDateCreated = (a, b) => {
-    const timeA = getTimeFromBlockHeight(a.blockHeight);
-    const timeB = getTimeFromBlockHeight(b.blockHeight);
-    return timeB - timeA;
+  const sortByDateCreated = (data, sortingKey) => {
+    if (!sortByDate) return data;
+
+    return data.sort((a, b) => {
+      const blockHeightA = a[sortingKey];
+      const blockHeightB = b[sortingKey];
+
+      const blockA = Near.block(blockHeightA);
+      const blockB = Near.block(blockHeightB);
+
+      const timeMsA = parseFloat(blockA.header.timestamp_nanosec) / 1e6;
+      const timeMsB = parseFloat(blockB.header.timestamp_nanosec) / 1e6;
+
+      return timeMsA - timeMsB;
+    });
   };
 
   State.update({
@@ -627,11 +638,10 @@ const handleCheckboxChange = (checkboxName, isChecked) => {
 
 const toggleSortByDate = () => {
   State.update({
-    ...state,
-    sortByDate: !state.sortByDate,
+    ...State.get(),
+    sortByDate: !State.get().sortByDate,
   });
 };
-
 const sortByDateCreated = (a, b) => {
   return parseInt(b.blockHeight || "0") - parseInt(a.blockHeight || "0");
 };
@@ -734,7 +744,6 @@ return (
                       (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
-                .sort(State.get().sortByDate ? sortByDateCreated : () => 0)
 
                 .map((component, i) => {
                   const tags = getComponentTags(
@@ -797,7 +806,6 @@ return (
                       (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
-                .sort(State.get().sortByDate ? sortByDateCreated : () => 0)
 
                 .map((profile, i) => (
                   <Item key={profile.accountId}>
@@ -847,7 +855,6 @@ return (
                       (!state.showFollowed && !state.showNotFollowed))
                   );
                 })
-                .sort(State.get().sortByDate ? sortByDateCreated : () => 0)
 
                 .map((post, i) => (
                   <Item
@@ -896,17 +903,16 @@ return (
             : "translateX(100%)",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Widget
-            src="dorgon108.near/widget/SearchPill"
-            props={{
-              onChange: onSearchChange,
-              term: props.term,
-            }}
-          />
-          {/* Add the toggle button here */}
-          <button onClick={toggleSortByDate}></button>
-        </div>
+        <Widget
+          src={`dorgon108.near/widget/FIlterComponent`}
+          props={{
+            showFollowed: state.showFollowed ?? false,
+            showNotFollowed: state.showNotFollowed ?? false,
+            onCheckboxChange: handleCheckboxChange,
+            updateTags: updateTags,
+            // ... rest of the props
+          }}
+        />
       </FiltersPanel>
     )}
   </>
