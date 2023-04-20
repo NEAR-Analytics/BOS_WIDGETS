@@ -186,8 +186,7 @@ return (
           {state.article.articleId}
         </h4>
         <hr />
-        <button
-          className="btn btn-outline-dark w-100 mb-2"
+        <Button
           onClick={() => {
             State.update({
               ...state,
@@ -197,7 +196,7 @@ return (
           }}
         >
           View History
-        </button>
+        </Button>
         {doesUserCanEditArticle() && (
           <button
             className="btn btn-outline-dark w-100"
