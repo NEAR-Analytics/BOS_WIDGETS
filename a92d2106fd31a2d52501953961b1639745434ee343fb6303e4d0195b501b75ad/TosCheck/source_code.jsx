@@ -21,11 +21,11 @@ const tosVersions = Social.keys(tosName, "final", {
   // subscribe: true,
 });
 
-console.log("TosVersions", tosVersions);
+//console.log("TosVersions", tosVersions);
 
 // TODO perform path validation before this
 const tosPath = tosName.split("/");
-console.log("Tos path", tosPath);
+//console.log("Tos path", tosPath);
 
 const latestTosVersion = tosPath.reduce((acc, curr) => {
   return acc[curr];
@@ -129,7 +129,8 @@ if (
   const latestAccept = acceptJson
     ? acceptJson[context.accountId]["index"]["tosAccept"]
     : undefined;
-
+  console.log("acceptJson[context.accountId]", acceptJson[context.accountId]);
+  console.log("context.accountId", context.accountId);
   console.log("latestAccept", latestAccept);
   console.log("latestAccept.key", latestAccept.key);
   console.log("latestAccept.value", latestAccept.value);
