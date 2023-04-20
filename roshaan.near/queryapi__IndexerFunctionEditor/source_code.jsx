@@ -3,13 +3,13 @@ const registry_contract_id =
   props.registry_contract_id || "registry.queryapi.near";
 let accountId = props.accountId || context.accountId;
 
-let externalAppUrl = `https://query-api-react.vercel.app/${path}?accountId=${accountId}`;
+let externalAppUrl = `https://query-api-react-vcqilefdcq-uc.a.run.app/${path}?accountId=${accountId}`;
 
 if (props.indexerName) {
   externalAppUrl += `&indexerName=${props.indexerName}`;
 }
 
-const initialViewHeight = 750;
+const initialViewHeight = 1000;
 if (!context.accountId) {
   return "Please sign in to use this widget.";
 }
