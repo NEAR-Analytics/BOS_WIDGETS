@@ -408,7 +408,17 @@ const updateFilteredTags = (inputValue) => {
 };
 
 const updateTags = () => {
-  tags = props.selectedTags ?? [];
+  let selectedTags = [];
+
+  if (state.facet === "Users") {
+    selectedTags = state.userTags;
+  } else if (state.facet === "Components") {
+    selectedTags = state.componentTags;
+  } else {
+    selectedTags = state.allTags;
+  }
+
+  tags = selectedTags ?? [];
   updateFilteredTags(state.inputValue);
 };
 
@@ -515,20 +525,38 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
 }
 
 const getAllTagsFromSearchResults = (results) => {
-  const allTags = results.reduce((tags, result) => {
-    const metadata = Social.get(
-      `${result.accountId}/widget/${result.widgetName}/metadata/**`,
-      "final"
-    );
-    const widgetTags = Object.keys(metadata.tags || {});
-    return [...tags, ...widgetTags];
-  }, []);
+  const allTags = [];
+  const userTags = [];
+  const componentTags = [];
+
+  results.forEach((result) => {
+    if (result.widgetName) {
+      const metadata = Social.get(
+        `${result.accountId}/widget/${result.widgetName}/metadata/**`,
+        "final"
+      );
+      const widgetTags = Object.keys(metadata.tags || {});
+      componentTags.push(...widgetTags);
+      allTags.push(...widgetTags);
+    } else {
+      const profile = Social.get(`${result.accountId}/profile/**`, "final");
+      const profileTags = Object.keys(profile.tags || {});
+      userTags.push(...profileTags);
+      allTags.push(...profileTags);
+    }
+  });
 
   // Filter out duplicates
-  const uniqueTags = [...new Set(allTags)];
+  const uniqueAllTags = [...new Set(allTags)];
+  const uniqueUserTags = [...new Set(userTags)];
+  const uniqueComponentTags = [...new Set(componentTags)];
 
   // Update the state with the unique tags
-  State.update({ allTags: uniqueTags });
+  State.update({
+    allTags: uniqueAllTags,
+    userTags: uniqueUserTags,
+    componentTags: uniqueComponentTags,
+  });
 };
 
 const getComponentTags = (accountId, widgetName) => {
@@ -638,7 +666,7 @@ return (
 
                   const hasActiveTag =
                     state.activeTags.length === 0 ||
-                    arraysIntersect(state.activeTags, tags);
+                    arraysIntersect(state.componentTags, tags);
 
                   const displayCondition =
                     state.facet === "Components" ||
@@ -682,11 +710,20 @@ return (
             </GroupHeader>
             <GridItems numColumns={state.numColumns}>
               {state.search.profiles
-                .filter((_, index) =>
-                  state.facet === "Users" || currentTab === "Users"
-                    ? true
-                    : index < 3
-                )
+                .filter((profile, index) => {
+                  const profileTags = Object.keys(profile.tags || {});
+
+                  const hasActiveTag =
+                    state.activeTags.length === 0 ||
+                    arraysIntersect(state.activeTags, profileTags);
+
+                  const displayCondition =
+                    state.facet === "Users" ||
+                    currentTab === "Users" ||
+                    index < 3;
+
+                  return hasActiveTag && displayCondition;
+                })
                 .map((profile, i) => (
                   <Item key={profile.accountId}>
                     <Widget
