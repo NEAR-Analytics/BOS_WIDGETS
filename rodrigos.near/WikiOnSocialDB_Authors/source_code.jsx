@@ -53,7 +53,7 @@ const authorsCountArray =
   filteredArticles.length && Object.entries(authorsCountObject);
 
 return (
-  <>
+  <div className="container-fluid border-start border-end">
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "authors" }}
@@ -79,5 +79,5 @@ return (
           </div>
         ))}
     </div>
-  </>
+  </div>
 );
