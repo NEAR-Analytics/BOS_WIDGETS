@@ -18,6 +18,7 @@ const Lines = styled.div`
     background: url("https://ipfs.near.social/ipfs/bafybeibrijoowwlrlhxn54skisw2uitt3bex54yirua74nlbo2gkee5d2a");
     background-size: contain;
     background-repeat: no-repeat;
+    -webkit-mask-image:-webkit-gradient(linear, 30% center, left center, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 `;
 
 const Header = styled.div`
