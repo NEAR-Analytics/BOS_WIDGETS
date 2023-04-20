@@ -116,16 +116,16 @@ return (
         }}
       />
       <Widget
-        src={`${ownerId}/widget/Inputs.Select`}
+        src={`${ownerId}/widget/Inputs.AccountId`}
         props={{
           label: "NEAR Account *",
           placeholder: "layers.near",
           value: state.accountId,
-          options: state.accountsWithPermissions.map((value) => ({ value, text: value })),
           onChange: (accountId) => State.update({ accountId }),
+          addInfo: (addInfo) => State.update({ addInfo }),
         }}
       />
-      <Widget
+      {state.addInfo ? <Widget
         src={`${ownerId}/widget/InfoSegment`}
         props={{
           title: "Account ID of project",
@@ -136,6 +136,8 @@ return (
           </>
         }}
       />
+        : <></>
+      }
       <Widget
         src={`${ownerId}/widget/Inputs.Select`}
         props={{
