@@ -8,6 +8,10 @@ const ContainerLine = styled.div`
   .btn-white-primary{
     color:#fff;
   }
+  .centerLayout{
+      display:flex;
+      align-items:center;
+  }
 `;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
@@ -45,7 +49,7 @@ return (
           props={{ accountId, widgetName }}
         />
       </div>
-      <div className="text-nowrap">
+      <div className="text-nowrap centerLayout">
         {props.extraButtons &&
           props.extraButtons({
             accountId,
