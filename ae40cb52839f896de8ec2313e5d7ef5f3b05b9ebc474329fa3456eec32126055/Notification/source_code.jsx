@@ -3,16 +3,6 @@ const { type } = value;
 const item = value?.item || {};
 const path = item.path || "";
 
-// DevGov handles their own type
-if (type && type.startsWith("devgovgigs/")) {
-  return (
-    <Widget src="mob.near/widget/Notification.Item.DevGov" props={props} />
-  );
-}
-
-// Assert is a valid type
-if (!(type in notificationMessage) || !notificationMessage[type]) return <></>;
-
 // Build notification
 const isComment = path.indexOf("/post/comment") > 0 || type === "comment";
 const isPost = !isComment && path.indexOf("/post/main") > 0;
@@ -160,6 +150,16 @@ const Button = styled.a`
     font-size: 16px;
   }
 `;
+
+// DevGov handles their own type
+if (type && type.startsWith("devgovgigs/")) {
+  return (
+    <Widget src="mob.near/widget/Notification.Item.DevGov" props={props} />
+  );
+}
+
+// Assert is a valid type
+if (!(type in notificationMessage) || !notificationMessage[type]) return <></>;
 
 return (
   <>
