@@ -171,265 +171,262 @@ return (
     className="container-fluid"
     style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0" }}
   >
-    <div style={{ backgroundColor: "white", width: "90%", minWidth: "360px" }}>
-      <Widget
-        src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_MainNavigation`}
-        props={{ currentNavPill: "articles" }}
-      />
-      <div className="row h-100">
-        <div className="col-12 col-md-3 border-end">
-          <h4
-            className="text-center"
-            style={{ cursor: "pointer", fontSize: "1.5rem" }}
+    <Widget
+      src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/WikiOnSocialDB_MainNavigation`}
+      props={{ currentNavPill: "articles" }}
+    />
+    <div className="row h-100" style={{ width: "90%", minWidth: "360px" }}>
+      <div className="col-12 col-md-3 border-end">
+        <h4
+          className="text-center"
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}
+          onClick={() => {
+            State.update({
+              note: state.article.body,
+            });
+          }}
+        >
+          {state.article.articleId}
+        </h4>
+        <hr />
+        <Button
+          onClick={() => {
+            State.update({
+              ...state,
+              editArticle: false,
+              viewHistory: !state.viewHistory,
+            });
+          }}
+        >
+          View History
+        </Button>
+        {doesUserCanEditArticle() && (
+          <button
+            className="btn btn-outline-dark w-100"
             onClick={() => {
               State.update({
+                ...state,
+                viewHistory: false,
+                editArticle: !state.editArticle,
                 note: state.article.body,
               });
             }}
           >
-            {state.article.articleId}
-          </h4>
-          <hr />
-          <Button
-            onClick={() => {
-              State.update({
-                ...state,
-                editArticle: false,
-                viewHistory: !state.viewHistory,
-              });
-            }}
-          >
-            View History
-          </Button>
-          {doesUserCanEditArticle() && (
-            <button
-              className="btn btn-outline-dark w-100"
-              onClick={() => {
-                State.update({
-                  ...state,
-                  viewHistory: false,
-                  editArticle: !state.editArticle,
-                  note: state.article.body,
-                });
-              }}
-            >
-              Edit Article
-            </button>
-          )}
-          <hr />
-          <div className="accordion accordion-flush" id="accordionFlushExample">
-            {resultHeading.map((arrItem, index1) => {
-              return (
-                <div className="accordion-item shadow-none ">
-                  {arrItem.map((item, index2) => {
-                    if (index2 === 0) {
-                      return (
-                        <h5
-                          className="accordion-header shadow-none py-1"
-                          id="flush-headingOne"
-                        >
-                          <button
-                            className="accordion collapsed border-0 bg-white text-dark shadow-none"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target={"#flush-collapseOne" + index1}
-                            aria-expanded="true"
-                            aria-controls={"flush-collapseOne" + index1}
-                            onClick={() => handleHeaderClick(index1, index2)}
-                          >
-                            {item}
-                          </button>
-                        </h5>
-                      );
-                    }
+            Edit Article
+          </button>
+        )}
+        <hr />
+        <div className="accordion accordion-flush" id="accordionFlushExample">
+          {resultHeading.map((arrItem, index1) => {
+            return (
+              <div className="accordion-item shadow-none ">
+                {arrItem.map((item, index2) => {
+                  if (index2 === 0) {
                     return (
-                      <div
-                        id={"flush-collapseOne" + index1}
-                        className="accordion-collapse collapse"
-                        aria-labelledby={"flush-collapseOne" + index1}
-                        data-bs-parent="#accordionFlushExample"
+                      <h5
+                        className="accordion-header shadow-none py-1"
+                        id="flush-headingOne"
                       >
-                        <div
-                          style={{ cursor: "pointer" }}
-                          className="accordion-body py-1"
+                        <button
+                          className="accordion collapsed border-0 bg-white text-dark shadow-none"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={"#flush-collapseOne" + index1}
+                          aria-expanded="true"
+                          aria-controls={"flush-collapseOne" + index1}
                           onClick={() => handleHeaderClick(index1, index2)}
                         >
                           {item}
-                        </div>
-                      </div>
+                        </button>
+                      </h5>
                     );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-          <div className="mb-3" />
-          {/* === FOOTER === */}
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_OneArticle.Footer`}
-            props={{
-              author: state.article.author,
-              lastEditor: state.article.lastEditor,
-              timeLastEdit: state.article.timeLastEdit,
-              version: state.article.version,
-            }}
-          />
+                  }
+                  return (
+                    <div
+                      id={"flush-collapseOne" + index1}
+                      className="accordion-collapse collapse"
+                      aria-labelledby={"flush-collapseOne" + index1}
+                      data-bs-parent="#accordionFlushExample"
+                    >
+                      <div
+                        style={{ cursor: "pointer" }}
+                        className="accordion-body py-1"
+                        onClick={() => handleHeaderClick(index1, index2)}
+                      >
+                        {item}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
-        <div className="d-md-none mb-3" />
-        <hr className="d-md-none" />
-        <div className="col-12 col-md-9">
-          <div>
-            {/* === BUTTON - EDIT ARTICLE === */}
-            {state.editArticle && (
-              <>
-                <div className="d-flex justify-content-center w-100">
-                  <button
-                    type="button"
-                    className="btn btn-outline-success mx-1"
-                    style={{ minWidth: "120px" }}
-                    onClick={() => {
-                      if (!state.note || article.body === state.note) return;
+        <div className="mb-3" />
+        {/* === FOOTER === */}
+        <Widget
+          src={`${authorForWidget}/widget/WikiOnSocialDB_OneArticle.Footer`}
+          props={{
+            author: state.article.author,
+            lastEditor: state.article.lastEditor,
+            timeLastEdit: state.article.timeLastEdit,
+            version: state.article.version,
+          }}
+        />
+      </div>
+      <div className="d-md-none mb-3" />
+      <hr className="d-md-none" />
+      <div className="col-12 col-md-9">
+        <div>
+          {/* === BUTTON - EDIT ARTICLE === */}
+          {state.editArticle && (
+            <>
+              <div className="d-flex justify-content-center w-100">
+                <button
+                  type="button"
+                  className="btn btn-outline-success mx-1"
+                  style={{ minWidth: "120px" }}
+                  onClick={() => {
+                    if (!state.note || article.body === state.note) return;
 
-                      const args = {
-                        article_id: state?.articleId,
-                        body: state.note,
-                        navigation_id: null,
-                      };
+                    const args = {
+                      article_id: state?.articleId,
+                      body: state.note,
+                      navigation_id: null,
+                    };
 
-                      saveArticle(args);
-                    }}
-                  >
-                    Save Article{" "}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger mx-1"
-                    style={{ minWidth: "120px" }}
-                    onClick={() => {
-                      State.update({
-                        ...state,
-                        editArticle: false,
-                        note: undefined,
-                      });
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
-                <hr />
-              </>
-            )}
-
-            {/* === EDIT ARTICLE === */}
-            {state.editArticle && (
-              <>
-                <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-                  <div className="w-50">
-                    <Widget
-                      src="mob.near/widget/MarkdownEditorIframe"
-                      props={{
-                        initialText: state.article.body,
-                        onChange: (note) => State.update({ note }),
-                      }}
-                    />
-                  </div>
-                  <div className="w-50">
-                    <Widget
-                      src="mob.near/widget/SocialMarkdown"
-                      props={{ text: state.note }}
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-            {!state.editArticle && !state.viewHistory && (
-              <>
-                {!state.isMain && (
-                  <i
-                    className="bi bi-arrow-left"
-                    style={{ cursor: "pointer", fontSize: "1.5rem" }}
-                    onClick={() => {
-                      handleHeaderClick(0, 0);
-                    }}
-                  ></i>
-                )}
-                <Markdown text={state.note || state.article.body} />
-              </>
-            )}
-            {/* === VIEW HISTORY === */}
-            {state.viewHistory && (
-              <div className="mt-3 ps-5">
-                <div className="d-flex justify-content-between">
-                  <i
-                    className="bi bi-arrow-left"
-                    style={{ cursor: "pointer", fontSize: "1.5rem" }}
-                    onClick={() => {
-                      State.update({
-                        ...state,
-                        viewHistory: false,
-                      });
-                    }}
-                  ></i>
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={() => {
-                      State.update({
-                        ...state,
-                        viewHistory: false,
-                      });
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
-                <Widget
-                  src={`${authorForWidget}/widget/WikiOnSocialDB_History.History`}
-                  props={{
-                    articleId: state.article.articleId,
-                    resultArticles,
+                    saveArticle(args);
                   }}
-                />
-              </div>
-            )}
-            {/* === CREATE COMMENT BUTTON === */}
-            {blockHeight !== "now" && (
-              <div className="mt-1 d-flex justify-content-between">
-                <Widget
-                  src="mob.near/widget/CommentButton"
-                  props={{
-                    onClick: () =>
-                      State.update({ showReply: !state.showReply }),
+                >
+                  Save Article{" "}
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-outline-danger mx-1"
+                  style={{ minWidth: "120px" }}
+                  onClick={() => {
+                    State.update({
+                      ...state,
+                      editArticle: false,
+                      note: undefined,
+                    });
                   }}
-                />
+                >
+                  Close
+                </button>
               </div>
-            )}
-            {/* === COMPOSE COMMENT === */}
-            <div className="mt-3 ps-5">
-              {state.showReply && (
-                <div className="mb-2">
+              <hr />
+            </>
+          )}
+
+          {/* === EDIT ARTICLE === */}
+          {state.editArticle && (
+            <>
+              <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
+                <div className="w-50">
                   <Widget
-                    src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Compose`}
+                    src="mob.near/widget/MarkdownEditorIframe"
                     props={{
-                      notifyAccountId,
-                      item,
-                      onComment: () => State.update({ showReply: false }),
+                      initialText: state.article.body,
+                      onChange: (note) => State.update({ note }),
                     }}
                   />
                 </div>
+                <div className="w-50">
+                  <Widget
+                    src="mob.near/widget/SocialMarkdown"
+                    props={{ text: state.note }}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+          {!state.editArticle && !state.viewHistory && (
+            <>
+              {!state.isMain && (
+                <i
+                  className="bi bi-arrow-left"
+                  style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                  onClick={() => {
+                    handleHeaderClick(0, 0);
+                  }}
+                ></i>
               )}
-              {/* === SHOW COMMENT === */}
+              <Markdown text={state.note || state.article.body} />
+            </>
+          )}
+          {/* === VIEW HISTORY === */}
+          {state.viewHistory && (
+            <div className="mt-3 ps-5">
+              <div className="d-flex justify-content-between">
+                <i
+                  className="bi bi-arrow-left"
+                  style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                  onClick={() => {
+                    State.update({
+                      ...state,
+                      viewHistory: false,
+                    });
+                  }}
+                ></i>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => {
+                    State.update({
+                      ...state,
+                      viewHistory: false,
+                    });
+                  }}
+                >
+                  Close
+                </button>
+              </div>
               <Widget
-                src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
+                src={`${authorForWidget}/widget/WikiOnSocialDB_History.History`}
                 props={{
-                  item,
-                  highlightComment: props.highlightComment,
-                  limit: props.commentsLimit,
-                  subscribe,
-                  raw,
+                  articleId: state.article.articleId,
+                  resultArticles,
                 }}
               />
             </div>
+          )}
+          {/* === CREATE COMMENT BUTTON === */}
+          {blockHeight !== "now" && (
+            <div className="mt-1 d-flex justify-content-between">
+              <Widget
+                src="mob.near/widget/CommentButton"
+                props={{
+                  onClick: () => State.update({ showReply: !state.showReply }),
+                }}
+              />
+            </div>
+          )}
+          {/* === COMPOSE COMMENT === */}
+          <div className="mt-3 ps-5">
+            {state.showReply && (
+              <div className="mb-2">
+                <Widget
+                  src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Compose`}
+                  props={{
+                    notifyAccountId,
+                    item,
+                    onComment: () => State.update({ showReply: false }),
+                  }}
+                />
+              </div>
+            )}
+            {/* === SHOW COMMENT === */}
+            <Widget
+              src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
+              props={{
+                item,
+                highlightComment: props.highlightComment,
+                limit: props.commentsLimit,
+                subscribe,
+                raw,
+              }}
+            />
           </div>
         </div>
       </div>
