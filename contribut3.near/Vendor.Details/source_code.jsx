@@ -1,5 +1,6 @@
 const onSave = props.onSave ?? (() => { });
 const ownerId = "contribut3.near";
+const isAdmin = props.isAdmin;
 
 const Container = styled.div`
   display: flex;
@@ -74,7 +75,13 @@ return (
           { name: "staking" },
           { name: "farming" },
         ],
-        onSave: (skills) => onSave({ skills: tags.reduce((acc, { name }) => Object.assign(acc, { [name]: "" }), {}) }),
+        onSave: (skills) =>
+          onSave({
+            skills: tags.reduce(
+              (acc, { name }) => Object.assign(acc, { [name]: "" }),
+              {}
+            ),
+          }),
       }}
     />
     <Widget
@@ -83,8 +90,18 @@ return (
         label: "Payment",
         id: "payment",
         value: [{ name: "Fiat", id: "fiat" }],
-        options: [{ name: "Fiat", id: "fiat" }, { name: "Crypto", id: "crypto" }, { name: "Credits", id: "credits" }],
-        onSave: (payments) => onSave({ payments: payments.reduce((acc, { id }) => Object.assign(acc, { [id]: "" }), {}) }),
+        options: [
+          { name: "Fiat", id: "fiat" },
+          { name: "Crypto", id: "crypto" },
+          { name: "Credits", id: "credits" },
+        ],
+        onSave: (payments) =>
+          onSave({
+            payments: payments.reduce(
+              (acc, { id }) => Object.assign(acc, { [id]: "" }),
+              {}
+            ),
+          }),
       }}
     />
     <Widget
@@ -101,13 +118,23 @@ return (
       props={{
         label: "Available for",
         id: "work",
-        value: [{ name: "Short-term work", id: "short" }, { name: "Long-term work", id: "long" }, { name: "Full-time job", id: "full" }],
+        value: [
+          { name: "Short-term work", id: "short" },
+          { name: "Long-term work", id: "long" },
+          { name: "Full-time job", id: "full" },
+        ],
         options: [
           { name: "Short-term work", id: "short" },
           { name: "Long-term work", id: "long" },
-          { name: "Full-time job", id: "full" }
+          { name: "Full-time job", id: "full" },
         ],
-        onSave: (work) => onSave({ work: work.reduce((acc, { id }) => Object.assign(acc, { [id]: "" }), {}) }),
+        onSave: (work) =>
+          onSave({
+            work: work.reduce(
+              (acc, { id }) => Object.assign(acc, { [id]: "" }),
+              {}
+            ),
+          }),
       }}
     />
     <Widget
