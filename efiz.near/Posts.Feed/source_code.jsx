@@ -1,7 +1,12 @@
-const domains = props.domains;
-const hashtags = props.hashtags;
+const bucket = props.bucket;
+const domain = props.domain;
+const hashtags = props.hashtags || [];
 
-let index;
+if (!domain) {
+  return <p>no domain provided</p>;
+}
+
+let index = [];
 if (hashtags && hashtags.length > 0) {
   index = hashtags.map((it) => ({
     action: "hashtag",
@@ -13,26 +18,25 @@ if (hashtags && hashtags.length > 0) {
     },
   }));
 } else {
-  if (domain !== "") {
-    index = domains.map((it) => ({
-      action: it,
+  index.push({
+    action: domain,
+    key: "main",
+    options: {
+      limit: 10,
+      order: "desc",
+      accountId: props.accounts,
+    },
+  });
+  if (domain !== bucket) {
+    index.push({
+      action: domain,
       key: "main",
       options: {
         limit: 10,
         order: "desc",
         accountId: props.accounts,
       },
-    }));
-  } else {
-    index = {
-      action: "post",
-      key: "main",
-      options: {
-        limit: 10,
-        order: "desc",
-        accountId: props.accounts,
-      },
-    };
+    });
   }
 }
 
