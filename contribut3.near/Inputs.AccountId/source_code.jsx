@@ -69,25 +69,33 @@ const validate = async () => {
     return;
   }
 
-  if (!await canEdit(value)) {
-    State.update({
-      valid: false,
-      errorMessage: "You do not have permission to edit this account!",
-    });
-    addInfo(true);
-    return;
-  }
+  if (!props.addInfo) {
 
-  // if (forbiddenIds.has(value)) {
-  //   State.update({
-  //     valid: false,
-  //     errorMessage: "This account ID has already been used!",
-  //   });
-  //   return;
-  // }
-  //
-  State.update({ valid: true, errorMessage: "" });
-  addInfo(false);
+
+    // if (forbiddenIds.has(value)) {
+    //   State.update({
+    //     valid: false,
+    //     errorMessage: "This account ID has already been used!",
+    //   });
+    //   return;
+    // }
+    //
+    State.update({ valid: true, errorMessage: "" });
+    addInfo(false);
+  }
+  canEdit(value).then((editPermission) => {
+    if (!editPermission) {
+      State.update({
+        valid: false,
+        errorMessage: "You do not have permission to edit this account!",
+      });
+      addInfo(true);
+      return;
+    }
+
+    State.update({ valid: true, errorMessage: "" });
+    addInfo(false);
+  });
 };
 
 return (
