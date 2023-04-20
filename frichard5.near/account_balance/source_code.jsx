@@ -68,14 +68,14 @@ return (
     <BalanceContainer>
       <iframe
         style={{
-          width: "70%",
+          width: "50%",
           height: "420px",
           marginTop: "0px",
           overflow: "none",
         }}
         src={widgetUrl}
       ></iframe>
-      <div style={{ width: "30%" }}>{GenericTable}</div>
+      <div style={{ width: "40%" }}>{GenericTable}</div>
     </BalanceContainer>
   </>
 );
