@@ -341,6 +341,8 @@ return (
         width: "90%",
         minWidth: "360px",
         backgroundColor: "white",
+        padding: "1rem",
+        borderRadius: "20px",
       }}
     >
       <h1 className="mb-3"> Create Article</h1>
