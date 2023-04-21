@@ -270,7 +270,11 @@ return (
                           ),
                           linktree: {
                             ...state.socials,
-                            website: state.website.startsWith("http://") ? state.website.substring(7) : state.website.startsWith("https://") ? state.website.substring(8) : state.website,
+                            website: state.website.startsWith("http://")
+                              ? state.website.substring(7)
+                              : state.website.startsWith("https://")
+                              ? state.website.substring(8)
+                              : state.website,
                           },
                           category: state.category.value,
                           team: state.team,
@@ -303,7 +307,10 @@ return (
                 transactions.unshift({
                   contractName: "social.near",
                   methodName: "grant_write_permission",
-                  args: { predecessor_id: context.accountId, keys: [context.accountId] },
+                  args: {
+                    predecessor_id: context.accountId,
+                    keys: [context.accountId],
+                  },
                   deposit: "1",
                 });
               }
