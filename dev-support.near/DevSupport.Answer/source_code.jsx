@@ -108,7 +108,7 @@ return (
       <Content className="mt-2">
         {answer.text && (
           <Widget
-            src="adminalpha.near/widget/SocialMarkdown"
+            src="near/widget/SocialMarkdown"
             props={{ text: answer.text }}
           />
         )}
@@ -126,14 +126,16 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="adminalpha.near/widget/LikeButton"
+            src="near/widget/NestedDiscussions.Preview.LikeButton"
             props={{
               item,
               accountId,
+              previewWidget:
+                "#/dev-support.near/widget/DevSupport.Question.Page",
             }}
           />
           <Widget
-            src="adminalpha.near/widget/CommentButton"
+            src="near/widget/CommentButton"
             props={{
               item,
               onClick: () => State.update({ showReply: !state.showReply }),
