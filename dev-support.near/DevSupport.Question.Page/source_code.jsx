@@ -147,7 +147,7 @@ return (
     <H4>
       <a href="https://near.social/#/dima_sheleg.near/widget/DevSuport.Main">
         <i class="bi bi-arrow-left me-2" />
-        Back to Discussions
+        Go back
       </a>
     </H4>
 
