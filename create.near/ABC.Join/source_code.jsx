@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const daoId = "abc.sputnik-dao.near";
-const role = "community";
+const role = "council";
 
 if (!accountId) {
   return "Please connect your NEAR wallet :)";
