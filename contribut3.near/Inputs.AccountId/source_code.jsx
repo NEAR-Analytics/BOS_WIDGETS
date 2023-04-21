@@ -8,10 +8,6 @@ const accountIdRegex =
   /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
 
 const canEdit = (accountId) => {
-  if (accountId === context.accountId) {
-    return true;
-  }
-
   return Near.asyncView(
     "social.near",
     "is_write_permission_granted",
