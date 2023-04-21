@@ -28,10 +28,7 @@ const filesOnChange = (files) => {
       }).then((res) => {
         const cid = res.body.cid;
         const files = [...state.files, { index, name: file.name, cid }];
-        State.update({
-          files,
-          uploading: false,
-        });
+        State.update({ files, uploading: false });
         props.update(files);
       });
     });
