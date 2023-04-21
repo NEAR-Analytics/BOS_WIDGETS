@@ -16,7 +16,7 @@ const key = props.key ?? JSON.stringify(content);
 const postType = props.postType ?? "post";
 const postBlockHeight =
   postType === "post" ? "blockHeight" : "commentBlockHeight";
-const postUrl = `https://alpha.near.org/#/adminalpha.near/widget/PostPage?accountId=${accountId}&${postBlockHeight}=${blockHeight}`;
+const postUrl = `https://alpha.near.org/#/near/widget/PostPage?accountId=${accountId}&${postBlockHeight}=${blockHeight}`;
 const onClick =
   props.onClick ??
   (() => {
@@ -83,7 +83,7 @@ return (
   <Post href={postUrl} onPointerUp={onClick}>
     <Header>
       <Widget
-        src="adminalpha.near/widget/AccountProfile"
+        src="near/widget/AccountProfile"
         props={{
           accountId,
           hideAccountId: true,
@@ -113,7 +113,7 @@ return (
       <Content>
         {content.text && (
           <Widget
-            src="calebjacob.near/widget/SocialMarkdown"
+            src="near/widget/SocialMarkdown"
             props={{ text: content.text }}
           />
         )}
