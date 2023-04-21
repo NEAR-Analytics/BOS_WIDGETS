@@ -4,11 +4,7 @@ const admins = props.admins;
 const adminContract = props.adminContract;
 const question = props.question;
 
-const item = {
-  type: "social",
-  path: `${accountId}/question/main`,
-  blockHeight,
-};
+const item = { accountId, blockHeight, adminContract };
 
 const is_hidden = Near.view(adminContract, "is_hidden", {
   id: { account_id: accountId, block_height: blockHeight },
@@ -112,9 +108,11 @@ return (
           <H2>Join the Discussion</H2>
           <div class="px-2">
             <Widget
-              src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
+              src="dev-support.near/widget/DevSupport.Answer.Edit"
               props={{
                 notifyAccountId: accountId,
+                previewWidget:
+                  "dev-support.near/widget/DevSupport.Question.Page",
                 item,
                 onComment: () => State.update({ showReply: false }),
               }}
