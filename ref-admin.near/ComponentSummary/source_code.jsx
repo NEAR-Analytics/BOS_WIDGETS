@@ -5,6 +5,7 @@ State.init({
 });
 
 const src = props.src;
+const src = "juaner.near/widget/ref-home";
 const primaryAction = props.primaryAction || "viewDetails";
 const [accountId, widget, widgetName] = src.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
@@ -35,11 +36,12 @@ const sizes = {
   large: {
     gap: "16px",
     thumbnail: "100px",
-    title: "32px",
+    title: "26px",
   },
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+`;
 
 const Header = styled.div`
   display: flex;
@@ -69,10 +71,9 @@ const Actions = styled.div`
 
 const Title = styled.h1`
   font-size: ${(p) => sizes[p.size].title};
-  line-height: 1.2em;
-  color: #11181c;
+  color: #fff;
   margin: 0 0 8px;
-  font-weight: 600;
+  font-weight: 500;
 
   @media (max-width: 770px) {
     font-size: 16px;
@@ -131,35 +132,43 @@ const sharedButtonStyles = `
 `;
 
 const Button = styled.button`
-  ${sharedButtonStyles}
-  color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
-  background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
-  border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+//   ${sharedButtonStyles}
+//   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
+//   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
+//   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
 
-  &:hover,
-  &:focus {
-    background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
-  }
+//   &:hover,
+//   &:focus {
+//     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
+//   }
+background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
+  color:#fff;
 `;
 
 const ButtonLink = styled.a`
-  ${sharedButtonStyles}
-  color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
-  background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
-  border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+//   ${sharedButtonStyles}
+//   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
+//   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
+//   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
 
-  &:hover,
-  &:focus {
-    background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
-  }
+//   &:hover,
+//   &:focus {
+//     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
+//   }
+  background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
+  color:#fff;
 `;
 
 const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  color: #fff;
+  font-weight: 500;
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
@@ -190,7 +199,6 @@ return (
         <Text ellipsis>{src}</Text>
       </div>
     </Header>
-
     {props.showTags && tags.length > 0 && (
       <TagsWrapper>
         <Widget
@@ -201,7 +209,6 @@ return (
         />
       </TagsWrapper>
     )}
-
     <Actions>
       <ButtonLink primary href={primaryActions[primaryAction].url}>
         {primaryActions[primaryAction].display}
