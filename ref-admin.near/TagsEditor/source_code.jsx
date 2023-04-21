@@ -20,6 +20,7 @@ const Container = styled.div`
     background: #13181A;
     border: 1px solid #3A4244;
     border-radius: 10px;
+    margin-top:3px;
   }
   .dropdown-menu .dropdown-item {
     font-weight: 500;
