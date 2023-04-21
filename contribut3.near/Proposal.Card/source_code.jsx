@@ -38,7 +38,7 @@ if (!state.contributionsIsFetched) {
   Near.asyncView(
     ownerId,
     "get_vendor_completed_contributions",
-    { account_id: accountId },
+    { account_id: vendorId },
     "final",
     false
   ).then((contributions) =>
