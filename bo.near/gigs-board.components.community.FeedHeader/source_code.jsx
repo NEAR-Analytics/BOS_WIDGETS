@@ -113,7 +113,7 @@ return (
   <>
     <Gradient>
       <div class="subtitle text-light mb-20">A decentralized community of</div>
-      <h1 class="mb-30"><span class="text-primary-gradient">NEAR </span>Developers</h1>
+      <h1 class="mb-30 text-light"><span class="text-primary-gradient">NEAR </span>Developers</h1>
       <p class="text-light mb-30">Share your ideas, match solutions, and access support and funding.</p>
     </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
