@@ -183,8 +183,8 @@ const body = (<Container>
   <Column>
     <Row>
       <Price>{price}</Price>
-      <span>Contract: <b>{state.proposal.proposal_type}</b></span>
-      <span>Payment: <b>{state.proposal.payment_source}</b></span>
+      <Detail>Contract: <b>{state.proposal.proposal_type}</b></Detail>
+      <Detail>Payment: <b>{state.proposal.payment_source}</b></Detail>
     </Row>
     <Description>
       <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: state.proposal.description }} />
