@@ -67,7 +67,7 @@ const composeData = () => {
     });
   }
 
-  const tag_notifications = extractTagNotifications(state.content);
+  const tag_notifications = extractTagNotifications(state.content.text);
   notifications = notifications.concat(tag_notifications);
 
   if (notifications.length) {
