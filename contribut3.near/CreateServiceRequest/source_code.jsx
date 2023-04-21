@@ -183,9 +183,6 @@ return (
           )
         }
       }} />
-      <NextButton onClick={onPublishRequestClick}>
-        <i class={`bi ${propsData[state.step].nextButtonIcon}`}></i>{propsData[state.step].nextButtonText}
-      </NextButton>
     </Footer>
   </Container>
 );
