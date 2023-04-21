@@ -26,7 +26,11 @@ let inner = (
         }}
       />
     )}
-    {!hideName && <span key="name">{name}</span>}
+    {!hideName && (
+      <span key="name" className="text-muted">
+        {name}
+      </span>
+    )}
     {!hideAccountId && (
       <span key="accountId" className="text-muted ms-1">
         @{accountId}
