@@ -70,7 +70,7 @@ const composeData = () => {
     });
   }
 
-  const tag_notifications = extractTagNotifications(state.text);
+  const tag_notifications = extractTagNotifications(state.content);
   notifications = notifications.concat(tag_notifications);
 
   if (notifications.length) {
