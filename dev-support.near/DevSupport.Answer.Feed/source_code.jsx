@@ -21,7 +21,6 @@ const renderItem = (a) =>
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
-          parent: item,
           admins,
           adminContract,
           nested,
