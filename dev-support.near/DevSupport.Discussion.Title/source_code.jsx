@@ -8,33 +8,30 @@ const H6 = styled.h6`
   font-size: 20px;
   font-weight: 400
 `;
-const Button = styled.a`
+const Button = styled.button`
   display: block;
-  color: #ffffff;
+  color: #09342E;
   background-color: #30A46C;
   font-size: 14px;
   font-weight: 600;
   padding: 8px 24px;
   border: none;
   border-radius: 50px;
-  float: inline-end;
-
-  :hover{ color: #ffffff; cursor: pointer; }
 `;
 
 return (
   <div class="row">
-    <div class="col-lg-8 col-sm-12">
+    <div class="col-8">
       <H1>Discussions</H1>
       <H6>Get help with your projects, join our community!</H6>
     </div>
-    <div class="col-lg-4 col-sm-12">
+    <div class="col-4 mt-2 mb-4">
       <Button
-        class="btn btn-primary"
+        class="btn btn-primary float-end"
         disabled={props.disabled}
         onClick={props.onClick}
       >
-        Ask a Question
+        New Discussion
       </Button>
     </div>
   </div>
