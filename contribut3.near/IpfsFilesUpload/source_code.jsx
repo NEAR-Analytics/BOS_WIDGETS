@@ -12,10 +12,7 @@ State.init({
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 const filesOnChange = (files) => {
-  State.update({
-    uploading: true,
-    files: [],
-  });
+  State.update({ uploading: true, files: [] });
   if (files?.length > 0) {
     files.map((file, index) => {
       const body = file;
