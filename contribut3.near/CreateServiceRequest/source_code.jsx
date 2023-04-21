@@ -123,16 +123,7 @@ const ProgressBar = styled.div`
 
 return (
   <>
-    <div class="progress mb-3" style={{ height: "7px" }}>
-      <FundingProgress
-        className="progress-bar bg-success"
-        role="progressbar"
-        aria-valuenow={propsData[state.step].progress}
-        aria-valuemin="0"
-        aria-valuemax="100"
-        progress={propsData[state.step].progress}
-      />
-    </div>
+    <ProgressBar> <div /> <div /> </ProgressBar>
 
     <Widget
       src={`${ownerId}/widget/PageTitle`}
