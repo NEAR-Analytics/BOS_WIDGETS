@@ -212,7 +212,7 @@ const Footer = styled.div`
   gap: 1em;
   width: 100%;
 
-  :children {
+  :nth-child(n) {
     width: 48%;
   }
 `;
