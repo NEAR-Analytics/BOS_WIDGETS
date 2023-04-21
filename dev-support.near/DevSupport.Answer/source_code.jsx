@@ -142,7 +142,7 @@ return (
       )}
 
       {state.showReply && (
-        <div className="my-3">
+        <div className="mb-2">
           <Widget
             src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
             props={{
