@@ -124,7 +124,7 @@ const Price = styled.div`
 
   &:last-child {
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     font-size: .75em;
     line-height: 1em;
     text-decoration-line: none;
