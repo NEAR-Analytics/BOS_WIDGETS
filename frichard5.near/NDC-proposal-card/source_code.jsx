@@ -52,8 +52,10 @@ const votes = proposal.proposal.votes;
 
 const getVoteSvg = (vote) => {
   switch (vote) {
+    case "Reject":
     case "Reject=0x1":
       return thumbDownSvg;
+    case "Approve":
     case "Approve=0x0":
       return thumbUpSvg;
   }
