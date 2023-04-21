@@ -106,6 +106,36 @@ const RejectButton = styled.button`
   }
 `;
 
+const Price = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.125em;
+
+  &:first-child {
+    font-style: normal;
+    font-weight: 400;
+    font-size: .75em;
+    line-height: 1em;
+    text-decoration-line: line-through;
+    color: #7e868c;
+  }
+
+  &:last-child {
+    font-style: normal;
+    font-weight: 400;
+    font-size: .75em;
+    line-height: 1em;
+    text-decoration-line: none;
+    color: #11181c;
+  }
+`;
+
+const price = (state.proposal.price !== state.request.budget ? (
+  <span>{state.request.budget}</span>{ " → "}<span>{state.proposal.price}</span>
+): (<span>{state.proposal.price}</span>));
+
 const body = (<Container>
   <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +167,9 @@ const body = (<Container>
     </Column>
   </Row>
   <Column>
-    <Row></Row>
+    <Row>
+      {price}
+    </Row>
     <Description>
       <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: state.proposal.description }} />
     </Description>
