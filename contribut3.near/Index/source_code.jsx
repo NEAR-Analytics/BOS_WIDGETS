@@ -51,11 +51,7 @@ const tabContent = {
         search: state.search,
         content: state.content,
         update,
-<<<<<<< HEAD
         cid: state.cid,
-=======
-        cid: state.cid
->>>>>>> b8f0d965d0048387ba0f9b1f059d0a7bc8bbe1fa
       }}
     />
   ),
