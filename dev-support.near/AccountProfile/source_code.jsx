@@ -33,7 +33,19 @@ const Text = styled.p`
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
   white-space: nowrap;
 `;
-const ProfileLink = styled(Text)`
+const ProfileLink = styled.p`
+
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
+  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  font-size: ${(p) => (p.small ? "10px" : "14px")};
+  overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
+  white-space: nowrap;
+
+
   &:hover {
     color: initial;
   }
