@@ -67,11 +67,13 @@ return (
         <img src="https://ipfs.near.social/ipfs/bafkreibjsn3gswlcc5mvgkfv7ady2lzkd2htm55l472suarbd34qryh2uy"></img>
       </a>
       <div>
-        <a href="https://www.neardevgov.org/blog/near-developer-dao" class="text-white">Developer DAO</a>
+        <a href="https://www.neardevgov.org/blog/near-developer-dao" class="text-white me-2">Developer DAO</a>
+        
         <div class="btn-group" role="group">
-          <button class="btn btn-outline-secondary rounded-circle" type="button" style="width: 30px; height: 30px; padding: 6px 0px; border-width: 0.5px; line-height: 0px;" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-outline-white rounded-circle" type="button" style="width: 30px; height: 30px; padding: 6px 0px; border-width: 0.5px; line-height: 0px;" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-question-lg"></i>
           </button>
+
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
               <a target="_blank" class="dropdown-item" href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&amp;labels=bug&amp;template=bug_report.md&amp;title=">
