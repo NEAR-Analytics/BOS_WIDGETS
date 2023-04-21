@@ -15,7 +15,7 @@ const Container = styled.div`
 }
 .list-group-item{
     background:rgba(26, 46, 51, 0.25);
-    border: 0.5px solid rgba(255,255,255,0.3);
+    border-bottom: 0.5px solid rgba(255,255,255,0.3);
     color: #fff;
 }
 .list-group-item-info.list-group-item-action:hover, .list-group-item-info.list-group-item-action:focus{
