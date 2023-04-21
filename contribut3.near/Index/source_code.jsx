@@ -67,6 +67,19 @@ const tabContent = {
       }}
     />
   ),
+  createrequest: (
+    <Widget
+      src={`${ownerId}/widget/Request.Form`}
+      props={{
+        search: state.search,
+        content: state.content,
+        accountId: props.accountId,
+        kind: state.kind,
+        cid: state.cid,
+        update,
+      }}
+    />
+  ),
   permissions: (
     <Widget
       src={`${ownerId}/widget/Inputs.SetUpPermissions`}
