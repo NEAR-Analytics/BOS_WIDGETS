@@ -647,10 +647,15 @@ const displayResultsByFacet = (selectedTab) => {
           return (
             <Item key={component.accountId + component.widgetName}>
               <Widget
-                src="near/widget/ComponentCard"
+                src="dorgon108.near/widget/ComponentCard"
                 props={{
                   src: `${component.accountId}/widget/${component.widgetName}`,
-                  blockHeight: component.blockHeight,
+                  onClick: () =>
+                    onSearchResultClick({
+                      searchPosition: component.searchPosition,
+                      objectID: `${component.accountId}/widget/${component.widgetName}`,
+                      eventName: "Clicked Component After Search",
+                    }),
                 }}
               />
             </Item>
