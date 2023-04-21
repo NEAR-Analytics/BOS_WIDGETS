@@ -53,10 +53,16 @@ if (!state.profileIsFetched) {
     { keys: [`${vendorId}/profile/**`] },
     "final",
     false
-  ).then((data) => State.update({ profile: data[vendorId].profile, profileIsFetched: true }));
+  ).then((data) =>
+    State.update({ profile: data[vendorId].profile, profileIsFetched: true })
+  );
 }
 
-if (!state.requestIsFetched || !state.proposalIsFetched || !state.profileIsFetched) {
+if (
+  !state.requestIsFetched ||
+  !state.proposalIsFetched ||
+  !state.profileIsFetched
+) {
   return <>Loading...</>;
 }
 
@@ -84,13 +90,13 @@ const Column = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: .25em;
+  gap: 0.25em;
   width: 100%;
 `;
 
 const Description = styled.div`
   padding-left: 1em;
-  border-left: 3px solid #B2DDFF;
+  border-left: 3px solid #b2ddff;
   width: 100%;
 `;
 
@@ -116,7 +122,7 @@ const Price = styled.div`
   span:first-child {
     font-style: normal;
     font-weight: 400;
-    font-size: .75em;
+    font-size: 0.75em;
     line-height: 1em;
     text-decoration-line: line-through;
     color: #7e868c;
@@ -125,7 +131,7 @@ const Price = styled.div`
   span:last-child {
     font-style: normal;
     font-weight: 700;
-    font-size: .75em;
+    font-size: 0.75em;
     line-height: 1em;
     text-decoration-line: none;
     color: #11181c;
@@ -140,61 +146,114 @@ const Detail = styled.div`
   gap: 0.125em;
   font-style: normal;
   font-weight: 400;
-  font-size: .75em;
+  font-size: 0.75em;
   line-height: 1em;
   color: #11181c;
 `;
 
-const price = state.proposal.price !== state.request.budget ? (
-  <>
-    <span>NH {state.request.budget}</span>{" → "}<span>NH {state.proposal.price}</span></>
-) : (<span>NH {state.proposal.price}</span>);
+const price =
+  state.proposal.price !== state.request.budget ? (
+    <>
+      <span>NH {state.request.budget}</span>
+      {" → "}
+      <span>NH {state.proposal.price}</span>
+    </>
+  ) : (
+    <span>NH {state.proposal.price}</span>
+  );
 
-const body = (<Container>
-  <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#F44738" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  </RejectButton>
+const body = (
+  <Container>
+    <RejectButton
+      onClick={() =>
+        Near.call(ownerId, "reject_proposal", {
+          project_id: projectId,
+          vendor_id: vendorId,
+          cid,
+        })
+      }
+    >
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5"
+          stroke="#F44738"
+          stroke-width="1.66667"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </RejectButton>
+    <Row>
+      <Widget
+        src={`${ownerId}/widget/Vendor.Icon`}
+        props={{ accountId: vendorId, size: "4em" }}
+      />
+      <Column>
+        <Widget
+          src={`${ownerId}/widget/NameAndAccount`}
+          props={{
+            accountId: vendorId,
+            name: state.profile.name,
+            nameSize: "1.125em",
+          }}
+        />
+        <Row>
+          <span>
+            {state.profile.organization ? "Organization" : "Individual"}
+          </span>
+          <span>{state.contributions.length} requests completed</span>
+        </Row>
+        <Widget
+          src={`${ownerId}/widget/Tags`}
+          props={{ tags: state.profile.tags }}
+        />
+      </Column>
+    </Row>
+    <Column>
+      <Row>
+        <Price>{price}</Price>
+        <Detail>
+          Contract: <b>{state.proposal.proposal_type}</b>
+        </Detail>
+        <Detail>
+          Payment: <b>{state.proposal.payment_source}</b>
+        </Detail>
+      </Row>
+      <Description>
+        <Widget
+          src={`${ownerId}/widget/DescriptionArea`}
+          props={{ description: state.proposal.description }}
+        />
+      </Description>
+    </Column>
+  </Container>
+);
+
+const footer = (
   <Row>
     <Widget
-      src={`${ownerId}/widget/Vendor.Icon`}
-      props={{ accountId: vendorId, size: "4em" }}
+      src={`${ownerId}/widget/Buttons.Grey`}
+      props={{ text: "Discuss", onClick: () => {} }}
     />
-    <Column>
-      <Widget
-        src={`${ownerId}/widget/NameAndAccount`}
-        props={{
-          accountId: vendorId,
-          name: state.profile.name,
-          nameSize: "1.125em",
-        }}
-      />
-      <Row>
-        <span>{state.profile.organization ? "Organization" : "Individual"}</span>
-        <span>{state.contributions.length} requests completed</span>
-      </Row>
-      <Widget
-        src={`${ownerId}/widget/Tags`}
-        props={{ tags: state.profile.tags }}
-      />
-    </Column>
+    <Widget
+      src={`${ownerId}/widget/Buttons.Green`}
+      props={{
+        text: "Hire",
+        onClick: () =>
+          Near.call(ownerId, "add_contribution", {
+            project_id: projectId,
+            vendor_id: vendorId,
+            cid,
+          }),
+      }}
+    />
   </Row>
-  <Column>
-    <Row>
-      <Price>{price}</Price>
-      <Detail>Contract: <b>{state.proposal.proposal_type}</b></Detail>
-      <Detail>Payment: <b>{state.proposal.payment_source}</b></Detail>
-    </Row>
-    <Description>
-      <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: state.proposal.description }} />
-    </Description>
-  </Column>
-</Container>);
-
-const footer = (<Row>
-  <Widget src={`${ownerId}/widget/Buttons.Grey`} props={{ text: "Discuss", onClick: () => { } }} />
-  <Widget src={`${ownerId}/widget/Buttons.Green`} props={{ text: "Hire", onClick: () => Near.call(ownerId, "add_contribution", { project_id: projectId, vendor_id: vendorId, cid }) }} />
-</Row>);
+);
 
 return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
