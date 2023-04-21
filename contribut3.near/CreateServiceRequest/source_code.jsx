@@ -6,13 +6,13 @@ const propsData = {
   step1: {
     nextButtonText: "Publish request",
     nextButtonIcon: "bi-send",
-    progress: 100
+    progress: 100,
   },
   step2: {
     nextButtonText: "Publish request",
     nextButtonIcon: "bi-send",
-    progress: 100
-  }
+    progress: 100,
+  },
 };
 
 const Footer = styled.div`
@@ -23,8 +23,8 @@ const Footer = styled.div`
 `;
 
 const CancelButton = styled.button`
-  background: #FFFFFF;
-  border: 1px solid #ECEEF0;
+  background: #ffffff;
+  border: 1px solid #eceef0;
   border-radius: 50px;
   padding: 8px 16px;
   gap: 8px;
@@ -32,7 +32,7 @@ const CancelButton = styled.button`
 `;
 
 const NextButton = styled.button`
-  color: #FFFFFF;
+  color: #ffffff;
   background: #161615;
   border-radius: 50px;
   padding: 8px 16px;
@@ -48,25 +48,18 @@ const FormContainer = styled.div`
 `;
 
 State.init({
-  step: STEP_1
+  step: STEP_1,
 });
 
 const renderStepOne = () => {
   return (
-    <Widget
-      src={`${ownerId}/widget/CreateServiceRequest_Step1`}
-      props={{}}
-    />
+    <Widget src={`${ownerId}/widget/CreateServiceRequest_Step1`} props={{}} />
   );
 };
 
 const renderStepTwo = () => {
   return (
-    <Widget
-      src={`${ownerId}/widget/CreateServiceRequest_Step2`}
-      props={{}}
-    />
-
+    <Widget src={`${ownerId}/widget/CreateServiceRequest_Step2`} props={{}} />
   );
 };
 const renderForm = {
@@ -74,18 +67,17 @@ const renderForm = {
   step2: renderStepTwo(),
 }[state.step];
 
-
 const onNextStepClick = () => {
   //   if (state.step == STEP_1) {
   //     State.update({ step: STEP_2, ...propsData.step2 })
   //   } else {
   //     // Call Publish request
   //   }
-}
+};
 
 const onPublishRequestClick = () => {
   // Call Publish request
-}
+};
 
 const Container = styled.div`
   display: flex;
@@ -120,9 +112,9 @@ const ProgressBar = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: .375em;
+  gap: 0.375em;
   width: 100%;
-  height: .5em;
+  height: 0.5em;
   padding: 0;
   margin: 0;
 
@@ -146,27 +138,39 @@ return (
     <div>
       <Header>Create new contribution request</Header>
       <SubHeader>
-        Use this form to post your business needs and match with reputable contributors and service providers with ease
+        Use this form to post your business needs and match with reputable
+        contributors and service providers with ease
       </SubHeader>
     </div>
 
-    <FormContainer>
-      {renderForm}
-    </FormContainer>
+    <FormContainer>{renderForm}</FormContainer>
     <Footer>
       <CancelButton href={`/${ownerId}/widget/Index`}>Cancel</CancelButton>
-      <Widget src={`${ownerId}/widget/Buttons.Green`} props={{
-        text: <>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.87464 10.1251L15.7496 2.25013M7.97033 10.3712L9.94141 15.4397C10.1151 15.8862 10.2019 16.1094 10.327 16.1746C10.4354 16.2311 10.5646 16.2312 10.6731 16.1748C10.7983 16.1098 10.8854 15.8866 11.0596 15.4403L16.0023 2.77453C16.1595 2.37164 16.2381 2.1702 16.1951 2.04148C16.1578 1.92969 16.0701 1.84197 15.9583 1.80462C15.8296 1.76162 15.6281 1.84023 15.2252 1.99746L2.55943 6.94021C2.11313 7.11438 1.88997 7.20146 1.82494 7.32664C1.76857 7.43516 1.76864 7.56434 1.82515 7.67279C1.89033 7.7979 2.11358 7.88472 2.56009 8.05836L7.62859 10.0294C7.71923 10.0647 7.76455 10.0823 7.80271 10.1095C7.83653 10.1337 7.86611 10.1632 7.89024 10.1971C7.91746 10.2352 7.93508 10.2805 7.97033 10.3712Z" stroke="#11181C" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          Publish request
-        </>,
-        onClick: () => {
-          Near.call(
-            ownerId,
-            "add_request",
-            {
+      <Widget
+        src={`${ownerId}/widget/Buttons.Green`}
+        props={{
+          text: (
+            <>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.87464 10.1251L15.7496 2.25013M7.97033 10.3712L9.94141 15.4397C10.1151 15.8862 10.2019 16.1094 10.327 16.1746C10.4354 16.2311 10.5646 16.2312 10.6731 16.1748C10.7983 16.1098 10.8854 15.8866 11.0596 15.4403L16.0023 2.77453C16.1595 2.37164 16.2381 2.1702 16.1951 2.04148C16.1578 1.92969 16.0701 1.84197 15.9583 1.80462C15.8296 1.76162 15.6281 1.84023 15.2252 1.99746L2.55943 6.94021C2.11313 7.11438 1.88997 7.20146 1.82494 7.32664C1.76857 7.43516 1.76864 7.56434 1.82515 7.67279C1.89033 7.7979 2.11358 7.88472 2.56009 8.05836L7.62859 10.0294C7.71923 10.0647 7.76455 10.0823 7.80271 10.1095C7.83653 10.1337 7.86611 10.1632 7.89024 10.1971C7.91746 10.2352 7.93508 10.2805 7.97033 10.3712Z"
+                  stroke="#11181C"
+                  stroke-width="1.66667"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Publish request
+            </>
+          ),
+          onClick: () => {
+            Near.call(ownerId, "add_request", {
               request: {
                 project_id: state.projectId.value,
                 title: state.title,
@@ -178,11 +182,11 @@ return (
                 source: state.source.value,
                 deadline: `${new Date(state.deadline).getTime()}`,
                 budget: +state.budget,
-              }
-            }
-          )
-        }
-      }} />
+              },
+            });
+          },
+        }}
+      />
     </Footer>
   </Container>
 );
