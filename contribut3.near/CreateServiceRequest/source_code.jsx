@@ -154,7 +154,7 @@ return (
       {renderForm}
     </FormContainer>
     <Footer>
-      <CancelButton>Cancel</CancelButton>
+      <CancelButton href={`/${ownerId}/widget/Index`}>Cancel</CancelButton>
       <Widget src={`${ownerId}/widget/Buttons.Green`} props={{
         text: <>
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
