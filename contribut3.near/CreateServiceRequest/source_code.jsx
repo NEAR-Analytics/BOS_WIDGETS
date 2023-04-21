@@ -17,8 +17,9 @@ const propsData = {
 };
 
 const FundingProgress = styled.div`
-   width:${(props) => props.progress}%;
+   width: ${({ progress }) => progress}%;
 `;
+
 const ProgressBar = styled.div`
      height:7px;
 `;
@@ -83,15 +84,15 @@ const renderForm = {
 
 
 const onNextStepClick = () => {
-//   if (state.step == STEP_1) {
-//     State.update({ step: STEP_2, ...propsData.step2 })
-//   } else {
-//     // Call Publish request
-//   }
+  //   if (state.step == STEP_1) {
+  //     State.update({ step: STEP_2, ...propsData.step2 })
+  //   } else {
+  //     // Call Publish request
+  //   }
 }
 
 const onPublishRequestClick = () => {
-   // Call Publish request
+  // Call Publish request
 }
 
 return (
