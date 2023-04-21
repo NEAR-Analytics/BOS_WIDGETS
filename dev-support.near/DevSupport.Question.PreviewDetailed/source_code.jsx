@@ -18,6 +18,8 @@ if (is_hidden) {
   return "";
 }
 
+const repliesCount = Social.index("answer", item);
+
 const Answer = styled.div`
     padding: 1em 0em;
 `;
