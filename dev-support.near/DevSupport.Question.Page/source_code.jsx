@@ -23,7 +23,6 @@ const item = {
   path: `${accountId}/question/main`,
   blockHeight,
 };
-const repliesCount = Social.index("answer", item);
 
 const questionUrl = `dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 const shareUrl = `https://alpha.near.org/#/${questionUrl}`;
