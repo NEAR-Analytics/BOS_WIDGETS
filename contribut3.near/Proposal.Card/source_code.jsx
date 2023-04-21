@@ -99,6 +99,6 @@ const body = (<Container>
   </RejectButton>
 </Container>);
 
-const footer = (<></>);
+const footer = (<Row></Row>);
 
 return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
