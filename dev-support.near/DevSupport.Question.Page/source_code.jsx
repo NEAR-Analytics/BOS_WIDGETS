@@ -154,37 +154,13 @@ return (
     <div class="row mt-5">
       <div class="col-md-8 col-12 pe-md-5">
         <Widget
-          src="dima_sheleg.near/widget/DevSupport.Question.PreviewDetailed"
+          src="dev-support.near/widget/DevSupport.Question.PreviewDetailed"
           props={{
             accountId,
             blockHeight,
             admins,
             adminContract,
             question,
-            children: (
-              <>
-                {context.accountId && (
-                  <Widget
-                    src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
-                    props={{
-                      notifyAccountId: accountId,
-                      item,
-                      onComment: () => State.update({ showReply: false }),
-                    }}
-                  />
-                )}
-
-                <H2 className="mt-5 mb-4">{repliesCount.length} Replies</H2>
-                <div class="row">
-                  <div class="col-12">
-                    <Widget
-                      src="dima_sheleg.near/widget/DevSupport.Answer.Feed"
-                      props={{ item, admins, adminContract }}
-                    />
-                  </div>
-                </div>
-              </>
-            ),
           }}
         />
       </div>
