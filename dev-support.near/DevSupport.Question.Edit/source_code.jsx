@@ -73,8 +73,8 @@ const InputWrapper = styled.div`
 
 return (
   <Wrapper className="row">
-    <div className="col-lg-12 mb-2">
-      <Title>Title:</Title>
+    <div className="col-12">
+      <Title>Title</Title>
       <InputWrapper>
         <input
           type="text"
@@ -84,8 +84,8 @@ return (
         />
       </InputWrapper>
     </div>
-    <div className="col-lg-12 mb-2">
-      <Title>Choose topic:</Title>
+    <div className="col-12 mt-3">
+      <Title>Choose topic</Title>
       <InputWrapper>
         <Typeahead
           multiple
@@ -99,8 +99,8 @@ return (
         />
       </InputWrapper>
     </div>
-    <div className="col-lg-12 mb-2">
-      <Title>Describe your question:</Title>
+    <div className="col-12 mt-3">
+      <Title>Describe your question</Title>
       <Widget
         src="dima_sheleg.near/widget/DevSupport.Compose"
         props={{
