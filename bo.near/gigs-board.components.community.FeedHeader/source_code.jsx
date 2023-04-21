@@ -94,7 +94,7 @@ const Gradient = styled.div`
     text-align: center;
     background: radial-gradient(circle, rgba(29,55,57,1) 30%, rgba(24,24,24,1) 80%); 
 
-    font-family: Red Hat Display, sans-serif;
+    font-family: Verdana, sans-serif;
   }
 
   .text-primary-gradient {
@@ -103,10 +103,6 @@ const Gradient = styled.div`
     background-image: linear-gradient(#8e76ba, #1ed2f0);
     -webkit-background-clip: text;
     background-clip: text;
-  }
-
-  .subtitle {
-    font-family: Verdana, sans-serif;
   }
 
   .subtitle-above {
@@ -128,9 +124,9 @@ const Gradient = styled.div`
 return (
   <>
     <Gradient className="d-flex flex-column justify-content-center">
-      <div class="subtitle subtitle-above text-white opacity-75 mb-2">A decentralized community of</div>
+      <div class="subtitle-above text-white opacity-75 mb-2">A decentralized community of</div>
       <h1 class="mb-30 text-white slogan"><span class="text-primary-gradient">NEAR </span>Developers</h1>
-      <div class="subtitle subtitle-below text-white opacity-75">Share your ideas, match solutions, and access support and funding.</div>
+      <div class="subtitle-below text-white opacity-75">Share your ideas, match solutions, and access support and funding.</div>
     </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
     <div class="row">
