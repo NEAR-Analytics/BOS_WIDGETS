@@ -19,17 +19,14 @@ const composeData = () => {
     },
   };
 
-  const notifications = state.extractTagNotifications(state.content.text, {
-    type: "social",
-    path: `${context.accountId}/question/answer`,
-  });
+  let notifications = [];
 
   if (props.notifyAccountId) {
     notifications.push({
       key: props.notifyAccountId,
       value: {
         type: "custom",
-        message: "Tagged you on a discussion",
+        message: "Commented on a discussion",
         widget: props.previewWidget,
         blockHeight: item.blockHeight,
         params:
@@ -39,6 +36,9 @@ const composeData = () => {
       },
     });
   }
+
+  const tag_notifications = extractTagNotifications(state.text);
+  notifications = notifications.concat(tag_notifications);
 
   if (notifications.length) {
     data.index.notify = JSON.stringify(
