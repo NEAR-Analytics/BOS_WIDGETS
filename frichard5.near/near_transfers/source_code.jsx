@@ -21,7 +21,7 @@ const columns = [
   },
   {
     id: "sender",
-    label: "sender",
+    label: "Sender",
     formatter: (d) => {
       return (
         <a
@@ -35,7 +35,7 @@ const columns = [
   },
   {
     id: "receiver",
-    label: "receiver",
+    label: "Receiver",
     formatter: (d) => {
       return (
         <a
@@ -49,7 +49,7 @@ const columns = [
   },
   {
     id: "amount",
-    label: "amount",
+    label: "Amount",
     formatter: (d) => Number(d["amount"]).toFixed(2),
   },
   {
