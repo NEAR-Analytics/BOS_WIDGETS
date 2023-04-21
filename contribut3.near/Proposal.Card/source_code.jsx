@@ -99,6 +99,9 @@ const body = (<Container>
   </RejectButton>
 </Container>);
 
-const footer = (<Row></Row>);
+const footer = (<Row>
+  <Widget src={`${ownerId}/widget/Buttons.Grey`} props={{ text: "Discuss", onClick: () => { } }} />
+  <Widget src={`${ownerId}/widget/Buttons.Green`} props={{ text: "Hire", onClick: () => Near.call(ownerId, "add_contribution", { project_id: projectId, vendor_id: vendorId, cid }) }} />
+</Row>);
 
 return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
