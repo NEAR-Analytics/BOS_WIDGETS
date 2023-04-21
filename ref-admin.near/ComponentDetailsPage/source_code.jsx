@@ -17,7 +17,7 @@ const code = Social.get(`${accountId}/widget/${widgetName}`);
 const data = Social.get(`${accountId}/widget/${widgetName}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `#/ref-admin.near/widget/ComponentDetailsPage?src=${src}`;
+const detailsUrl = `/#/adminalpha.near/widget/ComponentDetailsPage?src=${src}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 
 const dependencyMatch =
@@ -45,7 +45,9 @@ const SummaryWrapper = styled.div`
 
 const Tabs = styled.div`
   display: flex;
-  height: 54px;
+  height: 48px;
+  border-bottom: 1px solid #eceef0;
+  margin-bottom: 32px;
   overflow: auto;
   scroll-behavior: smooth;
 
@@ -66,19 +68,18 @@ const TabsButton = styled.a`
   justify-content: center;
   height: 100%;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 12px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#fff" : "rgba(255,255,255,0.5)")};
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
   background: none;
   border: none;
   outline: none;
   text-align: center;
   text-decoration: none !important;
-  margin-right: 40px;
 
   &:hover {
-    color: #fff;
+    color: #11181c;
   }
 
   &::after {
@@ -88,8 +89,8 @@ const TabsButton = styled.a`
     bottom: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: #00ffd1;
+    height: 3px;
+    background: #59e692;
   }
 `;
 
@@ -98,46 +99,17 @@ const Content = styled.div`
   grid-template-columns: minmax(0, 1fr) 336px;
   gap: 64px;
 
-  background: #15272b;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
-  border-radius: 16px;
-
   @media (max-width: 995px) {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  .codeArea {
-    > pre > div {
-      background: transparent !important;
-    }
-  }
-  .aboutArea {
-    padding: 10px 20px;
-    color: #fff;
-  }
-`;
-
-const PreviewContent = styled.div`
-  gap: 64px;
-  margin-top: 12px;
-  background: #15272b;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
-  border-radius: 16px;
 `;
 
 const Sidebar = styled.div`
-  padding: ${(p) => (p.area == "about" ? "10px" : "")};
-  border-left: 2px solid #1e373d;
-  .dependenciesArea {
-    padding: 20px 28px;
-  }
   > div {
     padding-bottom: 32px;
-    border-bottom: 1px solid rgba(48, 67, 82, 0.5);
+    border-bottom: 1px solid #eceef0;
     margin-bottom: 32px;
-    p {
-      color: #fff;
-    }
 
     &:last-child {
       padding-bottom: 0;
@@ -154,9 +126,10 @@ const Sidebar = styled.div`
 `;
 
 const SmallTitle = styled.h3`
-  font-weight: 500;
-  font-size: 16px;
-  color: #fff;
+  color: #687076;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
   margin-bottom: 32px;
   text-transform: uppercase;
 
@@ -190,9 +163,6 @@ const Text = styled.p`
 
 const Dependency = styled.div`
   margin-bottom: 24px;
-  p {
-    color: #fff !important;
-  }
 `;
 
 const HistoryContainer = styled.div`
@@ -215,62 +185,42 @@ return (
   <Wrapper>
     <SummaryWrapper>
       <Widget
-        src="ref-admin.near/widget/ComponentSummary"
+        src="adminalpha.near/widget/ComponentSummary"
         props={{
           primaryAction: "open",
           size: "large",
           showTags: false,
           src,
-          istemplate: props.istemplate,
         }}
       />
     </SummaryWrapper>
 
     <Tabs>
       <TabsButton
-        href={`${detailsUrl}&tab=preview&istemplate=${props.istemplate}`}
-        selected={state.selectedTab === "preview"}
-      >
-        Preview
-      </TabsButton>
-
-      <TabsButton
-        href={`${detailsUrl}&tab=about&istemplate=${props.istemplate}`}
+        href={`${detailsUrl}&tab=about`}
         selected={state.selectedTab === "about"}
       >
         About
       </TabsButton>
 
       <TabsButton
-        href={`${detailsUrl}&tab=source&istemplate=${props.istemplate}`}
+        href={`${detailsUrl}&tab=source`}
         selected={state.selectedTab === "source"}
       >
         Source
       </TabsButton>
 
       <TabsButton
-        href={`${detailsUrl}&tab=history&istemplate=${props.istemplate}`}
+        href={`${detailsUrl}&tab=history`}
         selected={state.selectedTab === "history"}
       >
         History
       </TabsButton>
     </Tabs>
 
-    {state.selectedTab === "preview" && (
-      <PreviewContent>
-        <Widget
-          src={src}
-          props={{
-            ...props,
-            hideBanner: true,
-          }}
-        ></Widget>
-      </PreviewContent>
-    )}
-
     {state.selectedTab === "about" && (
       <Content>
-        <div class="aboutArea">
+        <div>
           {metadata.description ? (
             <Markdown text={metadata.description} />
           ) : (
@@ -278,7 +228,7 @@ return (
           )}
         </div>
 
-        <Sidebar area="about">
+        <Sidebar>
           {(tags.includes("Coming Soon") || tags.includes("coming-soon")) && (
             <div>
               <Widget src="adminalpha.near/widget/waitList" />
@@ -337,15 +287,16 @@ return (
 
     {state.selectedTab === "source" && (
       <Content>
-        <div class="codeArea">
-          <Markdown text={sourceCode} />
-        </div>
+        <Markdown text={sourceCode} />
+
         <Sidebar>
-          <div class="dependenciesArea">
+          <div>
             <SmallTitle>Dependencies ({dependencySources.length})</SmallTitle>
+
             {dependencySources.length === 0 && (
               <Text>This component has no dependencies.</Text>
             )}
+
             {dependencySources.map((source) => (
               <Dependency key={source}>
                 <Widget
@@ -362,7 +313,7 @@ return (
     {state.selectedTab === "history" && (
       <HistoryContainer>
         <Widget
-          src="ref-admin.near/widget/WidgetHistory"
+          src="bozon.near/widget/WidgetHistory"
           props={{ widgetPath: src }}
         />
       </HistoryContainer>
