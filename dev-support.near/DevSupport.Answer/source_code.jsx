@@ -128,7 +128,6 @@ return (
           src="near/widget/NestedDiscussions.Preview.LikeButton"
           props={{
             item: { accountId, blockHeight },
-            accountId,
             notifyAccountId: accountId,
             previewWidget: "dev-support.near/widget/DevSupport.Answer",
           }}
