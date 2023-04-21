@@ -1,6 +1,7 @@
 /* INCLUDE: "common.jsx" */
 const nearDevGovGigsContractAccountId =
-  props.nearDevGovGigsContractAccountId || "devgovgigs.near".split("/", 1)[0];
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -84,8 +85,33 @@ const communities = {
 };
 /* END_INCLUDE: "communities.jsx" */
 
+
+const Gradient = styled.div`
+   {
+    transform: rotate(9.78deg);
+    background: linear-gradient(
+      -90deg,
+      rgb(0, 204, 255) 0.57%,
+      rgb(50, 82, 166) 100.57%
+    );
+    opacity: 0.22;
+    filter: blur(17vw);
+  }
+
+  .text-primary-gradient {
+    color: #53fdca;
+    background-image: linear-gradient(#8e76ba, #1ed2f0);
+    background-clip: text;
+  }
+`;
+
 return (
   <>
+    <Gradient>
+      <div class="subtitle text-primary mb-20">A decentralized community of</div>
+      <h1 class="mb-30">Decentralize <span class="text-primary-gradient">NEAR </span>Development</h1>
+      <p class="text-light-grey mb-30">NEAR’s platform is built by builders for builders, just like you. Do you have a great idea for the next big NEAR innovation?<br></p>
+    </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
     <div class="row">
       {Object.entries(communities).map(([label, community]) => {
