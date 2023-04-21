@@ -1,6 +1,8 @@
 const ownerId = "contribut3.near";
 const id = props.id ?? "text";
 const label = props.label ?? "Input";
+const activeText = props.activeText ?? "Available";
+const inactiveText = props.inactiveText ?? "Not Available";
 const value = props.value ?? "";
 const link = props.link ?? "";
 const isLink = link !== "";
@@ -71,8 +73,8 @@ return (
           src={`${ownerId}/widget/ActiveIndicator`}
           props={{
             active: value,
-            activeText: "Available",
-            inactiveText: "Not Available",
+            activeText,
+            inactiveText,
           }}
         />
       ),
