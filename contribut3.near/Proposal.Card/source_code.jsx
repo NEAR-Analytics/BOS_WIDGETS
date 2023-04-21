@@ -113,7 +113,7 @@ const Price = styled.div`
   justify-content: flex-start;
   gap: 0.125em;
 
-  &span:first-child {
+  span:first-child {
     font-style: normal;
     font-weight: 400;
     font-size: .75em;
@@ -122,7 +122,7 @@ const Price = styled.div`
     color: #7e868c;
   }
 
-  &span:last-child {
+  span:last-child {
     font-style: normal;
     font-weight: 400;
     font-size: .75em;
