@@ -148,6 +148,7 @@ return (
             props={{
               notifyAccountId: accountId,
               item,
+              previewWidget: "dev-support.near/widget/DevSupport.Answer",
               onComment: () => State.update({ showReply: false }),
             }}
           />
