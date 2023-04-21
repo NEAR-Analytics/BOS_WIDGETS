@@ -138,7 +138,7 @@ const ShareButton = styled.button`
 return (
   <div className="pt-2 pb-5">
     <H4>
-      <a href="/#/dev-support.near/widget/DevSuport.Main">
+      <a href="/#/dev-support.near/widget/DevSupport.Main">
         <i class="bi bi-arrow-left me-2" />
         Go back
       </a>
