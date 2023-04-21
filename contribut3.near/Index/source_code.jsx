@@ -9,6 +9,8 @@ State.init({
   contributorId: props.contributorId,
   kind: props.kind,
   cid: props.cid,
+  projectId: props.projectId,
+  vendorId: props.vendorId,
 });
 
 const update = (state) => State.update(state);
