@@ -104,7 +104,7 @@ return (
   <div class="row">
     <div class="col-1 d-sm-block d-none">
       <Widget
-        src="near/widget/ProfileImage"
+        src="dev-support.near/widget/ProfileImage"
         props={{
           accountId,
           imageClassName: "rounded-circle w-100 h-100",
