@@ -9,7 +9,7 @@ const ProposalCard = styled.div`
   overflow: auto;
   border-radius: 4px;
   padding: 20px;
-
+  background: white;
   svg {
     height: 20px;
     &.approved-icon {
