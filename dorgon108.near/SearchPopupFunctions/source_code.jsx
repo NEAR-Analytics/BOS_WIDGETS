@@ -5,7 +5,7 @@ const API_URL =
   props.apiUrl ??
   `https://${APPLICATION_ID}-dsn.algolia.net/1/indexes/${INDEX}/query?`;
 const INITIAL_PAGE = props.initialPage ?? 0;
-const facets = props.facets ?? ["All", "People", "Apps", "Components", "Posts"];
+const facets = props.facets ?? ["All", "Users", "Apps", "Components", "Posts"];
 const tab = props.tab ?? "All";
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
@@ -19,10 +19,9 @@ State.init({
   isFiltersPanelVisible: false,
   numColumns: 3,
   selectedTags: [],
-  searchResults: [], // Assuming search results are stored here
+  searchResults: [],
   allTags: [],
   activeTags: [],
-
   showFollowed: false,
   showNotFollowed: false,
 });
@@ -33,8 +32,8 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
-const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
+const componentsUrl = `/#/near/widget/ComponentsPage`;
+const peopleUrl = `/#/near/widget/PeoplePage`;
 
 // Styling Specifications
 
@@ -291,27 +290,33 @@ const profiles = (records) => {
   return profiles;
 };
 
-// creates an array of objects that provide the details of the loaded posts
 const posts = (content, postType) => {
   const posts = [];
   for (const [i, post] of content || []) {
     const accountId = post.author;
     const blockHeight = post.objectID.split("/").slice(-1)[0];
+
+    let snipContent = true;
+    let text = post.content;
+    if (post._highlightResult.content.matchLevel === "full") {
+      // Use algolia provided snipped content:
+      snipContent = false;
+      text = post._snippetResult.content.value
+        .replaceAll("<em>", "")
+        .replaceAll("</em>", "");
+    }
+
     const postContent = {
       type: "md",
-      text: post.content,
+      text,
     };
-    const headerStyling =
-      postType === "post"
-        ? "border rounded-4 p-3 pb-1"
-        : "pt-3 border-top pb-2";
 
     posts.push({
       accountId,
       blockHeight,
       postContent,
       postType,
-      headerStyling,
+      snipContent,
       searchPosition: i,
     });
   }
@@ -346,6 +351,8 @@ const categorizeSearchHits = (rawResp) => {
     results[categories] = results[categories] || [];
     results[categories].push([i + 1, result]);
   }
+
+  console.log("they are", categories);
   return {
     results,
     hitsTotal: rawResp.nbHits,
@@ -367,7 +374,6 @@ const fetchSearchHits = (query, { pageNumber, configs, optionalFilters }) => {
   let body = {
     query,
     page: pageNumber ?? 0,
-    hitsPerPage: rawResp.hitsPerPage,
     optionalFilters: optionalFilters ?? [
       "categories:profile<score=3>",
       "categories:widget<score=2>",
@@ -377,6 +383,7 @@ const fetchSearchHits = (query, { pageNumber, configs, optionalFilters }) => {
     clickAnalytics: true,
     ...configs,
   };
+
   return asyncFetch(API_URL, {
     body: JSON.stringify(body),
     headers: {
@@ -390,7 +397,11 @@ const fetchSearchHits = (query, { pageNumber, configs, optionalFilters }) => {
 
 const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
   fetchSearchHits(term, { pageNumber, configs }).then((resp) => {
+    console.log("resp", resp);
+
     const { results, hitsTotal, hitsPerPage } = categorizeSearchHits(resp.body);
+
+    console.log("widget", results["widget"]);
     const combinedResults = [
       ...profiles(results["profile"]),
       ...components(results["widget"]),
@@ -406,6 +417,7 @@ const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
           posts(results["comment, post"], "post-comment")
         ),
       },
+      combinedResults: combinedResults, // Add this line to update the combined results in the state
       currentPage: pageNumber,
       paginate: {
         hitsTotal,
@@ -471,13 +483,13 @@ const restrictSearchable = (facet) => {
   }
   return restrictSearchableAttrs;
 };
-
 const configsPerFacet = (facet) => {
   return {
     filters: searchFilters(facet),
     restrictSearchableAttributes: restrictSearchable(facet),
   };
 };
+
 const onFacetClick = (facet) => {
   if (facet === state.selectedTab) {
     return;
@@ -485,6 +497,11 @@ const onFacetClick = (facet) => {
 
   State.update({
     selectedTab: facet,
+    facet,
+  });
+  updateSearchHits({
+    term: state.term,
+    configs: configsPerFacet(facet),
   });
 
   displayResultsByFacet(facet);
@@ -511,7 +528,6 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
     State.update({ event });
   }, 50);
 };
-
 const getComponentTags = (accountId, widgetName) => {
   const metadata = Social.get(
     `${accountId}/widget/${widgetName}/metadata/**`,
@@ -554,10 +570,7 @@ const topTwoAccounts = () => {
     }
   } else {
     output = state.search.profiles.slice(0, 2);
-    console.log("else called", output);
   }
-
-  console.log(output);
 
   return output.map((profile, i) => (
     <Item key={profile.accountId}>
@@ -588,10 +601,7 @@ const topTwoComponents = () => {
     }
   } else {
     output = state.search.components.slice(0, 2);
-    console.log("else called", output);
   }
-
-  console.log(output);
 
   return output.map((component, i) => (
     <Item key={component.accountId + component.widgetName}>
@@ -622,10 +632,7 @@ const topTwoComments = () => {
     }
   } else {
     output = state.search.postsAndComments.slice(0, 2);
-    console.log("else called", output);
   }
-
-  console.log(output);
 
   return output.map((post, i) => (
     <Item key={`${post.accountId}/${post.postType}/${post.blockHeight}`}>
