@@ -46,4 +46,47 @@ if (!state.requestIsFetched || !state.proposalIsFetched || !state.profileIsFetch
   return <>Loading...</>;
 }
 
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
+  width: 100%;
+`;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
+  width: 100%;
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
+  width: 100%;
+`;
+
+const Description = styled.div`
+  border-left: 3px solid #B2DDFF;
+  width: 100%;
+`;
+
+const body = (<Container>
+  <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#F44738" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </RejectButton>
+</Container>);
+
+const footer = (<></>);
+
+return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
