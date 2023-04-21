@@ -126,7 +126,7 @@ return (
         <Widget
           src="near/widget/NestedDiscussions.Preview.LikeButton"
           props={{
-            item: { accountId, blockHeight },
+            item,
             notifyAccountId: accountId,
             previewWidget: "dev-support.near/widget/DevSupport.Answer",
           }}
@@ -134,7 +134,6 @@ return (
         <Widget
           src="near/widget/CommentButton"
           props={{
-            item,
             onClick: () => State.update({ showReply: !state.showReply }),
           }}
         />
