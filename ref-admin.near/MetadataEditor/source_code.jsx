@@ -1,3 +1,51 @@
+const Container = styled.div`
+   .title{
+     font-weight: 500;
+     font-size: 16px;
+     color: #FFFFFF;
+     margin-bottom:10px;
+   }
+   .form-input{
+     display:block;
+     background: rgba(26, 46, 51, 0.25);
+     border: 0.5px solid rgba(255, 255, 255, 0.3);
+     border-radius: 10px;
+     height: 47px;
+     width:100%;
+     color:rgba(255, 255, 255, 0.3);
+     padding:0 10px
+   }
+   .form-input:focus-visible{
+     outline:none;
+   }
+   .form-textarea{
+     display:block;
+     background: rgba(26, 46, 51, 0.25);
+     border: 0.5px solid rgba(255, 255, 255, 0.3);
+     border-radius: 10px;
+     width:100%;
+     color:rgba(255, 255, 255, 0.3);
+     padding:10px;
+   }
+   .form-textarea:focus-visible{
+     outline:none;
+   }
+   .websit .input-group{
+     display:flex;
+     align-items:stretch;
+     flex-wrap:nowrap;
+   }
+   
+   .websit .input-group-text{
+     background-color:#304352;
+     color:#fff;
+     border:none;
+   }
+   .websit .input-group{
+     border: 1px solid rgba(255, 255, 255, 0.3);
+     border-radius: 10px;
+   }
+`;
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
@@ -44,16 +92,16 @@ if (
 }
 
 return (
-  <>
+  <Container>
     {options.name && (
       <div className="mb-2">
-        {options.name.label ?? "Name"}
-        <input type="text" value={state.metadata.name} />
+        <label class="title">{options.name.label ?? "Name"}</label>
+        <input class="form-input" type="text" value={state.metadata.name} />
       </div>
     )}
     {options.image && (
       <div className="mb-2">
-        {options.image.label ?? "Image"}
+        <label class="title">{options.image.label ?? "Image"}</label>
         <Widget
           src="ref-admin.near/widget/ImageEditorTabs"
           props={{
@@ -65,7 +113,9 @@ return (
     )}
     {options.backgroundImage && (
       <div className="mb-2">
-        {options.backgroundImage.label ?? "Background image"}
+        <label class="title">
+          {options.backgroundImage.label ?? "Background image"}
+        </label>
         <Widget
           src="ref-admin.near/widget/ImageEditorTabs"
           props={{
@@ -77,10 +127,12 @@ return (
     )}
     {options.description && (
       <div className="mb-2">
-        {options.description.label ?? "Description"}
-        <span className="text-secondary"> (supports markdown)</span>
+        <label class="title">
+          {options.description.label ?? "Description"}
+        </label>
+        <span className="text-white"> (supports markdown)</span>
         <textarea
-          className="form-control"
+          className="form-textarea"
           rows={5}
           value={state.metadata.description}
           onChange={(e) => {
@@ -92,7 +144,7 @@ return (
     )}
     {options.tags && (
       <div className="mb-2">
-        {options.tags.label ?? "Tags"}
+        <label class="title">{options.tags.label ?? "Tags"}</label>
         <Widget
           src="ref-admin.near/widget/TagsEditor"
           props={{
@@ -111,13 +163,17 @@ return (
     )}
     {options.linktree &&
       (options.linktree.links ?? []).map((link) => (
-        <div className="mb-2">
-          {link.label}
+        <div className="mb-2 websit">
+          <label class="title">{link.label}</label>
           <div className="input-group">
             <span className="input-group-text">{link.prefix}</span>
-            <input type="text" value={state.linktree[link.name]} />
+            <input
+              class="form-input"
+              type="text"
+              value={state.linktree[link.name]}
+            />
           </div>
         </div>
       ))}
-  </>
+  </Container>
 );
