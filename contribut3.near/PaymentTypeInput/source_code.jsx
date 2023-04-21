@@ -1,4 +1,3 @@
-
 const paymentType = props.paymentType ?? [];
 const text = props.text ?? "Payment type *";
 const update = props.update;
@@ -18,7 +17,7 @@ return (
       options={allPaymentTypes}
       placeholder="Flat rate, Hourly rate..."
       selected={paymentType}
-      positionFixed 
+      positionFixed
       allowNew
     />
   </>
