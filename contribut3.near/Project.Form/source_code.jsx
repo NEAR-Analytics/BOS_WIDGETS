@@ -125,19 +125,32 @@ return (
           addInfo: (addInfo) => State.update({ addInfo }),
         }}
       />
-      {state.addInfo ? <Widget
-        src={`${ownerId}/widget/InfoSegment`}
-        props={{
-          title: "Account ID of project",
-          description: <>
-            You need to grant permissions the account you are currently logged in with (and any other accounts that may want to allow to edit the projects profile).
-            You can do so by logging in with the account of your project and going to this <a target="_blank" href={`/${ownerId}/widget/Index?tab=permissions&accountId=${context.accountId}`}>link</a> to grant permissions.
-            After you do this you can come back here and finish the set up process (with the account you are using now - <b>{context.accountId}</b>).
-          </>
-        }}
-      />
-        : <></>
-      }
+      {state.addInfo && state.accountId !== context.accountId ? (
+        <Widget
+          src={`${ownerId}/widget/InfoSegment`}
+          props={{
+            title: "Account ID of project",
+            description: (
+              <>
+                Your project has its own account. In order to add admins on a
+                project, including yourself, you must log in with the project
+                account id, and visit the{" "}
+                <a
+                  target="_blank"
+                  href={`/${ownerId}/widget/Index?tab=permissions&accountId=${context.accountId}`}
+                >
+                  link
+                </a>{" "}
+                to grant appropriate permissions to yourself and your team. Once
+                completed, log back in with your user account (the account you
+                are using now) to complete the set up process.
+              </>
+            ),
+          }}
+        />
+      ) : (
+        <></>
+      )}
       <Widget
         src={`${ownerId}/widget/Inputs.Select`}
         props={{
@@ -239,7 +252,7 @@ return (
           src={`${ownerId}/widget/Buttons.Green`}
           props={{
             onClick: () => {
-              Near.call([
+              const transactions = [
                 {
                   contractName: "social.near",
                   methodName: "set",
@@ -285,7 +298,16 @@ return (
                     },
                   },
                 },
-              ]);
+              ];
+              if (state.addInfo && state.accountId === context.accountId) {
+                transactions.shift({
+                  contractName: "social.near",
+                  methodName: "grant_write_permission",
+                  args: { predecessor_id: context.accountId, keys: [context.accountId] },
+                  deposit: "1",
+                })
+              }
+              Near.call(transactions);
             },
             text: (
               <>
