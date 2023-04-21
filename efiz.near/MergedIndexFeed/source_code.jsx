@@ -1,4 +1,4 @@
-const enableCaching = props.enableCaching && true;
+const disableCaching = props.disableCaching || disableCaching;
 
 if (!props.index) {
   return "props.index is not defined";
@@ -233,7 +233,7 @@ if (reverse) {
   items.reverse();
 }
 
-const renderedItems = items.map(enableCaching ? cachedRenderItem : renderItem);
+const renderedItems = items.map(disableCaching ? renderItem : cachedRenderItem);
 
 return props.manual ? (
   <>
