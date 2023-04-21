@@ -33,10 +33,7 @@ const filesOnChange = (files) => {
       });
     });
   } else {
-    State.update({
-      uploading: false,
-      files: null,
-    });
+    State.update({ uploading: false, files: null });
   }
 };
 
