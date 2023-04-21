@@ -1,165 +1,135 @@
 const accountId = props.accountId;
-const blockHeight =
-  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
-const subscribe = !!props.subscribe;
-const admins = props.admins || [];
+const blockHeight = parseInt(props.blockHeight);
+const admins = props.admins;
 const adminContract = props.adminContract;
+const question = props.question;
 
-if (accountId === undefined || blockHeight === undefined) {
-  return;
-}
+const item = { accountId, blockHeight, adminContract };
 
-State.init({ showAnswer: false, showOverlay: false });
-
-const answer = JSON.parse(
-  Social.get(`${accountId}/question/answer`, blockHeight) ?? "null"
-);
-
-const isUseful = Near.view(adminContract, "is_useful", {
+const is_hidden = Near.view(adminContract, "is_hidden", {
   id: { account_id: accountId, block_height: blockHeight },
 });
 
-const item = {
-  type: "social",
-  path: `${accountId}/question/main`,
-  blockHeight,
-};
+if (is_hidden) {
+  return "";
+}
 
-const Post = styled.div`
-  position: relative;
-  display: grid;
+const repliesCount = Social.index("answer", item);
 
-  &::before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 19px;
-    top: 52px;
-    bottom: 12px;
-    width: 2px;
-    background: ${isUseful ? "#30A46C" : "#eceef0"};
+const Answer = styled.div`
+    padding: 1em 0em;
+`;
+const H1 = styled.h1`
+  font-size: 32px;
+  font-weight: 600;
+  color: #11181C;
   }
 `;
-const Header = styled.div`
-  margin-bottom: 0;
-  display: inline-flex;
-  justify-content: stretch;
-`;
-const Body = styled.div`
-  padding-left: 52px;
-  padding-bottom: 1px;
-`;
-const Content = styled.div`
-  img {
-    display: block;
-    max-width: 100%;
-    max-height: 80vh;
-    margin: 0 0 12px;
+const H2 = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  color: #11181C;
   }
 `;
-const Text = styled.p`
-  display: block;
-  margin: 0;
+const H6 = styled.h6`
   font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
+  font-weight: 500;
   color: #687076;
+`;
+const Trancate = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+const TopicName = styled.span`
+  color: #006ADC;
+  font-weight: 500;
+  font-size: 14px;
   white-space: nowrap;
 `;
-const Actions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: -6px -6px 6px;
+const PostContentWrapper = styled.div`
+    color: #687076;
+    font-size: 16px;
 `;
-
-const Comments = styled.div`
-  > div > div:first-child {
-    padding-top: 12px;
-  }
-`;
-
-const CorrectPost = styled.div`
-  position: absolute;
-  top: -0.7rem;
-  left: -0.5rem;
-  color: #30A46C;
+const NftImageWrapper = styled.div`
+    max-height: "220px",
+    max-width: "78vw",
+    overflow: "scroll",
 `;
 
 return (
-  <Post>
-    {isUseful && (
-      <CorrectPost>
-        <i class="bi bi-check-circle-fill" />
-      </CorrectPost>
-    )}
-    <Header>
+  <div class="row">
+    <div class="col-md-1 col-2">
+      {/* Upvote Widget */}
       <Widget
-        src="dev-support.near/widget/AccountProfile"
-        props={{
-          accountId,
-          blockHeight,
-          includeValidButton: admins.includes(context.accountId),
-          adminContract,
-        }}
+        src="dima_sheleg.near/widget/DevSupport.Question.Button.Upvote"
+        props={{ accountId, blockHeight }}
       />
-    </Header>
-    <Body>
-      <Content className="mt-2">
-        {answer.text && (
+    </div>
+    <div class="col-md-11 col-10">
+      <div class="row">
+        <H1>{question.title}</H1>
+        <H6>
+          <div class="d-flex">
+            <Trancate>{accountId}</Trancate>
+            &nbsp;in&nbsp;
+            <TopicName>
+              <Widget
+                src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.LabelsDisplay"
+                props={{ labels: question.labels }}
+              />
+            </TopicName>
+            &nbsp;&#8226;&nbsp;
+            <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+            &nbsp;ago
+          </div>
+        </H6>
+      </div>
+      <div class="row">
+        <PostContentWrapper className="mt-5">
           <Widget
-            src="near/widget/SocialMarkdown"
-            props={{ text: answer.text }}
+            src="mob.near/widget/MainPage.Post.Content"
+            props={{ content: { text: question.content.text } }}
           />
-        )}
 
-        {answer.image && (
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: answer.image,
-            }}
-          />
-        )}
-      </Content>
-
-      <Actions>
-        <Widget
-          src="near/widget/NestedDiscussions.Preview.LikeButton"
-          props={{
-            item: { accountId, blockHeight },
-            notifyAccountId: accountId,
-            previewWidget: "dev-support.near/widget/DevSupport.Answer",
-          }}
-        />
-        <Widget
-          src="near/widget/CommentButton"
-          props={{
-            item,
-            onClick: () => State.update({ showReply: !state.showReply }),
-          }}
-        />
-      </Actions>
-
-      {state.showReply && (
-        <div className="mb-2">
-          <Widget
-            src="dev-support.near/widget/DevSupport.Answer.Edit"
-            props={{
-              notifyAccountId: accountId,
-              item,
-              onComment: () => State.update({ showReply: false }),
-            }}
-          />
-        </div>
+          {question.content.image.ipfs_cid && (
+            <NftImageWrapper className="text-center mt-1 mb-3 mx-auto">
+              <img
+                class="img-fluid"
+                src={`https://ipfs.near.social/ipfs/${question.content.image.ipfs_cid}`}
+                alt="uploaded"
+              />
+            </NftImageWrapper>
+          )}
+        </PostContentWrapper>
+      </div>
+      <hr />
+      {context.accountId && (
+        <Answer>
+          <H2>Join the Discussion</H2>
+          <div class="px-2">
+            <Widget
+              src="dev-support.near/widget/DevSupport.Answer.Edit"
+              props={{
+                notifyAccountId: accountId,
+                previewWidget:
+                  "dev-support.near/widget/DevSupport.Question.Page",
+                item,
+                onComment: () => State.update({ showReply: false }),
+              }}
+            />
+          </div>
+        </Answer>
       )}
 
-      <Comments>
-        <Widget
-          src="dev-support.near/widget/DevSupport.Answer.Feed"
-          props={{ item, admins, adminContract, nested: true }}
-        />
-      </Comments>
-    </Body>
-  </Post>
+      <H2 className="mt-5 mb-4">{repliesCount.length} Replies</H2>
+      <div class="row">
+        <div class="col-12">
+          <Widget
+            src="dev-support.near/widget/DevSupport.Answer.Feed"
+            props={{ item, admins, adminContract }}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 );
