@@ -5,7 +5,7 @@ const API_URL =
   props.apiUrl ??
   `https://${APPLICATION_ID}-dsn.algolia.net/1/indexes/${INDEX}/query?`;
 const INITIAL_PAGE = props.initialPage ?? 0;
-const facets = props.facets ?? ["All", "Users", "Apps", "Components", "Posts"];
+const facets = props.facets ?? ["All", "People", "Apps", "Components", "Posts"];
 const tab = props.tab ?? "All";
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
@@ -63,6 +63,14 @@ const Wrapper = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   width: 100%;
+`;
+const NoResults = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: #444;
 `;
 
 const Header = styled.div`
@@ -431,7 +439,7 @@ const onPageChange = (pageNumber) => {
 };
 
 const FACET_TO_CATEGORY = {
-  Users: "profile",
+  People: "profile",
   Apps: "app",
   Components: "widget",
   Posts: "post",
@@ -538,7 +546,7 @@ const getAllTagsFromSearchResults = (results) => {
 const topTwoAccounts = () => {
   let output = [];
 
-  if (state.selectedTab === "Users") {
+  if (state.selectedTab === "People") {
     for (let i = 0; i < 6; i++) {
       if (i < state.search.profiles.length) {
         output.push(state.search.profiles[i]);
@@ -637,12 +645,12 @@ const topTwoComments = () => {
 
 const displayResultsByFacet = (selectedTab) => {
   switch (selectedTab) {
-    case "Users":
+    case "People":
       return state.search?.profiles.length > 0 ? (
         <Group>
           <GroupHeader>
             <H3>
-              Users
+              People
               <span
                 style={{
                   marginLeft: "10px",
@@ -656,7 +664,7 @@ const displayResultsByFacet = (selectedTab) => {
           <Items>{topTwoAccounts()}</Items>
         </Group>
       ) : (
-        <div>No Users Found</div>
+        <div>No People Found</div>
       );
     case "Apps": {
       const appComponents = state.search?.components
@@ -708,7 +716,7 @@ const displayResultsByFacet = (selectedTab) => {
           <Items>{appComponents}</Items>
         </Group>
       ) : (
-        <div>No Apps Found</div>
+        <NoResults>No Apps Found</NoResults>
       );
     }
 
@@ -731,7 +739,7 @@ const displayResultsByFacet = (selectedTab) => {
           <Items>{topTwoComponents()}</Items>
         </Group>
       ) : (
-        <div>No Components Found</div>
+        <NoResults>No Components Found</NoResults>
       );
     case "Posts":
       return state.search?.postsAndComments.length > 0 ? (
@@ -752,7 +760,7 @@ const displayResultsByFacet = (selectedTab) => {
           <Items>{topTwoComments()}</Items>
         </Group>
       ) : (
-        <div>No Users Found</div>
+        <div>No People Found</div>
       );
     case "All":
       return (
@@ -761,7 +769,7 @@ const displayResultsByFacet = (selectedTab) => {
             <Group>
               <GroupHeader>
                 <H3>
-                  Users
+                  People
                   <span
                     style={{
                       marginLeft: "10px",
@@ -837,7 +845,18 @@ return (
       )}
       <ScrollableContent>
         {state.paginate?.hitsTotal == 0 && (
-          <H2>No matches were found for "{state.term}".</H2>
+          <H2
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: "50%", // Adjust this value to position the text lower
+              width: "100%",
+            }}
+          >
+            No matches were found for "{state.term}".
+          </H2>
         )}
         {displayResultsByFacet(state.selectedTab)}
       </ScrollableContent>
