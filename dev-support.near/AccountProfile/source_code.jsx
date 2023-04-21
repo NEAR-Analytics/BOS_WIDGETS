@@ -2,6 +2,7 @@ const accountId = props.accountId || context.accountId;
 const blockHeight = props.blockHeight || "now";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const profileUrl = `/#/mob.near/widget/ProfilePage?accountId=${accountId}`;
+const includeValidButton = props.includeValidButton;
 
 const handleValidAnswerClick = () => {
   Near.call(adminContract, "mark_useful", {
@@ -134,34 +135,34 @@ return (
               </>
             )}
           </Text>
-          <div class="dropdown ms-auto">
-            <button
-              class="btn border-0 p-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="bi bi-three-dots" />
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <Item className="dropdown-item">
-                  <Widget
-                    src="dima_sheleg.near/widget/DevSupport.Answer.Button.Valid"
-                    props={{
-                      accountId,
-                      blockHeight,
-                      admins,
-                      adminContract,
-                      onClick: handleValidAnswerClick,
-                      text: "Mark as Correct",
-                      className: "btn valid-btn",
-                    }}
-                  />
-                </Item>
-              </li>
-            </ul>
-          </div>
+          {includeValidButton && (
+            <div class="dropdown ms-auto">
+              <button
+                class="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-three-dots" />
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <Item className="dropdown-item">
+                    <button
+                      disabled={
+                        state.loading || dataLoading || !context.accountId
+                      }
+                      className={`btn ${props.className}`}
+                      onClick={handleValidAnswerClick}
+                    >
+                      <i class="bi bi-check-circle me-1" />
+                      <span>Mark as valid</span>
+                    </button>
+                  </Item>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </Name>
 
