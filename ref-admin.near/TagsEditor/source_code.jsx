@@ -13,7 +13,9 @@ const Container = styled.div`
   .rbt-input-multi.focus{
     box-shadow:none;
   }
-
+  .rbt-input-multi .rbt-input-wrapper{
+    width:100%;
+  }
   .dropdown-menu{
     background: #13181A;
     border: 1px solid #3A4244;
