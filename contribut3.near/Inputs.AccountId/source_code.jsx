@@ -111,6 +111,8 @@ const validate = async () => {
             errorMessage: "You do not have permission to edit this account!",
           });
         }
+
+        State.update({ valid: true, errorMessage: "" })
         addInfo(true);
         return;
       }
