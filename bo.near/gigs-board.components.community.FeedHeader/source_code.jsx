@@ -110,8 +110,12 @@ const Gradient = styled.div`
   }
 
   .subtitle-above {
+    letter-spacing: 3px;
+    font-family: monospace;
+  }
+
+  .subtitle-below {
     letter-spacing: 1px;
-    font-family: Space Mono, sans-serif;
   }
 
   .slogan {
