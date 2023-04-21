@@ -17,13 +17,6 @@ const question = JSON.parse(
   Social.get(`${accountId}/question/main`, blockHeight) ?? "null"
 );
 
-const notifyAccountId = accountId;
-const item = {
-  type: "social",
-  path: `${accountId}/question/main`,
-  blockHeight,
-};
-
 const questionUrl = `dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 const shareUrl = `https://alpha.near.org/#/${questionUrl}`;
 
