@@ -73,8 +73,8 @@ const InputWrapper = styled.div`
 
 return (
   <Wrapper className="row">
-    <div className="col-12">
-      <Title>Title</Title>
+    <div className="col-lg-12 mb-2">
+      <Title>Title:</Title>
       <InputWrapper>
         <input
           type="text"
@@ -84,8 +84,8 @@ return (
         />
       </InputWrapper>
     </div>
-    <div className="col-12 mt-3">
-      <Title>Topics</Title>
+    <div className="col-lg-12 mb-2">
+      <Title>Choose topic:</Title>
       <InputWrapper>
         <Typeahead
           multiple
@@ -99,12 +99,12 @@ return (
         />
       </InputWrapper>
     </div>
-    <div className="col-12 mt-3">
-      <Title>Description</Title>
+    <div className="col-lg-12 mb-2">
+      <Title>Describe your question:</Title>
       <Widget
         src="dima_sheleg.near/widget/DevSupport.Compose"
         props={{
-          placeholder: "Describe your question so the community can help you",
+          placeholder: "Describe your question so we can help you",
           initialText: props.initialText,
           onChange: ({ content }) => State.update({ content: content }),
           composeButton: (onCompose) => (
@@ -112,7 +112,6 @@ return (
               disabled={!state.content}
               force
               className="commit-post-button"
-              onCommit={props.onCommit}
               data={{
                 question: {
                   main: JSON.stringify({
