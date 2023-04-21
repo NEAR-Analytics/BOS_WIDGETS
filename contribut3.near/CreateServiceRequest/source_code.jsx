@@ -156,6 +156,12 @@ const CancelButton = styled.a`
   background: #ffffff;
   border: 1px solid #eceef0;
   border-radius: 50px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: .95em;
+  line-height: 1em;
+  text-align: center;
+  color: #101828;
 `;
 
 State.init({
