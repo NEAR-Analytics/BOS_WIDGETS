@@ -13,6 +13,9 @@ if (is_hidden) {
   return "";
 }
 
+const Answer = styled.div`
+    border-top: "1px solid #cecece";
+`;
 const H1 = styled.h1`
   font-size: 32px;
   font-weight: 600;
@@ -98,14 +101,17 @@ return (
       </div>
 
       {context.accountId && (
-        <Widget
-          src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
-          props={{
-            notifyAccountId: accountId,
-            item,
-            onComment: () => State.update({ showReply: false }),
-          }}
-        />
+        <Answer>
+          <H2>Join the Discussion</H2>
+          <Widget
+            src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
+            props={{
+              notifyAccountId: accountId,
+              item,
+              onComment: () => State.update({ showReply: false }),
+            }}
+          />
+        </Answer>
       )}
 
       <H2 className="mt-5 mb-4">{repliesCount.length} Replies</H2>
