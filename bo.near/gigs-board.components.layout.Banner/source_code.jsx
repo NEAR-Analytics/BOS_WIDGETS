@@ -68,6 +68,23 @@ return (
       </a>
       <div>
         <a href="https://www.neardevgov.org/blog/near-developer-dao" class="text-white">Developer DAO</a>
+        <div class="btn-group" role="group">
+          <button class="btn btn-outline-secondary rounded-circle" type="button" style="width: 30px; height: 30px; padding: 6px 0px; border-width: 0.5px; line-height: 0px;" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-question-lg"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a target="_blank" class="dropdown-item" href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&amp;labels=bug&amp;template=bug_report.md&amp;title=">
+                Report a bug
+              </a>
+            </li>
+            <li>
+              <a target="_blank" class="dropdown-item" href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&amp;labels=enhancement&amp;template=feature-request.md&amp;title=">
+                Suggest an improvement
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </Banner>
   </>
