@@ -10,13 +10,14 @@ const H6 = styled.h6`
 `;
 const Button = styled.button`
   display: block;
-  color: #09342E;
+  color: #ffffff;
   background-color: #30A46C;
   font-size: 14px;
   font-weight: 600;
   padding: 8px 24px;
   border: none;
   border-radius: 50px;
+  float: inline-end;
 `;
 
 return (
@@ -27,11 +28,11 @@ return (
     </div>
     <div class="col-4">
       <Button
-        class="btn btn-primary float-end"
+        class="btn btn-primary"
         disabled={props.disabled}
         onClick={props.onClick}
       >
-        New Discussion
+        Ask a Question
       </Button>
     </div>
   </div>
