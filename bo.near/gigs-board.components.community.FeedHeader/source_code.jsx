@@ -106,6 +106,10 @@ const Gradient = styled.div`
   }
 
   .subtitle {
+    font-size: 18px;
+  }
+
+  .subtitle-above {
     letter-spacing: 1px;
     font-family: Space Mono, sans-serif;
   }
@@ -119,9 +123,9 @@ const Gradient = styled.div`
 return (
   <>
     <Gradient className="d-flex flex-column justify-content-center">
-      <div class="subtitle text-white-50 mb-2">A decentralized community of</div>
+      <div class="subtitle subtitle-above text-white opacity-75 mb-2">A decentralized community of</div>
       <h1 class="mb-30 text-white slogan"><span class="text-primary-gradient">NEAR </span>Developers</h1>
-      <p class="text-white-50">Share your ideas, match solutions, and access support and funding.</p>
+      <p class="subtitle text-white opacity-75">Share your ideas, match solutions, and access support and funding.</p>
     </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
     <div class="row">
