@@ -22,7 +22,7 @@ const ftFormatter = (ftList) => {
 const columns = [
   {
     id: "timestamp",
-    label: "date",
+    label: "Date",
     formatter: (data) => {
       const milliTimestamp = Math.trunc(
         Number(data["timestamp"]) / Math.pow(10, 6)
@@ -38,7 +38,7 @@ const columns = [
   },
   {
     id: "sender",
-    label: "sender",
+    label: "Sender",
     formatter: (d) => {
       return (
         <a
@@ -52,7 +52,7 @@ const columns = [
   },
   {
     id: "receiver",
-    label: "receiver",
+    label: "Receiver",
     formatter: (d) => {
       return (
         <a
@@ -66,7 +66,7 @@ const columns = [
   },
   {
     id: "amount",
-    label: "amount",
+    label: "Amount",
     formatter: ftFormatter(ftList),
   },
   {
