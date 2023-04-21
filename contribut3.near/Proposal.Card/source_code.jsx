@@ -83,6 +83,8 @@ const RejectButton = styled.button`
   position: absolute;
   inset: 0 0 auto auto;
   transition: all 0.2s ease-in-out;
+  border: none;
+  background: none;
 
   &:hover {
     transform: scale(1.1);
