@@ -1,20 +1,10 @@
 const Container = styled.div`
-  .card-title{
-      color:#fff;
-  }
   .card{
     background-color: #1A2E33;
   }
   .stretched-link{
     color:#fff;
   }
-  .card-text .label{
-    background-color:rgba(26, 46, 51, 0.25);
-    border: 0.5px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color:#fff;
-  }
- 
 `;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
@@ -107,7 +97,7 @@ return (
               <div>
                 {tags.map((tag, i) => {
                   const tagBadge = (
-                    <span key={i} className="me-1 mb-1 badge  label">
+                    <span key={i} className="me-1 mb-1 badge bg-secondary">
                       #{tag}
                     </span>
                   );
