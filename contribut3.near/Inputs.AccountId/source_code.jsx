@@ -85,10 +85,12 @@ const validate = async () => {
 
   canEdit(value).then((editPermission) => {
     if (!editPermission) {
-      State.update({
-        valid: false,
-        errorMessage: "You do not have permission to edit this account!",
-      });
+      if (value !== context.accountId) {
+        State.update({
+          valid: false,
+          errorMessage: "You do not have permission to edit this account!",
+        });
+      }
       addInfo(true);
       return;
     }
