@@ -5,39 +5,6 @@ if (state.image === undefined) {
     image: {},
     text: props.initialText || "",
   });
-
-  if (props.onHelper) {
-    const extractMentions = (text) => {
-      const mentionRegex =
-        /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-      mentionRegex.lastIndex = 0;
-      const accountIds = new Set();
-      for (const match of text.matchAll(mentionRegex)) {
-        if (
-          !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-          !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-          match[1].length >= 2 &&
-          match[1].length <= 64
-        ) {
-          accountIds.add(match[1].toLowerCase());
-        }
-      }
-      return [...accountIds];
-    };
-    const extractTagNotifications = (text, item) =>
-      extractMentions(text || "").map((accountId) => ({
-        key: accountId,
-        value: {
-          type: "mention",
-          item,
-        },
-      }));
-
-    props.onHelper({
-      extractMentions,
-      extractTagNotifications,
-    });
-  }
 }
 
 const content = (state.text || state.image.cid) && {
@@ -60,17 +27,6 @@ const onCompose = () => {
     image: {},
     text: "",
   });
-};
-
-const textareaInputHandler = (value) => {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
-  State.update({ text: value, showAccountAutocomplete });
-};
-
-const autoCompleteAccountId = (id) => {
-  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
-  text = `${text} @${id}`.trim() + " ";
-  State.update({ text, showAccountAutocomplete: false });
 };
 
 const AvatarWrapper = styled.div`
@@ -237,12 +193,7 @@ return (
       <textarea
         placeholder={props.placeholder || "Write your reply..."}
         value={state.text || ""}
-        onInput={(event) => textareaInputHandler(event.target.value)}
-        onKeyUp={(event) => {
-          if (event.key === "Escape") {
-            State.update({ showAccountAutocomplete: false });
-          }
-        }}
+        onInput={(event) => State.update({ text: event.target.value })}
         style={{
           paddingLeft: withProfileImage ? "5.5rem" : "12px",
           paddingTop: withProfileImage ? "1.5rem" : "12px",
