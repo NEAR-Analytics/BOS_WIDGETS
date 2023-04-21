@@ -1,3 +1,54 @@
+const Container = styled.div`
+  .tabContent{
+    display:inline-flex;
+    align-items:center;
+    background: rgba(26, 46, 51, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding:3px 4px;
+    list-style-type:none;
+  }
+  .tab-item .active{
+    background: #304352;
+  }
+  .tab-item button{
+    background-color:transparent;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color:#fff;
+    height:30px;
+    padding:0 22px;
+    border:none;
+  }
+  .uploadButton .btn{
+    background: #304352;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    color:#fff;
+    border:none;
+  }
+  .title{
+     font-weight: 500;
+     font-size: 16px;
+     color: #FFFFFF;
+     margin-bottom:10px;
+   }
+   .form-input{
+     display:block;
+     background: rgba(26, 46, 51, 0.25);
+     border: 0.5px solid rgba(255, 255, 255, 0.3);
+     border-radius: 10px;
+     height: 47px;
+     width:100%;
+     color:rgba(255, 255, 255, 0.3);
+     padding:0 10px
+   }
+   .form-input:focus-visible{
+     outline:none;
+   }
+`;
 const image = props.image;
 const onChange = props.onChange;
 
@@ -65,29 +116,29 @@ if (onChange && JSON.stringify(image) !== JSON.stringify(localImage)) {
 }
 
 return (
-  <div>
-    <ul className={`nav nav-tabs`}>
-      <li className="nav-item">
+  <Container>
+    <ul className="tabContent">
+      <li className="tab-item">
         <button
-          className={`nav-link ${state.tab === Tab.Upload ? "active" : ""}`}
+          className={`${state.tab === Tab.Upload ? "active" : ""}`}
           aria-current="page"
           onClick={() => setTab(Tab.Upload)}
         >
           Upload
         </button>
       </li>
-      <li className="nav-item">
+      <li className="tab-item">
         <button
-          className={`nav-link ${state.tab === Tab.NFT ? "active" : ""}`}
+          className={`${state.tab === Tab.NFT ? "active" : ""}`}
           aria-current="page"
           onClick={() => setTab(Tab.NFT)}
         >
           NFT
         </button>
       </li>
-      <li className="nav-item">
+      <li className="tab-item">
         <button
-          className={`nav-link ${state.tab === Tab.URL ? "active" : ""}`}
+          className={`${state.tab === Tab.URL ? "active" : ""}`}
           aria-current="page"
           onClick={() => setTab(Tab.URL)}
         >
@@ -96,29 +147,29 @@ return (
       </li>
     </ul>
     <div
-      className="p-2"
+      className="py-2"
       style={{
-        background: "#fdfdfd",
-        border: "solid 1px #dee2e6",
-        borderTop: 0,
-        borderBottomLeftRadius: ".375rem",
-        borderBottomRightRadius: ".375rem",
+        background: "transparent",
         minHeight: "9em",
       }}
     >
-      <div className={`${state.tab === Tab.Upload ? "" : "visually-hidden"}`}>
+      <div
+        className={`uploadButton ${
+          state.tab === Tab.Upload ? "" : "visually-hidden"
+        }`}
+      >
         <IpfsImageUpload image={state.img} />
       </div>
       <div className={`${state.tab === Tab.NFT ? "" : "visually-hidden"}`}>
-        NFT contract
-        <input type="text" value={state.nft.contractId} />
-        NFT token id
-        <input type="text" value={state.nft.tokenId} />
+        <label class="title">NFT contract</label>
+        <input class="form-input" type="text" value={state.nft.contractId} />
+        <label class="title">NFT token id</label>
+        <input class="form-input" type="text" value={state.nft.tokenId} />
       </div>
       <div className={`${state.tab === Tab.URL ? "" : "visually-hidden"}`}>
-        Image URL
-        <input type="text" value={state.url} />
+        <label class="title">Image URL</label>
+        <input class="form-input" type="text" value={state.url} />
       </div>
     </div>
-  </div>
+  </Container>
 );
