@@ -192,7 +192,7 @@ return (
       <div class="row">
         <div class="col">
           <Widget
-            src="dima_sheleg.near/widget/DevSupport.Question.Button.Answers"
+            src="dev-support.near/widget/DevSupport.Question.Button.Answers"
             props={{ accountId, blockHeight }}
           />
         </div>
