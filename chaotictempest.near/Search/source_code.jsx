@@ -8,15 +8,7 @@ const INITIAL_PAGE = props.initialPage ?? 0;
 const facets = props.facets ?? ["All", "Users", "Apps", "Components", "Posts"];
 const tab = props.tab ?? "All";
 
-const renderHeader =
-  props.renderHeader ??
-  ((search, paginate) => {
-    return (
-      <Header>
-        <H1>Search</H1>
-      </Header>
-    );
-  });
+const renderHeader = props.renderHeader;
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
 const showFacets = props.showFacets ?? true;
