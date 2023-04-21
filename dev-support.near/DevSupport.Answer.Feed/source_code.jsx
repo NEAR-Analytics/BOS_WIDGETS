@@ -15,6 +15,7 @@ const adminContract = props.adminContract;
 const renderItem = (a) =>
   a.value.type === "md" && (
     <div key={JSON.stringify(a)}>
+      {JSON.stringify(a)}
       <Widget
         src="dima_sheleg.near/widget/DevSupport.Answer"
         props={{
