@@ -121,7 +121,7 @@ return (
     )}
     <Header>
       <Widget
-        src="near/widget/AccountProfile"
+        src="dev-support.near/widget/AccountProfile"
         props={{
           accountId,
           inlineContent: (
