@@ -89,6 +89,7 @@ const communities = {
 const Gradient = styled.div`
   {
     margin-top: -25px;
+    text-align: center;
     background: radial-gradient(circle, rgba(29,55,57,1) 30%, rgba(24,24,24,1) 80%); 
   }
 
@@ -103,8 +104,8 @@ return (
   <>
     <Gradient>
       <div class="subtitle text-primary mb-20">A decentralized community of</div>
-      <h1 class="mb-30">Decentralize <span class="text-primary-gradient">NEAR </span>Development</h1>
-      <p class="text-light-grey mb-30">NEAR’s platform is built by builders for builders, just like you. Do you have a great idea for the next big NEAR innovation?</p>
+      <h1 class="mb-30"><span class="text-primary-gradient">NEAR </span>Developers</h1>
+      <p class="text-light-grey mb-30">Share your ideas, match solutions, and access support and funding.</p>
     </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
     <div class="row">
