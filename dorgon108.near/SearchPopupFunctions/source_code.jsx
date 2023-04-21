@@ -5,8 +5,8 @@ const API_URL =
   props.apiUrl ??
   `https://${APPLICATION_ID}-dsn.algolia.net/1/indexes/${INDEX}/query?`;
 const INITIAL_PAGE = props.initialPage ?? 0;
-const facets = props.facets ?? ["All", "Users", "Apps", "Posts"];
-
+const facets = props.facets ?? ["All", "Users", "Apps", "Components", "Posts"];
+const tab = props.tab ?? "All";
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
 const showPagination = props.showPagination ?? true;
@@ -15,6 +15,16 @@ const userId = props.accountId ?? context.accountId;
 State.init({
   currentPage: 0,
   selectedTab: "All",
+  facet: tab,
+  isFiltersPanelVisible: false,
+  numColumns: 3,
+  selectedTags: [],
+  searchResults: [], // Assuming search results are stored here
+  allTags: [],
+  activeTags: [],
+
+  showFollowed: false,
+  showNotFollowed: false,
 });
 
 if (props.tab && props.tab !== state.selectedTab) {
@@ -373,30 +383,32 @@ const fetchSearchHits = (query, { pageNumber, configs, optionalFilters }) => {
 const updateSearchHits = debounce(({ term, pageNumber, configs }) => {
   fetchSearchHits(term, { pageNumber, configs }).then((resp) => {
     const { results, hitsTotal, hitsPerPage } = categorizeSearchHits(resp.body);
-    const totalCount =
-      profiles(results["profile"]).length +
-      components(results["widget"]).length +
-      posts(results["post"], "post").concat(
-        posts(results["comment, post"], "comment")
-      ).length;
+    const combinedResults = [
+      ...profiles(results["profile"]),
+      ...components(results["widget"]),
+      ...posts(results["post"], "post"),
+      ...posts(results["comment, post"], "post-comment"),
+    ];
+
     State.update({
       search: {
         profiles: profiles(results["profile"]),
         components: components(results["widget"]),
         postsAndComments: posts(results["post"], "post").concat(
-          posts(results["comment, post"], "comment")
+          posts(results["comment, post"], "post-comment")
         ),
-        totalCount: totalCount,
       },
-      currentPage: 0,
+      currentPage: pageNumber,
       paginate: {
         hitsTotal,
         hitsPerPage,
       },
       queryID: resp.body.queryID,
     });
+
+    getAllTagsFromSearchResults(combinedResults);
   });
-}, 300);
+});
 
 const onSearchChange = ({ term }) => {
   writeStateTerm(term);
@@ -513,6 +525,37 @@ const topTwoAccounts = () => {
   ));
 };
 
+const getComponentTags = (accountId, widgetName) => {
+  const metadata = Social.get(
+    `${accountId}/widget/${widgetName}/metadata/**`,
+    "final"
+  );
+  const tags = Object.keys(metadata.tags || {});
+  State.update({ selectedTags: tags });
+};
+const getAllTagsFromSearchResults = (results) => {
+  const allTags = [];
+  const userTags = [];
+  const componentTags = [];
+
+  results.forEach((result) => {
+    if (result.widgetName) {
+      const metadata = Social.get(
+        `${result.accountId}/widget/${result.widgetName}/metadata/**`,
+        "final"
+      );
+      const widgetTags = Object.keys(metadata.tags || {});
+      componentTags.push(...widgetTags);
+      allTags.push(...widgetTags);
+    } else {
+      const profile = Social.get(`${result.accountId}/profile/**`, "final");
+      const profileTags = Object.keys(profile.tags || {});
+      userTags.push(...profileTags);
+      allTags.push(...profileTags);
+    }
+  });
+};
+
 const topTwoComponents = () => {
   const topTwoComponentsArray = [
     state.search.components[0],
@@ -582,8 +625,59 @@ const displayResultsByFacet = (selectedTab) => {
       ) : (
         <div>No Users Found</div>
       );
-    case "Apps":
-    // return Apps results
+    case "Apps": {
+      console.log("Apps was called!!!");
+      const appComponents = state.search?.components
+        .filter((component, index) => {
+          const metadata = Social.get(
+            `${component.accountId}/widget/${component.widgetName}/metadata/**`,
+            "final"
+          );
+          const tags = Object.keys(metadata.tags || {});
+          console.log("tagz are ", tags);
+          const displayCondition =
+            (state.selectedTab === "Apps" && tags.includes("Apps")) ||
+            (tags.includes("app") && index < 7);
+
+          console.log(displayCondition);
+          return displayCondition;
+        })
+        .map((component, i) => {
+          console.log(component);
+          return (
+            <Item key={component.accountId + component.widgetName}>
+              <Widget
+                src="near/widget/ComponentCard"
+                props={{
+                  src: `${component.accountId}/widget/${component.widgetName}`,
+                  blockHeight: component.blockHeight,
+                }}
+              />
+            </Item>
+          );
+        });
+
+      return appComponents.length > 0 ? (
+        <Group>
+          <GroupHeader>
+            <H3>
+              Apps{" "}
+              <span
+                style={{
+                  marginLeft: "10px",
+                }}
+              >
+                {` ${appComponents.length}`}
+              </span>{" "}
+            </H3>
+          </GroupHeader>
+          <Items>{appComponents}</Items>
+        </Group>
+      ) : (
+        <div>No Apps Found</div>
+      );
+    }
+
     case "Components":
       return state.search?.components.length > 0 ? (
         <Group>
