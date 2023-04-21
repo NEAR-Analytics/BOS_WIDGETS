@@ -16,10 +16,6 @@ const propsData = {
   }
 };
 
-const FundingProgress = styled.div`
-  width: ${({ progress }) => progress}%;
-`;
-
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -119,7 +115,7 @@ const ProgressBar = styled.div`
 
 return (
   <>
-    <ProgressBar><div /><div /></ProgressBar>
+    <ProgressBar className={state.step === "step1" ? "half" : ""}><div /><div /></ProgressBar>
 
     <Widget
       src={`${ownerId}/widget/PageTitle`}
