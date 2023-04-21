@@ -132,9 +132,10 @@ const Price = styled.div`
   }
 `;
 
-const price = (state.proposal.price !== state.request.budget ? (
-  <span>{state.request.budget}</span>{ " → "}<span>{state.proposal.price}</span>
-): (<span>{state.proposal.price}</span>));
+const price = state.proposal.price !== state.request.budget ? (
+  <>
+    <span>{state.request.budget}</span>{" → "}<span>{state.proposal.price}</span></>
+) : (<span>{state.proposal.price}</span>);
 
 const body = (<Container>
   <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
