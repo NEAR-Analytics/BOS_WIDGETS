@@ -100,6 +100,7 @@ return (
           accountId,
           blockHeight,
           includeValidButton: admins.includes(context.accountId),
+          adminContract,
         }}
       />
     </Header>
