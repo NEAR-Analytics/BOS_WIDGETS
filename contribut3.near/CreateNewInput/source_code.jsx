@@ -94,7 +94,7 @@ const createNewButton = ({ id, text, icon }) => (
         href={`/${ownerId}/widget/Index?tab=${id}`}
         onClick={() => props.update({ tab: id, content: "" })}
       >
-        <i className={icon} />
+        {icon}
         <span>{text}</span>
       </DropdownItem>
     </DropdownLi>
