@@ -109,6 +109,16 @@ const VotersByProposal = (
   />
 );
 
+const VoteHistory = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-vote-history`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
@@ -146,7 +156,12 @@ const Tabs = (
           value: "members",
           label: "Members",
           //selected: state.selectedTab === "members",
-          components: <WidgetsContainer>{VotersByProposal}</WidgetsContainer>,
+          components: (
+            <WidgetsContainer>
+              {VoteHistory}
+              {VotersByProposal}
+            </WidgetsContainer>
+          ),
         },
         {
           value: "policy",
