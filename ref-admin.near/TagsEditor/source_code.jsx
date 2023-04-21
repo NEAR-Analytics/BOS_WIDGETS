@@ -29,12 +29,23 @@ const Container = styled.div`
     background-color:#304352;
   }
   .rbt-token{
+    display:flex;
+    align-items:center;
+    height:26px;
     background-color:rgba(26, 46, 51, 0.25);
     border: 0.5px solid rgba(255, 255, 255, 0.3);
     border-radius: 38px;
     color:#fff;
+    padding:0 10px;
+  }
+  .rbt-token .rbt-token-remove-button{
+      align-items:center;
+  }
+  .rbt-token-label {
+      padding:0;
   }
   .btn-close{
+    padding:0;
     color:#7E8A93;
     font-weight: 700;
   }
