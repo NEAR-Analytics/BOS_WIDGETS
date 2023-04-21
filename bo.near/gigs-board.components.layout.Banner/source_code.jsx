@@ -45,19 +45,19 @@ function href(widgetName, linkProps) {
 /* END_INCLUDE: "common.jsx" */
 
 const Banner = styled.div`
-{
-  height: 100px;
-  background: #232323;
-  margin-top: -24px;
-  overflow: hidden !important;
-  padding: 32px;
+   {
+    height: 62px;
+    background: #181818;
+    margin-top: -24px;
+    overflow: hidden !important;
+    padding: 20px;
 
-  img {
-    height: 36px;
+    img {
+      height: 36px;
+    }
+
+    margin-bottom: 25px;
   }
-  
-  margin-bottom: 25px;
-}
 `;
 
 const Gradient = styled.div`
@@ -82,9 +82,9 @@ return (
   <>
     <Banner>
       <a href={href("Feed")}>
-        <img src="https://ipfs.near.social/ipfs/bafkreifm5y7r6bqcjtef6wytrp7ysdxocmgmjffjziorqya4p7kbtamntu"></img>
+        <img src="https://ipfs.near.social/ipfs/bafkreibjsn3gswlcc5mvgkfv7ady2lzkd2htm55l472suarbd34qryh2uy"></img>
       </a>
-      <Gradient></Gradient>
+      {/* <Gradient></Gradient> */}
     </Banner>
   </>
 );
