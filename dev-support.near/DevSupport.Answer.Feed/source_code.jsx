@@ -5,7 +5,6 @@ const index = {
     limit: props.limit ?? 3,
     order: "desc",
     accountId: props.accounts,
-    subscribe: true,
   },
 };
 
@@ -15,9 +14,9 @@ const adminContract = props.adminContract;
 
 const renderItem = (a) =>
   a.value.type === "md" && (
-    <div class="mb-3">
+    <div key={JSON.stringify(a)}>
       <Widget
-        src="dev-support.near/widget/DevSupport.Answer"
+        src="dima_sheleg.near/widget/DevSupport.Answer"
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
