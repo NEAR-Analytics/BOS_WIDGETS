@@ -1,15 +1,6 @@
 const accountId = props.accountId || context.accountId;
-const blockHeight = props.blockHeight || "now";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const profileUrl = `/#/mob.near/widget/ProfilePage?accountId=${accountId}`;
-const includeValidButton = props.includeValidButton;
-
-const handleValidAnswerClick = () => {
-  Near.call(props.adminContract, "mark_useful", {
-    id: { account_id: accountId, block_height: blockHeight },
-    amount: "1",
-  });
-};
 
 const Wrapper = styled.div`
   display: inline-grid;
@@ -42,19 +33,7 @@ const Text = styled.p`
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
   white-space: nowrap;
 `;
-const ProfileLink = styled.p`
-
-  margin: 0;
-  font-size: 14px;
-  line-height: 20px;
-  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "10px" : "14px")};
-  overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
-  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
-  white-space: nowrap;
-
-
+const ProfileLink = styled(Text)`
   &:hover {
     color: initial;
   }
@@ -73,27 +52,6 @@ const Avatar = styled.div`
     object-fit: cover;
     width: 100%;
     height: 100%;
-  }
-`;
-
-const Item = styled.div`
-  padding: 0;
-  .btn {
-    &:hover,
-    &:focus {
-      background-color: #ECEDEE;
-      text-decoration: none;
-      outline: none;
-    }
-
-    &.valid-btn {
-      i {
-        color: #30A46C;
-      }
-    }
-    span {
-      font-weight: 500;
-    }
   }
 `;
 
@@ -123,47 +81,18 @@ return (
           {profile.name || accountId.split(".near")[0]}
         </ProfileLink>
 
-        <div class="d-flex align-items-center flex-fill">
-          <Text as="span">･</Text>
-          <Text>
-            {blockHeight === "now" ? (
-              "now"
-            ) : (
-              <>
-                <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
-                ago
-              </>
-            )}
+        {props.inlineContent}
+
+        {props.blockHeight && (
+          <Text small style={{ marginLeft: "auto" }}>
+            Joined{" "}
+            <Widget
+              src="mob.near/widget/TimeAgo"
+              props={{ blockHeight: props.blockHeight }}
+            />{" "}
+            ago
           </Text>
-          {includeValidButton && (
-            <div class="dropdown ms-auto">
-              <button
-                class="btn border-0 p-0"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="bi bi-three-dots" />
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <Item className="dropdown-item">
-                    <button
-                      disabled={
-                        state.loading || dataLoading || !context.accountId
-                      }
-                      className={`btn ${props.className}`}
-                      onClick={handleValidAnswerClick}
-                    >
-                      <i class="bi bi-check-circle me-1" />
-                      <span>Mark as valid</span>
-                    </button>
-                  </Item>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
+        )}
       </Name>
 
       {!props.hideAccountId && <Text ellipsis>@{accountId}</Text>}
