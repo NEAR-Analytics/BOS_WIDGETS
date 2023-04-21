@@ -84,7 +84,7 @@ const Column = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 1em;
+  gap: .25em;
   width: 100%;
 `;
 
@@ -130,15 +130,6 @@ const body = (<Container>
         {state.profile.organization ? "Organization" : "Individual"}
         {state.contributions.length} requests completed
       </Row>
-      {/*<Widget
-          src={`${ownerId}/widget/BadgeList`}
-          props={{
-            badges: [
-              { value: "Verified" },
-              { value: "Fundraiser", color: "#62ebe4" },
-            ],
-          }}
-        />*/}
     </Column>
   </Row>
   <Column>
