@@ -123,26 +123,24 @@ return (
         )}
       </Content>
 
-      {blockHeight !== "now" && (
-        <Actions>
-          <Widget
-            src="near/widget/NestedDiscussions.Preview.LikeButton"
-            props={{
-              item,
-              accountId,
-              previewWidget:
-                "#/dev-support.near/widget/DevSupport.Question.Page",
-            }}
-          />
-          <Widget
-            src="near/widget/CommentButton"
-            props={{
-              item,
-              onClick: () => State.update({ showReply: !state.showReply }),
-            }}
-          />
-        </Actions>
-      )}
+      <Actions>
+        <Widget
+          src="near/widget/NestedDiscussions.Preview.LikeButton"
+          props={{
+            item: { accountId, blockHeight },
+            accountId,
+            notifyAccountId: accountId,
+            previewWidget: "dev-support.near/widget/DevSupport.Answer",
+          }}
+        />
+        <Widget
+          src="near/widget/CommentButton"
+          props={{
+            item,
+            onClick: () => State.update({ showReply: !state.showReply }),
+          }}
+        />
+      </Actions>
 
       {state.showReply && (
         <div className="mb-2">
