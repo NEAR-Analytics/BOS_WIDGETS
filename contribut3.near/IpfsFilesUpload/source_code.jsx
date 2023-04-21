@@ -27,11 +27,12 @@ const filesOnChange = (files) => {
         body,
       }).then((res) => {
         const cid = res.body.cid;
+        const files = [...state.files, { index, name: file.name, cid }];
         State.update({
-          files: [...state.files, { index, name: file.name, cid }],
+          files,
           uploading: false,
         });
-        props.update(state.files);
+        props.update(files);
       });
     });
   } else {
