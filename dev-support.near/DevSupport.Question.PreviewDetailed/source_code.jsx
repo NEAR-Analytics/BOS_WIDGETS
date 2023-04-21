@@ -127,7 +127,7 @@ return (
       <div class="row">
         <div class="col-12">
           <Widget
-            src="dima_sheleg.near/widget/DevSupport.Answer.Feed"
+            src="dev-support.near/widget/DevSupport.Answer.Feed"
             props={{ item, admins, adminContract }}
           />
         </div>
