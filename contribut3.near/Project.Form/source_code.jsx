@@ -292,7 +292,7 @@ return (
                     account_id: state.accountId,
                     project: {
                       application: {
-                        integration: state.integration,
+                        integration: state.integration.value,
                         geo: state.geo,
                       },
                     },
