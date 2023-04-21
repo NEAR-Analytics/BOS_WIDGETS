@@ -88,11 +88,7 @@ const communities = {
 
 const Gradient = styled.div`
    {
-    background: linear-gradient(
-      -90deg,
-      rgb(0, 204, 255) 0.57%,
-      rgb(50, 82, 166) 100.57%
-    );
+    background: radial-gradient(circle, rgba(29,55,57,1) 30%, rgba(24,24,24,1) 80%); 
   }
 
   .text-primary-gradient {
