@@ -17,19 +17,20 @@ const propsData = {
 };
 
 const FundingProgress = styled.div`
-   width: ${({ progress }) => progress}%;
+  width: ${({ progress }) => progress}%;
 `;
 
 const ProgressBar = styled.div`
-     height:7px;
+  height:7px;
 `;
 
 const Footer = styled.div`
-    display: flex;
-    flex-direction: row;
-    row-gap: 16px;
-    justify-content: space-between;
-  `;
+  display: flex;
+  flex-direction: row;
+  row-gap: 16px;
+  justify-content: space-between;
+`;
+
 const CancelButton = styled.button`
   background: #FFFFFF;
   border: 1px solid #ECEEF0;
@@ -37,7 +38,7 @@ const CancelButton = styled.button`
   padding: 8px 16px;
   gap: 8px;
   align-items: center;
-  `;
+`;
 
 const NextButton = styled.button`
   color: #FFFFFF;
@@ -94,6 +95,31 @@ const onNextStepClick = () => {
 const onPublishRequestClick = () => {
   // Call Publish request
 }
+
+const ProgressBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: .375em;
+  width: 100%;
+  height: .5em;
+  padding: 0;
+  margin: 0;
+
+  div {
+    flex-grow: 1;
+    height: 100%;
+    width: 50%;
+    background: #00ec97;
+  }
+
+  &.half {
+    div:last-child {
+      background: #eceef0;
+    }
+  }
+`;
 
 return (
   <>
