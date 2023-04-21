@@ -31,10 +31,12 @@ return (
     */}
 
       <div class="col-12">
-        <Widget
-          src="dima_sheleg.near/widget/DevSupport.Discussion.Title"
-          props={{ disabled: !context.accountId, onClick: toggleQuestion }}
-        />
+        <div class="mb-5">
+          <Widget
+            src="dev-support.near/widget/DevSupport.Discussion.Title"
+            props={{ disabled: !context.accountId, onClick: toggleQuestion }}
+          />
+        </div>
         <div class="my-3">
           {state.askQuestion && (
             <Widget src="dima_sheleg.near/widget/DevSupport.Question.Edit" />
