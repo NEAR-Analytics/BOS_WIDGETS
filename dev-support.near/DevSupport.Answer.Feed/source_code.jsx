@@ -9,7 +9,6 @@ const index = {
   },
 };
 
-const nested = props.nested || false;
 const admins = props.admins;
 const adminContract = props.adminContract;
 
@@ -24,7 +23,6 @@ const renderItem = (a) =>
           parent: item,
           admins,
           adminContract,
-          nested,
         }}
       />
     </div>
@@ -39,7 +37,6 @@ return (
         renderItem,
         nextLimit: 10,
         loadMoreText: "See more answers",
-        nested,
       }}
     />
   </div>
