@@ -93,6 +93,8 @@ const Gradient = styled.div`
     height: 250px;
     text-align: center;
     background: radial-gradient(circle, rgba(29,55,57,1) 30%, rgba(24,24,24,1) 80%); 
+
+    font-family: Red Hat Display, sans-serif;
   }
 
   .text-primary-gradient {
