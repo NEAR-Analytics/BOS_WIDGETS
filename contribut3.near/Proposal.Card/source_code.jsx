@@ -81,7 +81,7 @@ const Description = styled.div`
 
 const RejectButton = styled.button`
   position: absolute;
-  inset: 0 0 auto auto;
+  inset: -4px -4px auto auto;
   transition: all 0.2s ease-in-out;
   border: none;
   background: none;
