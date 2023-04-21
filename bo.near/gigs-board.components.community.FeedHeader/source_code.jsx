@@ -112,6 +112,7 @@ const Gradient = styled.div`
 
   .slogan {
     font-weight: 700;
+    font-size: 60px;
   }
 `;
 
