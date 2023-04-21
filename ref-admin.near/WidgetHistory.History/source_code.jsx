@@ -6,12 +6,15 @@ count(count: number)?: function,
 
 */
 const Container = styled.div`
+.card{
+    background-color:transparent;
+}
 .card-header{
-    background:rgba(48,67,82,0.8);
+    background:rgba(26, 46, 51, 0.25);
     color:#fff;
 }
 .list-group-item{
-    background:rgba(48,67,82,0.6);
+    background:rgba(26, 46, 51, 0.25);
     border: 0.5px solid rgba(255,255,255,0.3);
     color: #fff;
 }
