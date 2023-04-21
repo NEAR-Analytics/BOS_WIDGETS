@@ -132,12 +132,23 @@ const Price = styled.div`
   }
 `;
 
+const Detail = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.125em;
+  font-style: normal;
+  font-weight: 400;
+  font-size: .75em;
+  line-height: 1em;
+  color: #11181c;
+`;
+
 const price = state.proposal.price !== state.request.budget ? (
   <>
     <span>NH {state.request.budget}</span>{" → "}<span>NH {state.proposal.price}</span></>
 ) : (<span>NH {state.proposal.price}</span>);
-
-console.log(state.proposal)
 
 const body = (<Container>
   <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
