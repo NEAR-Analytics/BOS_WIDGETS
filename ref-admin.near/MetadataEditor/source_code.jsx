@@ -55,7 +55,7 @@ return (
       <div className="mb-2">
         {options.image.label ?? "Image"}
         <Widget
-          src="mob.near/widget/ImageEditorTabs"
+          src="ref-admin.near/widget/ImageEditorTabs"
           props={{
             image: state.image,
             onChange: (image) => State.update({ image }),
@@ -67,7 +67,7 @@ return (
       <div className="mb-2">
         {options.backgroundImage.label ?? "Background image"}
         <Widget
-          src="mob.near/widget/ImageEditorTabs"
+          src="ref-admin.near/widget/ImageEditorTabs"
           props={{
             image: state.backgroundImage,
             onChange: (backgroundImage) => State.update({ backgroundImage }),
@@ -94,7 +94,7 @@ return (
       <div className="mb-2">
         {options.tags.label ?? "Tags"}
         <Widget
-          src="mob.near/widget/TagsEditor"
+          src="ref-admin.near/widget/TagsEditor"
           props={{
             initialTagsObject: metadata.tags,
             tagsPattern: options.tags.pattern,
