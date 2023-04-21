@@ -100,7 +100,9 @@ const body = (<Container>
   <Row></Row>
   <Column>
     <Row></Row>
-    <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: state.proposal.description }} />
+    <Description>
+      <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: state.proposal.description }} />
+    </Description>
   </Column>
 </Container>);
 
