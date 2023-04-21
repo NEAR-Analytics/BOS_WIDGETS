@@ -19,7 +19,7 @@ const testQuestion = JSON.parse(
   Social.get(`${accountId}/question`, blockHeight) ?? "null"
 );
 
-const link = `#/dima_sheleg.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}&adminContract=${adminContract}`;
+const link = `#/dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}&adminContract=${adminContract}`;
 
 const H2 = styled.h2`
   font-size: 20px;
