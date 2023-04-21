@@ -49,7 +49,6 @@ const Banner = styled.div`
     height: 62px;
     background: #181818;
     margin-top: -24px;
-    overflow: hidden !important;
     padding: 16px 20px;
 
     img {
