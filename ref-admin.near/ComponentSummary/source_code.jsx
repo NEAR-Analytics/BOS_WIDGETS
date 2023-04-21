@@ -5,7 +5,6 @@ State.init({
 });
 
 const src = props.src;
-const src = "juaner.near/widget/ref-home";
 const primaryAction = props.primaryAction || "viewDetails";
 const [accountId, widget, widgetName] = src.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
