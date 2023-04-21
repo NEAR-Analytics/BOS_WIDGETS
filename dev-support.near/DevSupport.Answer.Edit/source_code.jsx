@@ -22,7 +22,7 @@ function extractMentions(text) {
   return [...accountIds];
 }
 
-function extractTagNotifications(text, item) {
+function extractTagNotifications(text, i) {
   return extractMentions(text || "")
     .filter((accountId) => accountId !== context.accountId)
     .map((accountId) => ({
