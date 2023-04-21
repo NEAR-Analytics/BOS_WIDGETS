@@ -851,8 +851,10 @@ return (
               justifyContent: "center",
               alignItems: "center",
               position: "absolute",
-              top: "50%", // Adjust this value to position the text lower
+              top: "40%", // Adjust this value to position the text lower
               width: "100%",
+              fontSize: "15px",
+              left: "-0%",
             }}
           >
             No matches were found for "{state.term}".
