@@ -112,6 +112,7 @@ return (
               disabled={!state.content}
               force
               className="commit-post-button"
+              onCommit={props.onCommit}
               data={{
                 question: {
                   main: JSON.stringify({
