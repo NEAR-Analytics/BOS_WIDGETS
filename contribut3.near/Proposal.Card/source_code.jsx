@@ -129,11 +129,11 @@ const body = (<Container>
       <Row>
         {state.profile.organization ? "Organization" : "Individual"}
         {state.contributions.length} requests completed
-        <Widget
-          src={`${ownerId}/widget/Tags`}
-          props={{ tags: state.profile.tags }}
-        />
       </Row>
+      <Widget
+        src={`${ownerId}/widget/Tags`}
+        props={{ tags: state.profile.tags }}
+      />
     </Column>
   </Row>
   <Column>
