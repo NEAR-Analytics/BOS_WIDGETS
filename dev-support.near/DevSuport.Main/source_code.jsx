@@ -31,13 +31,13 @@ return (
     */}
 
       <div class="col-12">
-        <div class="mb-5">
+        <div class="pb-3 border-bottom">
           <Widget
             src="dev-support.near/widget/DevSupport.Discussion.Title"
             props={{ disabled: !context.accountId, onClick: toggleQuestion }}
           />
         </div>
-        <div class="my-3">
+        <div class="mt-5 mb-3">
           {state.askQuestion && (
             <Widget src="dima_sheleg.near/widget/DevSupport.Question.Edit" />
           )}
