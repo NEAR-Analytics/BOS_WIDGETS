@@ -88,6 +88,34 @@ const onPublishRequestClick = () => {
   // Call Publish request
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 3em;
+  padding-bottom: 3em;
+`;
+
+const Header = styled.h1`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2em;
+  line-height: 1.4em;
+  text-align: center;
+  color: #000000;
+`;
+
+const SubHeader = styled.h2`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.95em;
+  line-height: 1.25em;
+  text-align: center;
+  color: #101828;
+`;
+
 const ProgressBar = styled.div`
   display: flex;
   flex-direction: row;
@@ -114,17 +142,15 @@ const ProgressBar = styled.div`
 `;
 
 return (
-  <>
+  <Container>
     <ProgressBar className={state.step === "step1" ? "half" : ""}><div /><div /></ProgressBar>
+    <div>
+      <Header>Create new contribution request</Header>
+      <SubHeader>
+        Use this form to post your business needs and match with reputable contributors and service providers with ease
+      </SubHeader>
+    </div>
 
-    <Widget
-      src={`${ownerId}/widget/PageTitle`}
-      props={{
-        title: "Create new contribution request",
-        subtitle:
-          "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ethereum kadena polkadot ICON BitTorrent. Crypto ipsum bitcoin ethereum dogecoin litecoin. Ethereum kadena",
-      }}
-    />
     <FormContainer>
       {renderForm}
     </FormContainer>
@@ -134,5 +160,5 @@ return (
         <i class={`bi ${propsData[state.step].nextButtonIcon}`}></i>{propsData[state.step].nextButtonText}
       </NextButton>
     </Footer>
-  </>
+  </Container>
 );
