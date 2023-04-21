@@ -88,14 +88,11 @@ const communities = {
 
 const Gradient = styled.div`
    {
-    transform: rotate(9.78deg);
     background: linear-gradient(
       -90deg,
       rgb(0, 204, 255) 0.57%,
       rgb(50, 82, 166) 100.57%
     );
-    opacity: 0.22;
-    filter: blur(17vw);
   }
 
   .text-primary-gradient {
