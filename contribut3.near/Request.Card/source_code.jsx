@@ -214,6 +214,10 @@ const Footer = styled.div`
   width: 100%;
 `;
 
+const ProposeButton = styled.div`
+  width: 48%;
+`;
+
 const footer = (
   <Footer>
     <FooterButton
@@ -221,10 +225,11 @@ const footer = (
     >
       View details
     </FooterButton>
-    <Widget
-      src={`${ownerId}/widget/Request.ProposeSideWindow`}
-      props={{ accountId, cid }}
-    />
+    <ProposeButton>
+      <Widget
+        src={`${ownerId}/widget/Request.ProposeSideWindow`}
+        props={{ accountId, cid }}
+      /></ProposeButton>
   </Footer>
 );
 
