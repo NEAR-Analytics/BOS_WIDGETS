@@ -169,7 +169,7 @@ const body = (<Container>
   </Row>
   <Column>
     <Row>
-      {price}
+      <Price>{price}</Price>
     </Row>
     <Description>
       <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: state.proposal.description }} />
