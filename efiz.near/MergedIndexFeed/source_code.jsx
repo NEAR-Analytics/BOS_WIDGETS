@@ -1,3 +1,9 @@
+/**
+ * Forked from mob.near/widget/MergedIndexFeed
+ *
+ * Allows you to disable caching
+ */
+
 const disableCaching = props.disableCaching || disableCaching;
 
 if (!props.index) {
