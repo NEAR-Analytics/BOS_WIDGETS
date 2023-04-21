@@ -504,27 +504,6 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
   }, 50);
 };
 
-const topTwoAccounts = () => {
-  const twoEl = state.search.profiles.slice(0, 2) ?? [];
-
-  return twoEl.map((profile, i) => (
-    <Item key={profile.accountId}>
-      <Widget
-        src="dorgon108.near/widget/AccountProfileCard"
-        props={{
-          accountId: profile.accountId,
-          onClick: () =>
-            onSearchResultClick({
-              searchPosition: profile.searchPosition,
-              objectID: `${profile.accountId}/profile`,
-              eventName: "Clicked Profile After Search",
-            }),
-        }}
-      />
-    </Item>
-  ));
-};
-
 const getComponentTags = (accountId, widgetName) => {
   const metadata = Social.get(
     `${accountId}/widget/${widgetName}/metadata/**`,
@@ -556,13 +535,57 @@ const getAllTagsFromSearchResults = (results) => {
   });
 };
 
-const topTwoComponents = () => {
-  const topTwoComponentsArray = [
-    state.search.components[0],
-    state.search.components[1],
-  ];
+const topTwoAccounts = () => {
+  let output = [];
 
-  return topTwoComponentsArray.map((component, i) => (
+  if (state.selectedTab === "Users") {
+    for (let i = 0; i < 6; i++) {
+      if (i < state.search.profiles.length) {
+        output.push(state.search.profiles[i]);
+      }
+    }
+  } else {
+    output = state.search.profiles.slice(0, 2);
+    console.log("else called", output);
+  }
+
+  console.log(output);
+
+  return output.map((profile, i) => (
+    <Item key={profile.accountId}>
+      <Widget
+        src="dorgon108.near/widget/AccountProfileCard"
+        props={{
+          accountId: profile.accountId,
+          onClick: () =>
+            onSearchResultClick({
+              searchPosition: profile.searchPosition,
+              objectID: `${profile.accountId}/profile`,
+              eventName: "Clicked Profile After Search",
+            }),
+        }}
+      />
+    </Item>
+  ));
+};
+
+const topTwoComponents = () => {
+  let output = [];
+
+  if (state.selectedTab === "Components") {
+    for (let i = 0; i < 6; i++) {
+      if (i < state.search.components.length) {
+        output.push(state.search.components[i]);
+      }
+    }
+  } else {
+    output = state.search.components.slice(0, 2);
+    console.log("else called", output);
+  }
+
+  console.log(output);
+
+  return output.map((component, i) => (
     <Item key={component.accountId + component.widgetName}>
       <Widget
         src="dorgon108.near/widget/ComponentCard"
@@ -581,12 +604,22 @@ const topTwoComponents = () => {
 };
 
 const topTwoComments = () => {
-  const twoCommentsArray = [
-    state.search.postsAndComments[0],
-    state.search.postsAndComments[1],
-  ];
+  let output = [];
 
-  return twoCommentsArray.map((post, i) => (
+  if (state.selectedTab === "Posts") {
+    for (let i = 0; i < 6; i++) {
+      if (i < state.search.postsAndComments.length) {
+        output.push(state.search.postsAndComments[i]);
+      }
+    }
+  } else {
+    output = state.search.postsAndComments.slice(0, 2);
+    console.log("else called", output);
+  }
+
+  console.log(output);
+
+  return output.map((post, i) => (
     <Item key={`${post.accountId}/${post.postType}/${post.blockHeight}`}>
       {console.log("the content is", JSON.stringify(post.postContent))}
       <Widget
@@ -626,7 +659,6 @@ const displayResultsByFacet = (selectedTab) => {
         <div>No Users Found</div>
       );
     case "Apps": {
-      console.log("Apps was called!!!");
       const appComponents = state.search?.components
         .filter((component, index) => {
           const metadata = Social.get(
@@ -634,16 +666,13 @@ const displayResultsByFacet = (selectedTab) => {
             "final"
           );
           const tags = Object.keys(metadata.tags || {});
-          console.log("tagz are ", tags);
           const displayCondition =
             (state.selectedTab === "Apps" && tags.includes("Apps")) ||
             (tags.includes("app") && index < 7);
 
-          console.log(displayCondition);
           return displayCondition;
         })
         .map((component, i) => {
-          console.log(component);
           return (
             <Item key={component.accountId + component.widgetName}>
               <Widget
@@ -810,7 +839,6 @@ return (
         {state.paginate?.hitsTotal == 0 && (
           <H2>No matches were found for "{state.term}".</H2>
         )}
-        {console.log("the result is", state.selectedTab)}
         {displayResultsByFacet(state.selectedTab)}
       </ScrollableContent>
 
