@@ -132,9 +132,10 @@ return (
           }}
         />
         <Widget
-          src="near/widget/CommentButton"
+          src="near/widget/NestedDiscussions.Preview.CommentButton"
           props={{
             item,
+            dbAction: "answer",
             onClick: () => State.update({ showReply: !state.showReply }),
           }}
         />
