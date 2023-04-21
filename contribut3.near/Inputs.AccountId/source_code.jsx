@@ -17,6 +17,16 @@ const canEdit = (accountId) => {
   );
 };
 
+const checkIsProject = (accountId) => {
+  return Near.asyncView(
+    ownerId,
+    "check_is_project",
+    { account_id: accountId },
+    "final",
+    false
+  );
+};
+
 State.init({
   valid: true,
   errorMessage: <></>,
