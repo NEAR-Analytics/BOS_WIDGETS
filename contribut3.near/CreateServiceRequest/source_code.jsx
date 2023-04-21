@@ -20,10 +20,6 @@ const FundingProgress = styled.div`
   width: ${({ progress }) => progress}%;
 `;
 
-const ProgressBar = styled.div`
-  height:7px;
-`;
-
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -123,7 +119,7 @@ const ProgressBar = styled.div`
 
 return (
   <>
-    <ProgressBar> <div /> <div /> </ProgressBar>
+    <ProgressBar><div /><div /></ProgressBar>
 
     <Widget
       src={`${ownerId}/widget/PageTitle`}
