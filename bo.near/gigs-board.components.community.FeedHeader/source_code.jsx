@@ -103,12 +103,15 @@ const Gradient = styled.div`
     background-image: linear-gradient(#8e76ba, #1ed2f0);
     -webkit-background-clip: text;
     background-clip: text;
-    font-weight: 700;
   }
 
   .subtitle {
     letter-spacing: 1px;
     font-family: Space Mono, sans-serif;
+  }
+
+  .slogan {
+    font-weight: 700;
   }
 `;
 
@@ -116,7 +119,7 @@ return (
   <>
     <Gradient className="d-flex flex-column justify-content-center">
       <div class="subtitle text-light mb-20">A decentralized community of</div>
-      <h1 class="mb-30"><span class="text-primary-gradient">NEAR </span>Developers</h1>
+      <h1 class="mb-30 text-white slogan"><span class="text-primary-gradient">NEAR </span>Developers</h1>
       <p class="text-light mb-30">Share your ideas, match solutions, and access support and funding.</p>
     </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
