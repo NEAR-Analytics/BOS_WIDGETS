@@ -331,6 +331,7 @@ return (
         }}
       />
       <FormFooter>
+        <CancelButton href={`/${ownerId}/widget/Index`}>Cancel</CancelButton>
         <Widget
           src={`${ownerId}/widget/Buttons.Green`}
           props={{
