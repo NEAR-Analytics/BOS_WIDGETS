@@ -1,6 +1,14 @@
 const accountId = props.accountId || context.accountId;
+const blockHeight = props.blockHeight || "now";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const profileUrl = `/#/mob.near/widget/ProfilePage?accountId=${accountId}`;
+
+const handleValidAnswerClick = () => {
+  Near.call(adminContract, "mark_useful", {
+    id: { account_id: accountId, block_height: blockHeight },
+    amount: "1",
+  });
+};
 
 const Wrapper = styled.div`
   display: inline-grid;
@@ -67,6 +75,27 @@ const Avatar = styled.div`
   }
 `;
 
+const Item = styled.div`
+  padding: 0;
+  .btn {
+    &:hover,
+    &:focus {
+      background-color: #ECEDEE;
+      text-decoration: none;
+      outline: none;
+    }
+
+    &.valid-btn {
+      i {
+        color: #30A46C;
+      }
+    }
+    span {
+      font-weight: 500;
+    }
+  }
+`;
+
 const Name = styled.div`
   display: flex;
   gap: 6px;
@@ -93,18 +122,47 @@ return (
           {profile.name || accountId.split(".near")[0]}
         </ProfileLink>
 
-        {props.inlineContent}
-
-        {props.blockHeight && (
-          <Text small style={{ marginLeft: "auto" }}>
-            Joined{" "}
-            <Widget
-              src="mob.near/widget/TimeAgo"
-              props={{ blockHeight: props.blockHeight }}
-            />{" "}
-            ago
+        <div class="d-flex align-items-center flex-fill">
+          <Text as="span">･</Text>
+          <Text>
+            {blockHeight === "now" ? (
+              "now"
+            ) : (
+              <>
+                <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+                ago
+              </>
+            )}
           </Text>
-        )}
+          <div class="dropdown ms-auto">
+            <button
+              class="btn border-0 p-0"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-three-dots" />
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <Item className="dropdown-item">
+                  <Widget
+                    src="dima_sheleg.near/widget/DevSupport.Answer.Button.Valid"
+                    props={{
+                      accountId,
+                      blockHeight,
+                      admins,
+                      adminContract,
+                      onClick: handleValidAnswerClick,
+                      text: "Mark as Correct",
+                      className: "btn valid-btn",
+                    }}
+                  />
+                </Item>
+              </li>
+            </ul>
+          </div>
+        </div>
       </Name>
 
       {!props.hideAccountId && <Text ellipsis>@{accountId}</Text>}
