@@ -25,8 +25,8 @@ const item = {
 };
 const repliesCount = Social.index("answer", item);
 
-const questionUrl = `#/dima_sheleg.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-const shareUrl = `https://near.social${questionUrl}`;
+const questionUrl = `dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const shareUrl = `https://alpha.near.org/#/${questionUrl}`;
 
 const footer = (
   <div className="card-header p-2" style={{ border: "1px solid #ccc" }}>
