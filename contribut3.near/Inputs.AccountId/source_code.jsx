@@ -6,6 +6,7 @@ const onChange = props.onChange ?? (() => { });
 const addInfo = props.addInfo ?? (() => { });
 const accountIdRegex =
   /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
+
 const canEdit = (accountId) => {
   if (accountId === context.accountId) {
     return true;
