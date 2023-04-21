@@ -99,6 +99,7 @@ return (
         props={{
           accountId,
           blockHeight,
+          includeValidButton: admins.includes(context.accountId),
         }}
       />
     </Header>
