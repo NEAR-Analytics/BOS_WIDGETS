@@ -14,8 +14,6 @@ if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
 
-console.log(state.items)
-
 return (
   <Widget
     src={`${ownerId}/widget/List`}
