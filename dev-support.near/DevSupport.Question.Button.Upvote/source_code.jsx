@@ -6,11 +6,13 @@ if (accountId === undefined || blockHeight === undefined) {
 }
 
 const item = {
-  accountId,
+  type: "social",
+  path: `${accountId}/question/main`,
   blockHeight,
+  options: { subscribe: true },
 };
 
-const likes = Social.index("upvote", item, { subscribe: true });
+const likes = Social.index("upvote", item);
 
 const dataLoading = likes === null;
 
