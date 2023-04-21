@@ -46,7 +46,7 @@ return (
 
         <div class="mt-5">
           <Widget
-            src="dima_sheleg.near/widget/DevSupport.Feed"
+            src="dev-support.near/widget/DevSupport.Feed"
             props={{ admins, adminContract: adminContract }}
           />
         </div>
