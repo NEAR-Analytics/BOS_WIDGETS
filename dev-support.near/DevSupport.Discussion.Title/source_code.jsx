@@ -25,7 +25,7 @@ return (
       <H1>Discussions</H1>
       <H6>Get help with your projects, join our community!</H6>
     </div>
-    <div class="col-4 mt-2 mb-4">
+    <div class="col-4">
       <Button
         class="btn btn-primary float-end"
         disabled={props.disabled}
