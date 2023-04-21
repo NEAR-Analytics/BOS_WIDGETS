@@ -143,7 +143,7 @@ const ProgressBar = styled.div`
 
 return (
   <Container>
-    <ProgressBar className={state.step === "step1" ? "half" : ""}><div /><div /></ProgressBar>
+    {/*<ProgressBar className={state.step === "step1" ? "half" : ""}><div /><div /></ProgressBar>*/}
     <div>
       <Header>Create new contribution request</Header>
       <SubHeader>
