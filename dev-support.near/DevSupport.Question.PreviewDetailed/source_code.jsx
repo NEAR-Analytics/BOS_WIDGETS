@@ -1,194 +1,135 @@
-if (context.loading) {
-  return "Loading";
-}
-
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
+const admins = props.admins;
+const adminContract = props.adminContract;
+const question = props.question;
 
-if (accountId === undefined || blockHeight === undefined) {
-  return;
+const item = { accountId, blockHeight, adminContract };
+
+const is_hidden = Near.view(adminContract, "is_hidden", {
+  id: { account_id: accountId, block_height: blockHeight },
+});
+
+if (is_hidden) {
+  return "";
 }
 
-const adminContract = props.adminContract;
+const repliesCount = Social.index("answer", item);
 
-const admins = Near.view(adminContract, "get_admins", {});
-
-const question = JSON.parse(
-  Social.get(`${accountId}/question/main`, blockHeight) ?? "null"
-);
-
-const questionUrl = `dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-const shareUrl = `https://alpha.near.org/#/${questionUrl}`;
-
-const footer = (
-  <div className="card-header p-2" style={{ border: "1px solid #ccc" }}>
-    <small class="text-muted">
-      <div class="row justify-content-between">
-        <div class="col-8">
-          {/* Upvote Widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Upvote"
-            props={{ accountId, blockHeight }}
-          />
-
-          {/* Flag question widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Flag"
-            props={{ accountId, blockHeight }}
-          />
-
-          {/* Answers widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Answers"
-            props={{ accountId, blockHeight }}
-          />
-
-          {/* Delete widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Delete"
-            props={{ accountId, blockHeight, admins, adminContract }}
-          />
-        </div>
-
-        <div class="col-4">
-          <div class="d-flex justify-content-end">
-            <Widget
-              src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/BlockToDate"
-              props={{ blockHeight }}
-            />
-          </div>
-        </div>
-      </div>
-    </small>
-  </div>
-);
-
+const Answer = styled.div`
+    padding: 1em 0em;
+`;
+const H1 = styled.h1`
+  font-size: 32px;
+  font-weight: 600;
+  color: #11181C;
+  }
+`;
 const H2 = styled.h2`
   font-size: 20px;
   font-weight: 600;
   color: #11181C;
   }
 `;
-
-const H4 = styled.h4`
+const H6 = styled.h6`
   font-size: 14px;
   font-weight: 500;
   color: #687076;
-
-  a {
-    color: inherit;
-    transition: color .15s ease;
-    &:hover {
-      color: #30A46C;
-      text-decoration: none;
-    }
-
-    & i {
-      transition: color .1s ease-out;
-      color: inherit;
-    }
-  }
 `;
-const H6 = styled.h6`
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #687076;
+const Trancate = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
-const SidebarWrapper = styled.div`
-  border-left: 1px solid #ECEEF0;
-
-  @media(max-width: 768px) {
-    border-left: none;
-  }
-`;
-const ShareButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 25px;
-  height: 40px;
-  border-radius: 100px;
-  font-weight: 600;
-  font-size: 12px;
-  text-align: center;
-  cursor: pointer;
-  background: #FBFCFD;
-  border: 1px solid #D7DBDF;
-  color: #006ADC !important;
+const TopicName = styled.span`
+  color: #006ADC;
+  font-weight: 500;
+  font-size: 14px;
   white-space: nowrap;
-
-  &:hover,
-  &:focus {
-    background: #ECEDEE;
-    text-decoration: none;
-    outline: none;
-  }
-
-  i {
-    color: #7E868C;
-  }
-
-  .bi-16 {
+`;
+const PostContentWrapper = styled.div`
+    color: #687076;
     font-size: 16px;
-  }
+`;
+const NftImageWrapper = styled.div`
+    max-height: "220px",
+    max-width: "78vw",
+    overflow: "scroll",
 `;
 
 return (
-  <div className="pt-2 pb-5">
-    <H4>
-      <a href="/#/dev-support.near/widget/DevSuport.Main">
-        <i class="bi bi-arrow-left me-2" />
-        Go back
-      </a>
-    </H4>
-
-    <div class="row mt-5">
-      <div class="col-md-8 col-12 pe-md-5">
-        <Widget
-          src="dev-support.near/widget/DevSupport.Question.PreviewDetailed"
-          props={{
-            accountId,
-            blockHeight,
-            admins,
-            adminContract,
-            question,
-          }}
-        />
-      </div>
-      <SidebarWrapper className="col-md-4 col-12 ps-md-5 pt-md-0 pt-5 border-md-0">
-        <Widget
-          src="dmitriy_sheleg.near/widget/AccountProfileCard"
-          props={{ accountId }}
-        />
-        <H6 className="pt-5 pb-3">share</H6>
-
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-        >
-          <ShareButton
-            className="share-url"
-            type="button"
-            onMouseLeave={() => {
-              State.update({ copiedShareUrl: false });
-            }}
-            onClick={() => {
-              clipboard.writeText(shareUrl).then(() => {
-                State.update({ copiedShareUrl: true });
-              });
-            }}
-          >
-            {state.copiedShareUrl ? (
-              <i className="bi-16 bi bi-check"></i>
-            ) : (
-              <i className="bi-16 bi-link-45deg"></i>
-            )}
-          </ShareButton>
-        </OverlayTrigger>
-      </SidebarWrapper>
+  <div class="row">
+    <div class="col-md-1 col-2">
+      {/* Upvote Widget */}
+      <Widget
+        src="dima_sheleg.near/widget/DevSupport.Question.Button.Upvote"
+        props={{ accountId, blockHeight }}
+      />
     </div>
-    {/*{footer}*/}
+    <div class="col-md-11 col-10">
+      <div class="row">
+        <H1>{question.title}</H1>
+        <H6>
+          <div class="d-flex">
+            <Trancate>{accountId}</Trancate>
+            &nbsp;in&nbsp;
+            <TopicName>
+              <Widget
+                src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.LabelsDisplay"
+                props={{ labels: question.labels }}
+              />
+            </TopicName>
+            &nbsp;&#8226;&nbsp;
+            <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+            &nbsp;ago
+          </div>
+        </H6>
+      </div>
+      <div class="row">
+        <PostContentWrapper className="mt-5">
+          <Widget
+            src="mob.near/widget/MainPage.Post.Content"
+            props={{ content: { text: question.content.text } }}
+          />
+
+          {question.content.image.ipfs_cid && (
+            <NftImageWrapper className="text-center mt-1 mb-3 mx-auto">
+              <img
+                class="img-fluid"
+                src={`https://ipfs.near.social/ipfs/${question.content.image.ipfs_cid}`}
+                alt="uploaded"
+              />
+            </NftImageWrapper>
+          )}
+        </PostContentWrapper>
+      </div>
+      <hr />
+      {context.accountId && (
+        <Answer>
+          <H2>Join the Discussion</H2>
+          <div class="px-2">
+            <Widget
+              src="dev-support.near/widget/DevSupport.Answer.Edit"
+              props={{
+                notifyAccountId: accountId,
+                previewWidget:
+                  "dev-support.near/widget/DevSupport.Question.Page",
+                item,
+                onComment: () => State.update({ showReply: false }),
+              }}
+            />
+          </div>
+        </Answer>
+      )}
+
+      <H2 className="mt-5 mb-4">{repliesCount.length} Replies</H2>
+      <div class="row">
+        <div class="col-12">
+          <Widget
+            src="dev-support.near/widget/DevSupport.Answer.Feed"
+            props={{ item, admins, adminContract }}
+          />
+        </div>
+      </div>
+    </div>
   </div>
 );
