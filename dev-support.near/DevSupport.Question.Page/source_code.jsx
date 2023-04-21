@@ -17,8 +17,59 @@ const question = JSON.parse(
   Social.get(`${accountId}/question/main`, blockHeight) ?? "null"
 );
 
-const questionUrl = `dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-const shareUrl = `https://alpha.near.org/#/${questionUrl}`;
+const notifyAccountId = accountId;
+const item = {
+  type: "social",
+  path: `${accountId}/question/main`,
+  blockHeight,
+};
+const repliesCount = Social.index("answer", item);
+
+const questionUrl = `#/dima_sheleg.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const shareUrl = `https://near.social${questionUrl}`;
+
+const footer = (
+  <div className="card-header p-2" style={{ border: "1px solid #ccc" }}>
+    <small class="text-muted">
+      <div class="row justify-content-between">
+        <div class="col-8">
+          {/* Upvote Widget */}
+          <Widget
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Upvote"
+            props={{ accountId, blockHeight }}
+          />
+
+          {/* Flag question widget */}
+          <Widget
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Flag"
+            props={{ accountId, blockHeight }}
+          />
+
+          {/* Answers widget */}
+          <Widget
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Answers"
+            props={{ accountId, blockHeight }}
+          />
+
+          {/* Delete widget */}
+          <Widget
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Delete"
+            props={{ accountId, blockHeight, admins, adminContract }}
+          />
+        </div>
+
+        <div class="col-4">
+          <div class="d-flex justify-content-end">
+            <Widget
+              src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/BlockToDate"
+              props={{ blockHeight }}
+            />
+          </div>
+        </div>
+      </div>
+    </small>
+  </div>
+);
 
 const H2 = styled.h2`
   font-size: 20px;
@@ -26,7 +77,6 @@ const H2 = styled.h2`
   color: #11181C;
   }
 `;
-
 const H4 = styled.h4`
   font-size: 14px;
   font-weight: 500;
@@ -95,21 +145,81 @@ const ShareButton = styled.button`
 return (
   <div className="pt-2 pb-5">
     <H4>
-      <a href="javascript:history.back()">
+      <a href="https://near.social/#/dima_sheleg.near/widget/DevSuport.Main">
         <i class="bi bi-arrow-left me-2" />
-        Go back
+        Back to Discussions
       </a>
     </H4>
 
+    <div class="row mt-5">
+      <div class="col-md-8 col-12 pe-md-5">
         <Widget
-          src="dev-support.near/widget/DevSupport.Question.PreviewDetailed"
+          src="dima_sheleg.near/widget/DevSupport.Question.PreviewDetailed"
           props={{
             accountId,
             blockHeight,
             admins,
             adminContract,
             question,
+            children: (
+              <>
+                {context.accountId && (
+                  <Widget
+                    src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
+                    props={{
+                      notifyAccountId: accountId,
+                      item,
+                      onComment: () => State.update({ showReply: false }),
+                    }}
+                  />
+                )}
+
+                <H2 className="mt-5 mb-4">{repliesCount.length} Replies</H2>
+                <div class="row">
+                  <div class="col-12">
+                    <Widget
+                      src="dima_sheleg.near/widget/DevSupport.Answer.Feed"
+                      props={{ item, admins, adminContract }}
+                    />
+                  </div>
+                </div>
+              </>
+            ),
           }}
         />
+      </div>
+      <SidebarWrapper className="col-md-4 col-12 ps-md-5 pt-md-0 pt-5 border-md-0">
+        <Widget
+          src="dmitriy_sheleg.near/widget/AccountProfileCard"
+          props={{ accountId }}
+        />
+        <H6 className="pt-5 pb-3">share</H6>
+
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
+        >
+          <ShareButton
+            className="share-url"
+            type="button"
+            onMouseLeave={() => {
+              State.update({ copiedShareUrl: false });
+            }}
+            onClick={() => {
+              clipboard.writeText(shareUrl).then(() => {
+                State.update({ copiedShareUrl: true });
+              });
+            }}
+          >
+            {state.copiedShareUrl ? (
+              <i className="bi-16 bi bi-check"></i>
+            ) : (
+              <i className="bi-16 bi-link-45deg"></i>
+            )}
+          </ShareButton>
+        </OverlayTrigger>
+      </SidebarWrapper>
     </div>
+    {/*{footer}*/}
+  </div>
 );
