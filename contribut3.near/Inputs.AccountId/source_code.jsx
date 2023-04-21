@@ -80,6 +80,17 @@ const validate = async () => {
     return;
   }
 
+  checkIsProject(value).then((isProject) => {
+    if (isProject) {
+      State.update({
+        valid: false,
+        errorMessage: "This account ID is already taken!",
+      });
+      addInfo(false);
+      return;
+    }
+  });
+
   if (!props.addInfo) {
     // if (forbiddenIds.has(value)) {
     //   State.update({
