@@ -13,8 +13,8 @@ const showSearchBar = props.showSearchBar ?? true;
 const showPagination = props.showPagination ?? true;
 const userId = props.accountId ?? context.accountId;
 
-const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
-const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
+const componentsUrl = `/#/near/widget/ComponentsPage`;
+const peopleUrl = `/#/near/widget/PeoplePage`;
 
 State.init({
   facet: tab,
