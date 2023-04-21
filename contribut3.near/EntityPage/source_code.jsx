@@ -75,15 +75,15 @@ if (!state.proposalsCountFetched) {
 }
 
 if (!state.invitesCountFetched) {
-  // Near.asyncView(
-  //   ownerId,
-  //   "get_entity_invites",
-  //   { account_id: accountId },
-  //   "final",
-  //   false
-  // ).then((invites) =>
-  //   State.update({ invitesCount: invites.length, invitesCountFetched: true })
-  // );
+  Near.asyncView(
+    ownerId,
+    "get_entity_invites",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((invites) =>
+    State.update({ invitesCount: invites.length, invitesCountFetched: true })
+  );
 }
 
 if (!state.isContributorFetched) {
@@ -120,7 +120,7 @@ const controls = (
         <a
           className="btn btn-outline-secondary me-2"
           style={{ width: "8em" }}
-          href={`/${ownerId}/widget/Index?tab=create&content=entity&accountId=${accountId}`}
+          href={`/#/${ownerId}/widget/Index?tab=create&content=entity&accountId=${accountId}`}
           onClick={() =>
             props.update({ tab: "create", content: "entity", accountId })
           }
@@ -136,7 +136,7 @@ const controls = (
               {
                 text: "Create new request",
                 icon: "bi-boxes",
-                href: `/${ownerId}/widget/Index?tab=create&content=request&accountId=${accountId}`,
+                href: `/#/${ownerId}/widget/Index?tab=create&content=request&accountId=${accountId}`,
                 onClick: () =>
                   props.update({
                     tab: "create",
@@ -160,7 +160,7 @@ const controls = (
       <a
         className="btn btn-success me-2 text-light"
         style={{ width: "13em" }}
-        href={`/${ownerId}/widget/Index?tab=create&content=proposal&accountId=${accountId}`}
+        href={`/#/${ownerId}/widget/Index?tab=create&content=proposal&accountId=${accountId}`}
         onClick={() =>
           props.update({
             tab: "create",
