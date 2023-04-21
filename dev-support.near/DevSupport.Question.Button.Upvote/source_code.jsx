@@ -9,10 +9,9 @@ const item = {
   type: "social",
   path: `${accountId}/question/main`,
   blockHeight,
-  options: { subscribe: true },
 };
 
-const likes = Social.index("upvote", item);
+const likes = Social.index("upvote", item, { subscribe: true });
 
 const dataLoading = likes === null;
 
