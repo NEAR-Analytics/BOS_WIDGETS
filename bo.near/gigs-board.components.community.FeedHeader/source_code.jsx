@@ -119,9 +119,9 @@ const Gradient = styled.div`
 return (
   <>
     <Gradient className="d-flex flex-column justify-content-center">
-      <div class="subtitle text-light mb-20">A decentralized community of</div>
+      <div class="subtitle text-white-50 mb-2">A decentralized community of</div>
       <h1 class="mb-30 text-white slogan"><span class="text-primary-gradient">NEAR </span>Developers</h1>
-      <p class="text-light mb-30">Share your ideas, match solutions, and access support and funding.</p>
+      <p class="text-white-50">Share your ideas, match solutions, and access support and funding.</p>
     </Gradient>
     <div class="h5 pb-3">Featured Communities</div>
     <div class="row">
