@@ -20,8 +20,7 @@ const isUseful = Near.view(adminContract, "is_useful", {
 });
 
 const item = {
-  type: "social",
-  path: `${accountId}/question/main`,
+  accountId,
   blockHeight,
 };
 
