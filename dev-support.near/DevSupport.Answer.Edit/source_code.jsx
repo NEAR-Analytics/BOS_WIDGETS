@@ -32,10 +32,7 @@ function extractTagNotifications(text, item) {
         message: "Tagged you on a discussion",
         widget: props.previewWidget,
         blockHeight: item.blockHeight,
-        params:
-          typeof identifier === "string"
-            ? { identifier: identifier }
-            : identifier,
+        params: item,
       },
     }));
 }
