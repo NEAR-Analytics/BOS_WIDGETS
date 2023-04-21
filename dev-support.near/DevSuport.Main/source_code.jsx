@@ -31,25 +31,19 @@ return (
     */}
 
       <div class="col-12">
-        <div class="pb-3 border-bottom">
-          <Widget
-            src="dev-support.near/widget/DevSupport.Discussion.Title"
-            props={{ disabled: !context.accountId, onClick: toggleQuestion }}
-          />
+        <Widget
+          src="dima_sheleg.near/widget/DevSupport.Discussion.Title"
+          props={{ disabled: !context.accountId, onClick: toggleQuestion }}
+        />
+        <div class="my-3">
+          {state.askQuestion && (
+            <Widget src="dima_sheleg.near/widget/DevSupport.Question.Edit" />
+          )}
         </div>
-
-        {state.askQuestion && (
-          <div class="mt-4 p-2">
-            <Widget src="dev-support.near/widget/DevSupport.Question.Edit" />
-          </div>
-        )}
-
-        <div class="mt-5">
-          <Widget
-            src="dev-support.near/widget/DevSupport.Feed"
-            props={{ admins, adminContract: adminContract }}
-          />
-        </div>
+        <Widget
+          src="dima_sheleg.near/widget/DevSupport.Feed"
+          props={{ admins, adminContract: adminContract }}
+        />
       </div>
     </div>
   </div>
