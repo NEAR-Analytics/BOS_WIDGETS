@@ -118,10 +118,13 @@ const TabsButton = styled.button`
   font-size: 16px;
   padding: 0 12px;
   position: relative;
-  color: #fff;
+  color:  ${(p) => (p.selected ? "#fff" : "rgba(255,255,255,0.5)")};
   background: none;
   border: none;
   outline: none;
+  :hover{
+      color:#fff;
+  }
   &::after {
     content: '';
     display: ${(p) => (p.selected ? "block" : "none")};
