@@ -217,14 +217,6 @@ const footer = (
   <Footer>
     <FooterButton
       href={`/${ownerId}/widget/Index?tab=contributor&accountId=${accountId}`}
-      onClick={() =>
-        props.update({
-          tab: "contributor",
-          content: "",
-          search: "",
-          accountId,
-        })
-      }
     >
       View details
     </FooterButton>
