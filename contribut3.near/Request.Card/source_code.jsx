@@ -229,7 +229,8 @@ const footer = (
       <Widget
         src={`${ownerId}/widget/Request.ProposeSideWindow`}
         props={{ accountId, cid }}
-      /></ProposeButton>
+      />
+    </ProposeButton>
   </Footer>
 );
 
