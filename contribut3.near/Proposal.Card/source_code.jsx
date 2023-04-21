@@ -137,6 +137,8 @@ const price = state.proposal.price !== state.request.budget ? (
     <span>NH {state.request.budget}</span>{" → "}<span>NH {state.proposal.price}</span></>
 ) : (<span>NH {state.proposal.price}</span>);
 
+console.log(state.proposal)
+
 const body = (<Container>
   <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
