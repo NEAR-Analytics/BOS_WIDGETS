@@ -4,6 +4,12 @@ const admins = props.admins;
 const adminContract = props.adminContract;
 const question = props.question;
 
+const item = {
+  type: "social",
+  path: `${accountId}/question/main`,
+  blockHeight,
+};
+
 const is_hidden = Near.view(adminContract, "is_hidden", {
   id: { account_id: accountId, block_height: blockHeight },
 });
@@ -13,7 +19,7 @@ if (is_hidden) {
 }
 
 const Answer = styled.div`
-    border-top: "1px solid #cecece";
+    padding: 1em 0em;
 `;
 const H1 = styled.h1`
   font-size: 32px;
@@ -54,8 +60,6 @@ const NftImageWrapper = styled.div`
 
 return (
   <div class="row">
-    {JSON.stringify(question)}
-
     <div class="col-md-1 col-2">
       {/* Upvote Widget */}
       <Widget
@@ -100,18 +104,20 @@ return (
           )}
         </PostContentWrapper>
       </div>
-
+      <hr />
       {context.accountId && (
         <Answer>
           <H2>Join the Discussion</H2>
-          <Widget
-            src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
-            props={{
-              notifyAccountId: accountId,
-              item,
-              onComment: () => State.update({ showReply: false }),
-            }}
-          />
+          <div class="px-2">
+            <Widget
+              src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
+              props={{
+                notifyAccountId: accountId,
+                item,
+                onComment: () => State.update({ showReply: false }),
+              }}
+            />
+          </div>
         </Answer>
       )}
 
