@@ -77,6 +77,7 @@ const H2 = styled.h2`
   color: #11181C;
   }
 `;
+
 const H4 = styled.h4`
   font-size: 14px;
   font-weight: 500;
