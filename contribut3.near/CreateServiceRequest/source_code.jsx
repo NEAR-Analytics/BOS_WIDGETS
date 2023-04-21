@@ -146,6 +146,18 @@ const ProgressBar = styled.div`
   }
 `;
 
+const CancelButton = styled.a`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: .75em 1em;
+  gap: .5em;
+  background: #ffffff;
+  border: 1px solid #eceef0;
+  border-radius: 50px;
+`;
+
 State.init({
   projectId: null,
   projects: [],
