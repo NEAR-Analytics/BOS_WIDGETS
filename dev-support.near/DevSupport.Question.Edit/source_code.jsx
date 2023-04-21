@@ -85,7 +85,7 @@ return (
       </InputWrapper>
     </div>
     <div className="col-12 mt-3">
-      <Title>Choose topic</Title>
+      <Title>Topics</Title>
       <InputWrapper>
         <Typeahead
           multiple
@@ -100,11 +100,11 @@ return (
       </InputWrapper>
     </div>
     <div className="col-12 mt-3">
-      <Title>Describe your question</Title>
+      <Title>Description</Title>
       <Widget
         src="dima_sheleg.near/widget/DevSupport.Compose"
         props={{
-          placeholder: "Describe your question so we can help you",
+          placeholder: "Describe your question so the community can help you",
           initialText: props.initialText,
           onChange: ({ content }) => State.update({ content: content }),
           composeButton: (onCompose) => (
