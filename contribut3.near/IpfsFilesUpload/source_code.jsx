@@ -83,8 +83,8 @@ return (
       {state.uploading
         ? "Uploading"
         : state.files.length > 0
-          ? "Replace All"
-          : buttonText}
+        ? "Replace All"
+        : buttonText}
     </Files>
   </div>
 );
