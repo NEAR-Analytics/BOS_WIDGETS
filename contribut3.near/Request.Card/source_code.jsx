@@ -211,10 +211,6 @@ const Footer = styled.div`
   align-items: center;
   gap: 1em;
   width: 100%;
-
-  :nth-child(n) {
-    width: 48%;
-  }
 `;
 
 const footer = (
