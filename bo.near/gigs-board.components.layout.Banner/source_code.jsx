@@ -71,7 +71,7 @@ return (
         <div class="btn-group" role="group">
           <button
             type="button"
-            class="btn btn-outline-white rounded-circle"
+            class="btn btn-outline-light rounded-circle"
             style={{
               width: "30px",
               height: "30px",
