@@ -5,6 +5,21 @@ widgetPath: string,
 count(count: number)?: function,
 
 */
+const Container = styled.div`
+.card-header{
+    background: rgba(26,46,51,0.3);
+    color:#fff;
+}
+.list-group-item{
+    background: rgba(26,46,51,0.25);
+    border: 0.5px solid rgba(255,255,255,0.3);
+    color: #fff;
+}
+.list-group-item-info.list-group-item-action:hover, .list-group-item-info.list-group-item-action:focus{
+    background:#304352;
+    color: #fff;
+}
+`;
 
 if (typeof props.widgetPath !== "string")
   return "send {widgetPath} as string in props";
@@ -91,25 +106,19 @@ function blockHeightToWidgetRender(blockHeight) {
 const Tabs = styled.div`
   display: flex;
   padding: 0 12px;
-  height: 48px;
-  border-bottom: 1px solid #ECEEF0;
+  height: 54px;
+  border-bottom: 2px solid #1E373D;
 `;
 
 const TabsButton = styled.button`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
+ font-weight: 500;
+  font-size: 16px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: #fff;
   background: none;
   border: none;
   outline: none;
-
-  &:hover {
-    color: #11181C;
-  }
-
   &::after {
     content: '';
     display: ${(p) => (p.selected ? "block" : "none")};
@@ -117,13 +126,13 @@ const TabsButton = styled.button`
     bottom: 0;
     left: 12px;
     right: 12px;
-    height: 3px;
-    background: #0091FF;
+    height: 4px;
+    background: #00FFD1;
   }
 `;
 
 return (
-  <div>
+  <Container>
     {!blocksChanges ? (
       <div>incorrent widget path</div>
     ) : (
@@ -192,5 +201,5 @@ return (
         )}
       </div>
     )}
-  </div>
+  </Container>
 );
