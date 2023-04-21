@@ -34,6 +34,7 @@ const Container = styled.div`
      display:flex;
      align-items:stretch;
      flex-wrap:nowrap;
+     overflow:hidden;
    }
    
    .websit .input-group-text{
