@@ -20,8 +20,16 @@ const isUseful = Near.view(adminContract, "is_useful", {
 });
 
 const item = {
-  accountId,
+  type: "social",
+  path: `${accountId}/question/main`,
   blockHeight,
+};
+
+const handleValidAnswerClick = () => {
+  Near.call(adminContract, "mark_useful", {
+    id: { account_id: accountId, block_height: blockHeight },
+    amount: "1",
+  });
 };
 
 const Post = styled.div`
@@ -77,7 +85,26 @@ const Comments = styled.div`
     padding-top: 12px;
   }
 `;
+const Item = styled.div`
+  padding: 0;
+  .btn {
+    &:hover,
+    &:focus {
+      background-color: #ECEDEE;
+      text-decoration: none;
+      outline: none;
+    }
 
+    &.valid-btn {
+      i {
+        color: #30A46C;
+      }
+    }
+    span {
+      font-weight: 500;
+    }
+  }
+`;
 const CorrectPost = styled.div`
   position: absolute;
   top: -0.7rem;
@@ -97,9 +124,52 @@ return (
         src="dev-support.near/widget/AccountProfile"
         props={{
           accountId,
-          blockHeight,
-          includeValidButton: admins.includes(context.accountId),
-          adminContract,
+          inlineContent: (
+            <div class="d-flex align-items-center flex-fill">
+              <Text as="span">･</Text>
+              <Text>
+                {blockHeight === "now" ? (
+                  "now"
+                ) : (
+                  <>
+                    <Widget
+                      src="mob.near/widget/TimeAgo"
+                      props={{ blockHeight }}
+                    />{" "}
+                    ago
+                  </>
+                )}
+              </Text>
+              <div class="dropdown ms-auto">
+                <button
+                  class="btn border-0 p-0"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="bi bi-three-dots" />
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <Item className="dropdown-item">
+                      <Widget
+                        src="dima_sheleg.near/widget/DevSupport.Answer.Button.Valid"
+                        props={{
+                          accountId,
+                          blockHeight,
+                          admins,
+                          adminContract,
+                          onClick: handleValidAnswerClick,
+                          text: "Mark as Correct",
+                          className: "btn valid-btn",
+                        }}
+                      />
+                    </Item>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ),
         }}
       />
     </Header>
@@ -107,7 +177,7 @@ return (
       <Content className="mt-2">
         {answer.text && (
           <Widget
-            src="near/widget/SocialMarkdown"
+            src="adminalpha.near/widget/SocialMarkdown"
             props={{ text: answer.text }}
           />
         )}
@@ -122,33 +192,32 @@ return (
         )}
       </Content>
 
-      <Actions>
-        <Widget
-          src="near/widget/NestedDiscussions.Preview.LikeButton"
-          props={{
-            item: { accountId, blockHeight },
-            notifyAccountId: accountId,
-            previewWidget: "dev-support.near/widget/DevSupport.Answer",
-          }}
-        />
-        <Widget
-          src="near/widget/NestedDiscussions.Preview.CommentButton"
-          props={{
-            item,
-            dbAction: "answer",
-            onClick: () => State.update({ showReply: !state.showReply }),
-          }}
-        />
-      </Actions>
+      {blockHeight !== "now" && (
+        <Actions>
+          <Widget
+            src="adminalpha.near/widget/LikeButton"
+            props={{
+              item,
+              accountId,
+            }}
+          />
+          <Widget
+            src="adminalpha.near/widget/CommentButton"
+            props={{
+              item,
+              onClick: () => State.update({ showReply: !state.showReply }),
+            }}
+          />
+        </Actions>
+      )}
 
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="dev-support.near/widget/DevSupport.Answer.Edit"
+            src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
             props={{
               notifyAccountId: accountId,
               item,
-              previewWidget: "dev-support.near/widget/DevSupport.Answer",
               onComment: () => State.update({ showReply: false }),
             }}
           />
@@ -157,7 +226,7 @@ return (
 
       <Comments>
         <Widget
-          src="dev-support.near/widget/DevSupport.Answer.Feed"
+          src="dima_sheleg.near/widget/DevSupport.Answer.Feed"
           props={{ item, admins, adminContract, nested: true }}
         />
       </Comments>
