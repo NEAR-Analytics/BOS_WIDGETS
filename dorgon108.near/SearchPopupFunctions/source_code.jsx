@@ -33,8 +33,8 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
-const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
+const componentsUrl = `/#/near/widget/ComponentsPage`;
+const peopleUrl = `/#/near/widget/PeoplePage`;
 
 // Styling Specifications
 
