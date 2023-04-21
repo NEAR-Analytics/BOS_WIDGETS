@@ -134,7 +134,7 @@ const Price = styled.div`
 
 const price = state.proposal.price !== state.request.budget ? (
   <>
-    <span>{state.request.budget}</span>{" → "}<span>{state.proposal.price}</span></>
+    <span>NH {state.request.budget}</span>{" → "}<span>NH {state.proposal.price}</span></>
 ) : (<span>{state.proposal.price}</span>);
 
 const body = (<Container>
