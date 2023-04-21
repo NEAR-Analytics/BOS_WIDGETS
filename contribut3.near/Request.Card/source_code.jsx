@@ -202,6 +202,7 @@ const FooterButton = styled.a`
   line-height: 1em;
   text-align: center;
   color: ${({ blue }) => (blue ? "#006ADC" : "#101828")};
+  width: 48%;
 `;
 
 const Footer = styled.div`
@@ -216,7 +217,7 @@ const Footer = styled.div`
 const footer = (
   <Footer>
     <FooterButton
-      href={`/${ownerId}/widget/Index?tab=contributor&accountId=${accountId}`}
+      href={`/${ownerId}/widget/Index?tab=request&accountId=${accountId}&cid=${cid}`}
     >
       View details
     </FooterButton>
