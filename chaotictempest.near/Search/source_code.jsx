@@ -8,6 +8,15 @@ const INITIAL_PAGE = props.initialPage ?? 0;
 const facets = props.facets ?? ["All", "Users", "Apps", "Components", "Posts"];
 const tab = props.tab ?? "All";
 
+const renderHeader =
+  props.renderHeader ??
+  ((search, paginate) => {
+    return (
+      <Header>
+        <H1>Search</H1>
+      </Header>
+    );
+  });
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
 const showFacets = props.showFacets ?? true;
@@ -379,12 +388,17 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
 
 return (
   <Wrapper>
-    {showHeader && (
-      <Header>
-        <H1>Search</H1>
-        <H2>Explore and find everything on the Blockchain Operating System</H2>
-      </Header>
-    )}
+    {showHeader &&
+      (renderHeader ? (
+        renderHeader(state.search, state.paginate)
+      ) : (
+        <Header>
+          <H1>Search</H1>
+          <H2>
+            Explore and find everything on the Blockchain Operating System
+          </H2>
+        </Header>
+      ))}
 
     {showSearchBar && (
       <Search>
