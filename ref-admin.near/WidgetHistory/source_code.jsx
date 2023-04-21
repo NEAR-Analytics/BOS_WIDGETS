@@ -4,25 +4,16 @@
 props.widgetPath?: string,
 
 */
-const Container = styled.div`
-    background: #15272B;
-    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
-    border-radius: 16px;
-    
-    .title{
-        color:#fff;
-    }
-`;
 
-const initWidgetPath = props.widgetPath;
+const initWidgetPath = props.widgetPath || "devgovgigs.near/widget/Ideas";
 
 State.init({
   widgetPath: initWidgetPath,
 });
 
 return (
-  <Container>
-    <h1 class="title text-center">Widget History</h1>
+  <div>
+    <h1 class="text-center">Widget History</h1>
 
     <div class="input-group mb-3">
       <input
@@ -38,10 +29,10 @@ return (
     </div>
 
     <Widget
-      src={`ref-admin.near/widget/WidgetHistory.History`}
+      src={`bozon.near/widget/WidgetHistory.History`}
       props={{
         widgetPath: state.widgetPath,
       }}
     />
-  </Container>
+  </div>
 );
