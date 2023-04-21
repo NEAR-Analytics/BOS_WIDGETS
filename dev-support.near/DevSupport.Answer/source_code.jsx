@@ -145,7 +145,7 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="dima_sheleg.near/widget/DevSupport.Answer.Edit"
+            src="dev-support.near/widget/DevSupport.Answer.Edit"
             props={{
               notifyAccountId: accountId,
               item,
