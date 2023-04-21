@@ -39,7 +39,7 @@ return (
         </div>
 
         {state.askQuestion && (
-          <div class="mt-4">
+          <div class="mt-4 p-2">
             <Widget src="dev-support.near/widget/DevSupport.Question.Edit" />
           </div>
         )}
