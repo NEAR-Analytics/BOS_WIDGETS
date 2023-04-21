@@ -10,11 +10,12 @@ const tab = props.tab ?? "All";
 
 const showHeader = props.showHeader ?? true;
 const showSearchBar = props.showSearchBar ?? true;
+const showFacets = props.showFacets ?? true;
 const showPagination = props.showPagination ?? true;
 const userId = props.accountId ?? context.accountId;
 
-const componentsUrl = `/#/calebjacob.near/widget/ComponentsPage`;
-const peopleUrl = `/#/calebjacob.near/widget/PeoplePage`;
+const componentsUrl = `near/widget/ComponentsPage`;
+const peopleUrl = `near/widget/PeoplePage`;
 
 State.init({
   facet: tab,
@@ -110,14 +111,16 @@ const Text = styled.p`
   }
 `;
 
-const Items = styled.div`
+const Items =
+  props.styles.Items ??
+  styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 12px;
 `;
 
-const Item = styled.div``;
+const Item = props.styles.Item ?? styled.div``;
 
 const resetSearcheHits = () => {
   State.update({
@@ -395,7 +398,7 @@ return (
       </Search>
     )}
 
-    {state.search && (
+    {showFacets && state.search && (
       <Facets>
         <Widget
           src="chaotictempest.near/widget/Facets"
