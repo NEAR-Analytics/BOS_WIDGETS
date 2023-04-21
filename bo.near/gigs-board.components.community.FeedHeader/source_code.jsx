@@ -97,7 +97,9 @@ const Gradient = styled.div`
 
   .text-primary-gradient {
     color: #53fdca;
+    -webkit-text-fill-color: transparent;
     background-image: linear-gradient(#8e76ba, #1ed2f0);
+    -webkit-background-clip: text;
     background-clip: text;
   }
 `;
