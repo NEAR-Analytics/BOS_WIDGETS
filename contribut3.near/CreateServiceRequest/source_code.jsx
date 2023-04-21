@@ -287,6 +287,15 @@ return (
         }}
       />
       <Widget
+        src={`${ownerId}/widget/Inputs.Select`}
+        props={{
+          label: "Payment source *",
+          options: state.paymentSources,
+          value: state.paymentSource,
+          onChange: (paymentSource) => State.update({ paymentSource }),
+        }}
+      />
+      <Widget
         src={`${ownerId}/widget/Inputs.Number`}
         props={{
           label: "Budget *",
