@@ -300,12 +300,12 @@ return (
                 },
               ];
               if (state.addInfo && state.accountId === context.accountId) {
-                transactions.shift({
+                transactions.unshift({
                   contractName: "social.near",
                   methodName: "grant_write_permission",
                   args: { predecessor_id: context.accountId, keys: [context.accountId] },
                   deposit: "1",
-                })
+                });
               }
               Near.call(transactions);
             },
