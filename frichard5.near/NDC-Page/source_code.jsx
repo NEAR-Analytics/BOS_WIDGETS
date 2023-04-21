@@ -44,6 +44,16 @@ const DashboardContainer = styled.div`
   *.approved {
       color:#13a36e;
   }
+  svg {
+    &.approved-icon {
+      height: 20px;
+      fill:#13a36e;
+    }
+    &.rejected-icon {
+      height: 20px;
+      fill: #ff5e03;
+    }
+  }
  
   *::-webkit-scrollbar {
     width: 6px;
