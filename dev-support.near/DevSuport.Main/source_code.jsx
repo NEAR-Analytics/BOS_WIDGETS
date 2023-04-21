@@ -37,15 +37,19 @@ return (
             props={{ disabled: !context.accountId, onClick: toggleQuestion }}
           />
         </div>
-        <div class="mt-5 mb-3">
-          {state.askQuestion && (
-            <Widget src="dima_sheleg.near/widget/DevSupport.Question.Edit" />
-          )}
+
+        {state.askQuestion && (
+          <div class="mt-4">
+            <Widget src="dev-support.near/widget/DevSupport.Question.Edit" />
+          </div>
+        )}
+
+        <div class="mt-5">
+          <Widget
+            src="dima_sheleg.near/widget/DevSupport.Feed"
+            props={{ admins, adminContract: adminContract }}
+          />
         </div>
-        <Widget
-          src="dima_sheleg.near/widget/DevSupport.Feed"
-          props={{ admins, adminContract: adminContract }}
-        />
       </div>
     </div>
   </div>
