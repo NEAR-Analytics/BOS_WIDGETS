@@ -116,16 +116,13 @@ const GenericTable = (
 );
 
 const fetchTransfers = (offset) => {
-  const nearTransfers = fetch(
-    apiUrl + `?offset=${offset}&limit=${resPerPage}`,
-    {
-      mode: "cors",
-      headers: {
-        "x-api-key": publicApiKey,
-      },
-    }
-  );
-  nearTransfers.body && State.update({ txs: nearTransfers.body });
+  const ftTransfers = fetch(apiUrl + `?offset=${offset}&limit=${resPerPage}`, {
+    mode: "cors",
+    headers: {
+      "x-api-key": publicApiKey,
+    },
+  });
+  ftTransfers.body && State.update({ txs: ftTransfers.body });
 };
 fetchTransfers(state.offset);
 
