@@ -127,8 +127,8 @@ const body = (<Container>
         }}
       />
       <Row>
-        {state.profile.organization ? "Organization" : "Individual"}
-        {state.contributions.length} requests completed
+        <span>{state.profile.organization ? "Organization" : "Individual"}</span>
+        <span>{state.contributions.length} requests completed</span>
       </Row>
       <Widget
         src={`${ownerId}/widget/Tags`}
