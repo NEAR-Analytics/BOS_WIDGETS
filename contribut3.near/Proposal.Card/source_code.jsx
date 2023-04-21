@@ -10,6 +10,8 @@ State.init({
   proposalIsFetched: false,
   profile: null,
   profileIsFetched: false,
+  contributions: [],
+  contributionsIsFetched: false,
 });
 
 if (!state.requestIsFetched) {
@@ -30,6 +32,18 @@ if (!state.proposalIsFetched) {
     "final",
     false
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
+}
+
+if (!state.contributionsIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_vendor_completed_contributions",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((contributions) =>
+    State.update({ contributions, contributionsIsFetched: true })
+  );
 }
 
 if (!state.profileIsFetched) {
@@ -75,7 +89,7 @@ const Column = styled.div`
 `;
 
 const Description = styled.div`
-padding-left: 1em;
+  padding-left: 1em;
   border-left: 3px solid #B2DDFF;
   width: 100%;
 `;
@@ -98,7 +112,35 @@ const body = (<Container>
       <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#F44738" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </RejectButton>
-  <Row></Row>
+  <Row>
+    <Widget
+      src={`${ownerId}/widget/Vendor.Icon`}
+      props={{ accountId: vendorId, size: "4em" }}
+    />
+    <Column>
+      <Widget
+        src={`${ownerId}/widget/NameAndAccount`}
+        props={{
+          accountId: vendorId,
+          name: state.profile.name,
+          nameSize: "1.125em",
+        }}
+      />
+      <Row>
+        {state.profile.organization ? "Organization" : "Individual"}
+        {state.contributions.length} requests completed
+      </Row>
+      {/*<Widget
+          src={`${ownerId}/widget/BadgeList`}
+          props={{
+            badges: [
+              { value: "Verified" },
+              { value: "Fundraiser", color: "#62ebe4" },
+            ],
+          }}
+        />*/}
+    </Column>
+  </Row>
   <Column>
     <Row></Row>
     <Description>
