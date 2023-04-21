@@ -7,16 +7,14 @@ State.init({
 });
 
 if (!state.itemsIsFetched) {
-  Near.asyncView(
-    ownerId,
-    "get_requests",
-    {},
-    "final",
-    false
-  ).then((items) => State.update({ items, itemsIsFetched: true }));
+  Near.asyncView(ownerId, "get_requests", {}, "final", false).then((items) =>
+    State.update({ items, itemsIsFetched: true })
+  );
 
   return <>Loading...</>;
 }
+
+console.log(state.items)
 
 return (
   <Widget
@@ -25,7 +23,10 @@ return (
       search,
       items: state.items,
       createItem: ([accountId, cid]) => (
-        <Widget src={`${ownerId}/widget/Request.Card`} props={{ accountId, cid }} />
+        <Widget
+          src={`${ownerId}/widget/Request.Card`}
+          props={{ accountId, cid }}
+        />
       ),
     }}
   />
