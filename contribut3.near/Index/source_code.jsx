@@ -43,6 +43,18 @@ const tabContent = {
       }}
     />
   ),
+  request: (
+    <Widget
+      src={`${ownerId}/widget/Request.Page`}
+      props={{
+        accountId: state.accountId,
+        search: state.search,
+        content: state.content,
+        update,
+        cid: state.cid,
+      }}
+    />
+  ),
   vendor: (
     <Widget
       src={`${ownerId}/widget/Vendor.Page`}
@@ -118,7 +130,11 @@ return (
   <div>
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
     <Content>
-      <Sidebar show={!["createproject", "createrequest", "permissions"].includes(state.tab)}>
+      <Sidebar
+        show={
+          !["createproject", "createrequest", "permissions"].includes(state.tab)
+        }
+      >
         <Widget
           src={`${ownerId}/widget/Sidebar`}
           props={{ tab: state.tab, update }}
