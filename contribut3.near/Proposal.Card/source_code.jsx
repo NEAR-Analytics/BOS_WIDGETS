@@ -79,6 +79,16 @@ const Description = styled.div`
   width: 100%;
 `;
 
+const RejectButton = styled.button`
+  position: absolute;
+  inset: 0 0 auto auto;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const body = (<Container>
   <RejectButton onClick={() => Near.call(ownerId, "reject_proposal", { project_id: projectId, vendor_id: vendorId, cid })}>
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
