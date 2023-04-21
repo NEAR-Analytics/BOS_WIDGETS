@@ -36,6 +36,7 @@ ${code}
 `;
 
 const Wrapper = styled.div`
+background: radial-gradient(64.26% 67.04% at 49.31% 0%,#002C35 0%,#101011 100%);
   padding-bottom: 48px;
 `;
 
@@ -45,9 +46,7 @@ const SummaryWrapper = styled.div`
 
 const Tabs = styled.div`
   display: flex;
-  height: 48px;
-  border-bottom: 1px solid #eceef0;
-  margin-bottom: 32px;
+  height: 54px;
   overflow: auto;
   scroll-behavior: smooth;
 
@@ -68,10 +67,10 @@ const TabsButton = styled.a`
   justify-content: center;
   height: 100%;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 16px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? "#fff" : "rgba(255,255,255,0.5)")};
   background: none;
   border: none;
   outline: none;
@@ -79,7 +78,7 @@ const TabsButton = styled.a`
   text-decoration: none !important;
 
   &:hover {
-    color: #11181c;
+    color: #fff;
   }
 
   &::after {
@@ -89,8 +88,8 @@ const TabsButton = styled.a`
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: #59e692;
+    height: 4px;
+    background: #00FFD1;
   }
 `;
 
@@ -99,13 +98,26 @@ const Content = styled.div`
   grid-template-columns: minmax(0, 1fr) 336px;
   gap: 64px;
 
+  background: #15272B;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+
   @media (max-width: 995px) {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+  .codeArea{
+    > pre > div{
+      background:transparent!important;
+    }
+  }
 `;
 
 const Sidebar = styled.div`
+    border-left: 2px solid #1E373D;
+    .dependenciesArea{
+      padding:20px 28px;
+    }
   > div {
     padding-bottom: 32px;
     border-bottom: 1px solid #eceef0;
@@ -126,10 +138,9 @@ const Sidebar = styled.div`
 `;
 
 const SmallTitle = styled.h3`
-  color: #687076;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
+  font-weight: 500;
+  font-size: 16px;
+  color:#fff;
   margin-bottom: 32px;
   text-transform: uppercase;
 
@@ -163,6 +174,9 @@ const Text = styled.p`
 
 const Dependency = styled.div`
   margin-bottom: 24px;
+  p{
+    color:#fff!important;
+  }
 `;
 
 const HistoryContainer = styled.div`
@@ -185,7 +199,7 @@ return (
   <Wrapper>
     <SummaryWrapper>
       <Widget
-        src="adminalpha.near/widget/ComponentSummary"
+        src="ref-admin.near/widget/ComponentSummary"
         props={{
           primaryAction: "open",
           size: "large",
@@ -287,16 +301,15 @@ return (
 
     {state.selectedTab === "source" && (
       <Content>
-        <Markdown text={sourceCode} />
-
+        <div class="codeArea">
+          <Markdown text={sourceCode} />
+        </div>
         <Sidebar>
-          <div>
+          <div class="dependenciesArea">
             <SmallTitle>Dependencies ({dependencySources.length})</SmallTitle>
-
             {dependencySources.length === 0 && (
               <Text>This component has no dependencies.</Text>
             )}
-
             {dependencySources.map((source) => (
               <Dependency key={source}>
                 <Widget
@@ -313,7 +326,7 @@ return (
     {state.selectedTab === "history" && (
       <HistoryContainer>
         <Widget
-          src="bozon.near/widget/WidgetHistory"
+          src="ref-admin.near/widget/WidgetHistory"
           props={{ widgetPath: src }}
         />
       </HistoryContainer>
