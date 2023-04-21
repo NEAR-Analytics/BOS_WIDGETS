@@ -75,6 +75,7 @@ const Column = styled.div`
 `;
 
 const Description = styled.div`
+padding-left: 1em;
   border-left: 3px solid #B2DDFF;
   width: 100%;
 `;
