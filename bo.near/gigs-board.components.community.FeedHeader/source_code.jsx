@@ -94,7 +94,7 @@ const Gradient = styled.div`
     text-align: center;
     background: radial-gradient(circle, rgba(29,55,57,1) 30%, rgba(24,24,24,1) 80%); 
 
-    font-family: Verdana, sans-serif;
+    font-family: Arial, sans-serif;
   }
 
   .text-primary-gradient {
