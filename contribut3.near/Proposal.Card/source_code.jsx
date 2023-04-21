@@ -97,6 +97,10 @@ const body = (<Container>
       <path d="M10.5 1.5L1.5 10.5M1.5 1.5L10.5 10.5" stroke="#F44738" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </RejectButton>
+  <Row></Row>
+  <Column>
+    <Row></Row>
+  </Column>
 </Container>);
 
 const footer = (<Row>
