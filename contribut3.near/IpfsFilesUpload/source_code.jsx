@@ -29,11 +29,11 @@ const filesOnChange = (files) => {
         const cid = res.body.cid;
         State.update({
           files: [...state.files, { index, name: file.name, cid }],
+          uploading: false,
         });
+        props.update(state.files);
       });
     });
-    State.update({ uploading: false });
-    props.update(state.files);
   } else {
     State.update({
       uploading: false,
@@ -83,8 +83,8 @@ return (
       {state.uploading
         ? "Uploading"
         : state.files.length > 0
-        ? "Replace All"
-        : buttonText}
+          ? "Replace All"
+          : buttonText}
     </Files>
   </div>
 );
