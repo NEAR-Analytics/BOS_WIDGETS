@@ -562,7 +562,7 @@ const topTwoAccounts = () => {
   return output.map((profile, i) => (
     <Item key={profile.accountId}>
       <Widget
-        src="dorgon108.near/widget/AccountProfileCard"
+        src="dorgon108.near/widget/dropdownAccountCard"
         props={{
           accountId: profile.accountId,
           onClick: () =>
