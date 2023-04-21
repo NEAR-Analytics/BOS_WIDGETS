@@ -5,7 +5,7 @@ const profileUrl = `/#/mob.near/widget/ProfilePage?accountId=${accountId}`;
 const includeValidButton = props.includeValidButton;
 
 const handleValidAnswerClick = () => {
-  Near.call(adminContract, "mark_useful", {
+  Near.call(props.adminContract, "mark_useful", {
     id: { account_id: accountId, block_height: blockHeight },
     amount: "1",
   });
