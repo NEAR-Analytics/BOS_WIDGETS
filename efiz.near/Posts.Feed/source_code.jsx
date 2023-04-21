@@ -53,7 +53,7 @@ const renderItem = (a) => {
           return (
             <div key={JSON.stringify(a)} className="mb-3">
               <Widget
-                src="mob.near/widget/MainPage.Post"
+                src="near/widget/Posts.Post"
                 props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
               />
             </div>
