@@ -263,7 +263,7 @@ return (
                           name: state.name,
                           tagline: state.tagline,
                           description: state.description,
-                          tags: state.tags.map(
+                          tags: state.tags.reduce(
                             (acc, { name }) =>
                               Object.assign(acc, { [name]: "" }),
                             {}
