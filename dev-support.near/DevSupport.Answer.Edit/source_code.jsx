@@ -29,10 +29,7 @@ const composeData = () => {
         message: "Commented on a discussion",
         widget: props.previewWidget,
         blockHeight: item.blockHeight,
-        params:
-          typeof identifier === "string"
-            ? { identifier: identifier }
-            : identifier,
+        params: item,
       },
     });
   }
