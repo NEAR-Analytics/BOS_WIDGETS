@@ -12,6 +12,7 @@ const Container = styled.div`
 .card-header{
     background:rgba(26, 46, 51, 0.25);
     color:#fff;
+    border-bottom: 0.5px solid rgba(255,255,255,0.3);
 }
 .list-group-item{
     background:rgba(26, 46, 51, 0.25);
@@ -126,6 +127,7 @@ const TabsButton = styled.button`
   background: none;
   border: none;
   outline: none;
+  margin-right:40px;
   :hover{
       color:#fff;
   }
