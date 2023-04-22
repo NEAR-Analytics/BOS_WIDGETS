@@ -1,26 +1,25 @@
-const { onLoad, value } = props;
+State.init({ onLoad: props.onLoad });
 
-if (state.initialized === undefined) {
-  State.init({
-    initialized: true,
-  });
-  const found = (param) => {
-    return `Value found: ${value}. Param: ${param}`;
-  };
+const { value } = props;
 
-  const notFound = (param) => {
-    return `Value NOT found. Param: ${param}`;
-  };
+const found = (param) => {
+  return `Value found: ${value}. Param: ${param}`;
+};
 
-  if (typeof onLoad === "function") {
-    if (value) {
-      onLoad({
-        func: found.toString(),
-      });
-    } else {
-      onLoad({
-        func: (param) => notFound(param).toString(),
-      });
-    }
+const notFound = (param) => {
+  return `Value NOT found. Param: ${param}`;
+};
+
+if (typeof state.onLoad === "function") {
+  if (value) {
+    state.onLoad({
+      func: (param) => {
+        return found(param);
+      },
+    });
+  } else {
+    state.onLoad({
+      func: (param) => notFound(param),
+    });
   }
 }
