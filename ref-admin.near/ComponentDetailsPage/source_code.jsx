@@ -75,6 +75,7 @@ const TabsButton = styled.a`
   outline: none;
   text-align: center;
   text-decoration: none !important;
+  margin-right:40px;
 
   &:hover {
     color: #fff;
