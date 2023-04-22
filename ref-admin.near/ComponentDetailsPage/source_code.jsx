@@ -36,7 +36,6 @@ ${code}
 `;
 
 const Wrapper = styled.div`
-  background-color:#000;
   padding-bottom: 48px;
 `;
 
