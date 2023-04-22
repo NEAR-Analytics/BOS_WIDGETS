@@ -9,7 +9,7 @@ const item = { accountId, blockHeight };
 
 const link = `#/dev-suppport.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-const likes = Social.index("answer", item);
+const likes = Social.index("comment", item);
 
 const Replies = styled.a`
   display: inline-flex;
