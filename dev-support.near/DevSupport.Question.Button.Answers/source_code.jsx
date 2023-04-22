@@ -8,7 +8,7 @@ if (accountId === undefined || blockHeight === undefined) {
 
 const item = { accountId, blockHeight, adminContract };
 
-const link = `#/dev-suppport.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `#/dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const likes = Social.index("answer", item);
 
