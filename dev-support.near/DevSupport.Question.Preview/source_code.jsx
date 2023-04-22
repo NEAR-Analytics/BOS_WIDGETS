@@ -193,7 +193,7 @@ return (
         <div class="col">
           <Widget
             src="dev-support.near/widget/DevSupport.Question.Button.Answers"
-            props={{ accountId, blockHeight }}
+            props={{ accountId, blockHeight, adminContract }}
           />
         </div>
       </div>
