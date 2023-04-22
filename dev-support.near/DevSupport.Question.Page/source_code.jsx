@@ -27,7 +27,7 @@ const footer = (
         <div class="col-8">
           {/* Upvote Widget */}
           <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Upvote"
+            src="dev-support.near/widget/DevSupport.Question.Button.Upvote"
             props={{ accountId, blockHeight }}
           />
 
