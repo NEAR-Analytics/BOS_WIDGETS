@@ -36,6 +36,7 @@ ${code}
 `;
 
 const Wrapper = styled.div`
+  background-color:#000;
   padding-bottom: 48px;
 `;
 
@@ -111,17 +112,25 @@ const Content = styled.div`
       background:transparent!important;
     }
   }
+  .aboutArea{
+      padding:10px 20px;
+      color:#fff;
+  }
 `;
 
 const Sidebar = styled.div`
+    padding:${(p) => (p.area == "about" ? "10px" : "")};
     border-left: 2px solid #1E373D;
     .dependenciesArea{
       padding:20px 28px;
     }
   > div {
     padding-bottom: 32px;
-    border-bottom: 1px solid #eceef0;
+    border-bottom: 1px solid rgba(48, 67, 82, 0.5);
     margin-bottom: 32px;
+    p{
+        color:#fff;
+    }
 
     &:last-child {
       padding-bottom: 0;
@@ -234,7 +243,7 @@ return (
 
     {state.selectedTab === "about" && (
       <Content>
-        <div>
+        <div class="aboutArea">
           {metadata.description ? (
             <Markdown text={metadata.description} />
           ) : (
@@ -242,7 +251,7 @@ return (
           )}
         </div>
 
-        <Sidebar>
+        <Sidebar area="about">
           {(tags.includes("Coming Soon") || tags.includes("coming-soon")) && (
             <div>
               <Widget src="adminalpha.near/widget/waitList" />
