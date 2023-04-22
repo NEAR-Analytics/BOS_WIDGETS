@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.debugAccountId ?? context.accountId;
 
 if (!accountId) {
   return (
@@ -8,35 +8,28 @@ if (!accountId) {
   );
 }
 
-const data = Social.keys(`${accountId}/widget/*`, "final", {
-  return_type: "BlockHeight",
-});
+const profile = Social.getr(`${accountId}/profile`);
 
-const page = Social.getr(`${accountId}/page`);
-
-if (page === null) {
-  return "Loading page...";
+if (profile === null) {
+  return "";
 }
 
-const name = page.name;
-const image = page.image;
+const name = profile.name;
+const image = profile.image;
 
-const editPageButton = (
+const editProfileButton = (
   <div>
-    <a
-      className="btn btn-success"
-      href="#/hack.near/widget/Project.Page.Editor"
-    >
-      Edit Your Page
+    <a className="btn btn-success" href="#/mob.near/widget/ProfileEditor">
+      Edit Profile
     </a>
   </div>
 );
 
 if (!name) {
   return (
-    <div className="alert alert-warning rounded-4 m-2">
-      <p>Your page is missing a title.</p>
-      {editPageButton}
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your profile is missing a name.</p>
+      {editProfileButton}
     </div>
   );
 }
@@ -47,18 +40,9 @@ if (
   !image.url
 ) {
   return (
-    <div className="alert alert-warning rounded-4 m-2">
-      <p>Your page is missing a logo.</p>
-      {editPageButton}
-    </div>
-  );
-}
-
-if (data !== null) {
-  return (
-    <div className="alert alert-warning rounded-4 m-2">
-      <p>Create your first bOS widget!</p>
-      {editPageButton}
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your profile is missing a picture.</p>
+      {editProfileButton}
     </div>
   );
 }
