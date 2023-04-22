@@ -20,49 +20,6 @@ const question = JSON.parse(
 const questionUrl = `dev-support.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 const shareUrl = `https://alpha.near.org/#/${questionUrl}`;
 
-const footer = (
-  <div className="card-header p-2" style={{ border: "1px solid #ccc" }}>
-    <small class="text-muted">
-      <div class="row justify-content-between">
-        <div class="col-8">
-          {/* Upvote Widget */}
-          <Widget
-            src="dev-support.near/widget/DevSupport.Question.Button.Upvote"
-            props={{ accountId, blockHeight }}
-          />
-
-          {/* Flag question widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Flag"
-            props={{ accountId, blockHeight }}
-          />
-
-          {/* Answers widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Answers"
-            props={{ accountId, blockHeight }}
-          />
-
-          {/* Delete widget */}
-          <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/DevSupport.Question.Button.Delete"
-            props={{ accountId, blockHeight, admins, adminContract }}
-          />
-        </div>
-
-        <div class="col-4">
-          <div class="d-flex justify-content-end">
-            <Widget
-              src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/BlockToDate"
-              props={{ blockHeight }}
-            />
-          </div>
-        </div>
-      </div>
-    </small>
-  </div>
-);
-
 const H2 = styled.h2`
   font-size: 20px;
   font-weight: 600;
@@ -189,6 +146,5 @@ return (
         </OverlayTrigger>
       </SidebarWrapper>
     </div>
-    {/*{footer}*/}
   </div>
 );
