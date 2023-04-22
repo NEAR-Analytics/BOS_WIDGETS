@@ -160,6 +160,9 @@ const ButtonLink = styled.a`
   border: 0.5px solid rgba(255, 255, 255, 0.3);
   border-radius: 38px;
   color:#fff;
+  &:hover{
+    color:#fff;
+  }
 `;
 
 const Text = styled.p`
