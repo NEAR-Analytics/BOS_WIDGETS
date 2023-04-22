@@ -1,11 +1,12 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
+const adminContract = props.adminContract;
 
 if (accountId === undefined || blockHeight === undefined) {
   return;
 }
 
-const item = { accountId, blockHeight };
+const item = { accountId, blockHeight, adminContract };
 
 const link = `#/dev-suppport.near/widget/DevSupport.Question.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
