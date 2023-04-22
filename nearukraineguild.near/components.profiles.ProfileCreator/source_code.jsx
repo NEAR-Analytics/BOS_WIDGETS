@@ -163,7 +163,7 @@ const onCreateClick = () => {
       pub_key: fullAccessKey.public_key,
     },
     Big(10).pow(12).mul(300), // 300TGas
-    Big(10).pow(24).mul(1) // 1N
+    Big(10).pow(24).mul(0.7) // 0.7N
   );
 };
 
