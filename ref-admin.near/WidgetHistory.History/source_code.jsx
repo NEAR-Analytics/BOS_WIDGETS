@@ -18,6 +18,10 @@ const Container = styled.div`
     border-bottom: 0.5px solid rgba(255,255,255,0.3);
     color: #fff;
 }
+.list-group-item.active{
+  border:none;
+  border-bottom: 0.5px solid rgba(255,255,255,0.3);
+}
 .list-group-item-info.list-group-item-action:hover, .list-group-item-info.list-group-item-action:focus{
     background:#304352;
     color: #fff;
@@ -78,7 +82,7 @@ function blockHeightToWidgetCode(blockHeight) {
     <div class="mb-3">
       <Widget
         key={blockHeight}
-        src={`bozon.near/widget/WidgetHistory.CodeHistoryCard`}
+        src={`ref-admin.near/widget/WidgetHistory.CodeHistoryCard`}
         props={{
           pathToWidget: props.widgetPath,
           currentBlockHeight: blockHeight,
