@@ -6,8 +6,7 @@ if (accountId === undefined || blockHeight === undefined) {
 }
 
 const item = {
-  type: "social",
-  path: `${accountId}/question/main`,
+  accountId,
   blockHeight,
 };
 
