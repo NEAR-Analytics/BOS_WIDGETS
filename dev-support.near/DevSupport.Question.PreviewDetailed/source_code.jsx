@@ -61,7 +61,7 @@ return (
     <div class="col-md-1 col-2">
       {/* Upvote Widget */}
       <Widget
-        src="dima_sheleg.near/widget/DevSupport.Question.Button.Upvote"
+        src="dev-support.near/widget/DevSupport.Question.Button.Upvote"
         props={{ accountId, blockHeight }}
       />
     </div>
