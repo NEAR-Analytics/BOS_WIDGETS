@@ -1,4 +1,4 @@
-const accountId = props.debugAccountId ?? context.accountId;
+const accountId = props.accountId ?? context.accountId;
 
 if (!accountId) {
   return (
