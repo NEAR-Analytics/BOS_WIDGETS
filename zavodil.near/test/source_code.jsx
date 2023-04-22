@@ -3,11 +3,15 @@ const { onLoad, value } = props;
 if (typeof onLoad === "function") {
   if (value) {
     onLoad({
-      func: console.log("Value found"),
+      func: () => {
+        return `Value found: ${value}`;
+      },
     });
   } else {
     onLoad({
-      func: console.log("Value not found"),
+      func: () => {
+        return "Value not found";
+      },
     });
   }
 }
