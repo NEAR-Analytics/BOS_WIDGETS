@@ -47,7 +47,7 @@ const Container = styled.div`
      border-radius: 10px;
    }
 `;
-const initialMetadata = props.initialMetadata ?? {};
+const initialMetadata = props.initialMetadata ?? { from: "shanshan" };
 const onChange = props.onChange;
 const options = props.options;
 
