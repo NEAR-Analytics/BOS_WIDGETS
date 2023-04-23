@@ -1,4 +1,14 @@
 const Line = styled.div`
+.tag-style{
+  background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
+  font-weight: 500;
+  font-size: 12px;
+  color:#fff;
+  padding:3px 11px;
+  margin-right:5px;
+}
 `;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
@@ -34,10 +44,7 @@ return (
           {tags.length > 0 && (
             <>
               {tags.map((tag, i) => (
-                <span
-                  key={i}
-                  className="me-1 fw-light badge border border-secondary text-bg-light"
-                >
+                <span key={i} className="tag-style">
                   #{tag}
                 </span>
               ))}
