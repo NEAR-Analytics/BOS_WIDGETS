@@ -26,13 +26,12 @@ const social = {
         "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web.",
     },
     {
-      key: 3,
-      name: "Cantopia",
-      url: "https://bos-viewer.pages.dev/",
+      key: 5,
+      name: "NEARPad",
+      url: "https://nearpad.dev/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreifqzppapwceuwvecotf4uczonrc7gtvjqlmlxpy2hdo4hau3m6svm",
-      description:
-        "An example viewer of the Canto's blockchain, CantoSwap viewer",
+        "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
+      description: "A gateway dedicated to developers",
     },
     {
       key: 4,
@@ -43,12 +42,13 @@ const social = {
       description: "A viewer for NEAR Analytics",
     },
     {
-      key: 5,
-      name: "NEARPad",
-      url: "https://nearpad.dev/",
+      key: 3,
+      name: "Cantopia",
+      url: "https://bos-viewer.pages.dev/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
-      description: "A gateway dedicated to developers",
+        "https://ipfs.near.social/ipfs/bafkreifqzppapwceuwvecotf4uczonrc7gtvjqlmlxpy2hdo4hau3m6svm",
+      description:
+        "An example viewer of the Canto's blockchain, CantoSwap viewer",
     },
     {
       key: 6,
@@ -61,7 +61,7 @@ const social = {
     {
       key: 7,
       name: "Everything",
-      url: "https://temp.everything.dev/#/",
+      url: "https://everything.dev/#/",
       image:
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
       description: "Everything. TBA",
