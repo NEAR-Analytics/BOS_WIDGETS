@@ -8,7 +8,7 @@ if (metadata === null) {
   return "Loading";
 }
 return (
-  <div style={{ backgroundColor: "#000" }}>
+  <div>
     <Widget
       key={widgetPath}
       src="ref-admin.near/widget/MetadataEditor"
