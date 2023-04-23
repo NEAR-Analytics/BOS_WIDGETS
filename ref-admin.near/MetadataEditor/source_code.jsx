@@ -47,7 +47,7 @@ const Container = styled.div`
      border-radius: 10px;
    }
 `;
-const initialMetadata = props.initialMetadata ?? { from: "shanshan" };
+const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
 
@@ -62,6 +62,7 @@ State.init({
 });
 
 const metadata = {
+  from: "shanshan",
   name: options.name ? state.metadata.name : undefined,
   description: options.name ? state.metadata.description : undefined,
   linktree:
