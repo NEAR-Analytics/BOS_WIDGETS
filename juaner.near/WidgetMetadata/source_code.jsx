@@ -1,19 +1,20 @@
 const Container = styled.div`
-  .card-title {
-    color: #fff;
+  .card-title{
+      color:#fff;
   }
-  .card {
-    background-color: #373a53;
+  .card{
+    background-color: #1A2E33;
   }
-  .stretched-link {
-    color: #fff;
+  .stretched-link{
+    color:#fff;
   }
-  .card-text .label {
-    background-color: rgba(26, 46, 51, 0.25);
+  .card-text .label{
+    background-color:rgba(26, 46, 51, 0.25);
     border: 0.5px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
-    color: #fff;
+    color:#fff;
   }
+ 
 `;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
