@@ -6,7 +6,6 @@ let metadata = Social.getr(`${widgetPath}/metadata`);
 if (metadata === null) {
   return "Loading";
 }
-console.log("77777777777777-metadata", metadata);
 return (
   <Widget
     key={widgetPath}
