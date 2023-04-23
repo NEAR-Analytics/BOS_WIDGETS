@@ -118,6 +118,7 @@ return (
       <FacetItem
         className={facet in (state.selected ?? {}) ? "selected" : ""}
         onClick={() => onFacetClick(facet)}
+        key={facet}
       >
         {facet}
       </FacetItem>
