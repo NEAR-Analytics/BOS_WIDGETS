@@ -1,5 +1,11 @@
 const Container = styled.div`
     width:100%;
+    .table th, .table td{
+    color: rgb(126, 138, 147);
+        font-size: 14px;
+        vertical-align: middle;
+        border:none;
+    }
    .box_tabel{
       border-radius: 12px;
       background: #1A2E33;
