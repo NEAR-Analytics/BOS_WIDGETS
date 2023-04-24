@@ -551,7 +551,7 @@ const descriptionArea = isUnderPost ? (
 ) : (
   <clampMarkdown className={state.clamp ? 'clamp' : ''}>
     <Markdown
-      class={state.clamp ? 'card-text clamp' : 'card-text'}
+      class="card-text"
       text={snapshot.description}
       onMention={onMention}
       key="description-area"
