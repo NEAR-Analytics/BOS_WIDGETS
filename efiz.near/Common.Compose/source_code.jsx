@@ -7,6 +7,59 @@ if (state.image === undefined) {
     image: {},
     text: props.initialText || "",
   });
+
+  if (props.onHelper) {
+    const extractMentions = (text) => {
+      const mentionRegex =
+        /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+      mentionRegex.lastIndex = 0;
+      const accountIds = new Set();
+      for (const match of text.matchAll(mentionRegex)) {
+        if (
+          !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+          !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+          match[1].length >= 2 &&
+          match[1].length <= 64
+        ) {
+          accountIds.add(match[1].toLowerCase());
+        }
+      }
+      return [...accountIds];
+    };
+
+    const extractHashtags = (text) => {
+      const hashtagRegex = /#(\w+)/gi;
+      hashtagRegex.lastIndex = 0;
+      const hashtags = new Set();
+      for (const match of text.matchAll(hashtagRegex)) {
+        if (
+          !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+          !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
+        ) {
+          hashtags.add(match[1].toLowerCase());
+        }
+      }
+      return [...hashtags];
+    };
+
+    const extractMentionNotifications = (text, item) =>
+      extractMentions(text || "")
+        .filter((accountId) => accountId !== context.accountId)
+        .map((accountId) => ({
+          key: accountId,
+          value: {
+            type: "mention",
+            item,
+          },
+        }));
+
+    props.onHelper({
+      extractHashtags,
+      extractMentions,
+      extractTagNotifications: extractMentionNotifications,
+      extractMentionNotifications,
+    });
+  }
 }
 
 const content = {
@@ -14,59 +67,6 @@ const content = {
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
 };
-
-if (props.onHelper) {
-  const extractMentions = (text) => {
-    const mentionRegex =
-      /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-    mentionRegex.lastIndex = 0;
-    const accountIds = new Set();
-    for (const match of text.matchAll(mentionRegex)) {
-      if (
-        !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-        !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-        match[1].length >= 2 &&
-        match[1].length <= 64
-      ) {
-        accountIds.add(match[1].toLowerCase());
-      }
-    }
-    return [...accountIds];
-  };
-
-  const extractHashtags = (text) => {
-    const hashtagRegex = /#(\w+)/gi;
-    hashtagRegex.lastIndex = 0;
-    const hashtags = new Set();
-    for (const match of text.matchAll(hashtagRegex)) {
-      if (
-        !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-        !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-      ) {
-        hashtags.add(match[1].toLowerCase());
-      }
-    }
-    return [...hashtags];
-  };
-
-  const extractMentionNotifications = (text, item) =>
-    extractMentions(text || "")
-      .filter((accountId) => accountId !== context.accountId)
-      .map((accountId) => ({
-        key: accountId,
-        value: {
-          type: "mention",
-          item,
-        },
-      }));
-
-  props.onHelper({
-    extractHashtags,
-    extractMentions,
-    extractTagNotifications: extractMentionNotifications,
-    extractMentionNotifications,
-  });
-}
 
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
