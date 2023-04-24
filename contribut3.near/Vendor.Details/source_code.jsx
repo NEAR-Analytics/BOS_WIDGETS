@@ -1,5 +1,6 @@
 const ownerId = "contribut3.near";
 const isAdmin = props.isAdmin;
+const accountId = props.accountId;
 
 const Container = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ if (!state.profileIsFetched) {
 
 const onSave = (profile) => {
   Near.call("social.near", "set", {
-    data: { [accountId]: { profile }, },
+    data: { [accountId]: { profile } },
   });
 };
 
@@ -92,7 +93,9 @@ return (
       props={{
         label: "Skills",
         id: "skills",
-        value: Object.keys(state.profile.skills).map((name) => ({ name })),
+        value: Object.keys(state.profile.skills || {}).map((name) => ({
+          name,
+        })),
         options: [
           { name: "defi" },
           { name: "exchange" },
@@ -114,7 +117,10 @@ return (
       props={{
         label: "Payment",
         id: "payment",
-        value: Object.keys(state.profile.payments).map((id) => ({ id, name: id[0].toUpperCase() + id.slice(1) })),
+        value: Object.keys(state.profile.payments || {}).map((id) => ({
+          id,
+          name: id[0].toUpperCase() + id.slice(1),
+        })),
         options: [
           { name: "Fiat", id: "fiat" },
           { name: "Crypto", id: "crypto" },
@@ -145,7 +151,15 @@ return (
       props={{
         label: "Available for",
         id: "work",
-        value: Object.keys(state.profile.work).map((id) => ({ id, name: id === "short" ? "Short-term work" : id === "long" ? "Long-term work" : "Full-time job" })),
+        value: Object.keys(state.profile.work || {}).map((id) => ({
+          id,
+          name:
+            id === "short"
+              ? "Short-term work"
+              : id === "long"
+                ? "Long-term work"
+                : "Full-time job",
+        })),
         options: [
           { name: "Short-term work", id: "short" },
           { name: "Long-term work", id: "long" },
