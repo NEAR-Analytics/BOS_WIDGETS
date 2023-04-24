@@ -513,12 +513,14 @@ const limitedMarkdown = styled.div`
 
 const clampMarkdown = styled.div`
 {
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  overflow-wrap: break-word;
+  .clamp {
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+  }
 }`
 
 initState({
@@ -548,9 +550,9 @@ const descriptionArea = isUnderPost ? (
     />
   </limitedMarkdown>
 ) : (
-  <clampMarkdown className={state.clamp ? 'clamp' : ''}>
+  <clampMarkdown>
     <Markdown
-      class="card-text"
+      class="card-text clamp"
       text={snapshot.description}
       onMention={onMention}
       key="description-area"
