@@ -1,3 +1,4 @@
+Storage.set("localTestMy", "naturehahaxxxxxxyyyy");
 return (
   <div>
     good morning
