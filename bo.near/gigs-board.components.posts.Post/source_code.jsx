@@ -523,7 +523,7 @@ const clampMarkdown = styled.div`
 `
 
 initState({
-  clamp: true
+  clamp: snapshot.description.split('\n').length > 5
 })
 
 const onMention = (accountId) => (
@@ -550,7 +550,7 @@ const descriptionArea = isUnderPost ? (
   </limitedMarkdown>
 ) : (
   <clampMarkdown>
-    <div class="clamp">
+    <div class={state.clamp ? "clamp" : ""}>
     <Markdown
       class="card-text"
       text={snapshot.description}
@@ -558,7 +558,7 @@ const descriptionArea = isUnderPost ? (
       key="description-area"
     ></Markdown>
     </div>
-    {snapshot.description.split('\n').length > 5 ? <button>Read More</button> : <></>}
+    {state.clamp ? <a onClick={() => State.update({clamp: false})}>Read More</a> : <></>}
   </clampMarkdown>
 );
 
