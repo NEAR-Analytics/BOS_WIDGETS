@@ -187,24 +187,23 @@ const Description = styled.div`
   max-height: 150px;
 `;
 
-
 let TimeLeft = styled.span`
 `;
 
-const getTimeLeft = (proposal) {
-    if (proposal.status === "InProgress") {
-        return formatCountdown(
-            (Date.now() - new Date(proposal.submission_time)) / 1000
-        );
-    }
-    return ''
-}
+const getTimeLeft = (proposal) => {
+  if (proposal.status === "InProgress") {
+    return formatCountdown(
+      (Date.now() - new Date(proposal.submission_time)) / 1000
+    );
+  }
+  return "";
+};
 
 return (
   <ProposalCard>
     <Header>
       <Status status={proposal.status}>
-        {proposal.status} <TimeLeft>getTimeLeft(proposal)</TimeLeft>
+        {proposal.status} <TimeLeft>{getTimeLeft(proposal)}</TimeLeft>
       </Status>
       <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
     </Header>
