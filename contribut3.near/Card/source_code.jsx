@@ -10,7 +10,6 @@ const CardContainer = styled.div`
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   border-radius: 8px;
-  flex-grow: 1;
 `;
 
 const CardHeader = styled.div`
@@ -36,7 +35,7 @@ const CardBody = styled.div`
   flex: none;
   order: 0;
   align-self: stretch;
-  flex-grow: 1;
+  flex-grow: 0;
 `;
 
 const CardFooter = styled.div`
