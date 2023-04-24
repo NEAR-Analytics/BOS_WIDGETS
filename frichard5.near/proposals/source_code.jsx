@@ -1,6 +1,7 @@
 const widgetProvider = props.widgetProvider;
 const account = props.account || "marketing.sputnik-dao.near";
 const apiUrl = `https://api.pikespeak.ai/daos/proposals/${account}`;
+const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy/${account}`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const forgeUrl = (apiUrl, params) =>
@@ -78,6 +79,21 @@ const GenericTable = (
   />
 );
 
+const fetchPolicy = () => {
+  const policy = asyncFetch(apiPolicyUrl, {
+    mode: "cors",
+    headers: {
+      "x-api-key": publicApiKey,
+    },
+  }).then(({ err, body, ok }) => {
+    if (ok) {
+      State.update({
+        council: body.state.policy.roles.find((r) => r.name === "Council").kind,
+      });
+    }
+  });
+};
+
 const fetchProposal = (params) => {
   const proposals = asyncFetch(forgeUrl(apiUrl, params), {
     mode: "cors",
@@ -103,6 +119,7 @@ if (!state.proposals.length) {
     proposal_type: state.type,
     status: state.status,
   });
+  fetchPolicy();
 }
 if (state.account != account) {
   State.update({ proposals: [], account, offset: 0 });
