@@ -28,19 +28,6 @@ const ListContainer = styled.div`
   width: 100%;
 `;
 
-const WidgetContainer = styled.div`
-  flex-shrink: 0;
-  width: 100%;
-
-  @media (min-width: 768px) {
-    width: 49%;
-  }
-
-  @media (min-width: 2560px) {
-    width: 31%;
-  }
-`;
-
 const Container = styled.div`
   width: 100%;
 
@@ -54,9 +41,7 @@ return (
     <InfiniteScroll loadMore={loadMore} hasMore={state.hasMore}>
       <ListContainer>
         {state.shown.map((args, index) => (
-          <WidgetContainer key={index} className="cont">
-            {createItem(args)}
-          </WidgetContainer>
+          createItem(args)
         ))}
       </ListContainer>
     </InfiniteScroll>
