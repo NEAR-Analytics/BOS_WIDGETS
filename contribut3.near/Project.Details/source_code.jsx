@@ -45,6 +45,8 @@ if (!state.profileIsFetched) {
   return <>Loading...</>;
 }
 
+console.log(accountId);
+
 return (
   <Container>
     <Heading>Details</Heading>
