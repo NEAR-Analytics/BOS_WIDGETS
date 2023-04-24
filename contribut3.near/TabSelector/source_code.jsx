@@ -69,8 +69,7 @@ return (
         hasCount={!!count && count > 0}
         href={`/${ownerId}/widget/Index?tab=${tab}&content=${id}${props.search ? "&search=" + props.search : ""
           }${accountId ? "&accountId=" + accountId : ""}${cid ? "&cid=" + cid : ""
-          }${projectId ? "&projectId=" + projectId : ""}${vendorId ? "&vendorId=" + vendorId : ""
-            `}
+          }${projectId ? "&projectId=" + projectId : ""}${vendorId ? "&vendorId=" + vendorId : ""}`}
         onClick={() =>
           props.update({
             tab,
