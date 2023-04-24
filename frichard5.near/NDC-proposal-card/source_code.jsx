@@ -1,4 +1,4 @@
-const proposal = props.proposal;
+const { proposal, council } = props;
 
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
@@ -45,12 +45,20 @@ const ProposalCard = styled.div`
     &.rejected-icon {
       fill: #ff5e03;
     }
+    &.not-voted-yet-icon {
+      fill:  rgb(140, 140, 140)
+    }
   }
 `;
 
 const VoteList = styled.div`
   display:flex;
   flex-direction:column;
+`;
+
+const VoteLine = styled.div`
+    display: flex;
+    justify-content: space-between;
 `;
 
 const thumbUpSvg = (
@@ -75,6 +83,18 @@ const thumbDownSvg = (
     <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"></path>
   </svg>
 );
+const notVotedYetSvg = (
+  <svg
+    class="not-voted-yet-icon"
+    focusable="false"
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    data-testid="ThumbsUpDownIcon"
+  >
+    <path d="M12 6c0-.55-.45-1-1-1H5.82l.66-3.18.02-.23c0-.31-.13-.59-.33-.8L5.38 0 .44 4.94C.17 5.21 0 5.59 0 6v6.5c0 .83.67 1.5 1.5 1.5h6.75c.62 0 1.15-.38 1.38-.91l2.26-5.29c.07-.17.11-.36.11-.55V6zm10.5 4h-6.75c-.62 0-1.15.38-1.38.91l-2.26 5.29c-.07.17-.11.36-.11.55V18c0 .55.45 1 1 1h5.18l-.66 3.18-.02.24c0 .31.13.59.33.8l.79.78 4.94-4.94c.27-.27.44-.65.44-1.06v-6.5c0-.83-.67-1.5-1.5-1.5z"></path>
+  </svg>
+);
+
 const votes = proposal.proposal.votes;
 
 const getVoteSvg = (vote) => {
@@ -109,21 +129,28 @@ const parseDescription = (description) => {
   return parsedParts;
 };
 
-const voteList = votes
-  ? Object.keys(votes).map((voter) => {
-      return (
-        <div>
-          <a
-            href={`https://explorer.near.org/accounts/${voter}`}
-            target="_blank"
-          >
-            {voter}
-          </a>
-          <span>{getVoteSvg(votes[voter])} </span>
-        </div>
-      );
-    })
-  : "";
+const voteList =
+  council && votes
+    ? council.map((member) => {
+        const hasVoted = Object.keys(votes)
+          .map((v) => v)
+          .includes(member);
+
+        return (
+          <VoteLine>
+            <a
+              href={`https://explorer.near.org/accounts/${member}`}
+              target="_blank"
+            >
+              {member}
+            </a>
+            <span>
+              {hasVoted ? getVoteSvg(votes[member]) : notVotedYetSvg}{" "}
+            </span>
+          </VoteLine>
+        );
+      })
+    : "";
 
 const Status = styled.div`
   font-weight: 700;
@@ -202,38 +229,46 @@ const getTimeLeft = (proposal) => {
 };
 
 return (
-  <ProposalCard>
-    <Header>
-      <Status status={proposal.status}>
-        {proposal.status} <TimeLeft>{getTimeLeft(proposal)}</TimeLeft>
-      </Status>
-      <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
-    </Header>
-    <Type>{proposal.proposal_type}</Type>
-    <PropInfos>
-      <InfoWrapper>
-        <Label>Proposer</Label>
-        <a
-          href={`https://explorer.near.org/accounts/${proposal.proposal.proposer}`}
-          target="_blank"
-        >
-          {proposal.proposal.proposer}
-        </a>
-      </InfoWrapper>
-      <InfoWrapper>
-        <Label>Submission Time</Label>
-        <span>{new Date(proposal.submission_time).toLocaleString()}</span>
-      </InfoWrapper>
-      <InfoWrapper>
-        <Label>Votes</Label>
-        <VoteList>{voteList}</VoteList>
-      </InfoWrapper>
-    </PropInfos>
-    <InfoWrapper>
-      <Label>Description</Label>
-      <Description>
-        {parseDescription(proposal.proposal.description)}
-      </Description>
-    </InfoWrapper>
-  </ProposalCard>
+  <>
+    {proposal && council ? (
+      <ProposalCard>
+        <Header>
+          <Status status={proposal.status}>
+            {proposal.status} <TimeLeft>{getTimeLeft(proposal)}</TimeLeft>
+          </Status>
+          <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
+        </Header>
+        <Type>{proposal.proposal_type}</Type>
+        <PropInfos>
+          <InfoWrapper>
+            <Label>Proposer</Label>
+            <a
+              href={`https://explorer.near.org/accounts/${proposal.proposal.proposer}`}
+              target="_blank"
+            >
+              {proposal.proposal.proposer}
+            </a>
+          </InfoWrapper>
+          <InfoWrapper>
+            <Label>Submission Time</Label>
+            <span>{new Date(proposal.submission_time).toLocaleString()}</span>
+          </InfoWrapper>
+          <InfoWrapper>
+            <Label>
+              Votes ({Object.keys(votes).length}/{council.length})
+            </Label>
+            <VoteList>{voteList}</VoteList>
+          </InfoWrapper>
+        </PropInfos>
+        <InfoWrapper>
+          <Label>Description</Label>
+          <Description>
+            {parseDescription(proposal.proposal.description)}
+          </Description>
+        </InfoWrapper>
+      </ProposalCard>
+    ) : (
+      ""
+    )}
+  </>
 );
