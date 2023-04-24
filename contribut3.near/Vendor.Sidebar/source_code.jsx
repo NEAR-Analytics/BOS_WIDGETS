@@ -1,7 +1,6 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 
-console.log(accountId)
 
 return (
   <Widget
