@@ -44,11 +44,9 @@ const topPosts = sortedPosts.map((postStringified) => {
   );
 });
 
-State.update({ topPosts });
-
 return (
   <>
     <h1>Top posts by reposts</h1>
-    {state.topPosts}
+    {topPosts}
   </>
 );
