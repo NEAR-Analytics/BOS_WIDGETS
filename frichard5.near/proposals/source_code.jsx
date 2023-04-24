@@ -145,6 +145,7 @@ state.proposals.forEach((proposal) => {
       src={`${widgetProvider}/widget/NDC-proposal-card`}
       props={{
         proposal,
+        council: state.council,
       }}
     />
   );
