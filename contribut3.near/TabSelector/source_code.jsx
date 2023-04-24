@@ -4,6 +4,8 @@ const tab = props.tab;
 const accountId = props.accountId;
 const content = props.content;
 const cid = props.cid;
+const projectId = props.projectId;
+const vendorId = props.vendorId;
 
 const TabItem = styled.a`
   position: relative;
@@ -16,12 +18,13 @@ const TabItem = styled.a`
   margin: 0;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  border-bottom: 4px solid ${({ selected }) => selected ? "#0091ff" : "transparent"};
+  border-bottom: 4px solid
+    ${({ selected }) => (selected ? "#0091ff" : "transparent")};
   font-style: normal;
   font-weight: 600;
-  font-size: .95em;
+  font-size: 0.95em;
   line-height: 1em;
-  color: ${({ selected }) => selected ? "#11181c" : "#687076"};
+  color: ${({ selected }) => (selected ? "#11181c" : "#687076")};
 
   &:hover {
     color: #667085;
@@ -64,9 +67,10 @@ return (
       <TabItem
         selected={props.content === id}
         hasCount={!!count && count > 0}
-        href={`/#/${ownerId}/widget/Index?tab=${tab}&content=${id}${props.search ? "&search=" + props.search : ""
+        href={`/${ownerId}/widget/Index?tab=${tab}&content=${id}${props.search ? "&search=" + props.search : ""
           }${accountId ? "&accountId=" + accountId : ""}${cid ? "&cid=" + cid : ""
-          }`}
+          }${projectId ? "&projectId=" + projectId : ""}${vendorId ? "&vendorId=" + vendorId : ""
+            `}
         onClick={() =>
           props.update({
             tab,
@@ -74,6 +78,8 @@ return (
             search: props.search,
             accountId,
             cid,
+            projectId,
+            vendorId,
           })
         }
         key={id}
