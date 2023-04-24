@@ -512,7 +512,6 @@ const limitedMarkdown = styled.div`
 `;
 
 const clampMarkdown = styled.div`
-{
   .clamp {
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
@@ -521,7 +520,7 @@ const clampMarkdown = styled.div`
     text-overflow: ellipsis;
     overflow-wrap: break-word;
   }
-}`
+`
 
 initState({
   clamp: true
