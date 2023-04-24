@@ -194,9 +194,9 @@ let TimeLeft = styled.span`
 
 const getTimeLeft = (proposal) => {
   if (proposal.status === "InProgress") {
-    return formatCountdown(
+    return `${formatCountdown(
       (Date.now() - new Date(proposal.submission_time)) / 1000
-    );
+    )}  left`;
   }
   return "";
 };
@@ -205,7 +205,7 @@ return (
   <ProposalCard>
     <Header>
       <Status status={proposal.status}>
-        {proposal.status} <TimeLeft>{getTimeLeft(proposal)} left</TimeLeft>
+        {proposal.status} <TimeLeft>{getTimeLeft(proposal)}</TimeLeft>
       </Status>
       <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
     </Header>
