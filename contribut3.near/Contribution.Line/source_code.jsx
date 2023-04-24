@@ -86,13 +86,23 @@ const Item = styled.div`
   color: #11181c;
 `;
 
-const lastAction = state.contribution.actions.length > 0 ? state.contribution.actions[state.contribution.actions.length - 1] : null;
+const lastAction =
+  state.contribution.actions.length > 0
+    ? state.contribution.actions[state.contribution.actions.length - 1]
+    : null;
 
 const lastActivity = (
   <Item>
     Last activity:
     <br />
-    {lastAction ? (<>{lastAction.description} at {new Date(Number(lastAction.start_date)).toLocaleDateString()}</>) : <>Contract has started</>}
+    {lastAction ? (
+      <>
+        {lastAction.description} at{" "}
+        {new Date(Number(lastAction.start_date)).toLocaleDateString()}
+      </>
+    ) : (
+      <>Contract has started</>
+    )}
   </Item>
 );
 
@@ -117,8 +127,6 @@ return (
       props={{ accountId: vendorId, size: "1.5em" }}
     />
     <Title>{state.request.title}</Title>
-    <Details>
-      {lastActivity}
-    </Details>
+    <Details>{lastActivity}</Details>
   </Container>
 );
