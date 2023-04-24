@@ -188,6 +188,8 @@ const Description = styled.div`
 `;
 
 let TimeLeft = styled.span`
+    color: rgba(68, 152, 224);
+    margin-left: 10px;
 `;
 
 const getTimeLeft = (proposal) => {
@@ -203,7 +205,7 @@ return (
   <ProposalCard>
     <Header>
       <Status status={proposal.status}>
-        {proposal.status} <TimeLeft>{getTimeLeft(proposal)}</TimeLeft>
+        {proposal.status} <TimeLeft>{getTimeLeft(proposal)} left</TimeLeft>
       </Status>
       <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
     </Header>
