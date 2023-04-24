@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const accountId = props.accountId;
 
 State.init({
   message: "",
@@ -61,7 +62,8 @@ return (
         src={`${ownerId}/widget/InfoSegment`}
         props={{
           title: "The verification process may take 3-5 days",
-          description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.",
+          description:
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.",
         }}
       />
     </Form>
@@ -93,7 +95,11 @@ return (
             </>
           ),
           onClick: () => {
-            console.log("Send claiming request");
+            Near.call(
+              ownerId,
+              "add_claim",
+              { project_id: accountId, message: state.message },
+            )
           },
         }}
       />
