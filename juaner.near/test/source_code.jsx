@@ -1,4 +1,5 @@
-Storage.set("localTestMy", "naturehahaxxxxxxyyyy");
+Storage.set("myname", "xieqian");
+console.log("00000000-cacheData", cacheData);
 return (
   <div>
     good morning
