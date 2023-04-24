@@ -550,12 +550,14 @@ const descriptionArea = isUnderPost ? (
   </limitedMarkdown>
 ) : (
   <clampMarkdown>
+    <div class="clamp">
     <Markdown
-      class="card-text clamp"
+      class="card-text"
       text={snapshot.description}
       onMention={onMention}
       key="description-area"
     ></Markdown>
+    </div>
     {snapshot.description.split('\n').length > 5 ? <button>Read More</button> : <></>}
   </clampMarkdown>
 );
