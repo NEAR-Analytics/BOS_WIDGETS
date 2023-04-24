@@ -131,12 +131,13 @@ if (!state.requestsIsFetched) {
   ).then((requests) =>
     State.update({
       requests: requests.map(([accountId, cid]) => ({
-        name: (
-          <Widget
-            src={`${ownerId}/widget/Request.Line`}
-            props={{ accountId, cid, size: "1em" }}
-          />
-        ),
+        // name: (
+        //   <Widget
+        //     src={`${ownerId}/widget/Request.Line`}
+        //     props={{ accountId, cid, size: "1em" }}
+        //   />
+        // ),
+        name: cid,
         value: cid,
       })),
       requestsIsFetched: true,
@@ -236,7 +237,10 @@ return (
         src={`${ownerId}/widget/Inputs.RadioGroup`}
         props={{
           label: "Proposal terms",
-          items: [{ value: "specify", name: "Specify proposal terms" }, { value: "no", name: "Don't specify" }],
+          items: [
+            { value: "specify", name: "Specify proposal terms" },
+            { value: "no", name: "Don't specify" },
+          ],
           value: state.proposalTerm,
           onChange: (proposalTerm) => State.update({ proposalTerm }),
         }}
@@ -279,7 +283,8 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.Checkbox`}
         props={{
-          label: "Yes, I understand and agree with NEAR Horizon credit and payment system",
+          label:
+            "Yes, I understand and agree with NEAR Horizon credit and payment system",
           value: state.agree,
           id: "agree",
           onChange: (agree) => State.update({ agree }),
@@ -314,7 +319,20 @@ return (
             </>
           ),
           onClick: () => {
-            console.log("Send proposal");
+            Near.call(ownerId, "add_proposal", {
+              proposal: {
+                vendor_id: state.vendorId.value,
+                request_id: [accountId, cid],
+                title: state.request.title,
+                description: state.message,
+                price: Number(state.price),
+                payment_type: state.paymentType.value,
+                proposal_type: state.requestType.value,
+                payment_source: state.paymentSource.value,
+                start_date: `${new Date(state.startDate).getTime()}`,
+                end_date: `${new Date(state.endDate).getTime()}`,
+              },
+            });
           },
         }}
       />
