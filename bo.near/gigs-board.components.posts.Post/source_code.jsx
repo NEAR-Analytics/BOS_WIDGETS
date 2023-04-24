@@ -512,14 +512,13 @@ const limitedMarkdown = styled.div`
 `;
 
 const clampMarkdown = styled.div`
-  .clamp {
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    overflow-wrap: break-word;
-  }
+{
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }`
 
 initState({
