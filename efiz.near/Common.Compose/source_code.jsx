@@ -1,9 +1,4 @@
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
-const allowPublicPosting = props.allowPublicPosting || false;
-const isMember = props.isMember || false;
-const communityDomain = props.communityDomain || null;
-const embedHashtags = props.embedHashtags || [];
-const exclusive = props.exclusive || false;
 
 const profile = Social.getr(`${context.accountId}/profile`);
 
@@ -12,59 +7,6 @@ if (state.image === undefined) {
     image: {},
     text: props.initialText || "",
   });
-
-  if (props.onHelper) {
-    const extractMentions = (text) => {
-      const mentionRegex =
-        /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-      mentionRegex.lastIndex = 0;
-      const accountIds = new Set();
-      for (const match of text.matchAll(mentionRegex)) {
-        if (
-          !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-          !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-          match[1].length >= 2 &&
-          match[1].length <= 64
-        ) {
-          accountIds.add(match[1].toLowerCase());
-        }
-      }
-      return [...accountIds];
-    };
-
-    const extractHashtags = (text) => {
-      const hashtagRegex = /#(\w+)/gi;
-      hashtagRegex.lastIndex = 0;
-      const hashtags = new Set();
-      for (const match of text.matchAll(hashtagRegex)) {
-        if (
-          !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-          !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-        ) {
-          hashtags.add(match[1].toLowerCase());
-        }
-      }
-      return [...hashtags];
-    };
-
-    const extractMentionNotifications = (text, item) =>
-      extractMentions(text || "")
-        .filter((accountId) => accountId !== context.accountId)
-        .map((accountId) => ({
-          key: accountId,
-          value: {
-            type: "mention",
-            item,
-          },
-        }));
-
-    props.onHelper({
-      extractHashtags,
-      extractMentions,
-      extractTagNotifications: extractMentionNotifications,
-      extractMentionNotifications,
-    });
-  }
 }
 
 const content = {
@@ -72,6 +14,59 @@ const content = {
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
 };
+
+if (props.onHelper) {
+  const extractMentions = (text) => {
+    const mentionRegex =
+      /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+    mentionRegex.lastIndex = 0;
+    const accountIds = new Set();
+    for (const match of text.matchAll(mentionRegex)) {
+      if (
+        !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+        !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+        match[1].length >= 2 &&
+        match[1].length <= 64
+      ) {
+        accountIds.add(match[1].toLowerCase());
+      }
+    }
+    return [...accountIds];
+  };
+
+  const extractHashtags = (text) => {
+    const hashtagRegex = /#(\w+)/gi;
+    hashtagRegex.lastIndex = 0;
+    const hashtags = new Set();
+    for (const match of text.matchAll(hashtagRegex)) {
+      if (
+        !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+        !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
+      ) {
+        hashtags.add(match[1].toLowerCase());
+      }
+    }
+    return [...hashtags];
+  };
+
+  const extractMentionNotifications = (text, item) =>
+    extractMentions(text || "")
+      .filter((accountId) => accountId !== context.accountId)
+      .map((accountId) => ({
+        key: accountId,
+        value: {
+          type: "mention",
+          item,
+        },
+      }));
+
+  props.onHelper({
+    extractHashtags,
+    extractMentions,
+    extractTagNotifications: extractMentionNotifications,
+    extractMentionNotifications,
+  });
+}
 
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
@@ -82,19 +77,6 @@ function autoCompleteAccountId(id) {
   let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
   text = `${text} @${id}`.trim() + " ";
   State.update({ text, showAccountAutocomplete: false });
-}
-
-const onChange = (text) => {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-  State.update({ text, showAccountAutocomplete });
-};
-
-const jContent = JSON.stringify(content);
-if (props.onChange && jContent !== state.jContent) {
-  State.update({
-    jContent,
-  });
-  props.onChange({ content });
 }
 
 const Wrapper = styled.div`
@@ -371,7 +353,7 @@ return (
         </Avatar>
         <Textarea data-value={state.text}>
           <textarea
-            placeholder={props.placeholder || "What's happening?"}
+            placeholder="What's happening?"
             onInput={(event) => textareaInputHandler(event.target.value)}
             onKeyUp={(event) => {
               if (event.key === "Escape") {
@@ -438,7 +420,15 @@ return (
           <i className="bi bi-eye-fill" />
         )}
       </button>
-      {props.composeButton && props.composeButton(onCompose)}
+      <CommitButton
+        disabled={!state.text}
+        force
+        data={composeData}
+        onCommit={onCommit}
+        className="commit-post-button"
+      >
+        Post
+      </CommitButton>
     </Actions>
   </Wrapper>
 );
