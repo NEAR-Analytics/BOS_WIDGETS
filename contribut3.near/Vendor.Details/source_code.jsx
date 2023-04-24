@@ -157,8 +157,8 @@ return (
             id === "short"
               ? "Short-term work"
               : id === "long"
-                ? "Long-term work"
-                : "Full-time job",
+              ? "Long-term work"
+              : "Full-time job",
         })),
         options: [
           { name: "Short-term work", id: "short" },
