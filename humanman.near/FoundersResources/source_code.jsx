@@ -92,6 +92,15 @@ const props = {
       video: "",
       tags: ["business fundamentals", "fundraising"],
     },
+    {
+      height: "425px",
+      title: "Launching A Token",
+      link: "https://legalnodes.com/article/legal-structure-decentralized-apps",
+      description: "Key considerations before launching and promoting a token",
+      img: "https://nearhorizonassets.s3.amazonaws.com/launching-a-token-key-considerations.gif",
+      video: "https://youtu.be/wZCsoyLClaI",
+      tags: ["legal", "crypt-economics"],
+    },
   ],
   growth: [
     {
