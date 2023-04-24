@@ -187,10 +187,13 @@ const Description = styled.div`
   max-height: 150px;
 `;
 
-const timeLeft = formatCountdown(
-  (Date.now() - new Date(proposal.submission_time)) / 1000
-);
-console.log("TIME LEFT", timeLeft);
+if (proposal.status === "InProgress") {
+  const timeLeft = formatCountdown(
+    (Date.now() - new Date(proposal.submission_time)) / 1000
+  );
+  console.log("TIME LEFT", timeLeft);
+}
+
 return (
   <ProposalCard>
     <Header>
