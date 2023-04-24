@@ -108,6 +108,31 @@ const getRarityColor = (rarity) => {
   }
 };
 
+const Stats = styled.div`
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: "100%";
+      max-width: 800px;
+      gap: 20px;
+  `;
+
+const Main = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  `;
+
+const PageTitle = styled.h1`
+  text-align:center;
+  font-size: 48px; 
+  font-weight: bold; 
+  margin-bottom: 20px; 
+  `;
+
 return (
   <div
     style={{
@@ -117,9 +142,7 @@ return (
       padding: "20px",
     }}
   >
-    <h1 style={{ fontSize: "48px", fontWeight: "bold", marginBottom: "20px" }}>
-      💧 GenaDrop NEAR NFTs
-    </h1>
+    <PageTitle>💧 GenaDrop NEAR NFTs</PageTitle>
     <div
       style={{
         display: "flex",
@@ -130,26 +153,8 @@ return (
       }}
     ></div>
     {state.collectionData && (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "10px",
-          marginBottom: "20px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-            width: "100%",
-            maxWidth: "800px",
-            gap: "20px",
-          }}
-        >
+      <Main>
+        <Stats>
           <div>
             <p>USD Volume:</p>
             <p>{Math.round(state.collectionData.usd_volume)}</p>
@@ -167,8 +172,8 @@ return (
             <p>Collection Size:</p>
             <p>{state.collectionData.collection_size}</p>
           </div>
-        </div>
-      </div>
+        </Stats>
+      </Main>
     )}
     {state.nftData.length > 0 && (
       <div
