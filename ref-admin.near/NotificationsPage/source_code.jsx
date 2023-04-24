@@ -1,4 +1,5 @@
 const accountId = context.accountId;
+
 if (!accountId) {
   return <></>;
 }
@@ -30,7 +31,7 @@ const Wrapper = styled.div`
 const H1 = styled.h1`
   font-size: 24px;
   line-height: 1.2em;
-  color: #fff;
+  color: #11181c;
   margin: 0 0 24px;
 `;
 
@@ -39,14 +40,15 @@ const renderItem = (item, i) => {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
   return (
-    <Widget src="ref-admin.near/widget/Notification" key={i} props={item} />
+    <Widget src="adminalpha.near/widget/Notification" key={i} props={item} />
   );
 };
+
 return (
   <Wrapper>
-    <H1 class="h1Title">Your Notifications</H1>
+    <H1>Your Notifications</H1>
     <Widget
-      src="ref-admin.near/widget/IndexFeed"
+      src="adminalpha.near/widget/IndexFeed"
       props={{ index, renderItem, moderatorAccount: "adminalpha.near" }}
     />
   </Wrapper>
