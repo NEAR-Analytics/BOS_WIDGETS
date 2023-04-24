@@ -238,7 +238,7 @@ return (
             </>
           ),
           onClick: () => {
-            console.log("Send invite");
+            // TODO: Send invite notification to vendor with state.message for request with ID state.requestId
           },
         }}
       />
