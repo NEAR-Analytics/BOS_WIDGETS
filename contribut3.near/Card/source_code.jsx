@@ -35,7 +35,7 @@ const CardBody = styled.div`
   flex: none;
   order: 0;
   align-self: stretch;
-  flex-grow: 0;
+  flex-grow: 1;
 `;
 
 const CardFooter = styled.div`
