@@ -238,7 +238,7 @@ return (
             </>
           ),
           onClick: () => {
-            console.log("Send request");
+            console.log("Send invite");
           },
         }}
       />
