@@ -353,7 +353,7 @@ return (
         </Avatar>
         <Textarea data-value={state.text}>
           <textarea
-            placeholder="What's happening?"
+            placeholder={props.placeholder || "What's happening?"}
             onInput={(event) => textareaInputHandler(event.target.value)}
             onKeyUp={(event) => {
               if (event.key === "Escape") {
