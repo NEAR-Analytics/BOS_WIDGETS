@@ -29,6 +29,10 @@ const ListContainer = styled.div`
 `;
 
 const WidgetContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   flex-shrink: 0;
   width: 100%;
 
