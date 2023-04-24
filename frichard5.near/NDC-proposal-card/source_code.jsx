@@ -1,5 +1,32 @@
 const proposal = props.proposal;
 
+const formatCountdown = (seconds) => {
+  const d = Math.floor(seconds / (24 * 3600));
+  const h = Math.floor((seconds - d * 24 * 3600) / 3600);
+  const m = Math.floor((seconds - d * 24 * 3600 - h * 3600) / 60);
+  const s = Math.floor(seconds - d * 24 * 3600 - h * 3600 - m * 60);
+
+  let res = "";
+
+  if (d > 0) {
+    res += `${d}d `;
+  }
+
+  if (h > 0) {
+    res += `${h}h `;
+  }
+
+  if (m > 0) {
+    res += `${m}m `;
+  }
+
+  if (!res && s > 0 && s < 60) {
+    res = "less than a minute";
+  }
+
+  return res;
+};
+
 const ProposalCard = styled.div`
   position: relative;
   height: 350px;
@@ -160,10 +187,16 @@ const Description = styled.div`
   max-height: 150px;
 `;
 
+const timeLeft = formatCountdown(
+  (Date.now() - new Date(proposal.submission_time)) / 1000
+);
+console.log("TIME LEFT", timeLeft);
 return (
   <ProposalCard>
     <Header>
-      <Status status={proposal.status}>{proposal.status}</Status>
+      <Status status={proposal.status}>
+        {proposal.status} <>2d left</>
+      </Status>
       <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
     </Header>
     <Type>{proposal.proposal_type}</Type>
