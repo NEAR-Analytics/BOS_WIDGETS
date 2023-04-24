@@ -420,15 +420,7 @@ return (
           <i className="bi bi-eye-fill" />
         )}
       </button>
-      <CommitButton
-        disabled={!state.text}
-        force
-        data={composeData}
-        onCommit={onCommit}
-        className="commit-post-button"
-      >
-        Post
-      </CommitButton>
+      {props.composeButton && props.composeButton(onCompose)}
     </Actions>
   </Wrapper>
 );
