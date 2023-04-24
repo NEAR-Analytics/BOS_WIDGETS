@@ -1,4 +1,9 @@
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
+const allowPublicPosting = props.allowPublicPosting || false;
+const isMember = props.isMember || false;
+const communityDomain = props.communityDomain || null;
+const embedHashtags = props.embedHashtags || [];
+const exclusive = props.exclusive || false;
 
 const profile = Social.getr(`${context.accountId}/profile`);
 
