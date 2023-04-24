@@ -21,7 +21,7 @@ const loadMore = () => {
 const ListContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.5em;
