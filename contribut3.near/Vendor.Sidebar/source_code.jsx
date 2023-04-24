@@ -8,7 +8,6 @@ return (
     props={{
       accountId,
       onSave: (profile) => {
-        console.log(accountId)
         Near.call({
           contractName: "social.near",
           methodName: "edit_project",
