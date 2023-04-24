@@ -79,6 +79,19 @@ function autoCompleteAccountId(id) {
   State.update({ text, showAccountAutocomplete: false });
 }
 
+const onChange = (text) => {
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+  State.update({ text, showAccountAutocomplete });
+};
+
+const jContent = JSON.stringify(content);
+if (props.onChange && jContent !== state.jContent) {
+  State.update({
+    jContent,
+  });
+  props.onChange({ content });
+}
+
 const Wrapper = styled.div`
   --padding: 24px;
   position: relative;
