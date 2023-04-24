@@ -40,6 +40,7 @@ const CardBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   padding: 1.5em 1.5em 1em;
   gap: 0.675em;
   flex: none;
@@ -59,7 +60,7 @@ const CardFooter = styled.div`
   order: 1;
   align-self: stretch;
   flex-grow: 0;
-  flex-shring: 1;
+  flex-shrink: 1;
 `;
 
 return (
