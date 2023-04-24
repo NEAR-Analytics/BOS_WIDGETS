@@ -130,7 +130,7 @@ return (
   <Container>
     <Label>{label}</Label>
     <Select.Root
-      value={value?.value ?? null}
+      value={value?.value}
       onValueChange={(value) =>
         onChange(options.find((option) => option.value === value))
       }
