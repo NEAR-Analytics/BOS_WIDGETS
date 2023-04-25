@@ -138,7 +138,7 @@ if (!state.statsIsFetched) {
   });
 }
 
-console.log(nacl, elliptic)
+console.log({ nacl, elliptic, context })
 
 return (
   <Container>
