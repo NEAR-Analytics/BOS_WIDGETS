@@ -33,13 +33,10 @@ const index = {
   },
 };
 
-console.log(Social.index(index.action, index.key, index.options));
-
 const renderItem = (item, i) => {
   if (i === 0) {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
-  console.log(item);
   return <Widget src={`${ownerId}/widget/Notification.Index`} key={i} props={item} />;
 };
 
