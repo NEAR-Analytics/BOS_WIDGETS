@@ -1,17 +1,13 @@
-const moderatorAccount = props.moderatorAccount || "bosmod.near";
-
 const identifier = props.identifier;
 const notifyAccountId = props.notifyAccountId;
-
-// discussions generally happen inside another widget
-const parentComponent = props.parentComponent;
-const notificationWidgetParams = props.notificationWidgetParams || {
-  identifier,
-};
 const highlightComment = props.highlightComment;
-
+const moderatorAccount = props.moderatorAccount || "bosmod.near";
 const notLoggedMessage =
-  props.notLoggedMessage || "Please login to join the discussion";
+  props.notLoggedMessage || "Login to join the discussion";
+
+// discussions happen inside other components
+const parentComponent = props.parentComponent;
+const parentParams = { ...props.parentParams };
 
 if (!identifier) {
   return "[NestedDiscussions]: Please setup an identifier for the discussion";
