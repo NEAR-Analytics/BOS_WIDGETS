@@ -147,7 +147,7 @@ const MenuIcon = styled.button`
   flex-grow: 0;
   border: none;
 
-  &:focus {
+  &:focus-visible {
     outline: none;
   }
 `;
