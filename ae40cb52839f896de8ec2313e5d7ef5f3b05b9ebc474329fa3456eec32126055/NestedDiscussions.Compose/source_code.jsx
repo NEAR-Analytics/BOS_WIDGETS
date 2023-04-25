@@ -1,13 +1,12 @@
-const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
-const notificationWidget = props.notificationWidget;
-var notificationParams = props.notificationParams;
+const parentComponent = props.parentComponent;
+const parentParams = props.parentParams;
 
 if (!context.accountId) return <></>;
 
 const commentId = context.accountId + Date.now();
-notificationParams = { highlightComment: commentId, ...notificationParams };
+const notificationParams = { highlightComment: commentId, ...parentParams };
 
 State.init({
   image: {},
@@ -18,10 +17,11 @@ State.init({
 const profile = Social.getr(`${context.accountId}/profile`);
 
 const content = {
-  type: "md",
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
   commentId,
+  parentComponent,
+  parentParams,
 };
 
 function extractMentions(text) {
