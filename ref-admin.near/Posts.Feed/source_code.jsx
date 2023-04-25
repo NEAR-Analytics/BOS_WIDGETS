@@ -9,7 +9,7 @@ const index = {
 };
 
 const Post = styled.div`
-  border-bottom: 1px solid rgba(48, 67, 82, 0.5);
+  border-bottom: 1px solid #eceef0;
   padding: 24px 0 12px;
 
   @media (max-width: 1200px) {
@@ -29,7 +29,7 @@ const renderItem = (a) =>
 
 return (
   <Widget
-    src="ref-admin.near/widget/IndexFeed"
+    src="adminalpha.near/widget/IndexFeed"
     props={{ index, renderItem, moderatorAccount: "adminalpha.near" }}
   />
 );
