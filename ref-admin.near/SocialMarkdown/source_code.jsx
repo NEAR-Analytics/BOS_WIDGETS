@@ -33,13 +33,13 @@ const Wrapper = styled.div`
   }
 
   a {
-    color: #7E8A93;
+    color: #006adc;
     outline: none;
     font-weight: 600;
 
     &:hover,
     &:focus {
-      color: #7E8A93;
+      color: #006adc;
       text-decoration: underline;
     }
   }
@@ -48,18 +48,6 @@ const Wrapper = styled.div`
     display: block;
     max-width: 100%;
     max-height: 80vh;
-  }
-  .table-striped{
-      strong{
-          color:#7E8A93;
-      }
-      thead tr th{
-        border-bottom:1px solid rgba(48, 67, 82, 0.5);
-      }
-      tbody tr td{
-          color:#fff;
-          border-bottom:1px solid rgba(48, 67, 82, 0.5);
-      }
   }
 `;
 
