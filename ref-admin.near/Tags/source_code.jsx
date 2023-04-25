@@ -15,7 +15,7 @@ const Wrapper = styled.div`
       display: block;
       height: 100%;
       width: 16px;
-      background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
+      // background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
       position: absolute;
       top: 0;
       right: 0;
