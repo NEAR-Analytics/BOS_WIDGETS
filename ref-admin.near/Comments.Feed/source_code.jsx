@@ -18,13 +18,13 @@ const Wrapper = styled.div`
       margin-bottom: 24px;
       font-size: 14px;
       line-height: 20px;
-      color: #687076;
+      color: #fff;
       outline: none;
       font-weight: 600;
 
       &:hover,
       &:focus {
-        color: #687076;
+        color: #fff;
         text-decoration: underline;
       }
     }
