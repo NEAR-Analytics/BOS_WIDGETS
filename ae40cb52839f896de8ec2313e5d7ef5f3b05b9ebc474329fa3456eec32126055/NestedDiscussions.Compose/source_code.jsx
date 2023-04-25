@@ -49,7 +49,6 @@ function extractTagNotifications(text, item) {
         type: "custom",
         message: "Tagged you on a discussion",
         widget: notificationWidget,
-        blockHeight: item.blockHeight,
         params: { highlightComment: commentId, ...notificationParams },
       },
     }));
@@ -79,7 +78,6 @@ function composeData() {
         type: "custom",
         message: "Commented on a discussion",
         widget: notificationWidget,
-        blockHeight: item.blockHeight,
         params: { highlightComment: commentId, ...notificationParams },
       },
     });
