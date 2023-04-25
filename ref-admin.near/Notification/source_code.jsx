@@ -173,7 +173,7 @@ return (
     <div>
       {(type === "follow" || type === "unfollow") && (
         <Widget
-          src="adminalpha.near/widget/FollowButton"
+          src="ref-admin.near/widget/FollowButton"
           props={{ accountId: props.accountId }}
         />
       )}
