@@ -1,5 +1,9 @@
 const ownerId = "contribut3.near";
 
+if (!context.accountId) {
+  return <Widget src={`${ownerId}/widget/InfoSegment`} props={{ title: "Not logged in!", description: "You must log in to look at your notifications!" }} />;
+}
+
 const Wrapper = styled.div`
   padding-bottom: 48px;
 
@@ -41,6 +45,13 @@ const renderItem = (item, i) => {
     <Widget src={`${ownerId}/widget/Notification.Index`} key={i} props={item} />
   );
 };
+
+State.init({
+  projects: null,
+  projectsIsFetched: false,
+  requests: null,
+  requestsIsFetched: false,
+})
 
 return (
   <Wrapper>
