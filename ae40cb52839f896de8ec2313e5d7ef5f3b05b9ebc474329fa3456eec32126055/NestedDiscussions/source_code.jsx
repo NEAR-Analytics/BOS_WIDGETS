@@ -6,6 +6,11 @@ const composeWidget =
   props.composeWidget || "near/widget/NestedDiscussions.Compose";
 const previewWidget =
   props.previewWidget || "near/widget/NestedDiscussions.Preview";
+
+// discussions generally happen inside another widget
+const parentWidget = props.parentWidget || props.previewWidget;
+const highlightComment = props.highlightComment;
+
 const notLoggedMessage =
   props.notLoggedMessage || "Please login to join the discussion";
 
@@ -44,7 +49,12 @@ return (
       <ComposeWrapper>
         <Widget
           src={composeWidget}
-          props={{ dbAction, identifier, previewWidget, notifyAccountId }}
+          props={{
+            dbAction,
+            identifier,
+            previewWidget: parentWidget,
+            notifyAccountId,
+          }}
         />
       </ComposeWrapper>
     ) : (
@@ -57,7 +67,9 @@ return (
           dbAction,
           composeWidget,
           previewWidget,
+          parentWidget,
           identifier,
+          highlightComment,
           moderatorAccount,
         }}
       />
