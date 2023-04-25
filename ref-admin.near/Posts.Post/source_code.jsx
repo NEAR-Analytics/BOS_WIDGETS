@@ -26,7 +26,7 @@ const Post = styled.div`
     top: 52px;
     bottom: 12px;
     width: 2px;
-    background: rgba(48, 67, 82, 0.5);
+    background: #eceef0;
   }
 `;
 
@@ -76,7 +76,7 @@ return (
   <Post>
     <Header>
       <Widget
-        src="ref-admin.near/widget/AccountProfile"
+        src="adminalpha.near/widget/AccountProfile"
         props={{
           accountId,
           hideAccountId: true,
@@ -106,7 +106,7 @@ return (
       <Content>
         {content.text && (
           <Widget
-            src="ref-admin.near/widget/SocialMarkdown"
+            src="adminalpha.near/widget/SocialMarkdown"
             props={{ text: content.text }}
           />
         )}
@@ -124,21 +124,21 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="ref-admin.near/widget/LikeButton"
+            src="adminalpha.near/widget/LikeButton"
             props={{
               item,
               notifyAccountId,
             }}
           />
           <Widget
-            src="ref-admin.near/widget/CommentButton"
+            src="adminalpha.near/widget/CommentButton"
             props={{
               item,
               onClick: () => State.update({ showReply: !state.showReply }),
             }}
           />
           <Widget
-            src="ref-admin.near/widget/CopyUrlButton"
+            src="adminalpha.near/widget/CopyUrlButton"
             props={{
               url: postUrl,
             }}
@@ -149,7 +149,7 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="ref-admin.near/widget/Comments.Compose"
+            src="adminalpha.near/widget/Comments.Compose"
             props={{
               notifyAccountId,
               item,
@@ -161,7 +161,7 @@ return (
 
       <Comments>
         <Widget
-          src="ref-admin.near/widget/Comments.Feed"
+          src="adminalpha.near/widget/Comments.Feed"
           props={{
             item,
             highlightComment: props.highlightComment,
