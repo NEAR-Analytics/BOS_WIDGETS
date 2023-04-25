@@ -1,5 +1,5 @@
 const Button = styled.button`
-  border: 0;
+  border: 0 !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
