@@ -15,7 +15,7 @@ const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 return (
   <div>
     {state.cid ?
-      <a href={ipfsUrl(state.cid)} download>Your file</a>
+      <a href={ipfsUrl(state.cid)} download>{state.filename}</a>
       : <></>}
     <Files
       multiple={false}
