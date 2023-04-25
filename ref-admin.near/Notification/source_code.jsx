@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   transition: background-color 200ms;
   > *:first-child {
     width: 200px;
-    border-right: 1px solid #eceef0;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
     padding-right: 24px;
   }
 
