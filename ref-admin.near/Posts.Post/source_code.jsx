@@ -26,7 +26,7 @@ const Post = styled.div`
     top: 52px;
     bottom: 12px;
     width: 2px;
-    background: #eceef0;
+    background: rgba(48, 67, 82, 0.5);
   }
 `;
 
