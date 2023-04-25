@@ -1,9 +1,11 @@
 const dbAction = props.dbAction;
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
+const notificationWidget = props.notificationWidget;
+const highlightComment = props.highlightComment;
+
 const identifier = props.identifier;
 const moderatorAccount = props.moderatorAccount;
-const notifyOnEachComment = props.notifyOnEachComment;
 
 const index = {
   action: dbAction,
@@ -31,7 +33,8 @@ const renderItem = (a) =>
           composeWidget,
           previewWidget,
           moderatorAccount,
-          notifyOnEachComment,
+          notificationWidget,
+          highlightComment,
         }}
       />
     </Post>
