@@ -37,6 +37,14 @@ const FeedWrapper = styled.div`
   }
 `;
 
+const Highlight = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: aqua;
+  color: white
+`;
+
 return (
   <DiscussionContainer>
     {context.accountId ? (
@@ -56,9 +64,9 @@ return (
       <p> Login to {placeholder.toLowerCase()} </p>
     )}
     {highlightComment && (
-      <>
+      <Highlight>
         <a href="#highlight">Jump to highlighted comment</a>
-      </>
+      </Highlight>
     )}
     <FeedWrapper>
       <Widget
