@@ -13,6 +13,7 @@ const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 return (
   <div>
+    {state.cid}
     <a href={ipfsUrl(state.cid)} download>Your file</a>
     <Files
       multiple={false}
@@ -25,7 +26,7 @@ return (
 
         const [body] = files;
 
-        State.update({ uploading: true, });
+        State.update({ uploading: true, cid: null });
         asyncFetch(
           "https://ipfs.near.social/upload",
           {
