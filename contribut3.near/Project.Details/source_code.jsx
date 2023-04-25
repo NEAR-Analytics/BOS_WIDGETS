@@ -76,18 +76,10 @@ return (
       }}
     />
     <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.Select`}
+      src={`${ownerId}/widget/Inputs.Viewable.Category`}
       props={{
-        label: "Category",
-        id: "category",
         value: state.profile.category,
-        options: [
-          { name: "Wallets" },
-          { name: "Games" },
-          { name: "Social" },
-          { name: "Other" },
-        ],
-        onSave: ([{ name: category }]) =>
+        onSave: ({ value: category }) =>
           Near.call("social.near", "set", {
             data: { [accountId]: { profile: { category } } },
           }),
