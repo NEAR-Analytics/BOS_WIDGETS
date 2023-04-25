@@ -33,11 +33,11 @@ const index = {
   },
 };
 
-Social.index("inbox", context.accountId, {
+console.log(Social.index("inbox", context.accountId, {
   limit: 10,
   order: "desc",
   subscribe: true,
-});
+}));
 
 const renderItem = (item, i) => {
   if (i === 0) {
