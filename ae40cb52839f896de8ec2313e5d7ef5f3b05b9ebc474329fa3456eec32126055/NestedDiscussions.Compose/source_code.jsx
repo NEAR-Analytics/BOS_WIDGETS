@@ -8,7 +8,7 @@ var notificationParams = props.notificationParams;
 if (!context.accountId) return <></>;
 
 const commentId = context.accountId + Date.now();
-notificationParams = { highlightComment: commentId, notificationParams };
+notificationParams = { highlightComment: commentId, ...notificationParams };
 
 State.init({
   image: {},
