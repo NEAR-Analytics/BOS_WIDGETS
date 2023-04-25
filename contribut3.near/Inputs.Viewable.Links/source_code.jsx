@@ -84,7 +84,7 @@ return (
           <Widget
             src={`${ownerId}/widget/SocialLinks`}
             props={{ links: value }}
-          /> : <></>),
+          /> : null),
       canEdit,
     }}
   />
