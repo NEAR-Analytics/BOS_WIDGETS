@@ -62,10 +62,10 @@ const Wrapper = styled.div`
     text-align: center;
     cursor: pointer;
     background: #FBFCFD;
-    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    border: none;
     color: #fff !important;
     white-space: nowrap;
-    background: rgba(26, 46, 51, 0.25);
+    background: #304352;
 
     &:hover,
     &:focus {
