@@ -76,7 +76,7 @@ function composeData() {
 
   let notifications = [];
 
-  if (notifyAccountId) {
+  if (notifyAccountId && notifyAccountId !== context.accountId) {
     notifications.push({
       key: notifyAccountId,
       value: {
