@@ -42,7 +42,7 @@ const Highlight = styled.div`
     position: fixed;
     bottom: 1.2rem;
     right: 1.2rem;
-    background: aqua;
+    background: var(--bs-link-color);
     color: white;
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
