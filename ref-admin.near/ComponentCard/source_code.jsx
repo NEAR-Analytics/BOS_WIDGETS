@@ -39,7 +39,6 @@ const CardFooter = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 16px;
-  border-top: 1px solid #eceef0;
 `;
 
 const CardTag = styled.p`
@@ -128,20 +127,20 @@ const TagsWrapper = styled.div`
 const ButtonLink = styled.a`
   padding: 8px;
   height: 32px;
-  border: 1px solid #d7dbdf;
   border-radius: 100px;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   text-align: center;
   cursor: pointer;
-  color: ${(p) => (p.primary ? "#006ADC" : "#11181C")} !important;
-  background: #fbfcfd;
+  color: ${(p) => (p.primary ? "#fff" : "#fff")} !important;
   white-space: nowrap;
+  background: rgba(26, 46, 51, 0.25);
+   border: 0.5px solid rgba(255, 255, 255, 0.3);
 
   &:hover,
   &:focus {
-    background: #ecedee;
+    // background: #ecedee;
     text-decoration: none;
     outline: none;
   }
