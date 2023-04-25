@@ -98,7 +98,7 @@ const notifications = [...new Set([...state.projects, ...state.vendors])]
 
     return [...allNotifications, ...notificationsForAccount];
   }, [])
-  .sort((a, b) => b.blockHeight - a.blockHeight);
+// .sort((a, b) => b.blockHeight - a.blockHeight);
 
 console.log({ notifications });
 
