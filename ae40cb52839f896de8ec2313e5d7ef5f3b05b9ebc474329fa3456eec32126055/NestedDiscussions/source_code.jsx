@@ -46,6 +46,11 @@ const Highlight = styled.div`
     color: white;
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
+    z-index: 99;
+  }
+
+  a:hover {
+    color: white;
   }
 `;
 
