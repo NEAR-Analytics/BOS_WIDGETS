@@ -131,14 +131,14 @@ return (
             }}
           />
           <Widget
-            src="adminalpha.near/widget/CommentButton"
+            src="ref-admin.near/widget/CommentButton"
             props={{
               hideCount: true,
               onClick: () => State.update({ showReply: !state.showReply }),
             }}
           />
           <Widget
-            src="adminalpha.near/widget/CopyUrlButton"
+            src="ref-admin.near/widget/CopyUrlButton"
             props={{
               url: commentUrl,
             }}
