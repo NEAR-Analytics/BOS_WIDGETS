@@ -77,6 +77,11 @@ if (!state.projectsIsFetched || !state.vendorsIsFetched) {
   return <>Loading...</>;
 }
 
+const projects = state.projects.reduce((acc, project) => {
+  const projectNotifications = Social.index("inbox", project, { order: "desc", subscribe: true });
+  return [...acc, ...projectNotifications];
+}, []);
+
 return (
   <Wrapper>
     <Header>{header}</Header>
