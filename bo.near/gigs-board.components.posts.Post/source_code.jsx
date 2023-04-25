@@ -513,12 +513,8 @@ const limitedMarkdown = styled.div`
 
 const clampMarkdown = styled.div`
   .clamp {
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    display: -webkit-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    overflow-wrap: break-word;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   }
 `;
 
@@ -557,7 +553,7 @@ const descriptionArea = isUnderPost ? (
   </limitedMarkdown>
 ) : (
   <clampMarkdown>
-    <div>
+    <div class={state.clamp ? "clamp" : ""}>
       <Markdown
         class="card-text"
         text={state.clamp ? clampedContent : snapshot.description}
