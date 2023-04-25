@@ -159,7 +159,7 @@ const DropdownContainer = styled.div`
 
 const MenuText = styled.span`
   margin: 0 0.2em;
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 500;
 `;
 
