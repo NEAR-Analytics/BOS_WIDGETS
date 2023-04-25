@@ -53,8 +53,12 @@ const Wrapper = styled.div`
       strong{
           color:#7E8A93;
       }
+      tbody tr th{
+        border-bottom:1px solid rgba(48, 67, 82, 0.5);
+      }
       tbody tr td{
           color:#fff;
+          border-bottom:1px solid rgba(48, 67, 82, 0.5);
       }
   }
 `;
