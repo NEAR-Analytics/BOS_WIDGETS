@@ -32,14 +32,20 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
-  background: rgba(26, 46, 51, 0.25);
-  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid #eceef0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
   padding: 12px;
   border-radius: 12px;
   transition: background-color 200ms;
+
+  &:hover {
+    background: #eefeef;
+  }
+
   > *:first-child {
     width: 200px;
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid #eceef0;
     padding-right: 24px;
   }
 
@@ -67,7 +73,7 @@ const Wrapper = styled.div`
 const Text = styled.p`
   margin: 0;
   line-height: 1.5rem;
-  color: ${(p) => (p.bold ? "#7E8A93" : "#7E8A93")} !important;
+  color: ${(p) => (p.bold ? "#11181C" : "#687076")} !important;
   font-weight: 400;
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
@@ -173,7 +179,7 @@ return (
     <div>
       {(type === "follow" || type === "unfollow") && (
         <Widget
-          src="ref-admin.near/widget/FollowButton"
+          src="adminalpha.near/widget/FollowButton"
           props={{ accountId: props.accountId }}
         />
       )}
