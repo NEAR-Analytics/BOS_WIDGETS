@@ -41,6 +41,7 @@ const TextArea = styled.div`
   color: #667085;
   overflow: hidden;
   flex-grow: 1;
+  transition: height 0.3s ease-in-out;
   height: ${({ wrap }) => (wrap ? "unset" : "1.5em")};
 
   p {
