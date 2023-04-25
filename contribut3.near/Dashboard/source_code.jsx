@@ -138,8 +138,6 @@ if (!state.statsIsFetched) {
   });
 }
 
-console.log({ nacl, elliptic, context })
-
 return (
   <Container>
     <Heading>
