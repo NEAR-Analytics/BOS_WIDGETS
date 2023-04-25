@@ -38,11 +38,15 @@ const FeedWrapper = styled.div`
 `;
 
 const Highlight = styled.div`
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  background: aqua;
-  color: white
+  a {
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    background: aqua;
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+  }
 `;
 
 return (
