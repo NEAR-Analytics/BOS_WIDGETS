@@ -235,7 +235,7 @@ return (
       text: "Inbox",
       icon: mail,
       id: "inbox",
-      count: inboxCount,
+      // count: inboxCount,
     })}
     {navItem({
       text: "Manage",
