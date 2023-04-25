@@ -2,6 +2,10 @@ const Button = styled.button`
   text-transform: lowercase !important;
 `;
 
+const Link = styled.a`
+  text-decoration: none;
+`;
+
 const createEverything = () => {
   Social.set(
     {
@@ -27,10 +31,14 @@ return (
     <div className="mt-auto py-3">
       <div className="container">
         <div className="d-flex justify-content-end gap-2">
-          {context.accountId && (
+          {context.accountId ? (
             <Button onClick={createEverything}>
               create your own everything
             </Button>
+          ) : (
+            <Link href="https://shard.dog/go?url=https://near.social">
+              <Button>create your own everything</Button>
+            </Link>
           )}
           <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
             <Button>documentation</Button>
