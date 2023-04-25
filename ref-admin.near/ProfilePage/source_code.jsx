@@ -103,7 +103,7 @@ const TabsButton = styled.a`
   justify-content: center;
   height: 100%;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   padding: 0 12px;
   position: relative;
   color: ${(p) => (p.selected ? "#fff" : "rgba(255,255,255,0.5)")};
