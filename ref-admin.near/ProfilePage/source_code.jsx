@@ -14,10 +14,9 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `/#/ref-admin.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
-  background: radial-gradient( 64.26% 67.04% at 49.31% 0%, #002c35 0%, #101011 100% ); // todo
   padding-bottom: 48px;
 `;
 
@@ -83,7 +82,6 @@ const Title = styled.h1`
 const Tabs = styled.div`
   display: flex;
   height: 48px;
-  border-bottom: 1px solid #eceef0;
   margin-bottom: 72px;
   overflow: auto;
   scroll-behavior: smooth;
@@ -241,28 +239,28 @@ return (
 
         {state.selectedTab === "nfts" && (
           <Widget
-            src="adminalpha.near/widget/NFTCollection"
+            src="ref-admin.near/widget/NFTCollection"
             props={{ accountId }}
           />
         )}
 
         {state.selectedTab === "apps" && (
           <Widget
-            src="adminalpha.near/widget/ComponentCollection"
+            src="ref-admin.near/widget/ComponentCollection"
             props={{ accountId }}
           />
         )}
 
         {state.selectedTab === "followers" && (
           <Widget
-            src="adminalpha.near/widget/FollowersList"
+            src="ref-admin.near/widget/FollowersList"
             props={{ accountId }}
           />
         )}
 
         {state.selectedTab === "following" && (
           <Widget
-            src="adminalpha.near/widget/FollowingList"
+            src="ref-admin.near/widget/FollowingList"
             props={{ accountId }}
           />
         )}
