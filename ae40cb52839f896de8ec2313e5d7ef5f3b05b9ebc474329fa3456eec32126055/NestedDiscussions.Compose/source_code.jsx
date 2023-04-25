@@ -1,13 +1,15 @@
+const commentId = context.accountId + Date.now();
+
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
 const notificationWidget = props.notificationWidget;
-const notificationParams = props.notificationParams;
+const notificationParams = {
+  highlightComment: commentId,
+  ...props.notificationParams,
+};
 const indexKey = props.indexKey;
 
 if (!context.accountId) return <></>;
-
-const commentId = context.accountId + Date.now();
-const notificationParams = { highlightComment: commentId, ...parentParams };
 
 State.init({
   image: {},
