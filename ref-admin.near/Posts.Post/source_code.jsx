@@ -106,7 +106,7 @@ return (
       <Content>
         {content.text && (
           <Widget
-            src="adminalpha.near/widget/SocialMarkdown"
+            src="ref-admin.near/widget/SocialMarkdown"
             props={{ text: content.text }}
           />
         )}
