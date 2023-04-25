@@ -1,33 +1,29 @@
-// Base case, they called a preview on a discussion, we simply return the main widget
-if (typeof props.identifier === "string") {
-  return (
-    <Widget
-      src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions"
-      props={{ identifier: props.identifier }}
-    />
-  );
-}
-
-// Otherwise, they want to preview a specific comment
 const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 
 const composeWidget =
-  props.composeWidget ||
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose";
-
 const previewWidget =
-  props.previewWidget ||
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
+const notificationWidget =
+  props.notificationWidget ||
+  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions";
 
-const content = JSON.parse(
+var notificationWidgetParams = props.notificationWidgetParams || {
+  identifier,
+};
+const highlightComment = props.highlightComment;
+
+const { content, commentId } = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight)
-).content;
+);
 
-const postUrl = `https://alpha.near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
+const postUrl = `https://near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}`;
 
-// all childs will be identified by this object
+State.init({ hasBeenFlagged: false });
+
+// all children comments will be identified by this object
 const item = {
   accountId,
   blockHeight,
@@ -36,16 +32,17 @@ const item = {
 
 const Post = styled.div`
   position: relative;
+  ${commentId == highlightComment ? "border: 1px solid yellow" : ""}
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     left: 19px;
     top: 52px;
     bottom: 12px;
     width: 2px;
-    background: #ECEEF0;
+    background: #eceef0;
   }
 `;
 
@@ -91,6 +88,14 @@ const Comments = styled.div`
   }
 `;
 
+if (state.hasBeenFlagged) {
+  return (
+    <div className="alert alert-secondary">
+      <i className="bi bi-flag" /> This content has been flagged for moderation
+    </div>
+  );
+}
+
 return (
   <Post>
     <Header>
@@ -134,7 +139,7 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview.LikeButton"
+            src="near/widget/NestedDiscussions.Preview.LikeButton"
             props={{
               item,
               previewWidget,
@@ -142,7 +147,7 @@ return (
             }}
           />
           <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview.CommentButton"
+            src="near/widget/NestedDiscussions.Preview.CommentButton"
             props={{
               dbAction,
               item,
@@ -153,6 +158,19 @@ return (
             src="calebjacob.near/widget/CopyUrlButton"
             props={{
               url: postUrl,
+            }}
+          />
+          <Widget
+            src="near/widget/FlagButton"
+            props={{
+              item: {
+                type: "social",
+                path: `${accountId}/discuss`,
+                blockHeight,
+              },
+              onFlag: () => {
+                State.update({ hasBeenFlagged: true });
+              },
             }}
           />
         </Actions>
@@ -167,6 +185,8 @@ return (
               notifyAccountId: accountId,
               previewWidget,
               identifier: item,
+              notificationWidget,
+              notificationWidgetParams,
               onComment: () => State.update({ showReply: false }),
             }}
           />
