@@ -5,8 +5,8 @@ const moderatorAccount = props.moderatorAccount || "bosmod.near";
 const placeholder = props.placeholder || "Join the discussion";
 
 // discussions happen inside other components
-const notificationComponent = props.parentComponent;
-const notificationParams = { ...props.parentParams };
+const parentComponent = props.parentComponent;
+const parentParams = { ...props.parentParams };
 
 if (!identifier) {
   return "[NestedDiscussions]: Please setup an identifier for the discussion";
@@ -46,8 +46,8 @@ return (
           props={{
             placeholder,
             identifier,
-            notificationComponent,
-            notificationParams,
+            parentComponent,
+            parentParams,
             notifyAccountId,
           }}
         />
