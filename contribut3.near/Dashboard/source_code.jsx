@@ -132,7 +132,9 @@ State.init({
 });
 
 if (!state.statsIsFetched) {
-  asyncFetch("https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest").then((response) =>
+  asyncFetch(
+    "https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest"
+  ).then((response) =>
     State.update({ stats: response.body[0], statsIsFetched: true })
   );
 }
@@ -154,14 +156,22 @@ return (
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: state.statsIsFetched ? Number(state.stats.MAU).toLocaleString("en-US", { notation: "compact" }) + "+" : "Loading...",
+          value: state.statsIsFetched
+            ? Number(state.stats.MAU).toLocaleString("en-US", {
+                notation: "compact",
+              }) + "+"
+            : "Loading...",
           label: "Monthly active accounts",
         }}
       />
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: state.statsIsFetched ? Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", { notation: "compact" }) + "+" : "Loading...",
+          value: state.statsIsFetched
+            ? Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", {
+                notation: "compact",
+              }) + "+"
+            : "Loading...",
           label: "Total accounts",
         }}
       />
