@@ -57,10 +57,10 @@ const LikeButton = styled.button`
     }
   }
 
-  &:hover, &:focus {
-    outline: none;
-    color: #fff;
-  }
+  // &:hover, &:focus {
+  //   outline: none;
+  //   color: #11181C;
+  // }
 `;
 
 const likeClick = () => {
