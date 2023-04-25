@@ -63,9 +63,7 @@ function composeData() {
       }),
     },
     index: {
-      discuss: JSON.stringify({
-        key: indexKey,
-      }),
+      discuss: { key: JSON.stringify(indexKey) },
     },
   };
 
