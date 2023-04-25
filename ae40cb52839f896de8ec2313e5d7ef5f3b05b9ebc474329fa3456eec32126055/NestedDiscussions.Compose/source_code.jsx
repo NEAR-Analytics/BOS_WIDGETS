@@ -2,6 +2,8 @@ const dbAction = props.dbAction;
 const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
+const notificationWidget = props.notificationWidget;
+const notificationParams = props.notificationParams;
 
 if (!context.accountId) return <></>;
 
@@ -45,7 +47,7 @@ function extractTagNotifications(text, item) {
       value: {
         type: "custom",
         message: "Tagged you on a discussion",
-        widget: props.previewWidget,
+        widget: notificationWidget,
         blockHeight: item.blockHeight,
         params: notificationParams,
       },
@@ -76,7 +78,7 @@ function composeData() {
       value: {
         type: "custom",
         message: "Commented on a discussion",
-        widget: props.previewWidget,
+        widget: notificationWidget,
         blockHeight: item.blockHeight,
         params: notificationParams,
       },
