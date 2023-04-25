@@ -51,7 +51,7 @@ const renderItem = (a) =>
 return (
   <Wrapper>
     <Widget
-      src="adminalpha.near/widget/IndexFeed"
+      src="ref-admin.near/widget/IndexFeed"
       props={{
         index,
         manual: true,
