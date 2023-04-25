@@ -1,3 +1,4 @@
+const identifier = props.identifier;
 const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
