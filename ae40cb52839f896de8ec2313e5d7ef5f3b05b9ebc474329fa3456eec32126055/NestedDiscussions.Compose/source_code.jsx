@@ -62,7 +62,6 @@ function composeData() {
         content,
       }),
     },
-
     index: {
       discuss: JSON.stringify({
         key: indexKey,
