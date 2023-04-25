@@ -33,6 +33,12 @@ const index = {
   },
 };
 
+Social.index("inbox", context.accountId, {
+  limit: 10,
+  order: "desc",
+  subscribe: true,
+});
+
 const renderItem = (item, i) => {
   if (i === 0) {
     Storage.set("lastBlockHeight", item.blockHeight);
