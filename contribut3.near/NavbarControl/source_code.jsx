@@ -22,7 +22,6 @@ const Navbar = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
   padding: 0.75em 0;
   flex: none;
   order: 0;
