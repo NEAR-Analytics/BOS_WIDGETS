@@ -36,7 +36,7 @@ const BackgroundImage = styled.div`
   border-radius: 20px 20px 0 0;
   overflow: hidden;
   margin: 0 -12px;
-  background: #163839;
+  background: rgba(22,56,57,0.2);
   img {
     object-fit: cover;
     width: 100%;
