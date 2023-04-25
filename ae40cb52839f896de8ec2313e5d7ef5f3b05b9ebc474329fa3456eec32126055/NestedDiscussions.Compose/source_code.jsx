@@ -3,10 +3,6 @@ const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
 
-if (!identifier) {
-  return "[NestedDiscussions.Compose]: Please setup props.identifier";
-}
-
 if (!context.accountId) return <></>;
 
 State.init({
@@ -52,7 +48,7 @@ function extractTagNotifications(text, item) {
         widget: props.previewWidget,
         blockHeight: item.blockHeight,
         params:
-          typeof identifier === "string"
+          identifier.constructor !== Object
             ? { identifier: identifier }
             : identifier,
       },
