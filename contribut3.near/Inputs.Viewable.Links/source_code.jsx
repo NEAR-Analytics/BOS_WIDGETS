@@ -2,7 +2,7 @@ const ownerId = "contribut3.near";
 const id = props.id ?? "links";
 const label = props.label ?? "Input";
 const value = props.value ?? {};
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 const supportedLinks = [
@@ -79,12 +79,13 @@ return (
       label,
       value,
       edit,
-      view: (
-        !!value && (Object.keys(value).length > 0) ?
+      view:
+        !!value && Object.keys(value).length > 0 ? (
           <Widget
             src={`${ownerId}/widget/SocialLinks`}
             props={{ links: value }}
-          /> : null),
+          />
+        ) : null,
       canEdit,
     }}
   />
