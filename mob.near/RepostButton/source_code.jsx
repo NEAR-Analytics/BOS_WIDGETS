@@ -24,7 +24,7 @@ const accountsWithReposts = Object.keys(repostsByUsers);
 const hasRepost = context.accountId && !!repostsByUsers[context.accountId];
 
 const RepostButton = styled.button`
-  border: 0;
+  border: 0 !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
