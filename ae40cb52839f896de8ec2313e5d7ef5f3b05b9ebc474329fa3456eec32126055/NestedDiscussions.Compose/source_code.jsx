@@ -83,7 +83,7 @@ function composeData() {
         type: "custom",
         message: "Commented on a discussion",
         widget: notificationWidget,
-        params: { highlightComment: commentId, ...notificationParams },
+        params: { ...notificationParams, highlightComment: commentId },
       },
     });
   }
