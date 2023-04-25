@@ -102,6 +102,7 @@ const Filters = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  font-size: 0.9em;
 `;
 
 const Filter = styled.div`
