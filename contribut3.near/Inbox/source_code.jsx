@@ -85,22 +85,23 @@ if (!state.projectsIsFetched || !state.vendorsIsFetched) {
   return <>Loading...</>;
 }
 
-const notifications = [...new Set([...state.projects, ...state.vendors])]
-// .reduce((allNotifications, accountId) => {
-//   const notificationsForAccount = Social.index("inbox", accountId, {
-//     order: "desc",
-//     subscribe: true,
-//   });
+console.log(state)
+// const notifications = [...new Set([...state.projects, ...state.vendors])]
+//   .reduce((allNotifications, accountId) => {
+//     const notificationsForAccount = Social.index("inbox", accountId, {
+//       order: "desc",
+//       subscribe: true,
+//     });
 //
-//   if (!notificationsForAccount) {
-//     return allNotifications;
-//   }
+//     if (!notificationsForAccount) {
+//       return allNotifications;
+//     }
 //
-//   return [...allNotifications, ...notificationsForAccount];
-// }, [])
-// .sort((a, b) => b.blockHeight - a.blockHeight);
-
-console.log({ notifications });
+//     return [...allNotifications, ...notificationsForAccount];
+//   }, [])
+//   .sort((a, b) => b.blockHeight - a.blockHeight);
+//
+// console.log({ notifications });
 
 return (
   <Wrapper>
