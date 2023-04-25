@@ -37,11 +37,6 @@ const Wrapper = styled.div`
   padding: 12px;
   border-radius: 12px;
   transition: background-color 200ms;
-
-  &:hover {
-    background: #eefeef;
-  }
-
   > *:first-child {
     width: 200px;
     border-right: 1px solid #eceef0;
