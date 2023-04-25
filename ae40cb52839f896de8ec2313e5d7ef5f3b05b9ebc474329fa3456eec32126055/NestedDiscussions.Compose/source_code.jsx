@@ -3,9 +3,12 @@ const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
 const notificationWidget = props.notificationWidget;
-const notificationParams = props.notificationParams;
+var notificationParams = props.notificationParams;
 
 if (!context.accountId) return <></>;
+
+const commentId = context.accountId + Date.now();
+notificationParams = { highlightComment: commentId, notificationParams };
 
 State.init({
   image: {},
@@ -19,6 +22,7 @@ const content = {
   type: "md",
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
+  commentId,
 };
 
 function extractMentions(text) {
@@ -49,7 +53,7 @@ function extractTagNotifications(text, item) {
         message: "Tagged you on a discussion",
         widget: notificationWidget,
         blockHeight: item.blockHeight,
-        params: notificationParams,
+        params: { highlightComment: commentId, ...notificationParams },
       },
     }));
 }
@@ -80,7 +84,7 @@ function composeData() {
         message: "Commented on a discussion",
         widget: notificationWidget,
         blockHeight: item.blockHeight,
-        params: notificationParams,
+        params: { highlightComment: commentId, ...notificationParams },
       },
     });
   }
