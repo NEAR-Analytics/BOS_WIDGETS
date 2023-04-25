@@ -196,7 +196,11 @@ const body = (
       </Details>
     </Container>
     <Tagline>{state.profile.tagline}</Tagline>
-    <Description>{state.profile.description}</Description>
+    <Widget
+      src={`${ownerId}/widget/DescriptionArea`}
+      props={{ description: state.profile.description }}
+    />
+    {/* <Description>{state.profile.description}</Description> */}
     <Widget
       src={`${ownerId}/widget/Tags`}
       props={{ tags: state.profile.tags }}
@@ -259,7 +263,18 @@ const footer = (
       blue
       // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
       onClick={() => {
-        const data = { index: { graph: JSON.stringify({ key: "project/invite", value: { accountId: props.accountId, }, }), inbox: JSON.stringify({ key: props.accountId, value: { type: "project/invite", requestId: props.requestId, }, }), }, };
+        const data = {
+          index: {
+            graph: JSON.stringify({
+              key: "project/invite",
+              value: { accountId },
+            }),
+            inbox: JSON.stringify({
+              key: props.accountId,
+              value: { type: "project/invite", requestId: props.requestId },
+            }),
+          },
+        };
 
         // props.requestId:
         // "requestId": { "account_id": "markandrice.near", "cid": "bafkreig7s5jjwewg47ufl32ehymqxytncznjmdzvq7saoog73wyodh6p7q" }}}}
