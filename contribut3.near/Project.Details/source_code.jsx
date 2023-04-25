@@ -78,6 +78,7 @@ return (
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.Category`}
       props={{
+        label: "Category",
         value: state.profile.category,
         onSave: ({ value: category }) =>
           Near.call("social.near", "set", {
