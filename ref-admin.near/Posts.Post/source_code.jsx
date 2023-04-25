@@ -76,7 +76,7 @@ return (
   <Post>
     <Header>
       <Widget
-        src="adminalpha.near/widget/AccountProfile"
+        src="ref-admin.near/widget/AccountProfile"
         props={{
           accountId,
           hideAccountId: true,
