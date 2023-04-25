@@ -1,31 +1,27 @@
-const identifier = props.identifier;
-const accountId = props.accountId;
-const blockHeight = parseInt(props.blockHeight);
-
-const composeWidget =
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose";
 const previewWidget =
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
-const notificationWidget =
-  props.notificationWidget ||
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions";
 
-const notificationParams = {
-  ...props.notificationWidgetParams,
-  identifier,
-};
+const accountId = props.accountId;
+const blockHeight = parseInt(props.blockHeight);
+const parentComponent = props.parentComponent;
+const parentParams = props.parentParams || {};
 const highlightComment = props.highlightComment;
+const moderatorAccount = props.moderatorAccount || "bosmod.near";
 
 const { content } = JSON.parse(
   Social.get(`${accountId}/discuss/main`, blockHeight)
 );
 
-const postUrl = `https://near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&identifier=${identifier}`;
-
 State.init({ hasBeenFlagged: false });
 
+// URL to share
+var postUrl = `https://near.org/#/${parentComponent}?highlightComment=${content.commentId}&`;
+postUrl += Object.entries(parentParams)
+  .map(([k, v]) => `${k}=${v}`)
+  .join("&");
+
 // all children comments will be identified by this object
-const item = {
+const indexKey = {
   accountId,
   blockHeight,
 };
@@ -144,7 +140,7 @@ return (
           <Widget
             src="near/widget/NestedDiscussions.Preview.LikeButton"
             props={{
-              item,
+              item: indexKey,
               previewWidget,
               notifyAccountId: accountId,
             }}
@@ -152,7 +148,7 @@ return (
           <Widget
             src="near/widget/NestedDiscussions.Preview.CommentButton"
             props={{
-              item,
+              item: indexKey,
               onClick: () => State.update({ showReply: !state.showReply }),
             }}
           />
@@ -181,13 +177,12 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src={composeWidget}
+            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose"
             props={{
               notifyAccountId: accountId,
               previewWidget,
-              identifier: item,
-              notificationWidget,
-              notificationParams,
+              parentComponent,
+              parentParams,
               onComment: () => State.update({ showReply: false }),
             }}
           />
@@ -198,12 +193,10 @@ return (
         <Widget
           src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Feed"
           props={{
-            identifier: item,
-            composeWidget,
-            previewWidget,
+            indexKey,
             moderatorAccount,
-            notificationWidget,
-            notificationWidgetParams,
+            parentComponent: previewWidget,
+            parentParams: indexKey,
             highlightComment,
           }}
         />
