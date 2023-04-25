@@ -259,7 +259,7 @@ const footer = (
     >
       View details
     </FooterButton>
-    <Widget src={`${ownerId}/widget/InviteSideWindow`} props={{ accountId }} />
+    <Widget src={`${ownerId}/widget/Vendor.InviteSideWindow`} props={{ accountId }} />
   </Footer>
 );
 
