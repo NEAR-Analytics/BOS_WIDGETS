@@ -15,6 +15,7 @@ var notificationWidgetParams = props.notificationWidgetParams || {
 };
 const highlightComment = props.highlightComment;
 
+return JSON.parse(Social.get(`${accountId}/${dbAction}/main`, blockHeight));
 const { content, commentId } = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight)
 );
