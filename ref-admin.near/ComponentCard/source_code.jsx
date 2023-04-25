@@ -187,7 +187,7 @@ return (
         {tags.length > 0 && (
           <TagsWrapper>
             <Widget
-              src="adminalpha.near/widget/Tags"
+              src="ref-admin.near/widget/Tags"
               props={{
                 tags,
                 scroll: true,
