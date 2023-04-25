@@ -1,5 +1,4 @@
 const accountId = context.accountId;
-
 if (!accountId) {
   return <></>;
 }
@@ -15,6 +14,7 @@ const index = {
 };
 
 const Wrapper = styled.div`
+background: radial-gradient( 64.26% 67.04% at 49.31% 0%, #002c35 0%, #101011 100% );
   padding-bottom: 48px;
 
   > div {
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 const H1 = styled.h1`
   font-size: 24px;
   line-height: 1.2em;
-  color: #11181c;
+  color: #fff;
   margin: 0 0 24px;
 `;
 
@@ -40,15 +40,14 @@ const renderItem = (item, i) => {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
   return (
-    <Widget src="adminalpha.near/widget/Notification" key={i} props={item} />
+    <Widget src="ref-admin.near/widget/Notification" key={i} props={item} />
   );
 };
-
 return (
   <Wrapper>
-    <H1>Your Notifications</H1>
+    <H1 class="h1Title">Your Notifications</H1>
     <Widget
-      src="adminalpha.near/widget/IndexFeed"
+      src="ref-admin.near/widget/IndexFeed"
       props={{ index, renderItem, moderatorAccount: "adminalpha.near" }}
     />
   </Wrapper>
