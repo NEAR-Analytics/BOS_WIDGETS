@@ -77,10 +77,10 @@ if (!state.projectsIsFetched || !state.vendorsIsFetched) {
   return <>Loading...</>;
 }
 
-const projects = state.projects.reduce((acc, project) => {
-  const projectNotifications = Social.index("inbox", project, { order: "desc", subscribe: true });
-  return [...acc, ...projectNotifications];
-}, []);
+const notifications = [...new Set([...state.projects, ...state.vendors])].reduce((allNotifications, accountId) => {
+  const notificationsForAccount = Social.index("inbox", accountId, { order: "desc", subscribe: true });
+  return [...allNotifications, ...notificationsForAccount];
+}, []).sort((a, b) => b.blockHeight - a.blockHeight);
 
 return (
   <Wrapper>
