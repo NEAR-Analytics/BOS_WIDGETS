@@ -23,7 +23,7 @@ const icon = (
     </g>
     <defs>
       <clipPath id="clip0_721_25679">
-        <rect width="20" height="20" fill="black" />
+        <rect width="20" height="20" fill="currentColor" />
       </clipPath>
     </defs>
   </svg>
@@ -39,7 +39,7 @@ const arrowIcon = (
   >
     <path
       d="M1 1.5L6 6.5L11 1.5"
-      stroke="white"
+      stroke="currentColor"
       stroke-width="1.66667"
       stroke-linecap="round"
       stroke-linejoin="round"
