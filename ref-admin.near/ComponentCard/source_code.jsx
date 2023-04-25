@@ -4,9 +4,9 @@ const metadata = Social.get(
   "final"
 );
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `/#/adminalpha.near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`;
+const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`;
 const appUrl = `/#/${accountId}/widget/${widgetName}`;
-const accountUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `/#/ref-admin.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Card = styled.div`
   position: relative;
