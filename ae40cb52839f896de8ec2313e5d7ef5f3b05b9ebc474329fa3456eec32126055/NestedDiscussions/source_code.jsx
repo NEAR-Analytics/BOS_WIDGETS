@@ -10,8 +10,12 @@ const previewWidget =
   "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
 
 // discussions generally happen inside another widget
-const notificationWidget = props.notificationWidget || props.previewWidget;
-const notificationWidgetParams = props.notificationWidgetParams || {};
+const notificationWidget =
+  props.notificationWidget ||
+  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions";
+const notificationWidgetParams = props.notificationWidgetParams || {
+  identifier,
+};
 const highlightComment = props.highlightComment;
 
 const notLoggedMessage =
