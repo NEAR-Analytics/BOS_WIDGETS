@@ -1,7 +1,6 @@
 const ownerId = "contribut3.near";
 
-const inboxCount = Social.index("inbox", context.accountId);
-console.log(inboxCount);
+const inboxCount = Social.index("inbox", context.accountId).length;
 
 const mail = (
   <svg
