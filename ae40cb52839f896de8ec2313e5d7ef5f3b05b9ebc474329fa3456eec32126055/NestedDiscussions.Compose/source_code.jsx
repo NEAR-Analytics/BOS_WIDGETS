@@ -1,4 +1,3 @@
-const dbAction = props.dbAction;
 const identifier = props.identifier;
 const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
@@ -59,20 +58,19 @@ function extractTagNotifications(text, item) {
 }
 
 function composeData() {
-  const data = { index: {} };
-
-  data[`${dbAction}`] = {
-    main: JSON.stringify({
-      content,
-    }),
-  };
-
-  data.index[`${dbAction}`] = JSON.stringify({
-    key: identifier,
-    value: {
-      type: "md",
+  var data = {
+    discuss: {
+      main: JSON.stringify({
+        content,
+      }),
     },
-  });
+
+    index: {
+      discuss: JSON.stringify({
+        key: identifier,
+      }),
+    },
+  };
 
   let notifications = [];
 
