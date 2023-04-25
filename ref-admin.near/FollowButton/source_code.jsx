@@ -69,7 +69,6 @@ const Wrapper = styled.div`
 
     &:hover,
     &:focus {
-      background: #ECEDEE;
       text-decoration: none;
       outline: none;
     }
