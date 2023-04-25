@@ -132,10 +132,9 @@ State.init({
 });
 
 if (!state.statsIsFetched) {
-  asyncFetch("https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest").then((response) => {
-    console.log(response.body);
-    State.update({ stats: response.body[0], statsIsFetched: true });
-  });
+  asyncFetch("https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest").then((response) =>
+    State.update({ stats: response.body[0], statsIsFetched: true })
+  );
 }
 
 return (
