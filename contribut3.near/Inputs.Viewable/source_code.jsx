@@ -85,6 +85,13 @@ const EditButtonContainer = styled.div`
   height: 1em;
 `;
 
+const Italic = styled.i`
+  font-size: 0.9em;
+  font-weight: 400;
+  line-height: 1em;
+  color: #687076;
+`;
+
 return (
   <Container className={big ? "big" : ""}>
     <Stack className={"f-" + flexDirection}>
