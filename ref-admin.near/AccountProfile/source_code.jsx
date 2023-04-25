@@ -111,7 +111,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
   <Widget
-    src="adminalpha.near/widget/AccountProfileOverlay"
+    src="ref-admin.near/widget/AccountProfileOverlay"
     props={{
       accountId: props.accountId,
       profile,
