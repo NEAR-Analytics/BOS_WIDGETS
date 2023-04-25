@@ -74,6 +74,7 @@ return (
           identifier,
           moderatorAccount,
           notificationWidget,
+          notificationWidgetParams,
           highlightComment,
         }}
       />
