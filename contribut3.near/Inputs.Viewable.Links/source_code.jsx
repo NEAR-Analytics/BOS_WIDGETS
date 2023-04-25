@@ -80,7 +80,7 @@ return (
       value,
       edit,
       view: (
-        { value && Object.keys(value).length > 0 ?
+        { value && (Object.keys(value).length > 0) ?
           <Widget
             src={`${ownerId}/widget/SocialLinks`}
             props={{ links: value }}
