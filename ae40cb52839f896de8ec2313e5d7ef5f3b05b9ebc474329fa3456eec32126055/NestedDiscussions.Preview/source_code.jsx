@@ -99,7 +99,7 @@ if (state.hasBeenFlagged) {
 }
 
 return (
-  <Post>
+  <Post id={content.commentId == highlightComment ? "highlight" : ""}>
     <Header>
       <Widget
         src="calebjacob.near/widget/AccountProfile"
