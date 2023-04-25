@@ -67,20 +67,19 @@ const Button = styled.button`
   width: 100%;
   padding: 8px;
   height: 32px;
-  background: #fbfcfd;
-  border: 1px solid #d7dbdf;
   border-radius: 50px;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   text-align: center;
   cursor: pointer;
-  color: #11181c !important;
   margin: 0;
-
+  background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  color:#ffff;
   &:hover,
   &:focus {
-    background: #ecedee;
+    // background: #ecedee;
     text-decoration: none;
     outline: none;
   }
