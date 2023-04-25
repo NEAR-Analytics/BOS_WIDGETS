@@ -118,6 +118,7 @@ const Stats = styled.div`
   align-items: stretch;
   justify-content: flex-start;
   gap: 0.5em;
+  margin: 1em 0;
 
   div {
     width: 20%;
