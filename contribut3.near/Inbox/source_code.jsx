@@ -91,6 +91,11 @@ const notifications = [...new Set([...state.projects, ...state.vendors])]
       order: "desc",
       subscribe: true,
     });
+
+    if (!notificationsForAccount) {
+      return allNotifications;
+    }
+
     return [...allNotifications, ...notificationsForAccount];
   }, [])
   .sort((a, b) => b.blockHeight - a.blockHeight);
