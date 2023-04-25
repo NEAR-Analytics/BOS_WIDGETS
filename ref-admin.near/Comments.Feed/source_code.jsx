@@ -34,8 +34,8 @@ const Wrapper = styled.div`
 const renderItem = (a) =>
   a.value.type === "md" && (
     <div key={JSON.stringify(a)}>
-      {/*<Widget
-        src="adminalpha.near/widget/Comments.Comment"
+      <Widget
+        src="ref-admin.near/widget/Comments.Comment"
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
@@ -44,7 +44,7 @@ const renderItem = (a) =>
             a.blockHeight === props.highlightComment?.blockHeight,
           raw,
         }}
-      />*/}
+      />
     </div>
   );
 
