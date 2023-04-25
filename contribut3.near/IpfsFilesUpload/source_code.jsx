@@ -25,8 +25,6 @@ return (
       onChange={(files) => {
         if (!files || !files.length) return;
 
-        console.log(files);
-
         const [body] = files;
 
         State.update({ uploading: true, cid: null });
