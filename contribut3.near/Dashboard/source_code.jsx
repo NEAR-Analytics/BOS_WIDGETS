@@ -155,7 +155,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: Number(state.stats.MAU).toLocaleString("en-US", { maximumSignificantDigits: 2 }),
+          value: Number(state.stats.MAU).toLocaleString("en-US", { notation: "compact" }),
           label: "Monthly active accounts",
         }}
       />
