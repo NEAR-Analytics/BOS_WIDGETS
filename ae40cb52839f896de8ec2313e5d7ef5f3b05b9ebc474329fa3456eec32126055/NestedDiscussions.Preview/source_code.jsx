@@ -1,10 +1,7 @@
-const previewWidget =
-  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
-
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 const parentComponent = props.parentComponent;
-const parentParams = props.parentParams || {};
+const parentParams = { ...props.parentParams };
 const highlightComment = props.highlightComment;
 const moderatorAccount = props.moderatorAccount || "bosmod.near";
 
@@ -14,9 +11,14 @@ const { content } = JSON.parse(
 
 State.init({ hasBeenFlagged: false });
 
+const notificationParams = {
+  ...parentParams,
+  highlightComment: content.commentId,
+};
+
 // URL to share
-var postUrl = `https://near.org/#/${parentComponent}?highlightComment=${content.commentId}&`;
-postUrl += Object.entries(parentParams)
+var postUrl = `https://near.org/#/${parentComponent}?`;
+postUrl += Object.entries(notificationParams)
   .map(([k, v]) => `${k}=${v}`)
   .join("&");
 
@@ -140,8 +142,9 @@ return (
           <Widget
             src="near/widget/NestedDiscussions.Preview.LikeButton"
             props={{
-              item: indexKey,
-              previewWidget,
+              item: content.commentId,
+              notificationComponent: parentComponent,
+              notificationParams,
               notifyAccountId: accountId,
             }}
           />
@@ -180,7 +183,6 @@ return (
             src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose"
             props={{
               notifyAccountId: accountId,
-              previewWidget,
               parentComponent,
               parentParams,
               onComment: () => State.update({ showReply: false }),
@@ -195,8 +197,8 @@ return (
           props={{
             indexKey,
             moderatorAccount,
-            parentComponent: previewWidget,
-            parentParams: indexKey,
+            parentComponent,
+            parentParams,
             highlightComment,
           }}
         />
