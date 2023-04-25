@@ -159,7 +159,7 @@ return (
         </div>
       )}
 
-      <Comments>
+      {/* <Comments>
         <Widget
           src="adminalpha.near/widget/Comments.Feed"
           props={{
@@ -170,7 +170,7 @@ return (
             raw,
           }}
         />
-      </Comments>
+      </Comments>*/}
     </Body>
   </Post>
 );
