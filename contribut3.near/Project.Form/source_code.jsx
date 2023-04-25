@@ -178,6 +178,8 @@ return (
           options: [
             { text: "Native", value: "native" },
             { text: "Multichain", value: "multichain" },
+            { text: "Not yet but interested", value: "interested" },
+            { text: "No", value: "no" },
           ],
           value: state.integration,
           onChange: (integration) => State.update({ integration }),
