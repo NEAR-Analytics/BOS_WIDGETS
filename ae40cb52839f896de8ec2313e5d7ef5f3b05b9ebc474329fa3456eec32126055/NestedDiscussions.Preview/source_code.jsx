@@ -15,8 +15,7 @@ var notificationWidgetParams = props.notificationWidgetParams || {
 };
 const highlightComment = props.highlightComment;
 
-return JSON.parse(Social.get(`${accountId}/${dbAction}/main`, blockHeight));
-const { content, commentId } = JSON.parse(
+const { content } = JSON.parse(
   Social.get(`${accountId}/${dbAction}/main`, blockHeight)
 );
 
@@ -33,7 +32,7 @@ const item = {
 
 const Post = styled.div`
   position: relative;
-  ${commentId == highlightComment ? "border: 1px solid yellow" : ""}
+  ${content.commentId == highlightComment ? "border: 1px solid yellow" : ""}
 
   &::before {
     content: "";
