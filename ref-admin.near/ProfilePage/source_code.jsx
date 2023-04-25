@@ -17,7 +17,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const accountUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
-  background-color:#fff;
+  background: radial-gradient( 64.26% 67.04% at 49.31% 0%, #002c35 0%, #101011 100% ); // todo
   padding-bottom: 48px;
 `;
 
@@ -37,8 +37,7 @@ const BackgroundImage = styled.div`
   border-radius: 20px 20px 0 0;
   overflow: hidden;
   margin: 0 -12px;
-  background: #eceef0;
-
+  background: #163839;
   img {
     object-fit: cover;
     width: 100%;
@@ -76,7 +75,7 @@ const Title = styled.h1`
   font-weight: 600;
   font-size: ${(p) => p.size || "25px"};
   line-height: 1.2em;
-  color: #11181c;
+  color: #ffffff;
   margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
   overflow-wrap: anywhere;
 `;
@@ -105,11 +104,11 @@ const TabsButton = styled.a`
   align-items: center;
   justify-content: center;
   height: 100%;
-  font-weight: 600;
-  font-size: 12px;
+  font-weight: 500;
+  font-size: 16px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? "#fff" : "rgba(255,255,255,0.5)")};
   background: none;
   border: none;
   outline: none;
@@ -117,7 +116,7 @@ const TabsButton = styled.a`
   text-decoration: none !important;
 
   &:hover {
-    color: #11181c;
+    color: #fff;
   }
 
   &::after {
@@ -127,13 +126,13 @@ const TabsButton = styled.a`
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: #59e692;
+    height: 4px;
+    background: #00FFD1;
   }
 `;
 
 const Bio = styled.div`
-  color: #11181c;
+  color: #ffffff;
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 48px;
@@ -170,7 +169,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="adminalpha.near/widget/ProfilePage.Sidebar"
+          src="ref-admin.near/widget/ProfilePage.Sidebar"
           props={{
             accountId,
             profile,
@@ -226,7 +225,7 @@ return (
 
                 <Bio>
                   <Widget
-                    src="adminalpha.near/widget/SocialMarkdown"
+                    src="ref-admin.near/widget/SocialMarkdown"
                     props={{ text: profile.description }}
                   />
                 </Bio>
@@ -234,7 +233,7 @@ return (
             )}
 
             <Widget
-              src="adminalpha.near/widget/Posts.Feed"
+              src="ref-admin.near/widget/Posts.Feed"
               props={{ accounts: [accountId] }}
             />
           </>
