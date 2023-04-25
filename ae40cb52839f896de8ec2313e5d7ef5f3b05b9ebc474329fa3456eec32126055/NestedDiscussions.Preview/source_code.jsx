@@ -97,118 +97,113 @@ if (state.hasBeenFlagged) {
 }
 
 return (
-  <>
-    <Post>
-      <Header>
-        <Widget
-          src="calebjacob.near/widget/AccountProfile"
-          props={{
-            accountId,
-            hideAccountId: true,
-            inlineContent: (
-              <>
-                <Text as="span">･</Text>
-                <Text>
-                  <Widget
-                    src="mob.near/widget/TimeAgo"
-                    props={{ blockHeight }}
-                  />{" "}
-                  ago
-                </Text>
-              </>
-            ),
-          }}
-        />
-      </Header>
-      <Body>
-        <Content>
-          {content.text && (
-            <Widget
-              src="calebjacob.near/widget/SocialMarkdown"
-              props={{ text: content.text }}
-            />
-          )}
-
-          {content.image && (
-            <Widget
-              src="mob.near/widget/Image"
-              props={{
-                image: content.image,
-              }}
-            />
-          )}
-        </Content>
-
-        {blockHeight !== "now" && (
-          <Actions>
-            <Widget
-              src="near/widget/NestedDiscussions.Preview.LikeButton"
-              props={{
-                item,
-                previewWidget,
-                notifyAccountId: accountId,
-              }}
-            />
-            <Widget
-              src="near/widget/NestedDiscussions.Preview.CommentButton"
-              props={{
-                dbAction,
-                item,
-                onClick: () => State.update({ showReply: !state.showReply }),
-              }}
-            />
-            <Widget
-              src="calebjacob.near/widget/CopyUrlButton"
-              props={{
-                url: postUrl,
-              }}
-            />
-            <Widget
-              src="near/widget/FlagButton"
-              props={{
-                item: {
-                  type: "social",
-                  path: `${accountId}/discuss`,
-                  blockHeight,
-                },
-                onFlag: () => {
-                  State.update({ hasBeenFlagged: true });
-                },
-              }}
-            />
-          </Actions>
-        )}
-
-        {state.showReply && (
-          <div className="mb-2">
-            <Widget
-              src={composeWidget}
-              props={{
-                dbAction,
-                notifyAccountId: accountId,
-                previewWidget,
-                identifier: item,
-                notificationWidget,
-                notificationWidgetParams,
-                onComment: () => State.update({ showReply: false }),
-              }}
-            />
-          </div>
-        )}
-
-        <Comments>
+  <Post>
+    <Header>
+      <Widget
+        src="calebjacob.near/widget/AccountProfile"
+        props={{
+          accountId,
+          hideAccountId: true,
+          inlineContent: (
+            <>
+              <Text as="span">･</Text>
+              <Text>
+                <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />{" "}
+                ago
+              </Text>
+            </>
+          ),
+        }}
+      />
+    </Header>
+    <Body>
+      <Content>
+        {content.text && (
           <Widget
-            src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Feed"
+            src="calebjacob.near/widget/SocialMarkdown"
+            props={{ text: content.text }}
+          />
+        )}
+
+        {content.image && (
+          <Widget
+            src="mob.near/widget/Image"
             props={{
-              dbAction,
-              identifier: item,
-              composeWidget,
-              previewWidget,
-              moderatorAccount,
+              image: content.image,
             }}
           />
-        </Comments>
-      </Body>
-    </Post>
-  </>
+        )}
+      </Content>
+
+      {blockHeight !== "now" && (
+        <Actions>
+          <Widget
+            src="near/widget/NestedDiscussions.Preview.LikeButton"
+            props={{
+              item,
+              previewWidget,
+              notifyAccountId: accountId,
+            }}
+          />
+          <Widget
+            src="near/widget/NestedDiscussions.Preview.CommentButton"
+            props={{
+              dbAction,
+              item,
+              onClick: () => State.update({ showReply: !state.showReply }),
+            }}
+          />
+          <Widget
+            src="calebjacob.near/widget/CopyUrlButton"
+            props={{
+              url: postUrl,
+            }}
+          />
+          <Widget
+            src="near/widget/FlagButton"
+            props={{
+              item: {
+                type: "social",
+                path: `${accountId}/discuss`,
+                blockHeight,
+              },
+              onFlag: () => {
+                State.update({ hasBeenFlagged: true });
+              },
+            }}
+          />
+        </Actions>
+      )}
+
+      {state.showReply && (
+        <div className="mb-2">
+          <Widget
+            src={composeWidget}
+            props={{
+              dbAction,
+              notifyAccountId: accountId,
+              previewWidget,
+              identifier: item,
+              notificationWidget,
+              notificationWidgetParams,
+              onComment: () => State.update({ showReply: false }),
+            }}
+          />
+        </div>
+      )}
+
+      <Comments>
+        <Widget
+          src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Feed"
+          props={{
+            dbAction,
+            identifier: item,
+            composeWidget,
+            previewWidget,
+            moderatorAccount,
+          }}
+        />
+      </Comments>
+    </Body>
+  </Post>
 );
