@@ -2,6 +2,7 @@ const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
 const parentComponent = props.parentComponent;
 const parentParams = props.parentParams;
+const indexKey = props.indexKey;
 
 if (!context.accountId) return <></>;
 
@@ -64,7 +65,7 @@ function composeData() {
 
     index: {
       discuss: JSON.stringify({
-        key: identifier,
+        key: indexKey,
       }),
     },
   };
