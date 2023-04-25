@@ -124,21 +124,21 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="adminalpha.near/widget/LikeButton"
+            src="ref-admin.near/widget/LikeButton"
             props={{
               item,
               notifyAccountId,
             }}
           />
           <Widget
-            src="adminalpha.near/widget/CommentButton"
+            src="ref-admin.near/widget/CommentButton"
             props={{
               item,
               onClick: () => State.update({ showReply: !state.showReply }),
             }}
           />
           <Widget
-            src="adminalpha.near/widget/CopyUrlButton"
+            src="ref-admin.near/widget/CopyUrlButton"
             props={{
               url: postUrl,
             }}
@@ -149,7 +149,7 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="adminalpha.near/widget/Comments.Compose"
+            src="ref-admin.near/widget/Comments.Compose"
             props={{
               notifyAccountId,
               item,
