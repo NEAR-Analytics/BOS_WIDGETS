@@ -135,6 +135,8 @@ if (!state.statsIsFetched) {
   asyncFetch("https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest").then(([stats]) => State.update({ stats, statsIsFetched: true }));
 }
 
+console.log(state.stats)
+
 return (
   <Container>
     <Heading>
