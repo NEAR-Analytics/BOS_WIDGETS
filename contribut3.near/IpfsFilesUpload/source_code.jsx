@@ -29,7 +29,7 @@ return (
 
         State.update({ uploading: true, cid: null });
         asyncFetch(
-          "https://ipfs.near.social/upload",
+          "https://ipfs.near.org/upload",
           {
             method: "POST",
             headers: { Accept: "application/json" },
