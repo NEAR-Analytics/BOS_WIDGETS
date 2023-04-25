@@ -49,9 +49,33 @@ const renderItem = (item, i) => {
 State.init({
   projects: null,
   projectsIsFetched: false,
-  requests: null,
-  requestsIsFetched: false,
-})
+  vendors: null,
+  vendorsIsFetched: false,
+});
+
+if (!state.projectsIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_admin_projects",
+    { account_id: context.accountId },
+    "final",
+    false
+  ).then((projects) => State.update({ projects, projectsIsFetched: true }));
+}
+
+if (!state.vendorsIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_admin_vendors",
+    { account_id: context.accountId },
+    "final",
+    false
+  ).then((vendors) => State.update({ vendors, vendorsIsFetched: true }));
+}
+
+if (!state.projectsIsFetched || !state.vendorsIsFetched) {
+  return <>Loading...</>;
+}
 
 return (
   <Wrapper>
