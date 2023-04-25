@@ -98,6 +98,8 @@ if (state.hasBeenFlagged) {
   );
 }
 
+location.href = "#highlight";
+
 return (
   <Post id={content.commentId == highlightComment ? "highlight" : ""}>
     <Header>
