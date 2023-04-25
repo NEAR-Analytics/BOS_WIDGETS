@@ -130,7 +130,7 @@ if (!state.requestsIsFetched) {
     false
   ).then((requests) =>
     State.update({
-      requests: requests.map(([accountId, cid, title]) => ({
+      requests: requests.map(([_, cid, title]) => ({
         // name: (
         //   <Widget
         //     src={`${ownerId}/widget/Request.Line`}
@@ -322,7 +322,7 @@ return (
             Near.call(ownerId, "add_proposal", {
               proposal: {
                 vendor_id: state.vendorId.value,
-                request_id: [accountId, cid],
+                request_id: [accountId, state.requestId.value],
                 title: state.request.title,
                 description: state.message,
                 price: Number(state.price),
