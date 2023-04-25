@@ -14,7 +14,7 @@ const TabItem = styled.a`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 0.5em;
+  padding: 1em;
   margin: 0;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
@@ -69,7 +69,8 @@ return (
         hasCount={!!count && count > 0}
         href={`/${ownerId}/widget/Index?tab=${tab}&content=${id}${props.search ? "&search=" + props.search : ""
           }${accountId ? "&accountId=" + accountId : ""}${cid ? "&cid=" + cid : ""
-          }${projectId ? "&projectId=" + projectId : ""}${vendorId ? "&vendorId=" + vendorId : ""}`}
+          }${projectId ? "&projectId=" + projectId : ""}${vendorId ? "&vendorId=" + vendorId : ""
+          }`}
         onClick={() =>
           props.update({
             tab,
