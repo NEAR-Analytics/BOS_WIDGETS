@@ -46,8 +46,8 @@ return (
           props={{
             placeholder,
             indexKey: identifier,
-            parentComponent,
-            parentParams,
+            notificationWidget: parentComponent,
+            notificationParams: parentParams,
             notifyAccountId,
           }}
         />
