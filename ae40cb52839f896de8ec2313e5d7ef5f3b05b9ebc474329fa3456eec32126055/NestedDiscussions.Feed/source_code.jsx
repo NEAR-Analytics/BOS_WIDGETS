@@ -3,10 +3,7 @@ const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
 const identifier = props.identifier;
 const moderatorAccount = props.moderatorAccount;
-
-if (!identifier) {
-  return "[NestedDiscussions.Feed] Please select an identifier for this discussion";
-}
+const notifyOnEachComment = props.notifyOnEachComment;
 
 const index = {
   action: dbAction,
@@ -34,6 +31,7 @@ const renderItem = (a) =>
           composeWidget,
           previewWidget,
           moderatorAccount,
+          notifyOnEachComment,
         }}
       />
     </Post>
@@ -42,7 +40,7 @@ const renderItem = (a) =>
 return (
   <>
     <Widget
-      src="adminalpha.near/widget/IndexFeed"
+      src="near/widget/IndexFeed"
       props={{ index, renderItem, moderatorAccount, reverse: true }}
     />
   </>
