@@ -98,7 +98,7 @@ if (state.hasBeenFlagged) {
   );
 }
 
-location.href = "#highlight";
+window.location.href = "#highlight";
 
 return (
   <Post id={content.commentId == highlightComment ? "highlight" : ""}>
