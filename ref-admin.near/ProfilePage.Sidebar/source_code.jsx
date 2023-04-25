@@ -65,7 +65,6 @@ const Wrapper = styled.div`
    }
     &.button--primary {
       width: 100%;
-      color: #006adc !important;
 
       @media (max-width: 1200px) {
         width: auto;
@@ -247,7 +246,7 @@ return (
       <Actions>
         {viewingOwnAccount ? (
           <a
-            className="button button--primary"
+            className="button button--primary borderButton"
             href="/#/adminalpha.near/widget/ProfileEditor"
           >
             <i className="bi bi-pencil"></i>
