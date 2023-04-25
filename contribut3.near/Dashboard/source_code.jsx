@@ -162,7 +162,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: state.stats.TOTAL_ACCOUNTS,
+          value: Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", { notation: "compact" }),
           label: "Total accounts",
         }}
       />
