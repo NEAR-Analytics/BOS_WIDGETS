@@ -58,7 +58,7 @@ const Text = styled.p`
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
-  color: #687076;
+  color: #fff;
   white-space: nowrap;
 `;
 
