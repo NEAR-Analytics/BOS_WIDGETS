@@ -1,5 +1,4 @@
 const identifier = props.identifier;
-const dbAction = props.dbAction;
 const accountId = props.accountId;
 const blockHeight = parseInt(props.blockHeight);
 
@@ -18,10 +17,10 @@ const notificationParams = {
 const highlightComment = props.highlightComment;
 
 const { content } = JSON.parse(
-  Social.get(`${accountId}/${dbAction}/main`, blockHeight)
+  Social.get(`${accountId}/discuss/main`, blockHeight)
 );
 
-const postUrl = `https://near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&dbAction=${dbAction}&identifier=${identifier}`;
+const postUrl = `https://near.org/#/${previewWidget}?accountId=${accountId}&blockHeight=${blockHeight}&identifier=${identifier}`;
 
 State.init({ hasBeenFlagged: false });
 
@@ -29,7 +28,6 @@ State.init({ hasBeenFlagged: false });
 const item = {
   accountId,
   blockHeight,
-  dbAction,
 };
 
 const Post = styled.div`
@@ -154,7 +152,6 @@ return (
           <Widget
             src="near/widget/NestedDiscussions.Preview.CommentButton"
             props={{
-              dbAction,
               item,
               onClick: () => State.update({ showReply: !state.showReply }),
             }}
@@ -186,7 +183,6 @@ return (
           <Widget
             src={composeWidget}
             props={{
-              dbAction,
               notifyAccountId: accountId,
               previewWidget,
               identifier: item,
@@ -202,7 +198,6 @@ return (
         <Widget
           src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Feed"
           props={{
-            dbAction,
             identifier: item,
             composeWidget,
             previewWidget,
