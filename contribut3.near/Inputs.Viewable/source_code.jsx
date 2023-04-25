@@ -119,6 +119,6 @@ return (
       <></>
     ) : view ? (
       view
-    ) : <i>Not yet entered</i>}
+    ) : <i>Not specified</i>}
   </Container>
 );
