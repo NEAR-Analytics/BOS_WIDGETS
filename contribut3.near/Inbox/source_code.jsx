@@ -33,11 +33,7 @@ const index = {
   },
 };
 
-console.log(Social.index("inbox", "petarvujovic.near", {
-  limit: 10,
-  order: "desc",
-  subscribe: true,
-}));
+console.log(Social.index(index.action, index.key, index.options));
 
 const renderItem = (item, i) => {
   if (i === 0) {
