@@ -65,6 +65,9 @@ function composeData() {
     index: {
       discuss: JSON.stringify({
         key: indexKey,
+        value: {
+          type: "md",
+        },
       }),
     },
   };
