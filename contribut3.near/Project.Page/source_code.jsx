@@ -192,7 +192,7 @@ const content = {
   ),
   documents: (
     <Widget
-      src={`${ownerId}/widget/Project.Graduation`}
+      src={`${ownerId}/widget/Project.Documents`}
       props={{ accountId: props.accountId, isAdmin: state.isAdmin }}
     />
   ),
@@ -243,7 +243,9 @@ return (
               ) : (
                 <></>
               )}
-              <GreyButton href={`/${ownerId}/widget/Index?tab=createrequest&accountId=${accountId}`}>
+              <GreyButton
+                href={`/${ownerId}/widget/Index?tab=createrequest&accountId=${accountId}`}
+              >
                 {plus}Create request
               </GreyButton>
             </>
