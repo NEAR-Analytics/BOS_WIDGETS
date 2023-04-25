@@ -184,8 +184,8 @@ return (
             props={{
               indexKey,
               notifyAccountId: accountId,
-              parentComponent,
-              parentParams,
+              notificationComponent: parentComponent,
+              notificationParams,
               onComment: () => State.update({ showReply: false }),
             }}
           />
