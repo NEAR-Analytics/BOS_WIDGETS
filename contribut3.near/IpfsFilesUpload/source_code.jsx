@@ -9,7 +9,7 @@ State.init({
   cid: null,
 });
 
-const ipfsUrl = (cid) => `https://ipfs.near.org/ipfs/${cid}`;
+const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 return (
   <div>
@@ -24,6 +24,8 @@ return (
       className="btn btn-outline-primary"
       onChange={(files) => {
         if (!files) return;
+
+        console.log(files);
 
         const [body] = files;
 
