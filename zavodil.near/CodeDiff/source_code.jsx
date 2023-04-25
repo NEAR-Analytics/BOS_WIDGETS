@@ -3,13 +3,13 @@ const widget2 = props.widget2 ?? "linearprotocol.near/widget/LiNEAR";
 
 if (state.code1 === undefined) {
   const code1 = Social.get(`${widget1}`, props.blockHeight1);
-  if (code1 === undefined) return "Loading";
+  if (!code1) return "Loading";
   State.update({ code1 });
 }
 
 if (state.code2 === undefined) {
   const code2 = Social.get(`${widget2}`, props.blockHeight2);
-  if (code2 === undefined) return "Loading";
+  if (!code2) return "Loading";
   State.update({ code2 });
 }
 
