@@ -9,7 +9,7 @@ State.init({
   cid: null,
 });
 
-const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+const ipfsUrl = (cid) => `https://ipfs.near.org/ipfs/${cid}`;
 
 return (
   <div>
