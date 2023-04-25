@@ -4,15 +4,16 @@ const metadata = Social.get(
   "final"
 );
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`;
+const detailsUrl = `/#/adminalpha.near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`;
 const appUrl = `/#/${accountId}/widget/${widgetName}`;
-const accountUrl = `/#/ref-admin.near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Card = styled.div`
   position: relative;
   width: 100%;
   border-radius: 12px;
   background: #1A2E33;
+  border: 1px solid #eceef0;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
@@ -38,21 +39,22 @@ const CardFooter = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 16px;
+  border-top: 1px solid #eceef0;
 `;
 
 const CardTag = styled.p`
   margin: 0;
   font-size: 9px;
   line-height: 14px;
-  background: transparent;
-  color: rgba(255,255,255,0.5);
+  background: #eceef0;
+  color: #687076;
   font-weight: 400;
   white-space: nowrap;
   position: absolute;
   top: 0;
   right: 0;
-//   border-bottom-left-radius: 3px;
-  padding: 4px;
+  border-bottom-left-radius: 3px;
+  padding: 0 4px;
 
   i {
     margin-right: 3px;
@@ -64,8 +66,7 @@ const TextLink = styled.a`
   margin: 0;
   font-size: 14px;
   line-height: 18px;
-  color: ${(p) =>
-    p.bold ? "#fff !important" : "rgba(255,255,255,0.5) !important"};
+  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
@@ -83,7 +84,7 @@ const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: ${(p) => (p.bold ? "#fff" : "#687076")};
+  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
@@ -126,20 +127,20 @@ const TagsWrapper = styled.div`
 const ButtonLink = styled.a`
   padding: 8px;
   height: 32px;
+  border: 1px solid #d7dbdf;
   border-radius: 100px;
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
   text-align: center;
   cursor: pointer;
-  color: ${(p) => (p.primary ? "#fff" : "#fff")} !important;
+  color: ${(p) => (p.primary ? "#006ADC" : "#11181C")} !important;
+  background: #fbfcfd;
   white-space: nowrap;
-  background: rgba(26, 46, 51, 0.25);
-   border: 0.5px solid rgba(255, 255, 255, 0.3);
 
   &:hover,
   &:focus {
-    // background: #ecedee;
+    background: #ecedee;
     text-decoration: none;
     outline: none;
   }
@@ -186,7 +187,7 @@ return (
         {tags.length > 0 && (
           <TagsWrapper>
             <Widget
-              src="ref-admin.near/widget/Tags"
+              src="adminalpha.near/widget/Tags"
               props={{
                 tags,
                 scroll: true,
