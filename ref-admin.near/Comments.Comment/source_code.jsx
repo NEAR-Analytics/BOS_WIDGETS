@@ -149,7 +149,7 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="adminalpha.near/widget/Comments.Compose"
+            src="ref-admin.near/widget/Comments.Compose"
             props={{
               initialText: `@${accountId}, `,
               notifyAccountId: extractNotifyAccountId(parentItem),
