@@ -126,6 +126,6 @@ return (
       <></>
     ) : view ? (
       view
-    ) : <Italic>Not specified</i>}
+    ) : <Italic>Not specified</Italic>}
   </Container>
 );
