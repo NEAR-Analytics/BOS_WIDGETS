@@ -46,15 +46,15 @@ const CardTag = styled.p`
   margin: 0;
   font-size: 9px;
   line-height: 14px;
-  background: #eceef0;
-  color: #687076;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
   font-weight: 400;
   white-space: nowrap;
   position: absolute;
   top: 0;
   right: 0;
-  border-bottom-left-radius: 3px;
-  padding: 0 4px;
+//   border-bottom-left-radius: 3px;
+  padding: 4px;
 
   i {
     margin-right: 3px;
