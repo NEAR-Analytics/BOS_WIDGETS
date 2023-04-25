@@ -80,7 +80,7 @@ const Credits = styled.div`
   flex-grow: 0;
   font-style: normal;
   font-weight: 600;
-  font-size: 0.95em;
+  font-size: 0.9em;
   line-height: 1em;
   color: #11181c;
 `;
