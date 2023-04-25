@@ -135,13 +135,12 @@ const actions = (
 
 const Logo = styled.div`
   max-height: 1em;
+  height: 1em;
 `;
 
 return (
   <Navbar>
-    <Logo>
-      {logo}
-    </Logo>
+    <Logo>{logo}</Logo>
     {actions}
   </Navbar>
 );
