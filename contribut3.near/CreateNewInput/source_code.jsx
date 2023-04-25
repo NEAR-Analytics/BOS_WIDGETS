@@ -140,7 +140,7 @@ const MenuIcon = styled.button`
   align-items: center;
   padding: 0.5em 1em;
   gap: 0.5em;
-  background: #11181c;
+  background: #00ec97;
   border-radius: 50px;
   flex: none;
   order: 1;
