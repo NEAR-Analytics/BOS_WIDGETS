@@ -1,5 +1,5 @@
 const identifier = props.identifier;
-const notifyOnEachComment = props.notifyOnEachComment || [];
+const notifyAccountId = props.notifyAccountId;
 const dbAction = props.dbAction || "discuss";
 const moderatorAccount = props.moderatorAccount || "bosmod.near";
 const composeWidget =
@@ -44,7 +44,7 @@ return (
       <ComposeWrapper>
         <Widget
           src={composeWidget}
-          props={{ dbAction, identifier, previewWidget }}
+          props={{ dbAction, identifier, previewWidget, notifyAccountId }}
         />
       </ComposeWrapper>
     ) : (
@@ -59,7 +59,6 @@ return (
           previewWidget,
           identifier,
           moderatorAccount,
-          notifyOnEachComment,
         }}
       />
     </FeedWrapper>
