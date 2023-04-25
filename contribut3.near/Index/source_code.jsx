@@ -154,8 +154,12 @@ const Content = styled.div`
   width: 100%;
 `;
 
+const Container = styled.div`
+  background: #fafafa;
+`;
+
 return (
-  <div>
+  <Container>
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
     <Content>
       <Sidebar
@@ -170,5 +174,5 @@ return (
       </Sidebar>
       <ContentContainer>{tabContent}</ContentContainer>
     </Content>
-  </div>
+  </Container>
 );
