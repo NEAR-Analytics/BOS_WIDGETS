@@ -21,7 +21,6 @@ const Post = styled.div`
 
 const renderItem = ({ accountId, blockHeight }) => (
   <>
-    {JSON.stringify(indexKey)}
     <Post className="post">
       <Widget
         src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview"
@@ -40,7 +39,6 @@ const renderItem = ({ accountId, blockHeight }) => (
 
 return (
   <>
-    {JSON.stringify(indexKey)}
     <Widget
       src="near/widget/IndexFeed"
       props={{ index, renderItem, moderatorAccount, reverse: true }}
