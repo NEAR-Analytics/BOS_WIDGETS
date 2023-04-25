@@ -33,13 +33,13 @@ const Wrapper = styled.div`
   }
 
   a {
-    color: #006adc;
+    color: #7E8A93;
     outline: none;
     font-weight: 600;
 
     &:hover,
     &:focus {
-      color: #006adc;
+      color: #7E8A93;
       text-decoration: underline;
     }
   }
