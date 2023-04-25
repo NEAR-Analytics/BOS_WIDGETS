@@ -30,6 +30,7 @@ const renderItem = (a) =>
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
+          identifier,
           dbAction,
           composeWidget,
           previewWidget,
