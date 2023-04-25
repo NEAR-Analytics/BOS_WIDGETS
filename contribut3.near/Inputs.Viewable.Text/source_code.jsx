@@ -64,8 +64,8 @@ return (
           <SaveButton onClick={() => onSave(v)}>Save</SaveButton>
         </LabelArea>
       ),
-      view: isLink ? <a href={link}>{value}</a> : value,
-      canEdit
+      view: isLink && value ? <a href={link}>{value}</a> : value,
+      canEdit,
     }}
   />
 );
