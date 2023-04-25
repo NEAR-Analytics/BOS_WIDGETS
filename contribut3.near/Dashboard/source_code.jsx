@@ -155,14 +155,14 @@ return (
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: Number(state.stats.MAU).toLocaleString("en-US", { notation: "compact" }),
+          value: Number(state.stats.MAU).toLocaleString("en-US", { notation: "compact" }) + "+",
           label: "Monthly active accounts",
         }}
       />
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", { notation: "compact" }),
+          value: Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", { notation: "compact" }) + "+",
           label: "Total accounts",
         }}
       />
