@@ -62,9 +62,9 @@ function composeData() {
         content,
       }),
     },
-    index: {
-      discuss: { key: JSON.stringify(indexKey) },
-    },
+    index: JSON.stringify({
+      discuss: { key: indexKey },
+    }),
   };
 
   let notifications = [];
