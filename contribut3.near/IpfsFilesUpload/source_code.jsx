@@ -2,7 +2,7 @@ const fileAccept = props.fileAccept || "*";
 const fileIcon = props.fileIcon || "bi-file";
 const buttonText = props.buttonText || "Upload a file";
 
-if (!props.update) return "Update function is required";
+// if (!props.update) return "Update function is required";
 
 State.init({
   uploading: false,
