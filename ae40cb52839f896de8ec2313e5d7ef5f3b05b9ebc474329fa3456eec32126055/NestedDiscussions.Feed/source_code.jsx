@@ -22,26 +22,25 @@ const Post = styled.div`
   }
 `;
 
-const renderItem = (a) =>
-  a.value.type === "md" && (
-    <Post className="post" key={JSON.stringify(a)}>
-      <Widget
-        src={previewWidget}
-        props={{
-          accountId: a.accountId,
-          blockHeight: a.blockHeight,
-          identifier,
-          dbAction,
-          composeWidget,
-          previewWidget,
-          moderatorAccount,
-          notificationWidget,
-          notificationWidgetParams,
-          highlightComment,
-        }}
-      />
-    </Post>
-  );
+const renderItem = ({ accountId, blockHeight }) => (
+  <Post className="post" key={JSON.stringify({ accountId, blockHeight })}>
+    <Widget
+      src={previewWidget}
+      props={{
+        accountId,
+        blockHeight,
+        identifier,
+        dbAction,
+        composeWidget,
+        previewWidget,
+        moderatorAccount,
+        notificationWidget,
+        notificationWidgetParams,
+        highlightComment,
+      }}
+    />
+  </Post>
+);
 
 return (
   <>
