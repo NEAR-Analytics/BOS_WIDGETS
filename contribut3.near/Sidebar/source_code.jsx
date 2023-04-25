@@ -178,7 +178,7 @@ const NavItem = styled.a`
   border-radius: 5px;
   text-decoration: none;
   transition: background-color 0.2s ease-in-out;
-  background-color: ${({ selected }) => (selected ? "#f2f4f7" : "white")};
+  background-color: ${({ selected }) => (selected ? "#f2f4f7" : "none")};
   display: flex;
   flex-direction: column;
   justify-content: center;
