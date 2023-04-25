@@ -32,7 +32,7 @@ const Post = styled.div`
   position: relative;
   ${
     content.commentId == highlightComment
-      ? "border-right: 5px solid yellow;"
+      ? "border-left: 4px solid aqua; padding-left: 1rem;"
       : ""
   }
 
