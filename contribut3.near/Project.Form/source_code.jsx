@@ -191,9 +191,11 @@ return (
           label: "Development phase *",
           placeholder: "Testnet launched",
           options: [
+            { text: "Idea stage", value: "idea" },
             { text: "Testnet launched", value: "testnet" },
             { text: "Mainnet launched", value: "mainnet" },
-            { text: "In development", value: "development" },
+            { text: "Scaling startup", value: "scaling" },
+            { text: "Established business", value: "established" }
           ],
           value: state.dev,
           onChange: (dev) => State.update({ dev }),
