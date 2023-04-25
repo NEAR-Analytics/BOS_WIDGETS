@@ -27,7 +27,7 @@ const Card = styled.div`
   border-radius: 12px;
   z-index: 1070;
   background-color:#1A2E33;
-  border: 1px solid #eceef0;
+//   border: 1px solid #eceef0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 12px;
 `;
