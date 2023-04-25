@@ -2,6 +2,7 @@ const dbAction = props.dbAction;
 const composeWidget = props.composeWidget;
 const previewWidget = props.previewWidget;
 const notificationWidget = props.notificationWidget;
+const notificationWidgetParams = props.notificationWidgetParams;
 const highlightComment = props.highlightComment;
 
 const identifier = props.identifier;
@@ -34,6 +35,7 @@ const renderItem = (a) =>
           previewWidget,
           moderatorAccount,
           notificationWidget,
+          notificationWidgetParams,
           highlightComment,
         }}
       />
