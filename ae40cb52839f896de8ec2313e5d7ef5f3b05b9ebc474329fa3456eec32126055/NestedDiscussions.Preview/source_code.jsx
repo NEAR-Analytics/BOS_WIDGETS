@@ -207,6 +207,9 @@ return (
             composeWidget,
             previewWidget,
             moderatorAccount,
+            notificationWidget,
+            notificationWidgetParams,
+            highlightComment,
           }}
         />
       </Comments>
