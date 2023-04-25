@@ -26,8 +26,8 @@ const Card = styled.div`
   width: 275px;
   border-radius: 12px;
   z-index: 1070;
-  background-color:#1A2E33;
-//   border: 1px solid #eceef0;
+  background: #fff;
+  border: 1px solid #eceef0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 12px;
 `;
@@ -49,12 +49,15 @@ const overlay = (
         props={{ accountId: props.accountId, profile, noOverlay: true }}
       />
 
-      <Widget src="ref-admin.near/widget/Tags" props={{ tags, scroll: true }} />
+      <Widget
+        src="adminalpha.near/widget/Tags"
+        props={{ tags, scroll: true }}
+      />
 
       {!!context.accountId && context.accountId !== props.accountId && (
         <FollowButtonWrapper>
           <Widget
-            src="ref-admin.near/widget/FollowButton"
+            src="adminalpha.near/widget/FollowButton"
             props={{ accountId: props.accountId }}
           />
         </FollowButtonWrapper>
