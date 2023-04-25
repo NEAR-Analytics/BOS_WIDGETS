@@ -55,7 +55,7 @@ return (
     ) : (
       <p> Login to {placeholder.toLowerCase()} </p>
     )}
-    {highlightComment ?? (
+    {highlightComment && (
       <>
         <a href="#highlight">Jump to highlighted comment</a>
       </>
