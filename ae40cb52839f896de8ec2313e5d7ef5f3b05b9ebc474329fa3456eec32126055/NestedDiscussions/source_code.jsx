@@ -6,8 +6,8 @@ const notLoggedMessage =
   props.notLoggedMessage || "Login to join the discussion";
 
 // discussions happen inside other components
-const parentComponent = props.parentComponent;
-const parentParams = { ...props.parentParams };
+const notificationComponent = props.parentComponent;
+const notificationParams = { ...props.parentParams };
 
 if (!identifier) {
   return "[NestedDiscussions]: Please setup an identifier for the discussion";
@@ -46,8 +46,8 @@ return (
           src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose"
           props={{
             identifier,
-            notificationWidget,
-            notificationParams: notificationWidgetParams,
+            notificationComponent,
+            notificationParams,
             notifyAccountId,
           }}
         />
