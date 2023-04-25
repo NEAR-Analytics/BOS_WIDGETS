@@ -133,9 +133,15 @@ const actions = (
   </ActionArea>
 );
 
+const Logo = styled.div`
+  max-height: 1em;
+`;
+
 return (
   <Navbar>
-    {logo}
+    <Logo>
+      {logo}
+    </Logo>
     {actions}
   </Navbar>
 );
