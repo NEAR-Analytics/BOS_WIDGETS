@@ -66,7 +66,8 @@ const TextLink = styled.a`
   margin: 0;
   font-size: 14px;
   line-height: 18px;
-  color: ${(p) => (p.bold ? "#fff !important" : "#fff !important")};
+  color: ${(p) =>
+    p.bold ? "#fff !important" : "rgba(255,255,255,0.5) !important"};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
