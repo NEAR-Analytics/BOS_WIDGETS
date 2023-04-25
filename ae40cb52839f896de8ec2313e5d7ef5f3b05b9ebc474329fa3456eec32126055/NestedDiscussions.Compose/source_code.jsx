@@ -2,7 +2,6 @@ const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
 const parentComponent = props.parentComponent;
 const parentParams = props.parentParams;
-const parentComment = props.parentComment;
 
 if (!context.accountId) return <></>;
 
