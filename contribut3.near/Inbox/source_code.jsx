@@ -25,7 +25,7 @@ const header = <Header>Inbox</Header>;
 
 const index = {
   action: "inbox",
-  key: accountId,
+  key: context.accountId,
   options: {
     limit: 10,
     order: "desc",
