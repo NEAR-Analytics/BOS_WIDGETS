@@ -11,6 +11,7 @@ const previewWidget =
 
 // discussions generally happen inside another widget
 const notificationWidget = props.notificationWidget || props.previewWidget;
+const notificationWidgetParams = props.notificationWidgetParams || {};
 const highlightComment = props.highlightComment;
 
 const notLoggedMessage =
@@ -55,7 +56,7 @@ return (
             dbAction,
             identifier,
             notificationWidget,
-            notificationtParams: { identifier },
+            notificationtParams: notificationWidgetParams,
             notifyAccountId,
           }}
         />
