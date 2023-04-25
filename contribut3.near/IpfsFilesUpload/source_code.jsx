@@ -23,7 +23,7 @@ return (
       clickable
       className="btn btn-outline-primary"
       onChange={(files) => {
-        if (!files) return;
+        if (!files || !files.length) return;
 
         console.log(files);
 
