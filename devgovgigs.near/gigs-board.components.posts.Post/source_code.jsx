@@ -511,6 +511,28 @@ const limitedMarkdown = styled.div`
   max-height: 20em;
 `;
 
+const clampMarkdown = styled.div`
+  .clamp {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  }
+`;
+
+const contentArray = snapshot.description.split("\n");
+const needClamp = contentArray.length > 5;
+
+initState({
+  clamp: needClamp,
+});
+
+const clampedContent = needClamp
+  ? contentArray.slice(0, 5).join("\n")
+  : snapshot.description;
+
 const onMention = (accountId) => (
   <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
     <Widget
@@ -534,12 +556,28 @@ const descriptionArea = isUnderPost ? (
     />
   </limitedMarkdown>
 ) : (
-  <Markdown
-    class="card-text"
-    text={snapshot.description}
-    onMention={onMention}
-    key="description-area"
-  ></Markdown>
+  <clampMarkdown>
+    <div class={state.clamp ? "clamp" : ""}>
+      <Markdown
+        class="card-text"
+        text={state.clamp ? clampedContent : snapshot.description}
+        onMention={onMention}
+        key="description-area"
+      ></Markdown>
+    </div>
+    {state.clamp ? (
+      <div class="d-flex justify-content-center">
+        <a
+          class="btn btn-link text-secondary"
+          onClick={() => State.update({ clamp: false })}
+        >
+          Read More
+        </a>
+      </div>
+    ) : (
+      <></>
+    )}
+  </clampMarkdown>
 );
 
 return (
