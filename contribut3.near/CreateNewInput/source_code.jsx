@@ -146,6 +146,10 @@ const MenuIcon = styled.button`
   order: 1;
   flex-grow: 0;
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const DropdownContainer = styled.div`
