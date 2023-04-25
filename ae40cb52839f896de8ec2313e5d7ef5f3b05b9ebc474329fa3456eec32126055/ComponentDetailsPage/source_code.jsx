@@ -17,8 +17,8 @@ const code = Social.get(`${accountId}/widget/${widgetName}`);
 const data = Social.get(`${accountId}/widget/${widgetName}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `/#/near/widget/ComponentDetailsPage?src=${src}`;
-const shareUrl = `https://alpha.near.org${detailsUrl}`;
+const detailsUrl = `#/near/widget/ComponentDetailsPage?src=${src}`;
+const shareUrl = `https://near.org${detailsUrl}`;
 
 const dependencyMatch =
   code && code.matchAll(/<Widget[\s\S]*?src=.*?"(.+)"[\s\S]*?\/>/g);
@@ -329,8 +329,8 @@ return (
     {state.selectedTab === "discussion" && (
       <Content>
         <Widget
-          src="near/widget/NestedDiscussions"
-          props={{ identifier: src }}
+          src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions"
+          props={{ identifier: src, notifyAccountId: accountId }}
         />
       </Content>
     )}
