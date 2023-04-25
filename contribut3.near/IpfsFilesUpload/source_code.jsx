@@ -18,7 +18,7 @@ return (
       : <></>}
     <Files
       multiple={false}
-      accepts={[fileAccept]}
+      accepts={["image/*", "video/*", ".pdf"]}
       minFileSize={1}
       clickable
       className="btn btn-outline-primary"
