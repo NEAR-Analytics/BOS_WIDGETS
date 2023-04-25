@@ -100,8 +100,6 @@ const notifications = [...new Set([...state.projects, ...state.vendors])]
   }, [])
   .sort((a, b) => b.blockHeight - a.blockHeight);
 
-console.log({ notifications });
-
 return (
   <Wrapper>
     <Header>{header}</Header>
