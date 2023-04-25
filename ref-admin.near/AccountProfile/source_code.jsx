@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `/#/ref-admin.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `/#/adminalpha.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.a`
   display: inline-grid;
@@ -34,7 +34,7 @@ const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: ${(p) => (p.grey ? "rgba(255,255,255,0.5)" : "#fff")};
+  color: "#fff";
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "10px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
@@ -102,11 +102,7 @@ const AccountProfile = (
         )}
       </Name>
 
-      {!props.hideAccountId && (
-        <Text ellipsis grey>
-          @{accountId}
-        </Text>
-      )}
+      {!props.hideAccountId && <Text ellipsis>@{accountId}</Text>}
     </div>
   </Wrapper>
 );
@@ -115,7 +111,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
   <Widget
-    src="ref-admin.near/widget/AccountProfileOverlay"
+    src="adminalpha.near/widget/AccountProfileOverlay"
     props={{
       accountId: props.accountId,
       profile,
