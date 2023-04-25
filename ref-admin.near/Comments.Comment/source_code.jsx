@@ -71,7 +71,7 @@ const Actions = styled.div`
 
 return (
   <Comment>
-    <Header>
+    {/*<Header>
       <Widget
         src="adminalpha.near/widget/AccountProfile"
         props={{
@@ -96,7 +96,7 @@ return (
           ),
         }}
       />
-    </Header>
+    </Header>*/}
 
     <Body>
       <Content>
