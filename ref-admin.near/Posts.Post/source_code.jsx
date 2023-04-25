@@ -159,9 +159,9 @@ return (
         </div>
       )}
 
-      {/* <Comments>
+      <Comments>
         <Widget
-          src="adminalpha.near/widget/Comments.Feed"
+          src="ref-admin.near/widget/Comments.Feed"
           props={{
             item,
             highlightComment: props.highlightComment,
@@ -170,7 +170,7 @@ return (
             raw,
           }}
         />
-      </Comments>*/}
+      </Comments>
     </Body>
   </Post>
 );
