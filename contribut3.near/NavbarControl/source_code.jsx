@@ -42,8 +42,8 @@ const LogoArea = styled.a`
   gap: 0.7em;
   font-style: normal;
   font-weight: 700;
-  font-size: 1.2em;
-  line-height: 1.5em;
+  font-size: 1em;
+  line-height: 1em;
   color: #11181c;
 
   &:hover {
@@ -133,14 +133,9 @@ const actions = (
   </ActionArea>
 );
 
-const Logo = styled.div`
-  max-height: 1em;
-  height: 1em;
-`;
-
 return (
   <Navbar>
-    <Logo>{logo}</Logo>
+    {logo}
     {actions}
   </Navbar>
 );
