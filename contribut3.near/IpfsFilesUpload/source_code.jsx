@@ -7,6 +7,7 @@ const buttonText = props.buttonText || "Upload a file";
 State.init({
   uploading: false,
   cid: null,
+  filename: null,
 });
 
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
