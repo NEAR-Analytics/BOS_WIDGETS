@@ -2,8 +2,8 @@ const label = props.label ?? "Label";
 const placeholder = props.placeholder ?? "Placeholder";
 const value = props.value ?? "";
 const options = props.options ?? [];
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
+const onChange = props.onChange ?? (() => { });
+const validate = props.validate ?? (() => { });
 const error = props.error ?? "";
 
 const Container = styled.div`
@@ -81,13 +81,13 @@ const Content = styled.div`
   border-radius: 4px;
   background: #ffffff;
 
-  &[data-state="open"] {
-    animation: ${scaleOut} 0.2s ease-in-out;
-  }
-
-  &[data-state="closed"] {
-    animation: ${scaleOut} 0.2s ease-in-out reverse;
-  }
+  /* &[data-state="open"] { */
+  /*   animation: ${scaleOut} 0.2s ease-in-out; */
+  /* } */
+  /**/
+  /* &[data-state="closed"] { */
+  /*   animation: ${scaleOut} 0.2s ease-in-out reverse; */
+  /* } */
 `;
 
 const Viewport = styled.div`
