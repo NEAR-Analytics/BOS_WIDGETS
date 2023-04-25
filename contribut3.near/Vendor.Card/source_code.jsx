@@ -259,29 +259,7 @@ const footer = (
     >
       View details
     </FooterButton>
-    <FooterButton
-      blue
-      // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
-      onClick={() => {
-        const data = {
-          index: {
-            graph: JSON.stringify({
-              key: "project/invite",
-              value: { accountId },
-            }),
-            inbox: JSON.stringify({
-              key: props.accountId,
-              value: { type: "project/invite", requestId: props.requestId },
-            }),
-          },
-        };
-
-        // props.requestId:
-        // "requestId": { "account_id": "markandrice.near", "cid": "bafkreig7s5jjwewg47ufl32ehymqxytncznjmdzvq7saoog73wyodh6p7q" }}}}
-      }}
-    >
-      Invite vendor
-    </FooterButton>
+    <Widget src={`${ownerId}/widget/InviteSideWindow`} props={{ accountId }} />
   </Footer>
 );
 
