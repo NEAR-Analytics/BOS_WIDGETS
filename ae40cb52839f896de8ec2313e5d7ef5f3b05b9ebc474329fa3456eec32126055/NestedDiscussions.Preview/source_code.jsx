@@ -98,6 +98,7 @@ if (state.hasBeenFlagged) {
 
 return (
   <Post>
+    {commentId} + {highlightComment}
     <Header>
       <Widget
         src="calebjacob.near/widget/AccountProfile"
@@ -116,7 +117,6 @@ return (
         }}
       />
     </Header>
-
     <Body>
       <Content>
         {content.text && (
