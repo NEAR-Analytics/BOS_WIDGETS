@@ -33,27 +33,6 @@ const Header = styled.h1`
   color: #101828;
 `;
 
-const header = <Header>Inbox</Header>;
-
-const index = {
-  action: "inbox",
-  key: context.accountId,
-  options: {
-    limit: 10,
-    order: "desc",
-    subscribe: true,
-  },
-};
-
-const renderItem = (item, i) => {
-  if (i === 0) {
-    Storage.set("lastBlockHeight", item.blockHeight);
-  }
-  return (
-    <Widget src={`${ownerId}/widget/Notification.Index`} key={i} props={item} />
-  );
-};
-
 State.init({
   projects: null,
   projectsIsFetched: false,
@@ -102,6 +81,16 @@ const notifications = [...new Set([...state.projects, ...state.vendors])]
 
 return (
   <Wrapper>
-    <Header>{header}</Header>
+    <Header>Inbox</Header>
+    <Widget
+      src={`${ownerId}/widget/List`}
+      props={{
+        search,
+        items: state.items,
+        createItem: (item) => (
+          <Widget src={`${ownerId}/widget/Notification.Index`} props={item} />
+        ),
+      }}
+    />
   </Wrapper>
 );
