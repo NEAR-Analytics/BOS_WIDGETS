@@ -98,7 +98,6 @@ if (state.hasBeenFlagged) {
 
 return (
   <>
-    {content.commentId} , {props.highlightComment}
     <Post>
       <Header>
         <Widget
