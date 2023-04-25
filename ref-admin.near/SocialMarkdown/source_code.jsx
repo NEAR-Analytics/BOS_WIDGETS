@@ -49,6 +49,11 @@ const Wrapper = styled.div`
     max-width: 100%;
     max-height: 80vh;
   }
+  .table-striped{
+      strong{
+          color:#7E8A93;
+      }
+  }
 `;
 
 const renderMention =
