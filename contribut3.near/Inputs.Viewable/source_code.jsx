@@ -117,8 +117,8 @@ return (
       edit((value) => State.update({ value }), state.value)
     ) : noLabel ? (
       <></>
-    ) : view(
+    ) : view ? (
       view
-    )}
+    ) : <i>Not yet entered</i>}
   </Container>
 );
