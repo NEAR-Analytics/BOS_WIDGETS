@@ -38,7 +38,7 @@ return (
         ).then(
           ({ body: { cid } }) => {
             State.update({ cid, uploading: false });
-            props.update(cid);
+            // props.update(cid);
           }
         );
       }}
