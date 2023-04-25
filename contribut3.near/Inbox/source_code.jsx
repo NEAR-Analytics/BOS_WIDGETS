@@ -86,18 +86,18 @@ if (!state.projectsIsFetched || !state.vendorsIsFetched) {
 }
 
 const notifications = [...new Set([...state.projects, ...state.vendors])]
-  .reduce((allNotifications, accountId) => {
-    const notificationsForAccount = Social.index("inbox", accountId, {
-      order: "desc",
-      subscribe: true,
-    });
-
-    if (!notificationsForAccount) {
-      return allNotifications;
-    }
-
-    return [...allNotifications, ...notificationsForAccount];
-  }, [])
+// .reduce((allNotifications, accountId) => {
+//   const notificationsForAccount = Social.index("inbox", accountId, {
+//     order: "desc",
+//     subscribe: true,
+//   });
+//
+//   if (!notificationsForAccount) {
+//     return allNotifications;
+//   }
+//
+//   return [...allNotifications, ...notificationsForAccount];
+// }, [])
 // .sort((a, b) => b.blockHeight - a.blockHeight);
 
 console.log({ notifications });
