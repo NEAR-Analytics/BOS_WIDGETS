@@ -1,4 +1,5 @@
 const label = props.label ?? "Label";
+const noLabel = props.noLabel ?? false;
 const placeholder = props.placeholder ?? "Placeholder";
 const value = props.value ?? "";
 const options = props.options ?? [];
@@ -128,7 +129,7 @@ const Item = styled.button`
 
 return (
   <Container>
-    <Label>{label}</Label>
+    {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
       value={value?.value}
       onValueChange={(value) =>
