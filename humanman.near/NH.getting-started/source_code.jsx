@@ -61,41 +61,5 @@ return (
     </p>
     <br />
     <br />
-    <h2>FAQ</h2>
-    <br />
-    <h3>Credits</h3>
-    <br />
-    <h4>
-      Is NHZN a fungible token which can be used throughout the NEAR Ecosystem?
-    </h4>
-    <br />
-    <p>
-      No, NHZN can only be used inside the NEAR Horizon product. Addresses which
-      are eligible to receive and transfer credits will be whitelisted and gated
-      to only NEAR Horizon accelerator teams and service partners.{" "}
-    </p>
-    <br />
-    <br />
-    <h4>Why not use a stable coin or $NEAR?</h4>
-    <br />
-    <p>
-      Stable coins or $NEAR can be used throughout the entire NEAR ecosystem and
-      even transferred to a different blockchain. The credit system for NEAR
-      Horizon must be used solely for services founding teams need to succeed.{" "}
-    </p>
-    <br />
-    <br />
-    <h4>What are the pros/cons of doing the same thing off-chain?</h4>
-    <br />
-    <p>
-      Tracking service credit usage on-chain is beneficial for the auditability
-      and transparency of a complex marketplace between service providers and
-      accelerator teams. Utilizing a smart contract and building the
-      functionality into the NEAR Horizon Product (built on BOS) to facilitate
-      the use of NEAR Horizon service credits reduces the operational complexity
-      and effort required. Creating an interface built on NEAR where both
-      service providers and founding teams can connect will spawn new ideas
-      about how different entities and contributors can interface on the BOS!
-    </p>
   </div>
 );
