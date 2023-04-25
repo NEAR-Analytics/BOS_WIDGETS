@@ -132,7 +132,7 @@ const DropdownList = styled.ul`
 `;
 
 const MenuIcon = styled.button`
-  color: #fff;
+  color: black;
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -145,6 +145,7 @@ const MenuIcon = styled.button`
   flex: none;
   order: 1;
   flex-grow: 0;
+  border: none;
 `;
 
 const DropdownContainer = styled.div`
@@ -154,6 +155,8 @@ const DropdownContainer = styled.div`
 
 const MenuText = styled.span`
   margin: 0 0.2em;
+  font-size: .9em;
+  font-weight: 500;
 `;
 
 return (
