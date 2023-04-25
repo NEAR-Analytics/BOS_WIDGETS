@@ -138,7 +138,7 @@ if (!state.statsIsFetched) {
   });
 }
 
-console.log(state.stats)
+console.log(nacl)
 
 return (
   <Container>
