@@ -86,7 +86,7 @@ return (
       src={`${ownerId}/widget/List`}
       props={{
         search,
-        items: state.items,
+        items: notifications,
         createItem: (item) => (
           <Widget src={`${ownerId}/widget/Notification.Index`} props={item} />
         ),
