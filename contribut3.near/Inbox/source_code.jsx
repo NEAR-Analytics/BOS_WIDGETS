@@ -37,6 +37,7 @@ const renderItem = (item, i) => {
   if (i === 0) {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
+  console.log(item);
   return <Widget src={`${ownerId}/widget/Notification`} key={i} props={item} />;
 };
 
