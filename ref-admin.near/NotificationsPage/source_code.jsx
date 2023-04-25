@@ -14,7 +14,6 @@ const index = {
 };
 
 const Wrapper = styled.div`
-background: radial-gradient( 64.26% 67.04% at 49.31% 0%, #002c35 0%, #101011 100% );
   padding-bottom: 48px;
 
   > div {
