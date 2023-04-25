@@ -8,7 +8,7 @@ const previewWidget =
   props.previewWidget || "near/widget/NestedDiscussions.Preview";
 
 // discussions generally happen inside another widget
-const notificationtWidget = props.notificationtWidget || props.previewWidget;
+const notificationWidget = props.notificationWidget || props.previewWidget;
 const highlightComment = props.highlightComment;
 
 const notLoggedMessage =
@@ -52,7 +52,7 @@ return (
           props={{
             dbAction,
             identifier,
-            notificationtWidget,
+            notificationWidget,
             notificationtParams: { identifier },
             notifyAccountId,
           }}
@@ -70,7 +70,7 @@ return (
           previewWidget,
           identifier,
           moderatorAccount,
-          notificationtWidget,
+          notificationWidget,
           highlightComment,
         }}
       />
