@@ -183,7 +183,7 @@ const NavItem = styled.a`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.75em;
 
   &:hover {
     color: #667085;
@@ -220,6 +220,7 @@ const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 2.5em;
+  gap: 0.8em;
 `;
 
 const Border = styled.hr`
