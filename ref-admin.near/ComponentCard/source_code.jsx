@@ -66,7 +66,7 @@ const TextLink = styled.a`
   margin: 0;
   font-size: 14px;
   line-height: 18px;
-  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
+  color: ${(p) => (p.bold ? "#fff !important" : "#fff !important")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
@@ -84,7 +84,7 @@ const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
+  color: ${(p) => (p.bold ? "#fff" : "#687076")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "12px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
