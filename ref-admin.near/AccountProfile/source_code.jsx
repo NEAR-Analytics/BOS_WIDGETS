@@ -34,7 +34,7 @@ const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: #fff;
+  color: ${(p) => (p.grey ? "rgba(255,255,255,0.5)" : "#fff")};
   font-weight: ${(p) => (p.bold ? "600" : "400")};
   font-size: ${(p) => (p.small ? "10px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
@@ -102,7 +102,11 @@ const AccountProfile = (
         )}
       </Name>
 
-      {!props.hideAccountId && <Text ellipsis>@{accountId}</Text>}
+      {!props.hideAccountId && (
+        <Text ellipsis grey>
+          @{accountId}
+        </Text>
+      )}
     </div>
   </Wrapper>
 );
