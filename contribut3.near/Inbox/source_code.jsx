@@ -1,7 +1,15 @@
 const ownerId = "contribut3.near";
 
 if (!context.accountId) {
-  return <Widget src={`${ownerId}/widget/InfoSegment`} props={{ title: "Not logged in!", description: "You must log in to look at your notifications!" }} />;
+  return (
+    <Widget
+      src={`${ownerId}/widget/InfoSegment`}
+      props={{
+        title: "Not logged in!",
+        description: "You must log in to look at your notifications!",
+      }}
+    />
+  );
 }
 
 const Wrapper = styled.div`
@@ -77,10 +85,17 @@ if (!state.projectsIsFetched || !state.vendorsIsFetched) {
   return <>Loading...</>;
 }
 
-const notifications = [...new Set([...state.projects, ...state.vendors])].reduce((allNotifications, accountId) => {
-  const notificationsForAccount = Social.index("inbox", accountId, { order: "desc", subscribe: true });
-  return [...allNotifications, ...notificationsForAccount];
-}, []).sort((a, b) => b.blockHeight - a.blockHeight);
+const notifications = [...new Set([...state.projects, ...state.vendors])]
+  .reduce((allNotifications, accountId) => {
+    const notificationsForAccount = Social.index("inbox", accountId, {
+      order: "desc",
+      subscribe: true,
+    });
+    return [...allNotifications, ...notificationsForAccount];
+  }, [])
+  .sort((a, b) => b.blockHeight - a.blockHeight);
+
+console.log(notifications);
 
 return (
   <Wrapper>
