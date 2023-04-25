@@ -171,34 +171,17 @@ return (
         }}
       />
       <Widget
-        src={`${ownerId}/widget/Inputs.Select`}
+        src={`${ownerId}/widget/Inputs.Integration`}
         props={{
-          label: "Integration with NEAR *",
-          placeholder: "Native",
-          options: [
-            { text: "Native", value: "native" },
-            { text: "Multichain", value: "multichain" },
-            { text: "Not yet but interested", value: "interested" },
-            { text: "No", value: "no" },
-          ],
-          value: state.integration,
-          onChange: (integration) => State.update({ integration }),
+          category: state.integration,
+          update: (integration) => State.update({ integration }),
         }}
       />
       <Widget
-        src={`${ownerId}/widget/Inputs.Select`}
+        src={`${ownerId}/widget/Inputs.Phase`}
         props={{
-          label: "Development phase *",
-          placeholder: "Testnet launched",
-          options: [
-            { text: "Idea stage", value: "idea" },
-            { text: "Testnet launched", value: "testnet" },
-            { text: "Mainnet launched", value: "mainnet" },
-            { text: "Scaling startup", value: "scaling" },
-            { text: "Established business", value: "established" }
-          ],
-          value: state.dev,
-          onChange: (dev) => State.update({ dev }),
+          category: state.dev,
+          update: (dev) => State.update({ dev }),
         }}
       />
       <Widget
