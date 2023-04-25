@@ -92,7 +92,7 @@ const body = (
           props={{
             accountId: props.accountId,
             name: state.profile.name,
-            nameSize: "1.125em",
+            nameSize: "1em",
           }}
         />
         {/*<Widget
