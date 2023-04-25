@@ -23,7 +23,6 @@ const Navbar = styled.div`
   align-items: center;
   justify-content: space-between;
   background: #fff;
-  border-bottom: 1px solid #eceef0;
   padding: 0.75em 0;
   flex: none;
   order: 0;
@@ -31,7 +30,6 @@ const Navbar = styled.div`
   flex-grow: 0;
   position: sticky;
   top: 0;
-  margin-bottom: 1.5em;
   transform: translateY(-1em);
 `;
 
