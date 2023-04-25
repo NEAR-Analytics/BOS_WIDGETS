@@ -1,7 +1,7 @@
 const id = props.id ?? "text";
 const label = props.label ?? "Input";
 const value = props.value ?? "";
-const view = props.view ?? (() => <></>);
+const view = props.view;
 const edit = props.edit ?? (() => <></>);
 const big = props.big ?? false;
 const noLabel = props.noLabel ?? false;
@@ -117,7 +117,7 @@ return (
       edit((value) => State.update({ value }), state.value)
     ) : noLabel ? (
       <></>
-    ) : (
+    ) : view(
       view
     )}
   </Container>
