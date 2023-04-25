@@ -2,6 +2,7 @@ const placeholder = props.placeholder || "Join the discussion";
 const notifyAccountId = props.notifyAccountId;
 const parentComponent = props.parentComponent;
 const parentParams = props.parentParams;
+const parentComment = props.parentComment;
 
 if (!context.accountId) return <></>;
 
@@ -20,8 +21,6 @@ const content = {
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
   commentId,
-  parentComponent,
-  parentParams,
 };
 
 function extractMentions(text) {
