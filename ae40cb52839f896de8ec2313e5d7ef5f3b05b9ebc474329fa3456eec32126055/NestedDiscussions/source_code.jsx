@@ -2,8 +2,7 @@ const identifier = props.identifier;
 const notifyAccountId = props.notifyAccountId;
 const highlightComment = props.highlightComment;
 const moderatorAccount = props.moderatorAccount || "bosmod.near";
-const notLoggedMessage =
-  props.notLoggedMessage || "Login to join the discussion";
+const placeholder = props.placeholder || "Join the discussion";
 
 // discussions happen inside other components
 const notificationComponent = props.parentComponent;
@@ -53,7 +52,7 @@ return (
         />
       </ComposeWrapper>
     ) : (
-      <p> {notLoggedMessage} </p>
+      <p> Login to {placeholder.toLowerCase()} </p>
     )}
     <FeedWrapper>
       <Widget
