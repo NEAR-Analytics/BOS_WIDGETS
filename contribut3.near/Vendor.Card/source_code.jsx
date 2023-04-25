@@ -51,6 +51,7 @@ const Container = styled.div`
   justify-content: flex-start;
   gap: 1em;
   width: 100%;
+  margin-bottom: .25em;
 `;
 
 const Details = styled.div`
@@ -259,7 +260,10 @@ const footer = (
     >
       View details
     </FooterButton>
-    <Widget src={`${ownerId}/widget/Vendor.InviteSideWindow`} props={{ accountId }} />
+    <Widget
+      src={`${ownerId}/widget/Vendor.InviteSideWindow`}
+      props={{ accountId }}
+    />
   </Footer>
 );
 
