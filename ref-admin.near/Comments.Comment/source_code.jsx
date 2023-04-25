@@ -120,7 +120,7 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="adminalpha.near/widget/LikeButton"
+            src="ref-admin.near/widget/LikeButton"
             props={{
               item: {
                 type: "social",
