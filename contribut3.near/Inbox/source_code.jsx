@@ -33,7 +33,7 @@ const index = {
   },
 };
 
-console.log(Social.index("inbox", context.accountId, {
+console.log(Social.index("inbox", "petarvujovic.near", {
   limit: 10,
   order: "desc",
   subscribe: true,
