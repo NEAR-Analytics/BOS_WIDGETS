@@ -29,7 +29,7 @@ const Comment = styled.div`
     top: 44px;
     bottom: 12px;
     width: 2px;
-    background: ${props.highlight ? "#006ADC" : "#ECEEF0"};
+    background: ${props.highlight ? "#006ADC" : "rgba(48, 67, 82, 0.5)"};
   }
 `;
 
