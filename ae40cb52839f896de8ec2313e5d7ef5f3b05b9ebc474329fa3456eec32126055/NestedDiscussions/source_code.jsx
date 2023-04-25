@@ -60,7 +60,7 @@ return (
             dbAction,
             identifier,
             notificationWidget,
-            notificationtParams: notificationWidgetParams,
+            notificationParams: notificationWidgetParams,
             notifyAccountId,
           }}
         />
