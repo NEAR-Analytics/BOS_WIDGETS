@@ -3,9 +3,11 @@ const notifyAccountId = props.notifyAccountId;
 const dbAction = props.dbAction || "discuss";
 const moderatorAccount = props.moderatorAccount || "bosmod.near";
 const composeWidget =
-  props.composeWidget || "near/widget/NestedDiscussions.Compose";
+  props.composeWidget ||
+  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Compose";
 const previewWidget =
-  props.previewWidget || "near/widget/NestedDiscussions.Preview";
+  props.previewWidget ||
+  "ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Preview";
 
 // discussions generally happen inside another widget
 const notificationWidget = props.notificationWidget || props.previewWidget;
@@ -63,7 +65,7 @@ return (
     )}
     <FeedWrapper>
       <Widget
-        src="near/widget/NestedDiscussions.Feed"
+        src="ae40cb52839f896de8ec2313e5d7ef5f3b05b9ebc474329fa3456eec32126055/widget/NestedDiscussions.Feed"
         props={{
           dbAction,
           composeWidget,
