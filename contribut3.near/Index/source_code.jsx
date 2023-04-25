@@ -155,7 +155,6 @@ const Content = styled.div`
 `;
 
 const Container = styled.div`
-  background: #fafafa;
 `;
 
 return (
