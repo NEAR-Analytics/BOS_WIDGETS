@@ -130,14 +130,14 @@ if (!state.requestsIsFetched) {
     false
   ).then((requests) =>
     State.update({
-      requests: requests.map(([accountId, cid]) => ({
+      requests: requests.map(([accountId, cid, title]) => ({
         // name: (
         //   <Widget
         //     src={`${ownerId}/widget/Request.Line`}
         //     props={{ accountId, cid, size: "1em" }}
         //   />
         // ),
-        name: cid,
+        text: title,
         value: cid,
       })),
       requestsIsFetched: true,
