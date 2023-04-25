@@ -53,6 +53,9 @@ const Wrapper = styled.div`
       strong{
           color:#7E8A93;
       }
+      tbody tr td{
+          color:#fff;
+      }
   }
 `;
 
