@@ -62,11 +62,11 @@ function composeData() {
         content,
       }),
     },
-    index: JSON.stringify({
-      discuss: {
+    index: {
+      discuss: JSON.stringify({
         key: indexKey,
-      },
-    }),
+      }),
+    },
   };
 
   let notifications = [];
