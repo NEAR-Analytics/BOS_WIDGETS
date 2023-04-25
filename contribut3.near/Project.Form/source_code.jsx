@@ -1,5 +1,17 @@
 const ownerId = "contribut3.near";
 
+if (!context.accountId) {
+  return (
+    <Widget
+      src={`${ownerId}/widget/InfoSegment`}
+      props={{
+        title: "Not logged in!",
+        description: "You must log in to create a new project!",
+      }}
+    />
+  );
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -152,16 +164,10 @@ return (
         <></>
       )}
       <Widget
-        src={`${ownerId}/widget/Inputs.Select`}
+        src={`${ownerId}/widget/Inputs.Category`}
         props={{
-          label: "Project category *",
-          placeholder: "Wallets",
-          options: [
-            { text: "Wallets", value: "wallets" },
-            { text: "Games", value: "games" },
-          ],
-          value: state.category,
-          onChange: (category) => State.update({ category }),
+          category: state.category,
+          update: (category) => State.update({ category }),
         }}
       />
       <Widget
@@ -273,8 +279,8 @@ return (
                             website: state.website.startsWith("http://")
                               ? state.website.substring(7)
                               : state.website.startsWith("https://")
-                              ? state.website.substring(8)
-                              : state.website,
+                                ? state.website.substring(8)
+                                : state.website,
                           },
                           category: state.category.value,
                           team: state.team,
