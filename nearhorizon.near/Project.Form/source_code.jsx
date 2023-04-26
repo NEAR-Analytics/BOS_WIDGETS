@@ -120,9 +120,16 @@ if (!state.accountsWithPermissionsIsFetched) {
 const validateForm = () => {
   return (
     state.nameError === "" &&
-    state.accountId
+    state.accountIdError === "" &&
     state.categoryError === "" &&
-
+    state.integrationError === "" &&
+    state.devError === "" &&
+    state.taglineError === "" &&
+    state.descriptionError === "" &&
+    state.tagsError === "" &&
+    state.websiteError === "" &&
+    state.geoError === "" &&
+    state.teamError === ""
   )
 };
 
