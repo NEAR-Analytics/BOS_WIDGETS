@@ -51,20 +51,6 @@ return (
   <Container>
     <Heading>Details</Heading>
     <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.Text`}
-      props={{
-        label: "Website",
-        id: "website",
-        value: state.profile.linktree?.website ?? "",
-        link: `https://${state.profile.linktree.website}`,
-        onSave: (website) =>
-          Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { linktree: { website } } } },
-          }),
-        canEdit: isAdmin,
-      }}
-    />
-    <Widget
       src={`${ownerId}/widget/Inputs.Viewable.Links`}
       props={{
         label: "Links",
