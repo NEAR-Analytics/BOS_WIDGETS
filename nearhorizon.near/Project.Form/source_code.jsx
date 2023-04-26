@@ -262,9 +262,10 @@ return (
           value: state.description,
           onChange: (description) => State.update({ description }),
           validate: () => {
-            if (state.description.length > 50) {
+            if (state.description.length > 500) {
               State.update({
-                descriptionError: "Description must be less than 50 characters",
+                descriptionError:
+                  "Description must be less than 500 characters",
               });
               return;
             }
