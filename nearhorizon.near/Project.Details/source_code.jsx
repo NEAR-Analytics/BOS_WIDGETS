@@ -65,13 +65,14 @@ return (
       }}
     />
     <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.Category`}
+      src={`${ownerId}/widget/Inputs.Viewable.Links`}
       props={{
-        label: "Category",
-        value: state.profile.category,
-        onSave: ({ value: category }) =>
+        label: "Links",
+        id: "links",
+        value: state.profile.linktree ?? {},
+        onSave: (linktree) =>
           Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { category } } },
+            data: { [accountId]: { profile: { linktree } } },
           }),
         canEdit: isAdmin,
       }}
