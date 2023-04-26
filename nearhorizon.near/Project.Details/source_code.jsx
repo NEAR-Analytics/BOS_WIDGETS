@@ -45,8 +45,6 @@ if (!state.profileIsFetched) {
   return <>Loading...</>;
 }
 
-console.log('here', state.profile)
-
 return (
   <Container>
     <Heading>Details</Heading>
