@@ -63,8 +63,15 @@ return (
       ),
       view: (
         <Widget
-          src="near/widget/AccountProfileInline"
-          props={{ accountId: props.accountId, hideAvatar: true }}
+          src="near/widget/AccountProfileOverlay"
+          props={{
+            accountId: props.accountId,
+            children: <Widget
+              src={`${ownerId}/widget/NameAndAccount`}
+              props={{ accountId: props.accountId, name: value }}
+            />,
+            inline: true,
+          }}
         />
       ),
       canEdit,
