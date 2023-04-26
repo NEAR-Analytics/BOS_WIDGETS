@@ -82,7 +82,7 @@ const Content = styled.div`
   border: 1px solid #d0d5dd;
   border-radius: 4px;
   background: #ffffff;
-  z-index: 3;
+  z-index: 3 !important;
 
   /* &[data-state="open"] { */
   /*   animation: ${scaleOut} 0.2s ease-in-out; */
