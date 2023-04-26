@@ -150,10 +150,12 @@ return (
           validate: () => {
             if (state.name.length < 3) {
               State.update({ nameError: "Name must be at least 3 characters" });
+              return;
             }
 
             if (state.name.length > 50) {
               State.update({ nameError: "Name must be less than 50 characters" });
+              return;
             }
 
             State.update({ nameError: "" });
