@@ -37,11 +37,14 @@ if (!state.descriptionIsFetched) {
     { keys: [`${accountId}/profile/*`] },
     "final",
     false
-  ).then((data) =>
-    State.update({
-      profile: data[accountId].profile,
-      profileIsFetched: true,
-    })
+  ).then((data) => {
+    if (data) {
+      State.update({
+        profile: data[accountId].profile,
+        profileIsFetched: true,
+      })
+    }
+  }
   );
 }
 
@@ -52,7 +55,7 @@ const Container = styled.div`
   justify-content: flex-start;
   gap: 1em;
   width: 100%;
-  margin-bottom: .25em;
+  margin-bottom: 0.25em;
 `;
 
 const Details = styled.div`
