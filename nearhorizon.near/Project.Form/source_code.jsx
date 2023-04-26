@@ -77,14 +77,23 @@ State.init({
   nameError: "",
   accountId: "",
   category: null,
+  categoryError: "",
   integration: null,
+  integrationError: "",
   dev: null,
+  devError: "",
   tagline: "",
+  taglineError: "",
   description: "",
+  descriptionError: "",
   tags: [],
+  tagsError: "",
   website: "",
+  websiteError: "",
   geo: "",
+  geoError: "",
   team: null,
+  teamError: "",
   accountsWithPermissions: [],
   accountsWithPermissionsIsFetched: false,
 });
@@ -132,6 +141,7 @@ return (
 
             State.update({ nameError: "" });
           },
+          error: state.nameError,
         }}
       />
       <Widget
@@ -175,6 +185,8 @@ return (
         props={{
           category: state.category,
           update: (category) => State.update({ category }),
+          setError: (categoryError) => State.update({ categoryError }),
+          error: state.categoryError,
         }}
       />
       <Widget
@@ -182,6 +194,8 @@ return (
         props={{
           category: state.integration,
           update: (integration) => State.update({ integration }),
+          setError: (integrationError) => State.update({ integrationError }),
+          error: state.integrationError,
         }}
       />
       <Widget
@@ -189,6 +203,8 @@ return (
         props={{
           category: state.dev,
           update: (dev) => State.update({ dev }),
+          setError: (devError) => State.update({ devError }),
+          error: state.devError,
         }}
       />
       <Widget
@@ -198,6 +214,14 @@ return (
           placeholder: "Write a one liner about your project",
           value: state.tagline,
           onChange: (tagline) => State.update({ tagline }),
+          validate: (tagline) => {
+            if (tagline.length > 50) {
+              State.update({ taglineError: "Name must be less than 50 characters" });
+            }
+
+            State.update({ taglineError: "" });
+          },
+          error: state.taglineError,
         }}
       />
       <Widget
@@ -207,6 +231,14 @@ return (
           placeholder: "Give a short description of your project",
           value: state.description,
           onChange: (description) => State.update({ description }),
+          validate: (description) => {
+            if (description.length > 50) {
+              State.update({ descriptionError: "Name must be less than 50 characters" });
+            }
+
+            State.update({ descriptionError: "" });
+          },
+          error: state.descriptionError,
         }}
       />
       <Widget
