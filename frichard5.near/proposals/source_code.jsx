@@ -31,6 +31,8 @@ State.init({
   types: [],
   account: account,
   status: [],
+  fromDate: "",
+  toDate: "",
 });
 
 const columns = [
@@ -114,6 +116,8 @@ if (!state.proposals.length) {
     offset: state.offset,
     proposal_types: state.types,
     status: state.status,
+    time_start: state.fromDate,
+    time_end: state.toDate,
   });
   fetchPolicy();
 }
@@ -129,6 +133,8 @@ const fetchMore = () => {
       offset: state.offset,
       proposal_types: state.types,
       status: state.status,
+      time_start: state.fromDate,
+      time_end: state.toDate,
     });
   }
 };
@@ -149,10 +155,8 @@ state.proposals.forEach((proposal) => {
 
 const selectType = (types) => {
   State.update({
-    status: state.status,
     proposals: [],
     offset: 0,
-    limit: resPerPage,
     types: types,
   });
 };
@@ -200,8 +204,6 @@ const selectStatus = (status) => {
     status,
     proposals: [],
     offset: 0,
-    limit: resPerPage,
-    types: state.types,
   });
 };
 
@@ -228,6 +230,43 @@ const SelectStatus = (
   />
 );
 
+const SelectFromDate = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-input`}
+    props={{
+      widgetProvider,
+      validate: "date",
+      sendInput: (fromDate) => {
+        State.update({
+          fromDate,
+          proposals: [],
+          offset: 0,
+        });
+      },
+      placeholder: "yyyy/mm/dd",
+      label: "From Date",
+    }}
+  />
+);
+const SelectToDate = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-input`}
+    props={{
+      widgetProvider,
+      validate: "date",
+      sendInput: (toDate) => {
+        State.update({
+          toDate,
+          proposals: [],
+          offset: 0,
+        });
+      },
+      placeholder: "yyyy/mm/dd",
+      label: "To Date",
+    }}
+  />
+);
+
 const ProposalInfiniteScroll = (
   <Widget
     src={`${widgetProvider}/widget/proposals_scroll`}
@@ -239,17 +278,29 @@ const ProposalInfiniteScroll = (
   />
 );
 
+const getFilters = () => {
+  let filters = [...state.status, ...state.types];
+  if (state.fromDate.length) {
+    filters.push(`From: ${state.fromDate}`);
+  }
+  if (state.toDate.length) {
+    filters.push(`From: ${state.toDate}`);
+  }
+  return filters;
+};
+
 const ProposalFilters = (
   <Widget
     src={`${widgetProvider}/widget/NDC-filter-menu`}
     props={{
       widgetProvider,
-      comps: [SelectType, SelectStatus],
-      filters: [...state.status, ...state.types],
+      comps: [SelectType, SelectStatus, SelectFromDate, SelectToDate],
+      filters: getFilters(),
       removeFilter: (filter) => {
         State.update({
           types: [...state.types.filter((t) => t != filter)],
           status: [...state.status.filter((s) => s != filter)],
+          fromDate: filter.includes(state.fromDate) ? "" : state.fromDate,
           proposals: [],
           offset: 0,
           limit: resPerPage,
