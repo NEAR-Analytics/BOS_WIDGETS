@@ -338,11 +338,11 @@ const ProposalFilters = (
     props={{
       widgetProvider,
       comps: [
+        SelectDaos,
         SelectType,
         SelectStatus,
         SelectFromDate,
         SelectToDate,
-        SelectDaos,
       ],
       filters: getFilters(),
       removeFilter: (filter) => {
