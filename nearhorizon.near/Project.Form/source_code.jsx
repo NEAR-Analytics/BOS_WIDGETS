@@ -216,7 +216,7 @@ return (
           onChange: (tagline) => State.update({ tagline }),
           validate: (tagline) => {
             if (tagline.length > 50) {
-              State.update({ taglineError: "Name must be less than 50 characters" });
+              State.update({ taglineError: "Tagline must be less than 50 characters" });
             }
 
             State.update({ taglineError: "" });
@@ -233,7 +233,7 @@ return (
           onChange: (description) => State.update({ description }),
           validate: (description) => {
             if (description.length > 50) {
-              State.update({ descriptionError: "Name must be less than 50 characters" });
+              State.update({ descriptionError: "Description must be less than 50 characters" });
             }
 
             State.update({ descriptionError: "" });
@@ -255,9 +255,16 @@ return (
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
           label: "Website",
-          placeholder: "https://layers.app",
+          placeholder: "Website URL (near.org)",
           value: state.website,
           onChange: (website) => State.update({ website }),
+          validate: (website) => {
+            if (website.length > 50) {
+              State.update({ websiteError: "The URL must be less than 50 characters" });
+            }
+
+            State.update({ websiteError: "" });
+          }
         }}
       />
       <Widget
@@ -267,6 +274,13 @@ return (
           placeholder: 10,
           value: state.team,
           onChange: (team) => State.update({ team }),
+          validate: (team) => {
+            if (team < 1) {
+              State.update({ teamError: "Team size must be at least 1" });
+            }
+
+            State.update({ teamError: "" });
+          }
         }}
       />
       <Widget
