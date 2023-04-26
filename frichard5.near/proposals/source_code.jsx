@@ -1,8 +1,13 @@
 const widgetProvider = props.widgetProvider;
 const account = props.account || "marketing.sputnik-dao.near";
-const apiUrl = `https://api.pikespeak.ai/daos/proposals/${account}`;
-const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy/${account}`;
+const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
+const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const daosList = [
+  "marketing.sputnik-dao.near",
+  "creativesdao.sputnik-dao.near",
+  "neardevgov.sputnik-dao.near",
+];
 
 const forgeUrl = (apiUrl, params) =>
   apiUrl +
@@ -33,6 +38,7 @@ State.init({
   status: [],
   fromDate: "",
   toDate: "",
+  daos: [account],
 });
 
 const columns = [
@@ -77,8 +83,8 @@ const GenericTable = (
   />
 );
 
-const fetchPolicy = () => {
-  asyncFetch(apiPolicyUrl, {
+const fetchPolicy = (params) => {
+  asyncFetch(forgeUrl(apiPolicyUrl, params), {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
@@ -86,9 +92,7 @@ const fetchPolicy = () => {
   }).then(({ err, body, ok }) => {
     if (ok) {
       State.update({
-        council: body.state.policy.roles.find(
-          (r) => r.name === "Council" || r.name === "council"
-        ).kind,
+        policy: body,
       });
     }
   });
@@ -120,11 +124,12 @@ if (!state.proposals.length) {
     status: state.status,
     time_start: state.fromDate,
     time_end: state.toDate,
+    daos: state.daos,
   });
-  fetchPolicy();
+  fetchPolicy({ daos: daosList });
 }
 if (state.account != account) {
-  State.update({ proposals: [], account, offset: 0 });
+  State.update({ proposals: [], account, offset: 0, daos: [account] });
 }
 
 const fetchMore = () => {
@@ -137,6 +142,7 @@ const fetchMore = () => {
       status: state.status,
       time_start: state.fromDate,
       time_end: state.toDate,
+      daos: state.daos,
     });
   }
 };
@@ -149,7 +155,13 @@ state.proposals.forEach((proposal) => {
       src={`${widgetProvider}/widget/NDC-proposal-card`}
       props={{
         proposal,
-        council: state.council,
+        council: state.policy
+          .filter((pol) => pol.dao_id === proposal.dao_id)
+          .map((pol) => {
+            return pol.state.policy.roles.find(
+              (r) => r.name === "Council" || r.name === "council"
+            ).kind;
+          })[0],
       }}
     />
   );
@@ -209,6 +221,14 @@ const selectStatus = (status) => {
   });
 };
 
+const selectDaos = (daos) => {
+  State.update({
+    daos,
+    proposals: [],
+    offset: 0,
+  });
+};
+
 const statusOptions = ["Approved", "Rejected", "InProgress", "Expired"].map(
   (t) => {
     return {
@@ -228,6 +248,27 @@ const SelectStatus = (
       onChange: selectStatus,
       label: "Status",
       id: "proposal-status-selector",
+    }}
+  />
+);
+
+const daosOptions = daosList.map((t) => {
+  return {
+    value: t,
+    label: t.split(".")[0],
+  };
+});
+
+const SelectDaos = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-checkbox-list`}
+    props={{
+      widgetProvider,
+      checkboxes: daosOptions,
+      selectedBoxes: state.daos,
+      onChange: selectDaos,
+      label: "Daos",
+      id: "proposal-daos-selector",
     }}
   />
 );
@@ -281,7 +322,7 @@ const ProposalInfiniteScroll = (
 );
 
 const getFilters = () => {
-  let filters = [...state.status, ...state.types];
+  let filters = [...state.status, ...state.types, ...state.daos];
   if (state.fromDate.length) {
     filters.push(`From: ${state.fromDate}`);
   }
@@ -296,12 +337,19 @@ const ProposalFilters = (
     src={`${widgetProvider}/widget/NDC-filter-menu`}
     props={{
       widgetProvider,
-      comps: [SelectType, SelectStatus, SelectFromDate, SelectToDate],
+      comps: [
+        SelectType,
+        SelectStatus,
+        SelectFromDate,
+        SelectToDate,
+        SelectDaos,
+      ],
       filters: getFilters(),
       removeFilter: (filter) => {
         State.update({
           types: [...state.types.filter((t) => t != filter)],
           status: [...state.status.filter((s) => s != filter)],
+          daos: [...state.daos.filter((d) => d != filter)],
           fromDate: filter.includes(state.fromDate) ? "" : state.fromDate,
           proposals: [],
           offset: 0,
@@ -314,6 +362,7 @@ const ProposalFilters = (
           status: [],
           proposals: [],
           offset: 0,
+          daos: [state.account],
           limit: resPerPage,
         });
       },
