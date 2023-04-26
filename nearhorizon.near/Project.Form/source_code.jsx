@@ -123,8 +123,8 @@ const validateForm = () => {
     state.nameError === "" &&
     state.accountId &&
     state.accountIdError === "" &&
-    (!state.category || state.categoryError === "") &&
-    (!state.integration || state.integrationError === "") &&
+    state.category && state.categoryError === "" &&
+    state.integration && state.integrationError === "" &&
     state.dev && state.devError === "" &&
     (!state.tagline || state.taglineError === "") &&
     (!state.description || state.descriptionError === "") &&
