@@ -63,7 +63,7 @@ return (
       ),
       view: (
         <Widget
-          src="near/widget/AccountProfileLine"
+          src="near/widget/AccountProfileInline"
           props={{ accountId: props.accountId, hideAvatar: true }}
         />
       ),
