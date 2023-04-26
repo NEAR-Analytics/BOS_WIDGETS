@@ -290,6 +290,13 @@ return (
           placeholder: "San Fancisco, CA",
           value: state.geo,
           onChange: (geo) => State.update({ geo }),
+          validate: (geo) => {
+            if (geo.length > 100) {
+              State.update({ geoError: "Location must be less than 100 characters" });
+            }
+
+            State.update({ geoError: "" });
+          }
         }}
       />
       <FormFooter>
