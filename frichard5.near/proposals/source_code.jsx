@@ -78,6 +78,7 @@ const GenericTable = (
 );
 
 const fetchPolicy = () => {
+  console.log("FETCH POLICY");
   asyncFetch(apiPolicyUrl, {
     mode: "cors",
     headers: {
