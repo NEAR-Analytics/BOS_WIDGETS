@@ -21,7 +21,11 @@ if (context.accountId) {
     { keys: [`${context.accountId}/profile/horizon_tnc`] },
     "final",
     false
-  ).then((data) => State.update({ tnc: data[context.accountId]?.profile?.horizon_tnc === "true" })
+  ).then((data) =>
+    State.update({
+      tnc: data[context.accountId]?.profile?.horizon_tnc === "true",
+    })
+  );
 }
 
 const update = (state) => State.update(state);
