@@ -63,9 +63,15 @@ const TagsWrapper = styled.div`
 
 const Actions = styled.div`
   display: flex;
-  gap: 12px;
+  align-items:center;
+  justify-content:space-between;
   flex-wrap: wrap;
   margin-bottom: 16px;
+  .actionsDiv{
+    display: flex;
+    align-items:center;
+    gap:12px;
+  }
 `;
 
 const Title = styled.h1`
@@ -180,7 +186,22 @@ const Text = styled.p`
     margin-right: 4px;
   }
 `;
-
+function applyHomePage() {
+  Social.set(
+    {
+      myHomePagePath: src,
+    },
+    {
+      force: true,
+      onCommit: () => {
+        // State.update({ commitLoading: false });
+      },
+      onCancel: () => {
+        // State.update({ commitLoading: false });
+      },
+    }
+  );
+}
 return (
   <Wrapper>
     <Header size={size}>
@@ -212,50 +233,56 @@ return (
       </TagsWrapper>
     )}
     <Actions>
-      <ButtonLink primary href={primaryActions[primaryAction].url}>
-        {primaryActions[primaryAction].display}
-      </ButtonLink>
+      <div class="actionsDiv">
+        <ButtonLink primary href={primaryActions[primaryAction].url}>
+          {primaryActions[primaryAction].display}
+        </ButtonLink>
 
-      <ButtonLink href={`/#/edit/${src}`}>
-        {context.accountId === accountId ? (
-          <>
-            <i className="bi bi-pencil-fill"></i> Edit
-          </>
-        ) : (
-          <>
-            <i className="bi bi-git"></i> Fork
-          </>
-        )}
-      </ButtonLink>
-
-      <ButtonLink href={`${detailsUrl}&tab=source`}>
-        <i className="bi bi-code-square"></i>
-        View Source
-      </ButtonLink>
-
-      <OverlayTrigger
-        placement="top"
-        overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-      >
-        <Button
-          type="button"
-          onMouseLeave={() => {
-            State.update({ copiedShareUrl: false });
-          }}
-          onClick={() => {
-            clipboard.writeText(shareUrl).then(() => {
-              State.update({ copiedShareUrl: true });
-            });
-          }}
-        >
-          {state.copiedShareUrl ? (
-            <i className="bi bi-16 bi-check"></i>
+        <ButtonLink href={`/#/edit/${src}`}>
+          {context.accountId === accountId ? (
+            <>
+              <i className="bi bi-pencil-fill"></i> Edit
+            </>
           ) : (
-            <i className="bi bi-16 bi-link-45deg"></i>
+            <>
+              <i className="bi bi-git"></i> Fork
+            </>
           )}
-          Share
-        </Button>
-      </OverlayTrigger>
+        </ButtonLink>
+
+        <ButtonLink href={`${detailsUrl}&tab=source`}>
+          <i className="bi bi-code-square"></i>
+          View Source
+        </ButtonLink>
+
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
+        >
+          <Button
+            type="button"
+            onMouseLeave={() => {
+              State.update({ copiedShareUrl: false });
+            }}
+            onClick={() => {
+              clipboard.writeText(shareUrl).then(() => {
+                State.update({ copiedShareUrl: true });
+              });
+            }}
+          >
+            {state.copiedShareUrl ? (
+              <i className="bi bi-16 bi-check"></i>
+            ) : (
+              <i className="bi bi-16 bi-link-45deg"></i>
+            )}
+            Share
+          </Button>
+        </OverlayTrigger>
+      </div>
+      <ButtonLink onClick={applyHomePage}>
+        <i className="bi bi-house"></i>
+        Apply as homepage
+      </ButtonLink>
     </Actions>
   </Wrapper>
 );
