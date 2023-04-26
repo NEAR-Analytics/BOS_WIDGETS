@@ -322,6 +322,7 @@ return (
           props={{
             disabled: !validateForm(),
             onClick: () => {
+              if (!validateForm()) return;
               const transactions = [
                 {
                   contractName: "social.near",
