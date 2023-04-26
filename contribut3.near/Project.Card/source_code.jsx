@@ -1,6 +1,8 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 
+console.log('here')
+
 State.init({
   founders: null,
   foundersIsFetched: false,
@@ -30,8 +32,6 @@ if (!state.requestsIsFetched) {
   ).then((requests) => State.update({ requests, requestsIsFetched: true }));
 }
 
-console.log('here')
-
 if (!state.descriptionIsFetched) {
   Near.asyncView(
     "social.near",
@@ -46,8 +46,7 @@ if (!state.descriptionIsFetched) {
         profileIsFetched: true,
       })
     }
-  }
-  );
+  });
 }
 
 const Container = styled.div`
