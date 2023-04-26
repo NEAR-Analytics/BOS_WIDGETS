@@ -1,6 +1,5 @@
 const ownerId = "nearhorizon.near";
 const name = props.name ?? "Type";
-const noLabel = props.noLabel ?? false;
 const options = props.options ?? [
   { id: "option-1", text: "Option 1", href: "#" },
   { id: "option-2", text: "Option 2", href: "#" },
@@ -136,7 +135,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    {noLabel ? <></> : <Label htmlFor={name}>{name}:</Label>}
+    <Label htmlFor={name}>{name}:</Label>
 
     <DropdownContainer>
       <DropdownButton
