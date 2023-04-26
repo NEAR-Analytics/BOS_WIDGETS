@@ -14,9 +14,13 @@ const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 return (
   <div>
-    {state.cid ?
-      <a href={ipfsUrl(state.cid)} download>{state.filename}</a>
-      : <></>}
+    {state.cid ? (
+      <a href={ipfsUrl(state.cid)} download>
+        {state.filename}
+      </a>
+    ) : (
+      <></>
+    )}
     <Files
       multiple={false}
       accepts={["image/*", "video/*", ".pdf"]}
@@ -29,26 +33,17 @@ return (
         const [body] = files;
 
         State.update({ uploading: true, cid: null });
-        asyncFetch(
-          "https://ipfs.near.social/add",
-          {
-            method: "POST",
-            headers: { Accept: "application/json" },
-            body,
-          }
-        ).then(
-          ({ body: { cid } }) => {
-            State.update({ cid, filename: body.name, uploading: false });
-            // props.update(cid);
-          }
-        );
+        asyncFetch("https://ipfs.near.social/add", {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body,
+        }).then(({ body: { cid } }) => {
+          State.update({ cid, filename: body.name, uploading: false });
+          // props.update(cid);
+        });
       }}
     >
-      {state.uploading
-        ? "Uploading"
-        : state.cid
-          ? "Replace"
-          : buttonText}
+      {state.uploading ? "Uploading" : state.cid ? "Replace" : buttonText}
     </Files>
   </div>
 );
