@@ -11,13 +11,11 @@ State.init({
 });
 
 const loadMore = () => {
-  console.log(typeof state.items)
   State.update({
     shown: items.slice(0, state.from + limit),
     from: state.from + limit,
     hasMore: state.from + limit < items.length,
   });
-  console.log('here')
 };
 
 const ListContainer = styled.div`
