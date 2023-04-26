@@ -21,8 +21,4 @@ const Button = styled.button`
   }
 `;
 
-return (
-  <Button onClick={props.onClick} disabled={props.disabled}>
-    {props.text}
-  </Button>
-);
+return <Button onClick={props.onClick} disabled={props.disabled}>{props.text}</Button>;
