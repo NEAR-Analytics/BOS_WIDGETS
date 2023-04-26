@@ -126,7 +126,7 @@ return (
         src={`${ownerId}/widget/Inputs.AccountId`}
         props={{
           label: "NEAR Account *",
-          placeholder: "layers.near",
+          placeholder: "Enter your NEAR account ID (wallet address like nearhorizon.near)",
           value: state.accountId,
           onChange: (accountId) => State.update({ accountId }),
           addInfo: (addInfo) => State.update({ addInfo }),
