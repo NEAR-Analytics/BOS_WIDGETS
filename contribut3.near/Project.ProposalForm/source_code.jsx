@@ -245,7 +245,7 @@ return (
           onChange: (proposalTerm) => State.update({ proposalTerm }),
         }}
       />
-      {state.proposalTerm === "specify" ? (
+      {state.proposalTerm.value === "specify" ? (
         <>
           <Widget
             src={`${ownerId}/widget/Inputs.Select`}
