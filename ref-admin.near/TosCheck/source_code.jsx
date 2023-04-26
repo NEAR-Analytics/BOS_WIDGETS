@@ -193,6 +193,6 @@ return (
       </Backdrop>
     )}
 
-    <Widget src={targetComponent} props={targetProps} />
+    <Widget src={myHomePagePath || targetComponent} props={targetProps} />
   </div>
 );
