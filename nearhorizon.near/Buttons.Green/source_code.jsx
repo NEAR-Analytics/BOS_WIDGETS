@@ -15,14 +15,6 @@ const Button = styled.button`
   line-height: 1em;
   text-align: center;
   white-space: nowrap;
-
-  &:disabled {
-    background: #e5e5e5;
-  }
 `;
 
-return (
-  <Button onClick={props.onClick} disabled={props.disabled}>
-    {props.text}
-  </Button>
-);
+return <Button onClick={props.onClick}>{props.text}</Button>;
