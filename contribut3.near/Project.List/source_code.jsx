@@ -1,6 +1,7 @@
 const ownerId = "contribut3.near";
 const search = props.search ?? "";
 
+console.log("here")
 State.init({
   items: [],
   itemsIsFetched: false,
@@ -13,6 +14,8 @@ if (!state.itemsIsFetched) {
 
   return <>Loading...</>;
 }
+
+console.log("items", state.items);
 
 return (
   <Widget
