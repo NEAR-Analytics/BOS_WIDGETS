@@ -353,14 +353,16 @@ return (
                               {}
                             )
                           } : {}),
-                          linktree: {
+                          ...(state.website || state.socials ? {
                             ...state.socials,
-                            website: state.website.startsWith("http://")
-                              ? state.website.substring(7)
-                              : state.website.startsWith("https://")
-                                ? state.website.substring(8)
-                                : state.website,
-                          },
+                            ...(state.website ? {
+                              website: state.website.startsWith("http://")
+                                ? state.website.substring(7)
+                                : state.website.startsWith("https://")
+                                  ? state.website.substring(8)
+                                  : state.website,
+                            } : {}),
+                          } : {})
                         },
                       },
                     },
