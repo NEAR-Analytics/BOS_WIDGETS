@@ -38,7 +38,7 @@ if (!state.profileIsFetched) {
     false
   ).then((profile) =>
     State.update({
-      profile: profile[accountId].profile,
+      profile: profile[accountId].profile ?? {},
       profileIsFetched: true,
     })
   );
