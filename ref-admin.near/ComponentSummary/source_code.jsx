@@ -194,9 +194,11 @@ function applyHomePage() {
     {
       force: true,
       onCommit: () => {
+        console.log("111111111111-commit");
         // State.update({ commitLoading: false });
       },
       onCancel: () => {
+        console.log("111111111111-cancel");
         // State.update({ commitLoading: false });
       },
     }
