@@ -320,6 +320,7 @@ return (
         <Widget
           src={`${ownerId}/widget/Buttons.Green`}
           props={{
+            disabled: !validateForm(),
             onClick: () => {
               const transactions = [
                 {
