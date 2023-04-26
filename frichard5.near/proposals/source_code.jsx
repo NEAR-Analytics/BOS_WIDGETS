@@ -13,11 +13,7 @@ const forgeUrl = (apiUrl, params) =>
 
 const ProposalContainer = styled.div`
   margin-top: 40px;
-  min-height: 100px;
-`;
-
-const ProposalFilters = styled.div`
-  display: flex;
+  min-height: 500px;
 `;
 
 const NoProposal = styled.div`
@@ -32,9 +28,9 @@ State.init({
   lastProposalFetch: [],
   proposals: [],
   isLoading: false,
-  type: "all",
+  types: [],
   account: account,
-  status: "all",
+  status: [],
 });
 
 const columns = [
@@ -80,7 +76,7 @@ const GenericTable = (
 );
 
 const fetchPolicy = () => {
-  const policy = asyncFetch(apiPolicyUrl, {
+  asyncFetch(apiPolicyUrl, {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
@@ -95,7 +91,7 @@ const fetchPolicy = () => {
 };
 
 const fetchProposal = (params) => {
-  const proposals = asyncFetch(forgeUrl(apiUrl, params), {
+  asyncFetch(forgeUrl(apiUrl, params), {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
@@ -116,7 +112,7 @@ if (!state.proposals.length) {
   fetchProposal({
     limit: resPerPage,
     offset: state.offset,
-    proposal_type: state.type,
+    proposal_types: state.types,
     status: state.status,
   });
   fetchPolicy();
@@ -131,7 +127,7 @@ const fetchMore = () => {
     fetchProposal({
       limit: resPerPage,
       offset: state.offset,
-      proposal_type: state.type,
+      proposal_types: state.types,
       status: state.status,
     });
   }
@@ -151,18 +147,17 @@ state.proposals.forEach((proposal) => {
   );
 });
 
-const selectType = (e) => {
-  State.update({ type: e.target.value, proposals: [], offset: 0 });
-  fetchProposal({
-    limit: resPerPage,
-    offset: 0,
-    proposal_type: e.target.value,
+const selectType = (types) => {
+  State.update({
     status: state.status,
+    proposals: [],
+    offset: 0,
+    limit: resPerPage,
+    types: types,
   });
 };
 
 const typeOptions = [
-  "All",
   "Transfer",
   "Vote",
   "FunctionCall",
@@ -188,10 +183,11 @@ const typeOptions = [
 });
 const SelectType = (
   <Widget
-    src={`${widgetProvider}/widget/NDC-select`}
+    src={`${widgetProvider}/widget/NDC-checkbox-list`}
     props={{
-      options: typeOptions,
-      selectedOption: state.type,
+      widgetProvider,
+      checkboxes: typeOptions,
+      selectedBoxes: state.types,
       onChange: selectType,
       label: "Type",
       id: "proposal-type-selector",
@@ -199,38 +195,35 @@ const SelectType = (
   />
 );
 
-const selectStatus = (e) => {
-  State.update({ status: e.target.value, proposals: [], offset: 0 });
-  fetchProposal({
-    limit: resPerPage,
+const selectStatus = (status) => {
+  State.update({
+    status,
+    proposals: [],
     offset: 0,
-    proposal_type: state.type,
-    status: e.target.value,
+    limit: resPerPage,
+    types: state.types,
   });
 };
 
-const statusOptions = [
-  "All",
-  "Rejected",
-  "InProgress",
-  "Expired",
-  "Approved",
-].map((t) => {
-  return {
-    value: t,
-    label: t,
-  };
-});
+const statusOptions = ["Approved", "Rejected", "InProgress", "Expired"].map(
+  (t) => {
+    return {
+      value: t,
+      label: t,
+    };
+  }
+);
 
 const SelectStatus = (
   <Widget
-    src={`${widgetProvider}/widget/NDC-select`}
+    src={`${widgetProvider}/widget/NDC-checkbox-list`}
     props={{
-      options: statusOptions,
-      selectedOption: state.status,
+      widgetProvider,
+      checkboxes: statusOptions,
+      selectedBoxes: state.status,
       onChange: selectStatus,
       label: "Status",
-      id: "proposal-type-selector",
+      id: "proposal-status-selector",
     }}
   />
 );
@@ -246,12 +239,29 @@ const ProposalInfiniteScroll = (
   />
 );
 
+const ProposalFilters = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-filter-menu`}
+    props={{
+      widgetProvider,
+      comps: [SelectType, SelectStatus],
+      filters: [...state.status, ...state.types],
+      removeFilter: (filter) => {
+        State.update({
+          types: [...state.types.filter((t) => t != filter)],
+          status: [...state.status.filter((s) => s != filter)],
+          proposals: [],
+          offset: 0,
+          limit: resPerPage,
+        });
+      },
+    }}
+  />
+);
+
 return (
   <ProposalContainer>
-    <ProposalFilters>
-      {SelectType}
-      {SelectStatus}
-    </ProposalFilters>
+    {ProposalFilters}
     {state.proposals.length ? (
       ProposalInfiniteScroll
     ) : (
