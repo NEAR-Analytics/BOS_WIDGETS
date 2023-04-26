@@ -1,3 +1,18 @@
+if (
+  state.chainId === undefined &&
+  ethers !== undefined &&
+  Ethers.send("eth_requestAccounts", [])[0]
+) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      State.update({ chainId: chainIdData.chainId });
+    });
+}
+if (state.chainId !== 1) {
+  return <p>Switch to Ethereum Mainnet</p>;
+}
+
 // FETCH LIDO ABI
 
 const lidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
@@ -254,7 +269,10 @@ return (
             class="LidoStakeFormInputContainerSpan3"
             onClick={() => {
               State.update({
-                strEther: (parseFloat(state.balance) - 0.05).toFixed(2),
+                strEther: (state.balance > 0.05
+                  ? parseFloat(state.balance) - 0.05
+                  : 0
+                ).toFixed(2),
               });
             }}
           >
@@ -291,10 +309,12 @@ return (
             <div class="LidoFooterRawLeft">Exchange rate</div>
             <div class="LidoFooterRawRight">1 ETH = 1 stETH</div>
           </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Transaction cost</div>
-            <div class="LidoFooterRawRight">{state.txCost}</div>
-          </div>
+          {false && (
+            <div class="LidoFooterRaw">
+              <div class="LidoFooterRawLeft">Transaction cost</div>
+              <div class="LidoFooterRawRight">{state.txCost}</div>
+            </div>
+          )}
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Reward fee</div>
             <div class="LidoFooterRawRight">10%</div>
