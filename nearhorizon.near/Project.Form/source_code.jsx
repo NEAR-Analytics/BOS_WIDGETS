@@ -123,16 +123,19 @@ const validateForm = () => {
     state.nameError === "" &&
     state.accountId &&
     state.accountIdError === "" &&
-    state.category && state.categoryError === "" &&
-    state.integration && state.integrationError === "" &&
-    state.dev && state.devError === "" &&
+    state.category &&
+    state.categoryError === "" &&
+    state.integration &&
+    state.integrationError === "" &&
+    state.dev &&
+    state.devError === "" &&
     (!state.tagline || state.taglineError === "") &&
     (!state.description || state.descriptionError === "") &&
     (!state.tags || state.tagsError === "") &&
     (!state.website || state.websiteError === "") &&
     (!state.geo || state.geoError === "") &&
     (!state.team || state.teamError === "")
-  )
+  );
 };
 
 return (
@@ -156,7 +159,9 @@ return (
             }
 
             if (state.name.length > 50) {
-              State.update({ nameError: "Name must be less than 50 characters" });
+              State.update({
+                nameError: "Name must be less than 50 characters",
+              });
               return;
             }
 
@@ -169,7 +174,8 @@ return (
         src={`${ownerId}/widget/Inputs.AccountId`}
         props={{
           label: "NEAR Account *",
-          placeholder: "Enter your NEAR account ID (wallet address like nearhorizon.near)",
+          placeholder:
+            "Enter your NEAR account ID (wallet address like nearhorizon.near)",
           value: state.accountId,
           onChange: (accountId) => State.update({ accountId }),
           addInfo: (addInfo) => State.update({ addInfo }),
@@ -237,7 +243,9 @@ return (
           onChange: (tagline) => State.update({ tagline }),
           validate: () => {
             if (state.tagline.length > 50) {
-              State.update({ taglineError: "Tagline must be less than 50 characters" });
+              State.update({
+                taglineError: "Tagline must be less than 50 characters",
+              });
               return;
             }
 
@@ -255,7 +263,9 @@ return (
           onChange: (description) => State.update({ description }),
           validate: () => {
             if (state.description.length > 50) {
-              State.update({ descriptionError: "Description must be less than 50 characters" });
+              State.update({
+                descriptionError: "Description must be less than 50 characters",
+              });
               return;
             }
 
@@ -271,7 +281,12 @@ return (
           placeholder: "Add tags",
           options: [{ name: "wallets" }, { name: "games" }],
           value: state.tags,
-          onChange: (tags) => State.update({ tags: tags.map(({ name }) => ({ name: name.trim().replaceAll(/\s+/g, "-") })) }),
+          onChange: (tags) =>
+            State.update({
+              tags: tags.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
         }}
       />
       <Widget
@@ -283,12 +298,14 @@ return (
           onChange: (website) => State.update({ website }),
           validate: () => {
             if (state.website.length > 50) {
-              State.update({ websiteError: "The URL must be less than 50 characters" });
+              State.update({
+                websiteError: "The URL must be less than 50 characters",
+              });
               return;
             }
 
             State.update({ websiteError: "" });
-          }
+          },
         }}
       />
       <Widget
@@ -305,7 +322,7 @@ return (
             }
 
             State.update({ teamError: "" });
-          }
+          },
         }}
       />
       <Widget
@@ -317,12 +334,14 @@ return (
           onChange: (geo) => State.update({ geo }),
           validate: () => {
             if (state.geo.length > 100) {
-              State.update({ geoError: "Location must be less than 100 characters" });
+              State.update({
+                geoError: "Location must be less than 100 characters",
+              });
               return;
             }
 
             State.update({ geoError: "" });
-          }
+          },
         }}
       />
       <FormFooter>
@@ -345,25 +364,34 @@ return (
                           stage: state.dev.value,
                           ...(state.team ? { team: state.team } : {}),
                           ...(state.tagline ? { tagline: state.tagline } : {}),
-                          ...(state.description ? { description: state.description } : {}),
-                          ...(state.tags.length ? {
-                            tags: state.tags.reduce(
-                              (acc, { name }) =>
-                                Object.assign(acc, { [name]: "" }),
-                              {}
-                            )
-                          } : {}),
-                          ...(state.website || state.socials ? {
-                            ...state.socials,
-                            ...(state.website ? {
-                              website: state.website.startsWith("http://")
-                                ? state.website.substring(7)
-                                : state.website.startsWith("https://")
-                                  ? state.website.substring(8)
-                                  : state.website,
-                            } : {}),
-                          } : {})
-
+                          ...(state.description
+                            ? { description: state.description }
+                            : {}),
+                          ...(state.tags.length
+                            ? {
+                              tags: state.tags.reduce(
+                                (acc, { name }) =>
+                                  Object.assign(acc, { [name]: "" }),
+                                {}
+                              ),
+                            }
+                            : {}),
+                          ...(state.website || state.socials
+                            ? {
+                              ...state.socials,
+                              ...(state.website
+                                ? {
+                                  website: state.website.startsWith(
+                                    "http://"
+                                  )
+                                    ? state.website.substring(7)
+                                    : state.website.startsWith("https://")
+                                      ? state.website.substring(8)
+                                      : state.website,
+                                }
+                                : {}),
+                            }
+                            : {}),
                         },
                       },
                     },
