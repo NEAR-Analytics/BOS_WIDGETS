@@ -15,7 +15,7 @@ const loadMore = () => {
   State.update({
     shown: items.slice(0, state.from + limit),
     from: state.from + limit,
-    hasMore: state.from + limit < state.items.length,
+    hasMore: state.from + limit < items.length,
   });
   console.log('here')
 };
