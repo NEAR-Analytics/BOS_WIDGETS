@@ -3,7 +3,7 @@ const id = props.id ?? "text";
 const label = props.label ?? "Input";
 const value = props.value ?? "";
 const name = props.name ?? "";
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 State.init({
@@ -159,9 +159,7 @@ return (
             }}
           />
         </Link>
-      ) : (
-        null
-      ),
+      ) : null,
       canEdit,
     }}
   />
