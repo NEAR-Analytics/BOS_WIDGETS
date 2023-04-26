@@ -126,7 +126,7 @@ const showTos =
 
 return (
   <div>
-    {
+    {showTos && (
       <Backdrop className="d-flex">
         <Modal>
           <ModalContent>
@@ -191,7 +191,7 @@ return (
           </ModalFooter>
         </Modal>
       </Backdrop>
-    }
+    )}
 
     <Widget src={myHomePagePath || targetComponent} props={targetProps} />
   </div>
