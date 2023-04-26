@@ -1,5 +1,4 @@
 const tags = Object.keys(props.tags || {});
-const all = props.all ?? false;
 
 const TagItem = styled.span`
   box-sizing: border-box;
@@ -33,7 +32,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    {tags.slice(0, all ? tags.length : 6).map((tag) => (
+    {tags.map((tag) => (
       <TagItem key={tag}>{tag}</TagItem>
     ))}
   </Container>
