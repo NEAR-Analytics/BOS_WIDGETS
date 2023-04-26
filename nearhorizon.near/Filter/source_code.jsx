@@ -1,6 +1,5 @@
 const ownerId = "nearhorizon.near";
 const name = props.name ?? "Type";
-const noLabel = props.noLabel ?? false;
 const options = props.options ?? [
   { id: "option-1", text: "Option 1", href: "#" },
   { id: "option-2", text: "Option 2", href: "#" },
@@ -12,7 +11,7 @@ State.init({
   show: false,
 });
 
-const DropdownContainer = styled("DropdownMenu.Root")`
+const DropdownContainer = styled.div`
   position: relative;
 
   ul {
@@ -38,10 +37,10 @@ const DropdownContainer = styled("DropdownMenu.Root")`
   }
 `;
 
-const DropdownItem = styled("DropdownMenu.Item")`
+const DropdownItem = styled.li`
   cursor: pointer;
 
-  button {
+  a {
     display: block;
     width: 100%;
     clear: both;
@@ -103,7 +102,7 @@ const Label = styled.label`
   color: #344054;
 `;
 
-const DropdownButton = styled("DropdownMenu.Trigger")`
+const DropdownButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -118,11 +117,11 @@ const DropdownButton = styled("DropdownMenu.Trigger")`
   border: none;
 `;
 
-const createOption = ({ id, text }) => (
+const createOption = ({ id, text, href }) => (
   <DropdownItem key={id} selected={selected === id}>
-    <button type="button" onClick={() => props.update(id)}>
+    <a href={href} onClick={() => props.update(id)}>
       {text}
-    </button>
+    </a>
   </DropdownItem>
 );
 
@@ -136,7 +135,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    {noLabel ? <></> : <Label htmlFor={name}>{name}:</Label>}
+    <Label htmlFor={name}>{name}:</Label>
 
     <DropdownContainer>
       <DropdownButton
@@ -147,9 +146,9 @@ return (
         <Arrow className={state.show ? "show" : ""}>{arrowIcon}</Arrow>
       </DropdownButton>
 
-      <DropdownMenu.Content>
+      <ul className={state.show ? "show" : ""}>
         {options.map((option) => createOption(option))}
-      </DropdownMenu.Content>
+      </ul>
     </DropdownContainer>
   </Container>
 );
