@@ -83,6 +83,8 @@ const Requests = styled.a`
   gap: 0.5em;
 `;
 
+console.log('here')
+
 const body = (
   <Details>
     <Container>
