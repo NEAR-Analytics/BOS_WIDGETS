@@ -222,7 +222,7 @@ switch (network) {
 
       const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
 
-      if (state.tokenDecimals && !metadata.decimals) {
+      if (state.tokenDecimals && metadata && !metadata.decimals) {
         metadata.decimals = state.tokenDecimals;
       }
       State.update({ metadata, price });
