@@ -236,6 +236,7 @@ return (
           validate: () => {
             if (state.tagline.length > 50) {
               State.update({ taglineError: "Tagline must be less than 50 characters" });
+              return;
             }
 
             State.update({ taglineError: "" });
@@ -253,6 +254,7 @@ return (
           validate: () => {
             if (state.description.length > 50) {
               State.update({ descriptionError: "Description must be less than 50 characters" });
+              return;
             }
 
             State.update({ descriptionError: "" });
@@ -280,6 +282,7 @@ return (
           validate: () => {
             if (state.website.length > 50) {
               State.update({ websiteError: "The URL must be less than 50 characters" });
+              return;
             }
 
             State.update({ websiteError: "" });
@@ -296,6 +299,7 @@ return (
           validate: () => {
             if (state.team < 1) {
               State.update({ teamError: "Team size must be at least 1" });
+              return;
             }
 
             State.update({ teamError: "" });
@@ -312,6 +316,7 @@ return (
           validate: () => {
             if (state.geo.length > 100) {
               State.update({ geoError: "Location must be less than 100 characters" });
+              return;
             }
 
             State.update({ geoError: "" });
