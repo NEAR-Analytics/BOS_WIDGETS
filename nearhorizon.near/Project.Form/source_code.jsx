@@ -341,13 +341,18 @@ return (
                       [state.accountId]: {
                         profile: {
                           name: state.name,
-                          tagline: state.tagline,
-                          description: state.description,
-                          tags: state.tags.reduce(
-                            (acc, { name }) =>
-                              Object.assign(acc, { [name]: "" }),
-                            {}
-                          ),
+                          category: state.category.value,
+                          stage: state.dev.value,
+                          ...(state.team ? { team: state.team } : {}),
+                          ...(state.tagline ? { tagline: state.tagline } : {}),
+                          ...(state.description ? { description: state.description } : {}),
+                          ...(state.tags.length ? {
+                            tags: state.tags.reduce(
+                              (acc, { name }) =>
+                                Object.assign(acc, { [name]: "" }),
+                              {}
+                            )
+                          } : {}),
                           linktree: {
                             ...state.socials,
                             website: state.website.startsWith("http://")
@@ -356,9 +361,6 @@ return (
                                 ? state.website.substring(8)
                                 : state.website,
                           },
-                          category: state.category.value,
-                          stage: state.dev.value,
-                          ...(state.team ? { team: state.team } : {}),
                         },
                       },
                     },
