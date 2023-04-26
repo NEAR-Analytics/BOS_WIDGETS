@@ -119,7 +119,9 @@ if (!state.accountsWithPermissionsIsFetched) {
 
 const validateForm = () => {
   return (
+    state.name &&
     state.nameError === "" &&
+    state.accountId &&
     state.accountIdError === "" &&
     (!state.category || state.categoryError === "") &&
     (!state.integration || state.integrationError === "") &&
