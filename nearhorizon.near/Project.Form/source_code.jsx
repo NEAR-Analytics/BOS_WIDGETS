@@ -117,7 +117,7 @@ return (
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
           label: "Project name *",
-          placeholder: "Layers",
+          placeholder: "Enter project name",
           value: state.name,
           onChange: (name) => State.update({ name }),
         }}
