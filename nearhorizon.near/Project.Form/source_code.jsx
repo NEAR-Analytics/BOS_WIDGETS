@@ -357,8 +357,8 @@ return (
                                 : state.website,
                           },
                           category: state.category.value,
-                          team: state.team,
                           stage: state.dev.value,
+                          ...(state.team ? { team: state.team } : {}),
                         },
                       },
                     },
@@ -377,7 +377,7 @@ return (
                     project: {
                       application: {
                         integration: state.integration.value,
-                        geo: state.geo,
+                        ...(state.geo ? { geo: state.geo } : {}),
                       },
                     },
                   },
