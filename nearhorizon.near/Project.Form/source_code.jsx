@@ -183,7 +183,7 @@ return (
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
           label: "Tagline",
-          placeholder: "Simple solutions for complex tasks",
+          placeholder: "Write a one liner about your project",
           value: state.tagline,
           onChange: (tagline) => State.update({ tagline }),
         }}
