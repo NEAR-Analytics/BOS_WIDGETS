@@ -121,8 +121,8 @@ const validateForm = () => {
   return (
     state.nameError === "" &&
     state.accountIdError === "" &&
-    state.categoryError === "" &&
-    state.integrationError === "" &&
+    (!state.category || state.categoryError === "") &&
+    (!state.integration || state.integrationError === "") &&
     state.devError === "" &&
     state.taglineError === "" &&
     state.descriptionError === "" &&
