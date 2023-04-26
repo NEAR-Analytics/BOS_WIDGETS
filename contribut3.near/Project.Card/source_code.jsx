@@ -1,8 +1,6 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 
-console.log('here')
-
 State.init({
   founders: null,
   foundersIsFetched: false,
