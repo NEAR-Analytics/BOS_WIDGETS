@@ -11,6 +11,7 @@ State.init({
 });
 
 const loadMore = () => {
+  console.log(typeof state.items)
   State.update({
     shown: state.items.slice(0, state.from + limit),
     from: state.from + limit,
