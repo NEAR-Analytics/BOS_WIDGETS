@@ -53,7 +53,7 @@ return (
       props={{
         label: "Website",
         id: "website",
-        value: state.profile.linktree.website,
+        value: state.profile.linktree?.website ?? "",
         link: `https://${state.profile.linktree.website}`,
         onSave: (website) =>
           Near.call("social.near", "set", {
