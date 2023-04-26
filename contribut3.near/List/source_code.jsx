@@ -16,6 +16,7 @@ const loadMore = () => {
     from: state.from + limit,
     hasMore: state.from + limit < state.items.length,
   });
+  console.log('here')
 };
 
 const ListContainer = styled.div`
