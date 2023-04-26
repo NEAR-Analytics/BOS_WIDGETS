@@ -1,7 +1,7 @@
 const { tosName, targetComponent, logOut } = props;
 const targetProps = props?.targetProps || {};
 const acceptanceKey = tosName; // may change
-const myHomePagePath = Social.get("myHomePagePath");
+const myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
 console.log("8888888888888-myHomePagePath", myHomePagePath);
 State.init({
   hasCommittedAcceptance: false,
