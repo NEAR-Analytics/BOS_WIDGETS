@@ -192,8 +192,7 @@ return (
         src={`${ownerId}/widget/Inputs.TextArea`}
         props={{
           label: "Description",
-          placeholder:
-            "Crypto ipsum bitcoin ethereum dogecoin litecoin. Holo stacks fantom kava flow algorand. Gala dogecoin gala XRP binance flow. Algorand polygon bancor arweave avalanche. Holo kadena telcoin kusama BitTorrent flow holo velas horizen. TerraUSD helium filecoin terra shiba-inu. Serum algorand horizen kava flow maker telcoin algorand enjin. Dai bitcoin.",
+          placeholder: "Give a short description of your project",
           value: state.description,
           onChange: (description) => State.update({ description }),
         }}
