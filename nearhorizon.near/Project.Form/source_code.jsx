@@ -74,6 +74,7 @@ const FormFooter = styled.div`
 
 State.init({
   name: "",
+  nameError: "",
   accountId: "",
   category: null,
   integration: null,
@@ -120,6 +121,17 @@ return (
           placeholder: "Enter project name",
           value: state.name,
           onChange: (name) => State.update({ name }),
+          validate: (name) => {
+            if (name.length < 3) {
+              State.update({ nameError: "Name must be at least 3 characters" });
+            }
+
+            if (name.length > 50) {
+              State.update({ nameError: "Name must be less than 50 characters" });
+            }
+
+            State.update({ nameError: "" });
+          },
         }}
       />
       <Widget
