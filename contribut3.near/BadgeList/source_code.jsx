@@ -1,4 +1,4 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 
 const Container = styled.div`
   display: flex;
@@ -8,4 +8,13 @@ const Container = styled.div`
   gap: 0.25em;
 `;
 
-return <Container>{props.badges.map(({ value, color, border }) => <Widget src={`${ownerId}/widget/Badge`} props={{ value, color, border }} />)}</Container>;
+return (
+  <Container>
+    {props.badges.map(({ value, color, border }) => (
+      <Widget
+        src={`${ownerId}/widget/Badge`}
+        props={{ value, color, border }}
+      />
+    ))}
+  </Container>
+);
