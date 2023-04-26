@@ -123,13 +123,13 @@ const validateForm = () => {
     state.accountIdError === "" &&
     (!state.category || state.categoryError === "") &&
     (!state.integration || state.integrationError === "") &&
-    state.devError === "" &&
-    state.taglineError === "" &&
-    state.descriptionError === "" &&
-    state.tagsError === "" &&
-    state.websiteError === "" &&
-    state.geoError === "" &&
-    state.teamError === ""
+    (!state.dev || state.devError === "") &&
+    (!state.tagline || state.taglineError === "") &&
+    (!state.description || state.descriptionError === "") &&
+    (!state.tags || state.tagsError === "") &&
+    (!state.website || state.websiteError === "") &&
+    (!state.geo || state.geoError === "") &&
+    (!state.team || state.teamError === "")
   )
 };
 
