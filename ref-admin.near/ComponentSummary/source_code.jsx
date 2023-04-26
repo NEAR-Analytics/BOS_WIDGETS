@@ -198,11 +198,9 @@ function applyHomePage() {
     {
       force: true,
       onCommit: () => {
-        console.log("111111111111-commit");
         State.update({ commitLoading: false });
       },
       onCancel: () => {
-        console.log("111111111111-cancel");
         State.update({ commitLoading: false });
       },
     }
@@ -238,7 +236,7 @@ return (
     {props.showTags && tags.length > 0 && (
       <TagsWrapper>
         <Widget
-          src="adminalpha.near/widget/Tags"
+          src="ref-admin.near/widget/Tags"
           props={{
             tags,
           }}
@@ -292,10 +290,12 @@ return (
           </Button>
         </OverlayTrigger>
       </div>
-      <ButtonLink onClick={applyHomePage}>
-        {commitLoading ? Loading : <i className="bi bi-house"></i>}
-        Apply as homepage
-      </ButtonLink>
+      {props.primaryAction && (
+        <ButtonLink onClick={applyHomePage}>
+          {commitLoading ? Loading : <i className="bi bi-house"></i>}
+          Apply as homepage
+        </ButtonLink>
+      )}
     </Actions>
   </Wrapper>
 );
