@@ -78,7 +78,6 @@ const GenericTable = (
 );
 
 const fetchPolicy = () => {
-  console.log("FETCH POLICY", apiPolicyUrl);
   asyncFetch(apiPolicyUrl, {
     mode: "cors",
     headers: {
@@ -87,7 +86,9 @@ const fetchPolicy = () => {
   }).then(({ err, body, ok }) => {
     if (ok) {
       State.update({
-        council: body.state.policy.roles.find((r) => r.name === "Council").kind,
+        council: body.state.policy.roles.find(
+          (r) => r.name === "Council" || r.name === "council"
+        ).kind,
       });
     }
   });
@@ -102,7 +103,6 @@ const fetchProposal = (params) => {
   }).then(({ err, body, ok }) => {
     if (ok) {
       const allProposals = [...state.proposals, ...body];
-      console.log("all proposals", allProposals);
       State.update({
         lastProposalFetch: body,
         proposals: allProposals,
