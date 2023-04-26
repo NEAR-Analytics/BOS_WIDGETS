@@ -76,6 +76,7 @@ State.init({
   name: "",
   nameError: "",
   accountId: "",
+  accountIdError: "",
   category: null,
   categoryError: "",
   integration: null,
@@ -115,6 +116,15 @@ if (!state.accountsWithPermissionsIsFetched) {
     })
   );
 }
+
+const validateForm = () => {
+  return (
+    state.nameError === "" &&
+    state.accountId
+    state.categoryError === "" &&
+
+  )
+};
 
 return (
   <Container>
