@@ -282,7 +282,7 @@ return (
               onChange: (method) => State.update({ method }),
             }}
           />
-        </> : <></>}
+        </>) : <></>}
       <Widget
         src={`${ownerId}/widget/Inputs.Checkbox`}
         props={{
