@@ -101,6 +101,7 @@ const fetchProposal = (params) => {
   }).then(({ err, body, ok }) => {
     if (ok) {
       const allProposals = [...state.proposals, ...body];
+      console.log("all proposals", allProposals);
       State.update({
         lastProposalFetch: body,
         proposals: allProposals,
