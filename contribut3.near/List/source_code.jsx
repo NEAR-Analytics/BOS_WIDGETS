@@ -10,6 +10,9 @@ State.init({
   hasMore: items.length > limit,
 });
 
+
+console.log(items)
+
 const loadMore = () => {
   State.update({
     shown: state.items.slice(0, state.from + limit),
