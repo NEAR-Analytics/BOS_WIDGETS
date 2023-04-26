@@ -213,6 +213,7 @@ const Loading = (
     aria-hidden="true"
   />
 );
+console.log("7777777777777-commitLoading", commitLoading);
 return (
   <Wrapper>
     <Header size={size}>
@@ -291,7 +292,8 @@ return (
         </OverlayTrigger>
       </div>
       <ButtonLink onClick={applyHomePage}>
-        {commitLoading ? Loading : <i className="bi bi-house"></i>}
+        {commitLoading && Loading}
+        {!commitLoading && <i className="bi bi-house"></i>}
         Apply as homepage
       </ButtonLink>
     </Actions>
