@@ -231,9 +231,8 @@ return (
           placeholder: "Write a one liner about your project",
           value: state.tagline,
           onChange: (tagline) => State.update({ tagline }),
-          validate: (tagline) => {
-            console.log("called")
-            if (tagline.length > 50) {
+          validate: () => {
+            if (state.tagline.length > 50) {
               State.update({ taglineError: "Tagline must be less than 50 characters" });
             }
 
