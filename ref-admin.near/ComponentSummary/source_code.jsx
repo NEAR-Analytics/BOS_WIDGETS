@@ -2,6 +2,7 @@ if (!props.src) return "";
 
 State.init({
   copiedShareUrl: false,
+  commitLoading: false,
 });
 
 const src = props.src;
@@ -187,6 +188,7 @@ const Text = styled.p`
   }
 `;
 function applyHomePage() {
+  State.update({ commitLoading: true });
   Social.set(
     {
       myHomePagePath: src,
@@ -195,15 +197,22 @@ function applyHomePage() {
       force: true,
       onCommit: () => {
         console.log("111111111111-commit");
-        // State.update({ commitLoading: false });
+        State.update({ commitLoading: false });
       },
       onCancel: () => {
         console.log("111111111111-cancel");
-        // State.update({ commitLoading: false });
+        State.update({ commitLoading: false });
       },
     }
   );
 }
+const Loading = (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
 return (
   <Wrapper>
     <Header size={size}>
@@ -282,7 +291,7 @@ return (
         </OverlayTrigger>
       </div>
       <ButtonLink onClick={applyHomePage}>
-        <i className="bi bi-house"></i>
+        {commitLoading ? Loading : <i className="bi bi-house"></i>}
         Apply as homepage
       </ButtonLink>
     </Actions>
