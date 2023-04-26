@@ -204,7 +204,7 @@ return (
           placeholder: "Add tags",
           options: [{ name: "wallets" }, { name: "games" }],
           value: state.tags,
-          onChange: (tags) => State.update({ tags: tags.map(({ name }) => ({ name: "".trim().replaceAll(/\s+/g, "-") })) }),
+          onChange: (tags) => State.update({ tags: tags.map(({ name }) => ({ name: name.trim().replaceAll(/\s+/g, "-") })) }),
         }}
       />
       <Widget
