@@ -37,8 +37,6 @@ const Container = styled.div`
   }
 `;
 
-console.log('here')
-
 return (
   <Container>
     <InfiniteScroll loadMore={loadMore} hasMore={state.hasMore}>
