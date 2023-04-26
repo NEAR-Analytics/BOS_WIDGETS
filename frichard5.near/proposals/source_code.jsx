@@ -255,6 +255,15 @@ const ProposalFilters = (
           limit: resPerPage,
         });
       },
+      resetFilters: () => {
+        State.update({
+          types: [],
+          status: [],
+          proposals: [],
+          offset: 0,
+          limit: resPerPage,
+        });
+      },
     }}
   />
 );
