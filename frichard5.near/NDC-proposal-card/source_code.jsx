@@ -1,5 +1,5 @@
 const { proposal, council } = props;
-console.log("COUNCIL", council);
+
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
   const h = Math.floor((seconds - d * 24 * 3600) / 3600);
@@ -260,6 +260,15 @@ return (
             <VoteList>{voteList}</VoteList>
           </InfoWrapper>
         </PropInfos>
+        <InfoWrapper>
+          <Label>Dao id</Label>
+          <a
+            href={`https://explorer.near.org/accounts/${proposal.dao_id}`}
+            target="_blank"
+          >
+            {proposal.dao_id}
+          </a>
+        </InfoWrapper>
         <InfoWrapper>
           <Label>Description</Label>
           <Description>
