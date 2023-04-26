@@ -6,6 +6,7 @@ if (!context.accountId) {
       src={`${ownerId}/widget/InfoSegment`}
       props={{
         title: "Not logged in!",
+
         description: "You must log in to create a new project!",
       }}
     />
