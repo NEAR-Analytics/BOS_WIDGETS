@@ -125,7 +125,7 @@ const validateForm = () => {
     state.accountIdError === "" &&
     (!state.category || state.categoryError === "") &&
     (!state.integration || state.integrationError === "") &&
-    (!state.dev || state.devError === "") &&
+    state.dev && state.devError === "" &&
     (!state.tagline || state.taglineError === "") &&
     (!state.description || state.descriptionError === "") &&
     (!state.tags || state.tagsError === "") &&
