@@ -1,38 +1,31 @@
-const { tosName, targetComponent, logOut, canCustomHome } = props;
+const { tosName, targetComponent, logOut } = props;
 const targetProps = props?.targetProps || {};
 const acceptanceKey = tosName; // may change
+const myHomePagePath = Social.get("myHomePagePath");
+console.log("8888888888888-myHomePagePath", myHomePagePath);
 State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
   expand: false,
 });
-let myHomePagePath;
-let customHomeLoaded;
-if (canCustomHome) {
-  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
-}
-if (myHomePagePath !== null) {
-  customHomeLoaded = true;
-}
+
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
   subscribe: true,
 });
-const tosVersions =
-  tosName &&
-  Social.keys(tosName, "final", {
-    return_type: "BlockHeight",
-    // subscribe: true,
-  });
-// TODO perform path validation before this
 
-const tosPath = tosName && tosName.split("/");
-const latestTosVersion =
-  tosPath &&
-  tosPath.reduce((acc, curr) => {
-    return acc[curr];
-  }, tosVersions);
+const tosVersions = Social.keys(tosName, "final", {
+  return_type: "BlockHeight",
+  // subscribe: true,
+});
+
+// TODO perform path validation before this
+const tosPath = tosName.split("/");
+const latestTosVersion = tosPath.reduce((acc, curr) => {
+  return acc[curr];
+}, tosVersions);
+
 const Backdrop = styled.div`
   height: 100vh;
   width: 100vw;
@@ -57,10 +50,11 @@ const Modal = styled.div`
 `;
 
 const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1 min-height 0;
-  overflow-y: auto;
+display: flex;
+flex-direction: column;
+flex-grow:1
+min-height 0;
+overflow-y: auto;
 `;
 
 const ModalFooter = styled.div`
@@ -75,8 +69,8 @@ const AcceptSection = styled.div`
   column-gap: 1rem;
 
   .continue-button {
-    background: #59e692;
-    color: #09342e;
+    background: #59E692;
+    color: #09342E;
     border-radius: 40px;
     height: 40px;
     padding: 0 35px;
@@ -100,10 +94,10 @@ const AcceptSection = styled.div`
 `;
 
 const CheckWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: ${state.agreeIsChecked ? "#26A65A" : "inherit"};
+display: flex;
+flex-direction: row;
+align-items: center;
+color: ${state.agreeIsChecked ? "#26A65A" : "inherit"}
 `;
 
 const CheckButton = styled.button`
@@ -129,7 +123,6 @@ const showTos =
   agreementsForUser &&
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
-const targetComponentSrc = myHomePagePath || targetComponent;
 
 return (
   <div>
@@ -200,8 +193,6 @@ return (
       </Backdrop>
     )}
 
-    {((canCustomHome && customHomeLoaded) || !canCustomHome) && (
-      <Widget src={targetComponentSrc} props={targetProps} />
-    )}
+    <Widget src={targetComponent} props={targetProps} />
   </div>
 );
