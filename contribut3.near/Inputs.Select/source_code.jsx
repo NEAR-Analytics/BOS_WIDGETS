@@ -3,8 +3,8 @@ const noLabel = props.noLabel ?? false;
 const placeholder = props.placeholder ?? "Placeholder";
 const value = props.value ?? "";
 const options = props.options ?? [];
-const onChange = props.onChange ?? (() => { });
-const validate = props.validate ?? (() => { });
+const onChange = props.onChange ?? (() => {});
+const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
 
 const Container = styled.div`
