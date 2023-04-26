@@ -1,7 +1,10 @@
-const { tosName, targetComponent, logOut } = props;
+const { tosName, targetComponent, logOut, canCustomHome } = props;
 const targetProps = props?.targetProps || {};
 const acceptanceKey = tosName; // may change
-const myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+let myHomePagePath;
+if (canCustomHome) {
+  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+}
 console.log("8888888888888-myHomePagePath", myHomePagePath);
 State.init({
   hasCommittedAcceptance: false,
@@ -123,7 +126,9 @@ const showTos =
   agreementsForUser &&
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
-
+const targetComponentSrc = canCustomHome
+  ? myHomePagePath || targetComponent
+  : targetComponent;
 return (
   <div>
     {showTos && (
@@ -193,6 +198,6 @@ return (
       </Backdrop>
     )}
 
-    <Widget src={myHomePagePath || targetComponent} props={targetProps} />
+    <Widget src={targetComponentSrc} props={targetProps} />
   </div>
 );
