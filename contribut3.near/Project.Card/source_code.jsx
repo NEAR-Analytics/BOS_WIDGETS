@@ -30,6 +30,8 @@ if (!state.requestsIsFetched) {
   ).then((requests) => State.update({ requests, requestsIsFetched: true }));
 }
 
+console.log('here')
+
 if (!state.descriptionIsFetched) {
   Near.asyncView(
     "social.near",
@@ -83,7 +85,6 @@ const Requests = styled.a`
   gap: 0.5em;
 `;
 
-console.log('here')
 
 const body = (
   <Details>
