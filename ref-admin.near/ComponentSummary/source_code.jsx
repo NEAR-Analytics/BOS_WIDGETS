@@ -1,5 +1,6 @@
 if (!props.src) return "";
 
+const { commitLoading } = state;
 State.init({
   copiedShareUrl: false,
   commitLoading: false,
@@ -188,6 +189,7 @@ const Text = styled.p`
   }
 `;
 function applyHomePage() {
+  if (commitLoading) return;
   State.update({ commitLoading: true });
   Social.set(
     {
@@ -213,7 +215,6 @@ const Loading = (
     aria-hidden="true"
   />
 );
-console.log("7777777777777-commitLoading", commitLoading);
 return (
   <Wrapper>
     <Header size={size}>
@@ -292,8 +293,7 @@ return (
         </OverlayTrigger>
       </div>
       <ButtonLink onClick={applyHomePage}>
-        {commitLoading && Loading}
-        {!commitLoading && <i className="bi bi-house"></i>}
+        {commitLoading ? Loading : <i className="bi bi-house"></i>}
         Apply as homepage
       </ButtonLink>
     </Actions>
