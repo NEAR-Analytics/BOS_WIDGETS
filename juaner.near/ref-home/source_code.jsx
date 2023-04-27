@@ -70,7 +70,7 @@ const MenuContainer = styled.div`
       width:26px;
     }
 `;
-const storageCustomHomePage = Storage.privateGet("myHomePagePath");
+const storageCustomHomePage = Storage.get("myHomePagePath");
 console.log("其它组件使用尝试-storageCustomHomePage", storageCustomHomePage);
 const { activeMenu } = state;
 State.init({
