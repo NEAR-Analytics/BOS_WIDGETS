@@ -88,6 +88,75 @@ if (!state.projectIsFetched || !state.profileIsFetched) {
   return <>Loading...</>;
 }
 
+const progress = () => {
+  let filledInFields = 0;
+  /*
+   * List of fields:
+   * - project
+   *    - name
+   *    - description
+   *    - website
+   *    - logo
+   *    - tagline
+   *    - category
+   *    - stage
+   *    - team
+   *    - integration
+   *    - socials
+   *    - maa
+   *    - ceo
+   *    - cto
+   *    - size
+   *    - tags
+   *    - location
+   *    - problems solving
+   *    - position
+   *    - why
+   *    - vision
+   *    - pitch
+   *    - whitepaper
+   *    - roadmap
+   *    - demo
+   * */
+  const totalFields = 23;
+  const application = state.project;
+  if (application) {
+    if (application.integration) filledInFields++;
+    if (application.why) filledInFields++;
+    if (application.vision) filledInFields++;
+    if (application.geo) filledInFields++;
+    if (application.success_position) filledInFields++;
+    if (application.tech_lead) filledInFields++;
+    if (application.team) filledInFields++;
+    const graduation = application.graduation;
+    if (graduation) {
+      if (graduation.pitch_deck) filledInFields++;
+      if (graduation.white_paper) filledInFields++;
+      if (graduation.roadmap) filledInFields++;
+      if (graduation.demo) filledInFields++;
+    }
+  }
+  const profile = state.profile;
+  if (profile) {
+    if (profile.name) filledInFields++;
+    if (profile.description) filledInFields++;
+    if (profile.linktree) filledInFields++;
+    if (profile.linktree.website) filledInFields++;
+    if (profile.logo) filledInFields++;
+    if (profile.tagline) filledInFields++;
+    if (profile.category) filledInFields++;
+    if (profile.stage) filledInFields++;
+    if (profile.team) filledInFields++;
+    if (profile.ceo) filledInFields++;
+    if (profile.tags) filledInFields++;
+    if (profile.userbase) filledInFields++;
+  }
+
+  return ((filledInFields / totalFields) * 100)
+    .toFixed(0)
+    .toLocaleString("en-US", { style: "percent" });
+};
+
 return (
   <Container>
     <Row>
