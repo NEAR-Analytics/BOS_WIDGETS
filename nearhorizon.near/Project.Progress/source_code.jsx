@@ -76,12 +76,13 @@ if (!state.profileIsFetched) {
     { keys: [`${props.accountId}/profile`] },
     "final",
     false
-  ).then((profile) =>
+  ).then((profile) => {
+    console.log(profile);
     State.update({
       profile: profile[props.accountId].profile,
       profileIsFetched: true,
-    })
-  );
+    });
+  });
 }
 
 if (!state.projectIsFetched || !state.profileIsFetched) {
