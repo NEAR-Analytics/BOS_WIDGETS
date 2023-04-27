@@ -11,7 +11,6 @@ if (myHomePagePath !== null) {
     customHomeLoading: false,
   });
 }
-console.log("8888888888888-myHomePagePath", myHomePagePath);
 State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
@@ -31,11 +30,13 @@ const tosVersions = Social.keys(tosName, "final", {
 });
 
 // TODO perform path validation before this
-const tosPath = tosName.split("/");
-const latestTosVersion = tosPath.reduce((acc, curr) => {
-  return acc[curr];
-}, tosVersions);
 
+const tosPath = tosName && tosName.split("/");
+const latestTosVersion =
+  tosPath &&
+  tosPath.reduce((acc, curr) => {
+    return acc[curr];
+  }, tosVersions);
 const Backdrop = styled.div`
   height: 100vh;
   width: 100vw;
