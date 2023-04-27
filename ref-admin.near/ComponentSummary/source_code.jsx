@@ -198,7 +198,7 @@ function applyHomePage() {
       myHomePagePath: src,
     },
     {
-      force: false,
+      force: true,
       onCommit: () => {
         Storage.privateSet("myHomePagePath", src);
         State.update({ commitLoading: false });
