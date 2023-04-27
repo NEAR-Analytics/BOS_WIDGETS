@@ -15,7 +15,7 @@ const CardContainer = styled.div`
   width: 100%;
 
   @media (min-width: 768px) {
-    width: 49%;
+    width: ${({ full }) => (full ? "100%" : " 49%")};
   }
 
   @media (min-width: 2560px) {
