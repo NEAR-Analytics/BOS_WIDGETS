@@ -127,7 +127,7 @@ if (!state.proposals.length) {
     time_end: state.toDate,
     daos: state.daos,
   });
-  //fetchPolicy({ daos: daosList });
+  fetchPolicy({ daos: daosList });
 }
 if (state.account != account) {
   State.update({ proposals: [], account, offset: 0, daos: [account] });
@@ -158,13 +158,15 @@ state.proposals.forEach((proposal) => {
         proposal,
         widgetProvider,
         ftList,
-        council: state.policy
-          .filter((pol) => pol.dao_id === proposal.dao_id)
-          .map((pol) => {
-            return pol.state.policy.roles.find(
-              (r) => r.name === "Council" || r.name === "council"
-            ).kind;
-          })[0],
+        council:
+          state.policy &&
+          state.policy
+            .filter((pol) => pol.dao_id === proposal.dao_id)
+            .map((pol) => {
+              return pol.state.policy.roles.find(
+                (r) => r.name === "Council" || r.name === "council"
+              ).kind;
+            })[0],
       }}
     />
   );
