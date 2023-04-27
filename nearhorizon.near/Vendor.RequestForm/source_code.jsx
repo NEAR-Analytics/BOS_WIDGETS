@@ -64,10 +64,10 @@ const createProjectLine = (accountId, name, image) => {
 State.init({
   message: "",
   messageError: "",
-  projectId: {},
+  projectId: null,
   projects: [],
   projectsIsFetched: false,
-  requestId: {},
+  requestId: null,
   requests: [],
   requestsIsFetched: false,
 });
