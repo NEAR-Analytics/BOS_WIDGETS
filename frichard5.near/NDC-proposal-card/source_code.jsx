@@ -1,4 +1,4 @@
-const { proposal, council } = props;
+const { proposal, council, ftList } = props;
 
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
@@ -275,6 +275,18 @@ return (
             {parseDescription(proposal.proposal.description)}
           </Description>
         </InfoWrapper>
+        {proposal.proposal_type === "Transfer" ? (
+          <Widget
+            src={`${widgetProvider}/widget/table_ft_formatter`}
+            props={{
+              ftList,
+              ft: proposal.proposal.kind.amount,
+              amount: proposal.proposal.kind.token_id,
+            }}
+          />
+        ) : (
+          ""
+        )}
       </ProposalCard>
     ) : (
       ""
