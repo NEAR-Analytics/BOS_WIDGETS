@@ -70,7 +70,7 @@ const MenuContainer = styled.div`
       width:26px;
     }
 `;
-const storageCustomHomePage = Storage.get(
+const storageCustomHomePage = Storage.privateGet(
   "myHomePagePath",
   "ref-admin.near/widget/ComponentSummary"
 );
