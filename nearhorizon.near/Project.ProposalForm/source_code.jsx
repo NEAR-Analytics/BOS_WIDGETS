@@ -345,7 +345,9 @@ return (
               Send proposal
             </>
           ),
+          disabled: !state.agree || !validateForm(),
           onClick: () => {
+            if (!state.agree || !validateForm()) return;
             Near.call(ownerId, "add_proposal", {
               proposal: {
                 vendor_id: state.vendorId.value,
