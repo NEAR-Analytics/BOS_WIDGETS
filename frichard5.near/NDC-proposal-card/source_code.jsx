@@ -1,4 +1,4 @@
-const { proposal, council, ftList } = props;
+const { proposal, council, ftList, widgetProvider } = props;
 
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
