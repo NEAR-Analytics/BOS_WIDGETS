@@ -340,13 +340,6 @@ const ProposalFilters = (
     src={`${widgetProvider}/widget/NDC-filter-menu`}
     props={{
       widgetProvider,
-      comps: [
-        SelectDaos,
-        SelectType,
-        SelectStatus,
-        SelectFromDate,
-        SelectToDate,
-      ],
     }}
   />
 );
