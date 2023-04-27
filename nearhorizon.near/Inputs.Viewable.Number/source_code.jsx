@@ -51,6 +51,7 @@ return (
     props={{
       id,
       label,
+      noLabel: props.noLabel,
       value,
       edit: (update, v) => (
         <LabelArea>
