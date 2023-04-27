@@ -278,23 +278,25 @@ return (
         {proposal.proposal_type === "Transfer" ? (
           <InfoWrapper>
             <Label>Target</Label>
-            <Widget
-              src={`${widgetProvider}/widget/table_ft_formatter`}
-              props={{
-                ftList,
-                ft: proposal.proposal.kind.token_id,
-                amount: proposal.proposal.kind.amount,
-              }}
-            />
-            <span>
-              to{" "}
-              <a
-                href={`https://explorer.near.org/accounts/${proposal.proposal.kind.receiver_id}`}
-                target="_blank"
-              >
-                {proposal.proposal.kind.receiver_id}
-              </a>
-            </span>
+            <div style={{ display: "flex" }}>
+              <Widget
+                src={`${widgetProvider}/widget/table_ft_formatter`}
+                props={{
+                  ftList,
+                  ft: proposal.proposal.kind.token_id,
+                  amount: proposal.proposal.kind.amount,
+                }}
+              />
+              <span>
+                to{" "}
+                <a
+                  href={`https://explorer.near.org/accounts/${proposal.proposal.kind.receiver_id}`}
+                  target="_blank"
+                >
+                  {proposal.proposal.kind.receiver_id}
+                </a>
+              </span>
+            </div>
           </InfoWrapper>
         ) : (
           ""
