@@ -11,7 +11,11 @@ const near = {
 };
 
 const findFt = (ftAddress, amount) => {
-  if (ftAddress === "Near" || ftAdress === "") return near;
+  if (ftAddress === "Near" || ftAddress === "")
+    return {
+      ...near,
+      amount: isParsed ? amount : Number(amount) / Math.pow(10, 24),
+    };
   if (!ftList.length) return defaultFt;
   const ft = ftList.find((f) => ftAddress === f.token_account_id);
   if (isParsed) return ft ? { ...ft, amount } : { ...defaultFt, amount };
