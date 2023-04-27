@@ -28,7 +28,7 @@ const tosVersions = Social.keys(tosName, "final", {
   return_type: "BlockHeight",
   // subscribe: true,
 });
-
+console.log("3333333333334-tosName", tosName);
 // TODO perform path validation before this
 
 const tosPath = tosName && tosName.split("/");
