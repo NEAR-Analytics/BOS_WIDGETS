@@ -227,7 +227,13 @@ const getTimeLeft = (proposal) => {
   }
   return "";
 };
-
+if (proposal.proposal_type === "Transfer") {
+  console.log({
+    ftList,
+    ft: proposal.proposal.kind.amount,
+    amount: proposal.proposal.kind.token_id,
+  });
+}
 return (
   <>
     {proposal && council ? (
