@@ -124,8 +124,6 @@ const progress = () => {
     if (profile.userbase) filledInFields++;
   }
 
-  console.log(filledInFields, totalFields, state, props.accountId);
-
   return ((filledInFields / totalFields) * 100)
     .toFixed(0)
     .toLocaleString("en-US", { style: "percent" });
