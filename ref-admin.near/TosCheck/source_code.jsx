@@ -2,6 +2,12 @@ const { tosName, targetComponent, logOut, canCustomHome } = props;
 const targetProps = props?.targetProps || {};
 const { customHomeLoading } = state;
 const acceptanceKey = tosName; // may change
+State.init({
+  hasCommittedAcceptance: false,
+  agreeIsChecked: false,
+  expand: false,
+  customHomeLoading: canCustomHome ? true : false,
+});
 let myHomePagePath;
 if (canCustomHome) {
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
@@ -11,12 +17,6 @@ if (myHomePagePath !== null) {
     customHomeLoading: false,
   });
 }
-State.init({
-  hasCommittedAcceptance: false,
-  agreeIsChecked: false,
-  expand: false,
-  customHomeLoading: canCustomHome && true,
-});
 
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
@@ -24,11 +24,12 @@ const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   subscribe: true,
 });
 
-const tosVersions = Social.keys(tosName, "final", {
-  return_type: "BlockHeight",
-  // subscribe: true,
-});
-console.log("3333333333334-tosName", tosName);
+const tosVersions =
+  tosName &&
+  Social.keys(tosName, "final", {
+    return_type: "BlockHeight",
+    // subscribe: true,
+  });
 // TODO perform path validation before this
 
 const tosPath = tosName && tosName.split("/");
@@ -134,9 +135,7 @@ const showTos =
   agreementsForUser &&
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
-const targetComponentSrc = canCustomHome
-  ? myHomePagePath || targetComponent
-  : targetComponent;
+const targetComponentSrc = myHomePagePath || targetComponent;
 return (
   <div>
     {showTos && (
