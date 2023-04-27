@@ -171,7 +171,7 @@ return (
     </Row>
     <Row>
       <Label>Profile:</Label>
-      <Value>60%</Value>
+      <Value>{progress()}</Value>
     </Row>
   </Container>
 );
