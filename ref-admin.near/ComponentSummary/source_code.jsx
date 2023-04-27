@@ -202,10 +202,11 @@ function applyHomePage() {
       onCommit: () => {
         Storage.privateSet("myHomePagePath", src);
         State.update({ commitLoading: false });
-        console.log("666666666666-成功设置缓存-src", src);
+        console.log("666666666666-0-成功设置缓存-src", src);
       },
       onCancel: () => {
         State.update({ commitLoading: false });
+        console.log("666666666666-1-取消操作-src", src);
       },
     }
   );
