@@ -6,10 +6,12 @@ if (
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
-      State.update({ chainId: chainIdData.chainId });
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
     });
 }
-if (state.chainId !== 1) {
+if (state.chainId !== undefined && state.chainId !== 1) {
   return <p>Switch to Ethereum Mainnet</p>;
 }
 
