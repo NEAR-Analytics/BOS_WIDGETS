@@ -73,7 +73,7 @@ if (!state.profileIsFetched) {
   Near.asyncView(
     "social.near",
     "get",
-    { keys: [`${props.accountId}/profile`] },
+    { keys: [`${props.accountId}/`] },
     "final",
     false
   ).then((profile) => {
