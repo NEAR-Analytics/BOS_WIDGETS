@@ -127,7 +127,7 @@ if (!state.proposals.length) {
     time_end: state.toDate,
     daos: state.daos,
   });
-  fetchPolicy({ daos: daosList });
+  //fetchPolicy({ daos: daosList });
 }
 if (state.account != account) {
   State.update({ proposals: [], account, offset: 0, daos: [account] });
@@ -373,4 +373,13 @@ const ProposalFilters = (
   />
 );
 
-return <ProposalContainer></ProposalContainer>;
+return (
+  <ProposalContainer>
+    {ProposalFilters}
+    {state.proposals.length && state.lastProposalFetch ? (
+      ProposalInfiniteScroll
+    ) : (
+      <NoProposal>No proposal found.</NoProposal>
+    )}
+  </ProposalContainer>
+);
