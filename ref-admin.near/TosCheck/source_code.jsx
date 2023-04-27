@@ -6,7 +6,7 @@ State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
   expand: false,
-  customHomeLoading: true,
+  customHomeLoading: !!canCustomHome,
 });
 let myHomePagePath;
 if (canCustomHome) {
@@ -210,7 +210,7 @@ return (
       </Backdrop>
     )}
 
-    {customHomeLoading !== undefined && !customHomeLoading && (
+    {!customHomeLoading && (
       <Widget src={targetComponentSrc} props={targetProps} />
     )}
   </div>
