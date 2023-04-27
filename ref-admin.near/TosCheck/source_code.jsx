@@ -25,24 +25,24 @@ if (myHomePagePath !== null) {
 // console.log("11111111111111111是否可以加载组件status", statusx);
 
 // find all instances of the user agreeing to some version of the desired TOS
-const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
-  accountId: context.accountId, // make sure it was written by the user in question
-  subscribe: true,
-});
-const tosVersions =
-  tosName &&
-  Social.keys(tosName, "final", {
-    return_type: "BlockHeight",
-    // subscribe: true,
-  });
+// const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
+//   accountId: context.accountId, // make sure it was written by the user in question
+//   subscribe: true,
+// });
+// const tosVersions =
+//   tosName &&
+//   Social.keys(tosName, "final", {
+//     return_type: "BlockHeight",
+//     // subscribe: true,
+//   });
 // TODO perform path validation before this
 
-const tosPath = tosName && tosName.split("/");
-const latestTosVersion =
-  tosPath &&
-  tosPath.reduce((acc, curr) => {
-    return acc[curr];
-  }, tosVersions);
+// const tosPath = tosName && tosName.split("/");
+// const latestTosVersion =
+//   tosPath &&
+//   tosPath.reduce((acc, curr) => {
+//     return acc[curr];
+//   }, tosVersions);
 const Backdrop = styled.div`
   height: 100vh;
   width: 100vw;
@@ -133,14 +133,15 @@ const expand = (e) => {
 // we get an empty array. This means that when the existence check fails
 // we are still loading and we do not want to potentially flash the modal
 // until we know for sure that it should be displayed
-const showTos =
-  !state.hasCommittedAcceptance &&
-  context.accountId &&
-  latestTosVersion &&
-  agreementsForUser &&
-  (!agreementsForUser.length ||
-    agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
-const targetComponentSrc = myHomePagePath || targetComponent;
+// const showTos =
+//   !state.hasCommittedAcceptance &&
+//   context.accountId &&
+//   latestTosVersion &&
+//   agreementsForUser &&
+//   (!agreementsForUser.length ||
+//     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
+// const targetComponentSrc = myHomePagePath || targetComponent;
+const showTos = false;
 return (
   <div>
     {showTos && (
