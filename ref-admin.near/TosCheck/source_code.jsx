@@ -18,11 +18,11 @@ if (myHomePagePath !== null) {
   });
 }
 
-console.log("1111111111111111111245-canCustomHome", !!canCustomHome);
-console.log("11111111111111111-myHomePagePath", myHomePagePath);
-console.log("11111111111111111-customHomeLoading", customHomeLoading);
-const statusx = !(customHomeLoading === undefined || customHomeLoading);
-console.log("11111111111111111是否可以加载组件status", statusx);
+// console.log("1111111111111111111245-canCustomHome", !!canCustomHome);
+// console.log("11111111111111111-myHomePagePath", myHomePagePath);
+// console.log("11111111111111111-customHomeLoading", customHomeLoading);
+// const statusx = !(customHomeLoading === undefined || customHomeLoading);
+// console.log("11111111111111111是否可以加载组件status", statusx);
 
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
@@ -133,17 +133,17 @@ const expand = (e) => {
 // we get an empty array. This means that when the existence check fails
 // we are still loading and we do not want to potentially flash the modal
 // until we know for sure that it should be displayed
-// const showTos =
-//   !state.hasCommittedAcceptance &&
-//   context.accountId &&
-//   latestTosVersion &&
-//   agreementsForUser &&
-//   (!agreementsForUser.length ||
-//     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
+const showTos =
+  !state.hasCommittedAcceptance &&
+  context.accountId &&
+  latestTosVersion &&
+  agreementsForUser &&
+  (!agreementsForUser.length ||
+    agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
 const targetComponentSrc = myHomePagePath || targetComponent;
 return (
   <div>
-    {/*showTos && (
+    {showTos && (
       <Backdrop className="d-flex">
         <Modal>
           <ModalContent>
@@ -208,10 +208,10 @@ return (
           </ModalFooter>
         </Modal>
       </Backdrop>
-    )*/}
+    )}
 
-    {/*!(customHomeLoading === undefined || customHomeLoading) && (
+    {!(customHomeLoading === undefined || customHomeLoading) && (
       <Widget src={targetComponentSrc} props={targetProps} />
-    )*/}
+    )}
   </div>
 );
