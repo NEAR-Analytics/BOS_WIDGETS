@@ -227,7 +227,7 @@ const getTimeLeft = (proposal) => {
   }
   return "";
 };
-
+console.log("PROPOSAL", proposal);
 return (
   <>
     {proposal && council ? (
