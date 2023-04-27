@@ -16,6 +16,8 @@ const appUrl = `/#/${src}`;
 const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${src}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 const size = props.size || "large";
+const storageCustomHomePage = Storage.get("myHomePagePath");
+console.log("4444444444-storageCustomHomePage", storageCustomHomePage);
 
 const primaryActions = {
   open: {
