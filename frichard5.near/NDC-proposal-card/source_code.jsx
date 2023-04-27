@@ -288,6 +288,7 @@ return (
                 }}
               />
               <span>
+                {" "}
                 to{" "}
                 <a
                   href={`https://explorer.near.org/accounts/${proposal.proposal.kind.receiver_id}`}
