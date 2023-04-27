@@ -152,7 +152,7 @@ const progress = () => {
     if (profile.userbase) filledInFields++;
   }
 
-  console.log(filledInFields, totalFields);
+  console.log(filledInFields, totalFields, state.profile);
 
   return ((filledInFields / totalFields) * 100)
     .toFixed(0)
