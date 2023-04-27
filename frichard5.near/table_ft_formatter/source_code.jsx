@@ -9,6 +9,7 @@ const near = {
   symbol: "NEAR",
   icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png",
 };
+
 const findFt = (ftAddress, amount) => {
   if (ftAddress === "Near" || ftAdress === "") return near;
   if (!ftList.length) return defaultFt;
@@ -22,7 +23,7 @@ const findFt = (ftAddress, amount) => {
 };
 
 const currentFt = findFt(ft, amount);
-
+console.log("CURRENT FT", currentFt);
 return (
   <>
     {numberWithCommas(parseInt(currentFt.amount))}
