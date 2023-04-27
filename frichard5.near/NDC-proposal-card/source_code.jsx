@@ -227,13 +227,7 @@ const getTimeLeft = (proposal) => {
   }
   return "";
 };
-if (proposal.proposal_type === "Transfer") {
-  console.log({
-    ftList,
-    ft: proposal.proposal.kind.amount,
-    amount: proposal.proposal.kind.token_id,
-  });
-}
+
 return (
   <>
     {proposal && council ? (
@@ -286,8 +280,8 @@ return (
             src={`${widgetProvider}/widget/table_ft_formatter`}
             props={{
               ftList,
-              ft: proposal.proposal.kind.amount,
-              amount: proposal.proposal.kind.token_id,
+              ft: proposal.proposal.kind.token_id,
+              amount: proposal.proposal.kind.amount,
             }}
           />
         ) : (
