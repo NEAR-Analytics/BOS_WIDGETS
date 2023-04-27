@@ -131,7 +131,7 @@ const tabContent = {
   ),
   learn: (
     <Widget
-      src={`humanman.near/widget/FoundersResources`}
+      src={`${ownerId}/widget/Learn.Page`}
       props={{ accountId: state.accountId }}
     />
   ),
