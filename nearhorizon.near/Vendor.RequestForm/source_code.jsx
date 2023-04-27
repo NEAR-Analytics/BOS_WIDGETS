@@ -255,6 +255,7 @@ return (
           ),
           disabled: !validateForm(),
           onClick: () => {
+            if (!validateForm()) return;
             Near.call({
               contractName: "social.near",
               methodName: "set",
