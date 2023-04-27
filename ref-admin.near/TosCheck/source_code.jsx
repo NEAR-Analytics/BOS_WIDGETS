@@ -210,7 +210,7 @@ return (
       </Backdrop>
     )}
 
-    {!customHomeLoading && (
+    {!(customHomeLoading == undefined || customHomeLoading) && (
       <Widget src={targetComponentSrc} props={targetProps} />
     )}
   </div>
