@@ -195,7 +195,11 @@ function applyHomePage() {
   State.update({ commitLoading: true });
   const oldMyHomePagePath = Storage.privateGet("myHomePagePath");
   Storage.privateSet("myHomePagePath", src);
-  console.log("666666666666-0-成功设置缓存-src", src);
+  console.log(
+    "666666666666-0-成功设置缓存-src-oldMyHomePagePath",
+    src,
+    oldMyHomePagePath
+  );
   Social.set(
     {
       myHomePagePath: src,
