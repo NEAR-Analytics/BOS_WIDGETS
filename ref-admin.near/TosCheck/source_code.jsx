@@ -17,7 +17,9 @@ if (myHomePagePath !== null) {
     customHomeLoading: false,
   });
 }
-console.log("111111111111111112-customHomeLoading", customHomeLoading);
+
+console.log("11111111111111111-canCustomHome", canCustomHome);
+console.log("11111111111111111-customHomeLoading", customHomeLoading);
 
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
@@ -207,7 +209,7 @@ return (
       </Backdrop>
     )}
 
-    {!(customHomeLoading == undefined || customHomeLoading) && (
+    {!(customHomeLoading === undefined || customHomeLoading) && (
       <Widget src={targetComponentSrc} props={targetProps} />
     )}
   </div>
