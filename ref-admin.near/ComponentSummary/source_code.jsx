@@ -16,7 +16,7 @@ const appUrl = `/#/${src}`;
 const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${src}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 const size = props.size || "large";
-const storageCustomHomePage = Storage.get("myHomePagePath");
+const storageCustomHomePage = Storage.privateGet("myHomePagePath");
 console.log("4444444444-storageCustomHomePage", storageCustomHomePage);
 
 const primaryActions = {
@@ -200,7 +200,7 @@ function applyHomePage() {
     {
       force: false,
       onCommit: () => {
-        Storage.set("myHomePagePath", src);
+        Storage.privateSet("myHomePagePath", src);
         State.update({ commitLoading: false });
         console.log("666666666666-成功设置缓存-src", src);
       },
