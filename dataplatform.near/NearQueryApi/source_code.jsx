@@ -1,4 +1,5 @@
 let index = state.index ?? Storage.get("index");
+
 const SmallTitle = styled.h3`
   color: #687076;
   font-weight: 600;
@@ -43,6 +44,7 @@ if (index !== null) {
   const newIndex = Social.index("queryAPIWaitlist", "query-api-waitlist", {
     order: "asc",
     from: lastBlockHeight + 1,
+    limit: 10,
     subscribe: true,
   });
 
@@ -64,6 +66,7 @@ const dedupedList = waitlist.filter(
   (obj, index, arr) =>
     index === arr.findIndex((o) => o.accountId === obj.accountId)
 );
+console.log(dedupedList, "deduped waitlist");
 const unique = {};
 
 if (waitlist) {
@@ -111,13 +114,7 @@ return (
   <div>
     <div className="mb-4">
       <SmallTitle>Near Query API</SmallTitle>
-      <TextLink
-        href="https://alpha.near.org/#/roshaan.near/widget/queryapi__QueryApiDashboard"
-        target="_blank"
-      >
-        whitelisted demo
-        <i className="bi bi-box-arrow-up-right"></i>
-      </TextLink>
+
       <SmallText>
         Seamlessly create, manage, and discover indexers. Coming soon Near you.
       </SmallText>
