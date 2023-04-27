@@ -70,7 +70,10 @@ const MenuContainer = styled.div`
       width:26px;
     }
 `;
-const storageCustomHomePage = Storage.get("myHomePagePath");
+const storageCustomHomePage = Storage.get(
+  "myHomePagePath",
+  "ref-admin.near/widget/ComponentSummary"
+);
 console.log("其它组件使用尝试-storageCustomHomePage", storageCustomHomePage);
 const { activeMenu } = state;
 State.init({
