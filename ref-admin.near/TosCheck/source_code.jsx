@@ -6,7 +6,7 @@ State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
   expand: false,
-  customHomeLoading: canCustomHome ? true : false,
+  customHomeLoading: true,
 });
 let myHomePagePath;
 if (canCustomHome) {
@@ -17,8 +17,8 @@ if (myHomePagePath !== null) {
     customHomeLoading: false,
   });
 }
-console.log("11111111111111111-myHomePagePath", myHomePagePath);
-console.log("11111111111111111-customHomeLoading", customHomeLoading);
+console.log("111111111111111112-myHomePagePath", myHomePagePath);
+console.log("111111111111111112-customHomeLoading", customHomeLoading);
 
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
@@ -210,7 +210,7 @@ return (
       </Backdrop>
     )}
 
-    {!customHomeLoading && (
+    {customHomeLoading !== undefined && !customHomeLoading && (
       <Widget src={targetComponentSrc} props={targetProps} />
     )}
   </div>
