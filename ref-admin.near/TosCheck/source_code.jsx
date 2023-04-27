@@ -18,8 +18,11 @@ if (myHomePagePath !== null) {
   });
 }
 
-console.log("11111111111111111-canCustomHome", canCustomHome);
+console.log("11111111111111111-canCustomHome", !!canCustomHome);
+console.log("11111111111111111-myHomePagePath", myHomePagePath);
 console.log("11111111111111111-customHomeLoading", customHomeLoading);
+const statusx = !(customHomeLoading === undefined || customHomeLoading);
+console.log("11111111111111111是否可以加载组件status", statusx);
 
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
@@ -138,8 +141,6 @@ const showTos =
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
 const targetComponentSrc = myHomePagePath || targetComponent;
-const status = !(customHomeLoading == undefined || customHomeLoading);
-console.log("11111111111111111是否可以加载组件-status", status);
 return (
   <div>
     {showTos && (
