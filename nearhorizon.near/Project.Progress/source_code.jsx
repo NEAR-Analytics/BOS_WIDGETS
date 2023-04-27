@@ -90,34 +90,6 @@ if (!state.projectIsFetched || !state.profileIsFetched) {
 
 const progress = () => {
   let filledInFields = 0;
-  /*
-   * List of fields:
-   * - project
-   *    - name
-   *    - description
-   *    - website
-   *    - logo
-   *    - tagline
-   *    - category
-   *    - stage
-   *    - team
-   *    - integration
-   *    - socials
-   *    - maa
-   *    - ceo
-   *    - cto
-   *    - size
-   *    - tags
-   *    - location
-   *    - problems solving
-   *    - position
-   *    - why
-   *    - vision
-   *    - pitch
-   *    - whitepaper
-   *    - roadmap
-   *    - demo
-   * */
   const totalFields = 23;
   const application = state.project;
   if (application) {
