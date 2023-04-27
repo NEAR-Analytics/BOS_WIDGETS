@@ -29,9 +29,13 @@ const findFt = (ftAddress, amount) => {
 const currentFt = findFt(ft, amount);
 
 return (
-  <>
-    {numberWithCommas(parseInt(currentFt.amount))}
-    {currentFt.icon ? <img src={currentFt.icon} /> : ""}
-    {currentFt.symbol}
-  </>
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <span>{numberWithCommas(parseInt(currentFt.amount))}</span>
+    {currentFt.icon ? (
+      <img style={{ width: "15px", height: "15px" }} src={currentFt.icon} />
+    ) : (
+      ""
+    )}
+    <span>{currentFt.symbol}</span>
+  </div>
 );
