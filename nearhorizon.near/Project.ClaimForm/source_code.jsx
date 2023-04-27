@@ -3,7 +3,12 @@ const accountId = props.accountId;
 
 State.init({
   message: "",
+  messageError: "",
 });
+
+const validateForm = () => {
+  return state.message && state.messageError === "";
+};
 
 const Container = styled.div`
   display: flex;
@@ -53,9 +58,20 @@ return (
         src={`${ownerId}/widget/Inputs.TextArea`}
         props={{
           label: "Reason for claiming",
-          placeholder: "Describe the contribution you would like to request",
+          placeholder: "Enter your reason for claiming",
           value: state.message,
           onChange: (message) => State.update({ message }),
+          validate: () => {
+            if (state.message > 500) {
+              State.update({
+                messageError: "Message should be less than 500 characters",
+              });
+              return;
+            }
+
+            State.update({ messageError: "" });
+          },
+          error: state.messageError,
         }}
       />
       <Widget
@@ -92,7 +108,9 @@ return (
               Send claiming request
             </>
           ),
+          disabled: !validateForm(),
           onClick: () => {
+            if (!validateForm()) return;
             Near.call(ownerId, "add_claim", {
               project_id: accountId,
               message: state.message,
