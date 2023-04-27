@@ -120,6 +120,16 @@ const VoteHistory = (
   />
 );
 
+const TransfersOverview = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-transfers-overview`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
@@ -133,6 +143,7 @@ const Tabs = (
           components: (
             <WidgetsContainer>
               {ProposalsByMonth}
+              {TransfersOverview}
               {ProposalStatus}
             </WidgetsContainer>
           ),
