@@ -347,6 +347,28 @@ const ProposalFilters = (
         SelectFromDate,
         SelectToDate,
       ],
+      filters: getFilters(),
+      removeFilter: (filter) => {
+        State.update({
+          types: [...state.types.filter((t) => t != filter)],
+          status: [...state.status.filter((s) => s != filter)],
+          daos: [...state.daos.filter((d) => d != filter)],
+          fromDate: filter.includes(state.fromDate) ? "" : state.fromDate,
+          proposals: [],
+          offset: 0,
+          limit: resPerPage,
+        });
+      },
+      resetFilters: () => {
+        State.update({
+          types: [],
+          status: [],
+          proposals: [],
+          offset: 0,
+          daos: [state.account],
+          limit: resPerPage,
+        });
+      },
     }}
   />
 );
