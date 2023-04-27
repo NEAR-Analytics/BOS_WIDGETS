@@ -193,6 +193,9 @@ const Text = styled.p`
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
+  const oldMyHomePagePath = Storage.privateGet("myHomePagePath");
+  Storage.privateSet("myHomePagePath", src);
+  console.log("666666666666-0-成功设置缓存-src", src);
   Social.set(
     {
       myHomePagePath: src,
@@ -200,13 +203,16 @@ function applyHomePage() {
     {
       force: true,
       onCommit: () => {
-        Storage.privateSet("myHomePagePath", src);
         State.update({ commitLoading: false });
-        console.log("666666666666-0-成功设置缓存-src", src);
       },
       onCancel: () => {
         State.update({ commitLoading: false });
-        console.log("666666666666-1-取消操作-src", src);
+        Storage.privateSet("myHomePagePath", oldMyHomePagePath);
+        console.log(
+          "666666666666-1-取消操作-src, oldMyHomePagePath",
+          src,
+          oldMyHomePagePath
+        );
       },
     }
   );
