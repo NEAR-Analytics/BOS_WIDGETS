@@ -1,15 +1,22 @@
 const { tosName, targetComponent, logOut, canCustomHome } = props;
 const targetProps = props?.targetProps || {};
+const { customHomeLoading } = state;
 const acceptanceKey = tosName; // may change
 let myHomePagePath;
 if (canCustomHome) {
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+}
+if (myHomePagePath !== null) {
+  State.update({
+    customHomeLoading: false,
+  });
 }
 console.log("8888888888888-myHomePagePath", myHomePagePath);
 State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
   expand: false,
+  customHomeLoading: canCustomHome && true,
 });
 
 // find all instances of the user agreeing to some version of the desired TOS
@@ -198,6 +205,8 @@ return (
       </Backdrop>
     )}
 
-    <Widget src={targetComponentSrc} props={targetProps} />
+    {!customHomeLoading && (
+      <Widget src={targetComponentSrc} props={targetProps} />
+    )}
   </div>
 );
