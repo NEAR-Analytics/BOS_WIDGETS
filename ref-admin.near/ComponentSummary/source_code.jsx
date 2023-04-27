@@ -20,7 +20,6 @@ if (myHomePagePath !== null) {
 }
 if (customHomeLoading) return "";
 const finalSrc = myHomePagePath || src;
-console.log("8888888888888-finalSrc", finalSrc);
 const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
 const metadata = data || {};
