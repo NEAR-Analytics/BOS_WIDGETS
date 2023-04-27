@@ -1,19 +1,32 @@
 if (!props.src) return "";
 
-const { commitLoading } = state;
+const { commitLoading, customHomeLoading } = state;
 State.init({
   copiedShareUrl: false,
   commitLoading: false,
+  customHomeLoading: canCustomHome ? true : false,
 });
 
-const src = props.src;
+const { canCustomHome, src } = props;
 const primaryAction = props.primaryAction || "viewDetails";
-const [accountId, widget, widgetName] = src.split("/");
+let myHomePagePath;
+if (canCustomHome) {
+  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+}
+if (myHomePagePath !== null) {
+  State.update({
+    customHomeLoading: false,
+  });
+}
+if (customHomeLoading) return "";
+const finalSrc = myHomePagePath || src;
+console.log("8888888888888-finalSrc", finalSrc);
+const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
 const metadata = data || {};
 const tags = Object.keys(metadata.tags || {});
-const appUrl = `/#/${src}`;
-const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${src}`;
+const appUrl = `/#/${finalSrc}`;
+const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${finalSrc}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 const size = props.size || "large";
 const primaryActions = {
@@ -39,7 +52,6 @@ const sizes = {
     title: "26px",
   },
 };
-
 const Wrapper = styled.div`
 `;
 
@@ -192,7 +204,7 @@ function applyHomePage() {
   State.update({ commitLoading: true });
   Social.set(
     {
-      myHomePagePath: src,
+      myHomePagePath: finalSrc,
     },
     {
       force: true,
@@ -243,7 +255,7 @@ return (
 
       <div>
         <Title size={size}>{metadata.name || widgetName}</Title>
-        <Text ellipsis>{src}</Text>
+        <Text ellipsis>{finalSrc}</Text>
       </div>
     </Header>
     {props.showTags && tags.length > 0 && (
@@ -262,7 +274,7 @@ return (
           {primaryActions[primaryAction].display}
         </ButtonLink>
 
-        <ButtonLink href={`/#/edit/${src}`}>
+        <ButtonLink href={`/#/edit/${finalSrc}`}>
           {context.accountId === accountId ? (
             <>
               <i className="bi bi-pencil-fill"></i> Edit
