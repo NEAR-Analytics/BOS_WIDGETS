@@ -13,6 +13,7 @@ const ftFormatter = (ftList) => {
           ftList,
           ft: data["contract"],
           amount: data["amount"],
+          isParsed: true,
         }}
       />
     );
