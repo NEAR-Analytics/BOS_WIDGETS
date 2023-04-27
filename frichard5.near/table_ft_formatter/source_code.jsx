@@ -23,8 +23,7 @@ const findFt = (ftAddress, amount) => {
 };
 
 const currentFt = findFt(ft, amount);
-console.log("FTLIST", ftList);
-console.log("CURRENT FT", currentFt);
+
 return (
   <>
     {numberWithCommas(parseInt(currentFt.amount))}
