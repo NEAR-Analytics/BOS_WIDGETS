@@ -287,9 +287,8 @@ return (
                   amount: proposal.proposal.kind.amount,
                 }}
               />
-              <span>
-                {" "}
-                to{" "}
+              <span style={{ marginLeft: "5px" }}>
+                to
                 <a
                   href={`https://explorer.near.org/accounts/${proposal.proposal.kind.receiver_id}`}
                   target="_blank"
