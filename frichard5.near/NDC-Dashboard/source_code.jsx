@@ -84,7 +84,7 @@ const Proposals = (
     src={`${widgetProvider}/widget/proposals`}
     props={{
       account: state.selectedDao,
-      ftList,
+      ftList:  ftList.body && ftList.body,,
       widgetProvider,
     }}
   />
