@@ -22,11 +22,11 @@ const Button = styled.button`
 
 return (
   <div class="row">
-    <div class="col-8">
+    <div class="col-lg-8 col-sm-12">
       <H1>Discussions</H1>
       <H6>Get help with your projects, join our community!</H6>
     </div>
-    <div class="col-4">
+    <div class="col-lg-4 col-sm-12">
       <Button
         class="btn btn-primary"
         disabled={props.disabled}
