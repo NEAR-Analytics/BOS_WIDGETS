@@ -140,8 +140,8 @@ const expand = (e) => {
 //   agreementsForUser &&
 //   (!agreementsForUser.length ||
 //     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
-// const targetComponentSrc = myHomePagePath || targetComponent;
 const showTos = false;
+const targetComponentSrc = myHomePagePath || targetComponent;
 return (
   <div>
     {showTos && (
