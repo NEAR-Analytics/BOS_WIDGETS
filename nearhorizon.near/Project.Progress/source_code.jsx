@@ -84,6 +84,10 @@ if (!state.profileIsFetched) {
   );
 }
 
+if (!state.projectIsFetched || !state.profileIsFetched) {
+  return <>Loading...</>;
+}
+
 return (
   <Container>
     <Row>
