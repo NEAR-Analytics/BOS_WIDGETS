@@ -17,13 +17,15 @@ if (myHomePagePath !== null) {
     customHomeLoading: false,
   });
 }
+console.log("11111111111111111-myHomePagePath", myHomePagePath);
+console.log("11111111111111111-customHomeLoading", customHomeLoading);
 
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
   subscribe: true,
 });
-
+console.log("11111111111111111-抱错1");
 const tosVersions =
   tosName &&
   Social.keys(tosName, "final", {
@@ -33,11 +35,13 @@ const tosVersions =
 // TODO perform path validation before this
 
 const tosPath = tosName && tosName.split("/");
+console.log("11111111111111111-抱错2");
 const latestTosVersion =
   tosPath &&
   tosPath.reduce((acc, curr) => {
     return acc[curr];
   }, tosVersions);
+console.log("11111111111111111-抱错3");
 const Backdrop = styled.div`
   height: 100vh;
   width: 100vw;
@@ -135,6 +139,7 @@ const showTos =
   agreementsForUser &&
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
+console.log("11111111111111111-抱错4");
 const targetComponentSrc = myHomePagePath || targetComponent;
 return (
   <div>
