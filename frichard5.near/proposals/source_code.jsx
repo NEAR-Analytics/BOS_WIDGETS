@@ -375,7 +375,8 @@ const ProposalFilters = (
 
 return (
   <ProposalContainer>
-    {state.proposals.length ? (
+    {ProposalFilters}
+    {state.proposals.length && state.lastProposalFetch ? (
       ProposalInfiniteScroll
     ) : (
       <NoProposal>No proposal found.</NoProposal>
