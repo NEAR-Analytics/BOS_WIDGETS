@@ -18,7 +18,7 @@ if (myHomePagePath !== null) {
   });
 }
 
-console.log("11111111111111111-canCustomHome", !!canCustomHome);
+console.log("1111111111111111111245-canCustomHome", !!canCustomHome);
 console.log("11111111111111111-myHomePagePath", myHomePagePath);
 console.log("11111111111111111-customHomeLoading", customHomeLoading);
 const statusx = !(customHomeLoading === undefined || customHomeLoading);
@@ -143,7 +143,7 @@ const showTos =
 const targetComponentSrc = myHomePagePath || targetComponent;
 return (
   <div>
-    {showTos && (
+    {/*showTos && (
       <Backdrop className="d-flex">
         <Modal>
           <ModalContent>
@@ -208,7 +208,7 @@ return (
           </ModalFooter>
         </Modal>
       </Backdrop>
-    )}
+    )*/}
 
     {!(customHomeLoading === undefined || customHomeLoading) && (
       <Widget src={targetComponentSrc} props={targetProps} />
