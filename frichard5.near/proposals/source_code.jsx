@@ -375,7 +375,6 @@ const ProposalFilters = (
 
 return (
   <ProposalContainer>
-    {ProposalFilters}
     {state.proposals.length ? (
       ProposalInfiniteScroll
     ) : (
