@@ -32,7 +32,15 @@ return (
   <div style={{ display: "flex", alignItems: "center" }}>
     <span>{numberWithCommas(parseInt(currentFt.amount))}</span>
     {currentFt.icon ? (
-      <img style={{ width: "15px", height: "15px" }} src={currentFt.icon} />
+      <img
+        style={{
+          width: "15px",
+          height: "15px",
+          marginLeft: "5px",
+          marginRight: "5px",
+        }}
+        src={currentFt.icon}
+      />
     ) : (
       ""
     )}
