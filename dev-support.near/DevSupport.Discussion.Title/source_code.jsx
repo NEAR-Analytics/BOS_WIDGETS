@@ -8,7 +8,7 @@ const H6 = styled.h6`
   font-size: 20px;
   font-weight: 400
 `;
-const Button = styled.button`
+const Button = styled.a`
   display: block;
   color: #ffffff;
   background-color: #30A46C;
@@ -18,6 +18,8 @@ const Button = styled.button`
   border: none;
   border-radius: 50px;
   float: inline-end;
+
+  :hover{ color: #ffffff; cursor: pointer; }
 `;
 
 return (
