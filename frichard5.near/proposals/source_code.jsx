@@ -340,7 +340,13 @@ const ProposalFilters = (
     src={`${widgetProvider}/widget/NDC-filter-menu`}
     props={{
       widgetProvider,
-      comps: [],
+      comps: [
+        SelectDaos,
+        SelectType,
+        SelectStatus,
+        SelectFromDate,
+        SelectToDate,
+      ],
       filters: getFilters(),
       removeFilter: (filter) => {
         State.update({
