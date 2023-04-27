@@ -156,6 +156,7 @@ state.proposals.forEach((proposal) => {
       src={`${widgetProvider}/widget/NDC-proposal-card`}
       props={{
         proposal,
+        ftList,
         council: state.policy
           .filter((pol) => pol.dao_id === proposal.dao_id)
           .map((pol) => {
