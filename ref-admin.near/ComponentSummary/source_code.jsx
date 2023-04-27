@@ -200,8 +200,9 @@ function applyHomePage() {
     {
       force: true,
       onCommit: () => {
-        State.update({ commitLoading: false });
         Storage.set("myHomePagePath", src);
+        State.update({ commitLoading: false });
+        console.log("666666666666-成功设置缓存-src", src);
       },
       onCancel: () => {
         State.update({ commitLoading: false });
