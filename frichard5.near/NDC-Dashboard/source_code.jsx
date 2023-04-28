@@ -130,6 +130,17 @@ const TransfersOverview = (
   />
 );
 
+const TransfersByAccount = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-transfers-by-account`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+      ftList: ftList.body && ftList.body,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
