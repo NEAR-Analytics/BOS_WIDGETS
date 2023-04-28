@@ -1,15 +1,18 @@
-const { nyname } = state;
+const { buttonStatus } = state;
 console.log("000000000000-test2组件更新了");
 return (
   <div>
     <button
       onClick={() => {
+        const latestStatus = !buttonStatus;
         State.update({
-          nyname: "nature",
+          buttonStatus: latestStatus,
         });
+        Storage.set("buttonStatus", latestStatus);
+        console.log("000000000-buttonStatus", latestStatus);
       }}
     >
-      {nyname} click me
+      click me {buttonStatus}
     </button>
     Hello World
   </div>
