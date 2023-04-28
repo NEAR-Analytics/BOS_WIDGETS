@@ -171,8 +171,8 @@ return (
         props={{
           value: state.statsIsFetched
             ? Number(state.stats.MAU).toLocaleString("en-US", {
-              notation: "compact",
-            }) + "+"
+                notation: "compact",
+              }) + "+"
             : "Loading...",
           label: "Monthly active accounts",
         }}
@@ -182,8 +182,8 @@ return (
         props={{
           value: state.statsIsFetched
             ? Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", {
-              notation: "compact",
-            }) + "+"
+                notation: "compact",
+              }) + "+"
             : "Loading...",
           label: "Total accounts",
         }}
