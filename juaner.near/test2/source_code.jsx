@@ -8,7 +8,7 @@ return (
         State.update({
           buttonStatus: latestStatus,
         });
-        Storage.set("buttonStatus", latestStatus);
+        // Storage.set("buttonStatus", latestStatus);
         console.log("000000000-buttonStatus", latestStatus);
       }}
     >
