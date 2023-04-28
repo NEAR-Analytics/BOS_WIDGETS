@@ -162,7 +162,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Stats.Card`}
         props={{
-          value: "1077",
+          value: "750",
           label: "Projects",
         }}
       />
