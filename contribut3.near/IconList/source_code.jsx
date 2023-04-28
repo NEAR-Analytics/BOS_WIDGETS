@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const ids = props.ids ?? [];
 const onlyOne = !props.iconOnly && ids.length === 1;
 const justify = props.justify ?? "flex-start";
