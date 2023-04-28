@@ -209,7 +209,6 @@ function applyHomePage() {
       force: true,
       onCommit: () => {
         State.update({ commitLoading: false });
-        console.log("8888888", Social.get("myHomePagePath"));
       },
       onCancel: () => {
         State.update({ commitLoading: false });
