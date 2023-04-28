@@ -2,7 +2,7 @@ const ownerId = "nearhorizon.near";
 const id = props.id ?? "number";
 const label = props.label ?? "Input";
 const value = props.value ?? 0;
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 const isUSD = props.isUSD ?? false;
 
@@ -66,10 +66,10 @@ return (
       ),
       view: isUSD
         ? Number(value).toLocaleString("en-US", {
-          notation: "compact",
-          style: "currency",
-          currency: "USD",
-        })
+            notation: "compact",
+            style: "currency",
+            currency: "USD",
+          })
         : value, // Intl.NumberFormat("en", { notation: "compact" }).format(value),
       canEdit,
     }}
