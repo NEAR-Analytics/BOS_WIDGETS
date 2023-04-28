@@ -510,7 +510,7 @@ return (
             }
             onClick={erc20Approve}
           >
-            Allow transfer of tokens
+            {state.lastTxHash ? "Sending..." : "Allow transfer of tokens"}
           </button>
         </div>
       ) : (
@@ -525,27 +525,34 @@ return (
             }
             onClick={bridgeTokens}
           >
-            Bridge tokens
+            {state.lastTxHash ? "Sending..." : "Bridge tokens"}
           </button>
         </div>
       )}
       {state.lastTxHash && (
-        <div class="mb-3">{`Pending transaction: ${state.lastTxHash}`}</div>
+        <div class="mb-3">
+          <a
+            href={`${ethExplorerUrl}/tx/${state.lastTxHash}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View in Explorer
+          </a>
+        </div>
       )}
       <p>
         NOTE: Please make sure that your wallet is compatible with the
-        Destination Network before sending tokens.
+        Destination Network before sending tokens. Transfer time: 25 min.
       </p>
       <p>
-        This component relies on a new indexed bridge transfers API. The user
-        can view their recent transfers on any browser and will be able to
+        WIP: This component relies on a new indexed bridge transfers API. The
+        user can view their recent transfers on any browser and will be able to
         finalize a transfer in one click without having to restore the transfer
         on
         <a href="https://rainbowbridge.app/" target="_blank" rel="noreferrer">
           rainbowbridge.app
         </a>
-        . Currently only Ethereum ={">"} Aurora transfers available from this
-        UI.
+        . Currently only Ethereum ={">"} Aurora transfers available.
       </p>
       <h3> Recent transfers </h3>
       <table>
