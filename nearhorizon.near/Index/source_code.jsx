@@ -190,7 +190,7 @@ return (
         open: props.tnc,
         update: () =>
           Social.set(
-            { profile: { tnc: true } },
+            { profile: { horizon_tnc: true } },
             { force: true, onCommit: () => State.update({ tnc: true }) }
           ),
       }}
