@@ -188,7 +188,11 @@ return (
       src={`${ownerId}/widget/TNCModal`}
       props={{
         open: props.tnc,
-        update: () => Social.set({ profile: { tnc: true } }, { force: true }),
+        update: () =>
+          Social.set(
+            { profile: { tnc: true } },
+            { force: true, onCommit: () => State.update({ tnc: true }) }
+          ),
       }}
     />
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
