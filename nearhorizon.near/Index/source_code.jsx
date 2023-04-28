@@ -185,17 +185,6 @@ const Container = styled.div``;
 
 return (
   <Container>
-    <Widget
-      src={`${ownerId}/widget/TNCModal`}
-      props={{
-        open: !state.tnc,
-        accept: () =>
-          Social.set(
-            { profile: { horizon_tnc: true } },
-            { force: true, onCommit: () => State.update({ tnc: true }) }
-          ),
-      }}
-    />
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
     <Content>
       <Sidebar
