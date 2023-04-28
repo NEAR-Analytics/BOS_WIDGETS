@@ -183,6 +183,8 @@ const Content = styled.div`
 
 const Container = styled.div``;
 
+// investor remove progress
+
 return (
   <Container>
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
