@@ -184,6 +184,13 @@ const Container = styled.div``;
 
 return (
   <Container>
+    <Widget
+      src={`${ownerId}/widget/TNCModal`}
+      props={{
+        open: props.tnc,
+        update: () => Social.set({ profile: { tnc: true } }, { force: true }),
+      }}
+    />
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
     <Content>
       <Sidebar
