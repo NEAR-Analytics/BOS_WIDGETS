@@ -237,6 +237,10 @@ const homeIcon = (
     />
   </svg>
 );
+const current_mode = Storage.get(
+  "ref-mode",
+  "ref-admin.near/widget/user-builder"
+);
 return (
   <Wrapper>
     <Header size={size}>
@@ -274,7 +278,7 @@ return (
         </ButtonLink>
 
         <ButtonLink href={`/#/edit/${finalSrc}`}>
-          {context.accountId === accountId ? (
+          {context.accountId === accountId && current_mode == "builder" ? (
             <>
               <i className="bi bi-pencil-fill"></i> Edit
             </>
