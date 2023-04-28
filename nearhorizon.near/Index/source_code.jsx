@@ -187,7 +187,7 @@ return (
     <Widget
       src={`${ownerId}/widget/TNCModal`}
       props={{
-        open: props.tnc,
+        open: state.tnc,
         accept: () =>
           Social.set(
             { profile: { horizon_tnc: true } },
