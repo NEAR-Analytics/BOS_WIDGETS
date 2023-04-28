@@ -11,7 +11,7 @@ if (typeof props.loadRoomCallback != "function") {
 }
 
 State.init({
-  roomId: Storage.get("roomId") || props.roomId || null,
+  roomId: props.roomId || null,
   errorMessage: null,
   roomCreatedScreen: false,
   loading: false,
@@ -38,10 +38,8 @@ const findRoom = (created) => {
     created = false;
   }
 
-  const roomId = Storage.get("roomId") || state.roomId;
+  const roomId = state.roomId;
   const ownerAccountId = roomId.split("---")[0];
-  Storage.set("created", "false");
-  Storage.set("roomId", "");
   const queryString = `${ownerAccountId}/${props.widgetKey}/${state.roomId}`;
   let roomData = Social.getr(queryString);
   if (!state.loading) {
@@ -70,10 +68,6 @@ const findRoom = (created) => {
 
 if (state.loading) {
   return <h1>Loading... If it's infinite, reload the page.</h1>;
-}
-
-if (Storage.get("created") == "true" && !state.roomCreatedScreen) {
-  findRoom(true);
 }
 
 if (state.roomCreatedScreen) {
@@ -144,8 +138,6 @@ return (
           class="btn btn-primary"
           onClick={() => {
             const newRoomId = generateRoomId();
-            Storage.set("created", "true");
-            Storage.set("roomId", newRoomId);
             State.update({ roomId: newRoomId, roomCreatedScreen: true });
           }}
         >
