@@ -20,7 +20,10 @@ if (canCustomHome) {
 console.log("88888888888-myHomePagePath", myHomePagePath);
 console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
 console.log("88888888888-当前customHomeLoaded", customHomeLoaded);
-if (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null) {
+if (
+  myHomePagePathFromCache == undefined ||
+  (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null)
+) {
   console.log("88888888888-加载结束了");
   customHomeLoaded = true;
   //   State.update({
