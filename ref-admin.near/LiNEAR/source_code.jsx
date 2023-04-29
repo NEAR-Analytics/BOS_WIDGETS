@@ -17,7 +17,7 @@ function getConfig(network) {
   switch (network) {
     case "mainnet":
       return {
-        ownerId: "juaner.near",
+        ownerId: "ref-admin.near",
         contractId: "linear-protocol.near",
         nodeUrl: "https://rpc.mainnet.near.org",
         appUrl: "https://app.linearprotocol.org",
