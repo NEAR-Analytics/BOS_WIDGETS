@@ -33,7 +33,7 @@ const Text = styled.p`
 function WidgetCard(name, accountId) {
   return (
     <Card
-      href={`https://near.social/${accountId}/widget/${name}`}
+      href={`https://near.social/#/${accountId}/widget/${name}`}
       target="_blank"
     >
       <Text as="h3" size="18px" color="#58a6ff" ellipsis bold>
@@ -48,6 +48,7 @@ return (
   <>
     <h1>GameDev widgets</h1>
     <br />
+
     <h3>Dice widget</h3>
     <p>Really usefull widget if you have a game with dice.</p>
     {WidgetCard("DiceWidget", "ostolex.near")}
@@ -55,10 +56,12 @@ return (
       {"Here's a full example showing all possibilities of DiceWidget:"}
     </p>
     {WidgetCard("DiceWidgetDemo", "ostolex.near")}
+
     <br />
     <h3>Users matcher</h3>
     <p>If you have an online game, this widget might be usefull for you.</p>
     {WidgetCard("UsersMatcher", "let45fc.near")}
+
     <br />
     <h3>Leaderboard</h3>
     <p>
@@ -68,5 +71,12 @@ return (
     {WidgetCard("LeaderBoardWidget", "ostolex.near")}
     <p class="mt-2">Demo of leaderboard widget:</p>
     {WidgetCard("LeaderBoardDemo", "ostolex.near")}
+
+    <br />
+    <h3>Fullscreen</h3>
+    <p>Want to make your app fullscreen? Just use this widget:.</p>
+    {WidgetCard("FullScreenWrapper", "ostolex.near")}
+    <p class="mt-2">Demo of Fullscreen widget:</p>
+    {WidgetCard("FullScreenWrapperDemo", "ostolex.near")}
   </>
 );
