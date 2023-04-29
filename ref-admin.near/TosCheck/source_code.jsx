@@ -9,18 +9,23 @@ State.init({
   customHomeLoading: !!canCustomHome,
 });
 let myHomePagePath;
+let myHomePagePathFromCache;
 if (canCustomHome) {
-  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`, "final", {
-    subscribe: true,
-  });
+  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+  myHomePagePathFromCache = Storage.get(
+    "myHomePagePath",
+    "ref-admin.near/widget/ComponentSummary"
+  );
 }
-if (myHomePagePath !== null) {
+if (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null) {
   State.update({
     customHomeLoading: false,
   });
 }
-
-console.log("33333333333333-myHomePagePath", myHomePagePath);
+console.log("88888888888-myHomePagePath", myHomePagePath);
+console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
+// console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
+// console.log("33333333333333-myHomePagePath", myHomePagePath);
 // console.log("11111111111111111-myHomePagePath", myHomePagePath);
 // console.log("11111111111111111-customHomeLoading", customHomeLoading);
 // const statusx = !(customHomeLoading === undefined || customHomeLoading);
@@ -212,7 +217,7 @@ return (
       </Backdrop>
     )}
 
-    {!(customHomeLoading === undefined || customHomeLoading) && (
+    {!customHomeLoading && (
       <Widget src={targetComponentSrc} props={targetProps} />
     )}
   </div>
