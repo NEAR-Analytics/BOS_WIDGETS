@@ -34,6 +34,7 @@ function getConfig(network) {
   }
 }
 const config = getConfig(context.networkId);
+console.log("99999999999-context.networkId", context.networkId);
 const { tabName } = state;
 State.init({
   tabName: "stake", // stake | unstake
