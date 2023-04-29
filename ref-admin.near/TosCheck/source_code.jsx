@@ -16,15 +16,15 @@ if (canCustomHome) {
     "ref-admin.near/widget/ComponentSummary"
   );
 }
+console.log("88888888888-myHomePagePath", myHomePagePath);
+console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
+console.log("88888888888-当前customHomeLoaded", customHomeLoaded);
 if (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null) {
   console.log("88888888888-加载结束了");
   State.update({
     customHomeLoaded: true,
   });
 }
-console.log("88888888888-myHomePagePath", myHomePagePath);
-console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
-console.log("88888888888-customHomeLoaded", customHomeLoaded);
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
