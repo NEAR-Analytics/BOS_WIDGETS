@@ -10,7 +10,9 @@ State.init({
 });
 let myHomePagePath;
 if (canCustomHome) {
-  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`, "final", {
+    subscribe: true,
+  });
 }
 if (myHomePagePath !== null) {
   State.update({
@@ -18,7 +20,7 @@ if (myHomePagePath !== null) {
   });
 }
 
-// console.log("1111111111111111111245-canCustomHome", !!canCustomHome);
+console.log("33333333333333-myHomePagePath", myHomePagePath);
 // console.log("11111111111111111-myHomePagePath", myHomePagePath);
 // console.log("11111111111111111-customHomeLoading", customHomeLoading);
 // const statusx = !(customHomeLoading === undefined || customHomeLoading);
