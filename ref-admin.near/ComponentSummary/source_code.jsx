@@ -198,10 +198,6 @@ const Text = styled.p`
     margin-right: 4px;
   }
 `;
-const value = Social.get(`${context.accountId}/myHomePagePath`, "final", {
-  subscribe: true,
-});
-console.log("888888888888-value", value);
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
