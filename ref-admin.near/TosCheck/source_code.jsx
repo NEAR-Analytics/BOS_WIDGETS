@@ -18,6 +18,7 @@ if (canCustomHome) {
   );
 }
 if (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null) {
+  console.log("88888888888-开始设置为false了");
   State.update({
     customHomeLoading: false,
   });
@@ -25,13 +26,6 @@ if (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null) {
 console.log("88888888888-myHomePagePath", myHomePagePath);
 console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
 console.log("88888888888-customHomeLoading", customHomeLoading);
-// console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
-// console.log("33333333333333-myHomePagePath", myHomePagePath);
-// console.log("11111111111111111-myHomePagePath", myHomePagePath);
-// console.log("11111111111111111-customHomeLoading", customHomeLoading);
-// const statusx = !(customHomeLoading === undefined || customHomeLoading);
-// console.log("11111111111111111是否可以加载组件status", statusx);
-
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
