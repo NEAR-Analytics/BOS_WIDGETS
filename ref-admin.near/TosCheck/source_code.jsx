@@ -24,6 +24,7 @@ if (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null) {
 }
 console.log("88888888888-myHomePagePath", myHomePagePath);
 console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
+console.log("88888888888-customHomeLoading", customHomeLoading);
 // console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
 // console.log("33333333333333-myHomePagePath", myHomePagePath);
 // console.log("11111111111111111-myHomePagePath", myHomePagePath);
