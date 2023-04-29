@@ -1,6 +1,6 @@
 const { tosName, targetComponent, logOut, canCustomHome } = props;
 const targetProps = props?.targetProps || {};
-// const { customHomeLoaded } = state;
+const { customHomeLoading } = state;
 const acceptanceKey = tosName; // may change
 State.init({
   hasCommittedAcceptance: false,
@@ -17,6 +17,7 @@ if (canCustomHome) {
     "ref-admin.near/widget/ComponentSummary"
   );
 }
+console.log("88888888888-customHomeLoading", customHomeLoading);
 console.log("88888888888-myHomePagePath", myHomePagePath);
 console.log("88888888888-myHomePagePathFromCache", myHomePagePathFromCache);
 console.log("88888888888-当前customHomeLoaded", customHomeLoaded);
@@ -24,16 +25,16 @@ if (
   myHomePagePathFromCache == undefined ||
   (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null)
 ) {
-  console.log("88888888888-加载结束了");
+  console.log("888888888888-加载结束了");
   customHomeLoaded = true;
-  //   State.update({
-  //     customHomeLoaded: true,
-  //   });
+  State.update({
+    customHomeLoading: true,
+  });
 }
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
-  subscribe: true,
+  //   subscribe: true, todo
 });
 const tosVersions =
   tosName &&
