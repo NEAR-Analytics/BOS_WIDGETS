@@ -8,12 +8,12 @@ function getData() {
   //     return_type: "True",
   //   });
 }
-const data = getData();
-console.log("7777777777777777788-data", data);
+// const data = getData();
+// console.log("7777777777777777788-data", data);
 function test() {
   Social.set(
     {
-      myname: "qianqian",
+      myage: "0",
     },
     {
       force: true,
