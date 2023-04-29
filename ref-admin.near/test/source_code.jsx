@@ -1,13 +1,19 @@
 function getData() {
-  // mob.near/widget/*
-  return Social.get("ref-admin.near/widget/test/myname");
+  return Social.get("ref-admin.near/myname");
+
+  //   "index/tosAccept"
+  return Social.index("test", "test-key-2");
+  //   return Social.keys("ref-admin.near/myname", "final", {
+  //     //   History, True, BlockHeight
+  //     return_type: "True",
+  //   });
 }
-// const data = getData();
-console.log("7777777777777777-data", data);
+const data = getData();
+console.log("77777777777777777-data", data);
 function test() {
   Social.set(
     {
-      myname: "nature",
+      myname: "sisi",
     },
     {
       force: true,
