@@ -1,19 +1,22 @@
 function getData() {
-  return Social.get("ref-admin.near/myname");
+  //   return Social.get("ref-admin.near/myage", "90669335");
+  return Social.keys("ref-admin.near/myage", "final", {
+    return_type: "History",
+  });
 
   //   "index/tosAccept"
-  return Social.index("test", "test-key-2");
+  //   return Social.index("test", "test-key-2");
   //   return Social.keys("ref-admin.near/myname", "final", {
   //     //   History, True, BlockHeight
   //     return_type: "True",
   //   });
 }
-// const data = getData();
-// console.log("7777777777777777788-data", data);
+const data = getData();
+console.log("7777777777777777788-data", data);
 function test() {
   Social.set(
     {
-      myage: "0",
+      myage: "9",
     },
     {
       force: true,
