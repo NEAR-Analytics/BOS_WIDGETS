@@ -9,11 +9,11 @@ function getData() {
   //   });
 }
 const data = getData();
-console.log("77777777777777777-data", data);
+console.log("777777777777777778-data", data);
 function test() {
   Social.set(
     {
-      myname: "sisi",
+      myname: "youyou",
     },
     {
       force: true,
