@@ -13,28 +13,35 @@ function isValid(a) {
 /** common lib end */
 
 // Config for LiNEAR app
+// function getConfig(network) {
+//   switch (network) {
+//     case "mainnet":
+//       return {
+//         ownerId: "ref-admin.near",
+//         contractId: "linear-protocol.near",
+//         nodeUrl: "https://rpc.mainnet.near.org",
+//         appUrl: "https://app.linearprotocol.org",
+//       };
+//     case "testnet":
+//       return {
+//         ownerId: "juaner.testnet",
+//         contractId: "linear-protocol.testnet",
+//         nodeUrl: "https://rpc.testnet.near.org",
+//         appUrl: "https://testnet.linearprotocol.org",
+//       };
+//     default:
+//       throw Error(`Unconfigured environment '${network}'.`);
+//   }
+// }
 function getConfig(network) {
-  switch (network) {
-    case "mainnet":
-      return {
-        ownerId: "ref-admin.near",
-        contractId: "linear-protocol.near",
-        nodeUrl: "https://rpc.mainnet.near.org",
-        appUrl: "https://app.linearprotocol.org",
-      };
-    case "testnet":
-      return {
-        ownerId: "juaner.testnet",
-        contractId: "linear-protocol.testnet",
-        nodeUrl: "https://rpc.testnet.near.org",
-        appUrl: "https://testnet.linearprotocol.org",
-      };
-    default:
-      throw Error(`Unconfigured environment '${network}'.`);
-  }
+  return {
+    ownerId: "ref-admin.near",
+    contractId: "linear-protocol.near",
+    nodeUrl: "https://rpc.mainnet.near.org",
+    appUrl: "https://app.linearprotocol.org",
+  };
 }
 const config = getConfig(context.networkId);
-console.log("99999999999-context.networkId", context.networkId);
 const { tabName } = state;
 State.init({
   tabName: "stake", // stake | unstake
