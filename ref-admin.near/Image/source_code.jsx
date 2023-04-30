@@ -50,7 +50,11 @@ return image.nft.contractId && image.nft.tokenId ? (
     className={className}
     style={style}
     src={
-      imageSrc || state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))
+      imageSrc
+        ? imageSrc
+        : state.imageUrl
+        ? thumb(state.imageUrl)
+        : thumb(toUrl(image))
     }
     alt={alt}
     onError={() => {
