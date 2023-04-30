@@ -213,7 +213,6 @@ return (
           size: "large",
           showTags: false,
           src,
-          canCustomHome: true,
         }}
       />
     </SummaryWrapper>
