@@ -29,6 +29,7 @@ if (
 ) {
   customHomeLoaded = true;
 }
+console.log("555555555555555-canCustomHome", canCustomHome);
 console.log("555555555555555-myHomePagePath", myHomePagePath);
 console.log(
   "555555555555555-myHomePagePathDataFromCache",
