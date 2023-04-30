@@ -44,6 +44,9 @@ const sizes = {
 };
 
 const Wrapper = styled.div`
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  background-image:url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje");
 `;
 
 const Header = styled.div`
