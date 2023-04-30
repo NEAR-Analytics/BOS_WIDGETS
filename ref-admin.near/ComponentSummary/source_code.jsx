@@ -61,8 +61,10 @@ const sizes = {
 };
 const Wrapper = styled.div`
    background-repeat:no-repeat;
-   background-size:100 100%;
+   background-size: cover;
    background-image:url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje");
+   border-radius:10px;
+   padding: 0 10px 16px 0;
 `;
 
 const Header = styled.div`
@@ -89,7 +91,6 @@ const Actions = styled.div`
   align-items:center;
   justify-content:space-between;
   flex-wrap: wrap;
-  margin-bottom: 16px;
   .actionsDiv{
     display: flex;
     align-items:center;
