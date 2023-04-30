@@ -11,29 +11,7 @@ function isValid(a) {
   return true;
 }
 /** common lib end */
-
-// Config for LiNEAR app
-// function getConfig(network) {
-//   switch (network) {
-//     case "mainnet":
-//       return {
-//         ownerId: "ref-admin.near",
-//         contractId: "linear-protocol.near",
-//         nodeUrl: "https://rpc.mainnet.near.org",
-//         appUrl: "https://app.linearprotocol.org",
-//       };
-//     case "testnet":
-//       return {
-//         ownerId: "juaner.testnet",
-//         contractId: "linear-protocol.testnet",
-//         nodeUrl: "https://rpc.testnet.near.org",
-//         appUrl: "https://testnet.linearprotocol.org",
-//       };
-//     default:
-//       throw Error(`Unconfigured environment '${network}'.`);
-//   }
-// }
-function getConfig(network) {
+function getConfig() {
   return {
     ownerId: "ref-admin.near",
     contractId: "linear-protocol.near",
@@ -48,6 +26,7 @@ State.init({
 });
 
 const Main = styled.div`
+  width:500px;
   position: relative;
 `;
 
