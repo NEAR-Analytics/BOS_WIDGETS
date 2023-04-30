@@ -11,7 +11,7 @@ const { canCustomHome, src } = props;
 const primaryAction = props.primaryAction || "viewDetails";
 let myHomePagePath;
 let myHomePagePathDataFromCache;
-if (canCustomHome) {
+if (canCustomHome || props.primaryAction) {
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
   myHomePagePathDataFromCache = Storage.get("myHomePagePathData");
 }
@@ -27,7 +27,7 @@ console.log(
   myHomePagePathDataFromCache
 );
 if (customHomeLoading) return "";
-const finalSrc = myHomePagePath || src; // src 取url中的没有的话取默认值
+const finalSrc = canCustomHome ? myHomePagePath || src : src; // src 取url中的没有的话取默认值
 const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
 const metadata = data || {};
