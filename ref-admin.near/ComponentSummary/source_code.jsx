@@ -201,7 +201,10 @@ const Text = styled.p`
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
-  const storageDataOld = { src: myHomePagePath, accountId: context.accountId };
+  const storageDataOld = {
+    src: !myHomePagePath ? undefined : myHomePagePath,
+    accountId: context.accountId,
+  };
   const storageDataNew = { src: finalSrc, accountId: context.accountId };
   Storage.set("myHomePagePathData", storageDataNew);
   Social.set(
