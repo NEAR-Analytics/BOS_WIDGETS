@@ -9,19 +9,14 @@ State.init({
 
 const { canCustomHome, src } = props;
 const primaryAction = props.primaryAction || "viewDetails";
-let myHomePagePathData;
-let myHomePagePath = "";
+let myHomePagePath;
 if (canCustomHome) {
-  myHomePagePathData = Social.get(`${context.accountId}/myHomePagePath`);
+  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
 }
-if (myHomePagePathData !== null) {
+if (myHomePagePath !== null) {
   State.update({
     customHomeLoading: false,
   });
-  const { src, accountId } = myHomePagePathData || {};
-  if (accountId == context.accountId) {
-    myHomePagePath = src;
-  }
 }
 if (customHomeLoading) return "";
 const finalSrc = myHomePagePath || src;
