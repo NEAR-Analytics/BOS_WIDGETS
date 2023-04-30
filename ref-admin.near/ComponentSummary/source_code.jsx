@@ -9,14 +9,19 @@ State.init({
 
 const { canCustomHome, src } = props;
 const primaryAction = props.primaryAction || "viewDetails";
-let myHomePagePath;
+let myHomePagePathData;
+let myHomePagePath = "";
 if (canCustomHome) {
-  myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+  myHomePagePathData = Social.get(`${context.accountId}/myHomePagePath`);
 }
-if (myHomePagePath !== null) {
+if (myHomePagePathData !== null) {
   State.update({
     customHomeLoading: false,
   });
+  const { src, accountId } = myHomePagePathData || {};
+  if (accountId == context.accountId) {
+    myHomePagePath = src;
+  }
 }
 if (customHomeLoading) return "";
 const finalSrc = myHomePagePath || src;
@@ -201,10 +206,12 @@ const Text = styled.p`
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
-  Storage.set("myHomePagePath", finalSrc);
+  const storageDataOld = { src: myHomePagePath, accountId: context.accountId };
+  const storageDataNew = { src: finalSrc, accountId: context.accountId };
+  Storage.set("myHomePagePath", storageDataNew);
   Social.set(
     {
-      myHomePagePath: finalSrc,
+      myHomePagePath: storageDataNew,
     },
     {
       force: true,
@@ -213,7 +220,9 @@ function applyHomePage() {
       },
       onCancel: () => {
         State.update({ commitLoading: false });
-        Storage.set("myHomePagePath", myHomePagePath);
+        if (myHomePagePath) {
+          Storage.set("myHomePagePath", storageDataOld);
+        }
       },
     }
   );
