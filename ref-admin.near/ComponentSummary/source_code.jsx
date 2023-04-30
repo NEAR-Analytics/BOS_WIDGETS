@@ -62,7 +62,11 @@ const sizes = {
 const Wrapper = styled.div`
    background-repeat:no-repeat;
    background-size: cover;
-   background-image:url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje");
+   background-image:${() => {
+     return props.primaryAction
+       ? 'url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje")'
+       : "none";
+   }};
    border-radius:10px;
    padding: 0 10px 16px 0;
 `;
