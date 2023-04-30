@@ -10,16 +10,18 @@ State.init({
 const { canCustomHome, src } = props;
 const primaryAction = props.primaryAction || "viewDetails";
 let myHomePagePath;
+let myHomePagePathDataFromCache;
 if (canCustomHome) {
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+  myHomePagePathDataFromCache = Storage.get("myHomePagePathData");
 }
-if (myHomePagePath !== null) {
+if (myHomePagePath !== null && myHomePagePathDataFromCache !== null) {
   State.update({
     customHomeLoading: false,
   });
 }
 if (customHomeLoading) return "";
-const finalSrc = myHomePagePath || src;
+const finalSrc = myHomePagePath || src; // src 取url中的没有的话取默认值
 const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
 const metadata = data || {};
@@ -201,11 +203,18 @@ const Text = styled.p`
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
-  const storageDataOld = {
-    src: !myHomePagePath ? undefined : myHomePagePath,
-    accountId: context.accountId,
+  const storageDataOld = myHomePagePathDataFromCache || {};
+  let storageDataOldCopy;
+  try {
+    storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld));
+  } catch (error) {
+    storageDataOldCopy = {};
+  }
+  const storageDataNew = {
+    ...storageDataOldCopy,
+    [context.accountId]: finalSrc,
   };
-  const storageDataNew = { src: finalSrc, accountId: context.accountId };
+
   Storage.set("myHomePagePathData", storageDataNew);
   Social.set(
     {
@@ -218,7 +227,7 @@ function applyHomePage() {
       },
       onCancel: () => {
         State.update({ commitLoading: false });
-        Storage.set("myHomePagePathData", storageDataOld);
+        Storage.set("myHomePagePathData", storageDataOldCopy);
       },
     }
   );
