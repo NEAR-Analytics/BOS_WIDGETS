@@ -22,6 +22,7 @@ if (canCustomHome) {
 }
 if (
   myHomePagePathDataFromCache == undefined ||
+  myHomePagePath == undefined ||
   (myHomePagePath == myHomePagePathFromCache &&
     myHomePagePath !== null &&
     myHomePagePathDataFromCache !== null)
