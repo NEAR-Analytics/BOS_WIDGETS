@@ -208,10 +208,10 @@ function applyHomePage() {
   try {
     storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld));
   } catch (error) {
-    storageDataOldCopy = undefined;
+    storageDataOldCopy = {};
   }
   const storageDataNew = {
-    ...(storageDataOldCopy || {}),
+    ...storageDataOldCopy,
     [context.accountId]: finalSrc,
   };
 
