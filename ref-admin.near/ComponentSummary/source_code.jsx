@@ -204,12 +204,14 @@ function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
   const storageDataOld = myHomePagePathDataFromCache;
+  console.log("666666666666-storageDataOld", storageDataOld);
   let storageDataOldCopy;
   try {
     storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld)) || {};
   } catch (error) {
     storageDataOldCopy = {};
   }
+  console.log("666666666666-storageDataOldCopy", storageDataOldCopy);
   const storageDataNew = {
     ...storageDataOldCopy,
     [context.accountId]: finalSrc,
