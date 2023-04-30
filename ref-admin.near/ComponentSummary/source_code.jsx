@@ -60,6 +60,9 @@ const sizes = {
   },
 };
 const Wrapper = styled.div`
+   background-repeat:no-repeat;
+   background-size:100 100%;
+   background-image:url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje");
 `;
 
 const Header = styled.div`
