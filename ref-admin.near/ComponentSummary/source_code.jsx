@@ -20,6 +20,7 @@ if (myHomePagePath !== null && myHomePagePathDataFromCache !== null) {
     customHomeLoading: false,
   });
 }
+console.log("66666666666666-canCustomHome", canCustomHome);
 console.log("66666666666666-myHomePagePath", myHomePagePath);
 console.log(
   "66666666666666-myHomePagePathDataFromCache",
