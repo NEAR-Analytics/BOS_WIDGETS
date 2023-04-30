@@ -20,6 +20,11 @@ if (myHomePagePath !== null && myHomePagePathDataFromCache !== null) {
     customHomeLoading: false,
   });
 }
+console.log("66666666666666-myHomePagePath", myHomePagePath);
+console.log(
+  "66666666666666-myHomePagePathDataFromCache",
+  myHomePagePathDataFromCache
+);
 if (customHomeLoading) return "";
 const finalSrc = myHomePagePath || src; // src 取url中的没有的话取默认值
 const [accountId, widget, widgetName] = finalSrc.split("/");
