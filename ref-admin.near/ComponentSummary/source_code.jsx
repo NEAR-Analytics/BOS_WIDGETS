@@ -201,6 +201,7 @@ const Text = styled.p`
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
+  Storage.set("myHomePagePath", finalSrc);
   Social.set(
     {
       myHomePagePath: finalSrc,
@@ -209,10 +210,10 @@ function applyHomePage() {
       force: true,
       onCommit: () => {
         State.update({ commitLoading: false });
-        Storage.set("myHomePagePath", finalSrc);
       },
       onCancel: () => {
         State.update({ commitLoading: false });
+        Storage.set("myHomePagePath", myHomePagePath);
       },
     }
   );
