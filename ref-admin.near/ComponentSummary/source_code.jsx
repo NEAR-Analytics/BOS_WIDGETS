@@ -203,15 +203,15 @@ const Text = styled.p`
 function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
-  const storageDataOld = myHomePagePathDataFromCache || {};
+  const storageDataOld = myHomePagePathDataFromCache;
   let storageDataOldCopy;
   try {
     storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld));
   } catch (error) {
-    storageDataOldCopy = {};
+    storageDataOldCopy = undefined;
   }
   const storageDataNew = {
-    ...storageDataOldCopy,
+    ...(storageDataOldCopy || {}),
     [context.accountId]: finalSrc,
   };
 
