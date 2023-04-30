@@ -204,9 +204,9 @@ function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
   const storageDataOld = myHomePagePathDataFromCache;
-  let storageDataOldCopy = {};
+  let storageDataOldCopy;
   try {
-    storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld));
+    storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld)) || {};
   } catch (error) {
     storageDataOldCopy = {};
   }
