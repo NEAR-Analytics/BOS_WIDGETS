@@ -8,22 +8,29 @@ State.init({
 });
 let myHomePagePath;
 let myHomePagePathFromCache;
+let myHomePagePathDataFromCache;
 let customHomeLoaded;
 if (canCustomHome) {
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
-  myHomePagePathFromCache = Storage.get(
-    "myHomePagePath",
+  myHomePagePathDataFromCache = Storage.get(
+    "myHomePagePathData",
     "ref-admin.near/widget/ComponentSummary"
   );
+  myHomePagePathFromCache =
+    myHomePagePathDataFromCache && myHomePagePathDataFromCache.src;
 }
 if (
-  myHomePagePathFromCache == undefined ||
+  myHomePagePathDataFromCache == undefined ||
   (myHomePagePath === myHomePagePathFromCache && myHomePagePath !== null)
 ) {
   customHomeLoaded = true;
 }
 console.log("555555555555555-canCustomHome", canCustomHome);
 console.log("555555555555555-myHomePagePath", myHomePagePath);
+console.log(
+  "555555555555555-myHomePagePathDataFromCache",
+  myHomePagePathDataFromCache
+);
 console.log("555555555555555-myHomePagePathFromCache", myHomePagePathFromCache);
 console.log("555555555555555-customHomeLoaded", customHomeLoaded);
 // find all instances of the user agreeing to some version of the desired TOS
