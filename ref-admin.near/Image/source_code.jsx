@@ -1,4 +1,5 @@
 const image = props.image;
+const imageSrc = props.imageSrc;
 const className = props.className;
 const style = props.style;
 const alt = props.alt;
@@ -45,7 +46,9 @@ return image.nft.contractId && image.nft.tokenId ? (
   <img
     className={className}
     style={style}
-    src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+    src={
+      imageSrc || state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))
+    }
     alt={alt}
     onError={() => {
       if (state.imageUrl !== fallbackUrl) {
