@@ -211,7 +211,7 @@ function applyHomePage() {
   Storage.set("myHomePagePath", storageDataNew);
   Social.set(
     {
-      myHomePagePath: storageDataNew,
+      myHomePagePath: finalSrc,
     },
     {
       force: true,
