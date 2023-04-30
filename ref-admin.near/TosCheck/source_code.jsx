@@ -29,7 +29,6 @@ if (
 ) {
   customHomeLoaded = true;
 }
-console.log("555555555555555-canCustomHome", canCustomHome);
 console.log("555555555555555-myHomePagePath", myHomePagePath);
 console.log(
   "555555555555555-myHomePagePathDataFromCache",
@@ -37,10 +36,6 @@ console.log(
 );
 console.log("555555555555555-myHomePagePathFromCache", myHomePagePathFromCache);
 console.log("555555555555555-customHomeLoaded", customHomeLoaded);
-console.log(
-  "555555555555555-myHomePagePath == myHomePagePathFromCache",
-  myHomePagePath == myHomePagePathFromCache
-);
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
