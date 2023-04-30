@@ -203,7 +203,7 @@ function applyHomePage() {
   State.update({ commitLoading: true });
   const storageDataOld = { src: myHomePagePath, accountId: context.accountId };
   const storageDataNew = { src: finalSrc, accountId: context.accountId };
-  Storage.set("myHomePagePath", storageDataNew);
+  Storage.set("myHomePagePathData", storageDataNew);
   Social.set(
     {
       myHomePagePath: finalSrc,
@@ -215,9 +215,7 @@ function applyHomePage() {
       },
       onCancel: () => {
         State.update({ commitLoading: false });
-        if (myHomePagePath) {
-          Storage.set("myHomePagePath", storageDataOld);
-        }
+        Storage.set("myHomePagePathData", storageDataOld);
       },
     }
   );
