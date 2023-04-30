@@ -21,7 +21,7 @@ if (canCustomHome) {
     myHomePagePathDataFromCache[context.accountId];
 }
 if (
-  myHomePagePathDataFromCache == undefined ||
+  myHomePagePathFromCache == undefined ||
   myHomePagePath == undefined ||
   (myHomePagePath == myHomePagePathFromCache &&
     myHomePagePath !== null &&
