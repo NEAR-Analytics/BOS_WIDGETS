@@ -1,5 +1,5 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
-console.log("VOTEXPIRED", voteExpired);
+
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
   const h = Math.floor((seconds - d * 24 * 3600) / 3600);
@@ -221,9 +221,16 @@ let TimeLeft = styled.span`
 
 const getTimeLeft = (proposal) => {
   if (proposal.status === "InProgress") {
-    return `${formatCountdown(
-      (Date.now() - new Date(proposal.submission_time)) / 1000
-    )}  left`;
+    const isTechnicallyExpired =
+      Math.floor(proposal.submission_time / 1000 / (24 * 3600)) >=
+      Math.floor(voteExpired / 1000 / (24 * 3600));
+    if (!isTechnicallyExpired) {
+      return `${formatCountdown(
+        (Date.now() - new Date(proposal.submission_time)) / 1000
+      )}  left`;
+    } else {
+      return "Time for vote expired.";
+    }
   }
   return "";
 };
