@@ -167,6 +167,10 @@ state.proposals.forEach((proposal) => {
                 (r) => r.name === "Council" || r.name === "council"
               ).kind;
             })[0],
+        voteExpired:
+          state.policy &&
+          state.policy.filter((pol) => pol.dao_id === proposal.dao_id)[0].state
+            .policy.proposal_period,
       }}
     />
   );
