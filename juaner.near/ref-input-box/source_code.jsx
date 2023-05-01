@@ -142,7 +142,7 @@ return (
       <input
         class="normalInput"
         type="number"
-        value={amount || 0}
+        value={Big(amount || 0).toFixed()}
         onChange={changeAmount}
       />
       <span class="maxButton" onClick={changeToMax}>
