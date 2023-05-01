@@ -14,7 +14,7 @@ if (canCustomHome) {
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
   myHomePagePathDataFromCache = Storage.get(
     "myHomePagePathData",
-    "ref-admin.near/widget/ComponentSummary"
+    "ref-admin.near/widget/apply-as-home-button"
   );
   myHomePagePathFromCache =
     myHomePagePathDataFromCache &&
