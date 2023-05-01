@@ -64,7 +64,7 @@ const toUsd = (balance, asset) =>
 
 // transform tolen balance from big number decimal to number
 const shrinkToken = (value, decimals, fixed) => {
-  return new Big(value).div(new Big(10).pow(decimals)).toFixed(fixed);
+  return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
 };
 // get all assets, metadata and pricing from burrow contracts
 function getAssets() {
@@ -237,7 +237,7 @@ const getRewards = (assets, account) => {
         if (!totalSupplyUsd) return 0;
         return (
           new Big(reward.reward_per_day)
-            .div(new Big(10).pow(decimals))
+            .div(new Big(10).pow(decimals || 0))
             .mul(365)
             .mul(price)
             .div(totalSupplyUsd)
@@ -268,7 +268,7 @@ const getRewards = (assets, account) => {
 
         return (
           new Big(reward.reward_per_day)
-            .div(new Big(10).pow(decimals))
+            .div(new Big(10).pow(decimals || 0))
             .mul(365)
             .mul(price)
             .div(totalBorrowUsd)
@@ -315,10 +315,6 @@ const balances = getBalances(assets);
 const account = getAccount();
 const rewards = getRewards(assets, account);
 if (!rewards) return <div />;
-
-console.log("1111111111-rewards", rewards);
-console.log("1111111111-assets", assets);
-console.log("1111111111-account", account);
 const data = {
   assets,
   rewards,
