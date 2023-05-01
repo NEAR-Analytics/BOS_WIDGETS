@@ -7,7 +7,7 @@ State.init({
   customHomeLoading: canCustomHome ? true : false,
 });
 
-const { canCustomHome, src } = props;
+const { canCustomHome, src, mode } = props;
 const primaryAction = props.primaryAction || "viewDetails";
 let myHomePagePath;
 let myHomePagePathDataFromCache;
@@ -20,12 +20,12 @@ if (myHomePagePath !== null && myHomePagePathDataFromCache !== null) {
     customHomeLoading: false,
   });
 }
-console.log("66666666666666-canCustomHome", canCustomHome);
-console.log("66666666666666-myHomePagePath", myHomePagePath);
-console.log(
-  "66666666666666-myHomePagePathDataFromCache",
-  myHomePagePathDataFromCache
-);
+// console.log("66666666666666-canCustomHome", canCustomHome);
+// console.log("66666666666666-myHomePagePath", myHomePagePath);
+// console.log(
+//   "66666666666666-myHomePagePathDataFromCache",
+//   myHomePagePathDataFromCache
+// );
 if (customHomeLoading) return "";
 const finalSrc = canCustomHome ? myHomePagePath || src : src; // src 取url中的没有的话取默认值
 const [accountId, widget, widgetName] = finalSrc.split("/");
@@ -96,7 +96,7 @@ const Actions = styled.div`
   justify-content:space-between;
   flex-wrap: wrap;
   .actionsDiv{
-    display: flex;
+    display: ${props.mode == "user" ? "none" : "flex"};
     align-items:center;
     gap:12px;
   }
@@ -218,14 +218,14 @@ function applyHomePage() {
   if (commitLoading) return;
   State.update({ commitLoading: true });
   const storageDataOld = myHomePagePathDataFromCache;
-  console.log("666666666666-storageDataOld", storageDataOld);
+  // console.log("666666666666-storageDataOld", storageDataOld);
   let storageDataOldCopy;
   try {
     storageDataOldCopy = JSON.parse(JSON.stringify(storageDataOld)) || {};
   } catch (error) {
     storageDataOldCopy = {};
   }
-  console.log("666666666666-storageDataOldCopy", storageDataOldCopy);
+  // console.log("666666666666-storageDataOldCopy", storageDataOldCopy);
   const storageDataNew = {
     ...storageDataOldCopy,
     [context.accountId]: finalSrc,
@@ -290,9 +290,10 @@ return (
 
       <div>
         <Title size={size}>{metadata.name || widgetName}</Title>
-        <Text ellipsis>{finalSrc}</Text>
+        {props.mode == "user" ? <Text ellipsis>{finalSrc}</Text> : null}
       </div>
     </Header>
+
     {props.showTags && tags.length > 0 && (
       <TagsWrapper>
         <Widget
@@ -310,7 +311,7 @@ return (
         </ButtonLink>
 
         <ButtonLink href={`/#/edit/${finalSrc}`}>
-          {context.accountId === accountId && current_mode == "builder" ? (
+          {context.accountId === accountId ? (
             <>
               <i className="bi bi-pencil-fill"></i> Edit
             </>
