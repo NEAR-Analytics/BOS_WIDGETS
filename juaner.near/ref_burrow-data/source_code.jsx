@@ -36,6 +36,7 @@ function getNetTvlRewards(assets, account) {
   const hasNetTvlFarm = !!Object.entries(netLiquidityFarm.rewards).length;
   if (!hasNetTvlFarm) return [];
   const netTvl = account.farms.find((farm) => farm.farm_id == "NetTvl");
+  if (!netTvl.rewards) return [];
   return netTvl.rewards.map((reward) => {
     const { asset_farm_reward, boosted_shares, reward_token_id } = reward;
     const asset = assets.find((asset) => asset.token_id == reward_token_id);
