@@ -93,7 +93,7 @@ const TagsWrapper = styled.div`
 const Actions = styled.div`
   display: flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:${props.mode == "user" ? "flex-end" : "space-between"};
   flex-wrap: wrap;
   .actionsDiv{
     display: ${props.mode == "user" ? "none" : "flex"};
