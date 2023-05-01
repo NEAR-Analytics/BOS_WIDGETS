@@ -275,7 +275,7 @@ const handleDeposit = () => {
   if (!selectedTokenId || !amount || hasError) return;
   const amountValue = isMax ? vailableBalance : amount;
   if (selectedTokenId === "wrap.near") {
-    handleDepositNear(balance);
+    handleDepositNear(amountValue);
     return;
   }
   const asset = assets.find((a) => a.token_id === selectedTokenId);
