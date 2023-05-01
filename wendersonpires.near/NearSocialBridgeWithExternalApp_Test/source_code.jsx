@@ -108,15 +108,24 @@ State.init({
   iframeHeight: initialIframeHeight,
   // (i) DON'T send async data, it's going to randonly fail
   // If you need to get new info, use "request" for that
-  currentMessage: {
-    type: "connect-view",
-    externalAppUrl,
-    userInfo,
-    initialPath,
-    initialPayload,
-    initialIframeHeight,
-  },
+  currentMessage: null,
 });
+
+const onLoad = () => {
+  console.log("onLoad()");
+  State.update({
+    // (i) DON'T send async data, it's going to randonly fail
+    // If you need to get new info, use "request" for that
+    currentMessage: {
+      type: "connect-view",
+      externalAppUrl,
+      userInfo,
+      initialPath,
+      initialPayload,
+      initialIframeHeight,
+    },
+  });
+};
 
 // Answer Factory
 const buildAnswer = (requestType, payload) => {
@@ -264,6 +273,7 @@ return (
       srcDoc={code}
       message={state.currentMessage}
       onMessage={onMessageHandler}
+      onLoad={onLoad}
     />
   </div>
 );
