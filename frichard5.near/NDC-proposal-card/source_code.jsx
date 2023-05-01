@@ -1,5 +1,5 @@
-const { proposal, council, ftList, widgetProvider } = props;
-
+const { proposal, council, ftList, widgetProvider, voteExpired } = props;
+console.log("VOTEXPIRED", voteExpired);
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
   const h = Math.floor((seconds - d * 24 * 3600) / 3600);
