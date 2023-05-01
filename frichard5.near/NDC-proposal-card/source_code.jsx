@@ -221,15 +221,14 @@ let TimeLeft = styled.span`
 
 const getTimeLeft = (proposal) => {
   if (proposal.status === "InProgress") {
-    console.log(Math.floor(proposal.submission_time / 1000 / (24 * 3600)));
+    const timeLeft = (Date.now() - new Date(proposal.submission_time)) / 1000;
+    console.log(timeLeft / (24 * 3600));
     console.log(Math.floor(voteExpired / Math.pow(10, 9) / (24 * 3600)));
     const isTechnicallyExpired =
       Math.floor(proposal.submission_time / 1000 / (24 * 3600)) >=
       Math.floor(voteExpired / Math.pow(10, 9) / (24 * 3600));
     if (!isTechnicallyExpired) {
-      return `${formatCountdown(
-        (Date.now() - new Date(proposal.submission_time)) / 1000
-      )}  left`;
+      return `${formatCountdown(timeLeft)}  left`;
     } else {
       return "Time for vote expired.";
     }
