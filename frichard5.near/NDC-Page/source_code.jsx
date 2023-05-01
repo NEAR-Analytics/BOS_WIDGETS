@@ -8,6 +8,7 @@ const theme = {
   secondaryPink: "#F29BC0",
   secondaryBlue: "#4498E0",
 };
+console.log(props);
 
 //    background: ${(props) => props.theme.secondaryBlue};
 
