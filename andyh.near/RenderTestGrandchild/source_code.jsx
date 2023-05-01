@@ -1,7 +1,7 @@
 State.init({ i: 0 });
 return (
   <div>
-    I am a grandchild!! I am {state.i} yaars old
+    I am a grandchild!! I am {state.i} yars old
     <button
       onClick={() => {
         console.log("updating state " + state.i);
