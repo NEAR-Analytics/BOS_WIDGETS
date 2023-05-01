@@ -176,51 +176,66 @@ const SwapContainer = styled.div`
   top: 8%
 
 `;
+const SummaryWrapper = styled.div`
+  margin-bottom: 50px;
+`;
 // svg icon end
 return (
-  <Container>
-    <MenuContainer>
-      <div
-        onClick={() => {
-          changeTab("lending");
+  <>
+    <SummaryWrapper>
+      <Widget
+        src="ref-admin.near/widget/ComponentBanner"
+        props={{
+          size: "large",
+          src: "juaner.near/widget/ref-home",
         }}
-        class={`item ${activeMenu == "lending" ? "active" : ""}`}
-      >
-        <span class="icon">{lendingIcon}</span>
-        Lending
+      />
+    </SummaryWrapper>
+    <Container>
+      <MenuContainer>
+        <div
+          onClick={() => {
+            changeTab("lending");
+          }}
+          class={`item ${activeMenu == "lending" ? "active" : ""}`}
+        >
+          <span class="icon">{lendingIcon}</span>
+          Lending
+        </div>
+        <div
+          onClick={() => {
+            changeTab("swap");
+          }}
+          class={`item ${activeMenu == "swap" ? "active" : ""}`}
+        >
+          <span class="icon">{swapIcon}</span>
+          Swap
+        </div>
+        <div class="item disable" id="market">
+          <span class="icon">{marketIcon}</span>
+          Markets
+        </div>
+        <div class="item disable">
+          <span class="icon">{vaultIcon}</span>
+          Vaults
+        </div>
+        <div class="item disable">
+          <span class="icon">{historyIcon}</span>
+          History
+        </div>
+      </MenuContainer>
+      <div class="splitLine"></div>
+      <div class="flex-grow contentOut">
+        {activeMenu == "lending" ? (
+          <Widget src="juaner.near/widget/ref-lending" />
+        ) : null}
+        {activeMenu == "swap" ? (
+          <SwapContainer>
+            <Widget src="weige.near/widget/ref-swap" />
+          </SwapContainer>
+        ) : null}
       </div>
-      <div
-        onClick={() => {
-          changeTab("swap");
-        }}
-        class={`item ${activeMenu == "swap" ? "active" : ""}`}
-      >
-        <span class="icon">{swapIcon}</span>
-        Swap
-      </div>
-      <div class="item disable" id="market">
-        <span class="icon">{marketIcon}</span>
-        Markets
-      </div>
-      <div class="item disable">
-        <span class="icon">{vaultIcon}</span>
-        Vaults
-      </div>
-      <div class="item disable">
-        <span class="icon">{historyIcon}</span>
-        History
-      </div>
-    </MenuContainer>
-    <div class="splitLine"></div>
-    <div class="flex-grow contentOut">
-      {activeMenu == "lending" ? (
-        <Widget src="juaner.near/widget/ref-lending" />
-      ) : null}
-      {activeMenu == "swap" ? (
-        <SwapContainer>
-          <Widget src="weige.near/widget/ref-swap" />
-        </SwapContainer>
-      ) : null}
-    </div>
-  </Container>
+    </Container>
+    );
+  </>
 );
