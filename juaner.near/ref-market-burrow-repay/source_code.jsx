@@ -261,7 +261,7 @@ const recomputeHealthFactor = (tokenId, amount) => {
     apr: "0",
   };
   if (clonedAccount?.borrowed.length === 0) {
-    clonedAccount.borrowed = updatedToken;
+    clonedAccount.borrowed = [updatedToken];
   } else if (!accountBorrowedAsset) {
     clonedAccount.borrowed.push(updatedToken);
   } else {
