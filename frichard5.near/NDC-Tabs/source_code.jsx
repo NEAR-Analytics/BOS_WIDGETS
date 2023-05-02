@@ -43,7 +43,10 @@ tabs.forEach((tab) => {
       onClick={tabSelect(tab.value)}
       selected={tab.value === state.selectedTab}
     >
-      <a href={`#/${widgetProvider}/widget/NDC-Page?tab=${tab.value}`}>
+      <a
+        href={`#/${widgetProvider}/widget/NDC-Page?tab=${tab.value}`}
+        style={{ color: "black" }}
+      >
         {tab.label}
       </a>
     </TabButton>
