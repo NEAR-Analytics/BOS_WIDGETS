@@ -10,6 +10,7 @@ return (
     >
       k + 1
     </button>
+    <br />
     <button onClick={() => props.incrementparent()}>j + 1</button>
   </div>
 );
