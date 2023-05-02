@@ -1,3 +1,4 @@
+const widgetProvider = props.widgetProvider;
 const tabs = props.tabs || [
   {
     value: "tab1",
