@@ -12,7 +12,11 @@ return (
     </button>
     <Widget
       src="andyh.near/widget/RenderTestGrandchild"
-      props={{ i: props.i, j: state.j }}
+      props={{
+        i: props.i,
+        j: state.j,
+        incrementParent: () => State.update({ j: state.j + 1 }),
+      }}
     />
   </div>
 );
