@@ -44,7 +44,7 @@ function getHealthFactor() {
     .div(B(adjustedBorrowedSum))
     .mul(100)
     .toFixed(0);
-  return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO + "%";
+  return (Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO) + "%";
 }
 const adjustedCollateralSum = getAdjustedSum("collateral", account);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
@@ -58,6 +58,6 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    {healthFactor || "-"}
+    {healthFactor}
   </div>
 );
