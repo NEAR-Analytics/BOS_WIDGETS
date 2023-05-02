@@ -146,7 +146,7 @@ function displayAmount() {
     // 整数
     result = v.replace(/^[0]+/, "");
   }
-  return result;
+  return result || 0
 }
 return (
   <Container>
@@ -154,7 +154,7 @@ return (
       <input
         class="normalInput"
         type="number"
-        value={displayAmount()}
+        value={}
         onChange={changeAmount}
       />
       <span class="maxButton" onClick={changeToMax}>
