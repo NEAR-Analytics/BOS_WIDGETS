@@ -136,13 +136,25 @@ function changeToMax() {
 const rangeAmount =
   Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
 const bgLineWidth = rangeAmount + "%";
+function displayAmount() {
+  let result;
+  let v = (amount || 0).toString();
+  if (v.indexOf(".") > -1) {
+    // 小数
+    result = v.replace(/^0+\./g, "0.");
+  } else {
+    // 整数
+    result = v.replace(/^[0]+/, "");
+  }
+  return result;
+}
 return (
   <Container>
     <div class="inputArea">
       <input
         class="normalInput"
         type="number"
-        value={Big(amount || 0).toFixed()}
+        value={displayAmount()}
         onChange={changeAmount}
       />
       <span class="maxButton" onClick={changeToMax}>
