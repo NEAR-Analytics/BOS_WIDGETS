@@ -1,3 +1,4 @@
+State.init({ i: 0 });
 return (
   <div>
     I am a child! I am {state.i} yars older
