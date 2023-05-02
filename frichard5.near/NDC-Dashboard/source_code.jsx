@@ -145,6 +145,7 @@ const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
     props={{
+      widgetProvider,
       tabs: [
         {
           value: "overview",
