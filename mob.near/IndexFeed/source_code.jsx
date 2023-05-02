@@ -1,4 +1,4 @@
-const index = props.index;
+const index = JSON.parse(JSON.stringify(props.index));
 if (!index) {
   return "props.index is not defined";
 }
