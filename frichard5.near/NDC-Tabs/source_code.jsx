@@ -13,7 +13,6 @@ State.init({
 });
 
 const tabSelect = (selectedTab) => {
-  props.tab = selectedTab;
   return () => {
     State.update({ selectedTab });
   };
@@ -43,7 +42,9 @@ tabs.forEach((tab) => {
       onClick={tabSelect(tab.value)}
       selected={tab.value === state.selectedTab}
     >
-      {tab.label}
+      <a href={`#/${widgetProvider}/widget/NDC-Page?tab=${tab.value}`}>
+        {tab.label}
+      </a>
     </TabButton>
   );
 });
