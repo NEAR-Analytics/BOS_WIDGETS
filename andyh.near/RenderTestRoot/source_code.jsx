@@ -2,6 +2,7 @@ State.init({ i: 0 });
 return (
   <div>
     root: {state.i}
+    <br />
     <button
       onClick={() => {
         State.update({ i: state.i + 1 });
