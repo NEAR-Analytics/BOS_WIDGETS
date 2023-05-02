@@ -7,7 +7,7 @@ const tabs = props.tabs || [
   },
   { value: "tab2", label: "time", components: <>time content</> },
 ];
-
+console.log("tabss", tabs);
 State.init({
   selectedTab: tabs.find((t) => t.selected).value || tabs[0].value,
 });
