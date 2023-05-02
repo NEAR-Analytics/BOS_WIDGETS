@@ -5,7 +5,7 @@ const page = accountId
   : undefined;
 
 if (page === null) {
-  return "Loading";
+  return "Loading...";
 }
 
 return <Widget src={page ?? "hack.near/widget/DAO.Profile"} props={props} />;
