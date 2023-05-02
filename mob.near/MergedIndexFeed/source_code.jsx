@@ -1,7 +1,9 @@
 if (!props.index) {
   return "props.index is not defined";
 }
-const indices = Array.isArray(props.index) ? props.index : [props.index];
+const indices = JSON.parse(
+  JSON.stringify(Array.isArray(props.index) ? props.index : [props.index])
+);
 
 const filter = props.filter;
 
