@@ -2,7 +2,7 @@
 const widgetProvider = props.widgetProvider;
 const refUrl = "https://api.stats.ref.finance/api/ft";
 const tab = props.tab || "overview";
-console.log("PROPS", props);
+
 // Initial state
 State.init({
   selectedDao: "marketing.sputnik-dao.near",
