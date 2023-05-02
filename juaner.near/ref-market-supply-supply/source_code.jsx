@@ -163,6 +163,7 @@ const {
   wnearbase64,
   closeButtonBase64,
   isMax,
+  storageBurrow,
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0;
 if (!showModal) {
@@ -225,10 +226,6 @@ if (selectedTokenId && assets) {
     .mul(vailableBalance || 0)
     .toFixed(2);
 }
-const storageBurrow = Near.view(BURROW_CONTRACT, "storage_balance_of", {
-  account_id: accountId,
-});
-
 const storageToken = selectedTokenId
   ? Near.view(selectedTokenId, "storage_balance_of", {
       account_id: accountId,
