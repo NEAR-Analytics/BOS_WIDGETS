@@ -252,7 +252,7 @@ const recomputeHealthFactor = (tokenId, amount) => {
   };
 
   if (clonedAccount?.collateral.length === 0) {
-    clonedAccount.collateral = updatedToken;
+    clonedAccount.collateral = [updatedToken];
   } else if (!accountCollateralAsset) {
     clonedAccount.collateral.push(updatedToken);
   } else {
