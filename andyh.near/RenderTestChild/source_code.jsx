@@ -10,6 +10,9 @@ return (
     >
       age me
     </button>
-    <Widget src="andyh.near/widget/RenderTestGrandchild" />
+    <Widget
+      src="andyh.near/widget/RenderTestGrandchild"
+      props={{ age: state.i }}
+    />
   </div>
 );
