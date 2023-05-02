@@ -15,7 +15,7 @@ return (
       props={{
         i: props.i,
         j: state.j,
-        incrementParent: () => State.update({ j: state.j + 1 }),
+        incrementparent: () => State.update({ j: state.j + 1 }),
       }}
     />
   </div>
