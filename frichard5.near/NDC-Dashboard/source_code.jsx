@@ -186,6 +186,7 @@ const Tabs = (
             <WidgetsContainer>
               {VoteHistory}
               {VotersByProposal}
+              {TransfersByAccount}
             </WidgetsContainer>
           ),
         },
