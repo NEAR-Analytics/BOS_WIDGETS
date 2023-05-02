@@ -1,14 +1,6 @@
 const social = {
   data: [
     {
-      key: 0,
-      name: "Bos.gg",
-      url: "https://bos.gg",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
-      description: "Decentralized front ends for evm chains",
-    },
-    {
       key: 1,
       name: "NEAR Social",
       url: "https://near.social",
@@ -18,8 +10,8 @@ const social = {
     },
     {
       key: 2,
-      name: "NEAR Discovery",
-      url: "https://alpha.near.org",
+      name: "NEAR",
+      url: "https://near.org",
       image:
         "https://ipfs.near.social/ipfs/bafkreifv5wmqng43g3la2mgwenyhcuzp6g5grnp4ucrwqaciz2ibpqfdgi",
       description:
@@ -42,6 +34,15 @@ const social = {
       description: "A viewer for NEAR Analytics",
     },
     {
+      key: 7,
+      name: "Welldone Gateway",
+      url: "https://welldone-gateway.vercel.app/",
+      image:
+        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
+      description:
+        "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
+    },
+    {
       key: 3,
       name: "Cantopia",
       url: "https://bos-viewer.pages.dev/",
@@ -49,6 +50,14 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreifqzppapwceuwvecotf4uczonrc7gtvjqlmlxpy2hdo4hau3m6svm",
       description:
         "An example viewer of the Canto's blockchain, CantoSwap viewer",
+    },
+    {
+      key: 0,
+      name: "Bos.gg",
+      url: "https://bos.gg",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
+      description: "Decentralized front ends for evm chains",
     },
     {
       key: 6,
@@ -59,7 +68,7 @@ const social = {
       description: "A gateway dedicated to NFTs on NEAR",
     },
     {
-      key: 7,
+      key: 8,
       name: "Everything",
       url: "https://everything.dev/#/",
       image:
