@@ -6,7 +6,6 @@ console.log("TAB", tab === "proposals");
 // Initial state
 State.init({
   selectedDao: "marketing.sputnik-dao.near",
-  selectedTab: "money",
 });
 
 const WidgetsContainer = styled.div`
@@ -151,7 +150,6 @@ const Tabs = (
           value: "overview",
           label: "Overview",
           selected: tabs === "overview",
-          //selected: state.selectedTab === "metrics",
           components: (
             <WidgetsContainer>
               {ProposalsByMonth}
