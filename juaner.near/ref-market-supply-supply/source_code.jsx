@@ -16,9 +16,6 @@ const Container = styled.div`
     .mt_25{
       margin-top:25px;
     }
-    .mt-10{
-      margin-top:10px;
-    }
     .greenButton{
       display:flex;
       align-items:center;
@@ -126,27 +123,6 @@ const Modal = styled.div`
     }
     .modal-body {
         padding:0 16px;
-    }
-    .modal-body .tab{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:30px;
-    }
-    .modal-body .tab span{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:50%;
-      height:40px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 18px;
-      cursor:pointer;
-      color:#fff;
-    }
-    .modal-body .tab span.active{
-      background: #304352;
     }
    .btn-close-custom{
       position:absolute;
@@ -356,7 +332,7 @@ const handleDepositNear = (amount) => {
   ]);
 };
 function getAdjustedSum(type, burrowAccount) {
-  if (!assets || !burrowAccount || burrowAccount[type].length == 0) return B(1);
+  if (!assets || !burrowAccount || burrowAccount[type].length == 0) return 0;
   return burrowAccount[type]
     .map((assetInAccount) => {
       const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
@@ -386,6 +362,7 @@ const adjustedCollateralSum = getAdjustedSum("collateral", burrowAccount);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", burrowAccount);
 
 function getHealthFactor() {
+  if (Big(adjustedBorrowedSum).eq(0)) return 10000;
   const healthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
@@ -438,11 +415,15 @@ const recomputeHealthFactor = (tokenId, amount) => {
     amount === 0 ? burrowAccount : clonedAccount
   );
   const adjustedBorrowedSum = getAdjustedSum("borrowed", burrowAccount);
-
-  const newHealthFactor = B(adjustedCollateralSum)
-    .div(B(adjustedBorrowedSum))
-    .mul(100)
-    .toFixed(0);
+  let newHealthFactor;
+  if (Big(adjustedBorrowedSum).eq(0)) {
+    newHealthFactor = 10000;
+  } else {
+    newHealthFactor = B(adjustedCollateralSum)
+      .div(B(adjustedBorrowedSum))
+      .mul(100)
+      .toFixed(0);
+  }
 
   return Number(newHealthFactor) < MAX_RATIO ? newHealthFactor : MAX_RATIO;
 };
