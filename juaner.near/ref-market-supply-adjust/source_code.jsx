@@ -168,7 +168,7 @@ if (selectedTokenId && assets) {
   cf = asset.config.volatility_ratio / 100;
 }
 const handleAmount = (value, isMax) => {
-  const amount = Big(value || 0).toFixed();
+  const amount = value;
   const [newHF, hFErrorStatus] = recomputeHealthFactor(selectedTokenId, amount);
   State.update({
     isMax,
