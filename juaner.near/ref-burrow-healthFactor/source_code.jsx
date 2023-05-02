@@ -13,7 +13,7 @@ const expandToken = (value, decimals) => {
 
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 function getAdjustedSum(type, account) {
-  if (!assets || !account || account[type].length == 0) return B(1);
+  if (!assets || !account || account[type].length == 0) return 0;
   return account[type]
     .map((assetInAccount) => {
       const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
@@ -39,11 +39,12 @@ function getAdjustedSum(type, account) {
     .reduce((sum, cur) => B(sum).plus(B(cur)).toFixed());
 }
 function getHealthFactor() {
+  if (Big(adjustedBorrowedSum).eq(0)) return "N/A";
   const healthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
     .toFixed(0);
-  return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO;
+  return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO + "%";
 }
 const adjustedCollateralSum = getAdjustedSum("collateral", account);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
@@ -57,6 +58,6 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    {healthFactor || "-"}%
+    {healthFactor || "-"}
   </div>
 );
