@@ -116,7 +116,7 @@ const Container = styled.div`
 const { amount, handleAmount, balance, balance$ } = props;
 const subBalance = Big(balance || "0").toFixed(4);
 function changeAmount(e) {
-  const value = Number(e.target.value);
+  const value = e.target.value;
   if (Big(value || 0).gt(subBalance || 0)) return;
   const isMax = Big(value || 0).eq(subBalance || 0);
   handleAmount(value, isMax);
