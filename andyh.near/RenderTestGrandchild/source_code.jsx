@@ -7,7 +7,7 @@ return (
         State.update({ k: state.k + 1 });
       }}
     >
-      age me
+      k + 1
     </button>
   </div>
 );
