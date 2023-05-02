@@ -28,7 +28,7 @@ const initialRenderLimit =
 const addDisplayCount = props.nextLimit ?? initialRenderLimit;
 
 index.options.limit = Math.min(
-  Math.max(initialRenderLimit + addDisplayCount * 2, index.options.limit ?? 0),
+  Math.max(initialRenderLimit + addDisplayCount * 2, index.options.limit),
   100
 );
 const reverse = !!props.reverse;
@@ -149,14 +149,7 @@ const fetchMore =
     ? loader
     : state.displayCount < filteredItems.length && (
         <div key={"loader more"}>
-          <a
-            className=""
-            style={{ cursor: "pointer" }}
-            onClick={(e) => {
-              e.preventDefault && e.preventDefault();
-              makeMoreItems();
-            }}
-          >
+          <a href="javascript:void" onClick={(e) => makeMoreItems()}>
             {props.loadMoreText ?? "Load more..."}
           </a>
         </div>
@@ -179,7 +172,6 @@ return props.manual ? (
   <InfiniteScroll
     pageStart={0}
     loadMore={makeMoreItems}
-    threshold={props.threshold ?? 250}
     hasMore={state.displayCount < filteredItems.length}
     loader={
       <div className="loader">
