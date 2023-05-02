@@ -182,7 +182,7 @@ const handleAmount = (value, isMax) => {
 
 /** logic end */
 function getAdjustedSum(type, account) {
-  if (!assets || !account || account[type].length == 0) return 0;
+  if (!assets || !account || account[type].length == 0) return B(1);
   return account[type]
     .map((assetInAccount) => {
       const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
@@ -210,7 +210,7 @@ const adjustedCollateralSum = getAdjustedSum("collateral", account);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
 
 function getHealthFactor() {
-  if (Big(adjustedBorrowedSum).eq(0)) return 10000;
+  // if (Big(adjustedBorrowedSum).eq(0)) return 10000;
   const healthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
