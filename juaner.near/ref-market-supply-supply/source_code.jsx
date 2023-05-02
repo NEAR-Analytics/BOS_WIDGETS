@@ -307,8 +307,7 @@ const handleDeposit = () => {
 
 const handleDepositNear = (amount) => {
   const amountDecimal = expandToken(amount, 24).toFixed();
-
-  Near.call([
+  const transactions = [
     {
       contractName: "wrap.near",
       methodName: "near_deposit",
@@ -328,7 +327,16 @@ const handleDepositNear = (amount) => {
           : "",
       },
     },
-  ]);
+  ];
+  if (storageBurrow?.available === "0" || !storageBurrow?.available) {
+    transactions.unshift({
+      contractName: BURROW_CONTRACT,
+      methodName: "storage_deposit",
+      deposit: expandToken(0.25, 24).toFixed(),
+      gas: expandToken(140, 12),
+    });
+  }
+  Near.call(transactions);
 };
 function getAdjustedSum(type, burrowAccount) {
   if (!assets || !burrowAccount || burrowAccount[type].length == 0) return 0;
