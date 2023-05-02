@@ -1,17 +1,14 @@
-State.init({ age: 0 });
+State.init({ i: 0 });
 return (
   <div>
-    I am {state.age} yars old
+    root: {state.i}
     <button
       onClick={() => {
-        State.update({ age: state.age + 1 });
+        State.update({ i: state.i + 1 });
       }}
     >
-      age me
+      i + 1
     </button>
-    <Widget
-      src="andyh.near/widget/RenderTestChild"
-      props={{ age: state.age }}
-    />
+    <Widget src="andyh.near/widget/RenderTestChild" props={{ i: state.i }} />
   </div>
 );
