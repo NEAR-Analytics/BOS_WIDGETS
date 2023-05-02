@@ -311,9 +311,6 @@ const getAccount = () => {
 const assets = getAssets();
 
 if (!assets) return <div />;
-const storageBurrow = Near.view(BURROW_CONTRACT, "storage_balance_of", {
-  account_id: accountId,
-});
 const balances = getBalances(assets);
 const account = getAccount();
 const rewards = getRewards(assets, account);
@@ -323,7 +320,6 @@ const data = {
   rewards,
   balances,
   account,
-  storageBurrow,
 };
 
 if (typeof props.onLoad === "function") {
