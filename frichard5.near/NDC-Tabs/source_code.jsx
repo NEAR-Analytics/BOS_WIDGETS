@@ -13,7 +13,7 @@ State.init({
 });
 
 const tabSelect = (selectedTab) => {
-  prop.tab = selectedTab;
+  props.tab = selectedTab;
   return () => {
     State.update({ selectedTab });
   };
