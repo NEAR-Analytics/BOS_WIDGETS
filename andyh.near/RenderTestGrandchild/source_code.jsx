@@ -1,12 +1,10 @@
-State.init({ i: 0 });
+State.init({ k: 0 });
 return (
   <div>
-    I am a grandchild!! My grandparent is {props.parentAge} yars and my parent
-    is {props.age} yars old, I am {state.i} yars old
+    root: {props.i} child: {props.j} grandchild: {state.k}
     <button
       onClick={() => {
-        console.log("updating state " + state.i);
-        State.update({ i: state.i + 1 });
+        State.update({ k: state.k + 1 });
       }}
     >
       age me
