@@ -2,7 +2,7 @@
 const widgetProvider = props.widgetProvider;
 const refUrl = "https://api.stats.ref.finance/api/ft";
 const tab = props.tab || "overview";
-console.log("TAB", tab === "proposals");
+
 // Initial state
 State.init({
   selectedDao: "marketing.sputnik-dao.near",
@@ -149,7 +149,7 @@ const Tabs = (
         {
           value: "overview",
           label: "Overview",
-          selected: tabs === "overview",
+          selected: tab === "overview",
           components: (
             <WidgetsContainer>
               {ProposalsByMonth}
@@ -162,13 +162,13 @@ const Tabs = (
         {
           value: "proposals",
           label: "Proposals",
-          selected: tabs === "proposals",
+          selected: tab === "proposals",
           components: <WidgetsContainer>{Proposals}</WidgetsContainer>,
         },
         {
           value: "treasury",
           label: "Treasury",
-          selected: tabs === "treasury",
+          selected: tab === "treasury",
           components: (
             <WidgetsContainer>
               {Balances}
@@ -180,7 +180,7 @@ const Tabs = (
         {
           value: "members",
           label: "Members",
-          selected: tabs === "members",
+          selected: tab === "members",
           components: (
             <WidgetsContainer>
               {VoteHistory}
@@ -191,7 +191,7 @@ const Tabs = (
         {
           value: "policy",
           label: "Policy",
-          selected: tabs === "policy",
+          selected: tab === "policy",
           components: <WidgetsContainer>{Policy}</WidgetsContainer>,
         },
       ],
