@@ -187,7 +187,7 @@ const handleAmount = (value, isMax) => {
 
 /** logic end */
 function getAdjustedSum(type, account) {
-  if (!assets || !account || account[type].length == 0) return B(1);
+  if (!assets || !account || account[type].length == 0) return 0;
   return account[type]
     .map((assetInAccount) => {
       const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
@@ -216,6 +216,7 @@ const adjustedCollateralSum = getAdjustedSum("collateral", account);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
 
 function getHealthFactor() {
+  if (Big(adjustedBorrowedSum).eq(0)) return 10000;
   const healthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
@@ -266,12 +267,15 @@ const recomputeHealthFactor = (tokenId, amount) => {
     amount === 0 ? account : clonedAccount
   );
   const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
-
-  const newHealthFactor = B(adjustedCollateralSum)
-    .div(B(adjustedBorrowedSum))
-    .mul(100)
-    .toFixed(0);
-
+  let newHealthFactor;
+  if (Big(adjustedBorrowedSum).eq(0)) {
+    newHealthFactor = 10000;
+  } else {
+    newHealthFactor = B(adjustedCollateralSum)
+      .div(B(adjustedBorrowedSum))
+      .mul(100)
+      .toFixed(0);
+  }
   return Number(newHealthFactor) < MAX_RATIO ? newHealthFactor : MAX_RATIO;
 };
 function computeWithdrawMaxAmount() {
