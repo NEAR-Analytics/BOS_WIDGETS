@@ -1,6 +1,7 @@
 // Constants
 const widgetProvider = props.widgetProvider;
 const refUrl = "https://api.stats.ref.finance/api/ft";
+const tab = props.tab || "overview";
 
 // Initial state
 State.init({
@@ -149,7 +150,7 @@ const Tabs = (
         {
           value: "overview",
           label: "Overview",
-          selected: true,
+          selected: tabs === "overview",
           //selected: state.selectedTab === "metrics",
           components: (
             <WidgetsContainer>
@@ -163,11 +164,13 @@ const Tabs = (
         {
           value: "proposals",
           label: "Proposals",
+          selected: tabs === "proposals",
           components: <WidgetsContainer>{Proposals}</WidgetsContainer>,
         },
         {
           value: "treasury",
           label: "Treasury",
+          selected: tabs === "treasury",
           components: (
             <WidgetsContainer>
               {Balances}
@@ -179,7 +182,7 @@ const Tabs = (
         {
           value: "members",
           label: "Members",
-          //selected: state.selectedTab === "members",
+          selected: tabs === "members",
           components: (
             <WidgetsContainer>
               {VoteHistory}
@@ -190,6 +193,7 @@ const Tabs = (
         {
           value: "policy",
           label: "Policy",
+          selected: tabs === "policy",
           components: <WidgetsContainer>{Policy}</WidgetsContainer>,
         },
       ],
