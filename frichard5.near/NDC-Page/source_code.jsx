@@ -1,4 +1,5 @@
 const widgetProvider = "frichard5.near";
+const tab = props.tab || "overview";
 // Style
 const avenirFontFamily = fetch(
   "https://fonts.cdnfonts.com/css/avenir-lt-std"
@@ -8,7 +9,6 @@ const theme = {
   secondaryPink: "#F29BC0",
   secondaryBlue: "#4498E0",
 };
-console.log(props);
 
 //    background: ${(props) => props.theme.secondaryBlue};
 
@@ -85,7 +85,7 @@ const Banner = <Widget src={`${widgetProvider}/widget/NDC-Banner`} />;
 const DashBoard = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Dashboard`}
-    props={{ widgetProvider }}
+    props={{ widgetProvider, tab }}
   />
 );
 
