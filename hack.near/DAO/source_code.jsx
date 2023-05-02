@@ -1,11 +1,9 @@
 const accountId = props.accountId ?? context.accountId;
 
-const page = accountId
-  ? Social.get(`${accountId}/settings/dao/page`)
-  : undefined;
+const dao = accountId ? Social.get(`${accountId}/profile/dao`) : undefined;
 
-if (page === null) {
+if (dao === null) {
   return "Loading...";
 }
 
-return <Widget src={page ?? "hack.near/widget/DAO.Profile"} props={props} />;
+return <Widget src={dao ?? "hack.near/widget/DAO.Profile"} props={props} />;
