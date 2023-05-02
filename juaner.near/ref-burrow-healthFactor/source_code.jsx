@@ -58,6 +58,6 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    {healthFactor}
+    {healthFactor || "-"}
   </div>
 );
