@@ -1,7 +1,7 @@
 State.init({ i: 0 });
 return (
   <div>
-    I am a child! I am {state.i} yars older
+    I am a child! My parent is {props.age} yars old, I am {state.i} yars older
     <button
       onClick={() => {
         console.log("updating state " + state.i);
@@ -12,7 +12,7 @@ return (
     </button>
     <Widget
       src="andyh.near/widget/RenderTestGrandchild"
-      props={{ age: state.i }}
+      props={{ age: state.i, parentAge: props.age }}
     />
   </div>
 );
