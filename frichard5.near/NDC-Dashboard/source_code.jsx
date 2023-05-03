@@ -141,6 +141,17 @@ const TransfersByAccount = (
   />
 );
 
+const TransfersByAccount = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-search`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+      ftList: ftList.body && ftList.body,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
@@ -194,6 +205,12 @@ const Tabs = (
           label: "Policy",
           selected: tab === "policy",
           components: <WidgetsContainer>{Policy}</WidgetsContainer>,
+        },
+        {
+          value: "proposal",
+          label: "Proposal search",
+          selected: tab === "proposal",
+          components: <WidgetsContainer>{Search}</WidgetsContainer>,
         },
       ],
       widgetProvider,
