@@ -134,11 +134,11 @@ const NO_STORAGE_DEPOSIT_CONTRACTS = ["aurora", "meta-pool.near"];
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
-  return B(value).div(B(10).pow(decimals));
+  return B(value).div(B(10).pow(decimals || 0));
 };
 
 const expandToken = (value, decimals) => {
-  return B(value).mul(B(10).pow(decimals));
+  return B(value).mul(B(10).pow(decimals || 0));
 };
 
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
@@ -200,7 +200,7 @@ function getAdjustedSum(type, account) {
       const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
 
       const price = asset.price
-        ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals))
+        ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals || 0))
         : B(0);
 
       const pricedBalance = B(assetInAccount.balance)
