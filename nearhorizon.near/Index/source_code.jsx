@@ -22,7 +22,6 @@ if (context.accountId) {
     "final",
     false
   ).then((data) => {
-    console.log(data);
     State.update({
       tnc: data[context.accountId]?.profile?.horizon_tnc === "true",
     });
