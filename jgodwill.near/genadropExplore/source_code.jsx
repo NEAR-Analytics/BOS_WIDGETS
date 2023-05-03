@@ -134,18 +134,37 @@ const PageTitle = styled.h1`
   `;
 
 const NFTCard = styled.div`
+   display: flex;
+   flex-flow: column nowrap;
+   -ms-flex-flow:column nowrap;
+   align-items:center;
    background-color: "#f0f0f0";
    border-radius: 10px;
-   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-   padding: 20px;
+  //  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   border: 1.41429px solid rgba(28,27,28,.1);
+box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
+   padding: 8px;
    text-align: center;
+   background-color:#fff;
   `;
 const NFTCards = styled.div`
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   justify-content: center;
+  // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
   margin-top: 20px;
+`;
+
+const ImageCard = styled.div`
+  height:fit-content;
+  height:300px;
+  width: 100%;
+  min-width: 300px;
+  border-radius: 1rem;
+  &>img{
+  object-fit: cover;
+  }
 `;
 
 return (
@@ -200,17 +219,15 @@ return (
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <NFTCard classNmae="card">
-              <img
-                src={nft.image}
-                alt={nft.name}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  borderRadius: "5px",
-                  objectFit: "cover",
-                  marginBottom: "15px",
-                }}
-              />
+              <ImageCard>
+                <img
+                  src={nft.image}
+                  alt={nft.name}
+                  width="100%"
+                  height="100%"
+                  className="rounded-3"
+                />
+              </ImageCard>
               <h3 style={{ fontSize: "18px", margin: "0 0 10px" }}>
                 {nft.name}
               </h3>
