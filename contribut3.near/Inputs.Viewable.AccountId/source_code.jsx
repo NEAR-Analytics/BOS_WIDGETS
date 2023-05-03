@@ -159,7 +159,9 @@ return (
             }}
           />
         </Link>
-      ) : null,
+      ) : (
+        <></>
+      ),
       canEdit,
     }}
   />
