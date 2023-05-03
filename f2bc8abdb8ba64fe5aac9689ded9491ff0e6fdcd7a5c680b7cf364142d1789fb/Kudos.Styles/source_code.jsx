@@ -402,7 +402,6 @@ return (
       props={{
         blockHeight,
         commentBlockHeight,
-        commentSharedBlockHeight,
         widgetOwner,
         allWidgetsInlineStyles,
         allWidgetsClassNames,
