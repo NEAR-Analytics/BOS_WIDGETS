@@ -10,7 +10,6 @@ const tabs = {
 };
 
 const blockHeight = props.blockHeight ?? undefined;
-const commentSharedBlockHeight = props.commentSharedBlockHeight ?? undefined;
 
 const updateGeneralState = props.updateGeneralState;
 
