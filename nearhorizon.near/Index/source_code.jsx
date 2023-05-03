@@ -183,10 +183,15 @@ const Content = styled.div`
 
 const Container = styled.div``;
 
-// investor remove progress
-
 return (
   <Container>
+    <Widget
+      src={`${ownerId}/widget/TNCModal`}
+      props={{
+        open: !state.tnc,
+        accept: () => Social.set({ profile: { horizon_tnc: true } }),
+      }}
+    />
     <Widget src={`${ownerId}/widget/NavbarControl`} props={{ update }} />
     <Content>
       <Sidebar
