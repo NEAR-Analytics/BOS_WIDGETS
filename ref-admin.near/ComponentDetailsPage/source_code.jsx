@@ -215,6 +215,7 @@ return (
           size: "large",
           showTags: false,
           src,
+          istemplate,
         }}
       />
     </SummaryWrapper>
