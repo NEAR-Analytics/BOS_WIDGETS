@@ -2,6 +2,9 @@ const profile = Social.getr(`${context.accountId}/profile`);
 const metadata = Social.getr(`webuidl.near/widget/Kudos/metadata`);
 
 const sharedBlockHeight = Number(props.sharedBlockHeight);
+const commentSharedBlockHeight = Number(props.commentSharedBlockHeight)
+  ? undefined
+  : Number(props.commentSharedBlockHeight);
 
 const blockHeight = Number.isNaN(sharedBlockHeight)
   ? undefined
