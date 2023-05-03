@@ -80,7 +80,7 @@ return (
       placeholder={placeholder}
       labelKey="name"
       onChange={onChange}
-      options={options}
+      options={options ?? []}
       selected={value}
       className="typeahead"
       positionFixed
