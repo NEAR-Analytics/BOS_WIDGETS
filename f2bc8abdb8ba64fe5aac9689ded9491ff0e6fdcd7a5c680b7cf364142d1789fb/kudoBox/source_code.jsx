@@ -30,9 +30,9 @@ function getAnswersContainerStyles() {
 function getAnswerContainerStyle() {
   let style = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
-  if (d.blockHeight == commentSharedBlockHeight) {
-    styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
-  }
+  // if (d.blockHeight == commentSharedBlockHeight) {
+  //   styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
+  // }
 
   return style;
 }
