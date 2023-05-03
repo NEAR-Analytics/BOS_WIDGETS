@@ -154,6 +154,9 @@ const showTos =
   (!agreementsForUser.length ||
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
 const targetComponentSrc = myHomePagePath || targetComponent;
+
+console.log(targetComponentSrc, "targetComponentSrc");
+
 return (
   <div>
     {showTos && (
