@@ -141,7 +141,7 @@ const TransfersByAccount = (
   />
 );
 
-const TransfersByAccount = (
+const Search = (
   <Widget
     src={`${widgetProvider}/widget/NDC-search`}
     props={{
