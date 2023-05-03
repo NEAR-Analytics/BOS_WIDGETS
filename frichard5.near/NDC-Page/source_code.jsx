@@ -4,6 +4,8 @@ const proposal_id =
   props.proposal_id &&
   !isNaN(Number(props.proposal_id)) &&
   Number(props.proposal_id);
+
+const selectedDao = props.selectedDao;
 // Style
 const avenirFontFamily = fetch(
   "https://fonts.cdnfonts.com/css/avenir-lt-std"
@@ -89,7 +91,7 @@ const Banner = <Widget src={`${widgetProvider}/widget/NDC-Banner`} />;
 const DashBoard = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Dashboard`}
-    props={{ widgetProvider, tab, proposal_id }}
+    props={{ widgetProvider, tab, proposal_id, selectedDao }}
   />
 );
 
