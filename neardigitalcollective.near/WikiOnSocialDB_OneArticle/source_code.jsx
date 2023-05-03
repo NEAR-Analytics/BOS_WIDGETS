@@ -17,7 +17,7 @@ const notifyAccountId = accountId;
 State.init({ showReply: false, isMain: true });
 
 const article = JSON.parse(
-  Social.get(`${lastEditor}/wikiTest2Article/main`, blockHeight)
+  Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
 );
 State.update({ article });
 
