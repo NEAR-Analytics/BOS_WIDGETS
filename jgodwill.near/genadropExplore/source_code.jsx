@@ -133,6 +133,21 @@ const PageTitle = styled.h1`
   margin-bottom: 20px; 
   `;
 
+const NFTCard = styled.div`
+   background-color: "#f0f0f0";
+   border-radius: 10px;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   padding: 20px;
+   text-align: center;
+  `;
+const NFTCards = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  justify-content: center;
+  margin-top: 20px;
+`;
+
 return (
   <div
     style={{
@@ -176,15 +191,7 @@ return (
       </Main>
     )}
     {state.nftData.length > 0 && (
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-          justifyContent: "center",
-          marginTop: "20px",
-        }}
-      >
+      <NFTCards>
         {state.nftData.map((nft) => (
           <a
             href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
@@ -192,16 +199,7 @@ return (
             rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <div
-              style={{
-                backgroundColor: "#f0f0f0",
-                borderRadius: "10px",
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                padding: "20px",
-                width: "200px",
-                textAlign: "center",
-              }}
-            >
+            <NFTCard classNmae="card">
               <img
                 src={nft.image}
                 alt={nft.name}
@@ -261,10 +259,10 @@ return (
                     : nft.nft_state.owner}
                 </p>
               )}
-            </div>
+            </NFTCard>
           </a>
         ))}
-      </div>
+      </NFTCards>
     )}
   </div>
 );
