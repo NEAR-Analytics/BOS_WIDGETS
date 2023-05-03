@@ -1,5 +1,5 @@
 const addressForComments = "NDCDOCS-comments";
-const addressForArticles = "NDCDOCS";
+const addressForArticles = "ndcWikiArticles";
 const authorForWidget = "neardigitalcollective.near";
 if (!context.accountId) {
   return "";
