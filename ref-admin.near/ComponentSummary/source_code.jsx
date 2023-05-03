@@ -289,7 +289,7 @@ return (
       {props.primaryAction && (
         <Widget
           src="ref-admin.near/widget/apply-as-home-button"
-          props={{ src: finalSrc }}
+          props={{ src: finalSrc, istemplate: props.istemplate }}
         ></Widget>
       )}
     </Actions>
