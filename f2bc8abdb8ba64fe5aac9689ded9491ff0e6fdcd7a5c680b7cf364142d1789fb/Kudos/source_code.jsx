@@ -10,6 +10,7 @@ const tabs = {
 };
 
 const blockHeight = props.blockHeight ?? undefined;
+const commentSharedBlockHeight = props.commentSharedBlockHeight ?? undefined;
 
 const updateGeneralState = props.updateGeneralState;
 
@@ -156,6 +157,7 @@ const RenderKudoBox = (d, index) => {
       src={`${widgetOwner}/widget/kudoBox`}
       props={{
         tabs,
+        commentSharedBlockHeight,
         oppenedTab: state.display,
         widgetOwner,
         d,
