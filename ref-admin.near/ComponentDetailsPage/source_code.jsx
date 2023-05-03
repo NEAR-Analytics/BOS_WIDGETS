@@ -215,7 +215,7 @@ return (
           size: "large",
           showTags: false,
           src,
-          istemplate,
+          istemplate: props.istemplate,
         }}
       />
     </SummaryWrapper>
