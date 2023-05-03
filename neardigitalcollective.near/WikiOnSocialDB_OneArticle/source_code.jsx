@@ -22,7 +22,14 @@ const article = JSON.parse(
 State.update({ article });
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const authorsWhiteList = ["neardigitalcollective.near"];
+const authorsWhiteList = [
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "kazanderdad.near",
+  "joep.near",
+  "sarahkornfeld.near",
+];
 const doesUserCanEditArticle = () => {
   const isAccountIdInWhiteList = authorsWhiteList.some(
     (val) => val === accountId
