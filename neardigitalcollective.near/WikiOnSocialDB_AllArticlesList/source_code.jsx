@@ -1,4 +1,4 @@
-const addressForArticles = "NDCDOCS";
+const addressForArticles = "ndcWikiArticles";
 const authorsWhitelist = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
