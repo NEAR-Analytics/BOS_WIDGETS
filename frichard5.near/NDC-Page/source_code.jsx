@@ -86,7 +86,7 @@ const Banner = <Widget src={`${widgetProvider}/widget/NDC-Banner`} />;
 const DashBoard = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Dashboard`}
-    props={{ widgetProvider, tab }}
+    props={{ widgetProvider, tab, proposal_id }}
   />
 );
 
