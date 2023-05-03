@@ -39,11 +39,8 @@ const Label = styled.label`
 return (
   <Box>
     <Checkbox.Root
-      value={props.value}
-      onValueChange={(s) => {
-        console.log(s);
-        props.onChange;
-      }}
+      checked={props.value}
+      onCheckedChange={props.onChange}
       id={props.id}
     >
       <Checkbox.Indicator>
