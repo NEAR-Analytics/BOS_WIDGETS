@@ -63,7 +63,6 @@ const createProjectLine = (accountId, name, image) => {
 
 State.init({
   message: "",
-  messageError: "",
   projectId: null,
   projects: [],
   projectsIsFetched: false,
@@ -71,15 +70,6 @@ State.init({
   requests: [],
   requestsIsFetched: false,
 });
-
-const validateForm = () => {
-  return (
-    state.projectId &&
-    state.message &&
-    state.messageError === "" &&
-    state.requestId
-  );
-};
 
 if (!state.projectsIsFetched) {
   Near.asyncView(
@@ -212,17 +202,6 @@ return (
           placeholder: "Describe the contribution you would like to request",
           value: state.message,
           onChange: (message) => State.update({ message }),
-          validate: () => {
-            if (state.message > 500) {
-              State.update({
-                messageError: "Message should be less than 500 characters",
-              });
-              return;
-            }
-
-            State.update({ messageError: "" });
-          },
-          error: state.messageError,
         }}
       />
     </Form>
@@ -253,9 +232,7 @@ return (
               Send request
             </>
           ),
-          disabled: !validateForm(),
           onClick: () => {
-            if (!validateForm()) return;
             Near.call({
               contractName: "social.near",
               methodName: "set",
