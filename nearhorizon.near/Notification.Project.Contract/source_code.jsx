@@ -112,7 +112,6 @@ return (
       </Text>
     </Row>
     <Row>
-
       <Text>Contract</Text>
       <Text bold>
         <b>{state.proposal.title}</b>
@@ -120,7 +119,6 @@ return (
       <Text>was ended</Text>
     </Row>
     <Row>
-
       <GreyButton
         href={`/${ownerId}/widget/Index?tab=vendor&content=history&accountId=${vendorId}`}
         onClick={() =>
@@ -130,7 +128,8 @@ return (
             search: "",
             accountId: vendorId,
           })
-        }>
+        }
+      >
         View Feedback
       </GreyButton>
     </Row>
