@@ -146,6 +146,9 @@ box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 8px;
    text-align: center;
    background-color:#fff;
+   &:hover &>div>img{
+     transform:scale(1.05);
+   }
   `;
 const NFTCards = styled.div`
   display: grid;
@@ -162,8 +165,13 @@ const ImageCard = styled.div`
   width: 100%;
   min-width: 300px;
   border-radius: 1rem;
+  overflow:hidden;
   &>img{
   object-fit: cover;
+  transition: all 0.3s ease-in-out;
+  }
+  &>img:hover{
+    transform:scale(1.05);
   }
 `;
 
