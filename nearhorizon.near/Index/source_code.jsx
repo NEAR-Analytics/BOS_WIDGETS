@@ -201,7 +201,9 @@ return (
     <Content>
       <Sidebar
         show={
-          !["createproject", "createrequest", "permissions"].includes(state.tab)
+          !["createproject", "createrequest", "permissions", "legal"].includes(
+            state.tab
+          )
         }
       >
         <Widget
