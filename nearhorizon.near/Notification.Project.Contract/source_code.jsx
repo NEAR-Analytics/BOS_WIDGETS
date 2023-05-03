@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const { contributionId, vendorId } = props.value;
 const [accountId, cid] = contributionId;
 
@@ -112,6 +112,7 @@ return (
       </Text>
     </Row>
     <Row>
+
       <Text>Contract</Text>
       <Text bold>
         <b>{state.proposal.title}</b>
@@ -119,6 +120,7 @@ return (
       <Text>was ended</Text>
     </Row>
     <Row>
+
       <GreyButton
         href={`/${ownerId}/widget/Index?tab=vendor&content=history&accountId=${vendorId}`}
         onClick={() =>
@@ -128,8 +130,7 @@ return (
             search: "",
             accountId: vendorId,
           })
-        }
-      >
+        }>
         View Feedback
       </GreyButton>
     </Row>
