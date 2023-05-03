@@ -70,8 +70,6 @@ const Error = styled.span`
   }
 `;
 
-console.log({ options });
-
 return (
   <Container>
     {props.noLabel ? <></> : <Label>{label}</Label>}
@@ -80,6 +78,7 @@ return (
       placeholder={placeholder}
       labelKey="name"
       onChange={onChange}
+      options={options}
       selected={value}
       className="typeahead"
       positionFixed
