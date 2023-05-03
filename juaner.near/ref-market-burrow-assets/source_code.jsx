@@ -71,11 +71,11 @@ B.DP = 60; // set precision to 60 decimals
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
-  return B(value).div(B(10).pow(decimals));
+  return B(value).div(B(10).pow(decimals || 0));
 };
 
 const expandToken = (value, decimals) => {
-  return B(value).mul(B(10).pow(decimals));
+  return B(value).mul(B(10).pow(decimals || 0));
 };
 
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
