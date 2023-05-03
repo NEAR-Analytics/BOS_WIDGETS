@@ -155,7 +155,15 @@ const showTos =
     agreementsForUser[agreementsForUser.length - 1].value < latestTosVersion);
 const targetComponentSrc = myHomePagePath || targetComponent;
 
-console.log(targetComponentSrc, "targetComponentSrc");
+console.log(
+  targetComponentSrc,
+  "targetComponentSrc",
+  showTos,
+  canCustomHome,
+  customHomeLoaded,
+  canCustomHome,
+  targetProps
+);
 
 return (
   <div>
