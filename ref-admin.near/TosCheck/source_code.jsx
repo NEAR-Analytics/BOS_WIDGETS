@@ -234,8 +234,6 @@ return (
       </Backdrop>
     )}
 
-    {((canCustomHome && customHomeLoaded) || !canCustomHome) && (
-      <Widget src={targetComponentSrc} props={targetProps} />
-    )}
+    <Widget src={targetComponentSrc} props={targetProps} />
   </div>
 );
