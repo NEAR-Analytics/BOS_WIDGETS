@@ -250,11 +250,11 @@ const getArticleData = () => {
 
 const composeData = () => {
   const data = {
-    wikiTest2Article: {
+    ndcWikiArticle: {
       main: JSON.stringify(getArticleData()),
     },
     index: {
-      wikiTest2Article: JSON.stringify({
+      ndcWikiArticle: JSON.stringify({
         key: "main",
         value: {
           type: "md",
