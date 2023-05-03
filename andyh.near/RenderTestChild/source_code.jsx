@@ -8,7 +8,7 @@ return (
         State.update({ j: state.j + 1 });
       }}
     >
-      j + 1
+      child + 1
     </button>
     <Widget
       src="andyh.near/widget/RenderTestGrandchild"
