@@ -1,6 +1,9 @@
 const widgetProvider = "frichard5.near";
 const tab = props.tab || "overview";
-const proposal_id = Number(props.proposal_id);
+const proposal_id =
+  props.proposal_id &&
+  !isNan(Number(props.proposal_id)) &&
+  Number(props.proposal_id);
 // Style
 const avenirFontFamily = fetch(
   "https://fonts.cdnfonts.com/css/avenir-lt-std"
