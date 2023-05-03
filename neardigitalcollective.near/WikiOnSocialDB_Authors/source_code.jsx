@@ -1,4 +1,4 @@
-const addressForArticles = "ndcWikiArticles";
+const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
 const writersWhiteList = [
   "neardigitalcollective.near",
