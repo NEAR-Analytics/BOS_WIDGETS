@@ -276,6 +276,11 @@ return (
       icon: about,
       id: "help",
     })}
+    {navItem({
+      text: "Legal",
+      icon: legalIcon,
+      id: "legal",
+    })}
     <NavItem href="/">
       <svg
         width="24"
