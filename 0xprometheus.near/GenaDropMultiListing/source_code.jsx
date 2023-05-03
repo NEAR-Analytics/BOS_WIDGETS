@@ -105,15 +105,15 @@ function parseNearAmount(amt) {
 /*ON CHANGE FUNCTIONS - NEED TO FINISH NOT CONCATENATING*/
 const onChangeAmount = (amount) => {
   amount = parseNearAmount(amount);
-  console.log("parsed amount", amount);
+  console.log("parsed amount", amount, parseNearAmount(amount));
   const msgConcat = JSON.stringify({
-    price: amount,
+    price: parseNearAmount(amount),
     market_type: "sale",
     ft_token_id: "near",
   });
   const fnfMsg = JSON.stringify({
     sale_conditions: {
-      near: amount,
+      near: parseNearAmount(amount),
     },
   });
   // console.log(bigIntNumber);
@@ -404,7 +404,6 @@ return (
         selectMintbase,
         onChangeCustomMarket,
         onChangeAmount,
-        list,
       }}
     />
     <br></br>
