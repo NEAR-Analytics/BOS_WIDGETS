@@ -5,7 +5,7 @@ const proposal_id =
   !isNaN(Number(props.proposal_id)) &&
   Number(props.proposal_id);
 
-const selectedDao = props.selectedDao;
+const selectedDao = props.selected_dao;
 // Style
 const avenirFontFamily = fetch(
   "https://fonts.cdnfonts.com/css/avenir-lt-std"
