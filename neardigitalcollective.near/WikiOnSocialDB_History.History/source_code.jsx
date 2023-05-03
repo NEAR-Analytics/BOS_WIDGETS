@@ -2,7 +2,7 @@
 ---props---
 count(count: number)?: function,
 */
-const addressForArticles = "ndcWikiArticles";
+const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
 const { articleId } = props;
 
