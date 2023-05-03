@@ -2,6 +2,7 @@
 const widgetProvider = props.widgetProvider;
 const refUrl = "https://api.stats.ref.finance/api/ft";
 const tab = props.tab || "overview";
+const proposal_id = props.proposal_id;
 
 // Initial state
 State.init({
@@ -148,6 +149,7 @@ const Search = (
       account: state.selectedDao,
       widgetProvider,
       ftList: ftList.body && ftList.body,
+      proposal_id,
     }}
   />
 );
