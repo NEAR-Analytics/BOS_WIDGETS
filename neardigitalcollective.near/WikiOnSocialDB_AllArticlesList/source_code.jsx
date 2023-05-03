@@ -2,7 +2,7 @@ const addressForArticles = "NDCDOCS";
 const authorsWhitelist = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
-  " jlw.near",
+  "jlw.near",
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
