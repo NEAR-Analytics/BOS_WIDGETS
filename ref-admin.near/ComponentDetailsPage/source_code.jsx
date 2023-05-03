@@ -9,6 +9,8 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
+console.log("istemplate", props.istemplate);
+
 const src = props.src;
 const [accountId, widget, widgetName] = src.split("/");
 const existsData = Social.keys(`${accountId}/widget/${widgetName}`);
