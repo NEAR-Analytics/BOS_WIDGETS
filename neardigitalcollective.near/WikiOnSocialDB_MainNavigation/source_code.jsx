@@ -94,15 +94,17 @@ return (
               </a>
             </li>
           ))}
-          <div className="d-block d-md-none">
-            <Button>
-              <a
-                href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
-              >
-                + Create Article
-              </a>
-            </Button>
-          </div>
+          {accountId &&
+            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+              <div className="d-block d-md-none">
+                <a
+                  className="btn btn-outline-dark"
+                  href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
+                >
+                  + Create Article
+                </a>
+              </div>
+            )}
         </ul>
       </div>
       <div className="mx-2 d-none d-md-block">
