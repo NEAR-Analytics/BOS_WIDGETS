@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const { contributionId, vendorId } = props.value;
 const [accountId, cid] = contributionId;
 
@@ -8,7 +8,7 @@ State.init({
   proposal: null,
   proposalIsFetched: false,
   isProjectAdmin: null,
-  isProjectAdminIsFetched: false,
+  isProjectAdminIsFetched: false
 });
 
 if (!state.contributionIsFetched) {
@@ -45,11 +45,8 @@ if (!state.isProjectAdminIsFetched) {
   );
 }
 
-if (
-  !state.contributionIsFetched ||
-  !state.proposalIsFetched ||
-  !state.isProjectAdminIsFetched
-) {
+
+if (!state.contributionIsFetched || !state.proposalIsFetched || !state.isProjectAdminIsFetched) {
   return <>Loading...</>;
 }
 const Text = styled.p`
@@ -146,8 +143,7 @@ return (
           search: "",
           accountId,
         })
-      }
-    >
+      }>
       View Feedback
     </GreyButton>
   </>
