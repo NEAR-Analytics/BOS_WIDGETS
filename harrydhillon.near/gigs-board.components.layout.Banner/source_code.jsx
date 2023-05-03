@@ -1,10 +1,6 @@
 /* INCLUDE: "common.jsx" */
-const nearDevGovGigsContractAccountId =
-  props.nearDevGovGigsContractAccountId ||
-  (context.widgetSrc ?? "harrydhillon.near").split("/", 1)[0];
-const nearDevGovGigsWidgetsAccountId =
-  props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "harrydhillon.near").split("/", 1)[0];
+const nearDevGovGigsContractAccountId = "devgovgigs.near";
+const nearDevGovGigsWidgetsAccountId = "devgovgigs.near";
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
