@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const { proposalId, vendorId } = props.value;
 const [projectId, cid] = proposalId;
 
@@ -150,7 +150,7 @@ return (
                   project_id: projectId,
                   cid,
                   vendor_id: vendorId,
-                },
+                }
               },
               {
                 contractName: "social.near",
@@ -167,21 +167,25 @@ return (
                           key: projectId,
                           value: {
                             type: "vendor/contract",
-                            contributionId: [projectId, cid],
+                            contributionId: [
+                              projectId,
+                              cid,
+                            ],
                             message: state.message,
                             vendorId: vendorId,
-                            actionType: "accept",
+                            actionType:  "accept"
                           },
                         }),
                       },
                     },
-                  },
-                },
-              },
+                  }
+                }
+              }
             ];
 
             Near.call(transactions);
-          },
+          }
+
         }}
       />
       <Button>Discuss</Button>
