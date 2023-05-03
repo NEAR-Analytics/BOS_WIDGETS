@@ -1,7 +1,7 @@
 const d = props.d;
 const index = props.index;
 
-const commentSharedBlockHeight = props.commentSharedBlockHeight ?? undefined;
+const commentBlockHeight = props.commentBlockHeight ?? undefined;
 
 const tabs = props.tabs;
 const oppenedTab = props.oppenedTab;
@@ -16,6 +16,7 @@ const upvotes = props.upvotes;
 
 State.init({
   hoveringElement: "",
+  onlyShowSharedComment: commentBlockHeight ? true : false,
   showComments: false,
 });
 
@@ -28,77 +29,84 @@ function getAnswersContainerStyles() {
   return styles;
 }
 
-function getAnswerContainerStyle() {
+function getAnswerContainerStyle(c) {
   let style = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
-  // if (d.blockHeight == commentSharedBlockHeight) {
-  //   styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
-  // }
+  if (c.blockHeight == commentSharedBlockHeight) {
+    styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
+  }
 
   return style;
 }
-console.log(d);
+
 const RenderCommentAnswerBox = (d) => {
   return (
     <>
       {state.showComments && (
         <div style={getAnswersContainerStyles()}>
           {d.value.comments.map((c) => {
-            return (
-              <>
-                <div
-                  style={
-                    thisWidgetInlineStyles.allCommentAnswerBox.cardContainer
-                  }
-                  className={
-                    oppenedTab == tabs.KUDO.id
-                      ? thisWidgetClassNames.allCommentAnswerBox
-                          .cardContainerSingleCard
-                      : thisWidgetClassNames.allCommentAnswerBox.cardContainer
-                  }
-                >
+            if (
+              !state.onlyShowSharedComment ||
+              (state.onlyShowSharedComment &&
+                c.blockHeight == commentSharedBlockHeight)
+            ) {
+              return (
+                <>
                   <div
+                    style={getAnswerContainerStyle(c)}
                     className={
-                      thisWidgetClassNames.allCommentAnswerBox.userAnswerHeader
+                      oppenedTab == tabs.KUDO.id
+                        ? thisWidgetClassNames.allCommentAnswerBox
+                            .cardContainerSingleCard
+                        : thisWidgetClassNames.allCommentAnswerBox.cardContainer
                     }
                   >
-                    <Widget
-                      src="mob.near/widget/ProfileImage"
-                      props={{
-                        accountId: c.accountId,
-                        className: "d-inline-block",
-                        style:
-                          thisWidgetInlineStyles.allCommentAnswerBox
-                            .profileImageStyles,
-                      }}
-                    />
-                    <a
-                      style={
-                        thisWidgetInlineStyles.allCommentAnswerBox
-                          .commentUserNick
-                      }
-                      href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}
-                    >
-                      {c.accountId}
-                    </a>
                     <div
-                      style={
-                        props.allWidgetsInlineStyles.mainPage_post
-                          .followButtonContainer
+                      className={
+                        thisWidgetClassNames.allCommentAnswerBox
+                          .userAnswerHeader
                       }
                     >
                       <Widget
-                        src={`${widgetOwner}/widget/FollowButton`}
-                        props={{ accountId: c.accountId }}
+                        src="mob.near/widget/ProfileImage"
+                        props={{
+                          accountId: c.accountId,
+                          className: "d-inline-block",
+                          style:
+                            thisWidgetInlineStyles.allCommentAnswerBox
+                              .profileImageStyles,
+                        }}
                       />
+                      <a
+                        style={
+                          thisWidgetInlineStyles.allCommentAnswerBox
+                            .commentUserNick
+                        }
+                        href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}
+                      >
+                        {c.accountId}
+                      </a>
+                      <div
+                        style={
+                          props.allWidgetsInlineStyles.mainPage_post
+                            .followButtonContainer
+                        }
+                      >
+                        <Widget
+                          src={`${widgetOwner}/widget/FollowButton`}
+                          props={{ accountId: c.accountId }}
+                        />
+                      </div>
                     </div>
+                    <b
+                      style={thisWidgetInlineStyles.allCommentAnswerBox.comment}
+                    >
+                      {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
+                    </b>
                   </div>
-                  <b style={thisWidgetInlineStyles.allCommentAnswerBox.comment}>
-                    {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
-                  </b>
-                </div>
-              </>
-            );
+                </>
+              );
+            }
           })}
         </div>
       )}
