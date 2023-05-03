@@ -14,7 +14,7 @@ const upvotes = props.upvotes;
 
 State.init({
   hoveringElement: "",
-  onlyShowShared: commentSharedBlockHeight ? true : false,
+  //onlyShowShared: commentSharedBlockHeight ? true : false,
   showComments: false,
 });
 
