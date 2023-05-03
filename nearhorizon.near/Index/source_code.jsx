@@ -153,6 +153,7 @@ const tabContent = {
       props={{ accountId: state.accountId }}
     />
   ),
+  legal: <Widget src={`${ownerId}/widget/TNCPage`} />,
 }[state.tab];
 
 const ContentContainer = styled.div`
