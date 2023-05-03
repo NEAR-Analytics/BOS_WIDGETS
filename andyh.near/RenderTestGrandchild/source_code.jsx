@@ -8,9 +8,9 @@ return (
         State.update({ k: state.k + 1 });
       }}
     >
-      k + 1
+      grandchild + 1
     </button>
     <br />
-    <button onClick={() => props.incrementparent()}>j + 1</button>
+    <button onClick={() => props.incrementparent()}>child + 1</button>
   </div>
 );
