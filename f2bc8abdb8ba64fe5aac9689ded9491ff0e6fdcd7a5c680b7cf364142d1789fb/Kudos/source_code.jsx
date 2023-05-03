@@ -10,6 +10,7 @@ const tabs = {
 };
 
 const blockHeight = props.blockHeight ?? undefined;
+const commentBlockHeight = props.commentBlockHeight ?? undefined;
 
 const updateGeneralState = props.updateGeneralState;
 
@@ -159,6 +160,7 @@ const RenderKudoBox = (d, index) => {
         oppenedTab: state.display,
         widgetOwner,
         d,
+        commentBlockHeight,
         index,
         upvotes,
         updateGeneralState,
