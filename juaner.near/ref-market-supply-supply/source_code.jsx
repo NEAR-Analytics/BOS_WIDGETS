@@ -145,10 +145,10 @@ B.DP = 60; // set precision to 60 decimals
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
-  return new Big(value).div(new Big(10).pow(decimals));
+  return new Big(value).div(new Big(10).pow(decimals || 0));
 };
 const expandToken = (value, decimals) => {
-  return new Big(value).mul(new Big(10).pow(decimals));
+  return new Big(value).mul(new Big(10).pow(decimals || 0));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const { selectedTokenId, showModal, closeModal, selectedTokenMeta } = props;
@@ -345,7 +345,7 @@ function getAdjustedSum(type, burrowAccount) {
       const asset = assets.find((a) => a.token_id === assetInAccount.token_id);
 
       const price = asset.price
-        ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals))
+        ? B(asset.price.multiplier).div(B(10).pow(asset.price.decimals || 0))
         : B(0);
 
       const pricedBalance = B(assetInAccount.balance)
