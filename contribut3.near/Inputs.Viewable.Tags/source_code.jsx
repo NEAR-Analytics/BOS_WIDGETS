@@ -56,18 +56,14 @@ return (
       label,
       value,
       edit,
-      view:
-        value && value.length > 0 ? (
-          <Widget
-            src={`${ownerId}/widget/Tags`}
-            props={{
-              tags: value.reduce(
-                (acc, { name }) => ({ ...acc, [name]: "" }),
-                {}
-              ),
-            }}
-          />
-        ) : null,
+      view: (
+        <Widget
+          src={`${ownerId}/widget/Tags`}
+          props={{
+            tags: value.reduce((acc, { name }) => ({ ...acc, [name]: "" }), {}),
+          }}
+        />
+      ),
       canEdit,
     }}
   />
