@@ -109,14 +109,13 @@ return (
       </div>
       {accountId &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
-          <div className="mx-2 d-none d-md-block">
+          <Button>
             <a
-              className="btn btn-outline-dark"
               href={`#/${authorForWidget}/widget/WikiOnSocialDB_CreateArticle`}
             >
               + Create Article
             </a>
-          </div>
+          </Button>
         )}
       <div className="d-none d-md-block">
         <Widget
