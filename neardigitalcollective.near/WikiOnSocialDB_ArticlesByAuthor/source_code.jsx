@@ -1,4 +1,4 @@
-const addressForArticles = "NDCDOCS";
+const addressForArticles = "ndcWikiArticles";
 const authorForWidget = "neardigitalcollective.near";
 const authorId = props.author;
 const accountId = props.accountId ?? context.accountId;
