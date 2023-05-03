@@ -157,7 +157,6 @@ const RenderKudoBox = (d, index) => {
       src={`${widgetOwner}/widget/kudoBox`}
       props={{
         tabs,
-        commentSharedBlockHeight,
         oppenedTab: state.display,
         widgetOwner,
         d,
