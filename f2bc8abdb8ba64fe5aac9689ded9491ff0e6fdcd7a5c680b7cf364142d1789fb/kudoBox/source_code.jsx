@@ -47,7 +47,9 @@ const RenderCommentAnswerBox = (d) => {
             return (
               <>
                 <div
-                  style={getAnswerContainerStyle()}
+                  style={
+                    thisWidgetInlineStyles.allCommentAnswerBox.cardContainer
+                  }
                   className={
                     oppenedTab == tabs.KUDO.id
                       ? thisWidgetClassNames.allCommentAnswerBox
