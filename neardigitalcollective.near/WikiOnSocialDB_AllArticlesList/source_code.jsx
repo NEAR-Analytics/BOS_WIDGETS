@@ -16,17 +16,18 @@ const postsIndex = Social.index(addressForArticles, "main", {
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
+  postsIndex
+    .reduce((acc, { accountId, blockHeight }) => {
+      const postData = Social.get(
+        `${accountId}/${addressForArticles}/main`,
+        blockHeight
+      );
+      const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+      return [...acc, postDataWithBlockHeight];
+    }, [])
+    .filter((article) =>
+      authorsWhitelist.some((addr) => addr === article.author)
     );
-    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-    return [...acc, postDataWithBlockHeight];
-  }, []);
-// .filter((article) =>
-//   writersWhiteList.some((addr) => addr === article.author)
-// );
 
 // ========== FILTER DUPLICATES ==========
 const filteredArticles =
