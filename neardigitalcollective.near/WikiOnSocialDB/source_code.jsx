@@ -1,4 +1,4 @@
-const addressForArticles = "NDCDOCS";
+const addressForArticles = "ndcWikiArticles";
 const authorsWhitelist = [
   "neardigitalcollective.near",
   "blaze.near",
