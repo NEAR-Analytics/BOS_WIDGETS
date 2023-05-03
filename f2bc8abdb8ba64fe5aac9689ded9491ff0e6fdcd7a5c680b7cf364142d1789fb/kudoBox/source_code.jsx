@@ -14,7 +14,7 @@ const upvotes = props.upvotes;
 
 State.init({
   hoveringElement: "",
-  //onlyShowShared: commentSharedBlockHeight ? true : false,
+  onlyShowShared: commentSharedBlockHeight ? true : false,
   showComments: false,
 });
 
@@ -43,64 +43,59 @@ const RenderCommentAnswerBox = (d) => {
       {state.showComments && (
         <div style={getAnswersContainerStyles()}>
           {d.value.comments.map((c) => {
-            {
-              return (
-                <>
+            return (
+              <>
+                <div
+                  style={getAnswerContainerStyle()}
+                  className={
+                    oppenedTab == tabs.KUDO.id
+                      ? thisWidgetClassNames.allCommentAnswerBox
+                          .cardContainerSingleCard
+                      : thisWidgetClassNames.allCommentAnswerBox.cardContainer
+                  }
+                >
                   <div
-                    style={getAnswerContainerStyle()}
                     className={
-                      oppenedTab == tabs.KUDO.id
-                        ? thisWidgetClassNames.allCommentAnswerBox
-                            .cardContainerSingleCard
-                        : thisWidgetClassNames.allCommentAnswerBox.cardContainer
+                      thisWidgetClassNames.allCommentAnswerBox.userAnswerHeader
                     }
                   >
+                    <Widget
+                      src="mob.near/widget/ProfileImage"
+                      props={{
+                        accountId: c.accountId,
+                        className: "d-inline-block",
+                        style:
+                          thisWidgetInlineStyles.allCommentAnswerBox
+                            .profileImageStyles,
+                      }}
+                    />
+                    <a
+                      style={
+                        thisWidgetInlineStyles.allCommentAnswerBox
+                          .commentUserNick
+                      }
+                      href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}
+                    >
+                      {c.accountId}
+                    </a>
                     <div
-                      className={
-                        thisWidgetClassNames.allCommentAnswerBox
-                          .userAnswerHeader
+                      style={
+                        props.allWidgetsInlineStyles.mainPage_post
+                          .followButtonContainer
                       }
                     >
                       <Widget
-                        src="mob.near/widget/ProfileImage"
-                        props={{
-                          accountId: c.accountId,
-                          className: "d-inline-block",
-                          style:
-                            thisWidgetInlineStyles.allCommentAnswerBox
-                              .profileImageStyles,
-                        }}
+                        src={`${widgetOwner}/widget/FollowButton`}
+                        props={{ accountId: c.accountId }}
                       />
-                      <a
-                        style={
-                          thisWidgetInlineStyles.allCommentAnswerBox
-                            .commentUserNick
-                        }
-                        href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}
-                      >
-                        {c.accountId}
-                      </a>
-                      <div
-                        style={
-                          props.allWidgetsInlineStyles.mainPage_post
-                            .followButtonContainer
-                        }
-                      >
-                        <Widget
-                          src={`${widgetOwner}/widget/FollowButton`}
-                          props={{ accountId: c.accountId }}
-                        />
-                      </div>
                     </div>
-                    <b
-                      style={thisWidgetInlineStyles.allCommentAnswerBox.comment}
-                    >
-                      {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
-                    </b>
                   </div>
-                </>
-              );
-            }
+                  <b style={thisWidgetInlineStyles.allCommentAnswerBox.comment}>
+                    {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
+                  </b>
+                </div>
+              </>
+            );
           })}
         </div>
       )}
