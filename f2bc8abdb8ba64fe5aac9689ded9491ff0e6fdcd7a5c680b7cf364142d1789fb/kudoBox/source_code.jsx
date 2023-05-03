@@ -12,9 +12,10 @@ const thisWidgetClassNames = props.allWidgetsClassNames.kudos;
 const updateGeneralState = props.updateGeneralState;
 const upvotes = props.upvotes;
 
+// onlyShowShared: commentSharedBlockHeight ? true : false,
+
 State.init({
   hoveringElement: "",
-  onlyShowShared: commentSharedBlockHeight ? true : false,
   showComments: false,
 });
 
@@ -136,18 +137,16 @@ return (
         }}
       />
 
-      {!state.onlyShowShared && (
-        <Widget
-          src={`${widgetOwner}/widget/showCommentsButton`}
-          props={{
-            thisWidgetInlineStyles,
-            thisWidgetClassNames,
-            fatherStateUpdate: updateStateFunction,
-            showComments: state.showComments,
-            d,
-          }}
-        />
-      )}
+      <Widget
+        src={`${widgetOwner}/widget/showCommentsButton`}
+        props={{
+          thisWidgetInlineStyles,
+          thisWidgetClassNames,
+          fatherStateUpdate: updateStateFunction,
+          showComments: state.showComments,
+          d,
+        }}
+      />
       {RenderCommentAnswerBox(d)}
     </div>
   </>
