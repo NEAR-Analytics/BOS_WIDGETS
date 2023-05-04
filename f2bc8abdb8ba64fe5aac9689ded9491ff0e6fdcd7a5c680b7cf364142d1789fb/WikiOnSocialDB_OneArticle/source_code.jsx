@@ -7,8 +7,6 @@ if (!accountId) {
   return "No account ID";
 }
 
-console.log(props.commentToShareBlockHeight);
-
 const switchButtonActiveStyles = {
   backgroundColor: "rgb(53, 58, 64)",
   borderColor: "rgb(71, 77, 85)",
@@ -416,7 +414,6 @@ return (
             </div>
           )}
           {/* === CREATE COMMENT BUTTON === */}
-          {console.log(state.showAllComments)}
           {blockHeight !== "now" && (
             <div className="mt-1 d-flex justify-content-between">
               <Widget
