@@ -119,16 +119,33 @@ if (!state.accountsWithPermissionsIsFetched) {
   );
 }
 
-const Hidable = styled.div`
-  height: unset;
-  transform: scaleY(1);
-  transform-origin: top;
-  transition: all 0.3s ease-in-out;
-  width: 100%;
-
-  &.hide {
+const slideDown = styled.keyframes`
+  from {
     height: 0;
-    transform: scaleY(0);
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+`;
+
+const slideUp = styled.keyframes`
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
+`;
+
+const Hidable = styled(Collapsible.Content)`
+  overflow: hidden;
+
+  &[data-state="open"] {
+    animation: ${slideDown} 0.3s ease-in-out;
+  }
+
+  &[data-state="closed"] {
+    animation: ${slideUp} 0.3s ease-in-out;
   }
 `;
 
@@ -241,25 +258,27 @@ return (
           error: state.integrationError,
         }}
       />
-      <Hidable
-        className={state.integration.value !== "multichain" ? "hide" : ""}
+      <Collapsible.Root
+        open={state.integration.value !== "multichain" ? "hide" : ""}
       >
-        <Widget
-          src={`${ownerId}/widget/Inputs.MultiSelect`}
-          props={{
-            label: "Other chains",
-            placeholder:
-              "What other chain(s) are you currently integrating with?",
-            value: state.chains,
-            onChange: (chains) =>
-              State.update({
-                chains: chains.map(({ name }) => ({
-                  name: name.trim().replaceAll(/\s+/g, "-"),
-                })),
-              }),
-          }}
-        />
-      </Hidable>
+        <Hidable>
+          <Widget
+            src={`${ownerId}/widget/Inputs.MultiSelect`}
+            props={{
+              label: "Other chains",
+              placeholder:
+                "What other chain(s) are you currently integrating with?",
+              value: state.chains,
+              onChange: (chains) =>
+                State.update({
+                  chains: chains.map(({ name }) => ({
+                    name: name.trim().replaceAll(/\s+/g, "-"),
+                  })),
+                }),
+            }}
+          />
+        </Hidable>
+      </Collapsible.Root>
       <Widget
         src={`${ownerId}/widget/Inputs.Phase`}
         props={{
