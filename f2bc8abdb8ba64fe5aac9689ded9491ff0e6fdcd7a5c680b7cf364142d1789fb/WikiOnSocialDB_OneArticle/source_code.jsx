@@ -431,6 +431,7 @@ return (
             <Widget
               src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
               props={{
+                commentToShareBlockHeight: props.commentToShareBlockHeight,
                 blockHeight,
                 lastEditor,
                 item,
