@@ -28,9 +28,9 @@ function getAnswersContainerStyles() {
 }
 
 function getAnswerContainerStyle(c) {
-  let style = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
+  let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
-  console.log("style: ", style);
+  console.log("styles: ", styles);
   console.log("commentBlockHeight: ", commentBlockHeight);
   console.log("c.blockHeight: ", c.blockHeight);
 
@@ -38,7 +38,7 @@ function getAnswerContainerStyle(c) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
   }
 
-  return style;
+  return styles;
 }
 
 const RenderCommentAnswerBox = (d) => {
