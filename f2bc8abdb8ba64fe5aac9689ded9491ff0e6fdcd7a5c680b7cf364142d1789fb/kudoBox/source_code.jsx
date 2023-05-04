@@ -12,17 +12,6 @@ const thisWidgetClassNames = props.allWidgetsClassNames.kudos;
 const updateGeneralState = props.updateGeneralState ?? undefined;
 const upvotes = props.upvotes;
 
-const tabs = {
-  ALL_kUDOS: {
-    id: 0,
-    text: "All Kudos",
-  },
-  KUDO: {
-    id: 1,
-    text: "Kudo",
-  },
-};
-
 State.init({
   hoveringElement: "",
   onlyShowSharedComment: commentBlockHeight ? true : false,
@@ -37,7 +26,7 @@ const RenderCommentAnswerBox = (d) => {
       {state.showComments && (
         <div
           style={
-            state.display && onlyShowSharedComment
+            state.display == tabs.KUDO.id && onlyShowSharedComment
               ? thisWidgetInlineStyles.allCommentAnswerBox.visibleCardsContainer
               : thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer
           }
