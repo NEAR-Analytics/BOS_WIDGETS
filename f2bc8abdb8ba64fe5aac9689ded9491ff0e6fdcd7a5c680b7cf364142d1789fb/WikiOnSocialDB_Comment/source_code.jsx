@@ -51,15 +51,17 @@ return (
               shareingWidget: "WikiOnSocialDB_OneArticle",
               propName: [
                 "articleId",
+                "blockHeight",
                 "lastEditor",
                 "wikiSiteBlockHeight",
                 "commentToShareBlockHeight",
               ],
               blockHeight: [
                 "ThirdNewDBTest",
+                blockHeight,
                 lastEditorAccountId,
                 wikiSiteBlockHeight,
-                blockHeight,
+                commentToShareBlockHeight,
               ],
               widgetOwner,
             }}
