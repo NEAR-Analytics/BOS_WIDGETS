@@ -9,8 +9,6 @@ const commentToShareBlockHeight = props.commentToShareBlockHeight
   ? Number(props.commentToShareBlockHeight)
   : undefined;
 
-console.log("3", props.showAllComments);
-
 const renderItem =
   props.renderItem ??
   ((item, i) => (
@@ -19,7 +17,6 @@ const renderItem =
     </div>
   ));
 const cachedRenderItem = (item, i) => {
-  console.log("wtf", props.showAllComments);
   const key = JSON.stringify(item);
 
   if (!props.showAllComments && item.blockHeight == commentToShareBlockHeight) {
