@@ -26,59 +26,63 @@ const raw = !!props.raw;
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const shareWidgetStyles = {
-  i: { cursor: "pointer" },
-  showShareOptionsContainer: {
-    position: "absolute",
-    left: "1rem",
-    backgroundColor: "#FFFFFF",
-    border: "1.5px solid #F0F4F7",
-    boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
-    borderRadius: "28px",
-    zIndex: "1",
-    width: "40vw",
-    maxWidth: "100%",
-    minWidth: "240px",
-    padding: "1rem",
-    border: "1.5px solid #F0F4F7",
+  shareWidget: {
+    i: { cursor: "pointer" },
+    showShareOptionsContainer: {
+      position: "absolute",
+      left: "1rem",
+      backgroundColor: "#FFFFFF",
+      border: "1.5px solid #F0F4F7",
+      boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
+      borderRadius: "28px",
+      zIndex: "1",
+      width: "40vw",
+      maxWidth: "100%",
+      minWidth: "240px",
+      padding: "1rem",
+      border: "1.5px solid #F0F4F7",
+    },
+    closeIcon: { cursor: "pointer" },
+    popUpDescription: {
+      color: "#474D55",
+      letterSpacing: "-0.01em",
+    },
+    showLinkShared: {
+      backgroundColor: "#F2F6FA",
+      padding: "1rem 2rem",
+      borderRadius: "17px",
+    },
+    linkShared: { color: "#0065FF", wordWrap: "anywhere" },
+    clipboardContainer: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      marginLeft: "0.5rem",
+      minWidth: "2.5rem",
+    },
+    clipBoardIconCopied: {
+      color: "#0065FF",
+      transition: "color 0.3s linear",
+      cursor: "pointer",
+    },
+    clipBoardIconNotCopied: {
+      transition: "color 0.3s linear",
+      cursor: "pointer",
+      color: "black",
+    },
+    copiedFeedback: { fontSize: "0.7rem" },
   },
-  closeIcon: { cursor: "pointer" },
-  popUpDescription: {
-    color: "#474D55",
-    letterSpacing: "-0.01em",
-  },
-  showLinkShared: {
-    backgroundColor: "#F2F6FA",
-    padding: "1rem 2rem",
-    borderRadius: "17px",
-  },
-  linkShared: { color: "#0065FF", wordWrap: "anywhere" },
-  clipboardContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginLeft: "0.5rem",
-    minWidth: "2.5rem",
-  },
-  clipBoardIconCopied: {
-    color: "#0065FF",
-    transition: "color 0.3s linear",
-    cursor: "pointer",
-  },
-  clipBoardIconNotCopied: {
-    transition: "color 0.3s linear",
-    cursor: "pointer",
-    color: "black",
-  },
-  copiedFeedback: { fontSize: "0.7rem" },
 };
 
 const shareWidgetClassNames = {
-  i: "bi bi-share d-inline-flex align-items-center",
-  closePopUpContainer: "d-flex flex-row-reverse",
-  closeIcon: "bi bi-x",
-  showLinkShared: "d-flex justify-content-between align-items-center",
-  clipboardIcon: "bi-clipboard",
-  copiedFeedback: "text-secondary",
+  shareWidget: {
+    i: "bi bi-share d-inline-flex align-items-center",
+    closePopUpContainer: "d-flex flex-row-reverse",
+    closeIcon: "bi bi-x",
+    showLinkShared: "d-flex justify-content-between align-items-center",
+    clipboardIcon: "bi-clipboard",
+    copiedFeedback: "text-secondary",
+  },
 };
 
 return (
