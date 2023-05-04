@@ -161,7 +161,7 @@ const allWidgetsInlineStyles = {
       },
       visibleCardsContainer: {
         boxShadow: "1px 0px 8px -3px rgba(0,0,0,0.44) inset",
-        overflowY: "scroll",
+        overflowY: "visible",
         transform: "translateY(calc(100% - 12px))",
         position: "absolute",
         width: "calc(100% + 2px)",
