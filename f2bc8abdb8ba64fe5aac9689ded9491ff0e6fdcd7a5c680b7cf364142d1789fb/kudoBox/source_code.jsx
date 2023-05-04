@@ -27,13 +27,21 @@ function getAnswersContainerStyles() {
   return styles;
 }
 
+let standardcardContainer =
+  thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
+let highlightedCardContainer = standardcardContainer;
+
+highlightedCardContainer[
+  "boxShadow"
+] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
+
 function getAnswerContainerStyle(c) {
-  let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
-  console.log(commentBlockHeight);
-  console.log(c.blockHeight);
+  let styles;
 
   if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
-    styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
+    styles = highlightedCardContainer;
+  } else {
+    styles = standardcardContainer;
   }
 
   return styles;
