@@ -18,9 +18,6 @@ State.init({
   showComments: false,
 });
 
-console.log(commentBlockHeight);
-console.log(state.onlyShowSharedComment);
-
 const widgetOwner = props.widgetOwner;
 
 function getAnswersContainerStyles() {
