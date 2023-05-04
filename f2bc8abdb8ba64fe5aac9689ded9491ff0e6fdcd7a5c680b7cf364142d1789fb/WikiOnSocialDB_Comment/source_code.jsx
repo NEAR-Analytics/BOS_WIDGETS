@@ -1,9 +1,11 @@
-const addressForArticles = "ndcWikiArticle";
-const addressForComments = "NDCDOCS-comments";
+const addressForArticles = "wikiTest2Article";
+const addressForComments = "wikiTest2Comment";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 State.init({ showReply: false });
 const accountId = props.accountId;
+
+const commentToShareBlockHeight = undefined;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -40,6 +42,26 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between">
+          <Widget
+            src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
+            props={{
+              popUpDescription: "Use this link to share the comment",
+              shareingWidget: "WikiOnSocialDB_OneArticle",
+              propName: [
+                "articleId",
+                "blockHeight",
+                "lastEditor",
+                "commentToShareBlockHeight",
+              ],
+              blockHeight: [
+                "ThirdNewDBTest",
+                blockHeight,
+                accountId,
+                commentToShareBlockHeight,
+              ],
+              widgetOwner,
+            }}
+          />
           {parentItem && (
             <Widget
               src="mob.near/widget/CommentButton"
