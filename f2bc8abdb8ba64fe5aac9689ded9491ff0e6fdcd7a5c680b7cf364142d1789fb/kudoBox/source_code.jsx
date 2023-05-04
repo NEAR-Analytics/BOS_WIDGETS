@@ -15,7 +15,7 @@ const upvotes = props.upvotes;
 State.init({
   hoveringElement: "",
   onlyShowSharedComment: commentBlockHeight,
-  showComments: state.onlyShowSharedComment,
+  showComments: commentBlockHeight,
 });
 
 const widgetOwner = props.widgetOwner;
