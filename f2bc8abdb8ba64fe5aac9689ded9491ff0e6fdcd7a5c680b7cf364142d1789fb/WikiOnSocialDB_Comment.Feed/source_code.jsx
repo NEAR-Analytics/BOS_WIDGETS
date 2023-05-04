@@ -23,7 +23,7 @@ const index = {
 
 const raw = !!props.raw;
 
-const renderItem = (a) => {
+const renderItem = (a, showAllComments) => {
   console.log("Is this", showAllComments);
   return (
     a.value.type === "md" &&
@@ -53,6 +53,7 @@ return (
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_ManualIndexFeed`}
       props={{
+        showAllComments: props.showAllComments,
         index,
         reverse: true,
         renderItem,
