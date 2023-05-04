@@ -97,6 +97,8 @@ State.init({
   teamError: "",
   accountsWithPermissions: [],
   accountsWithPermissionsIsFetched: false,
+  oss: null,
+  ossError: "",
 });
 
 if (!state.accountsWithPermissionsIsFetched) {
