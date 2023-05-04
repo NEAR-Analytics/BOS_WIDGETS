@@ -193,7 +193,7 @@ return (
                 account id, and visit the{" "}
                 <a
                   target="_blank"
-                  href={`/${ownerId}/widget/Index?tab=permissions&accountId=${context.accountId}`}
+                  href={`/${ownerId}/widget/Index?tab=permissions&accountIds=${context.accountId}`}
                 >
                   link
                 </a>{" "}
