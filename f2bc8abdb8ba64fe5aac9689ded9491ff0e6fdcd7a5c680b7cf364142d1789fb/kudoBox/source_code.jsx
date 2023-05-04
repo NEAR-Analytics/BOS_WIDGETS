@@ -27,25 +27,6 @@ function getAnswersContainerStyles() {
   return styles;
 }
 
-let standardcardContainer =
-  thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
-let highlightedCardContainer =
-  thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
-
-highlightedCardContainer[
-  "boxShadow"
-] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
-
-function getAnswerContainerStyle(c) {
-  if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
-    console.log(true);
-    return highlightedCardContainer;
-  } else {
-    console.log(false);
-    return standardcardContainer;
-  }
-}
-
 const RenderCommentAnswerBox = (d) => {
   return (
     <>
@@ -63,7 +44,9 @@ const RenderCommentAnswerBox = (d) => {
               return (
                 <>
                   <div
-                    style={getAnswerContainerStyle(c)}
+                    style={
+                      thisWidgetInlineStyles.allCommentAnswerBox.cardContainer
+                    }
                     key={`${c.blockHeight}-${state.onlyShowSharedComment}-${state.showComments}`}
                     className={
                       oppenedTab == tabs.KUDO.id
