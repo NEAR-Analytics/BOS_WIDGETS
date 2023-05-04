@@ -431,6 +431,7 @@ return (
             <Widget
               src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
               props={{
+                blockHeight,
                 lastEditor,
                 item,
                 highlightComment: props.highlightComment,
