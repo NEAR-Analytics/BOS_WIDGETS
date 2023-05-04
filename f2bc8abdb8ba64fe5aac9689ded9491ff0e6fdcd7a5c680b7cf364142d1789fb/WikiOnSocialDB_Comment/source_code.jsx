@@ -25,6 +25,20 @@ const raw = !!props.raw;
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
+const Button = styled.button`
+  border: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  &:hover {
+    color: DeepSkyBlue;
+    background: rgba(0, 191, 255, 0.1);
+  }
+`;
+
 return (
   <>
     <div
@@ -44,26 +58,28 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between">
-          <Widget
-            src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
-            props={{
-              popUpDescription: "Use this link to share the comment",
-              shareingWidget: "WikiOnSocialDB_OneArticle",
-              propName: [
-                "articleId",
-                "blockHeight",
-                "lastEditor",
-                "commentToShareBlockHeight",
-              ],
-              blockHeight: [
-                "ThirdNewDBTest",
-                wikiSiteBlockHeight,
-                lastEditorAccountId,
-                blockHeight,
-              ],
-              widgetOwner,
-            }}
-          />
+          <Button>
+            <Widget
+              src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
+              props={{
+                popUpDescription: "Use this link to share the comment",
+                shareingWidget: "WikiOnSocialDB_OneArticle",
+                propName: [
+                  "articleId",
+                  "blockHeight",
+                  "lastEditor",
+                  "commentToShareBlockHeight",
+                ],
+                blockHeight: [
+                  "ThirdNewDBTest",
+                  wikiSiteBlockHeight,
+                  lastEditorAccountId,
+                  blockHeight,
+                ],
+                widgetOwner,
+              }}
+            />
+          </Button>
           {parentItem && (
             <Widget
               src="mob.near/widget/CommentButton"
