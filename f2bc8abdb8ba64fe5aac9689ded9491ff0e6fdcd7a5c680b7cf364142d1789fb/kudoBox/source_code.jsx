@@ -18,7 +18,7 @@ State.init({
   showComments: commentBlockHeight,
 });
 
-console.log(state.onlyShowSharedComment);
+console.log(state.onlyShowSharedComment ? true : false);
 
 const widgetOwner = props.widgetOwner;
 
