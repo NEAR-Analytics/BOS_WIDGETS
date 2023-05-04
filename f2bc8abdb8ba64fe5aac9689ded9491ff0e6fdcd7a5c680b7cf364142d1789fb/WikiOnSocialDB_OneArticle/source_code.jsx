@@ -416,7 +416,7 @@ return (
             </div>
           )}
           {/* === CREATE COMMENT BUTTON === */}
-          {console.log(blockHeight)}
+          {state.showAllComments}
           {blockHeight !== "now" && (
             <div className="mt-1 d-flex justify-content-between">
               <Widget
