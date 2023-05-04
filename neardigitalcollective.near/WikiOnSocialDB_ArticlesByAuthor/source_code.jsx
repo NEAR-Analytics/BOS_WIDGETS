@@ -13,6 +13,10 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "yuensid.near",
 ];
 
+const articleBlackList = [
+  91092435, 91092174, 91051228, 91092223, 91051203, 91051228,
+];
+
 if (!accountId) {
   return "No account ID";
 }
@@ -34,7 +38,8 @@ const getDateLastEdit = (timestamp) => {
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
-});
+}).filter((article) => !articleBlackList.includes(article.blockHeight));
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
