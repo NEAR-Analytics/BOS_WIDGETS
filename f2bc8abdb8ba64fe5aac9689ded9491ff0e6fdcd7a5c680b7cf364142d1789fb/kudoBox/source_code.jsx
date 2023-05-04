@@ -39,6 +39,8 @@ function getAnswerContainerStyle(c) {
   return style;
 }
 
+console.log(d);
+
 const RenderCommentAnswerBox = (d) => {
   return (
     <>
