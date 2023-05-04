@@ -119,6 +119,7 @@ if (!state.accountsWithPermissionsIsFetched) {
 
 const Hidable = styled.div`
   transform: scaleY(1);
+  transform-origin: top;
   transition: transform 0.3s ease-in-out;
   width: 100%;
 
