@@ -344,7 +344,6 @@ return (
               <hr />
             </>
           )}
-
           {/* === EDIT ARTICLE === */}
           {state.editArticle && (
             <>
@@ -417,6 +416,7 @@ return (
             </div>
           )}
           {/* === CREATE COMMENT BUTTON === */}
+          console.log(blockHeight)
           {blockHeight !== "now" && (
             <div className="mt-1 d-flex justify-content-between">
               <Widget
@@ -426,26 +426,29 @@ return (
                 }}
               />
               {props.commentToShareBlockHeight && (
-                <input
-                  style={
-                    state.showAllComments
-                      ? switchButtonActiveStyles
-                      : switchButtonInactiveStyles
-                  }
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  checked={state.showAllComments}
-                  key={
-                    "switch-button-" +
-                    `${state.showAllComments ? "true" : "false"}`
-                  }
-                  onChange={() => {
-                    State.update({
-                      onlyShowSharedComment: !state.showAllComments,
-                    });
-                  }}
-                />
+                <div>
+                  <span>Show all comments</span>
+                  <input
+                    style={
+                      state.showAllComments
+                        ? switchButtonActiveStyles
+                        : switchButtonInactiveStyles
+                    }
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    checked={state.showAllComments}
+                    key={
+                      "switch-button-" +
+                      `${state.showAllComments ? "true" : "false"}`
+                    }
+                    onChange={() => {
+                      State.update({
+                        onlyShowSharedComment: !state.showAllComments,
+                      });
+                    }}
+                  />
+                </div>
               )}
             </div>
           )}
