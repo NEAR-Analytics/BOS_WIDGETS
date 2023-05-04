@@ -1,5 +1,6 @@
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
+const lastEditor = props.lastEditor;
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const index = {
@@ -21,6 +22,8 @@ const renderItem = (a) =>
       <Widget
         src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
         props={{
+          lastEditorAccountId: lastEditor,
+          wikiSiteBlockHeight: a.blockHeight,
           accountId: a.accountId,
           blockHeight: a.blockHeight,
           highlight:
