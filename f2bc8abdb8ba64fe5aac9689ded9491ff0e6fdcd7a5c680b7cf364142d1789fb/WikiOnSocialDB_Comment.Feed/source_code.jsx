@@ -53,6 +53,7 @@ return (
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_ManualIndexFeed`}
       props={{
+        commentToShareBlockHeight,
         showAllComments: props.showAllComments,
         index,
         reverse: true,
