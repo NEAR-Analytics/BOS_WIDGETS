@@ -404,6 +404,7 @@ return (
         selectMintbase,
         onChangeCustomMarket,
         onChangeAmount,
+        list,
       }}
     />
     <br></br>
