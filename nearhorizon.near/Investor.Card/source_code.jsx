@@ -4,31 +4,19 @@ const accountId = props.accountId;
 State.init({
   tags: null,
   tagsIsFetched: false,
-  name: null,
-  nameIsFetched: false,
-  description: null,
-  descriptionIsFetched: false,
+  profile: null,
+  profileIsFetched: false,
 });
 
-if (!state.foundersIsFetched) {
+if (!state.profileIsFetched) {
   Near.asyncView(
     "social.near",
     "get",
-    { keys: [`${accountId}/profile/tags`] },
+    { keys: [`${accountId}/profile/**`] },
     "final",
     false
-  ).then((tags) => State.update({ tags, tagsIsFetched: true }));
-}
-
-if (!state.descriptionIsFetched) {
-  Near.asyncView(
-    "social.near",
-    "get",
-    { keys: [`${accountId}/profile/description`] },
-    "final",
-    false
-  ).then((description) =>
-    State.update({ description, descriptionIsFetched: true })
+  ).then((data) =>
+    State.update({ profile: data[accountId]?.profile, profileIsFetched: true })
   );
 }
 
