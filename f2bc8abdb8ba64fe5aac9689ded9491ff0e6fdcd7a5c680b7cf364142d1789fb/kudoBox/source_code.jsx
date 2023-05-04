@@ -41,7 +41,10 @@ const RenderCommentAnswerBox = (d) => {
   return (
     <>
       {state.showComments && (
-        <div style={getAnswersContainerStyles()}>
+        <div
+          style={getAnswersContainerStyles()}
+          key={`comment-answer-box-${state.onlyShowSharedComment}-${state.showComments}`}
+        >
           {d.value.comments.map((c) => {
             if (
               !state.onlyShowSharedComment ||
