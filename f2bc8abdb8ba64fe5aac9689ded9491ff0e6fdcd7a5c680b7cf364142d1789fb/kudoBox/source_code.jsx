@@ -18,7 +18,7 @@ State.init({
   showComments: commentBlockHeight,
 });
 
-console.log(state.onlyShowSharedComment ? true : false);
+console.log(state.onlyShowSharedComment);
 
 const widgetOwner = props.widgetOwner;
 
@@ -179,7 +179,7 @@ return (
               thisWidgetInlineStyles,
               thisWidgetClassNames,
               fatherStateUpdate: updateStateFunction,
-              showComments: state.showComments,
+              showComments: state.showComments ? true : false,
               d,
             }}
           />
