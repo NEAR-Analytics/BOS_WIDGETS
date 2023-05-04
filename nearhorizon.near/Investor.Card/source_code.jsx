@@ -42,6 +42,16 @@ if (!state.nameIsFetched) {
   ).then((name) => State.update({ name, nameIsFetched: true }));
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
+  width: 100%;
+  margin-bottom: 0.25em;
+`;
+
 const body = (
   <>
     <Container>
