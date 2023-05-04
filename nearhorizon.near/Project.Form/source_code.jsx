@@ -262,7 +262,7 @@ return (
         open={state.integration.value === "multichain"}
         style={{ width: "100%" }}
       >
-        <Hidable forceMount>
+        <Hidable>
           <Widget
             src={`${ownerId}/widget/Inputs.MultiSelect`}
             props={{
