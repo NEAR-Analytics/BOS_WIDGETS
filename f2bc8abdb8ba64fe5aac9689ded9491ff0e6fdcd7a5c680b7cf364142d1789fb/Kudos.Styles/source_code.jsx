@@ -1,8 +1,6 @@
 const profile = Social.getr(`${context.accountId}/profile`);
 const metadata = Social.getr(`webuidl.near/widget/Kudos/metadata`);
 
-console.log(props);
-
 const sharedBlockHeight = Number(props.sharedBlockHeight);
 const commentSharedBlockHeight = Number(props.commentSharedBlockHeight);
 
