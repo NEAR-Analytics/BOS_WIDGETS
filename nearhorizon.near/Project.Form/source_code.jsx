@@ -258,7 +258,10 @@ return (
           error: state.integrationError,
         }}
       />
-      <Collapsible.Root open={state.integration.value === "multichain"}>
+      <Collapsible.Root
+        open={state.integration.value === "multichain"}
+        style={{ width: "100%" }}
+      >
         <Hidable>
           <Widget
             src={`${ownerId}/widget/Inputs.MultiSelect`}
