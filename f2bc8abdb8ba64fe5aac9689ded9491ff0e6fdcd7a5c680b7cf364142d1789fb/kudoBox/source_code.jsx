@@ -125,14 +125,13 @@ function getKudoBoxContainerStyles() {
   let styles = thisWidgetInlineStyles.renderKudoBox.cardContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
-  console.log("out getKudoBoxContainerStyles");
   return styles;
 }
 
 function updateStateFunction(objetc) {
   State.update(objetc);
 }
-console.log("start render");
+
 return (
   <>
     <div
@@ -143,6 +142,7 @@ return (
           : thisWidgetClassNames.renderKudoBox.cardContainerSingleCard
       }
     >
+      {console.log("out getKudoBoxContainerStyles")}
       <Widget
         src={`${widgetOwner}/widget/MainPage.Post`}
         props={{
