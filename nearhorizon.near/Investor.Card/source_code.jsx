@@ -49,16 +49,14 @@ const body = (
         src={`${ownerId}/widget/Vendor.Icon`}
         props={{ accountId: props.accountId, size: "4em" }}
       />
-      <Details>
-        <Widget
-          src={`${ownerId}/widget/NameAndAccount`}
-          props={{
-            accountId: props.accountId,
-            name: state.name,
-            nameSize: "1.125em",
-          }}
-        />
-      </Details>
+      <Widget
+        src={`${ownerId}/widget/NameAndAccount`}
+        props={{
+          accountId: props.accountId,
+          name: state.name,
+          nameSize: "1.125em",
+        }}
+      />
     </Container>
     <Widget
       src={`${ownerId}/widget/DescriptionArea`}
