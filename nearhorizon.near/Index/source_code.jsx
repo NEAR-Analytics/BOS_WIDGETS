@@ -137,7 +137,7 @@ const tabContent = {
   permissions: (
     <Widget
       src={`${ownerId}/widget/Inputs.SetUpPermissions`}
-      props={{ accountId: state.accountId }}
+      props={{ accountId: state.accountId, accountIds: props.accountIds }}
     />
   ),
   learn: (
