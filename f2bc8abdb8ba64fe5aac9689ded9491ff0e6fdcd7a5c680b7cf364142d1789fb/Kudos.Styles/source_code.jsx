@@ -1,16 +1,18 @@
 const profile = Social.getr(`${context.accountId}/profile`);
 const metadata = Social.getr(`webuidl.near/widget/Kudos/metadata`);
 
+const allProps = props;
+
+console.log(allProps);
+
 const sharedBlockHeight = Number(props.sharedBlockHeight);
-const commentSharedBlockHeight = Number(props.commentSharedBlockHeight);
+const commentSharedBlockHeight = Number(props.commentSharedBlockHeight)
+  ? undefined
+  : Number(props.commentSharedBlockHeight);
 
 const blockHeight = Number.isNaN(sharedBlockHeight)
   ? undefined
   : Number(sharedBlockHeight);
-
-const commentBlockHeight = Number.isNaN(commentSharedBlockHeight)
-  ? undefined
-  : Number(commentSharedBlockHeight);
 
 const widgetOwner =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
@@ -405,7 +407,7 @@ return (
       src={`${widgetOwner}/widget/Kudos`}
       props={{
         blockHeight,
-        commentBlockHeight,
+        commentSharedBlockHeight,
         widgetOwner,
         allWidgetsInlineStyles,
         allWidgetsClassNames,
