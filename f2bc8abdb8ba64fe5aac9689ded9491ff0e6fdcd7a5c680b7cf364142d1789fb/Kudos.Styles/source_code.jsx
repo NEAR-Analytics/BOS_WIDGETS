@@ -160,7 +160,8 @@ const allWidgetsInlineStyles = {
         padding: "10px",
       },
       cardContainer: {
-        boxShadow: "",
+        padding: "0.5rem",
+        borderRadius: "10px",
         marginTop: "0.5rem",
         textAlign: "start",
         width: "100%",
