@@ -6,8 +6,6 @@ if (!index) {
   return "props.index is not defined";
 }
 
-console.log(props.showAllComments);
-
 const renderItem =
   props.renderItem ??
   ((item, i) => (
