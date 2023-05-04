@@ -351,6 +351,7 @@ const allWidgetsClassNames = {
     urlTextareaContainer: "d-flex flex-column my-3 justify-content-around",
     allCardsContainer: "d-flex flex-wrap justify-content-around",
     allCommentAnswerBox: {
+      commentContainer: "d-flex flex-column align-items-start",
       cardContainer: "",
       userAnswerHeader: "d-flex flex-wrap align-items-center",
     },
