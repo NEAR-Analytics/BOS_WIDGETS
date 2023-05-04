@@ -20,19 +20,12 @@ State.init({
 
 const widgetOwner = props.widgetOwner;
 
-function getAnswersContainerStyles() {
-  let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
-
-  styles["zIndex"] = `${999999999 - index}`;
-  return styles;
-}
-
 const RenderCommentAnswerBox = (d) => {
   return (
     <>
       {state.showComments && (
         <div
-          style={getAnswersContainerStyles()}
+          style={thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer}
           key={`comment-answer-box-${state.onlyShowSharedComment}-${state.showComments}`}
         >
           {d.value.comments.map((c) => {
