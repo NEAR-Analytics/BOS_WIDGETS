@@ -23,23 +23,28 @@ console.log(state.onlyShowSharedComment);
 const widgetOwner = props.widgetOwner;
 
 function getAnswersContainerStyles() {
+  console.log("in getAnswersContainerStyles");
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
+  console.log("out getAnswersContainerStyles");
   return styles;
 }
 
 function getAnswerContainerStyle(c) {
+  console.log("in getAnswerContainerStyle");
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
   if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
   }
 
+  console.log("out getAnswerContainerStyle");
   return styles;
 }
 
 const RenderCommentAnswerBox = (d) => {
+  console.log("in RenderCommentAnswerBox");
   return (
     <>
       {state.showComments && (
@@ -110,21 +115,24 @@ const RenderCommentAnswerBox = (d) => {
           })}
         </div>
       )}
+      {console.log("out RenderCommentAnswerBox")}
     </>
   );
 };
 
 function getKudoBoxContainerStyles() {
+  console.log("in getKudoBoxContainerStyles");
   let styles = thisWidgetInlineStyles.renderKudoBox.cardContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
+  console.log("out getKudoBoxContainerStyles");
   return styles;
 }
 
 function updateStateFunction(objetc) {
   State.update(objetc);
 }
-
+console.log("start render");
 return (
   <>
     <div
@@ -192,6 +200,7 @@ return (
           {/*Decorative div do not delete*/}
         </div>
       </div>
+
       {RenderCommentAnswerBox(d)}
     </div>
   </>
