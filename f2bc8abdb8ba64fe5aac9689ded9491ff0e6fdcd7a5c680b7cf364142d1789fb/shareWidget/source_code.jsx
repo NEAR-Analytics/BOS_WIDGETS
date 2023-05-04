@@ -70,7 +70,7 @@ State.init({
   showShareOptions: false,
   linkCopied: false,
 });
-
+console.log(blockHeightToShare);
 console.log(Number.isNaN(blockHeightToShare));
 
 function getLink() {
