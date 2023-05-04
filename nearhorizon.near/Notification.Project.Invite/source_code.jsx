@@ -1,5 +1,5 @@
 const { requestId, vendorId } = props.value;
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 const [accountId, cid] = requestId;
 
 State.init({
