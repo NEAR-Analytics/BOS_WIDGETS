@@ -340,6 +340,7 @@ const allWidgetsClassNames = {
         "col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12",
       cardContainerSingleCard: "col-12",
       showCommentsButtonContainer: "d-flex flex-column align-items-center ",
+      displayHandlersContainer: "d-flex justify-content-around",
     },
   },
 
