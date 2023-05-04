@@ -18,6 +18,8 @@ State.init({
   showComments: false,
 });
 
+console.log(commentBlockHeight);
+
 const widgetOwner = props.widgetOwner;
 
 function getAnswersContainerStyles() {
