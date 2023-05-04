@@ -230,6 +230,23 @@ return (
           error: state.integrationError,
         }}
       />
+      <Hidable hide={state.integration.value !== "multichain"}>
+        <Widget
+          src={`${ownerId}/widget/Inputs.MultiSelect`}
+          props={{
+            label: "Other chains",
+            placeholder:
+              "What other chain(s) are you currently integrating with?",
+            value: state.chains,
+            onChange: (chains) =>
+              State.update({
+                chains: chains.map(({ name }) => ({
+                  name: name.trim().replaceAll(/\s+/g, "-"),
+                })),
+              }),
+          }}
+        />
+      </Hidable>
       <Widget
         src={`${ownerId}/widget/Inputs.Phase`}
         props={{
