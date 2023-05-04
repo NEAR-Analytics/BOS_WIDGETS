@@ -71,10 +71,15 @@ State.init({
   linkCopied: false,
 });
 console.log(blockHeightToShare);
+console.log(typeof blockHeightToShare === "string");
 console.log(Number.isNaN(blockHeightToShare));
 
 function getLink() {
-  if (Number.isNaN(blockHeightToShare) || blockHeightToShare.length == 1) {
+  if (
+    Number.isNaN(blockHeightToShare) ||
+    typeof blockHeightToShare === "string" ||
+    blockHeightToShare.length == 1
+  ) {
     return `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?${propName}=${blockHeightToShare}`;
   } else {
     let link = `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?`;
