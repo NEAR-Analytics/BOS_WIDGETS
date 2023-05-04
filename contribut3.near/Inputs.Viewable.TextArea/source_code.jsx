@@ -75,11 +75,11 @@ return (
         </LabelArea>
       ),
       // view: <Widget src={`${ownerId}/widget/DescriptionArea`} props={{ description: value }} />,
-      view: (
+      view: value ? (
         <MarkdownText>
           <Markdown text={value} />
         </MarkdownText>
-      ),
+      ) : null,
       canEdit,
     }}
   />
