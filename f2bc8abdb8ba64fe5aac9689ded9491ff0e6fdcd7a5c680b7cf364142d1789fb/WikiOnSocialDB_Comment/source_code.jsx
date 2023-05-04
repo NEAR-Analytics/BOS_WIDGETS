@@ -25,6 +25,8 @@ const raw = !!props.raw;
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
+props.allWidgetsInlineStyles.shareWidget;
+
 const shareWidgetStyles = {
   shareWidget: {
     i: { cursor: "pointer" },
@@ -107,7 +109,7 @@ return (
           <Widget
             src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
             props={{
-              thisWidgetClassNames: shareWidgetClassNames,
+              allWidgetsClassNames: shareWidgetClassNames,
               allWidgetsInlineStyles: shareWidgetStyles,
               popUpDescription: "Use this link to share the comment",
               shareingWidget: "WikiOnSocialDB_OneArticle",
