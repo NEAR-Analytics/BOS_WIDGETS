@@ -59,7 +59,7 @@ return (
                 "ThirdNewDBTest",
                 wikiSiteBlockHeight,
                 lastEditorAccountId,
-                commentToShareBlockHeight,
+                blockHeight,
               ],
               widgetOwner,
             }}
