@@ -308,6 +308,15 @@ return (
         }}
       />
       <Widget
+        src={`${ownerId}/widget/Inputs.OSS`}
+        props={{
+          category: state.oss,
+          update: (oss) => State.update({ oss }),
+          setError: (ossError) => State.update({ ossError }),
+          error: state.ossError,
+        }}
+      />
+      <Widget
         src={`${ownerId}/widget/Inputs.MultiSelect`}
         props={{
           label: "Tags",
