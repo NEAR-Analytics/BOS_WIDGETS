@@ -58,34 +58,6 @@ const body = (
             nameSize: "1.125em",
           }}
         />
-        <Row>
-          {state.profile.organization === "true"
-            ? "Organization"
-            : state.profile.organization === "false"
-              ? "Individual"
-              : ""}
-          {state.profile.active !== undefined ? (
-            <Widget
-              src={`${ownerId}/widget/ActiveIndicator`}
-              props={{
-                active: state.profile.active === "true",
-                activeText: "Available",
-                inactiveText: "Not available",
-              }}
-            />
-          ) : (
-            <></>
-          )}
-        </Row>
-        {/*<Widget
-          src={`${ownerId}/widget/BadgeList`}
-          props={{
-            badges: [
-              { value: "Verified" },
-              { value: "Fundraiser", color: "#62ebe4" },
-            ],
-          }}
-        />*/}
       </Details>
     </Container>
     <Widget
