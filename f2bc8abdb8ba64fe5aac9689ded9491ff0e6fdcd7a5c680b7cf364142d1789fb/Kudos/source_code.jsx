@@ -156,6 +156,7 @@ const RenderKudoBox = (d, index) => {
     <Widget
       src={`${widgetOwner}/widget/kudoBox`}
       props={{
+        display: state.display,
         tabs,
         oppenedTab: state.display,
         widgetOwner,
