@@ -7,6 +7,8 @@ if (!accountId) {
   return "No account ID";
 }
 
+console.log(props.commentToShareBlockHeight);
+
 const switchButtonActiveStyles = {
   backgroundColor: "rgb(53, 58, 64)",
   borderColor: "rgb(71, 77, 85)",
