@@ -57,12 +57,12 @@ const body = (
     <Container>
       <Widget
         src={`${ownerId}/widget/Vendor.Icon`}
-        props={{ accountId: props.accountId, size: "4em" }}
+        props={{ accountId, size: "4em" }}
       />
       <Widget
         src={`${ownerId}/widget/NameAndAccount`}
         props={{
-          accountId: props.accountId,
+          accountId,
           name: state.name,
           nameSize: "1.125em",
         }}
