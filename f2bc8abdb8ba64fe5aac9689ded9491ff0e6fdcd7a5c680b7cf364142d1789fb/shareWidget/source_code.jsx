@@ -71,8 +71,8 @@ State.init({
   linkCopied: false,
 });
 console.log(blockHeightToShare);
-console.log(typeof blockHeightToShare === "string");
-console.log(Number.isNaN(blockHeightToShare));
+console.log("typeof", typeof blockHeightToShare === "string");
+console.log("number", Number.isNaN(blockHeightToShare));
 
 function getLink() {
   if (
