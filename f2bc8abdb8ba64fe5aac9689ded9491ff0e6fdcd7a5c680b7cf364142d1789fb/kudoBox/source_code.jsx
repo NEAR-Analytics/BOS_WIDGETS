@@ -39,8 +39,10 @@ function getAnswerContainerStyle(c) {
   let styles;
 
   if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
+    console.log(true);
     styles = highlightedCardContainer;
   } else {
+    console.log(false);
     styles = standardcardContainer;
   }
 
@@ -65,6 +67,7 @@ const RenderCommentAnswerBox = (d) => {
                 <>
                   <div
                     style={getAnswerContainerStyle(c)}
+                    key={`${c.blockHeight}-${state.onlyShowSharedComment}-${state.showComments}`}
                     className={
                       oppenedTab == tabs.KUDO.id
                         ? thisWidgetClassNames.allCommentAnswerBox
