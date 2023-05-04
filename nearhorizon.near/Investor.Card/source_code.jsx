@@ -4,6 +4,8 @@ const accountId = props.accountId;
 State.init({
   tags: null,
   tagsIsFetched: false,
+  name: null,
+  nameIsFetched: false,
   description: null,
   descriptionIsFetched: false,
 });
@@ -30,16 +32,62 @@ if (!state.descriptionIsFetched) {
   );
 }
 
+if (!state.nameIsFetched) {
+  Near.asyncView(
+    "social.near",
+    "get",
+    { keys: [`${accountId}/profile/name`] },
+    "final",
+    false
+  ).then((name) => State.update({ name, nameIsFetched: true }));
+}
+
 const body = (
   <>
-    <Widget
-      src={`near/widget/ProfileLine`}
-      props={{
-        accountId,
-        imageSize: "3em",
-        update: props.update,
-      }}
-    />
+    <Container>
+      <Widget
+        src={`${ownerId}/widget/Vendor.Icon`}
+        props={{ accountId: props.accountId, size: "4em" }}
+      />
+      <Details>
+        <Widget
+          src={`${ownerId}/widget/NameAndAccount`}
+          props={{
+            accountId: props.accountId,
+            name: state.profile.name,
+            nameSize: "1.125em",
+          }}
+        />
+        <Row>
+          {state.profile.organization === "true"
+            ? "Organization"
+            : state.profile.organization === "false"
+              ? "Individual"
+              : ""}
+          {state.profile.active !== undefined ? (
+            <Widget
+              src={`${ownerId}/widget/ActiveIndicator`}
+              props={{
+                active: state.profile.active === "true",
+                activeText: "Available",
+                inactiveText: "Not available",
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </Row>
+        {/*<Widget
+          src={`${ownerId}/widget/BadgeList`}
+          props={{
+            badges: [
+              { value: "Verified" },
+              { value: "Fundraiser", color: "#62ebe4" },
+            ],
+          }}
+        />*/}
+      </Details>
+    </Container>
     <Widget
       src={`${ownerId}/widget/DescriptionArea`}
       props={{ description: state.description }}
