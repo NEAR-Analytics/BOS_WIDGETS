@@ -73,7 +73,7 @@ const shareWidgetStyles = {
 };
 
 const shareWidgetClassNames = {
-  i: "bi bi-share",
+  i: "bi bi-share d-inline-flex align-items-center",
   closePopUpContainer: "d-flex flex-row-reverse",
   closeIcon: "bi bi-x",
   showLinkShared: "d-flex justify-content-between align-items-center",
