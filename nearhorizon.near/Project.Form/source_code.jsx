@@ -118,12 +118,14 @@ if (!state.accountsWithPermissionsIsFetched) {
 }
 
 const Hidable = styled.div`
+  height: unset;
   transform: scaleY(1);
   transform-origin: top;
   transition: transform 0.3s ease-in-out;
   width: 100%;
 
   &.hide {
+    height: 0;
     transform: scaleY(0);
   }
 `;
