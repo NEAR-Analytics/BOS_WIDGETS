@@ -20,16 +20,6 @@ if (!state.profileIsFetched) {
   );
 }
 
-if (!state.nameIsFetched) {
-  Near.asyncView(
-    "social.near",
-    "get",
-    { keys: [`${accountId}/profile/name`] },
-    "final",
-    false
-  ).then((name) => State.update({ name, nameIsFetched: true }));
-}
-
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -51,14 +41,14 @@ const body = (
         src={`${ownerId}/widget/NameAndAccount`}
         props={{
           accountId,
-          name: state.name,
+          name: state.profile.name,
           nameSize: "1.125em",
         }}
       />
     </Container>
     <Widget
       src={`${ownerId}/widget/DescriptionArea`}
-      props={{ description: state.description }}
+      props={{ description: state.profile.description }}
     />
   </>
 );
