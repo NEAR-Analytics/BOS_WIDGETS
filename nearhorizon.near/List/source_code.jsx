@@ -40,7 +40,9 @@ return (
   <Container>
     <InfiniteScroll loadMore={loadMore} hasMore={state.hasMore}>
       <ListContainer>
-        {state.shown.map((args, index) => createItem(args))}
+        {state.shown
+          .filter(props.filter)
+          .map((args, index) => createItem(args))}
       </ListContainer>
     </InfiniteScroll>
   </Container>
