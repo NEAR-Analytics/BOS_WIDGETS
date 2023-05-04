@@ -54,7 +54,7 @@ const body = (
           src={`${ownerId}/widget/NameAndAccount`}
           props={{
             accountId: props.accountId,
-            name: state.profile.name,
+            name: state.name,
             nameSize: "1.125em",
           }}
         />
