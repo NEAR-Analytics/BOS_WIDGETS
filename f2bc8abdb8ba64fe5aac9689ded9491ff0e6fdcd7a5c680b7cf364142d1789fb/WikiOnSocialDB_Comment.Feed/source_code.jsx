@@ -23,6 +23,7 @@ const renderItem = (a) =>
       <Widget
         src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
         props={{
+          commentToShareBlockHeight: props.commentToShareBlockHeight,
           lastEditorAccountId: lastEditor,
           wikiSiteBlockHeight: props.blockHeight,
           accountId: a.accountId,
