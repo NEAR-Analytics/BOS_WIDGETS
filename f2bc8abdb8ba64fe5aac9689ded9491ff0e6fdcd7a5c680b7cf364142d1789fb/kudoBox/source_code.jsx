@@ -181,21 +181,22 @@ return (
         ) : (
           <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
         )}
-
-        {!state.onlyShowSharedComment ? (
-          <Widget
-            src={`${widgetOwner}/widget/showCommentsButton`}
-            props={{
-              thisWidgetInlineStyles,
-              thisWidgetClassNames,
-              fatherStateUpdate: updateStateFunction,
-              showComments: state.showComments,
-              d,
-            }}
-          />
-        ) : (
-          <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
-        )}
+        <div style={{ width: "33%" }}>
+          {!state.onlyShowSharedComment ? (
+            <Widget
+              src={`${widgetOwner}/widget/showCommentsButton`}
+              props={{
+                thisWidgetInlineStyles,
+                thisWidgetClassNames,
+                fatherStateUpdate: updateStateFunction,
+                showComments: state.showComments,
+                d,
+              }}
+            />
+          ) : (
+            <div>{/*Decorative div do not delete*/}</div>
+          )}
+        </div>
 
         <div style={{ width: "33%", minHeight: "57px" }}>
           {/*Decorative div do not delete*/}
