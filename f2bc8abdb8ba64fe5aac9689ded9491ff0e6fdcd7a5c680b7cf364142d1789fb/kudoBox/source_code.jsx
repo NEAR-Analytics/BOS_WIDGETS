@@ -145,6 +145,7 @@ return (
         }}
       />
       <div
+        style={thisWidgetInlineStyles.renderKudoBox.displayHandlersContainer}
         className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
       >
         {commentBlockHeight ? (
