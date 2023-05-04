@@ -71,6 +71,21 @@ State.init({
   linkCopied: false,
 });
 
+function getLink() {
+  if (Number.isNaN(blockHeightToShare) || blockHeightToShare.length == 1) {
+    return `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?${propName}=${blockHeightToShare}`;
+  } else {
+    let link = `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?`;
+    for (let i = 0; i < blockHeightToShare.length; i++) {
+      if (i != 0) {
+        link += "&";
+      }
+      link += `${propName[i]}=${blockHeightToShare}`;
+    }
+    return link;
+  }
+}
+
 return (
   <>
     <i
@@ -99,9 +114,7 @@ return (
           className={thisWidgetClassNames.showLinkShared}
           style={thisWidgetInlineStyles.showLinkShared}
         >
-          <span
-            style={thisWidgetInlineStyles.linkShared}
-          >{`https://near.social/#/${widgetOwner}/widget/${shareingWidget}?${propName}=${blockHeightToShare}`}</span>
+          <span style={thisWidgetInlineStyles.linkShared}>{getLink()}</span>
           <div style={thisWidgetInlineStyles.clipboardContainer}>
             <i
               className={thisWidgetClassNames.clipboardIcon}
@@ -111,9 +124,7 @@ return (
                   : thisWidgetInlineStyles.clipBoardIconNotCopied
               }
               onClick={() => {
-                clipboard.writeText(
-                  `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?${propName}=${blockHeightToShare}`
-                );
+                clipboard.writeText(getLink());
                 State.update({ linkCopied: true });
               }}
             ></i>
