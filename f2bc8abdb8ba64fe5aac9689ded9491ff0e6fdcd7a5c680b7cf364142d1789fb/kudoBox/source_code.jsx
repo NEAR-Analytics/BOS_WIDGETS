@@ -170,6 +170,7 @@ return (
               onChange={() => {
                 State.update({
                   onlyShowSharedComment: !state.onlyShowSharedComment,
+                  showComments: true,
                 });
               }}
             />
