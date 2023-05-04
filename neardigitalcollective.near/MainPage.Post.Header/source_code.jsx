@@ -43,7 +43,7 @@ return (
               style={{ cursor: "pointer" }}
               onClick={() => {
                 clipboard.writeText(
-                  `https://near.social/#/${widgetOwner}/widget/Kudos?sharedBlockHeight=${blockHeight}`
+                  `https://near.social/#/${widgetOwner}/widget/Kudos.Styles?sharedBlockHeight=${blockHeight}`
                 );
               }}
             >
