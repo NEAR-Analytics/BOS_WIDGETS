@@ -113,7 +113,7 @@ const onChangeAmount = (amount) => {
   });
   const fnfMsg = JSON.stringify({
     sale_conditions: {
-      near: parseNearAmount(amount),
+      near: amount,
     },
   });
   // console.log(bigIntNumber);
