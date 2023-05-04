@@ -36,17 +36,13 @@ highlightedCardContainer[
 ] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
 
 function getAnswerContainerStyle(c) {
-  let styles;
-
   if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
     console.log(true);
-    styles = highlightedCardContainer;
+    return highlightedCardContainer;
   } else {
     console.log(false);
-    styles = standardcardContainer;
+    return standardcardContainer;
   }
-
-  return styles;
 }
 
 const RenderCommentAnswerBox = (d) => {
