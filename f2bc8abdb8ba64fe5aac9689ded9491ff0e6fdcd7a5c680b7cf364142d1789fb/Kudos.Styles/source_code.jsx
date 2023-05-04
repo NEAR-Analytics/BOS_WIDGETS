@@ -213,6 +213,11 @@ const allWidgetsInlineStyles = {
         maxWidth: "85vw",
         minWidth: "318px",
       },
+      commentButtonBigContainer: {
+        width: "33%",
+        display: "flex",
+        justifyContent: "center",
+      },
       showCommentsButtonContainerNoComments: {
         margin: "0.5rem auto",
         padding: "0.3rem 0.5rem",
