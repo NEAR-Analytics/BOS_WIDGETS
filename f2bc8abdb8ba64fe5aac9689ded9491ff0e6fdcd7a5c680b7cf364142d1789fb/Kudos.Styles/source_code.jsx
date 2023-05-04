@@ -180,6 +180,9 @@ const allWidgetsInlineStyles = {
       comment: {
         margin: "1rem",
       },
+      shareWidgetContainer: {
+        margin: "1rem",
+      },
     },
     urlTextarea: {
       backgroundColor: "#fafafa",
