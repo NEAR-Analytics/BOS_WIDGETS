@@ -16,6 +16,7 @@ const renderItem =
     </div>
   ));
 const cachedRenderItem = (item, i) => {
+  console.log("wtf", props.showAllComments);
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
