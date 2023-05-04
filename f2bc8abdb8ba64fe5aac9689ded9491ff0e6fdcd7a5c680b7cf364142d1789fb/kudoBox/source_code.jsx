@@ -141,7 +141,6 @@ return (
           : thisWidgetClassNames.renderKudoBox.cardContainerSingleCard
       }
     >
-      {console.log("in MainPage.post")}
       <Widget
         src={`${widgetOwner}/widget/MainPage.Post`}
         props={{
@@ -153,33 +152,39 @@ return (
           allWidgetsClassNames: props.allWidgetsClassNames,
         }}
       />
-      {console.log("out MainPage.post")}
       <div
         className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
       >
         {commentBlockHeight ? (
-          <input
-            style={
-              state.onlyShowSharedComment
-                ? thisWidgetInlineStyles.renderKudoBox.switchButtonActive
-                : thisWidgetInlineStyles.renderKudoBox.switchButtonInactive
-            }
-            className="form-check-input"
-            type="checkbox"
-            role="switch"
-            checked={state.onlyShowSharedComment}
-            key={("button", `${state.onlyShowSharedComment}`)}
-            onChange={() => {
-              State.update({
-                onlyShowSharedComment: !state.onlyShowSharedComment,
-              });
-            }}
-          />
+          <>
+            <input
+              style={
+                state.onlyShowSharedComment
+                  ? thisWidgetInlineStyles.renderKudoBox.switchButtonActive
+                  : thisWidgetInlineStyles.renderKudoBox.switchButtonInactive
+              }
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              checked={state.onlyShowSharedComment}
+              key={
+                "switch-button-" +
+                `${state.onlyShowSharedComment ? "true" : "false"}`
+              }
+              onChange={() => {
+                State.update({
+                  onlyShowSharedComment: !state.onlyShowSharedComment,
+                });
+              }}
+            />
+          </>
         ) : (
           <div style={{ minWidth: "33%" }}>
             {/*Decorative div do not delete*/}
           </div>
         )}
+
+        {console.log("out input section")}
         {state.onlyShowSharedComment ? (
           <Widget
             src={`${widgetOwner}/widget/showCommentsButton`}
@@ -196,6 +201,7 @@ return (
             {/*Decorative div do not delete*/}
           </div>
         )}
+        {console.log("out showCommentsButton")}
         <div style={{ minWidth: "33%" }}>
           {/*Decorative div do not delete*/}
         </div>
