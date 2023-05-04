@@ -18,33 +18,26 @@ State.init({
   showComments: commentBlockHeight ? true : false,
 });
 
-console.log(state.onlyShowSharedComment);
-
 const widgetOwner = props.widgetOwner;
 
 function getAnswersContainerStyles() {
-  console.log("in getAnswersContainerStyles");
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
-  console.log("out getAnswersContainerStyles");
   return styles;
 }
 
 function getAnswerContainerStyle(c) {
-  console.log("in getAnswerContainerStyle");
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
   if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
   }
 
-  console.log("out getAnswerContainerStyle");
   return styles;
 }
 
 const RenderCommentAnswerBox = (d) => {
-  console.log("in RenderCommentAnswerBox");
   return (
     <>
       {state.showComments && (
@@ -115,7 +108,6 @@ const RenderCommentAnswerBox = (d) => {
           })}
         </div>
       )}
-      {console.log("out RenderCommentAnswerBox")}
     </>
   );
 };
@@ -184,7 +176,6 @@ return (
           </div>
         )}
 
-        {console.log("out input section")}
         {state.onlyShowSharedComment ? (
           <Widget
             src={`${widgetOwner}/widget/showCommentsButton`}
@@ -201,8 +192,8 @@ return (
             {/*Decorative div do not delete*/}
           </div>
         )}
-        {console.log("out showCommentsButton")}
-        <div style={{ minWidth: "33%" }}>
+
+        <div style={{ minWidth: "33%", minHeight: "400px" }}>
           {/*Decorative div do not delete*/}
         </div>
       </div>
