@@ -22,7 +22,7 @@ const index = {
 
 const raw = !!props.raw;
 
-const renderItem = (a) =>
+const renderItem = (a, showAllComments) =>
   a.value.type === "md" &&
   ((a.blockHeight === commentToShareBlockHeight && !showAllComments) ||
     showAllComments) && (
@@ -48,6 +48,7 @@ return (
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_ManualIndexFeed`}
       props={{
+        showAllComments,
         index,
         reverse: true,
         renderItem,
