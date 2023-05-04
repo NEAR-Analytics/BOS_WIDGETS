@@ -7,6 +7,7 @@ const writersWhiteList = [
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
+  "yuensid.near",
 ];
 
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
@@ -17,16 +18,17 @@ const postsIndex = Social.index(addressForArticles, "main", {
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
+  postsIndex
+    .reduce((acc, { accountId, blockHeight }) => {
+      const postData = Social.get(
+        `${accountId}/${addressForArticles}/main`,
+        blockHeight
+      );
+      return [...acc, JSON.parse(postData)];
+    }, [])
+    .filter((article) =>
+      writersWhiteList.some((addr) => addr === article.author)
     );
-    return [...acc, JSON.parse(postData)];
-  }, []);
-// .filter((article) =>
-//   writersWhiteList.some((addr) => addr === article.author)
-// );
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
