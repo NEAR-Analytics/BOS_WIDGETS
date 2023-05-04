@@ -14,12 +14,6 @@ if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
 
-console.log({
-  search,
-  items: state.items,
-  itemsFiltered: state.items.filter((accountId) => accountId.includes(search)),
-});
-
 return (
   <Widget
     src={`${ownerId}/widget/List`}
