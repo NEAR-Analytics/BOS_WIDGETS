@@ -18,6 +18,9 @@ State.init({
   showComments: commentBlockHeight ? true : false,
 });
 
+console.log("1", state.display == tabs.KUDO.id);
+console.log("2", onlyShowSharedComment);
+
 const widgetOwner = props.widgetOwner;
 
 const RenderCommentAnswerBox = (d) => {
