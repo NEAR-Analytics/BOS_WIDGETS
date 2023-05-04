@@ -9,10 +9,8 @@ const oppenedTab = props.oppenedTab;
 const thisWidgetInlineStyles = props.allWidgetsInlineStyles.kudos;
 const thisWidgetClassNames = props.allWidgetsClassNames.kudos;
 
-const updateGeneralState = props.updateGeneralState;
+const updateGeneralState = props.updateGeneralState ?? undefined;
 const upvotes = props.upvotes;
-
-// onlyShowShared: commentSharedBlockHeight ? true : false,
 
 State.init({
   hoveringElement: "",
@@ -32,7 +30,7 @@ function getAnswersContainerStyles() {
 function getAnswerContainerStyle(c) {
   let style = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
-  if (c.blockHeight == commentSharedBlockHeight) {
+  if (updateGeneralState && c.blockHeight == commentSharedBlockHeight) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
   }
 
