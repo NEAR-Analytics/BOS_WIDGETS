@@ -119,7 +119,7 @@ const RenderCommentAnswerBox = (d) => {
                             shareingWidget: "Kudos.Styles",
                             propName: [
                               "sharedBlockHeight",
-                              commentSharedBlockHeight,
+                              "commentSharedBlockHeight",
                             ],
                             blockHeight: [d.blockHeight, c.blockHeight],
                             widgetOwner,
