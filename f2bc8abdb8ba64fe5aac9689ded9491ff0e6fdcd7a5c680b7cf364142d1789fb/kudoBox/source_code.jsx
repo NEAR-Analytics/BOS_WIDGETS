@@ -33,13 +33,13 @@ function getAnswersContainerStyles() {
 function getAnswerContainerStyle(c) {
   let style = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
-  if (commentBlockHeight && c.blockHeight == commentSharedBlockHeight) {
+  if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
   }
 
   console.log(commentBlockHeight);
   console.log(c.blockHeight);
-  console.log(commentSharedBlockHeight);
+  console.log(commentBlockHeight);
 
   return style;
 }
@@ -53,7 +53,7 @@ const RenderCommentAnswerBox = (d) => {
             if (
               !state.onlyShowSharedComment ||
               (state.onlyShowSharedComment &&
-                c.blockHeight == commentSharedBlockHeight)
+                c.blockHeight == commentBlockHeight)
             ) {
               return (
                 <>
