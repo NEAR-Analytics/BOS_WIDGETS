@@ -6,6 +6,7 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
+  "yuensid.near",
 ];
 const authorForWidget = "neardigitalcollective.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
