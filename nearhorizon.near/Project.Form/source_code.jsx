@@ -149,7 +149,8 @@ const validateForm = () => {
     (!state.tags || state.tagsError === "") &&
     (!state.website || state.websiteError === "") &&
     (!state.geo || state.geoError === "") &&
-    (!state.team || state.teamError === "")
+    (!state.team || state.teamError === "") &&
+    (!state.oss || state.ossError === "")
   );
 };
 
