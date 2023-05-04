@@ -25,19 +25,61 @@ const raw = !!props.raw;
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-const Button = styled.button`
-  border: 0 !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  width: 2.5em;
-  height: 2.5em;
-  &:hover {
-    color: DeepSkyBlue;
-    background: rgba(0, 191, 255, 0.1);
-  }
-`;
+const shareWidgetStyles = {
+  i: { cursor: "pointer" },
+  showShareOptionsContainer: {
+    position: "absolute",
+    left: "1rem",
+    backgroundColor: "#FFFFFF",
+    border: "1.5px solid #F0F4F7",
+    boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
+    borderRadius: "28px",
+    zIndex: "1",
+    width: "40vw",
+    maxWidth: "100%",
+    minWidth: "240px",
+    padding: "1rem",
+    border: "1.5px solid #F0F4F7",
+  },
+  closeIcon: { cursor: "pointer" },
+  popUpDescription: {
+    color: "#474D55",
+    letterSpacing: "-0.01em",
+  },
+  showLinkShared: {
+    backgroundColor: "#F2F6FA",
+    padding: "1rem 2rem",
+    borderRadius: "17px",
+  },
+  linkShared: { color: "#0065FF", wordWrap: "anywhere" },
+  clipboardContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginLeft: "0.5rem",
+    minWidth: "2.5rem",
+  },
+  clipBoardIconCopied: {
+    color: "#0065FF",
+    transition: "color 0.3s linear",
+    cursor: "pointer",
+  },
+  clipBoardIconNotCopied: {
+    transition: "color 0.3s linear",
+    cursor: "pointer",
+    color: "black",
+  },
+  copiedFeedback: { fontSize: "0.7rem" },
+};
+
+const shareWidgetClassNames = {
+  i: "bi bi-share",
+  closePopUpContainer: "d-flex flex-row-reverse",
+  closeIcon: "bi bi-x",
+  showLinkShared: "d-flex justify-content-between align-items-center",
+  clipboardIcon: "bi-clipboard",
+  copiedFeedback: "text-secondary",
+};
 
 return (
   <>
@@ -58,28 +100,28 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between">
-          <Button>
-            <Widget
-              src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
-              props={{
-                popUpDescription: "Use this link to share the comment",
-                shareingWidget: "WikiOnSocialDB_OneArticle",
-                propName: [
-                  "articleId",
-                  "blockHeight",
-                  "lastEditor",
-                  "commentToShareBlockHeight",
-                ],
-                blockHeight: [
-                  "ThirdNewDBTest",
-                  wikiSiteBlockHeight,
-                  lastEditorAccountId,
-                  blockHeight,
-                ],
-                widgetOwner,
-              }}
-            />
-          </Button>
+          <Widget
+            src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
+            props={{
+              thisWidgetClassNames: shareWidgetClassNames,
+              allWidgetsInlineStyles: shareWidgetStyles,
+              popUpDescription: "Use this link to share the comment",
+              shareingWidget: "WikiOnSocialDB_OneArticle",
+              propName: [
+                "articleId",
+                "blockHeight",
+                "lastEditor",
+                "commentToShareBlockHeight",
+              ],
+              blockHeight: [
+                "ThirdNewDBTest",
+                wikiSiteBlockHeight,
+                lastEditorAccountId,
+                blockHeight,
+              ],
+              widgetOwner,
+            }}
+          />
           {parentItem && (
             <Widget
               src="mob.near/widget/CommentButton"
