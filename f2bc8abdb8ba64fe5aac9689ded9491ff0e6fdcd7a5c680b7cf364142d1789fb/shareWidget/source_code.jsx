@@ -70,14 +70,10 @@ State.init({
   showShareOptions: false,
   linkCopied: false,
 });
-console.log(blockHeightToShare);
-console.log("typeof", typeof blockHeightToShare === "string");
-console.log("number", typeof blockHeightToShare === "number");
 
 function getLink() {
   if (
-    Number.isNaN(blockHeightToShare) ||
-    typeof blockHeightToShare === "string" ||
+    typeof blockHeightToShare === "number" ||
     blockHeightToShare.length == 1
   ) {
     return `https://near.social/#/${widgetOwner}/widget/${shareingWidget}?${propName}=${blockHeightToShare}`;
