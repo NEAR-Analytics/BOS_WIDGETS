@@ -17,7 +17,7 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
-    state.cachedItems[key] = renderItem(item, props.showAllComments, i);
+    state.cachedItems[key] = renderItem(item, i);
     State.update();
   }
   return state.cachedItems[key];
