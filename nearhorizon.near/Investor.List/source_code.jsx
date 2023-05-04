@@ -18,7 +18,8 @@ return (
   <Widget
     src={`${ownerId}/widget/List`}
     props={{
-      items: state.items.filter((accountId) => accountId.includes(search)),
+      filter: (accountId) => accountId.includes(search),
+      items: state.items,
       createItem: (accountId) => (
         <Widget src={`${ownerId}/widget/Investor.Card`} props={{ accountId }} />
       ),
