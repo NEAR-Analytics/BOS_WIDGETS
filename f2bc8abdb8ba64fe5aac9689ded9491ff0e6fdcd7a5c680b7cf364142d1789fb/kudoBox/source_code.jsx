@@ -193,7 +193,7 @@ return (
           </div>
         )}
 
-        <div style={{ minWidth: "33%", minHeight: "400px" }}>
+        <div style={{ minWidth: "33%", minHeight: "57px" }}>
           {/*Decorative div do not delete*/}
         </div>
       </div>
