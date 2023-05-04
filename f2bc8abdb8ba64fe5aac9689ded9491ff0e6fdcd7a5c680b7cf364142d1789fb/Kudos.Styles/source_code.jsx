@@ -187,17 +187,18 @@ const allWidgetsInlineStyles = {
       borderRadius: "0.375rem",
     },
     renderKudoBox: {
+      switchButtonContainer: {
+        width: "33%",
+      },
       switchButtonActive: {
         backgroundColor: "rgb(53, 58, 64)",
         borderColor: "rgb(71, 77, 85)",
         cursor: "pointer",
-        minWidth: "33%",
       },
       switchButtonInactive: {
         backgroundColor: "white",
         borderColor: "rgb(118, 123, 142)",
         cursor: "pointer",
-        minWidth: "33%",
       },
       cardContainer: {
         position: "relative",
