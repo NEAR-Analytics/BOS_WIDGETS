@@ -23,12 +23,12 @@ return (
   <Widget
     src={`${ownerId}/widget/List`}
     props={{
-      search,
+      filter: ([accountId]) => accountId.includes(search),
       items: state.items,
       createItem: ([accountId, cid]) => (
         <Widget
           src={`${ownerId}/widget/Request.Card`}
-          props={{ accountId, cid }}
+          props={{ accountId, cid, full: true }}
         />
       ),
     }}
