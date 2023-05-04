@@ -148,20 +148,23 @@ return (
         className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
       >
         {commentBlockHeight ? (
-          <>
+          <div
+            style={thisWidgetInlineStyles.renderKudoBox.switchButtonContainer}
+          >
+            <span>Show all comments</span>
             <input
               style={
                 state.onlyShowSharedComment
-                  ? thisWidgetInlineStyles.renderKudoBox.switchButtonActive
-                  : thisWidgetInlineStyles.renderKudoBox.switchButtonInactive
+                  ? thisWidgetInlineStyles.renderKudoBox.switchButtonInactive
+                  : thisWidgetInlineStyles.renderKudoBox.switchButtonActive
               }
               className="form-check-input"
               type="checkbox"
               role="switch"
-              checked={state.onlyShowSharedComment}
+              checked={!state.onlyShowSharedComment}
               key={
                 "switch-button-" +
-                `${state.onlyShowSharedComment ? "true" : "false"}`
+                `${!state.onlyShowSharedComment ? "false" : "true"}`
               }
               onChange={() => {
                 State.update({
@@ -169,11 +172,9 @@ return (
                 });
               }}
             />
-          </>
-        ) : (
-          <div style={{ minWidth: "33%" }}>
-            {/*Decorative div do not delete*/}
           </div>
+        ) : (
+          <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
         )}
 
         {state.onlyShowSharedComment ? (
@@ -188,12 +189,10 @@ return (
             }}
           />
         ) : (
-          <div style={{ minWidth: "33%" }}>
-            {/*Decorative div do not delete*/}
-          </div>
+          <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
         )}
 
-        <div style={{ minWidth: "33%", minHeight: "57px" }}>
+        <div style={{ width: "33%", minHeight: "57px" }}>
           {/*Decorative div do not delete*/}
         </div>
       </div>
