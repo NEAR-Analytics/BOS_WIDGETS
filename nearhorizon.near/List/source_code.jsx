@@ -1,5 +1,5 @@
 const ownerId = "nearhorizon.near";
-const items = (props.items ?? []).filter(props.filter);
+const items = props.items ?? [];
 const createItem = props.createItem ?? (() => <></>);
 const limit = 10;
 
