@@ -7,6 +7,18 @@ if (!accountId) {
   return "No account ID";
 }
 
+const switchButtonActiveStyles = {
+  backgroundColor: "rgb(53, 58, 64)",
+  borderColor: "rgb(71, 77, 85)",
+  cursor: "pointer",
+};
+
+const switchButtonInactiveStyles = {
+  backgroundColor: "white",
+  borderColor: "rgb(118, 123, 142)",
+  cursor: "pointer",
+};
+
 const lastEditor = props.lastEditor;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
@@ -15,7 +27,7 @@ const raw = !!props.raw;
 
 const notifyAccountId = accountId;
 
-State.init({ showReply: false, isMain: true });
+State.init({ showReply: false, isMain: true, showAllComments: false });
 
 const article = JSON.parse(
   Social.get(`${lastEditor}/wikiTest2Article/main`, blockHeight)
@@ -411,6 +423,28 @@ return (
                   onClick: () => State.update({ showReply: !state.showReply }),
                 }}
               />
+              {props.commentToShareBlockHeight && (
+                <input
+                  style={
+                    state.showAllComments
+                      ? switchButtonActiveStyles
+                      : switchButtonInactiveStyles
+                  }
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  checked={state.showAllComments}
+                  key={
+                    "switch-button-" +
+                    `${state.showAllComments ? "true" : "false"}`
+                  }
+                  onChange={() => {
+                    State.update({
+                      onlyShowSharedComment: !state.showAllComments,
+                    });
+                  }}
+                />
+              )}
             </div>
           )}
           {/* === COMPOSE COMMENT === */}
@@ -431,6 +465,7 @@ return (
             <Widget
               src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
               props={{
+                showAllComments: state.showAllComments,
                 commentToShareBlockHeight: props.commentToShareBlockHeight,
                 blockHeight,
                 lastEditor,
