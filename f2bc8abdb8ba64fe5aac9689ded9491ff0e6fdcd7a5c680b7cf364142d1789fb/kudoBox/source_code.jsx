@@ -18,8 +18,8 @@ State.init({
   showComments: commentBlockHeight ? true : false,
 });
 
-console.log("1", state.display == tabs.KUDO.id);
-console.log("2", onlyShowSharedComment);
+console.log("1", props.display == tabs.KUDO.id);
+console.log("2", state.onlyShowSharedComment);
 
 const widgetOwner = props.widgetOwner;
 
@@ -29,7 +29,7 @@ const RenderCommentAnswerBox = (d) => {
       {state.showComments && (
         <div
           style={
-            state.display == tabs.KUDO.id && onlyShowSharedComment
+            props.display == tabs.KUDO.id && state.onlyShowSharedComment
               ? thisWidgetInlineStyles.allCommentAnswerBox.visibleCardsContainer
               : thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer
           }
