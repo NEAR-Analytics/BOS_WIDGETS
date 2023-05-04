@@ -15,7 +15,7 @@ const upvotes = props.upvotes;
 State.init({
   hoveringElement: "",
   onlyShowSharedComment: commentBlockHeight,
-  showComments: commentBlockHeight,
+  showComments: commentBlockHeight ? true : false,
 });
 
 console.log(state.onlyShowSharedComment);
@@ -179,7 +179,7 @@ return (
               thisWidgetInlineStyles,
               thisWidgetClassNames,
               fatherStateUpdate: updateStateFunction,
-              showComments: state.showComments ? true : false,
+              showComments: state.showComments,
               d,
             }}
           />
