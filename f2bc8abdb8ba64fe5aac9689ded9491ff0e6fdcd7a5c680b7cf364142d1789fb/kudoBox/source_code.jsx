@@ -181,7 +181,9 @@ return (
         ) : (
           <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
         )}
-        <div style={{ width: "33%" }}>
+        <div
+          style={thisWidgetInlineStyles.renderKudoBox.commentButtonBigContainer}
+        >
           {!state.onlyShowSharedComment ? (
             <Widget
               src={`${widgetOwner}/widget/showCommentsButton`}
