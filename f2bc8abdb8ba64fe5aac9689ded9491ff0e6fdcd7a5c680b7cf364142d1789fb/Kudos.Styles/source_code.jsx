@@ -158,6 +158,7 @@ const allWidgetsInlineStyles = {
         borderBottomRightRadius: "5px",
         borderBottomLeftRadius: "5px",
         padding: "10px",
+        boxShadow: "",
       },
       cardContainer: {
         marginTop: "0.5rem",
