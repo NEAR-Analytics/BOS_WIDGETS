@@ -1,7 +1,7 @@
 const thisWidgetInlineStyles = props.thisWidgetInlineStyles;
 const thisWidgetClassNames = props.thisWidgetClassNames;
 const fatherStateUpdate = props.fatherStateUpdate;
-const showComments = props.showComments;
+const showComments = Number.isNaN(Number(props.showComments));
 const d = props.d;
 
 State.init({
