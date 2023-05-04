@@ -5,6 +5,9 @@ const index = props.index;
 if (!index) {
   return "props.index is not defined";
 }
+const commentToShareBlockHeight = props.commentToShareBlockHeight
+  ? Number(props.commentToShareBlockHeight)
+  : undefined;
 
 console.log("3", props.showAllComments);
 
@@ -19,7 +22,10 @@ const cachedRenderItem = (item, i) => {
   console.log("wtf", props.showAllComments);
   const key = JSON.stringify(item);
 
-  if (!(key in state.cachedItems)) {
+  if (!props.showAllComments && item.blockHeight == commentToShareBlockHeight) {
+    state.cachedItems[key] = renderItem(item, props.showAllComments, i);
+    State.update();
+  } else if (!(key in state.cachedItems)) {
     state.cachedItems[key] = renderItem(item, props.showAllComments, i);
     State.update();
   }
