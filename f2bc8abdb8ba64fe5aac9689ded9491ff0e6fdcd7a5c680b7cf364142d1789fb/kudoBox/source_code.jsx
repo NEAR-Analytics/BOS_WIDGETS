@@ -30,7 +30,7 @@ function getAnswersContainerStyles() {
 function getAnswerContainerStyle(c) {
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
-  if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
+  if (c.blockHeight == commentBlockHeight) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
   }
 
