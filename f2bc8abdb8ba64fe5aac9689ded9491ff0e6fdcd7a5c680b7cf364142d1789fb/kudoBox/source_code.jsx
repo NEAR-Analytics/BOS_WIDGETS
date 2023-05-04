@@ -148,17 +148,52 @@ return (
           allWidgetsClassNames: props.allWidgetsClassNames,
         }}
       />
-
-      <Widget
-        src={`${widgetOwner}/widget/showCommentsButton`}
-        props={{
-          thisWidgetInlineStyles,
-          thisWidgetClassNames,
-          fatherStateUpdate: updateStateFunction,
-          showComments: state.showComments,
-          d,
-        }}
-      />
+      <div
+        className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
+      >
+        {commentBlockHeight ? (
+          <input
+            style={
+              state.onlyShowSharedComment
+                ? thisWidgetInlineStyles.renderKudoBox.switchButtonActive
+                : thisWidgetInlineStyles.renderKudoBox.switchButtonInactive
+            }
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            checked={state.onlyShowSharedComment}
+            key={("button", `${state.onlyShowSharedComment}`)}
+            onChange={() => {
+              State.update({
+                onlyShowSharedComment: !state.onlyShowSharedComment,
+              });
+            }}
+          />
+        ) : (
+          <div style={{ minWidth: "33%" }}>
+            {/*Decorative div do not delete*/}
+          </div>
+        )}
+        {state.onlyShowSharedComment ? (
+          <Widget
+            src={`${widgetOwner}/widget/showCommentsButton`}
+            props={{
+              thisWidgetInlineStyles,
+              thisWidgetClassNames,
+              fatherStateUpdate: updateStateFunction,
+              showComments: state.showComments,
+              d,
+            }}
+          />
+        ) : (
+          <div style={{ minWidth: "33%" }}>
+            {/*Decorative div do not delete*/}
+          </div>
+        )}
+        <div style={{ minWidth: "33%" }}>
+          {/*Decorative div do not delete*/}
+        </div>
+      </div>
       {RenderCommentAnswerBox(d)}
     </div>
   </>
