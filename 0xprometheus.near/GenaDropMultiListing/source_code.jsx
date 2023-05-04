@@ -105,9 +105,9 @@ function parseNearAmount(amt) {
 /*ON CHANGE FUNCTIONS - NEED TO FINISH NOT CONCATENATING*/
 const onChangeAmount = (amount) => {
   amount = parseNearAmount(amount);
-  console.log("parsed amount", amount, parseNearAmount(amount));
+  console.log("parsed amount", amount);
   const msgConcat = JSON.stringify({
-    price: parseNearAmount(amount),
+    price: amount,
     market_type: "sale",
     ft_token_id: "near",
   });
