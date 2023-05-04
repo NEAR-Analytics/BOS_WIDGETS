@@ -219,8 +219,10 @@ const allWidgetsInlineStyles = {
         borderRadius: "12px",
         width: "max-content",
       },
-      showCommentsButtonContainer: {
+      displayHandlersContainer: {
         margin: "0.5rem auto",
+      },
+      showCommentsButtonContainer: {
         padding: "0.3rem 0.5rem",
         cursor: "pointer",
         borderRadius: "12px",
@@ -228,7 +230,6 @@ const allWidgetsInlineStyles = {
         width: "max-content",
       },
       hoveringShowCommentsButtonContainer: {
-        margin: "0.5rem auto",
         padding: "0.3rem 0.5rem",
         cursor: "pointer",
         borderRadius: "12px",
