@@ -29,7 +29,7 @@ props.allWidgetsInlineStyles.shareWidget;
 
 const shareWidgetStyles = {
   shareWidget: {
-    i: { cursor: "pointer", padding: ".375rem" },
+    i: { cursor: "pointer", marginTop: ".375rem" },
     showShareOptionsContainer: {
       position: "absolute",
       right: "10%",
