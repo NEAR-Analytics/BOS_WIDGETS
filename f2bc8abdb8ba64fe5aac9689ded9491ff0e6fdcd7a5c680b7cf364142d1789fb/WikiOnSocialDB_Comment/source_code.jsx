@@ -1,3 +1,6 @@
+const lastEditorAccountId = props.lastEditorAccountId;
+const wikiSiteBlockHeight = props.wikiSiteBlockHeight;
+
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
 const authorForWidget =
@@ -5,7 +8,6 @@ const authorForWidget =
 State.init({ showReply: false });
 const accountId = props.accountId;
 
-const commentToShareBlockHeight = undefined;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -49,15 +51,15 @@ return (
               shareingWidget: "WikiOnSocialDB_OneArticle",
               propName: [
                 "articleId",
-                "blockHeight",
                 "lastEditor",
+                "wikiSiteBlockHeight",
                 "commentToShareBlockHeight",
               ],
               blockHeight: [
                 "ThirdNewDBTest",
+                lastEditorAccountId,
+                wikiSiteBlockHeight,
                 blockHeight,
-                accountId,
-                commentToShareBlockHeight,
               ],
               widgetOwner,
             }}
