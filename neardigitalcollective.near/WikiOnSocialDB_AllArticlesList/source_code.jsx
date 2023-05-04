@@ -8,6 +8,7 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "sarahkornfeld.near",
   "yuensid.near",
 ];
+const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "neardigitalcollective.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
@@ -28,7 +29,8 @@ const resultArticles =
     }, [])
     .filter((article) =>
       authorsWhitelist.some((addr) => addr === article.author)
-    );
+    )
+    .filter((article) => !articleBlackList.includes(article.blockHeight));
 
 // ========== FILTER DUPLICATES ==========
 const filteredArticles =
