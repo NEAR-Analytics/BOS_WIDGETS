@@ -18,9 +18,6 @@ State.init({
   showComments: commentBlockHeight ? true : false,
 });
 
-console.log("1", props.display == tabs.KUDO.id);
-console.log("2", state.onlyShowSharedComment);
-
 const widgetOwner = props.widgetOwner;
 
 const RenderCommentAnswerBox = (d) => {
@@ -174,7 +171,7 @@ return (
         style={thisWidgetInlineStyles.renderKudoBox.displayHandlersContainer}
         className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
       >
-        {commentBlockHeight ? (
+        {commentBlockHeight && props.display == tabs.KUDO.id ? (
           <div
             style={thisWidgetInlineStyles.renderKudoBox.switchButtonContainer}
           >
@@ -207,7 +204,8 @@ return (
         <div
           style={thisWidgetInlineStyles.renderKudoBox.commentButtonBigContainer}
         >
-          {!state.onlyShowSharedComment ? (
+          {!state.onlyShowSharedComment ||
+          props.display == tabs.ALL_kUDOS.id ? (
             <Widget
               src={`${widgetOwner}/widget/showCommentsButton`}
               props={{
