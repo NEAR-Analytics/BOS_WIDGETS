@@ -444,7 +444,7 @@ return (
                     }
                     onChange={() => {
                       State.update({
-                        onlyShowSharedComment: !state.showAllComments,
+                        showAllComments: !state.showAllComments,
                       });
                     }}
                   />
