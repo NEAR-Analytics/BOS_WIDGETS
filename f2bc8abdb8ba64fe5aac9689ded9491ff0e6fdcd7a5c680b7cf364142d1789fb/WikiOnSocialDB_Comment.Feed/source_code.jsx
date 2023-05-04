@@ -1,6 +1,7 @@
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
-const authorForWidget = "rodrigos.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const index = {
   action: addressForComments,
   key: props.item,
