@@ -23,7 +23,7 @@ const index = {
 const raw = !!props.raw;
 
 const renderItem = (a, showAllComments) => {
-  console.log(showAllComments);
+  console.log("Is this", showAllComments);
   return (
     a.value.type === "md" &&
     ((a.blockHeight === commentToShareBlockHeight && !showAllComments) ||
