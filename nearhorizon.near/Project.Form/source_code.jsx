@@ -120,6 +120,7 @@ if (!state.accountsWithPermissionsIsFetched) {
 const Hidable = styled.div`
   transform: scaleY(1);
   transition: transform 0.3s ease-in-out;
+  width: 100%;
 
   &.hide {
     transform: scaleY(0);
