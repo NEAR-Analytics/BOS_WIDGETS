@@ -2,6 +2,17 @@ const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
 const authorId = props.author;
 const accountId = props.accountId ?? context.accountId;
+
+const authorsWhitelist = props.writersWhiteList ?? [
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "kazanderdad.near",
+  "joep.near",
+  "sarahkornfeld.near",
+  "yuensid.near",
+];
+
 if (!accountId) {
   return "No account ID";
 }
@@ -27,14 +38,18 @@ const postsIndex = Social.index(addressForArticles, "main", {
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
+  postsIndex
+    .reduce((acc, { accountId, blockHeight }) => {
+      const postData = Social.get(
+        `${accountId}/${addressForArticles}/main`,
+        blockHeight
+      );
+      const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+      return [...acc, postDataWithBlockHeight];
+    }, [])
+    .filter((article) =>
+      authorsWhitelist.some((addr) => addr === article.author)
     );
-    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-    return [...acc, postDataWithBlockHeight];
-  }, []);
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
