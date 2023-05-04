@@ -2,8 +2,6 @@ const ownerId = "contribut3.near";
 
 const availableContent = [
   "projects",
-  "vendors",
-  "invites",
   "requests",
   "proposals",
   "contracts",
@@ -30,14 +28,6 @@ const contentSelector = (
         {
           id: "projects",
           text: "Projects",
-        },
-        {
-          id: "vendors",
-          text: "Vendors",
-        },
-        {
-          id: "invites",
-          text: "Invites",
         },
         {
           id: "requests",
@@ -68,18 +58,6 @@ const content = {
   projects: (
     <Widget
       src={`${ownerId}/widget/Project.AdminList`}
-      props={{ search: state.search, update: props.update }}
-    />
-  ),
-  vendors: (
-    <Widget
-      src={`${ownerId}/widget/Vendor.AdminList`}
-      props={{ search: state.search, update: props.update }}
-    />
-  ),
-  invites: (
-    <Widget
-      src={`${ownerId}/widget/Invites.AdminList`}
       props={{ search: state.search, update: props.update }}
     />
   ),
