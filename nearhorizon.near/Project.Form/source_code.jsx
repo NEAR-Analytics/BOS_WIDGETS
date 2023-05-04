@@ -118,8 +118,12 @@ if (!state.accountsWithPermissionsIsFetched) {
 }
 
 const Hidable = styled.div`
-  transform: ${({ hide }) => (hide ? "scaleY(0)" : "scaleY(1)")};
+  transform: scaleY(1);
   transition: transform 0.3s ease-in-out;
+
+  &.hide {
+    transform: scaleY(0);
+  }
 `;
 
 const validateForm = () => {
@@ -230,7 +234,9 @@ return (
           error: state.integrationError,
         }}
       />
-      <Hidable hide={state.integration.value !== "multichain"}>
+      <Hidable
+        className={state.integration.value !== "multichain" ? "hide" : ""}
+      >
         <Widget
           src={`${ownerId}/widget/Inputs.MultiSelect`}
           props={{
