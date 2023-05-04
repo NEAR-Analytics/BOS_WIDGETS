@@ -137,7 +137,7 @@ const slideUp = styled.keyframes`
   }
 `;
 
-const Hidable = styled(Collapsible.Content)`
+const Hidable = styled("Collapsible.Content")`
   overflow: hidden;
 
   &[data-state="open"] {
