@@ -29,7 +29,8 @@ function getAnswersContainerStyles() {
 
 let standardcardContainer =
   thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
-let highlightedCardContainer = standardcardContainer;
+let highlightedCardContainer =
+  thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
 
 highlightedCardContainer[
   "boxShadow"
