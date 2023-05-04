@@ -105,20 +105,27 @@ const RenderCommentAnswerBox = (d) => {
                       >
                         {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
                       </b>
-                      <Widget
-                        src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
-                        props={{
-                          popUpDescription:
-                            "Use this link to share this comment",
-                          shareingWidget: "Kudos.Styles",
-                          propName: [
-                            "sharedBlockHeight",
-                            commentSharedBlockHeight,
-                          ],
-                          blockHeight: [d.blockHeight, c.blockHeight],
-                          widgetOwner,
-                        }}
-                      />
+                      <div
+                        style={
+                          thisWidgetInlineStyles.allCommentAnswerBox
+                            .shareWidgetContainer
+                        }
+                      >
+                        <Widget
+                          src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
+                          props={{
+                            popUpDescription:
+                              "Use this link to share this comment",
+                            shareingWidget: "Kudos.Styles",
+                            propName: [
+                              "sharedBlockHeight",
+                              commentSharedBlockHeight,
+                            ],
+                            blockHeight: [d.blockHeight, c.blockHeight],
+                            widgetOwner,
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </>
