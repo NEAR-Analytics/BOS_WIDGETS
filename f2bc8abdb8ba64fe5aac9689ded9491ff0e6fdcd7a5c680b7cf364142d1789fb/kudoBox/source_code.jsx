@@ -178,7 +178,7 @@ return (
           <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
         )}
 
-        {state.onlyShowSharedComment ? (
+        {!state.onlyShowSharedComment ? (
           <Widget
             src={`${widgetOwner}/widget/showCommentsButton`}
             props={{
