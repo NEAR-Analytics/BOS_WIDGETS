@@ -6,6 +6,8 @@ if (!index) {
   return "props.index is not defined";
 }
 
+console.log("3", props.showAllComments);
+
 const renderItem =
   props.renderItem ??
   ((item, i) => (
@@ -17,7 +19,7 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
-    state.cachedItems[key] = renderItem(item, i);
+    state.cachedItems[key] = renderItem(item, props.showAllComments, i);
     State.update();
   }
   return state.cachedItems[key];
