@@ -83,7 +83,7 @@ function getLink() {
       if (i != 0) {
         link += "&";
       }
-      link += `${propName[i]}=${blockHeightToShare}`;
+      link += `${propName[i]}=${blockHeightToShare[i]}`;
     }
     return link;
   }
