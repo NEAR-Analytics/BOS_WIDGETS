@@ -19,6 +19,7 @@ State.init({
 });
 
 console.log(commentBlockHeight);
+console.log(state.onlyShowSharedComment);
 
 const widgetOwner = props.widgetOwner;
 
