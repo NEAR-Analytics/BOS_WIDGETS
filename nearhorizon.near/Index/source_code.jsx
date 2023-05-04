@@ -34,7 +34,7 @@ const tabContent = {
   home: (
     <Widget
       src={`${ownerId}/widget/Dashboard`}
-      props={{ content: state.content, search: state.search, update }}
+      props={{ content: state.content, update }}
     />
   ),
   inbox: (
