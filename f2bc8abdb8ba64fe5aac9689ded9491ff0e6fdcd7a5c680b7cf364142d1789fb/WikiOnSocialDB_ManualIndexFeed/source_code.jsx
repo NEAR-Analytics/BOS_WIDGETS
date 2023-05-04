@@ -20,9 +20,11 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!props.showAllComments && item.blockHeight == commentToShareBlockHeight) {
+    console.log("in 1");
     state.cachedItems[key] = renderItem(item, props.showAllComments, i);
     State.update();
   } else if (!(key in state.cachedItems)) {
+    console.log("in 2");
     state.cachedItems[key] = renderItem(item, props.showAllComments, i);
     State.update();
   }
