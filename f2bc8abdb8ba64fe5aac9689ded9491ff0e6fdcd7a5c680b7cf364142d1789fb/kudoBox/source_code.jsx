@@ -14,7 +14,7 @@ const upvotes = props.upvotes;
 
 State.init({
   hoveringElement: "",
-  onlyShowSharedComment: commentBlockHeight,
+  onlyShowSharedComment: commentBlockHeight ? true : false,
   showComments: commentBlockHeight,
 });
 
@@ -29,10 +29,6 @@ function getAnswersContainerStyles() {
 
 function getAnswerContainerStyle(c) {
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardContainer;
-
-  console.log("styles: ", styles);
-  console.log("commentBlockHeight: ", commentBlockHeight);
-  console.log("c.blockHeight: ", c.blockHeight);
 
   if (commentBlockHeight && c.blockHeight == commentBlockHeight) {
     styles["boxShadow"] = `0px 0px 49px 1px rgba(45,255,51,0.47) inset`;
