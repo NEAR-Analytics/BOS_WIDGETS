@@ -33,7 +33,7 @@ if (!state.descriptionIsFetched) {
 const body = (
   <>
     <Widget
-      src={`${ownerId}/widget/ProfileLine`}
+      src={`near/widget/ProfileLine`}
       props={{
         accountId,
         imageSize: "3em",
