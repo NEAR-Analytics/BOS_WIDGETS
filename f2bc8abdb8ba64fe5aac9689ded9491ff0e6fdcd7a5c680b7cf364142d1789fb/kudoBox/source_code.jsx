@@ -121,7 +121,6 @@ const RenderCommentAnswerBox = (d) => {
 };
 
 function getKudoBoxContainerStyles() {
-  console.log("in getKudoBoxContainerStyles");
   let styles = thisWidgetInlineStyles.renderKudoBox.cardContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
@@ -142,7 +141,7 @@ return (
           : thisWidgetClassNames.renderKudoBox.cardContainerSingleCard
       }
     >
-      {console.log("out getKudoBoxContainerStyles")}
+      {console.log("in MainPage.post")}
       <Widget
         src={`${widgetOwner}/widget/MainPage.Post`}
         props={{
@@ -154,6 +153,7 @@ return (
           allWidgetsClassNames: props.allWidgetsClassNames,
         }}
       />
+      {console.log("out MainPage.post")}
       <div
         className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
       >
