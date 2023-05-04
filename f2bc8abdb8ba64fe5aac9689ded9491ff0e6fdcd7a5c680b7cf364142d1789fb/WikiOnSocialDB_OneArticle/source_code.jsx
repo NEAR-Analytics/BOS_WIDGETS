@@ -464,6 +464,7 @@ return (
               </div>
             )}
             {/* === SHOW COMMENT === */}
+            {console.log("1", state.showAllComments)}
             <Widget
               src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
               props={{
