@@ -181,7 +181,7 @@ const allWidgetsInlineStyles = {
         margin: "1rem",
       },
       shareWidgetContainer: {
-        margin: "1rem",
+        margin: "0 1rem 1rem 1rem",
       },
     },
     urlTextarea: {
