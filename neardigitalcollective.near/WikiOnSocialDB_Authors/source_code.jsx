@@ -10,11 +10,15 @@ const writersWhiteList = [
   "yuensid.near",
 ];
 
+const articleBlackList = [
+  91092435, 91092174, 91051228, 91092223, 91051203, 91051228,
+];
+
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
-});
+}).filter((article) => !articleBlackList.includes(article.blockHeight));
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
