@@ -12,10 +12,18 @@ const thisWidgetClassNames = props.allWidgetsClassNames.kudos;
 const updateGeneralState = props.updateGeneralState ?? undefined;
 const upvotes = props.upvotes;
 
+function setDefaultStateValues() {
+  return props.display == tabs.ALL_kUDOS.id
+    ? false
+    : commentBlockHeight
+    ? true
+    : false;
+}
+
 State.init({
   hoveringElement: "",
-  onlyShowSharedComment: commentBlockHeight ? true : false,
-  showComments: commentBlockHeight ? true : false,
+  onlyShowSharedComment: setDefaultStateValues(),
+  showComments: setDefaultStateValues(),
 });
 
 const widgetOwner = props.widgetOwner;
