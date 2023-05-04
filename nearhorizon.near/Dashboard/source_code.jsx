@@ -202,7 +202,7 @@ return (
     <Filters>
       <Widget
         src={`${ownerId}/widget/SearchInput`}
-        props={{ search: state.search, update: State.update }}
+        props={{ search: state.search, update: (s) => State.update(s) }}
       />
       <Filter>
         <Widget
