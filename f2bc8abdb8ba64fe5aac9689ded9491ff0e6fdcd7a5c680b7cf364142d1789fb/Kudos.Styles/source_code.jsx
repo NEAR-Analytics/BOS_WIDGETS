@@ -158,9 +158,9 @@ const allWidgetsInlineStyles = {
         borderBottomRightRadius: "5px",
         borderBottomLeftRadius: "5px",
         padding: "10px",
-        boxShadow: "",
       },
       cardContainer: {
+        boxShadow: "",
         marginTop: "0.5rem",
         textAlign: "start",
         width: "100%",
