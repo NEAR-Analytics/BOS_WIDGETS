@@ -55,6 +55,14 @@ const edit = (update, v) => (
   </LabelArea>
 );
 
+const optionsMap = {
+  idea: "Idea stage",
+  testnet: "Testnet launched",
+  mainnet: "Mainnet launched",
+  scaling: "Scaling startup",
+  established: "Established business",
+};
+
 return (
   <Widget
     src={`${ownerId}/widget/Inputs.Viewable`}
@@ -63,7 +71,7 @@ return (
       label,
       value,
       edit,
-      view: value,
+      view: optionsMap[value],
       canEdit,
     }}
   />
