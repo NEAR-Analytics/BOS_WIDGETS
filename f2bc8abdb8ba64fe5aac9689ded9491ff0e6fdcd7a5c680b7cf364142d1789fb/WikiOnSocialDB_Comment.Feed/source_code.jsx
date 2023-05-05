@@ -22,7 +22,8 @@ const index = {
 
 const raw = !!props.raw;
 
-const renderItem = (a, showAllComments) => {
+const renderItem = (a) => {
+  console.log("texto", showAllComments);
   return (
     <>
       {a.value.type === "md" &&
