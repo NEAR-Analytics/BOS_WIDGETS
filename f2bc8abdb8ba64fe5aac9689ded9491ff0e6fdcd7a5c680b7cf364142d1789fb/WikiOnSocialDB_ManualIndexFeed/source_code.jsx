@@ -152,6 +152,8 @@ if (!props.showAllComments && props.commentToShareBlockHeight) {
   ];
 }
 
+console.log(items);
+
 return (
   <>
     {reverse && fetchMore}
