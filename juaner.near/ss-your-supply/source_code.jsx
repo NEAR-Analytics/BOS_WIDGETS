@@ -24,7 +24,7 @@ if (!accountId) {
 }
 const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
-  return new Big(value).div(new Big(10).pow(decimals)).toFixed(fixed);
+  return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
 };
 const {
   assets,
