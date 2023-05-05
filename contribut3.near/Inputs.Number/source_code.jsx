@@ -1,6 +1,7 @@
 const label = props.label ?? "Label";
 const placeholder = props.placeholder ?? "Placeholder";
 const value = props.value ?? "";
+const hasDollar = props.hasDollar ?? false;
 const onChange = props.onChange ?? (() => { });
 const validate = props.validate ?? (() => { });
 const error = props.error ?? "";
@@ -45,13 +46,21 @@ const Input = styled.input`
   flex-direction: row;
   align-items: center;
   padding: 0.5em 0.75em;
+  ${hasDollar ? "padding-left: 2em;" : ""}
   gap: 0.5em;
   background: #ffffff;
   border: 1px solid #d0d5dd;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 4px;
   color: #101828;
-  width: 60%;
+  width: 100%;
+  position: relative;
+
+  &::before {
+    content: "${hasDollar ? "$" : ""}";
+    position: absolute;
+    left: 0.75em;
+  }
 `;
 
 return (
