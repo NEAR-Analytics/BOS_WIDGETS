@@ -53,7 +53,7 @@ const Input = styled.input`
   border-radius: 4px;
   color: #101828;
   width: 100%;
-  ${hasDollar ? "padding-left: 0.75em" : ""}
+  ${hasDollar ? "padding-left: 0.75em;" : ""}
 `;
 
 const Dollar = styled.span`
