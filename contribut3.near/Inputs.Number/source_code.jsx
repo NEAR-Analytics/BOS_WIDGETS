@@ -55,13 +55,13 @@ const Input = styled.input`
   width: 100%;
   position: relative;
   ${hasDollar ? "padding-left: 2em;" : ""}
+`;
 
-  &::before {
-    display: ${hasDollar ? "block" : "none"};
-    ${hasDollar ? "content: '$';" : ""}
-    position: absolute;
-    left: 0.75em;
-  }
+const Dollar = styled.span`
+  display: ${hasDollar ? "block" : "none"};
+  ${hasDollar ? "content: '$';" : ""}
+  position: absolute;
+  left: 0.75em;
 `;
 
 return (
@@ -73,7 +73,9 @@ return (
       value={value}
       onChange={({ target: { value } }) => onChange(value)}
       onBlur={() => validate()}
-    />
+    >
+      <Dollar />
+    </Input>
     <Error className={error ? "show" : ""}>{error}</Error>
   </Container>
 );
