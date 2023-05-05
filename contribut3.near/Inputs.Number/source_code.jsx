@@ -58,10 +58,9 @@ const Input = styled.input`
 `;
 
 const Dollar = styled.span`
-  display: ${hasDollar ? "block" : "none"};
-  ${hasDollar ? "content: '$';" : ""}
   position: absolute;
   left: 0.75em;
+  display: ${hasDollar ? "block" : "none"};
 `;
 
 return (
@@ -74,7 +73,7 @@ return (
       onChange={({ target: { value } }) => onChange(value)}
       onBlur={() => validate()}
     >
-      <Dollar />
+      <Dollar>$</Dollar>
     </Input>
     <Error className={error ? "show" : ""}>{error}</Error>
   </Container>
