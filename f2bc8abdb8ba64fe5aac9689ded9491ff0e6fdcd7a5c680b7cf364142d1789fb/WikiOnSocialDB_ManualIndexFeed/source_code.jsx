@@ -142,7 +142,7 @@ const fetchMore =
   );
 
 let items = state.items ? state.items.slice(0, state.displayCount) : [];
-console.log(items);
+console.log(state.items);
 
 if (reverse) {
   items.reverse();
