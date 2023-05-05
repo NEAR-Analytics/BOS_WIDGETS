@@ -23,12 +23,12 @@ const index = {
 const raw = !!props.raw;
 
 const renderItem = (a, showAllComments) => {
-  console.log("in");
   return (
     a.value.type === "md" &&
     ((a.blockHeight === commentToShareBlockHeight && !showAllComments) ||
       showAllComments) && (
       <div key={JSON.stringify(a)}>
+        {console.log("in")}
         <Widget
           src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
           props={{
