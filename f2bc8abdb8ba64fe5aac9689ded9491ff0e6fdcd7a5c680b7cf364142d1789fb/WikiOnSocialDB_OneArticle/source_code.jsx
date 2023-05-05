@@ -51,14 +51,13 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
-const postData = Social.get(
-  `${accountId}/${addressForArticles}/main`,
-  blockHeight
-);
-
 const resultArticles =
   articlesIndex &&
   articlesIndex.reduce((acc, { accountId, blockHeight }) => {
+    const postData = Social.get(
+      `${accountId}/${addressForArticles}/main`,
+      blockHeight
+    );
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
