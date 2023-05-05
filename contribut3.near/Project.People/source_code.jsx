@@ -37,7 +37,7 @@ if (!state.namesIsFetched) {
     "social.near",
     "get",
     {
-      keys: [...state.founders, ...state.team].map(
+      keys: [...state.founders, ...Object.keys(state.team ?? {})].map(
         (key) => `${key}/profile/name`
       ),
     },
@@ -54,6 +54,10 @@ if (!state.namesIsFetched) {
       namesIsFetched: true,
     });
   });
+}
+
+if (!state.namesIsFetched) {
+  return <>Loading...</>;
 }
 
 const List = styled.ul`
