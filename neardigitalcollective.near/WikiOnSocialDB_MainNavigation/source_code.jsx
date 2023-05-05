@@ -6,6 +6,7 @@ const writersWhiteList = props.writersWhiteList ?? [
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
+  "yuensid.near",
 ];
 const authorForWidget = "neardigitalcollective.near";
 const pills = [
