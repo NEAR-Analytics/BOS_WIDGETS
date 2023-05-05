@@ -1,7 +1,7 @@
 const lastEditorAccountId = props.lastEditorAccountId;
 const wikiSiteBlockHeight = props.wikiSiteBlockHeight;
 
-console.log(props);
+console.log("a?");
 
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
