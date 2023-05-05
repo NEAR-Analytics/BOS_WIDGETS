@@ -43,11 +43,11 @@ console.log("index", index);
 
 const initialItems = Social.index(index.action, index.key, index.options);
 
-console.log("initialItems", initialItems);
-
 if (initialItems === null) {
   return "";
 }
+
+console.log("initialItems", initialItems);
 
 const computeFetchFrom = (items, limit) => {
   if (!items || items.length < limit) {
