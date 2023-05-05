@@ -22,29 +22,24 @@ const index = {
 
 const raw = !!props.raw;
 
-const renderItem = (a) => {
-  return (
-    <>
-      {a.value.type === "md" && (
-        <div key={JSON.stringify(a)}>
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
-            props={{
-              lastEditorAccountId: lastEditor,
-              wikiSiteBlockHeight: props.blockHeight,
-              accountId: a.accountId,
-              blockHeight: a.blockHeight,
-              highlight:
-                a.accountId === props.highlightComment?.accountId &&
-                a.blockHeight === props.highlightComment?.blockHeight,
-              raw,
-            }}
-          />
-        </div>
-      )}
-    </>
+const renderItem = (a) =>
+  a.value.type === "md" && (
+    <div key={JSON.stringify(a)}>
+      <Widget
+        src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
+        props={{
+          lastEditorAccountId: lastEditor,
+          wikiSiteBlockHeight: props.blockHeight,
+          accountId: a.accountId,
+          blockHeight: a.blockHeight,
+          highlight:
+            a.accountId === props.highlightComment?.accountId &&
+            a.blockHeight === props.highlightComment?.blockHeight,
+          raw,
+        }}
+      />
+    </div>
   );
-};
 
 return (
   <div>
