@@ -33,12 +33,11 @@ if (!state.foundersIsFetched || !state.teamIsFetched) {
 }
 
 if (!state.namesIsFetched) {
-  console.log({ founders: state.founders, team: state.team });
   Near.asyncView(
     "social.near",
     "get",
     {
-      keys: [...state.founders, ...Object.keys(state.team ?? {})].map(
+      keys: [...state.founders, ...Object.keys(state.team)].map(
         (key) => `${key}/profile/name`
       ),
     },
@@ -119,7 +118,7 @@ return (
     </List>
     <Heading>Team</Heading>
     <List>
-      {state.team.map((member) => (
+      {Object.keys(state.team).map((member) => (
         <Item>
           <Widget
             src={`${ownerId}/widget/Vendor.Icon`}
