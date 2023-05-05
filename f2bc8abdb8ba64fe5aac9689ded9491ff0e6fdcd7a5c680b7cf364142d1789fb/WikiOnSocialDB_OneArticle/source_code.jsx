@@ -32,6 +32,9 @@ State.init({ showReply: false, isMain: true, showAllComments: false });
 const article = JSON.parse(
   Social.get(`${lastEditor}/wikiTest2Article/main`, blockHeight)
 );
+if (article === null) {
+  return "Loading";
+}
 State.update({ article });
 
 // ======= CHECK WHO CAN EDIT ARTICLE
@@ -51,13 +54,22 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
+if (articlesIndex === null) {
+  return "Loading";
+}
+
+const postData = Social.get(
+  `${accountId}/${addressForArticles}/main`,
+  blockHeight
+);
+
+if (postData === null) {
+  return "Loading";
+}
+
 const resultArticles =
   articlesIndex &&
   articlesIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
-    );
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
