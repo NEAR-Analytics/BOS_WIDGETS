@@ -61,7 +61,7 @@ return (
     <div className="container-fluid">
       <a
         className="navbar-brand text-decoration-none"
-        href={`#/${authorForWidget}/widget/WikiOnSocialDB`}
+        href={`#/${authorForWidget}/widget/NDCDocs`}
       >
         {"NDCDocs📝"}
       </a>
