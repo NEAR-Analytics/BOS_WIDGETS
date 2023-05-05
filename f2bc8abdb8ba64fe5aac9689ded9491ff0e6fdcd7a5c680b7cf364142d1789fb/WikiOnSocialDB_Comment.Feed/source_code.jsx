@@ -23,6 +23,7 @@ const index = {
 const raw = !!props.raw;
 
 const renderItem = (a) => {
+  console.log("in");
   return (
     <>
       {a.value.type === "md" && (
