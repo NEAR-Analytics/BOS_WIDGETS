@@ -53,8 +53,7 @@ const Input = styled.input`
   border-radius: 4px;
   color: #101828;
   width: 100%;
-  position: relative;
-  ${hasDollar ? "padding-left: 2em;" : ""}
+  ${hasDollar ? "padding-left: 0.75em" : ""}
 `;
 
 const Dollar = styled.span`
@@ -63,18 +62,24 @@ const Dollar = styled.span`
   display: ${hasDollar ? "block" : "none"};
 `;
 
+const InputContainer = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 return (
   <Container>
     <Label>{label}</Label>
-    <Input
-      type="number"
-      placeholder={placeholder}
-      value={value}
-      onChange={({ target: { value } }) => onChange(value)}
-      onBlur={() => validate()}
-    >
+    <InputContainer>
+      <Input
+        type="number"
+        placeholder={placeholder}
+        value={value}
+        onChange={({ target: { value } }) => onChange(value)}
+        onBlur={() => validate()}
+      />
       <Dollar>$</Dollar>
-    </Input>
+    </InputContainer>
     <Error className={error ? "show" : ""}>{error}</Error>
   </Container>
 );
