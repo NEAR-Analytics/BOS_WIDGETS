@@ -57,7 +57,8 @@ const Input = styled.input`
   position: relative;
 
   &::before {
-    content: "${hasDollar ? "$" : ""}";
+    display: ${hasDollar ? "block" : "none"};
+    ${hasDollar ? "content: '$';" : ""}
     position: absolute;
     left: 0.75em;
   }
