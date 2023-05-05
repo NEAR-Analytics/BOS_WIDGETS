@@ -33,6 +33,7 @@ if (!state.foundersIsFetched || !state.teamIsFetched) {
 }
 
 if (!state.namesIsFetched) {
+  console.log({ founders: state.founders, team: state.team });
   Near.asyncView(
     "social.near",
     "get",
