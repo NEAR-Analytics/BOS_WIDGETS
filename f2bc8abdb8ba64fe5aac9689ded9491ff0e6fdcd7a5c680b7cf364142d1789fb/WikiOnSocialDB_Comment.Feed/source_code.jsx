@@ -25,24 +25,25 @@ const raw = !!props.raw;
 const renderItem = (a, showAllComments) => {
   return (
     <>
-      a.value.type === "md" && ((a.blockHeight === commentToShareBlockHeight &&
-      !showAllComments) || showAllComments) && (
-      <div key={JSON.stringify(a)}>
-        <Widget
-          src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
-          props={{
-            lastEditorAccountId: lastEditor,
-            wikiSiteBlockHeight: props.blockHeight,
-            accountId: a.accountId,
-            blockHeight: a.blockHeight,
-            highlight:
-              a.accountId === props.highlightComment?.accountId &&
-              a.blockHeight === props.highlightComment?.blockHeight,
-            raw,
-          }}
-        />
-      </div>
-      )
+      {a.value.type === "md" &&
+        ((a.blockHeight === commentToShareBlockHeight && !showAllComments) ||
+          showAllComments) && (
+          <div key={JSON.stringify(a)}>
+            <Widget
+              src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
+              props={{
+                lastEditorAccountId: lastEditor,
+                wikiSiteBlockHeight: props.blockHeight,
+                accountId: a.accountId,
+                blockHeight: a.blockHeight,
+                highlight:
+                  a.accountId === props.highlightComment?.accountId &&
+                  a.blockHeight === props.highlightComment?.blockHeight,
+                raw,
+              }}
+            />
+          </div>
+        )}
     </>
   );
 };
