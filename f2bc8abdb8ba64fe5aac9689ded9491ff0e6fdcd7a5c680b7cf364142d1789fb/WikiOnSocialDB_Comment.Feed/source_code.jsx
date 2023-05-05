@@ -28,7 +28,6 @@ const renderItem = (a, showAllComments) => {
     ((a.blockHeight === commentToShareBlockHeight && !showAllComments) ||
       showAllComments) && (
       <div key={JSON.stringify(a)}>
-        {console.log("in")}
         <Widget
           src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
           props={{
@@ -42,6 +41,7 @@ const renderItem = (a, showAllComments) => {
             raw,
           }}
         />
+        {console.log("out")}
       </div>
     )
   );
