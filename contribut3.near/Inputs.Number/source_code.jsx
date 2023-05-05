@@ -59,7 +59,7 @@ const Input = styled.input`
 const Dollar = styled.span`
   position: absolute;
   left: 0.75em;
-  top: 0.5em;
+  top: 0.55em;
   display: ${hasDollar ? "block" : "none"};
 `;
 
