@@ -2,6 +2,8 @@ const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
 const authorForWidget = "rodrigos.near";
 const index = props.index;
+
+console.log("2cosas", props.showAllComments, props.renderItem);
 if (!index) {
   return "props.index is not defined";
 }
