@@ -21,6 +21,7 @@ const index = {
 };
 
 const raw = !!props.raw;
+console.log("recibo", showAllComments);
 
 const renderItem = (a) => {
   console.log("texto", showAllComments);
