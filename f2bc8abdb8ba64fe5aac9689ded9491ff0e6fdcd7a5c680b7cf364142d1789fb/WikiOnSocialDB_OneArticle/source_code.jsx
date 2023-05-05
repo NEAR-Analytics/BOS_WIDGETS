@@ -179,6 +179,8 @@ const Button = styled.button`
   }
 `;
 
+console.log("cambia", state.showAllComments);
+
 return (
   <div
     className="container-fluid"
