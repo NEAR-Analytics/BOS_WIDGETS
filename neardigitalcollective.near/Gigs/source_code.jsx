@@ -1,4 +1,4 @@
-const addressForArticles = "ndcWikiArticle";
+const addressForArticles = "ndcGigsArticle";
 const authorsWhitelist = [
   "neardigitalcollective.near",
   "blaze.near",
@@ -28,12 +28,12 @@ return (
     }}
   >
     <Widget
-      src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
+      src={`${authorForWidget}/widget/Gigs_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
-        src={`${authorForWidget}/widget/NDCDocs_AllArticlesList`}
+        src={`${authorForWidget}/widget/Gigs_AllArticlesList`}
         props={{ writersWhiteList }}
       />
     </div>
