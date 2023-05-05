@@ -20,15 +20,8 @@ const renderItem =
   ));
 const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
-  console.log("props.showAllComments", props.showAllComments);
-  console.log("item.blockHeight", item);
-  console.log("commentToShareBlockHeight", commentToShareBlockHeight);
 
-  if (!props.showAllComments && item.blockHeight == commentToShareBlockHeight) {
-    console.log("in 1");
-    state.cachedItems[key] = renderItem(item, i);
-    State.update();
-  } else if (!(key in state.cachedItems)) {
+  if (!(key in state.cachedItems)) {
     console.log("in 2");
     state.cachedItems[key] = renderItem(item, i);
     State.update();
@@ -150,9 +143,17 @@ const fetchMore =
     )
   );
 
-const items = state.items ? state.items.slice(0, state.displayCount) : [];
+let items = state.items ? state.items.slice(0, state.displayCount) : [];
 if (reverse) {
   items.reverse();
+}
+
+if (!props.showAllComments && props.commentToShareBlockHeight) {
+  items = [
+    items.find(
+      (itemBlockHeight) => itemBlockHeight == props.commentToShareBlockHeight
+    ),
+  ];
 }
 
 return (
