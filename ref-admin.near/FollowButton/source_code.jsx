@@ -61,7 +61,7 @@ const Wrapper = styled.div`
     line-height: 15px;
     text-align: center;
     cursor: pointer;
-    background: #FBFCFD;
+    background: #fbfcfd;
     border: none;
     color: #fff !important;
     white-space: nowrap;
@@ -74,7 +74,7 @@ const Wrapper = styled.div`
     }
 
     i {
-      color: #7E868C;
+      color: #7e868c;
     }
 
     .bi-16 {
