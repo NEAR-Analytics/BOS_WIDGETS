@@ -33,6 +33,7 @@ const shareWidgetStyles = {
     showShareOptionsContainer: {
       position: "absolute",
       right: "10%",
+      bottom: "10%",
       backgroundColor: "#FFFFFF",
       border: "1.5px solid #F0F4F7",
       boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
