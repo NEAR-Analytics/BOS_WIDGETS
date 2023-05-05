@@ -132,7 +132,8 @@ const fetchMore =
       Loading ...
     </div>
   ) : (
-    state.displayCount < state.items.length && (
+    state.displayCount < state.items.length &&
+    props.showAllComments && (
       <div key={"loader more"}>
         <a href="javascript:void" onClick={(e) => makeMoreItems()}>
           {props.loadMoreText ?? "Load more..."}
