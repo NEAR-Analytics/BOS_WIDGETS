@@ -142,6 +142,8 @@ const fetchMore =
   );
 
 let items = state.items ? state.items.slice(0, state.displayCount) : [];
+console.log(items);
+
 if (reverse) {
   items.reverse();
 }
@@ -151,8 +153,6 @@ if (!props.showAllComments && props.commentToShareBlockHeight) {
     items.find((item) => item.blockHeight == props.commentToShareBlockHeight),
   ];
 }
-
-console.log(items);
 
 return (
   <>
