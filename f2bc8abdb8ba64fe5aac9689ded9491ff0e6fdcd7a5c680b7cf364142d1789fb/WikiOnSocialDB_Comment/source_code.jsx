@@ -1,5 +1,3 @@
-console.log("a?");
-
 const lastEditorAccountId = props.lastEditorAccountId;
 const wikiSiteBlockHeight = props.wikiSiteBlockHeight;
 
