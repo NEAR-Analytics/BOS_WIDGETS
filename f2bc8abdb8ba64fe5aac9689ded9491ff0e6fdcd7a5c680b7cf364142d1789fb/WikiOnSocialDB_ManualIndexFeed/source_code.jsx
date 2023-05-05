@@ -39,7 +39,11 @@ index.options.limit = Math.min(
 );
 const reverse = !!props.reverse;
 
+console.log("index", index);
+
 const initialItems = Social.index(index.action, index.key, index.options);
+
+console.log("initialItems", initialItems);
 
 if (initialItems === null) {
   return "";
@@ -142,7 +146,6 @@ const fetchMore =
   );
 
 let items = state.items ? state.items.slice(0, state.displayCount) : [];
-console.log(state.items);
 
 if (reverse) {
   items.reverse();
