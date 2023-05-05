@@ -436,7 +436,7 @@ return (
             )}
             {/* === SHOW COMMENT === */}
             <Widget
-              src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
+              src={`${authorForWidget}/widget/Gig_Comment.Feed`}
               props={{
                 item,
                 highlightComment: props.highlightComment,
