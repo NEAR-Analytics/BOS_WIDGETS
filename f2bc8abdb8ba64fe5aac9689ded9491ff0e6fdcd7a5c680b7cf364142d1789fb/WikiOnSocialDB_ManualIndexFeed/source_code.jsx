@@ -3,7 +3,6 @@ const addressForComments = "wikiTest2Comment";
 const authorForWidget = "rodrigos.near";
 const index = props.index;
 
-console.log("2cosas", props.showAllComments, props.renderItem);
 if (!index) {
   return "props.index is not defined";
 }
@@ -22,7 +21,6 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
-    console.log("in 2");
     state.cachedItems[key] = renderItem(item, i);
     State.update();
   }
@@ -149,10 +147,11 @@ if (reverse) {
 }
 
 if (!props.showAllComments && props.commentToShareBlockHeight) {
+  console.log(
+    items.find((item) => item.blockHeight == props.commentToShareBlockHeight)
+  );
   items = [
-    items.find(
-      (itemBlockHeight) => itemBlockHeight == props.commentToShareBlockHeight
-    ),
+    items.find((item) => item.blockHeight == props.commentToShareBlockHeight),
   ];
 }
 
