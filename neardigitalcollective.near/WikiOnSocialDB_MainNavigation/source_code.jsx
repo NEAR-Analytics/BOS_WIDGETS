@@ -13,7 +13,7 @@ const pills = [
   {
     id: "articles",
     title: "Articles",
-    widgetName: "WikiOnSocialDB",
+    widgetName: "NDCDocs",
   },
   {
     id: "authors",
