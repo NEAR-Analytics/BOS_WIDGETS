@@ -24,9 +24,9 @@ const raw = !!props.raw;
 
 const renderItem = (a, showAllComments) => {
   return (
-    a.value.type === "md" &&
-    ((a.blockHeight === commentToShareBlockHeight && !showAllComments) ||
-      showAllComments) && (
+    <>
+      a.value.type === "md" && ((a.blockHeight === commentToShareBlockHeight &&
+      !showAllComments) || showAllComments) && (
       <div key={JSON.stringify(a)}>
         <Widget
           src={`${authorForWidget}/widget/WikiOnSocialDB_Comment`}
@@ -41,9 +41,9 @@ const renderItem = (a, showAllComments) => {
             raw,
           }}
         />
-        {console.log("out")}
       </div>
-    )
+      )
+    </>
   );
 };
 
