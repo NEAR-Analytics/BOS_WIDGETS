@@ -147,9 +147,6 @@ if (reverse) {
 }
 
 if (!props.showAllComments && props.commentToShareBlockHeight) {
-  console.log(
-    items.find((item) => item.blockHeight == props.commentToShareBlockHeight)
-  );
   items = [
     items.find((item) => item.blockHeight == props.commentToShareBlockHeight),
   ];
