@@ -62,7 +62,7 @@ return (
         className="navbar-brand text-decoration-none"
         href={`#/${authorForWidget}/widget/WikiOnSocialDB`}
       >
-        {"<NDCDocs>"}
+        {"NDC Docs📝"}
       </a>
       <button
         className="navbar-toggler"
