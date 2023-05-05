@@ -48,7 +48,6 @@ const renderItem = (a) => {
 
 return (
   <div>
-    {console.log("in manualIndexFeed")}
     <Widget
       src={`${authorForWidget}/widget/WikiOnSocialDB_ManualIndexFeed`}
       props={{
@@ -61,6 +60,5 @@ return (
         loadMoreText: "Show earlier comments...",
       }}
     />
-    {console.log("out manualIndexFeed")}
   </div>
 );
