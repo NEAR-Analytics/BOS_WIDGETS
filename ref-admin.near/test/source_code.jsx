@@ -12,7 +12,7 @@ function getData() {
   //   });
 }
 const data = getData();
-console.log("7777777777777777788999999-data", data);
+console.log("77777777777777777-data", data);
 function test() {
   Social.set(
     {
