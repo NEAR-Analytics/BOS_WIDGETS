@@ -17,9 +17,9 @@ const articleBlackList = [
   91092435, 91092174, 91051228, 91092223, 91051203, 91051228,
 ];
 
-if (!accountId) {
-  return "No account ID";
-}
+// if (!accountId) {
+//   return "No account ID";
+// }
 const profile = props.profile ?? Social.getr(`${authorId}/profile`);
 if (profile === null) {
   return "Loading";
