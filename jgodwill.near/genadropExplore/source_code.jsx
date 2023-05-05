@@ -163,7 +163,6 @@ const ImageCard = styled.div`
   height:fit-content;
   height:250px;
   width: 100%;
-  min-width: 300px;
   border-radius: 0.5rem;
   overflow:hidden;
   &>img{
