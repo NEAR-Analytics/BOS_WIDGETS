@@ -20,6 +20,9 @@ const renderItem =
   ));
 const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
+  console.log("props.showAllComments", props.showAllComments);
+  console.log("item.blockHeight", item.blockHeight);
+  console.log("commentToShareBlockHeight", commentToShareBlockHeight);
 
   if (!props.showAllComments && item.blockHeight == commentToShareBlockHeight) {
     console.log("in 1");
