@@ -2,13 +2,13 @@ const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
 const authorForWidget = "rodrigos.near";
 const index = props.index;
-
 if (!index) {
   return "props.index is not defined";
 }
-const commentToShareBlockHeight = props.commentToShareBlockHeight
-  ? Number(props.commentToShareBlockHeight)
-  : undefined;
+
+const commentToShareBlockHeight = props.commentToShareBlockHeight;
+Number(props.commentToShareBlockHeight);
+undefined;
 
 const renderItem =
   props.renderItem ??
@@ -39,15 +39,11 @@ index.options.limit = Math.min(
 );
 const reverse = !!props.reverse;
 
-console.log("index", index);
-
 const initialItems = Social.index(index.action, index.key, index.options);
 
 if (initialItems === null) {
   return "";
 }
-
-console.log("initialItems", initialItems);
 
 const computeFetchFrom = (items, limit) => {
   if (!items || items.length < limit) {
@@ -146,7 +142,6 @@ const fetchMore =
   );
 
 let items = state.items ? state.items.slice(0, state.displayCount) : [];
-
 if (reverse) {
   items.reverse();
 }
