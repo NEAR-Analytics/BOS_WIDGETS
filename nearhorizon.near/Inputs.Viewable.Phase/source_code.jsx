@@ -1,7 +1,7 @@
 const ownerId = "nearhorizon.near";
 const id = props.id ?? "select";
 const label = props.label ?? "Input";
-const value = props.value ?? [];
+const value = props.value ?? {};
 const options = props.options ?? [];
 const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
@@ -63,7 +63,7 @@ return (
       label,
       value,
       edit,
-      view: value[0].name,
+      view: value.name,
       canEdit,
     }}
   />
