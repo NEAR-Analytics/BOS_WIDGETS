@@ -3,7 +3,7 @@
 // }
 return (
   <>
-    {props.tokenId && (
+    {props.state.tokenId && (
       <div className="row">
         <div className="mb-2 col-lg-6">
           <div className="">
