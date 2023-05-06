@@ -70,7 +70,10 @@ return (
             { id: "Member", text: "Member" },
           ],
           selected: premission,
-          update: (premission) => onToggle(premission),
+          update: (premission) => {
+            console.log(permission);
+            onToggle(premission);
+          },
         }}
       />
     </Other>
