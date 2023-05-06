@@ -122,7 +122,7 @@ return (
         src={`${ownerId}/widget/Inputs.Team`}
         props={{
           team: state.team,
-          update: (s) => State.update(s),
+          update: (team) => State.update({ team }),
           onSave: (team) =>
             Near.call(ownerId, "add_team", { account_id: accountId, team }),
         }}
