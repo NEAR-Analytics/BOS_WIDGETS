@@ -1,12 +1,18 @@
-// เหลือ State.update({ txHash: "https://bscscan.com/tx/" + tx.hash }); หลัง Swap
-// เหลือ ปุ่ม Max
-// เหลือ ใส่ Amount
-// เหลือ Swap ไม่ได้ถ้าไม่ใส่ เหรียญปลายทาง หรือ เหรียญ ต้นทางกับ ปลายทางเหมือนกัน
+// TODO ::
+// - handle error pop up if an 1inch check allowance api does not work properly
+// - handle and display 1inch mutiple chain support not just only bsc
+// - Multiple Token Selection
+// - Max(helper button) to get max amount of token from wallet address
+// - error when user select from / to as same token
+// - error when user don't select destination token
+// - change allow token behavior to replace swap butto
+// - might add revork button
 
 initState({
   toggleAmount: false,
   txHash: "",
   tokenDecimals: 18,
+  fromTokenAmount: 0,
 });
 
 const signer = Ethers.send("eth_requestAccounts", [])[0];
@@ -98,8 +104,31 @@ const erc20Abi = fetch(
   "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
 );
 if (!erc20Abi.ok) {
-  return "busd not ok";
+  return "erc20 not ok";
 }
+
+const iface = new ethers.utils.Interface(erc20Abi.body);
+
+const getTokenBalance = (wallet) => {
+  const encodedData = iface.encodeFunctionData("balanceOf", [wallet]);
+
+  return Ethers.provider()
+    .call({
+      to: state.token,
+      data: encodedData,
+    })
+    .then((rawBalance) => {
+      const receiverBalanceHex = iface.decodeFunctionResult(
+        "balanceOf",
+        rawBalance
+      );
+
+      return Big(receiverBalanceHex.toString())
+        .div(Big(10).pow(state.tokenDecimals))
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+    });
+};
 
 const oneInchAbi = fetch(
   "https://gist.githubusercontent.com/taforyou/5747abd24159d5fd4e95cf1820d5d90f/raw/ca965bdfa9a291d2e0e8617f9f6b53d132baa0c6/1inchv5.abi.json"
@@ -139,12 +168,21 @@ const handleApprove = () => {
 };
 
 const handleSwap = () => {
-  console.log("fromTokenAddress ", state.token);
-  console.log("destinationToken ", state.destinationToken);
+  //   console.log("fromTokenAddress ", state.token);
+  //   console.log("destinationToken ", state.destinationToken);
+  // getTokenBalance(signer).then((value) => {
+  //   console.log(value);
+  // });
+
+  let swapAmount = ethers.utils.parseUnits(
+    state.fromTokenAmount,
+    state.tokenDecimals
+  );
+
   const swapParam = {
     fromTokenAddress: state.token,
     toTokenAddress: state.destinationToken,
-    amount: "1000000000000000000", // 1 * 10^18 wei
+    amount: swapAmount,
     fromAddress: signer,
     slippage: 1,
   };
