@@ -41,7 +41,7 @@ const DropdownContainer = styled.div`
 const DropdownItem = styled.li`
   cursor: pointer;
 
-  a {
+  button {
     display: block;
     width: 100%;
     clear: both;
@@ -118,11 +118,9 @@ const DropdownButton = styled.button`
   border: none;
 `;
 
-const createOption = ({ id, text, href }) => (
+const createOption = ({ id, text }) => (
   <DropdownItem key={id} selected={selected === id}>
-    <a href={href} onClick={() => props.update(id)}>
-      {text}
-    </a>
+    <button onClick={() => props.update(id)}>{text}</button>
   </DropdownItem>
 );
 
