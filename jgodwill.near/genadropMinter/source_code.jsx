@@ -309,9 +309,7 @@ return (
       </div>
     )}
     {state.showAlert && (
-      <Toast>
-        <p>{state.toastMessage}</p>
-      </Toast>
+      <Widget src="jgodwill.near/widget/genadrop-toast" props={state} />
     )}
   </Main>
 );
