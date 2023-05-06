@@ -160,7 +160,6 @@ const NFTCards = styled.div`
 `;
 
 const ImageCard = styled.div`
-  height:fit-content;
   height:250px;
   width: 100%;
   border-radius: 0.5rem;
