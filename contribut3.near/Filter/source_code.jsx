@@ -120,7 +120,14 @@ const DropdownButton = styled.button`
 
 const createOption = ({ id, text }) => (
   <DropdownItem key={id} selected={selected === id}>
-    <button onClick={() => props.update(id)}>{text}</button>
+    <button
+      onClick={() => {
+        console.log("clicked");
+        props.update(id);
+      }}
+    >
+      {text}
+    </button>
   </DropdownItem>
 );
 
