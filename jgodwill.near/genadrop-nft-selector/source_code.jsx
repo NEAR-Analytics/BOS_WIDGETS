@@ -30,80 +30,26 @@ const data = fetch("https://graph.mintbase.xyz", {
   }),
 });
 
-const NFTImageButton = styled.button`
-  width: 25%;
-  aspect-ratio: 1/1;
-  height: 25%;
-  transition: all 0.4s ease-in-out;
-  border: 1.41429px solid rgba(28,27,28,.1);
-  border-radius: 10px;
-  outline:none;
-  background:transparent;
-  opacity:0.9;
-  object-fit: cover;
-  padding:unset;
-  overflow:hidden;
-  &:hover{
-    opacity:1;
-  }
-  &>img{
-  transition: all 0.3s ease-in-out;
-  }
-  &>img:hover{
-    transform:scale(1.05);
-  }
-`;
-
-const NFTs = styled.div`
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  justify-content: center;
-  // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
-  margin-top: 20px;
-  width:100%;
-  padding: 1rem;
-`;
-
-const Heading = styled.p`
-  margin: 10px auto 10px auto;
-  font-size: 1.3em;
-  color:#0f1d40;
-  width:60%;
-  text-align: center;
-  font-family: "SF Pro Display",sans-serif;
-  line-height: 1.02;
-`;
-
 const finalData = data?.body?.data;
 
 if (!finalData) {
-  return (
-    <div className="d-flex flex-wrap gap-2 justify-content-center align-items-center flex-column">
-      <Heading className="text-center fw-bold">You own no NFT yet.</Heading>
-      <p>
-        You can mint an NFT on 💧
-        <a href="https://genadrop.io" target="_blank" rel="noopener noreferrer">
-          GenaDrop
-        </a>
-        <Widget
-          src="miraclx.near/widget/Attribution"
-          props={{ authors: [props.ownerId], dep: true }}
-        />
-      </p>
-    </div>
-  );
+  return <></>;
 }
 
 return (
   <>
-    <Heading className="text-center fw-bold">
-      Select the NFT you want to list
-    </Heading>
-    <NFTs className="d-flex flex-wrap gap-2 justify-content-center align-items-center">
+    <div
+      className="d-flex flex-wrap gap-2 justify-content-center"
+      style={{
+        height: "334px",
+        overflow: "auto",
+      }}
+    >
       {finalData.tokens.map((nft, index) => (
-        <NFTImageButton
+        <div
           key={`${nft.contractId}-${nft.tokenId}-${index}`}
+          role="button"
+          style={{ width: "15%", aspectRatio: "1/1" }}
           onClick={() => {
             onChange({
               contractId: nft.contractId,
@@ -124,7 +70,6 @@ return (
                 maxWidth: size,
                 maxHeight: size,
                 overflowWrap: "break-word",
-                borderRadius: "inherit",
               },
               className: "",
               fallbackUrl:
@@ -132,8 +77,8 @@ return (
               alt: `NFT ${nft.contractId} ${nft.tokenId}`,
             }}
           />
-        </NFTImageButton>
+        </div>
       ))}
-    </NFTs>
+    </div>
   </>
 );
