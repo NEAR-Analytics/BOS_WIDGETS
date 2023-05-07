@@ -5,17 +5,15 @@
 const Label = styled.div``;
 const SecondaryText = styled.h3``;
 const Card = styled.div``;
-const BorderedCard = styled.div`
+const BorderedShadowedCard = styled.div`
   display: flex;
    flex-flow: column nowrap;
    -ms-flex-flow:column nowrap;
-   align-items:center;
    background-color: "#f0f0f0";
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
-box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
-   padding: 8px;
-   text-align: center;
+  box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
+   padding: 1.6rem;
    background-color:#fff;
    &:hover &>div>img{
      transform:scale(1.05);
@@ -141,17 +139,19 @@ return (
               </div>
             </div>
           </div>
-          <BorderedCard>
-            <Widget
-              src="mob.near/widget/NftImage"
-              props={{
-                nft: {
-                  tokenId: props.state.tokenId,
-                  contractId: props.state.contractId,
-                },
-                className: "col-lg-12",
-              }}
-            />
+          <BorderedShadowedCard>
+            <div className="shadow-sm p-3 mb-5 bg-body rounded">
+              <Widget
+                src="mob.near/widget/NftImage"
+                props={{
+                  nft: {
+                    tokenId: props.state.tokenId,
+                    contractId: props.state.contractId,
+                  },
+                  className: "col-lg-12",
+                }}
+              />
+            </div>
             <p>
               Collection Name:{" "}
               <span className="font-weight-bold">
@@ -204,7 +204,7 @@ return (
                 </ul>
               </div>
             </div>
-          </BorderedCard>
+          </BorderedShadowedCard>
         </Main>
         <div className="row text-center">
           {props.state.ownsNFT && (
