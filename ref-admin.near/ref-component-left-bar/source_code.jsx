@@ -118,63 +118,58 @@ const CheckIcon = (
 );
 
 const CheckBase = styled.div`
-    width: 13px;
-    height: 13px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-        display:flex;
-    align-items: center;
-    justify-content: center;
-    border: ${(p) => (p.checked ? "1px solid #00FFD1" : "")};
+  width: 13px;
+  height: 13px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: ${(p) => (p.checked ? "1px solid #00FFD1" : "")};
 `;
 
 const Wrapper = styled.div`
-    width: 170px;
-    padding-right: 15px;
-    color: white;
-    font-size: 15px;
-    flex-shrink:0;
-    margin-right: 30px;
+  width: 170px;
+  padding-right: 15px;
+  color: white;
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-right: 30px;
 `;
 
 const FirstClassNav = styled.div`
-
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor:pointer;
-    padding-top: 23px;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding-top: 23px;
 `;
 
 const SecondClassNav = styled.div`
-    display:flex;
-    align-items: center;
-    
-    cursor:pointer;
-    padding-top 15px;
+  display: flex;
+  align-items: center;
 
+  cursor: pointer;
+  padding-top: 15px;
 `;
 
 const FlexWrapper = styled.div`
-
-    display:flex;
-    align-items: center;
-
+  display: flex;
+  align-items: center;
 `;
 
 const CountWrapper = styled.div`
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    background: #00FFD1;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 12px;
-    color: #101011;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00ffd1;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #101011;
 `;
 
 const Arrow = (
@@ -187,7 +182,7 @@ const Arrow = (
   >
     <path
       fill-rule="evenodd"
-      clip-rule="evenodd"
+      clipRule="evenodd"
       d="M0.198688 5.70431C0.501742 6.05295 1.04222 6.10005 1.40589 5.80952L6 2.13929L10.5941 5.80952C10.9578 6.10005 11.4983 6.05295 11.8013 5.70431C12.1044 5.35567 12.0552 4.83752 11.6916 4.54699L6 0L0.308434 4.54699C-0.0552309 4.83752 -0.104366 5.35567 0.198688 5.70431Z"
       fill="currentColor"
     />
@@ -195,13 +190,12 @@ const Arrow = (
 );
 
 const ArrowWrapper = styled.div`
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    color:white;
-    opacity: ${(p) => (p.show ? 1 : 0.5)};
-    transform: ${(p) => (p.show ? "" : "rotate(180deg)")}
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: ${(p) => (p.show ? 1 : 0.5)};
+  transform: ${(p) => (p.show ? "" : "rotate(180deg)")};
 `;
 
 console.log(state.showItems);
