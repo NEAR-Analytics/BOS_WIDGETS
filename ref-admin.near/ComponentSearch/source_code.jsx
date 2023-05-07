@@ -1,3 +1,13 @@
+const Container = styled.div`
+  .form-control{
+    background-color:transparent;
+    border:none;
+    &:focus{
+      background-color:transparent;
+      border:none;
+    }
+  }
+`
 const allMetadata =
   Social.get(
     ["*/widget/*/metadata/name", "*/widget/*/metadata/tags/*"],
@@ -94,7 +104,7 @@ if (props.term && props.term !== state.oldTerm) {
 
 return (
   <>
-    <div className="input-group">
+    <Container className="input-group">
       <input
         type="text"
         className={`form-control ${state.term ? "border-end-0" : ""}`}
@@ -112,7 +122,7 @@ return (
           <i className="bi bi-x"></i>
         </button>
       )}
-    </div>
+    </Container>
     {props.debug && <pre>{JSON.stringify(state.result, undefined, 2)}</pre>}
   </>
 );
