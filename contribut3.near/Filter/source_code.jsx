@@ -12,7 +12,7 @@ State.init({
   show: false,
 });
 
-const DropdownContainer = styled.div`
+const DropdownContainer = styled("DropdownMenu.Root")`
   position: relative;
 
   ul {
@@ -38,7 +38,7 @@ const DropdownContainer = styled.div`
   }
 `;
 
-const DropdownItem = styled.li`
+const DropdownItem = styled("DropdownMenu.Item")`
   cursor: pointer;
 
   button {
@@ -103,7 +103,7 @@ const Label = styled.label`
   color: #344054;
 `;
 
-const DropdownButton = styled.button`
+const DropdownButton = styled("DropdownMenu.Trigger")`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -120,13 +120,7 @@ const DropdownButton = styled.button`
 
 const createOption = ({ id, text }) => (
   <DropdownItem key={id} selected={selected === id}>
-    <button
-      type="button"
-      onClick={() => {
-        console.log("clicked");
-        props.update(id);
-      }}
-    >
+    <button type="button" onClick={() => props.update(id)}>
       {text}
     </button>
   </DropdownItem>
@@ -153,9 +147,9 @@ return (
         <Arrow className={state.show ? "show" : ""}>{arrowIcon}</Arrow>
       </DropdownButton>
 
-      <ul className={state.show ? "show" : ""}>
+      <DropdownMenu.Content>
         {options.map((option) => createOption(option))}
-      </ul>
+      </DropdownMenu.Content>
     </DropdownContainer>
   </Container>
 );
