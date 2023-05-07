@@ -19,12 +19,12 @@ if (myHomePagePath !== null) {
 }
 if (customHomeLoading) return "";
 const finalSrc = canCustomHome ? myHomePagePath || src : src; // src 取url中的没有的话取默认值
-const [accountId, widget, widgetName] = src.split("/");
+const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
 const metadata = data || {};
 const tags = Object.keys(metadata.tags || {});
-const appUrl = `#/${src}`;
-const detailsUrl = `#/ref-admin.near/widget/ComponentDetailsPage?src=${src}`;
+const appUrl = `#/${finalSrc}`;
+const detailsUrl = `#/ref-admin.near/widget/ComponentDetailsPage?src=${finalSrc}`;
 const shareUrl = `https://near.org${detailsUrl}`;
 const size = props.size || "large";
 
@@ -221,7 +221,7 @@ return (
 
       <div>
         <Title size={size}>{metadata.name || widgetName}</Title>
-        <Text ellipsis>{src}</Text>
+        <Text ellipsis>{finalSrc}</Text>
       </div>
     </Header>
 
@@ -241,7 +241,7 @@ return (
         {primaryActions[primaryAction].display}
       </ButtonLink>
 
-      <ButtonLink href={`#/edit/${src}`}>
+      <ButtonLink href={`#/edit/${finalSrc}`}>
         {context.accountId === accountId ? (
           <>
             <i className="bi bi-pencil-fill"></i> Edit
