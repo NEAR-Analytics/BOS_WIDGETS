@@ -70,9 +70,7 @@ return (
             { id: "Member", text: "Member" },
           ],
           selected: permission.id,
-          update: (permission) => {
-            onToggle(permission);
-          },
+          update: (permission) => onToggle(permission),
         }}
       />
     </Other>
