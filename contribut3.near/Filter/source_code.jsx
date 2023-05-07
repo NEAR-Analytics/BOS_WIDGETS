@@ -7,6 +7,7 @@ const options = props.options ?? [
   { id: "option-2", text: "Option 2", href: "#" },
 ];
 const selected = props.selected ?? options[0].id;
+console.log(selected, props.selected);
 
 State.init({
   show: false,
