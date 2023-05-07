@@ -10,6 +10,7 @@ const Name = styled.a`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  gap: 0.5em;
   font-style: normal;
   font-weight: 600;
   font-size: 0.95em;
