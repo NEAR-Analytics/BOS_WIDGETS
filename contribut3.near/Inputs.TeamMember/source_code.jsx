@@ -1,7 +1,7 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 const name = props.name;
-const premission = props.premission;
+const permission = props.permission;
 const onToggle = props.onToggle;
 const onRemove = props.onRemove;
 
@@ -69,9 +69,9 @@ return (
             { id: "Admin", text: "Admin" },
             { id: "Member", text: "Member" },
           ],
-          selected: premission.id,
-          update: (premission) => {
-            onToggle(premission);
+          selected: permission.id,
+          update: (permission) => {
+            onToggle(permission);
           },
         }}
       />
