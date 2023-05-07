@@ -69,9 +69,8 @@ return (
             { id: "Admin", text: "Admin" },
             { id: "Member", text: "Member" },
           ],
-          selected: premission,
+          selected: premission.id,
           update: (premission) => {
-            console.log(permission);
             onToggle(premission);
           },
         }}
