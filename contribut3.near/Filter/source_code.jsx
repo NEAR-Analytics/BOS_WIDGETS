@@ -120,13 +120,7 @@ const DropdownButton = styled("DropdownMenu.Trigger")`
 
 const createOption = ({ id, text }) => (
   <DropdownItem key={id} selected={selected === id}>
-    <button
-      type="button"
-      onClick={() => {
-        console.log("clicked");
-        props.update(id);
-      }}
-    >
+    <button type="button" onClick={() => props.update(id)}>
       {text}
     </button>
   </DropdownItem>
