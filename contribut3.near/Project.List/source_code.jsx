@@ -15,7 +15,7 @@ if (!state.itemsIsFetched) {
 }
 
 const Item = styled.div`
-  width: 100%;
+  width: 98%;
   padding: 0;
   margin: 0;
 `;
