@@ -381,7 +381,7 @@ return (
         {state.canVote ? (
           VoteOnProposal
         ) : (
-          <Label>"You don't have the permission to vote on proposals."</Label>
+          <Label>You don't have the permission to vote on proposals.</Label>
         )}
       </ProposalCard>
     ) : (
