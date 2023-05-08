@@ -3,13 +3,16 @@ State.init({
   tabProp: props.tab,
 });
 
+const accountId = context.accountId;
+console.log("accountId: ", accountId);
+
 if (props.tab && props.tab !== state.tabProp) {
   State.update({ tab: props.tab, tabProp: props.tab });
 }
 
 const cur_mode = Storage.get("ref-mode", "ref-admin.near/widget/user-builder");
 
-const role = cur_mode === "builder" ? "Builder" : "user";
+const role = cur_mode === "builder" && !!accountId ? "Builder" : "user";
 
 const Wrapper = styled.div``;
 
