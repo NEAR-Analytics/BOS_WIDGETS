@@ -99,7 +99,7 @@ const FooterButton = styled.a`
 
   &:hover {
     ${({ disabled }) =>
-    disabled ? "color: #878a8e; text-decoration: none;" : ""}
+      disabled ? "color: #878a8e; text-decoration: none;" : ""}
   }
 `;
 
@@ -129,15 +129,15 @@ const footer = (
     <FooterButton
       blue
       disabled
-    // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
-    // onClick={() =>
-    //   props.update({
-    //     tab: "entity",
-    //     content: "",
-    //     search: "",
-    //     accountId,
-    //   })
-    // }
+      // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
+      // onClick={() =>
+      //   props.update({
+      //     tab: "entity",
+      //     content: "",
+      //     search: "",
+      //     accountId,
+      //   })
+      // }
     >
       <svg
         width="17"
@@ -159,9 +159,4 @@ const footer = (
   </Footer>
 );
 
-return (
-  <Widget
-    src={`${ownerId}/widget/Card`}
-    props={{ body, footer, key: accountId }}
-  />
-);
+return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
