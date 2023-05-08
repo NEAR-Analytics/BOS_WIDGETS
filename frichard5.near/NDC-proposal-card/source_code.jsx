@@ -1,5 +1,9 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 
+State.init({
+  showClipboardTooltip: false,
+});
+
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
   const h = Math.floor((seconds - d * 24 * 3600) / 3600);
@@ -238,6 +242,8 @@ let ClipboardButton = styled.button`
   right: 20px;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
+  border-radius: 4px;
 `;
 
 const getTimeLeft = (proposal) => {
@@ -258,7 +264,12 @@ const getTimeLeft = (proposal) => {
 
 function copy(proposal_id) {
   const link = `https://near.social/#/${widgetProvider}/widget/NDC-Page?tab=proposal&proposal_id=${proposal_id}`;
+
   return () => {
+    State.update({ showClipboardTooltip: true });
+    setTimeout(() => {
+      State.update({ showClipboardTooltip: false });
+    }, 1000);
     clipboard.writeText(link);
   };
 }
@@ -273,10 +284,21 @@ return (
           </Status>
           <ProposalId>
             <div>Proposal Id {proposal.proposal_id}</div>
-            <ClipboardButton onClick={copy(proposal.proposal_id)}>
-              <span>Copy proposal link </span>
-              {clipboardSvg}
-            </ClipboardButton>
+            <OverlayTrigger
+              key={"left"}
+              placement={"left"}
+              overlay={
+                <Tooltip id={`tooltip`}>
+                  Tooltip onddddddd <strong>adz</strong>.
+                </Tooltip>
+              }
+              show={state.showClipboardTooltip}
+            >
+              <ClipboardButton onClick={copy(proposal.proposal_id)}>
+                <span>Copy proposal link </span>
+                {clipboardSvg}
+              </ClipboardButton>
+            </OverlayTrigger>
           </ProposalId>
         </Header>
         <Type>{proposal.proposal_type}</Type>
