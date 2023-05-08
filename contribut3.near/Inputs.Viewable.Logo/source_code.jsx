@@ -1,7 +1,7 @@
 const ownerId = "contribut3.near";
 const id = props.id ?? "text";
 const accountId = props.accountId ?? context.accountId;
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 State.init({
@@ -74,8 +74,9 @@ return (
       ),
       view: (
         <Widget
-          src={`${ownerId}/widget/${props.isProject ? "Project" : "Vendor"
-            }.Icon`}
+          src={`${ownerId}/widget/${
+            props.isProject ? "Project" : "Vendor"
+          }.Icon`}
           props={{ accountId: props.accountId, size: "6.5em" }}
         />
       ),
