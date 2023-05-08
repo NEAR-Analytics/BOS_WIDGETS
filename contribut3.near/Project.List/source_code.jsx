@@ -14,7 +14,9 @@ if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
 
-const Item = styled.div``;
+const Item = styled.div`
+  width: 100%;
+`;
 
 return (
   <Widget
