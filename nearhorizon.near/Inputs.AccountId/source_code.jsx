@@ -2,8 +2,8 @@ const ownerId = "nearhorizon.near";
 const label = props.label ?? "Account ID";
 const placeholder = props.placeholder ?? "Enter your account ID";
 const value = props.value ?? "";
-const onChange = props.onChange ?? (() => { });
-const addInfo = props.addInfo ?? (() => { });
+const onChange = props.onChange ?? (() => {});
+const addInfo = props.addInfo ?? (() => {});
 const accountIdRegex =
   /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
 
