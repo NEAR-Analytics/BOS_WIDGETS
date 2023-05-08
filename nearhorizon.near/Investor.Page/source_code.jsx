@@ -90,6 +90,8 @@ const CTARow = styled.div`
 `;
 
 State.init({
+  investor: null,
+  investorIsFetched: false,
   isAdmin: false,
   isAdminIsFetched: false,
 });
@@ -108,7 +110,19 @@ if (!state.isAdminIsFetched) {
   }
 }
 
-console.log(state.isAdmin);
+if (!state.investorIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_investor",
+    { investor_id: accountId },
+    "final",
+    false
+  ).then((investor) => State.update({ investor, investorIsFetched: true }));
+}
+
+if (!state.investorIsFetched || !state.isAdminIsFetched) {
+  return <>Loading...</>;
+}
 
 return (
   <Container>
@@ -127,6 +141,22 @@ return (
           src={`${ownerId}/widget/Investor.About`}
           props={{ accountId, isAdmin: state.isAdmin }}
         />
+        {state.isAdmin ? (
+          <Widget
+            src={`${ownerId}/widget/Inputs.Admins`}
+            props={{
+              permissions: state.investor.permissions,
+              update: (permissions) =>
+                State.update({ investor: { ...state.investor, permissions } }),
+              onSave: (permissions) =>
+                Near.call(ownerId, "edit_investors", {
+                  [accountId]: { ...state.investor, permissions },
+                }),
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </MainContent>
       <Sidebar>
         <Widget
