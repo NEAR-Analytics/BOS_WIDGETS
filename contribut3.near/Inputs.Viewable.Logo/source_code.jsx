@@ -74,8 +74,9 @@ return (
       ),
       view: (
         <Widget
-          src={`${ownerId}/widget/${props.isProject ? "Project" : "Vendor"}.Icon`}
-          props={{ accountId: props.accountId, size: "8em" }}
+          src={`${ownerId}/widget/${props.isProject ? "Project" : "Vendor"
+            }.Icon`}
+          props={{ accountId: props.accountId, size: "6.5em" }}
         />
       ),
       canEdit,
