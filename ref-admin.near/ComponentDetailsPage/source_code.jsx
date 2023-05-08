@@ -9,8 +9,6 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-console.log("istemplate", props.istemplate);
-
 const src = props.src;
 const [accountId, widget, widgetName] = src.split("/");
 const existsData = Social.keys(`${accountId}/widget/${widgetName}`);
@@ -77,7 +75,7 @@ const TabsButton = styled.a`
   outline: none;
   text-align: center;
   text-decoration: none !important;
-  margin-right:40px;
+  margin-right: 40px;
 
   &:hover {
     color: #fff;
@@ -91,7 +89,7 @@ const TabsButton = styled.a`
     left: 0;
     right: 0;
     height: 4px;
-    background: #00FFD1;
+    background: #00ffd1;
   }
 `;
 
@@ -100,7 +98,7 @@ const Content = styled.div`
   grid-template-columns: minmax(0, 1fr) 336px;
   gap: 64px;
 
-  background: #15272B;
+  background: #15272b;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
   border-radius: 16px;
 
@@ -108,29 +106,29 @@ const Content = styled.div`
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  .codeArea{
-    > pre > div{
-      background:transparent!important;
+  .codeArea {
+    > pre > div {
+      background: transparent !important;
     }
   }
-  .aboutArea{
-      padding:10px 20px;
-      color:#fff;
+  .aboutArea {
+    padding: 10px 20px;
+    color: #fff;
   }
 `;
 
 const Sidebar = styled.div`
-    padding:${(p) => (p.area == "about" ? "10px" : "")};
-    border-left: 2px solid #1E373D;
-    .dependenciesArea{
-      padding:20px 28px;
-    }
+  padding: ${(p) => (p.area == "about" ? "10px" : "")};
+  border-left: 2px solid #1e373d;
+  .dependenciesArea {
+    padding: 20px 28px;
+  }
   > div {
     padding-bottom: 32px;
     border-bottom: 1px solid rgba(48, 67, 82, 0.5);
     margin-bottom: 32px;
-    p{
-        color:#fff;
+    p {
+      color: #fff;
     }
 
     &:last-child {
@@ -150,7 +148,7 @@ const Sidebar = styled.div`
 const SmallTitle = styled.h3`
   font-weight: 500;
   font-size: 16px;
-  color:#fff;
+  color: #fff;
   margin-bottom: 32px;
   text-transform: uppercase;
 
@@ -184,8 +182,8 @@ const Text = styled.p`
 
 const Dependency = styled.div`
   margin-bottom: 24px;
-  p{
-    color:#fff!important;
+  p {
+    color: #fff !important;
   }
 `;
 
@@ -222,6 +220,12 @@ return (
 
     <Tabs>
       <TabsButton
+        href={`${detailsUrl}&tab=preview`}
+        selected={state.selectedTab === "preview"}
+      >
+        Preview
+      </TabsButton>
+      <TabsButton
         href={`${detailsUrl}&tab=about`}
         selected={state.selectedTab === "about"}
       >
@@ -242,6 +246,12 @@ return (
         History
       </TabsButton>
     </Tabs>
+
+    {state.selectedTab === "preview" && (
+      <Content>
+        <Widget src={src} props={props}></Widget>
+      </Content>
+    )}
 
     {state.selectedTab === "about" && (
       <Content>
