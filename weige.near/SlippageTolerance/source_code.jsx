@@ -118,16 +118,11 @@ return (
         >
           <SlippageInputWrapper>
             <Input
-              class="ref-fi-slippage-setting"
+              className="ref-fi-slippage-setting"
               placeholder="0.0"
               onChange={(e) => {
                 setSlippagetolerance(e.target.value);
               }}
-              max="99.99999"
-              min="0"
-              step="any"
-              type="number"
-              inputMode="decimal"
               defaultValue={"0.5"}
               value={slippagetolerance}
             />
