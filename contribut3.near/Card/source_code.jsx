@@ -65,7 +65,7 @@ const CardFooter = styled.div`
 `;
 
 return (
-  <CardContainer full={full} key={props.key}>
+  <CardContainer full={full}>
     <CardHeader show={!!props.header}>{header}</CardHeader>
     <CardBody>{body}</CardBody>
     <CardFooter>{footer}</CardFooter>
