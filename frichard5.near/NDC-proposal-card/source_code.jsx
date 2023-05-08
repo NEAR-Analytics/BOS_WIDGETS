@@ -289,7 +289,7 @@ return (
               placement={"left"}
               overlay={
                 <Tooltip id={`tooltip`}>
-                  Tooltip onddddddd <strong>adz</strong>.
+                  Proposal link added to clipboard.
                 </Tooltip>
               }
               show={state.showClipboardTooltip}
