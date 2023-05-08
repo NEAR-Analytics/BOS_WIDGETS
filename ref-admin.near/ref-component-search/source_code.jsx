@@ -8,6 +8,8 @@ const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
 
 const requiredTags = props.filterTags;
 
+const chains = props.chains;
+
 const boostedTag = props.boostedTag;
 const inputTerm = props.term;
 
@@ -84,19 +86,34 @@ const _search = (term) => {
       const metadata = allMetadata[accountId].widget[componentId].metadata;
       const name = metadata.name || componentId;
 
-      console.log(metadata.tags, "tags", requiredTags);
-
       const metaTags = Object.keys(metadata.tags || {});
 
       if (requiredTags) {
         if (!metadata.tags) return;
+
+        const noChainTags = requiredTags.filter((t) => !chains.includes(t));
+
+        const chainTags = requiredTags.filter((t) => chains.includes(t));
+
         const hasRefTag = metaTags.some((t) =>
-          requiredTags.map((f) => f.toLowerCase()).includes(t.toLowerCase())
+          noChainTags.map((f) => f.toLowerCase()).includes(t.toLowerCase())
         );
 
-        console.log(hasRefTag, "hasreftag");
+        const hasChainTag = chainTags.some((t) =>
+          metaTags.some((f) => f.toLowerCase() === t.toLowerCase())
+        );
 
-        if (!(hasRefTag && metadata.tags)) return;
+        console.log(
+          "hasChainTag: ",
+          hasChainTag,
+          hasRefTag,
+          chainTags,
+          noChainTags
+        );
+
+        if (chainTags?.length > 0 && !hasChainTag) return;
+
+        if (noChainTags?.length > 0 && !hasRefTag) return;
       }
       const boosted =
         boostedTag && metadata.tags && boostedTag in metadata.tags;
@@ -132,7 +149,7 @@ const _search = (term) => {
   });
 
   if (props.onChange) {
-    props.onChange({ term, result });
+    props.onChange({ term: term || "", result });
   }
 };
 
@@ -155,8 +172,6 @@ if (props.term && props.term !== state.oldTerm) {
   }
 }
 
-console.log(requiredTags, state.oldFilters, "old filters");
-
 if (requiredTags?.length || 0 !== (state.oldFilters || []).length) {
   State.update({
     oldFilters: requiredTags,
@@ -165,17 +180,14 @@ if (requiredTags?.length || 0 !== (state.oldFilters || []).length) {
 }
 
 const Wrapper = styled.div`
+  width: 482px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 14px;
 
-
-    width: 482px;
-    height: 36px;
-    display:flex;
-    align-items:center;
-    padding: 0 0 0 14px;
-
-
-    background: #1A2E33;
-    border-radius: 10px;
+  background: #1a2e33;
+  border-radius: 10px;
 
   @media (max-width: 500px) {
     width: 100%;
@@ -183,17 +195,17 @@ const Wrapper = styled.div`
 `;
 
 const Input = styled.input`
-    padding-left:4px;
-    appearance: none;
-    outline: none;
-    width: 100%;
-    background: none;
-    border: none;
-    color: #FFFFFF;
-    ::placeholder{
-        color: #FFFFFF;
-        opacity:0.3
-    }
+  padding-left: 4px;
+  appearance: none;
+  outline: none;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ffffff;
+  ::placeholder {
+    color: #ffffff;
+    opacity: 0.3;
+  }
 `;
 
 return (
