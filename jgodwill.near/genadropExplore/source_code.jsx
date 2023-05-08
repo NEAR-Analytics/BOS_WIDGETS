@@ -208,6 +208,8 @@ return (
         </Stats>
       </Main>
     )}
+
+    <input type="search" placeholder="Search NFTs" />
     {state.nftData.length > 0 && (
       <NFTCards>
         {state.nftData.map((nft) => (
