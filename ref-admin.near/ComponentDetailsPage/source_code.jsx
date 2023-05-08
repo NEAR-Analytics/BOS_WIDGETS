@@ -227,14 +227,12 @@ return (
     </SummaryWrapper>
 
     <Tabs>
-      {props.istemplate === "true" && (
-        <TabsButton
-          href={`${detailsUrl}&tab=preview&istemplate=${props.istemplate}`}
-          selected={state.selectedTab === "preview"}
-        >
-          Preview
-        </TabsButton>
-      )}
+      <TabsButton
+        href={`${detailsUrl}&tab=preview&istemplate=${props.istemplate}`}
+        selected={state.selectedTab === "preview"}
+      >
+        Preview
+      </TabsButton>
 
       <TabsButton
         href={`${detailsUrl}&tab=about&istemplate=${props.istemplate}`}
@@ -258,7 +256,7 @@ return (
       </TabsButton>
     </Tabs>
 
-    {state.selectedTab === "preview" && props.istemplate === "true" && (
+    {state.selectedTab === "preview" && (
       <PreviewContent>
         <Widget
           src={src}
