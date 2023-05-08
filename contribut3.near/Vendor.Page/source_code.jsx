@@ -125,6 +125,12 @@ const content = {
       props={{ accountId, isAdmin: state.isAdmin }}
     />
   ),
+  admins: (
+    <Widget
+      src={`${ownerId}/widget/Vendor.Admins`}
+      props={{ accountId, isAdmin: state.isAdmin }}
+    />
+  ),
   contracts: (
     <Widget
       src={`${ownerId}/widget/Vendor.Contracts`}
@@ -168,7 +174,10 @@ return (
         </CTARow>
       </HeaderDetails>
       <HeaderProgress>
-        <Widget src={`${ownerId}/widget/Vendor.Progress`} props={{ accountId }} />
+        <Widget
+          src={`${ownerId}/widget/Vendor.Progress`}
+          props={{ accountId, isAdmin: state.isAdmin }}
+        />
       </HeaderProgress>
     </Header>
     <ContentContainer>
@@ -186,6 +195,7 @@ return (
                 id: "overview",
                 text: "Overview",
               },
+              state.isAdmin ? { id: "admins", text: "Admins" } : null,
               {
                 id: "contracts",
                 text: "Contracts",
@@ -194,7 +204,7 @@ return (
                 id: "history",
                 text: "Work history",
               },
-            ],
+            ].filter((x) => !!x),
           }}
         />
         {content}
