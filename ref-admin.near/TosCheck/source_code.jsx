@@ -1,6 +1,7 @@
 const { tosName, targetComponent, logOut, canCustomHome } = props;
 const targetProps = props?.targetProps || {};
 const acceptanceKey = tosName; // may change
+console.log('00000000000000-test')
 State.init({
   hasCommittedAcceptance: false,
   agreeIsChecked: false,
@@ -29,14 +30,14 @@ if (
 ) {
   customHomeLoaded = true;
 }
-// console.log("555555555555555-canCustomHome", canCustomHome);
-// console.log("555555555555555-myHomePagePath", myHomePagePath);
-// console.log(
-//   "555555555555555-myHomePagePathDataFromCache",
-//   myHomePagePathDataFromCache
-// );
-// console.log("555555555555555-myHomePagePathFromCache", myHomePagePathFromCache);
-// console.log("555555555555555-customHomeLoaded", customHomeLoaded);
+console.log("555555555555555-canCustomHome", canCustomHome);
+console.log("555555555555555-myHomePagePath", myHomePagePath);
+console.log(
+  "555555555555555-myHomePagePathDataFromCache",
+  myHomePagePathDataFromCache
+);
+console.log("555555555555555-myHomePagePathFromCache", myHomePagePathFromCache);
+console.log("555555555555555-customHomeLoaded", customHomeLoaded);
 // find all instances of the user agreeing to some version of the desired TOS
 const agreementsForUser = Social.index("tosAccept", acceptanceKey, {
   accountId: context.accountId, // make sure it was written by the user in question
