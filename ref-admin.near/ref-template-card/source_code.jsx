@@ -7,10 +7,13 @@ const metadata = Social.get(
 const role = props.role;
 const tags = Object.keys(metadata.tags || {});
 const detailsUrl = `#/ref-admin.near/widget/ComponentDetailsPage?istemplate=true&&src=${accountId}/widget/${widgetName}`;
-const appUrl = `#/${accountId}/widget/${widgetName}`;
+const appUrl = `#/ref-admin.near/widget/ComponentDetailsPage?istemplate=true&&tab=preview&&src=${accountId}/widget/${widgetName}`;
+
+const appUrlUser = `#/${accountId}/widget/${widgetName}`;
+
 const forkUrl = `#/edit/${accountId}/widget/${widgetName}`;
 
-const urls = [appUrl, detailsUrl, forkUrl];
+const urls = [role === "Builder" ? appUrl : appUrlUser, detailsUrl, forkUrl];
 
 const isHome = props.isHome;
 
@@ -18,52 +21,50 @@ const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 const Card =
   role === "Builder"
     ? styled.div`
-    position: relative;
-    display:block;
-    overflow: hidden;
-    width: 415px;
-    border-radius: 16px;
-    padding: 0px 0px 16px 0px;
-    background: #1C1E23;
-    border-radius: 16px;
-    :hover{
-        text-decoration: none
-    }
-`
+        position: relative;
+        display: block;
+        overflow: hidden;
+        width: 415px;
+        border-radius: 16px;
+        padding: 0px 0px 16px 0px;
+        background: #1c1e23;
+        border-radius: 16px;
+        :hover {
+          text-decoration: none;
+        }
+      `
     : styled.a`
-    position: relative;
-    display:block;
-    overflow: hidden;
-    width: 415px;
-    border-radius: 16px;
-    padding: 0px 0px 16px 0px;
-    background: #1C1E23;
-    border-radius: 16px;
-    :hover{
-        text-decoration: none
-    }
-
-`;
+        position: relative;
+        display: block;
+        overflow: hidden;
+        width: 415px;
+        border-radius: 16px;
+        padding: 0px 0px 16px 0px;
+        background: #1c1e23;
+        border-radius: 16px;
+        :hover {
+          text-decoration: none;
+        }
+      `;
 
 const AppliedWrapper = styled.div`
   position: absolute;
   height: 35px;
   width: 200px;
   transform: rotate(-45deg);
-  background: #00FFD1;
+  background: #00ffd1;
   font-style: normal;
-font-weight: 700;
-font-size: 14px;
-line-height: 19px;
-top: 15px;
-left:-70px;
-text-align: center;
-color: #101011;
-z-index:60;
-display: flex;
-align-items:center;
-justify-content: center;
-
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  top: 15px;
+  left: -70px;
+  text-align: center;
+  color: #101011;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CardBody = styled.div`
@@ -72,13 +73,12 @@ const CardBody = styled.div`
   align-items: center;
   overflow: hidden;
   position: relative;
-  bottom:16px;
-  justify-center: center
+  bottom: 16px;
 `;
 const CardContent = styled.div`
   width: 100%;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   position: relative;
   top: 16px;
 `;
@@ -87,9 +87,9 @@ const TextLink = styled.a`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  color: #FFFFFF;
-  :hover{
-    color: #FFFFFF;
+  color: #ffffff;
+  :hover {
+    color: #ffffff;
   }
 `;
 
@@ -97,24 +97,24 @@ const WidgetName = styled.div`
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
-  color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const Thumbnail = styled.a`
-    align-items:center;
-    justify-content: center;
-  padding:10px;
-        width: 86px;
-    height: 86px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  width: 86px;
+  height: 86px;
   flex-shrink: 0;
-   z-index: 50;
-   background: #1C1E23;
- border-radius: 16px;
+  z-index: 50;
+  background: #1c1e23;
+  border-radius: 16px;
   overflow: hidden;
   outline: none;
-  display:flex;
-  margin:auto;
-  margin-left:16px;
+  display: flex;
+  margin: auto;
+  margin-left: 16px;
   img {
     object-fit: cover;
     width: 100%;
@@ -126,87 +126,86 @@ const Thumbnail = styled.a`
 const TagsWrapper = styled.div`
   margin-top: 4px;
   display: flex;
-  padding: 0px 20px 0px 20px
+  padding: 0px 20px 0px 20px;
 `;
 
 const Tag = styled.div`
-    color: #FFFFFF;
-    font-weight: 500;
-    font-size: 14px;
-    text-center;
-    display:flex;
-    align-items:center;
-    margin-right: 5px;
-    padding: 4px 11px 4px 11px;
-    white-space: nowrap;
-    background: rgba(26, 46, 51, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 38px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  padding: 4px 11px 4px 11px;
+  white-space: nowrap;
+  background: rgba(26, 46, 51, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
 `;
 
 const ProfileIcon = styled.div`
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    overflow: hidden;
-    outline: none;
-    display:flex;
-    margin-right: 4px;
-    border-radius: 100%;
-    img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-    }
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  overflow: hidden;
+  outline: none;
+  display: flex;
+  margin-right: 4px;
+  border-radius: 100%;
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const BuilderView = styled.a`
-    display: flex;
-    align-items:center;
-    justify-content:center;
-    color: #FFFFFF;
-    :hover{
-      color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  :hover {
+    color: white;
     text-decoration: none;
-    cursor:pointer;
-    }
-    width: 50px;
-    height: 50px;
-    border-radius:100%;
-    border: 2px solid #FFFFFF;
+    cursor: pointer;
+  }
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 2px solid #ffffff;
 `;
 
 const BuilderViewWithText = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    font-weight: 500;
-    font-size: 14px;
-    gap: 8px;
-    color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  gap: 8px;
+  color: #ffffff;
 `;
 
 const BuilderViewWrapper = styled.div`
-    display: flex;
-    align-items:center;
-    gap: 70px;
-    justify-content: center;
-    position: absolute;
-    z-index:20;
-    left:50%;
-    top: 80px;
-    transform: translateX(-50%)
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  justify-content: center;
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%);
 `;
 
 const Banner = styled.div`
-    position: relative;
-    height: 200px;
+  position: relative;
+  height: 200px;
+  width: 100%;
+  img {
+    object-fit: cover;
     width: 100%;
-    img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-    }
+    height: 100%;
+  }
 `;
 
 const openIcon = (
@@ -238,7 +237,7 @@ const forkIcon = (
   >
     <path
       fill-rule="evenodd"
-      clip-rule="evenodd"
+      clipRule="evenodd"
       d="M4.35484 7.0323C5.64575 6.58895 6.57351 5.36431 6.57351 3.92298C6.57351 2.10776 5.10198 0.63623 3.28675 0.63623C1.47153 0.63623 0 2.10776 0 3.92298C0 5.36423 0.927654 6.58882 2.21845 7.03222V15.6041C0.927654 16.0475 0 17.2721 0 18.7134C0 20.5286 1.47153 22.0001 3.28675 22.0001C5.10198 22.0001 6.57351 20.5286 6.57351 18.7134C6.57351 17.2941 5.674 16.085 4.41399 15.625C4.47998 15.3345 4.60498 15.0761 4.80778 14.6569C4.83899 14.5923 4.87204 14.524 4.907 14.4512C5.29814 13.6363 5.81981 13.2083 6.5734 13.2083C6.83931 13.2083 7.1526 13.2153 7.4885 13.2228L7.48859 13.2228C8.05883 13.2355 8.69421 13.2497 9.27355 13.2336C10.2435 13.2067 11.3051 13.0986 12.2894 12.7295C13.2982 12.3512 14.225 11.698 14.8821 10.6139C15.4465 9.68261 15.7703 8.50207 15.8428 7.0379C17.1423 6.59935 18.078 5.37043 18.078 3.92298C18.078 2.10776 16.6064 0.63623 14.7912 0.63623C12.976 0.63623 11.5044 2.10776 11.5044 3.92298C11.5044 5.3572 12.4231 6.57685 13.704 7.02567C13.6357 8.18549 13.3802 8.97007 13.0551 9.50659C12.685 10.1172 12.1739 10.4911 11.5393 10.7291C10.8802 10.9763 10.0931 11.0736 9.21423 11.098C8.66222 11.1134 8.16026 11.1012 7.64928 11.0889H7.64922C7.30104 11.0805 6.94867 11.0719 6.5734 11.0719C5.66599 11.0719 4.93505 11.3564 4.35484 11.7903V7.0323ZM4.93088 3.92285C4.93088 4.83046 4.19512 5.56623 3.2875 5.56623C2.37989 5.56623 1.64413 4.83046 1.64413 3.92285C1.64413 3.01524 2.37989 2.27947 3.2875 2.27947C4.19512 2.27947 4.93088 3.01524 4.93088 3.92285ZM16.4353 3.92285C16.4353 4.83046 15.6996 5.56623 14.7919 5.56623C13.8843 5.56623 13.1486 4.83046 13.1486 3.92285C13.1486 3.01524 13.8843 2.27947 14.7919 2.27947C15.6996 2.27947 16.4353 3.01524 16.4353 3.92285ZM3.2875 20.3567C4.19512 20.3567 4.93088 19.6209 4.93088 18.7133C4.93088 17.8057 4.19512 17.0699 3.2875 17.0699C2.37989 17.0699 1.64413 17.8057 1.64413 18.7133C1.64413 19.6209 2.37989 20.3567 3.2875 20.3567Z"
       fill="white"
     />
@@ -281,7 +280,7 @@ const hoverLeave = () => {
   }
 };
 return (
-  <Card href={appUrl}>
+  <Card href={role === "Builder" ? appUrl : appUrlUser}>
     {props.isHome && <AppliedWrapper> Applied </AppliedWrapper>}
     <Banner
       hover={state.hoverBanner}
