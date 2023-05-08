@@ -86,6 +86,7 @@ const Button = styled.button`
   font-size: 0.95em;
   line-height: 1em;
   text-align: center;
+  white-space: nowrap;
   width: 100%;
 `;
 
