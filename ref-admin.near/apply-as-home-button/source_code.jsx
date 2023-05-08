@@ -1,9 +1,15 @@
+const accountId = context.accountId;
+
 if (!props.src) return "";
+
+const cur_mode = Storage.get("ref-mode", "ref-admin.near/widget/user-builder");
 
 if (
   !props.istemplate ||
   props.istemplate === false ||
-  props.istemplate === "false"
+  props.istemplate === "false" ||
+  !accountId ||
+  cur_mode !== "builder"
 )
   return <div />;
 
@@ -36,27 +42,27 @@ const homeIcon = (
   </svg>
 );
 const ButtonLink = styled.a`
-    display: inline-flex;
-    -webkit-box-align: center;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    height: 32px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: center;
-    cursor: pointer;
-    background: rgba(26, 46, 51, 0.25);
-    border: 0.5px solid rgba(255, 255, 255, 0.3);
-    border-radius: 38px;
-    color: rgb(255, 255, 255);
-    text-decoration:none;
-    color:#fff;
-    &:hover{
-        color:#fff;
-        text-decoration:none;
-    }
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  height: 32px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  cursor: pointer;
+  background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  color: #fff;
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
 `;
 let myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
 let myHomePagePathDataFromCache = Storage.get("myHomePagePathData");
