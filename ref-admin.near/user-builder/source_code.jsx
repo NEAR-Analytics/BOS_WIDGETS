@@ -1,31 +1,31 @@
 const Container = styled.div`
-  display: inline-flex;
-  align-items: center;
-  background: #0d1c1f;
-  border-radius: 10px;
-  padding: 4px;
-  width: 100%;
-  .default {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #fff;
-    height: 28px;
-    padding: 0 25px;
-    cursor: pointer;
-    flex-grow: 1;
-  }
-  .active {
-    background: #0092ff;
-  }
-  a {
-    :hover {
-      text-decoration: none;
+    display:inline-flex;
+    align-items:center;
+    background: #0D1C1F;
+    border-radius: 10px;
+    padding:4px;
+    width:100%;
+    .default{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        color:#fff;
+        height:28px;
+        padding:0 25px;
+        cursor:pointer;
+        flex-grow:1;
     }
-  }
+    .active{
+        background: #0092FF;
+    }
+    a{
+      :hover{
+        text-decoration: none;
+      }
+    }
 `;
 const { buttonStatus } = state;
 const current_mode = Storage.get(
@@ -42,24 +42,21 @@ function switchButton(type) {
 const targetStatus = buttonStatus || current_mode;
 return (
   <Container>
-    <a
-      disable={targetStatus != "builder"}
+    <span
       class={`default ${targetStatus !== "builder" ? "active" : ""}`}
       onClick={(e) => {
         switchButton("user");
-        return false;
       }}
     >
       User
-    </a>
-    <a
-      disable={true}
+    </span>
+    <span
       class={`default ${targetStatus == "builder" ? "active" : ""}`}
       onClick={(e) => {
         switchButton("builder");
       }}
     >
       Builder
-    </a>
+    </span>
   </Container>
 );
