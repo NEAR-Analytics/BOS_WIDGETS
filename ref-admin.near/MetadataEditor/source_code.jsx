@@ -1,5 +1,5 @@
 const Container = styled.div`
-   .title{:
+   .title{
      font-weight: 500;
      font-size: 16px;
      color: #FFFFFF;
@@ -65,7 +65,7 @@ State.init({
   reportedMetadata: initialMetadata,
   linktree: initialMetadata.linktree ?? {},
   image: initialMetadata.image,
-  bannerImage: { cid: initialMetadata.bannerImage.ipfs_cid},
+  bannerImage: { cid: initialMetadata.bannerImage.cid},
   backgroundImage: initialMetadata.backgroundImage,
   screenshots: initialMetadata.screenshots ?? {},
 });
