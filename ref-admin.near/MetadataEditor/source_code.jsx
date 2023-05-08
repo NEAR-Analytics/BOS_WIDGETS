@@ -1,5 +1,4 @@
 const Container = styled.div`
-   background-color:#000;
    .warningTip{
     display:flex;
     align-items:start;
