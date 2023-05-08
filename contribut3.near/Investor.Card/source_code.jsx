@@ -1,48 +1,74 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const accountId = props.accountId;
 
 State.init({
-  tags: null,
-  tagsIsFetched: false,
-  description: null,
-  descriptionIsFetched: false,
+  investor: null,
+  investorIsFetched: false,
+  profile: null,
+  profileIsFetched: false,
 });
 
-if (!state.foundersIsFetched) {
+if (!state.profileIsFetched) {
   Near.asyncView(
     "social.near",
     "get",
-    { keys: [`${accountId}/profile/tags`] },
+    { keys: [`${accountId}/profile/**`] },
     "final",
     false
-  ).then((tags) => State.update({ tags, tagsIsFetched: true }));
-}
-
-if (!state.descriptionIsFetched) {
-  Near.asyncView(
-    "social.near",
-    "get",
-    { keys: [`${accountId}/profile/description`] },
-    "final",
-    false
-  ).then((description) =>
-    State.update({ description, descriptionIsFetched: true })
+  ).then((data) =>
+    State.update({ profile: data[accountId]?.profile, profileIsFetched: true })
   );
 }
 
+if (!state.investorIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_investor",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((investor) => State.update({ investor, investorIsFetched: true }));
+}
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
+  width: 100%;
+  margin-bottom: 0.25em;
+`;
+
 const body = (
   <>
-    <Widget
-      src={`${ownerId}/widget/ProfileLine`}
-      props={{
-        accountId,
-        imageSize: "3em",
-        update: props.update,
-      }}
-    />
+    <Container>
+      <Widget
+        src={`${ownerId}/widget/Vendor.Icon`}
+        props={{ accountId, size: "4em" }}
+      />
+      <Widget
+        src={`${ownerId}/widget/NameAndAccount`}
+        props={{
+          accountId,
+          name: state.profile.name,
+          nameSize: "1.125em",
+        }}
+      />
+      {state.investor.verified ? (
+        <Widget
+          src={`${ownerId}/widget/BadgeList`}
+          props={{
+            badges: [{ value: "Verified" }],
+          }}
+        />
+      ) : (
+        <></>
+      )}
+    </Container>
     <Widget
       src={`${ownerId}/widget/DescriptionArea`}
-      props={{ description: state.description }}
+      props={{ description: state.profile.description }}
     />
   </>
 );
@@ -73,7 +99,7 @@ const FooterButton = styled.a`
 
   &:hover {
     ${({ disabled }) =>
-      disabled ? "color: #878a8e; text-decoration: none;" : ""}
+    disabled ? "color: #878a8e; text-decoration: none;" : ""}
   }
 `;
 
@@ -88,10 +114,10 @@ const Footer = styled.div`
 const footer = (
   <Footer>
     <FooterButton
-      href={`/${ownerId}/widget/Index?tab=investor&accountId=${accountId}`}
+      href={`/${ownerId}/widget/Index?tab=backer&accountId=${accountId}`}
       onClick={() =>
         props.update({
-          tab: "investor",
+          tab: "backer",
           content: "",
           search: "",
           accountId,
@@ -103,15 +129,15 @@ const footer = (
     <FooterButton
       blue
       disabled
-      // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
-      // onClick={() =>
-      //   props.update({
-      //     tab: "entity",
-      //     content: "",
-      //     search: "",
-      //     accountId,
-      //   })
-      // }
+    // href={`/${ownerId}/widget/Index?tab=entity&accountId=${accountId}`}
+    // onClick={() =>
+    //   props.update({
+    //     tab: "entity",
+    //     content: "",
+    //     search: "",
+    //     accountId,
+    //   })
+    // }
     >
       <svg
         width="17"
