@@ -373,7 +373,7 @@ return (
           },
         }}
       />
-      <Input
+      <input
         id="size"
         type="number"
         placeholder="Team size"
