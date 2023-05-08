@@ -80,10 +80,11 @@ const Modal = styled.div`
 `;
 
 const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1 min-height 0;
-  overflow-y: auto;
+display: flex;
+flex-direction: column;
+flex-grow:1
+min-height 0;
+overflow-y: auto;
 `;
 
 const ModalFooter = styled.div`
@@ -98,8 +99,8 @@ const AcceptSection = styled.div`
   column-gap: 1rem;
 
   .continue-button {
-    background: #59e692;
-    color: #09342e;
+    background: #59E692;
+    color: #09342E;
     border-radius: 40px;
     height: 40px;
     padding: 0 35px;
@@ -123,10 +124,10 @@ const AcceptSection = styled.div`
 `;
 
 const CheckWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: ${state.agreeIsChecked ? "#26A65A" : "inherit"};
+display: flex;
+flex-direction: row;
+align-items: center;
+color: ${state.agreeIsChecked ? "#26A65A" : "inherit"}
 `;
 
 const CheckButton = styled.button`
