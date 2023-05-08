@@ -8,6 +8,8 @@ State.init({
   profileIsFetched: false,
   contributions: null,
   contributionsIsFetched: false,
+  vendors: null,
+  vendorsIsFetched: false,
 });
 
 if (!state.foundersIsFetched) {
@@ -42,6 +44,16 @@ if (!state.contributionsIsFetched) {
   ).then((contributions) =>
     State.update({ contributions, contributionsIsFetched: true })
   );
+}
+
+if (!state.vendorsIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_vendor",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((vendors) => State.update({ vendors, vendorsIsFetched: true }));
 }
 
 const Container = styled.div`
@@ -178,8 +190,8 @@ const body = (
           {state.profile.organization === "true"
             ? "Organization"
             : state.profile.organization === "false"
-            ? "Individual"
-            : ""}
+              ? "Individual"
+              : ""}
           {state.profile.active !== undefined ? (
             <Widget
               src={`${ownerId}/widget/ActiveIndicator`}
@@ -193,15 +205,16 @@ const body = (
             <></>
           )}
         </Row>
-        {/*<Widget
-          src={`${ownerId}/widget/BadgeList`}
-          props={{
-            badges: [
-              { value: "Verified" },
-              { value: "Fundraiser", color: "#62ebe4" },
-            ],
-          }}
-        />*/}
+        {state.vendor.verified ? (
+          <Widget
+            src={`${ownerId}/widget/BadgeList`}
+            props={{
+              badges: [{ value: "Verified" }],
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </Details>
     </Container>
     <Tagline>{state.profile.tagline}</Tagline>
