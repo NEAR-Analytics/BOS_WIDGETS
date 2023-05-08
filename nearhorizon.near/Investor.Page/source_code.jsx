@@ -89,6 +89,10 @@ const CTARow = styled.div`
   gap: 0.75em;
 `;
 
+const Admin = styled.div`
+  width: 100%;
+`;
+
 State.init({
   investor: null,
   investorIsFetched: false,
@@ -142,18 +146,22 @@ return (
           props={{ accountId, isAdmin: state.isAdmin }}
         />
         {state.isAdmin ? (
-          <Widget
-            src={`${ownerId}/widget/Inputs.Admins`}
-            props={{
-              permissions: state.investor.permissions,
-              update: (permissions) =>
-                State.update({ investor: { ...state.investor, permissions } }),
-              onSave: (permissions) =>
-                Near.call(ownerId, "edit_investors", {
-                  [accountId]: { ...state.investor, permissions },
-                }),
-            }}
-          />
+          <Admin>
+            <Widget
+              src={`${ownerId}/widget/Inputs.Admins`}
+              props={{
+                permissions: state.investor.permissions,
+                update: (permissions) =>
+                  State.update({
+                    investor: { ...state.investor, permissions },
+                  }),
+                onSave: (permissions) =>
+                  Near.call(ownerId, "edit_investor", {
+                    [accountId]: { ...state.investor, permissions },
+                  }),
+              }}
+            />
+          </Admin>
         ) : (
           <></>
         )}
