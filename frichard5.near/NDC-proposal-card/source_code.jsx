@@ -3,7 +3,7 @@ const userAccountId = context.accountId;
 
 State.init({
   showClipboardTooltip: false,
-  canVote: council.includes(userAccountId),
+  canVote: true, //council.includes(userAccountId),
 });
 
 const formatCountdown = (seconds) => {
@@ -288,6 +288,18 @@ const VoteOnProposal = (
   />
 );
 
+const CommunityDiscussion = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+      proposal_id: proposal.proposal_id,
+      daoId: proposal.dao_id,
+    }}
+  />
+);
+
 return (
   <>
     {proposal && council ? (
@@ -337,6 +349,7 @@ return (
             <VoteList>{voteList}</VoteList>
           </InfoWrapper>
         </PropInfos>
+        <PropInfos>{CommunityDiscussion}</PropInfos>
         <InfoWrapper>
           <Label>Dao id</Label>
           <a
