@@ -22,10 +22,7 @@ return (
       <input value={daoId} onChange={(e) => updateDao(e.target.value)} />
     </div>
     <div className="mt-3">
-      <Widget
-        src="mob.near/widget/DAO.Proposals"
-        props={{ daoId: state.daoId }}
-      />
+      <Widget src="mob.near/widget/DAO.Proposals" props={{ daoId }} />
     </div>
   </div>
 );
