@@ -1,7 +1,7 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId ?? context.accountId;
 
-const availableContent = ["overview", "contracts", "history"];
+const availableContent = ["overview", "admins", "contracts", "history"];
 
 const getContent = (content) => {
   if (!content || !availableContent.includes(content)) {
