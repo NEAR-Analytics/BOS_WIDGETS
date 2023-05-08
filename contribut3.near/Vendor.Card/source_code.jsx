@@ -8,8 +8,8 @@ State.init({
   profileIsFetched: false,
   contributions: null,
   contributionsIsFetched: false,
-  vendors: null,
-  vendorsIsFetched: false,
+  vendor: null,
+  vendorIsFetched: false,
 });
 
 if (!state.foundersIsFetched) {
@@ -46,14 +46,14 @@ if (!state.contributionsIsFetched) {
   );
 }
 
-if (!state.vendorsIsFetched) {
+if (!state.vendorIsFetched) {
   Near.asyncView(
     ownerId,
     "get_vendor",
     { account_id: accountId },
     "final",
     false
-  ).then((vendors) => State.update({ vendors, vendorsIsFetched: true }));
+  ).then((vendor) => State.update({ vendor, vendorIsFetched: true }));
 }
 
 const Container = styled.div`
