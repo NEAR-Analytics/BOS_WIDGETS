@@ -1,7 +1,7 @@
 const ownerId = "nearhorizon.near";
 const id = props.id ?? "text";
 const value = props.value ?? "";
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const canEdit = props.canEdit;
 
 const LabelArea = styled.div`
