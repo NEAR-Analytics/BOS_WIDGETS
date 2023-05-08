@@ -101,7 +101,7 @@ return (
                   className="btn btn-outline-dark"
                   href={`#/${authorForWidget}/widget/Gigs_CreateArticle`}
                 >
-                  + Create Article
+                  + Create Gig
                 </a>
               </div>
             )}
@@ -111,7 +111,7 @@ return (
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
           <Button>
             <a href={`#/${authorForWidget}/widget/Gigs_CreateArticle`}>
-              + Create Article
+              + Create Gig
             </a>
           </Button>
         )}
