@@ -1,5 +1,4 @@
 const updateInstanceTimeState = props.updateInstanceTimeState;
-
 const tabs = props.tabs;
 
 const thisWidgetInlineStyles =
@@ -61,14 +60,13 @@ var _to = [
 
 if (props.data.schedule) {
   for (var i = 0; i < 7; i++) {
-    is_on[i] = props.data.schedule[i].on_off === "on";
+    is_on[i] = props.data.schedule[i].on_off;
     if (is_on[i] == "on") {
       _from[i] = getFormatedTime(props.data.schedule[i].data[0]._from);
       _to[i] = getFormatedTime(props.data.schedule[i].data[0]._to);
     }
   }
 }
-
 State.init({
   _is_on: is_on,
   _from: _from,
@@ -160,7 +158,7 @@ const getData = () => {
   const final = sortAndRemoveRepeated(flag, temp);
   return {
     index: {
-      OfficeHours_v01: JSON.stringify(
+      Instance_time: JSON.stringify(
         {
           key: "schedule",
           value: {
