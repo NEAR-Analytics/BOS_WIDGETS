@@ -95,6 +95,19 @@ const notVotedYetSvg = (
   </svg>
 );
 
+const clipboardSvg = (
+  <svg
+    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium copy-icon css-vubbuv"
+    focusable="false"
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    data-testid="ContentCopyIcon"
+    aria-label="Copied to clipboard!"
+  >
+    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path>
+  </svg>
+);
+
 const votes = proposal.proposal.votes;
 
 const getVoteSvg = (vote) => {
@@ -219,6 +232,14 @@ let TimeLeft = styled.span`
     margin-left: 10px;
 `;
 
+let ClipboardButton = styled.button`
+  position: absolute;
+  width: 190px;
+  right: 20px;
+  display: flex;
+  justify-content: space-evenly;
+`;
+
 const getTimeLeft = (proposal) => {
   if (proposal.status === "InProgress") {
     const timeLeft = (Date.now() - new Date(proposal.submission_time)) / 1000;
@@ -235,6 +256,13 @@ const getTimeLeft = (proposal) => {
   return "";
 };
 
+function copy(proposal_id) {
+  const link = `https://near.social/#/${widgetProvider}/widget/NDC-Page?tab=proposal&proposal_id=${proposal_id}`;
+  return () => {
+    clipboard.writeText(link);
+  };
+}
+
 return (
   <>
     {proposal && council ? (
@@ -243,7 +271,13 @@ return (
           <Status status={proposal.status}>
             {proposal.status} <TimeLeft>{getTimeLeft(proposal)}</TimeLeft>
           </Status>
-          <ProposalId>Proposal Id {proposal.proposal_id}</ProposalId>
+          <ProposalId>
+            <div>Proposal Id {proposal.proposal_id}</div>
+            <ClipboardButton onClick={copy(proposal.proposal_id)}>
+              <span>Copy proposal link </span>
+              {clipboardSvg}
+            </ClipboardButton>
+          </ProposalId>
         </Header>
         <Type>{proposal.proposal_type}</Type>
         <PropInfos>
