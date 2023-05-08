@@ -219,7 +219,7 @@ return (
       >
         <div className={thisWidgetClassNames.instanceTimeLogoContainer}>
           <i className={thisWidgetClassNames.logoIcon}></i>
-          <h3 style={thisWidgetInlineStyles.logoTitle}>WeeklySchedule</h3>
+          <h3 style={thisWidgetInlineStyles.logoTitle}>Office Hours</h3>
         </div>
         {state.tab != tabs.OPEN_SCHEDULE.id && (
           <div
