@@ -44,10 +44,14 @@ const addComponentIcon = (
   </svg>
 );
 
+
+
+
+
 State.init({
   currentPage: 0,
   selectedTab: props.tab || "all",
-  filters: ["Defi"],
+  filters:  Storage.get("ref-filters") || ["Defi"],
   counts: {
     Chain: 0,
     Infrastructure: 0,
@@ -439,6 +443,7 @@ return (
           filters: state.filters,
           counts: counts,
           updateFilters: (newFilters) => {
+            Storage.set("ref-filters", newFilters);
             State.update({
               filters: newFilters,
             });
