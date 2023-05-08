@@ -117,6 +117,14 @@ const Content = styled.div`
   }
 `;
 
+const PreviewContent = styled.div`
+  gap: 64px;
+  margin-top: 12px;
+  background: #15272b;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+`;
+
 const Sidebar = styled.div`
   padding: ${(p) => (p.area == "about" ? "10px" : "")};
   border-left: 2px solid #1e373d;
@@ -219,38 +227,41 @@ return (
     </SummaryWrapper>
 
     <Tabs>
+      {props.istemplate === "true" && (
+        <TabsButton
+          href={`${detailsUrl}&tab=preview&istemplate=${props.istemplate}`}
+          selected={state.selectedTab === "preview"}
+        >
+          Preview
+        </TabsButton>
+      )}
+
       <TabsButton
-        href={`${detailsUrl}&tab=preview`}
-        selected={state.selectedTab === "preview"}
-      >
-        Preview
-      </TabsButton>
-      <TabsButton
-        href={`${detailsUrl}&tab=about`}
+        href={`${detailsUrl}&tab=about&istemplate=${props.istemplate}`}
         selected={state.selectedTab === "about"}
       >
         About
       </TabsButton>
 
       <TabsButton
-        href={`${detailsUrl}&tab=source`}
+        href={`${detailsUrl}&tab=source&istemplate=${props.istemplate}`}
         selected={state.selectedTab === "source"}
       >
         Source
       </TabsButton>
 
       <TabsButton
-        href={`${detailsUrl}&tab=history`}
+        href={`${detailsUrl}&tab=history&istemplate=${props.istemplate}`}
         selected={state.selectedTab === "history"}
       >
         History
       </TabsButton>
     </Tabs>
 
-    {state.selectedTab === "preview" && (
-      <Content>
+    {state.selectedTab === "preview" && props.istemplate === "true" && (
+      <PreviewContent>
         <Widget src={src} props={props}></Widget>
-      </Content>
+      </PreviewContent>
     )}
 
     {state.selectedTab === "about" && (
