@@ -73,6 +73,7 @@ return (
     <Label>{label}</Label>
     <InputContainer>
       <Input
+        id={label}
         type="number"
         placeholder={placeholder}
         value={value}
