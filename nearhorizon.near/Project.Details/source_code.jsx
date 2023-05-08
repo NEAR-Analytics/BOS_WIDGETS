@@ -131,7 +131,7 @@ return (
       props={{
         label: "User base (MAA)",
         id: "userbase",
-        value: state.userbase,
+        value: state.profile.userbase,
         onSave: (userbase) =>
           Near.call("social.near", "set", {
             data: { [accountId]: { profile: { userbase: `${userbase}` } } },
