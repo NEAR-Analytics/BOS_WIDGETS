@@ -163,7 +163,11 @@ return (
         placeholder="0.0"
         onChange={inputOnChange}
         value={
-          !!disableInput ? formatTokenBig(amount, props.token.decimals) : amount
+          !!disableInput
+            ? !!amount
+              ? formatTokenBig(amount, props.token.decimals)
+              : "0"
+            : amount
         }
         disabled={!!disableInput}
       />
