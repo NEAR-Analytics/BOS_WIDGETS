@@ -30,6 +30,14 @@ const contentSelector = (
           text: "Projects",
         },
         {
+          id: "vendors",
+          text: "Vendors",
+        },
+        {
+          id: "invites",
+          text: "Invites",
+        },
+        {
           id: "requests",
           text: "Requests",
         },
@@ -58,6 +66,18 @@ const content = {
   projects: (
     <Widget
       src={`${ownerId}/widget/Project.AdminList`}
+      props={{ search: state.search, update: props.update }}
+    />
+  ),
+  vendors: (
+    <Widget
+      src={`${ownerId}/widget/Vendor.AdminList`}
+      props={{ search: state.search, update: props.update }}
+    />
+  ),
+  invites: (
+    <Widget
+      src={`${ownerId}/widget/Invites.AdminList`}
       props={{ search: state.search, update: props.update }}
     />
   ),
