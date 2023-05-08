@@ -3,7 +3,7 @@ const userAccountId = context.accountId;
 
 State.init({
   showClipboardTooltip: false,
-  canVote: true, //council.includes(userAccountId),
+  canVote: council.includes(userAccountId),
 });
 
 const formatCountdown = (seconds) => {
