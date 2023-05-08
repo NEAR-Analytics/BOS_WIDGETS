@@ -315,7 +315,7 @@ return (
     </Banner>
 
     <CardBody>
-      <Thumbnail href={appUrl}>
+      <Thumbnail href={role === "Builder" ? appUrl : appUrlUser}>
         <Widget
           src="mob.near/widget/Image"
           props={{
