@@ -1,4 +1,4 @@
-const data = Social.index("OfficeHours_v01", "schedule");
+const data = Social.index("Instance_time", "schedule");
 if (!data) {
   return "Loading datas";
 }
@@ -219,7 +219,7 @@ return (
       >
         <div className={thisWidgetClassNames.instanceTimeLogoContainer}>
           <i className={thisWidgetClassNames.logoIcon}></i>
-          <h3 style={thisWidgetInlineStyles.logoTitle}>Office Hours</h3>
+          <h3 style={thisWidgetInlineStyles.logoTitle}>WeeklySchedule</h3>
         </div>
         {state.tab != tabs.OPEN_SCHEDULE.id && (
           <div
