@@ -157,7 +157,9 @@ return (
                   }),
                 onSave: (permissions) =>
                   Near.call(ownerId, "edit_investor", {
-                    [accountId]: { ...state.investor, permissions },
+                    investors: {
+                      [accountId]: { ...state.investor, permissions },
+                    },
                   }),
               }}
             />
