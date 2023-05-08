@@ -22,7 +22,6 @@ if (lastProposalId) {
       from_index: Math.max(0, lastProposalId - limit),
       limit,
     }) || [];
-  proposals.reverse();
 }
 
 return (
@@ -32,7 +31,7 @@ return (
     <div className="mt-3">
       <h5>Proposals</h5>
       {proposals.map((proposal, i) => (
-        <div key={proposal.id} className="mb-3">
+        <div key={proposal.id}>
           <Widget
             src="mob.near/widget/DAO.Proposal"
             props={{ daoId, proposal, policy }}
