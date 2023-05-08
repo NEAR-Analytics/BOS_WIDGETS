@@ -430,7 +430,7 @@ return (
         />
 
         {role === "Builder" && (
-          <AddComponentWrapper href={"#edit"}>
+          <AddComponentWrapper href={"/sandbox"}>
             {addComponentIcon}
             <span>Add Component</span>
           </AddComponentWrapper>
