@@ -1,5 +1,4 @@
 const ownerId = "contribut3.near";
-const search = props.search ?? "";
 const items = props.items ?? [];
 const createItem = props.createItem ?? (() => <></>);
 const limit = 10;
@@ -27,6 +26,18 @@ const ListContainer = styled.div`
   gap: 0.5em;
   row-gap: 1.25em;
   width: 100%;
+
+  & > div {
+    width: 100%;
+
+    @media (min-width: 768px) {
+      width: ${({ full }) => (full ? "100%" : "49%")};
+    }
+
+    @media (min-width: 2560px) {
+      width: ${({ full }) => (full ? "100%" : "32%")};
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -40,8 +51,10 @@ const Container = styled.div`
 return (
   <Container>
     <InfiniteScroll loadMore={loadMore} hasMore={state.hasMore}>
-      <ListContainer>
-        {state.shown.map((args, index) => createItem(args))}
+      <ListContainer full={props.full}>
+        {state.shown.filter(props.filter).map((args, index) => (
+          <div key={JSON.stringify(args)}>{createItem(args)}</div>
+        ))}
       </ListContainer>
     </InfiniteScroll>
   </Container>
