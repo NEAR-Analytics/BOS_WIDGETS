@@ -1,6 +1,6 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 const userAccountId = context.accountId;
-
+console.log("PROPS", props);
 State.init({
   showClipboardTooltip: false,
   canVote: council.includes(userAccountId),
