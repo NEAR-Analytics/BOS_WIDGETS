@@ -114,7 +114,7 @@ if (!state.investorIsFetched) {
   Near.asyncView(
     ownerId,
     "get_investor",
-    { investor_id: accountId },
+    { account_id: accountId },
     "final",
     false
   ).then((investor) => State.update({ investor, investorIsFetched: true }));
