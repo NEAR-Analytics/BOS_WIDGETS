@@ -117,6 +117,14 @@ const Content = styled.div`
   }
 `;
 
+const PreviewContent = styled.div`
+  gap: 64px;
+
+  background: #15272b;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+`;
+
 const Sidebar = styled.div`
   padding: ${(p) => (p.area == "about" ? "10px" : "")};
   border-left: 2px solid #1e373d;
@@ -248,9 +256,9 @@ return (
     </Tabs>
 
     {state.selectedTab === "preview" && (
-      <Content>
+      <PreviewContent>
         <Widget src={src} props={props}></Widget>
-      </Content>
+      </PreviewContent>
     )}
 
     {state.selectedTab === "about" && (
