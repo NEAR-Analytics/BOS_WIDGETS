@@ -8,7 +8,11 @@ const Container = styled.div`
      height: 47px;
      width:100%;
      color:rgba(255, 255, 255, 0.3);
-     padding:0 10px;
+     padding:5px 10px;
+     color:#fff;
+     .rbt-input-main{
+      color:#fff;
+     }
   }
   .rbt-input-multi.focus{
     box-shadow:none;
@@ -54,7 +58,8 @@ const Container = styled.div`
   }
 `;
 const tagsPattern = props.tagsPattern ?? "*/profile/tags/*";
-const placeholder = props.placeholder ?? "Tags";
+// const placeholder = props.placeholder ?? "Tags";
+const placeholder = "Dex, Trading, Liquidity Staking";
 const initialTagsObject = props.initialTagsObject || {};
 
 const tagsObject = Social.keys(tagsPattern, "final");
@@ -86,7 +91,7 @@ const processTagsObject = (obj) => {
   });
 };
 
-const getTags = () => {
+const getTags_copy = () => {
   processTagsObject(tagsObject);
   const tags = Object.entries(tagsCount);
   tags.sort((a, b) => b[1] - a[1]);
@@ -94,6 +99,16 @@ const getTags = () => {
     name: t[0],
     count: t[1],
   }));
+};
+const getTags = () => {
+  // processTagsObject(tagsObject);
+  // const tags = Object.entries(tagsCount);
+  // tags.sort((a, b) => b[1] - a[1]);
+  // return tags.map((t) => ({
+  //   name: t[0],
+  //   count: t[1],
+  // }));
+  return [{name: 'Dex'}, {name: 'Trading'}, {name: 'Liquidity Staking'}, {name: 'Yield Aggregators'}, {name: 'Lending'}, {name: 'Wallets'}, {name: 'Expolorers'}, {name: 'Insurance'}, {name: 'Stablecoins'}, {name: 'Derivatives'}, {name: 'NFT marketplace'}, {name: 'Collectibles'}, {name: 'Bridges'}]
 };
 
 if (!state.allTags) {
@@ -125,7 +140,6 @@ const setTags = (tags) => {
     );
   }
 };
-
 return (
   <Container>
     <Typeahead
