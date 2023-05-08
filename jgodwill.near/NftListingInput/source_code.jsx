@@ -21,8 +21,9 @@ const BorderedShadowedCard = styled.div`
 `;
 const Main = styled.div`
     display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 3rem;
+  align-content:center;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 0.5fr));
   justify-content: center;
   // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
   margin-top: 20px;
