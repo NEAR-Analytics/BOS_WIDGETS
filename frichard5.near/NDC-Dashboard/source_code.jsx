@@ -143,6 +143,16 @@ const TransfersByAccount = (
   />
 );
 
+const ProposalCountByAccount = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-proposals-count-by-account`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+    }}
+  />
+);
+
 const Search = (
   <Widget
     src={`${widgetProvider}/widget/NDC-search`}
@@ -198,6 +208,7 @@ const Tabs = (
           selected: tab === "members",
           components: (
             <WidgetsContainer>
+              {ProposalCountByAccount}
               {VoteHistory}
               {VotersByProposal}
             </WidgetsContainer>
