@@ -1,7 +1,9 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
+const userAccountId = context.accountId;
 
 State.init({
   showClipboardTooltip: false,
+  canVote: council.includes(userAccountId),
 });
 
 const formatCountdown = (seconds) => {
@@ -376,7 +378,9 @@ return (
         ) : (
           ""
         )}
-        {VoteOnProposal}
+        {state.canVote
+          ? VoteOnProposal
+          : "You don't have the permission to vote on proposals."}
       </ProposalCard>
     ) : (
       ""
