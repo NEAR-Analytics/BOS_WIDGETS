@@ -2,8 +2,8 @@ const label = props.label ?? "Label";
 const placeholder = props.placeholder ?? "Placeholder";
 const value = props.value ?? "";
 const hasDollar = props.hasDollar ?? false;
-const onChange = props.onChange ?? (() => { });
-const validate = props.validate ?? (() => { });
+const onChange = props.onChange ?? (() => {});
+const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
 
 const Container = styled.div`
@@ -76,7 +76,7 @@ return (
         type="number"
         placeholder={placeholder}
         value={value}
-        onChange={({ target: { value } }) => onChange(value)}
+        onChange={({ target: { value } }) => onChange(Number(value))}
         onBlur={() => validate()}
       />
       <Dollar>$</Dollar>
