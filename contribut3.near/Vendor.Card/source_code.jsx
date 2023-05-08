@@ -190,8 +190,8 @@ const body = (
           {state.profile.organization === "true"
             ? "Organization"
             : state.profile.organization === "false"
-              ? "Individual"
-              : ""}
+            ? "Individual"
+            : ""}
           {state.profile.active !== undefined ? (
             <Widget
               src={`${ownerId}/widget/ActiveIndicator`}
@@ -288,9 +288,4 @@ const footer = (
   </Footer>
 );
 
-return (
-  <Widget
-    src={`${ownerId}/widget/Card`}
-    props={{ body, footer, key: accountId }}
-  />
-);
+return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
