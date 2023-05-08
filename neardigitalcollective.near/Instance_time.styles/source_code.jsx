@@ -641,7 +641,8 @@ const allWidgetsClassNames = {
 
 //===================================================================== End class names ===============================================================================================
 
-const widgetOwner = "neardigitalcollective.near";
+const widgetOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 
 return (
   <Widget
