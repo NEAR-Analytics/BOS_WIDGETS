@@ -28,19 +28,20 @@ const tags = Object.keys(metadata.tags || {});
 const detailsUrl = `#/ref-admin.near/widget/ComponentDetailsPage?istemplate=false&src=${accountId}/widget/${widgetName}`;
 const appUrl = `#/${accountId}/widget/${widgetName}`;
 
+const previewUrl = `#/ref-admin.near/widget/ComponentDetailsPage?tab=preview&istemplate=false&src=${accountId}/widget/${widgetName}`;
+
 const forkUrl = `#/edit/${accountId}/widget/${widgetName}`;
 
 const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
 const Card = styled.div`
   position: relative;
-  display:block;
+  display: block;
   overflow: hidden;
-width: 350px;
-background: #1A2E33;
-border-radius: 16px;
-padding: 16px;
-
+  width: 350px;
+  background: #1a2e33;
+  border-radius: 16px;
+  padding: 16px;
 `;
 
 const CardBody = styled.div`
@@ -48,43 +49,34 @@ const CardBody = styled.div`
   gap: 13px;
   align-items: center;
   overflow: hidden;
-  justify-center: center
-  > * {
-    min-width: 0;
-  }
 `;
 
 const CardContent = styled.div`
   width: 100%;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: start;
-
 `;
 
 const TextLink = styled.div`
-
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 21px;
-  
-  color: #FFFFFF;
 
+  color: #ffffff;
 `;
 
 const Text = styled.div`
-
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
   line-height: 21px;
   text-overflow: ellipsis;
-  overflow:hidden;
-  color: #FFFFFF;
+  overflow: hidden;
+  color: #ffffff;
   width: 220px;
   white-space: nowrap;
-
 `;
 const Thumbnail = styled.a`
   display: block;
@@ -94,8 +86,8 @@ const Thumbnail = styled.a`
   border-radius: 26px;
   overflow: hidden;
   outline: none;
-  display:flex;
-  margin:auto;
+  display: flex;
+  margin: auto;
 
   img {
     object-fit: cover;
@@ -107,37 +99,34 @@ const Thumbnail = styled.a`
 const TagsWrapper = styled.div`
   margin-top: 4px;
   display: flex;
-  
 `;
 
 const Tag = styled.div`
-    box-sizing: border-box;
-    background: rgba(26, 46, 51, 0.25);
-    border: 0.5px solid rgba(255, 255, 255, 0.3);
-    border-radius: 38px;
-    color: #FFFFFF;
-    font-weight: 500;
-    font-size: 12px;
-    text-center;
-    display:flex;
-    align-items:center;
-    justify-center: center;
-    margin-right: 5px;
-    padding: 1px 11px 1px 11px;
-    white-space: nowrap;
-
+  box-sizing: border-box;
+  background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  padding: 1px 11px 1px 11px;
+  white-space: nowrap;
 `;
 
 const ProfileIcon = styled.div`
   width: 16px;
-height: 16px;
+  height: 16px;
   flex-shrink: 0;
   overflow: hidden;
   outline: none;
-  display:flex;
+  display: flex;
   margin-right: 4px;
 
-border-radius: 100%;
+  border-radius: 100%;
   img {
     object-fit: cover;
     width: 100%;
@@ -146,21 +135,21 @@ border-radius: 100%;
 `;
 
 const BuilderView = styled.a`
-    width: 100px;
-    height: 36px;
-    display: flex;
-    align-items:center;
-    justify-content:center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    gap:10px;
-    color: #FFFFFF;
-    font-size: 14px;
-    :hover{
-        color: white;
+  width: 100px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  :hover {
+    color: white;
     text-decoration: none;
-    cursor:pointer;
-    }
+    cursor: pointer;
+  }
 `;
 const openIcon = (
   <svg
@@ -187,7 +176,7 @@ const forkIcon = (
   >
     <path
       fill-rule="evenodd"
-      clip-rule="evenodd"
+      clipRule="evenodd"
       d="M3.0577 4.49077C3.96403 4.17947 4.61538 3.31964 4.61538 2.30769C4.61538 1.03319 3.5822 0 2.30769 0C1.03319 0 0 1.03319 0 2.30769C0 3.31965 0.651363 4.17947 1.5577 4.49078V10.5092C0.651363 10.8205 0 11.6803 0 12.6923C0 13.9668 1.03319 15 2.30769 15C3.5822 15 4.61538 13.9668 4.61538 12.6923C4.61538 11.6959 3.98384 10.8469 3.09918 10.5239C3.1455 10.3199 3.23328 10.1384 3.37571 9.84396C3.39763 9.79866 3.42083 9.75069 3.44538 9.69955C3.72001 9.12741 4.08628 8.82692 4.61539 8.82692C4.80209 8.82692 5.02205 8.83183 5.25788 8.83709H5.2579C5.65829 8.84601 6.10443 8.85596 6.51122 8.84466C7.19222 8.82575 7.93763 8.74987 8.62873 8.49071C9.33703 8.2251 9.98776 7.76652 10.4491 7.00531C10.8454 6.35144 11.0727 5.52255 11.1236 4.49452C12.0357 4.18641 12.6923 3.32373 12.6923 2.30769C12.6923 1.03319 11.6591 0 10.3846 0C9.11011 0 8.07692 1.03319 8.07692 2.30769C8.07692 3.31491 8.7222 4.17142 9.62191 4.48637C9.57388 5.30047 9.39457 5.85122 9.1663 6.22786C8.90649 6.65655 8.5476 6.91913 8.10205 7.08621C7.63931 7.25974 7.08664 7.3281 6.46957 7.34524C6.08198 7.35601 5.72955 7.34749 5.37076 7.33881H5.37075C5.12628 7.3329 4.87887 7.32692 4.61539 7.32692C3.97828 7.32692 3.46507 7.52662 3.0577 7.8313V4.49077ZM3.46154 2.30769C3.46154 2.94494 2.94494 3.46154 2.30769 3.46154C1.67044 3.46154 1.15385 2.94494 1.15385 2.30769C1.15385 1.67044 1.67044 1.15385 2.30769 1.15385C2.94494 1.15385 3.46154 1.67044 3.46154 2.30769ZM11.5385 2.30769C11.5385 2.94494 11.0219 3.46154 10.3846 3.46154C9.74735 3.46154 9.23076 2.94494 9.23076 2.30769C9.23076 1.67044 9.74735 1.15385 10.3846 1.15385C11.0219 1.15385 11.5385 1.67044 11.5385 2.30769ZM2.30769 13.8461C2.94494 13.8461 3.46154 13.3295 3.46154 12.6923C3.46154 12.055 2.94494 11.5384 2.30769 11.5384C1.67044 11.5384 1.15385 12.055 1.15385 12.6923C1.15385 13.3295 1.67044 13.8461 2.30769 13.8461Z"
       fill="white"
     />
@@ -217,13 +206,10 @@ const sourceIcon = (
 );
 
 const CardFooter = styled.div`
-
-    display: flex;
-    align-items: center;
-    gap:9px;
-    margin-top: 6px;
-    
-
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 6px;
 `;
 
 return (
@@ -286,7 +272,7 @@ return (
 
     {role === "Builder" && (
       <CardFooter>
-        <BuilderView href={appUrl}>
+        <BuilderView href={previewUrl}>
           {openIcon}
           <span>Open</span>
         </BuilderView>
