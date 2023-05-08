@@ -260,7 +260,13 @@ return (
 
     {state.selectedTab === "preview" && props.istemplate === "true" && (
       <PreviewContent>
-        <Widget src={src} props={props}></Widget>
+        <Widget
+          src={src}
+          props={{
+            ...props,
+            hideBanner: true,
+          }}
+        ></Widget>
       </PreviewContent>
     )}
 
