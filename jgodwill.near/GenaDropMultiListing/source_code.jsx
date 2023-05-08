@@ -353,11 +353,10 @@ return (
     <h1 className="text-center"> 🛍️ List NFT to Multiple Marketplaces </h1>
     <div>
       <div
-        className="p-2"
+        className="p-2 rounded mt-3"
         style={{
           background: "#fdfdfd",
           border: "solid 1px #dee2e6",
-          borderTop: 0,
           borderBottomLeftRadius: ".375rem",
           borderBottomRightRadius: ".375rem",
           minHeight: "9em",
@@ -382,49 +381,53 @@ return (
         </div>
       </div>
     </div>
-    <Widget
-      src="jgodwill.near/widget/NftListingInput"
-      props={{
-        state,
-        onChangeContract,
-        onChangeToken,
-        selectTradeport,
-        selectFewFar,
-        selectCustom,
-        selectMintbase,
-        onChangeCustomMarket,
-        onChangeAmount,
-        list,
-      }}
-    />
-    <br></br>
-    <h1 className="text-center">OR</h1>
-    <h2 className="text-center">Transfer</h2>
-    <div className=" mb-2">
-      Receiver Address
-      <input
-        type="text"
-        placeholder={state.receiverId}
-        onChange={(e) => onChangeReceiver(e.target.value)}
-      />
-    </div>
-    <div className="row">
-      {state.ownsNFT && state.validReceiver && (
-        <button className="btn btn-primary mt-3" onClick={transfer}>
-          Transfer
-        </button>
-      )}
-      <div className="col-lg-6"></div>
-      {state.ownsNFT && !state.validReceiver && (
-        <button className="btn btn-warning mt-3">
-          Can't Transfer (Invalid Receiver)
-        </button>
-      )}
-      {!state.ownsNFT && state.validReceiver && (
-        <button className="btn btn-danger mt-3">
-          Can't Transfer (Don't Own)
-        </button>
-      )}
-    </div>
+    {state.tokenId !== "1679119560198" && (
+      <>
+        <Widget
+          src="jgodwill.near/widget/NftListingInput"
+          props={{
+            state,
+            onChangeContract,
+            onChangeToken,
+            selectTradeport,
+            selectFewFar,
+            selectCustom,
+            selectMintbase,
+            onChangeCustomMarket,
+            onChangeAmount,
+            list,
+          }}
+        />
+        <br></br>
+        <h1 className="text-center">OR</h1>
+        <h2 className="text-center">Transfer</h2>
+        <div className=" mb-2">
+          Receiver Address
+          <input
+            type="text"
+            placeholder={state.receiverId}
+            onChange={(e) => onChangeReceiver(e.target.value)}
+          />
+        </div>
+        <div className="row">
+          {state.ownsNFT && state.validReceiver && (
+            <button className="btn btn-primary mt-3" onClick={transfer}>
+              Transfer
+            </button>
+          )}
+          <div className="col-lg-6"></div>
+          {state.ownsNFT && !state.validReceiver && (
+            <button className="btn btn-warning mt-3">
+              Can't Transfer (Invalid Receiver)
+            </button>
+          )}
+          {!state.ownsNFT && state.validReceiver && (
+            <button className="btn btn-danger mt-3">
+              Can't Transfer (Don't Own)
+            </button>
+          )}
+        </div>
+      </>
+    )}
   </div>
 );
