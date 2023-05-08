@@ -389,8 +389,15 @@ return (
           }),
         slippagetolerance: state.slippagetolerance,
         setSlippagetolerance: (value) => {
+          if (value !== "" && !value.match(/^\d*(\.\d*)?$/)) {
+            return;
+          }
+          if (Number(value) > 99.9999) return;
+
+          let slippagetolerance = value.replace(/^0+/, "0"); // remove prefix 0
+
           State.update({
-            slippagetolerance: value,
+            slippagetolerance,
           });
         },
       }}
