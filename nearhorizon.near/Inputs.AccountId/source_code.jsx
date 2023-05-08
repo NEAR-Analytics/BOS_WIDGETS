@@ -2,8 +2,8 @@ const ownerId = "nearhorizon.near";
 const label = props.label ?? "Account ID";
 const placeholder = props.placeholder ?? "Enter your account ID";
 const value = props.value ?? "";
-const onChange = props.onChange ?? (() => {});
-const addInfo = props.addInfo ?? (() => {});
+const onChange = props.onChange ?? (() => { });
+const addInfo = props.addInfo ?? (() => { });
 const accountIdRegex =
   /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
 
@@ -26,6 +26,32 @@ const checkIsProject = (accountId) => {
     false
   );
 };
+
+const checkIsVendor = (accountId) => {
+  return Near.asyncView(
+    ownerId,
+    "check_is_vendor",
+    { account_id: accountId },
+    "final",
+    false
+  );
+};
+
+const checkIsInvestor = (accountId) => {
+  return Near.asyncView(
+    ownerId,
+    "check_is_investor",
+    { account_id: accountId },
+    "final",
+    false
+  );
+};
+
+const checkIsTaken = {
+  project: checkIsProject,
+  vendor: checkIsVendor,
+  investor: checkIsInvestor,
+}[props.type ?? "project"];
 
 State.init({
   valid: true,
@@ -80,7 +106,7 @@ const validate = async () => {
     return;
   }
 
-  checkIsProject(value).then((isProject) => {
+  checkIsTaken(value).then((isProject) => {
     if (isProject) {
       State.update({
         valid: false,
