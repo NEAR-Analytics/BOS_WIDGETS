@@ -18,6 +18,9 @@ const BorderedShadowedCard = styled.div`
    &:hover &>div>img{
      transform:scale(1.05);
    }
+   & img{
+     border-radius: inherit;
+   }
 `;
 const Main = styled.div`
     display: grid;
@@ -31,7 +34,7 @@ const Main = styled.div`
 `;
 return (
   <>
-    {props.state.tokenId && (
+    {!props.state.tokenId && (
       <div className="container-fluid">
         <Main>
           <div className="">
