@@ -113,7 +113,7 @@ const getBalance = (token_id) => {
     : "-";
 };
 
-const { amount, setAmount, handleSelect, disableInput } = props;
+const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
 
 State.init({
   show: false,
@@ -128,12 +128,6 @@ State.init({
     });
   },
 });
-
-const inputOnChange = (e) => {
-  const value = e.target.value;
-
-  setAmount(value);
-};
 
 const BalanceWrapper = styled.div`
    color: #304352;
@@ -168,14 +162,10 @@ return (
         class="ref-token-inut"
         placeholder="0.0"
         onChange={inputOnChange}
-        min="0"
-        step="any"
         value={
           !!disableInput ? formatTokenBig(amount, props.token.decimals) : amount
         }
         disabled={!!disableInput}
-        type="number"
-        inputMode="decimal"
       />
 
       <TokenWrapper
