@@ -46,7 +46,10 @@ const Container = styled.div`
      border: 1px solid rgba(255, 255, 255, 0.3);
      border-radius: 10px;
    }
-   .uploadButton .btn{
+   .uploadButtonBanner{
+    margin-bottom:60px;
+   }
+   .uploadButtonBanner .btn{
     background: #304352;
     border-radius: 10px;
     font-weight: 500;
@@ -54,11 +57,64 @@ const Container = styled.div`
     color:#fff;
     border:none;
   }
+  .select-area{
+    position:relative;
+    .selected{
+      position:relative;
+      display:flex;
+      align-items:center;
+      background: rgba(26, 46, 51, 0.25);
+      border: 0.5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      height:47px;
+      padding:0 15px;
+      color:#fff;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      i{
+        position:absolute;
+        right:15px;
+        &:before{
+          font-weight: bold!important;
+        }
+      }
+    }
+    .select-list{
+      position:absolute;
+      left:0;
+      top:50px;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      background: #13181A;
+      border: 1px solid #3A4244;
+      border-radius: 10px;
+      padding:10px 0;
+      z-index:10;
+      &.show{
+        display:flex;
+      }
+      &.hidden{
+        display:none;
+      }
+      span{
+        padding:10px 25px;
+        font-weight: 500;
+        font-size: 16px;
+        color:#fff;
+        cursor:pointer;
+        &:hover{
+          background-color:rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
 `;
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
-
+const { selectListStatus, selectOptions, selectedItem} = state;
 State.init({
   initialMetadata,
   metadata: initialMetadata,
@@ -68,6 +124,8 @@ State.init({
   bannerImage: { cid: initialMetadata.bannerImage.cid},
   backgroundImage: initialMetadata.backgroundImage,
   screenshots: initialMetadata.screenshots ?? {},
+  selectOptions: [{id:'NEAR'}, {id:'Ethereum'}, { id:'Bsc'}, {id:'Arbitrum'}],
+  selectedItem: initialMetadata.chain ? {id: initialMetadata.chain} : undefined,
 });
 
 const metadata = {
@@ -94,6 +152,7 @@ const metadata = {
       : undefined,
   tags: options.tags ? state.metadata.tags : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
+  chain: options.chain ? state.selectedItem.id : undefined
 };
 
 if (
@@ -105,7 +164,12 @@ if (
   });
   onChange(metadata);
 }
-
+function selectOptionsFun(item) {
+  State.update({
+    selectedItem:item,
+    selectListStatus:false,
+  })
+}
 return (
   <Container>
     {options.name && (
@@ -129,7 +193,7 @@ return (
     {options.banner && (
       <div className="mb-2">
         <label class="title">{options.banner.label ?? "Banner"}</label>
-        <div className="uploadButton">
+        <div className="uploadButtonBanner">
          <IpfsImageUpload image={state.bannerImage} />
         </div>
       </div>
@@ -163,6 +227,30 @@ return (
             State.update();
           }}
         />
+      </div>
+    )}
+    {options.chain && (
+      <div className="mb-4">
+        <label class="title">
+          {options.chain.label ?? "Chain"}
+        </label>
+        <div className="select-area">
+          <div className="selected" onClick={() => {
+            State.update({
+              selectListStatus: true
+            })
+          }}>
+            {selectedItem.id}
+            <i class="bi bi-chevron-compact-down text-white"></i>
+          </div>
+          <div className={`select-list ${selectListStatus ? 'show': 'hidden'}`}>
+            {
+              selectOptions && selectOptions.map((item) => <span onClick={() => {
+                selectOptionsFun(item)
+              }}>{item.id}</span>)
+            }
+          </div>
+        </div>
       </div>
     )}
     {options.tags && (
