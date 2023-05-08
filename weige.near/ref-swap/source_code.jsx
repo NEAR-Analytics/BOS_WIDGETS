@@ -286,6 +286,19 @@ const callTx = () => {
   Near.call(tx);
 };
 
+const inputOnChange = (e) => {
+  const targetValue = e.target.value;
+  if (targetValue !== "" && !targetValue.match(/^\d*(\.\d*)?$/)) {
+    return;
+  }
+
+  let amountIn = targetValue.replace(/^0+/, "0"); // remove prefix 0
+
+  State.update({
+    amountIn,
+  });
+};
+
 return (
   <Container>
     <div
@@ -319,6 +332,7 @@ return (
         props={{
           amount: state.amountIn,
           disableInput: false,
+          inputOnChange: inputOnChange,
           setAmount: (value) => State.update({ amountIn: value }),
           token: state.tokenIn,
           handleSelect: (metadata) =>
