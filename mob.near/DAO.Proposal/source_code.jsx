@@ -1,7 +1,14 @@
 const { daoId, policy, proposal } = props;
 
+const bgClassname =
+  proposal.status === "InProgress"
+    ? ""
+    : proposal.status === "Approved"
+    ? "bg-success bg-opacity-10"
+    : "bg-danger bg-opacity-10";
+
 return (
-  <div className="border p-2">
+  <div className={`border p-2 ${bgClassname}`}>
     <div className="mb-2">
       <h4 className="d-inline">#{proposal.id}</h4>
       <div className="float-end">
