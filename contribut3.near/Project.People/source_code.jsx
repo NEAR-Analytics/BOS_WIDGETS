@@ -100,7 +100,7 @@ return (
     <Heading>Founders</Heading>
     {props.isAdmin ? (
       <Widget
-        src={`${ownerId}/widget/Inputs.Founders}`}
+        src={`${ownerId}/widget/Inputs.Founders`}
         props={{
           founders: state.founders,
           update: (founders) => State.update({ founders }),
