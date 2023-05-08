@@ -2,6 +2,8 @@ const ownerId = "contribut3.near";
 
 const availableContent = [
   "projects",
+  "vendors",
+  "invites",
   "requests",
   "proposals",
   "contracts",
