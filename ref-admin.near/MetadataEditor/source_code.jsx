@@ -1,5 +1,5 @@
 const Container = styled.div`
-   .title{
+   .title{:
      font-weight: 500;
      font-size: 16px;
      color: #FFFFFF;
@@ -46,6 +46,14 @@ const Container = styled.div`
      border: 1px solid rgba(255, 255, 255, 0.3);
      border-radius: 10px;
    }
+   .uploadButton .btn{
+    background: #304352;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    color:#fff;
+    border:none;
+  }
 `;
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
@@ -57,6 +65,7 @@ State.init({
   reportedMetadata: initialMetadata,
   linktree: initialMetadata.linktree ?? {},
   image: initialMetadata.image,
+  bannerImage: { cid: initialMetadata.bannerImage.ipfs_cid},
   backgroundImage: initialMetadata.backgroundImage,
   screenshots: initialMetadata.screenshots ?? {},
 });
@@ -72,6 +81,10 @@ const metadata = {
   image:
     options.image && state.image && Object.keys(state.image).length > 0
       ? state.image
+      : undefined,
+  bannerImage:
+    options.banner && state.bannerImage && Object.keys(state.bannerImage).length > 0
+      ? state.bannerImage
       : undefined,
   backgroundImage:
     options.backgroundImage &&
@@ -111,6 +124,14 @@ return (
             onChange: (image) => State.update({ image }),
           }}
         />
+      </div>
+    )}
+    {options.banner && (
+      <div className="mb-2">
+        <label class="title">{options.banner.label ?? "Banner"}</label>
+        <div className="uploadButton">
+         <IpfsImageUpload image={state.bannerImage} />
+        </div>
       </div>
     )}
     {options.backgroundImage && (
