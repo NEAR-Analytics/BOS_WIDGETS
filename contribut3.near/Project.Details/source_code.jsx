@@ -1,4 +1,4 @@
-const onSave = props.onSave ?? (() => { });
+const onSave = props.onSave ?? (() => {});
 const ownerId = "contribut3.near";
 const isAdmin = props.isAdmin;
 const accountId = props.accountId;
@@ -27,6 +27,8 @@ const Heading = styled.div`
 State.init({
   profile: null,
   profileIsFetched: false,
+  project: null,
+  projectIsFetched: false,
 });
 
 if (!state.profileIsFetched) {
@@ -38,10 +40,23 @@ if (!state.profileIsFetched) {
     false
   ).then((profile) =>
     State.update({
-      profile: profile[accountId].profile,
+      profile: profile[accountId].profile ?? {},
       profileIsFetched: true,
     })
   );
+}
+
+if (!state.projectIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_project",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((project) => State.update({ project, projectIsFetched: true }));
+}
+
+if (!state.profileIsFetched || !state.projectIsFetched) {
   return <>Loading...</>;
 }
 
@@ -53,7 +68,7 @@ return (
       props={{
         label: "Website",
         id: "website",
-        value: state.profile.linktree.website,
+        value: state.profile.linktree?.website ?? state.profile.website ?? "",
         link: `https://${state.profile.linktree.website}`,
         onSave: (website) =>
           Near.call("social.near", "set", {
@@ -67,7 +82,7 @@ return (
       props={{
         label: "Links",
         id: "links",
-        value: state.profile.linktree,
+        value: state.profile.linktree ?? {},
         onSave: (linktree) =>
           Near.call("social.near", "set", {
             data: { [accountId]: { profile: { linktree } } },
@@ -91,7 +106,7 @@ return (
       src={`${ownerId}/widget/Inputs.Viewable.Integration`}
       props={{
         label: "Integration",
-        value: state.profile.integration,
+        value: state.project.application.integration,
         onSave: ({ value: integration }) =>
           Near.call("social.near", "set", {
             data: { [accountId]: { profile: { integration } } },
@@ -103,10 +118,10 @@ return (
       src={`${ownerId}/widget/Inputs.Viewable.Phase`}
       props={{
         label: "Development phase",
-        value: state.profile.dev,
-        onSave: ({ value: dev }) =>
+        value: state.profile.stage,
+        onSave: ({ value: stage }) =>
           Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { dev } } },
+            data: { [accountId]: { profile: { stage } } },
           }),
         canEdit: isAdmin,
       }}
@@ -119,7 +134,7 @@ return (
         value: state.userbase,
         onSave: (userbase) =>
           Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { userbase } } },
+            data: { [accountId]: { profile: { userbase: `${userbase}` } } },
           }),
         canEdit: isAdmin,
       }}
@@ -198,7 +213,7 @@ return (
         value: state.team,
         onSave: (team) =>
           Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { team } } },
+            data: { [accountId]: { profile: { team: `${team}` } } },
           }),
         canEdit: isAdmin,
       }}
@@ -208,7 +223,7 @@ return (
       props={{
         label: "Tags",
         id: "tags",
-        value: Object.keys(state.profile.tags).map((name) => ({ name })),
+        value: Object.keys(state.profile.tags ?? {}).map((name) => ({ name })),
         options: [
           { name: "defi" },
           { name: "exchange" },
