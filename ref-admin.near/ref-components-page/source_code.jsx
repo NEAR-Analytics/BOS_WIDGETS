@@ -83,11 +83,25 @@ if (data) {
         tagsData[accountId].widget[widgetName]?.metadata?.tags || {}
       );
 
-      const hasRefTag = tags.some((t) =>
-        state.filters.map((f) => f.toLowerCase()).includes(t.toLowerCase())
+      const chainTags = state.filters.filter((t) =>
+        filterMap["Chain"].includes(t)
       );
 
-      if (!hasRefTag && state.filters.length > 0) return;
+      const noChainTags = state.filters.filter(
+        (t) => !filterMap["Chain"].includes(t)
+      );
+
+      const hasRefTag = tags.some((t) =>
+        noChainTags.map((f) => f.toLowerCase()).includes(t.toLowerCase())
+      );
+
+      const hasChainTag = chainTags.some((t) =>
+        tags.some((f) => f.toLowerCase() === t.toLowerCase())
+      );
+
+      if (chainTags?.length > 0 && !hasChainTag) return;
+
+      if (!hasRefTag && noChainTags?.length > 0) return;
 
       //     const hasAppTag =
       //       tagsData[accountId].widget[widgetName]?.metadata?.tags["app"] === "";
@@ -411,6 +425,7 @@ return (
             onChange: onSearchChange,
             placeholder: searchPlaceholder,
             filterTags: state.filters.length === 0 ? null : state.filters,
+            chains: filterMap["Chain"],
           }}
         />
 
