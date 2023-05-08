@@ -43,7 +43,7 @@ const columns = [
     formatter: (d) => {
       return (
         <a
-          href={`https://near.social/edit#/frichard5.near/widget/NDC-Page?tab=proposal&proposal_id=${d.proposal_id}`}
+          href={`https://near.social/#/${widgetProvider}/widget/NDC-Page?tab=proposal&proposal_id=${d.proposal_id}`}
           target="_blank"
         >
           {d.proposal_id}
