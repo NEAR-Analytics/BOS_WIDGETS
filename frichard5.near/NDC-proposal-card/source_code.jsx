@@ -274,6 +274,18 @@ function copy(proposal_id) {
   };
 }
 
+const VoteOnProposal = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-vote-on-proposal`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+      proposal_id: proposal.proposal_id,
+      daoId: proposal.dao_id,
+    }}
+  />
+);
+
 return (
   <>
     {proposal && council ? (
@@ -364,6 +376,7 @@ return (
         ) : (
           ""
         )}
+        {VoteOnProposal}
       </ProposalCard>
     ) : (
       ""
