@@ -58,7 +58,6 @@ initState({
   transfer: false, // add checkbox for transfer that shows
   url: image.url,
   nft: image.nft ?? {}, // from santiago
-  showAlert: false,
 });
 function ownsNFT() {
   const ownsNFT = context.accountId === state.tokenInfo.owner_id;
@@ -135,12 +134,11 @@ const onChangeMsg = (msg) => {
 };
 
 const onChangeReceiver = (receiverId) => {
-  const validReceiverLink = isNearAddress(receiverId[0]); // add error message or change button based on this
+  const validReceiverLink = isNearAddress(receiverId); // add error message or change button based on this
   State.update({
-    receiverId: receiverId[0],
+    receiverId,
     validReceiver: validReceiverLink,
   });
-  console.log(`receiver: ${state.receiverId[0]}`);
 };
 
 const onChangeContract = (contractId) => {
@@ -345,12 +343,6 @@ const selectMintbase = () => {
     mintbase: !state.mintbase,
   });
 };
-if (!accountId) {
-  State.update({
-    showAlert: true,
-    toastMessage: "Please Sign in to Near wallet to list",
-  });
-}
 const selectCustom = () => {
   State.update({
     custom: !state.custom,
@@ -358,16 +350,14 @@ const selectCustom = () => {
 }; // need better helper function for checking whether valid NEAR address
 return (
   <div>
-    {state.showAlert && (
-      <Widget src="jgodwill.near/widget/genalert" props={state} />
-    )}
     <h1 className="text-center"> 🛍️ List NFT to Multiple Marketplaces </h1>
     <div>
       <div
-        className="p-2 rounded mt-3"
+        className="p-2"
         style={{
           background: "#fdfdfd",
           border: "solid 1px #dee2e6",
+          borderTop: 0,
           borderBottomLeftRadius: ".375rem",
           borderBottomRightRadius: ".375rem",
           minHeight: "9em",
@@ -392,64 +382,49 @@ return (
         </div>
       </div>
     </div>
-    {state.tokenId !== "1679119560198" && (
-      <>
-        <Widget
-          src="jgodwill.near/widget/NftListingInput"
-          props={{
-            state,
-            onChangeContract,
-            onChangeToken,
-            selectTradeport,
-            selectFewFar,
-            selectCustom,
-            selectMintbase,
-            onChangeCustomMarket,
-            onChangeAmount,
-            list,
-            onChangeReceiver,
-          }}
-        />
-        {/*<br></br>
-        <h1 className="text-center">OR</h1>
-        <h2 className="text-center">Transfer</h2>
-        <div className=" mb-2">
-          Receiver Address
-          <input
-            type="text"
-            placeholder={state.receiverId}
-            onChange={(e) => onChangeReceiver(e.target.value)}
-          />
-        </div>
-        <div className="row">
-          {state.ownsNFT && state.validReceiver && (
-            <button className="btn btn-primary mt-3" onClick={transfer}>
-              Transfer
-            </button>
-          )}
-          <div className="col-lg-6"></div>
-          {state.ownsNFT && !state.validReceiver && (
-            <button className="btn btn-warning mt-3">
-              Can't Transfer (Invalid Receiver)
-            </button>
-          )}
-          {!state.ownsNFT && state.validReceiver && (
-            <button className="btn btn-danger mt-3">
-              Can't Transfer (Don't Own)
-            </button>
-          )}
-        </div>*/}
-      </>
-    )}
-    <h4 className="text-center mt-5">
-      💧
-      <a href="https://genadrop.io" target="_blank" rel="noopener noreferrer">
-        GenaDrop
-      </a>
-      <Widget
-        src="miraclx.near/widget/Attribution"
-        props={{ authors: [ownerId], dep: true }}
+    <Widget
+      src="jgodwill.near/widget/NftListingInput"
+      props={{
+        state,
+        onChangeContract,
+        onChangeToken,
+        selectTradeport,
+        selectFewFar,
+        selectCustom,
+        selectMintbase,
+        onChangeCustomMarket,
+        onChangeAmount,
+        list,
+      }}
+    />
+    <br></br>
+    <h1 className="text-center">OR</h1>
+    <h2 className="text-center">Transfer</h2>
+    <div className=" mb-2">
+      Receiver Address
+      <input
+        type="text"
+        placeholder={state.receiverId}
+        onChange={(e) => onChangeReceiver(e.target.value)}
       />
-    </h4>
+    </div>
+    <div className="row">
+      {state.ownsNFT && state.validReceiver && (
+        <button className="btn btn-primary mt-3" onClick={transfer}>
+          Transfer
+        </button>
+      )}
+      <div className="col-lg-6"></div>
+      {state.ownsNFT && !state.validReceiver && (
+        <button className="btn btn-warning mt-3">
+          Can't Transfer (Invalid Receiver)
+        </button>
+      )}
+      {!state.ownsNFT && state.validReceiver && (
+        <button className="btn btn-danger mt-3">
+          Can't Transfer (Don't Own)
+        </button>
+      )}
+    </div>
   </div>
 );
