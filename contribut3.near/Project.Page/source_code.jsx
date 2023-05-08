@@ -163,6 +163,7 @@ const CTARow = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 0.75em;
+  margin-top: 1em;
 `;
 
 const content = {
@@ -264,7 +265,10 @@ return (
         </CTARow>
       </HeaderDetails>
       <HeaderProgress>
-        <Widget src={`${ownerId}/widget/Project.Progress`} props={{}} />
+        <Widget
+          src={`${ownerId}/widget/Project.Progress`}
+          props={{ accountId }}
+        />
       </HeaderProgress>
     </Header>
     <ContentContainer>
