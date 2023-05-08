@@ -44,14 +44,12 @@ const addComponentIcon = (
   </svg>
 );
 
-
-
-
+const curComponent = "ref-admin.near/widget/ref-components-page";
 
 State.init({
   currentPage: 0,
   selectedTab: props.tab || "all",
-  filters:  Storage.get("ref-filters") || ["Defi"],
+  filters: Storage.get("ref-filters", curComponent) || ["Defi"],
   counts: {
     Chain: 0,
     Infrastructure: 0,
