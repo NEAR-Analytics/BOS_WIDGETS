@@ -176,7 +176,9 @@ const RateWrapper = styled.div`
 `;
 
 const notEnough = new Big(state.amountIn || 0).gt(
-  getBalance(state.tokenIn.id, state.tokenIn)
+  new Big(getBalance(state.tokenIn.id, state.tokenIn)).minus(
+    state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
+  )
 );
 
 const canSwap =
