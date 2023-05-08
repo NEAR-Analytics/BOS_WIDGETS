@@ -34,7 +34,7 @@ const Main = styled.div`
 `;
 return (
   <>
-    {!props.state.tokenId && (
+    {props.state.tokenId && (
       <div className="container-fluid">
         <Main>
           <div className="">
