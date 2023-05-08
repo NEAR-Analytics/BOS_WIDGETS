@@ -1,4 +1,22 @@
 const Container = styled.div`
+   background-color:#000;
+   .warningTip{
+    display:flex;
+    align-items:start;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    color: #00FFD1;
+    .icon{
+      position:relative;
+      top:-1px;
+      margin-right:5px;
+    }
+    a{
+      color: #00FFD1;
+      text-decoration:underline;
+    }
+   }
    .title{
      font-weight: 500;
      font-size: 16px;
@@ -170,8 +188,15 @@ function selectOptionsFun(item) {
     selectListStatus:false,
   })
 }
+const warningIcon = <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.46979 0.510742C3.60976 0.510742 0.48053 3.63964 0.48053 7.5C0.48053 11.3604 3.60976 14.4893 7.46979 14.4893C11.3298 14.4893 14.459 11.3597 14.459 7.5C14.459 3.6403 11.3298 0.510742 7.46979 0.510742ZM7.46979 11.2423C7.30897 11.242 7.15185 11.194 7.0183 11.1044C6.88474 11.0148 6.78073 10.8877 6.71942 10.739C6.6581 10.5903 6.64223 10.4268 6.6738 10.2691C6.70538 10.1114 6.78299 9.96665 6.89682 9.85305C7.01065 9.73945 7.1556 9.66214 7.31336 9.63088C7.47111 9.59963 7.63459 9.61584 7.78313 9.67745C7.93168 9.73907 8.05863 9.84334 8.14794 9.97708C8.23726 10.1108 8.28492 10.268 8.28492 10.4288C8.28492 10.5358 8.26383 10.6417 8.22284 10.7405C8.18186 10.8393 8.12179 10.9291 8.04608 11.0047C7.97036 11.0802 7.88049 11.1401 7.7816 11.1809C7.68271 11.2217 7.57675 11.2425 7.46979 11.2423ZM8.28492 7.71914C8.28187 7.93329 8.19465 8.13764 8.04213 8.28799C7.88961 8.43835 7.68404 8.52264 7.46987 8.52264C7.2557 8.52264 7.05013 8.43835 6.89761 8.28799C6.74509 8.13764 6.65787 7.93329 6.65482 7.71914V3.92469C6.65787 3.71054 6.74509 3.50619 6.89761 3.35583C7.05013 3.20547 7.2557 3.12118 7.46987 3.12118C7.68404 3.12118 7.88961 3.20547 8.04213 3.35583C8.19465 3.50619 8.28187 3.71054 8.28492 3.92469V7.71914Z" fill="#00FFD1"/>
+</svg>;
 return (
   <Container>
+    <div className="warningTip">
+      <span class="icon">{warningIcon}</span>
+      <p>Notice: It will be published as a component. If you want to publish it as a template, please <a href="#">contact us</a>.</p>
+    </div>
     {options.name && (
       <div className="mb-2">
         <label class="title">{options.name.label ?? "Name"}</label>
