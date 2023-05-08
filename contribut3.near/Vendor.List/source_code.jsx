@@ -14,6 +14,8 @@ if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
 
+const Item = styled.div``;
+
 return (
   <Widget
     src={`${ownerId}/widget/List`}
@@ -21,7 +23,9 @@ return (
       filter: (accountId) => accountId.includes(search),
       items: state.items,
       createItem: (accountId) => (
-        <Widget src={`${ownerId}/widget/Vendor.Card`} props={{ accountId }} />
+        <Item key={accountId}>
+          <Widget src={`${ownerId}/widget/Vendor.Card`} props={{ accountId }} />
+        </Item>
       ),
     }}
   />
