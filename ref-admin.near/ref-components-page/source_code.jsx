@@ -165,7 +165,6 @@ const Wrapper = styled.div`
   gap: 48px;
   padding-bottom: 48px;
   padding-top: 18px;
-
 `;
 
 const Header = styled.div`
@@ -222,70 +221,63 @@ const Items = styled.div`
   width: 100%;
   grid-template-columns: repeat(auto-fill, 350px);
   gap: 20px;
-  height: 100%
-
+  height: 100%;
 `;
 
 const FlexStart = styled.div`
-    display:flex;
-align-items:center;
+  display: flex;
+  align-items: center;
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   margin-top: 20px;
-
-  
 `;
 
 const FunctionArea = styled.div`
-    display: flex;
-    align-items:center;
-    gap:12px;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
 `;
 
 const AddComponentWrapper = styled.a`
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #2d4348;
+  border-radius: 10px;
+  padding: 8px 16px 8px 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  gap: 10px;
+  margin-left: 12px;
+  cursor: pointer;
+  color: #ffffff;
 
-height: 36px;
-display:flex;
-align-items:center;
-background: #2D4348;
-border-radius: 10px;
-padding: 8px 16px 8px 16px;
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 19px;
-gap:10px;
-margin-left:12px;
-cursor:pointer;
-color: #FFFFFF;
-
-:hover{
+  :hover {
     color: white;
-    text-decoration:none;    
-}
+    text-decoration: none;
+  }
 `;
 
 const FunctionWrapper = styled.div`
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #2d4348;
+  border-radius: 10px;
+  padding: 8px 16px 8px 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  gap: 10px;
+  margin-left: 12px;
+  cursor: pointer;
 
-height: 36px;
-display:flex;
-align-items:center;
-background: #2D4348;
-border-radius: 10px;
-padding: 8px 16px 8px 16px;
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 19px;
-gap:10px;
-margin-left:12px;
-cursor:pointer;
-
-
-color: #FFFFFF;
+  color: #ffffff;
 `;
 
 const sortIcon = (
@@ -370,15 +362,14 @@ const wideView = (
 );
 
 const CardView = styled.div`
+  width: 36px;
+  height: 36px;
 
-width: 36px;
-height: 36px;
-
-background: #1A2E33;
-border-radius: 10px;
-display:flex;
-align-items:center;
-justify-content: center
+  background: #1a2e33;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ViewMoreWrapper = styled.div`
@@ -389,16 +380,16 @@ const ViewMoreWrapper = styled.div`
   gap: 7px;
   height: 36px;
   opacity: 0.5;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   border-radius: 10px;
-  cursor:pointer;
-color: #FFFFFF;
-padding: 0px 25px 0px 25px;
-max-width: max-content;
-margin: auto;
-margin-top: 20px;
-position: relative;
-left: 100px;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 0px 25px 0px 25px;
+  max-width: max-content;
+  margin: auto;
+  margin-top: 20px;
+  position: relative;
+  left: 100px;
 `;
 
 return (
