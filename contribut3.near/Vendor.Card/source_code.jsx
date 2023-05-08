@@ -8,6 +8,8 @@ State.init({
   profileIsFetched: false,
   contributions: null,
   contributionsIsFetched: false,
+  vendors: null,
+  vendorsIsFetched: false,
 });
 
 if (!state.foundersIsFetched) {
@@ -44,6 +46,16 @@ if (!state.contributionsIsFetched) {
   );
 }
 
+if (!state.vendorsIsFetched) {
+  Near.asyncView(
+    ownerId,
+    "get_vendor",
+    { account_id: accountId },
+    "final",
+    false
+  ).then((vendors) => State.update({ vendors, vendorsIsFetched: true }));
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -51,7 +63,7 @@ const Container = styled.div`
   justify-content: flex-start;
   gap: 1em;
   width: 100%;
-  margin-bottom: .25em;
+  margin-bottom: 0.25em;
 `;
 
 const Details = styled.div`
@@ -175,25 +187,34 @@ const body = (
           }}
         />
         <Row>
-          {state.profile.organization ? "Organization" : "Individual"}
+          {state.profile.organization === "true"
+            ? "Organization"
+            : state.profile.organization === "false"
+              ? "Individual"
+              : ""}
+          {state.profile.active !== undefined ? (
+            <Widget
+              src={`${ownerId}/widget/ActiveIndicator`}
+              props={{
+                active: state.profile.active === "true",
+                activeText: "Available",
+                inactiveText: "Not available",
+              }}
+            />
+          ) : (
+            <></>
+          )}
+        </Row>
+        {state.vendor.verified ? (
           <Widget
-            src={`${ownerId}/widget/ActiveIndicator`}
+            src={`${ownerId}/widget/BadgeList`}
             props={{
-              active: state.profile.active,
-              activeText: "Available",
-              inactiveText: "Not available",
+              badges: [{ value: "Verified" }],
             }}
           />
-        </Row>
-        {/*<Widget
-          src={`${ownerId}/widget/BadgeList`}
-          props={{
-            badges: [
-              { value: "Verified" },
-              { value: "Fundraiser", color: "#62ebe4" },
-            ],
-          }}
-        />*/}
+        ) : (
+          <></>
+        )}
       </Details>
     </Container>
     <Tagline>{state.profile.tagline}</Tagline>
