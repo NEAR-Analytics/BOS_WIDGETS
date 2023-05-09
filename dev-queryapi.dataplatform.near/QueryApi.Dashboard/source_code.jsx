@@ -21,6 +21,7 @@ const GRAPHQL_ENDPOINT =
 const EXTERNAL_APP_URL =
   props.EXTERNAL_APP_URL || "https://queryapi-frontend-24ktefolwq-ew.a.run.app";
 
+let appPath = props.isDev ? "app" : "dev-App";
 State.init({
   activeTab: activeTab,
   my_indexers: [],
@@ -313,8 +314,8 @@ const indexerView = (accountId, indexerName, idx, view) => {
       idx === 0) ||
     (selected_accountId === accountId && selected_indexerName === indexerName);
 
-  const editUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
-  const statusUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
+  const editUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
+  const statusUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
   // const playgroundLink = `https://near.org/#/${APP_OWNER}/widget/QueryApi.App?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window&tab=playground`;
   const playgroundLink = `https://cloud.hasura.io/public/graphiql?endpoint=${GRAPHQL_ENDPOINT}/v1/graphql&header=x-hasura-role%3A${accountId.replaceAll(
     ".",
@@ -441,7 +442,7 @@ return (
     <Main>
       <Section active={state.activeTab === "indexers"}>
         <NavBarLogo
-          href={`https://near.org/#/${APP_OWNER}/widget/QueryApi.App`}
+          href={`https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}`}
           title="QueryApi"
           onClick={() => {
             State.update({
@@ -465,7 +466,7 @@ return (
 
         <div>
           <ButtonLink
-            href={`/#/${APP_OWNER}/widget/QueryApi.App/?view=create-new-indexer`}
+            href={`/#/${APP_OWNER}/widget/QueryApi.${appPath}/?view=create-new-indexer`}
             style={{ "margin-top": "10px" }}
             onClick={() =>
               State.update({
@@ -512,7 +513,7 @@ return (
                 EXTERNAL_APP_URL,
                 REGISTRY_CONTRACT_ID,
                 GRAPHQL_ENDPOINT,
-                APP_OWNER
+                APP_OWNER,
               }}
             />
           </div>
@@ -540,7 +541,7 @@ return (
                 EXTERNAL_APP_URL,
                 REGISTRY_CONTRACT_ID,
                 GRAPHQL_ENDPOINT,
-                APP_OWNER
+                APP_OWNER,
               }}
             />
           </div>
@@ -563,7 +564,7 @@ return (
                 EXTERNAL_APP_URL,
                 REGISTRY_CONTRACT_ID,
                 GRAPHQL_ENDPOINT,
-                APP_OWNER
+                APP_OWNER,
               }}
             />
           </div>
