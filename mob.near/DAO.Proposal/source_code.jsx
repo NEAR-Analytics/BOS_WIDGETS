@@ -19,6 +19,13 @@ function mapVote(vote) {
   );
 }
 
+function vote(action) {
+  return Near.call(daoId, "act_proposal", {
+    id: proposal.id,
+    action,
+  });
+}
+
 return (
   <div className={`border p-2 ${bgClassname}`}>
     <div className="mb-2">
@@ -66,9 +73,24 @@ return (
       </div>
       {context.accountId && proposal.status === "InProgress" && (
         <div className="mt-2 d-flex flex-row gap-2">
-          <button className="btn flex-fill btn-success">Approve</button>
-          <button className="btn flex-fill btn-danger">Reject</button>
-          <button className="btn flex-fill btn-warning">Spam</button>
+          <button
+            className="btn flex-fill btn-success"
+            onClick={() => vote("VoteApprove")}
+          >
+            Approve
+          </button>
+          <button
+            className="btn flex-fill btn-danger"
+            onClick={() => vote("VoteReject")}
+          >
+            Reject
+          </button>
+          <button
+            className="btn flex-fill btn-warning"
+            onClick={() => vote("VoteRemove")}
+          >
+            Spam
+          </button>
         </div>
       )}
     </div>
