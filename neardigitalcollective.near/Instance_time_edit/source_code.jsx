@@ -275,7 +275,7 @@ return (
             data: {
               schedule: finalData.schedule,
               time_zone: state._time_zone,
-              _is_one: finalData.is_on,
+              _is_on: finalData.is_on,
             },
             style: { width: "100%", height: "1.5em" },
             updateInstanceTimeState,
