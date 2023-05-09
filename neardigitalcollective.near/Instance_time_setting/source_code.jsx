@@ -1,5 +1,5 @@
 const updateInstanceTimeState = props.updateInstanceTimeState;
-console.log(3, updateInstanceTimeState);
+
 const tabs = props.tabs;
 
 const thisWidgetInlineStyles =
@@ -140,7 +140,7 @@ const getData = () => {
   var temp = [];
   var flag = false;
   for (var i = 0; i < 7; i++) {
-    if (state._is_on[i]) {
+    if (props._is_on[i]) {
       for (var j = 0; j < 2; j++) {
         const time =
           j == 0
@@ -177,7 +177,7 @@ const timeSelector = (f, index, size) => {
   return (
     <div
       style={
-        state._is_on[index]
+        props._is_on[index]
           ? thisWidgetInlineStyles.timeSelectorContainerActive
           : thisWidgetInlineStyles.timeSelectorContainerInactive
       }
@@ -186,15 +186,15 @@ const timeSelector = (f, index, size) => {
         <select
           style={
             size == "big"
-              ? state._is_on[index]
+              ? props._is_on[index]
                 ? thisWidgetInlineStyles.comboBoxActiveBig
                 : thisWidgetInlineStyles.comboBoxInactiveBig
-              : state._is_on[index]
+              : props._is_on[index]
               ? thisWidgetInlineStyles.comboBoxActiveSmall
               : thisWidgetInlineStyles.comboBoxInactiveSmall
           }
           value={f ? state._from[index] : state._to[index]}
-          disabled={!state._is_on[index]}
+          disabled={!props._is_on[index]}
           onChange={(e) => {
             onTimeChanged(e.target.value, index, f, 0);
           }}
@@ -207,7 +207,7 @@ const timeSelector = (f, index, size) => {
       <div className={thisWidgetClassNames.caretsContainer}>
         <div
           onClick={() => {
-            if (state._is_on[index]) {
+            if (props._is_on[index]) {
               const value = f ? state._from[index] : state._to[index];
               onTimeChanged(value, index, f, 1);
             }
@@ -216,7 +216,7 @@ const timeSelector = (f, index, size) => {
           <i
             className={thisWidgetClassNames.caretUpIcon}
             style={
-              state._is_on[index]
+              props._is_on[index]
                 ? thisWidgetInlineStyles.colorActive
                 : thisWidgetInlineStyles.colorInactive
             }
@@ -224,7 +224,7 @@ const timeSelector = (f, index, size) => {
         </div>
         <div
           onClick={() => {
-            if (state._is_on[index]) {
+            if (props._is_on[index]) {
               const value = f ? state._from[index] : state._to[index];
               onTimeChanged(value, index, f, -1);
             }
@@ -233,7 +233,7 @@ const timeSelector = (f, index, size) => {
           <i
             className={thisWidgetClassNames.caretDownIcon}
             style={
-              state._is_on[index]
+              props._is_on[index]
                 ? thisWidgetInlineStyles.colorActive
                 : thisWidgetInlineStyles.colorInactive
             }
@@ -307,18 +307,18 @@ const renderDayRow = (day, index, size) => {
             >
               <input
                 style={
-                  state._is_on[index]
+                  props._is_on[index]
                     ? thisWidgetInlineStyles.inputActive
                     : thisWidgetInlineStyles.inputInactive
                 }
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                checked={state._is_on[index]}
+                checked={props._is_on[index]}
                 id={day + index}
-                key={day + index + state._is_on[index]}
+                key={day + index + props._is_on[index]}
                 onChange={(e) => {
-                  let temp = state._is_on;
+                  let temp = props._is_on;
                   temp[index] = !temp[index];
                   State.update({ _is_on: temp });
                   if (!e.target.value) {
