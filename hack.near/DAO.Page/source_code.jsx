@@ -215,6 +215,13 @@ return (
           </TabsButton>
 
           <TabsButton
+            href={`${accountUrl}&tab=projects`}
+            selected={state.selectedTab === "projects"}
+          >
+            Members
+          </TabsButton>
+
+          <TabsButton
             href={`${accountUrl}&tab=followers`}
             selected={state.selectedTab === "followers"}
           >
@@ -252,6 +259,10 @@ return (
 
         {state.selectedTab === "members" && (
           <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
+        )}
+
+        {state.selectedTab === "projects" && (
+          <Widget src="efiz.near/widget/Gigs.BOard" props={{ daoId }} />
         )}
 
         {state.selectedTab === "followers" && (
