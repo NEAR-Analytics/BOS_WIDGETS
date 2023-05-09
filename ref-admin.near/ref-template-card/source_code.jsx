@@ -280,7 +280,10 @@ const hoverLeave = () => {
   }
 };
 return (
-  <Card href={role === "Builder" ? appUrl : appUrlUser}>
+  <Card
+    href={role === "Builder" ? appUrl : appUrlUser}
+    title={metadata.description}
+  >
     {props.isHome && <AppliedWrapper> Applied </AppliedWrapper>}
     <Banner
       hover={state.hoverBanner}
