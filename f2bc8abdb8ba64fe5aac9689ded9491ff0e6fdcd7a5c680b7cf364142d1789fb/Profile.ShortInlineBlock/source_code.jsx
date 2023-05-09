@@ -32,11 +32,15 @@ const inner = (
   </div>
 );
 
-return props.tooltip ? (
-  <Widget
-    src="mob.near/widget/Profile.OverlayTrigger"
-    props={{ accountId, children: inner }}
-  />
-) : (
-  inner
+return (
+  <div className="short-inline-block-container">
+    {props.tooltip ? (
+      <Widget
+        src="mob.near/widget/Profile.OverlayTrigger"
+        props={{ accountId, children: inner }}
+      />
+    ) : (
+      inner
+    )}
+  </div>
 );
