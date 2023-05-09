@@ -38,7 +38,7 @@ return (
     <div className="mb-2">
       <label className="text-muted">Votes</label>
       <div>
-        {Object.entries(proposal.votes).map((accountId, vote) => (
+        {Object.entries(proposal.votes).map(([accountId, vote]) => (
           <div key={accountId} className="mb-1 d-flex flex-row">
             <div>{vote}</div>
             <div>
