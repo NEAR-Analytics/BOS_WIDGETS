@@ -37,7 +37,19 @@ return (
     </div>
     <div className="mb-2">
       <label className="text-muted">Votes</label>
-      <pre>{JSON.stringify(proposal.vote_counts)}</pre>
+      <div>
+        {Object.entries(proposal.votes).map((accountId, vote) => (
+          <div key={accountId} className="mb-1 d-flex flex-row">
+            <div>{vote}</div>
+            <div>
+              <Widget
+                src="mob.near/widget/Profile.ShortInlineBlock"
+                props={{ accountId }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 );
