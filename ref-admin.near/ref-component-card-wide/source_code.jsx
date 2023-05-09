@@ -3,6 +3,7 @@ const metadata = Social.get(
   `${accountId}/widget/${widgetName}/metadata/**`,
   "final"
 );
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
