@@ -48,6 +48,9 @@ return (
     <div className="container-fluid">
       <Main>
         <BorderedShadowedCard>
+          <div>
+            <p>{props.state.tokenId}</p>
+          </div>
           <ImgCard>
             <Widget
               src="mob.near/widget/NftImage"
@@ -115,17 +118,15 @@ return (
         </BorderedShadowedCard>
         <div className="">
           <div className="">
-            ContractID
             <input
-              type="text"
+              type="hidden"
               placeholder={props.state.contractId}
               onChange={(e) => props.onChangeContract(e.target.value)}
             />
           </div>
           <div className="">
-            Token ID
             <input
-              type="text"
+              type="hidden"
               placeholder={props.state.tokenId}
               onChange={(e) => props.onChangeToken(e.target.value)}
             />
