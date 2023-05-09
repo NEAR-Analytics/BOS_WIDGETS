@@ -1,11 +1,7 @@
-let accountId = context.accountId;
 const auroraCOntract = "0xe53bC42B6b25a1d548B73636777a0599Fd27fE5c";
 const polygonContract = "0x436AEceaEeC57b38a17Ebe71154832fB0fAFF878";
 const celoContract = "0xC291846A587cf00a7CC4AF0bc4EEdbC9c3340C36";
 
-if (!accountId) {
-  return "Please sign in with NEAR wallet";
-}
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
 ];
