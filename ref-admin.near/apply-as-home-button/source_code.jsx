@@ -73,13 +73,13 @@ if (myHomePagePath == null || myHomePagePathDataFromCache == null) {
   }
 }
 function applyHomePage() {
-  console.log("保存开始了.....commitLoading", commitLoading);
+  // console.log("保存开始了.....commitLoading", commitLoading);
   if (commitLoading) return;
   State.update({ commitLoading: true });
   const storageDataOld = myHomePagePathDataFromCache;
   let storageDataOldCopy;
   console.log(
-    "保存开始了.....myHomePagePathDataFromCache",
+    // "保存开始了.....myHomePagePathDataFromCache",
     myHomePagePathDataFromCache
   );
   try {
@@ -91,12 +91,12 @@ function applyHomePage() {
     ...storageDataOldCopy,
     [context.accountId]: props.src,
   };
-  console.log("保存开始了.....storageDataNew", storageDataNew);
+  // console.log("保存开始了.....storageDataNew", storageDataNew);
   // console.log("00000000000000-storageDataOldCopy", storageDataOldCopy);
   // console.log("00000000000000-storageDataNew", storageDataNew);
   Storage.set("myHomePagePathData", storageDataNew);
-  console.log("保存开始了.....Storage.set-storageDataNew", storageDataNew);
-  console.log("保存开始了.....props.src", props.src);
+  // console.log("保存开始了.....Storage.set-storageDataNew", storageDataNew);
+  // console.log("保存开始了.....props.src", props.src);
   Social.set(
     {
       myHomePagePath: props.src,
@@ -105,12 +105,12 @@ function applyHomePage() {
       force: true,
       onCommit: () => {
         State.update({ commitLoading: false });
-        console.log("保存成功......storageDataNew", storageDataNew);
+        // console.log("保存成功......storageDataNew", storageDataNew);
       },
       onCancel: () => {
         State.update({ commitLoading: false });
         Storage.set("myHomePagePathData", storageDataOldCopy);
-        console.log("保存成功失败......storageDataOldCopy", storageDataOldCopy);
+        // console.log("保存成功失败......storageDataOldCopy", storageDataOldCopy);
       },
     }
   );
