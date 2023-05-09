@@ -25,12 +25,6 @@ const chains = [
     name: "Celo",
   },
 ];
-const profile = socialGetr(`${accountId}/profile`);
-
-if (profile === null) {
-  IpfsImageUpload();
-  return "Loading";
-}
 
 const handleMint = () => {
   console.log("it's here", state.title && state.description && state.image.cid);
@@ -76,14 +70,14 @@ if (state.sender === undefined) {
   console.log("account", accounts);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-  }
-  Ethers.provider()
-    .getNetwork()
-    .then((data) => {
-      State.update({
-        selectedChain: data.chainId,
+    Ethers.provider()
+      .getNetwork()
+      .then((data) => {
+        State.update({
+          selectedChain: data.chainId,
+        });
       });
-    });
+  }
 }
 State.init({
   title: "",
