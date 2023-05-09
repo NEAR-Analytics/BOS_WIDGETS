@@ -1,6 +1,6 @@
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
-const proposal_id = props.id ?? 1;
+const proposal_id = props.id ?? 0;
 
 const proposal = Near.view(daoId, "get_proposal", {
   id: JSON.parse(proposal_id),
