@@ -5,8 +5,8 @@ State.init({
 });
 
 const proposals = Near.view(daoId, "get_proposals", {
-  from_index: 0,
-  limit: 10,
+  from_index: 1,
+  limit: 888,
 });
 
 const onChangeDAO = (daoId) => {
@@ -31,13 +31,16 @@ return (
       <hr />
 
       <div>
-        {proposals.map((proposal, i) => (
-          <Widget
-            key={i}
-            src="hack.near/widget/DAO.Proposal"
-            props={{ daoId: state.daoId, id: i }}
-          />
-        ))}
+        {proposals
+          .slice()
+          .reverse()
+          .map((proposal, i) => (
+            <Widget
+              key={i}
+              src="hack.near/widget/DAO.Proposal"
+              props={{ daoId: state.daoId, id: proposals.length - i - 1 }}
+            />
+          ))}
       </div>
     </div>
   </>
