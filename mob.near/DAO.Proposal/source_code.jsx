@@ -26,6 +26,18 @@ function vote(action) {
   });
 }
 
+function decodeArgs() {
+  try {
+    const args64 = proposal.kind["FunctionCall"].actions[0].args;
+    const jsonArgs = JSON.parse(
+      Buffer.from(args64, "base64").toString("utf-8")
+    );
+    return JSON.stringify(jsonArgs, undefined, 2);
+  } catch {
+    return "failed to deserialize";
+  }
+}
+
 return (
   <div className={`border p-2 ${bgClassname}`}>
     <div className="mb-2">
@@ -53,6 +65,12 @@ return (
     <div className="mb-2">
       <label className="text-muted">Action</label>
       <pre>{JSON.stringify(proposal.kind, undefined, 2)}</pre>
+      {"FunctionCall" in proposal.kind && (
+        <div className="mt-2">
+          <label className="text-muted">JSON args</label>
+          <pre>{decodeArgs()}</pre>
+        </div>
+      )}
     </div>
     <div className="mb-2">
       <label className="text-muted">Votes</label>
