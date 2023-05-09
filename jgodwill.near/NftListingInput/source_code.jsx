@@ -49,7 +49,7 @@ return (
       <Main>
         <BorderedShadowedCard>
           <div>
-            <p>{props.state.tokenId}</p>
+            <p>{`#${props.state.tokenId} ${props.state.contractId}`}</p>
           </div>
           <ImgCard>
             <Widget
