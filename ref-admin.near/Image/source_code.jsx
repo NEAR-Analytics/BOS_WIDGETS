@@ -1,8 +1,6 @@
 const image = props.image;
 const imageSrc = props.imageSrc;
 
-console.log(imageSrc, "imagesrc");
-
 const className = props.className;
 const style = props.style;
 const alt = props.alt;
