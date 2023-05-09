@@ -188,6 +188,17 @@ const ImageCard = styled.div`
     transform:scale(1.05);
   }
 `;
+const InputContainer = styled.div`
+    width:80%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    margin: 2rem auto 4rem auto;
+    &>input{
+        outline: none;
+    }
+`;
 
 return (
   <div className="container-fluid">
@@ -224,13 +235,14 @@ return (
         </Stats>
       </Main>
     )}
-
-    <input
-      type="search"
-      value={state.searchTerm}
-      placeholder="Search NFTs"
-      onChange={seachInputHandler}
-    />
+    <InputContainer>
+      <input
+        type="search"
+        value={state.searchTerm}
+        placeholder="Search NFTs"
+        onChange={seachInputHandler}
+      />
+    </InputContainer>
     {state.nftData.length > 0 && (
       <NFTCards>
         {state.searchTerm === ""
