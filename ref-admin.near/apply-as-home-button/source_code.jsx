@@ -4,14 +4,7 @@ if (!props.src) return "";
 
 const cur_mode = Storage.get("ref-mode", "ref-admin.near/widget/user-builder");
 
-if (
-  !props.istemplate ||
-  props.istemplate === false ||
-  props.istemplate === "false" ||
-  !accountId ||
-  cur_mode !== "builder"
-)
-  return <div />;
+if (props.istemplate === "false" || !accountId) return <div />;
 
 const { updateStatus } = props;
 const { commitLoading, fetchDataLoading } = state;
@@ -64,10 +57,6 @@ const ButtonLink = styled.a`
   }
 `;
 let myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
-console.log('---------myHomePagePath', myHomePagePath);
-if (myHomePagePath === props.src) {
-  return <div style={{ display: "none" }} />;
-}
 
 let myHomePagePathDataFromCache = Storage.get("myHomePagePathData");
 
@@ -125,6 +114,10 @@ function applyHomePage() {
       },
     }
   );
+}
+
+if (myHomePagePath === props.src) {
+  return <div style={{ display: "none" }} />;
 }
 return (
   <ButtonLink onClick={applyHomePage}>
