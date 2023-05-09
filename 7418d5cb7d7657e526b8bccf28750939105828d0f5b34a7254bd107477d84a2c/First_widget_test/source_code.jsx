@@ -1,9 +1,9 @@
-const HeadingOne = styled.h1`
-  position: relative;
-  font-weight: 300;
-  font-size: 4.5em;
-  color: #402d2d;
-`;
+const pathKeyFrames = (value) => keyframes` 
+0% {opacity: 0}
+50% {opacity: 0}
+80% {opacity: 0}
+95% {opacity: 1}
+100% { stroke-dashoffset: ${value}; opacity: 1;}`;
 
 const MeterStatusContainer = styled.div`
   position: relative;
@@ -91,6 +91,7 @@ const HeatSatWrapper = styled.div`
   align-items: flex-end;
   justify-content: center;
   
+  
 `;
 
 const HeatStatInfo = styled.div`
@@ -119,32 +120,67 @@ const HeatStatInfo = styled.div`
     }
   }
 `;
+const HeatInfoBox = styled.div`
+  position: relative;
+  
+  p {
+    margin: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.secondary};
 
-// const AnimatedHeatBar = styled(HeatBar)`
-// position: absolute;
-// left: 0;
-//   #color-path {
-//     opacity: 0;
-//     animation: ${({ heat }) =>
-//       heat !== 0 && pathKeyFrames(heat)}  1.4s linear forwards;
-//   }
+   
+  }
+`;
 
-// `;
+const GreyCircle = styled.div`
+  width: 120px;
+  height: 110px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 5px;
+  border-color: grey;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  top:0;
+  left:0;
+  pointer-events:none;
+`;
 
 let user_account = context.accountId;
 let register_users_num = Near.view("registry.i-am-human.near", "sbt_supply", {
   issuer: "gooddollar-v1.i-am-human.near",
 });
 
+function calcHeatStatusAnimationPercentage(value) {
+  let startingDashoffsetValue = 400;
+  let onePercentOfDashOffset = 2;
+  let totalAnimationDashOffsetValue =
+    startingDashoffsetValue + onePercentOfDashOffset * value;
+  return totalAnimationDashOffsetValue;
+}
+
 return (
   <MeterWrapper>
     <MeterStatusContainer>
       <HeatStatusBox>
-        <HeatSatWrapper>
-          // <AnimatedHeatBar heat={50} />
+        <HeatSatWrapper
+          heat={
+            register_users_num
+              ? calcHeatStatusAnimationPercentage(register_users_num)
+              : 0
+          }
+        >
+          <GreyCircle />
           <HeatInfoBox>
-            <p>{heat.val}</p>
-            <p>/100</p>
+            <p>{register_users_num}</p>
+            <p>/1000</p>
           </HeatInfoBox>
         </HeatSatWrapper>
       </HeatStatusBox>
