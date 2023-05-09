@@ -11,26 +11,22 @@ let myHomePagePathDataFromCache;
 let myHomePagePathFromCache;
 let customHomeLoaded;
 if (canCustomHome) {
-  // myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
-  // myHomePagePathDataFromCache = Storage.get(
-  //   "myHomePagePathData",
-  //   "ref-admin.near/widget/apply-as-home-button"
-  // );
-  // myHomePagePathFromCache =
-  //   myHomePagePathDataFromCache &&
-  //   myHomePagePathDataFromCache[context.accountId];
   myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+  myHomePagePathDataFromCache = Storage.get(
+    "myHomePagePathData",
+    "ref-admin.near/widget/apply-as-home-button"
+  );
+  myHomePagePathFromCache =
+    myHomePagePathDataFromCache &&
+    myHomePagePathDataFromCache[context.accountId];
 }
-// if (
-//   myHomePagePathFromCache == undefined ||
-//   myHomePagePath == undefined ||
-//   (myHomePagePath == myHomePagePathFromCache &&
-//     myHomePagePath !== null &&
-//     myHomePagePathDataFromCache !== null)
-// ) {
-//   customHomeLoaded = true;
-// }
-if (myHomePagePath !== null) {
+if (
+  myHomePagePathFromCache == undefined ||
+  myHomePagePath == undefined ||
+  (myHomePagePath == myHomePagePathFromCache &&
+    myHomePagePath !== null &&
+    myHomePagePathDataFromCache !== null)
+) {
   customHomeLoaded = true;
 }
 // console.log("555555555555555-canCustomHome", canCustomHome);
