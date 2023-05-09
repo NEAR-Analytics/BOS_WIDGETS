@@ -9,6 +9,8 @@ State.init({
   show: false,
 });
 
+const maxWidth = props.maxWidth ?? "60%";
+
 const overlay = (
   <div
     className="border m-3 p-3 rounded-4 bg-white shadow"
@@ -33,6 +35,7 @@ return (
   >
     <span
       className="d-inline-flex"
+      style={{ maxWidth: maxWidth }}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
     >
