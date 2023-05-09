@@ -184,7 +184,8 @@ const notEnough = new Big(state.amountIn || 0).gt(
 const canSwap =
   Number(state.amountIn || 0) > 0 &&
   Number(state.amountOut || 0) > 0 &&
-  !state.loading;
+  !state.loading &&
+  Number(state.slippagetolerance) > 0;
 
 const register = Near.view(
   state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
