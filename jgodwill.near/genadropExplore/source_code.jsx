@@ -159,6 +159,8 @@ box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 8px;
    text-align: center;
    background-color:#fff;
+   max-width: 350px;
+   margin: 0 auto;
    &:hover &>div>img{
      transform:scale(1.05);
    }
