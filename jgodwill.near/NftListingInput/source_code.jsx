@@ -3,7 +3,13 @@
 // }
 
 const Label = styled.div``;
-const SecondaryText = styled.h3``;
+const SecondaryText = styled.h3`
+  font-size: 1.1rem;
+  color:#0f1d40;
+  width:60%;
+  font-family: "SF Pro Display",sans-serif;
+  line-height: 1.02;
+`;
 const Card = styled.div``;
 const BorderedShadowedCard = styled.div`
   display: flex;
@@ -49,7 +55,7 @@ return (
       <Main>
         <BorderedShadowedCard>
           <div>
-            <p>{`TokenId: ${props.state.tokenId}`}</p>
+            <SecondaryText>{`TokenId: ${props.state.tokenId}`}</SecondaryText>
           </div>
           <ImgCard>
             <Widget
