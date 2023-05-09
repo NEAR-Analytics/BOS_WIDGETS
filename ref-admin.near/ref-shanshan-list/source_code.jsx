@@ -4,7 +4,6 @@ State.init({
 });
 
 const accountId = context.accountId;
-console.log("accountId: ", accountId);
 
 if (props.tab && props.tab !== state.tabProp) {
   State.update({ tab: props.tab, tabProp: props.tab });
