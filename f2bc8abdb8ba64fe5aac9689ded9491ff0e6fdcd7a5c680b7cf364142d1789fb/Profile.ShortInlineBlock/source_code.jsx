@@ -33,7 +33,7 @@ const inner = (
 );
 
 return (
-  <div className="short-inline-block-container">
+  <div className="short-inline-block-container" style={{ maxWidth: "100%" }}>
     {props.tooltip ? (
       <Widget
         src="mob.near/widget/Profile.OverlayTrigger"
