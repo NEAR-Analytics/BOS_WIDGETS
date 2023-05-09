@@ -131,7 +131,7 @@ const RenderKudoBox = (d) => {
   const text = `From @${d.accountId} Kudos ${d.value.answer} `;
   const content = { text };
   return (
-    <div title="pepe" style={thisWidgetInlineStyles.kudoBoxContainer}>
+    <div style={thisWidgetInlineStyles.kudoBoxContainer}>
       <div
         style={thisWidgetInlineStyles.headerContainer}
         className={thisWidgetClassNames.headerContainer}
