@@ -20,6 +20,7 @@ const BorderedShadowedCard = styled.div`
    border: 1.41429px solid rgba(28,27,28,.1);
   box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 1rem;
+   width: fit-content;
    background-color:#fff;
    & img{
      border-radius: inherit;
