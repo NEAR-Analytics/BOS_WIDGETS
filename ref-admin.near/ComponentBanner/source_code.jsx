@@ -4,6 +4,7 @@ const { commitLoading, noSet } = state;
 State.init({
   commitLoading: false,
 });
+let myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
 const finalSrc = props.src;
 const [accountId, widget, widgetName] = finalSrc.split("/");
 const data = Social.get(`${accountId}/widget/${widgetName}/metadata/**`);
@@ -54,7 +55,7 @@ const sizes = {
   },
 };
 const Wrapper = styled.div`
-   display:none;
+   display:flex;
    justify-content:space-between;
    align-items:flex-end;
    background-repeat:no-repeat;
@@ -91,14 +92,9 @@ const Text = styled.p`
     margin-right: 4px;
   }
 `;
-function getIsItSet(status) {
-  State.update({
-    noSet: status,
-  });
-}
-// console.log("1111111111111280-noSet", noSet);
+if (myHomePagePath == props.src) return <div style={{display:'none'}}></div>
 return (
-  <Wrapper style={{ display: noSet && context.accountId ? "flex" : "none" }}>
+  <Wrapper>
     <Header size={size}>
       <Thumbnail size={size}>
         <Widget
@@ -119,7 +115,7 @@ return (
     </Header>
     <Widget
       src="ref-admin.near/widget/apply-as-home-button"
-      props={{ src: props.src, updateStatus: getIsItSet, istemplate: true }}
+      props={{ src: props.src, istemplate: true }}
     ></Widget>
   </Wrapper>
 );
