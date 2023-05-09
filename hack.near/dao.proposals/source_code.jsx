@@ -2,7 +2,7 @@ const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
 const proposals = Near.view(daoId, "get_proposals", {
   from_index: 0,
-  limit: 888,
+  limit: 99,
 });
 
 State.init({
