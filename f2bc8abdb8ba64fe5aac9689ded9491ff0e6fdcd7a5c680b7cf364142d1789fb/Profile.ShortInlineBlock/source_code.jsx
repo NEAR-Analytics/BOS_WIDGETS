@@ -4,6 +4,8 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
 const name = profile.name;
 
+const maxWidth = props.maxWidth ?? "60%";
+
 const inner = (
   <div className="d-flex flex-row" style={{ maxWidth: "100%" }}>
     <Widget
@@ -33,7 +35,10 @@ const inner = (
 );
 
 return (
-  <div className="short-inline-block-container" style={{ maxWidth: "100%" }}>
+  <div
+    className="short-inline-block-container"
+    style={{ maxWidth: `${maxWidth}` }}
+  >
     {props.tooltip ? (
       <Widget
         src="mob.near/widget/Profile.OverlayTrigger"
