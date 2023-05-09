@@ -95,6 +95,14 @@ const Container = styled.div`
   align-items: stretch;
   justify-content: flex-start;
   gap: 1.5em;
+
+  h2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.3em;
+    line-height: 1.5em;
+    color: #475467;
+  }
 `;
 
 const Filters = styled.div`
