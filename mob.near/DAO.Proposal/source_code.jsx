@@ -8,12 +8,14 @@ const bgClassname =
     : "bg-danger bg-opacity-10";
 
 function mapVote(vote) {
-  return vote === 0 ? (
+  return vote === "Approve" ? (
     <span className="text-success">Approve</span>
-  ) : vote === 1 ? (
+  ) : vote === "Reject" ? (
     <span className="text-danger">Reject</span>
-  ) : (
+  ) : vote === "Remove" ? (
     <span className="text-warning">Spam</span>
+  ) : (
+    "???"
   );
 }
 
