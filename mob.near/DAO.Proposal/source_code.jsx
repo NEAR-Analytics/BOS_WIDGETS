@@ -64,7 +64,7 @@ return (
           </div>
         ))}
       </div>
-      {context.accountId && (
+      {context.accountId && proposal.status === "InProgress" && (
         <div className="mt-2 d-flex flex-row gap-2">
           <button className="btn flex-fill btn-success">Approve</button>
           <button className="btn flex-fill btn-danger">Reject</button>
