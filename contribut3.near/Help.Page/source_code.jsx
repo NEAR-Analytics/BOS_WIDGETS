@@ -47,7 +47,6 @@ const Section = styled.div`
 const FirstSubSection = styled.div`
   position: relative;
   width: 90%;
-  margin: auto;
 
   a {
     display: flex;
