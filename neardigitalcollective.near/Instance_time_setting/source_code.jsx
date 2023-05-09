@@ -1,5 +1,5 @@
 const updateInstanceTimeState = props.updateInstanceTimeState;
-console.log(1, updateInstanceTimeState);
+console.log(3, updateInstanceTimeState);
 const tabs = props.tabs;
 
 const thisWidgetInlineStyles =
