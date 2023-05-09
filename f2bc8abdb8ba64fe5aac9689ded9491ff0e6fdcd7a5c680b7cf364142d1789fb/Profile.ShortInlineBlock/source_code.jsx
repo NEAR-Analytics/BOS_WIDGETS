@@ -42,7 +42,7 @@ return (
     {props.tooltip ? (
       <Widget
         src="mob.near/widget/Profile.OverlayTrigger"
-        props={{ accountId, children: inner }}
+        props={{ accountId, children: inner, maxWidth: `${maxWidth}` }}
       />
     ) : (
       inner
