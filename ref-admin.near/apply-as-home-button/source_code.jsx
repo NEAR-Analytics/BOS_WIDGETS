@@ -13,7 +13,6 @@ if (
 )
   return <div />;
 
-console.log("istemplate apply", props.istemplate, props.istemplate.toString());
 const { updateStatus } = props;
 const { commitLoading, fetchDataLoading } = state;
 State.init({
@@ -65,6 +64,11 @@ const ButtonLink = styled.a`
   }
 `;
 let myHomePagePath = Social.get(`${context.accountId}/myHomePagePath`);
+console.log('---------myHomePagePath', myHomePagePath);
+if (myHomePagePath === props.src) {
+  return <div style={{ display: "none" }} />;
+}
+
 let myHomePagePathDataFromCache = Storage.get("myHomePagePathData");
 
 if (myHomePagePath == null || myHomePagePathDataFromCache == null) {
