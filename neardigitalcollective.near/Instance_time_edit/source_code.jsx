@@ -94,7 +94,7 @@ for (let i = 0; i < sortedData.length; i++) {
     finalData = {
       schedule: weeklyData,
       time_zone: time_zone,
-      is_on: sortedData[i].value._is_on,
+      is_on: sortedData[i].value._data.map((d) => d.on_off === "on"),
     };
   }
 }
@@ -155,6 +155,10 @@ State.init({
 const set_schedule = () => {
   State.update({ _time_zone: finalData.time_zone ?? "(UTC+00:00) UTC" });
 };
+
+console.log(4, finalData);
+console.log(6, sortedData);
+
 return (
   <div
     className={thisWidgetClassNames.generalContainer}
@@ -271,6 +275,7 @@ return (
             data: {
               schedule: finalData.schedule,
               time_zone: state._time_zone,
+              _is_one: finalData.is_on,
             },
             style: { width: "100%", height: "1.5em" },
             updateInstanceTimeState,
