@@ -21,7 +21,7 @@ const GRAPHQL_ENDPOINT =
 const EXTERNAL_APP_URL =
   props.EXTERNAL_APP_URL || "https://queryapi-frontend-24ktefolwq-ew.a.run.app";
 
-let appPath = props.isDev ? "dev-App" : "app";
+let appPath = props.isDev ? "dev-App" : "App";
 State.init({
   activeTab: activeTab,
   my_indexers: [],
