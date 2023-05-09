@@ -127,6 +127,9 @@ const Container = styled.div`
       }
     }
   }
+  .dropdown-menu{
+    max-height:175px!important;
+  }
 `;
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
@@ -261,7 +264,7 @@ return (
         <div className="select-area">
           <div className="selected" onClick={() => {
             State.update({
-              selectListStatus: true
+              selectListStatus: !state.selectListStatus
             })
           }}>
             {selectedItem.id}
@@ -278,7 +281,9 @@ return (
       </div>
     )}
     {options.tags && (
-      <div className="mb-2">
+      <div style={{
+        marginBottom:'120px'
+      }}>
         <label class="title">{options.tags.label ?? "Tags"}</label>
         <Widget
           src="ref-admin.near/widget/TagsEditor"
