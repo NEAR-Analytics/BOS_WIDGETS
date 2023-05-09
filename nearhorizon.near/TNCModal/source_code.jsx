@@ -40,22 +40,26 @@ const Container = styled.div`
 
 return (
   <Container>
-    <Dialog.Root open={props.open}>
-      <Dialog.Trigger asChild>
-        <div style={{ display: "none" }} />
-      </Dialog.Trigger>
-      <Dialog.Overlay asChild>
-        <Overlay />
-      </Dialog.Overlay>
-      <Dialog.Content asChild>
-        <Content>
-          <Dialog.Title>Terms and Conditions</Dialog.Title>
-          <Widget
-            src={`${ownerId}/widget/TNCForm`}
-            props={{ accept: props.accept }}
-          />
-        </Content>
-      </Dialog.Content>
-    </Dialog.Root>
+    {props.open ? (
+      <Dialog.Root open={props.open}>
+        <Dialog.Trigger asChild>
+          <div style={{ display: "none" }} />
+        </Dialog.Trigger>
+        <Dialog.Overlay asChild>
+          <Overlay />
+        </Dialog.Overlay>
+        <Dialog.Content asChild>
+          <Content>
+            <Dialog.Title>Terms and Conditions</Dialog.Title>
+            <Widget
+              src={`${ownerId}/widget/TNCForm`}
+              props={{ accept: props.accept }}
+            />
+          </Content>
+        </Dialog.Content>
+      </Dialog.Root>
+    ) : (
+      <></>
+    )}
   </Container>
 );
