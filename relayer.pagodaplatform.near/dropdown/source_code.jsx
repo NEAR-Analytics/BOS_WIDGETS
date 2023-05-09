@@ -1,3 +1,1 @@
-return (
-  <div style="background-color: transparent; color: green;">drop down menu</div>
-);
+return <div>drop down menu2</div>;
