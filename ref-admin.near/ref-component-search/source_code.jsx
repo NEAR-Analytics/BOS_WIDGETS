@@ -1,8 +1,14 @@
 const allMetadata =
   Social.get(
-    ["*/widget/*/metadata/name", "*/widget/*/metadata/tags/*"],
+    [
+      "*/widget/*/metadata/name",
+      "*/widget/*/metadata/tags/*",
+      "*/widget/*/metadata/description",
+    ],
     "final"
   ) || {};
+
+console.log("allMetadata: ", allMetadata);
 
 const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
 
@@ -64,7 +70,7 @@ const _search = (term) => {
   const limit = props.limit ?? 30;
 
   const MaxSingleScore = 1;
-  const MaxScore = MaxSingleScore * 4;
+  const MaxScore = MaxSingleScore * 5;
 
   const computeScore = (s) => {
     s = s.toLowerCase();
@@ -82,8 +88,15 @@ const _search = (term) => {
     Object.keys(data.widget).forEach((componentId) => {
       const widgetSrc = `${accountId}/widget/${componentId}`;
       const widgetSrcScore = computeScore(widgetSrc);
-      const componentIdScore = computeScore(componentId);
+
       const metadata = allMetadata[accountId].widget[componentId].metadata;
+
+      const componentIdScore = computeScore(componentId);
+
+      const descriptionScore = computeScore(
+        metadata.description || componentId
+      );
+
       const name = metadata.name || componentId;
 
       const metaTags = Object.keys(metadata.tags || {});
@@ -103,14 +116,6 @@ const _search = (term) => {
           metaTags.some((f) => f.toLowerCase() === t.toLowerCase())
         );
 
-        console.log(
-          "hasChainTag: ",
-          hasChainTag,
-          hasRefTag,
-          chainTags,
-          noChainTags
-        );
-
         if (chainTags?.length > 0 && !hasChainTag) return;
 
         if (noChainTags?.length > 0 && !hasRefTag) return;
@@ -124,7 +129,12 @@ const _search = (term) => {
         tags.map(computeScore).reduce((s, v) => s + v, 0)
       );
       const score =
-        (widgetSrcScore + componentIdScore + nameScore + tagsScore) / MaxScore;
+        (widgetSrcScore +
+          componentIdScore +
+          nameScore +
+          tagsScore +
+          descriptionScore) /
+        MaxScore;
       if (score > 0) {
         matchedWidgets.push({
           score,
