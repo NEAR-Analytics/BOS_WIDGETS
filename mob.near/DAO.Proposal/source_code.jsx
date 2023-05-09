@@ -7,6 +7,16 @@ const bgClassname =
     ? "bg-success bg-opacity-10"
     : "bg-danger bg-opacity-10";
 
+function mapVote(vote) {
+  return vote === 0 ? (
+    <span className="text-success">Approve</span>
+  ) : vote === 1 ? (
+    <span className="text-danger">Reject</span>
+  ) : (
+    <span className="text-warning">Spam</span>
+  );
+}
+
 return (
   <div className={`border p-2 ${bgClassname}`}>
     <div className="mb-2">
@@ -39,9 +49,11 @@ return (
       <label className="text-muted">Votes</label>
       <div>
         {Object.entries(proposal.votes).map(([accountId, vote]) => (
-          <div key={accountId} className="mb-1 d-flex flex-row">
-            <div>{vote}</div>
-            <div>
+          <div key={accountId} className="mb-1 d-flex flex-row gap-2">
+            <div className="m-auto text-center" style={{ minWidth: "5em" }}>
+              {mapVote(vote)}
+            </div>
+            <div className="flex-grow-1">
               <Widget
                 src="mob.near/widget/Profile.ShortInlineBlock"
                 props={{ accountId }}
