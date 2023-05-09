@@ -1,3 +1,8 @@
+console.log("QueryApi.Editor.jsx");
+console.log("Registry", props.REGISTRY_CONTRACT_ID);
+console.log("external", props.EXTERNAL_APP_URL);
+console.log("app_owner", props.APP_OWNER);
+console.log("grpahql endpppoint", props.GRAPHQL_ENDPOINT);
 const path = props.path || "query-api-editor";
 const tab = props.tab || "";
 const REGISTRY_CONTRACT_ID =
@@ -23,11 +28,13 @@ const initialPayload = {
 };
 
 const registerFunctionHandler = (request, response) => {
-  const gas = 200000000000000;
-  const { indexerName, code, schema, blockHeight, contractFilter } =
-    request.payload;
+  const { indexerName, code, schema, blockHeight } = request.payload;
 
-  const jsonFilter = `{"indexer_rule_kind":"Action","matching_rule":{"rule":"ACTION_ANY","affected_account_id":"${contractFilter || "social.near"}","status":"SUCCESS"}}`
+  const gas = 200000000000000;
+
+  // if (shouldFetchLatestBlockheight == true || blockHeight == null) {
+  //   blockHeight = Near.block("optimistic").header.height;
+  // }
 
   Near.call(
     REGISTRY_CONTRACT_ID,
@@ -37,24 +44,11 @@ const registerFunctionHandler = (request, response) => {
       code,
       schema,
       start_block_height: blockHeight,
-      filter_json: jsonFilter 
     },
     gas
   );
 };
 
-let deleteIndexer = (request) => {
-  const { indexerName } = request.payload;
-  const gas = 200000000000000;
-  Near.call(
-    REGISTRY_CONTRACT_ID,
-    "remove_indexer_function",
-    {
-      function_name: indexerName,
-    },
-    gas
-  );
-};
 /**
  * Request Handlers here
  */
@@ -62,9 +56,6 @@ const requestHandler = (request, response) => {
   switch (request.type) {
     case "register-function":
       registerFunctionHandler(request, response);
-      break;
-    case "delete-indexer":
-      deleteIndexer(request, response);
       break;
     case "default":
       console.log("default case");
