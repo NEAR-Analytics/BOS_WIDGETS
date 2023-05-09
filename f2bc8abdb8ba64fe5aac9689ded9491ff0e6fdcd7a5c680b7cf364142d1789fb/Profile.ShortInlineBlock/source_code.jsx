@@ -6,6 +6,10 @@ const name = profile.name;
 
 const maxWidth = props.maxWidth ?? "60%";
 
+const widgetOwner =
+  props.widgetOwner ??
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+
 const inner = (
   <div className="d-flex flex-row" style={{ maxWidth: "100%" }}>
     <Widget
@@ -41,7 +45,7 @@ return (
   >
     {props.tooltip ? (
       <Widget
-        src="mob.near/widget/Profile.OverlayTrigger"
+        src={`${widgetOwner}/widget/Profile.OverlayTrigger`}
         props={{ accountId, children: inner, maxWidth: `${maxWidth}` }}
       />
     ) : (
