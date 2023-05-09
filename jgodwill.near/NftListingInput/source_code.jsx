@@ -9,6 +9,8 @@ const SecondaryText = styled.h3`
   width:60%;
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
+  white-space: nowrap;
+  
 `;
 const Card = styled.div``;
 const BorderedShadowedCard = styled.div`
