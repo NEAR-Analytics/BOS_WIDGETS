@@ -13,7 +13,7 @@ const BorderedShadowedCard = styled.div`
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
   box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
-   padding: 1.6rem;
+   padding: 1rem;
    background-color:#fff;
    & img{
      border-radius: inherit;
@@ -32,7 +32,15 @@ const Main = styled.div`
 `;
 
 const ImgCard = styled.div`
-  height: 300px;
+   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  height:fit-content;
+  max-height:500px;
+  max-width: 500px;
+  border-radius: 1rem;
+  margin: 0 auto;
+  &>img{
+  object-fit: contain;
+  }
 `;
 // {props.state.tokenId && (
 return (
@@ -40,7 +48,7 @@ return (
     <div className="container-fluid">
       <Main>
         <BorderedShadowedCard>
-          <ImgCard className="shadow-sm p-3 mb-5 bg-body rounded">
+          <ImgCard>
             <Widget
               src="mob.near/widget/NftImage"
               props={{
