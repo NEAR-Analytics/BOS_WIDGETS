@@ -93,7 +93,6 @@ if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
   }
 }
 
@@ -165,10 +164,12 @@ if (!cssFont || !css) return <div />;
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    ${cssFont}
-    ${css}
-`,
+      font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+        Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+        sans-serif;
+      ${cssFont}
+      ${css}
+    `,
   });
 }
 const Theme = state.theme;
