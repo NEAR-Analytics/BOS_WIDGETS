@@ -1,9 +1,7 @@
 const widgetPath = props.widgetPath;
 const onChange = props.onChange;
-
+console.log('-------WidgetMetadataEditor--------props', props)
 let metadata = Social.getr(`${widgetPath}/metadata`);
-console.log("99999999999-meta", metadata);
-console.log("99999999999-widgetPath", widgetPath);
 if (metadata === null) {
   return "Loading";
 }
@@ -18,7 +16,9 @@ return (
         options: {
           name: { label: "Title" },
           image: { label: "Icon" },
+          banner: { label: "Banner" },
           description: { label: "Description" },
+          chain: { label: "Chain" },
           tags: {
             label: "Tags",
             pattern: "*/widget/*/metadata/tags/*",
