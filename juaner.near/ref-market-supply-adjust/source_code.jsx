@@ -137,10 +137,13 @@ const {
   closeButtonBase64,
   isMax,
 } = state;
+State.init({
+  amount: "0",
+});
 const hasData = assets.length > 0 && rewards.length > 0;
 if (!showModal) {
   State.update({
-    amount: "",
+    amount: "0",
     hasError: false,
     hasHFError: false,
     newHealthFactor: "",
