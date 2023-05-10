@@ -136,6 +136,7 @@ function changeToMax() {
 }
 const rangeAmount =
   Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
+console.log("99999999-rangeAmount", rangeAmount);
 const bgLineWidth = rangeAmount + "%";
 function displayAmount() {
   let result;
