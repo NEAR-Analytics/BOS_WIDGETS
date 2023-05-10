@@ -10,18 +10,29 @@ const options = [
   { text: "Social impact", value: "social-impact" },
   { text: "Web2 expansion", value: "web2" },
   { text: "Web3 Product Partner", value: "web3-product-partner" },
+  { text: "Other", value: "other" },
 ];
 
 return (
   <Widget
     src={`${ownerId}/widget/Inputs.Select`}
     props={{
-      label: "Project category *",
+      label: "Category *",
       noLabel: props.noLabel,
       placeholder: "Wallets",
       options,
       value: props.category,
       onChange: (category) => props.update(category),
+      validate: () => {
+        if (!props.category) {
+          props.setError("Please select a category");
+        }
+
+        if (!options.find(({ value }) => props.category.value === value)) {
+          props.setError("Please select a valid category");
+        }
+      },
+      error: props.error,
     }}
   />
 );
