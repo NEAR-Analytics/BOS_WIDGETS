@@ -124,6 +124,7 @@ const handleWithdraw = () => {
     transactions.push({
       contractName: token_id,
       methodName: "near_withdraw",
+      deposit: new Big("1").toFixed(),
       args: { amount: expandedAmount.sub(10).toFixed(0) },
     });
   }
