@@ -59,6 +59,9 @@ function decimalMin(a, b) {
   return a.lt(b) ? a : b;
 }
 const handleAdjust = () => {
+  console.log("000000000-ref-adjust-button-amount", amount);
+  console.log("000000000-ref-adjust-button-hasError", hasError);
+  console.log("000000000-ref-adjust-button-buttonDisabled", buttonDisabled);
   if (!selectedTokenId || !amount || hasError || !account) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
