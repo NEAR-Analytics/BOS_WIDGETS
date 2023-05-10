@@ -214,11 +214,10 @@ return (
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: state.totalRaisedIsFetched
-              ? Number(state.totalRaised).toLocaleString("en-US", {
-                  notation: "compact",
-                }) + "+"
-              : "Loading...",
+            value:
+              Number(state.totalRaised).toLocaleString("en-US", {
+                notation: "compact",
+              }) + "+",
             label: "Raised",
           }}
         />
