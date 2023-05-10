@@ -181,6 +181,7 @@ return (
         class="rangeInput"
         type="range"
         value={rangeAmount}
+        step="any"
         min="0"
         max="100"
         onChange={changeRangeAmount}
