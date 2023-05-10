@@ -273,7 +273,7 @@ const recomputeHealthFactor = (tokenId, amount) => {
   const newHealthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
-    .toFixed(2);
+    .toNumber();
   return newHealthFactor;
 };
 
