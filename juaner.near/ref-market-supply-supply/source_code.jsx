@@ -144,8 +144,7 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals || 0));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-const { selectedTokenId, closeModal, selectedTokenMeta } = props;
-const showModal = true;
+const { selectedTokenId, closeModal, showModal, selectedTokenMeta } = props;
 const {
   rewards,
   account: burrowAccount,
