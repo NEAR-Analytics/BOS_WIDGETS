@@ -164,9 +164,10 @@ if (!state.statsIsFetched) {
 }
 
 if (!state.totalRaisedIsFetched) {
-  asyncFetch("https://encryption-service-73dm.onrender.com/total-raised").then(
-    (response) =>
-      State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
+  asyncFetch("https://encryption-service-73dm.onrender.com/total-raised", {
+    mode: "no-cors",
+  }).then((response) =>
+    State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
   );
 }
 
