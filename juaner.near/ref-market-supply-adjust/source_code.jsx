@@ -301,7 +301,7 @@ const remainCollateral$ = B(asset.price.usd || 0)
   .mul(remainCollateral)
   .toFixed(2);
 const buttonDisabled = !(
-  Number(amount) &&
+  Number(amount) >= 0 &&
   !hasError &&
   Number(newHealthFactor) > 100
 );
