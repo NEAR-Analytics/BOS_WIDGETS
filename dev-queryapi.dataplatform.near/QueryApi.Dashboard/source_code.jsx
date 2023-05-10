@@ -1,9 +1,3 @@
-console.log("QueryApi.Dashboard.jsx");
-console.log("Registry", props.REGISTRY_CONTRACT_ID);
-console.log("external", props.EXTERNAL_APP_URL);
-console.log("app_owner", props.APP_OWNER);
-console.log("grpahql endpppoint", props.GRAPHQL_ENDPOINT);
-
 const accountId = context.accountId;
 const [selected_accountId, selected_indexerName] = props.selectedIndexerPath
   ? props.selectedIndexerPath.split("/")
