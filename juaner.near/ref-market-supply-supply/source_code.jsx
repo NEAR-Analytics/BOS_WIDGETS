@@ -213,7 +213,7 @@ const getBalanceOfnear = () => {
   const total_b = near_b.plus(wnear_b);
   const total_b_avalible = shrinkToken(total_b.toFixed(), 24).minus(0.25);
   if (total_b_avalible.gt(0)) {
-    nearBalance = total_b_avalible.toFixed(4);
+    nearBalance = total_b_avalible.toFixed();
   }
 };
 getBalanceOfnear();
