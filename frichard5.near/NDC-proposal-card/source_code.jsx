@@ -349,7 +349,7 @@ return (
             <VoteList>{voteList}</VoteList>
           </InfoWrapper>
         </PropInfos>
-        <PropInfos>{CommunityDiscussion}</PropInfos>
+        /*<PropInfos>{CommunityDiscussion}</PropInfos>*/
         <InfoWrapper>
           <Label>Dao id</Label>
           <a
