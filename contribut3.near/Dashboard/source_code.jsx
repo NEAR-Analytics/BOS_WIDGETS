@@ -151,6 +151,8 @@ State.init({
   stats: null,
   statsIsFetched: false,
   search: "",
+  totalRaised: 0,
+  totalRaisedIsFetched: false,
 });
 
 if (!state.statsIsFetched) {
@@ -158,6 +160,13 @@ if (!state.statsIsFetched) {
     "https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest"
   ).then((response) =>
     State.update({ stats: response.body[0], statsIsFetched: true })
+  );
+}
+
+if (!state.totalRaisedIsFetched) {
+  asyncFetch("https://encryption-service-73dm.onrender.com/total-raised").then(
+    (response) =>
+      State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
   );
 }
 
@@ -182,8 +191,8 @@ return (
           props={{
             value: state.statsIsFetched
               ? Number(state.stats.MAU).toLocaleString("en-US", {
-                notation: "compact",
-              }) + "+"
+                  notation: "compact",
+                }) + "+"
               : "Loading...",
             label: "Monthly active accounts",
           }}
@@ -193,8 +202,8 @@ return (
           props={{
             value: state.statsIsFetched
               ? Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", {
-                notation: "compact",
-              }) + "+"
+                  notation: "compact",
+                }) + "+"
               : "Loading...",
             label: "Total accounts",
           }}
@@ -202,7 +211,11 @@ return (
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: "$578M+",
+            value: state.totalRaisedIsFetched
+              ? Number(state.totalRaised).toLocaleString("en-US", {
+                  notation: "compact",
+                }) + "+"
+              : "Loading...",
             label: "Raised",
           }}
         />
