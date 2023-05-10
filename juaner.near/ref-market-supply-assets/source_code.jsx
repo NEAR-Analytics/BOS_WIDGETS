@@ -1,5 +1,11 @@
 const Container = styled.div`
     background: #1A2E33;
+    .template{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-left:6px;
+    }
     .table{
         margin:0;
     }
