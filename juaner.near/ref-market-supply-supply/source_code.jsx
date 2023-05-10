@@ -151,7 +151,7 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals || 0));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-const { selectedTokenId, showModal, closeModal, selectedTokenMeta } = props;
+const { selectedTokenId, closeModal, showModal, selectedTokenMeta } = props;
 const {
   rewards,
   account: burrowAccount,
@@ -196,14 +196,27 @@ const account = fetch("https://rpc.mainnet.near.org", {
 if (!account) {
   return null;
 }
-/** logic start */
-const b = account.body.result.amount;
-const nearBalance = shrinkToken(b || "0", 24).toFixed(2);
+let nearBalance = "0";
 let vailableBalance = 0;
 let vailableBalance$ = 0;
 let apy = 0;
 let cf = "-";
 let asset;
+const getBalanceOfnear = () => {
+  if (!assets) return "0";
+  const asset = assets.find((a) => a.token_id === selectedTokenId);
+  const { amount, storage_usage } = account.body.result;
+  const near_b = Big(amount || 0).minus(
+    Big(storage_usage || 0).mul(Big(10).pow(19))
+  );
+  const wnear_b = asset.accountBalance || 0;
+  const total_b = near_b.plus(wnear_b);
+  const total_b_avalible = shrinkToken(total_b.toFixed(), 24).minus(0.25);
+  if (total_b_avalible.gt(0)) {
+    nearBalance = total_b_avalible.toFixed(4);
+  }
+};
+getBalanceOfnear();
 const getBalance = (asset) => {
   if (!asset) return 0;
   const { accountBalance, metadata } = asset;
@@ -245,7 +258,6 @@ const handleAmount = (value, isMax) => {
     isMax,
   });
 };
-
 const handleDeposit = () => {
   if (!selectedTokenId || !amount || hasError) return;
   const amountValue = isMax ? vailableBalance : amount;
@@ -304,7 +316,6 @@ const handleDeposit = () => {
 
   Near.call(transactions);
 };
-
 const handleDepositNear = (amount) => {
   const amountDecimal = expandToken(amount, 24).toFixed();
   const transactions = [
@@ -364,10 +375,8 @@ function getAdjustedSum(type, burrowAccount) {
     })
     .reduce((sum, cur) => B(sum).plus(B(cur)).toFixed());
 }
-
 const adjustedCollateralSum = getAdjustedSum("collateral", burrowAccount);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", burrowAccount);
-
 function getHealthFactor() {
   if (Big(adjustedBorrowedSum).eq(0)) return 10000;
   const healthFactor = B(adjustedCollateralSum)
@@ -446,11 +455,9 @@ function getCloseButtonIcon(icon) {
 }
 return (
   <Container>
-    {/* load data */}
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    {/* load icons */}
     <Widget
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
