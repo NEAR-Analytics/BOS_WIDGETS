@@ -219,10 +219,8 @@ function getHealthFactor() {
     .toFixed(2);
   return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO;
 }
-const healthFactor = getHealthFactor();
-
 const recomputeHealthFactor = (tokenId, amount) => {
-  if (!tokenId || !amount || !assets) return null;
+  if (!tokenId || !assets) return null;
   const asset = assets.find((a) => a.token_id === tokenId);
   const decimals = asset.metadata.decimals + asset.config.extra_decimals;
   const accountCollateralAsset = account.collateral.find(
@@ -271,6 +269,14 @@ const recomputeHealthFactor = (tokenId, amount) => {
     Number(newHealthFactor) < MAX_RATIO ? newHealthFactor : MAX_RATIO;
   return [newHealthFactorAmount, hFErrorStatus];
 };
+const [healthFactor, hFErrorStatus] = recomputeHealthFactor(
+  selectedTokenId,
+  amount || 0
+);
+State.update({
+  newHealthFactor: healthFactor,
+  hasHFError: hFErrorStatus,
+});
 function computeAdjustMaxAmount() {
   if (!assets || !selectedTokenId || !account) return "0";
   const asset = assets.find((a) => a.token_id === selectedTokenId);
@@ -304,8 +310,9 @@ const remainCollateral$ = B(asset.price.usd || 0)
   .mul(remainCollateral)
   .toFixed(2);
 const buttonDisabled = !(
-  (Number(amount) > 0 && !hasError && Number(newHealthFactor) > 100) ||
-  Number(amount) == 0
+  Number(amount) >= 0 &&
+  !hasError &&
+  Number(newHealthFactor) > 100
 );
 return (
   <Container>
@@ -352,9 +359,7 @@ return (
           )}
           <div class="template mt_25">
             <span class="title">Health Factor</span>
-            <span class="value">
-              {newHealthFactor ? newHealthFactor : healthFactor}%
-            </span>
+            <span class="value">{newHealthFactor}%</span>
           </div>
           <div class="template mt_25">
             <span class="title">Use as Collateral</span>
