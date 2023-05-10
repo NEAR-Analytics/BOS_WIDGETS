@@ -60,7 +60,7 @@ function decimalMin(a, b) {
   return a.lt(b) ? a : b;
 }
 const handleAdjust = () => {
-  if (!selectedTokenId || hasError || !account) return;
+  if (!selectedTokenId || hasError || buttonDisabled) return;
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { token_id, metadata, config } = asset;
   const decimals = metadata.decimals + config.extra_decimals;
