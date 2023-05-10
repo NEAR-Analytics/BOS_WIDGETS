@@ -299,7 +299,7 @@ const CommunityDiscussion = (
     }}
   />
 );
-
+/*<PropInfos>{CommunityDiscussion}</PropInfos>*/
 return (
   <>
     {proposal && council ? (
@@ -349,7 +349,7 @@ return (
             <VoteList>{voteList}</VoteList>
           </InfoWrapper>
         </PropInfos>
-        /*<PropInfos>{CommunityDiscussion}</PropInfos>*/
+
         <InfoWrapper>
           <Label>Dao id</Label>
           <a
