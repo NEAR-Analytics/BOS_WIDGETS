@@ -151,7 +151,7 @@ State.init({
   stats: null,
   statsIsFetched: false,
   search: "",
-  totalRaised: 0,
+  totalRaised: 578600000,
   totalRaisedIsFetched: false,
 });
 
