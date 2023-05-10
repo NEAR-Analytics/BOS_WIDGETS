@@ -228,7 +228,7 @@ function getHealthFactor() {
   const healthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
-    .toFixed(0);
+    .toFixed(2);
   return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO;
 }
 
@@ -273,7 +273,7 @@ const recomputeHealthFactor = (tokenId, amount) => {
   const newHealthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
-    .toNumber();
+    .toFixed(2);
   return newHealthFactor;
 };
 
