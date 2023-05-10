@@ -58,7 +58,9 @@ return (
       <Main>
         <BorderedShadowedCard>
           <div>
-            <SecondaryText>{`TokenId: ${props.state.tokenId}`}</SecondaryText>
+            <SecondaryText>
+              {`#${props.state.tokenId} ${props.state.nftMetadata.name}`}
+            </SecondaryText>
           </div>
           <ImgCard>
             <Widget
