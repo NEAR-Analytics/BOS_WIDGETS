@@ -107,7 +107,8 @@ return (
     <Widget
       src={`${ownerId}/widget/List`}
       props={{
-        filter: () => {},
+        full: true,
+        filter: () => { },
         items: notifications,
         createItem: (notification) => (
           <Widget
