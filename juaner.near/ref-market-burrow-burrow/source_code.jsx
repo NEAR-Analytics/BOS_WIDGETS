@@ -177,6 +177,7 @@ const {
   assets,
   wnearbase64,
   closeButtonBase64,
+  newHealthFactor,
   isMax,
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0 && account;
@@ -273,7 +274,7 @@ const recomputeHealthFactor = (tokenId, amount) => {
   const newHealthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
-    .toNumber(2);
+    .toFixed(2);
   return newHealthFactor;
 };
 
@@ -400,12 +401,7 @@ const handleBorrow = () => {
 
   Near.call(transactions);
 };
-
 const reward = rewards && rewards.find((a) => a.token_id === selectedTokenId);
-
-const newHealthFactor = state.newHealthFactor
-  ? state.newHealthFactor?.toFixed()
-  : undefined;
 /** logic end */
 function getWnearIcon(icon) {
   State.update({
