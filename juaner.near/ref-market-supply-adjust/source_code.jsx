@@ -307,7 +307,6 @@ const buttonDisabled = !(
   (Number(amount) > 0 && !hasError && Number(newHealthFactor) > 100) ||
   Number(amount) == 0
 );
-console.log("11111111-ref-market-supply-adjust", buttonDisabled);
 return (
   <Container>
     {/* load data */}
@@ -377,6 +376,7 @@ return (
               assets,
               availableBalance,
               isMax,
+              closeModal,
             }}
           />
         </div>
