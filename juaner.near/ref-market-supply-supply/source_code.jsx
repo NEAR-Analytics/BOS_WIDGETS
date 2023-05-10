@@ -1,10 +1,4 @@
 const Container = styled.div`
-    .template{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-left:6px;
-    }
     .template .title{
       font-size:14px;
       color:#7E8A93;
@@ -132,7 +126,6 @@ const Modal = styled.div`
       cursor:pointer;
     }
 `;
-/** base tool start  */
 let accountId = context.accountId;
 if (!accountId) {
   return <Widget src="juaner.near/widget/ref_account-signin" />;
@@ -141,7 +134,7 @@ let BURROW_CONTRACT = "contract.main.burrow.near";
 const NO_STORAGE_DEPOSIT_CONTRACTS = ["aurora", "meta-pool.near"];
 let MAX_RATIO = 10_000;
 let B = Big();
-B.DP = 60; // set precision to 60 decimals
+B.DP = 60;
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
@@ -151,7 +144,8 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals || 0));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-const { selectedTokenId, closeModal, showModal, selectedTokenMeta } = props;
+const { selectedTokenId, closeModal, selectedTokenMeta } = props;
+const showModal = true;
 const {
   rewards,
   account: burrowAccount,
@@ -173,7 +167,6 @@ if (!showModal) {
     newHealthFactor: "",
   });
 }
-/** base tool end */
 const onLoad = (data) => {
   State.update(data);
 };
@@ -246,7 +239,6 @@ const storageToken = selectedTokenId
       account_id: accountId,
     })
   : null;
-
 const handleAmount = (value, isMax) => {
   const amount = value;
   const newHF = recomputeHealthFactor(selectedTokenId, amount);
@@ -272,14 +264,11 @@ const handleDeposit = () => {
     amountValue,
     metadata.decimals + config.extra_decimals
   ).toFixed();
-
   const collateralMsg =
     config.can_use_as_collateral && cfButtonStatus
       ? `{"Execute":{"actions":[{"IncreaseCollateral":{"token_id": "${token_id}","max_amount":"${collateralAmount}"}}]}}`
       : "";
-
   const transactions = [];
-
   const depositTransaction = {
     contractName: token_id,
     methodName: "ft_transfer_call",
@@ -291,7 +280,6 @@ const handleDeposit = () => {
       msg: collateralMsg,
     },
   };
-
   if (
     !(storageToken && storageToken.total != "0") &&
     !NO_STORAGE_DEPOSIT_CONTRACTS.includes(token_id)
@@ -302,7 +290,6 @@ const handleDeposit = () => {
       deposit: expandToken(0.25, 24).toFixed(),
     });
   }
-
   if (storageBurrow?.available === "0" || !storageBurrow?.available) {
     transactions.push({
       contractName: BURROW_CONTRACT,
@@ -311,20 +298,24 @@ const handleDeposit = () => {
       gas: expandToken(140, 12),
     });
   }
-
   transactions.push(depositTransaction);
-
   Near.call(transactions);
 };
 const handleDepositNear = (amount) => {
-  const amountDecimal = expandToken(amount, 24).toFixed();
+  const expandedAmount = expandToken(amount, 24);
+  const amountDecimal = expandedAmount.toFixed();
+  const extraDecimal = expandedAmount.sub(asset.accountBalance || 0);
   const transactions = [
-    {
-      contractName: "wrap.near",
-      methodName: "near_deposit",
-      deposit: amountDecimal,
-      gas: expandToken(300, 12),
-    },
+    ...(extraDecimal.gt(0)
+      ? [
+          {
+            contractName: "wrap.near",
+            methodName: "near_deposit",
+            deposit: extraDecimal.toFixed(),
+            gas: expandToken(300, 12),
+          },
+        ]
+      : []),
     {
       contractName: "wrap.near",
       methodName: "ft_transfer_call",
@@ -362,7 +353,6 @@ function getAdjustedSum(type, burrowAccount) {
       const pricedBalance = B(assetInAccount.balance)
         .div(expandToken(1, asset.config.extra_decimals))
         .mul(price);
-
       return type === "borrowed"
         ? pricedBalance
             .div(asset.config.volatility_ratio)
@@ -387,7 +377,6 @@ function getHealthFactor() {
 }
 const healthFactor = getHealthFactor();
 const canUseAsCollateral = asset.config.can_use_as_collateral;
-/** logic end */
 function switchButtonStatus() {
   if (canUseAsCollateral) {
     State.update({
@@ -402,20 +391,16 @@ const recomputeHealthFactor = (tokenId, amount) => {
   const accountCollateralAsset = burrowAccount.collateral.find(
     (a) => a.token_id === tokenId
   );
-
   const newBalance = expandToken(amount, decimals)
     .plus(B(accountCollateralAsset?.balance || 0))
     .toFixed();
-
   const clonedAccount = clone(burrowAccount);
-
   const updatedToken = {
     token_id: tokenId,
     balance: newBalance,
     shares: newBalance,
     apr: "0",
   };
-
   if (clonedAccount?.collateral.length === 0) {
     clonedAccount.collateral = [updatedToken];
   } else if (!accountCollateralAsset) {
@@ -440,7 +425,6 @@ const recomputeHealthFactor = (tokenId, amount) => {
       .mul(100)
       .toFixed(0);
   }
-
   return Number(newHealthFactor) < MAX_RATIO ? newHealthFactor : MAX_RATIO;
 };
 function getWnearIcon(icon) {
@@ -462,7 +446,6 @@ return (
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
-    {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
         <div class="title">Supply&nbsp; {selectedTokenMeta.symbol}</div>
