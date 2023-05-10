@@ -59,7 +59,9 @@ return (
         <BorderedShadowedCard>
           <div>
             <SecondaryText>
-              {`#${props.state.tokenId} ${props.state.nftMetadata.name}`}
+              {`#...${props.state.tokenId?.slice(
+                props.state.tokenId.length / 2
+              )} ${props.state.nftMetadata.name}`}
             </SecondaryText>
           </div>
           <ImgCard>
