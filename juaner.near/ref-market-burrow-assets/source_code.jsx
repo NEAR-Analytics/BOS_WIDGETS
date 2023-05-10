@@ -273,7 +273,7 @@ const market_burrow_assets =
           {rewardTokensImg.length == 0 ? "-" : rewardTokensImg}
         </td>
         <td>{cf || "-"}%</td>
-        <td>{liquidity}</td>
+        <td>${liquidity}</td>
         <td class="flex-end">
           <Widget
             src="juaner.near/widget/ref-operation-button"
