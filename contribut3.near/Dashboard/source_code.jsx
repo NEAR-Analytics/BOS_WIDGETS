@@ -151,7 +151,7 @@ State.init({
   stats: null,
   statsIsFetched: false,
   search: "",
-  totalRaised: 578600000,
+  totalRaised: 578920000,
   totalRaisedIsFetched: false,
 });
 
@@ -168,8 +168,10 @@ if (!state.totalRaisedIsFetched) {
     headers: {
       "Access-Control-Request-Method": "no-cors",
     },
-  }).then((response) =>
-    State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
+  }).then(
+    (response) =>
+      response.ok &&
+      State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
   );
 }
 
