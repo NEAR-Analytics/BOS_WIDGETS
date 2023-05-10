@@ -122,12 +122,16 @@ function changeAmount(e) {
   handleAmount(value, isMax);
 }
 function changeRangeAmount(e) {
+  console.log("come in");
   const value = Number(e.target.value);
+  console.log("value", value);
   const isMax = Big(value || 0).eq(subBalance || 0);
   const amount = Big(subBalance || 0)
     .mul(value || 0)
     .div(100)
     .toFixed(4);
+  console.log("amount", amount);
+  console.log("isMax", isMax);
   handleAmount(amount, isMax);
 }
 function changeToMax() {
