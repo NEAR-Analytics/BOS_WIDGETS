@@ -181,7 +181,7 @@ return (
         step="any"
         min="0"
         max="100"
-        onClick={changeRangeAmount}
+        onChange={changeRangeAmount}
       />
       <span
         class="bgLine"
