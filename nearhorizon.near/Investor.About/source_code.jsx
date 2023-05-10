@@ -9,6 +9,7 @@ const Container = styled.div`
   justify-content: flex-start;
   gap: 1em;
   padding: 0.5em 0.2em;
+  width: 100%;
 `;
 
 const Heading = styled.div`
@@ -23,7 +24,6 @@ const Heading = styled.div`
 
 State.init({
   description: "",
-  services: "",
   descriptionIsFetched: false,
 });
 
@@ -37,7 +37,6 @@ if (!state.descriptionIsFetched) {
   ).then((data) =>
     State.update({
       description: data[accountId].profile.description,
-      services: data[accountId].profile.services,
       descriptionIsFetched: true,
     })
   );
@@ -46,7 +45,7 @@ if (!state.descriptionIsFetched) {
 
 return (
   <Container>
-    <Heading>About vendor</Heading>
+    <Heading>About</Heading>
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.TextArea`}
       props={{
@@ -56,19 +55,6 @@ return (
         onSave: (description) =>
           Near.call("social.near", "set", {
             data: { [accountId]: { profile: { description } } },
-          }),
-        canEdit: props.isAdmin,
-      }}
-    />
-    <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.TextArea`}
-      props={{
-        label: "Skills and services",
-        id: "services",
-        value: state.services,
-        onSave: (services) =>
-          Near.call("social.near", "set", {
-            data: { [accountId]: { profile: { services } } },
           }),
         canEdit: props.isAdmin,
       }}
