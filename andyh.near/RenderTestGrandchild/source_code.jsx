@@ -1,7 +1,7 @@
 State.init({ k: 0 });
-function incK() {
+const incK = () => {
   State.update({ k: state.k + 1 });
-}
+};
 return (
   <div>
     root: {props.i} child: {props.j} grandchild: {state.k}
