@@ -1,3 +1,4 @@
+const { widgetProvider } = props;
 const index = {
   action: "comment",
   key: props.item,
