@@ -106,8 +106,7 @@ return (
       props={{
         label: "Integration",
         value: state.project.integration,
-        onSave: ({ value: integration }) =>
-          props.onSave({ profile: { integration } }),
+        onSave: ({ value: integration }) => props.onSave({ integration }),
         canEdit: isAdmin,
       }}
     />
