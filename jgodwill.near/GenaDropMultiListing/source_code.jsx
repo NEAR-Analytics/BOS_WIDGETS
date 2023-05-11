@@ -350,7 +350,9 @@ const selectCustom = () => {
 }; // need better helper function for checking whether valid NEAR address
 return (
   <div>
-    {!accountId && <p>Please sign in with NEAR wallet</p>}
+    {!accountId && (
+      <p className="text-danger">Please sign in with NEAR wallet</p>
+    )}
     <h1 className="text-center"> 🛍️ List NFT to Multiple Marketplaces </h1>
     <h3>
       💧
