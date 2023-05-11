@@ -93,7 +93,7 @@ const fetchPolicy = (params) => {
   }).then(({ err, body, ok }) => {
     if (ok) {
       State.update({
-        policy: body,
+        policy: daosList.length === 1 ? [body] : body,
       });
     }
   });
