@@ -256,6 +256,7 @@ let CommentsButton = styled.button`
     position: absolute;
     bottom: 20px;
     left: 10px;
+    border-radius: 4px;
 `;
 
 const getTimeLeft = (proposal) => {
