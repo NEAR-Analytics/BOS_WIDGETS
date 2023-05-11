@@ -1,26 +1,13 @@
 if (state.ws === undefined) {
-  const eventsFilter = {} || {
+  const eventsFilter = {
     status: "SUCCESS",
-    account_id: "contract.main.burrow.near",
     event: {
-      standard: "burrow",
+      event: "ft_transfer",
     },
   };
 
   function startWebSocket(processEvents) {
-    const scheduleReconnect = (timeOut) => {
-      console.log("reconnect");
-      if (state.reconnectTimeout) {
-        clearTimeout(state.reconnectTimeout);
-        state.reconnectTimeout = null;
-      }
-      state.reconnectTimeout = setTimeout(() => {
-        state.startWebSocket(processEvents);
-      }, timeOut);
-      State.update();
-    };
-
-    let ws = state.ws;
+    let ws = State.get().ws;
 
     if (ws) {
       ws.close();
@@ -42,7 +29,7 @@ if (state.ws === undefined) {
     ws.onclose = () => {
       State.update({ ws: null });
       console.log(`WS Connection has been closed`);
-      scheduleReconnect(1);
+      State.get().startWebSocket(processEvents);
     };
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
@@ -59,9 +46,9 @@ if (state.ws === undefined) {
   function processEvent(event) {
     return {
       time: new Date(parseFloat(event.block_timestamp) / 1e6),
-      accountId: event.event.data[0].account_id,
-      event: event.event.event,
-      data: event.event.data[0],
+      event: event.event,
+      accountId: event.account_id,
+      predecessorId: event.predecessor_id,
     };
   }
 
@@ -69,32 +56,24 @@ if (state.ws === undefined) {
     events = events.flatMap(processEvent);
     events.reverse();
 
-    State.update((prevState) => {
-      if (Math.random() > 0.5) {
-        console.log("closing", prevState);
-        prevState.ws.close();
-        console.log("closed");
-      }
-
-      const prevActions = prevState.actions || [];
-      const actions = [
+    State.update((state) => {
+      const prevActions = state.actions || [];
+      state.actions = [
         ...events.filter(
           (event) =>
             prevActions.length === 0 ||
             event.time.getTime() > prevActions[0].time.getTime()
         ),
         ...prevActions,
-      ];
-      return Object.assign(prevState, { actions: actions.slice(0, 10) });
+      ].slice(0, 10);
+      return state;
     });
   }
 
   State.init({
     startWebSocket,
-    processEvent,
-    processEvents,
   });
-  state.startWebSocket(state.processEvents);
+  state.startWebSocket(processEvents);
 }
 
 return state.actions;
