@@ -37,6 +37,7 @@ const BorderedShadowedCard = styled.div`
    border: 1.41429px solid rgba(28,27,28,.1);
    padding: 1rem;
    width: max-content;
+   height: fit-content;
    background-color:#fff;
    & img{
      border-radius: inherit;
