@@ -463,6 +463,7 @@ return (
               handleAmount,
               balance: vailableBalance,
               balance$: vailableBalance$,
+              metadata: asset.metadata,
             }}
           />
           <div class="template mt_25">
