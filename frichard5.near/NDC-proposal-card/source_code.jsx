@@ -4,6 +4,7 @@ const userAccountId = context.accountId;
 State.init({
   showClipboardTooltip: false,
   canVote: council.includes(userAccountId),
+  displayComments: false,
 });
 
 const formatCountdown = (seconds) => {
@@ -396,11 +397,19 @@ return (
         ) : (
           <Label>You don't have the permission to vote on proposals.</Label>
         )}
+        <button
+          onClick={() =>
+            State.update({ displayComments: !state.displayComments })
+          }
+        >
+          Comments
+        </button>
         <Widget
           src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
           props={{
             widgetProvider,
             proposal_id: proposal.proposal_id,
+            displayComments: state.displayComments,
           }}
         />
       </ProposalCard>
