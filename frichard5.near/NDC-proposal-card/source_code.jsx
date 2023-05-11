@@ -1,10 +1,13 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 const userAccountId = context.accountId;
 
+const defaultHeight = "370px";
+
 State.init({
   showClipboardTooltip: false,
   canVote: council.includes(userAccountId),
   displayComments: false,
+  height: defaultHeight,
 });
 
 const formatCountdown = (seconds) => {
@@ -36,7 +39,7 @@ const formatCountdown = (seconds) => {
 
 const ProposalCard = styled.div`
   position: relative;
-  height: 370px;
+  height: ${state.height};
   width: 80%;
   margin: 50px auto;
   box-shadow: 3px 2px 24px rgba(68, 152, 224, 0.3);
@@ -399,9 +402,14 @@ return (
         )}
         <div>
           <button
-            onClick={() =>
-              State.update({ displayComments: !state.displayComments })
-            }
+            onClick={() => {
+              const isDisplayed = !state.displayComments;
+              const height = isDisplayed ? "auto" : defaultHeight;
+              State.update({
+                displayComments: isDisplayed,
+                height,
+              });
+            }}
           >
             Comments
           </button>
