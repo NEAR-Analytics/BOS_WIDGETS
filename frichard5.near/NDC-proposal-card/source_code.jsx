@@ -397,13 +397,15 @@ return (
         ) : (
           <Label>You don't have the permission to vote on proposals.</Label>
         )}
-        <button
-          onClick={() =>
-            State.update({ displayComments: !state.displayComments })
-          }
-        >
-          Comments
-        </button>
+        <div>
+          <button
+            onClick={() =>
+              State.update({ displayComments: !state.displayComments })
+            }
+          >
+            Comments
+          </button>
+        </div>
         {state.displayComments ? (
           <Widget
             src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
