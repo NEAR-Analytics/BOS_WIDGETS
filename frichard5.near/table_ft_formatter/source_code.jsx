@@ -27,7 +27,7 @@ const findFt = (ftAddress, amount) => {
 };
 
 const currentFt = findFt(ft, amount);
-console.log("currentFt", currentFt);
+
 return (
   <div style={{ display: "flex", alignItems: "center" }}>
     <span>{numberWithCommas(parseInt(currentFt.amount))}</span>
