@@ -138,9 +138,10 @@ return (
           </div>
         </BorderedShadowedCard>
         <div className="">
-          <p className="">
-            Description: {props.state.tokenInfo.metadata.description}
-          </p>
+          <div className="card rounded shadow p-3">
+            <SecondaryText>Description</SecondaryText>
+            <p>{props.state.tokenInfo.metadata.description}</p>
+          </div>
           <div className="">
             <input
               type="hidden"
