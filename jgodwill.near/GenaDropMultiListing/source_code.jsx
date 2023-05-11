@@ -351,6 +351,16 @@ const selectCustom = () => {
 return (
   <div>
     <h1 className="text-center"> 🛍️ List NFT to Multiple Marketplaces </h1>
+    <h3>
+      💧
+      <a href="https://genadrop.io" target="_blank" rel="noopener noreferrer">
+        GenaDrop
+      </a>
+      <Widget
+        src="miraclx.near/widget/Attribution"
+        props={{ authors: [ownerId], dep: true }}
+      />
+    </h3>
     <div>
       <div
         className="p-2 rounded mt-3"
