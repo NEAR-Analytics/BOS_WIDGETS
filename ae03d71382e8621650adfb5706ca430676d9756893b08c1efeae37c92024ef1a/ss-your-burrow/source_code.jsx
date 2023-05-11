@@ -1,99 +1,43 @@
 const Container = styled.div`
-  .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:4px;
-    }
-.rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
-  }
-  .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
-    }
-`;
-const Backdrop = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1001;
-`;
-const Modal = styled.div`
-  background-color:#1A2E33;
-  border-radius:12px;
-  position:fixed;
-  z-index:1002;
-  width:30rem;
-  max-width: 95vw;
-  max-height: 80vh;
-  padding:10px 0 20px 0;
-  animation:anishow 0.3s forwards ease-out;
-  left:50%;
-  top:50%;
-  @keyframes anishow {
-    from {
-      opacity: 0;
-      transform:translate(-50%,-70%);
-    }
-    to {
-      opacity: 1;
-      transform:translate(-50%,-50%);
-    }
-  }
-    .modal-header{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      font-weight: 700;
-      font-size: 18px;
-      padding:12px;
-      margin-bottom:16px;
-      border-bottom:2px solid rgba(48, 67, 82, 0.5);
-    } 
-    .modal-header .btn-close{
-      position:absolute;
-      right:28px;
-      margin:0;
-    }
-    .modal-body {
-        padding:0 10px;
-    }
-    .modal-body .tab{
+   .template{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      margin-bottom:30px;
+      margin-left:6px;
     }
-    .modal-body .tab span{
+    .template .title{
+      font-size:14px;
+      color:#7E8A93;
+    }
+    .template .value{
+      font-size:14px;
+      color:#fff;
+    }
+    .template .usd{
+        color:#7E8A93;
+    }
+    .mt_25{
+      margin-top:25px;
+    }
+    .mt-10{
+      margin-top:10px;
+    }
+    .greenButton{
       display:flex;
       align-items:center;
       justify-content:center;
-      width:50%;
-      height:40px;
-      border-radius: 6px;
+      background: #00FFD1;
+      border-radius: 12px;
+      height:46px;
       font-weight: 700;
       font-size: 18px;
+      color:#000;
       cursor:pointer;
-      color:#fff;
+      width:100%;
     }
-    .modal-body .tab span.active{
-      background: #304352;
-    }
-   .btn-close-custom{
-      position:absolute;
-      right:28px;
-      width:12px;
-      height:12px;
-      cursor:pointer;
+    .disabled{
+      opacity:0.3;
+      cursor: not-allowed;
     }
 `;
 /** base tool start  */
