@@ -262,10 +262,10 @@ let ClipboardButton = styled.button`
 `;
 
 let CommentsButton = styled.button`
-    position: absolute;
-    bottom: 20px;
-    left: 10px;
-    border-radius: 4px;
+  margin-top: 40px;
+  display: block;
+  margin-left: 0px;
+  border-radius: 4px;
 `;
 
 const getTimeLeft = (proposal) => {
