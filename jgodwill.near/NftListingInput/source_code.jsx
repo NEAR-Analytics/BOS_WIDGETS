@@ -82,6 +82,20 @@ const GrayCard = styled.div`
   cusor: not-allowed;
 `;
 
+const ChainCard = styled.div`
+  display: flex;
+  background-color: #EFF3F9;
+  align-items:center;
+  gap: 1rem;
+  margin: 1rem auto;
+  height: 60px;
+  & img{
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+`;
+
 const BlueSub = styled.div`
  color: #0d99ff;
  font-size: .8rem;
@@ -91,7 +105,7 @@ return (
   <>
     <div className="container-fluid">
       <Main>
-        <BorderedShadowedCard className="shadow rounded-4">
+        <BorderedShadowedCard className="shadow-sm rounded-4">
           {/*<div>
             <SecondaryText>
               {`#...${props.state.tokenId?.slice(
@@ -166,7 +180,7 @@ return (
           </div>
         </BorderedShadowedCard>
         <div className="">
-          <Card className="card rounded-4 shadow border border-2">
+          <Card className="card rounded-4 shadow-sm border">
             <TopSellCard className="d-flex align-items-center">
               <Label>Sell Method</Label>
             </TopSellCard>
@@ -191,7 +205,7 @@ return (
               </div>
             </div>
           </Card>
-          <div className=" mb-2">
+          <div className="mb-2">
             Enter Price You Want to List (In NEAR)
             <input
               type="number"
@@ -203,7 +217,7 @@ return (
               address then list your NFT
             </p>
           </div>
-          <div className="card rounded shadow p-3 mb-3">
+          <div className="card rounded shadow-sm p-3 mb-3">
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
           </div>
@@ -221,12 +235,27 @@ return (
               onChange={(e) => props.onChangeToken(e.target.value)}
             />
           </div>
-          <div className="">
-            <div className="form-check">
+          <div className="rounded-4 p-3 mt-3 border shadow-sm">
+            <TopSellCard></TopSellCard>
+            <GrayLabel>
+              Input price in any of the NEAR marketplace where you want your
+              NFTs to be listed on
+            </GrayLabel>
+            <hr />
+            <ChainCard className="form-check rounded-4 p-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={props.state.fewfar}
+                onChange={props.selectFewFar}
+                id="fewfarbox"
+              />
               <label className="form-check-label" htmlFor="myCheckbox">
                 <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMSAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2LjU1MjggMS4wMTUyOEwxMi4zNzIyIDcuMjIyMjJDMTIuMzEyNyA3LjMxMTYxIDEyLjI4NzUgNy40MTk1NCAxMi4zMDE0IDcuNTI2MDRDMTIuMzE1MyA3LjYzMjU0IDEyLjM2NzMgNy43MzA0MiAxMi40NDc3IDcuODAxNTZDMTIuNTI4MiA3Ljg3MjcxIDEyLjYzMTcgNy45MTIzMSAxMi43MzkxIDcuOTEzMDVDMTIuODQ2NSA3LjkxMzc4IDEyLjk1MDUgNy44NzU1OSAxMy4wMzE5IDcuODA1NTZMMTcuMTQ3MiA0LjIzNjExQzE3LjE3MTMgNC4yMTQ1MyAxNy4yMDEyIDQuMjAwNDUgMTcuMjMzMiA0LjE5NTU3QzE3LjI2NTIgNC4xOTA2OCAxNy4yOTc5IDQuMTk1MjIgMTcuMzI3NCA0LjIwODYyQzE3LjM1NjggNC4yMjIwMyAxNy4zODE3IDQuMjQzNzEgMTcuMzk5MSA0LjI3MTA0QzE3LjQxNjQgNC4yOTgzNiAxNy40MjU0IDQuMzMwMTQgMTcuNDI1IDQuMzYyNVYxNS41Mzc1QzE3LjQyNSAxNS41NzE3IDE3LjQxNDQgMTUuNjA1MSAxNy4zOTQ4IDE1LjYzMzFDMTcuMzc1MiAxNS42NjExIDE3LjM0NzQgMTUuNjgyNCAxNy4zMTUyIDE1LjY5NDFDMTcuMjgzMSAxNS43MDU4IDE3LjI0ODEgMTUuNzA3MyAxNy4yMTUxIDE1LjY5ODRDMTcuMTgyIDE1LjY4OTUgMTcuMTUyNSAxNS42NzA3IDE3LjEzMDYgMTUuNjQ0NEw0LjY5MTY3IDAuNzU0MTY3QzQuNDkxNTkgMC41MTc5MSA0LjI0MjQ2IDAuMzI4MDYzIDMuOTYxNiAwLjE5NzgyNEMzLjY4MDczIDAuMDY3NTg1IDMuMzc0ODcgNy45Mjk3N2UtMDUgMy4wNjUyOCA3LjM2MDk0ZS0wOEgyLjYzMDU2QzIuMDY1NSA3LjM2MDk0ZS0wOCAxLjUyMzU4IDAuMjI0NDY5IDEuMTI0MDMgMC42MjQwMjVDMC43MjQ0NjggMS4wMjM1OCAwLjUgMS41NjU1IDAuNSAyLjEzMDU2VjE3Ljg2OTRDMC41IDE4LjQzNDUgMC43MjQ0NjggMTguOTc2NCAxLjEyNDAzIDE5LjM3NkMxLjUyMzU4IDE5Ljc3NTUgMi4wNjU1IDIwIDIuNjMwNTYgMjBDMi45OTQ4OCAyMC4wMDAxIDMuMzUzMTYgMTkuOTA2OCAzLjY3MTE5IDE5LjcyOTFDMy45ODkyMiAxOS41NTEzIDQuMjU2NCAxOS4yOTUxIDQuNDQ3MjIgMTguOTg0N0w4LjYyNzc4IDEyLjc3NzhDOC42ODczMiAxMi42ODg0IDguNzEyNDggMTIuNTgwNSA4LjY5ODYgMTIuNDc0QzguNjg0NzIgMTIuMzY3NSA4LjYzMjc0IDEyLjI2OTYgOC41NTIyOCAxMi4xOTg0QzguNDcxODIgMTIuMTI3MyA4LjM2ODMyIDEyLjA4NzcgOC4yNjA5MiAxMi4wODdDOC4xNTM1MiAxMi4wODYyIDguMDQ5NDggMTIuMTI0NCA3Ljk2ODA2IDEyLjE5NDRMMy44NTI3OCAxNS43NjM5QzMuODI4NjYgMTUuNzg1NSAzLjc5ODc4IDE1Ljc5OTYgMy43NjY3OSAxNS44MDQ0QzMuNzM0OCAxNS44MDkzIDMuNzAyMDggMTUuODA0OCAzLjY3MjYzIDE1Ljc5MTRDMy42NDMxNyAxNS43NzggMy42MTgyNiAxNS43NTYzIDMuNjAwOTIgMTUuNzI5QzMuNTgzNTggMTUuNzAxNiAzLjU3NDU4IDE1LjY2OTkgMy41NzUgMTUuNjM3NVY0LjQ1OTcyQzMuNTc1MDEgNC40MjU1MSAzLjU4NTU1IDQuMzkyMTMgMy42MDUxOSA0LjM2NDEyQzMuNjI0ODMgNC4zMzYxIDMuNjUyNjEgNC4zMTQ4MSAzLjY4NDc3IDQuMzAzMTNDMy43MTY5MyA0LjI5MTQ1IDMuNzUxOSA0LjI4OTk1IDMuNzg0OTQgNC4yOTg4M0MzLjgxNzk3IDQuMzA3NzIgMy44NDc0OCA0LjMyNjU1IDMuODY5NDQgNC4zNTI3OEwxNi4zMDY5IDE5LjI0NThDMTYuNTA3IDE5LjQ4MjEgMTYuNzU2MiAxOS42NzE5IDE3LjAzNyAxOS44MDIyQzE3LjMxNzkgMTkuOTMyNCAxNy42MjM3IDE5Ljk5OTkgMTcuOTMzMyAyMEgxOC4zNjgxQzE4LjY0OCAyMC4wMDAyIDE4LjkyNTIgMTkuOTQ1MiAxOS4xODM4IDE5LjgzODJDMTkuNDQyNSAxOS43MzEyIDE5LjY3NzUgMTkuNTc0MyAxOS44NzU1IDE5LjM3NjVDMjAuMDczNSAxOS4xNzg2IDIwLjIzMDUgMTguOTQzNyAyMC4zMzc3IDE4LjY4NTFDMjAuNDQ0OCAxOC40MjY1IDIwLjUgMTguMTQ5NCAyMC41IDE3Ljg2OTRWMi4xMzA1NkMyMC41IDEuNTY1NSAyMC4yNzU1IDEuMDIzNTggMTkuODc2IDAuNjI0MDI1QzE5LjQ3NjQgMC4yMjQ0NjkgMTguOTM0NSA3LjM2MDk0ZS0wOCAxOC4zNjk0IDcuMzYwOTRlLTA4QzE4LjAwNTEgLTkuNTY1MjRlLTA1IDE3LjY0NjggMC4wOTMxNzYgMTcuMzI4OCAwLjI3MDkxNEMxNy4wMTA4IDAuNDQ4NjUxIDE2Ljc0MzYgMC43MDQ5MjQgMTYuNTUyOCAxLjAxNTI4WiIgZmlsbD0iIzExMTgxQyIvPgo8L3N2Zz4K" />
                 Near
               </label>
+            </ChainCard>
+            <ChainCard className="form-check rounded-4 p-3">
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -234,76 +263,67 @@ return (
                 onChange={props.selectFewFar}
                 id="fewfarbox"
               />
-            </div>
-            <div className="form-check">
               <label className="form-check-label" htmlFor="myCheckbox">
                 <img src="https://production.cdn.fewfar.com/static/images/logo.svg" />
                 Few and Far
               </label>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={props.state.fewfar}
-                onChange={props.selectFewFar}
-                id="fewfarbox"
-              />
-            </div>
-          </div>
-          {false && (
+            </ChainCard>
+            {false && (
+              <div className="">
+                <ChainCard className="form-check rounded-4 p-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={props.state.mintbase}
+                    onChange={props.selectMintbase}
+                    id="mintbasebox"
+                  />
+                  <label className="form-check-label" htmlFor="myCheckbox">
+                    <img src="https://www.mintbase.xyz/favicon.ico" />
+                    Mintbase
+                  </label>
+                </ChainCard>
+              </div>
+            )}
             <div className="">
-              <div className="form-check">
+              <ChainCard className="form-check rounded-4 p-3">
                 <input
                   className="form-check-input"
                   type="checkbox"
-                  checked={props.state.mintbase}
-                  onChange={props.selectMintbase}
-                  id="mintbasebox"
+                  checked={props.state.tradeport}
+                  onChange={props.selectTradeport}
+                  id="tradeportbox"
                 />
                 <label className="form-check-label" htmlFor="myCheckbox">
-                  <img src="https://www.mintbase.xyz/favicon.ico" />
-                  Mintbase
+                  <img src="https://www.tradeport.xyz/assets/favicon.ico" />
+                  Tradeport
                 </label>
-              </div>
+              </ChainCard>
             </div>
-          )}
-          <div className="">
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={props.state.tradeport}
-                onChange={props.selectTradeport}
-                id="tradeportbox"
-              />
-              <label className="form-check-label" htmlFor="myCheckbox">
-                <img src="https://www.tradeport.xyz/assets/favicon.ico" />
-                Tradeport
-              </label>
-            </div>
-          </div>
-          <div className="">
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={props.state.custom}
-                onChange={props.selectCustom}
-                id="custombox"
-              />
-              <label className="form-check-label" htmlFor="myCheckbox">
-                Enter Custom Marketplace Address
-              </label>
-            </div>
-            {props.state.custom && (
-              <div className="">
-                Custom Marketplace
+            <div className="">
+              <ChainCard className="form-check rounded-4 p-3">
                 <input
-                  type="text"
-                  placeholder={props.state.customMarketLink}
-                  onChange={(e) => props.onChangeCustomMarket(e.target.value)}
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={props.state.custom}
+                  onChange={props.selectCustom}
+                  id="custombox"
                 />
-              </div>
-            )}
+                <label className="form-check-label" htmlFor="myCheckbox">
+                  Enter Custom Marketplace Address
+                </label>
+              </ChainCard>
+              {props.state.custom && (
+                <div className="">
+                  Custom Marketplace
+                  <input
+                    type="text"
+                    placeholder={props.state.customMarketLink}
+                    onChange={(e) => props.onChangeCustomMarket(e.target.value)}
+                  />
+                </div>
+              )}
+            </div>
             {props.state.custom && !props.state.validMarketLink && (
               <div className="alert alert-danger">
                 <i className="bi bi-x"></i> Not a Valid NEAR Contract for your
