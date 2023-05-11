@@ -1,6 +1,6 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 const userAccountId = context.accountId;
-console.log("PROPS", props);
+
 const item = {
   type: "sputnik_proposal_comment",
   path: `${proposal.proposal_id}/proposal/main`,
@@ -270,7 +270,9 @@ let CommentsButton = styled.button`
 
 const getTimeLeft = (proposal) => {
   if (proposal.status === "InProgress") {
-    const timeLeft = (Date.now() - new Date(proposal.submission_time)) / 1000;
+    const timeLeft =
+      Math.floor(voteExpired / Math.pow(10, 9)) -
+      (Date.now() - new Date(proposal.submission_time)) / 1000;
 
     const isTechnicallyExpired =
       Math.floor(timeLeft / (24 * 3600)) >=
