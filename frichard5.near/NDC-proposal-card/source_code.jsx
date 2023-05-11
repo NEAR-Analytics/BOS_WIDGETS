@@ -264,7 +264,7 @@ let ClipboardButton = styled.button`
 let CommentsButton = styled.button`
   margin-top: 40px;
   display: block;
-  margin-left: 0px;
+  margin-left: 0px !important;
   border-radius: 4px;
 `;
 
