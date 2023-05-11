@@ -3,7 +3,7 @@ const userAccountId = context.accountId;
 
 const item = {
   type: "sputnik_proposal_comment",
-  path: `${context.accountId}/proposal/main`,
+  path: `${proposal.proposal_id}/proposal/main`,
   proposal_id: proposal.proposal_id,
 };
 const comments = Social.index("comment", item);
