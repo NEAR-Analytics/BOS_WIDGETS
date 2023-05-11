@@ -396,6 +396,13 @@ return (
         ) : (
           <Label>You don't have the permission to vote on proposals.</Label>
         )}
+        <Widget
+          src="near/widget/NDC-proposal-community-discussion"
+          props={{
+            widgetProvider,
+            proposal_id: proposal.proposal_id,
+          }}
+        />
       </ProposalCard>
     ) : (
       ""
