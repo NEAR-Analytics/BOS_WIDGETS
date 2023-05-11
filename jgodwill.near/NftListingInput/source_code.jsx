@@ -6,6 +6,7 @@ const Label = styled.div``;
 const SecondaryText = styled.h3`
   font-size: 1.1rem;
   color:#0f1d40;
+  font-weight: 600;
   width:60%;
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
@@ -18,11 +19,12 @@ const BorderedShadowedCard = styled.div`
    flex-flow: column nowrap;
    -ms-flex-flow:column nowrap;
    background-color: "#f0f0f0";
+   margin: 0 auto;
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
   box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 1rem;
-   width: fit-content;
+   width: max-content;
    background-color:#fff;
    & img{
      border-radius: inherit;
@@ -44,12 +46,18 @@ const ImgCard = styled.div`
    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   height:fit-content;
   max-height:500px;
+  width:100%;
   max-width: 500px;
   border-radius: 1rem;
   margin: 0 auto;
   &>img{
   object-fit: contain;
   }
+`;
+
+const BlueSub = styled.div`
+ color: #0d99ff;
+ font-size: .8rem;
 `;
 // {props.state.tokenId && (
 return (
@@ -76,19 +84,20 @@ return (
               }}
             />
           </ImgCard>
-          <p>
-            Collection Name:{" "}
-            <span className="font-weight-bold">
-              {props.state.nftMetadata.name}
+          <div className="d-flex justify-content-between mt-3">
+            <span>
+              <BlueSub>Contract ID</BlueSub>
+              <SecondaryText>
+                {props.state.contractId || "Sample Contract"}
+              </SecondaryText>
             </span>
-          </p>
-          <p>
-            NFT Name:{" "}
-            <span className="">{props.state.tokenInfo.metadata.title}</span>
-          </p>
-          <p className="">
-            Description: {props.state.tokenInfo.metadata.description}
-          </p>
+            <span>
+              <BlueSub>Collection Name</BlueSub>
+              <SecondaryText className="font-weight-bold">
+                {props.state.nftMetadata.name || "Sample Name"}
+              </SecondaryText>
+            </span>
+          </div>
           <p>
             <a href={props.state.tokenInfo.media} target="_blank">
               {props.state.tokenInfo.media}
@@ -130,6 +139,9 @@ return (
           </div>
         </BorderedShadowedCard>
         <div className="">
+          <p className="">
+            Description: {props.state.tokenInfo.metadata.description}
+          </p>
           <div className="">
             <input
               type="hidden"
