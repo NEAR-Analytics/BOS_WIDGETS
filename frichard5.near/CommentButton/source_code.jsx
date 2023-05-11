@@ -39,6 +39,7 @@ return (
     title="Add Comment"
     onClick={props.onClick}
   >
+    <span>Add comment</span>
     <i className="bi-chat" />
     {!props.hideCount && totalComments}
   </CommentButton>
