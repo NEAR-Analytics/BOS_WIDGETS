@@ -4,6 +4,14 @@ const Container = styled.div`
       position:relative;
       display:flex;
       align-items:center;
+      background: rgb(21, 37, 40);
+    border-radius: 12px;
+      .tokenIcon{
+        width: 26px;
+        height: 26px;
+        border-radius:100px;
+        margin-left:16px;
+      }
     }
     .maxButton{
       display:flex;
@@ -131,7 +139,7 @@ const Container = styled.div`
       top:30px;
   }
 `;
-const { amount, handleAmount, balance, balance$ } = props;
+const { amount, handleAmount, balance, balance$, metadata } = props;
 const subBalance = Big(balance || "0").toFixed(4);
 function changeAmount(e) {
   const value = e.target.value;
@@ -141,7 +149,6 @@ function changeAmount(e) {
 }
 function changeRangeAmount(e) {
   const value = Number(e.target.value);
-  console.log("value", value);
   const isMax = Big(value || 0).eq(subBalance || 0);
   const amount = Big(subBalance || 0)
     .mul(value || 0)
@@ -154,7 +161,6 @@ function changeToMax() {
 }
 const rangeAmount =
   Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
-console.log("99999999-rangeAmount", rangeAmount);
 const bgLineWidth = rangeAmount + "%";
 const processMarginLeft = -10 - Big(18).mul(rangeAmount).div(100).toNumber();
 function displayAmount() {
@@ -172,6 +178,7 @@ function displayAmount() {
 return (
   <Container>
     <div class="inputArea">
+      {metadata.icon && <img src={metadata.icon} class="tokenIcon" />}
       <input
         class="normalInput"
         type="number"
