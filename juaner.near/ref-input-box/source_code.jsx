@@ -99,11 +99,15 @@ const Container = styled.div`
     align-items:center;
   }
   .scale .item {
+    position:relative;
     display:flex;
     flex-direction:column;
     align-items:center;
     font-size:12px;
     color:#7E8A93;
+  }
+  .scale .item:nth-of-type(n+2) {
+    left:5px;
   }
   .item::after{
     content: '';
