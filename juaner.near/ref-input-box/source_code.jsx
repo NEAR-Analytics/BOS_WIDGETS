@@ -39,14 +39,14 @@ const Container = styled.div`
       border-radius: 12px;
       height: 55px;
       font-size:20px;
-      color: #7E8A93;
+      color: #fff;
       padding:0 60px 0 0;
       border:none;
     }
     .normalInput:focus{
       outline:none;
       background: #152528; 
-      color: #7E8A93;
+      color: #fff;
     }
     .valueArea {
       display:flex;
