@@ -418,7 +418,7 @@ return (
             });
           }}
         >
-          Comments
+          Discuss
         </CommentsButton>
 
         {state.displayComments ? (
