@@ -140,7 +140,11 @@ const Container = styled.div`
   }
 `;
 const { wnearbase64 } = state;
-const { amount, handleAmount, balance, balance$, metadata } = props;
+const { amount, handleAmount, balance, balance$, metadata, rangeAmount } =
+  props;
+State.init({
+  rangeAmount: 0,
+});
 const subBalance = Big(balance || "0").toFixed(4);
 function changeAmount(e) {
   const value = e.target.value;
@@ -156,14 +160,21 @@ function changeRangeAmount(e) {
     .div(100)
     .toFixed(4);
   handleAmount(amount, isMax);
+  const rangeAmount_temp =
+    Number(subBalance) > 0
+      ? (100 * Number(amount || 0)) / Number(subBalance)
+      : 0;
+  State.update({
+    rangeAmount: rangeAmount_temp,
+  });
 }
 function changeToMax() {
   handleAmount(Big(subBalance || 0).toFixed(), true);
 }
-const rangeAmount =
-  Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
-const bgLineWidth = rangeAmount + "%";
-const processMarginLeft = -10 - Big(18).mul(rangeAmount).div(100).toNumber();
+
+const bgLineWidth = state.rangeAmount + "%";
+const processMarginLeft =
+  -10 - Big(18).mul(state.rangeAmount).div(100).toNumber();
 function displayAmount() {
   let result;
   let v = (amount || 0).toString();
@@ -215,7 +226,7 @@ return (
       <input
         class="rangeInput"
         type="range"
-        value={rangeAmount}
+        value={state.rangeAmount}
         step="any"
         min="0"
         max="100"
@@ -231,7 +242,7 @@ return (
         class="processSpan"
         style={{ left: bgLineWidth, marginLeft: processMarginLeft }}
       >
-        {Big(rangeAmount || 0).toFixed(0)}%
+        {Big(state.rangeAmount || 0).toFixed(0)}%
       </span>
     </div>
   </Container>
