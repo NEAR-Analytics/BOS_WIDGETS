@@ -95,6 +95,13 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const onSave = (project) => {
+  Near.call(ownerId, "edit_project", {
+    account_id: accountId,
+    project,
+  });
+};
+
 return (
   <Container>
     <Heading>Founders</Heading>
@@ -104,11 +111,7 @@ return (
         props={{
           founders: state.founders,
           update: (founders) => State.update({ founders }),
-          onSave: (founders) =>
-            Near.call(ownerId, "add_founders", {
-              account_id: accountId,
-              founders,
-            }),
+          onSave: (founders) => onSave({ founders }),
         }}
       />
     ) : (
@@ -136,10 +139,9 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.Team`}
         props={{
-          team: state.team,
+          permissions: state.team,
           update: (team) => State.update({ team }),
-          onSave: (team) =>
-            Near.call(ownerId, "add_team", { account_id: accountId, team }),
+          onSave: (team) => onSave({ team }),
         }}
       />
     ) : (
