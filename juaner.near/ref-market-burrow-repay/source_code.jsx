@@ -422,6 +422,7 @@ return (
               handleAmount,
               balance: availableBalance,
               balance$: availableBalance$,
+              metadata: asset.metadata,
             }}
           />
           {hasError && (
