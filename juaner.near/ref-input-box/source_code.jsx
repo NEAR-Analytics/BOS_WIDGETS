@@ -139,6 +139,7 @@ const Container = styled.div`
       top:30px;
   }
 `;
+const { wnearbase64 } = state;
 const { amount, handleAmount, balance, balance$, metadata } = props;
 const subBalance = Big(balance || "0").toFixed(4);
 function changeAmount(e) {
@@ -175,10 +176,20 @@ function displayAmount() {
   }
   return result || 0;
 }
+function getWnearIcon(icon) {
+  State.update({
+    wnearbase64: icon,
+  });
+}
 return (
   <Container>
+    {/* load icons */}
+    <Widget
+      src="juaner.near/widget/ref-icons"
+      props={{ getWnearIcon, getCloseButtonIcon }}
+    />
     <div class="inputArea">
-      {metadata.icon && <img src={metadata.icon} class="tokenIcon" />}
+      <img src={metadata.icon || wnearbase64} class="tokenIcon" />
       <input
         class="normalInput"
         type="number"
