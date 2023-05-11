@@ -139,7 +139,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.Team`}
         props={{
-          team: state.team,
+          permissions: state.team,
           update: (team) => State.update({ team }),
           onSave: (team) => onSave({ team }),
         }}
