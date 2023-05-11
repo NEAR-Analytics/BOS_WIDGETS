@@ -404,14 +404,18 @@ return (
         >
           Comments
         </button>
-        <Widget
-          src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
-          props={{
-            widgetProvider,
-            proposal_id: proposal.proposal_id,
-            displayComments: state.displayComments,
-          }}
-        />
+        {state.displayComments ? (
+          <Widget
+            src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
+            props={{
+              widgetProvider,
+              proposal_id: proposal.proposal_id,
+              displayComments: state.displayComments,
+            }}
+          />
+        ) : (
+          ""
+        )}
       </ProposalCard>
     ) : (
       ""
