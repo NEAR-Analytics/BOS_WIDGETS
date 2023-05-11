@@ -195,7 +195,9 @@ if (selectedTokenId && assets && account) {
   const borrowedBalance = shrinkToken(borrowed.balance || 0, decimals);
   const walletBalance =
     selectedTokenId === "wrap.near" ? nearBalance : getBalance(asset);
-  availableBalance = Math.min(borrowedBalance, walletBalance);
+  availableBalance = borrowedBalance.gt(walletBalance)
+    ? walletBalance
+    : borrowedBalance.toFixed();
   availableBalance$ = Big(availableBalance)
     .mul(asset.price.usd || 0)
     .toFixed(2);
