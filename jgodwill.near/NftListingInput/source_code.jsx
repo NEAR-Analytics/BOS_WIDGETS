@@ -99,13 +99,13 @@ const ChainCard = styled.div`
 
 const PriceInput = styled.div`
   display: flex;
-  padding: .4rem;
+  padding: .2rem;
   &>input{
     border:none;
     outline: none;
     background: none;
-    flex:0.5;
     width:70px;
+    padding: 0 .2rem;
     &:focus, &:active{
       border:none;
       box-shadow: none;
