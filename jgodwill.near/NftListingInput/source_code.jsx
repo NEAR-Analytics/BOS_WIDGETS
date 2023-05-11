@@ -92,7 +92,7 @@ return (
   <>
     <div className="container-fluid">
       <Main>
-        <BorderedShadowedCard className="shadow-lg">
+        <BorderedShadowedCard className="shadow">
           {/*<div>
             <SecondaryText>
               {`#...${props.state.tokenId?.slice(
