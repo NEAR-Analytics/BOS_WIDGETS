@@ -2,7 +2,20 @@
 //   return <div></div>;
 // }
 
-const Label = styled.div``;
+const Label = styled.p`
+  font-size: 1.1rem;
+  color: #04111D;
+  font-weight: 600;
+  font-family: "SF Pro Display",sans-serif;
+  line-height: 1.02;
+  white-space: nowrap;
+  margin: unset;
+`;
+
+const GrayLabel = styled.p`
+  color: #6C757D;
+  font-size: 14px;
+`;
 const SecondaryText = styled.h3`
   font-size: 1.1rem;
   color:#0f1d40;
@@ -12,7 +25,9 @@ const SecondaryText = styled.h3`
   white-space: nowrap;
   
 `;
-const Card = styled.div``;
+const Card = styled.div`
+  overflow: hidden;
+`;
 const BorderedShadowedCard = styled.div`
   display: flex;
    flex-flow: column nowrap;
@@ -21,7 +36,6 @@ const BorderedShadowedCard = styled.div`
    margin: 0 auto;
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
-  box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 1rem;
    width: max-content;
    background-color:#fff;
@@ -42,7 +56,6 @@ const Main = styled.div`
 `;
 
 const ImgCard = styled.div`
-   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   height:fit-content;
   max-height:500px;
   width:100%;
@@ -54,6 +67,22 @@ const ImgCard = styled.div`
   }
 `;
 
+const TopSellCard = styled.div`
+  background-color: #E2E4E8;
+  padding: 1rem;
+  width:100%;
+`;
+
+const Text = styled.p`
+  font-size: 14px;
+  margin: unset;
+`;
+
+const GrayCard = styled.div`
+  background-color: #E2E4E8;
+  cusor: not-allowed;
+`;
+
 const BlueSub = styled.div`
  color: #0d99ff;
  font-size: .8rem;
@@ -63,7 +92,7 @@ return (
   <>
     <div className="container-fluid">
       <Main>
-        <BorderedShadowedCard>
+        <BorderedShadowedCard className="shadow-lg">
           {/*<div>
             <SecondaryText>
               {`#...${props.state.tokenId?.slice(
@@ -71,7 +100,7 @@ return (
               )} ${props.state.nftMetadata.name}`}
             </SecondaryText>
           </div>*/}
-          <ImgCard>
+          <ImgCard className="shadow">
             <Widget
               src="mob.near/widget/NftImage"
               props={{
@@ -138,7 +167,44 @@ return (
           </div>
         </BorderedShadowedCard>
         <div className="">
-          <div className="card rounded shadow p-3">
+          <Card className="card rounded-4 shadow border border-2">
+            <TopSellCard className="d-flex align-items-center">
+              <Label>Sell Method</Label>
+            </TopSellCard>
+            <div className="p-3">
+              <GrayLabel>
+                Choose how you want to list you NFT for sale
+              </GrayLabel>
+
+              <div className="d-flex justify-content-between">
+                <div
+                  className="card rounded-4 shadow-sm p-3"
+                  role="button"
+                  style={{ borderColor: "#0D99FF" }}
+                >
+                  <Label className="text-center">SET PRICE</Label>
+                  <Text>Sell the NFT at a fixed price</Text>
+                </div>
+                <GrayCard className="rounded-4 p-3">
+                  <Label className="text-center">HIGHEST BID</Label>
+                  <Text>Auction to the highest bidder</Text>
+                </GrayCard>
+              </div>
+            </div>
+          </Card>
+          <div className=" mb-2">
+            Enter Price You Want to List (In NEAR)
+            <input
+              type="number"
+              placeholder={props.state.amount / 1e24}
+              onChange={(e) => props.onChangeAmount(e.target.value)}
+            />
+            <p>
+              * You will pay some gas in Ⓝ to deposit NEAR to marketplace
+              address then list your NFT
+            </p>
+          </div>
+          <div className="card rounded shadow p-3 mb-3">
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
           </div>
@@ -230,18 +296,6 @@ return (
                 custom Marketplace
               </div>
             )}
-            <div className=" mb-2">
-              Enter Price You Want to List (In NEAR)
-              <input
-                type="number"
-                placeholder={props.state.amount / 1e24}
-                onChange={(e) => props.onChangeAmount(e.target.value)}
-              />
-              <p>
-                * You will pay some gas in Ⓝ to deposit NEAR to marketplace
-                address then list your NFT
-              </p>
-            </div>
           </div>
         </div>
       </Main>
