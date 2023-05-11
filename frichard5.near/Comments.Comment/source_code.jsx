@@ -134,7 +134,7 @@ return (
             props={{
               item: {
                 type: "social",
-                path: `${accountId}/post/comment`,
+                path: `${accountId}/proposal/comment`,
                 blockHeight,
               },
               notifyAccountId,
