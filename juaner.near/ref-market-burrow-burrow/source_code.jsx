@@ -92,27 +92,6 @@ const Modal = styled.div`
     .modal-body {
         padding:0 16px;
     }
-    .modal-body .tab{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:30px;
-    }
-    .modal-body .tab span{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:50%;
-      height:40px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 18px;
-      cursor:pointer;
-      color:#fff;
-    }
-    .modal-body .tab span.active{
-      background: #304352;
-    }
    .btn-close-custom{
       position:absolute;
       right:28px;
@@ -194,6 +173,10 @@ const onLoad = (data) => {
   State.update(data);
 };
 /** logic start */
+let asset;
+if (selectedTokenId && assets) {
+  asset = assets.find((a) => a.token_id === selectedTokenId);
+}
 function getAdjustedSum(type, account) {
   if (!assets || !account || account[type].length == 0) return 0;
   return account[type]
@@ -443,6 +426,7 @@ return (
               handleAmount,
               balance: available,
               balance$: availableUSD,
+              metadata: asset.metadata,
             }}
           />
           {hasError && (
