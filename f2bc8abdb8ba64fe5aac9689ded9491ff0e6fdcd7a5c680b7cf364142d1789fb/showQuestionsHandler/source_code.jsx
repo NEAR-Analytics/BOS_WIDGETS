@@ -121,6 +121,7 @@ const renderModal = () => {
 
 const renderPolls = (onlyUsersPolls) => {
   if (onlyUsersPolls) {
+    console.log(polls);
     return polls.map((poll) => {
       return (
         <div
