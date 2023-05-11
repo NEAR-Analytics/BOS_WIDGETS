@@ -34,7 +34,6 @@ const BorderedShadowedCard = styled.div`
    -ms-flex-flow:column nowrap;
    background-color: "#f0f0f0";
    margin: 0 auto;
-   border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
    padding: 1rem;
    width: max-content;
@@ -60,7 +59,7 @@ const ImgCard = styled.div`
   max-height:500px;
   width:100%;
   max-width: 500px;
-  border-radius: 1rem;
+  border-radius: inherit;
   margin: 0 auto;
   &>img{
   object-fit: contain;
@@ -92,7 +91,7 @@ return (
   <>
     <div className="container-fluid">
       <Main>
-        <BorderedShadowedCard className="shadow">
+        <BorderedShadowedCard className="shadow rounded-4">
           {/*<div>
             <SecondaryText>
               {`#...${props.state.tokenId?.slice(
