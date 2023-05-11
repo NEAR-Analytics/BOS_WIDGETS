@@ -110,25 +110,8 @@ function getAssets() {
       .plus(Big(asset.reserved))
       .minus(Big(asset.borrowed.balance));
     const temp = temp_temp.minus(temp_temp.mul(0.001));
-    // if (
-    //   asset.token_id ==
-    //   "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near"
-    // ) {
-    //   console.log(
-    //     "9999999999999-asset.supplied.balance, asset.reserved, borrowed.balance",
-    //     asset.supplied.balance,
-    //     asset.reserved,
-    //     asset.borrowed.balance
-    //   );
-    // }
     const decimals = metadata?.[i].decimals + asset.config.extra_decimals;
     const availableLiquidity = Number(shrinkToken(temp.toFixed(), decimals));
-    // if (
-    //   asset.token_id ==
-    //   "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near"
-    // ) {
-    //   console.log("9999999-availableLiquidity", availableLiquidity);
-    // }
     const extraPrice = price.price || {
       decimals: Number(refPrices?.[asset.token_id]?.decimal),
       multiplier: "1",
