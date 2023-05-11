@@ -1,5 +1,5 @@
 const Container = styled.div`
-    padding-bottom:10px;
+    padding-bottom:30px;
     .inputArea{
       position:relative;
       display:flex;
@@ -112,6 +112,19 @@ const Container = styled.div`
     margin-top:4px;
     background-color:#7E8A93;
   }
+  .processSpan{
+      display:flex;
+      align-items:center;
+      position:absolute;
+      height: 22px;
+      padding: 0 4px;
+      background: #00C6A2;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px;
+      color:#000;
+      top:30px;
+  }
 `;
 const { amount, handleAmount, balance, balance$ } = props;
 const subBalance = Big(balance || "0").toFixed(4);
@@ -190,6 +203,9 @@ return (
           width: bgLineWidth,
         }}
       ></span>
+      <span class="processSpan" style={{ left: bgLineWidth }}>
+        {Big(rangeAmount || 0).toFixed(0)}%
+      </span>
     </div>
   </Container>
 );
