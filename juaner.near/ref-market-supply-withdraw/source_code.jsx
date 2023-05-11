@@ -154,6 +154,7 @@ const onLoad = (data) => {
 /** logic start */
 let apy = 0;
 let cf = "-";
+let asset;
 const getApy = (asset) => {
   if (!asset && !rewards) return 0;
   const r = rewards.find((a) => a.token_id === asset.token_id);
@@ -162,7 +163,7 @@ const getApy = (asset) => {
 };
 if (selectedTokenId && assets) {
   const token = selectedTokenId === "NEAR" ? "wrap.near" : selectedTokenId;
-  const asset = assets.find((a) => a.token_id === token);
+  asset = assets.find((a) => a.token_id === token);
   apy = getApy(asset);
   cf = asset.config.volatility_ratio / 100;
 }
@@ -379,6 +380,7 @@ return (
               handleAmount,
               balance: availableBalance,
               balance$: availableBalance$,
+              metadata: asset.metadata,
             }}
           />
           {hasError && (
