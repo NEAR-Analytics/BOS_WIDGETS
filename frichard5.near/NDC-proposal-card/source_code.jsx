@@ -4,7 +4,7 @@ const userAccountId = context.accountId;
 const item = {
   type: "sputnik_proposal_comment",
   path: `${context.accountId}/proposal/main`,
-  proposal_id,
+  proposal_id: proposal.proposal_id,
 };
 const comments = Social.index("comment", item);
 const totalComments = comments?.length || 0;
