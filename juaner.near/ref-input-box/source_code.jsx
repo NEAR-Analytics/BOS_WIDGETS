@@ -5,7 +5,8 @@ const Container = styled.div`
       display:flex;
       align-items:center;
       background: rgb(21, 37, 40);
-    border-radius: 12px;
+      border-radius: 12px;
+      margin-bottom:4px;
       .tokenIcon{
         width: 26px;
         height: 26px;
@@ -41,7 +42,6 @@ const Container = styled.div`
       color: #7E8A93;
       padding:0 60px 0 15px;
       border:none;
-      margin-bottom:4px;
     }
     .normalInput:focus{
       outline:none;
