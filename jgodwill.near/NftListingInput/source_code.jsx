@@ -351,15 +351,19 @@ return (
               </div>
             )}
           </div>
-          <div className="row text-center">
+          <div className="d-flex flex-column align-items-center text-center">
             {props.state.ownsNFT && (
-              <button className="btn btn-primary mt-3" onClick={props.list}>
+              <button
+                type="button"
+                className="btn btn-primary mt-3"
+                onClick={props.list}
+              >
                 List
               </button>
             )}
 
             {!props.state.ownsNFT && (
-              <button className="btn btn-secondary mt-3">
+              <button type="button" className="btn btn-secondary mt-3">
                 You Can Only List An NFT You Own
               </button>
             )}
