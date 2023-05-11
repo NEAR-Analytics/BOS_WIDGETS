@@ -35,7 +35,7 @@ const renderItem = (a) =>
   a.value.type === "md" && (
     <div key={JSON.stringify(a)}>
       <Widget
-        src="near/widget/Comments.Comment"
+        src={`${widgetProvider}/widget/Comments.Comment`}
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
