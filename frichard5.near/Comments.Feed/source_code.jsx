@@ -1,4 +1,3 @@
-const { widgetProvider } = props;
 const index = {
   action: "comment",
   key: props.item,
@@ -36,7 +35,7 @@ const renderItem = (a) =>
   a.value.type === "md" && (
     <div key={JSON.stringify(a)}>
       <Widget
-        src={`${widgetProvider}/widget/Comments.Comment`}
+        src="near/widget/Comments.Comment"
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
