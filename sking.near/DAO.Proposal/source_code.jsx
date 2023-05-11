@@ -1,114 +1,16 @@
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const proposalId = props.proposalId;
 
-let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
-
-// if proposal is not provided and proposalId and daoId are provided then fetch proposal
-if (!proposal && proposalId && daoId) {
-  let new_proposal = Near.view(daoId, "get_proposal", {
-    id: Number(proposalId),
-  });
-  if (new_proposal) {
-    proposal = new_proposal;
-  } else if (new_proposal === null) {
-    return "Loading...";
-  } else {
-    return "Proposal not found, check console for details.";
-  }
-} else if (!proposal) {
-  return "Please provide a proposal or proposalId.";
-}
-
-// --- check user permissions
-function toPolicyLabel(proposalKind) {
-  const kindName =
-    typeof proposalKind === "string"
-      ? proposalKind
-      : Object.keys(proposalKind)[0];
-  switch (kindName) {
-    case "ChangeConfig":
-      return "config";
-    case "ChangePolicy":
-      return "policy";
-    case "AddMemberToRole":
-      return "add_member_to_role";
-    case "RemoveMemberFromRole":
-      return "remove_member_from_role";
-    case "FunctionCall":
-      return "call";
-    case "UpgradeSelf":
-      return "upgrade_self";
-    case "UpgradeRemote":
-      return "upgrade_remote";
-    case "Transfer":
-      return "transfer";
-    case "SetStakingContract":
-      return "set_vote_token";
-    case "AddBounty":
-      return "add_bounty";
-    case "BountyDone":
-      return "bounty_done";
-    case "Vote":
-      return "vote";
-    case "FactoryInfoUpdate":
-      return "factory_info_update";
-    case "ChangePolicyAddOrUpdateRole":
-      return "policy_add_or_update_role";
-    case "ChangePolicyRemoveRole":
-      return "policy_remove_role";
-    case "ChangePolicyUpdateDefaultVotePolicy":
-      return "policy_update_default_vote_policy";
-    case "ChangePolicyUpdateParameters":
-      return "policy_update_parameters";
-    default:
-      return "";
-  }
-}
-
-let roles = Near.view(daoId, "get_policy");
-roles = roles === null ? [] : roles.roles;
-const userRoles = [];
-for (const role of roles) {
-  if (role.kind === "Everyone") {
-    userRoles.push(role);
-    continue;
-  }
-  if (!role.kind.Group) continue;
-  if (
-    context.accountId &&
-    role.kind.Group &&
-    role.kind.Group.includes(context.accountId)
-  ) {
-    userRoles.push(role);
-  }
-}
-
-const isAllowedTo = (action) => {
-  let allowed = false;
-
-  const allowedRoles = userRoles
-    .filter(({ permissions }) => {
-      const allowedRole =
-        permissions.includes(
-          `${toPolicyLabel(proposal.kind)}:${action.toString()}`
-        ) ||
-        permissions.includes(`${toPolicyLabel(proposal.kind)}:*`) ||
-        permissions.includes(`*:${action.toString()}`) ||
-        permissions.includes("*:*");
-      allowed = allowed || allowedRole;
-      return allowedRole;
-    })
-    .map((role) => role.name);
-
-  return [allowed, allowedRoles];
+const proposal = props.proposal ?? {
+  id: 1,
+  proposer: "hack.near",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut pharetra orci. Aliquam vitae enim tincidunt sapien fermentum scelerisque.",
+  kind: { AddMemberToRole: { member_id: "hack.near", role: "community" } },
+  status: "Approved",
+  vote_counts: { council: [1, 0, 0] },
+  votes: { "infinity.near": "Approve" },
+  submission_time: "1682527782646393764",
 };
-
-const isAllowedToVoteYes = isAllowedTo("VoteApprove")[0];
-const isAllowedToVoteNo = isAllowedTo("VoteReject")[0];
-const isAllowedToVoteRemove = isAllowedTo("VoteRemove")[0];
-
-console.log(isAllowedToVoteYes, isAllowedToVoteNo, isAllowedToVoteRemove);
-// --- end of check
 
 proposal.type =
   typeof proposal.kind === "string"
@@ -131,24 +33,16 @@ const statusColor =
     ? "#dc3545"
     : "#6c757d";
 
-const statusBackgroundColor =
-  proposal.status === "Approved"
-    ? "#ecf7ef"
-    : proposal.status === "Failed" || proposal.status === "Rejected"
-    ? "#fdf4f4"
-    : "#fff";
-
 const Wrapper = styled.div`
-  background-color: ${statusBackgroundColor};
   margin: 16px auto;
   max-width: 900px;
+  background-color: #fff;
   border-radius: 16px;
   padding: 24px;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  min-height: 500px;
 
   p {
     line-height: 1.4;
@@ -165,8 +59,8 @@ const Wrapper = styled.div`
   }
 
   h5 {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 400;
     line-height: 1.2;
     color: #6c757d;
   }
@@ -179,89 +73,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const MarkdownContainer = styled.div`
-  position: relative;
-  width: 100%;
-  padding: 24px;
-  background-color: #f8f9fa;
-  color: #1b1b18;
-  border-radius: 14px;
-  max-height: 700px;
-  overflow-y: auto;
-  color: #333;
-  line-height: 1.6;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-
-  h1 {
-    font-size: 2em;
-    color: #111;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 0.3em;
-    margin-bottom: 1em;
-  }
-
-  h2 {
-    font-size: 1.5em;
-    color: #222;
-    margin-bottom: 0.75em;
-  }
-
-  h3 {
-    font-size: 1.3em;
-    color: #333;
-    margin-bottom: 0.6em;
-  }
-
-  h4 {
-    font-size: 1.2em;
-    color: #444;
-    margin-bottom: 0.5em;
-  }
-
-  h5 {
-    font-size: 1.1em;
-    color: #555;
-    margin-bottom: 0.4em;
-  }
-
-  p {
-    font-size: 1em;
-    margin-bottom: 1em;
-  }
-
-  a {
-    color: #0645ad;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-`;
-
-function deepSortObject(obj) {
-  if (typeof obj !== "object" || obj === null) {
-    // Return non-object values as is
-    return obj;
-  }
-
-  if (Array.isArray(obj)) {
-    // If the input is an array, recursively sort each element
-    return obj.map(deepSortObject).sort();
-  }
-
-  const sortedObject = {};
-  const sortedKeys = Object.keys(obj).sort((keyA, keyB) => {
-    // Compare keys in a case-insensitive manner
-    return keyA.toLowerCase().localeCompare(keyB.toLowerCase());
-  });
-
-  for (const key of sortedKeys) {
-    sortedObject[key] = deepSortObject(obj[key]);
-  }
-
-  return sortedObject;
-}
+/**
+ * Determine the proposal's arguments to show in the UI depending on its kind https://github.com/near-daos/sputnik-dao-contract/blob/2b19edb50e4542e1b8a6769023f2318c70255ee9/sputnikdao2/src/proposals.rs#L62
+ */
 
 const RenderProposalArgs = () => {
   const proposal_type =
@@ -358,14 +172,14 @@ const RenderProposalArgs = () => {
           <Widget
             src="mob.near/widget/Profile.ShortInlineBlock"
             props={{
-              accountId: proposal.kind[proposal_type].member_id,
+              accountId: proposal.kind.AddMemberToRole.member_id,
               tooltip: true,
             }}
           />
         </div>
         <div>
           <h5>Role</h5>
-          <p>{proposal.kind[proposal_type].role}</p>
+          <p>{proposal.kind.AddMemberToRole.role}</p>
         </div>
       </>
     );
@@ -395,11 +209,9 @@ const RenderProposalArgs = () => {
             ).toLocaleString()}
           </p>
         </div>
-        <div className="w-100">
+        <div>
           <h5>Bounty Description</h5>
-          <MarkdownContainer>
-            <Markdown text={proposal.kind.AddBounty.bounty.description} />
-          </MarkdownContainer>
+          <p>{proposal.kind.AddBounty.bounty.description}</p>
         </div>
       </>
     );
@@ -423,55 +235,14 @@ const RenderProposalArgs = () => {
         </div>
       </>
     );
-
-  // TODO: ChangePolicy component need some UI improvements to be more readable
-  if (proposal_type === "ChangePolicy") {
-    const old_policy = Near.view(daoId, "get_policy");
-    if (old_policy === null) return null;
-    return (
-      <>
-        <div className="w-100">
-          <h5>Policy Changes</h5>
-          <div
-            className="w-100"
-            style={{
-              maxHeight: "400px",
-              overflow: "auto",
-            }}
-          >
-            <Widget
-              src="bozon.near/widget/CodeDiff"
-              props={{
-                prevCode: JSON.stringify(deepSortObject(old_policy), null, 2),
-                currentCode: JSON.stringify(
-                  deepSortObject(proposal.kind.ChangePolicy.policy),
-                  null,
-                  2
-                ),
-              }}
-            />
-          </div>
-        </div>
-      </>
-    );
-  }
 };
 
-const useMarkdownForDescription =
-  proposal.type === "Vote" || proposal.type === "Bounty Done" ? true : false;
-
-const proposalURL = `/#/sking.near/widget/DAO.Page?daoId=${daoId}&tab=proposal&proposalId=${proposal.id}`;
 return (
   <Wrapper>
     <div className="d-flex justify-content-between align-items-center">
       <div>
         <h5>Proposal ID: {proposal.id}</h5>
-        <h3>
-          {proposal.type}
-          <a href={proposalURL} target="_blank" rel="noreferrer">
-            <i className="bi bi-link-45deg"></i>
-          </a>
-        </h3>
+        <h3>{proposal.type}</h3>
       </div>
       <div className="d-flex flex-column align-items-end">
         <h5>Status</h5>
@@ -487,21 +258,9 @@ return (
     </div>
     <div>
       <h5>Description</h5>
-      {useMarkdownForDescription ? (
-        <MarkdownContainer>
-          <Markdown text={proposal.description} />
-        </MarkdownContainer>
-      ) : (
-        <p>{proposal.description}</p>
-      )}
+      <p>{proposal.description}</p>
     </div>
-    <div
-      className="d-flex flex-wrap align-items-start"
-      style={{
-        rowGap: "16px",
-        columnGap: "48px",
-      }}
-    >
+    <div className="d-flex gap-5 flex-wrap align-items-start">
       <RenderProposalArgs />
     </div>
 
@@ -512,21 +271,8 @@ return (
         props={{
           daoId: daoId,
           proposal: proposal,
-          isAllowedToVote: [
-            isAllowedToVoteYes,
-            isAllowedToVoteNo,
-            isAllowedToVoteRemove,
-          ],
         }}
       />
     </div>
-
-    <Widget
-      src="sking.near/widget/DAO.Proposal.Additional"
-      props={{
-        daoId: daoId,
-        proposal: proposal,
-      }}
-    />
   </Wrapper>
 );
