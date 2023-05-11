@@ -40,7 +40,7 @@ const Container = styled.div`
       height: 55px;
       font-size:20px;
       color: #fff;
-      padding:0 60px 0 0;
+      padding:0 60px 0 4px;
       border:none;
     }
     .normalInput:focus{
