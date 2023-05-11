@@ -165,6 +165,16 @@ const Search = (
   />
 );
 
+const AddProposal = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-add-proposal`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
@@ -225,6 +235,12 @@ const Tabs = (
           label: "Proposal search",
           selected: tab === "proposal",
           components: <WidgetsContainer>{Search}</WidgetsContainer>,
+        },
+        {
+          value: "addProposal",
+          label: "Add proposal",
+          selected: tab === "addProposal",
+          components: <WidgetsContainer>{AddProposal}</WidgetsContainer>,
         },
       ],
       widgetProvider,
