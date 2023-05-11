@@ -191,9 +191,9 @@ return (
               return;
             }
 
-            if (state.name.length > 50) {
+            if (state.name.length > 100) {
               State.update({
-                nameError: "Name must be less than 50 characters",
+                nameError: "Name must be less than 100 characters",
               });
               return;
             }
@@ -208,7 +208,7 @@ return (
         props={{
           label: "NEAR Account *",
           placeholder:
-            "Enter your NEAR account ID (wallet address like nearhorizon.near)",
+            "Enter the NEAR account ID of your project (wallet address like nearhorizon.near)",
           value: state.accountId,
           onChange: (accountId) => State.update({ accountId }),
           addInfo: (addInfo) => State.update({ addInfo }),
@@ -416,51 +416,52 @@ return (
             disabled: !validateForm(),
             onClick: () => {
               if (!validateForm()) return;
+              const data = {
+                [state.accountId]: {
+                  profile: {
+                    name: state.name,
+                    category: state.category.value,
+                    stage: state.dev.value,
+                    ...(state.team ? { team: `${state.team}` } : {}),
+                    ...(state.tagline ? { tagline: state.tagline } : {}),
+                    ...(state.description
+                      ? { description: state.description }
+                      : {}),
+                    ...(state.tags.length
+                      ? {
+                          tags: state.tags.reduce(
+                            (acc, { name }) =>
+                              Object.assign(acc, { [name]: "" }),
+                            {}
+                          ),
+                        }
+                      : {}),
+                    ...(state.website || state.socials
+                      ? {
+                          ...state.socials,
+                          ...(state.website
+                            ? {
+                                website: state.website.startsWith("http://")
+                                  ? state.website.substring(7)
+                                  : state.website.startsWith("https://")
+                                  ? state.website.substring(8)
+                                  : state.website,
+                              }
+                            : {}),
+                        }
+                      : {}),
+                  },
+                },
+              };
+              const deposit = Big(JSON.stringify(data).length * 2).mul(
+                Big(10).pow(19)
+              );
               const transactions = [
                 {
                   contractName: "social.near",
                   methodName: "set",
-                  args: {
-                    data: {
-                      [state.accountId]: {
-                        profile: {
-                          name: state.name,
-                          category: state.category.value,
-                          stage: state.dev.value,
-                          ...(state.team ? { team: state.team } : {}),
-                          ...(state.tagline ? { tagline: state.tagline } : {}),
-                          ...(state.description
-                            ? { description: state.description }
-                            : {}),
-                          ...(state.tags.length
-                            ? {
-                              tags: state.tags.reduce(
-                                (acc, { name }) =>
-                                  Object.assign(acc, { [name]: "" }),
-                                {}
-                              ),
-                            }
-                            : {}),
-                          ...(state.website || state.socials
-                            ? {
-                              ...state.socials,
-                              ...(state.website
-                                ? {
-                                  website: state.website.startsWith(
-                                    "http://"
-                                  )
-                                    ? state.website.substring(7)
-                                    : state.website.startsWith("https://")
-                                      ? state.website.substring(8)
-                                      : state.website,
-                                }
-                                : {}),
-                            }
-                            : {}),
-                        },
-                      },
-                    },
-                  },
+                  deposit,
+                  args: { data },
                 },
                 {
                   contractName: ownerId,
