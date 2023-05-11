@@ -1,15 +1,17 @@
-console.log(JSON.stringify(context));
 function composeData() {
   const data = {
-    thing: {
-      core: {
+    index: {
+      edge: JSON.stringify({
+        key: "91582684",
         value: {
-          name: "lynkable",
-          description: "",
-          children: [{}],
+          type: "reference",
+          ref: {
+            accountId: "neversettleinterstellar.near",
+            blockHeight: "79201485",
+            type: "meme",
+          },
         },
-        type: "every.near/type/dao",
-      },
+      }),
     },
   };
 
@@ -18,7 +20,7 @@ function composeData() {
 
 return (
   <>
-    <CommitButton force data={composeData}>
+    <CommitButton force data={composeData} className="styless">
       create
     </CommitButton>
   </>
