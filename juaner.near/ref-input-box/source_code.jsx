@@ -115,13 +115,14 @@ const Container = styled.div`
   .processSpan{
       display:flex;
       align-items:center;
+      justify-content:center;
       position:absolute;
       height: 22px;
-      padding: 0 4px;
       background: #00C6A2;
       border-radius: 8px;
       font-weight: 700;
       font-size: 12px;
+      width:40px;
       color:#000;
       top:30px;
   }
