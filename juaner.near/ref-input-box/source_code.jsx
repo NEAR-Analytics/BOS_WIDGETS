@@ -139,9 +139,8 @@ const Container = styled.div`
       top:30px;
   }
 `;
-const { wnearbase64 } = state;
-const { amount, handleAmount, balance, balance$, metadata, rangeAmount } =
-  props;
+const { wnearbase64, rangeAmount } = state;
+const { amount, handleAmount, balance, balance$, metadata } = props;
 State.init({
   rangeAmount: 0,
 });
