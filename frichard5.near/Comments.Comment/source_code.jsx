@@ -147,6 +147,7 @@ return (
               onClick: () => State.update({ showReply: !state.showReply }),
             }}
           />
+          /*
           <Widget
             src="near/widget/CopyUrlButton"
             props={{
@@ -166,6 +167,7 @@ return (
               },
             }}
           />
+          */
         </Actions>
       )}
 
