@@ -149,7 +149,7 @@ const fetchMore = () => {
 };
 
 const ProposalCards = [];
-
+console.log("state", state);
 state.proposals.forEach((proposal) => {
   ProposalCards.push(
     <Widget
