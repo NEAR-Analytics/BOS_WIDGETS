@@ -100,6 +100,7 @@ const Container = styled.div`
     height:6px;
     border-radius: 5px;
     background: #00D6AF;
+    pointer-events:none;
   }
   .scale{
     width:100%;
