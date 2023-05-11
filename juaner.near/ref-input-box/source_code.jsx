@@ -151,6 +151,7 @@ const rangeAmount =
   Number(subBalance) > 0 ? (100 * Number(amount || 0)) / Number(subBalance) : 0;
 console.log("99999999-rangeAmount", rangeAmount);
 const bgLineWidth = rangeAmount + "%";
+const processMarginLeft = -13 - Big(18).mul(rangeAmount).div(100).toNumber();
 function displayAmount() {
   let result;
   let v = (amount || 0).toString();
@@ -203,7 +204,10 @@ return (
           width: bgLineWidth,
         }}
       ></span>
-      <span class="processSpan" style={{ left: bgLineWidth }}>
+      <span
+        class="processSpan"
+        style={{ left: bgLineWidth, marginLeft: processMarginLeft }}
+      >
         {Big(rangeAmount || 0).toFixed(0)}%
       </span>
     </div>
