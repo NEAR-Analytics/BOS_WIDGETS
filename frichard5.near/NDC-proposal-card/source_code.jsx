@@ -252,6 +252,12 @@ let ClipboardButton = styled.button`
   border-radius: 4px;
 `;
 
+let CommentsButton = styled.button`
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+`;
+
 const getTimeLeft = (proposal) => {
   if (proposal.status === "InProgress") {
     const timeLeft = (Date.now() - new Date(proposal.submission_time)) / 1000;
@@ -400,20 +406,20 @@ return (
         ) : (
           <Label>You don't have the permission to vote on proposals.</Label>
         )}
-        <div>
-          <button
-            onClick={() => {
-              const isDisplayed = !state.displayComments;
-              const height = isDisplayed ? "auto" : defaultHeight;
-              State.update({
-                displayComments: isDisplayed,
-                height,
-              });
-            }}
-          >
-            Comments
-          </button>
-        </div>
+
+        <CommentsButton
+          onClick={() => {
+            const isDisplayed = !state.displayComments;
+            const height = isDisplayed ? "auto" : defaultHeight;
+            State.update({
+              displayComments: isDisplayed,
+              height,
+            });
+          }}
+        >
+          Comments
+        </CommentsButton>
+
         {state.displayComments ? (
           <Widget
             src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
