@@ -128,13 +128,13 @@ return (
     <div className="container-fluid">
       <Main>
         <BorderedShadowedCard className="shadow-sm rounded-4">
-          {/*<div>
+          <div>
             <SecondaryText>
-              {`#...${props.state.tokenId?.slice(
+              {`...${props.state.tokenId?.slice(
                 props.state.tokenId.length / 2
               )} ${props.state.nftMetadata.name}`}
             </SecondaryText>
-          </div>*/}
+          </div>
           <ImgCard className="shadow-sm">
             <Widget
               src="mob.near/widget/NftImage"
