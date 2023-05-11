@@ -1,7 +1,16 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 const userAccountId = context.accountId;
 
+const item = {
+  type: "sputnik_proposal_comment",
+  path: `${context.accountId}/proposal/main`,
+  proposal_id,
+};
+const comments = Social.index("comment", item);
+const totalComments = comments?.length || 0;
+
 const defaultHeight = "370px";
+const dataLoading = props.hideCount ? false : comments === null;
 
 State.init({
   showClipboardTooltip: false,
@@ -418,7 +427,7 @@ return (
             });
           }}
         >
-          Discuss
+          Discuss ({totalComments})
         </CommentsButton>
 
         {state.displayComments ? (
