@@ -134,7 +134,7 @@ return (
             props={{
               item: {
                 type: "social",
-                path: `${accountId}/proposal/comment`,
+                path: `${accountId}/post/comment`,
                 blockHeight,
               },
               notifyAccountId,
@@ -145,6 +145,25 @@ return (
             props={{
               hideCount: true,
               onClick: () => State.update({ showReply: !state.showReply }),
+            }}
+          />
+          <Widget
+            src="near/widget/CopyUrlButton"
+            props={{
+              url: commentUrl,
+            }}
+          />
+          <Widget
+            src="near/widget/FlagButton"
+            props={{
+              item: {
+                type: "social",
+                path: `${accountId}/post/comment`,
+                blockHeight,
+              },
+              onFlag: () => {
+                State.update({ hasBeenFlagged: true });
+              },
             }}
           />
         </Actions>
