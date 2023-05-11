@@ -5,6 +5,7 @@ const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const daosList = [
+  "frichardtest.sputnik-dao.near",
   "marketing.sputnik-dao.near",
   "creativesdao.sputnik-dao.near",
   "neardevgov.sputnik-dao.near",
@@ -104,6 +105,7 @@ const fetchProposal = (params) => {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
+      "no-cache": true,
     },
   }).then(({ err, body, ok }) => {
     if (ok) {
@@ -149,7 +151,7 @@ const fetchMore = () => {
 };
 
 const ProposalCards = [];
-console.log("state", state);
+
 state.proposals.forEach((proposal) => {
   ProposalCards.push(
     <Widget
