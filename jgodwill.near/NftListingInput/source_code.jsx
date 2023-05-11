@@ -7,7 +7,6 @@ const SecondaryText = styled.h3`
   font-size: 1.1rem;
   color:#0f1d40;
   font-weight: 600;
-  width:60%;
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
   white-space: nowrap;
@@ -34,7 +33,7 @@ const Main = styled.div`
     display: grid;
   gap: 3rem;
   align-content:center;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 0.5fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   justify-content: center;
   // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
   margin-top: 20px;
@@ -65,13 +64,13 @@ return (
     <div className="container-fluid">
       <Main>
         <BorderedShadowedCard>
-          <div>
+          {/*<div>
             <SecondaryText>
               {`#...${props.state.tokenId?.slice(
                 props.state.tokenId.length / 2
               )} ${props.state.nftMetadata.name}`}
             </SecondaryText>
-          </div>
+          </div>*/}
           <ImgCard>
             <Widget
               src="mob.near/widget/NftImage"
