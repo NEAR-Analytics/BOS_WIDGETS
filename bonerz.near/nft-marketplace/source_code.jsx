@@ -120,6 +120,10 @@ return data !== null ? (
         }
       )}
     </div>
+
+    <div class="py-4">
+      <Widget src="mintbase.near/widget/BuiltWithMintbase" />
+    </div>
   </>
 ) : (
   <p>loading...</p>
