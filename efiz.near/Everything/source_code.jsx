@@ -2,17 +2,7 @@
 
 return (
   <Widget
-    src="efiz.near/widget/Tree"
-    props={{
-      rootPath: "everything",
-      rootType: "thing",
-      rootNode: {
-        post: {
-          main: null,
-          dev: null,
-          bos: null,
-        },
-      },
-    }}
+    src="efiz.near/widget/Everything.Tree"
+    props={{ rootPath: "evrything.near", type: "account" }}
   />
 );
