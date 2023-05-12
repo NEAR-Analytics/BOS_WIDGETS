@@ -65,7 +65,7 @@ const ImgCard = styled.div`
   aspect-ratio: 1/1;
   margin: 0 auto;
   &>img{
-  object-fit: contain;
+  object-fit: cover;
   }
   object-fit:cover;
 `;
@@ -154,7 +154,11 @@ return (
             <span>
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
-                {props.state.contractId || "Sample Contract"}
+                {props.state.contractId.length > 6
+                  ? `...${props.state.contractId?.slice(
+                      props.state.contractId.length / 3
+                    )} ${props.state.nftMetadata.name}`
+                  : props.state.contractId || "Sample Contract"}
               </SecondaryText>
             </span>
             <span>
