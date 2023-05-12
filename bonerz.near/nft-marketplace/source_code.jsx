@@ -61,7 +61,7 @@ return data !== null ? (
   <>
     <div>
       <h4>Bonerz Marketplace</h4>
-      <p>1/1 pixel art collection</p>
+      <p>1/1 pixel art collection...have some fun</p>
     </div>
     <div className="d-flex gap-4 flex-wrap">
       {data.body.data?.mb_views_active_listings_by_contract.map(
