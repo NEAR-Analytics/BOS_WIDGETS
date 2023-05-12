@@ -175,6 +175,16 @@ const AddProposal = (
   />
 );
 
+const Bounties = (
+  <Widget
+    src={`${widgetProvider}/widget/NDC-bounty-list`}
+    props={{
+      account: state.selectedDao,
+      widgetProvider,
+    }}
+  />
+);
+
 const Tabs = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Tabs`}
@@ -241,6 +251,12 @@ const Tabs = (
           label: "Add proposal",
           selected: tab === "addProposal",
           components: <WidgetsContainer>{AddProposal}</WidgetsContainer>,
+        },
+        {
+          value: "bounties",
+          label: "Bounties",
+          selected: tab === "bounties",
+          components: <WidgetsContainer>{Bounties}</WidgetsContainer>,
         },
       ],
       widgetProvider,
