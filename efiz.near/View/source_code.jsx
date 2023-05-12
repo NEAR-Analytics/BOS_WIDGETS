@@ -1,4 +1,8 @@
 const path = props.path;
+
+if (path.endsWith("/")) {
+  path = path.slice(0, -1);
+}
 const type = props.type;
 
 const parts = path.split("/");
