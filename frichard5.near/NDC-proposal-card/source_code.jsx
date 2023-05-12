@@ -438,9 +438,8 @@ return (
         ) : (
           ""
         )}
-        {state.canVote && proposal.status === "InProgress" ? (
-          VoteOnProposal
-        ) : (
+        {state.canVote && proposal.status === "InProgress" && VoteOnProposal}
+        {!state.canVote && proposal.status === "InProgress" && (
           <Label>You don't have the permission to vote on proposals.</Label>
         )}
 
