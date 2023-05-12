@@ -59,7 +59,7 @@ const Content = styled.div`
   align-items: flex-start;
   position: fixed;
   inset: 74px 0 0 auto;
-  padding: 2.5em 2em 2em;
+  padding: 1.5em 2em 2em;
   gap: 0.625em;
   isolation: isolate;
   animation: ${slideIn} 200ms ease-out;
