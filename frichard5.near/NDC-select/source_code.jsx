@@ -31,7 +31,8 @@ const Options = [];
 options.forEach((o) => {
   Options.push(
     <Option value={o.value} selected={o.value === selectedOption}>
-      {o.label}
+      <span>{o.label}</span>
+      {o.img ? o.img : ""}
     </Option>
   );
 });
