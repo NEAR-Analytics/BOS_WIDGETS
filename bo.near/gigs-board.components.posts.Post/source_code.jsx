@@ -513,13 +513,20 @@ const limitedMarkdown = styled.div`
 
 const clampMarkdown = styled.div`
   .clamp {
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
   }
 `;
 
+// Determine if located in the post page.
+const isPostPage = Number.isInteger(props.id) && props.id > 0;
+console.log(isPostPage);
 const contentArray = snapshot.description.split("\n");
-const needClamp = contentArray.length > 5;
+const needClamp = !isPostPage && contentArray.length > 5;
 
 initState({
   clamp: needClamp,
