@@ -67,6 +67,7 @@ const ImgCard = styled.div`
   &>img{
   object-fit: contain;
   }
+  object-fit:cover;
 `;
 
 const TopSellCard = styled.div`
