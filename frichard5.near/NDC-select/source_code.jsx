@@ -32,7 +32,7 @@ options.forEach((o) => {
   Options.push(
     <Option value={o.value} selected={o.value === selectedOption}>
       <span>{o.label}</span>
-      {o.img ? o.img : ""}
+      {o.additional ? o.additional : ""}
     </Option>
   );
 });
