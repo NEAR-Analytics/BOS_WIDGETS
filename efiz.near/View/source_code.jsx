@@ -7,7 +7,9 @@ let value = {};
 if (parts.length < 2) {
   if (type === "account") {
     // return default profile or setting's profile
-  } else if (type === "widget") {
+  }
+} else {
+  if (type === "widget") {
     if (path.endsWith("/")) {
       path = path.slice(0, -1);
     }
@@ -16,9 +18,18 @@ if (parts.length < 2) {
     parts.push("**");
     value = Social.get(parts.join("/"), "final");
   } else if (type === "index") {
-    return null;
+    value = Social.get(parts.join("/"), "final");
   } else if (type === "profile") {
     value = Social.get(parts.join("/"), "final");
+    return <p>{value}</p>;
+  } else if (type === "settings") {
+    if (parts.length === 3) {
+      parts.push("**");
+      value = Social.get(parts.join("/"), "final");
+    } else {
+      value = Social.get(parts.join("/"), "final");
+      value = JSON.parse(value);
+    }
   } else if (type === "post") {
     // return default post or post from settings
     const index = {
@@ -63,8 +74,6 @@ if (parts.length < 2) {
     value = Social.get(parts.join("/"), "final");
     value = JSON.parse(value);
   }
-} else {
-  console.log("uncaught path: ", path);
 }
 
 const text = `
