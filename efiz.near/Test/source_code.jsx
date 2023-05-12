@@ -29,12 +29,17 @@ function returnIpfsImage(cfid) {
   };
 }
 
+State.init({
+  email: "",
+});
+
 const handleJoin = () => {
   if (state.email !== "") {
     asyncFetch("https://monkfish-app-ginhc.ondigitalocean.app/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-Everything": "subscription",
       },
       body: JSON.stringify({
         query:
@@ -391,7 +396,7 @@ return (
               label: "",
               placeholder: "Email",
               value: state.email,
-              onChange: (e) => State.update({ email: e.target.value }),
+              onChange: (email) => State.update({ email }),
             }}
           />
         </InputContainer>
