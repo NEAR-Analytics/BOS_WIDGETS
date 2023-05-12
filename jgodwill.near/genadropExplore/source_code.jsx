@@ -180,6 +180,7 @@ const ImageCard = styled.div`
   width: 100%;
   border-radius: 0.5rem;
   overflow:hidden;
+  margin-bottom: 1rem;
   &>img{
   object-fit: cover;
   transition: all 0.3s ease-in-out;
@@ -337,7 +338,13 @@ return (
                       className="rounded-3"
                     />
                   </ImageCard>
-                  <h3 style={{ fontSize: "18px", margin: "0 0 10px" }}>
+                  <h3
+                    style={{
+                      fontSize: "18px",
+                      margin: "0 0 10px",
+                      wordBreak: "break-all",
+                    }}
+                  >
                     {nft.name}
                   </h3>
                   <div
