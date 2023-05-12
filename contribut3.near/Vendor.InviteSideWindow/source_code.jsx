@@ -5,7 +5,18 @@ return (
   <Widget
     src={`${ownerId}/widget/SideWindow`}
     props={{
-      title: "Request contribution",
+      title: (
+        <>
+          Request contribution{" "}
+          <Widget
+            src="contribut3.near/widget/Tooltip"
+            props={{
+              content:
+                "Here you can invite contributors to join any of your project's existing contribution requests.",
+            }}
+          />
+        </>
+      ),
       description: (
         <Widget
           src={`${ownerId}/widget/SelectedLine`}
@@ -23,4 +34,3 @@ return (
     }}
   />
 );
-
