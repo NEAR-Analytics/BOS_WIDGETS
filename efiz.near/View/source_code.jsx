@@ -59,14 +59,13 @@ if (parts.length < 2) {
       } else {
         return <p>lol no</p>;
       }
-      return (
-        <Widget
-          src="efiz.near/widget/MergedIndexFeed"
-          props={{ index, renderItem, disableCaching: true }}
-        />
-      );
     }
-
+    return (
+      <Widget
+        src="efiz.near/widget/MergedIndexFeed"
+        props={{ index, renderItem, disableCaching: true }}
+      />
+    );
     //   value = Social.get(path, "final");
     //   value = JSON.parse(value);
     //   return <Widget src="efiz.near/widget/Post.View" props={{ value }} />;
