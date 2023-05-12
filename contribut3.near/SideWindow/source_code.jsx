@@ -59,7 +59,7 @@ const Content = styled.div`
   align-items: flex-start;
   position: fixed;
   inset: 74px 0 0 auto;
-  padding: 1.5em 2em 2em;
+  padding: 2.5em 2em 2em;
   gap: 0.625em;
   isolation: isolate;
   animation: ${slideIn} 200ms ease-out;
@@ -83,7 +83,7 @@ const Button = styled.button`
   color: #006adc;
   font-style: normal;
   font-weight: 600;
-  font-size: 0.95em;
+  font-size: 0.9em;
   line-height: 1em;
   text-align: center;
   white-space: nowrap;
