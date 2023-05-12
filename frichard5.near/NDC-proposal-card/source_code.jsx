@@ -413,6 +413,27 @@ return (
         ) : (
           ""
         )}
+        {proposal.proposal_type === "AddMemberToRole" ||
+        proposal.proposal_type === "RemoveMemberFromRole" ? (
+          <InfoWrapper>
+            <Label>Target</Label>
+            <div style={{ display: "flex" }}>
+              <span style={{ marginLeft: "5px" }}>
+                to
+                <a
+                  href={`https://explorer.near.org/accounts/${
+                    proposal.proposal.kind[proposal.proposal_type].member_id
+                  }`}
+                  target="_blank"
+                >
+                  {proposal.proposal.kind[proposal.proposal_type].member_id}
+                </a>
+              </span>
+            </div>
+          </InfoWrapper>
+        ) : (
+          ""
+        )}
         {state.canVote && proposal.status === "InProgress" ? (
           VoteOnProposal
         ) : (
