@@ -5,18 +5,7 @@ return (
   <Widget
     src={`${ownerId}/widget/SideWindow`}
     props={{
-      title: (
-        <>
-          Request contribution{" "}
-          <Widget
-            src="nearhorizon.near/widget/Tooltip"
-            props={{
-              content:
-                "Here you can invite contributors to join any of your project's existing contribution requests.",
-            }}
-          />
-        </>
-      ),
+      title: "Request contribution",
       description: (
         <Widget
           src={`${ownerId}/widget/SelectedLine`}
