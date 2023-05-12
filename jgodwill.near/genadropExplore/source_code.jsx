@@ -263,7 +263,13 @@ return (
                       className="rounded-3"
                     />
                   </ImageCard>
-                  <h3 style={{ fontSize: "18px", margin: "0 0 10px" }}>
+                  <h3
+                    style={{
+                      fontSize: "18px",
+                      margin: "0 0 10px",
+                      wordBreak: "break-all",
+                    }}
+                  >
                     {nft.name}
                   </h3>
                   <div
