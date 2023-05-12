@@ -1,3 +1,8 @@
-const accountId = props.accountId || "evrything.near";
+// This represents the root node. How do you want it to be displayed?
 
-return <iframe src="https://everything.dev" width="100%" height="800"></iframe>;
+return (
+  <Widget
+    src="efiz.near/widget/Everything.Tree"
+    props={{ rootPath: "evrything.near", type: "account" }}
+  />
+);
