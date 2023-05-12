@@ -61,9 +61,7 @@ return data !== null ? (
   <>
     <div>
       <h4>Bonerz Marketplace</h4>
-      <p>
-        1/1 pixel art collection...having some fun(Click image for high res)
-      </p>
+      <p>a community of near nft degens</p>
     </div>
     <div className="d-flex gap-4 flex-wrap">
       {data.body.data?.mb_views_active_listings_by_contract.map(
@@ -121,10 +119,6 @@ return data !== null ? (
           );
         }
       )}
-    </div>
-
-    <div class="py-4">
-      <Widget src="mintbase.near/widget/BuiltWithMintbase" />
     </div>
   </>
 ) : (
