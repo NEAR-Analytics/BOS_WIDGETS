@@ -428,8 +428,8 @@ return (
                   {proposal.proposal.kind[proposal.proposal_type].member_id}
                 </a>
                 {proposal.proposal_type === "AddMemberToRole"
-                  ? "to the"
-                  : "from the"}{" "}
+                  ? "added to the"
+                  : "removed from the"}{" "}
                 role {proposal.proposal.kind[proposal.proposal_type].role}
               </span>
             </div>
