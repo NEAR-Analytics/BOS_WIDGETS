@@ -1,6 +1,6 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 const userAccountId = context.accountId;
-
+console.log("PROPS", props);
 const item = {
   type: "sputnik_proposal_comment",
   path: `${proposal.proposal_id}/proposal/main`,
