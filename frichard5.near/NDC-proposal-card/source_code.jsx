@@ -419,7 +419,6 @@ return (
             <Label>Target</Label>
             <div style={{ display: "flex" }}>
               <span style={{ marginLeft: "5px" }}>
-                to
                 <a
                   href={`https://explorer.near.org/accounts/${
                     proposal.proposal.kind[proposal.proposal_type].member_id
@@ -428,6 +427,11 @@ return (
                 >
                   {proposal.proposal.kind[proposal.proposal_type].member_id}
                 </a>
+                will be added{" "}
+                {proposal.proposal_type === "AddMemberToRole"
+                  ? "to the"
+                  : "from the"}{" "}
+                role {proposal.proposal.kind[proposal.proposal_type].role}
               </span>
             </div>
           </InfoWrapper>
