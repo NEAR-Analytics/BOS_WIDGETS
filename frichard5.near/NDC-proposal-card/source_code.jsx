@@ -427,7 +427,6 @@ return (
                 >
                   {proposal.proposal.kind[proposal.proposal_type].member_id}
                 </a>
-                will be added{" "}
                 {proposal.proposal_type === "AddMemberToRole"
                   ? "to the"
                   : "from the"}{" "}
