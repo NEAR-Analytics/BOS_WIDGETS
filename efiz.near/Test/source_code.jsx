@@ -141,20 +141,15 @@ const Text = styled.p`
 
 const Flex = styled.div`
   display: flex;
-  gap: ${(p) => p.gap};
-  align-items: ${(p) => p.alignItems};
-  justify-content: ${(p) => p.justifyContent};
-  flex-direction: ${(p) => p.direction ?? "row"};
-  flex-wrap: ${(p) => p.wrap ?? "nowrap"};
+  gap: 29px;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: "nowrap";
 
-  ${(p) =>
-    p.mobileStack &&
-    `
     @media (max-width: 900px) {
-      flex-direction: column;
-      gap: var(--section-gap);
+    flex-direction: column;
+    gap: var(--section-gap);
     }
-  `}
 `;
 
 const Grid = styled.div`
@@ -230,11 +225,11 @@ const Container = styled.div`
   display: flex;
   max-width: 1060px;
   margin: 0 auto;
-  gap: ${(p) => p.gap ?? "var(--section-gap)"};
+  gap: var(--section-gap);
   flex-direction: column;
-  align-items: ${(p) => (p.center ? "center" : undefined)};
-  justify-content: ${(p) => (p.center ? "center" : undefined)};
-  text-align: ${(p) => (p.center ? "center" : undefined)};
+  align-items: "center";
+  justify-content: "center";
+  text-align: "center";
   padding: var(--section-gap) 24px;
 `;
 
@@ -356,8 +351,8 @@ const LineRoundedCorners = (props) => {
 return (
   <Wrapper>
     <Widget src="mob.near/widget/ProfileOnboarding" />
-    <Container center>
-      <Flex gap="29px" direction="column" alignItems="center">
+    <Container>
+      <Flex>
         <H1>
           Blockchain for
           <span>
@@ -391,7 +386,7 @@ return (
         </Text>
         <InputContainer>
           <Widget
-            src={`nearhorizon.near/widget/Inputs.Text`}
+            src={"nearhorizon.near/widget/Inputs.Text"}
             props={{
               label: "",
               placeholder: "Email",
@@ -408,7 +403,11 @@ return (
       <Text
         size="14px"
         weight="600"
-        style={{ textTransform: "uppercase", letterSpacing: "0.17em" }}
+        style={{
+          textTransform: "uppercase",
+          letterSpacing: "0.17em",
+          textAlign: "center",
+        }}
       >
         Made Possible by NEAR Builders
       </Text>
