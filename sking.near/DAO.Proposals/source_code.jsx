@@ -108,7 +108,11 @@ return (
 
       <InfiniteScroll loadMore={loadProposals} hasMore={state.hasMore}>
         {state.proposals.map((proposal, i) => (
-          <h1 key={i}>test {proposal.id}</h1>
+          <Widget
+            key={i}
+            src={WIDGET_AUTHOR + "/widget/DAO.Proposal"}
+            props={{ daoId: state.daoId, proposal: proposal }}
+          />
         ))}
       </InfiniteScroll>
     </div>
