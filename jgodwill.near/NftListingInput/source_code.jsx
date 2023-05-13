@@ -167,7 +167,7 @@ return (
             />
           </ImgCard>
           <ResponsiveDiv>
-            <span className="mt-3">
+            <span>
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
                 {props.state.contractId.length > 6
@@ -180,7 +180,7 @@ return (
                   : props.state.contractId || "Sample Contract"}
               </SecondaryText>
             </span>
-            <span className="mt-3">
+            <span>
               <BlueSub>Collection Name</BlueSub>
               <SecondaryText className="font-weight-bold">
                 {props.state.nftMetadata.name || "Sample Name"}
