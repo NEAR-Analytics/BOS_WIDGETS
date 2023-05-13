@@ -133,6 +133,7 @@ const ResponsiveDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 1rem;
+  gap: 1rem;
       @media (max-width: 767px) {
         flex-flow: column nowrap;
         margin: 0 auto;
