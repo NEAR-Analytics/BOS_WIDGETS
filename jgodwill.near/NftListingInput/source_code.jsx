@@ -249,7 +249,7 @@ return (
                 Choose how you want to list you NFT for sale
               </GrayLabel>
 
-              <div className="d-flex justify-content-between">
+              <ResponsiveDiv>
                 <div
                   className="card rounded-4 shadow-sm p-3"
                   role="button"
@@ -262,7 +262,7 @@ return (
                   <Label className="text-center">HIGHEST BID</Label>
                   <Text>Auction to the highest bidder</Text>
                 </GrayCard>
-              </div>
+              </ResponsiveDiv>
             </div>
           </Card>
           <div className="">
