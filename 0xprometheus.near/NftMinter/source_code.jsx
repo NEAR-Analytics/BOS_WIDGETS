@@ -1,7 +1,8 @@
 const auroraCOntract = "0xe53bC42B6b25a1d548B73636777a0599Fd27fE5c";
 const polygonContract = "0x436AEceaEeC57b38a17Ebe71154832fB0fAFF878";
 const celoContract = "0xC291846A587cf00a7CC4AF0bc4EEdbC9c3340C36";
-
+const avaxContract = "0x43dBdfcAADD0Ea7aD037e8d35FDD7c353B5B435b";
+const arbitrumContract = "0x959a2945185Ec975561Ac0d0b23F03Ed1b267925";
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
 ];
@@ -9,6 +10,7 @@ const contractAddresses = {
   137: polygonContract,
   1313161554: auroraCOntract,
   42220: celoContract,
+  43114: avaxContract,
 };
 
 const chains = [
@@ -23,6 +25,14 @@ const chains = [
   {
     id: "42220",
     name: "Celo",
+  },
+  {
+    id: "43114",
+    name: "Avax",
+  },
+  {
+    id: "42161",
+    name: "Arbitrum",
   },
 ];
 
@@ -54,11 +64,11 @@ const handleMint = () => {
     },
     body: metadata,
   }).then((res) => {
-    console.log("in the promise", res);
     const cid = res.body.cid;
     const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
+    console.log("in the promise", res, Id);
     contract
-      .mint(state.sender, gas, 1, `ipfs://${cid}`, "0x")
+      .mint(state.sender, Id, 1, `ipfs://${cid}`, "0x")
       .then((transactionHash) => transactionHash.wait())
       .then((ricit) => {
         console.log("receipt of what", ricit);
