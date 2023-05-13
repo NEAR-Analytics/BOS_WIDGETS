@@ -151,7 +151,7 @@ return (
               }}
             />
           </ImgCard>
-          <div className="d-flex justify-content-between mt-3">
+          <div className="d-flex justify-content-between wrap mt-3">
             <span>
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
