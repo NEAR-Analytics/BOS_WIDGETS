@@ -129,15 +129,11 @@ const BlueSub = styled.div`
 `;
 
 const ResponsiveDiv = styled.div`
-${(props) =>
-  props.mobile &&
-  css`
       @media (max-width: 767px) {
         background-color: red;
         color: black;
         padding: 5px;
       }
-    `}
 `;
 console.log(props.state.tokenInfo.metadata.title);
 // {props.state.tokenId && (
