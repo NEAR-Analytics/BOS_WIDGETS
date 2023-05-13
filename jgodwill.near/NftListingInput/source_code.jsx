@@ -158,9 +158,9 @@ return (
                 {props.state.contractId.length > 6
                   ? `${props.state.contractId?.slice(
                       0,
-                      4
+                      5
                     )}...${props.state.contractId?.slice(
-                      props.state.contractId.length - 7
+                      props.state.contractId.length - 8
                     )}`
                   : props.state.contractId || "Sample Contract"}
               </SecondaryText>
