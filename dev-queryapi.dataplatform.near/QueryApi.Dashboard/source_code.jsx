@@ -372,7 +372,7 @@ return (
       >
         Indexers
       </TabsButton>
-      {view === "create-new-indexer" && (
+      {props.view === "create-new-indexer" && (
         <TabsButton
           type="button"
           onClick={() => State.update({ activeTab: "create-new-indexer" })}
