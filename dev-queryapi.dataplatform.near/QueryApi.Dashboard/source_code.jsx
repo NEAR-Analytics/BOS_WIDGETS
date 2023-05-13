@@ -451,14 +451,8 @@ return (
         primary
         active={state.activeTab === "create-new-indexer"}
       >
-        {state.activeTab === "indexer-status" && (
+        {state.activeTab === "create-new-indexer" && (
           <div>
-            {state.indexers.length > 0 &&
-              (state.selected_indexer != undefined ? (
-                <H2>{state.selected_indexer}</H2>
-              ) : (
-                <H2>{`${state.indexers[0].accountId}/${state.indexers[0].indexerName}`}</H2>
-              ))}
             <Widget
               src={`${APP_OWNER}/widget/QueryApi.Editor`}
               props={{
