@@ -372,6 +372,16 @@ return (
       >
         Indexers
       </TabsButton>
+      {view === "create-new-indexer" && (
+        <TabsButton
+          type="button"
+          onClick={() => State.update({ activeTab: "create-new-indexer" })}
+          selected={state.activeTab === "create-new-indexer"}
+        >
+          Create New Indexer
+        </TabsButton>
+      )}
+
       {props.selectedIndexerPath && (
         <>
           <TabsButton
