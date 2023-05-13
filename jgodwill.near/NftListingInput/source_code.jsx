@@ -127,6 +127,18 @@ const BlueSub = styled.div`
  color: #0d99ff;
  font-size: .8rem;
 `;
+
+const ResponsiveDiv = styled.div`
+${(props) =>
+  props.mobile &&
+  css`
+      @media (max-width: 767px) {
+        background-color: red;
+        color: black;
+        padding: 5px;
+      }
+    `}
+`;
 console.log(props.state.tokenInfo.metadata.title);
 // {props.state.tokenId && (
 return (
@@ -151,7 +163,7 @@ return (
               }}
             />
           </ImgCard>
-          <div className="d-flex justify-content-between flex-wrap">
+          <ResponsiveDiv className="d-flex justify-content-between flex-wrap">
             <span className="mt-3">
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
@@ -171,7 +183,7 @@ return (
                 {props.state.nftMetadata.name || "Sample Name"}
               </SecondaryText>
             </span>
-          </div>
+          </ResponsiveDiv>
           <div className="card rounded-4 shadow-sm p-3 my-3">
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
