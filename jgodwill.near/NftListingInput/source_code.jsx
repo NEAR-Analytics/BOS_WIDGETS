@@ -65,7 +65,6 @@ const ImgCard = styled.div`
   max-width: 500px;
   border-radius: inherit;
   overflow:hidden;
-  aspect-ratio: 1/1;
   margin: 0 auto;
   &>img{
   object-fit: cover;
