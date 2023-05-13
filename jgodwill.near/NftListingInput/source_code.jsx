@@ -130,9 +130,7 @@ const BlueSub = styled.div`
 
 const ResponsiveDiv = styled.div`
       @media (max-width: 767px) {
-        background-color: red;
-        color: black;
-        padding: 5px;
+        flex-flow: colum nowrap;
       }
 `;
 console.log(props.state.tokenInfo.metadata.title);
