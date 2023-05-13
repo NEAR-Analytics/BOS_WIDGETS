@@ -151,8 +151,8 @@ return (
               }}
             />
           </ImgCard>
-          <div className="d-flex justify-content-between flex-wrap mt-3">
-            <span>
+          <div className="d-flex justify-content-between flex-wrap">
+            <span className="mt-3">
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
                 {props.state.contractId.length > 6
@@ -165,7 +165,7 @@ return (
                   : props.state.contractId || "Sample Contract"}
               </SecondaryText>
             </span>
-            <span>
+            <span className="mt-3">
               <BlueSub>Collection Name</BlueSub>
               <SecondaryText className="font-weight-bold">
                 {props.state.nftMetadata.name || "Sample Name"}
