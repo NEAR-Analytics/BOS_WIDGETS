@@ -57,6 +57,9 @@ const Main = styled.div`
 
 const ImgCard = styled.div`
   height:fit-content;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   max-height:500px;
   width:100%;
   max-width: 500px;
@@ -125,6 +128,7 @@ const BlueSub = styled.div`
  color: #0d99ff;
  font-size: .8rem;
 `;
+console.log(props.state.nftMetadata);
 // {props.state.tokenId && (
 return (
   <>
@@ -156,8 +160,8 @@ return (
               <SecondaryText>
                 {props.state.contractId.length > 6
                   ? `...${props.state.contractId?.slice(
-                      props.state.contractId.length / 3
-                    )} ${props.state.nftMetadata.name}`
+                      props.state.contractId.length - 4
+                    )}`
                   : props.state.contractId || "Sample Contract"}
               </SecondaryText>
             </span>
@@ -172,6 +176,15 @@ return (
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
           </div>
+          <a
+            href={props.state.tradeportLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-dark mt-3"
+            style={{ alignSelf: "flex-end" }}
+          >
+            View on Tradeport
+          </a>
           <p>
             <a href={props.state.tokenInfo.media} target="_blank">
               {props.state.tokenInfo.media}
@@ -374,15 +387,6 @@ return (
                 You Can Only List An NFT You Own
               </button>
             )}
-
-            <a
-              href={props.state.tradeportLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-dark mt-3"
-            >
-              View on Tradeport
-            </a>
           </div>
         </div>
       </Main>
