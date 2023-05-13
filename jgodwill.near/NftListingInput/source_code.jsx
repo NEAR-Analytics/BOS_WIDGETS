@@ -130,6 +130,9 @@ const BlueSub = styled.div`
 
 const ResponsiveDiv = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
       @media (max-width: 767px) {
         flex-flow: colum nowrap;
         margin: 0 auto;
@@ -162,7 +165,7 @@ return (
               }}
             />
           </ImgCard>
-          <ResponsiveDiv className="d-flex justify-content-between flex-wrap">
+          <ResponsiveDiv>
             <span className="mt-3">
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
