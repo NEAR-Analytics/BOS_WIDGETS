@@ -1,6 +1,6 @@
 const WIDGET_AUTHOR = "sking.near";
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const proposalsPerPage = props.proposalsPerPage ?? 5; // Number of proposals to fetch at a time
+const proposalsPerPage = props.proposalsPerPage ?? 10; // Number of proposals to fetch at a time
 
 State.init({
   daoId,
@@ -8,9 +8,12 @@ State.init({
   lastProposalId: null, // To keep track of the last loaded proposal
   hasMore: true, // Boolean to know if there are more proposals to load
   showCreateProposal: false,
+  isLoading: false,
 });
 
 const loadProposals = () => {
+  console.log("Loading proposals...");
+
   const lastProposalId =
     state.lastProposalId !== null
       ? state.lastProposalId
@@ -26,15 +29,18 @@ const loadProposals = () => {
   });
   if (newProposals === null) return;
 
+  console.log("Adding new proposals...");
   State.update({
     ...state,
     hasMore: fromIndex > 0,
     proposals: [...state.proposals, ...newProposals.reverse()],
     lastProposalId: fromIndex - 1,
+    isLoading: false,
   });
 };
 
 const onChangeDAO = (newDaoId) => {
+  console.log("Changing DAO...");
   State.update({
     daoId: newDaoId,
     proposals: [],
@@ -68,6 +74,7 @@ const PopupWrapper = styled.div`
   }
 `;
 
+console.log("Render triggered");
 return (
   <>
     <div>
