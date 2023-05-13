@@ -12,8 +12,6 @@ State.init({
 });
 
 const loadProposals = () => {
-  console.log("Loading proposals...");
-
   const lastProposalId =
     state.lastProposalId !== null
       ? state.lastProposalId
@@ -22,14 +20,15 @@ const loadProposals = () => {
 
   const fromIndex = Math.max(0, lastProposalId - proposalsPerPage + 1); // Ensures fromIndex is never less than 0
   const limit = fromIndex === 0 ? lastProposalId + 1 : proposalsPerPage; // Ensure we don't fetch the same proposals twice if fromIndex is 0
-
+  
+  console.log("Fetching new proposals...");
   const newProposals = Near.view(daoId, "get_proposals", {
     from_index: fromIndex,
     limit: limit,
   });
   if (newProposals === null) return;
 
-  console.log("Adding new proposals...");
+  console.log("Saving new proposals...");
   State.update({
     ...state,
     hasMore: fromIndex > 0,
@@ -74,7 +73,6 @@ const PopupWrapper = styled.div`
   }
 `;
 
-console.log("Render triggered");
 return (
   <>
     <div>
