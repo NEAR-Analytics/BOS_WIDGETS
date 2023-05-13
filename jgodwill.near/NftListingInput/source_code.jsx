@@ -129,6 +129,7 @@ const BlueSub = styled.div`
 `;
 
 const ResponsiveDiv = styled.div`
+  display: flex;
       @media (max-width: 767px) {
         flex-flow: colum nowrap;
         align-items:center;
