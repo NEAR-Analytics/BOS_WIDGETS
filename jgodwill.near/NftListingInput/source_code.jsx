@@ -56,7 +56,7 @@ const Main = styled.div`
 `;
 
 const ImgCard = styled.div`
-  height:fit-content;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
