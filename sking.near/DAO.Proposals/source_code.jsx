@@ -8,7 +8,6 @@ State.init({
   lastProposalId: null, // To keep track of the last loaded proposal
   hasMore: true, // Boolean to know if there are more proposals to load
   showCreateProposal: false,
-  isLoading: false,
 });
 
 const loadProposals = () => {
@@ -18,10 +17,13 @@ const loadProposals = () => {
       : Near.view(daoId, "get_last_proposal_id");
   if (lastProposalId === null) return;
 
+  // Prevents multiple calls to loadProposals() before the first call is finished
+  if (state.proposals.length > 0 && state.proposals[0].id === lastProposalId)
+    return;
+
   const fromIndex = Math.max(0, lastProposalId - proposalsPerPage + 1); // Ensures fromIndex is never less than 0
   const limit = fromIndex === 0 ? lastProposalId + 1 : proposalsPerPage; // Ensure we don't fetch the same proposals twice if fromIndex is 0
-  
-  console.log("Fetching new proposals...");
+
   const newProposals = Near.view(daoId, "get_proposals", {
     from_index: fromIndex,
     limit: limit,
