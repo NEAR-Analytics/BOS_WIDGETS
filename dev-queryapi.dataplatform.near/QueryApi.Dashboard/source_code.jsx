@@ -364,16 +364,16 @@ const indexerView = (accountId, indexerName, isUserView) => {
 
 return (
   <Wrapper negativeMargin={state.activeTab === "indexers"}>
-    {props.selectedIndexerPath && (
-      <>
-        <Tabs>
-          <TabsButton
-            type="button"
-            onClick={() => State.update({ activeTab: "indexers" })}
-            selected={state.activeTab === "indexers"}
-          >
-            Indexers
-          </TabsButton>
+    <Tabs>
+      <TabsButton
+        type="button"
+        onClick={() => State.update({ activeTab: "indexers" })}
+        selected={state.activeTab === "indexers"}
+      >
+        Indexers
+      </TabsButton>
+      {props.selectedIndexerPath && (
+        <>
           <TabsButton
             type="button"
             onClick={() => State.update({ activeTab: "editor-window" })}
@@ -389,9 +389,9 @@ return (
           >
             Indexer Status
           </TabsButton>
-        </Tabs>
-      </>
-    )}
+        </>
+      )}
+    </Tabs>
     <Main>
       <Section active={state.activeTab === "indexers"}>
         <NavBarLogo
