@@ -316,7 +316,7 @@ return (
           </div>
           <div className="rounded-4 mt-3 border shadow-sm">
             <div className="p-3">
-              <div className="d-flex align-items-center justify-content-between">
+              <ResponsiveDiv>
                 <Label>Price and listing option</Label>
                 <div className="d-flex align-items-center gap-3">
                   <span>Price(In NEAR)</span>
@@ -329,7 +329,7 @@ return (
                     />
                   </PriceInput>
                 </div>
-              </div>
+              </ResponsiveDiv>
             </div>
             <hr className="m-auto" />
             <GrayLabel className="mt-3 mx-3 mb-0">
