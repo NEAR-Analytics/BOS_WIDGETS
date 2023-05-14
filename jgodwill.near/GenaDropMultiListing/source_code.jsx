@@ -399,6 +399,7 @@ return (
             onChangeCustomMarket,
             onChangeAmount,
             list,
+            onChangeReceiver,
           }}
         />
         <br></br>
