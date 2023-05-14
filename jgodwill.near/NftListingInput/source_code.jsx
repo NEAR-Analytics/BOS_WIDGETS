@@ -103,6 +103,9 @@ const ChainCard = styled.div`
     height: 30px;
     object-fit: contain;
   }
+    @media (max-width: 767px) {
+     text-align:center;
+   }
 `;
 
 const PriceInput = styled.div`
@@ -143,6 +146,17 @@ const ResponsiveDiv = styled.div`
         justify-conent:center;
         text-align: center;
       }
+`;
+
+const ViewOnTradeport = styled.div`
+    width: 40%;
+    align-self: flex-end;
+ &>a{
+   width:100%;
+ }
+   @media (max-width: 767px) {
+     align-self:center;
+   }
 `;
 console.log(props.state.tokenInfo.metadata.title);
 // {props.state.tokenId && (
@@ -193,15 +207,16 @@ return (
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
           </div>
-          <a
-            href={props.state.tradeportLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-dark mt-3"
-            style={{ alignSelf: "flex-end" }}
-          >
-            View on Tradeport
-          </a>
+          <ViewOnTradeport>
+            <a
+              href={props.state.tradeportLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-dark mt-3"
+            >
+              View on Tradeport
+            </a>
+          </ViewOnTradeport>
           <p>
             <a href={props.state.tokenInfo.media} target="_blank">
               {props.state.tokenInfo.media}
