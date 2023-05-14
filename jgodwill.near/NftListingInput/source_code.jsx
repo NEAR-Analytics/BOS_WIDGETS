@@ -291,8 +291,36 @@ return (
                   <Text>Sell the NFT at a fixed price</Text>
                 </div>
                 <GrayCard className="rounded-4 p-3">
-                  <Label className="text-center">HIGHEST BID</Label>
-                  <Text>Auction to the highest bidder</Text>
+                  <Label className="text-center">Transfer</Label>
+                  <div className=" mb-2">
+                    Receiver Address
+                    <input
+                      type="text"
+                      placeholder={props.state.receiverId}
+                      onChange={(e) => onChangeReceiver(e.target.value)}
+                    />
+                  </div>
+                  <div className="row">
+                    {props.state.ownsNFT && props.state.validReceiver && (
+                      <button
+                        className="btn btn-primary mt-3"
+                        onClick={transfer}
+                      >
+                        Transfer
+                      </button>
+                    )}
+                    <div className="col-lg-6"></div>
+                    {props.state.ownsNFT && !props.state.validReceiver && (
+                      <button className="btn btn-warning mt-3">
+                        Can't Transfer (Invalid Receiver)
+                      </button>
+                    )}
+                    {!props.state.ownsNFT && props.state.validReceiver && (
+                      <button className="btn btn-danger mt-3">
+                        Can't Transfer (Don't Own)
+                      </button>
+                    )}
+                  </div>
                 </GrayCard>
               </ResponsiveDiv>
             </div>
