@@ -27,7 +27,11 @@ const SecondaryText = styled.h3`
 `;
 const Card = styled.div`
   overflow: hidden;
+    @media (max-width: 767px) {
+     text-align:center;
+   }
 `;
+
 const BorderedShadowedCard = styled.div`
   display: flex;
    flex-flow: column nowrap;
