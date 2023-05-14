@@ -10,7 +10,7 @@ const Label = styled.p`
   line-height: 1.02;
   white-space: nowrap;
   margin: unset;
-  @media (max-width: 810px) {
+  @media (max-width: 992px) {
     text-align:center;
   }
 `;
@@ -18,7 +18,7 @@ const Label = styled.p`
 const GrayLabel = styled.p`
   color: #6C757D;
   font-size: 14px;
-  @media (max-width: 810px) {
+  @media (max-width: 992px) {
     text-align:center;
   }
 `;
@@ -29,14 +29,14 @@ const SecondaryText = styled.h3`
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
   white-space: nowrap;
-  @media (max-width: 810px) {
+  @media (max-width: 992px) {
     text-align:center;
   }
   
 `;
 const Card = styled.div`
   overflow: hidden;
-    @media (max-width: 810px) {
+    @media (max-width: 992px) {
      text-align:center;
    }
 `;
@@ -55,7 +55,7 @@ const BorderedShadowedCard = styled.div`
    & img{
      border-radius: inherit;
    }
-   @media (max-width: 810px) {
+   @media (max-width: 992px) {
      text-align:center;
    }
 `;
@@ -120,9 +120,6 @@ const ChainCard = styled.div`
     height: 30px;
     object-fit: contain;
   }
-  @media (max-width: 810px) {
-    text-align:center;
-  }
 `;
 
 const PriceInput = styled.div`
@@ -157,7 +154,7 @@ const ResponsiveDiv = styled.div`
   justify-content: space-between;
   margin-top: 1rem;
   gap: 1rem;
-  @media (max-width: 810px) {
+  @media (max-width: 992px) {
     flex-flow: column nowrap;
     align-items:center;
     justify-conent:center;
