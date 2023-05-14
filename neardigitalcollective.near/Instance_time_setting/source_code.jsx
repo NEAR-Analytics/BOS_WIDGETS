@@ -1,5 +1,5 @@
 const updateInstanceTimeState = props.updateInstanceTimeState;
-console.log(1, props);
+
 const tabs = props.tabs;
 
 const thisWidgetInlineStyles =
@@ -61,13 +61,14 @@ var _to = [
 
 if (props.data.schedule) {
   for (var i = 0; i < 7; i++) {
-    is_on[i] = props.data.schedule[i].on_off;
+    is_on[i] = props.data.schedule[i].on_off === "on";
     if (is_on[i] == "on") {
       _from[i] = getFormatedTime(props.data.schedule[i].data[0]._from);
       _to[i] = getFormatedTime(props.data.schedule[i].data[0]._to);
     }
   }
 }
+
 State.init({
   _is_on: is_on,
   _from: _from,
@@ -140,7 +141,7 @@ const getData = () => {
   var temp = [];
   var flag = false;
   for (var i = 0; i < 7; i++) {
-    if (props._is_on[i]) {
+    if (state._is_on[i]) {
       for (var j = 0; j < 2; j++) {
         const time =
           j == 0
@@ -177,7 +178,7 @@ const timeSelector = (f, index, size) => {
   return (
     <div
       style={
-        props._is_on[index]
+        state._is_on[index]
           ? thisWidgetInlineStyles.timeSelectorContainerActive
           : thisWidgetInlineStyles.timeSelectorContainerInactive
       }
@@ -186,15 +187,15 @@ const timeSelector = (f, index, size) => {
         <select
           style={
             size == "big"
-              ? props._is_on[index]
+              ? state._is_on[index]
                 ? thisWidgetInlineStyles.comboBoxActiveBig
                 : thisWidgetInlineStyles.comboBoxInactiveBig
-              : props._is_on[index]
+              : state._is_on[index]
               ? thisWidgetInlineStyles.comboBoxActiveSmall
               : thisWidgetInlineStyles.comboBoxInactiveSmall
           }
           value={f ? state._from[index] : state._to[index]}
-          disabled={!props._is_on[index]}
+          disabled={!state._is_on[index]}
           onChange={(e) => {
             onTimeChanged(e.target.value, index, f, 0);
           }}
@@ -207,7 +208,7 @@ const timeSelector = (f, index, size) => {
       <div className={thisWidgetClassNames.caretsContainer}>
         <div
           onClick={() => {
-            if (props._is_on[index]) {
+            if (state._is_on[index]) {
               const value = f ? state._from[index] : state._to[index];
               onTimeChanged(value, index, f, 1);
             }
@@ -216,7 +217,7 @@ const timeSelector = (f, index, size) => {
           <i
             className={thisWidgetClassNames.caretUpIcon}
             style={
-              props._is_on[index]
+              state._is_on[index]
                 ? thisWidgetInlineStyles.colorActive
                 : thisWidgetInlineStyles.colorInactive
             }
@@ -224,7 +225,7 @@ const timeSelector = (f, index, size) => {
         </div>
         <div
           onClick={() => {
-            if (props._is_on[index]) {
+            if (state._is_on[index]) {
               const value = f ? state._from[index] : state._to[index];
               onTimeChanged(value, index, f, -1);
             }
@@ -233,7 +234,7 @@ const timeSelector = (f, index, size) => {
           <i
             className={thisWidgetClassNames.caretDownIcon}
             style={
-              props._is_on[index]
+              state._is_on[index]
                 ? thisWidgetInlineStyles.colorActive
                 : thisWidgetInlineStyles.colorInactive
             }
@@ -307,18 +308,18 @@ const renderDayRow = (day, index, size) => {
             >
               <input
                 style={
-                  props._is_on[index]
+                  state._is_on[index]
                     ? thisWidgetInlineStyles.inputActive
                     : thisWidgetInlineStyles.inputInactive
                 }
                 className="form-check-input"
                 type="checkbox"
                 role="switch"
-                checked={props._is_on[index]}
+                checked={state._is_on[index]}
                 id={day + index}
-                key={day + index + props._is_on[index]}
+                key={day + index + state._is_on[index]}
                 onChange={(e) => {
-                  let temp = props._is_on;
+                  let temp = state._is_on;
                   temp[index] = !temp[index];
                   State.update({ _is_on: temp });
                   if (!e.target.value) {
