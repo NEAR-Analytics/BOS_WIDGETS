@@ -2,33 +2,6 @@ const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const role = props.role ?? "community";
 
-const ipfsImages = {
-  logos: {
-    pagoda: "bafkreicbpshopxasqhivaqugynulw6oan4lnypsphvwez3f5qidpa374ui",
-    banyan: "Qmb1dfewMhs9VyBbwvQJFnn2BxQbRWnfHS7Cugqc96TTcD",
-    proximity: "bafkreibi3xrwxlf5betvgmetaruwvpllc2ila4bg5ehfszoqow7f6edvom",
-  },
-};
-
-const web3Teams = [
-  {
-    url: "https://www.pagoda.co",
-    name: "Pagoda",
-    ipfsImage: ipfsImages.logos.pagoda,
-  },
-  {
-    url: "https://www.banyan.gg",
-    name: "Banyan",
-    ipfsImage: ipfsImages.logos.banyan,
-  },
-];
-
-function returnIpfsImage(cfid) {
-  return {
-    ipfs_cid: cfid,
-  };
-}
-
 const handleJoin = () => {
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
@@ -349,9 +322,8 @@ return (
         </H1>
 
         <Text style={{ maxWidth: "670px" }}>
-          Learn to create anything on the blockchain operating system (bOS), and
-          help build a more open web that is greater than the sum of its
-          components.
+          Learn to create all kinds of decentralized solutions, and help build a
+          more open web that is greater than the sum of its components.
         </Text>
 
         <Text size="23px" weight="600">
@@ -376,24 +348,10 @@ return (
         weight="600"
         style={{ textTransform: "uppercase", letterSpacing: "0.17em" }}
       >
-        Made Possible by NEAR Builders
+        Made Possible by Collaboration
       </Text>
 
-      <LogoLinks alignItems="center">
-        {web3Teams.map((team) => {
-          return (
-            <a href={team.url} target="_blank" title={team.name}>
-              <Widget
-                src="mob.near/widget/Image"
-                props={{
-                  image: returnIpfsImage(team.ipfsImage),
-                  alt: team.name,
-                }}
-              />
-            </a>
-          );
-        })}
-      </LogoLinks>
+      <Widget src="hack.near/widget/dev.Badge" />
     </Container>
   </Wrapper>
 );
