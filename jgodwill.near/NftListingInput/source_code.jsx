@@ -42,6 +42,9 @@ const BorderedShadowedCard = styled.div`
    & img{
      border-radius: inherit;
    }
+   @media (max-width: 767px) {
+     text-align:center;
+   }
 `;
 const Main = styled.div`
     display: grid;
@@ -70,9 +73,6 @@ const ImgCard = styled.div`
   object-fit: cover;
   }
   object-fit:cover;
-   @media (max-width: 767px) {
-     text-align:center;
-   }
 `;
 
 const TopSellCard = styled.div`
