@@ -10,11 +10,17 @@ const Label = styled.p`
   line-height: 1.02;
   white-space: nowrap;
   margin: unset;
+  @media (max-width: 767px) {
+    text-align:center;
+  }
 `;
 
 const GrayLabel = styled.p`
   color: #6C757D;
   font-size: 14px;
+  @media (max-width: 767px) {
+    text-align:center;
+  }
 `;
 const SecondaryText = styled.h3`
   font-size: 1.1rem;
