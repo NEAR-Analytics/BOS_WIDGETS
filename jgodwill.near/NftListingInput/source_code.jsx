@@ -296,7 +296,7 @@ return (
                     Receiver Address
                     <input
                       type="text"
-                      placeholder={props.state.receiverId}
+                      placeholder={`🔍 ${props.state.receiverId}`}
                       onChange={(e) => props.onChangeReceiver(e.target.value)}
                     />
                   </div>
