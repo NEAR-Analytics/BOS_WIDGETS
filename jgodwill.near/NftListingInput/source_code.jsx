@@ -297,14 +297,14 @@ return (
                     <input
                       type="text"
                       placeholder={props.state.receiverId}
-                      onChange={(e) => onChangeReceiver(e.target.value)}
+                      onChange={(e) => props.onChangeReceiver(e.target.value)}
                     />
                   </div>
                   <div className="row">
                     {props.state.ownsNFT && props.state.validReceiver && (
                       <button
                         className="btn btn-primary mt-3"
-                        onClick={transfer}
+                        onClick={props.transfer}
                       >
                         Transfer
                       </button>
