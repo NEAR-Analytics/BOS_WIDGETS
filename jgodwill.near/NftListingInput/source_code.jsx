@@ -92,6 +92,10 @@ const TopSellCard = styled.div`
   background-color: #E2E4E8;
   padding: 1rem;
   width:100%;
+  @media (max-width: 767px) {
+    flex-flow: column nowrap;
+    text-align:center;
+  }
 `;
 
 const Text = styled.p`
