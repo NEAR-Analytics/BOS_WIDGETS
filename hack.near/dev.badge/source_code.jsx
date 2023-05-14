@@ -22,18 +22,18 @@ const Badge = styled.div`
 
 return (
   <Badge>
-    <a href="https://www.near.org">
+    <div>
       <Widget
         src="mob.near/widget/Image"
         props={{
           className: "image",
           image: {
-            url: "https://builders.mypinata.cloud/ipfs/QmXY7q9LeDDb6RuXTL7f1idv3ydjGcLqeHizFGjozbwxC9",
+            ipfs_cid: "QmRQZ38GW6QMPAM756ndChFnGrLjXE1rucpuinPUpyigKS",
           },
           alt: "Built on NEAR",
         }}
       />
-    </a>
+    </div>
     {authors && (
       <div className="attribution">
         <Widget
