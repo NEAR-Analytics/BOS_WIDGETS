@@ -70,6 +70,9 @@ const ImgCard = styled.div`
   object-fit: cover;
   }
   object-fit:cover;
+   @media (max-width: 767px) {
+     text-align:center;
+   }
 `;
 
 const TopSellCard = styled.div`
