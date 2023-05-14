@@ -29,6 +29,9 @@ const SecondaryText = styled.h3`
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
   white-space: nowrap;
+  @media (max-width: 767px) {
+    text-align:center;
+  }
   
 `;
 const Card = styled.div`
