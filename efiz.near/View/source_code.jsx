@@ -39,32 +39,53 @@ if (type === "account") {
     value = JSON.parse(value);
   }
 } else if (type === "post") {
-  const index = {
-    action: parts[1],
-    key: parts[2],
-    options: {
-      limit: 10,
-      order: "desc",
-      accountId: parts[0].endsWith(".near") ? parts[0] : undefined,
-    },
-  };
+  // Replace this with a better component
+  // with hashtag filter
 
-  function renderItem(a) {
-    if (a.value.type === "md") {
-      return (
-        <Widget
-          src="near/widget/Posts.Post"
-          props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
-        />
-      );
+  if (parts[0].endsWith(".near")) {
+    const index = {
+      action: parts[1],
+      key: parts[2],
+      options: {
+        limit: 10,
+        order: "desc",
+        accountId: parts[0],
+      },
+    };
+
+    function renderItem(a) {
+      if (a.value.type === "md") {
+        return (
+          <Widget
+            src="near/widget/Posts.Post"
+            props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+          />
+        );
+      }
     }
+    return (
+      <Widget
+        src="efiz.near/widget/MergedIndexFeed"
+        props={{ index, renderItem, disableCaching: true }}
+      />
+    );
+  } else {
+    let hashtagFilter = [];
+    if (parts[2] !== "main") {
+      hashtagFilter = [{ name: parts[2], required: true }];
+    }
+    return (
+      <Widget
+        src="efiz.near/widget/Community.Posts"
+        props={{
+          communityHashtags: hashtagFilter,
+          communityMembers: [],
+          exclusive: false,
+          allowPublicPosting: true,
+        }}
+      />
+    );
   }
-  return (
-    <Widget
-      src="efiz.near/widget/MergedIndexFeed"
-      props={{ index, renderItem, disableCaching: true }}
-    />
-  );
 } else {
   value = Social.get(parts.join("/"), "final");
   value = JSON.parse(value);
