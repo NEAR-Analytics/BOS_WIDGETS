@@ -29,6 +29,10 @@ const createEverything = () => {
   );
 };
 
+// <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
+//   <Button>documentation</Button>
+// </a>;
+
 return (
   <div className="d-flex flex-column">
     <div className="mt-auto py-3">
@@ -44,24 +48,20 @@ return (
                 create your own everything
               </Button>
             ))}
-          <a href={"/#/evrything-docs.near/widget/Everything.Documentation"}>
-            <Button>documentation</Button>
-          </a>
         </div>
       </div>
     </div>
     <Widget
-      src="evrything.near/widget/everything.template"
+      src="efiz.near/widget/Tree"
       props={{
-        accountId: "evrything.near",
-        text: "everything",
-        types: [
-          "evrything.near/type/Image",
-          "evrything.near/type/Event",
-          "evrything.near/type/Note",
-        ],
-        styles: {
-          font: "Times New Roman",
+        rootPath: "everything",
+        rootType: "thing",
+        rootNode: {
+          post: {
+            main: null,
+            dev: null,
+            bos: null,
+          },
         },
       }}
     />
