@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? "blaze.near";
+const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const role = props.role ?? "council";
 
