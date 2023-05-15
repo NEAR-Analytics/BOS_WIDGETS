@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "discussion",
+  selectedTab: props.tab || "proposals",
 });
 
 const accountId = props.accountId ?? context.accountId;
@@ -194,17 +194,17 @@ return (
       <Content>
         <Tabs>
           <TabsButton
-            href={`${accountUrl}&tab=discussion`}
-            selected={state.selectedTab === "discussion"}
-          >
-            Discussion
-          </TabsButton>
-
-          <TabsButton
             href={`${accountUrl}&tab=proposals`}
             selected={state.selectedTab === "proposals"}
           >
             Proposals
+          </TabsButton>
+
+          <TabsButton
+            href={`${accountUrl}&tab=discussion`}
+            selected={state.selectedTab === "discussion"}
+          >
+            Discussion
           </TabsButton>
 
           <TabsButton
@@ -236,6 +236,12 @@ return (
           </TabsButton>
         </Tabs>
 
+        {state.selectedTab === "proposals" && (
+          <>
+            <Widget src="mob.near/widget/DAO.Main" props={{ daoId }} />
+          </>
+        )}
+
         {state.selectedTab === "discussion" && (
           <>
             <h3>Curated Posts</h3>
@@ -251,10 +257,6 @@ return (
               props={{ daoId }}
             />
           </>
-        )}
-
-        {state.selectedTab === "proposals" && (
-          <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
         )}
 
         {state.selectedTab === "members" && (
