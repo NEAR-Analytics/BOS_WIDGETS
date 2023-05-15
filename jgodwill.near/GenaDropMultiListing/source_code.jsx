@@ -403,7 +403,7 @@ return (
             onChangeReceiver,
           }}
         />
-        <br></br>
+        {/*<br></br>
         <h1 className="text-center">OR</h1>
         <h2 className="text-center">Transfer</h2>
         <div className=" mb-2">
@@ -431,7 +431,7 @@ return (
               Can't Transfer (Don't Own)
             </button>
           )}
-        </div>
+        </div>*/}
       </>
     )}
     <h4 className="text-center mt-5">
