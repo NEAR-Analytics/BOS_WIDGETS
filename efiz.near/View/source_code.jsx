@@ -51,19 +51,11 @@ if (parts.length < 2) {
     function renderItem(a) {
       if (a.value.type === "md") {
         return (
-          <>
-            <Widget
-              src="efiz.near/widget/Edge"
-              props={{ blockHeight: a.blockHeight }}
-            />
-            <Widget
-              src="near/widget/Posts.Post"
-              props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
-            />
-          </>
+          <Widget
+            src="near/widget/Posts.Post"
+            props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+          />
         );
-      } else {
-        return <p>lol no</p>;
       }
     }
     return (
