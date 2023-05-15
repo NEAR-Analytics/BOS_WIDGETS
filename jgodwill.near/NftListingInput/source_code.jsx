@@ -321,7 +321,7 @@ return (
                       labelKey="search"
                       minLength={1}
                       options={allWidgets}
-                      onChange={(e) => props.onChangeReceiver(e.target.value)}
+                      onChange={(value) => props.onChangeReceiver(value)}
                       placeholder="🔍 Search for a Near user..."
                       // renderMenuItemChildren={(option: accountId) => (
                       //   <div className="mb-2">
