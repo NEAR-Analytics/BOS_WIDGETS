@@ -9,7 +9,7 @@ if (type === "type") {
 
 const parts = path.split("/");
 let value = {};
-
+console.log(path);
 if (parts.length < 2) {
   if (type === "account") {
     // return default profile or setting's profile
