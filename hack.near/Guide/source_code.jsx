@@ -131,7 +131,6 @@ const Container = styled.div`
 
 return (
   <Wrapper>
-    <Widget src="mob.near/widget/ProfileOnboarding" />
     <Container center>
       <Flex gap="23px" direction="column" alignItems="center">
         <H1>
@@ -150,6 +149,19 @@ return (
         <Text size="29px" weight="600">
           NEAR Ecosystem Governance
         </Text>
+
+        {!accountId && (
+          <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              href: "https://near.org/signup",
+              label: "Create Account",
+              variant: "outline-dark",
+              size: "large",
+            }}
+          />
+        )}
+
         {(isHuman && (
           <button className="btn btn-outline-success" onClick={handleJoin}>
             Join the DAO
