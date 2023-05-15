@@ -14,7 +14,7 @@ const createEverything = () => {
     {
       widget: {
         everything: {
-          "": `return (<Widget src="efiz.near/widget/Tree" props={{ rootPath: "${context.accountId}", rootType: "account" }} />);`,
+          "": `return (<Widget src="evrything.near/widget/everything.template" props={{ accountId: "${context.accountId}", text: "${context.accountId}", style: { font: "Times New Roman" } }} />);`,
           metadata: {
             tags: {
               everything: "",
@@ -61,10 +61,6 @@ return (
             main: null,
             dev: null,
             bos: null,
-          },
-          account: {
-            "efiz.near": null,
-            [context.accountId]: null,
           },
         },
       }}
