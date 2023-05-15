@@ -162,11 +162,13 @@ return (
           />
         )}
 
-        {(accountId && isHuman && (
+        {accountId && (
           <button className="btn btn-outline-success" onClick={handleJoin}>
             Join the DAO
           </button>
-        )) || (
+        )}
+
+        {accountId && !isHuman && (
           <div className="row">
             <div className="col-6 mt-5">
               <Widget
