@@ -134,11 +134,12 @@ const onChangeMsg = (msg) => {
 };
 
 const onChangeReceiver = (receiverId) => {
-  const validReceiverLink = isNearAddress(receiverId); // add error message or change button based on this
+  const validReceiverLink = isNearAddress(receiverId[0]); // add error message or change button based on this
   State.update({
-    receiverId,
+    receiverId: receiverId[0],
     validReceiver: validReceiverLink,
   });
+  console.log(`receiver: ${state.receiverId[0]}`);
 };
 
 const onChangeContract = (contractId) => {
