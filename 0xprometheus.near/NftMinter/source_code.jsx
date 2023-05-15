@@ -3,16 +3,19 @@ const polygonContract = "0x436AEceaEeC57b38a17Ebe71154832fB0fAFF878";
 const celoContract = "0xC291846A587cf00a7CC4AF0bc4EEdbC9c3340C36";
 const avaxContract = "0x43dBdfcAADD0Ea7aD037e8d35FDD7c353B5B435b";
 const arbitrumContract = "0x959a2945185Ec975561Ac0d0b23F03Ed1b267925";
+const nearContract = "genadrop.nftgen.near";
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
 ];
+let accountId = context.accountId;
 const contractAddresses = {
-  137: polygonContract,
-  1313161554: auroraCOntract,
-  42220: celoContract,
-  43114: avaxContract,
+  137: [polygonContract, "Polygon"],
+  1313161554: [auroraCOntract, "Aurora"],
+  42220: [celoContract, "Celo"],
+  43114: [avaxContract, "Avalanche"],
+  42161: [arbitrumContract, "Arbitrum"],
+  0: [nearContract, "Near"],
 };
-
 const chains = [
   {
     id: "137",
@@ -34,6 +37,10 @@ const chains = [
     id: "42161",
     name: "Arbitrum",
   },
+  {
+    id: "0",
+    name: "Near",
+  },
 ];
 
 const handleMint = () => {
@@ -41,10 +48,48 @@ const handleMint = () => {
   if (!(state.title && state.description && state.image.cid)) {
     return;
   }
+  if (state.selectedChain == "0") {
+    const metadata = {
+      name: state.title,
+      description: state.description,
+      properties: [],
+      image: `ipfs://${state.image.cid}`,
+    };
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: metadata,
+    }).then((res) => {
+      const cid = res.body.cid;
+      const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
+      console.log("in the promise", res, Id);
+      Near.call([
+        {
+          contractName: "genadrop-contract.nftgen.near",
+          methodName: "nft_mint",
+          args: {
+            token_id: `${Date.now()}`,
+            metadata: {
+              title: state.title,
+              description: state.description,
+              media: `https://ipfs.io/ipfs/${state.image.cid}`,
+              reference: `ipfs://${cid}`,
+            },
+            receiver_id: accountId,
+          },
+          gas: gas,
+          deposit: deposit,
+        },
+      ]);
+    });
+    return;
+  }
   console.log("passed checks");
   let networkId = Ethers.provider()._network.chainId;
 
-  const CA = contractAddresses[state.selectedChain || "137"];
+  const CA = contractAddresses[state.selectedChain[0] || "137"];
 
   const contract = new ethers.Contract(
     CA,
@@ -71,13 +116,13 @@ const handleMint = () => {
       .mint(state.sender, Id, 1, `ipfs://${cid}`, "0x")
       .then((transactionHash) => transactionHash.wait())
       .then((ricit) => {
-        console.log("receipt of what", ricit);
+        console.log("receipt::", ricit);
       });
   });
 };
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  console.log("account", accounts);
+  console.log("accounts:", accounts, Ethers.provider(), ethers);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
     Ethers.provider()
@@ -88,11 +133,17 @@ if (state.sender === undefined) {
         });
       });
   }
+
+  if (accountId) {
+    State.update({ sender: accountId });
+    State.update({
+      selectedChain: "0",
+    });
+  }
 }
 State.init({
   title: "",
   description: "",
-  selectedChain: "",
 });
 const onChangeTitle = (title) => {
   State.update({
@@ -101,7 +152,21 @@ const onChangeTitle = (title) => {
 };
 
 const handleChainChange = (event) => {
-  console.log("get what we doing:", event.target.value, Ethers);
+  console.log(
+    "get what we doing:",
+    event.target.value,
+    event.target.value == "0",
+    !accountId
+  );
+  if (event.target.value == "0") {
+    if (!accountId) {
+      console.log("not what we thought,:", accountId);
+      return;
+    }
+    State.update({
+      selectedChain: event.target.value,
+    });
+  }
   Ethers.send("wallet_switchEthereumChain", [
     {
       chainId: "0x" + Number(event.target.value).toString(16),
@@ -120,15 +185,15 @@ const onChangeDesc = (description) => {
     description,
   });
 };
-if (state.sender === undefined) {
-  console.log("of course it's undefined", ethers);
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  console.log("account", accounts);
-  if (accounts.length) {
-    State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
-  }
-}
+// if (state.sender === undefined) {
+//   console.log("of course it's undefined", ethers);
+//   const accounts = Ethers.send("eth_requestAccounts", []);
+//   console.log("account", accounts);
+//   if (accounts.length) {
+//     State.update({ sender: accounts[0] });
+//     console.log("set sender", accounts[0]);
+//   }
+// }
 
 return (
   <div>
@@ -160,7 +225,7 @@ return (
       )}
     </div>
     <div>
-      {!!state.sender ? (
+      {state.sender && Ethers.provider() ? (
         <div className="form-group">
           <label htmlFor="chainSelect">Select Chain</label>
           <select
@@ -179,8 +244,36 @@ return (
             className="btn btn-primary mt-3"
             onClick={handleMint}
           >
-            Mint
+            Mint to {contractAddresses[state.selectedChain][1]}
           </button>
+        </div>
+      ) : state.sender ? (
+        <div className="form-group">
+          <label htmlFor="chainSelect">Select Chain</label>
+          <select
+            className="form-control"
+            value={state.selectedChain}
+            onChange={handleChainChange}
+          >
+            {chains.map((chain) => (
+              <option key={chain.id} value={chain.id}>
+                {chain.name}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            className="btn btn-primary mt-3"
+            onClick={handleMint}
+          >
+            Mint to {contractAddresses[state.selectedChain][1]}
+          </button>
+          <div>
+            <Web3Connect
+              className="btn mt-3"
+              connectLabel="Connect with Ethereum Wallet"
+            />
+          </div>
         </div>
       ) : (
         <Web3Connect className="btn mt-3" connectLabel="Connect with Wallet" />
