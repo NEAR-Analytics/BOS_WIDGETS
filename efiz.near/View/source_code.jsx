@@ -12,7 +12,14 @@ console.log(`path: ${path}, type: ${type}`);
 
 // ACCOUNT //
 if (type === "account") {
-  return "VIEW: account";
+  if (parts.length > 1) {
+    return (
+      <Widget
+        src="efiz.near/widget/Tree"
+        props={{ rootPath: parts[parts.length - 1], rootType: type }}
+      />
+    );
+  }
   // THING //
 } else if (type === "thing") {
   // path: "everything"
