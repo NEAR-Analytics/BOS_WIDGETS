@@ -1,8 +1,3 @@
-console.log("QueryApi.Editor.jsx");
-console.log("Registry", props.REGISTRY_CONTRACT_ID);
-console.log("external", props.EXTERNAL_APP_URL);
-console.log("app_owner", props.APP_OWNER);
-console.log("grpahql endpppoint", props.GRAPHQL_ENDPOINT);
 const path = props.path || "query-api-editor";
 const tab = props.tab || "";
 const REGISTRY_CONTRACT_ID =
@@ -28,7 +23,8 @@ const initialPayload = {
 };
 
 const registerFunctionHandler = (request, response) => {
-  const { indexerName, code, schema, blockHeight } = request.payload;
+  const { indexerName, code, schema, blockHeight, contractFilter } =
+    request.payload;
 
   const gas = 200000000000000;
 
@@ -44,6 +40,7 @@ const registerFunctionHandler = (request, response) => {
       code,
       schema,
       start_block_height: blockHeight,
+      contractFilter: contractFilter || "social.near",
     },
     gas
   );
