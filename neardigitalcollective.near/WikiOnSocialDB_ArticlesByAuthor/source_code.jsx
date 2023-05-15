@@ -12,6 +12,7 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
+  "psalm.near",
 ];
 
 const articleBlackList = [
