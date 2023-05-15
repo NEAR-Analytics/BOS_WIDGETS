@@ -2,6 +2,22 @@
 //   return <div></div>;
 // }
 
+const data = Social.keys("*/profile", "final");
+
+if (!data) {
+  return "Loading";
+}
+
+const accounts = Object.entries(data);
+
+const allWidgets = [];
+
+for (let i = 0; i < accounts.length; ++i) {
+  const accountId = accounts[i][0];
+  allWidgets.push(accountId);
+}
+console.log(allWidgets);
+
 const Label = styled.p`
   font-size: 1.1rem;
   color: #04111D;
@@ -294,10 +310,27 @@ return (
                   <Label className="text-center">Transfer</Label>
                   <div className=" mb-2">
                     Receiver Address
-                    <input
+                    {/*<input
                       type="text"
                       placeholder={`🔍 ${props.state.receiverId}`}
                       onChange={(e) => props.onChangeReceiver(e.target.value)}
+                    />*/}
+                    <Typeahead
+                      id="async-example"
+                      isLoading={isLoading}
+                      labelKey="search"
+                      minLength={1}
+                      options={allWidgets}
+                      onChange={(e) => props.onChangeReceiver(e.target.value)}
+                      placeholder="🔍 Search for a Near user..."
+                      // renderMenuItemChildren={(option: accountId) => (
+                      //   <div className="mb-2">
+                      //     <Widget
+                      //       src="mob.near/widget/Profile"
+                      //       props={{ accountId }}
+                      //     />
+                      //   </div>
+                      // )}
                     />
                   </div>
                   <div className="row">
