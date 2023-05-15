@@ -44,7 +44,7 @@ if (parts.length < 2) {
       options: {
         limit: 10,
         order: "desc",
-        accountId: parts[0],
+        accountId: parts[0].endsWith(".near") ? parts[0] : undefined,
       },
     };
 
