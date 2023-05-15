@@ -62,6 +62,10 @@ return (
             dev: null,
             bos: null,
           },
+          account: {
+            "efiz.near": null,
+            [context.accountId]: null,
+          },
         },
       }}
     />
