@@ -8,7 +8,7 @@ return (
     <br />
     <button
       onClick={() => {
-        incK();
+        State.update({ k: state.k + 1 });
       }}
     >
       grandchild + 1
