@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "blaze.near";
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const role = props.role ?? "council";
 
@@ -148,22 +148,29 @@ return (
         </H1>
 
         <Text size="29px" weight="600">
-          Localized Funding Programs
+          NEAR Ecosystem Governance
         </Text>
         {(isHuman && (
           <button className="btn btn-outline-success" onClick={handleJoin}>
             Join the DAO
           </button>
         )) || (
-          <Widget
-            src="near/widget/DIG.Button"
-            props={{
-              href: "https://i-am-human.app",
-              label: "Get Verified",
-              variant: "outline-primary",
-              size: "large",
-            }}
-          />
+          <div className="row">
+            <div className="col-6 mt-5">
+              <Widget
+                src="near/widget/DIG.Button"
+                props={{
+                  href: "https://i-am-human.app",
+                  label: "Get Verified",
+                  variant: "outline-primary",
+                  size: "large",
+                }}
+              />
+            </div>
+            <div className="col-6">
+              <Widget src="hack.near/widget/gov.Badge" />
+            </div>
+          </div>
         )}
       </Flex>
 
