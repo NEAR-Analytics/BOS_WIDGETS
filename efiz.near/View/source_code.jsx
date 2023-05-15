@@ -8,6 +8,8 @@ if (path.endsWith("/")) {
 const parts = path.split("/");
 let value = {};
 
+console.log(`path: ${path}, type: ${type}`);
+
 // ACCOUNT //
 if (type === "account") {
   return "VIEW: account";
