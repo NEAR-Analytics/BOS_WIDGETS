@@ -35,7 +35,7 @@ return (
         textAlign: "justify",
       }}
     >
-      Explore the crypto-based gaming world of Pixel Dapps where you can
+      Explore the crypto-based gaming world of Marma J Gaming where you can
       collaborate artistically with friends, gather your pets for a battle,
       outfit your hero to explore dungeons and take part in raids, and gather an
       army to position yourself as the master tactician.
