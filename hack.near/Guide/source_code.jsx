@@ -151,13 +151,19 @@ return (
           Localized Funding Programs
         </Text>
         {(isHuman && (
-          <button className="btn btn-primary" onClick={handleJoin}>
+          <button className="btn btn-outline-success" onClick={handleJoin}>
             Join the DAO
           </button>
         )) || (
-          <button className="btn btn-success" href="https://i-am-human.app">
-            Get Verified
-          </button>
+          <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              href: "https://i-am-human.app",
+              label: "Get Verified",
+              variant: "outline-primary",
+              size: "large",
+            }}
+          />
         )}
       </Flex>
 
