@@ -13,10 +13,9 @@ const accounts = Object.entries(data);
 const allWidgets = [];
 
 for (let i = 0; i < accounts.length; ++i) {
-  const accountId = accounts[i][0];
+  // const accountId = accounts[i][0];
   allWidgets.push(accountId);
 }
-console.log(allWidgets);
 
 const Label = styled.p`
   font-size: 1.1rem;
