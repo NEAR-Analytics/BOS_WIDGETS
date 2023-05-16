@@ -30,21 +30,29 @@ const pTagStyled = {
 
 const buttonStyled = {
   marginTop: "30px",
-};
-
-const openMetaverse = () => {
-  window.open(
-    "__blank",
-    "https://signax.myhubs.net/Sb24GJq?embed_token=6302c47e2ab0442952098d31fce554bc"
-  );
+  padding: "10px",
+  background: "blue",
+  border: "none",
+  outline: "none",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "10px",
+  color: "white",
+  width: "20%",
+  textDecoration: "none",
 };
 
 return (
   <MainStyledComponent>
     <PageTitleComponent>METAVERSE MEETING SYSTEM</PageTitleComponent>
     <p style={pTagStyled}>Click the button to experience the play</p>
-    <button onclick={openMetaverse} style={buttonStyled}>
+    <a
+      href="https://near.org/sandbox#/signax.near/widget/HubSpot"
+      style={buttonStyled}
+    >
       Experience
-    </button>
+    </a>
   </MainStyledComponent>
 );
