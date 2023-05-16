@@ -1,6 +1,6 @@
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
-const proposal = props.proposal ?? {
+const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
   id: 1,
   proposer: "hack.near",
   description:
