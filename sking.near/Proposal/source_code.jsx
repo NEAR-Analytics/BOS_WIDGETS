@@ -22,6 +22,8 @@ const proposal_type = proposal_type.replace(/([A-Z])/g, " $1").trim(); // Add sp
 
 const proposal_status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
+console.log(proposal);
+
 // ==============================
 // Styled Components
 // ==============================
