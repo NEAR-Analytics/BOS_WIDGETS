@@ -2,7 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
-const bounty = props.bounty ?? {
+const bounty = JSON.parse(JSON.stringify(props.bounty)) ?? {
   id: 888,
   description:
     "# [Bounty Title Here]\n\n## Description\n\n[Detailed description of what the bounty entails. What needs to be done, any specific requirements or skills needed, etc.]\n\n## Acceptance Criteria\n\n[What should be delivered upon the completion of the bounty? Be specific and clear about what you expect.]\n\n## Steps to Claim\n\n[Explanation of the procedure to claim the bounty. Step by step guide on what needs to be done to complete the bounty and how to submit the work.]\n\n## Additional Information\n\n[If applicable, include any additional information or resources relevant to the bounty. It could be helpful links, tips, or contacts.]",
