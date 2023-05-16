@@ -4,7 +4,7 @@ const incK = () => {
   State.update({ k: state.k + 1 });
 };
 
-if (state.isInitialized) {
+if (!state.isInitialized) {
   props.setchildincrement(incK);
   State.update({ isInitialized: true });
 }
