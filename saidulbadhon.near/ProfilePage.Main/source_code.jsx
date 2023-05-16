@@ -38,7 +38,7 @@ return (
           fontWeight: 600,
 
           fontWeight: 500,
-          color: theme.textColor,
+          color: props.theme.textColor,
           textAlign: "left",
         }}
       >
