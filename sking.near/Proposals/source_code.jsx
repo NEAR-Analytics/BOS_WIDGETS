@@ -112,7 +112,7 @@ return (
         {state.proposals.map((proposal, i) => (
           <Widget
             key={i}
-            src={WIDGET_AUTHOR + "/widget/DAO.Proposal"}
+            src={WIDGET_AUTHOR + "/widget/Proposal"}
             props={{ daoId: state.daoId, proposal: proposal }}
           />
         ))}
