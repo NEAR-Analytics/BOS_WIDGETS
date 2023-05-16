@@ -14,13 +14,13 @@ const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
 
 console.log(`Rendering proposal ${proposal.id}...`);
 
-proposal.type =
+const proposal_type_value =
   typeof proposal.kind === "string"
     ? proposal.kind
     : Object.keys(proposal.kind)[0];
-proposal.type = proposal.type.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
+const proposal_type = proposal_type.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
-proposal.status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
+const proposal_status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
 // ==============================
 // Styled Components
@@ -137,13 +137,9 @@ const MarkdownContainer = styled.div`
 `;
 
 const RenderProposalArgs = () => {
-  const proposal_type =
-    typeof proposal.kind === "string"
-      ? proposal.kind
-      : Object.keys(proposal.kind)[0];
-  if (proposal_type === "Vote") return null;
+  if (proposal_type_value === "Vote") return null;
 
-  if (proposal_type === "Transfer")
+  if (proposal_type_value === "Transfer")
     return (
       <>
         <div>
@@ -169,7 +165,7 @@ const RenderProposalArgs = () => {
       </>
     );
 
-  if (proposal_type === "FunctionCall") {
+  if (proposal_type_value === "FunctionCall") {
     return proposal.kind.FunctionCall.actions.reduce(
       (acc, { method_name, args, deposit }) => {
         return acc.concat(
@@ -221,8 +217,8 @@ const RenderProposalArgs = () => {
   }
 
   if (
-    proposal_type === "AddMemberToRole" ||
-    proposal_type === "RemoveMemberFromRole"
+    proposal_type_value === "AddMemberToRole" ||
+    proposal_type_value === "RemoveMemberFromRole"
   )
     return (
       <>
@@ -243,7 +239,7 @@ const RenderProposalArgs = () => {
       </>
     );
 
-  if (proposal_type === "AddBounty")
+  if (proposal_type_value === "AddBounty")
     return (
       <>
         <div>
@@ -275,7 +271,7 @@ const RenderProposalArgs = () => {
       </>
     );
 
-  if (proposal_type === "BountyDone")
+  if (proposal_type_value === "BountyDone")
     return (
       <>
         <div>
@@ -301,7 +297,7 @@ return (
     <div className="d-flex justify-content-between align-items-center">
       <div>
         <h5>Proposal ID: {proposal.id}</h5>
-        <h3>{proposal.type}</h3>
+        <h3>{proposal_type}</h3>
       </div>
       <div className="d-flex flex-column align-items-end">
         <h5>Status</h5>
@@ -317,8 +313,8 @@ return (
     </div>
     <div>
       <h5>Description</h5>
-      {proposal.type !== "Vote" && <p>{proposal.description}</p>}
-      {proposal.type === "Vote" && (
+      {proposal_type !== "Vote" && <p>{proposal.description}</p>}
+      {proposal_type === "Vote" && (
         <MarkdownContainer>
           <Markdown text={proposal.description} />
         </MarkdownContainer>
