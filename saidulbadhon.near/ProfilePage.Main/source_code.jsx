@@ -38,8 +38,8 @@ return (
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            marginTop: 20,
-            gap: 20,
+            marginTop: 16,
+            gap: 16,
           }}
         >
           {Object.keys(widgets)?.map((item, index) => (
