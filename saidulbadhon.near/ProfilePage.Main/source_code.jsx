@@ -28,8 +28,8 @@ const cssFont = fetch(
 
 const css = fetch(
   props.theme.name === "dark"
-    ? "https://raw.githubusercontent.com/SaidulBadhon/Bet-BD-Website/master/main9.css"
-    : "https://raw.githubusercontent.com/cryptosynk/near-social-profile/main/css/mainLight.css"
+    ? "https://nearpad-images.s3.amazonaws.com/do_not_delete/profilepage_dark.css"
+    : "https://nearpad-images.s3.amazonaws.com/do_not_delete/profilepage_light.css"
 ).body;
 
 const theme = props.theme.name;
@@ -73,14 +73,14 @@ return (
         )}
       </div>
 
-      <div>
+      {/*<div>
         <h2>{totalCommits.length} contributions</h2>
         <div style={{ marginTop: 20 }} />
         <Widget
           src="zahidulislam.near/widget/Profile.Contributions"
           props={{ theme: theme }}
         />
-      </div>
+      </div>*/}
     </div>
   </Theme>
 );
