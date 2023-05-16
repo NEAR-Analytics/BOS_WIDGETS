@@ -8,6 +8,9 @@ const writersWhiteList = [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "shubham007.near",
+  "psalm.near",
+  "fiftycent.near",
 ];
 
 const articleBlackList = [
