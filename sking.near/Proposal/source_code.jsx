@@ -18,7 +18,7 @@ const proposal_type_value =
   typeof proposal.kind === "string"
     ? proposal.kind
     : Object.keys(proposal.kind)[0];
-const proposal_type = proposal_type.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
+const proposal_type = proposal_type_value.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
 const proposal_status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
