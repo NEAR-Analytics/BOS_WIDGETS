@@ -14,13 +14,13 @@ const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
 
 console.log(`Rendering proposal ${proposal.id}...`);
 
-// proposal.type =
-//   typeof proposal.kind === "string"
-//     ? proposal.kind
-//     : Object.keys(proposal.kind)[0];
-// proposal.type = proposal.type.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
+proposal.type =
+  typeof proposal.kind === "string"
+    ? proposal.kind
+    : Object.keys(proposal.kind)[0];
+proposal.type = proposal.type.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
-// proposal.status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
+proposal.status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
 
 // ==============================
 // Styled Components
@@ -45,6 +45,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-height: 500px;
 
   p {
     line-height: 1.4;
