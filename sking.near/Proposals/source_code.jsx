@@ -1,6 +1,6 @@
 const WIDGET_AUTHOR = "sking.near";
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const proposalsPerPage = props.proposalsPerPage ?? 10; // Number of proposals to fetch at a time
+const proposalsPerPage = props.proposalsPerPage ?? 5; // Number of proposals to fetch at a time
 
 State.init({
   daoId,
@@ -10,11 +10,13 @@ State.init({
   showCreateProposal: false,
 });
 
-const loadProposals = () => {
+const loadProposals = async () => {
+  console.log("Loading proposals...");
+
   const lastProposalId =
     state.lastProposalId !== null
       ? state.lastProposalId
-      : Near.view(daoId, "get_last_proposal_id");
+      : await Near.asyncView(daoId, "get_last_proposal_id");
   if (lastProposalId === null) return;
 
   // Prevents multiple calls to loadProposals() before the first call is finished
@@ -24,7 +26,7 @@ const loadProposals = () => {
   const fromIndex = Math.max(0, lastProposalId - proposalsPerPage + 1); // Ensures fromIndex is never less than 0
   const limit = fromIndex === 0 ? lastProposalId + 1 : proposalsPerPage; // Ensure we don't fetch the same proposals twice if fromIndex is 0
 
-  const newProposals = Near.view(daoId, "get_proposals", {
+  const newProposals = await Near.asyncView(daoId, "get_proposals", {
     from_index: fromIndex,
     limit: limit,
   });
