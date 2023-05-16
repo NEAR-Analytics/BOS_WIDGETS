@@ -50,6 +50,7 @@ return (
                 name: item,
                 accountId,
                 commits: allWidgetsHistoryChangesBlocks[accountId].widget[item],
+                theme: props.theme,
               }}
             />
           ))}
