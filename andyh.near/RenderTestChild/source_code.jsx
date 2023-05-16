@@ -22,6 +22,7 @@ return (
         j: state.j,
         incrementparent: () => State.update({ j: state.j + 1 }),
         setchildincrement: (cb) => {
+          console.log("setting increment callback", cb);
           incrementChild = cb;
         },
       }}
