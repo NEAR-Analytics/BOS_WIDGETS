@@ -258,7 +258,7 @@ function getPortfolioRewards(type, token_id) {
       );
       const rewardPerDay =
         (boostedShares / totalBoostedShares) * totalRewardsPerDay || 0;
-      return { rewardPerDay, metadata: rewardAsset.metadata };
+      return { rewardPerDay, metadata: asset.metadata };
     });
     return result;
   }
