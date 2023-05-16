@@ -22,30 +22,13 @@ const totalCommits = Object.keys(widget)
 
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
-// const cssFont = fetch(
-//   "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-// ).body;
-
-// const css = fetch(
-//   props.theme.name === "dark"
-//     ? "https://nearpad-images.s3.amazonaws.com/do_not_delete/profilepage_dark.css"
-//     : "https://nearpad-images.s3.amazonaws.com/do_not_delete/profilepage_light.css"
-// ).body;
-
-// const theme = props.theme.name;
-
-// const Theme = styled.div`
-//   font-family: "Open Sans", sans-serif;
-//   ${cssFont}
-//   ${css}
-// `;
-
 return (
   <div
     style={{
       display: "flex",
       flexDirection: "column",
-      gap: 40,
+      // gap: 40,
+      marginBottom: 40,
     }}
   >
     <div>
