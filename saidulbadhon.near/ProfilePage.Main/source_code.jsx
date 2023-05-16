@@ -31,7 +31,19 @@ return (
     }}
   >
     <div>
-      <h2>Widgets</h2>
+      <p
+        style={{
+          fontSize: 16,
+          lineHeight: "16px",
+          fontWeight: 600,
+
+          fontWeight: 500,
+          color: theme.textColor,
+          textAlign: "left",
+        }}
+      >
+        Widgets
+      </p>
 
       {Object.keys(widgets)?.length > 0 ? (
         <div
