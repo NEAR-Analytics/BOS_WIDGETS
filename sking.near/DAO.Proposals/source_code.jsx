@@ -1,5 +1,5 @@
 const WIDGET_AUTHOR = "sking.near";
-const daoId = props.daoId ?? "multi.sputnik-dao.near";
+const daoId = props.daoId ?? "multi.sputnik-daos.near";
 const proposalsPerPage = props.proposalsPerPage ?? 10; // Number of proposals to fetch at a time
 
 State.init({
@@ -41,7 +41,7 @@ const loadProposals = () => {
 };
 
 const onChangeDAO = (newDaoId) => {
-  console.log("Changing DAO...");
+  console.log("Changing DAOs...");
   State.update({
     daoId: newDaoId,
     proposals: [],
@@ -100,7 +100,7 @@ return (
         <p className="m-1">Sputnik Contract ID:</p>
         <input
           type="text"
-          placeholder="example.sputnik-dao.near"
+          placeholder="example.sputnik-daos.near"
           onChange={(e) => onChangeDAO(e.target.value)}
         />
       </div>
