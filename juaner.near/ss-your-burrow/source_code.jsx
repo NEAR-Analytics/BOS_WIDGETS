@@ -278,7 +278,7 @@ const borrowedAssets = hasData
       const usd = borrowed * asset.price.usd;
       total_burrowed_usd = total_burrowed_usd.plus(usd);
       const rewardsList =
-        getPortfolioRewards("Supplied", borrowedAsset.token_id) || [];
+        getPortfolioRewards("Borrowed", borrowedAsset.token_id) || [];
       return (
         <tr>
           <td>
