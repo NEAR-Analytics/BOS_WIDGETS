@@ -1,9 +1,14 @@
-State.init({ k: 0 });
+State.init({ k: 0, isInitialized: false });
 const incK = () => {
   console.log("incrementing k");
   State.update({ k: state.k + 1 });
 };
-props.setchildincrement(incK);
+
+if (state.isInitialized) {
+  props.setchildincrement(incK);
+  State.update({ isInitialized: true });
+}
+
 return (
   <div>
     root: {props.i} child: {props.j} grandchild: {state.k}
