@@ -114,6 +114,7 @@ return (
                 src="mob.near/widget/FollowButton"
                 props={{ accountId }}
               />
+              <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
             </div>
           </div>
           <div>
