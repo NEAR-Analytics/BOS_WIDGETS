@@ -12,8 +12,6 @@ const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
   submission_time: "1682527782646393764",
 };
 
-console.log(`Rendering proposal ${proposal.id}...`);
-
 proposal.type =
   typeof proposal.kind === "string"
     ? proposal.kind
@@ -45,6 +43,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-height: 500px;
 
   p {
     line-height: 1.4;
