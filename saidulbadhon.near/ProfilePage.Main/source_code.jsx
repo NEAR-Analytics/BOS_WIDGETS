@@ -62,7 +62,7 @@ return (
         >
           {Object.keys(widgets)?.map((item, index) => (
             <Widget
-              src="zahidulislam.near/widget/Profile.WidgetItem"
+              src="saidulbadhon.near/widget/ProfilePage.WidgetItem"
               props={{
                 name: item,
                 accountId,
