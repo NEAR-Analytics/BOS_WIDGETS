@@ -27,8 +27,7 @@ return (
     style={{
       display: "flex",
       flexDirection: "column",
-      // gap: 40,
-      marginBottom: 40,
+      paddingBottom: 40,
     }}
   >
     <div>
