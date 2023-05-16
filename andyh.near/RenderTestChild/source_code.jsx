@@ -16,7 +16,7 @@ return (
         i: props.i,
         j: state.j,
         incrementparent: () => State.update({ j: state.j + 1 }),
-        incrementself: (cb) => console.log({ cb: typeof cb }),
+        incrementself: () => {},
       }}
     />
   </div>
