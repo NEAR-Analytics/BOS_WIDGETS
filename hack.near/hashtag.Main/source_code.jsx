@@ -1,0 +1,1 @@
+const hashtag = props.hashtag ?? "near"; return (<Widget src="mob.near/widget/Welcome" props={{hashtag: hashtag}} />);
