@@ -1,5 +1,6 @@
 State.init({ k: 0 });
 const incK = () => {
+  console.log("incrementing k");
   State.update({ k: state.k + 1 });
 };
 props.setchildincrement(incK);
