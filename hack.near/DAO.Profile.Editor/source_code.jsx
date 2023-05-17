@@ -1,19 +1,4 @@
-let daoId = state.daoId ?? props.daoId;
-
-if (daoId === undefined) {
-  daoId = Storage.privateGet("daoId");
-}
-
-function updateDAO(daoId) {
-  if (state.daoId !== daoId) {
-    State.update({
-      daoId,
-    });
-    if (daoId !== undefined) {
-      Storage.privateSet("daoId", daoId);
-    }
-  }
-}
+const daoId = props.daoId;
 
 let profile = Social.getr(`${daoId}/profile`);
 
@@ -21,7 +6,6 @@ if (profile === null) {
   return "Loading...";
 }
 
-const groupId = props.groupId ?? "community";
 const policy = Near.view(state.daoId, "get_policy");
 
 const deposit = policy.proposal_bond;
