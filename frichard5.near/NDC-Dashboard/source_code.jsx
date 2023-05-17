@@ -3,7 +3,7 @@ const widgetProvider = props.widgetProvider;
 const refUrl = "https://api.stats.ref.finance/api/ft";
 const tab = props.tab || "overview";
 const proposal_id = props.proposal_id;
-const selectedDao = props.selectedDao || "marketing.sputnik-dao.near";
+const selectedDao = props.selectedDao || "ndctrust.sputnik-dao.near";
 
 // Initial state
 State.init({
