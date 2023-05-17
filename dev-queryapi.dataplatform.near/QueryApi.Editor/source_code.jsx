@@ -40,7 +40,7 @@ const registerFunctionHandler = (request, response) => {
       code,
       schema,
       start_block_height: blockHeight,
-      contractFilter: contractFilter || "social.near",
+      contract_filter: contractFilter || "social.near",
     },
     gas
   );
