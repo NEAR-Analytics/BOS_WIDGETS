@@ -294,7 +294,7 @@ return (
 
     {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/AssetListModal"
+        src="ejj.near/widget/AssetListModal"
         props={{
           hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
@@ -315,7 +315,7 @@ return (
     )}
     {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/AssetListModal"
+        src="ejj.near/widget/AssetListModal"
         props={{
           hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
@@ -335,7 +335,7 @@ return (
     )}
     {!state.inputAsset && state.network && state.inputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/TokenData"
+        src="ejj.near/widget/TokenData"
         props={{
           tokenId: state.inputAssetTokenId,
           coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
@@ -351,7 +351,7 @@ return (
     )}
     {!state.outputAsset && state.network && state.outputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/TokenData"
+        src="ejj.near/widget/TokenData"
         props={{
           tokenId: state.outputAssetTokenId,
           coinGeckoTokenId:
