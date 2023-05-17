@@ -273,6 +273,7 @@ const Select = (
     src={`${widgetProvider}/widget/NDC-select`}
     props={{
       options: [
+        { value: "ndctrust.sputnik-dao.near", label: "Trust" },
         { value: "marketing.sputnik-dao.near", label: "Marketing DAO" },
         { value: "creativesdao.sputnik-dao.near", label: "Creative DAO" },
         { value: "neardevgov.sputnik-dao.near", label: "Gov DAO" },
