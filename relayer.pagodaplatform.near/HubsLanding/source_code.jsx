@@ -1,5 +1,5 @@
 const CustomStyledDiv = styled.div`
-  width: 100vw;
+  width: 95vw;
   height: 100vh;
   display: flex;
   justify-content: flex-start;
@@ -25,7 +25,7 @@ const CustomContentDivLeft = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  flex: 0.5;
+  flex: 0.6;
 `;
 
 const ParagraphTag = styled.p`
