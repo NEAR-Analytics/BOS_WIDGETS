@@ -1,28 +1,35 @@
 return <div>Hello World</div>;
-import java.util.Timer;
-import java.util.TimerTask;
-public class AlarmClock {
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class TwoButtonsExample {
     public static void main(String[] args) {
-        Timer timer = new Timer();
-        int seconds = 10; // Время до срабатывания будильника (в секундах)
+        JFrame frame = new JFrame("Пример двух кнопок");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
 
-        System.out.println("Будильник установлен на через " + seconds + " секунд.");
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("Сработал будильник! Проснитесь!");
-                // Здесь можно добавить нужные действия, выполняемые при срабатывании будильника
+        // Создание первой кнопки
+        JButton button1 = new JButton("Кнопка 1");
+        button1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Вы нажали кнопку 1!");
             }
-        }, seconds * 1000); // Переводим время в миллисекунды
+        });
+        frame.add(button1);
 
-        // Пауза для предотвращения завершения программы
-        try {
-            Thread.sleep((seconds + 1) * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // Создание второй кнопки
+        JButton button2 = new JButton("Кнопка 2");
+        button2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Вы нажали кнопку 2!");
+            }
+        });
+        frame.add(button2);
 
-        timer.cancel(); // Отменяем таймер после срабатывания будильника
+        frame.pack();
+        frame.setVisible(true);
     }
 }
