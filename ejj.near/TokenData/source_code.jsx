@@ -203,7 +203,7 @@ switch (network) {
       if (network === NETWORK_ETH) {
         tokenIdForCoingeckoAPI = tokenId;
       } else if (network === NETWORK_AURORA) {
-        tokenIdForCoingeckoAPI = coinGeckoTokenId;
+        tokenIdForCoingeckoAPI = tokenId;
       } else if (network === NETWORK_ZKSYNC) {
         tokenIdForCoingeckoAPI = coinGeckoTokenId;
       }
