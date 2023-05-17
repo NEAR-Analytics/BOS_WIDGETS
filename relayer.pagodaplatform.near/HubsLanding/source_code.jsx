@@ -25,7 +25,7 @@ const CustomContentDivLeft = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    flex: 0.6;
+    flex: 0.4;
 `;
 
 const ParagraphTag = styled.p`
