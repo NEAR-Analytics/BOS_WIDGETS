@@ -108,10 +108,12 @@ const getErc20Balance = (tokenId, receiver) => {
     });
 };
 
-const getErc20Tokendata = (tokenId) => {
-  const data = fetch(
-    `https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenId}`
-  );
+const getErc20Tokendata = (tokenId, network) => {
+  let dataUrl = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenId}`;
+  if (network === NETWORK_AURORA) {
+    dataUrl = `https://api.coingecko.com/api/v3/coins/aurora/contract/${tokenId}`;
+  }
+  const data = fetch(dataUrl);
   if (!data.ok) {
     return "Loading";
   }
@@ -207,7 +209,10 @@ switch (network) {
       } else if (network === NETWORK_ZKSYNC) {
         tokenIdForCoingeckoAPI = coinGeckoTokenId;
       }
-      const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
+      const { metadata, price } = getErc20Tokendata(
+        tokenIdForCoingeckoAPI,
+        network
+      );
 
       if (state.tokenDecimals && metadata && !metadata.decimals) {
         metadata.decimals = state.tokenDecimals;
