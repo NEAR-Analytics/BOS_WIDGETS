@@ -15,7 +15,7 @@ const getEVMAccountId = () => {
 };
 
 const refReferralId = props.refReferralId ?? "ukraine";
-const forceNetwork = props.forceNetwork;
+const forceNetwork = true || props.forceNetwork;
 
 const onDexDataLoad = (data) => {
   console.log("onDexDataLoad", data);
