@@ -25,7 +25,7 @@ const CustomContentDivLeft = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  flex: 0.5;
+  flex: 0.6;
 `;
 
 const ParagraphTag = styled.p`
@@ -57,7 +57,7 @@ const ParagraphTagSecondary = styled.p`
   font-size: 12px;
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
-  width: 100%;
+  width: 70%;
   color: #b6b6b6;
 `;
 const ButtonGroup = styled.div`
