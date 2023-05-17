@@ -99,6 +99,7 @@ const CustomContentDivRight = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     flex: 0.4;
+    margin-right: 30px;
 `;
 
 const imageStyle = {
