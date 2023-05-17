@@ -1,15 +1,27 @@
+State.init({
+  cid: "",
+});
+
+const setImageCid = (cid) => {
+  State.update({ cid });
+};
+
 function composeData() {
   const data = {
+    thing: {
+      123: JSON.stringify({
+        dataSource: "IFPS",
+        dataSourceArgs: {
+          arg1: state.cid,
+        },
+        type: "image",
+      }),
+    },
     index: {
-      edge: JSON.stringify({
-        key: "91582684",
+      thing: JSON.stringify({
+        key: "123",
         value: {
-          type: "reference",
-          ref: {
-            accountId: "neversettleinterstellar.near",
-            blockHeight: "79201485",
-            type: "meme",
-          },
+          type: "image",
         },
       }),
     },
@@ -20,6 +32,10 @@ function composeData() {
 
 return (
   <>
+    <Widget
+      src="efiz.near/widget/Create.Image"
+      props={{ callback: setImageCid }}
+    />
     <CommitButton force data={composeData} className="styless">
       create
     </CommitButton>
