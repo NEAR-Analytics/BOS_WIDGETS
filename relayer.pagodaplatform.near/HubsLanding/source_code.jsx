@@ -25,7 +25,7 @@ const CustomContentDivLeft = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    flex: 0.4;
+    flex: 0.5;
 `;
 
 const ParagraphTag = styled.p`
@@ -104,7 +104,7 @@ const CustomContentDivRight = styled.div`
 const imageStyle = {
   width: "100%",
   height: "100%",
-  objectFit: "cover",
+  objectFit: "contain",
 };
 
 return (
