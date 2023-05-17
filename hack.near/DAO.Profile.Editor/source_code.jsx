@@ -1,4 +1,19 @@
-const daoId = props.daoId;
+let daoId = state.daoId ?? props.daoId;
+
+if (daoId === undefined) {
+  daoId = Storage.privateGet("daoId");
+}
+
+function updateDAO(daoId) {
+  if (state.daoId !== daoId) {
+    State.update({
+      daoId,
+    });
+    if (daoId !== undefined) {
+      Storage.privateSet("daoId", daoId);
+    }
+  }
+}
 
 let profile = Social.getr(`${daoId}/profile`);
 
@@ -6,9 +21,14 @@ if (profile === null) {
   return "Loading...";
 }
 
+const groupId = props.groupId ?? "community";
+const policy = Near.view(state.daoId, "get_policy");
+
+const deposit = policy.proposal_bond;
+
 State.init({
   profile,
-  daoId: "",
+  daoId,
 });
 
 const profile_args = JSON.stringify({
@@ -37,23 +57,17 @@ const handleProposal = () => {
                   method_name: "set",
                   args: proposal_args,
                   deposit: "50000000000000000000000",
-                  gas: "200000000000000",
+                  gas: "300000000000000",
                 },
               ],
             },
           },
         },
       },
-      deposit: "100000000000000000000000",
-      gas: "200000000000000",
+      deposit: deposit,
+      gas: "30000000000000",
     },
   ]);
-};
-
-const onChangeContract = (daoId) => {
-  State.update({
-    daoId,
-  });
 };
 
 return (
@@ -63,71 +77,75 @@ return (
         <div>
           <h4>Edit DAO Profile</h4>
         </div>
-        <div className="mb-3">
-          Sputnik Contract ID:
-          <input
-            type="text"
-            placeholder="<example>.sputnik-dao.near"
-            onChange={(e) => onChangeContract(e.target.value)}
-          />
-        </div>
         <div className="mb-2">
-          <Widget
-            src="mob.near/widget/MetadataEditor"
-            props={{
-              initialMetadata: profile,
-              onChange: (profile) => State.update({ profile }),
-              options: {
-                name: { label: "Name" },
-                image: { label: "Logo" },
-                backgroundImage: { label: "Background" },
-                description: { label: "About" },
-                tags: {
-                  label: "Tags",
-                  tagsPattern: "*/profile/tags/*",
-                  placeholder: "dev, gaming, nft, privacy, eth",
-                },
-                linktree: {
-                  links: [
-                    {
-                      label: "Twitter",
-                      prefix: "https://twitter.com/",
-                      name: "twitter",
-                    },
-                    {
-                      label: "Github",
-                      prefix: "https://github.com/",
-                      name: "github",
-                    },
-                    {
-                      label: "Telegram",
-                      prefix: "https://t.me/",
-                      name: "telegram",
-                    },
-                    {
-                      label: "Website",
-                      prefix: "https://",
-                      name: "website",
-                    },
-                  ],
-                },
-              },
-            }}
+          <label>Account ID</label>
+          <input
+            placeholder="<example>.sputnik-dao.near"
+            value={daoId}
+            onChange={(e) => updateDAO(e.target.value)}
           />
         </div>
+        {daoId && (
+          <div className="mb-2">
+            <Widget
+              src="mob.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (profile) => State.update({ profile }),
+                options: {
+                  name: { label: "Name" },
+                  image: { label: "Logo" },
+                  backgroundImage: { label: "Background" },
+                  description: { label: "About" },
+                  tags: {
+                    label: "Tags",
+                    tagsPattern: "*/profile/tags/*",
+                    placeholder: "dev, gaming, nft, privacy, eth",
+                  },
+                  linktree: {
+                    links: [
+                      {
+                        label: "Twitter",
+                        prefix: "https://twitter.com/",
+                        name: "twitter",
+                      },
+                      {
+                        label: "Github",
+                        prefix: "https://github.com/",
+                        name: "github",
+                      },
+                      {
+                        label: "Telegram",
+                        prefix: "https://t.me/",
+                        name: "telegram",
+                      },
+                      {
+                        label: "Website",
+                        prefix: "https://",
+                        name: "website",
+                      },
+                    ],
+                  },
+                },
+              }}
+            />
+          </div>
+        )}
         <div className="mb-2">
           <button
             className="btn btn-outline-success m-1"
             onClick={handleProposal}
+            disabled={!daoId}
           >
             Propose Changes
           </button>
-          <a
+          <button
             className="btn btn-outline-primary m-1"
             href={`#/hack.near/widget/DAO.Profile?daoId=${daoId}`}
+            disabled={!daoId}
           >
             View Profile
-          </a>
+          </button>
         </div>
       </div>
       <div className="col-lg-6">
