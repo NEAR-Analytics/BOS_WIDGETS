@@ -107,7 +107,6 @@ const imageStyle = {
 };
 
 const AppbarLogo = styled.div`
-  width: 20%;
   height: 50px;
   padding: 10px;
   display: flex;
