@@ -25,7 +25,7 @@ const CustomContentDivLeft = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  flex: 0.6;
+  flex: 0.5;
 `;
 
 const ParagraphTag = styled.p`
@@ -40,7 +40,7 @@ const HeadingTagOne = styled.h1`
   font-weight: bold;
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
-  font-size: 55px !important;
+  font-size: 45px !important;
 `;
 const FooterDivLeft = styled.div`
   display: flex;
@@ -57,7 +57,7 @@ const ParagraphTagSecondary = styled.p`
   font-size: 12px;
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
-  width: 70%;
+  width: 80%;
   color: #b6b6b6;
 `;
 const ButtonGroup = styled.div`
