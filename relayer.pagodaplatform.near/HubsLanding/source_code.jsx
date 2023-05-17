@@ -40,7 +40,7 @@ const HeadingTagOne = styled.h1`
   font-weight: bold;
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
-  font-size: 35px;
+  font-size: 55px !important;
 `;
 const FooterDivLeft = styled.div`
   display: flex;
