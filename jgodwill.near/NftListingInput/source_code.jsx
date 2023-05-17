@@ -308,7 +308,7 @@ return (
                   <Label className="text-center">SET PRICE</Label>
                   <Text>Sell the NFT at a fixed price</Text>
                 </div>
-                <GrayCard className="rounded-4 p-3">
+                <div className="card rounded-4 shadow-sm p-3">
                   <Label className="text-center">Transfer</Label>
                   <div className=" mb-2">
                     Receiver Address
@@ -356,7 +356,7 @@ return (
                       </button>
                     )}
                   </div>
-                </GrayCard>
+                </div>
               </ResponsiveDiv>
             </div>
           </Card>
