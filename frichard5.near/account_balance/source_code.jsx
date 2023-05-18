@@ -63,8 +63,15 @@ const GenericTable = (
   />
 );
 
+const Card = styled.div`
+  box-shadow: 3px 2px 24px rgba(68, 152, 224, 0.3);
+  border-radius: 4px;
+  padding: 20px;
+  margin-top: 40px;
+`
+
 return (
-  <div style={{ marginTop: "40px" }}>
+  <Card>
     <h2>Balances</h2>
     <BalanceContainer>
       <iframe
@@ -78,5 +85,5 @@ return (
       ></iframe>
       <div style={{ width: "40%" }}>{GenericTable}</div>
     </BalanceContainer>
-  </div>
+  </Card>
 );
