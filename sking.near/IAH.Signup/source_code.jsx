@@ -1,8 +1,8 @@
 const referrer = props.referrer ?? Storage.privateGet("IAH.Signup.Referrer");
 const accountId = props.accountId ?? context.accountId;
-const NFT_CONTRACT = "dev-1684341574557-24038853630501";
-const IAH_CONTRACT = "registry-1.i-am-human.testnet";
-const GD_CONTRACT = "gooddollar-v1.i-am-human.testnet";
+const NFT_CONTRACT = "v0.humanft.near";
+const IAH_CONTRACT = "registry.i-am-human.near";
+const GD_CONTRACT = "gooddollar-v1.i-am-human.near";
 const WIDGET_AUTHOR = "sking.near";
 
 if (!accountId) {
@@ -44,7 +44,6 @@ const tokens = Near.view(
   false
 );
 if (tokens === null) return "Loading...";
-
 
 if (isVerified) {
   // is verified on IAH but didn't claim his nft badge yet
