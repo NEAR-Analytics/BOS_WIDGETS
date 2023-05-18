@@ -1,6 +1,6 @@
 const accountId = context.accountId;
-const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const role = props.role ?? "council";
+const daoId = props.daoId ?? "marmaj-research.sputnik-dao.near";
+const role = props.role ?? "hackers";
 
 const handleProposal = () => {
   const gas = 200000000000000;
