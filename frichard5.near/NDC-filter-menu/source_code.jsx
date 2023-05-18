@@ -23,11 +23,11 @@ const arraysEqual = (arr1, arr2) => {
 };
 
 if (!arraysEqual(filters, state.filters)) {
-  State.update({ isOpen: false, filters: filters });
+  State.update({ filters: filters, isOpen:false });
 }
 
 const FilterMenu = styled.div`
-    display: flex;
+    display: ${(props) => props.isOpen?'flex':'none'};
     position: absolute;
     z-index: 1;
     background: white;
@@ -87,6 +87,7 @@ const handleResetFilters = () => {
 const handleFilterRemove = (filter) => {
   removeFilter(filter);
 };
+const FilterComps = comps.map((c) => c);
 
 return (
   <>
@@ -132,8 +133,6 @@ return (
         )}
       </FilterTagsContainer>
     )}
-    {state.isOpen && comps.length && (
-      <FilterMenu>{comps.map((c) => c)}</FilterMenu>
-    )}
+    <FilterMenu isOpen={state.isOpen}>{FilterComps}</FilterMenu>
   </>
 );
