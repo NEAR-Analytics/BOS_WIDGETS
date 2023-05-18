@@ -1,47 +1,74 @@
-const referrer = props.referrer ?? "sking.near";
+const referrer = props.referrer ?? Storage.privateGet("IAH.Signup.Referrer");
 const accountId = props.accountId ?? context.accountId;
+const NFT_CONTRACT = "dev-1684341574557-24038853630501";
+const IAH_CONTRACT = "registry-1.i-am-human.testnet";
+const GD_CONTRACT = "gooddollar-v1.i-am-human.testnet";
+const WIDGET_AUTHOR = "sking.near";
 
 if (!accountId) {
-  return <center>Please connect your NEAR wallet to continue.</center>;
+  // not logged in
+  return <Widget src={`${WIDGET_AUTHOR}/widget/IAH.Signup.Guest`} />;
 }
 
 State.init({
   tokens: undefined,
 });
 
-Storage.set("IAH.Signup.Referrer", referrer);
+Storage.privateSet("IAH.Signup.Referrer", referrer);
 
-// Check if user is already verified on I-AM-HUMAN
-
-const tokens = Near.view(
-  "registry.i-am-human.near",
-  "sbt_tokens_by_owner",
+const hasBadge = Near.view(
+  NFT_CONTRACT,
+  "already_verified",
   {
-    account: "achraf.near",
+    account_id: accountId,
   },
   undefined,
   false
 );
+if (hasBadge === null) return "Loading...";
 
-console.log(tokens, accountId);
+console.log("hasBadge", hasBadge);
+
+if (hasBadge) {
+  // already claimed his nft badge
+  return <Widget src={`${WIDGET_AUTHOR}/widget/IAH.Signup.Complete`} />;
+}
+
+const tokens = Near.view(
+  IAH_CONTRACT,
+  "sbt_tokens_by_owner",
+  {
+    account: accountId,
+  },
+  undefined,
+  false
+);
+if (tokens === null) return "Loading...";
+
+
+if (isVerified) {
+  // is verified on IAH but didn't claim his nft badge yet
+  return (
+    <Widget
+      src={`${WIDGET_AUTHOR}/widget/IAH.Signup.Verified`}
+      props={{
+        accountId,
+        referrerId: referrer ?? "sking.near",
+        NFT_CONTRACT,
+      }}
+    />
+  );
+}
 
 return (
-  <div>
-    <h1>Verify your identity on I-AM-HUMAN and earn a Free NFT Badge!</h1>
-    <p>
-      I-AM-HUMAN is a decentralized identity verification service that allows
-      you to prove you are human, and not a bot, to any website. You can use
-      your I-AM-HUMAN account to log in to any website that supports it, and
-    </p>
-    <div>
-      <a
-        href="https://i-am-human.app/"
-        target="_blank"
-        className="btn btn-primary"
-      >
-        Sign Up
-      </a>
-      <button onClick={testView}>test view</button>
-    </div>
-  </div>
+  <Widget
+    src={`${WIDGET_AUTHOR}/widget/IAH.Signup.Invited`}
+    props={{
+      accountId,
+      referrerId: referrer ?? "sking.near",
+      NFT_CONTRACT,
+      tokens,
+      GD_CONTRACT,
+    }}
+  />
 );
