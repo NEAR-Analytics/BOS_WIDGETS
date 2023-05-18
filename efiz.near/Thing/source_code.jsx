@@ -6,7 +6,7 @@ const thing = JSON.parse(Social.get(path, blockHeight) || "null");
 
 if (thing === null) {
   console.log(`thing not found at path: ${path}`);
-  return;
+  return <></>;
 }
 
 // GET THE TYPE //
