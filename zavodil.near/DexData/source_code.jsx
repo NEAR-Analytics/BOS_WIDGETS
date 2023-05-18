@@ -198,8 +198,8 @@ const callTxQuickSwap = (
           sqrtPriceLimitX96 ?? 0,
         ],
         {
-          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
-          gasLimit: gasLimit ?? 20000000,
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+          gasLimit: gasLimit ?? 300000,
         }
       )
       .then((transactionHash) => {
