@@ -32,6 +32,15 @@ const columns = [
   {
     id: "submission_time",
     label: "Date",
+    formatter: (data) => {
+      return new Date(data.submission_time).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      });
+    },
   },
   {
     id: "proposal_type",
@@ -61,12 +70,16 @@ State.init({
 
 const nextPage = () => {
   const currentOffset = state.offset + resPerPage;
-  State.update({
-    offset: currentOffset,
-    displayedHistory: state.history.slice(
+  console.log(state.history,state.history.slice(
       currentOffset,
       resPerPage + currentOffset
-    ),
+  ));
+  State.update({
+    offset: currentOffset,
+    displayedHistory: [...state.history.slice(
+      currentOffset,
+      resPerPage + currentOffset
+    )],
   });
 };
 
@@ -74,10 +87,10 @@ const previousPage = () => {
   const currentOffset = state.offset - resPerPage;
   State.update({
     offset: currentOffset,
-    displayedHistory: state.history.slice(
+    displayedHistory: [...state.history.slice(
       currentOffset,
       resPerPage + currentOffset
-    ),
+    )],
   });
 };
 
@@ -91,11 +104,14 @@ const GenericTable = (
       previousPage,
       offset: state.offset,
       resPerPage,
+      boxShadow: 'unset',
+      maxHeight: 800
     }}
   />
 );
 
 const fetchProposerHistory = () => {
+  console.log("fetch history");
   const history = fetch(apiUrl + `?proposer=${proposer}`, {
     mode: "cors",
     headers: {
@@ -109,8 +125,8 @@ const fetchProposerHistory = () => {
     });
 };
 
-fetchProposerHistory();
-
+!state.history.length && fetchProposerHistory();
+console.log("state", state.displayedHistory);
 return (
   <DetailWrapper>
     <h2>
