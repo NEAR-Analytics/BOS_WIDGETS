@@ -6,6 +6,7 @@ const debug = props.debug ?? false;
 const NETWORK_NEAR = "NEAR";
 const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
+const NETWORK_ZKEVM = "ZKEVM";
 
 const network = props.network ?? NETWORK_NEAR;
 
@@ -175,7 +176,8 @@ switch (network) {
     break;
   }
   case NETWORK_ETH:
-  case NETWORK_ZKSYNC: {
+  case NETWORK_ZKSYNC:
+  case NETWORK_ZKEVM: {
     if (state.ethAccountId === undefined) {
       const accounts = Ethers.send("eth_requestAccounts", []);
       if (accounts.length) {
@@ -216,7 +218,7 @@ switch (network) {
       let tokenIdForCoingeckoAPI;
       if (network === NETWORK_ETH) {
         tokenIdForCoingeckoAPI = tokenId;
-      } else if (network === NETWORK_ZKSYNC) {
+      } else if ([NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(network)) {
         tokenIdForCoingeckoAPI = coinGeckoTokenId;
       }
 
