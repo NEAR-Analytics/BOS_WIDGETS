@@ -230,6 +230,7 @@ const initialCreateArticleState = {
   articleBody: initialBody,
   errorId: "",
   errorBody: "",
+  tags: {},
 };
 
 State.init(initialCreateArticleState);
@@ -327,11 +328,25 @@ return (
             className="form-control mt-2"
             id="inputArticleId"
             value={state.articleId}
+            placeholder="Input article id"
             onChange={(e) => {
               State.update({
                 ...state,
                 articleId: e.target.value.replace(/\s+/g, ""),
               });
+            }}
+          />
+        </div>
+        <div class="d-flex flex-column pt-3">
+          <Widget
+            src="mob.near/widget/TagsEditor"
+            props={{
+              initialTagsObject: state.tags,
+              placeholder: "Input tags",
+              setTagsObject: (tags) => {
+                state.tags = tags;
+                State.update();
+              },
             }}
           />
         </div>
