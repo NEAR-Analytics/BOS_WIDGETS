@@ -263,6 +263,15 @@ const composeData = () => {
       }),
     },
   };
+  const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
+  if (tagsArray.length) {
+    data.index.tag = JSON.stringify(
+      tagsArray.map((tag) => ({
+        key: tag,
+        value: item,
+      }))
+    );
+  }
   return data;
 };
 
