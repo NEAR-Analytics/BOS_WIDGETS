@@ -30,7 +30,7 @@ const currentFt = findFt(ft, amount);
 
 return (
   <div style={{ display: "flex", alignItems: "center" }}>
-    <span>{numberWithCommas(parseInt(currentFt.amount))}</span>
+    <span>{Number(currentFt.amount).toFixed(2).toLocaleString()}</span>
     {currentFt.icon ? (
       <img
         style={{
