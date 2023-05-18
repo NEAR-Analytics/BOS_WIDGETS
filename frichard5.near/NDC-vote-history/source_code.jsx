@@ -181,19 +181,17 @@ fetchProposal(state.proposalId);
 fetchVoteHistory(state.offset);
 
 const fetchPolicy = (daos) => {
-  const policy = asyncFetch(apiPolicyUrl + `?daos=${daos}`, {
+  const policy = fetch(apiPolicyUrl + `?daos=${daos}`, {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
     },
-  }).then(({ err, body, ok }) => {
-    if (ok) {
-      State.update({
-        council: body.state.policy.roles.find(
-          (r) => r.name === "Council" || r.name === "council"
-        ).kind,
-      });
-    }
+  })
+
+  policy.body && State.update({
+    council: policy.body.state.policy.roles.find(
+        (r) => r.name === "Council" || r.name === "council"
+    ).kind,
   });
 };
 
