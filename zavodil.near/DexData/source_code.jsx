@@ -156,7 +156,7 @@ const callTxUni = (input, onComplete, gasPrice) => {
   }
 };
 
-const callTokenApprovalEVM = (input, onComplete, gweiPrice) => {
+const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
   if (
     input.sender &&
     input.erc20Abi &&
@@ -178,7 +178,7 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice) => {
     approveContract
       .approve(input.routerContract, value, {
         gasPrice: ethers.utils.parseUnits(gweiPrice ?? "0.26", "gwei"),
-        gasLimit: 20000000,
+        gasLimit: gasLimit ?? 20000000,
       })
       .then((transactionHash) => {
         onComplete(transactionHash);
