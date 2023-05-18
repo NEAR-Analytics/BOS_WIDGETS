@@ -7,6 +7,25 @@ const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
+const SharedState = {
+  components: {
+    community: {
+      CommunityHeader: {
+        read: () => {
+          Storage.get(
+            "state",
+            `${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.components.community.CommunityHeader`
+          );
+        },
+      },
+    },
+  },
+
+  localWrite: (state) => {
+    Storage.set("state", state);
+  },
+};
+
 /**
  * Reads a board config from DevHub contract storage.
  * Currently a mock.
@@ -66,8 +85,8 @@ function href(widgetName, linkProps) {
   }
 
   const linkPropsQuery = Object.entries(linkProps)
-    .map(([key, value]) => (value === null ? null : `${key}=${value}`))
-    .filter((nullable) => nullable !== null)
+    .filter(([_key, nullable]) => (nullable ?? null) !== null)
+    .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
@@ -90,8 +109,8 @@ const GithubRepoBoard = ({
   dataTypes,
   columns,
   linkedPage,
-  name,
   repoURL,
+  title,
 }) => {
   State.init({
     pullRequestByColumn: {},
@@ -156,28 +175,26 @@ const GithubRepoBoard = ({
   }
 
   return (
-    <div className="d-flex gap-3">
-      {boardId ? (
-        <div className="row">
-          <div className="col">
-            <small className="text-muted">
-              <a
-                className="card-link"
-                href={href(linkedPage, { boardId })}
-                rel="noreferrer"
-                role="button"
-                target="_blank"
-                title="Link to this board"
-              >
-                <span className="hstack gap-3">
-                  <i className="bi bi-share" />
-                  <span>Link to this board</span>
-                </span>
-              </a>
-            </small>
-          </div>
-        </div>
-      ) : null}
+    <div className="d-flex flex-column gap-3">
+      <div className="d-flex justify-content-between">
+        <h3 class="m-0">{title}</h3>
+
+        {true ? (
+          <a
+            className="card-link d-inline-flex"
+            href={href(linkedPage, { boardId })}
+            rel="noreferrer"
+            role="button"
+            target="_blank"
+            title="Link to this board"
+          >
+            <span className="hstack gap-3">
+              <i className="bi bi-share" />
+              <span>Link to this board</span>
+            </span>
+          </a>
+        ) : null}
+      </div>
 
       <div className="row">
         {columns.map((column) => (
@@ -188,7 +205,7 @@ const GithubRepoBoard = ({
                   {column.title}
 
                   <span className="badge rounded-pill bg-secondary">
-                    {state.pullRequestByColumn[column.title]?.length ?? 0}
+                    {(state.pullRequestByColumn[column.title] ?? []).length}
                   </span>
                 </h6>
 
