@@ -1,0 +1,1 @@
+return (<Widget src="efiz.near/widget/Tree" props={{ rootPath: "kazanderdad.near", rootType: "account" }} />);
