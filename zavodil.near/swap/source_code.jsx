@@ -1,6 +1,7 @@
 const NETWORK_NEAR = "NEAR";
 const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
+const NETWORK_ZKEVM = "ZKEVM";
 
 State.init({
   inputAssetModalHidden: true,
@@ -221,7 +222,7 @@ const tokenInApprovaleNeededCheck = () => {
       getEVMAccountId() &&
       state.erc20Abi !== undefined &&
       state.routerContract !== undefined &&
-      [NETWORK_ETH, NETWORK_ZKSYNC].includes(state.network)
+      [NETWORK_ETH, NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(state.network)
     ) {
       const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
@@ -253,7 +254,11 @@ const tokenInApprovaleNeededCheck = () => {
   }
 };
 
-if (state.network === NETWORK_ZKSYNC || state.network == NETWORK_ETH) {
+if (
+  state.network === NETWORK_ZKSYNC ||
+  state.network == NETWORK_ZKEVM ||
+  state.network == NETWORK_ETH
+) {
   tokenInApprovaleNeededCheck();
 }
 
@@ -298,6 +303,7 @@ return (
         NETWORK_NEAR,
         NETWORK_ETH,
         NETWORK_ZKSYNC,
+        NETWORK_ZKEVM,
       }}
     />
 
@@ -432,7 +438,7 @@ return (
         </>
       )}
 
-    {state.network === NETWORK_ZKSYNC &&
+    {[NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(state.network) &&
       state.inputAsset &&
       state.outputAsset &&
       state.inputAssetAmount &&
@@ -554,10 +560,15 @@ return (
                   <button
                     class={"swap-button-enabled"}
                     onClick={() => {
-                      state.callTokenApproval(state, () => {
-                        onCallTxComple();
-                        tokenInApprovaleNeededCheck();
-                      });
+                      state.callTokenApproval(
+                        state,
+                        () => {
+                          onCallTxComple();
+                          tokenInApprovaleNeededCheck();
+                        },
+                        "10",
+                        100000
+                      );
                     }}
                   >
                     <div class="swap-button-text">
@@ -574,6 +585,8 @@ return (
                           state.callTx(state, onCallTxComple);
                         } else if (state.network === NETWORK_ZKSYNC) {
                           state.callTx(state, onCallTxComple);
+                        } else if (state.network === NETWORK_ZKEVM) {
+                          state.callTx(state, onCallTxComple, "7.5", 300000);
                         } else if (state.network === NETWORK_ETH) {
                           state.callTx(state, onCallTxComple);
                         }
@@ -589,7 +602,8 @@ return (
         </div>
         <div class="pt-3 text-secondary opacity-25 text-center">
           <p>
-            Supported networks: {NETWORK_NEAR}, {NETWORK_ETH}, {NETWORK_ZKSYNC}
+            Supported networks: {NETWORK_NEAR}, {NETWORK_ETH}, {NETWORK_ZKSYNC},{" "}
+            {NETWORK_ZKEVM}
           </p>
           {currentAccountId && <p>Current account: {currentAccountId}</p>}
         </div>
