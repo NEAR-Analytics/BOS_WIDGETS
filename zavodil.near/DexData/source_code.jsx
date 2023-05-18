@@ -188,13 +188,15 @@ const callTxQuickSwap = (
 
     swapContract
       .exactInputSingle(
-        input.inputAssetTokenId,
-        input.outputAssetTokenId,
-        input.sender,
-        deadline.toFixed(),
-        value,
-        "0",
-        sqrtPriceLimitX96 ?? 0,
+        {
+          tokenIn: input.inputAssetTokenId,
+          tokenOut: input.outputAssetTokenId,
+          recipient: input.sender,
+          deadline: deadline.toFixed(),
+          amountIn: value,
+          amountOutMinimum: "0",
+          sqrtPriceLimitX96: sqrtPriceLimitX96 ?? 0,
+        },
         {
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
           gasLimit: gasLimit ?? 20000000,
