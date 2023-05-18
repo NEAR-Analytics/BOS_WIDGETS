@@ -1,4 +1,19 @@
-const a = props.a;
+const path = props.path;
+const blockHeight = props.blockHeight || "final";
+
+// GET THE THING //
+const thing = JSON.parse(Social.get(path, blockHeight) || "null");
+
+if (thing === null) {
+  return <p>thing not found: {path}</p>;
+}
+
+// GET THE TYPE //
+const type = JSON.parse(Social.get(thing.type, "final") || "null");
+
+if (type === null) {
+  return <p>type not found: {thing.type}</p>;
+}
 
 const Container = styled.div`
   border: 1px solid #ccc;
@@ -12,12 +27,15 @@ const Header = styled.div`
   cursor: pointer;
 `;
 
-const Raw = styled.div`
-  display: ${({ collapsed }) => (collapsed ? "none" : "block")};
-`;
-
 const Button = styled.button`
   text-transform: lowercase !important;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
 `;
 
 const Row = styled.div`
@@ -34,92 +52,61 @@ const Value = styled.span`
   color: #888;
 `;
 
-function composeData() {
+function composePost() {
   return {
     post: {
       main: JSON.stringify({
-        path: `${a.value.accountId}/thing/${a.key}}`,
-        blockHeight: a.blockHeight,
-        type: a.value.type,
+        path,
+        blockHeight,
+        type: thing.type,
       }),
     },
     index: {
       post: JSON.stringify({
         key: "main",
         value: {
-          type: a.value.type, // because we want to filter by type
+          type: thing.type, // because we want to filter by type
         },
       }),
     },
   };
 }
 
-State.init({ collapsed: true });
+State.init({ raw: false });
 
-const handleToggle = () => {
-  State.update({ collapsed: !state.collapsed });
+const handleToggleRaw = () => {
+  State.update({ raw: !state.raw });
 };
 
-let type = {};
-// This is just hardcoding Type.get(type)
-if (a.value.type === "image") {
-  type = {
-    widgets: {
-      create: "efiz.near/widget/Create.Image",
-      view: "mob.near/widget/Image",
-    },
-  };
-} else if (a.value.type === "md") {
-  type = {
-    widgets: {
-      create: "efiz.near/widget/Posts.Compose",
-    },
-  };
+function renderRaw() {
+  const text = `
+\`\`\`json
+${JSON.stringify(thing, undefined, 2)}
+\`\`\`
+`;
+  return <Markdown text={text} />;
 }
-
-const value = Social.get(`${a.accountId}/thing/${a.key}`, a.blockHeight);
-value = JSON.parse(value);
 
 return (
   <Container>
     <Header>
-      <Button onClick={handleToggle}>show raw</Button>
+      <ButtonRow>
+        <Button onClick={handleToggleRaw}>
+          show {state.raw ? "thing" : "raw"}
+        </Button>
+        <CommitButton force data={composePost} className="styless">
+          post
+        </CommitButton>
+      </ButtonRow>
     </Header>
-    <Raw collapsed={state.collapsed}>
-      <div>
-        <Key>accountId:</Key>
-        <Value>{a.accountId}</Value>
-      </div>
-      <div>
-        <Key>blockHeight:</Key>
-        <Value>{a.blockHeight}</Value>
-      </div>
-      <div>
-        <Key>value.type:</Key>
-        <Value>{a.value.type}</Value>
-      </div>
-      <div>
-        <Key>action:</Key>
-        <Value>{a.action}</Value>
-      </div>
-      <div>
-        <Key>key:</Key>
-        <Value>{a.key}</Value>
-      </div>
-      <div>
-        <Key>index:</Key>
-        <Value>{a.index}</Value>
-      </div>
-    </Raw>
-    {type?.widgets?.view && (
-      <Widget
-        src={type.widgets.view}
-        props={{ image: { ipfs_cid: value.data } }}
-      />
+    {state.raw ? (
+      <>{renderRaw()}</>
+    ) : (
+      <>
+        {type?.widgets?.view && (
+          <Widget src={type.widgets.view} props={{ data: thing.data }} />
+        )}
+      </>
     )}
-    {/** this should check if it has been posted before */}
-    <CommitButton force data={composeData} className="styless">
-      post
-    </CommitButton>
   </Container>
 );
