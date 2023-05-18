@@ -5,7 +5,8 @@ const blockHeight = props.blockHeight || "final";
 const thing = JSON.parse(Social.get(path, blockHeight) || "null");
 
 if (thing === null) {
-  return <p>thing not found: {path}</p>;
+  console.log(`thing not found at path: ${path}`);
+  return;
 }
 
 // GET THE TYPE //
