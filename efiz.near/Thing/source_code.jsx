@@ -1,3 +1,5 @@
+const a = props.a;
+
 function composeData(a) {
   return {
     post: {
