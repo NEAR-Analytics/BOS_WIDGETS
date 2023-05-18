@@ -1,4 +1,5 @@
-const { NETWORK_NEAR, NETWORK_ETH, NETWORK_ZKSYNC, debug } = props;
+const { NETWORK_NEAR, NETWORK_ETH, NETWORK_ZKSYNC, NETWORK_ZKEVM, debug } =
+  props;
 let onLoad = props.onLoad;
 const forceReload = props.forceReload ?? false;
 
@@ -414,6 +415,60 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           outputAssetTokenId: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
           routerContract: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
           dexName: "UniSwap",
+          erc20Abi: state.erc20Abi,
+          routerAbi: state.routerAbi,
+          callTx: callTxUni,
+          callTokenApproval: callTokenApprovalEVM,
+        });
+        State.update({ loadComplete: true });
+      } else if (chainIdData.chainId === 1101) {
+        // ZKEVM
+
+        if (state.erc20Abi == undefined) {
+          const erc20Abi = fetch(
+            "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+          );
+          if (!erc20Abi.ok) {
+            return "Loading";
+          }
+          State.update({ erc20Abi: erc20Abi.body });
+        }
+
+        if (state.routerAbi == undefined) {
+          const routerAbi = fetch(
+            "https://gist.githubusercontent.com/zavodil/a50ed9fcd2e1ba1adc40db19a94c79fe/raw/a3b92a2b9120d7d503e01714980ad44bd10c9030/quickswap_swapRouter_zkevm.json"
+          );
+          if (!routerAbi.ok) {
+            return "Loading";
+          }
+
+          State.update({ routerAbi: routerAbi.body });
+        }
+
+        if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+
+        onLoad({
+          network: NETWORK_ZKEVM,
+          assets: [
+            "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
+            "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
+            "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
+            "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
+          ],
+          coinGeckoTokenIds: {
+            "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
+              "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
+              "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1":
+              "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+            "0xa2036f0538221a77a3937f1379699f44945018d0":
+              "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+          },
+          inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+          outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+          routerContract: "0xF6Ad3CcF71Abb3E12beCf6b3D2a74C963859ADCd",
+          dexName: "QuickSwap",
           erc20Abi: state.erc20Abi,
           routerAbi: state.routerAbi,
           callTx: callTxUni,
