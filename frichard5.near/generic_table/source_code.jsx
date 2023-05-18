@@ -1,9 +1,14 @@
+const maxHeight = props.maxHeight || 400;
+const boxShadow = props.boxShadow || "3px 2px 24px rgba(68, 152, 224, 0.3)"
 const MainWrapper = styled.div`
+  box-shadow: ${boxShadow};
+  border-radius: 4px;
+  padding: 20px;
   margin: 40px 0px;
 `;
 
 const TableWrapper = styled.div`
-  max-height: 400px;
+  max-height: ${maxHeight}px;
   overflow: auto;
 `;
 const Table = styled.table`
@@ -17,7 +22,7 @@ const Table = styled.table`
       text-overflow: ellipsis;
       overflow: hidden;
       whiteSpace: nowrap;
-      padding: 16px;
+      padding: 10px 10px 10px 0;
       max-width: 130px;
       border-bottom: 1px solid rgb(81, 81, 81);
     }
