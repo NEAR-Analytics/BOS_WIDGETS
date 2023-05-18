@@ -20,11 +20,12 @@ const Value = styled.span`
   color: #888;
 `;
 
-function composeData(a) {
+function composeData() {
   return {
     post: {
       main: JSON.stringify({
-        data,
+        path: `${a.value.accountId}/thing/${a.key}}`,
+        blockHeight: a.blockHeight,
         type: a.value.type,
       }),
     },
@@ -32,7 +33,7 @@ function composeData(a) {
       post: JSON.stringify({
         key: "main",
         value: {
-          type: a.value.type,
+          type: a.value.type, // because we want to filter by type
         },
       }),
     },
@@ -66,6 +67,9 @@ if (a.value.type === "image") {
         <Key>index:</Key>
         <Value>{a.index}</Value>
       </Row>
+      <CommitButton force data={composeData} className="styless">
+        create
+      </CommitButton>
     </Container>
   );
 }
