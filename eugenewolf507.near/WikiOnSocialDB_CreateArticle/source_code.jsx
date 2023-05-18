@@ -234,7 +234,6 @@ const initialCreateArticleState = {
 };
 
 State.init(initialCreateArticleState);
-const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
 
 const getArticleData = () => {
   const args = {
@@ -246,7 +245,6 @@ const getArticleData = () => {
     body: state.articleBody,
     version: 0,
     navigation_id: null,
-    tags: tagsArray,
   };
   return args;
 };
@@ -265,15 +263,6 @@ const composeData = () => {
       }),
     },
   };
-
-  if (tagsArray.length) {
-    data.index.tag = JSON.stringify(
-      tagsArray.map((tag) => ({
-        key: tag,
-        value: item,
-      }))
-    );
-  }
   return data;
 };
 
