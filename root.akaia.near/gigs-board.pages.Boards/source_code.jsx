@@ -7,6 +7,25 @@ const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
+const SharedState = {
+  components: {
+    community: {
+      CommunityHeader: {
+        read: () => {
+          Storage.get(
+            "state",
+            `${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.components.community.CommunityHeader`
+          );
+        },
+      },
+    },
+  },
+
+  localWrite: (state) => {
+    Storage.set("state", state);
+  },
+};
+
 /**
  * Reads a board config from DevHub contract storage.
  * Currently a mock.
@@ -66,8 +85,8 @@ function href(widgetName, linkProps) {
   }
 
   const linkPropsQuery = Object.entries(linkProps)
-    .map(([key, value]) => (value === null ? null : `${key}=${value}`))
-    .filter((nullable) => nullable !== null)
+    .filter(([_key, nullable]) => (nullable ?? null) !== null)
+    .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
