@@ -77,7 +77,7 @@ if (a.value.type === "image") {
   };
 }
 
-const value = Social.get(`${a.accountId}/thing/${a.key}`, "final");
+const value = Social.get(`${a.accountId}/thing/${a.key}`, a.blockHeight);
 value = JSON.parse(value);
 
 return (
