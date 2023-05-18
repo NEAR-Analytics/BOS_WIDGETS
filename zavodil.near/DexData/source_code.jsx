@@ -156,6 +156,56 @@ const callTxUni = (input, onComplete, gasPrice) => {
   }
 };
 
+const callTxQuickSwap = (
+  input,
+  onComplete,
+  gasPrice,
+  gasLimit,
+  sqrtPriceLimitX96
+) => {
+  console.log("callTxQuickSwap", input, onComplete);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+
+    swapContract
+      .exactInputSingle(
+        input.inputAssetTokenId,
+        input.outputAssetTokenId,
+        input.sender,
+        deadline.toFixed(),
+        value,
+        "0",
+        sqrtPriceLimitX96 ?? 0,
+        {
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
+          gasLimit: gasLimit ?? 20000000,
+        }
+      )
+      .then((transactionHash) => {
+        onComplete(transactionHash);
+      });
+  }
+};
+
 const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
   if (
     input.sender &&
@@ -471,7 +521,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           dexName: "QuickSwap",
           erc20Abi: state.erc20Abi,
           routerAbi: state.routerAbi,
-          callTx: callTxUni,
+          callTx: callTxQuickSwap,
           callTokenApproval: callTokenApprovalEVM,
         });
         State.update({ loadComplete: true });
