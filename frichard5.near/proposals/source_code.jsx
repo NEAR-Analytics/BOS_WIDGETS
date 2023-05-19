@@ -128,10 +128,12 @@ const columns = [
 ];
 
 const nextPage = () => {
+    fetchProposal( state.offset + resPerPage)
     State.update({offset: state.offset + resPerPage});
 };
 
 const previousPage = () => {
+    fetchProposal( state.offset - resPerPage)
     State.update({offset: state.offset - resPerPage});
 };
 
@@ -166,7 +168,8 @@ const fetchPolicy = (params) => {
 };
 
 const fetchProposal = (offset) => {
-    const proposals = fetch(forgeUrl(apiUrl, {
+    State.update({fetchingProposals: true});
+    asyncFetch(forgeUrl(apiUrl, {
         offset: offset,
         limit: resPerPage,
         proposal_types: state.types,
@@ -180,11 +183,12 @@ const fetchProposal = (offset) => {
             "x-api-key": publicApiKey,
             "no-cache": true,
         },
+    }).then((res) => {
+        res.body && State.update({proposals: res.body, fetchingProposals:false});
     })
-    proposals.body && State.update({proposals: proposals.body});
 };
 
-fetchProposal(state.offset);
+!state.fetchingProposals && !state.proposals.length && fetchProposal(state.offset);
 
 if (!state.policy) {
     fetchPolicy({daos: daosList});
