@@ -70,10 +70,7 @@ State.init({
 
 const nextPage = () => {
   const currentOffset = state.offset + resPerPage;
-  console.log(state.history,state.history.slice(
-      currentOffset,
-      resPerPage + currentOffset
-  ));
+
   State.update({
     offset: currentOffset,
     displayedHistory: [...state.history.slice(
@@ -111,7 +108,6 @@ const GenericTable = (
 );
 
 const fetchProposerHistory = () => {
-  console.log("fetch history");
   const history = fetch(apiUrl + `?proposer=${proposer}`, {
     mode: "cors",
     headers: {
@@ -126,7 +122,6 @@ const fetchProposerHistory = () => {
 };
 
 !state.history.length && fetchProposerHistory();
-console.log("state", state.displayedHistory);
 return (
   <DetailWrapper>
     <h2>
