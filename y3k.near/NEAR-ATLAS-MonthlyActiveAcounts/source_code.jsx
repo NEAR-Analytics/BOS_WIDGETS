@@ -42,11 +42,24 @@ const dates = data.map((entry) => entry["DAY"]);
 
 const stacked_options = {
   scales: {
-    x: {
-      stacked: true,
-    },
     y: {
       stacked: true,
+      grid: {
+        color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        borderColor: "rgb(240,255,240)",
+      },
+      ticks: {
+        color: "rgb(240,255,240)", // This will change the axis text label color
+      },
+    },
+    x: {
+      stacked: true,
+      grid: {
+        color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+      },
+      ticks: {
+        color: "rgb(240,255,240)", // This will change the axis text label color
+      },
     },
   },
 };
