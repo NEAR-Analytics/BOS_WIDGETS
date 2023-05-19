@@ -65,11 +65,14 @@ query IndexerQuery {
         if (posts.length > 0) {
           const post = posts[0];
           let content = JSON.parse(post.content);
+          if (post.accounts_liked.length !== 0) {
+            post.accounts_liked = JSON.parse(post.accounts_liked);
+          }
           const comments = post.comments;
           State.update({
             content: content,
             comments: comments,
-            likes: JSON.parse(post.accounts_liked),
+            likes: post.accounts_liked,
           });
         } else {
           State.update({
