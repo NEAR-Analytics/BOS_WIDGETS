@@ -9,13 +9,12 @@ if (!accountId) {
 State.init({
   description: state.description,
   token: state.token ?? "",
-  amount: state.amount,
-  times: state.times,
+  amount: state.amount ?? 0,
+  times: state.times ?? 1,
   max_deadline: state.max_deadline,
 });
 
 const handleProposal = () => {
-  
   // convert amount
   let ftMetadata = {
     decimals: 24,
@@ -33,7 +32,7 @@ const handleProposal = () => {
     token: state.token ?? "",
     amount: amountInYocto,
     times: JSON.parse(state.times),
-    max_deadline: JSON.stringify(state.max_deadline * 3600000000000),
+    max_deadline: state.max_deadline,
   };
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
@@ -81,7 +80,11 @@ const onChangeTimes = (times) => {
   });
 };
 
-const onChangeDeadline = (max_deadline) => {
+const onChangeDeadline = (days, hours, minutes) => {
+  let max_deadline = Big(days).mul(86400000000000);
+  max_deadline = max_deadline.add(Big(hours).mul(3600000000000));
+  max_deadline = max_deadline.add(Big(minutes).mul(60000000000));
+  max_deadline = max_deadline.toFixed();
   State.update({
     max_deadline,
   });
@@ -89,7 +92,9 @@ const onChangeDeadline = (max_deadline) => {
 
 const Wrapper = styled.div`
   margin: 16px auto;
+  width: 100%;
   max-width: 900px;
+  max-height: 100%;
   background-color: #fff;
   border-radius: 16px;
   padding: 24px;
@@ -97,7 +102,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-height: 100%;
   overflow-y: auto;
 
   @media (max-width: 600px) {
@@ -119,8 +123,8 @@ const Wrapper = styled.div`
   }
 
   h5 {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 400;
     line-height: 1.2;
     color: #6c757d;
   }
@@ -198,32 +202,38 @@ return (
 
     <div className="row gap-4 gap-sm-0">
       <div className="col-sm">
-        <h5>Amount of Token to be Paid per Bounty Claim</h5>
+        <h5>Reward per Bounty Claim</h5>
         <input
           type="number"
           onChange={(e) => onChangeAmount(e.target.value)}
           min="0"
           placeholder="0"
+          defaultValue={0}
         />
       </div>
       <div className="col-sm">
-        <h5>How many times can a bounty be claimed?</h5>
+        <h5>Max Bounty Claims</h5>
         <input
           type="number"
           onChange={(e) => onChangeTimes(e.target.value)}
           min="1"
           placeholder="0"
+          defaultValue={1}
         />
       </div>
-      <div className="col-sm">
-        <h5>Number of hours (after claim) until the deadline:</h5>
-        <input
-          type="number"
-          onChange={(e) => onChangeDeadline(e.target.value)}
-          min="0"
-          placeholder="0"
-        />
-      </div>
+    </div>
+    <div style={{ width: "240px" }}>
+      <h5>Maximum Time to Complete</h5>
+      <Widget
+        src="sking.near/widget/Common.Inputs.TimeAmount"
+        props={{
+          onChange: ({ days, hours, minutes }) =>
+            onChangeDeadline(days, hours, minutes),
+          days: 0,
+          hours: 0,
+          minutes: 0,
+        }}
+      />
     </div>
     {state.error && <div className="text-danger">{state.error}</div>}
     <div className="ms-auto">
