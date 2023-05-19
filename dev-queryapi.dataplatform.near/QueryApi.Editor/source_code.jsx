@@ -23,14 +23,11 @@ const initialPayload = {
 };
 
 const registerFunctionHandler = (request, response) => {
+  const gas = 200000000000000;
   const { indexerName, code, schema, blockHeight, contractFilter } =
     request.payload;
 
-  const gas = 200000000000000;
-
-  // if (shouldFetchLatestBlockheight == true || blockHeight == null) {
-  //   blockHeight = Near.block("optimistic").header.height;
-  // }
+  const jsonFilter = `{"indexer_rule_kind":"Action","matching_rule":{"rule":"ACTION_ANY","affected_account_id":"${contractFilter || "social.near"}","status":"SUCCESS"}}`
 
   Near.call(
     REGISTRY_CONTRACT_ID,
@@ -40,12 +37,24 @@ const registerFunctionHandler = (request, response) => {
       code,
       schema,
       start_block_height: blockHeight,
-      contract_filter: contractFilter || "social.near",
+      filter_json: jsonFilter 
     },
     gas
   );
 };
 
+let deleteIndexer = (request) => {
+  const { indexerName } = request.payload;
+  const gas = 200000000000000;
+  Near.call(
+    REGISTRY_CONTRACT_ID,
+    "remove_indexer_function",
+    {
+      function_name: indexerName,
+    },
+    gas
+  );
+};
 /**
  * Request Handlers here
  */
@@ -53,6 +62,9 @@ const requestHandler = (request, response) => {
   switch (request.type) {
     case "register-function":
       registerFunctionHandler(request, response);
+      break;
+    case "delete-indexer":
+      deleteIndexer(request, response);
       break;
     case "default":
       console.log("default case");
