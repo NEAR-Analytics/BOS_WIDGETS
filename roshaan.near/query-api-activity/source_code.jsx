@@ -97,7 +97,7 @@ const renderItem = (item, i) => {
           blockHeight: item.block_height,
           content: item.content,
           comments: item.comments,
-          likes: item.accounts_liked,
+          likes: JSON.parse(item.accounts_liked),
         }}
       />
     </Post>
