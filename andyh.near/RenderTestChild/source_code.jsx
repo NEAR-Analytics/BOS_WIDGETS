@@ -23,7 +23,7 @@ return (
         incrementparent: () => State.update({ j: state.j + 1 }),
         setchildincrement: (cb) => {
           console.log("incrementing grandchild from its parent scope");
-          cb();
+          // cb();
           incrementChild = cb;
         },
       }}
