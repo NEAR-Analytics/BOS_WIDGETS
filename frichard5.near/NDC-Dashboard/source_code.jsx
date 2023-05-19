@@ -3,7 +3,7 @@ const widgetProvider = props.widgetProvider;
 const refUrl = "https://api.stats.ref.finance/api/ft";
 const tab = props.tab || "overview";
 const proposal_id = props.proposal_id;
-const selectedDao = props.selectedDao || "pikespeak.sputnik-dao.near";
+const selectedDao = props.selectedDao || "ndctrust.sputnik-dao.near";
 
 // Initial state
 State.init({
@@ -274,9 +274,11 @@ const Select = (
         src={`${widgetProvider}/widget/NDC-select`}
         props={{
             options: [
+/*
                 {value: "pikespeak.sputnik-dao.near", label: "pikespeak"},
-                {value: "gwg.sputnik-dao.near", label: "GWG"},
+*/
                 {value: "ndctrust.sputnik-dao.near", label: "Trust"},
+                {value: "gwg.sputnik-dao.near", label: "GWG"},
                 {value: "marketing.sputnik-dao.near", label: "Marketing"},
                 {value: "creativesdao.sputnik-dao.near", label: "Creatives"},
                 {value: "neardevgov.sputnik-dao.near", label: "Gov"},
