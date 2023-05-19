@@ -80,6 +80,9 @@ const Post = styled.div`
 `;
 
 const renderItem = (item, i) => {
+  if (item.accounts_liked.length !== 0) {
+    item.accounts_liked = JSON.parse(item.accounts_liked);
+  }
   return (
     <Post className="post" key={item.block_height + "_" + item.account_id}>
       <Widget
@@ -89,7 +92,7 @@ const renderItem = (item, i) => {
           blockHeight: item.block_height,
           content: item.content,
           comments: item.comments,
-          likes: JSON.parse(item.accounts_liked),
+          likes: item.accounts_liked,
         }}
       />
     </Post>
@@ -104,6 +107,7 @@ const loadMorePosts = () => {
       let data = result.body.data;
       if (data) {
         const newPosts = data.roshaan_near_feed_indexer_posts;
+        console.log(newPosts);
         const postsCount =
           data.roshaan_near_feed_indexer_posts_aggregate.aggregate.count;
         if (newPosts.length > 0) {
