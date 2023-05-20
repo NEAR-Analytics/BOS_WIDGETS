@@ -17,7 +17,11 @@ const boardConfigByBoardId = ({ boardId }) => {
   return {
     probablyUUIDv4: {
       id: "probablyUUIDv4",
-      columns: [{ title: "Draft", labelFilters: ["S-draft"] }],
+      columns: [
+        { title: "Draft", labelFilters: ["S-draft"] },
+        { title: "Review", labelFilters: ["S-review"] },
+        { title: "HALP!", labelFilters: ["help"] },
+      ],
       dataTypes: { Issue: true, PullRequest: true },
       description: "Latest NEAR Enhancement Proposals by status",
       repoURL: "https://github.com/near/NEPs",
@@ -70,13 +74,29 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 
+const formHandler =
+  ({ formStateKey }) =>
+  ({ fieldName, updateHandler }) =>
+  (input) =>
+    State.update((lastState) => ({
+      ...lastState,
+
+      [formStateKey]: {
+        ...lastState[formStateKey],
+
+        [fieldName]:
+          typeof updateHandler === "function"
+            ? updateHandler({
+                input: input?.target?.value ?? input ?? null,
+                lastState,
+              })
+            : input?.target?.value ?? input ?? null,
+      },
+    }));
+
 const CompactContainer = styled.div`
   width: fit-content !important;
   max-width: 100%;
-`;
-
-const FormCheckLabel = styled.label`
-  white-space: nowrap;
 `;
 /* END_INCLUDE: "common.jsx" */
 
