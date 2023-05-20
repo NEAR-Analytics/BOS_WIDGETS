@@ -17,12 +17,7 @@ const boardConfigByBoardId = ({ boardId }) => {
   return {
     probablyUUIDv4: {
       id: "probablyUUIDv4",
-
-      columns: [
-        { title: "Draft", labelFilters: ["S-draft"] },
-        { title: "Review", labelFilters: ["S-review"] },
-      ],
-
+      columns: [{ title: "Draft", labelFilters: ["S-draft"] }],
       dataTypes: { Issue: true, PullRequest: true },
       description: "Latest NEAR Enhancement Proposals by status",
       repoURL: "https://github.com/near/NEPs",
@@ -86,10 +81,9 @@ const FormCheckLabel = styled.label`
 /* END_INCLUDE: "common.jsx" */
 
 const GithubRepoBoard = ({
-  boardId,
   dataTypes,
   columns,
-  linkedPage,
+  pageURL,
   repoURL,
   title,
 }) => {
@@ -163,7 +157,7 @@ const GithubRepoBoard = ({
         {true ? (
           <a
             className="card-link d-inline-flex"
-            href={href(linkedPage, { boardId })}
+            href={pageURL}
             rel="noreferrer"
             role="button"
             target="_blank"
