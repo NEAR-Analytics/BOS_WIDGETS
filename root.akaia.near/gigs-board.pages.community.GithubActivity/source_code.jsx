@@ -7,25 +7,6 @@ const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-const SharedState = {
-  components: {
-    community: {
-      CommunityHeader: {
-        read: () => {
-          Storage.get(
-            "state",
-            `${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.components.community.CommunityHeader`
-          );
-        },
-      },
-    },
-  },
-
-  localWrite: (state) => {
-    Storage.set("state", state);
-  },
-};
-
 /**
  * Reads a board config from DevHub contract storage.
  * Currently a mock.
@@ -105,8 +86,13 @@ const FormCheckLabel = styled.label`
 /* END_INCLUDE: "common.jsx" */
 
 const GithubActivityPage = ({ boardId, label }) => {
-  const { isEditorEnabled } =
-    SharedState.components.community.CommunityHeader.read();
+  console.log(
+    "CommunityHeader state requested from GithubActivity page",
+    Storage.get(
+      "state",
+      `${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.components.community.CommunityHeader`
+    )
+  );
 
   State.init({
     boardConfig: {
@@ -122,12 +108,38 @@ const GithubActivityPage = ({ boardId, label }) => {
       repoURL: "https://github.com/near/NEPs",
       title: "NEAR Protocol NEPs",
     },
+
+    isEditorEnabled: false,
+    ...Storage.get(
+      "state",
+      `${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.components.community.CommunityHeader`
+    ),
   });
 
   console.log(
     "Board config columns",
     JSON.stringify(state.boardConfig.columns)
   );
+
+  const onEditorToggle = () =>
+    State.update((lastState) => ({
+      ...lastState,
+      isEditorEnabled: !lastState.isEditorEnabled,
+    }));
+
+  const onDataTypeToggle =
+    ({ typeName, isIncluded }) =>
+    () =>
+      State.update((lastState) => ({
+        ...lastState,
+        boardConfig: {
+          ...lastState.boardConfig,
+          dataTypes: {
+            ...lastState.boardConfig.dataTypes,
+            [typeName]: !isIncluded,
+          },
+        },
+      }));
 
   const onBoardTitleChange = ({ target: { value: title } }) =>
     State.update({ boardConfig: { title } });
@@ -136,10 +148,14 @@ const GithubActivityPage = ({ boardId, label }) => {
     State.update({ boardConfig: { repoURL } });
 
   const onColumnCreate = () =>
-    State.update(({ boardConfig }) => ({
+    State.update((lastState) => ({
+			...lastState,
+
       boardConfig: {
+				...lastState.boardConfig,
+
         columns: [
-          ...boardConfig.columns,
+          ...lastState.boardConfig.columns,
           { title: "New status", labelFilters: [] },
         ],
       },
@@ -148,8 +164,12 @@ const GithubActivityPage = ({ boardId, label }) => {
   const onColumnStatusTitleChange =
     ({ columnIdx }) =>
     ({ target: { value: title } }) =>
-      State.update(({ boardConfig }) => ({
+      State.update((lastState) => ({
+				...lastState,
+
         boardConfig: {
+					...lastState.boardConfig,
+
           columns: boardConfig.columns.map((column, idx) =>
             idx === columnIdx ? { ...column, title } : column
           ),
@@ -159,9 +179,13 @@ const GithubActivityPage = ({ boardId, label }) => {
   const onColumnLabelFiltersChange =
     ({ columnIdx }) =>
     ({ target: { value } }) =>
-      State.update(({ boardConfig }) => ({
+      State.update((lastState) => ({
+				...lastState,
+
         boardConfig: {
-          columns: boardConfig.columns.map((column, idx) =>
+					...lastState.boardConfig,
+
+          columns: lastState.boardConfig.columns.map((column, idx) =>
             idx === columnIdx
               ? {
                   ...column,
@@ -177,7 +201,27 @@ const GithubActivityPage = ({ boardId, label }) => {
     tab: state.boardConfig.title,
     children: (
       <div className="d-flex flex-column gap-4">
-        {isEditorEnabled ? (
+        <div className="d-flex justify-content-end">
+          <CompactContainer className="form-check form-switch">
+            <input
+              checked={state.isEditorEnabled}
+              className="form-check-input"
+              id="CommunityEditModeToggle"
+              onClick={onEditorToggle}
+              role="switch"
+              type="checkbox"
+            />
+
+            <FormCheckLabel
+              className="form-check-label"
+              for="CommunityEditModeToggle"
+            >
+              Editor mode
+            </FormCheckLabel>
+          </CompactContainer>
+        </div>
+
+        {state.isEditorEnabled ? (
           <div
             className="d-flex flex-column gap-3 w-100 border border-dark-subtle rounded-2 p-3"
             style={{ backgroundColor: "rgb(243, 243, 243)" }}
@@ -220,22 +264,13 @@ const GithubActivityPage = ({ boardId, label }) => {
 
                 <CompactContainer className="form-control">
                   {Object.entries(state.boardConfig.dataTypes).map(
-                    ([dataTypeKey, dataTypeIncluded]) => (
+                    ([typeName, isIncluded]) => (
                       <CompactContainer className="form-check form-switch">
                         <input
-                          disabled
-                          checked={dataTypeIncluded}
+                          checked={isIncluded}
                           className="form-check-input"
-                          id={`newGithubBoardDataTypeToggle-${dataTypeKey}`}
-                          onClick={() =>
-                            State.update({
-                              boardConfig: {
-                                dataTypes: {
-                                  [dataTypeKey]: !dataTypeIncluded,
-                                },
-                              },
-                            })
-                          }
+                          id={`newGithubBoardDataTypeToggle-${typeName}`}
+                          onClick={onDataTypeToggle({ typeName, isIncluded })}
                           role="switch"
                           type="checkbox"
                         />
@@ -244,7 +279,7 @@ const GithubActivityPage = ({ boardId, label }) => {
                           className="form-check-label"
                           for="newGithubBoardDataTypeTogglePullRequests"
                         >
-                          {dataTypeKey}
+                          {typeName}
                         </FormCheckLabel>
                       </CompactContainer>
                     )
