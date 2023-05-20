@@ -59,10 +59,42 @@ const onChangeAuthor = (selectedAuthors) => {
   onSearchAuthor(selectedAuthors[0]?.name);
 };
 
+function customMenu(results, menuProps, menuState) {
+  // return (
+
+  // );
+
+  return (
+    <div
+      aria-label="menu-options"
+      class="rbt-menu dropdown-menu show"
+      role="listbox"
+      data-popper-reference-hidden="false"
+      data-popper-escaped="false"
+      data-popper-placement="bottom-start"
+    >
+      {results.map((result, idx) => (
+        <a
+          aria-label={result.name}
+          aria-selected="false"
+          id={`basic-typeahead-single-item-${idx}`}
+          role="option"
+          class="dropdown-item"
+          href="#"
+        >
+          {result.name}
+        </a>
+      ))}
+    </div>
+  );
+}
+
 return (
   <>
     <Typeahead
       clearButton
+      className="bg-light border border-light"
+      style={{ width: "10rem" }}
       id="basic-typeahead-single"
       labelKey="name"
       onChange={onChangeAuthor}
