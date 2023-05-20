@@ -7,25 +7,6 @@ const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-const SharedState = {
-  components: {
-    community: {
-      CommunityHeader: {
-        read: () => {
-          Storage.get(
-            "state",
-            `${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.components.community.CommunityHeader`
-          );
-        },
-      },
-    },
-  },
-
-  localWrite: (state) => {
-    Storage.set("state", state);
-  },
-};
-
 /**
  * Reads a board config from DevHub contract storage.
  * Currently a mock.
