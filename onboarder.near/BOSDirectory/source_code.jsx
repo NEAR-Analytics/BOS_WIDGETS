@@ -6,7 +6,8 @@ const social = {
       url: "https://near.social",
       image:
         "https://ipfs.near.social/ipfs/bafybeiewpf55q4ubml3cnbqdu62kamwyph2z4qqaiupz5md7ydlh4ghwwq",
-      description: "Social Data Protocol On NEAR",
+      description:
+        "Social Data Protocol On NEAR. The first gateway. Built in social features like custom domains, reports, link previews + more!",
     },
     {
       key: 2,
@@ -15,7 +16,7 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafkreifv5wmqng43g3la2mgwenyhcuzp6g5grnp4ucrwqaciz2ibpqfdgi",
       description:
-        "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web.",
+        "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web. Built in EVM, FastAuth w/ Metatransactions",
     },
     {
       key: 5,
@@ -23,7 +24,8 @@ const social = {
       url: "https://nearpad.dev/",
       image:
         "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
-      description: "A gateway dedicated to developers",
+      description:
+        "A gateway dedicated to developers. Siwtch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
     },
     {
       key: 4,
@@ -31,7 +33,8 @@ const social = {
       url: "https://nearatlas.com/",
       image:
         "https://ipfs.near.social/ipfs/bafkreia6etmuxr3xhhpoeqimcl2oyg5ovcsa25e4j4242hy44lk2q73udi",
-      description: "A viewer for NEAR Analytics",
+      description:
+        "A viewer for NEAR Analytics powered by the Flipside Crypto API built by the NEAR Foundation",
     },
     {
       key: 7,
@@ -52,19 +55,11 @@ const social = {
         "An example viewer of the Canto's blockchain, CantoSwap viewer",
     },
     {
-      key: 0,
-      name: "Bos.gg",
-      url: "https://bos.gg",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
-      description: "Decentralized front ends for evm chains",
-    },
-    {
       key: 6,
       name: "Genadrop Gateway",
-      url: "https://near.genadrop.io/",
+      url: "https://bos.genadrop.io/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreien6yezqclnzmw5chayg75nygqewh62yttzomxgjhcgu4swtrr4ja",
+        "https://ipfs.near.social/ipfs/bafkreidx4rvihxc5ycpvlyaod7dscotlb6bmoffimjl7s2zvarhmxtymma",
       description: "A gateway dedicated to NFTs across different chains",
     },
     {
@@ -74,6 +69,14 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
       description: "Everything +  Data Visualizations for social.near",
+    },
+    {
+      key: 0,
+      name: "Bos.gg",
+      url: "https://bos.gg",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
+      description: "Decentralized front ends for evm chains",
     },
     {
       key: 9,
