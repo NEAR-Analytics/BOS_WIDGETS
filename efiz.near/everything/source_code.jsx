@@ -26,7 +26,6 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  border: 2px solid orange;
 
   @media (max-width: 767px) {
     flex-direction: column;
@@ -38,7 +37,6 @@ const Column = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid green;
   padding: 20px;
 
   @media (max-width: 767px) {
@@ -51,11 +49,6 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Times New Roman";
-  font-size: 2em;
-  line-height: 1.25;
-  font-weight: 400;
-  cursor: pointer;
 
   svg {
     width: 50px;
@@ -63,8 +56,6 @@ const IconBox = styled.div`
   }
 
   @media (max-width: 767px) {
-    font-size: 1.5em;
-
     svg {
       width: 40px;
       height: 40px;
@@ -76,10 +67,6 @@ const ActionButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Times New Roman";
-  font-size: 2em;
-  line-height: 1.25;
-  font-weight: 400;
   cursor: pointer;
 
   svg {
@@ -88,8 +75,6 @@ const ActionButton = styled.button`
   }
 
   @media (max-width: 767px) {
-    font-size: 1.5em;
-
     svg {
       width: 25px;
       height: 25px;
@@ -99,7 +84,7 @@ const ActionButton = styled.button`
 
 const SubjectField = styled.input`
   font-family: "Times New Roman";
-  font-size: 2em;
+  font-size: 4em;
   line-height: 1.25;
   font-weight: 400;
   cursor: pointer;
