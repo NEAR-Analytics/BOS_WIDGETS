@@ -1,8 +1,10 @@
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const accountId = "meta.sputnik-dao.near";
 
-if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
+if (!accountId) {
+  return "Please sign in with NEAR wallet to edit your profile";
+}
 
-let profile = Social.getr(`${sender}/profile`);
+let profile = Social.getr(`${accountId}/profile`);
 
 if (profile === null) {
   return "Loading";
@@ -16,7 +18,7 @@ return (
   <div className="row">
     <div className="col-lg-6">
       <div>
-        <h4>Edit profile of @{sender}</h4>
+        <h4>Edit profile of @{accountId}</h4>
       </div>
       <div className="mb-2">
         <Widget
@@ -32,7 +34,8 @@ return (
               tags: {
                 label: "Tags",
                 tagsPattern: "*/profile/tags/*",
-                placeholder: "bos",
+                placeholder:
+                  "rust, engineer, artist, humanguild, nft, learner, founder",
               },
               linktree: {
                 links: [
@@ -64,21 +67,21 @@ return (
       </div>
       <div className="mb-2">
         <CommitButton data={{ profile: state.profile }}>
-          Save Profile
+          Save profile
         </CommitButton>
         <a
           className="btn btn-outline-primary ms-2"
-          href={`#/mob.near/widget/ProfilePage?sender=${sender}`}
+          href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
         >
-          View Profile
+          View profile
         </a>
       </div>
     </div>
     <div className="col-lg-6">
       <div>
         <Widget
-          src="hack.near/widget/ProfilePage"
-          props={{ sender, profile: state.profile }}
+          src="mob.near/widget/ProfilePage"
+          props={{ accountId, profile: state.profile }}
         />
       </div>
     </div>
