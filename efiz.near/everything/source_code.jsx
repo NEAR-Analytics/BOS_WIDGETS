@@ -1,3 +1,12 @@
+const Header = styled.div`
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+`;
+
 const Container = styled.div`
   width: 100%;
   height: 30vh;
@@ -84,6 +93,16 @@ const ActionButton = styled.button`
   }
 `;
 
+const Button = styled.button`
+  text-transform: lowercase !important;
+`;
+
+const Link = styled.a`
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+`;
+
 const SubjectField = styled.input`
   font-size: 4em;
   line-height: 1.25;
@@ -101,6 +120,13 @@ const SubjectField = styled.input`
 
 return (
   <>
+    <Header>
+      <Button>
+        <Link href="/efiz.near/widget/Every.Setting" target="_blank">
+          settings
+        </Link>
+      </Button>
+    </Header>
     <Container>
       <InnerContainer>
         <Row>
