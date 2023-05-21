@@ -4,7 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-let profile = Social.getr(`${accountId}/profile`);
+let profile = Social.getr("meta.sputnik-dao.near/profile");
 
 if (profile === null) {
   return "Loading";
