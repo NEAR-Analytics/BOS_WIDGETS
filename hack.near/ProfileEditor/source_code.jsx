@@ -13,7 +13,9 @@ const handleSave = () => {
       methodName: "set",
       args: {
         data: {
-          profile: state.profile,
+          [accountId]: {
+            profile: state.profile,
+          },
         },
       },
       deposit: "1",
