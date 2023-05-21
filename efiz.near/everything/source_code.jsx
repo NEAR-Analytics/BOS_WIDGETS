@@ -15,7 +15,7 @@ const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  max-width: 535px;
 
   @media (max-width: 767px) {
     width: 100%;
@@ -48,26 +48,52 @@ const Column = styled.div`
 `;
 
 const IconBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "Times New Roman";
   font-size: 2em;
   line-height: 1.25;
   font-weight: 400;
   cursor: pointer;
 
+  svg {
+    width: 50px;
+    height: 50px;
+  }
+
   @media (max-width: 767px) {
     font-size: 1.5em;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
   }
 `;
 
 const ActionButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "Times New Roman";
   font-size: 2em;
   line-height: 1.25;
   font-weight: 400;
   cursor: pointer;
 
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+
   @media (max-width: 767px) {
     font-size: 1.5em;
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
   }
 `;
 
@@ -91,9 +117,23 @@ return (
   <Container>
     <InnerContainer>
       <Row>
-        <IconBox>Icon</IconBox>
-        <SubjectField type="text" placeholder="Subject" />
-        <ActionButton>Action</ActionButton>
+        <Column>
+          <IconBox>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="black"
+              width="24px"
+              height="24px"
+            >
+              <circle cx="12" cy="12" r="8" />
+            </svg>
+          </IconBox>
+          <SubjectField type="text" placeholder="everything" />
+          <ActionButton>
+            <span>&#10140;</span>
+          </ActionButton>
+        </Column>
       </Row>
       <Row>advanced</Row>
     </InnerContainer>
