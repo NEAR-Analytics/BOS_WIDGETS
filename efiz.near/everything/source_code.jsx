@@ -85,7 +85,6 @@ const ActionButton = styled.button`
 `;
 
 const SubjectField = styled.input`
-  font-family: "Times New Roman";
   font-size: 4em;
   line-height: 1.25;
   font-weight: 400;
@@ -101,28 +100,31 @@ const SubjectField = styled.input`
 `;
 
 return (
-  <Container>
-    <InnerContainer>
-      <Row>
-        <Column>
-          <IconBox>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="black"
-              width="24px"
-              height="24px"
-            >
-              <circle cx="12" cy="12" r="8" />
-            </svg>
-          </IconBox>
-          <SubjectField type="text" placeholder="everything" />
-          <ActionButton>
-            <span>&#10140;</span>
-          </ActionButton>
-        </Column>
-      </Row>
-      <Row>advanced</Row>
-    </InnerContainer>
-  </Container>
+  <>
+    <Container>
+      <InnerContainer>
+        <Row>
+          <Column>
+            <IconBox>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="black"
+                width="24px"
+                height="24px"
+              >
+                <circle cx="12" cy="12" r="8" />
+              </svg>
+            </IconBox>
+            <SubjectField type="text" placeholder="everything" />
+            <ActionButton>
+              <span>&#10140;</span>
+            </ActionButton>
+          </Column>
+        </Row>
+        <Row>advanced</Row>
+      </InnerContainer>
+    </Container>
+    <Widget src="efiz.near/widget/Every.Thing" />
+  </>
 );
