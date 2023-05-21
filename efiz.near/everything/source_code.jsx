@@ -1,19 +1,55 @@
 const Container = styled.div`
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  
-  @media (max-width: 767px) { /* Mobile devices */
+  align-items: center;
+
+  @media (max-width: 767px) {
     justify-content: flex-start;
   }
 `;
 
-const Subject = styled.div`
-  font-family: "Times New Roman";
-  font-size: "4em";
-  line-height: "1.25";
-  font-weight: 400;
-  cursor: "pointer";
+const InnerContainer = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: 2px solid orange;
+`;
+
+const Column = styled.div`
+  flex: 1 1 200px;
+  display: flex;
+  justify-content: center;
+  border: 2px solid green;
+`;
+
+const CenterColumn = styled.div`
+  flex: 2 1 300px;
+  display: flex;
+  justify-content: center;
+  border: 2px solid red;
+`;
+
+return (
+  <Container>
+    <InnerContainer>
+      <Row>
+        <Column>icon</Column>
+        <CenterColumn>subject</CenterColumn>
+        <Column>action</Column>
+      </Row>
+      <Row>advanced</Row>
+    </InnerContainer>
+  </Container>
+);
 
 const Button = styled.button`
   text-transform: lowercase !important;
