@@ -5,6 +5,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
+    // Mobile
   @media (max-width: 767px) {
     justify-content: flex-start;
   }
@@ -17,6 +18,7 @@ const InnerContainer = styled.div`
   align-items: center;
   max-width: 535px;
 
+    // Mobile
   @media (max-width: 767px) {
     width: 100%;
   }
@@ -25,8 +27,10 @@ const InnerContainer = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 100%;  
+  border: 2px solid orange;
 
+    // Mobile
   @media (max-width: 767px) {
     flex-direction: column;
   }
@@ -37,8 +41,10 @@ const Column = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid green;
   padding: 20px;
 
+    // Mobile
   @media (max-width: 767px) {
     border-top: none;
     padding: 10px;
@@ -51,10 +57,11 @@ const IconBox = styled.div`
   justify-content: center;
 
   svg {
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
   }
 
+    // Mobile
   @media (max-width: 767px) {
     svg {
       width: 40px;
@@ -68,23 +75,11 @@ const ActionButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
-  svg {
-    width: 30px;
-    height: 30px;
-  }
-
-  @media (max-width: 767px) {
-    svg {
-      width: 25px;
-      height: 25px;
-    }
-  }
 `;
 
 const SubjectField = styled.input`
   font-family: "Times New Roman";
-  font-size: 4em;
+  font-size: 2em;
   line-height: 1.25;
   font-weight: 400;
   cursor: pointer;
