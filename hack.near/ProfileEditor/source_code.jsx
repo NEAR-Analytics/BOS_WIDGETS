@@ -2,13 +2,24 @@ const accountId = "meta.sputnik-dao.near";
 
 let profile = Social.getr(`${accountId}/profile`);
 
-if (profile === null) {
-  return "Loading";
-}
-
 State.init({
   profile,
 });
+
+const handleSave = () => {
+  Near.call([
+    {
+      contractName: "social.near",
+      methodName: "set",
+      args: {
+        data: {
+          profile: state.profile,
+        },
+      },
+      deposit: "1",
+    },
+  ]);
+};
 
 return (
   <div className="row">
@@ -62,9 +73,7 @@ return (
         />
       </div>
       <div className="mb-2">
-        <CommitButton data={{ profile: state.profile }}>
-          Save profile
-        </CommitButton>
+        <button onClick={handleSave}>Save profile</button>
         <a
           className="btn btn-outline-primary ms-2"
           href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
