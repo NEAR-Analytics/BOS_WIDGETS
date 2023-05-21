@@ -38,13 +38,12 @@ if (type === "account") {
   value = Social.get(parts.join("/"), "final");
   return <p>{value}</p>;
 } else if (type === "settings") {
-  if (parts.length === 3) {
-    parts.push("**");
-    value = Social.get(parts.join("/"), "final");
-  } else {
-    value = Social.get(parts.join("/"), "final");
-    value = JSON.parse(value);
-  }
+  return (
+    <Widget
+      src="efiz.near/widget/Every.Setting"
+      props={{ accountId: parts[0] }}
+    />
+  );
 } else if (type === "post") {
   // Replace this with a better component
   // with hashtag filter
