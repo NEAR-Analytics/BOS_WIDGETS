@@ -61,11 +61,11 @@ const social = {
     },
     {
       key: 6,
-      name: "NEAR Genadrop",
+      name: "Genadrop Gateway",
       url: "https://near.genadrop.io/",
       image:
         "https://ipfs.near.social/ipfs/bafkreien6yezqclnzmw5chayg75nygqewh62yttzomxgjhcgu4swtrr4ja",
-      description: "A gateway dedicated to NFTs on NEAR",
+      description: "A gateway dedicated to NFTs across different chains",
     },
     {
       key: 8,
@@ -73,7 +73,15 @@ const social = {
       url: "https://everything.dev/#/",
       image:
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
-      description: "Everything. TBA",
+      description: "Everything +  Data Visualizations for social.near",
+    },
+    {
+      key: 9,
+      name: "Harmonic Guild",
+      url: "https://gateway.harmonicguild.io/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreidjmhh4yvjgn7htpymtt3lqhlaoi3ksabixsicojzwichply4oxdy",
+      description: "A NEAR gateway for music + NFTs",
     },
   ],
 };
