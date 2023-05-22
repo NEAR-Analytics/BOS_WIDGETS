@@ -12,6 +12,7 @@ State.init({
   reloadPools: false,
   estimate: {},
   loadRes: (value) => {
+    console.log("loadRes", value);
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
       estimate: value,
@@ -407,6 +408,37 @@ return (
         />
       )}
 
+    {state.network === NETWORK_ZKEVM &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/quickswap-v3-getEstimate"
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              tokenOutDecimals: state.outputAsset.metadata.decimals,
+              amountIn: expandToken(
+                state.inputAssetAmount,
+                state.inputAsset.metadata.decimals
+              ).toFixed(0),
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
+
     {state.network === NETWORK_ETH &&
       state.inputAssetTokenId &&
       state.outputAssetTokenId &&
@@ -438,7 +470,7 @@ return (
         </>
       )}
 
-    {[NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(state.network) &&
+    {[NETWORK_ZKSYNC].includes(state.network) &&
       state.inputAsset &&
       state.outputAsset &&
       state.inputAssetAmount &&
@@ -585,8 +617,22 @@ return (
                           state.callTx(state, onCallTxComple);
                         } else if (state.network === NETWORK_ZKSYNC) {
                           state.callTx(state, onCallTxComple);
-                        } else if (state.network === NETWORK_ZKEVM) {
-                          state.callTx(state, onCallTxComple, "7.5", 300000);
+                        } else if (
+                          state.network === NETWORK_ZKEVM &&
+                          state.estimate.path
+                        ) {
+                          console.log(
+                            " state.estimate.path",
+                            state.estimate.path
+                          );
+                          state.callTx(
+                            state,
+                            onCallTxComple,
+                            "7.5",
+                            300000,
+                            "0",
+                            state.estimate.path
+                          );
                         } else if (state.network === NETWORK_ETH) {
                           state.callTx(state, onCallTxComple);
                         }
