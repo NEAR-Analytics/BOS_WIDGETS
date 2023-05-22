@@ -114,7 +114,7 @@ const Card = styled.div`
    margin: 0 auto;
    max-width: 400px;
    flex:1;
-   &:hover img{
+   &:hover img, &:focus img{
      transform:scale(1.05);
    }
    & img{
