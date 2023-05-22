@@ -24,7 +24,7 @@ return (
         setchildincrement: (cb0, cb1) => {
           console.log("incrementing grandchild from its parent scope");
           console.log({ cb0, cb1 });
-          cb1();
+          cb0();
           incrementChild = cb0;
         },
       }}
