@@ -100,7 +100,7 @@ return (
       props={{ currentNavPill: "articles" }}
     />
     <div>
-      <h4>Article: {state.article.articleId}</h4>
+      <h1>Article: {state.article.articleId}</h1>
       {doesUserCanEditArticle() && (
         <button
           onClick={() => {
@@ -186,6 +186,20 @@ return (
           </div>
         </>
       )}
+      {/* Tags */}
+      {state.article.tags && (
+        <div className="pt-2">
+          {state.article.tags.map((tag) => (
+            <span
+              key={tag}
+              className="me-1 mb-1 text-primary bg-primary bg-opacity-10 position-relative fw-normal badge border border-primary"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {/* MARKDOWN when user doesn't edit article  */}
       {!state.editArticle && (
         <Markdown text={state.note || state.article.body} />
       )}
