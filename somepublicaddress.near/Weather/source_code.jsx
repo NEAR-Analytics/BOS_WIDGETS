@@ -29,32 +29,12 @@ const WeatherLabel = styled.span`
 
 const WeatherData = styled.span``;
 
-const WeatherIcon = styled.img`
-  width: 32px;
-  height: 32px;
-`;
-
 // -------------------
 // --- STYLES ABOVE --
 // -------------------
 
 const API_URL = "https://api.api-ninjas.com/v1/weather?city=";
 const API_KEY = "XnddRn6A0TXUDpq76POxuQ==9aJ5FrpbwPMD8fCH";
-
-const formatTime = (unixTime) => {
-  const date = new Date(unixTime * 1000);
-  const hours = date.getHours();
-  const minutes = "0" + date.getMinutes();
-  return hours + ":" + minutes.substr(-2);
-};
-
-const getWeatherIcon = (cloudPct) => {
-  if (cloudPct < 15) {
-    return "https://static-00.iconduck.com/assets.00/sun-symbol-emoji-512x512-qjm8vnpc.png";
-  } else {
-    return "https://cdn-icons-png.flaticon.com/512/3222/3222791.png";
-  }
-};
 
 const writeStateTerm = (term) => {
   console.log(`Entering writeStateTerm, term: ${term}`); // eslint-disable-line no-console
@@ -145,13 +125,7 @@ return (
         </WeatherItem>
         <WeatherItem>
           <WeatherLabel>Temperature:</WeatherLabel>
-          <WeatherData>
-            {state.weather.body.temp}°C{" "}
-            <WeatherIcon
-              src={getWeatherIcon(state.weather.body.cloud_pct)}
-              alt="Weather Icon"
-            />
-          </WeatherData>
+          <WeatherData>{state.weather.body.temp}°C</WeatherData>
         </WeatherItem>
         <WeatherItem>
           <WeatherLabel>Feels Like:</WeatherLabel>
@@ -179,11 +153,11 @@ return (
         </WeatherItem>
         <WeatherItem>
           <WeatherLabel>Sunrise:</WeatherLabel>
-          <WeatherData>{formatTime(state.weather.body.sunrise)}</WeatherData>
+          <WeatherData>{state.weather.body.sunrise}</WeatherData>
         </WeatherItem>
         <WeatherItem>
           <WeatherLabel>Sunset:</WeatherLabel>
-          <WeatherData>{formatTime(state.weather.body.sunset)}</WeatherData>
+          <WeatherData>{state.weather.body.sunset}</WeatherData>
         </WeatherItem>
       </WeatherInfo>
     )}
