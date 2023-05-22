@@ -1,5 +1,9 @@
 const accountId = context.accountId;
 
+if (!accountId) {
+  return "Please sign in with a NEAR wallet to use this widget to become a true detective unlocking this case!🕵️‍♂️";
+}
+
 return (
   <>
     <div class="container min-vw-80">
@@ -66,16 +70,9 @@ return (
       </p>
       <strong>Holder Benefit - ChatGPT4!</strong>
       <p>
-        If you are a holder of a <b>Detective</b> or an <b>Undercover Pup</b>{" "}
-        you are entitled to ChatGPT4!
+        If you are a holder of an Undercover Detective or Pup you are entitled
+        to ChatGPT4!
       </p>
-      <i>
-        All 550 Detectives have now Sold Out!{" "}
-        <a href="https://www.tradeport.xyz/near/collection/mmc.nfts.fewandfar.near?tab=marketview">
-          Click here to purchase a Detective via Tradeport 🕵️‍♂️
-        </a>
-      </i>
-      <br></br>
       <a href="https://discord.com/channels/1004449103012442132/1100745572429860946">
         🤖---Ask-AI Discord Channel
       </a>
@@ -92,10 +89,9 @@ return (
         Holder Benefit - Exclusive White Coats and Blue Furs role on Discord!
       </strong>
       <p>
-        If you are a holder of a <b>White Coat Detective</b> or{" "}
-        <b>Blue Undercover Pup</b> Verify your NFT in the Discord to get your
-        roles! You will unlock exclusive channels to speak to other members in
-        the Discord server.
+        If you've got a White Coat Detective or Blue Undercover Pup Verify your
+        NFT in the Discord to get your roles! You will unlock exclusive channels
+        to speak to other members in the Discord server.
       </p>
       <a href="https://discord.com/channels/1004449103012442132/1101693061962137702">
         🥼---The White Coats Discord Channel
@@ -196,7 +192,7 @@ return (
         height="150"
       ></img>
       <br></br>
-      <strong>📁 ARSTOOKWNIANN</strong>
+      <strong>📁 NFT</strong>
       <a href="https://discord.com/channels/1004449103012442132/1095325310699982868">
         🔗---Beaning MMC Discord Channel
       </a>
@@ -206,7 +202,7 @@ return (
       </a>
       <br></br>
       <hr />
-      <h3>🎮---Boneyard Gaming</h3>
+      <h3>🕹️---Boneyard Gaming</h3>
       <i>A community of gamers, content creators, supporting indie games.</i>
       <br></br>
       <i>
@@ -227,41 +223,17 @@ return (
         height="150"
       ></img>
       <br></br>
-      <strong>📁 Gaming Community and Events</strong>
+      <strong>📁 Gaming Community and Events.</strong>
       <a href="https://discord.com/channels/1004449103012442132/1101574174939545720">
         🔗---Boneyard Gaming MMC Discord Channel
       </a>
       <a href="https://twitter.com/boneyard_gaming">
         🔗---Boneyard Gaming Twitter
       </a>
-      <a href="https://twitter.com/billybones1_">🔗---Billy Bones Twitter</a>
+      <a href="https://twitter.com/billybones1_">🔗---Billybones Twitter</a>
       <a href="https://discord.gg/3KgsxYjYCn">
         🔗---Boneyard Gaming Discord Server
       </a>
-      <hr />
-      <h3>📺---Trevins Corner</h3>
-      <i>Web3 Content Creator</i>
-      <br></br>
-      <img
-        src="https://pbs.twimg.com/profile_images/1655248247445938178/gye4K1lX_400x400.jpg"
-        alt="TREVINLOGO"
-        width="150"
-        height="150"
-      ></img>
-      <img
-        src="https://yt3.googleusercontent.com/NqjZLOXIT0UVPSrJ1PkyQJS-4tMZtfA8CTuKkKFCNWMGbIXgcNOErPCEzYhWItaWqEKYrv1q=s176-c-k-c0x00ffffff-no-rj"
-        alt="BILLYBONESLOGO"
-        width="150"
-        height="150"
-      ></img>
-      <br></br>
-      <strong>📁 Web3 Content Creation</strong>
-      <a href="https://discord.com/channels/1004449103012442132/1101574242316853440">
-        🔗---Trevins Corner MMC Discord Channel
-      </a>
-      <a href="https://twitter.com/trevinvsnft">🔗---TREVINvsNFT Twitter</a>
-      <a href="https://www.youtube.com/c/TrevinRudy">🔗---YouTube Channel</a>
-      <a href="https://t.co/uo9WS9UR3e">🔗---More links here!</a>
       <hr />
       <h3>💜---Bonerz</h3>
       <i>did ash ever become a pokemon master?👀</i>
