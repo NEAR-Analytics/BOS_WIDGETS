@@ -14,20 +14,19 @@ const findFt = (ftAddress, amount) => {
   if (ftAddress === "Near" || ftAddress === "")
     return {
       ...near,
-      amount: isParsed ? amount : Number(amount) / Math.pow(10, 24),
+      amount: isParsed ? Number(amount) : Number(amount) / Math.pow(10, 24),
     };
   if (!ftList.length) return defaultFt;
   const ft = ftList.find((f) => ftAddress === f.token_account_id);
-  if (isParsed) return ft ? { ...ft, amount } : { ...defaultFt, amount };
+  if (isParsed) return ft ? { ...ft, amount:Number(amount) } : { ...defaultFt, amount:Number(amount) };
   const decimals = ft ? Number(ft.decimals) : 24;
   const parsedAmount = Number(amount) / Math.pow(10, decimals);
   return ft
-    ? { ...ft, amount: parsedAmount }
-    : { ...defaultFt, amount: parsedAmount };
+    ? { ...ft, amount: Number(parsedAmount) }
+    : { ...defaultFt, amount: Number(parsedAmount) };
 };
 
 const currentFt = findFt(ft, amount);
-
 return (
   <div style={{ display: "flex", alignItems: "center" }}>
     <span>{Number(currentFt.amount).toFixed(2).toLocaleString()}</span>
