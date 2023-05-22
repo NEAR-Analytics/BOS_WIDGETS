@@ -190,12 +190,15 @@ return (
       {state.article.tags && (
         <div className="pt-2">
           {state.article.tags.map((tag) => (
-            <span
+            <a
               key={tag}
-              className="me-1 mb-1 text-primary bg-primary bg-opacity-10 position-relative fw-normal badge border border-primary"
+              href={`/#/${authorForWidget}/widget/WikiOnSocialDB_ArticlesByTag?tag=${tag}`}
+              className="text-white btn p-0 lh-1"
             >
-              #{tag}
-            </span>
+              <span className="me-1 mb-1 text-primary bg-primary bg-opacity-10 position-relative fw-normal badge border border-primary">
+                #{tag}
+              </span>
+            </a>
           ))}
         </div>
       )}
