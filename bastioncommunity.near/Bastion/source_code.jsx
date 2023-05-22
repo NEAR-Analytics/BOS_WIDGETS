@@ -162,8 +162,12 @@ if (
   return loadingCom();
 }
 
-const expandToken = (value, decimals) => {
-  return new Big(value).mul(new Big(10).pow(decimals));
+const BigNumberToken = (value, decimals) => {
+  return ethers.BigNumber.from(
+    Math.round(Number(value) * Math.pow(10, decimals)).toLocaleString("en-US", {
+      useGrouping: false,
+    })
+  );
 };
 
 const handleSelect = (e) => {
@@ -202,12 +206,10 @@ const handleApprove = () => {
     Ethers.provider().getSigner()
   );
 
-  const expandedAmount = expandToken(
+  const toBigNumber = BigNumberToken(
     amount,
     TokensDetail[selectedTokenId].decimals
-  ).toString();
-
-  const toBigNumber = ethers.BigNumber.from(expandedAmount);
+  );
 
   erc20
     .approve(TokensDetail[selectedTokenId].cAddress, toBigNumber)
@@ -238,18 +240,15 @@ const handleDeposit = () => {
     Ethers.provider().getSigner()
   );
 
-  const expandedAmount = expandToken(
+  const toBigNumber = BigNumberToken(
     amount,
     TokensDetail[selectedTokenId].decimals
-  ).toString();
-
-  const toBigNumber = ethers.BigNumber.from(expandedAmount);
-  console.log(toBigNumber.toString());
+  );
 
   const mintPromise =
     selectedTokenId == "ETH"
-      ? connection.mint({ value: expandedAmount })
-      : connection.mint(expandedAmount);
+      ? connection.mint({ value: toBigNumber })
+      : connection.mint(toBigNumber);
 
   mintPromise
     .then((transaction) => {
@@ -368,12 +367,10 @@ const handleBorrow = () => {
     Ethers.provider().getSigner()
   );
 
-  const expandedAmount = expandToken(
+  const toBigNumber = BigNumberToken(
     amount,
     TokensDetail[selectedTokenId].decimals
   ).toString();
-
-  const toBigNumber = ethers.BigNumber.from(expandedAmount);
 
   connection
     .borrow(toBigNumber)
@@ -425,12 +422,10 @@ const handleRepay = () => {
     Ethers.provider().getSigner()
   );
 
-  const expandedAmount = expandToken(
+  const toBigNumber = BigNumberToken(
     amount,
     TokensDetail[selectedTokenId].decimals
   ).toString();
-
-  const toBigNumber = ethers.BigNumber.from(expandedAmount);
 
   connection
     .repayBorrow(toBigNumber)
@@ -493,12 +488,11 @@ const handleWithdraw = () => {
     Ethers.provider().getSigner()
   );
 
-  const expandedAmount = expandToken(
+  const toBigNumber = BigNumberToken(
     amount,
     TokensDetail[selectedTokenId].decimals
   ).toString();
 
-  const toBigNumber = ethers.BigNumber.from(expandedAmount);
   const supplyBalance = supplyBalance();
 
   if (amount >= supplyBalance) {
