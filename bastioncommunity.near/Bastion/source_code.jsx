@@ -213,9 +213,19 @@ const handleApprove = () => {
 
   erc20
     .approve(TokensDetail[selectedTokenId].cAddress, toBigNumber)
-    .then((transactionHash) => {
+    .then((transaction) => {
+      console.log("Transaction sent:", transaction.hash);
+      State.update({ hasError: -1 });
+      return transaction.wait();
+    })
+    .then((receipt) => {
+      State.update({ hasError: 0 });
       State.update({ success: true });
-      console.log("transactionHash is " + transactionHash);
+      console.log("Transaction mined, receipt:", receipt);
+    })
+    .catch((error) => {
+      State.update({ hasError: 5, errorMessage: error });
+      console.log("Error in mint function:", error);
     });
 };
 
