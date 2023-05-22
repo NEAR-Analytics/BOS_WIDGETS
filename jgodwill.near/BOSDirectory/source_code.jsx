@@ -111,6 +111,9 @@ const Card = styled.div`
    padding: 8px;
    text-align: center;
    color: #fff;
+   margin: 0 auto;
+   max-width: 400px;
+   flex:1;
    &:hover img{
      transform:scale(1.05);
    }
