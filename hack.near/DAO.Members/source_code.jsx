@@ -16,13 +16,21 @@ return (
       <div key={i}>
         <h3>{group.name}</h3>
         {group.members.map((member, j) => (
-          <a
-            key={j}
-            className="text-decoration-none"
-            href={`#mob.near/widget/ProfilePage?accountId=${member}`}
-          >
-            <h5>{member}</h5>
-          </a>
+          <div className="d-flex justify-content-between mb-3">
+            <div className="me-3">
+              <Widget
+                key={j}
+                src="mob.near/widget/Profile"
+                props={{ accountId: member }}
+              />
+            </div>
+            <div className>
+              <Widget
+                src="hack.near/widget/DAO.RemoveMember"
+                props={{ memberId: member, roleId: group.name }}
+              />
+            </div>
+          </div>
         ))}
       </div>
     ))}
