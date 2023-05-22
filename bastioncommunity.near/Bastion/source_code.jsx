@@ -9,33 +9,17 @@ const loadingCom = () => {
   );
 };
 
-if (state.sender === undefined) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  if (accounts.length) {
-    State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
-  } else {
-    return (
-      <div style={{ margin: "auto", textAlign: "center" }}>
-        <h2>Please login first</h2>
-        <br />
-        <Web3Connect connectLabel="Connect with Web3" />
-      </div>
-    );
-  }
-}
-
 // check if account connected
-// const senders = Ethers.send("eth_requestAccounts", [])[0];
-// if (!sender) {
-//   return (
-//     <div style={{ margin: "auto", textAlign: "center" }}>
-//       <h2>Please login first</h2>
-//       <br />
-//       <Web3Connect connectLabel="Connect with Web3" />
-//     </div>
-//   );
-// }
+const senders = Ethers.send("eth_requestAccounts", [])[0];
+if (!sender) {
+  return (
+    <div style={{ margin: "auto", textAlign: "center" }}>
+      <h2>Please login first</h2>
+      <br />
+      <Web3Connect connectLabel="Connect with Web3" />
+    </div>
+  );
+}
 
 // check if correct chain
 const { chainId } = Ethers.getNetwork();
