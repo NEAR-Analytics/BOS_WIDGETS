@@ -1,16 +1,41 @@
 const { selectedTokenId, amount, hasError, status } = state;
 
-// check if account connected
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) {
+// define loading component
+const loadingCom = () => {
   return (
-    <div style={{ margin: "auto", textAlign: "center" }}>
-      <h2>Please login first</h2>
-      <br />
-      <Web3Connect connectLabel="Connect with Web3" />
+    <div class="text-center mt-10">
+      <h2>Loading Data...</h2>
     </div>
   );
+};
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+    console.log("set sender", accounts[0]);
+  } else {
+    return (
+      <div style={{ margin: "auto", textAlign: "center" }}>
+        <h2>Please login first</h2>
+        <br />
+        <Web3Connect connectLabel="Connect with Web3" />
+      </div>
+    );
+  }
 }
+
+// check if account connected
+// const senders = Ethers.send("eth_requestAccounts", [])[0];
+// if (!sender) {
+//   return (
+//     <div style={{ margin: "auto", textAlign: "center" }}>
+//       <h2>Please login first</h2>
+//       <br />
+//       <Web3Connect connectLabel="Connect with Web3" />
+//     </div>
+//   );
+// }
 
 // check if correct chain
 const { chainId } = Ethers.getNetwork();
@@ -68,11 +93,7 @@ const checkABI4 = JSON.parse(CErc20ABI);
 const checkABI5 = JSON.parse(ComptrollerABI);
 
 if (!checkABI1 || !checkABI2 || !checkABI3 || !checkABI4 || !checkABI5) {
-  return (
-    <div>
-      <h2>Loading Data...</h2>
-    </div>
-  );
+  return loadingCom();
 }
 
 const lenContract = "0x080B5ce373fE2103A7086b31DabA412E88bD7356";
@@ -154,11 +175,7 @@ if (
   !state.getAccountLimits ||
   !state.cTokenMetadataAll
 ) {
-  return (
-    <div>
-      <h2>Loading Data...</h2>
-    </div>
-  );
+  return loadingCom();
 }
 
 const expandToken = (value, decimals) => {
