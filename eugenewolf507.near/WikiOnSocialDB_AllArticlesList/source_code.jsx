@@ -49,6 +49,10 @@ return (
               {getDateLastEdit(article.timeLastEdit)})
             </small>
           </a>
+          <Widget
+            src={`${authorForWidget}/widget/WikiOnSocialDB_TagList`}
+            props={{ tags: article.tags }}
+          />
         </li>
       ))}
   </ol>
