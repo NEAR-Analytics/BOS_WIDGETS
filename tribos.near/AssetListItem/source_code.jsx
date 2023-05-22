@@ -186,7 +186,7 @@ return (
   <>
     {!assetData && tokenId && (
       <Widget
-        src="ejj.near/widget/TokenData"
+        src="tribos.near/widget/TokenData"
         props={{
           tokenId,
           coinGeckoTokenId,
