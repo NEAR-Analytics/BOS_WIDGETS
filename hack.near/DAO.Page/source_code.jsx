@@ -260,7 +260,7 @@ return (
         )}
 
         {state.selectedTab === "members" && (
-          <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
+          <Widget src="hack.near/widget/DAO.Groups" props={{ daoId }} />
         )}
 
         {state.selectedTab === "projects" && (
@@ -275,7 +275,7 @@ return (
         )}
 
         {state.selectedTab === "rewards" && (
-          <Widget src="hack.near/widget/DAO.Rewards" props={{ daoId }} />
+          <Widget src="sking.near/widget/DAO.Rewards" props={{ daoId }} />
         )}
       </Content>
     </Main>
