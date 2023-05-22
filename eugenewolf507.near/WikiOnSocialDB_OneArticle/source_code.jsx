@@ -193,11 +193,9 @@ return (
             <a
               key={tag}
               href={`/#/${authorForWidget}/widget/WikiOnSocialDB_ArticlesByTag?tag=${tag}`}
-              className="text-white btn p-0 lh-1"
+              className="me-1 mb-1 text-primary bg-primary bg-opacity-10 position-relative fw-normal badge border border-primary text-decoration-none"
             >
-              <span className="me-1 mb-1 text-primary bg-primary bg-opacity-10 position-relative fw-normal badge border border-primary">
-                #{tag}
-              </span>
+              #{tag}
             </a>
           ))}
         </div>
