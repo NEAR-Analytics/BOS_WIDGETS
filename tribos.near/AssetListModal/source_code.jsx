@@ -165,7 +165,7 @@ const assetList = assets
   .map((tokenId) => {
     return (
       <Widget
-        src="ejj.near/widget/AssetListItem"
+        src="tribos.near/widget/AssetListItem"
         props={{
           tokenId,
           coinGeckoTokenId: coinGeckoTokenIds?.[tokenId] ?? tokenId,
