@@ -172,6 +172,7 @@ const BigNumberToken = (value, decimals) => {
 
 const handleSelect = (e) => {
   State.update({
+    amount: "",
     selectedTokenId: e.target.value,
     hasError: 0,
   });
@@ -816,7 +817,14 @@ return (
                 id="deposit"
                 autocomplete="off"
                 checked={state.actionTabs === "deposit"}
-                onClick={() => State.update({ actionTabs: "deposit" })}
+                onClick={() => {
+                  State.update({
+                    amount: "",
+                    selectedTokenId: "",
+                    hasError: 0,
+                    actionTabs: "deposit",
+                  });
+                }}
               />
               <label class="btn btn-outline-primary" for="deposit">
                 Deposit
@@ -828,7 +836,14 @@ return (
                 id="borrow"
                 autocomplete="off"
                 checked={state.actionTabs === "borrow"}
-                onClick={() => State.update({ actionTabs: "borrow" })}
+                onClick={() => {
+                  State.update({
+                    amount: "",
+                    selectedTokenId: "",
+                    hasError: 0,
+                    actionTabs: "borrow",
+                  });
+                }}
               />
               <label class="btn btn-outline-primary" for="borrow">
                 Borrow
@@ -840,7 +855,14 @@ return (
                 id="repay"
                 autocomplete="off"
                 checked={state.actionTabs === "repay"}
-                onClick={() => State.update({ actionTabs: "repay" })}
+                onClick={() => {
+                  State.update({
+                    amount: "",
+                    selectedTokenId: "",
+                    hasError: 0,
+                    actionTabs: "repay",
+                  });
+                }}
               />
               <label class="btn btn-outline-primary" for="repay">
                 Repay
@@ -852,7 +874,14 @@ return (
                 id="withdraw"
                 autocomplete="off"
                 checked={state.actionTabs === "withdraw"}
-                onClick={() => State.update({ actionTabs: "withdraw" })}
+                onClick={() => {
+                  State.update({
+                    amount: "",
+                    selectedTokenId: "",
+                    hasError: 0,
+                    actionTabs: "withdraw",
+                  });
+                }}
               />
               <label class="btn btn-outline-primary" for="withdraw">
                 Withdraw
@@ -868,7 +897,11 @@ return (
                 <option value="">Choose your token</option>
                 {Object.keys(TokensDetail).map((key) => {
                   return (
-                    <option key={key} value={key}>
+                    <option
+                      key={key}
+                      value={key}
+                      selected={selectedTokenId === key}
+                    >
                       {TokensDetail[key].symbol}
                     </option>
                   );
@@ -1021,23 +1054,25 @@ return (
               >
                 Borrow
               </button>
-            ) : state.amount > state.allowance &&
-              state.selectedTokenId !== "ETH" ? (
-              <button
-                disabled={state.amount == undefined || state.amount == ""}
-                onClick={handleApprove}
-                style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
-              >
-                Approve
-              </button>
             ) : state.actionTabs == "repay" ? (
-              <button
-                disabled={state.amount == undefined || state.amount == ""}
-                onClick={handleRepay}
-                style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
-              >
-                Repay
-              </button>
+              state.amount > state.allowance &&
+              state.selectedTokenId !== "ETH" ? (
+                <button
+                  disabled={state.amount == undefined || state.amount == ""}
+                  onClick={handleApprove}
+                  style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
+                >
+                  Approve
+                </button>
+              ) : (
+                <button
+                  disabled={state.amount == undefined || state.amount == ""}
+                  onClick={handleRepay}
+                  style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
+                >
+                  Repay
+                </button>
+              )
             ) : (
               <button
                 disabled={state.amount == undefined || state.amount == ""}
