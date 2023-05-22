@@ -261,24 +261,20 @@ const onCallTxComple = (tx) => {
   });
 };
 
-if (forceNetwork && state.network && forceNetwork !== state.network) {
-  console.log(state.network, forceNetwork);
-  console.log(state.sender);
-  if (!state.network) {
-    return (
-      <Theme>
-        <div class="swap-main-container pt-5">
-          To proceed, kindly switch to {forceNetwork}.
-          <div class="swap-button-container">
-            <Web3Connect
-              className="swap-button-enabled swap-button-text p-2"
-              connectLabel="Connect with Web3"
-            />
-          </div>
+if (forceNetwork && forceNetwork !== state.network) {
+  return (
+    <Theme>
+      <div class="swap-main-container pt-5">
+        To proceed, kindly switch to {forceNetwork}.
+        <div class="swap-button-container">
+          <Web3Connect
+            className="swap-button-enabled swap-button-text p-2"
+            connectLabel="Connect with Web3"
+          />
         </div>
-      </Theme>
-    );
-  }
+      </div>
+    </Theme>
+  );
 }
 
 return (
