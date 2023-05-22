@@ -262,14 +262,6 @@ const onCallTxComple = (tx) => {
 };
 
 if (forceNetwork && state.network && forceNetwork !== state.network) {
-  if (state.sender) {
-    <Theme>
-      <div>
-        <p>{state.sender}</p>
-        <p>{state.network}</p>;
-      </div>
-    </Theme>;
-  }
   return (
     <Theme>
       <div class="swap-main-container pt-5">
