@@ -5,7 +5,9 @@ const incK = () => {
 };
 
 if (!state.isInitialized) {
-  props.setchildincrement(incK, () => console.log("I'm the *other* callback"));
+  props.setchildincrement(incK, 5, () =>
+    console.log("I'm the *other* callback")
+  );
   State.update({ isInitialized: true });
 }
 
