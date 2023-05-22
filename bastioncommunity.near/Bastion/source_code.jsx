@@ -689,9 +689,13 @@ const portfolio =
               )
             </td>
             <td class="text-end">
-              {state.getAccountLimits[0].includes(TokensDetail[key].cAddress)
-                ? "Use as Collateral"
-                : "Not use as Collateral"}
+              {state.getAccountLimits[0].includes(
+                TokensDetail[key].cAddress
+              ) ? (
+                <span style={{ color: "green" }}>Used</span>
+              ) : (
+                <span style={{ color: "red" }}>Not used</span>
+              )}
             </td>
           </tr>
         );
