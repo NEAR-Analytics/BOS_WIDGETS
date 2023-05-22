@@ -287,9 +287,8 @@ const getCTokenBalancesAllIndex = () => {
 const walletBalance = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const bigValue = state.cTokenBalancesAll[rewardIndex][4].toString();
-  const cal = (
-    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals)
-  ).toFixed(2);
+  const cal =
+    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals);
   State.update({
     balance: Number(cal),
   });
@@ -304,15 +303,14 @@ const supplyBalance = () => {
   return (
     Number(bigValue.toString()) /
     Math.pow(10, 18 + TokensDetail[selectedTokenId].decimals)
-  ).toFixed(3);
+  );
 };
 
 const getAllowance = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const bigValue = state.cTokenBalancesAll[rewardIndex][5].toString();
-  const cal = (
-    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals)
-  ).toFixed(2);
+  const cal =
+    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals);
   State.update({
     allowance: Number(cal),
   });
@@ -345,16 +343,14 @@ const remainingBalance = () => {
       totalBorrowd = totalBorrowd.add(bigValueBorrowedUSD);
     }
   }
-  const totalBorrowdFinal = (
-    Number(totalBorrowd.toString()) / Math.pow(10, 18 * 2)
-  ).toFixed(2);
-  const totalBorrowdLimitFinal = (
-    Number(totalBorrowLimit.toString()) / Math.pow(10, 18 * 4)
-  ).toFixed(2);
+  const totalBorrowdFinal =
+    Number(totalBorrowd.toString()) / Math.pow(10, 18 * 2);
+  const totalBorrowdLimitFinal =
+    Number(totalBorrowLimit.toString()) / Math.pow(10, 18 * 4);
   State.update({
-    LimitAmount: (totalBorrowdLimitFinal - totalBorrowdFinal).toFixed(2),
+    LimitAmount: totalBorrowdLimitFinal - totalBorrowdFinal,
   });
-  return (totalBorrowdLimitFinal - totalBorrowdFinal).toFixed(2);
+  return totalBorrowdLimitFinal - totalBorrowdFinal;
 };
 
 const handleBorrow = () => {
@@ -403,10 +399,9 @@ const handleBorrow = () => {
 const getBorrowed = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const bigValueBorrowed = state.cTokenBalancesAll[rewardIndex][2];
-  const finalValue = (
+  const finalValue =
     Number(bigValueBorrowed.toString()) /
-    Math.pow(10, TokensDetail[selectedTokenId].decimals)
-  ).toFixed(2);
+    Math.pow(10, TokensDetail[selectedTokenId].decimals);
   State.update({ borrowedAmount: finalValue });
   return finalValue;
 };
@@ -467,7 +462,7 @@ const maxWithdraw = () => {
   const CFactor =
     Number(state.cTokenMetadataAll[rewardIndex][11].toString()) /
     Math.pow(10, 18);
-  const totalLiquidity = (liquidityInToken / CFactor).toFixed(3);
+  const totalLiquidity = liquidityInToken / CFactor;
   if (supplyBalance >= totalLiquidity) {
     State.update({ maxWithdraw: Number(totalLiquidity) });
     return totalLiquidity;
@@ -610,28 +605,25 @@ const allAssetData = state.cTokenMetadataAll
       const totalSupply = state.cTokenMetadataAll[indexMeta][8].mul(
         state.cTokenMetadataAll[indexMeta][2]
       );
-      const totalSupplyValue = (
+      const totalSupplyValue =
         Number(totalSupply.toString()) /
-        Math.pow(10, 18 + TokensDetail[key].decimals)
-      ).toFixed(2);
+        Math.pow(10, 18 + TokensDetail[key].decimals);
       const supplyRatePerBlock = state.cTokenMetadataAll[indexMeta][3];
-      const supplyApy = (
+      const supplyApy =
         (Math.pow(
           (Number(supplyRatePerBlock.toString()) / 1e18) * 86400 + 1,
           365
         ) -
           1) *
-        100
-      ).toFixed(2);
+        100;
       const borrowRatePerBlock = state.cTokenMetadataAll[indexMeta][4];
-      const borrowApy = (
+      const borrowApy =
         (Math.pow(
           (Number(borrowRatePerBlock.toString()) / 1e18) * 86400 + 1,
           365
         ) -
           1) *
-        100
-      ).toFixed(2);
+        100;
       const valueUSD =
         totalSupplyValue *
         (Number(state.cTokenMetadataAll[indexMeta][1].toString()) /
@@ -639,10 +631,11 @@ const allAssetData = state.cTokenMetadataAll
       return (
         <tr>
           <td>{TokensDetail[key].name}</td>
-          <td class="text-end">{supplyApy}%</td>
-          <td class="text-end">{borrowApy}%</td>
+          <td class="text-end">{supplyApy.toFixed(2)}%</td>
+          <td class="text-end">{borrowApy.toFixed(2)}%</td>
           <td class="text-end">
-            {numberWithCommas(totalSupplyValue)} {TokensDetail[key].symbol}
+            {numberWithCommas(totalSupplyValue.toFixed(2))}{" "}
+            {TokensDetail[key].symbol}
             <br />
             (${numberWithCommas(valueUSD.toFixed(2))})
           </td>
@@ -665,22 +658,18 @@ const portfolio =
           (element) => element[0] == TokensDetail[key].cAddress
         );
         const bigValue = state.cTokenBalancesAll[indexBalance][4].toString();
-        const cal = (
-          Number(bigValue) / Math.pow(10, TokensDetail[key].decimals)
-        ).toFixed(2);
+        const cal = Number(bigValue) / Math.pow(10, TokensDetail[key].decimals);
 
         const bigValueSupply = state.cTokenBalancesAll[indexBalance][1].mul(
           state.cTokenBalancesAll[indexBalance][3]
         );
-        const supplied = (
+        const supplied =
           Number(bigValueSupply.toString()) /
-          Math.pow(10, 18 + TokensDetail[key].decimals)
-        ).toFixed(3);
+          Math.pow(10, 18 + TokensDetail[key].decimals);
         const bigValueBorrowed = state.cTokenBalancesAll[indexBalance][2];
-        const finalValueBorrowed = (
+        const finalValueBorrowed =
           Number(bigValueBorrowed.toString()) /
-          Math.pow(10, TokensDetail[key].decimals)
-        ).toFixed(2);
+          Math.pow(10, TokensDetail[key].decimals);
         const price =
           Number(state.cTokenMetadataAll[indexMeta][1].toString()) /
           Math.pow(10, 18 + (18 - TokensDetail[key].decimals));
@@ -688,17 +677,17 @@ const portfolio =
           <tr>
             <td>{TokensDetail[key].name}</td>
             <td class="text-end">
-              {cal} {TokensDetail[key].symbol}
+              {cal.toFixed(2)} {TokensDetail[key].symbol}
               <br />
               (${numberWithCommas((Number(cal) * price).toFixed(2))})
             </td>
             <td class="text-end">
-              {supplied} {TokensDetail[key].symbol}
+              {supplied.toFixed(2)} {TokensDetail[key].symbol}
               <br />
               (${numberWithCommas((Number(supplied) * price).toFixed(2))})
             </td>
             <td class="text-end">
-              {finalValueBorrowed} {TokensDetail[key].symbol}
+              {finalValueBorrowed.toFixed(2)} {TokensDetail[key].symbol}
               <br />
               ($
               {numberWithCommas(
@@ -890,11 +879,11 @@ return (
                 state.actionTabs == "deposit" ? (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Wallet Balance: {walletBalance()}{" "}
+                      Wallet Balance: {walletBalance().toFixed(3)}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     <span class="badge bg-light text-dark">
-                      Supply Balance: {supplyBalance()}{" "}
+                      Supply Balance: {supplyBalance().toFixed(3)}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     {getAllowance()}
@@ -902,17 +891,17 @@ return (
                 ) : state.actionTabs == "borrow" ? (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Remaining Borrow Limit: $ {remainingBalance()}
+                      Remaining Borrow Limit: $ {remainingBalance().toFixed(3)}
                     </span>
                   </div>
                 ) : state.actionTabs == "repay" ? (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Wallet Balance: {walletBalance()}{" "}
+                      Wallet Balance: {walletBalance().toFixed(3)}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     <span class="badge bg-light text-dark">
-                      Amount Borrowed: {getBorrowed()}{" "}
+                      Amount Borrowed: {getBorrowed().toFixed(3)}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     {getAllowance()}
@@ -920,7 +909,7 @@ return (
                 ) : (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Max Withdrawal: {maxWithdraw()}{" "}
+                      Max Withdrawal: {maxWithdraw().toFixed(3)}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                   </div>
