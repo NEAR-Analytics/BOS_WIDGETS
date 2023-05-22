@@ -254,7 +254,7 @@ return (
               {props.state.tokenInfo.media}
             </a>
           </p>
-          {!props.state.ownsNFT && (
+          {/*{!props.state.ownsNFT && (
             <div className="alert alert-danger">
               <i className="bi bi-x"></i> You do not own this NFT & cannot list
               or transfer it
@@ -264,7 +264,7 @@ return (
             <div className="alert alert-success">
               <i className="bi bi-x"></i> You own this NFT
             </div>
-          )}
+          )}*/}
           <div className="col-lg-12">
             <h3> Listed Markets</h3>
             <div>
@@ -312,11 +312,6 @@ return (
                   <Label className="text-center">Transfer</Label>
                   <div className=" mb-2">
                     Receiver Address
-                    {/*<input
-                      type="text"
-                      placeholder={`🔍 ${props.state.receiverId}`}
-                      onChange={(e) => props.onChangeReceiver(e.target.value)}
-                    />*/}
                     <Typeahead
                       id="async-example"
                       isLoading={isLoading}
