@@ -162,7 +162,7 @@ const ImageCard = styled.div`
 
 return (
   <div className="row">
-    <Hero>
+    <Hero className="container-fluid">
       <h1 className="align-text text-center my-4">🔎 BOS Viewer Directory</h1>
     </Hero>
     <Cards>
