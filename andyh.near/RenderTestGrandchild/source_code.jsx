@@ -1,6 +1,6 @@
 State.init({ k: 0, isInitialized: false });
 const incK = (n) => {
-  console.log("incrementing k");
+  console.log("incrementing k by " + n);
   State.update({ k: state.k + n });
 };
 
