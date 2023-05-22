@@ -261,158 +261,112 @@ const onCallTxComple = (tx) => {
   });
 };
 
-if (forceNetwork && state.network && forceNetwork !== state.network) {
+const App = () => {
   return (
     <Theme>
-      <div class="swap-main-container pt-5">
-        To proceed, kindly switch to {forceNetwork}.
-        {!state.sender && (
-          <div class="swap-button-container">
-            <Web3Connect
-              className="swap-button-enabled swap-button-text p-2"
-              connectLabel="Connect with Web3"
-            />
-          </div>
-        )}
-      </div>
-    </Theme>
-  );
-}
+      <Widget
+        src="ejj.near/widget/dex-data"
+        props={{
+          onLoad: onDexDataLoad,
+          NETWORK_NEAR,
+          NETWORK_ETH,
+          NETWORK_ZKSYNC,
+          NETWORK_AURORA,
+        }}
+      />
 
-return (
-  <Theme>
-    <Widget
-      src="ejj.near/widget/dex-data"
-      props={{
-        onLoad: onDexDataLoad,
-        NETWORK_NEAR,
-        NETWORK_ETH,
-        NETWORK_ZKSYNC,
-        NETWORK_AURORA,
-      }}
-    />
-
-    {state.network && state.inputAsset && state.inputAssetTokenId && (
-      <Widget
-        src="ejj.near/widget/AssetListModal"
-        props={{
-          hidden: state.inputAssetModalHidden ?? true,
-          network: state.network,
-          assets: state.assets,
-          coinGeckoTokenIds: state.coinGeckoTokenIds,
-          selectedAssets: [state.inputAssetTokenId],
-          onClick: (tokenId) => {
-            State.update({
-              inputAssetModalHidden: true,
-              inputAssetTokenId: tokenId,
-              inputAsset: null,
-              approvalNeeded: undefined,
-            });
-          },
-          onClose: () => State.update({ inputAssetModalHidden: true }),
-        }}
-      />
-    )}
-    {state.network && state.outputAsset && state.outputAssetTokenId && (
-      <Widget
-        src="ejj.near/widget/AssetListModal"
-        props={{
-          hidden: state.outputAssetModalHidden ?? true,
-          assets: state.assets,
-          coinGeckoTokenIds: state.coinGeckoTokenIds,
-          network: state.network,
-          selectedAssets: [state.outputAssetTokenId],
-          onClick: (tokenId) => {
-            State.update({
-              outputAssetModalHidden: true,
-              outputAssetTokenId: tokenId,
-              outputAsset: null,
-            });
-          },
-          onClose: () => State.update({ outputAssetModalHidden: true }),
-        }}
-      />
-    )}
-    {!state.inputAsset && state.network && state.inputAssetTokenId && (
-      <Widget
-        src="ejj.near/widget/TokenData"
-        props={{
-          tokenId: state.inputAssetTokenId,
-          coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
-          network: state.network,
-          onLoad: (inputAsset) => {
-            console.log("TokenData onLoad inputAsset", inputAsset);
-            inputAsset.metadata.symbol =
-              inputAsset.metadata.symbol.toUpperCase();
-            State.update({ inputAsset });
-          },
-        }}
-      />
-    )}
-    {!state.outputAsset && state.network && state.outputAssetTokenId && (
-      <Widget
-        src="ejj.near/widget/TokenData"
-        props={{
-          tokenId: state.outputAssetTokenId,
-          coinGeckoTokenId:
-            state?.coinGeckoTokenIds?.[state.outputAssetTokenId],
-          network: state.network,
-          onLoad: (outputAsset) => {
-            console.log("TokenData onLoad outputAsset", outputAsset);
-            outputAsset.metadata.symbol =
-              outputAsset.metadata.symbol.toUpperCase();
-            State.update({ outputAsset });
-          },
-        }}
-      />
-    )}
-
-    {state.network === NETWORK_NEAR &&
-      state.inputAsset &&
-      state.outputAsset && (
+      {state.network && state.inputAsset && state.inputAssetTokenId && (
         <Widget
-          src="weige.near/widget/ref-swap-getEstimate"
+          src="ejj.near/widget/AssetListModal"
           props={{
-            loadRes: state.loadRes,
-            tokenIn: getRefTokenObject(
-              state.inputAssetTokenId,
-              state.inputAsset
-            ),
-            tokenOut: getRefTokenObject(
-              state.outputAssetTokenId,
-              state.outputAsset
-            ),
-            amountIn: state.inputAssetAmount ?? 0,
-            reloadPools: state.reloadPools,
-            setReloadPools: (value) =>
+            hidden: state.inputAssetModalHidden ?? true,
+            network: state.network,
+            assets: state.assets,
+            coinGeckoTokenIds: state.coinGeckoTokenIds,
+            selectedAssets: [state.inputAssetTokenId],
+            onClick: (tokenId) => {
               State.update({
-                reloadPools: value,
-              }),
+                inputAssetModalHidden: true,
+                inputAssetTokenId: tokenId,
+                inputAsset: null,
+                approvalNeeded: undefined,
+              });
+            },
+            onClose: () => State.update({ inputAssetModalHidden: true }),
+          }}
+        />
+      )}
+      {state.network && state.outputAsset && state.outputAssetTokenId && (
+        <Widget
+          src="ejj.near/widget/AssetListModal"
+          props={{
+            hidden: state.outputAssetModalHidden ?? true,
+            assets: state.assets,
+            coinGeckoTokenIds: state.coinGeckoTokenIds,
+            network: state.network,
+            selectedAssets: [state.outputAssetTokenId],
+            onClick: (tokenId) => {
+              State.update({
+                outputAssetModalHidden: true,
+                outputAssetTokenId: tokenId,
+                outputAsset: null,
+              });
+            },
+            onClose: () => State.update({ outputAssetModalHidden: true }),
+          }}
+        />
+      )}
+      {!state.inputAsset && state.network && state.inputAssetTokenId && (
+        <Widget
+          src="ejj.near/widget/TokenData"
+          props={{
+            tokenId: state.inputAssetTokenId,
+            coinGeckoTokenId:
+              state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
+            network: state.network,
+            onLoad: (inputAsset) => {
+              console.log("TokenData onLoad inputAsset", inputAsset);
+              inputAsset.metadata.symbol =
+                inputAsset.metadata.symbol.toUpperCase();
+              State.update({ inputAsset });
+            },
+          }}
+        />
+      )}
+      {!state.outputAsset && state.network && state.outputAssetTokenId && (
+        <Widget
+          src="ejj.near/widget/TokenData"
+          props={{
+            tokenId: state.outputAssetTokenId,
+            coinGeckoTokenId:
+              state?.coinGeckoTokenIds?.[state.outputAssetTokenId],
+            network: state.network,
+            onLoad: (outputAsset) => {
+              console.log("TokenData onLoad outputAsset", outputAsset);
+              outputAsset.metadata.symbol =
+                outputAsset.metadata.symbol.toUpperCase();
+              State.update({ outputAsset });
+            },
           }}
         />
       )}
 
-    {state.network === NETWORK_ETH &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
+      {state.network === NETWORK_NEAR &&
+        state.inputAsset &&
+        state.outputAsset && (
           <Widget
-            src="zavodil.near/widget/uni-v3-getEstimate"
+            src="weige.near/widget/ref-swap-getEstimate"
             props={{
               loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              tokenOutDecimals: state.outputAsset.metadata.decimals,
-              amountIn: expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              ).toFixed(0),
+              tokenIn: getRefTokenObject(
+                state.inputAssetTokenId,
+                state.inputAsset
+              ),
+              tokenOut: getRefTokenObject(
+                state.outputAssetTokenId,
+                state.outputAsset
+              ),
+              amountIn: state.inputAssetAmount ?? 0,
               reloadPools: state.reloadPools,
               setReloadPools: (value) =>
                 State.update({
@@ -420,170 +374,223 @@ return (
                 }),
             }}
           />
-        </>
-      )}
+        )}
 
-    {(state.network === NETWORK_ZKSYNC || state.network == NETWORK_AURORA) &&
-      state.inputAsset &&
-      state.outputAsset &&
-      state.inputAssetAmount &&
-      state.outputAsset.price &&
-      state.inputAsset.price &&
-      state.loadRes({
-        estimate: (
-          (parseFloat(state.inputAssetAmount) *
-            parseFloat(state.inputAsset.price)) /
-          parseFloat(state.outputAsset.price)
-        ).toFixed(18),
-      })}
+      {state.network === NETWORK_ETH &&
+        state.inputAssetTokenId &&
+        state.outputAssetTokenId &&
+        state.inputAssetTokenId !== state.outputAssetTokenId &&
+        state.inputAssetAmount &&
+        state.inputAsset &&
+        state.inputAsset.metadata?.decimals &&
+        state.outputAsset &&
+        state.outputAsset.metadata?.decimals && (
+          <>
+            <Widget
+              src="zavodil.near/widget/uni-v3-getEstimate"
+              props={{
+                loadRes: state.loadRes,
+                tokenIn: state.inputAssetTokenId,
+                tokenOut: state.outputAssetTokenId,
+                tokenOutDecimals: state.outputAsset.metadata.decimals,
+                amountIn: expandToken(
+                  state.inputAssetAmount,
+                  state.inputAsset.metadata.decimals
+                ).toFixed(0),
+                reloadPools: state.reloadPools,
+                setReloadPools: (value) =>
+                  State.update({
+                    reloadPools: value,
+                  }),
+              }}
+            />
+          </>
+        )}
 
-    <div class="swap-root">
-      <div class="swap-main-container">
-        <div class="swap-main-column">
-          <div class="swap-page">
-            {state.network && state.dexName && (
-              <span class="ps-2" style={{ color: "#7780a0" }}>
-                {state.dexName} ({state.network})
-              </span>
-            )}
-            <div class="top-container">
-              {assetContainer(
-                true,
-                state.inputAsset,
-                "inputAssetAmount",
-                () => {
-                  State.update({ inputAssetModalHidden: false });
-                }
+      {(state.network === NETWORK_ZKSYNC || state.network == NETWORK_AURORA) &&
+        state.inputAsset &&
+        state.outputAsset &&
+        state.inputAssetAmount &&
+        state.outputAsset.price &&
+        state.inputAsset.price &&
+        state.loadRes({
+          estimate: (
+            (parseFloat(state.inputAssetAmount) *
+              parseFloat(state.inputAsset.price)) /
+            parseFloat(state.outputAsset.price)
+          ).toFixed(18),
+        })}
+
+      <div class="swap-root">
+        <div class="swap-main-container">
+          <div class="swap-main-column">
+            <div class="swap-page">
+              {state.network && state.dexName && (
+                <span class="ps-2" style={{ color: "#7780a0" }}>
+                  {state.dexName} ({state.network})
+                </span>
               )}
-            </div>
-            <div class="bottom-container">
-              <div>
+              <div class="top-container">
                 {assetContainer(
-                  fasle,
-                  state.outputAsset,
-                  "outputAssetAmount",
+                  true,
+                  state.inputAsset,
+                  "inputAssetAmount",
                   () => {
-                    State.update({ outputAssetModalHidden: false });
+                    State.update({ inputAssetModalHidden: false });
                   }
                 )}
-                {!!state.outputAssetAmount &&
-                  state.inputAssetTokenId !== state.outputAssetTokenId && (
-                    <div class="swap-price-container">
-                      <div class="swap-price-block">
-                        <div class="swap-price-grid">
-                          <div class="swap-price-row">
-                            <div class="swap-price-details-container">
-                              <span>
-                                <div class="swap-price-details-icon">
-                                  <div>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="24"
-                                      height="24"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="#98A1C0"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      class="swap-price-details-svg"
-                                    >
-                                      <circle cx="12" cy="12" r="10"></circle>
-                                      <line
-                                        x1="12"
-                                        y1="16"
-                                        x2="12"
-                                        y2="12"
-                                      ></line>
-                                      <line
-                                        x1="12"
-                                        y1="8"
-                                        x2="12.01"
-                                        y2="8"
-                                      ></line>
-                                    </svg>
+              </div>
+              <div class="bottom-container">
+                <div>
+                  {assetContainer(
+                    fasle,
+                    state.outputAsset,
+                    "outputAssetAmount",
+                    () => {
+                      State.update({ outputAssetModalHidden: false });
+                    }
+                  )}
+                  {!!state.outputAssetAmount &&
+                    state.inputAssetTokenId !== state.outputAssetTokenId && (
+                      <div class="swap-price-container">
+                        <div class="swap-price-block">
+                          <div class="swap-price-grid">
+                            <div class="swap-price-row">
+                              <div class="swap-price-details-container">
+                                <span>
+                                  <div class="swap-price-details-icon">
+                                    <div>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="#98A1C0"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="swap-price-details-svg"
+                                      >
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line
+                                          x1="12"
+                                          y1="16"
+                                          x2="12"
+                                          y2="12"
+                                        ></line>
+                                        <line
+                                          x1="12"
+                                          y1="8"
+                                          x2="12.01"
+                                          y2="8"
+                                        ></line>
+                                      </svg>
+                                    </div>
                                   </div>
+                                </span>
+                                <div class="swap-price-details-text">
+                                  <button class="swap-price-details-text-button">
+                                    <div class="swap-price-details-rate">
+                                      {Number(state.inputAssetAmount) === 0 ||
+                                      Number(state.outputAssetAmount) === 0
+                                        ? " "
+                                        : `1 ${
+                                            state.inputAsset.metadata.symbol
+                                          } ≈ ${new Big(
+                                            state.outputAssetAmount ?? 0
+                                          )
+                                            .div(state.inputAssetAmount ?? 1)
+                                            .toFixed(4, 0)}
+                                          ${state.outputAsset.metadata.symbol}`}
+                                    </div>
+                                    <div class="swap-price-details-price">
+                                      {Number(state.inputAssetAmount) === 0 ||
+                                      Number(state?.outputAsset?.price) === 0
+                                        ? ""
+                                        : `($${new Big(
+                                            state.outputAssetAmount ?? 0
+                                          )
+                                            .div(state.inputAssetAmount ?? 1)
+                                            .times(
+                                              state?.outputAsset?.price ?? 1
+                                            )
+                                            .toFixed(4)})`}
+                                    </div>
+                                  </button>
                                 </div>
-                              </span>
-                              <div class="swap-price-details-text">
-                                <button class="swap-price-details-text-button">
-                                  <div class="swap-price-details-rate">
-                                    {Number(state.inputAssetAmount) === 0 ||
-                                    Number(state.outputAssetAmount) === 0
-                                      ? " "
-                                      : `1 ${
-                                          state.inputAsset.metadata.symbol
-                                        } ≈ ${new Big(
-                                          state.outputAssetAmount ?? 0
-                                        )
-                                          .div(state.inputAssetAmount ?? 1)
-                                          .toFixed(4, 0)}
-                                        ${state.outputAsset.metadata.symbol}`}
-                                  </div>
-                                  <div class="swap-price-details-price">
-                                    {Number(state.inputAssetAmount) === 0 ||
-                                    Number(state?.outputAsset?.price) === 0
-                                      ? ""
-                                      : `($${new Big(
-                                          state.outputAssetAmount ?? 0
-                                        )
-                                          .div(state.inputAssetAmount ?? 1)
-                                          .times(state?.outputAsset?.price ?? 1)
-                                          .toFixed(4)})`}
-                                  </div>
-                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    )}
+                </div>
+                <div class="swap-button-container">
+                  {state.approvalNeeded === true && (
+                    <button
+                      class={"swap-button-enabled"}
+                      onClick={() => {
+                        state.callTokenApproval(state, () => {
+                          onCallTxComple();
+                          tokenInApprovaleNeededCheck();
+                        });
+                      }}
+                    >
+                      <div class="swap-button-text">
+                        Approve {state.inputAsset.metadata.symbol}
+                      </div>
+                    </button>
                   )}
-              </div>
-              <div class="swap-button-container">
-                {state.approvalNeeded === true && (
-                  <button
-                    class={"swap-button-enabled"}
-                    onClick={() => {
-                      state.callTokenApproval(state, () => {
-                        onCallTxComple();
-                        tokenInApprovaleNeededCheck();
-                      });
-                    }}
-                  >
-                    <div class="swap-button-text">
-                      Approve {state.inputAsset.metadata.symbol}
-                    </div>
-                  </button>
-                )}
-                {state.approvalNeeded !== true && (
-                  <button
-                    class={canSwap ? "swap-button-enabled" : "swap-button"}
-                    onClick={() => {
-                      if (canSwap) {
-                        if (state.network === NETWORK_NEAR) {
-                          state.callTx(state, onCallTxComple);
-                        } else if (state.network === NETWORK_ZKSYNC) {
-                          state.callTx(state, onCallTxComple);
-                        } else if (state.network === NETWORK_ETH) {
-                          state.callTx(state, onCallTxComple);
-                        } else if (state.network === NETWORK_AURORA) {
-                          state.callTx(state, onCallTxComple);
+                  {state.approvalNeeded !== true && (
+                    <button
+                      class={canSwap ? "swap-button-enabled" : "swap-button"}
+                      onClick={() => {
+                        if (canSwap) {
+                          if (state.network === NETWORK_NEAR) {
+                            state.callTx(state, onCallTxComple);
+                          } else if (state.network === NETWORK_ZKSYNC) {
+                            state.callTx(state, onCallTxComple);
+                          } else if (state.network === NETWORK_ETH) {
+                            state.callTx(state, onCallTxComple);
+                          } else if (state.network === NETWORK_AURORA) {
+                            state.callTx(state, onCallTxComple);
+                          }
                         }
-                      }
-                    }}
-                  >
-                    <div class="swap-button-text">Swap</div>
-                  </button>
-                )}
+                      }}
+                    >
+                      <div class="swap-button-text">Swap</div>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="pt-3 text-secondary opacity-25 text-center">
-          {currentAccountId && <p>Current account: {currentAccountId}</p>}
+          <div class="pt-3 text-secondary opacity-25 text-center">
+            {currentAccountId && <p>Current account: {currentAccountId}</p>}
+          </div>
         </div>
       </div>
-    </div>
-  </Theme>
-);
+    </Theme>
+  );
+};
+
+if (forceNetwork && state.network && forceNetwork !== state.network) {
+  return (
+    <Theme>
+      <div class="swap-main-container pt-5">
+        {!state.network ? (
+          <div class="swap-button-container">
+            <p>To proceed, kindly switch to {forceNetwork}.</p>
+            <Web3Connect
+              className="swap-button-enabled swap-button-text p-2"
+              connectLabel="Connect with Web3"
+            />
+          </div>
+        ) : (
+          <App />
+        )}
+      </div>
+    </Theme>
+  );
+}
