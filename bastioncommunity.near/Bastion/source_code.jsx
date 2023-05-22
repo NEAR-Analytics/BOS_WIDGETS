@@ -10,7 +10,7 @@ const loadingCom = () => {
 };
 
 // check if account connected
-const senders = Ethers.send("eth_requestAccounts", [])[0];
+const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) {
   return (
     <div style={{ margin: "auto", textAlign: "center" }}>
