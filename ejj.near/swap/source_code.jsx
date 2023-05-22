@@ -261,19 +261,37 @@ const onCallTxComple = (tx) => {
   });
 };
 
-if (forceNetwork && forceNetwork !== state.network && !state.sender) {
-  console.log(state.sender);
-  console.log(state.network);
+if (forceNetwork && state.network && forceNetwork !== state.network) {
+  if (state.sender) {
+    <Theme>
+      <div>
+        <p>{state.sender}</p>
+        <p>{state.network}</p>;
+      </div>
+    </Theme>;
+  }
   return (
     <Theme>
       <div class="swap-main-container pt-5">
         To proceed, kindly switch to {forceNetwork}.
-        <div class="swap-button-container">
-          <Web3Connect
-            className="swap-button-enabled swap-button-text p-2"
-            connectLabel="Connect with Web3"
-          />
-        </div>
+        {!state.sender && (
+          <div class="swap-button-container">
+            <Web3Connect
+              className="swap-button-enabled swap-button-text p-2"
+              connectLabel="Connect with Web3"
+            />
+          </div>
+        )}
+        <Widget
+          src="ejj.near/widget/dex-data"
+          props={{
+            onLoad: onDexDataLoad,
+            NETWORK_NEAR,
+            NETWORK_ETH,
+            NETWORK_ZKSYNC,
+            NETWORK_AURORA,
+          }}
+        />
       </div>
     </Theme>
   );
@@ -518,7 +536,7 @@ return (
                                         )
                                           .div(state.inputAssetAmount ?? 1)
                                           .toFixed(4, 0)}
-                                      ${state.outputAsset.metadata.symbol}`}
+                                        ${state.outputAsset.metadata.symbol}`}
                                   </div>
                                   <div class="swap-price-details-price">
                                     {Number(state.inputAssetAmount) === 0 ||
