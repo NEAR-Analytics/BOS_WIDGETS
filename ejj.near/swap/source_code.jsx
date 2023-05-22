@@ -261,7 +261,8 @@ const onCallTxComple = (tx) => {
   });
 };
 
-if (forceNetwork && forceNetwork !== state.network) {
+if (forceNetwork && forceNetwork !== state.network && !state.sender) {
+  console.log(state.sender);
   console.log(state.network);
   return (
     <Theme>
