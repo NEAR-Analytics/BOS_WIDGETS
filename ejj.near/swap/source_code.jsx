@@ -579,7 +579,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
       <div class="swap-main-container pt-5">
-        {!state.network ? (
+        {!state.sender ? (
           <div class="swap-button-container">
             <p>To proceed, kindly switch to {forceNetwork}.</p>
             <Web3Connect
