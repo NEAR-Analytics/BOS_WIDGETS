@@ -29,7 +29,7 @@ const findFt = (ftAddress, amount) => {
 const currentFt = findFt(ft, amount);
 return (
   <div style={{ display: "flex", alignItems: "center" }}>
-    <span>{Number(currentFt.amount).toFixed(2).toLocaleString()}</span>
+    <span>{Number(currentFt.amount).toLocaleString('en-US', {maximumFractionDigits:2})}</span>
     {currentFt.icon ? (
       <img
         style={{
