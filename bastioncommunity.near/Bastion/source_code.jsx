@@ -57,6 +57,9 @@ const CEthABI = fetch(
 const CErc20ABI = fetch(
   "https://raw.githubusercontent.com/JirapatWov/bos/main/CErc20.json"
 ).body;
+const ComptrollerABI = fetch(
+  "https://raw.githubusercontent.com/JirapatWov/bos/main/Comptroller.json"
+).body;
 
 const checkABI1 = JSON.parse(LenABI);
 const checkABI2 = JSON.parse(EIP20InterfaceABI);
@@ -525,6 +528,62 @@ function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+const handleCollateral = () => {
+  if (!selectedTokenId) return;
+  const connection = new ethers.Contract(
+    "0x6De54724e128274520606f038591A00C5E94a1F6",
+    ComptrollerABI,
+    Ethers.provider().getSigner()
+  );
+  if (
+    !state.getAccountLimits[0].includes(TokensDetail[selectedTokenId].cAddress)
+  ) {
+    connection
+      .enterMarkets([TokensDetail[selectedTokenId].cAddress])
+      .then((transaction) => {
+        console.log("Transaction sent:", transaction.hash);
+        State.update({ hasError: -1 });
+        return transaction.wait();
+      })
+      .then((receipt) => {
+        State.update({ hasError: 0 });
+        State.update({ success: true });
+        console.log("Transaction receipt:", receipt);
+      })
+      .catch((error) => {
+        State.update({ hasError: 5, errorMessage: error });
+        console.log("Error:", error);
+      });
+  } else {
+    const borrowBalance = getBorrowed();
+    const supplyBalance = supplyBalance();
+    const maxWithdraw = maxWithdraw();
+
+    if (Number(borrowBalance) > 0) {
+      State.update({ hasError: 6 });
+    } else if (supplyBalance > maxWithdraw) {
+      State.update({ hasError: 7 });
+    } else {
+      connection
+        .exitMarket(TokensDetail[selectedTokenId].cAddress)
+        .then((transaction) => {
+          console.log("Transaction sent:", transaction.hash);
+          State.update({ hasError: -1 });
+          return transaction.wait();
+        })
+        .then((receipt) => {
+          State.update({ hasError: 0 });
+          State.update({ success: true });
+          console.log("Transaction receipt:", receipt);
+        })
+        .catch((error) => {
+          State.update({ hasError: 5, errorMessage: error });
+          console.log("Error:", error);
+        });
+    }
+  }
+};
+
 const allAssetData = state.cTokenMetadataAll
   ? Object.keys(TokensDetail).map((key) => {
       const indexMeta = state.cTokenMetadataAll.findIndex(
@@ -629,6 +688,11 @@ const portfolio =
               )}
               )
             </td>
+            <td class="text-end">
+              {state.getAccountLimits[0].includes(TokensDetail[key].cAddress)
+                ? "Use as Collateral"
+                : "Not use as Collateral"}
+            </td>
           </tr>
         );
       })
@@ -721,6 +785,9 @@ return (
                   </th>
                   <th scope="col" class="text-end">
                     Borrowed
+                  </th>
+                  <th scope="col" class="text-end">
+                    Collateral status
                   </th>
                 </tr>
               </thead>
@@ -840,6 +907,36 @@ return (
                 ""
               )}
             </div>
+            {state.actionTabs == "deposit" &&
+              state.selectedTokenId !== undefined &&
+              state.selectedTokenId !== "" && (
+                <div class="flex">
+                  <span>
+                    {state.getAccountLimits[0].includes(
+                      TokensDetail[selectedTokenId].cAddress
+                    )
+                      ? "You are using this asset as colleteral."
+                      : "This asset is NOT being used as collateral."}
+                  </span>
+                  {state.getAccountLimits[0].includes(
+                    TokensDetail[selectedTokenId].cAddress
+                  ) ? (
+                    <span
+                      style={{ cursor: "pointer" }}
+                      onClick={handleCollateral}
+                    >
+                      Click here to Remove
+                    </span>
+                  ) : (
+                    <span
+                      style={{ cursor: "pointer", color: "green" }}
+                      onClick={handleCollateral}
+                    >
+                      Click here to Enable
+                    </span>
+                  )}
+                </div>
+              )}
             <div>
               <div class="mb-2 text-muted">Amount</div>
               <input type="number" value={amount} onChange={handleAmount} />
@@ -860,9 +957,20 @@ return (
               <p class="alert alert-danger" role="alert">
                 Amount greater than Max Withdrawal
               </p>
-            ) : state.hasError == 4 ? (
+            ) : state.hasError == 5 ? (
               <p class="alert alert-danger" role="alert">
                 Something went wrong!! error: {errorMessage}
+              </p>
+            ) : state.hasError == 6 ? (
+              <p class="alert alert-danger" role="alert">
+                You need to repay your borrowed{" "}
+                {TokensDetail[selectedTokenId].symbol} to stop using this asset
+                as collateral.
+              </p>
+            ) : state.hasError == 7 ? (
+              <p class="alert alert-danger" role="alert">
+                Your liquidity is not enough to stop using this asset as
+                collateral.
               </p>
             ) : state.hasError == -1 ? (
               <p class="alert alert-warning" role="alert">
