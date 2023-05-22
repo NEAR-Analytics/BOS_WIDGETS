@@ -65,6 +65,15 @@ const checkABI1 = JSON.parse(LenABI);
 const checkABI2 = JSON.parse(EIP20InterfaceABI);
 const checkABI3 = JSON.parse(CEthABI);
 const checkABI4 = JSON.parse(CErc20ABI);
+const checkABI5 = JSON.parse(ComptrollerABI);
+
+if (!checkABI1 || !checkABI2 || !checkABI3 || !checkABI4 || !checkABI5) {
+  return (
+    <div>
+      <h2>Loading Data...</h2>
+    </div>
+  );
+}
 
 const lenContract = "0x080B5ce373fE2103A7086b31DabA412E88bD7356";
 
@@ -134,19 +143,23 @@ const TokensDetail = {
 
 const Comptroller = "0x6De54724e128274520606f038591A00C5E94a1F6";
 
-if (!checkABI1 || !checkABI2 || !checkABI3 || !checkABI4) {
+len.callStatic
+  .getAccountLimits(Comptroller, sender)
+  .then((getAccountLimits) => {
+    State.update({ getAccountLimits });
+  });
+
+if (
+  !state.cTokenBalancesAll ||
+  !state.getAccountLimits ||
+  !state.cTokenMetadataAll
+) {
   return (
     <div>
       <h2>Loading Data...</h2>
     </div>
   );
 }
-
-len.callStatic
-  .getAccountLimits(Comptroller, sender)
-  .then((getAccountLimits) => {
-    State.update({ getAccountLimits });
-  });
 
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
