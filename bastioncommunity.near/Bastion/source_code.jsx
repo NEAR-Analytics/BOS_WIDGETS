@@ -820,7 +820,6 @@ return (
                 onClick={() => {
                   State.update({
                     amount: "",
-                    selectedTokenId: "",
                     hasError: 0,
                     actionTabs: "deposit",
                   });
@@ -839,7 +838,6 @@ return (
                 onClick={() => {
                   State.update({
                     amount: "",
-                    selectedTokenId: "",
                     hasError: 0,
                     actionTabs: "borrow",
                   });
@@ -858,7 +856,6 @@ return (
                 onClick={() => {
                   State.update({
                     amount: "",
-                    selectedTokenId: "",
                     hasError: 0,
                     actionTabs: "repay",
                   });
@@ -877,7 +874,6 @@ return (
                 onClick={() => {
                   State.update({
                     amount: "",
-                    selectedTokenId: "",
                     hasError: 0,
                     actionTabs: "withdraw",
                   });
