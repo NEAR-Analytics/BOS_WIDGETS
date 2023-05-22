@@ -187,19 +187,12 @@ return (
         </>
       )}
       {/* Tags */}
-      {state.article.tags && (
-        <div className="pt-2">
-          {state.article.tags.map((tag) => (
-            <a
-              key={tag}
-              href={`/#/${authorForWidget}/widget/WikiOnSocialDB_ArticlesByTag?tag=${tag}`}
-              className="me-1 mb-1 text-primary bg-primary bg-opacity-10 position-relative fw-normal badge border border-primary text-decoration-none"
-            >
-              #{tag}
-            </a>
-          ))}
-        </div>
-      )}
+      <div className="pt-2">
+        <Widget
+          src={`${authorForWidget}/widget/WikiOnSocialDB_TagList`}
+          props={{ tags: state.article.tags }}
+        />
+      </div>
       {/* MARKDOWN when user doesn't edit article  */}
       {!state.editArticle && (
         <Markdown text={state.note || state.article.body} />
