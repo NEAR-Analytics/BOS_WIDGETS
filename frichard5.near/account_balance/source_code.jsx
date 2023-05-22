@@ -2,7 +2,7 @@ const widgetProvider = props.widgetProvider;
 const account = props.account || "foundation.near";
 const ftList = props.ftList;
 const widgetUrl = `https://api.pikespeak.ai/widgets/balance/${account}`;
-const apiUrl = `https://api.pikespeak.ai/account/balance/${account}`;
+const apiUrl = `https://api.pikespeak.ai/account/balances/`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const BalanceContainer = styled.div`
@@ -26,6 +26,13 @@ const ftFormatter = (ftList) => {
   };
 };
 
+const forgeUrl = (apiUrl, params) =>
+    apiUrl +
+    Object.keys(params).sort().reduce(
+        (paramString, p) => paramString + `${p}=${params[p]}&`,
+        "?"
+    );
+
 const columns = [
   {
     id: "amount",
@@ -34,31 +41,25 @@ const columns = [
   },
 ];
 
-const contractsBalance = fetch(apiUrl, {
-  mode: "cors",
-  headers: {
-    "x-api-key": publicApiKey,
-  },
-});
 
-const fetchBalance = () => {
-  const balance = fetch(apiUrl, {
+const fetchBalance = (params) => {
+  const balance = fetch(forgeUrl(apiUrl, params), {
     mode: "cors",
     headers: {
       "x-api-key": publicApiKey,
     },
   });
-  balance.body && State.update({ balance: balance.body });
+  balance.body && State.update({ balances: balance.body });
 };
-fetchBalance();
+fetchBalance({accounts: [account]});
 
 const GenericTable = (
   <Widget
     src={`${widgetProvider}/widget/generic_table`}
     props={{
-      title: ``,
+      title: state.balances&&`Total: $${state.balances.totalUsd.toLocaleString()}`,
       columns,
-      data: state.balance,
+      data: state.balances&&state.balances.balancesTotal,
     }}
   />
 );
@@ -73,7 +74,7 @@ const Card = styled.div`
 return (
   <Card>
     <h2>Balances</h2>
-    <BalanceContainer>
+      {state.balances&&<BalanceContainer>
       <iframe
         style={{
           width: "35%",
@@ -84,6 +85,6 @@ return (
         src={widgetUrl}
       ></iframe>
       <div style={{ width: "40%" }}>{GenericTable}</div>
-    </BalanceContainer>
+    </BalanceContainer>}
   </Card>
 );
