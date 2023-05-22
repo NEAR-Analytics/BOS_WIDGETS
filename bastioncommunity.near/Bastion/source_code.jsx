@@ -1,14 +1,5 @@
 const { selectedTokenId, amount, hasError, status } = state;
 
-// define loading component
-const loadingCom = () => {
-  return (
-    <div class="text-center mt-10">
-      <h2>Loading Data...</h2>
-    </div>
-  );
-};
-
 // check if account connected
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) {
@@ -74,11 +65,6 @@ const checkABI1 = JSON.parse(LenABI);
 const checkABI2 = JSON.parse(EIP20InterfaceABI);
 const checkABI3 = JSON.parse(CEthABI);
 const checkABI4 = JSON.parse(CErc20ABI);
-const checkABI5 = JSON.parse(ComptrollerABI);
-
-if (!checkABI1 || !checkABI2 || !checkABI3 || !checkABI4 || !checkABI5) {
-  return loadingCom();
-}
 
 const lenContract = "0x080B5ce373fE2103A7086b31DabA412E88bD7356";
 
@@ -148,31 +134,26 @@ const TokensDetail = {
 
 const Comptroller = "0x6De54724e128274520606f038591A00C5E94a1F6";
 
+if (!checkABI1 || !checkABI2 || !checkABI3 || !checkABI4) {
+  return (
+    <div>
+      <h2>Loading Data...</h2>
+    </div>
+  );
+}
+
 len.callStatic
   .getAccountLimits(Comptroller, sender)
   .then((getAccountLimits) => {
     State.update({ getAccountLimits });
   });
 
-if (
-  !state.cTokenBalancesAll ||
-  !state.getAccountLimits ||
-  !state.cTokenMetadataAll
-) {
-  return loadingCom();
-}
-
-const BigNumberToken = (value, decimals) => {
-  return ethers.BigNumber.from(
-    Math.round(Number(value) * Math.pow(10, decimals)).toLocaleString("en-US", {
-      useGrouping: false,
-    })
-  );
+const expandToken = (value, decimals) => {
+  return new Big(value).mul(new Big(10).pow(decimals));
 };
 
 const handleSelect = (e) => {
   State.update({
-    amount: "",
     selectedTokenId: e.target.value,
     hasError: 0,
   });
@@ -207,26 +188,18 @@ const handleApprove = () => {
     Ethers.provider().getSigner()
   );
 
-  const toBigNumber = BigNumberToken(
+  const expandedAmount = expandToken(
     amount,
     TokensDetail[selectedTokenId].decimals
-  );
+  ).toString();
+
+  const toBigNumber = ethers.BigNumber.from(expandedAmount);
 
   erc20
     .approve(TokensDetail[selectedTokenId].cAddress, toBigNumber)
-    .then((transaction) => {
-      console.log("Transaction sent:", transaction.hash);
-      State.update({ hasError: -1 });
-      return transaction.wait();
-    })
-    .then((receipt) => {
-      State.update({ hasError: 0 });
+    .then((transactionHash) => {
       State.update({ success: true });
-      console.log("Transaction mined, receipt:", receipt);
-    })
-    .catch((error) => {
-      State.update({ hasError: 5, errorMessage: error });
-      console.log("Error in mint function:", error);
+      console.log("transactionHash is " + transactionHash);
     });
 };
 
@@ -251,15 +224,18 @@ const handleDeposit = () => {
     Ethers.provider().getSigner()
   );
 
-  const toBigNumber = BigNumberToken(
+  const expandedAmount = expandToken(
     amount,
     TokensDetail[selectedTokenId].decimals
-  );
+  ).toString();
+
+  const toBigNumber = ethers.BigNumber.from(expandedAmount);
+  console.log(toBigNumber.toString());
 
   const mintPromise =
     selectedTokenId == "ETH"
-      ? connection.mint({ value: toBigNumber })
-      : connection.mint(toBigNumber);
+      ? connection.mint({ value: expandedAmount })
+      : connection.mint(expandedAmount);
 
   mintPromise
     .then((transaction) => {
@@ -288,8 +264,9 @@ const getCTokenBalancesAllIndex = () => {
 const walletBalance = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const bigValue = state.cTokenBalancesAll[rewardIndex][4].toString();
-  const cal =
-    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals);
+  const cal = (
+    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals)
+  ).toFixed(2);
   State.update({
     balance: Number(cal),
   });
@@ -304,14 +281,15 @@ const supplyBalance = () => {
   return (
     Number(bigValue.toString()) /
     Math.pow(10, 18 + TokensDetail[selectedTokenId].decimals)
-  );
+  ).toFixed(3);
 };
 
 const getAllowance = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const bigValue = state.cTokenBalancesAll[rewardIndex][5].toString();
-  const cal =
-    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals);
+  const cal = (
+    Number(bigValue) / Math.pow(10, TokensDetail[selectedTokenId].decimals)
+  ).toFixed(2);
   State.update({
     allowance: Number(cal),
   });
@@ -344,14 +322,16 @@ const remainingBalance = () => {
       totalBorrowd = totalBorrowd.add(bigValueBorrowedUSD);
     }
   }
-  const totalBorrowdFinal =
-    Number(totalBorrowd.toString()) / Math.pow(10, 18 * 2);
-  const totalBorrowdLimitFinal =
-    Number(totalBorrowLimit.toString()) / Math.pow(10, 18 * 4);
+  const totalBorrowdFinal = (
+    Number(totalBorrowd.toString()) / Math.pow(10, 18 * 2)
+  ).toFixed(2);
+  const totalBorrowdLimitFinal = (
+    Number(totalBorrowLimit.toString()) / Math.pow(10, 18 * 4)
+  ).toFixed(2);
   State.update({
-    LimitAmount: totalBorrowdLimitFinal - totalBorrowdFinal,
+    LimitAmount: (totalBorrowdLimitFinal - totalBorrowdFinal).toFixed(2),
   });
-  return totalBorrowdLimitFinal - totalBorrowdFinal;
+  return (totalBorrowdLimitFinal - totalBorrowdFinal).toFixed(2);
 };
 
 const handleBorrow = () => {
@@ -374,10 +354,12 @@ const handleBorrow = () => {
     Ethers.provider().getSigner()
   );
 
-  const toBigNumber = BigNumberToken(
+  const expandedAmount = expandToken(
     amount,
     TokensDetail[selectedTokenId].decimals
   ).toString();
+
+  const toBigNumber = ethers.BigNumber.from(expandedAmount);
 
   connection
     .borrow(toBigNumber)
@@ -400,9 +382,10 @@ const handleBorrow = () => {
 const getBorrowed = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const bigValueBorrowed = state.cTokenBalancesAll[rewardIndex][2];
-  const finalValue =
+  const finalValue = (
     Number(bigValueBorrowed.toString()) /
-    Math.pow(10, TokensDetail[selectedTokenId].decimals);
+    Math.pow(10, TokensDetail[selectedTokenId].decimals)
+  ).toFixed(2);
   State.update({ borrowedAmount: finalValue });
   return finalValue;
 };
@@ -428,10 +411,12 @@ const handleRepay = () => {
     Ethers.provider().getSigner()
   );
 
-  const toBigNumber = BigNumberToken(
+  const expandedAmount = expandToken(
     amount,
     TokensDetail[selectedTokenId].decimals
   ).toString();
+
+  const toBigNumber = ethers.BigNumber.from(expandedAmount);
 
   connection
     .repayBorrow(toBigNumber)
@@ -454,11 +439,6 @@ const handleRepay = () => {
 const maxWithdraw = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const supplyBalance = supplyBalance();
-  if (
-    !state.getAccountLimits[0].includes(TokensDetail[selectedTokenId].cAddress)
-  ) {
-    return supplyBalance;
-  }
   const tokenPrice =
     Number(state.cTokenMetadataAll[rewardIndex][1].toString()) /
     Math.pow(10, 18 + (18 - TokensDetail[selectedTokenId].decimals));
@@ -468,7 +448,7 @@ const maxWithdraw = () => {
   const CFactor =
     Number(state.cTokenMetadataAll[rewardIndex][11].toString()) /
     Math.pow(10, 18);
-  const totalLiquidity = liquidityInToken / CFactor;
+  const totalLiquidity = (liquidityInToken / CFactor).toFixed(3);
   if (supplyBalance >= totalLiquidity) {
     State.update({ maxWithdraw: Number(totalLiquidity) });
     return totalLiquidity;
@@ -499,11 +479,12 @@ const handleWithdraw = () => {
     Ethers.provider().getSigner()
   );
 
-  const toBigNumber = BigNumberToken(
+  const expandedAmount = expandToken(
     amount,
     TokensDetail[selectedTokenId].decimals
   ).toString();
 
+  const toBigNumber = ethers.BigNumber.from(expandedAmount);
   const supplyBalance = supplyBalance();
 
   if (amount >= supplyBalance) {
@@ -611,25 +592,28 @@ const allAssetData = state.cTokenMetadataAll
       const totalSupply = state.cTokenMetadataAll[indexMeta][8].mul(
         state.cTokenMetadataAll[indexMeta][2]
       );
-      const totalSupplyValue =
+      const totalSupplyValue = (
         Number(totalSupply.toString()) /
-        Math.pow(10, 18 + TokensDetail[key].decimals);
+        Math.pow(10, 18 + TokensDetail[key].decimals)
+      ).toFixed(2);
       const supplyRatePerBlock = state.cTokenMetadataAll[indexMeta][3];
-      const supplyApy =
+      const supplyApy = (
         (Math.pow(
           (Number(supplyRatePerBlock.toString()) / 1e18) * 86400 + 1,
           365
         ) -
           1) *
-        100;
+        100
+      ).toFixed(2);
       const borrowRatePerBlock = state.cTokenMetadataAll[indexMeta][4];
-      const borrowApy =
+      const borrowApy = (
         (Math.pow(
           (Number(borrowRatePerBlock.toString()) / 1e18) * 86400 + 1,
           365
         ) -
           1) *
-        100;
+        100
+      ).toFixed(2);
       const valueUSD =
         totalSupplyValue *
         (Number(state.cTokenMetadataAll[indexMeta][1].toString()) /
@@ -637,11 +621,10 @@ const allAssetData = state.cTokenMetadataAll
       return (
         <tr>
           <td>{TokensDetail[key].name}</td>
-          <td class="text-end">{supplyApy.toFixed(2)}%</td>
-          <td class="text-end">{borrowApy.toFixed(2)}%</td>
+          <td class="text-end">{supplyApy}%</td>
+          <td class="text-end">{borrowApy}%</td>
           <td class="text-end">
-            {numberWithCommas(totalSupplyValue.toFixed(2))}{" "}
-            {TokensDetail[key].symbol}
+            {numberWithCommas(totalSupplyValue)} {TokensDetail[key].symbol}
             <br />
             (${numberWithCommas(valueUSD.toFixed(2))})
           </td>
@@ -664,18 +647,22 @@ const portfolio =
           (element) => element[0] == TokensDetail[key].cAddress
         );
         const bigValue = state.cTokenBalancesAll[indexBalance][4].toString();
-        const cal = Number(bigValue) / Math.pow(10, TokensDetail[key].decimals);
+        const cal = (
+          Number(bigValue) / Math.pow(10, TokensDetail[key].decimals)
+        ).toFixed(2);
 
         const bigValueSupply = state.cTokenBalancesAll[indexBalance][1].mul(
           state.cTokenBalancesAll[indexBalance][3]
         );
-        const supplied =
+        const supplied = (
           Number(bigValueSupply.toString()) /
-          Math.pow(10, 18 + TokensDetail[key].decimals);
+          Math.pow(10, 18 + TokensDetail[key].decimals)
+        ).toFixed(3);
         const bigValueBorrowed = state.cTokenBalancesAll[indexBalance][2];
-        const finalValueBorrowed =
+        const finalValueBorrowed = (
           Number(bigValueBorrowed.toString()) /
-          Math.pow(10, TokensDetail[key].decimals);
+          Math.pow(10, TokensDetail[key].decimals)
+        ).toFixed(2);
         const price =
           Number(state.cTokenMetadataAll[indexMeta][1].toString()) /
           Math.pow(10, 18 + (18 - TokensDetail[key].decimals));
@@ -683,17 +670,17 @@ const portfolio =
           <tr>
             <td>{TokensDetail[key].name}</td>
             <td class="text-end">
-              {cal.toFixed(2)} {TokensDetail[key].symbol}
+              {cal} {TokensDetail[key].symbol}
               <br />
               (${numberWithCommas((Number(cal) * price).toFixed(2))})
             </td>
             <td class="text-end">
-              {supplied.toFixed(2)} {TokensDetail[key].symbol}
+              {supplied} {TokensDetail[key].symbol}
               <br />
               (${numberWithCommas((Number(supplied) * price).toFixed(2))})
             </td>
             <td class="text-end">
-              {finalValueBorrowed.toFixed(2)} {TokensDetail[key].symbol}
+              {finalValueBorrowed} {TokensDetail[key].symbol}
               <br />
               ($
               {numberWithCommas(
@@ -702,13 +689,9 @@ const portfolio =
               )
             </td>
             <td class="text-end">
-              {state.getAccountLimits[0].includes(
-                TokensDetail[key].cAddress
-              ) ? (
-                <span style={{ color: "green" }}>Used</span>
-              ) : (
-                <span style={{ color: "red" }}>Not used</span>
-              )}
+              {state.getAccountLimits[0].includes(TokensDetail[key].cAddress)
+                ? "Use as Collateral"
+                : "Not use as Collateral"}
             </td>
           </tr>
         );
@@ -822,13 +805,7 @@ return (
                 id="deposit"
                 autocomplete="off"
                 checked={state.actionTabs === "deposit"}
-                onClick={() => {
-                  State.update({
-                    amount: "",
-                    hasError: 0,
-                    actionTabs: "deposit",
-                  });
-                }}
+                onClick={() => State.update({ actionTabs: "deposit" })}
               />
               <label class="btn btn-outline-primary" for="deposit">
                 Deposit
@@ -840,13 +817,7 @@ return (
                 id="borrow"
                 autocomplete="off"
                 checked={state.actionTabs === "borrow"}
-                onClick={() => {
-                  State.update({
-                    amount: "",
-                    hasError: 0,
-                    actionTabs: "borrow",
-                  });
-                }}
+                onClick={() => State.update({ actionTabs: "borrow" })}
               />
               <label class="btn btn-outline-primary" for="borrow">
                 Borrow
@@ -858,13 +829,7 @@ return (
                 id="repay"
                 autocomplete="off"
                 checked={state.actionTabs === "repay"}
-                onClick={() => {
-                  State.update({
-                    amount: "",
-                    hasError: 0,
-                    actionTabs: "repay",
-                  });
-                }}
+                onClick={() => State.update({ actionTabs: "repay" })}
               />
               <label class="btn btn-outline-primary" for="repay">
                 Repay
@@ -876,13 +841,7 @@ return (
                 id="withdraw"
                 autocomplete="off"
                 checked={state.actionTabs === "withdraw"}
-                onClick={() => {
-                  State.update({
-                    amount: "",
-                    hasError: 0,
-                    actionTabs: "withdraw",
-                  });
-                }}
+                onClick={() => State.update({ actionTabs: "withdraw" })}
               />
               <label class="btn btn-outline-primary" for="withdraw">
                 Withdraw
@@ -898,11 +857,7 @@ return (
                 <option value="">Choose your token</option>
                 {Object.keys(TokensDetail).map((key) => {
                   return (
-                    <option
-                      key={key}
-                      value={key}
-                      selected={selectedTokenId === key}
-                    >
+                    <option key={key} value={key}>
                       {TokensDetail[key].symbol}
                     </option>
                   );
@@ -913,11 +868,11 @@ return (
                 state.actionTabs == "deposit" ? (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Wallet Balance: {walletBalance().toFixed(3)}{" "}
+                      Wallet Balance: {walletBalance()}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     <span class="badge bg-light text-dark">
-                      Supply Balance: {supplyBalance().toFixed(3)}{" "}
+                      Supply Balance: {supplyBalance()}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     {getAllowance()}
@@ -925,17 +880,17 @@ return (
                 ) : state.actionTabs == "borrow" ? (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Remaining Borrow Limit: $ {remainingBalance().toFixed(3)}
+                      Remaining Borrow Limit: $ {remainingBalance()}
                     </span>
                   </div>
                 ) : state.actionTabs == "repay" ? (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Wallet Balance: {walletBalance().toFixed(3)}{" "}
+                      Wallet Balance: {walletBalance()}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     <span class="badge bg-light text-dark">
-                      Amount Borrowed: {getBorrowed().toFixed(3)}{" "}
+                      Amount Borrowed: {getBorrowed()}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                     {getAllowance()}
@@ -943,7 +898,7 @@ return (
                 ) : (
                   <div>
                     <span class="badge bg-light text-dark">
-                      Max Withdrawal: {maxWithdraw().toFixed(3)}{" "}
+                      Max Withdrawal: {maxWithdraw()}{" "}
                       {TokensDetail[selectedTokenId].symbol}
                     </span>
                   </div>
@@ -1055,25 +1010,23 @@ return (
               >
                 Borrow
               </button>
-            ) : state.actionTabs == "repay" ? (
-              state.amount > state.allowance &&
+            ) : state.amount > state.allowance &&
               state.selectedTokenId !== "ETH" ? (
-                <button
-                  disabled={state.amount == undefined || state.amount == ""}
-                  onClick={handleApprove}
-                  style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
-                >
-                  Approve
-                </button>
-              ) : (
-                <button
-                  disabled={state.amount == undefined || state.amount == ""}
-                  onClick={handleRepay}
-                  style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
-                >
-                  Repay
-                </button>
-              )
+              <button
+                disabled={state.amount == undefined || state.amount == ""}
+                onClick={handleApprove}
+                style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
+              >
+                Approve
+              </button>
+            ) : state.actionTabs == "repay" ? (
+              <button
+                disabled={state.amount == undefined || state.amount == ""}
+                onClick={handleRepay}
+                style={{ background: "#4ED58A", borderColor: "#4ED58A" }}
+              >
+                Repay
+              </button>
             ) : (
               <button
                 disabled={state.amount == undefined || state.amount == ""}
