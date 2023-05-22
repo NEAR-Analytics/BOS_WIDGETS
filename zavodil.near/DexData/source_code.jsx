@@ -161,9 +161,10 @@ const callTxQuickSwap = (
   onComplete,
   gasPrice,
   gasLimit,
-  sqrtPriceLimitX96
+  sqrtPriceLimitX96,
+  path
 ) => {
-  console.log("callTxQuickSwap", input, onComplete);
+  console.log("callTxQuickSwap", input, path);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -184,27 +185,41 @@ const callTxQuickSwap = (
 
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
 
-    // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+    if (path.length === 2) {
+      // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+      swapContract
+        .exactInputSingle(
+          [
+            input.inputAssetTokenId,
+            input.outputAssetTokenId,
+            input.sender,
+            deadline.toFixed(),
+            value,
+            "0",
+            sqrtPriceLimitX96 ?? 0,
+          ],
+          {
+            gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+            gasLimit: gasLimit ?? 300000,
+          }
+        )
+        .then((transactionHash) => {
+          onComplete(transactionHash);
+        });
+    } else if (path.length > 2) {
+      // path recepient deadline amountIn amountOutMinimum
+      const pathBytes =
+        "0x" + path.map((address) => address.substr(2)).join("");
 
-    swapContract
-      .exactInputSingle(
-        [
-          input.inputAssetTokenId,
-          input.outputAssetTokenId,
-          input.sender,
-          deadline.toFixed(),
-          value,
-          "0",
-          sqrtPriceLimitX96 ?? 0,
-        ],
-        {
+      swapContract
+        .exactInput([pathBytes, input.sender, deadline, value, "0"], {
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
           gasLimit: gasLimit ?? 300000,
-        }
-      )
-      .then((transactionHash) => {
-        onComplete(transactionHash);
-      });
+        })
+        .then((transactionHash) => {
+          onComplete(transactionHash);
+        });
+    }
   }
 };
 
