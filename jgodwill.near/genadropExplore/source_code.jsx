@@ -199,7 +199,7 @@ const ImageCard = styled.div`
 `;
 const InputContainer = styled.div`
     width:80%;
-    max-width: 500px;
+    max-width: 700px;
     display: flex;
     align-items: center;
     justify-content:center;
