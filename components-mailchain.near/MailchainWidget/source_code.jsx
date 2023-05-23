@@ -1,6 +1,4 @@
-const address = `${
-  props.accountId ?? context.accountId ?? ""
-}@near.mailchain.com`;
+const address = `${accountId ?? context.accountId ?? ""}@near.mailchain.com`;
 let mailchainUrl = `https://app.mailchain.com/mailto:${address}`;
 
 if (props.subject) {
