@@ -142,7 +142,7 @@ const Main = styled.div`
 
 const PageTitle = styled.h1`
   text-align:center;
-  font-size: 4rem; 
+  font-size: 5vw; 
   font-weight: bold; 
   margin-bottom: 20px; 
   color: #0f1d40;
