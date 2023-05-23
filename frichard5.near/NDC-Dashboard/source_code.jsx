@@ -1,5 +1,6 @@
 // Constants
-const widgetProvider = props.widgetProvider;
+const {widgetProvider, parent} = props;
+
 const refUrl = "https://api.stats.ref.finance/api/ft";
 const tab = props.tab || "overview";
 const proposal_id = props.proposal_id;
@@ -51,15 +52,6 @@ const FTransfers = (
     />
 );
 
-const ContractMetrics = (
-    <Widget
-        src={`${widgetProvider}/widget/contract_metrics`}
-        props={{
-            account: state.selectedDao,
-            widgetProvider,
-        }}
-    />
-);
 
 const ProposalStatus = (
     <Widget
@@ -191,6 +183,8 @@ const Tabs = (
         src={`${widgetProvider}/widget/NDC-Tabs`}
         props={{
             widgetProvider,
+            parent,
+            selectedDao,
             tabs: [
                 {
                     value: "overview",
@@ -292,7 +286,7 @@ const Select = (
 
 return (
     <>
-        {Select}
+        {props.hasSelector &&Select}
         {Tabs}
     </>
 );
