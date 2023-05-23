@@ -153,7 +153,11 @@ const NFTCard = styled.div`
    flex-flow: column nowrap;
    -ms-flex-flow:column nowrap;
    align-items:center;
-   background-color: "#f0f0f0";
+  //  background-color: "#f0f0f0";
+   background: #e4f1fb;
+  background: linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 80%);
+  background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 80%);
+  background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 80%);
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
    box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
