@@ -179,7 +179,7 @@ const NFTCards = styled.div`
   background: linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
   background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
   background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
-  padding: 20px 1rem 1rem 1rem;
+  padding: 20px 3rem 1rem 3rem;
   width:100%;
 `;
 
