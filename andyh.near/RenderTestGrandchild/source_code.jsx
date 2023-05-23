@@ -1,6 +1,6 @@
 State.init({ k: 0, isInitialized: false });
 const incK = (n, fn) => {
-  console.log("incrementing k by " + n);
+  console.log("incrementing k by " + n + " typeof " + typeof fn);
   fn();
   State.update({ k: state.k + n });
 };
