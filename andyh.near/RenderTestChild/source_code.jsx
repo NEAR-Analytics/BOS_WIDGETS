@@ -2,6 +2,7 @@ State.init({ j: 0 });
 let incrementChild = () => {
   console.log("not initialized!");
 };
+state = null;
 return (
   <div>
     root: {props.i} child: {state.j}
@@ -25,7 +26,7 @@ return (
           console.log(
             "incrementing grandchild by " + number + " from its parent scope"
           );
-          cb0(number);
+          cb0(number, () => console.log("oh hi!"));
           incrementChild = cb0;
         },
       }}
