@@ -2,7 +2,7 @@ State.init({ j: 0 });
 let incrementChild = () => {
   console.log("not initialized!");
 };
-state = null;
+
 return (
   <div>
     root: {props.i} child: {state.j}
