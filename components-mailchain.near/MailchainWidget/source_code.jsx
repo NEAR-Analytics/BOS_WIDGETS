@@ -1,4 +1,6 @@
-const address = `${accountId ?? context.accountId ?? ""}@near.mailchain.com`;
+const address = `${
+  props.accountId ?? context.accountId ?? ""
+}@near.mailchain.com`;
 let mailchainUrl = `https://app.mailchain.com/mailto:${address}`;
 
 if (props.subject) {
@@ -8,6 +10,8 @@ if (props.subject) {
 const res = fetch(
   `https://api.mailchain.dev/addresses/${address}/messaging-key`
 );
+
+console.log("address", address);
 
 const linkunderline = props.linkunderline === "yes";
 const showRegisteredAddressIndicator = props.indicator === "yes";
