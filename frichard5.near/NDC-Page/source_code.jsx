@@ -75,7 +75,6 @@ const DashboardContainer = styled.div`
     background: rgba(81, 81, 81, 0.3);
     border-radius: 3px;
   }
-
   
   *::-webkit-scrollbar-thumb:hover {
     background: rgba(81, 81, 81, 0.5);;
@@ -91,7 +90,7 @@ const Banner = <Widget src={`${widgetProvider}/widget/NDC-Banner`} />;
 const DashBoard = (
   <Widget
     src={`${widgetProvider}/widget/NDC-Dashboard`}
-    props={{ widgetProvider, tab, proposal_id, selectedDao }}
+    props={{ widgetProvider, tab, proposal_id, selectedDao, hasSelector:true, parent: 'NDC-Page' }}
   />
 );
 
