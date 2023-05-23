@@ -1,3 +1,4 @@
+const filter = props.filter;
 const maxHeight = props.maxHeight || 400;
 const boxShadow = props.boxShadow || "3px 2px 24px rgba(68, 152, 224, 0.3)"
 const MainWrapper = styled.div`
@@ -67,6 +68,7 @@ data &&
 return (
   <MainWrapper>
     {title && <h2>{title}</h2>}
+    {filter && filter}
     <TableWrapper>
       <Table>
         <tr>
