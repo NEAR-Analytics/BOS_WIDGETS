@@ -1,17 +1,17 @@
 const widgetProvider = props.widgetProvider;
 const account = props.account || "marketing.sputnik-dao.near";
-const initialSelectedDaos = props.initialSelectedDaos;
 const ftList = props.ftList;
 const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-const daosList = [
+const ndcList = [
     "ndctrust.sputnik-dao.near",
     "marketing.sputnik-dao.near",
     "creativesdao.sputnik-dao.near",
     "neardevgov.sputnik-dao.near",
     "gwg.sputnik-dao.near",
-];
+]
+const daosList = ndcList.includes(account)?ndcList:[account];
 
 const forgeUrl = (apiUrl, params) =>
     apiUrl +
@@ -163,7 +163,7 @@ const fetchPolicy = (params) => {
     })
 
     policy.body && State.update({
-        policy: policy.body.length === 1 ? [policy.body] : policy.body,
+        policy: policy.body.length ? policy.body : [policy.body],
     });
 };
 
