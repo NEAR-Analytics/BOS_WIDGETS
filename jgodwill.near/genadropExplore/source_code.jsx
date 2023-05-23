@@ -142,9 +142,10 @@ const Main = styled.div`
 
 const PageTitle = styled.h1`
   text-align:center;
-  font-size: 48px; 
+  font-size: 4rem; 
   font-weight: bold; 
   margin-bottom: 20px; 
+  color: #0f1d40;
   `;
 
 const NFTCard = styled.div`
@@ -155,7 +156,7 @@ const NFTCard = styled.div`
    background-color: "#f0f0f0";
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
-box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
+   box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 8px;
    text-align: center;
    background-color:#fff;
@@ -170,8 +171,11 @@ const NFTCards = styled.div`
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   justify-content: center;
-  // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
-  margin-top: 20px;
+  background: #e4f1fb;
+  background: linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
+  background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
+  background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
+  padding: 20px 1rem 1rem 1rem;
   width:100%;
 `;
 
@@ -195,25 +199,43 @@ const InputContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content:center;
-    margin: 2rem auto 4rem auto;
+    margin: 1rem auto 1rem auto;
     &>input{
         outline: none;
     }
+    &>input:hover, &>input:focus{
+      border: 1px solid #0d99ff;
+      box-shadow: none;
+    }
+`;
+
+const Hero = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  background-image: url(https://www.genadrop.com/static/media/banner-marketplace.e5c03bb6.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-positiion: center;
+  width: 100%;
+  padding: 2rem;
 `;
 
 return (
   <div className="container-fluid">
-    <PageTitle>💧 GenaDrop NEAR NFTs</PageTitle>
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: "30px",
-        flexWrap: "wrap",
-      }}
-    ></div>
-    {state.collectionData && (
+    <Hero className="container-fluid">
+      <PageTitle>💧 GenaDrop NEAR NFTs</PageTitle>
+      <InputContainer>
+        <input
+          type="search"
+          value={state.searchTerm}
+          placeholder="Search NFTs"
+          onChange={seachInputHandler}
+        />
+      </InputContainer>
+    </Hero>
+    {/*{state.collectionData && (
       <Main>
         <Stats>
           <div>
@@ -235,15 +257,7 @@ return (
           </div>
         </Stats>
       </Main>
-    )}
-    <InputContainer>
-      <input
-        type="search"
-        value={state.searchTerm}
-        placeholder="Search NFTs"
-        onChange={seachInputHandler}
-      />
-    </InputContainer>
+    )}*/}
     {state.nftData.length > 0 && (
       <NFTCards>
         {state.searchTerm === ""
