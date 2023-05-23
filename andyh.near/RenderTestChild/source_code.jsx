@@ -26,7 +26,7 @@ return (
           console.log(
             "incrementing grandchild by " + number + " from its parent scope"
           );
-          cb0(number, () => console.log("oh hi!"));
+          cb0(number); //, () => console.log("oh hi!"));
           incrementChild = cb0;
         },
       }}
