@@ -1,3 +1,5 @@
+const placeholder = props.placeholder || "everything";
+
 const Header = styled.div`
   height: 40px;
   width: 100%;
@@ -142,7 +144,7 @@ return (
                 <circle cx="12" cy="12" r="8" />
               </svg>
             </IconBox>
-            <SubjectField type="text" placeholder="everything" />
+            <SubjectField type="text" placeholder={placeholder} />
             <ActionButton>
               <span>&#10140;</span>
             </ActionButton>
@@ -151,6 +153,9 @@ return (
         <Row>advanced</Row>
       </InnerContainer>
     </Container>
-    <Widget src="efiz.near/widget/Every.Thing" />
+    <>
+      <Widget src="efiz.near/widget/Every.Post.Create" />
+      <Widget src="efiz.near/widget/Every.Post" />
+    </>
   </>
 );
