@@ -65,8 +65,8 @@ const item = {
 };
 
 const saveArticle = () => {
-  console.log("state.article.tags", state.article.tags);
-  console.log(state);
+  // console.log("state.article.tags", state.article.tags);
+  // console.log(state);
   const newArticleData = {
     ...state.article,
     body: state.note,
@@ -131,7 +131,19 @@ return (
             type="button"
             className="btn btn-success"
             onClick={() => {
-              if (!state.note || article.body === state.note) return;
+              console.log("state.tags", state.tags);
+              console.log("state.article.tags", state.article.tags);
+              console.log(
+                Object.keys(state.tags).join().toLowerCase() !==
+                  state.article.tags.join().toLowerCase()
+              );
+              if (
+                !state.note ||
+                article.body === state.note ||
+                Object.keys(state.tags).join().toLowerCase() !==
+                  state.article.tags.join().toLowerCase()
+              )
+                return;
 
               // const args = {
               //   article_id: state?.articleId,
