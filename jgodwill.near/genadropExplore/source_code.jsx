@@ -227,8 +227,8 @@ const Hero = styled.div`
 `;
 
 return (
-  <div className="container-fluid">
-    <Hero className="container-fluid">
+  <>
+    <Hero className="w-100">
       <PageTitle>💧 GenaDrop NEAR NFTs</PageTitle>
       <InputContainer>
         <input
@@ -415,5 +415,5 @@ return (
             ))}
       </NFTCards>
     )}
-  </div>
+  </>
 );
