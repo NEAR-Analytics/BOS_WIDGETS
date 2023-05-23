@@ -18,7 +18,7 @@ return (
     <br />
     <button
       onClick={() => {
-        incK(1);
+        incK(1, () => {});
       }}
     >
       grandchild + 1
