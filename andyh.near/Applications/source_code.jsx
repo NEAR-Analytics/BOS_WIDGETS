@@ -3,8 +3,7 @@ return (
     <h5>Applications</h5>
     <div className="mb-2">
       <Widget
-        src="andyh.near/widget/ComponentSearch"
-        trust={{ mode: "trusted-author" }}
+        src="mob.near/widget/ComponentSearch"
         props={{
           boostedTag: "app",
           placeholder: "🔍 Search Applications",
@@ -20,8 +19,7 @@ return (
         {state.apps.map((app, i) => (
           <div key={i}>
             <Widget
-              src="andyh.near/widget/ComponentSearch.Item"
-              trust={{ mode: "trusted-author" }}
+              src="mob.near/widget/ComponentSearch.Item"
               props={{
                 link: `#/${app.widgetSrc}`,
                 accountId: app.accountId,
@@ -44,8 +42,7 @@ return (
     )}
 
     <Widget
-      src="andyh.near/widget/WidgetIcons"
-      trust={{ mode: "trusted-author" }}
+      src="mob.near/widget/WidgetIcons"
       props={{ tag: "app", limit: 24 }}
     />
   </div>
