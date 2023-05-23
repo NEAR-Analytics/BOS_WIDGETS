@@ -64,13 +64,16 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
-const saveArticle = (args) => {
+const saveArticle = () => {
+  console.log("state.article.tags", state.article.tags);
+  console.log(state);
   const newArticleData = {
     ...state.article,
     body: state.note,
     lastEditor: accountId,
     timeLastEdit: Date.now(),
     version: Number(state.article.version) + 1,
+    tags: state.tags ? Object.keys(state.tags) : [],
   };
 
   const composeArticleData = () => {
@@ -92,6 +95,13 @@ const saveArticle = (args) => {
   const newData = composeArticleData();
   Social.set(newData, { force: true });
 };
+
+//======= Create initialTagsObject for TagsEditor widget =======
+// const initialTestArray = ["learner", "crypto", "social"];
+const getTagObjectfromArray = (tagArray) => {
+  return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
+};
+// console.log(getTagObjectfromArray(initialTestArray));
 
 return (
   <>
@@ -123,13 +133,16 @@ return (
             onClick={() => {
               if (!state.note || article.body === state.note) return;
 
-              const args = {
-                article_id: state?.articleId,
-                body: state.note,
-                navigation_id: null,
-              };
+              // const args = {
+              //   article_id: state?.articleId,
+              //   body: state.note,
+              //   navigation_id: null,
+              //   tags: state.article.tags,
+              // };
 
-              saveArticle(args);
+              // console.log(state.article.tags);
+
+              saveArticle();
             }}
           >
             Save Article{" "}
@@ -179,6 +192,17 @@ return (
             </div>
             <div className="w-50">
               <Widget
+                src="mob.near/widget/TagsEditor"
+                props={{
+                  initialTagsObject: getTagObjectfromArray(state.article.tags),
+                  placeholder: "Input tags",
+                  setTagsObject: (tags) => {
+                    state.tags = tags;
+                    State.update();
+                  },
+                }}
+              />
+              <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{ text: state.note }}
               />
@@ -186,16 +210,17 @@ return (
           </div>
         </>
       )}
-      {/* Tags */}
-      <div className="pt-2">
-        <Widget
-          src={`${authorForWidget}/widget/WikiOnSocialDB_TagList`}
-          props={{ tags: state.article.tags }}
-        />
-      </div>
-      {/* MARKDOWN when user doesn't edit article  */}
+      {/* MARKDOWN and TAGS list when user doesn't edit article  */}
       {!state.editArticle && (
-        <Markdown text={state.note || state.article.body} />
+        <>
+          <div className="pt-2">
+            <Widget
+              src={`${authorForWidget}/widget/WikiOnSocialDB_TagList`}
+              props={{ tags: state.article.tags }}
+            />
+          </div>
+          <Markdown text={state.note || state.article.body} />
+        </>
       )}
       {/* === VIEW HISTORY === */}
       {state.viewHistory && (
