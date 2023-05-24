@@ -1,5 +1,4 @@
 let sharedBlockHeight = props.sharedBlockHeight;
-let whitelist = props.whitelist;
 
 State.init({
   polls: {},
@@ -7,23 +6,11 @@ State.init({
   modalBlockHeight: sharedBlockHeight ?? question.blockHeight,
 });
 
-const widgetOwner = "silkking.near";
+const widgetOwner = "easypoll.near";
 
 let globalAccountId = props.accountId ?? context.accountId;
 
 const onlyUsersPolls = props.onlyUser ?? false;
-
-const getFirstSBTToken = (accountId) => {
-  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-    account: accountId,
-    issuer: "gooddollar-v1.i-am-human.near",
-  });
-  return view?.[0]?.[1]?.[0];
-};
-
-const shouldDisplayUserQuestions = (accountId) => {
-  return getFirstSBTToken(accountId) !== undefined || whitelist.includes(accountId)
-}
 
 let polls = Social.index("poll_question", "question-v3.1.0");
 
@@ -34,8 +21,6 @@ if (JSON.stringify(polls) != JSON.stringify(state.polls)) {
 if (!polls) {
   return "Loading";
 }
-
-polls = polls.filter((p) => shouldDisplayUserQuestions(p.accountId));
 
 if (onlyUsersPolls) {
   polls = state.polls.filter((poll) => {
