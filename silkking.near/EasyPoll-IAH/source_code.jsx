@@ -9,25 +9,17 @@ const getFirstSBTToken = () => {
   });
   return view?.[0]?.[1]?.[0];
 };
-
-const whitelist = [
-  "neardigitalcollective.near",
-  "silkking.near",
-]
-
 const hasSBTToken = getFirstSBTToken() !== undefined;
 
-const canPost = hasSBTToken || whitelist.includes(context.accountId)
-
 State.init({
-  displaying: canPost ? 0 : 3,
+  displaying: hasSBTToken ? 0 : 3,
   hoveringElement: "",
   showAbortPollCreation: false,
   abortThroughAllExistingPolls: false,
   profile: {},
 });
 
-if (state.displaying === 3 && canPost) {
+if (state.displaying === 3 && hasSBTToken) {
   State.update({ displaying: 0 });
 }
 
@@ -57,7 +49,7 @@ const tabs = {
   MY_POLLS: { id: 0, text: "My Polls" },
   ALL_EXISTING_POLLS: { id: 1, text: "All existing polls" },
   NEW_POLL: { id: 2, text: "Create a poll" },
-  GET_VERIFIED_AS_A_HUMAN: { id: 3, text: "Get Verified as Human" },
+  GET_VERIGIED_AS_A_HUMAN: { id: 3, text: "Get Verified as Human" },
 };
 
 const CardWrapper = styled.div`
@@ -175,7 +167,7 @@ return (
         style={{ margin: "0 4rem" }}
       >
         <Widget
-          src={`${widgetOwner}/widget/Easypoll-header-buttons`}
+          src="harrydhillon.near/widget/Easypoll-header-buttons"
           props={{
             state: state,
             stateUpdate: (data) => {
@@ -195,7 +187,7 @@ return (
             @{makeAccountIdShorter(context.accountId, 12)}
           </p>
           <p style={{ margin: "0", fontWeight: "bold", fontSize: "0.9rem" }}>
-            {canPost ? "Verified Human" : "Non-Verified Human"}
+            {hasSBTToken ? "Verified Human" : "Non-Verified Human"}
           </p>
         </div>
       </div>
@@ -207,8 +199,8 @@ return (
           All existing polls
         </h2>
         <Widget
-          src={`${widgetOwner}/widget/showQuestionsHandler-Mobile-Friendly`}
-          props={{ sharedBlockHeight, whitelist }}
+          src={`harrydhillon.near/widget/showQuestionsHandler-Mobile-Friendly`}
+          props={{ sharedBlockHeight }}
         />
       </div>
     ) : state.displaying == tabs.MY_POLLS.id ? (
@@ -217,8 +209,8 @@ return (
           My Polls
         </h2>
         <Widget
-          src={`${widgetOwner}/widget/showQuestionsHandler-Mobile-Friendly`}
-          props={{ sharedBlockHeight, onlyUser: true, whitelist }}
+          src={`harrydhillon.near/widget/showQuestionsHandler-Mobile-Friendly`}
+          props={{ sharedBlockHeight, onlyUser: true }}
         />
       </div>
     ) : state.displaying == tabs.NEW_POLL.id ? (
@@ -289,7 +281,7 @@ return (
         </button>
       </div>
     ) : (
-      state.displaying === tabs.GET_VERIFIED_AS_A_HUMAN.id && (
+      state.displaying === tabs.GET_VERIGIED_AS_A_HUMAN.id && (
         <div
           className="px-4"
           style={{
