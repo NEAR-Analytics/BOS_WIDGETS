@@ -103,6 +103,16 @@ const getTagObjectfromArray = (tagArray) => {
 };
 // console.log(getTagObjectfromArray(initialTestArray));
 
+const areTheTextAndTagsTheSame = () => {
+  const isThereNoTextInBody = !state.note;
+  const doesTextUnchanged = article.body === state.note;
+  const doesTagsUnchanged = state.tags
+    ? Object.keys(state.tags).join().toLowerCase() ===
+      state.article.tags.join().toLowerCase()
+    : true;
+  return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
+};
+
 return (
   <>
     <Widget
@@ -111,6 +121,7 @@ return (
     />
     <div>
       <h1>Article: {state.article.articleId}</h1>
+      {/* === BUTTON - EDIT ARTICLE === */}
       {doesUserCanEditArticle() && (
         <button
           onClick={() => {
@@ -124,36 +135,14 @@ return (
           Edit Article
         </button>
       )}
-      {/* === BUTTON - EDIT ARTICLE === */}
+      {/* === BUTTON - SAVE ARTICLE === */}
       {state.editArticle && (
         <>
           <button
             type="button"
             className="btn btn-success"
             onClick={() => {
-              console.log("state.tags", state.tags);
-              console.log("state.article.tags", state.article.tags);
-              console.log(
-                Object.keys(state.tags).join().toLowerCase() !==
-                  state.article.tags.join().toLowerCase()
-              );
-              if (
-                !state.note ||
-                article.body === state.note ||
-                Object.keys(state.tags).join().toLowerCase() !==
-                  state.article.tags.join().toLowerCase()
-              )
-                return;
-
-              // const args = {
-              //   article_id: state?.articleId,
-              //   body: state.note,
-              //   navigation_id: null,
-              //   tags: state.article.tags,
-              // };
-
-              // console.log(state.article.tags);
-
+              if (areTheTextAndTagsTheSame()) return;
               saveArticle();
             }}
           >
