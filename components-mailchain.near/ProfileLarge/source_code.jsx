@@ -97,7 +97,7 @@ return (
                     src="components-mailchain.near/widget/MailchainWidget"
                     props={{
                       symbol: "icon",
-                      accountId: accountId,
+                      accountId,
                       margin: "0 0 0 -7px",
                     }}
                   />{" "}
