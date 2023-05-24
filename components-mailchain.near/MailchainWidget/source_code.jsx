@@ -1,11 +1,17 @@
+if (!props.accountId || context.accountId === props.accountId) {
+  return "";
+}
+
 const address = `${
-  props.accountId ?? context.accountId ?? ""
+  props.accountId //?? context.accountId ?? ""
 }@near.mailchain.com`;
+
 let mailchainUrl = `https://app.mailchain.com/mailto:${address}`;
 
 if (props.subject) {
   mailchainUrl = `${mailchainUrl}?subject=${props.subject}`;
 }
+
 console.log("profile", profile);
 console.log("context", context);
 console.log("accountId", accountId);
@@ -13,8 +19,6 @@ console.log("accountId", accountId);
 const res = fetch(
   `https://api.mailchain.dev/addresses/${address}/messaging-key`
 );
-
-console.log("address", address);
 
 const linkunderline = props.linkunderline === "yes";
 const showRegisteredAddressIndicator = props.indicator === "yes";
@@ -174,8 +178,8 @@ return (
       placement="top"
       overlay={
         <Tooltip id={`tooltip-top`}>
-          <strong>Mailchain</strong> is the communication layer of web3. Send
-          and receive messages directly between wallets.
+          <strong>Mailchain</strong> is the web3 communication layer. Send and
+          receive messages directly between wallets.
         </Tooltip>
       }
     >
@@ -221,7 +225,7 @@ return (
           target="_blank"
           style={{ color }}
         >
-          Send a web3 email to {context.accountId}
+          Send a web3 email to {props.accountId}
         </a>
         &nbsp;
         {showExternalLinkIcon && ExtenalLinkIcon}
