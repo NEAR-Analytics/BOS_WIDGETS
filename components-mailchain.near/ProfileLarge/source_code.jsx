@@ -1,8 +1,7 @@
-const accountId = props.accountId; //?? context.accountId;
+const accountId = props.accountId;
 if (!accountId) {
   return "No account ID";
 }
-console.log("props", props);
 
 const link =
   props.link &&
