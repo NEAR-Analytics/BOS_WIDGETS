@@ -6,13 +6,27 @@ if (profile === null) {
   return "Loading...";
 }
 
+const groups = [`${accountId}`];
+
 State.init({
+  args: {
+    config: {
+      name: state.name,
+      purpose: state.purpose,
+      metadata: "",
+    },
+    policy: {
+      groups,
+    },
+  },
   profile,
-  daoId: "",
-  daoName: "",
+  name,
   isDao: false,
   isAvailable: false,
 });
+
+const daoId = state.name + ".sputnik-dao.near";
+const name = state.name;
 
 const daos = Near.view("sputnik-dao.near", "get_dao_list");
 
@@ -21,7 +35,7 @@ if (daos === null) {
 }
 
 const groupId = props.groupId ?? "community";
-const policy = Near.view(state.daoId, "get_policy");
+const policy = Near.view(daoId, "get_policy");
 
 const deposit = policy.proposal_bond;
 
@@ -38,7 +52,7 @@ const proposal_args = Buffer.from(profile_args, "utf-8").toString("base64");
 const handleProposal = () => {
   Near.call([
     {
-      contractName: state.daoId,
+      contractName: daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
@@ -64,31 +78,46 @@ const handleProposal = () => {
   ]);
 };
 
-const onChangeDao = (daoId) => {
+const dao_args = Buffer.from(JSON.stringify(state.args), "utf-8").toString(
+  "base64"
+);
+
+const handleCreate = () => {
+  Near.call([
+    {
+      contractName: "sputnik-dao.near",
+      methodName: "create",
+      args: {
+        name: state.name,
+        args: dao_args,
+      },
+      deposit: "7000000000000000000000000",
+      gas: "300000000000000",
+    },
+  ]);
+};
+
+const onChangeName = (name) => {
   State.update({
-    daoId,
+    name,
   });
 };
 
-let string = ".sputnik-dao.near";
-
-const checkDao = (daoId) => {
-  if (daoId.indexOf(string) !== -1) {
-    return State.update({ isDao: true });
-  }
-};
-
-const validDao = checkDao(state.daoId);
-
-const dao_name = daoId - ".sputnik-dao.near";
-
 const checkAvailability = (daos) => {
-  if (daos.indexOf(state.daoId) !== -1) {
+  if (daos.indexOf(daoId) !== -1) {
     return State.update({ isAvailable: false });
   }
 };
 
 const availableName = checkAvailability(daos);
+
+const checkValidity = (name) => {
+  if (name.length > 2) {
+    return State.update({ isValid: true });
+  }
+};
+
+const validName = checkValidity(state.name);
 
 return (
   <div className="mb-3">
@@ -98,13 +127,30 @@ return (
           <h4>Edit DAO Profile</h4>
         </div>
         <div className="mb-3">
-          Sputnik Contract ID:
+          {state.name && <h5>{daoId}</h5>}
+          {validName ? (
+            <div>
+              {availableName ? (
+                <p className="text-success">ready for updates</p>
+              ) : (
+                <p className="text-danger">does not exist yet</p>
+              )}
+            </div>
+          ) : (
+            <div>
+              {state.name ? (
+                <p className="text-secondary">must be 3+ characters</p>
+              ) : (
+                ""
+              )}
+            </div>
+          )}
           <input
             type="text"
             placeholder="<example>.sputnik-dao.near"
-            value={state.daoId}
-            onChange={(e) => onChangeDao(e.target.value)}
-          />
+            value={state.name}
+            onChange={(e) => onChangeName(e.target.value)}
+          ></input>
         </div>
         {availableName ? (
           <div className="mb-2">
@@ -154,30 +200,53 @@ return (
         ) : (
           <p>⬆️ input existing DAO account!</p>
         )}
-        <div className="mb-2">
-          <button
-            className="btn btn-outline-success m-1"
-            onClick={handleProposal}
-            disabled={!validDao}
-          >
-            Propose Changes
-          </button>
-          <button
-            className="btn btn-outline-primary m-1"
-            href={`#/hack.near/widget/DAO.Profile?daoId=${daoId}`}
-            disabled={!validDao}
-          >
-            View Profile
-          </button>
-        </div>
+        {availableName ? (
+          <div className="mb-2">
+            <button
+              className="btn btn-outline-success m-1"
+              onClick={handleProposal}
+              disabled={!validName}
+            >
+              Propose Changes
+            </button>
+            <button
+              className="btn btn-outline-primary m-1"
+              href={`#/hack.near/widget/DAO.Profile?daoId=${daoId}`}
+              disabled={!validName}
+            >
+              Request Permission
+            </button>
+          </div>
+        ) : (
+          <div className="mb-2">
+            <button
+              disabled={!validName}
+              className="btn btn-outline-success mt-2"
+              onClick={handleCreate}
+            >
+              Create DAO
+            </button>
+          </div>
+        )}
       </div>
       <div className="col-lg-6">
-        <div>
+        {daoId ? (
           <Widget
-            src="hack.near/widget/DAO.ProfileLarge"
-            props={{ daoId: state.daoId, profile: state.profile }}
+            src="mob.near/widget/ProfileLarge"
+            props={{
+              accountId: daoId,
+              profile: state.profile,
+            }}
           />
-        </div>
+        ) : (
+          <Widget
+            src="mob.near/widget/ProfileLarge"
+            props={{
+              accountId: daoId,
+              profile: state.profile,
+            }}
+          />
+        )}
       </div>
     </div>
   </div>
