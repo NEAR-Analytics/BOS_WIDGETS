@@ -3,8 +3,8 @@ const allMetadata =
     ["*/widget/*/metadata/name", "*/widget/*/metadata/tags/*"],
     "final"
   ) || {};
-console.log({ allMetadata });
 const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
+console.log({ keys });
 
 const requiredTag = props.filterTag;
 const boostedTag = props.boostedTag;
