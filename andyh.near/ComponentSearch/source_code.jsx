@@ -57,7 +57,7 @@ const _search = (term) => {
       const componentIdScore = computeScore(componentId);
       const metadata = allMetadata[accountId].widget[componentId]?.metadata;
       const name = metadata?.name || componentId;
-      if (requiredTag && !(metadata.tags && requiredTag in metadata.tags)) {
+      if (requiredTag && !(metadata?.tags && requiredTag in metadata?.tags)) {
         return;
       }
       const boosted =
