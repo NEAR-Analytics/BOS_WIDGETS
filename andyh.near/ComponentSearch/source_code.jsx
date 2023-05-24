@@ -52,7 +52,7 @@ const _search = (term) => {
   Object.entries(keys).forEach(([accountId, data]) => {
     Object.keys(data.widget).forEach((componentId) => {
       const widgetSrc = `${accountId}/widget/${componentId}`;
-      console.log({ widgetSrc });
+      console.log({ widgetSrc, sc: computeScore(componentId), componentId });
       const widgetSrcScore = computeScore(widgetSrc);
       const componentIdScore = computeScore(componentId);
       const metadata = allMetadata[accountId].widget[componentId].metadata;
