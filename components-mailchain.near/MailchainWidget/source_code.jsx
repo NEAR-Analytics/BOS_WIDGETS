@@ -1,5 +1,5 @@
 if (!props.accountId || context.accountId === props.accountId) {
-  console.warn("No accountId props specified");
+  console.log("No accountId props specified");
   return "";
 }
 
