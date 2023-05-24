@@ -9,8 +9,6 @@ const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
 const requiredTag = props.filterTag;
 const boostedTag = props.boostedTag;
 const inputTerm = props.term;
-const z = x.y;
-console.log({ z });
 
 const debounce = (func, wait) => {
   const pause = wait || 350;
@@ -62,7 +60,7 @@ const _search = (term) => {
         componentId,
         am: allMetadata[accountId].widget[componentId],
       });
-      const metadata = allMetadata[accountId].widget[componentId].metadata;
+      const metadata = allMetadata[accountId].widget[componentId]?.metadata;
       console.log({ componentId, metadata });
       const name = metadata.name || componentId;
       if (requiredTag && !(metadata.tags && requiredTag in metadata.tags)) {
