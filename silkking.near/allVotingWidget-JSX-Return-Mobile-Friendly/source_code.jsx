@@ -1,4 +1,4 @@
-const getFirstSBTToken = () => {
+const viewFVTokens = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: `${context.accountId}`,
     issuer: "gooddollar-v1.i-am-human.near",
@@ -6,7 +6,7 @@ const getFirstSBTToken = () => {
   return view?.[0]?.[1]?.[0];
 };
 
-const hasSBTTokens = true || getFirstSBTToken() !== undefined;
+const fvTokens = viewFVTokens();
 
 return (
   <>
@@ -60,7 +60,7 @@ return (
     {props.isQuestionOpen ? (
       props.hasVoted ? (
         ""
-      ) : props.isVoteValid() && hasSBTTokens ? (
+      ) : props.isVoteValid() && fvTokens ? (
         <CommitButton
           className="w-100"
           style={
@@ -94,7 +94,7 @@ return (
         </CommitButton>
       ) : (
         <>
-          {hasSBTTokens ? (
+          {fvTokens ? (
             <button
               className="w-100"
               style={
