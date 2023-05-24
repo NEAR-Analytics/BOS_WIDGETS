@@ -3,6 +3,7 @@ const allMetadata =
     ["*/widget/*/metadata/name", "*/widget/*/metadata/tags/*"],
     "final"
   ) || {};
+console.log({ allMetadata });
 const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
 
 const requiredTag = props.filterTag;
@@ -52,7 +53,6 @@ const _search = (term) => {
   Object.entries(keys).forEach(([accountId, data]) => {
     Object.keys(data.widget).forEach((componentId) => {
       const widgetSrc = `${accountId}/widget/${componentId}`;
-      console.log({ widgetSrc, componentId });
       const widgetSrcScore = computeScore(widgetSrc);
       const componentIdScore = computeScore(componentId);
       const metadata = allMetadata[accountId].widget[componentId].metadata;
