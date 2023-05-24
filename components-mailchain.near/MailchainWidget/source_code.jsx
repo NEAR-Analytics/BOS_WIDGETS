@@ -1,10 +1,10 @@
+console.log("props", props);
+
 if (!props.accountId || context.accountId === props.accountId) {
   return "";
 }
 
-const address = `${
-  props.accountId //?? context.accountId ?? ""
-}@near.mailchain.com`;
+const address = `${props.accountId}@near.mailchain.com`;
 
 let mailchainUrl = `https://app.mailchain.com/mailto:${address}`;
 
