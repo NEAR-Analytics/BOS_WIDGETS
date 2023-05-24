@@ -90,7 +90,7 @@ return (
                 <Widget
                   src="mob.near/widget/CopyButton"
                   props={{
-                    text: accountId,
+                    accountId: accountId,
                     className: "btn btn-sm btn-outline-dark border-0",
                   }}
                 />
