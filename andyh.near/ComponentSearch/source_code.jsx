@@ -55,8 +55,8 @@ const _search = (term) => {
       const widgetSrc = `${accountId}/widget/${componentId}`;
       const widgetSrcScore = computeScore(widgetSrc);
       const componentIdScore = computeScore(componentId);
+      console.log({ accountId, componentId, am: allMetadata[accountId] });
       const metadata = allMetadata[accountId].widget[componentId].metadata;
-      console.log({ accountId, metadata, componentId });
       const name = metadata.name || componentId;
       if (requiredTag && !(metadata.tags && requiredTag in metadata.tags)) {
         return;
