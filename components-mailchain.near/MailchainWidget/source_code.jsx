@@ -1,4 +1,4 @@
-if (!props.accountId || context.accountId === props.accountId) {
+if (!props.accountId) {
   console.log("No accountId props specified");
   return "";
 }
