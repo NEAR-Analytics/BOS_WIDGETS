@@ -3,7 +3,6 @@ const allMetadata =
     ["*/widget/*/metadata/name", "*/widget/*/metadata/tags/*"],
     "final"
   ) || {};
-console.log({ allMetadata });
 const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
 
 const requiredTag = props.filterTag;
