@@ -14,6 +14,9 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
   return "Loading";
 }
+console.log("profile", profile);
+console.log("context", context);
+console.log("accountId", accountId);
 
 const showEditButton =
   profile !== undefined &&
