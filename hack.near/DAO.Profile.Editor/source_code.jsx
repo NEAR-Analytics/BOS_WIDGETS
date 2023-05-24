@@ -1,4 +1,4 @@
-const daoId = props.daoId;
+const accountId = context.accountId;
 
 let profile = Social.getr(`${daoId}/profile`);
 
@@ -9,15 +9,19 @@ if (profile === null) {
 State.init({
   profile,
   daoId: "",
+  daoName: "",
   isDao: false,
+  isAvailable: false,
 });
+
+const daos = Near.view("sputnik-dao.near", "get_dao_list");
+
+if (daos === null) {
+  return "Loading...";
+}
 
 const groupId = props.groupId ?? "community";
 const policy = Near.view(state.daoId, "get_policy");
-
-if (policy === null) {
-  return "Loading...";
-}
 
 const deposit = policy.proposal_bond;
 
@@ -66,7 +70,7 @@ const onChangeDao = (daoId) => {
   });
 };
 
-let string = "sputnik-dao.near";
+let string = ".sputnik-dao.near";
 
 const checkDao = (daoId) => {
   if (daoId.indexOf(string) !== -1) {
@@ -75,6 +79,16 @@ const checkDao = (daoId) => {
 };
 
 const validDao = checkDao(state.daoId);
+
+const dao_name = daoId - ".sputnik-dao.near";
+
+const checkAvailability = (daos) => {
+  if (daos.indexOf(state.daoId) !== -1) {
+    return State.update({ isAvailable: false });
+  }
+};
+
+const availableName = checkAvailability(daos);
 
 return (
   <div className="mb-3">
@@ -92,7 +106,7 @@ return (
             onChange={(e) => onChangeDao(e.target.value)}
           />
         </div>
-        {validDao && (
+        {availableName ? (
           <div className="mb-2">
             <Widget
               src="mob.near/widget/MetadataEditor"
@@ -137,6 +151,8 @@ return (
               }}
             />
           </div>
+        ) : (
+          <p>⬆️ input existing DAO account!</p>
         )}
         <div className="mb-2">
           <button
