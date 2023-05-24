@@ -1,4 +1,3 @@
-const widgetOwner = "silkking.near";
 const renderTextInput = (questionNumber) => {
   return (
     <div>
@@ -32,7 +31,7 @@ const renderMultipleChoiceInput = ({
 }) => (
   <>
     <Widget
-      src={`${widgetOwner}/widget/allVotingWidget-RenderMultiInput-Mobile-Friendly`}
+      src="harrydhillon.near/widget/allVotingWidget-RenderMultiInput-Mobile-Friendly"
       props={{
         state: props.state,
         questionNumber,
@@ -57,7 +56,7 @@ const renderMultipleChoiceInput = ({
 return (
   <>
     <Widget
-      src={`${widgetOwner}/widget/allVotingWidget-JSX-Return-Mobile-Friendly`}
+      src="harrydhillon.near/widget/allVotingWidget-JSX-Return-Mobile-Friendly"
       props={{
         state: props.state,
         poll: props.poll,
