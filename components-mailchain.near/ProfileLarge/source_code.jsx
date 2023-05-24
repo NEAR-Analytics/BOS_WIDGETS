@@ -2,6 +2,7 @@ const accountId = props.accountId; //?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
+console.log("props", props);
 
 const link =
   props.link &&
@@ -99,7 +100,7 @@ return (
                     src="components-mailchain.near/widget/MailchainWidget"
                     props={{
                       symbol: "icon",
-                      profileId,
+                      accountId: accountId,
                       margin: "0 0 0 -7px",
                     }}
                   />{" "}
