@@ -1,4 +1,3 @@
-console.log(1, props);
 const FlexContainer = styled.div`
     display:flex;
     @media screen and (max-width: 768px)  {
@@ -23,8 +22,6 @@ const NoFlexInMobile = styled.div`
      display: block;
     }
 `;
-
-const widgetOwner = "silkking.near";
 
 return (
   <div>
@@ -152,7 +149,7 @@ return (
           }}
         >
           <Widget
-            src={`${widgetOwner}/widget/shareWidget`}
+            src={`${props.widgetOwner}/widget/shareWidget`}
             props={{ blockHeight: props.questionBlockHeight }}
           />
         </div>
