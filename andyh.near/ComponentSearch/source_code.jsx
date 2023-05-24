@@ -9,6 +9,8 @@ const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
 const requiredTag = props.filterTag;
 const boostedTag = props.boostedTag;
 const inputTerm = props.term;
+const z = props.x.y;
+console.log({ z });
 
 const debounce = (func, wait) => {
   const pause = wait || 350;
