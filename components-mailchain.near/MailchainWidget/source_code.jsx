@@ -12,12 +12,13 @@ if (props.subject) {
 }
 
 const res = fetch(
-  `https://api.mailchain.dev/addresses/${address}/messaging-key`
+  `https://api.mailchain.com/addresses/${address}/resolved-messaging-key`
 );
-
+console.log(address, res);
 const linkunderline = props.linkunderline === "yes";
-const showRegisteredAddressIndicator = props.indicator === "yes";
-const showExternalLinkIcon = props["external-link-icon"] === "yes";
+// const showRegisteredAddressIndicator = props.showRegisteredAddressIndicator === "yes";
+const showRegisteredAddressIndicator = false; // Coming soon
+const showExternalLinkIcon = props.showExternalLinkIcon === "yes";
 const color = props.color;
 
 const LogoBlack = (
@@ -168,7 +169,13 @@ const GRAY_COLOR = "hsla(0, 0%, 88%, 1)";
 const GREEN_COLOR = "hsla(131, 54%, 40%, 1)";
 
 return (
-  <div style={{ padding: props.padding, margin: props.margin }}>
+  <div
+    id="mailchain"
+    style={{
+      padding: props.padding,
+      margin: props.margin,
+    }}
+  >
     <OverlayTrigger
       placement="top"
       overlay={
@@ -186,44 +193,48 @@ return (
           height: "36px",
         }}
       >
-        <div
-          style={{
-            height: "34px",
-            width: "34px",
-            position: "relative",
-          }}
-        >
-          {!["bw", "icon"].includes(props.symbol) && LogoColor}
+        {props.symbol !== "none" && (
+          <div
+            style={{
+              height: "34px",
+              width: "34px",
+              position: "relative",
+            }}
+          >
+            {!["bw", "icon"].includes(props.symbol) && LogoColor}
 
-          {props.symbol === "bw" && LogoBlack}
-          {props.symbol === "icon" && WhiteLogo}
+            {props.symbol === "bw" && LogoBlack}
+            {props.symbol === "icon" && WhiteLogo}
 
-          {showRegisteredAddressIndicator && props.symbol && res && (
-            <div
-              style={{
-                height: "12px",
-                width: "12px",
-                background: res.messagingKey ? GREEN_COLOR : GRAY_COLOR,
-                position: "absolute",
-                right: "-4px",
-                bottom: "-4px",
-                borderRadius: "12px",
-                border: "white solid 2px",
-              }}
-            />
-          )}
-        </div>
+            {showRegisteredAddressIndicator && props.symbol && res && (
+              <div
+                style={{
+                  height: "12px",
+                  width: "12px",
+                  background:
+                    res.body.status === "registered" ? GREEN_COLOR : GRAY_COLOR,
+                  position: "absolute",
+                  right: props.symbol === "icon" ? "2px" : "-4px",
+                  bottom: props.symbol === "icon" ? "2px" : "-4px",
+                  borderRadius: "12px",
+                  border: "white solid 2px",
+                }}
+              />
+            )}
+          </div>
+        )}
         {props.symbol !== "icon" && <>&nbsp; &nbsp;</>}
         <a
           href={mailchainUrl}
-          style={{ textDecoration: linkunderline ? "underline" : "none" }}
+          style={{
+            textDecoration: linkunderline ? "underline" : "none",
+            color,
+          }}
           target="_blank"
-          style={{ color }}
         >
           Send a web3 email to {props.accountId}
+          {showExternalLinkIcon && ExtenalLinkIcon}
         </a>
-        &nbsp;
-        {showExternalLinkIcon && ExtenalLinkIcon}
       </div>
     </OverlayTrigger>
   </div>
