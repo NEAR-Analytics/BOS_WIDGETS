@@ -1,5 +1,5 @@
 /********** Start initialization ************/
-
+console.log(2, props);
 State.init({ profile: {} });
 
 let profile = Social.getr(`${props.accountId}/profile`);
