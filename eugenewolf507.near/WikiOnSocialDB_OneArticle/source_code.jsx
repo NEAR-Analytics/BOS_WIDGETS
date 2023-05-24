@@ -65,8 +65,6 @@ const item = {
 };
 
 const saveArticle = () => {
-  // console.log("state.article.tags", state.article.tags);
-  // console.log(state);
   const newArticleData = {
     ...state.article,
     body: state.note,
@@ -198,6 +196,7 @@ return (
                   initialTagsObject: getTagObjectfromArray(state.article.tags),
                   placeholder: "Input tags",
                   setTagsObject: (tags) => {
+                    console.log(tags);
                     state.tags = tags;
                     State.update();
                   },
