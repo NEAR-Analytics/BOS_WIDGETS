@@ -1,6 +1,5 @@
-console.log("props", props);
-
 if (!props.accountId || context.accountId === props.accountId) {
+  console.warn("No accountId props specified");
   return "";
 }
 
@@ -11,10 +10,6 @@ let mailchainUrl = `https://app.mailchain.com/mailto:${address}`;
 if (props.subject) {
   mailchainUrl = `${mailchainUrl}?subject=${props.subject}`;
 }
-
-console.log("profile", profile);
-console.log("context", context);
-console.log("accountId", accountId);
 
 const res = fetch(
   `https://api.mailchain.dev/addresses/${address}/messaging-key`
