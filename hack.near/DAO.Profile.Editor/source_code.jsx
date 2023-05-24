@@ -6,14 +6,20 @@ if (profile === null) {
   return "Loading...";
 }
 
-const policy = Near.view(state.daoId, "get_policy");
-
-const deposit = policy.proposal_bond;
-
 State.init({
   profile,
-  daoId,
+  daoId: "",
+  isDao: false,
 });
+
+const groupId = props.groupId ?? "community";
+const policy = Near.view(state.daoId, "get_policy");
+
+if (policy === null) {
+  return "Loading...";
+}
+
+const deposit = policy.proposal_bond;
 
 const profile_args = JSON.stringify({
   data: {
@@ -49,10 +55,26 @@ const handleProposal = () => {
         },
       },
       deposit: deposit,
-      gas: "30000000000000",
+      gas: "300000000000000",
     },
   ]);
 };
+
+const onChangeDao = (daoId) => {
+  State.update({
+    daoId,
+  });
+};
+
+let string = "sputnik-dao.near";
+
+const checkDao = (daoId) => {
+  if (daoId.indexOf(string) !== -1) {
+    return State.update({ isDao: true });
+  }
+};
+
+const validDao = checkDao(state.daoId);
 
 return (
   <div className="mb-3">
@@ -61,15 +83,16 @@ return (
         <div>
           <h4>Edit DAO Profile</h4>
         </div>
-        <div className="mb-2">
-          <label>Account ID</label>
+        <div className="mb-3">
+          Sputnik Contract ID:
           <input
+            type="text"
             placeholder="<example>.sputnik-dao.near"
-            value={daoId}
-            onChange={(e) => updateDAO(e.target.value)}
+            value={state.daoId}
+            onChange={(e) => onChangeDao(e.target.value)}
           />
         </div>
-        {daoId && (
+        {validDao && (
           <div className="mb-2">
             <Widget
               src="mob.near/widget/MetadataEditor"
@@ -119,14 +142,14 @@ return (
           <button
             className="btn btn-outline-success m-1"
             onClick={handleProposal}
-            disabled={!daoId}
+            disabled={!validDao}
           >
             Propose Changes
           </button>
           <button
             className="btn btn-outline-primary m-1"
             href={`#/hack.near/widget/DAO.Profile?daoId=${daoId}`}
-            disabled={!daoId}
+            disabled={!validDao}
           >
             View Profile
           </button>
