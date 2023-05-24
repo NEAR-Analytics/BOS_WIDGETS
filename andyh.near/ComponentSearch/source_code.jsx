@@ -61,9 +61,8 @@ const _search = (term) => {
         return;
       }
       const boosted =
-        boostedTag && metadata.tags && boostedTag in metadata.tags;
-      const tags = Object.keys(metadata.tags || {}).slice(0, 10);
-      console.log({ name });
+        boostedTag && metadata?.tags && boostedTag in metadata?.tags;
+      const tags = Object.keys(metadata?.tags || {}).slice(0, 10);
       const nameScore = computeScore(name);
       const tagsScore = Math.min(
         MaxSingleScore,
