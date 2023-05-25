@@ -95,14 +95,12 @@ const ShareButton = styled.button`
 return (
   <div className="pt-2 pb-5">
     <H4>
-      <a href="/#/dev-support.near/widget/DevSupport.Main">
+      <a href="javascript:history.back()">
         <i class="bi bi-arrow-left me-2" />
         Go back
       </a>
     </H4>
 
-    <div class="row mt-5">
-      <div class="col-md-8 col-12 pe-md-5">
         <Widget
           src="dev-support.near/widget/DevSupport.Question.PreviewDetailed"
           props={{
@@ -113,38 +111,5 @@ return (
             question,
           }}
         />
-      </div>
-      <SidebarWrapper className="col-md-4 col-12 ps-md-5 pt-md-0 pt-5 border-md-0">
-        <Widget
-          src="dmitriy_sheleg.near/widget/AccountProfileCard"
-          props={{ accountId }}
-        />
-        <H6 className="pt-5 pb-3">share</H6>
-
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-        >
-          <ShareButton
-            className="share-url"
-            type="button"
-            onMouseLeave={() => {
-              State.update({ copiedShareUrl: false });
-            }}
-            onClick={() => {
-              clipboard.writeText(shareUrl).then(() => {
-                State.update({ copiedShareUrl: true });
-              });
-            }}
-          >
-            {state.copiedShareUrl ? (
-              <i className="bi-16 bi bi-check"></i>
-            ) : (
-              <i className="bi-16 bi-link-45deg"></i>
-            )}
-          </ShareButton>
-        </OverlayTrigger>
-      </SidebarWrapper>
     </div>
-  </div>
 );
