@@ -71,7 +71,7 @@ const saveArticle = () => {
     lastEditor: accountId,
     timeLastEdit: Date.now(),
     version: Number(state.article.version) + 1,
-    tags: state.tags ? Object.keys(state.tags) : [],
+    tags: state.tags ? state.tags : [],
   };
 
   const composeArticleData = () => {
@@ -105,7 +105,7 @@ const areTheTextAndTagsTheSame = () => {
   const isThereNoTextInBody = !state.note;
   const doesTextUnchanged = article.body === state.note;
   const doesTagsUnchanged = state.tags
-    ? Object.keys(state.tags).join().toLowerCase() ===
+    ? state.tags.join().toLowerCase() ===
       state.article.tags.join().toLowerCase()
     : true;
   return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
@@ -124,13 +124,12 @@ const filterTagsFromNull = (tagsObj) => {
   // console.log(entries);
 
   const result = entries.reduce((acc, value) => {
-    const name = value[0];
     if (value[1] !== null) {
-      return { ...acc, [name]: value[1] };
+      return [...acc, value[0]];
     } else {
       return acc;
     }
-  }, {});
+  }, []);
   return result;
 };
 
