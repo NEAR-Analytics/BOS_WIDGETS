@@ -11,7 +11,7 @@ const myState = State.init({
   name: "",
   profession: "",
   description: "",
-  allPersons: items ? items : {},
+  allPersons: Social.get(`${accountId}/testPersons/**`),
 });
 
 //Add items to the local state
