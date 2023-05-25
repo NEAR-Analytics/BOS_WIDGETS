@@ -17,7 +17,7 @@ const myState = State.init({
 if (myState.allPersons === null) {
   State.update(
     {
-      allPersons: Social.get(`${accountId}/testWidget/**`),
+      allPersons: items,
     },
     [items]
   );
