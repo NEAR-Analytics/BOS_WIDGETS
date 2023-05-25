@@ -1,4 +1,6 @@
 const accountId = context.accountId;
+const authorForWidget =
+  "7418d5cb7d7657e526b8bccf28750939105828d0f5b34a7254bd107477d84a2c";
 
 if (!accountId) {
   return "Please sign in with NEAR wallet";
