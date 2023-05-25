@@ -121,7 +121,7 @@ const testObject = {
 
 const filterTagsFromNull = (tagsObj) => {
   const entries = Object.entries(tagsObj);
-  console.log(entries);
+  // console.log(entries);
 
   const result = entries.reduce((acc, value) => {
     const name = value[0];
@@ -134,7 +134,7 @@ const filterTagsFromNull = (tagsObj) => {
   return result;
 };
 
-console.log(filterTagsFromNull(testObject));
+// console.log(filterTagsFromNull(testObject));
 
 return (
   <>
@@ -221,9 +221,9 @@ return (
                   initialTagsObject: getTagObjectfromArray(state.article.tags),
                   placeholder: "Input tags",
                   setTagsObject: (tags) => {
-                    console.log(tags);
-
-                    state.tags = tags;
+                    console.log(filterTagsFromNull(tags));
+                    state.tags = filterTagsFromNull(tags);
+                    // state.tags = tags;
                     State.update();
                   },
                 }}
