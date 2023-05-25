@@ -11,9 +11,17 @@ const myState = State.init({
   name: "",
   profession: "",
   description: "",
-  allPersons: Social.get(`${accountId}/testPersons/**`),
+  allPersons: items ? items : null,
 });
 
+if (myState.allPersons === null) {
+  State.update(
+    {
+      allPersons: Social.get(`${accountId}/testWidget/**`),
+    },
+    [items]
+  );
+}
 //Add items to the local state
 function addItem() {
   let currItems = myState.allPersons;
