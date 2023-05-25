@@ -49,11 +49,16 @@ return (
     <div>
       <h2>All Persons</h2>
       <div>
-        {Object.values(myState.allPersons).map((item) => (
+        {Object.entries(myState.allPersons).map((item) => (
           <div>
-            <h4>{item.name}</h4>
-            <h6>{item.profession}</h6>
-            <h6>{item.description}</h6>
+            <a
+              href={`#/${authorForWidget}/widget/SingleTestItem?userId=${item[0]}
+        `}
+            >
+              <h4>{item[1].name}</h4>
+            </a>
+            <h6>{item[1].profession}</h6>
+            <h6>{item[1].description}</h6>
           </div>
         ))}
       </div>
