@@ -1,4 +1,6 @@
 let items = Social.get(`${accountId}/testPersons/**`);
+
+console.log("items", items);
 const myState = State.init({
   name: "",
   profession: "",
@@ -30,6 +32,19 @@ function addItem() {
 
 return (
   <div>
+    <div>
+      <h2>All Persons</h2>
+      <div>
+        {Object.entries(myState.allPersons).map((item) => (
+          <div>
+            <h4>{item.name}</h4>
+            <h6>{item.profession}</h6>
+            <h6>{item.description}</h6>
+          </div>
+        ))}
+      </div>
+    </div>
+
     <label for="name">Name: </label>
     <input
       type="text"
