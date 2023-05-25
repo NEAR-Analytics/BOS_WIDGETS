@@ -6,18 +6,11 @@ const myState = State.init({
   allPersons: items ? items : {},
 });
 
-//Upload data on chain
-function uploadData() {
-  Social.set({
-    testPersons: myState.allPersons,
-  });
-}
-
 //Add items to the local state
 function addItem() {
-  let currItems = myState.allItems;
+  let currItems = myState.allPersons;
   //If key has space
-  let key = Object.keys(myState.allItems).length;
+  let key = Object.keys(myState.allPersons).length;
 
   currItems[key] = {
     name: myState.name,
@@ -26,10 +19,10 @@ function addItem() {
   };
 
   State.update({
-    key: "",
-    value: "",
-    linkValue: "",
-    allItems: currItems,
+    name: "",
+    profession: "",
+    description: "",
+    allPersons: currItems,
   });
 
   console.log(myState);
@@ -60,7 +53,10 @@ return (
       onChange={(e) => State.update({ description: e.target.value })}
     />
     <button onClick={addItem}>Add item</button>
-    <CommitButton data={{ testWidget: myState.allItems }} onCommit={onCommit}>
+    <CommitButton
+      data={{ testPersons: myState.allPersons }}
+      onCommit={onCommit}
+    >
       Upload data
     </CommitButton>
   </div>
