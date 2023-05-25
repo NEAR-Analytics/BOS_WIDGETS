@@ -97,6 +97,7 @@ const saveArticle = () => {
 //======= Create initialTagsObject for TagsEditor widget =======
 // const initialTestArray = ["learner", "crypto", "social"];
 const getTagObjectfromArray = (tagArray) => {
+  if (!tagArray) return {};
   return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
 };
 // console.log(getTagObjectfromArray(initialTestArray));
