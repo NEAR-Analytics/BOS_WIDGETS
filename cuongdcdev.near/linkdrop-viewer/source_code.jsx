@@ -3,8 +3,11 @@ if (!k) {
   return (
     <h4>
       You need to create Keypom drop first!
-      <br /> Click here to generate Keypom linkdrops:
-      <a href="/cuongdcdev.near/widget/linkdrop_plus">Linkdrop plus</a>
+      <br /> Search for "Linkdrop plus" <br />
+      or click here to open the app on near.org:
+      <a href="https://near.org/cuongdcdev.near/widget/linkdrop_plus">
+        Linkdrop plus
+      </a>
     </h4>
   );
 }
