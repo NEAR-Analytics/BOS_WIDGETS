@@ -71,7 +71,7 @@ const saveArticle = () => {
     lastEditor: accountId,
     timeLastEdit: Date.now(),
     version: Number(state.article.version) + 1,
-    tags: state.tags ? state.tags : [],
+    tags: state.tags ? state.tags : state.article.tags,
   };
 
   const composeArticleData = () => {
