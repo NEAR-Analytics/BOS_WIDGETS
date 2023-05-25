@@ -111,6 +111,31 @@ const areTheTextAndTagsTheSame = () => {
   return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
 };
 
+const testObject = {
+  learner: "",
+  crypto: "",
+  social: "",
+  near: "",
+  community: null,
+};
+
+const filterTagsFromNull = (tagsObj) => {
+  const entries = Object.entries(tagsObj);
+  console.log(entries);
+
+  const result = entries.reduce((acc, value) => {
+    const name = value[0];
+    if (value[1] !== null) {
+      return { ...acc, [name]: value[1] };
+    } else {
+      return acc;
+    }
+  }, {});
+  return result;
+};
+
+console.log(filterTagsFromNull(testObject));
+
 return (
   <>
     <Widget
@@ -197,6 +222,7 @@ return (
                   placeholder: "Input tags",
                   setTagsObject: (tags) => {
                     console.log(tags);
+
                     state.tags = tags;
                     State.update();
                   },
