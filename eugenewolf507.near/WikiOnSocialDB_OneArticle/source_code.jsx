@@ -105,24 +105,21 @@ const getTagObjectfromArray = (tagArray) => {
 const areTheTextAndTagsTheSame = () => {
   const isThereNoTextInBody = !state.note;
   const doesTextUnchanged = article.body === state.note;
-  const doesTagsUnchanged = state.tags
-    ? state.tags.join().toLowerCase() ===
-      state.article.tags.join().toLowerCase()
-    : true;
+  let doesTagsUnchanged = true;
+  if (state.tags) {
+    if (state.article.tags) {
+      doesTagsUnchanged =
+        state.tags.join().toLowerCase() ===
+        state.article.tags.join().toLowerCase();
+    } else {
+      doesTagsUnchanged = false;
+    }
+  }
   return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
-};
-
-const testObject = {
-  learner: "",
-  crypto: "",
-  social: "",
-  near: "",
-  community: null,
 };
 
 const filterTagsFromNull = (tagsObj) => {
   const entries = Object.entries(tagsObj);
-  // console.log(entries);
 
   const result = entries.reduce((acc, value) => {
     if (value[1] !== null) {
@@ -133,8 +130,6 @@ const filterTagsFromNull = (tagsObj) => {
   }, []);
   return result;
 };
-
-// console.log(filterTagsFromNull(testObject));
 
 return (
   <>
