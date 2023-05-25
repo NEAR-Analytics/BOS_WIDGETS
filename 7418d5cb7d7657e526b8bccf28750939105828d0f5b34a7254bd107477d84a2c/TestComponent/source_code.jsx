@@ -1,3 +1,9 @@
+const accountId = context.accountId;
+
+if (!accountId) {
+  return "Please sign in with NEAR wallet";
+}
+
 let items = Social.get(`${accountId}/testPersons/**`);
 
 console.log("items", items);
@@ -21,10 +27,10 @@ function addItem() {
   };
 
   State.update({
+    allPersons: currItems,
     name: "",
     profession: "",
     description: "",
-    allPersons: currItems,
   });
 
   console.log(myState);
@@ -35,7 +41,7 @@ return (
     <div>
       <h2>All Persons</h2>
       <div>
-        {Object.entries(myState.allPersons).map((item) => (
+        {Object.values(myState.allPersons).map((item) => (
           <div>
             <h4>{item.name}</h4>
             <h6>{item.profession}</h6>
