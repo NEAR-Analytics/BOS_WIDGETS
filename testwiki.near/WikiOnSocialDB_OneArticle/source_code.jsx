@@ -1,6 +1,6 @@
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
-const authorForWidget = "eugenewolf507.near";
+const authorForWidget = "testwiki.near";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -22,7 +22,7 @@ const article = JSON.parse(
 State.update({ article });
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const authorsWhiteList = ["neardigitalcollective.near"];
+const authorsWhiteList = ["507.near", "wolf.near"];
 const doesUserCanEditArticle = () => {
   const isAccountIdInWhiteList = authorsWhiteList.some(
     (val) => val === accountId
@@ -64,13 +64,14 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
-const saveArticle = (args) => {
+const saveArticle = () => {
   const newArticleData = {
     ...state.article,
     body: state.note,
     lastEditor: accountId,
     timeLastEdit: Date.now(),
     version: Number(state.article.version) + 1,
+    tags: state.tags ? state.tags : state.article.tags,
   };
 
   const composeArticleData = () => {
@@ -93,6 +94,41 @@ const saveArticle = (args) => {
   Social.set(newData, { force: true });
 };
 
+//======= Create initialTagsObject for TagsEditor widget =======
+const getTagObjectfromArray = (tagArray) => {
+  if (!tagArray) return {};
+  return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
+};
+
+const areTheTextAndTagsTheSame = () => {
+  const isThereNoTextInBody = !state.note;
+  const doesTextUnchanged = article.body === state.note;
+  let doesTagsUnchanged = true;
+  if (state.tags) {
+    if (state.article.tags) {
+      doesTagsUnchanged =
+        state.tags.join().toLowerCase() ===
+        state.article.tags.join().toLowerCase();
+    } else {
+      doesTagsUnchanged = false;
+    }
+  }
+  return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
+};
+
+const filterTagsFromNull = (tagsObj) => {
+  const entries = Object.entries(tagsObj);
+
+  const result = entries.reduce((acc, value) => {
+    if (value[1] !== null) {
+      return [...acc, value[0]];
+    } else {
+      return acc;
+    }
+  }, []);
+  return result;
+};
+
 return (
   <>
     <Widget
@@ -100,7 +136,8 @@ return (
       props={{ currentNavPill: "articles" }}
     />
     <div>
-      <h4>Article: {state.article.articleId}</h4>
+      <h1>Article: {state.article.articleId}</h1>
+      {/* === BUTTON - EDIT ARTICLE === */}
       {doesUserCanEditArticle() && (
         <button
           onClick={() => {
@@ -114,22 +151,15 @@ return (
           Edit Article
         </button>
       )}
-      {/* === BUTTON - EDIT ARTICLE === */}
+      {/* === BUTTON - SAVE ARTICLE === */}
       {state.editArticle && (
         <>
           <button
             type="button"
             className="btn btn-success"
             onClick={() => {
-              if (!state.note || article.body === state.note) return;
-
-              const args = {
-                article_id: state?.articleId,
-                body: state.note,
-                navigation_id: null,
-              };
-
-              saveArticle(args);
+              if (areTheTextAndTagsTheSame()) return;
+              saveArticle();
             }}
           >
             Save Article{" "}
@@ -179,6 +209,17 @@ return (
             </div>
             <div className="w-50">
               <Widget
+                src="mob.near/widget/TagsEditor"
+                props={{
+                  initialTagsObject: getTagObjectfromArray(state.article.tags),
+                  placeholder: "Input tags",
+                  setTagsObject: (tags) => {
+                    state.tags = filterTagsFromNull(tags);
+                    State.update();
+                  },
+                }}
+              />
+              <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{ text: state.note }}
               />
@@ -186,8 +227,17 @@ return (
           </div>
         </>
       )}
+      {/* MARKDOWN and TAGS list when user doesn't edit article  */}
       {!state.editArticle && (
-        <Markdown text={state.note || state.article.body} />
+        <>
+          <div className="pt-2">
+            <Widget
+              src={`${authorForWidget}/widget/WikiOnSocialDB_TagList`}
+              props={{ tags: state.article.tags }}
+            />
+          </div>
+          <Markdown text={state.note || state.article.body} />
+        </>
       )}
       {/* === VIEW HISTORY === */}
       {state.viewHistory && (
