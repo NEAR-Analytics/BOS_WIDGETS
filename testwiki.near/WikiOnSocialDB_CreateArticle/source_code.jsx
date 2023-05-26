@@ -230,9 +230,11 @@ const initialCreateArticleState = {
   articleBody: initialBody,
   errorId: "",
   errorBody: "",
+  tags: {},
 };
 
 State.init(initialCreateArticleState);
+const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
 
 const getArticleData = () => {
   const args = {
@@ -244,6 +246,7 @@ const getArticleData = () => {
     body: state.articleBody,
     version: 0,
     navigation_id: null,
+    tags: tagsArray,
   };
   return args;
 };
@@ -262,6 +265,15 @@ const composeData = () => {
       }),
     },
   };
+
+  if (tagsArray.length) {
+    data.index.tag = JSON.stringify(
+      tagsArray.map((tag) => ({
+        key: tag,
+        value: item,
+      }))
+    );
+  }
   return data;
 };
 
@@ -327,11 +339,25 @@ return (
             className="form-control mt-2"
             id="inputArticleId"
             value={state.articleId}
+            placeholder="Input article id"
             onChange={(e) => {
               State.update({
                 ...state,
                 articleId: e.target.value.replace(/\s+/g, ""),
               });
+            }}
+          />
+        </div>
+        <div class="d-flex flex-column pt-3">
+          <Widget
+            src="mob.near/widget/TagsEditor"
+            props={{
+              initialTagsObject: state.tags,
+              placeholder: "Input tags",
+              setTagsObject: (tags) => {
+                state.tags = tags;
+                State.update();
+              },
             }}
           />
         </div>
