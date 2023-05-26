@@ -5,7 +5,7 @@ State.init({
   showBrowser: false,
 });
 const res = fetch(
-  "https://perzvjxfz9.execute-api.us-east-1.amazonaws.com/production/api/v1/buildspace/showcase"
+  "https://t4zr86bzl5.execute-api.us-east-1.amazonaws.com/production/api/v1/buildspace/showcase"
 );
 
 if (!res.body?.list1)
@@ -20,13 +20,24 @@ const handleBrowseButton = () => {
 };
 
 const CardWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 524px;
+  display: flex;
+  flex-direction: row;
 
   @media screen and (max-width: 800px)  {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+
+    .scroll-container {
+      display: none;
+    }
   }
 `;
+
+// return (
+//   <CardWrapper>
+//     <div style={{ width: "100%", backgroundColor: "red" }}>Line 1</div>
+//     <div style={{ width: "100%", backgroundColor: "green" }}>Line 2</div>
+//   </CardWrapper>
+// );
 
 return state.showBrowser ? (
   <Widget
@@ -46,7 +57,7 @@ return state.showBrowser ? (
       backgroundColor: "#000" || theme.backgroundColor,
     }}
   >
-    <CardWrapper
+    <div
       style={{
         height: "100%",
         maxHeight: "100vh",
@@ -54,12 +65,12 @@ return state.showBrowser ? (
         maxWidth: 1250,
         display: "grid",
         gap: 32,
-        // gridTemplateColumns: "1fr 524px",
+        gridTemplateColumns: "1fr 524px",
         paddingInline: 16,
       }}
     >
       <Widget
-        src="saidulbadhon.near/widget/s3.buildspace.home.leftSide"
+        src="saidulbadhon.near/widget/s3.buildspace.leftSide"
         props={{
           theme,
           handleBrowseButton,
@@ -89,7 +100,7 @@ return state.showBrowser ? (
           {res.body?.list1?.map((item, index) => (
             <Widget
               key={index}
-              src="saidulbadhon.near/widget/s3.buildspace.home.rightSide.card"
+              src="saidulbadhon.near/widget/s3.buildspace.rightSide.card"
               props={{ theme, card: item }}
             />
           ))}
@@ -110,12 +121,12 @@ return state.showBrowser ? (
           {res.body?.list2?.map((item, index) => (
             <Widget
               key={index}
-              src="saidulbadhon.near/widget/s3.buildspace.home.rightSide.card"
+              src="saidulbadhon.near/widget/s3.buildspace.rightSide.card"
               props={{ theme, card: item }}
             />
           ))}
         </div>
       </div>
-    </CardWrapper>
+    </div>
   </div>
 );
