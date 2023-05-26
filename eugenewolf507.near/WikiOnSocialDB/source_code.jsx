@@ -7,6 +7,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
   return 'Loading';
 }
+console.log('dsf');
 return (
   <>
     <Widget
