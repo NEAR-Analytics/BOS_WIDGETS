@@ -15,66 +15,25 @@ State.init({
 });
 
 const onBadgeClick = (badge) => {
-  console.log("badge selectd", badge);
   State.update({
     badgeSelected: badge,
+    holdersProfiles: [],
+    holdersAccounts: [],
+    noBadgepeople: [],
+    pathQueryPeople: [],
   });
-  //   const badgeQuery = Social.getr(`${accountId}/badge/${badgeName}/*`, "final");
-
-  //   let badgeInfo = badgeQuery.info;
-  //   console.log("badgeInfo", badgeInfo);
-  //   State.update({
-  //     badgeSelected: badge,
-  //   });
-};
-
-const badgedIssuedByAccountQuery = Social.getr(`${accountId}/badge/*`, "final");
-if (!badgedIssuedByAccountQuery) return "Loading...";
-console.log("all account badged", badgedIssuedByAccountQuery);
-
-if (badgedIssuedByAccountQuery) {
-  const allBadges = Object.entries(badgedIssuedByAccountQuery);
-  console.log("all badges", allBadges);
-  console.log("first badge key", allBadges[0][0]);
-  console.log("first badge value", allBadges[0][1].info);
-  const initBadge = allBadges[0];
-  if (!state.badgeSelected)
-    State.update({
-      badgeSelected: { key: initBadge[0], ...initBadge[1].info },
-    });
-
-  //   // init state badge selected
-  //   onBadgeClick(state.badgeSelected);
-}
-
-const predefinedQueries = [
-  { name: "Widget Builders", query: "*/widget/*" },
-  { name: "Feature Builders", query: "*/widget/*/metadata/tags/app" },
-];
-let allPeople = [];
-let noBadgepeople = [];
-let pathQueryPeople = [];
-if (state.badgeSelected) {
-  console.log("badge selected", state.badgeSelected);
-  const data = Social.keys(
-    `*/badge/${state.badgeSelected.key}/holder/*`,
-    "final"
+  let holdersAccounts = Object.keys(badge.holder).filter(
+    (account) => account !== ""
   );
-  if (!data) {
-    return "Loading";
-  }
 
-  let accounts = Object.keys(data);
-  const numAccounts = accounts.length;
-  accounts = accounts.slice(numAccounts - limit, numAccounts);
-
-  for (let i = 0; i < accounts.length; ++i) {
-    const accountId = accounts[i];
-    allPeople.push(
+  let holdersProfiles = [];
+  for (let i = 0; i < holdersAccounts.length; ++i) {
+    const accountId = holdersAccounts[i];
+    holdersProfiles.push(
       <a
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
         className="text-decoration-none"
-        key={`people_${i}`}
+        key={`${i}`}
       >
         <Widget
           src="mob.near/widget/ProfileImage"
@@ -87,11 +46,207 @@ if (state.badgeSelected) {
       </a>
     );
   }
-  console.log("all people", allPeople);
-  for (let i = 0; i < state.accountsOnPath.length; ++i) {
-    const accountId = state.accountsOnPath[i];
+  State.update({ holdersProfiles, holdersAccounts });
+};
+
+const badgedIssuedByAccountQuery = Social.getr(`${accountId}/badge/*`, "final");
+if (!badgedIssuedByAccountQuery) return "Loading...";
+
+if (badgedIssuedByAccountQuery) {
+  const allBadgesIssued = Object.entries(badgedIssuedByAccountQuery);
+  const initBadge = allBadges[0];
+  if (!state.badgeSelected)
+    State.update({
+      badgeSelected: { key: initBadge[0], info: { ...initBadge[1].info } },
+    });
+  State.update({ allBadgesIssued });
+}
+
+const predefinedQueries = [
+  { name: "Widget Builders", query: "*/widget/*" },
+  { name: "Feature Builders", query: "*/widget/*/metadata/tags/app" },
+];
+
+const BadgeImg = styled.img`
+  objectFit: "cover";
+  objectPosition: "center";
+  height: ${size};
+  width: ${size};
+`;
+
+const onProfileClick = (accountId) => {
+  if (state.peopleSelected.includes(accountId)) {
+    // remove account
+    State.update({
+      peopleSelected: [...state.peopleSelected.filter((i) => i !== accountId)],
+    });
+  } else {
+    // add account
+    State.update({ peopleSelected: [...state.peopleSelected, accountId] });
+  }
+};
+
+const renderMintButton = (badgeData, buttonText, holders) => (
+  <CommitButton
+    data={{
+      badge: {
+        [badgeData.key]: {
+          info: badgeData.info,
+          holder: {
+            [holders]: "",
+          },
+        },
+      },
+    }}
+  >
+    {buttonText}
+    <span class="badge badge-info">{holders.length}</span>
+  </CommitButton>
+);
+
+const renderCreateNewBadgeForm = () => (
+  <>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">
+        Key (unique)
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          className={`form-control`}
+          id="name"
+          value={state.badgeInfo.key}
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">
+        Name
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          className={`form-control`}
+          id="name"
+          value={state.badgeInfo.name}
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">
+        Description
+      </label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          className={`form-control`}
+          id="name"
+          value={state.badgeInfo.description}
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">
+        Image
+      </label>
+
+      <div class="col-sm-10">
+        <IpfsImageUpload image={state.badgeInfo.image} />
+      </div>
+
+      <div class="ratio ratio-1x1 overflow-hidden" style={{ width: "8rem" }}>
+        {state.badgeInfo.image.cid && (
+          <img
+            src={`https://ipfs.near.social/ipfs/${state.badgeInfo.image.cid}`}
+            alt="badge"
+          />
+        )}
+      </div>
+    </div>
+    {renderMintButton(
+      {
+        key: state.badgeInfo.key.replace(/ /g, ""),
+        info: {
+          name: state.badgeInfo.name,
+          description: state.badgeInfo.description,
+          image: {
+            url: `https://ipfs.near.social/ipfs/${state.badgeInfo.image.cid}`,
+          },
+        },
+      },
+      "Create new Badge",
+      []
+    )}
+  </>
+);
+const renderBadgeDetails = () => (
+  <>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">
+        Key (unique)
+      </label>
+      <div class="col-sm-10">
+        <p class="form-control-plaintext">{state.badgeSelected.key}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">
+        Name
+      </label>
+      <div class="col-sm-10">
+        <p class="form-control-plaintext">{state.badgeSelected.info.name}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">
+        Description
+      </label>
+      <div class="col-sm-10">
+        <p class="form-control-plaintext">
+          {state.badgeSelected.info.description}
+        </p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">
+        Image
+      </label>
+      <div class="ratio ratio-1x1 overflow-hidden" style={{ width: "8rem" }}>
+        <BadgeImg
+          src={state.badgeSelected.info.image.url}
+          alt="badge"
+          title={state.badgeSelected.info.description}
+        />
+      </div>
+    </div>
+  </>
+);
+
+const renderNavItemButton = (tabId, tabText, disabled) => (
+  <button
+    className={`${disabled ? "disabled" : ""}  nav-link ${
+      state.activeTab == tabId ? "active" : ""
+    }`}
+    id={tabId}
+    data-mdb-toggle="tab"
+    role="tab"
+    aria-controls={tabId}
+    aria-selected="true"
+    onClick={() => {
+      State.update({ activeTab: tabId });
+    }}
+  >
+    {tabText}
+  </button>
+);
+
+const onUpdateSearchResult = (accountsOnPath) => {
+  let pathQueryPeople = [];
+  let noBadgepeople = [];
+  for (let i = 0; i < accountsOnPath.length; ++i) {
+    const accountId = accountsOnPath[i];
     const isSelected = state.peopleSelected.includes(accountId);
-    const hasBadge = accounts.includes(accountId);
+    const hasBadge = state.holdersAccounts.includes(accountId);
     if (!hasBadge) noBadgepeople.push(accountId);
 
     pathQueryPeople.push(
@@ -120,191 +275,7 @@ if (state.badgeSelected) {
       </button>
     );
   }
-  console.log("path query people", pathQueryPeople);
-}
-const BadgeImg = styled.img`
-  objectFit: "cover";
-  objectPosition: "center";
-  height: ${size};
-  width: ${size};
-`;
-
-const onProfileClick = (accountId) => {
-  if (state.peopleSelected.includes(accountId)) {
-    // remove account
-    State.update({
-      peopleSelected: [...state.peopleSelected.filter((i) => i !== accountId)],
-    });
-  } else {
-    // add account
-    State.update({ peopleSelected: [...state.peopleSelected, accountId] });
-  }
-};
-
-const renderMintButton = (badgeData, buttonText, holders) => {
-  console.log("badge", badgeData);
-  return (
-    <CommitButton
-      data={{
-        badge: {
-          [badgeData.key]: {
-            info: badgeData.info,
-            holder: {
-              [holders]: "",
-            },
-          },
-        },
-      }}
-    >
-      {buttonText}
-      <span class="badge badge-info">{holders.length}</span>
-    </CommitButton>
-  );
-};
-const renderCreateNewBadgeForm = () => {
-  return (
-    <>
-      <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">
-          Key (unique)
-        </label>
-        <div class="col-sm-10">
-          <input
-            type="text"
-            className={`form-control`}
-            id="name"
-            value={state.badgeInfo.key}
-          />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">
-          Name
-        </label>
-        <div class="col-sm-10">
-          <input
-            type="text"
-            className={`form-control`}
-            id="name"
-            value={state.badgeInfo.name}
-          />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="description" class="col-sm-2 col-form-label">
-          Description
-        </label>
-        <div class="col-sm-10">
-          <input
-            type="text"
-            className={`form-control`}
-            id="name"
-            value={state.badgeInfo.description}
-          />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="description" class="col-sm-2 col-form-label">
-          Image
-        </label>
-
-        <div class="col-sm-10">
-          <IpfsImageUpload image={state.badgeInfo.image} />
-        </div>
-
-        <div class="ratio ratio-1x1 overflow-hidden" style={{ width: "8rem" }}>
-          {state.badgeInfo.image.cid && (
-            <img
-              src={`https://ipfs.near.social/ipfs/${state.badgeInfo.image.cid}`}
-              alt="badge"
-            />
-          )}
-        </div>
-      </div>
-      {renderMintButton(
-        {
-          key: state.badgeInfo.key.replace(/ /g, ""),
-          info: {
-            name: state.badgeInfo.name,
-            description: state.badgeInfo.description,
-            image: {
-              url: `https://ipfs.near.social/ipfs/${state.badgeInfo.image.cid}`,
-            },
-          },
-        },
-        "Create new Badge",
-        []
-      )}
-    </>
-  );
-};
-const renderBadgeDetails = () => {
-  return (
-    <>
-      <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">
-          Key (unique)
-        </label>
-        <div class="col-sm-10">
-          <p class="form-control-plaintext">{state.badgeSelected.key}</p>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="name" class="col-sm-2 col-form-label">
-          Name
-        </label>
-        <div class="col-sm-10">
-          <p class="form-control-plaintext">{state.badgeSelected.name}</p>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="description" class="col-sm-2 col-form-label">
-          Description
-        </label>
-        <div class="col-sm-10">
-          <p class="form-control-plaintext">
-            {state.badgeSelected.description}
-          </p>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="description" class="col-sm-2 col-form-label">
-          Image
-        </label>
-        <div class="ratio ratio-1x1 overflow-hidden" style={{ width: "8rem" }}>
-          <BadgeImg
-            src={state.badgeSelected.image.url}
-            alt="badge"
-            title={state.badgeSelected.description}
-          />
-        </div>
-      </div>
-    </>
-  );
-};
-
-const renderNavItemButton = (tabId, tabText, disabled) => {
-  return (
-    <button
-      className={`${disabled ? "disabled" : ""}  nav-link ${
-        state.activeTab == tabId ? "active" : ""
-      }`}
-      id={tabId}
-      data-mdb-toggle="tab"
-      role="tab"
-      aria-controls={tabId}
-      aria-selected="true"
-      onClick={() => {
-        State.update({ activeTab: tabId });
-      }}
-    >
-      {tabText}
-    </button>
-  );
-};
-
-const onUpdateSearchResult = (result) => {
-  State.update({ accountsOnPath: result });
+  State.update({ accountsOnPath, pathQueryPeople, noBadgepeople });
 };
 
 return (
@@ -320,7 +291,6 @@ return (
             }`}
             key={`badge_${key}`}
             onClick={() => {
-              console.log("value on click", value);
               onBadgeClick({ key: key, ...value });
             }}
           >
@@ -372,8 +342,8 @@ return (
         aria-labelledby="owners"
       >
         <div>
-          <div class="d-flex flex-wrap gap-1">{allPeople}</div>
-          <div>Total {numAccounts} profiles</div>
+          <div class="d-flex flex-wrap gap-1">{state.holdersProfiles}</div>
+          <div>Total {state.holdersProfiles.length} profiles</div>
         </div>
       </div>
 
@@ -389,23 +359,23 @@ return (
           <Widget
             src="manzanal.near/widget/PeopleExplorer"
             props={{
-              onUpdateSearchResult: onUpdateSearchResult,
-              predefinedQueries: predefinedQueries,
+              onUpdateSearchResult,
+              predefinedQueries,
               debug: false,
             }}
           />
           <div>
-            <div class="d-flex flex-wrap gap-1">{pathQueryPeople}</div>
-            <div>Total {pathQueryPeople.length} profiles</div>
+            <div class="d-flex flex-wrap gap-1">{state.pathQueryPeople}</div>
+            <div>Total {state.pathQueryPeople.length} profiles</div>
 
             {renderMintButton(
               state.badgeSelected,
-              "Mint badge to all no badge people",
-              noBadgepeople
+              "Mint badge to all accounts",
+              state.noBadgepeople
             )}
             {renderMintButton(
               state.badgeSelected,
-              "Mint badge to selected people",
+              "Mint badge to selected accounts",
               state.peopleSelected
             )}
           </div>
