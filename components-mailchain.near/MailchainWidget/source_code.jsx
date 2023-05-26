@@ -174,6 +174,7 @@ return (
     style={{
       padding: props.padding,
       margin: props.margin,
+      float: "left",
     }}
   >
     <OverlayTrigger
