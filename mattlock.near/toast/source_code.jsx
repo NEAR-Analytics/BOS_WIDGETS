@@ -3,28 +3,30 @@
 const css = `
   .toasted-container {
     width: 100%;
+    height: 100%;
     text-align: center;
     position: absolute;
-    top: 64px;
+    top: 0;
     left: 0;
     z-index: 9999999;
-    padding: 32px;
+    padding: 64px 0;
+    background: #00000088;
   }
   .toasted {
     position: relative;
     background: black;
-    border: 2px solid #884444;
-    box-shadow: 0 0 8px #884444;
-    border-radius: 2px;
+    border: 1px solid #BB4444;
+    box-shadow: 0 0 16px #884444;
+    border-radius: 4px;
     padding: 16px;
-    margin: 16px;
+    margin: 0 5vw;
     > .close {
       position: absolute;
-      top: -9px;
-      right: 4px;
+      top: -5px;
+      right: 6px;
       cursor:pointer;
       font-weight: bold;
-      font-size: 32px;
+      font-size: 24px;
     }
   }
 `;
@@ -37,6 +39,8 @@ if (!state.theme) {
     box-sizing: border-box;
     font-family: Sans-Serif;
     ${css}`,
+    // uncomment to preview toast
+    //debug: "Debugging sample toast message!",
   });
 }
 
@@ -44,11 +48,16 @@ const Theme = props.theme || state.theme;
 
 return (
   <Theme>
-    {props.toast && (
+    {(props.toast || state.debug) && (
       <div class="toasted-container">
         <div class="toasted">
-          {props.toast}
-          <div class="close" onClick={props.onClose}>
+          {props.toast || state.debug}
+          <div
+            class="close"
+            onClick={
+              state.debug ? () => State.update({ debug: false }) : onClose
+            }
+          >
             ⨉
           </div>
         </div>
