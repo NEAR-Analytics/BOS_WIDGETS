@@ -1,9 +1,3 @@
-const toast = (toast) => {
-  State.update({
-    toast,
-  });
-};
-
 // CSS
 
 const css = `
@@ -52,8 +46,8 @@ return (
     {props.toast && (
       <div class="toasted-container">
         <div class="toasted">
-          {state.toast}
-          <div class="close" onClick={() => State.update({ toast: null })}>
+          {props.toast}
+          <div class="close" onClick={props.onClose}>
             ⨉
           </div>
         </div>
