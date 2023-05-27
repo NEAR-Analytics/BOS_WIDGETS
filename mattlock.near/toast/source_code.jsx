@@ -5,16 +5,17 @@ const css = `
     width: 100%;
     text-align: center;
     position: absolute;
-    top: -32px;
+    top: 64px;
     left: 0;
     z-index: 9999999;
-    padding: 16px;
+    padding: 32px;
   }
   .toasted {
     position: relative;
     background: black;
-    border: 2px solid #FF4444;
-    box-shadow: 0 0 8px #FF4444;
+    border: 2px solid #884444;
+    box-shadow: 0 0 8px #884444;
+    border-radius: 2px;
     padding: 16px;
     margin: 16px;
     > .close {
