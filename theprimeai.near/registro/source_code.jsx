@@ -42,6 +42,15 @@ const notLoggedInWarning = (
 // Render
 return (
   <>
+    <div class="img-fluid  text-center">
+      <div class="col-lg-12">
+        <img
+          class="float-center"
+          src="https://ipfs.near.social/ipfs/bafkreiha52l7x24ynagm37a2kcw62g6h76upfwhred65dvokrjujp6x7ty"
+          width="600"
+        />
+      </div>
+    </div>
     <div class="container border border-info p-3">
       <h3 class="text-center">The PRIME AI</h3>
       <h4 class="text-center">Registra un nuevo topic</h4>
@@ -61,12 +70,15 @@ return (
               return (
                 <>
                   <tr>
-                    <td>{data.sender}</td>
+                    <td>{data.creator}</td>
                     <td>{data.topic}</td>
                     <td>
                       {" "}
-                      <button class="btn btn-primary mt-2" onClick={onBtnClick}>
-                        Seleccionar
+                      <button
+                        class="btn btn-primary mt-2 bg-white"
+                        onClick={onBtnClick}
+                      >
+                        <a href="/theprimeai.near/widget/votacion">Vota</a>
                       </button>
                     </td>
                   </tr>
