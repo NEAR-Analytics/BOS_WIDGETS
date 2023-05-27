@@ -55,7 +55,7 @@ return (
           <div
             class="close"
             onClick={
-              state.debug ? () => State.update({ debug: false }) : onClose
+              state.debug ? () => State.update({ debug: false }) : props.onClose
             }
           >
             ⨉
