@@ -34,15 +34,9 @@ const numAccounts = accountWidgetSort.length;
 accountWidgetSort = accountWidgetSort.slice(0, limit);
 console.log(accountWidgetSort);
 
-const totalWidgetCount = accountWidgetCount.reduce(
-  (sum, account) => sum + account.count,
-  0
-);
-
 return (
   <>
     <h3 className="m-2">Builders</h3>
-    <div className="m-2">Total Widgets: {totalWidgetCount}</div>{" "}
     {accountWidgetCount.map((rank, index) => {
       let accountId = rank.accountId;
       return (
