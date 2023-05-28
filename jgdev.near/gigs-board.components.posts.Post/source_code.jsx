@@ -2,11 +2,9 @@
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -15,7 +13,6 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
-
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -27,31 +24,66 @@ function widget(widgetName, widgetProps, key) {
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
-
   if (props.nearDevGovGigsContractAccountId) {
     linkProps.nearDevGovGigsContractAccountId =
       props.nearDevGovGigsContractAccountId;
   }
-
   if (props.nearDevGovGigsWidgetsAccountId) {
     linkProps.nearDevGovGigsWidgetsAccountId =
       props.nearDevGovGigsWidgetsAccountId;
   }
-
   if (props.referral) {
     linkProps.referral = props.referral;
   }
-
   const linkPropsQuery = Object.entries(linkProps)
-    .filter(([_key, nullable]) => (nullable ?? null) !== null)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
-/* END_INCLUDE: "common.jsx" */
+
+const WrapperWidget = ({ children, id, storageType }) => {
+  // This function handles the state change for the children widgets
+  const handleStateChange = (key, value) => {
+    // Use the unique identifier to create a unique storage key
+    const storageKey = `${id}_${key}`;
+
+    if (storageType === "local") {
+      // Update the local storage with the new state
+      localStorage.setItem(storageKey, JSON.stringify(value));
+    } else if (storageType === "sync") {
+      // Update the sync storage with the new state
+      // Replace this with the appropriate API call for your sync storage
+      syncStorage.setItem(storageKey, JSON.stringify(value));
+    }
+  };
+
+  // This function initializes the state of the children widgets
+  const initState = (key, defaultValue) => {
+    // Use the unique identifier to create a unique storage key
+    const storageKey = `${id}_${key}`;
+
+    let storedValue;
+    if (storageType === "local") {
+      storedValue = localStorage.getItem(storageKey);
+    } else if (storageType === "sync") {
+      // Retrieve the value from sync storage
+      // Replace this with the appropriate API call for your sync storage
+      storedValue = syncStorage.getItem(storageKey);
+    }
+
+    if (storedValue) {
+      return JSON.parse(storedValue);
+    }
+    return defaultValue;
+  };
+
+  // Render the children widgets and pass the state management functions as props
+  return React.Children.map(children, (child) =>
+    React.cloneElement(child, { handleStateChange, initState })
+  );
+};/* END_INCLUDE: "common.jsx" */
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post =
@@ -75,7 +107,7 @@ const childPostIdsUnordered =
 
 const childPostIds = props.isPreview ? [] : childPostIdsUnordered.reverse();
 const expandable = props.isPreview ? false : props.expandable ?? false;
-const defaultExpanded = expandable ? props.defaultExpanded : false;
+const defaultExpanded = expandable ? props.defaultExpanded : true;
 
 function readableDate(timestamp) {
   var a = new Date(timestamp);
@@ -173,103 +205,32 @@ const shareButton = props.isPreview ? (
     role="button"
     target="_blank"
     title="Open in new tab"
-    style={{ color: "rgb(0,128,128)", border: "1em" }}
   >
     <div class="bi bi-share"></div>
   </a>
 );
 
-const StyledLink = styled.a`
-  color: rgba(0, 0, 0, 0.8);
-  font-size: inherit;
-  font-style: italic;
-  font-weight: bold;
-  opacity: 0.75;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const StyledDiv = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: end;
-  align-items: center;
-  width: 100%;
-  color: rgba(0, 0, 0, 0.8);
-  // padding: "15px";
-  margin-right: 16px;
-  font-size: 1.2em;
-`;
-
-const ResponsiveDiv = styled.div`
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  width: 100%;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const accountId = post.author_id;
-
 const header = (
-  <ResponsiveDiv className="py-1 px-3" style={{ fontSize: "1em" }}>
-    <div className="d-flex align-items-center justify-content-between">
-      <div
-        className="col-auto d-flex align-items-center"
-        style={{ padding: "20px" }}
-      >
-        <div
-          className="square rounded-circle"
-          style={{
-            overflow: "hidden",
-            width: "3.33em",
-            height: "3.33em",
-            backgroundColor: "#008080",
-          }}
-        >
+  <div className="card-header" key="header">
+    <small class="text-muted">
+      <div class="row justify-content-between">
+        <div class="col-4">
           <Widget
-            key="image"
-            src="mob.near/widget/ProfileImage"
-            props={{
-              style: { width: "100%", height: "100%" },
-              profile,
-              accountId,
-            }}
+            src={`neardevgov.near/widget/ProfileLine`}
+            props={{ accountId: post.author_id }}
           />
         </div>
-        <div style={{ marginLeft: "1em" }}>
-          <span style={{ fontSize: "1.35em", fontWeight: "700" }}>
-            {post.author_id}
-          </span>
-          <span
-            key="accountId"
-            className="text-muted "
-            style={{
-              display: "block",
-              fontSize: "1.2em",
-              fontWeight: "500",
-              marginTop: "-8px",
-            }}
-          >
-            @{post.author_id}
-          </span>
+        <div class="col-5">
+          <div class="d-flex justify-content-end">
+            {editControl}
+            {timestamp}
+            <div class="bi bi-clock-history px-2"></div>
+            {shareButton}
+          </div>
         </div>
       </div>
-    </div>
-    <StyledDiv>
-      {editControl}
-      <span className="px-2">{timestamp}</span>
-      <div className="bi bi-clock-history px-2"></div>
-      {shareButton}
-    </StyledDiv>
-  </ResponsiveDiv>
+    </small>
+  </div>
 );
 
 const emptyIcons = {
@@ -293,6 +254,8 @@ const fillIcons = {
   Like: "bi-heart-fill",
   Reply: "bi-reply-fill",
 };
+
+// Trigger saving this widget.
 
 const borders = {
   Idea: "border-secondary",
@@ -372,17 +335,13 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
 };
 
 const buttonsFooter = props.isPreview ? null : (
-  <div class="row " key="buttons-footer">
+  <div class="row" key="buttons-footer">
     <div class="col-8">
-      <div
-        class="btn-group text-sm"
-        role="group"
-        aria-label="Basic outlined example"
-      >
+      <div class="btn-group" role="group" aria-label="Basic outlined example">
         <button
           type="button"
-          class="btn btn-outline-secondary"
-          style={{ border: "0px", opacity: "0.7" }}
+          class="btn btn-outline-primary"
+          style={{ border: "0px" }}
           onClick={onLike}
         >
           <i class={`bi ${likeBtnClass}`}> </i>
@@ -394,11 +353,11 @@ const buttonsFooter = props.isPreview ? null : (
                 ),
               })}
         </button>
-        <div class="btn-group text-sm" role="group">
+        <div class="btn-group" role="group">
           <button
             type="button"
-            class="btn btn-outline-secondary"
-            style={{ border: "0px", opacity: "0.84" }}
+            class="btn btn-outline-primary"
+            style={{ border: "0px" }}
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
@@ -442,8 +401,8 @@ const buttonsFooter = props.isPreview ? null : (
         </div>
         <button
           type="button"
-          class="btn btn-outline-secondary text-sm"
-          style={{ border: "0px", opacity: "0.84" }}
+          class="btn btn-outline-primary"
+          style={{ border: "0px" }}
           data-bs-toggle="collapse"
           href={`#collapseChildPosts${postId}`}
           aria-expanded={defaultExpanded}
@@ -459,59 +418,65 @@ const buttonsFooter = props.isPreview ? null : (
 
 const CreatorWidget = (postType) => {
   return (
-    <div
-      class="collapse"
-      id={`collapse${postType}Creator${postId}`}
-      data-bs-parent={`#accordion${postId}`}
-    >
-      {widget("components.posts.PostEditor", {
-        postType,
-        parentId: postId,
-        mode: "Create",
-      })}
-    </div>
+    <WidgetWrapper>
+      <div
+        class="collapse"
+        id={`collapse${postType}Creator${postId}`}
+        data-bs-parent={`#accordion${postId}`}
+      >
+        {widget("components.posts.PostEditor", {
+          postType,
+          parentId: postId,
+          mode: "Create",
+        })}
+      </div>
+    </WidgetWrapper>
   );
 };
 
 const EditorWidget = (postType) => {
   return (
-    <div
-      class="collapse"
-      id={`collapse${postType}Editor${postId}`}
-      data-bs-parent={`#accordion${postId}`}
-    >
-      {widget("components.posts.PostEditor", {
-        postType,
-        postId,
-        mode: "Edit",
-        author_id: post.author_id,
-        name: post.snapshot.name,
-        description: post.snapshot.description,
-        labels: post.snapshot.labels,
-        amount: post.snapshot.amount,
-        token: post.snapshot.sponsorship_token,
-        supervisor: post.snapshot.supervisor,
-        githubLink: post.snapshot.github_link,
-      })}
-    </div>
+    <WidgetWrapper>
+      <div
+        class="collapse"
+        id={`collapse${postType}Editor${postId}`}
+        data-bs-parent={`#accordion${postId}`}
+      >
+        {widget("components.posts.PostEditor", {
+          postType,
+          postId,
+          mode: "Edit",
+          author_id: post.author_id,
+          labels: post.snapshot.labels,
+          name: post.snapshot.name,
+          description: post.snapshot.description,
+          amount: post.snapshot.amount,
+          token: post.snapshot.sponsorship_token,
+          supervisor: post.snapshot.supervisor,
+          githubLink: post.snapshot.github_link,
+        })}
+      </div>
+    </WidgetWrapper>
   );
 };
 
 const editorsFooter = props.isPreview ? null : (
-  <div class="row" id={`accordion${postId}`} key="editors-footer">
-    {CreatorWidget("Comment")}
-    {EditorWidget("Comment")}
-    {CreatorWidget("Idea")}
-    {EditorWidget("Idea")}
-    {CreatorWidget("Submission")}
-    {EditorWidget("Submission")}
-    {CreatorWidget("Attestation")}
-    {EditorWidget("Attestation")}
-    {CreatorWidget("Sponsorship")}
-    {EditorWidget("Sponsorship")}
-    {CreatorWidget("Github")}
-    {EditorWidget("Github")}
-  </div>
+  <WidgetWrapper>
+    <div class="row" id={`accordion${postId}`} key="editors-footer">
+      {CreatorWidget("Comment")}
+      {EditorWidget("Comment")}
+      {CreatorWidget("Idea")}
+      {EditorWidget("Idea")}
+      {CreatorWidget("Submission")}
+      {EditorWidget("Submission")}
+      {CreatorWidget("Attestation")}
+      {EditorWidget("Attestation")}
+      {CreatorWidget("Sponsorship")}
+      {EditorWidget("Sponsorship")}
+      {CreatorWidget("Github")}
+      {EditorWidget("Github")}
+    </div>  
+  </WidgetWrapper>
 );
 
 const renamedPostType =
@@ -521,22 +486,9 @@ const postLabels = post.snapshot.labels ? (
   <div class="card-title" key="post-labels">
     {post.snapshot.labels.map((label) => {
       return (
-        <>
-          <a href={href("Feed", { label })} key={label}>
-            <span
-              className="badge ms-1"
-              style={{
-                color: "rgba(0, 0, 0, 0.7)",
-                fontSize: "1em",
-                fontWeight: "normal",
-                padding: "0.2em 0.5em",
-                border: "1px solid rgba(0, 80, 80, 0.2)",
-              }}
-            >
-              {label}
-            </span>
-          </a>
-        </>
+        <a href={href("Feed", { label }, label)}>
+          <span class="badge text-bg-primary me-1">{label}</span>
+        </a>
       );
     })}
   </div>
@@ -549,11 +501,8 @@ const postTitle =
     <div key="post-title"></div>
   ) : (
     <h5 class="card-title" key="post-title">
-      <div
-        className="row justify-content-between"
-        style={{ fontSize: "1.3em", fontWeight: "600" }}
-      >
-        <div class="col-12">
+      <div className="row justify-content-between">
+        <div class="col-9">
           <i class={`bi ${emptyIcons[snapshot.post_type]}`}> </i>
           {renamedPostType}: {snapshot.name}
         </div>
@@ -564,10 +513,10 @@ const postTitle =
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      <h6 class="card-subtitle  text-muted">
+      <h6 class="card-subtitle mb-2 text-muted">
         Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
       </h6>
-      <h6 class="card-subtitle  text-muted">
+      <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
         <Widget
           src={`neardevgov.near/widget/ProfileLine`}
@@ -601,11 +550,23 @@ const postsList =
 
 const Card = styled.div`
   &:hover {
-    box-shadow: none;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
   }
-  box-shadow: none;
-  border: 3px solid #008080;
-  border-radius: 5px;
+`;
+
+const limitedMarkdown = styled.div`
+  max-height: 20em;
+`;
+
+const clampMarkdown = styled.div`
+  .clamp {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  }
 `;
 
 // Determine if located in the post page.
@@ -613,10 +574,13 @@ const isInList = props.isInList;
 const contentArray = snapshot.description.split("\n");
 const needClamp = isInList && contentArray.length > 5;
 
-// Initialize 'clamp' to 'true' if the content is long enough, otherwise 'false'
 initState({
   clamp: needClamp,
 });
+
+const clampedContent = needClamp
+  ? contentArray.slice(0, 5).join("\n")
+  : snapshot.description;
 
 const onMention = (accountId) => (
   <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
@@ -631,100 +595,55 @@ const onMention = (accountId) => (
   </span>
 );
 
-// Determine whether the content is longer than 4 lines
-const isContentLong = contentArray.length > 5;
-
-const clampedContent = state.clamp
-  ? contentArray.slice(0, 5).join("\n")
-  : snapshot.description;
-
-// Your CSS classes for styling. Make sure the names match exactly with the ones you're using in your divs.
-const limitedMarkdown = styled.div`
-  max-height: 23em;
-`;
-
-const clampMarkdown = styled.div`
-  .clamp {
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-`;
-
+// Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = isUnderPost ? (
-  <limitedMarkdown
-    className="overflow-auto"
-    key="description-area"
-    style={{ paddingLeft: "15px", paddingRight: "15px", marginBottom: "-30px" }}
-  >
+  <limitedMarkdown className="overflow-auto" key="description-area">
     <Markdown
-      className="card-text"
+      class="card-text"
       text={snapshot.description}
       onMention={onMention}
     />
   </limitedMarkdown>
 ) : (
   <clampMarkdown>
-    <div
-      className={state.clamp ? "clamp" : ""}
-      style={{
-        fontSize: "1.25rem",
-        paddingLeft: "15px",
-        paddingRight: "15px",
-        marginBottom: "-10px",
-      }}
-    >
+    <div class={state.clamp ? "clamp" : ""}>
       <Markdown
-        className="card-text --bs-btn-hover-color: #008080;"
+        class="card-text"
         text={state.clamp ? clampedContent : snapshot.description}
         onMention={onMention}
         key="description-area"
       ></Markdown>
     </div>
-    {state.clamp && isContentLong ? (
-      <div className="d-flex justify-content-end">
-        <StyledLink>
-          <a
-            style={{ fontSize: "1rem", fontWeight: 800 }}
-            className="btn btn-link text-black"
-            onClick={() => State.update({ clamp: false })}
-          >
-            <br></br>
-            See More...
-          </a>
-        </StyledLink>
+    {state.clamp ? (
+      <div class="d-flex justify-content-center">
+        <a
+          class="btn btn-link text-secondary"
+          onClick={() => State.update({ clamp: false })}
+        >
+          Read More
+        </a>
       </div>
-    ) : !state.clamp && isContentLong ? (
-      <div className="d-flex justify-content-end">
-        <StyledLink>
-          <a
-            style={{ fontSize: "1rem", fontWeight: 800 }}
-            className="btn btn-link text-black"
-            onClick={() => State.update({ clamp: true })}
-          >
-            ^ Close
-          </a>
-        </StyledLink>
-      </div>
-    ) : null}
+    ) : (
+      <></>
+    )}
   </clampMarkdown>
 );
 
 return (
-  <Card className={`card my-2`}>
-    {linkToParent}
-    {header}
-    <div className="card-body ">
-      {searchKeywords}
-      {postTitle}
-      <br></br>
-      {postExtra}
-      {descriptionArea}
-      {postLabels}
-      {buttonsFooter}
-      {editorsFooter}
-      {postsList}
-    </div>
-  </Card>
+  <WidgetWrapper>
+    <Card className={`card my-2 ${borders[snapshot.post_type]}`}>
+      {linkToParent}
+      {header}
+      <div className="card-body">
+        {searchKeywords}
+        {postLabels}
+        {postTitle}
+        {postExtra}
+        {descriptionArea}
+        {buttonsFooter}
+        {editorsFooter}
+        {postsList}
+      </div>
+    </Card>
+  </WidgetWrapper>
 );
