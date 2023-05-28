@@ -50,8 +50,18 @@ if (state.feedIndex === 0) {
   const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
   if (graph !== null) {
     accounts = Object.keys(graph[context.accountId].graph.follow || {});
-    // console.log("Following Accounts: ", accounts, "Socials: ", Social);
+    // console.log(
+    //   "Following Accounts: ",
+    //   accounts,
+    //   "Socials: ",
+    //   Socialm,
+    //   "Context account Id",
+    //   context.accountId
+    // );
     accounts.push(context.accountId);
+    accounts = accounts.filter(
+      (e) => e != context.accountId && !isInBlockedList(e)
+    );
   } else {
     accounts = [];
   }
