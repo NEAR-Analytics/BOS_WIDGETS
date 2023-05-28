@@ -56,62 +56,6 @@ if (state.feedIndex === 0) {
     accounts = [];
   }
 }
-
-/**
- * WidgetCommentFeed
- * Source: mob.near/widget/MainPage.Comment.Feed
- */
-
-let WidgetCommentFeed = (props) => {
-  let index = {
-    action: "comment",
-    key: props.item,
-    options: {
-      limit: props.limit ?? 3,
-      order: "desc",
-      accountId: props.accounts,
-      subscribe: props.subscribe,
-    },
-  };
-
-  let raw = !!props.raw;
-
-  //TODO: hide comment here
-  let renderItem = (a) =>
-    a.value.type === "md" &&
-    !isInBlockedList(a.accountId) && (
-      <div key={JSON.stringify(a)}>
-        <Widget
-          src="mob.near/widget/MainPage.Comment"
-          props={{
-            accountId: a.accountId,
-            blockHeight: a.blockHeight,
-            highlight:
-              a.accountId === props.highlightComment?.accountId &&
-              a.blockHeight === props.highlightComment?.blockHeight,
-            raw,
-          }}
-        />
-      </div>
-    );
-
-  return (
-    <div>
-      <Widget
-        src="mob.near/widget/ManualIndexFeed"
-        props={{
-          index,
-          reverse: true,
-          renderItem,
-          nextLimit: 10,
-          loadMoreText: "Show earlier comments...",
-        }}
-      />
-    </div>
-  );
-};
-//end WidgetCommentFeed
-
 /**
  * Widget Feed
  * Source: mob.near/widget/Mainpage.Feed
