@@ -43,20 +43,19 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 
-const WrapperWidget = ({ children, id, storageType }) => {
+const WrapperWidget = ({ children, id }) => {
+  const storageType = "local"; // Hard-coded storage type
+
   // This function handles the state change for the children widgets
   const handleStateChange = (key, value) => {
     // Use the unique identifier to create a unique storage key
     const storageKey = `${id}_${key}`;
 
-    if (storageType === "local") {
-      // Update the local storage with the new state
-      localStorage.setItem(storageKey, JSON.stringify(value));
-    } else if (storageType === "sync") {
-      // Update the sync storage with the new state
-      // Replace this with the appropriate API call for your sync storage
-      syncStorage.setItem(storageKey, JSON.stringify(value));
-    }
+    console.log(`Setting value for ${storageKey}: `, value); // Console log added here
+
+    // Update the local storage with the new state
+    localStorage.setItem(storageKey, JSON.stringify(value));
+    console.log(`State saved in local storage for ${storageKey}`); // Console log added here
   };
 
   // This function initializes the state of the children widgets
@@ -64,24 +63,27 @@ const WrapperWidget = ({ children, id, storageType }) => {
     // Use the unique identifier to create a unique storage key
     const storageKey = `${id}_${key}`;
 
-    let storedValue;
-    if (storageType === "local") {
-      storedValue = localStorage.getItem(storageKey);
-    } else if (storageType === "sync") {
-      // Retrieve the value from sync storage
-      // Replace this with the appropriate API call for your sync storage
-      storedValue = syncStorage.getItem(storageKey);
-    }
+    let storedValue = localStorage.getItem(storageKey);
+    console.log(
+      `Retrieved value from local storage for ${storageKey}: `,
+      storedValue
+    ); // Console log added here
 
     if (storedValue) {
-      return JSON.parse(storedValue);
+      try {
+        return JSON.parse(storedValue);
+      } catch (e) {
+        console.error("Error parsing JSON from storage", e);
+      }
     }
     return defaultValue;
   };
 
   // Render the children widgets and pass the state management functions as props
   return React.Children.map(children, (child) =>
-    React.cloneElement(child, { handleStateChange, initState })
+    child && typeof child === "object"
+      ? React.cloneElement(child, { handleStateChange, initState })
+      : child
   );
 };
 /* END_INCLUDE: "common.jsx" */
@@ -97,12 +99,12 @@ const labels = labelStrings.map((s) => {
   return { name: s };
 });
 
+const initState = props.initState;
+const handleStateChange = props.handleStateChange;
+
 initState({
   author_id: context.accountId,
-  // Should be a list of objects with field "name".
   labels,
-  // Should be a list of labels as strings.
-  // Both of the label structures should be modified together.
   labelStrings,
   postType,
   name: props.name ?? "",
@@ -115,7 +117,7 @@ initState({
 });
 const savedState = localStorage.getItem("widgetState");
 if (savedState) {
-  State.update(JSON.parse(savedState));
+  handleStateChange(JSON.parse(savedState));
 }
 
 let fields = {
@@ -229,6 +231,7 @@ const normalizeLabel = (label) =>
     .replaceAll(/[^\w]+/g, "")
     .replaceAll(/_+/g, "-")
     .replace(/^-+/, "")
+
     .replace(/-+$/, "")
     .toLowerCase()
     .trim("-");
@@ -298,7 +301,7 @@ const existingLabels = existingLabelStrings.map((s) => {
 });
 
 const labelEditor = (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.labels} children={props.text}>
     <div className="col-lg-12  mb-2">
       Labels:
       <Typeahead
@@ -328,7 +331,7 @@ const labelEditor = (
 );
 
 const updateStateAndSaveToLocalStorage = (newState) => {
-  State.update(newState);
+  handleStateChange(newState);
   localStorage.setItem("widgetState", JSON.stringify(State.get()));
 };
 
@@ -337,7 +340,7 @@ const updateStateAndSaveToLocalStorage = (newState) => {
 updateStateAndSaveToLocalStorage({ name: this.state.target.value });
 
 const githubLinkDiv = fields.includes("githubLink") ? (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.githubLink} children={props.text}>
     <div className="col-lg-12  mb-2">
       Github Issue URL:
       <input
@@ -350,7 +353,7 @@ const githubLinkDiv = fields.includes("githubLink") ? (
 ) : null;
 
 const nameDiv = fields.includes("name") ? (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.name} children={props.text}>
     <div className="col-lg-6  mb-2">
       Title:
       <input
@@ -363,7 +366,7 @@ const nameDiv = fields.includes("name") ? (
 ) : null;
 
 const descriptionDiv = fields.includes("description") ? (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.description} children={props.text}>
     <div className="col-lg-12  mb-2">
       Description:
       <br />
@@ -379,7 +382,7 @@ const descriptionDiv = fields.includes("description") ? (
 ) : null;
 
 const amountDiv = fields.includes("amount") ? (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.amount} children={props.text}>
     <div className="col-lg-6  mb-2">
       Amount:
       <input
@@ -392,7 +395,7 @@ const amountDiv = fields.includes("amount") ? (
 ) : null;
 
 const tokenDiv = fields.includes("sponsorship_token") ? (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.token} children={props.text}>
     <div className="col-lg-6  mb-2">
       Tokens:
       <input
@@ -405,7 +408,7 @@ const tokenDiv = fields.includes("sponsorship_token") ? (
 ) : null;
 
 const supervisorDiv = fields.includes("supervisor") ? (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget id={state.supervisor} children={props.text}>
     <div className="col-lg-6 mb-2">
       Supervisor:
       <input
@@ -430,7 +433,7 @@ const renamedPostType = postType == "Submission" ? "Solution" : postType;
 // Below there is a weird code with fields.includes("githubLink") ternary operator.
 // This is to hack around rendering bug of near.social.
 return (
-  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
+  <WrapperWidget>
     <div className="card">
       <div className="card-header">
         {mode} {renamedPostType}
