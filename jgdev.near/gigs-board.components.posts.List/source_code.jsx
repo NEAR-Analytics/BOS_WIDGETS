@@ -88,7 +88,8 @@ const WrapperWidget = ({ children, id, storageType }) => {
   return React.Children.map(children, (child) =>
     React.cloneElement(child, { handleStateChange, initState })
   );
-};/* END_INCLUDE: "common.jsx" */
+};
+/* END_INCLUDE: "common.jsx" */
 
 initState({
   period: "week",
