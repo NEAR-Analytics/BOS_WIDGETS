@@ -83,7 +83,8 @@ const WrapperWidget = ({ children, id, storageType }) => {
   return React.Children.map(children, (child) =>
     React.cloneElement(child, { handleStateChange, initState })
   );
-};/* END_INCLUDE: "common.jsx" */
+};
+/* END_INCLUDE: "common.jsx" */
 
 const access_info =
   Near.view(nearDevGovGigsContractAccountId, "get_access_control_info") ?? null;
