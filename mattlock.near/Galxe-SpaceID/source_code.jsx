@@ -1,3 +1,5 @@
+// Campaigns
+
 const dataMap = {
   GCr4FUxghP: {
     src: `https://cdn.galxe.com/galaxy/spaceid/1d471e0c-2783-4b52-90eb-3db0b2403198.png?optimizer=image&width=800&quality=100`,
@@ -16,41 +18,15 @@ const toast = (toast) => {
   });
 };
 
-const apiKey = `22e40acef23c40ebb4953a2601ff31a3`;
-
-// CSS
-
-// const css = fetch("").body;
-
 const css = `
+  input, button {
+    margin-bottom: 16px;
+  }
   .main {
     margin-top: 32px;
     width: 100%;
     text-align: center;
     position: relative;
-  }
-  .toasted-container {
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    top: 8px;
-    left: 0;
-    z-index: 9999999;
-    padding: 16px;
-  }
-  .toasted {
-    position: relative;
-    background: black;
-    border: 1px solid #444;
-    box-shadow: 0 0 8px #444;
-    padding: 8px;
-    margin: 16px;
-    > .close {
-      position: absolute;
-      top: 0;
-      right: 4px;
-      cursor:pointer;
-    }
   }
   .boxes {
     margin: auto;
@@ -101,37 +77,24 @@ const Theme = state.theme;
 
 const init = () => {
   console.log("init");
-
+  const name = Storage.get(NAME);
   let address;
   if (state.address === undefined) {
     const accounts = Ethers.send("eth_requestAccounts", []);
     if (accounts.length) {
       address = accounts[0];
-      State.update({ address });
+      State.update({ address, name });
     }
   }
 
   if (!address) {
     address = state.address;
   }
-  // const res = fetch(
-  //   `https://open-platform.nodereal.io/a956dfb1d373444a8e97d04bcfbc8871/spaceid/domain/names/byOwners`,
-  //   {
-  //     method: `POST`,
-  //     body: JSON.stringify([address]),
-  //   }
-  // );
-
-  // if (res.body) {
-  //   State.update({ names: Object.values(res.body)[0] });
-  // }
-
-  console.log("fetching");
 
   const queryRes = fetch(
     `https://galxe-proxy.near.workers.dev?url=https://graphigo.prd.galaxy.eco/query`,
     {
-      subscribe: true,
+      //subscribe: true,
       method: "POST",
       body: JSON.stringify({
         operationName: "CampaignInfoWidthAddress",
@@ -149,6 +112,7 @@ const init = () => {
     data: JSON.parse(queryRes.body).data,
   });
 };
+
 init();
 
 console.log("data", state.data);
@@ -226,6 +190,12 @@ const handleClaim = (id) => {
 
 return (
   <Theme>
+    <Widget src="mattlock.near/widget/SPACEID-BNB" />
+
+    <p>
+      After registering a .bnb domain, you will be eligible for the SPACE ID
+      campaign below!
+    </p>
     <div class="main">
       <h2>SPACE ID Voyage Season 2 - Calling</h2>
       <p>
