@@ -83,7 +83,8 @@ const WrapperWidget = ({ children, id, storageType }) => {
   return React.Children.map(children, (child) =>
     React.cloneElement(child, { handleStateChange, initState })
   );
-};/* END_INCLUDE: "common.jsx" */
+};
+/* END_INCLUDE: "common.jsx" */
 
 const postType = props.postType ?? "Sponsorship";
 const parentId = props.parentId ?? null;
@@ -112,9 +113,9 @@ initState({
   githubLink: props.githubLink ?? "",
   warning: "",
 });
-const savedState = localStorage.getItem('widgetState');
+const savedState = localStorage.getItem("widgetState");
 if (savedState) {
-    State.update(JSON.parse(savedState));
+  State.update(JSON.parse(savedState));
 }
 
 let fields = {
@@ -297,7 +298,7 @@ const existingLabels = existingLabelStrings.map((s) => {
 });
 
 const labelEditor = (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-12  mb-2">
       Labels:
       <Typeahead
@@ -328,7 +329,7 @@ const labelEditor = (
 
 const updateStateAndSaveToLocalStorage = (newState) => {
   State.update(newState);
-  localStorage.setItem('widgetState', JSON.stringify(State.get()));
+  localStorage.setItem("widgetState", JSON.stringify(State.get()));
 };
 
 // Then replace all State.update calls in your code with updateStateAndSaveToLocalStorage:
@@ -336,7 +337,7 @@ const updateStateAndSaveToLocalStorage = (newState) => {
 updateStateAndSaveToLocalStorage({ name: this.state.target.value });
 
 const githubLinkDiv = fields.includes("githubLink") ? (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-12  mb-2">
       Github Issue URL:
       <input
@@ -349,7 +350,7 @@ const githubLinkDiv = fields.includes("githubLink") ? (
 ) : null;
 
 const nameDiv = fields.includes("name") ? (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-6  mb-2">
       Title:
       <input
@@ -362,7 +363,7 @@ const nameDiv = fields.includes("name") ? (
 ) : null;
 
 const descriptionDiv = fields.includes("description") ? (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-12  mb-2">
       Description:
       <br />
@@ -378,7 +379,7 @@ const descriptionDiv = fields.includes("description") ? (
 ) : null;
 
 const amountDiv = fields.includes("amount") ? (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-6  mb-2">
       Amount:
       <input
@@ -391,7 +392,7 @@ const amountDiv = fields.includes("amount") ? (
 ) : null;
 
 const tokenDiv = fields.includes("sponsorship_token") ? (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-6  mb-2">
       Tokens:
       <input
@@ -404,7 +405,7 @@ const tokenDiv = fields.includes("sponsorship_token") ? (
 ) : null;
 
 const supervisorDiv = fields.includes("supervisor") ? (
-  <WrapperWidget>
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="col-lg-6 mb-2">
       Supervisor:
       <input
@@ -429,7 +430,7 @@ const renamedPostType = postType == "Submission" ? "Solution" : postType;
 // Below there is a weird code with fields.includes("githubLink") ternary operator.
 // This is to hack around rendering bug of near.social.
 return (
-  <WrapperWidget id="post-editor" storageType="local">
+  <WrapperWidget id={props.text} storageType={localStorage} children={props}>
     <div className="card">
       <div className="card-header">
         {mode} {renamedPostType}
