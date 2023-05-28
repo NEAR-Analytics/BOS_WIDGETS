@@ -19,9 +19,6 @@ const toast = (toast) => {
 };
 
 const css = `
-  body {
-    margin-top: 32px;
-  }
   .main {
     margin-top: 32px;
     width: 100%;
