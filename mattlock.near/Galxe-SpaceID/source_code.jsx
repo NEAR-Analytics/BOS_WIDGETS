@@ -19,8 +19,8 @@ const toast = (toast) => {
 };
 
 const css = `
-  input, button {
-    margin-bottom: 16px;
+  body {
+    margin-top: 32px;
   }
   .main {
     margin-top: 32px;
