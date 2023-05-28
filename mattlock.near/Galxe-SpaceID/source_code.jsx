@@ -192,11 +192,12 @@ return (
   <Theme>
     <Widget src="mattlock.near/widget/SPACEID-BNB" />
 
-    <p>
-      After registering a .bnb domain, you will be eligible for the SPACE ID
-      campaign below!
-    </p>
     <div class="main">
+      <p>
+        After registering a .bnb domain above, you will be eligible for the
+        SPACE ID campaign below!
+      </p>
+
       <h2>SPACE ID Voyage Season 2 - Calling</h2>
       <p>
         There are three types of Voyage Boxes of varying rarity, each containing
