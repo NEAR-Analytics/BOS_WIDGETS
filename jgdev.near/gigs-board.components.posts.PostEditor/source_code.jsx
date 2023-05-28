@@ -301,7 +301,7 @@ const existingLabels = existingLabelStrings.map((s) => {
 });
 
 const labelEditor = (
-  <WrapperWidget id={state.labels} children={props.text}>
+  <WrapperWidget id={state.labels}>
     <div className="col-lg-12  mb-2">
       Labels:
       <Typeahead
@@ -340,7 +340,7 @@ const updateStateAndSaveToLocalStorage = (newState) => {
 updateStateAndSaveToLocalStorage({ name: this.state.target.value });
 
 const githubLinkDiv = fields.includes("githubLink") ? (
-  <WrapperWidget id={state.githubLink} children={props.text}>
+  <WrapperWidget id={state.githubLink}>
     <div className="col-lg-12  mb-2">
       Github Issue URL:
       <input
@@ -353,7 +353,7 @@ const githubLinkDiv = fields.includes("githubLink") ? (
 ) : null;
 
 const nameDiv = fields.includes("name") ? (
-  <WrapperWidget id={state.name} children={props.text}>
+  <WrapperWidget id={state.name}>
     <div className="col-lg-6  mb-2">
       Title:
       <input
@@ -366,7 +366,7 @@ const nameDiv = fields.includes("name") ? (
 ) : null;
 
 const descriptionDiv = fields.includes("description") ? (
-  <WrapperWidget id={state.description} children={props.text}>
+  <WrapperWidget id={state.description}>
     <div className="col-lg-12  mb-2">
       Description:
       <br />
@@ -382,7 +382,7 @@ const descriptionDiv = fields.includes("description") ? (
 ) : null;
 
 const amountDiv = fields.includes("amount") ? (
-  <WrapperWidget id={state.amount} children={props.text}>
+  <WrapperWidget id={state.amount}>
     <div className="col-lg-6  mb-2">
       Amount:
       <input
@@ -395,7 +395,7 @@ const amountDiv = fields.includes("amount") ? (
 ) : null;
 
 const tokenDiv = fields.includes("sponsorship_token") ? (
-  <WrapperWidget id={state.token} children={props.text}>
+  <WrapperWidget id={state.token}>
     <div className="col-lg-6  mb-2">
       Tokens:
       <input
@@ -408,7 +408,7 @@ const tokenDiv = fields.includes("sponsorship_token") ? (
 ) : null;
 
 const supervisorDiv = fields.includes("supervisor") ? (
-  <WrapperWidget id={state.supervisor} children={props.text}>
+  <WrapperWidget id={state.supervisor}>
     <div className="col-lg-6 mb-2">
       Supervisor:
       <input
