@@ -1,30 +1,23 @@
 const data = props.data;
+let index = [];
+const typeWhitelist = JSON.parse(props.typeWhitelist || "null") || [
+  "efiz.near/type/paragraph",
+  "efiz.near/type/Image",
+  "efiz.near/type/document",
+];
+const accountFilter =
+  (props.accountFilter && [props.accountFilter]) || undefined;
+const hashtagFilter = JSON.parse(props.hashtagFilter || "null") || [];
+const domainFilter = JSON.parse(props.domainFilter || "null") || ["post"];
 
+// domain filter will come from the thing itself
 return (
   <>
-    {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
-      <Widget
-        src={data.composeTemplate || "efiz.near/widget/Community.Posts.Compose"}
-        props={{
-          allowPublicPosting: true,
-          embedHashtags: data.hashtagWhitelist,
-          embedMentions: data.embedMentions,
-        }}
-      />
-    ) : (
-      <></>
-    )}
+    <Widget src="efiz.near/widget/Every.Post.Create" />
     <Widget
-      src="efiz.near/widget/every.post"
+      src="efiz.near/widget/Every.Post"
       props={{
-        sources: data.sources,
-        typeWhitelist: data.typeWhitelist,
-        hashtagWhitelist: data.hashtagWhitelist,
-        hashtagBlacklist: data.hashtagBlacklist,
-        accountWhitelist: data.accountWhitelist,
-        accountBlacklist: data.accountBlacklist,
-        disableCaching: data.disableCaching,
-        postTemplate: data.postTemplate,
+        domainFilter: JSON.stringify([data]),
       }}
     />
   </>
