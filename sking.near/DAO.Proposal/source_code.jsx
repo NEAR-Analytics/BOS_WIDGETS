@@ -1,16 +1,23 @@
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
+const proposalId = props.proposalId;
 
-const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
-  id: 1,
-  proposer: "hack.near",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut pharetra orci. Aliquam vitae enim tincidunt sapien fermentum scelerisque.",
-  kind: { AddMemberToRole: { member_id: "hack.near", role: "community" } },
-  status: "Approved",
-  vote_counts: { council: [1, 0, 0] },
-  votes: { "infinity.near": "Approve" },
-  submission_time: "1682527782646393764",
-};
+let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
+
+// if proposal is not provided and proposalId and daoId are provided then fetch proposal
+if (!proposal && proposalId && daoId) {
+  let new_proposal = Near.view(daoId, "get_proposal", {
+    id: Number(proposalId),
+  });
+  if (new_proposal) {
+    proposal = new_proposal;
+  } else if (new_proposal === null) {
+    return "Loading...";
+  } else {
+    return "Proposal not found, check console for details.";
+  }
+} else if (!proposal) {
+  return "Please provide a proposal or proposalId.";
+}
 
 proposal.type =
   typeof proposal.kind === "string"
@@ -33,10 +40,17 @@ const statusColor =
     ? "#dc3545"
     : "#6c757d";
 
+const statusBackgroundColor =
+  proposal.status === "Approved"
+    ? "#ecf7ef"
+    : proposal.status === "Failed"
+    ? "#fdf4f4"
+    : "#fff";
+
 const Wrapper = styled.div`
+  background-color: ${statusBackgroundColor};
   margin: 16px auto;
   max-width: 900px;
-  background-color: #fff;
   border-radius: 16px;
   padding: 24px;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
@@ -81,7 +95,7 @@ const MarkdownContainer = styled.div`
   background-color: #f8f9fa;
   color: #1b1b18;
   border-radius: 16px;
-  max-height: 800px;
+  max-height: 700px;
   overflow-y: auto;
   color: #333;
   line-height: 1.6;
@@ -133,6 +147,30 @@ const MarkdownContainer = styled.div`
     text-decoration: underline;
   }
 `;
+
+function deepSortObject(obj) {
+  if (typeof obj !== "object" || obj === null) {
+    // Return non-object values as is
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    // If the input is an array, recursively sort each element
+    return obj.map(deepSortObject);
+  }
+
+  const sortedObject = {};
+  const sortedKeys = Object.keys(obj).sort((keyA, keyB) => {
+    // Compare keys in a case-insensitive manner
+    return keyA.toLowerCase().localeCompare(keyB.toLowerCase());
+  });
+
+  for (const key of sortedKeys) {
+    sortedObject[key] = deepSortObject(obj[key]);
+  }
+
+  return sortedObject;
+}
 
 const RenderProposalArgs = () => {
   const proposal_type =
@@ -266,9 +304,11 @@ const RenderProposalArgs = () => {
             ).toLocaleString()}
           </p>
         </div>
-        <div>
+        <div className="w-100">
           <h5>Bounty Description</h5>
-          <p>{proposal.kind.AddBounty.bounty.description}</p>
+          <MarkdownContainer>
+            <Markdown text={proposal.kind.AddBounty.bounty.description} />
+          </MarkdownContainer>
         </div>
       </>
     );
@@ -292,14 +332,55 @@ const RenderProposalArgs = () => {
         </div>
       </>
     );
+
+  // TODO: ChangePolicy component need some UI improvements to be more readable
+  if (proposal_type === "ChangePolicy") {
+    const old_policy = Near.view(daoId, "get_policy");
+    if (old_policy === null) return null;
+    return (
+      <>
+        <div className="w-100">
+          <h5>Policy Changes</h5>
+          <div
+            className="w-100"
+            style={{
+              maxHeight: "400px",
+              overflow: "auto",
+            }}
+          >
+            <Widget
+              src="bozon.near/widget/CodeDiff"
+              props={{
+                prevCode: JSON.stringify(deepSortObject(old_policy), null, 2),
+                currentCode: JSON.stringify(
+                  deepSortObject(proposal.kind.ChangePolicy.policy),
+                  null,
+                  2
+                ),
+              }}
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
 };
 
+const useMarkdownForDescription =
+  proposal.type === "Vote" || proposal.type === "Bounty Done" ? true : false;
+
+const proposalURL = `/#/sking.near/widget/DAO.Page?daoId=${daoId}&tab=proposal&proposalId=${proposal.id}`;
 return (
   <Wrapper>
     <div className="d-flex justify-content-between align-items-center">
       <div>
         <h5>Proposal ID: {proposal.id}</h5>
-        <h3>{proposal.type}</h3>
+        <h3>
+          {proposal.type}
+          <a href={proposalURL} target="_blank" rel="noreferrer">
+            <i className="bi bi-link-45deg"></i>
+          </a>
+        </h3>
       </div>
       <div className="d-flex flex-column align-items-end">
         <h5>Status</h5>
@@ -315,14 +396,21 @@ return (
     </div>
     <div>
       <h5>Description</h5>
-      {proposal.type !== "Vote" && <p>{proposal.description}</p>}
-      {proposal.type === "Vote" && (
+      {useMarkdownForDescription ? (
         <MarkdownContainer>
           <Markdown text={proposal.description} />
         </MarkdownContainer>
+      ) : (
+        <p>{proposal.description}</p>
       )}
     </div>
-    <div className="d-flex gap-5 flex-wrap align-items-start">
+    <div
+      className="d-flex flex-wrap align-items-start"
+      style={{
+        rowGap: "16px",
+        columnGap: "48px",
+      }}
+    >
       <RenderProposalArgs />
     </div>
 
