@@ -26,7 +26,8 @@ const handleProposal = () => {
           description: state.description,
           kind: {
             Transfer: {
-              token_id: "",
+              token_id:
+                "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near",
               receiver_id: state.receiver_id,
               amount: state.amount,
             },
