@@ -53,7 +53,7 @@ return (
     {state.showReply && (
       <div className="mb-2" key="reply">
         <Widget
-          src={`${authorForWidget}/widget/Gigs_Comment.Compose`}
+          src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
             initialText: `${accountId}, `,
             // notifyAccountId: extractNotifyAccountId(parentItem),
