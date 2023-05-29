@@ -149,14 +149,14 @@ const MarkdownContainer = styled.div`
 `;
 
 function deepSortObject(obj) {
-  if (typeof obj !== "object" || obj === null) {
+  if (typeof obj !== 'object' || obj === null) {
     // Return non-object values as is
     return obj;
   }
 
   if (Array.isArray(obj)) {
     // If the input is an array, recursively sort each element
-    return obj.map(deepSortObject);
+    return obj.map(deepSortObject).sort();
   }
 
   const sortedObject = {};
