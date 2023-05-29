@@ -1,5 +1,17 @@
+console.log(JSON.stringify(context));
 function composeData() {
-  const data = {};
+  const data = {
+    thing: {
+      core: {
+        value: {
+          name: "lynkable",
+          description: "",
+          children: [{}],
+        },
+        type: "every.near/type/dao",
+      },
+    },
+  };
 
   return data;
 }
