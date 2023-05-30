@@ -1,43 +1,64 @@
 /* INCLUDE: "common.jsx" */
-const nearDevGovGigsContractAccountId = props.nearDevGovGigsContractAccountId || (context.widgetSrc ?? 'devgovgigs.near').split('/', 1)[0];
-const nearDevGovGigsWidgetsAccountId = props.nearDevGovGigsWidgetsAccountId || (context.widgetSrc ?? 'devgovgigs.near').split('/', 1)[0];
+const nearDevGovGigsContractAccountId =
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+const nearDevGovGigsWidgetsAccountId =
+  props.nearDevGovGigsWidgetsAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
     ...widgetProps,
     nearDevGovGigsContractAccountId: props.nearDevGovGigsContractAccountId,
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
+    referral: props.referral,
   };
-  return <Widget src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`} props={widgetProps} key={key} />;
+  return (
+    <Widget
+      src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
+      props={widgetProps}
+      key={key}
+    />
+  );
 }
 
 function href(widgetName, linkProps) {
-  linkProps = { ...linkProps }
+  linkProps = { ...linkProps };
   if (props.nearDevGovGigsContractAccountId) {
-    linkProps.nearDevGovGigsContractAccountId = props.nearDevGovGigsContractAccountId;
+    linkProps.nearDevGovGigsContractAccountId =
+      props.nearDevGovGigsContractAccountId;
   }
   if (props.nearDevGovGigsWidgetsAccountId) {
-    linkProps.nearDevGovGigsWidgetsAccountId = props.nearDevGovGigsWidgetsAccountId;
+    linkProps.nearDevGovGigsWidgetsAccountId =
+      props.nearDevGovGigsWidgetsAccountId;
   }
-  const linkPropsQuery = Object.entries(linkProps).map(([key, value]) => `${key}=${value}`).join('&');
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${linkPropsQuery ? "?" : ""}${linkPropsQuery}`;
+  if (props.referral) {
+    linkProps.referral = props.referral;
+  }
+  const linkPropsQuery = Object.entries(linkProps)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&");
+  return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
+    linkPropsQuery ? "?" : ""
+  }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
 
 const requiredLabels = props.requiredLabels ?? ["near-social"];
 const excludedLabels = props.excludedLabels ?? ["nft"];
-const columnLabels = props.columnLabels ?? [
-  "widget",
-  "integration",
-  "feature-request",
+const columns = props.columns ?? [
+  { label: "widget", title: "Widget" },
+  { label: "integration", title: "Integration" },
+  { label: "feature-request", title: "Feature Request" },
 ];
 
 const labelsToIdSet = (labels) => {
-  const ids = labels.map((label) => (
-    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
-      label,
-    }) ?? []
-  ));
+  const ids = labels.map(
+    (label) =>
+      Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
+        label,
+      }) ?? []
+  );
   const idsFlat = ids.flat(1);
   return new Set(idsFlat);
 };
@@ -45,22 +66,22 @@ const labelsToIdSet = (labels) => {
 const requiredPostsSet = labelsToIdSet(requiredLabels);
 const excludedPostsSet = labelsToIdSet(excludedLabels);
 
-const postsPerLabel = columnLabels.map((cl) => {
+const postsPerLabel = columns.map((column) => {
   let allIds = (
     Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
-      label: cl,
+      label: column.label,
     }) ?? []
   ).reverse();
   if (requiredLabels.length > 0) {
     return {
-      label: cl,
+      ...column,
       posts: allIds.filter(
         (i) => requiredPostsSet.has(i) && !excludedPostsSet.has(i)
       ),
     };
   } else {
     // No extra filtering is required.
-    return { label: cl, posts: allIds };
+    return { ...column, posts: allIds };
   }
 });
 
@@ -91,10 +112,7 @@ return (
           <small class="text-muted">
             Required labels:
             {requiredLabels.map((label) => (
-              <a
-                href={href("Feed", { label })}
-                key={label}
-              >
+              <a href={href("Feed", { label })} key={label}>
                 <span class="badge text-bg-primary me-1">{label}</span>
               </a>
             ))}
@@ -106,10 +124,7 @@ return (
           <small class="text-muted">
             Excluded labels:
             {excludedLabels.map((label) => (
-              <a
-                href={href("Feed", { label })}
-                key={label}
-              >
+              <a href={href("Feed", { label })} key={label}>
                 <span class="badge text-bg-primary me-1">{label}</span>
               </a>
             ))}
@@ -118,20 +133,16 @@ return (
       ) : null}
     </div>
     <div class="row">
-      {postsPerLabel.map((col) => (
-        <div class="col-4" key={col.label}>
+      {postsPerLabel.map((column) => (
+        <div class="col-3" key={column.label}>
           <div class="card">
             <div class="card-body border-secondary">
               <h6 class="card-title">
-                {col.label.toUpperCase()}({col.posts.length})
+                {column.title}({column.posts.length})
               </h6>
-              {col.posts.map((postId) => (
-                widget(
-                  "components.posts.CompactPost",
-                  { id: postId },
-                  postId
-                )
-              ))}
+              {column.posts.map((postId) =>
+                widget("components.posts.CompactPost", { id: postId }, postId)
+              )}
             </div>
           </div>
         </div>
