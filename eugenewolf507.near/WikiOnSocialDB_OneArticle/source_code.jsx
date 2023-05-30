@@ -5,6 +5,8 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
+const sharedCommentAuthorId = props.commentAccountId;
+const sharedCommentBlockHeight = props.commentBlockHeight;
 
 const lastEditor = props.lastEditor;
 const blockHeight =
@@ -63,6 +65,8 @@ const item = {
   path: `${state.article.author}/${addressForArticles}/main`,
   blockHeight: firstArticleBlockHeight,
 };
+
+console.log("item", item);
 
 const saveArticle = () => {
   const newArticleData = {
@@ -285,7 +289,17 @@ return (
           src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
           props={{
             item,
-            highlightComment: props.highlightComment,
+            // highlightComment: props.highlightComment,
+            highlightComment: {
+              accountId: sharedCommentAuthorId,
+              blockHeight: sharedCommentBlockHeight,
+              //   accountId: "testwiki.near",
+              //   blockHeight: 85867380,
+              //   accountId: "testwiki.near",
+              //   blockHeight: 85867284,
+              //   accountId: "eugenewolf507.near",
+              //   blockHeight: 85866095,
+            },
             limit: props.commentsLimit,
             subscribe,
             raw,
