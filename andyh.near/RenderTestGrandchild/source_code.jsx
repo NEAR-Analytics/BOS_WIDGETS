@@ -1,7 +1,7 @@
 State.init({ k: 0, isInitialized: false });
 const incK = (n, fn) => {
   console.log("incrementing k by " + n + " typeof " + typeof fn);
-  //fn();
+  fn();
   State.update({ k: state.k + n });
 };
 
@@ -24,6 +24,13 @@ return (
       grandchild + 1
     </button>
     <br />
-    <button onClick={() => props.incrementparent()}>child + 1</button>
+    <button
+      onClick={() => {
+        console.log("calling parent callback");
+        props.incrementparent();
+      }}
+    >
+      child + 1
+    </button>
   </div>
 );
