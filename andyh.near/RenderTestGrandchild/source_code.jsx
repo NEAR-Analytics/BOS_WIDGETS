@@ -26,7 +26,6 @@ return (
     <br />
     <button
       onClick={() => {
-        console.log("calling parent callback");
         props.incrementparent();
       }}
     >
