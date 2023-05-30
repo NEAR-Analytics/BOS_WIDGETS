@@ -35,7 +35,9 @@ const membersFormatter = (roles) => {
     memberList = [roles.kind];
   }
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>{memberList}</div>
+    <div style={{ display: "flex", flexDirection: "column", maxHeight: '200px', overflow:'scroll' }}>
+      {memberList}
+    </div>
   );
 };
 
@@ -44,7 +46,7 @@ const permissionsFormatter = (roles) => {
     <div>{p.replace("*:", "")}</div>
   ));
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", maxHeight: '200px', overflow:'scroll' }}>
       {permissions}
     </div>
   );
