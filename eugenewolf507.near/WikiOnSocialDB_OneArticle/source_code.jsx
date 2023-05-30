@@ -7,11 +7,11 @@ if (!accountId) {
 }
 const sharedCommentAuthorId = props.commentAccountId;
 const sharedCommentBlockHeight = props.commentBlockHeight;
-console.log("commentAccountId", commentAccountId);
-console.log("commentBlockHeight", commentAccountId);
-
+// console.log("commentAccountId", commentAccountId);
+// console.log("commentBlockHeight", commentAccountId);
+console.log("props = ", props);
 const lastEditor = props.lastEditor;
-console.log("lastEditor", lastEditor);
+// console.log("lastEditor", lastEditor);
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
