@@ -11,6 +11,7 @@ console.log("commentAccountId", commentAccountId);
 console.log("commentBlockHeight", commentAccountId);
 
 const lastEditor = props.lastEditor;
+console.log("lastEditor", lastEditor);
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
