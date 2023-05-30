@@ -38,7 +38,7 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
+  return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
@@ -223,9 +223,7 @@ const setLabels = (labels) => {
       { editor: context.accountId, labels: [removed] }
     ).then((allowed) => {
       if (allowed) {
-        let labelStrings = labels.map((o) => {
-          return o.name;
-        });
+        let labelStrings = labels.map(({ name }) => name);
         State.update({ labels, labelStrings });
       } else {
         State.update({
