@@ -7,6 +7,7 @@ if (!accountId) {
 }
 const sharedCommentAuthorId = props.commentAccountId;
 const sharedCommentBlockHeight = props.commentBlockHeight;
+console.log();
 
 const lastEditor = props.lastEditor;
 const blockHeight =
@@ -65,8 +66,6 @@ const item = {
   path: `${state.article.author}/${addressForArticles}/main`,
   blockHeight: firstArticleBlockHeight,
 };
-
-console.log("item", item);
 
 const saveArticle = () => {
   const newArticleData = {
@@ -220,9 +219,7 @@ return (
                   initialTagsObject: getTagObjectfromArray(state.article.tags),
                   placeholder: "Input tags",
                   setTagsObject: (tags) => {
-                    console.log(filterTagsFromNull(tags));
                     state.tags = filterTagsFromNull(tags);
-                    // state.tags = tags;
                     State.update();
                   },
                 }}
