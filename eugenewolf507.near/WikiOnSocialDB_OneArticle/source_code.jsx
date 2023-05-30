@@ -7,9 +7,9 @@ if (!accountId) {
 }
 const sharedCommentAuthorId = props.commentAccountId;
 const sharedCommentBlockHeight = props.commentBlockHeight;
-// console.log("commentAccountId", commentAccountId);
-// console.log("commentBlockHeight", commentAccountId);
-console.log("props = ", props);
+console.log("sharedCommentAuthorId", sharedCommentAuthorId);
+console.log("sharedCommentBlockHeight", sharedCommentBlockHeight);
+// console.log("props = ", props);
 const lastEditor = props.lastEditor;
 // console.log("lastEditor", lastEditor);
 const blockHeight =
