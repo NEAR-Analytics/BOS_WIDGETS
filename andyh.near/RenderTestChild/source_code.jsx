@@ -21,7 +21,10 @@ return (
       props={{
         i: props.i,
         j: state.j,
-        incrementparent: () => State.update({ j: state.j + 1 }),
+        incrementparent: () => {
+          console.log("incrementing child");
+          State.update({ j: state.j + 1 });
+        },
         setchildincrement: (cb0, number, cb1) => {
           console.log(
             "incrementing grandchild by " + number + " from its parent scope"
