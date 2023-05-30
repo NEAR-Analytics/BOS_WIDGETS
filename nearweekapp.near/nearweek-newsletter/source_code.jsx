@@ -11,6 +11,20 @@ const data = fetch(
   }
 );
 
+const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
+
+if (!cssFont) return "";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+    font-family: 'Hubot-Sans', sans-serif;
+    ${cssFont}
+`,
+  });
+}
+const Theme = state.theme;
+
 const ButtonLink = styled.a`
   padding: 8px;
   height: 32px;
@@ -93,13 +107,11 @@ function formatDate(dateString) {
   return `${dayOfWeek} ${dayOfMonth} ${month}, ${year}`;
 }
 
-console.log(data);
-
 const issue = data.body.data[0];
 const nwSite = "https://nearweek.com";
 
 return (
-  <div className="">
+  <Theme>
     {issue !== null ? (
       <Card>
         <CardBody>
@@ -108,20 +120,19 @@ return (
               <div class="d-flex">
                 <img
                   class="rounded"
-                  width="70"
-                  height="70"
+                  width="77"
+                  height="77"
                   src={nwSite + issue.Thumbnail.url}
                   alt={issue.Thumbnail.alternativeText}
                 />
                 <div class="d-flex flex-column ms-2 mt-0">
-                  <div class="small">
+                  <div class="mb-2 small">
                     <b>
-                      A weekly update on everything that moves NEAR Protocol
+                      {"Newsletter - NO"} {issue.Number ? issue.Number : ""}
                     </b>
                   </div>
-                  <div class="mt-2 small">
-                    {" "}
-                    NO {issue.Number ? issue.Number : ""} ·{" "}
+                  <div class="small">
+                    A weekly update on everything that moves NEAR Protocol{" "}
                     {issue.publishedAt ? formatDate(issue.publishedAt) : ""}
                   </div>
                 </div>
@@ -148,5 +159,5 @@ return (
     ) : (
       <div>Loading ...</div>
     )}
-  </div>
+  </Theme>
 );
