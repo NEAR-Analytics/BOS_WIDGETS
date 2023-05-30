@@ -72,6 +72,20 @@ const columns = [
         label: "type",
     },
     {
+        id: "proposer",
+        label: "Proposer",
+        formatter: (d) => {
+            return (
+                <a
+                    href={`https://explorer.near.org/accounts/${d.proposer}`}
+                    target="_blank"
+                >
+                    {d.proposer}
+                </a>
+            );
+        },
+    },
+    {
         id: "proposal_id",
         label: "Proposal Id",
     },
