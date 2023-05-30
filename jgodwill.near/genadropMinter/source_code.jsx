@@ -32,16 +32,16 @@ const handleMint = () => {
       showAlert: true,
       toastMessage: "Please enter a title before continuing",
     });
+
     setTimeout(() => {
       State.update({
         showAlert: false,
       });
     }, 3000);
   } else if (!state.description) {
-    console.log("Please Enter desc");
     State.update({
       showAlert: true,
-      toastMessage: "Please enter a description before continuing",
+      toastMessage: "Please sign in with NEAR wallet",
     });
     setTimeout(() => {
       State.update({
@@ -107,6 +107,14 @@ const onChangeDesc = (description) => {
     description,
   });
 };
+
+if (!accountId) {
+  console.log("Please login");
+  State.update({
+    showAlert: true,
+    toastMessage: "Please log in before continuing",
+  });
+}
 
 const ImageUploadCard = styled.div`
 display:flex;
@@ -232,6 +240,7 @@ const TextArea = styled.textarea`
     border:1px solid #0d99ff;
   }
 `;
+
 return (
   <Main className="container-fluid">
     {!accountId && <p>Please sign in with NEAR wallet</p>}
@@ -309,7 +318,7 @@ return (
       </div>
     )}
     {state.showAlert && (
-      <Widget src="jgodwill.near/widget/genadrop-toast" props={state} />
+      <Widget src="jgodwill.near/widget/genalert" props={state} />
     )}
   </Main>
 );
