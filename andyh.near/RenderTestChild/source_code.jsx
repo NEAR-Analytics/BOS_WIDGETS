@@ -29,7 +29,7 @@ return (
             "incrementing grandchild by " + number + " from its parent scope"
           );
           console.log("calling " + cb0.toString());
-          cb0(number, /xyz/gi);
+          cb0(number, () => /xyz/gi);
           incrementChild = cb0;
         },
       }}
