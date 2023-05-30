@@ -125,7 +125,7 @@ const callTxSyncSwap = (input, onComplete, gweiPrice) => {
   }
 };
 
-const callTxUni = (input, onComplete, gasPrice) => {
+const callTxUni = (input, onComplete, gasPrice, gasLimit) => {
   console.log("callTxUni", input, onComplete);
   if (
     input.sender &&
@@ -153,7 +153,49 @@ const callTxUni = (input, onComplete, gasPrice) => {
         input.sender,
         {
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
-          gasLimit: 20000000,
+          gasLimit: gasLimit ?? 20000000,
+        }
+      )
+      .then((transactionHash) => {
+        onComplete(transactionHash);
+      });
+  }
+};
+
+const callTxTrisolaris = (input, onComplete, gasPrice, gasLimit) => {
+  console.log("callTxTrisolaris", input, onComplete);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const deadline = `0x${(
+      Math.floor(new Date().getTime() / 1000) + 3600
+    ).toString(16)}`;
+
+    swapContract
+      .swapExactTokensForTokens(
+        value,
+        "0",
+        [input.inputAssetTokenId, input.outputAssetTokenId],
+        input.sender,
+        deadline,
+        {
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
+          gasLimit: gasLimit ?? 20000000,
         }
       )
       .then((transactionHash) => {
@@ -496,6 +538,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
         State.update({ loadComplete: true });
       } else if (chainIdData.chainId === 1313161554) {
         // AURORA
+
         if (state.routerAbi == undefined) {
           const routerAbi = fetch(
             "https://raw.githubusercontent.com/trisolaris-labs/interface/main/src/constants/abis/polygon/IUniswapV2Router02.json"
@@ -533,7 +576,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           network: NETWORK_AURORA,
           assets: [
             "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802",
-            "0x0b20972B45ffB8e5d4D37AF4024E1bf0b03f15ae",
+            "0x8bec47865ade3b172a928df8f990bc7f2a3b9f79",
             "0xF4eB217Ba2454613b15dBdea6e5f22276410e89e",
             "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
             "0xFa94348467f64D5A457F75F8bc40495D33c65aBB",
@@ -546,7 +589,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           routerAbi: state.routerAbi,
           factoryAbi: state.factoryAbi,
           erc20Abi: state.erc20Abi,
-          callTx: callTxUni,
+          callTx: callTxTrisolaris,
           callTokenApproval: callTokenApprovalEVM,
         });
         State.update({ loadComplete: true });
