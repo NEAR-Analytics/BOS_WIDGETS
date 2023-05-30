@@ -2,6 +2,7 @@ const NETWORK_NEAR = "NEAR";
 const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
 const NETWORK_ZKEVM = "ZKEVM";
+const NETWORK_AURORA = "AURORA";
 
 State.init({
   inputAssetModalHidden: true,
@@ -223,7 +224,9 @@ const tokenInApprovaleNeededCheck = () => {
       getEVMAccountId() &&
       state.erc20Abi !== undefined &&
       state.routerContract !== undefined &&
-      [NETWORK_ETH, NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(state.network)
+      [NETWORK_ETH, NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_AURORA].includes(
+        state.network
+      )
     ) {
       const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
@@ -256,9 +259,9 @@ const tokenInApprovaleNeededCheck = () => {
 };
 
 if (
-  state.network === NETWORK_ZKSYNC ||
-  state.network == NETWORK_ZKEVM ||
-  state.network == NETWORK_ETH
+  [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_ETH, NETWORK_AURORA].includes(
+    state.network
+  )
 ) {
   tokenInApprovaleNeededCheck();
 }
@@ -305,6 +308,7 @@ return (
         NETWORK_ETH,
         NETWORK_ZKSYNC,
         NETWORK_ZKEVM,
+        NETWORK_AURORA,
       }}
     />
 
@@ -470,7 +474,7 @@ return (
         </>
       )}
 
-    {[NETWORK_ZKSYNC].includes(state.network) &&
+    {[NETWORK_ZKSYNC, NETWORK_AURORA].includes(state.network) &&
       state.inputAsset &&
       state.outputAsset &&
       state.inputAssetAmount &&
@@ -635,6 +639,8 @@ return (
                           );
                         } else if (state.network === NETWORK_ETH) {
                           state.callTx(state, onCallTxComple);
+                        } else if (state.network === NETWORK_AURORA) {
+                          state.callTx(state, onCallTxComple, "0.1", 700000);
                         }
                       }
                     }}
@@ -648,8 +654,8 @@ return (
         </div>
         <div class="pt-3 text-secondary opacity-25 text-center">
           <p>
-            Supported networks: {NETWORK_NEAR}, {NETWORK_ETH}, {NETWORK_ZKSYNC},{" "}
-            {NETWORK_ZKEVM}
+            Supported networks: {NETWORK_NEAR}, {NETWORK_ETH}, {NETWORK_ZKSYNC},
+            {NETWORK_ZKEVM}, {NETWORK_AURORA}
           </p>
           {currentAccountId && <p>Current account: {currentAccountId}</p>}
         </div>
