@@ -1,5 +1,11 @@
-const { NETWORK_NEAR, NETWORK_ETH, NETWORK_ZKSYNC, NETWORK_ZKEVM, debug } =
-  props;
+const {
+  NETWORK_NEAR,
+  NETWORK_ETH,
+  NETWORK_ZKSYNC,
+  NETWORK_ZKEVM,
+  NETWORK_AURORA,
+  debug,
+} = props;
 let onLoad = props.onLoad;
 const forceReload = props.forceReload ?? false;
 
@@ -484,6 +490,62 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           dexName: "UniSwap",
           erc20Abi: state.erc20Abi,
           routerAbi: state.routerAbi,
+          callTx: callTxUni,
+          callTokenApproval: callTokenApprovalEVM,
+        });
+        State.update({ loadComplete: true });
+      } else if (chainIdData.chainId === 1313161554) {
+        // AURORA
+        if (state.routerAbi == undefined) {
+          const routerAbi = fetch(
+            "https://raw.githubusercontent.com/trisolaris-labs/interface/main/src/constants/abis/polygon/IUniswapV2Router02.json"
+          );
+          if (!routerAbi.ok) {
+            return "Loading";
+          }
+          State.update({ routerAbi: routerAbi.body });
+        }
+
+        if (state.erc20Abi == undefined) {
+          const erc20Abi = fetch(
+            "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+          );
+          if (!erc20Abi.ok) {
+            return "Loading";
+          }
+          State.update({ erc20Abi: erc20Abi.body });
+        }
+
+        if (state.factoryAbi == undefined) {
+          const factoryAbi = fetch(
+            "https://raw.githubusercontent.com/DaniPopes/uniswap-rs/9a7c8f9aadc38b458eac6571509d354859e6cca0/abi/IUniswapV2Factory.json"
+          );
+          if (!factoryAbi.ok) {
+            return "Loading";
+          }
+          State.update({ factoryAbi: factoryAbi.body });
+        }
+
+        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi)
+          return "Loading ABIs";
+
+        onLoad({
+          network: NETWORK_AURORA,
+          assets: [
+            "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802",
+            "0x0b20972B45ffB8e5d4D37AF4024E1bf0b03f15ae",
+            "0xF4eB217Ba2454613b15dBdea6e5f22276410e89e",
+            "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
+            "0xFa94348467f64D5A457F75F8bc40495D33c65aBB",
+          ],
+          inputAssetTokenId: "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802",
+          outputAssetTokenId: "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
+          routerContract: "0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B",
+          factoryContract: "0xc66F594268041dB60507F00703b152492fb176E7",
+          dexName: "Trisolaris",
+          routerAbi: state.routerAbi,
+          factoryAbi: state.factoryAbi,
+          erc20Abi: state.erc20Abi,
           callTx: callTxUni,
           callTokenApproval: callTokenApprovalEVM,
         });
