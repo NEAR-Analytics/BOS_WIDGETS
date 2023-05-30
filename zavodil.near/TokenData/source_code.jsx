@@ -7,6 +7,7 @@ const NETWORK_NEAR = "NEAR";
 const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
 const NETWORK_ZKEVM = "ZKEVM";
+const NETWORK_AURORA = "AURORA";
 
 const network = props.network ?? NETWORK_NEAR;
 
@@ -116,9 +117,11 @@ const getErc20Balance = (tokenId, receiver) => {
 };
 
 const getErc20Tokendata = (tokenId) => {
-  const data = fetch(
-    `https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenId}`
-  );
+  let dataUrl = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenId}`;
+  if (network === NETWORK_AURORA) {
+    dataUrl = `https://api.coingecko.com/api/v3/coins/aurora/contract/${tokenId}`;
+  }
+  const data = fetch(dataUrl);
   if (!data.ok) {
     return "Loading";
   }
@@ -177,6 +180,7 @@ switch (network) {
   }
   case NETWORK_ETH:
   case NETWORK_ZKSYNC:
+  case NETWORK_AURORA:
   case NETWORK_ZKEVM: {
     if (state.ethAccountId === undefined) {
       const accounts = Ethers.send("eth_requestAccounts", []);
@@ -216,7 +220,7 @@ switch (network) {
       );
 
       let tokenIdForCoingeckoAPI;
-      if (network === NETWORK_ETH) {
+      if ([NETWORK_AURORA, NETWORK_ETH].includes(network)) {
         tokenIdForCoingeckoAPI = tokenId;
       } else if ([NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(network)) {
         tokenIdForCoingeckoAPI = coinGeckoTokenId;
