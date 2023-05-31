@@ -141,7 +141,7 @@ return (
       </Section>
       <Section active={state.selectedTab === "explore"}>
         <Widget src="nearweekapp.near/widget/nearweek-newsletter" />
-        <Widget src="adminalpha.near/widget/ExploreWidgets" />
+        <Widget src="nearweekapp.near/widget/NEARWEEKNews" />
       </Section>
     </Main>
   </Wrapper>
