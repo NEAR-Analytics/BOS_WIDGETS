@@ -243,7 +243,6 @@ const TextArea = styled.textarea`
 
 return (
   <Main className="container-fluid">
-    {!accountId && <p>Please sign in with NEAR wallet</p>}
     <Heading className="text-center fs-2 fw-bold">Mint NFT on genadrop</Heading>
     {state.image.cid ? (
       <div>
