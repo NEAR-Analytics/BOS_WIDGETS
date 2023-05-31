@@ -64,7 +64,7 @@ if (!cssFont) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: 'Mona Sans', sans-serif;
+    font-family: 'Hubot-Sans', sans-serif;
     ${cssFont}
 `,
   });
@@ -82,7 +82,6 @@ const H2 = styled.h2`
   font-weight: 700;
   line-height: 22px;
   color: #11181C;
-  letter-spacing: -0.02em;
   margin: 0;
 `;
 
@@ -125,13 +124,12 @@ const CardContent = styled.div`
     justify-content: space-between;
     margin-top: 0;
     margin-left: 1rem;
-    flex: 1;
 `;
 
 const CardTitle = styled.div`
     font-style: normal;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 16px;
     letter-spacing: -0.02em;
     color: #000000;
@@ -208,7 +206,7 @@ const ButtonLink = styled.a`
   }
 `;
 
-const news = [...(data?.body?.data ?? []), ...posts]
+const news = [...data.body.data, ...posts]
   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   .slice(0, limit);
 const nwSite = "https://nearweek.com";
@@ -229,21 +227,17 @@ function dateToDays(date) {
 
 return (
   <Theme>
-    {news && news.length > 0 ? (
+    {data !== null ? (
       <Wrapper>
         <H2>News</H2>
         <Content>
           {news.map((item, index) => (
             <Card index={index}>
-              <div class="d-flex flex-grow-1">
+              <div class="d-flex">
                 <CardImage width="78" height="78" src={item.thumbnail} alt="" />
                 <CardContent>
                   <CardTitle>
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
+                    <a href={article.url} target="_blank">
                       {item.title}
                     </a>
                   </CardTitle>
@@ -266,10 +260,7 @@ return (
             </Card>
           ))}
         </Content>
-        <ButtonLink
-          href="https://near.org/nearweekapp.near/widget/nearweek-news"
-          target="_blank"
-        >
+        <ButtonLink href="https://nearweek.com" target="_blank">
           View All News
         </ButtonLink>
       </Wrapper>
