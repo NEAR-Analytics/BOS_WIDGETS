@@ -38,7 +38,7 @@ function href(widgetName, linkProps) {
   const linkPropsQuery = Object.entries(linkProps)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
+  return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
@@ -157,6 +157,21 @@ return (
             >
               <i class="bi-calendar"> </i>
               Events
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              className={
+                props.tab === "Telegram" ? "nav-link active" : "nav-link"
+              }
+              href={href("community.Telegram", {
+                label: props.label,
+                tab: "Telegram",
+              })}
+            >
+              <i class="bi-telegram"> </i>
+              Telegram
             </a>
           </li>
         </NavUnderline>
