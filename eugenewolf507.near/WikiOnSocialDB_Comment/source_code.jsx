@@ -16,8 +16,8 @@ const content =
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
-const accountUrl = `#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?accountId=${accountId}`;
-const shareUrl = `https://near.org${accountUrl}`;
+const mainPartForSharingComment=props.mainPartForSharingComment,
+const shareUrl = `${mainPartForSharingComment}&commentAccountId=${accountId}&commentBlockHeight=${blockHeight}`;
 
 const ShareButtonWrapper = styled.div`
   .button {
@@ -32,7 +32,7 @@ const ShareButtonWrapper = styled.div`
     font-size: 12px;
     text-align: center;
     cursor: pointer;
-    background: #fff;
+    background-color: transparent;
     border: 0;
     color: #11181c !important;
 
