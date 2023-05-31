@@ -38,13 +38,6 @@ return (
           </li>
         </ul>
       </div>
-      <a
-        key="edit"
-        href={"#/devs.near/widget/dev.menu.config"}
-        className="position-absolute top-0 end-0 link-secondary m-3"
-      >
-        <i class="bi bi-wrench-adjustable" /> Edit Menu
-      </a>
     </div>
   </div>
 );
