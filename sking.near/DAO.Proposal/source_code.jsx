@@ -43,7 +43,7 @@ const statusColor =
 const statusBackgroundColor =
   proposal.status === "Approved"
     ? "#ecf7ef"
-    : proposal.status === "Failed"
+    : proposal.status === "Failed" || proposal.status === "Rejected"
     ? "#fdf4f4"
     : "#fff";
 
@@ -94,7 +94,7 @@ const MarkdownContainer = styled.div`
   padding: 24px;
   background-color: #f8f9fa;
   color: #1b1b18;
-  border-radius: 16px;
+  border-radius: 14px;
   max-height: 700px;
   overflow-y: auto;
   color: #333;
@@ -149,7 +149,7 @@ const MarkdownContainer = styled.div`
 `;
 
 function deepSortObject(obj) {
-  if (typeof obj !== 'object' || obj === null) {
+  if (typeof obj !== "object" || obj === null) {
     // Return non-object values as is
     return obj;
   }
@@ -424,5 +424,13 @@ return (
         }}
       />
     </div>
+
+    <Widget
+      src="sking.near/widget/DAO.Proposal.Additional"
+      props={{
+        daoId: daoId,
+        proposal: proposal,
+      }}
+    />
   </Wrapper>
 );
