@@ -90,20 +90,23 @@ return (
               <button
                 className="button"
                 type="button"
-                onMouseLeave={() => {
-                  State.update({ copiedShareUrl: false });
-                }}
+                // onMouseLeave={() => {
+                //   State.update({ copiedShareUrl: false });
+                // }}
                 onClick={() => {
-                  clipboard.writeText(shareUrl).then(() => {
-                    State.update({ copiedShareUrl: true });
-                  });
+                  clipboard.writeText(shareUrl);
+                  //   .then(() => {
+                  //     State.update({ copiedShareUrl: true });
+                  //   });
                 }}
               >
-                {state.copiedShareUrl ? (
-                  <i className="bi-16 bi bi-check"></i>
-                ) : (
-                  <i className="bi-16 bi-link-45deg"></i>
-                )}
+                share
+                {/*// {state.copiedShareUrl ? (
+                //   <i className="bi-16 bi bi-check"></i>
+                // ) : (
+                //   <i className="bi-16 bi-link-45deg"></i>
+                // )}
+                */}
               </button>
             </ShareButtonWrapper>
           </OverlayTrigger>
