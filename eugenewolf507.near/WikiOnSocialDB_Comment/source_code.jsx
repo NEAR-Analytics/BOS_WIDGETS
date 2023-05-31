@@ -17,6 +17,39 @@ const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
 
+const ShareButtonWrapper = styled.div`
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    height: 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    background: #fff;
+    border: 0;
+    color: #11181c !important;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+
+    i {
+      color: #000;
+    }
+
+    .bi-16 {
+      font-size: 21px;
+    }
+  }
+`;
+
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
@@ -38,7 +71,7 @@ return (
         />
       </div>
       {blockHeight !== "now" && (
-        <div className="mt-1 d-flex justify-content-between">
+        <div className="mt-1 d-flex justify-content-between align-items-center">
           {parentItem && (
             <Widget
               src="mob.near/widget/CommentButton"
@@ -47,6 +80,31 @@ return (
               }}
             />
           )}
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
+          >
+            <ShareButtonWrapper>
+              <button
+                className="button"
+                type="button"
+                onMouseLeave={() => {
+                  State.update({ copiedShareUrl: false });
+                }}
+                onClick={() => {
+                  clipboard.writeText(shareUrl).then(() => {
+                    State.update({ copiedShareUrl: true });
+                  });
+                }}
+              >
+                {state.copiedShareUrl ? (
+                  <i className="bi-16 bi bi-check"></i>
+                ) : (
+                  <i className="bi-16 bi-link-45deg"></i>
+                )}
+              </button>
+            </ShareButtonWrapper>
+          </OverlayTrigger>
         </div>
       )}
     </div>
