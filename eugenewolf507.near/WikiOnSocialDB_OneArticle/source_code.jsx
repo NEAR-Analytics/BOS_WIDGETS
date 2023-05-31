@@ -284,16 +284,9 @@ return (
           src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
           props={{
             item,
-            // highlightComment: props.highlightComment,
             highlightComment: {
               accountId: sharedCommentAuthorId,
               blockHeight: sharedCommentBlockHeight,
-              //   accountId: "testwiki.near",
-              //   blockHeight: 85867380,
-              //   accountId: "testwiki.near",
-              //   blockHeight: 85867284,
-              //   accountId: "eugenewolf507.near",
-              //   blockHeight: 85866095,
             },
             limit: props.commentsLimit,
             subscribe,
