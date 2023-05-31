@@ -22,6 +22,8 @@ const article = JSON.parse(
 );
 State.update({ article });
 
+const mainPartForSharingComment = `https://near.social/#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${state.article.articleId}&blockHeight=${blockHeight}&lastEditor=${lastEditor}&commentAccountId=testwiki.near&commentBlockHeight=85867284`;
+
 // ======= CHECK WHO CAN EDIT ARTICLE
 const authorsWhiteList = ["507.near", "wolf.near"];
 const doesUserCanEditArticle = () => {
@@ -291,6 +293,7 @@ return (
             limit: props.commentsLimit,
             subscribe,
             raw,
+            mainPartForSharingComment,
           }}
         />
       </div>
