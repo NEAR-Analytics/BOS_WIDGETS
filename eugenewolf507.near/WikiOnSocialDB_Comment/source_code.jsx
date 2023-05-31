@@ -1,7 +1,7 @@
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
 const authorForWidget = "eugenewolf507.near";
-State.init({ showReply: false, copiedShareUrl: false });
+State.init({ showReply: false });
 const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
@@ -16,8 +16,6 @@ const content =
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
-const mainPartForSharingComment = props.mainPartForSharingComment;
-const shareUrl = `${mainPartForSharingComment}&commentAccountId=${accountId}&commentBlockHeight=${blockHeight}`;
 
 const ShareButtonWrapper = styled.div`
   .button {
@@ -32,7 +30,7 @@ const ShareButtonWrapper = styled.div`
     font-size: 12px;
     text-align: center;
     cursor: pointer;
-    background-color: transparent;
+    background: #fff;
     border: 0;
     color: #11181c !important;
 
@@ -52,13 +50,8 @@ const ShareButtonWrapper = styled.div`
   }
 `;
 
+//TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
-const item = {
-  type: "social",
-  path: `${accountId}/post/comment`,
-  blockHeight,
-};
 
 return (
   <>
@@ -79,25 +72,14 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between align-items-center">
-          <span className="d-inline-flex align-items-center">
-            {parentItem && (
-              <Widget
-                src="mob.near/widget/CommentButton"
-                props={{
-                  onClick: () => State.update({ showReply: !state.showReply }),
-                }}
-              />
-            )}
-
+          {parentItem && (
             <Widget
-              src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
+              src="mob.near/widget/CommentButton"
               props={{
-                // notifyAccountId,
-                item,
+                onClick: () => State.update({ showReply: !state.showReply }),
               }}
             />
-          </span>
-
+          )}
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
