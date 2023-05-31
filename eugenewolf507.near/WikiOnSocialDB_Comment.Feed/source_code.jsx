@@ -26,7 +26,7 @@ const renderItem = (a) =>
             a.accountId === props.highlightComment?.accountId &&
             a.blockHeight === props.highlightComment?.blockHeight,
           raw,
-          mainPartForSharingComment: props.mainPartForSharingComment,
+          mainPartForSharingComment,
         }}
       />
     </div>
@@ -42,7 +42,6 @@ return (
         renderItem,
         nextLimit: 10,
         loadMoreText: "Show earlier comments...",
-        mainPartForSharingComment: props.mainPartForSharingComment,
       }}
     />
   </div>
