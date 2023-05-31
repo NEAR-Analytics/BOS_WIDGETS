@@ -1,7 +1,7 @@
 const addressForArticles = "wikiTest2Article";
 const addressForComments = "wikiTest2Comment";
 const authorForWidget = "eugenewolf507.near";
-State.init({ showReply: false });
+State.init({ showReply: false, copiedShareUrl: false });
 const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
@@ -16,6 +16,8 @@ const content =
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
+const accountUrl = `#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?accountId=${accountId}`;
+const shareUrl = `https://near.org${accountUrl}`;
 
 const ShareButtonWrapper = styled.div`
   .button {
