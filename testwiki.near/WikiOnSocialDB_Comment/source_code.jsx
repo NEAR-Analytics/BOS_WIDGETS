@@ -54,12 +54,6 @@ const ShareButtonWrapper = styled.div`
 
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-const item = {
-  type: "social",
-  path: `${accountId}/post/comment`,
-  blockHeight,
-};
-
 return (
   <>
     <div
@@ -79,25 +73,14 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between align-items-center">
-          <span className="d-inline-flex align-items-center">
-            {parentItem && (
-              <Widget
-                src="mob.near/widget/CommentButton"
-                props={{
-                  onClick: () => State.update({ showReply: !state.showReply }),
-                }}
-              />
-            )}
-
+          {parentItem && (
             <Widget
-              src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
+              src="mob.near/widget/CommentButton"
               props={{
-                // notifyAccountId,
-                item,
+                onClick: () => State.update({ showReply: !state.showReply }),
               }}
             />
-          </span>
-
+          )}
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
