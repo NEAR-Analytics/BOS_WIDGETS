@@ -26,7 +26,7 @@ const renderItem = (a) =>
             a.accountId === props.highlightComment?.accountId &&
             a.blockHeight === props.highlightComment?.blockHeight,
           raw,
-          mainPartForSharingComment,
+          mainPartForSharingComment: a.mainPartForSharingComment,
         }}
       />
     </div>
