@@ -2,7 +2,6 @@
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -14,7 +13,6 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
-
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -26,99 +24,82 @@ function widget(widgetName, widgetProps, key) {
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
-
   if (props.nearDevGovGigsContractAccountId) {
     linkProps.nearDevGovGigsContractAccountId =
       props.nearDevGovGigsContractAccountId;
   }
-
   if (props.nearDevGovGigsWidgetsAccountId) {
     linkProps.nearDevGovGigsWidgetsAccountId =
       props.nearDevGovGigsWidgetsAccountId;
   }
-
   if (props.referral) {
     linkProps.referral = props.referral;
   }
-
   const linkPropsQuery = Object.entries(linkProps)
-    .filter(([_key, nullable]) => (nullable ?? null) !== null)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-
-  return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
+  return `#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/adapter/dev-hub" */
-const devHubAccountId =
-  props.nearDevGovGigsContractAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-const DevHub = {
-  edit_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
-    null,
-
-  get_access_control_info: () =>
-    Near.view(devHubAccountId, "get_access_control_info") ?? null,
-
-  get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
-
-  get_all_communities: () =>
-    Near.view(devHubAccountId, "get_all_communities") ?? null,
-
-  get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
-
-  get_community: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
-
-  get_post: ({ post_id }) =>
-    Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
-
-  get_posts_by_author: ({ author }) =>
-    Near.view(devHubAccountId, "get_posts_by_author", { author }) ?? null,
-
-  get_posts_by_label: ({ label }) =>
-    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
-      label,
-    }) ?? null,
-
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
-
-  useQuery: ({ name, params }) => {
-    const initialState = { data: null, error: null, isLoading: true };
-
-    const cacheState = useCache(
-      () =>
-        Near.asyncView(devHubAccountId, ["get", name].join("_"), params ?? {})
-          .then((response) => ({
-            ...initialState,
-            data: response ?? null,
-            isLoading: false,
-          }))
-          .catch((error) => ({
-            ...initialState,
-            error: props?.error ?? error,
-            isLoading: false,
-          })),
-
-      JSON.stringify({ name, params }),
-      { subscribe: true }
-    );
-
-    return cacheState === null ? initialState : cacheState;
+/* INCLUDE: "communities.jsx" */
+const communities = {
+  "zero-knowledge": {
+    overviewId: 397,
+    eventsId: 401,
+    icon: "https://ipfs.near.social/ipfs/bafkreiajwq6ep3n7veddozji2djv5vviyisabhycbweslvpwhsoyuzcwi4",
+    cover:
+      "https://ipfs.near.social/ipfs/bafkreihgxg5kwts2juldaeasveyuddkm6tcabmrat2aaq5u6uyljtyt7lu",
+    title: "Zero Knowledge",
+    desc: "Building a zero knowledge ecosystem on NEAR.",
+    telegram: "NearZeroKnowledge",
+  },
+  protocol: {
+    overviewId: 412,
+    eventsId: 413,
+    icon: "https://ipfs.near.social/ipfs/bafkreidpitdafcnhkp4uyomacypdgqvxr35jtfnbxa5s6crby7qjk2nv5a",
+    cover:
+      "https://ipfs.near.social/ipfs/bafkreicg4svzfz5nvllomsahndgm7u62za4sib4mmbygxzhpcl4htqwr4a",
+    title: "Protocol",
+    desc: "Supporting the ongoing innovation of the NEAR Protocol.",
+    telegram: "NEAR_Protocol_Community_Group",
+  },
+  tooling: {
+    overviewId: 416,
+    eventsId: 417,
+    icon: "https://ipfs.near.social/ipfs/bafkreie2eaj5czmpfe6pe53kojzcspgozebdsonffwvbxtpuipnwahybvi",
+    cover:
+      "https://ipfs.near.social/ipfs/bafkreiehzr7z2fhoqqmkt3z667wubccbch6sqtsnvd6msodyzpnf72cszy",
+    title: "Tooling",
+    desc: "Supporting the ongoing innovation of tooling.",
+    telegram: "NEAR_Tools_Community_Group",
+  },
+  "contract-standards": {
+    overviewId: 414,
+    eventsId: 415,
+    icon: "https://ipfs.near.social/ipfs/bafkreiepgdnu7soc6xgbyd4adicbf3eyxiiwqawn6tguaix6aklfpir634",
+    cover:
+      "https://ipfs.near.social/ipfs/bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
+    title: "Contract Standards",
+    desc: "Coordinating the contribution to the NEAR dapp standards.",
+    telegram: "nearnft",
   },
 };
-/* END_INCLUDE: "core/adapter/dev-hub" */
+/* END_INCLUDE: "communities.jsx" */
 
-const communityData = DevHub.get_community({ handle: props.handle });
-
-if (communityData === null) {
-  return <div>Loading...</div>;
+if (!props.label) {
+  return (
+    <div class="alert alert-danger" role="alert">
+      Error: label is required
+    </div>
+  );
 }
+
+const community = communities[props.label];
+
+const group = community.telegram;
 
 const Telegram = (
   <div>
@@ -126,7 +107,7 @@ const Telegram = (
       iframeResizer
       src={
         "https://j96g3uepe0.execute-api.us-east-1.amazonaws.com/groups-ui/" +
-        communityData.telegram_handle
+        group
       }
       frameborder="0"
       // Required by iframeResizer
@@ -135,21 +116,11 @@ const Telegram = (
         minWidth: "100%",
       }}
     ></iframe>
-
-    <a href={"https://t.me/" + communityData.telegram_handle} target="_blank">
-      {widget("components.atom.button", {
-        classNames: {
-          root: "btn-primary",
-        },
-
-        label: "View More",
-      })}
-    </a>
   </div>
 );
 
-return widget("components.template.community-page", {
-  handle: props.handle,
-  title: "Telegram",
+return widget("components.community.Layout", {
+  label: props.label,
+  tab: "Telegram",
   children: Telegram,
 });
