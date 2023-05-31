@@ -82,7 +82,7 @@ return (
               }}
             />
           )}
-          <OverlayTrigger
+          {/*<OverlayTrigger
             placement="top"
             overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
           >
@@ -101,15 +101,16 @@ return (
                 }}
               >
                 share
-                {/*// {state.copiedShareUrl ? (
+                // {state.copiedShareUrl ? (
                 //   <i className="bi-16 bi bi-check"></i>
                 // ) : (
                 //   <i className="bi-16 bi-link-45deg"></i>
                 // )}
-                */}
+                
               </button>
             </ShareButtonWrapper>
           </OverlayTrigger>
+          */}
         </div>
       )}
     </div>
