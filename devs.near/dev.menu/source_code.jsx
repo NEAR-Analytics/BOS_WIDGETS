@@ -4,9 +4,9 @@ return (
       <div class="container-fluid">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item ">
-            <a class="nav-link active" href="Guide">
-              <i class="bi-balloon-heart"> </i>
-              Events
+            <a class="nav-link active" href="#/hack.near/widget/Academy">
+              <i class="bi-mortarboard"> </i>
+              Academy
             </a>
           </li>
           <li class="nav-item">
