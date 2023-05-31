@@ -6,7 +6,8 @@ if (!accountId) {
   return "No account ID";
 }
 const sharedCommentAuthorId = props.commentAccountId;
-const sharedCommentBlockHeight = parseInt(props.commentBlockHeight);
+const sharedCommentBlockHeight =
+  props.commentBlockHeight && parseInt(props.commentBlockHeight);
 const lastEditor = props.lastEditor;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
