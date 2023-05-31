@@ -16,7 +16,7 @@ const content =
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
-const mainPartForSharingComment=props.mainPartForSharingComment,
+const mainPartForSharingComment = props.mainPartForSharingComment;
 const shareUrl = `${mainPartForSharingComment}&commentAccountId=${accountId}&commentBlockHeight=${blockHeight}`;
 
 const ShareButtonWrapper = styled.div`
