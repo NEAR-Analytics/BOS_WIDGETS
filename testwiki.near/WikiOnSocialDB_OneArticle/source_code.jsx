@@ -5,7 +5,9 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
-
+const sharedCommentAuthorId = props.commentAccountId;
+const sharedCommentBlockHeight =
+  props.commentBlockHeight && parseInt(props.commentBlockHeight);
 const lastEditor = props.lastEditor;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
@@ -20,6 +22,8 @@ const article = JSON.parse(
   Social.get(`${lastEditor}/wikiTest2Article/main`, blockHeight)
 );
 State.update({ article });
+
+const mainPartForSharingComment = `https://near.social/#/${authorForWidget}/widget/WikiOnSocialDB_OneArticle?articleId=${state.article.articleId}&blockHeight=${blockHeight}&lastEditor=${lastEditor}&commentAccountId=testwiki.near&commentBlockHeight=85867284`;
 
 // ======= CHECK WHO CAN EDIT ARTICLE
 const authorsWhiteList = ["507.near", "wolf.near"];
@@ -95,10 +99,12 @@ const saveArticle = () => {
 };
 
 //======= Create initialTagsObject for TagsEditor widget =======
+// const initialTestArray = ["learner", "crypto", "social"];
 const getTagObjectfromArray = (tagArray) => {
   if (!tagArray) return {};
   return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
 };
+// console.log(getTagObjectfromArray(initialTestArray));
 
 const areTheTextAndTagsTheSame = () => {
   const isThereNoTextInBody = !state.note;
@@ -281,10 +287,14 @@ return (
           src={`${authorForWidget}/widget/WikiOnSocialDB_Comment.Feed`}
           props={{
             item,
-            highlightComment: props.highlightComment,
+            highlightComment: {
+              accountId: sharedCommentAuthorId,
+              blockHeight: sharedCommentBlockHeight,
+            },
             limit: props.commentsLimit,
             subscribe,
             raw,
+            mainPartForSharingComment,
           }}
         />
       </div>
