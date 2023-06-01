@@ -46,13 +46,14 @@ const toast = (toast) => {
 
 const css = `
   button {
-    background: white;
+    background: rgb(30, 239, 164);
     color: black;
-    border-color: black;
+    border: none;
+    font-weight: bold;
     &:hover {
-      border-color: black;
-      background: black;
-      color: white;
+      border: rgb(30, 239, 164);
+      background: rgb(16, 204, 137);
+      color: black;
     }
   }
   .main {
