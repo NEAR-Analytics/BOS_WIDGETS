@@ -32,7 +32,7 @@ const computeFetchFrom = (items, limit, desc) => {
   if (!items || items.length < limit) {
     return false;
   }
-  const blockHeight = items[items.length - 1].blockHeight;
+  const blockHeight = items && items[items.length - 1].blockHeight;
   return desc ? blockHeight - 1 : blockHeight + 1;
 };
 
