@@ -25,10 +25,6 @@ return (
           State.update({ j: state.j + 1 });
         },
         setchildincrement: (cb0, number, cb1) => {
-          console.log(
-            "incrementing grandchild by " + number + " from its parent scope"
-          );
-          console.log("calling " + cb0.toString());
           cb0(number, () => /xyz/gi);
           incrementChild = cb0;
         },
