@@ -164,7 +164,7 @@ if (!state.statsIsFetched) {
 }
 
 if (!state.totalRaisedIsFetched) {
-  asyncFetch("https://api-op3o.onrender.com/atlas/total-raised").then(
+  asyncFetch("https://api-staging-fur7.onrender.com/atlas/total-raised").then(
     (response) =>
       response.ok &&
       State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
