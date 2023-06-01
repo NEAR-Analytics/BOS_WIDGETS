@@ -65,6 +65,7 @@ const css = `
   .main {
     padding: 32px 16px;
     width: 100%;
+    max-width: 1000px;
     text-align: center;
     position: relative;
     background: black;
@@ -75,7 +76,6 @@ const css = `
     margin: auto;
     display: flex;
     flex-flow: row wrap;
-    max-width: 1000px;
     > div {
       border: 1px solid #222;
       margin: 16px;
