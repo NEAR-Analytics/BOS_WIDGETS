@@ -1,3 +1,29 @@
+if (
+  state.chainId === undefined &&
+  ethers !== undefined &&
+  Ethers.send("eth_requestAccounts", [])[0]
+) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+}
+if (state.chainId !== undefined && state.chainId !== 56) {
+  return (
+    <div>
+      <p>Please switch to BNB Chain</p>
+      <a
+        href={`https://academy.binance.com/en/articles/connecting-metamask-to-binance-smart-chain`}
+      >
+        Guide
+      </a>
+    </div>
+  );
+}
+
 // Campaigns
 
 const dataMap = {
