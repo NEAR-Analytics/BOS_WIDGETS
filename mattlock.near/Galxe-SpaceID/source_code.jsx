@@ -64,9 +64,10 @@ const css = `
   }
   .main {
     padding: 32px 16px;
+    margin: auto;
     width: 100%;
     max-width: 1000px;
-    text-align: center;
+    text-align: left;
     position: relative;
     background: black;
     border-radius: 8px;
