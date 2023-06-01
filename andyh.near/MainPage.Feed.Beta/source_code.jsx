@@ -120,7 +120,7 @@ const renderItem = (item) =>
 return (
   <div>
     <Widget
-      src="mob.near/widget/MergedIndexFeed"
+      src="andyh.near/widget/MergedIndexFeed"
       props={{ index, renderItem }}
     />
   </div>
