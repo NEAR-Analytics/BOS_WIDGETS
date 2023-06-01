@@ -73,10 +73,11 @@ const css = `
     border-radius: 8px;
     color: rgb(199, 210, 215);
   }
+  .boxes-wrap {
+    display: flex;
+    justify-content: center;
+  }
   .boxes {
-    text-align: center;
-    margin: auto;
-    width: auto;
     display: flex;
     flex-flow: row wrap;
     > div {
@@ -265,27 +266,29 @@ return (
           </div>
         </div>
       )}
-      <div class="boxes">
-        {state.data.campaign.childrenCampaigns.map(
-          ({ id, name, whitelistInfo: { maxCount, usedCount } }, i) => {
-            const eligible = maxCount - 1 === usedCount;
-            return (
-              <div key={id}>
-                <h4>{name}</h4>
-                <img src={dataMap[id].src} />
-                <div class="break"></div>
-                {eligible ? (
-                  <p>You are eligible</p>
-                ) : (
-                  <p class="not">You are not eligible</p>
-                )}
-                <button disabled={!eligible} onClick={() => handleClaim(id)}>
-                  Claim
-                </button>
-              </div>
-            );
-          }
-        )}
+      <div class=".boxes-wrap">
+        <div class="boxes">
+          {state.data.campaign.childrenCampaigns.map(
+            ({ id, name, whitelistInfo: { maxCount, usedCount } }, i) => {
+              const eligible = maxCount - 1 === usedCount;
+              return (
+                <div key={id}>
+                  <h4>{name}</h4>
+                  <img src={dataMap[id].src} />
+                  <div class="break"></div>
+                  {eligible ? (
+                    <p>You are eligible</p>
+                  ) : (
+                    <p class="not">You are not eligible</p>
+                  )}
+                  <button disabled={!eligible} onClick={() => handleClaim(id)}>
+                    Claim
+                  </button>
+                </div>
+              );
+            }
+          )}
+        </div>
       </div>
     </div>
   </Theme>
