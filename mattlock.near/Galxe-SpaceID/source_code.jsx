@@ -150,7 +150,11 @@ console.log("data", state.data);
 if (!state.data)
   return (
     <Theme>
-      <button onClick={init}>Get Started</button>
+      <div class="main">
+        <h2>SPACE ID Voyage Season 2 - Calling</h2>
+        <p>Register a .bnb domain name and claim a Voyage Box</p>
+        <Web3Connect connectLabel="Connect with Web3" />
+      </div>
     </Theme>
   );
 
