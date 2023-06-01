@@ -48,6 +48,10 @@ const css = `
   button {
     background: white;
     color: black;
+    border-color: black;
+    &:hover {
+      border-color: black;
+    }
   }
   .main {
     padding: 32px 16px;
