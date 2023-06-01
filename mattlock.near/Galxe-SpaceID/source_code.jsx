@@ -52,6 +52,7 @@ const css = `
     &:hover {
       border-color: black;
       background: black;
+      color: white;
     }
   }
   .main {
