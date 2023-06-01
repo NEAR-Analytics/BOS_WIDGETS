@@ -7,7 +7,7 @@ State.init({
 });
 
 asyncFetch(
-  `https://api-op3o.onrender.com/data/projects?sort=timedesc&q=${search}`
+  `https://api-staging-fur7.onrender.com/data/projects?sort=timedesc&q=${search}`
 ).then(({ body: items }) => State.update({ items, itemsIsFetched: true }));
 
 if (!state.itemsIsFetched) {
