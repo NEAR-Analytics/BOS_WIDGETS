@@ -18,6 +18,7 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
+    console.log(`rendering ${key} at ${i}`);
     state.cachedItems[key] = renderItem(item, i);
     State.update();
   }
