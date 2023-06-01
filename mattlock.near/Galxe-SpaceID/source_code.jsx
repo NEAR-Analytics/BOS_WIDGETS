@@ -74,6 +74,7 @@ const css = `
     color: rgb(199, 210, 215);
   }
   .boxes {
+    text-align: center;
     margin: auto;
     display: flex;
     flex-flow: row wrap;
