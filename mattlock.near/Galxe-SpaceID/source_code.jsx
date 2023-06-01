@@ -19,11 +19,18 @@ const toast = (toast) => {
 };
 
 const css = `
+  button {
+    background: white;
+    color: black;
+  }
   .main {
-    margin-top: 32px;
+    padding: 32px 16px;
     width: 100%;
     text-align: center;
     position: relative;
+    background: black;
+    border-radius: 8px;
+    color: white;
   }
   .boxes {
     margin: auto;
