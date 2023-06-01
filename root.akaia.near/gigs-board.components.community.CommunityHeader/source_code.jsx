@@ -7,29 +7,6 @@ const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-/**
- * Reads a board config from DevHub contract storage.
- * Currently a mock.
- *
- * Boards are indexed by their ids.
- */
-const boardConfigByBoardId = ({ boardId }) => {
-  return {
-    probablyUUIDv4: {
-      id: "probablyUUIDv4",
-      columns: [
-        { title: "Draft", labelFilters: ["S-draft"] },
-        { title: "Review", labelFilters: ["S-review"] },
-        { title: "HALP!", labelFilters: ["help"] },
-      ],
-      dataTypes: { Issue: true, PullRequest: true },
-      description: "Latest NEAR Enhancement Proposals by status",
-      repoURL: "https://github.com/near/NEPs",
-      title: "NEAR Protocol NEPs",
-    },
-  }[boardId];
-};
-
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
     ...widgetProps,
@@ -73,31 +50,6 @@ function href(widgetName, linkProps) {
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
-
-const formHandler =
-  ({ formStateKey }) =>
-  ({ fieldName, updateHandler }) =>
-  (input) =>
-    State.update((lastState) => ({
-      ...lastState,
-
-      [formStateKey]: {
-        ...lastState[formStateKey],
-
-        [fieldName]:
-          typeof updateHandler === "function"
-            ? updateHandler({
-                input: input?.target?.value ?? input ?? null,
-                lastState,
-              })
-            : input?.target?.value ?? input ?? null,
-      },
-    }));
-
-const CompactContainer = styled.div`
-  width: fit-content !important;
-  max-width: 100%;
-`;
 /* END_INCLUDE: "common.jsx" */
 
 const Header = styled.div`
@@ -155,24 +107,20 @@ const topicTabs = [
     title: "Events",
   },
   {
-    contentProps: {
-      boardId: null, // communityById("communityId").boards[0].id
-    },
-
     iconClass: "bi bi-github",
     path: "community.github",
-    title: "GitHub", // communityById("communityId").boards[0].title
+    title: "GitHub",
+  },
+  {
+    iconClass: "bi bi-telegram",
+    path: "community.Telegram",
+    title: "Telegram",
   },
 ];
 
 const CommunityHeader = ({ label, tab }) => {
   State.init({ shared: { isEditorEnabled: false } });
   Storage.set("state", state.shared);
-
-  console.log(
-    "CommunityHeader state requested locally",
-    Storage.get("state").isEditorEnabled
-  );
 
   const onEditorToggle = () =>
     State.update((lastState) => ({
@@ -206,33 +154,33 @@ const CommunityHeader = ({ label, tab }) => {
           </div>
         </div>
 
-        {widget("components.toggle", {
+        {widget("components.atom.toggle", {
           active: state.shared.isEditorEnabled,
+          className: "visually-hidden",
           direction: "rtl",
           key: "community-editor-toggle",
-          label: "Editor mode ( WIP )",
+          label: "( WIP ) Editor mode",
           onSwitch: onEditorToggle,
         })}
       </div>
 
       <NavUnderline className="nav">
-        {topicTabs.map(
-          ({ contentProps, defaultActive, iconClass, path, title }) =>
-            title ? (
-              <li className="nav-item" key={title}>
-                <a
-                  aria-current={defaultActive && "page"}
-                  className={[
-                    "d-inline-flex gap-2",
-                    tab === title ? "nav-link active" : "nav-link",
-                  ].join(" ")}
-                  href={href(path, { ...(contentProps ?? {}), label })}
-                >
-                  {iconClass && <i className={iconClass} />}
-                  <span>{title}</span>
-                </a>
-              </li>
-            ) : null
+        {topicTabs.map(({ defaultActive, iconClass, path, title }) =>
+          title ? (
+            <li className="nav-item" key={title}>
+              <a
+                aria-current={defaultActive && "page"}
+                className={[
+                  "d-inline-flex gap-2",
+                  tab === title ? "nav-link active" : "nav-link",
+                ].join(" ")}
+                href={href(path, { label })}
+              >
+                {iconClass && <i className={iconClass} />}
+                <span>{title}</span>
+              </a>
+            </li>
+          ) : null
         )}
       </NavUnderline>
     </Header>
