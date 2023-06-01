@@ -63,7 +63,7 @@ const css = `
     position: relative;
     background: black;
     border-radius: 8px;
-    color: white;
+    color: rgb(199, 210, 215);
   }
   .boxes {
     margin: auto;
