@@ -76,6 +76,7 @@ const css = `
   .boxes {
     text-align: center;
     margin: auto;
+    width: auto;
     display: flex;
     flex-flow: row wrap;
     > div {
