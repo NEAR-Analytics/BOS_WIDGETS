@@ -45,7 +45,9 @@ const toast = (toast) => {
 };
 
 const css = `
-  button {
+  button,
+  button:disabled,
+  button[disabled] {
     background: rgb(30, 239, 164);
     color: black;
     border: none;
@@ -55,6 +57,10 @@ const css = `
       background: rgb(16, 204, 137);
       color: black;
     }
+  }
+  button:disabled,
+  button[disabled]{
+    background: rgb(16, 204, 137, 0.5);
   }
   .main {
     padding: 32px 16px;
