@@ -51,6 +51,7 @@ const css = `
     border-color: black;
     &:hover {
       border-color: black;
+      background: black;
     }
   }
   .main {
