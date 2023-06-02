@@ -80,6 +80,27 @@ State.init({
   method: [],
 });
 
+const validateForm = () => {
+  return (
+    state.message &&
+    state.messageError === "" &&
+    state.price &&
+    state.priceError === "" &&
+    state.vendorId &&
+    state.vendorIdError === "" &&
+    state.requestType &&
+    state.requestTypeError === "" &&
+    state.paymentType &&
+    state.paymentTypeError === "" &&
+    state.paymentSource &&
+    state.paymentSourceError === "" &&
+    state.startDate &&
+    state.startDateError === "" &&
+    state.endDate &&
+    state.endDateError === ""
+  );
+};
+
 if (!state.vendorsIsFetched) {
   Near.asyncView(
     ownerId,
@@ -147,6 +168,27 @@ if (!state.requestsIsFetched) {
 
 if (!state.requestsIsFetched || !state.vendorsIsFetched) {
   return <>Loading...</>;
+}
+
+if (!state.vendors || state.vendors.length === 0) {
+  return (
+    <Widget
+      src={`${ownerId}/widget/InfoSegment`}
+      props={{
+        title: "No contributor to request as!",
+        description: (
+          <>
+            You need to log in with an account that has admin rights to a
+            contributor or create a{" "}
+            <a href={`/${ownerId}/widget/Index?tab=createvendor`}>
+              new contributor
+            </a>
+            !
+          </>
+        ),
+      }}
+    />
+  );
 }
 
 // if (!state.requestsIsFetched) {
@@ -282,7 +324,10 @@ return (
               onChange: (method) => State.update({ method }),
             }}
           />
-        </>) : <></>}
+        </>
+      ) : (
+        <></>
+      )}
       <Widget
         src={`${ownerId}/widget/Inputs.Checkbox`}
         props={{
@@ -321,7 +366,9 @@ return (
               Send proposal
             </>
           ),
+          disabled: !state.agree || !validateForm(),
           onClick: () => {
+            if (!state.agree || !validateForm()) return;
             Near.call(ownerId, "add_proposal", {
               proposal: {
                 vendor_id: state.vendorId.value,
