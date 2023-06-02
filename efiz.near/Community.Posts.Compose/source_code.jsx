@@ -4,15 +4,14 @@ const communityDomain = props.communityDomain || null;
 const embedHashtags = props.embedHashtags || [];
 const exclusive = props.exclusive || false;
 const key = props.key || "main";
-const embedMentions = props.embedMentions || [];
 
+// Do not show if user is not logged in
+// Do not show if exclusive and user is not a member
 if (!context.accountId || (exclusive && !isMember)) return <></>;
 
 State.init({
   image: {},
-  text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
-    (it) => `@${it}`
-  )}`,
+  text: "",
   showPreview: false,
   publicPosting: allowPublicPosting,
 });
@@ -29,9 +28,19 @@ const content = {
 function extractMentions(text) {
   const mentionRegex =
     /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  return Array.from(text.matchAll(mentionRegex), (match) =>
-    match[1].toLowerCase()
-  );
+  mentionRegex.lastIndex = 0;
+  const accountIds = new Set();
+  for (const match of text.matchAll(mentionRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+      match[1].length >= 2 &&
+      match[1].length <= 64
+    ) {
+      accountIds.add(match[1].toLowerCase());
+    }
+  }
+  return [...accountIds];
 }
 
 function extractTagNotifications(text, item) {
@@ -48,24 +57,47 @@ function extractTagNotifications(text, item) {
 
 const extractHashtags = (text) => {
   const hashtagRegex = /#(\w+)/gi;
-  return Array.from(text.matchAll(hashtagRegex), (match) =>
-    match[1].toLowerCase()
-  );
+  hashtagRegex.lastIndex = 0;
+  const hashtags = new Set();
+  for (const match of text.matchAll(hashtagRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
+    ) {
+      hashtags.add(match[1].toLowerCase());
+    }
+  }
+  return [...hashtags];
 };
 
 function composeData() {
   const data = {
     post: {
-      [key]: JSON.stringify(content),
+      main: JSON.stringify(content),
     },
     index: {},
   };
 
   function mergeArrays(array1, array2) {
-    return [...new Set([...array1, ...array2])];
+    const mergedArray = [...array1, ...array2];
+    const uniqueArray = [];
+    mergedArray.forEach((item) => {
+      if (!uniqueArray.includes(item)) {
+        uniqueArray.push(item);
+      }
+    });
+    return uniqueArray;
   }
+
   const hashtags = extractHashtags(content.text);
+
+  // Add the embed hashtags to any found within the content
   hashtags = mergeArrays(hashtags, embedHashtags);
+
+  /**
+   * If domains have been provided, then we create an index under that "domain"
+   * Otherwise, we post to the catch-all "post" domain
+   */
   if (state.publicPosting) {
     data.index.post = JSON.stringify({
       key,
@@ -82,16 +114,16 @@ function composeData() {
       },
     });
   }
-  const item = {
-    type: "social",
-    path: `${context.accountId}/post/${key}`,
-  };
+
   if (hashtags.length) {
     if (state.publicPosting) {
       data.index.hashtag = JSON.stringify(
         hashtags.map((hashtag) => ({
           key: hashtag,
-          value: item,
+          value: {
+            type: "social",
+            path: `${context.accountId}/post/main`,
+          },
         }))
       );
     } else if (isMember && communityDomain) {
@@ -100,25 +132,18 @@ function composeData() {
           key: hashtag,
           value: {
             type: "social",
-            path: `${context.accountId}/${communityDomain}/${key}`,
+            path: `${context.accountId}/${communityDomain}/main`,
           },
         }))
       );
     }
   }
 
-  const notifications = extractTagNotifications(state.text, item);
+  const notifications = extractTagNotifications(state.text, {
+    type: "social",
+    path: `${context.accountId}/post/main`,
+  });
 
-  if (embedMentions.length) {
-    const mentions = embedMentions.map((accountId) => ({
-      key: accountId,
-      value: {
-        type: "mention",
-        item,
-      },
-    }));
-    notifications = notifications.concat(mentions);
-  }
   if (notifications.length) {
     data.index.notify = JSON.stringify(
       notifications.length > 1 ? notifications : notifications[0]
