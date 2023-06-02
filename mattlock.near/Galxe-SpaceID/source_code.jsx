@@ -65,6 +65,7 @@ const css = `
   .main {
     padding: 32px 16px;
     margin: auto;
+    margin-top: -16px;
     width: 100%;
     max-width: 1000px;
     text-align: left;
