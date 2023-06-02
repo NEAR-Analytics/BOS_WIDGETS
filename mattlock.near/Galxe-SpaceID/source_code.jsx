@@ -63,7 +63,7 @@ const css = `
     background: rgb(16, 204, 137, 0.5);
   }
   .main {
-    padding: 32px 16px;
+    padding: 16px;
     margin: auto;
     margin-top: -16px;
     width: 100%;
