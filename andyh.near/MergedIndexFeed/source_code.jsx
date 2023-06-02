@@ -8,18 +8,18 @@ const indices = JSON.parse(
 const filter = props.filter;
 
 const renderItem =
-  (await props.renderItem) ??
+  props.renderItem ??
   ((item) => (
     <div key={JSON.stringify(item)}>
       #{item.blockHeight}: {JSON.stringify(item)}
     </div>
   ));
-const cachedRenderItem = (item, i) => {
+const cachedRenderItem = async (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
     console.log(`rendering ${key} at ${i}`);
-    state.cachedItems[key] = renderItem(item, i);
+    state.cachedItems[key] = await renderItem(item, i);
     State.update();
   }
   return state.cachedItems[key];
@@ -234,7 +234,7 @@ if (reverse) {
   items.reverse();
 }
 
-const renderedItems = items.map(cachedRenderItem);
+const renderedItems = await Promise.all(items.map(cachedRenderItem));
 console.log({ props, state, renderedItems });
 return props.manual ? (
   <>
