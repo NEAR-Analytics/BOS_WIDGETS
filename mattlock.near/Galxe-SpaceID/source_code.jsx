@@ -71,7 +71,7 @@ const css = `
     text-align: left;
     position: relative;
     background: black;
-    border-radius: 8px;
+    border-radius: 0 0 16px 16px;
     color: rgb(199, 210, 215);
   }
   .boxes {
