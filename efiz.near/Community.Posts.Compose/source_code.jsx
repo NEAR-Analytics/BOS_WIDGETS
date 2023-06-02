@@ -122,7 +122,7 @@ function composeData() {
           key: hashtag,
           value: {
             type: "social",
-            path: `${context.accountId}/post/main`,
+            path: `${context.accountId}/post/${key}`,
           },
         }))
       );
@@ -132,7 +132,7 @@ function composeData() {
           key: hashtag,
           value: {
             type: "social",
-            path: `${context.accountId}/${communityDomain}/main`,
+            path: `${context.accountId}/${communityDomain}/${key}`,
           },
         }))
       );
@@ -141,7 +141,7 @@ function composeData() {
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
-    path: `${context.accountId}/post/main`,
+    path: `${context.accountId}/post/${key}`,
   });
 
   if (notifications.length) {
