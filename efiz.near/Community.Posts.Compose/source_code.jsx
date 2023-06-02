@@ -3,6 +3,7 @@ const isMember = props.isMember || false;
 const communityDomain = props.communityDomain || null;
 const embedHashtags = props.embedHashtags || [];
 const exclusive = props.exclusive || false;
+const key = props.key || "main";
 
 // Do not show if user is not logged in
 // Do not show if exclusive and user is not a member
@@ -99,7 +100,7 @@ function composeData() {
    */
   if (state.publicPosting) {
     data.index.post = JSON.stringify({
-      key: "main",
+      key,
       value: {
         type: "md",
       },
@@ -107,7 +108,7 @@ function composeData() {
   }
   if (isMember && communityDomain) {
     data.index[communityDomain] = JSON.stringify({
-      key: "main",
+      key,
       value: {
         type: "md",
       },
