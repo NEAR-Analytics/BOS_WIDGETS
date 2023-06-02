@@ -73,7 +73,7 @@ const extractHashtags = (text) => {
 function composeData() {
   const data = {
     post: {
-      main: JSON.stringify(content),
+      [key]: JSON.stringify(content),
     },
     index: {},
   };
