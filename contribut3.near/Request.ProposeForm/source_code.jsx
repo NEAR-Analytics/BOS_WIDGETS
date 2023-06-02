@@ -2,6 +2,13 @@ const ownerId = "contribut3.near";
 const accountId = props.accountId;
 const cid = props.cid;
 
+const createDate = (date) => {
+  const d = date ? new Date(date) : new Date();
+  const month = `${d.getMonth() + 1}`;
+  const day = `${d.getDate()}`;
+  return `${d.getFullYear()}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+};
+
 const LineContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -67,19 +74,49 @@ State.init({
   request: null,
   requestIsFetched: false,
   message: "",
+  messageError: "",
   price: 0,
+  priceError: "",
   vendorId: [],
+  vendorIdError: "",
   vendors: [],
   vendorsIsFetched: false,
   requestTypes: [],
   requestType: [],
+  requestTypeError: "",
   paymentTypes: [],
   paymentType: [],
+  paymentTypeError: "",
   paymentSources: [],
   paymentSource: [],
-  startDate: "",
+  paymentSourceError: "",
+  startDate: createDate(null),
+  startDateError: "",
   endDate: "",
+  endDateError: "",
 });
+
+const validateForm = () => {
+  return (
+    state.message &&
+    state.messageError === "" &&
+    state.price &&
+    state.priceError === "" &&
+    state.vendorId &&
+    state.vendorId.value &&
+    state.vendorIdError === "" &&
+    state.requestType &&
+    state.requestTypeError === "" &&
+    state.paymentType &&
+    state.paymentTypeError === "" &&
+    state.paymentSource &&
+    state.paymentSourceError === "" &&
+    state.startDate &&
+    state.startDateError === "" &&
+    state.endDate &&
+    state.endDateError === ""
+  );
+};
 
 if (!state.vendorsIsFetched) {
   Near.asyncView(ownerId, "get_payment_types", {}, "final", false).then(
@@ -149,7 +186,15 @@ if (!state.requestIsFetched) {
     "final",
     false
   ).then((request) =>
-    State.update({ request, requestIsFetched: true })
+    State.update({
+      request,
+      requestIsFetched: true,
+      requestType: { value: request.request_type, text: request.request_type },
+      paymentType: { value: request.payment_type, text: request.payment_type },
+      paymentSource: { value: request.source, text: request.source },
+      price: request.budget,
+      endDate: createDate(Number(request.deadline)),
+    })
   );
   return <>Loading...</>;
 }
@@ -239,6 +284,17 @@ return (
           placeholder: "Describe the contribution you would like to request",
           value: state.message,
           onChange: (message) => State.update({ message }),
+          validate: () => {
+            if (state.message > 500) {
+              State.update({
+                messageError: "Message should be less than 500 characters",
+              });
+              return;
+            }
+
+            State.update({ messageError: "" });
+          },
+          error: state.messageError,
         }}
       />
       <Details>
@@ -261,6 +317,15 @@ return (
               label: "Price",
               value: state.price,
               onChange: (price) => State.update({ price }),
+              validate: () => {
+                if (state.price < 1) {
+                  State.update({ priceError: "Price should be more than 1" });
+                  return;
+                }
+
+                State.update({ priceError: "" });
+              },
+              error: state.priceError,
             }}
           />
         </DetailInput>
@@ -270,7 +335,7 @@ return (
             props={{
               label: "Contract type",
               options: state.requestTypes,
-              value: state.requestTypes,
+              value: state.requestType,
               onChange: (requestType) => State.update({ requestType }),
             }}
           />
@@ -310,8 +375,14 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.Checkbox`}
         props={{
-          label:
-            "Yes, I understand and agree with NEAR Horizon credit and payment system",
+          label: (
+            <>
+              Yes, I understand and agree with{" "}
+              <a href={`${ownerId}/widget/TNCPage`}>
+                NEAR Horizon credit and payment system
+              </a>
+            </>
+          ),
           value: state.agree,
           id: "agree",
           onChange: (agree) => State.update({ agree }),
@@ -345,21 +416,54 @@ return (
               Send proposal
             </>
           ),
-          onClick: () =>
-            Near.call(ownerId, "add_proposal", {
-              proposal: {
-                vendor_id: state.vendorId.value,
-                request_id: [accountId, cid],
-                title: state.request.title,
-                description: state.message,
-                price: Number(state.price),
-                payment_type: state.paymentType.value,
-                proposal_type: state.requestType.value,
-                payment_source: state.paymentSource.value,
-                start_date: `${new Date(state.startDate).getTime()}`,
-                end_date: `${new Date(state.endDate).getTime()}`,
+          onClick: () => {
+            const transactions = [
+              {
+                contractName: ownerId,
+                methodName: "add_proposal",
+                args: {
+                  proposal: {
+                    vendor_id: state.vendorId.value,
+                    request_id: [accountId, cid],
+                    title: state.request.title,
+                    description: state.message,
+                    price: Number(state.price),
+                    payment_type: state.paymentType.value,
+                    proposal_type: state.requestType.value,
+                    payment_source: state.paymentSource.value,
+                    start_date: `${new Date(state.startDate).getTime()}`,
+                    end_date: `${new Date(state.endDate).getTime()}`,
+                  },
+                },
               },
-            }),
+              {
+                contractName: "social.near",
+                methodName: "set",
+                args: {
+                  data: {
+                    [context.accountId]: {
+                      index: {
+                        graph: JSON.stringify({
+                          key: "vendor/proposeToRequest",
+                          value: { accountId: accountId },
+                        }),
+                        inbox: JSON.stringify({
+                          key: accountId,
+                          value: {
+                            type: "vendor/proposeToRequest",
+                            requestId: [accountId, cid],
+                            message: state.message,
+                            vendorId: state.vendorId.value,
+                          },
+                        }),
+                      },
+                    },
+                  },
+                },
+              },
+            ];
+            Near.call(transactions);
+          },
         }}
       />
     </Footer>
