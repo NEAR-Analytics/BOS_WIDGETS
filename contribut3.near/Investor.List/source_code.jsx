@@ -6,33 +6,22 @@ State.init({
   itemsIsFetched: false,
 });
 
-if (!state.itemsIsFetched) {
-  Near.asyncView(ownerId, "get_investors", {}, "final", false).then((items) =>
-    State.update({ items, itemsIsFetched: true })
-  );
+asyncFetch(
+  `https://api-staging-fur7.onrender.com/data/investors?sort=timedesc&q=${search}`
+).then(({ body: items }) => State.update({ items, itemsIsFetched: true }));
 
+if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
-
-const Item = styled.div`
-  width: 98%;
-  padding: 0;
-  margin: 0;
-`;
 
 return (
   <Widget
     src={`${ownerId}/widget/List`}
     props={{
-      filter: (accountId) => accountId.includes(search),
+      filter: (accountId) => state.items.includes(accountId),
       items: state.items,
       createItem: (accountId) => (
-        <Item key={accountId}>
-          <Widget
-            src={`${ownerId}/widget/Investor.Card`}
-            props={{ accountId }}
-          />
-        </Item>
+        <Widget src={`${ownerId}/widget/Investor.Card`} props={{ accountId }} />
       ),
     }}
   />
