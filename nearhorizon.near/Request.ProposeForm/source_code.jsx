@@ -103,6 +103,7 @@ const validateForm = () => {
     state.price &&
     state.priceError === "" &&
     state.vendorId &&
+    state.vendorId.value &&
     state.vendorIdError === "" &&
     state.requestType &&
     state.requestTypeError === "" &&
@@ -415,23 +416,53 @@ return (
               Send proposal
             </>
           ),
-          disabled: !state.agree || !validateForm(),
           onClick: () => {
-            if (!state.agree || !validateForm()) return;
-            Near.call(ownerId, "add_proposal", {
-              proposal: {
-                vendor_id: state.vendorId.value,
-                request_id: [accountId, cid],
-                title: state.request.title,
-                description: state.message,
-                price: Number(state.price),
-                payment_type: state.paymentType.value,
-                proposal_type: state.requestType.value,
-                payment_source: state.paymentSource.value,
-                start_date: `${new Date(state.startDate).getTime()}`,
-                end_date: `${new Date(state.endDate).getTime()}`,
+            const transactions = [
+              {
+                contractName: ownerId,
+                methodName: "add_proposal",
+                args: {
+                  proposal: {
+                    vendor_id: state.vendorId.value,
+                    request_id: [accountId, cid],
+                    title: state.request.title,
+                    description: state.message,
+                    price: Number(state.price),
+                    payment_type: state.paymentType.value,
+                    proposal_type: state.requestType.value,
+                    payment_source: state.paymentSource.value,
+                    start_date: `${new Date(state.startDate).getTime()}`,
+                    end_date: `${new Date(state.endDate).getTime()}`,
+                  },
+                },
               },
-            });
+              {
+                contractName: "social.near",
+                methodName: "set",
+                args: {
+                  data: {
+                    [context.accountId]: {
+                      index: {
+                        graph: JSON.stringify({
+                          key: "vendor/proposeToRequest",
+                          value: { accountId: accountId },
+                        }),
+                        inbox: JSON.stringify({
+                          key: accountId,
+                          value: {
+                            type: "vendor/proposeToRequest",
+                            requestId: [accountId, cid],
+                            message: state.message,
+                            vendorId: state.vendorId.value,
+                          },
+                        }),
+                      },
+                    },
+                  },
+                },
+              },
+            ];
+            Near.call(transactions);
           },
         }}
       />
