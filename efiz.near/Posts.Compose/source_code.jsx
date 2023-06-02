@@ -8,6 +8,7 @@ let isMember = false;
 if (community && community.members && community.members.length) {
   isMember = community.members.includes(context.accountId);
 }
+const key = props.key || "main";
 
 State.init({
   image: {},
@@ -99,7 +100,7 @@ function composeData() {
 
   if (state.public) {
     data.index.post = JSON.stringify({
-      key: "main",
+      key,
       value: {
         type: "md",
       },
@@ -107,7 +108,7 @@ function composeData() {
   }
   if (isMember) {
     data.index[community?.domain] = JSON.stringify({
-      key: "main",
+      key,
       value: {
         type: "md",
       },
