@@ -22,7 +22,9 @@ return (
         i: props.i,
         j: state.j,
         incrementparent: () => {
-          State.update({ j: state.j + 1 });
+          const j = state.j + 1;
+          State.update({ j });
+          return j;
         },
         setchildincrement: (cb0, number, cb1) => {
           cb0(number, () => /xyz/gi);
