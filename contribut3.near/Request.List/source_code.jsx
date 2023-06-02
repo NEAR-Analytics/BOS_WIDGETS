@@ -6,11 +6,11 @@ State.init({
   itemsIsFetched: false,
 });
 
-if (!state.itemsIsFetched) {
-  Near.asyncView(ownerId, "get_requests", {}, "final", false).then((items) =>
-    State.update({ items, itemsIsFetched: true })
-  );
+asyncFetch(
+  `https://api-staging-fur7.onrender.com/data/requests?sort=timedesc&q=${search}`
+).then(({ body: items }) => State.update({ items, itemsIsFetched: true }));
 
+if (!state.itemsIsFetched) {
   return <>Loading...</>;
 }
 
@@ -18,7 +18,8 @@ return (
   <Widget
     src={`${ownerId}/widget/List`}
     props={{
-      search,
+      filter: ([accountId, cid]) =>
+        state.items.some(([id, c]) => id === accountId && c === cid),
       items: state.items,
       createItem: ([accountId, cid]) => (
         <Widget
