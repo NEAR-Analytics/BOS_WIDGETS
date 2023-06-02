@@ -25,7 +25,8 @@ return (
     <br />
     <button
       onClick={async () => {
-        await props.incrementparent();
+        const result = await props.incrementparent();
+        console.log({ result });
       }}
     >
       child + 1
