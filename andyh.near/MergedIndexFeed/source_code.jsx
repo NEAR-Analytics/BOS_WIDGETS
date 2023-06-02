@@ -8,7 +8,7 @@ const indices = JSON.parse(
 const filter = props.filter;
 
 const renderItem =
-  props.renderItem ??
+  (await props.renderItem) ??
   ((item) => (
     <div key={JSON.stringify(item)}>
       #{item.blockHeight}: {JSON.stringify(item)}
