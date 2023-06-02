@@ -27,7 +27,6 @@ return (
           return j;
         },
         setchildincrement: (cb0, number, cb1) => {
-          console.log({ cb0, number, cb1 });
           cb0(number, () => /xyz/gi);
           incrementChild = cb0;
         },
