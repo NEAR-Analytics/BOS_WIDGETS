@@ -1,4 +1,5 @@
 let accountId = context.accountId;
+const ownerId = "minorityprogrammers.near"; // attribution
 
 // if (!accountId) {
 //   return "Please sign in with NEAR wallet";
@@ -319,5 +320,15 @@ return (
     {state.showAlert && (
       <Widget src="jgodwill.near/widget/genalert" props={state} />
     )}
+    <h4 className="text-center mt-5">
+      💧
+      <a href="https://genadrop.io" target="_blank" rel="noopener noreferrer">
+        GenaDrop
+      </a>
+      <Widget
+        src="miraclx.near/widget/Attribution"
+        props={{ authors: [ownerId], dep: true }}
+      />
+    </h4>
   </Main>
 );
