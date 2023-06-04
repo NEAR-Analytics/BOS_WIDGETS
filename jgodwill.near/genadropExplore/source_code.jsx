@@ -161,7 +161,7 @@ const NFTCard = styled.div`
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
    box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
-   padding: 8px;
+   padding: 8px 0px;
    background-color:#fff;
    max-width: 350px;
    margin: 0 auto;
@@ -172,7 +172,7 @@ const NFTCard = styled.div`
 
 const NFTCardText = styled.div`
   width: 100%;
-  padding: 0px 1rem;
+  // padding: 0px 1rem;
   `;
 
 const NFTCards = styled.div`
@@ -190,7 +190,7 @@ const NFTCards = styled.div`
 
 const ImageCard = styled.div`
   height:250px;
-  width: 100%;
+  width: 96%;
   border-radius: 0.5rem;
   overflow:hidden;
   margin-bottom: .4rem;
@@ -318,11 +318,11 @@ return (
                   </ImageCard>
                   <NFTCardText>
                     <hr />
-                    <div className="d-flex my-4 justify-content-between w-100">
+                    <div className="d-flex my-4 justify-content-between w-100 px-2">
                       <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
                       <div>{nft.nft_state_lists[0].list_contract.name}</div>
                     </div>
-                    <div>
+                    <div className="px-2">
                       <h3
                         style={{
                           fontSize: "18px",
@@ -340,6 +340,7 @@ return (
                         justifyContent: "space-between",
                         marginBottom: "5px",
                       }}
+                      className="px-2"
                     >
                       <div>
                         <div style={{ color: "#a4a9b6" }}>Token ID</div>
@@ -364,11 +365,11 @@ return (
                         </div>
                       )}
                     </div>
-                    <p style={{ fontSize: "14px" }}>
+                    <p style={{ fontSize: "14px" }} className="px-2">
                       Collection: {nft.collection.slug}
                     </p>
                     <hr />
-                    <div>
+                    <div className="px-2">
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
@@ -412,11 +413,11 @@ return (
                   </ImageCard>
                   <NFTCardText>
                     <hr />
-                    <div className="d-flex my-4 justify-content-between w-100">
+                    <div className="d-flex my-4 justify-content-between w-100 px-2">
                       <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
                       <div>{nft.nft_state_lists[0].list_contract.name}</div>
                     </div>
-                    <div>
+                    <div className="px-2">
                       <h3
                         style={{
                           fontSize: "18px",
@@ -434,6 +435,7 @@ return (
                         justifyContent: "space-between",
                         marginBottom: "5px",
                       }}
+                      className="px-2"
                     >
                       <div>
                         <div style={{ color: "#a4a9b6" }}>Token ID</div>
@@ -458,11 +460,11 @@ return (
                         </div>
                       )}
                     </div>
-                    <p style={{ fontSize: "14px" }}>
+                    <p style={{ fontSize: "14px" }} className="px-2">
                       Collection: {nft.collection.slug}
                     </p>
                     <hr />
-                    <div>
+                    <div className="px-2">
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
