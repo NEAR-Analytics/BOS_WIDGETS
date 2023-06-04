@@ -154,10 +154,10 @@ const NFTCard = styled.div`
    -ms-flex-flow:column nowrap;
    align-items:center;
   //  background-color: "#f0f0f0";
-   background: #e4f1fb;
-  background: linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 80%);
-  background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 80%);
-  background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 80%);
+   background: #fff;
+  // background: linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 180%);
+  // background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 180%);
+  // background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 180%);
    border-radius: 10px;
    border: 1.41429px solid rgba(28,27,28,.1);
    box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
@@ -357,8 +357,8 @@ return (
                         <div>
                           <div style={{ color: "#a4a9b6" }}>Owner</div>
                           <p style={{ fontSize: "14px" }}>
-                            {nft.nft_state.owner.length > 20
-                              ? nft.nft_state.owner.slice(0, 20) + "..."
+                            {nft.nft_state.owner.length > 12
+                              ? nft.nft_state.owner.slice(0, 12) + "..."
                               : nft.nft_state.owner}
                           </p>
                         </div>
@@ -451,8 +451,8 @@ return (
                         <div>
                           <div style={{ color: "#a4a9b6" }}>Owner</div>
                           <p style={{ fontSize: "14px" }}>
-                            {nft.nft_state.owner.length > 20
-                              ? nft.nft_state.owner.slice(0, 20) + "..."
+                            {nft.nft_state.owner.length > 12
+                              ? nft.nft_state.owner.slice(0, 12) + "..."
                               : nft.nft_state.owner}
                           </p>
                         </div>
