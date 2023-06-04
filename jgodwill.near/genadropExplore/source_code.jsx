@@ -272,223 +272,206 @@ return (
         />
       </InputContainer>
     </Hero>
-    {/*{state.collectionData && (
-      <Main>
-        <Stats>
-          <div>
-            <p>USD Volume:</p>
-            <p>{Math.round(state.collectionData.usd_volume)}</p>
-          </div>
-          <div>
-            <p>Volume:</p>
-            <p>
-              {Math.round(
-                state.collectionData.volume / 1000000000000000000000000
-              )}{" "}
-              N
-            </p>
-          </div>
-          <div>
-            <p>Collection Size:</p>
-            <p>{state.collectionData.collection_size}</p>
-          </div>
-        </Stats>
-      </Main>
-    )}*/}
-    {state.nftData.length > 0 && (
+    {state.nftData.length > 0 ? (
       <NFTCards>
-        {state.searchTerm === ""
-          ? state.nftData.map((nft) => (
-              <a
-                // href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
-                target="_blank"
-                href={`https://social.near.page/u/${nft.nft_state.owner}`}
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <NFTCard classNmae="card">
-                  <ImageCard>
-                    <img
-                      src={nft.image}
-                      alt={nft.name}
-                      width="100%"
-                      height="100%"
-                      className="rounded-3"
-                    />
-                  </ImageCard>
-                  <NFTCardText>
-                    <hr />
-                    <div className="d-flex my-4 justify-content-between w-100 px-2">
-                      <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
-                      <div>{nft.nft_state_lists[0].list_contract.name}</div>
-                    </div>
-                    <div className="px-2">
-                      <h3
+        {state.searchTerm === "" ? (
+          state.nftData.map((nft) => (
+            <a
+              // href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
+              target="_blank"
+              href={`https://social.near.page/u/${nft.nft_state.owner}`}
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <NFTCard classNmae="card">
+                <ImageCard>
+                  <img
+                    src={nft.image}
+                    alt={nft.name}
+                    width="100%"
+                    height="100%"
+                    className="rounded-3"
+                  />
+                </ImageCard>
+                <NFTCardText>
+                  <hr />
+                  <div className="d-flex my-4 justify-content-between w-100 px-2">
+                    <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
+                    <div>{nft.nft_state_lists[0].list_contract.name}</div>
+                  </div>
+                  <div className="px-2">
+                    <h3
+                      style={{
+                        fontSize: "18px",
+                        margin: "0 0 10px",
+                        wordBreak: "break-all",
+                      }}
+                    >
+                      {nft.name}
+                    </h3>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "5px",
+                    }}
+                    className="px-2"
+                  >
+                    <div>
+                      <div style={{ color: "#a4a9b6" }}>Token ID</div>
+                      <p
                         style={{
-                          fontSize: "18px",
-                          margin: "0 0 10px",
-                          wordBreak: "break-all",
+                          fontSize: "14px",
+                          marginBottom: "5px",
+                          color: "#0d99ff",
                         }}
                       >
-                        {nft.name}
-                      </h3>
+                        {nft.token_id}
+                      </p>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "5px",
-                      }}
-                      className="px-2"
-                    >
+                    {nft.nft_state && (
                       <div>
-                        <div style={{ color: "#a4a9b6" }}>Token ID</div>
-                        <p
-                          style={{
-                            fontSize: "14px",
-                            marginBottom: "5px",
-                            color: "#0d99ff",
-                          }}
-                        >
-                          {nft.token_id}
+                        <div style={{ color: "#a4a9b6" }}>Owner</div>
+                        <p style={{ fontSize: "14px" }}>
+                          {nft.nft_state.owner.length > 12
+                            ? nft.nft_state.owner.slice(0, 12) + "..."
+                            : nft.nft_state.owner}
                         </p>
                       </div>
-                      {nft.nft_state && (
-                        <div>
-                          <div style={{ color: "#a4a9b6" }}>Owner</div>
-                          <p style={{ fontSize: "14px" }}>
-                            {nft.nft_state.owner.length > 12
-                              ? nft.nft_state.owner.slice(0, 12) + "..."
-                              : nft.nft_state.owner}
-                          </p>
-                        </div>
-                      )}
+                    )}
+                  </div>
+                  <p style={{ fontSize: "14px" }} className="px-2">
+                    Collection: {nft.collection.slug}
+                  </p>
+                  <hr />
+                  <div className="px-2">
+                    <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
+                      Price
                     </div>
-                    <p style={{ fontSize: "14px" }} className="px-2">
-                      Collection: {nft.collection.slug}
-                    </p>
-                    <hr />
-                    <div className="px-2">
-                      <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
-                        Price
-                      </div>
-                      {nft.nft_state_lists && nft.nft_state_lists[0] && (
-                        <PriceArea>
-                          <h6>
-                            {`${(
-                              nft.nft_state_lists[0].list_price /
-                              1000000000000000000000000
-                            ).toFixed(2)}N`}
-                          </h6>
-                          <span>{` ($${(
-                            (nft.nft_state_lists[0].list_price /
-                              1000000000000000000000000) *
-                            1.56
-                          ).toFixed(2)})`}</span>
-                        </PriceArea>
-                      )}
-                    </div>
-                  </NFTCardText>
-                </NFTCard>
-              </a>
-            ))
-          : state.filteredNFTData.map((nft) => (
-              <a
-                // href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
-                target="_blank"
-                href={`https://social.near.page/u/${nft.nft_state.owner}`}
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <NFTCard classNmae="card">
-                  <ImageCard>
-                    <img
-                      src={nft.image}
-                      alt={nft.name}
-                      width="100%"
-                      height="100%"
-                      className="rounded-3"
-                    />
-                  </ImageCard>
-                  <NFTCardText>
-                    <hr />
-                    <div className="d-flex my-4 justify-content-between w-100 px-2">
-                      <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
-                      <div>{nft.nft_state_lists[0].list_contract.name}</div>
-                    </div>
-                    <div className="px-2">
-                      <h3
+                    {nft.nft_state_lists && nft.nft_state_lists[0] && (
+                      <PriceArea>
+                        <h6>
+                          {`${(
+                            nft.nft_state_lists[0].list_price /
+                            1000000000000000000000000
+                          ).toFixed(2)}N`}
+                        </h6>
+                        <span>{` ($${(
+                          (nft.nft_state_lists[0].list_price /
+                            1000000000000000000000000) *
+                          1.56
+                        ).toFixed(2)})`}</span>
+                      </PriceArea>
+                    )}
+                  </div>
+                </NFTCardText>
+              </NFTCard>
+            </a>
+          ))
+        ) : state.filteredNFTData.length > 0 ? (
+          state.filteredNFTData.map((nft) => (
+            <a
+              // href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
+              target="_blank"
+              href={`https://social.near.page/u/${nft.nft_state.owner}`}
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <NFTCard classNmae="card">
+                <ImageCard>
+                  <img
+                    src={nft.image}
+                    alt={nft.name}
+                    width="100%"
+                    height="100%"
+                    className="rounded-3"
+                  />
+                </ImageCard>
+                <NFTCardText>
+                  <hr />
+                  <div className="d-flex my-4 justify-content-between w-100 px-2">
+                    <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
+                    <div>{nft.nft_state_lists[0].list_contract.name}</div>
+                  </div>
+                  <div className="px-2">
+                    <h3
+                      style={{
+                        fontSize: "18px",
+                        margin: "0 0 10px",
+                        wordBreak: "break-all",
+                      }}
+                    >
+                      {nft.name}
+                    </h3>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "5px",
+                    }}
+                    className="px-2"
+                  >
+                    <div>
+                      <div style={{ color: "#a4a9b6" }}>Token ID</div>
+                      <p
                         style={{
-                          fontSize: "18px",
-                          margin: "0 0 10px",
-                          wordBreak: "break-all",
+                          fontSize: "14px",
+                          marginBottom: "5px",
+                          color: "#0d99ff",
                         }}
                       >
-                        {nft.name}
-                      </h3>
+                        {nft.token_id}
+                      </p>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "5px",
-                      }}
-                      className="px-2"
-                    >
+                    {nft.nft_state && (
                       <div>
-                        <div style={{ color: "#a4a9b6" }}>Token ID</div>
-                        <p
-                          style={{
-                            fontSize: "14px",
-                            marginBottom: "5px",
-                            color: "#0d99ff",
-                          }}
-                        >
-                          {nft.token_id}
+                        <div style={{ color: "#a4a9b6" }}>Owner</div>
+                        <p style={{ fontSize: "14px" }}>
+                          {nft.nft_state.owner.length > 12
+                            ? nft.nft_state.owner.slice(0, 12) + "..."
+                            : nft.nft_state.owner}
                         </p>
                       </div>
-                      {nft.nft_state && (
-                        <div>
-                          <div style={{ color: "#a4a9b6" }}>Owner</div>
-                          <p style={{ fontSize: "14px" }}>
-                            {nft.nft_state.owner.length > 12
-                              ? nft.nft_state.owner.slice(0, 12) + "..."
-                              : nft.nft_state.owner}
-                          </p>
-                        </div>
-                      )}
+                    )}
+                  </div>
+                  <p style={{ fontSize: "14px" }} className="px-2">
+                    Collection: {nft.collection.slug}
+                  </p>
+                  <hr />
+                  <div className="px-2">
+                    <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
+                      Price
                     </div>
-                    <p style={{ fontSize: "14px" }} className="px-2">
-                      Collection: {nft.collection.slug}
-                    </p>
-                    <hr />
-                    <div className="px-2">
-                      <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
-                        Price
-                      </div>
-                      {nft.nft_state_lists && nft.nft_state_lists[0] && (
-                        <PriceArea>
-                          <h6>
-                            {`${(
-                              nft.nft_state_lists[0].list_price /
-                              1000000000000000000000000
-                            ).toFixed(2)}N`}
-                          </h6>
-                          <span>{` ($${(
-                            (nft.nft_state_lists[0].list_price /
-                              1000000000000000000000000) *
-                            1.56
-                          ).toFixed(2)})`}</span>
-                        </PriceArea>
-                      )}
-                    </div>
-                  </NFTCardText>
-                </NFTCard>
-              </a>
-            ))}
+                    {nft.nft_state_lists && nft.nft_state_lists[0] && (
+                      <PriceArea>
+                        <h6>
+                          {`${(
+                            nft.nft_state_lists[0].list_price /
+                            1000000000000000000000000
+                          ).toFixed(2)}N`}
+                        </h6>
+                        <span>{` ($${(
+                          (nft.nft_state_lists[0].list_price /
+                            1000000000000000000000000) *
+                          1.56
+                        ).toFixed(2)})`}</span>
+                      </PriceArea>
+                    )}
+                  </div>
+                </NFTCardText>
+              </NFTCard>
+            </a>
+          ))
+        ) : (
+          <div>No results found for "{state.searchTerm}".</div>
+        )}
       </NFTCards>
+    ) : (
+      <div>No NFTs available.</div>
     )}
   </div>
 );
