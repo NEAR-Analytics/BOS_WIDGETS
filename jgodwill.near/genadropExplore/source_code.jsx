@@ -160,7 +160,7 @@ const NFTCard = styled.div`
   // background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 180%);
   // background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 180%);
    border-radius: 10px;
-   border: 1.41429px solid rgba(28,27,28,.1);
+   border: 1.41429px solid rgba(28,27,28,.2);
    box-shadow: 5.65714px 5.65714px 11.3143px rgba(28,27,28,.04);
    padding: 8px 0px;
    background-color:#fff;
@@ -306,7 +306,7 @@ return (
                   <div className="px-2">
                     <h3
                       style={{
-                        fontSize: "18px",
+                        fontSize: "16px",
                         margin: "0 0 10px",
                         wordBreak: "break-all",
                       }}
@@ -346,9 +346,9 @@ return (
                       </div>
                     )}
                   </div>
-                  <p style={{ fontSize: "14px" }} className="px-2">
+                  {/*<p style={{ fontSize: "14px" }} className="px-2">
                     Collection: {nft.collection.slug}
-                  </p>
+                  </p>*/}
                   <hr />
                   <div className="px-2">
                     <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
@@ -402,7 +402,7 @@ return (
                   <div className="px-2">
                     <h3
                       style={{
-                        fontSize: "18px",
+                        fontSize: "16px",
                         margin: "0 0 10px",
                         wordBreak: "break-all",
                       }}
@@ -442,9 +442,9 @@ return (
                       </div>
                     )}
                   </div>
-                  <p style={{ fontSize: "14px" }} className="px-2">
+                  {/*<p style={{ fontSize: "14px" }} className="px-2">
                     Collection: {nft.collection.slug}
-                  </p>
+                  </p>*/}
                   <hr />
                   <div className="px-2">
                     <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
