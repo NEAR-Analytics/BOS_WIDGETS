@@ -143,7 +143,7 @@ const Main = styled.div`
 
 const PageTitle = styled.h1`
   text-align:center;
-  font-size: 5vw; 
+  font-size: 4vw; 
   font-weight: bold; 
   margin-bottom: 20px; 
   color: #0f1d40;
@@ -263,7 +263,10 @@ const PriceArea = styled.div`
 return (
   <div className="container-fluid">
     <Hero className="w-100">
-      <PageTitle>💧 GenaDrop NEAR NFTs</PageTitle>
+      <PageTitle>
+        Find, Buy and Sell NEAR NFTs on <br />
+        💧GenaDrop
+      </PageTitle>
       <InputContainer>
         <input
           type="search"
