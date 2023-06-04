@@ -8,7 +8,7 @@ function composeData() {
       core: {
         data: {
           name: "",
-          view: [
+          views: [
             {
               name: "kanban",
               src: "every.near/thing/kanban",
