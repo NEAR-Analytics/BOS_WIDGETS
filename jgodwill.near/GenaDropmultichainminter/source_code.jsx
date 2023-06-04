@@ -4,6 +4,7 @@ const celoContract = "0xC291846A587cf00a7CC4AF0bc4EEdbC9c3340C36";
 const avaxContract = "0x43dBdfcAADD0Ea7aD037e8d35FDD7c353B5B435b";
 const arbitrumContract = "0x959a2945185Ec975561Ac0d0b23F03Ed1b267925";
 const nearContract = "genadrop.nftgen.near";
+const ownerId = "minorityprogrammers.near"; // attribution
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
 ];
@@ -20,27 +21,32 @@ const chains = [
   {
     id: "137",
     name: "Polygon",
+    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
   },
   {
     id: "1313161554",
     name: "Aurora",
+    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
   },
   {
     id: "42220",
     name: "Celo",
-    image: "https://social.near.page/p/jgodwill.near/93071444",
+    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
   },
   {
     id: "43114",
     name: "Avax",
+    url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
   },
   {
     id: "42161",
     name: "Arbitrum",
+    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
   },
   {
     id: "0",
     name: "Near",
+    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
 
@@ -316,6 +322,26 @@ const TextArea = styled.textarea`
   }
 `;
 
+const SelectTag = styled.select`
+  height: fit-content;
+  width: 300px;
+`;
+
+const ChainIcon = styled.option`
+  display: flex;
+  height: 130px;
+  padding: 1rem auto;
+  &>img{
+    height:100px;
+    width: 100px;
+    object-fit: contain;
+  }
+`;
+
+const SelectReplica = styled.div`
+  
+`;
+
 if (!state.sender) {
   console.log("Please login");
   State.update({
@@ -387,14 +413,14 @@ return (
                 <div className="form-group">
                   <label htmlFor="chainSelect">Select Chain</label>
                   <select
-                    className="form-control"
                     value={state.selectedChain}
                     onChange={handleChainChange}
                   >
                     {chains.map((chain) => (
-                      <option key={chain.id} value={chain.id}>
+                      <ChainIcon key={chain.id} value={chain.id}>
+                        <img src={chain.url} alt={chain.name} />
                         {chain.name}
-                      </option>
+                      </ChainIcon>
                     ))}
                   </select>
                   {state.link && (
@@ -404,19 +430,23 @@ return (
                   )}
                 </div>
               ) : state.sender ? (
-                <div className="form-group">
+                <div>
                   <label htmlFor="chainSelect">Select Chain</label>
-                  <select
-                    className="form-control"
+                  <SelectTag
+                    className="form-select"
                     value={state.selectedChain}
                     onChange={handleChainChange}
                   >
+                    <option disabled selected>
+                      Select a Chain
+                    </option>
                     {chains.map((chain) => (
-                      <option key={chain.id} value={chain.id}>
-                        {chain.name}
-                      </option>
+                      <ChainIcon key={chain.id} value={chain.id}>
+                        <img src={chain.url} alt={chain.name} />
+                        <span>{chain.name}</span>
+                      </ChainIcon>
                     ))}
-                  </select>
+                  </SelectTag>
                   <button
                     type="button"
                     className="btn btn-primary mt-3"
@@ -467,5 +497,15 @@ return (
         </>
       )}
     </Main>
+    <h4 className="text-center mt-5">
+      💧
+      <a href="https://genadrop.io" target="_blank" rel="noopener noreferrer">
+        GenaDrop
+      </a>
+      <Widget
+        src="miraclx.near/widget/Attribution"
+        props={{ authors: [ownerId], dep: true }}
+      />
+    </h4>
   </>
 );
