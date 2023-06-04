@@ -175,7 +175,7 @@ const onChangeTitle = (title) => {
 const handleChainChange = (event) => {
   console.log(
     "get what we doing:",
-    event.target.value,
+    event.target.value || "no value from event?",
     event.target.value == "0",
     !accountId
   );
