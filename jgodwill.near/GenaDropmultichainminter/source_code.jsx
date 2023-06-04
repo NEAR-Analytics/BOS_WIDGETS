@@ -338,15 +338,11 @@ const ChainIcon = styled.option`
   }
 `;
 
-const SelectReplica = styled.div`
-  
-`;
-
 if (!state.sender) {
   console.log("Please login");
   State.update({
     showAlert: true,
-    toastMessage: "Please log in before continuing",
+    toastMessage: "Please Sign in or connect a wallet",
   });
 }
 
