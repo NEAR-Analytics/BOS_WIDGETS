@@ -413,12 +413,13 @@ return (
                 <div className="form-group">
                   <label htmlFor="chainSelect">Select Chain</label>
                   <select
+                    className="form-select"
                     value={state.selectedChain}
                     onChange={handleChainChange}
                   >
                     {chains.map((chain) => (
                       <ChainIcon key={chain.id} value={chain.id}>
-                        <img src={chain.url} alt={chain.name} />
+                        // <img src={chain.url} alt={chain.name} />
                         {chain.name}
                       </ChainIcon>
                     ))}
@@ -442,7 +443,7 @@ return (
                     </option>
                     {chains.map((chain) => (
                       <ChainIcon key={chain.id} value={chain.id}>
-                        <img src={chain.url} alt={chain.name} />
+                        // <img src={chain.url} alt={chain.name} />
                         <span>{chain.name}</span>
                       </ChainIcon>
                     ))}
