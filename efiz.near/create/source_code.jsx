@@ -5,7 +5,7 @@ State.init({
 function composeData() {
   const data = {
     thing: {
-      core: {
+      core: JSON.stringify({
         data: {
           name: "",
           views: [
@@ -20,7 +20,7 @@ function composeData() {
           ],
         },
         type: "every.near/type/core",
-      },
+      }),
     },
   };
   return data;
