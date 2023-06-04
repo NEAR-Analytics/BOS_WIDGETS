@@ -7,6 +7,7 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   "efiz.near/type/idea",
   "efiz.near/type/markdown",
   "efiz.near/type/topic",
+  "every.near/type/core",
 ];
 const type = props.type || "";
 if (availableTypes.length === 1) {
