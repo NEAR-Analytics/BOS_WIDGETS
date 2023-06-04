@@ -117,6 +117,12 @@ const SubjectField = styled.input`
   }
 `;
 
+const Title = styled.p`
+  line-height: 1.25;
+  font-weight: 400;
+  font-size: 4em;
+`;
+
 const Text = styled.p`
   line-height: 1.25;
   font-weight: 400;
@@ -157,30 +163,7 @@ return (
       <InnerContainer>
         <Row>
           <Column>
-            <IconBox>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="black"
-                width="24px"
-                height="24px"
-              >
-                <circle cx="12" cy="12" r="8" />
-              </svg>
-            </IconBox>
-            <SubjectField
-              type="text"
-              placeholder={data.name}
-              onChange={(e) => {
-                State.update({ path: e.target.value });
-              }}
-              value={state.path}
-            />
-            <ActionButton
-              onClick={() => State.update({ thingSrc: state.path })}
-            >
-              <span>&#10140;</span>
-            </ActionButton>
+            <Title>{data.name}</Title>
           </Column>
         </Row>
       </InnerContainer>
