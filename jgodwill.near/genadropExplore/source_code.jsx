@@ -1,3 +1,4 @@
+const ownerId = "minorityprogrammers.near"; // attribution
 initState({
   inputCollectionSlug: "genadrop-contract.nftgen.near",
   collectionSlug: "genadrop-contract.nftgen.near",
@@ -473,5 +474,15 @@ return (
     ) : (
       <div>No NFTs available.</div>
     )}
+    <h4 className="text-center mt-5">
+      💧
+      <a href="https://genadrop.io" target="_blank" rel="noopener noreferrer">
+        GenaDrop
+      </a>
+      <Widget
+        src="miraclx.near/widget/Attribution"
+        props={{ authors: [ownerId], dep: true }}
+      />
+    </h4>
   </div>
 );
