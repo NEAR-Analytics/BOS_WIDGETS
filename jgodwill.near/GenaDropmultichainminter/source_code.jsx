@@ -419,7 +419,6 @@ return (
                   >
                     {chains.map((chain) => (
                       <ChainIcon key={chain.id} value={chain.id}>
-                        // <img src={chain.url} alt={chain.name} />
                         {chain.name}
                       </ChainIcon>
                     ))}
@@ -443,7 +442,6 @@ return (
                     </option>
                     {chains.map((chain) => (
                       <ChainIcon key={chain.id} value={chain.id}>
-                        // <img src={chain.url} alt={chain.name} />
                         <span>{chain.name}</span>
                       </ChainIcon>
                     ))}
