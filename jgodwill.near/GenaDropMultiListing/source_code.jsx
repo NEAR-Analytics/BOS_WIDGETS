@@ -58,6 +58,7 @@ initState({
   transfer: false, // add checkbox for transfer that shows
   url: image.url,
   nft: image.nft ?? {}, // from santiago
+  showAlert: false,
 });
 function ownsNFT() {
   const ownsNFT = context.accountId === state.tokenInfo.owner_id;
@@ -344,6 +345,12 @@ const selectMintbase = () => {
     mintbase: !state.mintbase,
   });
 };
+if (!accountId) {
+  State.update({
+    showAlert: true,
+    toastMessage: "Please Sign in",
+  });
+}
 const selectCustom = () => {
   State.update({
     custom: !state.custom,
@@ -351,8 +358,8 @@ const selectCustom = () => {
 }; // need better helper function for checking whether valid NEAR address
 return (
   <div>
-    {!accountId && (
-      <p className="text-danger">Please sign in with NEAR wallet</p>
+    {state.showAlert && (
+      <Widget src="jgodwill.near/widget/genalert" props={state} />
     )}
     <h1 className="text-center"> 🛍️ List NFT to Multiple Marketplaces </h1>
     <div>
