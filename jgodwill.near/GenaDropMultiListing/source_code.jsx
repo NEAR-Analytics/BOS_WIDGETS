@@ -348,7 +348,7 @@ const selectMintbase = () => {
 if (!accountId) {
   State.update({
     showAlert: true,
-    toastMessage: "Please Sign in",
+    toastMessage: "Please Sign in to Near wallet to list",
   });
 }
 const selectCustom = () => {
