@@ -72,8 +72,6 @@ const Layout = styled.div`
     }
 `;
 
-const BRIDGE_CONTRACT_ADDRESS = "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
-
 const bridgeAbi = [
   {
     inputs: [
@@ -157,6 +155,10 @@ State.init({
 const { chainId, withdraw, deposit } = state;
 
 const isMainnet = chainId === 1 || chainId === 1101;
+
+const BRIDGE_CONTRACT_ADDRESS = isMainnet
+  ? "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
+  : "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
 
 const getTransactions = (type) => {
   if (!sender) return;
