@@ -67,6 +67,71 @@ const Layout = styled.div`
     }
 `;
 
+const BRIDGE_CONTRACT_ADDRESS = "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
+
+const bridgeAbi = [
+  {
+    inputs: [
+      {
+        internalType: "bytes32[32]",
+        name: "smtProof",
+        type: "bytes32[32]",
+      },
+      {
+        internalType: "uint32",
+        name: "index",
+        type: "uint32",
+      },
+      {
+        internalType: "bytes32",
+        name: "mainnetExitRoot",
+        type: "bytes32",
+      },
+      {
+        internalType: "bytes32",
+        name: "rollupExitRoot",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint32",
+        name: "originNetwork",
+        type: "uint32",
+      },
+      {
+        internalType: "address",
+        name: "originTokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint32",
+        name: "destinationNetwork",
+        type: "uint32",
+      },
+      {
+        internalType: "address",
+        name: "destinationAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "metadata",
+        type: "bytes",
+      },
+    ],
+    name: "claimAsset",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+const bridgeIface = new ethers.utils.Interface(bridgeAbi);
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokens = props.tokens ?? [];
@@ -117,7 +182,54 @@ const refreshList = () => {
 };
 
 const claimTransaction = (tx) => {
-  console.log("claimTransaction", tx);
+  // console.log("claimTransaction", tx);
+  const url = `https://proof-generator.polygon.technology/api/zkevm/${
+    isMainnet ? "mainnet" : "testnet"
+  }/merkle-proof?net_id=1&deposit_cnt=${tx.counter}`;
+
+  const res = fetch(url);
+
+  if (!res.ok) {
+    console.log("merkele proof errror", res);
+    return;
+  }
+
+  const { proof } = res.body;
+
+  console.log(res.body.proof);
+
+  const encodedData = bridgeIface.encodeFunctionData(
+    "claimAsset(bytes32[32],uint32,bytes32,bytes32,uint32,address,uint32,address,uint256,bytes)",
+    [
+      proof["merkle_proof"],
+      tx.counter,
+      proof["main_exit_root"],
+      proof["rollup_exit_root"],
+      0,
+      tx.childToken,
+      0,
+      tx.depositReceiver,
+      tx.amounts[0],
+      "0x",
+    ]
+  );
+
+  Ethers.provider()
+    .getSigner()
+    .sendTransaction({
+      to: BRIDGE_CONTRACT_ADDRESS,
+      data: encodedData,
+      value: amountBig,
+      gasLimit: ethers.BigNumber.from("500000"),
+    })
+    .then((tx) => {
+      consle.log("tx:", tx);
+      refreshList();
+    })
+    .catch((e) => {
+      console.log("error:", e);
+      refreshList();
+    });
 };
 
 return (
