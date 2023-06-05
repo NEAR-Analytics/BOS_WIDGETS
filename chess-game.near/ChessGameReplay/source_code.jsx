@@ -48,7 +48,7 @@ const fetchOptions = {
   },
 };
 
-let transactions = state?.transactions ?? [];
+let transactions = [...(state?.transactions ?? [])];
 if (!state.transactions) {
   let offset = 0;
   while (true) {
@@ -89,7 +89,7 @@ if (transactions.length > 0) {
           errCount: state.errCount + 1,
         });
       }, waitTimeOnErr);
-      return;
+      return false;
     }
     const { logs } = body[0].transaction_graph.eoNode.childs[0].content;
     const newEvents = logs
