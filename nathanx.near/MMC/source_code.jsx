@@ -196,7 +196,7 @@ return (
         height="150"
       ></img>
       <br></br>
-      <strong>📁 NFT</strong>
+      <strong>📁 ARSTOOKWNIANN</strong>
       <a href="https://discord.com/channels/1004449103012442132/1095325310699982868">
         🔗---Beaning MMC Discord Channel
       </a>
