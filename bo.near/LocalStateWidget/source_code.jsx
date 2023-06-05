@@ -38,7 +38,7 @@ const WrapperWidget = ({ children, id, storageType }) => {
 // This function handles the state change for the children widgets
 const handleStateChange = (key, value) => {
   // Use the unique identifier to create a unique storage key
-  const storageKey = `${id}_${key}`;
+  const storageKey = `${key}`;
 
   if (storageType === "local") {
     // Update the local storage with the new state
