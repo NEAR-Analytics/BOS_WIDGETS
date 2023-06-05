@@ -72,6 +72,7 @@ return (
       type="text"
       value={state.name}
       onChange={(event) => {
+        console.log("aaaaaa");
         State.update({ name: event.target.value });
         handleStateChange("name", event.target.value);
       }}
