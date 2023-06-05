@@ -77,14 +77,6 @@ const ContainerNetwork = styled.div`
   }
 `;
 
-const Icon = styled.span`
-  height: ${(props) => (props.size ? props.size : "16px")};
-  width: ${(props) => (props.size ? props.size : "16px")};
-  background: #fff;
-  border-radius: 16px;
-  display: block;
-`;
-
 const NetworkSelectorButton = styled.button`
   display: flex;
   flex-direction: row;
@@ -322,6 +314,13 @@ const Dialog = styled.div`
       color: #ccc;
     }
   }
+
+  .token {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
 `;
 
 const tokens = props.tokens ?? [
@@ -330,7 +329,7 @@ const tokens = props.tokens ?? [
     chainId: 5,
     symbol: "ETH",
     decimals: 18,
-    logoURI: "",
+    logoURI: "https://assets.coingecko.com/coins/images/279/small/ethereum.png",
   },
 ];
 
@@ -469,6 +468,7 @@ const handleConfirm = () => {
 };
 
 const networkList = isMainnet ? [1, 1101] : [5, 1442];
+const token = tokens.find((t) => t.symbol === selectedToken);
 
 return (
   <Layout>
@@ -510,7 +510,7 @@ return (
         </div>
       </ContainerNetwork>
       <TokenContainer>
-        <Icon size="32px" />
+        <img style={{ width: "32px" }} src={token?.logoURI} />
         <div class="token-container">
           <h3>SEND -&gt;</h3>
           <TokenSelector disabled={!isCorrectNetwork} onClick={openTokenDialog}>
@@ -536,7 +536,7 @@ return (
         </ToNetworkContainer>
       </ContainerNetwork>
       <TokenContainer>
-        <Icon size="32px" />
+        <img style={{ width: "32px" }} src={token?.logoURI} />
         <div class="token-container">
           <h3>-&gt; RECEIVE</h3>
           <TokenSelector>
@@ -573,10 +573,13 @@ return (
           {tokens
             .filter((t) => t.chainId === chainId)
             .map((token) => {
-              const { symbol } = token;
+              const { symbol, logoURI } = token;
               return (
                 <li key={symbol} onClick={() => updateToken(symbol)}>
-                  <span>{symbol}</span>
+                  <div class="token">
+                    <img style={{ width: "16px" }} src={logoURI} />
+                    <span>{symbol}</span>
+                  </div>
                   <span>{state.balances[symbol] ?? "-"}</span>
                 </li>
               );
