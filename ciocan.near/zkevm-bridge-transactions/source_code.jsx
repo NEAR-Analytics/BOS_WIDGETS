@@ -227,7 +227,9 @@ const claimTransaction = (tx) => {
     });
 };
 
-const isEmpty = withdrawls.length === 0 && deposits === 0;
+const noWithdrawls = withdraw.length === 0;
+const noDeposits = deposit.length === 0;
+const isEmpty = noWithdrawls && noDeposits;
 
 console.log(state);
 
@@ -238,6 +240,7 @@ return (
       refresh list
     </button>
     <ul>
+      {!noWithdrawls && <div>Withdrawls:</div>}
       {withdraw.map((t) => {
         const txUrl = `https://${
           isMainnet ? "" : "testnet-"
@@ -276,6 +279,8 @@ return (
           </li>
         );
       })}
+
+      {!noDeposits && <div>Deposits:</div>}
 
       {deposit.map((t) => {
         const txUrl = `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${
