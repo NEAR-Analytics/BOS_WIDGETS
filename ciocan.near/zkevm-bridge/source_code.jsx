@@ -200,7 +200,7 @@ const onConfirm = (props) => {
   handleBridge(networkId, amount, token);
 };
 
-if (!sender && Web3Connect) {
+if (!sender) {
   return <Web3Connect connectLabel="Connect with Web3" />;
 }
 
