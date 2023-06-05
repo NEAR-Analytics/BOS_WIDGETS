@@ -15,9 +15,6 @@ const predefinedLabels = [
   "API",
   "Profile",
   "Data",
-  "Homework",
-  "General",
-  "Timeline",
   "",
 ];
 
@@ -109,7 +106,7 @@ return (
               onCommit={props.onCommit}
               data={{
                 question: {
-                  academy: JSON.stringify({
+                  edu: JSON.stringify({
                     title: state.title,
                     labels: state.labelStrings,
                     content: state.content,
@@ -117,7 +114,7 @@ return (
                 },
                 index: {
                   question: JSON.stringify({
-                    key: "academy",
+                    key: "edu",
                     value: { type: "md" },
                   }),
                 },
