@@ -12,6 +12,7 @@ const Layout = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
+    color: #fff;
 
     h3 {
         font-size: 14px;
