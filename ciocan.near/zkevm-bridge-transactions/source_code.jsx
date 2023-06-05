@@ -187,56 +187,54 @@ const claimTransaction = (tx) => {
     isMainnet ? "mainnet" : "testnet"
   }/merkle-proof?net_id=1&deposit_cnt=${tx.counter}`;
 
-  const res = fetch(url);
+  asyncFetch(url).then((res) => {
+    if (!res.ok) {
+      console.log("merkele proof errror", res);
+      return;
+    }
 
-  if (!res.ok) {
-    console.log("merkele proof errror", res);
-    return;
-  }
+    const { proof } = res.body;
 
-  const { proof } = res.body;
+    console.log(res.body.proof);
 
-  console.log(res.body.proof);
+    const encodedData = bridgeIface.encodeFunctionData(
+      "claimAsset(bytes32[32],uint32,bytes32,bytes32,uint32,address,uint32,address,uint256,bytes)",
+      [
+        proof["merkle_proof"],
+        tx.counter,
+        proof["main_exit_root"],
+        proof["rollup_exit_root"],
+        0,
+        tx.childToken,
+        0,
+        tx.depositReceiver,
+        tx.amounts[0],
+        "0x",
+      ]
+    );
 
-  const encodedData = bridgeIface.encodeFunctionData(
-    "claimAsset(bytes32[32],uint32,bytes32,bytes32,uint32,address,uint32,address,uint256,bytes)",
-    [
-      proof["merkle_proof"],
-      tx.counter,
-      proof["main_exit_root"],
-      proof["rollup_exit_root"],
-      0,
-      tx.childToken,
-      0,
-      tx.depositReceiver,
-      tx.amounts[0],
-      "0x",
-    ]
-  );
-
-  Ethers.provider()
-    .getSigner()
-    .sendTransaction({
-      to: BRIDGE_CONTRACT_ADDRESS,
-      data: encodedData,
-      value: amountBig,
-      gasLimit: ethers.BigNumber.from("500000"),
-    })
-    .then((tx) => {
-      consle.log("tx:", tx);
-      refreshList();
-    })
-    .catch((e) => {
-      console.log("error:", e);
-      refreshList();
-    });
+    Ethers.provider()
+      .getSigner()
+      .sendTransaction({
+        to: BRIDGE_CONTRACT_ADDRESS,
+        data: encodedData,
+        value: amountBig,
+        gasLimit: ethers.BigNumber.from("500000"),
+      })
+      .then((tx) => {
+        consle.log("tx:", tx);
+        refreshList();
+      })
+      .catch((e) => {
+        console.log("error:", e);
+        refreshList();
+      });
+  });
 };
 
 const noWithdrawls = withdraw.length === 0;
 const noDeposits = deposit.length === 0;
 const isEmpty = noWithdrawls && noDeposits;
-
-console.log(state);
 
 return (
   <Layout>
