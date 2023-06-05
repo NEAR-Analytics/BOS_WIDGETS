@@ -128,6 +128,7 @@ const NetworkList = styled.div`
     gap: 4px;
     flex: 1;
     width: 100%;
+    color: #fff;
 
     &:hover {
       color: #ccc;
