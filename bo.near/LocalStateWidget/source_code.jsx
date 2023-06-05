@@ -47,7 +47,7 @@ const handleStateChange = (key, value) => {
 };
 
 // This function initializes the state of the children widgets
-const initState = (key, defaultValue) => {
+const initializeState = (key, defaultValue) => {
   // Use the unique identifier to create a unique storage key
   const storageKey = `${key}`;
 
@@ -62,7 +62,7 @@ const initState = (key, defaultValue) => {
   return defaultValue;
 };
 
-State.init({ name: initState("name", "") });
+State.init({ name: initializeState("name", "") });
 
 return (
   <div className="col-lg-12  mb-2">
