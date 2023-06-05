@@ -52,12 +52,84 @@ const chains = [
 
 const handleMint = () => {
   console.log("it's here", state.title && state.description && state.image.cid);
-  if (!(state.title && state.description && state.image.cid)) {
+  if (!state.image.cid) {
     return;
   }
-  if (state.selectedChain == "0") {
-    const gas = 200000000000000;
-    const deposit = 10000000000000000000000;
+  if (!state.title) {
+    console.log("Please Enter title");
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a title for the NFT",
+    });
+
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else if (!state.description) {
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a description for the NFT",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else {
+    if (state.selectedChain == "0") {
+      const gas = 200000000000000;
+      const deposit = 10000000000000000000000;
+      const metadata = {
+        name: state.title,
+        description: state.description,
+        properties: [],
+        image: `ipfs://${state.image.cid}`,
+      };
+      asyncFetch("https://ipfs.near.social/add", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: metadata,
+      }).then((res) => {
+        const cid = res.body.cid;
+        const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
+        console.log("in the promise", res, Id);
+        Near.call([
+          {
+            contractName: "genadrop-contract.nftgen.near",
+            methodName: "nft_mint",
+            args: {
+              token_id: `${Date.now()}`,
+              metadata: {
+                title: state.title,
+                description: state.description,
+                media: `https://ipfs.io/ipfs/${state.image.cid}`,
+                reference: `ipfs://${cid}`,
+              },
+              receiver_id: accountId,
+            },
+            gas: gas,
+            deposit: deposit,
+          },
+        ]);
+      });
+      return;
+    }
+    console.log("passed checks");
+    let networkId = Ethers.provider()._network.chainId;
+
+    const CA = contractAddresses[state.selectedChain][0] || "137";
+
+    console.log("CONTRACT ADD", CA);
+
+    const contract = new ethers.Contract(
+      CA,
+      mintSingle,
+      Ethers.provider().getSigner()
+    );
     const metadata = {
       name: state.title,
       description: state.description,
@@ -73,69 +145,21 @@ const handleMint = () => {
     }).then((res) => {
       const cid = res.body.cid;
       const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
-      console.log("in the promise", res, Id);
-      Near.call([
-        {
-          contractName: "genadrop-contract.nftgen.near",
-          methodName: "nft_mint",
-          args: {
-            token_id: `${Date.now()}`,
-            metadata: {
-              title: state.title,
-              description: state.description,
-              media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              reference: `ipfs://${cid}`,
-            },
-            receiver_id: accountId,
-          },
-          gas: gas,
-          deposit: deposit,
-        },
-      ]);
-    });
-    return;
-  }
-  console.log("passed checks");
-  let networkId = Ethers.provider()._network.chainId;
-
-  const CA = contractAddresses[state.selectedChain][0] || "137";
-
-  console.log("CONTRACT ADD", CA);
-
-  const contract = new ethers.Contract(
-    CA,
-    mintSingle,
-    Ethers.provider().getSigner()
-  );
-  const metadata = {
-    name: state.title,
-    description: state.description,
-    properties: [],
-    image: `ipfs://${state.image.cid}`,
-  };
-  asyncFetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-    body: metadata,
-  }).then((res) => {
-    const cid = res.body.cid;
-    const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
-    console.log("in the promse", res, Id);
-    const recipient = Ethers.send("eth_requestAccounts", []);
-    contract
-      .mint(recipient[0], Id, 1, `ipfs://${cid}`, "0x")
-      .then((transactionHash) => transactionHash.wait())
-      .then((ricit) => {
-        console.log("receipt::", ricit);
-        State.update({
-          link: `${
-            contractAddresses[state.selectedChain][2] + ricit.transactionHash
-          }`,
+      console.log("in the promse", res, Id);
+      const recipient = Ethers.send("eth_requestAccounts", []);
+      contract
+        .mint(recipient[0], Id, 1, `ipfs://${cid}`, "0x")
+        .then((transactionHash) => transactionHash.wait())
+        .then((ricit) => {
+          console.log("receipt::", ricit);
+          State.update({
+            link: `${
+              contractAddresses[state.selectedChain][2] + ricit.transactionHash
+            }`,
+          });
         });
-      });
-  });
+    });
+  }
 };
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -222,9 +246,10 @@ const onChangeDesc = (description) => {
 // }
 
 const Heading = styled.p`
-  margin: 10px auto 10px auto;
+  margin: 3px auto 3px auto;
   font-size: 1em;
   color:#0f1d40;
+  line-height:2.1rem;
   width:60%;
   text-align: center;
   font-family: "SF Pro Display",sans-serif;
@@ -250,7 +275,7 @@ const Main = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   justify-content: center;
   // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
-  margin-top: 20px;
+  margin-top: 5px;
   width:100%;
   padding: 1rem;
 `;
