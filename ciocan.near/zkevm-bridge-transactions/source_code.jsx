@@ -145,61 +145,39 @@ if (sender) {
 }
 
 State.init({
-  deposits: [],
-  withdrawls: [],
+  deposit: [],
+  withdraw: [],
 });
 
-const { chainId, withdrawls, deposits } = state;
+const { chainId, withdraw, deposit } = state;
 
 const isMainnet = chainId === 1 || chainId === 1101;
 
-const getDeposits = () => {
+const getTransactions = (type) => {
   if (!sender) return;
 
-  const list = fetch(
+  asyncFetch(
     `https://open-api-v2-staging.polygon.technology/zkevm-${
       isMainnet ? "mainnet" : "testnet"
-    }/deposit/address?userAddress=${sender}`
-  );
-
-  if (!list.body.success) {
-    return;
-  }
-
-  State.update({
-    deposits: list.body.result.filter((tx) => tx.status === "BRIDGED"),
-  });
-};
-
-const getWithdrawals = () => {
-  if (!sender) return;
-
-  const list = fetch(
-    `https://open-api-v2-staging.polygon.technology/zkevm-${
-      isMainnet ? "mainnet" : "testnet"
-    }/withdraw/address?userAddress=${sender}`
-  );
-
-  if (!list.body.success) {
-    return;
-  }
-
-  State.update({
-    withdrawls: list.body.result.filter(
-      (tx) => tx.status === "READY_TO_CLAIM" || tx.status === "CLAIMING"
-    ),
+    }/${type}/address?userAddress=${sender}`
+  ).then((res) => {
+    if (!res.body.success) {
+      return;
+    }
+    State.update({
+      [type]: res.body.result.filter((tx) => tx.status !== "CLAIMED"),
+    });
   });
 };
 
 const refreshList = () => {
-  getWithdrawals();
-  getDeposits();
+  getTransactions("withdraw");
+  getTransactions("deposit");
 };
 
 refreshList();
 
 const claimTransaction = (tx) => {
-  // console.log("claimTransaction", tx);
   const url = `https://proof-generator.polygon.technology/api/zkevm/${
     isMainnet ? "mainnet" : "testnet"
   }/merkle-proof?net_id=1&deposit_cnt=${tx.counter}`;
@@ -260,7 +238,7 @@ return (
       refresh list
     </button>
     <ul>
-      {withdrawls.map((t) => {
+      {withdraw.map((t) => {
         const txUrl = `https://${
           isMainnet ? "" : "testnet-"
         }zkevm.polygonscan.com/tx/${t.transactionHash}`;
@@ -270,6 +248,8 @@ return (
             t.childToken.toLowerCase() === token.address.toLowerCase() &&
             token.chainId === chainId
         );
+
+        if (!token) return null;
 
         const amount = ethers.utils.formatUnits(
           t.amounts[0],
@@ -287,12 +267,17 @@ return (
               </a>
               <span class="date">{t.timestamp.slice(0, -8)}</span>
             </div>
-            <button onClick={() => claimTransaction(t)}>Claim</button>
+            <button
+              disabled={t.status === "BRIDGED"}
+              onClick={() => claimTransaction(t)}
+            >
+              Claim
+            </button>
           </li>
         );
       })}
 
-      {deposits.map((t) => {
+      {deposit.map((t) => {
         const txUrl = `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${
           t.transactionHash
         }`;
@@ -302,6 +287,8 @@ return (
             t.rootToken.toLowerCase() === token.address.toLowerCase() &&
             token.chainId === chainId
         );
+
+        if (!token) return null;
 
         const amount = ethers.utils.formatUnits(
           t.amounts[0],
