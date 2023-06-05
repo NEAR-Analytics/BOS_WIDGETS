@@ -153,7 +153,23 @@ const { chainId, withdrawls, deposits } = state;
 
 const isMainnet = chainId === 1 || chainId === 1101;
 
-const getDeposits = () => {};
+const getDeposits = () => {
+  if (!sender) return;
+
+  const list = fetch(
+    `https://open-api-v2-staging.polygon.technology/zkevm-${
+      isMainnet ? "mainnet" : "testnet"
+    }/deposit/address?userAddress=${sender}`
+  );
+
+  if (!list.body.success) {
+    return;
+  }
+
+  State.update({
+    deposits: list.body.result.filter((tx) => tx.status === "BRIDGED"),
+  });
+};
 
 const getWithdrawals = () => {
   if (!sender) return;
@@ -175,11 +191,12 @@ const getWithdrawals = () => {
   });
 };
 
-getWithdrawals();
-
 const refreshList = () => {
   getWithdrawals();
+  getDeposits();
 };
+
+refreshList();
 
 const claimTransaction = (tx) => {
   // console.log("claimTransaction", tx);
@@ -232,6 +249,10 @@ const claimTransaction = (tx) => {
     });
 };
 
+const isEmpty = withdrawls.length === 0 && deposits === 0;
+
+console.log(state);
+
 return (
   <Layout>
     <h3>Pending transactions:</h3>
@@ -270,7 +291,38 @@ return (
           </li>
         );
       })}
-      {withdrawls.length === 0 && (
+
+      {deposits.map((t) => {
+        const txUrl = `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${
+          t.transactionHash
+        }`;
+
+        const token = tokens.find(
+          (token) =>
+            t.rootToken.toLowerCase() === token.address.toLowerCase() &&
+            token.chainId === chainId
+        );
+
+        const amount = ethers.utils.formatUnits(
+          t.amounts[0],
+          token?.decimals || 18
+        );
+
+        return (
+          <li>
+            <div class="info">
+              <span class="token">
+                {amount} {token?.symbol}
+              </span>
+              <a href={txUrl} target="_blank">
+                Tx info
+              </a>
+              <span class="date">{t.timestamp.slice(0, -8)}</span>
+            </div>
+          </li>
+        );
+      })}
+      {isEmpty && (
         <li>
           <span>0 pending transactions</span>
         </li>
