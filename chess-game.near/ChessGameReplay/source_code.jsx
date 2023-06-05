@@ -69,8 +69,8 @@ if (!state.transactions) {
 
 let events = [...(state?.events ?? [])];
 State.init({
-  transactions,
-  events,
+  transactions: [...transactions],
+  events: [...events],
   tabIndex: 0,
   errCount: state?.errCount ?? 0,
 });
@@ -78,44 +78,45 @@ State.init({
 if (transactions.length > 0) {
   const tx = transactions.pop();
 
-  const { ok, body } = fetch(
+  asyncFetch(
     `https://api.pikespeak.ai/tx/graph-by-hash/${tx.transaction_id}`,
     fetchOptions
-  );
-  if (!ok) {
-    transactions.push(tx);
+  ).then(({ ok, body }) => {
+    if (!ok) {
+      // transactions.push(tx);
+      setTimeout(() => {
+        State.update({
+          // transactions,
+          errCount: state.errCount + 1,
+        });
+      }, waitTimeOnErr);
+      return;
+    }
+    const { logs } = body[0].transaction_graph.eoNode.childs[0].content;
+    const newEvents = logs
+      .filter((log) => log.startsWith("EVENT_JSON:"))
+      .map((log) => JSON.parse(log.substr(11)))
+      .filter(({ data }) => JSON.stringify(data.game_id) == gameIdStr);
+    if (newEvents.length > 0) {
+      State.update({
+        transactions,
+        events: events.concat(newEvents),
+      });
+      return;
+    }
+
     setTimeout(() => {
       State.update({
-        errCount: state.errCount + 1,
+        transactions,
       });
-    }, waitTimeOnErr);
-    return;
-  }
-  const { logs } = body[0].transaction_graph.eoNode.childs[0].content;
-  const newEvents = logs
-    .filter((log) => log.startsWith("EVENT_JSON:"))
-    .map((log) => JSON.parse(log.substr(11)))
-    .filter(({ data }) => JSON.stringify(data.game_id) == gameIdStr);
-  if (newEvents.length > 0) {
-    State.update({
-      transactions,
-      // events: events.concat(newEvents),
-      events: [...events, ...newEvents],
-    });
-    return;
-  }
-
-  setTimeout(() => {
-    State.update({
-      transactions,
-    });
-  }, waitTime);
-  return (
-    <LoadingWrapper>
-      <div>Scanning transactions. Remaining: {transactions.length}</div>
-      <Loading />
-    </LoadingWrapper>
-  );
+    }, waitTime);
+    return (
+      <LoadingWrapper>
+        <div>Scanning transactions. Remaining: {transactions.length}</div>
+        <Loading />
+      </LoadingWrapper>
+    );
+  });
 }
 
 const GameInfo = styled.div`
