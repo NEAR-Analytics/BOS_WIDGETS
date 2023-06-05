@@ -40,10 +40,10 @@ const handleStateChange = (key, value) => {
   // Use the unique identifier to create a unique storage key
   const storageKey = `${key}`;
 
-  if (storageType === "local") {
-    // Update the local storage with the new state
-    Storage.privateSet(storageKey, JSON.stringify(value));
-  }
+  // if (storageType === "local") {
+  // Update the local storage with the new state
+  Storage.privateSet(storageKey, JSON.stringify(value));
+  // }
 };
 
 // This function initializes the state of the children widgets
@@ -52,9 +52,9 @@ const initState = (key, defaultValue) => {
   const storageKey = `${key}`;
 
   let storedValue;
-  if (storageType === "local") {
-    storedValue = Storage.privateGet(storageKey);
-  }
+  // if (storageType === "local") {
+  storedValue = Storage.privateGet(storageKey);
+  // }
 
   if (storedValue) {
     return JSON.parse(storedValue);
