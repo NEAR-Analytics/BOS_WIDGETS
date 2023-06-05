@@ -316,6 +316,7 @@ const Dialog = styled.div`
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    color: #fff;
 
     &:hover {
       color: #ccc;
