@@ -1,5 +1,6 @@
 const Container = styled.div`
   display: flex;
+  gap: 8px;
 
   .side {
     margin-top: 20px;
@@ -201,7 +202,7 @@ const onConfirm = (props) => {
 };
 
 if (!sender) {
-  return <Web3Connect connectLabel="Connect with Web3" />;
+  return <Web3Connect connectLabel="Connect ETH Wallet" />;
 }
 
 return (
