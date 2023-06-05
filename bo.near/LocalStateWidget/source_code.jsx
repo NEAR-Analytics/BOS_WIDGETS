@@ -62,8 +62,8 @@ const initializeState = (key, defaultValue) => {
   return defaultValue;
 };
 
-State.init({ name: initializeState("name", "") });
-
+State.init({ name: "" });
+State.update({ name: initializeState("name", "") });
 return (
   <div className="col-lg-12  mb-2">
     Name:
