@@ -42,7 +42,7 @@ const handleStateChange = (key, value) => {
 
   // if (storageType === "local") {
   // Update the local storage with the new state
-  Storage.privateSet(storageKey, JSON.stringify(value));
+  Storage.set(storageKey, JSON.stringify(value));
   // }
 };
 
@@ -53,7 +53,7 @@ const initState = (key, defaultValue) => {
 
   let storedValue;
   // if (storageType === "local") {
-  storedValue = Storage.privateGet(storageKey);
+  storedValue = Storage.get(storageKey);
   // }
 
   if (storedValue) {
@@ -63,7 +63,7 @@ const initState = (key, defaultValue) => {
 };
 
 State.init({ name: "" });
-State.update({ name: Storage.privateGet("name") });
+State.update({ name: Storage.get("name") });
 
 return (
   <div className="col-lg-12  mb-2">
