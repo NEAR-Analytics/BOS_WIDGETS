@@ -31,7 +31,7 @@ const handleMint = () => {
     console.log("Please Enter title");
     State.update({
       showAlert: true,
-      toastMessage: "Please enter a title before continuing",
+      toastMessage: "Please enter a title for the NFT",
     });
 
     setTimeout(() => {
@@ -42,7 +42,7 @@ const handleMint = () => {
   } else if (!state.description) {
     State.update({
       showAlert: true,
-      toastMessage: "Please sign in with NEAR wallet",
+      toastMessage: "Please enter a description for the NFT",
     });
     setTimeout(() => {
       State.update({
