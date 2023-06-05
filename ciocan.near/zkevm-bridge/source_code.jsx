@@ -1,3 +1,11 @@
+const Container = styled.div`
+  display: flex;
+
+  .side {
+    margin-top: 20px;
+  }
+`;
+
 const tokens = [
   // eth testnet assets
   {
@@ -193,10 +201,16 @@ const onConfirm = (props) => {
 };
 
 return (
-  <div>
+  <Container>
     <Widget
       src="ciocan.near/widget/zkevm-bridge-ui"
       props={{ onConfirm, tokens }}
     />
-  </div>
+    <div class="side">
+      <Widget
+        src="ciocan.near/widget/zkevm-bridge-transactions"
+        props={{ tokens }}
+      />
+    </div>
+  </Container>
 );
