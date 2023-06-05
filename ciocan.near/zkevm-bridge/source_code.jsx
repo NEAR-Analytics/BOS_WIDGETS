@@ -143,7 +143,12 @@ const tokens = [
   },
 ];
 
-const BRIDGE_CONTRACT_ADDRESS = "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
+const { chainId } = state;
+const isMainnet = chainId === 1 || chainId === 1101;
+
+const BRIDGE_CONTRACT_ADDRESS = isMainnet
+  ? "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
+  : "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
 
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
