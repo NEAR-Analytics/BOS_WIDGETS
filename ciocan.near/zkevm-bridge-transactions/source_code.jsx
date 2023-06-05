@@ -270,6 +270,11 @@ return (
           </li>
         );
       })}
+      {withdrawls.length === 0 && (
+        <li>
+          <span>0 pending transactions</span>
+        </li>
+      )}
     </ul>
   </Layout>
 );
