@@ -63,6 +63,10 @@ const Layout = styled.div`
                 color: #fff;
                 background: #8247E5;
                 border: none;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
             }
         }
     }
@@ -260,6 +264,8 @@ return (
           token?.decimals || 18
         );
 
+        const isPending = t.status === "BRIDGED";
+
         return (
           <li>
             <div class="info">
@@ -271,11 +277,9 @@ return (
               </a>
               <span class="date">{t.timestamp.slice(0, -8)}</span>
             </div>
-            <button
-              disabled={t.status === "BRIDGED"}
-              onClick={() => claimTransaction(t)}
-            >
-              Claim
+            <button disabled={isPending} onClick={() => claimTransaction(t)}>
+              <span>Claim</span>
+              {isPending && <span>(pending...)</span>}
             </button>
           </li>
         );
