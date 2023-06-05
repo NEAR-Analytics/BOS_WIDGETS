@@ -62,8 +62,7 @@ const initState = (key, defaultValue) => {
   return defaultValue;
 };
 
-State.init({ name: "" });
-State.update({ name: Storage.get("name") });
+State.init({ name: initState("name", "") });
 
 return (
   <div className="col-lg-12  mb-2">
