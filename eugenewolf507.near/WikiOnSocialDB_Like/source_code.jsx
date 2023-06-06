@@ -3,6 +3,13 @@
 const initialEmoji = "🤍 Like";
 const item = props.item;
 
+if (!item) {
+  return "";
+}
+
+const likes = Social.index("like", item);
+console.log("likes", likes);
+
 State.init({ emoji: initialEmoji, show: false, loading: false });
 
 const mainButtonStyles = {
