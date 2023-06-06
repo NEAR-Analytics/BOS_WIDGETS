@@ -1,6 +1,7 @@
 // TODO - optimise all handlers with repeating state update show: false - combine all emojies into array and render it from array via map
 // "❤️ Positive"
 const initialEmoji = "🤍 Like";
+const item = props.item;
 
 State.init({ emoji: initialEmoji, show: false, loading: false });
 
