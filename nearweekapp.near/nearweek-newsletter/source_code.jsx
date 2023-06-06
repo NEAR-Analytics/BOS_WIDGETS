@@ -11,10 +11,15 @@ const data = fetch(
   }
 );
 
+const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
+
+if (!cssFont) return "";
+
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: sans-serif;
+    font-family: 'Mona Sans', sans-serif;
+    font-style: normal;
     ${cssFont}
 `,
   });
@@ -54,8 +59,16 @@ const Card = styled.div`
   overflow: hidden;
 `;
 
+const CardTitle = styled.h2`
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+`;
+
 const CardBody = styled.div`
-  padding: 16px;
+  padding: 24px 20px 24px  18px;
   display: flex;
   gap: 16px;
   align-items: center;
@@ -66,6 +79,11 @@ const CardBody = styled.div`
 `;
 
 const CardContent = styled.div`
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 13px;
+  letter-spacing: -0.02em;
+  color: hsla(0, 0%, 0%, 1);
   width: 100%;
 `;
 
@@ -121,16 +139,14 @@ return (
                   src={nwSite + issue.Thumbnail.url}
                   alt={issue.Thumbnail.alternativeText}
                 />
-                <div class="d-flex flex-column ms-2 mt-0">
-                  <div class="mb-2 small">
-                    <b>
-                      {"Newsletter - NO"} {issue.Number ? issue.Number : ""}
-                    </b>
-                  </div>
-                  <div class="small">
+                <div class="d-flex flex-column ms-3 mt-0">
+                  <CardTitle>
+                    {"Newsletter - NO"} {issue.Number ? issue.Number : ""}
+                  </CardTitle>
+                  <p>
                     A weekly update on everything that moves NEAR Protocol{" "}
                     {issue.publishedAt ? formatDate(issue.publishedAt) : ""}
-                  </div>
+                  </p>
                 </div>
               </div>
             </div>
