@@ -181,7 +181,10 @@ function renderContent() {
       thing = JSON.parse(thing || "null"); // I already fetched thing when I got type
       // what if thing data comes from somewhere else? auditable backend according to type, api keys are stored browser side or proxy
       return (
-        <Widget src={widgetSrc} props={{ data: thing.data, blockHeight }} />
+        <Widget
+          src={widgetSrc}
+          props={{ data: thing.data, blockHeight, ...props }}
+        />
       );
       // HERE IS THE TYPE RENDER
       // We have an idea... it should render as the default idea view
