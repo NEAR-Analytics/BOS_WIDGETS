@@ -6,6 +6,8 @@ if (!accountId) {
 const contractId = "app.chess-game.near";
 const chessGameWidget = "chess-game.near/widget/ChessGame";
 const chessGameReplayWidget = "chess-game.near/widget/ChessGameReplay";
+const githubIcon = "chess-game.near/widget/GithubIcon";
+const twitterIcon = "chess-game.near/widget/TwitterIcon";
 
 const LobbyView = styled.div`
   display: flex;
@@ -13,6 +15,7 @@ const LobbyView = styled.div`
   align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
   max-width: 550px;
   margin: 0 auto;
+  box-sizing: border-box;
 
   h1 {
     align-self: center;
@@ -28,7 +31,7 @@ const Content = styled.div`
   align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
 
   > * {
-      margin: 0.4rem 0;
+    margin: 0.4rem 0;
   }
 `;
 const Button = styled.button`
@@ -50,6 +53,27 @@ const Disclaimer = styled.div`
   margin-top: 1rem;
   font-style: italic;
   font-size: 1.2rem;
+`;
+const Header = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  a {
+    display: block;
+    align-items: center;
+	color: inherit;
+	text-decoration: inherit;
+    font-size: 1.4rem;
+    border-radius: 0.4rem;
+    border: 1px solid lightblue;
+    padding: 0.2rem;
+
+    &:hover {
+      border: 1px solid blue;
+      color: darkblue;
+    }
+  }
 `;
 
 const isRegistered = Near.view(contractId, "storage_balance_of", {
@@ -94,7 +118,6 @@ const finishedGames = Near.view(contractId, "finished_games", {
   account_id: accountId,
 }).sort((a, b) => b[0] - a[0]);
 const recentFinishedGames = Near.view(contractId, "recent_finished_games", {});
-console.log("recentFinishedGames", recentFinishedGames);
 
 const GameSelector = styled.div`
   display: flex;
@@ -246,6 +269,16 @@ return (
     alignItems={state.game_id || state.replay_game_id ? "stretch" : "center"}
   >
     <h1>Chess On Chain</h1>
+    <Header>
+      <a href="https://github.com/Tarnadas/chess-on-chain" target="_blank">
+        <Widget src={githubIcon} props={{ height: "2rem" }} />
+        <span>Github</span>
+      </a>
+      <a href="https://twitter.com/protocolpawns" target="_blank">
+        <Widget src={twitterIcon} props={{ height: "2rem" }} />
+        <span>Twitter</span>
+      </a>
+    </Header>
     {content}
     <Disclaimer>
       If you won or lost a game it will no longer be displayed. You can check
