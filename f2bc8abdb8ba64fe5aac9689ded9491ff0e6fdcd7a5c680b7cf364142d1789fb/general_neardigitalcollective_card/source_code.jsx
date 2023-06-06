@@ -1,3 +1,10 @@
+const widgetOwner =
+  props.widgetOwner ??
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+
+const handlerStateUpdate = props.handlerStateUpdate;
+const navegateTo = props.navegateTo;
+
 const cardData = props.cardData ?? {
   accountId: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
   blockHeight: 83806538,
@@ -53,74 +60,57 @@ const formatCard = props.formatCard ?? {
     contentData: [
       {
         type: "flex",
-        flexClassName: "flex-column justify-content-start align-items-center",
-        style: {
-          width: "33%",
-        },
+        flexClassName:
+          "flex-column justify-content-start align-items-center border-right",
+        style: { width: "33%" },
         content: [
           {
             type: "text",
             value: "Created by",
-            style: {
-              width: "33%",
-            },
           },
           {
             type: "key",
             value: "accountId",
             style: {
-              width: "33%",
+              maxWidth: "100%",
               textOverflow: "ellipsis",
               overflow: "hidden",
+              textWrap: "nowrap",
             },
           },
         ],
       },
       {
         type: "flex",
-        flexClassName: "flex-column justify-content-start align-items-center",
-        style: {
-          width: "33%",
-        },
+        flexClassName:
+          "flex-column justify-content-start align-items-center border-right",
+        style: { width: "33%" },
         content: [
           {
             type: "text",
             value: "Started",
-            style: {
-              width: "33%",
-            },
           },
           {
             type: "timeStampKey",
             value: "startTimestamp",
-            style: {
-              width: "33%",
-            },
           },
         ],
       },
       {
         type: "flex",
-        flexClassName: "flex-column justify-content-start align-items-center",
+        flexClassName:
+          "flex-column justify-content-start align-items-center border-right",
         style: {
           width: "33%",
-          textOverflow: "ellipsis",
-          overflow: "hidden",
         },
         content: [
           {
             type: "text",
             value: "Ended",
-            style: {
-              width: "33%",
-            },
           },
           {
             type: "timeStampKey",
             value: "endTimestamp",
-            style: {
-              width: "33%",
-            },
           },
         ],
       },
@@ -129,95 +119,121 @@ const formatCard = props.formatCard ?? {
 };
 
 return (
-  <div>
-    {Object.keys(formatCard).map((rowKey) => {
-      let rowData = formatCard[rowKey];
-      if (rowData.rowType == "markdown") {
-        return <Markdown text={rowData.contentData} />;
-      } else if (rowData.rowType == "text") {
-        return (
-          <p style={rowData.style ? rowData.style : {}}>
-            {rowData.contentData}
-          </p>
-        );
-      } else if (rowData.rowType == "timeStampKey") {
-        return (
-          <p style={rowData.style ? rowData.style : {}}>
-            {new Date(cardData.value[secondItem.value]).toLocaleDateString(
-              [],
-              dateFormatOptions
-            )}
-          </p>
-        );
-      } else if (rowData.rowType == "flex") {
-        return (
-          <div
-            className={`d-flex ${rowData.flexClassName}`}
-            style={rowData.style ? rowData.style : {}}
-          >
-            {rowData.contentData.map((item) => {
-              if (item.type == "markdown") {
-                return <Markdown text={item.content} />;
-              } else if (item.type == "text") {
-                return (
-                  <p style={item.style ? item.style : {}}>{item.content}</p>
-                );
-              } else if (item.type == "flex") {
-                return (
-                  <div
-                    className={`d-flex ${item.flexClassName}`}
-                    style={item.style ? item.style : {}}
-                  >
-                    {item.content.map((secondItem) => {
-                      console.log(secondItem);
-                      if (secondItem.type == "markdown") {
-                        return <Markdown text={secondItem.value} />;
-                      } else if (secondItem.type == "text") {
-                        return (
-                          <p style={secondItem.style ? secondItem.style : {}}>
-                            {secondItem.value}
-                          </p>
-                        );
-                      } else if (secondItem.type == "timeStampKey") {
-                        return (
-                          <p style={secondItem.style ? secondItem.style : {}}>
-                            {new Date(
-                              cardData.value[secondItem.value]
-                            ).toLocaleDateString([], dateFormatOptions)}
-                          </p>
-                        );
-                      } else if (secondItem.type == "key") {
-                        return (
-                          <p style={secondItem.style ? secondItem.style : {}}>
-                            {cardData[secondItem.value]}
-                          </p>
-                        );
-                      } else {
-                        return (
-                          <p className="text-danger">Error passing data</p>
-                        );
-                      }
-                    })}
-                  </div>
-                );
-              } else {
-                return <p className="text-danger">Error passing data</p>;
-              }
-            })}
-          </div>
-        );
-      } else if (rowData.rowType == "timeStampKey") {
-        return (
-          <p style={rowData.style ? rowData.style : {}}>
-            {new Date(cardData[rowData.value]).toLocaleDateString(
-              [],
-              dateFormatOptions
-            )}
-          </p>
-        );
-      } else {
-        return <p className="text-danger">Error passing data</p>;
+  <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3">
+    <div
+      className="card h-100"
+      onClick={
+        navegateTo
+          ? () =>
+              handlerStateUpdate({
+                tab: navegateTo,
+                postBlockHeight: cardData.blockHeight,
+              })
+          : () => {}
       }
-    })}
+      style={navegateTo ? { cursor: "pointer" } : {}}
+    >
+      <Widget
+        src={`${widgetOwner}/widget/${headerWidgetName}`}
+        props={{ ...cardData }}
+      />
+      <div className="card-body">
+        {Object.keys(formatCard).map((rowKey) => {
+          let rowData = formatCard[rowKey];
+          if (rowData.rowType == "markdown") {
+            return <Markdown text={rowData.contentData} />;
+          } else if (rowData.rowType == "text") {
+            return (
+              <p style={rowData.style ? rowData.style : {}}>
+                {rowData.contentData}
+              </p>
+            );
+          } else if (rowData.rowType == "timeStampKey") {
+            return (
+              <p style={rowData.style ? rowData.style : {}}>
+                {new Date(cardData.value[secondItem.value]).toLocaleDateString(
+                  [],
+                  dateFormatOptions
+                )}
+              </p>
+            );
+          } else if (rowData.rowType == "flex") {
+            return (
+              <div
+                className={`d-flex ${rowData.flexClassName}`}
+                style={rowData.style ? rowData.style : {}}
+              >
+                {rowData.contentData.map((item) => {
+                  if (item.type == "markdown") {
+                    return <Markdown text={item.content} />;
+                  } else if (item.type == "text") {
+                    return (
+                      <p style={item.style ? item.style : {}}>{item.content}</p>
+                    );
+                  } else if (item.type == "flex") {
+                    return (
+                      <div
+                        className={`d-flex ${item.flexClassName}`}
+                        style={item.style ? item.style : {}}
+                      >
+                        {item.content.map((secondItem) => {
+                          console.log(secondItem);
+                          if (secondItem.type == "markdown") {
+                            return <Markdown text={secondItem.value} />;
+                          } else if (secondItem.type == "text") {
+                            return (
+                              <p
+                                style={secondItem.style ? secondItem.style : {}}
+                              >
+                                {secondItem.value}
+                              </p>
+                            );
+                          } else if (secondItem.type == "timeStampKey") {
+                            return (
+                              <p
+                                style={secondItem.style ? secondItem.style : {}}
+                              >
+                                {new Date(
+                                  cardData.value[secondItem.value]
+                                ).toLocaleDateString([], dateFormatOptions)}
+                              </p>
+                            );
+                          } else if (secondItem.type == "key") {
+                            return (
+                              <p
+                                style={secondItem.style ? secondItem.style : {}}
+                              >
+                                {cardData[secondItem.value]}
+                              </p>
+                            );
+                          } else {
+                            return (
+                              <p className="text-danger">Error passing data</p>
+                            );
+                          }
+                        })}
+                      </div>
+                    );
+                  } else {
+                    return <p className="text-danger">Error passing data</p>;
+                  }
+                })}
+              </div>
+            );
+          } else if (rowData.rowType == "timeStampKey") {
+            return (
+              <p style={rowData.style ? rowData.style : {}}>
+                {new Date(cardData[rowData.value]).toLocaleDateString(
+                  [],
+                  dateFormatOptions
+                )}
+              </p>
+            );
+          } else {
+            return <p className="text-danger">Error passing data</p>;
+          }
+        })}
+      </div>
+    </div>
   </div>
 );
