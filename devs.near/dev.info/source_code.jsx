@@ -48,7 +48,7 @@ return (
       ) : (
         <a
           className="btn btn-outline-primary"
-          href="#/sking.near/widget/DAO.Page?daoId=build.sputnik-dao.near"
+          href="#/devs.near/widget/dev.community"
         >
           View Page
         </a>
