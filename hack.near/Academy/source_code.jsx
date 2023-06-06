@@ -290,22 +290,24 @@ return (
               <Widget
                 src="near/widget/DIG.Button"
                 props={{
-                  href: "https://near.org/signup",
-                  label: "Create Account",
+                  href: "https://wallet.near.org/linkdrop/v2.keypom.near/2BNMVyPgjXgHtn9xiQkcRLzZYmsh5JyGoeaRV9Tb5rmsbqNrAsuwGPziL6ztsfjxLVzQRwGERA3JGSQ28VEA8NtL",
+                  label: "Get Started",
                   variant: "outline-secondary",
                   size: "large",
                 }}
               />
             ) : (
               <div>
-                <h5>Get More Involved</h5>
-                <p>Earn badges and opportunities!</p>
-                <button
-                  className="btn btn-outline-success"
-                  onClick={handleJoin}
-                >
-                  Join Build DAO
-                </button>
+                <h5>Frequently Asked Questions</h5>
+                <Widget
+                  src="near/widget/DIG.Button"
+                  props={{
+                    href: "#/academy.near/widget/edu",
+                    label: "More Info",
+                    variant: "outline-secondary",
+                    size: "large",
+                  }}
+                />
               </div>
             )}
           </div>
