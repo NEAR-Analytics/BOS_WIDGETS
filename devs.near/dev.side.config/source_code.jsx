@@ -13,7 +13,7 @@ const defaultWidgets = [
     src: "devs.near/widget/dev.info",
   },
   {
-    src: "devs.near/widget/dev.search",
+    src: "devs.near/widget/dev.profile",
   },
   {
     src: "devs.near/widget/dev.collab",
