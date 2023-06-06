@@ -1,6 +1,6 @@
 const { proposal, council, ftList, widgetProvider, voteExpired } = props;
 const userAccountId = context.accountId;
-console.log("PROPS", props);
+
 const item = {
   type: "sputnik_proposal_comment",
   path: `${proposal.proposal_id}/proposal/main`,
@@ -52,9 +52,9 @@ const ProposalCard = styled.div`
   width: 80%;
   margin: 50px auto;
   box-shadow: 3px 2px 24px rgba(68, 152, 224, 0.3);
-  overflow: auto;
   border-radius: 4px;
   padding: 20px;
+  overflow: auto;
   background: white;
   svg {
     height: 20px;
@@ -149,9 +149,10 @@ const parseDescription = (description) => {
   const parsedParts = parts.map((p) => {
     const url = p.match(/https:\/\/\S*/g);
     if (url) {
+      const parsedUrl = p.replace(/[()]/g, '')
       return (
-        <a href={p} target="_blank">
-          {p}
+        <a href={parsedUrl} target="_blank">
+          {parsedUrl}
         </a>
       );
     }
@@ -332,6 +333,12 @@ return (
           </Status>
           <ProposalId>
             <div>Proposal Id {proposal.proposal_id}</div>
+            <a
+                href={`https://explorer.near.org/transactions/${proposal.transaction_id}`}
+                target="_blank"
+            >
+              {proposal.transaction_id}
+            </a>
             <OverlayTrigger
               key={"left"}
               placement={"left"}
