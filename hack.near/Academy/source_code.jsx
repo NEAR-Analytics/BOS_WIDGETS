@@ -6,7 +6,28 @@ State.init({
   email: "",
   agreeIsChecked: false,
   hasRegistered: false,
+  isMember,
 });
+
+const policy = Near.view(daoId, "get_policy");
+
+if (policy === null) {
+  return "";
+}
+
+const groups = policy.roles
+  .filter((role) => role.name === "community")
+  .map((role) => {
+    const group = role.kind.Group;
+
+    return group;
+  });
+
+const check = groups.map((group) => {
+  return !group
+    ? false
+    : group.filter((address) => address === accountId).length > 0;
+})?.[0];
 
 const handleSignup = () => {
   if (state.email !== "") {
@@ -260,7 +281,7 @@ return (
         )}
         {state.hasRegistered && (
           <div>
-            {!accountId ? (
+            {!check ? (
               <Widget
                 src="near/widget/DIG.Button"
                 props={{
