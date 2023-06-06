@@ -321,30 +321,72 @@ return (
             <TimelineDate>June 21:</TimelineDate>
             <TimelineText>Create your first BOS app!</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["james.near"] }}
+            />
+          </div>
           <TimelineItem>
             <TimelineDate>June 27:</TimelineDate>
             <TimelineText>RPCs, APIs, and Indexers</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["alan777.near"] }}
+            />
+          </div>
           <TimelineItem>
             <TimelineDate>July 5:</TimelineDate>
             <TimelineText>Smart Contract Interactions</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["microchipgnu.near"] }}
+            />
+          </div>
           <TimelineItem>
             <TimelineDate>July 11:</TimelineDate>
             <TimelineText>Component Design Patterns</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["manzanal.near"] }}
+            />
+          </div>
           <TimelineItem>
             <TimelineDate>July 17:</TimelineDate>
             <TimelineText>NS Bridge and 'Everything'</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["efiz.near"] }}
+            />
+          </div>
           <TimelineItem>
             <TimelineDate>July 25:</TimelineDate>
             <TimelineText>Gateways + Virtual Machine</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["mattlock.near"] }}
+            />
+          </div>
           <TimelineItem>
             <TimelineDate>August 7-21:</TimelineDate>
             <TimelineText>BOS Hackathon</TimelineText>
           </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["hackerhouse.near"] }}
+            />
+          </div>
         </TimelineContainer>
       </Flex>
       <br />
