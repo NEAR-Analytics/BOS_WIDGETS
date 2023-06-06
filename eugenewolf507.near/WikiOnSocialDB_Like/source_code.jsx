@@ -65,7 +65,7 @@ const clickHandler = () => {
       like: JSON.stringify({
         key: item,
         value: {
-          type: hasLike ? "unlike" : "like",
+          type: state.emoji,
         },
       }),
     },
