@@ -88,7 +88,13 @@ return (
             />
           )}
 
-          <Widget src={`${authorForWidget}/widget/WikiOnSocialDB_Like`} />
+          <Widget
+            src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
+            props={{
+              // notifyAccountId,
+              item,
+            }}
+          />
 
           <OverlayTrigger
             placement="top"
