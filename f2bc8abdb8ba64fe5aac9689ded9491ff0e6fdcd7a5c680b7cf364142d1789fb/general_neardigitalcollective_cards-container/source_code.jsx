@@ -10,11 +10,9 @@ const navegateTo = props.navegateTo;
 
 const cardHeaderWidgetName =
   props.cardHeaderWidgetName ?? "minimalistQuestionHeader";
-const contentWidgetName =
-  props.contentWidgetName ?? "minimalistQuestionGeneralInfo";
 
 const cardsData = props.cardsData;
-const sectionTtext = props.sectionTtext ?? "All Schedules";
+const sectionText = props.sectionText ?? "All Schedules";
 
 const formatCard = props.formatCard ?? {
   row1: {
@@ -97,7 +95,7 @@ if (isOwnAccountId) {
 
 return (
   <div className="row card-group py-3">
-    {sectionTtext && <h5>{sectionTtext}</h5>}
+    {sectionText && <h5>{sectionText}</h5>}
     {cardsData.map((cardData) => {
       return (
         <>
