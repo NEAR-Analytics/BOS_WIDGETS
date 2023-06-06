@@ -1,7 +1,7 @@
 const ownerId = "minorityprogrammers.near"; // attribution
 initState({
-  inputCollectionSlug: "genadrop-contract.nftgen.near",
-  collectionSlug: "genadrop-contract.nftgen.near",
+  inputCollectionSlug: "genadrop-contract.nftgen.near" || "nft.genadrop.near",
+  collectionSlug: "genadrop-contract.nftgen.near" || "nft.genadrop.near",
   collectionData: {},
   searchTerm: "",
   nftData: [],
