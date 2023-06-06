@@ -179,7 +179,9 @@ return (
       {data &&
         data.views?.map((view) => (
           <Button
-            onClick={() => State.update({ thingSrc: view.src, p: view.props })}
+            onClick={() =>
+              State.update({ thingSrc: view.src, p: JSON.parse(view.props) })
+            }
           >
             {view.name}
           </Button>
