@@ -43,16 +43,15 @@ const handleOnMouseLeave = (e) => {
   State.update({ show: false });
 };
 
-const clickHandler = () => {
+const clickHandler = (emojiMessage) => {
   if (state.loading) {
     return;
   }
-  if (state.emoji === initialEmoji) {
-    state.update({ emoji: "❤️ Positive" });
-  } else {
-    state.update({ emoji: initialEmoji });
-  }
-  //   State.update({ show: false }); move it into Social.set function
+  //   if (state.emoji === initialEmoji) {
+  //     State.update({ emoji: "❤️ Positive" });
+  //   } else {
+  //     State.update({ emoji: initialEmoji });
+  //   }
   // ================== START ==================
   State.update({
     loading: true,
@@ -62,13 +61,21 @@ const clickHandler = () => {
       like: JSON.stringify({
         key: item,
         value: {
-          type: state.emoji,
+          type: emojiMessage,
         },
       }),
     },
   };
   Social.set(data, {
-    onCommit: () => State.update({ loading: false, show: false }),
+    onCommit: () => {
+      if (state.emoji === initialEmoji) {
+        State.update({ emoji: "❤️ Positive", loading: false, show: false });
+      } else {
+        State.update({ emoji: initialEmoji, loading: false, show: false });
+      }
+
+      //   State.update({ loading: false, show: false });
+    },
     onCancel: () => State.update({ loading: false, show: false }),
   });
   // ================== END ==================
@@ -82,10 +89,7 @@ const overlay = (
     onMouseLeave={handleOnMouseLeave}
   >
     <button
-      onClick={() => {
-        State.update({ emoji: "❤️ Positive" });
-        State.update({ show: false });
-      }}
+      onClick={() => clickHandler("❤️ Positive")}
       style={smallButtonStyles}
     >
       ❤️
@@ -165,7 +169,7 @@ return (
     overlay={overlay}
   >
     <button
-      onClick={clickHandler}
+      onClick={() => clickHandler("❤️ Positive")}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
       style={{
