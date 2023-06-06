@@ -4,21 +4,6 @@ const initialEmoji = "🤍 Like";
 
 State.init({ emoji: initialEmoji, show: false, loading: false });
 
-const Button = styled.button`
-  border: 0 !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: start;
-  border-radius: 5px;
-  padding-left: 12px;
-  width: 8em;
-  height: 2.5em;
-  &:hover {
-    color: DeepSkyBlue;
-    background: rgba(0, 191, 255, 0.1);
-  }
-`;
-
 const mainButtonStyles = {
   border: 0,
   display: "inline-flex",
