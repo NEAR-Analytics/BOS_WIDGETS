@@ -11,14 +11,10 @@ const data = fetch(
   }
 );
 
-const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
-
-if (!cssFont) return "";
-
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: 'Hubot-Sans', sans-serif;
+    font-family: sans-serif;
     ${cssFont}
 `,
   });
