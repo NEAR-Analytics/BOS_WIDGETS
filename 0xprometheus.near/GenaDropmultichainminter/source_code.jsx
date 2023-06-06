@@ -3,7 +3,7 @@ const polygonContract = "0x436AEceaEeC57b38a17Ebe71154832fB0fAFF878";
 const celoContract = "0xC291846A587cf00a7CC4AF0bc4EEdbC9c3340C36";
 const avaxContract = "0x43dBdfcAADD0Ea7aD037e8d35FDD7c353B5B435b";
 const arbitrumContract = "0x959a2945185Ec975561Ac0d0b23F03Ed1b267925";
-const nearContract = "genadrop.nftgen.near";
+const nearContract = "nft.genadrop.near";
 const ownerId = "minorityprogrammers.near"; // attribution
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
