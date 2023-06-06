@@ -1,5 +1,5 @@
 return (
   <>
-    <Link to="https://everything.dev/efiz.near/widget/hello">Hi</Link>
+    <Link to="efiz.near/widget/hello">Hi</Link>
   </>
 );
