@@ -180,6 +180,8 @@ const TimelineItem = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
 `;
 
 const TimelineDate = styled.span`
