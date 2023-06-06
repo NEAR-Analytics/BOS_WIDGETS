@@ -8,12 +8,86 @@ const prevTab = props.prevTab;
 const handlerStateUpdate = props.handlerStateUpdate;
 const navegateTo = props.navegateTo;
 
-const headerWidgetName = props.headerWidgetName ?? "minimalistQuestionHeader";
+const cardHeaderWidgetName =
+  props.cardHeaderWidgetName ?? "minimalistQuestionHeader";
 const contentWidgetName =
   props.contentWidgetName ?? "minimalistQuestionGeneralInfo";
 
 const cardsData = props.cardsData;
 const sectionTtext = props.sectionTtext ?? "All Schedules";
+
+const formatCard = props.formatCard ?? {
+  row1: {
+    rowType: "markdown",
+    contentData: "data",
+  },
+  row2: {
+    rowType: "text",
+    contentData: "data2",
+  },
+  row3: {
+    rowType: "flex",
+    flexClassName: "justify-content-between border rounded p-3",
+    contentData: [
+      {
+        type: "flex",
+        flexClassName:
+          "flex-column justify-content-start align-items-center border-right",
+        style: { width: "33%" },
+        content: [
+          {
+            type: "text",
+            value: "Created by",
+          },
+          {
+            type: "key",
+            value: "accountId",
+            style: {
+              maxWidth: "100%",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              textWrap: "nowrap",
+            },
+          },
+        ],
+      },
+      {
+        type: "flex",
+        flexClassName:
+          "flex-column justify-content-start align-items-center border-right",
+        style: { width: "33%" },
+        content: [
+          {
+            type: "text",
+            value: "Started",
+          },
+          {
+            type: "timeStampKey",
+            value: "startTimestamp",
+          },
+        ],
+      },
+      {
+        type: "flex",
+        flexClassName:
+          "flex-column justify-content-start align-items-center border-right",
+        style: {
+          width: "33%",
+        },
+        content: [
+          {
+            type: "text",
+            value: "Ended",
+          },
+          {
+            type: "timeStampKey",
+            value: "endTimestamp",
+          },
+        ],
+      },
+    ],
+  },
+};
 
 if (isOwnAccountId) {
   cardsData = cardsData.filter(
@@ -26,74 +100,19 @@ return (
     {sectionTtext && <h5>{sectionTtext}</h5>}
     {cardsData.map((cardData) => {
       return (
-        <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3">
-          <div
-            className="card h-100"
-            onClick={
-              navegateTo
-                ? () =>
-                    handlerStateUpdate({
-                      tab: navegateTo,
-                      postBlockHeight: cardData.blockHeight,
-                    })
-                : () => {}
-            }
-            style={navegateTo ? { cursor: "pointer" } : {}}
-          >
-            <Widget
-              src={`${widgetOwner}/widget/${headerWidgetName}`}
-              props={{ ...cardData }}
-            />
-            <Widget
-              src={`${widgetOwner}/widget/${contentWidgetName}`}
-              props={{ ...cardData }}
-            />
-          </div>
-
-          {
-            // Example how should card container be like
-            //
-            //     <div className="card-body">
-            //       <div className="row d-flex justify-content-center">
-            //         <h5 className="card-title text-center pb-2 border-bottom">
-            //           {article.articleId}
-            //         </h5>
-            //         <div className="col flex-grow-1">
-            //           <Widget
-            //             src="mob.near/widget/Profile.ShortInlineBlock"
-            //             props={{ accountId: article.author, tooltip: true }}
-            //           />
-            //         </div>
-            //         <div className="col flex-grow-0">
-            //           <p className="card-subtitle text-muted text-end">
-            //             {getDateLastEdit(article.timeCreate).date}
-            //           </p>
-            //           <p className="card-subtitle text-muted text-end">
-            //             {getDateLastEdit(article.timeCreate).time}
-            //           </p>
-            //         </div>
-            //       </div>
-            //       <div
-            //         className="mt-3 alert alert-secondary"
-            //         style={{ backgroundColor: "white" }}
-            //       >
-            //         <div>
-            //           Last edit by
-            //           <a
-            //             href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-            //             style={{ textDecoration: "underline" }}
-            //           >
-            //             {article.lastEditor}
-            //           </a>
-            //           <br />
-            //           Edited on {getDateLastEdit(article.timeLastEdit).date}
-            //           <br />
-            //           Edit versions: {article.version}
-            //         </div>
-            //       </div>
-            //     </div>
-          }
-        </div>
+        <>
+          <Widget
+            src={`${widgetOwner}/widget/general_neardigitalcollective_card`}
+            props={{
+              cardHeaderWidgetName,
+              widgetOwner,
+              cardData,
+              handlerStateUpdate,
+              navegateTo,
+              formatCard,
+            }}
+          />
+        </>
       );
     })}
   </div>
