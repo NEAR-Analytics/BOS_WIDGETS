@@ -360,7 +360,7 @@ return (
         >
           Made Possible by Collaboration
         </Text>
-        <Widget src="hack.near/widget/dev.Badge" />
+        <Widget src="hack.near/widget/banyan.logo" />
       </Flex>
     </Container>
   </Wrapper>
