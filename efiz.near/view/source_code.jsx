@@ -141,7 +141,7 @@ function Thing() {
       <>
         <Widget
           src={"efiz.near/widget/Every.Thing.View"}
-          props={{ path: state.thingSrc, ...props }}
+          props={{ path: state.thingSrc, ...state.p }}
         />
       </>
     );
@@ -178,7 +178,9 @@ return (
     <ButtonRow>
       {data &&
         data.views?.map((view) => (
-          <Button onClick={() => State.update({ thingSrc: view.src })}>
+          <Button
+            onClick={() => State.update({ thingSrc: view.src, p: view.props })}
+          >
             {view.name}
           </Button>
         ))}
