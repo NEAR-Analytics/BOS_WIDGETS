@@ -47,12 +47,12 @@ const clickHandler = () => {
   if (state.loading) {
     return;
   }
-  // if (state.emoji === initialEmoji) {
-  //   State.update({ emoji: "❤️ Positive" });
-  // } else {
-  //   State.update({ emoji: initialEmoji });
-  // }
-  // State.update({ show: false }); move it into Social.set function
+  if (State.emoji === initialEmoji) {
+    state.update({ emoji: "❤️ Positive" });
+  } else {
+    state.update({ emoji: initialEmoji });
+  }
+  //   State.update({ show: false }); move it into Social.set function
   // ================== START ==================
   State.update({
     loading: true,
@@ -68,14 +68,7 @@ const clickHandler = () => {
     },
   };
   Social.set(data, {
-    // onCommit: () => State.update({ loading: false, show: false }),
-    onCommit: () => {
-      if (state.emoji === initialEmoji) {
-        State.update({ emoji: "❤️ Positive", loading: false, show: false });
-      } else {
-        State.update({ emoji: initialEmoji, loading: false, show: false });
-      }
-    },
+    onCommit: () => State.update({ loading: false, show: false }),
     onCancel: () => State.update({ loading: false, show: false }),
   });
   // ================== END ==================
