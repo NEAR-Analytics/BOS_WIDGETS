@@ -12,7 +12,10 @@ return (
       <div className="section">
         <div class="row">
           <div class="col-12 header-photo mb-2">
-            <img class="img-responsive w-100" src={props.headerPhoto} />
+            <img
+              class="img-responsive w-100"
+              src="https://pbs.twimg.com/profile_banners/1661553260476649473/1684980906/1500x500"
+            />
           </div>
           <div class="col-12 text-center">
             <h4>Hello, I am J.</h4>
