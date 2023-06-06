@@ -1,9 +1,58 @@
+const accountId = props.accountId ?? context.accountId;
+const daoId = props.daoId ?? "build.sputnik-dao.near";
+const role = props.role ?? "community";
+
+let isBuilder = false;
+let widgets = Social.get(`${accountId}/widget/*`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+let widgetCount = 0;
+if (widgets) {
+  widgetCount = Object.keys(widgets).length;
+}
+if (widgetCount > 0) {
+  isBuilder = true;
+}
+
+const policy = Near.view(daoId, "get_policy");
+
+if (policy === null) {
+  return "";
+}
+
+const groups = policy.roles
+  .filter((role) => role.name === "community")
+  .map((role) => {
+    const group = role.kind.Group;
+
+    return group;
+  });
+
+const isMember = groups.map((group) => {
+  return !group
+    ? false
+    : group.filter((address) => address === accountId).length > 0;
+})?.[0];
+
 return (
   <div>
     <div className="m-2 d-flex gap-2 flex-wrap">
-      <a className="btn btn-outline-primary" href="#/devs.near/widget/">
-        Apply to Join
-      </a>
+      {isMember ? (
+        <a
+          className="btn btn-outline-primary"
+          href="https://wallet.near.org/linkdrop/v2.keypom.near/4japszHTmC37t94Ep47d16DfPWx3A83BMExt26iH4YgnjDtHJGwpXokeZQoxuogKCvagzAF4DN2wW8ePZvwKKCyj"
+        >
+          Join Community
+        </a>
+      ) : (
+        <a
+          className="btn btn-outline-primary"
+          href="#/sking.near/widget/DAO.Page?daoId=build.sputnik-dao.near"
+        >
+          View Page
+        </a>
+      )}
       <a className="btn btn-outline-primary" href="#/hack.near/widget/Academy">
         Learn More
       </a>
