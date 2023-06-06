@@ -435,7 +435,7 @@ return (
           </Card>
           <div>
             <Card>
-              {state.sender ? (
+              {state.sender && Ethers.provider() ? (
                 <div className="form-group">
                   <label htmlFor="chainSelect">Select Chain</label>
                   <select
