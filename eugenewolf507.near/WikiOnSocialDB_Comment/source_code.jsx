@@ -81,6 +81,9 @@ return (
               }}
             />
           )}
+
+          <Widget src={`${authorForWidget}/widget/WikiOnSocialDB_Like`} />
+
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
