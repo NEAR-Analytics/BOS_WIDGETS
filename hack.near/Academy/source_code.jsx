@@ -6,7 +6,6 @@ State.init({
   email: "",
   agreeIsChecked: false,
   hasRegistered: false,
-  hasApplied: false,
 });
 
 const handleSignup = () => {
@@ -30,33 +29,6 @@ const handleSignup = () => {
       State.update({ email: "" });
     });
   }
-};
-
-const handleJoin = () => {
-  const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "potential member",
-          kind: {
-            AddMemberToRole: {
-              member_id: accountId,
-              role: role,
-            },
-          },
-        },
-      },
-      gas: gas,
-      deposit: deposit,
-    },
-  ]).then((resp) => {
-    // Storage.privateSet()
-    State.update({ hasApplied: true });
-  });
 };
 
 const Wrapper = styled.div`
@@ -390,6 +362,17 @@ return (
             />
           </div>
         </TimelineContainer>
+        <div>
+          <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              href: "#/academy.near/widget/edu",
+              label: "Frequently Asked Questions",
+              variant: "outline-secondary",
+              size: "large",
+            }}
+          />
+        </div>
       </Flex>
       <br />
       <Flex>
