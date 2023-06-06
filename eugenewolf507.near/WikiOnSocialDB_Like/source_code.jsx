@@ -47,7 +47,7 @@ const clickHandler = () => {
   if (state.loading) {
     return;
   }
-  if (State.emoji === initialEmoji) {
+  if (state.emoji === initialEmoji) {
     state.update({ emoji: "❤️ Positive" });
   } else {
     state.update({ emoji: initialEmoji });
