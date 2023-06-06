@@ -5,6 +5,8 @@ const widgetOwner =
 const handlerStateUpdate = props.handlerStateUpdate;
 const navegateTo = props.navegateTo;
 
+const cardHeaderWidgetName =
+  props.cardHeaderWidgetName ?? "minimalistQuestionHeader";
 const cardData = props.cardData ?? {
   accountId: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
   blockHeight: 83806538,
@@ -134,7 +136,7 @@ return (
       style={navegateTo ? { cursor: "pointer" } : {}}
     >
       <Widget
-        src={`${widgetOwner}/widget/${headerWidgetName}`}
+        src={`${widgetOwner}/widget/${cardHeaderWidgetName}`}
         props={{ ...cardData }}
       />
       <div className="card-body">
