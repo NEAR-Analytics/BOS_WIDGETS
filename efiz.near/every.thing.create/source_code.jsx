@@ -95,6 +95,7 @@ const composeData = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 4px;
 `;
 
 const Row = styled.div`
@@ -127,15 +128,9 @@ const FormContainer = styled.div`
   margin: 20px;
 `;
 
-const Input = styled.input`
-  flex: 1;
-  max-width: 200px;
-  margin-bottom: 10px;
-  height: 30px;
-`;
-
 const Select = styled.select`
   height: 30px;
+  width: 300px;
 `;
 
 const Button = styled.button`
@@ -147,26 +142,10 @@ const Text = styled.p`
   margin-right: 10px;
 `;
 
-//   const Input = styled.input`
-//   width: 300px;
-//   height: 30px;
-// `;
-
-//   const Select = styled.select`
-//   height: 30px;
-//   width: 300px;
-// `;
-
-//   const Button = styled.button`
-//   text-transform: lowercase !important;
-//   padding: 8px;
-// `;
-
-//   const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 4px;
-// `;
+const Input = styled.input`
+  width: 300px;
+  height: 30px;
+`;
 
 const handleTypeChange = (e) => {
   State.update({ selectedType: e.target.value });
@@ -187,10 +166,7 @@ function RenderTypeCreate() {
   const properties = type.properties || [];
 
   const handleInputChange = (name, value) => {
-    State.update({ [name]: value });
-    if (props.onChange) {
-      props.onChange({ [name]: value });
-    }
+    handleThingData({ [name]: value });
   };
 
   function Property({ item }) {
