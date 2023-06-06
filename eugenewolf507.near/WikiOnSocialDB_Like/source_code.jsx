@@ -4,7 +4,7 @@
 
 const initialEmoji = "🤍 Positive";
 
-State.init({ emoji: initialEmoji, show: false });
+State.init({ emoji: initialEmoji, show: false, loading: false });
 
 const Button = styled.button`
   border: 0 !important;
@@ -47,12 +47,34 @@ const handleOnMouseLeave = (e) => {
 };
 
 const clickHandler = () => {
+  if (state.loading) {
+    return;
+  }
   if (state.emoji === initialEmoji) {
     State.update({ emoji: "❤️ Positive" });
   } else {
     State.update({ emoji: initialEmoji });
   }
-  State.update({ show: false });
+  // State.update({ show: false }); move it into Social.set function
+  // ================== START ==================
+  State.update({
+    loading: true,
+  });
+  const data = {
+    index: {
+      like: JSON.stringify({
+        key: item,
+        value: {
+          type: hasLike ? "unlike" : "like",
+        },
+      }),
+    },
+  };
+  Social.set(data, {
+    onCommit: () => State.update({ loading: false, show: false }),
+    onCancel: () => State.update({ loading: false, show: false }),
+  });
+  // ================== END ==================
 };
 
 const overlay = (
