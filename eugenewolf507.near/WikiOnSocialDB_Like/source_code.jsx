@@ -56,19 +56,10 @@ const clickHandler = (emojiMessage) => {
   State.update({
     loading: true,
   });
-  console.log(
-    "emojiMessage = ",
-    emojiMessage,
-    "initialEmoji = ",
-    initialEmoji,
-    " --->",
-    emojiMessage === initialEmoji
-  );
   const emojiToWrite =
     emojiMessage === initialEmoji && state.emoji === initialEmoji
       ? "❤️ Positive"
       : emojiMessage;
-  console.log(emojiToWrite);
   const data = {
     index: {
       like: JSON.stringify({
