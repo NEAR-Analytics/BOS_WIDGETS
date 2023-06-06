@@ -5,6 +5,9 @@ const gigsBoardUrl = isDev
 
 const daoId = "liberty.sputnik-dao.near"; // DAO owner of the gigs board
 
+const domain = props.domain;
+const key = props.key;
+
 /**
  * Scroll to the bottom of a "lane" and you'll see "Click to Add Card"
  * Calls this function with the payload
@@ -65,6 +68,33 @@ function onCardMoveAcrossLanes(payload) {
 }
 
 function loadCards() {
+  const convertData = (inputData) => {
+    const cards = [];
+    inputData.forEach((item, index) => {
+      const card = {
+        id: item.articleId,
+        title: item.articleId,
+        laneId: index % 2 === 0 ? "proposed" : "in-progress",
+        author: item.author,
+        blockHeight: item.blockHeight,
+        body: item.body,
+        lastEditor: item.lastEditor,
+        timeCreate: item.timeCreate,
+        timeLastEdit: item.timeLastEdit,
+        version: item.version,
+      };
+      cards.push(card);
+    });
+    return cards;
+  };
+
+  if (domain && key) {
+    const gigs = Social.index(domain, key, {
+      order: "desc",
+    });
+    gigs = gigs.filter((it) => it.value.type === "every.near/type/gig");
+    return convertData(gigs);
+  }
   // this should just get the ids from the DAO
   // Then Social.index(daoId, {key}) on each key to get each "gig" and it's history
   const addressForArticles = "ndcGigArticle";
@@ -124,25 +154,6 @@ function loadCards() {
   };
 
   // Then convert into cards
-  const convertData = (inputData) => {
-    const cards = [];
-    inputData.forEach((item, index) => {
-      const card = {
-        id: item.articleId,
-        title: item.articleId,
-        laneId: index % 2 === 0 ? "proposed" : "in-progress",
-        author: item.author,
-        blockHeight: item.blockHeight,
-        body: item.body,
-        lastEditor: item.lastEditor,
-        timeCreate: item.timeCreate,
-        timeLastEdit: item.timeLastEdit,
-        version: item.version,
-      };
-      cards.push(card);
-    });
-    return cards;
-  };
 
   const data = convertData(filteredArticles);
   return data;
