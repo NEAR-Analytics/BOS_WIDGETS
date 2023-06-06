@@ -141,7 +141,7 @@ function Thing() {
       <>
         <Widget
           src={"efiz.near/widget/Every.Thing.View"}
-          props={{ path: state.thingSrc }}
+          props={{ path: state.thingSrc, ...props }}
         />
       </>
     );
