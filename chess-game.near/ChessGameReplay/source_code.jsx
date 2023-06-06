@@ -83,10 +83,8 @@ if (transactions.length > 0) {
     fetchOptions
   ).then(({ ok, body }) => {
     if (!ok) {
-      // transactions.push(tx);
       setTimeout(() => {
         State.update({
-          // transactions,
           errCount: state.errCount + 1,
         });
       }, waitTimeOnErr);
