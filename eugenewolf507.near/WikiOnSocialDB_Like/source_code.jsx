@@ -10,6 +10,32 @@ if (!item) {
 const likes = Social.index("like", item);
 console.log("likes", likes);
 
+// ===============
+const dataLoading = likes === null;
+
+const likesByUsers = {};
+
+(likes || []).forEach((like) => {
+  if (like.value.type === "like") {
+    likesByUsers[like.accountId] = like;
+  } else if (like.value.type === "unlike") {
+    delete likesByUsers[like.accountId];
+  }
+});
+if (state.hasLike === true) {
+  likesByUsers[context.accountId] = {
+    accountId: context.accountId,
+  };
+} else if (state.hasLike === false) {
+  delete likesByUsers[context.accountId];
+}
+
+const accountsWithLikes = Object.keys(likesByUsers);
+const hasLike = context.accountId && !!likesByUsers[context.accountId];
+console.log("accountsWithLikes = ", accountsWithLikes);
+console.log("hasLike = ", hasLike);
+// =================
+
 State.init({ emoji: initialEmoji, show: false, loading: false });
 
 const mainButtonStyles = {
