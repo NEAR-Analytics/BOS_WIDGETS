@@ -226,7 +226,7 @@ return (
         >
           Summer 2023
         </Text>
-        {state.hasRegistered && (
+        {!state.hasRegistered && (
           <InputContainer>
             <Widget
               src={"nearhorizon.near/widget/Inputs.Text"}
@@ -268,7 +268,7 @@ return (
             )}
           </div>
         )}
-        {state.hasRegistered && (
+        {!state.hasRegistered && (
           <div className="row">
             <button
               className="btn btn-primary"
@@ -279,7 +279,7 @@ return (
             </button>
           </div>
         )}
-        {!state.hasRegistered && (
+        {state.hasRegistered && (
           <div>
             {check ? (
               <Widget
