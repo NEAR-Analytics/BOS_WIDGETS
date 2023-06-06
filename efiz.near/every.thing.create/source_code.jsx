@@ -1,21 +1,22 @@
 const postThing = props.postThing;
-const availableTypes = JSON.parse(props.availableTypes) || [
-  "efiz.near/type/paragraph",
-  "efiz.near/type/Image",
-  "efiz.near/type/document",
-  "efiz.near/type/feed",
-  "efiz.near/type/idea",
-  "efiz.near/type/markdown",
-  "efiz.near/type/topic",
-  "every.near/type/core",
-];
-const type = props.type || "";
-if (availableTypes.length === 1) {
-  type = availableTypes[0];
-}
+const availableTypes =
+  JSON.parse(props.availableTypes) ||
+  Social.get("every.near/type/**", "final") ||
+  [];
 
+const types = Social.get("every.near/type/**", "final");
+types = Object.keys(types).map((it) => `every.near/type/${it}`);
+
+// const type = props.type || "";
+// if (availableTypes.length === 1) {
+//   type = availableTypes[0];
+// }
+
+let type;
+
+availableTypes = types;
 State.init({
-  selectedType: type,
+  selectedType: "",
   expanded: false,
 });
 
@@ -72,7 +73,7 @@ const composeData = () => {
 
   // TODO: What other types can we extract mentions from?
   // How can this be better associated with the type?
-  if (state.selectedType === "efiz.near/type/markdown") {
+  if (state.selectedType === "md") {
     const notifications = extractTagNotifications(state.thing.text, {
       type: "social",
       path: `${context.accountId}/thing/${thingId}`,
@@ -102,19 +103,6 @@ const Row = styled.div`
   margin-bottom: 10px;
   width: 100%;
 `;
-
-// const Row = styled.div`
-//   display: flex;
-//   gap: 10px;
-// `;
-
-// const Select = styled.select`
-//   padding: 5px;
-//   width: 100%;
-// `;
-
-// const Input = styled.input`
-// `;
 
 const SwitchButton = styled.button`
   padding: 5px 10px;
@@ -175,29 +163,20 @@ const handleThingData = (value, extra) => {
 };
 
 function RenderTypeCreate() {
-  if (type !== "") {
-    if (type?.widgets?.create !== undefined) {
-      return (
-        <Widget
-          src={type?.widgets?.create}
-          props={{ onChange: handleThingData }} // onChange
-        />
-      );
-    } else {
-      return (
-        <Widget
-          src="efiz.near/widget/every.md.create"
-          props={{ onChange: handleThingData }} // onChange
-        />
-      );
-    }
+  if (state.selectedType !== "") {
+    return (
+      <Widget
+        src={type?.widgets?.create}
+        props={{ onChange: handleThingData }} // onChange
+      />
+    );
   }
 }
 
 return (
   <>
     <Container>
-      {props.type === undefined ? (
+      {props.type === undefined && availableTypes.length !== 1 ? (
         <>
           <Row>
             <TextContainer>create a thing of type:</TextContainer>
@@ -225,7 +204,7 @@ return (
         <>
           <Input
             onChange={(e) => State.update({ thingId: e.target.value })}
-            placeholder="thing id"
+            placeholder="file name"
           />
         </>
       ) : null}
