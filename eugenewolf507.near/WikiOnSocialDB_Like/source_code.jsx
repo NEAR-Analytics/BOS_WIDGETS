@@ -8,8 +8,6 @@ if (!item) {
 }
 
 const likes = Social.index("like", item);
-console.log("likes", likes);
-
 // ===============
 const dataLoading = likes === null;
 
@@ -32,8 +30,12 @@ if (state.hasLike === true) {
 
 const accountsWithLikes = Object.keys(likesByUsers);
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
-console.log("accountsWithLikes = ", accountsWithLikes);
-console.log("hasLike = ", hasLike);
+if (likes.length) {
+  console.log("likes", likes);
+  console.log("accountsWithLikes = ", accountsWithLikes);
+  console.log("hasLike = ", hasLike);
+}
+
 // =================
 
 State.init({ emoji: initialEmoji, show: false, loading: false });
