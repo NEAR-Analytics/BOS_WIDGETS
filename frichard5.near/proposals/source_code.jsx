@@ -274,6 +274,20 @@ const selectDaos = (daos) => {
     });
 };
 
+const getCouncil = (policy, proposalDaoId) => {
+    const votePermissions = ["*:VoteApprove", "*:VoteReject"];
+    const proposalPolicy = policy.filter((pol) => pol.dao_id === proposalDaoId)
+    if(proposalPolicy.length) {
+        let council = proposalPolicy[0].state.policy.roles.reduce((acc,role) => {
+            if(role.permissions.some((p) => votePermissions.includes(p))) {
+                acc.push(...role.kind)
+            }
+            return acc
+        }, [])
+        return council;
+    }
+}
+
 const statusOptions = ["Approved", "Rejected", "InProgress", "Expired"].map(
     (t) => {
         return {
@@ -416,15 +430,7 @@ const ProposalCard = (
             proposal: state.detailedProposal,
             widgetProvider,
             ftList,
-            council:
-                state.policy &&
-                state.policy
-                    .filter((pol) => pol.dao_id === state.detailedProposal.dao_id)
-                    .map((pol) => {
-                        return pol.state.policy.roles.find(
-                            (r) => r.name === "Council" || r.name === "council"
-                        ).kind;
-                    })[0],
+            council: state.policy && state.detailedProposal.dao_id && getCouncil(state.policy, state.detailedProposal.dao_id),
             voteExpired:
                 state.policy &&
                 state.policy.filter((pol) => pol.dao_id === state.detailedProposal.dao_id)[0].state
