@@ -3,7 +3,7 @@ const polygonContract = "0x436AEceaEeC57b38a17Ebe71154832fB0fAFF878";
 const celoContract = "0xC291846A587cf00a7CC4AF0bc4EEdbC9c3340C36";
 const avaxContract = "0x43dBdfcAADD0Ea7aD037e8d35FDD7c353B5B435b";
 const arbitrumContract = "0x959a2945185Ec975561Ac0d0b23F03Ed1b267925";
-const nearContract = "genadrop.nftgen.near";
+const nearContract = "nft.genadrop.near";
 const ownerId = "minorityprogrammers.near"; // attribution
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
@@ -109,7 +109,7 @@ const handleMint = () => {
                 media: `https://ipfs.io/ipfs/${state.image.cid}`,
                 reference: `ipfs://${cid}`,
               },
-              receiver_id: accountId,
+              receiver_id: state.recipient || accountId,
             },
             gas: gas,
             deposit: deposit,
@@ -148,7 +148,7 @@ const handleMint = () => {
       console.log("in the promse", res, Id);
       const recipient = Ethers.send("eth_requestAccounts", []);
       contract
-        .mint(recipient[0], Id, 1, `ipfs://${cid}`, "0x")
+        .mint(state.recipient || recipient[0], Id, 1, `ipfs://${cid}`, "0x")
         .then((transactionHash) => transactionHash.wait())
         .then((ricit) => {
           console.log("receipt::", ricit);
@@ -177,22 +177,27 @@ if (state.sender === undefined) {
 
   console.log("in between", state.sender);
 
-  if (accountId) {
-    State.update({ sender: accountId });
-    State.update({
-      selectedChain: "0",
-    });
-  }
+  State.update({
+    selectedChain: "0",
+  });
 }
 State.init({
   title: "",
   description: "",
-  showAlert: true,
+  recipient: "",
+  showAlert: false,
   toastMessage: "",
 });
 const onChangeTitle = (title) => {
+  console.log("go daddy", state.recipient);
   State.update({
     title,
+  });
+};
+
+const onChangeRecipient = (recipient) => {
+  State.update({
+    recipient,
   });
 };
 
@@ -363,8 +368,8 @@ const ChainIcon = styled.option`
   }
 `;
 
-if (!state.sender) {
-  console.log("Please login");
+if (!(state.sender || accountId)) {
+  console.log("Please login here now");
   State.update({
     showAlert: true,
     toastMessage: "Please Sign in or connect a wallet",
@@ -503,6 +508,17 @@ return (
                   type="text"
                   value={state.description || ""}
                   onChange={(e) => onChangeDesc(e.target.value)}
+                />
+              </Card>
+              <Card>
+                Mint To:
+                <Input
+                  type="text"
+                  placeholder={
+                    state.selectedChain == "0" ? accountId : state.sender
+                  }
+                  value={state.recipient}
+                  onChange={(e) => onChangeRecipient(e.target.value)}
                 />
               </Card>
             </Card>
