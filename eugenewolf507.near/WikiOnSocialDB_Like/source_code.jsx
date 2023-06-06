@@ -1,6 +1,6 @@
 // TODO - optimise all handlers with repeating state update show: false - combine all emojies into array and render it from array via map
-
-const initialEmoji = "🤍 Positive";
+// "❤️ Positive"
+const initialEmoji = "🤍 Like";
 
 State.init({ emoji: initialEmoji, show: false, loading: false });
 
@@ -56,24 +56,32 @@ const clickHandler = (emojiMessage) => {
   State.update({
     loading: true,
   });
+  console.log(
+    "emojiMessage = ",
+    emojiMessage,
+    "initialEmoji = ",
+    initialEmoji,
+    " --->",
+    emojiMessage === initialEmoji
+  );
+  const emojiToWrite =
+    emojiMessage === initialEmoji && state.emoji === initialEmoji
+      ? "❤️ Positive"
+      : emojiMessage;
+  console.log(emojiToWrite);
   const data = {
     index: {
       like: JSON.stringify({
         key: item,
         value: {
-          type: emojiMessage,
+          type: emojiToWrite,
         },
       }),
     },
   };
   Social.set(data, {
     onCommit: () => {
-      if (state.emoji === initialEmoji) {
-        State.update({ emoji: "❤️ Positive", loading: false, show: false });
-      } else {
-        State.update({ emoji: initialEmoji, loading: false, show: false });
-      }
-
+      State.update({ emoji: emojiToWrite, loading: false, show: false });
       //   State.update({ loading: false, show: false });
     },
     onCancel: () => State.update({ loading: false, show: false }),
@@ -95,66 +103,39 @@ const overlay = (
       ❤️
     </button>
     <button
-      onClick={() => {
-        State.update({ emoji: "👀 Thinking" });
-        State.update({ show: false });
-      }}
+      onClick={() => clickHandler("👀 Thinking")}
       style={smallButtonStyles}
     >
       👀
     </button>
     <button
-      onClick={() => {
-        State.update({ emoji: "🙏 Thank you" });
-        State.update({ show: false });
-      }}
+      onClick={() => clickHandler("🙏 Thank you")}
       style={smallButtonStyles}
     >
       🙏
     </button>
-    <button
-      onClick={() => {
-        State.update({ emoji: "😁 LOL" });
-        State.update({ show: false });
-      }}
-      style={smallButtonStyles}
-    >
+    <button onClick={() => clickHandler("😁 LOL")} style={smallButtonStyles}>
       😁
     </button>
     <button
-      onClick={() => {
-        State.update({ emoji: "👎 Negative" });
-        State.update({ show: false });
-      }}
+      onClick={() => clickHandler("👎 Negative")}
       style={smallButtonStyles}
     >
       👎
     </button>
     <button
-      onClick={() => {
-        State.update({ emoji: "🚀 Ship it" });
-        State.update({ show: false });
-      }}
+      onClick={() => clickHandler("🚀 Ship it")}
       style={smallButtonStyles}
     >
       🚀
     </button>
     <button
-      onClick={() => {
-        State.update({ emoji: "💯 Definitely" });
-        State.update({ show: false });
-      }}
+      onClick={() => clickHandler("💯 Definitely")}
       style={smallButtonStyles}
     >
       💯
     </button>
-    <button
-      onClick={() => {
-        State.update({ emoji: "👍 Like" });
-        State.update({ show: false });
-      }}
-      style={smallButtonStyles}
-    >
+    <button onClick={() => clickHandler("👍 Like")} style={smallButtonStyles}>
       👍
     </button>
   </div>
@@ -169,7 +150,7 @@ return (
     overlay={overlay}
   >
     <button
-      onClick={() => clickHandler("❤️ Positive")}
+      onClick={() => clickHandler(initialEmoji)}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
       style={{
