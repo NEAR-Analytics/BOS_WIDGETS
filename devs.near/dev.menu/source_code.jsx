@@ -10,28 +10,34 @@ return (
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="Widgets">
+            <a class="nav-link active" href="#/near/widget/ComponentsPage">
               <i class="bi-gear"> </i>
               Widgets
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="Projects">
+            <a
+              class="nav-link active"
+              href="#/every.near/widget/browser?path=every.near/thing/test"
+            >
               <i class="bi-clipboard"> </i>
               Projects
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="">
+            <a
+              class="nav-link active"
+              href="#/every.near/widget/browser?path=devs.near/widget/dev.community"
+            >
               <i class="bi-patch-check"> </i>
               Badges
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="Teams">
+            <a class="nav-link active" href="https://nearbuilders.com">
               <i class="bi-signpost-2"> </i>
               Groups
             </a>
