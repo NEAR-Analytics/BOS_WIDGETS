@@ -1,6 +1,4 @@
-// TODO - add fixed with of the main button
-// TODO - optimise all handlers with repeating state update show: false
-// TODO - add CSS styling, height for emoji 24 px, position, bgcolor
+// TODO - optimise all handlers with repeating state update show: false - combine all emojies into array and render it from array via map
 
 const initialEmoji = "🤍 Positive";
 
@@ -50,11 +48,11 @@ const clickHandler = () => {
   if (state.loading) {
     return;
   }
-  if (state.emoji === initialEmoji) {
-    State.update({ emoji: "❤️ Positive" });
-  } else {
-    State.update({ emoji: initialEmoji });
-  }
+  // if (state.emoji === initialEmoji) {
+  //   State.update({ emoji: "❤️ Positive" });
+  // } else {
+  //   State.update({ emoji: initialEmoji });
+  // }
   // State.update({ show: false }); move it into Social.set function
   // ================== START ==================
   State.update({
@@ -71,7 +69,14 @@ const clickHandler = () => {
     },
   };
   Social.set(data, {
-    onCommit: () => State.update({ loading: false, show: false }),
+    // onCommit: () => State.update({ loading: false, show: false }),
+    onCommit: () => {
+      if (state.emoji === initialEmoji) {
+        State.update({ emoji: "❤️ Positive", loading: false, show: false });
+      } else {
+        State.update({ emoji: initialEmoji, loading: false, show: false });
+      }
+    },
     onCancel: () => State.update({ loading: false, show: false }),
   });
   // ================== END ==================
@@ -93,7 +98,6 @@ const overlay = (
     >
       ❤️
     </button>
-    {/* TODO combine all emojies into array and render it from array via map*/}
     <button
       onClick={() => {
         State.update({ emoji: "👀 Thinking" });
