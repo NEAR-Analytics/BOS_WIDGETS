@@ -298,12 +298,11 @@ return (
               />
             ) : (
               <div>
-                <h5>Frequently Asked Questions</h5>
                 <Widget
                   src="near/widget/DIG.Button"
                   props={{
                     href: "#/academy.near/widget/edu",
-                    label: "More Info",
+                    label: "Get More Info",
                     variant: "outline-secondary",
                     size: "large",
                   }}
