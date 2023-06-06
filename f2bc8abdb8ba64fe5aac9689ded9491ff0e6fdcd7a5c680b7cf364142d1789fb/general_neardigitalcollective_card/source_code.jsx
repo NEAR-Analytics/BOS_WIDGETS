@@ -49,35 +49,85 @@ const formatCard = props.formatCard ?? {
   },
   row3: {
     rowType: "flex",
-    flexClassName: "justify-content-between",
+    flexClassName: "justify-content-between border rounded p-3",
     contentData: [
       {
         type: "flex",
-        flexClassName: "flex-column justify-content-start align-items-start",
+        flexClassName: "flex-column justify-content-start align-items-center",
+        style: {
+          width: "33%",
+        },
         content: [
-          { type: "text", value: "Created by" },
-          { type: "key", value: "accountId" },
+          {
+            type: "text",
+            value: "Created by",
+            style: {
+              width: "33%",
+            },
+          },
+          {
+            type: "key",
+            value: "accountId",
+            style: {
+              width: "33%",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+            },
+          },
         ],
       },
       {
         type: "flex",
-        flexClassName: "flex-column justify-content-start align-items-start",
+        flexClassName: "flex-column justify-content-start align-items-center",
+        style: {
+          width: "33%",
+        },
         content: [
-          { type: "text", value: "Started" },
-          { type: "timeStampKey", value: "startTimestamp" },
+          {
+            type: "text",
+            value: "Started",
+            style: {
+              width: "33%",
+            },
+          },
+          {
+            type: "timeStampKey",
+            value: "startTimestamp",
+            style: {
+              width: "33%",
+            },
+          },
         ],
       },
       {
         type: "flex",
-        flexClassName: "flex-column justify-content-start align-items-start",
+        flexClassName: "flex-column justify-content-start align-items-center",
+        style: {
+          width: "33%",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+        },
         content: [
-          { type: "text", value: "Ended" },
-          { type: "timeStampKey", value: "endTimestamp" },
+          {
+            type: "text",
+            value: "Ended",
+            style: {
+              width: "33%",
+            },
+          },
+          {
+            type: "timeStampKey",
+            value: "endTimestamp",
+            style: {
+              width: "33%",
+            },
+          },
         ],
       },
     ],
   },
 };
+
 return (
   <div>
     {Object.keys(formatCard).map((rowKey) => {
@@ -85,10 +135,14 @@ return (
       if (rowData.rowType == "markdown") {
         return <Markdown text={rowData.contentData} />;
       } else if (rowData.rowType == "text") {
-        return <p>{rowData.contentData}</p>;
+        return (
+          <p style={rowData.style ? rowData.style : {}}>
+            {rowData.contentData}
+          </p>
+        );
       } else if (rowData.rowType == "timeStampKey") {
         return (
-          <p>
+          <p style={rowData.style ? rowData.style : {}}>
             {new Date(cardData.value[secondItem.value]).toLocaleDateString(
               [],
               dateFormatOptions
@@ -97,29 +151,45 @@ return (
         );
       } else if (rowData.rowType == "flex") {
         return (
-          <div className={rowData.flexClassName}>
+          <div
+            className={`d-flex ${rowData.flexClassName}`}
+            style={rowData.style ? rowData.style : {}}
+          >
             {rowData.contentData.map((item) => {
               if (item.type == "markdown") {
                 return <Markdown text={item.content} />;
               } else if (item.type == "text") {
-                return <p>{item.content}</p>;
+                return (
+                  <p style={item.style ? item.style : {}}>{item.content}</p>
+                );
               } else if (item.type == "flex") {
                 return (
-                  <div className={item.flexClassName}>
+                  <div
+                    className={`d-flex ${item.flexClassName}`}
+                    style={item.style ? item.style : {}}
+                  >
                     {item.content.map((secondItem) => {
+                      console.log(secondItem);
                       if (secondItem.type == "markdown") {
-                        return <Markdown text={secondItem.content} />;
+                        return <Markdown text={secondItem.value} />;
                       } else if (secondItem.type == "text") {
-                        return <p>{secondItem.content}</p>;
-                      } else if (secondItem.type == "timeStampKey") {
-                        console.log("cardData: ", cardData);
-                        console.log("item: ", item);
-                        console.log("secondItem: ", secondItem);
                         return (
-                          <p>
+                          <p style={secondItem.style ? secondItem.style : {}}>
+                            {secondItem.value}
+                          </p>
+                        );
+                      } else if (secondItem.type == "timeStampKey") {
+                        return (
+                          <p style={secondItem.style ? secondItem.style : {}}>
                             {new Date(
                               cardData.value[secondItem.value]
                             ).toLocaleDateString([], dateFormatOptions)}
+                          </p>
+                        );
+                      } else if (secondItem.type == "key") {
+                        return (
+                          <p style={secondItem.style ? secondItem.style : {}}>
+                            {cardData[secondItem.value]}
                           </p>
                         );
                       } else {
@@ -138,7 +208,7 @@ return (
         );
       } else if (rowData.rowType == "timeStampKey") {
         return (
-          <p>
+          <p style={rowData.style ? rowData.style : {}}>
             {new Date(cardData[rowData.value]).toLocaleDateString(
               [],
               dateFormatOptions
