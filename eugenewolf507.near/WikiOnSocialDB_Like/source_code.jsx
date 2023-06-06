@@ -93,6 +93,7 @@ const overlay = (
     >
       ❤️
     </button>
+    {/* TODO combine all emojies into array and render it from array via map*/}
     <button
       onClick={() => {
         State.update({ emoji: "👀 Thinking" });
