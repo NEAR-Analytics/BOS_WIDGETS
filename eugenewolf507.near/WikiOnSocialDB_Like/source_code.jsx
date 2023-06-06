@@ -38,7 +38,6 @@ const smallButtonStyles = {
 
 const handleOnMouseEnter = (e) => {
   State.update({ show: true });
-  e.target.style.backgroundColor = "red";
 };
 const handleOnMouseLeave = (e) => {
   State.update({ show: false });
