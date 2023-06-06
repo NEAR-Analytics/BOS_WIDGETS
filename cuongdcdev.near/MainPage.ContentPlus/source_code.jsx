@@ -71,43 +71,47 @@ if (state.feedIndex === 0) {
  * Source: mob.near/widget/Mainpage.Feed
  * */
 let WidgetFeed = (props) => {
+  let accs = props.accounts;
   //console.log("Following accounts: ", props.accounts);
-  let index = {
-    action: "post",
-    key: "main",
-    options: {
-      limit: 10,
-      order: "desc",
-      accountId: props.accounts,
-    },
-  };
+  // let index = {
+  //   action: "post",
+  //   key: "main",
+  //   options: {
+  //     limit: 10,
+  //     order: "desc",
+  //     accountId: props.accounts,
+  //   },
+  // };
   //TODO: hide post from blocked list here
-  let renderItem = (a) => {
-    if (isInBlockedList(a.accountId)) {
-      console.log(a.accountId + " is BLOCKED");
-      return;
-    }
+  // let renderItem = (a) => {
+  //   if (isInBlockedList(a.accountId)) {
+  //     console.log(a.accountId + " is BLOCKED");
+  //     return;
+  //   }
 
-    return (
-      a.value.type === "md" && (
-        <div key={JSON.stringify(a)} className="mb-3">
-          <Widget
-            src="cuongdcdev.near/widget/MainPage.PostPlus"
-            props={{
-              accountId: a.accountId,
-              isPostBlocked: isInBlockedList(a.accountId),
-              blockHeight: a.blockHeight,
-              blockedListArr: blockedListArr,
-            }}
-          />
-        </div>
-      )
-    );
-  };
-
+  //   return (
+  //     a.value.type === "md" && (
+  //       <div key={JSON.stringify(a)} className="mb-3">
+  //         <Widget
+  //           src="cuongdcdev.near/widget/MainPage.PostPlus"
+  //           props={{
+  //             accountId: a.accountId,
+  //             isPostBlocked: isInBlockedList(a.accountId),
+  //             blockHeight: a.blockHeight,
+  //             blockedListArr: blockedListArr,
+  //           }}
+  //         />
+  //       </div>
+  //     )
+  //   );
+  // };
+  console.log("acc following: ", accs);
   return (
     <div>
-      <Widget src="mob.near/widget/IndexFeed" props={{ index, renderItem }} />
+      <Widget
+        src="cuongdcdev.near/widget/MainPage.Feed.BetaPlus"
+        props={{ accs }}
+      />
     </div>
   );
 };
