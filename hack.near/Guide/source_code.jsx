@@ -1,13 +1,25 @@
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
-const role = props.role ?? "council";
+const role = props.role ?? "voter";
 
-const sbtData = Near.view("registry.i-am-human.near", "sbt_supply_by_owner", {
-  account: accountId,
-  issuer: "gooddollar-v1.i-am-human.near",
+const policy = Near.view(daoId, "get_policy");
+const deposit = policy.proposal_bond;
+
+const group = policy.roles
+  .filter((role) => role.name === roleId)
+  .map((role) => role.kind.Group);
+
+// IAH Verification
+let human = false;
+const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+  account: props.accountId,
 });
 
-const isHuman = sbtData > 0;
+for (let i = 0; i < userSBTs.length; i++) {
+  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
+    human = true;
+  }
+}
 
 const handleJoin = () => {
   const gas = 200000000000000;
@@ -162,7 +174,7 @@ return (
           />
         )}
 
-        {(isHuman && (
+        {(human && (
           <button className="btn btn-outline-success" onClick={handleJoin}>
             Join the DAO
           </button>
