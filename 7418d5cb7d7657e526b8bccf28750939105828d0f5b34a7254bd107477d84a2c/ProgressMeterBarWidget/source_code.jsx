@@ -30,7 +30,7 @@ const HalfArch = styled.div`
   height: 200%;
   border-radius: 50%;
     background:${({ percentage }) =>
-      `conic-gradient(rgb(255, 213, 13), rgb(242, 155, 192) calc(12.5%), rgb(229, 233, 236) 0deg)`};
+      `conic-gradient(rgb(255, 213, 13), rgb(242, 155, 192) calc(${percentage}%), rgb(229, 233, 236) 0deg)`};
      
   transition: transform .5s ease-in-out;
   z-index: 1;
@@ -189,7 +189,7 @@ const widgetText = props.infoText
 
 return (
   <MainWrapper props={sizes[propsSize]}>
-    <HalfArch className="ARCH-XX" percentage={25} props={sizes[propsSize]}>
+    <HalfArch className="ARCH-XX" percentage={25 / 2} props={sizes[propsSize]}>
       <span></span>
       <ContentBox size={propsSize}>
         <PercentageNum size={propsSize}>
