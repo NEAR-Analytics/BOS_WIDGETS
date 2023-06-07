@@ -30,6 +30,20 @@ const Input = (
   />
 );
 
+const getVoters = () => {
+    const proposalType = state.proposal.proposal_type.toLowerCase();
+    return state.policy.state.policy.roles.reduce((acc,val) => {
+        const isGroupAllowed = val.permissions.some((p) => {
+            const parsedP = p.toLowerCase().replaceAll('_','');
+            return parsedP.includes(`${proposalType}:voteapprove`)
+        });
+        if(isGroupAllowed) {
+            acc.push(...val.kind);
+        }
+        return acc
+    }, [])
+}
+
 const ProposalCard = (
   <Widget
     src={`${widgetProvider}/widget/NDC-proposal-card`}
@@ -37,11 +51,7 @@ const ProposalCard = (
       proposal: state.proposal,
       widgetProvider,
       ftList: state.ftList,
-      council:
-        state.policy &&
-        state.policy.state.policy.roles.find(
-          (r) => r.name === "Council" || r.name === "council"
-        ).kind,
+      council: state.policy && state.proposal && getVoters(),
       voteExpired: state.policy && state.policy.state.policy.proposal_period,
     }}
   />
