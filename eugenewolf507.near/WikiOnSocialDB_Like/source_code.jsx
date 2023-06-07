@@ -32,7 +32,7 @@ const smallButtonStyles = {
 
 // ===============
 const likes = Social.index("like", item);
-
+console.log("===== 1");
 const doesUserVoted = () => {
   const resObject = likes.find(
     (item) => item.accountId === "eugenewolf507.near"
@@ -43,8 +43,8 @@ const doesUserVoted = () => {
   }
 };
 
-doesUserVoted();
-
+likes && doesUserVoted();
+console.log("===== 2");
 // const testArray = [
 //   {
 //     accountId: "eugenewolf507.near",
@@ -88,7 +88,8 @@ const getLikesStats = (acc, likeObj) => {
   return acc;
 };
 const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
-const likesCount = countLikes(likes);
+const likesCount = likes && countLikes(likes);
+console.log("===== 3");
 console.log(likesCount);
 
 // =================
