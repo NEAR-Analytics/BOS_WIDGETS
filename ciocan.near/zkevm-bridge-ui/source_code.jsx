@@ -444,17 +444,17 @@ const getToNetworkLabel = () => {
   }
 };
 
-const getToken = (symbol) =>
+const getToken = (tokenSymbol) =>
   tokens
     .filter((t) => t.chainId === (isMainnet ? 1 : 5))
-    .find((t) => t.symbol === symbol);
+    .find((t) => t.symbol === tokenSymbol);
 
-const updateToken = (symbol) => {
-  State.update({ selectedToken: token, isTokenDialogOpen: false });
+const updateToken = (tokenSymbol) => {
+  State.update({ selectedToken: tokenSymbol, isTokenDialogOpen: false });
 
   const { onUpdateToken } = props;
   if (onUpdateToken) {
-    const token = getToken(symbol);
+    const token = getToken(tokenSymbol);
     onUpdateToken({ amount, token, network: selectedNetwork });
   }
 };
