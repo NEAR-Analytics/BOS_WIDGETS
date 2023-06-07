@@ -273,18 +273,20 @@ const selectDaos = (daos) => {
     });
 };
 
-const getCouncil = (policy, proposalDaoId) => {
-    const votePermissions = ["*:VoteApprove", "*:VoteReject"];
-    const proposalPolicy = policy.filter((pol) => pol.dao_id === proposalDaoId)
-    if(proposalPolicy.length) {
-        let council = proposalPolicy[0].state.policy.roles.reduce((acc,role) => {
-            if(role.permissions.some((p) => votePermissions.includes(p))) {
-                acc.push(...role.kind)
-            }
-            return acc
-        }, [])
-        return council;
-    }
+
+const getVoters = () => {
+    const proposalType = state.detailedProposal.proposal_type.toLowerCase();
+    const proposalPolicy = state.policy.filter((pol) => pol.dao_id === state.detailedProposal.dao_id)
+    return proposalPolicy[0].state.policy.roles.reduce((acc,val) => {
+        const isGroupAllowed = val.permissions.some((p) => {
+            const parsedP = p.toLowerCase().replaceAll('_','');
+            return parsedP.includes(`${proposalType}:voteapprove`)
+        });
+        if(isGroupAllowed) {
+            acc.push(...val.kind);
+        }
+        return acc
+    }, [])
 }
 
 const statusOptions = ["Approved", "Rejected", "InProgress", "Expired"].map(
@@ -430,7 +432,7 @@ const ProposalCard = (
             widgetProvider,
             ftList,
             parent,
-            council: state.policy && state.detailedProposal.dao_id && getCouncil(state.policy, state.detailedProposal.dao_id),
+            council: state.policy && state.detailedProposal.dao_id && getVoters(),
             voteExpired:
                 state.policy &&
                 state.policy.filter((pol) => pol.dao_id === state.detailedProposal.dao_id)[0].state
