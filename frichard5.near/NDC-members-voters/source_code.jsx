@@ -35,9 +35,14 @@ const columns = [
     },
   },
   {
-    id: "isCouncil",
-    label: "Council member",
-    formatter: (d) => (d.isCouncil ? councilSvg : ""),
+    id: "groups",
+    label: "Groups",
+    formatter: (d) => {
+      if(Array.isArray(d.groups)) {
+        return d.groups.map((g) => <div>{g}</div>)
+      }
+      return d.groups
+    },
   },
   {
     id: "approve",
