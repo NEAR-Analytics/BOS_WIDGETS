@@ -41,29 +41,29 @@ const doesUserVoted = () => {
   State.update({ emoji: resObject.value.type });
 };
 
-const testArray = [
-  {
-    accountId: "eugenewolf507.near",
-    blockHeight: 93610551,
-    value: {
-      type: "🚀 Ship it",
-    },
-  },
-  {
-    accountId: "testwiki.near",
-    blockHeight: 93611581,
-    value: {
-      type: "💯 Definitely",
-    },
-  },
-  {
-    accountId: "alex.near",
-    blockHeight: 93610551,
-    value: {
-      type: "🚀 Ship it",
-    },
-  },
-];
+// const testArray = [
+//   {
+//     accountId: "eugenewolf507.near",
+//     blockHeight: 93610551,
+//     value: {
+//       type: "🚀 Ship it",
+//     },
+//   },
+//   {
+//     accountId: "testwiki.near",
+//     blockHeight: 93611581,
+//     value: {
+//       type: "💯 Definitely",
+//     },
+//   },
+//   {
+//     accountId: "alex.near",
+//     blockHeight: 93610551,
+//     value: {
+//       type: "🚀 Ship it",
+//     },
+//   },
+// ];
 
 const getLikesStats = (acc, likeObj) => {
   if (!acc.hasOwnProperty(likeObj.value.type)) {
