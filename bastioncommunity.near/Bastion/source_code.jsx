@@ -454,6 +454,11 @@ const handleRepay = () => {
 const maxWithdraw = () => {
   const rewardIndex = getCTokenBalancesAllIndex();
   const supplyBalance = supplyBalance();
+  if (
+    !state.getAccountLimits[0].includes(TokensDetail[selectedTokenId].cAddress)
+  ) {
+    return supplyBalance;
+  }
   const tokenPrice =
     Number(state.cTokenMetadataAll[rewardIndex][1].toString()) /
     Math.pow(10, 18 + (18 - TokensDetail[selectedTokenId].decimals));
