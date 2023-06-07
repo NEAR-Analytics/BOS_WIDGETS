@@ -79,22 +79,24 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between align-items-center">
-          {parentItem && (
+          <span>
+            {parentItem && (
+              <Widget
+                src="mob.near/widget/CommentButton"
+                props={{
+                  onClick: () => State.update({ showReply: !state.showReply }),
+                }}
+              />
+            )}
+
             <Widget
-              src="mob.near/widget/CommentButton"
+              src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
               props={{
-                onClick: () => State.update({ showReply: !state.showReply }),
+                // notifyAccountId,
+                item,
               }}
             />
-          )}
-
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
-            props={{
-              // notifyAccountId,
-              item,
-            }}
-          />
+          </span>
 
           <OverlayTrigger
             placement="top"
