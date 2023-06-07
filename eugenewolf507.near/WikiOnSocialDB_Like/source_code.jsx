@@ -82,7 +82,7 @@ const getLikesStats = (acc, likeObj) => {
 };
 const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
 
-const likesCount = countLikes(testArray);
+const likesCount = countLikes(likes);
 console.log(likesCount);
 
 if (likes) {
