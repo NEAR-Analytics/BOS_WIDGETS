@@ -143,7 +143,10 @@ const tokens = [
   },
 ];
 
-const { chainId } = state;
+const MAX_AMOUNT =
+  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+
+const { chainId, isContractAllowedToSpendToken } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
 
 const BRIDGE_CONTRACT_ADDRESS = isMainnet
@@ -180,8 +183,9 @@ if (sender) {
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
-const handleBridge = (networkId, amount, token) => {
-  console.log("handleBridge", networkId, amount);
+const handleBridge = (props) => {
+  const { amount, token, network } = props;
+  const networkId = network === "ethereum" ? 1 : 0;
 
   const amountBig = ethers.utils.parseUnits(amount, token.decimals);
   const permitData = "0x";
@@ -205,26 +209,139 @@ const handleBridge = (networkId, amount, token) => {
       consle.log("tx:", tx);
     })
     .catch((e) => {
-      console.log("error:", e);
+      console.log("bridge error:", e);
+    });
+};
+
+const setName = (token) => {
+  const abi = ["function name() external view returns (string)"];
+  const erc20contract = new ethers.Contract(
+    token.address,
+    abi,
+    Ethers.provider()
+  );
+  erc20contract
+    .name()
+    .then((name) => {
+      State.update({ name });
+    })
+    .catch((e) => {
+      console.log("name error", e);
+    });
+};
+
+const setIsContractAllowedToSpendToken = ({ token, amount }) => {
+  if (!amount) return;
+  const abi = [
+    "function allowance(address owner, address spender) external view returns (uint256)",
+  ];
+  const erc20contract = new ethers.Contract(
+    token.address,
+    abi,
+    Ethers.provider()
+  );
+
+  erc20contract
+    .allowance(sender, BRIDGE_CONTRACT_ADDRESS)
+    .then((data) => {
+      const allowance = Number(ethers.utils.formatUnits(data, token.decimals));
+      State.update({
+        isContractAllowedToSpendToken: allowance >= Number(amount),
+      });
+    })
+    .catch((e) => {
+      console.log("setIsContractAllowedToSpendToken", e);
+    });
+};
+
+const approve = (props) => {
+  const { token, network, amount } = props;
+  if (isContractAllowedToSpendToken) return;
+
+  const abi = [
+    "function approve(address spender, uint256 amount) external returns (bool)",
+  ];
+  const erc20contract = new ethers.Contract(
+    token.address,
+    abi,
+    Ethers.provider().getSigner()
+  );
+
+  erc20contract
+    .approve(BRIDGE_CONTRACT_ADDRESS, ethers.BigNumber.from(MAX_AMOUNT))
+    .then((tx) => {
+      console.log("approve", tx);
+      handleBridge(props);
+      tx.wait()
+        .then((data) => {
+          cnsole.log("tx data", data);
+        })
+        .catch((err) => {
+          console.log("tx err", err);
+        });
+    })
+    .catch((e) => {
+      console.log("approve err", e);
+    });
+};
+
+const setNonce = (props) => {
+  console.log("setNonce", props);
+  const { token } = props;
+  const signer = Ethers.provider().getSigner();
+
+  const abi = [
+    "function nonces(address owner) external view returns (uint256)",
+  ];
+  const erc20contract = new ethers.Contract(
+    token.address,
+    abi,
+    Ethers.provider()
+  );
+
+  erc20contract
+    .nonces(sender)
+    .then((nonce) => {
+      console.log("nonce", nonce);
+    })
+    .catch((e) => {
+      console.log("setNonce err:", e);
     });
 };
 
 const onConfirm = (props) => {
-  console.log(props);
-  const { amount, token, network } = props;
-  const networkId = network === "ethereum" ? 1 : 0;
-  handleBridge(networkId, amount, token);
+  const { token, network, amount } = props;
+  if (token.symbol !== "ETH" && network === "ethereum") {
+    approve(props);
+    // handlePermit(props);
+  } else {
+    handleBridge(props);
+  }
+};
+
+const onChangeAmount = (props) => {
+  console.log("onChangeAmount", props);
+  setIsContractAllowedToSpendToken(props);
+};
+
+const onUpdateToken = (props) => {
+  console.log("onUpdateToken", props);
+  setIsContractAllowedToSpendToken(props);
+  setName(props.token);
+  setNonce(props);
 };
 
 if (!sender) {
   return <Web3Connect connectLabel="Connect ETH Wallet" />;
 }
 
+console.log(state);
+
 return (
   <Container>
     <Widget
       src="ciocan.near/widget/zkevm-bridge-ui"
-      props={{ onConfirm, tokens }}
+      props={{ onConfirm, onUpdateToken, onChangeAmount, tokens }}
     />
     <div class="side">
       <Widget
