@@ -125,8 +125,20 @@ const Overview = (
   </div>
 );
 
-<Card>
-  <p>test</p>
+<Card className={`card my-2`}>
+  <Card.Body>
+    <Card.Title>
+      <div className="d-flex align-items-center">
+        <div className="flex-grow-1">
+          <h1 className="h4 mb-0">{team.title}</h1>
+          <div className="text-muted">{team.name}</div>
+        </div>
+      </div>
+    </Card.Title>
+    <Card.Text>
+      <Markdown text={team.description} onMention={onMention}></Markdown>
+    </Card.Text>
+  </Card.Body>
 </Card>;
 
 return widget("components.community.Layout", {
