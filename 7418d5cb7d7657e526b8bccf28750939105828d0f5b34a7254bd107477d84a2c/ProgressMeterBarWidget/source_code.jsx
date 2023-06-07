@@ -189,7 +189,7 @@ const widgetText = props.infoText
 
 return (
   <MainWrapper props={sizes[propsSize]}>
-    <HalfArch className="ARCH-XX" percentage={25 / 2} props={sizes[propsSize]}>
+    <HalfArch percentage={percentage / 2} props={sizes[propsSize]}>
       <span></span>
       <ContentBox size={propsSize}>
         <PercentageNum size={propsSize}>
