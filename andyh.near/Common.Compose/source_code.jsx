@@ -51,7 +51,7 @@ if (state.image === undefined) {
           },
         }));
 
-    props.onHelper({
+    await props.onHelper({
       extractHashtags,
       extractMentions,
       extractTagNotifications: extractMentionNotifications,
@@ -86,7 +86,7 @@ if (props.onChange && jContent !== state.jContent) {
   State.update({
     jContent,
   });
-  props.onChange({ content });
+  await props.onChange({ content });
 }
 
 const onCompose = () => {
@@ -161,7 +161,7 @@ return (
           className="btn btn-outline-secondary border-0 rounded-3"
         />
       </div>
-      <div>{props.composeButton && props.composeButton(onCompose)}</div>
+      <div>{props.composeButton && (await props.composeButton(onCompose))}</div>
     </div>
   </div>
 );
