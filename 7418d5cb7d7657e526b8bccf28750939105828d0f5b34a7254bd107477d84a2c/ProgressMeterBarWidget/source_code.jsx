@@ -30,7 +30,7 @@ const HalfArch = styled.div`
   height: 200%;
   border-radius: 50%;
     background: ${({ percentage }) =>
-      `conic-gradient(#FFD50D, #F29BC0 calc((${percentage}%, 0) / 2), #E5E9EC 0)`} ;
+      `conic-gradient(#FFD50D, #F29BC0 calc((${percentage}%, 0) / 2), #E5E9EC 0)`};
 
   transition: transform .5s ease-in-out;
   z-index: 1;
