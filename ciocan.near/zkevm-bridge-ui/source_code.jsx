@@ -468,9 +468,8 @@ const changeAmount = (e) => {
   State.update({ amount });
 
   const { onChangeAmount } = props;
-  const token = getToken();
   if (onChangeAmount) {
-    onChangeAmount({ amount, token, network: selectedNetwork });
+    onChangeAmount({ amount, token: selectedToken, network: selectedNetwork });
   }
 };
 
