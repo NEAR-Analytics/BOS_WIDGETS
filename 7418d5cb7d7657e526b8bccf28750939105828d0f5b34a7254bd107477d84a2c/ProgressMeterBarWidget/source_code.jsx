@@ -20,8 +20,8 @@ const HalfArch = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  span {
-     content: "";
+  &:before {
+  content: "";
   position: absolute;
   display: block;
   top: 0;
@@ -29,14 +29,13 @@ const HalfArch = styled.div`
   width: 100%;
   height: 200%;
   border-radius: 50%;
-    background:${({ percentage }) =>
-      `conic-gradient(rgb(255, 213, 13), rgb(242, 155, 192) calc(${percentage}%), rgb(229, 233, 236) 0deg)`};
-     
+    background: ${({ percentage }) =>
+      `conic-gradient(#FFD50D, #F29BC0 calc((${percentage}%, 0) / 2), #E5E9EC 0)`} ;
+
   transition: transform .5s ease-in-out;
   z-index: 1;
   transform: rotate(270deg);
-  }
-  
+}
 &:after {
   content: "";
   position: absolute;
@@ -176,24 +175,24 @@ const propsSize = props.size ? props.size : "large";
 
 console.log("propsSize", propsSize);
 const registerUsersNum = Near.view("registry.i-am-human.near", "sbt_supply", {
-  issuer: "fractal.i-am-human.near",
+  issuer: "gooddollar-v1.i-am-human.near",
 });
 
-const totalUsrNum = 3000;
-const percentage = (registerUsersNum / 3000) * 100;
+const totalUsrNum = 1000;
+const percentage = (registerUsersNum / 1000) * 100;
 const widgetTitle = props.infoTitle ? props.infoTitle : "Humans on NEAR";
 
 const widgetText = props.infoText
   ? props.infoText
   : "NDC V1 Gov + 1000 Humans on NEAR = Unlock Gov & Community Treasury";
 
-console.log("percentage", percentage);
 return (
   <MainWrapper props={sizes[propsSize]}>
-    <HalfArch percentage={percentage / 2} props={sizes[propsSize]}>
-      <span></span>
+    <HalfArch className="ARCH-XX" percentage={25} props={sizes[propsSize]}>
       <ContentBox size={propsSize}>
-        <PercentageNum size={propsSize}>{percentage.toFixed(2)}%</PercentageNum>
+        <PercentageNum size={propsSize}>
+          {Math.round(percentage)}%
+        </PercentageNum>
         <TotalRegNum size={propsSize}>
           {registerUsersNum}/{totalUsrNum}
         </TotalRegNum>
