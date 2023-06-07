@@ -79,7 +79,7 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex justify-content-between align-items-center">
-          <span>
+          <span className="d-inline-flex align-items-center">
             {parentItem && (
               <Widget
                 src="mob.near/widget/CommentButton"
