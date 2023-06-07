@@ -7,22 +7,11 @@ if (!item) {
   return "";
 }
 
-console.log("+++++++");
-
-const likes = Social.index("like", item);
-// ===============
-const doesUserVoted = () => {
-  const resObject = likes.find((item) => (item.accountId = "eugenewolf507"));
-  console.log(resObject);
-};
-if (likes) {
-  console.log(likes);
-  doesUserVoted();
-}
-
-// =================
-
-State.init({ emoji: initialEmoji, show: false, loading: false });
+State.init({
+  emoji: initialEmoji,
+  show: false,
+  loading: false,
+});
 
 const mainButtonStyles = {
   border: 0,
@@ -40,6 +29,24 @@ const smallButtonStyles = {
   color: "DeepSkyBlue",
   background: "rgba(0, 191, 255, 0.1)",
 };
+
+// ===============
+const likes = Social.index("like", item);
+
+const doesUserVoted = () => {
+  const resObject = likes.find(
+    (item) => item.accountId === "eugenewolf507.near"
+    // (item) => item.accountId === "testwiki.near"
+  );
+  State.update({ emoji: resObject.value.type });
+};
+
+if (likes) {
+  console.log(likes);
+  doesUserVoted();
+}
+
+// =================
 
 const handleOnMouseEnter = (e) => {
   State.update({ show: true });
