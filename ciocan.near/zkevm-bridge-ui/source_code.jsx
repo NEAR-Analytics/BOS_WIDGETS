@@ -444,18 +444,18 @@ const getToNetworkLabel = () => {
   }
 };
 
-const getToken = (token) =>
+const getToken = (symbol) =>
   tokens
     .filter((t) => t.chainId === (isMainnet ? 1 : 5))
-    .find((t) => t.symbol === token);
+    .find((t) => t.symbol === symbol);
 
-const updateToken = (token) => {
+const updateToken = (symbol) => {
   State.update({ selectedToken: token, isTokenDialogOpen: false });
 
   const { onUpdateToken } = props;
-  const t = getToken(token);
   if (onUpdateToken) {
-    onUpdateToken({ amount, token: t, network: selectedNetwork });
+    const token = getToken(symbol);
+    onUpdateToken({ amount, token, network: selectedNetwork });
   }
 };
 
@@ -469,16 +469,16 @@ const changeAmount = (e) => {
 
   const { onChangeAmount } = props;
   if (onChangeAmount) {
-    onChangeAmount({ amount, token: selectedToken, network: selectedNetwork });
+    const token = getToken(selectedToken);
+    onChangeAmount({ amount, token, network: selectedNetwork });
   }
 };
 
 const handleConfirm = () => {
   if (!amount) return;
   const { onConfirm } = props;
-  const token = getToken();
-
   if (onConfirm) {
+    const token = getToken(selectedToken);
     onConfirm({ amount, token, network: selectedNetwork });
   }
 };
