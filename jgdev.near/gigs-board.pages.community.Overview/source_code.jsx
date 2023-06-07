@@ -117,7 +117,6 @@ const onMention = (accountId) => (
 
 const Overview = (
   <div>
-    <div>Sidebar</div>
     <Markdown
       class="card-text"
       text={overviewPost.snapshot.description}
@@ -125,6 +124,10 @@ const Overview = (
     ></Markdown>
   </div>
 );
+
+<Card>
+  <p>test</p>
+</Card>;
 
 return widget("components.community.Layout", {
   label: props.label,
