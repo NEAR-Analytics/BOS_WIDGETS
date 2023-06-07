@@ -66,6 +66,9 @@ const doesUserVoted = () => {
 // ];
 
 const getLikesStats = (acc, likeObj) => {
+  if (likeObj.value.type === initialEmoji) {
+    return acc;
+  }
   if (!acc.hasOwnProperty(likeObj.value.type)) {
     acc[likeObj.value.type] = {};
     acc[likeObj.value.type].quantity = 0;
@@ -81,14 +84,12 @@ const getLikesStats = (acc, likeObj) => {
   return acc;
 };
 const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
-
 const likesCount = countLikes(likes);
 console.log(likesCount);
 
 if (likes) {
-  //   console.log(likes);
+  console.log(likes);
   doesUserVoted();
-  calculateLikes;
 }
 
 // =================
