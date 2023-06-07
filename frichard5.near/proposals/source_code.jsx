@@ -1,6 +1,5 @@
-const widgetProvider = props.widgetProvider;
+const {widgetProvider, ftList, parent } = props;
 const account = props.account || "marketing.sputnik-dao.near";
-const ftList = props.ftList;
 const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -430,6 +429,7 @@ const ProposalCard = (
             proposal: state.detailedProposal,
             widgetProvider,
             ftList,
+            parent,
             council: state.policy && state.detailedProposal.dao_id && getCouncil(state.policy, state.detailedProposal.dao_id),
             voteExpired:
                 state.policy &&
