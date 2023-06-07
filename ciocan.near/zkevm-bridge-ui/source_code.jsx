@@ -444,11 +444,16 @@ const getToNetworkLabel = () => {
   }
 };
 
+const getToken = (token) =>
+  tokens
+    .filter((t) => t.chainId === (isMainnet ? 1 : 5))
+    .find((t) => t.symbol === token);
+
 const updateToken = (token) => {
   State.update({ selectedToken: token, isTokenDialogOpen: false });
 
   const { onUpdateToken } = props;
-  const t = getToken();
+  const t = getToken(token);
   if (onUpdateToken) {
     onUpdateToken({ amount, token: t, network: selectedNetwork });
   }
@@ -457,11 +462,6 @@ const updateToken = (token) => {
 const openTokenDialog = () => {
   State.update({ isTokenDialogOpen: true });
 };
-
-const getToken = () =>
-  tokens
-    .filter((t) => t.chainId === (isMainnet ? 1 : 5))
-    .find((t) => t.symbol === selectedToken);
 
 const changeAmount = (e) => {
   const amount = e.target.value;
