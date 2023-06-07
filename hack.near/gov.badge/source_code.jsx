@@ -12,7 +12,7 @@ const Badge = styled.div`
 
 return (
   <Badge>
-    <a href="https://i-am-human.app">
+    <a href="https://i-am-human.app/?community=banyan&vertical=regionalcommunities">
       <Widget
         src="mob.near/widget/Image"
         props={{
