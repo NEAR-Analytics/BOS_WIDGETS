@@ -80,6 +80,7 @@ const Proposals = (
             account: state.selectedDao,
             ftList: ftList.body && ftList.body,
             widgetProvider,
+            parent
         }}
     />
 );
