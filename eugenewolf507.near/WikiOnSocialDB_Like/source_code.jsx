@@ -38,8 +38,12 @@ const doesUserVoted = () => {
     (item) => item.accountId === "eugenewolf507.near"
     // (item) => item.accountId === "testwiki.near"
   );
-  State.update({ emoji: resObject.value.type });
+  if (resObject) {
+    State.update({ emoji: resObject.value.type });
+  }
 };
+
+doesUserVoted();
 
 // const testArray = [
 //   {
@@ -86,11 +90,6 @@ const getLikesStats = (acc, likeObj) => {
 const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
 const likesCount = countLikes(likes);
 console.log(likesCount);
-
-if (likes) {
-  console.log(likes);
-  doesUserVoted();
-}
 
 // =================
 
