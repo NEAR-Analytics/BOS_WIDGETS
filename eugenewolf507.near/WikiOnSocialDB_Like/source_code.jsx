@@ -7,33 +7,17 @@ if (!item) {
   return "";
 }
 
+console.log("+++++++");
+
 const likes = Social.index("like", item);
 // ===============
-const dataLoading = likes === null;
-
-const likesByUsers = {};
-
-(likes || []).forEach((like) => {
-  if (like.value.type === "like") {
-    likesByUsers[like.accountId] = like;
-  } else if (like.value.type === "unlike") {
-    delete likesByUsers[like.accountId];
-  }
-});
-if (state.hasLike === true) {
-  likesByUsers[context.accountId] = {
-    accountId: context.accountId,
-  };
-} else if (state.hasLike === false) {
-  delete likesByUsers[context.accountId];
-}
-
-const accountsWithLikes = Object.keys(likesByUsers);
-const hasLike = context.accountId && !!likesByUsers[context.accountId];
-if (likes.length) {
-  console.log("likes", likes);
-  console.log("accountsWithLikes = ", accountsWithLikes);
-  console.log("hasLike = ", hasLike);
+const doesUserVoted = () => {
+  const resObject = likes.find((item) => (item.accountId = "eugenewolf507"));
+  console.log(resObject);
+};
+if (likes) {
+  console.log(likes);
+  doesUserVoted();
 }
 
 // =================
