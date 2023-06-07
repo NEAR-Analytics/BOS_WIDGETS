@@ -20,8 +20,8 @@ const HalfArch = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  &:before {
-  content: "";
+  span {
+     content: "";
   position: absolute;
   display: block;
   top: 0;
@@ -35,7 +35,8 @@ const HalfArch = styled.div`
   transition: transform .5s ease-in-out;
   z-index: 1;
   transform: rotate(270deg);
-}
+  }
+  
 &:after {
   content: "";
   position: absolute;
@@ -189,6 +190,7 @@ const widgetText = props.infoText
 return (
   <MainWrapper props={sizes[propsSize]}>
     <HalfArch className="ARCH-XX" percentage={25} props={sizes[propsSize]}>
+      <span></span>
       <ContentBox size={propsSize}>
         <PercentageNum size={propsSize}>
           {Math.round(percentage)}%
