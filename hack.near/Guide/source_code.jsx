@@ -16,7 +16,7 @@ const group = policy.roles
 // IAH Verification
 let human = false;
 const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: props.accountId,
+  account: accountId,
 });
 
 for (let i = 0; i < userSBTs.length; i++) {
