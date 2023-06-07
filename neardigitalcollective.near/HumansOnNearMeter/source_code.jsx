@@ -1,22 +1,27 @@
 const MainWrapper = styled.div`
   display: flex;
   flex-flow: column;
-  width: ${({ props }) => props.width}px;
+  width: 360px;  
+    align-items: center;
+  @media (min-width: 480px) {
+    width: ${({ props }) => props.width}px;
+  }
 `;
+
 const HalfArch = styled.div`
   position: relative;
-  width: ${({ props }) => props.width}px;
-  height: ${({ props }) => props.height}px;
-  border-top-left-radius: ${({ props }) => props.border}px;
-  border-top-right-radius: ${({ props }) => props.border}px;
+  width: 200px;
+  height: 100px;
+  border-top-left-radius: 120px;
+  border-top-right-radius: 120px;
   border-bottom: 0;
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  &:before {
-  content: "";
+  span {
+     content: "";
   position: absolute;
   display: block;
   top: 0;
@@ -24,13 +29,14 @@ const HalfArch = styled.div`
   width: 100%;
   height: 200%;
   border-radius: 50%;
-    background-image: ${({ percentage }) =>
-      `conic-gradient(#FFD50D, #F29BC0 calc((${percentage}%, 0) / 2), #E5E9EC 0)`} ;
-
+    background:${({ percentage }) =>
+      `conic-gradient(rgb(255, 213, 13), rgb(242, 155, 192) calc(${percentage}%), rgb(229, 233, 236) 0deg)`};
+     
   transition: transform .5s ease-in-out;
   z-index: 1;
   transform: rotate(270deg);
-}
+  }
+  
 &:after {
   content: "";
   position: absolute;
@@ -42,6 +48,18 @@ const HalfArch = styled.div`
   border-radius: 50%;
   top: 16px;
   left: 16px;
+}
+@media (min-width: 480px) {
+    width: 250px;
+  height: 125px;
+  border-top-left-radius: 120px;
+  border-top-right-radius: 120px;
+}
+@media (min-width: 620px) {
+    width: ${({ props }) => props.width}px;
+  height: ${({ props }) => props.height}px;
+  border-top-left-radius: ${({ props }) => props.border}px;
+  border-top-right-radius: ${({ props }) => props.border}px;
 }
  `;
 
@@ -59,13 +77,23 @@ const ContentBox = styled.div`
   `;
 
 const PercentageNum = styled.p`
-    font-size: ${({ size }) => (size == "large" ? "48px" : "24px")};
+    font-size: 24px;
     font-weight: bold;
+    @media (min-width: 480px) {
+      font-size: ${({ size }) => (size == "large" ? "30px" : "24px")};
+    }
+    @media (min-width: 620px) {
+      font-size: ${({ size }) => (size == "large" ? "48px" : "24px")};
+    }
 `;
 
 const TotalRegNum = styled.p`
-  font-size: ${({ size }) => (size == "large" ? "24px" : "16px")};
+  font-size: 16px;
   color: #9FA7AD;
+   @media (min-width: 620px) {
+      font-size: ${({ size }) => (size == "large" ? "24px" : "16px")};
+
+    }
 `;
 
 const TextContainer = styled.div`
@@ -89,13 +117,14 @@ const TextContainer = styled.div`
       }
     }
   }
+  
 `;
 
 const TitleContent = styled.p`
   position: relative;
   font-weight: bold;
   font-size: 22px;
-  font-size: ${({ size }) => (size == "large" ? "26px" : "22px")};
+  font-size: 22px;
 
   margin: ${({ size }) => (size == "large" ? "10px 0 14px" : "6px 0 14px")};
   &:after {
@@ -107,6 +136,10 @@ const TitleContent = styled.p`
     height: 2px;
     background-color: #4498E0;
     
+  }
+  @media (min-width: 480px) {
+    font-size: ${({ size }) => (size == "large" ? "26px" : "22px")};
+
   }
 `;
 
@@ -156,7 +189,8 @@ const widgetText = props.infoText
 
 return (
   <MainWrapper props={sizes[propsSize]}>
-    <HalfArch percentage={25} props={sizes[propsSize]}>
+    <HalfArch percentage={percentage / 2} props={sizes[propsSize]}>
+      <span></span>
       <ContentBox size={propsSize}>
         <PercentageNum size={propsSize}>
           {Math.round(percentage)}%
