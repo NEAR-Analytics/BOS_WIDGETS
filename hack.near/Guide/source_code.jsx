@@ -5,6 +5,10 @@ const role = props.role ?? "voter";
 const policy = Near.view(daoId, "get_policy");
 const deposit = policy.proposal_bond;
 
+if (policy === null) {
+  return "";
+}
+
 const group = policy.roles
   .filter((role) => role.name === roleId)
   .map((role) => role.kind.Group);
@@ -184,7 +188,7 @@ return (
               <Widget
                 src="near/widget/DIG.Button"
                 props={{
-                  href: "https://i-am-human.app",
+                  href: "https://i-am-human.app/?community=banyan&vertical=regionalcommunities",
                   label: "Get Verified",
                   variant: "outline-primary",
                   size: "large",
