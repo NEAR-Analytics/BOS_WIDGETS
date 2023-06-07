@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? "*";
 
-const data = Social.keys(`${accountId}/post/nqn`, "final", {
+const data = Social.keys(`${accountId}/post/iwcc`, "final", {
   return_type: "History",
 });
 
@@ -15,7 +15,7 @@ const processData = (data) => {
   const allItems = accounts
     .map((account) => {
       const accountId = account[0];
-      const blockHeights = account[1].post.nqn;
+      const blockHeights = account[1].post.iwcc;
       return blockHeights.map((blockHeight) => ({
         accountId,
         blockHeight,
@@ -28,17 +28,22 @@ const processData = (data) => {
   return allItems;
 };
 
-const allItems = processData(data);
+if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
+  State.update({
+    data,
+    allItems: processData(data),
+  });
+}
 
 return (
   <div>
-    <h1>🤓 Near Quiz Night</h1>
+    <h1>👋 Near Quiz Night</h1>
     <h3>
-      Click to confirm your attendance for the June 14 2023 Near Quiz Night!
+      Click to confirm your attendance for the June 7 2023 Near Quiz Night!
     </h3>
     <CommitButton
       data={{
-        post: { nqn: "I participated in the June 14 2023 Near Quiz Night" },
+        post: { iwcc: "I participated in the June 7 2023 Near Quiz Night" },
       }}
       onCommit={() => {
         State.update({
@@ -57,10 +62,10 @@ return (
     />
     <br />
     <div>
-      {allItems
-        ? allItems.map(({ accountId }) => (
+      {state.allItems
+        ? state.allItems.map(({ accountId }) => (
             <div>
-              I participated in the June 14 2023 Near Quiz Night
+              I participated in the June 7 2023 Near Quiz Night
               <Widget
                 src="williamxx.near/widget/Attribution"
                 props={{
