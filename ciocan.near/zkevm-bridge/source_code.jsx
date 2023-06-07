@@ -267,22 +267,10 @@ const approve = (props) => {
     Ethers.provider().getSigner()
   );
 
-  erc20contract
-    .approve(BRIDGE_CONTRACT_ADDRESS, ethers.BigNumber.from(MAX_AMOUNT))
-    .then((tx) => {
-      console.log("approve", tx);
-      handleBridge(props);
-      tx.wait()
-        .then((data) => {
-          cnsole.log("tx data", data);
-        })
-        .catch((err) => {
-          console.log("tx err", err);
-        });
-    })
-    .catch((e) => {
-      console.log("approve err", e);
-    });
+  return erc20contract.approve(
+    BRIDGE_CONTRACT_ADDRESS,
+    ethers.BigNumber.from(MAX_AMOUNT)
+  );
 };
 
 const setNonce = (props) => {
@@ -309,11 +297,41 @@ const setNonce = (props) => {
     });
 };
 
+const handlePermit = (props) => {
+  /*
+  const signature = signer._signTypedData(domain, types, values);
+  const { r, s, v } = splitSignature(signature);
+  return erc20Contract.interface.encodeFunctionData("permit", [
+    account,
+    spender,
+    value,
+    MaxUint256,
+    v,
+    r,
+    s,
+  ]);
+  */
+};
+
 const onConfirm = (props) => {
+  // handlePermit(props);return;
   const { token, network, amount } = props;
   if (token.symbol !== "ETH" && network === "ethereum") {
-    approve(props);
-    // handlePermit(props);
+    approve(props)
+      .then((tx) => {
+        console.log("approve", tx);
+        handlePermit(props);
+        // tx.wait()
+        //   .then((data) => {
+        //     cnsole.log("tx data", data);
+        //   })
+        //   .catch((err) => {
+        //     console.log("tx err", err);
+        //   });
+      })
+      .catch((e) => {
+        console.log("approve err", e);
+      });
   } else {
     handleBridge(props);
   }
