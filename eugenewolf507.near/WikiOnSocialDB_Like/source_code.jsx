@@ -187,7 +187,7 @@ const overlay = (
 );
 
 return (
-  <>
+  <span>
     <OverlayTrigger
       show={state.show}
       trigger={["hover", "focus"]}
@@ -217,5 +217,5 @@ return (
           {item.quantity} {item.emoji}{" "}
         </span>
       ))}
-  </>
+  </span>
 );
