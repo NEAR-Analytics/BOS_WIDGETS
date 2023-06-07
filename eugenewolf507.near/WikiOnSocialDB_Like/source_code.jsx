@@ -187,7 +187,7 @@ const overlay = (
 );
 
 return (
-  <span className="pl-2">
+  <span className="ps-2">
     <OverlayTrigger
       show={state.show}
       trigger={["hover", "focus"]}
