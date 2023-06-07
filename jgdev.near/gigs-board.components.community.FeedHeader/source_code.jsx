@@ -154,6 +154,7 @@ return (
         );
       })}
     </div>
+    <div>Sidebar</div>
     <div class="h5 pb-3 pt-5">Activity</div>
   </>
 );
