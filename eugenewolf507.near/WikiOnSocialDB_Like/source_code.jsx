@@ -41,9 +41,54 @@ const doesUserVoted = () => {
   State.update({ emoji: resObject.value.type });
 };
 
+const testArray = [
+  {
+    accountId: "eugenewolf507.near",
+    blockHeight: 93610551,
+    value: {
+      type: "🚀 Ship it",
+    },
+  },
+  {
+    accountId: "testwiki.near",
+    blockHeight: 93611581,
+    value: {
+      type: "💯 Definitely",
+    },
+  },
+  {
+    accountId: "alex.near",
+    blockHeight: 93610551,
+    value: {
+      type: "🚀 Ship it",
+    },
+  },
+];
+
+const getLikesStats = (acc, likeObj) => {
+  if (!acc.hasOwnProperty(likeObj.value.type)) {
+    acc[likeObj.value.type] = {};
+    acc[likeObj.value.type].quantity = 0;
+    acc[likeObj.value.type].emoji = likeObj.value.type.slice(0, 2);
+    acc[likeObj.value.type].accounts = [];
+  }
+  acc[likeObj.value.type].quantity += 1;
+  acc[likeObj.value.type].accounts = [
+    likeObj.accountId,
+    ...acc[likeObj.value.type].accounts,
+  ];
+
+  return acc;
+};
+const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
+
+const likesCount = countLikes(testArray);
+console.log(likesCount);
+
 if (likes) {
-  console.log(likes);
+  //   console.log(likes);
   doesUserVoted();
+  calculateLikes;
 }
 
 // =================
@@ -145,27 +190,35 @@ const overlay = (
 );
 
 return (
-  <OverlayTrigger
-    show={state.show}
-    trigger={["hover", "focus"]}
-    delay={{ show: 250, hide: 300 }}
-    placement="auto"
-    overlay={overlay}
-  >
-    <button
-      onClick={() => clickHandler(initialEmoji)}
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
-      style={{
-        ...mainButtonStyles,
-        backgroundColor:
-          state.emoji === initialEmoji
-            ? "transparent"
-            : "rgba(0, 191, 255, 0.1)",
-        color: state.emoji === initialEmoji ? "#000" : "DeepSkyBlue",
-      }}
+  <>
+    <OverlayTrigger
+      show={state.show}
+      trigger={["hover", "focus"]}
+      delay={{ show: 250, hide: 300 }}
+      placement="auto"
+      overlay={overlay}
     >
-      {state.emoji}
-    </button>
-  </OverlayTrigger>
+      <button
+        onClick={() => clickHandler(initialEmoji)}
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+        style={{
+          ...mainButtonStyles,
+          backgroundColor:
+            state.emoji === initialEmoji
+              ? "transparent"
+              : "rgba(0, 191, 255, 0.1)",
+          color: state.emoji === initialEmoji ? "#000" : "DeepSkyBlue",
+        }}
+      >
+        {state.emoji}
+      </button>
+    </OverlayTrigger>
+    {likesCount &&
+      likesCount.map((item) => (
+        <span className="ps-3">
+          {item.quantity} {item.emoji}{" "}
+        </span>
+      ))}
+  </>
 );
