@@ -1,7 +1,18 @@
-// TODO - optimise all handlers with repeating state update show: false - combine all emojies into array and render it from array via map
 // "❤️ Positive"
 const initialEmoji = "🤍 Like";
+const emojiArray = [
+  "❤️ Positive",
+  "🙏 Thank you",
+  "💯 Definitely",
+  "👀 Thinking",
+  "🔥 Awesome",
+  "👍 Like",
+  "🙌 Celebrate",
+  "👏 Applause",
+  "⚡ Lightning",
+];
 const item = props.item;
+const accountThatIsLoggedIn = context.accountId;
 
 if (!item) {
   return "";
@@ -11,7 +22,12 @@ State.init({
   emoji: initialEmoji,
   show: false,
   loading: false,
+  likes: [],
+  unfilteredLikes: [],
 });
+// console.log(state);
+
+// =============== CSS Styles ===============
 
 const mainButtonStyles = {
   border: 0,
@@ -28,45 +44,41 @@ const smallButtonStyles = {
   border: 0,
   color: "DeepSkyBlue",
   background: "rgba(0, 191, 255, 0.1)",
+  marginRight: "4px",
 };
 
-// ===============
-const likes = Social.index("like", item);
-const doesUserVoted = () => {
-  const resObject = likes.find(
-    (item) => item.accountId === "eugenewolf507.near"
-    // (item) => item.accountId === "testwiki.near"
+// =============== Get Likes ===============
+State.update({
+  unfilteredLikes: Social.index("like", item, {
+    order: "desc",
+    subscribe: true,
+  }),
+});
+
+// arrayLastLikeForEachUser of {accountId, blockHeight, value: {type: "😁 LOL"}}
+const uniqueAccounts = {};
+const arrayLastLikeForEachUser =
+  state.unfilteredLikes &&
+  state.unfilteredLikes.filter((obj) => {
+    if (!uniqueAccounts[obj.accountId]) {
+      uniqueAccounts[obj.accountId] = true;
+      return true;
+    }
+    return false;
+  });
+
+const updateEmojiIfUserVoted = () => {
+  const resObject = arrayLastLikeForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
   );
   if (resObject) {
     State.update({ emoji: resObject.value.type });
   }
 };
 
-likes && doesUserVoted();
-// const testArray = [
-//   {
-//     accountId: "eugenewolf507.near",
-//     blockHeight: 93610551,
-//     value: {
-//       type: "🚀 Ship it",
-//     },
-//   },
-//   {
-//     accountId: "testwiki.near",
-//     blockHeight: 93611581,
-//     value: {
-//       type: "💯 Definitely",
-//     },
-//   },
-//   {
-//     accountId: "alex.near",
-//     blockHeight: 93610551,
-//     value: {
-//       type: "🚀 Ship it",
-//     },
-//   },
-// ];
+arrayLastLikeForEachUser && updateEmojiIfUserVoted();
 
+//likesCount - array of objects {quantity: 1, emoji: '😁', accounts: []}
 const getLikesStats = (acc, likeObj) => {
   if (likeObj.value.type === initialEmoji) {
     return acc;
@@ -86,9 +98,11 @@ const getLikesStats = (acc, likeObj) => {
   return acc;
 };
 const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
-const likesCount = likes && countLikes(likes);
+const likesCount =
+  arrayLastLikeForEachUser && countLikes(arrayLastLikeForEachUser);
+State.update({ likes: likesCount });
 
-// =================
+// ================= Mouse Handlers ===============
 
 const handleOnMouseEnter = (e) => {
   State.update({ show: true });
@@ -101,19 +115,15 @@ const clickHandler = (emojiMessage) => {
   if (state.loading) {
     return;
   }
-  //   if (state.emoji === initialEmoji) {
-  //     State.update({ emoji: "❤️ Positive" });
-  //   } else {
-  //     State.update({ emoji: initialEmoji });
-  //   }
-  // ================== START ==================
+
   State.update({
     loading: true,
   });
   const emojiToWrite =
     emojiMessage === initialEmoji && state.emoji === initialEmoji
-      ? "❤️ Positive"
+      ? emojiArray[0]
       : emojiMessage;
+
   const data = {
     index: {
       like: JSON.stringify({
@@ -127,62 +137,26 @@ const clickHandler = (emojiMessage) => {
   Social.set(data, {
     onCommit: () => {
       State.update({ emoji: emojiToWrite, loading: false, show: false });
-      //   State.update({ loading: false, show: false });
     },
     onCancel: () => State.update({ loading: false, show: false }),
   });
-  // ================== END ==================
 };
+
+// =============== JSX ===============
 
 const overlay = (
   <div
     className="border m-3 p-3 rounded-4 bg-white shadow"
-    style={{ maxWidth: "25em", zIndex: 1070 }}
+    style={{ maxWidth: "27em", zIndex: 1070 }}
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
   >
-    <button
-      onClick={() => clickHandler("❤️ Positive")}
-      style={smallButtonStyles}
-    >
-      ❤️
-    </button>
-    <button
-      onClick={() => clickHandler("👀 Thinking")}
-      style={smallButtonStyles}
-    >
-      👀
-    </button>
-    <button
-      onClick={() => clickHandler("🙏 Thank you")}
-      style={smallButtonStyles}
-    >
-      🙏
-    </button>
-    <button onClick={() => clickHandler("😁 LOL")} style={smallButtonStyles}>
-      😁
-    </button>
-    <button
-      onClick={() => clickHandler("👎 Negative")}
-      style={smallButtonStyles}
-    >
-      👎
-    </button>
-    <button
-      onClick={() => clickHandler("🚀 Ship it")}
-      style={smallButtonStyles}
-    >
-      🚀
-    </button>
-    <button
-      onClick={() => clickHandler("💯 Definitely")}
-      style={smallButtonStyles}
-    >
-      💯
-    </button>
-    <button onClick={() => clickHandler("👍 Like")} style={smallButtonStyles}>
-      👍
-    </button>
+    {emojiArray &&
+      emojiArray.map((item) => (
+        <button onClick={() => clickHandler(item)} style={smallButtonStyles}>
+          {item.slice(0, 2)}
+        </button>
+      ))}
   </div>
 );
 
@@ -211,8 +185,8 @@ return (
         {state.emoji}
       </button>
     </OverlayTrigger>
-    {likesCount &&
-      likesCount.map((item) => (
+    {state.likes &&
+      state.likes.map((item) => (
         <span className="ps-3">
           {item.quantity} {item.emoji}{" "}
         </span>
