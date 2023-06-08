@@ -1,20 +1,11 @@
 const postThing = props.postThing;
-const availableTypes =
-  JSON.parse(props.availableTypes) ||
-  Social.get("every.near/type/**", "final") ||
-  [];
+const availableTypes = JSON.parse(props.availableTypes || "null");
 
-const types = Social.get("every.near/type/**", "final");
-types = Object.keys(types).map((it) => `every.near/type/${it}`);
+if (!availableTypes) {
+  const types = Social.get("every.near/type/**", "final");
+  availableTypes = Object.keys(types).map((it) => `every.near/type/${it}`);
+}
 
-// const type = props.type || "";
-// if (availableTypes.length === 1) {
-//   type = availableTypes[0];
-// }
-
-let type;
-
-availableTypes = types;
 State.init({
   selectedType: "",
   expanded: false,
