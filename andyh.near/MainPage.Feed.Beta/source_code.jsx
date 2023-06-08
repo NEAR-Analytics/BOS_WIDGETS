@@ -114,7 +114,7 @@ const renderRepost = (a) => {
   );
 };
 
-const renderItem = (item) =>
+const renderItem = async (item) =>
   item.action === "post" ? renderPost(item) : renderRepost(item);
 
 return (
