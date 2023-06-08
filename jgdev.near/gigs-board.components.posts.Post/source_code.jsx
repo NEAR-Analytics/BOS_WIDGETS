@@ -478,16 +478,37 @@ const postExtra =
       </h6>
     </div>
   ) : (
-    <div></div>
+    <div>
+      {snapshot.description.length > 200 ? (
+        <div>
+          {snapshot.description.slice(0, 200)}
+          <a
+            href="#"
+            onClick={() =>
+              (document.getElementById(
+                `full-description-${postId}`
+              ).style.display = "block")
+            }
+          >
+            <b>Show More</b>
+          </a>
+          <div id={`full-description-${postId}`} style={{ display: "none" }}>
+            {snapshot.description.slice(200)}
+          </div>
+        </div>
+      ) : (
+        snapshot.description
+      )}
+    </div>
   );
 
 const postsList =
-  props.isPreview || childPostIds.length == 0 ? (
+  props.isPreview || childPostIds.length === 0 ? (
     <div key="posts-list"></div>
   ) : (
-    <div class="row" key="posts-list">
+    <div className="row" key="posts-list">
       <div
-        class={`collapse ${defaultExpanded ? "show" : ""}`}
+        className={`collapse ${defaultExpanded ? "show" : ""}`}
         id={`collapseChildPosts${postId}`}
       >
         {childPostIds.map((childId) =>
@@ -503,26 +524,14 @@ const postsList =
 
 const Card = styled.div`
   &:hover {
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    box-shadow: rgba(255, 102, 214, 0.3) 0px 0px 0px 3px;
   }
 `;
 
-const limitedMarkdown = styled.div`
+const LimitedMarkdown = styled.div`
   max-height: 30em;
-`;
-
-// const clampMarkdown = styled.div`
-//   .clamp {
-//     -webkit-mask-image: linear-gradient(
-//       to bottom,
-//       rgba(0, 0, 0, 1),
-//       rgba(0, 0, 0, 0)
-//     );
-//     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-//   }
-// `;
-
-// Determine if located in the post page.
+  overflow: auto;
+`; // Determine if located in the post page.
 const isInList = props.isInList;
 const contentArray = snapshot.description.split("\n");
 const needClamp = isInList && contentArray.length > 5;
@@ -550,27 +559,27 @@ const onMention = (accountId) => (
 
 // Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = isUnderPost ? (
-  <limitedMarkdown className="overflow-auto" key="description-area">
+  <LimitedMarkdown className="overflow-auto" key="description-area">
     <Markdown
-      class="card-text"
+      className="card-text"
       text={snapshot.description}
       onMention={onMention}
     />
-  </limitedMarkdown>
+  </LimitedMarkdown>
 ) : (
-  <clampMarkdown>
-    <div class={state.clamp ? "clamp" : ""}>
+  <ClampMarkdown>
+    <div className={state.clamp ? "clamp" : ""}>
       <Markdown
-        class="card-text"
+        className="card-text"
         text={state.clamp ? clampedContent : snapshot.description}
         onMention={onMention}
         key="description-area"
       ></Markdown>
     </div>
     {state.clamp ? (
-      <div class="d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         <a
-          class="btn btn-link text-secondary"
+          className="btn btn-link text-secondary"
           onClick={() => State.update({ clamp: false })}
         >
           Read More
@@ -579,7 +588,7 @@ const descriptionArea = isUnderPost ? (
     ) : (
       <></>
     )}
-  </clampMarkdown>
+  </ClampMarkdown>
 );
 
 return (
