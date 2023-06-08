@@ -439,7 +439,7 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
       Ethers.provider().getSigner()
     );
 
-    gasArgs = {};
+    let gasArgs = {};
 
     if (gweiPrice !== undefined && gasLimit !== undefined) {
       gasArgs.gasPrice = ethers.utils.parseUnits(gweiPrice ?? "0.26", "gwei");
