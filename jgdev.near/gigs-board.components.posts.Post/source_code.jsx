@@ -466,35 +466,56 @@ const postTitle =
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      <h6 class="card-subtitle mb-2 text-muted">
-        Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
-      </h6>
-      <h6 class="card-subtitle mb-2 text-muted">
-        Supervisor:{" "}
-        <Widget
-          src={`neardevgov.near/widget/ProfileLine`}
-          props={{ accountId: snapshot.supervisor }}
-        />
-      </h6>
+      // some extra handling for "Sponsorship" post type
     </div>
   ) : (
     <div>
       {snapshot.description.length > 200 ? (
         <div>
           {snapshot.description.slice(0, 200)}
+          <div id={`show-more-${postId}`} style={{ display: "none" }}>
+            {snapshot.description.slice(200)}
+          </div>
           <a
             href="#"
-            onClick={() =>
-              (document.getElementById(
-                `full-description-${postId}`
-              ).style.display = "block")
-            }
+            onClick={(e) => {
+              e.preventDefault();
+              const showMoreDiv = document.getElementById(
+                `show-more-${postId}`
+              );
+              const showLessLink = document.getElementById(
+                `show-less-${postId}`
+              );
+              const showMoreLink = e.currentTarget;
+
+              showMoreDiv.style.display = "block";
+              showMoreLink.style.display = "none";
+              showLessLink.style.display = "block";
+            }}
           >
             <b>Show More</b>
           </a>
-          <div id={`full-description-${postId}`} style={{ display: "none" }}>
-            {snapshot.description.slice(200)}
-          </div>
+          <a
+            id={`show-less-${postId}`}
+            style={{ display: "none" }}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              const showMoreDiv = document.getElementById(
+                `show-more-${postId}`
+              );
+              const showMoreLink = document.getElementById(
+                `show-more-${postId}`
+              );
+              const showLessLink = e.currentTarget;
+
+              showMoreDiv.style.display = "none";
+              showMoreLink.style.display = "block";
+              showLessLink.style.display = "none";
+            }}
+          >
+            <b>Show Less</b>
+          </a>
         </div>
       ) : (
         snapshot.description
