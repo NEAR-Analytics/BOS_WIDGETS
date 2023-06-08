@@ -163,68 +163,11 @@ const handleThingData = (value, extra) => {
 };
 
 function RenderTypeCreate() {
-  const properties = type.properties || [];
-
-  const handleInputChange = (name, value) => {
-    handleThingData({ [name]: value });
-  };
-
-  function Property({ item }) {
-    if (item.type === "string") {
-      return (
-        <Input
-          key={item.name}
-          onChange={(e) => handleInputChange(item.name, e.target.value)}
-          value={state[item.name] || ""}
-          placeholder={item.name}
-        />
-      );
-    } else if (item.type === "boolean") {
-      return (
-        <Select
-          key={item.name}
-          onChange={(e) => handleInputChange(item.name, e.target.value)}
-          value={state[item.name] || ""}
-        >
-          <option value="true">true</option>
-          <option value="false">false</option>
-        </Select>
-      );
-    } else if (item.type === "number") {
-      return (
-        <Input
-          key={item.name}
-          type="number"
-          onChange={(e) =>
-            handleInputChange(item.name, parseInt(e.target.value, 10))
-          }
-          value={state[item.name] || ""}
-          placeholder={item.name}
-        />
-      );
-    } else {
-      const itemType = JSON.parse(Social.get(item.type, "final") || "null");
-      const widgetSrc = itemType?.widgets?.create;
-      // it would be great to modify the onChange function
-      return <Widget src={widgetSrc} onChange={onChange} />;
-    }
-  }
-
-  return (
-    <Container>
-      {properties.map((item) => (
-        <Property item={item} />
-      ))}
-    </Container>
-  );
-
   if (state.selectedType !== "") {
-    return (
-      <Widget
-        src={type?.widgets?.create}
-        props={{ onChange: handleThingData, type }} // onChange
-      />
-    );
+    const type = JSON.parse(Social.get(state.selectedType, "final") || "null");
+    const widgetSrc = type?.widgets?.create;
+    // it would be great to modify the onChange function
+    return <Widget src={widgetSrc} props={{ onChange: handleThingData }} />;
   }
 }
 
