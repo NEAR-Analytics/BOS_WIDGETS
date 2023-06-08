@@ -1,6 +1,13 @@
 const ownerId = "nearhorizon.near";
 const accountId = props.accountId;
 
+const createDate = (date) => {
+  const d = date ? new Date(date) : new Date();
+  const month = `${d.getMonth() + 1}`;
+  const day = `${d.getDate()}`;
+  return `${d.getFullYear()}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+};
+
 const LineContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -65,7 +72,7 @@ const createProjectLine = (accountId, name, image) => {
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   width: 60%;
   gap: 1em;
@@ -101,6 +108,7 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   gap: 3em;
+  padding-top: 2em;
   padding-bottom: 3em;
 `;
 
@@ -109,6 +117,7 @@ const Header = styled.h1`
   font-weight: 700;
   font-size: 2em;
   line-height: 1.4em;
+  margin-bottom: 0.5em;
   text-align: center;
   color: #000000;
 `;
@@ -166,6 +175,7 @@ const CancelButton = styled.a`
 `;
 
 State.init({
+  project: null,
   projectId: null,
   projectIdError: "",
   projects: [],
@@ -187,7 +197,7 @@ State.init({
   paymentSourceError: "",
   budget: null,
   budgetError: "",
-  deadline: null,
+  deadline: createDate(),
   deadlineError: "",
 });
 
@@ -202,6 +212,7 @@ const validateForm = () => {
     state.paymentType &&
     state.paymentTypeError === "" &&
     state.paymentSource &&
+    (state.project.credits || state.paymentSource.value === "Other") &&
     state.paymentSourceError === "" &&
     state.budget &&
     state.budgetError === "" &&
@@ -259,15 +270,15 @@ if (!state.projectsIsFetched) {
         projectsIsFetched: true,
         ...(accountId
           ? {
-            projectId: {
-              text: createProjectLine(
-                accountId,
-                data[accountId].profile.name,
-                data[accountId].profile.image
-              ),
-              value: accountId,
-            },
-          }
+              projectId: {
+                text: createProjectLine(
+                  accountId,
+                  data[accountId].profile.name,
+                  data[accountId].profile.image
+                ),
+                value: accountId,
+              },
+            }
           : {}),
       })
     );
@@ -297,10 +308,6 @@ if (!state.projects.length) {
 }
 
 const HalfWidth = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
   width: 50%;
 `;
 
@@ -322,14 +329,23 @@ return (
           label: "Request as *",
           value: state.projectId,
           options: state.projects,
-          onChange: (projectId) => State.update({ projectId }),
+          onChange: (projectId) => {
+            Near.asyncView(
+              ownerId,
+              "get_project",
+              { account_id: projectId.value },
+              "final",
+              false
+            ).then((project) => State.update({ project }));
+            State.update({ projectId });
+          },
         }}
       />
       <Widget
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
           label: "Title",
-          placeholder: "Looking for Rust developer to create smart contracts",
+          placeholder: "",
           value: state.title,
           onChange: (title) => State.update({ title }),
           validate: () => {
@@ -356,8 +372,7 @@ return (
         src={`${ownerId}/widget/Inputs.TextArea`}
         props={{
           label: "Description",
-          placeholder:
-            "Crypto ipsum bitcoin ethereum dogecoin litecoin. Holo stacks fantom kava flow algorand. Gala dogecoin gala XRP binance flow. Algorand polygon bancor arweave avalanche. Holo kadena telcoin kusama BitTorrent flow holo velas horizen. TerraUSD helium filecoin terra shiba-inu. Serum algorand horizen kava flow maker telcoin algorand enjin. Dai bitcoin.",
+          placeholder: "",
           value: state.description,
           onChange: (description) => State.update({ description }),
           validate: () => {
@@ -381,7 +396,7 @@ return (
           error: state.descriptionError,
         }}
       />
-      <Widget
+      {/*<Widget
         src={`${ownerId}/widget/Inputs.MultiSelect`}
         props={{
           label: "Tags",
@@ -395,7 +410,7 @@ return (
               })),
             }),
         }}
-      />
+      />*/}
       <HalfWidth>
         <Widget
           src={`${ownerId}/widget/Inputs.Select`}
@@ -423,7 +438,9 @@ return (
           src={`${ownerId}/widget/Inputs.Select`}
           props={{
             label: "Payment source *",
-            options: state.paymentSources,
+            options: state.paymentSources.filter(
+              ({ value }) => state.project.credits || value === "Other"
+            ),
             value: state.paymentSource,
             onChange: (paymentSource) => State.update({ paymentSource }),
           }}
@@ -435,6 +452,7 @@ return (
           props={{
             label: "Budget *",
             placeholder: 0.0,
+            hasDollar: true,
             value: state.budget,
             onChange: (budget) => State.update({ budget }),
             validate: () => {
