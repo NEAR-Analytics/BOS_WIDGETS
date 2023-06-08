@@ -98,8 +98,8 @@ const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
 
 const WidgetImages = [
   {
-    title: "Chain Team Tactics Image",
-    url: "https://pd.marmaj.org/ctt/mint2.png",
+    title: "Pixel Pets Image",
+    url: "https://pd.marmaj.org/train.png",
   },
 ];
 
@@ -154,13 +154,13 @@ return (
         Chain Team Tactics
       </p>
       <p style={{ marginBottom: "20px", width: "100%", textAlign: "justify" }}>
-        Chain Team Tactics is an nft based pvp battle simulator. Collect a
-        minimum of 6 units and start to battle other players! Each battle is
-        fought as best of three and the starting player changes each round. To
-        make it more spicy, you will battle about your PXT stake (after beta).
-        Still don't understand? Take a game like Fire Emblem or Final Fantasy
-        Tactics, slap it onto the blockchain, and you're left with this amazing
-        game called Chain Team Tactics
+        PixelPets is an NFT game for pet trading and battling. Each token
+        represents one of a total of 60 different pet types. Each pet has a
+        certain rarity type (common, rare, epic or legendary) which affects
+        their strength beneath other stats like quality and level. It combines
+        collect to earn/compete to earn concept via the built-in pet marketplace
+        and by a few days lasting tournaments with a prizepool for the best
+        players running each week.
       </p>
       <div style={{ marginBottom: "20px", width: "100%" }}>
         <div
