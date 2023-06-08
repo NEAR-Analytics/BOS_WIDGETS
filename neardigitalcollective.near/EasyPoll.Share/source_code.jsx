@@ -60,7 +60,7 @@ return (
         >
           <span
             style={{ color: "#0065FF", wordWrap: "anywhere" }}
-          >{`https://near.social/#/${widgetOwner}/widget/pollQuestionMasterHandler?sharedBlockHeight=${blockHeightToShare}`}</span>
+          >{`https://near.social/#/${widgetOwner}/widget/EasyPoll.Main?sharedBlockHeight=${blockHeightToShare}`}</span>
           <div
             style={{
               display: "flex",
@@ -87,7 +87,7 @@ return (
               }
               onClick={() => {
                 clipboard.writeText(
-                  `https://near.social/#/${widgetOwner}/widget/pollQuestionMasterHandler?sharedBlockHeight=${blockHeightToShare}`
+                  `https://near.social/#/${widgetOwner}/widget/EasyPoll.Main?sharedBlockHeight=${blockHeightToShare}`
                 );
                 State.update({ linkCopied: true });
               }}
