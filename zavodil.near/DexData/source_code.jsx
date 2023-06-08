@@ -24,9 +24,8 @@ if (debug) {
         props.onLoad(data);
       }
 
-      /*
       // review swap data for debug mode
-      
+
       data.sender = "0x9e65A68B05d06A054e07dC7060ec2bB8BC2B9313";
       data.inputAssetAmount = "4123";
       data.inputAsset = {
@@ -46,7 +45,6 @@ if (debug) {
       };
 
       data.callTx(data, f);
-      */
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
     }
@@ -138,7 +136,7 @@ const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
     token_data[input.inputAssetTokenId] = {
       symbol: input.inputAsset.metadata.symbol,
       decimals: input.inputAsset.metadata.decimals,
-      limit: "0",
+      limit: value,
     };
     token_data[input.outputAssetTokenId] = {
       symbol: input.outputAsset.metadata.symbol,
@@ -165,7 +163,7 @@ const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
     }
 
     const swap_kind = 0;
-    const token_limits = [value, "0", "0"];
+    const token_limits = [value, 0];
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
 
     swapContract
@@ -175,7 +173,7 @@ const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
         assets,
         funds,
         token_limits,
-        parseInt(deadline.toFixed()),
+        deadline.toFixed(),
         {
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
           gasLimit: gasLimit ?? 20000000,
