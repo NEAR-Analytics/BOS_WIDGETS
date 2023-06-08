@@ -11,6 +11,7 @@ const emojiArray = [
   "👍 Like",
 ];
 const item = props.item;
+const accountThatIsLoggedIn = context.accountId;
 
 if (!item) {
   return "";
@@ -20,7 +21,12 @@ State.init({
   emoji: initialEmoji,
   show: false,
   loading: false,
+  likes: [],
+  unfilteredLikes: [],
 });
+console.log(state);
+
+// =============== CSS Styles ===============
 
 const mainButtonStyles = {
   border: 0,
@@ -40,55 +46,39 @@ const smallButtonStyles = {
   marginRight: "4px",
 };
 
-// ===============
-const likes = Social.index("like", item, { order: "desc" });
-const uniqueAccounts = {};
+// =============== Get Likes ===============
+State.update({
+  unfilteredLikes: Social.index("like", item, {
+    order: "desc",
+    subscribe: true,
+  }),
+});
 
-const lastLikes =
-  likes &&
-  likes.filter((obj) => {
+// arrayLastLikeForEachUser of {accountId, blockHeight, value: {type: "😁 LOL"}}
+const uniqueAccounts = {};
+const arrayLastLikeForEachUser =
+  state.unfilteredLikes &&
+  state.unfilteredLikes.filter((obj) => {
     if (!uniqueAccounts[obj.accountId]) {
       uniqueAccounts[obj.accountId] = true;
       return true;
     }
     return false;
   });
+console.log(arrayLastLikeForEachUser);
 
-const doesUserVoted = () => {
-  const resObject = lastLikes.find(
-    (item) => item.accountId === "eugenewolf507.near"
-    // (item) => item.accountId === "testwiki.near"
+const updateEmojiIfUserVoted = () => {
+  const resObject = arrayLastLikeForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
   );
   if (resObject) {
     State.update({ emoji: resObject.value.type });
   }
 };
 
-lastLikes && doesUserVoted();
-// const testArray = [
-//   {
-//     accountId: "eugenewolf507.near",
-//     blockHeight: 93610551,
-//     value: {
-//       type: "🚀 Ship it",
-//     },
-//   },
-//   {
-//     accountId: "testwiki.near",
-//     blockHeight: 93611581,
-//     value: {
-//       type: "💯 Definitely",
-//     },
-//   },
-//   {
-//     accountId: "alex.near",
-//     blockHeight: 93610551,
-//     value: {
-//       type: "🚀 Ship it",
-//     },
-//   },
-// ];
+arrayLastLikeForEachUser && updateEmojiIfUserVoted();
 
+//likesCount - array of objects {quantity: 1, emoji: '😁', accounts: []}
 const getLikesStats = (acc, likeObj) => {
   if (likeObj.value.type === initialEmoji) {
     return acc;
@@ -108,9 +98,11 @@ const getLikesStats = (acc, likeObj) => {
   return acc;
 };
 const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
-const likesCount = lastLikes && countLikes(lastLikes);
+const likesCount =
+  arrayLastLikeForEachUser && countLikes(arrayLastLikeForEachUser);
+State.update({ likes: likesCount });
 
-// =================
+// ================= Mouse Handlers ===============
 
 const handleOnMouseEnter = (e) => {
   State.update({ show: true });
@@ -123,12 +115,7 @@ const clickHandler = (emojiMessage) => {
   if (state.loading) {
     return;
   }
-  //   if (state.emoji === initialEmoji) {
-  //     State.update({ emoji: "❤️ Positive" });
-  //   } else {
-  //     State.update({ emoji: initialEmoji });
-  //   }
-  // ================== START ==================
+
   State.update({
     loading: true,
   });
@@ -150,12 +137,12 @@ const clickHandler = (emojiMessage) => {
   Social.set(data, {
     onCommit: () => {
       State.update({ emoji: emojiToWrite, loading: false, show: false });
-      //   State.update({ loading: false, show: false });
     },
     onCancel: () => State.update({ loading: false, show: false }),
   });
-  // ================== END ==================
 };
+
+// =============== JSX ===============
 
 const overlay = (
   <div
@@ -198,8 +185,8 @@ return (
         {state.emoji}
       </button>
     </OverlayTrigger>
-    {likesCount &&
-      likesCount.map((item) => (
+    {state.likes &&
+      state.likes.map((item) => (
         <span className="ps-3">
           {item.quantity} {item.emoji}{" "}
         </span>
