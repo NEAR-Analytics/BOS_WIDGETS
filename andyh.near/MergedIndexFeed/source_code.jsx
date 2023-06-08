@@ -238,6 +238,7 @@ const renderedItems = await Promise.all(items.map(cachedRenderItem));
 console.log({ props, state, renderedItems });
 return props.manual ? (
   <>
+    here be renders
     {reverse && fetchMore}
     {renderedItems}
     {!reverse && fetchMore}
