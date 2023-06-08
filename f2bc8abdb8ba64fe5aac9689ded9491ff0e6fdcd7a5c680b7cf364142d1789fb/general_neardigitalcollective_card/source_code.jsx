@@ -72,7 +72,7 @@ const formatCard = props.formatCard ?? {
           },
           {
             type: "key",
-            value: "accountId",
+            value: ["accountId"],
             style: {
               maxWidth: "100%",
               textOverflow: "ellipsis",
@@ -120,6 +120,14 @@ const formatCard = props.formatCard ?? {
   },
 };
 
+function getValue(object, path) {
+  let lastStepValue = object;
+  for (let i = 0; i < path.length; i++) {
+    lastStepValue = lastStepValue[path[i]];
+  }
+  return lastStepValue;
+}
+
 return (
   <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3">
     <div
@@ -157,6 +165,12 @@ return (
                   [],
                   dateFormatOptions
                 )}
+              </p>
+            );
+          } else if (rowData.rowType == "key") {
+            return (
+              <p style={rowData.style ? rowData.style : {}}>
+                {getValue(rowData, rowData.contentData)}
               </p>
             );
           } else if (rowData.rowType == "flex") {
@@ -205,7 +219,7 @@ return (
                               <p
                                 style={secondItem.style ? secondItem.style : {}}
                               >
-                                {cardData[secondItem.value]}
+                                {getValue(cardData, secondItem.value)}
                               </p>
                             );
                           } else {
