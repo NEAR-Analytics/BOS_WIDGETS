@@ -142,13 +142,6 @@ const handleTypeChange = (e) => {
   State.update({ selectedType: e.target.value });
 };
 
-if (state.selectedType !== "") {
-  type = JSON.parse(Social.get(state.selectedType, "final") || null);
-  if (type === null) {
-    return <></>;
-  }
-}
-
 const handleThingData = (value, extra) => {
   State.update({ thing: value, extra });
 };
