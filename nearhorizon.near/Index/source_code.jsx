@@ -181,6 +181,12 @@ const tabContent = {
     />
   ),
   legal: <Widget src={`${ownerId}/widget/TNCPage`} />,
+  admin: (
+    <Widget
+      src={`${ownerId}/widget/Admin.Page`}
+      props={{ update, content: state.content }}
+    />
+  ),
 }[state.tab];
 
 const ContentContainer = styled.div`
@@ -233,6 +239,7 @@ const isForm = [
 
 return (
   <Container>
+    <Widget src={`${ownerId}/widget/Help.FeedbackButton`} props={{ update }} />
     <Widget
       src={`${ownerId}/widget/TNCModal`}
       props={{
