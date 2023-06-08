@@ -124,36 +124,68 @@ const Overview = (
   </div>
 );
 
-// Teams Card
+/* Card components */
+const CardContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+`;
+
+const CardTitle = styled.h3`
+  margin-bottom: 8px;
+`;
+
+const CardContent = styled.p`
+  margin-bottom: 8px;
+`;
+
+const Card = ({ title, content }) => {
+  return (
+    <CardContainer>
+      <CardTitle>{title}</CardTitle>
+      <CardContent>{content}</CardContent>
+    </CardContainer>
+  );
+};
+
+const CommunityOverview = (
+  <Card
+    title="Community Overview"
+    content="Description for the community. More details go here."
+  />
+);
+
 const TeamsCard = (
-  <Card className={`card my-2`}>
-    <Card.Body>
-      <Card.Title>
-        <div className="d-flex align-items-center">
-          <div className="flex-grow-1">
-            <h1 className="h4 mb-0">{team.title}</h1>
-            <div className="text-muted">{team.name}</div>
-          </div>
-        </div>
-      </Card.Title>
-      <Card.Text>
-        <Markdown text={team.description} onMention={onMention}></Markdown>
-      </Card.Text>
-    </Card.Body>
+  <Card title={team.title} content={team.description}>
+    <div className="row">
+      <div className="col-xs-12 col-md-6">
+        <h2>Team Members</h2>
+        <h4>Team member 1</h4>
+        <h4>Team member 1</h4>
+        <h4>Team member 1</h4>
+        <h4>Team member 1</h4>
+        <h4>Team member 1</h4>
+        <p>View all...</p>
+      </div>
+    </div>
   </Card>
 );
 
 return (
-  <Row>
-    <Col xs={12} md={4}>
-      {TeamsCard}
-    </Col>
-    <Col xs={12} md={8}>
+  <div className="row">
+    <div className="col-xs-12 col-md-8">
       {widget("components.community.Layout", {
         label: props.label,
         tab: "Overview",
         children: Overview,
       })}
-    </Col>
-  </Row>
+    </div>
+    <div className="col-xs-12 col-md-4">
+      {CommunityOverview}
+      <br></br>
+      {TeamsCard}
+    </div>
+  </div>
 );
