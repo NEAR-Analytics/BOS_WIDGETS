@@ -278,7 +278,7 @@ const init = () => {
     const accounts = Ethers.send("eth_requestAccounts", []);
     if (accounts.length) {
       address = accounts[0];
-      const names = getNamesForOwner(address);
+      const names = getNamesForOwner(address, true);
       State.update({ address, name, names });
     }
   }
@@ -328,9 +328,8 @@ return (
       {state.names && state.names.length > 0 && <h3>Names you own:</h3>}
       {state.names && (
         <ol>
-          {state.names.map(({ name }) => (
-            <li key={name}>{name}</li>
-          ))}
+          {state.names &&
+            state.names.map(({ name }) => <li key={name}>{name}</li>)}
         </ol>
       )}
     </div>
