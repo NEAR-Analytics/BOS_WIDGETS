@@ -104,20 +104,20 @@ const WidgetImages = [
 ];
 
 const Mainnet = [
-  { title: "Chain Team Tactics", url: "https://pd.marmaj.org/chainteam" },
+  { title: "Chain Team Tactics", url: "https://pd.marmaj.org/pixelpets" },
 ];
 
 const Testnet = [
   {
     title: "Chain Team Tactics",
-    url: "https://pd-testnet.marmaj.org/chainteam",
+    url: "https://pd-testnet.marmaj.org/pixelpets/testnet.html",
   },
 ];
 
 const Wiki = [
   {
     title: "Chain Team Tactics Wiki",
-    url: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
+    url: "https://github.com/MarmaJFoundation/pixelpets-wiki/wiki",
   },
 ];
 
@@ -143,15 +143,13 @@ return (
           textAlign: "center",
         }}
       >
-        <img
-          src={`https://user-images.githubusercontent.com/100770363/241338189-eb7cd1db-00a7-4dd3-ab44-d1ab6f24c2e8.png`}
-        />
+        <img src={`null`} />
       </a>
 
       <p
         style={{ marginBottom: "20px", fontSize: "1.3em", fontWeight: "bold" }}
       >
-        Chain Team Tactics
+        PixelPets
       </p>
       <p style={{ marginBottom: "20px", width: "100%", textAlign: "justify" }}>
         PixelPets is an NFT game for pet trading and battling. Each token
