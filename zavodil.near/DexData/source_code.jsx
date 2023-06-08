@@ -439,11 +439,15 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
       Ethers.provider().getSigner()
     );
 
+    gasArgs = {};
+
+    if (gweiPrice !== undefined && gasLimit !== undefined) {
+      gasArgs.gasPrice = ethers.utils.parseUnits(gweiPrice ?? "0.26", "gwei");
+      gasArgs.gasLimit = gasLimit ?? 20000000;
+    }
+
     approveContract
-      .approve(input.routerContract, value, {
-        gasPrice: ethers.utils.parseUnits(gweiPrice ?? "0.26", "gwei"),
-        gasLimit: gasLimit ?? 20000000,
-      })
+      .approve(input.routerContract, value, gasArgs)
       .then((transactionHash) => {
         onComplete(transactionHash);
       });
