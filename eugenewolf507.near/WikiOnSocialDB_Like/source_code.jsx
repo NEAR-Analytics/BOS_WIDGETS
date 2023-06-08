@@ -42,8 +42,6 @@ const smallButtonStyles = {
 
 // ===============
 const likes = Social.index("like", item, { order: "desc" });
-likes && console.log("likes", likes);
-//+++++
 const uniqueAccounts = {};
 
 const lastLikes =
@@ -55,8 +53,6 @@ const lastLikes =
     }
     return false;
   });
-
-console.log(result);
 
 const doesUserVoted = () => {
   const resObject = lastLikes.find(
@@ -140,6 +136,7 @@ const clickHandler = (emojiMessage) => {
     emojiMessage === initialEmoji && state.emoji === initialEmoji
       ? emojiArray[0]
       : emojiMessage;
+
   const data = {
     index: {
       like: JSON.stringify({
