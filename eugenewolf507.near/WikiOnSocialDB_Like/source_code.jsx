@@ -31,7 +31,8 @@ const smallButtonStyles = {
 };
 
 // ===============
-const likes = Social.index("like", item);
+const likes = Social.index("like", item, { order: "desc" });
+likes && console.log("likes", likes);
 const doesUserVoted = () => {
   const resObject = likes.find(
     (item) => item.accountId === "eugenewolf507.near"
