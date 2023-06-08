@@ -279,6 +279,7 @@ const init = () => {
     const accounts = Ethers.send("eth_requestAccounts", []);
     if (accounts.length) {
       address = accounts[0];
+      console.log("address", address);
       const names = getNamesForOwner(address, true);
       State.update({ address, name, names });
     }
