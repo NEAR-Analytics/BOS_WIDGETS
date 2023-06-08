@@ -167,7 +167,12 @@ function RenderTypeCreate() {
     const type = JSON.parse(Social.get(state.selectedType, "final") || "null");
     const widgetSrc = type?.widgets?.create;
     // it would be great to modify the onChange function
-    return <Widget src={widgetSrc} props={{ onChange: handleThingData }} />;
+    return (
+      <Widget
+        src={widgetSrc || "efiz.near/widget/create"}
+        props={{ onChange: handleThingData, type: state.selectedType }}
+      />
+    );
   }
 }
 
