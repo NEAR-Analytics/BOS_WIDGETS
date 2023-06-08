@@ -99,7 +99,7 @@ const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
 const WidgetImages = [
   {
     title: "Pixel Pets Image",
-    url: "https://pd.marmaj.org/train.png",
+    url: "https://pd.marmaj.org/hatch.png",
   },
 ];
 
