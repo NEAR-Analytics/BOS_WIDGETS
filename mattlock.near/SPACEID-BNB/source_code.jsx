@@ -280,8 +280,10 @@ const init = () => {
     if (accounts.length) {
       address = accounts[0];
       console.log("address", address);
-      const names = getNamesForOwner(address, true);
-      State.update({ address, name, names });
+      setTimeout(() => {
+        const names = getNamesForOwner(address, true);
+        State.update({ address, name, names });
+      }, 1000);
     }
   }
 };
