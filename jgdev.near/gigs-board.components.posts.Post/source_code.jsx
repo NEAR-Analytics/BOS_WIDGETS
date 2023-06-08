@@ -466,70 +466,28 @@ const postTitle =
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      // some extra handling for "Sponsorship" post type
+      <h6 class="card-subtitle mb-2 text-muted">
+        Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
+      </h6>
+      <h6 class="card-subtitle mb-2 text-muted">
+        Supervisor:{" "}
+        <Widget
+          src={`neardevgov.near/widget/ProfileLine`}
+          props={{ accountId: snapshot.supervisor }}
+        />
+      </h6>
     </div>
   ) : (
-    <div>
-      {snapshot.description.length > 200 ? (
-        <div>
-          {snapshot.description.slice(0, 200)}
-          <div id={`show-more-${postId}`} style={{ display: "none" }}>
-            {snapshot.description.slice(200)}
-          </div>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              const showMoreDiv = document.getElementById(
-                `show-more-${postId}`
-              );
-              const showLessLink = document.getElementById(
-                `show-less-${postId}`
-              );
-              const showMoreLink = e.currentTarget;
-
-              showMoreDiv.style.display = "block";
-              showMoreLink.style.display = "none";
-              showLessLink.style.display = "block";
-            }}
-          >
-            <b>Show More</b>
-          </a>
-          <a
-            id={`show-less-${postId}`}
-            style={{ display: "none" }}
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              const showMoreDiv = document.getElementById(
-                `show-more-${postId}`
-              );
-              const showMoreLink = document.getElementById(
-                `show-more-${postId}`
-              );
-              const showLessLink = e.currentTarget;
-
-              showMoreDiv.style.display = "none";
-              showMoreLink.style.display = "block";
-              showLessLink.style.display = "none";
-            }}
-          >
-            <b>Show Less</b>
-          </a>
-        </div>
-      ) : (
-        snapshot.description
-      )}
-    </div>
+    <div></div>
   );
 
 const postsList =
-  props.isPreview || childPostIds.length === 0 ? (
+  props.isPreview || childPostIds.length == 0 ? (
     <div key="posts-list"></div>
   ) : (
-    <div className="row" key="posts-list">
+    <div class="row" key="posts-list">
       <div
-        className={`collapse ${defaultExpanded ? "show" : ""}`}
+        class={`collapse ${defaultExpanded ? "show" : ""}`}
         id={`collapseChildPosts${postId}`}
       >
         {childPostIds.map((childId) =>
@@ -545,14 +503,26 @@ const postsList =
 
 const Card = styled.div`
   &:hover {
-    box-shadow: rgba(255, 102, 214, 0.3) 0px 0px 0px 3px;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
   }
 `;
 
-const LimitedMarkdown = styled.div`
-  max-height: 30em;
-  overflow: auto;
-`; // Determine if located in the post page.
+const limitedMarkdown = styled.div`
+  max-height: 20em;
+`;
+
+const clampMarkdown = styled.div`
+  .clamp {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  }
+`;
+
+// Determine if located in the post page.
 const isInList = props.isInList;
 const contentArray = snapshot.description.split("\n");
 const needClamp = isInList && contentArray.length > 5;
@@ -580,36 +550,36 @@ const onMention = (accountId) => (
 
 // Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = isUnderPost ? (
-  <LimitedMarkdown className="overflow-auto" key="description-area">
+  <limitedMarkdown className="overflow-auto" key="description-area">
     <Markdown
-      className="card-text"
+      class="card-text"
       text={snapshot.description}
       onMention={onMention}
     />
-  </LimitedMarkdown>
+  </limitedMarkdown>
 ) : (
-  <ClampMarkdown>
-    <div className={state.clamp ? "clamp" : ""}>
+  <clampMarkdown>
+    <div class={state.clamp ? "clamp" : ""}>
       <Markdown
-        className="card-text"
+        class="card-text"
         text={state.clamp ? clampedContent : snapshot.description}
         onMention={onMention}
         key="description-area"
       ></Markdown>
     </div>
     {state.clamp ? (
-      <div className="d-flex justify-content-center">
+      <div class="d-flex justify-content-center">
         <a
-          className="btn btn-link text-secondary"
+          class="btn btn-link text-secondary"
           onClick={() => State.update({ clamp: false })}
         >
-          Read More
+          Show More
         </a>
       </div>
     ) : (
       <></>
     )}
-  </ClampMarkdown>
+  </clampMarkdown>
 );
 
 return (
