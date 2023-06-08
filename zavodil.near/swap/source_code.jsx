@@ -722,8 +722,15 @@ return (
         </div>
         <div class="pt-3 text-secondary opacity-25 text-center">
           <p>
-            Supported networks: {NETWORK_NEAR}, {NETWORK_ETH}, {NETWORK_ZKSYNC},
-            {NETWORK_ZKEVM}, {NETWORK_AURORA}, ${NETWORK_POLYGON}
+            Supported networks:{" "}
+            {[
+              NETWORK_NEAR,
+              NETWORK_AURORA,
+              !!NETWORK_ETH ? "ETHEREUM" : "",
+              NETWORK_ZKSYNC,
+              NETWORK_ZKEVM,
+              NETWORK_POLYGON,
+            ].join(", ")}
           </p>
           {currentAccountId && <p>Current account: {currentAccountId}</p>}
         </div>
