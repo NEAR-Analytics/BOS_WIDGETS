@@ -245,7 +245,7 @@ return props.manual ? (
   </>
 ) : (
   <>
-    here be renders2
+    here be renders: {renderedItems.length}
     <InfiniteScroll
       pageStart={0}
       loadMore={makeMoreItems}
