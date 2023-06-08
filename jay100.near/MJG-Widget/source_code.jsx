@@ -42,7 +42,7 @@ const Card = styled.div`
   background: #000;
   align-items: center;
   justify-content: center;
-  max-width: 210px;
+  max-width: 20rem;
   padding: 25px 32px;
   display: flex;
   flex-direction: column;
@@ -68,7 +68,9 @@ const CardList = styled.div`
 `;
 
 const Pixel = styled.div`
-  font-size: 25px;
+  background: aliceblue;
+  font-size: 1.3rem;
+  font-weight: 10rem;
   color: white;
   height: auto;
   margin: 10px;
@@ -99,16 +101,23 @@ const Pixel = styled.div`
   border-style: solid;
   border-width: 20px;
   border-image: url(https://i.imgur.com/sREM8Yn.png) 20 stretch;
+
+  :active{
+    top: 2px;
+  }
 `;
 
 const PixelText = styled.p`
   display: inline-block;
   vertical-align: top;
   position: relative;
-  width: auto;
+  width: 6.5rem;
   text-align: center;
   margin: -20px -20px;
-  line-height: 20px;
+  line-height: 1.5rem;
+  :hover{
+    line-height: 2rem;
+  }
   padding: 10px 20px;
   
 		background:
@@ -126,12 +135,11 @@ const PixelText = styled.p`
 `;
 
 const PixelContainer = styled.div`
- margin: 50px;
-  display: block;
-  width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  width: 50%;
   text-align: center;
+  align-items: center;
+  justify-content: center;
 `;
 
 const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
@@ -148,15 +156,17 @@ const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
         }}
       >
         {actionButtons.map((button, index) => (
-          <FakeButton
-            key={index}
-            onClick={() => handleButtonClick(button.url)}
-            href={button.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {button.label}
-          </FakeButton>
+          <PixelContainer>
+            <Pixel
+              key={index}
+              onClick={() => handleButtonClick(button.url)}
+              href={button.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <PixelText> {button.label}</PixelText>
+            </Pixel>
+          </PixelContainer>
         ))}
       </div>
     </Card>
@@ -211,6 +221,9 @@ return (
         }}
       >
         <img
+          style={{
+            width: "100%",
+          }}
           src={`https://user-images.githubusercontent.com/100770363/241338189-eb7cd1db-00a7-4dd3-ab44-d1ab6f24c2e8.png`}
         />
       </a>
@@ -253,10 +266,5 @@ return (
         />
       ))}
     </CardList>
-    <PixelContainer>
-      <Pixel>
-        <PixelText>Hello</PixelText>
-      </Pixel>
-    </PixelContainer>
   </div>
 );
