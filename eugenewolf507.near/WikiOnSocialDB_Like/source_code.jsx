@@ -1,6 +1,15 @@
-// TODO - optimise all handlers with repeating state update show: false - combine all emojies into array and render it from array via map
 // "❤️ Positive"
 const initialEmoji = "🤍 Like";
+const emojiArray = [
+  "❤️ Positive",
+  "👀 Thinking",
+  "🙏 Thank you",
+  "😁 LOL",
+  "👎 Negative",
+  "🚀 Ship it",
+  "💯 Definitely",
+  "👍 Like",
+];
 const item = props.item;
 
 if (!item) {
@@ -28,6 +37,7 @@ const smallButtonStyles = {
   border: 0,
   color: "DeepSkyBlue",
   background: "rgba(0, 191, 255, 0.1)",
+  marginRight: "4px",
 };
 
 // ===============
@@ -128,7 +138,7 @@ const clickHandler = (emojiMessage) => {
   });
   const emojiToWrite =
     emojiMessage === initialEmoji && state.emoji === initialEmoji
-      ? "❤️ Positive"
+      ? emojiArray[0]
       : emojiMessage;
   const data = {
     index: {
@@ -157,48 +167,12 @@ const overlay = (
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
   >
-    <button
-      onClick={() => clickHandler("❤️ Positive")}
-      style={smallButtonStyles}
-    >
-      ❤️
-    </button>
-    <button
-      onClick={() => clickHandler("👀 Thinking")}
-      style={smallButtonStyles}
-    >
-      👀
-    </button>
-    <button
-      onClick={() => clickHandler("🙏 Thank you")}
-      style={smallButtonStyles}
-    >
-      🙏
-    </button>
-    <button onClick={() => clickHandler("😁 LOL")} style={smallButtonStyles}>
-      😁
-    </button>
-    <button
-      onClick={() => clickHandler("👎 Negative")}
-      style={smallButtonStyles}
-    >
-      👎
-    </button>
-    <button
-      onClick={() => clickHandler("🚀 Ship it")}
-      style={smallButtonStyles}
-    >
-      🚀
-    </button>
-    <button
-      onClick={() => clickHandler("💯 Definitely")}
-      style={smallButtonStyles}
-    >
-      💯
-    </button>
-    <button onClick={() => clickHandler("👍 Like")} style={smallButtonStyles}>
-      👍
-    </button>
+    {emojiArray &&
+      emojiArray.map((item) => (
+        <button onClick={() => clickHandler(item)} style={smallButtonStyles}>
+          {item.slice(0, 2)}
+        </button>
+      ))}
   </div>
 );
 
