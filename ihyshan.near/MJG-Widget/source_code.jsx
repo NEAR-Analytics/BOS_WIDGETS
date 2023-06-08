@@ -67,9 +67,7 @@ const CardList = styled.div`
   gap: 0.5rem;
 `;
 
-const WidgetCard = (props) => {
-  const { title, coverSrc, description, actionButtons } = props;
-
+const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
   return (
     <Card>
       <Title>{title}</Title>
@@ -100,34 +98,16 @@ const WidgetCard = (props) => {
 
 const WidgetImages = [
   {
-    title: "Pixel Party Image",
-    url: "https://pd.marmaj.org/pixelparty2.jpg",
-  },
-  {
-    title: "Pixel Pets Image",
-    url: "https://pd.marmaj.org/hatch.png",
-  },
-  {
-    title: "Crypto Heroes Image",
-    url: "https://github.com/Dark-St-r/mjg-widget-data/assets/93423666/8d7eab5a-f278-43f5-a2da-88a323ce9da9",
-  },
-  {
     title: "Chain Team Tactics Image",
     url: "https://pd.marmaj.org/ctt/mint2.png",
   },
 ];
 
 const Mainnet = [
-  { title: "Pixel Party", url: "https://pixelparty.marmaj.org/" },
-  { title: "Pixel Pets", url: "https://pd.marmaj.org/pixelpets" },
-  { title: "Crypto Heroes", url: "https://pd.marmaj.org/cryptoheroes" },
   { title: "Chain Team Tactics", url: "https://pd.marmaj.org/chainteam" },
 ];
 
 const Testnet = [
-  { title: "Pixel Party", url: "https://testnet.pixelparty.marmaj.org/" },
-  { title: "Pixel Pets", url: "https://pd-testnet.marmaj.org/pixelpets" },
-  { title: "Crypto Heroes", url: "https://pd-testnet.marmaj.org/cryptoheroes" },
   {
     title: "Chain Team Tactics",
     url: "https://pd-testnet.marmaj.org/chainteam",
@@ -135,18 +115,6 @@ const Testnet = [
 ];
 
 const Wiki = [
-  {
-    title: "Pixel Party Wiki",
-    url: "https://github.com/MarmaJFoundation/pixelparty-wiki/wiki",
-  },
-  {
-    title: "Pixel Pets Wiki",
-    url: "https://github.com/MarmaJFoundation/pixelpets-wiki/wiki",
-  },
-  {
-    title: "Crypto Heroes Wiki",
-    url: "https://github.com/MarmaJFoundation/cryptoheroes-wiki/wiki",
-  },
   {
     title: "Chain Team Tactics Wiki",
     url: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
@@ -164,26 +132,35 @@ return (
     }}
   >
     <Hero>
-      <h1 style={{ marginBottom: "10px", textAlign: "center" }}>
-        <a
-          href="https://marmaj.org/gaming/"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          Marma J Gaming
-        </a>
-      </h1>
+      <a
+        href={Mainnet.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          textDecoration: "none",
+          color: "inherit",
+          marginBottom: "2rem",
+          textAlign: "center",
+        }}
+      >
+        <img
+          src={`https://user-images.githubusercontent.com/100770363/241338189-eb7cd1db-00a7-4dd3-ab44-d1ab6f24c2e8.png`}
+        />
+      </a>
+
       <p
         style={{ marginBottom: "20px", fontSize: "1.3em", fontWeight: "bold" }}
       >
-        EARN TO PLAY GAMES
+        Chain Team Tactics
       </p>
       <p style={{ marginBottom: "20px", width: "100%", textAlign: "justify" }}>
-        Explore the crypto-based gaming world of Marma J Gaming where you can
-        collaborate artistically with friends, gather your pets for a battle,
-        outfit your hero to explore dungeons and take part in raids, and gather
-        an army to position yourself as the master tactician.
+        Chain Team Tactics is an nft based pvp battle simulator. Collect a
+        minimum of 6 units and start to battle other players! Each battle is
+        fought as best of three and the starting player changes each round. To
+        make it more spicy, you will battle about your PXT stake (after beta).
+        Still don't understand? Take a game like Fire Emblem or Final Fantasy
+        Tactics, slap it onto the blockchain, and you're left with this amazing
+        game called Chain Team Tactics
       </p>
       <div style={{ marginBottom: "20px", width: "100%" }}>
         <div
@@ -199,7 +176,6 @@ return (
       {Mainnet.map((widget, index) => (
         <WidgetCard
           key={index}
-          title={widget.title}
           coverSrc={WidgetImages[index].url}
           description=""
           actionButtons={[
