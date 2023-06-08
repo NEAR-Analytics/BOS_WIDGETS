@@ -42,48 +42,7 @@ function href(widgetName, linkProps) {
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
-
-const WrapperWidget = ({ children, id, storageType }) => {
-  // This function handles the state change for the children widgets
-  const handleStateChange = (key, value) => {
-    // Use the unique identifier to create a unique storage key
-    const storageKey = `${id}_${key}`;
-
-    if (storageType === "local") {
-      // Update the local storage with the new state
-      localStorage.setItem(storageKey, JSON.stringify(value));
-    } else if (storageType === "sync") {
-      // Update the sync storage with the new state
-      // Replace this with the appropriate API call for your sync storage
-      syncStorage.setItem(storageKey, JSON.stringify(value));
-    }
-  };
-
-  // This function initializes the state of the children widgets
-  const initState = (key, defaultValue) => {
-    // Use the unique identifier to create a unique storage key
-    const storageKey = `${id}_${key}`;
-
-    let storedValue;
-    if (storageType === "local") {
-      storedValue = localStorage.getItem(storageKey);
-    } else if (storageType === "sync") {
-      // Retrieve the value from sync storage
-      // Replace this with the appropriate API call for your sync storage
-      storedValue = syncStorage.getItem(storageKey);
-    }
-
-    if (storedValue) {
-      return JSON.parse(storedValue);
-    }
-    return defaultValue;
-  };
-
-  // Render the children widgets and pass the state management functions as props
-  return React.Children.map(children, (child) =>
-    React.cloneElement(child, { handleStateChange, initState })
-  );
-};/* END_INCLUDE: "common.jsx" */
+/* END_INCLUDE: "common.jsx" */
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post =
@@ -418,65 +377,59 @@ const buttonsFooter = props.isPreview ? null : (
 
 const CreatorWidget = (postType) => {
   return (
-    <WidgetWrapper>
-      <div
-        class="collapse"
-        id={`collapse${postType}Creator${postId}`}
-        data-bs-parent={`#accordion${postId}`}
-      >
-        {widget("components.posts.PostEditor", {
-          postType,
-          parentId: postId,
-          mode: "Create",
-        })}
-      </div>
-    </WidgetWrapper>
+    <div
+      class="collapse"
+      id={`collapse${postType}Creator${postId}`}
+      data-bs-parent={`#accordion${postId}`}
+    >
+      {widget("components.posts.PostEditor", {
+        postType,
+        parentId: postId,
+        mode: "Create",
+      })}
+    </div>
   );
 };
 
 const EditorWidget = (postType) => {
   return (
-    <WidgetWrapper>
-      <div
-        class="collapse"
-        id={`collapse${postType}Editor${postId}`}
-        data-bs-parent={`#accordion${postId}`}
-      >
-        {widget("components.posts.PostEditor", {
-          postType,
-          postId,
-          mode: "Edit",
-          author_id: post.author_id,
-          labels: post.snapshot.labels,
-          name: post.snapshot.name,
-          description: post.snapshot.description,
-          amount: post.snapshot.amount,
-          token: post.snapshot.sponsorship_token,
-          supervisor: post.snapshot.supervisor,
-          githubLink: post.snapshot.github_link,
-        })}
-      </div>
-    </WidgetWrapper>
+    <div
+      class="collapse"
+      id={`collapse${postType}Editor${postId}`}
+      data-bs-parent={`#accordion${postId}`}
+    >
+      {widget("components.posts.PostEditor", {
+        postType,
+        postId,
+        mode: "Edit",
+        author_id: post.author_id,
+        labels: post.snapshot.labels,
+        name: post.snapshot.name,
+        description: post.snapshot.description,
+        amount: post.snapshot.amount,
+        token: post.snapshot.sponsorship_token,
+        supervisor: post.snapshot.supervisor,
+        githubLink: post.snapshot.github_link,
+      })}
+    </div>
   );
 };
 
 const editorsFooter = props.isPreview ? null : (
-  <WidgetWrapper>
-    <div class="row" id={`accordion${postId}`} key="editors-footer">
-      {CreatorWidget("Comment")}
-      {EditorWidget("Comment")}
-      {CreatorWidget("Idea")}
-      {EditorWidget("Idea")}
-      {CreatorWidget("Submission")}
-      {EditorWidget("Submission")}
-      {CreatorWidget("Attestation")}
-      {EditorWidget("Attestation")}
-      {CreatorWidget("Sponsorship")}
-      {EditorWidget("Sponsorship")}
-      {CreatorWidget("Github")}
-      {EditorWidget("Github")}
-    </div>  
-  </WidgetWrapper>
+  <div class="row" id={`accordion${postId}`} key="editors-footer">
+    {CreatorWidget("Comment")}
+    {EditorWidget("Comment")}
+    {CreatorWidget("Idea")}
+    {EditorWidget("Idea")}
+    {CreatorWidget("Submission")}
+    {EditorWidget("Submission")}
+    {CreatorWidget("Attestation")}
+    {EditorWidget("Attestation")}
+    {CreatorWidget("Sponsorship")}
+    {EditorWidget("Sponsorship")}
+    {CreatorWidget("Github")}
+    {EditorWidget("Github")}
+  </div>
 );
 
 const renamedPostType =
@@ -555,7 +508,7 @@ const Card = styled.div`
 `;
 
 const limitedMarkdown = styled.div`
-  max-height: 20em;
+  max-height: 30em;
 `;
 
 const clampMarkdown = styled.div`
@@ -630,20 +583,18 @@ const descriptionArea = isUnderPost ? (
 );
 
 return (
-  <WidgetWrapper>
-    <Card className={`card my-2 ${borders[snapshot.post_type]}`}>
-      {linkToParent}
-      {header}
-      <div className="card-body">
-        {searchKeywords}
-        {postLabels}
-        {postTitle}
-        {postExtra}
-        {descriptionArea}
-        {buttonsFooter}
-        {editorsFooter}
-        {postsList}
-      </div>
-    </Card>
-  </WidgetWrapper>
+  <Card className={`card my-2 ${borders[snapshot.post_type]}`}>
+    {linkToParent}
+    {header}
+    <div className="card-body">
+      {searchKeywords}
+      {postLabels}
+      {postTitle}
+      {postExtra}
+      {descriptionArea}
+      {buttonsFooter}
+      {editorsFooter}
+      {postsList}
+    </div>
+  </Card>
 );
