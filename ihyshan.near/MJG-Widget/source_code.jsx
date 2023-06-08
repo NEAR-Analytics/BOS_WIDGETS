@@ -104,23 +104,29 @@ const WidgetImages = [
 ];
 
 const Mainnet = [
-  { title: "Chain Team Tactics", url: "https://pd.marmaj.org/pixelpets" },
+  { title: "{PixelPets}", url: "https://pd.marmaj.org/pixelpets" },
 ];
 
 const Testnet = [
   {
-    title: "Chain Team Tactics",
+    title: "PixelPets",
     url: "https://pd-testnet.marmaj.org/pixelpets/testnet.html",
   },
 ];
 
 const Wiki = [
   {
-    title: "Chain Team Tactics Wiki",
+    title: "PixelPets Wiki",
     url: "https://github.com/MarmaJFoundation/pixelpets-wiki/wiki",
   },
 ];
 
+const NFT = [
+  {
+    title: "PixelPets NFT",
+    url: "https://www.mintbase.xyz/meta/mjr.mintbase1.near%3A0e1888dca342ee552547f8ef39ad8785",
+  },
+];
 return (
   <div
     style={{
@@ -180,6 +186,7 @@ return (
             { label: "Play", url: widget.url },
             { label: "Test", url: Testnet[index].url },
             { label: "Wiki", url: Wiki[index].url },
+            { label: "NFT", url: NFT[index].url },
           ]}
         />
       ))}
