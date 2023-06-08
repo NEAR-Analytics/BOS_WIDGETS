@@ -48,75 +48,102 @@ const cardData = props.cardData ?? {
 };
 
 const formatCard = props.formatCard ?? {
-  row1: {
-    rowType: "markdown",
-    contentData: "data",
-  },
-  row2: {
-    rowType: "text",
-    contentData: "data2",
-  },
-  row3: {
-    rowType: "flex",
-    flexClassName: "justify-content-between border rounded p-3",
-    contentData: [
-      {
-        type: "flex",
-        flexClassName:
-          "flex-column justify-content-start align-items-center border-right",
-        style: { width: "33%" },
-        content: [
-          {
-            type: "text",
-            value: "Created by",
-          },
-          {
-            type: "key",
-            value: ["accountId"],
-            style: {
-              maxWidth: "100%",
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              textWrap: "nowrap",
+  body: {
+    row1: {
+      rowType: "markdown",
+      contentData: "data",
+    },
+    row2: {
+      rowType: "text",
+      contentData: "data2",
+    },
+    row3: {
+      rowType: "flex",
+      flexClassName: "justify-content-between border rounded p-3",
+      contentData: [
+        {
+          type: "flex",
+          flexClassName:
+            "flex-column justify-content-start align-items-center border-right",
+          style: { width: "33%" },
+          content: [
+            {
+              type: "text",
+              value: "Created by",
             },
-          },
-        ],
-      },
-      {
-        type: "flex",
-        flexClassName:
-          "flex-column justify-content-start align-items-center border-right",
-        style: { width: "33%" },
-        content: [
-          {
-            type: "text",
-            value: "Started",
-          },
-          {
-            type: "timeStampKey",
-            value: "startTimestamp",
-          },
-        ],
-      },
-      {
-        type: "flex",
-        flexClassName:
-          "flex-column justify-content-start align-items-center border-right",
-        style: {
-          width: "33%",
+            {
+              type: "key",
+              value: ["accountId"],
+              style: {
+                maxWidth: "100%",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                textWrap: "nowrap",
+              },
+            },
+          ],
         },
-        content: [
-          {
-            type: "text",
-            value: "Ended",
+        {
+          type: "flex",
+          flexClassName:
+            "flex-column justify-content-start align-items-center border-right",
+          style: { width: "33%" },
+          content: [
+            {
+              type: "text",
+              value: "Started",
+            },
+            {
+              type: "timeStampKey",
+              value: "startTimestamp",
+            },
+          ],
+        },
+        {
+          type: "flex",
+          flexClassName:
+            "flex-column justify-content-start align-items-center border-right",
+          style: {
+            width: "33%",
           },
-          {
-            type: "timeStampKey",
-            value: "endTimestamp",
-          },
-        ],
-      },
-    ],
+          content: [
+            {
+              type: "text",
+              value: "Ended",
+            },
+            {
+              type: "timeStampKey",
+              value: "endTimestamp",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  footer: {},
+};
+
+const footerFormat = props.footerFormat ?? {
+  comment: {
+    status: true,
+    key: "kudo",
+    path: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Kudos",
+    pushDataModel:
+      '{"kudo":"{\\"key\\":\\"commentAnswers\\",\\"value\\":{\\"commentAnswer\\":\\"\\",\\"blockHeight\\":0}}"}',
+  },
+  repost: {
+    status: true,
+  },
+  upVoteButton: {
+    status: true,
+    pushDataModel:
+      '{"kudo":"{\\"key\\":\\"upvote\\",\\"value\\":{\\"blockHeight\\":0}}"}',
+  },
+  shareWidget: {
+    status: true,
+    popUpDescription: "Use this link to share the kudo",
+    shareingWidget: "Kudos.Styles",
+    propName: "sharedBlockHeight",
   },
 };
 
@@ -148,7 +175,7 @@ return (
         props={{ ...cardData }}
       />
       <div className="card-body">
-        {Object.keys(formatCard).map((rowKey) => {
+        {Object.keys(formatCard.body).map((rowKey) => {
           let rowData = formatCard[rowKey];
           if (rowData.rowType == "markdown") {
             return <Markdown text={rowData.contentData} />;
@@ -250,6 +277,10 @@ return (
           }
         })}
       </div>
+      <Widget
+        src={`${widgetOwner}/widget/general_neardigitalcollective_footer`}
+        props={{ ...cardData, footerFormat }}
+      />
     </div>
   </div>
 );
