@@ -1,16 +1,14 @@
-const {
-  tokenId,
-  coinGeckoTokenId,
-  NETWORK_NEAR,
-  NETWORK_ETH,
-  NETWORK_ZKSYNC,
-  NETWORK_ZKEVM,
-  NETWORK_AURORA,
-  NETWORK_POLYGON,
-} = props;
+const { tokenId, coinGeckoTokenId } = props;
 
 const accountId = context.accountId;
 const debug = props.debug ?? false;
+
+const NETWORK_NEAR = "NEAR";
+const NETWORK_ETH = "ETH";
+const NETWORK_ZKSYNC = "ZKSYNC";
+const NETWORK_ZKEVM = "ZKEVM";
+const NETWORK_AURORA = "AURORA";
+const NETWORK_POLYGON = "POLYGON";
 
 const network = props.network ?? NETWORK_NEAR;
 
