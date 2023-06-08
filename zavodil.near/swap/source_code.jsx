@@ -3,6 +3,7 @@ const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
 const NETWORK_ZKEVM = "ZKEVM";
 const NETWORK_AURORA = "AURORA";
+const NETWORK_POLYGON = "POLYGON";
 
 State.init({
   inputAssetModalHidden: true,
@@ -224,9 +225,13 @@ const tokenInApprovaleNeededCheck = () => {
       getEVMAccountId() &&
       state.erc20Abi !== undefined &&
       state.routerContract !== undefined &&
-      [NETWORK_ETH, NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_AURORA].includes(
-        state.network
-      )
+      [
+        NETWORK_ETH,
+        NETWORK_ZKSYNC,
+        NETWORK_ZKEVM,
+        NETWORK_AURORA,
+        NETWORK_POLYGON,
+      ].includes(state.network)
     ) {
       const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
@@ -259,9 +264,13 @@ const tokenInApprovaleNeededCheck = () => {
 };
 
 if (
-  [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_ETH, NETWORK_AURORA].includes(
-    state.network
-  )
+  [
+    NETWORK_ZKSYNC,
+    NETWORK_ZKEVM,
+    NETWORK_ETH,
+    NETWORK_AURORA,
+    NETWORK_POLYGON,
+  ].includes(state.network)
 ) {
   tokenInApprovaleNeededCheck();
 }
@@ -309,6 +318,7 @@ return (
         NETWORK_ZKSYNC,
         NETWORK_ZKEVM,
         NETWORK_AURORA,
+        NETWORK_POLYGON,
       }}
     />
 
@@ -360,6 +370,12 @@ return (
           tokenId: state.inputAssetTokenId,
           coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
           network: state.network,
+          NETWORK_NEAR,
+          NETWORK_ETH,
+          NETWORK_ZKSYNC,
+          NETWORK_ZKEVM,
+          NETWORK_AURORA,
+          NETWORK_POLYGON,
           onLoad: (inputAsset) => {
             console.log("TokenData onLoad inputAsset", inputAsset);
             inputAsset.metadata.symbol =
@@ -377,6 +393,12 @@ return (
           coinGeckoTokenId:
             state?.coinGeckoTokenIds?.[state.outputAssetTokenId],
           network: state.network,
+          NETWORK_NEAR,
+          NETWORK_ETH,
+          NETWORK_ZKSYNC,
+          NETWORK_ZKEVM,
+          NETWORK_AURORA,
+          NETWORK_POLYGON,
           onLoad: (outputAsset) => {
             console.log("TokenData onLoad outputAsset", outputAsset);
             outputAsset.metadata.symbol =
@@ -460,6 +482,41 @@ return (
               tokenIn: state.inputAssetTokenId,
               tokenOut: state.outputAssetTokenId,
               tokenOutDecimals: state.outputAsset.metadata.decimals,
+              amountIn: expandToken(
+                state.inputAssetAmount,
+                state.inputAsset.metadata.decimals
+              ).toFixed(0),
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
+
+    {state.network === NETWORK_POLYGON &&
+      state.sender &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/balancer-queryBatchSwap"
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              inputAsset: state.inputAsset,
+              outputAsset: state.outputAsset,
+              sender: state.sender,
+              quoterContractId: state.routerContract,
               amountIn: expandToken(
                 state.inputAssetAmount,
                 state.inputAsset.metadata.decimals
@@ -596,15 +653,24 @@ return (
                   <button
                     class={"swap-button-enabled"}
                     onClick={() => {
-                      state.callTokenApproval(
-                        state,
-                        () => {
+                      if (
+                        [NETWORK_ETH, NETWORK_POLYGON].includes(state.network)
+                      ) {
+                        state.callTokenApproval(state, () => {
                           onCallTxComple();
                           tokenInApprovaleNeededCheck();
-                        },
-                        "10",
-                        100000
-                      );
+                        });
+                      } else {
+                        state.callTokenApproval(
+                          state,
+                          () => {
+                            onCallTxComple();
+                            tokenInApprovaleNeededCheck();
+                          },
+                          "120",
+                          100000
+                        );
+                      }
                     }}
                   >
                     <div class="swap-button-text">
@@ -641,6 +707,8 @@ return (
                           state.callTx(state, onCallTxComple);
                         } else if (state.network === NETWORK_AURORA) {
                           state.callTx(state, onCallTxComple, "0.1", 700000);
+                        } else if (state.network === NETWORK_POLYGON) {
+                          state.callTx(state, onCallTxComple);
                         }
                       }
                     }}
@@ -655,7 +723,7 @@ return (
         <div class="pt-3 text-secondary opacity-25 text-center">
           <p>
             Supported networks: {NETWORK_NEAR}, {NETWORK_ETH}, {NETWORK_ZKSYNC},
-            {NETWORK_ZKEVM}, {NETWORK_AURORA}
+            {NETWORK_ZKEVM}, {NETWORK_AURORA}, ${NETWORK_POLYGON}
           </p>
           {currentAccountId && <p>Current account: {currentAccountId}</p>}
         </div>
