@@ -127,26 +127,26 @@ const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
     const swap_steps = [
       {
         poolId: finalPool[1],
-        assetIn: input.inputAsset.metadata.symbol,
-        assetOut: input.outputAsset.metadata.symbol,
+        assetIn: input.inputAssetTokenId,
+        assetOut: input.outputAssetTokenId,
         amount: value,
       },
     ];
 
     const token_data = {};
-    token_data[input.inputAsset.metadata.symbol] = {
+
+    token_data[input.inputAssetTokenId] = {
       symbol: input.inputAsset.metadata.symbol,
       decimals: input.inputAsset.metadata.decimals,
       limit: "0",
     };
-    token_data[input.outputAsset.metadata.symbol] = {
+    token_data[input.outputAssetTokenId] = {
       symbol: input.outputAsset.metadata.symbol,
       decimals: input.outputAsset.metadata.decimals,
       limit: "0",
     };
 
     var token_addresses = Object.keys(token_data);
-    token_addresses.sort();
     const token_indices = {};
     for (var i = 0; i < token_addresses.length; i++) {
       token_indices[token_addresses[i]] = i;
