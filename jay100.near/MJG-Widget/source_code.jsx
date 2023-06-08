@@ -115,8 +115,9 @@ const PixelText = styled.p`
   text-align: center;
   margin: -20px -20px;
   line-height: 1.5rem;
-  :hover{
-    line-height: 2rem;
+  transition: all 0.2s ease-in-out;
+  :hover {
+    transform: scale(1.1);
   }
   padding: 10px 20px;
   
@@ -156,17 +157,24 @@ const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
         }}
       >
         {actionButtons.map((button, index) => (
-          <PixelContainer>
-            <Pixel
-              key={index}
-              onClick={() => handleButtonClick(button.url)}
-              href={button.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <PixelText> {button.label}</PixelText>
-            </Pixel>
-          </PixelContainer>
+          <a
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            key={index}
+            target="_blank"
+            rel="noopener noreferrer"
+            /*onClick={() => handleButtonClick(button.url)}*/
+            href={button.url}
+          >
+            <PixelContainer>
+              <Pixel>
+                <PixelText> {button.label}</PixelText>
+              </Pixel>
+            </PixelContainer>
+          </a>
         ))}
       </div>
     </Card>
