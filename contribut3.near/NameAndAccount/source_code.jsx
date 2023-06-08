@@ -24,12 +24,35 @@ const Account = styled.span`
   font-weight: 400;
   font-size: ${accountSize};
   line-height: 1.4em;
+  overflow: hidden;
+  max-width: 25ch;
+  text-overflow: ellipsis;
   color: #687076;
 `;
 
+State.init({
+  name,
+  nameIsFetched: name && name.length > 0 && name !== accountId,
+});
+
+if (!state.nameIsFetched) {
+  Near.asyncView(
+    "social.near",
+    "get",
+    { keys: [`${accountId}/profile/name`] },
+    "final",
+    false
+  ).then((data) =>
+    State.update({
+      name: data[accountId]?.profile?.name ?? name,
+      nameIsFetched: true,
+    })
+  );
+}
+
 return (
   <Container>
-    <Name>{name}</Name>
+    <Name>{state.name}</Name>
     <Account>@{accountId}</Account>
   </Container>
 );
