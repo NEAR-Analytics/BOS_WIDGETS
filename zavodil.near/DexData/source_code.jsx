@@ -104,6 +104,14 @@ const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
         [WETH, USDC, DAI, WBTC, WMATIC],
         "0x945f337307ea76fdaa2590d083423850f64e247f000100000000000000000b98",
       ],
+      [
+        [USDT, WETH, WMATIC],
+        "0xab7b5e989641afc86daf1bc2cd0ab21285c23f36000100000000000000000a80",
+      ],
+      [
+        [USDT, WBTC],
+        "0x2912fbedca787599d6a828f9688fc2ba166ddaa1000100000000000000000889",
+      ],
     ];
 
     const finalPool = pools
@@ -124,7 +132,7 @@ const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
 
     const swap_steps = [
       {
-        poolId: finalPool[1],
+        poolId: finalPool[0],
         assetIn: input.inputAssetTokenId,
         assetOut: input.outputAssetTokenId,
         amount: value,
