@@ -103,7 +103,6 @@ const community = communities[props.label];
 
 return (
   <>
-    <p>test</p>
     {widget("components.layout.Banner")}
     {widget("components.community.CommunityHeader", {
       title: community.title,
