@@ -4,6 +4,7 @@ const {
   NETWORK_ZKSYNC,
   NETWORK_ZKEVM,
   NETWORK_AURORA,
+  NETWORK_POLYGON,
   debug,
 } = props;
 let onLoad = props.onLoad;
@@ -23,6 +24,30 @@ if (debug) {
         props.onLoad(data);
       }
 
+      /*
+      // review swap data for debug mode
+      
+      data.sender = "0x9e65A68B05d06A054e07dC7060ec2bB8BC2B9313";
+      data.inputAssetAmount = "4123";
+      data.inputAsset = {
+        metadata: {
+          symbol: "USDC",
+          decimals: 6,
+        },
+      };
+      data.outputAsset = {
+        metadata: {
+          symbol: "WETH",
+          decimals: 18,
+        },
+      };
+      const f = (e) => {
+        console.log(e);
+      };
+
+      data.callTx(data, f);
+      */
+
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
     }
   };
@@ -34,6 +59,132 @@ if (typeof onLoad !== "function") return "Error";
 
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
+};
+
+const callTxBalancer = (input, onComplete, gasPrice, gasLimit) => {
+  console.log("callTxBalancer", input, onComplete);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const USDC = "0x2791bca1f2de4661ed88a30c99a7a9449aa84174";
+    const WETH = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619";
+    const WBTC = "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6";
+    const WMATIC = "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270";
+    const USDT = "0xc2132d05d31c914a87c6611c10748aeb04b58e8f";
+    const DAI = "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063";
+
+    // [asset1, asset2, asset3...], pool1
+    const pools = [
+      [
+        [WMATIC, WETH, USDC],
+        "0x0297e37f1873d2dab4487aa67cd56b58e2f27875000100000000000000000002",
+      ],
+      [
+        [WETH, USDC, WBTC],
+        "0x03cd191f589d12b0582a99808cf19851e468e6b500010000000000000000000a",
+      ],
+      [
+        [USDC, DAI, USDT],
+        "0x06df3b2bbb68adc8b0e302443692037ed9f91b42000000000000000000000012",
+      ],
+      [
+        [WETH, USDC, DAI, WBTC, WMATIC],
+        "0x945f337307ea76fdaa2590d083423850f64e247f000100000000000000000b98",
+      ],
+    ];
+
+    const finalPool = pools
+      .filter(
+        (poolData) =>
+          poolData[0].includes(input.inputAssetTokenId) &&
+          poolData[0].includes(input.outputAssetTokenId)
+      )
+      .map((poolData) => poolData[1]);
+
+    if (!finalPool.length) {
+      return console.log("Pool not found");
+    }
+
+    const assets = [input.inputAssetTokenId, input.outputAssetTokenId];
+
+    const funds = [input.sender, false, input.sender, false];
+
+    const swap_steps = [
+      {
+        poolId: finalPool[1],
+        assetIn: input.inputAsset.metadata.symbol,
+        assetOut: input.outputAsset.metadata.symbol,
+        amount: value,
+      },
+    ];
+
+    const token_data = {};
+    token_data[input.inputAsset.metadata.symbol] = {
+      symbol: input.inputAsset.metadata.symbol,
+      decimals: input.inputAsset.metadata.decimals,
+      limit: "0",
+    };
+    token_data[input.outputAsset.metadata.symbol] = {
+      symbol: input.outputAsset.metadata.symbol,
+      decimals: input.outputAsset.metadata.decimals,
+      limit: "0",
+    };
+
+    var token_addresses = Object.keys(token_data);
+    token_addresses.sort();
+    const token_indices = {};
+    for (var i = 0; i < token_addresses.length; i++) {
+      token_indices[token_addresses[i]] = i;
+    }
+
+    const swap_steps_struct = [];
+    for (const step of swap_steps) {
+      const swap_step_struct = [
+        step["poolId"],
+        token_indices[step["assetIn"]],
+        token_indices[step["assetOut"]],
+        step["amount"],
+        "0x",
+      ];
+      swap_steps_struct.push(swap_step_struct);
+    }
+
+    const swap_kind = 0;
+    const token_limits = [value, "0", "0"];
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    swapContract
+      .batchSwap(
+        swap_kind,
+        swap_steps_struct,
+        assets,
+        funds,
+        token_limits,
+        parseInt(deadline.toFixed()),
+        {
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
+          gasLimit: gasLimit ?? 20000000,
+        }
+      )
+      .then((transactionHash) => {
+        onComplete(transactionHash);
+      });
+  }
 };
 
 const callTxSyncSwap = (input, onComplete, gweiPrice) => {
@@ -425,6 +576,8 @@ const NearData = {
   callTx: callTxRef,
 };
 
+console.log("ethers", ethers);
+
 if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
   Ethers.provider()
     .getNetwork()
@@ -590,6 +743,66 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           factoryAbi: state.factoryAbi,
           erc20Abi: state.erc20Abi,
           callTx: callTxTrisolaris,
+          callTokenApproval: callTokenApprovalEVM,
+        });
+        State.update({ loadComplete: true });
+      } else if (chainIdData.chainId === 137) {
+        // POLYGON
+
+        if (state.erc20Abi == undefined) {
+          const erc20Abi = fetch(
+            "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+          );
+          if (!erc20Abi.ok) {
+            return "Loading";
+          }
+          State.update({ erc20Abi: erc20Abi.body });
+        }
+
+        if (state.routerAbi == undefined) {
+          const routerAbi = fetch(
+            "https://raw.githubusercontent.com/gerrrg/balancer-tutorials/master/abis/Vault.json"
+          );
+          if (!routerAbi.ok) {
+            return "Loading";
+          }
+
+          State.update({ routerAbi: routerAbi.body });
+        }
+
+        if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+
+        onLoad({
+          network: NETWORK_POLYGON,
+          assets: [
+            "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", // USDC
+            "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", // WETH
+            "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6", // WBTC
+            "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270", // WMATIC
+            "0xc2132d05d31c914a87c6611c10748aeb04b58e8f", // USDT
+            "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063", // DAI
+          ],
+          coinGeckoTokenIds: {
+            "0x2791bca1f2de4661ed88a30c99a7a9449aa84174":
+              "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619":
+              "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1":
+              "0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6",
+            "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270":
+              "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+            "0xc2132d05d31c914a87c6611c10748aeb04b58e8f":
+              "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063":
+              "0x6b175474e89094c44da98b954eedeac495271d0f",
+          },
+          inputAssetTokenId: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          outputAssetTokenId: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          routerContract: "0xBA12222222228d8Ba445958a75a0704d566BF2C8", // Balancer Vault
+          dexName: "Balancer",
+          erc20Abi: state.erc20Abi,
+          routerAbi: state.routerAbi,
+          callTx: callTxBalancer,
           callTokenApproval: callTokenApprovalEVM,
         });
         State.update({ loadComplete: true });
