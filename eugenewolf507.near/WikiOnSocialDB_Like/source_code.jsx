@@ -2,13 +2,14 @@
 const initialEmoji = "🤍 Like";
 const emojiArray = [
   "❤️ Positive",
-  "👀 Thinking",
   "🙏 Thank you",
-  "😁 LOL",
-  "👎 Negative",
-  "🚀 Ship it",
   "💯 Definitely",
+  "👀 Thinking",
+  "🔥 Awesome",
   "👍 Like",
+  "🙌 Celebrate",
+  "👏 Applause",
+  "⚡ Lightning",
 ];
 const item = props.item;
 const accountThatIsLoggedIn = context.accountId;
@@ -146,7 +147,7 @@ const clickHandler = (emojiMessage) => {
 const overlay = (
   <div
     className="border m-3 p-3 rounded-4 bg-white shadow"
-    style={{ maxWidth: "25em", zIndex: 1070 }}
+    style={{ maxWidth: "27em", zIndex: 1070 }}
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
   >
