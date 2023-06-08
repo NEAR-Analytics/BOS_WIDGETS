@@ -43,7 +43,6 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-
 /* INCLUDE: "communities.jsx" */
 const communities = {
   "zero-knowledge": {
@@ -125,24 +124,36 @@ const Overview = (
   </div>
 );
 
-<Card className={`card my-2`}>
-  <Card.Body>
-    <Card.Title>
-      <div className="d-flex align-items-center">
-        <div className="flex-grow-1">
-          <h1 className="h4 mb-0">{team.title}</h1>
-          <div className="text-muted">{team.name}</div>
+// Teams Card
+const TeamsCard = (
+  <Card className={`card my-2`}>
+    <Card.Body>
+      <Card.Title>
+        <div className="d-flex align-items-center">
+          <div className="flex-grow-1">
+            <h1 className="h4 mb-0">{team.title}</h1>
+            <div className="text-muted">{team.name}</div>
+          </div>
         </div>
-      </div>
-    </Card.Title>
-    <Card.Text>
-      <Markdown text={team.description} onMention={onMention}></Markdown>
-    </Card.Text>
-  </Card.Body>
-</Card>;
+      </Card.Title>
+      <Card.Text>
+        <Markdown text={team.description} onMention={onMention}></Markdown>
+      </Card.Text>
+    </Card.Body>
+  </Card>
+);
 
-return widget("components.community.Layout", {
-  label: props.label,
-  tab: "Overview",
-  children: Overview,
-});
+return (
+  <Row>
+    <Col xs={12} md={4}>
+      {TeamsCard}
+    </Col>
+    <Col xs={12} md={8}>
+      {widget("components.community.Layout", {
+        label: props.label,
+        tab: "Overview",
+        children: Overview,
+      })}
+    </Col>
+  </Row>
+);
