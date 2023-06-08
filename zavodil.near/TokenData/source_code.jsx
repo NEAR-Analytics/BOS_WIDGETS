@@ -1,13 +1,16 @@
-const tokenId = props.tokenId;
-const coinGeckoTokenId = props.coinGeckoTokenId;
+const {
+  tokenId,
+  coinGeckoTokenId,
+  NETWORK_NEAR,
+  NETWORK_ETH,
+  NETWORK_ZKSYNC,
+  NETWORK_ZKEVM,
+  NETWORK_AURORA,
+  NETWORK_POLYGON,
+} = props;
+
 const accountId = context.accountId;
 const debug = props.debug ?? false;
-
-const NETWORK_NEAR = "NEAR";
-const NETWORK_ETH = "ETH";
-const NETWORK_ZKSYNC = "ZKSYNC";
-const NETWORK_ZKEVM = "ZKEVM";
-const NETWORK_AURORA = "AURORA";
 
 const network = props.network ?? NETWORK_NEAR;
 
@@ -181,7 +184,8 @@ switch (network) {
   case NETWORK_ETH:
   case NETWORK_ZKSYNC:
   case NETWORK_AURORA:
-  case NETWORK_ZKEVM: {
+  case NETWORK_ZKEVM:
+  case NETWORK_POLYGON: {
     if (state.ethAccountId === undefined) {
       const accounts = Ethers.send("eth_requestAccounts", []);
       if (accounts.length) {
@@ -222,7 +226,9 @@ switch (network) {
       let tokenIdForCoingeckoAPI;
       if ([NETWORK_AURORA, NETWORK_ETH].includes(network)) {
         tokenIdForCoingeckoAPI = tokenId;
-      } else if ([NETWORK_ZKSYNC, NETWORK_ZKEVM].includes(network)) {
+      } else if (
+        [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(network)
+      ) {
         tokenIdForCoingeckoAPI = coinGeckoTokenId;
       }
 
