@@ -24,7 +24,7 @@ State.init({
   likes: [],
   unfilteredLikes: [],
 });
-console.log(state);
+// console.log(state);
 
 // =============== CSS Styles ===============
 
@@ -65,7 +65,6 @@ const arrayLastLikeForEachUser =
     }
     return false;
   });
-console.log(arrayLastLikeForEachUser);
 
 const updateEmojiIfUserVoted = () => {
   const resObject = arrayLastLikeForEachUser.find(
