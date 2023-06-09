@@ -1,1 +1,3 @@
-return <h1>Hello, {props.name}</h1>;
+const accountId = context.accountId;
+
+return <h1>Hello, {accountId}</h1>;
