@@ -14,45 +14,6 @@ const widgetOwner =
   props.widgetOwner ??
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 
-const tabs = props.tabs ?? {
-  MY_POLL: {
-    id: 1,
-    text: "My Polls",
-    isTab: true,
-    widgetName: "general_neardigitalcollective_cards-container",
-    props: {
-      isOwnAccountId: true,
-      navegateTo: 4,
-      formatCard,
-    },
-  },
-  ALL_POLLS: {
-    id: 2,
-    text: "All Polls",
-    isTab: true,
-    widgetName: "general_neardigitalcollective_cards-container",
-    props: {
-      isOwnAccountId: false,
-      navegateTo: 4,
-      formatCard,
-    },
-  },
-  NEW_POLL: {
-    id: 3,
-    text: finalData ? "Edit Poll" : "Create Poll",
-    isButtonInNavegation: true,
-    widgetName: "newPollQuestionInterface",
-    props: { isButtonInNavegation: true },
-  },
-  OPEN_POLL: {
-    id: 4,
-    text: "",
-    isCardNavigate: true,
-    widgetName: "newVotingInterface",
-    props: { blockHeight: state.postBlockHeight },
-  },
-};
-
 const formatCard = props.formatCard ?? {
   body: {
     row1: {
@@ -148,6 +109,45 @@ const formatCard = props.formatCard ?? {
       shareingWidget: "Kudos.Styles",
       propName: "sharedBlockHeight",
     },
+  },
+};
+
+const tabs = props.tabs ?? {
+  MY_POLL: {
+    id: 1,
+    text: "My Polls",
+    isTab: true,
+    widgetName: "general_neardigitalcollective_cards-container",
+    props: {
+      isOwnAccountId: true,
+      navegateTo: 4,
+      formatCard,
+    },
+  },
+  ALL_POLLS: {
+    id: 2,
+    text: "All Polls",
+    isTab: true,
+    widgetName: "general_neardigitalcollective_cards-container",
+    props: {
+      isOwnAccountId: false,
+      navegateTo: 4,
+      formatCard,
+    },
+  },
+  NEW_POLL: {
+    id: 3,
+    text: finalData ? "Edit Poll" : "Create Poll",
+    isButtonInNavegation: true,
+    widgetName: "newPollQuestionInterface",
+    props: { isButtonInNavegation: true },
+  },
+  OPEN_POLL: {
+    id: 4,
+    text: "",
+    isCardNavigate: true,
+    widgetName: "newVotingInterface",
+    props: { blockHeight: state.postBlockHeight },
   },
 };
 
