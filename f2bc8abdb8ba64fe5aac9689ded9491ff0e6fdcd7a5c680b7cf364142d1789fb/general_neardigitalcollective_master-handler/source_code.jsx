@@ -23,6 +23,7 @@ const tabs = props.tabs ?? {
     props: {
       isOwnAccountId: true,
       navegateTo: 4,
+      formatCard,
     },
   },
   ALL_POLLS: {
@@ -33,6 +34,7 @@ const tabs = props.tabs ?? {
     props: {
       isOwnAccountId: false,
       navegateTo: 4,
+      formatCard,
     },
   },
   NEW_POLL: {
@@ -124,30 +126,28 @@ const formatCard = props.formatCard ?? {
       ],
     },
   },
-  footer: {},
-};
-
-const footerFormat = props.footerFormat ?? {
-  comment: {
-    status: true,
-    key: "kudo",
-    path: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Kudos",
-    pushDataModel:
-      '{"kudo":"{\\"key\\":\\"commentAnswers\\",\\"value\\":{\\"commentAnswer\\":\\"\\",\\"blockHeight\\":0}}"}',
-  },
-  repost: {
-    status: true,
-  },
-  upVoteButton: {
-    status: true,
-    pushDataModel:
-      '{"kudo":"{\\"key\\":\\"upvote\\",\\"value\\":{\\"blockHeight\\":0}}"}',
-  },
-  shareWidget: {
-    status: true,
-    popUpDescription: "Use this link to share the kudo",
-    shareingWidget: "Kudos.Styles",
-    propName: "sharedBlockHeight",
+  footer: {
+    comment: {
+      status: true,
+      key: "kudo",
+      path: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Kudos",
+      pushDataModel:
+        '{"kudo":"{\\"key\\":\\"commentAnswers\\",\\"value\\":{\\"commentAnswer\\":\\"\\",\\"blockHeight\\":0}}"}',
+    },
+    repost: {
+      status: true,
+    },
+    upVoteButton: {
+      status: true,
+      pushDataModel:
+        '{"kudo":"{\\"key\\":\\"upvote\\",\\"value\\":{\\"blockHeight\\":0}}"}',
+    },
+    shareWidget: {
+      status: true,
+      popUpDescription: "Use this link to share the kudo",
+      shareingWidget: "Kudos.Styles",
+      propName: "sharedBlockHeight",
+    },
   },
 };
 
@@ -339,8 +339,6 @@ function isOnNavTab() {
 /*-----------------------------------------------End functions-----------------------------------------------*/
 
 /*----------------------------------------------Start render components----------------------------------------------*/
-console.log("state.showAbort: ", state.showAbort);
-console.log("state.tab: ", state.tab);
 const renderAbortModal = () => {
   return (
     <Widget
