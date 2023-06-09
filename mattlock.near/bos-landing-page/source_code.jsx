@@ -229,14 +229,16 @@ return (
             <h1>$10k Bounty</h1>
             <h2>&#60;Hackathon&#62;</h2>
           </div>
-          <div>
-            <a
-              href="https://ethdubai-sushiswap-hackathon.devpost.com/"
-              target="_blank"
-            >
-              <h3>Sign Up For Hackathon -&#62;</h3>
-            </a>
-          </div>
+          {
+            //   <div>
+            //   <a
+            //     href="https://ethdubai-sushiswap-hackathon.devpost.com/"
+            //     target="_blank"
+            //   >
+            //     <h3>Sign Up For Hackathon -&#62;</h3>
+            //   </a>
+            // </div>
+          }
         </div>
       </div>
       <div class="noise"></div>
