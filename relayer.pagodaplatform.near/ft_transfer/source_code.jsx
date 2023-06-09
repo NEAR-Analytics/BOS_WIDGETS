@@ -18,8 +18,8 @@ const send = () => {
     state.token,
     "ft_transfer",
     {
-      receiver_id: reciever,
-      amount: amount,
+      receiver_id: state.reciever,
+      amount: state.amount,
     },
     "30000000000000",
     "1"
