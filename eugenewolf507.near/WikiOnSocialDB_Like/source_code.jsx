@@ -1,3 +1,4 @@
+const authorForWidget = "eugenewolf507.near";
 // "❤️ Positive"
 const initialEmoji = "🤍 Like";
 const emojiArray = [
@@ -188,7 +189,11 @@ return (
     {state.likes &&
       state.likes.map((item) => (
         <span className="ps-3">
-          {item.quantity} {item.emoji}{" "}
+          <Widget
+            src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
+            props={{ accounts: item.accounts }}
+          />{" "}
+          {item.emoji}{" "}
         </span>
       ))}
   </span>
