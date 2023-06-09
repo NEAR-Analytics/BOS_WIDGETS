@@ -176,7 +176,7 @@ return (
       />
       <div className="card-body">
         {Object.keys(formatCard.body).map((rowKey) => {
-          let rowData = formatCard[rowKey];
+          let rowData = formatCard.body[rowKey];
           if (rowData.rowType == "markdown") {
             return <Markdown text={rowData.contentData} />;
           } else if (rowData.rowType == "text") {
