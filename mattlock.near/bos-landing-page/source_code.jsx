@@ -225,11 +225,11 @@ return (
       <div class="header-right"></div>
       <div class="header-content-right">
         <div>
-          <div>
-            <h1>$10k Bounty</h1>
-            <h2>&#60;Hackathon&#62;</h2>
-          </div>
           {
+            // <div>
+            //   <h1>Bounties</h1>
+            //   <h2>&#60;Hackathon&#62;</h2>
+            // </div>
             //   <div>
             //   <a
             //     href="https://ethdubai-sushiswap-hackathon.devpost.com/"
