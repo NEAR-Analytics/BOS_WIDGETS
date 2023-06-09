@@ -353,7 +353,7 @@ return widget("components.community.Layout", {
   children: (
     <div class="row">
       <div class="col-md-8">
-        {widget("components.layout.Controls", {
+        {widget("components.layout.PlusPost", {
           labels: discussionsRequiredLabels,
         })}
         <div className="row mb-2">
