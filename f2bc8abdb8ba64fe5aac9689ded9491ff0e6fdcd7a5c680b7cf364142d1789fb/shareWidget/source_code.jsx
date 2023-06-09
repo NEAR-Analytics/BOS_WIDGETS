@@ -15,6 +15,7 @@ let thisWidgetInlineStyles = props.allWidgetsInlineStyles.shareWidget ?? {
   showShareOptionsContainer: {
     position: "absolute",
     left: "1rem",
+    bottom: "1rem",
     backgroundColor: "#FFFFFF",
     border: "1.5px solid #F0F4F7",
     boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
