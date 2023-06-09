@@ -4,7 +4,7 @@ const nearDevGovGigsContractAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -42,58 +42,17 @@ function href(widgetName, linkProps) {
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
-
-const WrapperWidget = ({ children, id }) => {
-  const storageType = "local"; // Hard-coded storage type
-
-  // This function handles the state change for the children widgets
-  const handleStateChange = (key, value) => {
-    // Use the unique identifier to create a unique storage key
-    const storageKey = `${id}_${key}`;
-
-    console.log(`Setting value for ${storageKey}: `, value); // Console log added here
-
-    // Update the local storage with the new state
-    localStorage.setItem(storageKey, JSON.stringify(value));
-    console.log(`State saved in local storage for ${storageKey}`); // Console log added here
-  };
-
-  // This function initializes the state of the children widgets
-  const initState = (key, defaultValue) => {
-    // Use the unique identifier to create a unique storage key
-    const storageKey = `${id}_${key}`;
-
-    let storedValue = localStorage.getItem(storageKey);
-    console.log(
-      `Retrieved value from local storage for ${storageKey}: `,
-      storedValue
-    ); // Console log added here
-
-    if (storedValue) {
-      try {
-        return JSON.parse(storedValue);
-      } catch (e) {
-        console.error("Error parsing JSON from storage", e);
-      }
-    }
-    return defaultValue;
-  };
-
-  // Render the children widgets and pass the state management functions as props
-  return React.Children.map(children, (child) =>
-    child && typeof child === "object"
-      ? React.cloneElement(child, { handleStateChange, initState })
-      : child
-  );
-};
 /* END_INCLUDE: "common.jsx" */
 
 return (
-  <div className="card border-secondary mb-2">
-    <div className="nav navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
+  <div
+    class="card mb-2"
+    style={{ boxShadow: "1px 1px 3px rgba(0, 128, 128, 0.33)" }}
+  >
+    <div class="nav navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
         <div
-          className="navbar-brand"
+          class="navbar-brand"
           style={{ height: "2.5em", width: "2.5em", minWidth: "2.5em" }}
         >
           <Widget
@@ -107,60 +66,60 @@ return (
             }}
           />
         </div>
-        <div className="nav navbar-brand h1">Create</div>
+        <div class="nav navbar-brand h1">Create</div>
 
-        <div className="collapse navbar-collapse" id="navbarText">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
               <a
-                className="nav-link active"
+                class="nav-link active"
                 aria-current="page"
                 data-bs-toggle="collapse"
-                href="#collapseIdeaEditorNavbar"
+                href={`#collapseIdeaEditorNavbar`}
                 role="button"
                 aria-expanded="false"
-                aria-controls="collapseIdeaEditorNavbar"
+                aria-controls={`collapseIdeaEditorNavbar`}
               >
-                <i className="bi-lightbulb-fill"> </i>
+                <i class="bi-lightbulb-fill"> </i>
                 Idea
               </a>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <a
-                className="nav-link active"
+                class="nav-link active"
                 data-bs-toggle="collapse"
-                href="#collapseSubmissionEditorNavbar"
+                href={`#collapseSubmissionEditorNavbar`}
                 role="button"
                 aria-expanded="false"
-                aria-controls="collapseSubmissionEditorNavbar"
+                aria-controls={`collapseSubmissionEditorNavbar`}
               >
-                <i className="bi-rocket-fill"> </i>
+                <i class="bi-rocket-fill"> </i>
                 Solution
               </a>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <a
-                className="nav-link active"
+                class="nav-link active"
                 data-bs-toggle="collapse"
-                href="#collapseAttestationEditorNavbar"
+                href={`#collapseAttestationEditorNavbar`}
                 role="button"
                 aria-expanded="false"
-                aria-controls="collapseAttestationEditorNavbar"
+                aria-controls={`collapseAttestationEditorNavbar`}
               >
-                <i className="bi-check-circle-fill"> </i>
+                <i class="bi-check-circle-fill"> </i>
                 Attestation
               </a>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <a
-                className="nav-link active"
+                class="nav-link active"
                 data-bs-toggle="collapse"
-                href="#collapseSponsorshipEditorNavbar"
+                href={`#collapseSponsorshipEditorNavbar`}
                 role="button"
                 aria-expanded="false"
-                aria-controls="collapseSponsorshipEditorNavbar"
+                aria-controls={`collapseSponsorshipEditorNavbar`}
               >
-                <i className="bi-cash-coin"> </i>
+                <i class="bi-cash-coin"> </i>
                 Sponsorship
               </a>
             </li>
@@ -168,71 +127,61 @@ return (
         </div>
       </div>
     </div>
-    <div className="row" id="accordionNavbar">
+    <div class="row" id={`accordionNavbar`}>
       <div
-        className="collapse"
-        id="collapseCommentEditorNavbar"
-        data-bs-parent="#accordionNavbar"
+        class="collapse"
+        id={`collapseCommentEditorNavbar`}
+        data-bs-parent={`#accordionNavbar`}
       >
-        <WrapperWidget id={State.commentEditorId}>
-          {widget("components.posts.PostEditor", {
-            postType: "Comment",
-            parentId: null,
-            labels: props.labels,
-          })}
-        </WrapperWidget>
+        {widget("components.posts.PostEditor", {
+          postType: "Comment",
+          parentId: null,
+          labels: props.labels,
+        })}
       </div>
       <div
-        className="collapse"
-        id="collapseIdeaEditorNavbar"
-        data-bs-parent="#accordionNavbar"
+        class="collapse"
+        id={`collapseIdeaEditorNavbar`}
+        data-bs-parent={`#accordionNavbar`}
       >
-        <WrapperWidget id={State.ideaEditorId}>
-          {widget("components.posts.PostEditor", {
-            postType: "Idea",
-            parentId: null,
-            labels: props.labels,
-          })}
-        </WrapperWidget>
+        {widget("components.posts.PostEditor", {
+          postType: "Idea",
+          parentId: null,
+          labels: props.labels,
+        })}
       </div>
       <div
-        className="collapse"
-        id="collapseSubmissionEditorNavbar"
-        data-bs-parent="#accordionNavbar"
+        class="collapse"
+        id={`collapseSubmissionEditorNavbar`}
+        data-bs-parent={`#accordionNavbar`}
       >
-        <WrapperWidget id={State.submissionEditorId}>
-          {widget("components.posts.PostEditor", {
-            postType: "Submission",
-            parentId: null,
-            labels: props.labels,
-          })}
-        </WrapperWidget>
+        {widget("components.posts.PostEditor", {
+          postType: "Submission",
+          parentId: null,
+          labels: props.labels,
+        })}
       </div>
       <div
-        className="collapse"
-        id="collapseAttestationEditorNavbar"
-        data-bs-parent="#accordionNavbar"
+        class="collapse"
+        id={`collapseAttestationEditorNavbar`}
+        data-bs-parent={`#accordionNavbar`}
       >
-        <WrapperWidget id={State.attestationEditorId}>
-          {widget("components.posts.PostEditor", {
-            postType: "Attestation",
-            parentId: null,
-            labels: props.labels,
-          })}
-        </WrapperWidget>
+        {widget("components.posts.PostEditor", {
+          postType: "Attestation",
+          parentId: null,
+          labels: props.labels,
+        })}
       </div>
       <div
-        className="collapse"
-        id="collapseSponsorshipEditorNavbar"
-        data-bs-parent="#accordionNavbar"
+        class="collapse"
+        id={`collapseSponsorshipEditorNavbar`}
+        data-bs-parent={`#accordionNavbar`}
       >
-        <WrapperWidget id={State.sponsorshipEditorId}>
-          {widget("components.posts.PostEditor", {
-            postType: "Sponsorship",
-            parentId: null,
-            labels: props.labels,
-          })}
-        </WrapperWidget>
+        {widget("components.posts.PostEditor", {
+          postType: "Sponsorship",
+          parentId: null,
+          labels: props.labels,
+        })}
       </div>
     </div>
   </div>
