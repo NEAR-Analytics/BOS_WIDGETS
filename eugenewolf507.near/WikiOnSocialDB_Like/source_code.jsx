@@ -191,9 +191,8 @@ return (
         <span className="ps-3">
           <Widget
             src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts }}
-          />{" "}
-          {item.emoji}{" "}
+            props={{ accounts: item.accounts, emoji: item.emoji }}
+          />
         </span>
       ))}
   </span>
