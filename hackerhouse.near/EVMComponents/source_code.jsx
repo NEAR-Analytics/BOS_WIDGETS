@@ -56,7 +56,12 @@ return (
           props={{ src: "zavodil.near/widget/DexData" }}
         />
       </Item>
-
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "mattlock.near/widget/Galxe-SpaceID" }}
+        />
+      </Item>
       <Item>
         <Widget
           src="near/widget/ComponentCard"
