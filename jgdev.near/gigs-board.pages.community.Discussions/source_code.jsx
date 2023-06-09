@@ -100,26 +100,56 @@ const discussionRequiredPosts =
     label,
   }) ?? [];
 
+// Fetch overview post
+const overviewPost = Near.view(nearDevGovGigsContractAccountId, "get_post", {
+  post_id: community.overviewId,
+});
+if (!overviewPost) {
+  return <div>Loading ...</div>;
+}
+
 const Discussions = (
-  <div>
-    <div class="row mb-2">
-      <div class="col text-center">
-        <small class="text-muted">
-          Required label:
-          <a href={href("Feed", { label })} key={label}>
-            <span class="badge text-bg-primary me-1">{label}</span>
-          </a>
-        </small>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="row mb-2">
+        <div class="col text-center">
+          <small class="text-muted">
+            Required label:
+            <a href={href("Feed", { label })} key={label}>
+              <span class="badge text-bg-primary me-1">{label}</span>
+            </a>
+          </small>
+        </div>
+      </div>
+      {widget("components.layout.Controls", {
+        labels: discussionsRequiredLabels,
+      })}
+      <div class="row">
+        <div class="col">
+          {discussionRequiredPosts.map((postId) =>
+            widget("components.posts.Post", { id: postId }, postId)
+          )}
+        </div>
       </div>
     </div>
-    {widget("components.layout.Controls", {
-      labels: discussionsRequiredLabels,
-    })}
-    <div class="row">
-      <div class="col">
-        {discussionRequiredPosts.map((postId) =>
-          widget("components.posts.Post", { id: postId }, postId)
-        )}
+    <div class="col-md-4">
+      <div class="card sidebarCard">
+        <div class="card-body">
+          <h5 class="card-title">Sidebar Card 1</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+        </div>
+      </div>
+      <div class="card sidebarCard mt-3">
+        <div class="card-body">
+          <h5 class="card-title">Sidebar Card 2</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+        </div>
       </div>
     </div>
   </div>
