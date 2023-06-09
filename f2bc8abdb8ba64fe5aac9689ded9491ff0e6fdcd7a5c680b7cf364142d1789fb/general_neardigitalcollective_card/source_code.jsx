@@ -120,30 +120,28 @@ const formatCard = props.formatCard ?? {
       ],
     },
   },
-  footer: {},
-};
-
-const footerFormat = props.footerFormat ?? {
-  comment: {
-    status: true,
-    key: "kudo",
-    path: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Kudos",
-    pushDataModel:
-      '{"kudo":"{\\"key\\":\\"commentAnswers\\",\\"value\\":{\\"commentAnswer\\":\\"\\",\\"blockHeight\\":0}}"}',
-  },
-  repost: {
-    status: true,
-  },
-  upVoteButton: {
-    status: true,
-    pushDataModel:
-      '{"kudo":"{\\"key\\":\\"upvote\\",\\"value\\":{\\"blockHeight\\":0}}"}',
-  },
-  shareWidget: {
-    status: true,
-    popUpDescription: "Use this link to share the kudo",
-    shareingWidget: "Kudos.Styles",
-    propName: "sharedBlockHeight",
+  footer: {
+    comment: {
+      status: true,
+      key: "kudo",
+      path: "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Kudos",
+      pushDataModel:
+        '{"kudo":"{\\"key\\":\\"commentAnswers\\",\\"value\\":{\\"commentAnswer\\":\\"\\",\\"blockHeight\\":0}}"}',
+    },
+    repost: {
+      status: true,
+    },
+    upVoteButton: {
+      status: true,
+      pushDataModel:
+        '{"kudo":"{\\"key\\":\\"upvote\\",\\"value\\":{\\"blockHeight\\":0}}"}',
+    },
+    shareWidget: {
+      status: true,
+      popUpDescription: "Use this link to share the kudo",
+      shareingWidget: "Kudos.Styles",
+      propName: "sharedBlockHeight",
+    },
   },
 };
 
@@ -279,7 +277,7 @@ return (
       </div>
       <Widget
         src={`${widgetOwner}/widget/general_neardigitalcollective_footer`}
-        props={{ ...cardData, footerFormat }}
+        props={{ ...cardData, footerFormat: formatCard.footer }}
       />
     </div>
   </div>
