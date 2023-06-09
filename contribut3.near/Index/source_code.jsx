@@ -12,9 +12,10 @@ State.init({
   projectId: props.projectId,
   vendorId: props.vendorId,
   tnc: true,
+  tncIsFetched: false,
 });
 
-if (context.accountId) {
+if (context.accountId && !state.tncIsFetched) {
   Near.asyncView(
     "social.near",
     "get",
@@ -24,6 +25,7 @@ if (context.accountId) {
   ).then((data) =>
     State.update({
       tnc: data[context.accountId]?.profile?.horizon_tnc === "true",
+      tncIsFetched: true,
     })
   );
 }
@@ -179,6 +181,36 @@ const tabContent = {
     />
   ),
   legal: <Widget src={`${ownerId}/widget/TNCPage`} />,
+  admin: (
+    <Widget
+      src={`${ownerId}/widget/Admin.Page`}
+      props={{ update, content: state.content }}
+    />
+  ),
+  projects: (
+    <Widget
+      src={`${ownerId}/widget/Project.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  investors: (
+    <Widget
+      src={`${ownerId}/widget/Investor.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  vendors: (
+    <Widget
+      src={`${ownerId}/widget/Vendor.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  requests: (
+    <Widget
+      src={`${ownerId}/widget/Request.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
 }[state.tab];
 
 const ContentContainer = styled.div`
@@ -231,6 +263,7 @@ const isForm = [
 
 return (
   <Container>
+    <Widget src={`${ownerId}/widget/Help.FeedbackButton`} props={{ update }} />
     <Widget
       src={`${ownerId}/widget/TNCModal`}
       props={{
@@ -238,7 +271,11 @@ return (
         accept: () =>
           Social.set(
             { profile: { horizon_tnc: true } },
-            { onCommit: () => State.update({ tnc: true }) }
+            {
+              onCommit: () => {
+                State.update({ tnc: true });
+              },
+            }
           ),
       }}
     />
