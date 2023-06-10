@@ -376,6 +376,8 @@ if (state.stakedBalance === undefined && state.sender) {
 
 // FETCH TX COST
 
+let mintGrow;
+
 if (state.txCost === undefined) {
   const gasEstimate = ethers.BigNumber.from(1875000);
   const gasPrice = ethers.BigNumber.from(1500000000);
@@ -398,7 +400,7 @@ if (state.txCost === undefined) {
     }
   );
 
-  const mintGrow = () => {
+  mintGrow = () => {
     const account = Ethers.provider().getSigner();
     const growRegistry = new ethers.Contract(
       growContract,
