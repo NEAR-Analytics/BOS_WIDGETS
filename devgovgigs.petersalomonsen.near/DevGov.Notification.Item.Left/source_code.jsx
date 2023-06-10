@@ -60,16 +60,15 @@ const type = props.type.split("/")[1];
 return props.type ? (
   <>
     {type == "like"
-      ? "liked your"
+      ? "liked"
       : type == "reply"
-      ? "replied to your"
+      ? "replied"
       : type == "edit"
-      ? "edited your"
-      : type == "mention"
-      ? "mentioned you in their"
+      ? "edited"
       : "???"}{" "}
+    your
     <a className="fw-bold text-muted" href={href("Post", { id: props.post })}>
-      DevHub post
+      Developer Governance post
     </a>
   </>
 ) : (
