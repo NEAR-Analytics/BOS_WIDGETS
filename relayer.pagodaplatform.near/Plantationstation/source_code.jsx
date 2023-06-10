@@ -316,8 +316,9 @@ if (state.chainId !== undefined && state.chainId !== 1) {
 const growContract = "0x945550dECe7E40ae70C6ebf5699637927eAF13E9";
 
 const growAbi = fetch(
-  "https://github.com/8ball030/plantation_station/blob/main/abis/GrowRegistry.json"
+  "https://raw.githubusercontent.com/8ball030/plantation_station/main/abis/GrowRegistry.json"
 );
+console.log(growAbi);
 if (!growAbi.ok) {
   return "Loading";
 }
