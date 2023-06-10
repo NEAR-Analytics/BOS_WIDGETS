@@ -311,29 +311,18 @@ if (state.chainId !== undefined && state.chainId !== 1) {
   return <p>Switch to Ethereum Mainnet</p>;
 }
 
-// FETCH LIDO ABI
+// FETCH GROW REGISTRY ABI
 
-const lidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
-const tokenDecimals = 18;
+const growContract = "0x945550dECe7E40ae70C6ebf5699637927eAF13E9";
 
-const lidoAbi = fetch(
-  "https://raw.githubusercontent.com/lidofinance/lido-subgraph/master/abis/Lido.json"
+const growAbi = fetch(
+  "https://github.com/8ball030/plantation_station/blob/main/abis/GrowRegistry.json"
 );
-if (!lidoAbi.ok) {
+if (!growAbi.ok) {
   return "Loading";
 }
 
-const iface = new ethers.utils.Interface(lidoAbi.body);
-
-// FETCH LIDO STAKING APR
-
-if (state.lidoArp === undefined) {
-  const apr = fetch(
-    "https://api.allorigins.win/get?url=https://stake.lido.fi/api/sma-steth-apr"
-  );
-  if (!apr) return;
-  State.update({ lidoArp: JSON.parse(apr?.body?.contents) ?? "..." });
-}
+const iface = new ethers.utils.Interface(growAbi.body);
 
 // HELPER FUNCTIONS
 
@@ -356,20 +345,6 @@ const getStakedBalance = (receiver) => {
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
     });
-};
-
-const submitEthers = (strEther, _referral) => {
-  const erc20 = new ethers.Contract(
-    lidoContract,
-    lidoAbi.body,
-    Ethers.provider().getSigner()
-  );
-
-  let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
-
-  erc20.submit(lidoContract, { value: amount }).then((transactionHash) => {
-    console.log("transactionHash is " + transactionHash);
-  });
 };
 
 // DETECT SENDER
@@ -426,18 +401,16 @@ if (state.txCost === undefined) {
     }
   );
 
-  const submitEthers = (strEther, _referral) => {
-    console.log(strEther + _referral);
-    strEther = 11;
-    const erc20 = new ethers.Contract(
-      lidoContract,
-      lidoAbi.body,
-      Ethers.provider().getSigner()
+  const mintGrow = () => {
+    const account = Ethers.provider().getSigner();
+    const growRegistry = new ethers.Contract(
+      growContract,
+      growAbi.body,
+      account
     );
 
-    let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
-
-    erc20.submit(lidoContract, { value: amount }).then((transactionHash) => {
+    const hashIPSF = "0x" + "5".repeat(64);
+    growRegistry.create(account, account, hashIPSF).then((transactionHash) => {
       console.log("transactionHash is " + transactionHash);
     });
   };
@@ -492,7 +465,7 @@ return (
             class="LidoStakeFormSubmitContainer"
             onClick={() => submitEthers(state.strEther, state.sender)}
           >
-            <span>Submit</span>
+            <span>Mint</span>
           </button>
         ) : (
           <Web3Connect
