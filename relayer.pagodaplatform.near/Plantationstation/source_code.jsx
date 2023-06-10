@@ -378,6 +378,7 @@ if (state.stakedBalance === undefined && state.sender) {
 
 let mintGrow;
 
+console.log("txcost", txCost);
 if (state.txCost === undefined) {
   const gasEstimate = ethers.BigNumber.from(1875000);
   const gasPrice = ethers.BigNumber.from(1500000000);
@@ -421,7 +422,9 @@ if (state.txCost === undefined) {
   const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
 
   State.update({ txCost: `$${txCost.toFixed(2)}` });
+  console.log("txcost2", txCost);
 }
+console.log("txcost3", txCost);
 
 // OUTPUT UI
 
