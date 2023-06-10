@@ -307,9 +307,6 @@ if (
       }
     });
 }
-if (state.chainId !== undefined && state.chainId !== 1) {
-  return <p>Switch to Ethereum Mainnet</p>;
-}
 
 // FETCH GROW REGISTRY ABI
 
