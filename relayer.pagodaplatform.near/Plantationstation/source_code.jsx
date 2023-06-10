@@ -430,9 +430,7 @@ if (state.txCost === undefined) {
   );
 
   const submitEthers = (strEther, _referral) => {
-    if (!strEther) {
-      return console.log("Amount is missing");
-    }
+    console.log(strEther + _referral);
     const erc20 = new ethers.Contract(
       lidoContract,
       lidoAbi.body,
