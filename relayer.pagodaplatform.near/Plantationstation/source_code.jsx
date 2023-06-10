@@ -381,9 +381,11 @@ const mintGrow = () => {
   const growRegistry = new ethers.Contract(growContract, growAbi.body, account);
 
   const hashIPSF = "0x" + "5".repeat(64);
-  growRegistry.create(account, account, hashIPSF).then((transactionHash) => {
-    console.log("transactionHash is " + transactionHash);
-  });
+  growRegistry
+    .create(account.address, account.address, hashIPSF)
+    .then((transactionHash) => {
+      console.log("transactionHash is " + transactionHash);
+    });
 };
 
 console.log("txcost1", state.txCost);
