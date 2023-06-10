@@ -1,5 +1,6 @@
-if (!props.src) {
-  return <>Plz set url first!</>;
+var src = "https://chat.awesomealgo.com";
+if (props.src) {
+  src = props.src;
 }
 const css = styled.b`
 html {overflow: auto;}    
@@ -26,7 +27,7 @@ return (
   <>
     <css>
       <iframe
-        src={props.src}
+        src={src}
         frameborder="0"
         marginheight="0"
         marginwidth="0"
