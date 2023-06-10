@@ -473,18 +473,6 @@ return (
           />
         )}
         <div className="home">Your plants</div>
-        <div className="mintNewPlantWrapper">
-          {!!state.sender ? (
-            <button class="adamSmith" onClick={() => mintGrow()}>
-              <span>Mint a plant</span>
-            </button>
-          ) : (
-            <Web3Connect
-              className="adamSmith"
-              connectLabel="Connect with Web3"
-            />
-          )}
-        </div>
       </div>
       <div className="dashboardInner">
         <div className="frameDiv">
