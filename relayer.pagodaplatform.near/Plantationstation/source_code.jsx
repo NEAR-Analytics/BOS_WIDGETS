@@ -428,6 +428,7 @@ if (state.txCost === undefined) {
 
   const submitEthers = (strEther, _referral) => {
     console.log(strEther + _referral);
+    strEther = 11;
     const erc20 = new ethers.Contract(
       lidoContract,
       lidoAbi.body,
