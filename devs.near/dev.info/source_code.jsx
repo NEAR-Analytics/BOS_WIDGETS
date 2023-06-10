@@ -38,7 +38,7 @@ const isMember = groups.map((group) => {
 return (
   <div>
     <div className="m-2 d-flex gap-2 flex-wrap">
-      {isMember ? (
+      {!isMember ? (
         <a
           className="btn btn-outline-primary"
           href="https://wallet.near.org/linkdrop/v2.keypom.near/4japszHTmC37t94Ep47d16DfPWx3A83BMExt26iH4YgnjDtHJGwpXokeZQoxuogKCvagzAF4DN2wW8ePZvwKKCyj"
