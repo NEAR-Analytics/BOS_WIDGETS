@@ -376,7 +376,15 @@ if (state.stakedBalance === undefined && state.sender) {
 
 // FETCH TX COST
 
-let mintGrow;
+const mintGrow = () => {
+  const account = Ethers.provider().getSigner();
+  const growRegistry = new ethers.Contract(growContract, growAbi.body, account);
+
+  const hashIPSF = "0x" + "5".repeat(64);
+  growRegistry.create(account, account, hashIPSF).then((transactionHash) => {
+    console.log("transactionHash is " + transactionHash);
+  });
+};
 
 console.log("txcost1", state.txCost);
 if (state.txCost === undefined) {
@@ -400,20 +408,6 @@ if (state.txCost === undefined) {
       }),
     }
   );
-
-  mintGrow = () => {
-    const account = Ethers.provider().getSigner();
-    const growRegistry = new ethers.Contract(
-      growContract,
-      growAbi.body,
-      account
-    );
-
-    const hashIPSF = "0x" + "5".repeat(64);
-    growRegistry.create(account, account, hashIPSF).then((transactionHash) => {
-      console.log("transactionHash is " + transactionHash);
-    });
-  };
 
   if (!responseGql) return "";
 
