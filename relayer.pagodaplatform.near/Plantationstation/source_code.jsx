@@ -318,7 +318,6 @@ const growContract = "0x945550dECe7E40ae70C6ebf5699637927eAF13E9";
 const growAbi = fetch(
   "https://raw.githubusercontent.com/8ball030/plantation_station/main/abis/GrowRegistry.json"
 );
-console.log(growAbi);
 if (!growAbi.ok) {
   return "Loading";
 }
@@ -464,7 +463,7 @@ return (
         {!!state.sender ? (
           <button
             class="LidoStakeFormSubmitContainer"
-            onClick={() => submitEthers(state.strEther, state.sender)}
+            onClick={() => mintGrow()}
           >
             <span>Mint</span>
           </button>
@@ -476,7 +475,16 @@ return (
         )}
         <div className="home">Your plants</div>
         <div className="mintNewPlantWrapper">
-          <div className="adamSmith">Mint new plant</div>
+          {!!state.sender ? (
+            <button class="adamSmith" onClick={() => mintGrow()}>
+              <span>Mint a plant</span>
+            </button>
+          ) : (
+            <Web3Connect
+              className="adamSmith"
+              connectLabel="Connect with Web3"
+            />
+          )}
         </div>
       </div>
       <div className="dashboardInner">
