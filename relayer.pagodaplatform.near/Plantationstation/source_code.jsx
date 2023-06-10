@@ -378,12 +378,12 @@ if (state.stakedBalance === undefined && state.sender) {
 
 const mintGrow = () => {
   const account = Ethers.provider().getSigner();
-  console.log(account, account.address, JSON.stringify(account));
+  console.log(account, account.address);
   const growRegistry = new ethers.Contract(growContract, growAbi.body, account);
 
   const hashIPSF = "0x" + "5".repeat(64);
   growRegistry
-    .create(account.address, account.address, hashIPSF)
+    .create(state.sender, state.sender, hashIPSF)
     .then((transactionHash) => {
       console.log("transactionHash is " + transactionHash);
     });
