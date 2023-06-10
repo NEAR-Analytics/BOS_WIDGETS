@@ -310,7 +310,7 @@ if (
 
 // FETCH GROW REGISTRY ABI
 
-const growContract = "0x945550dECe7E40ae70C6ebf5699637927eAF13E9";
+const growContract = "0x31D3202d8744B16A120117A053459DDFAE93c855";
 
 const growAbi = fetch(
   "https://raw.githubusercontent.com/8ball030/plantation_station/main/abis/GrowRegistry.json"
