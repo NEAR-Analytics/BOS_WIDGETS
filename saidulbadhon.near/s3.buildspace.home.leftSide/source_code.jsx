@@ -328,7 +328,7 @@ return (
             Sign Now
           </button>*/}
 
-          <a href="/s3/browse">
+          <a href="/s3/browser">
             <button
               style={{
                 //   backgroundColor: "transparent",
