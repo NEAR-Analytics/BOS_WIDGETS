@@ -61,10 +61,10 @@ return (
         src="mob.near/widget/ProfileImage"
         props={{
           style: {
-            width: "3em", // Increased size
-            height: "3em", // Increased size
+            width: "3em",
+            height: "3em",
             marginRight: "0.1em",
-            borderRadius: "50%", // Added border radius
+            borderRadius: "50%",
             "@media (max-width: 768px)": {
               // Small screens
               marginBottom: "12em",
@@ -76,7 +76,7 @@ return (
           },
           profile,
           accountId: "post.author_id",
-          className: "d-inline-block",
+          className: "d-inline-block rounded-circle",
           imageClassName: "rounded w-100 h-100 align-top",
         }}
       />
