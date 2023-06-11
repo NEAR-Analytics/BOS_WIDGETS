@@ -44,10 +44,19 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-let inner = (
+const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
+const post =
+  props.post ??
+  Near.view(nearDevGovGigsContractAccountId, "get_post", { post_id: postId });
+if (!post) {
+  return <div>Loading ...</div>;
+}
+
+return (
   <>
     {!hideImage && (
       <Widget
+        className="col-auto aspect-ratio-square"
         key="image"
         src="mob.near/widget/ProfileImage"
         props={{
@@ -66,7 +75,7 @@ let inner = (
             },
           },
           profile,
-          accountId,
+          accountId: "post.author_id",
           className: "d-inline-block",
           imageClassName: "rounded w-100 h-100 align-top",
         }}
