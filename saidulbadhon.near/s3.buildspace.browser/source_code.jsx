@@ -88,17 +88,20 @@ return (
             width: "100%",
           }}
         >
-          <button
-            style={{
-              position: "absolute",
-              left: 0,
-              backgroundColor: "transparent",
-              borderColor: "transparent",
-            }}
-            onClick={() => props.handleBrowseButton()}
-          >
-            🠈
-          </button>
+          <a href="/s3">
+            <button
+              style={{
+                position: "absolute",
+                left: 0,
+                backgroundColor: "transparent",
+                borderColor: "transparent",
+              }}
+              // onClick={() => props.handleBrowseButton()}
+            >
+              🠈
+            </button>
+          </a>
+
           <div>
             <h1 style={{ fontWeight: 700, textAlign: "center" }}>
               #nw s3 YEARBOOK
