@@ -4,7 +4,7 @@ const typeWhitelist = JSON.parse(props.typeWhitelist || "null") || [
   "social",
   // "efiz.near/type/markdown",
   // "efiz.near/type/Image",
-  // "efiz.near/type/document",
+  "efiz.near/type/document",
 ];
 const accountFilter =
   (props.accountFilter && [props.accountFilter]) || undefined;
