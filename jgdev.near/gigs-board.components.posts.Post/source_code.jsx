@@ -4,7 +4,7 @@ const nearDevGovGigsContractAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -66,7 +66,7 @@ const childPostIdsUnordered =
 
 const childPostIds = props.isPreview ? [] : childPostIdsUnordered.reverse();
 const expandable = props.isPreview ? false : props.expandable ?? false;
-const defaultExpanded = expandable ? props.defaultExpanded : true;
+const defaultExpanded = expandable ? props.defaultExpanded : false;
 
 function readableDate(timestamp) {
   var a = new Date(timestamp);
@@ -170,25 +170,37 @@ const shareButton = props.isPreview ? (
 );
 
 const header = (
-  <div className="card-header" key="header">
-    <small class="text-muted">
-      <div class="row justify-content-between">
-        <div class="col-4">
+  <div
+    className="d-flex flex-row align-items-center"
+    style={{
+      fontSize: "1em",
+      paddingTop: "20px",
+      paddingLeft: "20px",
+      paddingRight: "20px",
+    }}
+  >
+    <div className="flex-grow-1 text-truncate">
+      <div className="row justify-content-between">
+        <div className="col-4">
           <Widget
-            src={`neardevgov.near/widget/ProfileLine`}
+            src={`components.posts.ProfileHeader`}
             props={{ accountId: post.author_id }}
           />
         </div>
-        <div class="col-5">
-          <div class="d-flex justify-content-end">
+        <div className="col-5">
+          <div
+            className="d-flex justify-content-end"
+            style={{ color: "rgba(0, 0, 0, 0.8)" }}
+          >
             {editControl}
             {timestamp}
-            <div class="bi bi-clock-history px-2"></div>
+            <div className="bi bi-clock-history px-2"></div>
             {shareButton}
           </div>
         </div>
       </div>
-    </small>
+      <br></br>
+    </div>
   </div>
 );
 
@@ -294,13 +306,17 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
 };
 
 const buttonsFooter = props.isPreview ? null : (
-  <div class="row" key="buttons-footer">
+  <div class="row my-2" key="buttons-footer">
     <div class="col-8">
-      <div class="btn-group" role="group" aria-label="Basic outlined example">
+      <div
+        class="btn-group text-sm"
+        role="group"
+        aria-label="Basic outlined example"
+      >
         <button
           type="button"
-          class="btn btn-outline-primary"
-          style={{ border: "0px" }}
+          class="btn btn-outline-secondary"
+          style={{ border: "0px", opacity: "0.7" }}
           onClick={onLike}
         >
           <i class={`bi ${likeBtnClass}`}> </i>
@@ -312,11 +328,11 @@ const buttonsFooter = props.isPreview ? null : (
                 ),
               })}
         </button>
-        <div class="btn-group" role="group">
+        <div class="btn-group text-sm" role="group">
           <button
             type="button"
-            class="btn btn-outline-primary"
-            style={{ border: "0px" }}
+            class="btn btn-outline-secondary"
+            style={{ border: "0px", opacity: "0.84" }}
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
@@ -360,8 +376,8 @@ const buttonsFooter = props.isPreview ? null : (
         </div>
         <button
           type="button"
-          class="btn btn-outline-primary"
-          style={{ border: "0px" }}
+          class="btn btn-outline-secondary text-sm"
+          style={{ border: "0px", opacity: "0.84" }}
           data-bs-toggle="collapse"
           href={`#collapseChildPosts${postId}`}
           aria-expanded={defaultExpanded}
@@ -403,9 +419,9 @@ const EditorWidget = (postType) => {
         postId,
         mode: "Edit",
         author_id: post.author_id,
-        labels: post.snapshot.labels,
         name: post.snapshot.name,
         description: post.snapshot.description,
+        labels: post.snapshot.labels,
         amount: post.snapshot.amount,
         token: post.snapshot.sponsorship_token,
         supervisor: post.snapshot.supervisor,
@@ -440,7 +456,15 @@ const postLabels = post.snapshot.labels ? (
     {post.snapshot.labels.map((label) => {
       return (
         <a href={href("Feed", { label }, label)}>
-          <span class="badge text-bg-primary me-1">{label}</span>
+          <span
+            class="badge me-1"
+            style={{
+              color: "rgba(0, 0, 0, 0.5)",
+              border: "1px solid rgba(0, 0, 0, 0.075)",
+            }}
+          >
+            {label}
+          </span>
         </a>
       );
     })}
@@ -503,23 +527,11 @@ const postsList =
 
 const Card = styled.div`
   &:hover {
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
-`;
-
-const limitedMarkdown = styled.div`
-  max-height: 20em;
-`;
-
-const clampMarkdown = styled.div`
-  .clamp {
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0)
-    );
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  }
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: none;
 `;
 
 // Determine if located in the post page.
@@ -527,13 +539,10 @@ const isInList = props.isInList;
 const contentArray = snapshot.description.split("\n");
 const needClamp = isInList && contentArray.length > 5;
 
+// Initialize 'clamp' to 'true' if the content is long enough, otherwise 'false'
 initState({
   clamp: needClamp,
 });
-
-const clampedContent = needClamp
-  ? contentArray.slice(0, 5).join("\n")
-  : snapshot.description;
 
 const onMention = (accountId) => (
   <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
@@ -548,50 +557,80 @@ const onMention = (accountId) => (
   </span>
 );
 
-// Should make sure the posts under the currently top viewed post are limited in size.
+// Determine whether the content is longer than 4 lines
+const isContentLong = contentArray.length > 4;
+
+const clampedContent = state.clamp
+  ? contentArray.slice(0, 5).join("\n")
+  : snapshot.description;
+
+// Your CSS classes for styling. Make sure the names match exactly with the ones you're using in your divs.
+const limitedMarkdown = styled.div`
+  max-height: 20em;
+`;
+
+const clampMarkdown = styled.div`
+  .clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+`;
 const descriptionArea = isUnderPost ? (
   <limitedMarkdown className="overflow-auto" key="description-area">
     <Markdown
-      class="card-text"
+      className="card-text"
       text={snapshot.description}
       onMention={onMention}
     />
   </limitedMarkdown>
 ) : (
   <clampMarkdown>
-    <div class={state.clamp ? "clamp" : ""}>
+    <div className={state.clamp ? "clamp" : ""}>
       <Markdown
-        class="card-text"
+        className="card-text"
         text={state.clamp ? clampedContent : snapshot.description}
         onMention={onMention}
         key="description-area"
       ></Markdown>
     </div>
-    {state.clamp ? (
-      <div class="d-flex justify-content-center">
+    {state.clamp && isContentLong ? (
+      <div className="d-flex justify-content-end">
         <a
-          class="btn btn-link text-secondary"
+          style={{ fontSize: "0.8rem", fontWeight: 400 }}
+          className="btn btn-link text-secondary"
           onClick={() => State.update({ clamp: false })}
         >
-          Show More
+          <br></br>
+          See More...
         </a>
       </div>
-    ) : (
-      <></>
-    )}
+    ) : !state.clamp && isContentLong ? (
+      <div className="d-flex justify-content-end">
+        <a
+          style={{ fontSize: "0.8rem", fontWeight: 400 }}
+          className="btn btn-link text-secondary"
+          onClick={() => State.update({ clamp: true })}
+        >
+          Close
+        </a>
+      </div>
+    ) : null}
   </clampMarkdown>
 );
 
 return (
-  <Card className={`card my-2 ${borders[snapshot.post_type]}`}>
+  <Card className={`card my-2`} style={{ border: "none" }}>
     {linkToParent}
     {header}
     <div className="card-body">
       {searchKeywords}
-      {postLabels}
       {postTitle}
+      <br></br>
       {postExtra}
       {descriptionArea}
+      {postLabels}
       {buttonsFooter}
       {editorsFooter}
       {postsList}
