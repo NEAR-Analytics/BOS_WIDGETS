@@ -328,31 +328,33 @@ return (
             Sign Now
           </button>*/}
 
-          <button
-            style={{
-              //   backgroundColor: "transparent",
-              //   color: theme.buttonTextColor,
-              //   fontSize: 24,
-              //   fontWeight: 500,
-              //   padding: "12px 32px",
-              //   border: "none",
+          <a href="/s3/browse">
+            <button
+              style={{
+                //   backgroundColor: "transparent",
+                //   color: theme.buttonTextColor,
+                //   fontSize: 24,
+                //   fontWeight: 500,
+                //   padding: "12px 32px",
+                //   border: "none",
 
-              //   borderRadius: 40,
-              backgroundColor: theme.buttonTextColor,
-              color: "#000",
-              fontSize: 24,
-              fontWeight: 600,
-              padding: "12px 32px",
-              border: "none",
+                //   borderRadius: 40,
+                backgroundColor: theme.buttonTextColor,
+                color: "#000",
+                fontSize: 24,
+                fontWeight: 600,
+                padding: "12px 32px",
+                border: "none",
 
-              borderRadius: 40,
-            }}
-            onClick={() => {
-              props.handleBrowseButton();
-            }}
-          >
-            Browse
-          </button>
+                borderRadius: 40,
+              }}
+              // onClick={() => {
+              //   props.handleBrowseButton();
+              // }}
+            >
+              Browse
+            </button>
+          </a>
         </div>
 
         <div style={{ position: "absolute", bottom: 16, left: 0 }}>
