@@ -21,7 +21,7 @@ if (!item) {
 
 State.init({
   emoji: initialEmoji,
-  show: false,
+  show: true,
   loading: false,
   likes: [],
   unfilteredLikes: [],
@@ -67,6 +67,26 @@ const smallButtonStyles = {
   background: "rgba(0, 191, 255, 0.1)",
   marginRight: "4px",
 };
+
+const SmallButton = styled.button`
+  border: 0;
+  background: transparent;
+  position: relative;
+  width: 35px;
+  height: 35px;
+`;
+
+const SmallButtonSpan = styled.span`
+  font-size: 19px;
+  :hover{
+      position: absolute;
+      font-size: 35px;
+      bottom: -5px;
+      width: 35px;
+      height: 40px;
+      transform: translateX(-50%) translateY(-50%);
+  }
+`;
 
 // =============== Get Likes ===============
 State.update({
@@ -167,16 +187,16 @@ const clickHandler = (emojiMessage) => {
 
 const overlay = (
   <div
-    className="border m-3 p-3 rounded-4 bg-white shadow"
-    style={{ maxWidth: "27em", zIndex: 1070 }}
+    className="border m-3 p-2 rounded-4 bg-white shadow"
+    style={{ maxWidth: "27em", height: "3.2em", zIndex: 1070 }}
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
   >
     {emojiArray &&
       emojiArray.map((item) => (
-        <button onClick={() => clickHandler(item)} style={smallButtonStyles}>
-          {item.slice(0, 2)}
-        </button>
+        <SmallButton onClick={() => clickHandler(item)}>
+          <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+        </SmallButton>
       ))}
   </div>
 );
@@ -184,8 +204,8 @@ const overlay = (
 return (
   <span className="ps-2">
     {/* DELETE */}
-    <Button>🚀 Ship it</Button>
-    <Button checked={state.emoji !== initialEmoji}>🚀 Ship it</Button>
+    {/*<Button>🚀 Ship it</Button>
+    <Button checked={state.emoji !== initialEmoji}>🚀 Ship it</Button>*/}
     {/* DELETE */}
     <OverlayTrigger
       show={state.show}
