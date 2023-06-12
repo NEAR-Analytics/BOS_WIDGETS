@@ -54,16 +54,20 @@ const handleToggleModal = () => {
 
 return (
   <>
-    {state.showModal && ( // This conditionally renders the div containing the Widget
+    {state.showModal && (
       <div
         style={{
           position: "fixed",
+          top: "35%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           backgroundColor: "transparent",
-          padding: "5px",
+          padding: "0px",
           zIndex: "1000",
           maxHeight: "calc(100vh - 40px)",
           overflow: "auto",
-          width: "700px",
+          width: "90%",
+          maxWidth: "700px",
         }}
       >
         <Widget
@@ -92,7 +96,7 @@ return (
         marginRight: "10px",
       }}
       class="btn"
-      onClick={handleToggleModal} // Button click toggles the modal visibility
+      onClick={handleToggleModal}
     >
       <span
         style={{
@@ -106,9 +110,16 @@ return (
           marginRight: "5px",
           height: "15px",
           width: "15px",
+          fontSize: "1.25em",
+          fontWeight: "bold",
         }}
       >
-        <span style={{ lineHeight: "0", marginTop: "3px" }}>
+        <span
+          style={{
+            lineHeight: "0",
+            marginTop: state.showModal ? "1px" : "3px",
+          }}
+        >
           {state.showModal ? "-" : "+"}
         </span>
       </span>
