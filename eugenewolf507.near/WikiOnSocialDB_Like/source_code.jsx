@@ -45,7 +45,7 @@ const Button = styled.button`
   /*background: ${(props) =>
     props.checked ? "rgba(0, 191, 255, 0.1)" : "transparent"};*/
   background: transparent;
-  color: ${(props) => (props.checked ? "DeepSkyBlue" : "#000")};
+  /*color: ${(props) => (props.checked ? "DeepSkyBlue" : "#000")};*/
   display: inline-flex;
   align-items: center;
   justify-content: start;
@@ -194,13 +194,21 @@ return (
       placement="auto"
       overlay={overlay}
     >
-      <Button
+      <button
         onClick={() => clickHandler(initialEmoji)}
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
+        style={{
+          ...mainButtonStyles,
+          backgroundColor:
+            state.emoji === initialEmoji
+              ? "transparent"
+              : "rgba(0, 191, 255, 0.1)",
+          color: state.emoji === initialEmoji ? "#000" : "DeepSkyBlue",
+        }}
       >
         {state.emoji}
-      </Button>
+      </button>
     </OverlayTrigger>
     {state.likes &&
       state.likes.map((item) => (
