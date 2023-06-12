@@ -3,6 +3,9 @@ const availableTypes = JSON.parse(props.availableTypes || "null");
 
 if (!availableTypes) {
   const types = Social.get("every.near/type/**", "final");
+  if (!types) {
+    return <></>;
+  }
   availableTypes = Object.keys(types).map((it) => `every.near/type/${it}`);
 }
 
@@ -87,6 +90,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin: 20px;
 `;
 
 const Row = styled.div`
@@ -182,27 +186,29 @@ return (
       ) : null}
 
       <RenderTypeCreate />
+      <div>
+        <Button onClick={() => State.update({ expanded: !state.expanded })}>
+          optional {state.expanded ? "-" : "+"}
+        </Button>
+        <Row>
+          {state.expanded ? (
+            <>
+              <Input
+                onChange={(e) => State.update({ thingId: e.target.value })}
+                placeholder="file name"
+              />
+            </>
+          ) : null}
+        </Row>
+        <CommitButton
+          force
+          data={composeData()}
+          disabled={!state.thing}
+          className="styless"
+        >
+          create
+        </CommitButton>
+      </div>
     </Container>
-    <Button onClick={() => State.update({ expanded: !state.expanded })}>
-      optional {state.expanded ? "-" : "+"}
-    </Button>
-    <Row>
-      {state.expanded ? (
-        <>
-          <Input
-            onChange={(e) => State.update({ thingId: e.target.value })}
-            placeholder="file name"
-          />
-        </>
-      ) : null}
-    </Row>
-    <CommitButton
-      force
-      data={composeData()}
-      disabled={!state.thing}
-      className="styless"
-    >
-      create
-    </CommitButton>
   </>
 );
