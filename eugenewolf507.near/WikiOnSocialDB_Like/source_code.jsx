@@ -41,6 +41,26 @@ const mainButtonStyles = {
   height: "2.5em",
 };
 
+const Button = styled.button`
+  /*background: ${(props) =>
+    props.checked ? "rgba(0, 191, 255, 0.1)" : "transparent"};*/
+  background: transparent;
+  color: ${(props) => (props.checked ? "DeepSkyBlue" : "#000")};
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  width: 8em;
+  height: 2.5em;
+  padding: 6px 12px;
+  margin-top: 2px;
+  border: 0;
+  border-radius: .375rem;
+  :hover {
+    background: #d3d4d5;
+    outline: 1px solid #C6C7C8;
+  }
+`;
+
 const smallButtonStyles = {
   border: 0,
   color: "DeepSkyBlue",
@@ -163,6 +183,10 @@ const overlay = (
 
 return (
   <span className="ps-2">
+    {/* DELETE */}
+    <Button>🚀 Ship it</Button>
+    <Button checked={state.emoji !== initialEmoji}>🚀 Ship it</Button>
+    {/* DELETE */}
     <OverlayTrigger
       show={state.show}
       trigger={["hover", "focus"]}
@@ -170,21 +194,13 @@ return (
       placement="auto"
       overlay={overlay}
     >
-      <button
+      <Button
         onClick={() => clickHandler(initialEmoji)}
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
-        style={{
-          ...mainButtonStyles,
-          backgroundColor:
-            state.emoji === initialEmoji
-              ? "transparent"
-              : "rgba(0, 191, 255, 0.1)",
-          color: state.emoji === initialEmoji ? "#000" : "DeepSkyBlue",
-        }}
       >
         {state.emoji}
-      </button>
+      </Button>
     </OverlayTrigger>
     {state.likes &&
       state.likes.map((item) => (
