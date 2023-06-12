@@ -20,11 +20,15 @@ function mapVote(vote) {
 }
 
 function vote(action) {
-  return Near.call(daoId, "act_proposal", {
-    id: proposal.id,
-    action,
+  return Near.call(
+    daoId,
+    "act_proposal",
+    {
+      id: proposal.id,
+      action,
+    },
     "300000000000000" // 300 Tgas by default
-  });
+  );
 }
 
 function decodeArgs() {
