@@ -273,15 +273,15 @@ const selectDaos = (daos) => {
     });
 };
 
-
 const getVoters = () => {
     const proposalType = state.detailedProposal.proposal_type.toLowerCase();
     const proposalPolicy = state.policy.filter((pol) => pol.dao_id === state.detailedProposal.dao_id)
     return proposalPolicy[0].state.policy.roles.reduce((acc,val) => {
         const isGroupAllowed = val.permissions.some((p) => {
             const parsedP = p.toLowerCase().replaceAll('_','');
-            return parsedP.includes(`${proposalType}:voteapprove`)
+            return parsedP.includes(`${proposalType}:voteapprove`)||parsedP.includes(`*:voteapprove`)
         });
+
         if(isGroupAllowed) {
             acc.push(...val.kind);
         }
