@@ -73,7 +73,7 @@ const onDescriptionChange = debounce((e) => {
       description: e.target.value,
     },
   });
-}, 350);
+}, 2000);
 const onLinkTreeChange = debounce((e) => {
   State.update({
     linktree: {
