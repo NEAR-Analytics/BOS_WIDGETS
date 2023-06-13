@@ -44,7 +44,7 @@ if (
 }
 
 const debounce = (func, wait) => {
-  const pause = wait || 350;
+  const pause = wait || 1;
   let timeout;
 
   return (args) => {
