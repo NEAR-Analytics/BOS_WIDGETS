@@ -1,5 +1,6 @@
 const addressForArticles = "sayALotArticle";
-const authorForWidget = "sayalot.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -282,32 +283,34 @@ const composeData = () => {
 
 let userPostsStringBlockHeights = undefined;
 
-if (state.saveComplete) {
+if (state.saveComplete && state.articleBlockHeight == 0) {
+  console.log(1);
   userPostsStringBlockHeights = Social.keys(`blaze.near/post/main`, "final", {
     return_type: "History",
   });
 
-  setTimeout(() => {
-    if (userPostsStringBlockHeights && state.articleBlockHeight == 0) {
-      let arrayOfBlockHeights = [];
+  if (userPostsStringBlockHeights) {
+    console.log(2);
+    let arrayOfBlockHeights = [];
 
-      for (
-        let i = 0;
-        i < userPostsStringBlockHeights[context.accountId].post.main.length;
-        i++
-      ) {
-        let postBlockHeight =
-          userPostsStringBlockHeights[context.accountId].post.main[i];
+    for (
+      let i = 0;
+      i < userPostsStringBlockHeights[context.accountId].post.main.length;
+      i++
+    ) {
+      let postBlockHeight =
+        userPostsStringBlockHeights[context.accountId].post.main[i];
 
-        arrayOfBlockHeights.push(postBlockHeight);
-      }
-
-      State.update({
-        articleBlockHeight: Math.max(...arrayOfBlockHeights),
-      });
+      arrayOfBlockHeights.push(postBlockHeight);
     }
-  }, 500);
+
+    State.update({
+      articleBlockHeight: Math.max(...arrayOfBlockHeights),
+      saveComplete: false,
+    });
+  }
 }
+console.log("AB:", state.articleBlockHeight);
 
 // === SAVE HANDLER ===
 const saveHandler = (e) => {
