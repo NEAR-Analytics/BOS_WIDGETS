@@ -1,4 +1,4 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 
 State.init({
   search: props.search ?? "",
@@ -174,6 +174,7 @@ const tabContent = {
       props={{ accountId: state.accountId }}
     />
   ),
+  faq: <Widget src={`${ownerId}/widget/FAQ.Page`} />,
   help: (
     <Widget
       src={`${ownerId}/widget/Help.Page`}
@@ -211,6 +212,8 @@ const tabContent = {
       props={{ update, content: state.content, urlProps: props }}
     />
   ),
+  partners: <Widget src={`${ownerId}/widget/Application.Page`} />,
+  partner: <Widget src={`${ownerId}/widget/Application.DetailPage`} />,
 }[state.tab];
 
 const ContentContainer = styled.div`
