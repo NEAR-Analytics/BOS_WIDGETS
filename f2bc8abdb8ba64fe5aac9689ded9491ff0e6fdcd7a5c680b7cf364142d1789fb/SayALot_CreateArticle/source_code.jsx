@@ -232,9 +232,7 @@ const initialCreateArticleState = {
   errorId: "",
   errorBody: "",
   tags: {},
-  articleBlockHeight: 0,
   saveComplete: false,
-  userPostsStringBlockHeights: null,
 };
 
 State.init(initialCreateArticleState);
@@ -281,44 +279,6 @@ const composeData = () => {
 
   return data;
 };
-
-//if (state.saveComplete && state.articleBlockHeight == 0) {
-if (true) {
-  let userPostsStringBlockHeights = Social.keys(
-    `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/post/main`,
-    "final",
-    {
-      return_type: "History",
-    }
-  );
-
-  if (
-    JSON.stringify(userPostsStringBlockHeights) !=
-    JSON.stringify(state.userPostsStringBlockHeights)
-  ) {
-    State.update({ userPostsStringBlockHeights, nextStep: true });
-  }
-
-  if (state.nextStep) {
-    let arrayOfBlockHeights = [];
-
-    for (
-      let i = 0;
-      i < state.userPostsStringBlockHeights[context.accountId].post.main.length;
-      i++
-    ) {
-      let postBlockHeight =
-        state.userPostsStringBlockHeights[context.accountId].post.main[i];
-
-      arrayOfBlockHeights.push(postBlockHeight);
-    }
-
-    State.update({
-      articleBlockHeight: Math.max(...arrayOfBlockHeights),
-      saveComplete: false,
-    });
-  }
-}
 
 // === SAVE HANDLER ===
 const saveHandler = (e) => {
@@ -402,7 +362,7 @@ return (
           }
     }
   >
-    {state.articleBlockHeight != 0 && (
+    {saveComplete && (
       <a
         style={{
           position: "absolute",
@@ -411,7 +371,7 @@ return (
           width: "100%",
           backdropFilter: "blur(5px)",
         }}
-        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&blockHeight=${state.articleBlockHeight}&lastEditor=${accountId}`}
+        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}`}
       >
         <div
           style={{
