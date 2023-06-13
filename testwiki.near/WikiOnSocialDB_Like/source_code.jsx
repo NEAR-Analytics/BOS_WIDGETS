@@ -164,7 +164,7 @@ const clickHandler = (emojiMessage) => {
 
 const overlay = (
   <div
-    className="border m-3 p-2 rounded-4 bg-white shadow"
+    className="border m-2 p-2 rounded-4 bg-white shadow"
     style={{ maxWidth: "27em", height: "3.2em", zIndex: 1070 }}
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
