@@ -196,7 +196,9 @@ function renderContent() {
         case "widget":
           return <Widget src={path} props={props} />;
         case "account":
-          return <p>account</p>;
+          return (
+            <Widget src="efiz.near/widget/Tree" props={{ rootPath: path }} />
+          );
         case "settings":
           return (
             <Widget
