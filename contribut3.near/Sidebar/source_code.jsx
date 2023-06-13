@@ -1,6 +1,52 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 
-const inboxCount = Social.index("inbox", context.accountId).length;
+State.init({
+  isOwner: false,
+  isOwnerFetched: false,
+  projects: [],
+  vendors: [],
+});
+
+if (context.accountId && !state.isOwnerFetched) {
+  Near.asyncView(
+    ownerId,
+    "check_is_owner",
+    { account_id: context.accountId },
+    "final",
+    false
+  ).then((isOwner) => State.update({ isOwner, isOwnerFetched: true }));
+  Near.asyncView(
+    ownerId,
+    "get_admin_projects",
+    { account_id: context.accountId },
+    "final",
+    false
+  ).then((projects) => State.update({ projects }));
+  Near.asyncView(
+    ownerId,
+    "get_admin_vendors",
+    { account_id: context.accountId },
+    "final",
+    false
+  ).then((vendors) => State.update({ vendors }));
+}
+
+const notifications = [
+  ...new Set([...state.projects, ...state.vendors, context.accountId]),
+]
+  .reduce((allNotifications, accountId) => {
+    const notificationsForAccount = Social.index("inbox", accountId, {
+      order: "desc",
+      subscribe: true,
+    });
+
+    if (!notificationsForAccount) {
+      return allNotifications;
+    }
+
+    return [...allNotifications, ...notificationsForAccount];
+  }, [])
+  .sort((a, b) => b.blockHeight - a.blockHeight);
 
 const mail = (
   <svg
@@ -200,7 +246,6 @@ const NavItem = styled.a`
 `;
 
 const CountIndicator = styled.div`
-  display: ${({ show }) => (show ? "inline-block" : "none")};
   border-radius: 100%;
   background-color: #f04438;
   min-width: 1.5em;
@@ -209,6 +254,9 @@ const CountIndicator = styled.div`
   text-align: center;
   position: absolute;
   inset: auto 0.5em auto auto;
+  align-items: center;
+  justify-content: center;
+  display: ${({ show }) => (show ? "flex" : "none")};
 `;
 
 const navItem = ({ text, icon, id, count }) => (
@@ -252,15 +300,33 @@ const legalIcon = (
   </svg>
 );
 
+const admin = (
+  <svg
+    width="18"
+    height="22"
+    viewBox="0 0 18 22"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 10.4999L8 12.4999L12.5 7.99987M17 10.9999C17 15.9083 11.646 19.4783 9.69799 20.6147C9.4766 20.7439 9.3659 20.8085 9.20968 20.842C9.08844 20.868 8.91156 20.868 8.79032 20.842C8.6341 20.8085 8.5234 20.7439 8.30201 20.6147C6.35396 19.4783 1 15.9083 1 10.9999V6.21747C1 5.41796 1 5.0182 1.13076 4.67457C1.24627 4.37101 1.43398 4.10015 1.67766 3.8854C1.9535 3.64231 2.3278 3.50195 3.0764 3.22122L8.4382 1.21054C8.6461 1.13258 8.75005 1.0936 8.85698 1.07815C8.95184 1.06444 9.04816 1.06444 9.14302 1.07815C9.24995 1.0936 9.3539 1.13258 9.5618 1.21054L14.9236 3.22122C15.6722 3.50195 16.0465 3.64231 16.3223 3.8854C16.566 4.10015 16.7537 4.37101 16.8692 4.67457C17 5.0182 17 5.41796 17 6.21747V10.9999Z"
+      stroke="#3A3F42"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 return (
   <NavContainer>
-    {navItem({ text: "Discover", icon: discover, id: "home" })}
+    {navItem({ text: "Home", icon: discover, id: "home" })}
     {/* navItem({ text: "Pulse", icon: pulse, id: "pulse" }) */}
     {navItem({
       text: "Inbox",
       icon: mail,
       id: "inbox",
-      count: inboxCount,
+      count: notifications.length,
     })}
     {navItem({
       text: "Manage",
@@ -278,6 +344,36 @@ return (
       id: "learn",
     })}
     <Border />
+    {state.isOwnerFetched && state.isOwner ? (
+      navItem({
+        text: "Admin Dashboard",
+        icon: admin,
+        id: "admin",
+      })
+    ) : (
+      <></>
+    )}
+    {navItem({
+      text: "FAQ",
+      icon: (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13M12 17H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+            stroke="#3A3F42"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ),
+      id: "faq",
+    })}
     {navItem({
       text: "Help",
       icon: about,
