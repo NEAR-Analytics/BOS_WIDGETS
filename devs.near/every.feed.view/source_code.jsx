@@ -5,7 +5,6 @@ const domain = data.domain;
 const hashtagFilter = JSON.stringify(data.hashtagFilter);
 const daoId = data.daoId;
 
-return <p>{daoId}</p>;
 // Since we know the typeWhitelist, we could prefetch widgets
 // and maybe write out a switch case?
 //
@@ -14,6 +13,7 @@ return <p>{daoId}</p>;
 if (typeWhitelist === JSON.stringify(["md", "social"])) {
   return (
     <>
+      <p>{daoId}</p>
       <Widget
         src="efiz.near/widget/Community.Posts.Compose"
         props={{
