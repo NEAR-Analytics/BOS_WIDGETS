@@ -7,7 +7,9 @@ const accountId = props.accountId ?? context.accountId;
 //   return "No account ID";
 // }
 
-const lastEditor = props.lastEditor;
+const lastEditor =
+  props.lastEditor ??
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 
@@ -18,13 +20,14 @@ const notifyAccountId = accountId;
 
 State.init({ showReply: false, isMain: true, article: null });
 
-const article = JSON.parse(
-  Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-);
+const article = props.blockHeight
+  ? Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+  : Social.get(`${lastEditor}/${addressForArticles}/main`);
 
 if (JSON.stringify(article) != JSON.stringify(state.article)) {
-  State.update({ article });
+  State.update({ article: JSON.parse(article) });
 }
+
 if (state.article == null) {
   return <h3>Loading...</h3>;
 }
@@ -408,7 +411,6 @@ return (
                       ),
                       placeholder: "Input tags",
                       setTagsObject: (tags) => {
-                        console.log(filterTagsFromNull(tags));
                         state.tags = filterTagsFromNull(tags);
                         // state.tags = tags;
                         State.update();
