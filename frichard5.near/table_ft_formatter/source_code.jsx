@@ -1,10 +1,7 @@
 const ftList = props.ftList || [];
 const { amount, ft, isParsed } = props;
 
-const numberWithCommas = (x) => {
-  return JSON.stringify(x).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-const defaultFt = { icon: "", symbol: "" };
+const defaultFt = { icon: "", symbol: "", amount: 0 };
 const near = {
   symbol: "NEAR",
   icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png",
