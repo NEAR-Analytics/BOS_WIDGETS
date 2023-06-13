@@ -58,15 +58,28 @@ const debounce = (func, wait) => {
   };
 };
 
-const onNameChange = debounce((e) => {
+function throttle(func, limit) {
+  let inThrottle;
+  return function () {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
+const onNameChange = throttle((e) => {
   State.update({
     metadata: {
       ...state.metadata,
       name: e.target.value,
     },
   });
-}, 350);
-const onDescriptionChange = debounce((e) => {
+}, 2000);
+const onDescriptionChange = throttle((e) => {
   State.update({
     metadata: {
       ...state.metadata,
@@ -74,14 +87,14 @@ const onDescriptionChange = debounce((e) => {
     },
   });
 }, 2000);
-const onLinkTreeChange = debounce((e) => {
+const onLinkTreeChange = throttle((e) => {
   State.update({
     linktree: {
       ...state.linktree,
       [e.target.id]: e.target.value,
     },
   });
-}, 350);
+}, 2000);
 
 return (
   <>
