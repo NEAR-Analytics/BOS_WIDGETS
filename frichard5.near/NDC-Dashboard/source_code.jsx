@@ -154,6 +154,7 @@ const Search = (
             widgetProvider,
             ftList: ftList.body && ftList.body,
             proposal_id,
+            parent
         }}
     />
 );
@@ -195,7 +196,7 @@ const Tabs = (
                         <WidgetsContainer>
                             {ProposalsByMonth}
                             {TransfersOverview}
-                         {/*   {TransfersByAccount}*/}
+                            {TransfersByAccount}
                             {ProposalStatus}
                         </WidgetsContainer>
                     ),
