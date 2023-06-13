@@ -1,4 +1,5 @@
 const postThing = props.postThing;
+const pPath = props.pPath || null;
 const availableTypes = JSON.parse(props.availableTypes || "null");
 
 if (!availableTypes) {
@@ -52,6 +53,7 @@ const composeData = () => {
       ...state.extra,
       [thingId]: JSON.stringify({
         data: state.thing,
+        pPath,
         type: state.selectedType,
       }),
     },
