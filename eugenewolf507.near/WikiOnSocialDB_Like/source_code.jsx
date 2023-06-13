@@ -1,5 +1,5 @@
 const authorForWidget = "eugenewolf507.near";
-// "❤️ Positive"
+// Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 const emojiArray = [
   "❤️ Positive",
@@ -36,7 +36,7 @@ const Button = styled.button`
   width: 8em;
   height: 2.5em;
   padding: 6px 12px;
-  margin-top: 2px;
+  margin: 2px 0;
   border: 0;
   border-radius: .375rem;
   :hover {
@@ -172,7 +172,16 @@ const overlay = (
     {emojiArray &&
       emojiArray.map((item) => (
         <SmallButton onClick={() => clickHandler(item)}>
-          <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                <div className="text-truncate text-start">{item.slice(2)}</div>
+              </Tooltip>
+            }
+          >
+            <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+          </OverlayTrigger>
         </SmallButton>
       ))}
   </div>
