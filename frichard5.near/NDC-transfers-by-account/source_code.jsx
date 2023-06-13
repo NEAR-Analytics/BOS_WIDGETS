@@ -1,7 +1,7 @@
 const widgetProvider = props.widgetProvider;
 const account = props.account || "marketing.sputnik-dao.near";
 const ftList = props.ftList;
-const resPerPage = 10;
+const resPerPage = 5;
 const apiUrl = `https://api.pikespeak.ai/daos/transfers-beneficiaries/${account}`;
 const apiProposalUrl = `https://api.pikespeak.ai/daos/proposal/${account}`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
