@@ -234,6 +234,7 @@ const initialCreateArticleState = {
   tags: {},
   articleBlockHeight: 0,
   saveComplete: false,
+  userPostsStringBlockHeights: null,
 };
 
 State.init(initialCreateArticleState);
@@ -281,25 +282,33 @@ const composeData = () => {
   return data;
 };
 
-let userPostsStringBlockHeights = undefined;
+//if (state.saveComplete && state.articleBlockHeight == 0) {
+if (true) {
+  let userPostsStringBlockHeights = Social.keys(
+    `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/post/main`,
+    "final",
+    {
+      return_type: "History",
+    }
+  );
 
-if (state.saveComplete && state.articleBlockHeight == 0) {
-  console.log(1);
-  userPostsStringBlockHeights = Social.keys(`blaze.near/post/main`, "final", {
-    return_type: "History",
-  });
+  if (
+    JSON.stringify(userPostsStringBlockHeights) !=
+    JSON.stringify(state.userPostsStringBlockHeights)
+  ) {
+    State.update({ userPostsStringBlockHeights, nextStep: true });
+  }
 
-  if (userPostsStringBlockHeights) {
-    console.log(2);
+  if (state.nextStep) {
     let arrayOfBlockHeights = [];
 
     for (
       let i = 0;
-      i < userPostsStringBlockHeights[context.accountId].post.main.length;
+      i < state.userPostsStringBlockHeights[context.accountId].post.main.length;
       i++
     ) {
       let postBlockHeight =
-        userPostsStringBlockHeights[context.accountId].post.main[i];
+        state.userPostsStringBlockHeights[context.accountId].post.main[i];
 
       arrayOfBlockHeights.push(postBlockHeight);
     }
@@ -310,7 +319,6 @@ if (state.saveComplete && state.articleBlockHeight == 0) {
     });
   }
 }
-console.log("AB:", state.articleBlockHeight);
 
 // === SAVE HANDLER ===
 const saveHandler = (e) => {
@@ -418,6 +426,7 @@ return (
               textAlign: "center",
               color: "black",
               backgroundColor: "rgb(230, 230, 230)",
+              zIndex: "2",
             }}
             className="rounded-pill p-3"
           >
@@ -476,17 +485,19 @@ return (
           />
         </div>
         <div className="d-flex flex-column pt-3">
-          <Widget
-            src="mob.near/widget/TagsEditor"
-            props={{
-              initialTagsObject: state.tags,
-              placeholder: "Input tags",
-              setTagsObject: (tags) => {
-                state.tags = tags;
-                State.update();
-              },
-            }}
-          />
+          {state.articleBlockHeight == 0 && (
+            <Widget
+              src="mob.near/widget/TagsEditor"
+              props={{
+                initialTagsObject: state.tags,
+                placeholder: "Input tags",
+                setTagsObject: (tags) => {
+                  state.tags = tags;
+                  State.update();
+                },
+              }}
+            />
+          )}
         </div>
         <div className="d-flex flex-column pt-3">
           <label for="textareaArticleBody">
