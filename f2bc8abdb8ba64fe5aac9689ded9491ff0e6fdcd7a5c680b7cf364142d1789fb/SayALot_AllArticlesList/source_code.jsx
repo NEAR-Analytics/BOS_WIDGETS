@@ -79,13 +79,11 @@ return (
                       props={{ accountId: article.author, tooltip: true }}
                     />
                   </div>
-                  <div className="col flex-grow-0">
-                    <p className="card-subtitle text-muted text-end">
-                      {getDateLastEdit(article.timeCreate).date}
-                    </p>{" "}
-                    <p className="card-subtitle text-muted text-end">
-                      {getDateLastEdit(article.timeCreate).time}
-                    </p>
+                  <div className="col flex-grow-0 card-subtitle text-muted text-end">
+                    <Widget
+                      src="mob.near/widget/TimeAgo"
+                      props={{ blockHeight: article.blockHeight }}
+                    />
                   </div>
                 </div>
                 <div
