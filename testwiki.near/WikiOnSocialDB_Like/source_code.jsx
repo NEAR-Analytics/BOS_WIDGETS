@@ -28,17 +28,22 @@ State.init({
 });
 
 // =============== CSS Styles ===============
-
-const mainButtonStyles = {
-  border: 0,
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "start",
-  borderRadius: "5px",
-  paddingLeft: "12px",
-  width: "8em",
-  height: "2.5em",
-};
+const Button = styled.button`
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  width: 8em;
+  height: 2.5em;
+  padding: 6px 12px;
+  margin-top: 2px;
+  border: 0;
+  border-radius: .375rem;
+  :hover {
+    background: #EBEBEB; 
+    outline: 1px solid #C6C7C8;
+  }
+`;
 
 const SmallButton = styled.button`
   border: 0;
@@ -182,21 +187,13 @@ return (
       placement="auto"
       overlay={overlay}
     >
-      <button
+      <Button
         onClick={() => clickHandler(initialEmoji)}
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
-        style={{
-          ...mainButtonStyles,
-          backgroundColor:
-            state.emoji === initialEmoji
-              ? "transparent"
-              : "rgba(0, 191, 255, 0.1)",
-          color: state.emoji === initialEmoji ? "#000" : "DeepSkyBlue",
-        }}
       >
         {state.emoji}
-      </button>
+      </Button>
     </OverlayTrigger>
     {state.likes &&
       state.likes.map((item) => (
