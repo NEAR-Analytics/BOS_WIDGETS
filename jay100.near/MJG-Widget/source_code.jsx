@@ -143,6 +143,49 @@ const PixelContainer = styled.div`
   justify-content: center;
 `;
 
+const CarouselContainer = styled.div`
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+`;
+
+const Slide = styled.div`
+  display: none;
+  .fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  @keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+  }
+`;
+
+const SlideImg = styled.img`
+  width: 100%
+`;
+
+const SlideText = styled.div`
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+`;
+
+const SlideShow = ({}) => {
+  return (
+    <CarouselContainer>
+      <Slide>
+        <SlideImg></SlideImg>
+        <SlideText></SlideText>
+      </Slide>
+    </CarouselContainer>
+  );
+};
+
 const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
   return (
     <Card>
