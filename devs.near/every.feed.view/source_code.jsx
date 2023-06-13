@@ -10,10 +10,11 @@ const daoId = data.daoId;
 //
 // Or match with the name pattern? every.thing
 
-if (typeWhitelist === JSON.stringify(["md", "social"])) {
+if (
+  typeWhitelist === JSON.stringify(["md", "social", "every.near/type/markdown"])
+) {
   return (
     <>
-      <p>{daoId}</p>
       <Widget
         src="efiz.near/widget/Community.Posts.Compose"
         props={{
@@ -23,6 +24,7 @@ if (typeWhitelist === JSON.stringify(["md", "social"])) {
           embedHashtags: data.hashtagFilter,
         }}
       />
+      <p>{daoId}</p>
       <Widget
         src="every.near/widget/every.post"
         props={{
