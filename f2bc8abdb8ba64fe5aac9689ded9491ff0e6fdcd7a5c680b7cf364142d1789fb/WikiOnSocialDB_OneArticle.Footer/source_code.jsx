@@ -11,7 +11,13 @@ return (
       <a
         href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${author}`}
         target="_blank"
-        style={{ textDecoration: "underline" }}
+        style={{
+          textDecoration: "underline",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          maxWidth: "100%",
+          display: "block",
+        }}
       >
         {author}
       </a>
@@ -19,7 +25,13 @@ return (
       Last edit by{" "}
       <a
         href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${lastEditor}`}
-        style={{ textDecoration: "underline" }}
+        style={{
+          textDecoration: "underline",
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          maxWidth: "100%",
+          display: "block",
+        }}
       >
         {lastEditor}
       </a>
