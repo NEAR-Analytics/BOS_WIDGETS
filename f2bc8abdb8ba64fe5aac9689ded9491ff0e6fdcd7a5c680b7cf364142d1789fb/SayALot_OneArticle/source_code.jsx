@@ -248,7 +248,13 @@ return (
       <div className="col-12 col-md-3 border-end">
         <h4
           className="text-center"
-          style={{ cursor: "pointer", fontSize: "1rem" }}
+          style={{
+            cursor: "pointer",
+            fontSize: "1rem",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+          title={state.article.articleId}
           onClick={() => {
             State.update({
               note: state.article.body,
