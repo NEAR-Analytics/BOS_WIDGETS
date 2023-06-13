@@ -195,7 +195,7 @@ const Tabs = (
                         <WidgetsContainer>
                             {ProposalsByMonth}
                             {TransfersOverview}
-                            {TransfersByAccount}
+                         {/*   {TransfersByAccount}*/}
                             {ProposalStatus}
                         </WidgetsContainer>
                     ),
