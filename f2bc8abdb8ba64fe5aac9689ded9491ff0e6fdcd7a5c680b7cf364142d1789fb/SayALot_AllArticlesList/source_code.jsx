@@ -96,11 +96,19 @@ return (
                     Last edit by{" "}
                     <a
                       href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-                      style={{ textDecoration: "underline" }}
+                      style={{
+                        textDecoration: "underline",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        maxWidth: "100%",
+                        display: "block",
+                        marginBottom: "0",
+                        textWrap: "nowrap",
+                      }}
+                      title={article.lastEditor}
                     >
                       {article.lastEditor}
                     </a>
-                    <br />
                     Edited on {getDateLastEdit(article.timeLastEdit).date}
                     <br />
                     Edit versions: {article.version}
