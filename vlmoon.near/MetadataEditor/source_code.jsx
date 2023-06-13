@@ -65,7 +65,7 @@ const onNameChange = debounce((e) => {
       name: e.target.value,
     },
   });
-}, 350);
+});
 const onDescriptionChange = debounce((e) => {
   State.update({
     metadata: {
@@ -73,7 +73,7 @@ const onDescriptionChange = debounce((e) => {
       description: e.target.value,
     },
   });
-}, 350);
+});
 const onLinkTreeChange = debounce((e) => {
   State.update({
     linktree: {
@@ -81,7 +81,7 @@ const onLinkTreeChange = debounce((e) => {
       [e.target.id]: e.target.value,
     },
   });
-}, 350);
+});
 
 return (
   <>
