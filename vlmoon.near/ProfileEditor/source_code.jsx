@@ -32,7 +32,7 @@ return (
           <Widget
             src="vlmoon.near/widget/MetadataEditor"
             props={{
-              initialMetadata: profile,
+              initialMetadata: state.profile,
               onChange: (profile) => State.update({ profile }),
               options: {
                 name: { label: "Name" },
@@ -79,7 +79,7 @@ return (
           </CommitButton>
           <a
             className="btn btn-outline-primary ms-2"
-            href={`#/near/widget/ProfilePage?accountId=${accountId}`}
+            href={`#/vlmoon.near/widget/ProfilePage?accountId=${accountId}`}
           >
             View profile
           </a>
@@ -88,7 +88,7 @@ return (
       <div className="col-lg-6">
         <div>
           <Widget
-            src="mob.near/widget/ProfilePage"
+            src="vlmoon.near/widget/ProfilePage"
             props={{ accountId, profile: state.profile }}
           />
         </div>
