@@ -293,10 +293,16 @@ const saveHandler = (e) => {
 
     if (!isArticleIdDublicated) {
       const newData = composeData();
+
+      State.update({ saving: true });
+
       Social.set(newData, {
         force: true,
         onCommit: () => {
-          State.update({ saveComplete: true });
+          State.update({ saveComplete: true, saving: false });
+        },
+        onCancel: () => {
+          State.update({ saving: false });
         },
       });
     } else {
@@ -345,7 +351,7 @@ return (
   <div
     className="container-fluid"
     style={
-      state.articleBlockHeight != 0
+      state.saveComplete
         ? {
             backgroundColor: "rgb(230, 230, 230)",
             borderRadius: "20px",
@@ -362,7 +368,7 @@ return (
           }
     }
   >
-    {saveComplete && (
+    {state.saveComplete && (
       <a
         style={{
           position: "absolute",
@@ -413,7 +419,7 @@ return (
       <div>
         <div>
           <Button type="submit" onClick={saveHandler}>
-            {state.saveComplete && (
+            {state.saving && (
               <div
                 className="spinner-border text-secondary"
                 style={{ height: "1rem", width: "1rem" }}
@@ -445,7 +451,7 @@ return (
           />
         </div>
         <div className="d-flex flex-column pt-3">
-          {state.articleBlockHeight == 0 && (
+          {!state.saveComplete && (
             <Widget
               src="mob.near/widget/TagsEditor"
               props={{
