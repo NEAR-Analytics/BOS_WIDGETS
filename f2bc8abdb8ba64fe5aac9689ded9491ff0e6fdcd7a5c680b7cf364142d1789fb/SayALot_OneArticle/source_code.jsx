@@ -10,17 +10,24 @@ const accountId = props.accountId ?? context.accountId;
 const lastEditor = props.lastEditor;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
 const notifyAccountId = accountId;
 
-State.init({ showReply: false, isMain: true });
+State.init({ showReply: false, isMain: true, article: null });
 
 const article = JSON.parse(
   Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
 );
-State.update({ article });
+
+if (JSON.stringify(article) != JSON.stringify(state.article)) {
+  State.update({ article });
+}
+if (state.article == null) {
+  return <h3>Loading...</h3>;
+}
 
 // ======= CHECK WHO CAN EDIT ARTICLE
 const authorsWhiteList = [
