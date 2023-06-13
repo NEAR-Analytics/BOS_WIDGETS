@@ -58,7 +58,7 @@ const debounce = (func, wait) => {
   };
 };
 
-function throttle(func, limit) {
+const throttle = (func, limit) => {
   let inThrottle;
   return function () {
     const args = arguments;
@@ -69,7 +69,7 @@ function throttle(func, limit) {
       setTimeout(() => (inThrottle = false), limit);
     }
   };
-}
+};
 
 const onNameChange = throttle((e) => {
   State.update({
