@@ -144,13 +144,13 @@ const PixelContainer = styled.div`
 `;
 
 const CarouselContainer = styled.div`
-  max-width: 1000px;
+    max-width: 1000px;
   position: relative;
   margin: auto;
 `;
 
 const Slide = styled.div`
-  display: none;
+    display: none;
   .fade {
     animation-name: fade;
     animation-duration: 1.5s;
@@ -175,13 +175,32 @@ const SlideText = styled.div`
   text-align: center;
 `;
 
-const SlideShow = ({}) => {
+const SlideShow = ({ current_slides }) => {
+  let slideIndex = 0;
+
+  const showSlides = () => {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {
+      slideIndex = 1;
+    }
+    slides[slideIndex - 1].style.display = "block";
+  };
+
+  set;
+
   return (
-    <CarouselContainer>
-      <Slide>
-        <SlideImg></SlideImg>
-        <SlideText></SlideText>
-      </Slide>
+    <CarouselContainer onChange={showSlides}>
+      {current_slides.map((slide, index) => (
+        <Slide className="mySlides">
+          <SlideImg src={slide.slideImage} />
+          <SlideText>{slide.slideInfo}</SlideText>
+        </Slide>
+      ))}
     </CarouselContainer>
   );
 };
@@ -249,6 +268,17 @@ const Wiki = [
   },
 ];
 
+const Test_Slides = [
+  {
+    slideImage: "https://www.w3schools.com/howto/img_nature_wide.jpg",
+    slideInfo: "Dummy Information 1",
+  },
+  {
+    slideImage: "https://www.w3schools.com/howto/img_snow_wide.jpg",
+    slideInfo: "Dummy Information 2",
+  },
+];
+
 return (
   <div
     style={{
@@ -303,6 +333,7 @@ return (
         ></div>
       </div>
     </Hero>
+    <SlideShow current_slides={Test_Slides} />
     <CardList>
       {Mainnet.map((widget, index) => (
         <WidgetCard
