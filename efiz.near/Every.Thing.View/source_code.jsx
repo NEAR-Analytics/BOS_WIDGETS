@@ -194,7 +194,7 @@ function renderContent() {
     } else {
       switch (type) {
         case "widget":
-          return <Widget src={path} />;
+          return <Widget src={path} props={props} />;
         case "account":
           return <p>account</p>;
         case "settings":
