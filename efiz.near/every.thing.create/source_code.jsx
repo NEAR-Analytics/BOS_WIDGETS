@@ -1,21 +1,17 @@
 const postThing = props.postThing;
-const availableTypes = JSON.parse(props.availableTypes) || [
-  "efiz.near/type/paragraph",
-  "efiz.near/type/Image",
-  "efiz.near/type/document",
-  "efiz.near/type/feed",
-  "efiz.near/type/idea",
-  "efiz.near/type/markdown",
-  "efiz.near/type/topic",
-  "every.near/type/core",
-];
-const type = props.type || "";
-if (availableTypes.length === 1) {
-  type = availableTypes[0];
+const pPath = props.pPath || null;
+const availableTypes = JSON.parse(props.availableTypes || "null");
+
+if (!availableTypes) {
+  const types = Social.get("every.near/type/**", "final");
+  if (!types) {
+    return <></>;
+  }
+  availableTypes = Object.keys(types).map((it) => `every.near/type/${it}`);
 }
 
 State.init({
-  selectedType: type,
+  selectedType: "",
   expanded: false,
 });
 
@@ -57,6 +53,7 @@ const composeData = () => {
       ...state.extra,
       [thingId]: JSON.stringify({
         data: state.thing,
+        pPath,
         type: state.selectedType,
       }),
     },
@@ -72,7 +69,7 @@ const composeData = () => {
 
   // TODO: What other types can we extract mentions from?
   // How can this be better associated with the type?
-  if (state.selectedType === "efiz.near/type/markdown") {
+  if (state.selectedType === "md") {
     const notifications = extractTagNotifications(state.thing.text, {
       type: "social",
       path: `${context.accountId}/thing/${thingId}`,
@@ -94,6 +91,8 @@ const composeData = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  margin: 20px;
 `;
 
 const Row = styled.div`
@@ -102,19 +101,6 @@ const Row = styled.div`
   margin-bottom: 10px;
   width: 100%;
 `;
-
-// const Row = styled.div`
-//   display: flex;
-//   gap: 10px;
-// `;
-
-// const Select = styled.select`
-//   padding: 5px;
-//   width: 100%;
-// `;
-
-// const Input = styled.input`
-// `;
 
 const SwitchButton = styled.button`
   padding: 5px 10px;
@@ -139,15 +125,9 @@ const FormContainer = styled.div`
   margin: 20px;
 `;
 
-const Input = styled.input`
-  flex: 1;
-  max-width: 200px;
-  margin-bottom: 10px;
-  height: 30px;
-`;
-
 const Select = styled.select`
   height: 30px;
+  width: 300px;
 `;
 
 const Button = styled.button`
@@ -159,45 +139,37 @@ const Text = styled.p`
   margin-right: 10px;
 `;
 
+const Input = styled.input`
+  width: 300px;
+  height: 30px;
+`;
+
 const handleTypeChange = (e) => {
   State.update({ selectedType: e.target.value });
 };
-
-if (state.selectedType !== "") {
-  type = JSON.parse(Social.get(state.selectedType, "final") || null);
-  if (type === null) {
-    return <></>;
-  }
-}
 
 const handleThingData = (value, extra) => {
   State.update({ thing: value, extra });
 };
 
 function RenderTypeCreate() {
-  if (type !== "") {
-    if (type?.widgets?.create !== undefined) {
-      return (
-        <Widget
-          src={type?.widgets?.create}
-          props={{ onChange: handleThingData }} // onChange
-        />
-      );
-    } else {
-      return (
-        <Widget
-          src="efiz.near/widget/every.md.create"
-          props={{ onChange: handleThingData }} // onChange
-        />
-      );
-    }
+  if (state.selectedType !== "") {
+    const type = JSON.parse(Social.get(state.selectedType, "final") || "null");
+    const widgetSrc = type?.widgets?.create;
+    // it would be great to modify the onChange function
+    return (
+      <Widget
+        src={widgetSrc || "efiz.near/widget/create"}
+        props={{ onChange: handleThingData, type: state.selectedType }}
+      />
+    );
   }
 }
 
 return (
   <>
     <Container>
-      {props.type === undefined ? (
+      {props.type === undefined && availableTypes.length !== 1 ? (
         <>
           <Row>
             <TextContainer>create a thing of type:</TextContainer>
@@ -216,27 +188,29 @@ return (
       ) : null}
 
       <RenderTypeCreate />
+      <div>
+        <Button onClick={() => State.update({ expanded: !state.expanded })}>
+          optional {state.expanded ? "-" : "+"}
+        </Button>
+        <Row>
+          {state.expanded ? (
+            <>
+              <Input
+                onChange={(e) => State.update({ thingId: e.target.value })}
+                placeholder="file name"
+              />
+            </>
+          ) : null}
+        </Row>
+        <CommitButton
+          force
+          data={composeData()}
+          disabled={!state.thing}
+          className="styless"
+        >
+          create
+        </CommitButton>
+      </div>
     </Container>
-    <Button onClick={() => State.update({ expanded: !state.expanded })}>
-      optional {state.expanded ? "-" : "+"}
-    </Button>
-    <Row>
-      {state.expanded ? (
-        <>
-          <Input
-            onChange={(e) => State.update({ thingId: e.target.value })}
-            placeholder="thing id"
-          />
-        </>
-      ) : null}
-    </Row>
-    <CommitButton
-      force
-      data={composeData()}
-      disabled={!state.thing}
-      className="styless"
-    >
-      create
-    </CommitButton>
   </>
 );
