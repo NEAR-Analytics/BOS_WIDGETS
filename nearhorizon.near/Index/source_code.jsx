@@ -174,6 +174,7 @@ const tabContent = {
       props={{ accountId: state.accountId }}
     />
   ),
+  faq: <Widget src={`${ownerId}/widget/FAQ.Page`} />,
   help: (
     <Widget
       src={`${ownerId}/widget/Help.Page`}
@@ -186,6 +187,34 @@ const tabContent = {
       src={`${ownerId}/widget/Admin.Page`}
       props={{ update, content: state.content }}
     />
+  ),
+  projects: (
+    <Widget
+      src={`${ownerId}/widget/Project.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  investors: (
+    <Widget
+      src={`${ownerId}/widget/Investor.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  vendors: (
+    <Widget
+      src={`${ownerId}/widget/Vendor.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  requests: (
+    <Widget
+      src={`${ownerId}/widget/Request.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  partners: <Widget src={`${ownerId}/widget/Application.Page`} />,
+  partner: (
+    <Widget src={`${ownerId}/widget/Application.DetailPage`} props={props} />
   ),
 }[state.tab];
 
