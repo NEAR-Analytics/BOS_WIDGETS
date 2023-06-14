@@ -125,22 +125,22 @@ const fieldDefaultUpdate = ({
 const useForm = ({ stateKey: formStateKey }) => ({
   formState: state[formStateKey],
 
-  formUpdate:
-    ({ path: fieldPath, via: fieldCustomUpdate, ...params }) =>
-    (fieldInput) =>
-      State.update((lastKnownState) =>
-        traversalUpdate({
-          input: fieldInput?.target?.value ?? fieldInput,
-          target: lastKnownState,
-          path: [formStateKey, ...fieldPath],
-          params,
+  formUpdate: ({ path: fieldPath, via: fieldCustomUpdate, ...params }) => (
+    fieldInput
+  ) =>
+    State.update((lastKnownState) =>
+      traversalUpdate({
+        input: fieldInput?.target?.value ?? fieldInput,
+        target: lastKnownState,
+        path: [formStateKey, ...fieldPath],
+        params,
 
-          via:
-            typeof fieldCustomUpdate === "function"
-              ? fieldCustomUpdate
-              : fieldDefaultUpdate,
-        })
-      ),
+        via:
+          typeof fieldCustomUpdate === "function"
+            ? fieldCustomUpdate
+            : fieldDefaultUpdate,
+      })
+    ),
 });
 /* END_INCLUDE: "shared/lib/form" */
 /* INCLUDE: "shared/lib/record" */
@@ -150,39 +150,88 @@ const pick = (object, subsetKeys) =>
   );
 /* END_INCLUDE: "shared/lib/record" */
 
+const fieldParamsByType = {
+  array: {
+    name: "components.molecule.text-input",
+    inputProps: { type: "text" },
+  },
+
+  boolean: {
+    name: "components.atom.switch",
+  },
+
+  string: {
+    name: "components.molecule.text-input",
+    inputProps: { type: "text" },
+  },
+};
+
 const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
   <>
-    {Object.entries(schema).map(([fieldKey, fieldProps]) => (
-      <>
-        {!isEditable && (
-          <div
-            className="d-flex gap-3"
-            key={`${formState.handle}-${fieldKey}`}
-            style={{ order: fieldProps.order }}
-          >
-            <label className="fw-bold w-25">{fieldProps.label}</label>
+    {Object.entries(schema).map(([fieldKey, fieldProps]) => {
+      const contentDisplayClassName = [
+        (formState[fieldKey] ?? null) === null ? "text-muted" : "",
+        "m-0",
+      ].join(" ");
 
-            <p
-              className={
-                (formState[fieldKey] ?? null) === null ? "text-muted" : ""
-              }
+      const fieldType = Array.isArray(formState[fieldKey])
+        ? "array"
+        : typeof (formState[fieldKey] ?? "");
+
+      return (
+        <>
+          {!isEditable && (
+            <div
+              className="d-flex gap-3"
+              key={`${formState.handle}-${fieldKey}`}
+              style={{ order: fieldProps.order }}
             >
-              {formState[fieldKey] ?? "none"}
-            </p>
-          </div>
-        )}
+              <label className="fw-bold w-25">{fieldProps.label}</label>
 
-        {isEditable &&
-          widget("components.molecule.text-input", {
-            ...fieldProps,
-            className: "w-100",
-            key: `${formState.handle}-${fieldKey}`,
-            onChange: formUpdate({ path: [fieldKey] }),
-            style: { order: fieldProps.order },
-            value: formState[fieldKey],
-          })}
-      </>
-    ))}
+              {fieldProps.format !== "markdown" ? (
+                <p className={contentDisplayClassName}>
+                  {(fieldType === "array"
+                    ? formState[fieldKey]
+                        .filter((string) => string.length > 0)
+                        .join(", ")
+                    : formState[fieldKey]
+                  )?.toString?.() || "none"}
+                </p>
+              ) : (
+                <p className={contentDisplayClassName}>
+                  {(formState[fieldKey]?.length ?? 0) > 0 ? (
+                    <Markdown text={formState[fieldKey]} />
+                  ) : (
+                    "none"
+                  )}
+                </p>
+              )}
+            </div>
+          )}
+
+          {isEditable &&
+            widget(fieldParamsByType[fieldType].name, {
+              ...fieldProps,
+              className: "w-100",
+              key: `${formState.handle}-${fieldKey}`,
+              onChange: formUpdate({ path: [fieldKey] }),
+              style: { ...fieldProps.style, order: fieldProps.order },
+
+              value:
+                fieldType === "array"
+                  ? formState[fieldKey].join(", ")
+                  : formState[fieldKey],
+
+              inputProps: {
+                ...(fieldProps.inputProps ?? {}),
+
+                ...(fieldParamsByType[typeof formState[fieldKey]].inputProps ??
+                  {}),
+              },
+            })}
+        </>
+      );
+    })}
   </>
 );
 
@@ -193,7 +242,9 @@ const Form = ({
   data,
   fieldsRender: fieldsRenderCustom,
   heading,
+  isEditorActive,
   isMutable,
+  noEditorFrame,
   onCancel,
   onSubmit,
   schema,
@@ -204,12 +255,13 @@ const Form = ({
       ? fieldsRenderCustom
       : fieldsRenderDefault;
 
-  const fieldValues = pick(data, Object.keys(schema)) ?? {};
+  const fieldValues =
+    typeof schema === "object" ? pick(data, Object.keys(schema)) : data;
 
   State.init({
     initialState: fieldValues,
     data: fieldValues,
-    isEditorActive: false,
+    isEditorActive: isEditorActive ?? false,
   });
 
   const onEditorToggle = (forcedState) =>
@@ -230,6 +282,7 @@ const Form = ({
       isEditorActive: false,
     }));
 
+    typeof onSubmit === "function" && onSubmit(lastKnownState.initialState);
     return typeof onCancel === "function" ? onCancel() : null;
   };
 
@@ -241,6 +294,7 @@ const Form = ({
   return widget("components.molecule.tile", {
     className: classNames.root,
     heading,
+    noFrame: noEditorFrame,
 
     headerSlotRight:
       isMutable && !state.isEditorActive
@@ -256,16 +310,21 @@ const Form = ({
         : null,
 
     children: (
-      <div className="flex-grow-1 d-flex flex-column gap-1">
-        {fieldsRender({
-          formState,
-          formUpdate,
-          isEditable: isMutable && state.isEditorActive,
-          schema,
-        })}
+      <div className="flex-grow-1 d-flex flex-column gap-3">
+        <div
+          className={`d-flex flex-column gap-${state.isEditorActive ? 1 : 4}`}
+        >
+          {fieldsRender({
+            formState,
+            formUpdate,
+            isEditable: isMutable && state.isEditorActive,
+            onFormSubmit: onSubmit,
+            schema,
+          })}
+        </div>
 
-        {isMutable && state.isEditorActive ? (
-          <div className="d-flex align-items-center justify-content-end gap-3 pt-3 mt-auto">
+        {!noEditorFrame && isMutable && state.isEditorActive ? (
+          <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
             {actionsAdditional ? (
               <div className="me-auto">{actionsAdditional}</div>
             ) : null}
