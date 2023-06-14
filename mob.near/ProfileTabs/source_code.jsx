@@ -17,55 +17,30 @@ const pills = [
   { id: "widget", title: "Widgets" },
 ];
 
-const Nav = styled.div`
-  .nav-pills {
-    background: #fbfbfb;
-    font-weight: 500;
-    --bs-nav-pills-border-radius: 0;
-    --bs-nav-link-color: #000;
-    --bs-nav-pills-link-active-color: #000;
-    --bs-nav-pills-link-active-bg: #fbfbfb;
-    --bs-nav-link-padding-y: 0.75rem;
-    border-bottom: 1px solid #eee;
-    padding-top: 3px;
-  }
-  .nav-link.active {
-    border-bottom: 3px solid rgb(13, 110, 253);
-  }
-
-  .nav-item:not(:has(> .disabled)):hover {
-    background: rgba(13, 110, 253, 0.15);
-  }
-
-  margin: 0 -12px; 
-`;
-
 return (
   <>
-    <Nav>
-      <ul className="nav nav-pills nav-fill" id="pills-tab" role="tablist">
-        {pills.map(({ id, title }, i) => (
-          <li className="nav-item" role="presentation" key={i}>
-            <button
-              className={`nav-link ${i === 0 ? "active" : ""}`}
-              id={`pills-${id}-tab`}
-              data-bs-toggle="pill"
-              data-bs-target={`#pills-${id}`}
-              type="button"
-              role="tab"
-              aria-controls={`pills-${id}`}
-              aria-selected={i === 0}
-              onClick={() => {
-                const key = `load${id}`;
-                !state[key] && State.update({ [key]: true });
-              }}
-            >
-              {title}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </Nav>
+    <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
+      {pills.map(({ id, title }, i) => (
+        <li className="nav-item" role="presentation" key={i}>
+          <button
+            className={`nav-link ${i === 0 ? "active" : ""}`}
+            id={`pills-${id}-tab`}
+            data-bs-toggle="pill"
+            data-bs-target={`#pills-${id}`}
+            type="button"
+            role="tab"
+            aria-controls={`pills-${id}`}
+            aria-selected={i === 0}
+            onClick={() => {
+              const key = `load${id}`;
+              !state[key] && State.update({ [key]: true });
+            }}
+          >
+            {title}
+          </button>
+        </li>
+      ))}
+    </ul>
     <div className="tab-content" id="pills-tabContent">
       <div
         className="tab-pane fade show active"
@@ -75,23 +50,15 @@ return (
       >
         <div className="col-lg-8 mx-auto">
           {description && (
-            <Widget
-              key="desc"
-              loading=""
-              src="mob.near/widget/MainPage.N.Post"
-              props={{
-                accountId,
-                pinned: true,
-                blockHeight: "now",
-                content: {
-                  text: description,
-                },
-              }}
-            />
+            <div className="border rounded-4 p-3 pb-0 mb-3 text-break">
+              <h4>
+                <i class="bi bi-pin-angle" /> Bio
+              </h4>
+              <Markdown text={description} />
+            </div>
           )}
           <Widget
-            key="feed"
-            src="mob.near/widget/MainPage.N.Feed"
+            src="mob.near/widget/MainPage.Feed"
             props={{ accounts: [accountId] }}
           />
         </div>
@@ -103,7 +70,7 @@ return (
         aria-labelledby="pills-nfts-tab"
       >
         {state.loadnfts && (
-          <Widget src="mob.near/widget/N.YourNFTs" props={{ accountId }} />
+          <Widget src="mob.near/widget/YourNFTs" props={{ accountId }} />
         )}
       </div>
       <div
