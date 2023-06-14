@@ -80,7 +80,7 @@ return (
     <div className="col-lg-6">
       <div>
         <Widget
-          src="mob.near/widget/ProfilePage"
+          src="vlmoon.near/widget/ProfilePage"
           props={{ accountId, profile: state.profile }}
         />
       </div>
