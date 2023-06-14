@@ -103,7 +103,6 @@ return data !== null ? (
                       maxHeight: size,
                       overflowWrap: "break-word",
                     },
-                    thumbnail: "thumbnail",
                     className: "",
                     fallbackUrl:
                       "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
