@@ -51,8 +51,29 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
+/* INCLUDE: "shared/lib/gui" */
+const Card = styled.div`
+  &:hover {
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  }
+`;
 
-const CardCover = styled.div`
+const CompactContainer = styled.div`
+  width: fit-content !important;
+  max-width: 100%;
+`;
+
+const Magnifiable = styled.div`
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  transition: box-shadow 0.6s;
+
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+`;
+/* END_INCLUDE: "shared/lib/gui" */
+
+const Banner = styled.div`
   border-top-left-radius: var(--bs-border-radius-xl) !important;
   border-top-right-radius: var(--bs-border-radius-xl) !important;
   height: calc(100% - 100px);
@@ -84,11 +105,11 @@ const CommunityEditorBrandingSection = ({
       isEditable,
       onFormSubmit,
     }) => (
-      <div
-        className="card shadow rounded-4 w-100"
+      <Magnifiable
+        className="card rounded-4 w-100"
         style={{ maxWidth: 896, height: 280 }}
       >
-        <CardCover
+        <Banner
           alt="Community banner preview"
           className="card-img-top"
           style={{
@@ -110,7 +131,7 @@ const CommunityEditorBrandingSection = ({
           <h5 className="h5">{name}</h5>
           <p className="card-text">{description}</p>
         </div>
-      </div>
+      </Magnifiable>
     ),
   });
 };
