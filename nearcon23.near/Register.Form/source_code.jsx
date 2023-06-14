@@ -1,209 +1,5 @@
 const ownerId = "nearcon23.near";
 
-const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
-
-const countries = [
-  "Afghanistan",
-  "Albania",
-  "Algeria",
-  "Andorra",
-  "Angola",
-  "Antigua and Barbuda",
-  "Argentina",
-  "Armenia",
-  "Australia",
-  "Austria",
-  "Azerbaija",
-  "The Bahamas",
-  "Bahrain",
-  "Bangladesh",
-  "Barbados",
-  "Belarus",
-  "Belgium",
-  "Belize",
-  "Benin",
-  "Bhutan",
-  "Bolivia",
-  "Bosnia and Herzegovina",
-  "Botswana",
-  "Brazil",
-  "Brunei",
-  "Bulgaria",
-  "Burkina Faso",
-  "Burundi",
-  "Cabo Verde",
-  "Cambodia",
-  "Cameroon",
-  "Canada",
-  "Central African Republic",
-  "Chad",
-  "Chile",
-  "China",
-  "Colombia",
-  "Comoros",
-  "Congo, Democratic Republic of the",
-  "Congo, Republic of the",
-  "Costa Rica",
-  "Côte d’Ivoire",
-  "Croatia",
-  "Cuba",
-  "Cyprus",
-  "Czech Republic",
-  "Denmark",
-  "Djibouti",
-  "Dominica",
-  "Dominican Republic",
-  "East Timor (Timor-Leste)",
-  "Ecuador",
-  "Egypt",
-  "El Salvador",
-  "Equatorial Guinea",
-  "Eritrea",
-  "Estonia",
-  "Eswatini",
-  "Ethiopia",
-  "Fiji",
-  "Finland",
-  "France",
-  "Gabon",
-  "The Gambia",
-  "Georgia",
-  "Germany",
-  "Ghana",
-  "Greece",
-  "Grenada",
-  "Guatemala",
-  "Guinea",
-  "Guinea-Bissau",
-  "Guyana",
-  "Haiti",
-  "Honduras",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
-  "Iran",
-  "Iraq",
-  "Ireland",
-  "Israel",
-  "Italy",
-  "Jamaica",
-  "Japan",
-  "Jordan",
-  "Kazakhstan",
-  "Kenya",
-  "Kiribati",
-  "Korea, North",
-  "Korea, South",
-  "Kosovo",
-  "Kuwait",
-  "Kyrgyzstan",
-  "Laos",
-  "Latvia",
-  "Lebanon",
-  "Lesotho",
-  "Liberia",
-  "Libya",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Madagascar",
-  "Malawi",
-  "Malaysia",
-  "Maldives",
-  "Mali",
-  "Malta",
-  "Marshall Islands",
-  "Mauritania",
-  "Mauritius",
-  "Mexico",
-  "Micronesia, Federated States of",
-  "Moldova",
-  "Monaco",
-  "Mongolia",
-  "Montenegro",
-  "Morocco",
-  "Mozambique",
-  "Myanmar (Burma)",
-  "Namibia",
-  "Nauru",
-  "Nepal",
-  "Netherlands",
-  "New Zealand",
-  "Nicaragua",
-  "Niger",
-  "Nigeria",
-  "North Macedonia",
-  "Norway",
-  "Oman",
-  "Pakistan",
-  "Palau",
-  "Panama",
-  "Papua New Guinea",
-  "Paraguay",
-  "Peru",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Qatar",
-  "Romania",
-  "Russia",
-  "Rwanda",
-  "Saint Kitts and Nevis",
-  "Saint Lucia",
-  "Saint Vincent and the Grenadines",
-  "Samoa",
-  "San Marino",
-  "Sao Tome and Principe",
-  "Saudi Arabia",
-  "Senegal",
-  "Serbia",
-  "Seychelles",
-  "Sierra Leone",
-  "Singapore",
-  "Slovakia",
-  "Slovenia",
-  "Solomon Islands",
-  "Somalia",
-  "South Africa",
-  "Spain",
-  "Sri Lanka",
-  "Sudan",
-  "Sudan, South",
-  "Suriname",
-  "Sweden",
-  "Switzerland",
-  "Syria",
-  "Taiwan",
-  "Tajikistan",
-  "Tanzania",
-  "Thailand",
-  "Togo",
-  "Tonga",
-  "Trinidad and Tobago",
-  "Tunisia",
-  "Turkey",
-  "Turkmenistan",
-  "Tuvalu",
-  "Uganda",
-  "Ukraine",
-  "United Arab Emirates",
-  "United Kingdom",
-  "United States",
-  "Uruguay",
-  "Uzbekistan",
-  "Vanuatu",
-  "Vatican City",
-  "Venezuela",
-  "Vietnam",
-  "Yemen",
-  "Zambia",
-  "Zimbabwe",
-].map((value) => ({
-  text: value,
-  value: value.toLowerCase().replace(/\s/g, "-"),
-}));
-
 State.init({
   firstName: "",
   firstNameError: "",
@@ -228,8 +24,8 @@ State.init({
   twitterError: "",
   telegram: "",
   telegramError: "",
-  referral: "",
-  referralError: "",
+  paymentMethod: null,
+  paymentMethodError: "",
 });
 
 const isValid = () => {
@@ -239,8 +35,30 @@ const isValid = () => {
     state.lastName &&
     state.lastNameError === "" &&
     state.email &&
-    state.emailError === ""
+    state.emailError === "" &&
+    state.persona &&
+    state.personaError === "" &&
+    state.jobTitle &&
+    state.jobTitleError === "" &&
+    state.projectOrCompany &&
+    state.projectOrCompanyError === "" &&
+    state.country &&
+    state.countryError === "" &&
+    state.age &&
+    state.ageError === "" &&
+    state.goal &&
+    state.goalError === "" &&
+    state.twitter &&
+    state.twitterError === "" &&
+    state.telegram &&
+    state.telegramError === "" &&
+    state.paymentMethod &&
+    state.paymentMethodError === ""
   );
+};
+
+const onSubmit = () => {
+  console.log("Submitted!", { state });
 };
 
 const Container = styled.div`
@@ -286,13 +104,6 @@ const SubmitButton = styled.a`
   }
 `;
 
-const encode = (data) => {
-  return data.replaceAll(
-    /[^A–Za-z0-9_.!~*'()-]/g,
-    (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`
-  );
-};
-
 const url = () => {
   if (!isValid()) {
     return "#";
@@ -301,26 +112,16 @@ const url = () => {
   let urlString = "https://tickets.nearcon.org/?";
   urlString += `firstname=${state.firstName}&`;
   urlString += `lastname=${state.lastName}&`;
-  urlString += `emailaddress=${state.email}&`;
-
-  const meta = {
-    persona: state.persona.value,
-    jobtitle: state.jobTitle,
-    projectorcompany: state.projectOrCompany,
-    country: state.country.value,
-    goal: state.goal,
-  };
-
-  ["age", "twitter", "telegram", "referral", "accountId"].forEach((key) => {
-    if (state[key]) {
-      meta[key] = state[key];
-    }
-  });
-
-  const stringified = JSON.stringify(meta);
-  const encoded = encode(stringified);
-
-  urlString += `meta=${encoded}`;
+  urlString += `email=${state.email}&`;
+  urlString += `persona=${state.persona}&`;
+  urlString += `jobtitle=${state.jobTitle}&`;
+  urlString += `projectorcompany=${state.projectOrCompany}&`;
+  urlString += `country=${state.country}&`;
+  urlString += `age=${state.age}&`;
+  urlString += `goal=${state.goal}&`;
+  urlString += `twitter=${state.twitter}&`;
+  urlString += `telegram=${state.telegram}&`;
+  urlString += `paymentmethod=${state.paymentMethod}`;
 
   return urlString;
 };
@@ -334,7 +135,6 @@ return (
         value: state.firstName,
         error: state.firstNameError,
         placeholder: "Enter First Name",
-        required: true,
         onChange: (firstName) => State.update({ firstName }),
         validate: () => {
           if (state.firstName.length < 3) {
@@ -363,7 +163,6 @@ return (
         error: state.lastNameError,
         placeholder: "Enter Last Name",
         onChange: (lastName) => State.update({ lastName }),
-        required: true,
         validate: () => {
           if (state.lastName.length < 3) {
             State.update({
@@ -390,7 +189,6 @@ return (
         value: state.email,
         error: state.emailError,
         placeholder: "Enter Email",
-        required: true,
         onChange: (email) => State.update({ email }),
         validate: () => {
           if (state.email.length < 3) {
@@ -403,13 +201,6 @@ return (
           if (state.email.length > 100) {
             State.update({
               emailError: "Email must be less than 100 characters",
-            });
-            return;
-          }
-
-          if (!validateEmail(state.email)) {
-            State.update({
-              emailError: "Invalid Email Address",
             });
             return;
           }
@@ -432,13 +223,22 @@ return (
           { value: "other", text: "Other" },
         ],
         onChange: (persona) => State.update({ persona }),
+        validate: () => {
+          if (!state.persona) {
+            State.update({
+              personaError: "Please select a persona",
+            });
+            return;
+          }
+
+          State.update({ personaError: "" });
+        },
       }}
     />
     <Widget
       src={`${ownerId}/widget/Inputs.AccountId`}
       props={{
-        label: "Near ID",
-        placeholder: ".near",
+        label: "NEAR Account",
         value: state.accountId,
         onChange: (accountId) => State.update({ accountId }),
         setError: (accountIdError) => State.update({ accountIdError }),
@@ -454,6 +254,13 @@ return (
         placeholder: "Enter Job Title",
         onChange: (jobTitle) => State.update({ jobTitle }),
         validate: () => {
+          if (state.jobTitle.length < 3) {
+            State.update({
+              jobTitleError: "Job title must be at least 3 characters",
+            });
+            return;
+          }
+
           if (state.jobTitle.length > 100) {
             State.update({
               jobTitleError: "Job title must be less than 100 characters",
@@ -474,6 +281,14 @@ return (
         placeholder: "Enter Name of Project or Company",
         onChange: (projectOrCompany) => State.update({ projectOrCompany }),
         validate: () => {
+          if (state.projectOrCompany.length < 3) {
+            State.update({
+              projectOrCompanyError:
+                "Project or company name must be at least 3 characters",
+            });
+            return;
+          }
+
           if (state.projectOrCompany.length > 100) {
             State.update({
               projectOrCompanyError:
@@ -487,14 +302,28 @@ return (
       }}
     />
     <Widget
-      src={`${ownerId}/widget/Inputs.Countries`}
+      src={`${ownerId}/widget/Inputs.Select`}
       props={{
         label: "Country",
-        value: state.country ? [state.country] : [],
+        value: state.country,
         error: state.countryError,
         placeholder: "Choose...",
-        options: countries,
-        onChange: ([country]) => State.update({ country }),
+        options: [
+          { value: "united-states", text: "United States" },
+          { value: "canada", text: "Canada" },
+          { value: "germany", text: "Germany" },
+        ],
+        onChange: (country) => State.update({ country }),
+        validate: () => {
+          if (!state.country) {
+            State.update({
+              countryError: "Please select a country",
+            });
+            return;
+          }
+
+          State.update({ countryError: "" });
+        },
       }}
     />
     <Widget
@@ -503,12 +332,9 @@ return (
         label: "Age",
         value: state.age,
         error: state.ageError,
+        placeholder: "Enter Age",
         onChange: (age) => State.update({ age }),
         validate: () => {
-          if (!state.age) {
-            return;
-          }
-
           if (state.age < 1) {
             State.update({
               ageError: "Age must be at least 1",
@@ -536,6 +362,13 @@ return (
         placeholder: "",
         onChange: (goal) => State.update({ goal }),
         validate: () => {
+          if (state.goal.length < 3) {
+            State.update({
+              goalError: "Goal must be at least 3 characters",
+            });
+            return;
+          }
+
           if (state.goal.length > 500) {
             State.update({
               goalError: "Goal must be less than 500 characters",
@@ -553,9 +386,16 @@ return (
         label: "Twitter",
         value: state.twitter,
         error: state.twitterError,
-        placeholder: "@",
+        placeholder: "Enter Twitter",
         onChange: (twitter) => State.update({ twitter }),
         validate: () => {
+          if (state.twitter.length < 3) {
+            State.update({
+              twitterError: "Twitter must be at least 3 characters",
+            });
+            return;
+          }
+
           if (state.twitter.length > 100) {
             State.update({
               twitterError: "Twitter must be less than 100 characters",
@@ -573,9 +413,16 @@ return (
         label: "Telegram",
         value: state.telegram,
         error: state.telegramError,
-        placeholder: "@",
+        placeholder: "Enter Telegram",
         onChange: (telegram) => State.update({ telegram }),
         validate: () => {
+          if (state.telegram.length < 3) {
+            State.update({
+              telegramError: "Telegram must be at least 3 characters",
+            });
+            return;
+          }
+
           if (state.telegram.length > 100) {
             State.update({
               telegramError: "Telegram must be less than 100 characters",
@@ -587,13 +434,29 @@ return (
         },
       }}
     />
+    <Widget
+      src={`${ownerId}/widget/Inputs.RadioGroup`}
+      props={{
+        items: [
+          { value: "near", name: "NEAR" },
+          { value: "fiat", name: "Fiat (USD, etc.)" },
+        ],
+        value: state.paymentMethod,
+        error: state.paymentMethodError,
+        label: "I would like to pay with...",
+        onChange: (paymentMethod) => State.update({ paymentMethod }),
+        validate: () => {
+          if (!state.paymentMethod) {
+            State.update({
+              paymentMethodError: "Please select a payment method",
+            });
+            return;
+          }
 
-    <span>
-      By clicking 'Submit' you agree to the <br />{" "}
-      <a href={`/${ownerId}/widget/Index?tab=terms`}>
-        NEARCON 2023 Terms & Conditions
-      </a>
-    </span>
+          State.update({ paymentMethodError: "" });
+        },
+      }}
+    />
     <SubmitButton href={url()} className={isValid() ? "" : "disabled"}>
       Submit
       <svg
