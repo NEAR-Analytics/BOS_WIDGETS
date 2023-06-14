@@ -236,23 +236,24 @@ if (reverse) {
 
 const renderedItems = await Promise.all(items.map(cachedRenderItem));
 console.log({ props, state, renderedItems });
-return props.manual ? (
-  <>
-    here be renders
-    {reverse && fetchMore}
-    {renderedItems}
-    {!reverse && fetchMore}
-  </>
-) : (
-  <>
-    here be renders: {renderedItems.length}
-    <InfiniteScroll
-      pageStart={0}
-      loadMore={makeMoreItems}
-      hasMore={state.displayCount <= filteredItems.length}
-      loader={loader}
-    >
-      {renderedItems}
-    </InfiniteScroll>
-  </>
+return <>renderedItems</>;
+// return props.manual ? (
+//   <>
+//     here be renders
+//     {reverse && fetchMore}
+//     {renderedItems}
+//     {!reverse && fetchMore}
+//   </>
+// ) : (
+//   <>
+//     here be renders: {renderedItems.length}
+//     <InfiniteScroll
+//       pageStart={0}
+//       loadMore={makeMoreItems}
+//       hasMore={state.displayCount <= filteredItems.length}
+//       loader={loader}
+//     >
+//       {renderedItems}
+//     </InfiniteScroll>
+//   </>
 );
