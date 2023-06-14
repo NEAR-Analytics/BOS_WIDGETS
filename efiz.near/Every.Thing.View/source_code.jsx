@@ -321,6 +321,40 @@ function nearPad() {
     );
   }
 }
+
+function duplicate() {
+  const thingId = Math.random();
+  const thing = Social.get(path, blockHeight);
+  const data = {
+    thing: {
+      [thingId]: thing,
+    },
+    index: {
+      thing: JSON.stringify({
+        key: thingId,
+        value: {
+          type: JSON.parse(thing).type,
+        },
+      }),
+    },
+  };
+  return (
+    <button
+      className={`btn`}
+      onClick={() => {
+        Social.set(data, {
+          onCommit: () => {
+            console.log(thingId);
+          },
+        });
+      }}
+    >
+      <i className="bi bi-back me-1" />
+      <span>Duplicate</span>
+    </button>
+  );
+}
+
 // This should be a prop
 const renderIcon = () => {
   return (
@@ -345,7 +379,7 @@ const typeParts = type.split("/");
 if (typeParts.length > 1 || type === "widget") {
   plugins = Social.get(
     `${context.accountId}/settings/every/${type}/plugins`
-  ) || [toggleEdit(), toggleRaw(), toggleHistory(), nearPad()];
+  ) || [toggleEdit(), toggleRaw(), toggleHistory(), nearPad(), duplicate()];
 }
 
 return (
