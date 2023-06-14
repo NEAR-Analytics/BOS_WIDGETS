@@ -125,22 +125,22 @@ const fieldDefaultUpdate = ({
 const useForm = ({ stateKey: formStateKey }) => ({
   formState: state[formStateKey],
 
-  formUpdate:
-    ({ path: fieldPath, via: fieldCustomUpdate, ...params }) =>
-    (fieldInput) =>
-      State.update((lastKnownState) =>
-        traversalUpdate({
-          input: fieldInput?.target?.value ?? fieldInput,
-          target: lastKnownState,
-          path: [formStateKey, ...fieldPath],
-          params,
+  formUpdate: ({ path: fieldPath, via: fieldCustomUpdate, ...params }) => (
+    fieldInput
+  ) =>
+    State.update((lastKnownState) =>
+      traversalUpdate({
+        input: fieldInput?.target?.value ?? fieldInput,
+        target: lastKnownState,
+        path: [formStateKey, ...fieldPath],
+        params,
 
-          via:
-            typeof fieldCustomUpdate === "function"
-              ? fieldCustomUpdate
-              : fieldDefaultUpdate,
-        })
-      ),
+        via:
+          typeof fieldCustomUpdate === "function"
+            ? fieldCustomUpdate
+            : fieldDefaultUpdate,
+      })
+    ),
 });
 /* END_INCLUDE: "shared/lib/form" */
 /* INCLUDE: "shared/lib/record" */
@@ -174,7 +174,7 @@ const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
         { format, inputProps, label, order, style, ...fieldProps },
       ]) => {
         const contentDisplayClassName = [
-          (formState[fieldKey] ?? null) === null ? "text-muted" : "",
+          (formState[fieldKey]?.length ?? 0) > 0 ? "" : "text-muted",
           "m-0",
         ].join(" ");
 
@@ -256,6 +256,7 @@ const Form = ({
   onSubmit,
   schema,
   submitLabel,
+  ...restProps
 }) => {
   const fieldsRender =
     typeof fieldsRenderCustom === "function"
@@ -279,7 +280,7 @@ const Form = ({
 
   const { formState, formUpdate } = useForm({ stateKey: "data" });
 
-  const noSubmit =
+  const noChanges =
     JSON.stringify(formState) === JSON.stringify(state.initialState ?? {});
 
   const onCancelClick = () => {
@@ -289,13 +290,13 @@ const Form = ({
       isEditorActive: false,
     }));
 
-    typeof onSubmit === "function" && onSubmit(lastKnownState.initialState);
-    return typeof onCancel === "function" ? onCancel() : null;
+    if (typeof onSubmit === "function") onSubmit(lastKnownState.initialState);
+    if (typeof onCancel === "function") onCancel();
   };
 
   const onSubmitClick = () => {
     onEditorToggle(false);
-    return typeof onSubmit === "function" ? onSubmit(formState) : null;
+    if (typeof onSubmit === "function") onSubmit(formState);
   };
 
   return widget("components.molecule.tile", {
@@ -338,6 +339,7 @@ const Form = ({
 
             {widget("components.atom.button", {
               classNames: { root: "btn-outline-danger shadow-none border-0" },
+              disabled: noChanges,
               label: cancelLabel ?? "Cancel",
               onClick: onCancelClick,
             })}
@@ -348,7 +350,7 @@ const Form = ({
                 adornment: `bi ${classNames.submitAdornment}`,
               },
 
-              disabled: noSubmit,
+              disabled: noChanges,
               label: submitLabel ?? "Submit",
               onClick: onSubmitClick,
             })}
@@ -356,6 +358,8 @@ const Form = ({
         ) : null}
       </div>
     ),
+
+    ...restProps,
   });
 };
 
