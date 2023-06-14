@@ -256,4 +256,4 @@ return <>{renderedItems}</>;
 //       {renderedItems}
 //     </InfiniteScroll>
 //   </>
-);
+// );
