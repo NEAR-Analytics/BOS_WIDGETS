@@ -58,11 +58,6 @@ const Card = styled.div`
   }
 `;
 
-const CompactContainer = styled.div`
-  width: fit-content !important;
-  max-width: 100%;
-`;
-
 const Magnifiable = styled.div`
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   transition: box-shadow 0.6s;
@@ -77,63 +72,144 @@ const Banner = styled.div`
   border-top-left-radius: var(--bs-border-radius-xl) !important;
   border-top-right-radius: var(--bs-border-radius-xl) !important;
   height: calc(100% - 100px);
+
+  & > div :not(.btn) {
+    position: absolute;
+    display: none;
+    margin: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .btn {
+    border: none;
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: #087990;
+    --bs-btn-border-color: #087990;
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-bg: #055160;
+    --bs-btn-hover-border-color: #055160;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #ffffff;
+    --bs-btn-active-bg: #055160;
+    --bs-btn-active-border-color: #055160;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
+
+const Logo = styled.div`
+  height: calc(100% - 100px);
+
+  & > div :not(.btn) {
+    position: absolute;
+    display: none;
+    margin: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .btn {
+    border: none;
+    --bs-btn-color: #ffffff;
+    --bs-btn-bg: #087990;
+    --bs-btn-border-color: #087990;
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-hover-bg: #055160;
+    --bs-btn-hover-border-color: #055160;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #ffffff;
+    --bs-btn-active-bg: #055160;
+    --bs-btn-active-border-color: #055160;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;
+
+const communityBrandingDefaults = {
+  banner_cid: "bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
+  logo_cid: "bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
+};
 
 const CommunityEditorBrandingSection = ({
   data: { description, name, ...data },
   isEditingAllowed,
   onSubmit,
 }) => {
-  return widget("components.organism.form", {
+  State.init({
     data: {
-      banner_url:
-        data.banner_url ??
-        "https://ipfs.near.social/ipfs/bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
+      banner: {
+        cid:
+          data.banner_url?.split?.("/")?.at?.(-1) ??
+          communityBrandingDefaults.banner_cid,
+      },
 
-      logo_url:
-        data.logo_url ??
-        "https://ipfs.near.social/ipfs/bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
+      logo: {
+        cid:
+          data.logo_url?.split?.("/")?.at?.(-1) ??
+          communityBrandingDefaults.logo_cid,
+      },
     },
-
-    isMutable: isEditingAllowed,
-    noEditorFrame: true,
-    onSubmit,
-
-    fieldsRender: ({
-      formState: { banner_url, logo_url },
-      formUpdate,
-      isEditable,
-      onFormSubmit,
-    }) => (
-      <Magnifiable
-        className="card rounded-4 w-100"
-        style={{ maxWidth: 896, height: 280 }}
-      >
-        <Banner
-          alt="Community banner preview"
-          className="card-img-top"
-          style={{
-            background: `center / cover no-repeat url(${banner_url})`,
-          }}
-        />
-
-        <img
-          alt="Community logo preview"
-          class="img-fluid rounded-circle ms-5 border border-4 border-white"
-          src={logo_url}
-          style={{ marginTop: -64, width: 128, height: 128 }}
-        />
-
-        <div
-          className="card-body p-4"
-          style={{ marginTop: -64, marginLeft: 180, height: 84 }}
-        >
-          <h5 className="h5">{name}</h5>
-          <p className="card-text">{description}</p>
-        </div>
-      </Magnifiable>
-    ),
   });
+
+  onSubmit({
+    banner_url: `https://ipfs.near.social/ipfs/${
+      state.data.banner.cid ?? communityBrandingDefaults.banner_cid
+    }`,
+
+    logo_url: `https://ipfs.near.social/ipfs/${
+      state.data.logo.cid ?? communityBrandingDefaults.logo_cid
+    }`,
+  });
+
+  return (
+    <Magnifiable
+      className="card rounded-4 w-100"
+      style={{ maxWidth: 896, height: 280 }}
+    >
+      <Banner
+        alt="Community banner preview"
+        className="card-img-top d-flex flex-column justify-content-end align-items-end p-4"
+        style={{
+          background: `center / cover no-repeat url(${data.banner_url})`,
+        }}
+      >
+        <IpfsImageUpload image={state.data.banner} />
+      </Banner>
+
+      <Logo
+        alt="Community logo preview"
+        className={[
+          "d-flex flex-column justify-content-center align-items-center",
+          "rounded-circle ms-5 border border-4 border-white",
+        ].join(" ")}
+        style={{
+          marginTop: -64,
+          width: 128,
+          height: 128,
+          background: `center / cover no-repeat url(${data.logo_url})`,
+        }}
+      >
+        <IpfsImageUpload image={state.data.logo} />
+      </Logo>
+
+      <div
+        className="card-body p-4"
+        style={{ marginTop: -64, marginLeft: 180, height: 84 }}
+      >
+        <h5 className="h5">{name}</h5>
+        <p className="card-text">{description}</p>
+      </div>
+    </Magnifiable>
+  );
 };
 
 return CommunityEditorBrandingSection(props);
