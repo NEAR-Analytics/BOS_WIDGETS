@@ -11,6 +11,7 @@ const emojiArray = [
   "🙌 Celebrate",
   "👏 Applause",
   "⚡ Lightning",
+  "⋈ Bowtie",
 ];
 const item = props.item;
 const accountThatIsLoggedIn = context.accountId;
