@@ -305,7 +305,7 @@ return (
       //   <i class="bi bi-clipboard-check"></i>
       // </Button>*/}
 
-      <a href={`/#/editor/${accountId}/widget/${widgetName}`} target="_blank">
+      <a href={`/editor/${accountId}/widget/${widgetName}`} target="_blank">
         <Button
           data-toggle="tooltip"
           data-placement="top"
