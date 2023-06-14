@@ -236,7 +236,7 @@ if (reverse) {
 
 const renderedItems = await Promise.all(items.map(cachedRenderItem));
 console.log({ props, state, renderedItems });
-return <>renderedItems</>;
+return <>{renderedItems}</>;
 // return props.manual ? (
 //   <>
 //     here be renders
