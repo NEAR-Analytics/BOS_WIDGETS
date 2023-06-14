@@ -125,22 +125,22 @@ const fieldDefaultUpdate = ({
 const useForm = ({ stateKey: formStateKey }) => ({
   formState: state[formStateKey],
 
-  formUpdate: ({ path: fieldPath, via: fieldCustomUpdate, ...params }) => (
-    fieldInput
-  ) =>
-    State.update((lastKnownState) =>
-      traversalUpdate({
-        input: fieldInput?.target?.value ?? fieldInput,
-        target: lastKnownState,
-        path: [formStateKey, ...fieldPath],
-        params,
+  formUpdate:
+    ({ path: fieldPath, via: fieldCustomUpdate, ...params }) =>
+    (fieldInput) =>
+      State.update((lastKnownState) =>
+        traversalUpdate({
+          input: fieldInput?.target?.value ?? fieldInput,
+          target: lastKnownState,
+          path: [formStateKey, ...fieldPath],
+          params,
 
-        via:
-          typeof fieldCustomUpdate === "function"
-            ? fieldCustomUpdate
-            : fieldDefaultUpdate,
-      })
-    ),
+          via:
+            typeof fieldCustomUpdate === "function"
+              ? fieldCustomUpdate
+              : fieldDefaultUpdate,
+        })
+      ),
 });
 /* END_INCLUDE: "shared/lib/form" */
 /* INCLUDE: "shared/lib/record" */
@@ -168,70 +168,77 @@ const fieldParamsByType = {
 
 const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
   <>
-    {Object.entries(schema).map(([fieldKey, fieldProps]) => {
-      const contentDisplayClassName = [
-        (formState[fieldKey] ?? null) === null ? "text-muted" : "",
-        "m-0",
-      ].join(" ");
+    {Object.entries(schema).map(
+      ([
+        fieldKey,
+        { format, inputProps, label, order, style, ...fieldProps },
+      ]) => {
+        const contentDisplayClassName = [
+          (formState[fieldKey] ?? null) === null ? "text-muted" : "",
+          "m-0",
+        ].join(" ");
 
-      const fieldType = Array.isArray(formState[fieldKey])
-        ? "array"
-        : typeof (formState[fieldKey] ?? "");
+        const fieldType = Array.isArray(formState[fieldKey])
+          ? "array"
+          : typeof (formState[fieldKey] ?? "");
 
-      return (
-        <>
-          {!isEditable && (
-            <div
-              className="d-flex gap-3"
-              key={`${formState.handle}-${fieldKey}`}
-              style={{ order: fieldProps.order }}
-            >
-              <label className="fw-bold w-25">{fieldProps.label}</label>
+        return (
+          <>
+            {!isEditable && (
+              <div
+                className="d-flex gap-3"
+                key={`${formState.handle}-${fieldKey}`}
+                style={{ order }}
+              >
+                <label className="fw-bold w-25">{label}</label>
 
-              {fieldProps.format !== "markdown" ? (
-                <p className={contentDisplayClassName}>
-                  {(fieldType === "array"
-                    ? formState[fieldKey]
-                        .filter((string) => string.length > 0)
-                        .join(", ")
-                    : formState[fieldKey]
-                  )?.toString?.() || "none"}
-                </p>
-              ) : (
-                <p className={contentDisplayClassName}>
-                  {(formState[fieldKey]?.length ?? 0) > 0 ? (
-                    <Markdown text={formState[fieldKey]} />
-                  ) : (
-                    "none"
-                  )}
-                </p>
-              )}
-            </div>
-          )}
+                {format !== "markdown" ? (
+                  <p className={contentDisplayClassName}>
+                    {(fieldType === "array"
+                      ? formState[fieldKey]
+                          .filter((string) => string.length > 0)
+                          .join(", ")
+                      : formState[fieldKey]
+                    )?.toString?.() || "none"}
+                  </p>
+                ) : (
+                  <p className={contentDisplayClassName}>
+                    {(formState[fieldKey]?.length ?? 0) > 0 ? (
+                      <Markdown text={formState[fieldKey]} />
+                    ) : (
+                      "none"
+                    )}
+                  </p>
+                )}
+              </div>
+            )}
 
-          {isEditable &&
-            widget(fieldParamsByType[fieldType].name, {
-              ...fieldProps,
-              className: "w-100",
-              key: `${formState.handle}-${fieldKey}`,
-              onChange: formUpdate({ path: [fieldKey] }),
-              style: { ...fieldProps.style, order: fieldProps.order },
+            {isEditable &&
+              widget(fieldParamsByType[fieldType].name, {
+                ...fieldProps,
+                className: "w-100",
+                format,
+                key: `${formState.handle}-${fieldKey}`,
+                label,
+                onChange: formUpdate({ path: [fieldKey] }),
+                style: { ...style, order },
 
-              value:
-                fieldType === "array"
-                  ? formState[fieldKey].join(", ")
-                  : formState[fieldKey],
+                value:
+                  fieldType === "array"
+                    ? formState[fieldKey].join(", ")
+                    : formState[fieldKey],
 
-              inputProps: {
-                ...(fieldProps.inputProps ?? {}),
+                inputProps: {
+                  ...(inputProps ?? {}),
 
-                ...(fieldParamsByType[typeof formState[fieldKey]].inputProps ??
-                  {}),
-              },
-            })}
-        </>
-      );
-    })}
+                  ...(fieldParamsByType[typeof formState[fieldKey]]
+                    .inputProps ?? {}),
+                },
+              })}
+          </>
+        );
+      }
+    )}
   </>
 );
 
