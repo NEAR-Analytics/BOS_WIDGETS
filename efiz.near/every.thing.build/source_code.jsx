@@ -13,7 +13,7 @@ State.init({
   components: [],
 });
 
-function handleSave() {
+function handleApply() {
   const thing = {};
   const blocks = [];
 
@@ -30,7 +30,7 @@ function handleSave() {
     }
   });
   if (onChange) {
-    onChange(blocks, thing);
+    onChange(blocks);
   } else {
     console.log(blocks);
   }
@@ -121,6 +121,6 @@ return (
     {state.components.map((component, index) => (
       <RenderComponent key={index} component={component} index={index} />
     ))}
-    <Button onClick={handleSave}>save</Button>
+    <Button onClick={handleApply}>apply</Button>
   </div>
 );
