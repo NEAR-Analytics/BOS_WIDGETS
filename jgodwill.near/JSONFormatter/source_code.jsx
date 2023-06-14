@@ -1,22 +1,25 @@
 State.init({
-  jsonStr: JSON.stringify(props.jsonCode),
+  jsonStr: JSON.stringify(state.jsonStr),
   prettifiedJson: "",
   fiexedJsonErrors: "",
 });
 
-if (!props.jsonCode) {
-  State.update({
-    jsonStr: JSON.stringify(props.jsonCode),
-  });
-}
+// if (!props.jsonCode) {
+//   State.update({
+//     jsonStr: JSON.stringify(props.jsonCode),
+//   });
+// }
 
-async function formatClickHandler() {
+console.log(state.jsonStr);
+
+function formatClickHandler() {
   let formattedJsonStr = "";
   let fixedErrors = "";
 
   try {
     // Validate input as JSON according to RFC 8259
     const jsonObj = JSON.parse(state.jsonStr);
+    console.log(jsonObj);
     // Stringify the JSON object with indentation and sorting keys
     formattedJsonStr = JSON.stringify(jsonObj, null, 4);
   } catch (error) {
@@ -128,6 +131,7 @@ const fileDownloadHandler = () => {
 
 const changeHandler = ({ target }) => {
   State.update({ jsonStr: target.value });
+  console.log(state.jsonStr);
 };
 
 return (
@@ -138,7 +142,7 @@ return (
         class="container-fluid"
         rows="10"
         value={state.jsonStr}
-        defaultValue={JSON.stringify(props.jsonCode)}
+        defaultValue={"{name: 'gunna',age: 12}"}
         onChange={changeHandler}
         onDrop={dragAndDropHandler}
         onDragOver={(e) => e.preventDefault()}
