@@ -108,13 +108,13 @@ function RenderComponent({ component, index }) {
 
 return (
   <div>
-    <Button onClick={() => handleTypeClick("efiz.near/type/Image")}>
+    <Button onClick={() => handleTypeClick("every.near/type/image")}>
       Add Image
     </Button>
-    <Button onClick={() => handleTypeClick("efiz.near/type/markdown")}>
+    <Button onClick={() => handleTypeClick("every.near/type/markdown")}>
       Add Markdown
     </Button>
-    <Button onClick={() => handleTypeClick("efiz.near/type/feed")}>
+    <Button onClick={() => handleTypeClick("every.near/type/feed")}>
       Add Feed
     </Button>
     <Button onClick={() => handleTypeClick("embed")}>Embed Thing</Button>
