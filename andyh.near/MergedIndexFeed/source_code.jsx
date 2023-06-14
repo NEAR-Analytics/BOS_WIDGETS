@@ -235,6 +235,7 @@ if (reverse) {
 }
 
 const renderedItems = await Promise.all(items.map(cachedRenderItem));
+console.log({ props, state, renderedItems });
 return props.manual ? (
   <>
     here be renders
@@ -244,7 +245,7 @@ return props.manual ? (
   </>
 ) : (
   <>
-    here be renders: {JSON.stringify(renderedItems)}
+    here be renders: {renderedItems.length}
     <InfiniteScroll
       pageStart={0}
       loadMore={makeMoreItems}
