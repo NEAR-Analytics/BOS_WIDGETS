@@ -271,7 +271,31 @@ return (
     </TopSection>
 
     <BottomSection>
-      <Button
+      {/*// <Button
+      //   data-toggle="tooltip"
+      //   data-placement="top"
+      //   title="Copy Widget"
+      //   onClick={() =>
+      //     props?.onCopyButtonClick(`${accountId}/widget/${widgetName}`)
+      //   }
+      // >
+      //   <i class="bi bi-clipboard-check"></i>
+      // </Button>*/}
+
+      <a href={`/#/editor/${accountId}/widget/${widgetName}`} target="_blank">
+        <Button
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Copy Widget"
+          onClick={() =>
+            props?.onCopyButtonClick(`${accountId}/widget/${widgetName}`)
+          }
+        >
+          <i class="bi bi-git"></i>
+        </Button>
+      </a>
+
+      <Button2
         data-toggle="tooltip"
         data-placement="top"
         title="Copy Widget"
@@ -280,9 +304,9 @@ return (
         }
       >
         <i class="bi bi-clipboard-check"></i>
-      </Button>
+      </Button2>
 
-      <a href={appUrl} target="_blank">
+      {/*<a href={appUrl} target="_blank">
         <Button2
           type="button"
           data-toggle="tooltip"
@@ -290,9 +314,9 @@ return (
           title="Open Component"
         >
           <i class="bi bi-box-arrow-up-right"></i>
-          {/*Open*/}
         </Button2>
       </a>
+      */}
     </BottomSection>
   </MainContainer>
 );
