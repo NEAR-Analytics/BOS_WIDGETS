@@ -50,7 +50,7 @@ return (
       >
         <div className="col-lg-8 mx-auto">
           {description && (
-            <div className="border rounded-4 p-3 pb-0 mb-3">
+            <div className="border rounded-4 p-3 pb-0 mb-3 text-break">
               <h4>
                 <i class="bi bi-pin-angle" /> Bio
               </h4>
