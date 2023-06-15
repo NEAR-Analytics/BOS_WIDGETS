@@ -146,7 +146,7 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-const { chainId, isContractAllowedToSpendToken } = state;
+const { chainId, name, isContractAllowedToSpendToken } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
 
 const BRIDGE_CONTRACT_ADDRESS = isMainnet
@@ -184,10 +184,11 @@ if (sender) {
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
 const handleBridge = (props) => {
-  const { amount, token, network } = props;
+  const { amount, token, network, permit } = props;
   const networkId = network === "ethereum" ? 1 : 0;
 
   const amountBig = ethers.utils.parseUnits(amount, token.decimals);
+  // const permitData = permit || "0x";
   const permitData = "0x";
 
   console.log(amountBig);
@@ -197,12 +198,21 @@ const handleBridge = (props) => {
     [networkId, sender, amountBig, token.address, true, permitData]
   );
 
+  console.log({
+    networkId,
+    sender,
+    amountBig,
+    token: token.address,
+    bool: true,
+    permitData,
+  });
+
   Ethers.provider()
     .getSigner()
     .sendTransaction({
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
-      value: amountBig,
+      value: token.symbol === "ETH" ? amountBig : 0,
       gasLimit: ethers.BigNumber.from("500000"),
     })
     .then((tx) => {
@@ -254,6 +264,137 @@ const setIsContractAllowedToSpendToken = ({ token, amount }) => {
     });
 };
 
+const setNonce = (props) => {
+  console.log("setNonce", props);
+  const { token } = props;
+  const signer = Ethers.provider().getSigner();
+
+  const abi = [
+    "function nonces(address owner) external view returns (uint256)",
+  ];
+  const erc20contract = new ethers.Contract(
+    token.address,
+    abi,
+    Ethers.provider()
+  );
+
+  erc20contract
+    .nonces(sender)
+    .then((nonce) => {
+      console.log("nonce", nonce);
+      State.update({ nonce });
+    })
+    .catch((e) => {
+      console.log("setNonce err:", e);
+    });
+};
+
+const handlePermit = (props) => {
+  console.log("handlePermit", props);
+  const { amount, token, network } = props;
+
+  const domain = {
+    chainId,
+    name: state.name,
+    verifyingContract: token.address,
+    version: "1",
+  };
+
+  const types = {
+    Permit: [
+      { name: "owner", type: "address" },
+      { name: "spender", type: "address" },
+      { name: "value", type: "uint256" },
+      { name: "nonce", type: "uint256" },
+      { name: "deadline", type: "uint256" },
+    ],
+  };
+
+  const values = {
+    deadline: MAX_AMOUNT,
+    nonce: state.nonce || 0,
+    owner: sender,
+    spender: BRIDGE_CONTRACT_ADDRESS,
+    value: ethers.BigNumber.from(amount),
+  };
+
+  console.log({ domain, types, values });
+
+  Ethers.provider()
+    .getSigner()
+    ._signTypedData(domain, types, values)
+    .then((signature) => {
+      console.log("signature", signature);
+      const { r, s, v } = ethers.utils.splitSignature(signature);
+
+      console.log({ r, s, v });
+
+      const erc20Abi = [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "spender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "deadline",
+              type: "uint256",
+            },
+            {
+              internalType: "uint8",
+              name: "v",
+              type: "uint8",
+            },
+            {
+              internalType: "bytes32",
+              name: "r",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "s",
+              type: "bytes32",
+            },
+          ],
+          name: "permit",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ];
+
+      const erc20Iface = new ethers.utils.Interface(erc20Abi);
+
+      const permit = erc20Iface.encodeFunctionData(
+        "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
+        [
+          sender,
+          BRIDGE_CONTRACT_ADDRESS,
+          ethers.BigNumber.from(amount),
+          MAX_AMOUNT,
+          v,
+          r,
+          s,
+        ]
+      );
+
+      console.log("permitData", permit);
+      handleBridge({ ...props, permit });
+    });
+};
+
 const approve = (props) => {
   const { token, network, amount } = props;
   if (isContractAllowedToSpendToken) return;
@@ -273,65 +414,23 @@ const approve = (props) => {
   );
 };
 
-const setNonce = (props) => {
-  console.log("setNonce", props);
-  const { token } = props;
-  const signer = Ethers.provider().getSigner();
-
-  const abi = [
-    "function nonces(address owner) external view returns (uint256)",
-  ];
-  const erc20contract = new ethers.Contract(
-    token.address,
-    abi,
-    Ethers.provider()
-  );
-
-  erc20contract
-    .nonces(sender)
-    .then((nonce) => {
-      console.log("nonce", nonce);
-    })
-    .catch((e) => {
-      console.log("setNonce err:", e);
-    });
-};
-
-const handlePermit = (props) => {
-  /*
-  const signature = signer._signTypedData(domain, types, values);
-  const { r, s, v } = splitSignature(signature);
-  return erc20Contract.interface.encodeFunctionData("permit", [
-    account,
-    spender,
-    value,
-    MaxUint256,
-    v,
-    r,
-    s,
-  ]);
-  */
-};
-
 const onConfirm = (props) => {
-  // handlePermit(props);return;
   const { token, network, amount } = props;
   if (token.symbol !== "ETH" && network === "ethereum") {
-    approve(props)
-      .then((tx) => {
-        console.log("approve", tx);
-        handlePermit(props);
-        // tx.wait()
-        //   .then((data) => {
-        //     cnsole.log("tx data", data);
-        //   })
-        //   .catch((err) => {
-        //     console.log("tx err", err);
-        //   });
-      })
-      .catch((e) => {
-        console.log("approve err", e);
-      });
+    const res = approve(props);
+    console.log(res);
+    if (res) {
+      res
+        .then((tx) => {
+          console.log("approve", tx);
+          handlePermit(props);
+        })
+        .catch((e) => {
+          console.log("approve err", e);
+        });
+    } else {
+      handlePermit(props);
+    }
   } else {
     handleBridge(props);
   }
