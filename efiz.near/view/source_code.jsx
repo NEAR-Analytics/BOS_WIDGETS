@@ -172,7 +172,7 @@ return (
       <InnerContainer>
         <Row>
           <Column>
-            <Title>{data.name}</Title>
+            <Title>{state.title || data.name}</Title>
             <Subtitle>{data.tagline}</Subtitle>
           </Column>
         </Row>
@@ -189,10 +189,10 @@ return (
         data.views?.map((view) => (
           <Button
             onClick={() =>
-              State.update({ thingSrc: view.src, p: JSON.parse(view.props) })
+              State.update({ thingSrc: view.src, title: `every ${view.name}` })
             }
           >
-            {view.name}
+            {`${view.name}s`}
           </Button>
         ))}
       {/**
