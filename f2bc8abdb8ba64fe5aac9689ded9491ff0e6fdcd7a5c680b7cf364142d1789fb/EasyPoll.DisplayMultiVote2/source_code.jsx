@@ -1,4 +1,4 @@
-State.init({ currentQuestion: 0, vote: props.state.vote });
+State.init({ currentQuestion: 0 });
 
 const ChangeQuestionContainer = styled.div`
   div {
@@ -167,7 +167,6 @@ return (
           }
           onMouseEnter={() => {
             props.stateUpdate({
-              vote: state.vote,
               hoveringElement: "voteButton",
             });
           }}
