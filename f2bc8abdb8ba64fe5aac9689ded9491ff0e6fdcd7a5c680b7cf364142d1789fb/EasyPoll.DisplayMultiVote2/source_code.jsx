@@ -13,6 +13,7 @@ const ChangeQuestionContainer = styled.div`
 `;
 
 console.log("CPVS: ", props.state.vote);
+console.log("TS: ", state);
 
 const getFirstSBTToken = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
