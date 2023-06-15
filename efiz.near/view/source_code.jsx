@@ -49,6 +49,7 @@ const Column = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 //   border: 2px solid green;
   padding: 20px;
 
