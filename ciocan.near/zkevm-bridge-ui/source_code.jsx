@@ -496,10 +496,17 @@ return (
         <span class="label">FROM</span>
         <div class="container-button">
           <NetworkSelectorButton onClick={openNetworkList}>
-            <img
-              style={{ width: "16px" }}
-              src="https://assets.coingecko.com/coins/images/279/small/ethereum.png"
-            />
+            {selectedNetwork === "ethereum" ? (
+              <img
+                style={{ width: "16px" }}
+                src="https://assets.coingecko.com/coins/images/279/small/ethereum.png"
+              />
+            ) : (
+              <img
+                style={{ width: "16px" }}
+                src="https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png"
+              />
+            )}
             <span>{getFromNetworkLabel()}</span>
             {caretSvg}
           </NetworkSelectorButton>
@@ -544,10 +551,17 @@ return (
       <ContainerNetwork>
         <span class="label">TO</span>
         <ToNetworkContainer>
-          <img
-            style={{ width: "16px" }}
-            src="https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png"
-          />
+          {selectedNetwork === "polygon" ? (
+            <img
+              style={{ width: "16px" }}
+              src="https://assets.coingecko.com/coins/images/279/small/ethereum.png"
+            />
+          ) : (
+            <img
+              style={{ width: "16px" }}
+              src="https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png"
+            />
+          )}
           <span>{getToNetworkLabel()}</span>
         </ToNetworkContainer>
       </ContainerNetwork>
