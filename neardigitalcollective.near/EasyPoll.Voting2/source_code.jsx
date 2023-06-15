@@ -73,7 +73,7 @@ return (
 
               <span
                 style={{
-                  paddingLeft: "1.5rem",
+                  paddingLeft: "1.2rem",
                   borderLeft: "2px solid #ced4da",
                   height: "max-content",
                 }}
