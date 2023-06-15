@@ -51,7 +51,7 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "shared/lib/form" */
+/* INCLUDE: "core/lib/form" */
 /**
  *! TODO: Extract into separate library module
  *! once `useForm` is converted into a form factory widget
@@ -125,30 +125,30 @@ const fieldDefaultUpdate = ({
 const useForm = ({ stateKey: formStateKey }) => ({
   formState: state[formStateKey],
 
-  formUpdate: ({ path: fieldPath, via: fieldCustomUpdate, ...params }) => (
-    fieldInput
-  ) =>
-    State.update((lastKnownState) =>
-      traversalUpdate({
-        input: fieldInput?.target?.value ?? fieldInput,
-        target: lastKnownState,
-        path: [formStateKey, ...fieldPath],
-        params,
+  formUpdate:
+    ({ path: fieldPath, via: fieldCustomUpdate, ...params }) =>
+    (fieldInput) =>
+      State.update((lastKnownState) =>
+        traversalUpdate({
+          input: fieldInput?.target?.value ?? fieldInput,
+          target: lastKnownState,
+          path: [formStateKey, ...fieldPath],
+          params,
 
-        via:
-          typeof fieldCustomUpdate === "function"
-            ? fieldCustomUpdate
-            : fieldDefaultUpdate,
-      })
-    ),
+          via:
+            typeof fieldCustomUpdate === "function"
+              ? fieldCustomUpdate
+              : fieldDefaultUpdate,
+        })
+      ),
 });
-/* END_INCLUDE: "shared/lib/form" */
-/* INCLUDE: "shared/lib/record" */
+/* END_INCLUDE: "core/lib/form" */
+/* INCLUDE: "core/lib/record" */
 const pick = (object, subsetKeys) =>
   Object.fromEntries(
     Object.entries(object ?? {}).filter(([key, _]) => subsetKeys.includes(key))
   );
-/* END_INCLUDE: "shared/lib/record" */
+/* END_INCLUDE: "core/lib/record" */
 
 const fieldParamsByType = {
   array: {
