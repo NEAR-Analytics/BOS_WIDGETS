@@ -2,10 +2,10 @@
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -14,7 +14,6 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
-
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -26,26 +25,20 @@ function widget(widgetName, widgetProps, key) {
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
-
   if (props.nearDevGovGigsContractAccountId) {
     linkProps.nearDevGovGigsContractAccountId =
       props.nearDevGovGigsContractAccountId;
   }
-
   if (props.nearDevGovGigsWidgetsAccountId) {
     linkProps.nearDevGovGigsWidgetsAccountId =
       props.nearDevGovGigsWidgetsAccountId;
   }
-
   if (props.referral) {
     linkProps.referral = props.referral;
   }
-
   const linkPropsQuery = Object.entries(linkProps)
-    .filter(([_key, nullable]) => (nullable ?? null) !== null)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
-
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
@@ -82,7 +75,7 @@ initState({
   githubLink: props.githubLink ?? "",
   warning: "",
 });
-const savedState = Storage.get("widgetState");
+const savedState = localStorage.getItem("widgetState");
 if (savedState) {
   handleStateChange(JSON.parse(savedState));
 }
@@ -111,7 +104,7 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
 if (grantNotify === null) {
   return;
 }
-const onSubmit = () => {
+const onClick = () => {
   let labels = state.labelStrings;
   var body = {
     Comment: { description: state.description, comment_version: "V2" },
@@ -458,7 +451,7 @@ return (
         </div>
       )}
 
-      <a className="btn btn-outline-primary mb-2" onClick={onSubmit}>
+      <a className="btn btn-outline-primary mb-2" onClick={onClick}>
         Submit
       </a>
       {disclaimer}
