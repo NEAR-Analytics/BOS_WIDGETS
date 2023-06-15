@@ -74,8 +74,8 @@ return (
               State.update({ currentQuestion: state.currentQuestion - 1 });
             }}
           >
-            <p>Previous question</p>
             <i className="bi bi-arrow-left" />
+            <p className="m-2">Previous question</p>
           </div>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
@@ -88,7 +88,7 @@ return (
               State.update({ currentQuestion: state.currentQuestion + 1 });
             }}
           >
-            <p>Next question</p>
+            <p className="m-2">Next question</p>
             <i className="bi bi-arrow-right" />
           </div>
         ) : (
