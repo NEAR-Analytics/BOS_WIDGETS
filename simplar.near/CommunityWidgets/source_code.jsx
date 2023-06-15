@@ -14,7 +14,7 @@ const Items = styled.div`
 
 const Item = styled.div``;
 
-if (widgetList.length == 0) { return "Please define widgets for the community" }
+if (widgetList.length === 0) { return "Please define widgets for the community" }
 
 return (
   <Wrapper>
