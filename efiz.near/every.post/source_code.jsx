@@ -1,12 +1,10 @@
-const data = props.data;
-
-const domainKeyPairs = data.domainKeyPairs;
-const typeWhitelist = data.typeWhitelist;
-const hashtagWhitelist = data.hashtagWhitelist;
-const hashtagBlacklist = data.hashtagBlacklist;
-const accountWhitelist = data.accountWhitelist;
-const accountBlacklist = data.accountBlacklist;
-const feedOrder = data.feedOrder || "desc";
+const domainKeyPairs = props.domainKeyPairs;
+const typeWhitelist = props.typeWhitelist;
+const hashtagWhitelist = props.hashtagWhitelist;
+const hashtagBlacklist = props.hashtagBlacklist;
+const accountWhitelist = props.accountWhitelist;
+const accountBlacklist = props.accountBlacklist;
+const feedOrder = props.feedOrder || "desc";
 
 if (hashtagBlacklist.length) {
   hashtagBlacklist = hashtagBlacklist.map((it) => it.toLowerCase());
