@@ -12,6 +12,8 @@ const ChangeQuestionContainer = styled.div`
   }
 `;
 
+console.log("check vote: ", props.state.vote);
+
 const getFirstSBTToken = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: `${context.accountId}`,
