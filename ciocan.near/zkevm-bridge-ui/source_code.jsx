@@ -446,7 +446,17 @@ const getToNetworkLabel = () => {
 
 const getToken = (tokenSymbol) =>
   tokens
-    .filter((t) => t.chainId === (isMainnet ? 1 : 5))
+    .filter(
+      (t) =>
+        t.chainId ===
+        (isMainnet
+          ? selectedNetwork === "ethereum"
+            ? 1
+            : 1101
+          : selectedNetwork === "ethereum"
+          ? 5
+          : 1442)
+    )
     .find((t) => t.symbol === tokenSymbol);
 
 const updateToken = (tokenSymbol) => {
@@ -476,6 +486,8 @@ const changeAmount = (e) => {
 
 const handleConfirm = () => {
   if (!amount) return;
+  console.log(getToken(selectedToken));
+
   const { onConfirm } = props;
   if (onConfirm) {
     const token = getToken(selectedToken);
