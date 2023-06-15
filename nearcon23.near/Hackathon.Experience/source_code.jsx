@@ -6,12 +6,9 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
+  padding: 3.5em 3.5em 4.5em;
   gap: 3em;
   background: #000;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
 `;
 
 const Text = styled.div`
@@ -21,11 +18,7 @@ const Text = styled.div`
   align-items: flex-start;
   width: 45%;
   gap: 1em;
-  padding: 3.5em 3.5em 4.5em;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
+  padding: 0;
 
   h2 {
     font-family: "FK Grotesk";
@@ -66,18 +59,12 @@ const Visual = styled.div`
   width: 55%;
   border-radius: 20px;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-
   img {
     width: 100%;
   }
 `;
 
-// const visual = "bafkreia5u5fz6nbxmdkqg7xgvg5hc4sfnkbero2dosrnlf5rav5aqfyar4";
-// const visual = "bafkreibjzt2oi364dks4j6ktjl5f7s7v36l7zygxasj4erefthb5qrprf4"; // for desktop
-const visual = "bafkreifqugfgoyhzheo4cif5f5sw7553vis2akls55qrs623pves5wxtaq"; // for mobile
+const visual = "bafkreia5u5fz6nbxmdkqg7xgvg5hc4sfnkbero2dosrnlf5rav5aqfyar4";
 const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
 return (
