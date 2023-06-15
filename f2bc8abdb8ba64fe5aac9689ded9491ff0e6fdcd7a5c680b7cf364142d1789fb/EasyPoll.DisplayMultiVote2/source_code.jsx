@@ -72,7 +72,7 @@ return (
         {state.currentQuestion > 0 ? (
           <i
             onClick={() => {
-              State.update({ currentQuestion: state.currentQuestion + 1 });
+              State.update({ currentQuestion: state.currentQuestion - 1 });
             }}
             className="bi bi-arrow-left"
           />
@@ -82,7 +82,7 @@ return (
         {state.currentQuestion < props.poll.value.questions.length ? (
           <i
             onClick={() => {
-              State.update({ currentQuestion: state.currentQuestion - 1 });
+              State.update({ currentQuestion: state.currentQuestion + 1 });
             }}
             className="bi bi-arrow-right"
           />
