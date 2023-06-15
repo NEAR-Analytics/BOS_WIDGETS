@@ -21,10 +21,7 @@ return (
         <h4>Community Choice Award</h4>
         <H6>Upvote any of the projects you like!</H6>
         <div class="mt-5">
-          <Widget
-            src="nycdao.near/widget/projects"
-            props={{ admins, adminContract: adminContract }}
-          />
+          <Widget src="nycdao.near/widget/projects" />
         </div>
       </div>
     </div>
