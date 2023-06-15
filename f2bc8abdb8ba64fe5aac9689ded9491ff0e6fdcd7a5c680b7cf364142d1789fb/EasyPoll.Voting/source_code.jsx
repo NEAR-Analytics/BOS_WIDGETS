@@ -175,17 +175,8 @@ const renderQuestionsByThisCreator = () => {
           >
             {renderPollTypeIcon(pollByCreator)}
           </div>
-          <p
-            style={{
-              fontWeight: "500",
-              margin: "0",
-              maxWidth: "100%",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              textWrap: "nowrap",
-            }}
-          >
-            {pollByCreator.value.title}
+          <p style={{ fontWeight: "500", margin: "0" }}>
+            {sliceString(pollByCreator.value.title, 20)}
           </p>
         </div>
         <div className="d-flex justify-content-between flex-nowrap text-secondary mb-2">
@@ -241,6 +232,81 @@ const renderQuestionsByThisCreator = () => {
   });
 };
 
+function closeModalClickingOnTransparent() {
+  return (e) => {
+    e.target.id == "modal" && State.update({ showQuestionsByThisUser: false });
+  };
+}
+
+const renderModal = () => {
+  return (
+    <div
+      className="modal"
+      id="modal"
+      style={
+        state.showQuestionsByThisUser && {
+          display: "block",
+          backgroundColor: "#7e7e7e70",
+        }
+      }
+      tabindex="-1"
+      role="dialog"
+      onClick={closeModalClickingOnTransparent()}
+    >
+      <div
+        className="modal-dialog"
+        style={{ maxWidth: "100%" }}
+        role="document"
+      >
+        <div
+          className="modal-content"
+          style={{ backgroundColor: "rgb(230, 230, 230)" }}
+        >
+          <div className="modal-header flex-row-reverse">
+            <button
+              type="button"
+              className="close"
+              dataDismiss="modal"
+              ariaLabel="Close"
+              onClick={() => State.update({ showQuestionsByThisUser: false })}
+            >
+              <span ariaHidden="true">&times;</span>
+            </button>
+          </div>
+          <div
+            className="modal-body"
+            style={{
+              width: "90%",
+              borderRadius: "1rem",
+              margin: "0 auto",
+            }}
+          >
+            <Widget
+              src={`${widgetOwner}/widget/EasyPoll.Questions`}
+              props={{
+                accountId: state.poll.accountId,
+                onlyUser: true,
+                indexVersion,
+                canOperate,
+              }}
+            />
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-dismiss="modal"
+              onClick={() => State.update({ showQuestionsByThisUser: false })}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function showDescription(description) {
   if (state.descriptionHeightLimited && description.length > 501) {
     return description.slice(0, 500) + "...";
@@ -255,7 +321,6 @@ return (
       src={`${widgetOwner}/widget/EasyPoll.Voting2`}
       props={{
         state,
-        canOperate,
         stateUpdate: (data) => State.update(data),
         sliceString,
         profile,
