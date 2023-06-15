@@ -4,6 +4,7 @@ const nearDevGovGigsContractAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
+  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
   (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
@@ -43,7 +44,6 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post =
   props.post ??
@@ -51,32 +51,26 @@ const post =
 if (!post) {
   return <div>Loading ...</div>;
 }
-
 const snapshot = post.snapshot;
 // If this post is displayed under another post. Used to limit the size.
 const isUnderPost = props.isUnderPost ? true : false;
 const parentId = Near.view(nearDevGovGigsContractAccountId, "get_parent_id", {
   post_id: postId,
 });
-
 const childPostIdsUnordered =
   Near.view(nearDevGovGigsContractAccountId, "get_children_ids", {
     post_id: postId,
   }) ?? [];
-
 const childPostIds = props.isPreview ? [] : childPostIdsUnordered.reverse();
 const expandable = props.isPreview ? false : props.expandable ?? false;
 const defaultExpanded = expandable ? props.defaultExpanded : false;
-
 function readableDate(timestamp) {
   var a = new Date(timestamp);
   return a.toDateString() + " " + a.toLocaleTimeString();
 }
-
 const timestamp = readableDate(
   snapshot.timestamp ? snapshot.timestamp / 1000000 : Date.now()
 );
-
 const postSearchKeywords = props.searchKeywords ? (
   <div style={{ "font-family": "monospace" }} key="post-search-keywords">
     <span>Found keywords: </span>
@@ -87,7 +81,6 @@ const postSearchKeywords = props.searchKeywords ? (
 ) : (
   <div key="post-search-keywords"></div>
 );
-
 const searchKeywords = props.searchKeywords ? (
   <div class="mb-1" key="search-keywords">
     <small class="text-muted">{postSearchKeywords}</small>
@@ -95,7 +88,6 @@ const searchKeywords = props.searchKeywords ? (
 ) : (
   <div key="search-keywords"></div>
 );
-
 const linkToParent =
   isUnderPost || !parentId ? (
     <div key="link-to-parent"></div>
@@ -106,14 +98,12 @@ const linkToParent =
       </a>
     </div>
   );
-
 const allowedToEdit =
   !props.isPreview &&
   Near.view(nearDevGovGigsContractAccountId, "is_allowed_to_edit", {
     post_id: postId,
     editor: context.accountId,
   });
-
 const btnEditorWidget = (postType, name) => {
   return (
     <li>
@@ -130,7 +120,6 @@ const btnEditorWidget = (postType, name) => {
     </li>
   );
 };
-
 const editControl = allowedToEdit ? (
   <div class="btn-group" role="group">
     <a
@@ -154,7 +143,6 @@ const editControl = allowedToEdit ? (
 ) : (
   <div></div>
 );
-
 const shareButton = props.isPreview ? (
   <div></div>
 ) : (
@@ -169,7 +157,6 @@ const shareButton = props.isPreview ? (
     <div class="bi bi-share"></div>
   </a>
 );
-
 const StyledLink = styled.a`
   color: rgba(0, 0, 0, 0.8);
   font-size: inherit;
@@ -177,12 +164,10 @@ const StyledLink = styled.a`
   font-weight: bold;
   opacity: 0.75;
   text-decoration: none;
-
   &:hover {
     text-decoration: underline;
   }
 `;
-
 const StyledDiv = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -190,6 +175,9 @@ const StyledDiv = styled.div`
   align-items: center;
   width: 100%;
   color: rgba(0, 0, 0, 0.8);
+  // padding: "15px";
+  margin-right: 16px;
+  font-size: 1.2em;
 `;
 
 const ResponsiveDiv = styled.div`
@@ -197,7 +185,6 @@ const ResponsiveDiv = styled.div`
   justify-content: end;
   align-items: center;
   width: 100%;
-
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
@@ -206,15 +193,18 @@ const ResponsiveDiv = styled.div`
 
 const accountId = post.author_id;
 const header = (
-  <ResponsiveDiv className="py-2 px-3" style={{ fontSize: "1em" }}>
-    <div className="d-flex align-items-center">
-      <div className="col-auto d-flex align-items-center">
+  <ResponsiveDiv className="py-1 px-3" style={{ fontSize: "1em" }}>
+    <div className="d-flex align-items-center justify-content-between">
+      <div
+        className="col-auto d-flex align-items-center"
+        style={{ padding: "20px" }}
+      >
         <div
           className="square rounded-circle"
           style={{
             overflow: "hidden",
-            width: "4em",
-            height: "4em",
+            width: "3.33em",
+            height: "3.33em",
             backgroundColor: "#008080",
           }}
         >
@@ -229,13 +219,18 @@ const header = (
           />
         </div>
         <div style={{ marginLeft: "1em" }}>
-          <span style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+          <span style={{ fontSize: "1.35em", fontWeight: "700" }}>
             {post.author_id}
           </span>
           <span
             key="accountId"
-            className="text-muted ms-1"
-            style={{ display: "block", fontSize: "1em" }}
+            className="text-muted "
+            style={{
+              display: "block",
+              fontSize: "1.2em",
+              fontWeight: "500",
+              marginTop: "-8px",
+            }}
           >
             @{post.author_id}
           </span>
@@ -250,7 +245,6 @@ const header = (
     </StyledDiv>
   </ResponsiveDiv>
 );
-
 const emptyIcons = {
   Idea: "bi-lightbulb",
   Comment: "bi-chat",
@@ -261,7 +255,6 @@ const emptyIcons = {
   Like: "bi-heart",
   Reply: "bi-reply",
 };
-
 const fillIcons = {
   Idea: "bi-lightbulb-fill",
   Comment: "bi-chat-fill",
@@ -273,8 +266,6 @@ const fillIcons = {
   Reply: "bi-reply-fill",
 };
 
-// Trigger saving this widget.
-
 const borders = {
   Idea: "border-secondary",
   Comment: "border-secondary",
@@ -283,7 +274,6 @@ const borders = {
   Sponsorship: "border-secondary",
   Github: "border-secondary",
 };
-
 const containsLike = props.isPreview
   ? false
   : post.likes.find((l) => l.author_id == context.accountId);
@@ -312,7 +302,6 @@ const onLike = () => {
       gas: Big(10).pow(12).mul(100),
     },
   ];
-
   if (grantNotify === false) {
     likeTxn.unshift({
       contractName: "social.near",
@@ -327,7 +316,6 @@ const onLike = () => {
   }
   Near.call(likeTxn);
 };
-
 const btnCreatorWidget = (postType, icon, name, desc) => {
   return (
     <li class="py-1">
@@ -353,7 +341,7 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
 };
 
 const buttonsFooter = props.isPreview ? null : (
-  <div class="row my-2" key="buttons-footer">
+  <div class="row" key="buttons-footer">
     <div class="col-8">
       <div
         class="btn-group text-sm"
@@ -437,7 +425,6 @@ const buttonsFooter = props.isPreview ? null : (
     </div>
   </div>
 );
-
 const CreatorWidget = (postType) => {
   return (
     <div
@@ -453,7 +440,6 @@ const CreatorWidget = (postType) => {
     </div>
   );
 };
-
 const EditorWidget = (postType) => {
   return (
     <div
@@ -477,7 +463,6 @@ const EditorWidget = (postType) => {
     </div>
   );
 };
-
 const editorsFooter = props.isPreview ? null : (
   <div class="row" id={`accordion${postId}`} key="editors-footer">
     {CreatorWidget("Comment")}
@@ -494,7 +479,6 @@ const editorsFooter = props.isPreview ? null : (
     {EditorWidget("Github")}
   </div>
 );
-
 const renamedPostType =
   snapshot.post_type == "Submission" ? "Solution" : snapshot.post_type;
 
@@ -502,45 +486,51 @@ const postLabels = post.snapshot.labels ? (
   <div class="card-title" key="post-labels">
     {post.snapshot.labels.map((label) => {
       return (
-        <StyledLink href={href("Feed", { label }, label)}>
-          <span
-            class="badge me-1"
-            style={{
-              color: "rgba(0, 0, 0, 0.5)",
-              border: "1px solid rgba(0, 0, 0, 0.075)",
-            }}
-          >
-            {label}
-          </span>
-        </StyledLink>
+        <>
+          <a href={href("Feed", { label })} key={label}>
+            <span
+              className="badge ms-1"
+              style={{
+                color: "rgba(0, 0, 0, 0.7)",
+                fontSize: "1em",
+                fontWeight: "normal",
+                padding: "0.2em 0.5em",
+                border: "1px solid rgba(0, 80, 80, 0.2)",
+              }}
+            >
+              {label}
+            </span>
+          </a>
+        </>
       );
     })}
   </div>
 ) : (
   <div key="post-labels"></div>
 );
-
 const postTitle =
   snapshot.post_type == "Comment" ? (
     <div key="post-title"></div>
   ) : (
     <h5 class="card-title" key="post-title">
-      <div className="row justify-content-between">
-        <div class="col-9">
+      <div
+        className="row justify-content-between"
+        style={{ fontSize: "1.3em", fontWeight: "600" }}
+      >
+        <div class="col-12">
           <i class={`bi ${emptyIcons[snapshot.post_type]}`}> </i>
           {renamedPostType}: {snapshot.name}
         </div>
       </div>
     </h5>
   );
-
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      <h6 class="card-subtitle mb-2 text-muted">
+      <h6 class="card-subtitle  text-muted">
         Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
       </h6>
-      <h6 class="card-subtitle mb-2 text-muted">
+      <h6 class="card-subtitle  text-muted">
         Supervisor:{" "}
         <Widget
           src={`neardevgov.near/widget/ProfileLine`}
@@ -551,7 +541,6 @@ const postExtra =
   ) : (
     <div></div>
   );
-
 const postsList =
   props.isPreview || childPostIds.length == 0 ? (
     <div key="posts-list"></div>
@@ -574,23 +563,22 @@ const postsList =
 
 const Card = styled.div`
   &:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: none;
   }
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: none;
+  box-shadow: none;
+  border: 3px solid #008080;
+  border-radius: 5px;
 `;
 
 // Determine if located in the post page.
+
 const isInList = props.isInList;
 const contentArray = snapshot.description.split("\n");
 const needClamp = isInList && contentArray.length > 5;
-
 // Initialize 'clamp' to 'true' if the content is long enough, otherwise 'false'
 initState({
   clamp: needClamp,
 });
-
 const onMention = (accountId) => (
   <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
     <Widget
@@ -605,7 +593,7 @@ const onMention = (accountId) => (
 );
 
 // Determine whether the content is longer than 4 lines
-const isContentLong = contentArray.length > 4;
+const isContentLong = contentArray.length > 5;
 
 const clampedContent = state.clamp
   ? contentArray.slice(0, 5).join("\n")
@@ -613,19 +601,23 @@ const clampedContent = state.clamp
 
 // Your CSS classes for styling. Make sure the names match exactly with the ones you're using in your divs.
 const limitedMarkdown = styled.div`
-  max-height: 20em;
+  max-height: 23em;
 `;
 
 const clampMarkdown = styled.div`
   .clamp {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 `;
 const descriptionArea = isUnderPost ? (
-  <limitedMarkdown className="overflow-auto" key="description-area">
+  <limitedMarkdown
+    className="overflow-auto"
+    key="description-area"
+    style={{ paddingLeft: "15px", paddingRight: "15px", marginBottom: "-30px" }}
+  >
     <Markdown
       className="card-text"
       text={snapshot.description}
@@ -634,7 +626,15 @@ const descriptionArea = isUnderPost ? (
   </limitedMarkdown>
 ) : (
   <clampMarkdown>
-    <div className={state.clamp ? "clamp" : ""}>
+    <div
+      className={state.clamp ? "clamp" : ""}
+      style={{
+        fontSize: "1.25rem",
+        paddingLeft: "15px",
+        paddingRight: "15px",
+        marginBottom: "-10px",
+      }}
+    >
       <Markdown
         className="card-text"
         text={state.clamp ? clampedContent : snapshot.description}
@@ -644,34 +644,38 @@ const descriptionArea = isUnderPost ? (
     </div>
     {state.clamp && isContentLong ? (
       <div className="d-flex justify-content-end">
-        <a
-          style={{ fontSize: "0.8rem", fontWeight: 400 }}
-          className="btn btn-link text-secondary"
-          onClick={() => State.update({ clamp: false })}
-        >
-          <br></br>
-          See More...
-        </a>
+        <StyledLink>
+          <a
+            style={{ fontSize: "1rem", fontWeight: 800 }}
+            className="btn btn-link text-black"
+            onClick={() => State.update({ clamp: false })}
+          >
+            <br></br>
+            See More...
+          </a>
+        </StyledLink>
       </div>
     ) : !state.clamp && isContentLong ? (
       <div className="d-flex justify-content-end">
-        <a
-          style={{ fontSize: "0.8rem", fontWeight: 400 }}
-          className="btn btn-link text-secondary"
-          onClick={() => State.update({ clamp: true })}
-        >
-          Close
-        </a>
+        <StyledLink>
+          <a
+            style={{ fontSize: "1rem", fontWeight: 800 }}
+            className="btn btn-link text-black"
+            onClick={() => State.update({ clamp: true })}
+          >
+            ^ Close
+          </a>
+        </StyledLink>
       </div>
     ) : null}
   </clampMarkdown>
 );
 
 return (
-  <Card className={`card my-2`} style={{ border: "none" }}>
+  <Card className={`card my-2`}>
     {linkToParent}
     {header}
-    <div className="card-body">
+    <div className="card-body ">
       {searchKeywords}
       {postTitle}
       <br></br>
