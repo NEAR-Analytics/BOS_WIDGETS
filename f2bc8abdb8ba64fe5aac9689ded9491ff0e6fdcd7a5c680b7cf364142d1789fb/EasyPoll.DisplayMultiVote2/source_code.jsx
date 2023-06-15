@@ -13,7 +13,7 @@ const hasSBTTokens = true || getFirstSBTToken() !== undefined;
 return (
   <>
     {props.poll.value.questions.map((question, questionNumber) => {
-      console.log("q", question);
+      console.log("q", state.currentQuestion);
       console.log("qN", questionNumber);
 
       if (state.currentQuestion == questionNumber) {
