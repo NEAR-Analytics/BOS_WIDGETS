@@ -1,8 +1,28 @@
+const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const role = props.role ?? "community";
 
+State.init({
+  isMember: false,
+});
+
+// Get DAO policy data
+const policy = Near.view(daoId, "get_policy");
+
+if (policy === null) {
+  return "";
+}
+
+const groups = policy.roles
+  .filter((role) => role.name === "community")
+  .map((role) => role.kind.Group);
+
+// Check if the user is a member of a group
+const isMember = groups.some((group) => group.includes(accountId));
+State.update({ isMember });
+
 const handleProposal = () => {
-  const gas = 200000000000000;
+  const gas = 300000000000000;
   const deposit = 100000000000000000000000;
   Near.call([
     {
@@ -28,7 +48,11 @@ const handleProposal = () => {
 return (
   <div>
     <div className="m-2 d-flex gap-2 flex-wrap">
-      <button onClick={handleProposal}>Join DAO</button>
+      {!isMember ? (
+        <button onClick={handleProposal}>Join DAO</button>
+      ) : (
+        <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
+      )}
       <a className="btn btn-outline-primary" href="#/hack.near/widget/Academy">
         Learn More
       </a>
