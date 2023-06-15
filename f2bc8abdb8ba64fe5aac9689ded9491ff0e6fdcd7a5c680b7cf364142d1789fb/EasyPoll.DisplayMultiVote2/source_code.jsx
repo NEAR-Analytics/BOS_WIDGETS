@@ -165,9 +165,10 @@ return (
                   border: "1.5px solid #000000",
                 }
           }
-          onMouseEnter={() =>
-            props.stateUpdate({ hoveringElement: "voteButton" })
-          }
+          onMouseEnter={() => {
+            props.stateUpdate({ vote: state.vote });
+            props.stateUpdate({ hoveringElement: "voteButton" });
+          }}
           onMouseLeave={() => props.stateUpdate({ hoveringElement: "" })}
           data={props.getPublicationParams()}
         >
