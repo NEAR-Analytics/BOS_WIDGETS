@@ -1,9 +1,9 @@
-const domainKeyPairs = JSON.parse(props.domainKeyPairs || "null");
-const typeWhitelist = JSON.parse(props.typeWhitelist || "null");
-const hashtagWhitelist = JSON.parse(props.hashtagWhitelist || "null");
-const hashtagBlacklist = JSON.parse(props.hashtagBlacklist || "null");
-const accountWhitelist = JSON.parse(props.accountWhitelist || "null");
-const accountBlacklist = JSON.parse(props.accountBlacklist || "null");
+const domainKeyPairs = props.domainKeyPairs;
+const typeWhitelist = props.typeWhitelist;
+const hashtagWhitelist = props.hashtagWhitelist;
+const hashtagBlacklist = props.hashtagBlacklist;
+const accountWhitelist = props.accountWhitelist;
+const accountBlacklist = props.accountBlacklist;
 const feedOrder = props.feedOrder || "desc";
 
 if (hashtagBlacklist.length) {
