@@ -1,4 +1,4 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 
 const Heading = styled.div`
   display: flex;
@@ -43,10 +43,24 @@ const Stats = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
+  flex-wrap: nowrap;
   padding: 1em 1.5em;
   gap: 1.75em;
   background: #fafafa;
   border-radius: 16px;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 `;
 
 const Stat = styled.a`
@@ -56,6 +70,12 @@ const Stat = styled.a`
   align-items: flex-start;
   padding: 0 1px;
   gap: 0.25em;
+
+  width: 25%;
+
+  @media screen and (max-width: 1024px) {
+    width: 47%;
+  }
 
   &:hover,
   &:focus,
@@ -115,7 +135,7 @@ State.init({
   requestsTodayCount: 0,
 });
 
-asyncFetch("https://api-staging-fur7.onrender.com/transactions/stats").then(
+asyncFetch("https://api-op3o.onrender.com/transactions/stats").then(
   (response) =>
     response.ok &&
     State.update({
@@ -130,19 +150,19 @@ asyncFetch("https://api-staging-fur7.onrender.com/transactions/stats").then(
     })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/projects?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/projects?sort=timedesc").then(
   (response) => response.ok && State.update({ projects: response.body })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/requests?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/requests?sort=timedesc").then(
   (response) => response.ok && State.update({ requests: response.body })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/vendors?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/vendors?sort=timedesc").then(
   (response) => response.ok && State.update({ vendors: response.body })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/investors?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/investors?sort=timedesc").then(
   (response) => response.ok && State.update({ investors: response.body })
 );
 
@@ -152,6 +172,15 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 
 return (
@@ -162,25 +191,25 @@ return (
         <h2>Building, connecting and skyrocketing great projects</h2>
       </Heading>
       <Stats>
-        <Stat href={`${ownerId}/widget/Index?tab=projects`}>
+        <Stat href={`/${ownerId}/widget/Index?tab=projects`}>
           <div className="number">
             <div>{state.projectsCount}</div>
           </div>
           <div className="label">Projects</div>
         </Stat>
-        <Stat href={`${ownerId}/widget/Index?tab=requests`}>
+        <Stat href={`/${ownerId}/widget/Index?tab=requests`}>
           <div className="number">
             <div>{state.requestsCount}</div>
           </div>
           <div className="label">Requests</div>
         </Stat>
-        <Stat href={`${ownerId}/widget/Index?tab=vendors`}>
+        <Stat href={`/${ownerId}/widget/Index?tab=vendors`}>
           <div className="number">
             <div>{state.vendorsCount}</div>
           </div>
           <div className="label">Contributors</div>
         </Stat>
-        <Stat href={`${ownerId}/widget/Index?tab=investors`}>
+        <Stat href={`/${ownerId}/widget/Index?tab=investors`}>
           <div className="number">
             <div>{state.investorsCount}</div>
           </div>
