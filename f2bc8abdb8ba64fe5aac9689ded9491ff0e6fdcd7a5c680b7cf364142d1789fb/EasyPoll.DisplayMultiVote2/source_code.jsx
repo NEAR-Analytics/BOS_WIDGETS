@@ -167,8 +167,8 @@ return (
           }
           onMouseEnter={() => {
             props.stateUpdate({
-              hoveringElement: "voteButton",
               vote: state.vote,
+              hoveringElement: "voteButton",
             });
           }}
           onMouseLeave={() => props.stateUpdate({ hoveringElement: "" })}
