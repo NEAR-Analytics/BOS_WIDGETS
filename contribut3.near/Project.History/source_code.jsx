@@ -1,4 +1,4 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 const search = props.search ?? "";
 
 State.init({
@@ -10,7 +10,7 @@ if (!state.itemsIsFetched) {
   Near.asyncView(
     ownerId,
     "get_project_completed_contributions",
-    { account_id: context.accountId },
+    { account_id: props.accountId },
     "final",
     false
   ).then((items) => State.update({ items, itemsIsFetched: true }));
@@ -28,7 +28,7 @@ return (
     <Widget
       src={`${ownerId}/widget/List`}
       props={{
-        search,
+        filter: ([[projectId]]) => projectId.includes(search),
         items: state.items,
         createItem: ([[project_id, cid], vendor_id]) => (
           <Widget
