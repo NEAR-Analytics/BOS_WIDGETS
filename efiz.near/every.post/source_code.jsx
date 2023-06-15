@@ -121,6 +121,8 @@ const renderItem = (a) => {
           }}
         />
       );
+    } else {
+      return <></>;
     }
   }
 };
