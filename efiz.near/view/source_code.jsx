@@ -123,6 +123,13 @@ const Title = styled.p`
   font-size: 4em;
 `;
 
+const Subtitle = styled.p`
+  line-height: 1.25;
+  font-weight: 400;
+  font-size: 2em;
+  margin-left: 30px;
+`;
+
 const Text = styled.p`
   line-height: 1.25;
   font-weight: 400;
@@ -164,11 +171,11 @@ return (
         <Row>
           <Column>
             <Title>{data.name}</Title>
+            <Subtitle>{data.tagline}</Subtitle>
           </Column>
         </Row>
       </InnerContainer>
     </Container>
-    <Text>{data.tagline}</Text>
     {data.isUnderConstruction === "true" ? (
       <Widget
         src="efiz.near/widget/Every.Thing.View"
