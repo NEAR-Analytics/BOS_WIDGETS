@@ -6,7 +6,7 @@ if (!context.accountId) {
       src={`${ownerId}/widget/InfoSegment`}
       props={{
         title: "Not logged in!",
-        description: "You must log in to create a new vendor!",
+        description: "You must log in to create a new contributor!",
       }}
     />
   );
@@ -156,14 +156,14 @@ const validateForm = () => {
 return (
   <Container>
     <div>
-      <Header>Create new vendor</Header>
+      <Header>Create new contributor</Header>
     </div>
     <Form>
       <FormHeader>General</FormHeader>
       <Widget
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
-          label: "Vendor name *",
+          label: "Contributor name *",
           placeholder: "Enter contributor name",
           value: state.name,
           onChange: (name) => State.update({ name }),
@@ -188,7 +188,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.AccountId`}
         props={{
-          label: "The NEAR Account of the vendor profile *",
+          label: "The NEAR Account of the contributor profile *",
           placeholder:
             "Enter the NEAR account ID of your contributor (wallet address like nearhorizon.near)",
           value: state.accountId,
@@ -336,26 +336,26 @@ return (
                       : {}),
                     ...(state.tags.length
                       ? {
-                          tags: state.tags.reduce(
-                            (acc, { name }) =>
-                              Object.assign(acc, { [name]: "" }),
-                            {}
-                          ),
-                        }
+                        tags: state.tags.reduce(
+                          (acc, { name }) =>
+                            Object.assign(acc, { [name]: "" }),
+                          {}
+                        ),
+                      }
                       : {}),
                     ...(state.website || state.socials
                       ? {
-                          ...state.socials,
-                          ...(state.website
-                            ? {
-                                website: state.website.startsWith("http://")
-                                  ? state.website.substring(7)
-                                  : state.website.startsWith("https://")
-                                  ? state.website.substring(8)
-                                  : state.website,
-                              }
-                            : {}),
-                        }
+                        ...state.socials,
+                        ...(state.website
+                          ? {
+                            website: state.website.startsWith("http://")
+                              ? state.website.substring(7)
+                              : state.website.startsWith("https://")
+                                ? state.website.substring(8)
+                                : state.website,
+                          }
+                          : {}),
+                      }
                       : {}),
                   },
                 },
