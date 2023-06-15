@@ -107,7 +107,8 @@ if (!whitelist) {
 
 const indexVersion = props.indexVersion ?? "3.2.0";
 
-let widgetOwner = "neardigitalcollective.near";
+let widgetOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 
 let defaultVotes = [];
 for (let i = 0; i < poll.value.questions.length; i++) {
