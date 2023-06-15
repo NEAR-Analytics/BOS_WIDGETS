@@ -96,7 +96,7 @@ return (
             className="d-flex aling-items-center"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              stateUpdate({ vote: state.vote });
+              props.stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion - 1 });
             }}
           >
@@ -111,9 +111,8 @@ return (
             className="d-flex aling-items-center"
             style={{ cursor: "pointer" }}
             onClick={() => {
-              stateUpdate({ vote: state.vote });
+              props.stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion + 1 });
-              console.log("CQ: ", state.currentQuestion);
             }}
           >
             <h6 className="mx-2">Next question</h6>
