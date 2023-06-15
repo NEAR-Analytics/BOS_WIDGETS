@@ -39,11 +39,10 @@ const Container = styled.div`
 `;
 
 const Stats = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
-  align-items: flex-end;
-  flex-wrap: nowrap;
+  align-items: center;
   padding: 1em 1.5em;
   gap: 1.75em;
   background: #fafafa;
@@ -51,15 +50,7 @@ const Stats = styled.div`
   width: 100%;
 
   @media screen and (max-width: 768px) {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -67,15 +58,9 @@ const Stat = styled.a`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 0 1px;
   gap: 0.25em;
-
-  width: 25%;
-
-  @media screen and (max-width: 1024px) {
-    width: 47%;
-  }
 
   &:hover,
   &:focus,
