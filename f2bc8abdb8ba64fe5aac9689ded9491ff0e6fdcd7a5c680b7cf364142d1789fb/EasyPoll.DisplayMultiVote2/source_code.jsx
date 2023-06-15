@@ -34,9 +34,9 @@ const renderTextInput = (questionNumber) => {
       ) : (
         <div>
           <textarea
-            value={props.state.vote[questionNumber]}
+            value={state.vote[questionNumber]}
             onChange={(e) => {
-              let newVote = props.state.vote;
+              let newVote = state.vote;
               newVote[questionNumber] = e.target.value;
 
               State.update({ vote: newVote });
@@ -106,7 +106,7 @@ return (
     {props.poll.value.questions.length > 1 && (
       <div className="d-flex justify-content-between">
         {state.currentQuestion > 0 ? (
-          <div
+          <ChangeQuestionContainer
             onClick={() => {
               props.stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion - 1 });
@@ -116,12 +116,12 @@ return (
               <i className="bi bi-arrow-left" />
               <h6 className="mx-2">Previous question</h6>
             </div>
-          </div>
+          </ChangeQuestionContainer>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
         {state.currentQuestion < props.poll.value.questions.length ? (
-          <div
+          <ChangeQuestionContainer
             onClick={() => {
               props.stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion + 1 });
@@ -131,7 +131,7 @@ return (
               <h6 className="mx-2">Next question</h6>
               <i className="bi bi-arrow-right" />
             </div>
-          </div>
+          </ChangeQuestionContainer>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
