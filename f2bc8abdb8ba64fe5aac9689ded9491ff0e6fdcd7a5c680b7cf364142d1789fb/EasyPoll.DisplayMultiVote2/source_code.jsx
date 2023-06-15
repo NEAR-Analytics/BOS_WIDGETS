@@ -39,51 +39,53 @@ return (
   <>
     {props.poll.value.questions.map((question, questionNumber) => {
       {
-        questionNumber == state.currentQuestion && (
-          <div
-            style={{
-              border: "1.5px solid rgb(206, 212, 218)",
-              borderRadius: "24px",
-              position: "relative",
-            }}
-            className="p-3 my-3"
-          >
-            <div className="d-flex">
-              <p
-                style={{
-                  backgroundColor: "#353A40",
-                  padding: "0.15rem 0.65rem",
-                  borderRadius: "9px",
-                  color: "white",
-                }}
-              >
-                {questionNumber + 1}
-              </p>
-              <h4 style={{ fontWeight: "700", marginLeft: "0.8rem" }}>
-                {question.question}
-              </h4>
-            </div>
+        if (questionNumber == state.currentQuestion) {
+          return (
+            <div
+              style={{
+                border: "1.5px solid rgb(206, 212, 218)",
+                borderRadius: "24px",
+                position: "relative",
+              }}
+              className="p-3 my-3"
+            >
+              <div className="d-flex">
+                <p
+                  style={{
+                    backgroundColor: "#353A40",
+                    padding: "0.15rem 0.65rem",
+                    borderRadius: "9px",
+                    color: "white",
+                  }}
+                >
+                  {questionNumber + 1}
+                </p>
+                <h4 style={{ fontWeight: "700", marginLeft: "0.8rem" }}>
+                  {question.question}
+                </h4>
+              </div>
 
-            {!props.hasVoted &&
-            (question.questionType == "0" || question.questionType == "1") ? (
-              <p className="mb-1">Select one option:</p>
-            ) : !props.hasVoted && question.questionType == "2" ? (
-              <p className="mb-1">You can check multiple options:</p>
-            ) : (
-              !props.hasVoted && <p className="mb-1">Write your answer:</p>
-            )}
-            {question.questionType != "3"
-              ? question.choicesOptions.map((option, optionNumber) => {
-                  return props.renderMultipleChoiceInput({
-                    questionNumber: questionNumber,
-                    questionType: question.questionType,
-                    option,
-                    optionNumber,
-                  });
-                })
-              : renderTextInput(questionNumber)}
-          </div>
-        );
+              {!props.hasVoted &&
+              (question.questionType == "0" || question.questionType == "1") ? (
+                <p className="mb-1">Select one option:</p>
+              ) : !props.hasVoted && question.questionType == "2" ? (
+                <p className="mb-1">You can check multiple options:</p>
+              ) : (
+                !props.hasVoted && <p className="mb-1">Write your answer:</p>
+              )}
+              {question.questionType != "3"
+                ? question.choicesOptions.map((option, optionNumber) => {
+                    return props.renderMultipleChoiceInput({
+                      questionNumber: questionNumber,
+                      questionType: question.questionType,
+                      option,
+                      optionNumber,
+                    });
+                  })
+                : renderTextInput(questionNumber)}
+            </div>
+          );
+        } else <></>;
       }
     })}
 
