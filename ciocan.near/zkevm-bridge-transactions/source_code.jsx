@@ -252,9 +252,7 @@ return (
         }zkevm.polygonscan.com/tx/${t.transactionHash}`;
 
         const token = tokens.find(
-          (token) =>
-            t.childToken.toLowerCase() === token.address.toLowerCase() &&
-            token.chainId === chainId
+          (token) => t.childToken.toLowerCase() === token.address.toLowerCase()
         );
 
         if (!token) return null;
@@ -293,9 +291,7 @@ return (
         }`;
 
         const token = tokens.find(
-          (token) =>
-            t.rootToken.toLowerCase() === token.address.toLowerCase() &&
-            token.chainId === chainId
+          (token) => t.rootToken.toLowerCase() === token.address.toLowerCase()
         );
 
         if (!token) return null;
