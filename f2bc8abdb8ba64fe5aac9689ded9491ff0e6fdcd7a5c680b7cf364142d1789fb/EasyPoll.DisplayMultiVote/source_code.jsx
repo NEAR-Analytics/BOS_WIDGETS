@@ -1,4 +1,5 @@
-const widgetOwner = "neardigitalcollective.near";
+const widgetOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 
 const renderMultipleChoiceInput = ({
   questionNumber,
@@ -10,16 +11,20 @@ const renderMultipleChoiceInput = ({
     <>
       {!props.canVote ? (
         <Widget
-          src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.Percentage`}
+          src={`${widgetOwner}/widget/EasyPoll.Percentage`}
           props={{
-            vote: props.vote,
+            state: props.state,
             questionNumber: questionNumber,
             questionType: questionType,
             option: option,
             optionNumber: optionNumber,
             canVote: props.canVote,
             getBgColor: props.getBgColor,
+            getFontColor: props.getFontColor,
             countVotes: props.countVotes,
+            getBorderRadious: props.getBorderRadious,
+            calculatePercentageOfOption: props.calculatePercentageOfOption,
+            getBlockTimestamp: props.getBlockTimestamp,
             clickRadioInputHandler: props.clickRadioInputHandler,
             clickCheckboxInputHandler: props.clickCheckboxInputHandler,
           }}
