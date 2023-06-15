@@ -1,6 +1,11 @@
-State.init({ currentQuestion: 0, vote: props.state.vote });
-
 let questions = props.questions;
+
+let emptyArray = [];
+questions.forEach((q) => emptyArray.push(""));
+
+let voteInitValue = emptyArray;
+
+State.init({ currentQuestion: 0, vote: emptyArray });
 
 const ChangeQuestionContainer = styled.div`
   div {
