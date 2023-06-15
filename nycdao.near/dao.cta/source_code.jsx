@@ -1,46 +1,39 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = context.accountId;
 const daoId = props.daoId ?? "liberty.sputnik-dao.near";
 
-// Check if the user has a NEAR Social profile
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+State.init({
+  nftHolder: false,
+  isFollower,
+  isMember,
+});
 
-if (profile === null) {
-  return "Loading...";
-}
-
-// Check if the user has an NFT
 const nftData = Near.view("mint.sharddog.near", "nft_supply_for_owner", {
   account_id: accountId,
 });
 
-const isNftHolder = false;
-
 if (nftData > 0) {
-  isNftHolder = true;
+  State.update({ nftHolder: true });
 }
 
-// Get DAO followers
-const followEdge = Social.keys(
-  `${accountId}/graph/follow/${daoId}`,
-  undefined,
-  {
-    values_only: true,
-  }
+// get DAO followers
+let followers = Social.keys(`*/graph/follow/${daoId}`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+if (followers === null) {
+  return "Loading followers...";
+}
+
+followers = Object.entries(followers || {});
+followers.sort(
+  (a, b) => b.graph.follow[accountId][1] - a.graph.follow[accountId][1]
 );
 
-if (followEdge === null) {
-  return "Loading...";
-}
+//check if user is a member of a group: [1]
+const isFollower = followers.includes(accountId);
 
-const follow = followEdge && Object.keys(followEdge).length;
-const isFollower = false;
-
-// Check if the user is a follower
-if (follow > 0) {
-  isFollower = true;
-}
-
-// Get DAO policy data
+// get DAO policy data
 const policy = Near.view(daoId, "get_policy");
 
 if (policy === null) {
@@ -49,12 +42,16 @@ if (policy === null) {
 
 const groups = policy.roles
   .filter((role) => role.name === "community")
-  .map((role) => role.kind.Group);
+  .map((role) => {
+    const group = role.kind.Group;
 
-// Check if the user is a member of a group
+    return group;
+  });
+
+//check if user is a member of a group: [1]
 const isMember = groups.some((group) => group.includes(accountId));
 
-// Function call used for membership requests
+// function call used for membership requests
 const handleJoin = () => {
   const deposit = policy.proposal_bond;
   Near.call([
@@ -84,7 +81,7 @@ const Text = styled.p`
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
-  margin-bottom: 8px;
+  margin-botton: 8px;
 `;
 
 const FlexContainer = styled.div`
@@ -108,10 +105,10 @@ const Flex = styled.div`
   flex-direction: column;
   flex-wrap: "nowrap";
 
-  @media (max-width: 998px) {
+    @media (max-width: 998px) {
     flex-direction: column;
     gap: var(--section-gap);
-  }
+    }
 `;
 
 const Container = styled.div`
@@ -128,7 +125,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    {accountId ? (
+    {isFollower ? (
       <Flex>
         <Text
           size="18px"
@@ -137,43 +134,25 @@ return (
         >
           Your Adventure Has Begun
         </Text>
-        <FlexContainer>
-          {isNftHolder ? (
+        {nftHolder ? (
+          <FlexContainer>
             <Widget
               src="near/widget/DIG.Button"
               props={{
-                href: "#/nycdao.near/widget/demo",
+                href: "#/devs.near/widget/dev.social",
                 label: "Demo Day Voting",
                 variant: "outline-secondary",
                 size: "large",
               }}
             />
-          ) : (
-            <div>
-              {profile ? (
-                <Widget
-                  src="near/widget/DIG.Button"
-                  props={{
-                    href: "#/nycdao.near/widget/demo",
-                    label: "Demo Day Voting",
-                    variant: "outline-secondary",
-                    size: "large",
-                  }}
-                />
-              ) : (
-                <Widget
-                  src="near/widget/DIG.Button"
-                  props={{
-                    href: "#/near/widget/ProfileEditor",
-                    label: "Update Your Profile",
-                    variant: "outline-secondary",
-                    size: "large",
-                  }}
-                />
-              )}
-            </div>
-          )}
-        </FlexContainer>
+          </FlexContainer>
+        ) : (
+          <FlexContainer>
+            <button className="btn btn-success" onClick={handleJoin}>
+              Join Community
+            </button>
+          </FlexContainer>
+        )}
       </Flex>
     ) : (
       <Flex>
@@ -188,8 +167,8 @@ return (
           <Widget
             src="near/widget/DIG.Button"
             props={{
-              href: "https://shard.dog/go?url=https://near.social",
-              label: "Create Account",
+              href: "#/hack.near/widget/Academy",
+              label: "Learn Together",
               variant: "outline-secondary",
               size: "large",
             }}
