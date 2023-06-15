@@ -9,9 +9,6 @@ const Container = styled.div`
   padding: 3.5em 3.5em 4.5em;
   gap: 3em;
   background: #fff;
-   @media screen and (max-width: 768px) {
-     padding: 1em;
-  }
 `;
 
 const Title = styled.div`
@@ -39,10 +36,6 @@ const Tracks = styled.div`
   flex-wrap: wrap;
   width: 100%;
 
-  @media screen and (max-width: 768px) {
-    gap: 1em;
-  }
-
   div {
     width: 100%;
     margin: 0;
@@ -64,7 +57,7 @@ const Tracks = styled.div`
 return (
   <Container>
     <Title>
-      <h2>Four paths to explore</h2>
+      <h2>Two Locations. Four tracks.</h2>
       {/*<Widget
         src={`${ownerId}/widget/Home.BlackButton`}
         props={{ text: "View Full Schedule" }}
