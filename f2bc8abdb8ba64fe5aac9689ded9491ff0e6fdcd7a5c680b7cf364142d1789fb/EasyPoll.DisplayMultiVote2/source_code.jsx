@@ -38,6 +38,7 @@ const renderTextInput = (questionNumber) => {
             value={state.vote[questionNumber]}
             onChange={(e) => {
               let newVote = props.state.vote;
+              console.log("NV: ", newVote);
               newVote[questionNumber] = e.target.value;
 
               State.update({ vote: newVote });
