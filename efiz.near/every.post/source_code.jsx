@@ -98,10 +98,10 @@ const renderItem = (a) => {
     );
   } else {
     if (typeWhitelist.includes(a.value.type)) {
-      const post = Social.get(path, blockHeight);
       // Filter out post if it contains a blacklisted hashtag
       // (only works for type md)
       if (hashtagBlacklist.length && a.value.type === "md") {
+        const post = Social.get(path, blockHeight);
         // extractHashtags from the text
         // if hashtags equal the blacklist, then don't show
         if (post) {
