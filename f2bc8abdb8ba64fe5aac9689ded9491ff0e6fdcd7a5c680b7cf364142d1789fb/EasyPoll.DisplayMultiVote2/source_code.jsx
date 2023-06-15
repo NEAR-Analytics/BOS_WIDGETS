@@ -1,5 +1,7 @@
 State.init({ currentQuestion: 0, vote: props.state.vote });
 
+let questions = props.questions;
+
 const ChangeQuestionContainer = styled.div`
   div {
     cursor: pointer;
@@ -53,7 +55,7 @@ const renderTextInput = (questionNumber) => {
 
 return (
   <>
-    {props.poll.value.questions.map((question, questionNumber) => {
+    {questions.map((question, questionNumber) => {
       {
         if (questionNumber == state.currentQuestion) {
           return (
@@ -105,7 +107,7 @@ return (
       }
     })}
 
-    {props.poll.value.questions.length > 1 && (
+    {questions.length > 1 && (
       <div className="d-flex justify-content-between">
         {state.currentQuestion > 0 ? (
           <ChangeQuestionContainer
@@ -122,7 +124,7 @@ return (
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
-        {state.currentQuestion < props.poll.value.questions.length ? (
+        {state.currentQuestion < questions.length ? (
           <ChangeQuestionContainer
             onClick={() => {
               props.stateUpdate({ vote: state.vote });
