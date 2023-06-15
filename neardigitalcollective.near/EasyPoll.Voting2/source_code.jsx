@@ -39,21 +39,6 @@ return (
       >
         <NoFlexInMobile className="justify-content-between">
           <NoFlexInMobile>
-            // <Widget
-            //   src="mob.near/widget/ProfileImage"
-            //   props={{
-            //     profile: props.profile,
-            //     question: props.state.poll.accountId,
-            //     className: "float-start d-inline-block me-2",
-            //     style: {
-            //       width: "3.5rem",
-            //       aspectRatio: "1",
-            //       marginLeft: "1rem",
-            //       borderRadius: "100%",
-            //       overflow: "hidden",
-            //     },
-            //   }}
-            // />
             <div>
               <p style={{ margin: "0", fontWeight: "300" }}>Created by</p>
               <p style={{ fontWeight: "500" }}>
@@ -316,17 +301,11 @@ return (
               poll: props.state.poll,
               isPreview: props.isPreview,
               indexVersion,
-              whitelist
+              whitelist,
             }}
           />
         }
       </VotingContainer>
-      // <Widget
-      //   src={`${widgetOwner}/widget/EasyPoll.PollsByCreator`}
-      //   props={{
-      //     ...props,
-      //   }}
-      // />
     </FlexContainer>
     {props.state.showQuestionsByThisUser && props.renderModal()}
   </div>
