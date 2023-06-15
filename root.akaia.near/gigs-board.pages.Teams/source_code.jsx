@@ -51,11 +51,33 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
+/* INCLUDE: "core/adapter/dev-hub" */
+const contractAccountId =
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-const access_info =
-  Near.view(nearDevGovGigsContractAccountId, "get_access_control_info") ?? null;
-const root_members =
-  Near.view(nearDevGovGigsContractAccountId, "get_root_members") ?? null;
+const DevHub = {
+  get_access_control_info: () =>
+    Near.view(contractAccountId, "get_access_control_info") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(contractAccountId, "get_community", { handle }) ?? null,
+
+  get_post: ({ post_id }) =>
+    Near.view(contractAccountId, "get_post", { post_id }) ?? null,
+
+  get_posts_by_label: ({ label }) =>
+    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
+      label,
+    }) ?? null,
+
+  get_root_members: () =>
+    Near.view(contractAccountId, "get_root_members") ?? null,
+};
+/* END_INCLUDE: "core/adapter/dev-hub" */
+
+const access_info = DevHub.get_access_control_info() ?? null,
+  root_members = DevHub.get_root_members() ?? null;
 
 if (!access_info || !root_members) {
   return <div>Loading...</div>;
@@ -63,12 +85,12 @@ if (!access_info || !root_members) {
 
 const pageContent = (
   <div>
-    {widget("components.teams.LabelsPermissions", {
+    {widget("entity.team.LabelsPermissions", {
       rules: access_info.rules_list,
     })}
     {Object.keys(root_members).map((member) =>
       widget(
-        "components.teams.TeamInfo",
+        "entity.team.TeamInfo",
         { member, members_list: access_info.members_list },
         member
       )
