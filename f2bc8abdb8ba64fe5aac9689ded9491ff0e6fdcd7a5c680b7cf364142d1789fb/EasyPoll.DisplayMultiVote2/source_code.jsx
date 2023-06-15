@@ -75,7 +75,7 @@ return (
             }}
           >
             <i className="bi bi-arrow-left" />
-            <p className="mx-2">Previous question</p>
+            <h4 className="mx-2">Previous question</h4>
           </div>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
@@ -88,7 +88,7 @@ return (
               State.update({ currentQuestion: state.currentQuestion + 1 });
             }}
           >
-            <p className="mx-2">Next question</p>
+            <h4 className="mx-2">Next question</h4>
             <i className="bi bi-arrow-right" />
           </div>
         ) : (
