@@ -1,5 +1,15 @@
 State.init({ currentQuestion: 0, vote: props.state.vote });
 
+const ChangeQuestionContainer = styled.div`
+  cursor: pointer;
+  display: flex;
+  aling-items: center;
+
+  i:hover, h6:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const getFirstSBTToken = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: `${context.accountId}`,
@@ -92,9 +102,7 @@ return (
     {props.poll.value.questions.length > 1 && (
       <div className="d-flex justify-content-between">
         {state.currentQuestion > 0 ? (
-          <div
-            className="d-flex aling-items-center"
-            style={{ cursor: "pointer" }}
+          <ChangeQuestionContainer
             onClick={() => {
               props.stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion - 1 });
@@ -102,14 +110,12 @@ return (
           >
             <i className="bi bi-arrow-left" />
             <h6 className="mx-2">Previous question</h6>
-          </div>
+          </ChangeQuestionContainer>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
         {state.currentQuestion < props.poll.value.questions.length ? (
-          <div
-            className="d-flex aling-items-center"
-            style={{ cursor: "pointer" }}
+          <ChangeQuestionContainer
             onClick={() => {
               props.stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion + 1 });
@@ -117,7 +123,7 @@ return (
           >
             <h6 className="mx-2">Next question</h6>
             <i className="bi bi-arrow-right" />
-          </div>
+          </ChangeQuestionContainer>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
