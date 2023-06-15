@@ -107,7 +107,7 @@ const countLikesStats = (arr) => Object.values(arr.reduce(getLikeStats, {}));
 let likesStatistics =
   arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
 console.log("likesStatistics", likesStatistics);
-if (state.likesStatistics.length === 0) {
+if (state.likesStatistics.length === 0 || state.likesStatistics === null) {
   State.update({
     likesStatistics,
   });
