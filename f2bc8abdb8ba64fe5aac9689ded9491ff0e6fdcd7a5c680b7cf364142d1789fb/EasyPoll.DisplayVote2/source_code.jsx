@@ -36,7 +36,7 @@ return (
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayMultiVote2`}
       props={{
         state: props.state,
-        poll: props.poll,
+        questions: props.poll.value.questions,
         renderMultipleChoiceInput,
         getInputStyles: props.getInputStyles,
         hasVoted: props.hasVoted,
