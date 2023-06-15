@@ -1,23 +1,10 @@
 const widgetOwner = "neardigitalcollective.near";
-
-const renderAnswers = (questionNumber) => {
-  return (
-    <Widget
-      src={`${widgetOwner}/widget/EasyPoll.AnswerCommentsContainer`}
-      props={{
-        answers: props.validAnswersToThisPoll,
-        questionNumber,
-      }}
-    />
-  );
-};
-
 const renderTextInput = (questionNumber) => {
   return (
     <div>
       {props.hasVoted ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
-          {renderAnswers(questionNumber)}
+          {props.renderAnswers(questionNumber)}
         </div>
       ) : (
         <div>
