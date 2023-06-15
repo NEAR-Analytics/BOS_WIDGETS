@@ -44,7 +44,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-content-tab"
       >
-        <Widget src="devs.near/widget/dev.main" props={props} />
+        <Widget src="mob.near/widget/LastWidgets" props={props} />
       </div>
       <div
         className="tab-pane d-lg-block col-lg-4"
