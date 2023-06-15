@@ -1,3 +1,12 @@
+const NETWORKS = [
+  { name: "NEAR", chainId: undefined },
+  { name: "ETH", chainId: 1 },
+  { name: "ZKSYNC", chainId: 324 },
+  { name: "ZKEVM", chainId: 1101 },
+  { name: "AURORA", chainId: 1313161554 },
+  { name: "POLYGON", chainId: 137 },
+];
+
 const NETWORK_NEAR = "NEAR";
 const NETWORK_ETH = "ETH";
 const NETWORK_ZKSYNC = "ZKSYNC";
@@ -52,7 +61,7 @@ const onDexDataLoad = (data) => {
 // LOAD STYLE
 
 const css = fetch(
-  "https://gist.githubusercontent.com/zavodil/5786d09502b0fbd042a920d804259130/raw/8dfc1154f6a9ebc5274463f60521385cc3728a19/swap.css"
+  "https://pluminite.mypinata.cloud/ipfs/QmfD6YngV7RzWse1EZdpy8HjyjS6Rp2BQVb5NzFjH7BxXL"
 ).body;
 
 if (!css) return "";
@@ -285,6 +294,12 @@ const onCallTxComple = (tx) => {
   State.update({
     outputAsset: undefined,
   });
+};
+
+const switchNetwork = (chainId) => {
+  Ethers.send("wallet_switchEthereumChain", [
+    { chainId: `0x${chainId.toString(16)}` },
+  ]);
 };
 
 // OUTPUT
@@ -723,14 +738,23 @@ return (
         <div class="pt-3 text-secondary opacity-25 text-center">
           <p>
             Supported networks:{" "}
-            {[
-              NETWORK_NEAR,
-              NETWORK_AURORA,
-              !!NETWORK_ETH ? "ETHEREUM" : "",
-              NETWORK_ZKSYNC,
-              NETWORK_ZKEVM,
-              NETWORK_POLYGON,
-            ].join(", ")}
+            <ul>
+              {NETWORKS.map((network, index) => {
+                return network.chainId ? (
+                  <>
+                    <li
+                      className="wrexlink"
+                      title="Click to switch"
+                      onClick={() => switchNetwork(network.chainId)}
+                    >
+                      &#8227; {network.name}
+                    </li>
+                  </>
+                ) : (
+                  <li style={{ display: "inline" }}>&#8227; {network.name}</li>
+                );
+              })}
+            </ul>
           </p>
           {currentAccountId && <p>Current account: {currentAccountId}</p>}
         </div>
