@@ -1,33 +1,34 @@
 if (context.loading) { return }
 
-const widgetList = [
-  "somepublicaddress.near/widget/Weather",
-  "mob.near/widget/Explorer"
-]
+const communityId = props.communityId || "simplar.near";
 
-const homePage = "near/widget/NearOrg.HomePage"
-const topics = ["overview", "updates", "reports"]
+const community = Social.get(`${communityId}/community/**`);
 
-State.init({ src: homePage, props: {} });
+if (!community) { return "Loading..." }
 
-function onSelect(src, prs) {
-  State.update({ src, props: prs });
-}
+const widgetList = JSON.parse(community.widgets);
+const menuLinks = JSON.parse(community.menu);
+const topics = JSON.parse(community.channels);
+
+const selected = props.selected || menuLinks[0].label;
+
+const componentFor = (label) => menuLinks.find(link => link.label === label).component;
 
 return (
-  <div class="row">
+  <div class="row mt-1">
     <div class="col-auto">
       <Widget src="simplar.near/widget/Menu"
         props={{
-          identifier,
-          homePage,
+          menuLinks,
           topics,
-          onSelect
+          selected,
+          identifier: communityId,
         }}
       />
     </div>
     <div class="col-7 mx-auto">
-      <Widget src={state.src} props={state.props} />
+      {selected === "discussion" ? <Widget src="near/widget/NestedDiscussions" props={{identifier: props.identifier}} />
+                                 : <Widget src={componentFor(selected)} props={props} />}
     </div>
     <div class="col-3">
       <Widget src="simplar.near/widget/CommunityWidgets" props={{ widgetList }} />
