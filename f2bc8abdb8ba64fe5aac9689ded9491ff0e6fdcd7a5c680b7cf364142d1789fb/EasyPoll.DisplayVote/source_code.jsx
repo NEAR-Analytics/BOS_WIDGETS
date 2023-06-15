@@ -2,12 +2,12 @@ if (!props.isPreview && !props.poll) {
   return "Property poll not set";
 }
 
-if(!props.whitelist) {
+if (!props.whitelist) {
   return "Property whitelist not set";
 }
 
 const isPreview = props.isPreview ?? false;
-const indexVersion = props.indexVersion ?? "3.2.0"
+const indexVersion = props.indexVersion ?? "3.2.0";
 const whitelist = props.whitelist;
 
 let widgetOwner = "neardigitalcollective.near";
@@ -218,7 +218,7 @@ const isUserAllowedToVote = (accountId) => {
   });
   const hasSBTToken = view?.[0]?.[1]?.[0];
   return hasSBTToken || whitelist.includes(accountId);
-}
+};
 
 const answersToThisPoll = state.answers.filter(
   (a) => a.value.questionBlockHeight == props.poll.blockHeight
@@ -228,7 +228,7 @@ function getValidAnswers() {
   let validOptionAndTimeAnswers =
     getOptionRelatedValidAnswers(validTimeAnswers);
   const validateAddresses = validOptionAndTimeAnswers.filter((item) => {
-    return isUserAllowedToVote(item.accountId)
+    return isUserAllowedToVote(item.accountId);
     // const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     //   account: item.accountId,
     //   issuer: "fractal.i-am-human.near",
@@ -384,7 +384,7 @@ function clickCheckboxInputHandler(questionNumber, optionNumber) {
 
 return (
   <Widget
-    src={`${widgetOwner}/widget/EasyPoll.DisplayVote2`}
+    src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayVote2`}
     props={{
       state,
       poll,
