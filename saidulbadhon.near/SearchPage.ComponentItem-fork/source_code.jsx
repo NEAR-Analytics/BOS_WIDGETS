@@ -309,7 +309,7 @@ return (
         <Button
           data-toggle="tooltip"
           data-placement="top"
-          title="Copy Widget"
+          title="Fork Widget"
           onClick={() =>
             props?.onCopyButtonClick(`${accountId}/widget/${widgetName}`)
           }
