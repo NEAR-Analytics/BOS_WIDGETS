@@ -1,11 +1,13 @@
 State.init({ currentQuestion: 0, vote: props.state.vote });
 
 const ChangeQuestionContainer = styled.div`
-  cursor: pointer;
-  display: flex;
-  aling-items: center;
+  div {
+    cursor: pointer;
+    display: flex;
+    aling-items: center;
+  }
 
-  i:hover, h6:hover {
+  div:hover {
     transform: scale(1.1);
   }
 `;
@@ -108,8 +110,10 @@ return (
               State.update({ currentQuestion: state.currentQuestion - 1 });
             }}
           >
-            <i className="bi bi-arrow-left" />
-            <h6 className="mx-2">Previous question</h6>
+            <div>
+              <i className="bi bi-arrow-left" />
+              <h6 className="mx-2">Previous question</h6>
+            </div>
           </ChangeQuestionContainer>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
@@ -121,8 +125,10 @@ return (
               State.update({ currentQuestion: state.currentQuestion + 1 });
             }}
           >
-            <h6 className="mx-2">Next question</h6>
-            <i className="bi bi-arrow-right" />
+            <div>
+              <h6 className="mx-2">Next question</h6>
+              <i className="bi bi-arrow-right" />
+            </div>
           </ChangeQuestionContainer>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
