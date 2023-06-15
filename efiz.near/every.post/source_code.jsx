@@ -1,12 +1,12 @@
-const sources = props.sources;
-const typeWhitelist = props.typeWhitelist;
-const hashtagWhitelist = props.hashtagWhitelist;
-const hashtagBlacklist = props.hashtagBlacklist;
-const accountWhitelist = props.accountWhitelist;
-const accountBlacklist = props.accountBlacklist;
-const feedOrder = props.feedOrder || "desc";
-const disableCaching = props.disableCaching || false;
-const postTemplate = props.postTemplate || "every.near/widget/every.post.view";
+const data = props.data;
+
+const domainKeyPairs = data.domainKeyPairs;
+const typeWhitelist = data.typeWhitelist;
+const hashtagWhitelist = data.hashtagWhitelist;
+const hashtagBlacklist = data.hashtagBlacklist;
+const accountWhitelist = data.accountWhitelist;
+const accountBlacklist = data.accountBlacklist;
+const feedOrder = data.feedOrder || "desc";
 
 if (hashtagBlacklist.length) {
   hashtagBlacklist = hashtagBlacklist.map((it) => it.toLowerCase());
@@ -30,7 +30,7 @@ if (hashtagWhitelist.length) {
   }));
 } else {
   // else, get all posts saved under the domain/action key pairs
-  index = sources?.map((it) => ({
+  index = domainKeyPairs?.map((it) => ({
     action: it.domain,
     key: it.key,
     options,
@@ -55,11 +55,7 @@ function extractPath(a) {
     // but is saved under a regular post/comment path
     path = a.value.path;
   } else {
-    if (a.value.type === "md") {
-      path = `${a.accountId}/${a.action}/${a.key}`;
-    } else {
-      path = a.value.path;
-    }
+    path = `${a.accountId}/${a.action}/${a.key}`;
   }
   return path;
 }
@@ -93,7 +89,7 @@ const renderItem = (a) => {
     // so we're just gonna return for now...
     return (
       <Widget
-        src={postTemplate}
+        src="every.near/widget/every.post.view"
         props={{
           path,
           blockHeight: a.blockHeight,
@@ -102,10 +98,10 @@ const renderItem = (a) => {
     );
   } else {
     if (typeWhitelist.includes(a.value.type)) {
+      const post = Social.get(path, blockHeight);
       // Filter out post if it contains a blacklisted hashtag
       // (only works for type md)
       if (hashtagBlacklist.length && a.value.type === "md") {
-        const post = Social.get(path, blockHeight);
         // extractHashtags from the text
         // if hashtags equal the blacklist, then don't show
         if (post) {
@@ -118,25 +114,19 @@ const renderItem = (a) => {
           }
         }
       }
-
       return (
         <Widget
-          src={postTemplate}
+          src="every.near/widget/every.post.view"
           props={{
             path,
             blockHeight: a.blockHeight,
           }}
         />
       );
-    } else {
-      return <></>;
     }
   }
 };
 
 return (
-  <Widget
-    src="efiz.near/widget/MergedIndexFeed"
-    props={{ index, renderItem, disableCaching }}
-  />
+  <Widget src="mob.near/widget/MergedIndexFeed" props={{ index, renderItem }} />
 );
