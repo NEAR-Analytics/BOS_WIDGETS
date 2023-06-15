@@ -1,4 +1,4 @@
-State.init({ currentQuestion: 0 });
+State.init({ currentQuestion: 0, vote: props.state.vote });
 
 const ChangeQuestionContainer = styled.div`
   div {
@@ -37,7 +37,7 @@ const renderTextInput = (questionNumber) => {
           <textarea
             value={state.vote[questionNumber]}
             onChange={(e) => {
-              let newVote = props.state.vote;
+              let newVote = state.vote;
               console.log("NV: ", newVote);
               newVote[questionNumber] = e.target.value;
 
