@@ -9,11 +9,6 @@ const Container = styled.div`
   padding: 3.5em 3.5em 4.5em;
   gap: 3em;
   background: #000;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-     padding: 1em;
-  }
 `;
 
 const Text = styled.div`
@@ -24,10 +19,6 @@ const Text = styled.div`
   width: 45%;
   gap: 1em;
   padding: 0;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
 
   h2 {
     font-family: "FK Grotesk";
@@ -50,10 +41,9 @@ const Text = styled.div`
   }
 
   span {
-    font-family: "Mona Sans";
-    margin-top:-10px;
+    font-family: "FK Grotesk";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.8em;
     line-height: 1.25em;
     color: #fff;
@@ -64,13 +54,8 @@ const Visual = styled.div`
   width: 55%;
   border-radius: 20px;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-
   img {
     width: 100%;
-    transform: scaleX(-1);
   }
 `;
 
