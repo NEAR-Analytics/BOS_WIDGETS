@@ -311,7 +311,7 @@ return (
           )}
         {
           <Widget
-            src={`${widgetOwner}/widget/EasyPoll.DisplayVote`}
+            src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayVote`}
             props={{
               poll: props.state.poll,
               isPreview: props.isPreview,
