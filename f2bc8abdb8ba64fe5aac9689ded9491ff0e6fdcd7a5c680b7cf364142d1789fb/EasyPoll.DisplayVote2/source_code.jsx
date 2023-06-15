@@ -1,11 +1,23 @@
-const widgetOwner =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const widgetOwner = "neardigitalcollective.near";
+
+const renderAnswers = (questionNumber) => {
+  return (
+    <Widget
+      src={`${widgetOwner}/widget/EasyPoll.AnswerCommentsContainer`}
+      props={{
+        answers: props.validAnswersToThisPoll,
+        questionNumber,
+      }}
+    />
+  );
+};
+
 const renderTextInput = (questionNumber) => {
   return (
     <div>
       {props.hasVoted ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
-          {props.renderAnswers(questionNumber)}
+          {renderAnswers(questionNumber)}
         </div>
       ) : (
         <div>
