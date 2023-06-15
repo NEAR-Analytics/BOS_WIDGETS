@@ -107,7 +107,26 @@ const Item = styled.div`
   }
 `;
 
+const Input = styled.input`
+`;
+
 function renderContent() {
+  if (state.showDuplicate) {
+    const thing = JSON.parse(Social.get(path, blockHeight));
+    return (
+      <>
+        <Input
+          placeholder={"thing name"}
+          value={state.duplicateName}
+          onChange={(e) => State.update({ duplicateName: e.target.value })}
+        />
+        <Widget
+          src="efiz.near/widget/Every.Raw.Edit"
+          props={{ value: thing, handleSubmit: handleDuplicate }}
+        />
+      </>
+    );
+  }
   if (state.showHistory) {
     return (
       <Widget
@@ -182,7 +201,7 @@ function renderContent() {
       // what if thing data comes from somewhere else? auditable backend according to type, api keys are stored browser side or proxy
       return (
         <Widget
-          src={widgetSrc}
+          src={thing.template?.src || widgetSrc}
           props={{ data: thing.data, blockHeight, ...props }}
         />
       );
@@ -322,9 +341,11 @@ function nearPad() {
   }
 }
 
-function duplicate() {
-  const thingId = Math.random();
-  const thing = Social.get(path, blockHeight);
+function handleDuplicate(thing) {
+  let thingId = state.duplicateName;
+  if (thingId.trim() === "") {
+    thingId = Math.random();
+  }
   const data = {
     thing: {
       [thingId]: thing,
@@ -338,21 +359,31 @@ function duplicate() {
       }),
     },
   };
-  return (
-    <button
-      className={`btn`}
-      onClick={() => {
-        Social.set(data, {
-          onCommit: () => {
-            console.log(thingId);
-          },
-        });
-      }}
-    >
-      <i className="bi bi-back me-1" />
-      <span>Duplicate</span>
-    </button>
-  );
+  Social.set(data);
+}
+
+function toggleDuplicate() {
+  if (state.showDuplicate) {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showDuplicate: false })}
+      >
+        <i className="bi bi-arrow-counterclockwise me-1" />
+        <span>Cancel Duplicate</span>
+      </button>
+    );
+  } else {
+    return (
+      <button
+        className={`btn`}
+        onClick={() => State.update({ showDuplicate: true })}
+      >
+        <i className="bi bi-back me-1" />
+        <span>Duplicate</span>
+      </button>
+    );
+  }
 }
 
 // This should be a prop
@@ -379,7 +410,14 @@ const typeParts = type.split("/");
 if (typeParts.length > 1 || type === "widget") {
   plugins = Social.get(
     `${context.accountId}/settings/every/${type}/plugins`
-  ) || [toggleEdit(), toggleRaw(), toggleHistory(), nearPad(), duplicate()];
+  ) || [
+    toggleEdit(),
+    toggleRaw(),
+    toggleHistory(),
+    nearPad(),
+    toggleDuplicate(),
+    // toggleBuild(),
+  ];
 }
 
 return (
