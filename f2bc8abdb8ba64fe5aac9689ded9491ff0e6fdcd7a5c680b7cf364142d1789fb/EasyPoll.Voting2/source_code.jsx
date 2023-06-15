@@ -1,98 +1,3 @@
-State.init({
-  profile: {},
-  showQuestionsByThisUser: false,
-  pollsByThisCreator: [{}],
-  polls: [{}],
-  poll: {},
-});
-
-const polls =
-  !props.previewInfo &&
-  Social.index("poll_question", `question-v${indexVersion}`);
-if (JSON.stringify(polls) != JSON.stringify(state.polls)) {
-  State.update({ polls: polls });
-}
-
-if (!state.polls) {
-  return "Loading";
-} else {
-  const poll =
-    props.previewInfo ??
-    state.polls.find((q) => q.blockHeight == questionBlockHeight);
-
-  if (JSON.stringify(poll) != JSON.stringify(state.poll)) {
-    State.update({ poll: poll });
-  }
-
-  if (!state.poll && !isPreview) {
-    return "Loading... ";
-  }
-}
-
-let pollsByThisCreator = Social.index(
-  "poll_question",
-  `question-v${indexVersion}`,
-  {
-    accountId: state.poll.accountId,
-  }
-);
-
-if (
-  JSON.stringify(pollsByThisCreator) != JSON.stringify(state.pollsByThisCreator)
-) {
-  State.update({ pollsByThisCreator: pollsByThisCreator });
-}
-
-if (!state.pollsByThisCreator) {
-  return "Loading";
-}
-
-let profile = Social.getr(`${state.poll.accountId}/profile`);
-
-if (JSON.stringify(profile) != JSON.stringify(state.profile)) {
-  State.update({ profile: profile });
-}
-
-// if (!profile) {
-//   return "Loading";
-// }
-
-let canOperate = props.canOperate;
-
-function showDescription(description) {
-  if (state.descriptionHeightLimited && description.length > 501) {
-    return description.slice(0, 500) + "...";
-  } else {
-    return description;
-  }
-}
-
-const renderPollTypeIcon = () => {
-  let allPollTypes = [];
-  for (let i = 0; i < poll.value.questions.length; i++) {
-    if (!allPollTypes.includes(poll.value.questions[i].questionType)) {
-      allPollTypes.push(poll.value.questions[i].questionType);
-    }
-  }
-
-  return allPollTypes.length == 1 &&
-    (allPollTypes[0] == "0" || allPollTypes[0] == "1") ? (
-    <i className="bi bi-pie-chart" style={{ padding: "0.6rem 0.8rem" }}></i>
-  ) : allPollTypes.length == 1 && allPollTypes[0] == "2" ? (
-    <i
-      style={{
-        transform: "rotate(90deg)",
-        padding: "0.6rem 0.8rem",
-      }}
-      className="bi bi-bar-chart-line"
-    ></i>
-  ) : allPollTypes.length == 1 && allPollTypes[0] == "3" ? (
-    <i className="bi bi-file-text" style={{ padding: "0.6rem 0.8rem" }}></i>
-  ) : (
-    <i className="bi bi-collection" style={{ padding: "0.6rem 0.8rem" }}></i>
-  );
-};
-
 const FlexContainer = styled.div`
     display:flex;
     @media screen and (max-width: 768px)  {
@@ -118,98 +23,6 @@ const NoFlexInMobile = styled.div`
     }
 `;
 
-const renderQuestionsByThisCreator = () => {
-  //TODO show only the 2 polls
-  return state.pollsByThisCreator.map((pollByCreator, index) => {
-    let divStyle =
-      index == 0
-        ? { backGroundColor: "white" }
-        : {
-            backGroundColor: "white",
-            paddingTop: "1rem",
-            borderTop: "1px solid #ced4da",
-          };
-    return (
-      <div style={divStyle}>
-        <div className="d-flex align-items-center">
-          <div
-            className="d-flex justify-content-center"
-            style={{
-              maxHeight: "2.8rem",
-              aspectRatio: "1",
-              borderRadius: "16px",
-              backgroundColor: "#F2F6FA",
-              marginRight: "0.8rem",
-            }}
-          >
-            {renderPollTypeIcon(pollByCreator)}
-          </div>
-          <p
-            style={{
-              fontWeight: "500",
-              margin: "0",
-              maxWidth: "100%",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              textWrap: "nowrap",
-            }}
-          >
-            {pollByCreator.value.title}
-          </p>
-        </div>
-        <div className="d-flex justify-content-between flex-nowrap text-secondary mb-2">
-          <div>
-            <i className="bi bi-people"></i>
-            <span>
-              {getValidAnswersQtyFromQuestion(pollByCreator.blockHeight)}
-            </span>
-          </div>
-          <span>
-            Ends
-            <Widget
-              src={`silkking.near/widget/timeAgo`}
-              props={{
-                timeInFuture: pollByCreator.value.endTimestamp,
-                reduced: true,
-              }}
-            />
-          </span>
-          <span
-            style={{
-              backgroundColor: isUpcoming(pollByCreator)
-                ? "#FFF3B4"
-                : isActive(pollByCreator)
-                ? "#D9FCEF"
-                : "#FFE5E5",
-
-              height: "1.5rem",
-              width: "4rem",
-              textAlign: "center",
-              borderRadius: "16px",
-              marginRight: "1rem",
-              lineHeight: "1.5rem",
-              fontSize: "0.8rem",
-              letterSpacing: "-0.025rem",
-              color: isUpcoming(pollByCreator)
-                ? "#FFC905"
-                : isActive(pollByCreator)
-                ? "#00B37D"
-                : "#FF4747",
-              fontWeight: "500",
-            }}
-          >
-            {isUpcoming(pollByCreator)
-              ? "Upcoming"
-              : isActive(pollByCreator)
-              ? "Active"
-              : "Closed"}
-          </span>
-        </div>
-      </div>
-    );
-  });
-};
-
 const widgetOwner = "neardigitalcollective.near";
 const indexVersion = props.indexVersion ?? "3.2.0";
 const whitelist = props.whitelist;
@@ -229,8 +42,8 @@ return (
             <Widget
               src="mob.near/widget/ProfileImage"
               props={{
-                profile: state.profile,
-                question: state.poll.accountId,
+                profile: props.profile,
+                question: props.state.poll.accountId,
                 className: "float-start d-inline-block me-2",
                 style: {
                   width: "3.5rem",
@@ -243,25 +56,19 @@ return (
             />
             <div>
               <p style={{ margin: "0", fontWeight: "300" }}>Created by</p>
-              <p
-                style={{
-                  fontWeight: "500",
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  textWrap: "nowrap",
-                }}
-              >
-                {state.poll.accountId}
+              <p style={{ fontWeight: "500" }}>
+                {props.sliceString(props.state.poll.accountId, 18)}
               </p>
             </div>
           </NoFlexInMobile>
 
-          {Date.now() < state.poll.value.endTimestamp && (
+          {Date.now() < props.state.poll.value.endTimestamp && (
             <>
               <span>
                 Started{" "}
-                {new Date(state.poll.value.startTimestamp).toLocaleDateString()}
+                {new Date(
+                  props.state.poll.value.startTimestamp
+                ).toLocaleDateString()}
               </span>
 
               <span
@@ -275,7 +82,7 @@ return (
                 <Widget
                   src={`silkking.near/widget/timeAgo`}
                   props={{
-                    timeInFuture: state.poll.value.endTimestamp,
+                    timeInFuture: props.state.poll.value.endTimestamp,
                     reduced: true,
                   }}
                 />
@@ -284,9 +91,9 @@ return (
           )}
           <span
             style={{
-              backgroundColor: props.isUpcoming(state.poll)
+              backgroundColor: props.isUpcoming(props.state.poll)
                 ? "#FFF3B4"
-                : props.isActive(state.poll)
+                : props.isActive(props.state.poll)
                 ? "#D9FCEF"
                 : "#FFE5E5",
 
@@ -298,17 +105,17 @@ return (
               lineHeight: "1.9rem",
               fontSize: "1rem",
               letterSpacing: "-0.025rem",
-              color: props.isUpcoming(state.poll)
+              color: props.isUpcoming(props.state.poll)
                 ? "#FFC905"
-                : props.isActive(state.poll)
+                : props.isActive(props.state.poll)
                 ? "#00B37D"
                 : "#FF4747",
               fontWeight: "500",
             }}
           >
-            {props.isUpcoming(state.poll)
+            {props.isUpcoming(props.state.poll)
               ? "Upcoming"
-              : props.isActive(state.poll)
+              : props.isActive(props.state.poll)
               ? "Active"
               : "Closed"}
           </span>
@@ -335,7 +142,7 @@ return (
               wordWrap: "anywhere",
             }}
           >
-            {state.poll.value.title}
+            {props.state.poll.value.title}
           </h2>
         </div>
         <div
@@ -369,10 +176,10 @@ return (
             Description
           </h3>
           <p style={{ fontSize: "0.9rem" }}>
-            {showDescription(state.poll.value.description)}
+            {props.showDescription(props.state.poll.value.description)}
           </p>
-          {state.poll.value.description.length > 501 &&
-          !props.descriptionHeightLimited ? (
+          {props.state.poll.value.description.length > 501 &&
+          !props.state.descriptionHeightLimited ? (
             <div
               style={{
                 position: "absolute",
@@ -400,7 +207,7 @@ return (
               </h4>
             </div>
           ) : (
-            state.poll.value.description.length > 501 && (
+            props.state.poll.value.description.length > 501 && (
               <div
                 style={{
                   position: "absolute",
@@ -430,8 +237,8 @@ return (
             )
           )}
         </div>
-        {state.poll.value.tgLink != "" &&
-          state.poll.value.tgLink != undefined && (
+        {props.state.poll.value.tgLink != "" &&
+          props.state.poll.value.tgLink != undefined && (
             <div
               className="mt-3 d-flex justify-content-between"
               style={{
@@ -465,16 +272,10 @@ return (
                   </p>
                   <h6>
                     <a
-                      style={{
-                        color: "#2346B1",
-                        maxWidth: "100%",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        textWrap: "nowrap",
-                      }}
-                      href={state.poll.value.tgLink}
+                      style={{ color: "#2346B1" }}
+                      href={props.state.poll.value.tgLink}
                     >
-                      {state.poll.value.tgLink}
+                      {props.sliceString(props.state.poll.value.tgLink, 30)}
                     </a>
                   </h6>
                 </div>
@@ -482,7 +283,7 @@ return (
               <div className="d-flex align-items-center">
                 <a
                   target="_blank"
-                  href={state.poll.value.tgLink}
+                  href={props.state.poll.value.tgLink}
                   style={{ userSelect: "none" }}
                 >
                   <i
@@ -501,7 +302,9 @@ return (
                     cursor: "pointer",
                     marginLeft: "0.8rem",
                   }}
-                  onClick={() => clipboard.writeText(state.poll.value.tgLink)}
+                  onClick={() =>
+                    clipboard.writeText(props.state.poll.value.tgLink)
+                  }
                 ></i>
               </div>
             </div>
@@ -510,7 +313,7 @@ return (
           <Widget
             src={`${widgetOwner}/widget/EasyPoll.DisplayVote`}
             props={{
-              poll: state.poll,
+              poll: props.state.poll,
               isPreview: props.isPreview,
               indexVersion,
               whitelist,
@@ -518,25 +321,13 @@ return (
           />
         }
       </VotingContainer>
-      {
-        // <Widget
-        //   src={`${widgetOwner}/widget/EasyPoll.PollsByCreator`}
-        //   props={{
-        //     ...props,
-        //   }}
-        // />
-      }
-    </FlexContainer>
-    {state.showQuestionsByThisUser && (
       <Widget
-        src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/renderVotingPollModal"
+        src={`${widgetOwner}/widget/EasyPoll.PollsByCreator`}
         props={{
-          stateHandler: State.update(object),
-          showQuestionsByThisUser: state.showQuestionsByThisUser,
-          indexVersion,
-          canOperate,
+          ...props,
         }}
       />
-    )}
+    </FlexContainer>
+    {props.state.showQuestionsByThisUser && props.renderModal()}
   </div>
 );
