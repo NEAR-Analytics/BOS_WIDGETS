@@ -9,10 +9,6 @@ const Container = styled.div`
   padding: 3.5em 3.5em 4.5em;
   gap: 3em;
   background: #fff;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-  }
 `;
 
 const Text = styled.div`
@@ -23,10 +19,6 @@ const Text = styled.div`
   width: 45%;
   gap: 2em;
   padding: 0;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
 
   h2 {
     font-family: "FK Grotesk";
@@ -50,10 +42,6 @@ const Text = styled.div`
 const Visual = styled.div`
   width: 55%;
   border-radius: 20px;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
 
   img {
     width: 100%;
@@ -82,7 +70,7 @@ return (
     </Text>
     <Visual>
       <img
-        src="https://nearcon.s3.amazonaws.com/hackathon.png"
+        src={mapImage(visual)}
         alt="NEARCON Day 3 Layer 1 Stage Evolving NEAR Ecosystem Governence"
       />
     </Visual>
