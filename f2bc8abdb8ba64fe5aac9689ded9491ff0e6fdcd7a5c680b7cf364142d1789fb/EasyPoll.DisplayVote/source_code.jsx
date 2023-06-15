@@ -1,19 +1,113 @@
-if (!props.isPreview && !props.poll) {
+let isPreview = props.isPreview ?? false;
+let poll = props.poll ?? {
+  accountId: "neardigitalcollective.near",
+  blockHeight: 94242300,
+  value: {
+    isDraft: false,
+    title: "OG Criteria Poll",
+    description:
+      "Greetings! We're thrilled to welcome you to this significant discussion on the role and qualifications of an OG in the NEAR Digital Collective.\nUnderstanding the 'OG' role, in our community context, is crucial as it impacts our collective's governance and development. We're looking at defining the criteria for an OG, discussing their level of activity, and considering a proposal that only OG's with an SBT should run for NDC V1 Gov.\n\nWe highly value your perspective. Regardless if you're a long-time member or a recent addition to our community, your opinion matters greatly. Your input enriches our collective decision-making and ensures our decisions truly reflect the community's voice.\nThank you for participating in this discussion and contributing to the future direction of the NEAR Digital Collective. \n\nRemember, your responses are invaluable to us, and we thank you for taking the time to participate in this poll. Your voice matters to us and helps shape the future direction of the NEAR Digital Collective. Thank you for your contribution!",
+    tgLink: "",
+    startTimestamp: 1686837600000,
+    endTimestamp: 1688047200000,
+    questions: [
+      {
+        question:
+          "The GWG has proposed specific criteria for what qualifies as an OG you only need to fit one of the criteria to qualify. How much do you agree or disagree with these criteria ? 1. Champion/Contributor to GWG/NDC Gov (Anyone that received a 2022 Q4, 2023 Q1, or Q2 Gig/Bounty Reward)  2. NEAR Inc or NF member (before Pagoda Rebrand Feb ‘22) and is still a current member  3. Active in NEAR Community for 1.5 years before the election",
+        questionType: "1",
+        choicesOptions: [
+          "Strongly Agree",
+          "Agree",
+          "Neutral",
+          "Disagree",
+          "Strongly Disagree ",
+        ],
+      },
+      {
+        question:
+          "Could you explain why you feel this way about the proposed criteria for an OG?",
+        questionType: "3",
+        choicesOptions: [],
+      },
+      {
+        question:
+          "The OG criteria was a guardrail made by the GWG to ensure only people that are well informed and knowledgeable in the ecosystem can run for the governing bodies. How much do you agree or disagree with the proposal by the GWG that only qualified OG's with an SBT should be eligible to run for NDC V1 Gov instead of people from other chains that aren’t knowledgeable about NEAR.?",
+        questionType: "1",
+        choicesOptions: [
+          "Strongly Agree",
+          "Agree",
+          "Neutral",
+          "Disagree",
+          "Strongly Disagree",
+        ],
+      },
+      {
+        question:
+          "What are your reasons for agreeing or disagreeing with this proposal above?",
+        questionType: "3",
+        choicesOptions: [],
+      },
+      {
+        question:
+          "In your opinion, what should be the minimum level of on-chain activity over the past 6 months required for an OG to be considered active when the market slowed down?",
+        questionType: "1",
+        choicesOptions: [
+          "No minimum requirement",
+          "Low level of activity (1 transaction per 6 months)",
+          "Moderate level of activity (1 transaction per 3 months)",
+          "High level of activity (1 transaction per month)",
+          "Very high level of activity (1 transaction per week)",
+        ],
+      },
+      {
+        question:
+          "Could you share your thoughts on why you believe this level of activity is appropriate for an OG? Additionally, how would you quantify this level of activity?”",
+        questionType: "3",
+        choicesOptions: [],
+      },
+      {
+        question:
+          "What do you believe should be the duration of an OG SBT before it expires?",
+        questionType: "1",
+        choicesOptions: [
+          "1 year",
+          "1.5 years",
+          "2 years",
+          "Other (please specify in the question below)",
+        ],
+      },
+      {
+        question:
+          "Could you explain your reasons for choosing this duration for an OG SBT?",
+        questionType: "3",
+        choicesOptions: [],
+      },
+    ],
+    timestamp: 1686834874377,
+  },
+};
+
+let whitelist = props.whitelist ?? [
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "joep.near",
+  "sarahkornfeld.near",
+  "yuensid.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+];
+
+if (!isPreview && !poll) {
   return "Property poll not set";
 }
 
-if (!props.whitelist) {
+if (!whitelist) {
   return "Property whitelist not set";
 }
 
-const isPreview = props.isPreview ?? false;
 const indexVersion = props.indexVersion ?? "3.2.0";
-const whitelist = props.whitelist;
 
 let widgetOwner = "neardigitalcollective.near";
-
-// Getting question
-const poll = props.poll;
 
 let defaultVotes = [];
 for (let i = 0; i < poll.value.questions.length; i++) {
@@ -221,7 +315,7 @@ const isUserAllowedToVote = (accountId) => {
 };
 
 const answersToThisPoll = state.answers.filter(
-  (a) => a.value.questionBlockHeight == props.poll.blockHeight
+  (a) => a.value.questionBlockHeight == poll.blockHeight
 );
 function getValidAnswers() {
   let validTimeAnswers = getTimeRelatedValidAnswers(answersToThisPoll);
@@ -280,7 +374,7 @@ const getPublicationParams = () => {
           key: `answer-v${indexVersion}`,
           value: {
             answer: state.vote,
-            questionBlockHeight: props.poll.blockHeight,
+            questionBlockHeight: poll.blockHeight,
           },
         },
         undefined,
