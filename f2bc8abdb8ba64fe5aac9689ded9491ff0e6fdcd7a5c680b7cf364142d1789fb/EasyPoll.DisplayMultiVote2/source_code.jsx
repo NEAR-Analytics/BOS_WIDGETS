@@ -166,8 +166,10 @@ return (
                 }
           }
           onMouseEnter={() => {
-            props.stateUpdate({ vote: state.vote });
-            props.stateUpdate({ hoveringElement: "voteButton" });
+            props.stateUpdate({
+              hoveringElement: "voteButton",
+              vote: state.vote,
+            });
           }}
           onMouseLeave={() => props.stateUpdate({ hoveringElement: "" })}
           data={props.getPublicationParams()}
