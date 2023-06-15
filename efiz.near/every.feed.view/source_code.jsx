@@ -1,13 +1,17 @@
 const data = props.data;
-const typeWhitelist = JSON.stringify(data.typeWhitelist);
-const key = data.key;
 
 return (
   <>
     <Widget
-      src="efiz.near/widget/Every.Post.Create"
-      props={{ typeWhitelist, key }}
+      src="efiz.near/widget/every.post"
+      props={{
+        domainKeyPairs: data.domainKeyPairs,
+        typeWhitelist: data.typeWhitelist,
+        hashtagWhitelist: data.hashtagWhitelist,
+        hashtagBlacklist: data.hashtagBlacklist,
+        accountWhitelist: data.accountWhitelist,
+        accountBlacklist: data.accountBlacklist,
+      }}
     />
-    <Widget src="efiz.near/widget/Every.Post" props={{ typeWhitelist, key }} />
   </>
 );
