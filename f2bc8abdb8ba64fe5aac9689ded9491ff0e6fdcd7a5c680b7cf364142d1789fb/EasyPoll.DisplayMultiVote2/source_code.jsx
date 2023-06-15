@@ -1,5 +1,3 @@
-State.init({ currentQuestion: 0 });
-
 const getFirstSBTToken = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: `${context.accountId}`,
@@ -13,7 +11,7 @@ const hasSBTTokens = true || getFirstSBTToken() !== undefined;
 return (
   <>
     {props.poll.value.questions.map((question, questionNumber) => {
-      return state.currentQuestion == questionNumber ? (
+      return (
         <div
           style={{
             border: "1.5px solid rgb(206, 212, 218)",
@@ -57,24 +55,8 @@ return (
               })
             : props.renderTextInput(questionNumber)}
         </div>
-      ) : (
-        <></>
       );
     })}
-    <div className="d-flex justify-content-between">
-      {state.currentQuestion > 0 && (
-        <i
-          onClick={State.update({ currentQuestion: state.currentQuestion + 1 })}
-          className="bi bi-arrow-left"
-        />
-      )}
-      {state.currentQuestion < props.poll.value.questions.length && (
-        <i
-          onClick={State.update({ currentQuestion: state.currentQuestion - 1 })}
-          className="bi bi-arrow-right"
-        />
-      )}
-    </div>
     {props.isQuestionOpen ? (
       props.hasVoted ? (
         ""
