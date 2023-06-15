@@ -95,10 +95,11 @@ return (
                 left: 0,
                 backgroundColor: "transparent",
                 borderColor: "transparent",
+                color: "#FFF",
               }}
               // onClick={() => props.handleBrowseButton()}
             >
-              🠈
+              ←
             </button>
           </a>
 
