@@ -52,7 +52,7 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-/* INCLUDE: "shared/mocks" */
+/* INCLUDE: "core/mocks" */
 const communities = {
   "zero-knowledge": {
     handle: "zero-knowledge",
@@ -332,7 +332,7 @@ const communities = {
     events_id: 415,
   },
 };
-/* END_INCLUDE: "shared/mocks" */
+/* END_INCLUDE: "core/mocks" */
 
 if (!props.handle) {
   return (
@@ -399,11 +399,7 @@ const Sponsorship = (
             <div class="row">
               {sponsorshipRequiredPosts.map((postId) => (
                 <div class="col-3">
-                  {widget(
-                    "components.posts.CompactPost",
-                    { id: postId },
-                    postId
-                  )}
+                  {widget("entity.post.CompactPost", { id: postId }, postId)}
                 </div>
               ))}
             </div>
@@ -414,8 +410,8 @@ const Sponsorship = (
   </div>
 );
 
-return widget("entity.community.Layout", {
+return widget("components.template.community-page", {
   handle: props.handle,
-  tab: "Sponsorship",
+  title: "Sponsorship",
   children: Sponsorship,
 });
