@@ -37,7 +37,7 @@ const renderTextInput = (questionNumber) => {
           <textarea
             value={state.vote[questionNumber]}
             onChange={(e) => {
-              let newVote = state.vote ?? [""];
+              let newVote = props.state.vote;
               newVote[questionNumber] = e.target.value;
 
               State.update({ vote: newVote });
