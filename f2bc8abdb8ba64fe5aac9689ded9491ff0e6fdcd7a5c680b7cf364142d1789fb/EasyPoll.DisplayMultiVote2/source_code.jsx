@@ -10,6 +10,37 @@ const getFirstSBTToken = () => {
 
 const hasSBTTokens = true || getFirstSBTToken() !== undefined;
 
+const renderTextInput = (questionNumber) => {
+  return (
+    <div>
+      {props.hasVoted ? (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
+          <Widget
+            src={`${widgetOwner}/widget/EasyPoll.AnswerCommentsContainer`}
+            props={{
+              answers: props.validAnswersToThisPoll,
+              questionNumber,
+            }}
+          />
+        </div>
+      ) : (
+        <div>
+          <textarea
+            value={props.state.vote[questionNumber]}
+            onChange={(e) => {
+              let newVote = props.state.vote;
+              newVote[questionNumber] = e.target.value;
+
+              props.stateUpdate({ vote: newVote });
+            }}
+            style={{ width: "100%" }}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
 return (
   <>
     {props.poll.value.questions.map((question, questionNumber) => {
@@ -49,12 +80,30 @@ return (
             )}
             {question.questionType != "3"
               ? question.choicesOptions.map((option, optionNumber) => {
-                  return props.renderMultipleChoiceInput({
-                    questionNumber: questionNumber,
-                    questionType: question.questionType,
-                    option,
-                    optionNumber,
-                  });
+                  return (
+                    <Widget
+                      src={`${widgetOwner}/widget/EasyPoll.DisplayMultiVote`}
+                      props={{
+                        state: props.state,
+                        questionNumber,
+                        questionType,
+                        option,
+                        optionNumber,
+                        canVote: props.canVote,
+                        getBgColor: props.getBgColor,
+                        getFontColor: props.getFontColor,
+                        countVotes: props.countVotes,
+                        getBorderRadious: props.getBorderRadious,
+                        calculatePercentageOfOption:
+                          props.calculatePercentageOfOption,
+                        getBlockTimestamp: props.getBlockTimestamp,
+                        clickCheckboxInputHandler:
+                          props.clickCheckboxInputHandler,
+                        clickRadioInputHandler: props.clickRadioInputHandler,
+                        getInputStyles: props.getInputStyles,
+                      }}
+                    />
+                  );
                 })
               : props.renderTextInput(questionNumber)}
           </div>
