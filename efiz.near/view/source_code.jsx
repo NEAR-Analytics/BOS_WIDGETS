@@ -122,13 +122,14 @@ const Title = styled.p`
   line-height: 1.25;
   font-weight: 400;
   font-size: 4em;
+  margin-bottom: 0;
 `;
 
 const Subtitle = styled.p`
   line-height: 1.25;
   font-weight: 400;
   font-size: 2em;
-  margin-left: 30px;
+  margin-left: 70px;
 `;
 
 const Text = styled.p`
