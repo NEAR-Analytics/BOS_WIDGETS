@@ -52,7 +52,7 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-/* INCLUDE: "shared/mocks" */
+/* INCLUDE: "core/mocks" */
 const communities = {
   "zero-knowledge": {
     handle: "zero-knowledge",
@@ -332,7 +332,7 @@ const communities = {
     events_id: 415,
   },
 };
-/* END_INCLUDE: "shared/mocks" */
+/* END_INCLUDE: "core/mocks" */
 
 if (!props.handle) {
   return (
@@ -374,8 +374,8 @@ const Events = (
   </div>
 );
 
-return widget("entity.community.Layout", {
+return widget("components.template.community-page", {
   handle: props.handle,
-  tab: "Events",
+  title: "Events",
   children: Events,
 });
