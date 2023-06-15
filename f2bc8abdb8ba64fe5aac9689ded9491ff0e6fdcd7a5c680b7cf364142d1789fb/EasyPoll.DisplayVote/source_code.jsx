@@ -432,18 +432,6 @@ const isValidInput = () => {
   return result && !isPreview;
 };
 
-const renderAnswers = (questionNumber) => {
-  return (
-    <Widget
-      src={`${widgetOwner}/widget/EasyPoll.AnswerCommentsContainer`}
-      props={{
-        answers: validAnswersToThisPoll,
-        questionNumber,
-      }}
-    />
-  );
-};
-
 function clickRadioInputHandler(questionNumber, optionNumber) {
   return () => {
     let newVote = state.vote;
@@ -503,7 +491,6 @@ return (
       isQuestionOpen,
       isVoteValid,
       validAnswersToThisPoll,
-      renderAnswers,
       whitelist,
     }}
   />
