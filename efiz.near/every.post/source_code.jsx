@@ -53,7 +53,11 @@ function extractPath(a) {
     // but is saved under a regular post/comment path
     path = a.value.path;
   } else {
-    path = `${a.accountId}/${a.action}/${a.key}`;
+    if (a.value.type === "md") {
+      path = `${a.accountId}/${a.action}/${a.key}`;
+    } else {
+      path = a.value.path;
+    }
   }
   return path;
 }
@@ -112,6 +116,7 @@ const renderItem = (a) => {
           }
         }
       }
+
       return (
         <Widget
           src="every.near/widget/every.post.view"
