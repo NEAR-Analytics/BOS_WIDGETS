@@ -20,15 +20,12 @@ const Container = styled.div`
   }
 
   p {
+    font-family: "FK Grotesk";
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 0.9em;
     line-height: 1.25em;
     color: #000000;
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 1em;
   }
 `;
 
@@ -39,24 +36,11 @@ const ButtonContainer = styled.div`
   align-items: flex-start;
   gap: 3em;
   margin-top: 2em;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1em;
-    width: 60%;
-    margin: 0 auto;
-  }
-
-  @media screen and (max-width: 480px) {
-    width: 100%;
-  }
 `;
 
 return (
   <Container>
-    <h2>More coming soon</h2>
+    <h2>More info coming soon</h2>
     <p>
       We’re working on the full list of partners, speakers, and sessions. Stay
       tuned!
