@@ -113,6 +113,7 @@ return (
             onClick={() => {
               stateUpdate({ vote: state.vote });
               State.update({ currentQuestion: state.currentQuestion + 1 });
+              console.log("CQ: ", state.currentQuestion);
             }}
           >
             <h6 className="mx-2">Next question</h6>
