@@ -9,11 +9,6 @@ const Container = styled.div`
   padding: 3.5em 3.5em 4.5em;
   gap: 3em;
   background: #fff;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-     padding: 1em;
-  }
 `;
 
 const Text = styled.div`
@@ -24,10 +19,6 @@ const Text = styled.div`
   width: 45%;
   gap: 2em;
   padding: 0;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
 
   h2 {
     font-family: "Mona Sans";
@@ -68,10 +59,6 @@ const Visual = styled.div`
   width: 55%;
   border-radius: 20px;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-
   img {
     width: 100%;
   }
@@ -84,27 +71,15 @@ const ButtonContainer = styled.div`
   align-items: flex-start;
   gap: 3em;
   margin-top: 2em;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1em;
-    width: 60%;
-    margin: 0 auto;
-  }
-
-  @media screen and (max-width: 480px) {
-    width: 100%;
-  }
 `;
+
+const visual = "bafkreifvatnpked4a364btyyyjmn46jngd44msyjyml5ik2qyvbop55msu";
+const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
 return (
   <Container>
     <Text>
-      <h1 style={{ fontSize: 46, fontWeight: "600" }}>
-        The biggest experience of the year is near
-      </h1>
+      <h2>The biggest experience of the year is near</h2>
 
       <p>
         Last year’s NEARCON was epic. This one will be iconic. We are going to
@@ -112,7 +87,7 @@ return (
       </p>
       <ul>
         <li>
-          Join 3,000+ delegates as we explore the power and possibilities of an
+          Join 5,000+ delegates as we explore the power and possibilities of an
           open web
         </li>
         <li>
@@ -139,7 +114,7 @@ return (
     </Text>
     <Visual>
       <img
-        src="https://nearcon.s3.amazonaws.com/illia.png"
+        src={mapImage(visual)}
         alt="NEARCON Day 3 Layer 1 Stage Evolving NEAR Ecosystem Governence"
       />
     </Visual>
