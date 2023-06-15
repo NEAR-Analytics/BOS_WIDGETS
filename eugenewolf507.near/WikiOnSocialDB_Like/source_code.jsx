@@ -230,7 +230,7 @@ return (
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       >
-        {state.emoji}
+        {state.emoji === undefined ? initialEmoji : state.emoji}
       </Button>
     </OverlayTrigger>
     {state.likesStatistics &&
