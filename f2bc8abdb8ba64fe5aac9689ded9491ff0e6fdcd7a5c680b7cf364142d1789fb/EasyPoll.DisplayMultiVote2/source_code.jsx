@@ -67,29 +67,29 @@ return (
     {props.poll.value.questions.length > 1 && (
       <div className="d-flex justify-content-between">
         {state.currentQuestion > 0 ? (
-          <div className="d-flex">
+          <div
+            className="d-flex"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              State.update({ currentQuestion: state.currentQuestion - 1 });
+            }}
+          >
             <p>Previous question</p>
-            <i
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                State.update({ currentQuestion: state.currentQuestion - 1 });
-              }}
-              className="bi bi-arrow-left"
-            />
+            <i className="bi bi-arrow-left" />
           </div>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
         {state.currentQuestion < props.poll.value.questions.length ? (
-          <div className="d-flex">
+          <div
+            className="d-flex"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              State.update({ currentQuestion: state.currentQuestion + 1 });
+            }}
+          >
             <p>Next question</p>
-            <i
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                State.update({ currentQuestion: state.currentQuestion + 1 });
-              }}
-              className="bi bi-arrow-right"
-            />
+            <i className="bi bi-arrow-right" />
           </div>
         ) : (
           <div style={{ minWidth: "1px" }}></div>
