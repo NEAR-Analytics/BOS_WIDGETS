@@ -748,6 +748,7 @@ const clampMarkdown = styled.div`
     overflow: hidden;
   }
 `;
+
 const descriptionArea = isUnderPost ? (
   <limitedMarkdown
     className="overflow-auto"
@@ -782,7 +783,7 @@ const descriptionArea = isUnderPost ? (
       <div className="d-flex justify-content-center">
         <StyledLink>
           <a
-            style={{ fontSize: "1rem", fontWeight: 800 }}
+            style={{ fontSize: "1rem", fontWeight: 700 }}
             className="btn btn-link text-black"
             onClick={() => State.update({ clamp: false })}
           >
@@ -795,7 +796,7 @@ const descriptionArea = isUnderPost ? (
       <div className="d-flex justify-content-center">
         <StyledLink>
           <a
-            style={{ fontSize: "1rem", fontWeight: 800 }}
+            style={{ fontSize: "1rem", fontWeight: 700 }}
             className="btn btn-link text-black"
             onClick={() => State.update({ clamp: true })}
           >
