@@ -231,9 +231,75 @@ const ResponsiveDiv = styled.div`
   }
 `;
 
-const accountId = post.author_id;
+// start of test edits
+const accountId = (props.accountId = post.author_id);
+const link = props.link ?? true;
+const hideAccountId = props.hideAccountId;
+const hideName = props.hideName;
+const hideImage = props.hideImage;
+
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
+const name = profile.name ?? accountId;
+const title = props.title ?? `${name} @${accountId}`;
+const tooltip =
+  props.tooltip && (props.tooltip === true ? title : props.tooltip);
+
+let inner = (
+  <>
+    {!hideName && (
+      <span key="name">
+        {name}
+        <br></br>
+      </span>
+    )}
+    {!hideAccountId && (
+      <span key="accountId" className="text-muted ms-1 d-flex">
+        @{accountId}
+      </span>
+    )}
+  </>
+);
+
+inner = link ? (
+  <a
+    href={
+      link !== true
+        ? link
+        : `#/mob.near/widget/ProfilePage?accountId=${accountId}`
+    }
+    className="link-dark text-truncate d-flex flex-column align-items-start"
+  >
+    {inner}
+  </a>
+) : (
+  <span className="text-truncate d-flex flex-column align-items-start">
+    {inner}
+  </span>
+);
+
+if (props.tooltip === true) {
+  return (
+    <Widget
+      src="mob.near/widget/Profile.OverlayTrigger"
+      props={{ accountId, children: inner }}
+    />
+  );
+}
+if (tooltip) {
+  inner = (
+    <OverlayTrigger placement="auto" overlay={<Tooltip>{tooltip}</Tooltip>}>
+      {inner}
+    </OverlayTrigger>
+  );
+}
+// end of test edits
+
 const header = (
-  <ResponsiveDiv className="py-1 px-3" style={{ fontSize: "1em" }}>
+  <ResponsiveDiv
+    className="py-1 px-3"
+    style={{ fontSize: "1em", alignItems: "center" }}
+  >
     <div className="d-flex align-items-center justify-content-between">
       <div
         className="col-auto d-flex align-items-center"
@@ -258,10 +324,18 @@ const header = (
             }}
           />
         </div>
-        <div style={{ marginLeft: "1em" }}>
-          <span style={{ fontSize: "1.35em", fontWeight: "700" }}>
+
+        <div
+          style={{
+            marginLeft: "1em",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {/* <span style={{ fontSize: "1.35em", fontWeight: "700" }}>
             {post.author_id}
-          </span>
+          </span> */}
           <span
             key="accountId"
             className="text-muted "
@@ -269,10 +343,10 @@ const header = (
               display: "block",
               fontSize: "1.2em",
               fontWeight: "500",
-              marginTop: "-8px",
+              marginTop: "0px",
             }}
           >
-            @{post.author_id}
+            {inner}
           </span>
         </div>
       </div>
@@ -583,13 +657,23 @@ const postExtra =
     <div key="post-extra">
       <h6
         class="card-subtitle  text-muted"
-        style={{ marginLeft: "1rem", marginBottom: "0.5rem" }}
+        style={{
+          marginLeft: "1rem",
+          marginBottom: "1rem",
+          fontSize: "1.25789em",
+          fontWeight: "600",
+        }}
       >
         Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
       </h6>
       <h6
         class="card-subtitle  text-muted"
-        style={{ marginLeft: "1rem", marginBottom: "1rem" }}
+        style={{
+          marginLeft: "1rem",
+          marginBottom: "1.5rem",
+          fontSize: "1.25789em",
+          fontWeight: "600",
+        }}
       >
         Supervisor:{" "}
         <Widget
@@ -681,7 +765,7 @@ const descriptionArea = isUnderPost ? (
     <div
       className={state.clamp ? "clamp" : ""}
       style={{
-        fontSize: "1.25rem",
+        fontSize: "1rem",
         paddingLeft: "15px",
         paddingRight: "15px",
         marginBottom: "-10px",
