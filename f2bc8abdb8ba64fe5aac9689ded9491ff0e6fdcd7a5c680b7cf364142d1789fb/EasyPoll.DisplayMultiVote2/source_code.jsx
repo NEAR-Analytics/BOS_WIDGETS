@@ -4,6 +4,8 @@ State.init({
   showErrorsInForm: false,
 });
 
+let widgetOwner = props.widgetOwner;
+
 //TODO review this!
 const getPublicationParams = () => {
   return {
@@ -85,7 +87,7 @@ const renderMultipleChoiceInput = ({
 const renderAnswers = (questionNumber) => {
   return (
     <Widget
-      src={`${widgetOwner}/widget/EasyPoll.AnswerCommentsContainer`}
+      src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.AnswerCommentsContainer`}
       props={{
         answers: props.validAnswersToThisPoll,
         questionNumber,
