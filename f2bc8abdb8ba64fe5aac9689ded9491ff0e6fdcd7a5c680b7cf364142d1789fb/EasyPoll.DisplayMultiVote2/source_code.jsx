@@ -3,7 +3,7 @@ State.init({
   vote: props.vote,
   showErrorsInForm: false,
   validAnswersToThisPoll: props.validAnswersToThisPoll,
-  hasVoted: props.hasVoted,
+  hasVoted: true ?? props.hasVoted,
 });
 
 let hasVoted = state.hasVoted;
@@ -184,7 +184,7 @@ const renderTextInput = (questionNumber) => {
 
 return (
   <>
-    {hasVoted && <h6 className="text-center">You have voted</h6>}
+    {hasVoted && <h6 className="text-center mt-3">You have voted</h6>}
     {questions.map((question, questionNumber) => {
       {
         if (questionNumber == state.currentQuestion) {
