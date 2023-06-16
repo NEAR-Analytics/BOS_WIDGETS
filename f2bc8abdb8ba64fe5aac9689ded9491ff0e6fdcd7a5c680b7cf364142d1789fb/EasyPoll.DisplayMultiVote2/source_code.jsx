@@ -3,7 +3,7 @@ State.init({
   vote: props.vote,
   showErrorsInForm: false,
   validAnswersToThisPoll: props.validAnswersToThisPoll,
-  hasVoted: props.hasVoted,
+  hasVoted: true ?? props.hasVoted,
 });
 
 let hasVoted = state.hasVoted;
@@ -185,7 +185,7 @@ return (
     {hasVoted && <h6 className="text-center mt-3">You have voted</h6>}
     {questions.map((question, questionNumber) => {
       {
-        if (questionNumber == state.currentQuestion) {
+        if (questionNumber == state.currentQuestion || hasVoted) {
           return (
             <div
               style={{
@@ -246,7 +246,7 @@ return (
           >
             <div>
               <i className="bi bi-arrow-left" />
-              <h6 className="mx-2">Previous question</h6>
+              <h6 className="mx-2">PREVIOUS</h6>
             </div>
           </ChangeQuestionContainer>
         ) : (
@@ -259,7 +259,7 @@ return (
             }}
           >
             <div>
-              <h6 className="mx-2">Next question</h6>
+              <h6 className="mx-2">NEXT</h6>
               <i className="bi bi-arrow-right" />
             </div>
           </ChangeQuestionContainer>
