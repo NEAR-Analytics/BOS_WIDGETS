@@ -161,7 +161,7 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
 
   console.log({ items: feed.items });
   if (
-    (feed.items.length || 0) - feed.usedCount < addDisplayCount * 2 &&
+    (feed.items?.length || 0) - feed.usedCount < addDisplayCount * 2 &&
     !feed.fetchFrom &&
     feed.nextFetchFrom &&
     feed.nextFetchFrom !== feed.fetchFrom
