@@ -43,7 +43,7 @@ function clickCheckboxInputHandler(questionNumber, optionNumber) {
 
     newVote[questionNumber] = newQuestionVotes.filter((a) => a != "");
 
-    stateUpdate({ votes: newVote });
+    State.update({ votes: newVote });
   };
 }
 
