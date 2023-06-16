@@ -217,7 +217,7 @@ return (
         ) : (
           <div style={{ minWidth: "1px" }}></div>
         )}
-        {state.currentQuestion < questions.length ? (
+        {state.currentQuestion < questions.length - 1 ? (
           <ChangeQuestionContainer
             onClick={() => {
               props.stateUpdate({ vote: state.vote });
