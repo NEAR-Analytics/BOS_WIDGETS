@@ -189,6 +189,7 @@ return (
                     questionType: question.questionType,
                     option,
                     optionNumber,
+                    secondStateVoteUpdate: (obj) => State.update(obj),
                   });
                 })
               : renderTextInput(questionNumber)}
