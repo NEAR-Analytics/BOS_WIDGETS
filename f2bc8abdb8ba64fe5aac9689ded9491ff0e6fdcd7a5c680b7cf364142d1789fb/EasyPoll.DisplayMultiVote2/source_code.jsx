@@ -189,7 +189,7 @@ return (
                     questionType: question.questionType,
                     option,
                     optionNumber,
-                    clickRadioInputHandler: (obj) => State.update(obj),
+                    clickRadioInputHandler,
                   });
                 })
               : renderTextInput(questionNumber)}
