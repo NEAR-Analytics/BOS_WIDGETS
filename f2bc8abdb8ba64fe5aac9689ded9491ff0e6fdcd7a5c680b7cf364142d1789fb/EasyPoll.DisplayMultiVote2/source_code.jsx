@@ -3,13 +3,43 @@ State.init({
   vote: props.vote,
   showErrorsInForm: false,
   validAnswersToThisPoll: props.validAnswersToThisPoll,
+  hasVoted: props.hasVoted,
 });
 
-console.log(state.validAnswersToThisPoll);
+let hasVoted = state.hasVoted;
+let validAnswersToThisPoll = state.validAnswersToThisPoll;
+
+console.log(validAnswersToThisPoll);
 
 const isTest = props.isTest;
 
 let widgetOwner = props.widgetOwner;
+
+function newValidAnswers() {
+  let newAnswers;
+  if (validAnswersToThisPoll) {
+    validAnswersToThisPoll.push({
+      accountId: context.accountId,
+      blockHeight: 1,
+      value: {
+        answer: props.vote,
+        questionBlockHeight: props.poll.blockHeight,
+      },
+    });
+    newAnswers = validAnswersToThisPoll;
+  } else {
+    newAnswers = {
+      accountId: context.accountId,
+      blockHeight: 1,
+      value: {
+        answer: props.vote,
+        questionBlockHeight: props.poll.blockHeight,
+      },
+    };
+  }
+
+  return newAnswers;
+}
 
 //TODO review this!
 const getPublicationParams = () => {
@@ -130,7 +160,7 @@ const hasSBTTokens = true || getFirstSBTToken() !== undefined;
 const renderTextInput = (questionNumber) => {
   return (
     <div>
-      {props.hasVoted ? (
+      {hasVoted ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
           {renderAnswers(questionNumber)}
         </div>
@@ -182,13 +212,13 @@ return (
                 </h4>
               </div>
 
-              {!props.hasVoted &&
+              {!hasVoted &&
               (question.questionType == "0" || question.questionType == "1") ? (
                 <p className="mb-1">Select one option:</p>
-              ) : !props.hasVoted && question.questionType == "2" ? (
+              ) : !hasVoted && question.questionType == "2" ? (
                 <p className="mb-1">You can check multiple options:</p>
               ) : (
-                !props.hasVoted && <p className="mb-1">Write your answer:</p>
+                !hasVoted && <p className="mb-1">Write your answer:</p>
               )}
               {question.questionType != "3"
                 ? question.choicesOptions.map((option, optionNumber) => {
@@ -241,7 +271,7 @@ return (
     )}
 
     {props.isQuestionOpen ? (
-      props.hasVoted ? (
+      hasVoted ? (
         ""
       ) : props.isVoteValid() && hasSBTTokens ? (
         <CommitButton
@@ -276,7 +306,8 @@ return (
           data={getPublicationParams()}
           onCommit={() => {
             State.update({
-              validAnswersToThisPoll: state.validAnswersToThisPoll,
+              validAnswersToThisPoll: newValidAnswers(),
+              hasVoted: true,
             });
           }}
         >
