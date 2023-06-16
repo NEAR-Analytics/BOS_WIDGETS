@@ -23,6 +23,65 @@ const getPublicationParams = () => {
   };
 };
 
+function clickCheckboxInputHandler(questionNumber, optionNumber) {
+  return () => {
+    let newVote = props.vote;
+
+    let oldQuestionVotes = newVote[questionNumber];
+    let newQuestionVotes = [];
+
+    if (!oldQuestionVotes.includes(optionNumber + "")) {
+      newQuestionVotes = oldQuestionVotes;
+      newQuestionVotes.push(optionNumber + "");
+    } else {
+      for (let i = 0; i < oldQuestionVotes.length; i++) {
+        if (oldQuestionVotes[i] != optionNumber + "") {
+          newQuestionVotes.push(oldQuestionVotes[i]);
+        }
+      }
+    }
+
+    newVote[questionNumber] = newQuestionVotes.filter((a) => a != "");
+
+    stateUpdate({ votes: newVote });
+  };
+}
+
+function clickRadioInputHandler(questionNumber, optionNumber) {
+  return () => {
+    let newVote = props.vote;
+
+    newVote[questionNumber] = optionNumber + "";
+    stateupdate({ vote: newVote });
+  };
+}
+
+const renderMultipleChoiceInput = ({
+  questionNumber,
+  questionType,
+  option,
+  optionNumber,
+}) => (
+  <>
+    <Widget
+      src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayMultiVote`}
+      props={{
+        vote: props.vote,
+        questionNumber,
+        questionType,
+        option,
+        optionNumber,
+        canVote: props.canVote,
+        getBgColor: props.getBgColor,
+        countVotes: props.countVotes,
+        clickRadioInputHandler: clickRadioInputHandler,
+        clickCheckboxInputHandler: clickCheckboxInputHandler,
+        getInputStyles: props.getInputStyles,
+      }}
+    />
+  </>
+);
+
 const renderAnswers = (questionNumber) => {
   return (
     <Widget
@@ -128,7 +187,7 @@ return (
               )}
               {question.questionType != "3"
                 ? question.choicesOptions.map((option, optionNumber) => {
-                    return props.renderMultipleChoiceInput({
+                    return renderMultipleChoiceInput({
                       questionNumber: questionNumber,
                       questionType: question.questionType,
                       option,
