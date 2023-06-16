@@ -25,7 +25,7 @@ const getPublicationParams = () => {
 
 function clickCheckboxInputHandler(questionNumber, optionNumber) {
   return () => {
-    let newVote = props.vote;
+    let newVote = state.vote;
 
     let oldQuestionVotes = newVote[questionNumber];
     let newQuestionVotes = [];
@@ -134,7 +134,6 @@ const renderTextInput = (questionNumber) => {
             value={state.vote[questionNumber]}
             onChange={(e) => {
               let newVote = state.vote;
-              console.log("NV: ", newVote);
               newVote[questionNumber] = e.target.value;
 
               State.update({ vote: newVote });
