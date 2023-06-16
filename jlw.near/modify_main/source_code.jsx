@@ -30,7 +30,7 @@ return (
     className="pb-5"
     style={{
       backgroundColor: "rgb(230, 230, 230)",
-      fontFamily: "Onest",
+      fontFamily: "Mono Sans",
       fontStyle: "normal",
       borderRadius: "20px",
     }}
