@@ -28,8 +28,6 @@ const indexVersion = props.indexVersion ?? "3.2.0";
 const whitelist = props.whitelist;
 const isTest = props.isTest;
 
-console.log(isTest);
-
 return (
   <div>
     <FlexContainer className="content-align-start justify-content-between">
