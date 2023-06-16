@@ -138,10 +138,23 @@ const ChangeQuestionContainer = styled.div`
     cursor: pointer;
     display: flex;
     aling-items: center;
+    marginTop: "0.5rem",
+    padding: "0.5rem",
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+    fontSize: "1rem",
+    borderRadius: "9px",
+    border: "1.5px solid transparent",
   }
 
   div:hover {
-    transform: scale(1.1);
+    marginTop: "0.5rem",
+    padding: "0.5rem",
+    backgroundColor: "#FFFFFF",
+    color: "#000000",
+    fontSize: "1rem",
+    borderRadius: "9px",
+    border: "1.5px solid #000000",
   }
 `;
 
