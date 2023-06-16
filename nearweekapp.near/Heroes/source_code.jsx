@@ -3,10 +3,7 @@ const rootUser = "nearweekapp.near";
 
 const bounties = Near.view(contract, "get_bounties", {
   from_index: 0,
-  limit: 100,
 });
-
-//console.log(bounties);
 
 const res = bounties
   ? bounties
@@ -18,6 +15,7 @@ const res = bounties
             src={`${rootUser}/widget/Heroes.BountyLine`}
             props={{
               contract: contract,
+              whitelistContract: whitelistContract,
               bounty: bounty[1],
               id: bounty[0],
               rootUser: rootUser,
@@ -61,7 +59,7 @@ return (
           role="tab"
           aria-selected="false"
         >
-          My Bounties (coming soon)
+          My Bounties
         </button>
       </li>
       <li class="nav-item" role="presentation">
@@ -73,7 +71,7 @@ return (
           role="tab"
           aria-selected="false"
         >
-          For inverstors (coming soon)
+          For inverstors
         </button>
       </li>
     </ul>
