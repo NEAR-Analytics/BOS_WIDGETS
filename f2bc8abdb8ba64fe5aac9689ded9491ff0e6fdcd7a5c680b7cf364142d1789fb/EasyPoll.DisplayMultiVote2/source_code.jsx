@@ -39,6 +39,8 @@ function newValidAnswers() {
   return newAnswers;
 }
 
+console.log(isTest);
+
 //TODO review this!
 const getPublicationParams = () => {
   return {
