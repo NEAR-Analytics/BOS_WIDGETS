@@ -3,9 +3,7 @@ const daoId = props.daoId ?? "liberty.sputnik-dao.near";
 const role = props.role ?? "community";
 const contractId = "mint.sharddog.near";
 
-State.init({
-  selectedTab: props.tab || "overview",
-});
+const tab = props.tab === "following" ? props.tab : "members";
 
 const nftData = Near.view(contractId, "nft_supply_for_owner", {
   account_id: accountId,
@@ -81,11 +79,6 @@ const Text = styled.p`
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
   margin: 0;
-  max-width: 670px;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
 `;
 
 const Flex = styled.div`
@@ -95,10 +88,10 @@ const Flex = styled.div`
   flex-direction: column;
   flex-wrap: "nowrap";
 
-  @media (max-width: 998px) {
+    @media (max-width: 998px) {
     flex-direction: column;
     gap: var(--section-gap);
-  }
+    }
 `;
 
 const Container = styled.div`
@@ -111,77 +104,6 @@ const Container = styled.div`
   justify-content: center;
   text-align: center;
   padding: var(--section-gap) 24px;
-
-  @media (max-width: 768px) {
-    padding: var(--section-gap) 12px;
-  }
-`;
-
-const Content = styled.div`
-  .post {
-    padding-left: 0;
-    padding-right: 0;
-  }
-`;
-
-const Title = styled.h1`
-  font-weight: 600;
-  font-size: ${(p) => p.size || "25px"};
-  line-height: 1.2em;
-  color: #11181c;
-  margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
-  overflow-wrap: anywhere;
-`;
-
-const Tabs = styled.div`
-  display: flex;
-  height: 48px;
-  border-bottom: 1px solid #eceef0;
-  margin-bottom: 72px;
-  overflow: auto;
-  scroll-behavior: smooth;
-
-  @media (max-width: 1200px) {
-    background: #f8f9fa;
-    border-top: 1px solid #eceef0;
-    margin: 0 -12px 48px;
-
-    > * {
-      flex: 1;
-    }
-  }
-`;
-
-const TabsButton = styled.a`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-weight: 600;
-  font-size: 12px;
-  padding: 0 12px;
-  position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
-  background: none;
-  border: none;
-  outline: none;
-  text-align: center;
-  text-decoration: none !important;
-
-  &:hover {
-    color: #11181c;
-  }
-
-  &::after {
-    content: "";
-    display: ${(p) => (p.selected ? "block" : "none")};
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: #59e692;
-  }
 `;
 
 return (
@@ -201,112 +123,24 @@ return (
           </span>
         </H1>
         <div className="mt-3">
-          <Text style={{ maxWidth: "350px" }}>
-            New Yorkers building a better future with our local and global
+          <Text style={{ maxWidth: "670px" }}>
+            Building a better future with fellow citizens of NYC and our global
             communities.
           </Text>
         </div>
-        {context.accountId && (
-          <div className="m-3" style={{ maxWidth: "75%" }}>
-            <Widget
-              src="near/widget/AccountProfileCard"
-              props={{ accountId: daoId }}
-            />
-          </div>
-        )}
         <Widget src="nycdao.near/widget/dao.cta" props={{ accountId, daoId }} />
       </Flex>
     </Container>
-
-    <Content>
-      <Tabs>
-        <TabsButton
-          href="#/hack.near/widget/nyc.dao?tab=overview"
-          selected={state.selectedTab === "overview"}
-        >
-          Overview
-        </TabsButton>
-
-        <TabsButton
-          href="#/hack.near/widget/nyc.dao?tab=apps"
-          selected={state.selectedTab === "apps"}
-        >
-          Components
-        </TabsButton>
-
-        <TabsButton
-          href="#/hack.near/widget/nyc.dao?tab=nfts"
-          selected={state.selectedTab === "nfts"}
-        >
-          NFTs
-        </TabsButton>
-
-        <TabsButton
-          href="#/hack.near/widget/nyc.dao?tab=following"
-          selected={state.selectedTab === "following"}
-        >
-          Following
-        </TabsButton>
-
-        <TabsButton
-          href="#/hack.near/widget/nyc.dao?tab=followers"
-          selected={state.selectedTab === "followers"}
-        >
-          Followers
-        </TabsButton>
-
-        <TabsButton
-          href="#/hack.near/widget/nyc.dao?tab=explorer"
-          selected={state.selectedTab === "explorer"}
-        >
-          Explorer
-        </TabsButton>
-      </Tabs>
-
-      {state.selectedTab === "overview" && (
-        <Widget
-          src="near/widget/FollowersList"
-          props={{ accountId: "nycdao.near" }}
-        />
-      )}
-
-      {state.selectedTab === "nfts" && (
-        <Widget src="near/widget/NFTCollection" props={{ accountId }} />
-      )}
-
-      {state.selectedTab === "apps" && (
-        <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
-      )}
-
-      {state.selectedTab === "followers" && (
-        <Widget src="near/widget/FollowersList" props={{ accountId }} />
-      )}
-
-      {state.selectedTab === "following" && (
-        <Widget src="near/widget/FollowingList" props={{ accountId }} />
-      )}
-
-      {state.selectedTab === "explorer" && (
-        <Widget
-          src="near/widget/Explorer.Account"
-          props={{
-            accountId,
-            network: context.networkId,
-            language: "en",
-            baseUrl: props.baseUrl,
-          }}
-        />
-      )}
-    </Content>
-
     {isNftHolder && (
       <div className="m-2 mb-5">
         <h5 className="mb-3">Non-Fungible Things</h5>
         <Widget src="near/widget/NFTCollection" props={{ accountId }} />
       </div>
     )}
-    <br />
-
+    <div className="m-2">
+      <Widget src="nycdao.near/widget/nyc.people" />
+    </div>
+    <hr />
     <br />
     <Flex>
       <Text
