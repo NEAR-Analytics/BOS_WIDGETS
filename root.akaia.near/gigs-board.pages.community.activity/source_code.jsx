@@ -57,8 +57,15 @@ const contractAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
+  edit_community_github: ({ handle, github }) =>
+    Near.call(contractAccountId, "edit_community_github", { handle, github }) ??
+    null,
+
   get_access_control_info: () =>
     Near.view(contractAccountId, "get_access_control_info") ?? null,
+
+  get_all_communities: () =>
+    Near.view(contractAccountId, "get_all_communities") ?? null,
 
   get_community: ({ handle }) =>
     Near.view(contractAccountId, "get_community", { handle }) ?? null,
@@ -92,7 +99,7 @@ const CommunityActivityPage = ({ handle }) => {
 
   return widget("components.template.community-page", {
     handle,
-    title: "Overview",
+    title: "Activity",
 
     children:
       communityData !== null ? (
@@ -115,7 +122,7 @@ const CommunityActivityPage = ({ handle }) => {
           </div>
 
           {widget("components.layout.Controls", {
-            labels: tag,
+            labels: communityData.tag,
           })}
 
           <div class="row">
