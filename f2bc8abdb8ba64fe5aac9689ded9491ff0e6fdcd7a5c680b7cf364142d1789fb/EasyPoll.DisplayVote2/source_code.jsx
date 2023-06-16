@@ -1,4 +1,5 @@
 const widgetOwner = "neardigitalcollective.near";
+const isTest = props.isTest;
 
 let defaultVotes = [];
 for (let i = 0; i < props.poll.value.questions.length; i++) {
@@ -147,6 +148,7 @@ return (
     <Widget
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayMultiVote2`}
       props={{
+        isTest,
         widgetOwner,
         getBgColor,
         poll: props.poll,
