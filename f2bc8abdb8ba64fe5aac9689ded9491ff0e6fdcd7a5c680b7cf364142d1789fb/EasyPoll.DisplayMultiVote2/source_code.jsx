@@ -9,8 +9,6 @@ State.init({
 let hasVoted = state.hasVoted;
 let validAnswersToThisPoll = state.validAnswersToThisPoll;
 
-console.log(validAnswersToThisPoll);
-
 const isTest = props.isTest;
 
 let widgetOwner = props.widgetOwner;
