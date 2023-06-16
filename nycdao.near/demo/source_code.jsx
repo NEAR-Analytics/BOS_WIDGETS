@@ -43,11 +43,22 @@ return (
   <div class="container-fluid py-3 mb-5">
     <H1>NEAR NYC Demo Day</H1>
     <Actions>
-      <Widget
-        src="nycdao.near/widget/nyc.subscribe"
-        props={{ accountId, daoId }}
-      />
-
+      {context.accountId ? (
+        <Widget
+          src="nycdao.near/widget/nyc.subscribe"
+          props={{ accountId, daoId }}
+        />
+      ) : (
+        <Widget
+          src="near/widget/DIG.Button"
+          props={{
+            href: "https://shard.dog/go?url=https://near.social",
+            label: "Create Account",
+            variant: "outline-secondary",
+            size: "small",
+          }}
+        />
+      )}
       <Widget
         src="near/widget/DIG.Button"
         props={{
