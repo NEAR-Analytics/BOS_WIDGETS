@@ -1,18 +1,19 @@
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "liberty.sputnik-dao.near";
 const role = props.role ?? "community";
-const contractId = "mint.sharddog.near";
 
 const tab = props.tab === "following" ? props.tab : "members";
 
-const nftData = Near.view(contractId, "nft_supply_for_owner", {
+State.init({
+  nftHolder: false,
+});
+
+const nftData = Near.view("mint.sharddog.near", "nft_supply_for_owner", {
   account_id: accountId,
 });
 
-const isNftHolder = false;
-
 if (nftData > 0) {
-  isNftHolder = true;
+  State.update({ nftHolder: true });
 }
 
 const Wrapper = styled.div`
@@ -79,11 +80,6 @@ const Text = styled.p`
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
   margin: 0;
-  max-width: 670px;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
 `;
 
 const Flex = styled.div`
@@ -93,10 +89,10 @@ const Flex = styled.div`
   flex-direction: column;
   flex-wrap: "nowrap";
 
-  @media (max-width: 998px) {
+    @media (max-width: 998px) {
     flex-direction: column;
     gap: var(--section-gap);
-  }
+    }
 `;
 
 const Container = styled.div`
@@ -109,10 +105,6 @@ const Container = styled.div`
   justify-content: center;
   text-align: center;
   padding: var(--section-gap) 24px;
-
-  @media (max-width: 768px) {
-    padding: var(--section-gap) 12px;
-  }
 `;
 
 return (
@@ -132,33 +124,16 @@ return (
           </span>
         </H1>
         <div className="mt-3">
-          <Text style={{ maxWidth: "350px" }}>
-            New Yorkers building a better future with our local and global
+          <Text style={{ maxWidth: "670px" }}>
+            Building a better future with fellow citizens of NYC and our global
             communities.
           </Text>
         </div>
-        {context.accountId && (
-          <div className="m-3" style={{ maxWidth: "75%" }}>
-            <Widget
-              src="near/widget/AccountProfileCard"
-              props={{ accountId: daoId }}
-            />
-          </div>
-        )}
         <Widget src="nycdao.near/widget/dao.cta" props={{ accountId, daoId }} />
       </Flex>
     </Container>
-    {isNftHolder && (
-      <div className="m-2 mb-5">
-        <h5 className="mb-3">Non-Fungible Things</h5>
-        <Widget src="near/widget/NFTCollection" props={{ accountId }} />
-      </div>
-    )}
-    <div className="m-2">
-      <Widget src="nycdao.near/widget/nyc.people" />
-    </div>
-    <br />
-
+    <Widget src="nycdao.near/widget/nyc.people" />
+    <hr />
     <br />
     <Flex>
       <Text
