@@ -184,6 +184,7 @@ const renderTextInput = (questionNumber) => {
 
 return (
   <>
+    {hasVoted && <h6 className="text-center">You have voted</h6>}
     {questions.map((question, questionNumber) => {
       {
         if (questionNumber == state.currentQuestion) {
