@@ -57,8 +57,8 @@ return (
             />
             <div>
               <p style={{ margin: "0", fontWeight: "300" }}>Created by</p>
-              <p style={{ fontWeight: "500" }}>
-                {props.sliceString(props.state.poll.accountId, 18)}
+              <p className="w-100 text-truncate" style={{ fontWeight: "500" }}>
+                {props.state.poll.accountId}
               </p>
             </div>
           </NoFlexInMobile>
@@ -273,10 +273,11 @@ return (
                   </p>
                   <h6>
                     <a
+                      className="w-100 text-truncate"
                       style={{ color: "#2346B1" }}
                       href={props.state.poll.value.tgLink}
                     >
-                      {props.sliceString(props.state.poll.value.tgLink, 30)}
+                      {props.state.poll.value.tgLink}
                     </a>
                   </h6>
                 </div>
