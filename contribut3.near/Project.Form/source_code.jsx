@@ -77,8 +77,10 @@ State.init({
   nameError: "",
   accountId: "",
   accountIdError: "",
-  category: null,
-  categoryError: "",
+  verticals: [],
+  verticalsError: "",
+  productType: [],
+  productTypeError: "",
   integration: null,
   integrationError: "",
   dev: null,
@@ -155,8 +157,10 @@ const validateForm = () => {
     state.nameError === "" &&
     state.accountId &&
     state.accountIdError === "" &&
-    state.category &&
-    state.categoryError === "" &&
+    state.verticals &&
+    state.verticalsError === "" &&
+    state.productType &&
+    state.productTypeError === "" &&
     state.integration &&
     state.integrationError === "" &&
     state.dev &&
@@ -206,7 +210,7 @@ return (
       <Widget
         src={`${ownerId}/widget/Inputs.AccountId`}
         props={{
-          label: "NEAR Account *",
+          label: "Your project's NEAR Account *",
           placeholder:
             "Enter the NEAR account ID of your project (wallet address like contribut3.near)",
           value: state.accountId,
@@ -241,12 +245,21 @@ return (
         <></>
       )}
       <Widget
-        src={`${ownerId}/widget/Inputs.Category`}
+        src={`${ownerId}/widget/Inputs.Verticals`}
         props={{
-          category: state.category,
-          update: (category) => State.update({ category }),
-          setError: (categoryError) => State.update({ categoryError }),
-          error: state.categoryError,
+          verticals: state.verticals,
+          update: (verticals) => State.update({ verticals }),
+          setError: (verticalsError) => State.update({ verticalsError }),
+          error: state.verticalsError,
+        }}
+      />
+      <Widget
+        src={`${ownerId}/widget/Inputs.ProductType`}
+        props={{
+          productType: state.productType,
+          update: (productType) => State.update({ productType }),
+          setError: (productTypeError) => State.update({ productTypeError }),
+          error: state.productTypeError,
         }}
       />
       <Widget
@@ -331,15 +344,15 @@ return (
         }}
       />
       <Widget
-        src={`${ownerId}/widget/Inputs.OSS`}
+        src={`${ownerId}/widget/Inputs.Distribution`}
         props={{
-          category: state.oss,
-          update: (oss) => State.update({ oss }),
-          setError: (ossError) => State.update({ ossError }),
-          error: state.ossError,
+          distribution: state.distribution,
+          update: (distribution) => State.update({ distribution }),
+          setError: (distributionError) => State.update({ distributionError }),
+          error: state.distributionError,
         }}
       />
-      <Widget
+      {/*<Widget
         src={`${ownerId}/widget/Inputs.MultiSelect`}
         props={{
           label: "Tags",
@@ -353,7 +366,7 @@ return (
               })),
             }),
         }}
-      />
+      />*/}
       <Widget
         src={`${ownerId}/widget/Inputs.Text`}
         props={{
@@ -420,7 +433,14 @@ return (
                 [state.accountId]: {
                   profile: {
                     name: state.name,
-                    category: state.category.value,
+                    verticals: state.verticals.reduce(
+                      (acc, name) => Object.assign(acc, { [name]: "" }),
+                      {}
+                    ),
+                    product_type: state.productType.reduce(
+                      (acc, name) => Object.assign(acc, { [name]: "" }),
+                      {}
+                    ),
                     stage: state.dev.value,
                     ...(state.team ? { team: `${state.team}` } : {}),
                     ...(state.tagline ? { tagline: state.tagline } : {}),
@@ -453,8 +473,8 @@ return (
                   },
                 },
               };
-              const deposit = Big(JSON.stringify(data).length * 2).mul(
-                Big(10).pow(19)
+              const deposit = Big(JSON.stringify(data).length * 16).mul(
+                Big(10).pow(20)
               );
               const transactions = [
                 {
@@ -474,10 +494,8 @@ return (
                   args: {
                     account_id: state.accountId,
                     project: {
-                      application: {
-                        integration: state.integration.value,
-                        ...(state.geo ? { geo: state.geo } : {}),
-                      },
+                      integration: state.integration.value,
+                      ...(state.geo ? { geo: state.geo } : {}),
                     },
                   },
                 },
