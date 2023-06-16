@@ -2,12 +2,12 @@ State.init({
   currentQuestion: 0,
   vote: props.vote,
   showErrorsInForm: false,
+  validAnswersToThisPoll: props.validAnswersToThisPoll,
 });
 
-const isTest = props.isTest;
+console.log(state.validAnswersToThisPoll);
 
-console.log("SV: ", state.vote);
-console.log("PV: ", props.vote);
+const isTest = props.isTest;
 
 let widgetOwner = props.widgetOwner;
 
@@ -96,7 +96,7 @@ const renderAnswers = (questionNumber) => {
     <Widget
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.AnswerCommentsContainer`}
       props={{
-        answers: props.validAnswersToThisPoll,
+        answers: validAnswersToThisPoll,
         questionNumber,
       }}
     />
@@ -274,6 +274,11 @@ return (
           }}
           onMouseLeave={() => State.update({ hoveringElement: "" })}
           data={getPublicationParams()}
+          onCommit={() => {
+            State.update({
+              validAnswersToThisPoll: state.validAnswersToThisPoll,
+            });
+          }}
         >
           Vote
         </CommitButton>
@@ -337,7 +342,7 @@ return (
         marginTop: "0.8rem",
       }}
     >
-      {props.validAnswersToThisPoll.length} votes
+      {validAnswersToThisPoll.length} votes
     </p>
   </>
 );
