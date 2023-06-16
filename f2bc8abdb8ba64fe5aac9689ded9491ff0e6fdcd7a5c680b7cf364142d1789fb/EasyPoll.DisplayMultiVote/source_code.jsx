@@ -1,5 +1,4 @@
-const widgetOwner =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const widgetOwner = "neardigitalcollective.near";
 
 const renderMultipleChoiceInput = ({
   questionNumber,
@@ -13,7 +12,7 @@ const renderMultipleChoiceInput = ({
         <Widget
           src={`${widgetOwner}/widget/EasyPoll.Percentage`}
           props={{
-            state: props.state,
+            vote: props.vote,
             questionNumber: questionNumber,
             questionType: questionType,
             option: option,
