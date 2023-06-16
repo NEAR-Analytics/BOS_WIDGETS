@@ -4,6 +4,8 @@ State.init({
   showErrorsInForm: false,
 });
 
+const isTest = props.isTest;
+
 console.log("SV: ", state.vote);
 console.log("PV: ", props.vote);
 
@@ -15,7 +17,9 @@ const getPublicationParams = () => {
     index: {
       poll_question: JSON.stringify(
         {
-          key: `answer-v${props.indexVersion}`,
+          key: isTest
+            ? `test-answer-v${props.indexVersion}`
+            : `answer-v${props.indexVersion}`,
           value: {
             answer: props.vote,
             questionBlockHeight: props.poll.blockHeight,
