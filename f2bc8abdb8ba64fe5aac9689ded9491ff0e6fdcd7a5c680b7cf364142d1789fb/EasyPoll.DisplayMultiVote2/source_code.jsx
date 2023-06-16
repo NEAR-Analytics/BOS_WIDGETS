@@ -52,7 +52,7 @@ function clickRadioInputHandler(questionNumber, optionNumber) {
     let newVote = props.vote;
 
     newVote[questionNumber] = optionNumber + "";
-    stateupdate({ vote: newVote });
+    State.update({ vote: newVote });
   };
 }
 
