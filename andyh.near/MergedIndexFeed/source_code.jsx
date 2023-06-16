@@ -159,7 +159,7 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const desc = index.options.order === "desc";
   let feedChanged = false;
 
-  console.log({ feed });
+  console.log({ items: feed.items });
   if (
     (feed.items.length || 0) - feed.usedCount < addDisplayCount * 2 &&
     !feed.fetchFrom &&
