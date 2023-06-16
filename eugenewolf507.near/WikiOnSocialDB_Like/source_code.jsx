@@ -75,7 +75,15 @@ if (state.likesStatistics.length === 0 || state.likesStatistics === null) {
 }
 //likesStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
 
-// ========= UPDATE EMOJI STATE IF USER VOTED =========
+// ========= CHECK DOES USER VOTED =========
+const doesUserVoted = () => {
+  const resObject = arrayLastLikeForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
+  );
+  return resObject ? true : false;
+};
+
+// ========= UPDATE EMOJI STATE IF USER VOTED SOMETIME BEFORE =========
 const updateEmojiIfUserVoted = () => {
   const resObject = arrayLastLikeForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
@@ -88,11 +96,15 @@ state.emoji === undefined &&
   arrayLastLikeForEachUser &&
   updateEmojiIfUserVoted();
 
-// ========= UPDATE LIKE STATISTICS IF USER VOTED =========
+// ========= UPDATE LIKE STATISTICS IF USER VOTED RIGHT NOW=========
 const updateLikesStatisticsIfUserVoted = (newEmoji) => {
   console.log("arrayLastLikeForEachUser", arrayLastLikeForEachUser);
-  if (arrayLastLikeForEachUser.length === 0) {
+  const resObject = arrayLastLikeForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
+  );
+  if (!resObject) {
     arrayLastLikeForEachUser = [
+      ...arrayLastLikeForEachUser,
       {
         accountId: accountThatIsLoggedIn,
         blockHeight: item.blockHeight,
