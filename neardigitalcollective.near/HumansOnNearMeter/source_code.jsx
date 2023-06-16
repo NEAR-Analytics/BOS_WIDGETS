@@ -192,9 +192,7 @@ return (
     <HalfArch percentage={percentage / 2} props={sizes[propsSize]}>
       <span></span>
       <ContentBox size={propsSize}>
-        <PercentageNum size={propsSize}>
-          {Math.round(percentage)}%
-        </PercentageNum>
+        <PercentageNum size={propsSize}>{percentage.toFixed(2)}%</PercentageNum>
         <TotalRegNum size={propsSize}>
           {registerUsersNum}/{totalUsrNum}
         </TotalRegNum>
