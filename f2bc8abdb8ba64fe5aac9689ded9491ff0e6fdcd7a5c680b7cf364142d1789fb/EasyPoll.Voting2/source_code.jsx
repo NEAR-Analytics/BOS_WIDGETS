@@ -26,6 +26,7 @@ const NoFlexInMobile = styled.div`
 const widgetOwner = "neardigitalcollective.near";
 const indexVersion = props.indexVersion ?? "3.2.0";
 const whitelist = props.whitelist;
+const isTest = props.isTest;
 
 return (
   <div>
@@ -313,6 +314,7 @@ return (
           <Widget
             src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayVote`}
             props={{
+              isTest,
               poll: props.state.poll,
               isPreview: props.isPreview,
               indexVersion,
