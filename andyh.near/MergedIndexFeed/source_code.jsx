@@ -4,7 +4,7 @@ if (!props.index) {
 const indices = JSON.parse(
   JSON.stringify(Array.isArray(props.index) ? props.index : [props.index])
 );
-
+console.log({ indices });
 const filter = props.filter;
 
 const renderItem =
