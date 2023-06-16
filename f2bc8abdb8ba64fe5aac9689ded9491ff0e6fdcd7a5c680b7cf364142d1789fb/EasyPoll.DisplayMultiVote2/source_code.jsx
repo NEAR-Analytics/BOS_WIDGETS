@@ -1,11 +1,10 @@
+State.init({
+  currentQuestion: 0,
+  vote: props.state.vote,
+  showErrorsInForm: false,
+});
+
 let questions = props.questions;
-
-let emptyArray = [];
-questions.forEach((q) => emptyArray.push(""));
-
-let voteInitValue = emptyArray;
-
-State.init({ currentQuestion: 0, vote: emptyArray });
 
 const ChangeQuestionContainer = styled.div`
   div {
@@ -154,7 +153,7 @@ return (
         <CommitButton
           className="w-100"
           style={
-            props.state.hoveringElement != "voteButton"
+            state.hoveringElement != "voteButton"
               ? {
                   marginTop: "0.5rem",
                   padding: "0.5rem",
@@ -175,11 +174,11 @@ return (
                 }
           }
           onMouseEnter={() => {
-            props.stateUpdate({
+            State.update({
               hoveringElement: "voteButton",
             });
           }}
-          onMouseLeave={() => props.stateUpdate({ hoveringElement: "" })}
+          onMouseLeave={() => State.update({ hoveringElement: "" })}
           data={props.getPublicationParams()}
         >
           Vote
@@ -190,7 +189,7 @@ return (
             <button
               className="w-100"
               style={
-                props.state.hoveringElement != "voteButton"
+                state.hoveringElement != "voteButton"
                   ? {
                       marginTop: "0.5rem",
                       padding: "0.5rem",
@@ -211,10 +210,10 @@ return (
                     }
               }
               onMouseEnter={() =>
-                props.stateUpdate({ hoveringElement: "voteButton" })
+                State.update({ hoveringElement: "voteButton" })
               }
-              onMouseLeave={() => props.stateUpdate({ hoveringElement: "" })}
-              onClick={() => props.stateUpdate({ showErrorsInForm: true })}
+              onMouseLeave={() => State.update({ hoveringElement: "" })}
+              onClick={() => State.update({ showErrorsInForm: true })}
             >
               Vote
             </button>
@@ -227,7 +226,7 @@ return (
               </p>
             </>
           )}
-          {props.state.showErrorsInForm && (
+          {state.showErrorsInForm && (
             <span className="text-danger">Please answer all the questions</span>
           )}
         </>
