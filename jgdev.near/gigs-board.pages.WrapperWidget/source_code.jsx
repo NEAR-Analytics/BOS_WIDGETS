@@ -5,8 +5,7 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -67,6 +66,9 @@ const WrapperWidget = ({ children, id, storageType }) => {
       // Replace this with the appropriate API call for your sync storage
       Storage.set(storageKey, JSON.stringify(value));
     }
+
+    // Update component state
+    State.update({ [storageKey]: value });
   };
 
   // This function initializes the state of the children widgets
@@ -82,11 +84,12 @@ const WrapperWidget = ({ children, id, storageType }) => {
     if (storedValue) {
       return JSON.parse(storedValue);
     }
+
     return defaultValue;
   };
 
   // Render the children widgets and pass the state management functions as props
-  return React.Children.map(children, (child) =>
-    React.cloneElement(child, { handleStateChange, initState })
+  return children.map((child) =>
+    Widget({ src: child, props: { handleStateChange, initState } })
   );
 };
