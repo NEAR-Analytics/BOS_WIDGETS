@@ -3,7 +3,7 @@ const index = [
     action: "post",
     key: "main",
     options: {
-      limit: 10,
+      limit: 2,
       order: "desc",
       accountId: props.accounts,
     },
@@ -12,7 +12,7 @@ const index = [
     action: "repost",
     key: "main",
     options: {
-      limit: 10,
+      limit: 2,
       order: "desc",
       accountId: props.accounts,
     },
