@@ -76,7 +76,7 @@ function getOptionRelatedValidAnswers(answers) {
 }
 
 // Getting valid answers
-const answers = isTest
+const answers = !isTest
   ? Social.index("poll_question", `test-answer-v${indexVersion}`)
   : Social.index("poll_question", `answer-v${indexVersion}`);
 
