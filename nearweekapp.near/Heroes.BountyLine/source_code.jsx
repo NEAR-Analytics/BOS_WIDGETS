@@ -172,7 +172,7 @@ return (
                 <div class="row">
                   <div class="col-12 col-lg-6 mb-2">
                     <Widget
-                      src={`${props.rootUser}/widget/0x03`}
+                      src={`${props.rootUser}/widget/Heroes.ClaimData`}
                       props={{
                         contract: props.contract,
                         whitelistContract: props.whitelistContract,
@@ -202,7 +202,7 @@ return (
                                 return (
                                   <div>
                                     <Widget
-                                      src={`${props.rootUser}/widget/0x02`}
+                                      src={`${props.rootUser}/widget/Heroes.Profile`}
                                       props={{
                                         contract: props.contract,
                                         accountId: claim[0],
