@@ -89,5 +89,6 @@ return (
         Donate me Near
       </button>
     </DonateButton>
+    <button onClick={props.onClick}>Click me</button>
   </DonateView>
 );
