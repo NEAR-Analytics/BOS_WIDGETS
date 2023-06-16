@@ -3,7 +3,7 @@ State.init({
   vote: props.vote,
   showErrorsInForm: false,
   validAnswersToThisPoll: props.validAnswersToThisPoll,
-  hasVoted: true ?? props.hasVoted,
+  hasVoted: props.hasVoted,
 });
 
 let hasVoted = state.hasVoted;
