@@ -4,7 +4,6 @@ if (!props.index) {
 const indices = JSON.parse(
   JSON.stringify(Array.isArray(props.index) ? props.index : [props.index])
 );
-console.log({ indices });
 const filter = props.filter;
 
 const renderItem =
@@ -160,6 +159,7 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const desc = index.options.order === "desc";
   let feedChanged = false;
 
+  console.log({ feed });
   if (
     (feed.items.length || 0) - feed.usedCount < addDisplayCount * 2 &&
     !feed.fetchFrom &&
