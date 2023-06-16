@@ -4,6 +4,9 @@ State.init({
   showErrorsInForm: false,
 });
 
+console.log("SV: ", state.vote);
+console.log("PV: ", props.vote);
+
 let widgetOwner = props.widgetOwner;
 
 //TODO review this!
@@ -158,8 +161,6 @@ return (
                 position: "relative",
               }}
               className="p-3 my-3"
-              onMouseLeave={() => props.stateUpdate({ vote: state.vote })}
-              onMouseEnter={() => props.stateUpdate({ vote: state.vote })}
             >
               <div className="d-flex">
                 <p
