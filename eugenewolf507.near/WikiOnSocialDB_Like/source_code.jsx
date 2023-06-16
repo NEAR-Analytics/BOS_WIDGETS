@@ -27,44 +27,6 @@ State.init({
   loading: false,
 });
 
-// =============== CSS Styles ===============
-const Button = styled.button`
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: start;
-  width: 8em;
-  height: 2.5em;
-  padding: 6px 12px;
-  margin: 2px 0;
-  border: 0;
-  border-radius: .375rem;
-  :hover {
-    background: #EBEBEB; 
-    outline: 1px solid #C6C7C8;
-  }
-`;
-
-const SmallButton = styled.button`
-  border: 0;
-  background: transparent;
-  position: relative;
-  width: 35px;
-  height: 35px;
-`;
-
-const SmallButtonSpan = styled.span`
-  font-size: 19px;
-  :hover{
-      position: absolute;
-      font-size: 35px;
-      bottom: -5px;
-      width: 35px;
-      height: 40px;
-      transform: translateX(-50%) translateY(-50%);
-  }
-`;
-
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
 const unfilteredLikes = Social.index("like", item, {
   order: "desc",
@@ -189,8 +151,45 @@ const clickHandler = (emojiMessage) => {
   });
 };
 
-// =============== JSX ===============
+// =============== CSS Styles ===============
+const Button = styled.button`
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  width: 8em;
+  height: 2.5em;
+  padding: 6px 12px;
+  margin: 2px 0;
+  border: 0;
+  border-radius: .375rem;
+  :hover {
+    background: #EBEBEB; 
+    outline: 1px solid #C6C7C8;
+  }
+`;
 
+const SmallButton = styled.button`
+  border: 0;
+  background: transparent;
+  position: relative;
+  width: 35px;
+  height: 35px;
+`;
+
+const SmallButtonSpan = styled.span`
+  font-size: 19px;
+  :hover{
+      position: absolute;
+      font-size: 35px;
+      bottom: -5px;
+      width: 35px;
+      height: 40px;
+      transform: translateX(-50%) translateY(-50%);
+  }
+`;
+
+// =============== JSX ===============
 const overlay = (
   <div
     className="border m-2 p-2 rounded-4 bg-white shadow"
