@@ -179,8 +179,8 @@ const registerUsersNum = Near.view("registry.i-am-human.near", "sbt_supply", {
   issuer: "fractal.i-am-human.near",
 });
 
-const totalUsrNum = 1000;
-const percentage = (registerUsersNum / 1000) * 100;
+const totalUsrNum = 3000;
+const percentage = (registerUsersNum / 3000) * 100;
 const widgetTitle = props.infoTitle ? props.infoTitle : "Humans on NEAR";
 
 const widgetText = props.infoText
