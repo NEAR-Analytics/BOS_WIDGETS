@@ -1,8 +1,27 @@
 State.init({
   currentQuestion: 0,
-  vote: props.state.vote,
+  vote: props.vote,
   showErrorsInForm: false,
 });
+
+//TODO review this!
+const getPublicationParams = () => {
+  return {
+    index: {
+      poll_question: JSON.stringify(
+        {
+          key: `answer-v${props.indexVersion}`,
+          value: {
+            answer: props.vote,
+            questionBlockHeight: props.poll.blockHeight,
+          },
+        },
+        undefined,
+        0
+      ),
+    },
+  };
+};
 
 let questions = props.questions;
 
@@ -18,7 +37,7 @@ const ChangeQuestionContainer = styled.div`
   }
 `;
 
-console.log("CPVS: ", props.state.vote);
+console.log("CPVS: ", props.vote);
 console.log("TS: ", state);
 
 const getFirstSBTToken = () => {
@@ -179,7 +198,7 @@ return (
             });
           }}
           onMouseLeave={() => State.update({ hoveringElement: "" })}
-          data={props.getPublicationParams()}
+          data={getPublicationParams()}
         >
           Vote
         </CommitButton>
