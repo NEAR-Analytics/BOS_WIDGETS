@@ -159,6 +159,7 @@ return (
               }}
               className="p-3 my-3"
               onMouseLeave={() => props.stateUpdate({ vote: state.vote })}
+              onMouseEnter={() => props.stateUpdate({ vote: state.vote })}
             >
               <div className="d-flex">
                 <p
