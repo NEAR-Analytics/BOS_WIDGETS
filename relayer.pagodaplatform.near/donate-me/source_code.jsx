@@ -57,7 +57,7 @@ const handleButtonClick = () => {
   ]);
 };
 
-const children = props.children || <div>No children</div>;
+const childrenComp = props.childrenComp || <div>No children</div>;
 
 const handleChange = (e) => {
   let amount = e.target.value > 0.1 ? e.target.value : 0.1;
@@ -69,7 +69,7 @@ const handleChange = (e) => {
 
 return (
   <DonateView>
-    {children}
+    {childrenComp}
     {props.name && <div>Hi {props.name}</div>}
     <div style={{ margin: "1.5em" }}>
       <DonateInput
