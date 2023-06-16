@@ -18,7 +18,7 @@ function getInputStyles(questionType, questionNumber, optionNumber) {
     return state.vote[questionNumber].includes(optionNumber + "")
       ? {
           borderColor: "black",
-          backgroundColor: "black",
+          borderWidth: "thick",
           width: "1rem",
           marginRight: "0.7rem",
         }
@@ -30,7 +30,7 @@ function getInputStyles(questionType, questionNumber, optionNumber) {
     return optionNumber + "" == state.vote[questionNumber]
       ? {
           borderColor: "black",
-          backgroundColor: "black",
+          borderWidth: "thick",
           width: "1rem",
           marginRight: "0.7rem",
         }
