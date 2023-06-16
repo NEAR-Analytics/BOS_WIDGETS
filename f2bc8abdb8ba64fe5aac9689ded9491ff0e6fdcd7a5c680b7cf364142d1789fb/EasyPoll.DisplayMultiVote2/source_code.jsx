@@ -3,8 +3,10 @@ State.init({
   vote: props.vote,
   showErrorsInForm: false,
   validAnswersToThisPoll: props.validAnswersToThisPoll,
-  hasVoted: true ?? props.hasVoted,
+  hasVoted: props.hasVoted,
 });
+
+console.log("VATTPoll: ", state.validAnswersToThisPoll);
 
 let hasVoted = state.hasVoted;
 let validAnswersToThisPoll = state.validAnswersToThisPoll;
@@ -108,7 +110,7 @@ const renderMultipleChoiceInput = ({
         questionType,
         option,
         optionNumber,
-        canVote: !state.hasVoted,
+        canVote: !hasVoted,
         getBgColor: props.getBgColor,
         countVotes: props.countVotes,
         clickRadioInputHandler: clickRadioInputHandler,
