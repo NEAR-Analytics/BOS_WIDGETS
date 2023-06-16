@@ -6,8 +6,6 @@ State.init({
   hasVoted: props.hasVoted,
 });
 
-console.log("VATTPoll: ", state.validAnswersToThisPoll);
-
 let hasVoted = state.hasVoted;
 let validAnswersToThisPoll = state.validAnswersToThisPoll;
 
