@@ -48,8 +48,13 @@ return (
     <Header>
       <H2>EVM/Eth Components</H2>
     </Header>
-
     <Items>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "aave-v3.near/widget/AAVE" }}
+        />
+      </Item>
       <Item>
         <Widget
           src="near/widget/ComponentCard"
