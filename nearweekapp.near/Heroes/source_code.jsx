@@ -59,7 +59,7 @@ return (
           role="tab"
           aria-selected="false"
         >
-          My Bounties
+          My Bounties (coming soon)
         </button>
       </li>
       <li class="nav-item" role="presentation">
@@ -71,7 +71,7 @@ return (
           role="tab"
           aria-selected="false"
         >
-          For inverstors
+          For inverstors (coming soon)
         </button>
       </li>
     </ul>
