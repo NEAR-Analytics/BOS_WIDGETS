@@ -79,13 +79,6 @@ if (!state.pollsByThisCreator) {
   return "Loading";
 }
 
-function sliceString(string, newStringLength) {
-  if (string.length > newStringLength) {
-    return string.slice(0, newStringLength) + "...";
-  }
-  return string;
-}
-
 function transformDateFormat(date) {
   return new Date(date).toLocaleDateString();
 }
@@ -179,8 +172,11 @@ const renderQuestionsByThisCreator = () => {
           >
             {renderPollTypeIcon(pollByCreator)}
           </div>
-          <p style={{ fontWeight: "500", margin: "0" }}>
-            {sliceString(pollByCreator.value.title, 20)}
+          <p
+            className="w-100 text-truncate"
+            style={{ fontWeight: "500", margin: "0" }}
+          >
+            {pollByCreator.value.title}
           </p>
         </div>
         <div className="d-flex justify-content-between flex-nowrap text-secondary mb-2">
@@ -327,7 +323,6 @@ return (
         istest,
         state,
         stateUpdate: (data) => State.update(data),
-        sliceString,
         profile,
         isUpcoming,
         isActive,
