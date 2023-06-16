@@ -145,8 +145,6 @@ function isVoteValid() {
   return isValid;
 }
 
-console.log(isTest);
-
 return (
   <>
     <Widget
