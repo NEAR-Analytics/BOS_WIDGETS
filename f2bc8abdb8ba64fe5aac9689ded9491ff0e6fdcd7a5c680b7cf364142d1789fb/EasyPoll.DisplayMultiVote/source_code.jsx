@@ -19,11 +19,7 @@ const renderMultipleChoiceInput = ({
             optionNumber: optionNumber,
             canVote: props.canVote,
             getBgColor: props.getBgColor,
-            getFontColor: props.getFontColor,
             countVotes: props.countVotes,
-            getBorderRadious: props.getBorderRadious,
-            calculatePercentageOfOption: props.calculatePercentageOfOption,
-            getBlockTimestamp: props.getBlockTimestamp,
             clickRadioInputHandler: props.clickRadioInputHandler,
             clickCheckboxInputHandler: props.clickCheckboxInputHandler,
           }}
