@@ -236,7 +236,7 @@ return (
       }
     })}
 
-    {questions.length > 1 && (
+    {!hasVoted && questions.length > 1 && (
       <div className="d-flex justify-content-between">
         {state.currentQuestion > 0 ? (
           <ChangeQuestionContainer
