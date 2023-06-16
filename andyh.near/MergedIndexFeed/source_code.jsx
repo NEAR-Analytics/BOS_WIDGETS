@@ -17,7 +17,6 @@ const cachedRenderItem = async (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
-    console.log(`rendering ${key} at ${i}`);
     state.cachedItems[key] = await renderItem(item, i);
     State.update();
   }
@@ -159,7 +158,6 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const desc = index.options.order === "desc";
   let feedChanged = false;
 
-  console.log({ items: feed.items });
   if (
     (feed.items?.length || 0) - feed.usedCount < addDisplayCount * 2 &&
     !feed.fetchFrom &&
@@ -235,7 +233,6 @@ if (reverse) {
 }
 
 const renderedItems = await Promise.all(items.map(cachedRenderItem));
-console.log({ props, state, renderedItems });
 return <>{renderedItems}</>;
 // return props.manual ? (
 //   <>
