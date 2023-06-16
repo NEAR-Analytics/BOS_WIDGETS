@@ -1,4 +1,4 @@
-const authorForWidget = "eugenewolf507.near";
+const authorForWidget = "testwiki.near";
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 const emojiArray = [
@@ -73,6 +73,14 @@ if (state.likesStatistics.length === 0 || state.likesStatistics === null) {
   });
 }
 //likesStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
+
+// ========= CHECK DOES USER VOTED =========
+const doesUserVoted = () => {
+  const resObject = arrayLastLikeForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
+  );
+  return resObject ? true : false;
+};
 
 // ========= UPDATE EMOJI STATE IF USER VOTED SOMETIME BEFORE =========
 const updateEmojiIfUserVoted = () => {
