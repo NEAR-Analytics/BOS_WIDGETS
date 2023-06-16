@@ -154,7 +154,6 @@ return (
       poll,
       canVote,
       countVotes,
-      getInputStyles,
       hasVoted,
       indexVersion,
       isQuestionOpen,
