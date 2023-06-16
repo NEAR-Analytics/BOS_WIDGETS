@@ -70,6 +70,15 @@ const VoteButton = styled.div`
 
 `;
 
+function calculatePercentageOfOption(votes, index) {
+  const validAnswers = votes.reduce((acc, curr) => acc + curr, 0);
+
+  if (validAnswers == 0 || votes.length == 0) return 0;
+
+  const votesToThisOption = votes[index];
+  return ((votesToThisOption / validAnswers) * 100).toFixed(2);
+}
+
 return (
   <div>
     <div className="align-content-center">
@@ -105,12 +114,12 @@ return (
             <span
               style={{
                 width: `${
-                  props.calculatePercentageOfOption(
+                  calculatePercentageOfOption(
                     props.countVotes(props.questionNumber, props.questionType),
                     props.optionNumber
                   ) < 5
                     ? 5
-                    : props.calculatePercentageOfOption(
+                    : calculatePercentageOfOption(
                         props.countVotes(
                           props.questionNumber,
                           props.questionType
@@ -132,7 +141,7 @@ return (
             </span>
             <span className="votes">
               <span className="preview" />
-              {props.calculatePercentageOfOption(
+              {calculatePercentageOfOption(
                 props.countVotes(props.questionNumber, props.questionType),
                 props.optionNumber
               )}
