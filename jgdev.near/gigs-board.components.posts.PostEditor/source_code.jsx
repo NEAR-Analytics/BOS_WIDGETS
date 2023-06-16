@@ -5,8 +5,7 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -83,7 +82,7 @@ initState({
   githubLink: props.githubLink ?? "",
   warning: "",
 });
-const savedState = localStorage.getItem("widgetState");
+const savedState = Storage.getItem("widgetState");
 if (savedState) {
   handleStateChange(JSON.parse(savedState));
 }
