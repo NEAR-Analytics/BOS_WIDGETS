@@ -142,80 +142,25 @@ function isVoteValid() {
   return isValid;
 }
 
-function clickRadioInputHandler(questionNumber, optionNumber) {
-  return () => {
-    let newVote = state.vote;
-
-    newVote[questionNumber] = optionNumber + "";
-    State.update({ vote: newVote });
-  };
-}
-
-function clickCheckboxInputHandler(questionNumber, optionNumber) {
-  return () => {
-    let newVote = state.vote;
-
-    let oldQuestionVotes = newVote[questionNumber];
-    let newQuestionVotes = [];
-
-    if (!oldQuestionVotes.includes(optionNumber + "")) {
-      newQuestionVotes = oldQuestionVotes;
-      newQuestionVotes.push(optionNumber + "");
-    } else {
-      for (let i = 0; i < oldQuestionVotes.length; i++) {
-        if (oldQuestionVotes[i] != optionNumber + "") {
-          newQuestionVotes.push(oldQuestionVotes[i]);
-        }
-      }
-    }
-
-    newVote[questionNumber] = newQuestionVotes.filter((a) => a != "");
-
-    State.update({ votes: newVote });
-  };
-}
-
-const renderMultipleChoiceInput = ({
-  questionNumber,
-  questionType,
-  option,
-  optionNumber,
-}) => (
-  <>
-    <Widget
-      src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayMultiVote`}
-      props={{
-        vote: state.vote,
-        questionNumber,
-        questionType,
-        option,
-        optionNumber,
-        canVote: props.canVote,
-        getBgColor: getBgColor,
-        countVotes: props.countVotes,
-        clickRadioInputHandler: clickRadioInputHandler,
-        getInputStyles: getInputStyles,
-      }}
-    />
-  </>
-);
-
 return (
   <>
     <Widget
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayMultiVote2`}
       props={{
+        getBgColor,
         poll: props.poll,
         indexVersion: props.indexVersion,
         vote: state.vote,
         questions: props.poll.value.questions,
         renderMultipleChoiceInput,
         getInputStyles: getInputStyles,
+        canVote: props.canVote,
         hasVoted: props.hasVoted,
         stateUpdate: (data) => State.update(data),
         isQuestionOpen: props.isQuestionOpen,
         isVoteValid: isVoteValid,
         validAnswersToThisPoll: props.validAnswersToThisPoll,
+        countVotes: props.countVotes,
       }}
     />
   </>
