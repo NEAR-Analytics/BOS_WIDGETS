@@ -327,7 +327,7 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
   predecessor_id: nearDevGovGigsContractAccountId,
   key: context.accountId + "/index/notify",
 });
-if (grantNotify === null) {
+if (grantNotify === Loading) {
   return;
 }
 const onLike = () => {
