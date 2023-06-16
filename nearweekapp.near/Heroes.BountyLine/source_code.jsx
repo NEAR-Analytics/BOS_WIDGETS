@@ -1,3 +1,4 @@
+const contract = props.contract;
 const bounty = props.bounty;
 const deadline = bounty.deadline;
 const accountId = bounty.owner;
@@ -5,12 +6,20 @@ const profile = Social.getr(`${accountId}/profile`);
 const image = profile.image;
 const url =
   (image.ipfs_cid
-    ? `https://ipfs.near.socia/ipfs/${image.ipfs_cid}`
+    ? `https://ipfs.near.social/ipfs/${image.ipfs_cid}`
     : image.url) || "https://thewiki.io/static/media/sasha_anon.6ba19561.png";
 
 const claims = Near.view(props.contract, "get_bounty_claims_by_id", {
   id: props.id,
 });
+
+const Description = styled.div`  
+    overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+`;
 
 function convertNanoToUnits(nanoseconds) {
   const seconds = nanoseconds / 1e9;
@@ -71,6 +80,27 @@ if (deadline === "WithoutDeadline") {
   due = "Deadline unknown";
 }
 
+const isDisabled = (bountyOwner) => {
+  return bountyOwner === context.accountId ? "" : " disabled";
+};
+
+const handleAccept = (claim, approve) => {
+  console.log("claim", claim);
+  Near.call([
+    {
+      contractName: contract,
+      methodName: "decision_on_claim",
+      args: {
+        id: claim[1].bounty_id,
+        claimer: claim[0],
+        approve: approve,
+      },
+      gas: 300000000000000,
+      deposit: 1,
+    },
+  ]);
+};
+
 return (
   <div className="text-bg-light rounded-4 p-3 mb-3 border">
     {bounty !== null ? (
@@ -78,51 +108,58 @@ return (
         <div class="container">
           <div class="row">
             <div class="col-sm col-lg-5">
-              <div class="d-flex justify-content-between">
-                <div class="d-flex">
-                  <div
-                    className="profile-image me-2"
-                    style={{ width: "3em", height: "3em" }}
-                  >
-                    <img
-                      className="rounded w-100 h-100"
-                      style={{ objectFit: "cover" }}
-                      src={url}
-                      alt="profile image"
-                    />
-                  </div>
-
-                  <div className="profile-info d-inline-block">
-                    <div className="profile-name">
-                      {formatDate(bounty.created_at, "datetime")}
+              <div class="container">
+                <div class="row">
+                  <div class="col-8">
+                    <div class="d-flex">
+                      <div
+                        className="profile-image me-2"
+                        style={{ width: "3em", minWidth: "3em", height: "3em" }}
+                      >
+                        <img
+                          className="rounded w-100 h-100"
+                          style={{ objectFit: "cover" }}
+                          src={url}
+                          alt="profile image"
+                        />
+                      </div>
+                      <div className="profile-info text-truncate">
+                        <div className="profile-name">
+                          {formatDate(bounty.created_at, "datetime")}
+                        </div>
+                        <div className="profile-name">{accountId}</div>
+                      </div>
                     </div>
-                    <div className="profile-name">{accountId}</div>
                   </div>
-                </div>
-                <div>
-                  <div class="d-flex float-end">
-                    <span
-                      class={
-                        bounty.status === "New"
-                          ? "bg-warning badge rounded-pill"
-                          : "bg-success badge rounded-pill"
-                      }
-                    >
-                      {bounty.status}
-                    </span>
-                  </div>
-                  <br />
-                  <div class="float-end">
-                    {" "}
-                    <span class={"badge p-2 badge bg-light text-dark"}>
-                      <div class=""> {due}</div>
-                    </span>{" "}
+                  <div class="col-4">
+                    <div>
+                      <div class="d-flex float-end">
+                        <span
+                          class={
+                            bounty.status === "New"
+                              ? "bg-warning badge rounded-pill"
+                              : "bg-success badge rounded-pill"
+                          }
+                        >
+                          {bounty.status}
+                        </span>
+                      </div>
+                      <br />
+                      <div class="float-end">
+                        {" "}
+                        <span class={"badge p-2 badge bg-light text-dark"}>
+                          <div class=""> {due}</div>
+                        </span>{" "}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="d-flex clearfix"></div>
               <hr />
-              <Markdown text={bounty.metadata.description} />
+              <Description>
+                <Markdown text={bounty.metadata.description} />
+              </Description>
               <div class="text-break">
                 {/*p class="text-break" style={{ textAlign: "justify" }}>
                   {bounty.metadata.description.replace(/(?:\r\n)/g, "\n")}
@@ -135,8 +172,10 @@ return (
                 <div class="row">
                   <div class="col-12 col-lg-6 mb-2">
                     <Widget
-                      src={`${props.rootUser}/widget/Heroes.ClaimData`}
+                      src={`${props.rootUser}/widget/0x03`}
                       props={{
+                        contract: props.contract,
+                        whitelistContract: props.whitelistContract,
                         amount: bounty.amount,
                         token: bounty.token,
                         deadline: bounty.deadline.DueDate.due_date,
@@ -144,6 +183,7 @@ return (
                         bountyTitle: bounty.metadata.title,
                         bountyCompleted: bounty.status === "Completed",
                         bountyId: props.id,
+                        kyc_config: bounty.kyc_config,
                       }}
                     />
                   </div>
@@ -162,8 +202,9 @@ return (
                                 return (
                                   <div>
                                     <Widget
-                                      src={`${props.rootUser}/widget/Heroes.Profile`}
+                                      src={`${props.rootUser}/widget/0x02`}
                                       props={{
+                                        contract: props.contract,
                                         accountId: claim[0],
                                         createdAt: claim[1].created_at,
                                         claimStatus: claim[1].status,
@@ -173,16 +214,32 @@ return (
                                     <p />
                                     <div class="text-justify text-wrap bd-highlight">
                                       <Markdown text={claim[1].description} />
-                                      <div class="d-flex clearfix float-end">
-                                        <a
-                                          href="#"
-                                          class={
-                                            "btn btn-sm text-warning-emphasis disabled"
-                                          }
-                                        >
-                                          Accept
-                                        </a>
-                                      </div>
+                                      {bounty.status !== "Completed" && (
+                                        <div class="d-flex clearfix float-end">
+                                          <a
+                                            class={
+                                              "btn btn-sm btn-warning text-warning-emphasis" +
+                                              isDisabled(bounty.owner)
+                                            }
+                                            onClick={() =>
+                                              handleAccept(claim, true)
+                                            }
+                                          >
+                                            Accept
+                                          </a>
+                                          <a
+                                            class={
+                                              "btn btn-dark btn-sm ms-2 text-warning-emphasis" +
+                                              isDisabled(bounty.owner)
+                                            }
+                                            onClick={() =>
+                                              handleAccept(claim, false)
+                                            }
+                                          >
+                                            Decline
+                                          </a>
+                                        </div>
+                                      )}
                                     </div>
                                     <div class="clearfix"></div>
                                     <hr />
