@@ -88,8 +88,6 @@ if (!state.answers) {
   return "Loading";
 }
 
-console.log(state.answers);
-
 const isUserAllowedToVote = (accountId) => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: accountId,
