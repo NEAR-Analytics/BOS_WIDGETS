@@ -31,7 +31,7 @@ State.init({
 const unfilteredLikes = Social.index("like", item, {
   order: "desc",
 });
-// console.log("unfilteredLikes", unfilteredLikes);
+console.log("unfilteredLikes", unfilteredLikes);
 
 // ========= ARRAY LAST LIKE FOR EACH USER =========
 // arrayLastLikeForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
@@ -68,7 +68,6 @@ const getLikeStats = (acc, likeObj) => {
 const countLikesStats = (arr) => Object.values(arr.reduce(getLikeStats, {}));
 let likesStatistics =
   arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
-console.log("likesStatistics", likesStatistics);
 if (state.likesStatistics.length === 0 || state.likesStatistics === null) {
   State.update({
     likesStatistics,
@@ -83,7 +82,6 @@ const updateEmojiIfUserVoted = () => {
   );
   if (resObject) {
     State.update({ emoji: resObject.value.type });
-    console.log("update Emoji If User Voted", resObject.value.type);
   }
 };
 state.emoji === undefined &&
@@ -92,21 +90,30 @@ state.emoji === undefined &&
 
 // ========= UPDATE LIKE STATISTICS IF USER VOTED =========
 const updateLikesStatisticsIfUserVoted = (newEmoji) => {
-  arrayLastLikeForEachUser =
-    arrayLastLikeForEachUser &&
-    arrayLastLikeForEachUser.map((item) => {
-      if (item.accountId === accountThatIsLoggedIn) {
-        return { ...item, value: { type: newEmoji } };
-      }
-      return item;
-    });
   console.log("arrayLastLikeForEachUser", arrayLastLikeForEachUser);
+  if (arrayLastLikeForEachUser.length === 0) {
+    arrayLastLikeForEachUser = [
+      {
+        accountId: accountThatIsLoggedIn,
+        blockHeight: item.blockHeight,
+        value: { type: newEmoji },
+      },
+    ];
+  } else {
+    arrayLastLikeForEachUser =
+      arrayLastLikeForEachUser &&
+      arrayLastLikeForEachUser.map((item) => {
+        if (item.accountId === accountThatIsLoggedIn) {
+          return { ...item, value: { type: newEmoji } };
+        }
+        return item;
+      });
+  }
   likesStatistics =
     arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
   State.update({
     likesStatistics,
   });
-  console.log("likes Statistics", likesStatistics);
 };
 
 // ================= Mouse Handlers ===============
@@ -142,6 +149,7 @@ const clickHandler = (emojiMessage) => {
       }),
     },
   };
+
   Social.set(data, {
     onCommit: () => {
       updateLikesStatisticsIfUserVoted(emojiToWrite);
