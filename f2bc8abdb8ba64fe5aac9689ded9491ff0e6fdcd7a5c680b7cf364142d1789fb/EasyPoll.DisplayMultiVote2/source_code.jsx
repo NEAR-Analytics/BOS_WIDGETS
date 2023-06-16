@@ -23,6 +23,18 @@ const getPublicationParams = () => {
   };
 };
 
+const renderAnswers = (questionNumber) => {
+  return (
+    <Widget
+      src={`${widgetOwner}/widget/EasyPoll.AnswerCommentsContainer`}
+      props={{
+        answers: props.validAnswersToThisPoll,
+        questionNumber,
+      }}
+    />
+  );
+};
+
 let questions = props.questions;
 
 const ChangeQuestionContainer = styled.div`
@@ -55,7 +67,7 @@ const renderTextInput = (questionNumber) => {
     <div>
       {props.hasVoted ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
-          {props.renderAnswers(questionNumber)}
+          {renderAnswers(questionNumber)}
         </div>
       ) : (
         <div>
