@@ -8,6 +8,8 @@ State.init({
   answers: [{}],
 });
 
+const isTest = props.isTest;
+
 if (!props.isPreview && !props.blockHeight) {
   return "Prop block height wasn't provided";
 }
@@ -320,6 +322,7 @@ return (
     <Widget
       src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.Voting2`}
       props={{
+        istest,
         state,
         stateUpdate: (data) => State.update(data),
         sliceString,
