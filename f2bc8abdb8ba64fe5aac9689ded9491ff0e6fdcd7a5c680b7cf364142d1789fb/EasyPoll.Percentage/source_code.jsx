@@ -146,7 +146,7 @@ return (
             className="form-check-input"
             id={`${props.questionNumber}-${props.optionNumber}`}
             name={`${props.questionNumber}-${props.questionType}`}
-            key={`${props.questionNumber}-${props.optionNumber}-${props.state.vote}`}
+            key={`${props.questionNumber}-${props.optionNumber}-${props.vote}`}
             style={props.getInputStyles(
               props.questionType,
               props.questionNumber,
@@ -156,11 +156,10 @@ return (
             value={props.optionNumber}
             checked={
               props.questionType == "2"
-                ? props.state.vote[props.questionNumber].includes(
+                ? props.vote[props.questionNumber].includes(
                     props.optionNumber + ""
                   )
-                : props.state.vote[props.questionNumber] ==
-                  props.optionNumber + ""
+                : props.vote[props.questionNumber] == props.optionNumber + ""
             }
             onClick={
               props.questionType != "2" &&
