@@ -5,7 +5,7 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -174,7 +174,7 @@ const SocialLink = ({ link, index }) => (
   <a
     className={`btn btn-outline-secondary border-0 d-flex align-items-center`}
     href={link.href}
-    style={{ marginLeft: index !== 0 ? "0px" : "0px" }}
+    style={{ marginLeft: "0px" }}
   >
     <i className={link.iconClass}></i>
     <span className="ms-1">{link.label || community.title}</span>
