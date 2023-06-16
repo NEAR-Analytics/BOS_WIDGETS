@@ -246,7 +246,7 @@ return (
           >
             <div>
               <i className="bi bi-arrow-left" />
-              <h6 className="mx-2">PREVIOUS</h6>
+              <h6 className="mx-2">Previous question</h6>
             </div>
           </ChangeQuestionContainer>
         ) : (
@@ -259,64 +259,15 @@ return (
             }}
           >
             <div>
-              <h6 className="mx-2">NEXT</h6>
+              <h6 className="mx-2">Next question</h6>
               <i className="bi bi-arrow-right" />
             </div>
           </ChangeQuestionContainer>
-        ) : (
-          <div style={{ minWidth: "1px" }}></div>
-        )}
-      </div>
-    )}
-
-    {props.isQuestionOpen ? (
-      hasVoted ? (
-        ""
-      ) : props.isVoteValid() && hasSBTTokens ? (
-        <CommitButton
-          className="w-100"
-          style={
-            state.hoveringElement != "voteButton"
-              ? {
-                  marginTop: "0.5rem",
-                  padding: "0.5rem",
-                  backgroundColor: "#000000",
-                  color: "#FFFFFF",
-                  fontSize: "1rem",
-                  borderRadius: "9px",
-                  border: "1.5px solid transparent",
-                }
-              : {
-                  marginTop: "0.5rem",
-                  padding: "0.5rem",
-                  backgroundColor: "#FFFFFF",
-                  color: "#000000",
-                  fontSize: "1rem",
-                  borderRadius: "9px",
-                  border: "1.5px solid #000000",
-                }
-          }
-          onMouseEnter={() => {
-            State.update({
-              hoveringElement: "voteButton",
-            });
-          }}
-          onMouseLeave={() => State.update({ hoveringElement: "" })}
-          data={getPublicationParams()}
-          onCommit={() => {
-            State.update({
-              validAnswersToThisPoll: newValidAnswers(),
-              hasVoted: true,
-            });
-          }}
-        >
-          Vote
-        </CommitButton>
-      ) : (
-        <>
-          {hasSBTTokens ? (
-            <button
-              className="w-100"
+        ) : props.isQuestionOpen ? (
+          hasVoted ? (
+            ""
+          ) : props.isVoteValid() && hasSBTTokens ? (
+            <CommitButton
               style={
                 state.hoveringElement != "voteButton"
                   ? {
@@ -338,31 +289,75 @@ return (
                       border: "1.5px solid #000000",
                     }
               }
-              onMouseEnter={() =>
-                State.update({ hoveringElement: "voteButton" })
-              }
+              onMouseEnter={() => {
+                State.update({
+                  hoveringElement: "voteButton",
+                });
+              }}
               onMouseLeave={() => State.update({ hoveringElement: "" })}
-              onClick={() => State.update({ showErrorsInForm: true })}
+              data={getPublicationParams()}
+              onCommit={() => {
+                State.update({
+                  validAnswersToThisPoll: newValidAnswers(),
+                  hasVoted: true,
+                });
+              }}
             >
-              Vote
-            </button>
+              NEXT
+            </CommitButton>
           ) : (
             <>
-              <p className="p-2">
-                In order to vote get verified on{" "}
-                <a href="https://i-am-human.app">i-am-human.app</a> and get a FV
-                SBT
-              </p>
+              {hasSBTTokens ? (
+                <button
+                  style={
+                    state.hoveringElement != "voteButton"
+                      ? {
+                          marginTop: "0.5rem",
+                          padding: "0.5rem",
+                          backgroundColor: "#000000",
+                          color: "#FFFFFF",
+                          fontSize: "1rem",
+                          borderRadius: "9px",
+                          border: "1.5px solid transparent",
+                        }
+                      : {
+                          marginTop: "0.5rem",
+                          padding: "0.5rem",
+                          backgroundColor: "#FFFFFF",
+                          color: "#000000",
+                          fontSize: "1rem",
+                          borderRadius: "9px",
+                          border: "1.5px solid #000000",
+                        }
+                  }
+                  onMouseEnter={() =>
+                    State.update({ hoveringElement: "voteButton" })
+                  }
+                  onMouseLeave={() => State.update({ hoveringElement: "" })}
+                  onClick={() => State.update({ showErrorsInForm: true })}
+                >
+                  NEXT
+                </button>
+              ) : (
+                <>
+                  <p className="p-2">
+                    In order to vote get verified on{" "}
+                    <a href="https://i-am-human.app">i-am-human.app</a> and get
+                    a FV SBT
+                  </p>
+                </>
+              )}
             </>
-          )}
-          {state.showErrorsInForm && (
-            <span className="text-danger">Please answer all the questions</span>
-          )}
-        </>
-      )
-    ) : (
-      ""
+          )
+        ) : (
+          ""
+        )}
+      </div>
     )}
+    {state.showErrorsInForm && (
+      <span className="text-danger">Please answer all the questions</span>
+    )}
+
     <p
       style={{
         fontWeight: "500",
