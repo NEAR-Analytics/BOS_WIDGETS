@@ -581,10 +581,16 @@ const postTitle =
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      <h6 class="card-subtitle  text-muted">
+      <h6
+        class="card-subtitle  text-muted"
+        style={{ marginLeft: "1rem", marginBottom: "0.5rem" }}
+      >
         Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
       </h6>
-      <h6 class="card-subtitle  text-muted">
+      <h6
+        class="card-subtitle  text-muted"
+        style={{ marginLeft: "1rem", marginBottom: "1rem" }}
+      >
         Supervisor:{" "}
         <Widget
           src={`neardevgov.near/widget/ProfileLine`}
@@ -662,7 +668,7 @@ const descriptionArea = isUnderPost ? (
   <limitedMarkdown
     className="overflow-auto"
     key="description-area"
-    style={{ marginLeft: "1rem", paddingRight: "15px", marginBottom: "-30px" }}
+    style={{ marginLeft: "1rem", paddingRight: "15px", marginBottom: "1rem" }}
   >
     <Markdown
       className="card-text"
