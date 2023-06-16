@@ -1,4 +1,4 @@
-const authorForWidget = "testwiki.near";
+const authorForWidget = "eugenewolf507.near";
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 const emojiArray = [
@@ -11,6 +11,7 @@ const emojiArray = [
   "🙌 Celebrate",
   "👏 Applause",
   "⚡ Lightning",
+  "⋈ Bowtie",
 ];
 const item = props.item;
 const accountThatIsLoggedIn = context.accountId;
@@ -20,12 +21,141 @@ if (!item) {
 }
 
 State.init({
-  emoji: initialEmoji,
+  emoji: undefined,
+  likesStatistics: [],
   show: false,
   loading: false,
-  likes: [],
-  unfilteredLikes: [],
 });
+
+// ========= UNFILTERED LIKES and SOCIAL.INDEX =========
+const unfilteredLikes = Social.index("like", item, {
+  order: "desc",
+});
+
+// ========= ARRAY LAST LIKE FOR EACH USER =========
+// arrayLastLikeForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
+const uniqueAccounts = {};
+const arrayLastLikeForEachUser =
+  unfilteredLikes &&
+  unfilteredLikes.filter((obj) => {
+    if (!uniqueAccounts[obj.accountId]) {
+      uniqueAccounts[obj.accountId] = true;
+      return true;
+    }
+    return false;
+  });
+
+// ========= GET LIKES STATISTICS =========
+const getLikeStats = (acc, likeObj) => {
+  if (likeObj.value.type === initialEmoji) {
+    return acc;
+  }
+  if (!acc.hasOwnProperty(likeObj.value.type)) {
+    acc[likeObj.value.type] = {};
+    acc[likeObj.value.type].quantity = 0;
+    acc[likeObj.value.type].emoji = likeObj.value.type.slice(0, 2);
+    acc[likeObj.value.type].accounts = [];
+  }
+  acc[likeObj.value.type].quantity += 1;
+  acc[likeObj.value.type].accounts = [
+    likeObj.accountId,
+    ...acc[likeObj.value.type].accounts,
+  ];
+
+  return acc;
+};
+const countLikesStats = (arr) => Object.values(arr.reduce(getLikeStats, {}));
+let likesStatistics =
+  arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
+if (state.likesStatistics.length === 0 || state.likesStatistics === null) {
+  State.update({
+    likesStatistics,
+  });
+}
+//likesStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
+
+// ========= UPDATE EMOJI STATE IF USER VOTED =========
+const updateEmojiIfUserVoted = () => {
+  const resObject = arrayLastLikeForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
+  );
+  if (resObject) {
+    State.update({ emoji: resObject.value.type });
+  }
+};
+state.emoji === undefined &&
+  arrayLastLikeForEachUser &&
+  updateEmojiIfUserVoted();
+
+// ========= UPDATE LIKE STATISTICS IF USER VOTED =========
+const updateLikesStatisticsIfUserVoted = (newEmoji) => {
+  if (arrayLastLikeForEachUser.length === 0) {
+    arrayLastLikeForEachUser = [
+      {
+        accountId: accountThatIsLoggedIn,
+        blockHeight: item.blockHeight,
+        value: { type: newEmoji },
+      },
+    ];
+  } else {
+    arrayLastLikeForEachUser =
+      arrayLastLikeForEachUser &&
+      arrayLastLikeForEachUser.map((item) => {
+        if (item.accountId === accountThatIsLoggedIn) {
+          return { ...item, value: { type: newEmoji } };
+        }
+        return item;
+      });
+  }
+  likesStatistics =
+    arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
+  State.update({
+    likesStatistics,
+  });
+};
+
+// ================= Mouse Handlers ===============
+
+const handleOnMouseEnter = (e) => {
+  State.update({ show: true });
+};
+const handleOnMouseLeave = (e) => {
+  State.update({ show: false });
+};
+
+const clickHandler = (emojiMessage) => {
+  if (state.loading) {
+    return;
+  }
+  State.update({
+    loading: true,
+  });
+
+  // decide to put unique emoji or white heart (unlike emoji)
+  const emojiToWrite =
+    emojiMessage === initialEmoji && state.emoji === initialEmoji
+      ? emojiArray[0]
+      : emojiMessage;
+
+  const data = {
+    index: {
+      like: JSON.stringify({
+        key: item,
+        value: {
+          type: emojiToWrite,
+        },
+      }),
+    },
+  };
+
+  Social.set(data, {
+    onCommit: () => {
+      updateLikesStatisticsIfUserVoted(emojiToWrite);
+      State.update({ emoji: emojiToWrite, loading: false, show: false });
+    },
+    onCancel: () => State.update({ loading: false, show: false }),
+  });
+};
 
 // =============== CSS Styles ===============
 const Button = styled.button`
@@ -65,103 +195,7 @@ const SmallButtonSpan = styled.span`
   }
 `;
 
-// =============== Get Likes ===============
-State.update({
-  unfilteredLikes: Social.index("like", item, {
-    order: "desc",
-    subscribe: true,
-  }),
-});
-
-// arrayLastLikeForEachUser of {accountId, blockHeight, value: {type: "😁 LOL"}}
-const uniqueAccounts = {};
-const arrayLastLikeForEachUser =
-  state.unfilteredLikes &&
-  state.unfilteredLikes.filter((obj) => {
-    if (!uniqueAccounts[obj.accountId]) {
-      uniqueAccounts[obj.accountId] = true;
-      return true;
-    }
-    return false;
-  });
-
-const updateEmojiIfUserVoted = () => {
-  const resObject = arrayLastLikeForEachUser.find(
-    (item) => item.accountId === accountThatIsLoggedIn
-  );
-  if (resObject) {
-    State.update({ emoji: resObject.value.type });
-  }
-};
-
-arrayLastLikeForEachUser && updateEmojiIfUserVoted();
-
-//likesCount - array of objects {quantity: 1, emoji: '😁', accounts: []}
-const getLikesStats = (acc, likeObj) => {
-  if (likeObj.value.type === initialEmoji) {
-    return acc;
-  }
-  if (!acc.hasOwnProperty(likeObj.value.type)) {
-    acc[likeObj.value.type] = {};
-    acc[likeObj.value.type].quantity = 0;
-    acc[likeObj.value.type].emoji = likeObj.value.type.slice(0, 2);
-    acc[likeObj.value.type].accounts = [];
-  }
-  acc[likeObj.value.type].quantity += 1;
-  acc[likeObj.value.type].accounts = [
-    likeObj.accountId,
-    ...acc[likeObj.value.type].accounts,
-  ];
-
-  return acc;
-};
-const countLikes = (arr) => Object.values(arr.reduce(getLikesStats, {}));
-const likesCount =
-  arrayLastLikeForEachUser && countLikes(arrayLastLikeForEachUser);
-State.update({ likes: likesCount });
-
-// ================= Mouse Handlers ===============
-
-const handleOnMouseEnter = (e) => {
-  State.update({ show: true });
-};
-const handleOnMouseLeave = (e) => {
-  State.update({ show: false });
-};
-
-const clickHandler = (emojiMessage) => {
-  if (state.loading) {
-    return;
-  }
-
-  State.update({
-    loading: true,
-  });
-  const emojiToWrite =
-    emojiMessage === initialEmoji && state.emoji === initialEmoji
-      ? emojiArray[0]
-      : emojiMessage;
-
-  const data = {
-    index: {
-      like: JSON.stringify({
-        key: item,
-        value: {
-          type: emojiToWrite,
-        },
-      }),
-    },
-  };
-  Social.set(data, {
-    onCommit: () => {
-      State.update({ emoji: emojiToWrite, loading: false, show: false });
-    },
-    onCancel: () => State.update({ loading: false, show: false }),
-  });
-};
-
 // =============== JSX ===============
-
 const overlay = (
   <div
     className="border m-2 p-2 rounded-4 bg-white shadow"
@@ -201,11 +235,11 @@ return (
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       >
-        {state.emoji}
+        {state.emoji === undefined ? initialEmoji : state.emoji}
       </Button>
     </OverlayTrigger>
-    {state.likes &&
-      state.likes.map((item) => (
+    {state.likesStatistics &&
+      state.likesStatistics.map((item) => (
         <span className="ps-3">
           <Widget
             src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
