@@ -108,7 +108,7 @@ const renderMultipleChoiceInput = ({
         questionType,
         option,
         optionNumber,
-        canVote: props.canVote,
+        canVote: !state.hasVoted,
         getBgColor: props.getBgColor,
         countVotes: props.countVotes,
         clickRadioInputHandler: clickRadioInputHandler,
