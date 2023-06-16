@@ -266,6 +266,7 @@ return (
             State.update({
               hoveringElement: "voteButton",
             });
+            props.stateUpdate({ vote: state.vote });
           }}
           onMouseLeave={() => State.update({ hoveringElement: "" })}
           data={getPublicationParams()}
