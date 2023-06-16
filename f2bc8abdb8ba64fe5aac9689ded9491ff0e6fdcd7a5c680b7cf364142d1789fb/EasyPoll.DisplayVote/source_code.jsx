@@ -6,6 +6,8 @@ if (!props.whitelist) {
   return "Property whitelist not set";
 }
 
+const isTest = props.isTest;
+
 const isPreview = props.isPreview ?? false;
 const indexVersion = props.indexVersion ?? "3.2.0";
 const whitelist = props.whitelist;
@@ -151,6 +153,7 @@ return (
   <Widget
     src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayVote2`}
     props={{
+      isTest,
       poll,
       canVote,
       countVotes,
