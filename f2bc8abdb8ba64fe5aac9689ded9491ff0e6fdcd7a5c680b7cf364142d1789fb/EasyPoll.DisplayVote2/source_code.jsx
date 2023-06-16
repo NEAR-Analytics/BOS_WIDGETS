@@ -10,8 +10,10 @@ for (let i = 0; i < props.poll.value.questions.length; i++) {
   }
 }
 
+let userVote;
+
 State.init({
-  vote: defaultVotes,
+  vote: userVote ?? defaultVotes,
 });
 
 function getInputStyles(questionType, questionNumber, optionNumber) {
