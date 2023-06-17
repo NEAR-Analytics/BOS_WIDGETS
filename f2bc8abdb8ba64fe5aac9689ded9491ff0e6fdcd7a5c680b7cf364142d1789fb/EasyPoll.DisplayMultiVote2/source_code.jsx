@@ -255,7 +255,9 @@ return (
           >
             <div>
               <i className="bi bi-arrow-left" />
-              <h6 className="mx-2">Previous question</h6>
+              <h6 className="mx-2" style={{ marginTop: "0.7px" }}>
+                Previous question
+              </h6>
             </div>
           </ChangeQuestionContainer>
         ) : (
@@ -268,7 +270,9 @@ return (
             }}
           >
             <div>
-              <h6 className="mx-2">Next question</h6>
+              <h6 className="mx-2" style={{ marginTop: "0.7px" }}>
+                Next question
+              </h6>
               <i className="bi bi-arrow-right" />
             </div>
           </ChangeQuestionContainer>
