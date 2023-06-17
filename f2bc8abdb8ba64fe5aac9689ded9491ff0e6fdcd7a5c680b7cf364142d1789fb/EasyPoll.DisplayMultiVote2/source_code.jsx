@@ -255,7 +255,10 @@ return (
           >
             <div>
               <i className="bi bi-arrow-left" />
-              <h6 className="mx-2" style={{ marginTop: "0.7px" }}>
+              <h6
+                className="mx-2"
+                style={{ marginTop: "0.7px", marginBottom: "0" }}
+              >
                 Previous question
               </h6>
             </div>
@@ -270,7 +273,10 @@ return (
             }}
           >
             <div>
-              <h6 className="mx-2" style={{ marginTop: "0.7px" }}>
+              <h6
+                className="mx-2"
+                style={{ marginTop: "0.7px", marginBottom: "0" }}
+              >
                 Next question
               </h6>
               <i className="bi bi-arrow-right" />
