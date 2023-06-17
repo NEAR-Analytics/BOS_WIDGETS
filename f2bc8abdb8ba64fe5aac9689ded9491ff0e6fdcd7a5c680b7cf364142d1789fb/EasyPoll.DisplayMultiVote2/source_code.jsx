@@ -138,17 +138,17 @@ const ChangeQuestionContainer = styled.div`
     cursor: pointer;
     display: flex;
     aling-items: center;
-    marginTop: 0.5rem;
+    margin-top: 0.5rem;
     padding: 0.5rem;
-    backgroundColor: #000000;
+    background-color: #000000;
     color: #FFFFFF;
-    fontSize: 1rem;
-    borderRadius: 9px;
+    font-size: 1rem;
+    border-radius: 9px;
     border: 1.5px solid transparent;
   }
 
   div:hover {
-    backgroundColor: #FFFFFF;
+    background-color: #FFFFFF;
     color: #000000;
     border: 1.5px solid #000000;
   }
