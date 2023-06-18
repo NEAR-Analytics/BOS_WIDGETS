@@ -26,8 +26,8 @@ if (lastProposalId) {
 }
 
 return (
-  <div className="m-3">
-    <h3>Recent Proposals</h3>
+  <div className="mt-3">
+    <h5>Recent Proposals</h5>
     {proposals.map((proposal, i) => (
       <div key={proposal.id} className="mb-3">
         <Widget
@@ -36,14 +36,5 @@ return (
         />
       </div>
     ))}
-    <Widget
-      src="near/widget/DIG.Button"
-      props={{
-        href: "#/hack.near/widget/dao.proposals",
-        label: "See All Proposals",
-        variant: "outline-dark",
-        size: "small",
-      }}
-    />
   </div>
 );
