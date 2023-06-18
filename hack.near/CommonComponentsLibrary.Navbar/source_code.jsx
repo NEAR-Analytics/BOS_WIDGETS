@@ -1,11 +1,11 @@
 const navItems = props.navItems;
-if (!navItems) return "Must define nav items";
-const ownerId = "hack.near";
+if (!navItems) return "must define nav items";
+const ownerId = "manzanal.near";
 
 return (
   <div className="d-flex flex-column">
     <h4 className="fs-4 text-nowrap d-flex flex-row align-items-center">
-      <span>Components</span>
+      <span>Library</span>
     </h4>
     <a
       className="nav-link mt-2"
@@ -14,14 +14,6 @@ return (
     >
       <i className="bi-house" />
       <span>Home</span>
-    </a>
-    <a
-      className="nav-link mt-2"
-      href={`https://near.social/#/${ownerId}/widget/CommonComponentsLibrary?tab=searchComponents`}
-      onClick={() => props.onSelect({ tab: "searchComponents", id: "" })}
-    >
-      <i className="bi-search" />
-      <span>Search</span>
     </a>
     <hr className="border-2" />
     {navItems.map((item) => {
