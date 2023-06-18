@@ -4,18 +4,22 @@ if (!accountId) {
   return <Widget src="mob.near/widget/ProfileOnboarding" />;
 }
 
-const data = accountId
+const library = accountId
   ? Social.get(`${accountId}/settings/dev/library`)
   : undefined;
 
-if (data === null) {
+if (library === null) {
   return "Loading...";
 }
 
-const library = [data];
-
 return (
   <>
+    <CommitButton data={{ settings: { dev: { library: data } } }}>
+      Save
+    </CommitButton>
+    <hr />
+    <p>{library}</p>
+    <hr />
     <Widget src="hack.near/widget/dev.library" props={{ data: library }} />
   </>
 );
