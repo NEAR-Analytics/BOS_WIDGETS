@@ -1,3 +1,5 @@
+const role = props.role ?? "community";
+
 State.init({
   copiedShareUrl: false,
 });
@@ -281,6 +283,7 @@ return (
             src="hack.near/widget/DAO.Join"
             props={{
               daoId: accountId,
+              role,
             }}
           />
         </FollowButtonWrapper>
