@@ -23,7 +23,7 @@ const article = JSON.parse(
 State.update({ article });
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const writersWhiteList = [
+const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
