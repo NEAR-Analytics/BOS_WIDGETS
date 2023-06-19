@@ -138,8 +138,6 @@ return (
           <ComposeWrapper>
             <Widget src="hack.near/widget/create.posts" props={{ domains }} />
           </ComposeWrapper>
-          <h2 className="mb-3">explore</h2>
-
           <FilterWrapper>
             <PillSelect>
               <PillSelectButton
