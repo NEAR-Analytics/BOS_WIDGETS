@@ -6,40 +6,40 @@ return (
           <li class="nav-item ">
             <a class="nav-link active" href="#/hack.near/widget/Academy">
               <i class="bi-mortarboard"> </i>
-              Academy
+              learn
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="#/near/widget/ComponentsPage">
               <i class="bi-gear"> </i>
-              Widgets
+              build
             </a>
           </li>
 
           <li class="nav-item">
             <a
               class="nav-link active"
-              href="#/every.near/widget/browser?path=every.near/thing/test"
+              href="https://github.com/orgs/NEARBuilders/projects"
             >
               <i class="bi-clipboard"> </i>
-              Projects
+              plan
             </a>
           </li>
 
           <li class="nav-item">
             <a
               class="nav-link active"
-              href="#/every.near/widget/browser?path=devs.near/widget/dev.community"
+              href="#/hack.near/widget/DAO.Groups?daoId=build.sputnik-dao.near"
             >
               <i class="bi-patch-check"> </i>
-              Badges
+              earn
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link active" href="https://nearbuilders.com">
               <i class="bi-signpost-2"> </i>
-              Groups
+              join
             </a>
           </li>
         </ul>
