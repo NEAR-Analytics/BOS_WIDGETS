@@ -81,14 +81,14 @@ button {
   grid-area: title;
   margin-bottom: 5px;
   font-weight: 500;
-  color: black !important;
+  color: rgb(27, 27, 24) !important;
   font-size: 15px;
 }
 
 .ToastDescription {
   grid-area: description;
   margin: 0;
-  color: gray;
+  color: var(--slate11) !important;
   font-size: 13px;
   line-height: 1.3;
 }
