@@ -123,7 +123,7 @@ function userHasVoted() {
     undefined
   );
 }
-let hasVoted = true;
+let hasVoted = true ?? userHasVoted();
 const isQuestionOpen =
   poll.value.startTimestamp < Date.now() &&
   Date.now() < poll.value.endTimestamp;
