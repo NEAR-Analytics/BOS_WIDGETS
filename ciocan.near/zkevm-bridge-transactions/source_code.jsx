@@ -234,8 +234,8 @@ const claimTransaction = (tx) => {
   });
 };
 
-const noWithdrawls = withdraw.length === 0;
-const noDeposits = deposit.length === 0;
+const noWithdrawls = withdraw?.length === 0;
+const noDeposits = deposit?.length === 0;
 const isEmpty = noWithdrawls && noDeposits;
 
 return (
