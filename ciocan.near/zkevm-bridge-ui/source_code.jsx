@@ -351,6 +351,14 @@ const networks = {
   1442: "Polygon zkEvm Goerli",
 };
 
+const coinsMap = {
+  ethereum: "ETH",
+  "usd-coin": "USDC",
+  "matic-network": "MATIC",
+  dai: "DAI",
+  uniswap: "UNI",
+};
+
 State.init({
   selectedToken: "ETH",
   selectedNetwork: "ethereum",
@@ -358,6 +366,7 @@ State.init({
   isTokenDialogOpen: false,
   amount: 0,
   balances: {},
+  prices: {},
   isToastOpen: false,
 });
 
@@ -369,7 +378,22 @@ const {
   isTokenDialogOpen,
   amount,
   balances,
+  prices,
 } = state;
+
+const coins = Object.keys(coinsMap);
+const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
+  ","
+)}&vs_currencies=usd`;
+
+if (!prices[selectedToken]) {
+  asyncFetch(pricesUrl).then((res) => {
+    if (!res.ok) return;
+    const prices = {};
+    coins.forEach((coin) => (prices[coinsMap[coin]] = res.body[coin].usd));
+    State.update({ prices });
+  });
+}
 
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
@@ -518,6 +542,8 @@ const token = tokens.find((t) => t.symbol === selectedToken);
 
 const { isToastOpen, variant, title, description } = state;
 
+console.log(state);
+
 return (
   <Layout>
     <div class="container">
@@ -575,7 +601,7 @@ return (
         </div>
         <div class="input-container">
           <Input placeholder="0" type="number" onChange={changeAmount} />
-          <span class="usd-value">$0</span>
+          <span class="usd-value">${prices[selectedToken] * amount}</span>
         </div>
       </TokenContainer>
     </div>
@@ -607,7 +633,7 @@ return (
         </div>
         <div class="input-container">
           <Input type="number" readOnly value={amount} />
-          <span class="usd-value">$0</span>
+          <span class="usd-value">${prices[selectedToken] * amount}</span>
         </div>
       </TokenContainer>
     </div>
@@ -615,7 +641,9 @@ return (
     <ul class="info">
       <li>
         <span>Rate</span>
-        <span class="value">-</span>
+        <span class="value">
+          1 {selectedToken} = ${prices[selectedToken]}
+        </span>
       </li>
       <li>
         <span>Network fee</span>
