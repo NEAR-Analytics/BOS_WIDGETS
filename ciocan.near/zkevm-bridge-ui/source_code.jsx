@@ -358,6 +358,7 @@ State.init({
   isTokenDialogOpen: false,
   amount: 0,
   balances: {},
+  isToastOpen: false,
 });
 
 const {
@@ -484,9 +485,22 @@ const changeAmount = (e) => {
   }
 };
 
+const onOpenChange = (v) => {
+  State.update({
+    isToastOpen: false,
+  });
+};
+
 const handleConfirm = () => {
-  if (!amount) return;
-  console.log(getToken(selectedToken));
+  if (!Number(amount)) {
+    State.update({
+      isToastOpen: true,
+      variant: "error",
+      title: "Amount is empty",
+      description: "Please choose an amount greater than zero",
+    });
+    return;
+  }
 
   const { onConfirm } = props;
   if (onConfirm) {
@@ -497,6 +511,8 @@ const handleConfirm = () => {
 
 const networkList = isMainnet ? [1, 1101] : [5, 1442];
 const token = tokens.find((t) => t.symbol === selectedToken);
+
+const { isToastOpen, variant, title, description } = state;
 
 return (
   <Layout>
@@ -629,5 +645,9 @@ return (
         </ul>
       </Dialog>
     )}
+    <Widget
+      src="ciocan.near/widget/toast"
+      props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+    />
   </Layout>
 );
