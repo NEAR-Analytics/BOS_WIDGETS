@@ -1,4 +1,4 @@
-const addressForArticles = "wikiTest";
+const addressForArticles = "ndcWikiArticle";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
@@ -251,11 +251,11 @@ const getArticleData = () => {
 
 const composeData = () => {
   const data = {
-    wikiTest2Article: {
+    ndcWikiArticle: {
       main: JSON.stringify(getArticleData()),
     },
     index: {
-      wikiTest2Article: JSON.stringify({
+      ndcWikiArticle: JSON.stringify({
         key: "main",
         value: {
           type: "md",
