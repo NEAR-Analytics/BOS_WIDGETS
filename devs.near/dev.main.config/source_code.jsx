@@ -16,7 +16,7 @@ const defaultWidgets = [
     src: "devs.near/widget/dev.search",
   },
   {
-    src: "devs.near/widget/dev.feed",
+    src: "devs.near/widget/explore.posts",
   },
 ];
 
@@ -99,7 +99,7 @@ const openButton = ({ widgetPath: src, onHide }) => {
 
 return (
   <>
-    <h3>Dev Main Page Editor</h3>
+    <h3>Main Page Editor</h3>
     <div className="mb-2">
       <Widget
         src="mob.near/widget/Welcome.RHS.Editor.ComponentSearch"
