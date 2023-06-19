@@ -1,13 +1,9 @@
-const lastEditorAccountId = props.lastEditorAccountId;
-const wikiSiteBlockHeight = props.wikiSiteBlockHeight;
-
-const addressForArticles = "wikiTest2Article";
-const addressForComments = "wikiTest2Comment";
+const addressForArticles = "ndcWikiArticle";
+const addressForComments = "NDCDOCS-comments";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 State.init({ showReply: false });
 const accountId = props.accountId;
-
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -24,69 +20,6 @@ const raw = !!props.raw;
 
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
-props.allWidgetsInlineStyles.shareWidget;
-
-const shareWidgetStyles = {
-  shareWidget: {
-    i: { cursor: "pointer", marginTop: ".375rem" },
-    showShareOptionsContainer: {
-      position: "absolute",
-      right: "10%",
-      bottom: "10%",
-      backgroundColor: "#FFFFFF",
-      border: "1.5px solid #F0F4F7",
-      boxShadow: "0px 8px 28px rgba(43, 68, 106, 0.05)",
-      borderRadius: "28px",
-      zIndex: "1",
-      width: "40vw",
-      maxWidth: "100%",
-      minWidth: "240px",
-      padding: "1rem",
-      border: "1.5px solid #F0F4F7",
-    },
-    closeIcon: { cursor: "pointer" },
-    popUpDescription: {
-      color: "#474D55",
-      letterSpacing: "-0.01em",
-    },
-    showLinkShared: {
-      backgroundColor: "#F2F6FA",
-      padding: "1rem 2rem",
-      borderRadius: "17px",
-    },
-    linkShared: { color: "#0065FF", wordWrap: "anywhere" },
-    clipboardContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      marginLeft: "0.5rem",
-      minWidth: "2.5rem",
-    },
-    clipBoardIconCopied: {
-      color: "#0065FF",
-      transition: "color 0.3s linear",
-      cursor: "pointer",
-    },
-    clipBoardIconNotCopied: {
-      transition: "color 0.3s linear",
-      cursor: "pointer",
-      color: "black",
-    },
-    copiedFeedback: { fontSize: "0.7rem" },
-  },
-};
-
-const shareWidgetClassNames = {
-  shareWidget: {
-    i: "bi bi-share d-inline-flex align-items-center",
-    closePopUpContainer: "d-flex flex-row-reverse",
-    closeIcon: "bi bi-x",
-    showLinkShared: "d-flex justify-content-between align-items-center",
-    clipboardIcon: "bi-clipboard",
-    copiedFeedback: "text-secondary",
-  },
-};
 
 return (
   <>
@@ -115,28 +48,6 @@ return (
               }}
             />
           )}
-          <Widget
-            src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
-            props={{
-              allWidgetsClassNames: shareWidgetClassNames,
-              allWidgetsInlineStyles: shareWidgetStyles,
-              popUpDescription: "Use this link to share the comment",
-              shareingWidget: "WikiOnSocialDB_OneArticle",
-              propName: [
-                "articleId",
-                "blockHeight",
-                "lastEditor",
-                "commentToShareBlockHeight",
-              ],
-              blockHeight: [
-                "ThirdNewDBTest",
-                wikiSiteBlockHeight,
-                lastEditorAccountId,
-                blockHeight,
-              ],
-              widgetOwner,
-            }}
-          />
         </div>
       )}
     </div>
