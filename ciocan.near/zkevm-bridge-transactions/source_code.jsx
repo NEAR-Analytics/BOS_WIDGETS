@@ -150,9 +150,17 @@ if (sender) {
 State.init({
   deposit: [],
   withdraw: [],
+  isToastOpen: false,
 });
 
-const { chainId, withdraw, deposit } = state;
+const onOpenChange = (v) => {
+  State.update({
+    isToastOpen: false,
+  });
+};
+
+const { chainId, withdraw, deposit, isToastOpen, variant, title, description } =
+  state;
 
 const isMainnet = chainId === 1 || chainId === 1101;
 
@@ -185,6 +193,18 @@ const refreshList = () => {
 refreshList();
 
 const claimTransaction = (tx) => {
+  console.log("chainId", chainId);
+  const isPolygonNetwork = chainId === 1101 || chainId === 1442;
+  if (isPolygonNetwork) {
+    State.update({
+      isToastOpen: true,
+      variant: "error",
+      title: "Invalid network",
+      description: "Switch to ethereum network to claim transactions",
+    });
+    return;
+  }
+
   const url = `https://proof-generator.polygon.technology/api/zkevm/${
     isMainnet ? "mainnet" : "testnet"
   }/merkle-proof?net_id=1&deposit_cnt=${tx.counter}`;
@@ -196,8 +216,6 @@ const claimTransaction = (tx) => {
     }
 
     const { proof } = res.body;
-
-    console.log(res.body.proof);
 
     const encodedData = bridgeIface.encodeFunctionData(
       "claimAsset(bytes32[32],uint32,bytes32,bytes32,uint32,address,uint32,address,uint256,bytes)",
@@ -321,5 +339,9 @@ return (
         </li>
       )}
     </ul>
+    <Widget
+      src="ciocan.near/widget/toast"
+      props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+    />
   </Layout>
 );
