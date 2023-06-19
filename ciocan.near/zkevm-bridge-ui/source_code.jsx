@@ -374,9 +374,9 @@ const {
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
 
-  if (state.balances[symbol]) {
-    return;
-  }
+  // if (state.balances[symbol]) {
+  //   return;
+  // }
 
   if (symbol === "ETH") {
     Ethers.provider()
