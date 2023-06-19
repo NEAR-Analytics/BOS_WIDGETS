@@ -52,7 +52,7 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-/* INCLUDE: "shared/lib/autocomplete" */
+/* INCLUDE: "core/lib/autocomplete" */
 const autocompleteEnabled = true;
 const AutoComplete = styled.div`
   z-index: 5;
@@ -72,7 +72,7 @@ function autoCompleteAccountId(id) {
   description = `${description} @${id}`.trim() + " ";
   State.update({ description, showAccountAutocomplete: false });
 }
-/* END_INCLUDE: "shared/lib/autocomplete" */
+/* END_INCLUDE: "core/lib/autocomplete" */
 
 const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
@@ -449,7 +449,7 @@ function generateDescription(text, amount, token, supervisor) {
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1">
-    {widget("components.layout.Banner")}
+    {widget("components.layout.app-header")}
     <div class="mx-5 mb-5">
       <div aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -551,7 +551,7 @@ return (
         <div class="card-body">
           <p class="text-muted m-0">Preview</p>
           <div>
-            {widget("components.posts.Post", {
+            {widget("entity.post.Post", {
               isPreview: true,
               id: 0, // irrelevant
               post: {
