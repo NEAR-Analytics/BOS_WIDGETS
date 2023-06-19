@@ -1,10 +1,18 @@
-const addressForArticles = "wikiTest2Article";
+const addressForArticles = "ndcWikiArticle";
 const writersWhiteList = props.writersWhiteList ?? [
-  "testwiki.near",
-  "eugenewolf507.near",
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "kazanderdad.near",
+  "joep.near",
+  "sarahkornfeld.near",
+  "yuensid.near",
+  "shubham007.near",
+  "psalm.near",
+  "fiftycent.near",
 ];
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
+const authorForWidget = "neardigitalcollective.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
@@ -13,17 +21,19 @@ const postsIndex = Social.index(addressForArticles, "main", {
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
-    );
-    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-    return [...acc, postDataWithBlockHeight];
-  }, []);
-// .filter((article) =>
-//   writersWhiteList.some((addr) => addr === article.author)
-// );
+  postsIndex
+    .reduce((acc, { accountId, blockHeight }) => {
+      const postData = Social.get(
+        `${accountId}/${addressForArticles}/main`,
+        blockHeight
+      );
+      const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+      return [...acc, postDataWithBlockHeight];
+    }, [])
+    .filter((article) =>
+      writersWhiteList.some((addr) => addr === article.author)
+    )
+    .filter((article) => !articleBlackList.includes(article.blockHeight));
 
 // ========== FILTER DUPLICATES ==========
 const filteredArticles =
