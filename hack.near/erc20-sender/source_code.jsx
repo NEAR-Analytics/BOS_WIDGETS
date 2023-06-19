@@ -107,9 +107,8 @@ const sendTokens = () => {
 
 return (
   <>
-    <h3>Send ERC-20 tokens</h3>
+    <h5>Get Balance</h5>
     <div class="mb-3">
-      <label for="selectToken">Select token</label>
       <select
         class="form-select"
         id="selectToken"
@@ -123,7 +122,7 @@ return (
 
     <div class="mb-3">
       <label for="send-to" class="form-label">
-        Recepient address
+        Address
       </label>
       <input
         value={state.sendTo}
@@ -137,31 +136,15 @@ return (
       )}
       {state.receiverBalance != "0" && (
         <div class="text-secondary mt-3">
-          Receiver's balance: {state.receiverBalance}
+          Account Balance: {state.receiverBalance}
         </div>
       )}
 
       {state.senderBalance != "0" && (
         <div class="text-secondary mt-3">
-          Sender's balance: {state.senderBalance}
+          Your Balance: {state.senderBalance}
         </div>
       )}
-    </div>
-
-    <div class="mb-3">
-      <label for="amount" class="form-label">
-        Enter the amount
-      </label>
-      <input
-        value={state.amount}
-        class="form-control"
-        id="amount"
-        placeholder=""
-        onChange={(e) => State.update({ amount: e.target.value })}
-      />
-    </div>
-    <div class="mb-3">
-      <button onClick={sendTokens}>Send</button>
     </div>
   </>
 );
