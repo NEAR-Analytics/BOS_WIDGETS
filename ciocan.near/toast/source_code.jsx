@@ -81,7 +81,7 @@ button {
   grid-area: title;
   margin-bottom: 5px;
   font-weight: 500;
-  color: var(--slate12);
+  color: var(--slate12) !important;
   font-size: 15px;
 }
 
