@@ -434,7 +434,22 @@ return (
                   props={{ tags: state.article.tags }}
                 />
               </div>
-              <Markdown text={state.note || state.article.body} />
+              // <Markdown text={state.note || state.article.body} />
+              <Widget
+                src="mob.near/widget/SocialMarkdown"
+                props={{
+                  text: state.note,
+                  onHashtag: (hashtag) => (
+                    <span
+                      key={hashtag}
+                      className="d-inline-flex"
+                      style={{ fontWeight: 500 }}
+                    >
+                      <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                    </span>
+                  ),
+                }}
+              />
             </>
           )}
           {/* === VIEW HISTORY === */}
