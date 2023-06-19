@@ -19,7 +19,6 @@ button {
   list-style: none;
   z-index: 2147483647;
   outline: none;
-  min-height: 100px;
 }
 
 .ToastRoot {
