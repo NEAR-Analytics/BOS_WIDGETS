@@ -188,7 +188,7 @@ const handleBridge = (props) => {
   const { amount, token, network, permit } = props;
   const networkId = network === "ethereum" ? 1 : 0;
 
-  const amountBig = ethers.utils.parseUnits(amount, token.decimals);
+  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
   // const permitData = permit || "0x";
   const permitData = "0x";
 
@@ -199,7 +199,7 @@ const handleBridge = (props) => {
     [networkId, sender, amountBig, token.address, true, permitData]
   );
 
-  console.log({
+  console.log("", {
     networkId,
     sender,
     amountBig,
