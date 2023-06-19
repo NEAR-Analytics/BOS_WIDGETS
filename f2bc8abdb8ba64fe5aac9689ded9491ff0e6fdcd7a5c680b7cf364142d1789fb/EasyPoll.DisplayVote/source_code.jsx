@@ -153,7 +153,7 @@ function calculatePercentage(votesToThisOption) {
 
 return (
   <Widget
-    src={`${widgetOwner}/widget/EasyPoll.DisplayVote2`}
+    src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/EasyPoll.DisplayVote2`}
     props={{
       isTest,
       poll,
