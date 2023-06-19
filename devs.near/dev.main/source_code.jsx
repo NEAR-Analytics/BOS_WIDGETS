@@ -1,5 +1,3 @@
-const accountId = "why.near";
-
 const hashtag = props.hashtag ?? "dev";
 
 const defaultWidgets = [
