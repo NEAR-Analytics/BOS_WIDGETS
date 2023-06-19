@@ -1,12 +1,6 @@
+const accountId = "why.near";
+
 const hashtag = props.hashtag ?? "dev";
-
-const main = context.accountId
-  ? Social.get(`${context.accountId}/settings/dev/main`)
-  : undefined;
-
-if (main === null) {
-  return "";
-}
 
 const defaultWidgets = [
   {
@@ -16,7 +10,7 @@ const defaultWidgets = [
     src: "devs.near/widget/dev.search",
   },
   {
-    src: "devs.near/widget/dev.feed",
+    src: "devs.near/widget/explore.posts",
   },
 ];
 
