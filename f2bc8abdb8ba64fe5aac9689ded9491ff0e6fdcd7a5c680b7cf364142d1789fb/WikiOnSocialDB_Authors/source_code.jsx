@@ -1,26 +1,42 @@
-const addressForArticles = "wikiTest2Article";
+const addressForArticles = "ndcWikiArticle";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-const writersWhiteList = ["testwiki.near", "eugenewolf507.near"];
+const writersWhiteList = [
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "kazanderdad.near",
+  "joep.near",
+  "sarahkornfeld.near",
+  "yuensid.near",
+  "shubham007.near",
+  "psalm.near",
+  "fiftycent.near",
+];
+
+const articleBlackList = [
+  91092435, 91092174, 91051228, 91092223, 91051203, 91051228,
+];
 
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
-});
+}).filter((article) => !articleBlackList.includes(article.blockHeight));
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
+  postsIndex
+    .reduce((acc, { accountId, blockHeight }) => {
+      const postData = Social.get(
+        `${accountId}/${addressForArticles}/main`,
+        blockHeight
+      );
+      return [...acc, JSON.parse(postData)];
+    }, [])
+    .filter((article) =>
+      writersWhiteList.some((addr) => addr === article.author)
     );
-    return [...acc, JSON.parse(postData)];
-  }, []);
-// .filter((article) =>
-//   writersWhiteList.some((addr) => addr === article.author)
-// );
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
