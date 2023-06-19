@@ -1,7 +1,15 @@
-const addressForArticles = "wikiTest";
-const writersWhiteList = ["testwiki.near", "eugenewolf507.near"];
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const addressForArticles = "ndcWikiArticle";
+const writersWhiteList = [
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "kazanderdad.near",
+  "joep.near",
+  "sarahkornfeld.near",
+  "yuensid.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+];
+const authorForWidget = "neardigitalcollective.near";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
