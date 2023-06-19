@@ -368,6 +368,7 @@ const {
   selectedToken,
   isTokenDialogOpen,
   amount,
+  balances,
 } = state;
 
 const updateBalance = (token) => {
@@ -401,7 +402,7 @@ const updateBalance = (token) => {
       State.update({
         balances: {
           ...state.balances,
-          [symbol]: Number(adjustedBalance).toFixed(4),
+          [symbol]: Number(Number(adjustedBalance).toFixed(4)),
         },
       });
     });
@@ -475,7 +476,7 @@ const openTokenDialog = () => {
 };
 
 const changeAmount = (e) => {
-  const amount = e.target.value;
+  const amount = Number(e.target.value);
   State.update({ amount });
 
   const { onChangeAmount } = props;
@@ -492,12 +493,15 @@ const onOpenChange = (v) => {
 };
 
 const handleConfirm = () => {
-  if (!Number(amount)) {
+  console.log(state);
+  const isValidAmount = amount > 0 && amount < balances[selectedToken];
+
+  if (!isValidAmount) {
     State.update({
       isToastOpen: true,
       variant: "error",
-      title: "Amount is empty",
-      description: "Please choose an amount greater than zero",
+      title: "Invalid amount",
+      description: "Amount should be less than token balance",
     });
     return;
   }
