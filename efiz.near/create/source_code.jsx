@@ -1,21 +1,13 @@
 const onChange = props.onChange;
 const type = JSON.parse(Social.get(props.type, "final") || "null");
 const properties = type.properties || [];
-// const test = [
-//   { name: "test", type: "boolean", required: false },
-//   { name: "test2", type: "number", required: false },
-//   { name: "image", type: "every.near/type/image", required: false },
-// ];
-// properties = [...properties, ...test];
 
 const Input = styled.input`
-  width: 300px;
   height: 30px;
 `;
 
 const Select = styled.select`
   height: 30px;
-  width: 300px;
 `;
 
 const Button = styled.button`
