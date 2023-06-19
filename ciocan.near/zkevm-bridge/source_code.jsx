@@ -184,6 +184,7 @@ if (sender) {
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
 const handleBridge = (props) => {
+  console.log("handleBridge", props);
   const { amount, token, network, permit } = props;
   const networkId = network === "ethereum" ? 1 : 0;
 
@@ -212,7 +213,7 @@ const handleBridge = (props) => {
     .sendTransaction({
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
-      value: token.symbol === "ETH" ? amountBig : 0,
+      value: token.symbol === "ETH" ? amountBig : "0",
       gasLimit: ethers.BigNumber.from("500000"),
     })
     .then((tx) => {
@@ -418,7 +419,7 @@ const onConfirm = (props) => {
   const { token, network, amount } = props;
   if (token.symbol !== "ETH" && network === "ethereum") {
     const res = approve(props);
-    console.log(res);
+    console.log("approve response:", res);
     if (res) {
       res
         .then((tx) => {
