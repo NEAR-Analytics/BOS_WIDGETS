@@ -408,7 +408,18 @@ return (
                   />
                   <Widget
                     src="mob.near/widget/SocialMarkdown"
-                    props={{ text: state.note }}
+                    props={{
+                      text: state.note,
+                      onHashtag: (hashtag) => (
+                        <span
+                          key={hashtag}
+                          className="d-inline-flex"
+                          style={{ fontWeight: 500 }}
+                        >
+                          <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                        </span>
+                      ),
+                    }}
                   />
                 </div>
               </div>
