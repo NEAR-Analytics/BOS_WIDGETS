@@ -46,6 +46,8 @@ const sortByUsage = (keys, myDrop) => {
 
   count.used = myDrop.next_key_id - count.notUsed - count.partlyUsed;
 
+  console.log(count, myDrop.next_key_id);
+
   State.update({
     count,
   });
@@ -59,34 +61,6 @@ let num_drops = Near.view(state.keypom_contract, "get_drop_supply_for_owner", {
   account_id: user,
 });
 
-const handleCreateDrop = () => {
-  window.location.href = "https://keypom.xyz/";
-};
-
-if (num_drops === 0) {
-  return (
-    <>
-      <div class="container border border-info p-3 d-flex flex-column justify-content-center">
-        <h4 class="text-center"> Drops from {user} </h4>
-        <h1 class="text-center text-danger">No drops available</h1>
-        <div className="d-flex justify-content-center">
-          <a
-            href="https://keypom.xyz/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-success"
-            style={{ width: "200px" }}
-          >
-            Create Drop
-          </a>
-        </div>
-      </div>
-    </>
-  );
-}
-
-console.log("num_drops", num_drops);
-
 const my_drops = Near.view(state.keypom_contract, "get_drops_for_owner", {
   account_id: user,
   limit: num_drops,
@@ -96,6 +70,8 @@ const selectedDropIndex =
   my_drops.findIndex((el) => el.drop_id === state.dropId) < 0
     ? 0
     : my_drops.findIndex((el) => el.drop_id === state.dropId);
+
+console.log("my_drops", my_drops);
 
 const myDrop = my_drops[selectedDropIndex];
 
@@ -127,6 +103,7 @@ State.update({
 });
 
 const handleDropChange = (e) => {
+  console.log(e.target.value);
   State.update({
     dropId: e.target.value,
   });
@@ -154,38 +131,24 @@ const changeSortType = (sortType) => {
   });
 };
 
-const rednerSelector = () => (
-  <select
-    class="form-select"
-    style={{
-      maxWidth: "30vw",
-      fontSize: "16px",
-      backgroundColor: "#f7f7f7",
-      borderColor: "#ccc",
-      borderRadius: "4px",
-      padding: "6px",
-      cursor: "pointer",
-    }}
-    value={dropId}
-    onChange={handleDropChange}
-  >
-    {my_drops.map((drop, index) => (
-      <option key={index} value={drop.drop_id}>
-        drop id: {drop.drop_id}, keys: {drop.next_key_id}, keys left:{" "}
-        {Math.floor(drop.registered_uses / drop.config.uses_per_key)}
-      </option>
-    ))}
-  </select>
-);
-
 if (!state.keys) {
   return (
     <>
       <div class="container border border-info p-3">
         <h4 class="text-center"> Drops from {user} </h4>
-        {rednerSelector()}
+        <div class="text-center">
+          <button class="btn btn-primary mt-2" onClick={onPrevClick}>
+            Previous
+          </button>
+          <button class="btn btn-primary mt-2" onClick={onNextClick}>
+            Next
+          </button>
+        </div>
         <h3 class="text-center">Drop ID:</h3>
-        <p class="text-center"> {drop.drop_id} </p>
+        <p class="text-center">
+          {" "}
+          {my_drops[my_drops.length - state.counter].drop_id}{" "}
+        </p>
         <h3 class="text-center">Drop Type:</h3>
         <p class="text-center"> {state.dropType} </p>
         <h3 class="text-center">Keys:</h3>
@@ -198,13 +161,33 @@ if (!state.keys) {
       <div class="container border border-info p-3">
         <h4 class="text-center">Drops from {user}</h4>
         <div class="d-flex flex-column align-items-center">
-          {rednerSelector()}
+          <select
+            class="form-select"
+            style={{
+              maxWidth: "20vw",
+              fontSize: "16px",
+              backgroundColor: "#f7f7f7",
+              borderColor: "#ccc",
+              borderRadius: "4px",
+              padding: "6px",
+              cursor: "pointer",
+            }}
+            value={dropId}
+            onChange={handleDropChange}
+          >
+            {my_drops.map((drop, index) => (
+              <option key={index} value={drop.drop_id}>
+                {drop.drop_id}
+              </option>
+            ))}
+          </select>
         </div>
         <h3 class="text-center">Drop ID:</h3>
         <p class="text-center">{my_drops[selectedDropIndex].drop_id}</p>
         <h3 class="text-center">Drop Type:</h3>
         <p class="text-center">{state.dropType}</p>
         <h3 class="text-center">Public Keys:</h3>
+
         <div class="dropdown d-flex justify-content-between">
           <button
             class="btn btn-light dropdown-toggle"
