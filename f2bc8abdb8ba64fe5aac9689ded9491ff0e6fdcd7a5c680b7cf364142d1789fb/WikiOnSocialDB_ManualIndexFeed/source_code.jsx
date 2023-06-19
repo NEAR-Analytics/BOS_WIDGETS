@@ -1,14 +1,11 @@
-const addressForArticles = "wikiTest2Article";
-const addressForComments = "wikiTest2Comment";
-const authorForWidget = "rodrigos.near";
+const addressForArticles = "ndcWikiArticle";
+const addressForComments = "NDCDOCS-comments";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const index = props.index;
 if (!index) {
   return "props.index is not defined";
 }
-
-const commentToShareBlockHeight = props.commentToShareBlockHeight;
-Number(props.commentToShareBlockHeight);
-undefined;
 
 const renderItem =
   props.renderItem ??
@@ -132,8 +129,7 @@ const fetchMore =
       Loading ...
     </div>
   ) : (
-    state.displayCount < state.items.length &&
-    props.showAllComments && (
+    state.displayCount < state.items.length && (
       <div key={"loader more"}>
         <a href="javascript:void" onClick={(e) => makeMoreItems()}>
           {props.loadMoreText ?? "Load more..."}
@@ -142,15 +138,9 @@ const fetchMore =
     )
   );
 
-let items = state.items ? state.items.slice(0, state.displayCount) : [];
+const items = state.items ? state.items.slice(0, state.displayCount) : [];
 if (reverse) {
   items.reverse();
-}
-
-if (!props.showAllComments && props.commentToShareBlockHeight) {
-  items = [
-    items.find((item) => item.blockHeight == props.commentToShareBlockHeight),
-  ];
 }
 
 return (
