@@ -37,7 +37,7 @@ const Div = styled.div`
 return (
   <Div>
     <div className="mb-3">
-      <h5>Welcome Builders!</h5>
+      <h5>Welcome!</h5>
       {context.accountId && (
         <a
           key="edit"
