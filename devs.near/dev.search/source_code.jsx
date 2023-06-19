@@ -1,12 +1,12 @@
 return (
   <div>
-    <h2 className="mb-3">explore</h2>
+    <h2 className="mb-3">apps</h2>
     <div className="mb-2">
       <Widget
         src="mob.near/widget/ComponentSearch"
         props={{
           boostedTag: "app",
-          placeholder: "🔍 Search Widgets",
+          placeholder: "🔍  search for widgets",
           limit: 10,
           onChange: ({ result }) => {
             State.update({ apps: result });
