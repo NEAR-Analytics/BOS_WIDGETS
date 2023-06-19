@@ -7,6 +7,9 @@ const writersWhiteList = [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "shubham007.near",
+  "psalm.near",
+  "fiftycent.near",
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 const authorForWidget =
