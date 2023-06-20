@@ -356,24 +356,19 @@ return (
         >
           View History
         </Button>
-        {true && !state.editArticle && (
-          <>
-            {
-              //doesUserCanEditArticle() && !state.editArticle && (
-            }
-            <button
-              className="btn btn-outline-dark w-100"
-              onClick={() => {
-                State.update({
-                  viewHistory: false,
-                  editArticle: true,
-                  note: state.article.body,
-                });
-              }}
-            >
-              Edit Article
-            </button>
-          </>
+        {doesUserCanEditArticle() && !state.editArticle && (
+          <button
+            className="btn btn-outline-dark w-100"
+            onClick={() => {
+              State.update({
+                viewHistory: false,
+                editArticle: true,
+                note: state.article.body,
+              });
+            }}
+          >
+            Edit Article
+          </button>
         )}
         <hr />
         <div className="accordion accordion-flush" id="accordionFlushExample">
@@ -446,20 +441,7 @@ return (
                   type="button"
                   className="btn btn-outline-success mx-1"
                   style={{ minWidth: "120px" }}
-                  onClick={
-                    saveHandler
-                    //   () => {
-                    //   if (!state.note || article.body === state.note) return;
-
-                    //   const args = {
-                    //     article_id: state?.articleId,
-                    //     body: state.note,
-                    //     navigation_id: null,
-                    //   };
-                    //   if (areTheTextAndTagsTheSame()) return;
-                    //   saveArticle(args);
-                    // }
-                  }
+                  onClick={saveHandler}
                 >
                   {state.saving && (
                     <div
@@ -552,7 +534,7 @@ return (
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
-                  text: state.note,
+                  text: state.note || state.article.body,
                   onHashtag: (hashtag) => (
                     <span
                       key={hashtag}
