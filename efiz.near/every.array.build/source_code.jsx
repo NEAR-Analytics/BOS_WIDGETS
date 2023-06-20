@@ -30,11 +30,12 @@ const handleInputChange = (index, value) => {
 };
 
 const handleAddClick = () => {
-  const newInputValues = [...state.inputValues, state.newInputValue];
+  const newInputValue = JSON.parse(JSON.stringify(state.newInputValue));
+  const newInputValues = [...state.inputValues, newInputValue];
 
   State.update({
     inputValues: newInputValues,
-    newInputValue: {},
+    newInputValue: item.type === "string" ? "" : {},
   });
 
   if (onChange) {
