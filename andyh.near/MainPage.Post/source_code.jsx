@@ -14,7 +14,6 @@ const item = {
 };
 
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-console.log({ link });
 return (
   <div className="border-bottom pt-3 pb-1">
     oh hai widget
