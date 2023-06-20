@@ -34,6 +34,7 @@ State.init({
 
 // Primitive checks
 if (item.type === "string") {
+  return <p>{JSON.stringify(item)}</p>;
   return <Input onChange={onChange} value={item.value} />;
 } else if (item.type === "boolean") {
   return (
@@ -122,6 +123,5 @@ return (
         </Row>
       </div>
     ))}
-    <p>{JSON.stringify(state)}</p>
   </Container>
 );
