@@ -1,39 +1,33 @@
 const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
 // if (!accountId) {
 //   return "No account ID";
 // }
 
-const lastEditor =
-  props.lastEditor ??
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const lastEditor = props.lastEditor;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
-
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
 const notifyAccountId = accountId;
 
-State.init({ showReply: false, isMain: true, article: null });
+State.init({ showReply: false, isMain: true, article: {} });
 
-const article = props.blockHeight
-  ? Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-  : Social.get(`${lastEditor}/${addressForArticles}/main`);
+const article = state.saveComplete
+  ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
+  : JSON.parse(
+      Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+    );
 
-if (JSON.stringify(article) != JSON.stringify(state.article)) {
-  State.update({ article: JSON.parse(article) });
-}
-
-if (state.article == null) {
-  return <h3>Loading...</h3>;
+if (JSON.stringify(state.article) != JSON.stringify(article)) {
+  State.update({ article, note: article.body });
 }
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const authorsWhiteList = [
+const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -42,7 +36,6 @@ const authorsWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 const doesUserCanEditArticle = () => {
   const isAccountIdInWhiteList = authorsWhiteList.some(
@@ -85,6 +78,94 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
+const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
+
+const getArticleData = () => {
+  const args = {
+    articleId: state.article.articleId,
+    author: accountId,
+    lastEditor: accountId,
+    timeLastEdit: Date.now(),
+    timeCreate: Date.now(),
+    body: state.note,
+    version: Number(state.article.version) + 1,
+    navigation_id: null,
+    tags: tagsArray,
+  };
+  return args;
+};
+
+const composeData = () => {
+  const data = {
+    sayALotArticle: {
+      main: JSON.stringify(getArticleData()),
+    },
+    index: {
+      sayALotArticle: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
+
+  if (tagsArray.length) {
+    data.index.tag = JSON.stringify(
+      tagsArray.map((tag) => ({
+        key: tag,
+        value: item,
+      }))
+    );
+  }
+
+  return data;
+};
+
+const saveHandler = (e) => {
+  State.update({
+    errorId: "",
+    errorBody: "",
+  });
+  if (state.article.articleId && state.note) {
+    // TODO check it automaticle
+    const isArticleIdDublicated = false;
+
+    if (!isArticleIdDublicated) {
+      const newData = composeData();
+
+      State.update({ saving: true });
+
+      Social.set(newData, {
+        force: true,
+        onCommit: () => {
+          State.update({
+            saveComplete: true,
+            saving: false,
+            editArticle: false,
+          });
+        },
+        onCancel: () => {
+          State.update({ saving: false });
+        },
+      });
+    } else {
+      State.update({
+        errorId: errTextDublicatedId,
+      });
+    }
+  } else {
+    if (!state.article.articleId) {
+      State.update({
+        errorId: errTextNoId,
+      });
+    }
+    if (!state.note) {
+      State.update({ errorBody: errTextNoBody });
+    }
+  }
+};
+
 const saveArticle = (args) => {
   const newArticleData = {
     ...state.article,
@@ -111,6 +192,7 @@ const saveArticle = (args) => {
     };
     return data;
   };
+
   const newData = composeArticleData();
   Social.set(newData, { force: true });
 };
@@ -267,7 +349,6 @@ return (
         <Button
           onClick={() => {
             State.update({
-              ...state,
               editArticle: false,
               viewHistory: !state.viewHistory,
             });
@@ -275,20 +356,24 @@ return (
         >
           View History
         </Button>
-        {doesUserCanEditArticle() && (
-          <button
-            className="btn btn-outline-dark w-100"
-            onClick={() => {
-              State.update({
-                ...state,
-                viewHistory: false,
-                editArticle: !state.editArticle,
-                note: state.article.body,
-              });
-            }}
-          >
-            Edit Article
-          </button>
+        {true && !state.editArticle && (
+          <>
+            {
+              //doesUserCanEditArticle() && !state.editArticle && (
+            }
+            <button
+              className="btn btn-outline-dark w-100"
+              onClick={() => {
+                State.update({
+                  viewHistory: false,
+                  editArticle: true,
+                  note: state.article.body,
+                });
+              }}
+            >
+              Edit Article
+            </button>
+          </>
         )}
         <hr />
         <div className="accordion accordion-flush" id="accordionFlushExample">
@@ -361,19 +446,31 @@ return (
                   type="button"
                   className="btn btn-outline-success mx-1"
                   style={{ minWidth: "120px" }}
-                  onClick={() => {
-                    if (!state.note || article.body === state.note) return;
+                  onClick={
+                    saveHandler
+                    //   () => {
+                    //   if (!state.note || article.body === state.note) return;
 
-                    const args = {
-                      article_id: state?.articleId,
-                      body: state.note,
-                      navigation_id: null,
-                    };
-                    if (areTheTextAndTagsTheSame()) return;
-                    saveArticle(args);
-                  }}
+                    //   const args = {
+                    //     article_id: state?.articleId,
+                    //     body: state.note,
+                    //     navigation_id: null,
+                    //   };
+                    //   if (areTheTextAndTagsTheSame()) return;
+                    //   saveArticle(args);
+                    // }
+                  }
                 >
-                  Save Article{" "}
+                  {state.saving && (
+                    <div
+                      className="spinner-border text-secondary"
+                      style={{ height: "1rem", width: "1rem" }}
+                      role="status"
+                    >
+                      <span className="sr-only" title="Loading..."></span>
+                    </div>
+                  )}
+                  Save Article
                 </button>
 
                 <button
@@ -382,7 +479,6 @@ return (
                   style={{ minWidth: "120px" }}
                   onClick={() => {
                     State.update({
-                      ...state,
                       editArticle: false,
                       note: undefined,
                     });
@@ -417,6 +513,7 @@ return (
                       ),
                       placeholder: "Input tags",
                       setTagsObject: (tags) => {
+                        console.log(filterTagsFromNull(tags));
                         state.tags = filterTagsFromNull(tags);
                         // state.tags = tags;
                         State.update();
@@ -425,7 +522,18 @@ return (
                   />
                   <Widget
                     src="mob.near/widget/SocialMarkdown"
-                    props={{ text: state.note }}
+                    props={{
+                      text: state.note,
+                      onHashtag: (hashtag) => (
+                        <span
+                          key={hashtag}
+                          className="d-inline-flex"
+                          style={{ fontWeight: 500 }}
+                        >
+                          <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                        </span>
+                      ),
+                    }}
                   />
                 </div>
               </div>
@@ -440,7 +548,22 @@ return (
                   props={{ tags: state.article.tags }}
                 />
               </div>
-              <Markdown text={state.note || state.article.body} />
+              // <Markdown text={state.note || state.article.body} />
+              <Widget
+                src="mob.near/widget/SocialMarkdown"
+                props={{
+                  text: state.note,
+                  onHashtag: (hashtag) => (
+                    <span
+                      key={hashtag}
+                      className="d-inline-flex"
+                      style={{ fontWeight: 500 }}
+                    >
+                      <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                    </span>
+                  ),
+                }}
+              />
             </>
           )}
           {/* === VIEW HISTORY === */}
@@ -452,7 +575,6 @@ return (
                   style={{ cursor: "pointer", fontSize: "1.5rem" }}
                   onClick={() => {
                     State.update({
-                      ...state,
                       viewHistory: false,
                     });
                   }}
@@ -461,7 +583,6 @@ return (
                   className="btn btn-outline-danger"
                   onClick={() => {
                     State.update({
-                      ...state,
                       viewHistory: false,
                     });
                   }}
