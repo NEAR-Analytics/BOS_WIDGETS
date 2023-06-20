@@ -67,8 +67,12 @@ return (
       Decentralised Music Streaming
     </h1>
     <div className="flex flex-col items-center justify-center h-full space-y-6">
-      <p className="text-xl font-medium">
+      <div className="text-2xl font-bold">
         Currently playing: {songs[state.currentSongIndex].title}
+      </div>
+      <p className="text-xl font-medium">
+        (Note: Still working on some State management so you got to pause the
+        current song before playing the next one.)
       </p>
       <Widget
         src="mob.near/widget/NftImage"
