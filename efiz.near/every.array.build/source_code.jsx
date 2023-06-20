@@ -33,7 +33,7 @@ const handleAddClick = () => {
   const newInputValues = [...state.inputValues, state.newInputValue];
 
   State.update({
-    inputValues: [],
+    inputValues: newInputValues,
     newInputValue: item.type === "string" ? "" : {},
   });
 
