@@ -2,12 +2,49 @@
 const contract = "hello.near-examples.near";
 const greeting = Near.view(contract, "get_greeting", {});
 
+/*
 console.log("print info");
 console.log(context);
 console.log(context.accountId);
 console.log("print info2");
 console.log(user);
 console.log(user.near);
+console.log("block");
+const bloque = Near.block();
+console.log(bloque);*/
+console.log("**result_call**", Storage.privateGet("result_call"));
+console.log("prueba", context);
+console.log("---start---");
+console.log("ultimo mensaje: ", greeting);
+let last_jwt = Storage.privateGet("jwt");
+console.log("Ultimo jwt almacenado", last_jwt);
+if (last_jwt != undefined) {
+  let last_mensaje_jwt = greeting.replace(
+    "https://certificates.blckchn.xyz/certificado?jwt=",
+    ""
+  );
+  console.log("gree_format", last_mensaje_jwt);
+  if (last_mensaje_jwt == last_jwt) {
+    console.log("si es igual");
+    State.update({
+      new_certificado:
+        "https://certificates.blckchn.xyz/certificado?jwt=" + last_mensaje_jwt,
+    });
+  } else {
+    console.log("no es igual");
+    State.update({ new_certificado: "" });
+  }
+} else {
+  console.log("no hay en storage igual");
+  State.update({ new_certificado: "" });
+}
+//cadena.split([separador][,limite])
+/*State.update({
+      new_certificado:
+        "https://certificates.blckchn.xyz/certificado?jwt=" + jwt.body.jwt,
+    });*/
+console.log("---end---");
+
 // Use and manipulate state
 State.init({ new_greeting2: greeting });
 State.init({ new_greeting_text: "" });
@@ -58,48 +95,18 @@ const onBtnClickGenerate = () => {
       email: state.strEmail,
       nombre: state.strNombreAlumno,
       curso: state.strNombreCurso,
-      wallet: state.sender,
+      //wallet: state.sender,
+      wallet: context.accountId,
     }),
   }).then((jwt) => {
-    State.update({
-      new_certificado:
-        "https://certificates.blckchn.xyz/certificado?jwt=" + jwt.body.jwt,
-    });
+    Storage.privateSet("jwt", jwt.body.jwt);
     Near.call(contract, "set_greeting", {
       greeting:
         "https://certificates.blckchn.xyz/certificado?jwt=" + jwt.body.jwt,
+    }).then((result) => {
+      Storage.privateSet("result_call", result);
     });
   });
-
-  /*let responseCreate = fetch(
-    "https://certificates.blckchn.xyz/create/credential",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: state.strEmail,
-        nombre: state.strNombreAlumno,
-        curso: state.strNombreCurso,
-        wallet: state.sender,
-      }),
-    }
-  );
-
-  let jwt = responseCreate;
-  if (jwt != null) {
-    State.update({
-      new_certificado:
-        "https://certificates.blckchn.xyz/certificado?jwt=" + jwt.body.jwt,
-    });
-    Near.call(contract, "set_greeting", {
-      greeting:
-        "https://certificates.blckchn.xyz/certificado?jwt=" + jwt.body.jwt,
-    });
-  }*/
-
-  /*Near.call(contract, "set_greeting", {
-    greeting: state.new_greeting,
-  });*/
 };
 
 /* END NEAR BLOCKCHAIN */
