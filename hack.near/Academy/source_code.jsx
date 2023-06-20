@@ -400,7 +400,7 @@ return (
           </div>
           <TimelineItem>
             <TimelineDate>August 7-21:</TimelineDate>
-            <TimelineText>BOS Hackathon</TimelineText>
+            <TimelineText>Virtual BOS Hackathon</TimelineText>
           </TimelineItem>
           <div className="row mb-3">
             <Widget
