@@ -48,9 +48,9 @@ const properties = type.properties || [];
 
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
-  if (props.onChange) {
-    props.onChange({ [name]: value });
-  }
+  // if (props.onChange) {
+  //   props.onChange({ [name]: value });
+  // }
 };
 
 function Property({ property }) {
