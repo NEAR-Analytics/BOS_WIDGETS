@@ -177,12 +177,6 @@ const TimelineItem = styled.div`
   border-top: 1px solid #ccc;
 `;
 
-const TimelineDate = styled.span`
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 10px;
-`;
-
 const TimelineText = styled.p`
   font-size: 16px;
   margin: 0;
@@ -315,8 +309,8 @@ return (
             <b>Course Timeline:</b> Virtual Sessions
           </h5>
           <TimelineItem>
-            <TimelineDate>June 21:</TimelineDate>
             <TimelineText>
+              <b>June 21:</b>{" "}
               <a href="https://zoom.us/webinar/register/WN_X6DN7sShRPy_OGrCL8fEfw">
                 Create your first BOS app!
               </a>
@@ -329,8 +323,8 @@ return (
             />
           </div>
           <TimelineItem>
-            <TimelineDate>June 28:</TimelineDate>
             <TimelineText>
+              <b>June 28:</b>
               <a href="https://zoom.us/webinar/register/WN_RagPHBFlQlGx6YS4WEpi3Q">
                 Smart Contract Interactions
               </a>
@@ -343,8 +337,8 @@ return (
             />
           </div>
           <TimelineItem>
-            <TimelineDate>July 5:</TimelineDate>
             <TimelineText>
+              <b>July 5</b>
               <a href="https://zoom.us/webinar/register/WN_zXO7b31-TM62J_sxiytAVQ">
                 Indexers, APIs, and Components
               </a>
@@ -357,8 +351,8 @@ return (
             />
           </div>
           <TimelineItem>
-            <TimelineDate>July 11:</TimelineDate>
             <TimelineText>
+              <b>July 11:</b>
               <a href="https://zoom.us/webinar/register/WN_K0Dq50nGRiiX9fiv3BDINw">
                 Component Design Patterns
               </a>
@@ -371,8 +365,8 @@ return (
             />
           </div>
           <TimelineItem>
-            <TimelineDate>July 18:</TimelineDate>
             <TimelineText>
+              <b>July 18:</b>
               <a href="https://zoom.us/webinar/register/WN_URaUqvDqTjaP7NoLOaHACw">
                 Build Anything with 'Everything'
               </a>
@@ -385,8 +379,8 @@ return (
             />
           </div>
           <TimelineItem>
-            <TimelineDate>July 25:</TimelineDate>
             <TimelineText>
+              <b>July 25:</b>
               <a href="https://zoom.us/webinar/register/WN_8Ba3cAzzS5euv4ck094WvA">
                 Gateways + BOS Web Engine
               </a>
@@ -399,8 +393,12 @@ return (
             />
           </div>
           <TimelineItem>
-            <TimelineDate>August 7-21:</TimelineDate>
-            <TimelineText>Virtual BOS Hackathon</TimelineText>
+            <TimelineText>
+              <b>August 11-27</b>
+              <a href="https://nearbuilders.com/boshacks">
+                Virtual BOS Hackathon
+              </a>
+            </TimelineText>
           </TimelineItem>
           <div className="row mb-3">
             <Widget
