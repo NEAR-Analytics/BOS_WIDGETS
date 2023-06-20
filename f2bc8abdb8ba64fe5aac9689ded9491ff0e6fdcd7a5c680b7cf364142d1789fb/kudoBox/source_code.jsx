@@ -20,6 +20,7 @@ const widgetOwner = props.widgetOwner;
 // console.log(1, index);
 
 function getAnswersContainerStyles() {
+  console.log("in");
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
