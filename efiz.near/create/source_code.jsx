@@ -51,7 +51,6 @@ const type = JSON.parse(Social.get(item.type, "final") || "null");
 const properties = type.properties || [];
 
 const handleInputChange = (name, value) => {
-  console.log(value);
   State.update({ [name]: value });
   if (props.onChange) {
     props.onChange({ [name]: value });
