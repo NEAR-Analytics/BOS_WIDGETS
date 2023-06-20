@@ -124,5 +124,6 @@ return (
         </Row>
       </div>
     ))}
+    <p>{JSON.stringify(state)}</p>
   </Container>
 );
