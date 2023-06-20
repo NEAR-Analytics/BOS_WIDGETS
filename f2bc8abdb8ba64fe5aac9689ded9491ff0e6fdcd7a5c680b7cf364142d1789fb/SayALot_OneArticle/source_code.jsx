@@ -308,8 +308,6 @@ const filterTagsFromNull = (tagsObj) => {
   return result;
 };
 
-console.log("dani", state.editArticle);
-
 return (
   <div
     className="container-fluid"
@@ -533,7 +531,6 @@ return (
                   props={{ tags: state.article.tags }}
                 />
               </div>
-              // <Markdown text={state.note || state.article.body} />
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
