@@ -105,7 +105,7 @@ return (
                     Edit versions: {article.version}
                   </div>
                   <Widget
-                    src={`${authorForWidget}/widget/SayALot_TagList`}
+                    src={`authorForWidget/widget/SayALot_TagList`}
                     props={{ tags: article.tags }}
                   />
                 </div>
