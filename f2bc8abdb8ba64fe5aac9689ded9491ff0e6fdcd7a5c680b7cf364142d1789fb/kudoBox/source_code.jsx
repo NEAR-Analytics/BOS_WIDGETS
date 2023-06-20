@@ -22,10 +22,9 @@ const widgetOwner = props.widgetOwner;
 function getAnswersContainerStyles() {
   console.log("in");
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
+  console.log(syles);
 
   styles["zIndex"] = `${999999999 - index}`;
-
-  console.log(syles);
 
   return styles;
 }
