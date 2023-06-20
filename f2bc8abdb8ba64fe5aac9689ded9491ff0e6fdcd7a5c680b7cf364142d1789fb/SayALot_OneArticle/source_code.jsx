@@ -39,7 +39,7 @@ const writersWhiteList = [
   context.accountId,
 ];
 const doesUserCanEditArticle = () => {
-  const isAccountIdInWhiteList = authorsWhiteList.some(
+  const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
   );
   const isAccountIdEqualsAuthor = accountId === state.article.author;
