@@ -308,6 +308,8 @@ const filterTagsFromNull = (tagsObj) => {
   return result;
 };
 
+console.log("dani", state.editArticle);
+
 return (
   <div
     className="container-fluid"
@@ -535,7 +537,7 @@ return (
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
-                  text: "daniiiii" + state.note,
+                  text: state.note,
                   onHashtag: (hashtag) => (
                     <span
                       key={hashtag}
