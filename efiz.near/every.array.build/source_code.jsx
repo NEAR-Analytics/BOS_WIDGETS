@@ -52,9 +52,15 @@ const handleDeleteClick = (index) => {
 };
 
 const handleNewInputChange = (newValues) => {
-  State.update({
-    newInputValue: { ...state.newInputValue, ...newValues },
-  });
+  if (item.type === "string") {
+    State.update({
+      newInputValue: newValues.target.value,
+    });
+  } else {
+    State.update({
+      newInputValue: { ...state.newInputValue, ...newValues },
+    });
+  }
 };
 
 return (
