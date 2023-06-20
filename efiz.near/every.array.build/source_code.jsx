@@ -19,7 +19,7 @@ const Row = styled.div`
 `;
 
 State.init({
-  inputValues: item.value,
+  inputValues: item.value || [],
   newInputValue: item.type === "string" ? "" : {},
 });
 
