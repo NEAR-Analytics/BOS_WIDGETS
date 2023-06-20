@@ -1,5 +1,5 @@
 const addressForArticles = "sayALotArticle";
-const authorsWhitelist = props.writersWhiteList ?? [
+const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -28,7 +28,7 @@ const resultArticles =
       return [...acc, postDataWithBlockHeight];
     }, [])
     .filter((article) =>
-      authorsWhitelist.some((addr) => addr === article.author)
+      writersWhiteList.some((addr) => addr === article.author)
     )
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
