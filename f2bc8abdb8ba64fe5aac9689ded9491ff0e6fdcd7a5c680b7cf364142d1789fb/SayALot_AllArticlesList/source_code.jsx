@@ -1,5 +1,5 @@
 const addressForArticles = "sayALotArticle";
-const authorsWhitelist = props.writersWhiteList ?? [
+const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -7,11 +7,9 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
@@ -30,7 +28,7 @@ const resultArticles =
       return [...acc, postDataWithBlockHeight];
     }, [])
     .filter((article) =>
-      authorsWhitelist.some((addr) => addr === article.author)
+      writersWhiteList.some((addr) => addr === article.author)
     )
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
@@ -79,11 +77,13 @@ return (
                       props={{ accountId: article.author, tooltip: true }}
                     />
                   </div>
-                  <div className="col flex-grow-0 card-subtitle text-muted text-end">
-                    <Widget
-                      src="mob.near/widget/TimeAgo"
-                      props={{ blockHeight: article.blockHeight }}
-                    />
+                  <div className="col flex-grow-0">
+                    <p className="card-subtitle text-muted text-end">
+                      {getDateLastEdit(article.timeCreate).date}
+                    </p>{" "}
+                    <p className="card-subtitle text-muted text-end">
+                      {getDateLastEdit(article.timeCreate).time}
+                    </p>
                   </div>
                 </div>
                 <div
@@ -94,19 +94,11 @@ return (
                     Last edit by{" "}
                     <a
                       href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-                      style={{
-                        textDecoration: "underline",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        maxWidth: "100%",
-                        display: "block",
-                        marginBottom: "0",
-                        textWrap: "nowrap",
-                      }}
-                      title={article.lastEditor}
+                      style={{ textDecoration: "underline" }}
                     >
                       {article.lastEditor}
                     </a>
+                    <br />
                     Edited on {getDateLastEdit(article.timeLastEdit).date}
                     <br />
                     Edit versions: {article.version}
