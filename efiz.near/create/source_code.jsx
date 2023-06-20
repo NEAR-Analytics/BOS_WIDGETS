@@ -21,6 +21,14 @@ const Container = styled.div`
   gap: 4px;
 `;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Label = styled.label`
+`;
+
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
   if (props.onChange) {
@@ -29,10 +37,20 @@ const handleInputChange = (name, value) => {
 };
 
 function Property({ item }) {
+  if (item.array === "multi") {
+    return (
+      <Widget
+        src="efiz.near/widget/every.array.build"
+        props={{
+          item,
+          onChange: (val) => handleInputChange(item.name, val),
+        }}
+      />
+    );
+  }
   if (item.type === "string") {
     return (
       <Input
-        key={item.name}
         onChange={(e) => handleInputChange(item.name, e.target.value)}
         value={state[item.name] || ""}
         placeholder={item.name}
@@ -41,7 +59,6 @@ function Property({ item }) {
   } else if (item.type === "boolean") {
     return (
       <Select
-        key={item.name}
         onChange={(e) => handleInputChange(item.name, e.target.value)}
         value={state[item.name] || ""}
       >
@@ -52,7 +69,6 @@ function Property({ item }) {
   } else if (item.type === "number") {
     return (
       <Input
-        key={item.name}
         type="number"
         onChange={(e) =>
           handleInputChange(item.name, parseInt(e.target.value, 10))
@@ -72,7 +88,12 @@ function Property({ item }) {
 return (
   <Container>
     {properties.map((item) => (
-      <Property item={item} />
+      <div key={item.name}>
+        <Label>{item.name}</Label>
+        <Row>
+          <Property item={item} />
+        </Row>
+      </div>
     ))}
   </Container>
 );
