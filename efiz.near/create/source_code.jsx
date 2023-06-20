@@ -1,6 +1,40 @@
 const onChange = props.onChange;
-const type = JSON.parse(Social.get(props.type, "final") || "null");
-const properties = type.properties || [];
+const type = props.type;
+const properties = [];
+
+if (item.type === "string") {
+  return (
+    <Input
+      onChange={(e) => handleInputChange(item.name, e.target.value)}
+      value={state[item.name] || ""}
+      placeholder={item.name}
+    />
+  );
+} else if (item.type === "boolean") {
+  return (
+    <Select
+      onChange={(e) => handleInputChange(item.name, e.target.value)}
+      value={state[item.name] || ""}
+    >
+      <option value="true">true</option>
+      <option value="false">false</option>
+    </Select>
+  );
+} else if (item.type === "number") {
+  return (
+    <Input
+      type="number"
+      onChange={(e) =>
+        handleInputChange(item.name, parseInt(e.target.value, 10))
+      }
+      value={state[item.name] || ""}
+      placeholder={item.name}
+    />
+  );
+} else {
+  type = JSON.parse(Social.get(props.type, "final") || "null");
+  properties = type.properties || [];
+}
 
 const Input = styled.input`
   height: 30px;
