@@ -10,7 +10,6 @@ const tabs = {
 };
 
 const blockHeight = props.blockHeight ?? undefined;
-const commentBlockHeight = props.commentBlockHeight ?? undefined;
 
 const updateGeneralState = props.updateGeneralState;
 
@@ -96,7 +95,7 @@ State.init({
     State.update({ content });
   },
   display: blockHeight ? tabs.KUDO.id : tabs.ALL_kUDOS.id,
-  kudo: openKudo,
+  kudos: openKudo,
 });
 
 /* BEGIN Common.componse  */
@@ -156,12 +155,10 @@ const RenderKudoBox = (d, index) => {
     <Widget
       src={`${widgetOwner}/widget/kudoBox`}
       props={{
-        display: state.display,
         tabs,
         oppenedTab: state.display,
         widgetOwner,
         d,
-        commentBlockHeight,
         index,
         upvotes,
         updateGeneralState,
@@ -267,6 +264,7 @@ return (
           : "Loading..."}
       </div>
     )}
-    {state.display == tabs.KUDO.id && RenderKudoBox(state.kudo, 0)}
+    {state.display == tabs.KUDO.id && RenderKudoBox(state.kudos, 0)}
   </div>
 );
+s;
