@@ -37,7 +37,7 @@ const handleInputChange = (name, value) => {
 };
 
 function Property({ item }) {
-  if (item.isMulti === true) {
+  if (item.isMulti === "true") {
     return (
       <Widget
         src="efiz.near/widget/every.array.build"
