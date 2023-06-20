@@ -58,8 +58,9 @@ const handleNewInputChange = (newValues) => {
       newInputValue: newValues.target.value,
     });
   } else {
+    const newInputValue = JSON.parse(JSON.stringify(state.newInputValue));
     State.update({
-      newInputValue: { ...state.newInputValue, ...newValues },
+      newInputValue: { ...newInputValue, ...newValues },
     });
   }
 };
