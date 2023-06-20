@@ -1,7 +1,12 @@
 const type = props.type || null;
 const blockHeight = props.blockHeight || "final";
 
-const availableTypes = JSON.parse(props.availableTypes) || ["string", "md"];
+const availableTypes = JSON.parse(props.availableTypes) || [
+  "string",
+  "boolean",
+  "number",
+  "efiz.near/type/library",
+];
 
 if (type) {
   const parts = type.split("/");
@@ -15,15 +20,10 @@ State.init({
   widgets: type.widgets || {},
   newPropertyName: "",
   newPropertyType: "string",
-  newPropertyRequired: false,
   newWidgetKey: "",
   newWidgetSrc: "",
   expanded: false,
 });
-
-function handleExpand() {
-  State.update({ expanded: !state.expanded });
-}
 
 const FormContainer = styled.div`
   margin: 20px;
@@ -61,13 +61,14 @@ const handleAddProperty = () => {
     name: state.newPropertyName,
     type: state.newPropertyType,
     required: state.newPropertyRequired,
+    isMulti: state.newPropertyIsMulti,
   };
 
   State.update({
     properties: [...state.properties, newProperty],
     newPropertyName: "",
     newPropertyType: "string",
-    newPropertyRequired: false,
+    newPropertyIsMulti: false,
   });
 };
 
@@ -79,7 +80,7 @@ const handleRemoveProperty = (index) => {
 
 const handlePropertyChange = (e, index) => {
   const updatedProperties = [...state.properties];
-  updatedProperties[index].name = e.target.value.toLowerCase();
+  updatedProperties[index].name = e.target.value;
   State.update({ properties: updatedProperties });
 };
 
@@ -92,6 +93,12 @@ const handleTypeChange = (e, index) => {
 const handleRequiredChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].required = e.target.value === "true";
+  State.update({ properties: updatedProperties });
+};
+
+const handleMultiChange = (e, index) => {
+  const updatedProperties = [...state.properties];
+  updatedProperties[index].isMulti = e.target.value;
   State.update({ properties: updatedProperties });
 };
 
@@ -161,6 +168,15 @@ function RequiredSelect({ value, onChange }) {
   );
 }
 
+function MultiSelect({ value, onChange }) {
+  return (
+    <Select value={value} onChange={onChange}>
+      <option value={false}>single</option>
+      <option value={true}>multi</option>
+    </Select>
+  );
+}
+
 return (
   <FormContainer>
     <Row>
@@ -184,9 +200,9 @@ return (
           value={property.type}
           onChange={(e) => handleTypeChange(e, index)}
         />
-        <RequiredSelect
-          value={property.required}
-          onChange={(e) => handleRequiredChange(e, index)}
+        <MultiSelect
+          value={property.isMulti}
+          onChange={(e) => handleMultiChange(e, index)}
         />
         <Button onClick={() => handleRemoveProperty(index)}>Remove</Button>
       </Row>
@@ -196,19 +212,15 @@ return (
         type="text"
         placeholder="Property Name"
         value={state.newPropertyName}
-        onChange={(e) =>
-          State.update({ newPropertyName: e.target.value.toLowerCase() })
-        }
+        onChange={(e) => State.update({ newPropertyName: e.target.value })}
       />
       <TypeSelect
         value={state.newPropertyType}
         onChange={(e) => State.update({ newPropertyType: e.target.value })}
       />
-      <RequiredSelect
-        value={state.newPropertyRequired}
-        onChange={(e) =>
-          State.update({ newPropertyRequired: e.target.value === "true" })
-        }
+      <MultiSelect
+        value={state.newPropertyIsMulti}
+        onChange={(e) => State.update({ newPropertyIsMulti: e.target.value })}
       />
       <Button
         onClick={handleAddProperty}
@@ -217,44 +229,37 @@ return (
         Add Property
       </Button>
     </Row>
-    <Button onClick={handleExpand}>{state.expanded ? "-" : "+"}</Button>
-    <br />
-    {state.expanded ? (
-      <>
-        <Text>Widgets:</Text>
-        {Object.entries(state.widgets).map(([key, src]) => (
-          <Row key={key}>
-            <Text>{key}:</Text>
-            <Input type="text" value={src} onChange={() => {}} />
-            <Button onClick={() => handleRemoveWidget(key)}>Remove</Button>
-          </Row>
-        ))}
-        <Row>
-          <Input
-            type="text"
-            placeholder="Widget Key"
-            value={state.newWidgetKey}
-            onChange={handleWidgetKeyChange}
-          />
-          {":"}
-          <Input
-            type="text"
-            placeholder="Widget Src"
-            value={state.newWidgetSrc}
-            onChange={handleWidgetSrcChange}
-          />
-          <Button
-            onClick={handleAddWidget}
-            disabled={
-              state.newWidgetKey.trim() === "" ||
-              state.newWidgetSrc.trim() === ""
-            }
-          >
-            Add Widget
-          </Button>
-        </Row>
-      </>
-    ) : null}
+    <Text>Widgets:</Text>
+    {Object.entries(state.widgets).map(([key, src]) => (
+      <Row key={key}>
+        <Text>{key}:</Text>
+        <Input type="text" value={src} onChange={() => {}} />
+        <Button onClick={() => handleRemoveWidget(key)}>Remove</Button>
+      </Row>
+    ))}
+    <Row>
+      <Input
+        type="text"
+        placeholder="Widget Key"
+        value={state.newWidgetKey}
+        onChange={handleWidgetKeyChange}
+      />
+      {":"}
+      <Input
+        type="text"
+        placeholder="Widget Src"
+        value={state.newWidgetSrc}
+        onChange={handleWidgetSrcChange}
+      />
+      <Button
+        onClick={handleAddWidget}
+        disabled={
+          state.newWidgetKey.trim() === "" || state.newWidgetSrc.trim() === ""
+        }
+      >
+        Add Widget
+      </Button>
+    </Row>
     <Row>
       <CommitButton
         force
