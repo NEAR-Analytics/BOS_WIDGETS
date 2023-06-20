@@ -20,7 +20,7 @@ const Row = styled.div`
 
 State.init({
   inputValues: item.value,
-  newInputValue: {},
+  newInputValue: item.type === "string" ? "" : {},
 });
 
 const handleInputChange = (index, value) => {
@@ -34,7 +34,7 @@ const handleAddClick = () => {
 
   State.update({
     inputValues: newInputValues,
-    newInputValue: {},
+    newInputValue: item.type === "string" ? "" : {},
   });
 
   if (onChange) {
