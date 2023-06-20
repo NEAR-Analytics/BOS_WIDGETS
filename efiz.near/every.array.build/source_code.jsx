@@ -34,7 +34,7 @@ const handleAddClick = () => {
 
   State.update({
     inputValues: newInputValues,
-    newInputValue: item.type === "string" ? "" : {},
+    newInputValue: {},
   });
 
   if (onChange) {
@@ -71,7 +71,6 @@ return (
           src="efiz.near/widget/create"
           props={{
             item: {
-              name: index,
               type: item.type,
               value: inputValue,
             },
