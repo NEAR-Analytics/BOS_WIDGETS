@@ -1,6 +1,8 @@
 const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const bpst = Social.get(`${accountId}/post/main`, blockHeight);
+console.log({ bpst });
 const content =
   props.content ??
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
@@ -15,7 +17,7 @@ const item = {
 };
 
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
+console.log({ link });
 return (
   <div className="border-bottom pt-3 pb-1">
     oh hai widget
