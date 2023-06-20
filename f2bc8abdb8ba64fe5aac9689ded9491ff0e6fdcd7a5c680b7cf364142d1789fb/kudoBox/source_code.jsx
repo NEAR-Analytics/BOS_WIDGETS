@@ -17,7 +17,7 @@ State.init({
 
 const widgetOwner = props.widgetOwner;
 
-// console.log(1, index);
+console.log(index);
 
 let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
