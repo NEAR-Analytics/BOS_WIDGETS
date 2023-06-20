@@ -1,5 +1,6 @@
 const onChange = props.onChange;
 const type = props.type;
+const value = props.value;
 const properties = [];
 
 const Input = styled.input`
@@ -30,29 +31,16 @@ const Label = styled.label`
 `;
 
 if (type === "string") {
-  return (
-    <Input
-      onChange={onChange}
-      value={state[item.name] || ""}
-      placeholder={item.name}
-    />
-  );
+  return <Input onChange={onChange} value={value} />;
 } else if (type === "boolean") {
   return (
-    <Select onChange={onChange} value={state[item.name] || ""}>
+    <Select onChange={onChange} value={value}>
       <option value="true">true</option>
       <option value="false">false</option>
     </Select>
   );
 } else if (type === "number") {
-  return (
-    <Input
-      type="number"
-      onChange={onChange}
-      value={state[item.name] || ""}
-      placeholder={item.name}
-    />
-  );
+  return <Input type="number" onChange={onChange} value={value} />;
 } else {
   type = JSON.parse(Social.get(props.type, "final") || "null");
   properties = type.properties || [];
