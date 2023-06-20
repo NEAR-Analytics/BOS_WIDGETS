@@ -48,12 +48,12 @@ const properties = type.properties || [];
 
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
-  // if (props.onChange) {
-  //   props.onChange({ [name]: value });
-  // }
+  if (props.onChange) {
+    props.onChange({ [name]: value });
+  }
 };
 
-function Property({ property }) {
+function Property({ property, value }) {
   // If property is multiple values
   if (property.isMulti === "true") {
     // Build an array (recursively calls this Widget)
@@ -61,7 +61,7 @@ function Property({ property }) {
       <Widget
         src="efiz.near/widget/every.array.build"
         props={{
-          item: property,
+          item: { ...property, value },
           onChange: (val) => handleInputChange(property.name, val),
         }}
       />
@@ -114,7 +114,7 @@ return (
       <div key={property.name}>
         <Label>{property.name}</Label>
         <Row>
-          <Property property={property} />
+          <Property property={property} value={item.value[property.name]} />
         </Row>
       </div>
     ))}
