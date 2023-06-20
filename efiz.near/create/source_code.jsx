@@ -1,7 +1,5 @@
+const item = props.item;
 const onChange = props.onChange;
-const type = props.type;
-const value = props.value;
-const properties = [];
 
 const Input = styled.input`
   height: 30px;
@@ -30,21 +28,23 @@ const Row = styled.div`
 const Label = styled.label`
 `;
 
-if (type === "string") {
-  return <Input onChange={onChange} value={value} />;
-} else if (type === "boolean") {
+// Primitive checks
+if (item.type === "string") {
+  return <Input onChange={onChange} value={item.value} />;
+} else if (item.type === "boolean") {
   return (
-    <Select onChange={onChange} value={value}>
+    <Select onChange={onChange} value={item.value}>
       <option value="true">true</option>
       <option value="false">false</option>
     </Select>
   );
-} else if (type === "number") {
-  return <Input type="number" onChange={onChange} value={value} />;
-} else {
-  type = JSON.parse(Social.get(props.type, "final") || "null");
-  properties = type.properties || [];
+} else if (item.type === "number") {
+  return <Input type="number" onChange={onChange} value={item.value} />;
 }
+
+// On-chain Type
+const type = JSON.parse(Social.get(item.type, "final") || "null");
+const properties = type.properties || [];
 
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
@@ -53,48 +53,54 @@ const handleInputChange = (name, value) => {
   }
 };
 
-function Property({ item }) {
-  if (item.isMulti === "true") {
+function Property({ property }) {
+  // If property is multiple values
+  if (property.isMulti === "true") {
+    // Build an array (recursively calls this Widget)
     return (
       <Widget
         src="efiz.near/widget/every.array.build"
         props={{
-          item,
-          onChange: (val) => handleInputChange(item.name, val),
+          item: property,
+          onChange: (val) => handleInputChange(property.name, val),
         }}
       />
     );
   }
-  if (item.type === "string") {
+  // Else check for primitives
+  if (property.type === "string") {
     return (
       <Input
-        onChange={(e) => handleInputChange(item.name, e.target.value)}
-        value={state[item.name] || ""}
-        placeholder={item.name}
+        onChange={(e) => handleInputChange(property.name, e.target.value)}
+        value={state[property.name] || ""}
+        placeholder={property.name}
       />
     );
-  } else if (item.type === "boolean") {
+  } else if (property.type === "boolean") {
     return (
       <Select
-        onChange={(e) => handleInputChange(item.name, e.target.value)}
-        value={state[item.name] || ""}
+        onChange={(e) => handleInputChange(property.name, e.target.value)}
+        value={state[property.name] || ""}
       >
         <option value="true">true</option>
         <option value="false">false</option>
       </Select>
     );
-  } else if (item.type === "number") {
+  } else if (property.type === "number") {
     return (
       <Input
         type="number"
         onChange={(e) =>
-          handleInputChange(item.name, parseInt(e.target.value, 10))
+          handleInputChange(property.name, parseInt(e.target.value, 10))
         }
-        value={state[item.name] || ""}
-        placeholder={item.name}
+        value={state[property.name] || ""}
+        placeholder={property.name}
       />
     );
   } else {
+    // This requires a specific type of creator
+    // (like image upload)
+    // TODO: I don't think this does what I want it to yet...
     const itemType = JSON.parse(Social.get(item.type, "final") || "null");
     const widgetSrc = itemType?.widgets?.create;
     // it would be great to modify the onChange function
@@ -104,11 +110,11 @@ function Property({ item }) {
 
 return (
   <Container>
-    {properties.map((item) => (
-      <div key={item.name}>
-        <Label>{item.name}</Label>
+    {properties?.map((property) => (
+      <div key={property.name}>
+        <Label>{property.name}</Label>
         <Row>
-          <Property item={item} />
+          <Property property={property} />
         </Row>
       </div>
     ))}
