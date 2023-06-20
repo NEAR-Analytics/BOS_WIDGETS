@@ -11,130 +11,108 @@ const data = fetch("https://graph.mintbase.xyz", {
   },
   body: JSON.stringify({
     query: `
-      query MyQuery {
-        mb_views_active_listings(limit: 100, order_by: {created_at: desc}, where: {market_id: {_eq: "simple.market.mintbase1.near"}, , nft_contract_id: {_eq: "daorecords.mintbase1.near"}}) {
-            listed_by
-            created_at
-            price
-            nft_contract_id
-            token_id
-            metadata_id
-            reference_blob(path: "animation_url")
-        }
-      }
+     query MyQuery {
+  mb_views_active_listings(
+    order_by: {}
+    where: {nft_contract_id: {_eq: "daorecords.mintbase1.near"}}
+    distinct_on: metadata_id
+  ) {
+    listed_by
+    created_at
+    price
+    nft_contract_id
+    token_id
+    metadata_id
+    title
+    reference_blob(path: "animation_url")
+  }
+}
 `,
   }),
 });
 
-// const data = fetch("https://graph.mintbase.xyz", {
-//   method: "POST",
-//   headers: {
-//     "mb-api-key": "omni-site",
-//     "Content-Type": "application/json",
-//     "x-hasura-role": "anonymous",
-//   },
-//   body: JSON.stringify({
-//     query: `
-//       query MyQuery {
-//         mb_views_nft_tokens(
-//           limit: 10
-//           distinct_on: metadata_id
-//           where: {nft_contract_id: {_eq: "daorecords.mintbase1.near"}, reference_blob: {_has_key: "animation_url"}}
-//           ) {
-//             nft_contract_id
-//             token_id
-//             metadata_id
-//             reference_blob(path: "animation_url")
-//           }
-//         }
-//         `,
-//   }),
-// });
+// Initialize state
+let songs = data.body.data.mb_views_active_listings.filter(
+  (listing) => listing.reference_blob !== "https://near.social/null"
+);
+State.init({
+  currentSongIndex: 0,
+});
 
-// const YoctoToNear = (amountYocto) =>
-//   new Big(amountYocto).div(new Big(10).pow(24)).toString();
-
-// let buy = (price, token_id, nft_contract_id) => {
-//   const gas = 200000000000000;
-//   const deposit = new Big(price).toFixed(0);
-
-//   Near.call(
-//     marketId,
-//     "buy",
-//     {
-//       nft_contract_id: nft_contract_id,
-//       token_id: token_id,
-//       referrer_id: AFFILIATE_ACCOUNT,
-//     },
-//     gas,
-//     deposit
-//   );
-// };
-
-if (!data.ok) {
-  return "Loading";
-}
-
-const size = "10em";
 let audioElem = new Audio();
-function playAudio() {
+
+// Call this when you want to play the current song
+function playCurrentSong() {
+  audioElem.src = songs[state.currentSongIndex].reference_blob;
   audioElem.play();
 }
 
-function pauseAudio() {
+// Call this when you want to pause the current song
+function pauseCurrentSong() {
   audioElem.pause();
 }
 
-return data !== null ? (
-  <>
-    <h1>Muti Marketplace</h1>
-    <p>Buying from this widget will redirect 1.25% of the sale to Jaswinder.</p>
-    <div className="d-flex gap-4 flex-wrap">
-      {data.body.data?.mb_views_active_listings.map((listing, i) => {
-        //const priceYocto = listing.price.toLocaleString().replace(/,/g, "");
-        //const priceNear = YoctoToNear(priceYocto);
-        audioElem.src = listing.reference_blob;
+// Call this when you want to play the next song
+function playNextSong() {
+  // Update the current song index
+  let nextSongIndex = (state.currentSongIndex + 1) % songs.length;
+  State.update({
+    currentSongIndex: nextSongIndex,
+  });
+}
 
-        return audioElem.src !== "https://near.social/null" ? (
-          <div className="d-flex flex-column gap-1">
-            <a
-              href={`https://mintbase.xyz/meta/${listing.metadata_id}/`}
-              target="_blank"
-            >
-              <Widget
-                src="mob.near/widget/NftImage"
-                props={{
-                  nft: {
-                    tokenId: listing.token_id,
-                    contractId: listing.nft_contract_id,
-                  },
-                  style: {
-                    width: size,
-                    height: size,
-                    objectFit: "cover",
-                    minWidth: size,
-                    minHeight: size,
-                    maxWidth: size,
-                    maxHeight: size,
-                    overflowWrap: "break-word",
-                  },
-                  thumbnail: "thumbnail",
-                  className: "",
-                  fallbackUrl:
-                    "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
-                }}
-              />
-            </a>
-            {audioElem.src}
-            <button onClick={playAudio}>Play</button>
-            <button onClick={pauseAudio}>Pause</button>
-          </div>
-        ) : (
-          <p>Audio not there</p>
-        );
-      })}
+return (
+  <>
+    <h1 className="text-3xl font-bold text-center my-6">
+      Decentralised Music Streaming
+    </h1>
+    <div className="flex flex-col items-center justify-center h-full space-y-6">
+      <p className="text-xl font-medium">
+        Currently playing: {songs[state.currentSongIndex].title}
+      </p>
+      <Widget
+        src="mob.near/widget/NftImage"
+        props={{
+          nft: {
+            tokenId: songs[state.currentSongIndex].token_id,
+            contractId: songs[state.currentSongIndex].nft_contract_id,
+          },
+          style: {
+            width: 300,
+            height: 300,
+            objectFit: "cover",
+            minWidth: size,
+            minHeight: size,
+            maxWidth: size,
+            maxHeight: size,
+            overflowWrap: "break-word",
+          },
+          thumbnail: "thumbnail",
+          className: "w-64 h-64 object-cover shadow-lg",
+          fallbackUrl:
+            "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
+        }}
+      />
+      <div className="mt-2 flex space-x-4">
+        <button
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          onClick={pauseCurrentSong}
+        >
+          Pause
+        </button>
+        <button
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          onClick={playCurrentSong}
+        >
+          Play
+        </button>
+        <button
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+          onClick={playNextSong}
+        >
+          Next
+        </button>
+      </div>
     </div>
   </>
-) : (
-  <p>loading...</p>
 );
