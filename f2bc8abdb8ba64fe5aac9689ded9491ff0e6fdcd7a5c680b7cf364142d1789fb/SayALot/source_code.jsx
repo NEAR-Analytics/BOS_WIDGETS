@@ -1,5 +1,5 @@
 const addressForArticles = "ndcGigsArticle";
-const authorsWhitelist = [
+const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -30,12 +30,12 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "articles", authorsWhitelist }}
+      props={{ currentNavPill: "articles", writersWhiteList }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
-        props={{ authorsWhitelist }}
+        props={{ writersWhiteList }}
       />
     </div>
   </div>
