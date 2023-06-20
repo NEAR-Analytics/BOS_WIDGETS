@@ -17,13 +17,6 @@ State.init({
 
 const widgetOwner = "neardigitalcollective.near" ?? props.widgetOwner;
 
-// function getAnswersContainerStyles() {
-//   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
-
-//   styles["zIndex"] = `${999999999 - index}`;
-//   return styles;
-// }
-
 const RenderAllCommentAnswerBox = (d) => {
   return (
     <>
@@ -92,15 +85,6 @@ const RenderAllCommentAnswerBox = (d) => {
   );
 };
 
-let styles = thisWidgetInlineStyles.renderKudoBox.cardContainer;
-
-function getKudoBoxContainerStyles() {
-  let styles = thisWidgetInlineStyles.renderKudoBox.cardContainer;
-
-  styles["zIndex"] = `${999999999 - index}`;
-  return styles;
-}
-
 function updateStateFunction(objetc) {
   State.update(objetc);
 }
@@ -108,7 +92,10 @@ function updateStateFunction(objetc) {
 return (
   <>
     <div
-      style={{ ...styles, zIndex: `${999999999 - index}` }}
+      style={{
+        ...thisWidgetInlineStyles.renderKudoBox.cardContainer,
+        zIndex: `${999999999 - index}`,
+      }}
       className={
         oppenedTab == tabs.ALL_kUDOS.id
           ? thisWidgetClassNames.renderKudoBox.cardContainer
