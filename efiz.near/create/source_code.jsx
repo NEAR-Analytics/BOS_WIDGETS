@@ -32,17 +32,14 @@ const Label = styled.label`
 if (type === "string") {
   return (
     <Input
-      onChange={(e) => handleInputChange(item.name, e.target.value)}
+      onChange={onChange}
       value={state[item.name] || ""}
       placeholder={item.name}
     />
   );
 } else if (type === "boolean") {
   return (
-    <Select
-      onChange={(e) => handleInputChange(item.name, e.target.value)}
-      value={state[item.name] || ""}
-    >
+    <Select onChange={onChange} value={state[item.name] || ""}>
       <option value="true">true</option>
       <option value="false">false</option>
     </Select>
@@ -51,9 +48,7 @@ if (type === "string") {
   return (
     <Input
       type="number"
-      onChange={(e) =>
-        handleInputChange(item.name, parseInt(e.target.value, 10))
-      }
+      onChange={onChange}
       value={state[item.name] || ""}
       placeholder={item.name}
     />
