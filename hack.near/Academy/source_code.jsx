@@ -338,7 +338,7 @@ return (
           </div>
           <TimelineItem>
             <TimelineText>
-              <b>July 5</b>
+              <b>July 5:</b>
               <a href="https://zoom.us/webinar/register/WN_zXO7b31-TM62J_sxiytAVQ">
                 Indexers, APIs, and Components
               </a>
@@ -354,7 +354,7 @@ return (
             <TimelineText>
               <b>July 11:</b>
               <a href="https://zoom.us/webinar/register/WN_K0Dq50nGRiiX9fiv3BDINw">
-                Component Design Patterns
+                BOS Component Design Patterns
               </a>
             </TimelineText>
           </TimelineItem>
@@ -382,7 +382,7 @@ return (
             <TimelineText>
               <b>July 25:</b>
               <a href="https://zoom.us/webinar/register/WN_8Ba3cAzzS5euv4ck094WvA">
-                Gateways + BOS Web Engine
+                BOS Web Engine + Gateways
               </a>
             </TimelineText>
           </TimelineItem>
