@@ -23,7 +23,9 @@ function getAnswersContainerStyles() {
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
+
   console.log(syles);
+
   return styles;
 }
 
