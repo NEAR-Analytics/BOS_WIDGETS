@@ -2,19 +2,7 @@
 const contract = "hello.near-examples.near";
 const greeting = Near.view(contract, "get_greeting", {});
 
-/*
-console.log("print info");
-console.log(context);
-console.log(context.accountId);
-console.log("print info2");
-console.log(user);
-console.log(user.near);
-console.log("block");
-const bloque = Near.block();
-console.log(bloque);*/
 console.log("**result_call**", Storage.privateGet("result_call"));
-console.log("prueba", context);
-console.log("---start---");
 console.log("ultimo mensaje: ", greeting);
 let last_jwt = Storage.privateGet("jwt");
 console.log("Ultimo jwt almacenado", last_jwt);
@@ -38,12 +26,6 @@ if (last_jwt != undefined) {
   console.log("no hay en storage igual");
   State.update({ new_certificado: "" });
 }
-//cadena.split([separador][,limite])
-/*State.update({
-      new_certificado:
-        "https://certificates.blckchn.xyz/certificado?jwt=" + jwt.body.jwt,
-    });*/
-console.log("---end---");
 
 // Use and manipulate state
 State.init({ new_greeting2: greeting });
@@ -111,120 +93,11 @@ const onBtnClickGenerate = () => {
 
 /* END NEAR BLOCKCHAIN */
 
-// FETCH LIDO ABI
-
-const lidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
-const tokenDecimals = 18;
-
-const lidoAbi = fetch(
-  "https://raw.githubusercontent.com/lidofinance/lido-subgraph/master/abis/Lido.json"
-);
-if (!lidoAbi.ok) {
-  return "Loading";
-}
-
-const iface = new ethers.utils.Interface(lidoAbi.body);
-
-// FETCH LIDO STAKING APR
-
-// HELPER FUNCTIONS
-
-const getStakedBalance = (receiver) => {
-  const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
-
-  return Ethers.provider()
-    .call({
-      to: lidoContract,
-      data: encodedData,
-    })
-    .then((rawBalance) => {
-      const receiverBalanceHex = iface.decodeFunctionResult(
-        "balanceOf",
-        rawBalance
-      );
-
-      return Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-    });
-};
-
-const submitEthers = (strEther, _referral) => {
-  if (!strEther) {
-    return console.log("Amount is missing");
-  }
-  const erc20 = new ethers.Contract(
-    lidoContract,
-    lidoAbi.body,
-    Ethers.provider().getSigner()
-  );
-
-  let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
-
-  erc20.submit(lidoContract, { value: amount }).then((transactionHash) => {
-    console.log("transactionHash is " + transactionHash);
-  });
-};
-
-// DETECT SENDER
-
 if (state.sender === undefined) {
   State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] });
 }
 
-if (!state.sender) return "Please login first";
-
-// FETCH SENDER BALANCE
-
-if (state.balance === undefined) {
-  Ethers.provider()
-    .getBalance(state.sender)
-    .then((balance) => {
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
-    });
-}
-
-// FETCH SENDER STETH BALANCE
-
-if (state.stakedBalance === undefined) {
-  getStakedBalance(state.sender).then((stakedBalance) => {
-    State.update({ stakedBalance });
-  });
-}
-
-// FETCH TX COST
-
-if (state.txCost === undefined) {
-  const gasEstimate = ethers.BigNumber.from(1875000);
-  const gasPrice = ethers.BigNumber.from(1500000000);
-
-  const gasCostInWei = gasEstimate.mul(gasPrice);
-  const gasCostInEth = ethers.utils.formatEther(gasCostInWei);
-
-  let responseGql = fetch(
-    "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `{
-          bundle(id: "1" ) {
-            ethPrice
-          }
-        }`,
-      }),
-    }
-  );
-
-  if (!responseGql) return "";
-
-  const ethPriceInUsd = responseGql.body.data.bundle.ethPrice;
-
-  const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
-
-  State.update({ txCost: `$${txCost.toFixed(2)}` });
-}
+if (!state.sender) return "Por favor inicie sesión";
 
 // FETCH CSS
 
@@ -452,18 +325,6 @@ return (
             </div>
           </div>
         </div>
-        {/*<a
-          href="https://www.colledge.social/mod/page/view.php?id=2429&uuid=1889-2-e3879b-c1992l"
-          target="_blank"
-        >
-          {" "}
-          <button
-            class="LidoStakeFormSubmitContainer"
-            onClick={() => submitEthers(state.strEther, state.sender)}
-          >
-            <span>Solicitar certificado</span>{" "}
-          </button>
-        </a>*/}
         <button
           class="LidoStakeFormSubmitContainer"
           onClick={onBtnClickGenerate}
@@ -471,8 +332,14 @@ return (
           <span>Solicitar certificado</span>{" "}
         </button>
         <br />
-        <p class="text-center">certificado:</p>
-        <p class="text-center wrap-text">{state.new_certificado} </p>
+        <br />
+        {state.new_certificado != "" && (
+          <a href={state.new_certificado} target="_blank" class="colledge-link">
+            <button class="LidoStakeFormSubmitContainer">
+              <span>Descargar</span>{" "}
+            </button>
+          </a>
+        )}
       </div>
     </div>
 
@@ -532,13 +399,6 @@ return (
             {state.new_greeting_text}
           </a>
         </p>
-
-        {/*<p class="text-center mt-2">Descargar ultimo certificado:</p>
-        <p class="text-center text-decoration-underline wrap-text ">
-          <a href={state.new_greeting2} target="_blank" class="colledge-link">
-            Descargar
-          </a>
-        </p>*/}
         <p class="text-center mt-2">Ver mis transacciones:</p>
         <p class="text-center text-decoration-underline wrap-text ">
           <a
@@ -549,24 +409,6 @@ return (
             NEAR blockchain
           </a>
         </p>
-        {/*<div class="LidoFooterContainer">
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">URL: </div>
-            <div class="LidoFooterRawRight">{state.strUrl ?? "url"} </div>{" "}
-          </div>
-        </div>*/}
-        {/*<a
-          href="https://www.colledge.social/mod/page/view.php?id=2429&uuid=1889-2-e3879b-c1992l"
-          target="_blank"
-        >
-          {" "}
-          <button
-            class="LidoStakeFormSubmitContainer"
-            onClick={() => submitEthers(state.strUrl, state.sender)}
-          >
-            <span>Validar certificado</span>{" "}
-          </button>
-          </a>*/}
       </div>
     </div>
   </Theme>
