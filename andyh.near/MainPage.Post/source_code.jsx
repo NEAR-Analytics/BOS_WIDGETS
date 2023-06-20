@@ -5,7 +5,7 @@ const bpst = Social.get(`${accountId}/post/main`, blockHeight);
 console.log({ bpst });
 const content =
   props.content ??
-  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
+  bpst ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
