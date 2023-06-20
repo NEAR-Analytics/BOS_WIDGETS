@@ -33,14 +33,13 @@ const handleAddClick = () => {
   const newInputValue = JSON.parse(JSON.stringify(state.newInputValue));
   const newInputValues = [...state.inputValues, newInputValue];
 
+  if (onChange) {
+    onChange(newInputValues);
+  }
   State.update({
     inputValues: newInputValues,
     newInputValue: item.type === "string" ? "" : {},
   });
-
-  if (onChange) {
-    onChange(newInputValues);
-  }
 };
 
 const handleDeleteClick = (index) => {
@@ -82,19 +81,23 @@ return (
         <Button onClick={() => handleDeleteClick(index)}>Delete</Button>
       </Row>
     ))}
-    <Row>
-      <Widget
-        src="efiz.near/widget/create"
-        props={{
-          item: {
-            type: item.type,
-            value: state.newInputValue,
-          },
-          onChange: handleNewInputChange,
-        }}
-      />
-      <Button onClick={handleAddClick}>Add</Button>
-    </Row>
+    {state.isLoading ? (
+      <p>loading...</p>
+    ) : (
+      <Row>
+        <Widget
+          src="efiz.near/widget/create"
+          props={{
+            item: {
+              type: item.type,
+              value: state.newInputValue,
+            },
+            onChange: handleNewInputChange,
+          }}
+        />
+        <Button onClick={handleAddClick}>Add</Button>
+      </Row>
+    )}
   </Container>
 );
 // <p>{JSON.stringify(state)}</p>
