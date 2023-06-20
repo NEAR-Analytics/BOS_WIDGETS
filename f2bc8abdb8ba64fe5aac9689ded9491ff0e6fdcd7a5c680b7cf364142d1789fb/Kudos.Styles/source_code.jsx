@@ -2,18 +2,11 @@ const profile = Social.getr(`${context.accountId}/profile`);
 const metadata = Social.getr(`webuidl.near/widget/Kudos/metadata`);
 
 const sharedBlockHeight = Number(props.sharedBlockHeight);
-const commentSharedBlockHeight = Number(props.commentSharedBlockHeight);
-
 const blockHeight = Number.isNaN(sharedBlockHeight)
   ? undefined
   : Number(sharedBlockHeight);
 
-const commentBlockHeight = Number.isNaN(commentSharedBlockHeight)
-  ? undefined
-  : Number(commentSharedBlockHeight);
-
-const widgetOwner =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const widgetOwner = "neardigitalcollective.near";
 
 State.init({
   metadata: {},
@@ -46,17 +39,6 @@ const standardButtonStyles = {
   margin: "0 1rem",
 };
 
-const standardButtonStylesWithoutMargin = {
-  border: "2px solid transparent",
-  fontWeight: "500",
-  fontSize: font_big,
-  padding: "0.3rem 0.5rem",
-  backgroundColor: "#010A2D",
-  borderRadius: "12px",
-  color: "white",
-  textDecoration: "none",
-};
-
 const hoveringButtonStyles = {
   border: "2px solid black",
   color: "black",
@@ -69,22 +51,9 @@ const hoveringButtonStyles = {
   margin: "0 1rem",
 };
 
-const hoveringButtonStylesWithoutMargin = {
-  border: "2px solid black",
-  color: "black",
-  backgroundColor: "white",
-  fontWeight: "500",
-  fontSize: font_big,
-  padding: "0.3rem 0.5rem",
-  borderRadius: "12px",
-  textDecoration: "none",
-};
-
 const allWidgetsInlineStyles = {
   standardButtonStyles: standardButtonStyles,
   hoveringButtonStyles: hoveringButtonStyles,
-  standardButtonStylesWithoutMargin: standardButtonStylesWithoutMargin,
-  hoveringButtonStylesWithoutMargin: hoveringButtonStylesWithoutMargin,
   styles: {
     container: {
       position: "relative",
@@ -145,7 +114,6 @@ const allWidgetsInlineStyles = {
       cardsContainer: {
         boxShadow: "1px 0px 8px -3px rgba(0,0,0,0.44) inset",
         maxHeight: "75vh",
-        overflowX: "hidden",
         overflowY: "scroll",
         transform: "translateY(calc(100% - 12px))",
         position: "absolute",
@@ -160,26 +128,7 @@ const allWidgetsInlineStyles = {
         borderBottomLeftRadius: "5px",
         padding: "10px",
       },
-      visibleCardsContainer: {
-        boxShadow: "1px 0px 8px -3px rgba(0,0,0,0.44) inset",
-        overflowX: "hidden",
-        overflowY: "visible",
-        transform: "translateY(calc(100% - 12px))",
-        position: "absolute",
-        width: "calc(100% + 2px)",
-        bottom: "0",
-        left: "-1px",
-        backgroundColor: "white",
-        borderWidth: "0 1px 1px 1px",
-        borderStyle: "solid",
-        borderColor: "lightGray",
-        borderBottomRightRadius: "5px",
-        borderBottomLeftRadius: "5px",
-        padding: "10px",
-      },
       cardContainer: {
-        padding: "0.5rem",
-        borderRadius: "10px",
         marginTop: "0.5rem",
         textAlign: "start",
         width: "100%",
@@ -198,9 +147,6 @@ const allWidgetsInlineStyles = {
       comment: {
         margin: "1rem",
       },
-      shareWidgetContainer: {
-        margin: "0 1rem 1rem 1rem",
-      },
     },
     urlTextarea: {
       backgroundColor: "#fafafa",
@@ -208,19 +154,6 @@ const allWidgetsInlineStyles = {
       borderRadius: "0.375rem",
     },
     renderKudoBox: {
-      switchButtonContainer: {
-        width: "33%",
-      },
-      switchButtonActive: {
-        backgroundColor: "rgb(53, 58, 64)",
-        borderColor: "rgb(71, 77, 85)",
-        cursor: "pointer",
-      },
-      switchButtonInactive: {
-        backgroundColor: "white",
-        borderColor: "rgb(118, 123, 142)",
-        cursor: "pointer",
-      },
       cardContainer: {
         position: "relative",
         boxSizing: "border-box",
@@ -231,13 +164,6 @@ const allWidgetsInlineStyles = {
         padding: "10px",
         margin: "1rem 0.5rem",
         height: "max-content",
-        maxWidth: "85vw",
-        minWidth: "318px",
-      },
-      commentButtonBigContainer: {
-        width: "33%",
-        display: "flex",
-        justifyContent: "center",
       },
       showCommentsButtonContainerNoComments: {
         margin: "0.5rem auto",
@@ -245,16 +171,15 @@ const allWidgetsInlineStyles = {
         borderRadius: "12px",
         width: "max-content",
       },
-      displayHandlersContainer: {
-        margin: "0.5rem auto",
-      },
       showCommentsButtonContainer: {
+        margin: "0.5rem auto",
         padding: "0.3rem 0.5rem",
         cursor: "pointer",
         borderRadius: "12px",
         width: "max-content",
       },
       hoveringShowCommentsButtonContainer: {
+        margin: "0.5rem auto",
         padding: "0.3rem 0.5rem",
         cursor: "pointer",
         borderRadius: "12px",
@@ -276,9 +201,6 @@ const allWidgetsInlineStyles = {
   //======================================================================================================================================================================================================
 
   mainPage_post: {
-    kudoBoxContainer: {
-      minWidth: "240px",
-    },
     cardContent: {
       width: "100%",
     },
@@ -295,42 +217,11 @@ const allWidgetsInlineStyles = {
     followButtonContainer: {
       marginLeft: "0.5rem",
     },
-    shareingWidgetContainer: { margin: "0 0.5rem" },
-    headerContainer: {},
-    interactionButtonsContainer: {},
-    repostButton: {
-      border: "0",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: "50%",
-      width: "2.5em",
-      height: "2.5em",
-      fill: "currentColor",
-    },
-    repostButtonHovering: {
-      border: "0",
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: "50%",
-      width: "2.5em",
-      height: "2.5em",
-      fill: "currentColor",
-      color: "rgb(0, 184, 124)",
-      background: "rgb(0, 184, 124, 0.1)",
-    },
-    repostSvgSpan: {
-      color: "rgb(0, 184, 124)",
-    },
-    repostSvg: {
-      marginTop: "-0.2em",
-    },
-    interactionButtonsContainer: {
+    upVoteContainer: {
       width: "100%",
     },
     upVoteCounter: {
-      margin: "0",
+      marginLeft: "1rem",
     },
     commentInput: {
       container: {
@@ -352,7 +243,7 @@ const allWidgetsInlineStyles = {
 //===============================================================================End inline styles=======================================================================================================
 
 //==============================================================================Start class styles=======================================================================================================
-
+a;
 const allWidgetsClassNames = {
   styles: {
     container: "pb-5",
@@ -372,7 +263,6 @@ const allWidgetsClassNames = {
     urlTextareaContainer: "d-flex flex-column my-3 justify-content-around",
     allCardsContainer: "d-flex flex-wrap justify-content-around",
     allCommentAnswerBox: {
-      commentContainer: "d-flex flex-column align-items-start",
       cardContainer: "",
       userAnswerHeader: "d-flex flex-wrap align-items-center",
     },
@@ -381,7 +271,6 @@ const allWidgetsClassNames = {
         "col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12",
       cardContainerSingleCard: "col-12",
       showCommentsButtonContainer: "d-flex flex-column align-items-center ",
-      displayHandlersContainer: "d-flex justify-content-around",
     },
   },
 
@@ -389,10 +278,8 @@ const allWidgetsClassNames = {
     headerContainer: "d-flex justify-content-between",
     cardContent: "mt-3 text-break w-100 d-flex justify-content-between",
     postUrl: "d-flex",
-    repostButton: "btn me-1",
-    interactionButtonsContainer:
-      "d-flex align-items-center justify-content-between",
-    upVoteContainer: "d-flex align-items-center justify-content-center",
+    upVoteContainer:
+      "d-flex flex-row-reverse align-items-center justify-content-end",
     commentInput: {
       container: "d-flex align-items-end flex-column",
     },
@@ -449,7 +336,6 @@ return (
       src={`${widgetOwner}/widget/Kudos`}
       props={{
         blockHeight,
-        commentBlockHeight,
         widgetOwner,
         allWidgetsInlineStyles,
         allWidgetsClassNames,
