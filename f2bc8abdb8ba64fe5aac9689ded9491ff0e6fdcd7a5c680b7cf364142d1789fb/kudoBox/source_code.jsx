@@ -22,12 +22,10 @@ console.log(index);
 let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
 const RenderAllCommentAnswerBox = (d) => {
-  console.log("t:", 999999999 - index);
-
   return (
     <>
       {state.showComments && (
-        <div style={{ ...styles, zIndex: `${999999999 - index}` }}>
+        <div style={{ ...styles, zIndex: `${999999999 - Number(index)}` }}>
           {d.value.comments.map((c) => {
             return (
               <>
