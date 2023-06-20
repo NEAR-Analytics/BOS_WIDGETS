@@ -20,14 +20,12 @@ const widgetOwner = props.widgetOwner;
 // console.log(1, index);
 
 let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
-console.log(0, styles);
-styles["zIndex"] = `${999999999 - index}`;
 
 const RenderAllCommentAnswerBox = (d) => {
   return (
     <>
       {state.showComments && (
-        <div style={styles}>
+        <div style={{ ...styles, zIndex: `${999999999 - index}` }}>
           {d.value.comments.map((c) => {
             return (
               <>
