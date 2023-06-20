@@ -10,7 +10,7 @@ const writersWhiteList = props.writersWhiteList ?? [
   context.accountId,
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
-const authorForWidget = "sayalot.near";
+const authorForWidget = context.accountId ?? "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
