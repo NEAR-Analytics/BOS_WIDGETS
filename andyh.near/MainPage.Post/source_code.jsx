@@ -3,9 +3,7 @@ const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const bpst = Social.get(`${accountId}/post/main`, blockHeight);
 console.log({ bpst });
-const content =
-  props.content ??
-  bpst ?? "null");
+const content = props.content ?? bpst ?? "null";
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
