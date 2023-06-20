@@ -15,7 +15,7 @@ State.init({
   showComments: false,
 });
 
-const widgetOwner = props.widgetOwner;
+const widgetOwner = "neardigitalcollective" ?? props.widgetOwner;
 
 console.log(index);
 
