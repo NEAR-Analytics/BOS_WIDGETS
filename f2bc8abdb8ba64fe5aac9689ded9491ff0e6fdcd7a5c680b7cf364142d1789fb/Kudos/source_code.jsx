@@ -259,7 +259,6 @@ return (
       <div className={thisWidgetClassNames.allCardsContainer}>
         {sortedData
           ? sortedData.map((d, index) => {
-              console.log(0, index);
               return RenderKudoBox(d, index);
             })
           : "Loading..."}
