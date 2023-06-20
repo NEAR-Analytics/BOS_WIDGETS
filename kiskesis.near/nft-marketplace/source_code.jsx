@@ -43,9 +43,6 @@ const data = fetch("https://graph.mintbase.xyz", {
 const YoctoToNear = (amountYocto) =>
   new Big(amountYocto).div(new Big(10).pow(24)).toString();
 
-const NearToYocto = (amountNear) =>
-  new Big(amountNear).times(new Big(10).pow(24)).toString();
-
 let buy = (price, token_id, nft_contract_id) => {
   const gas = 200000000000000;
   const deposit = new Big(price).toFixed(0);
@@ -69,8 +66,6 @@ if (!data.ok) {
 
 const size = "20em";
 
-console.log("NearToYocto", NearToYocto(0.01));
-
 return data !== null ? (
   <>
     <div>
@@ -85,8 +80,7 @@ return data !== null ? (
       {data.body.data?.mb_views_active_listings_by_contract.map(
         (listing, i) => {
           const priceYocto = listing.price.toLocaleString().replace(/,/g, "");
-          const isAnotherToken =
-            listing.price.toLocaleString() < NearToYocto(0.01);
+          const isAnotherToken = listing.price < 2350000000000000000000;
           const priceNear = isAnotherToken ? 0 : YoctoToNear(priceYocto);
 
           return (
