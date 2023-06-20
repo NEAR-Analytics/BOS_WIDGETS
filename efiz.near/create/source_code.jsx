@@ -2,6 +2,33 @@ const onChange = props.onChange;
 const type = props.type;
 const properties = [];
 
+const Input = styled.input`
+  height: 30px;
+`;
+
+const Select = styled.select`
+  height: 30px;
+`;
+
+const Button = styled.button`
+  text-transform: lowercase !important;
+  padding: 8px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Label = styled.label`
+`;
+
 if (type === "string") {
   return (
     <Input
@@ -35,33 +62,6 @@ if (type === "string") {
   type = JSON.parse(Social.get(props.type, "final") || "null");
   properties = type.properties || [];
 }
-
-const Input = styled.input`
-  height: 30px;
-`;
-
-const Select = styled.select`
-  height: 30px;
-`;
-
-const Button = styled.button`
-  text-transform: lowercase !important;
-  padding: 8px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Label = styled.label`
-`;
 
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
