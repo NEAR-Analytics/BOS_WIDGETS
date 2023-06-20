@@ -15,7 +15,7 @@ State.init({
   showComments: false,
 });
 
-const widgetOwner = "neardigitalcollective.near" ?? props.widgetOwner;
+const widgetOwner = props.widgetOwner;
 
 const RenderAllCommentAnswerBox = (d) => {
   return (
