@@ -2,7 +2,7 @@ const onChange = props.onChange;
 const type = props.type;
 const properties = [];
 
-if (item.type === "string") {
+if (type === "string") {
   return (
     <Input
       onChange={(e) => handleInputChange(item.name, e.target.value)}
@@ -10,7 +10,7 @@ if (item.type === "string") {
       placeholder={item.name}
     />
   );
-} else if (item.type === "boolean") {
+} else if (type === "boolean") {
   return (
     <Select
       onChange={(e) => handleInputChange(item.name, e.target.value)}
@@ -20,7 +20,7 @@ if (item.type === "string") {
       <option value="false">false</option>
     </Select>
   );
-} else if (item.type === "number") {
+} else if (type === "number") {
   return (
     <Input
       type="number"
