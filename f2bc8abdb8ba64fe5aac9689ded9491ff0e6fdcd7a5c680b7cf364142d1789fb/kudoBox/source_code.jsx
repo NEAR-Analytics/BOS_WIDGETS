@@ -1,7 +1,7 @@
 const d = props.d;
 const index = props.index;
 
-const commentBlockHeight = props.commentBlockHeight ?? undefined;
+console.log(index);
 
 const tabs = props.tabs;
 const oppenedTab = props.oppenedTab;
@@ -9,133 +9,84 @@ const oppenedTab = props.oppenedTab;
 const thisWidgetInlineStyles = props.allWidgetsInlineStyles.kudos;
 const thisWidgetClassNames = props.allWidgetsClassNames.kudos;
 
-const updateGeneralState = props.updateGeneralState ?? undefined;
+const updateGeneralState = props.updateGeneralState;
 const upvotes = props.upvotes;
-
-function setDefaultStateValues() {
-  return props.display == tabs.ALL_kUDOS.id
-    ? false
-    : commentBlockHeight
-    ? true
-    : false;
-}
 
 State.init({
   hoveringElement: "",
-  onlyShowSharedComment: setDefaultStateValues(),
-  showComments: setDefaultStateValues(),
+  showComments: false,
 });
 
 const widgetOwner = props.widgetOwner;
 
-const RenderCommentAnswerBox = (d) => {
+function getAnswersContainerStyles() {
+  let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
+
+  styles["zIndex"] = `${999999999 - index}`;
+  return styles;
+}
+
+const RenderAllCommentAnswerBox = (d) => {
   return (
     <>
       {state.showComments && (
-        <div
-          style={
-            props.display == tabs.KUDO.id && state.onlyShowSharedComment
-              ? thisWidgetInlineStyles.allCommentAnswerBox.visibleCardsContainer
-              : thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer
-          }
-          key={`comment-answer-box-${state.onlyShowSharedComment}-${state.showComments}`}
-        >
+        <div style={getAnswersContainerStyles()}>
           {d.value.comments.map((c) => {
-            if (
-              !state.onlyShowSharedComment ||
-              (state.onlyShowSharedComment &&
-                c.blockHeight == commentBlockHeight)
-            ) {
-              return (
-                <>
+            return (
+              <>
+                <div
+                  style={
+                    thisWidgetInlineStyles.allCommentAnswerBox.cardContainer
+                  }
+                  className={
+                    oppenedTab == tabs.KUDO.id
+                      ? thisWidgetClassNames.allCommentAnswerBox
+                          .cardContainerSingleCard
+                      : thisWidgetClassNames.allCommentAnswerBox.cardContainer
+                  }
+                >
                   <div
-                    style={
-                      thisWidgetInlineStyles.allCommentAnswerBox.cardContainer
-                    }
-                    key={`${c.blockHeight}-${state.onlyShowSharedComment}-${state.showComments}`}
                     className={
-                      oppenedTab == tabs.KUDO.id
-                        ? thisWidgetClassNames.allCommentAnswerBox
-                            .cardContainerSingleCard
-                        : thisWidgetClassNames.allCommentAnswerBox.cardContainer
+                      thisWidgetClassNames.allCommentAnswerBox.userAnswerHeader
                     }
                   >
+                    <Widget
+                      src="mob.near/widget/ProfileImage"
+                      props={{
+                        accountId: c.accountId,
+                        className: "d-inline-block",
+                        style:
+                          thisWidgetInlineStyles.allCommentAnswerBox
+                            .profileImageStyles,
+                      }}
+                    />
+                    <a
+                      style={
+                        thisWidgetInlineStyles.allCommentAnswerBox
+                          .commentUserNick
+                      }
+                      href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}
+                    >
+                      {c.accountId}
+                    </a>
                     <div
-                      className={
-                        thisWidgetClassNames.allCommentAnswerBox
-                          .userAnswerHeader
+                      style={
+                        props.allWidgetsInlineStyles.mainPage_post
+                          .followButtonContainer
                       }
                     >
                       <Widget
-                        src="mob.near/widget/ProfileImage"
-                        props={{
-                          accountId: c.accountId,
-                          className: "d-inline-block",
-                          style:
-                            thisWidgetInlineStyles.allCommentAnswerBox
-                              .profileImageStyles,
-                        }}
+                        src={`${widgetOwner}/widget/FollowButton`}
+                        props={{ accountId: c.accountId }}
                       />
-                      <a
-                        style={
-                          thisWidgetInlineStyles.allCommentAnswerBox
-                            .commentUserNick
-                        }
-                        href={`#/mob.near/widget/ProfilePage?accountId=${c.accountId}`}
-                      >
-                        {c.accountId}
-                      </a>
-                      <div
-                        style={
-                          props.allWidgetsInlineStyles.mainPage_post
-                            .followButtonContainer
-                        }
-                      >
-                        <Widget
-                          src={`${widgetOwner}/widget/FollowButton`}
-                          props={{ accountId: c.accountId }}
-                        />
-                      </div>
-                    </div>
-                    <div
-                      className={
-                        thisWidgetClassNames.allCommentAnswerBox
-                          .commentContainer
-                      }
-                    >
-                      <b
-                        style={
-                          thisWidgetInlineStyles.allCommentAnswerBox.comment
-                        }
-                      >
-                        {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
-                      </b>
-                      <div
-                        style={
-                          thisWidgetInlineStyles.allCommentAnswerBox
-                            .shareWidgetContainer
-                        }
-                      >
-                        <Widget
-                          src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
-                          props={{
-                            popUpDescription:
-                              "Use this link to share this comment",
-                            shareingWidget: "Kudos.Styles",
-                            propName: [
-                              "sharedBlockHeight",
-                              "commentSharedBlockHeight",
-                            ],
-                            blockHeight: [d.blockHeight, c.blockHeight],
-                            widgetOwner,
-                          }}
-                        />
-                      </div>
                     </div>
                   </div>
-                </>
-              );
-            }
+                  <b style={thisWidgetInlineStyles.allCommentAnswerBox.comment}>
+                    {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
+                  </b>
+                </div>
+              </>
+            );
           })}
         </div>
       )}
@@ -175,66 +126,19 @@ return (
           allWidgetsClassNames: props.allWidgetsClassNames,
         }}
       />
-      <div
-        style={thisWidgetInlineStyles.renderKudoBox.displayHandlersContainer}
-        className={thisWidgetClassNames.renderKudoBox.displayHandlersContainer}
-      >
-        {commentBlockHeight && props.display == tabs.KUDO.id ? (
-          <div
-            style={thisWidgetInlineStyles.renderKudoBox.switchButtonContainer}
-          >
-            <span>Show all comments</span>
-            <input
-              style={
-                state.onlyShowSharedComment
-                  ? thisWidgetInlineStyles.renderKudoBox.switchButtonInactive
-                  : thisWidgetInlineStyles.renderKudoBox.switchButtonActive
-              }
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              checked={!state.onlyShowSharedComment}
-              key={
-                "switch-button-" +
-                `${!state.onlyShowSharedComment ? "false" : "true"}`
-              }
-              onChange={() => {
-                State.update({
-                  onlyShowSharedComment: !state.onlyShowSharedComment,
-                  showComments: true,
-                });
-              }}
-            />
-          </div>
-        ) : (
-          <div style={{ width: "33%" }}>{/*Decorative div do not delete*/}</div>
-        )}
-        <div
-          style={thisWidgetInlineStyles.renderKudoBox.commentButtonBigContainer}
-        >
-          {!state.onlyShowSharedComment ||
-          props.display == tabs.ALL_kUDOS.id ? (
-            <Widget
-              src={`${widgetOwner}/widget/showCommentsButton`}
-              props={{
-                thisWidgetInlineStyles,
-                thisWidgetClassNames,
-                fatherStateUpdate: updateStateFunction,
-                showComments: state.showComments,
-                d,
-              }}
-            />
-          ) : (
-            <div>{/*Decorative div do not delete*/}</div>
-          )}
-        </div>
 
-        <div style={{ width: "33%", minHeight: "57px" }}>
-          {/*Decorative div do not delete*/}
-        </div>
-      </div>
+      <Widget
+        src={`${widgetOwner}/widget/showCommentsButton`}
+        props={{
+          thisWidgetInlineStyles,
+          thisWidgetClassNames,
+          fatherStateUpdate: updateStateFunction,
+          showComments: state.showComments,
+          d,
+        }}
+      />
 
-      {RenderCommentAnswerBox(d)}
+      {RenderAllCommentAnswerBox(d)}
     </div>
   </>
 );
