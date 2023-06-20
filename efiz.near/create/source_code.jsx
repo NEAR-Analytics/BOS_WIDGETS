@@ -28,6 +28,10 @@ const Row = styled.div`
 const Label = styled.label`
 `;
 
+State.init({
+  ...item.value,
+});
+
 // Primitive checks
 if (item.type === "string") {
   return <Input onChange={onChange} value={item.value} />;
@@ -47,6 +51,7 @@ const type = JSON.parse(Social.get(item.type, "final") || "null");
 const properties = type.properties || [];
 
 const handleInputChange = (name, value) => {
+  console.log(value);
   State.update({ [name]: value });
   if (props.onChange) {
     props.onChange({ [name]: value });
