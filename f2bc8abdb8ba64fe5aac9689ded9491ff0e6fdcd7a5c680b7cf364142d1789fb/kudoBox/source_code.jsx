@@ -22,6 +22,8 @@ console.log(index);
 let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
 const RenderAllCommentAnswerBox = (d) => {
+  console.log("t:", 999999999 - index);
+
   return (
     <>
       {state.showComments && (
