@@ -533,7 +533,7 @@ return (
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
-                  text: state.note,
+                  text: article.body,
                   onHashtag: (hashtag) => (
                     <span
                       key={hashtag}
