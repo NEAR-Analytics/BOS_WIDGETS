@@ -17,12 +17,13 @@ State.init({
 
 const widgetOwner = props.widgetOwner;
 
-console.log(1, index);
+// console.log(1, index);
 
 function getAnswersContainerStyles() {
   let styles = thisWidgetInlineStyles.allCommentAnswerBox.cardsContainer;
 
   styles["zIndex"] = `${999999999 - index}`;
+  console.log(syles);
   return styles;
 }
 
