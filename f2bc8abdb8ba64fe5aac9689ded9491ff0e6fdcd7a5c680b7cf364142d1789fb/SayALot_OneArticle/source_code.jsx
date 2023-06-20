@@ -463,7 +463,6 @@ return (
                   onClick={() => {
                     State.update({
                       editArticle: false,
-                      note: undefined,
                     });
                   }}
                 >
