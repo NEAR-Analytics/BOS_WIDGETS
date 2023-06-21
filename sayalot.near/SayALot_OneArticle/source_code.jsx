@@ -14,15 +14,20 @@ const raw = !!props.raw;
 
 const notifyAccountId = accountId;
 
-State.init({ showReply: false, isMain: true });
+State.init({ showReply: false, isMain: true, article: {} });
 
-const article = JSON.parse(
-  Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-);
-State.update({ article });
+const article = state.saveComplete
+  ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
+  : JSON.parse(
+      Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+    );
+
+if (JSON.stringify(state.article) != JSON.stringify(article)) {
+  State.update({ article, note: article.body });
+}
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const authorsWhiteList = [
+const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -33,7 +38,7 @@ const authorsWhiteList = [
   "shubham007.near",
 ];
 const doesUserCanEditArticle = () => {
-  const isAccountIdInWhiteList = authorsWhiteList.some(
+  const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
   );
   const isAccountIdEqualsAuthor = accountId === state.article.author;
@@ -73,6 +78,94 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
+const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
+
+const getArticleData = () => {
+  const args = {
+    articleId: state.article.articleId,
+    author: accountId,
+    lastEditor: accountId,
+    timeLastEdit: Date.now(),
+    timeCreate: Date.now(),
+    body: state.note,
+    version: Number(state.article.version) + 1,
+    navigation_id: null,
+    tags: tagsArray,
+  };
+  return args;
+};
+
+const composeData = () => {
+  const data = {
+    sayALotArticle: {
+      main: JSON.stringify(getArticleData()),
+    },
+    index: {
+      sayALotArticle: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
+
+  if (tagsArray.length) {
+    data.index.tag = JSON.stringify(
+      tagsArray.map((tag) => ({
+        key: tag,
+        value: item,
+      }))
+    );
+  }
+
+  return data;
+};
+
+const saveHandler = (e) => {
+  State.update({
+    errorId: "",
+    errorBody: "",
+  });
+  if (state.article.articleId && state.note) {
+    // TODO check it automaticle
+    const isArticleIdDublicated = false;
+
+    if (!isArticleIdDublicated) {
+      const newData = composeData();
+
+      State.update({ saving: true });
+
+      Social.set(newData, {
+        force: true,
+        onCommit: () => {
+          State.update({
+            saveComplete: true,
+            saving: false,
+            editArticle: false,
+          });
+        },
+        onCancel: () => {
+          State.update({ saving: false });
+        },
+      });
+    } else {
+      State.update({
+        errorId: errTextDublicatedId,
+      });
+    }
+  } else {
+    if (!state.article.articleId) {
+      State.update({
+        errorId: errTextNoId,
+      });
+    }
+    if (!state.note) {
+      State.update({ errorBody: errTextNoBody });
+    }
+  }
+};
+
 const saveArticle = (args) => {
   const newArticleData = {
     ...state.article,
@@ -99,6 +192,7 @@ const saveArticle = (args) => {
     };
     return data;
   };
+
   const newData = composeArticleData();
   Social.set(newData, { force: true });
 };
@@ -236,7 +330,13 @@ return (
       <div className="col-12 col-md-3 border-end">
         <h4
           className="text-center"
-          style={{ cursor: "pointer", fontSize: "1rem" }}
+          style={{
+            cursor: "pointer",
+            fontSize: "1rem",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+          title={state.article.articleId}
           onClick={() => {
             State.update({
               note: state.article.body,
@@ -249,7 +349,6 @@ return (
         <Button
           onClick={() => {
             State.update({
-              ...state,
               editArticle: false,
               viewHistory: !state.viewHistory,
             });
@@ -257,14 +356,13 @@ return (
         >
           View History
         </Button>
-        {doesUserCanEditArticle() && (
+        {doesUserCanEditArticle() && !state.editArticle && (
           <button
             className="btn btn-outline-dark w-100"
             onClick={() => {
               State.update({
-                ...state,
                 viewHistory: false,
-                editArticle: !state.editArticle,
+                editArticle: true,
                 note: state.article.body,
               });
             }}
@@ -343,19 +441,18 @@ return (
                   type="button"
                   className="btn btn-outline-success mx-1"
                   style={{ minWidth: "120px" }}
-                  onClick={() => {
-                    if (!state.note || article.body === state.note) return;
-
-                    const args = {
-                      article_id: state?.articleId,
-                      body: state.note,
-                      navigation_id: null,
-                    };
-                    if (areTheTextAndTagsTheSame()) return;
-                    saveArticle(args);
-                  }}
+                  onClick={saveHandler}
                 >
-                  Save Article{" "}
+                  {state.saving && (
+                    <div
+                      className="spinner-border text-secondary"
+                      style={{ height: "1rem", width: "1rem" }}
+                      role="status"
+                    >
+                      <span className="sr-only" title="Loading..."></span>
+                    </div>
+                  )}
+                  Save Article
                 </button>
 
                 <button
@@ -364,9 +461,7 @@ return (
                   style={{ minWidth: "120px" }}
                   onClick={() => {
                     State.update({
-                      ...state,
                       editArticle: false,
-                      note: undefined,
                     });
                   }}
                 >
@@ -434,11 +529,10 @@ return (
                   props={{ tags: state.article.tags }}
                 />
               </div>
-              // <Markdown text={state.note || state.article.body} />
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
-                  text: state.note,
+                  text: article.body,
                   onHashtag: (hashtag) => (
                     <span
                       key={hashtag}
@@ -461,7 +555,6 @@ return (
                   style={{ cursor: "pointer", fontSize: "1.5rem" }}
                   onClick={() => {
                     State.update({
-                      ...state,
                       viewHistory: false,
                     });
                   }}
@@ -470,7 +563,6 @@ return (
                   className="btn btn-outline-danger"
                   onClick={() => {
                     State.update({
-                      ...state,
                       viewHistory: false,
                     });
                   }}
@@ -488,16 +580,27 @@ return (
             </div>
           )}
           {/* === CREATE COMMENT BUTTON === */}
-          {blockHeight !== "now" && (
-            <div className="mt-1 d-flex justify-content-between">
-              <Widget
-                src="mob.near/widget/CommentButton"
-                props={{
-                  onClick: () => State.update({ showReply: !state.showReply }),
-                }}
-              />
-            </div>
-          )}
+          <span className="d-inline-flex align-items-center">
+            {blockHeight !== "now" && (
+              <div className="mt-1 d-flex justify-content-between">
+                <Widget
+                  src="mob.near/widget/CommentButton"
+                  props={{
+                    onClick: () =>
+                      State.update({ showReply: !state.showReply }),
+                  }}
+                />
+              </div>
+            )}
+            {/* === LIKE === */}
+            <Widget
+              src={`${authorForWidget}/widget/SayALot_Reactions`}
+              props={{
+                // notifyAccountId,
+                item,
+              }}
+            />
+          </span>
           {/* === COMPOSE COMMENT === */}
           <div className="mt-3 ps-5">
             {state.showReply && (
