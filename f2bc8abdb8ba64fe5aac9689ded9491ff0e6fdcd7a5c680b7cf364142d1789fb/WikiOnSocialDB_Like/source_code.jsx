@@ -259,7 +259,10 @@ const Overlay = () => (
   >
     {emojiArray &&
       emojiArray.map((item) => (
-        <SmallButton onClick={() => clickHandler(item)}>
+        <SmallButton
+          onClick={() => clickHandler(item)}
+          style={{ transform: "translateY(-5px)" }}
+        >
           <OverlayTrigger
             placement="top"
             overlay={
