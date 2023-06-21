@@ -20,7 +20,9 @@ const MainContent = styled.div`
     padding: 20px;
   `;
 
-const Header = styled.h2`
+const Header = styled.div`
+    display: flex;
+    flex-direction: row;
     margin-bottom: 20px;
   `;
 
@@ -32,13 +34,6 @@ const Footer = styled.div`
   `;
 
 const Button = styled.button`
-    padding: 10px 20px;
-    background-color: #5fba7d;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
   `;
 
 const LeftPanelItem = styled.div`
@@ -159,7 +154,7 @@ return (
       <Header></Header>
       <Widget
         src="efiz.near/widget/Every.Thing.View"
-        props={{ path: state.template, data: state.config?.children }}
+        props={{ path: state.template, data: state.config }}
       />
     </MainContent>
     {state.isModalOpen && (
