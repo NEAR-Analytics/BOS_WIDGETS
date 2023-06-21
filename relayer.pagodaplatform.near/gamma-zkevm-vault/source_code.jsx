@@ -96,8 +96,7 @@ const sender = "0xA000BCE4Ce3d1B3AC63C2E0488Ce76Fbdb9DE764";
 
 const updateBalance = (token) => {
   const { address, symbol } = token;
-  console.log(token);
-  const decimals = 6;
+  const decimals = ["USDC", "USDT"].includes(symbol) ? 6 : 18;
 
   if (symbol === "WETH") {
     Ethers.provider()
@@ -138,7 +137,9 @@ if (sender)
     { symbol: token1, address: addresses[token1] },
   ].map(updateBalance);
 
-const { isDeposit, balances } = state;
+console.log(state.balances);
+
+const { isDeposit } = state;
 
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
@@ -155,12 +156,10 @@ return (
         <InputWrapper>
           <span>Amount of {token0}</span>
           <Input />
-          <span>Balance: {balances[token0]}</span>
         </InputWrapper>
         <InputWrapper>
           <span>Amount of {token1}</span>
           <Input />
-          <span>Balance: {balances[token1]}</span>
         </InputWrapper>
         <Button> Deposit </Button>
       </SubWrapper>
