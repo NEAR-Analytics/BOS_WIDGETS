@@ -31,7 +31,7 @@ const renderItem = (a) =>
 return (
   <div>
     <Widget
-      src="mob.near/widget/FilteredIndexFeed"
+      src="andyh.near/widget/FilteredIndexFeed"
       props={{
         index,
         reverse: true,
