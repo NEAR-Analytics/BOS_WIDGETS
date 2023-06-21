@@ -581,16 +581,27 @@ return (
             </div>
           )}
           {/* === CREATE COMMENT BUTTON === */}
-          {blockHeight !== "now" && (
-            <div className="mt-1 d-flex justify-content-between">
-              <Widget
-                src="mob.near/widget/CommentButton"
-                props={{
-                  onClick: () => State.update({ showReply: !state.showReply }),
-                }}
-              />
-            </div>
-          )}
+          <span className="d-inline-flex align-items-center">
+            {blockHeight !== "now" && (
+              <div className="mt-1 d-flex justify-content-between">
+                <Widget
+                  src="mob.near/widget/CommentButton"
+                  props={{
+                    onClick: () =>
+                      State.update({ showReply: !state.showReply }),
+                  }}
+                />
+              </div>
+            )}
+            {/* === LIKE === */}
+            <Widget
+              src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
+              props={{
+                // notifyAccountId,
+                item,
+              }}
+            />
+          </span>
           {/* === COMPOSE COMMENT === */}
           <div className="mt-3 ps-5">
             {state.showReply && (
