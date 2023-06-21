@@ -22,6 +22,7 @@ if (!blockHeight) {
 }
 
 const block = Near.block(blockHeight);
+console.log({ block });
 
 if (block === null) {
   return "Loading";
