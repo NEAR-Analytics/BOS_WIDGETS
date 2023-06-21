@@ -4,6 +4,7 @@ if (props.now) {
 
 const keyPath = props.keyPath;
 let blockHeight = props.blockHeight ? parseInt(props.blockHeight) : undefined;
+console.log({ blockHeight });
 
 if (blockHeight === undefined && keyPath) {
   blockHeight = Social.keys(keyPath, undefined, {
