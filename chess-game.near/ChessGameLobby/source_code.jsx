@@ -58,12 +58,13 @@ const Header = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
+  justify-content: center;
 
   a {
     display: block;
     align-items: center;
-	color: inherit;
-	text-decoration: inherit;
+    color: inherit;
+    text-decoration: inherit;
     font-size: 1.4rem;
     border-radius: 0.4rem;
     border: 1px solid lightblue;
@@ -237,6 +238,7 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
         game_id: gameId,
       });
     }
+    console.log("gameInfo", gameInfo);
     return (
       <Button onClick={selectGame(gameId, isFinished)}>
         <div>ID: {gameId[0]}</div>
@@ -246,7 +248,16 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
             {gameId[2] && <div>Black: {gameId[2]}</div>}
           </>
         )}
-        {gameInfo && <div>VS: AI ({gameInfo.black.Ai})</div>}
+        {gameInfo && (
+          <div>
+            VS:{" "}
+            {gameInfo.black.Ai ? (
+              <>AI ({gameInfo.black.Ai})</>
+            ) : (
+              <>Player ({gameInfo.black.Human})</>
+            )}
+          </div>
+        )}
       </Button>
     );
   });
