@@ -6,7 +6,7 @@ const hideImage = props.hideImage;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-const name = profile.name ?? accountId;
+const name = profile?.name ?? accountId;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
