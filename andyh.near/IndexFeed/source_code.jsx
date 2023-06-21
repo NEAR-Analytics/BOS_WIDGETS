@@ -1,4 +1,3 @@
-State.init({ cachedItems: {} });
 const index = JSON.parse(JSON.stringify(props.index));
 if (!index) {
   return "props.index is not defined";
@@ -13,6 +12,15 @@ const renderItem =
       #{item.blockHeight}: {JSON.stringify(item)}
     </div>
   ));
+const cachedRenderItem = (item, i) => {
+  const key = JSON.stringify(item);
+
+  if (!(key in state.cachedItems)) {
+    state.cachedItems[key] = renderItem(item, i);
+    State.update();
+  }
+  return state.cachedItems[key];
+};
 
 index.options = index.options || {};
 const initialRenderLimit =
@@ -54,7 +62,6 @@ if (state.jInitialItems !== jInitialItems) {
   const jIndex = JSON.stringify(index);
   const nextFetchFrom = computeFetchFrom(initialItems, index.options.limit);
   if (jIndex !== state.jIndex || nextFetchFrom !== state.initialNextFetchFrom) {
-    // console.log({ updated: initialItems });
     State.update({
       jIndex,
       jInitialItems,
@@ -93,14 +100,11 @@ if (state.fetchFrom) {
   }
 }
 
-const filteredItems = state.items || [];
+const filteredItems = state.items;
 if (filter) {
   if (filter.ignore) {
     filteredItems = filteredItems.filter(
-      (item) =>
-        !(Array.isArray(filter.ignore)
-          ? filter.ignore.includes(item.accountId)
-          : filter.ignore[item.accountId])
+      (item) => !(item.accountId in filter.ignore)
     );
   }
 }
@@ -156,17 +160,32 @@ if (reverse) {
   items.reverse();
 }
 
-return (
-  <Widget
-    src="andyh.near/widget/IndexFeed.Items"
-    props={{
-      items,
-      manual: props.manual,
-      reverse,
-      fetchMore,
-      hasMore: state.displayCount < filteredItems.length,
-      makeMoreItems,
-      renderItems: (i) => Promise.all(i.map(renderItem)),
-    }}
-  />
+const renderedItems = items.map(cachedRenderItem);
+
+return props.manual ? (
+  <>
+    {reverse && fetchMore}
+    {renderedItems}
+    {!reverse && fetchMore}
+  </>
+) : (
+  <InfiniteScroll
+    pageStart={0}
+    loadMore={makeMoreItems}
+    hasMore={state.displayCount < filteredItems.length}
+    loader={
+      <div className="loader">
+        <span
+          className="spinner-grow spinner-grow-sm me-1"
+          role="status"
+          aria-hidden="true"
+        />
+        Loading ...
+      </div>
+    }
+  >
+    {props.headerElement}
+    {renderedItems}
+    {props.footerElement}
+  </InfiniteScroll>
 );
