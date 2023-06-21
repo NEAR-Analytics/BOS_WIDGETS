@@ -1,8 +1,7 @@
 const ownerId = "manzanal.near";
 const accountId = props.accountId ?? context.accountId;
 
-const curatedComps =
-  props.data ?? Social.get(`${accountId}/settings/dev/library`);
+const data = props.data;
 
 const filterTag = props.commonComponentTag ?? "dev";
 const debug = props.debug ?? false;
@@ -49,11 +48,11 @@ const searchComponents = () => {
 
 const renderCategory = (categoryId) => {
   if (!categoryId || categoryId === "") return <></>;
-  const item = curatedComps.find((i) => i.id == categoryId);
+  const item = data.categories?.find((i) => i.id == categoryId);
   return (
     <div class="mt-3">
       <div class="text fs-5 text-muted mb-1" id={item.id}>
-        {item.category}
+        {item.label}
       </div>
       <div class="border border-2 mb-4 rounded"></div>
       <div class="container">
@@ -94,9 +93,9 @@ const renderHome = () => {
           A curated list of common components grouped by categories.
         </p>
         <div className="mb-3">
-          {curatedComps && (
+          {data.categories && (
             <div className="mb-6">
-              {curatedComps.map((cat, i) => renderCategory(cat.id))}
+              {data.categories.map((cat, i) => renderCategory(cat.id))}
             </div>
           )}
         </div>
@@ -124,10 +123,10 @@ return (
           props={{
             tab: state.tab,
             onSelect,
-            navItems: curatedComps?.map((i) => ({
-              category: i.category,
-              icon: i.icon,
+            navItems: data.categories?.map((i) => ({
               id: i.id,
+              category: i.label,
+              icon: i.icon,
             })),
           }}
         />
