@@ -15,36 +15,27 @@ const index = {
 
 const raw = !!props.raw;
 
-const renderItem = (a) => {
-  const item = {
-    type: "social",
-    path: `${state.article.author}/${addressForArticles}/main`,
-    blockHeight: firstArticleBlockHeight,
-  };
-
-  return (
-    a.value.type === "md" && (
-      <div key={JSON.stringify(a)}>
-        <Widget
-          src={`${authorForWidget}/widget/SayALot_Comment`}
-          props={{
-            accountId: a.accountId,
-            blockHeight: a.blockHeight,
-            highlight:
-              a.accountId === props.highlightComment?.accountId &&
-              a.blockHeight === props.highlightComment?.blockHeight,
-            raw,
-          }}
-        />
-      </div>
-    )
+const renderItem = (a) =>
+  a.value.type === "md" && (
+    <div key={JSON.stringify(a)}>
+      <Widget
+        src={`${authorForWidget}/widget/SayALot_Comment`}
+        props={{
+          accountId: a.accountId,
+          blockHeight: a.blockHeight,
+          highlight:
+            a.accountId === props.highlightComment?.accountId &&
+            a.blockHeight === props.highlightComment?.blockHeight,
+          raw,
+        }}
+      />
+    </div>
   );
-};
 
 return (
   <div>
     <Widget
-      src={`eugenewolf507.near/widget/WikiOnSocialDB_ManualIndexFeed`}
+      src={`${authorForWidget}/widget/SayALot_ManualIndexFeed`}
       props={{
         index,
         reverse: true,
