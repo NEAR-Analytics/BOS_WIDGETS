@@ -12,11 +12,16 @@ State.init({
   newTypeSrc: "every.near",
   typeSrc: "every.near",
   expanded: false,
+  newType: type,
+  loadedType: type,
 });
 
 let importedTypes = [];
 if (state.typeSrc !== "") {
   const types = Social.get(`${state.typeSrc}/type/**`, "final");
+  if (!types) {
+    return <></>;
+  }
   importedTypes =
     Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
 }
@@ -28,10 +33,17 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   ...importedTypes,
 ];
 
-if (type) {
-  const parts = type.split("/");
-  type = JSON.parse(Social.get(type, blockHeight) || null);
-  type.name = parts[2];
+if (state.loadedType) {
+  const parts = state.loadedType.split("/");
+  type = JSON.parse(Social.get(state.loadedType, blockHeight) || null);
+  if (type) {
+    type.name = parts[2];
+    State.update({
+      typeName: type.name,
+      properties: type.properties,
+      widgets: type.widgets,
+    });
+  }
 }
 
 const FormContainer = styled.div`
@@ -194,6 +206,18 @@ function MultiSelect({ value, onChange }) {
 
 return (
   <FormContainer>
+    <Row>
+      <Text>Load Type:</Text>
+      <Input
+        type="text"
+        value={state.newType}
+        onChange={(e) => State.update({ newType: e.target.value })}
+        placeholder={"accountId/type/Type"}
+      />
+      <Button onClick={() => State.update({ loadedType: state.newType })}>
+        load
+      </Button>
+    </Row>
     <Row>
       <Text>Type Source:</Text>
       <Input
