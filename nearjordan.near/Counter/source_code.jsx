@@ -55,6 +55,6 @@ const Counter_address = "0x5277e186c1995375132bb559f3E3F94f450bC669";
 
 const Counter_contract = new ethers.Contract(Counter_address, Counter_abi, Ethers.provider().getSigner());
 
-const n = (async () => { return await Counter_contract.number(); }) ();
+const n = (async function() { return await Counter_contract.number(); }) ();
 
 return <p>Account test2: {sender} {abi[0].name} Number: {n}</p>;
