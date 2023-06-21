@@ -1,7 +1,21 @@
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
-
-const abi=[
+if (
+    state.chainId === undefined &&
+    ethers !== undefined &&
+    Ethers.send("eth_requestAccounts", [])[0]
+  ) {
+    Ethers.provider()
+      .getNetwork()
+      .then((chainIdData) => {
+        if (chainIdData?.chainId) {
+          State.update({ chainId: chainIdData.chainId });
+        }
+      });
+  }
+  if (state.chainId !== undefined && state.chainId !== 80001) {
+    return <p>Switch to Polygon Mumbai</p>;
+  }
+  
+const Counter_abi=[
     {
       "inputs": [],
       "name": "increment",
@@ -37,4 +51,10 @@ const abi=[
     }
   ];
 
-return <p>Account test2: {sender} {abi[0].name}</p>;
+const Counter_address = "0x5277e186c1995375132bb559f3E3F94f450bC669";
+
+const Counter_contract = new ethers.Contract(Counter_address, Counter_abi, Ethers.provider().getSigner());
+
+const n = (async () => { return await Counter_contract.number(); }) ();
+
+return <p>Account test2: {sender} {abi[0].name} Number: {n}</p>;
