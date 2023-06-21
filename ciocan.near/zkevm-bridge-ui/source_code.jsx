@@ -530,6 +530,27 @@ const handleConfirm = () => {
     return;
   }
 
+  const isPolygonNetwork = chainId === 1101 || chainId === 1442;
+  if (selectedNetwork === "ethereum" && isPolygonNetwork) {
+    State.update({
+      isToastOpen: true,
+      variant: "error",
+      title: "Invalid network",
+      description: "Please switch to polygon zkevm network",
+    });
+    return;
+  }
+
+  if (selectedNetwork === "polygon" && !isPolygonNetwork) {
+    State.update({
+      isToastOpen: true,
+      variant: "error",
+      title: "Invalid network",
+      description: "Please switch to ethereum network",
+    });
+    return;
+  }
+
   const { onConfirm } = props;
   if (onConfirm) {
     const token = getToken(selectedToken);
