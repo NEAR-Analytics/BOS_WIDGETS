@@ -1,7 +1,13 @@
-const type = props.type || null;
+const typeSrc = props.typeSrc || "";
 const blockHeight = props.blockHeight || "final";
+let type = {
+  name: "",
+  properties: [],
+  widgets: {},
+};
 
 State.init({
+  newType: typeSrc,
   typeName: type.name || "",
   properties: type.properties || [],
   widgets: type.widgets || {},
@@ -12,8 +18,6 @@ State.init({
   newTypeSrc: "every.near",
   typeSrc: "every.near",
   expanded: false,
-  newType: type,
-  loadedType: type,
 });
 
 let importedTypes = [];
@@ -33,21 +37,13 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   ...importedTypes,
 ];
 
-if (state.loadedType) {
-  const parts = state.loadedType.split("/");
-  type = JSON.parse(Social.get(state.loadedType, blockHeight) || null);
-  if (type) {
-    type.name = parts[2];
-    State.update({
-      typeName: type.name,
-      properties: type.properties,
-      widgets: type.widgets,
-    });
-  }
-}
+const Container = styled.div`
+  margin: 20px;
+`;
 
 const FormContainer = styled.div`
-  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 20px;
 `;
 
 const Row = styled.div`
@@ -74,6 +70,19 @@ const Text = styled.p`
   display: inline-block;
   margin-right: 10px;
 `;
+
+const loadType = () => {
+  const parts = state.newType.split("/");
+  type = JSON.parse(Social.get(state.newType, blockHeight) || null);
+  if (type) {
+    type.name = parts[2];
+    State.update({
+      typeName: type.name,
+      properties: type.properties,
+      widgets: type.widgets,
+    });
+  }
+};
 
 const handleAddProperty = () => {
   if (state.newPropertyName.trim() === "") return;
@@ -162,18 +171,6 @@ const composeData = () => {
   return data;
 };
 
-function TypeSrcSelect({ value, onChange }) {
-  return (
-    <Select value={value} onChange={onChange}>
-      {availableTypes.map((it) => (
-        <option value={it} key={it}>
-          {it}
-        </option>
-      ))}
-    </Select>
-  );
-}
-
 function TypeSelect({ value, onChange }) {
   return (
     <Select value={value} onChange={onChange}>
@@ -182,15 +179,6 @@ function TypeSelect({ value, onChange }) {
           {it}
         </option>
       ))}
-    </Select>
-  );
-}
-
-function RequiredSelect({ value, onChange }) {
-  return (
-    <Select value={value} onChange={onChange}>
-      <option value="true">true</option>
-      <option value="false">false</option>
     </Select>
   );
 }
@@ -205,7 +193,7 @@ function MultiSelect({ value, onChange }) {
 }
 
 return (
-  <FormContainer>
+  <Container>
     <Row>
       <Text>Load Type:</Text>
       <Input
@@ -214,9 +202,7 @@ return (
         onChange={(e) => State.update({ newType: e.target.value })}
         placeholder={"accountId/type/Type"}
       />
-      <Button onClick={() => State.update({ loadedType: state.newType })}>
-        load
-      </Button>
+      <Button onClick={loadType}>load</Button>
     </Row>
     <Row>
       <Text>Type Source:</Text>
@@ -230,96 +216,98 @@ return (
         apply
       </Button>
     </Row>
-    <Row>
-      <Text>Type Name:</Text>
-      <Input
-        type="text"
-        placeholder="Type Name"
-        value={state.typeName}
-        onChange={handleTypeNameChange}
-      />
-    </Row>
-    <Text>Properties:</Text>
-    {state.properties.map((property, index) => (
-      <Row key={index}>
+    <FormContainer>
+      <Row>
+        <Text>Type Name:</Text>
         <Input
           type="text"
-          value={property.name}
-          onChange={(e) => handlePropertyChange(e, index)}
+          placeholder="Type Name"
+          value={state.typeName}
+          onChange={handleTypeNameChange}
+        />
+      </Row>
+      <Text>Properties:</Text>
+      {state.properties?.map((property, index) => (
+        <Row key={index}>
+          <Input
+            type="text"
+            value={property.name}
+            onChange={(e) => handlePropertyChange(e, index)}
+          />
+          <TypeSelect
+            value={property.type}
+            onChange={(e) => handleTypeChange(e, index)}
+          />
+          <MultiSelect
+            value={property.isMulti}
+            onChange={(e) => handleMultiChange(e, index)}
+          />
+          <Button onClick={() => handleRemoveProperty(index)}>Remove</Button>
+        </Row>
+      ))}
+      <Row>
+        <Input
+          type="text"
+          placeholder="Property Name"
+          value={state.newPropertyName}
+          onChange={(e) => State.update({ newPropertyName: e.target.value })}
         />
         <TypeSelect
-          value={property.type}
-          onChange={(e) => handleTypeChange(e, index)}
+          value={state.newPropertyType}
+          onChange={(e) => State.update({ newPropertyType: e.target.value })}
         />
         <MultiSelect
-          value={property.isMulti}
-          onChange={(e) => handleMultiChange(e, index)}
+          value={state.newPropertyIsMulti}
+          onChange={(e) => State.update({ newPropertyIsMulti: e.target.value })}
         />
-        <Button onClick={() => handleRemoveProperty(index)}>Remove</Button>
+        <Button
+          onClick={handleAddProperty}
+          disabled={state.newPropertyName.trim() === ""}
+        >
+          Add Property
+        </Button>
       </Row>
-    ))}
-    <Row>
-      <Input
-        type="text"
-        placeholder="Property Name"
-        value={state.newPropertyName}
-        onChange={(e) => State.update({ newPropertyName: e.target.value })}
-      />
-      <TypeSelect
-        value={state.newPropertyType}
-        onChange={(e) => State.update({ newPropertyType: e.target.value })}
-      />
-      <MultiSelect
-        value={state.newPropertyIsMulti}
-        onChange={(e) => State.update({ newPropertyIsMulti: e.target.value })}
-      />
-      <Button
-        onClick={handleAddProperty}
-        disabled={state.newPropertyName.trim() === ""}
-      >
-        Add Property
-      </Button>
-    </Row>
-    <Text>Widgets:</Text>
-    {Object.entries(state.widgets).map(([key, src]) => (
-      <Row key={key}>
-        <Text>{key}:</Text>
-        <Input type="text" value={src} onChange={() => {}} />
-        <Button onClick={() => handleRemoveWidget(key)}>Remove</Button>
+      <Text>Widgets:</Text>
+      {Object.entries(state.widgets)?.map(([key, src]) => (
+        <Row key={key}>
+          <Text>{key}:</Text>
+          <Input type="text" value={src} onChange={() => {}} />
+          <Button onClick={() => handleRemoveWidget(key)}>Remove</Button>
+        </Row>
+      ))}
+      <Row>
+        <Input
+          type="text"
+          placeholder="Widget Key"
+          value={state.newWidgetKey}
+          onChange={handleWidgetKeyChange}
+        />
+        {":"}
+        <Input
+          type="text"
+          placeholder="Widget Src"
+          value={state.newWidgetSrc}
+          onChange={handleWidgetSrcChange}
+        />
+        <Button
+          onClick={handleAddWidget}
+          disabled={
+            state.newWidgetKey.trim() === "" || state.newWidgetSrc.trim() === ""
+          }
+        >
+          Add Widget
+        </Button>
       </Row>
-    ))}
-    <Row>
-      <Input
-        type="text"
-        placeholder="Widget Key"
-        value={state.newWidgetKey}
-        onChange={handleWidgetKeyChange}
-      />
-      {":"}
-      <Input
-        type="text"
-        placeholder="Widget Src"
-        value={state.newWidgetSrc}
-        onChange={handleWidgetSrcChange}
-      />
-      <Button
-        onClick={handleAddWidget}
-        disabled={
-          state.newWidgetKey.trim() === "" || state.newWidgetSrc.trim() === ""
-        }
-      >
-        Add Widget
-      </Button>
-    </Row>
-    <Row>
-      <CommitButton
-        force
-        data={composeData()}
-        disabled={state.properties.length === 0}
-        className="styless"
-      >
-        create
-      </CommitButton>
-    </Row>
-  </FormContainer>
+      <Row>
+        <CommitButton
+          force
+          data={composeData()}
+          disabled={state.properties.length === 0}
+          className="styless"
+        >
+          create
+        </CommitButton>
+      </Row>
+    </FormContainer>
+  </Container>
 );
