@@ -43,7 +43,7 @@ return (
       />
       <div className="mt-2 text-break">
         <Widget
-          src="andyh.near/widget/MainPage.Post.Content"
+          src="mob.near/widget/MainPage.Post.Content"
           props={{ content, raw }}
         />
       </div>
@@ -52,7 +52,7 @@ return (
           {parentItem && (
             <div key="comment" className="me-4">
               <Widget
-                src="mob.near/widget/CommentButton"
+                src="andyh.near/widget/CommentButton"
                 props={{
                   onClick: () =>
                     !state.showReply && State.update({ showReply: true }),
@@ -62,7 +62,7 @@ return (
           )}
           <div className="me-4">
             <Widget
-              src="mob.near/widget/LikeButton"
+              src="andyh.near/widget/LikeButton"
               props={{
                 notifyAccountId,
                 item,
@@ -82,7 +82,7 @@ return (
     {state.showReply && (
       <div className="mb-2" key="reply">
         <Widget
-          src="mob.near/widget/MainPage.Comment.Compose"
+          src="andyh.near/widget/MainPage.Comment.Compose"
           props={{
             initialText: `@${accountId}, `,
             notifyAccountId: extractNotifyAccountId(parentItem),
