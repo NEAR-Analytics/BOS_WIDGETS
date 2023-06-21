@@ -17,6 +17,12 @@ const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
 
+const item = {
+  type: "social",
+  path: `${accountId}/post/comment`,
+  blockHeight,
+};
+
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
@@ -47,6 +53,14 @@ return (
               }}
             />
           )}
+
+          <Widget
+            src={`${authorForWidget}/widget/SayALot_Reactions`}
+            props={{
+              // notifyAccountId,
+              item,
+            }}
+          />
         </div>
       )}
     </div>
