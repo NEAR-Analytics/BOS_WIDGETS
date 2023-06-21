@@ -146,8 +146,27 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-const { chainId, name, isContractAllowedToSpendToken } = state;
+State.init({
+  gasLimit: ethers.BigNumber.from("300000"),
+  isToastOpen: false,
+});
+
+const {
+  chainId,
+  name,
+  isContractAllowedToSpendToken,
+  variant,
+  title,
+  description,
+  isToastOpen,
+} = state;
 const isMainnet = chainId === 1 || chainId === 1101;
+
+const onOpenChange = (v) => {
+  State.update({
+    isToastOpen: false,
+  });
+};
 
 const BRIDGE_CONTRACT_ADDRESS = isMainnet
   ? "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
@@ -183,6 +202,29 @@ if (sender) {
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
+const updateGasLimit = (props) => {
+  console.log("updateGasLimit", props);
+  const { amount, token, network } = props;
+  if (network !== "ethereum") return;
+  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
+
+  const bridgeContract = new ethers.Contract(
+    BRIDGE_CONTRACT_ADDRESS,
+    bridgeAbi,
+    Ethers.provider()
+  );
+  bridgeContract.estimateGas
+    .bridgeAsset(1, sender, amountBig, token.address, true, "0x", {
+      from: sender,
+    })
+    .then((data) => {
+      console.log("gasLimit", data);
+    })
+    .catch((e) => {
+      console.log("gasLimit error", e);
+    });
+};
+
 const handleBridge = (props) => {
   console.log("handleBridge", props);
   const { amount, token, network, permit } = props;
@@ -192,21 +234,10 @@ const handleBridge = (props) => {
   // const permitData = permit || "0x";
   const permitData = "0x";
 
-  console.log(amountBig);
-
   const encodedData = bridgeIface.encodeFunctionData(
     "bridgeAsset(uint32,address,uint256,address,bool,bytes)",
     [networkId, sender, amountBig, token.address, true, permitData]
   );
-
-  console.log("", {
-    networkId,
-    sender,
-    amountBig,
-    token: token.address,
-    bool: true,
-    permitData,
-  });
 
   Ethers.provider()
     .getSigner()
@@ -214,13 +245,20 @@ const handleBridge = (props) => {
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
       value: token.symbol === "ETH" ? amountBig : "0",
-      gasLimit: ethers.BigNumber.from("500000"),
+      gasLimit,
     })
     .then((tx) => {
       consle.log("tx:", tx);
     })
     .catch((e) => {
       console.log("bridge error:", e);
+      State.update({
+        isToastOpen: true,
+        variant: "success",
+        title: "Asset bridged",
+        description:
+          "Please allow a few seconds and press the 'refresh list' button",
+      });
     });
 };
 
@@ -467,5 +505,9 @@ return (
         props={{ tokens }}
       />
     </div>
+    <Widget
+      src="ciocan.near/widget/toast"
+      props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+    />
   </Container>
 );
