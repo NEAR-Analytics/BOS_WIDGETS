@@ -91,8 +91,8 @@ State.init({
   isDeposit: true,
 });
 
-// const sender = Ethers.send("eth_requestAccounts", [])[0];
-const sender = "0xA000BCE4Ce3d1B3AC63C2E0488Ce76Fbdb9DE764";
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 
 const updateBalance = (token) => {
   const { address, symbol } = token;
@@ -137,9 +137,7 @@ if (sender)
     { symbol: token1, address: addresses[token1] },
   ].map(updateBalance);
 
-console.log(state.balances);
-
-const { isDeposit } = state;
+const { isDeposit, balances } = state;
 
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
@@ -156,10 +154,12 @@ return (
         <InputWrapper>
           <span>Amount of {token0}</span>
           <Input />
+          <span>Balance: {balances[token0]}</span>
         </InputWrapper>
         <InputWrapper>
           <span>Amount of {token1}</span>
           <Input />
+          <span>Balance: {balances[token1]}</span>
         </InputWrapper>
         <Button> Deposit </Button>
       </SubWrapper>
