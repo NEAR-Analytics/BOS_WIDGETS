@@ -44,7 +44,7 @@ const renderItem = (a) => {
 return (
   <div>
     <Widget
-      src={`eugenewolf507.near/widget/SayALot_ManualIndexFeed`}
+      src={`eugenewolf507.near/widget/WikiOnSocialDB_ManualIndexFeed`}
       props={{
         index,
         reverse: true,
