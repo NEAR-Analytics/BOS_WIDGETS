@@ -247,7 +247,8 @@ return (
             <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
               {props.singleNftProps.nft_state.owner.length > 12
                 ? props.singleNftProps.nft_state.owner.slice(0, 12) + "..."
-                : props.singleNftProps.nft_state.owner}
+                : props.singleNftProps.nft_state.owner ||
+                  "genadrop-contract.nftgen.near".slice(0, 12) + "..." + "near"}
             </span>
           </div>
         </TopImageContainer>
