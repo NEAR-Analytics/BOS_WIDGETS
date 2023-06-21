@@ -3,8 +3,7 @@ console.log({ accountId });
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
-  props.content ??
-  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
+  props.content ?? Social.get(`${accountId}/post/main`, blockHeight) ?? null;
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
