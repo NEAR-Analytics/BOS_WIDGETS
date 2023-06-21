@@ -77,6 +77,16 @@ const Header = styled.div`
 `;
 const Challenge = styled.div`
   display: flex;
+  font-size: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  border-radius: 0.4rem;
+  border: 1px solid black;
+  padding: 0.3rem;
+
+  > *:first-child {
+    flex: 1 0 100%;
+  }
 `;
 
 const isRegistered = Near.view(contractId, "storage_balance_of", {
@@ -202,12 +212,12 @@ const createAiGame = () => {
     difficulty: state.difficulty,
   });
 };
-const acceptChallenge = (challenge_id) => {
+const acceptChallenge = (challenge_id) => () => {
   Near.call(contractId, "accept_challenge", {
     challenge_id,
   });
 };
-const rejectChallenge = (challenge_id, is_challenger) => {
+const rejectChallenge = (challenge_id, is_challenger) => () => {
   Near.call(contractId, "reject_challenge", {
     challenge_id,
     is_challenger,
@@ -247,7 +257,7 @@ const renderOpenChallenges = (challenges) => {
       {challenges.map(({ challenge_id, is_challenger }) => {
         return (
           <Challenge>
-            <span>{challenge_id}</span>
+            <span>{challenge_id.split("-vs-").join(" vs ")}</span>
             {!is_challenger && (
               <Button onClick={acceptChallenge(challenge_id)}>Accept</Button>
             )}
