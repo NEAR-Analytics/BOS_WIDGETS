@@ -20,12 +20,12 @@ const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockH
 return (
   <div className="border-bottom pt-3 pb-1">
     <Widget
-      src="mob.near/widget/MainPage.Post.Header"
+      src="andyh.near/widget/MainPage.Post.Header"
       props={{ accountId, blockHeight, link, postType: "post", flagItem: item }}
     />
     <div className="mt-3 text-break">
       <Widget
-        src="mob.near/widget/MainPage.Post.Content"
+        src="andyh.near/widget/MainPage.Post.Content"
         props={{ content, raw }}
       />
     </div>
