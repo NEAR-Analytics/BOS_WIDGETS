@@ -100,7 +100,7 @@ if (state.fetchFrom) {
   }
 }
 
-const filteredItems = state.items;
+const filteredItems = state.items || [];
 if (filter) {
   if (filter.ignore) {
     filteredItems = filteredItems.filter(
