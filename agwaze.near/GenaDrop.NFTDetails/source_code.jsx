@@ -84,6 +84,7 @@ const RightSection = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-right: 10px;
 `;
 
 const Description = styled.div`
