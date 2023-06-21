@@ -131,6 +131,7 @@ const updateLikesStatisticsIfUserVoted = (newEmoji) => {
 const handleOnMouseEnter = (e) => {
   State.update({ show: true });
 };
+
 const handleOnMouseLeave = (e) => {
   State.update({ show: false });
 };
@@ -213,19 +214,20 @@ display: inline-block;
 position: relative;
 overflow: visible !important;
 padding-left: 8px;
-outline: 1px solid blue;
 `;
 
 const EmojiListWrapper = styled.div`
-
-margin: 0.5rem;
+display: flex;
+flex-wrap: wrap;
 padding: 0.5rem;
-height: 3.2em;
+
 background: white;
-background: ${({ show }) => (show ? "red" : "green")};
 border-radius: 1rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
-@media (min-width: 768px) {
+@media (min-width: 600px) {
+    display: ${({ show }) => (show ? "flex" : "none")};
+    height: 3.2rem;
+    flex-wrap: nowrap;
     position: absolute;
     zIndex: 2
   }
@@ -256,34 +258,34 @@ const Overlay = () => (
   </EmojiListWrapper>
 );
 // =============== JSX ===============
-const overlayOld = (
-  <div
-    className="border m-2 p-2 rounded-4 bg-white shadow"
-    style={{ maxWidth: "27em", height: "3.2em", zIndex: 2 }}
-    onMouseEnter={handleOnMouseEnter}
-    onMouseLeave={handleOnMouseLeave}
-  >
-    {emojiArray &&
-      emojiArray.map((item) => (
-        <SmallButton onClick={() => clickHandler(item)}>
-          <OverlayTrigger
-            placement="top"
-            overlay={
-              <Tooltip>
-                <div className="text-truncate text-start">{item.slice(2)}</div>
-              </Tooltip>
-            }
-          >
-            <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
-          </OverlayTrigger>
-        </SmallButton>
-      ))}
-  </div>
-);
+// const overlayOld = (
+//   <div
+//     className="border m-2 p-2 rounded-4 bg-white shadow"
+//     style={{ maxWidth: "27em", height: "3.2em", zIndex: 2 }}
+//     onMouseEnter={handleOnMouseEnter}
+//     onMouseLeave={handleOnMouseLeave}
+//   >
+//     {emojiArray &&
+//       emojiArray.map((item) => (
+//         <SmallButton onClick={() => clickHandler(item)}>
+//           <OverlayTrigger
+//             placement="top"
+//             overlay={
+//               <Tooltip>
+//                 <div className="text-truncate text-start">{item.slice(2)}</div>
+//               </Tooltip>
+//             }
+//           >
+//             <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+//           </OverlayTrigger>
+//         </SmallButton>
+//       ))}
+//   </div>
+// );
 
 return (
   <>
-    <span className="ps-2">
+    {/*<span className="ps-2">
       <OverlayTrigger
         show={state.show}
         trigger={["hover", "focus"]}
@@ -308,20 +310,18 @@ return (
             />
           </span>
         ))}
-    </span>
+    </span>*/}
     {/* NEW PART */}
-    <div>
-      NEW PART
-      <EmojiWrapper>
-        <Button
-          onClick={() => clickHandler(initialEmoji)}
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
-        >
-          {state.emoji === undefined ? initialEmoji : state.emoji}
-        </Button>
-        <Overlay />
-      </EmojiWrapper>
-    </div>
+
+    <EmojiWrapper>
+      <Button
+        onClick={() => clickHandler(initialEmoji)}
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+      >
+        {state.emoji === undefined ? initialEmoji : state.emoji}
+      </Button>
+      <Overlay />
+    </EmojiWrapper>
   </>
 );
