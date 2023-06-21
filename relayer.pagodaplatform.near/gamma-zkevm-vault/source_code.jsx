@@ -90,6 +90,7 @@ const sender = "0xA000BCE4Ce3d1B3AC63C2E0488Ce76Fbdb9DE764";
 
 const updateBalance = (token) => {
   const { address, symbol } = token;
+  console.log(token);
   const decimals = 18;
 
   if (symbol === "WETH") {
