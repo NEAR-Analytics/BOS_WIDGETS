@@ -6,7 +6,8 @@ const blockHeight = Number.isNaN(sharedBlockHeight)
   ? undefined
   : Number(sharedBlockHeight);
 
-const widgetOwner = "neardigitalcollective.near";
+const widgetOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 
 State.init({
   metadata: {},
@@ -278,6 +279,7 @@ const allWidgetsClassNames = {
     headerContainer: "d-flex justify-content-between",
     cardContent: "mt-3 text-break w-100 d-flex justify-content-between",
     postUrl: "d-flex",
+    cardFooterContainer: "d-flex justify-content-between",
     upVoteContainer:
       "d-flex flex-row-reverse align-items-center justify-content-end",
     commentInput: {
