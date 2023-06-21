@@ -42,7 +42,7 @@ return (
         </div>
         <div className="me-4">
           <Widget
-            src="mob.near/widget/RepostButton"
+            src="andyh.near/widget/RepostButton"
             props={{
               notifyAccountId,
               item,
