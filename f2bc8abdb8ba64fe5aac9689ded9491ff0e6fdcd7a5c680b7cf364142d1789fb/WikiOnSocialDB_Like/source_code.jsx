@@ -246,8 +246,8 @@ box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
     height: 3.2rem;
     flex-wrap: nowrap;
     position: absolute;
-    transform: translateY(10%)
-    zIndex: 2
+    transform: translateY(10%);
+    zIndex: 2;
   }
 `;
 
