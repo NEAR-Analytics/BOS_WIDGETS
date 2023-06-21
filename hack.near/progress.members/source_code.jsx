@@ -191,7 +191,7 @@ const propsSize = props.size ? props.size : "large";
 console.log("propsSize", propsSize);
 
 const totalUsrNum = 100;
-const percentage = (totalMembers / 100) * 100;
+const percentage = (totalMembers / 200) * 100;
 const widgetTitle = props.infoTitle ? props.infoTitle : "RC DAO Members";
 
 return (
