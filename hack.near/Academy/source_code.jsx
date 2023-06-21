@@ -411,8 +411,8 @@ return (
           <Widget
             src="near/widget/DIG.Button"
             props={{
-              href: "#/academy.near/widget/edu",
-              label: "Frequently Asked Questions",
+              href: "https://zoom.us/meeting/register/tJwrfuqgrDsjGdD6P4I_E-pfswqYv4v8JQok",
+              label: "Daily Office Hours",
               variant: "outline-secondary",
               size: "large",
             }}
