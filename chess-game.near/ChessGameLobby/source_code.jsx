@@ -75,10 +75,31 @@ const Header = styled.div`
     }
   }
 `;
+const Challenge = styled.div`
+  display: flex;
+`;
 
 const isRegistered = Near.view(contractId, "storage_balance_of", {
   account_id: accountId,
 });
+const challenges0 = Near.view(contractId, "get_challenges", {
+  account_id: accountId,
+  is_challenger: true,
+});
+const challenges1 = Near.view(contractId, "get_challenges", {
+  account_id: accountId,
+  is_challenger: false,
+});
+const openChallenges = [
+  ...challenges0.map((id) => ({
+    challenge_id: id,
+    is_challenger: true,
+  })),
+  ...challenges1.map((id) => ({
+    challenge_id: id,
+    is_challenger: false,
+  })),
+];
 
 const registerAccount = () => {
   Near.call(
@@ -105,9 +126,11 @@ if (!isRegistered) {
   );
 }
 
+console.log("STATE", state);
 State.init({
   game_id: null,
   replay_game_id: null,
+  challenged_id: "",
   difficulty: "Easy",
 });
 
@@ -138,6 +161,10 @@ const GameCreator = styled.div`
   > *:not(h2) {
     margin: 0.2rem 0;
   }
+
+  h2, h3, h4 {
+    align-self: center;
+  }
 `;
 
 const selectGame = (gameId, isFinished) => () => {
@@ -157,14 +184,33 @@ const returnToLobby = () => {
     replay_game_id: null,
   });
 };
+const updateChallengedId = ({ target }) => {
+  State.update({ challenged_id: target.value });
+};
 const resign = () => {
   Near.call(contractId, "resign", {
     game_id: state.game_id,
   });
 };
+const challenge = () => {
+  Near.call(contractId, "challenge", {
+    challenged_id: state.challenged_id,
+  });
+};
 const createAiGame = () => {
   Near.call(contractId, "create_ai_game", {
     difficulty: state.difficulty,
+  });
+};
+const acceptChallenge = (challenge_id) => {
+  Near.call(contractId, "accept_challenge", {
+    challenge_id,
+  });
+};
+const rejectChallenge = (challenge_id, is_challenger) => {
+  Near.call(contractId, "reject_challenge", {
+    challenge_id,
+    is_challenger,
   });
 };
 const selectDifficulty = (event) => {
@@ -194,6 +240,26 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
       </Button>
     );
   });
+
+const renderOpenChallenges = (challenges) => {
+  return (
+    <GameSelector>
+      {challenges.map(({ challenge_id, is_challenger }) => {
+        return (
+          <Challenge>
+            <span>{challenge_id}</span>
+            {!is_challenger && (
+              <Button onClick={acceptChallenge(challenge_id)}>Accept</Button>
+            )}
+            <Button onClick={rejectChallenge(challenge_id, is_challenger)}>
+              Reject
+            </Button>
+          </Challenge>
+        );
+      })}
+    </GameSelector>
+  );
+};
 
 let content;
 if (state.game_id) {
@@ -229,6 +295,24 @@ if (state.game_id) {
           <GameSelector>{renderGameIds(gameIds, false, false)}</GameSelector>
         </div>
       )}
+      <GameCreator>
+        <h2>PvP:</h2>
+        <h3>Open challenges:</h3>
+        {openChallenges.length === 0 ? (
+          <span>
+            No open challenges found.
+            <br />
+            Challenge your first opponent now below!
+          </span>
+        ) : (
+          renderOpenChallenges(openChallenges)
+        )}
+        <span>Account ID:</span>
+        <input onChange={updateChallengedId} value={state.challenged_id} />
+        <Button onClick={challenge} fontSize="1.4rem">
+          Challenge!
+        </Button>
+      </GameCreator>
       <GameCreator>
         <h2>Create New AI Game:</h2>
         <span>Difficulty:</span>
