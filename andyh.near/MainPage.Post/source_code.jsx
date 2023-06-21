@@ -80,7 +80,7 @@ return (
         </div>
       )}
       <Widget
-        src="mob.near/widget/MainPage.Comment.Feed"
+        src="andyh.near/widget/MainPage.Comment.Feed"
         props={{
           item,
           highlightComment: props.highlightComment,
