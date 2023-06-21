@@ -9,7 +9,7 @@ const SidePanel = styled.div`
     gap: 10px;
     padding: 20px;
     background-color: #f2f2f2;
-    width: 300px;
+    width: auto;
     z-index: 50;
   `;
 
@@ -57,8 +57,42 @@ const Label = styled.label`
 const Input = styled.input`
   `;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+`;
+
+const ModalTitle = styled.h3`
+  margin-bottom: 10px;
+`;
+
+const ModalButton = styled.button`
+  padding: 10px 20px;
+  background-color: #5fba7d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+`;
+
 State.init({
   data: {},
+  isModalOpen: false,
 });
 
 const handleOnChange = (value) => {
@@ -75,6 +109,7 @@ const handleApply = () => {
 
 const handleSave = () => {
   // create the thing
+  State.update({ isModalOpen: true });
 };
 
 let availableTypes = [];
@@ -117,9 +152,7 @@ return (
       />
       <Footer>
         <Button onClick={() => handleApply()}>apply</Button>
-        <Button onClick={() => handleSave()} disabled={true}>
-          save
-        </Button>
+        <Button onClick={() => handleSave()}>save</Button>
       </Footer>
     </SidePanel>
     <MainContent>
@@ -129,5 +162,19 @@ return (
         props={{ path: state.template, data: state.config?.children }}
       />
     </MainContent>
+    {state.isModalOpen && (
+      <ModalOverlay>
+        <ModalContent>
+          <ModalTitle>Save Confirmation</ModalTitle>
+          <p>Are you sure you want to save?</p>
+          <ModalButton onClick={() => State.update({ isModalOpen: false })}>
+            Save
+          </ModalButton>
+          <ModalButton onClick={() => State.update({ isModalOpen: false })}>
+            Cancel
+          </ModalButton>
+        </ModalContent>
+      </ModalOverlay>
+    )}
   </Container>
 );
