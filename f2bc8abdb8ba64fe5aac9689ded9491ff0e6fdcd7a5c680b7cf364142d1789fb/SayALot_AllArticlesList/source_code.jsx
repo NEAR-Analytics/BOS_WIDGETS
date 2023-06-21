@@ -9,7 +9,8 @@ const writersWhiteList = props.writersWhiteList ?? [
   "yuensid.near",
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
-const authorForWidget = "sayalot.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
@@ -55,63 +56,65 @@ const getDateLastEdit = (timestamp) => {
 return (
   <div className="row card-group py-3">
     {filteredArticles.length > 0 &&
-      filteredArticles.map((article, i) => (
-        <div
-          className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
-          key={article.articleId}
-        >
-          <div className="card h-100">
-            <a
-              className="text-decoration-none text-dark"
-              href={`#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
+      filteredArticles.map((article, i) => {
+        return (
+          <div
+            className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
+            key={article.articleId}
+          >
+            <div className="card h-100">
+              <a
+                className="text-decoration-none text-dark"
+                href={`#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `}
-            >
-              <div className="card-body">
-                <div className="row d-flex justify-content-center">
-                  <h5 className="card-title text-center pb-2 border-bottom">
-                    {article.articleId}
-                  </h5>
-                  <div className="col flex-grow-1">
+              >
+                <div className="card-body">
+                  <div className="row d-flex justify-content-center">
+                    <h5 className="card-title text-center pb-2 border-bottom">
+                      {article.articleId}
+                    </h5>
+                    <div className="col flex-grow-1">
+                      <Widget
+                        src="mob.near/widget/Profile.ShortInlineBlock"
+                        props={{ accountId: article.author, tooltip: true }}
+                      />
+                    </div>
+                    <div className="col flex-grow-0">
+                      <p className="card-subtitle text-muted text-end">
+                        {getDateLastEdit(article.timeCreate).date}
+                      </p>{" "}
+                      <p className="card-subtitle text-muted text-end">
+                        {getDateLastEdit(article.timeCreate).time}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className="mt-3 alert alert-secondary"
+                    style={{ backgroundColor: "white" }}
+                  >
+                    <div>
+                      Last edit by{" "}
+                      <a
+                        href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
+                        style={{ textDecoration: "underline" }}
+                      >
+                        {article.lastEditor}
+                      </a>
+                      <br />
+                      Edited on {getDateLastEdit(article.timeLastEdit).date}
+                      <br />
+                      Edit versions: {article.version}
+                    </div>
                     <Widget
-                      src="mob.near/widget/Profile.ShortInlineBlock"
-                      props={{ accountId: article.author, tooltip: true }}
+                      src={`${authorForWidget}/widget/SayALot_TagList`}
+                      props={{ tags: article.tags }}
                     />
                   </div>
-                  <div className="col flex-grow-0">
-                    <p className="card-subtitle text-muted text-end">
-                      {getDateLastEdit(article.timeCreate).date}
-                    </p>{" "}
-                    <p className="card-subtitle text-muted text-end">
-                      {getDateLastEdit(article.timeCreate).time}
-                    </p>
-                  </div>
                 </div>
-                <div
-                  className="mt-3 alert alert-secondary"
-                  style={{ backgroundColor: "white" }}
-                >
-                  <div>
-                    Last edit by{" "}
-                    <a
-                      href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-                      style={{ textDecoration: "underline" }}
-                    >
-                      {article.lastEditor}
-                    </a>
-                    <br />
-                    Edited on {getDateLastEdit(article.timeLastEdit).date}
-                    <br />
-                    Edit versions: {article.version}
-                  </div>
-                  <Widget
-                    src={`${authorForWidget}/widget/SayALot_TagList`}
-                    props={{ tags: article.tags }}
-                  />
-                </div>
-              </div>
-            </a>
+              </a>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
   </div>
 );
