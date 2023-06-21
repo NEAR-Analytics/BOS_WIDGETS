@@ -63,7 +63,7 @@ function playNextSong() {
 
 return (
   <>
-    <h1 className="text-xl font-bold text-center my-6">
+    <h1 className="text-3xl font-bold text-center my-6">
       Decentralised Music Streaming
     </h1>
     <div className="flex flex-col items-center justify-center h-full space-y-6">
