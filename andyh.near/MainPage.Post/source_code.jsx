@@ -1,8 +1,9 @@
 const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
-const bpst = Social.get(`${accountId}/post/main`, blockHeight);
-const content = props.content ?? bpst ?? "null";
+const content =
+  props.content ??
+  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
@@ -14,11 +15,11 @@ const item = {
 };
 
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+
 return (
   <div className="border-bottom pt-3 pb-1">
-    oh hai widget
     <Widget
-      src="mob.near/widget/MainPage.Post.Header"
+      src="andyh.near/widget/MainPage.Post.Header"
       props={{ accountId, blockHeight, link, postType: "post", flagItem: item }}
     />
     <div className="mt-3 text-break">
