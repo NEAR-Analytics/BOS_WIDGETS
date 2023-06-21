@@ -1,6 +1,6 @@
 const content = props.content;
 const raw = !!props.raw;
-
+console.log({ raw, content });
 return content ? (
   <>
     {content.text &&
