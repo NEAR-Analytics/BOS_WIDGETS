@@ -55,6 +55,6 @@ const Counter_address = "0x5277e186c1995375132bb559f3E3F94f450bC669";
 
 const Counter_contract = new ethers.Contract(Counter_address, Counter_abi, Ethers.provider().getSigner());
 
-Counter_contract.number().then((n) => { State.update({num: n}); });
+Counter_contract.number().then((n) => { State.update({num: Number(n)}); });
 
-return <p>Account test2: {sender} {abi[0].name} Number: {state.num}</p>;
+return <p>Account test2: {sender} {abi[0].name} Number: {state.num.toString()}</p>;
