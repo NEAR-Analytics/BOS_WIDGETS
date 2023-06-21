@@ -139,6 +139,13 @@ const RenderKudoBox = (d) => {
         </div>
       )}
       <div className={thisWidgetClassNames.cardFooterContainer}>
+        <Widget
+          src={`${widgetOwner}/widget/WikiOnSocialDB_Like`}
+          props={{
+            // notifyAccountId,
+            item,
+          }}
+        />
         <div
           style={thisWidgetInlineStyles.upVoteContainer}
           className={thisWidgetClassNames.upVoteContainer}
@@ -176,13 +183,6 @@ const RenderKudoBox = (d) => {
             {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
           </span>
         </div>
-        <Widget
-          src={`${widgetOwner}/widget/WikiOnSocialDB_Like`}
-          props={{
-            // notifyAccountId,
-            item,
-          }}
-        />
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
 
