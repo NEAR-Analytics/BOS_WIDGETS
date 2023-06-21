@@ -1,4 +1,5 @@
 const accountId = props.accountId;
+console.log({ accountId });
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -19,12 +20,12 @@ const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockH
 return (
   <div className="border-bottom pt-3 pb-1">
     <Widget
-      src="andyh.near/widget/MainPage.Post.Header"
+      src="mob.near/widget/MainPage.Post.Header"
       props={{ accountId, blockHeight, link, postType: "post", flagItem: item }}
     />
     <div className="mt-3 text-break">
       <Widget
-        src="andyh.near/widget/MainPage.Post.Content"
+        src="mob.near/widget/MainPage.Post.Content"
         props={{ content, raw }}
       />
     </div>
