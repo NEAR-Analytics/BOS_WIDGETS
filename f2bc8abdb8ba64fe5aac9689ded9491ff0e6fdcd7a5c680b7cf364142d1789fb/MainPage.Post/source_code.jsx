@@ -138,49 +138,56 @@ const RenderKudoBox = (d) => {
           </a>
         </div>
       )}
-      <div className={thisWidgetClassNames.cardFooterContainer}>
-        <Widget
-          src={`${widgetOwner}/widget/WikiOnSocialDB_Like`}
-          props={{
-            // notifyAccountId,
-            item,
+      {
+        //<div className={thisWidgetClassNames.cardFooterContainer}>
+        // <Widget
+        //   src={`${widgetOwner}/widget/WikiOnSocialDB_Like`}
+        //   props={{
+        //     // notifyAccountId,
+        //     item,
+        //   }}
+        // />
+      }
+      <div
+        className={thisWidgetClassNames.upVoteContainer}
+        style={thisWidgetInlineStyles.upVoteContainer}
+      >
+        <CommitButton
+          style={
+            state.hoveringElement == "upVoteButton"
+              ? hoveringButtonStyles
+              : standardButtonStyles
+          }
+          onMouseEnter={() => {
+            State.update({ hoveringElement: "upVoteButton" });
           }}
-        />
-        <div className={thisWidgetClassNames.upVoteContainer}>
-          <CommitButton
-            style={
-              state.hoveringElement == "upVoteButton"
-                ? hoveringButtonStyles
-                : standardButtonStyles
-            }
-            onMouseEnter={() => {
-              State.update({ hoveringElement: "upVoteButton" });
-            }}
-            onMouseLeave={() => {
-              State.update({ hoveringElement: "" });
-            }}
-            data={{
-              index: {
-                kudo: JSON.stringify(
-                  {
-                    key: "upvote",
-                    value: {
-                      blockHeight: d.blockHeight,
-                    },
+          onMouseLeave={() => {
+            State.update({ hoveringElement: "" });
+          }}
+          data={{
+            index: {
+              kudo: JSON.stringify(
+                {
+                  key: "upvote",
+                  value: {
+                    blockHeight: d.blockHeight,
                   },
-                  undefined,
-                  0
-                ),
-              },
-            }}
-          >
-            Upvote
-          </CommitButton>
-          <span style={thisWidgetInlineStyles.upVoteCounter}>
-            {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
-          </span>
-        </div>
+                },
+                undefined,
+                0
+              ),
+            },
+          }}
+        >
+          Upvote
+        </CommitButton>
+        <span style={thisWidgetInlineStyles.upVoteCounter}>
+          {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
+        </span>
       </div>
+      {
+        //</div>
+      }
       {RenderCommentInput(Number(d.blockHeight))}
 
       {
