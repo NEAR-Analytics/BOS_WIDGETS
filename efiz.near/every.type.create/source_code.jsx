@@ -1,19 +1,6 @@
 const type = props.type || null;
 const blockHeight = props.blockHeight || "final";
 
-const availableTypes = JSON.parse(props.availableTypes) || [
-  "string",
-  "boolean",
-  "number",
-  "efiz.near/type/library",
-];
-
-if (type) {
-  const parts = type.split("/");
-  type = JSON.parse(Social.get(type, blockHeight) || null);
-  type.name = parts[2];
-}
-
 State.init({
   typeName: type.name || "",
   properties: type.properties || [],
@@ -22,8 +9,30 @@ State.init({
   newPropertyType: "string",
   newWidgetKey: "",
   newWidgetSrc: "",
+  newTypeSrc: "every.near",
+  typeSrc: "every.near",
   expanded: false,
 });
+
+let importedTypes = [];
+if (state.typeSrc !== "") {
+  const types = Social.get(`${state.typeSrc}/type/**`, "final");
+  importedTypes =
+    Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
+}
+
+const availableTypes = JSON.parse(props.availableTypes) || [
+  "string",
+  "boolean",
+  "number",
+  ...importedTypes,
+];
+
+if (type) {
+  const parts = type.split("/");
+  type = JSON.parse(Social.get(type, blockHeight) || null);
+  type.name = parts[2];
+}
 
 const FormContainer = styled.div`
   margin: 20px;
@@ -90,12 +99,6 @@ const handleTypeChange = (e, index) => {
   State.update({ properties: updatedProperties });
 };
 
-const handleRequiredChange = (e, index) => {
-  const updatedProperties = [...state.properties];
-  updatedProperties[index].required = e.target.value === "true";
-  State.update({ properties: updatedProperties });
-};
-
 const handleMultiChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isMulti = e.target.value;
@@ -147,6 +150,18 @@ const composeData = () => {
   return data;
 };
 
+function TypeSrcSelect({ value, onChange }) {
+  return (
+    <Select value={value} onChange={onChange}>
+      {availableTypes.map((it) => (
+        <option value={it} key={it}>
+          {it}
+        </option>
+      ))}
+    </Select>
+  );
+}
+
 function TypeSelect({ value, onChange }) {
   return (
     <Select value={value} onChange={onChange}>
@@ -179,6 +194,18 @@ function MultiSelect({ value, onChange }) {
 
 return (
   <FormContainer>
+    <Row>
+      <Text>Type Source:</Text>
+      <Input
+        type="text"
+        value={state.newTypeSrc}
+        onChange={(e) => State.update({ newTypeSrc: e.target.value })}
+        placeholder={"accountId"}
+      />
+      <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
+        apply
+      </Button>
+    </Row>
     <Row>
       <Text>Type Name:</Text>
       <Input
