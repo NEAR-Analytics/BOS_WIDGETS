@@ -23,13 +23,12 @@ const addresses = {
   "stMATIC-MATIC": "0x9616052273a598bc04bd1ad7f7a753157c24f77e",
 };
 
-const defaultProp = {
-  pair: {
-    id: "W WETH-USDC",
-    token0: "WETH",
-    token1: "USDC",
-  },
+const defaultPair = {
+  id: "W WETH-USDC",
+  token0: "WETH",
+  token1: "USDC",
 };
+
 const Wrapper = styled.div`
     background: #1d1e1f;
     display: flex;
@@ -131,7 +130,7 @@ const updateBalance = (token) => {
   }
 };
 
-const { token0, token1 } = props ? props.pair : defaultProp.pair;
+const { token0, token1 } = props.pair || defaultPair;
 
 if (sender)
   [
