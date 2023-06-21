@@ -16,51 +16,12 @@ State.init({
   hoveringElement: "",
 });
 
-let item = {
+const notifyAccountId = accountId;
+const item = {
   type: "social",
   path: `${accountId}/post/main`,
   blockHeight,
 };
-
-const reposts = Social.index("repost", item);
-
-const repostsByUsers = Object.fromEntries(
-  (reposts || [])
-    .filter((repost) => repost.value.type === "repost")
-    .map((repost) => [repost.accountId, repost])
-);
-
-if (state.hasRepost === true) {
-  repostsByUsers[context.accountId] = {
-    accountId: context.accountId,
-  };
-}
-
-const hasRepost = context.accountId && !!repostsByUsers[context.accountId];
-
-const repostSvg = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="32"
-    height="32"
-    fill="currentColor"
-    viewBox="0 0 24 24"
-    style={thisWidgetInlineStyles.repostSvg}
-  >
-    <path
-      fill-rule="evenodd"
-      d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"
-      transform="rotate(180, 12, 12), translate(0, 4)"
-    />
-    <path
-      fill-rule="evenodd"
-      d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"
-      transform="translate(0, 4)"
-    />
-  </svg>
-);
-
-const notifyAccountId = accountId;
 
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
@@ -131,11 +92,8 @@ const RenderKudoBox = (d) => {
   const text = `From @${d.accountId} Kudos ${d.value.answer} `;
   const content = { text };
   return (
-    <div style={thisWidgetInlineStyles.kudoBoxContainer}>
-      <div
-        style={thisWidgetInlineStyles.headerContainer}
-        className={thisWidgetClassNames.headerContainer}
-      >
+    <>
+      <div className={thisWidgetClassNames.headerContainer}>
         <Widget
           src={`${widgetOwner}/widget/MainPage.Post.Header`}
           props={{
@@ -159,6 +117,15 @@ const RenderKudoBox = (d) => {
             props={{ content, raw }}
           />
         </div>
+
+        <div>
+          <Widget
+            src="mob.near/widget/CommentButton"
+            props={{
+              onClick: startCommentTo,
+            }}
+          />
+        </div>
       </div>
       {d.value.url != "" && d.value.url && (
         <div
@@ -171,61 +138,16 @@ const RenderKudoBox = (d) => {
           </a>
         </div>
       )}
-      <div
-        style={thisWidgetInlineStyles.interactionButtonsContainer}
-        className={thisWidgetClassNames.interactionButtonsContainer}
-      >
-        <Widget
-          src="mob.near/widget/CommentButton"
-          props={{
-            onClick: startCommentTo,
-          }}
-        />
-
-        <CommitButton
-          style={
-            state.hoveringElement == "repostButton"
-              ? thisWidgetInlineStyles.repostButtonHovering
-              : thisWidgetInlineStyles.repostButton
-          }
-          title="Repost"
-          className={thisWidgetClassNames.repostButton}
-          onMouseEnter={() => {
-            State.update({ hoveringElement: "repostButton" });
-          }}
-          onMouseLeave={() => {
-            State.update({ hoveringElement: "" });
-          }}
-          data={{
-            index: {
-              repost: JSON.stringify(
-                {
-                  key: "kudo",
-                  value: {
-                    type: "repost",
-                    item: {
-                      type: "social",
-                      path: "silkking.near/widget/Kudos",
-                      blockHeight: d.blockHeight,
-                    },
-                  },
-                },
-                undefined,
-                0
-              ),
-            },
-          }}
+      <div className={thisWidgetClassNames.cardFooterContainer}>
+        <div
+          style={thisWidgetInlineStyles.upVoteContainer}
+          className={thisWidgetClassNames.upVoteContainer}
         >
-          <span style={hasRepost ? thisWidgetInlineStyles.repostSvgSpan : {}}>
-            {repostSvg}
-          </span>
-        </CommitButton>
-        <div className={thisWidgetClassNames.upVoteContainer}>
           <CommitButton
             style={
               state.hoveringElement == "upVoteButton"
-                ? props.allWidgetsInlineStyles.hoveringButtonStylesWithoutMargin
-                : props.allWidgetsInlineStyles.standardButtonStylesWithoutMargin
+                ? hoveringButtonStyles
+                : standardButtonStyles
             }
             onMouseEnter={() => {
               State.update({ hoveringElement: "upVoteButton" });
@@ -254,21 +176,20 @@ const RenderKudoBox = (d) => {
             {d.value.upvotes} {d.value.upvotes == 1 ? "upvote" : "upvotes"}
           </span>
         </div>
-        <div style={thisWidgetInlineStyles.shareingWidgetContainer}>
-          <Widget
-            src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/shareWidget"
-            props={{
-              popUpDescription: "Use this link to share the kudo",
-              shareingWidget: "Kudos.Styles",
-              propName: "sharedBlockHeight",
-              blockHeight: d.blockHeight,
-              widgetOwner,
-            }}
-          />
-        </div>
+        <Widget
+          src={`${widgetOwner}/widget/WikiOnSocialDB_Like`}
+          props={{
+            // notifyAccountId,
+            item,
+          }}
+        />
       </div>
       {RenderCommentInput(Number(d.blockHeight))}
-    </div>
+
+      {
+        //RenderAllCommentAnswerBox(d)
+      }
+    </>
   );
 };
 /* END KudoBox  */
