@@ -31,7 +31,6 @@ State.init({
 const unfilteredLikes = Social.index("like", item, {
   order: "desc",
 });
-console.log("unfilteredLikes", unfilteredLikes);
 
 // ========= ARRAY LAST LIKE FOR EACH USER =========
 // arrayLastLikeForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
@@ -98,7 +97,6 @@ state.emoji === undefined &&
 
 // ========= UPDATE LIKE STATISTICS IF USER VOTED RIGHT NOW=========
 const updateLikesStatisticsIfUserVoted = (newEmoji) => {
-  console.log("arrayLastLikeForEachUser", arrayLastLikeForEachUser);
   const resObject = arrayLastLikeForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
@@ -209,11 +207,59 @@ const SmallButtonSpan = styled.span`
   }
 `;
 
+// =============== NEW CSS Styles ===============!!!!!!!!
+const EmojiWrapper = styled.div`
+display: inline-block;
+position: relative;
+overflow: visible !important;
+padding-left: 8px;
+outline: 1px solid blue;
+`;
+
+const EmojiListWrapper = styled.div`
+
+margin: 0.5rem;
+padding: 0.5rem;
+height: 3.2em;
+background: white;
+background: ${({ show }) => (show ? "red" : "green")};
+border-radius: 1rem;
+box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+@media (min-width: 768px) {
+    position: absolute;
+    zIndex: 2
+  }
+`;
+
+// =============== NEW JSX ===============!!!!!!!!
+const Overlay = () => (
+  <EmojiListWrapper
+    onMouseEnter={handleOnMouseEnter}
+    onMouseLeave={handleOnMouseLeave}
+    show={state.show}
+  >
+    {emojiArray &&
+      emojiArray.map((item) => (
+        <SmallButton onClick={() => clickHandler(item)}>
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                <div className="text-truncate text-start">{item.slice(2)}</div>
+              </Tooltip>
+            }
+          >
+            <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+          </OverlayTrigger>
+        </SmallButton>
+      ))}
+  </EmojiListWrapper>
+);
 // =============== JSX ===============
-const overlay = (
+const overlayOld = (
   <div
     className="border m-2 p-2 rounded-4 bg-white shadow"
-    style={{ maxWidth: "27em", height: "3.2em", zIndex: 1070 }}
+    style={{ maxWidth: "27em", height: "3.2em", zIndex: 2 }}
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
   >
@@ -236,30 +282,46 @@ const overlay = (
 );
 
 return (
-  <span className="ps-2">
-    <OverlayTrigger
-      show={state.show}
-      trigger={["hover", "focus"]}
-      delay={{ show: 250, hide: 300 }}
-      placement="auto"
-      overlay={overlay}
-    >
-      <Button
-        onClick={() => clickHandler(initialEmoji)}
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
+  <>
+    <span className="ps-2">
+      <OverlayTrigger
+        show={state.show}
+        trigger={["hover", "focus"]}
+        delay={{ show: 250, hide: 300 }}
+        placement="auto"
+        overlay={overlayOld}
       >
-        {state.emoji === undefined ? initialEmoji : state.emoji}
-      </Button>
-    </OverlayTrigger>
-    {state.likesStatistics &&
-      state.likesStatistics.map((item) => (
-        <span className="ps-3">
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts, emoji: item.emoji }}
-          />
-        </span>
-      ))}
-  </span>
+        <Button
+          onClick={() => clickHandler(initialEmoji)}
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          {state.emoji === undefined ? initialEmoji : state.emoji}
+        </Button>
+      </OverlayTrigger>
+      {state.likesStatistics &&
+        state.likesStatistics.map((item) => (
+          <span className="ps-3">
+            <Widget
+              src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
+              props={{ accounts: item.accounts, emoji: item.emoji }}
+            />
+          </span>
+        ))}
+    </span>
+    {/* NEW PART */}
+    <div>
+      NEW PART
+      <EmojiWrapper>
+        <Button
+          onClick={() => clickHandler(initialEmoji)}
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          {state.emoji === undefined ? initialEmoji : state.emoji}
+        </Button>
+        <Overlay />
+      </EmojiWrapper>
+    </div>
+  </>
 );
