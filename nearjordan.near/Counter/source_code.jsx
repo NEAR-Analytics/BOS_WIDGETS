@@ -59,4 +59,4 @@ let num = 99;
 
 Counter_contract.number().then((n) => { num = n; });
 
-return <p>Account test2: {sender} {abi[0].name} Number: {n}</p>;
+return <p>Account test2: {sender} {abi[0].name} Number: {num}</p>;
