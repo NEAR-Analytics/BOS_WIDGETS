@@ -51,7 +51,7 @@ return (
         </div>
         <div className="me-4">
           <Widget
-            src="mob.near/widget/LikeButton"
+            src="andyh.near/widget/LikeButton"
             props={{
               notifyAccountId,
               item,
