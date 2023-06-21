@@ -15,6 +15,12 @@ State.init({
   showComments: false,
 });
 
+const item = {
+  type: "social",
+  path: `${d.accountId}/post/main`,
+  blockHeight: d.blockHeight,
+};
+
 const widgetOwner = props.widgetOwner;
 
 const RenderAllCommentAnswerBox = (d) => {
@@ -75,6 +81,15 @@ const RenderAllCommentAnswerBox = (d) => {
                   <b style={thisWidgetInlineStyles.allCommentAnswerBox.comment}>
                     {c.value.commentAnswer}&nbsp;&nbsp;&nbsp;
                   </b>
+                  {
+                    // <Widget
+                    //   src={`${widgetOwner}/widget/WikiOnSocialDB_Like`}
+                    //   props={{
+                    //     // notifyAccountId,
+                    //     item,
+                    //   }}
+                    // />
+                  }
                 </div>
               </>
             );
