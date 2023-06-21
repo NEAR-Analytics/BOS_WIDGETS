@@ -85,7 +85,7 @@ const PillSelectButton = styled.button`
   font-size: 12px;
   line-height: 18px;
   color: ${(p) => (p.selected ? "#fff" : "#687076")};
-  background: ${(p) => (p.selected ? "#006ADC !important" : "#FBFCFD")};
+  background: ${(p) => (p.selected ? "var(--violet10) !important" : "#FBFCFD")};
   font-weight: 600;
   transition: all 200ms;
 
@@ -96,8 +96,8 @@ const PillSelectButton = styled.button`
 
   &:focus {
     outline: none;
-    border-color: #006adc !important;
-    box-shadow: 0 0 0 1px #006adc;
+    border-color: var(--violet10) !important;
+    box-shadow: 0 0 0 1px var(--violet10);
     z-index: 5;
   }
 
@@ -130,7 +130,7 @@ return (
       {context.accountId && (
         <>
           <ComposeWrapper>
-            <Widget src="adminalpha.near/widget/Posts.Compose" />
+            <Widget src="near/widget/Posts.Compose" />
           </ComposeWrapper>
 
           <FilterWrapper>
@@ -150,13 +150,6 @@ return (
               >
                 Following
               </PillSelectButton>
-              <PillSelectButton
-                type="button"
-                onClick={() => selectTab("recentComments")}
-                selected={state.selectedTab === "recentComments"}
-              >
-                Recent Comments
-              </PillSelectButton>
             </PillSelect>
           </FilterWrapper>
         </>
@@ -164,8 +157,8 @@ return (
 
       <FeedWrapper>
         <Widget
-          src="roshaan.near/widget/query-api-feed-infinite"
-          props={{ accounts, postsOrderOption: state.selectedTab }}
+          src="dataplatform.near/widget/QueryApi.Feed"
+          props={{ accounts }}
         />
       </FeedWrapper>
     </Content>
