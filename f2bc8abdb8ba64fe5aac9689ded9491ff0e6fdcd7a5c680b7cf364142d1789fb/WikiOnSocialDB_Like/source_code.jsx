@@ -203,7 +203,7 @@ const SmallButtonSpan = styled.span`
       bottom: -5px;
       width: 35px;
       height: 40px;
-      transform: translateX(-50%) translateY(-30%);
+      transform: translateX(-50%) translateY(-60%);
   }
   
   @media (max-width: 599px) {
