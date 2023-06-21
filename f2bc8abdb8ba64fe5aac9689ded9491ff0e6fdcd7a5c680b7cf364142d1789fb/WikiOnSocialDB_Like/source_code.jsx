@@ -203,7 +203,7 @@ const SmallButtonSpan = styled.span`
       bottom: -5px;
       width: 35px;
       height: 40px;
-      transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-30%);
   }
   
   @media (max-width: 599px) {
@@ -259,10 +259,7 @@ const Overlay = () => (
   >
     {emojiArray &&
       emojiArray.map((item) => (
-        <SmallButton
-          onClick={() => clickHandler(item)}
-          style={{ transform: "translateY(-5px)" }}
-        >
+        <SmallButton onClick={() => clickHandler(item)}>
           <OverlayTrigger
             placement="top"
             overlay={
