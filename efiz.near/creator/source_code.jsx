@@ -75,9 +75,15 @@ const ModalTitle = styled.h3`
   margin-bottom: 10px;
 `;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 State.init({
   data: {},
   isModalOpen: false,
+  typeSrc: "every.near",
 });
 
 const handleOnChange = (value) => {
@@ -98,29 +104,31 @@ const handleSave = () => {
 };
 
 let availableTypes = [];
-const types = Social.get("efiz.near/type/**", "final");
+const types = Social.get(`${state.typeSrc}/type/**`, "final");
 if (types !== null) {
   availableTypes =
-    Object.keys(types)?.map((it) => `efiz.near/type/${it}`) || [];
+    Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
 }
 
 const handleTypeChange = (e) => {
-  State.update({ selectedType: e.target.value });
+  State.update({ selectedType: e.target.value, templateVal: "" });
 };
 
 return (
   <Container>
     <SidePanel>
       <Label>Type Source:</Label>
-      <Input
-        type="text"
-        value={state.newTypeSrc}
-        onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-        placeholder={"accountId"}
-      />
-      <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
-        apply
-      </Button>
+      <Row>
+        <Input
+          type="text"
+          value={state.newTypeSrc}
+          onChange={(e) => State.update({ newTypeSrc: e.target.value })}
+          placeholder={"accountId"}
+        />
+        <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
+          apply
+        </Button>
+      </Row>
       <Label>Type</Label>
       <Select value={state.selectedType} onChange={handleTypeChange}>
         <option value="">Select a type</option>
