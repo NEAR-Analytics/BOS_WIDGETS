@@ -100,7 +100,7 @@ const MainSubSection = styled.div`
   }
 `;
 
-const Link = styled.a`
+const Anchor = styled.a`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -303,8 +303,32 @@ const endingImage =
   "bafkreibfk6pkeoxsl6banldzxearj3swh53p3gmn7unhz7nag4nco4p2sm";
 const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
+State.init({
+  stats: null,
+  statsIsFetched: false,
+  totalRaised: 578920000,
+  totalRaisedIsFetched: false,
+});
+
+if (!state.statsIsFetched) {
+  asyncFetch(
+    "https://api.flipsidecrypto.com/api/v2/queries/36637c73-6301-418b-ae83-7af6e8f34c0f/data/latest"
+  ).then((response) =>
+    State.update({ stats: response.body[0], statsIsFetched: true })
+  );
+}
+
+if (!state.totalRaisedIsFetched) {
+  asyncFetch("https://api-staging-fur7.onrender.com/atlas/total-raised").then(
+    (response) =>
+      response.ok &&
+      State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
+  );
+}
+
 return (
   <Container>
+    <Widget src={`${ownerId}/widget/Banner.AwesomeNEAR`} />
     <Section style={{ marginTop: "2em 0 0 0" }}>
       <Row style={{ padding: "0 0 4em 0" }}>
         <img src={mapImage(mainImage)} style={{ transform: "scale(.9)" }} />
@@ -337,35 +361,46 @@ return (
             projects alongside a thriving community, while tapping into a robust
             backer network and diverse supporting resources.
           </p>
-          <Link href="/nearhorizon.near/widget/Index">Try It Now</Link>
+          <Anchor href="/contribut3.near/widget/Index">Try It Now</Anchor>
         </MainSubSection>
       </Row>
       <Stats>
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: "1077",
+            value: "750",
             label: "Projects",
           }}
         />
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: "1M+",
+            value: state.statsIsFetched
+              ? Number(state.stats.MAU).toLocaleString("en-US", {
+                  notation: "compact",
+                }) + "+"
+              : "Loading...",
             label: "Monthly active accounts",
           }}
         />
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: "25M+",
+            value: state.statsIsFetched
+              ? Number(state.stats.TOTAL_ACCOUNTS).toLocaleString("en-US", {
+                  notation: "compact",
+                }) + "+"
+              : "Loading...",
             label: "Total accounts",
           }}
         />
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: "$88M+",
+            value:
+              Number(state.totalRaised).toLocaleString("en-US", {
+                notation: "compact",
+              }) + "+",
             label: "Raised",
           }}
         />
@@ -373,13 +408,6 @@ return (
       </Stats>
     </Section>
     <Section className="dark" style={{ padding: "8em 0 0 0" }}>
-      {/*<svg width="111" height="222" viewBox="0 0 222 444" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", inset: "0 auto auto 0" }}>
-        <path d="M0 443.126C141.506 344.16 87.0596 304.869 33.9785 266.562C21.7825 257.761 9.65857 249.012 0 239.602V443.126Z" fill="white" />
-        <path d="M0 157.384C10.4491 145.188 25.4545 131.68 46.0689 116.546C68.4236 100.135 85.876 82.3307 102.188 65.6899C135.817 31.3826 164.6 2.02013 221.5 0H0V157.384Z" fill="white" />
-      </svg>
-      <svg width="257" height="194" viewBox="0 0 514 388" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", inset: "auto -2px -2px auto" }}>
-        <path d="M448.372 121.428C454.416 88.5481 461.506 49.9822 513.5 0V387.151H0C113.496 387.151 149.128 353.266 188.262 316.051C216.021 289.654 245.541 261.581 305.862 242.734C433.397 202.888 439.844 167.817 448.372 121.428Z" fill="#CDE0FF" />
-      </svg>*/}
       <SubHeading>Welcome to your new Web3 community</SubHeading>
       <Row style={{ padding: "2.25em", alignItems: "flex-start", zIndex: "2" }}>
         <List>
@@ -405,8 +433,8 @@ return (
             </li>
             <li>{listSymbol} Refined GTM strategies and business models</li>
             <li>
-              {listSymbol} Detailed profiles with everyting you need to evaluate
-              teams and projects
+              {listSymbol} Detailed profiles with everything you need to
+              evaluate teams and projects
             </li>
           </ul>
         </List>
@@ -768,13 +796,13 @@ return (
         />
       </svg>
       <h2>Accelerate your Web3 Startup!</h2>
-      <Link
-        href="/nearhorizon.near/widget/Index"
+      <Anchor
+        href="/contribut3.near/widget/Index"
         className="white"
         style={{ marginTop: "1em" }}
       >
         Try it Now
-      </Link>
+      </Anchor>
     </Footer>
   </Container>
 );
