@@ -134,7 +134,7 @@ return (
       props={{
         label: "Payment source",
         id: "source",
-        value: [{ value: request.source, text: request.source }],
+        value: { value: request.source, text: request.source },
         options: state.paymentSources.map((value) => ({ value, text: value })),
         onSave: ({ value: source }) => onSave({ source }),
         canEdit: isAdmin,
@@ -145,7 +145,7 @@ return (
       props={{
         label: "Payment type",
         id: "payment_type",
-        value: [{ value: request.payment_type, text: request.payment_type }],
+        value: { value: request.payment_type, text: request.payment_type },
         options: state.paymentTypes.map((value) => ({ value, text: value })),
         onSave: ({ value: payment_type }) => onSave({ payment_type }),
         canEdit: isAdmin,
@@ -156,7 +156,7 @@ return (
       props={{
         label: "Request type",
         id: "request_type",
-        value: [{ value: request.request_type, text: request.request_type }],
+        value: { value: request.request_type, text: request.request_type },
         options: state.requestTypes.map((value) => ({ value, text: value })),
         onSave: ({ value: request_type }) => onSave({ request_type }),
         canEdit: isAdmin,
