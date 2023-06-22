@@ -62,8 +62,7 @@ incrementButton.addEventListener("click", () => {
     Counter_contract.increment().then((txid) => { State.update({txid: txid}); });
 });
 
-
 return 
     <p>Account test2: {sender} {abi[0].name} Number: {state.num.toString()}
     <br/><button id="incrementButton">Increment</button>
-    <br/> Tx ID: {State.txid}</p>;
+    <br/> Tx ID: {state.txid.toString()}</p>;
