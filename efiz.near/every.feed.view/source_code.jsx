@@ -6,7 +6,7 @@ return (
     <Widget
       src="efiz.near/widget/every.post"
       props={{
-        domainKeyPairs: data.domainKeyPairs,
+        sources: data.sources,
         typeWhitelist: data.typeWhitelist,
         hashtagWhitelist: data.hashtagWhitelist,
         hashtagBlacklist: data.hashtagBlacklist,
