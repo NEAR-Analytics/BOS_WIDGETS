@@ -1,4 +1,5 @@
 const data = props.data;
+const onChange = props.onChange;
 const height = props.height ?? "500px";
 
 const code = `
@@ -19,7 +20,7 @@ function TestReact(props) {
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
         setValue(text);
-        window.top.postMessage(text, "*");
+        window.top.postMessage({ content: text }, "*");
       },
       renderHTML: () => {},
       className: "full",
@@ -45,7 +46,7 @@ return (
       height: height,
     }}
     srcDoc={code}
-    message={data.text ?? ""}
-    onMessage={props.onChange}
+    message={data.content ?? ""}
+    onMessage={onChange}
   />
 );
