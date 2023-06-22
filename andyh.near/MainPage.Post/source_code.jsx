@@ -31,54 +31,54 @@ return (
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
         <div className="me-4">
-          <Widget
+          {/*<Widget
             src="mob.near/widget/CommentButton"
             props={{
               onClick: () =>
                 !state.showReply && State.update({ showReply: true }),
             }}
-          />
+          />*/}
         </div>
         <div className="me-4">
-          <Widget
+          {/*<Widget
             src="andyh.near/widget/RepostButton"
             props={{
               notifyAccountId,
               item,
             }}
-          />
+          />*/}
         </div>
         <div className="me-4">
-          <Widget
+          {/*<Widget
             src="andyh.near/widget/LikeButton"
             props={{
               notifyAccountId,
               item,
             }}
-          />
+          />*/}
         </div>
         <div>
-          <Widget
+          {/*<Widget
             src="andyh.near/widget/MainPage.Post.ShareButton"
             props={{ accountId, blockHeight, postType: "post" }}
-          />
+          />*/}
         </div>
       </div>
     )}
     <div className="mt-3 ps-5">
       {state.showReply && (
         <div className="mb-2">
-          <Widget
+          {/*<Widget
             src="andyh.near/widget/MainPage.Comment.Compose"
             props={{
               notifyAccountId,
               item,
               onComment: () => State.update({ showReply: false }),
             }}
-          />
+          />*/}
         </div>
       )}
-      <Widget
+      {/*<Widget
         src="andyh.near/widget/MainPage.Comment.Feed"
         props={{
           item,
@@ -87,7 +87,7 @@ return (
           subscribe,
           raw,
         }}
-      />
+      />*/}
     </div>
   </div>
 );
