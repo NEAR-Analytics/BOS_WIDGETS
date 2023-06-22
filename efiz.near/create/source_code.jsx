@@ -80,6 +80,13 @@ function Property({ property, value }) {
         placeholder={property.name}
       />
     );
+  } else if (item.type === "date" || item.type === "time") {
+    <Input
+      type={item.type}
+      onChange={(e) => handleInputChange(item.name, e.target.value)}
+      value={state[item.name] || ""}
+      placeholder={item.name}
+    />;
   } else if (property.type === "boolean") {
     return (
       <Select
