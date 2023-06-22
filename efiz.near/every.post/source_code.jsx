@@ -1,4 +1,4 @@
-const domainKeyPairs = props.domainKeyPairs;
+const sources = props.sources;
 const typeWhitelist = props.typeWhitelist;
 const hashtagWhitelist = props.hashtagWhitelist;
 const hashtagBlacklist = props.hashtagBlacklist;
@@ -29,7 +29,7 @@ if (hashtagWhitelist.length) {
   }));
 } else {
   // else, get all posts saved under the domain/action key pairs
-  index = domainKeyPairs?.map((it) => ({
+  index = sources?.map((it) => ({
     action: it.domain,
     key: it.key,
     options,
