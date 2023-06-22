@@ -7,6 +7,7 @@ const contractId = "app.chess-game.near";
 const chessGameWidget = "chess-game.near/widget/ChessGame";
 const chessGameReplayWidget = "chess-game.near/widget/ChessGameReplay";
 const chessGameChallengeWidget = "chess-game.near/widget/ChessGameChallenge";
+const chessGameAiWidget = "chess-game.near/widget/ChessGameAi";
 const profileIcon = "chess-game.near/widget/ProfileIcon";
 const githubIcon = "chess-game.near/widget/GithubIcon";
 const twitterIcon = "chess-game.near/widget/TwitterIcon";
@@ -111,7 +112,6 @@ if (!isRegistered) {
 State.init({
   game_id: null,
   replay_game_id: null,
-  difficulty: "Easy",
 });
 
 const gameIds = Near.view(contractId, "get_game_ids", {
@@ -167,16 +167,6 @@ const returnToLobby = () => {
 const resign = () => {
   Near.call(contractId, "resign", {
     game_id: state.game_id,
-  });
-};
-const createAiGame = () => {
-  Near.call(contractId, "create_ai_game", {
-    difficulty: state.difficulty,
-  });
-};
-const selectDifficulty = (event) => {
-  State.update({
-    difficulty: event.target.value,
   });
 };
 
@@ -246,21 +236,7 @@ if (state.game_id) {
         </div>
       )}
       <Widget src={chessGameChallengeWidget} />
-      <GameCreator>
-        <h2>Create New AI Game:</h2>
-        <span>Difficulty:</span>
-        <select onChange={selectDifficulty} value={state.difficulty}>
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
-        </select>
-        <span>
-          <i>Higher difficulties consume more gas!</i>
-        </span>
-        <Button onClick={createAiGame} fontSize="1.4rem">
-          Create
-        </Button>
-      </GameCreator>
+      <Widget src={chessGameAiWidget} />
       {finishedGames.length > 0 && (
         <div>
           <h2>Replay your finished games:</h2>
