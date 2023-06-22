@@ -1,5 +1,6 @@
 const { game_id } = props;
-const accountId = game_id[1];
+const playerWhiteId = game_id[1];
+const playerBlackId = game_id[2];
 const gameIdStr = JSON.stringify(game_id);
 const contractId = "app.chess-game.near";
 const chessBoardWidget = "chess-game.near/widget/ChessBoard";
@@ -7,7 +8,7 @@ const loadingWidget = "chess-game.near/widget/ChessGameLoading";
 const waitTime = 50;
 const waitTimeOnErr = 500;
 
-if (!accountId) {
+if (!playerWhiteId) {
   return "Malformed game_id prop!";
 }
 
@@ -30,7 +31,7 @@ if (!state.transactions) {
   let offset = 0;
   while (true) {
     const res = fetch(
-      `https://api.pikespeak.ai/event-historic/${contractId}?offset=${offset}&contractFilter=${accountId}&filters=FUNCTION_CALL`,
+      `https://api.pikespeak.ai/event-historic/${contractId}?offset=${offset}&contractFilter=${playerWhiteId}&filters=FUNCTION_CALL`,
       fetchOptions
     );
     offset += 50;
@@ -41,6 +42,26 @@ if (!state.transactions) {
     if (res.body.length === 0) break;
     transactions = transactions.concat(res.body);
     if (res.body.length < 50) break;
+  }
+  if (playerBlackId != null) {
+    offset = 0;
+    while (true) {
+      const res = fetch(
+        `https://api.pikespeak.ai/event-historic/${contractId}?offset=${offset}&contractFilter=${playerBlackId}&filters=FUNCTION_CALL`,
+        fetchOptions
+      );
+      offset += 50;
+      if (!res.ok) {
+        return `Pikespeak API returned error: ${JSON.stringify(res)}`;
+      }
+
+      if (res.body.length === 0) break;
+      transactions = transactions.concat(res.body);
+      if (res.body.length < 50) break;
+    }
+    transactions = transactions.sort(
+      (a, b) => Number(b.timestamp) - Number(a.timestamp)
+    );
   }
 }
 
@@ -85,17 +106,17 @@ if (transactions.length > 0) {
         transactions,
       });
     }, waitTime);
-    return (
-      <Widget
-        src={loadingWidget}
-        props={{
-          content: (
-            <div>Scanning transactions. Remaining: {transactions.length}</div>
-          ),
-        }}
-      />
-    );
   });
+  return (
+    <Widget
+      src={loadingWidget}
+      props={{
+        content: (
+          <div>Scanning transactions. Remaining: {transactions.length}</div>
+        ),
+      }}
+    />
+  );
 }
 
 const GameInfo = styled.div`
@@ -156,8 +177,8 @@ const renderPlayer = (color, player) => {
   }
 };
 const renderMove = (move, label) => (
-  <Move invisible={!move}>
-    {label}: {move && move.color + " " + move.mv}
+  <Move invisible={!move?.mv}>
+    {label}: {move?.mv && move.color + " " + move.mv}
   </Move>
 );
 const renderOutcome = (outcome) => (
@@ -177,6 +198,13 @@ const setTabIndex = (index) => () => {
 
 const prevMove = state.events[state.tabIndex - 1]?.data;
 const nextMove = state.events[state.tabIndex + 1]?.data;
+const isPvP = state.events[0]?.event === "accept_challenge";
+if (isPvP && state.tabIndex === 0) {
+  State.update({
+    tabIndex: 1,
+  });
+  return "";
+}
 const boardState = state.events[state.tabIndex].data;
 if (!boardState.board) {
   return (
@@ -191,18 +219,24 @@ return (
   <BoardView>
     <GameInfo>
       <div>ID: {game_id[0]}</div>
-      {renderPlayer("White", state.events[0].data.white)}
-      {renderPlayer("Black", state.events[0].data.black)}
+      {renderPlayer("White", state.events[isPvP ? 1 : 0].data.white)}
+      {renderPlayer("Black", state.events[isPvP ? 1 : 0].data.black)}
     </GameInfo>
     <HorizontalLine />
     <GameInfo>
       {renderMove(prevMove, "Previous Move")}
       {renderMove(nextMove, "Next Move")}
       <ButtonWrapper>
-        <Button invisible={!prevMove} onClick={setTabIndex(state.tabIndex - 2)}>
+        <Button
+          invisible={!prevMove?.mv}
+          onClick={setTabIndex(state.tabIndex - 2)}
+        >
           ⇦
         </Button>
-        <Button invisible={!nextMove} onClick={setTabIndex(state.tabIndex + 2)}>
+        <Button
+          invisible={!nextMove?.mv}
+          onClick={setTabIndex(state.tabIndex + 2)}
+        >
           ⇨
         </Button>
       </ButtonWrapper>
