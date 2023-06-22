@@ -63,6 +63,16 @@ const onIncrement = () => {
     });
   };
   
+const onSet = () => {
+    Counter_contract.setNumber(state.in).then((txid) => {
+      State.update({ txid: txid });
+    });
+  };
+  
 return(
     <p>Account test2: {sender} {abi[0].name} Number: {state.num.toString()}
-    <br/><button onClick={onIncrement}>Increment</button></p>);
+    <br/><button onClick={onIncrement}>Increment</button>
+    <br/>
+    <br/><input type="number" onChange={(e) => State.update({in: ethers.BigNumber.from(e.target.value)})} />
+    <br/><button onClick={onSet}>Set</button>
+    </p>);
