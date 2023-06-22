@@ -39,6 +39,7 @@ const Container = styled.div`
     padding: 0;
     margin:0;
     width: 100%;
+    min-width: 800px;
     height: 100%;
     min-height: 400px;
     display: grid;
