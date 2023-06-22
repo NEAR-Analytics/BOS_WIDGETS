@@ -1,10 +1,7 @@
 // TODO: Should be grabbed from contract side
 const contractProps = {
-  contractName: "elections-v2.gwg.testnet",
-  ndcOrganization: "test",
   houses: [
     {
-      submitted: true,
       id: 2,
       typ: "CouncileOfAdvisors",
       ref_link: "example.com",
@@ -12,17 +9,10 @@ const contractProps = {
       end: 1690820065441,
       quorum: 100,
       voters_num: 150,
-      available_seats: 10,
       seats: 10,
       result: [],
-      voters: [],
-      votes: {
-        available: 0,
-        total: 10,
-      },
     },
     {
-      submitted: false,
       id: 3,
       typ: "HouseOfMerit",
       title: "House Of Merit",
@@ -31,7 +21,6 @@ const contractProps = {
       end: 1696820065441,
       quorum: 100,
       voters_num: 150,
-      available_seats: 0,
       seats: 10,
       result: [
         ["zomland.near", 150],
@@ -40,30 +29,8 @@ const contractProps = {
         ["rubycop.near", 50],
         ["candidate1.near", 0],
       ],
-      voters: [
-        {
-          accountId: "rubycop.near",
-          candidateId: "zomland.near",
-          txn_url: "3ZunLtfdnkAC1oTgUxy5KXJb7qQWULmcFpVvkaq2pd6b",
-        },
-        {
-          accountId: "voter1.near",
-          candidateId: "zomland.near",
-          txn_url: "3ZunLtfdnkAC1oTgUxy5KXJb7qQWULmcFpVvkaq2pd6b",
-        },
-        {
-          accountId: "voter1",
-          candidateId: "candidate1.near",
-          txn_url: "3ZunLtfdnkAC1oTgUxy5KXJb7qQWULmcFpVvkaq2pd6b",
-        },
-      ],
-      votes: {
-        available: 3,
-        total: 3,
-      },
     },
     {
-      submitted: true,
       id: 4,
       typ: "TransparancyCommision",
       ref_link: "example.com",
@@ -71,23 +38,22 @@ const contractProps = {
       end: 1686820065441,
       quorum: 100,
       voters_num: 150,
-      available_seats: 5,
       seats: 10,
       result: [],
-      voters: [],
-      votes: {
-        available: 0,
-        total: 1,
-      },
     },
   ],
 };
 
 const { houses } = contractProps;
 
+const electionContract = "elections-v2.gwg.testnet";
+const registryContract = "registry-unstable.i-am-human.testnet";
+const ndcOrganization = "test";
+
 // TODO: Should be grabbed from indexer
 const humanVoted = 800;
 const totalHumal = 1000;
+
 const myVotes = [
   { candidateId: "zomland.near", time: 1686820065441, typ: "House Of Merit" },
   {
@@ -168,7 +134,6 @@ return (
       <Left className="col-lg">
         <H5>To Vote</H5>
         <Widget
-          key={i}
           src={widgets.houses}
           props={{
             selectedHouse: state.selectedHouse,
@@ -178,16 +143,17 @@ return (
         />
       </Left>
       <Center className="col-lg-6 p-2 p-md-3">
-        {contractProps.houses.map((group) => (
+        {contractProps.houses.map((house) => (
           <>
-            {group.id === state.selectedHouse && (
+            {house.id === state.selectedHouse && (
               <Widget
                 key={i}
                 src={widgets.candidates}
                 props={{
-                  contractName: contractProps.contractName,
-                  ndcOrganization: contractProps.ndcOrganization,
-                  ...group,
+                  electionContract,
+                  registryContract,
+                  ndcOrganization,
+                  ...house,
                 }}
               />
             )}
@@ -211,12 +177,7 @@ return (
         <Right className="col">
           <H5>My voting activity</H5>
           <div className="d-flex justify-content-center">
-            <Widget
-              src={widgets.activities}
-              props={{
-                myVotes: myVotes,
-              }}
-            />
+            <Widget src={widgets.activities} props={{ myVotes }} />
           </div>
         </Right>
       </div>
