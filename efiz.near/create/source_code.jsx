@@ -82,10 +82,10 @@ function Property({ property, value }) {
     );
   } else if (property.type === "date" || property.type === "time") {
     <Input
-      type={item.type}
-      onChange={(e) => handleInputChange(item.name, e.target.value)}
-      value={state[item.name] || ""}
-      placeholder={item.name}
+      type={property.type}
+      onChange={(e) => handleInputChange(property.name, e.target.value)}
+      value={state[property.name] || ""}
+      placeholder={property.name}
     />;
   } else if (property.type === "boolean") {
     return (
