@@ -1,9 +1,9 @@
 const accountId = props.accountId;
-console.log({ accountId });
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
-  props.content ?? Social.get(`${accountId}/post/main`, blockHeight) ?? null;
+  props.content ??
+  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
@@ -19,15 +19,15 @@ const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockH
 return (
   <div className="border-bottom pt-3 pb-1">
     <Widget
-      src="andyh.near/widget/MainPage.Post.Header"
+      src="mob.near/widget/MainPage.Post.Header"
       props={{ accountId, blockHeight, link, postType: "post", flagItem: item }}
     />
-    <div className="mt-3 text-break">
-      <Widget
-        src="andyh.near/widget/MainPage.Post.Content"
-        props={{ content, raw }}
-      />
-    </div>
+    // <div className="mt-3 text-break">
+    //   <Widget
+    //     src="mob.near/widget/MainPage.Post.Content"
+    //     props={{ content, raw }}
+    //   />
+    // </div>
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
         <div className="me-4">
@@ -41,7 +41,7 @@ return (
         </div>
         <div className="me-4">
           <Widget
-            src="andyh.near/widget/RepostButton"
+            src="mob.near/widget/RepostButton"
             props={{
               notifyAccountId,
               item,
@@ -50,7 +50,7 @@ return (
         </div>
         <div className="me-4">
           <Widget
-            src="andyh.near/widget/LikeButton"
+            src="mob.near/widget/LikeButton"
             props={{
               notifyAccountId,
               item,
@@ -69,7 +69,7 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="andyh.near/widget/MainPage.Comment.Compose"
+            src="mob.near/widget/MainPage.Comment.Compose"
             props={{
               notifyAccountId,
               item,
@@ -79,7 +79,7 @@ return (
         </div>
       )}
       <Widget
-        src="andyh.near/widget/MainPage.Comment.Feed"
+        src="mob.near/widget/MainPage.Comment.Feed"
         props={{
           item,
           highlightComment: props.highlightComment,
