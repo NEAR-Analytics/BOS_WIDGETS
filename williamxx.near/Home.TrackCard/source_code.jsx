@@ -7,11 +7,11 @@ const Container = styled.div`
   border: 2px solid #f2f1ea;
   border-radius: 16px;
 
-  h3 {
+  h5 {
     font-family: "FK Grotesk";
     font-style: normal;
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.2em;
     line-height: 1.5em;
     color: ${props.color};
   }
