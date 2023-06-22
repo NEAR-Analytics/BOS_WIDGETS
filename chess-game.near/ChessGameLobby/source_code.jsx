@@ -6,6 +6,8 @@ if (!accountId) {
 const contractId = "app.chess-game.near";
 const chessGameWidget = "chess-game.near/widget/ChessGame";
 const chessGameReplayWidget = "chess-game.near/widget/ChessGameReplay";
+const chessGameChallengeWidget = "chess-game.near/widget/ChessGameChallenge";
+const profileIcon = "chess-game.near/widget/ProfileIcon";
 const githubIcon = "chess-game.near/widget/GithubIcon";
 const twitterIcon = "chess-game.near/widget/TwitterIcon";
 
@@ -76,41 +78,10 @@ const Header = styled.div`
     }
   }
 `;
-const Challenge = styled.div`
-  display: flex;
-  font-size: 1.2rem;
-  flex-wrap: wrap;
-  gap: 0.2rem;
-  border-radius: 0.4rem;
-  border: 1px solid black;
-  padding: 0.3rem;
-
-  > *:first-child {
-    flex: 1 0 100%;
-  }
-`;
 
 const isRegistered = Near.view(contractId, "storage_balance_of", {
   account_id: accountId,
 });
-const challenges0 = Near.view(contractId, "get_challenges", {
-  account_id: accountId,
-  is_challenger: true,
-});
-const challenges1 = Near.view(contractId, "get_challenges", {
-  account_id: accountId,
-  is_challenger: false,
-});
-const openChallenges = [
-  ...challenges0.map((id) => ({
-    challenge_id: id,
-    is_challenger: true,
-  })),
-  ...challenges1.map((id) => ({
-    challenge_id: id,
-    is_challenger: false,
-  })),
-];
 
 const registerAccount = () => {
   Near.call(
@@ -137,11 +108,9 @@ if (!isRegistered) {
   );
 }
 
-console.log("STATE", state);
 State.init({
   game_id: null,
   replay_game_id: null,
-  challenged_id: "",
   difficulty: "Easy",
 });
 
@@ -195,33 +164,14 @@ const returnToLobby = () => {
     replay_game_id: null,
   });
 };
-const updateChallengedId = ({ target }) => {
-  State.update({ challenged_id: target.value });
-};
 const resign = () => {
   Near.call(contractId, "resign", {
     game_id: state.game_id,
   });
 };
-const challenge = () => {
-  Near.call(contractId, "challenge", {
-    challenged_id: state.challenged_id,
-  });
-};
 const createAiGame = () => {
   Near.call(contractId, "create_ai_game", {
     difficulty: state.difficulty,
-  });
-};
-const acceptChallenge = (challenge_id) => () => {
-  Near.call(contractId, "accept_challenge", {
-    challenge_id,
-  });
-};
-const rejectChallenge = (challenge_id, is_challenger) => () => {
-  Near.call(contractId, "reject_challenge", {
-    challenge_id,
-    is_challenger,
   });
 };
 const selectDifficulty = (event) => {
@@ -238,7 +188,6 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
         game_id: gameId,
       });
     }
-    console.log("gameInfo", gameInfo);
     return (
       <Button onClick={selectGame(gameId, isFinished)}>
         <div>ID: {gameId[0]}</div>
@@ -261,26 +210,6 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
       </Button>
     );
   });
-
-const renderOpenChallenges = (challenges) => {
-  return (
-    <GameSelector>
-      {challenges.map(({ challenge_id, is_challenger }) => {
-        return (
-          <Challenge>
-            <span>{challenge_id.split("-vs-").join(" vs ")}</span>
-            {!is_challenger && (
-              <Button onClick={acceptChallenge(challenge_id)}>Accept</Button>
-            )}
-            <Button onClick={rejectChallenge(challenge_id, is_challenger)}>
-              Reject
-            </Button>
-          </Challenge>
-        );
-      })}
-    </GameSelector>
-  );
-};
 
 let content;
 if (state.game_id) {
@@ -316,24 +245,7 @@ if (state.game_id) {
           <GameSelector>{renderGameIds(gameIds, false, false)}</GameSelector>
         </div>
       )}
-      <GameCreator>
-        <h2>PvP:</h2>
-        <h3>Open challenges:</h3>
-        {openChallenges.length === 0 ? (
-          <span>
-            No open challenges found.
-            <br />
-            Challenge your first opponent now below!
-          </span>
-        ) : (
-          renderOpenChallenges(openChallenges)
-        )}
-        <span>Account ID:</span>
-        <input onChange={updateChallengedId} value={state.challenged_id} />
-        <Button onClick={challenge} fontSize="1.4rem">
-          Challenge!
-        </Button>
-      </GameCreator>
+      <Widget src={chessGameChallengeWidget} />
       <GameCreator>
         <h2>Create New AI Game:</h2>
         <span>Difficulty:</span>
@@ -373,9 +285,17 @@ return (
   <LobbyView
     alignItems={state.game_id || state.replay_game_id ? "stretch" : "center"}
   >
-    <h1>Chess On Chain</h1>
+    <h1>Protocol Pawns</h1>
     <Header>
-      <a href="https://github.com/Tarnadas/chess-on-chain" target="_blank">
+      <Disclaimer>
+        Play chess fully on chain powered by Near Protocol and the BOS. If you
+        want to learn more please visit the profile page.
+      </Disclaimer>
+      <a href="https://chess-game.near.social" target="_blank">
+        <Widget src={profileIcon} props={{ height: "2rem" }} />
+        <span>Profile</span>
+      </a>
+      <a href="https://github.com/Protocol-Pawns" target="_blank">
         <Widget src={githubIcon} props={{ height: "2rem" }} />
         <span>Github</span>
       </a>
