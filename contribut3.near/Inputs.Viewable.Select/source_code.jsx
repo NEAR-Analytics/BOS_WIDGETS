@@ -4,6 +4,7 @@ const label = props.label ?? "Input";
 const value = props.value ?? [];
 const options = props.options ?? [];
 const onSave = props.onSave ?? (() => { });
+const canEdit = props.canEdit;
 
 const LabelArea = styled.div`
   display: flex;
@@ -46,13 +47,9 @@ const SaveButton = styled.button`
 
 const edit = (update, v) => (
   <LabelArea>
-    <Typeahead
-      id
-      labelKey="name"
-      onChange={update}
-      options={options}
-      selected={v}
-      positionFixed
+    <Widget
+      src={`${ownerId}/widget/Inputs.Select`}
+      props={{ id, noLabel: true, value: v, options, onChange: update }}
     />
     <SaveButton onClick={() => onSave(v)}>Save</SaveButton>
   </LabelArea>
@@ -66,7 +63,8 @@ return (
       label,
       value,
       edit,
-      view: value[0].name,
+      view: value.text,
+      canEdit,
     }}
   />
 );
