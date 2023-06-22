@@ -167,12 +167,12 @@ return (
         <Content>
           <Select.Viewport asChild={true}>
             <Viewport>
-              {options.map(({ text, value }) => {
-                console.log(text, value);
+              {options.map((option) => {
+                console.log({ option });
                 return (
-                  <Select.Item value={value} asChild={true}>
+                  <Select.Item value={option.value} asChild={true}>
                     <Item>
-                      <Select.ItemText>{text}</Select.ItemText>
+                      <Select.ItemText>{option.text}</Select.ItemText>
                       <Select.ItemIndicator>
                         <svg
                           width="15"
