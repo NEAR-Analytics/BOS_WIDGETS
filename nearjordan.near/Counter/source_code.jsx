@@ -75,4 +75,4 @@ return(
     <br/>
     <br/><input type="number" onChange={(e) => State.update({in: ethers.BigNumber.from(e.target.value)})} />
     <br/><button onClick={onSet}>Set</button>
-    </p>);
+    <br />ABI hash: {ethers.utils.sha256(ethers.utils.toUtf8Bytes(JSON.stringify(Counter_abi)))}</p>);
