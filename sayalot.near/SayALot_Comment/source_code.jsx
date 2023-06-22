@@ -44,7 +44,7 @@ return (
         />
       </div>
       {blockHeight !== "now" && (
-        <div className="mt-1 d-flex justify-content-between">
+        <div className="mt-1 d-flex">
           {parentItem && (
             <Widget
               src="mob.near/widget/CommentButton"
