@@ -3,6 +3,7 @@ const accountId = game_id[1];
 const gameIdStr = JSON.stringify(game_id);
 const contractId = "app.chess-game.near";
 const chessBoardWidget = "chess-game.near/widget/ChessBoard";
+const loadingWidget = "chess-game.near/widget/ChessGameLoading";
 const waitTime = 50;
 const waitTimeOnErr = 500;
 
@@ -16,30 +17,6 @@ const BoardView = styled.div`
   align-items: center;
   justify-content: center;
   max-width: 100vw;
-`;
-const LoadingWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 3rem 0;
-`;
-const Loading = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 7px solid transparent;
-  border-top-color: rgba(0, 0, 0, 0.6);
-  animation: rotate 800ms linear infinite;
-
-  @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 `;
 
 const fetchOptions = {
@@ -109,10 +86,14 @@ if (transactions.length > 0) {
       });
     }, waitTime);
     return (
-      <LoadingWrapper>
-        <div>Scanning transactions. Remaining: {transactions.length}</div>
-        <Loading />
-      </LoadingWrapper>
+      <Widget
+        src={loadingWidget}
+        props={{
+          content: (
+            <div>Scanning transactions. Remaining: {transactions.length}</div>
+          ),
+        }}
+      />
     );
   });
 }
