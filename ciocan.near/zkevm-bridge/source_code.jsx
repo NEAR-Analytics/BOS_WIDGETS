@@ -211,7 +211,7 @@ const updateGasLimit = (props) => {
   const bridgeContract = new ethers.Contract(
     BRIDGE_CONTRACT_ADDRESS,
     bridgeAbi,
-    Ethers.provider()
+    Ethers.provider().getSigner()
   );
   bridgeContract.estimateGas
     .bridgeAsset(1, sender, amountBig, token.address, true, "0x", {
@@ -239,6 +239,8 @@ const handleBridge = (props) => {
     [networkId, sender, amountBig, token.address, true, permitData]
   );
 
+  updateGasLimit(props);
+
   Ethers.provider()
     .getSigner()
     .sendTransaction({
@@ -252,13 +254,15 @@ const handleBridge = (props) => {
     })
     .catch((e) => {
       console.log("bridge error:", e);
-      State.update({
-        isToastOpen: true,
-        variant: "success",
-        title: "Asset bridged",
-        description:
-          "Please allow a few seconds and press the 'refresh list' button",
-      });
+      if (!e.code) {
+        State.update({
+          isToastOpen: true,
+          variant: "success",
+          title: "Asset bridged",
+          description:
+            "Please allow a few seconds and press the 'refresh list' button",
+        });
+      }
     });
 };
 
