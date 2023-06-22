@@ -511,7 +511,11 @@ return (
                           className="d-inline-flex"
                           style={{ fontWeight: 500 }}
                         >
-                          <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                          <a
+                            href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                          >
+                            #{hashtag}
+                          </a>
                         </span>
                       ),
                     }}
@@ -539,7 +543,11 @@ return (
                       className="d-inline-flex"
                       style={{ fontWeight: 500 }}
                     >
-                      <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                      <a
+                        href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                      >
+                        #{hashtag}
+                      </a>
                     </span>
                   ),
                 }}
