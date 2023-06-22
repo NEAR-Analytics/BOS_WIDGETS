@@ -24,7 +24,7 @@ return (
     />
     <div className="mt-3 text-break">
       {/*<Widget
-        src="mob.near/widget/MainPage.Post.Content"
+        src="andyh.near/widget/MainPage.Post.Content"
         props={{ content, raw }}
       />*/}
     </div>
@@ -41,7 +41,7 @@ return (
         </div>
         <div className="me-4">
           <Widget
-            src="mob.near/widget/RepostButton"
+            src="andyh.near/widget/RepostButton"
             props={{
               notifyAccountId,
               item,
@@ -50,7 +50,7 @@ return (
         </div>
         <div className="me-4">
           <Widget
-            src="mob.near/widget/LikeButton"
+            src="andyh.near/widget/LikeButton"
             props={{
               notifyAccountId,
               item,
@@ -59,7 +59,7 @@ return (
         </div>
         <div>
           <Widget
-            src="mob.near/widget/MainPage.Post.ShareButton"
+            src="andyh.near/widget/MainPage.Post.ShareButton"
             props={{ accountId, blockHeight, postType: "post" }}
           />
         </div>
@@ -69,7 +69,7 @@ return (
       {state.showReply && (
         <div className="mb-2">
           <Widget
-            src="mob.near/widget/MainPage.Comment.Compose"
+            src="andyh.near/widget/MainPage.Comment.Compose"
             props={{
               notifyAccountId,
               item,
@@ -79,7 +79,7 @@ return (
         </div>
       )}
       <Widget
-        src="mob.near/widget/MainPage.Comment.Feed"
+        src="andyh.near/widget/MainPage.Comment.Feed"
         props={{
           item,
           highlightComment: props.highlightComment,
