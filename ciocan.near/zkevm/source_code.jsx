@@ -47,6 +47,11 @@ const Container = styled.div`
     padding-top: 100px;
     padding-bottom: 100px;
     margin: 0 auto;
+    background-image: url(https://gateway.pinata.cloud/ipfs/QmPj6tWvYJhZVgCp6zSocyQ4oouhoFaaShgfxTz28MPtoC?_gl=1*h9h1pe*rs_ga*MTM1NjExMzE4Mi4xNjg3NDQ3NTcy*rs_ga_5RMPXG14TE*MTY4NzQ0NzU3Mi4xLjEuMTY4NzQ0NzY0Ny40NS4wLjA.) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 
     .center {
       display: grid;
