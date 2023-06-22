@@ -5,7 +5,7 @@ const gameIdStr = JSON.stringify(game_id);
 const contractId = "app.chess-game.near";
 const chessBoardWidget = "chess-game.near/widget/ChessBoard";
 const loadingWidget = "chess-game.near/widget/ChessGameLoading";
-const waitTime = 50;
+const waitTime = 25;
 const waitTimeOnErr = 500;
 
 if (!playerWhiteId) {
