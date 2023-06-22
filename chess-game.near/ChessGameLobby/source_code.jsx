@@ -80,7 +80,9 @@ if (!isRegistered) {
       <Widget src={headerWidget} />
       <Disclaimer>
         You need to pay storage deposit of 0.05N first before being allowed to
-        play Chess On Chain
+        play Chess On Chain.
+        <br />
+        If you don't get redirected after registering, please refresh the page.
       </Disclaimer>
       <Widget
         src={buttonWidget}
@@ -106,7 +108,7 @@ const GameSelector = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 
   > * {
     margin: 1rem;
