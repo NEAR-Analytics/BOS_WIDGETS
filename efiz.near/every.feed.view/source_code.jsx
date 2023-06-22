@@ -1,4 +1,5 @@
 const data = props.data;
+const disableCaching = props.disableCaching;
 
 return (
   <>
@@ -11,6 +12,7 @@ return (
         hashtagBlacklist: data.hashtagBlacklist,
         accountWhitelist: data.accountWhitelist,
         accountBlacklist: data.accountBlacklist,
+        disableCaching,
       }}
     />
   </>
