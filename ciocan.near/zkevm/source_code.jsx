@@ -35,23 +35,16 @@ const logo = (
 );
 
 const Container = styled.div`
+    background-color: #0D0E20;
     padding: 0;
     margin:0;
     width: 100%;
-    min-width: 1000px;
     height: 100%;
     min-height: 400px;
     display: grid;
     place-items: center;
     padding-top: 100px;
-    padding-bottom: 100px;
-    margin: 0 auto;
-    background: url(https://bafybeifnxzoabfcn4txprj7pkexb4adkcxnp34qfnsk3wkztay2sweuh44.ipfs.w3s.link/polygon-bg-optimized.png) no-repeat center center; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-color: #0D0E20;
+
 
     .center {
       display: grid;
