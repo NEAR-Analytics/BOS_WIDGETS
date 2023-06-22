@@ -1,10 +1,30 @@
 const NETWORKS = [
   { name: "NEAR", chainId: undefined },
-  { name: "ETH", chainId: 1 },
-  { name: "ZKSYNC", chainId: 324 },
-  { name: "ZKEVM", chainId: 1101 },
-  { name: "AURORA", chainId: 1313161554 },
-  { name: "POLYGON", chainId: 137 },
+  {
+    name: "ETH",
+    chainId: 1,
+    icon: "https://assets.coingecko.com/coins/images/279/small/ethereum.png",
+  },
+  {
+    name: "ZKSYNC",
+    chainId: 324,
+    icon: "https://lite.zksync.io/images/logo-no-letters.svg",
+  },
+  {
+    name: "ZKEVM",
+    chainId: 1101,
+    icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
+  },
+  {
+    name: "AURORA",
+    chainId: 1313161554,
+    icon: "https://assets.coingecko.com/coins/images/20582/small/aurora.jpeg",
+  },
+  {
+    name: "POLYGON",
+    chainId: 137,
+    icon: "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png",
+  },
 ];
 
 const NETWORK_NEAR = "NEAR";
@@ -14,7 +34,18 @@ const NETWORK_ZKEVM = "ZKEVM";
 const NETWORK_AURORA = "AURORA";
 const NETWORK_POLYGON = "POLYGON";
 
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+
+if (sender) {
+  Ethers.provider()
+    .getNetwork()
+    .then(({ chainId }) => {
+      State.update({ selectedNetwork: chainId });
+    });
+}
+
 State.init({
+  isNetworkSelectOpen: false,
   inputAssetModalHidden: true,
   outputAssetModalHidden: true,
   inputAssetAmount: 1,
@@ -74,6 +105,15 @@ if (!state.theme) {
   State.update({
     theme: styled.div`
     ${css}
+    .container-button {
+      position: relative;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 12px;
+      cursor: pointer;
+    }
 `,
   });
 }
@@ -301,6 +341,132 @@ const switchNetwork = (chainId) => {
     { chainId: `0x${chainId.toString(16)}` },
   ]);
 };
+
+const ContainerNetwork = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 8px;
+
+  .label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 8px;
+    line-height: 10px;
+    color: #fff;
+  }
+`;
+
+const NetworkSelectorButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 8px 4px 4px;
+  gap: 4px;
+
+  height: 24px;
+  outline: none;
+  border: none;
+  position: relative;
+
+  background: #2d2f30;
+  border-radius: 12px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 12px;
+
+  color: #FFFFFF;
+`;
+
+const NetworkList = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 12px;
+  width: 145px;
+  background: #2d2f30;
+  z-index: 10;
+  box-shadow: inset 0px 0px 0px 1px #999;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 12px;
+  }
+
+  li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 4px 8px 4px 4px;
+    gap: 4px;
+    flex: 1;
+    width: 100%;
+    color: #fff;
+
+    &:hover {
+      color: #ccc;
+    }
+  }
+`;
+
+const caretSvg = (
+  <svg width="6" height="4" viewBox="0 0 6 4" fill="none">
+    <path
+      d="M4.99998 1L2.99999 3L1 1"
+      stroke="white"
+      stroke-width="1.21738"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+const { isNetworkSelectOpen } = state;
+
+const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
+
+const openNetworkList = () => {
+  State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
+};
+
+const changeNetwork = (network) => {
+  State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
+};
+
+const networks = {};
+NETWORKS.filter((network) => !!network.chainId).map(
+  (network) =>
+    (networks[network.chainId] = { name: network.name, icon: network.icon })
+);
+
+const getFromNetworkLabel = () => {
+  return (
+    <>
+      <img
+        style={{ width: "16px" }}
+        src={networks[state.selectedNetwork].icon}
+      />
+      <span>
+        {networks[state.selectedNetwork].name} {state.dexName}
+      </span>
+    </>
+  );
+};
+
+const networksDropDown = Object.keys(networks).map((chainId) => (
+  <li onClick={() => switchNetwork(Number(chainId))}>
+    <img style={{ width: "16px" }} src={networks[chainId].icon} />
+    <span>{networks[chainId].name}</span>
+  </li>
+));
 
 // OUTPUT
 
@@ -564,11 +730,29 @@ return (
       <div class="swap-main-container">
         <div class="swap-main-column">
           <div class="swap-page">
-            {state.network && state.dexName && (
+            {false && state.network && state.dexName && (
               <span class="swap-header">
                 {state.dexName} ({state.network})
               </span>
             )}
+            {/* DD*/}
+            {state.network && state.dexName && (
+              <ContainerNetwork>
+                <div class="container-button">
+                  <NetworkSelectorButton onClick={openNetworkList}>
+                    {getFromNetworkLabel()}
+                    {caretSvg}
+                  </NetworkSelectorButton>
+                  {isNetworkSelectOpen && (
+                    <NetworkList>
+                      <ul>{networksDropDown}</ul>
+                    </NetworkList>
+                  )}
+                </div>
+              </ContainerNetwork>
+            )}
+            {/*DD*/}
+
             <div class="top-container">
               {assetContainer(
                 true,
@@ -633,7 +817,10 @@ return (
                                           .toFixed(4, 0)}
                                         ${state.outputAsset.metadata.symbol}`}
                                   </div>
-                                  <div class="swap-price-details-price">
+                                  <div
+                                    class="swap-price-details-price"
+                                    style={{ fontSize: "8px" }}
+                                  >
                                     {Number(state.inputAssetAmount) === 0 ||
                                     Number(state?.outputAsset?.price) === 0
                                       ? ""
