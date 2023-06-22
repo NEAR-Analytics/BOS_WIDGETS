@@ -22,12 +22,12 @@ return (
       src="mob.near/widget/MainPage.Post.Header"
       props={{ accountId, blockHeight, link, postType: "post", flagItem: item }}
     />
-    // <div className="mt-3 text-break">
-    //   <Widget
-    //     src="mob.near/widget/MainPage.Post.Content"
-    //     props={{ content, raw }}
-    //   />
-    // </div>
+    <div className="mt-3 text-break">
+      {/*<Widget
+        src="mob.near/widget/MainPage.Post.Content"
+        props={{ content, raw }}
+      />*/}
+    </div>
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
         <div className="me-4">
