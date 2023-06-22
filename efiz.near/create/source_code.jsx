@@ -81,12 +81,14 @@ function Property({ property, value }) {
       />
     );
   } else if (property.type === "date" || property.type === "time") {
-    <Input
-      type={property.type}
-      onChange={(e) => handleInputChange(property.name, e.target.value)}
-      value={state[property.name] || ""}
-      placeholder={property.name}
-    />;
+    return (
+      <Input
+        type={property.type}
+        onChange={(e) => handleInputChange(property.name, e.target.value)}
+        value={state[property.name] || ""}
+        placeholder={property.name}
+      />
+    );
   } else if (property.type === "boolean") {
     return (
       <Select
@@ -112,8 +114,10 @@ function Property({ property, value }) {
     // This requires a specific type of creator
     // (like image upload)
     // TODO: I don't think this does what I want it to yet...
-    const itemType = JSON.parse(Social.get(item.type, "final") || "null");
-    const widgetSrc = itemType?.widgets?.create;
+    const propertyType = JSON.parse(
+      Social.get(property.type, "final") || "null"
+    );
+    const widgetSrc = propertyType?.widgets?.create;
     // it would be great to modify the onChange function
     return <Widget src={widgetSrc} onChange={onChange} />;
   }
