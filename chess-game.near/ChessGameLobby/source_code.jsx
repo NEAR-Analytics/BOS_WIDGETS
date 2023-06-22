@@ -8,6 +8,7 @@ const chessGameWidget = "chess-game.near/widget/ChessGame";
 const chessGameReplayWidget = "chess-game.near/widget/ChessGameReplay";
 const chessGameChallengeWidget = "chess-game.near/widget/ChessGameChallenge";
 const chessGameAiWidget = "chess-game.near/widget/ChessGameAi";
+const buttonWidget = "chess-game.near/widget/ChessGameButton";
 const profileIcon = "chess-game.near/widget/ProfileIcon";
 const githubIcon = "chess-game.near/widget/GithubIcon";
 const twitterIcon = "chess-game.near/widget/TwitterIcon";
@@ -35,21 +36,6 @@ const Content = styled.div`
 
   > * {
     margin: 0.4rem 0;
-  }
-`;
-const Button = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-self: ${(props) => (props.alignSelf ? props.alignSelf : "unset")};
-  border: 1px solid black;
-  border-radius: 4px;
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "1rem")};
-  max-width: 220px;
-
-  > * {
-    max-width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
   }
 `;
 const Disclaimer = styled.div`
@@ -102,9 +88,14 @@ if (!isRegistered) {
         You need to pay storage deposit of 0.05N first before being allowed to
         play Chess On Chain
       </Disclaimer>
-      <Button onClick={registerAccount} fontSize="1.2rem">
-        Register Account
-      </Button>
+      <Widget
+        src={buttonWidget}
+        props={{
+          onClick: registerAccount,
+          fontSize: "1.2rem",
+          content: "Register Account",
+        }}
+      />
     </LobbyView>
   );
 }
@@ -165,25 +156,33 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
       });
     }
     return (
-      <Button onClick={selectGame(gameId, isFinished)}>
-        <div>ID: {gameId[0]}</div>
-        {displayPlayers && (
-          <>
-            <div>White: {gameId[1]}</div>
-            {gameId[2] && <div>Black: {gameId[2]}</div>}
-          </>
-        )}
-        {gameInfo && (
-          <div>
-            VS:{" "}
-            {gameInfo.black.Ai ? (
-              <>AI ({gameInfo.black.Ai})</>
-            ) : (
-              <>Player ({gameInfo.black.Human})</>
-            )}
-          </div>
-        )}
-      </Button>
+      <Widget
+        src={buttonWidget}
+        props={{
+          onClick: selectGame(gameId, isFinished),
+          content: (
+            <>
+              <div>ID: {gameId[0]}</div>
+              {displayPlayers && (
+                <>
+                  <div>White: {gameId[1]}</div>
+                  {gameId[2] && <div>Black: {gameId[2]}</div>}
+                </>
+              )}
+              {gameInfo && (
+                <div>
+                  VS:{" "}
+                  {gameInfo.black.Ai ? (
+                    <>AI ({gameInfo.black.Ai})</>
+                  ) : (
+                    <>Player ({gameInfo.black.Human})</>
+                  )}
+                </div>
+              )}
+            </>
+          ),
+        }}
+      />
     );
   });
 
@@ -191,21 +190,36 @@ let content;
 if (state.game_id) {
   content = (
     <Content alignItems="stretch">
-      <Button alignSelf="center" onClick={returnToLobby}>
-        Return To Lobby
-      </Button>
-      <Button alignSelf="center" onClick={resign}>
-        Resign
-      </Button>
+      <Widget
+        src={buttonWidget}
+        props={{
+          onClick: returnToLobby,
+          alignSelf: "center",
+          content: "Return To Lobby",
+        }}
+      />
+      <Widget
+        src={buttonWidget}
+        props={{
+          onClick: resign,
+          alignSelf: "center",
+          content: "Resign",
+        }}
+      />
       <Widget src={chessGameWidget} props={{ game_id: state.game_id }} />
     </Content>
   );
 } else if (state.replay_game_id) {
   content = (
     <Content alignItems="stretch">
-      <Button alignSelf="center" onClick={returnToLobby}>
-        Return To Lobby
-      </Button>
+      <Widget
+        src={buttonWidget}
+        props={{
+          onClick: returnToLobby,
+          alignSelf: "center",
+          content: "Return To Lobby",
+        }}
+      />
       <Widget
         src={chessGameReplayWidget}
         props={{ game_id: state.replay_game_id }}
