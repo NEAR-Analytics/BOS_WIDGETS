@@ -103,6 +103,9 @@ const finishedGames = Near.view(contractId, "finished_games", {
   account_id: accountId,
 }).sort((a, b) => b[0] - a[0]);
 const recentFinishedGames = Near.view(contractId, "recent_finished_games", {});
+if (gameIds == null || finishedGames == null || recentFinishedGames == null) {
+  return <Widget src={loadingWidget} />;
+}
 
 const GameSelector = styled.div`
   display: flex;
