@@ -2,6 +2,7 @@ const onSave = props.onSave ?? (() => { });
 const ownerId = "contribut3.near";
 const isAdmin = props.isAdmin;
 const request = props.request;
+console.log(request);
 
 const Container = styled.div`
   display: flex;
@@ -11,6 +12,7 @@ const Container = styled.div`
   gap: 1em;
   padding: 0.5em 0.2em;
   max-width: 100%;
+  font-size: 0.9em;
 `;
 
 const Heading = styled.div`
@@ -56,8 +58,18 @@ if (!state.isFetched) {
 }
 
 if (!state.nameIsFetched) {
-  Near.asyncView("social.near", "get", { keys: [`${request.project_id}/profile/name`] }, "final", false).then(
-    (data) => State.update({ name: data[request.project_id].profile.name, nameIsFetched: true }));
+  Near.asyncView(
+    "social.near",
+    "get",
+    { keys: [`${request.project_id}/profile/name`] },
+    "final",
+    false
+  ).then((data) =>
+    State.update({
+      name: data[request.project_id].profile.name,
+      nameIsFetched: true,
+    })
+  );
   return <>Loading...</>;
 }
 
@@ -66,7 +78,7 @@ const Project = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: .25em;
+  gap: 0.25em;
   width: 100%;
 
   div {
@@ -74,7 +86,7 @@ const Project = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: .5em;
+    gap: 0.5em;
   }
 
   label {
@@ -122,9 +134,9 @@ return (
       props={{
         label: "Payment source",
         id: "source",
-        value: [{ name: request.source }],
+        value: [{ value: request.source, text: request.source }],
         options: state.paymentSources.map((value) => ({ value, text: value })),
-        onSave: (source) => onSave({ source }),
+        onSave: ({ value: source }) => onSave({ source }),
         canEdit: isAdmin,
       }}
     />
@@ -133,9 +145,9 @@ return (
       props={{
         label: "Payment type",
         id: "payment_type",
-        value: [{ name: request.payment_type }],
+        value: [{ value: request.payment_type, text: request.payment_type }],
         options: state.paymentTypes.map((value) => ({ value, text: value })),
-        onSave: (payment_type) => onSave({ payment_type }),
+        onSave: ({ value: payment_type }) => onSave({ payment_type }),
         canEdit: isAdmin,
       }}
     />
@@ -144,9 +156,9 @@ return (
       props={{
         label: "Request type",
         id: "request_type",
-        value: [{ name: request.request_type }],
+        value: [{ value: request.request_type, text: request.request_type }],
         options: state.requestTypes.map((value) => ({ value, text: value })),
-        onSave: (request_type) => onSave({ request_type }),
+        onSave: ({ value: request_type }) => onSave({ request_type }),
         canEdit: isAdmin,
       }}
     />
@@ -156,11 +168,12 @@ return (
         label: "Deadline",
         id: "deadline",
         value: request.deadline,
-        onSave: (deadline) => onSave({ deadline: `${new Date(deadline).getTime()}` }),
+        onSave: (deadline) =>
+          onSave({ deadline: `${new Date(deadline).getTime()}` }),
         canEdit: isAdmin,
       }}
     />
-    <Widget
+    {/*<Widget
       src={`${ownerId}/widget/Inputs.Viewable.Tags`}
       props={{
         label: "Tags",
@@ -175,6 +188,6 @@ return (
         onSave: (tags) => onSave({ tags: tags.map(({ name }) => name) }),
         canEdit: isAdmin,
       }}
-    />
+    />*/}
   </Container>
 );
