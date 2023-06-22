@@ -12,6 +12,7 @@ const contractProps = {
       end: 1690820065441,
       quorum: 100,
       voters_num: 150,
+      available_seats: 10,
       seats: 10,
       result: [],
       voters: [],
@@ -30,6 +31,7 @@ const contractProps = {
       end: 1696820065441,
       quorum: 100,
       voters_num: 150,
+      available_seats: 0,
       seats: 10,
       result: [
         ["zomland.near", 150],
@@ -69,6 +71,7 @@ const contractProps = {
       end: 1686820065441,
       quorum: 100,
       voters_num: 150,
+      available_seats: 5,
       seats: 10,
       result: [],
       voters: [],
