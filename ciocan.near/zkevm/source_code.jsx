@@ -46,7 +46,7 @@ const Container = styled.div`
     padding-top: 100px;
     padding-bottom: 100px;
     margin: 0 auto;
-    background: url(https://bafybeifnxzoabfcn4txprj7pkexb4adkcxnp34qfnsk3wkztay2sweuh44.ipfs.w3s.link/polygon-bg-optimized.png) no-repeat center center fixed; 
+    background: url(https://bafybeifnxzoabfcn4txprj7pkexb4adkcxnp34qfnsk3wkztay2sweuh44.ipfs.w3s.link/polygon-bg-optimized.png) no-repeat center center; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
