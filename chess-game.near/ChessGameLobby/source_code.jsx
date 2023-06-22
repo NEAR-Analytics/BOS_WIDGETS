@@ -4,14 +4,13 @@ if (!accountId) {
 }
 
 const contractId = "app.chess-game.near";
-const chessGameWidget = "chess-game.near/widget/ChessGame";
-const chessGameReplayWidget = "chess-game.near/widget/ChessGameReplay";
-const chessGameChallengeWidget = "chess-game.near/widget/ChessGameChallenge";
-const chessGameAiWidget = "chess-game.near/widget/ChessGameAi";
+const headerWidget = "chess-game.near/widget/ChessGameHeader";
+const gameWidget = "chess-game.near/widget/ChessGame";
+const replayWidget = "chess-game.near/widget/ChessGameReplay";
+const challengeWidget = "chess-game.near/widget/ChessGameChallenge";
+const aiWidget = "chess-game.near/widget/ChessGameAi";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
-const profileIcon = "chess-game.near/widget/ProfileIcon";
-const githubIcon = "chess-game.near/widget/GithubIcon";
-const twitterIcon = "chess-game.near/widget/TwitterIcon";
+const loadingWidget = "chess-game.near/widget/ChessGameLoading";
 
 const LobbyView = styled.div`
   display: flex;
@@ -43,31 +42,20 @@ const Disclaimer = styled.div`
   font-style: italic;
   font-size: 1.2rem;
 `;
-const Header = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  justify-content: center;
 
-  a {
-    display: block;
-    align-items: center;
-    color: inherit;
-    text-decoration: inherit;
-    font-size: 1.4rem;
-    border-radius: 0.4rem;
-    border: 1px solid lightblue;
-    padding: 0.2rem;
+let isRegistered =
+  state.isRegistered ??
+  Near.view(contractId, "storage_balance_of", {
+    account_id: accountId,
+  });
+if (isRegistered === undefined) {
+  return <Widget src={loadingWidget} />;
+}
 
-    &:hover {
-      border: 1px solid blue;
-      color: darkblue;
-    }
-  }
-`;
-
-const isRegistered = Near.view(contractId, "storage_balance_of", {
-  account_id: accountId,
+State.init({
+  game_id: null,
+  replay_game_id: null,
+  isRegistered,
 });
 
 const registerAccount = () => {
@@ -78,12 +66,18 @@ const registerAccount = () => {
     undefined,
     "50000000000000000000000"
   );
+  isRegistered = Near.view(contractId, "storage_balance_of", {
+    account_id: accountId,
+  });
+  State.update({
+    isRegistered,
+  });
 };
 
 if (!isRegistered) {
   return (
     <LobbyView>
-      <h1>Chess On Chain</h1>
+      <Widget src={headerWidget} />
       <Disclaimer>
         You need to pay storage deposit of 0.05N first before being allowed to
         play Chess On Chain
@@ -99,11 +93,6 @@ if (!isRegistered) {
     </LobbyView>
   );
 }
-
-State.init({
-  game_id: null,
-  replay_game_id: null,
-});
 
 const gameIds = Near.view(contractId, "get_game_ids", {
   account_id: accountId,
@@ -144,6 +133,9 @@ const returnToLobby = () => {
 const resign = () => {
   Near.call(contractId, "resign", {
     game_id: state.game_id,
+  });
+  State.update({
+    game_id: null,
   });
 };
 
@@ -206,7 +198,7 @@ if (state.game_id) {
           content: "Resign",
         }}
       />
-      <Widget src={chessGameWidget} props={{ game_id: state.game_id }} />
+      <Widget src={gameWidget} props={{ game_id: state.game_id }} />
     </Content>
   );
 } else if (state.replay_game_id) {
@@ -220,10 +212,7 @@ if (state.game_id) {
           content: "Return To Lobby",
         }}
       />
-      <Widget
-        src={chessGameReplayWidget}
-        props={{ game_id: state.replay_game_id }}
-      />
+      <Widget src={replayWidget} props={{ game_id: state.replay_game_id }} />
     </Content>
   );
 } else {
@@ -235,8 +224,8 @@ if (state.game_id) {
           <GameSelector>{renderGameIds(gameIds, false, false)}</GameSelector>
         </div>
       )}
-      <Widget src={chessGameChallengeWidget} />
-      <Widget src={chessGameAiWidget} />
+      <Widget src={challengeWidget} />
+      <Widget src={aiWidget} />
       {finishedGames.length > 0 && (
         <div>
           <h2>Replay your finished games:</h2>
@@ -261,25 +250,7 @@ return (
   <LobbyView
     alignItems={state.game_id || state.replay_game_id ? "stretch" : "center"}
   >
-    <h1>Protocol Pawns</h1>
-    <Header>
-      <Disclaimer>
-        Play chess fully on chain powered by Near Protocol and the BOS. If you
-        want to learn more please visit the profile page.
-      </Disclaimer>
-      <a href="https://chess-game.near.social" target="_blank">
-        <Widget src={profileIcon} props={{ height: "2rem" }} />
-        <span>Profile</span>
-      </a>
-      <a href="https://github.com/Protocol-Pawns" target="_blank">
-        <Widget src={githubIcon} props={{ height: "2rem" }} />
-        <span>Github</span>
-      </a>
-      <a href="https://twitter.com/protocolpawns" target="_blank">
-        <Widget src={twitterIcon} props={{ height: "2rem" }} />
-        <span>Twitter</span>
-      </a>
-    </Header>
+    <Widget src={headerWidget} />
     {content}
     <Disclaimer>
       If you won or lost a game it will no longer be displayed. You can check
