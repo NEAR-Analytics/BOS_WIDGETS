@@ -1,5 +1,9 @@
 const NETWORKS = [
-  { name: "NEAR", chainId: undefined },
+  {
+    name: "NEAR",
+    chainId: undefined,
+    icon: "https://assets.coingecko.com/coins/images/10365/small/near.jpg",
+  },
   {
     name: "ETH",
     chainId: 1,
@@ -40,7 +44,7 @@ if (sender) {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ selectedNetwork: chainId });
+      State.update({ selectedChainId: chainId });
     });
 }
 
@@ -405,7 +409,7 @@ const NetworkList = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 4px 8px 4px 4px;
+    padding: 4px 8px 4px 10px;
     gap: 4px;
     flex: 1;
     width: 100%;
@@ -430,6 +434,7 @@ const caretSvg = (
 );
 
 const { isNetworkSelectOpen } = state;
+const selectedChainId = state.selectedChainId ?? 0;
 
 const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
 
@@ -437,25 +442,21 @@ const openNetworkList = () => {
   State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
 };
 
-const changeNetwork = (network) => {
-  State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
-};
-
 const networks = {};
-NETWORKS.filter((network) => !!network.chainId).map(
+NETWORKS.map(
   (network) =>
-    (networks[network.chainId] = { name: network.name, icon: network.icon })
+    (networks[network.chainId ?? 0] = {
+      name: network.name,
+      icon: network.icon,
+    })
 );
 
 const getFromNetworkLabel = () => {
   return (
     <>
-      <img
-        style={{ width: "16px" }}
-        src={networks[state.selectedNetwork].icon}
-      />
+      <img style={{ width: "16px" }} src={networks[selectedChainId].icon} />
       <span>
-        {networks[state.selectedNetwork].name} {state.dexName}
+        {networks[selectedChainId].name} {state.dexName}
       </span>
     </>
   );
