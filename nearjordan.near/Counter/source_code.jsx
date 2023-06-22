@@ -65,5 +65,4 @@ const onIncrement = () => {
   
 return(
     <p>Account test2: {sender} {abi[0].name} Number: {state.num.toString()}
-    <br/><button onClick={onIncrement}>Increment</button>
-    <br/> Tx ID: {state.txid.toString()}</p>);
+    <br/><button onClick={onIncrement}>Increment</button></p>);
