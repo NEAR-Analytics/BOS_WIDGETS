@@ -9,7 +9,7 @@ const housesMapping = {
     title: "House of Merit",
     src: "https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq",
   },
-  TransparencyCommission: {
+  TransparancyCommision: {
     title: "Transparency Commission",
     src: "https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq",
   },
