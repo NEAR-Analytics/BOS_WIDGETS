@@ -100,7 +100,7 @@ const MainSubSection = styled.div`
   }
 `;
 
-const Link = styled.a`
+const Anchor = styled.a`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -306,6 +306,8 @@ const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 State.init({
   stats: null,
   statsIsFetched: false,
+  totalRaised: 578920000,
+  totalRaisedIsFetched: false,
 });
 
 if (!state.statsIsFetched) {
@@ -316,8 +318,17 @@ if (!state.statsIsFetched) {
   );
 }
 
+if (!state.totalRaisedIsFetched) {
+  asyncFetch("https://api-op3o.onrender.com/atlas/total-raised").then(
+    (response) =>
+      response.ok &&
+      State.update({ totalRaised: response.body, totalRaisedIsFetched: true })
+  );
+}
+
 return (
   <Container>
+    <Widget src={`${ownerId}/widget/Banner.AwesomeNEAR`} />
     <Section style={{ marginTop: "2em 0 0 0" }}>
       <Row style={{ padding: "0 0 4em 0" }}>
         <img src={mapImage(mainImage)} style={{ transform: "scale(.9)" }} />
@@ -350,7 +361,7 @@ return (
             projects alongside a thriving community, while tapping into a robust
             backer network and diverse supporting resources.
           </p>
-          <Link href="/nearhorizon.near/widget/Index">Try It Now</Link>
+          <Anchor href="/nearhorizon.near/widget/Index">Try It Now</Anchor>
         </MainSubSection>
       </Row>
       <Stats>
@@ -386,7 +397,10 @@ return (
         <Widget
           src={`${ownerId}/widget/Stats.Card`}
           props={{
-            value: "$88M+",
+            value:
+              Number(state.totalRaised).toLocaleString("en-US", {
+                notation: "compact",
+              }) + "+",
             label: "Raised",
           }}
         />
@@ -419,8 +433,8 @@ return (
             </li>
             <li>{listSymbol} Refined GTM strategies and business models</li>
             <li>
-              {listSymbol} Detailed profiles with everyting you need to evaluate
-              teams and projects
+              {listSymbol} Detailed profiles with everything you need to
+              evaluate teams and projects
             </li>
           </ul>
         </List>
@@ -782,13 +796,13 @@ return (
         />
       </svg>
       <h2>Accelerate your Web3 Startup!</h2>
-      <Link
+      <Anchor
         href="/nearhorizon.near/widget/Index"
         className="white"
         style={{ marginTop: "1em" }}
       >
         Try it Now
-      </Link>
+      </Anchor>
     </Footer>
   </Container>
 );
