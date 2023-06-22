@@ -1,17 +1,16 @@
 const Container = styled.div`
     display: flex;
-    height: 100%;
   `;
 
 const SidePanel = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 20px;
-    background-color: #f2f2f2;
-    width: auto;
-    z-index: 50;
-  `;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  width: auto;
+  z-index: 50;
+`;
 
 const MainContent = styled.div`
     display: flex;
@@ -27,11 +26,11 @@ const Header = styled.div`
   `;
 
 const Footer = styled.div`
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  `;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
 
 const Button = styled.button`
   `;
@@ -75,16 +74,6 @@ const ModalTitle = styled.h3`
   margin-bottom: 10px;
 `;
 
-const ModalButton = styled.button`
-  padding: 10px 20px;
-  background-color: #5fba7d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 10px;
-`;
-
 State.init({
   data: {},
   isModalOpen: false,
@@ -121,6 +110,16 @@ const handleTypeChange = (e) => {
 return (
   <Container>
     <SidePanel>
+      <Label>Type Source:</Label>
+      <Input
+        type="text"
+        value={state.newTypeSrc}
+        onChange={(e) => State.update({ newTypeSrc: e.target.value })}
+        placeholder={"accountId"}
+      />
+      <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
+        apply
+      </Button>
       <Label>Type</Label>
       <Select value={state.selectedType} onChange={handleTypeChange}>
         <option value="">Select a type</option>
@@ -162,12 +161,12 @@ return (
         <ModalContent>
           <ModalTitle>Save Confirmation</ModalTitle>
           <p>Are you sure you want to save?</p>
-          <ModalButton onClick={() => State.update({ isModalOpen: false })}>
+          <Button onClick={() => State.update({ isModalOpen: false })}>
             Save
-          </ModalButton>
-          <ModalButton onClick={() => State.update({ isModalOpen: false })}>
+          </Button>
+          <Button onClick={() => State.update({ isModalOpen: false })}>
             Cancel
-          </ModalButton>
+          </Button>
         </ModalContent>
       </ModalOverlay>
     )}
