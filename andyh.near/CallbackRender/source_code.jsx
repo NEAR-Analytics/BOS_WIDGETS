@@ -3,8 +3,8 @@ const renderComponent = (msg, cb) => {
   return (
     <div>
       <Widget
-        src="andyh.near/widget/CallbackRenderWidget"
         props={{ cb, msg }}
+        src="andyh.near/widget/CallbackRenderWidget"
       />
     </div>
     // <h2>{msg}</h2>
