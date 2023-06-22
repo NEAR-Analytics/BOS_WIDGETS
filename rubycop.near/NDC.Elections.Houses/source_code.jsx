@@ -90,9 +90,7 @@ const GroupItem = ({ item }) => (
       </ImgContainer>
       <div>
         <h6>{housesMapping[item.typ].title}</h6>
-        <Small>
-          {item.available_seats} / {item.seats} votes left
-        </Small>
+        <Small>{item.seats} votes left</Small>
       </div>
     </div>
     <div>
