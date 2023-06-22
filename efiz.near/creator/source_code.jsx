@@ -26,10 +26,11 @@ const Header = styled.div`
   `;
 
 const Footer = styled.div`
-  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-self: flex-start;
+  width: 100%;
 `;
 
 const Button = styled.button`
