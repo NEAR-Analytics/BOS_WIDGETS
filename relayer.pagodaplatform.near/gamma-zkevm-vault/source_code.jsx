@@ -32,6 +32,21 @@ const defaultPair = {
   decimals1: 6,
 };
 
+const HStack = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const VStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Comment = styled.span`
+  font-size: 12px;
+`;
+
 const Wrapper = styled.div`
     background: #1d1e1f;
     display: flex;
@@ -76,12 +91,14 @@ const Input = styled.input`
 const Button = styled.button`
     background: #8247E5;
     border-radius: 4px;
+    width: 100%;
     border: none;
     color: #fff;
     padding: 8px 0;
     font-weight: 600;
     font-size: 14px;
     position: relative;
+    min-height: 37px;
     &:disabled {
       background: #333;
       color: #ccc;
@@ -116,7 +133,8 @@ const MaxButton = styled.button`
 const Spinner = styled.i`
   position: absolute;
   top: 50%;
-  left: 15px;
+  left: 0;
+  right: 0;
   margin: calc(24px * -0.5) auto 0;
   width: 24px;
   height: 24px;
@@ -139,7 +157,10 @@ State.init({
   balances: [],
   amount0: 0,
   amount1: 0,
-  isComputing: false,
+  isLoading: false,
+  isToken0Approved: true,
+  isToken1Approved: true,
+  loadingMsg: "",
 });
 
 const getFromDepositAmount = (depositAmount, tokenDecimal) => {
@@ -219,7 +240,16 @@ if (sender)
     { symbol: token1, address: addresses[token1], decimals: decimals1 },
   ].map(updateBalance);
 
-const { isDeposit, balances, amount0, amount1, isComputing } = state;
+const {
+  isDeposit,
+  balances,
+  amount0,
+  amount1,
+  isLoading,
+  isToken0Approved,
+  isToken1Approved,
+  loadingMsg,
+} = state;
 
 const changeMode = (isDeposit) => {
   State.update({ isDeposit });
@@ -234,11 +264,18 @@ const handleToken0Change = (amount) => {
   State.update({ amount0: amount });
 
   if (Number(amount) === 0) {
-    State.update({ amount1: 0 });
+    State.update({
+      amount1: 0,
+      isToken0Approved: true,
+      isToken1Approved: true,
+    });
     return;
   }
 
-  State.update({ isComputing: true });
+  State.update({
+    isLoading: true,
+    loadingMsg: "Computing deposit amount...",
+  });
 
   const token0Wei = ethers.utils.parseUnits(amount, decimals0).toString();
 
@@ -256,7 +293,7 @@ const handleToken0Change = (amount) => {
     .then((depositAmount) => {
       const amount1 = getFromDepositAmount(depositAmount, decimals1);
       State.update({ amount1 });
-      State.update({ isComputing: false });
+      State.update({ isLoading: false });
     });
 };
 
@@ -264,11 +301,18 @@ const handleToken1Change = (amount) => {
   State.update({ amount1: amount });
 
   if (Number(amount) === 0) {
-    State.update({ amount0: 0 });
+    State.update({
+      amount0: 0,
+      isToken0Approved: true,
+      isToken1Approved: true,
+    });
     return;
   }
 
-  State.update({ isComputing: true });
+  State.update({
+    isLoading: true,
+    loadingMsg: "Computing deposit amount...",
+  });
   const token1Wei = ethers.utils.parseUnits(amount, decimals1).toString();
 
   const proxyAbi = [
@@ -285,7 +329,7 @@ const handleToken1Change = (amount) => {
     .then((depositAmount) => {
       const amount0 = getFromDepositAmount(depositAmount, decimals0);
       State.update({ amount0 });
-      State.update({ isComputing: false });
+      State.update({ isLoading: false });
     });
 };
 
@@ -325,16 +369,25 @@ return (
           <MaxButton onClick={() => handleMax(false)}>Max</MaxButton>
           <span>Balance: {balances[token1]}</span>
         </InputWrapper>
-        <Button disabled={isInSufficient || isComputing}>
-          {isComputing ? (
-            <>
-              <Spinner className="ph-bold ph-circle-notch" /> Computing Deposit
-              Amount{" "}
-            </>
+        <VStack>
+          {isLoading && <Comment>{loadingMsg}</Comment>}
+          {isToken0Approved && isToken1Approved ? (
+            <Button disabled={isInSufficient || isLoading}>
+              {isLoading ? (
+                <>
+                  <Spinner className="ph-bold ph-circle-notch" />{" "}
+                </>
+              ) : (
+                <>{isInSufficient ? "InSufficient Balance" : "Deposit"}</>
+              )}
+            </Button>
           ) : (
-            <>{isInSufficient ? "InSufficient Balance" : "Deposit"}</>
+            <HStack>
+              <Button> Approve {token0}</Button>
+              <Button> Approve {token1}</Button>
+            </HStack>
           )}
-        </Button>
+        </VStack>
       </SubWrapper>
     ) : (
       <SubWrapper>
