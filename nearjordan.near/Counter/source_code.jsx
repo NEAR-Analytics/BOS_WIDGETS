@@ -57,12 +57,13 @@ const Counter_contract = new ethers.Contract(Counter_address, Counter_abi, Ether
 
 Counter_contract.number().then((n) => { State.update({num: Number(n)}); });
 
-const incrementButton = document.getElementById("incrementButton");
-incrementButton.addEventListener("click", () => {
-    Counter_contract.increment().then((txid) => { State.update({txid: txid}); });
-});
-
-return 
+const onIncrement = () => {
+    Counter_contract.increment().then((txid) => {
+      State.update({ txid: txid });
+    });
+  };
+  
+return(
     <p>Account test2: {sender} {abi[0].name} Number: {state.num.toString()}
-    <br/><button id="incrementButton">Increment</button>
-    <br/> Tx ID: {state.txid.toString()}</p>;
+    <br/><button onClick={onIncrement}>Increment</button>
+    <br/> Tx ID: {state.txid.toString()}</p>);
