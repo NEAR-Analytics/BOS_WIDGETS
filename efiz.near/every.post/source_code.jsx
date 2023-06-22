@@ -5,6 +5,7 @@ const hashtagBlacklist = props.hashtagBlacklist;
 const accountWhitelist = props.accountWhitelist;
 const accountBlacklist = props.accountBlacklist;
 const feedOrder = props.feedOrder || "desc";
+const disableCaching = props.disableCaching || false;
 
 if (hashtagBlacklist.length) {
   hashtagBlacklist = hashtagBlacklist.map((it) => it.toLowerCase());
@@ -133,5 +134,8 @@ const renderItem = (a) => {
 };
 
 return (
-  <Widget src="mob.near/widget/MergedIndexFeed" props={{ index, renderItem }} />
+  <Widget
+    src="efiz.near/widget/MergedIndexFeed"
+    props={{ index, renderItem, disableCaching }}
+  />
 );
