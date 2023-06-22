@@ -1,5 +1,6 @@
-const item = props.item;
 const onChange = props.onChange;
+const type = JSON.parse(Social.get(props.type, "final") || "null");
+const properties = type.properties || [];
 
 const Input = styled.input`
   height: 30px;
@@ -28,28 +29,6 @@ const Row = styled.div`
 const Label = styled.label`
 `;
 
-State.init({
-  ...item.value,
-});
-
-// Primitive checks
-if (item.type === "string") {
-  return <Input onChange={onChange} value={item.value} />;
-} else if (item.type === "boolean") {
-  return (
-    <Select onChange={onChange} value={item.value}>
-      <option value="true">true</option>
-      <option value="false">false</option>
-    </Select>
-  );
-} else if (item.type === "number") {
-  return <Input type="number" onChange={onChange} value={item.value} />;
-}
-
-// On-chain Type
-const type = JSON.parse(Social.get(item.type, "final") || "null");
-const properties = type.properties || [];
-
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
   if (props.onChange) {
@@ -57,54 +36,56 @@ const handleInputChange = (name, value) => {
   }
 };
 
-function Property({ property, value }) {
-  // If property is multiple values
-  if (property.isMulti === "true") {
-    // Build an array (recursively calls this Widget)
+function Property({ item }) {
+  if (item.isMulti === true) {
     return (
       <Widget
         src="efiz.near/widget/every.array.build"
         props={{
-          item: { ...property, value },
-          onChange: (val) => handleInputChange(property.name, val),
+          item,
+          onChange: (val) => handleInputChange(item.name, val),
         }}
       />
     );
   }
-  // Else check for primitives
-  if (property.type === "string") {
+  if (item.type === "string") {
     return (
       <Input
-        onChange={(e) => handleInputChange(property.name, e.target.value)}
-        value={state[property.name] || ""}
-        placeholder={property.name}
+        type="text"
+        onChange={(e) => handleInputChange(item.name, e.target.value)}
+        value={state[item.name] || ""}
+        placeholder={item.name}
       />
     );
-  } else if (property.type === "boolean") {
+  } else if (item.type === "date" || item.type === "time") {
+    <Input
+      type={item.type}
+      onChange={(e) => handleInputChange(item.name, e.target.value)}
+      value={state[item.name] || ""}
+      placeholder={item.name}
+    />;
+  } else if (item.type === "boolean") {
     return (
       <Select
-        onChange={(e) => handleInputChange(property.name, e.target.value)}
-        value={state[property.name] || ""}
+        onChange={(e) => handleInputChange(item.name, e.target.value)}
+        value={state[item.name] || ""}
       >
         <option value="true">true</option>
         <option value="false">false</option>
       </Select>
     );
-  } else if (property.type === "number") {
+  } else if (item.type === "number") {
     return (
       <Input
         type="number"
         onChange={(e) =>
-          handleInputChange(property.name, parseInt(e.target.value, 10))
+          handleInputChange(item.name, parseInt(e.target.value, 10))
         }
-        value={state[property.name] || ""}
-        placeholder={property.name}
+        value={state[item.name] || ""}
+        placeholder={item.name}
       />
     );
   } else {
-    // This requires a specific type of creator
-    // (like image upload)
-    // TODO: I don't think this does what I want it to yet...
     const itemType = JSON.parse(Social.get(item.type, "final") || "null");
     const widgetSrc = itemType?.widgets?.create;
     // it would be great to modify the onChange function
@@ -114,11 +95,11 @@ function Property({ property, value }) {
 
 return (
   <Container>
-    {properties?.map((property) => (
-      <div key={property.name}>
-        <Label>{property.name}</Label>
+    {properties.map((item) => (
+      <div key={item.name}>
+        <Label>{item.name}</Label>
         <Row>
-          <Property property={property} value={item.value[property.name]} />
+          <Property item={item} />
         </Row>
       </div>
     ))}
