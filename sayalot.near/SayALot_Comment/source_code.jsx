@@ -2,9 +2,9 @@ const addressForArticles = "sayALotArticle";
 const addressForComments = "sayalot-comments";
 const authorForWidget = "sayalot.near";
 State.init({ showReply: false });
-const accountId = props.articleAccountId;
+const accountId = props.accountId;
 const blockHeight =
-  props.articleBlockHeight === "now" ? "now" : parseInt(props.articleBlockHeight);
+  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
   props.content ??
   JSON.parse(
@@ -58,7 +58,7 @@ return (
             src={`${authorForWidget}/widget/SayALot_Reactions`}
             props={{
               // notifyAccountId,
-              item: parentItem,
+              item,
             }}
           />
         </div>
