@@ -37,8 +37,8 @@ const logo = (
 const Container = styled.div`
     padding: 0;
     margin:0;
-    width: auto;
-    // min-width: 800px;
+    width: 100%;
+    min-width: 1000px;
     height: 100%;
     min-height: 400px;
     display: grid;
