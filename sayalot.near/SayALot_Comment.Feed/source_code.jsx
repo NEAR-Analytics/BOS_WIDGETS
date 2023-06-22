@@ -20,8 +20,8 @@ const renderItem = (a) =>
       <Widget
         src={`${authorForWidget}/widget/SayALot_Comment`}
         props={{
-          accountId: a.accountId,
-          blockHeight: a.blockHeight,
+          articleAccountId: a.accountId,
+          articleBlockHeight: a.blockHeight,
           highlight:
             a.accountId === props.highlightComment?.accountId &&
             a.blockHeight === props.highlightComment?.blockHeight,
