@@ -132,20 +132,6 @@ const GameSelector = styled.div`
     margin: 1rem;
   }
 `;
-const GameCreator = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  > *:not(h2) {
-    margin: 0.2rem 0;
-  }
-
-  h2, h3, h4 {
-    align-self: center;
-  }
-`;
 
 const selectGame = (gameId, isFinished) => () => {
   if (isFinished) {
