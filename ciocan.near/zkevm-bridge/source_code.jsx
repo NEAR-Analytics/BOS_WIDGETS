@@ -214,9 +214,7 @@ const updateGasLimit = (props) => {
     Ethers.provider().getSigner()
   );
   bridgeContract.estimateGas
-    .bridgeAsset(1, sender, amountBig, token.address, true, "0x", {
-      from: sender,
-    })
+    .bridgeAsset(1, sender, amountBig, token.address, true, "0x")
     .then((data) => {
       console.log("gasLimit", data);
     })
