@@ -6,7 +6,8 @@ const options = props.options ?? [];
 const onChange = props.onChange ?? (() => { });
 const validate = props.validate ?? (() => { });
 const error = props.error ?? "";
-console.log({ value, options });
+
+console.log({ value });
 
 const Container = styled.div`
   display: flex;
