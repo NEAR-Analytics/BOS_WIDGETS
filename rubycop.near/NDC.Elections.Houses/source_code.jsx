@@ -31,17 +31,15 @@ const ImgContainer = styled.div`
   margin-right: 20px;
 `;
 
-const WarningCircle = styled.div`
-  position: absolute;
-  right: 15px;
-  top: -3px;
+const CompletedIcon = styled.i`
   border-radius: 50%;
-  border: 3px solid;
-  border-color: ${(props) => (props.selected ? "#9333EA" : "#FFFFFF")};
-  background: red;
-  z-index: 100;
-  width: 17px;
-  height: 17px;
+  padding-bottom: 0;
+  color: #239f28;
+  background: #cee9cf;
+
+  &:before {
+    vertical-align: -0.2rem;
+  }
 `;
 
 const ItemContainer = styled.div`
@@ -68,14 +66,11 @@ const ItemContainer = styled.div`
 const GroupItem = ({ item }) => (
   <ItemContainer
     role="button"
-    className="d-flex p-3 px-4 align-items-center mb-3"
+    className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
     onClick={() => handleSelect(item)}
     selected={selectedHouse === item.id}
   >
-    <div className="position-relative">
-      {!item.submitted && (
-        <WarningCircle selected={selectedHouse === item.id} />
-      )}
+    <div className="d-flex align-items-center">
       <ImgContainer>
         <Widget
           src="mob.near/widget/Image"
@@ -93,12 +88,20 @@ const GroupItem = ({ item }) => (
           }}
         />
       </ImgContainer>
+      <div>
+        <h6>{housesMapping[item.typ].title}</h6>
+        <Small>
+          {item.available_seats} / {item.seats} votes left
+        </Small>
+      </div>
     </div>
     <div>
-      <h6>{housesMapping[item.typ].title}</h6>
-      <Small>
-        {item.seats} / {item.seats} votes left
-      </Small>
+      {item.available_seats === 0 && (
+        <CompletedIcon
+          className="bi bi-check-circle fs-5"
+          selected={selectedHouse === item.id}
+        />
+      )}
     </div>
   </ItemContainer>
 );
