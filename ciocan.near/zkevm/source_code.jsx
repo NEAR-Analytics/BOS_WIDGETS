@@ -46,6 +46,7 @@ const Container = styled.div`
     place-items: center;
     padding-top: 100px;
     padding-bottom: 100px;
+    margin: 0 auto;
 
     .center {
       display: grid;
