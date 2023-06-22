@@ -47,10 +47,6 @@ const SaveButton = styled.button`
 
 const edit = (update, v) => (
   <LabelArea>
-    <Widget
-      src={`${ownerId}/widget/Inputs.Select`}
-      props={{ id, noLabel: true, value: v, options, onChange: update }}
-    />
     <SaveButton onClick={() => onSave(v)}>Save</SaveButton>
   </LabelArea>
 );
@@ -63,7 +59,7 @@ return (
       label,
       value,
       edit,
-      view: value,
+      view: value.text,
       canEdit,
     }}
   />
