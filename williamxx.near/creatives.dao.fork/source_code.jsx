@@ -162,7 +162,7 @@ return (
           </span>
         </H1>
         <div className="mt-3">
-          <Text style={{ maxWidth: "670px" }}>
+          <Text style={{ maxWidth: "700px" }}>
             The Creatives Constellation is an overarching body for all creative
             contributors in the NEAR ecosystem and beyond! With support via
             decentralized autonomous organizations, all creators have the
