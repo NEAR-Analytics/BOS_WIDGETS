@@ -8,7 +8,7 @@ const index = {
     subscribe: props.subscribe,
   },
 };
-
+console.log({ item });
 const raw = !!props.raw;
 
 const renderItem = (a) =>
