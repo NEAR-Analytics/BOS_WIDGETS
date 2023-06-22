@@ -1,11 +1,12 @@
 const label = props.label ?? "Label";
 const noLabel = props.noLabel ?? false;
-const placeholder = props.placeholder ?? "Placeholder";
+const placeholder = props.placeholder ?? "Select an option";
 const value = props.value ?? "";
 const options = props.options ?? [];
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
+const onChange = props.onChange ?? (() => { });
+const validate = props.validate ?? (() => { });
 const error = props.error ?? "";
+console.log({ value, options });
 
 const Container = styled.div`
   display: flex;
