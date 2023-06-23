@@ -64,23 +64,21 @@ return (
         className="navbar-brand text-decoration-none"
         href={`#/${authorForWidget}/widget/SayALot`}
       >
-        <div className="" style={{ width: "5em", height: "5em" }}>
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: metadata.image,
-              className: "w-100 h-100",
-              style: {
-                objectFit: "cover",
-              },
-              thumbnail: false,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreighocpt6opkkikgf6bnpfw3sg2c5bj37smrdbzg7k3duadkvfx6ti",
-              alt: widgetName,
-            }}
-          />
-          <i>lots to say...</i>
-        </div>
+        <Widget
+          src="mob.near/widget/Image"
+          props={{
+            image: metadata.image,
+            className: "w-25 h-25",
+            style: {
+              objectFit: "cover",
+            },
+            thumbnail: false,
+            fallbackUrl:
+              "https://ipfs.near.social/ipfs/bafkreighocpt6opkkikgf6bnpfw3sg2c5bj37smrdbzg7k3duadkvfx6ti",
+            alt: widgetName,
+          }}
+        />
+        <i>lots to say...</i>
       </a>
       <button
         className="navbar-toggler"
