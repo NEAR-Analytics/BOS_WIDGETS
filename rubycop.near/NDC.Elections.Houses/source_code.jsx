@@ -105,7 +105,7 @@ const GroupItem = ({ item }) => (
 );
 
 return (
-  <div className="h-100">
+  <div>
     {houses.map((item) => (
       <GroupItem item={item} />
     ))}
