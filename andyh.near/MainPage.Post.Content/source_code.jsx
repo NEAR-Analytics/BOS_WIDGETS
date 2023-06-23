@@ -32,6 +32,8 @@ let firstRender = true;
 if (firstRender) {
   firstRender = false;
   return <span>yay first</span>;
+} else {
+  console.log("fail!!");
 }
 return <span>!no content!</span>;
 
