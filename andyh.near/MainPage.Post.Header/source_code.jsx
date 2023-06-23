@@ -10,10 +10,11 @@ return (
         className="text-dark text-decoration-none text-truncate"
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
       >
-        <Widget
+        {/*<Widget
           src="andyh.near/widget/Profile.ShortInlineBlock"
           props={{ accountId, tooltip: true }}
         />
+        */}
       </a>
     </div>
     <span className="text-nowrap text-muted">
@@ -22,7 +23,8 @@ return (
           "now"
         ) : (
           <a className="text-muted" href={link}>
-            <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+            {/*<Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+             */}
           </a>
         )}
       </small>
@@ -46,20 +48,20 @@ return (
               </a>
             </li>
             <li>
-              <Widget
+              {/*<Widget
                 src="mob.near/widget/MainPage.Common.HideAccount"
                 props={{ accountId }}
-              />
+              />*/}
             </li>
             {props.flagItem && (
               <li>
-                <Widget
+                {/*<Widget
                   src="mob.near/widget/MainPage.Common.FlagContent"
                   props={{
                     item: props.flagItem,
                     label: `Flag ${postType} for moderation`,
                   }}
-                />
+                />*/}
               </li>
             )}
           </ul>
