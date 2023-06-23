@@ -1,14 +1,9 @@
 const content = props.content;
 const raw = !!props.raw;
 console.log({ raw, content });
-return content ? (
-  <>
-    {content.text &&
-      (raw ? (
-        <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
-      ) : (
-        <span>text here</span>
-        {/*<Widget
+
+/*
+        <Widget
           src="andyh.near/widget/SocialMarkdown"
           props={{
             text: content.text,
@@ -22,7 +17,16 @@ return content ? (
               </span>
             ),
           }}
-        />*/}
+        />
+*/
+
+return content ? (
+  <>
+    {content.text &&
+      (raw ? (
+        <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
+      ) : (
+        <span>text here</span>
       ))}
     {content.image &&
       (raw ? (
