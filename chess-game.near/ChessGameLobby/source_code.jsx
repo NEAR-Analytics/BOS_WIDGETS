@@ -43,20 +43,28 @@ const Disclaimer = styled.div`
   font-size: 1.2rem;
 `;
 
-let isRegistered =
-  state.isRegistered ??
-  Near.view(contractId, "storage_balance_of", {
-    account_id: accountId,
-  });
-if (isRegistered === undefined) {
-  return <Widget src={loadingWidget} />;
-}
-
 State.init({
   game_id: null,
   replay_game_id: null,
-  isRegistered,
+  isRegistered: state.isRegistered,
+  gameIds: null,
+  finishedGames: null,
+  recentFinishedGames: null,
 });
+
+const updateIsRegistered = () => {
+  Near.asyncView(contractId, "storage_balance_of", {
+    account_id: accountId,
+  }).then((res) => {
+    State.update({
+      isRegistered: !!res,
+    });
+  });
+};
+updateIsRegistered();
+if (state.isRegistered == null) {
+  return <Widget src={loadingWidget} />;
+}
 
 const registerAccount = () => {
   Near.call(
@@ -66,15 +74,10 @@ const registerAccount = () => {
     undefined,
     "50000000000000000000000"
   );
-  isRegistered = Near.view(contractId, "storage_balance_of", {
-    account_id: accountId,
-  });
-  State.update({
-    isRegistered,
-  });
+  updateIsRegistered();
 };
 
-if (!isRegistered) {
+if (!state.isRegistered) {
   return (
     <LobbyView>
       <Widget src={headerWidget} />
@@ -96,14 +99,32 @@ if (!isRegistered) {
   );
 }
 
-const gameIds = Near.view(contractId, "get_game_ids", {
+Near.asyncView(contractId, "get_game_ids", {
   account_id: accountId,
+}).then((gameIds) =>
+  State.update({
+    gameIds,
+  })
+);
+Near.asyncView(contractId, "finished_games", {
+  account_id: accountId,
+}).then((finishedGames) => {
+  finishedGames.sort((a, b) => b[0] - a[0]);
+  State.update({
+    finishedGames,
+  });
 });
-const finishedGames = Near.view(contractId, "finished_games", {
-  account_id: accountId,
-}).sort((a, b) => b[0] - a[0]);
-const recentFinishedGames = Near.view(contractId, "recent_finished_games", {});
-if (gameIds == null || finishedGames == null || recentFinishedGames == null) {
+Near.asyncView(contractId, "recent_finished_games", {}).then(
+  (recentFinishedGames) =>
+    State.update({
+      recentFinishedGames,
+    })
+);
+if (
+  state.gameIds == null ||
+  state.finishedGames == null ||
+  state.recentFinishedGames == null
+) {
   return <Widget src={loadingWidget} />;
 }
 
@@ -250,7 +271,6 @@ if (state.game_id) {
     </>
   );
 }
-
 return (
   <LobbyView
     alignItems={state.game_id || state.replay_game_id ? "stretch" : "center"}
