@@ -10,10 +10,10 @@ return (
         className="text-dark text-decoration-none text-truncate"
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
       >
-        <Widget
+        {/*<Widget
           src="andyh.near/widget/Profile.ShortInlineBlock"
           props={{ accountId, tooltip: true }}
-        />
+        />*/}
       </a>
     </div>
     <span className="text-nowrap text-muted">
