@@ -19,8 +19,7 @@ if (blockHeight === undefined && keyPath) {
 }
 
 if (!blockHeight) {
-  console.log("disaster!");
-  return "unknown";
+  return <>hey knucklehead</>;
 }
 
 const block = Near.block(blockHeight);
