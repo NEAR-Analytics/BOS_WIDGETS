@@ -30,14 +30,14 @@ return content ? (
         </div>
       ) : (
         <div className="w-100 rounded-3 text-center">
-          <Widget
+          {/*<Widget
             src="mob.near/widget/Image"
             props={{
               image: content.image,
               className: "img-fluid rounded-3",
               style: { maxHeight: "100vh" },
             }}
-          />
+          />*/}
         </div>
       ))}
   </>
