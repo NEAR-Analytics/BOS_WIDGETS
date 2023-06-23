@@ -185,7 +185,7 @@ return (
             href={`${accountUrl}&tab=overview`}
             selected={state.selectedTab === "overview"}
           >
-            Overview
+            Info
           </TabsButton>
 
           <TabsButton
@@ -196,10 +196,10 @@ return (
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=nfts`}
-            selected={state.selectedTab === "nfts"}
+            href={`${accountUrl}&tab=tokens`}
+            selected={state.selectedTab === "tokens"}
           >
-            NFTs
+            Tokens
           </TabsButton>
 
           <TabsButton
@@ -248,8 +248,8 @@ return (
           </>
         )}
 
-        {state.selectedTab === "nfts" && (
-          <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+        {state.selectedTab === "tokens" && (
+          <Widget src="zavodil.near/widget/Lido" props={{ accountId }} />
         )}
 
         {state.selectedTab === "apps" && (
