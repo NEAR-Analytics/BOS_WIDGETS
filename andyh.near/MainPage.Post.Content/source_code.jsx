@@ -2,6 +2,8 @@ const content = props.content;
 const raw = !!props.raw;
 console.log({ raw, content });
 
+let firstRender = true;
+
 /*
         <Widget
           src="andyh.near/widget/SocialMarkdown"
@@ -27,6 +29,10 @@ console.log({ raw, content });
 //     </>
 //   );
 // }
+if (firstRender) {
+  firstRender = false;
+  return <span>yay first</span>;
+}
 return <span>!no content!</span>;
 
 // return content ? (
