@@ -19,6 +19,7 @@ if (blockHeight === undefined && keyPath) {
 }
 
 if (!blockHeight) {
+  console.log("disaster!");
   return "unknown";
 }
 
