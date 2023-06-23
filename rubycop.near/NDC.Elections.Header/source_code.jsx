@@ -16,6 +16,12 @@ const timer = setInterval(() => {
   const end = new Date(parseInt(endTime)).getTime();
   let title = "";
 
+  const diff = new Date(parseInt(end)).getTime() - new Date().getTime();
+  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
   if (now < start)
     title = (
       <>
@@ -28,23 +34,18 @@ const timer = setInterval(() => {
         Time remaining in <br /> current {type}
       </>
     );
-  else title = <>{type} is ended</>;
+  else {
+    title = <>{type} is ended</>;
+    [days, hours, minutes, seconds] = [0, 0, 0, 0];
+  }
 
-  const diff = new Date(parseInt(end)).getTime() - new Date().getTime();
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-  if (now < end)
-    State.update({
-      days: days,
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      title: title,
-    });
+  State.update({
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    title: title,
+  });
 
   clearInterval(timer);
 }, 1000);
