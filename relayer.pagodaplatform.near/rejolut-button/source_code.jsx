@@ -157,65 +157,65 @@ const themeColors = {
   },
 };
 
+const theme = props.theme || "primary";
+const variant = props.variant || "contained";
+
 const Button = styled.button`
-    background-color: ${(props) =>
-      themeColors[props.theme]?.[props.variant]?.background ||
-      themeColors[props.theme]?.contained?.background ||
-      themeColors.primary.contained.background};
-    color: ${(props) =>
-      themeColors[props.theme]?.[props.variant]?.text ||
-      themeColors[props.theme]?.contained?.text ||
-      themeColors.primary.contained.text};
-    font-size: 1em;
-    padding: 0.25em 1em;
-    border: ${(props) =>
+  background: ${themeColors[theme][variant].background};
+  color: ${themeColors[theme][variant].text};
+  font-size: 1em;
+  padding: 0.25em 1em;
+  border: ${
+    props.variant !== "text"
+      ? `2px solid ${themeColors[props.theme]?.[props.variant]?.border}`
+      : "none"
+  };
+  border-radius: 10px;
+  cursor: ${(props) =>
+    props.disabled || props.loading ? "not-allowed" : "pointer"};
+  &:hover {
+    background-color: ${themeColors[theme][variant].hoverBackground};
+    color: ${themeColors[theme][variant].hoverText};
+    border: ${
       props.variant !== "text"
-        ? `2px solid ${
-            themeColors[props.theme]?.[props.variant]?.border ||
-            themeColors[props.theme]?.contained?.border ||
-            themeColors.primary.contained.border
-          }`
-        : "none"};
-    border-radius: 10px;
-    cursor: ${(props) =>
-      props.disabled || props.loading ? "not-allowed" : "pointer"};
-    &:hover {
-      background-color: ${(props) =>
-        themeColors[props.theme]?.[props.variant]?.hoverBackground ||
-        themeColors[props.theme]?.contained?.hoverBackground ||
-        themeColors.primary.contained.hoverBackground};
-      color: ${(props) =>
-        themeColors[props.theme]?.[props.variant]?.hoverText ||
-        themeColors[props.theme]?.contained?.hoverText ||
-        themeColors.primary.contained.hoverText}};
-      border: ${(props) =>
-        props.variant !== "text"
-          ? `2px solid ${
-              themeColors[props.theme]?.[props.variant]?.hoverBorder ||
-              themeColors[props.theme]?.contained?.hoverBorder ||
-              themeColors.primary.contained.hoverBorder
-            }
+        ? `2px solid ${themeColors[theme][variant].hoverBorder}
             }`
-          : "none"};
-    }
-    &:disabled {
-      opacity: 0.6;
-      pointer-events: none;
-    }
-  `;
+        : "none"
+    };
+  }
+  &:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .icon-start {
+    margin-right: 0.5em;
+  }
+
+  .icon-end {
+    margin-left: 0.5em;
+  }
+`;
+const IconButton = styled.div``;
 
 return (
   <div>
     <Button
-      theme={props.theme}
-      variant={props.variant}
       onClick={props.onClick}
       disabled={props.loading || props.disabled}
+      style={props.style}
     >
       {props.loading ? (
         <div>loading</div>
       ) : (
-        <div>{props.label ?? "Submit"}</div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {props.startIcon && (
+            <IconButton className="icon-start">{props.startIcon}</IconButton>
+          )}
+          <div>{props.label ?? "Submit"}</div>
+          {props.endIcon && (
+            <IconButton className="icon-end">{props.endIcon}</IconButton>
+          )}
+        </div>
       )}
     </Button>
   </div>
