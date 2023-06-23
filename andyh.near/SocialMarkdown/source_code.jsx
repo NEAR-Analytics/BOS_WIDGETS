@@ -3,14 +3,14 @@ const renderMention =
   props.onMention ??
   ((accountId) => (
     <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
-      <Widget
+      {/*<Widget
         src="andyh.near/widget/ProfileLine"
         props={{
           accountId: accountId.toLowerCase(),
           hideAccountId: true,
           tooltip: true,
         }}
-      />
+      />*/}
     </span>
   ));
 
