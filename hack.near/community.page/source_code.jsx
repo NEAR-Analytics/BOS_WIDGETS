@@ -14,7 +14,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `#/hack.near/widget/community.page`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
