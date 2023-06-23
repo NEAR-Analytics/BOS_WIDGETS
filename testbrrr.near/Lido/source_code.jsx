@@ -1,29 +1,52 @@
+if (
+  state.chainId === undefined &&
+  ethers !== undefined &&
+  Ethers.send("eth_requestAccounts", [])[0]
+) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+}
+if (state.chainId !== undefined && state.chainId !== 1) {
+  return <p>Switch to Ethereum Mainnet</p>;
+}
+
 // FETCH LIDO ABI
 
-const _l2Receiver = "0xF518Fa3344Ba498f1b9DEcBE1B9c7f0e1960ea29";
-const _l1Token = "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4";
-const _amount = 100000;
-const _l2TxGasLimi = 734935;
-const _l2TxGasPerPubdataByte = 800;
-
-const usdc = "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4";
-const zkContract = "0x57891966931Eb4Bb6FB81430E6cE0A03AAbDe063";
+const lidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
 const tokenDecimals = 18;
 
-const zkAbi =
-  '[{"inputs":[{"internalType":"address","name":"_logic","type":"address"},{"internalType":"address","name":"admin_","type":"address"},{"internalType":"bytes","name":"_data","type":"bytes"}],"stateMutability":"payable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"previousAdmin","type":"address"},{"indexed":false,"internalType":"address","name":"newAdmin","type":"address"}],"name":"AdminChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"beacon","type":"address"}],"name":"BeaconUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"implementation","type":"address"}],"name":"Upgraded","type":"event"},{"stateMutability":"payable","type":"fallback"},{"inputs":[],"name":"admin","outputs":[{"internalType":"address","name":"admin_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newAdmin","type":"address"}],"name":"changeAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"implementation","outputs":[{"internalType":"address","name":"implementation_","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"}],"name":"upgradeTo","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newImplementation","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"upgradeToAndCall","outputs":[],"stateMutability":"payable","type":"function"},{"stateMutability":"payable","type":"receive"}]';
-if (!zkAbi.ok) {
+const lidoAbi = fetch(
+  "https://raw.githubusercontent.com/lidofinance/lido-subgraph/master/abis/Lido.json"
+);
+if (!lidoAbi.ok) {
   return "Loading";
 }
 
-const iface = new ethers.utils.Interface(zkAbi.body);
+const iface = new ethers.utils.Interface(lidoAbi.body);
 
-const getUSDCBalance = (receiver) => {
+// FETCH LIDO STAKING APR
+
+if (state.lidoArp === undefined) {
+  const apr = fetch(
+    "https://api.allorigins.win/get?url=https://stake.lido.fi/api/sma-steth-apr"
+  );
+  if (!apr) return;
+  State.update({ lidoArp: JSON.parse(apr?.body?.contents) ?? "..." });
+}
+
+// HELPER FUNCTIONS
+
+const getStakedBalance = (receiver) => {
   const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
 
   return Ethers.provider()
     .call({
-      to: usdc,
+      to: lidoContract,
       data: encodedData,
     })
     .then((rawBalance) => {
@@ -44,25 +67,16 @@ const submitEthers = (strEther, _referral) => {
     return console.log("Amount is missing");
   }
   const erc20 = new ethers.Contract(
-    zkContract,
-    zkAbi.body,
+    lidoContract,
+    lidoAbi.body,
     Ethers.provider().getSigner()
   );
 
   let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
 
-  erc20
-    .deposit(
-      _l2Receiver,
-      _l1Token,
-      _amount,
-      _l2TxGasLimi,
-      _l2TxGasPerPubdataByte,
-      { value: amount }
-    )
-    .then((transactionHash) => {
-      console.log("transactionHash is " + transactionHash);
-    });
+  erc20.submit(lidoContract, { value: amount }).then((transactionHash) => {
+    console.log("transactionHash is " + transactionHash);
+  });
 };
 
 // DETECT SENDER
@@ -89,9 +103,9 @@ if (state.balance === undefined && state.sender) {
 
 // FETCH SENDER STETH BALANCE
 
-if (state.usdcBalance === undefined && state.sender) {
-  getUSDCBalance(state.sender).then((usdcBalance) => {
-    State.update({ usdcBalance });
+if (state.stakedBalance === undefined && state.sender) {
+  getStakedBalance(state.sender).then((stakedBalance) => {
+    State.update({ stakedBalance });
   });
 }
 
@@ -163,8 +177,8 @@ const getSender = () => {
 return (
   <Theme>
     <div class="LidoContainer">
-      <div class="Header">zkSync Bridge</div>
-      <div class="SubHeader">Transfer to zkSync</div>
+      <div class="Header">Stake Ether</div>
+      <div class="SubHeader">Stake ETH and receive stETH while staking.</div>
 
       <div class="LidoForm">
         {state.sender && (
@@ -173,7 +187,7 @@ return (
               <div class="LidoFormTopContainerLeft">
                 <div class="LidoFormTopContainerLeftContent1">
                   <div class="LidoFormTopContainerLeftContent1Container">
-                    <span>Available to send</span>
+                    <span>Available to stake</span>
                     <div class="LidoFormTopContainerLeftContent1Circle" />
                   </div>
                 </div>
@@ -215,6 +229,7 @@ return (
           <div class="LidoFormTopContainerRight">
             <div class="LidoAprContainer">
               <div class="LidoAprTitle">Lido APR</div>
+              <div class="LidoAprValue">{state.lidoArp ?? "..."}%</div>
             </div>
           </div>
         </div>
@@ -256,7 +271,10 @@ return (
             class="LidoStakeFormInputContainerSpan3"
             onClick={() => {
               State.update({
-                strEther: (parseFloat(state.balance) - 0.05).toFixed(2),
+                strEther: (state.balance > 0.05
+                  ? parseFloat(state.balance) - 0.05
+                  : 0
+                ).toFixed(2),
               });
             }}
           >
@@ -273,7 +291,7 @@ return (
             class="LidoStakeFormSubmitContainer"
             onClick={() => submitEthers(state.strEther, state.sender)}
           >
-            <span>Deposit</span>
+            <span>Submit</span>
           </button>
         ) : (
           <Web3Connect
@@ -293,10 +311,12 @@ return (
             <div class="LidoFooterRawLeft">Exchange rate</div>
             <div class="LidoFooterRawRight">1 ETH = 1 stETH</div>
           </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Transaction cost</div>
-            <div class="LidoFooterRawRight">{state.txCost}</div>
-          </div>
+          {false && (
+            <div class="LidoFooterRaw">
+              <div class="LidoFooterRawLeft">Transaction cost</div>
+              <div class="LidoFooterRawRight">{state.txCost}</div>
+            </div>
+          )}
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Reward fee</div>
             <div class="LidoFooterRawRight">10%</div>
