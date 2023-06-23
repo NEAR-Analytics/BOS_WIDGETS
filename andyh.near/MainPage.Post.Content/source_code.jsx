@@ -23,7 +23,11 @@ console.log({ raw, content });
 if (content) {
   return <span>content.text</span>;
 }
-return <>{content ? <span>all good</span> : <span>no content</span>}</>;
+return (
+  <>
+    <span>no content</span>
+  </>
+);
 
 // return content ? (
 //   <>
