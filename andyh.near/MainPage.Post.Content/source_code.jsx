@@ -20,7 +20,8 @@ console.log({ raw, content });
         />
 */
 
-return <span>all good</span>;
+return <>{content ? <span>all good</span> : <span>no content</span>}</>;
+
 // return content ? (
 //   <>
 //     {content.text &&
