@@ -239,6 +239,7 @@ flex-wrap: wrap;
 padding: 0.5rem;
 background: white;
 border-radius: 1rem;
+width: 12rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
 @media (min-width: 600px) {
     display: ${({ show }) => (show ? "flex" : "none")};
