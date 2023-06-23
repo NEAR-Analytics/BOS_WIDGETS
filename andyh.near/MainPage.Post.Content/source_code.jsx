@@ -19,8 +19,8 @@ console.log({ raw, content });
           }}
         />
 */
-
-return <>{content ? <span>all good</span> : <span>no content</span>}</>;
+const hasContent = !!content;
+return <>{hasContent ? <span>all good</span> : <span>no content</span>}</>;
 
 // return content ? (
 //   <>
