@@ -36,9 +36,12 @@ const timer = setInterval(() => {
     );
   else {
     title = <>{type} is ended</>;
-    [days, hours, minutes, seconds] = [0, 0, 0, 0];
+    days = 0;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
   }
-
+  console.log([days, hours, minutes, seconds, title]);
   State.update({
     days: days,
     hours: hours,
