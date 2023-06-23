@@ -116,7 +116,6 @@ const handleSelect = (item) => {
 
 const Container = styled.div`
   padding: 30px 0;
-  height: 747px !important;
 `;
 
 const ActivityContainer = styled.div`
@@ -161,7 +160,7 @@ return (
       </>
     ))}
     <Container className="d-flex row">
-      <Left className="col-lg h-100">
+      <Left className="col-lg">
         <H5>To Vote</H5>
         <Widget
           src={widgets.houses}
@@ -172,7 +171,7 @@ return (
           }}
         />
       </Left>
-      <Center className="col-lg-6 p-2 p-md-3 h-100">
+      <Center className="col-lg-6 p-2 p-md-3">
         {contractProps.houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
@@ -191,7 +190,7 @@ return (
         ))}
       </Center>
 
-      <div className="col-lg h-100">
+      <div className="col-lg">
         <Right className="col">
           <H5>General</H5>
           <div className="d-flex justify-content-center">
