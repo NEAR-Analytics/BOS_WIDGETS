@@ -244,15 +244,17 @@ if (state.game_id) {
 } else {
   content = (
     <>
-      {gameIds.length > 0 && (
+      {state.gameIds?.length > 0 && (
         <div>
           <h2>Select Game:</h2>
-          <GameSelector>{renderGameIds(gameIds, false, false)}</GameSelector>
+          <GameSelector>
+            {renderGameIds(state.gameIds, false, false)}
+          </GameSelector>
         </div>
       )}
       <Widget src={challengeWidget} />
       <Widget src={aiWidget} />
-      {state.finishedGames.length > 0 && (
+      {state.finishedGames?.length > 0 && (
         <div>
           <h2>Replay your finished games:</h2>
           <GameSelector>
@@ -260,7 +262,7 @@ if (state.game_id) {
           </GameSelector>
         </div>
       )}
-      {state.recentFinishedGames.length > 0 && (
+      {state.recentFinishedGames?.length > 0 && (
         <div>
           <h2>Replay recently finished games:</h2>
           <GameSelector>
