@@ -10,7 +10,18 @@ const writersWhiteList = props.writersWhiteList ?? [
   "shubham007.near",
 ];
 const authorForWidget = "sayalot.near";
-const pills = [];
+const pills = [
+  {
+    id: "articles",
+    title: "Articles",
+    widgetName: "SayALot",
+  },
+  {
+    id: "authors",
+    title: "Authors",
+    widgetName: "SayALot_Authors",
+  },
+];
 
 const Button = styled.button`
   margin: 0px 1rem;
