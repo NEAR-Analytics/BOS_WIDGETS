@@ -81,6 +81,21 @@ const myVotes = [
     time: 1686820065441,
     typ: "Transparancy Commision",
   },
+  {
+    candidateId: "rubycop.near",
+    time: 1686820065441,
+    typ: "Councile Of Advisors",
+  },
+  {
+    candidateId: "blabla.near",
+    time: 1686820065441,
+    typ: "Transparancy Commision",
+  },
+  {
+    candidateId: "zomland.near",
+    time: 1686820065441,
+    typ: "Transparancy Commision",
+  },
 ];
 
 const widgets = {
@@ -101,6 +116,11 @@ const handleSelect = (item) => {
 
 const Container = styled.div`
   padding: 30px 0;
+  height: 747px !important;
+`;
+
+const ActivityContainer = styled.div`
+  overflow-y: scroll;
 `;
 
 const Left = styled.div`
@@ -141,7 +161,7 @@ return (
       </>
     ))}
     <Container className="d-flex row">
-      <Left className="col-lg">
+      <Left className="col-lg h-100">
         <H5>To Vote</H5>
         <Widget
           src={widgets.houses}
@@ -152,7 +172,7 @@ return (
           }}
         />
       </Left>
-      <Center className="col-lg-6 p-2 p-md-3">
+      <Center className="col-lg-6 p-2 p-md-3 h-100">
         {contractProps.houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
@@ -171,7 +191,7 @@ return (
         ))}
       </Center>
 
-      <div className="col-lg">
+      <div className="col-lg h-100">
         <Right className="col">
           <H5>General</H5>
           <div className="d-flex justify-content-center">
@@ -186,9 +206,9 @@ return (
         </Right>
         <Right className="col">
           <H5>My voting activity</H5>
-          <div className="d-flex justify-content-center">
+          <ActivityContainer className="d-flex justify-content-center">
             <Widget src={widgets.activities} props={{ myVotes }} />
-          </div>
+          </ActivityContainer>
         </Right>
       </div>
     </Container>
