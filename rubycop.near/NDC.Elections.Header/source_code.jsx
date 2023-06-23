@@ -1,10 +1,10 @@
 const { startTime, endTime, type } = props;
 
 State.init({
-  days: "-",
-  hours: "-",
-  minutes: "-",
-  seconds: "-",
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
   title: "",
 });
 
@@ -37,15 +37,7 @@ const timer = setInterval(() => {
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  if (now > end)
-    State.update({
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      title: title,
-    });
-  else
+  if (now < end)
     State.update({
       days: days,
       hours: hours,
