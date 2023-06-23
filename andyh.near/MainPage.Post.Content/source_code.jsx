@@ -21,7 +21,7 @@ console.log({ raw, content });
 */
 
 if (content) {
-  return <span>content.text</span>;
+  return <span>love content</span>;
 }
 return (
   <>
