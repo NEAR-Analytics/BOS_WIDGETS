@@ -22,13 +22,13 @@ console.log({ raw, content });
         />
 */
 
-// if (content) {
-//   return (
-//     <>
-//       <span>love content</span>
-//     </>
-//   );
-// }
+if (content) {
+  return (
+    <>
+      <span>love content</span>
+    </>
+  );
+}
 
 return <span>!no content!</span>;
 
