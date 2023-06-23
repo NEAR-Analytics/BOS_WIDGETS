@@ -32,7 +32,7 @@ return (
       <div className="mt-1 d-flex justify-content-between">
         <div className="me-4">
           <Widget
-            src="mob.near/widget/CommentButton"
+            src="andyh.near/widget/CommentButton"
             props={{
               onClick: () =>
                 !state.showReply && State.update({ showReply: true }),
