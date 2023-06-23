@@ -26,10 +26,11 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper>
-    <Markdown
+    {/*<Markdown
       text={props.text}
       onMention={renderMention}
       onHashtag={onHashtag}
-    />
+    />*/}
+    <span>{props.text}</span>
   </Wrapper>
 );
