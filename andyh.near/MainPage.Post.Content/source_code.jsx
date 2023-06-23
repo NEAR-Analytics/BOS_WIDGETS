@@ -21,7 +21,11 @@ console.log({ raw, content });
 */
 
 if (content) {
-  return <span>love content</span>;
+  return (
+    <>
+      <span>love content</span>
+    </>
+  );
 }
 return (
   <>
