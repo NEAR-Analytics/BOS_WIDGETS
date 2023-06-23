@@ -35,6 +35,7 @@ return content ? (
         </div>
       ) : (
         <div className="w-100 rounded-3 text-center">
+          another one
           {/*<Widget
             src="mob.near/widget/Image"
             props={{
