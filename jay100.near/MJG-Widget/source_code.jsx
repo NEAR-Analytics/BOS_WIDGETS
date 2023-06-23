@@ -1,3 +1,8 @@
+console.log(
+  Near.view("pixeltoken.near", "ctt_get_player_data", {
+    account_id: "jay100.near",
+  })
+);
 const Title = styled.h5`
   color: #fff;
   font-weight: 700;
@@ -6,7 +11,7 @@ const Title = styled.h5`
   text-transform: uppercase;
 `;
 
-const Cover = styled.img`
+const Cover = styled.img` 
   border-radius: 5px;
   width: 150px;
   height: 150px;
