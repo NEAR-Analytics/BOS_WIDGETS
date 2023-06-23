@@ -1,6 +1,5 @@
 const addressForArticles = "sayALotArticle";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -377,7 +376,7 @@ return (
           width: "100%",
           backdropFilter: "blur(5px)",
         }}
-        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}`}
+        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&blockHeight=now&lastEditor=${accountId}`}
       >
         <div
           style={{
