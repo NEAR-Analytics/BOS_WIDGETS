@@ -28,24 +28,6 @@ return content ? (
       ) : (
         <span>text here</span>
       ))}
-    {content.image &&
-      (raw ? (
-        <div>
-          <pre>{/*JSON.stringify(content.image, undefined, 2)*/}hey</pre>
-        </div>
-      ) : (
-        <div className="w-100 rounded-3 text-center">
-          another one
-          {/*<Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: content.image,
-              className: "img-fluid rounded-3",
-              style: { maxHeight: "100vh" },
-            }}
-          />*/}
-        </div>
-      ))}
   </>
 ) : (
   <span
