@@ -74,7 +74,7 @@ return (
             },
             thumbnail: false,
             fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreighocpt6opkkikgf6bnpfw3sg2c5bj37smrdbzg7k3duadkvfx6ti",
+              "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
             alt: widgetName,
           }}
         />
