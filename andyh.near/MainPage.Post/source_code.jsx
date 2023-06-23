@@ -25,7 +25,7 @@ return (
     <div className="mt-3 text-break">
       <Widget
         src="andyh.near/widget/MainPage.Post.Content"
-        props={{ content: { text: "here content" }, raw }}
+        props={{ content, raw }}
       />
     </div>
     {blockHeight !== "now" && (
