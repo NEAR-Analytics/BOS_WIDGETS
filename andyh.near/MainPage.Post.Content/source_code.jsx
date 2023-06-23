@@ -31,6 +31,7 @@ let firstRender = true;
 //     </>
 //   );
 // }
+console.log({ firstRender });
 if (firstRender) {
   firstRender = false;
   return <span>yay first</span>;
