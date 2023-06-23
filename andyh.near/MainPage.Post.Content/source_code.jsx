@@ -27,11 +27,7 @@ console.log({ raw, content });
 //     </>
 //   );
 // }
-return (
-  <>
-    <span>!no content!</span>
-  </>
-);
+return <span>!no content!</span>;
 
 // return content ? (
 //   <>
