@@ -29,7 +29,7 @@ console.log({ raw, content });
 // }
 return (
   <>
-    <span>!no content!</span>
+    <Widget src="andyh.near/widget/CallbackRender" />
   </>
 );
 
