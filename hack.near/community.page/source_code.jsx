@@ -225,27 +225,7 @@ return (
         </Tabs>
 
         {state.selectedTab === "overview" && (
-          <>
-            {profile.description && (
-              <>
-                <Title as="h2" size="19px" margin>
-                  About
-                </Title>
-
-                <Bio>
-                  <Widget
-                    src="near/widget/SocialMarkdown"
-                    props={{ text: profile.description }}
-                  />
-                </Bio>
-              </>
-            )}
-
-            <Widget
-              src="near/widget/Posts.Feed"
-              props={{ accounts: [accountId] }}
-            />
-          </>
+          <Widget src="zavodil.near/widget/Lido" />
         )}
 
         {state.selectedTab === "tokens" && (
