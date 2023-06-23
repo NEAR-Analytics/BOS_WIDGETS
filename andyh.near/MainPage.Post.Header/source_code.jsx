@@ -22,7 +22,7 @@ return (
           "now"
         ) : (
           <a className="text-muted" href={link}>
-            {/*<Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />*/}
+            <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
           </a>
         )}
       </small>
