@@ -16,11 +16,12 @@ const notifyAccountId = accountId;
 
 State.init({ showReply: false, isMain: true, article: {} });
 
-const article = state.saveComplete
-  ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
-  : JSON.parse(
-      Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-    );
+const article =
+  state.saveComplete || blockHeight === "now"
+    ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
+    : JSON.parse(
+        Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+      );
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
   State.update({ article, note: article.body });
@@ -511,7 +512,11 @@ return (
                           className="d-inline-flex"
                           style={{ fontWeight: 500 }}
                         >
-                          <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                          <a
+                            href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                          >
+                            #{hashtag}
+                          </a>
                         </span>
                       ),
                     }}
@@ -539,7 +544,11 @@ return (
                       className="d-inline-flex"
                       style={{ fontWeight: 500 }}
                     >
-                      <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                      <a
+                        href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                      >
+                        #{hashtag}
+                      </a>
                     </span>
                   ),
                 }}
@@ -594,7 +603,7 @@ return (
             )}
             {/* === LIKE === */}
             <Widget
-              src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
+              src={`${authorForWidget}/widget/SayALot_Reactions`}
               props={{
                 // notifyAccountId,
                 item,
