@@ -13,8 +13,8 @@ if (!accountId) {
 // Profile Data:
 const tags = Object.keys(profile.tags || {});
 const viewingOwnAccount = accountId === context.accountId;
-const accountUrl = `/#/near/widget/ProfilePage?accountId=${accountId}`;
-const shareUrl = `https://alpha.near.org${accountUrl}`;
+const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const shareUrl = `https://near.org${accountUrl}`;
 
 // Follower Count:
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
@@ -156,9 +156,7 @@ const Text = styled.p`
 `;
 
 const TextLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
   margin: 0;
   font-size: 14px;
   line-height: 20px;
@@ -167,6 +165,8 @@ const TextLink = styled.a`
   font-size: 14px;
   white-space: nowrap;
   outline: none;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 
   &:focus,
   &:hover {
@@ -175,6 +175,7 @@ const TextLink = styled.a`
 
   i {
     color: #7e868c;
+    margin-right: 8px;
   }
 `;
 
@@ -207,13 +208,13 @@ const SocialLinks = styled.div`
 `;
 
 const FollowButtonWrapper = styled.div`
-  width: 100%;
+  flex: 1 0 auto;
   div,
   button {
     width: 100%;
   }
   @media (max-width: 1200px) {
-    width: auto;
+    flex: 0 0 auto;
     div,
     button {
       width: auto;
@@ -227,7 +228,10 @@ return (
       <Widget
         src="mob.near/widget/Image"
         props={{
-          image: profile.image,
+          image: {
+            ipfs_cid:
+              "bafkreigptj6o24eowvkwyx2b2eojeh3rnao6r2psw4nrjyea67eifohroi",
+          },
           alt: profile.name,
           fallbackUrl:
             "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
@@ -237,11 +241,8 @@ return (
 
     <Section>
       <div>
-        <Title>
-          {profile.name || accountId}
-          <Widget src="hack.near/widget/NFT.Badge" props={{ accountId }} />
-        </Title>
-        <Text>@{accountId}</Text>
+        <Title>BOS Hackers Coalition</Title>
+        <Text>Let's build!</Text>
 
         {accountFollowsYou && <TextBadge>Follows You</TextBadge>}
       </div>
@@ -250,7 +251,7 @@ return (
         {viewingOwnAccount ? (
           <a
             className="button button--primary"
-            href="/#/near/widget/ProfileEditor"
+            href="#/near/widget/ProfileEditor"
           >
             <i className="bi bi-pencil"></i>
             Edit Profile
