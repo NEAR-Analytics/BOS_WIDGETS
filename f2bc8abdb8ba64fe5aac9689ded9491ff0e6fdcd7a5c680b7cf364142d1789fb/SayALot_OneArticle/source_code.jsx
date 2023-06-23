@@ -27,6 +27,10 @@ if (JSON.stringify(state.article) != JSON.stringify(article)) {
   State.update({ article, note: article.body });
 }
 
+if (!state.article) {
+  return "Loading...";
+}
+
 // ======= CHECK WHO CAN EDIT ARTICLE
 const writersWhiteList = [
   "neardigitalcollective.near",
