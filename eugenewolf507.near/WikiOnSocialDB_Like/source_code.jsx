@@ -226,7 +226,6 @@ const SmallButtonSpan = styled.span`
   }
 `;
 
-// =============== NEW CSS Styles ===============!!!!!!!!
 const EmojiWrapper = styled.div`
 display: inline-block;
 position: relative;
@@ -238,20 +237,19 @@ const EmojiListWrapper = styled.div`
 display: flex;
 flex-wrap: wrap;
 padding: 0.5rem;
-
 background: white;
 border-radius: 1rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
 @media (min-width: 600px) {
     display: ${({ show }) => (show ? "flex" : "none")};
     height: 3.2rem;
+    width: auto;
     flex-wrap: nowrap;
     position: absolute;
     zIndex: 2
   }
 `;
 
-// =============== NEW JSX ===============!!!!!!!!
 const Overlay = () => (
   <EmojiListWrapper
     onMouseEnter={handleOnMouseEnter}
