@@ -7,7 +7,7 @@ return content ? (
       (raw ? (
         <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
       ) : (
-        <Widget
+        {/*<Widget
           src="andyh.near/widget/SocialMarkdown"
           props={{
             text: content.text,
@@ -21,7 +21,8 @@ return content ? (
               </span>
             ),
           }}
-        />
+        />*/}
+        <span>text here please</span>
       ))}
     {content.image &&
       (raw ? (
