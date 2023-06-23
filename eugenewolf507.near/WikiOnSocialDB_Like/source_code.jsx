@@ -1,4 +1,4 @@
-const authorForWidget = "testwiki.near";
+const authorForWidget = "eugenewolf507.near";
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 const emojiArray = [
@@ -239,7 +239,6 @@ flex-wrap: wrap;
 padding: 0.5rem;
 background: white;
 border-radius: 1rem;
-width: 12rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
 @media (min-width: 600px) {
     display: ${({ show }) => (show ? "flex" : "none")};
@@ -285,14 +284,5 @@ return (
       {state.emoji === undefined ? initialEmoji : state.emoji}
     </Button>
     <Overlay />
-    {state.likesStatistics &&
-      state.likesStatistics.map((item) => (
-        <span className="ps-3">
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts, emoji: item.emoji }}
-          />
-        </span>
-      ))}
   </EmojiWrapper>
 );
