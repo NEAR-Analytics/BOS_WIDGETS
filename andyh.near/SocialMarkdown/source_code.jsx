@@ -11,6 +11,7 @@ const renderMention =
           tooltip: true,
         }}
       />*/}
+      hi!
     </span>
   ));
 
