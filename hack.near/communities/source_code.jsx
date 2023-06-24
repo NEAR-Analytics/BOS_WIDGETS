@@ -86,10 +86,10 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 900px) {
-    font-size: 50px;
+    font-size: 50px !important;
 
     span {
-      border-radius: 12px;
+      border-radius: 12px !important;
       svg {
         position: absolute;
         bottom: -6px;
@@ -100,10 +100,10 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 480px) {
-    font-size: 40px;
+    font-size: 40px !important;
 
     span {
-      border-radius: 10px;
+      border-radius: 10px !important;
       svg {
         position: absolute;
         bottom: -5px;
