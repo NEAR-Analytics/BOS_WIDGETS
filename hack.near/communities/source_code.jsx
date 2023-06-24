@@ -54,7 +54,6 @@ const H1 = styled.h1`
   font-style: normal;
   font-weight: 500;
   font-size: 85px;
-
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
@@ -78,10 +77,10 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 900px) {
-    font-size: 50px !important;
+    font-size: 50px;
 
     span {
-      border-radius: 12px !important;
+      border-radius: 12px;
       svg {
         position: absolute;
         bottom: -6px;
@@ -92,10 +91,10 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 480px) {
-    font-size: 40px !important;
+    font-size: 40px;
 
     span {
-      border-radius: 10px !important;
+      border-radius: 10px;
       svg {
         position: absolute;
         bottom: -5px;
@@ -126,13 +125,17 @@ const Flex = styled.div`
 
 const Container = styled.div`
   display: flex;
-  max-width: 888px;
+  max-width: 1060px;
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 23px;
+
+  @media (max-width: 900px) {
+    max-width: 888px;
+  }
 `;
 
 return (
