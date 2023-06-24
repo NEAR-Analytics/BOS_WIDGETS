@@ -19,12 +19,9 @@ State.init({
   selectedTokenAddress: "",
   batchAmount: 0,
   depositAmount: 0,
-
-  balance: 0,
 });
 
 // HOST NAME API.
-const ACTIVE_STATUS = "POOL_STATUS::ACTIVE";
 var contract;
 const API = "https://dev-pocket-api.hamsterbox.xyz/api";
 const CONTRACT_DATA = {
@@ -99,7 +96,7 @@ const handleGetPocket = async (id) => {
 const handleGetPockets = (walletAddress) => {
   try {
     asyncFetch(
-      `${API}/pool/decimals-formatted?limit=20&offset=0&chainId=bnb&ownerAddress=${walletAddress}&statuses=POOL_STATUS%3A%3AACTIVE&statuses=POOL_STATUS%3A%3ACLOSED&sortBy=DATE_START_DESC`
+      `${API}/pool/decimals-formatted?limit=20&offset=0&chainId=bnb&ownerAddress=${walletAddress}&statuses=POOL_STATUS%3A%3AACTIVE&sortBy=DATE_START_DESC`
     ).then((result) => {
       State.update({
         pocketList: result.body,
@@ -123,10 +120,9 @@ const handleSyncWallet = () => {
 };
 
 const handleDepositPocket = () => {
-  if (contract === undefined || state.pocketDepositedAmount === undefined)
-    return;
+  if (contract === undefined) return;
   contract.depositEther(state.pocket._id, {
-    value: state.pocketDepositedAmount * Math.pow(10, state.baseToken.decimals),
+    value: 0.001 * Math.pow(10, state.baseToken.decimals),
   });
 };
 
@@ -151,7 +147,14 @@ const handleCreatePocket = () => {
       batchVolume: ethers.BigNumber.from(
         `0x${(state.depositAmount * Math.pow(10, 18)).toString(16)}`
       ),
-      stopConditions: [],
+      stopConditions: [
+        {
+          operator: "0",
+          value: parseInt(
+            (new Date().getTime() / 1000 + 60000).toString()
+          ).toString(),
+        },
+      ],
       frequency: "3600",
       openingPositionCondition: {
         value0: "0",
@@ -181,32 +184,6 @@ const handleCreatePocket = () => {
   });
 };
 
-const handleSyncPocket = () => {
-  if (!state.pocket) return;
-  asyncFetch(`${API}/pool/evm/${state.pocket._id}/sync`, {
-    method: "POST",
-    headers: {
-      "content-type": "text/plain;charset=UTF-8",
-    },
-  }).then(() => {
-    handleGetPocket(state.pocket._id);
-  });
-};
-
-const handleClosePocket = () => {
-  if (!state.pocket) return;
-  try {
-    contract.closePocket(state.pocket._id);
-  } catch {}
-};
-const handleWithdraw = () => {
-  if (!state.pocket) return;
-  try {
-    console.log("Withdraw", state.pocket._id);
-    contract.withdraw(state.pocket._id);
-  } catch {}
-};
-
 // DETECT SENDER
 if (state.sender === undefined) {
   State.update({
@@ -217,8 +194,8 @@ if (state.sender === undefined) {
 // Forbith
 if (!state.sender) return "Please login first";
 
-// Get sender balance.
-if (state.sender) {
+// FETCH SENDER BALANCE
+if (state.balance === undefined && state.sender) {
   Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
@@ -260,7 +237,8 @@ if (!cssFont || !css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-      font-family: "Poppins", sans-serif;
+      font-family: 'Poppins',sans-serif;
+        sans-serif;
       ${cssFont}
       ${css}
       .button-primary-36-px,
@@ -280,16 +258,14 @@ if (!state.theme) {
         height: 36px;
         position: relative;
       }
-      .sync-button {
-        display: flex;
-        justify-items: center !important;
-        align-items: center !important;
-        padding: 0 10px !important;
-        border: 2px solid #606060 !important;
-        border-radius: 12px !important;
-        font-family: "Poppins", sans-serif !important;
-        font-size: 12px;
-      }
+      .sync-button {    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 0 10px;
+    border: 2px solid #606060;
+    border-radius: 12px;
+    font-family: 'Poppins',sans-serif
+}}
       .ic-16-refresh,
       .ic-16-refresh * {
         box-sizing: border-box;
@@ -381,7 +357,7 @@ const createPocketScreen = () => {
               </div>
             </div>
 
-            <div class="balance-319-23-bnb">Balance: {state.balance} BNB</div>
+            <div class="balance-319-23-bnb">Balance: 319.23 BNB</div>
           </div>
 
           <svg
@@ -580,6 +556,7 @@ const createPocketScreen = () => {
 
           <div class="frame-625057">
             <div class="available">Available:</div>
+
             <div class="frame-625056">
               <div class="binance-coin-bnb10">
                 <svg
@@ -607,7 +584,7 @@ const createPocketScreen = () => {
                 </svg>
               </div>
 
-              <div class="_2-043-54-bnb">{state.balance} BNB</div>
+              <div class="_2-043-54-bnb">2,043.54 BNB</div>
             </div>
           </div>
         </div>
@@ -686,6 +663,18 @@ const pocketDetailScreen = () => {
       </div>
       <div class="frame-48098193">
         <div class="frame-48098188">
+          <div class="strategy-desk">
+            <div class="strategy">Strategy</div>
+
+            <div class="frame-48097840">
+              <div class="frame-48098084"></div>
+
+              <div class="_10-sol-100-517-06-block">
+                10 SOL &lt;= 100,517.06 BLOCK
+              </div>
+            </div>
+          </div>
+
           <div class="pool-info-desk">
             <div class="pool-info">Pool Info</div>
 
@@ -840,66 +829,9 @@ const pocketDetailScreen = () => {
                   </div>
                 </div>
               </div>
-              {state.pocket && state.pocket.status === ACTIVE_STATUS && (
-                <>
-                  <div
-                    class="input-field-52-with-icon"
-                    style={{ background: "#22232f !important" }}
-                  >
-                    <div class="frame-48097890">
-                      <div class="binance-coin-bnb">
-                        <svg
-                          class="binance-coin-bnb2"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M23.641 14.9029C22.0381 21.3315 15.5262 25.2438 9.09606 23.6407C2.66863 22.0381 -1.24415 15.5265 0.359423 9.09837C1.96159 2.66903 8.47349 -1.24361 14.9016 0.359081C21.3313 1.96177 25.2438 8.47405 23.6408 14.903L23.6409 14.9029H23.641Z"
-                            fill="#F3BA2F"
-                          />
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M12.0079 7.616L8.90024 10.7233L8.9003 10.7232L7.09216 8.9152L12.0079 4L16.9253 8.91667L15.1171 10.7247L12.0079 7.616ZM5.81449 10.1917L4.00623 12L5.81437 13.8077L7.62263 11.9996L5.81449 10.1917ZM8.89889 13.2769L12.0066 16.384L15.1157 13.2754L16.9248 15.0824L16.9239 15.0834L12.0066 20L7.09082 15.0848L7.08826 15.0822L8.89889 13.2769ZM18.2012 10.1927L16.3929 12.0008L18.2011 13.8087L20.0094 12.0007L18.2012 10.1927Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M13.8338 11.9992H13.8346L11.9999 10.1646L10.6437 11.5201V11.5201L10.4879 11.676L10.1666 11.9973L10.1641 11.9998L10.1666 12.0024L11.9999 13.8357L13.8347 12.0011L13.8356 12.0001L13.8339 11.9992"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
-
-                      {/* <div class="from-0-1-sol">From 0.1 BNB</div> */}
-                      <input
-                        type="number"
-                        class="from-0-1-sol"
-                        placeholder="Amout BNB to deposit"
-                        style={{ background: "#22232f !important" }}
-                        onChange={(e) =>
-                          State.update({
-                            pocketDepositedAmount: parseFloat(e.target.value),
-                          })
-                        }
-                      />
-                    </div>
-
-                    <div class="frame-38748">
-                      <div class="sol">BNB</div>
-                    </div>
-                  </div>
-                  <div
-                    class="button3"
-                    onClick={() => handleDepositPocket()}
-                    style={{ marginTop: "10px" }}
-                  >
-                    <div class="button2">Deposit Now</div>
-                  </div>
-                </>
-              )}
+              <div class="button3" onClick={() => handleDepositPocket()}>
+                <div class="button2">Deposit Now</div>
+              </div>
             </div>
           </div>
           <div class="tp-sl">
@@ -938,54 +870,23 @@ const pocketDetailScreen = () => {
 
           <div class="status-desk">
             <div class="status">Status</div>
+
             <div class="frame-48098267">
               <div class="frame-48097882">
-                {state.pocket && (
-                  <div
-                    class="tag"
-                    style={{
-                      background:
-                        state.pocket.status === ACTIVE_STATUS
-                          ? "rgba(38, 198, 115, 0.12) !important"
-                          : "rgba(247, 85, 85, 0.12) !important",
-                    }}
-                  >
-                    <div
-                      class="tag-marker"
-                      style={{
-                        color:
-                          state.pocket.satus === ACTIVE_STATUS
-                            ? "#26c673"
-                            : "#f44949",
-                      }}
-                    >
-                      {state.pocket.status === ACTIVE_STATUS
-                        ? "Ongoing"
-                        : "Closed"}
-                    </div>
-                  </div>
-                )}
+                <div class="tag">
+                  <div class="tag-marker">Ongoing</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div
-            class="button-desk"
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              state.pocket.status === "POOL_STATUS::CLOSED"
-                ? handleWithdraw()
-                : handleClosePocket()
-            }
-          >
+          <div class="button-desk">
             <div class="button-primary">
               <div class="frame-48098095">
                 <div class="iconly-light-arrow-right"></div>
-                <div class="button4">
-                  {state.pocket.status === "POOL_STATUS::CLOSED"
-                    ? "Withdraw Pocket"
-                    : "Close Pocket"}
-                </div>
+
+                <div class="button4">Close Pocket</div>
+
                 <div class="iconly-light-arrow-right"></div>
               </div>
             </div>
@@ -1025,35 +926,6 @@ return (
         )}
         <div class="pocket-detail">
           {state.currentScreen ? "Pocket Detail" : "Pocket List"}
-          {state.currentScreen === 2 && state.pocket._id && (
-            <div
-              class="sync-button"
-              style={{ cursor: "pointer", marginLeft: "10px" }}
-              onClick={() => handleSyncPocket()}
-            >
-              <div class="sync">Sync Pocket</div>
-              <div class="ic-16-refresh" style={{ marginLeft: "10px" }}>
-                <div class="ic-16-refresh">
-                  <svg
-                    class="refresh-2"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
-                      stroke="#735CF7"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
         {state.currentScreen === 0 && (
           <>
