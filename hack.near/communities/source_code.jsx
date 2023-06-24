@@ -127,9 +127,6 @@ const Flex = styled.div`
   justify-content: ${(p) => p.justifyContent};
   flex-direction: ${(p) => p.direction ?? "row"};
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
-
-  @media (max-width: 480px) {
-    max-width: 333px;
 `;
 
 const Container = styled.div`
@@ -142,8 +139,8 @@ const Container = styled.div`
   text-align: center;
   padding: 23px;
 
-  @media (max-width: 900px) {
-    max-width: 888px;
+  @media (max-width: 480px) {
+    max-width: 333px;
   }
 `;
 
