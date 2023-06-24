@@ -1,5 +1,5 @@
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
-const limit = parseInt(props.limit) || 8;
+const limit = parseInt(props.limit) || 888;
 
 if (!daoId) {
   return "";
