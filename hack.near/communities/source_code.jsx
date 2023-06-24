@@ -92,8 +92,8 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 480px) {
-    font-size: 40px;
-    max-width: 300px;
+    font-size: 50px;
+    max-width: 333px;
 
     span {
       border-radius: 10px;
@@ -114,6 +114,10 @@ const Text = styled.p`
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
   margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 23px;
+    max-width: 333px;
 `;
 
 const Flex = styled.div`
