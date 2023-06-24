@@ -62,13 +62,13 @@ const H1 = styled.h1`
   font-family: "FK Grotesk", sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 90px;
+  font-size: 85px;
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
   color: #000;
   margin: 0;
-  max-width: 100%;
+  max-width: 700px;
 
   span {
     display: inline-block;
@@ -85,7 +85,7 @@ const H1 = styled.h1`
     }
   }
 
-  @media (max-width: 888px) {
+  @media (max-width: 900px) {
     font-size: 50px;
 
     span {
