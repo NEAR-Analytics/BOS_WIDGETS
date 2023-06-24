@@ -184,6 +184,10 @@ return (
               src="hack.near/widget/communities.join"
               props={{ daoId, accountId }}
             />
+            <Widget
+              src="hack.near/widget/dao.proposals"
+              props={{ daoId, accountId, limit: 5 }}
+            />
           </div>
         )) || (
           <div className="row">
