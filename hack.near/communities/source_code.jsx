@@ -172,16 +172,17 @@ return (
           />
         )}
 
-        {(human && (
+        {(!human && (
           <div>
-            <Widget
-              src="hack.near/widget/communities.join"
-              props={{ daoId, accountId }}
-            />
-            <Widget
-              src="hack.near/widget/dao.proposals"
-              props={{ daoId, accountId, limit: 5 }}
-            />
+            <div className="mb-5">
+              <Widget src="hack.near/widget/communities.join" />
+            </div>
+            <div className="m-3">
+              <Widget
+                src="hack.near/widget/dao.proposals"
+                props={{ daoId, accountId, limit: 5 }}
+              />
+            </div>
           </div>
         )) || (
           <div className="row">
