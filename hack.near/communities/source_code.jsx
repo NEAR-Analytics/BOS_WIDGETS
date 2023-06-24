@@ -148,7 +148,7 @@ const Proposals = styled.div`
   max-width: 555px;
 
   @media (max-width: 480px) {
-    max-width: 350px;
+    max-width: 380px;
   }
 `;
 
