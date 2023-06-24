@@ -1,4 +1,4 @@
-const accountId = "blaze.near";
+const accountId = context.accountId;
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const role = props.role ?? "voter";
 
