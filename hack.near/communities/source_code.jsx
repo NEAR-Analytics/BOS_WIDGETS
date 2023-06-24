@@ -211,7 +211,7 @@ return (
         </div>
       )}
     </Flex>
-
+    <hr />
     <Text
       size="14px"
       weight="600"
