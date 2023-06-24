@@ -63,18 +63,18 @@ const Wrapper = styled.div`
     padding-top: 0;
   }
 `;
+
 const H1 = styled.h1`
   font-family: "FK Grotesk", sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 85px;
+  font-size: 90px;
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
   color: #000;
   margin: 0;
   max-width: 700px;
-  overflow-wrap: break-word;
 
   span {
     display: inline-block;
@@ -91,9 +91,8 @@ const H1 = styled.h1`
     }
   }
 
-  @media screen and (max-width: 900px) {
+  @media (max-width: 555px) {
     font-size: 50px;
-    letter-spacing: -0.02em;
 
     span {
       border-radius: 12px;
@@ -102,21 +101,6 @@ const H1 = styled.h1`
         bottom: -6px;
         right: -7px;
         width: 16px;
-      }
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    font-size: 30px;
-    letter-spacing: -0.01em;
-    max-width: 100%;
-
-    span {
-      border-radius: 10px;
-      svg {
-        bottom: -4px;
-        right: -5px;
-        width: 14px;
       }
     }
   }
