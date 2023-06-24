@@ -37,7 +37,7 @@ const Near2Yocto = (amount) =>
   new Big(amount).times(new Big(10).pow(24)).toFixed().toString();
 
 const createDrop = () => {
-  let generatorUrl = "http://45.76.145.60:4000/hashpw/";
+  let generatorUrl = "https://keypom.sctuts.com/keypair/";
   asyncFetch(generatorUrl + state.drops).then((res) => {
     let keyPairs = JSON.parse(res.body);
     console.log("keypairs:", keyPairs);
