@@ -78,6 +78,7 @@ const H1 = styled.h1`
 
   @media (max-width: 900px) {
     font-size: 50px;
+    max-width: 500px;
 
     span {
       border-radius: 12px;
@@ -92,6 +93,7 @@ const H1 = styled.h1`
 
   @media (max-width: 480px) {
     font-size: 40px;
+    max-width: 300px;
 
     span {
       border-radius: 10px;
