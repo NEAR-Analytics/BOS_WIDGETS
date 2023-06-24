@@ -8,6 +8,7 @@ const writersWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
+  "fiftycent.near",
 ];
 const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
