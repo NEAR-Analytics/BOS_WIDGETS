@@ -50,14 +50,8 @@ const handleJoin = () => {
 };
 
 const Wrapper = styled.div`
-  --section-gap: 42px;
+  --section-gap: 23px;
   padding-top: 42px;
-
-  @media (max-width: 1160px) {
-    .line-rounded-corners {
-      display: none !important;
-    }
-  }
 
   @media (max-width: 888px) {
     padding-top: 0;
@@ -91,7 +85,7 @@ const H1 = styled.h1`
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 888px) {
     font-size: 50px;
 
     span {
