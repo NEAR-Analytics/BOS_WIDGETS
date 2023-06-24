@@ -98,6 +98,20 @@ const H1 = styled.h1`
       }
     }
   }
+
+  @media (max-width: 480px) {
+    font-size: 40px;
+
+    span {
+      border-radius: 10px;
+      svg {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        width: 14px;
+      }
+    }
+  }
 `;
 
 const Text = styled.p`
