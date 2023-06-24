@@ -22,6 +22,18 @@ const group = policy.roles
     return group;
   });
 
+// IAH Verification
+let human = false;
+const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+  account: accountId,
+});
+
+for (let i = 0; i < userSBTs.length; i++) {
+  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
+    human = true;
+  }
+}
+
 const Container = styled.div`
   display: flex;
   max-width: 1080px;
@@ -41,9 +53,22 @@ return (
   <>
     <Container>
       <Widget src="hack.near/widget/progress.members" />
-      <Widget src="hack.near/widget/communities" />
+      <div className="m-2">
+        <button
+          disabled={!human}
+          className="btn btn-success m-1"
+          onClick={handleProposal}
+        >
+          Join DAO
+        </button>
+        <a
+          className="btn btn-outline-success m-1"
+          href="#/hack.near/widget/dao.proposals"
+        >
+          View Proposals
+        </a>
+      </div>{" "}
     </Container>
-    <br />
     <hr />
     <div>
       <h3>Voter Profiles</h3>
