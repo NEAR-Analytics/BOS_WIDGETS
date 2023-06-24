@@ -181,23 +181,21 @@ return (
         {(human && (
           <div>
             <div className="mb-5">
-              <div>
-                <Widget
-                  src="hack.near/widget/communities.join"
-                  props={{ daoId, accountId }}
-                />
-              </div>
-              <div className="m-3">
-                <Widget
-                  src="near/widget/DIG.Button"
-                  props={{
-                    href: "#/hack.near/widget/verified.members",
-                    label: "See All Members",
-                    variant: "outline-dark",
-                    size: "small",
-                  }}
-                />
-              </div>
+              <Widget
+                src="hack.near/widget/communities.join"
+                props={{ daoId, accountId }}
+              />
+            </div>
+            <div className="m-3">
+              <Widget
+                src="near/widget/DIG.Button"
+                props={{
+                  href: "#/hack.near/widget/verified.members",
+                  label: "See All Members",
+                  variant: "outline-dark",
+                  size: "small",
+                }}
+              />
             </div>
             <div className="m-3">
               <Widget
