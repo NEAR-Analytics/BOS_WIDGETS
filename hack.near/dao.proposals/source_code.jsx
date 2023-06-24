@@ -1,5 +1,5 @@
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
-const limit = parseInt(props.limit) || 888;
+const limit = parseInt(props.limit) || 8;
 
 if (!daoId) {
   return "";
@@ -26,8 +26,8 @@ if (lastProposalId) {
 }
 
 return (
-  <div className="mt-3">
-    <h5>Recent Proposals</h5>
+  <div className="m-3">
+    <h3>Recent Proposals</h3>
     {proposals.map((proposal, i) => (
       <div key={proposal.id} className="mb-3">
         <Widget
@@ -36,5 +36,15 @@ return (
         />
       </div>
     ))}
+    <Widget
+      src="near/widget/DIG.Button"
+      props={{
+        href: "#/hack.near/widget/dao.proposals",
+        label: "See All Proposals",
+        variant: "outline-dark",
+        size: "large",
+      }}
+    />
+    <br />
   </div>
 );
