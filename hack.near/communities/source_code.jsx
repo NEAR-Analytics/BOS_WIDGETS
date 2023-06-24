@@ -59,7 +59,7 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 888px) {
     padding-top: 0;
   }
 `;
@@ -101,6 +101,19 @@ const H1 = styled.h1`
         bottom: -6px;
         right: -7px;
         width: 16px;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    font-size: 36px;
+
+    span {
+      border-radius: 10px;
+      svg {
+        bottom: -4px;
+        right: -5px;
+        width: 14px;
       }
     }
   }
