@@ -495,7 +495,7 @@ return (
                       ),
                       placeholder: "Input tags",
                       setTagsObject: (tags) => {
-                        //console.log(filterTagsFromNull(tags));
+                        console.log(filterTagsFromNull(tags));
                         state.tags = filterTagsFromNull(tags);
                         // state.tags = tags;
                         State.update();
