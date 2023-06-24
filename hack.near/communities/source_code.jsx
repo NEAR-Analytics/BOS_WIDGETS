@@ -125,7 +125,7 @@ const Flex = styled.div`
 
 const Container = styled.div`
   display: flex;
-  max-width: 1060px;
+  max-width: 333px;
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
