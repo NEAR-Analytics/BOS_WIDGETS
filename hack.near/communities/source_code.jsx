@@ -75,6 +75,7 @@ const H1 = styled.h1`
   color: #000;
   margin: 0;
   max-width: 700px;
+  overflow-wrap: break-word;
 
   span {
     display: inline-block;
@@ -107,6 +108,7 @@ const H1 = styled.h1`
 
   @media (max-width: 600px) {
     font-size: 36px;
+    max-width: 100%;
 
     span {
       border-radius: 10px;
