@@ -74,7 +74,7 @@ const H1 = styled.h1`
   letter-spacing: -0.03em;
   color: #000;
   margin: 0;
-  max-width: 555px;
+  max-width: 100%;
 
   span {
     display: inline-block;
@@ -91,7 +91,7 @@ const H1 = styled.h1`
     }
   }
 
-  @media (max-width: 333px) {
+  @media (max-width: 900px) {
     font-size: 50px;
 
     span {
