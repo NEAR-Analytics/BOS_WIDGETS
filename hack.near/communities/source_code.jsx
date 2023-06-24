@@ -188,17 +188,6 @@ return (
             </div>
             <div className="m-3">
               <Widget
-                src="near/widget/DIG.Button"
-                props={{
-                  href: "#/hack.near/widget/verified.members",
-                  label: "See All Members",
-                  variant: "outline-dark",
-                  size: "small",
-                }}
-              />
-            </div>
-            <div className="m-3">
-              <Widget
                 src="hack.near/widget/dao.proposals"
                 props={{ daoId, accountId, limit: 5 }}
               />
