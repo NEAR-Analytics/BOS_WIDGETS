@@ -42,7 +42,7 @@ return (
         href: "#/hack.near/widget/dao.proposals",
         label: "See All Proposals",
         variant: "outline-dark",
-        size: "large",
+        size: "small",
       }}
     />
     <br />
