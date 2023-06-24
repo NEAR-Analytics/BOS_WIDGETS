@@ -181,14 +181,15 @@ return (
         {(human && (
           <div>
             <div className="mb-5">
-              <button className="btn btn-outline-success" onClick={handleJoin}>
-                Join the DAO
-              </button>
+              <Widget
+                src="hack.near/widget/communities.join"
+                props={{ daoId, accountId }}
+              />
             </div>
             <div className="m-3">
               <Widget
-                src="hack.near/widget/dao.new"
-                props={{ daoId, accountId }}
+                src="hack.near/widget/dao.proposals"
+                props={{ daoId, accountId, limit: 5 }}
               />
             </div>
           </div>
