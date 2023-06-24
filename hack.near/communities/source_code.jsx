@@ -131,7 +131,7 @@ const Flex = styled.div`
 
 const Container = styled.div`
   display: flex;
-  max-width: 80%;
+  max-width: 888px;
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
@@ -141,6 +141,14 @@ const Container = styled.div`
 
   @media (max-width: 480px) {
     max-width: 333px;
+  }
+`;
+
+const Proposals = styled.div`
+  max-width: 555px;
+
+  @media (max-width: 480px) {
+    max-width: 350px;
   }
 `;
 
@@ -181,12 +189,12 @@ return (
           <div className="mb-5">
             <Widget src="hack.near/widget/communities.join" />
           </div>
-          <div className="m-3">
+          <Proposals>
             <Widget
               src="hack.near/widget/dao.proposals"
               props={{ daoId, accountId, limit: 5 }}
             />
-          </div>
+          </Proposals>
         </div>
       )) || (
         <div className="row">
