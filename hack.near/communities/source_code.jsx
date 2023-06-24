@@ -180,7 +180,7 @@ return (
         />
       )}
 
-      {(!human && (
+      {(human && (
         <div>
           <div className="mb-5">
             <Widget src="hack.near/widget/communities.join" />
