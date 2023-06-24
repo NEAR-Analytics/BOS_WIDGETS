@@ -54,11 +54,12 @@ const H1 = styled.h1`
   font-style: normal;
   font-weight: 500;
   font-size: 85px;
+
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
   color: #000;
-  margin: 0;
+  margin: 8px;
   max-width: 700px;
 
   span {
@@ -121,15 +122,6 @@ const Flex = styled.div`
   justify-content: ${(p) => p.justifyContent};
   flex-direction: ${(p) => p.direction ?? "row"};
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
-
-  ${(p) =>
-    p.mobileStack &&
-    `
-    @media (max-width: 900px) {
-      flex-direction: column;
-      gap: var(--section-gap);
-    }
-  `}
 `;
 
 const Container = styled.div`
