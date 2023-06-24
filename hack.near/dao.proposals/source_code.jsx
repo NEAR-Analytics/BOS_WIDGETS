@@ -45,6 +45,5 @@ return (
         size: "small",
       }}
     />
-    <br />
   </div>
 );
