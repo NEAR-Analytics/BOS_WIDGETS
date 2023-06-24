@@ -1,4 +1,4 @@
-const accountId = context.accountId;
+const accountId = "blaze.near";
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const role = props.role ?? "voter";
 
@@ -180,18 +180,10 @@ return (
 
         {(human && (
           <div>
-            <div className="mb-5">
-              <Widget
-                src="hack.near/widget/communities.join"
-                props={{ daoId, accountId }}
-              />
-            </div>
-            <div className="m-3">
-              <Widget
-                src="hack.near/widget/dao.proposals"
-                props={{ daoId, accountId, limit: 5 }}
-              />
-            </div>
+            <Widget
+              src="hack.near/widget/communities.join"
+              props={{ daoId, accountId }}
+            />
           </div>
         )) || (
           <div className="row">
