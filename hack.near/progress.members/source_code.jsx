@@ -192,7 +192,7 @@ console.log("propsSize", propsSize);
 
 const totalUsrNum = 200;
 const percentage = (totalMembers / 200) * 100;
-const widgetTitle = props.infoTitle ? props.infoTitle : "RC DAO Members";
+const widgetTitle = props.infoTitle ? props.infoTitle : "Regional Communities";
 
 return (
   <MainWrapper props={sizes[propsSize]}>
