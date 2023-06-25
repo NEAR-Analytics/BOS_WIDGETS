@@ -1,14 +1,13 @@
-const Container = styled.div`
-  height: 100vh;
-`;
+function onCapture(src) {
+  console.log(src);
+}
 
 return (
-  <Container>
-    <Camera
-      onCapture={(src) => {
-        console.log("hello");
-        console.log(src);
-      }}
+  <>
+    <p>{JSON.stringify(src)}</p>
+    <Widget
+      src="efiz.near/widget/Common.Camera"
+      props={{ onCapture: onCapture }}
     />
-  </Container>
+  </>
 );
