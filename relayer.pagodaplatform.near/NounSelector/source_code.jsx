@@ -550,8 +550,8 @@ return (
             }}
             onClick={() => {
               const nounURL = getNounUrl(state.params);
-              Storage.set("nounHref", nounURL.href);
-              Storage.set("nounParams", nounUrl.params);
+              // Storage.set("nounHref", nounURL.href);
+              // Storage.set("nounParams", nounUrl.params);
               onSelect?.(nounURL);
             }}
           />
