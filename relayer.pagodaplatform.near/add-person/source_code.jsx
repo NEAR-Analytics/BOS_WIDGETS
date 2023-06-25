@@ -35,13 +35,6 @@ const addEmployee = (employeeID, domain) => {
     />;
   }
 
-  // const domainBytes = Buffer.from(domain, "utf8");
-  // const employeeIDBytes = Buffer.from(domain, "utf8");
-
-  const encodedData = interface.encodeFunctionData("add_Employee", [
-    employeeID,
-    domain,
-  ]);
   console.log(
     "going for contract:",
     blockchainInfo.contractAddress,
@@ -55,7 +48,7 @@ const addEmployee = (employeeID, domain) => {
     Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
   );
   console.log("Calling it!");
-  const result = contract.add_Employee(...encodedData);
+  const result = contract.add_Employee(employeeID, domain);
   console.log(result);
   return result;
 };
