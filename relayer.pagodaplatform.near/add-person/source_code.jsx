@@ -80,7 +80,7 @@ return (
     <Widget
       src="s-farshad-k.near/widget/hero-header"
       props={{
-        title: "Please tell us your website address ",
+        title: "Please add your employees ",
         subtitle: "We will ask you to verify the ownership of this domain! ",
       }}
     />
@@ -101,7 +101,7 @@ return (
     />
     <button
       onClick={() => {
-        addEmployee(state.domain)
+        addEmployee(state.employeeID, state.domain)
           .then((res) => {
             console.log("request completed:", res);
             State.update({ loading: false });
