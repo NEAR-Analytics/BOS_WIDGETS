@@ -891,7 +891,7 @@ return (
                   </>
                 </ImageUploadCard>
 
-                {!!state.sdk.mintedNfts ? (
+                {state.sdk.mintedNfts.length > 0 ? (
                   <>
                     <HeaderBox
                       style={{
@@ -1024,6 +1024,5 @@ return (
     ) : (
       "Loading..."
     )}
-    <button onClick={() => console.log(state.sdk.mintedNfts)}>Debug</button>
   </div>
 );
