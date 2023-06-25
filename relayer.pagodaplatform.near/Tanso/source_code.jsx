@@ -15,6 +15,6 @@ iframe {
 
 return (
   <css>
-    <iframe src="https://sepolia.easscan.org/attestation/view/0x720fd867d8a375cd75bd184664a6fb33d08783ff17697082edfdc02a61168f08" />
+    <iframe src="https://sepolia.easscan.org/schema/view/0x447cefc057bdd611bc853756d3fd633e495d4d8d75a1aaed7ae5598573984c13" />
   </css>
 );
