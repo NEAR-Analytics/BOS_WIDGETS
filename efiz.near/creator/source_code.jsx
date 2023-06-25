@@ -1,4 +1,5 @@
 const data = props.data || {};
+const type = props.type || "";
 
 const Container = styled.div`
     display: flex;
@@ -86,6 +87,7 @@ State.init({
   data,
   isModalOpen: false,
   typeSrc: "every.near",
+  selectedType: type,
 });
 
 const handleOnChange = (value) => {
