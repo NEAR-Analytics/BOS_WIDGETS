@@ -45,6 +45,17 @@ return (
           }}
         />
       </div>
+      <div>
+        <Widget
+          src="a_liutiev.near/widget/button_general"
+          props={{
+            value: <span>Add a review</span>,
+            handleButtonClick: () => {
+              updatePage("addReview");
+            },
+          }}
+        />
+      </div>
     </DeviderComponent>
   </div>
 );
