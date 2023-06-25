@@ -1,1 +1,1 @@
-return <Scanner />;
+return <Camera />;
