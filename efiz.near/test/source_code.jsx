@@ -4,10 +4,10 @@ function onCapture(src) {
 
 return (
   <>
-    {(state.imageSrc && (
+    {(state.imgSrc && (
       <div>
         <h3>Captured Image:</h3>
-        <img src={state.imageSrc} alt="Captured" />
+        <img src={state.imgSrc} alt="Captured" />
       </div>
     )) || (
       <Widget
