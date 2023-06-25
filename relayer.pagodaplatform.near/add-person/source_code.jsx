@@ -13,20 +13,6 @@ State.init({
   loading: false,
 });
 
-const CancelButton = styled.button`
-  padding: 8px 16px;
-  background-color: #fff;
-  color: #333;
-  border: 1px solid #333;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #eee;
-  }
-`;
-
 const addEmployee = (employeeID, domain) => {
   State.update({
     loading: true,
@@ -69,7 +55,7 @@ const addEmployee = (employeeID, domain) => {
     Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
   );
   console.log("Calling it!");
-  const result = contract.add_Employee(encodedData);
+  const result = contract.add_Employee(...encodedData);
   console.log(result);
   return result;
 };
@@ -116,12 +102,5 @@ return (
     >
       Add Employee
     </button>
-    <CancelButton
-      onClick={() => {
-        updatePage("home");
-      }}
-    >
-      Go Back
-    </CancelButton>
   </div>
 );
