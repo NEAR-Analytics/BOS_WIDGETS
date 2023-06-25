@@ -48,11 +48,13 @@ const Subheading = styled.h3`
 const GrayText = styled.p`
   font-size: 16px;
   color: gray;
+  max-width: 600px;
 `;
 
 const BlackText = styled.p`
-  font-size:16px;
+  font-size: 16px;
   color: black;
+  max-width: 600px;
 `;
 
 const Town = styled.b`
