@@ -28,6 +28,9 @@ const CancelButton = styled.button`
 `;
 
 const addEmployee = (employeeID, domain) => {
+  State.update({
+    loading: true,
+  });
   if (!interface) {
     console.log("Error: You do not have contract interfaces!");
     return false;
@@ -98,7 +101,7 @@ return (
     />
     <button
       onClick={() => {
-        addCompany(state.domain)
+        addEmployee(state.domain)
           .then((res) => {
             console.log("request completed:", res);
             State.update({ loading: false });
