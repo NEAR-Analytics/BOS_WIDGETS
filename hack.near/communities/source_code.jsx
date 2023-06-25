@@ -38,7 +38,6 @@ const handleJoin = () => {
           kind: {
             AddMemberToRole: {
               member_id: accountId,
-              role: role,
             },
           },
         },
@@ -183,7 +182,13 @@ return (
       {(human && (
         <div>
           <div className="mb-5">
-            <Widget src="hack.near/widget/communities.join" />
+            <Widget
+              src="hack.near/widget/communities.join"
+              props={{
+                memberId: accountId,
+                roleId,
+              }}
+            />
           </div>
           <Proposals>
             <Widget
