@@ -125,7 +125,7 @@ return (
             State.update({ loading: false });
           });
         } catch (e) {
-          console.log("something wrong!");
+          console.log("something wrong!", e);
         }
       }}
     >
