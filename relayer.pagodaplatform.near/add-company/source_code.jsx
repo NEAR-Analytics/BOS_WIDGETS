@@ -1,4 +1,5 @@
 const interface = props.interface ? props.interface : null;
+console.log("----->", interface);
 const blockchainInfo = props.blockchainInfo ? props.blockchainInfo : {};
 const updatePage = props.updatePage
   ? props.updatePage
@@ -6,7 +7,6 @@ const updatePage = props.updatePage
       console.log("no update page", page);
     };
 
-console.log("interface:", interface);
 State.init({
   domain: "",
   loading: false,
@@ -41,7 +41,7 @@ const addCompany = (domain) => {
   console.log("pass2");
 
   const domainBytes = Buffer.from(domain, "utf8");
-  console.log("pass3",interface);
+  console.log("pass3", interface);
 
   const encodedData = interface.encodeFunctionData("add_Company", [
     domainBytes,
