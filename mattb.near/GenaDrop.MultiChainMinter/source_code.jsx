@@ -17,11 +17,6 @@ State.init({
   customRecipient: false,
 });
 
-function getMintedNfts() {
-  console.log(state.sdk.mintedNfts);
-  return Storage.get("GenaDropSDK.mintedNfts", SDK_PATH);
-}
-
 const handleMint = () => {
   if (!state.image.cid) {
     return;
@@ -895,7 +890,7 @@ return (
                   </>
                 </ImageUploadCard>
 
-                {!!getMintedNfts() ? (
+                {state.sdk.mintedNfts.length > 0 ? (
                   <>
                     <HeaderBox
                       style={{
@@ -912,7 +907,7 @@ return (
                       </Heading>
                     </HeaderBox>
                     <HistoryBox>
-                      {getMintedNfts().map((nft) => (
+                      {state.sdk.mintedNfts.map((nft) => (
                         <HistoryNFTBox>
                           {!!nft.image && <img src={nft.image} alt="NFT" />}
                           <div className="details">
@@ -1028,6 +1023,5 @@ return (
     ) : (
       "Loading..."
     )}
-    <button onClick={() => console.log(getMintedNfts())}>Debug</button>
   </div>
 );
