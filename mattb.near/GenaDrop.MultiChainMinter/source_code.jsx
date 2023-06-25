@@ -1024,8 +1024,6 @@ return (
     ) : (
       "Loading..."
     )}
-    <button onClick={() => state.sdk.mintedNfts.map((nft) => console.log(nft))}>
-      Debug
-    </button>
+    <button onClick={() => console.log(state.sdk.mintedNfts)}>Debug</button>
   </div>
 );
