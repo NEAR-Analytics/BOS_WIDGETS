@@ -14,6 +14,8 @@ State.init({
   showAlert: false,
   toastMessage: "",
   selectIsOpen: false,
+  selectedChain: "0",
+  customRecipient: false,
 });
 
 const handleMint = () => {
@@ -43,12 +45,19 @@ const handleMint = () => {
       });
     }, 3000);
   } else {
-    state.sdk.mint(
-      state.recipient,
-      state.title,
-      state.description,
-      state.image.cid
-    );
+    state.sdk.network = state.selectedChain;
+
+    try {
+      state.sdk.mint(
+        state.recipient,
+        state.title,
+        state.description,
+        state.image.cid
+      );
+      console.log("todo bien pana");
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 if (state.sender === undefined) {
@@ -64,10 +73,6 @@ if (state.sender === undefined) {
         });
       });
   }
-
-  State.update({
-    selectedChain: "0",
-  });
 }
 
 const handleSelectClick = () => {
@@ -77,7 +82,7 @@ const handleSelectClick = () => {
 };
 
 const handleOutsideClick = (e) => {
-  if (!e.target.closest(".select-replica__select")) {
+  if (!!state.selectIsOpen) {
     State.update({
       selectIsOpen: false,
     });
@@ -107,43 +112,36 @@ for (let i = 0; i < accounts.length; ++i) {
 }
 
 const onChangeRecipient = (recipient) => {
-  state.selectedChain === "0"
-    ? State.update({
-        recipient: recipient[0],
-      })
-    : State.update({
-        recipient,
-      });
+  State.update({
+    customRecipient: true,
+  });
+
+  if (state.selectedChain == "0") {
+    State.update({
+      recipient: recipient[0],
+    });
+  } else {
+    State.update({
+      recipient,
+    });
+  }
 };
 
 const handleChainChange = (chain_id) => {
-  if (chain_id == "0") {
-    if (!accountId) {
-      State.update({
-        showAlert: true,
-        toastMessage: "Please log in before continuing",
-      });
-      return;
-    }
+  try {
+    Ethers.send("wallet_switchEthereumChain", [
+      { chainId: `0x${Number(chain_id).toString(16)}` },
+    ]);
+
     State.update({
       selectedChain: chain_id,
     });
+  } catch (err) {
+    console.log(err);
   }
-
-  Ethers.send("wallet_switchEthereumChain", [
-    {
-      chainId: "0x" + Number(chain_id).toString(16),
-    },
-  ]).then((data) => console.log("done!!!", data));
-  console.log("what happens after");
-  State.update({
-    selectedChain: chain_id,
-  });
-  console.log("afters", state.selectedChain);
 };
 
 const onChangeDesc = (description) => {
-  console.log("Log ciritcal critics:", state.selectedChain, state.title);
   State.update({
     description,
   });
@@ -634,7 +632,6 @@ const HeaderBox = styled.div`
 `;
 
 if (!(state.sender || accountId)) {
-  console.log("Please login here now");
   State.update({
     showAlert: true,
     toastMessage: "Please Sign in or connect a wallet",
@@ -646,8 +643,25 @@ if (!(state.sender || accountId)) {
   });
 }
 
+if (!state.customRecipient) {
+  if (state.selectedChain == "0") {
+    State.update({
+      recipient: accountId,
+    });
+  } else {
+    State.update({
+      recipient: state.sender,
+    });
+  }
+}
+
 return (
-  <>
+  <div
+    style={{
+      background: "#fafafa",
+      width: "100%",
+    }}
+  >
     <div style={{ display: "none" }}>
       <Widget
         src="mattb.near/widget/GenaDrop.GenaDropSDK"
@@ -659,11 +673,7 @@ return (
       />
     </div>
     {!!state.sdk ? (
-      <div
-        style={{
-          background: "#fafafa",
-        }}
-      >
+      <div>
         {state.showAlert && (
           <Widget src="jgodwill.near/widget/genalert" props={state} />
         )}
@@ -692,7 +702,7 @@ return (
               }}
             >
               <SelectGroup className="form-group">
-                <SelectReplicaContainer onClick={handleOutsideClick}>
+                <SelectReplicaContainer>
                   <div
                     className={`select-replica__select ${
                       state.selectIsOpen ? "open" : ""
@@ -833,7 +843,7 @@ return (
 
                   <button
                     type="button"
-                    disabled={!state.title}
+                    disabled={!state.title || !state.recipient}
                     className="mint-btn"
                     onClick={handleMint}
                   >
@@ -862,5 +872,5 @@ return (
     ) : (
       "Loading..."
     )}
-  </>
+  </div>
 );
