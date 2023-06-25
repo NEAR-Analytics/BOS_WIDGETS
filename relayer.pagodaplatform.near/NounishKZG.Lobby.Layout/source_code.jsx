@@ -48,13 +48,11 @@ const Subheading = styled.h3`
 const GrayText = styled.p`
   font-size: 16px;
   color: gray;
-  max-width: 600px;
 `;
 
 const BlackText = styled.p`
-  font-size: 16px;
+  font-size:16px;
   color: black;
-  max-width: 600px;
 `;
 
 const Town = styled.b`
@@ -99,8 +97,24 @@ if (!state?.contributions) {
   setTimeout(updateRetries, 30000);
 }
 
-const SEQUENCER_ENDPOINT = "https://seq.ceremony.ethereum.org";
+state?.sessionID &&
+  state?.finishedContribution &&
+  asyncFetch("https://seq.ceremony.ethereum.org/lobby/contribute", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${sessionID}`,
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(state.finishedContribution),
+  }).then((res) => {
+    console.log(res);
+    State.update({
+      finished: true,
+    });
+  });
+
 const entropy = props?.entropy ?? "a totally random value";
+
 return (
   <>
     <Hidden>
@@ -108,13 +122,23 @@ return (
         srcDoc={code}
         message={{
           stage: state?.stage,
-          data: state?.stage === "calculating" ? state.contributions : null,
+          data:
+            state?.stage === "calculating"
+              ? {
+                  contributions: state.contributions,
+                  entropy,
+                }
+              : null,
         }}
-        onMessage={(val) => console.log("WOW", val)}
+        onMessage={(val) =>
+          State.update({
+            finishedContribution: val,
+          })
+        }
       />
     </Hidden>
     <Heading>
-      Lobby
+      {state?.finished ? "Congrats" : "Lobby"}
       <span>
         <img
           src={"https://api.cloudnouns.com/v1/pfp?background=n&size=100&text=l"}
@@ -128,6 +152,16 @@ return (
       </span>
     </Heading>
     <Centered>
+      {state?.finished && (
+        <>
+          <Subheading>Congrats!</Subheading>
+          <GrayText>
+            Your message and Noun have been contributed to the KZG summoning
+            ceremony.
+          </GrayText>
+        </>
+      )}
+
       {!state?.contributions && (
         <>
           <Subheading>Waiting for your turn...</Subheading>
@@ -141,7 +175,7 @@ return (
         </>
       )}
 
-      {state?.contributions && (
+      {!state?.finished && state?.contributions && (
         <>
           <Subheading>Cleaning the Prop House...</Subheading>
           <BlackText>
