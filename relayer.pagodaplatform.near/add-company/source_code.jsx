@@ -46,21 +46,18 @@ const addCompany = (domain) => {
   ]);
   console.log("pass3", interface, blockchainInfo);
   console.log("calling:", Ethers.provider());
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://rpc-mumbai.maticvigil.com/v2/mLvMXKxgNYvVC1gMdStkcBn3xm3fCLZ7"
-  );
-  const signer = new provider.getSigner();
+
   console.log(
     "going for contract:",
     blockchainInfo.contractAddrecass,
     blockchainInfo.contractABI,
-    signer
+    Ethers.provider().getSigner()
   );
 
   const contract = new ethers.Contract(
     blockchainInfo.contractAddress,
     blockchainInfo.contractABI,
-    signer //Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
+    Ethers.provider().getSigner()
   );
   const result = contract.add_Company(encodedData);
   console.log(result);
