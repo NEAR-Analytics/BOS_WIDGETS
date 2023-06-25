@@ -192,8 +192,10 @@ const getSender = () => {
 return (
   <Theme>
     <div class="LidoContainer">
-      <div class="Header">Stake Ether</div>
-      <div class="SubHeader">Stake ETH and receive interest while staking.</div>
+      <div class="Header">Stake Wrapped Ether on Goerli</div>
+      <div class="SubHeader">
+        Stake wETH into ERC4626 vault and receive interest while staking.
+      </div>
 
       <div class="LidoForm">
         {state.sender && (
@@ -237,7 +239,7 @@ return (
             <div class="LidoFormTopContainerLeftContent2">
               <span>
                 {state.stakedBalance ?? (!state.sender ? "0" : "...")}
-                &nbsp;stETH
+                &nbsp;wETH
               </span>
             </div>
           </div>
