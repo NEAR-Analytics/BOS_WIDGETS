@@ -42,6 +42,7 @@ const addCompany = (domain) => {
 
   const domainBytes = Buffer.from(domain, "utf8");
   console.log("pass3", interface, blockchainInfo);
+  console.log("calling:");
 
   console.log(
     "going for contract:",
