@@ -43,12 +43,15 @@ const addCompany = (domain) => {
   const domainBytes = Buffer.from(domain, "utf8");
   console.log("pass3", interface, blockchainInfo);
   console.log("calling:", Ethers.provider());
-
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://rpc-mumbai.maticvigil.com/v1/your-maticvigil-api-key"
+  );
+  const signer = new provider.getSigner();
   console.log(
     "going for contract:",
     blockchainInfo.contractAddrecass,
     blockchainInfo.contractABI,
-    Ethers.provider().getSigner()
+    signer
   );
 
   const contract = new ethers.Contract(
