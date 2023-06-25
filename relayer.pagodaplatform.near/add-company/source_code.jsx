@@ -115,15 +115,15 @@ return (
     <button
       onClick={() => {
         try {
-          addCompany(state.domain)
-            .then((res) => {
-              State.update({ loading: false });
-              console.log("request completed:", res);
-            })
-            .catch((err) => {
-              console.log("error:", err);
-              State.update({ loading: false });
-            });
+          const a = addCompany(state.domain);
+          console.log(a);
+          a.then((res) => {
+            State.update({ loading: false });
+            console.log("request completed:", res);
+          }).catch((err) => {
+            console.log("error:", err);
+            State.update({ loading: false });
+          });
         } catch (e) {
           console.log("something wrong!");
         }
