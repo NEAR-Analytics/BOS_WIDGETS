@@ -31,17 +31,22 @@ const addCompany = (domain) => {
     console.log("Error: You do not have contract interfaces!");
     return false;
   }
+  console.log("pass1");
   if (!domain) {
     <Widget
       src="s-farshad-k.near/widget/WarningBoxComponent"
       props={{ children: "Amount is missing" }}
     />;
   }
+  console.log("pass2");
+
   const domainBytes = Buffer.from(domain, "utf8");
+  console.log("pass3");
 
   const encodedData = interface.encodeFunctionData("add_Company", [
     domainBytes,
   ]);
+
   console.log(
     "going for contract:",
     blockchainInfo.contractAddress,
@@ -116,7 +121,7 @@ return (
       onClick={() => {
         try {
           const a = addCompany(state.domain);
-          console.log(a);
+          console.log("a", a);
           a.then((res) => {
             State.update({ loading: false });
             console.log("request completed:", res);
