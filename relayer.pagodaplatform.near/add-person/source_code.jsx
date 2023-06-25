@@ -109,7 +109,7 @@ return (
           });
       }}
     >
-      Add Company
+      Add Employee
     </button>
     <CancelButton
       onClick={() => {
