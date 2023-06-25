@@ -60,7 +60,7 @@ const addCompany = (domain) => {
   const contract = new ethers.Contract(
     blockchainInfo.contractAddress,
     blockchainInfo.contractABI,
-    Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
+    signer //Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
   );
   const result = contract.add_Company(encodedData);
   console.log(result);
