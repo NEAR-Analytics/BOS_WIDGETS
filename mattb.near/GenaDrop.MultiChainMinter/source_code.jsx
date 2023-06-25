@@ -45,16 +45,42 @@ const handleMint = () => {
       });
     }, 3000);
   } else {
-    state.sdk.network = state.selectedChain;
+    let sdk = state.sdk;
+    sdk.network = state.selectedChain;
+
+    State.update({
+      sdk: sdk,
+    });
+
+    console.log(state.sdk.network);
+
+    console.log(
+      state.recipient,
+      state.title,
+      state.description,
+      state.selectedChain,
+      state.image.cid,
+      state.isSoulBound
+    );
 
     try {
-      state.sdk.mint(
-        state.recipient,
-        state.title,
-        state.description,
-        state.image.cid
-      );
-      console.log("todo bien pana");
+      if (state.selectedChain == "0") {
+        state.sdk.mintOnNear(
+          state.recipient,
+          state.title,
+          state.description,
+          state.image.cid
+        );
+      } else {
+        state.sdk.defaultMint(
+          state.recipient,
+          state.title,
+          state.description,
+          state.selectedChain,
+          state.image.cid,
+          state.isSoulBound
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -311,6 +337,10 @@ const SendToInput = styled.div`
 
     input {
         width:100%;
+        color:#000;
+        &:placeholder {
+          color:#000;
+        }
     }
 
     label {
@@ -326,9 +356,8 @@ const SendToInput = styled.div`
 `;
 
 const Main = styled.div`
-  display: grid;
-  gap: 3rem;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  display: flex;
+  flex-direction:column;
   justify-content: center;
   margin-top: 5px;
   width:100%;
@@ -631,6 +660,78 @@ const HeaderBox = styled.div`
     }
 `;
 
+const HistoryBox = styled.div`
+  display:flex;
+  flex-direction:column;
+  max-width:750px;
+  margin:0 auto;
+`;
+
+const HistoryNFTBox = styled.div`
+  display:flex;
+  width:100%;
+  max-width:800px;
+  background-color:#fff;
+  border-radius:10px;
+  margin-top:20px;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.02);
+  box-sizing:border-box;
+  padding:.7rem;
+
+  img {
+    background-color:red;
+    height:100%;
+    max-height:100px;
+    border-radius:.5rem;
+  }
+
+  .details {
+    padding:0 1rem;
+    box-sizing:border-box;
+    border-right:1px solid rgba(0,0,0,.05);
+
+    h1 {
+      font-size:1.3rem;
+    }
+
+    .description {
+      font-size:.8rem;
+      margin-bottom:0;
+      padding:0;
+      opacity:.8;
+    }
+
+    .author {
+      margin:0;
+      padding:0;
+      font-weight:bold;
+      font-size:.8rem;
+    }
+
+  }
+
+  .tx-details {
+    padding:0 1rem;
+    box-sizing:border-box;
+
+    p {
+      margin:0;
+      padding:0;
+    }
+
+    .title {
+      font-weight:bold;
+      font-size:.8rem;
+    }
+
+    .info {
+      font-size:.7rem;
+    }
+
+  }
+
+`;
+
 if (!(state.sender || accountId)) {
   State.update({
     showAlert: true,
@@ -764,30 +865,84 @@ return (
             </div>
 
             {!state.image.cid ? (
-              <ImageUploadCard className="flex-grow-1">
-                <Elipse>
-                  <span
-                    style={{
-                      opacity: ".2",
-                      "font-weight": "bold",
-                    }}
-                  >
-                    NFT
-                  </span>
-                </Elipse>
-                <>
-                  <IpfsImageUpload
-                    image={state.image}
-                    className="btn text-decoration-none link-primary pe-auto"
-                  />
-                  <div>
-                    <Text>jpg, jpeg, png, webp, gif</Text>
-                    <Text>
-                      <strong>Max. 20MB</strong>
-                    </Text>
-                  </div>
-                </>
-              </ImageUploadCard>
+              <>
+                <ImageUploadCard className="flex-grow-1">
+                  <Elipse>
+                    <span
+                      style={{
+                        opacity: ".2",
+                        "font-weight": "bold",
+                      }}
+                    >
+                      NFT
+                    </span>
+                  </Elipse>
+                  <>
+                    <IpfsImageUpload
+                      image={state.image}
+                      className="btn text-decoration-none link-primary pe-auto"
+                    />
+                    <div>
+                      <Text>jpg, jpeg, png, webp, gif</Text>
+                      <Text>
+                        <strong>Max. 20MB</strong>
+                      </Text>
+                    </div>
+                  </>
+                </ImageUploadCard>
+
+                {!!state.sdk.mintedNfts ? (
+                  <>
+                    <HeaderBox
+                      style={{
+                        "margin-top": "4rem",
+                      }}
+                    >
+                      <Heading
+                        style={{
+                          "text-align": "left",
+                        }}
+                        className="fs-2 fw-bold"
+                      >
+                        History
+                      </Heading>
+                    </HeaderBox>
+                    <HistoryBox>
+                      {state.sdk.getMintedNfts().map((nft) => (
+                        <HistoryNFTBox>
+                          <img
+                            src={nft.image.replace(
+                              "ipfs.io",
+                              "ipfs.near.social"
+                            )}
+                          />
+                          <div className="details">
+                            <h1>{nft.title}</h1>
+                            <p className="description">{nft.description}</p>
+                            <p className="author">{nft.account}</p>
+                          </div>
+                          <div className="tx-details">
+                            <p className="title">Sent to</p>
+                            <p className="info">{nft.recipient}</p>
+                            {nft.network != "0" && (
+                              <a
+                                target="_blank"
+                                href={nft.link}
+                                className="title"
+                              >
+                                View transaction on{" "}
+                                {state.sdk.contractAddresses[nft.network][1]}
+                              </a>
+                            )}
+                          </div>
+                        </HistoryNFTBox>
+                      ))}
+                    </HistoryBox>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
             ) : (
               <>
                 <NFTCard>
