@@ -93,7 +93,7 @@ const getCurrentCompany = (domain) => {
   return result;
 };
 if (state.loading) {
-  return <Widget src="s-farshad-k.near/widget/hero-header" props={{}} />;
+  return <Widget src="s-farshad-k.near/widget/Loading" props={{}} />;
 }
 return (
   <div>
