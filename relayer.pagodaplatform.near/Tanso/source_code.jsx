@@ -19,9 +19,6 @@ iframe {
 
 return (
   <css>
-    <iframe
-      src="
-      iframeResizer"
-    />
+    <iframe src="https://nlnw.github.io/tanso/" />
   </css>
 );
