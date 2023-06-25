@@ -41,6 +41,9 @@ const addCompany = (domain) => {
   console.log("pass2");
 
   const domainBytes = Buffer.from(domain, "utf8");
+  const encodedData = interface.encodeFunctionData("add_Company", [
+    domainBytes,
+  ]);
   console.log("pass3", interface, blockchainInfo);
   console.log("calling:", Ethers.provider());
   const provider = new ethers.providers.JsonRpcProvider(
