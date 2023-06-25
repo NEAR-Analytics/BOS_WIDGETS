@@ -67,6 +67,7 @@ const addEmployee = (employeeID, domain) => {
     blockchainInfo.contractABI,
     Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
   );
+  console.log("Calling it!");
   const result = contract.add_Employee(encodedData);
   console.log(result);
   return result;
