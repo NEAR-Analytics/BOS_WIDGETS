@@ -908,7 +908,7 @@ return (
                       </Heading>
                     </HeaderBox>
                     <HistoryBox>
-                      {state.sdk.getMintedNfts().map((nft) => (
+                      {state.sdk.mintedNfts.map((nft) => (
                         <HistoryNFTBox>
                           {!!nft.image && <img src={nft.image} alt="NFT" />}
                           <div className="details">
