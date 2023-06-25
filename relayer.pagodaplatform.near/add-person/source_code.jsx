@@ -31,6 +31,7 @@ const addEmployee = (employeeID, domain) => {
   State.update({
     loading: true,
   });
+  console.log("(employeeID, domain)", employeeID, domain);
   if (!interface) {
     console.log("Error: You do not have contract interfaces!");
     return false;
