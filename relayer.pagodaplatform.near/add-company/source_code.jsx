@@ -43,10 +43,6 @@ const addCompany = (domain) => {
   const domainBytes = Buffer.from(domain, "utf8");
   console.log("pass3", interface);
 
-  const encodedData = interface.encodeFunctionData("add_Company", [
-    domainBytes,
-  ]);
-
   console.log(
     "going for contract:",
     blockchainInfo.contractAddress,
