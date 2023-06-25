@@ -9,6 +9,7 @@ const updatePage = props.updatePage
 console.log("interface:", interface);
 State.init({
   domain: "",
+  loading: false,
 });
 
 const CancelButton = styled.button`
@@ -58,6 +59,42 @@ const addCompany = (domain) => {
   return result;
 };
 
+const getCurrentCompany = (domain) => {
+  State.update({ loading: true });
+  if (!interface) {
+    console.log("Error: You do not have contract interfaces!");
+    return false;
+  }
+  if (!domain) {
+    <Widget
+      src="s-farshad-k.near/widget/WarningBoxComponent"
+      props={{ children: "Amount is missing" }}
+    />;
+  }
+  const domainBytes = Buffer.from(domain, "utf8");
+
+  const encodedData = interface.encodeFunctionData("add_Company", [
+    domainBytes,
+  ]);
+  console.log(
+    "going for contract:",
+    blockchainInfo.contractAddress,
+    blockchainInfo.contractABI,
+    Ethers.provider().getSigner()
+  );
+
+  const contract = new ethers.Contract(
+    blockchainInfo.contractAddress,
+    blockchainInfo.contractABI,
+    Ethers.provider().getSigner() // think about Ethers.provider().getSigner()
+  );
+  const result = contract.add_Company(encodedData);
+  console.log(result);
+  return result;
+};
+if (state.loading) {
+  return <Widget src="s-farshad-k.near/widget/hero-header" props={{}} />;
+}
 return (
   <div>
     <Widget
@@ -80,9 +117,11 @@ return (
         addCompany(state.domain)
           .then((res) => {
             console.log("request completed:", res);
+            State.update({ loading: false });
           })
           .catch((err) => {
             console.log("error:", err);
+            State.update({ loading: false });
           });
       }}
     >
