@@ -100,7 +100,38 @@ const handleApply = () => {
 
 const handleSave = () => {
   // create the thing
-  State.update({ isModalOpen: true });
+  State.update({ isModalOpen: false });
+  const thingId = state.thingId || Math.random();
+  const data = {
+    thing: {
+      [thingId]: JSON.stringify({
+        data: state.config,
+        type: state.selectedType,
+      }),
+    },
+    index: {
+      thing: JSON.stringify({
+        key: thingId,
+        value: {
+          type: state.selectedType,
+        },
+      }),
+    },
+  };
+  Social.set(data, {
+    onCommit: () => {
+      State.update({
+        data: {},
+        isModalOpen: false,
+        config: undefined,
+      });
+    },
+    onCancel: () => {
+      State.update({
+        isModalOpen: false,
+      });
+    },
+  });
 };
 
 let availableTypes = [];
@@ -155,7 +186,12 @@ return (
       />
       <Footer>
         <Button onClick={() => handleApply()}>apply</Button>
-        <Button onClick={() => handleSave()}>save</Button>
+        <Button
+          onClick={() => State.update({ isModalOpen: true })}
+          disabled={state.config === undefined}
+        >
+          save
+        </Button>
       </Footer>
     </SidePanel>
     <MainContent>
@@ -170,9 +206,15 @@ return (
         <ModalContent>
           <ModalTitle>Save Confirmation</ModalTitle>
           <p>Are you sure you want to save?</p>
-          <Button onClick={() => State.update({ isModalOpen: false })}>
-            Save
-          </Button>
+          <p>{JSON.stringify(state.config)}</p>
+          <p>{JSON.stringify(state.template)}</p>
+          <>
+            <Input
+              onChange={(e) => State.update({ thingId: e.target.value })}
+              placeholder="thing id"
+            />
+          </>
+          <Button onClick={handleSave}>Save</Button>
           <Button onClick={() => State.update({ isModalOpen: false })}>
             Cancel
           </Button>
