@@ -38,7 +38,7 @@ const Near2Yocto = (amount) =>
 
 const createDrop = () => {
   let generatorUrl = "https://keypom.sctuts.com/keypair/";
-  asyncFetch(generatorUrl + state.drops).then((res) => {
+  asyncFetch(generatorUrl + state.drops + "/rootEntrophy").then((res) => {
     let keyPairs = JSON.parse(res.body);
     console.log("keypairs:", keyPairs);
     let pubKeys = [];
