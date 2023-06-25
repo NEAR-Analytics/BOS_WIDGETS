@@ -429,9 +429,10 @@ const OPTIONS = {
   HEAD: OPTIONS_HEAD,
 };
 
+const { onSelect } = props;
+
 const Container = styled.div`
     padding: 20px;
-    padding-top: 40px;
     overflow: auto;
     background-color: blue;
     color: white;
@@ -458,6 +459,16 @@ const LeftCol = styled.div`
 const NounImage = styled.img`
     width: 100%;
     border-radius: 25px;
+`;
+
+const Centered = styled.div`
+    display: flex;
+    flex-direction: flex-col;
+    width: 100%;
+    padding: auto;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
 `;
 
 State.init({ params: {} });
@@ -493,17 +504,15 @@ const handleChangeGenerator = (key) => (value) => {
 
 const getNounUrl = (params) => {
   const urlObject = new URL("https://api.cloudnouns.com/v1/pfp");
-  urlObject.searchParams.append("text", state.inputSeed);
+  state?.inputSeed && urlObject.searchParams.append("text", state.inputSeed);
   Object.keys(params ?? {}).forEach((key) => {
     urlObject.searchParams.append(
       key.toLocaleLowerCase(),
       state.params[key].join(",")
     );
   });
-  return urlObject.href;
+  return urlObject;
 };
-
-const res = fetch("https://rpc.mainnet.near.org/status");
 
 return (
   <Container>
@@ -529,7 +538,23 @@ return (
         ))}
       </LeftCol>
       <div>
-        <NounImage src={getNounUrl(state.params)} />
+        <NounImage src={getNounUrl(state.params).href} />
+        <Centered>
+          <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              fill: "solid",
+              iconLeft: "ph-bold ph-floppy-disk",
+              label: "Use Noun",
+            }}
+            onClick={() => {
+              const nounURL = getNounUrl(state.params);
+              Storage.set("nounHref", nounURL.href);
+              Storage.set("nounParams", nounUrl.params);
+              onSelect?.();
+            }}
+          />
+        </Centered>
       </div>
     </Row>
   </Container>
