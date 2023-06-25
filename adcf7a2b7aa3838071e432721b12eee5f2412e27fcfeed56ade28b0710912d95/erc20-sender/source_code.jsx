@@ -105,7 +105,7 @@ const sendTokens = () => {
 };
 
 return (
-  <div style={{ margin: "80px" }}>
+  <>
     <h3>Send ERC-20 tokens</h3>
     <div class="mb-3">
       <label for="selectToken">Select token</label>
@@ -162,5 +162,5 @@ return (
     <div class="mb-3">
       <button onClick={sendTokens}>Send</button>
     </div>
-  </div>
+  </>
 );
