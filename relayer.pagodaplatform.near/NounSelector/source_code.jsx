@@ -543,9 +543,10 @@ return (
           <Widget
             src="near/widget/DIG.Button"
             props={{
-              fill: "solid",
+              fill: "outline",
               iconLeft: "ph-bold ph-floppy-disk",
               label: "Use Noun",
+              variant: "secondary",
             }}
             onClick={() => {
               const nounURL = getNounUrl(state.params);
