@@ -133,7 +133,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 23px;
+  padding: 8px;
 
   @media (max-width: 480px) {
     max-width: 333px;
