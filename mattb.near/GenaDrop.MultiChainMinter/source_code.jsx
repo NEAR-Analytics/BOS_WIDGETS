@@ -679,7 +679,7 @@ const HistoryNFTBox = styled.div`
   padding:.7rem;
 
   img {
-    background-color:red;
+    background-color:rgba(0,0,0,.05);
     height:100%;
     max-height:100px;
     border-radius:.5rem;
@@ -910,21 +910,18 @@ return (
                     <HistoryBox>
                       {state.sdk.getMintedNfts().map((nft) => (
                         <HistoryNFTBox>
-                          <img
-                            src={nft.image.replace(
-                              "ipfs.io",
-                              "ipfs.near.social"
-                            )}
-                          />
+                          {!!nft.image && <img src={nft.image} alt="NFT" />}
                           <div className="details">
                             <h1>{nft.title}</h1>
                             <p className="description">{nft.description}</p>
-                            <p className="author">{nft.account}</p>
+                            {!!nft.account && (
+                              <p className="author">{nft.account}</p>
+                            )}
                           </div>
                           <div className="tx-details">
                             <p className="title">Sent to</p>
                             <p className="info">{nft.recipient}</p>
-                            {nft.network != "0" && (
+                            {!!nft.network && nft.network != "0" && (
                               <a
                                 target="_blank"
                                 href={nft.link}
