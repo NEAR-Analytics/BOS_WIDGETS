@@ -42,11 +42,11 @@ const addCompany = (domain) => {
 
   const domainBytes = Buffer.from(domain, "utf8");
   console.log("pass3", interface, blockchainInfo);
-  console.log("calling:");
+  console.log("calling:", Ethers.provider());
 
   console.log(
     "going for contract:",
-    blockchainInfo.contractAddress,
+    blockchainInfo.contractAddrecass,
     blockchainInfo.contractABI,
     Ethers.provider().getSigner()
   );
