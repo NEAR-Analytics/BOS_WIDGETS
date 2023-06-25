@@ -45,7 +45,7 @@ const addCompany = (domain) => {
     domainBytes,
   ]);
   console.log("pass3", interface, blockchainInfo);
-  console.log("calling:", Ethers.provider());
+  console.log("calling:", Ethers, Ethers.provider());
 
   console.log(
     "going for contract:",
