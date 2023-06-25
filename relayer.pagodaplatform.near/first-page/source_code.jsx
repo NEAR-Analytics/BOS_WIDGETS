@@ -38,7 +38,7 @@ return (
         <Widget
           src="a_liutiev.near/widget/button_general"
           props={{
-            value: <span>Register as an Employee</span>,
+            value: <span>Register an Employee</span>,
             handleButtonClick: () => {
               updatePage("addPerson");
             },
