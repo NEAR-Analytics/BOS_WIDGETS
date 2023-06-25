@@ -1,5 +1,4 @@
-const nearContract = "nft.genadrop.near";
-const ownerId = "minorityprogrammers.near";
+const OWNER_ID = "minorityprogrammers.near";
 let accountId = context.accountId;
 
 const DEFAULT_NFT_TITLE = "My awesome NFT";
@@ -17,6 +16,11 @@ State.init({
   selectedChain: "0",
   customRecipient: false,
 });
+
+function getMintedNfts() {
+  console.log(state.sdk.mintedNfts);
+  return Storage.get("GenaDropSDK.mintedNfts", SDK_PATH);
+}
 
 const handleMint = () => {
   if (!state.image.cid) {
@@ -891,7 +895,7 @@ return (
                   </>
                 </ImageUploadCard>
 
-                {state.sdk.mintedNfts.length > 0 ? (
+                {!!getMintedNfts() ? (
                   <>
                     <HeaderBox
                       style={{
@@ -908,7 +912,7 @@ return (
                       </Heading>
                     </HeaderBox>
                     <HistoryBox>
-                      {state.sdk.mintedNfts.map((nft) => (
+                      {getMintedNfts().map((nft) => (
                         <HistoryNFTBox>
                           {!!nft.image && <img src={nft.image} alt="NFT" />}
                           <div className="details">
@@ -1017,12 +1021,13 @@ return (
           </a>
           <Widget
             src="miraclx.near/widget/Attribution"
-            props={{ authors: [ownerId], dep: true }}
+            props={{ authors: [OWNER_ID], dep: true }}
           />
         </h6>
       </div>
     ) : (
       "Loading..."
     )}
+    <button onClick={() => console.log(getMintedNfts())}>Debug</button>
   </div>
 );
