@@ -909,7 +909,30 @@ return (
                     </HeaderBox>
                     <HistoryBox>
                       {state.sdk.mintedNfts.map((nft) => (
-                        <HistoryNFTBox>Test</HistoryNFTBox>
+                        <HistoryNFTBox>
+                          {!!nft.image && <img src={nft.image} alt="NFT" />}
+                          <div className="details">
+                            <h1>{nft.title}</h1>
+                            <p className="description">{nft.description}</p>
+                            {!!nft.account && (
+                              <p className="author">{nft.account}</p>
+                            )}
+                          </div>
+                          <div className="tx-details">
+                            <p className="title">Sent to</p>
+                            <p className="info">{nft.recipient}</p>
+                            {!!nft.network && nft.network != "0" && (
+                              <a
+                                target="_blank"
+                                href={nft.link}
+                                className="title"
+                              >
+                                View transaction on{" "}
+                                {state.sdk.contractAddresses[nft.network][1]}
+                              </a>
+                            )}
+                          </div>
+                        </HistoryNFTBox>
                       ))}
                     </HistoryBox>
                   </>
@@ -1001,5 +1024,8 @@ return (
     ) : (
       "Loading..."
     )}
+    <button onClick={() => state.sdk.mintedNfts.map((nft) => console.log(nft))}>
+      Debug
+    </button>
   </div>
 );
