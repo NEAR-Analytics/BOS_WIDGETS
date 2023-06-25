@@ -86,7 +86,7 @@ const submitEthers = (strEther, _referral) => {
   );
 
   let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
-  let approval = await weth.allowance(state.sender, lidoContract);
+  let approval = weth.allowance(state.sender, lidoContract);
   if (approval < amount) {
     weth.approve(lidoContract, amount).then((tx) => {
       console.log("transactionHash is " + tx);
@@ -95,9 +95,9 @@ const submitEthers = (strEther, _referral) => {
       });
     });
   } else {
-      erc4626.deposit(amount, state.sender).then((transactionHash) => {
-        console.log("transactionHash is " + transactionHash);
-      });
+    erc4626.deposit(amount, state.sender).then((transactionHash) => {
+      console.log("transactionHash is " + transactionHash);
+    });
   }
 };
 
