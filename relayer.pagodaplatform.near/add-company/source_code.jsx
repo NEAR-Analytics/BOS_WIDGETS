@@ -47,7 +47,7 @@ const addCompany = (domain) => {
   console.log("pass3", interface, blockchainInfo);
   console.log("calling:", Ethers.provider());
   const provider = new ethers.providers.JsonRpcProvider(
-    "https://rpc-mumbai.maticvigil.com/v1/your-maticvigil-api-key"
+    "https://rpc-mumbai.maticvigil.com/v2/mLvMXKxgNYvVC1gMdStkcBn3xm3fCLZ7"
   );
   const signer = new provider.getSigner();
   console.log(
