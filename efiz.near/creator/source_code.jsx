@@ -1,3 +1,5 @@
+const data = props.data || {};
+
 const Container = styled.div`
     display: flex;
   `;
@@ -81,7 +83,7 @@ const Row = styled.div`
 `;
 
 State.init({
-  data: {},
+  data,
   isModalOpen: false,
   typeSrc: "every.near",
 });
