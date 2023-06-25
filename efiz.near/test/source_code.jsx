@@ -4,6 +4,11 @@ const Container = styled.div`
 
 return (
   <Container>
-    <Camera />
+    <Camera
+      onCapture={(src) => {
+        console.log("hello");
+        console.log(src);
+      }}
+    />
   </Container>
 );
