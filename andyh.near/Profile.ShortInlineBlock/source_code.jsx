@@ -1,21 +1,37 @@
-if (props.now) {
-  return "now";
-}
+const accountId = props.accountId;
 
-const keyPath = props.keyPath;
-let blockHeight = props.blockHeight ? parseInt(props.blockHeight) : undefined;
-console.log({ blockHeight });
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-if (blockHeight === undefined && keyPath) {
-  blockHeight = Social.keys(keyPath, undefined, {
-    return_type: "BlockHeight",
-  });
-  if (blockHeight === null) {
-    return "Loading";
-  }
-  keyPath.split("/").forEach((key) => {
-    blockHeight = blockHeight[key];
-  });
-}
+const name = profile.name;
 
-return <>hey kucklehead</>;
+const inner = (
+  <div className="d-flex flex-row">
+    <Widget
+      src="mob.near/widget/ProfileImage"
+      props={{
+        metadata,
+        accountId,
+        widgetName,
+        style: { height: "2.5em", width: "2.5em", minWidth: "2.5em" },
+        className: "me-2",
+      }}
+    />
+    <div className="text-truncate lh-sm">
+      <div className="text-truncate fw-bold">{name}</div>
+      <div className="text-truncate text-muted">
+        <small>
+          <span className="font-monospace">@{accountId}</span>
+        </small>
+      </div>
+    </div>
+  </div>
+);
+
+return props.tooltip ? (
+  <Widget
+    src="mob.near/widget/Profile.OverlayTrigger"
+    props={{ accountId, children: inner }}
+  />
+) : (
+  inner
+);
