@@ -63,23 +63,14 @@ const handleMint = () => {
     );
 
     try {
-      if (state.selectedChain == "0") {
-        state.sdk.mintOnNear(
-          state.recipient,
-          state.title,
-          state.description,
-          state.image.cid
-        );
-      } else {
-        state.sdk.defaultMint(
-          state.recipient,
-          state.title,
-          state.description,
-          state.selectedChain,
-          state.image.cid,
-          state.isSoulBound
-        );
-      }
+      state.sdk.mint(
+        state.recipient,
+        state.title,
+        state.description,
+        state.selectedChain,
+        state.image.cid,
+        state.isSoulBound
+      );
     } catch (error) {
       console.log(error);
     }
