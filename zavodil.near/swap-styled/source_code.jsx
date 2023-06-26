@@ -785,7 +785,7 @@ return (
     <div class="swap-root">
       <div class="swap-main-container">
         <div class="swap-main-column">
-          <div class="swap-page">
+          <div class="swap-page" style={{ border: "none", outline: "none" }}>
             {false && state.network && state.dexName && (
               <span class="swap-header">
                 {state.dexName} ({state.network})
