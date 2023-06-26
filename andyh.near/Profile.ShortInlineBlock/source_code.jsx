@@ -2,7 +2,7 @@ const accountId = props.accountId;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-const name = profile.name;
+const name = profile?.name;
 
 const inner = (
   <div className="d-flex flex-row">
