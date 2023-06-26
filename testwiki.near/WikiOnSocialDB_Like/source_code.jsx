@@ -131,6 +131,7 @@ const updateLikesStatisticsIfUserVoted = (newEmoji) => {
 const handleOnMouseEnter = (e) => {
   State.update({ show: true });
 };
+
 const handleOnMouseLeave = (e) => {
   State.update({ show: false });
 };
@@ -188,9 +189,9 @@ const Button = styled.button`
 `;
 
 const SmallButton = styled.button`
+position: relative;
   border: 0;
   background: transparent;
-  position: relative;
   width: 35px;
   height: 35px;
 `;
@@ -205,15 +206,56 @@ const SmallButtonSpan = styled.span`
       height: 40px;
       transform: translateX(-50%) translateY(-50%);
   }
+  
+  @media (max-width: 599px) {
+      ::before { 
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(255, 255, 255, .4);
+          content: "";}
+      :hover{
+      ::before { 
+          position: absolute;
+          width: 100%;
+          height: 120%;
+          background-color: rgba(255, 255, 255, .4);
+          content: "";}
+  }
+      
+  }
 `;
 
-// =============== JSX ===============
-const overlay = (
-  <div
-    className="border m-2 p-2 rounded-4 bg-white shadow"
-    style={{ maxWidth: "27em", height: "3.2em", zIndex: 1070 }}
+const EmojiWrapper = styled.div`
+display: inline-block;
+position: relative;
+overflow: visible !important;
+padding-left: 8px;
+`;
+
+const EmojiListWrapper = styled.div`
+display: flex;
+flex-wrap: wrap;
+padding: 0.5rem;
+background: white;
+border-radius: 1rem;
+width: 12rem;
+box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+@media (min-width: 600px) {
+    display: ${({ show }) => (show ? "flex" : "none")};
+    height: 3.2rem;
+    width: auto;
+    flex-wrap: nowrap;
+    position: absolute;
+    zIndex: 2
+  }
+`;
+
+const Overlay = () => (
+  <EmojiListWrapper
     onMouseEnter={handleOnMouseEnter}
     onMouseLeave={handleOnMouseLeave}
+    show={state.show}
   >
     {emojiArray &&
       emojiArray.map((item) => (
@@ -230,34 +272,18 @@ const overlay = (
           </OverlayTrigger>
         </SmallButton>
       ))}
-  </div>
+  </EmojiListWrapper>
 );
 
 return (
-  <span className="ps-2">
-    <OverlayTrigger
-      show={state.show}
-      trigger={["hover", "focus"]}
-      delay={{ show: 250, hide: 300 }}
-      placement="auto"
-      overlay={overlay}
+  <EmojiWrapper>
+    <Button
+      onClick={() => clickHandler(initialEmoji)}
+      onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
     >
-      <Button
-        onClick={() => clickHandler(initialEmoji)}
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
-      >
-        {state.emoji === undefined ? initialEmoji : state.emoji}
-      </Button>
-    </OverlayTrigger>
-    {state.likesStatistics &&
-      state.likesStatistics.map((item) => (
-        <span className="ps-3">
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts, emoji: item.emoji }}
-          />
-        </span>
-      ))}
-  </span>
+      {state.emoji === undefined ? initialEmoji : state.emoji}
+    </Button>
+    <Overlay />
+  </EmojiWrapper>
 );
