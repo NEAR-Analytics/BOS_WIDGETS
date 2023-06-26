@@ -41,6 +41,7 @@ const renderItem = (a) => (
 
 return (
   <div>
+    here's your feed
     <Widget src="andyh.near/widget/IndexFeed" props={{ index, renderItem }} />
   </div>
 );
