@@ -7,7 +7,7 @@ const name = profile.name;
 const inner = (
   <div className="d-flex flex-row">
     <Widget
-      src="mob.near/widget/ProfileImage"
+      src="andyh.near/widget/ProfileImage"
       props={{
         metadata,
         accountId,
@@ -29,7 +29,7 @@ const inner = (
 
 return props.tooltip ? (
   <Widget
-    src="mob.near/widget/Profile.OverlayTrigger"
+    src="andyh.near/widget/Profile.OverlayTrigger"
     props={{ accountId, children: inner }}
   />
 ) : (
