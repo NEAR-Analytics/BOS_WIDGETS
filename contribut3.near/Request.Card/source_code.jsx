@@ -1,6 +1,8 @@
 const ownerId = "contribut3.near";
 const accountId = props.accountId;
 const cid = props.cid;
+const full = props.full ?? false;
+const large = props.large ?? false;
 
 State.init({
   request: null,
@@ -92,6 +94,8 @@ const deadline = (
   </Item>
 );
 
+const currency = state.request.source === "Credits" ? "NH" : "$";
+
 const budget = (
   <Item>
     <svg
@@ -109,7 +113,7 @@ const budget = (
         stroke-linejoin="round"
       />
     </svg>
-    NH {state.request.budget}
+    {currency} {state.request.budget}
   </Item>
 );
 
@@ -139,7 +143,7 @@ const body = (
     <Details>
       <Widget
         src={`${ownerId}/widget/Project.Icon`}
-        props={{ accountId: props.accountId, size: "2em" }}
+        props={{ accountId: props.accountId, size: "30px" }}
       />
       <Widget
         src={`${ownerId}/widget/NameAndAccount`}
@@ -151,7 +155,11 @@ const body = (
         }}
       />
     </Details>
-    <Title>{state.request.title}</Title>
+    <a
+      href={`/${ownerId}/widget/Index?tab=request&accountId=${accountId}&cid=${cid}`}
+    >
+      <Title>{state.request.title}</Title>
+    </a>
     <Widget
       src={`${ownerId}/widget/ActiveIndicator`}
       props={{
@@ -160,19 +168,22 @@ const body = (
         inactiveText: "Closed",
       }}
     />
-    <Widget
-      src={`${ownerId}/widget/DescriptionArea`}
-      props={{ description: state.request.description }}
-    />
-    <Widget
-      src={`${ownerId}/widget/Tags`}
-      props={{
-        tags: state.request.tags.reduce(
-          (ob, tag) => ({ ...ob, [tag]: "" }),
-          {}
-        ),
-      }}
-    />
+    {large ? (
+      <Widget
+        src={`${ownerId}/widget/DescriptionArea`}
+        props={{ description: state.request.description }}
+      />
+    ) : (
+      <Widget
+        src={`${ownerId}/widget/Tags`}
+        props={{
+          tags: state.request.tags.reduce(
+            (ob, tag) => ({ ...ob, [tag]: "" }),
+            {}
+          ),
+        }}
+      />
+    )}
     <Details>
       {deadline}
       {budget}
@@ -234,4 +245,10 @@ const footer = (
   </Footer>
 );
 
-return <Widget src={`${ownerId}/widget/Card`} props={{ body, footer }} />;
+if (large) {
+  return (
+    <Widget src={`${ownerId}/widget/Card`} props={{ body, footer, full }} />
+  );
+}
+
+return <Widget src={`${ownerId}/widget/Card`} props={{ body }} />;
