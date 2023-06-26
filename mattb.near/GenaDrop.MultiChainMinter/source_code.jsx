@@ -15,11 +15,13 @@ State.init({
   selectIsOpen: false,
   selectedChain: "0",
   customRecipient: false,
+  mintedNfts: [],
 });
 
-if (!!state.sdk && !state.sdk.initialized) {
-  state.sdk.init();
-  console.log(state.sdk.getMintedNfts());
+if (state.sdk.initialized) {
+  setTimeout(() => {
+    State.update({ mintedNfts: state.sdk.getMintedNfts() });
+  }, 1000);
 }
 
 const handleMint = () => {
@@ -886,8 +888,7 @@ return (
                   </>
                 </ImageUploadCard>
 
-                {state.sdk.initialized &&
-                state.sdk.getMintedNfts().length > 0 ? (
+                {state.mintedNfts.length > 0 ? (
                   <>
                     <HeaderBox
                       style={{
@@ -904,7 +905,7 @@ return (
                       </Heading>
                     </HeaderBox>
                     <HistoryBox>
-                      {state.sdk.getMintedNfts().map((nft) => (
+                      {state.mintedNfts.map((nft) => (
                         <HistoryNFTBox>
                           {!!nft.image && <img src={nft.image} alt="NFT" />}
                           <div className="details">
