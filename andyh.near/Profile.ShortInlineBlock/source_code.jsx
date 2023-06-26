@@ -11,7 +11,7 @@ const inner = (
       props={{
         // metadata,
         accountId,
-        widgetName,
+        // widgetName,
         style: { height: "2.5em", width: "2.5em", minWidth: "2.5em" },
         className: "me-2",
       }}
