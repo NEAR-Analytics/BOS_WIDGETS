@@ -113,7 +113,10 @@ const budget = (
         stroke-linejoin="round"
       />
     </svg>
-    <b>{currency}</b> {state.request.budget}
+    <b>{currency}</b>{" "}
+    {Number(state.request.budget).toLocaleString("en-US", {
+      notation: "compact",
+    })}
   </Item>
 );
 
