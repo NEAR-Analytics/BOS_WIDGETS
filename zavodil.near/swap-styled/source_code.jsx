@@ -977,7 +977,7 @@ return (
                       title="Click to switch"
                       onClick={() => switchNetwork(network.chainId)}
                     >
-                      &#8227; {network.name}
+                      &#8227; {network.name} ({network.dex})
                     </li>
                   </>
                 ) : (
