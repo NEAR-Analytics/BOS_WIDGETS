@@ -666,14 +666,6 @@ return (
           1 {selectedToken} = ${prices[selectedToken]}
         </span>
       </li>
-      <li>
-        <span>Network fee</span>
-        <span class="value">-</span>
-      </li>
-      <li>
-        <span>Polygon zkEVM fee</span>
-        <span class="value">-</span>
-      </li>
     </ul>
     <ActionButton onClick={handleConfirm} disabled={!isCorrectNetwork}>
       Confirm
