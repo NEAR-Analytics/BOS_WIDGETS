@@ -890,7 +890,8 @@ return (
                   </>
                 </ImageUploadCard>
 
-                {state.sdk.mintedNfts.length > 0 ? (
+                {state.sdk.getMintedNfts() &&
+                state.sdk.getMintedNfts().length > 0 ? (
                   <>
                     <HeaderBox
                       style={{
@@ -907,7 +908,7 @@ return (
                       </Heading>
                     </HeaderBox>
                     <HistoryBox>
-                      {state.sdk.mintedNfts.map((nft) => (
+                      {state.sdk.getMintedNfts().map((nft) => (
                         <HistoryNFTBox>
                           {!!nft.image && <img src={nft.image} alt="NFT" />}
                           <div className="details">
