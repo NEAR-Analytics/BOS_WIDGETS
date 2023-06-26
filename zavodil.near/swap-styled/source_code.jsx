@@ -3,31 +3,43 @@ const NETWORKS = [
     name: "NEAR",
     chainId: undefined,
     icon: "https://assets.coingecko.com/coins/images/10365/small/near.jpg",
+    dex: "Ref Finance",
   },
   {
     name: "ETH",
     chainId: 1,
     icon: "https://assets.coingecko.com/coins/images/279/small/ethereum.png",
+    dex: "Uniswap",
   },
   {
     name: "ZKSYNC",
     chainId: 324,
     icon: "https://lite.zksync.io/images/logo-no-letters.svg",
+    dex: "SyncSwap",
   },
   {
     name: "ZKEVM",
     chainId: 1101,
+    dex: "QuickSwap",
+    icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
+  },
+  {
+    name: "ZKEVM",
+    chainId: 1101,
+    dex: "Balancer",
     icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
   },
   {
     name: "AURORA",
     chainId: 1313161554,
     icon: "https://assets.coingecko.com/coins/images/20582/small/aurora.jpeg",
+    dex: "TriSolaris",
   },
   {
     name: "POLYGON",
     chainId: 137,
     icon: "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png",
+    dex: "Balancer",
   },
 ];
 
@@ -84,9 +96,10 @@ if (state.sender === undefined) {
 }
 
 const onDexDataLoad = (data) => {
-  console.log("onDexDataLoad", data);
+  console.log("!!!! onDexDataLoad", data);
   State.update({
     ...data,
+    forceReload: false,
     inputAsset: undefined,
     outputAsset: undefined,
     sender: getEVMAccountId(),
@@ -340,12 +353,6 @@ const onCallTxComple = (tx) => {
   });
 };
 
-const switchNetwork = (chainId) => {
-  Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${chainId.toString(16)}` },
-  ]);
-};
-
 const ContainerNetwork = styled.div`
   display: flex;
   align-items: center;
@@ -435,6 +442,20 @@ const caretSvg = (
 
 const { isNetworkSelectOpen } = state;
 const selectedChainId = state.selectedChainId ?? 0;
+const selectedDex = state.selectedDex;
+
+const switchNetwork = (chainId, dex) => {
+  console.log("switchNetwork", chainId, dex);
+  Ethers.send("wallet_switchEthereumChain", [
+    { chainId: `0x${chainId.toString(16)}` },
+  ]);
+  State.update({
+    selectedDex: dex,
+    isNetworkSelectOpen: false,
+    forceReload: true,
+  });
+  console.log("dex", dex);
+};
 
 const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
 
@@ -442,32 +463,58 @@ const openNetworkList = () => {
   State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
 };
 
+const getNetworkKey = (chainId, dex) => `${chainId ?? 0}_${dex ?? ""}`;
+
 const networks = {};
 NETWORKS.map(
   (network) =>
-    (networks[network.chainId ?? 0] = {
+    (networks[getNetworkKey(network.chainId, network.dex)] = {
+      chainId: network.chainId,
       name: network.name,
       icon: network.icon,
+      dex: network.dex,
     })
 );
 
+//console.log("networks", networks);
+console.log("state", state.selectedDex, networks);
+
 const getFromNetworkLabel = () => {
+  console.log("getFromNetworkLabel", selectedChainId, selectedDex);
+  if (!selectedDex && selectedChainId) {
+    console.log("selectedDex is missing");
+    let chainKeyDataArray = Object.keys(networks).filter(
+      (chainKey) => networks[chainKey].chainId == selectedChainId
+    );
+    console.log("chainKeyDataArray", chainKeyDataArray);
+    if (chainKeyDataArray.length) {
+      selectedDex = networks[chainKeyDataArray[0]].dex;
+    }
+  }
+  let network = networks[getNetworkKey(selectedChainId, selectedDex)];
   return (
     <>
-      <img style={{ width: "16px" }} src={networks[selectedChainId].icon} />
+      <img style={{ width: "16px" }} src={network.icon} />
       <span>
-        {networks[selectedChainId].name} {state.dexName}
+        {network.name} {network.dex}
       </span>
     </>
   );
 };
 
-const networksDropDown = Object.keys(networks).map((chainId) => (
-  <li onClick={() => switchNetwork(Number(chainId))}>
-    <img style={{ width: "16px" }} src={networks[chainId].icon} />
-    <span>{networks[chainId].name}</span>
-  </li>
-));
+const networksDropDown = Object.keys(networks).map((chainKey) => {
+  let network = networks[chainKey];
+  return (
+    <li
+      onClick={() => switchNetwork(Number(network.chainId), network.dex ?? "")}
+    >
+      <img style={{ width: "16px" }} src={network.icon} />
+      <span>
+        {network.name} {network.dex}
+      </span>
+    </li>
+  );
+});
 
 // OUTPUT
 
@@ -489,10 +536,13 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   );
 }
 
+console.log("selectedDex", state.selectedDex, selectedDex);
+//const prevSelectedDex =
+
 return (
   <Theme>
     <Widget
-      src="zavodil.near/widget/DexData"
+      src="zavodil.near/widget/DexData2"
       props={{
         onLoad: onDexDataLoad,
         NETWORK_NEAR,
@@ -501,6 +551,8 @@ return (
         NETWORK_ZKEVM,
         NETWORK_AURORA,
         NETWORK_POLYGON,
+        forceReload: state.forceReload ?? false,
+        DEX: state.selectedDex ?? "QuickSwap",
       }}
     />
 
