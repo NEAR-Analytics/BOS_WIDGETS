@@ -6,7 +6,7 @@ padding: 16px;
 gap: 16px;
 
 width: 358px;
-height: 387px;
+
 
 background: #F8F8F9;
 border-radius: 10px;
@@ -607,14 +607,13 @@ flex-grow: 0;
 
 const LowerSection = styled.div`
 display: flex;
+width: 326px;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
-padding: 0px;
 gap: 8px;
 
-width: 326px;
-height: 56px;
+
 
 
 /* Inside auto layout */
@@ -627,12 +626,11 @@ flex-grow: 0;
 const LowerSectionContainer = styled.div`
 display: flex;
 flex-direction: column;
+justify-content: center;
 align-items: flex-start;
-padding: 0px;
 gap: 8px;
+align-self: stretch;
 
-width: 326px;
-height: 56px;
 
 
 /* Inside auto layout */
@@ -760,105 +758,11 @@ order: 1;
 flex-grow: 0;
 `;
 
-const CommentButton = styled.button`
-box-sizing: border-box;
-
-/* Auto layout */
-
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 6.35294px 9.52941px;
-gap: 4.76px;
-
-width: 28px;
-height: 27px;
-
-border-radius: 4.76471px;
-
-/* Inside auto layout */
-
-flex: none;
-order: 0;
-flex-grow: 0;
-`;
-
-const CommentIcon = styled.img`
-width: 14.29px;
-height: 14.29px;
-
-
-/* Inside auto layout */
-
-flex: none;
-order: 0;
-flex-grow: 0;
-`;
-
-const ShareButton = styled.button`
-display: flex;
-flex-direction: row;
-align-items: flex-start;
-padding: 2px 12px;
-gap: 10px;
-
-width: 55px;
-height: 28px;
-
-/* Buttons/Yellow default */
-
-background: #FFD50D;
-border-radius: 4px;
-
-/* Inside auto layout */
-
-flex: none;
-order: 1;
-flex-grow: 0;
-`;
-
-const ShareButtonText = styled.p`
-width: 31px;
-height: 24px;
-
-font-family: 'Avenir';
-font-style: normal;
-font-weight: 500;
-font-size: 12px;
-margin: 0px;
-line-height: 24px;
-/* identical to box height, or 200% */
-
-
-/* Primary/Black */
-
-color: #000000;
-
-
-/* Inside auto layout */
-
-flex: none;
-order: 0;
-flex-grow: 0;
-`;
-
 const TagSection = styled.div`
 display: flex;
-flex-direction: row;
-align-items: center;
-padding: 0px;
-gap: 12px;
-
-width: 294px;
-height: 20px;
-
-
-/* Inside auto layout */
-
-flex: none;
-order: 1;
-flex-grow: 0;
+width: 160px;
+align-items: flex-start;
+gap: 4px;
 `;
 
 const Tag = styled.div`
@@ -913,6 +817,85 @@ order: 0;
 flex-grow: 0;
 `;
 
+const CommentButtonDiv = styled.button`
+display: flex;
+padding: 2px 12px;
+align-items: center;
+gap: 6px;
+border-radius: 4px;
+`;
+
+const CommentButtonCounter = styled.p`
+font-size: 12px;
+font-family: Avenir;
+font-weight: 500;
+line-height: 24px;
+margin: 0px;
+background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+`;
+
+const CommentButtonIcon = styled.img`
+width: 14px;
+height: 14px;
+`;
+
+const TagSectionContainer = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+align-self: stretch;
+`;
+
+const ViewButtonContainer = styled.div`
+display: flex;
+padding: 0px 0px 0px 8px;
+align-items: flex-start;
+gap: 8px;
+`;
+
+const ViewButtonDiv = styled.button`
+display: flex;
+padding: 2px 12px;
+align-items: flex-start;
+gap: 10px;
+border-radius: 4px;
+`;
+
+const ViewButtonText = styled.p`
+font-size: 12px;
+font-family: Avenir;
+font-weight: 500;
+line-height: 24px;
+margin: 0px;
+background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+`;
+
+const ShareButtonDiv = styled.button`
+display: flex;
+padding: 2px 12px;
+align-items: flex-start;
+gap: 10px;
+border-radius: 4px;
+background: var(--buttons-yellow-default, #FFD50D);
+`;
+
+const ShareButtonText = styled.p`
+color: var(--primary-black, #000);
+font-size: 12px;
+font-family: Avenir;
+font-weight: 500;
+line-height: 24px;
+margin: 0px;
+`;
+
 return (
   <Card>
     <HeaderCard>
@@ -941,10 +924,6 @@ return (
       <CollapseCandidateContent>
         <CollapseCandidateHeader>
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
-          <DownArrow
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmUe669UNXXtEfpqtyb1iweWtxhtXPApZifppk2ueWrzmU?_gl=1*1mt5eql*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjEuMTY4Njk0MTEzNS42MC4wLjA."
-            alt="pic"
-          ></DownArrow>
         </CollapseCandidateHeader>
         <CandidateTagContainer>
           <CandidateTag>
@@ -964,7 +943,7 @@ return (
         <KeyIssuesContainer>
           <KeyIssue>
             <KeyIssueHeader>
-              <KeyIssueTitle>Near Foundation</KeyIssueTitle>
+              <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
               Lorem ipsum dolor sit amet consectetur.
@@ -973,7 +952,7 @@ return (
           </KeyIssue>
           <KeyIssue>
             <KeyIssueHeader>
-              <KeyIssueTitle>Aurora</KeyIssueTitle>
+              <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
               Lorem ipsum dolor sit amet consectetur.
@@ -982,7 +961,7 @@ return (
           </KeyIssue>
           <KeyIssue>
             <KeyIssueHeader>
-              <KeyIssueTitle>Near Inc</KeyIssueTitle>
+              <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
               Lorem ipsum dolor sit amet consectetur.
@@ -1001,28 +980,33 @@ return (
               alt="pic"
             ></ClockIcon>
             <TimestampText>2 hours ago by user.near</TimestampText>
-            <CommentsCounter>+20</CommentsCounter>
           </TextLowerSectionContainer>
-          <ButtonsContainer>
-            <CommentButton>
-              <CommentIcon
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*17m9gwx*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4Njk0NzU3Mi41LjEuMTY4Njk0OTA2Ny40OS4wLjA."
-                alt="pic"
-              ></CommentIcon>
-            </CommentButton>
-            <ShareButton>
-              <ShareButtonText>Share</ShareButtonText>
-            </ShareButton>
-          </ButtonsContainer>
+          <CommentButtonDiv>
+            <CommentButtonCounter>+20</CommentButtonCounter>
+            <CommentButtonIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
+              alt="pic"
+            ></CommentButtonIcon>
+          </CommentButtonDiv>
         </ButtonsLowerSection>
-        <TagSection>
-          <Tag>
-            <TagText>#amazing</TagText>
-          </Tag>
-          <Tag>
-            <TagText>#thankyou</TagText>
-          </Tag>
-        </TagSection>
+        <TagSectionContainer>
+          <TagSection>
+            <Tag>
+              <TagText>#amazing</TagText>
+            </Tag>
+            <Tag>
+              <TagText>#thankyou</TagText>
+            </Tag>
+          </TagSection>
+          <ViewButtonContainer>
+            <ViewButtonDiv>
+              <ViewButtonText>View</ViewButtonText>
+            </ViewButtonDiv>
+            <ShareButtonDiv>
+              <ShareButtonText>Share</ShareButtonText>
+            </ShareButtonDiv>
+          </ViewButtonContainer>
+        </TagSectionContainer>
       </LowerSectionContainer>
     </LowerSection>
   </Card>
