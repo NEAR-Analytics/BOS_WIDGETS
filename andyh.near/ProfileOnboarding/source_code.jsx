@@ -23,8 +23,8 @@ if (profile === null) {
   return "";
 }
 
-const name = profile.name;
-const image = profile.image;
+const name = profile?.name;
+const image = profile?.image;
 
 const editProfileButton = (
   <div>
