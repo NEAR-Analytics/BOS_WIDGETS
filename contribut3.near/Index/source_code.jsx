@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 
 State.init({
   search: props.search ?? "",
@@ -213,7 +213,9 @@ const tabContent = {
     />
   ),
   partners: <Widget src={`${ownerId}/widget/Application.Page`} />,
-  partner: <Widget src={`${ownerId}/widget/Application.DetailPage`} />,
+  partner: (
+    <Widget src={`${ownerId}/widget/Application.DetailPage`} props={props} />
+  ),
 }[state.tab];
 
 const ContentContainer = styled.div`
@@ -238,6 +240,22 @@ const Sidebar = styled.div`
   flex-direction: row;
   position: sticky;
   top: 0;
+
+  @media screen and (max-width: 768px) {
+    & > div {
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    & > div {
+      &:first-child {
+        display: none;
+      }
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -245,6 +263,10 @@ const Content = styled.div`
   flex-direction: row;
   position: relative;
   width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Container = styled.div``;
@@ -287,7 +309,11 @@ return (
       <Sidebar show={showSidebar}>
         <Widget
           src={`${ownerId}/widget/Sidebar`}
-          props={{ tab: state.tab, update }}
+          props={{ tab: state.tab, update, collapsible: true }}
+        />
+        <Widget
+          src={`${ownerId}/widget/Sidebar`}
+          props={{ tab: state.tab, update, collapsible: false }}
         />
       </Sidebar>
       <ContentContainer className={isForm ? "form" : ""}>
