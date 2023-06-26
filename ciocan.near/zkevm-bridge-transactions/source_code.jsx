@@ -67,6 +67,7 @@ const Layout = styled.div`
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                width: 100px;
             }
         }
     }
@@ -295,7 +296,7 @@ return (
             </div>
             <button disabled={isPending} onClick={() => claimTransaction(t)}>
               <span>Claim</span>
-              {isPending && <span>(pending...)</span>}
+              {isPending && <span>(pending... arrive in ~60 mins)</span>}
             </button>
           </li>
         );
@@ -329,6 +330,7 @@ return (
                 Tx info
               </a>
               <span class="date">{t.timestamp.slice(0, -8)}</span>
+              <span>Funds will arrive in ~15 mins</span>
             </div>
           </li>
         );
