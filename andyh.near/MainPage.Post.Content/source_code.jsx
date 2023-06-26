@@ -19,7 +19,7 @@ return content ? (
     {content.image &&
       (raw ? (
         <div>
-          <pre>{/*JSON.stringify(content.image, undefined, 2)*/}hey</pre>
+          <pre>{JSON.stringify(content.image, undefined, 2)}</pre>
         </div>
       ) : (
         <div className="w-100 rounded-3 text-center">
