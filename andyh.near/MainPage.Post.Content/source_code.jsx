@@ -14,7 +14,7 @@ return content ? (
       (raw ? (
         <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
       ) : (
-        <span>text here</span>
+        <span>{content.text}</span>
       ))}
     {content.image &&
       (raw ? (
