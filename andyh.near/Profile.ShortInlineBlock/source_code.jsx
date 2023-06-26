@@ -28,10 +28,10 @@ const inner = (
 );
 
 return props.tooltip ? (
-  <>
-    <span>src="andyh.near/widget/Profile.OverlayTrigger"</span>
-    <span>props= accountId, children: inner</span>
-  </>
+  <Widget
+    src="andyh.near/widget/Profile.OverlayTrigger"
+    props={{ accountId, children: inner }}
+  />
 ) : (
   inner
 );
