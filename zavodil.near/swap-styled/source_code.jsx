@@ -170,7 +170,10 @@ const assetContainer = (
     : "asset-container-bottom";
   return (
     <>
-      <div class={`${assetContainerClass} asset-container`}>
+      <div
+        class={`${assetContainerClass} asset-container`}
+        style={{ border: 0 }}
+      >
         <div class="swap-currency-input">
           <div class="swap-currency-input-block">
             <div class="swap-currency-input-top">
