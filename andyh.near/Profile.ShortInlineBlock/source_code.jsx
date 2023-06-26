@@ -9,7 +9,7 @@ const inner = (
     <Widget
       src="andyh.near/widget/ProfileImage"
       props={{
-        metadata,
+        // metadata,
         accountId,
         widgetName,
         style: { height: "2.5em", width: "2.5em", minWidth: "2.5em" },
