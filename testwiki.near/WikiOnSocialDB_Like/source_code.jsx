@@ -285,14 +285,5 @@ return (
       {state.emoji === undefined ? initialEmoji : state.emoji}
     </Button>
     <Overlay />
-    {state.likesStatistics &&
-      state.likesStatistics.map((item) => (
-        <span className="ps-3">
-          <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts, emoji: item.emoji }}
-          />
-        </span>
-      ))}
   </EmojiWrapper>
 );
