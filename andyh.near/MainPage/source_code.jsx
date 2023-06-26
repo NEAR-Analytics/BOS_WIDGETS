@@ -1,22 +1,12 @@
 return (
   <>
-    {context.accountId && <Widget src="andyh.near/widget/ProfileOnboarding" />}
-    <Widget
-      src="andyh.near/widget/MainPage.FeaturedApps"
-      props={{}}
-      trust={{ mode: "trusted-author" }}
-    />
+    {context.accountId && <Widget src="mob.near/widget/ProfileOnboarding" />}
+    <Widget src="mob.near/widget/MainPage.FeaturedApps" props={{}} />
     <div className="row mb-3">
-      <Widget
-        src="andyh.near/widget/Applications"
-        trust={{ mode: "trusted-author" }}
-      />
+      <Widget src="mob.near/widget/Applications" />
     </div>
     <div className="row mb-3">
-      <Widget
-        src="andyh.near/widget/People"
-        trust={{ mode: "trusted-author" }}
-      />
+      <Widget src="mob.near/widget/People" />
     </div>
     <div className="row mb-3">
       <div>
@@ -38,7 +28,7 @@ return (
         <div className="mb-2 d-flex gap-2 flex-wrap">
           <a
             className="btn btn-outline-secondary border-0"
-            href="#/andyh.near/widget/ProfilePage?accountId=self.social.near"
+            href="#/mob.near/widget/ProfilePage?accountId=self.social.near"
           >
             <i className="bi bi-person-circle"></i>
           </a>
@@ -73,16 +63,11 @@ return (
     <div className="row mb-3">
       <div className="col-md-8">
         <h4>Follow activity</h4>
-        {/*
-        <Widget src="andyh.near/widget/FollowFeed" trust={{ mode: "trusted-author" }} />
-        */}
+        <Widget src="mob.near/widget/FollowFeed" />
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
-        <Widget
-          src="andyh.near/widget/PokeFeed"
-          trust={{ mode: "trusted-author" }}
-        />
+        <Widget src="mob.near/widget/PokeFeed" />
       </div>
     </div>
   </>
