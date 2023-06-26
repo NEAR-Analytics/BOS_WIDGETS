@@ -6,7 +6,7 @@ const name = profile?.name;
 
 const inner = (
   <div className="d-flex flex-row">
-    {/*<Widget
+    <Widget
       src="andyh.near/widget/ProfileImage"
       props={{
         // metadata,
@@ -15,7 +15,7 @@ const inner = (
         style: { height: "2.5em", width: "2.5em", minWidth: "2.5em" },
         className: "me-2",
       }}
-    />*/}
+    />
     <div className="text-truncate lh-sm">
       <div className="text-truncate fw-bold">{name}</div>
       <div className="text-truncate text-muted">
