@@ -22,7 +22,7 @@ return (
           "now"
         ) : (
           <a className="text-muted" href={link}>
-            <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+            <Widget src="andyh.near/widget/TimeAgo" props={{ blockHeight }} />
           </a>
         )}
       </small>
@@ -47,14 +47,14 @@ return (
             </li>
             <li>
               <Widget
-                src="mob.near/widget/MainPage.Common.HideAccount"
+                src="andyh.near/widget/MainPage.Common.HideAccount"
                 props={{ accountId }}
               />
             </li>
             {props.flagItem && (
               <li>
                 <Widget
-                  src="mob.near/widget/MainPage.Common.FlagContent"
+                  src="andyh.near/widget/MainPage.Common.FlagContent"
                   props={{
                     item: props.flagItem,
                     label: `Flag ${postType} for moderation`,
