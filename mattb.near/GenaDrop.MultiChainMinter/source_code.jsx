@@ -17,6 +17,11 @@ State.init({
   customRecipient: false,
 });
 
+if (!!state.sdk && !state.sdk.initialized) {
+  state.sdk.init();
+  console.log(state.sdk.getMintedNfts());
+}
+
 const handleMint = () => {
   if (!state.image.cid) {
     return;
@@ -881,7 +886,7 @@ return (
                   </>
                 </ImageUploadCard>
 
-                {state.sdk.getMintedNfts() &&
+                {state.sdk.initialized &&
                 state.sdk.getMintedNfts().length > 0 ? (
                   <>
                     <HeaderBox
