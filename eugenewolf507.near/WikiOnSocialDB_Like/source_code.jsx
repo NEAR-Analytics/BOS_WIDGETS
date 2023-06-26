@@ -1,4 +1,4 @@
-const authorForWidget = "eugenewolf507.near";
+const authorForWidget = "testwiki.near";
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 const emojiArray = [
