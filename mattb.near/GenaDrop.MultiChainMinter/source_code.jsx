@@ -1021,8 +1021,5 @@ return (
     ) : (
       "Loading..."
     )}
-    <button onClick={() => console.log(state.sdk.getMintedNfts())}>
-      Debug
-    </button>
   </div>
 );
