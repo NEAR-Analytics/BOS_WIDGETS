@@ -3,7 +3,7 @@ const index = {
   key: "follow",
   options: {
     subscribe: true,
-    limit: 50,
+    limit: 5,
     order: "desc",
   },
 };
@@ -13,35 +13,37 @@ const Item = styled.div`
   overflow-x: hidden;
 `;
 
-const renderItem = (a) => (
-  <Item key={JSON.stringify(a)} className="mb-2">
-    <Widget
-      src="andyh.near/widget/ProfileLine"
-      props={{ accountId: a.accountId, hideAccountId: true, tooltip: true }}
-    />
-    <span className="text-muted">
-      {a.value.type === "follow" ? "followed" : "unfollowed"}
-    </span>
-    <Widget
-      src="andyh.near/widget/ProfileLine"
-      props={{
-        accountId: a.value.accountId,
-        hideAccountId: true,
-        tooltip: true,
-      }}
-    />
-    <span className="text-muted">
+const renderItem = (a) => {
+  console.log({ a });
+  return (
+    <Item key={JSON.stringify(a)} className="mb-2">
       <Widget
-        src="andyh.near/widget/TimeAgo"
-        props={{ blockHeight: a.blockHeight }}
+        src="andyh.near/widget/ProfileLine"
+        props={{ accountId: a.accountId, hideAccountId: true, tooltip: true }}
       />
-    </span>
-  </Item>
-);
+      <span className="text-muted">
+        {a.value.type === "follow" ? "followed" : "unfollowed"}
+      </span>
+      <Widget
+        src="andyh.near/widget/ProfileLine"
+        props={{
+          accountId: a.value.accountId,
+          hideAccountId: true,
+          tooltip: true,
+        }}
+      />
+      <span className="text-muted">
+        <Widget
+          src="andyh.near/widget/TimeAgo"
+          props={{ blockHeight: a.blockHeight }}
+        />
+      </span>
+    </Item>
+  );
+};
 
 return (
   <div>
-    here's your feed
     <Widget src="andyh.near/widget/IndexFeed" props={{ index, renderItem }} />
   </div>
 );
