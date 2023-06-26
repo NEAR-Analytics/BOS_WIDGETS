@@ -677,8 +677,7 @@ const HistoryNFTBox = styled.div`
 
   img {
     background-color:rgba(0,0,0,.05);
-    height:100%;
-    max-height:100px;
+    height:100px;
     border-radius:.5rem;
   }
 
