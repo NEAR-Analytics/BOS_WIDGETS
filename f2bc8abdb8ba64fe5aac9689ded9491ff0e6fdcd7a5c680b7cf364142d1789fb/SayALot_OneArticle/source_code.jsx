@@ -42,6 +42,7 @@ const writersWhiteList = [
   "yuensid.near",
   "shubham007.near",
 ];
+
 const doesUserCanEditArticle = () => {
   const canOnlyAuthorEdit = true;
   const isAccountIdInWhiteList = writersWhiteList.some(
