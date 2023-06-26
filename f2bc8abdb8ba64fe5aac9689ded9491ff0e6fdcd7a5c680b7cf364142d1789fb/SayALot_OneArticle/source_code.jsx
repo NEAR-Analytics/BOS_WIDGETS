@@ -43,11 +43,17 @@ const writersWhiteList = [
   "shubham007.near",
 ];
 const doesUserCanEditArticle = () => {
+  const canOnlyAuthorEdit = true;
   const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
   );
   const isAccountIdEqualsAuthor = accountId === state.article.author;
-  return isAccountIdInWhiteList || isAccountIdEqualsAuthor ? true : false;
+
+  if (canOnlyAuthorEdit) {
+    return isAccountIdEqualsAuthor;
+  } else {
+    return isAccountIdInWhiteList;
+  }
 };
 
 // ======= GET DATA TO ATACH COMMENTS TO THE ARTICLE =======
