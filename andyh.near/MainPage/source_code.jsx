@@ -1,7 +1,7 @@
 return (
   <>
     {context.accountId && <Widget src="andyh.near/widget/ProfileOnboarding" />}
-    <Widget src="mob.near/widget/MainPage.FeaturedApps" props={{}} />
+    <Widget src="andyh.near/widget/MainPage.FeaturedApps" props={{}} />
     <div className="row mb-3">
       <Widget src="mob.near/widget/Applications" />
     </div>
