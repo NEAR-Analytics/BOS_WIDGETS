@@ -1,9 +1,4 @@
-console.log("loading!");
-
 const content = props.content;
-// const content = JSON.parse(
-//   `{"type":"md","text":"NEAR Regional Community DAO Council Member Self Nomination Process:n1. I'm Jerome Frank (Jeromemrys), \\n"}`
-// );
 
 const raw = !!props.raw;
 console.log({ raw, content });
