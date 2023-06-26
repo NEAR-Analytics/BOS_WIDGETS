@@ -11,31 +11,7 @@ State.init({
 
 // composeData function remains the same
 const composeData = () => {
-  const daoId = "test-og-sbt.sputnik-dao.near";
-
-  const content = {
-    text: state.content,
-  };
-
-  const post_args = JSON.stringify({
-    data: {
-      [daoId]: {
-        post: {
-          main: JSON.stringify(content),
-        },
-        index: {
-          post: JSON.stringify({
-            key: "main",
-            value: {
-              type: "md",
-            },
-          }),
-        },
-      },
-    },
-  });
-
-  return post_args;
+  //...existing composeData function
 };
 
 // function to compose and encode data
@@ -76,8 +52,8 @@ return (
                         {
                           method_name: "set",
                           args: encodedArgs,
-                          deposit: "100000000000000000000000",
-                          gas: "219000000000000",
+                          deposit: "0",
+                          gas: "150000000000000",
                         },
                       ],
                     },
@@ -89,7 +65,7 @@ return (
                 "test-og-sbt.sputnik-dao.near",
                 "add_proposal",
                 proposal,
-                "219000000000000Tg"
+                "300Tg"
               );
 
               onCompose();
