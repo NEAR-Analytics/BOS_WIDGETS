@@ -381,6 +381,15 @@ const {
   prices,
 } = state;
 
+const isTestnet = chainId === 5 || chainId === 1442;
+const isMainnet = chainId === 1 || chainId === 1101;
+
+const switchNetwork = (chainId) => {
+  Ethers.send("wallet_switchEthereumChain", [
+    { chainId: `0x${chainId.toString(16)}` },
+  ]);
+};
+
 const coins = Object.keys(coinsMap);
 const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
   ","
@@ -436,14 +445,27 @@ const updateBalance = (token) => {
 tokens.filter((t) => t.chainId === chainId).map(updateBalance);
 
 const changeNetwork = (network) => {
+  console.log(network);
   State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
+  if (isTestnet) {
+    if (network === "polygon") {
+      switchNetwork(1442);
+    } else {
+      switchNetwork(5);
+    }
+  } else {
+    if (network === "polygon") {
+      switchNetwork(1101);
+    } else {
+      switchNetwork(1);
+    }
+  }
 };
 
 const openNetworkList = () => {
   State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
 };
 
-const isMainnet = chainId === 1 || chainId === 1101;
 const isCorrectNetwork = Object.keys(networks)
   .map((n) => Number(n))
   .includes(chainId);
