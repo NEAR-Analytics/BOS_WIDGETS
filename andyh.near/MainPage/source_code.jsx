@@ -1,6 +1,6 @@
 return (
   <>
-    {context.accountId && <Widget src="mob.near/widget/ProfileOnboarding" />}
+    {context.accountId && <Widget src="andyh.near/widget/ProfileOnboarding" />}
     <Widget src="mob.near/widget/MainPage.FeaturedApps" props={{}} />
     <div className="row mb-3">
       <Widget src="mob.near/widget/Applications" />
