@@ -54,7 +54,6 @@ const renderTag = (tag, tagBadge) => (
 );
 
 const renderItem = (a) => {
-  console.log({ a });
   return (
     <a
       href={`#/${a?.accountId}/widget/${a?.widgetName}`}
