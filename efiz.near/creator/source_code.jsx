@@ -1,5 +1,6 @@
 const data = props.data || {};
 const type = props.type || "";
+const typeSrc = props.typeSrc || "every.near";
 
 const Container = styled.div`
     display: flex;
@@ -86,7 +87,7 @@ const Row = styled.div`
 State.init({
   data,
   isModalOpen: false,
-  typeSrc: "every.near",
+  typeSrc,
   selectedType: type,
 });
 
@@ -200,10 +201,7 @@ return (
     </SidePanel>
     <MainContent>
       <Header></Header>
-      <Widget
-        src="efiz.near/widget/Every.Thing.View"
-        props={{ path: state.template, data: state.config }}
-      />
+      <Widget src={state.template} props={{ data: state.config }} />
     </MainContent>
     {state.isModalOpen && (
       <ModalOverlay>
