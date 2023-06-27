@@ -42,7 +42,7 @@ return (
     )}
 
     <Widget
-      src="mob.near/widget/WidgetIcons"
+      src="andyh.near/widget/WidgetIcons"
       props={{ tag: "app", limit: 24 }}
     />
   </div>
