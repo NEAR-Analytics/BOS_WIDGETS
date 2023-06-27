@@ -1,7 +1,7 @@
 const srcCode = `<!DOCTYPE html>
 <html>
   <head>
-    <title>Guess The RegenWise Word Game 1</title>
+    <title>Guess The RegenWise Word Game</title>
     <style>
       .canvas-container {
         position: relative;
@@ -146,23 +146,22 @@ const srcCode = `<!DOCTYPE html>
         width: 100%;
         max-width: 1000px;
         margin: 0 0;
+                text-align:center;
         justify-content: center;
         flex-direction: column;
         gap: 1em;
       "
     >
-        
     <div style="
-    context.textAlign = 'center';
-    position: relative;
-    width: 100%;    
-    background-color: #ffffff;
-    color: #000000;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-weight: bolder;
-    font-size: 2vw;
-    line-height: 0.3em;">
-        Guess The RegenWise Word (GTRW) Game 1
+        display:flex;
+        width: 100%;    
+        background-color: #ffffff;
+        color: #000000;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bolder;
+        font-size: 2vw;
+        line-height: 0.3em;">
+        Guess The RegenWise Word (GTRW) Game
     </div>
       <div class="canvas-container">
         <canvas id="bgCanvas" width="1000" height="500"></canvas>
