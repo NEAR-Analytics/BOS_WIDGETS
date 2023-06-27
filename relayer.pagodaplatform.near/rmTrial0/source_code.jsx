@@ -149,7 +149,7 @@ const srcCode = `<!DOCTYPE html>
     color: #000000;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: bolder;
-    font-size: 8vw;
+    font-size: 2vw;
     line-height: 1.5em;">
         Guess The RegenWise Word (GTRW) Game 1
     </div>
