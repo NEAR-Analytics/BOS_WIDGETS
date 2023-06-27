@@ -1,6 +1,11 @@
 const data = props.data || {};
 const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
+const onChange = props.onChange;
+if (type !== "") {
+  const parts = type.split("/");
+  typeSrc = parts[0];
+}
 
 const Container = styled.div`
     display: flex;
@@ -89,6 +94,7 @@ State.init({
   isModalOpen: false,
   typeSrc,
   selectedType: type,
+  view: "CREATE_THING",
 });
 
 const handleOnChange = (value) => {
@@ -130,6 +136,9 @@ const handleSave = () => {
         isModalOpen: false,
         config: undefined,
       });
+      if (onChange) {
+        onChange(data);
+      }
     },
     onCancel: () => {
       State.update({
