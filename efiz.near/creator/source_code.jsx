@@ -1,7 +1,8 @@
 const data = props.data || {};
 const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
-const onChange = props.onChange;
+const edges = props.edges || [];
+
 if (type !== "") {
   const parts = type.split("/");
   typeSrc = parts[0];
@@ -127,6 +128,7 @@ const handleSave = () => {
           type: state.selectedType,
         },
       }),
+      ...edges,
     },
   };
   Social.set(data, {
@@ -136,9 +138,6 @@ const handleSave = () => {
         isModalOpen: false,
         config: undefined,
       });
-      if (onChange) {
-        onChange(data);
-      }
     },
     onCancel: () => {
       State.update({
