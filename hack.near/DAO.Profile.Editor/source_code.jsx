@@ -65,7 +65,7 @@ const handleProposal = () => {
                   method_name: "set",
                   args: proposal_args,
                   deposit: "80000000000000000000000",
-                  gas: "299000000000000",
+                  gas: "280000000000000",
                 },
               ],
             },
@@ -73,7 +73,7 @@ const handleProposal = () => {
         },
       },
       deposit: deposit,
-      gas: "299000000000000",
+      gas: "280000000000000",
     },
   ]);
 };
@@ -92,7 +92,7 @@ const handleCreate = () => {
         args: dao_args,
       },
       deposit: "7000000000000000000000000",
-      gas: "299000000000000",
+      gas: "280000000000000",
     },
   ]);
 };
