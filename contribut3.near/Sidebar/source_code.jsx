@@ -132,12 +132,14 @@ const navSection = ({ title, items }) => (
 
 const NavContainer = styled.div`
   display: flex;
+  padding: 0rem 1rem 1.5rem 0rem;
   flex-direction: column;
-  margin-right: 2.5em;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 1.875rem;
+  align-self: stretch;
 
   &.inner {
-    margin-right: 0;
+    gap: 0.5rem;
   }
 
   @media screen and (max-width: 768px) {
