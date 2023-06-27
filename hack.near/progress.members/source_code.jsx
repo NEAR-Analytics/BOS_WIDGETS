@@ -12,10 +12,6 @@ const group = policy.roles
 
 const totalMembers = group[0].length;
 
-const humans = Near.view("registry.i-am-human.near", "sbt_supply", {
-  issuer: "fractal.i-am-human.near",
-});
-
 const MainWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -194,8 +190,8 @@ const propsSize = props.size ? props.size : "large";
 
 console.log("propsSize", propsSize);
 
-const totalUsrNum = humans;
-const percentage = Math.round((totalMembers / humans) * 100);
+const totalUsrNum = 300;
+const percentage = Math.round((totalMembers / 300) * 100);
 const widgetTitle = props.infoTitle ? props.infoTitle : "Total Members";
 
 return (
