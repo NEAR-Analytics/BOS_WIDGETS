@@ -69,7 +69,7 @@ return (
   <>
     <Banner className="d-flex justify-content-between">
       <a href={href("Feed")}>
-        <img src="https://ipfs.near.social/ipfs/bafkreibjsn3gswlcc5mvgkfv7ady2lzkd2htm55l472suarbd34qryh2uy"></img>
+        <img src="https://ipfs.near.social/ipfs/bafkreietpqkdscgk4fqh6rydb6kuaban32a2aogkxnur7pc3xotr32mjki"></img>
       </a>
       <div>
         <a href="#" class="text-white me-2"></a>
