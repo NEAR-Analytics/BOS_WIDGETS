@@ -71,12 +71,12 @@ initState({
   // Should be a list of labels as strings.
   // Both of the label structures should be modified together.
   labelStrings,
-  postType: "Updates",
+  postType: "",
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "",
   token: props.token ?? "NEAR",
-  supervisor: props.supervisor ?? "neardevgov.near",
+  supervisor: props.supervisor ?? "near-analytics.near",
   githubLink: props.githubLink ?? "",
   warning: "",
 });
@@ -104,7 +104,7 @@ const onSubmit = () => {
     ),
   };
 
-  if (state.postType === "Announcements") {
+  if (state.postType === "Announcement") {
     body = {
       ...body,
       post_type: "Submission",
@@ -114,7 +114,7 @@ const onSubmit = () => {
     // Idea
     body = {
       ...body,
-      post_type: "Updates",
+      post_type: "Update",
       idea_version: "V1",
     };
   }
@@ -165,11 +165,11 @@ const onSubmit = () => {
 };
 
 const onIdeaClick = () => {
-  State.update({ postType: "Updates", seekingFunding: false });
+  State.update({ postType: "Update", seekingFunding: false });
 };
 
 const onSolutionClick = () => {
-  State.update({ postType: "Announcements" });
+  State.update({ postType: "Announcement" });
 };
 
 const normalizeLabel = (label) =>
@@ -436,7 +436,7 @@ return (
               type="button"
               class={`btn btn-outline-secondary`}
               style={
-                state.postType === "Updates"
+                state.postType === "Update"
                   ? {
                       backgroundColor: "#0C7283",
                       color: "#f3f3f3",
@@ -445,14 +445,14 @@ return (
               }
             >
               <i class="bi bi-lightbulb"></i>
-              Updates
+              Update
             </button>
             <button
               onClick={onSolutionClick}
               type="button"
               class={`btn btn-outline-secondary`}
               style={
-                state.postType !== "Updates"
+                state.postType !== "Update"
                   ? {
                       backgroundColor: "#0C7283",
                       color: "#f3f3f3",
@@ -461,12 +461,12 @@ return (
               }
             >
               <i class="bi bi-rocket"></i>
-              Announcements
+              Announcement
             </button>
           </div>
           <p class="text-muted w-75 my-1">
-            {state.postType === "Updates"
-              ? "Weekly TownHall updates, project updates, or other updates related to the NEAR Ecosystem."
+            {state.postType === "Update"
+              ? "Weekly TownHall update, project update, or other update related to the NEAR Ecosystem."
               : "Provide a specific announcement to the followers of the account."}
           </p>
           {state.warning && (
@@ -488,7 +488,7 @@ return (
             {nameDiv}
             {descriptionDiv}
             {labelEditor}
-            {state.postType === "Announcements"}
+            {state.postType === "Announcement"}
             {state.seekingFunding && fundraisingDiv}
           </div>
           <button
