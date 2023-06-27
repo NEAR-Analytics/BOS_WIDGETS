@@ -7,9 +7,11 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "eugenewolf507.near",
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "neardigitalcollective.near";
+const statusTagsArr = ["Open", "Claimed", "Closed"];
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
@@ -43,6 +45,36 @@ const filteredArticles =
     }
   }, []);
 
+const sortArticlesByTag = () => {
+  const result = filteredArticles.reduce(
+    (acc, article) => {
+      if (article.currentStatusTag === "Claimed") {
+        const claimed = [...acc.claimed, article];
+        const tempRes = { claimed };
+        return { ...acc, ...tempRes };
+      }
+      if (article.currentStatusTag === "Closed") {
+        const closed = [...acc.closed, article];
+        const tempRes = { closed };
+        return { ...acc, ...tempRes };
+      }
+      const intermediateArticle = { ...article, currentStatusTag: "Open" };
+      const open = [...acc.open, intermediateArticle];
+      const tempRes = { open };
+      return { ...acc, ...tempRes };
+    },
+    { open: [], claimed: [], closed: [] }
+  );
+
+  return result;
+};
+
+console.log(sortArticlesByTag());
+
+const sortedArticlesByTag = sortArticlesByTag();
+State.init(sortedArticlesByTag);
+console.log(state);
+
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
   const dateString = {
@@ -52,10 +84,48 @@ const getDateLastEdit = (timestamp) => {
   return dateString;
 };
 
+// ========== HANDLER ==========
+
+const clickHandler = (oldStatus, newStatus, articleId) => {
+  const actualTag = oldStatus.toLowerCase();
+  const newTag = newStatus.toLowerCase();
+  // Find the index of the object to be moved
+  const objectIndex = state[actualTag].findIndex(
+    (obj) => obj.articleId === articleId
+  );
+  // Check if an object was found
+  if (objectIndex !== -1) {
+    const objectToMove = state[actualTag].splice(objectIndex, 1)[0];
+    const capitalizedNewStatus =
+      newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+    state[newTag].unshift({
+      ...objectToMove,
+      currentStatusTag: capitalizedNewStatus,
+    });
+    State.update();
+  }
+};
+
 // ========== JSX ==========
 
-const Card = ({ article, i }) => (
-  <div className="col-sm-12 col-lg-6 col-2xl-4 gy-3" key={article.articleId}>
+const StatusTagGroup = ({ activeStatus, articleId }) => (
+  <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
+    {statusTagsArr.map((tag) => (
+      <button
+        onClick={() => clickHandler(activeStatus, tag, articleId)}
+        className={`btn btn-sm ${
+          activeStatus === tag ? "btn-primary" : "btn-outline-primary"
+        }`}
+        disabled={activeStatus === tag}
+      >
+        #{tag}
+      </button>
+    ))}
+  </div>
+);
+
+const Card = ({ article }) => (
+  <div className="col gy-3" key={article.articleId}>
     <div className="card h-100">
       <a
         className="text-decoration-none text-dark"
@@ -70,7 +140,10 @@ const Card = ({ article, i }) => (
             <div className="col flex-grow-1">
               <Widget
                 src="mob.near/widget/Profile.ShortInlineBlock"
-                props={{ accountId: article.author, tooltip: true }}
+                props={{
+                  accountId: article.author,
+                  tooltip: true,
+                }}
               />
             </div>
             <div className="col flex-grow-0">
@@ -83,7 +156,7 @@ const Card = ({ article, i }) => (
             </div>
           </div>
           <div
-            className="mt-3 alert alert-secondary"
+            className="mt-3 mb-0 alert alert-secondary"
             style={{ backgroundColor: "white" }}
           >
             <div>
@@ -102,41 +175,44 @@ const Card = ({ article, i }) => (
           </div>
         </div>
       </a>
+      <StatusTagGroup
+        activeStatus={article.currentStatusTag}
+        articleId={article.articleId}
+      />
     </div>
   </div>
 );
 
 return (
-  <>
-    <div>
-      <div class="row gx-2">
-        <div class="col">
-          <div class="border border-dark rounded-2 px-3">
-            <div className="row card-group">
-              {filteredArticles.length > 0 &&
-                filteredArticles.map((article, i) => (
-                  <Card article={article} i={i} />
-                ))}
-            </div>
+  <div>
+    <div class="row gx-2">
+      <div class="col">
+        <div class="border border-dark rounded-2 px-3 pb-3">
+          <div className="row card-group">
+            <h4 className="pt-2 text-center">{statusTagsArr[0]}</h4>
+            {state.open.length > 0 &&
+              state.open.map((item) => <Card article={item} />)}
           </div>
         </div>
-        <div class="col">
-          <div class=" border border-dark rounded-2 p-1">
-            Custom column padding
+      </div>
+      <div class="col">
+        <div class="border border-dark rounded-2 px-3  pb-3">
+          <div className="row card-group">
+            <h4 className="pt-2 text-center">{statusTagsArr[1]}</h4>
+            {state.claimed.length > 0 &&
+              state.claimed.map((item) => <Card article={item} />)}
           </div>
         </div>
-        <div class="col">
-          <div class=" border border-dark rounded-2 p-1">
-            Custom column padding
+      </div>
+      <div class="col">
+        <div class="border border-dark rounded-2 px-3 pb-3">
+          <div className="row card-group">
+            <h4 className="pt-2 text-center">{statusTagsArr[2]}</h4>
+            {state.closed.length > 0 &&
+              state.closed.map((item) => <Card article={item} />)}
           </div>
         </div>
       </div>
     </div>
-
-    <div className="row card-group py-3">
-      {filteredArticles.length > 0 &&
-        filteredArticles.map((article, i) => <Card article={article} i={i} />)}
-    </div>
-  </>
+  </div>
 );
-z;
