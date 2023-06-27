@@ -83,7 +83,7 @@ return (
             </div>
             <ImgWrapper>
               <Widget
-                src="mob.near/widget/Image"
+                src="andyh.near/widget/Image"
                 props={{
                   image: app.image,
                   alt: app.name,
