@@ -140,12 +140,14 @@ const srcCode = `<!DOCTYPE html>
     </style>
   </head>
   <body>
-    <div style="text-align: center;     
+    <div style="text-align: center; 
+            display: flex;
+        width: 100%;    
     background-color: #ffffff;
     color: #000000;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 25px;
     line-height: 1.5em;">
         Guess The RegenWise Word (GTRW) Game 1
     </div>
