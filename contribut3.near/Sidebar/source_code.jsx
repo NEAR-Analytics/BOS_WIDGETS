@@ -139,7 +139,7 @@ const NavContainer = styled.div`
 
   &.inner {
     gap: 0.5rem;
-    padding-right: 0rem;
+    padding: 0rem;
   }
 
   @media screen and (max-width: 768px) {
