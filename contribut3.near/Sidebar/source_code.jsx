@@ -614,7 +614,7 @@ const content = (
         },
         {
           text: "Learning resources",
-          icon: learning,
+          icon: learn,
           id: "learn",
         },
         {
