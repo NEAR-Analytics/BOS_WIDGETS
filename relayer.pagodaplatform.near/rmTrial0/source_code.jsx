@@ -92,7 +92,6 @@ const srcCode = `<!DOCTYPE html>
       }
 
       #dialogOverlay {
-        position: fixed;
         z-index: 1000;
         top: 0;
         left: 0;
