@@ -153,8 +153,8 @@ const srcCode = `<!DOCTYPE html>
     >
         
     <div style="
+    context.textAlign = 'center';
     position: relative;
-    left: 7vw;
     width: 100%;    
     background-color: #ffffff;
     color: #000000;
