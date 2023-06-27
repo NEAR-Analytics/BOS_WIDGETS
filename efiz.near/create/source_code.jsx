@@ -32,25 +32,42 @@ State.init({
   ...item.value,
 });
 
+const DynamicInput = ({ type, onChange, value, placeholder }) => {
+  if (type === "boolean") {
+    return (
+      <Select onChange={onChange} value={value}>
+        <option value="true">true</option>
+        <option value="false">false</option>
+      </Select>
+    );
+  } else {
+    return (
+      <Input
+        type={type}
+        onChange={onChange}
+        value={value}
+        placeholder={placeholder}
+      />
+    );
+  }
+};
+
 // Primitive checks
-if (item.type === "string") {
-  return <Input onChange={onChange} value={item.value} />;
-} else if (item.type === "boolean") {
+if (["string", "number", "date", "time", "boolean"].includes(property.type)) {
   return (
-    <Select onChange={onChange} value={item.value}>
-      <option value="true">true</option>
-      <option value="false">false</option>
-    </Select>
+    <DynamicInput
+      type={property.type === "string" ? "text" : property.type}
+      onChange={(e) => handleInputChange(property.name, e.target.value)}
+      value={state[property.name] || ""}
+      placeholder={property.name}
+    />
   );
-} else if (item.type === "number") {
-  return <Input type="number" onChange={onChange} value={item.value} />;
-} else if (item.type === "date" || item.type === "time") {
-  return <Input type={item.type} onChange={onChange} value={item.value} />;
 }
 
 // On-chain Type
 const type = JSON.parse(Social.get(item.type, "final") || "null");
 const properties = type.properties || [];
+const createWidgetSrc = type.widgets?.create;
 
 const handleInputChange = (name, value) => {
   State.update({ [name]: value });
@@ -74,40 +91,11 @@ function Property({ property, value }) {
     );
   }
   // Else check for primitives
-  if (property.type === "string") {
+  if (["string", "number", "date", "time", "boolean"].includes(property.type)) {
     return (
-      <Input
+      <DynamicInput
+        type={property.type === "string" ? "text" : property.type}
         onChange={(e) => handleInputChange(property.name, e.target.value)}
-        value={state[property.name] || ""}
-        placeholder={property.name}
-      />
-    );
-  } else if (property.type === "date" || property.type === "time") {
-    return (
-      <Input
-        type={property.type}
-        onChange={(e) => handleInputChange(property.name, e.target.value)}
-        value={state[property.name] || ""}
-        placeholder={property.name}
-      />
-    );
-  } else if (property.type === "boolean") {
-    return (
-      <Select
-        onChange={(e) => handleInputChange(property.name, e.target.value)}
-        value={state[property.name] || ""}
-      >
-        <option value="true">true</option>
-        <option value="false">false</option>
-      </Select>
-    );
-  } else if (property.type === "number") {
-    return (
-      <Input
-        type="number"
-        onChange={(e) =>
-          handleInputChange(property.name, parseInt(e.target.value, 10))
-        }
         value={state[property.name] || ""}
         placeholder={property.name}
       />
@@ -132,13 +120,24 @@ function Property({ property, value }) {
 
 return (
   <Container>
-    {properties?.map((property) => (
-      <div key={property.name}>
-        <Label>{property.name}</Label>
-        <Row>
-          <Property property={property} value={item.value[property.name]} />
-        </Row>
-      </div>
-    ))}
+    {createWidgetSrc ? (
+      <>
+        <Widget
+          src={createWidgetSrc}
+          props={{ onChange: (e) => handleInputChange(property.name, e) }}
+        />
+      </>
+    ) : (
+      <>
+        {properties?.map((property) => (
+          <div key={property.name}>
+            <Label>{property.name}</Label>
+            <Row>
+              <Property property={property} value={item.value[property.name]} />
+            </Row>
+          </div>
+        ))}
+      </>
+    )}
   </Container>
 );
