@@ -134,8 +134,8 @@ return (
         <Widget
           src={widgets.houses}
           props={{
-            selectedHouse: state.selectedHouse,
-            houses: houses,
+            selectedItem: state.selectedHouse,
+            items: houses,
             handleSelect: (item) => handleSelect(item),
           }}
         />
