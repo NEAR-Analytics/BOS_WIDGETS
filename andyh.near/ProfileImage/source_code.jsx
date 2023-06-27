@@ -7,8 +7,8 @@ const thumbnail = props.thumbnail ?? "thumbnail";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-const name = profile.name || "No-name profile";
-const image = profile.image;
+const name = profile?.name || "No-name profile";
+const image = profile?.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
@@ -16,7 +16,7 @@ const tooltip =
 const inner = (
   <div className={className} style={style}>
     <Widget
-      src="mob.near/widget/Image"
+      src="andyh.near/widget/Image"
       props={{
         image,
         alt: title,
@@ -32,7 +32,7 @@ const inner = (
 
 return props.tooltip ? (
   <Widget
-    src="mob.near/widget/Profile.OverlayTrigger"
+    src="andyh.near/widget/Profile.OverlayTrigger"
     props={{ accountId, children: inner }}
   />
 ) : (
