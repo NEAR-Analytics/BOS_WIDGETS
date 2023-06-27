@@ -153,7 +153,7 @@ const srcCode = `<!DOCTYPE html>
     >
         
     <div style="
-    text-align: center;
+    justify-content: center;
     width: 100%;    
     background-color: #ffffff;
     color: #000000;
@@ -166,11 +166,6 @@ const srcCode = `<!DOCTYPE html>
       <div class="canvas-container">
         <canvas id="bgCanvas" width="1000" height="500"></canvas>
         <canvas id="fgCanvas" width="1000" height="500"></canvas>
-      </div>
-      <div>
-        <button class="btn btn-2 btn-2g" onclick="location.reload()">
-          Restart
-        </button>
       </div>
       <div id="dialogOverlay">
         <div id="dialogBox">
