@@ -18,6 +18,7 @@ const title = props.title ?? name;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
 
+console.log({ image });
 const inner = (
   <div className={className} style={style}>
     <Widget
