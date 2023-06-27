@@ -124,7 +124,7 @@ const NavTitle = styled.div`
 `;
 
 const navSection = ({ title, items }) => (
-  <NavContainer>
+  <NavContainer className="inner">
     <NavTitle>{title}</NavTitle>
     {items.map(navItem)}
   </NavContainer>
@@ -135,6 +135,10 @@ const NavContainer = styled.div`
   flex-direction: column;
   margin-right: 2.5em;
   gap: 0.5rem;
+
+  &.inner {
+    margin-right: 0;
+  }
 
   @media screen and (max-width: 768px) {
     width: 100%;
