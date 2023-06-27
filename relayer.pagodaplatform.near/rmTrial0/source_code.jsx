@@ -164,11 +164,6 @@ const srcCode = `<!DOCTYPE html>
         <canvas id="bgCanvas" width="1000" height="500"></canvas>
         <canvas id="fgCanvas" width="1000" height="500"></canvas>
       </div>
-      <div style="text-align: center;">
-        <button class="btn btn-2 btn-2g" onclick="location.reload()">
-          Restart
-        </button>
-      </div>
       <div id="dialogOverlay">
         <div id="dialogBox">
           <h2 id="dialogTitle"></h2>
