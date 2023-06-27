@@ -18,7 +18,7 @@ const data = Social.getr(keys, "final");
 if (data === null) {
   return "";
 }
-console.log({ data });
+console.log({ data, keys });
 const apps = keys.map((key) => {
   let d = data;
   key.split("/").forEach((k) => {
