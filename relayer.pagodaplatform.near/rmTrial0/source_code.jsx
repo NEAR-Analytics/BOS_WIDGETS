@@ -1,7 +1,7 @@
 const srcCode = `<!DOCTYPE html>
 <html>
   <head>
-    <title>Word Guessing Game</title>
+    <title>Guess The RegenWise Word Game 1</title>
     <style>
       .canvas-container {
         position: relative;
