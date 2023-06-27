@@ -13,7 +13,7 @@ if (tag) {
     return "Loading tags";
   }
 
-  keys = Object.entries(taggedWidgets)
+  keys = Object.entries(taggedWidgets || {})
     .map((kv) => Object.keys(kv[1].widget).map((w) => `${kv[0]}/widget/${w}`))
     .flat();
 
