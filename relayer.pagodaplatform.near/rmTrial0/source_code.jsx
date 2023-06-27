@@ -1,7 +1,7 @@
 const srcCode = `<!DOCTYPE html>
 <html>
   <head>
-    <title>Word Guessing Game</title>
+    <title>Guess The RegenWise Word Game</title>
     <style>
       .canvas-container {
         position: relative;
@@ -147,14 +147,14 @@ const srcCode = `<!DOCTYPE html>
     font-weight: bolder;
     font-size: 25px;
     line-height: 1.5em;">
-        RegenWise Word Guessing Game
+        Guess The RegenWise Word Game
     </div>
     <div
       style="
         display: flex;
         width: 100%;
         max-width: 1000px;
-        margin: 0 auto;
+        margin: 0 0;
         justify-content: center;
         flex-direction: column;
         gap: 1em;
