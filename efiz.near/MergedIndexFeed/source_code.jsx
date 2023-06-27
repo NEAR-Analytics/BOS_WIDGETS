@@ -249,6 +249,15 @@ if (reverse) {
 
 const renderedItems = items.map(disableCaching ? renderItem : cachedRenderItem);
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(${props.grid?.columns || 3}, 1fr);
+
+  @media (hover: none) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
 return props.manual ? (
   <>
     {reverse && fetchMore}
