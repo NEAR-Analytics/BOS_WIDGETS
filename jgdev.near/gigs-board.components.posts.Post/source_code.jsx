@@ -5,8 +5,7 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
-  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -52,18 +51,6 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "shared/lib/gui" */
-const Card = styled.div`
-  &:hover {
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-  }
-`;
-
-const CompactContainer = styled.div`
-  width: fit-content !important;
-  max-width: 100%;
-`;
-/* END_INCLUDE: "shared/lib/gui" */
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post =
@@ -382,6 +369,8 @@ const fillIcons = {
   Reply: "bi-reply-fill",
 };
 
+// Trigger saving this widget.
+
 const borders = {
   Idea: "border-secondary",
   Comment: "border-secondary",
@@ -401,8 +390,8 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
   predecessor_id: nearDevGovGigsContractAccountId,
   key: context.accountId + "/index/notify",
 });
-if (grantNotify === Loading) {
-  return;
+if (grantNotify === null) {
+  return <div>Loading...</div>;
 }
 const onLike = () => {
   if (!context.accountId) {
@@ -419,6 +408,7 @@ const onLike = () => {
       gas: Big(10).pow(12).mul(100),
     },
   ];
+
   if (grantNotify === false) {
     likeTxn.unshift({
       contractName: "social.near",
@@ -433,6 +423,7 @@ const onLike = () => {
   }
   Near.call(likeTxn);
 };
+
 const btnCreatorWidget = (postType, icon, name, desc) => {
   return (
     <li class="py-1">
@@ -458,7 +449,7 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
 };
 
 const buttonsFooter = props.isPreview ? null : (
-  <div class="row" key="buttons-footer" style={{ marginLeft: "0.2rem" }}>
+  <div class="row my-2" key="buttons-footer" style={{ marginLeft: "0.2rem" }}>
     <div class="col-8">
       <div
         class="btn-group text-sm"
@@ -660,7 +651,7 @@ const postExtra =
         style={{
           marginLeft: "1rem",
           marginBottom: "1rem",
-          fontSize: "1.25789em",
+          fontSize: "1.25em",
           fontWeight: "600",
         }}
       >
@@ -671,7 +662,7 @@ const postExtra =
         style={{
           marginLeft: "1rem",
           marginBottom: "1.5rem",
-          fontSize: "1.25789em",
+          fontSize: "1.25em",
           fontWeight: "600",
         }}
       >
@@ -706,15 +697,25 @@ const postsList =
     </div>
   );
 
-// Determine if located in the post page.
+const Card = styled.div`
+  &:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: none;
+`;
 
+// Determine if located in the post page.
 const isInList = props.isInList;
 const contentArray = snapshot.description.split("\n");
 const needClamp = isInList && contentArray.length > 5;
+
 // Initialize 'clamp' to 'true' if the content is long enough, otherwise 'false'
 initState({
   clamp: needClamp,
 });
+
 const onMention = (accountId) => (
   <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
     <Widget
