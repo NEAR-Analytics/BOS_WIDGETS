@@ -153,14 +153,15 @@ const srcCode = `<!DOCTYPE html>
     >
         
     <div style="
-    justify-content: center;
+    position: relative;
+    left: 7vw;
     width: 100%;    
     background-color: #ffffff;
     color: #000000;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: bolder;
     font-size: 2vw;
-    line-height: 1.5em;">
+    line-height: 0.3em;">
         Guess The RegenWise Word (GTRW) Game 1
     </div>
       <div class="canvas-container">
