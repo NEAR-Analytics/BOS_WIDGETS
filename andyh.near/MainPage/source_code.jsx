@@ -3,7 +3,7 @@ return (
     {context.accountId && <Widget src="andyh.near/widget/ProfileOnboarding" />}
     <Widget src="andyh.near/widget/MainPage.FeaturedApps" props={{}} />
     <div className="row mb-3">
-      <Widget src="mob.near/widget/Applications" />
+      <Widget src="andyh.near/widget/Applications" />
     </div>
     <div className="row mb-3">
       <Widget src="mob.near/widget/People" />
