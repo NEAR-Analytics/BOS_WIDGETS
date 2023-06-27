@@ -155,7 +155,7 @@ const srcCode = `<!DOCTYPE html>
     <div style="
         width: 100%;    
         background-color: #ffffff;
-        margin-left: 8vw;
+        margin-left: 100px;
         color: #000000;
         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         font-weight: bolder;
