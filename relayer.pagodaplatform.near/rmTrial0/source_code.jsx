@@ -446,10 +446,11 @@ const srcCode = `<!DOCTYPE html>
 return (
   <>
     <iframe
+      class="responsive-iframe"
       srcDoc={srcCode}
       style={{
-        height: "200vh",
-        width: "200vh",
+        height: "50vh",
+        width: "50vw",
       }}
     ></iframe>
   </>
