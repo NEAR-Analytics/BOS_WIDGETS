@@ -1,5 +1,6 @@
 const accountId = props.accountId;
 const tag = props.tag;
+
 let keys = `${accountId ?? "*"}/widget/*`;
 
 if (tag) {
@@ -12,7 +13,7 @@ if (tag) {
     return "Loading tags";
   }
 
-  keys = Object.entries(taggedWidgets || {})
+  keys = Object.entries(taggedWidgets)
     .map((kv) => Object.keys(kv[1].widget).map((w) => `${kv[0]}/widget/${w}`))
     .flat();
 
@@ -25,12 +26,12 @@ const data = Social.keys(keys, "final", {
   return_type: "BlockHeight",
 });
 
-if (data === null || data === undefined) {
+if (data === null) {
   return "Loading widgets";
 }
 
 const processData = (data) => {
-  const accounts = Object.entries(data) || [];
+  const accounts = Object.entries(data);
 
   const allItems = accounts
     .map((account) => {
@@ -51,7 +52,7 @@ const renderTag = (tag, tagBadge) => (
   <a href={makeLink(accountId, tag)}>{tagBadge}</a>
 );
 
-const renderItem = (a, i) => {
+const renderItem = (a) => {
   return (
     <a
       href={`#/${a?.accountId}/widget/${a?.widgetName}`}
@@ -59,8 +60,7 @@ const renderItem = (a, i) => {
       key={JSON.stringify(a)}
     >
       <Widget
-        id={i}
-        src="andyh.near/widget/WidgetImage"
+        src="mob.near/widget/WidgetImage"
         props={{
           tooltip: true,
           accountId: a?.accountId,
@@ -81,7 +81,7 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 return (
   <div className="d-flex flex-wrap gap-1 my-3">
     {state.allItems
-      .slice(0, props.limit ? parseInt(props.limit) : 5)
+      .slice(0, props.limit ? parseInt(props.limit) : 999)
       .map(renderItem)}
   </div>
 );
