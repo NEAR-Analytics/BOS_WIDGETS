@@ -119,7 +119,7 @@ const handleSave = () => {
     const newPath = `${context.accountId}/thing/${thingId}`;
     edges = buildEdges(newPath, state.selectedType);
   }
-  console.log(JSON.stringify(edges));
+
   const data = {
     thing: {
       [thingId]: JSON.stringify({
