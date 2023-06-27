@@ -51,7 +51,6 @@ const notifications = [
 const NavItem = styled.a`
   position: relative;
   cursor: pointer;
-  padding: 0.5em;
   margin: 0.25em 0;
   color: var(--ui-elements-dark, #11181c);
   font-size: 0.8125rem;
@@ -62,7 +61,7 @@ const NavItem = styled.a`
   transition: background-color 0.2s ease-in-out;
   background-color: ${({ selected }) => (selected ? "#f2f4f7" : "none")};
   display: flex;
-  padding: 0rem 0.625rem 0rem 0rem;
+  padding: 0.625rem 0.625rem 0.625rem 0rem;
   align-items: center;
   gap: 0.6875rem;
   align-self: stretch;
@@ -117,6 +116,7 @@ const NavTitle = styled.div`
   font-family: Inter;
   font-weight: 700;
   line-height: 140%;
+  margin-top: 2rem;
 `;
 
 const navSection = ({ title, items }) => (
@@ -530,8 +530,6 @@ const admin = (
     />
   </svg>
 );
-
-console.log("here");
 
 const content = (
   <NavContainer>
