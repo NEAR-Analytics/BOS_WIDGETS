@@ -448,8 +448,8 @@ return (
     <iframe
       srcDoc={srcCode}
       style={{
-        height: "50vh",
-        width: "100vh",
+        height: "200vh",
+        width: "200vh",
       }}
     ></iframe>
   </>
