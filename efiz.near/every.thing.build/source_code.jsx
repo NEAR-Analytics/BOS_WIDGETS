@@ -1,5 +1,11 @@
-const accountId = context.accountId || null;
-const onChange = props.onChange;
+const path = props.path;
+const blockHeight = props.blockHeight;
+
+const thing = JSON.parse(Social.get(path, blockHeight) || "null");
+const type = thing.type;
+const typeObj = JSON.parse(Social.get(thing.type, blockHeight) || "null");
+
+const accountId = context.accountId;
 
 if (accountId === null) {
   return "please login to a near account";
@@ -73,8 +79,8 @@ function RenderComponent({ component, index }) {
   if (component.type === "embed") {
     widgetSrc = "efiz.near/widget/Every.Thing.Embed";
   } else {
-    const type = JSON.parse(Social.get(component.type, "final") || "null");
-    widgetSrc = type.widgets?.create;
+    // const type = JSON.parse(Social.get(component.type, "final") || "null");
+    widgetSrc = "efiz.near/widget/creator";
   }
 
   const handleComponentChange = (value) => {
@@ -88,10 +94,12 @@ function RenderComponent({ component, index }) {
 
   return (
     <div>
+      <p>{JSON.stringify(component)}</p>
       <Widget
         src={widgetSrc}
         props={{
-          data: state.components[index].value,
+          data: component.value,
+          type: component.type,
           onChange: handleComponentChange,
         }}
       />
@@ -108,17 +116,14 @@ function RenderComponent({ component, index }) {
 
 return (
   <div>
-    <Button onClick={() => handleTypeClick("every.near/type/image")}>
-      Add Image
-    </Button>
-    <Button onClick={() => handleTypeClick("every.near/type/markdown")}>
-      Add Markdown
+    <Button onClick={() => handleTypeClick("efiz.near/type/community")}>
+      Add Community
     </Button>
     <Button onClick={() => handleTypeClick("every.near/type/feed")}>
       Add Feed
     </Button>
     <Button onClick={() => handleTypeClick("embed")}>Embed Thing</Button>
-    {state.components.map((component, index) => (
+    {state.components?.map((component, index) => (
       <RenderComponent key={index} component={component} index={index} />
     ))}
     <Button onClick={handleApply}>apply</Button>
