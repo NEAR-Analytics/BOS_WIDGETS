@@ -61,10 +61,14 @@ const NavItem = styled.a`
   transition: background-color 0.2s ease-in-out;
   background-color: ${({ selected }) => (selected ? "#f2f4f7" : "none")};
   display: flex;
-  padding: 0.625rem 0.625rem 0.625rem 0rem;
+  padding: 0rem 0.625rem 0rem 0rem;
   align-items: center;
   gap: 0.6875rem;
   align-self: stretch;
+
+  @media screen and (max-width: 768px) {
+    padding: 0.25rem 0.625rem 0.25rem 0rem;
+  }
 
   &:hover {
     color: #667085;
