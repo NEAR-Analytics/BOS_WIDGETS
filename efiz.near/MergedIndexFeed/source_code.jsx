@@ -152,11 +152,16 @@ while (filteredItems.length < state.displayCount) {
   }
   state.feeds[bestItem.index].usedCount++;
   if (filter) {
-    if (filter.ignore) {
-      if (bestItem.accountId in filter.ignore) {
+    if (filter.accountBlacklist) {
+      if (bestItem.accountId in filter.accountBlacklist) {
         continue;
       }
     }
+    // if (filter.typeWhitelist) {
+    //   if (!(bestItem.value.type in filter.typeWhitelist)) {
+    //     continue;
+    //   }
+    // }
   }
   filteredItems.push(bestItem);
 }
@@ -244,21 +249,21 @@ if (reverse) {
 
 const renderedItems = items.map(disableCaching ? renderItem : cachedRenderItem);
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  @media (hover: none) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
 return props.manual ? (
   <>
     {reverse && fetchMore}
     {renderedItems}
     {!reverse && fetchMore}
   </>
+) : props.grid ? (
+  <InfiniteScroll
+    pageStart={0}
+    loadMore={makeMoreItems}
+    hasMore={state.displayCount <= filteredItems.length}
+    loader={loader}
+  >
+    <Grid>{renderedItems}</Grid>
+  </InfiniteScroll>
 ) : (
   <InfiniteScroll
     pageStart={0}
