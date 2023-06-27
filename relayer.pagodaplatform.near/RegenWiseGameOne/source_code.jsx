@@ -147,7 +147,7 @@ const srcCode = `<!DOCTYPE html>
     font-weight: bolder;
     font-size: 2vw;
     line-height: 1.5em;">
-        Guess The RegenWise Word Game
+        Guess The RegenWise Word Game (GTRWG)
     </div>
     <div
       style="
