@@ -1,5 +1,6 @@
 const path = props.path; // every piece of data on social contract has a path
 const blockHeight = props.blockHeight || "final"; // and a blockHeight (~version)
+const options = props.options;
 
 // split the path
 const parts = path.split("/");
@@ -84,11 +85,6 @@ function Modifier() {
 function Thing() {
   // Renders the path according to type
   switch (type) {
-    case "widget": {
-      // TODO: Verify that props are passed
-      // How to allow user to lock at a specific blockHeight?
-      return <Widget src={path} props={props} />;
-    }
     case "thing": {
       // get the thing data
       const thing = JSON.parse(Social.get(path, blockHeight) || "null");
@@ -100,8 +96,11 @@ function Thing() {
           `edge case: thing ${path} had an invalid type: ${thingType}`
         );
       }
-      // determine the widget to render this thing
-      const widgetSrc = thing.template?.src || typeObj?.widgets?.view;
+      // determine the widget to render this thing (is there a default view?)
+      const widgetSrc =
+        options?.templateOverride ||
+        thing.template?.src ||
+        typeObj?.widgets?.view;
       // Template
       return (
         <Widget
@@ -123,6 +122,11 @@ function Thing() {
           }}
         />
       );
+    }
+    case "widget": {
+      // TODO: Verify that props are passed
+      // How to allow user to lock at a specific blockHeight?
+      return <Widget src={path} props={props} />;
     }
     case "account": {
       return <Widget src="efiz.near/widget/Tree" props={{ rootPath: path }} />;
