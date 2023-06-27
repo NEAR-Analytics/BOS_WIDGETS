@@ -416,7 +416,7 @@ padding: 8px 12px;
 gap: 12px;
 
 width: 326px;
-height: 150px;
+
 
 background: #FFFFFF;
 border-radius: 6px;
@@ -436,7 +436,7 @@ padding: 0px;
 gap: 12px;
 
 width: 302px;
-height: 134px;
+
 
 
 /* Inside auto layout */
@@ -494,7 +494,7 @@ padding: 0px;
 gap: 8px;
 
 width: 302px;
-height: 108px;
+
 
 
 /* Inside auto layout */
@@ -962,6 +962,15 @@ return (
           <KeyIssue>
             <KeyIssueHeader>
               <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
+            </KeyIssueHeader>
+            <KeyIssueDescription>
+              Lorem ipsum dolor sit amet consectetur.
+            </KeyIssueDescription>
+            <KeyIssueSeparator></KeyIssueSeparator>
+          </KeyIssue>
+          <KeyIssue>
+            <KeyIssueHeader>
+              <KeyIssueTitle>Other Platform</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
               Lorem ipsum dolor sit amet consectetur.
