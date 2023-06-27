@@ -2,6 +2,7 @@ const accountId = props.accountId;
 const widgetName = props.widgetName;
 const widgetPath = `${accountId}/widget/${widgetName}`;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
+console.log({ metadata });
 
 const className = props.className ?? "d-inline-block";
 const style = props.style ?? { width: "3em", height: "3em" };
