@@ -143,7 +143,6 @@ const srcCode = `<!DOCTYPE html>
     <div style="
     text-align: center;
     justify-content: center;
-    display: flex;
     width: 100%;    
     background-color: #ffffff;
     color: #000000;
