@@ -140,9 +140,10 @@ const srcCode = `<!DOCTYPE html>
     </style>
   </head>
   <body>
-    <div style="text-align: center; 
-            display: flex;
-        width: 100%;    
+    <div style="
+    justify-content: center;
+    display: flex;
+    width: 100%;    
     background-color: #ffffff;
     color: #000000;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
