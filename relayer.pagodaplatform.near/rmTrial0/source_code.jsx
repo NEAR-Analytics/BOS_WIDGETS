@@ -5,7 +5,7 @@ const srcCode = `<!DOCTYPE html>
     <style>
       .canvas-container {
         position: relative;
-        width: 100%;
+        width: 80%;
         aspect-ratio: 2;
         max-width: 1000px;
         margin: 0 auto;
@@ -449,8 +449,8 @@ return (
       class="responsive-iframe"
       srcDoc={srcCode}
       style={{
-        height: "80vh",
-        width: "80vw",
+        height: "95vh",
+        width: "95vw",
       }}
     ></iframe>
   </>
