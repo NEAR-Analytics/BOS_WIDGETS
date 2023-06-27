@@ -2,6 +2,7 @@
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -13,6 +14,7 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
+
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -24,25 +26,53 @@ function widget(widgetName, widgetProps, key) {
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
+
   if (props.nearDevGovGigsContractAccountId) {
     linkProps.nearDevGovGigsContractAccountId =
       props.nearDevGovGigsContractAccountId;
   }
+
   if (props.nearDevGovGigsWidgetsAccountId) {
     linkProps.nearDevGovGigsWidgetsAccountId =
       props.nearDevGovGigsWidgetsAccountId;
   }
+
   if (props.referral) {
     linkProps.referral = props.referral;
   }
+
   const linkPropsQuery = Object.entries(linkProps)
+    .filter(([_key, nullable]) => (nullable ?? null) !== null)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
+
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
+
+/* INCLUDE: "core/lib/autocomplete" */
+const autocompleteEnabled = true;
+const AutoComplete = styled.div`
+  z-index: 5;
+
+  > div > div {
+    padding: calc(var(--padding) / 2);
+  }
+`;
+
+function textareaInputHandler(value) {
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
+  State.update({ text: value, showAccountAutocomplete });
+}
+
+function autoCompleteAccountId(id) {
+  let description = state.description.replace(/[\s]{0,1}@[^\s]*$/, "");
+  description = `${description} @${id}`.trim() + " ";
+  State.update({ description, showAccountAutocomplete: false });
+}
+/* END_INCLUDE: "core/lib/autocomplete" */
 
 const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
@@ -125,7 +155,7 @@ const onSubmit = () => {
         labels,
         body: body,
       },
-      deposit: Big(10).pow(21).mul(2),
+      deposit: Big(10).pow(21).mul(3),
       gas: Big(10).pow(12).mul(100),
     });
   } else if (mode == "Edit") {
@@ -287,8 +317,26 @@ const descriptionDiv = (
       type="text"
       rows={6}
       className="form-control"
+      onInput={(event) => textareaInputHandler(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
       onChange={(event) => State.update({ description: event.target.value })}
     />
+    {autocompleteEnabled && state.showAccountAutocomplete && (
+      <AutoComplete>
+        <Widget
+          src="near/widget/AccountAutocomplete"
+          props={{
+            term: state.text.split("@").pop(),
+            onSelect: autoCompleteAccountId,
+            onClose: () => State.update({ showAccountAutocomplete: false }),
+          }}
+        />
+      </AutoComplete>
+    )}
   </div>
 );
 
@@ -401,7 +449,7 @@ function generateDescription(text, amount, token, supervisor) {
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1">
-    {widget("components.layout.Banner")}
+    {widget("components.layout.app-header")}
     <div class="mx-5 mb-5">
       <div aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -503,7 +551,7 @@ return (
         <div class="card-body">
           <p class="text-muted m-0">Preview</p>
           <div>
-            {widget("components.posts.Post", {
+            {widget("entity.post.Post", {
               isPreview: true,
               id: 0, // irrelevant
               post: {
