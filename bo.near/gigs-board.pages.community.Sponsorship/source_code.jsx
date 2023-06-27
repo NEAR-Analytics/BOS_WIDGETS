@@ -2,6 +2,7 @@
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -13,6 +14,7 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
+
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -24,85 +26,91 @@ function widget(widgetName, widgetProps, key) {
 
 function href(widgetName, linkProps) {
   linkProps = { ...linkProps };
+
   if (props.nearDevGovGigsContractAccountId) {
     linkProps.nearDevGovGigsContractAccountId =
       props.nearDevGovGigsContractAccountId;
   }
+
   if (props.nearDevGovGigsWidgetsAccountId) {
     linkProps.nearDevGovGigsWidgetsAccountId =
       props.nearDevGovGigsWidgetsAccountId;
   }
+
   if (props.referral) {
     linkProps.referral = props.referral;
   }
+
   const linkPropsQuery = Object.entries(linkProps)
+    .filter(([_key, nullable]) => (nullable ?? null) !== null)
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
+
   return `/#/${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
+/* INCLUDE: "core/adapter/dev-hub" */
+const contractAccountId =
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
-/* INCLUDE: "communities.jsx" */
-const communities = {
-  "zero-knowledge": {
-    overviewId: 397,
-    eventsId: 401,
-    icon: "https://ipfs.near.social/ipfs/bafkreiajwq6ep3n7veddozji2djv5vviyisabhycbweslvpwhsoyuzcwi4",
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreihgxg5kwts2juldaeasveyuddkm6tcabmrat2aaq5u6uyljtyt7lu",
-    title: "Zero Knowledge",
-    desc: "Building a zero knowledge ecosystem on NEAR.",
-    telegram: "NearZeroKnowledge",
-  },
-  protocol: {
-    overviewId: 412,
-    eventsId: 413,
-    icon: "https://ipfs.near.social/ipfs/bafkreidpitdafcnhkp4uyomacypdgqvxr35jtfnbxa5s6crby7qjk2nv5a",
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreicg4svzfz5nvllomsahndgm7u62za4sib4mmbygxzhpcl4htqwr4a",
-    title: "Protocol",
-    desc: "Supporting the ongoing innovation of the NEAR Protocol.",
-    telegram: "NEAR_Protocol_Community_Group",
-  },
-  tooling: {
-    overviewId: 416,
-    eventsId: 417,
-    icon: "https://ipfs.near.social/ipfs/bafkreie2eaj5czmpfe6pe53kojzcspgozebdsonffwvbxtpuipnwahybvi",
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreiehzr7z2fhoqqmkt3z667wubccbch6sqtsnvd6msodyzpnf72cszy",
-    title: "Tooling",
-    desc: "Supporting the ongoing innovation of tooling.",
-    telegram: "NEAR_Tools_Community_Group",
-  },
-  "contract-standards": {
-    overviewId: 414,
-    eventsId: 415,
-    icon: "https://ipfs.near.social/ipfs/bafkreiepgdnu7soc6xgbyd4adicbf3eyxiiwqawn6tguaix6aklfpir634",
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
-    title: "Contract Standards",
-    desc: "Coordinating the contribution to the NEAR dapp standards.",
-    telegram: "nearnft",
-  },
+const DevHub = {
+  edit_community_github: ({ handle, github }) =>
+    Near.call(contractAccountId, "edit_community_github", { handle, github }) ??
+    null,
+
+  get_access_control_info: () =>
+    Near.view(contractAccountId, "get_access_control_info") ?? null,
+
+  get_all_authors: () =>
+    Near.view(contractAccountId, "get_all_authors") ?? null,
+
+  get_all_communities: () =>
+    Near.view(contractAccountId, "get_all_communities") ?? null,
+
+  get_all_labels: () => Near.view(contractAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(contractAccountId, "get_community", { handle }) ?? null,
+
+  get_post: ({ post_id }) =>
+    Near.view(contractAccountId, "get_post", { post_id }) ?? null,
+
+  get_posts_by_author: ({ author }) =>
+    Near.view(contractAccountId, "get_posts_by_author", { author }) ?? null,
+
+  get_posts_by_label: ({ label }) =>
+    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
+      label,
+    }) ?? null,
+
+  get_root_members: () =>
+    Near.view(contractAccountId, "get_root_members") ?? null,
 };
-/* END_INCLUDE: "communities.jsx" */
+/* END_INCLUDE: "core/adapter/dev-hub" */
 
-if (!props.label) {
+if (!props.handle) {
   return (
     <div class="alert alert-danger" role="alert">
-      Error: label is required
+      Error: community handle not found in URL parameters
     </div>
   );
 }
 
-const postIdsWithLabels = (labels) => {
-  const ids = labels
+const communityData = DevHub.get_community({ handle: props.handle });
+
+if (communityData === null) {
+  return <div>Loading...</div>;
+}
+
+const postIdsWithTags = (tags) => {
+  const ids = tags
     .map(
-      (label) =>
+      (tag) =>
         Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
-          label,
+          label: tag,
         }) ?? []
     )
     .map((ids) => new Set(ids))
@@ -115,13 +123,12 @@ const postIdsWithLabels = (labels) => {
       }
       return res;
     });
-  ids.delete(communities[props.label].overviewId);
-  ids.delete(communities[props.label].eventsId);
+
   return [...ids].reverse();
 };
 
-const sponsorshipRequiredLabels = ["funding", props.label];
-const sponsorshipRequiredPosts = postIdsWithLabels(sponsorshipRequiredLabels);
+const sponsorshipRequiredTags = ["funding", communityData.tag];
+const sponsorshipRequiredPosts = postIdsWithTags(sponsorshipRequiredTags);
 
 const Sponsorship = (
   <div>
@@ -133,10 +140,10 @@ const Sponsorship = (
       </div>
       <div class="col-md-auto">
         <small class="text-muted">
-          Required labels:
-          {sponsorshipRequiredLabels.map((label) => (
-            <a href={href("Feed", { label })} key={label}>
-              <span class="badge text-bg-primary me-1">{label}</span>
+          Required tags:
+          {sponsorshipRequiredTags.map((tag) => (
+            <a href={href("Feed", { tag })} key={tag}>
+              <span class="badge text-bg-primary me-1">{tag}</span>
             </a>
           ))}
         </small>
@@ -152,11 +159,7 @@ const Sponsorship = (
             <div class="row">
               {sponsorshipRequiredPosts.map((postId) => (
                 <div class="col-3">
-                  {widget(
-                    "components.posts.CompactPost",
-                    { id: postId },
-                    postId
-                  )}
+                  {widget("entity.post.CompactPost", { id: postId }, postId)}
                 </div>
               ))}
             </div>
@@ -167,8 +170,8 @@ const Sponsorship = (
   </div>
 );
 
-return widget("components.community.Layout", {
-  label: props.label,
-  tab: "Sponsorship",
+return widget("components.template.community-page", {
+  handle: props.handle,
+  title: "Sponsorship",
   children: Sponsorship,
 });
