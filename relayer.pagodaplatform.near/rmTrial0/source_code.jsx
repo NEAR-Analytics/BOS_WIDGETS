@@ -5,7 +5,7 @@ const srcCode = `<!DOCTYPE html>
     <style>
       .canvas-container {
         position: relative;
-        width: 90%;
+        width: 100%;
         aspect-ratio: 2;
         max-width: 1000px;
         margin: 0 auto;
@@ -92,6 +92,7 @@ const srcCode = `<!DOCTYPE html>
       }
 
       #dialogOverlay {
+        position: fixed;
         z-index: 1000;
         top: 0;
         left: 0;
@@ -106,7 +107,7 @@ const srcCode = `<!DOCTYPE html>
       #dialogBox {
         max-width: 600px;
         width: 100%;
-        margin: 0 0;
+        margin: auto 1em;
         background-color: white;
         padding: 20px;
         border-radius: 5px;
@@ -153,7 +154,7 @@ const srcCode = `<!DOCTYPE html>
         display: flex;
         width: 100%;
         max-width: 1000px;
-        margin: 0 0;
+        margin: 0 auto;
         justify-content: center;
         flex-direction: column;
         gap: 1em;
