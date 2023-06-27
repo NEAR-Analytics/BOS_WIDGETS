@@ -52,7 +52,7 @@ const proposal_args = Buffer.from(profile_args, "utf-8").toString("base64");
 const handleProposal = () => {
   Near.call([
     {
-      contractName: daoId,
+      contractName: state.daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
