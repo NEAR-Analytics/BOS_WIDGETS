@@ -3,20 +3,17 @@ const { houses, selectedHouse, handleSelect } = props;
 const housesMapping = {
   CouncileOfAdvisors: {
     title: "Council of Advisors",
-    src: "https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq",
+    src: "https://bafkreibvbhjkfvtgagym7tdmasvt4mlpytjayunfetc4xeezlaxd7zdfxu.ipfs.nftstorage.link",
   },
   HouseOfMerit: {
     title: "House of Merit",
-    src: "https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq",
+    src: "https://bafkreieycuuk5qop3s23cix6oqtx7fw5aas6w4xe4ca33p3t53slo3o4j4.ipfs.nftstorage.link",
   },
   TransparancyCommision: {
     title: "Transparency Commission",
-    src: "https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq",
+    src: "https://bafkreidmamsclzjo3itskji3opgkrurz4nj6e3gj23sczuouioorr4ikqu.ipfs.nftstorage.link",
   },
 };
-
-const profileImg =
-  "https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq";
 
 const Small = styled.small`
   font-weight: 400;
