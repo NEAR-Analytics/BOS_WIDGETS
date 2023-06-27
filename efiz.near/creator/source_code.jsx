@@ -201,7 +201,9 @@ return (
     </SidePanel>
     <MainContent>
       <Header></Header>
-      <Widget src={state.template} props={{ data: state.config }} />
+      {state.template && (
+        <Widget src={state.template} props={{ data: state.config }} />
+      )}
     </MainContent>
     {state.isModalOpen && (
       <ModalOverlay>
