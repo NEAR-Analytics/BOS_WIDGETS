@@ -36,6 +36,7 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   "number",
   "date",
   "time",
+  "tags",
   ...importedTypes,
 ];
 
