@@ -170,8 +170,8 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
 
     {
       iconClass: "bi bi-people-fill",
-      route: "community.team",
-      title: "Team",
+      route: "community.teams",
+      title: "Teams",
     },
 
     {
