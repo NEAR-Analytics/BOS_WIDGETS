@@ -190,8 +190,8 @@ const propsSize = props.size ? props.size : "large";
 
 console.log("propsSize", propsSize);
 
-const totalUsrNum = 200;
-const percentage = (totalMembers / 200) * 100;
+const totalUsrNum = 300;
+const percentage = Math.round((totalMembers / 300) * 100);
 const widgetTitle = props.infoTitle ? props.infoTitle : "Total Members";
 
 return (
@@ -201,7 +201,7 @@ return (
       <ContentBox size={propsSize}>
         <PercentageNum size={propsSize}>{percentage}%</PercentageNum>
         <TotalRegNum size={propsSize}>
-          {totalMembers}/{totalUsrNum}
+          {totalMembers}/{totalUsrNum}+
         </TotalRegNum>
       </ContentBox>
     </HalfArch>
