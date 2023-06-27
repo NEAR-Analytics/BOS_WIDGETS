@@ -5,7 +5,8 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId ||
-  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  // (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+  (context.widgetSrc ?? "jgdev.near").split("/", 1)[0];
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -86,10 +87,7 @@ const timestamp = readableDate(
 );
 
 const postSearchKeywords = props.searchKeywords ? (
-  <div
-    style={{ marginLeft: "1rem", fontFamily: "monospace" }}
-    key="post-search-keywords"
-  >
+  <div style={{ "font-family": "monospace" }} key="post-search-keywords">
     <span>Found keywords: </span>
     {props.searchKeywords.map((label) => {
       return <span class="badge text-bg-info me-1">{label}</span>;
@@ -101,9 +99,7 @@ const postSearchKeywords = props.searchKeywords ? (
 
 const searchKeywords = props.searchKeywords ? (
   <div class="mb-1" key="search-keywords">
-    <small class="text-muted" style={{ marginLeft: "1rem" }}>
-      {postSearchKeywords}
-    </small>
+    <small class="text-muted">{postSearchKeywords}</small>
   </div>
 ) : (
   <div key="search-keywords"></div>
@@ -190,6 +186,7 @@ const StyledLink = styled.a`
   font-weight: bold;
   opacity: 0.75;
   text-decoration: none;
+
   &:hover {
     text-decoration: underline;
   }
@@ -212,81 +209,17 @@ const ResponsiveDiv = styled.div`
   justify-content: end;
   align-items: center;
   width: 100%;
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
   }
 `;
 
-// start of test edits
-const accountId = (props.accountId = post.author_id);
-const link = props.link ?? true;
-const hideAccountId = props.hideAccountId;
-const hideName = props.hideName;
-const hideImage = props.hideImage;
-
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-
-const name = profile.name ?? accountId;
-const title = props.title ?? `${name} @${accountId}`;
-const tooltip =
-  props.tooltip && (props.tooltip === true ? title : props.tooltip);
-
-let inner = (
-  <>
-    {!hideName && (
-      <span key="name">
-        {name}
-        <br></br>
-      </span>
-    )}
-    {!hideAccountId && (
-      <span key="accountId" className="text-muted ms-1 d-flex">
-        @{accountId}
-      </span>
-    )}
-  </>
-);
-
-inner = link ? (
-  <a
-    href={
-      link !== true
-        ? link
-        : `#/mob.near/widget/ProfilePage?accountId=${accountId}`
-    }
-    className="link-dark text-truncate d-flex flex-column align-items-start"
-  >
-    {inner}
-  </a>
-) : (
-  <span className="text-truncate d-flex flex-column align-items-start">
-    {inner}
-  </span>
-);
-
-if (props.tooltip === true) {
-  return (
-    <Widget
-      src="mob.near/widget/Profile.OverlayTrigger"
-      props={{ accountId, children: inner }}
-    />
-  );
-}
-if (tooltip) {
-  inner = (
-    <OverlayTrigger placement="auto" overlay={<Tooltip>{tooltip}</Tooltip>}>
-      {inner}
-    </OverlayTrigger>
-  );
-}
-// end of test edits
+const accountId = post.author_id;
 
 const header = (
-  <ResponsiveDiv
-    className="py-1 px-3"
-    style={{ fontSize: "1em", alignItems: "center" }}
-  >
+  <ResponsiveDiv className="py-1 px-3" style={{ fontSize: "1em" }}>
     <div className="d-flex align-items-center justify-content-between">
       <div
         className="col-auto d-flex align-items-center"
@@ -311,18 +244,10 @@ const header = (
             }}
           />
         </div>
-
-        <div
-          style={{
-            marginLeft: "1em",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {/* <span style={{ fontSize: "1.35em", fontWeight: "700" }}>
+        <div style={{ marginLeft: "1em" }}>
+          <span style={{ fontSize: "1.35em", fontWeight: "700" }}>
             {post.author_id}
-          </span> */}
+          </span>
           <span
             key="accountId"
             className="text-muted "
@@ -330,10 +255,10 @@ const header = (
               display: "block",
               fontSize: "1.2em",
               fontWeight: "500",
-              marginTop: "0px",
+              marginTop: "-8px",
             }}
           >
-            {inner}
+            @{post.author_id}
           </span>
         </div>
       </div>
@@ -369,8 +294,6 @@ const fillIcons = {
   Reply: "bi-reply-fill",
 };
 
-// Trigger saving this widget.
-
 const borders = {
   Idea: "border-secondary",
   Comment: "border-secondary",
@@ -391,7 +314,7 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
   key: context.accountId + "/index/notify",
 });
 if (grantNotify === null) {
-  return <div>Loading...</div>;
+  return;
 }
 const onLike = () => {
   if (!context.accountId) {
@@ -449,7 +372,7 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
 };
 
 const buttonsFooter = props.isPreview ? null : (
-  <div class="row my-2" key="buttons-footer" style={{ marginLeft: "0.2rem" }}>
+  <div class="row " key="buttons-footer">
     <div class="col-8">
       <div
         class="btn-group text-sm"
@@ -595,11 +518,7 @@ const renamedPostType =
   snapshot.post_type == "Submission" ? "Solution" : snapshot.post_type;
 
 const postLabels = post.snapshot.labels ? (
-  <div
-    class="card-title"
-    key="post-labels"
-    style={{ marginLeft: "1rem", marginBottom: "0.8rem" }}
-  >
+  <div class="card-title" key="post-labels">
     {post.snapshot.labels.map((label) => {
       return (
         <>
@@ -612,7 +531,6 @@ const postLabels = post.snapshot.labels ? (
                 fontWeight: "normal",
                 padding: "0.2em 0.5em",
                 border: "1px solid rgba(0, 80, 80, 0.2)",
-                marginTop: "1rem",
               }}
             >
               {label}
@@ -633,7 +551,7 @@ const postTitle =
     <h5 class="card-title" key="post-title">
       <div
         className="row justify-content-between"
-        style={{ fontSize: "1.3em", fontWeight: "600", marginLeft: "0.3rem" }}
+        style={{ fontSize: "1.3em", fontWeight: "600" }}
       >
         <div class="col-12">
           <i class={`bi ${emptyIcons[snapshot.post_type]}`}> </i>
@@ -646,26 +564,10 @@ const postTitle =
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      <h6
-        class="card-subtitle  text-muted"
-        style={{
-          marginLeft: "1rem",
-          marginBottom: "1rem",
-          fontSize: "1.25em",
-          fontWeight: "600",
-        }}
-      >
+      <h6 class="card-subtitle  text-muted">
         Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
       </h6>
-      <h6
-        class="card-subtitle  text-muted"
-        style={{
-          marginLeft: "1rem",
-          marginBottom: "1.5rem",
-          fontSize: "1.25em",
-          fontWeight: "600",
-        }}
-      >
+      <h6 class="card-subtitle  text-muted">
         Supervisor:{" "}
         <Widget
           src={`neardevgov.near/widget/ProfileLine`}
@@ -699,11 +601,11 @@ const postsList =
 
 const Card = styled.div`
   &:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: none;
   }
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: none;
+  box-shadow: none;
+  border: 3px solid #008080;
+  border-radius: 5px;
 `;
 
 // Determine if located in the post page.
@@ -754,7 +656,7 @@ const descriptionArea = isUnderPost ? (
   <limitedMarkdown
     className="overflow-auto"
     key="description-area"
-    style={{ marginLeft: "1rem", paddingRight: "15px", marginBottom: "1rem" }}
+    style={{ paddingLeft: "15px", paddingRight: "15px", marginBottom: "-30px" }}
   >
     <Markdown
       className="card-text"
@@ -767,24 +669,24 @@ const descriptionArea = isUnderPost ? (
     <div
       className={state.clamp ? "clamp" : ""}
       style={{
-        fontSize: "1rem",
+        fontSize: "1.25rem",
         paddingLeft: "15px",
         paddingRight: "15px",
         marginBottom: "-10px",
       }}
     >
       <Markdown
-        className="card-text"
+        className="card-text --bs-btn-hover-color: #008080;"
         text={state.clamp ? clampedContent : snapshot.description}
         onMention={onMention}
         key="description-area"
       ></Markdown>
     </div>
     {state.clamp && isContentLong ? (
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-end">
         <StyledLink>
           <a
-            style={{ fontSize: "1rem", fontWeight: 700 }}
+            style={{ fontSize: "1rem", fontWeight: 800 }}
             className="btn btn-link text-black"
             onClick={() => State.update({ clamp: false })}
           >
@@ -794,10 +696,10 @@ const descriptionArea = isUnderPost ? (
         </StyledLink>
       </div>
     ) : !state.clamp && isContentLong ? (
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-end">
         <StyledLink>
           <a
-            style={{ fontSize: "1rem", fontWeight: 700 }}
+            style={{ fontSize: "1rem", fontWeight: 800 }}
             className="btn btn-link text-black"
             onClick={() => State.update({ clamp: true })}
           >
