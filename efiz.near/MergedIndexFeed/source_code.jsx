@@ -152,24 +152,13 @@ while (filteredItems.length < state.displayCount) {
   }
   state.feeds[bestItem.index].usedCount++;
   if (filter) {
-    if (filter.accountBlacklist) {
-      if (bestItem.accountId in filter.accountBlacklist) {
+    if (filter.ignore) {
+      if (bestItem.accountId in filter.ignore) {
         continue;
       }
     }
-    // if (filter.typeWhitelist) {
-    //   if (!(bestItem.value.type in filter.typeWhitelist)) {
-    //     continue;
-    //   }
-    // }
   }
-  // Remove duplicates
-  const existingItemIndex = filteredItems.findIndex(
-    (item) => item.blockHeight === bestItem.blockHeight
-  );
-  if (existingItemIndex === -1) {
-    filteredItems.push(bestItem);
-  }
+  filteredItems.push(bestItem);
 }
 
 // Fetch new items for feeds that don't have enough items.
@@ -257,7 +246,7 @@ const renderedItems = items.map(disableCaching ? renderItem : cachedRenderItem);
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(${props.grid?.columns || 3}, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
   @media (hover: none) {
     grid-template-columns: repeat(1, 1fr);
@@ -270,15 +259,6 @@ return props.manual ? (
     {renderedItems}
     {!reverse && fetchMore}
   </>
-) : props.grid ? (
-  <InfiniteScroll
-    pageStart={0}
-    loadMore={makeMoreItems}
-    hasMore={state.displayCount <= filteredItems.length}
-    loader={loader}
-  >
-    <Grid>{renderedItems}</Grid>
-  </InfiniteScroll>
 ) : (
   <InfiniteScroll
     pageStart={0}
@@ -286,6 +266,6 @@ return props.manual ? (
     hasMore={state.displayCount <= filteredItems.length}
     loader={loader}
   >
-    {renderedItems}
+    <Grid>{renderedItems}</Grid>
   </InfiniteScroll>
 );
