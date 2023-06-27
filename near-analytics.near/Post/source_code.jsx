@@ -338,7 +338,7 @@ const buttonsFooter = props.isPreview ? null : (
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class={`bi ${emptyIcons.Reply}`}> </i> Reply
+            <i class={`bi ${emptyIcons.Reply}`}> </i> Respond
           </button>
           <ul class="dropdown-menu">
             <li>
