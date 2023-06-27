@@ -19,29 +19,6 @@ State.init({
   components: [],
 });
 
-function handleApply() {
-  const thing = {};
-  const blocks = [];
-
-  state.components?.forEach((entry) => {
-    if (entry.type !== "embed") {
-      const entryId = Math.random();
-      thing[entryId] = JSON.stringify({
-        data: entry.value,
-        type: entry.type,
-      });
-      blocks.push(`${accountId}/thing/${entryId}`);
-    } else {
-      blocks.push(entry.value);
-    }
-  });
-  if (onChange) {
-    onChange(blocks);
-  } else {
-    console.log(blocks);
-  }
-}
-
 function handleTypeClick(type) {
   State.update({ components: [...state.components, { type }] });
 }
@@ -92,14 +69,33 @@ function RenderComponent({ component, index }) {
     State.update({ components: updatedComponents });
   };
 
+  function buildEdges(newPath, newType) {
+    const edges = [];
+    edges.push({
+      key: path,
+      value: {
+        type: newType,
+        path: newPath,
+      },
+    });
+    edges.push({
+      key: newPath,
+      value: {
+        type: type,
+        path: path,
+      },
+    });
+    return edges;
+  }
+
   return (
     <div>
-      <p>{JSON.stringify(component)}</p>
       <Widget
         src={widgetSrc}
         props={{
           data: component.value,
           type: component.type,
+          buildEdges,
           onChange: handleComponentChange,
         }}
       />
@@ -126,6 +122,5 @@ return (
     {state.components?.map((component, index) => (
       <RenderComponent key={index} component={component} index={index} />
     ))}
-    <Button onClick={handleApply}>apply</Button>
   </div>
 );
