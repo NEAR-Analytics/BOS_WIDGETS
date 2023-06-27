@@ -147,23 +147,25 @@ const srcCode = `<!DOCTYPE html>
         width: 100%;
         max-width: 1000px;
         margin: 0 0;
-                text-align:center;
         justify-content: center;
         flex-direction: column;
         gap: 1em;
       "
     >
-
-      <div class="canvas-container">
-          <div style="
+    <div style="
         width: 100%;    
         background-color: #ffffff;
+        margin-left: 7vw;
         color: #000000;
         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         font-weight: bolder;
-        font-size: 2vw;">
+        font-size: 2vw;
+        line-height: 0.3em;
+        ">
         Guess The RegenWise Word (GTRW) Game
     </div>
+
+      <div class="canvas-container">
         <canvas id="bgCanvas" width="1000" height="500"></canvas>
         <canvas id="fgCanvas" width="1000" height="500"></canvas>
       </div>
