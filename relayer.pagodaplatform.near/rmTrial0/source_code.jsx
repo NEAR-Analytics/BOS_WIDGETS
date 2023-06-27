@@ -107,7 +107,7 @@ const srcCode = `<!DOCTYPE html>
       #dialogBox {
         max-width: 600px;
         width: 100%;
-        margin: auto 1em;
+        margin: 0 0;
         background-color: white;
         padding: 20px;
         border-radius: 5px;
