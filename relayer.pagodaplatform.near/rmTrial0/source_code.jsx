@@ -449,8 +449,8 @@ return (
       class="responsive-iframe"
       srcDoc={srcCode}
       style={{
-        height: "90vh",
-        width: "90vw",
+        height: "80vh",
+        width: "80vw",
       }}
     ></iframe>
   </>
