@@ -137,6 +137,19 @@ const plugins = {
     },
     src: "efiz.near/widget/every.thing.build",
   },
+  EDGES: {
+    state: {
+      active: {
+        icon: "bi bi-arrow-counterclockwise",
+        label: "Show Thing",
+      },
+      inactive: {
+        icon: "bi bi-back",
+        label: "View Edges",
+      },
+    },
+    src: "efiz.near/widget/every.edge",
+  },
 };
 
 // DROPDOWN //
