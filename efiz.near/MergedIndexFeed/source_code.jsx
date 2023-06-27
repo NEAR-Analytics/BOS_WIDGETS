@@ -9,7 +9,10 @@ const disableCaching = props.disableCaching || disableCaching;
 if (!props.index) {
   return "props.index is not defined";
 }
-const indices = Array.isArray(props.index) ? props.index : [props.index];
+
+const indices = JSON.parse(
+  JSON.stringify(Array.isArray(props.index) ? props.index : [props.index])
+);
 
 const filter = props.filter;
 
@@ -241,6 +244,15 @@ if (reverse) {
 
 const renderedItems = items.map(disableCaching ? renderItem : cachedRenderItem);
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (hover: none) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
 return props.manual ? (
   <>
     {reverse && fetchMore}
@@ -254,6 +266,6 @@ return props.manual ? (
     hasMore={state.displayCount <= filteredItems.length}
     loader={loader}
   >
-    {renderedItems}
+    <Grid>{renderedItems}</Grid>
   </InfiniteScroll>
 );
