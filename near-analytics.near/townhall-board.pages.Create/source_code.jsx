@@ -115,7 +115,7 @@ const onSubmit = () => {
     body = {
       ...body,
       post_type: "Update",
-      idea_version: "V1",
+      update_version: "V1",
     };
   }
 
