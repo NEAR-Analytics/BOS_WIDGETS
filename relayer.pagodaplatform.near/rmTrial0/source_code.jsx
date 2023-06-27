@@ -8,7 +8,7 @@ const srcCode = `<!DOCTYPE html>
         width: 77%;
         aspect-ratio: 2;
         max-width: 1000px;
-        margin: 0 auto;
+        margin: 0 0;
       }
 
       canvas {
@@ -34,12 +34,12 @@ const srcCode = `<!DOCTYPE html>
         cursor: pointer;
         padding: 20px 80px;
         display: inline-block;
-        margin: 0px 30px;
+        margin: 0px;
         text-transform: uppercase;
         letter-spacing: 1px;
         font-weight: 700;
         outline: none;
-        position: relative;
+        position: absolute;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         transition: all 0.3s;
@@ -140,17 +140,6 @@ const srcCode = `<!DOCTYPE html>
     </style>
   </head>
   <body>
-    <div style="
-    text-align: center;
-    width: 100%;    
-    background-color: #ffffff;
-    color: #000000;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-weight: bolder;
-    font-size: 2vw;
-    line-height: 1.5em;">
-        Guess The RegenWise Word (GTRW) Game 1
-    </div>
     <div
       style="
         display: flex;
@@ -162,11 +151,23 @@ const srcCode = `<!DOCTYPE html>
         gap: 1em;
       "
     >
+        
+    <div style="
+    text-align: center;
+    width: 100%;    
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    font-size: 2vw;
+    line-height: 1.5em;">
+        Guess The RegenWise Word (GTRW) Game 1
+    </div>
       <div class="canvas-container">
         <canvas id="bgCanvas" width="1000" height="500"></canvas>
         <canvas id="fgCanvas" width="1000" height="500"></canvas>
       </div>
-      <div style="text-align: center;">
+      <div>
         <button class="btn btn-2 btn-2g" onclick="location.reload()">
           Restart
         </button>
