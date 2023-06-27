@@ -1,10 +1,15 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = context.accountId;
+const memberId = props.memberId ?? context.accountId;
 
 const data = Social.keys("*/profile", "final");
 
 if (!data) {
   return "Loading...";
 }
+
+State.init({
+  isMember: false,
+});
 
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const groupId = props.groupId ?? "voter";
@@ -16,13 +21,9 @@ if (!policy) {
 
 const group = policy.roles
   .filter((role) => role.name === groupId)
-  .map((role) => {
-    const group = role.kind.Group;
+  .map((role) => role.kind.Group);
 
-    return group;
-  });
-
-// IAH Verification
+// SBT verification
 let human = false;
 const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
   account: accountId,
@@ -33,6 +34,17 @@ for (let i = 0; i < userSBTs.length; i++) {
     human = true;
   }
 }
+
+// check DAO group membership
+const groupMembers = group.join(", ");
+
+const checkMembership = (groupMembers) => {
+  if (groupMembers.indexOf(memberId) !== -1) {
+    return State.update({ isMember: true });
+  }
+};
+
+const validMember = checkMembership(groupMembers);
 
 const Container = styled.div`
   display: flex;
@@ -54,17 +66,25 @@ return (
     <Container>
       <Widget src="hack.near/widget/progress.members" />
       <div className="m-2">
-        {human && (
-          <button className="btn btn-success m-1" onClick={handleProposal}>
+        {human ? (
+          <button
+            disabled={validMember}
+            className="btn btn-success m-1"
+            onClick={handleProposal}
+          >
             Join DAO
           </button>
+        ) : (
+          <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              href: "https://i-am-human.app/?community=banyan&vertical=regionalcommunities",
+              label: "Get Verified",
+              variant: "outline-primary",
+              size: "large",
+            }}
+          />
         )}
-        <a
-          className="btn btn-outline-success m-1"
-          href="#/hack.near/widget/dao.proposals"
-        >
-          View Proposals
-        </a>
       </div>{" "}
     </Container>
     <hr />
