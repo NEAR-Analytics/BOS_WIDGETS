@@ -1,39 +1,66 @@
-const { end } = props;
+const { startTime, endTime, type } = props;
 
 State.init({
   days: "-",
   hours: "-",
   minutes: "-",
   seconds: "-",
+  title: "",
 });
 
 const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
 const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const start = new Date(parseInt(startTime)).getTime();
+  const end = new Date(parseInt(endTime)).getTime();
+  let title = "";
+
   const diff = new Date(parseInt(end)).getTime() - new Date().getTime();
+  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+  if (now < start)
+    title = (
+      <>
+        Time before <br /> {type} starts
+      </>
+    );
+  else if (now > start && now < end)
+    title = (
+      <>
+        Time remaining in <br /> current {type}
+      </>
+    );
+  else {
+    title = <>{type} is ended</>;
+    days = 0;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+  }
+  console.log([days, hours, minutes, seconds, title]);
   State.update({
     days: days,
     hours: hours,
     minutes: minutes,
     seconds: seconds,
+    title: title,
   });
 
   clearInterval(timer);
 }, 1000);
 
 const Logo = styled.img`
-    width: 130px;
+    width: 60px;
+    margin: 0 20px 0 10px;
 `;
 
 const H1 = styled.h1`
   font-size: 40px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 0;
 `;
 
@@ -65,7 +92,7 @@ const Timer = styled.div`
 const TimerContainer = styled.div`
   .time {
     font-size: 48px;
-    font-weight: 800;
+    font-weight: 700;
     color: #FFD50D;
     width: 100px;
     line-height: 1;
@@ -95,7 +122,7 @@ const SmallTimerContainer = styled.div`
 
 const TitleContainer = () => (
   <>
-    <Logo src="https://ipfs.near.social/ipfs/bafkreie4rfa63zedwnpbwm5lglqrwqhahcnf6slllqmq7sh46ngf5y4vsq" />
+    <Logo src="https://pbs.twimg.com/profile_images/1622941553839816707/nmf3MWw1_400x400.jpg" />
     <H1>NDC Nomination</H1>
   </>
 );
@@ -110,9 +137,7 @@ const TimerContent = () => {
 
   return (
     <>
-      <H6>
-        Time remaining in <br /> current nomination
-      </H6>
+      <H6>{state.title}</H6>
       <Timer className="d-flex">
         <TimeSlot title="days" time={state.days} />
         <TimeSlot title="hours" time={state.hours} />
@@ -125,7 +150,7 @@ const TimerContent = () => {
 
 return (
   <>
-    <div className="px-3 py-2 bg-black text-white d-none d-lg-flex rounded justify-content-between align-items-center">
+    <div className="p-4 bg-black text-white d-none d-lg-flex rounded justify-content-between align-items-center">
       <div className="d-flex align-items-center">
         <TitleContainer />
       </div>
