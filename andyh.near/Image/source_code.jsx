@@ -18,20 +18,20 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 
 function toUrl(image) {
   return (
-    (image?.ipfs_cid
-      ? `https://ipfs.near.social/ipfs/${image?.ipfs_cid}`
-      : image?.url) || fallbackUrl
+    (image.ipfs_cid
+      ? `https://ipfs.near.social/ipfs/${image.ipfs_cid}`
+      : image.url) || fallbackUrl
   );
 }
 
 const thumb = (imageUrl) =>
-  thumbnail && imageUrl && !imageUrl?.startsWith("data:image/")
+  thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return image?.nft?.contractId && image.nft.tokenId ? (
+return image.nft.contractId && image.nft.tokenId ? (
   <Widget
-    src="andyh.near/widget/NftImage"
+    src="mob.near/widget/NftImage"
     props={{
       className,
       style,
