@@ -120,7 +120,6 @@ const NavTitle = styled.div`
   font-family: Inter;
   font-weight: 700;
   line-height: 140%;
-  margin-top: 2rem;
 `;
 
 const navSection = ({ title, items }) => (
