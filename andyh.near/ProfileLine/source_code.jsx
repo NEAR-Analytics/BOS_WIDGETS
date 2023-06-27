@@ -16,7 +16,7 @@ let inner = (
     {!hideImage && (
       <Widget
         key="image"
-        src="mob.near/widget/ProfileImage"
+        src="andyh.near/widget/ProfileImage"
         props={{
           style: { width: "1.5em", height: "1.5em", marginRight: "0.1em" },
           profile,
@@ -40,7 +40,7 @@ inner = link ? (
     href={
       link !== true
         ? link
-        : `#/mob.near/widget/ProfilePage?accountId=${accountId}`
+        : `#/andyh.near/widget/ProfilePage?accountId=${accountId}`
     }
     className="link-dark text-truncate d-inline-flex"
   >
@@ -53,7 +53,7 @@ inner = link ? (
 if (props.tooltip === true) {
   return (
     <Widget
-      src="mob.near/widget/Profile.OverlayTrigger"
+      src="andyh.near/widget/Profile.OverlayTrigger"
       props={{ accountId, children: inner }}
     />
   );
