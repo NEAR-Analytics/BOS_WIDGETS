@@ -157,7 +157,7 @@ const srcCode = `<!DOCTYPE html>
         display: flex;
         width: 100%;
         max-width: 1000px;
-        margin: 0 auto;
+        margin: 0 0;
         justify-content: center;
         flex-direction: column;
         gap: 1em;
@@ -452,8 +452,8 @@ return (
       class="responsive-iframe"
       srcDoc={srcCode}
       style={{
-        height: "100vh",
-        width: "100vw",
+        height: "50vh",
+        width: "50vw",
       }}
     ></iframe>
   </>
