@@ -152,16 +152,11 @@ while (filteredItems.length < state.displayCount) {
   }
   state.feeds[bestItem.index].usedCount++;
   if (filter) {
-    if (filter.accountBlacklist) {
-      if (bestItem.accountId in filter.accountBlacklist) {
+    if (filter.ignore) {
+      if (bestItem.accountId in filter.ignore) {
         continue;
       }
     }
-    // if (filter.typeWhitelist) {
-    //   if (!(bestItem.value.type in filter.typeWhitelist)) {
-    //     continue;
-    //   }
-    // }
   }
   filteredItems.push(bestItem);
 }
