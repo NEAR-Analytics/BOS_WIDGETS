@@ -17,7 +17,8 @@ const code = Social.get(`${accountId}/widget/${widgetName}`);
 const data = Social.get(`${accountId}/widget/${widgetName}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `/adminalpha.near/widget/ComponentDetailsPage?src=${src}`;
+// const detailsUrl = `/adminalpha.near/widget/ComponentDetailsPage?src=${src}`;
+const detailsUrl = `/search/${src}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 
 const dependencyMatch =
