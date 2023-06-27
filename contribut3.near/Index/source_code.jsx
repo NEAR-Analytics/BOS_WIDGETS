@@ -200,7 +200,19 @@ const tabContent = {
       props={{ update, content: state.content, urlProps: props }}
     />
   ),
+  backers: (
+    <Widget
+      src={`${ownerId}/widget/Investor.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
   vendors: (
+    <Widget
+      src={`${ownerId}/widget/Vendor.ListPage`}
+      props={{ update, content: state.content, urlProps: props }}
+    />
+  ),
+  contributors: (
     <Widget
       src={`${ownerId}/widget/Vendor.ListPage`}
       props={{ update, content: state.content, urlProps: props }}
