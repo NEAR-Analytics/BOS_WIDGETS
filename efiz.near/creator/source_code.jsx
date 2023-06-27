@@ -124,6 +124,9 @@ const handleSave = () => {
     thing: {
       [thingId]: JSON.stringify({
         data: state.config,
+        template: {
+          src: state.template,
+        },
         type: state.selectedType,
       }),
     },
