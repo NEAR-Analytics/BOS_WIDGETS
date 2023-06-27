@@ -157,11 +157,11 @@ while (filteredItems.length < state.displayCount) {
         continue;
       }
     }
-    if (filter.typeWhitelist) {
-      if (!(bestItem.value.type in filter.typeWhitelist)) {
-        continue;
-      }
-    }
+    // if (filter.typeWhitelist) {
+    //   if (!(bestItem.value.type in filter.typeWhitelist)) {
+    //     continue;
+    //   }
+    // }
   }
   filteredItems.push(bestItem);
 }
