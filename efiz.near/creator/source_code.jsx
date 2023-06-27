@@ -153,51 +153,67 @@ const handleTypeChange = (e) => {
 return (
   <Container>
     <SidePanel>
-      <Label>Type Source:</Label>
-      <Row>
-        <Input
-          type="text"
-          value={state.newTypeSrc}
-          onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-          placeholder={"accountId"}
-        />
-        <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
-          apply
+      <Row style={{ gap: "8px" }}>
+        <Button onClick={() => State.update({ view: "CREATE_THING" })}>
+          thing
+        </Button>
+        <Button onClick={() => State.update({ view: "CREATE_TYPE" })}>
+          type
         </Button>
       </Row>
-      <Label>Type</Label>
-      <Select value={state.selectedType} onChange={handleTypeChange}>
-        <option value="">Select a type</option>
-        {availableTypes?.map((it) => (
-          <option value={it} key={it}>
-            {it}
-          </option>
-        ))}
-      </Select>
-      <Label>Template</Label>
-      <Input
-        value={state.templateVal}
-        onChange={(e) => State.update({ templateVal: e.target.value })}
-      />
-      <Widget
-        src="efiz.near/widget/create"
-        props={{
-          item: {
-            type: state.selectedType,
-            value: state.data,
-          },
-          onChange: handleOnChange,
-        }}
-      />
-      <Footer>
-        <Button onClick={() => handleApply()}>apply</Button>
-        <Button
-          onClick={() => State.update({ isModalOpen: true })}
-          disabled={state.config === undefined}
-        >
-          save
-        </Button>
-      </Footer>
+      {state.view === "CREATE_THING" ? (
+        <>
+          <Label>Type Source:</Label>
+          <Row>
+            <Input
+              type="text"
+              value={state.newTypeSrc}
+              onChange={(e) => State.update({ newTypeSrc: e.target.value })}
+              placeholder={"accountId"}
+            />
+            <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
+              apply
+            </Button>
+          </Row>
+          <Label>Type</Label>
+          <Select value={state.selectedType} onChange={handleTypeChange}>
+            <option value="">Select a type</option>
+            {availableTypes?.map((it) => (
+              <option value={it} key={it}>
+                {it}
+              </option>
+            ))}
+          </Select>
+          <Label>Template</Label>
+          <Input
+            value={state.templateVal}
+            onChange={(e) => State.update({ templateVal: e.target.value })}
+          />
+          <Widget
+            src="efiz.near/widget/create"
+            props={{
+              item: {
+                type: state.selectedType,
+                value: state.data,
+              },
+              onChange: handleOnChange,
+            }}
+          />
+          <Footer>
+            <Button onClick={() => handleApply()}>apply</Button>
+            <Button
+              onClick={() => State.update({ isModalOpen: true })}
+              disabled={state.config === undefined}
+            >
+              save
+            </Button>
+          </Footer>
+        </>
+      ) : (
+        <>
+          <Widget src="efiz.near/widget/every.type.create" />
+        </>
+      )}
     </SidePanel>
     <MainContent>
       <Header></Header>
