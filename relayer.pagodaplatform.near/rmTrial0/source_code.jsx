@@ -5,7 +5,7 @@ const srcCode = `<!DOCTYPE html>
     <style>
       .canvas-container {
         position: relative;
-        width: 80%;
+        width: 77%;
         aspect-ratio: 2;
         max-width: 1000px;
         margin: 0 auto;
