@@ -130,7 +130,7 @@ const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 2.5em;
-  gap: 0.8em;
+  gap: 0.5rem;
 
   @media screen and (max-width: 768px) {
     width: 100%;
