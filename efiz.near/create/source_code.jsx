@@ -112,20 +112,6 @@ function Property({ property, value }) {
         placeholder={property.name}
       />
     );
-  } else if (property.type === "tags") {
-    return (
-      <Widget
-        src="mob.near/widget/TagsEditor"
-        props={{
-          initialTagsObject: state[property.name] || [],
-          tagsPattern: "*/profile/tags/*",
-          placeholder: "",
-          setTagsObject: (tags) => {
-            handleInputChange(property.name, tags);
-          },
-        }}
-      />
-    );
   } else {
     // This requires a specific type of creator
     // (like image upload)
@@ -135,7 +121,12 @@ function Property({ property, value }) {
     );
     const widgetSrc = propertyType?.widgets?.create;
     // it would be great to modify the onChange function
-    return <Widget src={widgetSrc} onChange={onChange} />;
+    return (
+      <Widget
+        src={widgetSrc}
+        props={{ onChange: (e) => handleInputChange(property.name, e) }}
+      />
+    );
   }
 }
 
