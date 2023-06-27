@@ -141,7 +141,7 @@ const srcCode = `<!DOCTYPE html>
   </head>
   <body>
     <div style="
-    justify-content: center;
+    text-align: center;
     width: 100%;    
     background-color: #ffffff;
     color: #000000;
