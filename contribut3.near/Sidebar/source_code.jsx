@@ -613,11 +613,11 @@ const content = (
     {navSection({
       title: "Get help",
       items: [
-        {
-          text: "Ask community",
-          icon: community,
-          id: "community",
-        },
+        // {
+        //   text: "Ask community",
+        //   icon: community,
+        //   id: "community",
+        // },
         {
           text: "Learning resources",
           icon: learn,
