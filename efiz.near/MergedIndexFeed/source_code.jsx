@@ -260,14 +260,12 @@ return props.manual ? (
     {!reverse && fetchMore}
   </>
 ) : (
-  <Grid>
-    <InfiniteScroll
-      pageStart={0}
-      loadMore={makeMoreItems}
-      hasMore={state.displayCount <= filteredItems.length}
-      loader={loader}
-    >
-      {renderedItems}
-    </InfiniteScroll>
-  </Grid>
+  <InfiniteScroll
+    pageStart={0}
+    loadMore={makeMoreItems}
+    hasMore={state.displayCount <= filteredItems.length}
+    loader={loader}
+  >
+    {renderedItems}
+  </InfiniteScroll>
 );
