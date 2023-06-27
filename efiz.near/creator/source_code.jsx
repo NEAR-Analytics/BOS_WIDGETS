@@ -1,7 +1,7 @@
 const data = props.data || {};
 const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
-const edges = props.edges || [];
+const buildEdges = props.buildEdges;
 
 if (type !== "") {
   const parts = type.split("/");
@@ -114,6 +114,11 @@ const handleSave = () => {
   // create the thing
   State.update({ isModalOpen: false });
   const thingId = state.thingId || Math.random();
+  let edges = [];
+  if (buildEdges) {
+    const newPath = `${context.accountId}/thing/${thingId}`;
+    edges = buildEdges(newPath, state.selectedType);
+  }
   const data = {
     thing: {
       [thingId]: JSON.stringify({
@@ -128,9 +133,11 @@ const handleSave = () => {
           type: state.selectedType,
         },
       }),
-      ...edges,
     },
   };
+  if (edges.length) {
+    data.index.edges = JSON.stringify(edges);
+  }
   Social.set(data, {
     onCommit: () => {
       State.update({
