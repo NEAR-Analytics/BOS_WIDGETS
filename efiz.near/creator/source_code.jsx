@@ -147,7 +147,7 @@ if (types !== null) {
 }
 
 const handleTypeChange = (e) => {
-  State.update({ selectedType: e.target.value, templateVal: "" });
+  State.update({ selectedType: e.target.value, templateVal: "", data: {} });
 };
 
 return (
