@@ -41,7 +41,7 @@ const deposit = policy.proposal_bond;
 
 const profile_args = JSON.stringify({
   data: {
-    [state.daoId]: {
+    [daoId]: {
       profile: state.profile,
     },
   },
@@ -52,7 +52,7 @@ const proposal_args = Buffer.from(profile_args, "utf-8").toString("base64");
 const handleProposal = () => {
   Near.call([
     {
-      contractName: state.daoId,
+      contractName: daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
