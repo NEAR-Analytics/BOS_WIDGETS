@@ -315,7 +315,7 @@ return (
             {dependencySources.map((source) => (
               <Dependency key={source}>
                 <Widget
-                  src="adminalpha.near/widget/ComponentProfile"
+                  src="saidulbadhon.near/widget/SearchPage.ComponentDetails.ComponentProfile"
                   props={{ src: source }}
                 />
               </Dependency>
