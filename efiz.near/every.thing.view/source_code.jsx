@@ -42,7 +42,7 @@ const IconBox = styled.div`
 
 const Content = styled.div`
   padding: 1px;
-  min-height: 50px;
+  height: fit-content;
 `;
 
 const Button = styled.button`
