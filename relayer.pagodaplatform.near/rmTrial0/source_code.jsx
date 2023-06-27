@@ -153,6 +153,7 @@ const srcCode = `<!DOCTYPE html>
       "
     >
     <div style="
+    display:flex;
         width: 100%;    
         background-color: #ffffff;
         margin-left: 120px;
