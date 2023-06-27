@@ -31,7 +31,7 @@ if (data === null) {
 }
 
 const processData = (data) => {
-  const accounts = Object.entries(data);
+  const accounts = Object.entries(data) || [];
 
   const allItems = accounts
     .map((account) => {
