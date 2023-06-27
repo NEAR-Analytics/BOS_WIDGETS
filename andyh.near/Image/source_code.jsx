@@ -18,7 +18,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 
 function toUrl(image) {
   return (
-    (image.ipfs_cid
+    (image?.ipfs_cid
       ? `https://ipfs.near.social/ipfs/${image?.ipfs_cid}`
       : image?.url) || fallbackUrl
   );
