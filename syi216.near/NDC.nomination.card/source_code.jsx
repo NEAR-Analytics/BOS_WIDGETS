@@ -74,7 +74,13 @@ gap: 10px;
 width: 74px;
 height: 18px;
 
-background: linear-gradient(90deg, rgba(147, 51, 234, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%);
+border: solid 1px transparent;
+border-radius: 80px;
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
+
+
 border-radius: 100px;
 
 /* Inside auto layout */
@@ -194,6 +200,12 @@ gap: 6px;
 
 width: 72px;
 height: 28px;
+
+border: solid 1px transparent;
+border-radius: 80px;
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
 
 border-radius: 4px;
 
@@ -779,7 +791,11 @@ gap: 10px;
 
 height: 20px;
 
-background: linear-gradient(90deg, rgba(147, 51, 234, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%);
+border: solid 1px transparent;
+border-radius: 80px;
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
 border-radius: 100px;
 
 /* Inside auto layout */
@@ -822,6 +838,11 @@ display: flex;
 padding: 2px 12px;
 align-items: center;
 gap: 6px;
+border: solid 1px transparent;
+border-radius: 80px;
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
 border-radius: 4px;
 `;
 
@@ -861,6 +882,11 @@ const ViewButtonDiv = styled.button`
 display: flex;
 padding: 2px 12px;
 align-items: flex-start;
+border: solid 1px transparent;
+border-radius: 80px;
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-origin: border-box;
+background-clip: padding-box, border-box;
 gap: 10px;
 border-radius: 4px;
 `;
@@ -885,6 +911,7 @@ align-items: flex-start;
 gap: 10px;
 border-radius: 4px;
 background: var(--buttons-yellow-default, #FFD50D);
+border: 1px solid #FFD50D;
 `;
 
 const ShareButtonText = styled.p`
