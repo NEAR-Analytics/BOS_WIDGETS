@@ -1,15 +1,14 @@
 const srcCode = `<!DOCTYPE html>
 <html>
   <head>
-    <title>Guess The RegenWise Word Game</title>
+    <title>Word Guessing Game</title>
     <style>
       .canvas-container {
         position: relative;
-        width: 77%;
+        width: 100%;
         aspect-ratio: 2;
         max-width: 1000px;
-        margin: 0 0;
-        text-align: center;
+        margin: 0 auto;
       }
 
       canvas {
@@ -35,12 +34,12 @@ const srcCode = `<!DOCTYPE html>
         cursor: pointer;
         padding: 20px 80px;
         display: inline-block;
-        margin: 0px;
+        margin: 0px 30px;
         text-transform: uppercase;
         letter-spacing: 1px;
         font-weight: 700;
         outline: none;
-        position: absolute;
+        position: relative;
         -webkit-transition: all 0.3s;
         -moz-transition: all 0.3s;
         transition: all 0.3s;
@@ -141,34 +140,34 @@ const srcCode = `<!DOCTYPE html>
     </style>
   </head>
   <body>
+    <div style="text-align: center;     
+    background-color: #ffffff;
+    color: #000000;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    font-size: 25px;
+    line-height: 1.5em;">
+        RegenWise Word Guessing Game
+    </div>
     <div
       style="
         display: flex;
         width: 100%;
         max-width: 1000px;
-        margin: 0 0;
+        margin: 0 auto;
         justify-content: center;
         flex-direction: column;
         gap: 1em;
       "
     >
-    <div style="
-    display:flex;
-        width: 100%;    
-        background-color: #ffffff;
-        margin-left: 120px;
-        color: #000000;
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-        font-weight: bolder;
-        font-size: 2vw;
-        line-height: 0.3em;
-        ">
-        Guess The RegenWise Word (GTRW) Game
-    </div>
-
       <div class="canvas-container">
         <canvas id="bgCanvas" width="1000" height="500"></canvas>
         <canvas id="fgCanvas" width="1000" height="500"></canvas>
+      </div>
+      <div style="text-align: center;">
+        <button class="btn btn-2 btn-2g" onclick="location.reload()">
+          Restart
+        </button>
       </div>
       <div id="dialogOverlay">
         <div id="dialogBox">
