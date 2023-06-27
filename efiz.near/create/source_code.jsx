@@ -44,6 +44,8 @@ if (item.type === "string") {
   );
 } else if (item.type === "number") {
   return <Input type="number" onChange={onChange} value={item.value} />;
+} else if (item.type === "date" || item.type === "time") {
+  return <Input type={item.type} onChange={onChange} value={item.value} />;
 }
 
 // On-chain Type
@@ -108,6 +110,20 @@ function Property({ property, value }) {
         }
         value={state[property.name] || ""}
         placeholder={property.name}
+      />
+    );
+  } else if (property.type === "tags") {
+    return (
+      <Widget
+        src="mob.near/widget/TagsEditor"
+        props={{
+          initialTagsObject: state[property.name] || [],
+          tagsPattern: "*/profile/tags/*",
+          placeholder: "",
+          setTagsObject: (tags) => {
+            handleInputChange(property.name, tags);
+          },
+        }}
       />
     );
   } else {
