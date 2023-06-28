@@ -285,6 +285,7 @@ return (
           <p>option to provide a thing id</p>
           <Row style={{ gap: "8px" }}>
             <Input
+              value={state.thingId}
               onChange={(e) => State.update({ thingId: e.target.value })}
               placeholder="thing id"
             />
