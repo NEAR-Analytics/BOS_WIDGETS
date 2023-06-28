@@ -149,7 +149,14 @@ return (
           textAlign: "center",
         }}
       >
-        <img src={"https://i.imgur.com/SX5xUim.png"} />
+        <img
+          style={{
+            width: "100%",
+          }}
+          src={
+            "https://user-images.githubusercontent.com/100770363/249336643-530248f3-5e7b-4a2d-bb66-91cf4b588004.png"
+          }
+        />
       </a>
 
       <p
