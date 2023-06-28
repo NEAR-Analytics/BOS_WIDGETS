@@ -118,12 +118,13 @@ return (
     <Button onClick={() => handleTypeClick("every.near/type/feed")}>
       Add Feed
     </Button>
-    <Button onClick={() => handleTypeClick("every.near/type/marketplace")}>
-      Add Marketplace
-    </Button>
     <Button onClick={() => handleTypeClick("embed")}>Embed Thing</Button>
     {state.components?.map((component, index) => (
       <RenderComponent key={index} component={component} index={index} />
     ))}
   </div>
 );
+
+<Button onClick={() => handleTypeClick("every.near/type/marketplace")}>
+  Add Marketplace
+</Button>;
