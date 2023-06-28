@@ -91,6 +91,7 @@ const ModalContent = styled.div`
   border-radius: 4px;
   min-width: 500px;
   height: 100%;
+  overflow: scroll;
 `;
 
 const ModalTitle = styled.h3`
