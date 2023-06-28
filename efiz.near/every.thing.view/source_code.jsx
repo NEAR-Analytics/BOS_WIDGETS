@@ -111,19 +111,6 @@ const plugins = {
     },
     src: "efiz.near/widget/every.thing.duplicate",
   },
-  CONNECT: {
-    state: {
-      active: {
-        icon: "bi bi-arrow-counterclockwise",
-        label: "Cancel Connect",
-      },
-      inactive: {
-        icon: "bi bi-back",
-        label: "Connect",
-      },
-    },
-    src: "efiz.near/widget/every.thing.connect",
-  },
   BUILD: {
     state: {
       active: {
@@ -131,7 +118,7 @@ const plugins = {
         label: "Cancel Build",
       },
       inactive: {
-        icon: "bi bi-back",
+        icon: "bi bi-hammer",
         label: "Build",
       },
     },
@@ -144,8 +131,8 @@ const plugins = {
         label: "Show Thing",
       },
       inactive: {
-        icon: "bi bi-back",
-        label: "View Edges",
+        icon: "bi bi-link",
+        label: "Edges",
       },
     },
     src: "efiz.near/widget/every.edge",
