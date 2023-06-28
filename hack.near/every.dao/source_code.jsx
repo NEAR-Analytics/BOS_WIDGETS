@@ -34,13 +34,28 @@ const Container = styled.div`
 
 return (
   <Container>
-    <h2 className="mb-2">every dao</h2>
-    {!state.name ? (
-      <h5 className="mb-3">total ~ {total_daos}</h5>
-    ) : (
-      <h5 className="mb-3">filtered ~ {filtered_daos}</h5>
-    )}
-    <h4 className="mb-2">search by name</h4>
+    <div className="d-flex flex-wrap justify-content-between mb-3">
+      <div className="m-1">
+        <h2 className="mb-2">every dao</h2>
+        {!state.name ? (
+          <h5 className="mb-3">total ~ {total_daos}</h5>
+        ) : (
+          <h5 className="mb-3">filtered ~ {filtered_daos}</h5>
+        )}
+      </div>
+      <div className="m-2">
+        <a
+          href={`#/near/widget/ProfilePage?accountId=every.near`}
+          class="text-muted"
+        >
+          <Widget
+            src="mob.near/widget/Profile.ShortInlineBlock"
+            props={{ accountId: "every.near" }}
+          />
+        </a>
+      </div>
+    </div>
+    <h4 className="m-1 mb-2">search by name</h4>
     <input
       placeholder="<example>.sputnik-dao.near"
       type="text"
