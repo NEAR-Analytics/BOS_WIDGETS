@@ -2,6 +2,19 @@ const data = props.data;
 
 return (
   <>
+    {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
+      <>
+        <Widget
+          src="efiz.near/widget/Community.Posts.Compose"
+          props={{
+            allowPublicPosting: true,
+            embedHashtags: data.hashtagWhitelist,
+          }}
+        />
+      </>
+    ) : (
+      <></>
+    )}
     <Widget
       src="efiz.near/widget/every.post"
       props={{
