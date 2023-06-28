@@ -2,6 +2,14 @@ const website = "https://fluidmoney.xyz/";
 
 return (
   <div>
-    <iframe src="https://fluidmoney.xyz/" />
+    <iframe
+      iframeResizer={{
+        onResized: ({ width, height }) => {
+          console.log("iframe resized", width, height);
+        },
+      }}
+      onLoad={() => console.log("iframe loaded")}
+      src="https://fluidmoney.xyz"
+    />
   </div>
 );
