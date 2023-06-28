@@ -8,6 +8,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
   return "Loading";
 }
+
 const initialBody = `# h1 Heading 8-) 
 ## h2 Heading 
 ### h3 Heading 
@@ -282,15 +283,14 @@ const composeData = () => {
 // === SAVE HANDLER ===
 const saveHandler = (e) => {
   State.update({
-    ...state,
     errorId: "",
     errorBody: "",
   });
   if (state.articleId && state.articleBody) {
     // TODO check it automaticle
-    const isArticleIdDublicated = false;
+    const isArticleIdDuplicated = false;
 
-    if (!isArticleIdDublicated) {
+    if (!isArticleIdDuplicated) {
       const newData = composeData();
 
       State.update({ saving: true });
@@ -306,19 +306,17 @@ const saveHandler = (e) => {
       });
     } else {
       State.update({
-        ...state,
         errorId: errTextDublicatedId,
       });
     }
   } else {
     if (!state.articleId) {
       State.update({
-        ...state,
         errorId: errTextNoId,
       });
     }
     if (!state.articleBody) {
-      State.update({ ...state, errorBody: errTextNoBody });
+      State.update({ errorBody: errTextNoBody });
     }
   }
 };
@@ -437,15 +435,12 @@ return (
           <label for="inputArticleId" className="small text-danger">
             {state.errorId}
           </label>
-          <input
-            className="form-control mt-2"
-            id="inputArticleId"
-            value={state.articleId}
-            onChange={(e) => {
-              State.update({
-                ...state,
-                articleId: e.target.value.replace(/\s+/g, ""),
-              });
+          <Widget
+            src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
+            props={{
+              firstText: state.articleId,
+              stateUpdate: (obj) => State.update(obj),
+              filterText: (e) => e.target.value.replace(/\s+/g, ""),
             }}
           />
         </div>
