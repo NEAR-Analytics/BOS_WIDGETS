@@ -40,7 +40,7 @@ const Header = styled.div`
     margin-bottom: 20px;
     gap: 8px;
     background-color: #f2f2f2;
-    padding: 20px;
+    padding: 30px;
   `;
 
 const Footer = styled.div`
