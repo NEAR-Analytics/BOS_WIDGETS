@@ -3,6 +3,7 @@ const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
 const buildEdges = props.buildEdges;
 const template = props.template?.src || "";
+const thingId = props.thingId;
 
 if (type !== "") {
   const parts = type.split("/");
@@ -117,6 +118,7 @@ State.init({
   view: "CREATE_THING",
   template,
   templateVal: template,
+  thingId,
 });
 
 const handleOnChange = (value) => {
