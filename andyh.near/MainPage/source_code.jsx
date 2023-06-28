@@ -6,7 +6,7 @@ return (
       <Widget src="andyh.near/widget/Applications" />
     </div>
     <div className="row mb-3">
-      <Widget src="mob.near/widget/People" />
+      <Widget src="andyh.near/widget/People" />
     </div>
     <div className="row mb-3">
       <div>
