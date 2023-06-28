@@ -49,23 +49,34 @@ const electionContract = "elections-v2.gwg.testnet";
 const registryContract = "registry-unstable.i-am-human.testnet";
 const ndcOrganization = "test";
 
+State.init({
+  selectedHouse: houses[0].id,
+  humanVoted: 0,
+  myVotes: [],
+});
+
 // TODO: Should be grabbed from indexer
-const humanVoted = 800;
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const totalHumal = 1000;
 
-const myVotes = [
-  { candidateId: "zomland.near", time: 1686820065441, typ: "House Of Merit" },
-  {
-    candidateId: "rubycop.near",
-    time: 1686820065441,
-    typ: "Councile Of Advisors",
+asyncFetch("https://api.pikespeak.ai/election/total-votes", {
+  headers: {
+    "x-api-key": apiKey,
   },
+}).then((resp) => {
+  State.update({ humanVoted: resp.body });
+});
+
+asyncFetch(
+  `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}`,
   {
-    candidateId: "blabla.near",
-    time: 1686820065441,
-    typ: "Transparancy Commision",
-  },
-];
+    headers: {
+      "x-api-key": apiKey,
+    },
+  }
+).then((resp) => {
+  State.update({ myVotes: resp.body });
+});
 
 const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
@@ -74,10 +85,6 @@ const widgets = {
   statistic: "rubycop.near/widget/NDC.Elections.Statistic",
   activities: "rubycop.near/widget/NDC.Elections.Activities",
 };
-
-State.init({
-  selectedHouse: houses[0].id,
-});
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
@@ -166,7 +173,7 @@ return (
             <Widget
               src={widgets.statistic}
               props={{
-                voted: humanVoted,
+                voted: state.humanVoted,
                 total: totalHumal,
               }}
             />
@@ -175,7 +182,10 @@ return (
         <Right className="col">
           <H5>My voting activity</H5>
           <ActivityContainer className="d-flex justify-content-center">
-            <Widget src={widgets.activities} props={{ myVotes }} />
+            <Widget
+              src={widgets.activities}
+              props={{ myVotes: state.myVotes }}
+            />
           </ActivityContainer>
         </Right>
       </div>
