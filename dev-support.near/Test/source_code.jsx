@@ -5,4 +5,11 @@ const go = () => {
   const res = Near.call(contract, "donate", {}, gas, deposit * yoctoNear);
 };
 
-return <button onClick={go}> GO </button>;
+console.log(props);
+
+return (
+  <>
+    {JSON.stringify(props)}
+    <button onClick={go}> GO </button>
+  </>
+);
