@@ -149,8 +149,8 @@ function Thing() {
     return (
       <>
         <Widget
-          src={"efiz.near/widget/Every.Thing.View"}
-          props={{ path: state.thingSrc, ...state.p }}
+          src={"every.near/widget/every.thing.view"}
+          props={{ path: state.thingSrc }}
         />
       </>
     );
@@ -180,7 +180,7 @@ return (
     </Container>
     {data.isUnderConstruction === "true" ? (
       <Widget
-        src="efiz.near/widget/Every.Thing.View"
+        src="every.near/widget/every.thing.view"
         props={{ path: "efiz.near/thing/under.construction" }}
       />
     ) : null}
