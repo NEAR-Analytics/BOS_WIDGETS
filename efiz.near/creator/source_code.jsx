@@ -2,6 +2,7 @@ const data = props.data || {};
 const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
 const buildEdges = props.buildEdges;
+const template = props.template?.src || "";
 
 if (type !== "") {
   const parts = type.split("/");
@@ -109,10 +110,13 @@ const CenteredDiv = styled.div`
 
 State.init({
   data,
+  config: data,
   isModalOpen: false,
   typeSrc,
   selectedType: type,
   view: "CREATE_THING",
+  template,
+  templateVal: template,
 });
 
 const handleOnChange = (value) => {
