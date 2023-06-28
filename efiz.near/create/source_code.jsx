@@ -57,9 +57,8 @@ if (["string", "number", "date", "time", "boolean"].includes(item.type)) {
   return (
     <DynamicInput
       type={item.type === "string" ? "text" : item.type}
-      onChange={(e) => onChange({ [item.name]: e.target.value })}
-      value={state[item.name] || ""}
-      placeholder={item.name}
+      onChange={onChange}
+      value={item.value}
     />
   );
 }
