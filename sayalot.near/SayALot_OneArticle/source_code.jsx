@@ -16,14 +16,19 @@ const notifyAccountId = accountId;
 
 State.init({ showReply: false, isMain: true, article: {} });
 
-const article = state.saveComplete
-  ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
-  : JSON.parse(
-      Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-    );
+const article =
+  state.saveComplete || blockHeight === "now"
+    ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
+    : JSON.parse(
+        Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+      );
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
   State.update({ article, note: article.body });
+}
+
+if (!state.article) {
+  return "Loading...";
 }
 
 // ======= CHECK WHO CAN EDIT ARTICLE
@@ -36,14 +41,20 @@ const writersWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
-  "fiftycent.near",
 ];
-const doesUserCanEditArticle = () => {
+
+const canUserEditArticle = () => {
+  const canOnlyAuthorEdit = true;
   const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
   );
   const isAccountIdEqualsAuthor = accountId === state.article.author;
-  return isAccountIdInWhiteList || isAccountIdEqualsAuthor ? true : false;
+
+  if (canOnlyAuthorEdit) {
+    return isAccountIdEqualsAuthor;
+  } else {
+    return isAccountIdInWhiteList;
+  }
 };
 
 // ======= GET DATA TO ATACH COMMENTS TO THE ARTICLE =======
@@ -357,7 +368,7 @@ return (
         >
           View History
         </Button>
-        {doesUserCanEditArticle() && !state.editArticle && (
+        {canUserEditArticle() && !state.editArticle && (
           <button
             className="btn btn-outline-dark w-100"
             onClick={() => {
