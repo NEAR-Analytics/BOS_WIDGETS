@@ -53,13 +53,13 @@ const DynamicInput = ({ type, onChange, value, placeholder }) => {
 };
 
 // Primitive checks
-if (["string", "number", "date", "time", "boolean"].includes(property.type)) {
+if (["string", "number", "date", "time", "boolean"].includes(item.type)) {
   return (
     <DynamicInput
-      type={property.type === "string" ? "text" : property.type}
-      onChange={(e) => handleInputChange(property.name, e.target.value)}
-      value={state[property.name] || ""}
-      placeholder={property.name}
+      type={item.type === "string" ? "text" : item.type}
+      onChange={onChange}
+      value={state[item.name] || ""}
+      placeholder={item.name}
     />
   );
 }
@@ -122,10 +122,7 @@ return (
   <Container>
     {createWidgetSrc ? (
       <>
-        <Widget
-          src={createWidgetSrc}
-          props={{ onChange: (e) => handleInputChange(property.name, e) }}
-        />
+        <Widget src={createWidgetSrc} props={{ onChange }} />
       </>
     ) : (
       <>
