@@ -1,4 +1,20 @@
-// TODO: Should be grabbed from contract side
+let { ids, org } = props;
+
+ids = props.ids ? ids : [4, 8, 7]; // for testing purposes
+org = props.org ? org : "test"; // for testing purposes
+
+const electionContract = "elections-v1.gwg.testnet";
+const registryContract = "registry-unstable.i-am-human.testnet";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+
+// TODO: uncomment when contract will be ready
+//
+// const houses = [
+//   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+//   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+//   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+// ];
+
 const contractProps = {
   houses: [
     {
@@ -45,10 +61,6 @@ const contractProps = {
 
 const { houses } = contractProps;
 
-const electionContract = "elections-v2.gwg.testnet";
-const registryContract = "registry-unstable.i-am-human.testnet";
-const ndcOrganization = "test";
-
 State.init({
   selectedHouse: houses[0].id,
   humanVoted: 0,
@@ -56,7 +68,6 @@ State.init({
 });
 
 // TODO: Should be grabbed from indexer
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const totalHumal = 1000;
 
 asyncFetch("https://api.pikespeak.ai/election/total-votes", {
@@ -120,7 +131,7 @@ const H5 = styled.h5`
 
 return (
   <div>
-    {contractProps.houses.map((group) => (
+    {houses.map((group) => (
       <>
         {group.id === state.selectedHouse && (
           <Widget
@@ -148,7 +159,7 @@ return (
         />
       </Left>
       <Center className="col-lg-6 p-2 p-md-3">
-        {contractProps.houses.map((house) => (
+        {houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
               <Widget
@@ -157,7 +168,7 @@ return (
                 props={{
                   electionContract,
                   registryContract,
-                  ndcOrganization,
+                  ndcOrganization: org,
                   ...house,
                 }}
               />
