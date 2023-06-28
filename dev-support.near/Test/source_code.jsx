@@ -1,6 +1,6 @@
 const go = () => {
   const gas = 30000000000000;
-  const yoctoNear = 2;
+  const yoctoNear = 0;
   const res = Near.call(
     "hello.near-examples.near",
     "set_greeting",
