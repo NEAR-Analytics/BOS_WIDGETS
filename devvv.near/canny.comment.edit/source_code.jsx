@@ -90,7 +90,7 @@ return (
     <Widget
       src="dima_sheleg.near/widget/DevSupport.Compose"
       props={{
-        placeholder: `Comment${
+        placeholder: `Reply${
           props.notifyAccountId ? ` to ${props.notifyAccountId}` : ""
         }`,
         initialText: props.initialText,
