@@ -3,7 +3,7 @@ return (
     <h5>People</h5>
     <div className="mb-2">
       <Widget
-        src="andyh.near/widget/ProfileSearch"
+        src="mob.near/widget/ProfileSearch"
         props={{
           limit: 10,
           onChange: ({ result }) => State.update({ profiles: result }),
@@ -19,7 +19,7 @@ return (
           >
             <div className="me-2 text-truncate">
               <a
-                href={`#/andyh.near/widget/ProfilePage?accountId=${accountId}`}
+                href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
                 className="text-decoration-none link-dark text-truncate"
               >
                 <Widget
@@ -30,13 +30,10 @@ return (
             </div>
             <div className="d-none text-nowrap d-md-block">
               <Widget
-                src="andyh.near/widget/FollowButton"
+                src="mob.near/widget/FollowButton"
                 props={{ accountId }}
               />
-              <Widget
-                src="andyh.near/widget/PokeButton"
-                props={{ accountId }}
-              />
+              <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
             </div>
           </div>
         ))}
