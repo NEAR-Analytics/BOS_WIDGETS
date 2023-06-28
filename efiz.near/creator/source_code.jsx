@@ -20,19 +20,27 @@ const SidePanel = styled.div`
   background-color: #f2f2f2;
   width: auto;
   z-index: 50;
+  min-width: 400px;
 `;
 
 const MainContent = styled.div`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 20px;
   `;
+
+const FormContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 20px;
+`;
 
 const Header = styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
+    gap: 8px;
+    background-color: #f2f2f2;
+    padding: 20px;
   `;
 
 const Footer = styled.div`
@@ -140,7 +148,7 @@ const handleSave = () => {
     },
   };
   if (edges.length) {
-    data.index.edges = JSON.stringify(edges);
+    data.index.edge = JSON.stringify(edges);
   }
   Social.set(data, {
     onCommit: () => {
@@ -172,52 +180,57 @@ const handleTypeChange = (e) => {
 return (
   <Container>
     <SidePanel>
-      <Row style={{ gap: "8px" }}>
-        <Button onClick={() => State.update({ view: "CREATE_THING" })}>
-          thing
-        </Button>
-        <Button onClick={() => State.update({ view: "CREATE_TYPE" })}>
-          type
-        </Button>
+      <Row style={{ gap: "8px", marginBottom: "16px" }}>
+        <h2>create</h2>{" "}
+        <Select
+          value={state.view}
+          onChange={(e) => State.update({ view: e.target.value })}
+        >
+          <option value="CREATE_THING">thing</option>
+          <option value="CREATE_TYPE">type</option>
+        </Select>
       </Row>
       {state.view === "CREATE_THING" ? (
         <>
-          <Label>Type Source:</Label>
-          <Row>
-            <Input
-              type="text"
-              value={state.newTypeSrc}
-              onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-              placeholder={"accountId"}
+          <FormContainer>
+            <Label>Type Source:</Label>
+            <Row>
+              <Input
+                type="text"
+                value={state.newTypeSrc}
+                onChange={(e) => State.update({ newTypeSrc: e.target.value })}
+                placeholder={"accountId"}
+              />
+              <Button
+                onClick={() => State.update({ typeSrc: state.newTypeSrc })}
+              >
+                apply
+              </Button>
+            </Row>
+            <Label>Type</Label>
+            <Row>
+              <Select value={state.selectedType} onChange={handleTypeChange}>
+                <option value="">Select a type</option>
+                {availableTypes?.map((it) => (
+                  <option value={it} key={it}>
+                    {it}
+                  </option>
+                ))}
+              </Select>
+            </Row>
+          </FormContainer>
+          <FormContainer>
+            <Widget
+              src="efiz.near/widget/create"
+              props={{
+                item: {
+                  type: state.selectedType,
+                  value: state.data,
+                },
+                onChange: handleOnChange,
+              }}
             />
-            <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
-              apply
-            </Button>
-          </Row>
-          <Label>Type</Label>
-          <Select value={state.selectedType} onChange={handleTypeChange}>
-            <option value="">Select a type</option>
-            {availableTypes?.map((it) => (
-              <option value={it} key={it}>
-                {it}
-              </option>
-            ))}
-          </Select>
-          <Label>Template</Label>
-          <Input
-            value={state.templateVal}
-            onChange={(e) => State.update({ templateVal: e.target.value })}
-          />
-          <Widget
-            src="efiz.near/widget/create"
-            props={{
-              item: {
-                type: state.selectedType,
-                value: state.data,
-              },
-              onChange: handleOnChange,
-            }}
-          />
+          </FormContainer>
           <Footer>
             <Button onClick={() => handleApply()}>apply</Button>
             <Button
@@ -229,15 +242,25 @@ return (
           </Footer>
         </>
       ) : (
-        <>
-          <Widget src="efiz.near/widget/every.type.create" />
-        </>
+        <Widget src="every.near/widget/every.type.create" />
       )}
     </SidePanel>
     <MainContent>
-      <Header></Header>
-      {state.template && (
-        <Widget src={state.template} props={{ data: state.config }} />
+      {state.view === "CREATE_THING" ? (
+        <>
+          <Header>
+            <Label>Template:</Label>
+            <Input
+              value={state.templateVal}
+              onChange={(e) => State.update({ templateVal: e.target.value })}
+            />
+          </Header>
+          {state.template && (
+            <Widget src={state.template} props={{ data: state.config }} />
+          )}
+        </>
+      ) : (
+        <></>
       )}
     </MainContent>
     {state.isModalOpen && (
