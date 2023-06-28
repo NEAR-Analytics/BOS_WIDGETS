@@ -17,6 +17,7 @@ const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
 });
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
@@ -33,7 +34,6 @@ const resultArticles =
       authorsWhitelist.some((addr) => addr === article.author)
     )
     .filter((article) => !articleBlackList.includes(article.blockHeight));
-
 // ========== FILTER DUPLICATES ==========
 const filteredArticles =
   resultArticles.length &&
@@ -46,34 +46,35 @@ const filteredArticles =
   }, []);
 
 const sortArticlesByTag = () => {
-  const result = filteredArticles.reduce(
-    (acc, article) => {
-      if (article.currentStatusTag === "Claimed") {
-        const claimed = [...acc.claimed, article];
-        const tempRes = { claimed };
+  //   if (filteredArticles === 0 || filteredArticles === undefined) {
+  //     return;
+  //   }
+  const result =
+    filteredArticles &&
+    filteredArticles.reduce(
+      (acc, article) => {
+        if (article.currentStatusTag === "Claimed") {
+          const claimed = [...acc.claimed, article];
+          const tempRes = { claimed };
+          return { ...acc, ...tempRes };
+        }
+        if (article.currentStatusTag === "Closed") {
+          const closed = [...acc.closed, article];
+          const tempRes = { closed };
+          return { ...acc, ...tempRes };
+        }
+        const intermediateArticle = { ...article, currentStatusTag: "Open" };
+        const open = [...acc.open, intermediateArticle];
+        const tempRes = { open };
         return { ...acc, ...tempRes };
-      }
-      if (article.currentStatusTag === "Closed") {
-        const closed = [...acc.closed, article];
-        const tempRes = { closed };
-        return { ...acc, ...tempRes };
-      }
-      const intermediateArticle = { ...article, currentStatusTag: "Open" };
-      const open = [...acc.open, intermediateArticle];
-      const tempRes = { open };
-      return { ...acc, ...tempRes };
-    },
-    { open: [], claimed: [], closed: [] }
-  );
-
+      },
+      { open: [], claimed: [], closed: [] }
+    );
   return result;
 };
 
-console.log(sortArticlesByTag());
-
 const sortedArticlesByTag = sortArticlesByTag();
 State.init(sortedArticlesByTag);
-console.log(state);
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -85,7 +86,6 @@ const getDateLastEdit = (timestamp) => {
 };
 
 // ========== HANDLER ==========
-
 const clickHandler = (oldStatus, newStatus, articleId) => {
   const actualTag = oldStatus.toLowerCase();
   const newTag = newStatus.toLowerCase();
@@ -107,7 +107,6 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
 };
 
 // ========== JSX ==========
-
 const StatusTagGroup = ({ activeStatus, articleId }) => (
   <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
     {statusTagsArr.map((tag) => (
