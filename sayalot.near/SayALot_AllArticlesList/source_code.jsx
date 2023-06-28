@@ -9,13 +9,13 @@ const writersWhiteList = props.writersWhiteList ?? [
   "yuensid.near",
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
-const authorForWidget =
-  "sayalot.near";
+const authorForWidget = "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
 });
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
@@ -31,6 +31,7 @@ const resultArticles =
     .filter((article) =>
       writersWhiteList.some((addr) => addr === article.author)
     )
+    .filter((article) => article.lastEditor === article.author)
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
 // ========== FILTER DUPLICATES ==========
