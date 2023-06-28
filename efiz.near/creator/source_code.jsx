@@ -87,6 +87,7 @@ const ModalContent = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 4px;
+  min-width: 500px;
 `;
 
 const ModalTitle = styled.h3`
@@ -96,6 +97,14 @@ const ModalTitle = styled.h3`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const CenteredDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
 `;
 
 State.init({
@@ -255,9 +264,9 @@ return (
               onChange={(e) => State.update({ templateVal: e.target.value })}
             />
           </Header>
-          {state.template && (
+          {(state.template && (
             <Widget src={state.template} props={{ data: state.config }} />
-          )}
+          )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
         </>
       ) : (
         <></>
@@ -266,16 +275,18 @@ return (
     {state.isModalOpen && (
       <ModalOverlay>
         <ModalContent>
-          <ModalTitle>Save Confirmation</ModalTitle>
-          <p>Are you sure you want to save?</p>
-          <p>{JSON.stringify(state.config)}</p>
-          <p>{JSON.stringify(state.template)}</p>
-          <>
+          <ModalTitle>create thing</ModalTitle>
+          <p>option to provide a thing id</p>
+          <Row style={{ gap: "8px" }}>
             <Input
               onChange={(e) => State.update({ thingId: e.target.value })}
               placeholder="thing id"
             />
-          </>
+          </Row>
+          <Widget
+            src="efiz.near/widget/Every.Raw.View"
+            props={{ value: { data: state.config, template: state.template } }}
+          />
           <Button onClick={handleSave}>Save</Button>
           <Button onClick={() => State.update({ isModalOpen: false })}>
             Cancel
