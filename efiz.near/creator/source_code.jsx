@@ -294,7 +294,9 @@ return (
           </Row>
           <Widget
             src="efiz.near/widget/Every.Raw.View"
-            props={{ value: { data: state.config, template: state.template } }}
+            props={{
+              value: { data: state.config, template: { src: state.template } },
+            }}
           />
           <Button onClick={handleSave}>Save</Button>
           <Button onClick={() => State.update({ isModalOpen: false })}>
