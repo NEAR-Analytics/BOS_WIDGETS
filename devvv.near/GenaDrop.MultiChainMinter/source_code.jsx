@@ -725,6 +725,28 @@ return (
       width: "100%",
     }}
   >
+    <div className="container py-4">
+      <div className="row justify-content-center">
+        <div className="col-lg-8">
+          <Widget
+            src="devvv.near/widget/ProfilePage"
+            props={{
+              accountId,
+              profile,
+              link: true,
+              showEditButton: !props.profile,
+            }}
+          />
+
+          <div className="mt-4">
+            <Widget
+              src="mob.near/widget/ProfileTabs"
+              props={{ accountId, profile }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <div style={{ display: "none" }}>
       <Widget
         src="mattb.near/widget/GenaDrop.GenaDropSDK"
