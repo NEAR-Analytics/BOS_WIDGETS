@@ -90,6 +90,7 @@ const ModalContent = styled.div`
   padding: 20px;
   border-radius: 4px;
   min-width: 500px;
+  height: 100%;
 `;
 
 const ModalTitle = styled.h3`
