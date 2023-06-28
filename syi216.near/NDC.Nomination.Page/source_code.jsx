@@ -111,6 +111,50 @@ const H5 = styled.h5`
   margin-bottom: 20px;
 `;
 
+const Toolbar = styled.div`
+margin: 32px 0 0 0;
+display: flex;
+width: 66%;
+align-items: flex-start;
+gap: 20px;
+`;
+
+const FilterBar = styled.div`
+display: flex;
+padding: 12px 16px;
+align-items: center;
+gap: 8px;
+flex: 1 0 0;
+border-radius: 8px;
+background: #F8F8F9;
+`;
+
+const SearchIcon = styled.img`
+width: 14px;
+height: 14px;
+`;
+
+const LabelFile = styled.div`
+display: flex;
+padding: 12px;
+align-items: flex-start;
+gap: 12px;
+flex: 1 0 0;
+border-radius: 8px;
+border: 1px solid #D0D6D9;
+background: #FFF;
+`;
+
+const InputSearch = styled.input`
+color: #828688;
+font-size: 12px;
+width: 100%;
+font-family: Avenir;
+font-weight: 500;
+line-height: 120%;
+border: 0px;
+`;
+
 return (
   <div>
     {contractProps.houses.map((group) => (
@@ -128,6 +172,17 @@ return (
         )}
       </>
     ))}
+    <Toolbar>
+      <FilterBar>
+        <LabelFile>
+          <SearchIcon
+            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmUgE9Cgge5VRgQB1VYxMaAjJWgzmXUzMcPSTwQ8ZfLJqz?_gl=1*xfjfsk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkxMTcwOS41LjAuMTY4NzkxMTcxNi41My4wLjA."
+            alt="pic"
+          ></SearchIcon>
+          <InputSearch placeholder="Search by candidate name and affiliation"></InputSearch>
+        </LabelFile>
+      </FilterBar>
+    </Toolbar>
     <Container className="d-flex row">
       <Left className="col-lg">
         <H5>To Vote</H5>
