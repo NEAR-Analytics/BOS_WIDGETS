@@ -17,12 +17,12 @@ for (let i = 0; i < accounts.length; ++i) {
 
   allWidgets.push(
     <a
-      href={`#/andyh.near/widget/ProfilePage?accountId=${accountId}`}
+      href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
       className="text-decoration-none"
       key={i}
     >
       <Widget
-        src="andyh.near/widget/ProfileImage"
+        src="mob.near/widget/ProfileImage"
         props={{
           accountId,
           tooltip: true,
