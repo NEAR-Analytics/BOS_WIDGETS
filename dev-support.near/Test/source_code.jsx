@@ -1,20 +1,8 @@
 const go = () => {
-  const gas = 30000000000000;
-  const yoctoNear = 0;
-  const res = Near.call(
-    "hello.near-examples.near",
-    "set_greeting",
-    { greeting: "hi" },
-    gas,
-    yoctoNear
-  );
+  const gas = 0;
+  const deposit = 1;
+  const yoctoNear = 1000000000000000000000000;
+  const res = Near.call(contract, "donate", {}, gas, deposit * yoctoNear);
 };
 
-console.log(props);
-
-return (
-  <>
-    {JSON.stringify(props)}
-    <button onClick={go}> GO </button>
-  </>
-);
+return <button onClick={go}> GO </button>;
