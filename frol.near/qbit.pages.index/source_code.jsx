@@ -1,3 +1,7 @@
+// This is a demo of a simple Web 1.0 web-site porting to BOS
+// The original web-site is hosted at https://qbit.org.ua
+// Read more here: https://near.org/#/near/widget/PostPage?accountId=frol.near&blockHeight=94546297
+
 const Theme = styled.div`
 padding:100;
 margin:100;
