@@ -209,8 +209,9 @@ const Content = () => (
       </div>
       <Description className="text-secondary">{description}</Description>
       <InputField>
-        <input
-          type="text"
+        <textarea
+          class="form-control w-100"
+          rows="5"
           value={state.comment}
           onChange={(e) => State.update({ comment: e.target.value })}
         />
