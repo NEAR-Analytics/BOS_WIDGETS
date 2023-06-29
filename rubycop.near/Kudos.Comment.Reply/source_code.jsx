@@ -1,4 +1,4 @@
-const { accountId, date, description, showModal } = props;
+const { accountId, date, description, showModal, handleClose } = props;
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
@@ -6,7 +6,6 @@ const widget = {
 };
 
 State.init({
-  showModal,
   comment: "",
 });
 
@@ -70,8 +69,8 @@ return (
   <Widget
     src={widget.modal}
     props={{
-      isOpen: state.showModal,
-      toggleModal: (val) => State.update({ showModal: val }),
+      isOpen: showModal,
+      toggleModal: () => {},
       component: (
         <Modal>
           <h4>Reply to comment</h4>
@@ -111,7 +110,7 @@ return (
                 Button: {
                   text: "Cancel",
                   className: "secondary",
-                  onClick: () => State.update({ showModal: false }),
+                  onClick: handleClose,
                 },
               }}
             />
@@ -120,7 +119,7 @@ return (
               props={{
                 Button: {
                   text: "Submit",
-                  onClick: () => State.update({ showModal: false }),
+                  onClick: handleClose,
                 },
               }}
             />
