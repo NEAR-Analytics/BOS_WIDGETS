@@ -1,4 +1,4 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 
 State.init({
   search: props.search ?? "",
@@ -19,12 +19,20 @@ if (context.accountId && !state.tncIsFetched) {
   Near.asyncView(
     "social.near",
     "get",
-    { keys: [`${context.accountId}/profile/horizon_tnc`] },
+    {
+      keys: [
+        `${context.accountId}/profile/horizon_tnc`,
+        `${context.accountId}/index/tosAccept`,
+      ],
+    },
     "final",
     false
   ).then((data) =>
     State.update({
-      tnc: data[context.accountId]?.profile?.horizon_tnc === "true",
+      tnc: data[context.accountId]?.profile?.horizon_tnc === "tru",
+      tosAccept:
+        data[context.accountId]?.index?.tosAccept &&
+        data[context.accountId]?.index?.tosAccept.length > 0,
       tncIsFetched: true,
     })
   );
@@ -51,10 +59,6 @@ const tabContent = {
       props={{ content: state.content, search: state.search, update }}
     />
   ),
-  ["my-projects"]: <Widget src={`${ownerId}/widget/Manage.Projects`} />,
-  ["my-requests"]: <Widget src={`${ownerId}/widget/Manage.Requests`} />,
-  ["my-contracts"]: <Widget src={`${ownerId}/widget/Manage.Contracts`} />,
-  ["my-applications"]: <Widget src={`${ownerId}/widget/Manage.Applications`} />,
   project: (
     <Widget
       src={`${ownerId}/widget/Project.Page`}
@@ -204,19 +208,7 @@ const tabContent = {
       props={{ update, content: state.content, urlProps: props }}
     />
   ),
-  backers: (
-    <Widget
-      src={`${ownerId}/widget/Investor.ListPage`}
-      props={{ update, content: state.content, urlProps: props }}
-    />
-  ),
   vendors: (
-    <Widget
-      src={`${ownerId}/widget/Vendor.ListPage`}
-      props={{ update, content: state.content, urlProps: props }}
-    />
-  ),
-  contributors: (
     <Widget
       src={`${ownerId}/widget/Vendor.ListPage`}
       props={{ update, content: state.content, urlProps: props }}
@@ -308,7 +300,7 @@ return (
     <Widget
       src={`${ownerId}/widget/TNCModal`}
       props={{
-        open: !state.tnc,
+        open: !state.tnc && state.tosAccept,
         accept: () =>
           Social.set(
             { profile: { horizon_tnc: true } },
