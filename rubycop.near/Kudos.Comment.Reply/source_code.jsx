@@ -1,4 +1,4 @@
-const { accountId, date, description } = props;
+const { accountId, date, description, showModal } = props;
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
@@ -6,7 +6,7 @@ const widget = {
 };
 
 State.init({
-  showModal: false,
+  showModal,
   comment: "",
 });
 
