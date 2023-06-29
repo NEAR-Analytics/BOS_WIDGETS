@@ -127,38 +127,14 @@ color: #828688;
   width: 326px;
 }
   `;
-// State
-State.init({
-  theme,
-  img: { uploading: false, cid: null, name: "" },
-  name: "",
-  profileAccount: "",
-  house_intended: "",
-});
-
-const uploadFileUpdateState = (body) => {
-  console.log("sending img");
-  asyncFetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: { Accept: "application/json" },
-    body,
-  }).then(async (res) => {
-    console.log("body", res.body);
-    const _cid = res.body.cid;
-    const _name = body.name;
-    State.update({ img: { uploading: true, cid: _cid, name: _name } });
-    console.log("final ", state.img);
-  });
-
-  console.log("final ", state.img);
-};
-
-const filesOnChange = (files) => {
-  if (files) {
-    uploadFileUpdateState(files[0]);
-  }
-};
-
+const {
+  img,
+  name,
+  profileAccount,
+  house_intended,
+  filesOnChange,
+  handleInputs,
+} = props;
 return (
   <div class="w-100">
     <div
@@ -213,9 +189,7 @@ return (
                 "margin-bottom": "0rem",
               }}
             >
-              {state.img.name === ""
-                ? "Update your profile image"
-                : state.img.name}
+              {img.name === "" ? "Update your profile image" : img.name}
             </p>
           </div>
         </Files>
@@ -238,9 +212,8 @@ return (
           type="text"
           placeholder="Nomination name"
           onChange={(e) => {
+            handleInputs("name", e.target.value);
             console.log("name");
-            State.update({ name: e.target.value });
-            console.log(state);
           }}
         />
       </Formsection>
@@ -251,7 +224,10 @@ return (
           id="Profile"
           type="text"
           placeholder="@username.near"
-          onChange={(e) => State.update({ profileAccount: e.target.value })}
+          onChange={(e) => {
+            handleInputs("profileAccount", e.target.value);
+            console.log("profileAccount");
+          }}
         />
       </Formsection>
       <FormsectionHouse style={{ order: "3" }}>
@@ -259,7 +235,10 @@ return (
         <FormsectionHouseDropdown
           name="house-intended"
           id="house-intended"
-          onChange={(e) => State.update({ house_intended: e.target.value })}
+          onChange={(e) => {
+            handleInputs("house_intended", e.target.value);
+            console.log("house_intended");
+          }}
         >
           <option default value="0">
             Select house
