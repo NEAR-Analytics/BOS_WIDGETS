@@ -272,6 +272,10 @@ return (
               onChange={(e) => State.update({ templateVal: e.target.value })}
             />
           </Header>
+          <Widget
+            src="efiz.near/widget/every.thing.raw"
+            props={{ value: state.config }}
+          />
           {(state.template && (
             <Widget src={state.template} props={{ data: state.config }} />
           )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
