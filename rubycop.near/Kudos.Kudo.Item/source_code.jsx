@@ -146,6 +146,10 @@ const ModalContent = styled.div`
 
   .content {
     margin: 18px 0; 
+
+    h6 {
+      margin-bottom: -10px;
+    }
   }
 `;
 
@@ -185,7 +189,7 @@ State.init({
 
 const Content = () => (
   <ModalContent>
-    <h4>Reply to comment</h4>
+    <h4>Comment to Reply</h4>
     <div className="content">
       <div className="d-flex justify-content-between align-items-center">
         <div>
@@ -208,9 +212,11 @@ const Content = () => (
         </CreatedAt>
       </div>
       <Description className="text-secondary">{description}</Description>
+      <hr className="text-secondary" />
+      <h6>Reply</h6>
       <InputField>
         <textarea
-          class="form-control w-100"
+          className="form-control w-100"
           rows="5"
           value={state.comment}
           onChange={(e) => State.update({ comment: e.target.value })}
