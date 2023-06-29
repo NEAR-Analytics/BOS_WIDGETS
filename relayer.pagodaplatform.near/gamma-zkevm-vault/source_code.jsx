@@ -391,7 +391,7 @@ const handleApprove = (isToken0) => {
     Ethers.provider()
   );
 
-  token0Contract
+  tokenContract
     .approve(hypeAddress, tokenWei)
     .then((tx) => {
       const payload = isToken0
