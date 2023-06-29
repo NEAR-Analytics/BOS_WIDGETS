@@ -71,7 +71,7 @@ return (
     src={widget.modal}
     props={{
       isOpen: state.showModal,
-      toggleModal: () => State.update({ showModal: !state.showModal }),
+      toggleModal: (val) => State.update({ showModal: val }),
       component: (
         <Modal>
           <h4>Reply to comment</h4>
