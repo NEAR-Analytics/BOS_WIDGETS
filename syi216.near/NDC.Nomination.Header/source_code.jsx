@@ -41,7 +41,6 @@ const timer = setInterval(() => {
     minutes = 0;
     seconds = 0;
   }
-  console.log([days, hours, minutes, seconds, title]);
   State.update({
     days: days,
     hours: hours,
