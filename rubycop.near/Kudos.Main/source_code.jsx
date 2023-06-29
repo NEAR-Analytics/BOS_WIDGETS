@@ -40,19 +40,18 @@ const registryContract = "registry.i-am-human.near";
 State.init({
   selectedItem: "My",
   selectedKudo: null,
+  isIAmHuman: false,
 });
 
 const handleSelect = (itemType) => {
   State.update({ selectedItem: itemType });
 };
 
-const isIAmHuman = () => {
-  const res = Near.view(registryContract, "is_human", {
-    account: context.accountId,
-  });
+const isHuman = Near.view(registryContract, "is_human", {
+  account: context.accountId,
+});
 
-  return res[0][1].length > 0;
-};
+State.update({ isIAmHuman: isHuman[0][1].length > 0 });
 
 const Container = styled.div`
   margin: 20px;
@@ -81,7 +80,7 @@ const H5 = styled.h5`
 
 return (
   <div>
-    <Widget src={widgets.header} props={{ isIAmHuman: isIAmHuman() }} />
+    <Widget src={widgets.header} props={{ isIAmHuman: state.isIAmHuman }} />
     <Container className="d-flex row">
       <Section className="col-md-3">
         <H5>Home</H5>
@@ -122,7 +121,7 @@ return (
                     key={index}
                     src={widgets.item}
                     props={{
-                      isIAmHuman,
+                      isIAmHuman: state.isIAmHuman,
                       id: kudo.id,
                       accountId: kudo.accountId,
                       description: kudo.value.answer,
