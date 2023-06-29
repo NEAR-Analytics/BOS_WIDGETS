@@ -99,6 +99,7 @@ return (
             <InputField>
               <input
                 type="text"
+                value={state.comment}
                 onChange={(e) => State.update({ comment: e.target.value })}
               />
             </InputField>
