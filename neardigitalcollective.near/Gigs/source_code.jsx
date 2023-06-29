@@ -7,7 +7,8 @@ const authorsWhitelist = [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
-  "shubham007.near",
+  "james.near",
+  "ndcplug.near",
 ];
 const authorForWidget = "neardigitalcollective.near";
 const accountId = props.accountId ?? context.accountId;
