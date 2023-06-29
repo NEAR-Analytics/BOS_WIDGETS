@@ -32,8 +32,6 @@ const widgets = {
   itemNew: "rubycop.near/widget/Kudos.Kudo.New",
   mintSBT: "rubycop.near/widget/Kudos.MintSBT",
   kudoPage: "rubycop.near/widget/Kudos.Kudo.Page",
-  // comment: "rubycop.near/widget/Kudos.Comment",
-  // commentReply: "rubycop.near/widget/Kudos.Comment.Reply",
 };
 
 const kudosContract = "kudos-contract.near";
