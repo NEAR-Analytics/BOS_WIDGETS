@@ -134,6 +134,7 @@ const {
   house_intended,
   filesOnChange,
   handleInputs,
+  handleName,
 } = props;
 return (
   <div class="w-100">
@@ -211,8 +212,9 @@ return (
           id="Name"
           type="text"
           placeholder="Nomination name"
+          value={name}
           onChange={(e) => {
-            handleInputs("name", e.target.value);
+            handleName(e.target.value);
             console.log("name");
           }}
         />
@@ -235,10 +237,7 @@ return (
         <FormsectionHouseDropdown
           name="house-intended"
           id="house-intended"
-          onChange={(e) => {
-            handleInputs("house_intended", e.target.value);
-            console.log("house_intended");
-          }}
+          onChange={(e) => handleInputs("house_intended", e)}
         >
           <option default value="0">
             Select house
