@@ -1,12 +1,8 @@
-const { isOpen } = props;
+const { isOpen, input } = props;
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
 };
-
-State.init({
-  comment: "",
-});
 
 const Modal = styled.div`
   position: fixed;
@@ -109,13 +105,7 @@ const ContentDiv = () => (
         </CreatedAt>
       </div>
       <Description className="text-secondary">{description}</Description>
-      <InputField>
-        <input
-          type="text"
-          value={state.comment}
-          onChange={(e) => State.update({ comment: e.target.value })}
-        />
-      </InputField>
+      {input}
     </div>
     <div className="d-grid gap-3 d-flex align-items-center justify-content-end">
       <Widget
