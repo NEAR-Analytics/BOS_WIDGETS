@@ -2,7 +2,7 @@ const data = props.data || {};
 const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
 const buildEdges = props.buildEdges;
-const template = props.template?.src || "";
+const template = props.template || "";
 const thingId = props.thingId;
 
 if (type !== "") {
