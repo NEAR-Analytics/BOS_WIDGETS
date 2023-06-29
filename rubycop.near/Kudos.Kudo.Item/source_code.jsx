@@ -11,7 +11,6 @@ const {
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
-  comment: "rubycop.near/widget/Kudos.Comment.Reply",
 };
 
 const Container = styled.div`
@@ -178,8 +177,13 @@ const getDateAgo = () => {
 };
 
 const canMint = upvotes >= 5;
-const handleMintSBT = () => {};
-const handleCreateComment = (id, comment) => {};
+const handleMintSBT = () => {
+  console.log("Mint SBT");
+};
+const handleCreateComment = (id, comment) => {
+  console.log(id);
+  console.log(comment);
+};
 const handleShare = () => {};
 
 State.init({
@@ -241,7 +245,7 @@ const Content = () => (
             text: "Submit",
             onClick: () => {
               State.update({ isOpen: false });
-              handleCreateComment(id, comment);
+              handleCreateComment(id, state.comment);
             },
           },
         }}
