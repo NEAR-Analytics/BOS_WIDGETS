@@ -160,7 +160,7 @@ const filesOnChange = (files) => {
 };
 
 return (
-  <div>
+  <div class="w-100">
     <div
       class=" row col-sm-12  mx-0   "
       style={{ "padding-left": "16px", "padding-right": "16px" }}
