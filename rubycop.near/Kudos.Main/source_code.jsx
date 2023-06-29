@@ -75,15 +75,6 @@ const H5 = styled.h5`
   margin-bottom: 20px;
 `;
 
-if (state.selectedKudo)
-  return (
-    <Widget
-      key={index}
-      src={widgets.kudoPage}
-      props={{ kudo: state.selectedKudo }}
-    />
-  );
-
 return (
   <div>
     <Widget src={widgets.header} props={{ isIAmHuman }} />
@@ -99,32 +90,50 @@ return (
         />
       </Section>
       <CenterSection className="col-md-9">
-        <h4>{state.selectedItem} Kudos</h4>
-
-        <div className="d-flex flex-wrap">
-          {data.map((kudo, index) => (
-            <div
-              onClick={() => State.update({ selectedKudo: kudo })}
-              className="col col-md-6 p-3"
+        {state.selectedKudo ? (
+          <>
+            <span
+              type="button"
+              onClick={() => State.update({ selectedKudo: null })}
             >
-              <Widget
-                key={index}
-                src={widgets.item}
-                props={{
-                  isIAmHuman,
-                  id: kudo.id,
-                  accountId: kudo.accountId,
-                  description: kudo.value.answer,
-                  upvotes: upvotesMap[kudo.blockHeight]
-                    ? upvotesMap[kudo.blockHeight]
-                    : 0,
-                  tags: kudo.tags ?? [],
-                  createdAt: kudo.createdAt,
-                }}
-              />
+              <i class="bi bi-chevron-left"></i>
+              Go Back
+            </span>
+            <Widget
+              key={index}
+              src={widgets.kudoPage}
+              props={{ kudo: state.selectedKudo }}
+            />
+          </>
+        ) : (
+          <>
+            <h4>{state.selectedItem} Kudos</h4>
+            <div className="d-flex flex-wrap">
+              {data.map((kudo, index) => (
+                <div
+                  onClick={() => State.update({ selectedKudo: kudo })}
+                  className="col col-md-6 p-3"
+                >
+                  <Widget
+                    key={index}
+                    src={widgets.item}
+                    props={{
+                      isIAmHuman,
+                      id: kudo.id,
+                      accountId: kudo.accountId,
+                      description: kudo.value.answer,
+                      upvotes: upvotesMap[kudo.blockHeight]
+                        ? upvotesMap[kudo.blockHeight]
+                        : 0,
+                      tags: kudo.tags ?? [],
+                      createdAt: kudo.createdAt,
+                    }}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </CenterSection>
     </Container>
   </div>
