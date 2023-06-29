@@ -459,13 +459,13 @@ return (
                   disabled={isToken0Approved}
                   onClick={() => handleApprove(true)}
                 >
-                  {isToken1Approved ? "Approved" : `Approve ${token0}`}
+                  {isToken0Approved ? "Approved" : `Approve ${token0}`}
                 </Button>
                 <Button
                   disabled={isToken1Approved}
-                  onClick={() => handleApprove(true)}
+                  onClick={() => handleApprove(false)}
                 >
-                  {isToken0Approved ? "Approved" : `Approve ${token1}`}
+                  {isToken1Approved ? "Approved" : `Approve ${token1}`}
                 </Button>
               </HStack>
             ))}
