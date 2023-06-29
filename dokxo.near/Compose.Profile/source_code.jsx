@@ -90,9 +90,9 @@ display: flex;
 order: 6;
 flex-grow: 0;
 @media only screen and (max-width: 480px) {
+width: 100%;
   
-  width: 326px;
-  display: none;
+   
 }
 
   `;
@@ -124,7 +124,7 @@ align-items: center;
 color: #828688;
 @media only screen and (max-width: 480px) {
   
-  width: 326px;
+  
 }
   `;
 const {
