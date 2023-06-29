@@ -35,7 +35,7 @@ const widgets = {
 };
 
 const kudosContract = "kudos-contract.near";
-const registryContract = "registry-unstable.i-am-human.testnet";
+const registryContract = "registry.i-am-human.near";
 
 State.init({
   selectedItem: "My",
@@ -47,7 +47,11 @@ const handleSelect = (itemType) => {
 };
 
 const isIAmHuman = () => {
-  Near.view(registryContract, "is_human", { account: context.accountId });
+  const res = Near.view(registryContract, "is_human", {
+    account: context.accountId,
+  });
+
+  return res[0][1].length > 0;
 };
 
 const Container = styled.div`
@@ -77,7 +81,7 @@ const H5 = styled.h5`
 
 return (
   <div>
-    <Widget src={widgets.header} props={{ isIAmHuman }} />
+    <Widget src={widgets.header} props={{ isIAmHuman: isIAmHuman() }} />
     <Container className="d-flex row">
       <Section className="col-md-3">
         <H5>Home</H5>
