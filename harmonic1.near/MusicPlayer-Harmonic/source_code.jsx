@@ -35,18 +35,30 @@ const data = fetch("https://graph.mintbase.xyz", {
 const styles = {
   container: {
     display: "flex",
-    overflowY: "auto", // add this
+    //overflowY: "auto", // add this
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "",
-    height: "100%",
+    alignItems: "center",
+    //height: "100%",
+    //backgroundColor: "#f0f0f0",
+    padding: "1rem",
+    borderRadius: "0.5rem",
+  },
+  innerContainer: {
+    display: "flex",
+    //overflowY: "auto", // add this
+    flexDirection: "row",
+    backgroundColor: "#f0f0f0",
+    borderRadius: "0.5rem",
   },
   playerContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "",
-    justifyContent: "center",
-    margin: "1rem",
+    alignItems: "center",
+    justifyContent: "",
+    //margin: "1rem",
+    //backgroundColor: "#f0f0f0",
+    padding: "1rem",
   },
   buttonContainer: {
     display: "flex",
@@ -57,14 +69,23 @@ const styles = {
     width: "24rem",
     height: "24rem",
     overflowY: "auto",
-    backgroundColor: "#f0f0f0",
-    borderRadius: "0.5rem",
+    //backgroundColor: "#f0f0f0",
+    //borderRadius: "0.5rem",
     padding: "1rem",
   },
   heading: {
     textAlign: "center",
     fontWeight: "bold",
-    marginTop: "1.5rem",
+    margin: "1.5rem",
+  },
+  song: {
+    cursor: "pointer",
+    padding: "0.5rem", // equivalent to "p-2" in tailwind
+    borderRadius: "0.5rem", // equivalent to "rounded-lg" in tailwind
+    marginBottom: "0.5rem", // to separate the song titles a bit
+  },
+  selectedSong: {
+    backgroundColor: "#60A5FA", // equivalent to "bg-blue-300" in tailwind
   },
 };
 
@@ -120,86 +141,96 @@ return (
     <h1 style={styles.heading}>Decentralised Music Streaming</h1>
 
     <div style={styles.container}>
-      <div style={styles.playerContainer}>
-        <Widget
-          src="mob.near/widget/NftImage"
-          props={{
-            nft: {
-              tokenId: songs[state.currentSongIndex].token_id,
-              contractId: songs[state.currentSongIndex].nft_contract_id,
-            },
-            style: {
-              width: 300,
-              height: 300,
-              objectFit: "cover",
-              minWidth: size,
-              minHeight: size,
-              maxWidth: size,
-              maxHeight: size,
-              overflowWrap: "break-word",
-            },
-            thumbnail: "thumbnail",
-            //className: "w-64 h-64 object-cover shadow-lg",
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
-          }}
-        />
-        <div style={styles.buttonContainer}>
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              marginRight: "10px",
+      <div style={styles.innerContainer}>
+        <div style={styles.playerContainer}>
+          <Widget
+            src="mob.near/widget/NftImage"
+            props={{
+              nft: {
+                tokenId: songs[state.currentSongIndex].token_id,
+                contractId: songs[state.currentSongIndex].nft_contract_id,
+              },
+              style: {
+                width: 300,
+                height: 300,
+                objectFit: "cover",
+                minWidth: size,
+                minHeight: size,
+                maxWidth: size,
+                maxHeight: size,
+                overflowWrap: "break-word",
+              },
+              thumbnail: "thumbnail",
+              //className: "w-64 h-64 object-cover shadow-lg",
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
             }}
-            onClick={playPreviousSong}
-          >
-            Previous
-          </button>
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={pauseCurrentSong}
-          >
-            Pause
-          </button>
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={playCurrentSong}
-          >
-            Play
-          </button>
-          <button
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={playNextSong}
-          >
-            Next
-          </button>
-        </div>
-      </div>
-      <div style={styles.songListContainer}>
-        <h2 className="text-2xl font-bold">Songs list:</h2>
-        {songs.map((song, i) => (
-          <div
-            className={`cursor-pointer p-2 rounded-lg hover:bg-blue-200 ${
-              state.currentSongIndex === i ? "bg-blue-300" : ""
-            }`}
-            key={song.token_id}
-            onClick={() => selectSong(i)}
-          >
-            {song.title}
+          />
+
+          <div style={styles.buttonContainer}>
+            <button
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                marginRight: "10px",
+              }}
+              onClick={playPreviousSong}
+            >
+              Previous
+            </button>
+            <button
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                marginRight: "10px",
+              }}
+              onClick={pauseCurrentSong}
+            >
+              Pause
+            </button>
+            <button
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                marginRight: "10px",
+              }}
+              onClick={playCurrentSong}
+            >
+              Play
+            </button>
+            <button
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                marginRight: "10px",
+              }}
+              onClick={playNextSong}
+            >
+              Next
+            </button>
           </div>
-        ))}
+        </div>
+        <div style={styles.songListContainer}>
+          <h2 className="text-2xl font-bold">Playlist</h2>
+          {songs.map((song, i) => (
+            <div
+              style={{
+                ...styles.song,
+                ...(state.currentSongIndex === i ? styles.selectedSong : {}),
+              }}
+              key={song.token_id}
+              onClick={() => selectSong(i)}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#BFDBFE")} // equivalent to "hover:bg-blue-200" in tailwind
+              onMouseOut={
+                (e) =>
+                  state.currentSongIndex !== i &&
+                  (e.target.style.backgroundColor = "transparent") // reset color on mouse out if not selected song
+              }
+            >
+              {song.title}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </>
