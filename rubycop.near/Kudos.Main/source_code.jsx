@@ -112,7 +112,7 @@ return (
               {data.map((kudo, index) => (
                 <div
                   onClick={() => State.update({ selectedKudo: kudo })}
-                  className="col col-md-6 p-3"
+                  className="col col-md-6 p-2"
                 >
                   <Widget
                     key={index}
