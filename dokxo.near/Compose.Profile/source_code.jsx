@@ -229,8 +229,7 @@ return (
           type="text"
           placeholder="@username.near"
           onChange={(e) => {
-            handleInputs("profileAccount", e.target.value);
-            console.log("profileAccount");
+            handleProfile(e.target.value);
           }}
         />
       </Formsection>
@@ -239,7 +238,7 @@ return (
         <FormsectionHouseDropdown
           name="house-intended"
           id="house-intended"
-          onChange={(e) => handleInputs("house_intended", e)}
+          onChange={(e) => handleHouse(e.target.value)}
         >
           <option default value="0">
             Select house
