@@ -118,6 +118,7 @@ State.init({
   typeSrc,
   selectedType: type,
   view: "CREATE_THING",
+  preview: "TEMPLATE",
   template,
   templateVal: template,
   thingId,
@@ -266,19 +267,37 @@ return (
       {state.view === "CREATE_THING" ? (
         <>
           <Header>
-            <Label>Template:</Label>
-            <Input
-              value={state.templateVal}
-              onChange={(e) => State.update({ templateVal: e.target.value })}
-            />
+            <Row style={{ justifyContent: "space-between" }}>
+              <div>
+                <Label>Template:</Label>
+                <Input
+                  value={state.templateVal}
+                  onChange={(e) =>
+                    State.update({ templateVal: e.target.value })
+                  }
+                />
+              </div>
+              <Select
+                value={state.preview}
+                onChange={(e) => State.update({ preview: e.target.value })}
+              >
+                <option value="TEMPLATE">template</option>
+                <option value="RAW">raw</option>
+              </Select>
+            </Row>
           </Header>
-          <Widget
-            src="efiz.near/widget/every.thing.raw"
-            props={{ value: state.config }}
-          />
-          {(state.template && (
-            <Widget src={state.template} props={{ data: state.config }} />
-          )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
+          {state.preview === "TEMPLATE" ? (
+            <>
+              {(state.template && (
+                <Widget src={state.template} props={{ data: state.config }} />
+              )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
+            </>
+          ) : (
+            <Widget
+              src="efiz.near/widget/Every.Raw.View"
+              props={{ value: state.config || {} }}
+            />
+          )}
         </>
       ) : (
         <></>
