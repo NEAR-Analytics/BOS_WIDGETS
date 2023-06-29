@@ -47,7 +47,7 @@ const Content = styled.div`
 return (
   <Modal id="modal">
     <ComponentWrapper id="modal-comp" className="component-wrapper">
-      {content}
+      <Content>{content}</Content>
     </ComponentWrapper>
   </Modal>
 );
