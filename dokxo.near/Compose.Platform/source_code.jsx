@@ -50,14 +50,18 @@ font-size: 12px;
  
 }
   `;
-// State
-State.init({
-  issued1: "",
-  issued2: "",
-  issued3: "",
-  addition_platform: "",
-  error_msg: "",
-});
+
+const {
+  issued1,
+  issued2,
+  issued3,
+  addition_platform,
+
+  handleIssued1,
+  handleIssued2,
+  handleIssued3,
+  handleAditional,
+} = props;
 
 return (
   <div
@@ -70,13 +74,14 @@ return (
         {"Platform: What’s your view and pledge on Key Issue 1?"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="Profile"
-        id="Profile"
+        name="issued1"
+        id="issued1"
         type="text"
         placeholder="Elaborate on your position and pledge "
+        value={issued1}
         onChange={(e) => {
-          State.update({ issued1: e.target.value });
-          console.log(state);
+          handleIssued1(e.target.value);
+          console.log("handleIssued1");
         }}
       />
     </FormsectionPlatform>
@@ -85,11 +90,14 @@ return (
         {"Platform: What’s your view and pledge on Key Issue 2"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="Profile"
-        id="Profile"
+        name="issued2"
+        id="issued2"
         type="text"
         placeholder="Elaborate on your position and pledge "
-        onChange={(e) => State.update({ issued2: e.target.value })}
+        value={issued2}
+        onChange={(e) => {
+          handleIssued2(e.target.value);
+        }}
       />
     </FormsectionPlatform>
     <FormsectionPlatform>
@@ -97,11 +105,14 @@ return (
         {"Platform: What’s your view and pledge on Key Issue 3?"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="Profile"
-        id="Profile"
+        name="issued3"
+        id="issued3"
         type="text"
         placeholder="Elaborate on your position and pledge "
-        onChange={(e) => State.update({ issued3: e.target.value })}
+        value={issued3}
+        onChange={(e) => {
+          handleIssued3(e.target.value);
+        }}
       />
     </FormsectionPlatform>
     <FormsectionPlatform>
@@ -109,11 +120,14 @@ return (
         {"Additional Platform"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="Profile"
-        id="Profile"
+        name="issuedA"
+        id="issuedA"
         type="text"
         placeholder="Elaborate on your position and additional issues and topics"
-        onChange={(e) => State.update({ addition_platform: e.target.value })}
+        value={addition_platform}
+        onChange={(e) => {
+          handleAditional(e.target.value);
+        }}
       />
     </FormsectionPlatform>
   </div>
