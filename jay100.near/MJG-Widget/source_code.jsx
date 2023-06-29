@@ -1,3 +1,6 @@
+const game_title = "Chain Team Tactics";
+const game_description = "";
+
 const Title = styled.h5` color: #fff; font-weight: 700; font-size: 16px; text-align: center; text-transform: uppercase; `;
 const Cover = styled.img` border-radius: 5px; width: 150px; height: 150px; object-fit: cover; `;
 const Description = styled.p`@import url('https://fonts.googleapis.com/css?family=Press+Start+2P'); font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;  color: #fff; font-weight: 300; `;
@@ -126,7 +129,10 @@ return (
         ></div>
       </div>
     </Hero>
-    <Widget src="jay100.near/widget/CTTDescription" />
+    <Widget
+      src="jay100.near/widget/CTTDescription"
+      props={{ title: "hil", description: "jil" }}
+    />
     <Widget src="jay100.near/widget/Carousel" />
     {isUserRegistered ? (
       <Widget src="jay100.near/widget/PlayerDashboard" />
