@@ -35,25 +35,26 @@ const data = fetch("https://graph.mintbase.xyz", {
 const styles = {
   container: {
     display: "flex",
+    overflowY: "auto", // add this
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "",
     height: "100%",
   },
   playerContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "",
     justifyContent: "center",
     margin: "1rem",
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "2rem",
+    marginTop: "1rem",
   },
   songListContainer: {
-    width: "16rem",
+    width: "24rem",
     height: "24rem",
     overflowY: "auto",
     backgroundColor: "#f0f0f0",
@@ -117,13 +118,7 @@ function selectSong(index) {
 return (
   <>
     <h1 style={styles.heading}>Decentralised Music Streaming</h1>
-    <h2 className="text-2xl font-bold">
-      {songs[state.currentSongIndex].title}
-    </h2>
-    <p className="text-xl font-medium">
-      (Note: Still working on some State management so you got to pause the
-      current song before playing the next one.)
-    </p>
+
     <div style={styles.container}>
       <div style={styles.playerContainer}>
         <Widget
@@ -151,25 +146,41 @@ return (
         />
         <div style={styles.buttonContainer}>
           <button
-            className="px-4 text-white bg-black rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              marginRight: "10px",
+            }}
             onClick={playPreviousSong}
           >
             Previous
           </button>
           <button
-            className="px-4 text-white bg-black rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              marginRight: "10px",
+            }}
             onClick={pauseCurrentSong}
           >
             Pause
           </button>
           <button
-            className="px-4 text-white bg-black rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              marginRight: "10px",
+            }}
             onClick={playCurrentSong}
           >
             Play
           </button>
           <button
-            className="px-4 text-white bg-black rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+              marginRight: "10px",
+            }}
             onClick={playNextSong}
           >
             Next
@@ -177,7 +188,7 @@ return (
         </div>
       </div>
       <div style={styles.songListContainer}>
-        <h2 className="text-2xl font-bold mb-4">Songs list:</h2>
+        <h2 className="text-2xl font-bold">Songs list:</h2>
         {songs.map((song, i) => (
           <div
             className={`cursor-pointer p-2 rounded-lg hover:bg-blue-200 ${
