@@ -1,4 +1,8 @@
 /**
+ * TODO: hide "Leave" button using props
+ */
+
+/**
  * This Widget was built using NEAR Social Bridge library.
  * Visit https://github.com/wpdas/near-social-bridge to get to know more.
  */
