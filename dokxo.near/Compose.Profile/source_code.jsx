@@ -132,9 +132,11 @@ const {
   name,
   profileAccount,
   house_intended,
+
   filesOnChange,
-  handleInputs,
   handleName,
+  handleProfile,
+  handleHouse,
 } = props;
 return (
   <div class="w-100">
