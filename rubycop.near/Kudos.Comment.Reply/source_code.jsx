@@ -70,7 +70,7 @@ return (
     src={widget.modal}
     props={{
       isOpen: showModal,
-      toggleModal: () => {},
+      toggleModal: handleClose,
       component: (
         <Modal>
           <h4>Reply to comment</h4>
