@@ -16,10 +16,8 @@ flex-grow: 0;
 const LabelFile = styled.label`
 box-sizing: border-box;
 align-content: center,
- 
 width: 100%;
 height: 38px;
-
 background: #FFFFFF;
 border: 1px dashed #D0D6D9;
 border-radius: 8px;
@@ -27,7 +25,7 @@ flex: none;
 order: 1;
 flex-grow: 0;
 @media only screen and (max-width: 480px) {
-  width: 326px;
+   
 }
 
 `;
@@ -55,7 +53,7 @@ order: 0;
 flex-grow: 0;
 @media only screen and (max-width: 480px) {
   
-  width: 326px;
+ width: 100%;
 }
   `;
 const InputStyled = styled.input`
@@ -76,7 +74,7 @@ order: 1;
 
 @media only screen and (max-width: 480px) {
   
-  width: 326px;
+ 
 }
 `;
 const FormsectionHouse = styled.div`
