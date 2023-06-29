@@ -1,4 +1,4 @@
-const { content, isOpen } = props;
+const { isOpen } = props;
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
@@ -44,10 +44,107 @@ const Content = styled.div`
   }
 `;
 
+const InputField = styled.div`
+  margin: 20px 0;
+`;
+
+const UserLink = ({ title, src }) => (
+  <>
+    <StyledLink href={src}>{title}</StyledLink>
+  </>
+);
+
+const Description = styled.div`
+  max-height: 100px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 12px 0;
+`;
+
+const CreatedAt = styled.div`
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+
+  b {
+    font-weight: 500;
+  }
+`;
+
+const StyledLink = styled.a`
+  color: inherit !important;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  margin-left: 5px;
+`;
+
+const ContentDiv = () => (
+  <Content>
+    <h4>Reply to comment</h4>
+    <div className="content">
+      <div className="d-flex justify-content-between align-items-center">
+        <div>
+          <Widget
+            src="mob.near/widget/ProfileImage"
+            props={{
+              accountId,
+              imageClassName: "rounded-circle w-100 h-100",
+              style: { width: "32px", height: "32px", marginRight: 5 },
+            }}
+          />
+          <UserLink
+            src={`https://wallet.near.org/profile/${accountId}`}
+            title={accountId}
+          />
+        </div>
+        <CreatedAt>
+          <i className="bi bi-clock" />
+          {date}
+        </CreatedAt>
+      </div>
+      <Description className="text-secondary">{description}</Description>
+      <InputField>
+        <input
+          type="text"
+          value={state.comment}
+          onChange={(e) => State.update({ comment: e.target.value })}
+        />
+      </InputField>
+    </div>
+    <div className="d-grid gap-3 d-flex align-items-center justify-content-end">
+      <Widget
+        src={widget.button}
+        props={{
+          Button: {
+            text: "Cancel",
+            className: "secondary",
+            onClick: handleClose,
+          },
+        }}
+      />
+      <Widget
+        src={widget.button}
+        props={{
+          Button: {
+            text: "Submit",
+            onClick: handleClose,
+          },
+        }}
+      />
+    </div>
+  </Content>
+);
+
 return (
   <Modal id="modal" isOpen={isOpen}>
     <ComponentWrapper id="modal-comp" className="component-wrapper">
-      <Content>{content}</Content>
+      <ContentDiv />
     </ComponentWrapper>
   </Modal>
 );
