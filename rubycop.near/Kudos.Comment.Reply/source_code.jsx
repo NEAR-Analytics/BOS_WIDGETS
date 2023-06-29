@@ -10,6 +10,62 @@ State.init({
   comment: "",
 });
 
+const Modal = styled.div`
+  background: #F8F8F9;
+  margin: 20% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+
+  .content {
+    margin: 18px 0; 
+  }
+`;
+
+const InputField = styled.div`
+  margin: 20px 0;
+`;
+
+const Description = styled.div`
+  max-height: 100px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 12px 0;
+`;
+
+const CreatedAt = styled.div`
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+
+  b {
+    font-weight: 500;
+  }
+`;
+
+const StyledLink = styled.a`
+  color: inherit !important;
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  margin-left: 5px;
+`;
+
+const UserLink = ({ title, src }) => (
+  <>
+    <StyledLink href={src}>{title}</StyledLink>
+  </>
+);
+
 return (
   <Widget
     src={widget.modal}
