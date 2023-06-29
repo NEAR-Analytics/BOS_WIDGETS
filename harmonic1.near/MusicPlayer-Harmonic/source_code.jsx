@@ -97,12 +97,23 @@ State.init({
   currentSongIndex: 0,
 });
 
-let audioElem = new Audio();
+let audioElem;
+
+function playSong(src) {
+  if (audioElem) {
+    // Pause the currently playing song, if any
+    audioElem.pause();
+  }
+  // Now create a new Audio object and start playing the song
+  audioElem = new Audio(src);
+  audioElem.play();
+}
 
 // Call this when you want to play the current song
 function playCurrentSong() {
-  audioElem.src = songs[state.currentSongIndex].reference_blob;
-  audioElem.play();
+  //audioElem.src = songs[state.currentSongIndex].reference_blob;
+  //audioElem.play();
+  playSong(songs[state.currentSongIndex].reference_blob);
 }
 
 // Call this when you want to pause the current song
@@ -112,21 +123,33 @@ function pauseCurrentSong() {
 
 // Call this when you want to play the next song
 function playNextSong() {
+  // Pause the current song first
+  pauseCurrentSong();
+
   // Update the current song index
   let nextSongIndex = (state.currentSongIndex + 1) % songs.length;
   State.update({
     currentSongIndex: nextSongIndex,
   });
+
+  // Play the new song
+  playCurrentSong();
 }
 
 // Call this when you want to play the previous song
 function playPreviousSong() {
+  // Pause the current song first
+  pauseCurrentSong();
+
   // Calculate the previous song index
   let previousSongIndex =
     (state.currentSongIndex - 1 + songs.length) % songs.length;
   State.update({
     currentSongIndex: previousSongIndex,
   });
+
+  // Play the new song
+  playCurrentSong();
 }
 
 // Call this when you want to select a specific song
