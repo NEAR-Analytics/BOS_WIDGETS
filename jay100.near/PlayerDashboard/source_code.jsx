@@ -5,9 +5,17 @@ const PlayerDashboard = async () => {
   let units_ids = playerData.playerdata.unit_ids.map((id) => {
     return id;
   });
+
   let units_data = Near.view("pixeltoken.near", "ctt_get_units_by_ids", {
     token_ids: units_ids,
   });
+
+  let PXTDecimalPlace = Near.view(
+    "pixeltoken.near",
+    "ft_metadata",
+    {}
+  ).decimals;
+
   const code = `
 
 <head>
@@ -72,13 +80,14 @@ const PlayerDashboard = async () => {
 <script>
     window.addEventListener("message", (event) => {
         const data = event.data.data;
+        const decimalPlace = data[3];
         const balances = data[0].balance;
         const troops = data[1];
         const playerId = data[2];
         const pixeltokens = $("<p></p>").text("PixelTokens:");
         const tokens = $("<p></p>").text("Units:");
         const player = $("<p></p>").text("Player:");
-        pixeltokens.append(balances.pixeltoken);
+        pixeltokens.append((parseInt(balances.pixeltoken)/1000000).toFixed(decimalPlace));
         tokens.append(balances.tokens);
         player.append(playerId);
         $("#balance").append(player, pixeltokens, tokens);
@@ -113,7 +122,8 @@ const PlayerDashboard = async () => {
           srcDoc={code}
           message={{
             data:
-              [playerData, units_data, context.accountId] || "No Player Data",
+              [playerData, units_data, context.accountId, PXTDecimalPlace] ||
+              "No Player Data",
           }}
         />
       </div>
