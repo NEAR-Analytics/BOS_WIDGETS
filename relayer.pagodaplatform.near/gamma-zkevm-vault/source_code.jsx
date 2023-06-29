@@ -388,7 +388,7 @@ const handleApprove = (isToken0) => {
   const tokenContract = new ethers.Contract(
     addresses[_token],
     abi,
-    Ethers.provider()
+    Ethers.provider().getSigner()
   );
 
   tokenContract
