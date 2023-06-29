@@ -207,43 +207,16 @@ font-size: 12px;
  
 }
   `;
+const {
+  affiliations,
+  addFields,
+  removeField,
+  handleAFFCompanyName,
+  handleAFFStartdate,
+  handleAFFEnddate,
+  handleAFFRole,
+} = props;
 // State
-State.init({
-  afiliation: [
-    {
-      company_name: "",
-      start_date: "",
-      end_date: "",
-      role: "",
-    },
-  ],
-
-  error_msg: "",
-});
-
-const addFields = () => {
-  var temp = state.afiliation;
-  let object = {
-    company_name: "",
-    start_date: "",
-    end_date: "",
-    role: "",
-  };
-
-  if (temp.length === 6) {
-    return;
-  } else {
-    temp.push(object);
-    State.update({ afiliation: temp });
-  }
-};
-const removeField = (index) => {
-  let data = state.afiliation;
-  console.log(data);
-  data.splice(index, 1);
-  console.log(data);
-  State.update({ afiliation: data });
-};
 
 return (
   <div
@@ -298,7 +271,7 @@ return (
       </AffiliationHead>
 
       <AffiliationBody>
-        {state.afiliation.map((form, index) => {
+        {affiliations.map((form, index) => {
           return (
             <div
               class="bg-white rounded"
@@ -317,11 +290,8 @@ return (
                     <CompanyInputName
                       placeholder="Company Name"
                       onChange={(event) => {
-                        let data = state.afiliation;
-                        console.log("updating the company");
-                        data[index].company_name = event.target.value;
-                        State.update({ afiliation: data });
-                        console.log(state);
+                        let _param = { index, event };
+                        handleAFFCompanyName(_param);
                       }}
                     />
                   </div>
@@ -333,13 +303,9 @@ return (
                       <CompanyTitle>{"Start date"}</CompanyTitle>
                       <CompanyInput
                         type="date"
-                        placeholder="Company Name"
                         onChange={(event) => {
-                          let data = state.afiliation;
-                          console.log("updating the start");
-                          data[index].start_date = event.target.value;
-                          State.update({ afiliation: data });
-                          console.log(state);
+                          let _param = { index, event };
+                          handleAFFStartdate(_param);
                         }}
                       ></CompanyInput>
                     </DateContItem>
@@ -347,13 +313,9 @@ return (
                       <CompanyTitle>{"End date"}</CompanyTitle>
                       <CompanyInput
                         type="date"
-                        placeholder="Company Name"
                         onChange={(event) => {
-                          let data = state.afiliation;
-                          console.log("updating the end");
-                          data[index].end_date = event.target.value;
-                          State.update({ afiliation: data });
-                          console.log(state);
+                          let _param = { index, event };
+                          handleAFFEnddate(_param);
                         }}
                       ></CompanyInput>
                     </DateContItem>
@@ -377,11 +339,8 @@ return (
                       type="text"
                       placeholder="Add tags that describe your nomination, separated by comma"
                       onChange={(event) => {
-                        let data = state.afiliation;
-                        console.log("updating the Description");
-                        data[index].role = event.target.value;
-                        State.update({ afiliation: data });
-                        console.log(state);
+                        let _param = { index, event };
+                        handleAFFRole(_param);
                       }}
                     />
                   </div>
