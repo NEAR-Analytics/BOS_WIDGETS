@@ -93,11 +93,12 @@ const styles = {
 let songs = data.body.data.mb_views_active_listings.filter(
   (listing) => listing.reference_blob !== "https://near.social/null"
 );
+
 State.init({
   currentSongIndex: 0,
 });
 
-let audioElem;
+//let audioElem;
 
 function playSong(src) {
   if (audioElem) {
@@ -105,7 +106,7 @@ function playSong(src) {
     audioElem.pause();
   }
   // Now create a new Audio object and start playing the song
-  audioElem = new Audio(src);
+  let audioElem = new Audio(src);
   audioElem.play();
 }
 
