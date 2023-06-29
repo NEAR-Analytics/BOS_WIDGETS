@@ -72,7 +72,7 @@ return (
       <Item>
         <Widget
           src="near/widget/ComponentCard"
-          props={{ src: "everettbu.near/widget/SocialPage" }}
+          props={{ src: "frichard2.near/widget/most-active-contracts" }}
         />
       </Item>
       <Item>
