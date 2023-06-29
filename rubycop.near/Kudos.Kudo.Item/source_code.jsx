@@ -184,7 +184,9 @@ const handleCreateComment = (id, comment) => {
   console.log(id);
   console.log(comment);
 };
-const handleShare = () => {};
+const handleShare = (e) => {
+  e.preventDefault();
+};
 
 State.init({
   isOpen: false,
