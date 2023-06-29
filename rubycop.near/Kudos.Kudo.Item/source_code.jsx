@@ -332,7 +332,7 @@ return (
               props={{
                 Button: {
                   text: "Reply",
-                  // disabled: !isIAmHuman,
+                  disabled: !isIAmHuman,
                   size: "sm",
                   icon: <i className="bi bi-arrow-90deg-left" />,
                   onClick: () => State.update({ isOpen: true }),
