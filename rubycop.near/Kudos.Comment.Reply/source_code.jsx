@@ -1,4 +1,4 @@
-const { content } = props;
+const { content, isOpen } = props;
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
@@ -15,7 +15,7 @@ const Modal = styled.div`
   left: 0px;
   width: 100%;
   height: 100vh;
-  display: ${state.isOpen ? "block" : "none"};
+  display: ${(isOpen) => (props.isOpen ? "block" : "none")};
   background: rgba(128, 128, 128, 0.65);
 `;
 
@@ -45,7 +45,7 @@ const Content = styled.div`
 `;
 
 return (
-  <Modal id="modal">
+  <Modal id="modal" isOpen={isOpen}>
     <ComponentWrapper id="modal-comp" className="component-wrapper">
       <Content>{content}</Content>
     </ComponentWrapper>
