@@ -126,20 +126,26 @@ return (
         ></div>
       </div>
     </Hero>
-    <CardList>
-      {" "}
-      {Mainnet.map((widget, index) => (
-        <WidgetCard
-          key={index}
-          coverSrc={WidgetImages[index].url}
-          description=""
-          actionButtons={[
-            { label: "Play", url: widget.url },
-            { label: "Test", url: Testnet[index].url },
-            { label: "Wiki", url: Wiki[index].url },
-          ]}
-        />
-      ))}
-    </CardList>
+    <Widget src="jay100.near/widget/CTTDescription" />
+    <Widget src="jay100.near/widget/Carousel" />
+    {isUserRegistered ? (
+      <Widget src="jay100.near/widget/PlayerDashboard" />
+    ) : (
+      <CardList>
+        {" "}
+        {Mainnet.map((widget, index) => (
+          <WidgetCard
+            key={index}
+            coverSrc={WidgetImages[index].url}
+            description=""
+            actionButtons={[
+              { label: "Play", url: widget.url },
+              { label: "Test", url: Testnet[index].url },
+              { label: "Wiki", url: Wiki[index].url },
+            ]}
+          />
+        ))}
+      </CardList>
+    )}
   </div>
 );
