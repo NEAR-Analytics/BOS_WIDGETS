@@ -45,6 +45,7 @@ const contractProps = {
 
 const { houses } = contractProps;
 
+console.log(houses);
 const electionContract = "elections-v2.gwg.testnet";
 const registryContract = "registry-unstable.i-am-human.testnet";
 const ndcOrganization = "test";
@@ -77,9 +78,57 @@ const widgets = {
 
 State.init({
   selectedHouse: houses[0].id,
+  start: true,
+  house: "CouncilOfAdvisors",
+  nominations: [],
 });
+State.init({});
+//
+
+function handleNominations(data) {
+  State.update({ nominations: data });
+}
+function testPikespeak() {
+  asyncFetch(
+    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    console.log(res.body);
+    State.update({ nominations: res.body });
+    let info = Social.getr("syi216.near/profile");
+    console.log(info);
+  });
+}
+
+if (state.start) {
+  testPikespeak("");
+  State.update({
+    start: false,
+  });
+}
 
 const handleSelect = (item) => {
+  switch (item.id) {
+    case 2:
+      console.log("CouncilOfAdvisors");
+      State.update({ house: "CouncilOfAdvisors" });
+      testPikespeak(state.house);
+      break;
+    case 3:
+      console.log("HouseOfMerit");
+      State.update({ house: "HouseOfMerit" });
+      testPikespeak(state.house);
+      break;
+    case 4:
+      State.update({ house: "TransparencyCommission" });
+      testPikespeak(state.house);
+      console.log("TransparencyCommission");
+      break;
+  }
   State.update({ selectedHouse: item.id });
 };
 
@@ -185,7 +234,7 @@ return (
     </Toolbar>
     <Container className="d-flex row">
       <Left className="col-lg">
-        <H5>To Vote</H5>
+        <H5>Houses</H5>
         <Widget
           src={widgets.houses}
           props={{
@@ -196,14 +245,9 @@ return (
         />
       </Left>
       <Center className="col-lg-8 p-2 p-md-3 d-flex flex-row flex-wrap justify-content-center gap-4">
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
-        <Widget src={"syi216.near/widget/NDC.nomination.card"} />
+        {state.nominations.map((data) => {
+          return <Widget src={"syi216.near/widget/NDC.nomination.card"} />;
+        })}
       </Center>
     </Container>
   </div>
