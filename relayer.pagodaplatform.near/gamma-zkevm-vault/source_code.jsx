@@ -334,7 +334,8 @@ const handleToken0Change = (amount) => {
       State.update({ amount1 });
       State.update({ isLoading: false });
       checkApproval(amount, amount1);
-    });
+    })
+    .catch((e) => console.log("ERROR while getting deposit amount"));
 };
 
 const handleToken1Change = (amount) => {
@@ -375,12 +376,11 @@ const handleToken1Change = (amount) => {
 };
 
 const handleApprove = (isToken0) => {
-  const tokenWei = new Big(
-    ethers.utils.parseUnits(
-      isToken0 ? amount0 : amount1,
-      isToken0 ? decimals0 : decimals1
-    )
+  const tokenWei = ethers.utils.parseUnits(
+    isToken0 ? amount0 : amount1,
+    isToken0 ? decimals0 : decimals1
   );
+  console.log(tokenWei);
 };
 
 const isInSufficient =
