@@ -1,5 +1,5 @@
 const game_title = "Chain Team Tactics";
-const game_description = "";
+const game_description = `Chain Team Tactics is an nft based pvp battle simulator. Collect a minimum of 6 units and start to battle other players! Each battle is fought as best of three and the starting player changes each round. To make it more spicy, you will battle about your PXT stake (after beta). Still don't understand? Take a game like Fire Emblem or Final Fantasy Tactics, slap it onto the blockchain, and you're left with this amazing game called Chain Team Tactics.`;
 
 const Title = styled.h5` color: #fff; font-weight: 700; font-size: 16px; text-align: center; text-transform: uppercase; `;
 const Cover = styled.img` border-radius: 5px; width: 150px; height: 150px; object-fit: cover; `;
@@ -131,7 +131,7 @@ return (
     </Hero>
     <Widget
       src="jay100.near/widget/CTTDescription"
-      props={{ title: "hil", description: "jil" }}
+      props={{ title: game_title, description: game_description }}
     />
     <Widget src="jay100.near/widget/Carousel" />
     {isUserRegistered ? (
