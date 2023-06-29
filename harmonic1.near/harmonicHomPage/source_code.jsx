@@ -47,7 +47,7 @@ return (
       </p>
     </div>
     <div className="mb-5">
-      <Widget src="jaswinder.near/widget/MusicPlayer-Harmonic" />
+      <Widget src="harmonic1.near/widget/MusicPlayer-Harmonic" />
     </div>
     <div className="mb-5">
       <Widget src="harmonic1.near/widget/NFTMinter" />
