@@ -8,10 +8,6 @@ State.init({
   descriptionError: "",
 });
 
-const validateForm = () => {
-  return state.description !== "" && state.descriptionError === "";
-};
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
