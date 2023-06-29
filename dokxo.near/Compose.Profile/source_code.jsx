@@ -35,7 +35,7 @@ const WrapNoWrap = styled.div`
 display: flex;
 flex-direction: row;  
 width:100%;
-gap:.5rem;
+gap:.25rem;
 flex-wrap: nowrap;
 @media only screen and (max-width: 480px) {
  flex-wrap: wrap;
@@ -224,7 +224,7 @@ return (
       </LabelFile>
     </div>
     <WrapNoWrap
-      class="row col-sm-12  mx-0 gap-1 "
+      class="row col-sm-12     "
       name="div1"
       style={{
         "padding-top": "10px",
