@@ -136,6 +136,7 @@ State.init({
   tags: "",
   error_msg: "",
 });
+const { agreement, tags, handleTags, handleDeclaration } = props;
 return (
   <div
     class="row col-sm-12  mx-0   "
@@ -158,10 +159,10 @@ return (
         name="Tags"
         id="Tags"
         type="text"
+        value={tags}
         placeholder="Add tags separated by comma"
         onChange={(e) => {
-          State.update({ tags: e.target.value });
-          console.log(state);
+          handleTags(e);
         }}
       />
     </Formsectiontag>
@@ -177,8 +178,9 @@ return (
       >
         <InputcheckboxStyled
           type="checkbox"
+          value={agreement}
           onChange={(e) => {
-            State.update({ agreement: e.target.checked });
+            handleDeclaration(e);
           }}
         />
         <PStyled>
