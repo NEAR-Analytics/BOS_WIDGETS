@@ -1,4 +1,4 @@
-const { view, darkmode } = props;
+let { view, darkmode } = props;
 
 State.init({
     currentView: view || "home",
@@ -93,7 +93,7 @@ const Navigation = styled.div`
                 cursor:pointer;
                 transition:all .2s;
                 border-radius:10px;
-                background-color:rgba(0,0,0,.05);
+                background-color:${state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"};
                 padding:.5rem 1rem;
                 font-weight:bold;
                 opacity:.6;
@@ -141,7 +141,7 @@ const ScoreBoard = styled.a`
     border-radius:10px;
     box-sizing:border-box;
     padding: .8rem;
-    background-color:${DEFAULT_COMPONENT_COLOR};
+    background-color:${DEFAULT_BACKGROUND_COLOR};
     border: 2px solid rgba(0,0,0,.05);
     margin-bottom:.8rem;
     cursor:pointer;
@@ -250,7 +250,7 @@ const DarkModeButton = styled.div`
 `;
 
 let views = {
-    home: () => <>
+    home: (state) => <>
         <Grid>
           <Section>
           <Info>
@@ -276,6 +276,7 @@ let views = {
             </a>
           </Info>
           <ScoreBoard
+            onClick={() => console.log(state)}
             href="https://i-am-human.app/community-scoreboard"
             target="_blank"
           >
@@ -346,16 +347,6 @@ let views = {
     </>,
 };
 
-function changeView(view) {
-    if (view in views) {
-        State.update({render: views[view](), currentView: view});
-    }
-}
-
-if (!state.render) {
-    changeView(state.currentView);
-}
-
 function getSkeleton () {
     return <>
         Loading...
@@ -406,7 +397,7 @@ return (
       </Navigation>
     </Header>
     <Wrapper>
-        {state.render || getSkeleton()}
+        {state.currentView in views ? views[state.currentView]() : "404"}
     </Wrapper>
   </Main>
 );
