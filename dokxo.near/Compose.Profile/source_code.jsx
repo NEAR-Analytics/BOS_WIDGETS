@@ -243,9 +243,9 @@ return (
           <option default value="0">
             Select house
           </option>
-          <option value="Council of Advisors">Council of Advisors</option>
-          <option value="House Of Merit">House Of Merit</option>
-          <option value="Transparency Commission">
+          <option value="CouncilOfAdvisors">Council of Advisors</option>
+          <option value="HouseOfMerit">House Of Merit</option>
+          <option value="TransparencyCommission">
             Transparency Commission
           </option>
         </FormsectionHouseDropdown>
