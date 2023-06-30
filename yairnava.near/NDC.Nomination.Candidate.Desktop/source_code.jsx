@@ -829,8 +829,6 @@ return (
               <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
               <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
               <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
-              <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
-              <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
             </CommentSection>
           )}
         </div>
