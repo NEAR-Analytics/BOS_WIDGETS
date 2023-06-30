@@ -322,7 +322,7 @@ const url = () => {
     goal: state.goal,
   };
 
-  ["age", "twitter", "telegram", "referral"].forEach((key) => {
+  ["age", "twitter", "telegram", "referral", "accountId"].forEach((key) => {
     if (state[key]) {
       meta[key] = state[key];
     }
@@ -448,7 +448,7 @@ return (
     <Widget
       src={`${ownerId}/widget/Inputs.AccountId`}
       props={{
-        label: "NEAR Account",
+        label: "NEAR Account (optional)",
         value: state.accountId,
         onChange: (accountId) => State.update({ accountId }),
         setError: (accountIdError) => State.update({ accountIdError }),
