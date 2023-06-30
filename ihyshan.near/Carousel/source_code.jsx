@@ -40,7 +40,6 @@ const Carousel = () => {
     }
 
     html, body{
-        font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
         overflow: hidden;
         width: 100%;
         height: 100%;
