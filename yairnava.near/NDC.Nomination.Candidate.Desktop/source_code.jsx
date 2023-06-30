@@ -744,6 +744,7 @@ return (
         "min-width": "350px",
         "max-width": "350px",
         background: "#F8F8F9",
+        "border-radius": "8px",
       }}
     >
       <>
