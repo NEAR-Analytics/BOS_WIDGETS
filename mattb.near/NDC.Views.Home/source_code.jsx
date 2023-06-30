@@ -1,13 +1,19 @@
 const { view, darkmode } = props;
 
-const DEFAULT_BACKGROUND_COLOR = darkmode ? "#191919" : "#fff";
-const DEFAULT_COMPONENT_COLOR = darkmode ? "rgba(0,0,0,.8)" : "#fff";
+State.init({
+    currentView: view || "home",
+    render: "",
+    darkmode: darkmode || false
+});
+
+const DEFAULT_BACKGROUND_COLOR = state.darkmode ? "#191919" : "#fff";
+const DEFAULT_COMPONENT_COLOR = state.darkmode ? "rgba(0,0,0,.8)" : "#fff";
 const DEFAULT_GRADIENT =
   "linear-gradient(90deg, rgb(147, 51, 234) 0%, rgb(79, 70, 229) 100%)";
 
-const DEFAULT_TEXT_COLOR = darkmode ? "#fff" : "#000";
+const DEFAULT_TEXT_COLOR = state.darkmode ? "#fff" : "#000";
 
-const DEFAULT_LOGO_URL = darkmode
+const DEFAULT_LOGO_URL = state.darkmode
   ? "https://ipfs.near.social/ipfs/bafkreihbueuso62ltstbcxdhlmdnacomlb2hxun5fxh34f4rvgtgb5pfi4"
   : "https://ipfs.near.social/ipfs/bafkreiavgky7fgrvwl4x4rxcypgew5ou6ahwf6mrcbtyswbvtbnrkrrobu";
 
@@ -16,6 +22,9 @@ const I_AM_HUMAN_LOGO_URL =
 
 const BACKGROUND_DECORATION_URL =
   "https://ipfs.near.social/ipfs/bafybeicwdaezq3bnsd7nocof2ktc3rlla6u5s5iqxe5p2c6at2leqnc7wi";
+
+const ICON_MOON_URL = "https://ipfs.near.social/ipfs/bafkreigilnmekroiee4nehyyipnioxchwzevvp3qc7nkb3njekbaevuzzi"
+const ICON_SUN_URL = "https://ipfs.near.social/ipfs/bafkreidltnf3vn5na7dl5rdwcpor3yz63suj42xc4h2qxyhpz5ltwfxn7q";
 
 const Main = styled.div`
     width:100%;
@@ -90,8 +99,18 @@ const Navigation = styled.div`
                 opacity:.6;
                 color:${DEFAULT_TEXT_COLOR};
                 text-decoration:none;
+                border: 2px solid rgba(0,0,0,.0);
+                transition: all .2s;
+
+                &.selected {
+                    transition: all .2s;
+                    background: ${DEFAULT_TEXT_COLOR};
+                    color:${DEFAULT_BACKGROUND_COLOR};
+                    opacity:1;
+                }
 
                 &:hover {
+                    border: 2px solid rgba(0,0,0,.02);
                     opacity:1;
                 }
             }
@@ -208,6 +227,28 @@ const ProgressWrapper = styled.div`
     margin-top:2rem;
 `;
 
+const DarkModeButton = styled.div`
+    position:absolute;
+    cursor:pointer;
+    right:1rem;
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background-color:${state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"};
+    background-image:url("${state.darkmode ? ICON_SUN_URL : ICON_MOON_URL}");
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:30px 30px;
+    transition: all .2s;
+    border: 2px solid ${state.darkmode ? "rgba(255,255,255,.0)" : "rgba(0,0,0,.0)"};
+
+    &:hover {
+        transition: all .2s;
+        box-shadow: 0 0 10px 5px rgba(0,0,0,.02);
+        border: 2px solid ${state.darkmode ? "rgba(255,255,255,.02)" : "rgba(0,0,0,.02)"};
+    }
+`;
+
 let views = {
     home: () => <>
         <Grid>
@@ -305,11 +346,6 @@ let views = {
     </>,
 };
 
-State.init({
-    currentView: view || "home",
-    render: ""
-});
-
 function changeView(view) {
     if (view in views) {
         State.update({render: views[view](), currentView: view});
@@ -320,6 +356,12 @@ if (!state.render) {
     changeView(state.currentView);
 }
 
+function getSkeleton () {
+    return <>
+        Loading...
+    </>
+}
+
 return (
   <Main>
     <Header>
@@ -328,6 +370,7 @@ return (
         <ul>
           <li>
             <a
+              className={"home" == state.currentView ? "selected" : ""}
               onClick={() => changeView("home")}
             >
               Home
@@ -335,6 +378,7 @@ return (
           </li>
           <li>
             <a
+              className={"docs" == state.currentView ? "selected" : ""}
               onClick={() => changeView("docs")}
             >
               NDCDocs
@@ -342,6 +386,7 @@ return (
           </li>
           <li>
             <a
+              className={"funding" == state.currentView ? "selected" : ""}
               onClick={() => changeView("funding")}
             >
               Funding dashboard
@@ -349,16 +394,19 @@ return (
           </li>
           <li>
             <a
+              className={"sayalot" == state.currentView ? "selected" : ""}
               onClick={() => changeView("sayalot")}
             >
               Say A Lot
             </a>
           </li>
         </ul>
+        <DarkModeButton onClick={() => State.update({darkmode: !state.darkmode})}>
+        </DarkModeButton>
       </Navigation>
     </Header>
     <Wrapper>
-        {state.render}
+        {state.render || getSkeleton()}
     </Wrapper>
   </Main>
 );
