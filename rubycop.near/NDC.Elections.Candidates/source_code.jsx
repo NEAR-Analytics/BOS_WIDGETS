@@ -297,7 +297,7 @@ const filterBy = (option) => {
   else if (option.candidate)
     State.update({
       candidates: state.candidates.sort((a, b) =>
-        state.filter.candidate ? a[1] - b[1] : b[1] - a[1]
+        state.filter.candidate ? a[0] - b[0] : b[0] - a[0]
       ),
       filter: { candidate: !state.filter.candidate },
     });
