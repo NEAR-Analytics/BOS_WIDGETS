@@ -1,7 +1,9 @@
 // Widget Props
 // *Game Description
-const game_title = "Chain Team Tactics";
-const game_description = `Chain Team Tactics is an nft based pvp battle simulator. Collect a minimum of 6 units and start to battle other players! Each battle is fought as best of three and the starting player changes each round. To make it more spicy, you will battle about your PXT stake (after beta). Still don't understand? Take a game like Fire Emblem or Final Fantasy Tactics, slap it onto the blockchain, and you're left with this amazing game called Chain Team Tactics.`;
+const wiki_description = {
+  title: "Chain Team Tactics",
+  description: `Chain Team Tactics is an nft based pvp battle simulator. Collect a minimum of 6 units and start to battle other players! Each battle is fought as best of three and the starting player changes each round. To make it more spicy, you will battle about your PXT stake (after beta). Still don't understand? Take a game like Fire Emblem or Final Fantasy Tactics, slap it onto the blockchain, and you're left with this amazing game called Chain Team Tactics.`,
+};
 
 // *Carousel
 const slide_data = [
@@ -168,10 +170,7 @@ return (
         ></div>
       </div>
     </Hero>
-    <Widget
-      src="jay100.near/widget/CTTDescription"
-      props={{ title: game_title, description: game_description }}
-    />
+    <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />
     <Widget src="jay100.near/widget/Carousel" props={slide_data} />
     {isUserRegistered ? (
       <Widget src="jay100.near/widget/PlayerDashboard" />
