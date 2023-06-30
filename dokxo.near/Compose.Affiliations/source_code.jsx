@@ -209,10 +209,9 @@ font-size: 12px;
   `;
 const Separator = styled.div`
 width:100%;
-height:.5px;
+height:2px;
 background-color: #D0D6D966;
 border: solid 0px transparent;
-
 `;
 const {
   affiliations,
@@ -264,8 +263,9 @@ return (
             />
           </button>
         </AffiliationTitle>
-
-        <Separator />
+        <div style={{ padding: "12px" }}>
+          <Separator />
+        </div>
       </AffiliationHead>
 
       <AffiliationBody>
