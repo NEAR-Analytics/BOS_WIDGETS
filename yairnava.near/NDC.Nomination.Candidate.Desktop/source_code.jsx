@@ -151,7 +151,7 @@ background-clip: text;
 text-fill-color: transparent;
 `;
 
-const UpvoteIcon = styled.img`
+const Icon = styled.img`
 width: 14px;
 height: 14px;
 `;
@@ -559,10 +559,7 @@ return (
             >
               <UpvoteButton>
                 <UpvoteCount>+354</UpvoteCount>
-                <UpvoteIcon
-                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
-                  alt="pic"
-                ></UpvoteIcon>
+                <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
               </UpvoteButton>
             </HeaderDetailContent>
           </DetailHeader>
@@ -764,6 +761,11 @@ return (
                     State.update({ tabSelected: id });
                   }}
                 >
+                  {state.tabSelected == "declaration" ? (
+                    <Icon src="https://nativonft.mypinata.cloud/ipfs/QmWdPSPNuY7ZzRXxykkCBQjbqd6vreSMgZtQzFLzowi6hd"></Icon>
+                  ) : (
+                    <Icon src="https://nativonft.mypinata.cloud/ipfs/QmXr34QtRmoADv8gPVbwVzE7HFBBGCKQmcS7D6fB8JvDzK"></Icon>
+                  )}
                   {title}
                 </PillButtonActive>
               ) : (
@@ -772,6 +774,11 @@ return (
                     State.update({ tabSelected: id });
                   }}
                 >
+                  {state.tabSelected == "comments" ? (
+                    <Icon src="https://nativonft.mypinata.cloud/ipfs/QmWtxhrmz9kDcaaVkk46Uf2uwxYj3k4yKvKHGKhahbWGZz"></Icon>
+                  ) : (
+                    <Icon src="https://nativonft.mypinata.cloud/ipfs/Qmb2JVUWqvWmKSCifDjEvz1MCU557knkoQBZfvNVZks3BE"></Icon>
+                  )}
                   {title}
                 </PillButton>
               )}
