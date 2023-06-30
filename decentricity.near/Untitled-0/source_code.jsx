@@ -22,7 +22,7 @@ return (
   <>
     <css>
       <iframe
-        src={"https://app.myriad.social"}
+        src={"https://myriad.social"}
         frameborder="0"
         marginheight="0"
         marginwidth="0"
