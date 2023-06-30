@@ -41,7 +41,7 @@ const Carousel = () => {
 
     html, body{
         font-family: Arial;
-        font-size: 20px;
+        font-size: 24px;
         overflow: hidden;
         width: 100%;
         height: 100%;
