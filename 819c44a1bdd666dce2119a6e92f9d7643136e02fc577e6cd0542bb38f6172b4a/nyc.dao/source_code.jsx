@@ -36,7 +36,14 @@ const Wrapper = styled.div`
 `;
 
 const H1 = styled.h1`
-  font-family: "FK Grotesk", sans-serif;
+
+@font-face {
+ font-family: 'Graffiti font';
+ src: url('https://fonts.cdnfonts.com/css/graffiti-font')
+                                                
+
+}
+  font-family:'Graffiti font', sans-serif ;
   font-style: normal;
   font-weight: 500;
   font-size: 90px;
@@ -78,7 +85,15 @@ const H1 = styled.h1`
 `;
 
 const Text = styled.p`
-  font-family: "FK Grotesk", sans-serif;
+@font-face {
+ font-family: 'Graffiti font';
+ src: url('https://fonts.cdnfonts.com/css/graffiti-font')
+                                                
+
+}
+ font-family: 'Graffiti font'; sans-serif
+ src: url('https://fonts.cdnfonts.com/css/graffiti-font')
+                                                
   font-size: ${(p) => p.size ?? "18px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
@@ -191,7 +206,7 @@ return (
     <Container>
       <Flex>
         <H1>
-          🗽 Liberty
+          🌐 Liberty
           <span>
             DAO{" "}
             <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
@@ -201,6 +216,7 @@ return (
               />
             </svg>
           </span>
+          Queens
         </H1>
         <div className="mt-3">
           <Text style={{ maxWidth: "350px" }}>
