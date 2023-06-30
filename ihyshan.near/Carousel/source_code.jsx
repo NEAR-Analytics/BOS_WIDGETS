@@ -36,6 +36,7 @@ const Carousel = () => {
 
 <style>
     * {
+        font-family: Arial, sans-serif;
         box-sizing: border-box;
     }
 
