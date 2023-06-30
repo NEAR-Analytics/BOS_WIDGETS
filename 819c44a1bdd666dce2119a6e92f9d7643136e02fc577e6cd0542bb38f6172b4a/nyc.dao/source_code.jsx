@@ -34,13 +34,9 @@ const Wrapper = styled.div`
     padding-top: 0;
   }
 `;
-const cssFont = fetch("https://fonts.cdnfonts.com/css/graffiti-font").body;
-
-if (!cssFont) return "";
 
 const H1 = styled.h1`
-
-  font-family:'Graffiti font', sans-serif ;
+  font-family: "FK Grotesk", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 90px;
@@ -79,13 +75,10 @@ const H1 = styled.h1`
       }
     }
   }
-  ${cssFont}
 `;
 
 const Text = styled.p`
- font-family: 'sans-serif';
- src: url('https://fonts.cdnfonts.com/css/graffiti-font')
-                                                
+  font-family: "FK Grotesk", sans-serif;
   font-size: ${(p) => p.size ?? "18px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
@@ -198,7 +191,7 @@ return (
     <Container>
       <Flex>
         <H1>
-          🌐 Liberty
+          🗽 Liberty
           <span>
             DAO{" "}
             <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
@@ -208,7 +201,6 @@ return (
               />
             </svg>
           </span>
-          Queens
         </H1>
         <div className="mt-3">
           <Text style={{ maxWidth: "350px" }}>
@@ -233,28 +225,35 @@ return (
           href={`${accountUrl}&tab=overview`}
           selected={state.selectedTab === "overview"}
         >
-          Members
+          Overview
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&tab=apps`}
           selected={state.selectedTab === "apps"}
         >
-          Discussion
+          Components
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&tab=nfts`}
           selected={state.selectedTab === "nfts"}
         >
-          Job Board
+          NFTs
+        </TabsButton>
+
+        <TabsButton
+          href={`${accountUrl}&tab=following`}
+          selected={state.selectedTab === "following"}
+        >
+          Following
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&tab=followers`}
           selected={state.selectedTab === "followers"}
         >
-          Events
+          Followers
         </TabsButton>
 
         <TabsButton
