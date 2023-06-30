@@ -1,4 +1,37 @@
 const Carousel = () => {
+  const slide_data = [
+    {
+      img_url:
+        "https://user-images.githubusercontent.com/100770363/241330819-010617e4-b2b3-4d34-a59c-c1b58bf92d8d.png",
+      title: "The Basics",
+    },
+    {
+      img_url:
+        "https://user-images.githubusercontent.com/100770363/241331374-56bd3f0c-7ed3-4923-bd48-4aac7367b280.png",
+      title: "Main Menu",
+      description:
+        "From the main menu, you can see all of the main things you can do in the game. Battle, Mint Unit, Check the Leaderboard, Check Active Rooms, and the market. On the right hand side of your image, this is where the troops that you own will be displayed.",
+    },
+    {
+      img_url:
+        "https://user-images.githubusercontent.com/100770363/241335354-eaf25884-de02-4d7a-a8f2-3c4e59214d5f.png",
+      title: "Battles",
+      description:
+        "This is what you'll see when you select battle. You will have the option to create a new challenge, or fight against someone's challenge. These matches are best 2 out of 3",
+    },
+    {
+      img_url:
+        "https://user-images.githubusercontent.com/100770363/241335498-727bf24d-a65c-4bff-b404-8bcadc558512.png",
+      description:
+        "This is the challenge you chose to accept. As you can see the opponent already set the field for the first round, and it is your job to assemble your own side so that you can attempt to take the first round.",
+    },
+    {
+      img_url:
+        "https://user-images.githubusercontent.com/100770363/241335871-e9c8e5fe-db38-4ada-b1ff-7d895e61f44e.png",
+      description:
+        "Thanks to the cheeky placement of the warlock, You were able to take the first round. From here, you will have to wait for the opponent to respond before you can attack again.",
+    },
+  ];
   const CarouselSrc = `
   <head>
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
@@ -17,7 +50,7 @@ const Carousel = () => {
         width: 100%;
         height: 100%;
         margin: auto;
-        background-color: black;
+        background-color: #0e0e1e;
     }
 
     .mySlides {
@@ -96,48 +129,50 @@ const Carousel = () => {
 
 <body>
     <div class="slideshow-container">
-        <div class="mySlides fade">
-            <img class="slideImg" src="https://user-images.githubusercontent.com/100770363/241330819-010617e4-b2b3-4d34-a59c-c1b58bf92d8d.png">
-            <div class="welcomeTips">
-                <h2>The Basics</h2>
-            </div>
-        </div>
-        <div class="mySlides fade">
-            <img class="slideImg" src="https://user-images.githubusercontent.com/100770363/241331374-56bd3f0c-7ed3-4923-bd48-4aac7367b280.png">
-            <div class="welcomeTips">
-                <h2>Main Menu</h2>
-                <span>From the main menu, you can see all of the main things you can do in the game. Battle, Mint Unit, Check the Leaderboard, Check Active Rooms, and the market. On the right hand side of your image, this is where the troops that you own will be displayed.</span>
-            </div>
-        </div>
-        <div class="mySlides fade">
-            <img class="slideImg" src="https://user-images.githubusercontent.com/100770363/241335354-eaf25884-de02-4d7a-a8f2-3c4e59214d5f.png">
-            <div class="welcomeTips">
-                <h2>Battles</h2>
-                <span>This is what you'll see when you select battle. You will have the option to create a new challenge, or fight against someone's challenge. These matches are best 2 out of 3</span>
-            </div>
-        </div>
-        <div class="mySlides fade">
-            <img class="slideImg" src="https://user-images.githubusercontent.com/100770363/241335498-727bf24d-a65c-4bff-b404-8bcadc558512.png">
-            <div class="welcomeTips">
-                <span>This is the challenge you chose to accept. As you can see the opponent already set the field for the first round, and it is your job to assemble your own side so that you can attempt to take the first round.</span>
-            </div>
-        </div>
-        <div class="mySlides fade">
-            <img class="slideImg" src="https://user-images.githubusercontent.com/100770363/241335871-e9c8e5fe-db38-4ada-b1ff-7d895e61f44e.png">
-            <div class="welcomeTips">
-                <span>Thanks to the cheeky placement of the warlock, You were able to take the first round. From here, you will have to wait for the opponent to respond before you can attack again.</span>
-            </div>
-        </div>
     </div>
     <br>
     <script>
+    window.addEventListener("message", (event) => {
+        const slide_data = event.data.data;
         let slideIndex = 0;
+
         const generate_slides = () => {
+          const main_container = $('.slideshow-container');
+          const slides = slide_data.map((slide) => {
+            const slide_container = $("<div></div>").addClass("mySlides fade");
+            if(!slide.hasOwnProperty("title")){
+              const img = $("<img />").attr("src", slide.img_url).addClass("slideImg");
+              const description = $("<span></span>").append(slide.description);
 
+              const info_container = $("<div></div>").addClass("welcomeTips").append(description)
+
+              slide_container.append(img, info_container);
+            } else if(!slide.hasOwnProperty("description")){
+              const img = $("<img />").attr("src", slide.img_url).addClass("slideImg");
+              const title = $("<span></span>").append(slide.title);
+
+              const info_container = $("<div></div>").addClass("welcomeTips").append(title)
+
+              slide_container.append(img, info_container);
+            } else {
+              const img = $("<img />").attr("src", slide.img_url).addClass("slideImg");
+              const title = $("<span></span>").append(slide.title);
+              const description = $("<span></span>").append(slide.description);
+
+              const info_container = $("<div></div>").addClass("welcomeTips").append(title, description)
+
+              slide_container.append(img, info_container);
+            }
+
+            return(slide_container);
+          })
+
+          slides.map((slide) => {
+              main_container.append(slide);
+          })
         }
-        showSlides();
 
-        function showSlides() {
+        const showSlides = () => {
             let i;
             let slides = document.getElementsByClassName("mySlides");
             for (i = 0; i < slides.length; i++) {
@@ -150,10 +185,19 @@ const Carousel = () => {
             slides[slideIndex - 1].classList.add("sliderStyle");
             setTimeout(showSlides, 7000); // Change image every 2 seconds
         }
+               
+        generate_slides();
+        showSlides();
+    })
+        
     </script>
 </body> `;
   return (
-    <iframe style={{ height: "100vh", width: "100%" }} srcDoc={CarouselSrc} />
+    <iframe
+      message={{ data: slide_data || "No Data" }}
+      style={{ height: "100vh", width: "100%" }}
+      srcDoc={CarouselSrc}
+    />
   );
 };
 
