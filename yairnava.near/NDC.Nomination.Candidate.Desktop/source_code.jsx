@@ -152,8 +152,8 @@ text-fill-color: transparent;
 `;
 
 const Icon = styled.img`
-width: 14px;
-height: 14px;
+width: 17px;
+height: 17px;
 `;
 
 const PlatformCard = styled.div`
@@ -751,7 +751,7 @@ return (
           className="nav nav-pills nav-fill mb-4"
           id="pills-tab2"
           role="tablist2"
-          style={{ "margin-top": "5px" }}
+          style={{ "margin-top": "15px" }}
         >
           {pillsVesting.map(({ id, title }, i) => (
             <li className="nav-item" role="presentation" key={i}>
