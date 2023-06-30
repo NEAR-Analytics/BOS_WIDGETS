@@ -1132,7 +1132,7 @@ return (
             href="https://bos.gg/#/cavies.near/widget/hamsterpocket-guide"
             target="_blank"
           >
-            <div class="sync">📚 Checkout Guide</div>
+            <div class="sync">📚 Watch tutorial</div>
           </a>{" "}
         </div>
         {state.currentScreen === 0 && (
