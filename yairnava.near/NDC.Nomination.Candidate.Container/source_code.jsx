@@ -15,9 +15,9 @@ justify-content: center;
 `;
 
 return (
-  <div style={{ "max-width": "1440px" }}>
+  <div style={{ "max-width": "1440px", margin: "20px" }}>
     <Movile>
-      <Widget src={"syi216.near/widget/NDC.Nomination.Candidate"} />
+      <Widget src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"} />
     </Movile>
     <Desktop class="row">
       <Widget src={"yairnava.near/widget/NDC.Nomination.Candidate.Desktop"} />
