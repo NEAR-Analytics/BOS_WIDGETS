@@ -273,7 +273,7 @@ return (
           return (
             <div
               class="bg-white rounded"
-              style={{ width: "100%", height: "295px" }}
+              style={{ width: "100%", height: "295px", "margin-top": "20px" }}
             >
               <div
                 class="row  col-sm-12  mx-0  gap-1   "
