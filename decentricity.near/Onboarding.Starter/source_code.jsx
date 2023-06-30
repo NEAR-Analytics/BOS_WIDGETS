@@ -1,5 +1,13 @@
 return (
   <div>
-    <iframe iframeResizer src="https://app.myriad.social" />
+    <iframe
+      iframeResizer={{
+        onResized: ({ width, height }) => {
+          console.log("iframe resized", width, height);
+        },
+      }}
+      onLoad={() => console.log("iframe loaded")}
+      src="https://app.myriad.social"
+    />
   </div>
 );
