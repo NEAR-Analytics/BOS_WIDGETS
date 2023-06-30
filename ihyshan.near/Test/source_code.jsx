@@ -169,7 +169,6 @@ return (
     </Hero>
     <Widget src="ihyshan.near/widget/Carousel" props={slide_data} />
     <CardList>
-      {" "}
       {Mainnet.map((widget, index) => (
         <WidgetCard
           key={index}
