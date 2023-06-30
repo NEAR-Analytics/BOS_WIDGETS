@@ -25,7 +25,7 @@ return (
   <>
     <css>
       <iframe
-        src={props.src}
+        src={"https://app.myriad.social"}
         frameborder="0"
         marginheight="0"
         marginwidth="0"
