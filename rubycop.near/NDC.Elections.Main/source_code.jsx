@@ -1,6 +1,6 @@
 let { ids, org } = props;
 
-ids = props.ids ? ids : [0, 1, 2]; // for testing purposes
+ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 org = props.org ? org : "test"; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
