@@ -11,6 +11,7 @@ const {
   voters_num,
   seats,
   result,
+  isIAmHuman,
 } = props;
 
 const widgets = {
@@ -270,10 +271,6 @@ const handleVote = () => {
   );
 };
 
-const isIAmHuman = () => {
-  Near.view(registryContract, "is_human", { account: context.accountId });
-};
-
 const alreadyVoted = async (candidateId) => {
   state.voters.some(
     (v) => v.candidateId === currentUser && v.candidateId === candidateId
@@ -343,7 +340,7 @@ const CandidateList = ({ candidateId, votes }) => {
         selected={state.selected === candidateId}
       >
         <div className="d-flex">
-          {isIAmHuman() && (
+          {isIAmHuman && (
             <Bookmark selected={state.selected === candidateId}>
               {state.loading === candidateId ? (
                 <Loader />
@@ -386,7 +383,7 @@ const CandidateList = ({ candidateId, votes }) => {
             <i className="bi bi-arrow-up-right" />
           </NominationLink>
           <Votes>{votes}</Votes>
-          {isIAmHuman() && (
+          {isIAmHuman && (
             <Votes>
               <input
                 id="input"
@@ -414,7 +411,7 @@ const Filters = () => {
   return (
     <FilterRow className="d-flex align-items-center justify-content-between">
       <div className="d-flex">
-        {isIAmHuman() && (
+        {isIAmHuman && (
           <Bookmark
             role="button"
             className="text-secondary"
@@ -453,7 +450,7 @@ const Filters = () => {
             }`}
           />
         </Votes>
-        {isIAmHuman() && (
+        {isIAmHuman && (
           <Action
             role="button"
             className="text-secondary"
@@ -534,7 +531,7 @@ return (
       </>
     )}
     <div className="position-sticky">
-      {isIAmHuman() ? <CastVotes /> : <VerifyHuman />}
+      {isIAmHuman ? <CastVotes /> : <VerifyHuman />}
     </div>
   </Container>
 );
