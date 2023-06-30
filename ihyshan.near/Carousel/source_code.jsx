@@ -34,15 +34,12 @@ const Carousel = () => {
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
-
+<style>
     * {
         box-sizing: border-box;
     }
 
     html, body{
-        font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
         overflow: hidden;
         width: 100%;
         height: 100%;
@@ -115,13 +112,10 @@ const Carousel = () => {
         from {
             opacity: .4
         }
-
         to {
             opacity: 1
         }
     }
-
-
 </style>
 
 <body>
