@@ -1,6 +1,3 @@
-if (!props.src) {
-  return <>Plz set url first!</>;
-}
 const css = styled.b`
 html {overflow: auto;}    
 html,
