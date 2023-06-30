@@ -518,7 +518,7 @@ const VerifyHuman = () => (
 
 return (
   <Container>
-    <h1>{housesMapping[typ].title}</h1>
+    <h1>{housesMapping[typ]}</h1>
     {state.candidates.length > 0 && (
       <>
         <Filters />
