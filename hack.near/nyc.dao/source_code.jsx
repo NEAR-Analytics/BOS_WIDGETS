@@ -17,8 +17,6 @@ if (nftData > 0) {
   isNftHolder = true;
 }
 
-const pageUrl = `#/hack.near/widget/nyc.dao?`;
-
 const Wrapper = styled.div`
   --section-gap: 23px;
   padding-top: 42px;
@@ -223,42 +221,42 @@ return (
     <Content>
       <Tabs>
         <TabsButton
-          href={`${pageUrl}tab=overview`}
+          href="#/hack.near/widget/nyc.dao?tab=overview"
           selected={state.selectedTab === "overview"}
         >
           Overview
         </TabsButton>
 
         <TabsButton
-          href={`${pageUrl}tab=apps`}
+          href="#/hack.near/widget/nyc.dao?tab=apps"
           selected={state.selectedTab === "apps"}
         >
           Components
         </TabsButton>
 
         <TabsButton
-          href={`${pageUrl}tab=nfts`}
+          href="#/hack.near/widget/nyc.dao?tab=nfts"
           selected={state.selectedTab === "nfts"}
         >
           NFTs
         </TabsButton>
 
         <TabsButton
-          href={`${pageUrl}tab=following`}
+          href="#/hack.near/widget/nyc.dao?tab=following"
           selected={state.selectedTab === "following"}
         >
           Following
         </TabsButton>
 
         <TabsButton
-          href={`${pageUrl}tab=followers`}
+          href="#/hack.near/widget/nyc.dao?tab=followers"
           selected={state.selectedTab === "followers"}
         >
           Followers
         </TabsButton>
 
         <TabsButton
-          href={`${pageUrl}tab=explorer`}
+          href="#/hack.near/widget/nyc.dao?tab=explorer"
           selected={state.selectedTab === "explorer"}
         >
           Explorer
