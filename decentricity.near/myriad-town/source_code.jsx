@@ -13,6 +13,8 @@ iframe {
 iframe {
     display: block;
     width: 100%;
+    max-width: 1280px; // maximum width
+    max-height: 720px; // maximum height
     border: none;
     overflow-y: auto;
     overflow-x: hidden;
