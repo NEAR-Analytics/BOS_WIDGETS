@@ -267,7 +267,7 @@ const handleVote = () => {
     "vote",
     { prop_id: id, vote: state.selectedCandidates },
     "70000000000000",
-    0.002
+    2000000000000000000000
   );
 };
 
