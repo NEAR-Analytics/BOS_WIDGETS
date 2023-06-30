@@ -1,65 +1,17 @@
 let { ids, org } = props;
 
-ids = props.ids ? ids : [4, 8, 7]; // for testing purposes
+ids = props.ids ? ids : [0, 1, 2]; // for testing purposes
 org = props.org ? org : "test"; // for testing purposes
 
-const electionContract = "elections-v1.gwg.testnet";
-const registryContract = "registry-unstable.i-am-human.testnet";
+const electionContract = "elections-v1.gwg-testing.near";
+const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
-// TODO: uncomment when contract will be ready
-//
-// const houses = [
-//   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-//   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-//   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-// ];
-
-const contractProps = {
-  houses: [
-    {
-      id: 2,
-      typ: "CouncileOfAdvisors",
-      ref_link: "example.com",
-      start: 1689820065441,
-      end: 1690820065441,
-      quorum: 100,
-      voters_num: 150,
-      seats: 10,
-      result: [],
-    },
-    {
-      id: 3,
-      typ: "HouseOfMerit",
-      title: "House Of Merit",
-      ref_link: "example.com",
-      start: 1685820065441,
-      end: 1696820065441,
-      quorum: 100,
-      voters_num: 150,
-      seats: 10,
-      result: [
-        ["zomland.near", 150],
-        ["asfsdfsfdfddfsdfdfsdfdf.near", 150],
-        ["blabla.near", 10],
-        ["rubycop.near", 50],
-      ],
-    },
-    {
-      id: 4,
-      typ: "TransparancyCommision",
-      ref_link: "example.com",
-      start: 1655820065441,
-      end: 165820065441,
-      quorum: 100,
-      voters_num: 150,
-      seats: 10,
-      result: [],
-    },
-  ],
-};
-
-const { houses } = contractProps;
+const houses = [
+  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+];
 
 State.init({
   selectedHouse: houses[0].id,
