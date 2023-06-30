@@ -1,252 +1,99 @@
-zconst addressForArticles = "sayALotArticle";
-const authorForWidget = "silkking.near";
+const addressForComments = "sayalot-comments";
+const addressForArticles = "sayALotArticle";
+const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "No account ID";
+// if (!accountId) {
+//   return "No account ID";
+// }
+
+const lastEditor = props.lastEditor;
+const blockHeight =
+  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const subscribe = !!props.subscribe;
+const raw = !!props.raw;
+
+const notifyAccountId = accountId;
+
+State.init({ showReply: false, isMain: true, article: {} });
+const article =
+  state.saveComplete || blockHeight === "now"
+    ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
+    : JSON.parse(
+        Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+      );
+
+if (JSON.stringify(state.article) != JSON.stringify(article)) {
+  State.update({ article, note: article.body });
 }
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-if (profile === null) {
-  return "Loading";
+
+if (!state.article) {
+  return "Loading...";
 }
 
-const initialBody = `# h1 Heading 8-) 
-## h2 Heading 
-### h3 Heading 
-#### h4 Heading 
-##### h5 Heading 
-###### h6 Heading 
- 
- 
-## Horizontal Rules 
- 
-___ 
- 
---- 
- 
-*** 
- 
- 
-## Typographic replacements 
- 
-Enable typographer option to see result. 
- 
-(c) (C) (r) (R) (tm) (TM) (p) (P) +- 
- 
-test.. test... test..... test?..... test!.... 
- 
-!!!!!! ???? ,,  -- --- 
- 
-"Smartypants, double quotes" and 'single quotes' 
- 
- 
-## Emphasis 
- 
-This is bold text 
- 
-This is bold text 
- 
-*This is italic text* 
- 
-_This is italic text_ 
- 
-Strikethrough 
- 
- 
-## Blockquotes 
- 
- 
-> Blockquotes can also be nested... 
->> ...by using additional greater-than signs right next to each other... 
-> > > ...or with spaces between arrows. 
- 
- 
-## Lists 
- 
-Unordered 
- 
-+ Create a list by starting a line with \`+\`, \`-\`, or \`*\` 
-+ Sub-lists are made by indenting 2 spaces: 
-  - Marker character change forces new list start: 
-    * Ac tristique libero volutpat at 
-    + Facilisis in pretium nisl aliquet 
-    - Nulla volutpat aliquam velit 
-+ Very easy! 
- 
-Ordered 
- 
-1. Lorem ipsum dolor sit amet 
-2. Consectetur adipiscing elit 
-3. Integer molestie lorem at massa 
- 
- 
-1. You can use sequential numbers... 
-1. ...or keep all the numbers as \`1.\` 
- 
-Start numbering with offset: 
- 
-57. foo 
-1. bar 
- 
- 
-## Code 
- 
-Inline \`code\` 
- 
-Indented code 
- 
-    // Some comments 
-    line 1 of code 
-    line 2 of code 
-    line 3 of code 
- 
- 
-Block code "fences" 
- 
-\`\`\` 
-Sample text here... 
-\`\`\` 
- 
-Syntax highlighting 
- 
-\`\`\` js 
-var foo = function (bar) { 
-  return bar++; 
-}; 
- 
-console.log(foo(5)); 
-\`\`\` 
- 
-## Tables 
- 
-| Option | Description | 
-| ------ | ----------- | 
-| data   | path to data files to supply the data that will be passed into templates. | 
-| engine | engine to be used for processing templates. Handlebars is the default. | 
-| ext    | extension to be used for dest files. | 
- 
-Right aligned columns 
- 
-| Option | Description | 
-| ------:| -----------:| 
-| data   | path to data files to supply the data that will be passed into templates. | 
-| engine | engine to be used for processing templates. Handlebars is the default. | 
-| ext    | extension to be used for dest files. | 
- 
- 
-## Links 
- 
-link text 
- 
-link with title 
- 
-Autoconverted link https://github.com/nodeca/pica (enable linkify to see) 
- 
- 
-## Images 
- 
-!Minion 
-!Stormtroopocat 
- 
-Like links, Images also have a footnote style syntax 
- 
-![Alt text][id] 
- 
-With a reference later in the document defining the URL location: 
- 
-[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat" 
- 
-### Emojies 
- 
-> Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum: 
-> 
-> Shortcuts (emoticons): :-) :-( 8-) ;) 
- 
-see how to change output with twemoji. 
- 
- 
-### Subscript / Superscript 
- 
-- 19^th^ 
-- H~2~O 
- 
- 
-### \<ins> 
- 
-++Inserted text++ 
- 
- 
-### \<mark> 
- 
-==Marked text== 
- 
- 
-### Footnotes 
- 
-Footnote 1 link[^first]. 
- 
-Footnote 2 link[^second]. 
- 
-Inline footnote^[Text of inline footnote] definition. 
- 
-Duplicated footnote reference[^second]. 
- 
-[^first]: Footnote can have markup 
- 
-    and multiple paragraphs. 
- 
-[^second]: Footnote text. 
- 
- 
-### [Definition lists](https://github.com/markdown-it/markdown-it-deflist) 
- 
-Term 1 
- 
-:   Definition 1 
-with lazy continuation. 
- 
-Term 2 with *inline markup* 
- 
-:   Definition 2 
- 
-        { some code, part of Definition 2 } 
- 
-    Third paragraph of definition 2. 
- 
-_Compact style:_ 
- 
-Term 1 
-  ~ Definition 1 
- 
-Term 2 
-  ~ Definition 2a 
-  ~ Definition 2b 
-`;
+// ======= CHECK WHO CAN EDIT ARTICLE
+const writersWhiteList = [
+  "neardigitalcollective.near",
+  "blaze.near",
+  "jlw.near",
+  "kazanderdad.near",
+  "joep.near",
+  "sarahkornfeld.near",
+  "yuensid.near",
+  "shubham007.near",
+];
 
-const errTextNoBody = "ERROR: no article Body",
-  errTextNoId = "ERROR: no article Id",
-  errTextDublicatedId = "ERROR: there is article with such name";
-
-const initialCreateArticleState = {
-  articleId: "",
-  articleBody: initialBody,
-  errorId: "",
-  errorBody: "",
-  tags: {},
-  saveComplete: false,
+const canUserEditArticle = () => {
+  const canOnlyAuthorEdit = true;
+  const isAccountIdInWhiteList = writersWhiteList.some(
+    (val) => val === accountId
+  );
+  const isAccountIdEqualsAuthor = accountId === state.article.author;
 };
 
-State.init(initialCreateArticleState);
-const tagsArray = state.tags ? state.tags : undefined;
+// ======= GET DATA TO ATACH COMMENTS TO THE ARTICLE =======
+// we attach all comments to the first initial article (which version = 0)
+const articlesIndex = Social.index(addressForArticles, "main", {
+  order: "asc",
+  accountId: state.article.author,
+});
+
+const resultArticles =
+  articlesIndex &&
+  articlesIndex.reduce((acc, { accountId, blockHeight }) => {
+    const postData = Social.get(
+      `${accountId}/${addressForArticles}/main`,
+      blockHeight
+    );
+    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+    return [...acc, postDataWithBlockHeight];
+  }, []);
+
+const firstArticle =
+  resultArticles &&
+  resultArticles.find(
+    (article) => article.articleId === state.article.articleId
+  );
+
+const firstArticleBlockHeight = firstArticle.blockHeight;
+
+// ======= Item for comment =======
+const item = {
+  type: "social",
+  path: `${state.article.author}/${addressForArticles}/main`,
+  blockHeight: firstArticleBlockHeight,
+};
+
+const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
 
 const getArticleData = () => {
   const args = {
-    articleId: state.articleId,
+    articleId: state.article.articleId,
     author: accountId,
     lastEditor: accountId,
     timeLastEdit: Date.now(),
     timeCreate: Date.now(),
-    body: state.articleBody,
-    version: 0,
+    body: state.note,
+    version: Number(state.article.version) + 1,
     navigation_id: null,
     tags: tagsArray,
   };
@@ -280,17 +127,16 @@ const composeData = () => {
   return data;
 };
 
-// === SAVE HANDLER ===
 const saveHandler = (e) => {
   State.update({
     errorId: "",
     errorBody: "",
   });
-  if (state.articleId && state.articleBody) {
+  if (state.article.articleId && state.note) {
     // TODO check it automaticle
-    const isArticleIdDuplicated = false;
+    const isArticleIdDublicated = false;
 
-    if (!isArticleIdDuplicated) {
+    if (!isArticleIdDublicated) {
       const newData = composeData();
 
       State.update({ saving: true });
@@ -298,7 +144,11 @@ const saveHandler = (e) => {
       Social.set(newData, {
         force: true,
         onCommit: () => {
-          State.update({ saveComplete: true, saving: false });
+          State.update({
+            saveComplete: true,
+            saving: false,
+            editArticle: false,
+          });
         },
         onCancel: () => {
           State.update({ saving: false });
@@ -310,178 +160,485 @@ const saveHandler = (e) => {
       });
     }
   } else {
-    if (!state.articleId) {
+    if (!state.article.articleId) {
       State.update({
         errorId: errTextNoId,
       });
     }
-    if (!state.articleBody) {
+    if (!state.note) {
       State.update({ errorBody: errTextNoBody });
     }
   }
 };
 
-const Button = styled.button` 
-  margin: 0px 1rem; 
-  display: inline-block; 
-  text-align: center; 
-  vertical-align: middle; 
-  cursor: pointer; 
-  user-select: none; 
-  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
- 
-  border: 2px solid transparent; 
-  font-weight: 500; 
-  padding: 0.3rem 0.5rem; 
-  background-color: #010A2D; 
-  border-radius: 12px; 
-  color: white; 
-  text-decoration: none;   
- 
-  &:hover { 
-    color: #010A2D; 
-    background-color: white; 
-  } 
+const saveArticle = (args) => {
+  const newArticleData = {
+    ...state.article,
+    body: state.note,
+    lastEditor: accountId,
+    timeLastEdit: Date.now(),
+    version: Number(state.article.version) + 1,
+    tags: state.tags ? state.tags : state.article.tags,
+  };
+
+  const composeArticleData = () => {
+    const data = {
+      [addressForArticles]: {
+        main: JSON.stringify(newArticleData),
+      },
+      index: {
+        [addressForArticles]: JSON.stringify({
+          key: "main",
+          value: {
+            type: "md",
+          },
+        }),
+      },
+    };
+    return data;
+  };
+
+  const newData = composeArticleData();
+  Social.set(newData, { force: true });
+};
+
+// ========== article parts ========== //
+
+const isHeading = (str, headingLevel) => {
+  const headingType = "".padStart(headingLevel, "#");
+  return (
+    str.substring(0, 1 + headingLevel) === `${headingType} ` ||
+    str.substring(0, 2 + headingLevel) === ` ${headingType} ` ||
+    str.substring(0, 3 + headingLevel) === `  ${headingType} ` ||
+    str.substring(0, 4 + headingLevel) === `   ${headingType} `
+  );
+};
+
+const articleParts = (lineArray) => {
+  const resultText = [];
+  const resultHeading = [];
+  lineArray.forEach((line) => {
+    if (isHeading(line, 1)) {
+      resultText.push([[]]);
+      resultHeading.push([[line.trim().substring(2)]]);
+    } else if (resultText.length - 1 < 0) {
+      resultText.push([[]]);
+      resultHeading.push([["Introduction"]]);
+    } else if (isHeading(line, 2)) {
+      resultText[resultText.length - 1].push([]);
+      resultHeading[resultHeading.length - 1].push([line.trim().substring(3)]);
+    }
+    const maxIndexDimension1 = resultText.length - 1;
+    const maxIndexDimension2 = resultText[maxIndexDimension1].length - 1;
+    resultText[maxIndexDimension1][maxIndexDimension2].push(line);
+  });
+  return { resultText, resultHeading };
+};
+
+const { resultText, resultHeading } = articleParts(
+  state.article.body.split("\n")
+);
+
+const handleHeaderClick = (index1, index2) => {
+  if ((!state.viewHistory && !state.editArticle) || index2 === 0) {
+    let resp;
+    if (index2 === 0) {
+      resp = resultText[index1].map((item) => item.join("\n")).join("\n");
+    } else resp = resultText[index1][index2].join("\n");
+    State.update({
+      isMain: index2 === 0,
+      note: resp,
+    });
+  }
+};
+
+const Button = styled.button`
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+  
+  border: 2px solid transparent;
+  font-weight: 500;
+  padding: 0.3rem 0.5rem;
+  background-color: #010A2D;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    color: #010A2D;
+    background-color: white;
+  }
 `;
+
+//======= Create initialTagsObject for TagsEditor widget =======
+// const initialTestArray = ["learner", "crypto", "social"];
+const getTagObjectfromArray = (tagArray) => {
+  if (!tagArray) return {};
+  return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
+};
+// console.log(getTagObjectfromArray(initialTestArray));
+
+const areTheTextAndTagsTheSame = () => {
+  const isThereNoTextInBody = !state.note;
+  const doesTextUnchanged = article.body === state.note;
+  let doesTagsUnchanged = true;
+  if (state.tags) {
+    if (state.article.tags) {
+      doesTagsUnchanged =
+        state.tags.join().toLowerCase() ===
+        state.article.tags.join().toLowerCase();
+    } else {
+      doesTagsUnchanged = false;
+    }
+  }
+  return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
+};
+
+const filterTagsFromNull = (tagsObj) => {
+  const entries = Object.entries(tagsObj);
+
+  const result = entries.reduce((acc, value) => {
+    if (value[1] !== null) {
+      return [...acc, value[0]];
+    } else {
+      return acc;
+    }
+  }, []);
+  return result;
+};
 
 return (
   <div
     className="container-fluid"
-    style={
-      state.saveComplete
-        ? {
-            backgroundColor: "rgb(230, 230, 230)",
-            borderRadius: "20px",
-            padding: "0 0 1rem 0 ",
-            position: "relative",
-            overflow: "hidden",
-            height: "80vh",
-          }
-        : {
-            backgroundColor: "rgb(230, 230, 230)",
-            borderRadius: "20px",
-            padding: "0 0 1rem 0 ",
-            position: "relative",
-          }
-    }
+    style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0 0 1rem 0" }}
   >
-    {state.saveComplete && (
-      <a
-        style={{
-          position: "absolute",
-          top: "0",
-          height: "100%",
-          width: "100%",
-          backdropFilter: "blur(5px)",
-        }}
-        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}`}
-      >
-        <div
-          style={{
-            width: "50%",
-            margin: "0 auto",
-            position: "relative",
-            top: "40vh",
-          }}
-        >
-          <h3
-            style={{
-              textAlign: "center",
-              color: "black",
-              backgroundColor: "rgb(230, 230, 230)",
-              zIndex: "2",
-            }}
-            className="rounded-pill p-3"
-          >
-            Click to continue
-          </h3>
-        </div>
-      </a>
-    )}
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "create" }}
+      props={{ currentNavPill: "articles" }}
     />
     <div
+      className="row h-100"
       style={{
-        margin: "0 auto",
         width: "90%",
         minWidth: "360px",
+        margin: "0 auto",
         backgroundColor: "white",
-        padding: "1rem",
+        padding: "2rem",
         borderRadius: "20px",
       }}
     >
-      <h1 className="mb-3"> Create Article</h1>
-      <div>
-        <div>
-          <Button type="submit" onClick={saveHandler}>
-            {state.saving && (
-              <div
-                className="spinner-border text-secondary"
-                style={{ height: "1rem", width: "1rem" }}
-                role="status"
-              >
-                <span className="sr-only" title="Loading..."></span>
-              </div>
-            )}
-            Save Article
-          </Button>
-        </div>
-        <div className="d-flex flex-column pt-3">
-          <label for="inputArticleId">
-            Input article id (case-sensitive, without spaces):
-          </label>
-          <label for="inputArticleId" className="small text-danger">
-            {state.errorId}
-          </label>
-          <Widget
-            src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
-            props={{
-              firstText: state.articleId,
-              stateUpdate: (obj) => State.update(obj),
-              filterText: (e) => e.target.value.replace(/\s+/g, ""),
+      <div className="col-12 col-md-3 border-end">
+        <h4
+          className="text-center"
+          style={{
+            cursor: "pointer",
+            fontSize: "1rem",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+          title={state.article.articleId}
+          onClick={() => {
+            State.update({
+              note: state.article.body,
+            });
+          }}
+        >
+          {state.article.articleId}
+        </h4>
+        <hr />
+        <Button
+          onClick={() => {
+            State.update({
+              editArticle: false,
+              viewHistory: !state.viewHistory,
+            });
+          }}
+        >
+          View History
+        </Button>
+        {canUserEditArticle() && !state.editArticle && (
+          <button
+            className="btn btn-outline-dark w-100"
+            onClick={() => {
+              State.update({
+                viewHistory: false,
+                editArticle: true,
+                note: state.article.body,
+              });
             }}
-          />
+          >
+            Edit Article
+          </button>
+        )}
+        <hr />
+        <div className="accordion accordion-flush" id="accordionFlushExample">
+          {resultHeading.map((arrItem, index1) => {
+            return (
+              <div className="accordion-item shadow-none ">
+                {arrItem.map((item, index2) => {
+                  if (index2 === 0) {
+                    return (
+                      <h5
+                        className="accordion-header shadow-none py-1"
+                        id="flush-headingOne"
+                      >
+                        <button
+                          className="accordion collapsed border-0 bg-white text-dark shadow-none"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={"#flush-collapseOne" + index1}
+                          aria-expanded="true"
+                          aria-controls={"flush-collapseOne" + index1}
+                          onClick={() => handleHeaderClick(index1, index2)}
+                        >
+                          {item}
+                        </button>
+                      </h5>
+                    );
+                  }
+                  return (
+                    <div
+                      id={"flush-collapseOne" + index1}
+                      className="accordion-collapse collapse"
+                      aria-labelledby={"flush-collapseOne" + index1}
+                      data-bs-parent="#accordionFlushExample"
+                    >
+                      <div
+                        style={{ cursor: "pointer" }}
+                        className="accordion-body py-1"
+                        onClick={() => handleHeaderClick(index1, index2)}
+                      >
+                        {item}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
-        <div className="d-flex flex-column pt-3">
-          {!state.saveComplete && (
-            <Widget
-              src="mob.near/widget/TagsEditor"
-              props={{
-                initialTagsObject: state.tags,
-                placeholder: "Input tags",
-                setTagsObject: (tags) => {
-                  state.tags = tags;
-                  State.update();
-                },
-              }}
-            />
+        <div className="mb-3" />
+        {/* === FOOTER === */}
+        <Widget
+          src={`neardigitalcollective.near/widget/WikiOnSocialDB_OneArticle.Footer`}
+          props={{
+            author: state.article.author,
+            lastEditor: state.article.lastEditor,
+            timeLastEdit: state.article.timeLastEdit,
+            version: state.article.version,
+          }}
+        />
+      </div>
+      <div className="d-md-none mb-3" />
+      <hr className="d-md-none" />
+      <div className="col-12 col-md-9">
+        <div>
+          {/* === BUTTON - EDIT ARTICLE === */}
+          {state.editArticle && (
+            <>
+              <div className="d-flex justify-content-center w-100">
+                <button
+                  type="button"
+                  className="btn btn-outline-success mx-1"
+                  style={{ minWidth: "120px" }}
+                  onClick={saveHandler}
+                >
+                  {state.saving && (
+                    <div
+                      className="spinner-border text-secondary"
+                      style={{ height: "1rem", width: "1rem" }}
+                      role="status"
+                    >
+                      <span className="sr-only" title="Loading..."></span>
+                    </div>
+                  )}
+                  Save Article
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-outline-danger mx-1"
+                  style={{ minWidth: "120px" }}
+                  onClick={() => {
+                    State.update({
+                      editArticle: false,
+                    });
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+              <hr />
+            </>
           )}
-        </div>
-        <div className="d-flex flex-column pt-3">
-          <label for="textareaArticleBody">
-            Input article body (in makrdown format):
-          </label>
-          <label for="textareaArticleBody" className="small text-danger">
-            {state.errorBody}
-          </label>
-          <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-            <div className="w-50">
+
+          {/* === EDIT ARTICLE === */}
+          {state.editArticle && (
+            <>
+              <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
+                <div className="w-50">
+                  <Widget
+                    src="mob.near/widget/MarkdownEditorIframe"
+                    props={{
+                      initialText: state.article.body,
+                      onChange: (note) => State.update({ note }),
+                    }}
+                  />
+                </div>
+                <div className="w-50">
+                  <Widget
+                    src="mob.near/widget/TagsEditor"
+                    props={{
+                      initialTagsObject: getTagObjectfromArray(
+                        state.article.tags
+                      ),
+                      placeholder: "Input tags",
+                      setTagsObject: (tags) => {
+                        console.log(filterTagsFromNull(tags));
+                        state.tags = filterTagsFromNull(tags);
+                        // state.tags = tags;
+                        State.update();
+                      },
+                    }}
+                  />
+                  <Widget
+                    src="mob.near/widget/SocialMarkdown"
+                    props={{
+                      text: state.note,
+                      onHashtag: (hashtag) => (
+                        <span
+                          key={hashtag}
+                          className="d-inline-flex"
+                          style={{ fontWeight: 500 }}
+                        >
+                          <a
+                            href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                          >
+                            #{hashtag}
+                          </a>
+                        </span>
+                      ),
+                    }}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+          {/* MARKDOWN and TAGS list when user doesn't edit article  */}
+          {!state.editArticle && (
+            <>
+              <div className="pt-2">
+                <Widget
+                  src={`${authorForWidget}/widget/SayALot_TagList`}
+                  props={{ tags: state.article.tags }}
+                />
+              </div>
               <Widget
-                src="mob.near/widget/MarkdownEditorIframe"
+                src="mob.near/widget/SocialMarkdown"
                 props={{
-                  initialText: initialBody,
-                  onChange: (articleBody) => State.update({ articleBody }),
+                  text: article.body,
+                  onHashtag: (hashtag) => (
+                    <span
+                      key={hashtag}
+                      className="d-inline-flex"
+                      style={{ fontWeight: 500 }}
+                    >
+                      <a
+                        href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                      >
+                        #{hashtag}
+                      </a>
+                    </span>
+                  ),
+                }}
+              />
+            </>
+          )}
+          {/* === VIEW HISTORY === */}
+          {state.viewHistory && (
+            <div className="mt-3 ps-5">
+              <div className="d-flex justify-content-between">
+                <i
+                  className="bi bi-arrow-left"
+                  style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                  onClick={() => {
+                    State.update({
+                      viewHistory: false,
+                    });
+                  }}
+                ></i>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => {
+                    State.update({
+                      viewHistory: false,
+                    });
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+              <Widget
+                src={`${authorForWidget}/widget/SayALot_History.History`}
+                props={{
+                  articleId: state.article.articleId,
+                  resultArticles,
                 }}
               />
             </div>
-            <div className="w-50">
-              <Widget
-                src="mob.near/widget/SocialMarkdown"
-                props={{ text: state.articleBody }}
-              />
-            </div>
+          )}
+          {/* === CREATE COMMENT BUTTON === */}
+          <span className="d-inline-flex align-items-center">
+            {blockHeight !== "now" && (
+              <div className="mt-1 d-flex justify-content-between">
+                <Widget
+                  src="mob.near/widget/CommentButton"
+                  props={{
+                    onClick: () =>
+                      State.update({ showReply: !state.showReply }),
+                  }}
+                />
+              </div>
+            )}
+            {/* === LIKE === */}
+            <Widget
+              src={`${authorForWidget}/widget/SayALot_Reactions`}
+              props={{
+                // notifyAccountId,
+                item,
+              }}
+            />
+          </span>
+          {/* === COMPOSE COMMENT === */}
+          <div className="mt-3 ps-5">
+            {state.showReply && (
+              <div className="mb-2">
+                <Widget
+                  src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
+                  props={{
+                    notifyAccountId,
+                    item,
+                    onComment: () => State.update({ showReply: false }),
+                  }}
+                />
+              </div>
+            )}
+            {/* === SHOW COMMENT === */}
+            <Widget
+              src={`${authorForWidget}/widget/SayALot_Comment.Feed`}
+              props={{
+                item,
+                highlightComment: props.highlightComment,
+                limit: props.commentsLimit,
+                subscribe,
+                raw,
+              }}
+            />
           </div>
         </div>
       </div>
