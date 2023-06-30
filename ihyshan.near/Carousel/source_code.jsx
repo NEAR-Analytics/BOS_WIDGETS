@@ -34,6 +34,96 @@ const Carousel = () => {
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
   </head>
 
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body{
+        font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        margin: auto;
+        background-color: #0e0e1e;
+    }
+
+    .mySlides {
+        display: none;
+    }
+
+    /* Slideshow container */
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+        height: 100%;
+    }
+
+    /* Caption text */
+    .text {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        bottom: 8px;
+        width: 50%;
+        height: auto;
+        text-align: center;
+    }
+
+    .active {
+        background-color: #717171;
+    }
+
+    .sliderStyle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 100%;
+    }
+
+    .welcomeTips {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: .8rem;
+    }
+
+    .welcomeTips h2 {
+      color: white;
+    }
+
+    .welcomeTips span {
+      color: white;
+      padding: .8rem;
+    }
+
+    .slideImg {
+        width: 70%;
+    }
+
+    /* Fading animation */
+    .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+    }
+
+    @keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+
+</style>
+
 <body>
     <div class="slideshow-container">
     </div>
