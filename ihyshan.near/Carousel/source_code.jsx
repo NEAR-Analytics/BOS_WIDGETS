@@ -63,7 +63,7 @@ const Carousel = () => {
     /* Caption text */
     .text {
         color: #f2f2f2;
-        font-size: 15px;
+        font-size: 18px;
         padding: 8px 12px;
         bottom: 8px;
         width: 50%;
