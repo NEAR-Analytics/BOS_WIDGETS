@@ -17,7 +17,14 @@ State.init({
   selectedHouse: ids[0],
   humanVoted: 0,
   myVotes: [],
+  isIAmHuman: false,
 });
+
+const isHuman = Near.view(registryContract, "is_human", {
+  account: context.accountId,
+});
+
+State.update({ isIAmHuman: isHuman[0][1].length > 0 });
 
 // TODO: Should be grabbed from indexer
 const totalHumal = 1000;
@@ -121,6 +128,7 @@ return (
                   electionContract,
                   registryContract,
                   ndcOrganization: org,
+                  isIAmHuman: state.isIAmHuman,
                   ...house,
                 }}
               />
