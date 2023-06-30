@@ -263,7 +263,7 @@ return (
             />
           </button>
         </AffiliationTitle>
-        <div style={{ padding: "12px" }}>
+        <div style={{ padding: "12px", width: "100%" }}>
           <Separator />
         </div>
       </AffiliationHead>
