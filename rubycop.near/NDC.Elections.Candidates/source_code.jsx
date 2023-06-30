@@ -4,7 +4,6 @@ const {
   ndcOrganization,
   id,
   typ,
-  title,
   ref_link,
   start,
   end,
@@ -23,6 +22,12 @@ const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const _bookmarked = Social.index(ndcOrganization, typ);
 const currentUser = context.accountId;
+
+const housesMapping = {
+  CouncilOfAdvisors: "Council Of Advisors",
+  HouseOfMerit: "House of Merit",
+  TransparencyCommission: "Transparency Commission",
+};
 
 State.init({
   loading: false,
@@ -513,7 +518,7 @@ const VerifyHuman = () => (
 
 return (
   <Container>
-    <h1>{title}</h1>
+    <h1>{housesMapping[typ].title}</h1>
     {state.candidates.length > 0 && (
       <>
         <Filters />
