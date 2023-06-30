@@ -1,15 +1,15 @@
 const { houses, selectedHouse, handleSelect } = props;
 
 const housesMapping = {
-  CouncileOfAdvisors: {
-    title: "Council of Advisors",
+  CouncilOfAdvisors: {
+    title: "Council Of Advisors",
     src: "https://bafkreibvbhjkfvtgagym7tdmasvt4mlpytjayunfetc4xeezlaxd7zdfxu.ipfs.nftstorage.link",
   },
   HouseOfMerit: {
     title: "House of Merit",
     src: "https://bafkreieycuuk5qop3s23cix6oqtx7fw5aas6w4xe4ca33p3t53slo3o4j4.ipfs.nftstorage.link",
   },
-  TransparancyCommision: {
+  TransparencyCommission: {
     title: "Transparency Commission",
     src: "https://bafkreidmamsclzjo3itskji3opgkrurz4nj6e3gj23sczuouioorr4ikqu.ipfs.nftstorage.link",
   },
