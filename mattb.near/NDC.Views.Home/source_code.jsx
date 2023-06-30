@@ -344,6 +344,9 @@ let views = {
     sayalot: () => <>
         <Widget src="sayalot.near/widget/SayALot" />
     </>,
+    gigs: () => <>
+        <Widget src="neardigitalcollective.near/widget/Gigs" />
+    </>,
 };
 
 function getSkeleton () {
@@ -388,6 +391,14 @@ return (
               onClick={() => State.update({currentView: "sayalot"})}
             >
               Say A Lot
+            </a>
+          </li>
+          <li>
+            <a
+              className={"gigs" == state.currentView ? "selected" : ""}
+              onClick={() => State.update({currentView: "gigs"})}
+            >
+              Gigs
             </a>
           </li>
         </ul>
