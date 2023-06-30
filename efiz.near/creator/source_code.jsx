@@ -4,6 +4,7 @@ const typeSrc = props.typeSrc || "every.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "";
 const thingId = props.thingId;
+const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
   const parts = type.split("/");
@@ -117,7 +118,7 @@ State.init({
   isModalOpen: false,
   typeSrc,
   selectedType: type,
-  view: "CREATE_THING",
+  view: defaultView,
   preview: "TEMPLATE",
   template,
   templateVal: template,
