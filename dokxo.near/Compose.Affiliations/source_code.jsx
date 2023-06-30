@@ -207,7 +207,7 @@ font-size: 12px;
  
 }
   `;
-const Separator = styled.button`
+const Separator = styled.div`
 width:100%;
 height:.5px;
 background-color: #D0D6D966;
