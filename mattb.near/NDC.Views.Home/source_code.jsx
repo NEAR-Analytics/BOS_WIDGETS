@@ -362,7 +362,7 @@ return (
           <li>
             <a
               className={"home" == state.currentView ? "selected" : ""}
-              onClick={() => changeView("home")}
+              onClick={() => State.update({currentView: "home"})}
             >
               Home
             </a>
@@ -370,7 +370,7 @@ return (
           <li>
             <a
               className={"docs" == state.currentView ? "selected" : ""}
-              onClick={() => changeView("docs")}
+              onClick={() => State.update({currentView: "docs"})}
             >
               NDCDocs
             </a>
@@ -378,7 +378,7 @@ return (
           <li>
             <a
               className={"funding" == state.currentView ? "selected" : ""}
-              onClick={() => changeView("funding")}
+              onClick={() => State.update({currentView: "funding"})}
             >
               Funding dashboard
             </a>
@@ -386,7 +386,7 @@ return (
           <li>
             <a
               className={"sayalot" == state.currentView ? "selected" : ""}
-              onClick={() => changeView("sayalot")}
+              onClick={() => State.update({currentView: "sayalot"})}
             >
               Say A Lot
             </a>
