@@ -194,7 +194,7 @@ const Carousel = () => {
 </body> `;
   return (
     <iframe
-      message={{ data: slide_data || "No Data" }}
+      message={{ data: props || "No Data" }}
       style={{ height: "100vh", width: "100%" }}
       srcDoc={CarouselSrc}
     />
