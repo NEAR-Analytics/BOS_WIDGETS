@@ -113,14 +113,6 @@ const NFT = [
   },
 ];
 
-const isUserRegistered = Near.view(
-  "pixeltoken.near",
-  "ctt_is_player_registered",
-  {
-    account_id: context.accountId,
-  }
-);
-
 return (
   <div
     style={{
