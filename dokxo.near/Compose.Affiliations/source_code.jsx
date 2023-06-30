@@ -335,7 +335,7 @@ return (
                       name="Description"
                       id="Description"
                       type="text"
-                      placeholder="Add tags that describe your nomination, separated by comma"
+                      placeholder="Please describe your role at the organization"
                       onChange={(event) => {
                         let _param = { index, event };
                         handleAFFRole(_param);
