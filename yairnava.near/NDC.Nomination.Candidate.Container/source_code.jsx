@@ -15,7 +15,7 @@ justify-content: center;
 `;
 
 return (
-  <div style={{ "max-width": "1440px", margin: "20px" }}>
+  <div style={{ width: "1440px", margin: "20px" }}>
     <Movile>
       <Widget src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"} />
     </Movile>
