@@ -403,7 +403,34 @@ const handleApprove = (isToken0) => {
     .catch((e) => console.log(e));
 };
 
-const handleDeposit = () => {};
+const handleDeposit = () => {
+  State.update({
+    isLoading: true,
+    loadingMsg: "Depositing...",
+  });
+
+  const token0Wei = ethers.utils.parseUnits(amount0, decimals0);
+  const token1Wei = ethers.utils.parseUnits(amount1, decimals1);
+
+  const proxyAbi = [
+    "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
+  ];
+
+  const proxyContract = new ethers.Contract(
+    proxyAddress,
+    proxyAbi,
+    Ethers.provider().getSigner()
+  );
+
+  proxyContract
+    .deposit(token0Wei, token1Wei, sender, hypeAddress, [0, 0, 0, 0])
+    .then((tx) => {
+      State.update({
+        isLoading: false,
+      });
+    })
+    .catch((e) => console.log(e));
+};
 
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
