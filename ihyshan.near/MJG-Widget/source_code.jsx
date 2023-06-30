@@ -1,4 +1,4 @@
-// *Carouse
+// *Carousel
 const slide_data = [
   {
     img_url:
