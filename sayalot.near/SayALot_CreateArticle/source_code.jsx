@@ -236,7 +236,7 @@ const initialCreateArticleState = {
 };
 
 State.init(initialCreateArticleState);
-const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
+const tagsArray = state.tags ? state.tags : undefined;
 
 const getArticleData = () => {
   const args = {
