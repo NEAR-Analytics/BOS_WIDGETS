@@ -14,18 +14,6 @@ if (nftData > 0) {
   isNftHolder = true;
 }
 
-State.init({ commitLoading: false });
-
-const data = { interested: "Register Interest" };
-
-const Loading = (
-  <span
-    className="spinner-grow spinner-grow-sm me-1"
-    role="status"
-    aria-hidden="true"
-  />
-);
-
 const Wrapper = styled.div`
   --section-gap: 23px;
   padding-top: 42px;
@@ -156,26 +144,6 @@ return (
       </Flex>
     </Container>
     <br />
-
-    <div>
-      <button
-        disabled={state.commitLoading}
-        onClick={() => {
-          State.update({ commitLoading: true });
-          Social.set(data, {
-            force: true,
-            onCommit: () => {
-              State.update({ commitLoading: false });
-            },
-            onCancel: () => {
-              State.update({ commitLoading: false });
-            },
-          });
-        }}
-      >
-        {state.commtLoading && Loading}Interested
-      </button>
-    </div>
 
     <br />
     <Flex>
