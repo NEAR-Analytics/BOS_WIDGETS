@@ -176,25 +176,22 @@ return (
       </div>
     </Hero>
     <Widget src="ihyshan.near/widget/Carousel" props={slide_data} />
-    {isUserRegistered ? (
-      <Widget src="jay100.near/widget/PlayerDashboard" />
-    ) : (
-      <CardList>
-        {" "}
-        {Mainnet.map((widget, index) => (
-          <WidgetCard
-            key={index}
-            coverSrc={WidgetImages[index].url}
-            description=""
-            actionButtons={[
-              { label: "Play", url: widget.url },
-              { label: "Test", url: Testnet[index].url },
-              { label: "Wiki", url: Wiki[index].url },
-              { label: "NFT", url: NFT[index].url },
-            ]}
-          />
-        ))}
-      </CardList>
+    <CardList>
+      {" "}
+      {Mainnet.map((widget, index) => (
+        <WidgetCard
+          key={index}
+          coverSrc={WidgetImages[index].url}
+          description=""
+          actionButtons={[
+            { label: "Play", url: widget.url },
+            { label: "Test", url: Testnet[index].url },
+            { label: "Wiki", url: Wiki[index].url },
+            { label: "NFT", url: NFT[index].url },
+          ]}
+        />
+      ))}
+    </CardList>
     )}
   </div>
 );
