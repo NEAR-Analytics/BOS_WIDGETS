@@ -306,7 +306,6 @@ let views = {
           </ProgressWrapper>
         </Section>
         <Section>
-          <Title>Activity</Title>
           <PollContainer>
             <Widget
               src={`neardigitalcollective.near/widget/EasyPoll.Main`}
