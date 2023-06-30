@@ -99,6 +99,17 @@ return (
             Email
           </a>
         </div>
+        <div style={{ marginBottom: 32, marginLeft: 32 }}>
+          {" "}
+          ❇️ Watch:
+          <a
+            href="https://youtu.be/xm6aEo-6nHY"
+            target="_blank"
+            style={{ textDecoration: "underline" }}
+          >
+            Tutorial video
+          </a>
+        </div>
         <div style={{ padding: 32 }}>
           <Markdown text={text} />
         </div>
