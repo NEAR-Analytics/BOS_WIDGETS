@@ -43,11 +43,7 @@ const ModalTitle = styled.h3`
 
 const Button = styled.button`
 `;
-
-let availableTypes = [];
-const types = Social.get(`efiz.near/type/**`, "final");
-
-const TypeBox = ({ value }) => {
+const GridBox = ({ value }) => {
   // Parsing the stringified JSON inside the typeData object
 
   return (
@@ -62,7 +58,7 @@ const TypeBox = ({ value }) => {
 return (
   <>
     <Grid>
-      {references && references.map((ref) => <Box key={ref} value={ref} />)}
+      {references && references.map((ref) => <GridBox key={ref} value={ref} />)}
     </Grid>
     {state.isModalOpen && (
       <ModalOverlay>
