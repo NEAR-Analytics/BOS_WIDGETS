@@ -14,7 +14,7 @@ const houses = [
 ];
 
 State.init({
-  selectedHouse: houses[0].id,
+  selectedHouse: ids[0],
   humanVoted: 0,
   myVotes: [],
 });
