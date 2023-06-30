@@ -27,7 +27,9 @@ border: 1px solid transparent;
   
    
 @media only screen and (max-width: 480px) {
- 
+ width: 100%;
+ margin-left: 16px;
+    margin-right:16px;
 }
 `;
 const CTitle = styled.div`
@@ -87,7 +89,7 @@ width: 326px;
 align-items: center;
 gap: 8px;
 @media only screen and (max-width: 480px) {
- 
+ width: 100%;
 }
 `;
 const BCMProfile = styled.div`
@@ -124,7 +126,7 @@ font-style: normal;
 font-weight: 500;
 line-height: 120%;
 @media only screen and (max-width: 480px) {
- 
+ width: 100%;
 }
 `;
 const BCMMessage = styled.div`
@@ -249,7 +251,7 @@ border-radius: 10px;
   background-origin: border-box;
   background-clip: padding-box, border-box;
 @media only screen and (max-width: 480px) {
- 
+ width: 100%;
 }
 `;
 
@@ -276,7 +278,7 @@ border-radius: 10px;
   background-origin: border-box;
   background-clip: padding-box, border-box;
 @media only screen and (max-width: 480px) {
- 
+ width: 100%;
 }
 `;
 const { username, profile_picture, originalComment, timeago, _share_url } =
