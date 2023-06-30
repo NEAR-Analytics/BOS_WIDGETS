@@ -1,5 +1,3 @@
-import React from "react";
-
 const Carousel = () => {
   const slide_data = [
     {
@@ -221,5 +219,3 @@ const Carousel = () => {
     </>
   );
 };
-
-export default Carousel;
