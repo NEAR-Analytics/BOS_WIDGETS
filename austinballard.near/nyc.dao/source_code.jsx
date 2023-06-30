@@ -238,7 +238,7 @@ return (
         </TabsButton>
 
         <TabsButton
-          href="#/austinballard.near/widget/nyc.dao?tab=apps"
+          href="#/hack.near/widget/nyc.dao?tab=apps"
           selected={state.selectedTab === "apps"}
         >
           Brooklyn
@@ -281,7 +281,7 @@ return (
       )}
 
       {state.selectedTab === "nfts" && (
-        <Widget src="near/widget/FollowersList" props={{ accountId }} />
+        <Widget src="near/widget/NFTCollection" props={{ accountId }} />
       )}
 
       {state.selectedTab === "apps" && (
