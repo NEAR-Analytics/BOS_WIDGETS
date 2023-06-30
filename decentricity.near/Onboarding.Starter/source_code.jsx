@@ -7,7 +7,7 @@ return (
         },
       }}
       onLoad={() => console.log("iframe loaded")}
-      src="https://app.myriad.social"
+      src="https://davidjbradshaw.com/iframe-resizer/example/frame.content.html"
     />
   </div>
 );
