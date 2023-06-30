@@ -499,7 +499,7 @@ margin: 0px;
 
 return (
   <Container class="row">
-    <div class="col-9" style={{ "margin-right": "5px", width: "1030px" }}>
+    <div class="col-9" style={{ "margin-right": "5px", width: "950px" }}>
       <div class="row" style={{ "margin-inline": "5px" }}>
         <div
           class="col-12"
@@ -667,7 +667,7 @@ return (
           style={{
             "border-radius": "8px",
             "margin-top": "10px",
-            width: "680px",
+            width: "600px",
             background: "#F8F8F9",
             "margin-left": "10px",
           }}
