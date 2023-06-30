@@ -36,14 +36,6 @@ const Carousel = () => {
 
 <style>
 
-    html, body{
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        margin: auto;
-        background-color: #0e0e1e;
-    }
-
     .mySlides {
         display: none;
     }
