@@ -192,6 +192,5 @@ return (
         />
       ))}
     </CardList>
-    )}
   </div>
 );
