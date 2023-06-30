@@ -207,6 +207,13 @@ font-size: 12px;
  
 }
   `;
+const Separator = styled.button`
+width:100%;
+height:.5px;
+background-color: #D0D6D966;
+border: solid 0px transparent;
+
+`;
 const {
   affiliations,
   addFields,
@@ -257,17 +264,8 @@ return (
             />
           </button>
         </AffiliationTitle>
-        <hr
-          style={{
-            width: "100%",
-            height: "0.5px",
-            border: "1px solid rgba(208, 214, 217, 0.4)",
-            flex: "none",
-            order: "1",
-            "margin-top": "5px",
-            "flex-grow": "0",
-          }}
-        />
+
+        <Separator />
       </AffiliationHead>
 
       <AffiliationBody>
