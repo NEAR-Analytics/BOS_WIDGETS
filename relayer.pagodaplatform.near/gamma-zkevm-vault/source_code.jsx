@@ -403,6 +403,8 @@ const handleApprove = (isToken0) => {
     .catch((e) => console.log(e));
 };
 
+const handleDeposit = () => {};
+
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
   Number(amount1) > Number(balances[token1]);
@@ -444,7 +446,7 @@ return (
           {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
           {!isInSufficient &&
             (isToken0Approved && isToken1Approved ? (
-              <Button disabled={isLoading}>
+              <Button disabled={isLoading} onClick={handleDeposit}>
                 {isLoading ? (
                   <>
                     <Spinner className="ph-bold ph-circle-notch" />{" "}
