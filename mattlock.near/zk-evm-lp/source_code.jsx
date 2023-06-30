@@ -55,12 +55,16 @@ const Theme = styled.div`
 
     .grid {
       display: flex;
+      align-items: flex-start;
+      justify-items: center;
       > div {
         padding: 16px;
       }
     }
 
     .apps {
+      width: 332px;
+
       >h1 {
         color: white;
       }
@@ -71,14 +75,18 @@ const Theme = styled.div`
       }
       >div {
         display: flex;
+        flex-wrap: wrap;
+        
       > div {
         width: 150px;
         height: 150px;
         margin: 8px;
+        margin-bottom: 64px;
         color: white;
         text-align: center;
         > img {
           width: 100px;
+          border-radius: 50%;
         }
         >h1 {
           margin: 16px 0;
@@ -134,13 +142,16 @@ const Theme = styled.div`
     }
 `;
 
-State.init({ radio: "bridge" });
+State.init({
+  radio: "bridge",
+  component: "quickswap",
+});
 
 const handleRadioChange = (radio) => {
   State.update({ radio });
 };
 
-const { radio } = state;
+const { radio, component } = state;
 
 return (
   <Theme>
@@ -150,6 +161,7 @@ return (
           <div className="logo">{logo}</div>
           <h1>Bring Ethereum to everyone.</h1>
           <h2>Fast, cheap and secure.</h2>
+
           <div>
             <div>
               <img
@@ -158,7 +170,27 @@ return (
                 }
               />
               <h1>Quickswap</h1>
-              <button>DEX</button>
+              <button
+                disabled={component === "quickswap"}
+                onClick={() => State.update({ component: "quickswap" })}
+              >
+                DEX
+              </button>
+            </div>
+
+            <div>
+              <img
+                src={
+                  "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
+                }
+              />
+              <h1>Gamma</h1>
+              <button
+                disabled={component === "gamma"}
+                onClick={() => State.update({ component: "gamma" })}
+              >
+                Liquidity
+              </button>
             </div>
 
             <div>
@@ -168,7 +200,12 @@ return (
                 }
               />
               <h1>Aave</h1>
-              <button>Lending Protocol</button>
+              <button
+                disabled={component === "aave"}
+                onClick={() => State.update({ component: "aave" })}
+              >
+                Lending Protocol
+              </button>
             </div>
 
             <div>
@@ -178,34 +215,59 @@ return (
                 }
               />
               <h1>Balancer</h1>
-              <button>Liquidity</button>
+              <button
+                disabled={true || component === "balancer"}
+                onClick={() => State.update({ component: "balancer" })}
+              >
+                Liquidity
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="center">
-        <RadioGroup.Root
-          className="radio"
-          type="single"
-          defaultValue="bridge"
-          aria-label="zkevm"
-          onValueChange={handleRadioChange}
-        >
-          <RadioGroup.Item className="item" value="bridge" aria-label="Bridge">
-            <span>Bridge</span>
-          </RadioGroup.Item>
-          <RadioGroup.Item className="item" value="swap" aria-label="Swap">
-            <span>Swap</span>
-          </RadioGroup.Item>
-        </RadioGroup.Root>
-        <div className="component">
-          {radio === "bridge" ? (
-            <Widget src="ciocan.near/widget/zkevm-bridge" />
-          ) : (
-            <Widget src="zavodil.near/widget/swap-styled" />
-          )}
-        </div>
+      <div className="component">
+        {component === "quickswap" && (
+          <div className="center">
+            <RadioGroup.Root
+              className="radio"
+              type="single"
+              defaultValue="bridge"
+              aria-label="zkevm"
+              onValueChange={handleRadioChange}
+            >
+              <RadioGroup.Item
+                className="item"
+                value="bridge"
+                aria-label="Bridge"
+              >
+                <span>Bridge</span>
+              </RadioGroup.Item>
+              <RadioGroup.Item className="item" value="swap" aria-label="Swap">
+                <span>Swap</span>
+              </RadioGroup.Item>
+            </RadioGroup.Root>
+            {radio === "bridge" ? (
+              <Widget src="ciocan.near/widget/zkevm-bridge" />
+            ) : (
+              <Widget src="zavodil.near/widget/swap-styled" />
+            )}
+          </div>
+        )}
+
+        {component === "aave" && (
+          <div className="center">
+            <Widget src="aave-v3.near/widget/AAVE" />
+          </div>
+        )}
+
+        {component === "gamma" && (
+          <div className="center">
+            <Widget src="james-cordova423.near/widget/gamma-zkevm-table" />
+            <br />
+            <Widget src="james-cordova423.near/widget/gamma-zkevm-vault" />
+          </div>
+        )}
       </div>
     </div>
   </Theme>
