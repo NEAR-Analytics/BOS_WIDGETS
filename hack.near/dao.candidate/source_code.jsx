@@ -20,7 +20,7 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 15px;
-  width: 95%;
+  width: 100%;
   border-radius: 9px;
   background: #fff;
   border: 1px solid #eceef0;
