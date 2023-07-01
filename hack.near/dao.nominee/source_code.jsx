@@ -27,14 +27,20 @@ return (
       src="near/widget/AccountProfile"
       props={{ accountId: candidateId }}
     />
-    <div className="m-2">
-      <a className="btn btn-outline-primary" href={postUrl}>
-        Campaign
-      </a>
-      <Widget
-        src="mob.near/widget/FollowButton"
-        props={{ accountId: candidateId }}
-      />
+    <div className="m-2 row">
+      <div className="col-auto me-1">
+        <a className="btn btn-outline-primary" href={postUrl}>
+          Campaign
+        </a>
+      </div>
+      <div className="col-auto me-1">
+        {accountId && (
+          <Widget
+            src="mob.near/widget/FollowButton"
+            props={{ accountId: candidateId }}
+          />
+        )}
+      </div>
     </div>
   </Card>
 );
