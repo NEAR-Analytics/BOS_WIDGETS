@@ -28,12 +28,12 @@ return (
       props={{ accountId: candidateId }}
     />
     <div className="m-1 row">
-      <div className="col-auto me-1">
+      <div className="col-auto m-1">
         <a className="btn btn-outline-primary" href={postUrl}>
           About
         </a>
       </div>
-      <div className="col-auto">
+      <div className="col-auto m-1">
         {accountId && (
           <Widget
             src="mob.near/widget/FollowButton"
