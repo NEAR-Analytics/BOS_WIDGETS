@@ -22,7 +22,7 @@ function onChange(newValue) {
 return (
   <Plate
     editableProps={editableProps}
-    initialValue={initialValue}
+    // initialValue={initialValue}
     debug={false}
     onChange={onChange}
   />
