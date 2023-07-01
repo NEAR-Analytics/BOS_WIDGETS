@@ -21,15 +21,13 @@ border-radius: 10px;
 background: #FFF;
 border: 1px solid transparent;
  margin-left: auto;
-    margin-right: auto;
-    
-    margin-buttom: 50%;
+ margin-right: auto;
+ margin-buttom: 50%;
   
    
 @media only screen and (max-width: 480px) {
  width: 90%;
- margin-left: 16px;
- margin-right:16px;
+ 
 }
 `;
 const CTitle = styled.div`
