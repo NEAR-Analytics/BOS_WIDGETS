@@ -27,10 +27,10 @@ return (
       src="near/widget/AccountProfile"
       props={{ accountId: candidateId }}
     />
-    <div className="m-2 row">
+    <div className="m-1 row">
       <div className="col-auto me-1">
         <a className="btn btn-outline-primary" href={postUrl}>
-          Campaign
+          About
         </a>
       </div>
       <div className="col-auto me-1">
