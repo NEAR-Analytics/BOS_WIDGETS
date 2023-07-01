@@ -1,8 +1,8 @@
 const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
-// const accountId = props.accountId ?? context.accountId;
-const accountId = "blaze.near";
+const accountId = props.accountId ?? context.accountId;
+// const accountId = "blaze.near";
 // if (!accountId) {
 //   return "No account ID";
 // }
@@ -506,9 +506,9 @@ return (
                       ),
                       placeholder: "Input tags",
                       setTagsObject: (tags) => {
-                        console.log(filterTagsFromNull(tags));
-                        state.tags = filterTagsFromNull(tags);
-                        // state.tags = tags;
+                        // console.log(filterTagsFromNull(tags));
+                        // state.tags = filterTagsFromNull(tags);
+                        state.tags = tags;
                         State.update();
                       },
                     }}
