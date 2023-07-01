@@ -107,7 +107,7 @@ return (
             Post an Offer
           </Offer>
         ) : (
-          <>{`Connect ur wallet!`}</>
+          <Offer>Connect Your Wallet</Offer>
         )}
       </ButtonContainer>
     </Container>
