@@ -33,7 +33,7 @@ return (
           About
         </a>
       </div>
-      <div className="col-auto me-1">
+      <div className="col-auto">
         {accountId && (
           <Widget
             src="mob.near/widget/FollowButton"
