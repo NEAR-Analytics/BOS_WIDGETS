@@ -27,10 +27,10 @@ return (
       src="near/widget/AccountProfile"
       props={{ accountId: candidateId }}
     />
-    <a className="btn btn-outline-primary" href={postUrl}>
-      Campaign
-    </a>
     <div className="m-2">
+      <a className="btn btn-outline-primary" href={postUrl}>
+        Campaign
+      </a>
       <Widget
         src="mob.near/widget/FollowButton"
         props={{ accountId: candidateId }}
