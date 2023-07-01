@@ -26,14 +26,14 @@ const Card = styled.div`
   align-items: center;
   gap: 15px;
   width: 95%;
-  border-radius: 12px;
+  border-radius: 9px;
   background: #fff;
   border: 1px solid #eceef0;
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
-  padding: 15px;
-  margin: 0.888em;
+  padding: 12px;
+  margin: 0.555em;
 `;
 
 return (
@@ -43,15 +43,9 @@ return (
         src="near/widget/AccountProfile"
         props={{ accountId: candidateId }}
       />
-      <Widget
-        src="near/widget/DIG.Button"
-        props={{
-          href: `${postUrl}`,
-          label: "View Thread",
-          variant: "outline-primary",
-          size: "small",
-        }}
-      />
+      <button className="btn flex-fill btn-outline-primary" href={postUrl}>
+        Open Discussion
+      </button>
       <div className="m-2 d-flex flex-row gap-2">
         <button
           className="btn flex-fill btn-success"
