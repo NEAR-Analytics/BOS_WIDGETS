@@ -21,7 +21,7 @@ return (
   <Plate
     editableProps={editableProps}
     initialValue={initialValue}
-    debug={true}
+    debug={false}
     onChange={onChange}
   />
 );
