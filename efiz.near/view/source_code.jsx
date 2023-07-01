@@ -144,6 +144,10 @@ const Subtext = styled.p`
   font-size: 1em;
 `;
 
+State.init({
+  thingSrc: data.views[0]?.src,
+});
+
 function Thing() {
   if (state.thingSrc) {
     return (
