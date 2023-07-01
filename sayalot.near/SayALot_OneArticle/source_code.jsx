@@ -90,9 +90,7 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
-const tagsArray = state.tags
-  ? Object.keys(state.tags)
-  : Object.keys(state.article.tags);
+const tagsArray = state.tags ? Object.keys(state.tags) : state.article.tags;
 
 const getArticleData = () => {
   const args = {
@@ -504,7 +502,7 @@ return (
                     src="mob.near/widget/TagsEditor"
                     props={{
                       initialTagsObject: getTagObjectfromArray(
-                        Object.keys(state.article.tags)
+                        state.article.tags
                       ),
                       placeholder: "Input tags",
                       setTagsObject: (tags) => {
