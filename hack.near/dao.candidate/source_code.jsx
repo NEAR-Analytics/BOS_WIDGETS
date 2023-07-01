@@ -44,7 +44,7 @@ return (
         props={{ accountId: candidateId }}
       />
       <button className="btn flex-fill btn-outline-primary" href={postUrl}>
-        Open Discussion
+        Campaign
       </button>
       <div className="m-2 d-flex flex-row gap-2">
         <button
