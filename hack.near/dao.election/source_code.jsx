@@ -8,7 +8,7 @@ if (policy === null) {
 }
 
 return (
-  <div className="m-3">
+  <div className="m-2">
     <h3>Test Candidates</h3>
     <p>FOR DEMO PURPOSES ONLY</p>
     <h5>Africa</h5>
