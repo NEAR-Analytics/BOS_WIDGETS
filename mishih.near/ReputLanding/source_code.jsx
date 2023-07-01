@@ -62,7 +62,7 @@ const Detail = styled.div`
 return (
   <Container>
     <Header>
-      <Widget src={`${mishih.near}/widget/ReputeHeader`} />
+      <Widget src={`mishih.near/widget/ReputeHeader`} />
 
       <LogoWrapper>
         <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
