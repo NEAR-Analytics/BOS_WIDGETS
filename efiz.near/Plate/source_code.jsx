@@ -13,4 +13,15 @@ const initialValue = [
   },
 ];
 
-return <Plate editableProps={editableProps} initialValue={initialValue} />;
+function onChange(newValue) {
+  console.log(newValue);
+}
+
+return (
+  <Plate
+    editableProps={editableProps}
+    initialValue={initialValue}
+    debug={true}
+    onChange={onChange}
+  />
+);
