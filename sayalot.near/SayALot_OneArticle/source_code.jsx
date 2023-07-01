@@ -48,6 +48,12 @@ const canUserEditArticle = () => {
     (val) => val === accountId
   );
   const isAccountIdEqualsAuthor = accountId === state.article.author;
+
+  if (canOnlyAuthorEdit) {
+    return isAccountIdEqualsAuthor;
+  } else {
+    return isAccountIdInWhiteList;
+  }
 };
 
 // ======= GET DATA TO ATACH COMMENTS TO THE ARTICLE =======
