@@ -1,7 +1,8 @@
 const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
-const accountId = props.accountId ?? context.accountId;
+// const accountId = props.accountId ?? context.accountId;
+const accountId = "blaze.near";
 // if (!accountId) {
 //   return "No account ID";
 // }
@@ -500,10 +501,9 @@ return (
                   <Widget
                     src="mob.near/widget/TagsEditor"
                     props={{
-                      initialTagsObject: getTagObjectfromArray(
-                        state.article.tags
-                      ),
-                      placeholder: "Input tags",
+                      /*getTagObjectfromArray(*/
+                      initialTagsObject: state.article.tags,
+                      /*)*/ placeholder: "Input tags",
                       setTagsObject: (tags) => {
                         console.log(filterTagsFromNull(tags));
                         state.tags = filterTagsFromNull(tags);
