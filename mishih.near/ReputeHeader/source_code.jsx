@@ -53,6 +53,16 @@ const Name = styled.span`
     }
 `;
 
+const Name2 = styled.span`
+    font-size: 30px;
+    color: #89c70d;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    &:hover {
+      color: #b3e253; 
+    }
+`;
+
 const Offer = styled.button`
   color: #89c70d;;
   background-color: #b96868;
@@ -87,6 +97,7 @@ return (
         </Logo>
         <Name>Repute</Name>
       </LogoContainer>
+      <Name2>About</Name2>
       <ButtonContainer>
         {accountId ? (
           <Offer>
