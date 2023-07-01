@@ -143,7 +143,7 @@ You must bring any and all Disputes against us in your individual capacity and n
 
 17. Governing Law
 
-You agree that the laws of British Virgin Islands, without regard to principles of conflict of laws, govern this Agreement and any Dispute between you and us. You further agree that the Site shall be deemed to be based solely in Singapore, and that although the Site may be available in other jurisdictions, its availability does not give rise to general or specific personal jurisdiction in any forum outside of British Virgin Islands.
+You agree that the laws of British Virgin Islands, without regard to principles of conflict of laws, govern this Agreement and any Dispute between you and us. You further agree that the Site shall be deemed to be based solely in British Virgin Islands, and that although the Site may be available in other jurisdictions, its availability does not give rise to general or specific personal jurisdiction in any forum outside of British Virgin Islands.
 
 18. Miscellaneous
 
