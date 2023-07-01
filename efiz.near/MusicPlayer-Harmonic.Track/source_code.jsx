@@ -1,22 +1,21 @@
 const styles = props.styles;
 const selected = props.selected || false;
-const playSong = props.playSong;
-const pauseSong = props.pauseSong;
+const selectSong = props.selectSong;
 const song = props.song;
+
+const audioElem = new Audio(song.reference_blob);
 
 return (
   <div
     style={{
       ...styles.song,
-      ...(state.currentSongIndex === i ? styles.selectedSong : {}),
+      ...(selected ? styles.selectedSong : {}),
     }}
     key={song.token_id}
-    onClick={() => selectSong(i)}
+    onClick={() => selectSong(audioElem)}
     onMouseOver={(e) => (e.target.style.backgroundColor = "#BFDBFE")} // equivalent to "hover:bg-blue-200" in tailwind
     onMouseOut={
-      (e) =>
-        state.currentSongIndex !== i &&
-        (e.target.style.backgroundColor = "transparent") // reset color on mouse out if not selected song
+      (e) => selected && (e.target.style.backgroundColor = "transparent") // reset color on mouse out if not selected song
     }
   >
     {song.title}
