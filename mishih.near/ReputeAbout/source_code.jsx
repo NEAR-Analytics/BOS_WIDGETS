@@ -76,6 +76,30 @@ return (
         assets in special situations, such as bankruptcy claims, airdrop farming
         addresses, and agreements related to unvested tokens.
       </Detail>
+
+      <Name>How it works</Name>
+      <Detail>
+        Alice owns a bankruptcy claim worth $1,000, and she wants to sell it to
+        Bob for 10 cents on the dollar. Normally, transferring ownership of such
+        claims is complicated due to various legal rules and the involvement of
+        parties from different jurisdictions. To ensure a smooth transaction,
+        Alice and Bob turn to Repute. They engage the escrow service, which
+        operates on a decentralized blockchain platform. Repute holds the funds
+        that Bob will pay and requires Alice to deposit collateral as assurance.
+        Now, both Alice and Bob have a strong incentive to fulfill their
+        obligations. If either party backs out of the deal, the other party will
+        receive the deposited funds or collateral held by Repute. This
+        arrangement builds trust and ensures that the transaction proceeds as
+        agreed upon. With Repute's escrow service, the trade becomes secure and
+        reliable. The use of blockchain technology guarantees transparency, as
+        all transaction details are recorded immutably on the blockchain. This
+        eliminates the need for reliance on a centralized authority, making the
+        process more efficient and trustworthy. In this example, Repute
+        simplifies the trading of a bankruptcy claim by providing a
+        decentralized escrow service. It enables Alice and Bob to transact
+        securely and confidently, overcoming the complexities associated with
+        traditional methods of transferring such assets.
+      </Detail>
     </Header>
   </Container>
 );
