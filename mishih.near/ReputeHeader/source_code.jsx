@@ -53,7 +53,7 @@ const Name = styled.span`
     }
 `;
 
-const Name2 = styled.span`
+const Name2 = styled.a`
     font-size: 30px;
     color: #89c70d;
     font-weight: bolder;
@@ -97,7 +97,7 @@ return (
         </Logo>
         <Name>Repute</Name>
       </LogoContainer>
-      <Name2>About</Name2>
+      <Name2 href="mishih.near/widget/ReputAbout">About</Name2>
       <ButtonContainer>
         {accountId ? (
           <Offer>
