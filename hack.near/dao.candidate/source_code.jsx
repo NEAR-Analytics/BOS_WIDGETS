@@ -2,7 +2,7 @@ const { daoId, policy } = props;
 const candidateId = props.candidateId;
 
 const postUrl =
-  props.postUrl ?? "https://near.org/hack.near/widget/dao.election";
+  props.postUrl ?? "https://social.near.page/p/rc-dao.near/94244727";
 
 function mapVote(vote) {
   return vote === "Approve" && <span className="text-success">Approve</span>;
@@ -43,9 +43,9 @@ return (
         src="near/widget/AccountProfile"
         props={{ accountId: candidateId }}
       />
-      <button className="btn flex-fill btn-outline-primary" href={postUrl}>
+      <a className="btn flex-fill btn-outline-primary" href={postUrl}>
         Campaign
-      </button>
+      </a>
       <div className="m-2 d-flex flex-row gap-2">
         <button
           className="btn flex-fill btn-success"
