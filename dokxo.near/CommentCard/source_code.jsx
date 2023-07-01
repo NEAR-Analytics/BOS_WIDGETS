@@ -27,9 +27,9 @@ border: 1px solid transparent;
   
    
 @media only screen and (max-width: 480px) {
- width: 100%;
+ width: 90%;
  margin-left: 16px;
-    margin-right:16px;
+ margin-right:16px;
 }
 `;
 const CTitle = styled.div`
@@ -85,11 +85,11 @@ align-self: stretch;
 `;
 const BCMHeader = styled.div`
 display: flex;
-width: 326px;
+width: 100%;
 align-items: center;
 gap: 8px;
 @media only screen and (max-width: 480px) {
- width: 100%;
+  
 }
 `;
 const BCMProfile = styled.div`
@@ -115,7 +115,7 @@ vertical-align: initial;
 `;
 const BCMProfileUsername = styled.label`
 display: flex;
-width: 228px;
+width: 100%;
 flex-direction: column;
 justify-content: center;
 flex-shrink: 0;
@@ -126,7 +126,7 @@ font-style: normal;
 font-weight: 500;
 line-height: 120%;
 @media only screen and (max-width: 480px) {
- width: 100%;
+ 
 }
 `;
 const BCMMessage = styled.div`
