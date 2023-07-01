@@ -15,11 +15,6 @@ function vote(action) {
   });
 }
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const Card = styled.div`
   display: flex;
   justify-content: space-between;
@@ -37,23 +32,21 @@ const Card = styled.div`
 `;
 
 return (
-  <Container>
-    <Card>
-      <Widget
-        src="near/widget/AccountProfile"
-        props={{ accountId: candidateId }}
-      />
-      <a className="btn flex-fill btn-outline-primary" href={postUrl}>
-        Campaign
-      </a>
-      <div className="m-2 d-flex flex-row gap-2">
-        <button
-          className="btn flex-fill btn-success"
-          onClick={() => vote("VoteApprove")}
-        >
-          Vote
-        </button>
-      </div>
-    </Card>
-  </Container>
+  <Card>
+    <Widget
+      src="near/widget/AccountProfile"
+      props={{ accountId: candidateId }}
+    />
+    <a className="btn flex-fill btn-outline-primary" href={postUrl}>
+      Campaign
+    </a>
+    <div className="m-2 d-flex flex-row gap-2">
+      <button
+        className="btn flex-fill btn-success"
+        onClick={() => vote("VoteApprove")}
+      >
+        Vote
+      </button>
+    </div>
+  </Card>
 );
