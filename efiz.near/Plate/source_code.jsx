@@ -1,5 +1,7 @@
 const editableProps = {
-  placeholder: "Type...",
+  spellCheck: false,
+  autoFocus: false,
+  placeholder: "Type…",
 };
 
 const initialValue = [
