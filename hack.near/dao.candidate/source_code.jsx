@@ -1,4 +1,4 @@
-const { daoId, policy, proposal } = props;
+const { daoId, policy } = props;
 const candidateId = props.candidateId;
 
 const postUrl =
@@ -10,7 +10,7 @@ function mapVote(vote) {
 
 function vote(action) {
   return Near.call(daoId, "act_proposal", {
-    id: proposal.id,
+    id: props.id,
     action,
   });
 }
