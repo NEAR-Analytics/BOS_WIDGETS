@@ -29,6 +29,16 @@ const Name = styled.span`
             }
 `;
 
+const Name3 = styled.a`
+    font-size: 90px;
+    color: #89c70d;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+    &:hover {
+                color: #b3e253; 
+            }
+`;
+
 const LogoWrapper = styled.div`
     padding: 2px;
     svg {
@@ -100,6 +110,8 @@ return (
         securely and confidently, overcoming the complexities associated with
         traditional methods of transferring such assets.
       </Detail>
+
+      <Name3 href="/mishih.near/widget/ReputeOffers">Get Started!</Name3>
     </Header>
   </Container>
 );
