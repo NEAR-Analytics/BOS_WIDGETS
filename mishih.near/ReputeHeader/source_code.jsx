@@ -97,7 +97,7 @@ return (
         </Logo>
         <Name>Repute</Name>
       </LogoContainer>
-      <Name2 href="/mishih.near/widget/ReputAbout">About</Name2>
+      <Name2 href="/mishih.near/widget/ReputeAbout">About</Name2>
       <ButtonContainer>
         {accountId ? (
           <Offer>
