@@ -5,17 +5,11 @@ const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
 
 const candidateId = props.candidateId ?? "multi.near";
-const proposalId = props.proposalId;
+const proposalId = JSON.stringify(props.proposalId);
 
 const proposal = Near.view(daoId, "get_proposal", {
-  id: JSON.parse(proposalId),
-}) ?? {
-  id: 1,
-  proposer: "gov.near",
-  kind: { AddMemberToRole: { member_id: "multi.near", role: "community" } },
-  status: "In Progress",
-  votes: { "hack.near": "Approve" },
-};
+  id: proposalId,
+});
 
 if (proposal === null) {
   return "missing proposal";
