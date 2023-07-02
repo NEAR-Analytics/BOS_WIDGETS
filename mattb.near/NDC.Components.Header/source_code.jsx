@@ -3,6 +3,7 @@ let { tabs, selectedTab, fallback, darkmode, onRefresh } = props;
 State.init({
   tab: selectedTab || fallback || "home",
   darkmode: darkmode || false,
+  open: false,
 });
 
 tabs = tabs || {
@@ -80,6 +81,22 @@ const Navigation = styled.div`
         list-style:none;
         flex-wrap:wrap;
 
+        @media screen and (max-width:500px) {
+            display:block;
+            position:absolute;
+            top:100%;
+            width:100%;
+            background-color:${DEFAULT_BACKGROUND_COLOR};
+            overflow:hidden;
+            height:0vh;
+            transition: all .2s;
+
+            &.open {
+                transition: all .2s;
+                height:calc(100vh - 150px);
+            }
+        }
+
         li {
             padding:0;
             
@@ -87,7 +104,14 @@ const Navigation = styled.div`
                 margin-right:1rem;
             }
 
+            @media screen and (max-width:500px) {
+                width:100%;
+                text-align:center;
+                margin-bottom:20px;
+            }
+
             a {
+                position:relative;
                 cursor:pointer;
                 transition:all .2s;
                 border-radius:10px;
@@ -113,21 +137,50 @@ const Navigation = styled.div`
                     border: 2px solid rgba(0,0,0,.02);
                     opacity:1;
                 }
-            }
-        }
 
-        @media screen and (max-width:500px) {
-            li {
-                background-color:red;
+                @media screen and (max-width:500px) {
+                    background-color:transparent;
+                    padding:inherit 0;
+
+                    &:hover {
+                        border:2px solid rgba(0,0,0,0);
+                    }
+
+                    &.selected {
+                        background-color:transparent;
+                        color:${DEFAULT_TEXT_COLOR};
+
+                        &:after {
+                            content: '';
+                            opacity:.1;
+                            width:100%;
+                            height:2px;
+                            background-color:${DEFAULT_TEXT_COLOR};
+                            position:absolute;
+                            left:0;
+                            bottom:0;
+                            border-radius:100%;
+                        }
+                    }
+                }
             }
         }
     }
 `;
 
-const DarkModeButton = styled.div`
+const Toolbox = styled.div`
     position:absolute;
-    cursor:pointer;
+    display:flex;
     right:1rem;
+    height:40px;
+
+    & > div:not(:last-of-type) {
+        margin-right:10px;
+    }
+`;
+
+const DarkModeButton = styled.div`
+    cursor:pointer;
     width:40px;
     height:40px;
     border-radius:10px;
@@ -152,25 +205,64 @@ const DarkModeButton = styled.div`
     }
 `;
 
+const MenuButton = styled.div`
+    cursor:pointer;
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background-color:${
+      state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"
+    };
+    background-image:url("${
+      state.darkmode
+        ? "https://ipfs.near.social/ipfs/bafkreievkvxtk6d5c3nx5zs663j5dqo3y3h4rdesvr25k632dbrux3zhra"
+        : "https://ipfs.near.social/ipfs/bafkreiexzn4c2sc53i5k5u7zaazdkf6j2zhzvifsxp7skcucwaxm46aggi"
+    }");
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:20px 20px;
+    transition: all .2s;
+    border: 2px solid ${
+      state.darkmode ? "rgba(255,255,255,.0)" : "rgba(0,0,0,.0)"
+    };
+
+    &:hover {
+        transition: all .2s;
+        box-shadow: 0 0 10px 5px rgba(0,0,0,.02);
+        border: 2px solid ${
+          state.darkmode ? "rgba(255,255,255,.02)" : "rgba(0,0,0,.02)"
+        };
+    }
+`;
+
 return (
   <Header>
     <Navigation>
       <Logo src={DEFAULT_LOGO_URL} />
-      <ul>
+      <ul className={state.menuOpen ? "open" : ""}>
         {Object.keys(tabs).map((key) => (
           <li>
             <a
               className={key == state.tab ? "selected" : ""}
-              onClick={() => refresh({ tab: key, currentView: key })}
+              onClick={() => {
+                refresh({ tab: key, currentView: key });
+
+                if (state.menuOpen) {
+                  refresh({ menuOpen: false });
+                }
+              }}
             >
               {tabs[key].text}
             </a>
           </li>
         ))}
       </ul>
-      <DarkModeButton
-        onClick={() => refresh({ darkmode: !state.darkmode })}
-      ></DarkModeButton>
+      <Toolbox>
+        <DarkModeButton
+          onClick={() => refresh({ darkmode: !state.darkmode })}
+        ></DarkModeButton>
+        <MenuButton onClick={() => refresh({ menuOpen: !state.menuOpen })} />
+      </Toolbox>
     </Navigation>
   </Header>
 );
