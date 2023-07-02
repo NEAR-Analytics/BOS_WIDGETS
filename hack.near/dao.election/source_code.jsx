@@ -32,7 +32,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 41,
+          proposalId: 41,
+          proposal,
           policy,
           candidateId: "candidate10.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -44,7 +45,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 40,
+          proposalId: 40,
+          proposal,
           policy,
           candidateId: "candidate9.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -58,7 +60,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 39,
+          proposalId: 39,
+          proposal,
           policy,
           candidateId: "candidate8.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -70,7 +73,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 38,
+          proposalId: 38,
+          proposal,
           policy,
           candidateId: "candidate7.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -84,7 +88,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 37,
+          proposalId: 37,
+          proposal,
           policy,
           candidateId: "candidate6.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -96,7 +101,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 36,
+          proposalId: 36,
+          proposal,
           policy,
           candidateId: "candidate5.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -110,7 +116,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 35,
+          proposalId: 35,
+          proposal,
           policy,
           candidateId: "candidate4.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -122,7 +129,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 34,
+          proposalId: 34,
+          proposal,
           policy,
           candidateId: "candidate3.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -136,7 +144,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 33,
+          proposalId: 33,
+          proposal,
           policy,
           candidateId: "candidate2.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
@@ -148,7 +157,8 @@ return (
         src="hack.near/widget/dao.candidate"
         props={{
           daoId,
-          id: 32,
+          proposalId: 32,
+          proposal,
           policy,
           candidateId: "candidate1.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
