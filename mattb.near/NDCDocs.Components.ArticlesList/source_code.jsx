@@ -94,7 +94,7 @@ const ArticlePill = styled.a`
     border: 2px solid transparent;
     transition: all .2s;
     margin:0 auto 20px;
-    text-decoration:none;
+    text-decoration:none!important;
     color:#000;
 
     &:hover {
