@@ -116,15 +116,16 @@ const Count = styled.span`
 
 const TagContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px; // adjust this to change the space between tags
 `;
 
 const TagName = styled.span`
   font-weight: bold;
+`;
+
+const Button = styled.button`
 `;
 
 return (
@@ -140,13 +141,23 @@ return (
     </InputContainer>
     {filteredTags?.map((tag, j) => (
       <TagContainer>
-        <TagName>{tag.name}</TagName>
-        <Link to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`}>
-          visit
+        <Link
+          to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Button>{tag.name}</Button>
         </Link>
-        <p>{tag.count}</p>
       </TagContainer>
     ))}
   </Container>
 );
+
+<TagContainer>
+  <TagName>{tag.name}</TagName>
+  <Link to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`}>
+    visit
+  </Link>
+  <p>{tag.count}</p>
+  //{" "}
+</TagContainer>;
 // add filter by DAOs with profiles
