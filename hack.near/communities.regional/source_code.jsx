@@ -40,7 +40,7 @@ const handleProposal = () => {
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: "add someone to DAO",
+          description: `add someone to ${name}`,
           kind: {
             AddMemberToRole: {
               member_id: memberId,
