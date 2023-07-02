@@ -5,7 +5,7 @@ const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
 
 const candidateId = props.candidateId ?? "multi.near";
-const proposalId = props.proposalId;
+const proposalId = props.proposalId ?? 41;
 
 const proposal = Near.view(daoId, "get_proposal", {
   id: JSON.parse(proposalId),
@@ -43,12 +43,7 @@ const checkMembership = (groupMembers) => {
 const validMember = checkMembership(groupMembers);
 
 // check if account can vote
-const canVote =
-  accountId &&
-  memberId &&
-  proposal.votes &&
-  !proposal.votes[memberId] &&
-  proposal.status === "In Progress";
+const canVote = accountId && proposal.votes[memberId] !== "Approve";
 
 const handleApprove = () => {
   Near.call([
@@ -64,8 +59,12 @@ const handleApprove = () => {
   ]);
 };
 
-console.log(proposalId);
-console.log(proposal);
+console.log("accountId:", accountId);
+console.log("memberId:", memberId);
+console.log("proposal.votes[memberId]:", proposal.votes[memberId]);
+console.log("proposal.status:", proposal.status);
+console.log("can vote:", canVote);
+console.log("proposal", proposal);
 
 const Card = styled.div`
   display: flex;
