@@ -1,12 +1,57 @@
+const accountId = context.accountId;
+const memberId = props.memberId ?? context.accountId;
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const proposal = JSON.parse(JSON.stringify(props.proposal));
-const proposalId = props.proposalId ?? 39;
+const groupId = props.groupId ?? "community";
 
-const policy = props.policy;
+const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
+  id: 19,
+  proposer: "hack.near",
+  kind: { AddMemberToRole: { member_id: "multi.near", role: "community" } },
+  status: "In Progress",
+  votes: { "hack.near": "Approve" },
+};
+
+if (proposal === null) {
+  return "missing proposal";
+}
+
+const proposalId = props.proposalId ?? 39;
 const candidateId = props.candidateId ?? "multi.near";
 
 const postUrl =
   props.postUrl ?? "https://social.near.page/p/rc-dao.near/94244727";
+
+State.init({
+  isMember: false,
+});
+
+const policy = Near.view(daoId, "get_policy");
+
+if (!policy) {
+  return "Loading...";
+}
+
+const group = policy.roles
+  .filter((role) => role.name === groupId)
+  .map((role) => role.kind.Group);
+
+const groupMembers = group.join(", ");
+
+const checkMembership = (groupMembers) => {
+  if (groupMembers.indexOf(memberId) !== -1) {
+    return State.update({ isMember: true });
+  }
+};
+
+const validMember = checkMembership(groupMembers);
+
+// check if account can vote
+const canVote =
+  accountId &&
+  memberId &&
+  proposal.votes &&
+  !proposal.votes[memberId] &&
+  proposal.status === "In Progress";
 
 const handleApprove = () => {
   Near.call([
@@ -17,26 +62,10 @@ const handleApprove = () => {
         id: proposalId,
         action: "VoteApprove",
       },
-      gas: 200000000000000,
+      gas: 219000000000000,
     },
   ]);
 };
-
-const alreadyVoted = props.proposal.votes[accountId];
-const canVote =
-  !alreadyVoted && props.proposal.status === "In Progress" && accountId;
-
-// IAH Verification
-let human = false;
-const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: memberId,
-});
-
-for (let i = 0; i < userSBTs.length; i++) {
-  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
-    human = true;
-  }
-}
 
 const Card = styled.div`
   display: flex;
@@ -63,18 +92,18 @@ return (
     <a className="btn flex-fill btn-outline-primary" href={postUrl}>
       Campaign
     </a>
-    {!canVote ? (
+    {validMember && (
       <div className="m-2 d-flex flex-row gap-2">
-        <button className="btn flex-fill btn-success" onClick={handleApprove}>
-          Vote
-        </button>
-      </div>
-    ) : (
-      <div className="m-2 d-flex flex-row gap-2">
-        <Widget
-          src="mob.near/widget/FollowButton"
-          props={{ accountId: candidateId }}
-        />
+        {canVote ? (
+          <button className="btn flex-fill btn-success" onClick={handleApprove}>
+            Vote
+          </button>
+        ) : (
+          <Widget
+            src="mob.near/widget/FollowButton"
+            props={{ accountId: candidateId }}
+          />
+        )}
       </div>
     )}
   </Card>
