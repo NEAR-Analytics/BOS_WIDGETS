@@ -252,7 +252,7 @@ return (
                 refresh({ tab: key, currentView: key });
 
                 if (state.menuOpen) {
-                  refresh({ menuOpen: false });
+                  State.update({ menuOpen: false });
                 }
               }}
             >
@@ -265,7 +265,9 @@ return (
         <DarkModeButton
           onClick={() => refresh({ darkmode: !state.darkmode })}
         ></DarkModeButton>
-        <MenuButton onClick={() => refresh({ menuOpen: !state.menuOpen })} />
+        <MenuButton
+          onClick={() => State.update({ menuOpen: !state.menuOpen })}
+        />
       </Toolbox>
     </Navigation>
   </Header>
