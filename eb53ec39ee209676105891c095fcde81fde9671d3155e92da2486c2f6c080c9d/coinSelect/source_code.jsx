@@ -40,14 +40,14 @@ const OptionsWrapper = styled.div`
   max-height: 416px;
   overflow-y: auto;
   padding: 10px 2px;
-  position: absolute;
-  top: 115%;
   width: 100%;
-  z-index: 10;
+  z-index: 1000;
+  margin-top: 8px;
 `;
 
 const SelectWrapper = styled.div`
   align-items: center;
+  background: ${colors.lightBeige};
   border: 1px solid #0E0E0E;
   border-radius: 16px; 
   cursor: pointer;
