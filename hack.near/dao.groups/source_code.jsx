@@ -80,7 +80,7 @@ return (
         </div>
       )}
       <div className="mt-2">
-        <h2 className="mb-2">Groups</h2>
+        <h2 className="mb-2">groups</h2>
         <Widget src="hack.near/widget/DAO.Members" props={{ daoId: daoId }} />
       </div>
     </div>
