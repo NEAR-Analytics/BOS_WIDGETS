@@ -37,6 +37,7 @@ const validate = (accountId) => {
 
   if (typeof accountId !== "string") {
     State.update({
+      accountId: "",
       valid: false,
       errorMessage: "Account ID must be a text value!",
     });
@@ -45,6 +46,7 @@ const validate = (accountId) => {
 
   if (accountId.length < 2) {
     State.update({
+      accountId: "",
       valid: false,
       errorMessage: "Account ID must be at least 2 characters long!",
     });
@@ -53,6 +55,7 @@ const validate = (accountId) => {
 
   if (accountId.length > 64) {
     State.update({
+      accountId: "",
       valid: false,
       errorMessage: "Account ID must be at most 64 characters long!",
     });
@@ -61,6 +64,7 @@ const validate = (accountId) => {
 
   if (!accountIdRegex.test(accountId)) {
     State.update({
+      accountId: "",
       valid: false,
       errorMessage: (
         <>
