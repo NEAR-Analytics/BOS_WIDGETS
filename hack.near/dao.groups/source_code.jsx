@@ -47,9 +47,7 @@ return (
         <h1>membership</h1>
       </div>
       <div className="mb-2">
-        <h3 className="mb-3">
-          <b>propose changes</b>
-        </h3>
+        <h3>who?</h3>
         <h5 className="mb-1">account id:</h5>
         <div className="mt-2">
           <input
