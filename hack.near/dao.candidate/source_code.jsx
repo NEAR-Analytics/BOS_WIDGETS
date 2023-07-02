@@ -1,7 +1,6 @@
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
-  id: 39,
-};
+const proposal = JSON.parse(JSON.stringify(props.proposal));
+const proposalId = props.proposalId ?? 39;
 
 const policy = props.policy;
 const candidateId = props.candidateId ?? "multi.near";
@@ -15,15 +14,13 @@ const handleApprove = () => {
       contractName: daoId,
       methodName: "act_proposal",
       args: {
-        id: proposal.id,
+        id: proposalId,
         action: "VoteApprove",
       },
       gas: 200000000000000,
     },
   ]);
 };
-
-const proposalId = props.proposalId ?? 41;
 
 const alreadyVoted = props.proposal.votes[accountId];
 const canVote =
