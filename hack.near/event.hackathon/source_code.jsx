@@ -1,9 +1,5 @@
 const data = props.data;
 
-// YOUR EVENT TEMPLATE HERE
-// It automatically takes in the thing data from props.
-// So you can assume some dummy data, that is gonna look something like this:
-
 // {
 //   "id": "testId",
 //   "title": "testTitle",
@@ -19,9 +15,24 @@ const data = props.data;
 //   "organizer": "testOrganizer",
 //   "category": "HACKATHON"
 // }
+
 return (
-  <>
-    <div>THIS IS AN EVENT</div>
-    <div>{JSON.stringify(data)}</div>
-  </>
+  <div className="py-1 px-1 m-2">
+    <div className="mx-auto">
+      <Widget
+        src="hack.near/widget/event.card"
+        props={{
+          accountId: data.organizer,
+          eventId: data.id,
+          link: data.link,
+          start: data.start,
+          startTime: data.startTime,
+          end: data.end,
+          endTime: data.endTime,
+          location: data.location,
+          category: data.category,
+        }}
+      />
+    </div>
+  </div>
 );
