@@ -30,7 +30,7 @@ const Name = styled.span`
 `;
 
 const LogoWrapper = styled.div`
-    padding: 2px;
+    padding-top: 100px;
     svg {
         fill: #89c70d;
         width: 500px; 
@@ -42,6 +42,7 @@ const LogoWrapper = styled.div`
         }
     }
     span {
+        pointer-events: none;
         font-size: 25px;
         color: #89c70d;
         font-weight: bolder;
