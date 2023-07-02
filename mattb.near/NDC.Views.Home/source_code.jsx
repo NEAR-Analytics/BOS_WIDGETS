@@ -1,9 +1,9 @@
 let { view, darkmode } = props;
 
 State.init({
-    currentView: view || "home",
-    render: "",
-    darkmode: darkmode || false
+  currentView: view || "home",
+  render: "",
+  darkmode: darkmode || false,
 });
 
 const DEFAULT_BACKGROUND_COLOR = state.darkmode ? "#191919" : "#fff";
@@ -13,18 +13,11 @@ const DEFAULT_GRADIENT =
 
 const DEFAULT_TEXT_COLOR = state.darkmode ? "#fff" : "#000";
 
-const DEFAULT_LOGO_URL = state.darkmode
-  ? "https://ipfs.near.social/ipfs/bafkreihbueuso62ltstbcxdhlmdnacomlb2hxun5fxh34f4rvgtgb5pfi4"
-  : "https://ipfs.near.social/ipfs/bafkreiavgky7fgrvwl4x4rxcypgew5ou6ahwf6mrcbtyswbvtbnrkrrobu";
-
 const I_AM_HUMAN_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafybeibs7rgjyqlrhqg3o5iiy3i235mtz3nlntswmye32f3myqk4owbxzy";
 
 const BACKGROUND_DECORATION_URL =
   "https://ipfs.near.social/ipfs/bafybeicwdaezq3bnsd7nocof2ktc3rlla6u5s5iqxe5p2c6at2leqnc7wi";
-
-const ICON_MOON_URL = "https://ipfs.near.social/ipfs/bafkreigilnmekroiee4nehyyipnioxchwzevvp3qc7nkb3njekbaevuzzi"
-const ICON_SUN_URL = "https://ipfs.near.social/ipfs/bafkreidltnf3vn5na7dl5rdwcpor3yz63suj42xc4h2qxyhpz5ltwfxn7q";
 
 const Main = styled.div`
     width:100%;
@@ -40,11 +33,6 @@ const Main = styled.div`
     }
 `;
 
-const Header = styled.div`
-    width:100%;
-    background-color:transparent;
-`;
-
 const Logo = styled.img`
     max-width:30px;
 `;
@@ -53,69 +41,6 @@ const Wrapper = styled.div`
     max-width:1300px;
     margin:0 auto;
     padding:1rem;
-`;
-
-const Navigation = styled.div`
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    max-width:1300px;
-    margin:0 auto;
-    padding:1rem;
-    color:${DEFAULT_TEXT_COLOR};
-    font-size:.9rem;
-    letter-spacing:-.5px;
-    min-height:70px;
-
-    img {
-        position:absolute;
-        left:1rem;
-        border:1rem;
-    }
-
-    ul {
-        display:flex;
-        align-items:center;
-        padding:0;
-        margin:0;
-        list-style:none;
-        flex-wrap:wrap;
-
-        li {
-            padding:0;
-            
-            &:not(:last-of-type) {
-                margin-right:1rem;
-            }
-
-            a {
-                cursor:pointer;
-                transition:all .2s;
-                border-radius:10px;
-                background-color:${state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"};
-                padding:.5rem 1rem;
-                font-weight:bold;
-                opacity:.6;
-                color:${DEFAULT_TEXT_COLOR};
-                text-decoration:none;
-                border: 2px solid rgba(0,0,0,.0);
-                transition: all .2s;
-
-                &.selected {
-                    transition: all .2s;
-                    background: ${DEFAULT_TEXT_COLOR};
-                    color:${DEFAULT_BACKGROUND_COLOR};
-                    opacity:1;
-                }
-
-                &:hover {
-                    border: 2px solid rgba(0,0,0,.02);
-                    opacity:1;
-                }
-            }
-        }
-    }
 `;
 
 const Grid = styled.div`
@@ -227,32 +152,11 @@ const ProgressWrapper = styled.div`
     margin-top:2rem;
 `;
 
-const DarkModeButton = styled.div`
-    position:absolute;
-    cursor:pointer;
-    right:1rem;
-    width:40px;
-    height:40px;
-    border-radius:10px;
-    background-color:${state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"};
-    background-image:url("${state.darkmode ? ICON_SUN_URL : ICON_MOON_URL}");
-    background-position:center;
-    background-repeat:no-repeat;
-    background-size:30px 30px;
-    transition: all .2s;
-    border: 2px solid ${state.darkmode ? "rgba(255,255,255,.0)" : "rgba(0,0,0,.0)"};
-
-    &:hover {
-        transition: all .2s;
-        box-shadow: 0 0 10px 5px rgba(0,0,0,.02);
-        border: 2px solid ${state.darkmode ? "rgba(255,255,255,.02)" : "rgba(0,0,0,.02)"};
-    }
-`;
-
 let views = {
-    home: (state) => <>
-        <Grid>
-          <Section>
+  home: (state) => (
+    <>
+      <Grid>
+        <Section>
           <Info>
             <h1>I-AM-HUMAN Onboarding Competition</h1>
             <p>
@@ -326,87 +230,53 @@ let views = {
         <Section>
           <Widget src="neardigitalcollective.near/widget/OfficeHours" />
         </Section>
-        </Grid>
-    </>,
-    docs: () => <>
-        <Widget
-              src={`neardigitalcollective.near/widget/NDCDocs_OneArticle`}
-              props={{
-                lastEditor: "blaze.near",
-                blockHeight: "94478867"
-              }}
-            />
-    </>,
-    funding: () => <>
-        <Widget src="frichard5.near/widget/NDC-alldaos_overview" />
-    </>,
-    sayalot: () => <>
-        <Widget src="sayalot.near/widget/SayALot" />
-    </>,
-    gigs: () => <>
-        <Widget src="neardigitalcollective.near/widget/Gigs" />
-    </>,
+      </Grid>
+    </>
+  ),
+  docs: () => (
+    <>
+      <Widget
+        src={`neardigitalcollective.near/widget/NDCDocs_OneArticle`}
+        props={{
+          lastEditor: "blaze.near",
+          blockHeight: "94478867",
+        }}
+      />
+    </>
+  ),
+  funding: () => (
+    <>
+      <Widget src="frichard5.near/widget/NDC-alldaos_overview" />
+    </>
+  ),
+  sayalot: () => (
+    <>
+      <Widget src="sayalot.near/widget/SayALot" />
+    </>
+  ),
+  gigs: () => (
+    <>
+      <Widget src="neardigitalcollective.near/widget/Gigs" />
+    </>
+  ),
 };
 
-function getSkeleton () {
-    return <>
-        Loading...
-    </>
+function getSkeleton() {
+  return <>Loading...</>;
 }
 
 return (
   <Main>
-    <Header>
-      <Navigation>
-        <Logo src={DEFAULT_LOGO_URL} />
-        <ul>
-          <li>
-            <a
-              className={"home" == state.currentView ? "selected" : ""}
-              onClick={() => State.update({currentView: "home"})}
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a
-              className={"docs" == state.currentView ? "selected" : ""}
-              onClick={() => State.update({currentView: "docs"})}
-            >
-              NDCDocs
-            </a>
-          </li>
-          <li>
-            <a
-              className={"funding" == state.currentView ? "selected" : ""}
-              onClick={() => State.update({currentView: "funding"})}
-            >
-              Funding dashboard
-            </a>
-          </li>
-          <li>
-            <a
-              className={"sayalot" == state.currentView ? "selected" : ""}
-              onClick={() => State.update({currentView: "sayalot"})}
-            >
-              Say A Lot
-            </a>
-          </li>
-          <li>
-            <a
-              className={"gigs" == state.currentView ? "selected" : ""}
-              onClick={() => State.update({currentView: "gigs"})}
-            >
-              Gigs
-            </a>
-          </li>
-        </ul>
-        <DarkModeButton onClick={() => State.update({darkmode: !state.darkmode})}>
-        </DarkModeButton>
-      </Navigation>
-    </Header>
+    <Widget
+      src="mattb.near/widget/NDC.Components.Header"
+      props={{
+        onRefresh: (data) => State.update(data),
+        darkmode: state.darkmode,
+        selectedTab: state.currentView,
+      }}
+    />
     <Wrapper>
-        {state.currentView in views ? views[state.currentView]() : "404"}
+      {state.currentView in views ? views[state.currentView]() : "404"}
     </Wrapper>
   </Main>
 );
