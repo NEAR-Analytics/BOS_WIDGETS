@@ -1,46 +1,50 @@
 const Container = styled.div`
-  display: flex;
-  width: 100%;
-  margin: 0 auto;
-  gap: var(--section-gap);
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-  padding: var(--section-gap) 24px;
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    gap: var(--section-gap);
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: var(--section-gap) 24px;
 
-  @media (max-width: 768px) {
-    padding: var(--section-gap) 12px;
-  }
-  background-color: #b96868;
-  border-bottom: black 1px;
+    @media (max-width: 768px) {
+        padding: var(--section-gap) 12px;
+    }
+    background-color: #b96868;
+    border-bottom: black 1px;
 `;
 
 const Logo = styled.div`
-  svg {
-    fill: #89c70d;
-    width: 30px; 
-    height: 30px; 
-    transition: 1s ease-in-out;
-    &:hover {
-        transform: rotate(360deg);
-        fill: #b3e253; 
+    svg {
+        fill: #89c70d;
+        width: 30px; 
+        height: 30px; 
+        transition: 1s ease-in-out;
+        &:hover {
+            transform: rotate(360deg);
+            fill: #b3e253; 
+        }
     }
-  }
-  padding: 3px;
+    padding: 3px;
 `;
 
 const LogoContainer = styled.a`
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  padding-left: 15px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    padding-left: 15px;
+    text-decoration: none;
+    &:hover, &:visited, &:active, &:link {
+        text-decoration: none;
+    }
 `;
 
 const ButtonContainer = styled.div`
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  padding-right: 15px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    padding-right: 15px;
 `;
 
 const Name = styled.span`
@@ -58,30 +62,37 @@ const Name2 = styled.a`
     color: #89c70d;
     font-weight: bolder;
     font-family: 'Courier New', Courier, monospace;
+    &:visited, &:active, &:link {
+        text-decoration: none;
+    }
     &:hover {
       color: #b3e253; 
     }
 `;
 
 const Offer = styled.a`
-  color: #89c70d;;
-  background-color: #b96868;
-  border-radius: 10px;
-  border-width: 0px;
-  font-weight: bold;
-  &:hover {
-    background-color: #b3e253;
-    color: #b96868;
-    border-width: 1px;
-    border-color: black;
-    box-shadow: #b3e253;
-    fill: #b96868;
-  }
-  svg {
-    width: 20px; 
-    height: 20px;
-    fill: #89c70d;
-  }
+    color: #89c70d;
+    padding: 5px;
+    background-color: #b96868;
+    border-radius: 10px;
+    border-width: 0px;
+    font-weight: bold;
+    &:hover {
+        background-color: #b3e253;
+        color: #b96868;
+        border-width: 1px;
+        border-color: black;
+        box-shadow: #b3e253;
+        fill: #b96868;
+    }
+    svg {
+        width: 20px; 
+        height: 20px;
+        fill: #89c70d;
+    }
+    &:visited, &:active, &:link {
+        text-decoration: none;
+    }
 `;
 
 const accountId = props.accountId || context.accountId || null;
