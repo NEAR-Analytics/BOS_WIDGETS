@@ -48,7 +48,7 @@ return (
       </div>
       <div className="mb-2">
         <h3 className="mb-3">
-          <b>suggest changes</b>
+          <b>propose changes</b>
         </h3>
         <h5 className="mb-1">account id:</h5>
         <div className="mt-2">
