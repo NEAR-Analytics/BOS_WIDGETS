@@ -70,6 +70,9 @@ const handleApprove = () => {
   ]);
 };
 
+console.log(proposalId);
+console.log(proposal);
+
 const Card = styled.div`
   display: flex;
   justify-content: space-between;
