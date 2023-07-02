@@ -45,6 +45,18 @@ const validMember = checkMembership(groupMembers);
 // check if account can vote
 const canVote = accountId && proposal.votes[memberId] !== "Approve";
 
+// SBT verification
+let human = false;
+const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+  account: memberId,
+});
+
+for (let i = 0; i < userSBTs.length; i++) {
+  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
+    human = true;
+  }
+}
+
 const handleApprove = () => {
   Near.call([
     {
@@ -58,13 +70,6 @@ const handleApprove = () => {
     },
   ]);
 };
-
-console.log("accountId:", accountId);
-console.log("memberId:", memberId);
-console.log("proposal.votes[memberId]:", proposal.votes[memberId]);
-console.log("proposal.status:", proposal.status);
-console.log("can vote:", canVote);
-console.log("proposal", proposal);
 
 const Card = styled.div`
   display: flex;
@@ -91,7 +96,7 @@ return (
     <a className="btn flex-fill btn-outline-primary" href={postUrl}>
       Campaign
     </a>
-    {validMember && (
+    {human && (
       <div className="m-2 d-flex flex-row gap-2">
         {canVote ? (
           <button className="btn flex-fill btn-success" onClick={handleApprove}>
