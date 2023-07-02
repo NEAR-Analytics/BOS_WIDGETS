@@ -1,5 +1,5 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? "gov.near";
+const memberId = props.memberId ?? context.accountId;
 
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
