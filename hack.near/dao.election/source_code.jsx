@@ -1,11 +1,4 @@
-const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const limit = parseInt(props.limit) || 30;
-
-const policy = Near.view(daoId, "get_policy");
-
-if (policy === null) {
-  return "";
-}
+const accountId = context.accountId;
 
 return (
   <div className="m-2">
@@ -31,10 +24,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 41,
-          proposal,
-          policy,
           candidateId: "candidate10.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -44,10 +35,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 40,
-          proposal,
-          policy,
           candidateId: "candidate9.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -59,10 +48,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 39,
-          proposal,
-          policy,
           candidateId: "candidate8.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -72,10 +59,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 38,
-          proposal,
-          policy,
           candidateId: "candidate7.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -87,10 +72,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 37,
-          proposal,
-          policy,
           candidateId: "candidate6.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -100,10 +83,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 36,
-          proposal,
-          policy,
           candidateId: "candidate5.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -115,10 +96,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 35,
-          proposal,
-          policy,
           candidateId: "candidate4.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -128,10 +107,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 34,
-          proposal,
-          policy,
           candidateId: "candidate3.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -143,10 +120,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 33,
-          proposal,
-          policy,
           candidateId: "candidate2.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
@@ -156,10 +131,8 @@ return (
       <Widget
         src="hack.near/widget/dao.candidate"
         props={{
-          daoId,
+          memberId: accountId,
           proposalId: 32,
-          proposal,
-          policy,
           candidateId: "candidate1.near",
           postUrl: "https://social.near.page/p/rc-dao.near/94244727",
         }}
