@@ -150,7 +150,7 @@ return (
         {Object.keys(tabs).map((key) => (
           <li>
             <a
-              className={key == state.currentView ? "selected" : ""}
+              className={key == state.tab ? "selected" : ""}
               onClick={() => refresh({ tab: key, currentView: key })}
             >
               {tabs[key].text}
