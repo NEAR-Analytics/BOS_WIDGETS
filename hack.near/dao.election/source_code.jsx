@@ -1,4 +1,5 @@
 const accountId = context.accountId;
+const roleId = "voter";
 
 return (
   <div className="m-2">
@@ -20,6 +21,19 @@ return (
     </div>
     <hr />
     <h3>Africa</h3>
+    <div className="mb-2">
+      {validMember && (
+        <Widget
+          src="hack.near/widget/communities.regional"
+          props={{
+            daoId: "africa-community.sputnik-dao.near",
+            name: "Join NEAR Africa",
+            memberId: accountId,
+            roleId,
+          }}
+        />
+      )}
+    </div>
     <div className="mb-3">
       <Widget
         src="hack.near/widget/dao.candidate"
@@ -44,6 +58,19 @@ return (
     </div>
     <br />
     <h3>Asia</h3>
+    <div className="mb-2">
+      {validMember && (
+        <Widget
+          src="hack.near/widget/communities.regional"
+          props={{
+            daoId: "asia.sputnik-dao.near",
+            name: "Join NEAR Asia",
+            memberId: accountId,
+            roleId,
+          }}
+        />
+      )}
+    </div>
     <div className="mb-3">
       <Widget
         src="hack.near/widget/dao.candidate"
@@ -68,6 +95,19 @@ return (
     </div>
     <br />
     <h3>Europe</h3>
+    <div className="mb-2">
+      {validMember && (
+        <Widget
+          src="hack.near/widget/communities.regional"
+          props={{
+            daoId: "europe.sputnik-dao.near",
+            name: "Join NEAR Europe",
+            memberId: accountId,
+            roleId,
+          }}
+        />
+      )}
+    </div>
     <div className="mb-3">
       <Widget
         src="hack.near/widget/dao.candidate"
@@ -92,6 +132,19 @@ return (
     </div>
     <br />
     <h3>North America</h3>
+    <div className="mb-2">
+      {validMember && (
+        <Widget
+          src="hack.near/widget/communities.regional"
+          props={{
+            daoId: "north-america.sputnik-dao.near",
+            name: "Join NEAR North America",
+            memberId: accountId,
+            roleId,
+          }}
+        />
+      )}
+    </div>
     <div className="mb-3">
       <Widget
         src="hack.near/widget/dao.candidate"
@@ -116,6 +169,19 @@ return (
     </div>
     <br />
     <h3>South America</h3>
+    <div className="mb-2">
+      {!validMember && (
+        <Widget
+          src="hack.near/widget/communities.regional"
+          props={{
+            daoId: "south-america.sputnik-dao.near",
+            name: "Join NEAR South America",
+            memberId: accountId,
+            roleId,
+          }}
+        />
+      )}
+    </div>
     <div className="mb-3">
       <Widget
         src="hack.near/widget/dao.candidate"
