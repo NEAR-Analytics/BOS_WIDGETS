@@ -5,10 +5,10 @@ const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
 
 const candidateId = props.candidateId ?? "multi.near";
-const proposalId = props.proposalId;
+const proposalId = JSON.stringify(props.proposalId);
 
 const proposal = Near.view(daoId, "get_proposal", {
-  id: JSON.parse(proposalId),
+  id: proposalId,
 }) ?? {
   id: 1,
   proposer: "gov.near",
