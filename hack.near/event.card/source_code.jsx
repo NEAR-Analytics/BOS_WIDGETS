@@ -1,13 +1,18 @@
 const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "Please connect your NEAR account :)";
-}
-
 const eventId = props.eventId ?? "workshop";
+const title = props.title ?? "title";
+const description = props.description.content ?? "about";
+const start = props.start;
+const startTime = props.startTime;
+const end = props.end;
+const endTime = props.endTime;
+const location = props.location;
+const category = props.category;
 
-if (!eventId) {
-  return "No event ID...";
-}
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
+const image = props.image ?? profile.image;
+const backgroundImage = props.backgroundImage ?? profile.backgroundImage;
 
 const link =
   props.link &&
@@ -15,27 +20,9 @@ const link =
     ? `https://social.near.page/u/${accountId}`
     : props.link);
 
-const event = Social.get(`${accountId}/event/${eventId}/**`);
+const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{title}</h4>;
 
-if (event === null) {
-  return "Loading...";
-}
-
-const showEditButton =
-  event !== undefined &&
-  (!props.event || props.showEditButton) &&
-  accountId &&
-  accountId === context.accountId;
-
-const name = event.name || "TBA";
-const date = event.date;
-const time = event.time;
-
-const image = event.image;
-const backgroundImage = event.backgroundImage;
-const tags = Object.keys(event.tags ?? {});
-
-const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
+const tags = Object.keys(profile.tags);
 
 return (
   <div className="bg-white shadow rounded overflow-hidden">
@@ -53,15 +40,6 @@ return (
           }}
         />
       )}
-      {showEditButton && (
-        <a
-          href={`#/hack.near/widget/event.create?eventId=${eventId}`}
-          className="btn mt-4 btn-outline-light float-end position-relative"
-          style={{ zIndex: 1 }}
-        >
-          Edit event
-        </a>
-      )}
       <div
         className="event-picture d-inline-block"
         style={{ transform: "translateY(7rem)" }}
@@ -69,7 +47,7 @@ return (
         <Widget
           src="mob.near/widget/Image"
           props={{
-            image: event.image,
+            image: image,
             style: { width: "10rem", height: "10rem" },
             className: "rounded-circle img-thumbnail d-block mb-2",
           }}
@@ -79,7 +57,7 @@ return (
     <div className="bg-light px-4 pb-4">
       <div className="d-md-flex justify-content-between pt-3 mb-2">
         <div style={{ paddingTop: "3rem" }}>
-          <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
+          <div className="me-2 d-sm-flex gap-1 flex-row align-items-center mb-1">
             <div className="me-2 position-relative">
               {link ? (
                 <a className="text-truncate text-dark" href={link}>
@@ -105,7 +83,7 @@ return (
               </div>
             </div>
 
-            <div>
+            <div className="mb-">
               <Widget
                 src="mob.near/widget/FollowButton"
                 props={{ accountId }}
@@ -113,19 +91,25 @@ return (
               <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
             </div>
           </div>
-          <div>
-            <b>Date:</b> {date}
+          <div className="mb-1">
+            <b>Starts:</b> {start}
+            {startTime}
           </div>
-          <div>
-            <b>Time:</b> {time}
+          <div className="mb-3">
+            <b>Ends:</b> {end}
+            {endTime}
+          </div>
+          <div className="mb-2">
+            <b>Location:</b> {location}
           </div>
         </div>
-        <div style={{ minWidth: "12rem" }}>
-          <Widget
-            src="mob.near/widget/LinkTree"
-            props={{ linktree: event.linktree }}
-          />
-        </div>
+      </div>
+      <div style={{ minWidth: "12rem" }}>
+        <Widget
+          src="mob.near/widget/LinkTree"
+          props={{ linktree: event.linktree }}
+        />
+        <h5 className="mb-3">Category: {category}</h5>
       </div>
 
       {tags.length > 0 && (
