@@ -1,7 +1,7 @@
 let { tabs, fallback, darkmode, refresh } = props;
 
 State.init({
-  currentView: fallback || "home",
+  tab: fallback || "home",
 });
 
 tabs = tabs || {
@@ -151,7 +151,7 @@ return (
           <li>
             <a
               className={key == state.currentView ? "selected" : ""}
-              onClick={() => refresh({ currentView: key })}
+              onClick={() => refresh({ tab: key, currentView: key })}
             >
               {tabs[key].text}
             </a>
