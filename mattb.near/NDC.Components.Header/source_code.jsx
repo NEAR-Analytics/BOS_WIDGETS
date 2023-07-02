@@ -115,6 +115,12 @@ const Navigation = styled.div`
                 }
             }
         }
+
+        @media screen and (max-width:500px) {
+            li {
+                background-color:red;
+            }
+        }
     }
 `;
 
