@@ -94,10 +94,10 @@ return (
       props={{ accountId: candidateId }}
     />
     <a className="btn flex-fill btn-outline-primary" href={postUrl}>
-      Campaign
+      Discuss
     </a>
-    {human && (
-      <div className="m-2 d-flex flex-row gap-2">
+    {human ? (
+      <div className="m-1 d-flex flex-row gap-1">
         {canVote ? (
           <button className="btn flex-fill btn-success" onClick={handleApprove}>
             Vote
@@ -108,6 +108,13 @@ return (
             props={{ accountId: candidateId }}
           />
         )}
+      </div>
+    ) : (
+      <div className="m-1 d-flex flex-row gap-1">
+        <Widget
+          src="hack.near/widget/dao.verify"
+          props={{ accountId: memberId }}
+        />
       </div>
     )}
   </Card>
