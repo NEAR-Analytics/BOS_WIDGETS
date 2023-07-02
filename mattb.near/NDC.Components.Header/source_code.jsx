@@ -233,6 +233,10 @@ const MenuButton = styled.div`
           state.darkmode ? "rgba(255,255,255,.02)" : "rgba(0,0,0,.02)"
         };
     }
+
+    @media screen and (max-width:700px) {
+        display:none;
+    }
 `;
 
 return (
