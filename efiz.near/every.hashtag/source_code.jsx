@@ -141,6 +141,9 @@ return (
     {filteredTags?.map((tag, j) => (
       <TagContainer>
         <TagName>{tag.name}</TagName>
+        <Link to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`}>
+          visit
+        </Link>
         <p>{tag.count}</p>
       </TagContainer>
     ))}
