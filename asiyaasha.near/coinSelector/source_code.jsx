@@ -51,6 +51,7 @@ const SelectWrapper = styled.div`
   background: ${colors.lightBeige};
   border: 1px solid #0E0E0E;
   border-radius: 16px; 
+  color: ${colors.slateBlack};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
