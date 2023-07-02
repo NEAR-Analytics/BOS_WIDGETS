@@ -55,6 +55,18 @@ const handleProposal = () => {
   ]);
 };
 
+// IAH Verification
+let human = false;
+const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+  account: memberId,
+});
+
+for (let i = 0; i < userSBTs.length; i++) {
+  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
+    human = true;
+  }
+}
+
 return (
   <div>
     {!validMember && (
