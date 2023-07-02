@@ -44,13 +44,13 @@ return (
   <div className="mb-3">
     <div className="row">
       <div>
-        <h1>Membership</h1>
+        <h1>membership</h1>
       </div>
       <div className="mb-2">
         <h3 className="mb-3">
-          <b>Suggest Changes</b>
+          <b>suggest changes</b>
         </h3>
-        <h5 className="mb-1">Potential Member ~ Account ID:</h5>
+        <h5 className="mb-1">account id:</h5>
         <div className="mt-2">
           <input
             type="text"
@@ -62,7 +62,7 @@ return (
       </div>
       {!isMember && (
         <div className="mt-2">
-          <h5>Nominate for a Specific Role:</h5>
+          <h5>nominate for a role:</h5>
           <div className="mb-2 d-flex gap-2 flex-wrap">
             {groups.map((group, i) => (
               <Widget
