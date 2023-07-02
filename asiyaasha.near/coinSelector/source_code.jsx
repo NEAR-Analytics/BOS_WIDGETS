@@ -68,7 +68,7 @@ const Container = styled.div`
 `;
 
 State.init({
-  selectedCoin: null,
+  selectedCoin: Storage.get("coinSelectValue"),
   renderOptions: null,
 });
 
@@ -86,16 +86,18 @@ const coinsList = fetch(CNS_URL)?.body || [];
 function updateSelectedCoin(coin) {
   State.update({ selectedCoin: coin, isOpen: false });
   Storage.set("coinSelectValue", state.selectedCoin);
-}
 
-const handleOptionClick = props.handleOptionClick || updateSelectedCoin;
+  if (props.handleOptionClick) {
+    props.handleOptionClick(coin);
+  }
+}
 
 if (!state.renderOptions && coinsList.length) {
   const renderOptions = (
     <OptionsWrapper>
       {coinsList?.map((coin) => {
         return (
-          <Option key={coin.id} onClick={() => handleOptionClick(coin)}>
+          <Option key={coin.id} onClick={() => updateSelectedCoin(coin)}>
             {coin.image && <ImgOptions src={coin.image} alt="coin" />}
             {coin.name}
           </Option>
