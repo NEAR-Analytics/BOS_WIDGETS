@@ -1,19 +1,28 @@
-const { daoId, policy } = props;
+const { daoId, proposal, policy } = props;
 const candidateId = props.candidateId;
 
 const postUrl =
   props.postUrl ?? "https://social.near.page/p/rc-dao.near/94244727";
 
-function mapVote(vote) {
-  return vote === "Approve" && <span className="text-success">Approve</span>;
-}
+const handleApprove = () => {
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "act_proposal",
+      args: {
+        id: JSON.parse(props.proposal.id),
+        action: "VoteApprove",
+      },
+      gas: 200000000000000,
+    },
+  ]);
+};
 
-function vote(action) {
-  return Near.call(daoId, "act_proposal", {
-    id: props.id,
-    action,
-  });
-}
+const dao_proposal = JSON.parse(JSON.stringify(proposal));
+
+const alreadyVoted = props.proposal.votes[accountId];
+const canVote =
+  !alreadyVoted && props.proposal.status === "In Progress" && accountId;
 
 const Card = styled.div`
   display: flex;
@@ -42,8 +51,9 @@ return (
     </a>
     <div className="m-2 d-flex flex-row gap-2">
       <button
+        disabled={!canVote}
         className="btn flex-fill btn-success"
-        onClick={() => vote("VoteApprove")}
+        onClick={handleApprove}
       >
         Vote
       </button>
