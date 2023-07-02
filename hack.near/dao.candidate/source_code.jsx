@@ -1,11 +1,17 @@
 const accountId = context.accountId;
 const memberId = props.memberId ?? context.accountId;
+
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
 
-const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
-  id: 19,
-  proposer: "hack.near",
+const candidateId = props.candidateId ?? "multi.near";
+const proposalId = props.proposalId;
+
+const proposal = Near.view(daoId, "get_proposal", {
+  id: JSON.parse(proposalId),
+}) ?? {
+  id: 1,
+  proposer: "gov.near",
   kind: { AddMemberToRole: { member_id: "multi.near", role: "community" } },
   status: "In Progress",
   votes: { "hack.near": "Approve" },
@@ -14,9 +20,6 @@ const proposal = JSON.parse(JSON.stringify(props.proposal)) ?? {
 if (proposal === null) {
   return "missing proposal";
 }
-
-const proposalId = props.proposalId ?? 39;
-const candidateId = props.candidateId ?? "multi.near";
 
 const postUrl =
   props.postUrl ?? "https://social.near.page/p/rc-dao.near/94244727";
