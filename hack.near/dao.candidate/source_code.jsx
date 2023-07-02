@@ -1,18 +1,18 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? context.accountId;
+const memberId = props.memberId ?? "gov.near";
 
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
 
 const candidateId = props.candidateId ?? "multi.near";
-const proposalId = JSON.stringify(props.proposalId);
+const proposalId = props.proposalId;
 
 const proposal = Near.view(daoId, "get_proposal", {
-  id: proposalId,
+  id: JSON.parse(proposalId),
 });
 
 if (proposal === null) {
-  return "missing proposal";
+  return "missing *proposalId*";
 }
 
 const postUrl =
