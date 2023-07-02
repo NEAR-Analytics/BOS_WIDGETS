@@ -1,6 +1,5 @@
 const accountId = props.accountId || context.accountId;
-const marketId = "simple.market.mintbase1.near";
-const AFFILIATE_ACCOUNT = props.affiliateAccount || "jass.near";
+const autoPlay = props.autoPlay || false;
 
 const data = fetch("https://graph.mintbase.xyz", {
   method: "POST",
@@ -35,18 +34,14 @@ const data = fetch("https://graph.mintbase.xyz", {
 const styles = {
   container: {
     display: "flex",
-    //overflowY: "auto", // add this
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    //height: "100%",
-    //backgroundColor: "#f0f0f0",
     padding: "1rem",
     borderRadius: "0.5rem",
   },
   innerContainer: {
     display: "flex",
-    //overflowY: "auto", // add this
     flexDirection: "row",
     backgroundColor: "#f0f0f0",
     borderRadius: "0.5rem",
@@ -56,8 +51,6 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "",
-    //margin: "1rem",
-    //backgroundColor: "#f0f0f0",
     padding: "1rem",
   },
   buttonContainer: {
@@ -69,8 +62,6 @@ const styles = {
     width: "24rem",
     height: "24rem",
     overflowY: "auto",
-    //backgroundColor: "#f0f0f0",
-    //borderRadius: "0.5rem",
     padding: "1rem",
   },
   heading: {
@@ -80,12 +71,12 @@ const styles = {
   },
   song: {
     cursor: "pointer",
-    padding: "0.5rem", // equivalent to "p-2" in tailwind
-    borderRadius: "0.5rem", // equivalent to "rounded-lg" in tailwind
-    marginBottom: "0.5rem", // to separate the song titles a bit
+    padding: "0.5rem",
+    borderRadius: "0.5rem",
+    marginBottom: "0.5rem",
   },
   selectedSong: {
-    backgroundColor: "#60A5FA", // equivalent to "bg-blue-300" in tailwind
+    backgroundColor: "#60A5FA",
   },
 };
 
@@ -96,25 +87,23 @@ let songs = data.body.data.mb_views_active_listings.filter(
 
 State.init({
   currentSongIndex: 0,
+  autoPlay: autoPlay,
 });
 
-//let audioElem;
+const currentSong = songs[state.currentSongIndex].reference_blob;
+const audioElem = new Audio(currentSong);
 
-function playSong(src) {
-  if (audioElem) {
-    // Pause the currently playing song, if any
-    audioElem.pause();
-  }
-  // Now create a new Audio object and start playing the song
-  let audioElem = new Audio(src);
+function playSong() {
   audioElem.play();
+}
+
+if (state.autoPlay) {
+  playSong();
 }
 
 // Call this when you want to play the current song
 function playCurrentSong() {
-  //audioElem.src = songs[state.currentSongIndex].reference_blob;
-  //audioElem.play();
-  playSong(songs[state.currentSongIndex].reference_blob);
+  audioElem.play();
 }
 
 // Call this when you want to pause the current song
@@ -124,33 +113,25 @@ function pauseCurrentSong() {
 
 // Call this when you want to play the next song
 function playNextSong() {
-  // Pause the current song first
-  pauseCurrentSong();
-
+  audioElem.pause();
   // Update the current song index
   let nextSongIndex = (state.currentSongIndex + 1) % songs.length;
   State.update({
     currentSongIndex: nextSongIndex,
+    autoPlay: true,
   });
-
-  // Play the new song
-  playCurrentSong();
 }
 
 // Call this when you want to play the previous song
 function playPreviousSong() {
-  // Pause the current song first
-  pauseCurrentSong();
-
+  audioElem.pause();
   // Calculate the previous song index
   let previousSongIndex =
     (state.currentSongIndex - 1 + songs.length) % songs.length;
   State.update({
     currentSongIndex: previousSongIndex,
+    autoPlay: true,
   });
-
-  // Play the new song
-  playCurrentSong();
 }
 
 // Call this when you want to select a specific song
@@ -184,8 +165,6 @@ return (
                 maxHeight: size,
                 overflowWrap: "break-word",
               },
-              thumbnail: "thumbnail",
-              //className: "w-64 h-64 object-cover shadow-lg",
               fallbackUrl:
                 "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
             }}
@@ -237,22 +216,15 @@ return (
         <div style={styles.songListContainer}>
           <h2 className="text-2xl font-bold">Playlist</h2>
           {songs.map((song, i) => (
-            <div
-              style={{
-                ...styles.song,
-                ...(state.currentSongIndex === i ? styles.selectedSong : {}),
+            <Widget
+              src="efiz.near/widget/MusicPlayer-Harmonic.Track"
+              props={{
+                styles,
+                selected: state.currentSongIndex === i,
+                selectSong: () => selectSong(i),
+                song,
               }}
-              key={song.token_id}
-              onClick={() => selectSong(i)}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#BFDBFE")} // equivalent to "hover:bg-blue-200" in tailwind
-              onMouseOut={
-                (e) =>
-                  state.currentSongIndex !== i &&
-                  (e.target.style.backgroundColor = "transparent") // reset color on mouse out if not selected song
-              }
-            >
-              {song.title}
-            </div>
+            />
           ))}
         </div>
       </div>
