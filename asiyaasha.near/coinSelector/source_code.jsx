@@ -43,6 +43,7 @@ const OptionsWrapper = styled.div`
   width: 100%;
   z-index: 1000;
   margin-top: 8px;
+  position: absolute;
 `;
 
 const SelectWrapper = styled.div`
