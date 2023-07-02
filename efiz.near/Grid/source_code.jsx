@@ -50,7 +50,7 @@ const GridBox = ({ value }) => {
     <Box
       onClick={() => State.update({ isModalOpen: true, modalData: typeData })}
     >
-      <p>{JSON.stringify(value)}</p>
+      <Widget src={data.template} props={{ data: value }} />
     </Box>
   );
 };
