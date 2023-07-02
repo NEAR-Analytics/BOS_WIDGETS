@@ -72,6 +72,7 @@ const plugins = {
       },
     },
     src: "efiz.near/widget/every.thing.edit",
+    creatorRequired: true,
   },
   RAW: {
     state: {
@@ -84,6 +85,7 @@ const plugins = {
         label: "Raw",
       },
     },
+    src: "efiz.near/widget/every.thing.raw",
   },
   HISTORY: {
     state: {
@@ -109,7 +111,7 @@ const plugins = {
         label: "Duplicate",
       },
     },
-    src: "efiz.near/widget/every.thing.duplicate",
+    src: "efiz.near/widget/every.thing.edit",
   },
   BUILD: {
     state: {
@@ -123,6 +125,7 @@ const plugins = {
       },
     },
     src: "efiz.near/widget/every.thing.build",
+    creatorRequired: true,
   },
   EDGES: {
     state: {
@@ -136,6 +139,20 @@ const plugins = {
       },
     },
     src: "efiz.near/widget/every.edge",
+  },
+  CAMERA: {
+    state: {
+      active: {
+        icon: "bi bi-arrow-counterclockwise",
+        label: "Show Thing",
+      },
+      inactive: {
+        icon: "bi bi-camera",
+        label: "Camera",
+      },
+    },
+    src: "efiz.near/widget/test",
+    typeRequired: "every.near/type/marketplace",
   },
 };
 
@@ -157,17 +174,21 @@ function Modifier() {
 
   function createButton(key, data) {
     const stateVal = state.view === key ? "active" : "inactive";
-    return (
-      <button
-        className={"btn"}
-        onClick={() =>
-          State.update({ view: stateVal === "active" ? "THING" : key })
-        }
-      >
-        <i className={data.state[stateVal].icon}></i>
-        {data.state[stateVal].label}
-      </button>
-    );
+    if (data.creatorRequired && context.accountId !== creatorId) {
+      return <></>;
+    } else {
+      return (
+        <button
+          className={"btn"}
+          onClick={() =>
+            State.update({ view: stateVal === "active" ? "THING" : key })
+          }
+        >
+          <i className={data.state[stateVal].icon}></i>
+          {data.state[stateVal].label}
+        </button>
+      );
+    }
   }
 
   function nearPad() {
@@ -263,6 +284,14 @@ function Thing() {
         />
       );
     }
+    case "type": {
+      return (
+        <Widget
+          src="every.near/widget/every.type.create"
+          props={{ typeSrc: path }}
+        />
+      );
+    }
   }
   // DEFAULT:
   return <p>The type: {type} is not yet supported.</p>;
@@ -270,7 +299,20 @@ function Thing() {
 
 function Plugin() {
   const plugin = plugins[state.view];
-  return <Widget src={plugin.src} props={{ path, blockHeight }} />;
+  return (
+    <Container>
+      <Header style={{ justifyContent: "flex-start" }}>
+        <Button
+          onClick={() => {
+            State.update({ view: "THING" });
+          }}
+        >
+          back
+        </Button>
+      </Header>
+      <Widget src={plugin.src} props={{ path, blockHeight }} />
+    </Container>
+  );
 }
 
 return (
