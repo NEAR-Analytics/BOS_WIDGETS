@@ -1,21 +1,47 @@
-let { tabs, fallback, darkmode, refresh } = props;
-let Skip = state.skip;
+let { tabs, fallback, darkmode, onRefresh } = props;
 
-const DEFAULT_LOGO_URL =
-  !!Skip && Skip.get("darkmode")
-    ? "https://ipfs.near.social/ipfs/bafkreihbueuso62ltstbcxdhlmdnacomlb2hxun5fxh34f4rvgtgb5pfi4"
-    : "https://ipfs.near.social/ipfs/bafkreiavgky7fgrvwl4x4rxcypgew5ou6ahwf6mrcbtyswbvtbnrkrrobu";
+State.init({
+  tab: fallback || "home",
+});
+
+tabs = tabs || {
+  home: {
+    text: "Home",
+  },
+  docs: {
+    text: "NDCDocs",
+  },
+  funding: {
+    text: "Funding dashboard",
+  },
+  sayalot: {
+    text: "Say A Lot",
+  },
+  gigs: {
+    text: "Gigs",
+  },
+};
+
+const refresh = (data) => {
+  State.update(data);
+
+  if (typeof onRefresh == "function") {
+    onRefresh(data);
+  }
+};
+
+const DEFAULT_LOGO_URL = state.darkmode
+  ? "https://ipfs.near.social/ipfs/bafkreihbueuso62ltstbcxdhlmdnacomlb2hxun5fxh34f4rvgtgb5pfi4"
+  : "https://ipfs.near.social/ipfs/bafkreiavgky7fgrvwl4x4rxcypgew5ou6ahwf6mrcbtyswbvtbnrkrrobu";
 
 const ICON_MOON_URL =
   "https://ipfs.near.social/ipfs/bafkreigilnmekroiee4nehyyipnioxchwzevvp3qc7nkb3njekbaevuzzi";
 const ICON_SUN_URL =
   "https://ipfs.near.social/ipfs/bafkreidltnf3vn5na7dl5rdwcpor3yz63suj42xc4h2qxyhpz5ltwfxn7q";
 
-const DEFAULT_BACKGROUND_COLOR =
-  !!Skip && Skip.get("darkmode") ? "#191919" : "#fff";
-const DEFAULT_COMPONENT_COLOR =
-  !!Skip && Skip.get("darkmode") ? "rgba(0,0,0,.8)" : "#fff";
-const DEFAULT_TEXT_COLOR = !!Skip && Skip.get("darkmode") ? "#fff" : "#000";
+const DEFAULT_BACKGROUND_COLOR = state.darkmode ? "#191919" : "#fff";
+const DEFAULT_COMPONENT_COLOR = state.darkmode ? "rgba(0,0,0,.8)" : "#fff";
+const DEFAULT_TEXT_COLOR = state.darkmode ? "#fff" : "#000";
 
 const Logo = styled.img`
     max-width:30px;
@@ -65,9 +91,7 @@ const Navigation = styled.div`
                 transition:all .2s;
                 border-radius:10px;
                 background-color:${
-                  !!Skip && Skip.get("darkmode")
-                    ? "rgba(255,255,255,.05)"
-                    : "rgba(0,0,0,.05)"
+                  state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"
                 };
                 padding:.5rem 1rem;
                 font-weight:bold;
@@ -101,107 +125,45 @@ const DarkModeButton = styled.div`
     height:40px;
     border-radius:10px;
     background-color:${
-      !!Skip && Skip.get("darkmode")
-        ? "rgba(255,255,255,.05)"
-        : "rgba(0,0,0,.05)"
+      state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"
     };
-    background-image:url("${
-      !!Skip && Skip.get("darkmode") ? ICON_SUN_URL : ICON_MOON_URL
-    }");
+    background-image:url("${state.darkmode ? ICON_SUN_URL : ICON_MOON_URL}");
     background-position:center;
     background-repeat:no-repeat;
     background-size:30px 30px;
     transition: all .2s;
     border: 2px solid ${
-      !!Skip && Skip.get("darkmode") ? "rgba(255,255,255,.0)" : "rgba(0,0,0,.0)"
+      state.darkmode ? "rgba(255,255,255,.0)" : "rgba(0,0,0,.0)"
     };
 
     &:hover {
         transition: all .2s;
         box-shadow: 0 0 10px 5px rgba(0,0,0,.02);
         border: 2px solid ${
-          !!Skip && Skip.get("darkmode")
-            ? "rgba(255,255,255,.02)"
-            : "rgba(0,0,0,.02)"
+          state.darkmode ? "rgba(255,255,255,.02)" : "rgba(0,0,0,.02)"
         };
     }
 `;
 
-tabs = tabs || {
-  home: {
-    text: "Home",
-  },
-  docs: {
-    text: "NDCDocs",
-  },
-  funding: {
-    text: "Funding dashboard",
-  },
-  sayalot: {
-    text: "Say A Lot",
-  },
-  gigs: {
-    text: "Gigs",
-  },
-};
-
-function getRender() {
-  if (!Skip) return;
-
-  return Skip.create("NDC.Header")
-    .with({
-      state: {
-        tab: fallback || "home",
-        darkmode: darkmode || false,
-      },
-    })
-    .render(
-      <Header>
-        <Navigation>
-          <Logo src={DEFAULT_LOGO_URL} />
-          <ul>
-            {Object.keys(tabs).map((key) => (
-              <li>
-                <a
-                  className={key == Skip.get("tab") ? "selected" : ""}
-                  onClick={() => {
-                    console.log(key);
-                    Skip.set({ tab: key });
-                    Skip.emit("onTabChange", key);
-                  }}
-                >
-                  {tabs[key].text}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <DarkModeButton
-            onClick={() => {
-              Skip.set({ darkmode: !Skip.get("darkmode") });
-              Skip.emit("onDarkmodeChange", { darkmode: Skip.get("darkmode") });
-            }}
-          ></DarkModeButton>
-        </Navigation>
-      </Header>
-    );
-}
-
 return (
-  <>
-    <div
-      style={{
-        display: "none",
-      }}
-    >
-      <Widget
-        src="mattb.near/widget/SkipFramework.core"
-        props={{
-          onLoad: (data) => State.update(data),
-          onRefresh: (data) => State.update(data),
-          loaded: !!Skip,
-        }}
-      />
-    </div>
-    {getRender()}
-  </>
+  <Header>
+    <Navigation>
+      <Logo src={DEFAULT_LOGO_URL} />
+      <ul>
+        {Object.keys(tabs).map((key) => (
+          <li>
+            <a
+              className={key == state.tab ? "selected" : ""}
+              onClick={() => refresh({ tab: key, currentView: key })}
+            >
+              {tabs[key].text}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <DarkModeButton
+        onClick={() => refresh({ darkmode: !state.darkmode })}
+      ></DarkModeButton>
+    </Navigation>
+  </Header>
 );
