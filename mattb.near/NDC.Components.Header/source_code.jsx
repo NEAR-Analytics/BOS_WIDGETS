@@ -1,7 +1,7 @@
-let { tabs, fallback, darkmode, onRefresh } = props;
+let { tabs, selectedTab, fallback, darkmode, onRefresh } = props;
 
 State.init({
-  tab: fallback || "home",
+  tab: selectedTab || fallback || "home",
 });
 
 tabs = tabs || {
