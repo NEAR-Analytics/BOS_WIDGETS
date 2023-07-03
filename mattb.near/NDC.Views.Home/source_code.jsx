@@ -236,10 +236,9 @@ let views = {
   docs: () => (
     <>
       <Widget
-        src={`neardigitalcollective.near/widget/NDCDocs_OneArticle`}
+        src={`mattb.near/widget/NDCDocs.Views.Home`}
         props={{
-          lastEditor: "blaze.near",
-          blockHeight: "94478867",
+          embedHeader: false
         }}
       />
     </>
