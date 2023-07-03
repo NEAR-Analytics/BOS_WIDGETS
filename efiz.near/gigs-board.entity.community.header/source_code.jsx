@@ -69,7 +69,10 @@ State.init({
 function Content() {
   return (
     <div style={{ padding: "0 32px" }}>
-      <Widget src={state.activeRoute} />
+      <Widget
+        src="every.near/widget/every.thing.view"
+        prop={{ path: state.activeRoute }}
+      />
     </div>
   );
 }
