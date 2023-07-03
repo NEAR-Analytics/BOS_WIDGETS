@@ -47,12 +47,13 @@ function fetchTokens() {
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 
   @media (hover: none) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 `;
+
 const size = "150px";
 
 const loader = (
