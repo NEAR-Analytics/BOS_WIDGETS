@@ -88,6 +88,9 @@ const handleAddKudo = () => {
     receiver_id: state.receiverId,
     text: state.comment,
     hashtags: state.tags.replace(/\s/g, "").split(","),
+  }).then((data) => {
+    console.log(data);
+    State.update({ isOpen: false });
   });
 };
 
@@ -138,10 +141,7 @@ const Content = () => (
         props={{
           Button: {
             text: "Submit",
-            onClick: () => {
-              State.update({ isOpen: false });
-              handleAddKudo();
-            },
+            onClick: () => handleAddKudo(),
           },
         }}
       />
