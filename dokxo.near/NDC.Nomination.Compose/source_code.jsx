@@ -547,10 +547,10 @@ return (
                 style={{
                   display: "flex",
                   "justify-content": "end",
-                  color: "rgba(255,0,0,0)",
+                  color: "#FF0000",
                 }}
               >
-                state.error_msg
+                {state.error_msg}
               </label>
             }
             <Submitcontainer>
