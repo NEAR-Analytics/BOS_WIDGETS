@@ -48,6 +48,7 @@ const canUserEditArticle = () => {
   const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
   );
+
   const doesAccountIdEqualsAuthor = context.accountId === state.article.author;
 
   if (canOnlyAuthorEdit) {
