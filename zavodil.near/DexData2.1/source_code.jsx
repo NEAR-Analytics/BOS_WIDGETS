@@ -622,6 +622,8 @@ const callTxPancakeZKEVM = (
         .then((transactionHash) => {
           onComplete(transactionHash);
         });
+    } else {
+      console.log("path.length", path.length);
     }
   }
 };
@@ -1169,7 +1171,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             },
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-            routerContract: "0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86", // MixedRouteQuoterV1
+            routerContract: "0x1b81D678ffb9C0263b24A97847620C99d213eB14", // SwapRouter
             dexName: "Pancake Swap",
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
