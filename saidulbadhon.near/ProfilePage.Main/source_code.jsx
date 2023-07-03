@@ -80,8 +80,21 @@ return (
     </div>
 
     <div>
-      <h2>{totalCommits.length} contributions</h2>
       <div style={{ marginTop: 20 }} />
+      <p
+        style={{
+          fontSize: 16,
+          lineHeight: "16px",
+          fontWeight: 600,
+
+          fontWeight: 500,
+          color: props.theme.textColor,
+          textAlign: "left",
+        }}
+      >
+        {totalCommits.length} contributions
+      </p>
+      <div style={{ marginTop: 16 }} />
       <Widget
         src="saidulbadhon.near/widget/ProfilePage.Contributions"
         props={{ theme: theme }}
