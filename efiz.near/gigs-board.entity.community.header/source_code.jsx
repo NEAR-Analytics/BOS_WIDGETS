@@ -49,13 +49,10 @@ const SizedDiv = styled.div`
 let activeTab = {};
 
 const defaultActive = data.tabs?.find((tab) => tab.defaultActive === true);
-activeTab = {
-  activeTabTitle: defaultActive.title || "",
-  activeRoute: defaultActive.route || "",
-};
 
 State.init({
-  ...activeTab,
+  activeTabTitle: defaultActive.title || "",
+  activeRoute: defaultActive.route || "",
 });
 
 function Content() {
