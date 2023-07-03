@@ -283,8 +283,28 @@ border-radius: 10px;
  width: 100%;
 }
 `;
+const CommentCandidate = () => {
+  //Validate the Data outPut
+  if (state.reply != null) {
+    // call the smart contract Self nominate comment
+
+    Near.call(
+      nominationcontract ? nominationcontract : "nominations-v1.gwg.testnet",
+      "comment",
+      {
+        candidate: username,
+        comment: state.reply,
+      }
+    ).then(() => {
+      props.onClickCancel();
+    });
+  } else {
+    //The fields are incomplete
+  }
+};
 // candidateOrReplay :true-Comment candidate  :false-Comment to reply
 const {
+  nominationcontract,
   candidateOrReplay,
   username,
   profile_picture,
@@ -409,7 +429,7 @@ return (
           <CFCancel onClick={props.onClickCancel}>Cancel</CFCancel>
           <CFSubmit
             onClick={() => {
-              Submit();
+              CommentCandidate();
             }}
           >
             Submit
