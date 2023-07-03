@@ -67,7 +67,7 @@ const H1 = styled.h1`
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: #DADADA;
+  color: #67B390;
   margin: 0;
   max-width: 999px;
 
@@ -186,6 +186,10 @@ const Subtext = styled.p`
   font-size: 1em;
 `;
 
+const Box = styled.div`
+  margin: .3em;
+`;
+
 State.init({
   thingSrc: data.views[0]?.src,
 });
@@ -244,7 +248,7 @@ return (
         props={{ path: "efiz.near/thing/under.construction" }}
       />
     ) : null}
-    <InnerContainer>
+    <Box>
       <ButtonRow>
         {data &&
           data.views?.map((view) => (
@@ -264,8 +268,7 @@ return (
       </Button>
       */}
       </ButtonRow>
-    </InnerContainer>
-
+    </Box>
     <>
       <Thing />
     </>
