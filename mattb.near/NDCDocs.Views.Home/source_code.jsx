@@ -46,7 +46,7 @@ return (
     <div
       style={{
         margin: "0 auto",
-        width: "100%",
+        width: "90%",
         minWidth: "360px",
         padding: "2rem",
       }}
