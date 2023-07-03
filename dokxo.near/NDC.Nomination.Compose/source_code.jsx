@@ -401,10 +401,31 @@ const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
 };
 let localStorage = Storage.privateGet("SelfNominate_Payload");
+const Test_Self_Nominate_SocialDB = () => {
+  console.log("Entered Test_Self_Nominate_SocialDB", originaState);
+  //Recover the Original payload
+
+  let originaState = Storage.privateget("SelfNominate_Payload");
+  console.log("State recovered", originaState);
+  //Post to Social DB
+  /*  State.update({ commitLoading: true });
+   Social.set(data, {
+     force: true,
+     onCommit: () => {
+       State.update({ commitLoading: false });
+     },
+     onCancel: () => {
+       State.update({ commitLoading: false });
+     },
+   });
+ */
+  //Clear the local storage
+  Storage.privateSet("SelfNominate_Payload", null);
+};
 if (localStorage != null) {
   console.log("Storage local", localStorage);
   //if the local storage exist then call  a method
-  this.Test_Self_Nominate_SocialDB();
+  Test_Self_Nominate_SocialDB;
 }
 
 const Self_Nominate = () => {
@@ -455,27 +476,7 @@ const Test_Self_Nominate = () => {
     greeting: "holaaa",
   });
 };
-const Test_Self_Nominate_SocialDB = () => {
-  console.log("Entered Test_Self_Nominate_SocialDB", originaState);
-  //Recover the Original payload
 
-  let originaState = Storage.privateget("SelfNominate_Payload");
-  console.log("State recovered", originaState);
-  //Post to Social DB
-  /*  State.update({ commitLoading: true });
-   Social.set(data, {
-     force: true,
-     onCommit: () => {
-       State.update({ commitLoading: false });
-     },
-     onCancel: () => {
-       State.update({ commitLoading: false });
-     },
-   });
- */
-  //Clear the local storage
-  Storage.privateSet("SelfNominate_Payload", null);
-};
 return (
   <ModalCard>
     <div
