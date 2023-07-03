@@ -1,46 +1,9 @@
-const authors = props.authors;
+if (!props.accountId || !context.accountId) {
+  return "";
+}
 
-const Badge = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 0.5em 1em;
+const o = Social.keys(`devs.near/graph/follow/${props.accountId}`, undefined, {
+  values_only: true,
+});
 
-  .image {
-    display: block;
-    height: 2em;
-    margin: 0.5em;
-  }
-
-  .attribution {
-    display: block;
-    height: 2em;
-    margin: 0.3em;
-  }
-}`;
-
-return (
-  <Badge>
-    <a href="https://www.near.org">
-      <Widget
-        src="mob.near/widget/Image"
-        props={{
-          className: "image",
-          image: {
-            ipfs_cid: "QmRQZ38GW6QMPAM756ndChFnGrLjXE1rucpuinPUpyigKS",
-          },
-          alt: "Built on NEAR",
-        }}
-      />
-    </a>
-    {authors && (
-      <div className="attribution">
-        <Widget
-          src="miraclx.near/widget/Attribution"
-          props={{ dep: true, authors }}
-        />
-      </div>
-    )}
-  </Badge>
-);
+return o && Object.keys(o).length ? <span>⋈</span> : "";
