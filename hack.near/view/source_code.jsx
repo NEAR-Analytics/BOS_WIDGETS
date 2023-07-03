@@ -171,9 +171,9 @@ const Subtitle = styled.p`
   line-height: 1.25;
   font-weight: 400;
   font-size: 2em;
-  margin-left: 70px;
   margin-top: 15px;
   justify-content: center;
+  align-items: center;
   text-align: center;
 `;
 
