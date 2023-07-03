@@ -57,7 +57,10 @@ if (debug) {
         console.log(e);
       };
 
-      data.callTx(data, f);
+      data.callTx(data, f, undefined, undefined, undefined, [
+        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+      ]);
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
     }
@@ -597,11 +600,13 @@ const callTxPancakeZKEVM = (
 
     if (path.length === 2) {
       // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+      console.log("swapContract", swapContract);
       swapContract
         .exactInputSingle(
           [
             input.inputAssetTokenId,
             input.outputAssetTokenId,
+            "0",
             input.sender,
             deadline.toFixed(),
             value,
@@ -609,7 +614,7 @@ const callTxPancakeZKEVM = (
             sqrtPriceLimitX96 ?? 0,
           ],
           {
-            gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+            gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.801", "gwei"),
             gasLimit: gasLimit ?? 300000,
           }
         )
@@ -1148,7 +1153,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
 
           if (state.routerAbi == undefined) {
             const routerAbi = fetch(
-              "https://gist.githubusercontent.com/zavodil/c51f14cbc5c379ab15548dcd63bee279/raw/81a0b55324d1a3ef782ad07bf6d797d6f13c27d7/PancakeMixedRouteQuoterV1ABI"
+              "https://gist.githubusercontent.com/zavodil/5ab70bbbd8cf30c0edbf4837f473904d/raw/e9ec67d159b844222df04f3ad23c4c1cc771fa43/PancakeSwapRouter"
             );
             if (!routerAbi.ok) {
               return "Loading";
