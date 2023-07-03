@@ -429,11 +429,17 @@ const Self_Nominate = () => {
 
     // call the smart contract Self nominate method
 
-    Near.call(Nominationcontract, "self_nominate", {
-      house: state.house_intended,
-      comment: "hello dokxo",
-      link: "OWA.io",
-    });
+    Near.call(
+      Nominationcontract,
+      "self_nominate",
+      {
+        house: state.house_intended,
+        comment: "hello dokxo",
+        link: "OWA.io",
+      },
+      300000000000000,
+      100000000000000000000000
+    );
   } else {
     //The fields are incomplete
     console.log("still invalid");
