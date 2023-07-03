@@ -64,7 +64,7 @@ return (
     <Banner
       className="object-fit-cover"
       style={{
-        background: `center / cover no-repeat url(${data.banner_url})`,
+        background: `center / cover no-repeat url(${data.background})`,
       }}
     />
 
@@ -73,7 +73,7 @@ return (
         <div className="position-relative">
           <SizedDiv>
             <LogoImage
-              src={data.logo_url}
+              src={data.logo}
               alt="Community logo"
               width="150"
               height="150"
