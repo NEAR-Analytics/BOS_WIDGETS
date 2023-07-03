@@ -186,7 +186,7 @@ const HiddeableWidget = styled.div`
     display: block;
   }
 `;
-let Nominationcontract = "nominations-v1.gwg.testnet";
+let Nominationcontract = "nominations-v1.gwg-testing.near";
 // State
 State.init({
   theme,
@@ -419,6 +419,7 @@ if (localStorage != null && state.wasTRX) {
 }
 
 const Self_Nominate = () => {
+  State.update({ wasTRX: false });
   //Validate the Data outPut
   if (validatedInputs()) {
     //Store the state in the local storage
@@ -434,24 +435,6 @@ const Self_Nominate = () => {
   } else {
     //The fields are incomplete
   }
-};
-const Self_Nominate_SocialDB = () => {
-  //Recover the Original payload
-  let originaState = Storage.privateget("SelfNominate_Payload");
-  //Post to Social DB
-  /*  State.update({ commitLoading: true });
-   Social.set(data, {
-     force: true,
-     onCommit: () => {
-       State.update({ commitLoading: false });
-     },
-     onCancel: () => {
-       State.update({ commitLoading: false });
-     },
-   });
- */
-  //Clear the local storage
-  Storage.privateSet("SelfNominate_Payload", null);
 };
 
 const Test_Self_Nominate = () => {
@@ -561,7 +544,7 @@ return (
           >
             <Submitcontainer>
               <CancelBtn onClick={Cancel}> Cancel </CancelBtn>
-              <SubmitBtn onClick={Test_Self_Nominate}> Submit </SubmitBtn>
+              <SubmitBtn onClick={Self_Nominate}> Submit </SubmitBtn>
             </Submitcontainer>
           </div>
         </CardForm>
