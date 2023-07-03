@@ -645,9 +645,24 @@ return (
       </DeclarationCard>
     </DetailCard>
     <CommentSection>
+      {state.showModal && (
+        <Widget
+          src={`dokxo.near/widget/CommentCard`}
+          props={{
+            candidateOrReplay: true,
+            onClickConfirm: () => State.update({ showModal: false }),
+            onClickCancel: () => State.update({ showModal: false }),
+          }}
+        />
+      )}
       <CommentHeader>
         <CommentHeaderText>Comments</CommentHeaderText>
-        <CommentButton style={{ "justify-content": "center" }}>
+        <CommentButton
+          style={{ "justify-content": "center" }}
+          onClick={async () => {
+            State.update({ showModal: true });
+          }}
+        >
           <CommentText>Add a Comment +</CommentText>
         </CommentButton>
       </CommentHeader>
