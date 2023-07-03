@@ -1,5 +1,3 @@
-const regenText = props.regenText;
-
 State.init({
   regenText:
     "Regeneration (shortly 'regen') in our context means the restoration and responsible utilization and management of environmental systems.",
@@ -7,7 +5,7 @@ State.init({
 
 return (
   <>
-    <h1>{props.regenTitle}</h1>
+    <h2>{props.regenTitle}</h2>
 
     <div>{state.regenText}</div>
 
