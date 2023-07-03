@@ -32,7 +32,6 @@ fetchGraphQL(query, "user_activity", {}).then((result) => {
       const data =
         result.body.data.roshaan_near_user_activity_user_last_activity;
       State.update({ data });
-      console.log(data);
     }
   }
 });
