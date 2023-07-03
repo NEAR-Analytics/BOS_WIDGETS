@@ -1,5 +1,5 @@
 const data = props.data;
-const tabs = props.tabs;
+const tabs = props.tabs || [];
 
 // {
 //   banner_url: "",
@@ -64,7 +64,7 @@ return (
     <Banner
       className="object-fit-cover"
       style={{
-        background: `center / cover no-repeat url(${data.background})`,
+        background: `center / cover no-repeat url(${data.background?.ipfs_cid})`,
       }}
     />
 
@@ -72,12 +72,14 @@ return (
       <div className="d-md-flex d-block align-items-end">
         <div className="position-relative">
           <SizedDiv>
-            <LogoImage
-              src={data.logo}
-              alt="Community logo"
-              width="150"
-              height="150"
-              className="border border-3 border-white rounded-circle shadow position-absolute"
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: data.logo,
+                style: { width: "150", height: "150" },
+                className:
+                  "order border-3 border-white rounded-circle shadow position-absolute",
+              }}
             />
           </SizedDiv>
         </div>
@@ -145,3 +147,11 @@ return (
     </NavUnderline>
   </Header>
 );
+
+// <LogoImage
+//               src={data.logo}
+//               alt="Community logo"
+//               width="150"
+//               height="150"
+//               className="border border-3 border-white rounded-circle shadow position-absolute"
+//             />
