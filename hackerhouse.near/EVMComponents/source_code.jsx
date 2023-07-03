@@ -165,6 +165,30 @@ return (
           props={{ src: "chanon.near/widget/1inch" }}
         />
       </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "garlicfaucet.near/widget/liquityWidget" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "garlicfaucet.near/widget/liquityWidget" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "yairnava.near/widget/Burrito-Virtual-Pet-Interact" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "yairnava.near/widget/Burrito-Virtual-Pet-Mint " }}
+        />
+      </Item>
     </Items>
   </Wrapper>
 );
