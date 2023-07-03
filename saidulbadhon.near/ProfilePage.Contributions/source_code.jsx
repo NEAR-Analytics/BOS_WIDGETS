@@ -59,7 +59,10 @@ const generate = () => {
 const array = generate();
 
 return (
-  <div className="contributions">
+  <div
+    style={{ border: `1px solid ${props.theme.borderColor}` }}
+    className="contributions"
+  >
     <div className="header">
       <div className="headerContent">
         <p style={{ color: props.theme.textColor3 }}>Jan</p>
