@@ -1,79 +1,22 @@
 // TODO: Should be grabbed from contract side
-const contractProps = {
-  houses: [
-    {
-      id: 2,
-      typ: "CouncileOfAdvisors",
-      ref_link: "example.com",
-      start: 1689820065441,
-      end: 1690820065441,
-      quorum: 100,
-      voters_num: 150,
-      seats: 10,
-      result: [],
-    },
-    {
-      id: 3,
-      typ: "HouseOfMerit",
-      title: "House Of Merit",
-      ref_link: "example.com",
-      start: 1685820065441,
-      end: 1696820065441,
-      quorum: 100,
-      voters_num: 150,
-      seats: 10,
-      result: [
-        ["zomland.near", 150],
-        ["asfsdfsfdfddfsdfdfsdfdf.near", 150],
-        ["blabla.near", 10],
-        ["rubycop.near", 50],
-      ],
-    },
-    {
-      id: 4,
-      typ: "TransparancyCommision",
-      ref_link: "example.com",
-      start: 1655820065441,
-      end: 165820065441,
-      quorum: 100,
-      voters_num: 150,
-      seats: 10,
-      result: [],
-    },
-  ],
-};
+let { ids, org } = props;
+ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
+org = props.org ? org : "test"; // for testing purposes
 
-const { houses } = contractProps;
+const electionContract = "elections-v1.gwg-testing.near";
+const registryContract = "registry-v1.gwg-testing.near";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
-console.log(houses);
-const electionContract = "elections-v2.gwg.testnet";
-const registryContract = "registry-unstable.i-am-human.testnet";
-const ndcOrganization = "test";
-
-// TODO: Should be grabbed from indexer
-const humanVoted = 800;
-const totalHumal = 1000;
-
-const myVotes = [
-  { candidateId: "zomland.near", time: 1686820065441, typ: "House Of Merit" },
-  {
-    candidateId: "rubycop.near",
-    time: 1686820065441,
-    typ: "Councile Of Advisors",
-  },
-  {
-    candidateId: "blabla.near",
-    time: 1686820065441,
-    typ: "Transparancy Commision",
-  },
+const houses = [
+  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
 ];
 
 const widgets = {
   header: "syi216.near/widget/NDC.Nomination.Header",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
-  candidates: "rubycop.near/widget/NDC.Elections.Candidates",
-  statistic: "rubycop.near/widget/NDC.Elections.Statistic",
-  activities: "rubycop.near/widget/NDC.Elections.Activities",
+  card: "syi216.near/widget/NDC.nomination.card",
 };
 
 State.init({
@@ -81,6 +24,8 @@ State.init({
   start: true,
   house: "CouncilOfAdvisors",
   nominations: [],
+  verified: false,
+  selfNomination: false,
 });
 State.init({});
 //
@@ -88,7 +33,21 @@ State.init({});
 function handleNominations(data) {
   State.update({ nominations: data });
 }
-function testPikespeak() {
+
+function getVerifiedHuman() {
+  asyncFetch(
+    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=true`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    res.body.length > 0 ? State.update({ verified: true }) : "";
+  });
+}
+
+function getNominationInfo() {
   asyncFetch(
     `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
     {
@@ -97,15 +56,15 @@ function testPikespeak() {
       },
     }
   ).then((res) => {
-    console.log(res.body);
     State.update({ nominations: res.body });
-    let info = Social.getr("syi216.near/profile");
-    console.log(info);
+    //let info = Social.getr(`${res.body[0].nominee}`);
+    //console.log(info);
   });
 }
 
 if (state.start) {
-  testPikespeak("");
+  getNominationInfo();
+  getVerifiedHuman();
   State.update({
     start: false,
   });
@@ -114,19 +73,16 @@ if (state.start) {
 const handleSelect = (item) => {
   switch (item.id) {
     case 2:
-      console.log("CouncilOfAdvisors");
       State.update({ house: "CouncilOfAdvisors" });
-      testPikespeak(state.house);
+      getNominationInfo();
+      break;
+    case 1:
+      State.update({ house: "HouseOfMerit" });
+      getNominationInfo();
       break;
     case 3:
-      console.log("HouseOfMerit");
-      State.update({ house: "HouseOfMerit" });
-      testPikespeak(state.house);
-      break;
-    case 4:
       State.update({ house: "TransparencyCommission" });
-      testPikespeak(state.house);
-      console.log("TransparencyCommission");
+      getNominationInfo();
       break;
   }
   State.update({ selectedHouse: item.id });
@@ -163,14 +119,22 @@ const H5 = styled.h5`
 const Toolbar = styled.div`
 margin: 32px 0 0 0;
 display: flex;
-width: 66%;
+width: 100%;
+flex-direction: row;
 align-items: flex-start;
 gap: 20px;
+@media only screen and (max-width: 480px){
+  flex-direction:column;
+}
 `;
 
 const FilterBar = styled.div`
 display: flex;
 padding: 12px 16px;
+width: 66%;
+@media only screen and (max-width: 480px) {
+ width: 100%;  
+}
 align-items: center;
 gap: 8px;
 flex: 1 0 0;
@@ -204,9 +168,180 @@ line-height: 120%;
 border: 0px;
 `;
 
+const VerifiedDiv = styled.div`
+display: flex;
+width: 100%;
+padding: 16px;
+flex-direction: column;
+align-items: flex-start;
+gap: 20px;
+border-radius: 8px;
+background: var(--ffffff, #FFF);
+box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.10);
+`;
+
+const VerifiedHeader = styled.div`
+display: flex;
+align-items: flex-start;
+gap: 16px;
+align-self: stretch;
+`;
+
+const VerifiedHeaderContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 4px;
+flex: 1 0 0;
+`;
+
+const VerfiedTitle = styled.p`
+display: flex;
+width: 176px;
+flex-direction: column;
+justify-content: center;
+color: var(--000000, #000);
+font-size: 14px;
+font-family: Avenir;
+font-style: normal;
+font-weight: 500;
+line-height: 120%;
+margin: 0px;
+`;
+
+const VerifedDesc = styled.p`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-self: stretch;
+color: var(--primary-gray-dark, #828688);
+font-size: 12px;
+font-family: Avenir;
+font-style: normal;
+font-weight: 500;
+line-height: 120%;
+margin: 0px;
+`;
+
+const VerifyButton = styled.button`
+display: flex;
+padding: 8px 20px;
+justify-content: center;
+width: 100%;
+align-items: center;
+gap: 10px;
+align-self: stretch;
+border-radius: 10px;
+background: var(--ffd-50-d, #FFD50D);
+border:0px;
+`;
+
+const VerifyButtonText = styled.p`
+color: var(--primary-black, #000);
+font-size: 14px;
+font-family: Avenir;
+font-style: normal;
+font-weight: 500;
+line-height: 24px;
+margin: 0px;
+`;
+
+const SortButton = styled.button`
+display: flex;
+width: 38px;
+height: 38px;
+padding: 8px 12px;
+justify-content: center;
+align-items: center;
+gap: 6px;
+border-radius: 6px;
+background: var(--buttons-gradient-default, linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
+border: 0px;
+`;
+
+const SortIcon = styled.img`
+width: 18px;
+height: 18px;
+flex-shrink: 0;
+`;
+
+const ButtonNominateContainer = styled.div`
+display: flex;
+flex-direction:row;
+padding: 12px 16px;
+align-items: center;
+gap: 8px;
+border-radius: 8px;
+background: #F8F8F9;
+@media only screen and (max-width: 480px){
+  width: 100%;
+  flex-direction: column;
+}
+`;
+
+const ButtonDeleteDiv = styled.button`
+display: flex;
+height: 40px;
+padding: 8px 12px;
+align-items: center;
+gap: 6px;
+border-radius: 10px;
+border: 1px solid #C23F38;
+background: #F1D6D5;
+@media only screen and (max-width: 480px){
+  width: 100%;
+  justify-content: center;
+}
+`;
+
+const ButtonDeleteText = styled.p`
+color: #C23F38;
+font-size: 14px;
+font-family: Avenir;
+font-style: normal;
+font-weight: 500;
+line-height: 24px;
+margin: 0px;
+`;
+
+const ButtonDeleteIcon = styled.img`
+width: 18px;
+height: 18px;
+`;
+
+const ButtonNominateDiv = styled.button`
+display: flex;
+height: 40px;
+padding: 8px 12px;
+align-items: center;
+gap: 6px;
+border: 1px solid #FFD50D;
+border-radius: 10px;
+background: var(--buttons-yellow-default, #FFD50D);
+@media only screen and (max-width: 480px){
+  width: 100%;
+  justify-content: center;
+}
+`;
+
+const ButtonNominateText = styled.p`
+margin: 0px;
+color: var(--primary-black, #000);
+font-size: 14px;
+font-family: Avenir;
+font-style: normal;
+font-weight: 500;
+line-height: 24px;
+`;
+
+const ButtonNominateIcon = styled.img`
+width: 18px;
+height: 18px;
+`;
+
 return (
   <div>
-    {contractProps.houses.map((group) => (
+    {houses.map((group) => (
       <>
         {group.id === state.selectedHouse && (
           <Widget
@@ -228,9 +363,37 @@ return (
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmUgE9Cgge5VRgQB1VYxMaAjJWgzmXUzMcPSTwQ8ZfLJqz?_gl=1*xfjfsk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkxMTcwOS41LjAuMTY4NzkxMTcxNi41My4wLjA."
             alt="pic"
           ></SearchIcon>
-          <InputSearch placeholder="Search by candidate name and affiliation"></InputSearch>
+          <InputSearch
+            placeholder="Search by candidate name and affiliation"
+            disabled
+          ></InputSearch>
         </LabelFile>
+        <SortButton disabled>
+          <SortIcon
+            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmNivRaFySDTXDK3rsNXNZn7ySyhCR82rVwqA15Nn2hofK?_gl=1*jc7vlr*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
+            alt="pic"
+          ></SortIcon>
+        </SortButton>
       </FilterBar>
+      <ButtonNominateContainer>
+        {state.selfNomination ? (
+          <ButtonDeleteDiv>
+            <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
+            <ButtonDeleteIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
+              alt="pic"
+            ></ButtonDeleteIcon>
+          </ButtonDeleteDiv>
+        ) : (
+          <ButtonNominateDiv disabled={status.verified ? true : false}>
+            <ButtonNominateText>Self Nominate</ButtonNominateText>
+            <ButtonNominateIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
+              alt="pic"
+            ></ButtonNominateIcon>
+          </ButtonNominateDiv>
+        )}
+      </ButtonNominateContainer>
     </Toolbar>
     <Container className="d-flex row">
       <Left className="col-lg">
@@ -243,11 +406,36 @@ return (
             handleSelect: (item) => handleSelect(item),
           }}
         />
+        <div>
+          {state.verified ? (
+            ""
+          ) : (
+            <VerifiedDiv>
+              <VerifiedHeader>
+                <VerifiedHeaderContainer>
+                  <VerfiedTitle>To Comment or to Upvote</VerfiedTitle>
+                  <VerifedDesc>
+                    Verify as a Human to comment or to upvote
+                  </VerifedDesc>
+                </VerifiedHeaderContainer>
+              </VerifiedHeader>
+              <VerifyButton>
+                <VerifyButtonText>Verify as a Human</VerifyButtonText>
+              </VerifyButton>
+            </VerifiedDiv>
+          )}
+        </div>
       </Left>
-      <Center className="col-lg-8 p-2 p-md-3 d-flex flex-row flex-wrap justify-content-center gap-4">
-        {state.nominations.map((data) => {
-          return <Widget src={"syi216.near/widget/NDC.nomination.card"} />;
-        })}
+      <Center className="col-lg-9 p-2 p-md-3 d-flex flex-row flex-wrap justify-content-center gap-4">
+        {state.nominations.length > 0 ? (
+          state.nominations.map((data) => {
+            return <Widget src={widgets.card} />;
+          })
+        ) : (
+          <H5 className="mt-10">
+            There are no active nominations at the moment
+          </H5>
+        )}
       </Center>
     </Container>
   </div>
