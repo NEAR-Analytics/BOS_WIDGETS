@@ -1,4 +1,4 @@
-const communityData = props.communityData;
+const data = props.data;
 const tabs = props.tabs;
 
 // {
@@ -64,7 +64,7 @@ return (
     <Banner
       className="object-fit-cover"
       style={{
-        background: `center / cover no-repeat url(${communityData.banner_url})`,
+        background: `center / cover no-repeat url(${data.banner_url})`,
       }}
     />
 
@@ -73,7 +73,7 @@ return (
         <div className="position-relative">
           <SizedDiv>
             <LogoImage
-              src={communityData.logo_url}
+              src={data.logo_url}
               alt="Community logo"
               width="150"
               height="150"
@@ -83,11 +83,9 @@ return (
         </div>
 
         <div>
-          <div className="h1 pt-3 ps-3 text-nowrap">{communityData.name}</div>
+          <div className="h1 pt-3 ps-3 text-nowrap">{data.name}</div>
 
-          <div className="ps-3 pb-2 text-secondary">
-            {communityData.description}
-          </div>
+          <div className="ps-3 pb-2 text-secondary">{data.description}</div>
         </div>
       </div>
 
