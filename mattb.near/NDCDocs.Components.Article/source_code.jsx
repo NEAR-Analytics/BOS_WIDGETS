@@ -1,8 +1,12 @@
+const Main = styled.div`
+    display:flex;
+`;
+
 const SideBar = styled.div`
     display:flex;
     flex-direction:column;
     position:relative;
-    width:250px;
+    min-width:250px;
     height:calc(100vh - 1.5rem);
     border-right:1px solid rgba(0,0,0,.05);
     box-sizing:border-box;
@@ -102,8 +106,29 @@ const ArticleDetails = styled.div`
     }
 `;
 
+const Content = styled.div`
+    flex-grow:1;
+    box-sizing:border-box;
+    padding:2rem;
+
+    .image {
+        width:100%;
+        height:300px;
+        border-radius:20px;
+        background-color:rgba(0,0,0,.05);
+        margin-bottom:15px;
+        background-position:center;
+        background-size:cover;
+        background-repeat:no-repeat;
+    }
+
+    h1 {
+        font-weight:bold;
+    }
+`;
+
 return (
-  <>
+  <Main>
     <SideBar>
       <div>
         <h1>The NDC</h1>
@@ -139,5 +164,15 @@ return (
         <p>#16</p>
       </ArticleDetails>
     </SideBar>
-  </>
+    <Content>
+      <div
+        className="image"
+        style={{
+          backgroundImage:
+            "url(https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly)",
+        }}
+      ></div>
+      <h1>Introduction</h1>
+    </Content>
+  </Main>
 );
