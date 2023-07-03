@@ -200,18 +200,16 @@ return (
 
     <CardFooter>
       <div className="row">
-        <div className="col-8">
-          <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-          <ButtonLink href={appUrl} primary>
-            Open
-          </ButtonLink>
-        </div>
-        <div className="col-3">
-          <Widget
-            src="hack.near/widget/StarButton"
-            props={{ notifyAccountId, item }}
-          />
-        </div>
+        <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+        <ButtonLink href={appUrl} primary>
+          Open
+        </ButtonLink>
+      </div>
+      <div className="row">
+        <Widget
+          src="hack.near/widget/StarButton"
+          props={{ notifyAccountId, item }}
+        />
       </div>
     </CardFooter>
   </Card>
