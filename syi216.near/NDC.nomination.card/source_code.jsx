@@ -924,7 +924,7 @@ margin: 0px;
 `;
 
 return (
-  <Card>
+  <Card href="#/yairnava.near/widget/NDC.Nomination.Candidate.Container">
     <HeaderCard>
       <ProfilePicture
         src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
