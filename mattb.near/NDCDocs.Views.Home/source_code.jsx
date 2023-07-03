@@ -27,7 +27,7 @@ return (
       backgroundColor: "#fff",
     }}
   >
-    {!embedHeader && (
+    {(typeof embedHeader == "undefined" || !!embedHeader) && (
       <Widget
         src="mattb.near/widget/NDC.Components.Header"
         props={{
