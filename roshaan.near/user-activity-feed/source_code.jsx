@@ -1,4 +1,4 @@
-const QUERYAPI_ENDPOINT = `https://queryapi-hasura-graphql-24ktefolwq-ew.a.run.app/v1/graphql`;
+const QUERYAPI_ENDPOINT = `https://queryapi-hasura-graphql-24ktefolwq-ew.a.run.app/v1/graphql/`;
 
 State.init({
   data: [],
@@ -110,7 +110,15 @@ const renderData = (a) => {
         </div>
       </Header>
       <Body>
-        <Content></Content>
+        <Content>
+          <>
+            <Widget
+              src="mob.near/widget/TimeAgo"
+              props={{ blockHeight: a.block_height }}
+            />{" "}
+            ago
+          </>
+        </Content>
       </Body>
     </Activity>
   );
