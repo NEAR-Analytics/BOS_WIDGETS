@@ -153,7 +153,7 @@ const ArticleTitle = styled.div`
         max-width:200px;
         overflow:hidden;
         text-overflow:ellipsis;
-        font-size:1.5rem;
+        font-size:1.2rem;
         font-weight:bold;
         margin:0;
         padding:0;
