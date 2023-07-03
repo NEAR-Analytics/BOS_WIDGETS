@@ -109,6 +109,25 @@ const ArticlePill = styled.a`
         transition: all .2s;
         border: 2px solid rgb(0,0,0,.02);
     }
+
+    @keyframes loading {
+      0% {
+        opacity: 0.5;
+      }
+
+      100% { 
+        opacity: 1;
+      }
+    }
+
+    &.loading {
+      animation-name:loading;
+      animation-duration:.5s;
+      animation-iteration-count:infinite;
+      animation-fill-mode:both;
+      animation-direction: alternate;
+    }
+
 `;
 
 const ArticleTitle = styled.div`
@@ -230,7 +249,7 @@ function getSkeleton() {
   return (
     <>
       {Array.from(Array(15).keys()).map(() => (
-        <ArticlePill>
+        <ArticlePill className="loading">
           <ArticleTitle className="skeleton">
             <div>
               <h1>TheNDC</h1>
@@ -257,7 +276,6 @@ function getSkeleton() {
 return (
   <Main>
     {!state.posts.length && getSkeleton()}
-    {getPosts()}
     {!!state.posts.length &&
       state.posts.map((article) => (
         <>
