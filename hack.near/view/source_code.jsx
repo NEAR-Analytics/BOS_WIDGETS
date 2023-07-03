@@ -174,7 +174,7 @@ const Subtitle = styled.p`
   margin-left: 70px;
   margin-top: 15px;
   justify-content: center;
-  align-items: center;
+  text-align: center;
 `;
 
 const Text = styled.p`
