@@ -235,6 +235,7 @@ return (
             <Subtitle>{data.tagline}</Subtitle>
           </Column>
         </Row>
+        <br />
       </InnerContainer>
     </Container>
     {data.isUnderConstruction === "true" ? (
@@ -243,7 +244,6 @@ return (
         props={{ path: "efiz.near/thing/under.construction" }}
       />
     ) : null}
-    <br />
     <ButtonRow>
       {data &&
         data.views?.map((view) => (
