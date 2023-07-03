@@ -7,7 +7,7 @@ return (
   <div className="py-1 px-1">
     <div className="mx-auto">
       <Widget
-        src="mob.near/widget/ProfileLarge"
+        src="hack.near/widget/dev.profile"
         props={{ accountId, profile, link: true }}
       />
 
