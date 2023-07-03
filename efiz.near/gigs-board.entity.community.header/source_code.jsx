@@ -56,14 +56,18 @@ State.init({
 });
 
 function Content({ route }) {
-  return (
-    <div style={{ padding: "0 32px" }}>
-      <Widget
-        src="every.near/widget/every.thing.view"
-        props={{ path: route }}
-      />
-    </div>
-  );
+  if (route !== "") {
+    return (
+      <div style={{ padding: "0 32px" }}>
+        <Widget
+          src="every.near/widget/every.thing.view"
+          props={{ path: route }}
+        />
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 return (
