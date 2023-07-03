@@ -23,6 +23,7 @@ return (
   <div>
     <div className="d-flex flex-row">
       <div className="me-4">
+        <span className="text-muted">trusts</span>
         <a
           href={`#/hack.near/widget/trust.page?accountId=${accountId}&tab=trusting`}
           className="text-dark"
@@ -32,10 +33,10 @@ return (
           ) : (
             "?"
           )}{" "}
-          <span className="text-muted">trusting</span>
         </a>
       </div>
       <div>
+        <span className="text-muted">trusted by</span>
         <a
           href={`#/hack.near/widget/trust.page?accountId=${accountId}&tab=trusted`}
           className="text-dark"
@@ -45,7 +46,6 @@ return (
           ) : (
             "?"
           )}{" "}
-          <span className="text-muted">trusted by</span>
         </a>
       </div>
     </div>
