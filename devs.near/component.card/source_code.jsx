@@ -42,6 +42,13 @@ const CardFooter = styled.div`
   border-top: 1px solid #eceef0;
 `;
 
+const StarButton = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px;
+`;
+
 const CardTag = styled.p`
   margin: 0;
   font-size: 9px;
@@ -198,17 +205,17 @@ return (
       </CardContent>
     </CardBody>
 
+    <StarButton>
+      <Widget
+        src="hack.near/widget/StarButton"
+        props={{ notifyAccountId, item }}
+      />
+    </StarButton>
     <CardFooter>
       <ButtonLink href={detailsUrl}>View Details</ButtonLink>
       <ButtonLink href={appUrl} primary>
         Open
       </ButtonLink>
-    </CardFooter>
-    <CardFooter>
-      <Widget
-        src="hack.near/widget/StarButton"
-        props={{ notifyAccountId, item }}
-      />
     </CardFooter>
   </Card>
 );
