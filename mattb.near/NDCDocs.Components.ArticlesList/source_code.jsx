@@ -18,40 +18,47 @@ const WIDGET_AUTHOR = "neardigitalcollective.near";
 
 State.init({
   loaded: false,
+  posts: [],
 });
 
-const postsIndex =
-  Social.index(ARTICLES_ADDRESS, "main", {
-    order: "desc",
-    accountId: undefined,
-  }) || [];
+function getPosts() {
+  setTimeout(() => {
+    const postsIndex =
+      Social.index(ARTICLES_ADDRESS, "main", {
+        order: "desc",
+        accountId: undefined,
+      }) || [];
 
-const ARTICLES = postsIndex
-  .reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${ARTICLES_ADDRESS}/main`,
-      blockHeight
-    );
+    let articles = postsIndex
+      .reduce((acc, { accountId, blockHeight }) => {
+        const postData = Social.get(
+          `${accountId}/${ARTICLES_ADDRESS}/main`,
+          blockHeight
+        );
 
-    return [...acc, { ...JSON.parse(postData), blockHeight }];
-  }, [])
-  .filter((article) =>
-    ALLOWED_AUTHORS.some(
-      (address) =>
-        address === article.author &&
-        !ARTICLES_NOT_ALLOWED.includes(article.blockHeight)
-    )
-  );
+        return [...acc, { ...JSON.parse(postData), blockHeight }];
+      }, [])
+      .filter((article) =>
+        ALLOWED_AUTHORS.some(
+          (address) =>
+            address === article.author &&
+            !ARTICLES_NOT_ALLOWED.includes(article.blockHeight)
+        )
+      );
 
-const FILTERED_ARTICLES = ARTICLES.reduce((acc, article) => {
-  State.update({ loaded: true });
+    let filteredArticles = articles.reduce((acc, article) => {
+      if (!acc.some(({ articleId }) => articleId === article.articleId)) {
+        return [...acc, article];
+      } else {
+        return acc;
+      }
+    }, []);
 
-  if (!acc.some(({ articleId }) => articleId === article.articleId)) {
-    return [...acc, article];
-  } else {
-    return acc;
-  }
-}, []);
+    State.update({
+      posts: filteredArticles,
+    });
+  }, 200);
+}
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -249,9 +256,10 @@ function getSkeleton() {
 
 return (
   <Main>
-    {!state.loaded && getSkeleton()}
-    {state.loaded &&
-      FILTERED_ARTICLES.map((article) => (
+    {!state.posts.length && getSkeleton()}
+    {getPosts()}
+    {!!state.posts.length &&
+      state.posts.map((article) => (
         <>
           <ArticlePill
             href={`#/neardigitalcollective.near/widget/NDCDocs_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
