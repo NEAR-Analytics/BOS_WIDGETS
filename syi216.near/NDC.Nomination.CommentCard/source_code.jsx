@@ -1,3 +1,7 @@
+State.init({
+  showModal: false,
+});
+
 const CommentCard = styled.div`
 display: flex;
 padding: 14px 16px;
@@ -144,6 +148,7 @@ flex-shrink: 0;
 `;
 
 const ReplyCommentButton = styled.div`
+cursor: pointer;
 display: flex;
 padding: 2px 12px;
 align-items: center;
@@ -275,7 +280,11 @@ return (
             alt="pic"
           ></ShareCommentIcon>
         </ShareCommentButton>
-        <ReplyCommentButton>
+        <ReplyCommentButton
+          onClick={async () => {
+            State.update({ showModal: true });
+          }}
+        >
           <ReplyCommentText>Reply</ReplyCommentText>
           <ReplyCommentIcon
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma6cnsU1NdHPcMbJqmXrUepxbvPuVLEBWzX4jEsaVhaN8?_gl=1*c3nexg*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTUzMS42MC4wLjA."
@@ -284,6 +293,21 @@ return (
         </ReplyCommentButton>
       </CommentButtonDiv>
     </CommentCardLowerSection>
+    {state.showModal && (
+      <Widget
+        src={`dokxo.near/widget/CommentCard`}
+        props={{
+          username: "dokxo.near",
+          profile_picture:
+            "https://th.bing.com/th?id=OSK.6596e5339347ff0abd74f8a58ff781f5&w=80&h=80&c=12&o=6&pid=SANGAM",
+          originalComment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quam enim, dignissim sed ante at, convallis maximus enim. Duis condimentum aliquam nisl nec sagittis. Ut tristique facilisis",
+          timeago: "5 hours ago",
+          onClickConfirm: () => State.update({ showModal: false }),
+          onClickCancel: () => State.update({ showModal: false }),
+        }}
+      />
+    )}
     <div>
       <CommentReplySeparator></CommentReplySeparator>
       <ReplyContainer>
