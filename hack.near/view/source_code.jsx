@@ -172,7 +172,7 @@ const Subtitle = styled.p`
   font-weight: 400;
   font-size: 2em;
   margin-left: 70px;
-  margin: 8px;
+  margin-top: 15px;
 `;
 
 const Text = styled.p`
