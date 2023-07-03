@@ -404,7 +404,7 @@ let localStorage = Storage.privateGet("SelfNominate_Payload");
 if (localStorage != null) {
   console.log("Storage local", localStorage);
   //if the local storage exist then call  a method
-  //Test_Self_Nominate_SocialDB;
+  Test_Self_Nominate_SocialDB;
 }
 
 const Self_Nominate = () => {
@@ -456,7 +456,9 @@ const Test_Self_Nominate = () => {
   });
 };
 const Test_Self_Nominate_SocialDB = () => {
+  console.log("Entered Test_Self_Nominate_SocialDB", originaState);
   //Recover the Original payload
+
   let originaState = Storage.privateget("SelfNominate_Payload");
   console.log("State recovered", originaState);
   //Post to Social DB
