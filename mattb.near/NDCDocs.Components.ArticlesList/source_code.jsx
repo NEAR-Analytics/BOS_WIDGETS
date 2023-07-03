@@ -75,6 +75,9 @@ function getProfileImage(accountId) {
 }
 
 const Main = styled.div`
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
     width:100%;
     height:100vh;
 `;
@@ -190,7 +193,7 @@ const arrowImg = (
 );
 
 return (
-  <>
+  <Main>
     {state.loaded &&
       FILTERED_ARTICLES.map((article) => (
         <>
@@ -224,5 +227,5 @@ return (
           </ArticlePill>
         </>
       ))}
-  </>
+  </Main>
 );
