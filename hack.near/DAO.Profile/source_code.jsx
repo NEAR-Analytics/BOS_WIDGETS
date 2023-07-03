@@ -1,4 +1,4 @@
-const daoId = props.daoId;
+const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 
 if (!daoId) {
   return (
@@ -30,7 +30,7 @@ return (
       <div className="mt-3">
         <Widget
           src="frichard5.near/widget/NDC-Dashboard"
-          props={{ selectedDao: daoId }}
+          props={{ selectedDao: daoId, widgetProvider: "frichard5.near" }}
         />
       </div>
     </div>
