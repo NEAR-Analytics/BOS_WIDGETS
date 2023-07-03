@@ -191,10 +191,7 @@ let Nominationcontract = "nominations-v1.gwg.testnet";
 State.init({
   theme,
   commitLoading: false,
-  wasTRX:
-    Storage.privateGet("DataSelf") != null
-      ? Storage.privateGet("DataSelf")
-      : null,
+  wasTRX: true,
   img: { uploading: false, cid: null, name: "" },
   name: "",
   profileAccount: "",
@@ -402,7 +399,7 @@ const Cancel2 = () => {
 };
 let localStorage = Storage.privateGet("SelfNominate_Payload");
 
-if (localStorage != null) {
+if (localStorage != null && state.wasTRX) {
   console.log("Storage local", localStorage);
   //if the local storage exist then call a set method from socialAPI
   const data = { nominations: localStorage };
@@ -459,7 +456,7 @@ const Self_Nominate_SocialDB = () => {
 
 const Test_Self_Nominate = () => {
   //Validate the Data outPut
-
+  State.update({ wasTRX: false });
   //Store the state in the local storage
   Storage.privateSet("SelfNominate_Payload", state);
 
