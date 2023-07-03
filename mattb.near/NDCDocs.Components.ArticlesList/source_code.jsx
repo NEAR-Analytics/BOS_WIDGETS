@@ -222,7 +222,7 @@ const arrowImg = (
 function getSkeleton() {
   return (
     <>
-      {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
+      {Array.from(Array(15).keys()).map(() => (
         <ArticlePill>
           <ArticleTitle className="skeleton">
             <div>
