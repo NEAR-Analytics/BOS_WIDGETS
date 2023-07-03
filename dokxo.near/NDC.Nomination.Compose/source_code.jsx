@@ -190,7 +190,7 @@ let Nominationcontract = "nominations-v1.gwg.testnet";
 // State
 State.init({
   theme,
-  commitLoading,
+  commitLoading: false,
   wasTRX:
     Storage.privateGet("DataSelf") != null
       ? Storage.privateGet("DataSelf")
@@ -401,31 +401,23 @@ const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
 };
 let localStorage = Storage.privateGet("SelfNominate_Payload");
-const Test_Self_Nominate_SocialDB = () => {
-  console.log("Entered Test_Self_Nominate_SocialDB", originaState);
-  //Recover the Original payload
 
-  let originaState = Storage.privateget("SelfNominate_Payload");
-  console.log("State recovered", originaState);
-  //Post to Social DB
-  /*  State.update({ commitLoading: true });
-   Social.set(data, {
-     force: true,
-     onCommit: () => {
-       State.update({ commitLoading: false });
-     },
-     onCancel: () => {
-       State.update({ commitLoading: false });
-     },
-   });
- */
-  //Clear the local storage
-  Storage.privateSet("SelfNominate_Payload", null);
-};
 if (localStorage != null) {
   console.log("Storage local", localStorage);
-  //if the local storage exist then call  a method
-  Test_Self_Nominate_SocialDB;
+  //if the local storage exist then call a set method from socialAPI
+
+  State.update({ commitLoading: true });
+  Social.set(localStorage, {
+    force: true,
+    onCommit: () => {
+      State.update({ commitLoading: false });
+    },
+    onCancel: () => {
+      State.update({ commitLoading: false });
+    },
+  });
+
+  Storage.privateSet("SelfNominate_Payload", null);
 }
 
 const Self_Nominate = () => {
