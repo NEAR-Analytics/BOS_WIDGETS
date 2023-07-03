@@ -403,7 +403,7 @@ const Cancel2 = () => {
 
 if (Storage.privateGet("SelfNominate_Payload")) {
   //if the local storage exist then call  a method
-  Test_Self_Nominate_SocialDB();
+  Test_Self_Nominate_SocialDB;
 }
 
 const Self_Nominate = () => {
@@ -567,7 +567,7 @@ return (
           >
             <Submitcontainer>
               <CancelBtn onClick={Cancel}> Cancel </CancelBtn>
-              <SubmitBtn onClick={Cancel2}> Submit </SubmitBtn>
+              <SubmitBtn onClick={Test_Self_Nominate}> Submit </SubmitBtn>
             </Submitcontainer>
           </div>
         </CardForm>
