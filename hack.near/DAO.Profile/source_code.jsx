@@ -1,4 +1,4 @@
-const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
+const daoId = props.daoId;
 
 if (!daoId) {
   return (
