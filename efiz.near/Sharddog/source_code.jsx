@@ -47,14 +47,14 @@ function fetchTokens() {
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 0.1fr));
+  grid-template-columns: repeat(auto-fill, minmax(144px, 0.1fr));
 
   @media (hover: none) {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 0.1fr));
+    grid-template-columns: repeat(auto-fill, minmax(144px, 0.1fr));
   }
 `;
 
-const size = "150px";
+const size = "144px";
 
 const loader = (
   <div className="loader" key={"loader"}>
