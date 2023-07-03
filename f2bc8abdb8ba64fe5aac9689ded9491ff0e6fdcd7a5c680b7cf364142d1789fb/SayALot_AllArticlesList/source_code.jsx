@@ -58,7 +58,6 @@ return (
   <div className="row card-group py-3">
     {filteredArticles.length > 0 &&
       filteredArticles.map((article, i) => {
-        console.log(article);
         return (
           <div
             className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
@@ -107,7 +106,7 @@ return (
                       <br />
                       Edit versions: {article.version}
                     </div>
-                    {article.tags && (
+                    {Object.keys(article.tags).length > 0 && (
                       <Widget
                         src={`${authorForWidget}/widget/SayALot_TagList`}
                         props={{ tags: article.tags }}
