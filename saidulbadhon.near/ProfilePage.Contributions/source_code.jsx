@@ -62,30 +62,36 @@ return (
   <div className="contributions">
     <div className="header">
       <div className="headerContent">
-        <p>Jan</p>
-        <p>Feb</p>
-        <p>Mar</p>
-        <p>Apr</p>
-        <p>May</p>
-        <p>Jun</p>
-        <p>Jul</p>
-        <p>Aug</p>
-        <p>Sep</p>
-        <p>Oct</p>
-        <p>Nov</p>
-        <p>Dec</p>
+        <p style={{ color: props.theme.textColor3 }}>Jan</p>
+        <p style={{ color: props.theme.textColor3 }}>Feb</p>
+        <p style={{ color: props.theme.textColor3 }}>Mar</p>
+        <p style={{ color: props.theme.textColor3 }}>Apr</p>
+        <p style={{ color: props.theme.textColor3 }}>May</p>
+        <p style={{ color: props.theme.textColor3 }}>Jun</p>
+        <p style={{ color: props.theme.textColor3 }}>Jul</p>
+        <p style={{ color: props.theme.textColor3 }}>Aug</p>
+        <p style={{ color: props.theme.textColor3 }}>Sep</p>
+        <p style={{ color: props.theme.textColor3 }}>Oct</p>
+        <p style={{ color: props.theme.textColor3 }}>Nov</p>
+        <p style={{ color: props.theme.textColor3 }}>Dec</p>
       </div>
     </div>
 
     <div className="contributionsContainer">
       <div className="weekdays">
-        <p className="weekday" />
-        <p className="weekday">Mon</p>
-        <p className="weekday" />
-        <p className="weekday">Wed</p>
-        <p className="weekday" />
-        <p className="weekday">Fir</p>
-        <p className="weekday" />
+        <p style={{ color: props.theme.textColor3 }} className="weekday" />
+        <p style={{ color: props.theme.textColor3 }} className="weekday">
+          Mon
+        </p>
+        <p style={{ color: props.theme.textColor3 }} className="weekday" />
+        <p style={{ color: props.theme.textColor3 }} className="weekday">
+          Wed
+        </p>
+        <p style={{ color: props.theme.textColor3 }} className="weekday" />
+        <p style={{ color: props.theme.textColor3 }} className="weekday">
+          Fir
+        </p>
+        <p style={{ color: props.theme.textColor3 }} className="weekday" />
       </div>
       <div className="contributionsContent">
         {array?.map((item, index) => {
