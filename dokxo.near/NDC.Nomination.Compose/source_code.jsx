@@ -542,6 +542,7 @@ return (
               "padding-right": "16px",
             }}
           >
+            {state.error_msg}
             <Submitcontainer>
               <CancelBtn onClick={Cancel}> Cancel </CancelBtn>
               <SubmitBtn onClick={Self_Nominate}> Submit </SubmitBtn>
