@@ -202,7 +202,7 @@ return (
     <div className="col-2 mt-2">
       <Widget
         src="hack.near/widget/StarButton"
-        props={{ notifyAccountId: account, item }}
+        props={{ notifyAccountId, item }}
       />
     </div>
 
