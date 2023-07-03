@@ -1,4 +1,4 @@
-const Card = styled.div`
+const Card = styled.a`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
