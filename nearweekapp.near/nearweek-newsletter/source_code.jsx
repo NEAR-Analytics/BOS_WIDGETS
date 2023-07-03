@@ -154,7 +154,7 @@ return (
         </CardBody>
         <CardFooter>
           <ButtonLink
-            href={"https://nearweek.com/newsletters/" + issue.slug}
+            href="https://us1.campaign-archive.com/home/?u=ed13caf5cf7d37689d81ef60b&id=86d4e11a12"
             target="_blank"
           >
             Read
