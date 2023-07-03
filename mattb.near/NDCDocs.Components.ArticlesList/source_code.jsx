@@ -144,6 +144,20 @@ const ArticleTitle = styled.div`
       opacity:.4;
       transition: all .2s;
     }
+
+    &.skeleton {
+      h1 {
+        color:transparent;
+        background-color:rgba(0,0,0,.02);
+        border-radius:5px;
+      }
+      p {
+        color:transparent;
+        background-color:rgba(0,0,0,.05);
+        border-radius:3px;
+        margin-top:5px;
+      }
+    }
 `;
 
 const ArticleDetails = styled.div`
@@ -153,6 +167,19 @@ const ArticleDetails = styled.div`
     width:100%;
     max-width:300px;
     height:30%;
+    &.skeleton {
+      h2 {
+        color:transparent;
+        background-color:rgba(0,0,0,.02);
+        border-radius:5px;
+      }
+      p {
+        color:transparent;
+        background-color:rgba(0,0,0,.05);
+        border-radius:3px;
+        margin-top:5px;
+      }
+    }
 `;
 
 const Wrapper = styled.div`
@@ -192,8 +219,37 @@ const arrowImg = (
   />
 );
 
+function getSkeleton() {
+  return (
+    <>
+      {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
+        <ArticlePill>
+          <ArticleTitle className="skeleton">
+            <div>
+              <h1>TheNDC</h1>
+              <p>Published on 03/07/2023</p>
+              <p>Last edit by blaze.near</p>
+            </div>
+            <div></div>
+          </ArticleTitle>
+          <ArticleDetails className="skeleton">
+            <Wrapper>
+              <Avatar />
+            </Wrapper>
+            <Wrapper>
+              <h2>NEAR Digital Collective</h2>
+              <p>@neardigitalcollective.near</p>
+            </Wrapper>
+          </ArticleDetails>
+        </ArticlePill>
+      ))}
+    </>
+  );
+}
+
 return (
   <Main>
+    {!state.loaded && getSkeleton()}
     {state.loaded &&
       FILTERED_ARTICLES.map((article) => (
         <>
