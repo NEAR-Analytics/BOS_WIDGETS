@@ -33,7 +33,7 @@ State.init({
 
 const validate = (accountId) => {
   const accountIdRegex =
-    /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+\.near$/;
+    /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
 
   if (typeof accountId !== "string") {
     State.update({
