@@ -1,4 +1,4 @@
-const { isIAmHuman } = props;
+const { isIAmHuman, contract } = props;
 
 const widget = {
   button: "rubycop.near/widget/NDC.StyledComponents",
@@ -84,9 +84,11 @@ State.init({
 });
 
 const handleAddKudo = () => {
-  console.log(state.receiverId);
-  console.log(state.comment);
-  console.log(state.tags.replace(/\s/g, "").split(","));
+  Near.call(contract, "give_kudos", {
+    receiver_id: state.receiverId,
+    text: state.comment,
+    hashtags: state.tags.replace(/\s/g, "").split(","),
+  });
 };
 
 const Content = () => (
