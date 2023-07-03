@@ -39,7 +39,7 @@ if (debug) {
 
       // review swap data for debug mode
 
-      data.sender = "0x9e65A68B05d06A054e07dC7060ec2bB8BC2B9313";
+      data.sender = "0xCde2aE6aAaFDf4Af492d65561Cc1fF4989c32c5a";
       data.inputAssetAmount = "4123";
       data.inputAsset = {
         metadata: {
@@ -59,7 +59,7 @@ if (debug) {
 
       data.callTx(data, f, undefined, undefined, undefined, [
         "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+        "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
       ]);
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
@@ -577,8 +577,8 @@ const callTxPancakeZKEVM = (
   sqrtPriceLimitX96,
   path
 ) => {
-  const poolFee = 2500;
-  console.log("callTxPancakeZKEVM", input, path);
+  const poolFee = "2500";
+  console.log("callTxPancakeZKEVM 0", input, path);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -597,30 +597,165 @@ const callTxPancakeZKEVM = (
       Ethers.provider().getSigner()
     );
 
+    console.log("swapContract", swapContract);
+
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    if (path.length === 2) {
+      // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+
+      const params = [
+        input.inputAssetTokenId,
+        input.outputAssetTokenId,
+        poolFee,
+        input.sender,
+        /*deadline.toFixed(),*/
+        value,
+        "0",
+        sqrtPriceLimitX96 ?? "0",
+      ];
+
+      console.log("swapContract", params);
+      swapContract
+        .exactInputSingle(params, {
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "1.29", "gwei"),
+          gasLimit: gasLimit ?? 300000,
+        })
+        .then((transactionHash) => {
+          console.log("32");
+          onComplete(transactionHash);
+        });
+      console.log("2");
+    } else {
+      console.log("path.length", path.length);
+    }
+  }
+};
+
+const callTxPancakeZKEVM2 = (
+  input,
+  onComplete,
+  gasPrice,
+  gasLimit,
+  sqrtPriceLimitX96,
+  path
+) => {
+  const poolFee = 2500;
+  console.log(
+    "callTxPancakeZKEVM2",
+    input,
+    gasPrice,
+    gasLimit,
+    sqrtPriceLimitX96,
+    path
+  );
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const ifaceErc20 = new ethers.utils.Interface(input.routerAbi);
+
+    console.log("ifaceErc20", ifaceErc20);
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    const encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
+      "exactInputSingle",
+      [
+        {
+          tokenIn: input.inputAssetTokenId,
+          tokenOut: input.outputAssetTokenId,
+          fee: "2500", //poolFee,
+          recipient: input.sender,
+          /*deadline.toFixed(),*/
+          amountIn: value,
+          amountOutMinimum: "0",
+          sqrtPriceLimitX96: sqrtPriceLimitX96 ?? "0",
+        },
+      ]
+    );
+
+    const multicallParams = [encodedExactOutputSingleData];
+    console.log(
+      "encodedExactOutputSingleData",
+      encodedExactOutputSingleData,
+      multicallParams
+    );
+
+    const multicallContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    console.log("multicallContract", multicallContract);
+
+    const multicallData = ifaceErc20.encodeFunctionData(
+      "multicall(uint256,bytes[])",
+      [
+        //const multicallData = ifaceErc20.encodeFunctionData("multicall", [
+        deadline.toFixed(),
+        multicallParams,
+      ]
+    );
+
+    console.log("multicallData", multicallData, deadline.toFixed());
+
+    console.log("multicallData", multicallData);
+
+    const txArgs = {
+      to: input.routerContract,
+      from: input.sender,
+      data: multicallData,
+      gasPrice: ethers.utils.parseUnits(gasPrice ?? "1.81", "gwei"),
+      gasLimit: gasLimit ?? 300000,
+    };
+
+    console.log("txArgs", txArgs);
+
+    Ethers.provider()
+      //.send("eth_sendTransaction", txArgs)
+      .getSigner()
+      .sendTransaction(txArgs)
+      .then((transactionHash) => {
+        console.log(transactionHash);
+      });
+
+    return;
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
 
     if (path.length === 2) {
       // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
       console.log("swapContract", swapContract);
       swapContract
-        .exactInputSingle(
+        .aggregate(
           [
-            input.inputAssetTokenId,
-            input.outputAssetTokenId,
-            poolFee,
-            input.sender,
-            deadline.toFixed(),
-            value,
-            "0",
-            sqrtPriceLimitX96 ?? 0,
-          ],
+            {
+              target: input.routerContract,
+              callData: encodedExactOutputSingleData,
+            },
+          ] /*,
           {
             gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.801", "gwei"),
             gasLimit: gasLimit ?? 300000,
-          }
+          }*/
         )
         .then((transactionHash) => {
-          onComplete(transactionHash);
+          console.log("transactionHash", transactionHash);
+          // onComplete(transactionHash);
         });
     } else {
       console.log("path.length", path.length);
@@ -1144,7 +1279,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           if (state.routerAbi == undefined) {
             const routerAbi = fetch(
               //"https://gist.githubusercontent.com/zavodil/5ab70bbbd8cf30c0edbf4837f473904d/raw/e9ec67d159b844222df04f3ad23c4c1cc771fa43/PancakeSwapRouter"
-              "https://gist.githubusercontent.com/zavodil/c51f14cbc5c379ab15548dcd63bee279/raw/1f797efe368cadd6c817df0a736f1ea9a522bd8a/PancakeMixedRouteQuoterV1ABI"
+              "https://gist.githubusercontent.com/zavodil/c51f14cbc5c379ab15548dcd63bee279/raw/1f797efe368cadd6c817df0a736f1ea9a522bd8a/PancakeMixedRouteQuoterV1ABI?1"
             );
             if (!routerAbi.ok) {
               return "Loading";
@@ -1176,7 +1311,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             dexName: "Pancake Swap",
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
-            callTx: callTxPancakeZKEVM,
+            callTx: callTxPancakeZKEVM2,
             callTokenApproval: callTokenApprovalEVM,
           });
 
