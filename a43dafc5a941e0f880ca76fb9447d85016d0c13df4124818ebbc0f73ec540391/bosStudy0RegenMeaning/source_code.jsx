@@ -1,7 +1,3 @@
-props = {
-  regenTitle: "Regeneration",
-};
-
 const regenText = props.regenText;
 
 State.init({
