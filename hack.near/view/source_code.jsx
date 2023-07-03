@@ -186,10 +186,6 @@ const Subtext = styled.p`
   font-size: 1em;
 `;
 
-const Box = styled.div`
-  margin: .3em;
-`;
-
 State.init({
   thingSrc: data.views[0]?.src,
 });
@@ -206,9 +202,6 @@ function Thing() {
     );
   }
 }
-
-// how can we have this be custom?
-// settings/every/subject
 
 function handleInputChange(e) {
   State.update({
@@ -248,7 +241,7 @@ return (
         props={{ path: "efiz.near/thing/under.construction" }}
       />
     ) : null}
-    <Box>
+    <div className="m-3">
       <ButtonRow>
         {data &&
           data.views?.map((view) => (
@@ -268,7 +261,7 @@ return (
       </Button>
       */}
       </ButtonRow>
-    </Box>
+    </div>
     <>
       <Thing />
     </>
