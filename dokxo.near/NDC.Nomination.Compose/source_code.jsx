@@ -395,7 +395,7 @@ const handleDeclaration = (item) => {
 
 const Cancel = () => {
   const contract = "hello.near-examples.near";
-  Storage.privateSet("DataSelf", null);
+  Storage.privateSet("SelfNominate_Payload", null);
 };
 const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
