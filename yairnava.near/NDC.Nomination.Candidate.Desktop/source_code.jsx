@@ -13,6 +13,7 @@ flex-direction: column;
 align-items: flex-start;
 gap: 12px;
 `;
+
 const DetailCard = styled.div`
 display: flex;
 width: 358px;
@@ -807,9 +808,7 @@ return (
                 <DeclarationDescription>
                   Lorem ipsum dolor sit amet consectetur. Turpis maecenas
                   pulvinar quis massanibh porttitor non lacus venenatis. Mi in
-                  iaculis viverra ac sapien augue nisl odio. Neque eget magna
-                  nibh sed neque ipsum enim sed. Consectetur dictum quisque
-                  faucibus nunc. Suspendisse lacus tempus tempor nisl .
+                  iaculis viverra ac sapien augue nisl odio.
                 </DeclarationDescription>
                 <div style={{ "text-align": "center", width: "100%" }}>
                   <DeclarationImage
@@ -821,20 +820,28 @@ return (
             </DeclarationCard>
           ) : (
             <CommentSection style={{ padding: "0px" }}>
+              {state.showModal && (
+                <Widget
+                  src={`dokxo.near/widget/CommentCard`}
+                  props={{
+                    candidateOrReplay: true,
+                    onClickConfirm: () => State.update({ showModal: false }),
+                    onClickCancel: () => State.update({ showModal: false }),
+                  }}
+                />
+              )}
               <CommentHeader
                 style={{ width: "100%", "justify-content": "center" }}
               >
                 <CommentButton
                   style={{ width: "100%", "justify-content": "center" }}
+                  onClick={async () => {
+                    State.update({ showModal: true });
+                  }}
                 >
                   <CommentText>Add a Comment +</CommentText>
                 </CommentButton>
               </CommentHeader>
-              <Widget
-                src={"syi216.near/widget/NDC.Nomination.CommentCard"}
-                style={{ padding: "0px" }}
-              />
-              <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
               <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
               <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
             </CommentSection>
