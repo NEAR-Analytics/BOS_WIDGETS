@@ -230,7 +230,7 @@ const validatedInputs = () => {
   const isFalse = (check) => check === false;
   let isValid = false;
   if (img.cid === null) {
-    State.update({ error_msg: "Pic a image" });
+    State.update({ error_msg: "Pic an image" });
     return false;
   }
   if (isEmpty(name)) {
@@ -542,7 +542,17 @@ return (
               "padding-right": "16px",
             }}
           >
-            {state.error_msg}
+            {
+              <label
+                style={{
+                  display: "flex",
+                  "justify-content": "end",
+                  color: "rgba(255,0,0,0)",
+                }}
+              >
+                state.error_msg
+              </label>
+            }
             <Submitcontainer>
               <CancelBtn onClick={Cancel}> Cancel </CancelBtn>
               <SubmitBtn onClick={Self_Nominate}> Submit </SubmitBtn>
