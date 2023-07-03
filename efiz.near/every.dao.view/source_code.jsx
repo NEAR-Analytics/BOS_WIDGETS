@@ -1,8 +1,6 @@
 const data = props.data;
 const path = props.path;
 
-return <p>{JSON.stringify(props)}</p>;
-
 const daoId = data.daoId;
 const name = data.name || "No-name profile";
 const image = data.logo;
