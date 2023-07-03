@@ -20,7 +20,7 @@ const widgets = {
 };
 
 State.init({
-  selectedHouse: houses[0].id,
+  selectedHouse: ids[0],
   start: true,
   house: "CouncilOfAdvisors",
   nominations: [],
