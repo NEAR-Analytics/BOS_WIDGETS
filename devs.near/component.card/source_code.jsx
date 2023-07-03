@@ -199,18 +199,16 @@ return (
     </CardBody>
 
     <CardFooter>
-      <div className="row">
-        <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-        <ButtonLink href={appUrl} primary>
-          Open
-        </ButtonLink>
-      </div>
-      <div className="row">
-        <Widget
-          src="hack.near/widget/StarButton"
-          props={{ notifyAccountId, item }}
-        />
-      </div>
+      <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+      <ButtonLink href={appUrl} primary>
+        Open
+      </ButtonLink>
+    </CardFooter>
+    <CardFooter>
+      <Widget
+        src="hack.near/widget/StarButton"
+        props={{ notifyAccountId, item }}
+      />
     </CardFooter>
   </Card>
 );
