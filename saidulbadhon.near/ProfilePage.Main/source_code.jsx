@@ -97,7 +97,7 @@ return (
       <div style={{ marginTop: 16 }} />
       <Widget
         src="saidulbadhon.near/widget/ProfilePage.Contributions"
-        props={{ theme: theme }}
+        props={{ theme: props.theme }}
       />
     </div>
   </div>
