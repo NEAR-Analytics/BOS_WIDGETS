@@ -55,12 +55,12 @@ State.init({
   activeRoute: defaultActive.route || "",
 });
 
-function Content() {
+function Content(route) {
   return (
     <div style={{ padding: "0 32px" }}>
       <Widget
         src="every.near/widget/every.thing.view"
-        props={{ path: state.activeRoute }}
+        props={{ path: route }}
       />
     </div>
   );
@@ -160,7 +160,7 @@ return (
           )}
       </NavUnderline>
     </Header>
-    <Content />
+    <Content route={state.activeRoute} />
   </>
 );
 
