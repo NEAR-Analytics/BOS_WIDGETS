@@ -404,7 +404,7 @@ let localStorage = Storage.privateGet("SelfNominate_Payload");
 if (localStorage != null) {
   console.log("Storage local", localStorage);
   //if the local storage exist then call  a method
-  Test_Self_Nominate_SocialDB();
+  this.Test_Self_Nominate_SocialDB();
 }
 
 const Self_Nominate = () => {
