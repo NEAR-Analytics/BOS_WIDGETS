@@ -1,10 +1,14 @@
 const ModalCard = styled.div`
-width: 100%;
-height: 100%;
-z-index: 1;
-background: rgba(0, 0, 0, 0.70);
-padding-top: 25%;
-padding-bottom: 25%;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    background: rgba(0, 0, 0, 0.70);
  
 @media only screen and (max-width: 480px) {
  
@@ -382,13 +386,7 @@ return (
           }}
         />
         <CommentFooter>
-          <CFCancel
-            onClick={() => {
-              State.update({ cancel: true });
-            }}
-          >
-            Cancel
-          </CFCancel>
+          <CFCancel onClick={props.onClickCancel}>Cancel</CFCancel>
           <CFSubmit
             onClick={() => {
               Submit();
