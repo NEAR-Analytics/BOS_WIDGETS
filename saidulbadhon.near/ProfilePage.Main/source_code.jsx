@@ -79,13 +79,13 @@ return (
       )}
     </div>
 
-    {/*<div>
-        <h2>{totalCommits.length} contributions</h2>
-        <div style={{ marginTop: 20 }} />
-        <Widget
-          src="zahidulislam.near/widget/Profile.Contributions"
-          props={{ theme: theme }}
-        />
-      </div>*/}
+    <div>
+      <h2>{totalCommits.length} contributions</h2>
+      <div style={{ marginTop: 20 }} />
+      <Widget
+        src="saidulbadhon.near/widget/Profile.Contributions"
+        props={{ theme: theme }}
+      />
+    </div>
   </div>
 );
