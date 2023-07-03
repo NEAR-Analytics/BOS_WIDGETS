@@ -401,8 +401,8 @@ const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
 };
 let localStorage = Storage.privateGet("SelfNominate_Payload");
-if (localStorage != undefined) {
-  console.log("Storage", localStorage);
+if (localStorage != null) {
+  console.log("Storage local", localStorage);
   //if the local storage exist then call  a method
   //Test_Self_Nominate_SocialDB;
 }
