@@ -1,6 +1,20 @@
-const data = props.data;
-const handle = props.handle;
-const path = props.path;
+const communityData = props.communityData;
+const tabs = props.tabs;
+
+// {
+//   banner_url: "",
+//   logo_url: "",
+//   name: "",
+//   description: "",
+// };
+// [
+//   {
+//     defaultActive: true,
+//     iconClass: "bi bi-house-door",
+//     route: "community.activity",
+//     title: "Activity",
+//   },
+// ]
 
 const Header = styled.div`
   overflow: hidden;
@@ -14,7 +28,6 @@ const NavUnderline = styled.ul`
   a {
     color: #687076;
     text-decoration: none;
-    cursor: pointer;
   }
 
   a.active {
@@ -46,132 +59,91 @@ const SizedDiv = styled.div`
   height: 100px;
 `;
 
-let activeTab = {};
-
-const defaultActive = data.tabs?.find((tab) => tab.defaultActive === true);
-
-State.init({
-  activeTabTitle: defaultActive.title || "",
-  activeRoute: defaultActive.route || "",
-});
-
-function Content({ route }) {
-  if (route !== "") {
-    return (
-      <div style={{ padding: "0 32px" }}>
-        <Widget
-          src="every.near/widget/every.thing.view"
-          props={{ path: route }}
-        />
-      </div>
-    );
-  } else {
-    return <></>;
-  }
-}
-
 return (
-  <>
-    <Header className="d-flex flex-column gap-3">
-      <Banner
-        className="object-fit-cover"
-        style={{
-          background: `center / cover no-repeat url(https://ipfs.near.social/ipfs/${data.background?.ipfs_cid})`,
-        }}
-      />
+  <Header className="d-flex flex-column gap-3">
+    <Banner
+      className="object-fit-cover"
+      style={{
+        background: `center / cover no-repeat url(${communityData.banner_url})`,
+      }}
+    />
 
-      <div className="d-md-flex d-block justify-content-between container">
-        <div className="d-md-flex d-block align-items-end">
-          <div className="position-relative">
-            <SizedDiv>
-              <Widget
-                src="mob.near/widget/Image"
-                props={{
-                  image: data.logo,
-                  style: { width: "150px", height: "150px", top: "-50px" },
-                  className:
-                    "order border-3 border-white rounded-circle shadow position-absolute",
-                }}
-              />
-            </SizedDiv>
-          </div>
-
-          <div>
-            <div className="h1 pt-3 ps-3 text-nowrap">{data.name}</div>
-
-            <div className="ps-3 pb-2 text-secondary">
-              {data.description.content}
-            </div>
-          </div>
+    <div className="d-md-flex d-block justify-content-between container">
+      <div className="d-md-flex d-block align-items-end">
+        <div className="position-relative">
+          <SizedDiv>
+            <LogoImage
+              src={communityData.logo_url}
+              alt="Community logo"
+              width="150"
+              height="150"
+              className="border border-3 border-white rounded-circle shadow position-absolute"
+            />
+          </SizedDiv>
         </div>
 
-        <div className="d-flex align-items-end gap-3">
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-          >
-            <Button
-              type="button"
-              className={[
-                "d-flex align-items-center gap-2 border border-1 rounded-pill px-3 py-2",
-                "text-dark text-nowrap font-weight-bold fs-6",
-              ].join(" ")}
-              onMouseLeave={() => {
-                State.update({ copiedShareUrl: false });
-              }}
-              onClick={() => {
-                clipboard
-                  .writeText(
-                    `https://everything.dev/#/${path}?handle=${handle}`
-                  )
-                  .then(() => {
-                    State.update({ copiedShareUrl: true });
-                  });
-              }}
-            >
-              {state.copiedShareUrl ? (
-                <i className="bi bi-16 bi-check"></i>
-              ) : (
-                <i className="bi bi-16 bi-link-45deg"></i>
-              )}
-              <span>Share</span>
-            </Button>
-          </OverlayTrigger>
+        <div>
+          <div className="h1 pt-3 ps-3 text-nowrap">{communityData.name}</div>
+
+          <div className="ps-3 pb-2 text-secondary">
+            {communityData.description}
+          </div>
         </div>
       </div>
 
-      <NavUnderline className="nav">
-        {data.tabs &&
-          data.tabs?.map(({ defaultActive, params, route, title }) =>
-            title ? (
-              <li className="nav-item" key={title}>
-                <a
-                  aria-current={defaultActive && "page"}
-                  className={[
-                    "d-inline-flex gap-2",
-                    state.activeTabTitle === title
-                      ? "nav-link active"
-                      : "nav-link",
-                  ].join(" ")}
-                  onClick={() =>
-                    State.update({ activeTabTitle: title, activeRoute: route })
-                  }
-                >
-                  <span>{title}</span>
-                </a>
-              </li>
-            ) : null
-          )}
-      </NavUnderline>
-    </Header>
-    <Content route={state.activeRoute} />
-  </>
-);
+      <div className="d-flex align-items-end gap-3">
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
+        >
+          <Button
+            type="button"
+            className={[
+              "d-flex align-items-center gap-2 border border-1 rounded-pill px-3 py-2",
+              "text-dark text-nowrap font-weight-bold fs-6",
+            ].join(" ")}
+            onMouseLeave={() => {
+              State.update({ copiedShareUrl: false });
+            }}
+            onClick={() => {
+              clipboard
+                .writeText(
+                  "https://near.org" + href("community.activity", { handle })
+                )
+                .then(() => {
+                  State.update({ copiedShareUrl: true });
+                });
+            }}
+          >
+            {state.copiedShareUrl ? (
+              <i className="bi bi-16 bi-check"></i>
+            ) : (
+              <i className="bi bi-16 bi-link-45deg"></i>
+            )}
 
-// <LogoImage
-//               src={data.logo}
-//               alt="Community logo"
-//               width="150"
-//               height="150"
-//               className="border border-3 border-white rounded-circle shadow position-absolute"
-//             />
+            <span>Share</span>
+          </Button>
+        </OverlayTrigger>
+      </div>
+    </div>
+
+    <NavUnderline className="nav">
+      {tabs.map(({ defaultActive, params, route, title }) =>
+        title ? (
+          <li className="nav-item" key={title}>
+            <a
+              aria-current={defaultActive && "page"}
+              className={[
+                "d-inline-flex gap-2",
+                activeTabTitle === title ? "nav-link active" : "nav-link",
+              ].join(" ")}
+              //   href={href(route, { handle, ...(params ?? {}) })}
+            >
+              <span>{title}</span>
+            </a>
+          </li>
+        ) : null
+      )}
+    </NavUnderline>
+  </Header>
+);
