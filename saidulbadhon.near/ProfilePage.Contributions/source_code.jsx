@@ -101,14 +101,14 @@ return (
           let color;
 
           if (item?.value === 0)
-            color = props.theme === "light" ? "#ebedf0" : "#161b22";
+            color = props.theme.name === "light" ? "#ebedf0" : "#161b22";
           else if (item?.value === 1)
-            color = props.theme === "light" ? "#9be9a8" : "#0e4429";
+            color = props.theme.name === "light" ? "#9be9a8" : "#0e4429";
           else if (item?.value === 2)
-            color = props.theme === "light" ? "#40c463" : "#26a641";
+            color = props.theme.name === "light" ? "#40c463" : "#26a641";
           else if (item?.value === 3)
-            color = props.theme === "light" ? "#30a14e" : "#26a641";
-          else color = props.theme === "light" ? "#216e39" : "#39d353";
+            color = props.theme.name === "light" ? "#30a14e" : "#26a641";
+          else color = props.theme.name === "light" ? "#216e39" : "#39d353";
 
           const date = new Date(item.date);
           const options = {
@@ -125,7 +125,7 @@ return (
                 color: color,
                 date: formattedDate,
                 item,
-                theme: props.theme,
+                theme: props.theme.name,
               }}
             />
           );
@@ -137,27 +137,27 @@ return (
       <p className="footerText">Less</p>
       <div
         style={{
-          backgroundColor: props.theme === "light" ? "#ebedf0" : "#161b22",
+          backgroundColor: props.theme.name === "light" ? "#ebedf0" : "#161b22",
         }}
       />
       <div
         style={{
-          backgroundColor: props.theme === "light" ? "#9be9a8" : "#0e4429",
+          backgroundColor: props.theme.name === "light" ? "#9be9a8" : "#0e4429",
         }}
       />
       <div
         style={{
-          backgroundColor: props.theme === "light" ? "#40c463" : "#26a641",
+          backgroundColor: props.theme.name === "light" ? "#40c463" : "#26a641",
         }}
       />
       <div
         style={{
-          backgroundColor: props.theme === "light" ? "#30a14e" : "#26a641",
+          backgroundColor: props.theme.name === "light" ? "#30a14e" : "#26a641",
         }}
       />
       <div
         style={{
-          backgroundColor: props.theme === "light" ? "#216e39" : "#39d353",
+          backgroundColor: props.theme.name === "light" ? "#216e39" : "#39d353",
         }}
       />
       <p className="footerText">More</p>
