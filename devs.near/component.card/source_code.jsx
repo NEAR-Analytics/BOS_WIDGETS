@@ -162,13 +162,6 @@ return (
       </CardTag>
     }
 
-    <div className="col-2 mt-2">
-      <Widget
-        src="hack.near/widget/StarButton"
-        props={{ notifyAccountId, item }}
-      />
-    </div>
-
     <CardBody>
       <Thumbnail href={detailsUrl}>
         <Widget
@@ -206,10 +199,20 @@ return (
     </CardBody>
 
     <CardFooter>
-      <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-      <ButtonLink href={appUrl} primary>
-        Open
-      </ButtonLink>
+      <div className="row">
+        <div className="col-8">
+          <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+          <ButtonLink href={appUrl} primary>
+            Open
+          </ButtonLink>
+        </div>
+        <div className="col-3">
+          <Widget
+            src="hack.near/widget/StarButton"
+            props={{ notifyAccountId, item }}
+          />
+        </div>
+      </div>
     </CardFooter>
   </Card>
 );
