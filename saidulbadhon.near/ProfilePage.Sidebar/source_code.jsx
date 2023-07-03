@@ -102,15 +102,17 @@ return (
             props={{ profile, theme: props.theme }}
           />
         </div>
-        <button
-          onClick={() => {
-            State.update({
-              showEditProfile: true,
-            });
-          }}
-        >
-          Edit Profile
-        </button>
+        {props.myAccountId === accountId && (
+          <button
+            onClick={() => {
+              State.update({
+                showEditProfile: true,
+              });
+            }}
+          >
+            Edit Profile
+          </button>
+        )}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <Widget
