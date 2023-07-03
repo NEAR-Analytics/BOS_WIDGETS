@@ -82,6 +82,7 @@ const Navigation = styled.div`
         flex-wrap:wrap;
 
         @media screen and (max-width:700px) {
+            z-index:9999;
             display:block;
             position:absolute;
             top:100%;
