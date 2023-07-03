@@ -1,29 +1,4 @@
-// const data = fetch("https://graph.mintbase.xyz/mainnet", {
-//   method: "POST",
-//   headers: {
-//     "mb-api-key": "omni-site",
-//     "Content-Type": "application/json",
-//     "x-hasura-role": "anonymous",
-//   },
-//   body: JSON.stringify({
-//     query: `
-//       query MyQuery {
-//             nft_tokens(
-//                 limit: 2,
-//                 offset: 10
-//               where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
-//             ) {
-//               token_id
-//               nft_contract {
-//                 id
-//               }
-//             }
-//           }
-// `,
-//   }),
-// });
-
-const limit = 1;
+const limit = 20;
 
 State.init({
   offset: 0,
@@ -42,22 +17,19 @@ function fetchTokens() {
     body: JSON.stringify({
       query: `
           query MyQuery {
-            nft_tokens(
+            mb_views_nft_tokens(
                 limit: ${limit},
                 offset: ${state.offset}
               where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
             ) {
-              token_id
-              nft_contract {
-                id
-              }
+              media
             }
           }
         `,
     }),
   }).then((res) => {
     if (res.ok) {
-      const tokens = res.body.data.nft_tokens;
+      const tokens = res.body.data.mb_views_nft_tokens;
       if (tokens.length > 0) {
         State.update({
           tokens: [...state.tokens, ...tokens],
@@ -105,11 +77,10 @@ return (
       {state.tokens?.map((it) => {
         return (
           <Widget
-            src="mob.near/widget/NftImage"
+            src="mob.near/widget/Image"
             props={{
-              nft: {
-                tokenId: it.token_id,
-                contractId: it.nft_contract.id,
+              image: {
+                url: it.media,
               },
               style: {
                 width: size,
@@ -121,10 +92,27 @@ return (
                 maxHeight: size,
                 overflowWrap: "break-word",
               },
-              className: "",
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
             }}
+            // src="mob.near/widget/NftImage"
+            // props={{
+            //   nft: {
+            //     tokenId: it.token_id,
+            //     contractId: it.nft_contract.id,
+            //   },
+            //  style: {
+            //     width: size,
+            //     height: size,
+            //     objectFit: "cover",
+            //     minWidth: size,
+            //     minHeight: size,
+            //     maxWidth: size,
+            //     maxHeight: size,
+            //     overflowWrap: "break-word",
+            //   },
+            //   className: "",
+            //   fallbackUrl:
+            //     "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
+            // }}
           />
         );
       })}
