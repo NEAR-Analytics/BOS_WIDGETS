@@ -57,10 +57,11 @@ function getNominationInfo() {
     }
   ).then((res) => {
     State.update({ nominations: res.body });
-    //let info = Social.getr(`${res.body[0].nominee}`);
-    //console.log(info);
+    let info = Social.getr(`dokxo.near/nominations`);
+    console.log(info);
   });
 }
+//
 
 if (state.start) {
   getNominationInfo();
