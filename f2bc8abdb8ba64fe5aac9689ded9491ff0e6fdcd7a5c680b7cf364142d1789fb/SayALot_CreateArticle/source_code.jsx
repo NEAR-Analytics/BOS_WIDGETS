@@ -1,8 +1,5 @@
-const isDebug = props.isDebug;
-
-const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const addressForArticles = "sayALotArticle";
+const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -257,38 +254,19 @@ const getArticleData = () => {
 };
 
 const composeData = () => {
-  let data;
-  if (isDebug) {
-    data = {
-      test_sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        test_sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-            id: `${context.accountId}-${Date.now()}`,
-          },
-        }),
-      },
-    };
-  } else {
-    data = {
-      sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-            id: `${context.accountId}-${Date.now()}`,
-          },
-        }),
-      },
-    };
-  }
+  const data = {
+    sayALotArticle: {
+      main: JSON.stringify(getArticleData()),
+    },
+    index: {
+      sayALotArticle: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
 
   if (tagsArray.length) {
     data.index.tag = JSON.stringify(
@@ -396,11 +374,7 @@ return (
           width: "100%",
           backdropFilter: "blur(5px)",
         }}
-        href={
-          isDebug
-            ? `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&isDebug=${isDebug}&blockHeight=now`
-            : `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&blockHeight=now`
-        }
+        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}`}
       >
         <div
           style={{
@@ -473,7 +447,7 @@ return (
         <div className="d-flex flex-column pt-3">
           {!state.saveComplete && (
             <Widget
-              src={`${authorForWidget}/widget/TagsEditor`}
+              src="mob.near/widget/TagsEditor"
               props={{
                 initialTagsObject: state.tags,
                 placeholder: "Input tags",
