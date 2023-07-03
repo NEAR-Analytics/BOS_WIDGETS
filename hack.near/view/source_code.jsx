@@ -189,6 +189,59 @@ const Subtext = styled.p`
   font-size: 1em;
 `;
 
+const Tabs = styled.div`
+  display: flex;
+  height: 48px;
+  border-bottom: 1px solid #eceef0;
+  margin-bottom: 4px;
+  overflow: auto;
+  scroll-behavior: smooth;
+  justify-content: center;
+
+  @media (max-width: 1200px) {
+    background: #f8f9fa;
+    border-top: 1px solid #eceef0;
+    margin: 0 -12px 48px;
+
+    > * {
+      flex: 1;
+    }
+  }
+`;
+
+const TabsButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 23px;
+  padding: 0 12px;
+  position: relative;
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:hover {
+    color: #11181c;
+    cursor: pointer;
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #59e692;
+  }
+`;
+
 State.init({
   thingSrc: data.views[0]?.src,
 });
@@ -245,12 +298,12 @@ return (
       />
     ) : null}
     <div className="m-3">
-      <ButtonRow>
+      <Tabs>
         {data &&
           data.views?.map((view) => (
-            <Button onClick={() => State.update({ thingSrc: view.src })}>
+            <TabsButton onClick={() => State.update({ thingSrc: view.src })}>
               {view.name}
-            </Button>
+            </TabsButton>
           ))}
         {/**
       <Button
@@ -263,7 +316,7 @@ return (
         +
       </Button>
       */}
-      </ButtonRow>
+      </Tabs>
     </div>
     <>
       <Thing />
