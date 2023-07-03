@@ -28,7 +28,10 @@ return (
       />
 
       <div className="mt-3">
-        <Widget src="hack.near/widget/DAO.Tabs" props={{ daoId, profile }} />
+        <Widget
+          src="frichard5.near/widget/NDC-Dashboard"
+          props={{ selectedDao: daoId }}
+        />
       </div>
     </div>
   </div>
