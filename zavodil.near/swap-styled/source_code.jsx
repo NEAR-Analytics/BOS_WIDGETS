@@ -30,6 +30,12 @@ const NETWORKS = [
     icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
   },
   {
+    name: "ZKEVM",
+    chainId: 1101,
+    dex: "Pancake Swap",
+    icon: "https://repository-images.githubusercontent.com/440462673/6872d684-f7ed-463c-9a5c-76542eddbcc4",
+  },
+  {
     name: "AURORA",
     chainId: 1313161554,
     icon: "https://assets.coingecko.com/coins/images/20582/small/aurora.jpeg",
@@ -194,11 +200,15 @@ const assetContainer = (
                 <span class="input-asset-token-menu">
                   <div class="input-asset-token-name">
                     <div class="input-asset-token-icon">
-                      <img
-                        alt={`${assetData.metadata.name} logo`}
-                        src={assetData.metadata.icon}
-                        class="input-asset-token-icon-img"
-                      />
+                      {assetData.metadata.icon ? (
+                        <img
+                          alt={`${assetData.metadata.name} logo`}
+                          src={assetData.metadata.icon}
+                          class="input-asset-token-icon-img"
+                        />
+                      ) : (
+                        <>Undefined</>
+                      )}
                     </div>
                     <span class="input-asset-token-ticker">
                       {assetData.metadata.symbol}
@@ -495,13 +505,15 @@ const getFromNetworkLabel = () => {
     }
   }
   let network = networks[getNetworkKey(selectedChainId, selectedDex)];
-  return (
+  return network.icon ? (
     <>
       <img style={{ width: "16px" }} src={network.icon} />
       <span>
         {network.name} {network.dex}
       </span>
     </>
+  ) : (
+    <>Undefined</>
   );
 };
 
@@ -545,7 +557,7 @@ console.log("selectedDex", state.selectedDex, selectedDex);
 return (
   <Theme>
     <Widget
-      src="zavodil.near/widget/DexData2"
+      src="zavodil.near/widget/DexData2.1"
       props={{
         onLoad: onDexDataLoad,
         NETWORK_NEAR,
@@ -555,7 +567,7 @@ return (
         NETWORK_AURORA,
         NETWORK_POLYGON,
         forceReload: state.forceReload ?? false,
-        DEX: state.selectedDex ?? "QuickSwap",
+        DEX: state.selectedDex ?? "Pancake Swap",
       }}
     />
 
@@ -915,8 +927,8 @@ return (
                             onCallTxComple();
                             tokenInApprovaleNeededCheck();
                           },
-                          "120",
-                          100000
+                          undefined /* "120"*/,
+                          undefined /* 100000 */
                         );
                       }
                     }}
@@ -946,7 +958,7 @@ return (
                           state.callTx(
                             state,
                             onCallTxComple,
-                            "7.5",
+                            "2.09",
                             300000,
                             "0",
                             state.estimate.path
@@ -990,6 +1002,15 @@ return (
             </ul>
           </p>
           {currentAccountId && <p>Current account: {currentAccountId}</p>}
+
+          {!state.sender && (
+            <div class="d-flex justify-content-center">
+              <Web3Connect
+                className="swap-button-enabled swap-button-text p-2 swap-main-column text-center"
+                connectLabel="Connect with Web3"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
