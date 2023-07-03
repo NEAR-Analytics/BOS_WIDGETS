@@ -41,7 +41,7 @@ for (let i = 0; i < userSBTs.length; i++) {
 }
 
 return (
-  <div className="bg-white shadow rounded overflow-hidden">
+  <div className="bg-white shadow rounded overflow-hidden m-3">
     <div className="px-4 pt-0 pb-5 bg-dark position-relative">
       {backgroundImage && (
         <Widget
