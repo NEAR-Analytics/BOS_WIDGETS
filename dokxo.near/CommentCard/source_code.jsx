@@ -283,8 +283,15 @@ border-radius: 10px;
  width: 100%;
 }
 `;
-const { username, profile_picture, originalComment, timeago, _share_url } =
-  props;
+// candidateOrReplay :true-Comment candidate  :false-Comment to reply
+const {
+  candidateOrReplay,
+  username,
+  profile_picture,
+  originalComment,
+  timeago,
+  _share_url,
+} = props;
 // State
 State.init({
   theme,
@@ -301,84 +308,97 @@ return (
   <ModalCard>
     {" "}
     <CommentCard>
-      <CTitle>Comment to reply</CTitle>
+      <CTitle>
+        {" "}
+        {candidateOrReplay ? "Comment candidate" : "Comment to reply"}
+      </CTitle>
       <Ccontainer>
-        <CommentBody>
-          <BComment>
-            <BCommentmessage>
-              <BCMHeader>
-                <BCMProfile>
-                  <BCMProfileimg
-                    alt="pic"
-                    src={
-                      profile_picture
-                        ? profile_picture
-                        : "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTKv1yHQKRDQcmc5Jkv2jkaTx2Q1jJE9srHEmyYPq53vJ?preview=1"
-                    }
-                  />
-                </BCMProfile>
-                <BCMProfileUsername>
-                  {username ? username : "@user.near"}
-                </BCMProfileUsername>
-              </BCMHeader>
-              <BCMMessage>
-                {" "}
-                {originalComment
-                  ? originalComment
-                  : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integerquam enim, dignissim sed ante at, convallis maximus enim. Duis  condimentum aliquam nisl nec sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quam enim, dignissim  sed ante at, convallis maximus enim. Duis condimentum aliquam nisl nec sagittis."}
-              </BCMMessage>
-            </BCommentmessage>
-          </BComment>
-          <BFooter>
-            <BFootercont>
-              <BFootercontTime>
-                <img
-                  alt="schedule"
-                  src={
-                    "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP3uRUgZtqV3HAgcZoYaDA6JSPpFcpqULvgenWUs3ctSP"
-                  }
-                />
-                <BFCTimetext> {timeago ? timeago : "2 hours ago"}</BFCTimetext>
-              </BFootercontTime>
-              <BFCButton>
-                <OverlayTrigger
-                  key={placement}
-                  placement={placement}
-                  overlay={
-                    <Tooltip id={`tooltip-${placement}`}>
-                      Copy to clipboard <strong>{placement}</strong>.
-                    </Tooltip>
-                  }
-                >
-                  <BFCButtonitem
-                    onClick={() => {
-                      clipboard.writeText(state.share_url);
-                    }}
-                  >
-                    <BFCBIText>Share</BFCBIText>
+        {!candidateOrReplay ? (
+          <>
+            <CommentBody>
+              <BComment>
+                <BCommentmessage>
+                  <BCMHeader>
+                    <BCMProfile>
+                      <BCMProfileimg
+                        alt="pic"
+                        src={
+                          profile_picture
+                            ? profile_picture
+                            : "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTKv1yHQKRDQcmc5Jkv2jkaTx2Q1jJE9srHEmyYPq53vJ?preview=1"
+                        }
+                      />
+                    </BCMProfile>
+                    <BCMProfileUsername>
+                      {username ? username : "@user.near"}
+                    </BCMProfileUsername>
+                  </BCMHeader>
+                  <BCMMessage>
+                    {" "}
+                    {originalComment
+                      ? originalComment
+                      : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integerquam enim, dignissim sed ante at, convallis maximus enim. Duis  condimentum aliquam nisl nec sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quam enim, dignissim  sed ante at, convallis maximus enim. Duis condimentum aliquam nisl nec sagittis."}
+                  </BCMMessage>
+                </BCommentmessage>
+              </BComment>
+              <BFooter>
+                <BFootercont>
+                  <BFootercontTime>
                     <img
-                      alt="share"
+                      alt="schedule"
                       src={
-                        "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdFMobsnCyj9USY2mHtLzhu58Mz6BFpMx7tKPQGoWmsHY?preview=1"
+                        "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP3uRUgZtqV3HAgcZoYaDA6JSPpFcpqULvgenWUs3ctSP"
                       }
                     />
-                  </BFCButtonitem>
-                </OverlayTrigger>
-              </BFCButton>
-            </BFootercont>
-          </BFooter>
-        </CommentBody>
-        <hr
-          style={{
-            width: "100%",
-            height: "0px",
-            border: "1px solid rgba(130, 134, 136, 0.20)",
-            flex: "none",
-            background: "rgba(130, 134, 136, 0.20)",
-            margin: "0px",
-            "flex-grow": "0",
-          }}
-        />
+                    <BFCTimetext>
+                      {" "}
+                      {timeago ? timeago : "2 hours ago"}
+                    </BFCTimetext>
+                  </BFootercontTime>
+                  <BFCButton>
+                    <OverlayTrigger
+                      key={placement}
+                      placement={placement}
+                      overlay={
+                        <Tooltip id={`tooltip-${placement}`}>
+                          Copy to clipboard <strong>{placement}</strong>.
+                        </Tooltip>
+                      }
+                    >
+                      <BFCButtonitem
+                        onClick={() => {
+                          clipboard.writeText(state.share_url);
+                        }}
+                      >
+                        <BFCBIText>Share</BFCBIText>
+                        <img
+                          alt="share"
+                          src={
+                            "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdFMobsnCyj9USY2mHtLzhu58Mz6BFpMx7tKPQGoWmsHY?preview=1"
+                          }
+                        />
+                      </BFCButtonitem>
+                    </OverlayTrigger>
+                  </BFCButton>
+                </BFootercont>
+              </BFooter>
+            </CommentBody>
+            <hr
+              style={{
+                width: "100%",
+                height: "0px",
+                border: "1px solid rgba(130, 134, 136, 0.20)",
+                flex: "none",
+                background: "rgba(130, 134, 136, 0.20)",
+                margin: "0px",
+                "flex-grow": "0",
+              }}
+            />
+          </>
+        ) : (
+          <></>
+        )}
+
         <NewComment
           placeholder="Replay here"
           onChange={(e) => {
