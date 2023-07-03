@@ -83,7 +83,7 @@ return (
       <h2>{totalCommits.length} contributions</h2>
       <div style={{ marginTop: 20 }} />
       <Widget
-        src="saidulbadhon.near/widget/Profile.Contributions"
+        src="saidulbadhon.near/widget/ProfilePage.Contributions"
         props={{ theme: theme }}
       />
     </div>
