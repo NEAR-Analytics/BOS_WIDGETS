@@ -244,14 +244,15 @@ return (
         props={{ path: "efiz.near/thing/under.construction" }}
       />
     ) : null}
-    <ButtonRow>
-      {data &&
-        data.views?.map((view) => (
-          <Button onClick={() => State.update({ thingSrc: view.src })}>
-            {view.name}
-          </Button>
-        ))}
-      {/**
+    <InnerContainer>
+      <ButtonRow>
+        {data &&
+          data.views?.map((view) => (
+            <Button onClick={() => State.update({ thingSrc: view.src })}>
+              {view.name}
+            </Button>
+          ))}
+        {/**
       <Button
         onClick={() =>
           State.update({
@@ -262,7 +263,9 @@ return (
         +
       </Button>
       */}
-    </ButtonRow>
+      </ButtonRow>
+    </InnerContainer>
+
     <>
       <Thing />
     </>
