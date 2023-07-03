@@ -282,7 +282,6 @@ return (
               props={{
                 src: `${component.accountId}/widget/${component.widgetName}`,
                 blockHeight: component.blockHeight,
-                item,
               }}
             />
           </Item>
