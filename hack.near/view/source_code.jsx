@@ -173,6 +173,8 @@ const Subtitle = styled.p`
   font-size: 2em;
   margin-left: 70px;
   margin-top: 15px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Text = styled.p`
