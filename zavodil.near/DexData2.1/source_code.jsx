@@ -1143,7 +1143,8 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
 
           if (state.routerAbi == undefined) {
             const routerAbi = fetch(
-              "https://gist.githubusercontent.com/zavodil/5ab70bbbd8cf30c0edbf4837f473904d/raw/e9ec67d159b844222df04f3ad23c4c1cc771fa43/PancakeSwapRouter"
+              //"https://gist.githubusercontent.com/zavodil/5ab70bbbd8cf30c0edbf4837f473904d/raw/e9ec67d159b844222df04f3ad23c4c1cc771fa43/PancakeSwapRouter"
+              "https://gist.githubusercontent.com/zavodil/c51f14cbc5c379ab15548dcd63bee279/raw/1f797efe368cadd6c817df0a736f1ea9a522bd8a/PancakeMixedRouteQuoterV1ABI"
             );
             if (!routerAbi.ok) {
               return "Loading";
@@ -1171,7 +1172,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             },
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-            routerContract: "0x1b81D678ffb9C0263b24A97847620C99d213eB14", // SwapRouter
+            routerContract: "0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86", // PancakeMixedRouteQuoterV1ABI
             dexName: "Pancake Swap",
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
