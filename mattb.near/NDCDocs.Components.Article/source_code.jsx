@@ -111,15 +111,12 @@ const Content = styled.div`
     box-sizing:border-box;
     padding:2rem;
 
-    .image {
-        width:100%;
+    img {
+        margin:0 auto;
         height:300px;
         border-radius:20px;
         background-color:rgba(0,0,0,.05);
         margin-bottom:15px;
-        background-position:center;
-        background-size:cover;
-        background-repeat:no-repeat;
     }
 
     h1 {
@@ -165,13 +162,10 @@ return (
       </ArticleDetails>
     </SideBar>
     <Content>
-      <div
+      <img
         className="image"
-        style={{
-          backgroundImage:
-            "url(https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly)",
-        }}
-      ></div>
+        src="https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly"
+      />
       <h1>Introduction</h1>
     </Content>
   </Main>
