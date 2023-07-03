@@ -1,7 +1,7 @@
-let { writersAllowed } = props;
+const { allowedAuthors } = props;
 
 const ARTICLES_ADDRESS = "ndcWikiArticle";
-const ALLOWED_AUTHORS = writersAllowed || [
+const ALLOWED_AUTHORS = allowedAuthors || [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -26,34 +26,32 @@ const postsIndex =
     accountId: undefined,
   }) || [];
 
-const ARTICLES =
-  postsIndex &&
-  postsIndex
-    .reduce((acc, { accountId, blockHeight }) => {
-      const postData = Social.get(
-        `${accountId}/${ARTICLES_ADDRESS}/main`,
-        blockHeight
-      );
-      const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+const ARTICLES = postsIndex
+  .reduce((acc, { accountId, blockHeight }) => {
+    const postData = Social.get(
+      `${accountId}/${ARTICLES_ADDRESS}/main`,
+      blockHeight
+    );
 
-      return [...acc, postDataWithBlockHeight];
-    }, [])
-    .filter((article) =>
-      ALLOWED_AUTHORS.some((addr) => addr === article.author)
+    return [...acc, { ...JSON.parse(postData), blockHeight }];
+  }, [])
+  .filter((article) =>
+    ALLOWED_AUTHORS.some(
+      (address) =>
+        address === article.author &&
+        !ARTICLES_NOT_ALLOWED.includes(article.blockHeight)
     )
-    .filter((article) => !ARTICLES_NOT_ALLOWED.includes(article.blockHeight));
+  );
 
-const FILTERED_ARTICLES =
-  ARTICLES.length &&
-  ARTICLES.reduce((acc, article) => {
-    State.update({ loaded: true });
+const FILTERED_ARTICLES = ARTICLES.reduce((acc, article) => {
+  State.update({ loaded: true });
 
-    if (!acc.some(({ articleId }) => articleId === article.articleId)) {
-      return [...acc, article];
-    } else {
-      return acc;
-    }
-  }, []);
+  if (!acc.some(({ articleId }) => articleId === article.articleId)) {
+    return [...acc, article];
+  } else {
+    return acc;
+  }
+}, []);
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -115,6 +113,13 @@ const ArticleTitle = styled.div`
     box-sizing:border-box;
     padding:20px;
 
+    &:hover {
+      & > div ~ div {
+        opacity:1;
+        transition: all .2s;
+      }
+    }
+
     h1 {
         max-width:200px;
         overflow:hidden;
@@ -130,6 +135,11 @@ const ArticleTitle = styled.div`
           margin:0;
           font-size:.7rem;
         }
+    }
+
+    & > div ~ div {
+      opacity:.4;
+      transition: all .2s;
     }
 `;
 
@@ -170,6 +180,15 @@ const Avatar = styled.div`
     background-repeat:no-repeat;
 `;
 
+const arrowImg = (
+  <img
+    src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+    style={{
+      maxWidth: "20px",
+    }}
+  />
+);
+
 return (
   <>
     {state.loaded &&
@@ -185,14 +204,7 @@ return (
                 <p>Published on {getDateLastEdit(article.timeCreate).date}</p>
                 <p>Last edit by {article.lastEditor}</p>
               </div>
-              <div>
-                <img
-                  src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
-                  style={{
-                    maxWidth: "20px",
-                  }}
-                />
-              </div>
+              <div>{arrowImg}</div>
             </ArticleTitle>
             <ArticleDetails>
               <Wrapper>
