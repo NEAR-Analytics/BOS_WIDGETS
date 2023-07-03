@@ -276,6 +276,7 @@ function getSkeleton() {
 return (
   <Main>
     {!state.posts.length && getSkeleton()}
+    {getPosts()}
     {!!state.posts.length &&
       state.posts.map((article) => (
         <>
