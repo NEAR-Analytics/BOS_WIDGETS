@@ -48,19 +48,11 @@ const SizedDiv = styled.div`
 
 let activeTab = {};
 
-if (handle) {
-  const matchingHandle = data.tabs?.find((tab) => tab.title === handle);
-  activeTab = {
-    activeTabTitle: matchingHandle.title || "",
-    activeRoute: matchingHandle.route || "",
-  };
-} else {
-  const defaultActive = data.tabs?.find((tab) => tab.defaultActive === true);
-  activeTab = {
-    activeTabTitle: defaultActive.title || "",
-    activeRoute: defaultActive.route || "",
-  };
-}
+const defaultActive = data.tabs?.find((tab) => tab.defaultActive === true);
+activeTab = {
+  activeTabTitle: defaultActive.title || "",
+  activeRoute: defaultActive.route || "",
+};
 
 State.init({
   ...activeTab,
