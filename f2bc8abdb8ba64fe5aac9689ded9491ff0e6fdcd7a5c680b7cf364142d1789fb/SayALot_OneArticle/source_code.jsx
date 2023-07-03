@@ -2,6 +2,7 @@ const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
+// const accountId = "blaze.near";
 // if (!accountId) {
 //   return "No account ID";
 // }
@@ -15,7 +16,6 @@ const raw = !!props.raw;
 const notifyAccountId = accountId;
 
 State.init({ showReply: false, isMain: true, article: {} });
-
 const article =
   state.saveComplete || blockHeight === "now"
     ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
@@ -43,7 +43,7 @@ const writersWhiteList = [
   "shubham007.near",
 ];
 
-const doesUserCanEditArticle = () => {
+const canUserEditArticle = () => {
   const canOnlyAuthorEdit = true;
   const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
@@ -90,7 +90,7 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
-const tagsArray = state.tags ? Object.keys(state.tags) : undefined;
+const tagsArray = state.tags ? Object.keys(state.tags) : state.article.tags;
 
 const getArticleData = () => {
   const args = {
@@ -368,7 +368,7 @@ return (
         >
           View History
         </Button>
-        {doesUserCanEditArticle() && !state.editArticle && (
+        {canUserEditArticle() && !state.editArticle && (
           <button
             className="btn btn-outline-dark w-100"
             onClick={() => {
@@ -506,9 +506,9 @@ return (
                       ),
                       placeholder: "Input tags",
                       setTagsObject: (tags) => {
-                        console.log(filterTagsFromNull(tags));
-                        state.tags = filterTagsFromNull(tags);
-                        // state.tags = tags;
+                        // console.log(filterTagsFromNull(tags));
+                        // state.tags = filterTagsFromNull(tags);
+                        state.tags = tags;
                         State.update();
                       },
                     }}
@@ -539,12 +539,15 @@ return (
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
           {!state.editArticle && (
             <>
-              <div className="pt-2">
-                <Widget
-                  src={`${authorForWidget}/widget/SayALot_TagList`}
-                  props={{ tags: state.article.tags }}
-                />
-              </div>
+              {state.article.tags &&
+                Object.keys(state.article.tags).length > 0 && (
+                  <div className="pt-2">
+                    <Widget
+                      src={`${authorForWidget}/widget/SayALot_TagList`}
+                      props={{ tags: state.article.tags }}
+                    />
+                  </div>
+                )}
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
