@@ -577,6 +577,7 @@ const callTxPancakeZKEVM = (
   sqrtPriceLimitX96,
   path
 ) => {
+  const poolFee = 2500;
   console.log("callTxPancakeZKEVM", input, path);
   if (
     input.sender &&
@@ -606,7 +607,7 @@ const callTxPancakeZKEVM = (
           [
             input.inputAssetTokenId,
             input.outputAssetTokenId,
-            "0",
+            poolFee,
             input.sender,
             deadline.toFixed(),
             value,
@@ -618,19 +619,6 @@ const callTxPancakeZKEVM = (
             gasLimit: gasLimit ?? 300000,
           }
         )
-        .then((transactionHash) => {
-          onComplete(transactionHash);
-        });
-    } else if (path.length > 2) {
-      // path recepient deadline amountIn amountOutMinimum
-      const pathBytes =
-        "0x" + path.map((address) => address.substr(2)).join("");
-
-      swapContract
-        .exactInput([pathBytes, input.sender, deadline, value, "0"], {
-          gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
-          gasLimit: gasLimit ?? 300000,
-        })
         .then((transactionHash) => {
           onComplete(transactionHash);
         });
