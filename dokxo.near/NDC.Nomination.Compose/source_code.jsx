@@ -160,7 +160,7 @@ border-radius: 10px;
 
 `;
 const CancelBtn = styled.button`
-  display: flex;
+display: flex;
 width: 107px;
 padding: 8px 12px;
 justify-content: center;
@@ -186,6 +186,7 @@ const HiddeableWidget = styled.div`
     display: block;
   }
 `;
+let Nominationcontract = "nominations-v1.gwg.testnet";
 // State
 State.init({
   theme,
@@ -400,11 +401,33 @@ const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
 };
 
+if (Storage.privateGet("SelfNominate_Payload")) {
+  //if the local storage exist then call  a method
+  Test_Self_Nominate_SocialDB();
+}
+
 const Self_Nominate = () => {
   //Validate the Data outPut
   if (validatedInputs()) {
-    //Post to Social DB
-    /*  State.update({ commitLoading: true });
+    //Store the state in the local storage
+    Storage.privateSet("SelfNominate_Payload", state);
+
+    // call the smart contract Self nominate method
+
+    Near.call(Nominationcontract, "self_nominate", {
+      house: state.house_intended,
+      comment: "hello dokxo",
+      link: "OWA.io",
+    });
+  } else {
+    //The fields are incomplete
+  }
+};
+const Self_Nominate_SocialDB = () => {
+  //Recover the Original payload
+  let originaState = Storage.privateget("SelfNominate_Payload");
+  //Post to Social DB
+  /*  State.update({ commitLoading: true });
    Social.set(data, {
      force: true,
      onCommit: () => {
@@ -415,10 +438,40 @@ const Self_Nominate = () => {
      },
    });
  */
-    //Call self_Nominate SM Contract
-  } else {
-    //The fields are incomplete
-  }
+  //Clear the local storage
+  Storage.privateSet("SelfNominate_Payload", null);
+};
+
+const Test_Self_Nominate = () => {
+  //Validate the Data outPut
+
+  //Store the state in the local storage
+  Storage.privateSet("SelfNominate_Payload", state);
+
+  // call the smart contract Self nominate method
+  const contract = "hello.near-examples.near";
+  Near.call(contract, "set_greeting", {
+    greeting: "holaaa",
+  });
+};
+const Test_Self_Nominate_SocialDB = () => {
+  //Recover the Original payload
+  let originaState = Storage.privateget("SelfNominate_Payload");
+  console.log("State recovered", originaState);
+  //Post to Social DB
+  /*  State.update({ commitLoading: true });
+   Social.set(data, {
+     force: true,
+     onCommit: () => {
+       State.update({ commitLoading: false });
+     },
+     onCancel: () => {
+       State.update({ commitLoading: false });
+     },
+   });
+ */
+  //Clear the local storage
+  Storage.privateSet("SelfNominate_Payload", null);
 };
 return (
   <ModalCard>
@@ -451,7 +504,7 @@ return (
         <div className="d-flex flex-column">
           <H1styled>Self Nominate</H1styled>
         </div>
-        {state.wasTRX}
+
         <CardForm name="cardform">
           <Widget
             src={`dokxo.near/widget/Compose.Profile`}
