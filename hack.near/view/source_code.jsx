@@ -69,7 +69,7 @@ const H1 = styled.h1`
   letter-spacing: -0.03em;
   color: #DADADA;
   margin: 0;
-  max-width: 700px;
+  max-width: 888px;
 
   span {
     display: inline-block;
