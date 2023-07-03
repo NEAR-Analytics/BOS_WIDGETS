@@ -165,10 +165,7 @@ return (
       <div className="d-flex justify-content-start">
         <div className="flex-grow-1 me-1 text-truncate">
           <span className="text-secondary me-1">By</span>
-          <Widget
-            src="mob.near/widget/ProfileLine"
-            props={{ accountId, link: props.profileLink }}
-          />
+          <Widget src="mob.near/widget/ProfileLine" props={{ accountId }} />
         </div>
         <div>
           <small className="ps-1 text-nowrap text-muted ms-auto">
