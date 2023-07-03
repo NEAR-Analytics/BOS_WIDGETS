@@ -405,9 +405,10 @@ let localStorage = Storage.privateGet("SelfNominate_Payload");
 if (localStorage != null) {
   console.log("Storage local", localStorage);
   //if the local storage exist then call a set method from socialAPI
+  const data = { nominations: localStorage };
 
   State.update({ commitLoading: true });
-  Social.set(localStorage, {
+  Social.set(data, {
     force: true,
     onCommit: () => {
       State.update({ commitLoading: false });
