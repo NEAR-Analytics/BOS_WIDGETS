@@ -52,7 +52,6 @@ const generate = () => {
     dataArray.push({ date: date.toLocaleDateString(), value });
   }
 
-  console.log("====", dataArray);
   return dataArray;
 };
 
