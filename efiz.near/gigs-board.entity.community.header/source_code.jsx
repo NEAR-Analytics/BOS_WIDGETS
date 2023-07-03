@@ -55,7 +55,7 @@ State.init({
   activeRoute: defaultActive.route || "",
 });
 
-function Content(route) {
+function Content({ route }) {
   return (
     <div style={{ padding: "0 32px" }}>
       <Widget
