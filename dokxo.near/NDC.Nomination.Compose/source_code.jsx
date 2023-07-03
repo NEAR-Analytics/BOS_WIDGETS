@@ -289,6 +289,7 @@ const validatedInputs = () => {
     });
   } else {
     isValid = true;
+    State.update({ error_msg: null });
   }
   return isValid;
 };
@@ -421,7 +422,8 @@ if (localStorage != null && state.wasTRX) {
 const Self_Nominate = () => {
   State.update({ wasTRX: false });
   //Validate the Data outPut
-  if (validatedInputs()) {
+  if (!validatedInputs()) {
+    console.log("was valid");
     //Store the state in the local storage
     Storage.privateSet("SelfNominate_Payload", state);
 
@@ -434,6 +436,7 @@ const Self_Nominate = () => {
     });
   } else {
     //The fields are incomplete
+    console.log("still invalid");
   }
 };
 
