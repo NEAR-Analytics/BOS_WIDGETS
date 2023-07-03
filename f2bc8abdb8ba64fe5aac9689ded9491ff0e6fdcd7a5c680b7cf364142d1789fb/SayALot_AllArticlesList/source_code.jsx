@@ -106,10 +106,12 @@ return (
                       <br />
                       Edit versions: {article.version}
                     </div>
-                    <Widget
-                      src={`${authorForWidget}/widget/SayALot_TagList`}
-                      props={{ tags: article.tags }}
-                    />
+                    {article.tags && (
+                      <Widget
+                        src={`${authorForWidget}/widget/SayALot_TagList`}
+                        props={{ tags: article.tags }}
+                      />
+                    )}
                   </div>
                 </div>
               </a>
