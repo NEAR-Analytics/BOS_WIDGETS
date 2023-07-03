@@ -577,7 +577,7 @@ const callTxPancakeZKEVM = (
   sqrtPriceLimitX96,
   path
 ) => {
-  const poolFee = "2500";
+  const poolFee = "500";
   console.log("callTxPancakeZKEVM 0", input, path);
   if (
     input.sender &&
