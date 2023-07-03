@@ -1,4 +1,4 @@
-const { accountId, profile } = props;
+const { embedHeader, accountId, profile } = props;
 const addressForArticles = "ndcWikiArticle";
 const authorsWhitelist = [
   "neardigitalcollective.near",
@@ -25,15 +25,32 @@ return (
     className="container-fluid"
     style={{
       backgroundColor: "#fff",
-      borderRadius: "20px",
-      padding: "0",
     }}
   >
-    <Widget
-      src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
-      props={{ currentNavPill: "articles", writersWhiteList }}
-    />
-    <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
+    {!embedHeader && (
+      <Widget
+        src="mattb.near/widget/NDC.Components.Header"
+        props={{
+          tabs: {
+            articles: {
+              text: "Articles",
+            },
+            authors: {
+              text: "Authors",
+            },
+          },
+          selectedTab: "articles",
+        }}
+      />
+    )}
+    <div
+      style={{
+        margin: "0 auto",
+        width: "100%",
+        minWidth: "360px",
+        padding: "2rem",
+      }}
+    >
       <Widget
         src={`mattb.near/widget/NDCDocs.Components.ArticlesList`}
         props={{ writersWhiteList }}
