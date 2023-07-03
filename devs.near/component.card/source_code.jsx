@@ -1,5 +1,4 @@
-const accountId = context.accountId;
-
+const [accountId, widget, widgetName] = props.src.split("/");
 const metadata = Social.get(
   `${accountId}/widget/${widgetName}/metadata/**`,
   "final"
@@ -163,6 +162,13 @@ return (
       </CardTag>
     }
 
+    <div className="col-2 mt-2">
+      <Widget
+        src="hack.near/widget/StarButton"
+        props={{ notifyAccountId, item }}
+      />
+    </div>
+
     <CardBody>
       <Thumbnail href={detailsUrl}>
         <Widget
@@ -198,13 +204,6 @@ return (
         )}
       </CardContent>
     </CardBody>
-
-    <div className="col-2 mt-2">
-      <Widget
-        src="hack.near/widget/StarButton"
-        props={{ notifyAccountId, item }}
-      />
-    </div>
 
     <CardFooter>
       <ButtonLink href={detailsUrl}>View Details</ButtonLink>
