@@ -79,7 +79,7 @@ const Main = styled.div`
     flex-wrap:wrap;
     justify-content:space-evenly;
     width:100%;
-    height:100vh;
+    min-height:100vh;
 `;
 
 const ArticlePill = styled.a`
