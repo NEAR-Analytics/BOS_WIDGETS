@@ -548,6 +548,9 @@ return (
                   display: "flex",
                   "justify-content": "end",
                   color: "#FF0000",
+                  "border-color": "#FF0000",
+                  "border-style": "solid",
+                  "border-width": "1px",
                 }}
               >
                 {state.error_msg}
