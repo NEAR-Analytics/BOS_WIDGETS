@@ -1,9 +1,5 @@
-const isDebug = props.isDebug;
-
-const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
-// const authorForWidget =
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -240,7 +236,7 @@ const initialCreateArticleState = {
 };
 
 State.init(initialCreateArticleState);
-const tagsArray = state.tags ? Object.keys(state.tags) : [];
+const tagsArray = state.tags ? state.tags : [];
 
 const getArticleData = () => {
   const args = {
@@ -258,38 +254,19 @@ const getArticleData = () => {
 };
 
 const composeData = () => {
-  let data;
-  if (isDebug) {
-    data = {
-      test_sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        test_sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-            id: `${context.accountId}-${Date.now()}`,
-          },
-        }),
-      },
-    };
-  } else {
-    data = {
-      sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-            id: `${context.accountId}-${Date.now()}`,
-          },
-        }),
-      },
-    };
-  }
+  const data = {
+    sayALotArticle: {
+      main: JSON.stringify(getArticleData()),
+    },
+    index: {
+      sayALotArticle: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
 
   if (tagsArray.length) {
     data.index.tag = JSON.stringify(
@@ -311,9 +288,9 @@ const saveHandler = (e) => {
   });
   if (state.articleId && state.articleBody) {
     // TODO check it automaticle
-    const isArticleIdDublicated = false;
+    const isArticleIdDuplicated = false;
 
-    if (!isArticleIdDublicated) {
+    if (!isArticleIdDuplicated) {
       const newData = composeData();
 
       State.update({ saving: true });
@@ -397,11 +374,7 @@ return (
           width: "100%",
           backdropFilter: "blur(5px)",
         }}
-        href={
-          isDebug
-            ? `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&isDebug=${isDebug}&blockHeight=now`
-            : `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&blockHeight=now`
-        }
+        href={`https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}`}
       >
         <div
           style={{
@@ -474,12 +447,12 @@ return (
         <div className="d-flex flex-column pt-3">
           {!state.saveComplete && (
             <Widget
-              src={`${authorForWidget}/widget/TagsEditor`}
+              src="mob.near/widget/TagsEditor"
               props={{
                 initialTagsObject: state.tags,
                 placeholder: "Input tags",
                 setTagsObject: (tags) => {
-                  state.tags = tags;
+                  state.tags = Object.keys(tags);
                   State.update();
                 },
               }}
