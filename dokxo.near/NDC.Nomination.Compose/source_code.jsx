@@ -1,5 +1,5 @@
 const ModalCard = styled.div`
- //position: sticky;
+ position: sticky;
   z-index: 1;
   left: 0;
   top: 0;
