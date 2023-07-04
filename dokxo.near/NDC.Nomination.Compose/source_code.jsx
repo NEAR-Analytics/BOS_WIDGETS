@@ -18,10 +18,9 @@ const CardStyled = styled.div`
  
 width: 60%;
 height: 100%;
-left: 16px;
-top: 469px;
-
+ 
 background: #F8F8F9;
+
 border-radius: 10px;
 margin-left:auto;
 margin-right:auto;
