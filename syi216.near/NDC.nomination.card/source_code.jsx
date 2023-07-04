@@ -1,6 +1,7 @@
 const data = props;
 console.log("props card", data);
 State.init({ verified: false });
+console.log(data.upVoteData.comments.length);
 let Nominationcontract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
   asyncFetch(
@@ -975,7 +976,7 @@ return (
         }
       >
         <UpvoteButtonText>
-          +{data.upVoteData.upvotes ? data.upVoteData.upvotes : "0"}
+          + {data.upVoteData.upvotes ? data.upVoteData.upvotes : "0"}
         </UpvoteButtonText>
         <UpvoteIcon
           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
@@ -990,7 +991,6 @@ return (
         </CollapseCandidateHeader>
         <CandidateTagContainer>
           {JSON.parse(data.nominationData.afiliation).map((data) => {
-            console.log(data);
             return (
               <CandidateTag>
                 <CandidateTagText>{data.company_name}</CandidateTagText>
@@ -1058,9 +1058,7 @@ return (
             </TimestampText>
           </TextLowerSectionContainer>
           <CommentButtonDiv>
-            <CommentButtonCounter>
-              +{data.upVoteData.comments.length}
-            </CommentButtonCounter>
+            <CommentButtonCounter>+ {}</CommentButtonCounter>
             <CommentButtonIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
               alt="pic"
