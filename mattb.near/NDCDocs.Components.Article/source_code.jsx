@@ -68,12 +68,15 @@ const Main = styled.div`
     position:relative;
 `;
 
+const SideBarWrapper = styled.div`
+  min-width:250px;
+`;
+
 const SideBar = styled.div`
-    position:sticky;
     display:flex;
     flex-direction:column;
-    position:relative;
-    min-width:250px;
+    position:fixed;
+    width:100%;
     height:calc(100vh - 1.5rem);
     border-right:1px solid rgba(0,0,0,.05);
     box-sizing:border-box;
@@ -311,31 +314,33 @@ const ControlButton = styled.div`
 
 return (
   <Main>
-    <SideBar>
-      <div>
-        <h1>The NDC</h1>
-        <ul>
-          {SECTIONS.map((text, key) => (
-            <li
-              onClick={() => State.update({ currentSection: key })}
-              className={key === state.currentSection ? "selected" : ""}
-            >
-              <h2>{text}</h2>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <ArticleDetails>
-        <p className="title">Published by</p>
-        <p>@neardigitalcolletive.near</p>
-        <p className="title">Last edit by</p>
-        <p>@neardigitalcolletive.near</p>
-        <p className="title">Modified on</p>
-        <p>Thu, 6 Jun 2023</p>
-        <p className="title">Version</p>
-        <p>#16</p>
-      </ArticleDetails>
-    </SideBar>
+    <SideBarWrapper>
+      <SideBar>
+        <div>
+          <h1>The NDC</h1>
+          <ul>
+            {SECTIONS.map((text, key) => (
+              <li
+                onClick={() => State.update({ currentSection: key })}
+                className={key === state.currentSection ? "selected" : ""}
+              >
+                <h2>{text}</h2>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <ArticleDetails>
+          <p className="title">Published by</p>
+          <p>@{state.article.author}</p>
+          <p className="title">Last edit by</p>
+          <p>@{state.article.lastEditor}</p>
+          <p className="title">Modified on</p>
+          <p>{state.article.timeLastEdit}</p>
+          <p className="title">Version</p>
+          <p>#{state.article.version}</p>
+        </ArticleDetails>
+      </SideBar>
+    </SideBarWrapper>
     <Content>
       <Wrapper>
         <Markdown text={state.note || state.article.body} />
