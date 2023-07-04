@@ -320,7 +320,7 @@ return (
                   </AFDates>
                 </div>
 
-                <div class="row px-0">
+                <div class="row px-0 py-2">
                   <CompanyTitle>{"Role Description"}</CompanyTitle>
 
                   <div>
