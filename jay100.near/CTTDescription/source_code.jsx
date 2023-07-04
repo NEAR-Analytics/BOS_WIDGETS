@@ -14,8 +14,6 @@ const GameDescription = () => {
             font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
             color: #f8f8f8;
             text-shadow: 2px 0 0 #000, 0 2px 0 #000;
-            width: 100vw;
-            height: 100vh;
         }
 
         .gameDescription{
@@ -54,7 +52,7 @@ const GameDescription = () => {
     <div>
       <div style={{ backgroundColor: "white" }} className="d-flex">
         <iframe
-          style={{ height: "40vh", width: "50vw", padding: "0rem" }}
+          style={{ height: "40vh", width: "100%" }}
           srcDoc={code}
           message={{ data: data || "No Data" }}
         />
