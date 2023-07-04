@@ -16,7 +16,9 @@ function getVerifiedHuman() {
 }
 
 function handleUpvote() {
-  Near.call(Nominationcontract,"upvote",{accountId: data.indexerData.nominee})
+  Near.call(Nominationcontract, "upvote", {
+    accountId: data.indexerData.nominee,
+  });
 }
 
 const Card = styled.div`
@@ -971,7 +973,14 @@ return (
           <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
-      <UpvoteButton disabled={status.verified && data.indexerData.nominee != context.accountId ? true : false} onClick={}>
+      <UpvoteButton
+        disabled={
+          status.verified && data.indexerData.nominee != context.accountId
+            ? true
+            : false
+        }
+        onClick={handleUpvote()}
+      >
         <UpvoteButtonText>+354</UpvoteButtonText>
         <UpvoteIcon
           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
