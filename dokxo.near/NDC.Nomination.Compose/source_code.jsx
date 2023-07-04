@@ -1,15 +1,17 @@
 const ModalCard = styled.div`
-width: 100%;
-height: 100%;
-z-index: 1;
- 
-background: rgba(0, 0, 0, 0.70);
-padding-top: 25%;
-padding-bottom: 25%;
- 
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    background: rgba(0, 0, 0, 0.70);
+ overflow-y:scroll;
 @media only screen and (max-width: 480px) {
- background: rgba(0, 0, 0, 0.0);
-
+ 
 }
 `;
 const CardStyled = styled.div`
