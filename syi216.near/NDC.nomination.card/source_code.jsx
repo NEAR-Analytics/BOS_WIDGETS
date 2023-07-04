@@ -1035,7 +1035,7 @@ return (
             </Tag>
           </TagSection>
           <ViewButtonContainer>
-            <ViewButtonDiv href="#/yairnava.near/widget/NDC.Nomination.Candidate.Container">
+            <ViewButtonDiv href="#/syi216.near/widget/NDC.Nomination.Page?test=hola">
               <ViewButtonText>View</ViewButtonText>
             </ViewButtonDiv>
             <ShareButtonDiv>
