@@ -1,11 +1,8 @@
-const addressForComments = "sayalot-comments";
-const addressForArticles = "sayALotArticle";
+const isDebbug = props.isDebbug;
+
+const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
-const accountId = props.accountId ?? context.accountId;
-// const accountId = "blaze.near";
-// if (!accountId) {
-//   return "No account ID";
-// }
+const accountId = context.accountId;
 
 const lastEditor = props.lastEditor;
 const blockHeight =
@@ -24,6 +21,8 @@ const article =
       );
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
+  // If some widget posts data different than an array it will be ignored
+  if (!Array.isArray(article.tags)) article.tags = [];
   State.update({ article, note: article.body });
 }
 
@@ -32,7 +31,7 @@ if (!state.article) {
 }
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const writersWhiteList = [
+const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -41,18 +40,27 @@ const writersWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
+  "fiftycent.near",
 ];
+
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+];
+
+if (isDebbug) {
+  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+}
 
 const canUserEditArticle = () => {
   const canOnlyAuthorEdit = true;
   const isAccountIdInWhiteList = writersWhiteList.some(
     (val) => val === accountId
   );
-
-  const doesAccountIdEqualsAuthor = context.accountId === state.article.author;
+  const isAccountIdEqualsAuthor = accountId === state.article.author;
 
   if (canOnlyAuthorEdit) {
-    return doesAccountIdEqualsAuthor;
+    return isAccountIdEqualsAuthor;
   } else {
     return isAccountIdInWhiteList;
   }
@@ -109,19 +117,36 @@ const getArticleData = () => {
 };
 
 const composeData = () => {
-  const data = {
-    sayALotArticle: {
-      main: JSON.stringify(getArticleData()),
-    },
-    index: {
-      sayALotArticle: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-    },
-  };
+  let data;
+  if (isDebbug) {
+    data = {
+      test_sayALotArticle: {
+        main: JSON.stringify(getArticleData()),
+      },
+      index: {
+        test_sayALotArticle: JSON.stringify({
+          key: "main",
+          value: {
+            type: "md",
+          },
+        }),
+      },
+    };
+  } else {
+    data = {
+      sayALotArticle: {
+        main: JSON.stringify(getArticleData()),
+      },
+      index: {
+        sayALotArticle: JSON.stringify({
+          key: "main",
+          value: {
+            type: "md",
+          },
+        }),
+      },
+    };
+  }
 
   if (tagsArray.length) {
     data.index.tag = JSON.stringify(
@@ -177,37 +202,6 @@ const saveHandler = (e) => {
       State.update({ errorBody: errTextNoBody });
     }
   }
-};
-
-const saveArticle = (args) => {
-  const newArticleData = {
-    ...state.article,
-    body: state.note,
-    lastEditor: accountId,
-    timeLastEdit: Date.now(),
-    version: Number(state.article.version) + 1,
-    tags: state.tags ? state.tags : state.article.tags,
-  };
-
-  const composeArticleData = () => {
-    const data = {
-      [addressForArticles]: {
-        main: JSON.stringify(newArticleData),
-      },
-      index: {
-        [addressForArticles]: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-          },
-        }),
-      },
-    };
-    return data;
-  };
-
-  const newData = composeArticleData();
-  Social.set(newData, { force: true });
 };
 
 // ========== article parts ========== //
@@ -327,7 +321,7 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "articles" }}
+      props={{ currentNavPill: "articles", isDebbug }}
     />
     <div
       className="row h-100"
@@ -540,15 +534,12 @@ return (
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
           {!state.editArticle && (
             <>
-              {state.article.tags &&
-                Object.keys(state.article.tags).length > 0 && (
-                  <div className="pt-2">
-                    <Widget
-                      src={`${authorForWidget}/widget/SayALot_TagList`}
-                      props={{ tags: state.article.tags }}
-                    />
-                  </div>
-                )}
+              <div className="pt-2">
+                <Widget
+                  src={`${authorForWidget}/widget/SayALot_TagList`}
+                  props={{ tags: state.article.tags }}
+                />
+              </div>
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{
@@ -560,7 +551,11 @@ return (
                       style={{ fontWeight: 500 }}
                     >
                       <a
-                        href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                        href={
+                          isDebbug
+                            ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebbug=true`
+                            : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
+                        }
                       >
                         #{hashtag}
                       </a>
@@ -599,6 +594,7 @@ return (
                 props={{
                   articleId: state.article.articleId,
                   resultArticles,
+                  isDebbug,
                 }}
               />
             </div>
@@ -635,6 +631,7 @@ return (
                     notifyAccountId,
                     item,
                     onComment: () => State.update({ showReply: false }),
+                    isDebbug,
                   }}
                 />
               </div>
@@ -648,6 +645,7 @@ return (
                 limit: props.commentsLimit,
                 subscribe,
                 raw,
+                isDebbug,
               }}
             />
           </div>
