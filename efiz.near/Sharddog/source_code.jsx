@@ -21,6 +21,7 @@ function fetchTokens() {
                 limit: ${limit},
                 offset: ${state.offset}
               where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
+              order_by: {minted_timestamp: desc}
             ) {
               media
             }
@@ -94,26 +95,6 @@ return (
                 overflowWrap: "break-word",
               },
             }}
-            // src="mob.near/widget/NftImage"
-            // props={{
-            //   nft: {
-            //     tokenId: it.token_id,
-            //     contractId: it.nft_contract.id,
-            //   },
-            //  style: {
-            //     width: size,
-            //     height: size,
-            //     objectFit: "cover",
-            //     minWidth: size,
-            //     minHeight: size,
-            //     maxWidth: size,
-            //     maxHeight: size,
-            //     overflowWrap: "break-word",
-            //   },
-            //   className: "",
-            //   fallbackUrl:
-            //     "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
-            // }}
           />
         );
       })}
