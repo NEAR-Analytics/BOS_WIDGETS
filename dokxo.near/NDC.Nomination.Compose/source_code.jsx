@@ -1,8 +1,8 @@
 const ModalCard = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 1;
   left: 0;
-  top: 0;
+  top: 10%;
   width: 100%;
   height: 100%;
   display: flex;
@@ -16,7 +16,7 @@ const ModalCard = styled.div`
 `;
 const CardStyled = styled.div`
  
-width: 80%;
+width: 60%;
 height: 100%;
 left: 16px;
 top: 469px;
