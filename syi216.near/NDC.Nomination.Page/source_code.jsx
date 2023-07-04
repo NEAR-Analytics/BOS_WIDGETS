@@ -57,8 +57,16 @@ function getNominationInfo() {
     }
   ).then((res) => {
     for (const [i, data] of res.body.entries()) {
-      const profileData = Social.getr(`${data.nominee}/profile`);
-      const nominationData = Social.getr(`${data.nominee}/nominations`);
+      let profileData;
+      let nominationData;
+      Social.getr(`${data.nominee}/profile`);
+      Social.getr(`${data.nominee}/nominations`);
+      setTimeout(() => {
+        profileData = Social.getr(`${data.nominee}/profile`);
+        nominationData = Social.getr(`${data.nominee}/nominations`);
+        console.log("profileData: " + profileData);
+      }, 1000);
+
       setTimeout(() => {
         let objCard = {
           indexerData: data,
@@ -70,9 +78,8 @@ function getNominationInfo() {
         }
         if (i == res.body.length - 1) {
           State.update({ nominations: nominationsArr });
-          console.log(state.nominations);
         }
-      }, 2000);
+      }, 1000);
     }
   });
 }
