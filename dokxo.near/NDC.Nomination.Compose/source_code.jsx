@@ -596,15 +596,7 @@ return (
               </div>
             }
             <Submitcontainer>
-              <CancelBtn
-                onClick={() => {
-                  Cancel();
-                  props.onClickCancel;
-                }}
-              >
-                {" "}
-                Cancel{" "}
-              </CancelBtn>
+              <CancelBtn onClick={props.onClickCancel}> Cancel </CancelBtn>
               <SubmitBtn onClick={Self_Nominate}> Submit </SubmitBtn>
             </Submitcontainer>
           </div>
