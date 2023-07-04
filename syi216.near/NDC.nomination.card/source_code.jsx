@@ -15,7 +15,6 @@ function getVerifiedHuman() {
   });
 }
 
-console.log(JSON.parse(data.nominationData.afiliation));
 const Card = styled.div`
 display: flex;
 flex-direction: column;
@@ -988,12 +987,11 @@ return (
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
         </CollapseCandidateHeader>
         <CandidateTagContainer>
-          <CandidateTag>
-            <CandidateTagText>Near Foundation</CandidateTagText>
-          </CandidateTag>
-          <CandidateTag>
-            <CandidateTagText>Aurora</CandidateTagText>
-          </CandidateTag>
+          {JSON.parse(data.nominationData.afiliation).map((data) => {
+            <CandidateTag>
+              <CandidateTagText>{data.company_name}</CandidateTagText>
+            </CandidateTag>;
+          })}
         </CandidateTagContainer>
       </CollapseCandidateContent>
     </CollapseCandidate>
