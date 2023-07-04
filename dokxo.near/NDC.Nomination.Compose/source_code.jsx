@@ -2,7 +2,7 @@ const ModalCard = styled.div`
 width: 100%;
 height: 100%;
 z-index: 1;
-position:fixed;
+ 
 background: rgba(0, 0, 0, 0.70);
 padding-top: 25%;
 padding-bottom: 25%;
