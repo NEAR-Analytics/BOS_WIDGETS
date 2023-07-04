@@ -1036,7 +1036,7 @@ return (
               <KeyIssueTitle>Other Platform</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              {data.nominationData.additional_platform}
+              {data.nominationData.addition_platform}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
