@@ -2,6 +2,8 @@ let { ids, org } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 org = props.org ? org : "test"; // for testing purposes
 
+console.log(props);
+
 const widgets = {
   header: "syi216.near/widget/NDC.Nomination.Header",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
