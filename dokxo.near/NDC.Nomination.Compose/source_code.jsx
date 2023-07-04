@@ -1,3 +1,4 @@
+let Nominationcontract = "nominations-v1.gwg-testing.near";
 let profileInfo = Social.getr(`${context.accountId}/profile`);
 console.log("profileInfo", profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
