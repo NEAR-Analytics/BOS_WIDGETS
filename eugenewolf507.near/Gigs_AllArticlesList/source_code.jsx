@@ -1,3 +1,4 @@
+const accountId = props.accountId ?? context.accountId;
 const addressForArticles = "ndcGigArticle";
 const authorsWhitelist = props.writersWhiteList ?? [
   "neardigitalcollective.near",
@@ -89,6 +90,23 @@ const getDateLastEdit = (timestamp) => {
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
+const composeData = (gigObject) => {
+  const data = {
+    ndcGigArticle: {
+      main: JSON.stringify(gigObject),
+    },
+    index: {
+      ndcGigArticle: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
+  return data;
+};
+
 // ========== HANDLER ==========
 const clickHandler = (oldStatus, newStatus, articleId) => {
   const actualTag = oldStatus.toLowerCase();
@@ -102,10 +120,18 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
     const objectToMove = state[actualTag].splice(objectIndex, 1)[0];
     const updatedObjectToMove = {
       ...objectToMove,
+      lastEditor: accountId,
+      timeLastEdit: Date.now(),
       statusTag: newStatus,
     };
-    state[newTag].unshift(updatedObjectToMove);
-    State.update();
+    console.log("updatedObjectToMove", updatedObjectToMove);
+    const newData = composeData(updatedObjectToMove);
+    Social.set(newData, {
+      onCommit: () => {
+        state[newTag].unshift(updatedObjectToMove);
+        State.update();
+      },
+    });
   }
 };
 
