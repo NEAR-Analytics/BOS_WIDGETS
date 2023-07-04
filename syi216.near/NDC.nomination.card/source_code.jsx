@@ -988,9 +988,12 @@ return (
         </CollapseCandidateHeader>
         <CandidateTagContainer>
           {JSON.parse(data.nominationData.afiliation).map((data) => {
-            <CandidateTag>
-              <CandidateTagText>{data.company_name}</CandidateTagText>
-            </CandidateTag>;
+            console.log(data);
+            return (
+              <CandidateTag>
+                <CandidateTagText>{data.company_name}</CandidateTagText>
+              </CandidateTag>
+            );
           })}
         </CandidateTagContainer>
       </CollapseCandidateContent>
