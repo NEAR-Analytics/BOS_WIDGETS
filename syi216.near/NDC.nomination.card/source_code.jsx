@@ -1,3 +1,6 @@
+const data = props;
+console.log("props card", data);
+
 const Card = styled.div`
 display: flex;
 flex-direction: column;
