@@ -1,4 +1,5 @@
 const data = props;
+console.log(window.location.host);
 console.log("props card", data);
 State.init({ verified: false });
 console.log(data.upVoteData.comments.length);
@@ -1080,7 +1081,7 @@ return (
               href={
                 "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
                 data.indexerData.house +
-                ",candidate=" +
+                "&candidate=" +
                 data.indexerData.nominee
               }
             >
@@ -1091,7 +1092,7 @@ return (
                 clipboard.writeText(
                   "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
                     data.indexerData.house +
-                    ",candidate=" +
+                    "&candidate=" +
                     data.indexerData.nominee
                 );
               }}
