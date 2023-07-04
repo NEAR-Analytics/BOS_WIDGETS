@@ -70,6 +70,9 @@ function getNominationInfo() {
       },
     }
   ).then((res) => {
+    if (res.body.length <= 0) {
+      State.update({ nominations: [] });
+    }
     for (const [i, data] of res.body.entries()) {
       asyncFetch(
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
