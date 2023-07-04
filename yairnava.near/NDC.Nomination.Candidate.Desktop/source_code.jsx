@@ -7,6 +7,8 @@ const pillsVesting = [
   { id: "comments", title: "Comments" },
 ];
 
+console.log(props);
+
 const DetailContent = styled.div`
 display: inline-flex;
 flex-direction: column;
