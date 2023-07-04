@@ -112,11 +112,12 @@ const Content = styled.div`
     padding:2rem;
 
     img {
+        display:block;
         margin:0 auto;
         height:300px;
         border-radius:20px;
         background-color:rgba(0,0,0,.05);
-        margin-bottom:15px;
+        margin-bottom:30px;
     }
 
     h1 {
