@@ -2,10 +2,9 @@ const FormsectionPlatform = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-padding: 0px;
-gap: 8px;
+padding: 9px 0px 0px 0px;
 width: 100%;
-
+ 
 flex: none;
 order: 3;
 flex-grow: 0;
@@ -25,6 +24,7 @@ line-height: 120%;
 display: flex;
 align-items: center;
 color: #000000;
+    margin-bottom: 0px;
 @media only screen and (max-width: 480px) {
   
  
