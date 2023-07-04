@@ -220,7 +220,9 @@ const validatedInputs = () => {
     name,
     profileAccount,
     house_intended,
-
+    issued1,
+    issued2,
+    issued3,
     afiliation,
     agreement,
     tags,
@@ -228,40 +230,39 @@ const validatedInputs = () => {
   console.log(state);
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === false;
-  let isValid = false;
+  let isValid = true;
   if (img.cid === null) {
     State.update({ error_msg: "Pic an image" });
-    return false;
+    isValid = false;
   }
   if (isEmpty(name)) {
     State.update({ error_msg: "Fill the name" });
 
-    return false;
+    isValid = false;
   }
   if (isEmpty(profileAccount)) {
     State.update({ error_msg: "Fill the Profile Account" });
 
-    return false;
+    isValid = false;
   }
   if (isEmpty(house_intended)) {
     State.update({ error_msg: "Select a house" });
 
-    return false;
+    isValid = false;
   }
   if (tags.split(",").length == 0) {
     State.update({ error_msg: "Write a tag" });
 
-    return false;
+    isValid = false;
   }
   if (isFalse(agreement)) {
     State.update({ error_msg: "Accept the declaration" });
 
-    return false;
+    isValid = false;
   }
   if (afiliation.length == 0) {
     State.update({ error_msg: "Add a affiliation" });
-    console.log("Accept the declaration");
-    return false;
+    isValid = false;
   }
 
   if (afiliation.length > 0) {
@@ -269,22 +270,22 @@ const validatedInputs = () => {
       if (isEmpty(element.company_name)) {
         State.update({ error_msg: "Fill the company name" });
 
-        return false;
+        isValid = false;
       }
       if (isEmpty(element.start_date)) {
         State.update({ error_msg: "select a start date" });
 
-        return false;
+        isValid = false;
       }
       if (isEmpty(element.end_date)) {
         State.update({ error_msg: "select a end date" });
 
-        return false;
+        isValid = false;
       }
       if (isEmpty(element.role)) {
         State.update({ error_msg: "Write your role" });
 
-        return false;
+        isValid = false;
       }
     });
   } else {
@@ -422,7 +423,7 @@ if (localStorage != null && state.wasTRX) {
 const Self_Nominate = () => {
   State.update({ wasTRX: false });
   //Validate the Data outPut
-  if (!validatedInputs()) {
+  if (validatedInputs()) {
     console.log("was valid");
     //Store the state in the local storage
     Storage.privateSet("SelfNominate_Payload", state);
@@ -552,15 +553,31 @@ return (
             }}
           >
             {
-              <label
+              <div
                 style={{
                   display: "flex",
                   "justify-content": "end",
-                  color: "#FF0000",
                 }}
               >
-                {state.error_msg}
-              </label>
+                {state.error_msg ? (
+                  <label
+                    style={{
+                      display: "flex",
+                      "justify-content": "end",
+                      color: "#FF0000",
+                      "border-style": "solid",
+                      "border-color": "red",
+                      "border-width": "1px",
+                      padding: "5px",
+                      "border-radius": "5px",
+                    }}
+                  >
+                    {state.error_msg}
+                  </label>
+                ) : (
+                  <></>
+                )}
+              </div>
             }
             <Submitcontainer>
               <CancelBtn onClick={Cancel}> Cancel </CancelBtn>
