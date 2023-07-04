@@ -326,30 +326,31 @@ const uploadFileUpdateState = (body) => {
 
 const filesOnChange = (files) => {
   if (files) {
+    State.update({ error_msg: null });
     uploadFileUpdateState(files[0]);
   }
 };
 
 const handleName = (item) => {
-  State.update({ name: item });
+  State.update({ name: item, error_msg: null });
 };
 const handleProfile = (item) => {
-  State.update({ profileAccount: item });
+  State.update({ profileAccount: item, error_msg: null });
 };
 const handleHouse = (item) => {
-  State.update({ house_intended: item });
+  State.update({ house_intended: item, error_msg: null });
 };
 const handleIssued1 = (item) => {
-  State.update({ issued1: item });
+  State.update({ issued1: item, error_msg: null });
 };
 const handleIssued2 = (item) => {
-  State.update({ issued2: item });
+  State.update({ issued2: item, error_msg: null });
 };
 const handleIssued3 = (item) => {
-  State.update({ issued3: item });
+  State.update({ issued3: item, error_msg: null });
 };
 const handleAditional = (item) => {
-  State.update({ addition_platform: item });
+  State.update({ addition_platform: item, error_msg: null });
 };
 const addFields = () => {
   var temp = state.afiliation;
@@ -364,7 +365,7 @@ const addFields = () => {
     return;
   } else {
     temp.push(object);
-    State.update({ afiliation: temp });
+    State.update({ afiliation: temp, error_msg: null });
   }
 };
 const removeField = (index) => {
@@ -372,36 +373,36 @@ const removeField = (index) => {
   console.log(data);
   data.splice(index, 1);
   console.log(data);
-  State.update({ afiliation: data });
+  State.update({ afiliation: data, error_msg: null });
 };
 const handleAFFCompanyName = (params) => {
   let data = state.afiliation;
   console.log("updating the company", params);
   data[params.index].company_name = params.event.target.value;
-  State.update({ afiliation: data });
+  State.update({ afiliation: data, error_msg: null });
 };
 const handleAFFStartdate = (params) => {
   let data = state.afiliation;
 
   data[params.index].start_date = params.event.target.value;
-  State.update({ afiliation: data });
+  State.update({ afiliation: data, error_msg: null });
 };
 const handleAFFEnddate = (params) => {
   let data = state.afiliation;
 
   data[params.index].end_date = params.event.target.value;
-  State.update({ afiliation: data });
+  State.update({ afiliation: data, error_msg: null });
 };
 const handleAFFRole = (params) => {
   let data = state.afiliation;
   data[params.index].role = params.event.target.value;
-  State.update({ afiliation: data });
+  State.update({ afiliation: data, error_msg: null });
 };
 const handleTags = (item) => {
-  State.update({ tags: item.target.value });
+  State.update({ tags: item.target.value, error_msg: null });
 };
 const handleDeclaration = (item) => {
-  State.update({ agreement: item.target.checked });
+  State.update({ agreement: item.target.checked, error_msg: null });
 };
 
 const Cancel = () => {
