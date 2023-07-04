@@ -53,6 +53,7 @@ const whitelist = [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "chloe.near",
 ];
 
 const blackList = []; // use it to hide bad users
