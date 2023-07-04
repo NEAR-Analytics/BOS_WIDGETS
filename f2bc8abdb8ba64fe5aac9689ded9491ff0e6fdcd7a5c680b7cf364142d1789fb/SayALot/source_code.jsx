@@ -1,4 +1,3 @@
-const addressForArticles = "ndcGigsArticle";
 const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
