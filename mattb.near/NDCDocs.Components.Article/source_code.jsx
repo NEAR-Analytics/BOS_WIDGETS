@@ -69,6 +69,7 @@ const Main = styled.div`
 `;
 
 const SideBar = styled.div`
+    position:sticky;
     display:flex;
     flex-direction:column;
     position:relative;
