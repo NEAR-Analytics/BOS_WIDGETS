@@ -62,7 +62,7 @@ function getNominationInfo() {
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
         { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
       ).then((res) => {
-        let upVoteInfo = res.body;
+        let upVoteInfo = res.body[0];
         let profileData;
         let nominationData;
         Social.getr(`${data.nominee}/profile`);
