@@ -75,6 +75,7 @@ State.init({
   slippagetolerance: "0.5",
   reloadPools: false,
   estimate: {},
+  selectedDex: props.dex ?? "Pancake Swap",
   loadRes: (value) => {
     console.log("loadRes", value);
     if (value.estimate === "NaN") value.estimate = 0;
@@ -567,7 +568,7 @@ return (
         NETWORK_AURORA,
         NETWORK_POLYGON,
         forceReload: state.forceReload ?? false,
-        DEX: state.selectedDex ?? props.dex ?? "Pancake Swap",
+        DEX: state.selectedDex,
       }}
     />
 
