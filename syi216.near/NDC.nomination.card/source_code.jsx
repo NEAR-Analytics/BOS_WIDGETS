@@ -1,4 +1,4 @@
-const Card = styled.a`
+const Card = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
@@ -878,7 +878,7 @@ align-items: flex-start;
 gap: 8px;
 `;
 
-const ViewButtonDiv = styled.button`
+const ViewButtonDiv = styled.a`
 display: flex;
 padding: 2px 12px;
 align-items: flex-start;
@@ -924,7 +924,7 @@ margin: 0px;
 `;
 
 return (
-  <Card href="#/yairnava.near/widget/NDC.Nomination.Candidate.Container">
+  <Card>
     <HeaderCard>
       <ProfilePicture
         src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
@@ -1035,7 +1035,7 @@ return (
             </Tag>
           </TagSection>
           <ViewButtonContainer>
-            <ViewButtonDiv>
+            <ViewButtonDiv href="#/yairnava.near/widget/NDC.Nomination.Candidate.Container">
               <ViewButtonText>View</ViewButtonText>
             </ViewButtonDiv>
             <ShareButtonDiv>
