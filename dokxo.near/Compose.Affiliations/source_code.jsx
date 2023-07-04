@@ -284,7 +284,7 @@ return (
                   "padding-top": "11px",
                 }}
               >
-                <div name="AFOrganization" class="row px-0">
+                <div name="AFOrganization" class="row mx-auto">
                   <CompanyTitle>{"Organization Name"}</CompanyTitle>
                   <div>
                     <CompanyInputName
@@ -296,7 +296,7 @@ return (
                     />
                   </div>
                 </div>
-                <div class="row">
+                <div class="row  mx-auto">
                   {" "}
                   <AFDates name="AFdates">
                     <DateContItem>
@@ -322,7 +322,7 @@ return (
                   </AFDates>
                 </div>
 
-                <div class="row px-0 py-2">
+                <div class="row  mx-auto py-2">
                   <CompanyTitle>{"Role Description"}</CompanyTitle>
 
                   <div>
