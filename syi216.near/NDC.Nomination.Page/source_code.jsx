@@ -56,19 +56,24 @@ function getNominationInfo() {
       },
     }
   ).then((res) => {
-    for (const data of res.body) {
+    for (const [i, data] of res.body.entries()) {
       const profileData = Social.getr(`${data.nominee}/profile`);
       const nominationData = Social.getr(`${data.nominee}/nominations`);
-      let objCard = {
-        indexerData: data,
-        profileData: profileData,
-        nominationData: nominationData,
-      };
-      if (!data.is_revoked) {
-        nominationsArr.push(objCard);
-      }
+      setTimeout(() => {
+        let objCard = {
+          indexerData: data,
+          profileData: profileData,
+          nominationData: nominationData,
+        };
+        if (!data.is_revoked) {
+          nominationsArr.push(objCard);
+        }
+        if (i == res.body.length - 1) {
+          State.update({ nominations: nominationsArr });
+          console.log(state.nominations);
+        }
+      }, 2000);
     }
-    State.update({ nominations: nominationsArr });
   });
 }
 //
