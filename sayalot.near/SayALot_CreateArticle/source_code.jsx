@@ -236,7 +236,7 @@ const initialCreateArticleState = {
 };
 
 State.init(initialCreateArticleState);
-const tagsArray = state.tags ? state.tags : undefined;
+const tagsArray = state.tags ? state.tags : [];
 
 const getArticleData = () => {
   const args = {
@@ -452,7 +452,7 @@ return (
                 initialTagsObject: state.tags,
                 placeholder: "Input tags",
                 setTagsObject: (tags) => {
-                  state.tags = tags;
+                  state.tags = Object.keys(tags);
                   State.update();
                 },
               }}
