@@ -409,6 +409,7 @@ const handleDeclaration = (item) => {
 const Cancel = () => {
   const contract = "hello.near-examples.near";
   Storage.privateSet("SelfNominate_Payload", null);
+  console.log("cancel");
 };
 const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
@@ -597,7 +598,7 @@ return (
             <Submitcontainer>
               <CancelBtn
                 onClick={() => {
-                  Cancel;
+                  Cancel();
                   props.onClickCancel;
                 }}
               >
