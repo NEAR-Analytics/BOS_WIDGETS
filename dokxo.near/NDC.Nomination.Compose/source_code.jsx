@@ -39,7 +39,7 @@ State.init({
 });
 
 const ModalCard = styled.div`
- position: sticky;
+ position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
@@ -49,7 +49,7 @@ const ModalCard = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.70);
-  overflow-y:scroll;
+  overflow:auto;
 @media only screen and (max-width: 480px) {
  
 }
