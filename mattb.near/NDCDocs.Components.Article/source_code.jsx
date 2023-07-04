@@ -132,15 +132,6 @@ const Content = styled.div`
     padding:2rem;
     min-height:100vh;
 
-    img {
-        display:block;
-        margin:0 auto;
-        height:300px;
-        border-radius:20px;
-        background-color:rgba(0,0,0,.05);
-        margin-bottom:30px;
-    }
-
     h1 {
         font-weight:bold;
     }
@@ -149,6 +140,16 @@ const Content = styled.div`
 const Wrapper = styled.div`
   max-width:800px;
   margin:0 auto;
+
+  & > img {
+      display:block;
+      margin:0 auto;
+      height:300px;
+      border-radius:20px;
+      background-color:rgba(0,0,0,.05);
+      margin-bottom:30px;
+  }
+
 `;
 
 const Controls = styled.div`
@@ -159,21 +160,42 @@ const Controls = styled.div`
 
 const ControlButton = styled.div`
   display:flex;
+  cursor:pointer;
   align-items:center;
   justify-content:center;
   width:250px;
   height:100px;
   border-radius:10px;
-  border: 4px solid rgba(0,0,0,.05);
+  background-color:rgba(0,0,0,.05);
+  border: 1px solid rgba(0,0,0,.05);
   box-sizing:border-box;
   padding:1rem;
   margin-top:20px;
+  transition: all .2s;
 
-  & div:nth-child(1) {
-    font-weight:bold;
+  &:not(:last-of-type) {
+    margin-right:20px;
+  }
+
+  * {
+    opacity: .6;
+    transition: all .2s;
+  }
+
+  &:hover {
+    box-shadow:0 0 0 5px rgba(0,0,0,.02);
+
+    * {
+      opacity: .8;
+      transition: all .2s;
+    }
   }
 
   &.previous {
+
+    div:nth-child(1) {
+      transform:rotate(180deg);
+    }
 
     div + div {
       flex-grow:1;
@@ -186,7 +208,10 @@ const ControlButton = styled.div`
 
       & p:nth-child(1) {
         font-size:.8rem;
-        opacity:.5;
+      }
+
+      & p:nth-child(2) {
+        font-weight:bold;
       }
 
     }
@@ -207,7 +232,10 @@ const ControlButton = styled.div`
 
       & p:nth-child(1) {
         font-size:.8rem;
-        opacity:.5;
+      }
+
+      & p:nth-child(2) {
+        font-weight:bold;
       }
 
     }
@@ -245,7 +273,6 @@ return (
     <Content>
       <Wrapper>
         <img
-          id="lol"
           className="image"
           src="https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly"
         />
@@ -258,14 +285,30 @@ return (
 
         <Controls>
           <ControlButton className="previous">
-            <div>{"<"}</div>
+            <div>
+              <img
+                src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+                style={{
+                  maxWidth: "20px",
+                  maxHeight: "20px",
+                }}
+              />
+            </div>
             <div>
               <p>Previous</p>
               <p>Introduction</p>
             </div>
           </ControlButton>
           <ControlButton className="next">
-            <div>{">"}</div>
+            <div>
+              <img
+                src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+                style={{
+                  maxWidth: "20px",
+                  maxHeight: "20px",
+                }}
+              />
+            </div>
             <div>
               <p>Next</p>
               <p>NDC Mission</p>
