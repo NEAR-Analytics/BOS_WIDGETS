@@ -1,5 +1,19 @@
+State.init({
+  currentSection: 0,
+});
+
+const SECTIONS = [
+  "Introduction",
+  "The NDC",
+  "NDC Mission",
+  "NDC Core Principles",
+  "Key Deliverables",
+  "How is NDC Organized",
+];
+
 const Main = styled.div`
     display:flex;
+    position:relative;
 `;
 
 const SideBar = styled.div`
@@ -26,11 +40,13 @@ const SideBar = styled.div`
         list-style:none;
 
         li {
+            cursor:pointer;
             position:relative;
             
             h2 {
                 font-size:.8rem;
                 padding:.5rem;
+                transition: all .2s;
             }
 
             &::after {
@@ -45,6 +61,7 @@ const SideBar = styled.div`
                 border-radius:100%;
                 background-color:#E5E5E5;
                 box-shadow: 0 0 0 4px #fff;
+                transition: all .2s;
             }
 
             &:not(:last-of-type) {
@@ -62,10 +79,13 @@ const SideBar = styled.div`
 
             &.selected {
                 h2 {
+                    position:relative;
+                    transition: all .2s;
                     font-weight:bold;
                 }
 
                 &::after {
+                    transition: all .2s;
                     width:10px;
                     height:10px;
                     left:-12.5px;
@@ -125,30 +145,84 @@ const Content = styled.div`
     }
 `;
 
+const Controls = styled.div`
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+`;
+
+const ControlButton = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:250px;
+  height:100px;
+  border-radius:10px;
+  border: 4px solid rgba(0,0,0,.05);
+  box-sizing:border-box;
+  padding:1rem;
+  margin-top:20px;
+
+  & div:nth-child(1) {
+    font-weight:bold;
+  }
+
+  &.previous {
+
+    div + div {
+      flex-grow:1;
+      text-align:right;
+
+      p {
+        padding:0;
+        margin:0;
+      }
+
+      & p:nth-child(1) {
+        font-size:.8rem;
+        opacity:.5;
+      }
+
+    }
+
+  }
+
+  &.next {
+    flex-direction:row-reverse;
+
+    div + div {
+      flex-grow:1;
+      text-align:left;
+
+      p {
+        padding:0;
+        margin:0;
+      }
+
+      & p:nth-child(1) {
+        font-size:.8rem;
+        opacity:.5;
+      }
+
+    }
+
+  }
+`;
+
 return (
   <Main>
     <SideBar>
       <div>
         <h1>The NDC</h1>
         <ul>
-          <li className="selected">
-            <h2>Introduction</h2>
-          </li>
-          <li>
-            <h2>The NDC</h2>
-          </li>
-          <li>
-            <h2>NDC Mission</h2>
-          </li>
-          <li>
-            <h2>NDC Core Principles</h2>
-          </li>
-          <li>
-            <h2>Key Deliverables</h2>
-          </li>
-          <li>
-            <h2>How is NDC Organized</h2>
-          </li>
+          {SECTIONS.map((text, key) => (
+            <li
+              onClick={() => State.update({ currentSection: key })}
+              className={key === state.currentSection ? "selected" : ""}
+            >
+              <h2>{text}</h2>
+            </li>
+          ))}
         </ul>
       </div>
       <ArticleDetails>
@@ -164,10 +238,33 @@ return (
     </SideBar>
     <Content>
       <img
-        className="image"
+        id="lol"
+        className="image visualize"
         src="https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly"
       />
-      <h1>Introduction</h1>
+      <h1>The NDC</h1>
+      <p>A Grassroots Community-Led movement to BuiDL Web3 Gov on NEAR.</p>
+      <p>
+        Originally proposed by NEAR co-founder Illia Polosukhin, it is now an
+        independent movement led by the NEAR Community.
+      </p>
+
+      <Controls>
+        <ControlButton className="previous">
+          <div>{"<"}</div>
+          <div>
+            <p>Previous</p>
+            <p>Introduction</p>
+          </div>
+        </ControlButton>
+        <ControlButton className="next">
+          <div>{">"}</div>
+          <div>
+            <p>Next</p>
+            <p>NDC Mission</p>
+          </div>
+        </ControlButton>
+      </Controls>
     </Content>
   </Main>
 );
