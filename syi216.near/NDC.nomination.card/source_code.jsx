@@ -15,6 +15,7 @@ function getVerifiedHuman() {
   });
 }
 
+console.log(JSON.parse(data.nominationData.afiliation));
 const Card = styled.div`
 display: flex;
 flex-direction: column;
