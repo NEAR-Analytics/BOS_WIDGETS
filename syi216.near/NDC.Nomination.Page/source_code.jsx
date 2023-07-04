@@ -56,20 +56,21 @@ function getNominationInfo() {
       },
     }
   ).then((res) => {
-    res.body.map((data) => {
+    res.body.map(async (data) => {
       let profileInfo = Social.getr(`${data.nominee}/profile`);
       let info = Social.getr(`${data.nominee}/nominations`);
+      let prof = profileInfo;
+      let nomi = info;
       let objCard = {
         indexerData: data,
-        profileData: profileInfo,
-        nominationData: info,
+        profileData: prof,
+        nominationData: nomi,
       };
       if (!data.is_revoked) {
         nominationsArr.push(objCard);
       }
     });
     State.update({ nominations: nominationsArr });
-    console.log(nominationsArr);
   });
 }
 //
