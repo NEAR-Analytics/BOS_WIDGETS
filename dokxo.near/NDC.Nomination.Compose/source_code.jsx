@@ -289,7 +289,6 @@ const validatedInputs = () => {
       }
     });
   } else {
-    isValid = true;
     State.update({ error_msg: null });
   }
   return isValid;
