@@ -146,6 +146,11 @@ const Content = styled.div`
     }
 `;
 
+const Wrapper = styled.div`
+  max-width:500px;
+  margin:0 auto;
+`;
+
 const Controls = styled.div`
   width:100%;
   display:flex;
@@ -238,34 +243,36 @@ return (
       </ArticleDetails>
     </SideBar>
     <Content>
-      <img
-        id="lol"
-        className="image visualize"
-        src="https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly"
-      />
-      <h1>The NDC</h1>
-      <p>A Grassroots Community-Led movement to BuiDL Web3 Gov on NEAR.</p>
-      <p>
-        Originally proposed by NEAR co-founder Illia Polosukhin, it is now an
-        independent movement led by the NEAR Community.
-      </p>
+      <Wrapper>
+        <img
+          id="lol"
+          className="image"
+          src="https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly"
+        />
+        <h1>The NDC</h1>
+        <p>A Grassroots Community-Led movement to BuiDL Web3 Gov on NEAR.</p>
+        <p>
+          Originally proposed by NEAR co-founder Illia Polosukhin, it is now an
+          independent movement led by the NEAR Community.
+        </p>
 
-      <Controls>
-        <ControlButton className="previous">
-          <div>{"<"}</div>
-          <div>
-            <p>Previous</p>
-            <p>Introduction</p>
-          </div>
-        </ControlButton>
-        <ControlButton className="next">
-          <div>{">"}</div>
-          <div>
-            <p>Next</p>
-            <p>NDC Mission</p>
-          </div>
-        </ControlButton>
-      </Controls>
+        <Controls>
+          <ControlButton className="previous">
+            <div>{"<"}</div>
+            <div>
+              <p>Previous</p>
+              <p>Introduction</p>
+            </div>
+          </ControlButton>
+          <ControlButton className="next">
+            <div>{">"}</div>
+            <div>
+              <p>Next</p>
+              <p>NDC Mission</p>
+            </div>
+          </ControlButton>
+        </Controls>
+      </Wrapper>
     </Content>
   </Main>
 );
