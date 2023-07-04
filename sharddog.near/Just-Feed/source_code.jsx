@@ -13,7 +13,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-posts-tab"
       >
-        <Widget src="mob.near/widget/MainPage.Content" />
+        <Widget src="sharddog.near/widget/JustFeed.MainPage.Content" />
       </div>
     </div>
   </>
