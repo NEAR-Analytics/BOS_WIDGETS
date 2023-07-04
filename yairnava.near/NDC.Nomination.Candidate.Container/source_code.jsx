@@ -24,7 +24,7 @@ const Movile = styled.div`
 display: flex;
 justify-content: center;
 @media only screen and (min-width: 601px) {
-  display: none;
+  display: none !important;
 }
 `;
 
@@ -32,7 +32,7 @@ const Desktop = styled.div`
 display: flex;
 justify-content: center;
 @media only screen and (max-width: 600px) {
-  display: none;
+  display: none !important;
 }
 `;
 
@@ -56,6 +56,22 @@ return (
           </>
         ))}
       </Movile>
+    </Movile>
+    <Movile class="row">
+      <div
+        style={{
+          width: "358px",
+          "margin-bottom": "15px",
+          "margin-top": "10px",
+        }}
+      >
+        <a
+          href="#/syi216.near/widget/NDC.Nomination.Page"
+          style={{ "font-weight": "500", color: "black" }}
+        >
+          <label style={{ cursor: "pointer" }}>{"< Back"}</label>
+        </a>
+      </div>
     </Movile>
     <Movile>
       <Widget src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"} />
@@ -83,6 +99,22 @@ return (
             )}
           </>
         ))}
+      </div>
+    </Desktop>
+    <Desktop class="row">
+      <div
+        style={{
+          width: "1305px",
+          "margin-bottom": "15px",
+          "margin-top": "10px",
+        }}
+      >
+        <a
+          href="#/syi216.near/widget/NDC.Nomination.Page"
+          style={{ "font-weight": "500", color: "black" }}
+        >
+          <label style={{ cursor: "pointer" }}>{"< Back"}</label>
+        </a>
       </div>
     </Desktop>
     <Desktop class="row">
