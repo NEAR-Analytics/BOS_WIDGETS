@@ -5,7 +5,12 @@ org = props.org ? org : "test"; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
+let nominationContract = "nominations-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+
+function handleSelfRevoke() {
+  Near.call(nominationContract, "self_revoke");
+}
 
 const houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -426,7 +431,7 @@ return (
       )}
       <ButtonNominateContainer>
         {state.selfNomination ? (
-          <ButtonDeleteDiv>
+          <ButtonDeleteDiv onClick={handleSelfRevoke}>
             <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
             <ButtonDeleteIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
