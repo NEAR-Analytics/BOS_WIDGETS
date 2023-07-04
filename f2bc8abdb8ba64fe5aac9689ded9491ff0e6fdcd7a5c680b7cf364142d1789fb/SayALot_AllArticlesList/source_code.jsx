@@ -1,4 +1,5 @@
-const addressForArticles = "sayALotArticle";
+const isDebbug = props.isDebbug;
+
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
@@ -7,7 +8,20 @@ const writersWhiteList = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "shubham007.near",
+  "fiftycent.near",
 ];
+
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+];
+
+if (isDebbug) {
+  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+}
+
+const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
@@ -57,7 +71,9 @@ const getDateLastEdit = (timestamp) => {
 return (
   <div className="row card-group py-3">
     {filteredArticles.length > 0 &&
-      filteredArticles.map((article, i) => {
+      filteredArticles.map((article) => {
+        // If some widget posts data different than an array it will be ignored
+        if (!Array.isArray(article.tags)) article.tags = [];
         return (
           <div
             className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
@@ -66,8 +82,13 @@ return (
             <div className="card h-100">
               <a
                 className="text-decoration-none text-dark"
-                href={`#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
-            `}
+                href={
+                  isDebbug
+                    ? `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}&isDebbug=true
+            `
+                    : `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
+            `
+                }
               >
                 <div className="card-body">
                   <div className="row d-flex justify-content-center">
@@ -106,12 +127,10 @@ return (
                       <br />
                       Edit versions: {article.version}
                     </div>
-                    {article.tags && Object.keys(article.tags).length > 0 && (
-                      <Widget
-                        src={`${authorForWidget}/widget/SayALot_TagList`}
-                        props={{ tags: article.tags }}
-                      />
-                    )}
+                    <Widget
+                      src={`${authorForWidget}/widget/SayALot_TagList`}
+                      props={{ tags: article.tags, isDebbug }}
+                    />
                   </div>
                 </div>
               </a>
