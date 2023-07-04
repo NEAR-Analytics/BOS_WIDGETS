@@ -1,7 +1,7 @@
 const data = props;
 console.log("props card", data);
 State.init({ verified: false });
-console.log(data.upVoteData.comments.length);
+console.log(data.upVoteData.comments);
 let Nominationcontract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
   asyncFetch(
