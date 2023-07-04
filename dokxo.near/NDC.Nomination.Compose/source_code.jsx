@@ -170,8 +170,6 @@ color:#9333EA;
 border-radius: 10px;
  border-width: 1px;
   border: solid 1px #9333EA;
- 
- 
   background-image: linear-gradient(#fff, #fff), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);
   background-origin: border-box;
   background-clip: padding-box, border-box;
@@ -250,6 +248,21 @@ const validatedInputs = () => {
 
     isValid = false;
   }
+  if (isEmpty(issued1)) {
+    State.update({ error_msg: "Fill the key issued 1" });
+
+    isValid = false;
+  }
+  if (isEmpty(issued2)) {
+    State.update({ error_msg: "Fill the key issued 2" });
+
+    isValid = false;
+  }
+  if (isEmpty(issued3)) {
+    State.update({ error_msg: "Fill the key issued 3" });
+
+    isValid = false;
+  }
   if (tags.split(",").length == 0) {
     State.update({ error_msg: "Write a tag" });
 
@@ -273,12 +286,12 @@ const validatedInputs = () => {
         isValid = false;
       }
       if (isEmpty(element.start_date)) {
-        State.update({ error_msg: "select a start date" });
+        State.update({ error_msg: "Select a start date" });
 
         isValid = false;
       }
       if (isEmpty(element.end_date)) {
-        State.update({ error_msg: "select a end date" });
+        State.update({ error_msg: "Select a end date" });
 
         isValid = false;
       }
@@ -568,6 +581,7 @@ return (
                       "border-color": "red",
                       "border-width": "1px",
                       padding: "5px",
+                      "margin-bottom": "10px",
                       "border-radius": "5px",
                     }}
                   >
