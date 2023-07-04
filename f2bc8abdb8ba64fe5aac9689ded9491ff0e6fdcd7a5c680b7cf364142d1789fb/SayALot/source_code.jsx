@@ -1,3 +1,5 @@
+const isDebbug = props.isDebbug;
+
 const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
@@ -10,7 +12,14 @@ const writersWhiteList = [
   "fiftycent.near",
 ];
 
-const isDebbug = props.isDebbug;
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+];
+
+if (isDebbug) {
+  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+}
 
 const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
