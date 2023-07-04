@@ -92,7 +92,7 @@ return (
     </Movile>
     <Movile>
       <Widget
-        props={{ data: state }}
+        props={{ data: state, house: props.house, candidate: props.candidate }}
         src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"}
       />
     </Movile>
@@ -141,7 +141,7 @@ return (
     </Desktop>
     <Desktop class="row">
       <Widget
-        props={{ data: state }}
+        props={{ data: state, house: props.house, candidate: props.candidate }}
         src={"yairnava.near/widget/NDC.Nomination.Candidate.Desktop"}
       />
     </Desktop>
