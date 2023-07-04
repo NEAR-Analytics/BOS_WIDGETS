@@ -39,7 +39,7 @@ State.init({
 });
 
 const ModalCard = styled.div`
- position: absolute;
+ position: sticky;
   z-index: 1;
   left: 0;
   top: 0;
