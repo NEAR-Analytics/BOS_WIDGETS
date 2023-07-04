@@ -1,11 +1,7 @@
 const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
-const accountId = props.accountId ?? context.accountId;
-// const accountId = "blaze.near";
-// if (!accountId) {
-//   return "No account ID";
-// }
+const accountId = context.accountId;
 
 const lastEditor = props.lastEditor;
 const blockHeight =
@@ -24,6 +20,8 @@ const article =
       );
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
+  // If some widget posts data different than an array it will be ignored
+  if (!Array.isArray(article.tags)) article.tags = [];
   State.update({ article, note: article.body });
 }
 
