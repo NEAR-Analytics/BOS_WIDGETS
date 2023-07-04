@@ -134,7 +134,7 @@ padding-left:0px;
 
 display: flex;  
 width:100%;
-gap:.5rem;
+gap:.25rem;
 flex-wrap: nowrap;
 @media only screen and (max-width: 480px) {
  
@@ -145,7 +145,7 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 padding: 0px;
-gap: 8px;
+ 
 width: 50%;
 height: 50px;
 flex: none;
