@@ -56,8 +56,10 @@ function getNominationInfo() {
       },
     }
   ).then((res) => {
-    State.update({ nominations: res.body });
     res.body.map((data) => {
+      if (!data.is_revoked) {
+        nominationsArr.push(data);
+      }
       console.log(data);
       let profileInfo = Social.getr(`syi216.near/profile`);
       //let profileInfo = Social.getr(`${data.nominee}/profile`);
@@ -66,7 +68,7 @@ function getNominationInfo() {
       console.log(profileInfo);
       console.log(info);
     });
-
+    State.update({ nominations: nominationsArr });
     //console.log(info);
   });
 }
