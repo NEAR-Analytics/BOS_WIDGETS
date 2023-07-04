@@ -484,7 +484,7 @@ const Self_Nominate = () => {
     let Social_Payload = {
       contractName: Socialcontract,
       methodName: "set",
-      args: SocialArgs,
+      args: data,
       gas: 300000000000000,
       deposit: 10000000000000000000000,
     };
