@@ -64,6 +64,7 @@ color: #000000;
 flex: none;
 order: 0;
 flex-grow: 0;
+margin-top: 25px;
 `;
 const AffiliationBody = styled.div`
 display: flex;
