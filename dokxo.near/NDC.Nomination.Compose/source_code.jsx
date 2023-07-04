@@ -1,11 +1,24 @@
+let profileInfo = Social.getr(`${context.accountId}/profile`);
+console.log("profileInfo", profileInfo);
+let imageIsNFT = profileInfo.image.nft ? true : false;
+let nftData = profileInfo.image.nft;
+const getNftCid = Near.view(nftData.contractId, "nft_token", {
+  token_id: nftData.tokenId,
+});
+console.log("getNftCid", getNftCid);
+let isNFTCid = getNftCid.metadata.media ? getNftCid.metadata.media : "";
 // State
 State.init({
   theme,
   commitLoading: false,
   wasTRX: true,
-  img: { uploading: false, cid: null, name: "" },
-  name: "user_name",
-  profileAccount: "feeee",
+  img: {
+    uploading: false,
+    cid: isNFTCid,
+    name: isNFTCid ? "Uploaded from Social Profile" : "",
+  },
+  name: profileInfo.name ? profileInfo.name : "",
+  profileAccount: context.accountId ? "@" + context.accountId : "",
   house_intended: "",
   issued1: "",
   issued2: "",
@@ -24,6 +37,7 @@ State.init({
   tags: "",
   error_msg: "",
 });
+
 const ModalCard = styled.div`
  position: absolute;
   z-index: 1;
