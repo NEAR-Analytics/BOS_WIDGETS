@@ -15,12 +15,6 @@ function getVerifiedHuman() {
   });
 }
 
-function handleUpvote() {
-  Near.call(Nominationcontract, "upvote", {
-    accountId: data.indexerData.nominee,
-  });
-}
-
 const Card = styled.div`
 display: flex;
 flex-direction: column;
@@ -979,9 +973,6 @@ return (
             ? true
             : false
         }
-        onClick={async () => {
-          handleUpvote();
-        }}
       >
         <UpvoteButtonText>+354</UpvoteButtonText>
         <UpvoteIcon
