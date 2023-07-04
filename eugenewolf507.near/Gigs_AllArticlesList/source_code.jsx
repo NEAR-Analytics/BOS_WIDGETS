@@ -11,7 +11,7 @@ const authorsWhitelist = props.writersWhiteList ?? [
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "neardigitalcollective.near";
-const statusTagsArr = ["Open", "Claimed", "Closed"];
+const statusTagsArr = ["open", "claimed", "closed"];
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
@@ -35,97 +35,35 @@ const resultArticles =
     )
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 // ========== FILTER DUPLICATES ==========
-// const filteredArticles =
-//   resultArticles.length &&
-//   resultArticles.reduce((acc, article) => {
-//     if (!acc.some(({ articleId }) => articleId === article.articleId)) {
-//       return [...acc, article];
-//     } else {
-//       return acc;
-//     }
-//   }, []);
-
-const filteredArticles = [
-  {
-    articleId: "EasyPollForHumans",
-    author: "neardigitalcollective.near",
-    lastEditor: "yuensid.near",
-    timeLastEdit: 1684556562667,
-    timeCreate: 1683245865699,
-    body: "## Easy Poll Gig ",
-    version: 6,
-    navigation_id: null,
-    blockHeight: 92271082,
-    currentStatusTag: "Claimed",
-  },
-  {
-    articleId: "IAMHUMANProgressMeter",
-    author: "jlw.near",
-    lastEditor: "yuensid.near",
-    timeLastEdit: 1685208918024,
-    timeCreate: 1683552279387,
-    body: "## I-AM-HUMAN Progress Meter Widget (Closed)",
-    version: 7,
-    navigation_id: null,
-    blockHeight: 92843969,
-    currentStatusTag: "Open",
-  },
-  {
-    articleId: "NdcProgressMeter",
-    author: "kazanderdad.near",
-    lastEditor: "yuensid.near",
-    timeLastEdit: 1685208948805,
-    timeCreate: 1684240650738,
-    body: "## NDC Progress Meter Widget (Closed)",
-    version: 4,
-    navigation_id: null,
-    blockHeight: 92843996,
-    currentStatusTag: "Closed",
-  },
-  {
-    articleId: "EngineerRecruiting",
-    author: "jlw.near",
-    lastEditor: "yuensid.near",
-    timeLastEdit: 1685208768245,
-    timeCreate: 1683571833722,
-    body: "## Engineering Recruiting (Closed)",
-    version: 4,
-    navigation_id: null,
-    blockHeight: 92843841,
-    currentStatusTag: "Claimed",
-  },
-  {
-    articleId: "MigrateGWGDocs",
-    author: "neardigitalcollective.near",
-    lastEditor: "yuensid.near",
-    timeLastEdit: 1684559639688,
-    timeCreate: 1683243150976,
-    body: "## Migrate GWG Docs #1 (Closed)",
-    version: 7,
-    navigation_id: null,
-    blockHeight: 92273748,
-  },
-];
+const filteredArticles =
+  resultArticles.length &&
+  resultArticles.reduce((acc, article) => {
+    if (!acc.some(({ articleId }) => articleId === article.articleId)) {
+      return [...acc, article];
+    } else {
+      return acc;
+    }
+  }, []);
 
 const sortArticlesByTag = () => {
-  //   if (filteredArticles === 0 || filteredArticles === undefined) {
-  //     return;
-  //   }
+  if (filteredArticles === 0 || filteredArticles === undefined) {
+    return;
+  }
   const result =
     filteredArticles &&
     filteredArticles.reduce(
       (acc, article) => {
-        if (article.currentStatusTag === "Claimed") {
+        if (article.currentStatusTag === "claimed") {
           const claimed = [...acc.claimed, article];
           const tempRes = { claimed };
           return { ...acc, ...tempRes };
         }
-        if (article.currentStatusTag === "Closed") {
+        if (article.currentStatusTag === "closed") {
           const closed = [...acc.closed, article];
           const tempRes = { closed };
           return { ...acc, ...tempRes };
         }
-        const intermediateArticle = { ...article, currentStatusTag: "Open" };
+        const intermediateArticle = { ...article, currentStatusTag: "open" };
         const open = [...acc.open, intermediateArticle];
         const tempRes = { open };
         return { ...acc, ...tempRes };
@@ -135,9 +73,11 @@ const sortArticlesByTag = () => {
   return result;
 };
 
+// ========== STATE INIT ==========
 const sortedArticlesByTag = sortArticlesByTag();
-State.init(sortedArticlesByTag);
+sortedArticlesByTag && State.init(sortedArticlesByTag);
 
+// ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
   const dateString = {
@@ -146,6 +86,8 @@ const getDateLastEdit = (timestamp) => {
   };
   return dateString;
 };
+
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 // ========== HANDLER ==========
 const clickHandler = (oldStatus, newStatus, articleId) => {
@@ -158,12 +100,11 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
   // Check if an object was found
   if (objectIndex !== -1) {
     const objectToMove = state[actualTag].splice(objectIndex, 1)[0];
-    const capitalizedNewStatus =
-      newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-    state[newTag].unshift({
+    const updatedObjectToMove = {
       ...objectToMove,
-      currentStatusTag: capitalizedNewStatus,
-    });
+      currentStatusTag: newStatus,
+    };
+    state[newTag].unshift(updatedObjectToMove);
     State.update();
   }
 };
@@ -247,33 +188,17 @@ const Card = ({ article }) => (
 return (
   <div>
     <div class="row gx-2">
-      <div class="col">
-        <div class="border border-dark rounded-2 px-3 pb-3">
-          <div className="row card-group">
-            <h4 className="pt-2 text-center">{statusTagsArr[0]}</h4>
-            {state.open.length > 0 &&
-              state.open.map((item) => <Card article={item} />)}
+      {statusTagsArr.map((tag) => (
+        <div class="col">
+          <div class="border border-dark rounded-2 px-3 pb-3">
+            <div className="row card-group">
+              <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
+              {state[tag].length > 0 &&
+                state[tag].map((item) => <Card article={item} />)}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="border border-dark rounded-2 px-3  pb-3">
-          <div className="row card-group">
-            <h4 className="pt-2 text-center">{statusTagsArr[1]}</h4>
-            {state.claimed.length > 0 &&
-              state.claimed.map((item) => <Card article={item} />)}
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="border border-dark rounded-2 px-3 pb-3">
-          <div className="row card-group">
-            <h4 className="pt-2 text-center">{statusTagsArr[2]}</h4>
-            {state.closed.length > 0 &&
-              state.closed.map((item) => <Card article={item} />)}
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 );
