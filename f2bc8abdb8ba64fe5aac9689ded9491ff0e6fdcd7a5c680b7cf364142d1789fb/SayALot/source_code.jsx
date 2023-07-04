@@ -8,12 +8,17 @@ const writersWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
+  "fiftycent.near",
 ];
+
+const isDebbug = props.isDebbug;
+
 const authorForWidget = "sayalot.near";
 const accountId = props.accountId ?? context.accountId;
 // if (!accountId) {
 //   return "No account ID";
 // }
+
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
   return "Loading";
@@ -30,12 +35,12 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "articles", writersWhiteList }}
+      props={{ currentNavPill: "articles", writersWhiteList, isDebbug }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
-        props={{ writersWhiteList }}
+        props={{ writersWhiteList, isDebbug }}
       />
     </div>
   </div>
