@@ -8,11 +8,24 @@ const writersWhiteList = props.writersWhiteList ?? [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "fiftycent.near",
 ];
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-const pills = [];
+
+const isDebbug = props.isDebbug;
+
+const authorForWidget = "sayalot.near";
+const pills = [
+  {
+    id: "articles",
+    title: "Articles",
+    widgetName: "SayALot",
+  },
+  {
+    id: "authors",
+    title: "Authors",
+    widgetName: "SayALot_Authors",
+  },
+];
 
 const Button = styled.button`
   margin: 0px 1rem;
@@ -53,25 +66,27 @@ return (
     <div className="container-fluid">
       <a
         className="navbar-brand text-decoration-none"
-        href={`#/${authorForWidget}/widget/SayALot`}
+        href={
+          isDebbug
+            ? `#/${authorForWidget}/widget/SayALot?isDebbug=true`
+            : `#/${authorForWidget}/widget/SayALot`
+        }
       >
-        <div className="d-inline-block" style={{ width: "5em", height: "5em" }}>
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: metadata.image,
-              className: "w-100 h-100",
-              style: {
-                objectFit: "cover",
-              },
-              thumbnail: false,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreighocpt6opkkikgf6bnpfw3sg2c5bj37smrdbzg7k3duadkvfx6ti",
-              alt: widgetName,
-            }}
-          />
-          <i>lots to say...</i>
-        </div>
+        <Widget
+          src="mob.near/widget/Image"
+          props={{
+            image: metadata.image,
+            className: "w-25 h-25",
+            style: {
+              objectFit: "cover",
+            },
+            thumbnail: false,
+            fallbackUrl:
+              "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
+            alt: widgetName,
+          }}
+        />
+        <i>lots to say...</i>
       </a>
       <button
         className="navbar-toggler"
@@ -92,7 +107,11 @@ return (
           {pills.map(({ id, title, widgetName }, i) => (
             <li className="nav-item">
               <a
-                href={`#/${authorForWidget}/widget/${widgetName}`}
+                href={
+                  isDebbug
+                    ? `#/${authorForWidget}/widget/${widgetName}?isDebbug=true`
+                    : `#/${authorForWidget}/widget/${widgetName}`
+                }
                 className={`nav-link ${
                   id === currentPill
                     ? "active text-decoration-underline"
@@ -108,7 +127,11 @@ return (
               <div className="d-block d-md-none">
                 <a
                   className="btn btn-outline-dark"
-                  href={`#/${authorForWidget}/widget/SayALot_CreateArticle`}
+                  href={
+                    isDebbug
+                      ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
+                      : `#/${authorForWidget}/widget/SayALot_CreateArticle`
+                  }
                 >
                   + Create Article
                 </a>
@@ -119,7 +142,13 @@ return (
       {accountId &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
           <Button>
-            <a href={`#/${authorForWidget}/widget/SayALot_CreateArticle`}>
+            <a
+              href={
+                isDebbug
+                  ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
+                  : `#/${authorForWidget}/widget/SayALot_CreateArticle`
+              }
+            >
               + Create Article
             </a>
           </Button>
