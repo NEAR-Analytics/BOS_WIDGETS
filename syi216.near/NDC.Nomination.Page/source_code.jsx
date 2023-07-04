@@ -24,7 +24,7 @@ State.init({
   house: "HouseOfMerit",
   start: true,
   nominations: [],
-  verified: false,
+  verified: true,
   selfNomination: false,
 });
 //
@@ -420,7 +420,7 @@ return (
           </ButtonDeleteDiv>
         ) : (
           <ButtonNominateDiv
-            disabled={status.verified ? false : true}
+            disabled={status.verified ? true : false}
             onClick={async () => {
               State.update({ showModal: true });
             }}
