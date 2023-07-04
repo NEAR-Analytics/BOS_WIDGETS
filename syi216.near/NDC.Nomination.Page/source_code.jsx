@@ -56,20 +56,18 @@ function getNominationInfo() {
       },
     }
   ).then((res) => {
-    res.body.map(async (data) => {
-      let profileInfo = Social.getr(`${data.nominee}/profile`);
-      let info = Social.getr(`${data.nominee}/nominations`);
-      let prof = profileInfo;
-      let nomi = info;
+    for (const data of res.body) {
+      const profileData = Social.getr(`${data.nominee}/profile`);
+      const nominationData = Social.getr(`${data.nominee}/nominations`);
       let objCard = {
         indexerData: data,
-        profileData: prof,
-        nominationData: nomi,
+        profileData: profileData,
+        nominationData: nominationData,
       };
       if (!data.is_revoked) {
         nominationsArr.push(objCard);
       }
-    });
+    }
     State.update({ nominations: nominationsArr });
   });
 }
