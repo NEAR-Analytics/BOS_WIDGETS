@@ -1,4 +1,6 @@
 let Nominationcontract = "nominations-v1.gwg-testing.near";
+let Socialcontract = "social.near";
+
 let profileInfo = Social.getr(`${context.accountId}/profile`);
 console.log("profileInfo", profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
@@ -459,21 +461,35 @@ const Self_Nominate = () => {
   if (validatedInputs()) {
     console.log("was valid");
     //Store the state in the local storage
+    const stateAsString = JSON.stringify(state);
     Storage.privateSet("SelfNominate_Payload", state);
+    const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
+    console.log("as string", data);
+    console.log(JSON.parse(data));
+    const SocialArgs = JSON.parse(data);
 
     // call the smart contract Self nominate method
-
-    Near.call(
-      Nominationcontract,
-      "self_nominate",
-      {
+    let SelfNominate_Payload = {
+      contractName: Nominationcontract,
+      methodName: "self_nominate",
+      args: {
         house: state.house_intended,
         comment: "hello dokxo",
         link: "OWA.io",
       },
-      300000000000000,
-      100000000000000000000000
-    );
+      gas: 300000000000000,
+      deposit: 100000000000000000000000,
+    };
+
+    let Social_Payload = {
+      contractName: Socialcontract,
+      methodName: "set",
+      args: SocialArgs,
+      gas: 300000000000000,
+      deposit: 10000000000000000000000,
+    };
+
+    Near.call([SelfNominate_Payload, Social_Payload]);
   } else {
     //The fields are incomplete
     console.log("still invalid");
