@@ -935,11 +935,17 @@ return (
       ></ProfilePicture>
       <HeaderContent>
         <HeaderTag>
-          <HeaderTagP>House intended</HeaderTagP>
+          <HeaderTagP>
+            {data.indexerData.house == "HouseOfMerit"
+              ? "House of Merit"
+              : data.indexerData.house == "CouncilOfAdvisors"
+              ? "Council of Advisors"
+              : "Transparency Commission"}
+          </HeaderTagP>
         </HeaderTag>
         <HeaderContentText>
-          <NominationName>Nomination name</NominationName>
-          <NominationUser>@user.near</NominationUser>
+          <NominationName>{data.profileData.name}</NominationName>
+          <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
       <UpvoteButton>
@@ -976,7 +982,7 @@ return (
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              Lorem ipsum dolor sit amet consectetur.
+              {data.nominationData.issued1}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
@@ -985,7 +991,7 @@ return (
               <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              Lorem ipsum dolor sit amet consectetur.
+              {data.nominationData.issued2}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
@@ -994,7 +1000,7 @@ return (
               <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              Lorem ipsum dolor sit amet consectetur.
+              {data.nominationData.issued3}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
@@ -1003,7 +1009,7 @@ return (
               <KeyIssueTitle>Other Platform</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              Lorem ipsum dolor sit amet consectetur.
+              {data.nominationData.additional_platform}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
@@ -1018,7 +1024,9 @@ return (
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTUjsGCFy6YrmjgS7zPVbdcKs4V8PZrXKC5zn6LUBfdoi?_gl=1*1141dsg*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4Njk0NzU3Mi41LjEuMTY4Njk0ODc2Ny42MC4wLjA."
               alt="pic"
             ></ClockIcon>
-            <TimestampText>2 hours ago by user.near</TimestampText>
+            <TimestampText>
+              {data.indexerData.timestamp} by {data.indexerData.nominee}
+            </TimestampText>
           </TextLowerSectionContainer>
           <CommentButtonDiv>
             <CommentButtonCounter>+20</CommentButtonCounter>
@@ -1030,12 +1038,11 @@ return (
         </ButtonsLowerSection>
         <TagSectionContainer>
           <TagSection>
-            <Tag>
-              <TagText>#amazing</TagText>
-            </Tag>
-            <Tag>
-              <TagText>#thankyou</TagText>
-            </Tag>
+            {data.nominationData.tags.split(",").map((data) => {
+              <Tag>
+                <TagText>{data}</TagText>
+              </Tag>;
+            })}
           </TagSection>
           <ViewButtonContainer>
             <ViewButtonDiv href="#/yairnava.near/widget/NDC.Nomination.Candidate.Container">
