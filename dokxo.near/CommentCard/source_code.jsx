@@ -289,7 +289,9 @@ const CommentCandidate = () => {
     // call the smart contract Self nominate comment
 
     Near.call(
-      nominationcontract ? nominationcontract : "nominations-v1.gwg.testnet",
+      nominationcontract
+        ? nominationcontract
+        : "nominations-v1.gwg-testing.near",
       "comment",
       {
         candidate: username,
