@@ -194,10 +194,10 @@ const Content = styled.div`
     }
 
     .markdown {
-      margin:40px 0;
+      padding:40px 0;
       
       &:first-of-type {
-        margin-top:0;
+        padding-top:0;
       }
     }
 `;
