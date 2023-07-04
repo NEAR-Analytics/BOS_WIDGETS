@@ -58,29 +58,36 @@ function getNominationInfo() {
     }
   ).then((res) => {
     for (const [i, data] of res.body.entries()) {
-      let profileData;
-      let nominationData;
-      Social.getr(`${data.nominee}/profile`);
-      Social.getr(`${data.nominee}/nominations`);
-      setTimeout(() => {
-        profileData = Social.getr(`${data.nominee}/profile`);
-        nominationData = Social.getr(`${data.nominee}/nominations`);
-        console.log("profileData: " + profileData);
-      }, 1000);
+      asyncFetch(
+        `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
+        { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
+      ).then((res) => {
+        let upVoteInfo = res.body;
+        let profileData;
+        let nominationData;
+        Social.getr(`${data.nominee}/profile`);
+        Social.getr(`${data.nominee}/nominations`);
+        setTimeout(() => {
+          profileData = Social.getr(`${data.nominee}/profile`);
+          nominationData = Social.getr(`${data.nominee}/nominations`);
+          console.log("profileData: " + profileData);
+        }, 1000);
 
-      setTimeout(() => {
-        let objCard = {
-          indexerData: data,
-          profileData: profileData,
-          nominationData: nominationData,
-        };
-        if (!data.is_revoked) {
-          nominationsArr.push(objCard);
-        }
-        if (i == res.body.length - 1) {
-          State.update({ nominations: nominationsArr });
-        }
-      }, 1000);
+        setTimeout(() => {
+          let objCard = {
+            indexerData: data,
+            profileData: profileData,
+            nominationData: nominationData,
+            upVoteData: upVoteInfo,
+          };
+          if (!data.is_revoked) {
+            nominationsArr.push(objCard);
+          }
+          if (i == res.body.length - 1) {
+            State.update({ nominations: nominationsArr });
+          }
+        }, 1000);
+      });
     }
   });
 }
