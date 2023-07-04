@@ -20,7 +20,7 @@ height: 14px;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
-font-size: 12px;
+font-size: 14px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -37,7 +37,7 @@ align-items: flex-start;
 padding: 9px 10px;
  
 width: 100%;
-height: 32px;
+height: 34px;
 font-size: 12px;
 background: #FFFFFF;
 border: 1px solid #D0D6D9;
@@ -56,13 +56,13 @@ height: 14px;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
-font-size: 12px;
+font-size: 14px;
 line-height: 120%;
 display: flex;
 align-items: center;
 color: #000000;
 flex: none;
-order: 0;
+ 
 flex-grow: 0;
 margin-top:15px;
 `;
@@ -70,7 +70,7 @@ const FormsectionDecaration = styled.div`
 display: flex;
 flex-direction: row;
 align-items: center;
-padding: 0px;
+ 
 gap: 8px;
 width: 264px;
 height: 20px;
@@ -154,7 +154,8 @@ return (
           "font-family": "Avenir",
           "font-style": "normal",
           "font-weight": "400",
-          "font-size": "10px",
+          "font-size": "12px",
+          "line-height": "120%",
         }}
         name="Tags"
         id="Tags"
