@@ -70,13 +70,14 @@ const Main = styled.div`
 
 const SideBarWrapper = styled.div`
   min-width:250px;
+  position:relative;
 `;
 
 const SideBar = styled.div`
     display:flex;
     flex-direction:column;
     position:fixed;
-    width:100%;
+    width:250px;
     height:calc(100vh - 1.5rem);
     border-right:1px solid rgba(0,0,0,.05);
     box-sizing:border-box;
