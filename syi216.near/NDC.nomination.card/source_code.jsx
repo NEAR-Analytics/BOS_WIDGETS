@@ -1,5 +1,23 @@
 const data = props;
 console.log("props card", data);
+State.init({ verified: false });
+let Nominationcontract = "nominations-v1.gwg-testing.near";
+function getVerifiedHuman() {
+  asyncFetch(
+    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=true`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    State.update({ verified: res.body });
+  });
+}
+
+function handleUpvote() {
+  Near.call(Nominationcontract,"upvote",{accountId: data.indexerData.nominee})
+}
 
 const Card = styled.div`
 display: flex;
@@ -953,7 +971,7 @@ return (
           <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
-      <UpvoteButton>
+      <UpvoteButton disabled={status.verified && data.indexerData.nominee != context.accountId ? true : false} onClick={}>
         <UpvoteButtonText>+354</UpvoteButtonText>
         <UpvoteIcon
           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
