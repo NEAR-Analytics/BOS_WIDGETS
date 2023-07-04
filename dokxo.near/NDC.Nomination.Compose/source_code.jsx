@@ -458,18 +458,20 @@ const Self_Nominate = () => {
   //Validate the Data outPut
   if (validatedInputs()) {
     console.log("was valid");
-    let newstate = state;
+    //Create a copy
+    let newstate = Object.assign({}, state);
+    //modify the affiliations into a string
     newstate.afiliation = JSON.stringify(newstate.afiliation);
-    //Store the state in the local storage
+    //convert all the newstate into a string
     const stateAsString = JSON.stringify(newstate);
-    Storage.privateSet("SelfNominate_Payload", state);
+    //Storage.privateSet("SelfNominate_Payload", state);
+    //prepare a the final structure
     const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
-    console.log("as string", data);
-    console.log(JSON.parse(data));
-    const SocialArgs = JSON.parse(data);
-    console.log(SocialArgs);
 
-    // call the smart contract Self nominate method
+    //convert the string into and object
+    const SocialArgs = JSON.parse(data);
+
+    // set the payloads for the batch
     let SelfNominate_Payload = {
       contractName: Nominationcontract,
       methodName: "self_nominate",
@@ -490,6 +492,7 @@ const Self_Nominate = () => {
       deposit: 100000000000000000000,
     };
 
+    // call the methods
     Near.call([SelfNominate_Payload, Social_Payload]);
   } else {
     //The fields are incomplete
