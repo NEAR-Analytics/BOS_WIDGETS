@@ -227,7 +227,8 @@ const {
 
 return (
   <div
-    class="row col-sm-12  mx-0   "
+    name={"aff"}
+    class="row col-sm-12 mx-auto    "
     style={{
       "padding-left": "16px",
       "padding-right": "16px",
