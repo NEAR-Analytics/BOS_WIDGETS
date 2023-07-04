@@ -4,7 +4,7 @@ height: 14px;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
-font-size: 12px;
+font-size: 14px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -17,7 +17,7 @@ const LabelFile = styled.label`
 box-sizing: border-box;
 align-content: center,
 width: 100%;
-height: 38px;
+height: 42px;
 background: #FFFFFF;
 border: 1px dashed #D0D6D9;
 border-radius: 8px;
@@ -64,7 +64,7 @@ align-items: flex-start;
 padding: 9px 10px;
  
 width: 100%;
-height: 32px;
+height: 40px;
 font-size: 12px;
 background: #FFFFFF;
 border: 1px solid #D0D6D9;
@@ -104,7 +104,7 @@ align-items: flex-start;
 padding: 8px 10px;
 gap: 10px;
 width: 100%;
-height: 32px;
+height: 40px;
 background: #FFFFFF;
 border: 1px solid #D0D6D9;
 border-radius: 8px;
@@ -127,6 +127,12 @@ color: #828688;
   
 }
   `;
+const Separator = styled.div`
+width:100%;
+height:2px;
+background-color: #D0D6D966;
+border: solid 0px transparent;
+`;
 const {
   img,
   name,
@@ -252,5 +258,8 @@ return (
         </FormsectionHouseDropdown>
       </FormsectionHouse>
     </WrapNoWrap>
+    <div style={{ padding: "12px", width: "100%" }}>
+      <Separator />
+    </div>
   </div>
 );
