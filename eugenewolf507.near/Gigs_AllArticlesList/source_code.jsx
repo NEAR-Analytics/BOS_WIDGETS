@@ -104,6 +104,7 @@ const composeData = (gigObject) => {
       }),
     },
   };
+  console.log("data ", data);
   return data;
 };
 
@@ -127,6 +128,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
     console.log("updatedObjectToMove", updatedObjectToMove);
     const newData = composeData(updatedObjectToMove);
     Social.set(newData, {
+      force: true,
       onCommit: () => {
         state[actualTag].splice(objectIndex, 1);
         state[newTag].unshift(updatedObjectToMove);
