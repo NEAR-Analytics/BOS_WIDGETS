@@ -56,7 +56,7 @@ height: 14px;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
-font-size: 12px;
+font-size: 14px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -89,7 +89,7 @@ height: 12px;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
-font-size: 10px;
+font-size: 14px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -113,7 +113,7 @@ align-items: flex-start;
 padding: 9px 10px;
 gap: 10px;
 width: 100%;
-height: 30px;
+height: 40px;
 background: #FFFFFF;
 border: 1px solid #D0D6D9;
 border-radius: 8px;
@@ -123,7 +123,7 @@ flex-grow: 0;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 400;
-font-size: 10px;
+font-size: 12px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -168,7 +168,7 @@ align-items: flex-start;
 padding: 9px 10px;
 gap: 10px;
 width: 100%;
-height: 30px;
+height: 40px;
 background: #FFFFFF;
 border: 1px solid #D0D6D9;
 border-radius: 8px;
@@ -178,7 +178,7 @@ flex-grow: 0;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 400;
-font-size: 10px;
+font-size: 12px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -330,8 +330,8 @@ return (
                         "font-family": "Avenir",
                         "font-style": "normal",
                         "font-weight": "400",
-                        "font-size": "10px",
-                        height: "60px",
+                        "font-size": "12px",
+                        height: "72px",
                       }}
                       name="Description"
                       id="Description"
