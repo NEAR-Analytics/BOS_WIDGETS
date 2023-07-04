@@ -147,7 +147,7 @@ const Content = styled.div`
 `;
 
 const Wrapper = styled.div`
-  max-width:500px;
+  max-width:1000px;
   margin:0 auto;
 `;
 
