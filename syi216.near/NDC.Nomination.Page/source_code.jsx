@@ -7,7 +7,7 @@ const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
-console.log(item.path.split("/")[0]);
+console.log(item);
 
 const houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -60,7 +60,7 @@ function getNominationInfo() {
   ).then((res) => {
     State.update({ nominations: res.body });
     let info = Social.getr(`dokxo.near/nominations`);
-    console.log(info);
+    //console.log(info);
   });
 }
 //
