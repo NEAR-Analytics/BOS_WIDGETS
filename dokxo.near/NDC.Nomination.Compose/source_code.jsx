@@ -13,10 +13,9 @@ let isNFTCid = getNftCid.metadata.media ? getNftCid.metadata.media : "";
 // State
 State.init({
   theme,
-  commitLoading: false,
-  wasTRX: true,
+
   img: {
-    uploading: false,
+    uploading: "false",
     cid: isNFTCid,
     name: isNFTCid ? "Uploaded from Social Profile" : "",
   },
@@ -36,7 +35,7 @@ State.init({
       role: "",
     },
   ],
-  agreement: false,
+  agreement: "false",
   tags: "",
   error_msg: "",
 });
@@ -248,7 +247,7 @@ const validatedInputs = () => {
   } = state;
   console.log(state);
   const isEmpty = (str) => str.trim() === "";
-  const isFalse = (check) => check === false;
+  const isFalse = (check) => check === "false";
   let isValid = true;
   if (img.cid === null) {
     State.update({ error_msg: "Pic an image" });
@@ -423,7 +422,7 @@ const handleTags = (item) => {
   State.update({ tags: item.target.value, error_msg: null });
 };
 const handleDeclaration = (item) => {
-  State.update({ agreement: item.target.checked, error_msg: null });
+  State.update({ agreement: item.target.checked.toString(), error_msg: null });
 };
 
 const Cancel = () => {
@@ -434,9 +433,9 @@ const Cancel = () => {
 const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
 };
-let localStorage = Storage.privateGet("SelfNominate_Payload");
+/*let localStorage = Storage.privateGet("SelfNominate_Payload");
 
-if (localStorage != null && state.wasTRX) {
+if (localStorage != null  ) {
   console.log("Storage local", localStorage);
   //if the local storage exist then call a set method from socialAPI
   const data = { nominations: localStorage };
@@ -453,20 +452,22 @@ if (localStorage != null && state.wasTRX) {
   });
 
   Storage.privateSet("SelfNominate_Payload", null);
-}
+}*/
 
 const Self_Nominate = () => {
-  State.update({ wasTRX: false });
   //Validate the Data outPut
   if (validatedInputs()) {
     console.log("was valid");
+    let newstate = state;
+    newstate.afiliation = JSON.stringify(newstate.afiliation);
     //Store the state in the local storage
-    const stateAsString = JSON.stringify(state);
+    const stateAsString = JSON.stringify(newstate);
     Storage.privateSet("SelfNominate_Payload", state);
     const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
     console.log("as string", data);
     console.log(JSON.parse(data));
     const SocialArgs = JSON.parse(data);
+    console.log(SocialArgs);
 
     // call the smart contract Self nominate method
     let SelfNominate_Payload = {
@@ -484,9 +485,9 @@ const Self_Nominate = () => {
     let Social_Payload = {
       contractName: Socialcontract,
       methodName: "set",
-      args: data,
+      args: SocialArgs,
       gas: 300000000000000,
-      deposit: 10000000000000000000000,
+      deposit: 100000000000000000000,
     };
 
     Near.call([SelfNominate_Payload, Social_Payload]);
@@ -498,7 +499,7 @@ const Self_Nominate = () => {
 
 const Test_Self_Nominate = () => {
   //Validate the Data outPut
-  State.update({ wasTRX: false });
+
   //Store the state in the local storage
   Storage.privateSet("SelfNominate_Payload", state);
 
