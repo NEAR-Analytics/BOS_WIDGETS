@@ -1,10 +1,36 @@
+// State
+State.init({
+  theme,
+  commitLoading: false,
+  wasTRX: true,
+  img: { uploading: false, cid: null, name: "" },
+  name: "user_name",
+  profileAccount: "feeee",
+  house_intended: "",
+  issued1: "",
+  issued2: "",
+  issued3: "",
+  addition_platform: "",
+
+  afiliation: [
+    {
+      company_name: "",
+      start_date: "",
+      end_date: "",
+      role: "",
+    },
+  ],
+  agreement: false,
+  tags: "",
+  error_msg: "",
+});
 const ModalCard = styled.div`
- position: sticky;
+ position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -188,33 +214,6 @@ const HiddeableWidget = styled.div`
     display: block;
   }
 `;
-let Nominationcontract = "nominations-v1.gwg-testing.near";
-// State
-State.init({
-  theme,
-  commitLoading: false,
-  wasTRX: true,
-  img: { uploading: false, cid: null, name: "" },
-  name: "",
-  profileAccount: "",
-  house_intended: "",
-  issued1: "",
-  issued2: "",
-  issued3: "",
-  addition_platform: "",
-
-  afiliation: [
-    {
-      company_name: "",
-      start_date: "",
-      end_date: "",
-      role: "",
-    },
-  ],
-  agreement: false,
-  tags: "",
-  error_msg: "",
-});
 
 const validatedInputs = () => {
   const {
