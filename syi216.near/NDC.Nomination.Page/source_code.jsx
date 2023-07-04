@@ -45,6 +45,14 @@ function getVerifiedHuman() {
     console.log(res.body);
     State.update({ verified: res.body });
   });
+  asyncFetch(
+    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}`,
+    { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
+  ).then((res) => {
+    if (res.body.length > 0) {
+      State.update({ selfNomination: true });
+    }
+  });
 }
 
 function getNominationInfo() {
