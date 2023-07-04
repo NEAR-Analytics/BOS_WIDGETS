@@ -567,7 +567,7 @@ return (
         NETWORK_AURORA,
         NETWORK_POLYGON,
         forceReload: state.forceReload ?? false,
-        DEX: state.selectedDex ?? "Pancake Swap",
+        DEX: state.selectedDex ?? props.dex ?? "Pancake Swap",
       }}
     />
 
