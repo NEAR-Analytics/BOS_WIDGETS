@@ -385,6 +385,16 @@ return (
           ></SortIcon>
         </SortButton>
       </FilterBar>
+      {state.showModal && (
+        <Widget
+          src={`dokxo.near/widget/NDC.Nomination.Compose`}
+          props={{
+            candidateOrReplay: true,
+            onClickConfirm: () => State.update({ showModal: false }),
+            onClickCancel: () => State.update({ showModal: false }),
+          }}
+        />
+      )}
       <ButtonNominateContainer>
         {state.selfNomination ? (
           <ButtonDeleteDiv>
@@ -395,7 +405,12 @@ return (
             ></ButtonDeleteIcon>
           </ButtonDeleteDiv>
         ) : (
-          <ButtonNominateDiv disabled={status.verified ? true : false}>
+          <ButtonNominateDiv
+            disabled={status.verified ? true : false}
+            onClick={async () => {
+              State.update({ showModal: true });
+            }}
+          >
             <ButtonNominateText>Self Nominate</ButtonNominateText>
             <ButtonNominateIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
