@@ -29,32 +29,30 @@ State.update({
 
 console.log(state.article);
 
-function getParts() {
-  let article = state.article.body.split("\n");
-
+function getIndex() {
   let titles = [];
 
-  article.map((line, index) => {
+  state.article.body.split("\n").map((line, idx) => {
     if (line[0] === "#" && line[1] !== "#") {
       titles = titles.map((title) => {
         if (title.contentEnd == null) {
-          title.contentEnd = index - 1;
+          title.contentEnd = idx - 1;
         }
         return title;
       });
 
       titles.push({
         title: line.substring(1, line.length).trim(),
-        contentStart: index,
+        contentStart: idx,
         contentEnd: null,
       });
     }
   });
 
-  State.update({ index: titles, articleParts: article });
+  State.update({ index: titles });
 }
 
-getParts();
+getIndex();
 
 const SECTIONS = [
   "Introduction",
@@ -348,18 +346,21 @@ return (
     </SideBarWrapper>
     <Content>
       <Wrapper>
-        {state.index.map((index) => (
-          <div id={index.contentStart}>
-            <Markdown
-              text={state.articleParts
-                .splice(
-                  index.contentStart,
-                  index.contentEnd || state.articleParts.length
-                )
-                .join("\n")}
-            />
-          </div>
-        ))}
+        {state.index.map((content) => {
+          return (
+            <div id={content.contentStart}>
+              <Markdown
+                text={state.article.body
+                  .split("\n")
+                  .slice(
+                    content.contentStart,
+                    content.contentEnd || state.article.body.split("\n").length
+                  )
+                  .join("\n")}
+              />
+            </div>
+          );
+        })}
         <Controls>
           <ControlButton className="previous">
             <div>
