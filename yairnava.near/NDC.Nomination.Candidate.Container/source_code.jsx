@@ -2,8 +2,6 @@ let { ids, org } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 org = props.org ? org : "test"; // for testing purposes
 
-console.log(props);
-
 const widgets = {
   header: "syi216.near/widget/NDC.Nomination.Header",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
@@ -20,7 +18,24 @@ const houses = [
 
 State.init({
   selectedHouse: ids[0],
+  comments: [],
+  profile: {},
+  nominations: {},
 });
+
+asyncFetch(
+  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${props.candidate}`,
+  { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
+).then((res) => {
+  State.update({ comments: res.body });
+});
+
+let profile = Social.getr(`${props.candidate}/profile`);
+let nominations = Social.getr(`${props.candidate}/nominations`);
+State.update({ profile: profile });
+State.update({ nominations: nominations });
+
+//console.log("state: ", state);
 
 const Movile = styled.div`
 display: flex;
@@ -76,7 +91,10 @@ return (
       </div>
     </Movile>
     <Movile>
-      <Widget src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"} />
+      <Widget
+        props={{ data: state }}
+        src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"}
+      />
     </Movile>
     <Desktop style={{ display: "flex", "justify-content": "center" }}>
       <div
@@ -93,6 +111,8 @@ return (
                 key={i}
                 src={widgets.header}
                 props={{
+                  house: props.house,
+                  candidate: props.candidate,
                   startTime: group.start,
                   endTime: group.end,
                   type: "Nomination",
@@ -120,7 +140,10 @@ return (
       </div>
     </Desktop>
     <Desktop class="row">
-      <Widget src={"yairnava.near/widget/NDC.Nomination.Candidate.Desktop"} />
+      <Widget
+        props={{ data: state }}
+        src={"yairnava.near/widget/NDC.Nomination.Candidate.Desktop"}
+      />
     </Desktop>
   </div>
 );
