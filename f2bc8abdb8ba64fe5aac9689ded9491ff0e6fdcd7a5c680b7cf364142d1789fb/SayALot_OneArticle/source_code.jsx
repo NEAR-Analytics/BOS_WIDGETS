@@ -537,7 +537,7 @@ return (
               <div className="pt-2">
                 <Widget
                   src={`${authorForWidget}/widget/SayALot_TagList`}
-                  props={{ tags: state.article.tags }}
+                  props={{ tags: state.article.tags, isDebbug }}
                 />
               </div>
               <Widget
