@@ -1,5 +1,5 @@
 const ModalCard = styled.div`
-  position: fixed;
+  position: relative;
   z-index: 1;
   left: 0;
   top: 0;
@@ -283,9 +283,14 @@ border-radius: 10px;
  width: 100%;
 }
 `;
+
 const CommentCandidate = () => {
   //Validate the Data outPut
-  if (state.reply != null) {
+  if (state.reply === null) {
+    State.update({ e_message: "Write a comment " });
+    return;
+  }
+  if (state.reply != "") {
     // call the smart contract Self nominate comment
 
     Near.call(
@@ -340,6 +345,7 @@ State.init({
   reply: "",
   share_url: _share_url,
   cancel: false,
+  e_message: "",
 });
 
 const Submit = () => {
@@ -384,6 +390,7 @@ return (
                 </BCommentmessage>
               </BComment>
               <BFooter>
+                <label>{state.e_message}</label>
                 <BFootercont>
                   <BFootercontTime>
                     <img
