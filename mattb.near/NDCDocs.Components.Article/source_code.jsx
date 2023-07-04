@@ -2,9 +2,6 @@ const addressForComments = "NDCDOCS-comments";
 const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
 const accountId = props.accountId ?? context.accountId;
-// if (!accountId) {
-//   return "No account ID";
-// }
 
 const lastEditor = props.lastEditor;
 const blockHeight =
@@ -27,7 +24,10 @@ State.update({
     ) || {},
 });
 
-console.log(state.article);
+const getDate = (timestamp) => {
+  const date = new Date(Number(timestamp));
+  return date.toDateString();
+};
 
 function getIndex() {
   let titles = [];
@@ -192,6 +192,14 @@ const Content = styled.div`
     h1 {
         font-weight:bold;
     }
+
+    .markdown {
+      margin:40px 0;
+      
+      &:first-of-type {
+        margin-top:0;
+      }
+    }
 `;
 
 const Wrapper = styled.div`
@@ -209,10 +217,10 @@ const Wrapper = styled.div`
 
   h1 {
     font-size:1.8rem;
-    margin-bottom:20px;
+    margin-bottom:13px;
 
-    &:not(:first-of-type) {
-      margin-top:40px;
+    &:first-of-type {
+      margin-top:0;
     }
   }
 
@@ -338,7 +346,7 @@ return (
           <p className="title">Last edit by</p>
           <p>@{state.article.lastEditor}</p>
           <p className="title">Modified on</p>
-          <p>{state.article.timeLastEdit}</p>
+          <p>{getDate(state.article.timeLastEdit)}</p>
           <p className="title">Version</p>
           <p>#{state.article.version}</p>
         </ArticleDetails>
@@ -346,21 +354,19 @@ return (
     </SideBarWrapper>
     <Content>
       <Wrapper>
-        {state.index.map((content) => {
-          return (
-            <div id={content.contentStart}>
-              <Markdown
-                text={state.article.body
-                  .split("\n")
-                  .slice(
-                    content.contentStart,
-                    content.contentEnd || state.article.body.split("\n").length
-                  )
-                  .join("\n")}
-              />
-            </div>
-          );
-        })}
+        {state.index.map((content) => (
+          <div id={content.contentStart} className="markdown">
+            <Markdown
+              text={state.article.body
+                .split("\n")
+                .slice(
+                  content.contentStart,
+                  content.contentEnd || state.article.body.split("\n").length
+                )
+                .join("\n")}
+            />
+          </div>
+        ))}
         <Controls>
           <ControlButton className="previous">
             <div>
