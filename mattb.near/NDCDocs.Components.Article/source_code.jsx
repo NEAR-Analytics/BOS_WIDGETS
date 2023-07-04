@@ -38,7 +38,7 @@ function getParts() {
     if (line[0] === "#" && line[1] !== "#") {
       titles = titles.map((title) => {
         if (title.contentEnd == null) {
-          title.contentEnd = index - 2;
+          title.contentEnd = index - 1;
         }
         return title;
       });
@@ -354,7 +354,7 @@ return (
               text={state.articleParts
                 .splice(
                   index.contentStart,
-                  contentEnd || state.articleParts.length
+                  index.contentEnd || state.articleParts.length
                 )
                 .join("\n")}
             />
