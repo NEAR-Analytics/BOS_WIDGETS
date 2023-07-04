@@ -1,5 +1,9 @@
-const addressForArticles = "sayALotArticle";
-const addressForComments = "sayalot-comments";
+const isDebbug = props.isDebbug;
+
+const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
+const addressForComments = isDebbug
+  ? "test_sayalot-comments"
+  : "sayalot-comments";
 const authorForWidget = "sayalot.near";
 State.init({ showReply: false });
 const accountId = props.accountId;
@@ -44,7 +48,7 @@ return (
         />
       </div>
       {blockHeight !== "now" && (
-        <div className="mt-1 d-flex justify-content-between">
+        <div className="mt-1 d-flex">
           {parentItem && (
             <Widget
               src="mob.near/widget/CommentButton"
@@ -55,7 +59,7 @@ return (
           )}
 
           <Widget
-            src={`${authorForWidget}/widget/WikiOnSocialDB_Like`}
+            src={`${authorForWidget}/widget/SayALot_Reactions`}
             props={{
               // notifyAccountId,
               item,
@@ -69,6 +73,7 @@ return (
         <Widget
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
+            isDebbug,
             initialText: `${accountId}, `,
             // notifyAccountId: extractNotifyAccountId(parentItem),
             item: parentItem,
