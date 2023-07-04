@@ -57,7 +57,9 @@ const getDateLastEdit = (timestamp) => {
 return (
   <div className="row card-group py-3">
     {filteredArticles.length > 0 &&
-      filteredArticles.map((article, i) => {
+      filteredArticles.map((article) => {
+        // If some widget posts data different than an array it will be ignored
+        if (!Array.isArray(article.tags)) article.tags = [];
         return (
           <div
             className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
