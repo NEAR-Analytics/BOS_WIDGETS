@@ -227,6 +227,7 @@ return (
           name="Profile"
           id="Profile"
           type="text"
+          value={profileAccount}
           placeholder="@username.near"
           onChange={(e) => {
             handleProfile(e.target.value);
