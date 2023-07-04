@@ -19,7 +19,7 @@ height: 28px;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
-font-size: 12px;
+font-size: 14px;
 line-height: 120%;
 display: flex;
 align-items: center;
@@ -123,7 +123,7 @@ return (
         name="issuedA"
         id="issuedA"
         type="text"
-        placeholder="Elaborate on your position and additional issues and topics"
+        placeholder="Elaborate on your position and your pledge on additional issues and topics"
         value={addition_platform}
         onChange={(e) => {
           handleAditional(e.target.value);
