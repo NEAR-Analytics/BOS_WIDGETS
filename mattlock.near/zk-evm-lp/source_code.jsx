@@ -97,6 +97,7 @@ const Theme = styled.div`
           border: none;
           border-radius: 24px;
           font-size: 0.8rem;
+          text-transform: uppercase;
         }
 }
       }
@@ -177,7 +178,6 @@ return (
                 DEX
               </button>
             </div>
-
             <div>
               <img
                 src={
@@ -192,22 +192,37 @@ return (
                 Liquidity
               </button>
             </div>
+            {false && (
+              <div>
+                <img
+                  src={
+                    "https://bafkreiagr7ikurfd2jthfnrje6ckqsww5labskp3qy2vowed32j4amhdlq.ipfs.nftstorage.link/"
+                  }
+                />
+                <h1>Aave</h1>
+                <button
+                  disabled={component === "aave"}
+                  onClick={() => State.update({ component: "aave" })}
+                >
+                  Lending Protocol
+                </button>
+              </div>
+            )}
 
             <div>
               <img
                 src={
-                  "https://bafkreiagr7ikurfd2jthfnrje6ckqsww5labskp3qy2vowed32j4amhdlq.ipfs.nftstorage.link/"
+                  "https://bafkreiafnfe7jzj3xxmpcxfkwob2fnfqdi66blmvpcrmcb3wnuwiaahtvi.ipfs.nftstorage.link/"
                 }
               />
-              <h1>Aave</h1>
+              <h1>Pancake Swap</h1>
               <button
-                disabled={component === "aave"}
-                onClick={() => State.update({ component: "aave" })}
+                disabled={true || component === "pancake"}
+                onClick={() => State.update({ component: "pancake" })}
               >
-                Lending Protocol
+                Dex
               </button>
             </div>
-
             <div>
               <img
                 src={
@@ -219,7 +234,7 @@ return (
                 disabled={true || component === "balancer"}
                 onClick={() => State.update({ component: "balancer" })}
               >
-                Liquidity
+                Dex
               </button>
             </div>
           </div>
