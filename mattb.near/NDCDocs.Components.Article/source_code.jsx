@@ -130,6 +130,7 @@ const Content = styled.div`
     flex-grow:1;
     box-sizing:border-box;
     padding:2rem;
+    min-height:100vh;
 
     img {
         display:block;
