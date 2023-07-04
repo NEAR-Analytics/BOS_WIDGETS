@@ -44,7 +44,7 @@ const ModalCard = styled.div`
   left: 0;
   top: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,6 +65,7 @@ background: #F8F8F9;
 border-radius: 10px;
 margin-left:auto;
 margin-right:auto;
+overflow: auto;
 @media only screen and (max-width: 480px) {
   width: 100%;
 }
