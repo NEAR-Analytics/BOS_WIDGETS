@@ -2,6 +2,7 @@ const ModalCard = styled.div`
 width: 100%;
 height: 100%;
 z-index: 1;
+position:fixed;
 background: rgba(0, 0, 0, 0.70);
 padding-top: 25%;
 padding-bottom: 25%;
@@ -408,6 +409,7 @@ const handleDeclaration = (item) => {
 const Cancel = () => {
   const contract = "hello.near-examples.near";
   Storage.privateSet("SelfNominate_Payload", null);
+  props.onClickCancel;
 };
 const Cancel2 = () => {
   console.log(Storage.privateGet("DataSelf"));
