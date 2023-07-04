@@ -53,17 +53,17 @@ const sortArticlesByTag = () => {
     filteredArticles &&
     filteredArticles.reduce(
       (acc, article) => {
-        if (article.currentStatusTag === "claimed") {
+        if (article.statusTag === "claimed") {
           const claimed = [...acc.claimed, article];
           const tempRes = { claimed };
           return { ...acc, ...tempRes };
         }
-        if (article.currentStatusTag === "closed") {
+        if (article.statusTag === "closed") {
           const closed = [...acc.closed, article];
           const tempRes = { closed };
           return { ...acc, ...tempRes };
         }
-        const intermediateArticle = { ...article, currentStatusTag: "open" };
+        const intermediateArticle = { ...article, statusTag: "open" };
         const open = [...acc.open, intermediateArticle];
         const tempRes = { open };
         return { ...acc, ...tempRes };
@@ -102,7 +102,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
     const objectToMove = state[actualTag].splice(objectIndex, 1)[0];
     const updatedObjectToMove = {
       ...objectToMove,
-      currentStatusTag: newStatus,
+      statusTag: newStatus,
     };
     state[newTag].unshift(updatedObjectToMove);
     State.update();
@@ -178,7 +178,7 @@ const Card = ({ article }) => (
         </div>
       </a>
       <StatusTagGroup
-        activeStatus={article.currentStatusTag}
+        activeStatus={article.statusTag}
         articleId={article.articleId}
       />
     </div>
