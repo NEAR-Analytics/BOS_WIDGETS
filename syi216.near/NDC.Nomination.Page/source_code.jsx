@@ -7,8 +7,6 @@ const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
-console.log(props);
-
 const houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
@@ -23,13 +21,12 @@ const widgets = {
 
 State.init({
   selectedHouse: ids[0],
+  house: "HouseOfMerit",
   start: true,
-  house: "CouncilOfAdvisors",
   nominations: [],
   verified: false,
   selfNomination: false,
 });
-State.init({});
 //
 
 function handleNominations(data) {
@@ -50,6 +47,7 @@ function getVerifiedHuman() {
 }
 
 function getNominationInfo() {
+  let nominationsArr = [];
   asyncFetch(
     `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
     {
@@ -59,7 +57,16 @@ function getNominationInfo() {
     }
   ).then((res) => {
     State.update({ nominations: res.body });
-    let info = Social.getr(`dokxo.near/nominations`);
+    res.body.map((data) => {
+      console.log(data);
+      let profileInfo = Social.getr(`syi216.near/profile`);
+      //let profileInfo = Social.getr(`${data.nominee}/profile`);
+      let info = Social.getr(`dokxo.near/nominations`);
+      let objCard = {};
+      console.log(profileInfo);
+      console.log(info);
+    });
+
     //console.log(info);
   });
 }
@@ -410,7 +417,7 @@ return (
           }}
         />
         <div>
-          {!state.verified ? (
+          {state.verified ? (
             ""
           ) : (
             <VerifiedDiv>
