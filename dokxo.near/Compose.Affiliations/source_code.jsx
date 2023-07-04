@@ -353,6 +353,10 @@ return (
                       width: "136px",
                       height: "28px",
                       display: "flex",
+                      padding: " 2px 12px",
+
+                      gap: " 6px",
+                      "align-items": "center",
                     }}
                   >
                     <label
@@ -361,9 +365,10 @@ return (
                         "font-style": "normal",
                         "font-weight": "400",
                         "font-size": "12px",
+                        "line-height": " 24px",
                         color: "#C23F38",
                         width: "136px",
-                        height: "28px",
+
                         display: "flex",
                       }}
                     >
@@ -371,8 +376,8 @@ return (
                     </label>
                     <img
                       style={{
-                        width: "20px",
-                        height: "20px",
+                        width: "14px",
+                        height: "14px",
                       }}
                       src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmRDcewbKHpy9SKAbskYYfRGfTXtUpunSY3f2D3aqyanJM?_gl=1*1vropbf*_ga*NTIwNjIxMzEyLjE2ODc4MTYwMTE.*_ga_5RMPXG14TE*MTY4NzgxNjAxNS4xLjEuMTY4NzgxNjExMi42MC4wLjA.`}
                     />
