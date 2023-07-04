@@ -979,7 +979,9 @@ return (
             ? true
             : false
         }
-        onClick={handleUpvote()}
+        onClick={async () => {
+          handleUpvote();
+        }}
       >
         <UpvoteButtonText>+354</UpvoteButtonText>
         <UpvoteIcon
