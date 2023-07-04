@@ -45,14 +45,16 @@ function getParts() {
 
       titles.push({
         title: line.substring(1, line.length).trim(),
-        contentStart: index + 1,
+        contentStart: index,
         contentEnd: null,
       });
     }
   });
 
-  State.update({ index: titles, article });
+  State.update({ index: titles, articleParts: article });
 }
+
+getParts();
 
 const SECTIONS = [
   "Introduction",
@@ -318,14 +320,16 @@ return (
     <SideBarWrapper>
       <SideBar>
         <div>
-          <h1>The NDC</h1>
+          <h1>{state.article.articleId}</h1>
           <ul>
-            {SECTIONS.map((text, key) => (
+            {state.index.map((obj, key) => (
               <li
                 onClick={() => State.update({ currentSection: key })}
                 className={key === state.currentSection ? "selected" : ""}
               >
-                <h2>{text}</h2>
+                <a href={`#${obj.contentStart}`}>
+                  <h2>{obj.title}</h2>
+                </a>
               </li>
             ))}
           </ul>
@@ -344,7 +348,18 @@ return (
     </SideBarWrapper>
     <Content>
       <Wrapper>
-        <Markdown text={state.note || state.article.body} />
+        {state.index.map((index) => (
+          <div id={index.contentStart}>
+            <Markdown
+              text={state.articleParts
+                .splice(
+                  index.contentStart,
+                  contentEnd || state.articleParts.length
+                )
+                .join("\n")}
+            />
+          </div>
+        ))}
         <Controls>
           <ControlButton className="previous">
             <div>
