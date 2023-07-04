@@ -117,7 +117,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
   );
   // Check if an object was found
   if (objectIndex !== -1) {
-    const objectToMove = state[actualTag].splice(objectIndex, 1)[0];
+    const objectToMove = state[actualTag].slice(objectIndex, 1)[0];
     const updatedObjectToMove = {
       ...objectToMove,
       lastEditor: accountId,
@@ -128,6 +128,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
     const newData = composeData(updatedObjectToMove);
     Social.set(newData, {
       onCommit: () => {
+        state[actualTag].splice(objectIndex, 1);
         state[newTag].unshift(updatedObjectToMove);
         State.update();
       },
