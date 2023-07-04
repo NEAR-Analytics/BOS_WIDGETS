@@ -1086,7 +1086,16 @@ return (
             >
               <ViewButtonText>View</ViewButtonText>
             </ViewButtonDiv>
-            <ShareButtonDiv>
+            <ShareButtonDiv
+              onClick={() => {
+                clipboard.writeText(
+                  "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+                    data.indexerData.house +
+                    ",candidate=" +
+                    data.indexerData.nominee
+                );
+              }}
+            >
               <ShareButtonText>Share</ShareButtonText>
             </ShareButtonDiv>
           </ViewButtonContainer>
