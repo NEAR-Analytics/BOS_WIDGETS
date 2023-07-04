@@ -1,6 +1,58 @@
+const addressForComments = "NDCDOCS-comments";
+const addressForArticles = "ndcWikiArticle";
+const authorForWidget = "neardigitalcollective.near";
+const accountId = props.accountId ?? context.accountId;
+// if (!accountId) {
+//   return "No account ID";
+// }
+
+const lastEditor = props.lastEditor;
+const blockHeight =
+  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const subscribe = !!props.subscribe;
+const raw = !!props.raw;
+
+const notifyAccountId = accountId;
+
 State.init({
   currentSection: 0,
+  index: null,
+  article: null,
 });
+
+State.update({
+  article:
+    JSON.parse(
+      Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
+    ) || {},
+});
+
+console.log(state.article);
+
+function getParts() {
+  let article = state.article.body.split("\n");
+
+  let titles = [];
+
+  article.map((line, index) => {
+    if (line[0] === "#" && line[1] !== "#") {
+      titles = titles.map((title) => {
+        if (title.contentEnd == null) {
+          title.contentEnd = index - 2;
+        }
+        return title;
+      });
+
+      titles.push({
+        title: line.substring(1, line.length).trim(),
+        contentStart: index + 1,
+        contentEnd: null,
+      });
+    }
+  });
+
+  State.update({ index: titles, article });
+}
 
 const SECTIONS = [
   "Introduction",
@@ -141,13 +193,26 @@ const Wrapper = styled.div`
   max-width:800px;
   margin:0 auto;
 
-  & > img {
+  & > img, > p img {
       display:block;
       margin:0 auto;
       height:300px;
       border-radius:20px;
       background-color:rgba(0,0,0,.05);
       margin-bottom:30px;
+  }
+
+  h1 {
+    font-size:1.8rem;
+    margin-bottom:20px;
+
+    &:not(:first-of-type) {
+      margin-top:40px;
+    }
+  }
+
+  h4 {
+    font-size:1.2rem;
   }
 
 `;
@@ -272,17 +337,7 @@ return (
     </SideBar>
     <Content>
       <Wrapper>
-        <img
-          className="image"
-          src="https://ipfs.near.social/ipfs/bafkreie6esjs3h2bdwrvwdt4zksk3nzfqdds3waej5solgh3vk6a7dm7ly"
-        />
-        <h1>The NDC</h1>
-        <p>A Grassroots Community-Led movement to BuiDL Web3 Gov on NEAR.</p>
-        <p>
-          Originally proposed by NEAR co-founder Illia Polosukhin, it is now an
-          independent movement led by the NEAR Community.
-        </p>
-
+        <Markdown text={state.note || state.article.body} />
         <Controls>
           <ControlButton className="previous">
             <div>
