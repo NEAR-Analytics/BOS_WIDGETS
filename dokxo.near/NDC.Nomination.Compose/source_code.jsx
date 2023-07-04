@@ -79,7 +79,7 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 padding: 0px;
-gap: 18px;
+ 
 width: 100%;
 height: auto;
  
@@ -424,35 +424,6 @@ const handleTags = (item) => {
 const handleDeclaration = (item) => {
   State.update({ agreement: item.target.checked.toString(), error_msg: null });
 };
-
-const Cancel = () => {
-  const contract = "hello.near-examples.near";
-  Storage.privateSet("SelfNominate_Payload", null);
-  console.log("cancel");
-};
-const Cancel2 = () => {
-  console.log(Storage.privateGet("DataSelf"));
-};
-/*let localStorage = Storage.privateGet("SelfNominate_Payload");
-
-if (localStorage != null  ) {
-  console.log("Storage local", localStorage);
-  //if the local storage exist then call a set method from socialAPI
-  const data = { nominations: localStorage };
-
-  State.update({ commitLoading: true });
-  Social.set(data, {
-    force: true,
-    onCommit: () => {
-      State.update({ commitLoading: false });
-    },
-    onCancel: () => {
-      State.update({ commitLoading: false });
-    },
-  });
-
-  Storage.privateSet("SelfNominate_Payload", null);
-}*/
 
 const Self_Nominate = () => {
   //Validate the Data outPut
