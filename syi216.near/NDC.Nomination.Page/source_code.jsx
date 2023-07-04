@@ -42,6 +42,7 @@ function getVerifiedHuman() {
       },
     }
   ).then((res) => {
+    console.log(res.body);
     State.update({ verified: res.body });
   });
 }
