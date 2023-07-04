@@ -57,19 +57,19 @@ function getNominationInfo() {
     }
   ).then((res) => {
     res.body.map((data) => {
+      let profileInfo = Social.getr(`${data.nominee}/profile`);
+      let info = Social.getr(`${data.nominee}/nominations`);
+      let objCard = {
+        indexerData: data,
+        profileData: profileInfo,
+        nominationData: info,
+      };
       if (!data.is_revoked) {
-        nominationsArr.push(data);
+        nominationsArr.push(objCard);
       }
-      console.log(data);
-      let profileInfo = Social.getr(`syi216.near/profile`);
-      //let profileInfo = Social.getr(`${data.nominee}/profile`);
-      let info = Social.getr(`dokxo.near/nominations`);
-      let objCard = {};
-      console.log(profileInfo);
-      console.log(info);
     });
     State.update({ nominations: nominationsArr });
-    //console.log(info);
+    console.log(nominationsArr);
   });
 }
 //
@@ -456,7 +456,7 @@ return (
       <Center className="col-lg-9 p-2 p-md-3 d-flex flex-row flex-wrap justify-content-center gap-4">
         {state.nominations.length > 0 ? (
           state.nominations.map((data) => {
-            return <Widget src={widgets.card} />;
+            return <Widget src={widgets.card} props={data} />;
           })
         ) : (
           <H5 className="mt-10">
