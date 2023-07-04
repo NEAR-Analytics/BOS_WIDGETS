@@ -1,7 +1,7 @@
 const data = props;
 console.log("props card", data);
 State.init({ verified: false });
-console.log(data.upVoteData.comments);
+console.log(data.upVoteData.comments.length);
 let Nominationcontract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
   asyncFetch(
@@ -1058,7 +1058,9 @@ return (
             </TimestampText>
           </TextLowerSectionContainer>
           <CommentButtonDiv>
-            <CommentButtonCounter>+ {}</CommentButtonCounter>
+            <CommentButtonCounter>
+              + {data.upVoteData.comments.length}
+            </CommentButtonCounter>
             <CommentButtonIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
               alt="pic"
