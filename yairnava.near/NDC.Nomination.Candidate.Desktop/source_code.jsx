@@ -181,7 +181,6 @@ align-items: center;
 gap: 6px;
 border-radius: 4px;
 border: solid 1px transparent;
-filter: grayscale(100%);
 background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
 `;
@@ -559,8 +558,6 @@ align-self: stretch;
 border-radius: 4px;
 background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
-filter: grayscale(100%);
-
 `;
 
 const CommentText = styled.p`
