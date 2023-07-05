@@ -498,6 +498,15 @@ line-height: 24px;
 margin: 0px;
 `;
 
+const afilations = JSON.parse(props.data.nominations.afiliation);
+const issues = [
+  props.data.nominations.issued1,
+  props.data.nominations.issued2,
+  props.data.nominations.issued3,
+  props.data.nominations.addition_platform,
+];
+const comments = props.data.comments[0].comments;
+
 return (
   <Container class="row">
     <div class="col-9" style={{ "margin-right": "5px", width: "950px" }}>
@@ -571,7 +580,12 @@ return (
               style={{ "align-items": "end", height: "71.17px" }}
             >
               <UpvoteButton>
-                <UpvoteCount>+354</UpvoteCount>
+                <UpvoteCount>
+                  +
+                  {props.data.comments[0].upvotes
+                    ? props.data.comments[0].upvotes
+                    : 0}
+                </UpvoteCount>
                 <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
               </UpvoteButton>
             </HeaderDetailContent>
@@ -599,75 +613,37 @@ return (
                     Candidate Affiliations
                   </CandidateHeaderText>
                 </CandidateHeader>
-                <CandidateInfoDiv
-                  style={{ background: "white", "border-radius": "8px" }}
-                >
-                  <CandidateInfoHeader>
-                    <CandidateImage
-                      src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-                      alt="pic"
-                    ></CandidateImage>
-                    <CandidateInfoData>
-                      <CandidateTagDiv>
-                        <CandidateTagText>Near Foundation</CandidateTagText>
-                      </CandidateTagDiv>
-                      <CandidateTime>Oct 2018 - Present</CandidateTime>
-                    </CandidateInfoData>
-                  </CandidateInfoHeader>
-                  <CandidateTextInfo>
-                    <CandidateTitle>Lorem Ipsum Dolor Sit</CandidateTitle>
-                    <CandidateDescription>
-                      Lorem ipsum dolor sit amet consectetur. Turpis maecenas
-                      pulvinar quis massa tristique velit.
-                    </CandidateDescription>
-                  </CandidateTextInfo>
-                </CandidateInfoDiv>
-                <CandidateInfoDiv
-                  style={{ background: "white", "border-radius": "8px" }}
-                >
-                  <CandidateInfoHeader>
-                    <CandidateImage
-                      src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-                      alt="pic"
-                    ></CandidateImage>
-                    <CandidateInfoData>
-                      <CandidateTagDiv>
-                        <CandidateTagText>Near Foundation</CandidateTagText>
-                      </CandidateTagDiv>
-                      <CandidateTime>Oct 2018 - Present</CandidateTime>
-                    </CandidateInfoData>
-                  </CandidateInfoHeader>
-                  <CandidateTextInfo>
-                    <CandidateTitle>Lorem Ipsum Dolor Sit</CandidateTitle>
-                    <CandidateDescription>
-                      Lorem ipsum dolor sit amet consectetur. Turpis maecenas
-                      pulvinar quis massa tristique velit.
-                    </CandidateDescription>
-                  </CandidateTextInfo>
-                </CandidateInfoDiv>
-                <CandidateInfoDiv
-                  style={{ background: "white", "border-radius": "8px" }}
-                >
-                  <CandidateInfoHeader>
-                    <CandidateImage
-                      src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-                      alt="pic"
-                    ></CandidateImage>
-                    <CandidateInfoData>
-                      <CandidateTagDiv>
-                        <CandidateTagText>Near Foundation</CandidateTagText>
-                      </CandidateTagDiv>
-                      <CandidateTime>Oct 2018 - Present</CandidateTime>
-                    </CandidateInfoData>
-                  </CandidateInfoHeader>
-                  <CandidateTextInfo>
-                    <CandidateTitle>Lorem Ipsum Dolor Sit</CandidateTitle>
-                    <CandidateDescription>
-                      Lorem ipsum dolor sit amet consectetur. Turpis maecenas
-                      pulvinar quis massa tristique velit.
-                    </CandidateDescription>
-                  </CandidateTextInfo>
-                </CandidateInfoDiv>
+                {afilations.map((data) => {
+                  return (
+                    <CandidateInfoDiv
+                      style={{ background: "white", "border-radius": "8px" }}
+                    >
+                      <CandidateInfoHeader>
+                        <CandidateImage
+                          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+                          alt="pic"
+                        ></CandidateImage>
+                        <CandidateInfoData>
+                          <CandidateTagDiv>
+                            <CandidateTagText>
+                              {data.company_name}
+                            </CandidateTagText>
+                          </CandidateTagDiv>
+                          <CandidateTime>
+                            {data.start_date} - {data.end_date}
+                          </CandidateTime>
+                        </CandidateInfoData>
+                      </CandidateInfoHeader>
+                      <CandidateTextInfo>
+                        <CandidateTitle>Lorem Ipsum Dolor Sit</CandidateTitle>
+                        <CandidateDescription>
+                          Lorem ipsum dolor sit amet consectetur. Turpis
+                          maecenas pulvinar quis massa tristique velit.
+                        </CandidateDescription>
+                      </CandidateTextInfo>
+                    </CandidateInfoDiv>
+                  );
+                })}
               </CandidateContent>
             </CandidateCard>
           </div>
@@ -716,7 +692,7 @@ return (
                     </tr>
                   </thead>
                   <tbody>
-                    {[1, 2, 3, 4].map((data, key) => {
+                    {issues.map((data, key) => {
                       return (
                         <>
                           <tr
@@ -732,11 +708,11 @@ return (
                                 "border-color": "#dee2e6",
                               }}
                             >
-                              <KeyIssueTitle>Key Issue {data}</KeyIssueTitle>
+                              <KeyIssueTitle>Key Issue {key + 1}</KeyIssueTitle>
                             </td>
                             <td style={{ background: "#F8F8F9" }}>
                               <KeyIssueDescription style={{ color: "black" }}>
-                                Candidate's Position Description {data}
+                                {data}
                               </KeyIssueDescription>
                             </td>
                           </tr>
@@ -854,8 +830,15 @@ return (
                   <CommentText>Add a Comment +</CommentText>
                 </CommentButton>
               </CommentHeader>
-              <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
-              <Widget src={"syi216.near/widget/NDC.Nomination.CommentCard"} />
+
+              {comments.map((data) => {
+                return (
+                  <Widget
+                    props={{ data }}
+                    src={"syi216.near/widget/NDC.Nomination.CommentCard"}
+                  />
+                );
+              })}
             </CommentSection>
           )}
         </div>
