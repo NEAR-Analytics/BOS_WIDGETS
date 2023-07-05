@@ -38,7 +38,9 @@ if (state.feedIndex === 0) {
 if (!context.accountId) {
   return (
     <>
-      <h3>Woof! Need to hold a ShardDog to view feed</h3>
+      <div className="tab-content col-sm-10">
+        <h3>Woof! Need to hold a ShardDog to view feed</h3>
+      </div>
     </>
   );
 }
@@ -91,7 +93,9 @@ if (holder === true) {
 } else {
   return (
     <>
-      <h3>Woof! Need to hold a ShardDog to view feed</h3>
+      <div className="tab-content col-sm-10">
+        <h3>Woof! Need to hold a ShardDog to view feed</h3>
+      </div>
     </>
   );
 }
