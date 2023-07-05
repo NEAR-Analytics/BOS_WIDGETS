@@ -3,14 +3,8 @@ const memberId = props.memberId ?? context.accountId;
 const roleId = props.roleId ?? "voter";
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const name = props.name ?? "Regional Communities";
-const proposalId =
-  props.proposalId ?? Near.view(daoId, "get_last_proposal_id") - 1;
 
 if (!accountId) {
-  return "";
-}
-
-if (!proposalId) {
   return "";
 }
 
@@ -38,17 +32,6 @@ const checkMembership = (groupMembers) => {
 };
 
 const validMember = checkMembership(groupMembers);
-
-const proposal = Near.view(daoId, "get_proposal", {
-  id: proposalId,
-});
-
-if (proposal === null) {
-  return "";
-}
-
-// check if account can join
-const canJoin = accountId && memberId !== proposal.proposer;
 
 const handleProposal = () => {
   Near.call([
@@ -88,7 +71,7 @@ return (
   <div>
     {!validMember ? (
       <button
-        disabled={!canJoin}
+        disabled={!human}
         className="btn btn-outline-secondary m-2"
         onClick={handleProposal}
       >
