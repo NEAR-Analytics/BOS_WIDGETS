@@ -256,12 +256,6 @@ background-clip: padding-box, border-box;`
         border: 1px solid var(--buttons-disable, #C3CACE);`
 };
 
-border: solid 1px transparent;
-border-radius: 80px;
-background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
-background-origin: border-box;
-background-clip: padding-box, border-box;
-
 border-radius: 4px;
 
 /* Inside auto layout */
