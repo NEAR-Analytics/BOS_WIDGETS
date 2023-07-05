@@ -185,7 +185,7 @@ const CastVotesSection = styled.div`
   }
 
   .text-secondary {
-    margin-left: 10px;
+    margin: 0 10px;
   }
 
   &.not-verified {
@@ -478,7 +478,7 @@ const CastVotes = () => (
           props={{
             Button: {
               size: "sm",
-              className: "secandary",
+              className: "secondary",
               text: "Reset Selection",
               onClick: () =>
                 State.update({
