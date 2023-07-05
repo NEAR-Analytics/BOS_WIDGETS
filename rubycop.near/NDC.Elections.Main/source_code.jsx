@@ -129,6 +129,7 @@ return (
                   registryContract,
                   ndcOrganization: org,
                   isIAmHuman: state.isIAmHuman,
+                  availableVotes: house.seats - myVotes.length,
                   ...house,
                 }}
               />
