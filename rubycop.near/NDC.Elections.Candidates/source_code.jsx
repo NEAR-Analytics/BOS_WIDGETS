@@ -2,14 +2,15 @@ const {
   electionContract,
   registryContract,
   ndcOrganization,
+  myVotes,
   id,
   typ,
   ref_link,
   start,
   end,
   quorum,
-  voters_num,
   seats,
+  voters_num,
   result,
   isIAmHuman,
 } = props;
@@ -30,9 +31,11 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 
+const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
+
 State.init({
   loading: false,
-  availableVotes: seats,
+  availableVotes: seats - myVotesForHouse.length,
   selected: null,
   bookmarked: _bookmarked ? _bookmarked[_bookmarked.length - 1].value : [],
   selectedCandidates: [],
@@ -219,12 +222,12 @@ const handleSelectCandidate = (candidateId) => {
     ? state.selectedCandidates.filter((el) => el !== candidateId)
     : [...state.selectedCandidates, candidateId];
 
-  const availableVotes = seats - selectedItems.length;
-  if (availableVotes < 0) return;
+  const currentVotes = seats - myVotesForHouse.length - selectedItems.length;
+  if (currentVotes < 0) return;
 
   State.update({
     selectedCandidates: selectedItems,
-    availableVotes: availableVotes,
+    availableVotes: currentVotes,
   });
 };
 
@@ -481,7 +484,7 @@ const CastVotes = () => (
               onClick: () =>
                 State.update({
                   selectedCandidates: [],
-                  availableVotes: seats,
+                  availableVotes: seats - myVotesForHouse.length,
                 }),
             },
           }}
