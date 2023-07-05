@@ -69,18 +69,12 @@ for (let i = 0; i < userSBTs.length; i++) {
 
 return (
   <div>
-    {!validMember ? (
-      <button
-        disabled={!human}
-        className="btn btn-outline-secondary m-2"
-        onClick={handleProposal}
-      >
-        {name}
-      </button>
-    ) : (
-      <button disabled={validMember} className="btn btn-outline-secondary m-2">
-        Pending Approval
-      </button>
-    )}
+    <button
+      disabled={!human}
+      className="btn btn-outline-secondary m-2"
+      onClick={handleProposal}
+    >
+      {name}
+    </button>
   </div>
 );
