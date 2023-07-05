@@ -18,6 +18,16 @@ State.init({
   isMember: false,
 });
 
+const groupMembers = group.join(", ");
+
+const checkMembership = (groupMembers) => {
+  if (groupMembers.indexOf(memberId) !== -1) {
+    return State.update({ isMember: true });
+  }
+};
+
+const validMember = checkMembership(groupMembers);
+
 const proposals = Near.view(daoId, "get_proposals", {
   from_index: 0,
   limit: 888,
@@ -125,7 +135,8 @@ return (
             <Widget
               src="hack.near/widget/community.join"
               props={{
-                memberId: accountId,
+                daoId,
+                memberId,
                 roleId,
               }}
             />
