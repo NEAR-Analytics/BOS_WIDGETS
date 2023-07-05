@@ -125,7 +125,6 @@ return (
             <Widget src="hack.near/widget/community.join" />
           </div>
         )}
-        <div className="mt-2"></div>
       </div>
     )}
     <br />
