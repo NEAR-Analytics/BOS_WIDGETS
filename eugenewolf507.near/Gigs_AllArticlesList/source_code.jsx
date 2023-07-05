@@ -203,6 +203,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
 // ========== JSX ==========
 const ScrollWrapper = styled.div`
 overflow-x: scroll !important;
+padding-bottom: 20px;
 `;
 
 const CardWrapper = styled.div`
