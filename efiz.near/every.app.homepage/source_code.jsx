@@ -8,6 +8,13 @@ if (homepage === null) {
   return "Loading";
 }
 
-return (
-  <Widget src={homepage ?? "efiz.near/widget/placeholder"} props={props} />
-);
+if (homepage) {
+  return <Widget src={homepage} props={props} />;
+} else {
+  return (
+    <Widget
+      src="every.near/widget/every.thing.view"
+      props={{ path: "every.near/thing/post" }}
+    />
+  );
+}
