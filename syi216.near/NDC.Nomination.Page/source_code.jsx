@@ -508,10 +508,21 @@ return (
           )}
         </div>
       </Left>
-      <Center className="col-lg-9 p-2 p-md-3 d-flex flex-row flex-wrap justify-content-center gap-4">
+      <Center className="col-lg-9 p-2 p-md-3 d-flex flex-row flex-wrap justify-content-start gap-4">
         {state.nominations.length > 0 ? (
           state.nominations.map((data) => {
-            return <Widget src={widgets.card} props={data} />;
+            return (
+              <>
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+                <Widget src={widgets.card} props={data} />
+              </>
+            );
           })
         ) : (
           <H5 className="mt-10">
