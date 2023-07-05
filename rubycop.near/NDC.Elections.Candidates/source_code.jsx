@@ -400,6 +400,7 @@ const CandidateList = ({ candidateId, votes }) => {
           )}
         </div>
       </CandidateItem>
+      {console.log("--->cid", candidateId)}
       {state.selected === candidateId && (
         <Widget src={widgets.voters} props={{ candidateId }} />
       )}
