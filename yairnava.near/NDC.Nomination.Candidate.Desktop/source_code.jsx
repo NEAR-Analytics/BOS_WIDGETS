@@ -7,8 +7,6 @@ const pillsVesting = [
   { id: "comments", title: "Comments" },
 ];
 
-console.log(props);
-
 const DetailContent = styled.div`
 display: inline-flex;
 flex-direction: column;
@@ -521,14 +519,23 @@ return (
           >
             <ProfilePicture
               style={{ width: "100px", height: "100px" }}
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+              src={
+                props.data.nominations.img.cid
+                  ? "https://nativonft.mypinata.cloud/ipfs/" +
+                    props.data.nominations.img.cid
+                  : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+              }
               alt="pic"
             ></ProfilePicture>
             <HeaderDetailContent>
               <TagContainer style={{ "margin-bottom": "5px" }}>
                 <HouseTagDiv>
                   <HouseTagText style={{ "font-size": "12px" }}>
-                    House intended
+                    {props.house == "HouseOfMerit"
+                      ? "House of Merit"
+                      : props.house == "CouncilOfAdvisors"
+                      ? "Council of Advisors"
+                      : "Transparency Commission"}
                   </HouseTagText>
                 </HouseTagDiv>
               </TagContainer>
@@ -536,24 +543,23 @@ return (
                 <NominationTitle
                   style={{ "margin-bottom": "5px", "font-size": "18px" }}
                 >
-                  Candidate Name
+                  {props.data.nominations.name}
                 </NominationTitle>
                 <NominationUser
                   style={{ "margin-bottom": "5px", "font-size": "14px" }}
                 >
-                  candidate.near
+                  {props.candidate}
                 </NominationUser>
                 <TagContainer>
-                  <TagDiv>
-                    <TagDivText style={{ "font-size": "10px" }}>
-                      #amazing
-                    </TagDivText>
-                  </TagDiv>
-                  <TagDiv>
-                    <TagDivText style={{ "font-size": "10px" }}>
-                      #thank you
-                    </TagDivText>
-                  </TagDiv>
+                  {Object.keys(props.data.profile.tags).map((data) => {
+                    return (
+                      <TagDiv>
+                        <TagDivText style={{ "font-size": "10px" }}>
+                          #{data}
+                        </TagDivText>
+                      </TagDiv>
+                    );
+                  })}
                 </TagContainer>
               </NominationTitleContainer>
             </HeaderDetailContent>
