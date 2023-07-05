@@ -708,7 +708,13 @@ return (
                                 "border-color": "#dee2e6",
                               }}
                             >
-                              <KeyIssueTitle>Key Issue {key + 1}</KeyIssueTitle>
+                              {key < issues.length - 1 ? (
+                                <KeyIssueTitle>
+                                  Key Issue {key + 1}
+                                </KeyIssueTitle>
+                              ) : (
+                                <KeyIssueTitle>Others Platforms</KeyIssueTitle>
+                              )}
                             </td>
                             <td style={{ background: "#F8F8F9" }}>
                               <KeyIssueDescription style={{ color: "black" }}>
@@ -814,6 +820,10 @@ return (
                   props={{
                     candidateOrReplay: true,
                     username: props.candidate,
+                    originalComment: "",
+                    originalCommentId: 0,
+                    timeago: "",
+                    _share_url: "",
                     onClickConfirm: () => State.update({ showModal: false }),
                     onClickCancel: () => State.update({ showModal: false }),
                   }}
