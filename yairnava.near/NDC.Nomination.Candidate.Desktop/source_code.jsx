@@ -1,6 +1,53 @@
 State.init({
   tabSelected: "declaration",
+  verified: false,
+  start: true,
+  voted: false,
 });
+
+let nominationContract = "nominations-v1.gwg-testing.near";
+
+function getVerifiedHuman() {
+  asyncFetch(
+    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    State.update({ verified: res.body });
+  });
+  asyncFetch(
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    State.update({ voted: res.body });
+  });
+}
+
+if (state.start) {
+  getVerifiedHuman();
+  State.update({
+    start: false,
+  });
+}
+
+function handleUpVote() {
+  Near.call(
+    nominationContract,
+    state.voted ? "remove_upvote" : "upvote",
+    {
+      candidate: props.candidate,
+    },
+    300000000000000,
+    state.voted ? 0 : 1000000000000000000000
+  );
+}
 
 const pillsVesting = [
   { id: "declaration", title: "Declaration" },
@@ -579,7 +626,7 @@ return (
             <HeaderDetailContent
               style={{ "align-items": "end", height: "71.17px" }}
             >
-              <UpvoteButton>
+              <UpvoteButton onClick={state.verified ? handleUpVote : ""}>
                 <UpvoteCount>
                   +
                   {props.data.comments[0].upvotes
@@ -828,7 +875,7 @@ return (
                 <CommentButton
                   style={{ width: "100%", "justify-content": "center" }}
                   onClick={async () => {
-                    State.update({ showModal: true });
+                    state.verified ? State.update({ showModal: true }) : "";
                   }}
                 >
                   <CommentText>Add a Comment +</CommentText>
