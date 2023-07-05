@@ -698,14 +698,23 @@ return (
       )}
       <CommentHeader>
         <CommentHeaderText>Comments</CommentHeaderText>
-        <CommentButton
-          style={{ "justify-content": "center" }}
-          onClick={async () => {
-            state.verified ? State.update({ showModal: true }) : "";
-          }}
-        >
-          <CommentText>Add a Comment +</CommentText>
-        </CommentButton>
+
+        {state.verified ? (
+          <CommentButton
+            style={{ "justify-content": "center" }}
+            onClick={async () => {
+              State.update({ showModal: true });
+            }}
+          >
+            <CommentText>Add a Comment +</CommentText>
+          </CommentButton>
+        ) : (
+          <CommentButtonDisabled style={{ "justify-content": "center" }}>
+            <CommentText style={{ color: "var(--primary-gray-dark, #828688)" }}>
+              Add a Comment +
+            </CommentText>
+          </CommentButtonDisabled>
+        )}
       </CommentHeader>
       {comments
         .map((data) => {
