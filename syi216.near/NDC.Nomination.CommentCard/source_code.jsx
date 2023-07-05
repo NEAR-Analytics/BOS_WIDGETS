@@ -8,10 +8,10 @@ State.init({
 
 let nominationContract = "nominations-v1.gwg-testing.near";
 
-function handleDeleteComment(candidate, id) {
+function handleDeleteComment() {
   Near.call(nominationContract, "remove_comment", {
-    candidate: candidate,
-    comment: id,
+    candidate: data.candidate,
+    comment: data.id,
   });
 }
 
@@ -292,9 +292,7 @@ return (
       </TimestampCommentDiv>
       <CommentButtonDiv>
         {context.accountId == data.commentator ? (
-          <DeleteCommentButton
-            onClick={handleDeleteComment(data.candidate, data.id)}
-          >
+          <DeleteCommentButton onClick={handleDeleteComment}>
             <DeleteCommentIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
               alt="pic"
