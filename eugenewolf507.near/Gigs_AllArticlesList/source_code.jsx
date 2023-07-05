@@ -201,6 +201,14 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
 };
 
 // ========== JSX ==========
+const ScrollWrapper = styled.div`
+overflow-x: scroll !important;
+`;
+
+const CardWrapper = styled.div`
+min-width: 340px;
+`;
+
 const StatusTagGroup = ({ activeStatus, articleId }) => (
   <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
     {statusTagsArr.map((tag) => (
@@ -218,7 +226,7 @@ const StatusTagGroup = ({ activeStatus, articleId }) => (
 );
 
 const Card = ({ article }) => (
-  <div className="col gy-3" key={article.articleId}>
+  <CardWrapper className="col gy-3" key={article.articleId}>
     <div className="card h-100">
       <a
         className="text-decoration-none text-dark"
@@ -273,15 +281,11 @@ const Card = ({ article }) => (
         articleId={article.articleId}
       />
     </div>
-  </div>
+  </CardWrapper>
 );
 
-const Wrapper = styled.div`
-overflow-x: scroll !important;
-`;
-
 return (
-  <Wrapper>
+  <ScrollWrapper>
     <div class="row gx-2 d-flex flex-nowrap">
       {statusTagsArr.map((tag) => (
         <div class="col">
@@ -295,5 +299,5 @@ return (
         </div>
       ))}
     </div>
-  </Wrapper>
+  </ScrollWrapper>
 );
