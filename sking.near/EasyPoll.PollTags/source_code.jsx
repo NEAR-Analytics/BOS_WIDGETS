@@ -1,4 +1,3 @@
-const indexVersion = props.indexVersion ?? "3.2.0";
 const poll = props.poll;
 const pollAnswers = props.pollAnswers;
 const alreadyVoted = props.alreadyVoted;
@@ -6,13 +5,13 @@ const showVoteButton = props.showVoteButton ?? true;
 
 function isActive(poll) {
   return (
-    poll.value.startTimestamp < Date.now() &&
-    Date.now() < poll.value.endTimestamp
+    poll.startTimestamp < Date.now() &&
+    Date.now() < poll.endTimestamp
   );
 }
 
 function isUpcoming(poll) {
-  return poll.value.startTimestamp > Date.now();
+  return poll.startTimestamp > Date.now();
 }
 
 const Label = styled.div`
@@ -74,9 +73,9 @@ return (
   <div className="d-flex gap-3 flex-wrap">
     <Label>{pollAnswers.length} votes</Label>
     <Label>
-      {Date.now() < poll.value.startTimestamp ||
-      (Date.now() > poll.value.startTimestamp &&
-        Date.now() < poll.value.endTimestamp) ? (
+      {Date.now() < poll.startTimestamp ||
+      (Date.now() > poll.startTimestamp &&
+        Date.now() < poll.endTimestamp) ? (
         <span>Ends in</span>
       ) : (
         <span>Ended</span>
@@ -85,7 +84,7 @@ return (
         src={`silkking.near/widget/timeAgo`}
         props={{
           reduced: true,
-          timeInFuture: poll.value.endTimestamp,
+          timeInFuture: poll.endTimestamp,
         }}
       />
     </Label>
