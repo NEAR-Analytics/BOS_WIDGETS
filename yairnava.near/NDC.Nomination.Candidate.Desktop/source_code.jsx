@@ -182,7 +182,7 @@ gap: 6px;
 border-radius: 4px;
 border: solid 1px transparent;
 filter: grayscale(100%);
-background: rgb(195,202,206);
+background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
 `;
 
@@ -546,6 +546,7 @@ gap: 6px;
 align-self: stretch;
 border-radius: 4px;
 background: var(--buttons-yellow-default, #FFD50D);
+filter: grayscale(100%);
 `;
 
 const CommentButtonDisabled = styled.div`
@@ -556,8 +557,10 @@ align-items: center;
 gap: 6px;
 align-self: stretch;
 border-radius: 4px;
-background: rgb(195,202,206);
+background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
+filter: grayscale(100%);
+
 `;
 
 const CommentText = styled.p`
