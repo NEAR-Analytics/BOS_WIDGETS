@@ -1,5 +1,5 @@
 const ModalCard = styled.div`
-  position: relative;
+  position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
