@@ -1,16 +1,70 @@
-let widgetOwner = "sking.near";
-
-const poll = props.poll ?? {};
+const widgetOwner = props.widgetOwner ?? "sking.near";
+const src = props.src;
+const blockHeight = props.blockHeight ?? "final";
 const href = props.href;
-const humansOnly = poll?.value?.verifiedHumansOnly;
+const editHref = props.editHref;
+const deleteHref = props.deleteHref;
 const accountId = props.accountId ?? context.accountId;
 
-const indexVersion = props.indexVersion ?? "3.2.0";
+if (!src) {
+  return "Please provide poll src";
+}
 
-State.init({
-  pollAnswers: [],
-  userAnswers: [],
+const poll = Social.get(`${src}`, blockHeight);
+
+if (!poll) {
+  return "Loading...";
+}
+poll = JSON.parse(poll);
+poll.accountId = src.split("/")[0];
+
+let profile = Social.getr(`${poll.accountId}/profile`);
+
+let userAnswers = Social.index("easypoll_answer", `${src}`, {
+  accountId: accountId,
 });
+if (!userAnswers) return "Loading...";
+
+let allAnswers = Social.index("easypoll_answer", `${src}`);
+if (!allAnswers) return "Loading...";
+
+const isVerifiedHuman = (account) => {
+  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+    account: `${account}`,
+    issuer: "fractal.i-am-human.near",
+  });
+  return view?.[0]?.[1]?.[0];
+};
+
+const getValidAnswersOnly = (input) => {
+  const { verifiedHumansOnly, endTimestamp, startTimestamp } = poll;
+
+  // should be only right poll
+  let filtered = input
+    // should be 1 per user
+    .map((e) => e["accountId"])
+    .map((e, i, final) => final.indexOf(e) === i && i)
+    .filter((e) => input[e])
+    .map((e) => input[e])
+    //
+    .filter(async (v, i) => {
+      // should respect human only
+      if (verifiedHumansOnly && !isVerifiedHuman(v.accountId)) return false;
+      // should respect startTimestamp
+      if (v.value.timestamp < startTimestamp) return false;
+      // should respect endTimestamp
+      if (v.value.timestamp > endTimestamp) return false;
+
+      return true;
+    });
+
+  return filtered;
+};
+
+if (!state) {
+  const filteredAnswers = getValidAnswersOnly(allAnswers);
+  State.init({ filteredAnswers });
+}
 
 function sliceString(string, newStringLength) {
   if (string.length > newStringLength) {
@@ -48,56 +102,6 @@ function stripMarkdown(markdown) {
       // Remove tables
       .replace(/\n(\|.+\|)\n/, "\n")
   );
-}
-
-const isVerifiedHuman = (account) => {
-  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-    account: `${account}`,
-    issuer: "fractal.i-am-human.near",
-  });
-  return view?.[0]?.[1]?.[0];
-};
-const getValidAnswersOnly = (input) => {
-  const {
-    value: { verifiedHumansOnly, endTimestamp, startTimestamp },
-  } = poll;
-
-  // should be only right poll
-  input = input.filter(
-    (v) => Number(v.value.pollBlockHeight) == poll.blockHeight
-  );
-
-  const userAnswers = input.filter((v) => {
-    return v.accountId === accountId;
-  });
-  State.update({ userAnswers });
-
-  let filtered = input
-    // should be 1 per user
-    .map((e) => e["accountId"])
-    .map((e, i, final) => final.indexOf(e) === i && i)
-    .filter((e) => input[e])
-    .map((e) => input[e])
-    //
-    .filter((v, i) => {
-      // should respect human only
-      if (verifiedHumansOnly && !isVerifiedHuman(v.accountId)) return false;
-      // should respect startTimestamp
-      if (v.value.timestamp < startTimestamp) return false;
-      // should respect endTimestamp
-      if (v.value.timestamp > endTimestamp) return false;
-
-      return true;
-    });
-
-  return filtered;
-};
-
-let allAnswers = Social.index("poll_question", `answer-v${indexVersion}`);
-if (!allAnswers) return "Loading";
-allAnswers = getValidAnswersOnly(allAnswers);
-if (JSON.stringify(allAnswers) != JSON.stringify(state.pollAnswers)) {
-  State.update({ pollAnswers: allAnswers });
 }
 
 const Container = styled.div`
@@ -142,17 +146,17 @@ return (
       />
       <Widget
         src={`${widgetOwner}/widget/EasyPoll.PollMoreOptions`}
-        props={{ poll: poll, href: href }}
+        props={{ poll: poll, href: href, editHref, deleteHref }}
       />
     </div>
     <Content href={href}>
       <Heading>
-        {sliceString(poll.value.title, 100)}{" "}
-        {humansOnly && (
+        {sliceString(poll.title, 100)}{" "}
+        {poll.verifiedHumansOnly && (
           <OverlayTrigger
             placement={"auto"}
             overlay={
-              <Tooltip id={`tooltip-iah-${poll.value.title}`}>
+              <Tooltip id={`tooltip-iah-${poll.title}`}>
                 Only Verified Humans
               </Tooltip>
             }
@@ -170,17 +174,14 @@ return (
         )}
       </Heading>
 
-      <Paragraph>
-        {sliceString(stripMarkdown(poll.value.description), 300)}
-      </Paragraph>
+      <Paragraph>{sliceString(stripMarkdown(poll.description), 300)}</Paragraph>
       <Widget
         src={`${widgetOwner}/widget/EasyPoll.PollTags`}
         props={{
           poll: poll,
-          indexVersion,
           showVoteButton: true,
-          pollAnswers: state.pollAnswers,
-          alreadyVoted: state.userAnswers.length > 0,
+          pollAnswers: state.filteredAnswers,
+          alreadyVoted: userAnswers.length > 0,
         }}
       />
     </Content>
