@@ -183,7 +183,7 @@ return (
         <div>
           <div className="mb-5">
             <Widget
-              src="hack.near/widget/communities.join"
+              src="hack.near/widget/community.join"
               props={{
                 memberId: accountId,
                 roleId,
