@@ -15,6 +15,8 @@ const {
   isIAmHuman,
 } = props;
 
+console.log(props);
+
 const widgets = {
   voters: "rubycop.near/widget/NDC.Elections.Voters",
   button: "rubycop.near/widget/NDC.StyledComponents",
