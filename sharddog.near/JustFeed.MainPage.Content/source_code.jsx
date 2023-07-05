@@ -35,6 +35,13 @@ if (state.feedIndex === 0) {
   }
 }
 
+if (!context.accountId) {
+  return (
+    <>
+      <h3>Woof! Need to hold a ShardDog to view feed</h3>
+    </>
+  );
+}
 const accountId = context.accountId;
 
 const nftData = Near.view(contractId, "nft_tokens_for_owner", {
@@ -84,7 +91,7 @@ if (holder === true) {
 } else {
   return (
     <>
-      <h3>Need to hold a ShardDog to view feed</h3>
+      <h3>Woof! Need to hold a ShardDog to view feed</h3>
     </>
   );
 }
