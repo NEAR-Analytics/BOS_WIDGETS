@@ -29,7 +29,8 @@ State.init({
   house: "HouseOfMerit",
   start: true,
   nominations: [],
-  verified: false,
+  sbt: false,
+  og: false,
   selfNomination: false,
 });
 //
@@ -48,7 +49,19 @@ function getVerifiedHuman() {
     }
   ).then((res) => {
     if (res.body.length > 0) {
-      State.update({ verified: true });
+      State.update({ sbt: true });
+    }
+  });
+  asyncFetch(
+    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=2&issuer=fractal.i-am-human.near&with_expired=false`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    if (res.body.length > 0) {
+      State.update({ og: true });
     }
   });
   asyncFetch(
@@ -436,27 +449,31 @@ return (
         />
       )}
       <ButtonNominateContainer>
-        {state.selfNomination ? (
-          <ButtonDeleteDiv onClick={handleSelfRevoke}>
-            <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
-            <ButtonDeleteIcon
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
-              alt="pic"
-            ></ButtonDeleteIcon>
-          </ButtonDeleteDiv>
+        {state.og ? (
+          state.selfNomination ? (
+            <ButtonDeleteDiv onClick={handleSelfRevoke}>
+              <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
+              <ButtonDeleteIcon
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
+                alt="pic"
+              ></ButtonDeleteIcon>
+            </ButtonDeleteDiv>
+          ) : (
+            <ButtonNominateDiv
+              disabled={status.sbt ? true : false}
+              onClick={async () => {
+                State.update({ showModal: true });
+              }}
+            >
+              <ButtonNominateText>Self Nominate</ButtonNominateText>
+              <ButtonNominateIcon
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
+                alt="pic"
+              ></ButtonNominateIcon>
+            </ButtonNominateDiv>
+          )
         ) : (
-          <ButtonNominateDiv
-            disabled={status.verified ? true : false}
-            onClick={async () => {
-              State.update({ showModal: true });
-            }}
-          >
-            <ButtonNominateText>Self Nominate</ButtonNominateText>
-            <ButtonNominateIcon
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
-              alt="pic"
-            ></ButtonNominateIcon>
-          </ButtonNominateDiv>
+          <></>
         )}
       </ButtonNominateContainer>
     </Toolbar>
