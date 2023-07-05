@@ -315,17 +315,21 @@ return (
             alt="pic"
           ></ShareCommentIcon>
         </ShareCommentButton>
-        <ReplyCommentButton
-          onClick={async () => {
-            State.update({ showModal: true });
-          }}
-        >
-          <ReplyCommentText>Reply</ReplyCommentText>
-          <ReplyCommentIcon
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma6cnsU1NdHPcMbJqmXrUepxbvPuVLEBWzX4jEsaVhaN8?_gl=1*c3nexg*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTUzMS42MC4wLjA."
-            alt="pic"
-          ></ReplyCommentIcon>
-        </ReplyCommentButton>
+        {state.hasReply ? (
+          <ReplyCommentButton
+            onClick={async () => {
+              State.update({ showModal: true });
+            }}
+          >
+            <ReplyCommentText>Reply</ReplyCommentText>
+            <ReplyCommentIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma6cnsU1NdHPcMbJqmXrUepxbvPuVLEBWzX4jEsaVhaN8?_gl=1*c3nexg*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTUzMS42MC4wLjA."
+              alt="pic"
+            ></ReplyCommentIcon>
+          </ReplyCommentButton>
+        ) : (
+          <></>
+        )}
       </CommentButtonDiv>
     </CommentCardLowerSection>
     {state.showModal && (
