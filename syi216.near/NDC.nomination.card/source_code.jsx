@@ -2,8 +2,7 @@ const data = props;
 console.log(window.location.host);
 console.log("props card", data);
 State.init({ verified: false });
-console.log(data.upVoteData.comments.length);
-let Nominationcontract = "nominations-v1.gwg-testing.near";
+let nominationContract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=true`,
@@ -14,6 +13,12 @@ function getVerifiedHuman() {
     }
   ).then((res) => {
     State.update({ verified: res.body });
+  });
+}
+
+function handleUpVote() {
+  Near.call(nominationContract, "upvote", {
+    candidate: data.indexerData.nominee,
   });
 }
 
