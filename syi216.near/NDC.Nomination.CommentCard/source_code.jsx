@@ -282,7 +282,7 @@ return (
         <TimestampTextComment>{data.timestamp}</TimestampTextComment>
       </TimestampCommentDiv>
       <CommentButtonDiv>
-        {context.accountId == data.candidate ? (
+        {context.accountId == data.commentator ? (
           <DeleteCommentButton>
             <DeleteCommentIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
