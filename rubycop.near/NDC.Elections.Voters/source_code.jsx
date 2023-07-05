@@ -1,5 +1,4 @@
 const { candidateId } = props;
-console.log(candidateId);
 
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
@@ -15,7 +14,7 @@ asyncFetch(
     },
   }
 ).then((resp) => {
-  consol.log("--", resp.body);
+  consol.log("-->", resp.body);
   State.update({ voters: resp.body });
 });
 
