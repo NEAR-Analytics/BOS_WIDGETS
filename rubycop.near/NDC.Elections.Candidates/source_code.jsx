@@ -30,7 +30,7 @@ const housesMapping = {
   HouseOfMerit: "House of Merit",
   TransparencyCommission: "Transparency Commission",
 };
-
+console.log("-->", myVotes);
 const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
 
 State.init({
