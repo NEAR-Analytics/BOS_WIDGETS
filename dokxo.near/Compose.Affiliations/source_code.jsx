@@ -131,7 +131,7 @@ color: #828688;
  
   `;
 const AFDates = styled.div`
-padding-left:0px;
+ 
 
 display: flex;  
 width:100%;
@@ -228,10 +228,8 @@ const {
 return (
   <div
     name={"aff"}
-    class="row col-sm-12 mx-auto    "
+    class="row col-sm-12     "
     style={{
-      "padding-left": "16px",
-      "padding-right": "16px",
       height: "auto",
     }}
   >
@@ -241,11 +239,13 @@ return (
         <AffiliationTitle>
           <H2styled>{"Afiliations"}</H2styled>
           <button
+            name={"addsfd"}
             onClick={addFields}
             style={{
               background: "#FFD50D",
               "border-color": "#00000000",
               padding: "0px",
+              "margin-left": "20px",
             }}
           >
             <label
@@ -278,13 +278,13 @@ return (
               style={{ width: "100%", height: "295px", "margin-top": "20px" }}
             >
               <div
-                class="row  col-sm-12  mx-0  gap-1   "
+                class="row  col-sm-12     gap-1   "
                 style={{
                   "padding-left": "16px",
                   "padding-top": "11px",
                 }}
               >
-                <div name="AFOrganization" class="row mx-auto">
+                <div name="AFOrganization" class="row ">
                   <CompanyTitle>{"Organization Name"}</CompanyTitle>
                   <div>
                     <CompanyInputName
@@ -296,7 +296,7 @@ return (
                     />
                   </div>
                 </div>
-                <div class="row  mx-auto">
+                <div class="row   ">
                   {" "}
                   <AFDates name="AFdates">
                     <DateContItem>
@@ -322,7 +322,7 @@ return (
                   </AFDates>
                 </div>
 
-                <div class="row  mx-auto py-2">
+                <div class="row    py-2">
                   <CompanyTitle>{"Role Description"}</CompanyTitle>
 
                   <div>
