@@ -1,63 +1,33 @@
-State.init({
-  showQuestionsByThisUser: false,
-  poll: {},
-  polls: [{}],
-  profile: {},
-  userAnswers: [],
-  pollAnswers: [],
-});
-
-if (!props.blockHeight) {
-  return "Prop block height wasn't provided";
-}
-
-const widgetOwner = "sking.near";
-const indexVersion = props.indexVersion ?? "3.2.0";
-const tabs = props.tabs;
+const widgetOwner = props.widgetOwner ?? "sking.near";
+const src = props.src;
+const href = props.href;
+const editHref = props.editHref;
 const accountId = props.accountId ?? context.accountId;
+const tabs = props.tabs;
 const isHuman = props.isHuman;
-const resultsHref = props.resultsHref ?? "";
+const blockHeight = props.blockHeight ?? "final";
 
-let questionBlockHeight = Number(props.blockHeight);
-
-const polls =
-  !props.previewInfo &&
-  Social.index("poll_question", `question-v${indexVersion}`);
-if (JSON.stringify(polls) != JSON.stringify(state.polls)) {
-  State.update({ polls: polls });
+if (!src) {
+  return "Please provide poll src";
 }
 
-if (!state.polls) {
-  return "Loading";
-} else {
-  const poll =
-    props.previewInfo ??
-    state.polls.find((q) => q.blockHeight == questionBlockHeight);
+const poll = Social.get(`${src}`, blockHeight);
 
-  if (JSON.stringify(poll) != JSON.stringify(state.poll)) {
-    State.update({ poll: poll });
-  }
-
-  if (!state.poll) {
-    return "Loading... ";
-  }
+if (!poll) {
+  return "Loading...";
 }
+poll = JSON.parse(poll);
+poll.accountId = src.split("/")[0];
 
-let profile = Social.getr(`${state.poll.accountId}/profile`);
+let profile = Social.getr(`${poll.accountId}/profile`);
 
-if (JSON.stringify(profile) != JSON.stringify(state.profile)) {
-  State.update({ profile: profile });
-}
-
-let answers = Social.index("poll_question", `answer-v${indexVersion}`, {
+let userAnswers = Social.index("easypoll_answer", `${src}`, {
   accountId: accountId,
 });
-answers = answers.filter(
-  (v) => Number(v.value.pollBlockHeight) == questionBlockHeight
-);
-if (JSON.stringify(answers) != JSON.stringify(state.userAnswers)) {
-  State.update({ userAnswers: answers });
-}
+if (!userAnswers) return "Loading...";
+
+let allAnswers = Social.index("easypoll_answer", `${src}`);
+if (!allAnswers) return "Loading...";
 
 const isVerifiedHuman = (account) => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
@@ -67,14 +37,9 @@ const isVerifiedHuman = (account) => {
   return view?.[0]?.[1]?.[0];
 };
 const getValidAnswersOnly = (input) => {
-  const {
-    value: { verifiedHumansOnly, endTimestamp, startTimestamp },
-  } = state.poll;
+  const { verifiedHumansOnly, endTimestamp, startTimestamp } = poll;
 
   // should be only right poll
-  input = input.filter(
-    (v) => Number(v.value.pollBlockHeight) == questionBlockHeight
-  );
   let filtered = input
     // should be 1 per user
     .map((e) => e["accountId"])
@@ -96,11 +61,9 @@ const getValidAnswersOnly = (input) => {
   return filtered;
 };
 
-let allAnswers = Social.index("poll_question", `answer-v${indexVersion}`);
-if (!allAnswers) return "Loading";
-allAnswers = getValidAnswersOnly(allAnswers);
-if (JSON.stringify(allAnswers) != JSON.stringify(state.pollAnswers)) {
-  State.update({ pollAnswers: allAnswers });
+if (!state) {
+  const filteredAnswers = getValidAnswersOnly(allAnswers);
+  State.init({ filteredAnswers });
 }
 
 return (
@@ -108,17 +71,18 @@ return (
     <Widget
       src={`${widgetOwner}/widget/EasyPoll.PollDetails`}
       props={{
-        poll: state.poll,
-        profile,
+        href: tabs.VIEW_POLL.href(src, blockHeight),
+        editHref: tabs.EDIT_POLL.href(src, blockHeight),
+        resultsHref: tabs.RESULTS.href(src, blockHeight),
+        deleteHref: tabs.DELETE_POLL.href(src, blockHeight),
         widgetOwner,
-        blockHeight: questionBlockHeight,
-        questionsByCreator,
-        indexVersion,
-        href: tabs.VIEW_POLL.href + questionBlockHeight,
-        userAnswers: state.userAnswers,
+        blockHeight: blockHeight,
         isHuman,
-        pollAnswers: state.pollAnswers,
-        resultsHref,
+        poll: poll,
+        profile,
+        userAnswers: userAnswers,
+        pollAnswers: state.filteredAnswers,
+        src,
       }}
     />
   </>
