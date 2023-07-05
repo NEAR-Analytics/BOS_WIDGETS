@@ -286,7 +286,7 @@ line-height: 120%;
 margin: 0px;
 `;
 
-const VerifyButton = styled.button`
+const VerifyButton = styled.a`
 display: flex;
 padding: 8px 20px;
 justify-content: center;
@@ -501,7 +501,11 @@ return (
                   </VerifedDesc>
                 </VerifiedHeaderContainer>
               </VerifiedHeader>
-              <VerifyButton>
+              <VerifyButton
+                href="https://i-am-human.app/"
+                target="_blank"
+                rel="noopener"
+              >
                 <VerifyButtonText>Verify as a Human</VerifyButtonText>
               </VerifyButton>
             </VerifiedDiv>
