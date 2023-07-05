@@ -652,9 +652,9 @@ return (
               {state.verified ? (
                 <UpvoteButton onClick={handleUpVote}>
                   <UpvoteCount>
-                    {"+" + props.data.comments[0].upvotes
-                      ? props.data.comments[0].upvotes
-                      : +0}
+                    {props.data.comments[0].upvotes
+                      ? "+" + props.data.comments[0].upvotes
+                      : "+" + 0}
                   </UpvoteCount>
                   <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
                 </UpvoteButton>
