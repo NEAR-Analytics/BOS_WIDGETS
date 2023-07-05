@@ -99,7 +99,13 @@ return (
       <h3>
         <b>Election Demo</b>
       </h3>
+      <p>
+        <span style={{ fontSize: "0.8em" }}>
+          🚧 <i>UNDER CONSTRUCTION</i> 🚧
+        </span>
+      </p>
     </div>
+    <hr />
     {!validMember && (
       <div className="m-2">
         {!human ? (
@@ -119,16 +125,10 @@ return (
             <Widget src="hack.near/widget/community.join" />
           </div>
         )}
-        <div className="mt-2">
-          <p>
-            <span style={{ fontSize: "0.8em" }}>
-              🚧 <i>UNDER CONSTRUCTION</i> 🚧
-            </span>
-          </p>
-        </div>
+        <div className="mt-2"></div>
       </div>
     )}
-    <hr />
+    <br />
     {!accountId ? (
       <div>
         <p>Please connect with your NEAR account.</p>
