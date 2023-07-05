@@ -301,7 +301,7 @@ const CommentCandidate = () => {
       {
         candidate: username,
         comment: state.reply,
-      }
+      },gas: 300000000000000
     ).then(() => {
       props.onClickCancel();
     });
