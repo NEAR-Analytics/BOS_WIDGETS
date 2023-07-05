@@ -46,6 +46,29 @@ const checkMembership = (groupMembers) => {
 
 const validMember = checkMembership(groupMembers);
 
+const handleProposal = () => {
+  const gas = 200000000000000;
+  const deposit = 100000000000000000000000;
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "potential member",
+          kind: {
+            AddMemberToRole: {
+              member_id: accountId,
+            },
+          },
+        },
+      },
+      gas: gas,
+      deposit: deposit,
+    },
+  ]);
+};
+
 const Container = styled.div`
   display: flex;
   max-width: 1080px;
@@ -66,7 +89,7 @@ return (
     <Container>
       <Widget src="hack.near/widget/progress.members" />
       <div className="m-2">
-        {human ? (
+        {!human ? (
           <button
             disabled={validMember}
             className="btn btn-success m-1"
