@@ -40,12 +40,15 @@ const List = styled.div`
   width: 100%;
 `;
 
-const getHumanTime = (time) => new Date(time).toLocaleTimeString();
-
 return (
   <List>
     {myVotes.map((vote) => (
-      <VoteRow className="d-flex justify-content-between align-items-center">
+      <VoteRow
+        onClick={() =>
+          (window.href = `https://explorer.mainnet.near.org/transactions/${vote.transaction_id}`)
+        }
+        className="d-flex justify-content-between align-items-center"
+      >
         <div className="d-flex align-items-center">
           <Widget
             src="mob.near/widget/ProfileImage"
@@ -61,9 +64,7 @@ return (
             >
               {vote.candidate}
             </StyledLink>
-            <small className="text-secondary">
-              {getHumanTime(vote.timestamp)}
-            </small>
+            <small className="text-secondary">{vote.timestamp}</small>
           </div>
         </div>
         <Badge>{vote.house}</Badge>
