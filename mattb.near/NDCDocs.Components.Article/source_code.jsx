@@ -208,11 +208,10 @@ const Wrapper = styled.div`
 
   & > div > img, & > div > p img {
       display:block;
-      margin:0 auto;
       height:400px;
       border-radius:20px;
       background-color:rgba(0,0,0,.05);
-      margin:30px 0;
+      margin:30px auto;
   }
 
   h1 {
