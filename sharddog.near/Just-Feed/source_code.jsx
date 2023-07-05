@@ -4,7 +4,10 @@ return (
       <div className="col-sm-1 position-sticky top-0" id="sharddogs">
         <Widget src="sharddog.near/widget/Sharddog" />
       </div>
-      <div className="tab-content col-sm-10 border-left" id="pills-tabContent">
+      <div
+        className="tab-content col-sm-10 offset-sm-12 border-left top-0"
+        id="pills-tabContent"
+      >
         <div
           className="tab-pane  d-lg-block "
           id="pills-graph"
