@@ -127,7 +127,6 @@ font-size: 12px;
 line-height: 120%;
 display: flex;
 align-items: center;
-color: #828688;
  
   `;
 const AFDates = styled.div`
@@ -182,7 +181,7 @@ font-size: 12px;
 line-height: 120%;
 display: flex;
 align-items: center;
-color: #828688;
+ 
 @media only screen and (max-width: 480px) {
   
   
