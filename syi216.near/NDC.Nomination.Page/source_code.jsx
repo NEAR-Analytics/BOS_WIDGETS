@@ -97,7 +97,9 @@ function getNominationInfo() {
             upVoteData: upVoteInfo,
           };
           if (!data.is_revoked) {
-            nominationsArr.push(objCard);
+            if (profileData && nominationData) {
+              nominationsArr.push(objCard);
+            }
           }
           if (i == res.body.length - 1) {
             State.update({ nominations: nominationsArr });
