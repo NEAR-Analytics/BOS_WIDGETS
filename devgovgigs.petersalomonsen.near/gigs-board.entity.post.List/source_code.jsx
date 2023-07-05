@@ -421,8 +421,7 @@ const Head =
   );
 if (props.transactionHashes) {
   const DRAFT_STATE_STORAGE_KEY = "POST_DRAFT_STATE";
-  Storage.privateSet(DRAFT_STATE_STORAGE_KEY, undefined);
-  console.log('draft state cleared');
+  Storage.set(DRAFT_STATE_STORAGE_KEY, undefined);
 }
 
 return (
