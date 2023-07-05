@@ -580,7 +580,7 @@ return (
               <div
                 style={{
                   display: "flex",
-                  "justify-content": "end",
+                  "justify-content": "start",
                 }}
               >
                 {state.error_msg ? (
@@ -589,12 +589,10 @@ return (
                       display: "flex",
                       "justify-content": "end",
                       color: "#FF0000",
-                      "border-style": "solid",
-                      "border-color": "red",
-                      "border-width": "1px",
-                      padding: "5px",
+                      "border-bottom": "1px solid red",
+                      "font-size": "14px",
                       "margin-bottom": "10px",
-                      "border-radius": "5px",
+                      "margin-top": "10px",
                     }}
                   >
                     {state.error_msg}
