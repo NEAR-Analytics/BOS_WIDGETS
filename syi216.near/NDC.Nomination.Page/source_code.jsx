@@ -461,7 +461,7 @@ return (
           ) : (
             <ButtonNominateDiv
               onClick={async () => {
-                status.sbt ? State.update({ showModal: true }) : "";
+                !status.sbt ? State.update({ showModal: true }) : "";
               }}
             >
               <ButtonNominateText>Self Nominate</ButtonNominateText>
