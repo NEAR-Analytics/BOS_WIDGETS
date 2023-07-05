@@ -31,7 +31,7 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
-console.log(seats - myVotesForHouse.length);
+
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse.length,
@@ -324,88 +324,71 @@ const filterBy = (option) => {
     });
 };
 
-const CandidateList = ({ candidateId, votes }) => {
-  console.log(candidateId, votes);
-  return (
-    <div>
-      <CandidateItem
-        className="d-flex align-items-center justify-content-between"
-        onClick={(e) => {
-          if (e.target.id === "input" || e.target.id === "bookmark") return;
+const CandidateList = ({ candidateId, votes }) => (
+  <div>
+    <CandidateItem
+      className="d-flex align-items-center justify-content-between"
+      onClick={(e) => {
+        if (e.target.id === "input" || e.target.id === "bookmark") return;
 
-          State.update({
-            selected: state.selected === candidateId ? null : candidateId,
-          });
-        }}
-        selected={state.selected === candidateId}
-      >
+        State.update({
+          selected: state.selected === candidateId ? null : candidateId,
+        });
+      }}
+      selected={state.selected === candidateId}
+    >
+      <div className="d-flex">
+        {isIAmHuman && (
+          
+        )}
         <div className="d-flex">
-          {isIAmHuman && (
-            <Bookmark selected={state.selected === candidateId}>
-              {state.loading === candidateId ? (
-                <Loader />
-              ) : (
-                <i
-                  id="bookmark"
-                  onClick={() => handleBookmarkCandidate(candidateId)}
-                  className={`bi ${
-                    state.bookmarked.includes(candidateId)
-                      ? "bi-bookmark-fill"
-                      : "bi-bookmark"
-                  }`}
-                />
-              )}
-            </Bookmark>
-          )}
-          <div className="d-flex">
-            <Widget
-              src="mob.near/widget/ProfileImage"
-              props={{
-                accountId: candidateId,
-                imageClassName: "rounded-circle w-100 h-100",
-                style: { width: "24px", height: "24px", marginRight: 4 },
-              }}
-            />
-            <UserLink
-              src={`https://wallet.near.org/profile/${candidateId}`}
-              title={candidateId}
-            />
-          </div>
+          <Widget
+            src="mob.near/widget/ProfileImage"
+            props={{
+              accountId: candidateId,
+              imageClassName: "rounded-circle w-100 h-100",
+              style: { width: "24px", height: "24px", marginRight: 4 },
+            }}
+          />
+          <UserLink
+            src={`https://wallet.near.org/profile/${candidateId}`}
+            title={candidateId}
+          />
         </div>
-        <div className="d-flex">
-          <NominationLink
-            className="d-flex"
-            href={ref_link}
-            selected={state.selected === candidateId}
-          >
-            <span className="d-none d-md-block">Nomination</span>
+      </div>
+      <div className="d-flex">
+        <NominationLink
+          className="d-flex"
+          href={ref_link}
+          selected={state.selected === candidateId}
+        >
+          <span className="d-none d-md-block">Nomination</span>
 
-            <i className="bi bi-arrow-up-right" />
-          </NominationLink>
-          <Votes>{votes}</Votes>
-          {isIAmHuman && (
-            <Votes>
-              <input
-                id="input"
-                disabled={alreadyVoted(candidateId)}
-                onClick={() => handleSelectCandidate(candidateId)}
-                className="form-check-input"
-                type="checkbox"
-                checked={
-                  state.selectedCandidates.includes(candidateId) ||
-                  alreadyVoted(candidateId)
-                }
-              />
-            </Votes>
-          )}
-        </div>
-      </CandidateItem>
-      {state.selected === candidateId && (
-        <Widget src={widgets.voters} props={{ candidateId }} />
-      )}
-    </div>
-  );
-};
+          <i className="bi bi-arrow-up-right" />
+        </NominationLink>
+        <Votes>{votes}</Votes>
+        {isIAmHuman && (
+          <Votes>
+            <input
+              id="input"
+              disabled={alreadyVoted(candidateId)}
+              onClick={() => handleSelectCandidate(candidateId)}
+              className="form-check-input"
+              type="checkbox"
+              checked={
+                state.selectedCandidates.includes(candidateId) ||
+                alreadyVoted(candidateId)
+              }
+            />
+          </Votes>
+        )}
+      </div>
+    </CandidateItem>
+    {state.selected === candidateId && (
+      <Widget src={widgets.voters} props={{ candidateId }} />
+    )}
+  </div>
+);
 
 const Filters = () => {
   return (
