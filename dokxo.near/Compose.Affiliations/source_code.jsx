@@ -349,7 +349,7 @@ return (
 
                 <div class="row flex justify-content-end my-2">
                   <button
-                    onClick={removeField}
+                    onClick={removeField(index)}
                     style={{
                       background: "#F1D6D5",
                       "border-color": "#C23F38",
