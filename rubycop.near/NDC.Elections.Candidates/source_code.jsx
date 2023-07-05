@@ -23,6 +23,7 @@ const widgets = {
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const _bookmarked = Social.index(ndcOrganization, typ);
+console.log("_bookmarked", _bookmarked);
 const currentUser = context.accountId;
 
 const housesMapping = {
@@ -36,7 +37,10 @@ State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse.length,
   selected: null,
-  bookmarked: _bookmarked ? _bookmarked[_bookmarked.length - 1].value : [],
+  bookmarked:
+    _bookmarked && _bookmarked[_bookmarked.length - 1]
+      ? _bookmarked[_bookmarked.length - 1].value
+      : [],
   selectedCandidates: [],
   candidates: result,
   filter: {
@@ -338,7 +342,23 @@ const CandidateList = ({ candidateId, votes }) => (
       selected={state.selected === candidateId}
     >
       <div className="d-flex">
-        {isIAmHuman && <></>}
+        {isIAmHuman && (
+          <Bookmark selected={state.selected === candidateId}>
+            {state.loading === candidateId ? (
+              <Loader />
+            ) : (
+              <i
+                id="bookmark"
+                onClick={() => handleBookmarkCandidate(candidateId)}
+                className={`bi ${
+                  state.bookmarked.includes(candidateId)
+                    ? "bi-bookmark-fill"
+                    : "bi-bookmark"
+                }`}
+              />
+            )}
+          </Bookmark>
+        )}
         <div className="d-flex">
           <Widget
             src="mob.near/widget/ProfileImage"
