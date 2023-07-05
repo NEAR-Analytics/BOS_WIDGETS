@@ -277,7 +277,7 @@ return (
           return (
             <div
               class="bg-white rounded"
-              style={{ width: "100%", height: "295px", "margin-top": "20px" }}
+              style={{ width: "100%", "margin-top": "20px" }}
             >
               <div
                 class="row  col-sm-12     gap-1   "
@@ -348,7 +348,7 @@ return (
                   </div>
                 </div>
 
-                <div class="row flex justify-content-end mt-2">
+                <div class="row flex justify-content-end my-2">
                   <button
                     onClick={removeField}
                     style={{
