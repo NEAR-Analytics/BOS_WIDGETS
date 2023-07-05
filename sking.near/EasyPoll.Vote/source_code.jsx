@@ -1,19 +1,19 @@
 const hasVoted = props.hasVoted ?? false;
+const src = props.src;
 const widgetOwner = props.widgetOwner ?? "sking.near";
-const indexVersion = props.indexVersion ?? "3.2.0";
 const blockHeight = props.blockHeight;
-const {
-  value: { questions },
-} = props.poll;
+const { questions } = props.poll;
 const userAnswers = props.userAnswers;
-const humansOnly = props.poll?.value?.verifiedHumansOnly;
+const humansOnly = props.poll.verifiedHumansOnly;
 const isHuman = props.isHuman ?? false;
 const alreadyVoted = userAnswers.length > 0;
 const resultsHref = props.resultsHref ?? "";
 if (!questions) return <></>;
 
-const isUpcoming = props.poll.value.startTimestamp > Date.now();
-const isEnded = props.poll.value.endTimestamp < Date.now();
+if (!src) return "Please provide poll src";
+
+const isUpcoming = props.poll.startTimestamp > Date.now();
+const isEnded = props.poll.endTimestamp < Date.now();
 
 const ViewResultsButton = () => (
   <a href={resultsHref} className="text-decoration-none">
@@ -74,7 +74,7 @@ if (isUpcoming) {
       >
         Vote Begins:{" "}
         <span style={{ color: "#000" }}>
-          {new Date(Date(poll.value.startTimestamp)).toLocaleString()}
+          {new Date(Date(poll.startTimestamp)).toLocaleString()}
         </span>
       </span>
     </div>
@@ -234,13 +234,11 @@ const formatStateForDB = (input) => {
 const onFinish = () => {
   const formattedAnswers = formatStateForDB(state.form);
 
-  console.log(formattedAnswers);
-
   const commit = {
     index: {
-      poll_question: JSON.stringify(
+      easypoll_answer: JSON.stringify(
         {
-          key: `answer-v${indexVersion}`,
+          key: `${src}`,
           value: formattedAnswers,
         },
         undefined,
