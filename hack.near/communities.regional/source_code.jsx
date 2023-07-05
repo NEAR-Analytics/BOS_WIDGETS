@@ -79,7 +79,7 @@ return (
       </button>
     ) : (
       <button disabled={validMember} className="btn btn-outline-secondary m-2">
-        Joined
+        Pending Approval
       </button>
     )}
   </div>
