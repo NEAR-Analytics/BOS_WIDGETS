@@ -273,9 +273,8 @@ const handleVote = () => {
   );
 };
 
-const alreadyVoted = async (candidateId) => {
+const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
-};
 
 const filterBy = (option) => {
   if (option.bookmark)
