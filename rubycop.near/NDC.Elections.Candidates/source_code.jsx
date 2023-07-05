@@ -29,15 +29,12 @@ const housesMapping = {
   HouseOfMerit: "House of Merit",
   TransparencyCommission: "Transparency Commission",
 };
-const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
+const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-
-console.log(typ);
-console.log(myVotesForHouse);
 
 State.init({
   loading: false,
-  availableVotes: seats - myVotesForHouse.length,
+  availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked:
     _bookmarked && _bookmarked[_bookmarked.length - 1]
@@ -227,7 +224,7 @@ const handleSelectCandidate = (candidateId) => {
     ? state.selectedCandidates.filter((el) => el !== candidateId)
     : [...state.selectedCandidates, candidateId];
 
-  const currentVotes = seats - myVotesForHouse.length - selectedItems.length;
+  const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
   if (currentVotes < 0) return;
 
   State.update({
@@ -486,7 +483,7 @@ const CastVotes = () => (
               onClick: () =>
                 State.update({
                   selectedCandidates: [],
-                  availableVotes: seats - myVotesForHouse.length,
+                  availableVotes: seats - myVotesForHouse().length,
                 }),
             },
           }}
