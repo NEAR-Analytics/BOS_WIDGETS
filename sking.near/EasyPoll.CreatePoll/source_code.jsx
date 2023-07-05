@@ -96,6 +96,82 @@ const Container = styled.div`
   width: 100%;
   background: #fafbfb;
 `;
+
+if (state.committed) {
+  return (
+    <Container
+      className="text-center d-flex flex-column align-items-center"
+      style={{
+        padding: "60px 12px",
+        color: "#239f28",
+      }}
+    >
+      <i
+        className="bi bi-check-circle"
+        style={{
+          fontSize: 60,
+        }}
+      />
+      <span
+        style={{
+          fontWeight: "bold",
+          fontsize: 15,
+          color: "#239f28",
+        }}
+      >
+        Posted Successfully!
+      </span>
+
+      <a
+        href={`#/${widgetOwner}/widget/EasyPoll?page=my_polls`}
+        className="text-decoration-none mt-4"
+      >
+        <Widget
+          src="rubycop.near/widget/NDC.StyledComponents"
+          props={{
+            Button: {
+              text: "My Polls",
+              icon: <i class="bi bi-person-fill"></i>,
+              className:
+                "primary dark d-flex flex-row-reverse gap-2 align-items-center",
+              onClick: () => {},
+            },
+          }}
+        />
+      </a>
+    </Container>
+  );
+}
+
+if (state.commitLoading) {
+  return (
+    <Container
+      className="text-center"
+      style={{
+        padding: "60px 12px",
+      }}
+    >
+      <Widget
+        src={`sking.near/widget/Common.Spinner`}
+        props={{
+          color1: "#ffd50d",
+          color2: "#4f46e5",
+        }}
+      />
+      <span
+        style={{
+          fontWeight: "bold",
+          fontsize: 15,
+          color: "#4f46e5",
+          textAlign: "center",
+        }}
+      >
+        Saving...
+      </span>
+    </Container>
+  );
+}
+
 return (
   <Container>
     <Widget
