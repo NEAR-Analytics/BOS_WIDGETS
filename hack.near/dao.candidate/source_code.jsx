@@ -12,7 +12,7 @@ const proposal = Near.view(daoId, "get_proposal", {
 });
 
 if (proposal === null) {
-  return "missing *proposalId*";
+  return "";
 }
 
 const postUrl =
@@ -25,7 +25,7 @@ State.init({
 const policy = Near.view(daoId, "get_policy");
 
 if (!policy) {
-  return "Loading...";
+  return "";
 }
 
 const group = policy.roles
