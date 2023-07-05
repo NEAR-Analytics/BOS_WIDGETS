@@ -42,7 +42,7 @@ function handleUpVote() {
       candidate: data.indexerData.nominee,
     },
     300000000000000,
-    1000000000000000000000
+    state.voted ? 0 : 1000000000000000000000
   );
 }
 
