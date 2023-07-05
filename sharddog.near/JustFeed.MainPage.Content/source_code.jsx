@@ -65,7 +65,7 @@ if (holder === true) {
     <>
       {context.accountId && (
         <div className="mb-3">
-          <Widget src="near/widget/Posts.Compose" props={{}} />
+          <Widget src="sharddog.near/widget/Posts.Compose" props={{}} />
         </div>
       )}
       <ul className="nav nav-pills mb-3">
