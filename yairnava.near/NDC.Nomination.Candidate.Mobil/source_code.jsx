@@ -1,4 +1,53 @@
-console.log(props);
+State.init({
+  verified: false,
+  start: true,
+  voted: false,
+});
+
+let nominationContract = "nominations-v1.gwg-testing.near";
+
+function getVerifiedHuman() {
+  asyncFetch(
+    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    State.update({ verified: res.body });
+  });
+  asyncFetch(
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}`,
+    {
+      headers: {
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    }
+  ).then((res) => {
+    State.update({ voted: res.body });
+  });
+}
+
+if (state.start) {
+  getVerifiedHuman();
+  State.update({
+    start: false,
+  });
+}
+
+function handleUpVote() {
+  Near.call(
+    nominationContract,
+    state.voted ? "remove_upvote" : "upvote",
+    {
+      candidate: props.candidate,
+    },
+    300000000000000,
+    state.voted ? 0 : 1000000000000000000000
+  );
+}
+
 const DetailContent = styled.div`
 display: inline-flex;
 flex-direction: column;
@@ -263,6 +312,7 @@ align-self: stretch;
 const CandidateImage = styled.img`
 width: 32px;
 height: 32px;
+border-radius:20px;
 `;
 const CandidateInfoData = styled.div`
 display: flex;
@@ -488,8 +538,13 @@ return (
             </NominationUser>
           </NominationTitleContainer>
         </HeaderDetailContent>
-        <UpvoteButton>
-          <UpvoteCount>+354</UpvoteCount>
+        <UpvoteButton onClick={state.verified ? handleUpVote : ""}>
+          <UpvoteCount>
+            +
+            {props.data.comments[0].upvotes
+              ? props.data.comments[0].upvotes
+              : 0}
+          </UpvoteCount>
           <UpvoteIcon
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
             alt="pic"
@@ -527,7 +582,7 @@ return (
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
-              <KeyIssueTitle>Addition_platform</KeyIssueTitle>
+              <KeyIssueTitle>Other Platform</KeyIssueTitle>
               <KeyIssueDescription>
                 {CandidateProps.addition_platform}
               </KeyIssueDescription>
@@ -546,9 +601,7 @@ return (
                 <CandidateInfoHeader>
                   <CandidateImage
                     src={
-                      isNFTCid
-                        ? isNFTCid
-                        : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+                      "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
                     }
                     alt="pic"
                   ></CandidateImage>
@@ -564,7 +617,7 @@ return (
                   </CandidateInfoData>
                 </CandidateInfoHeader>
                 <CandidateTextInfo>
-                  <CandidateTitle>Lorem Ipsum Dolor Sit</CandidateTitle>
+                  <CandidateTitle>Role Description</CandidateTitle>
                   <CandidateDescription>
                     {affiliation.role}
                   </CandidateDescription>
@@ -612,7 +665,7 @@ return (
         <CommentButton
           style={{ "justify-content": "center" }}
           onClick={async () => {
-            State.update({ showModal: true });
+            state.verified ? State.update({ showModal: true }) : "";
           }}
         >
           <CommentText>Add a Comment +</CommentText>
