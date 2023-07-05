@@ -31,7 +31,7 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
-console.log(seats - myVotesForHouse.length);
+
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse.length,
@@ -518,15 +518,6 @@ return (
     {state.candidates.length > 0 && (
       <>
         <Filters />
-        <CandidatesContainer>
-          {state.candidates.map(([candidateId, votes], index) => (
-            <CandidateList
-              candidateId={candidateId}
-              votes={votes}
-              key={index}
-            />
-          ))}
-        </CandidatesContainer>
       </>
     )}
     <div className="position-sticky">
