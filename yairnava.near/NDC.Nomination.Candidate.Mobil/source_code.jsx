@@ -564,18 +564,28 @@ return (
             </NominationUser>
           </NominationTitleContainer>
         </HeaderDetailContent>
-        <UpvoteButton onClick={state.verified ? handleUpVote : ""}>
-          <UpvoteCount>
-            +
-            {props.data.comments[0].upvotes
-              ? props.data.comments[0].upvotes
-              : 0}
-          </UpvoteCount>
-          <UpvoteIcon
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
-            alt="pic"
-          ></UpvoteIcon>
-        </UpvoteButton>
+        {state.verified ? (
+          <UpvoteButton onClick={handleUpVote}>
+            <UpvoteCount>
+              {props.data.comments[0].upvotes
+                ? "+" + props.data.comments[0].upvotes
+                : "+" + 0}
+            </UpvoteCount>
+            <UpvoteIcon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></UpvoteIcon>
+          </UpvoteButton>
+        ) : (
+          <UpvoteButtonDisabled>
+            <UpvoteCount style={{ filter: "grayscale(1)" }}>
+              {props.data.comments[0].upvotes
+                ? "+" + props.data.comments[0].upvotes
+                : "+" + 0}
+            </UpvoteCount>
+            <UpvoteIcon
+              style={{ filter: "grayscale(1)" }}
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
+            ></UpvoteIcon>
+          </UpvoteButtonDisabled>
+        )}
       </DetailHeader>
       <PlatformCard>
         <PlatformContent>
