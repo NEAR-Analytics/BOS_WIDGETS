@@ -96,17 +96,26 @@ return (
     <a className="btn flex-fill btn-outline-primary" href={postUrl}>
       Discuss
     </a>
-    <div className="m-1 d-flex flex-row gap-1">
-      {canVote ? (
-        <button className="btn flex-fill btn-success" onClick={handleApprove}>
-          Vote
-        </button>
-      ) : (
+    {human ? (
+      <div className="m-1 d-flex flex-row gap-1">
+        {canVote ? (
+          <button className="btn flex-fill btn-success" onClick={handleApprove}>
+            Vote
+          </button>
+        ) : (
+          <Widget
+            src="mob.near/widget/FollowButton"
+            props={{ accountId: candidateId }}
+          />
+        )}
+      </div>
+    ) : (
+      <div className="m-1 d-flex flex-row gap-1">
         <Widget
-          src="mob.near/widget/FollowButton"
-          props={{ accountId: candidateId }}
+          src="hack.near/widget/dao.verify"
+          props={{ accountId: memberId }}
         />
-      )}
-    </div>
+      </div>
+    )}
   </Card>
 );
