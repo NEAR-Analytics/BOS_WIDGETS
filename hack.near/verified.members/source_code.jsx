@@ -89,8 +89,14 @@ return (
     <Container>
       <Widget src="hack.near/widget/progress.members" />
       <div className="m-2">
-        {human ? (
-          <Widget src="hack.near/widget/continent.join" />
+        {!human ? (
+          <button
+            disabled={validMember}
+            className="btn btn-success m-1"
+            onClick={handleProposal}
+          >
+            Join DAO
+          </button>
         ) : (
           <Widget
             src="near/widget/DIG.Button"
