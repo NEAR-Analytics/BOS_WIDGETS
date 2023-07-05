@@ -1,6 +1,6 @@
 const { myVotes } = props;
 
-const VoteRow = styled.div`
+const VoteRow = styled.a`
   padding: 10px 0;
   small {
     font-weight: 400;
@@ -44,9 +44,7 @@ return (
   <List>
     {myVotes.map((vote) => (
       <VoteRow
-        onClick={() =>
-          (window.href = `https://explorer.mainnet.near.org/transactions/${vote.transaction_id}`)
-        }
+        href={`https://explorer.mainnet.near.org/transactions/${vote.transaction_id}`}
         className="d-flex justify-content-between align-items-center"
       >
         <div className="d-flex align-items-center">
