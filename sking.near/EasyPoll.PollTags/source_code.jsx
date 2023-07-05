@@ -1,11 +1,8 @@
 const indexVersion = props.indexVersion ?? "3.2.0";
 const poll = props.poll;
+const pollAnswers = props.pollAnswers;
+const alreadyVoted = props.alreadyVoted;
 const showVoteButton = props.showVoteButton ?? true;
-
-State.init({
-  answers: {},
-  alreadyVoted: undefined,
-});
 
 function isActive(poll) {
   return (
@@ -16,32 +13,6 @@ function isActive(poll) {
 
 function isUpcoming(poll) {
   return poll.value.startTimestamp > Date.now();
-}
-
-function getValidAnswersQtyFromQuestion(questionBlockHeight) {
-  const answers = Social.index("poll_question", `answer-v${indexVersion}`);
-  console.log(answers, indexVersion);
-
-  if (JSON.stringify(answers) != JSON.stringify(state.answers)) {
-    State.update({ answers: answers });
-  }
-
-  if (!answers) {
-    return "Loading";
-  }
-  const answersFromThisQuestion = answers.filter(
-    (a) => a.value.pollBlockHeight == questionBlockHeight
-  );
-  const usersWithAnswers = answersFromThisQuestion.map((a) => a.accountId);
-
-  State.update({
-    alreadyVoted:
-      context.accountId && usersWithAnswers.includes(context.accountId),
-  });
-
-  console.log(answersFromThisQuestion, questionBlockHeight);
-
-  return answersFromThisQuestion.length;
 }
 
 const Label = styled.div`
@@ -101,7 +72,7 @@ const VoteButton = styled.button`
 
 return (
   <div className="d-flex gap-3 flex-wrap">
-    <Label>{getValidAnswersQtyFromQuestion(poll.blockHeight)} votes</Label>
+    <Label>{pollAnswers.length} votes</Label>
     <Label>
       {Date.now() < poll.value.startTimestamp ||
       (Date.now() > poll.value.startTimestamp &&
@@ -140,12 +111,12 @@ return (
         <i className="bi bi-eye-fill"></i>
         View
       </VoteButton>
-    ) : state.alreadyVoted === true ? (
+    ) : alreadyVoted === true ? (
       <VoteButton className="ms-auto" voted={true}>
         <i className="bi bi-check-lg"></i>
         Voted
       </VoteButton>
-    ) : state.alreadyVoted === false ? (
+    ) : alreadyVoted === false ? (
       <VoteButton className="ms-auto">
         <i className="bi bi-ui-checks-grid"></i>
         Vote
