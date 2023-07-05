@@ -109,7 +109,7 @@ return (
     {!accountId ? (
       <div>
         <p>Please connect with your NEAR account.</p>
-        <h5>Don't have one ?</h5>
+        <h5>Don't have one?</h5>
         <Widget
           src="near/widget/DIG.Button"
           props={{
