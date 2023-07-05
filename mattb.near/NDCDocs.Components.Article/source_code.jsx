@@ -206,7 +206,7 @@ const Wrapper = styled.div`
   max-width:800px;
   margin:0 auto;
 
-  & > img, > p img {
+  & > div > img, & > div > p img {
       display:block;
       margin:0 auto;
       height:300px;
