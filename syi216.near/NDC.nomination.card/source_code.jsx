@@ -1142,18 +1142,23 @@ return (
                 >
                   <ViewButtonText>View</ViewButtonText>
                 </ViewButtonDiv>
-                <ShareButtonDiv
-                  onClick={() => {
-                    clipboard.writeText(
-                      "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
-                        data.indexerData.house +
-                        "&candidate=" +
-                        data.indexerData.nominee
-                    );
-                  }}
+                <OverlayTrigger
+                  placement={top}
+                  overlay={<Tooltip>Copy link to the clipboard</Tooltip>}
                 >
-                  <ShareButtonText>Share</ShareButtonText>
-                </ShareButtonDiv>
+                  <ShareButtonDiv
+                    onClick={() => {
+                      clipboard.writeText(
+                        "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+                          data.indexerData.house +
+                          "&candidate=" +
+                          data.indexerData.nominee
+                      );
+                    }}
+                  >
+                    <ShareButtonText>Share</ShareButtonText>
+                  </ShareButtonDiv>
+                </OverlayTrigger>
               </>
             )}
           </ViewButtonContainer>
