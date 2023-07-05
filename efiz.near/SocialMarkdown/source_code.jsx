@@ -64,16 +64,18 @@ const renderMention =
     />
   ));
 
-const WidgetWrapper = styled.div`
-  all: unset;
-`;
-
-const renderPath = (properties) => {
-  console.log(JSON.stringify(properties));
-  return (
-    <Widget key={properties} src={properties.path} props={properties.params} />
-  );
-};
+const renderPath =
+  props.renderPath ??
+  ((properties) => (
+    <Widget
+      key={properties}
+      src="every.near/widget/every.thing.view"
+      props={{
+        path: properties.path,
+        blockHeight: properties.blockHeight,
+      }}
+    />
+  ));
 
 return (
   <Wrapper>
