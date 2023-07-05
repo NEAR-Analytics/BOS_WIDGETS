@@ -281,13 +281,15 @@ margin: 0px;
 
 /* Buttons/Gradient default */
 ${
-  state.verified
-    ? `background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+  context.accountId != data.indexerData.nominee
+    ? state.verified
+      ? `background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
 text-fill-color: transparent;`
-    : `color: var(--buttons-disable, #C3CACE);`
+      : `color: var(--buttons-disable, #C3CACE);`
+    : ""
 }
 
 
