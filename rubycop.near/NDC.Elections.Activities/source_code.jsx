@@ -1,6 +1,7 @@
 const { myVotes } = props;
 
 const VoteRow = styled.a`
+  text-decoration: none;
   padding: 10px 0;
   small {
     font-weight: 400;
