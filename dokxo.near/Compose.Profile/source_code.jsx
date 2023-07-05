@@ -132,8 +132,7 @@ width:100%;
 height:2px;
 background-color: #D0D6D966;
 border: solid 0px transparent;
-margin-top:10px;
-margin-buttom:10px;
+margin-top:9px;
 `;
 const {
   img,
