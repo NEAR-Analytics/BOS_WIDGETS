@@ -136,7 +136,6 @@ order: 0;
 flex-grow: 0;`;
 
 const HeaderTagP = styled.p`
-width: 58px;
 height: 10px;
 
 font-family: 'Avenir';
