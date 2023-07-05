@@ -1,10 +1,60 @@
 const widgetOwner = "sking.near";
 const indexVersion = props.indexVersion ?? "3.2.0";
+const src = props.src;
+const blockHeight = props.blockHeight ?? "final";
+const isEdit = src ? true : false;
+const accountId = props.accountId ?? context.accountId;
 
-State.init({
-  step: 1,
-  answers: {},
-});
+const formatDBForState = (input) => {
+  let firstStep = Object.keys(input).reduce((obj, key) => {
+    if (key === "startTimestamp" || key === "endTimestamp") {
+      let date = new Date(input[key]);
+      let formattedDate = `${date.getFullYear()}-${(
+        "0" +
+        (date.getMonth() + 1)
+      ).slice(-2)}-${("0" + date.getDate()).slice(-2)}T${(
+        "0" + date.getHours()
+      ).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
+      obj[key] = { value: formattedDate };
+    } else if (key !== "questions" && key !== "isDraft") {
+      obj[key] = { value: input[key] };
+    }
+    return obj;
+  }, {});
+
+  let original_questions = input.questions.map((question, index) => {
+    let originalQuestion = {};
+    Object.keys(question).forEach((key) => {
+      originalQuestion[key] = {
+        value: question[key],
+      };
+    });
+    if (question.choicesOptions) {
+      originalQuestion.choicesOptions = {
+        value: question.choicesOptions,
+      };
+    }
+    return originalQuestion;
+  });
+
+  return { 1: firstStep, 2: { questions: original_questions } };
+};
+
+if (isEdit) {
+  const poll = Social.get(`${src}`, blockHeight);
+  if (!poll) {
+    return "Loading...";
+  }
+  poll = JSON.parse(poll);
+  poll.accountId = src.split("/")[0];
+
+  State.init({ step: 1, answers: formatDBForState(poll) });
+} else {
+  State.init({
+    step: 1,
+    answers: answers ?? {},
+  });
+}
 
 const steps = [
   {
@@ -60,18 +110,36 @@ const onFinish = () => {
   const answers = state.answers;
   const formattedAnswers = formatStateForDB(answers);
 
-  console.log(answers, formattedAnswers);
+  // const commit = {
+  //   index: {
+  //     poll_question: JSON.stringify(
+  //       {
+  //         key: `question-v${indexVersion}`,
+  //         value: formattedAnswers,
+  //       },
+  //       undefined,
+  //       0
+  //     ),
+  //   },
+  // };
+
+  let uid =
+    Math.random().toString(16).slice(2) +
+    Date.now().toString(36) +
+    Math.random().toString(16).slice(2);
+  if (isEdit) {
+    uid = src.split("/")[2].replace("poll-", "");
+  }
 
   const commit = {
+    ["easypoll-" + indexVersion]: {
+      ["poll-" + uid]: JSON.stringify(formattedAnswers),
+    },
     index: {
-      poll_question: JSON.stringify(
-        {
-          key: `question-v${indexVersion}`,
-          value: formattedAnswers,
-        },
-        undefined,
-        0
-      ),
+      ["easypoll-" + indexVersion]: JSON.stringify({
+        key: "poll",
+        value: uid,
+      }),
     },
   };
 
