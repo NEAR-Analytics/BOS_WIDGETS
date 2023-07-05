@@ -1013,7 +1013,15 @@ return (
         </HeaderContentText>
       </HeaderContent>
       <UpvoteButton
-        onClick={data.preview ? "" : state.verified ? handleUpVote : ""}
+        onClick={
+          data.preview
+            ? ""
+            : context.accountId != data.indexerData.nominee
+            ? state.verified
+              ? handleUpVote
+              : ""
+            : ""
+        }
       >
         <UpvoteButtonText>
           + {data.upVoteData.upvotes ? data.upVoteData.upvotes : "0"}
