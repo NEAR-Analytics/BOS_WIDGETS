@@ -1,13 +1,9 @@
-const { component, isOpen } = props;
-
 State.init({
   isOpen,
   image: {},
   text: "",
   showPreview: false,
 });
-
-//if (state.isOpen != isOpen) State.update({ isOpen });
 
 const Modal = styled.div`
   position: fixed;
@@ -24,8 +20,8 @@ const ComponentWrapper = styled.div`
   position: absolute;
   width: 100%;
   z-index: 100;
-  top: 50%;
-  left: 50%;
+  top:50%;
+  left:50%;
   transform: translate(-50%, -50%);
 `;
 
@@ -67,107 +63,6 @@ const PlusIcon = styled.span`
     transform: rotate(90deg);
   }
 `;
-
-let isModalVisible = false;
-
-const toggleModal = () => {
-  console.log(state.isOpen);
-  if (state.isOpen === true) {
-    State.update({ isOpen: false });
-  } else {
-    State.update({ isOpen: true });
-  }
-};
-
-if (!context.accountId) {
-  return <></>;
-}
-
-const profile = Social.getr(`${context.accountId}/profile`);
-const autocompleteEnabled = true;
-
-const content = {
-  type: "md",
-  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
-  text: state.text,
-};
-
-function extractMentions(text) {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-}
-
-function extractTagNotifications(text, item) {
-  return extractMentions(text || "")
-    .filter((accountId) => accountId !== context.accountId)
-    .map((accountId) => ({
-      key: accountId,
-      value: {
-        type: "mention",
-        item,
-      },
-    }));
-}
-
-function composeData() {
-  const data = {
-    post: {
-      main: JSON.stringify(content),
-    },
-    index: {
-      post: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-    },
-  };
-
-  const notifications = extractTagNotifications(state.text, {
-    type: "social",
-    path: `${context.accountId}/post/main`,
-  });
-
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
-  }
-
-  return data;
-}
-
-function onCommit() {
-  State.update({
-    image: {},
-    text: "",
-  });
-}
-
-function textareaInputHandler(value) {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
-  State.update({ text: value, showAccountAutocomplete });
-}
-
-function autoCompleteAccountId(id) {
-  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
-  text = `${text} @${id}`.trim() + " ";
-  State.update({ text, showAccountAutocomplete: false });
-}
 
 const Wrapper = styled.div`
   --padding: 24px;
@@ -396,140 +291,231 @@ const AutoComplete = styled.div`
   }
 `;
 
+const toggleModal = () => {
+  console.log(state.isOpen);
+  if (state.isOpen === true) {
+    State.update({ isOpen: false });
+  } else {
+    State.update({ isOpen: true });
+  }
+};
+
+if (!context.accountId) {
+  return <></>;
+}
+
+const profile = Social.getr(`${context.accountId}/profile`);
+const autocompleteEnabled = true;
+
+const content = {
+  type: "md",
+  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
+  text: state.text,
+};
+
+function extractMentions(text) {
+  const mentionRegex =
+    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+  mentionRegex.lastIndex = 0;
+  const accountIds = new Set();
+  for (const match of text.matchAll(mentionRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+      match[1].length >= 2 &&
+      match[1].length <= 64
+    ) {
+      accountIds.add(match[1].toLowerCase());
+    }
+  }
+  return [...accountIds];
+}
+
+function extractTagNotifications(text, item) {
+  return extractMentions(text || "")
+    .filter((accountId) => accountId !== context.accountId)
+    .map((accountId) => ({
+      key: accountId,
+      value: {
+        type: "mention",
+        item,
+      },
+    }));
+}
+
+function composeData() {
+  const data = {
+    post: {
+      main: JSON.stringify(content),
+    },
+    index: {
+      post: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
+
+  const notifications = extractTagNotifications(state.text, {
+    type: "social",
+    path: `${context.accountId}/post/main`,
+  });
+
+  if (notifications.length) {
+    data.index.notify = JSON.stringify(
+      notifications.length > 1 ? notifications : notifications[0]
+    );
+  }
+
+  return data;
+}
+
+function onCommit() {
+  State.update({
+    image: {},
+    text: "",
+  });
+}
+
+function textareaInputHandler(value) {
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
+  State.update({ text: value, showAccountAutocomplete });
+}
+
+function autoCompleteAccountId(id) {
+  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
+  text = `${text} @${id}`.trim() + " ";
+  State.update({ text, showAccountAutocomplete: false });
+}
+
 return (
   <>
     <FloatingButton className="floating-button" onClick={toggleModal}>
       <PlusIcon />
     </FloatingButton>
-    {state.isOpen === true && (
-      <Modal>
-        <ComponentWrapper id="modal-comp" className="component-wrapper">
+
+    <Modal>
+      <button
+        style={{
+          position: "absolute",
+          right: "2%",
+          top: "2%",
+          zIndex: 102,
+          backgroundColor: "#64a19d",
+        }}
+        onClick={toggleModal}
+      >
+        <svg
+          height="20px"
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
+          focusable="false"
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          data-testid="CloseIcon"
+        >
+          <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+        </svg>
+      </button>
+
+      <Wrapper>
+        {state.showPreview ? (
+          <PreviewWrapper>
+            <Widget
+              src="near/widget/Posts.Post"
+              props={{
+                accountId: context.accountId,
+                blockHeight: "now",
+                content,
+              }}
+            />
+          </PreviewWrapper>
+        ) : (
+          <>
+            <Avatar>
+              <Widget
+                src="mob.near/widget/Image"
+                props={{
+                  image: profile.image,
+                  alt: profile.name,
+                  fallbackUrl:
+                    "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+                }}
+              />
+            </Avatar>
+
+            <Textarea data-value={state.text}>
+              <textarea
+                placeholder="What's happening?"
+                onInput={(event) => textareaInputHandler(event.target.value)}
+                onKeyUp={(event) => {
+                  if (event.key === "Escape") {
+                    State.update({ showAccountAutocomplete: false });
+                  }
+                }}
+                value={state.text}
+              />
+
+              <TextareaDescription>
+                <a
+                  href="https://www.markdownguide.org/basic-syntax/"
+                  target="_blank"
+                >
+                  Markdown
+                </a>
+                is supported
+              </TextareaDescription>
+            </Textarea>
+          </>
+        )}
+
+        {autocompleteEnabled && state.showAccountAutocomplete && (
+          <AutoComplete>
+            <Widget
+              src="near/widget/AccountAutocomplete"
+              props={{
+                term: state.text.split("@").pop(),
+                onSelect: autoCompleteAccountId,
+                onClose: () => State.update({ showAccountAutocomplete: false }),
+              }}
+            />
+          </AutoComplete>
+        )}
+
+        <Actions>
+          {!state.showPreview && (
+            <IpfsImageUpload
+              image={state.image}
+              className="upload-image-button bi bi-image"
+            />
+          )}
+
           <button
-            style={{
-              position: "absolute",
-              right: "8%",
-              top: "7%",
-              zIndex: 102,
-            }}
-            onClick={toggleModal}
+            type="button"
+            disabled={!state.text}
+            className="preview-post-button"
+            title={state.showPreview ? "Edit Post" : "Preview Post"}
+            onClick={() => State.update({ showPreview: !state.showPreview })}
           >
-            <svg
-              height="20px"
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              data-testid="CloseIcon"
-            >
-              <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-            </svg>
+            {state.showPreview ? (
+              <i className="bi bi-pencil" />
+            ) : (
+              <i className="bi bi-eye-fill" />
+            )}
           </button>
 
-          <Wrapper>
-            {state.showPreview ? (
-              <PreviewWrapper>
-                <Widget
-                  src="near/widget/Posts.Post"
-                  props={{
-                    accountId: context.accountId,
-                    blockHeight: "now",
-                    content,
-                  }}
-                />
-              </PreviewWrapper>
-            ) : (
-              <>
-                <Avatar>
-                  <Widget
-                    src="mob.near/widget/Image"
-                    props={{
-                      image: profile.image,
-                      alt: profile.name,
-                      fallbackUrl:
-                        "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-                    }}
-                  />
-                </Avatar>
-
-                <Textarea data-value={state.text}>
-                  <textarea
-                    ref={textareaRef}
-                    placeholder="What's happening?"
-                    onInput={(event) =>
-                      textareaInputHandler(event.target.value)
-                    }
-                    onKeyUp={(event) => {
-                      if (event.key === "Escape") {
-                        State.update({ showAccountAutocomplete: false });
-                      }
-                    }}
-                    value={state.text}
-                  />
-
-                  <TextareaDescription>
-                    <a
-                      href="https://www.markdownguide.org/basic-syntax/"
-                      target="_blank"
-                    >
-                      Markdown
-                    </a>
-                    is supported
-                  </TextareaDescription>
-                </Textarea>
-              </>
-            )}
-
-            {autocompleteEnabled && state.showAccountAutocomplete && (
-              <AutoComplete>
-                <Widget
-                  src="near/widget/AccountAutocomplete"
-                  props={{
-                    term: state.text.split("@").pop(),
-                    onSelect: autoCompleteAccountId,
-                    onClose: () =>
-                      State.update({ showAccountAutocomplete: false }),
-                  }}
-                />
-              </AutoComplete>
-            )}
-
-            <Actions>
-              {!state.showPreview && (
-                <IpfsImageUpload
-                  image={state.image}
-                  className="upload-image-button bi bi-image"
-                />
-              )}
-
-              <button
-                type="button"
-                disabled={!state.text}
-                className="preview-post-button"
-                title={state.showPreview ? "Edit Post" : "Preview Post"}
-                onClick={() =>
-                  State.update({ showPreview: !state.showPreview })
-                }
-              >
-                {state.showPreview ? (
-                  <i className="bi bi-pencil" />
-                ) : (
-                  <i className="bi bi-eye-fill" />
-                )}
-              </button>
-
-              <CommitButton
-                disabled={!state.text}
-                force
-                data={composeData}
-                onCommit={onCommit}
-                className="commit-post-button"
-              >
-                Post
-              </CommitButton>
-            </Actions>
-          </Wrapper>
-        </ComponentWrapper>
-      </Modal>
-    )}
+          <CommitButton
+            disabled={!state.text}
+            force
+            data={composeData}
+            onCommit={onCommit}
+            className="commit-post-button"
+          >
+            Post
+          </CommitButton>
+        </Actions>
+      </Wrapper>
+    </Modal>
   </>
 );
