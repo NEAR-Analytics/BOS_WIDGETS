@@ -1,12 +1,87 @@
-if (!context.accountId) {
-  return <></>;
-}
+const { component, isOpen } = props;
 
 State.init({
+  isOpen,
   image: {},
   text: "",
   showPreview: false,
 });
+
+//if (state.isOpen != isOpen) State.update({ isOpen });
+
+const Modal = styled.div`
+  position: fixed;
+  z-index: 101;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  display: ${state.isOpen ? "block" : "none"};
+  background: rgba(128, 128, 128, 0.65);
+`;
+
+const ComponentWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const FloatingButton = styled.button`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #64a19d;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 24px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const PlusIcon = styled.span`
+  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 4px;
+    background-color: #fff;
+    top: calc(50% - 2px);
+    left: calc(50% - 13px);
+  }
+  &::before {
+    transform: rotate(0deg);
+  }
+  &::after {
+    transform: rotate(90deg);
+  }
+`;
+
+let isModalVisible = false;
+
+const toggleModal = () => {
+  console.log(state.isOpen);
+  if (state.isOpen === true) {
+    State.update({ isOpen: false });
+  } else {
+    State.update({ isOpen: true });
+  }
+};
+
+if (!context.accountId) {
+  return <></>;
+}
 
 const profile = Social.getr(`${context.accountId}/profile`);
 const autocompleteEnabled = true;
@@ -101,6 +176,7 @@ const Wrapper = styled.div`
   @media (max-width: 1200px) {
     --padding: 12px;
   }
+  background: #fff;
 `;
 
 const Avatar = styled.div`
@@ -321,102 +397,139 @@ const AutoComplete = styled.div`
 `;
 
 return (
-  <Wrapper>
-    {state.showPreview ? (
-      <PreviewWrapper>
-        <Widget
-          src="near/widget/Posts.Post"
-          props={{
-            accountId: context.accountId,
-            blockHeight: "now",
-            content,
-          }}
-        />
-      </PreviewWrapper>
-    ) : (
-      <>
-        <Avatar>
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: profile.image,
-              alt: profile.name,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+  <>
+    <FloatingButton className="floating-button" onClick={toggleModal}>
+      <PlusIcon />
+    </FloatingButton>
+    {state.isOpen === true && (
+      <Modal>
+        <ComponentWrapper id="modal-comp" className="component-wrapper">
+          <button
+            style={{
+              position: "absolute",
+              right: "8%",
+              top: "7%",
+              zIndex: 102,
             }}
-          />
-        </Avatar>
-
-        <Textarea data-value={state.text}>
-          <textarea
-            ref={textareaRef}
-            placeholder="What's happening?"
-            onInput={(event) => textareaInputHandler(event.target.value)}
-            onKeyUp={(event) => {
-              if (event.key === "Escape") {
-                State.update({ showAccountAutocomplete: false });
-              }
-            }}
-            value={state.text}
-          />
-
-          <TextareaDescription>
-            <a
-              href="https://www.markdownguide.org/basic-syntax/"
-              target="_blank"
+            onClick={toggleModal}
+          >
+            <svg
+              height="20px"
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
+              focusable="false"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              data-testid="CloseIcon"
             >
-              Markdown
-            </a>
-            is supported
-          </TextareaDescription>
-        </Textarea>
-      </>
+              <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+            </svg>
+          </button>
+
+          <Wrapper>
+            {state.showPreview ? (
+              <PreviewWrapper>
+                <Widget
+                  src="near/widget/Posts.Post"
+                  props={{
+                    accountId: context.accountId,
+                    blockHeight: "now",
+                    content,
+                  }}
+                />
+              </PreviewWrapper>
+            ) : (
+              <>
+                <Avatar>
+                  <Widget
+                    src="mob.near/widget/Image"
+                    props={{
+                      image: profile.image,
+                      alt: profile.name,
+                      fallbackUrl:
+                        "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+                    }}
+                  />
+                </Avatar>
+
+                <Textarea data-value={state.text}>
+                  <textarea
+                    ref={textareaRef}
+                    placeholder="What's happening?"
+                    onInput={(event) =>
+                      textareaInputHandler(event.target.value)
+                    }
+                    onKeyUp={(event) => {
+                      if (event.key === "Escape") {
+                        State.update({ showAccountAutocomplete: false });
+                      }
+                    }}
+                    value={state.text}
+                  />
+
+                  <TextareaDescription>
+                    <a
+                      href="https://www.markdownguide.org/basic-syntax/"
+                      target="_blank"
+                    >
+                      Markdown
+                    </a>
+                    is supported
+                  </TextareaDescription>
+                </Textarea>
+              </>
+            )}
+
+            {autocompleteEnabled && state.showAccountAutocomplete && (
+              <AutoComplete>
+                <Widget
+                  src="near/widget/AccountAutocomplete"
+                  props={{
+                    term: state.text.split("@").pop(),
+                    onSelect: autoCompleteAccountId,
+                    onClose: () =>
+                      State.update({ showAccountAutocomplete: false }),
+                  }}
+                />
+              </AutoComplete>
+            )}
+
+            <Actions>
+              {!state.showPreview && (
+                <IpfsImageUpload
+                  image={state.image}
+                  className="upload-image-button bi bi-image"
+                />
+              )}
+
+              <button
+                type="button"
+                disabled={!state.text}
+                className="preview-post-button"
+                title={state.showPreview ? "Edit Post" : "Preview Post"}
+                onClick={() =>
+                  State.update({ showPreview: !state.showPreview })
+                }
+              >
+                {state.showPreview ? (
+                  <i className="bi bi-pencil" />
+                ) : (
+                  <i className="bi bi-eye-fill" />
+                )}
+              </button>
+
+              <CommitButton
+                disabled={!state.text}
+                force
+                data={composeData}
+                onCommit={onCommit}
+                className="commit-post-button"
+              >
+                Post
+              </CommitButton>
+            </Actions>
+          </Wrapper>
+        </ComponentWrapper>
+      </Modal>
     )}
-
-    {autocompleteEnabled && state.showAccountAutocomplete && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text.split("@").pop(),
-            onSelect: autoCompleteAccountId,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
-
-    <Actions>
-      {!state.showPreview && (
-        <IpfsImageUpload
-          image={state.image}
-          className="upload-image-button bi bi-image"
-        />
-      )}
-
-      <button
-        type="button"
-        disabled={!state.text}
-        className="preview-post-button"
-        title={state.showPreview ? "Edit Post" : "Preview Post"}
-        onClick={() => State.update({ showPreview: !state.showPreview })}
-      >
-        {state.showPreview ? (
-          <i className="bi bi-pencil" />
-        ) : (
-          <i className="bi bi-eye-fill" />
-        )}
-      </button>
-
-      <CommitButton
-        disabled={!state.text}
-        force
-        data={composeData}
-        onCommit={onCommit}
-        className="commit-post-button"
-      >
-        Post
-      </CommitButton>
-    </Actions>
-  </Wrapper>
+  </>
 );
