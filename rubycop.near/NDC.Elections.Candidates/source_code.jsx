@@ -32,8 +32,6 @@ const housesMapping = {
 };
 const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
 
-console.log("-->", myVotesForHouse, typ);
-
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse.length,
@@ -276,9 +274,7 @@ const handleVote = () => {
 };
 
 const alreadyVoted = async (candidateId) => {
-  state.voters.some(
-    (v) => v.candidateId === currentUser && v.candidateId === candidateId
-  );
+  myVotes.some((voter) => voter.candidate === candidateId);
 };
 
 const filterBy = (option) => {
