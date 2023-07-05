@@ -514,13 +514,6 @@ return (
             return (
               <>
                 <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
-                <Widget src={widgets.card} props={data} />
               </>
             );
           })
