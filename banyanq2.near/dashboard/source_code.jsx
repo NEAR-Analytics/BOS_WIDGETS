@@ -20,8 +20,11 @@ const Items = styled.div`
     grid-template-columns: minmax(0, 1fr);
   }
 `;
+let quarter = props.quarter ?? "Q2";
+let dates = props.dates ?? "April 1 - June 30"; // pass in quarter range
 let accountId = props.accountId ?? "banyanq2.near";
 let followerTarget = 100;
+let startOfQuarterFollower = 0; // 47; // to keep track of followers
 let builderTarget = 30;
 let componentTarget = 30;
 let nycSubscribers = Social.keys(`*/graph/follow/nycdao.near`, "final", {
@@ -105,6 +108,7 @@ const Flex = styled.div`
     }
 `;
 let componentsURL =
+  props.componentsURL ??
   "https://raw.githubusercontent.com/NEARBuilders/BuildDAO/main/tracker/q2components.json";
 function loadComponents() {
   const res = fetch(componentsURL);
@@ -190,7 +194,7 @@ return (
     <Wrapper>
       <Container>
         <H1>
-          Banyan Q2{" "}
+          Banyan {quarter}{" "}
           <span>
             {" "}
             Dashboard{" "}
@@ -202,7 +206,7 @@ return (
             </svg>
           </span>
         </H1>
-        (Apr 1 - Jun 30)
+        ({dates})
       </Container>
     </Wrapper>
     <div className="row p-2">
@@ -218,7 +222,7 @@ return (
         src="hackerhouse.near/widget/ProgressBar"
         props={{
           infoTitle: "BOS Follower (NYC + SF) Target",
-          numerator: nycFollowers + sfFollowers,
+          numerator: nycFollowers + sfFollowers - startOfQuarterFollower,
           total: followerTarget,
         }}
       />
