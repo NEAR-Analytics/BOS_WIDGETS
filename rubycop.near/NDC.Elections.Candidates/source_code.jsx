@@ -29,9 +29,11 @@ const housesMapping = {
   HouseOfMerit: "House of Merit",
   TransparencyCommission: "Transparency Commission",
 };
-
 const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+
+console.log(typ);
+console.log(myVotesForHouse);
 
 State.init({
   loading: false,
@@ -478,6 +480,8 @@ const CastVotes = () => (
           src={widgets.button}
           props={{
             Button: {
+              size: "sm",
+              className: "secandary",
               text: "Reset Selection",
               onClick: () =>
                 State.update({
