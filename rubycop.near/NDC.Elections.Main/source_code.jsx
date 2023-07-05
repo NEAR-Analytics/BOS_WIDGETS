@@ -26,8 +26,7 @@ const isHuman = Near.view(registryContract, "is_human", {
 
 State.update({ isIAmHuman: isHuman[0][1].length > 0 });
 
-// TODO: Should be grabbed from indexer
-const totalHumal = 1000;
+const totalHumal = 3000;
 
 asyncFetch("https://api.pikespeak.ai/election/total-votes", {
   headers: {
