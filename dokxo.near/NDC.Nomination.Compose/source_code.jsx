@@ -226,7 +226,7 @@ border-radius: 10px;
 `;
 
 const HiddeableWidget = styled.div`
-  display: none;
+  
   @media (max-width: 480px) {
     display: block;
   }
@@ -508,7 +508,7 @@ return (
               issued2: state.issued2,
               issued3: state.issued3,
               addition_platform: state.addition_platform,
-              tags: state.tags.split(","),
+              tags: state.tags,
             },
             indexerData: {
               house: state.house_intended,
