@@ -90,15 +90,15 @@ const H5 = styled.h5`
 
 return (
   <div>
-    {houses.map((group) => (
+    {houses.map((house) => (
       <>
-        {group.id === state.selectedHouse && (
+        {house.id === state.selectedHouse && (
           <Widget
             key={i}
             src={widgets.header}
             props={{
-              startTime: group.start,
-              endTime: group.end,
+              startTime: house.start,
+              endTime: house.end,
               type: "Election",
             }}
           />
@@ -112,8 +112,8 @@ return (
           src={widgets.houses}
           props={{
             selectedHouse: state.selectedHouse,
-            houses: houses,
-            handleSelect: (item) => handleSelect(item),
+            houses,
+            handleSelect,
           }}
         />
       </Left>
@@ -129,7 +129,7 @@ return (
                   registryContract,
                   ndcOrganization: org,
                   isIAmHuman: state.isIAmHuman,
-                  availableVotes: house.seats - myVotes.length,
+                  myVotes: state.myVotes,
                   ...house,
                 }}
               />
