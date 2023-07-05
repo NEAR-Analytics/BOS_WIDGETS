@@ -99,12 +99,35 @@ return (
       <h3>
         <b>Election Demo</b>
       </h3>
-      <p>
-        <span style={{ fontSize: "0.8em" }}>
-          🚧 <i>UNDER CONSTRUCTION</i> 🚧
-        </span>
-      </p>
     </div>
+    {!validMember && (
+      <div className="m-2">
+        {!human ? (
+          <div>
+            <Widget
+              src="near/widget/DIG.Button"
+              props={{
+                href: "https://i-am-human.app/?community=banyan&vertical=regionalcommunities",
+                label: "Get Verified",
+                variant: "outline-primary",
+                size: "small",
+              }}
+            />
+          </div>
+        ) : (
+          <div>
+            <Widget src="hack.near/widget/community.join" />
+          </div>
+        )}
+        <div className="mt-2">
+          <p>
+            <span style={{ fontSize: "0.8em" }}>
+              🚧 <i>UNDER CONSTRUCTION</i> 🚧
+            </span>
+          </p>
+        </div>
+      </div>
+    )}
     <hr />
     {!accountId ? (
       <div>
@@ -122,9 +145,9 @@ return (
       </div>
     ) : (
       <div>
-        <h3>Africa</h3>
         {validMember && canJoinContinent && (
           <div className="mb-2">
+            <h3>Africa</h3>
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -164,18 +187,20 @@ return (
           </div>
         )}
         <br />
-        <h3>Asia</h3>
         <div className="mb-2">
           {validMember && canJoinContinent && (
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "asia.sputnik-dao.near",
-                name: "Join NEAR Asia",
-                memberId: accountId,
-                roleId,
-              }}
-            />
+            <div className="mb-2">
+              <h3>Asia</h3>
+              <Widget
+                src="hack.near/widget/communities.regional"
+                props={{
+                  daoId: "asia.sputnik-dao.near",
+                  name: "Join NEAR Asia",
+                  memberId: accountId,
+                  roleId,
+                }}
+              />
+            </div>
           )}
         </div>
         {!canJoinContinent && (
@@ -205,18 +230,21 @@ return (
           </div>
         )}
         <br />
-        <h3>Europe</h3>
         <div className="mb-2">
           {validMember && canJoinContinent && (
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "europe.sputnik-dao.near",
-                name: "Join NEAR Europe",
-                memberId: accountId,
-                roleId,
-              }}
-            />
+            <div className="mb-2">
+              <h3>Europe</h3>
+
+              <Widget
+                src="hack.near/widget/communities.regional"
+                props={{
+                  daoId: "europe.sputnik-dao.near",
+                  name: "Join NEAR Europe",
+                  memberId: accountId,
+                  roleId,
+                }}
+              />
+            </div>
           )}
         </div>
         {!canJoinContinent && (
@@ -246,18 +274,21 @@ return (
           </div>
         )}
         <br />
-        <h3>North America</h3>
         <div className="mb-2">
           {validMember && canJoinContinent && (
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "north-america.sputnik-dao.near",
-                name: "Join NEAR North America",
-                memberId: accountId,
-                roleId,
-              }}
-            />
+            <div className="mb-2">
+              <h3>North America</h3>
+
+              <Widget
+                src="hack.near/widget/communities.regional"
+                props={{
+                  daoId: "north-america.sputnik-dao.near",
+                  name: "Join NEAR North America",
+                  memberId: accountId,
+                  roleId,
+                }}
+              />
+            </div>
           )}
         </div>
         {!canJoinContinent && (
@@ -287,18 +318,21 @@ return (
           </div>
         )}
         <br />
-        <h3>South America</h3>
         <div className="mb-2">
           {validMember && canJoinContinent && (
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "south-america.sputnik-dao.near",
-                name: "Join NEAR South America",
-                memberId: accountId,
-                roleId,
-              }}
-            />
+            <div className="mb-2">
+              <h3>South America</h3>
+
+              <Widget
+                src="hack.near/widget/communities.regional"
+                props={{
+                  daoId: "south-america.sputnik-dao.near",
+                  name: "Join NEAR South America",
+                  memberId: accountId,
+                  roleId,
+                }}
+              />
+            </div>
           )}
         </div>
         {!canJoinContinent && (
