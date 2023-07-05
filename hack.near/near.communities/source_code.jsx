@@ -203,80 +203,17 @@ return (
         />
       )}
 
-      {(human && (
+      {(!human && (
         <div>
           <div className="mb-5">
             <Widget
-              src="hack.near/widget/communities.join"
+              src="hack.near/widget/continent.join"
               props={{
                 memberId: accountId,
                 roleId,
               }}
             />
           </div>
-          {validMember && (
-            <ButtonContainer>
-              <h5>Select Your Home Continent:</h5>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Widget
-                  src="hack.near/widget/communities.regional"
-                  props={{
-                    daoId: "africa-community.sputnik-dao.near",
-                    name: "Africa",
-                    memberId: accountId,
-                    roleId,
-                  }}
-                />
-                <Widget
-                  src="hack.near/widget/communities.regional"
-                  props={{
-                    daoId: "asia.sputnik-dao.near",
-                    name: "Asia",
-                    memberId: accountId,
-                    roleId,
-                  }}
-                />
-                <Widget
-                  src="hack.near/widget/communities.regional"
-                  props={{
-                    daoId: "australia.sputnik-dao.near",
-                    name: "Australia",
-                    memberId: accountId,
-                    roleId,
-                  }}
-                />
-                <Widget
-                  src="hack.near/widget/communities.regional"
-                  props={{
-                    daoId: "europe.sputnik-dao.near",
-                    name: "Europe",
-                    memberId: accountId,
-                    roleId,
-                  }}
-                />
-              </div>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Widget
-                  src="hack.near/widget/communities.regional"
-                  props={{
-                    daoId: "north-america.sputnik-dao.near",
-                    name: "North America",
-                    memberId: accountId,
-                    roleId,
-                  }}
-                />
-                <Widget
-                  src="hack.near/widget/communities.regional"
-                  props={{
-                    daoId: "south-america.sputnik-dao.near",
-                    name: "South America",
-                    memberId: accountId,
-                    roleId,
-                  }}
-                />
-              </div>
-            </ButtonContainer>
-          )}
           <Proposals>
             <Widget
               src="hack.near/widget/dao.proposals"
