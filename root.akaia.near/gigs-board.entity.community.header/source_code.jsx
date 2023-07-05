@@ -52,34 +52,33 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 /* INCLUDE: "core/adapter/dev-hub" */
-const contractAccountId =
+const devHubAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
   edit_community_github: ({ handle, github }) =>
-    Near.call(contractAccountId, "edit_community_github", { handle, github }) ??
+    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
     null,
 
   get_access_control_info: () =>
-    Near.view(contractAccountId, "get_access_control_info") ?? null,
+    Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
-  get_all_authors: () =>
-    Near.view(contractAccountId, "get_all_authors") ?? null,
+  get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
   get_all_communities: () =>
-    Near.view(contractAccountId, "get_all_communities") ?? null,
+    Near.view(devHubAccountId, "get_all_communities") ?? null,
 
-  get_all_labels: () => Near.view(contractAccountId, "get_all_labels") ?? null,
+  get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
   get_community: ({ handle }) =>
-    Near.view(contractAccountId, "get_community", { handle }) ?? null,
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
-    Near.view(contractAccountId, "get_post", { post_id }) ?? null,
+    Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
 
   get_posts_by_author: ({ author }) =>
-    Near.view(contractAccountId, "get_posts_by_author", { author }) ?? null,
+    Near.view(devHubAccountId, "get_posts_by_author", { author }) ?? null,
 
   get_posts_by_label: ({ label }) =>
     Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
@@ -87,9 +86,52 @@ const DevHub = {
     }) ?? null,
 
   get_root_members: () =>
-    Near.view(contractAccountId, "get_root_members") ?? null,
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params, initialData }) => {
+    const initialState = { data: null, error: null, isLoading: true };
+
+    const cacheState = useCache(
+      () =>
+        Near.asyncView(devHubAccountId, name, params ?? {})
+          .then((response) => ({
+            ...initialState,
+
+            data:
+              (initialData ?? null) !== null
+                ? { ...initialData, ...(response ?? {}) }
+                : response ?? null,
+
+            isLoading: false,
+          }))
+          .catch((error) => ({
+            ...initialState,
+            error: props?.error ?? error,
+            isLoading: false,
+          })),
+
+      JSON.stringify({ name, params }),
+      { subscribe: true }
+    );
+
+    return cacheState === null ? initialState : cacheState;
+  },
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
+/* INCLUDE: "entity/viewer" */
+const access_control_info = DevHub.useQuery({
+  name: "get_access_control_info",
+});
+
+const Viewer = {
+  isDevHubModerator:
+    access_control_info.data === null || access_control_info.isLoading
+      ? false
+      : access_control_info.data.members_list[
+          "team:moderators"
+        ]?.children?.includes?.(context.accountId) ?? false,
+};
+/* END_INCLUDE: "entity/viewer" */
 
 const Header = styled.div`
   overflow: hidden;
@@ -139,18 +181,11 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
     copiedShareUrl: false,
   });
 
-  const accessControlInfo = DevHub.get_access_control_info();
-
   const communityData = DevHub.get_community({ handle });
 
-  if (accessControlInfo === null || communityData === null) {
+  if (communityData === null) {
     return <div>Loading...</div>;
   }
-
-  const isSupervisionAllowed =
-    accessControlInfo.members_list["team:moderators"]?.children?.includes(
-      context.accountId
-    ) ?? false;
 
   const tabs = [
     {
@@ -167,6 +202,12 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
         route: "community.wiki",
         title: name,
       })),
+
+    {
+      iconClass: "bi bi-people-fill",
+      route: "community.teams",
+      title: "Teams",
+    },
 
     {
       iconClass: "bi bi-coin",
@@ -191,8 +232,8 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       : []),
   ];
 
-  const isEditingAllowed =
-    isSupervisionAllowed ||
+  const canEdit =
+    Viewer.isDevHubModerator ||
     communityData?.admins?.includes?.(context.accountId);
 
   return (
@@ -228,7 +269,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
         </div>
 
         <div className="d-flex align-items-end gap-3">
-          {isEditingAllowed && (
+          {canEdit && (
             <a
               href={href("community.edit-info", { handle })}
               className={[
