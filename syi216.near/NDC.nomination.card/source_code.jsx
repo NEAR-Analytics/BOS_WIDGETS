@@ -24,7 +24,7 @@ function handleUpVote() {
       candidate: data.indexerData.nominee,
     },
     300000000000000,
-    100000000000000000000
+    1000000000000000000000
   );
 }
 
