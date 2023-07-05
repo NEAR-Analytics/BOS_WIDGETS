@@ -51,7 +51,7 @@ const Wrapper = styled.div`
     background: #1d1e1f;
     display: flex;
     flex-direction: column;
-    max-width: 320px;
+    min-width: 320px;
     font-family: 'Inter';
     color: #fff;
     border-radius: 8px;
