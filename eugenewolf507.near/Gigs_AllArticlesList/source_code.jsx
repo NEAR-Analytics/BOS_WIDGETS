@@ -248,6 +248,7 @@ const Card = ({ article }) => (
                 }}
               />
             </div>
+            {/*
             <div className="col flex-grow-0">
               <p className="card-subtitle text-muted text-end">
                 {getDateLastEdit(article.timeCreate).date}
@@ -256,12 +257,17 @@ const Card = ({ article }) => (
                 {getDateLastEdit(article.timeCreate).time}
               </p>
             </div>
+            */}
           </div>
           <div
             className="mt-3 mb-0 alert alert-secondary"
             style={{ backgroundColor: "white" }}
           >
             <div>
+              Posted on {getDateLastEdit(article.timeCreate).date}
+              <br />
+              Edited on {getDateLastEdit(article.timeLastEdit).date}
+              <br />
               Last edit by{" "}
               <a
                 href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
@@ -269,8 +275,6 @@ const Card = ({ article }) => (
               >
                 {article.lastEditor}
               </a>
-              <br />
-              Edited on {getDateLastEdit(article.timeLastEdit).date}
               <br />
               Edit versions: {article.version}
             </div>
