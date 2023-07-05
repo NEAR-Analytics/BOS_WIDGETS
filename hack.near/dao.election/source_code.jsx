@@ -122,7 +122,13 @@ return (
           </div>
         ) : (
           <div>
-            <Widget src="hack.near/widget/community.join" />
+            <Widget
+              src="hack.near/widget/community.join"
+              props={{
+                memberId: accountId,
+                roleId,
+              }}
+            />
           </div>
         )}
       </div>
