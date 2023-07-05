@@ -24,7 +24,7 @@ let quarter = props.quarter ?? "Q2";
 let dates = props.dates ?? "April 1 - June 30"; // pass in quarter range
 let accountId = props.accountId ?? "banyanq2.near";
 let followerTarget = (props.followerTarget = 100);
-let startOfQuarterFollower = 0; // 47; // to keep track of followers
+let startOfQuarterFollowers = props.startOfQuarterFollower ?? 0; // 47; // to keep track of followers
 let builderTarget = props.builderTarget ?? 30;
 let componentTarget = props.componentTarget ?? 30;
 let nycSubscribers = Social.keys(`*/graph/follow/nycdao.near`, "final", {
@@ -222,7 +222,7 @@ return (
         src="hackerhouse.near/widget/ProgressBar"
         props={{
           infoTitle: "BOS Follower (NYC + SF) Target",
-          numerator: nycFollowers + sfFollowers - startOfQuarterFollower,
+          numerator: nycFollowers + sfFollowers - startOfQuarterFollowers,
           total: followerTarget,
         }}
       />
