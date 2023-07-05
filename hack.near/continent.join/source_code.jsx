@@ -168,7 +168,7 @@ return (
         Members
       </a>
     </ButtonContainer>
-    {!validMember && canJoinContinent && (
+    {validMember && canJoinContinent && (
       <ButtonContainer>
         <h5>Select Your Home Continent:</h5>
         <div style={{ display: "flex", justifyContent: "center" }}>
