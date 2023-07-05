@@ -662,9 +662,9 @@ return (
               ) : (
                 <UpvoteButtonDisabled>
                   <UpvoteCount style={{ filter: "grayscale(1)" }}>
-                    {"+" + props.data.comments[0].upvotes
-                      ? props.data.comments[0].upvotes
-                      : "'+'" + 0}
+                    {props.data.comments[0].upvotes
+                      ? "+" + props.data.comments[0].upvotes
+                      : "+" + 0}
                   </UpvoteCount>
                   <Icon
                     style={{ filter: "grayscale(1)" }}
