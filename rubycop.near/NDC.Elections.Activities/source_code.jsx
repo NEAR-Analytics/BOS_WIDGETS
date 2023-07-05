@@ -1,7 +1,7 @@
 const { myVotes } = props;
 
 const VoteRow = styled.a`
-  text-decoration: none;
+  text-decoration: none !important;
   padding: 10px 0;
   small {
     font-weight: 400;
@@ -13,7 +13,8 @@ const VoteRow = styled.a`
 `;
 
 const StyledLink = styled.a`
-  color: inherit;
+  color: black;
+  text-decoration: none !important;
   width: 100px !important;
   font-size: 14px;
   white-space: nowrap;
