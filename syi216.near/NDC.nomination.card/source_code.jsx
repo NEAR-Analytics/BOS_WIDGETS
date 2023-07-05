@@ -978,6 +978,17 @@ margin: 0px;
 
 return (
   <Card>
+    {state.showModal && (
+      <Widget
+        src={`dokxo.near/widget/CommentCard`}
+        props={{
+          candidateOrReplay: true,
+          username: props.candidate,
+          onClickConfirm: () => State.update({ showModal: false }),
+          onClickCancel: () => State.update({ showModal: false }),
+        }}
+      />
+    )}
     <HeaderCard>
       <ProfilePicture
         src={
@@ -1091,7 +1102,11 @@ return (
               {data.indexerData.timestamp} by {data.indexerData.nominee}
             </TimestampText>
           </TextLowerSectionContainer>
-          <CommentButtonDiv>
+          <CommentButtonDiv
+            onClick={async () => {
+              state.verified ? State.update({ showModal: true }) : "";
+            }}
+          >
             <CommentButtonCounter>
               + {data.upVoteData.comments.length}
             </CommentButtonCounter>
