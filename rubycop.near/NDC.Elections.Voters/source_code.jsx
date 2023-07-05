@@ -7,14 +7,14 @@ State.init({
 });
 
 asyncFetch(
-  `https://api.pikespeak.ai/election//election/votes-by-candidate?candidate=${candidateId}`,
+  `https://api.pikespeak.ai/election/votes-by-candidate?candidate=${candidateId}`,
   {
     headers: {
       "x-api-key": apiKey,
     },
   }
 ).then((resp) => {
-  consol.log("-->", resp.body);
+  consol.log("--", resp.body);
   State.update({ voters: resp.body });
 });
 
