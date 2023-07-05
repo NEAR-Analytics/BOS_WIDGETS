@@ -87,7 +87,6 @@ if (
 
 console.log(proposals);
 
-// New function to check proposals
 const checkProposals = (proposals) => {
   for (let i = 0; i < proposals.length; i++) {
     if (proposals[i].proposer === memberId) {
@@ -158,19 +157,15 @@ return (
     )}
     <br />
     {!accountId && (
-      <div>
-        <p>Please connect with your NEAR account.</p>
-        <h5>Don't have one?</h5>
-        <Widget
-          src="near/widget/DIG.Button"
-          props={{
-            href: "https://near.org/signup",
-            label: "Create Account",
-            variant: "outline-dark",
-            size: "small",
-          }}
-        />
-      </div>
+      <Widget
+        src="near/widget/DIG.Button"
+        props={{
+          href: "https://near.org/signup",
+          label: "Create Account",
+          variant: "outline-dark",
+          size: "small",
+        }}
+      />
     )}
     <div>
       {validMember && canJoinContinent && (
@@ -190,6 +185,7 @@ return (
 
       {!canJoinContinent && (
         <div>
+          <h3>Africa</h3>
           <div className="mb-3">
             <Widget
               src="hack.near/widget/dao.candidate"
@@ -233,6 +229,7 @@ return (
       </div>
       {!canJoinContinent && (
         <div>
+          <h3>Asia</h3>
           <div className="mb-3">
             <Widget
               src="hack.near/widget/dao.candidate"
@@ -262,7 +259,6 @@ return (
         {validMember && canJoinContinent && (
           <div className="mb-2">
             <h3>Europe</h3>
-
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -277,6 +273,7 @@ return (
       </div>
       {!canJoinContinent && (
         <div>
+          <h3>Europe</h3>
           <div className="mb-3">
             <Widget
               src="hack.near/widget/dao.candidate"
@@ -306,7 +303,6 @@ return (
         {validMember && canJoinContinent && (
           <div className="mb-2">
             <h3>North America</h3>
-
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -321,6 +317,7 @@ return (
       </div>
       {!canJoinContinent && (
         <div>
+          <h3>North America</h3>
           <div className="mb-3">
             <Widget
               src="hack.near/widget/dao.candidate"
@@ -346,11 +343,10 @@ return (
         </div>
       )}
       <br />
-      <div className="mb-2">
+      <div className="mb-3">
         {validMember && canJoinContinent && (
-          <div className="mb-2">
+          <div className="mb-3">
             <h3>South America</h3>
-
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -365,6 +361,7 @@ return (
       </div>
       {!canJoinContinent && (
         <div>
+          <h3>South America</h3>
           <div className="mb-3">
             <Widget
               src="hack.near/widget/dao.candidate"
