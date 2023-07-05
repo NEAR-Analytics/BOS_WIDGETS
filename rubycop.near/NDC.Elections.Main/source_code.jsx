@@ -33,7 +33,7 @@ asyncFetch("https://api.pikespeak.ai/election/total-votes", {
     "x-api-key": apiKey,
   },
 }).then((resp) => {
-  State.update({ humanVoted: resp.body });
+  if (resp.body) State.update({ humanVoted: resp.body });
 });
 
 asyncFetch(
@@ -44,7 +44,7 @@ asyncFetch(
     },
   }
 ).then((resp) => {
-  State.update({ myVotes: resp.body });
+  if (resp.body) State.update({ myVotes: resp.body });
 });
 
 const widgets = {
