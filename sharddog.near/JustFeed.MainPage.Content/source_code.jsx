@@ -60,7 +60,28 @@ nftData.forEach((item) => {
   }
 });
 
-if (holder === true) {
+const nftDataCount = Near.view(contractId, "nft_supply_for_owner", {
+  account_id: accountId,
+  limit: 100,
+});
+
+const Greeting = () => {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  let greeting;
+
+  if (currentHour < 12) {
+    greeting = "Good morning";
+  } else if (currentHour < 18) {
+    greeting = "Good afternoon";
+  } else {
+    greeting = "Good evening";
+  }
+
+  return <span>{greeting}</span>;
+};
+
+if (nftDataCount > 0) {
   return (
     <>
       {context.accountId && (
@@ -68,6 +89,9 @@ if (holder === true) {
           <Widget src="sharddog.near/widget/Posts.Compose" props={{}} />
         </div>
       )}
+      <p>
+        <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs
+      </p>
       <ul className="nav nav-pills mb-3">
         {options.map((option, i) => (
           <li className="nav-item" key={i}>
