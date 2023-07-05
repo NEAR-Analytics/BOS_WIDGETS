@@ -29,7 +29,7 @@ State.init({
   house: "HouseOfMerit",
   start: true,
   nominations: [],
-  verified: true,
+  verified: false,
   selfNomination: false,
 });
 //
@@ -40,15 +40,16 @@ function handleNominations(data) {
 
 function getVerifiedHuman() {
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=true`,
+    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
     {
       headers: {
         "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
       },
     }
   ).then((res) => {
-    console.log(res.body);
-    State.update({ verified: res.body });
+    if (res.body.length > 0) {
+      State.update({ verified: true });
+    }
   });
   asyncFetch(
     `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}`,
