@@ -338,9 +338,7 @@ const CandidateList = ({ candidateId, votes }) => (
       selected={state.selected === candidateId}
     >
       <div className="d-flex">
-        {isIAmHuman && (
-          
-        )}
+        {isIAmHuman && <></>}
         <div className="d-flex">
           <Widget
             src="mob.near/widget/ProfileImage"
