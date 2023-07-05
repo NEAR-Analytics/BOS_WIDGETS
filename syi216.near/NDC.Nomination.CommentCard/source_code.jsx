@@ -6,6 +6,15 @@ State.init({
   nominationData: Social.getr(`${data.commentator}/nominations`),
 });
 
+let nominationContract = "nominations-v1.gwg-testing.near";
+
+function handleDeleteComment(candidate, id) {
+  Near.call(nominationContract, "remove_comment", {
+    candidate: candidate,
+    comment: id,
+  });
+}
+
 const CommentCard = styled.div`
 display: flex;
 padding: 14px 16px;
@@ -283,7 +292,9 @@ return (
       </TimestampCommentDiv>
       <CommentButtonDiv>
         {context.accountId == data.commentator ? (
-          <DeleteCommentButton>
+          <DeleteCommentButton
+            onClick={handleDeleteComment(data.candidate, data.id)}
+          >
             <DeleteCommentIcon
               src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
               alt="pic"
