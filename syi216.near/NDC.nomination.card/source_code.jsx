@@ -1037,9 +1037,6 @@ return (
                 <CandidateTag>
                   <CandidateTagText>{data.company_name}</CandidateTagText>
                 </CandidateTag>
-                <CandidateTag>
-                  <CandidateTagText>{data.company_name}</CandidateTagText>
-                </CandidateTag>
               </>
             );
           })}
