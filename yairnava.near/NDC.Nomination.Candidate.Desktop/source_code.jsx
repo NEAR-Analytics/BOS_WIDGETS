@@ -635,11 +635,8 @@ return (
                         </CandidateInfoData>
                       </CandidateInfoHeader>
                       <CandidateTextInfo>
-                        <CandidateTitle>Lorem Ipsum Dolor Sit</CandidateTitle>
-                        <CandidateDescription>
-                          Lorem ipsum dolor sit amet consectetur. Turpis
-                          maecenas pulvinar quis massa tristique velit.
-                        </CandidateDescription>
+                        <CandidateTitle>Role Description</CandidateTitle>
+                        <CandidateDescription>{data.role}</CandidateDescription>
                       </CandidateTextInfo>
                     </CandidateInfoDiv>
                   );
