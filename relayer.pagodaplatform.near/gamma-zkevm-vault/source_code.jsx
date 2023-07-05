@@ -316,6 +316,7 @@ const handleToken0Change = (amount) => {
 
   State.update({
     isLoading: true,
+    isError: false,
     loadingMsg: "Computing deposit amount...",
   });
 
@@ -362,6 +363,7 @@ const handleToken1Change = (amount) => {
 
   State.update({
     isLoading: true,
+    isError: false,
     loadingMsg: "Computing deposit amount...",
   });
   const token1Wei = ethers.utils.parseUnits(amount, decimals1).toString();
@@ -387,7 +389,7 @@ const handleToken1Change = (amount) => {
       State.update({
         isLoading: true,
         isError: true,
-        amount1: 0,
+        amount0: 0,
         loadingMsg: "Something went wrong. Please try again.",
       });
     });
@@ -411,19 +413,26 @@ const handleApprove = (isToken0) => {
 
   tokenContract
     .approve(hypeAddress, tokenWei)
-    .then((tx) => {
+    .then((tx) => tx.wait())
+    .then((receipt) => {
       const payload = isToken0
         ? { isToken0Approved: true }
         : { isToken1Approved: true };
 
       State.update(payload);
     })
-    .catch((e) => console.log(e));
+    .catch((error) => {
+      State.update({
+        isError: true,
+        loadingMsg: error,
+      });
+    });
 };
 
 const handleDeposit = () => {
   State.update({
     isLoading: true,
+    isError: false,
     loadingMsg: "Depositing...",
   });
 
@@ -443,11 +452,20 @@ const handleDeposit = () => {
   proxyContract
     .deposit(token0Wei, token1Wei, sender, hypeAddress, [0, 0, 0, 0])
     .then((tx) => {
+      return tx.wait();
+    })
+    .then((receipt) => {
       State.update({
         isLoading: false,
       });
     })
-    .catch((e) => console.log(e));
+    .catch((error) => {
+      State.update({
+        isError: true,
+        isLoading: false,
+        loadingMsg: error,
+      });
+    });
 };
 
 const isInSufficient =
