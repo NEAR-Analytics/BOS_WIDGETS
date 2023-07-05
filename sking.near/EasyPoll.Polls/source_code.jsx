@@ -23,9 +23,6 @@ const shouldDisplayUserQuestions = (accountId) => {
   if (blackList) {
     return !blackList.includes(accountId);
   }
-  if (filterByUser) {
-    return filterByUser.includes(accountId);
-  }
   if (onlyVerifiedHumans) {
     return (
       getFirstSBTToken(accountId) !== undefined ||
@@ -35,54 +32,58 @@ const shouldDisplayUserQuestions = (accountId) => {
   return true;
 };
 
-let polls = Social.index("poll_question", `question-v${indexVersion}`, {
-  accountId: filterByUser,
+let keys = `*/easypoll-${indexVersion}/*`;
+
+if (filterByUser) {
+  keys = filterByUser.map((v) => {
+    return `${v}/easypoll-${indexVersion}/*`;
+  });
+}
+
+let results = Social.keys(keys, "final", {
+  return_type: "BlockHeight",
 });
-
-if (JSON.stringify(polls) != JSON.stringify(state.polls)) {
-  State.update({ polls: polls });
+if (!results) {
+  return "Loading...";
 }
 
-if (!polls) {
-  return "Loading";
-}
-
-polls = polls.filter((p) => shouldDisplayUserQuestions(p.accountId));
-
-polls = polls.sort((q1, q2) => {
-  const isQ1Finished = q1.value.endTimestamp < Date.now();
-  const isQ2Finished = q2.value.endTimestamp < Date.now();
-  if (isQ1Finished && !isQ2Finished) return 1;
-  if (!isQ1Finished && isQ2Finished) return -1;
-  if (isQ1Finished && isQ2Finished)
-    return q2.value.endTimestamp - q1.value.endTimestamp;
-  return q1.value.endTimestamp - q2.value.endTimestamp;
+const polls_keys = [];
+Object.keys(results).forEach((accountId) => {
+  return Object.keys(results[accountId][`easypoll-${indexVersion}`]).forEach(
+    (pollId) => {
+      polls_keys.push({
+        accountId,
+        pollId,
+        blockHeight: results[accountId][`easypoll-${indexVersion}`][pollId],
+      });
+    }
+  );
 });
+polls_keys = polls_keys.sort((a, b) => b.blockHeight - a.blockHeight); // desc
+polls_keys = polls_keys.filter((p) => shouldDisplayUserQuestions(p.accountId));
 
-let usersMakingQuestions = [];
-for (let i = 0; i < polls.length; i++) {
-  if (!usersMakingQuestions.includes(polls[i].accountId)) {
-    usersMakingQuestions.push(polls[i].accountId);
-  }
-}
+console.log(polls_keys);
 
 return (
   <>
     <div className="d-flex flex-column gap-4 mb-3">
-      {polls.map((poll) => {
+      {polls_keys.map((p) => {
+        const src = `${p.accountId}/easypoll-${indexVersion}/${p.pollId}`;
         return (
           <Widget
             src={`${widgetOwner}/widget/EasyPoll.PollCard`}
             props={{
-              poll: poll,
-              indexVersion,
-              href: tabs.VIEW_POLL.href + poll.blockHeight,
+              src: src,
+              blockHeight: p.blockHeight,
+              href: tabs.VIEW_POLL.href(src, p.blockHeight),
+              editHref: tabs.EDIT_POLL.href(src, p.blockHeight),
+              deleteHref: tabs.DELETE_POLL.href(src, p.blockHeight),
             }}
           />
         );
       })}
     </div>
-    {polls.length < 1 && <div>Looks like there are no polls to show.</div>}
-    {/*TODO add a page picker instead the infinite scroll?*/}
+    {polls_keys.length < 1 && <div>Looks like there are no polls to show.</div>}
+    {/* TODO: NEED PAGINATION */}
   </>
 );
