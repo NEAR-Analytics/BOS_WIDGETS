@@ -983,7 +983,7 @@ return (
         src={`dokxo.near/widget/CommentCard`}
         props={{
           candidateOrReplay: true,
-          username: props.candidate,
+          username: data.indexerData.nominee,
           onClickConfirm: () => State.update({ showModal: false }),
           onClickCancel: () => State.update({ showModal: false }),
         }}
