@@ -5,6 +5,7 @@ const value = props.value ?? "0";
 const onChange = props.onChange ?? (() => {});
 const type = props.type ?? "single"; // single, multiple
 const error = props.error ?? "";
+const disabled = props.disabled ?? "";
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +52,6 @@ if (hasImage) {
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
       rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    background: #fff;
     padding: 4px;
     cursor: pointer;
     border: 2px solid transparent;
@@ -61,6 +61,15 @@ if (hasImage) {
     aspect-ratio: 0.85;
     display: flex;
     flex-direction: column;
+    background: #fff;
+
+    &[disabled] {
+      cursor: default;
+      opacity: 0.7;
+    }
+    &[disabled].active {
+      background: #f1f1fd;
+    }
 
     h5 {
       font-size: 16px;
@@ -97,7 +106,6 @@ if (hasImage) {
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
       rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    background: #fff;
     padding: 8px 16px;
     cursor: pointer;
     border: 2px solid transparent;
@@ -105,6 +113,16 @@ if (hasImage) {
     width: 100%;
     gap: 6px;
     align-items: center;
+    background: #fff;
+    cursor: pointer;
+
+    &[disabled] {
+      cursor: default;
+      opacity: 0.7;
+    }
+    &[disabled].active {
+      background: #f1f1fd;
+    }
 
     h5 {
       font-size: 16px;
@@ -158,7 +176,8 @@ return (
         <Option
           role="button"
           className={value == v || value.includes(v) ? "active" : ""}
-          onClick={() => handleChange(v)}
+          onClick={() => !disabled && handleChange(v)}
+          disabled={disabled}
         >
           {hasImage && <img src={images[i]} />}
           <div className="d-flex gap-1 align-items-center">
