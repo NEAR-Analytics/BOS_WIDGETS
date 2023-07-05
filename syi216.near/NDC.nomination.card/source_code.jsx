@@ -980,6 +980,7 @@ return (
             ? true
             : false
         }
+        onClick={handleUpVote}
       >
         <UpvoteButtonText>
           + {data.upVoteData.upvotes ? data.upVoteData.upvotes : "0"}
