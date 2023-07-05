@@ -1,11 +1,10 @@
 const { candidateId } = props;
-
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 State.init({
   voters: [],
 });
-consol.log("--", candidateId);
+
 asyncFetch(
   `https://api.pikespeak.ai/election/votes-by-candidate?candidate=${candidateId}`,
   {
@@ -14,7 +13,6 @@ asyncFetch(
     },
   }
 ).then((resp) => {
-  consol.log("--", resp.body);
   State.update({ voters: resp.body });
 });
 
@@ -75,22 +73,22 @@ return (
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
-              accountId: voter.accountId,
+              accountId: voter.voter,
               imageClassName: "rounded-circle w-100 h-100",
               style: { width: "24px", height: "24px", marginRight: 4 },
             }}
           />
           <UserLink
-            src={`https://wallet.near.org/profile/${voter.accountId}`}
-            title={voter.accountId}
+            src={`https://wallet.near.org/profile/${voter.voter}`}
+            title={voter.voter}
           />
         </div>
         <div className="d-flex align-items-center">
           <TxnLink
             role="button"
-            src={`https://explorer.mainnet.near.org/transactions/${voter.txn_url}`}
+            src={`https://explorer.mainnet.near.org/transactions/${voter.transaction_id}`}
           >
-            {voter.txn_url}
+            {voter.transaction_id}
           </TxnLink>
           <span>
             <i class="bi bi-arrow-up-right" />
