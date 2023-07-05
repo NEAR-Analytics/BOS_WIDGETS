@@ -545,7 +545,6 @@ gap: 6px;
 align-self: stretch;
 border-radius: 4px;
 background: var(--buttons-yellow-default, #FFD50D);
-filter: grayscale(100%);
 `;
 
 const CommentButtonDisabled = styled.div`
