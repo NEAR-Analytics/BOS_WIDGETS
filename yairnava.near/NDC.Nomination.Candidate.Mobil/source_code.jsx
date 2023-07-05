@@ -157,6 +157,18 @@ font-size: 12px;
 font-family: Avenir;
 line-height: 120%;
 `;
+
+const UpvoteButtonDisabled = styled.button`
+display: flex;
+padding: 2px 12px;
+align-items: center;
+gap: 6px;
+border-radius: 4px;
+border: solid 1px transparent;
+background: var(--buttons-disable, #C3CACE);
+cursor: default !important;
+`;
+
 const UpvoteButton = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -461,6 +473,19 @@ width: 14px;
 height: 14px;
 flex-shrink: 0;
 `;
+
+const CommentButtonDisabled = styled.div`
+cursor: pointer;
+display: flex;
+padding: 2px 12px;
+align-items: center;
+gap: 6px;
+align-self: stretch;
+border-radius: 4px;
+background: var(--buttons-disable, #C3CACE);
+cursor: default !important;
+`;
+
 const CommentButton = styled.div`
 cursor: pointer;
 display: flex;
@@ -471,6 +496,7 @@ align-self: stretch;
 border-radius: 4px;
 background: var(--buttons-yellow-default, #FFD50D);
 `;
+
 const CommentText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
