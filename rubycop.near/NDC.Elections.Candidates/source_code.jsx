@@ -468,7 +468,9 @@ const Filters = () => {
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-end">
-      <H3>{state.availableVotes}</H3>
+      <H3>
+        {seats - myVotesForHouse().length - state.selectedCandidates.length}
+      </H3>
       <span>/</span>
       <H4>{seats}</H4>
       <span className="text-secondary">votes left</span>
