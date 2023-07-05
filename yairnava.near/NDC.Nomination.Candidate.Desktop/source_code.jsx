@@ -713,7 +713,7 @@ return (
                                   Key Issue {key + 1}
                                 </KeyIssueTitle>
                               ) : (
-                                <KeyIssueTitle>Others Platforms</KeyIssueTitle>
+                                <KeyIssueTitle>Other Platform</KeyIssueTitle>
                               )}
                             </td>
                             <td style={{ background: "#F8F8F9" }}>
