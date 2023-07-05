@@ -662,13 +662,16 @@ return (
                 </UpvoteButton>
               ) : (
                 <UpvoteButtonDisabled>
-                  <UpvoteCount>
+                  <UpvoteCount style={{ filter: "grayscale(1)" }}>
                     +
                     {props.data.comments[0].upvotes
                       ? props.data.comments[0].upvotes
                       : 0}
                   </UpvoteCount>
-                  <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
+                  <Icon
+                    style={{ filter: "grayscale(1)" }}
+                    src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
+                  ></Icon>
                 </UpvoteButtonDisabled>
               )}
             </HeaderDetailContent>
