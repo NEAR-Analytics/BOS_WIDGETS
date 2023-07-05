@@ -231,6 +231,8 @@ return (
     class="row col-sm-12     "
     style={{
       height: "auto",
+      "padding-left": "16px",
+      "padding-right": "16px",
     }}
   >
     {" "}
