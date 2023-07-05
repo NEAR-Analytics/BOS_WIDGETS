@@ -1003,14 +1003,7 @@ return (
           <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
-      <UpvoteButton
-        disabled={
-          status.verified && data.indexerData.nominee != context.accountId
-            ? true
-            : false
-        }
-        onClick={state.verified ? handleUpVote : ""}
-      >
+      <UpvoteButton onClick={state.verified ? handleUpVote : ""}>
         <UpvoteButtonText>
           + {data.upVoteData.upvotes ? data.upVoteData.upvotes : "0"}
         </UpvoteButtonText>
