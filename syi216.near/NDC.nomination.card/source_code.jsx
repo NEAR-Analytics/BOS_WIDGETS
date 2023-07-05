@@ -404,8 +404,7 @@ flex-direction: row;
 align-items: flex-start;
 padding: 0px;
 gap: 4px;
-
-width: 144px;
+width: 100%;
 height: 20px;
 
 
