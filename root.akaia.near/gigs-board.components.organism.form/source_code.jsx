@@ -123,7 +123,7 @@ const fieldDefaultUpdate = ({
 };
 
 const useForm = ({ stateKey: formStateKey }) => ({
-  formState: state[formStateKey],
+  formValues: state[formStateKey],
 
   formUpdate:
     ({ path: fieldPath, via: fieldCustomUpdate, ...params }) =>
@@ -143,12 +143,30 @@ const useForm = ({ stateKey: formStateKey }) => ({
       ),
 });
 /* END_INCLUDE: "core/lib/form" */
-/* INCLUDE: "core/lib/record" */
-const pick = (object, subsetKeys) =>
-  Object.fromEntries(
-    Object.entries(object ?? {}).filter(([key, _]) => subsetKeys.includes(key))
-  );
-/* END_INCLUDE: "core/lib/record" */
+/* INCLUDE: "core/lib/hashmap" */
+const HashMap = {
+  isEqual: (input1, input2) =>
+    input1 !== null &&
+    typeof input1 === "object" &&
+    input2 !== null &&
+    typeof input2 === "object"
+      ? JSON.stringify(HashMap.toOrdered(input1)) ===
+        JSON.stringify(HashMap.toOrdered(input2))
+      : false,
+
+  toOrdered: (input) =>
+    Object.keys(input)
+      .sort()
+      .reduce((output, key) => ({ ...output, [key]: input[key] }), {}),
+
+  pick: (object, subsetKeys) =>
+    Object.fromEntries(
+      Object.entries(object ?? {}).filter(([key, _]) =>
+        subsetKeys.includes(key)
+      )
+    ),
+};
+/* END_INCLUDE: "core/lib/hashmap" */
 
 const fieldParamsByType = {
   array: {
@@ -166,7 +184,12 @@ const fieldParamsByType = {
   },
 };
 
-const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
+const fieldsRenderDefault = ({
+  schema,
+  formValues,
+  formUpdate,
+  isEditable,
+}) => (
   <>
     {Object.entries(schema).map(
       ([
@@ -174,20 +197,20 @@ const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
         { format, inputProps, label, order, style, ...fieldProps },
       ]) => {
         const contentDisplayClassName = [
-          (formState[fieldKey]?.length ?? 0) > 0 ? "" : "text-muted",
+          (formValues[fieldKey]?.length ?? 0) > 0 ? "" : "text-muted",
           "m-0",
         ].join(" ");
 
-        const fieldType = Array.isArray(formState[fieldKey])
+        const fieldType = Array.isArray(formValues[fieldKey])
           ? "array"
-          : typeof (formState[fieldKey] ?? "");
+          : typeof (formValues[fieldKey] ?? "");
 
         return (
           <>
             {!isEditable && (
               <div
                 className="d-flex gap-3"
-                key={`${formState.handle}-${fieldKey}`}
+                key={`${formValues.handle}-${fieldKey}`}
                 style={{ order }}
               >
                 <label className="fw-bold w-25">{label}</label>
@@ -195,16 +218,16 @@ const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
                 {format !== "markdown" ? (
                   <p className={[contentDisplayClassName, "w-75"].join(" ")}>
                     {(fieldType === "array"
-                      ? formState[fieldKey]
+                      ? formValues[fieldKey]
                           .filter((string) => string.length > 0)
                           .join(", ")
-                      : formState[fieldKey]
+                      : formValues[fieldKey]
                     )?.toString?.() || "none"}
                   </p>
                 ) : (
                   <p className={[contentDisplayClassName, "w-75"].join(" ")}>
-                    {(formState[fieldKey]?.length ?? 0) > 0 ? (
-                      <Markdown text={formState[fieldKey]} />
+                    {(formValues[fieldKey]?.length ?? 0) > 0 ? (
+                      <Markdown text={formValues[fieldKey]} />
                     ) : (
                       "none"
                     )}
@@ -218,20 +241,20 @@ const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
                 ...fieldProps,
                 className: "w-100",
                 format,
-                key: `${formState.handle}-${fieldKey}`,
+                key: `${formValues.handle}-${fieldKey}`,
                 label,
                 onChange: formUpdate({ path: [fieldKey] }),
                 style: { ...style, order },
 
                 value:
                   fieldType === "array"
-                    ? formState[fieldKey].join(", ")
-                    : formState[fieldKey],
+                    ? formValues[fieldKey].join(", ")
+                    : formValues[fieldKey],
 
                 inputProps: {
                   ...(inputProps ?? {}),
 
-                  ...(fieldParamsByType[typeof formState[fieldKey]]
+                  ...(fieldParamsByType[typeof formValues[fieldKey]]
                     .inputProps ?? {}),
                 },
               })}
@@ -246,7 +269,6 @@ const Form = ({
   actionsAdditional,
   cancelLabel,
   classNames,
-  data,
   fieldsRender: fieldsRenderCustom,
   heading,
   isEditorActive,
@@ -256,6 +278,7 @@ const Form = ({
   onSubmit,
   schema,
   submitLabel,
+  values,
   ...restProps
 }) => {
   const fieldsRender =
@@ -263,14 +286,25 @@ const Form = ({
       ? fieldsRenderCustom
       : fieldsRenderDefault;
 
-  const fieldValues =
-    typeof schema === "object" ? pick(data, Object.keys(schema)) : data;
+  const initialValues =
+    typeof schema === "object"
+      ? HashMap.pick(values ?? {}, Object.keys(schema))
+      : {};
 
   State.init({
-    initialState: fieldValues,
-    data: fieldValues,
     isEditorActive: isEditorActive ?? false,
+    values: initialValues,
   });
+
+  if (
+    !state.isEditorActive &&
+    JSON.stringify(initialValues) !== JSON.stringify(state.values)
+  ) {
+    State.update((lastKnownState) => ({
+      ...lastKnownState,
+      values: initialValues,
+    }));
+  }
 
   const onEditorToggle = (forcedState) =>
     State.update((lastKnownState) => ({
@@ -278,25 +312,23 @@ const Form = ({
       isEditorActive: forcedState ?? !lastKnownState.isEditorActive,
     }));
 
-  const { formState, formUpdate } = useForm({ stateKey: "data" });
-
-  const noChanges =
-    JSON.stringify(formState) === JSON.stringify(state.initialState ?? {});
+  const { formValues, formUpdate } = useForm({ stateKey: "values" }),
+    hasUnsubmittedChanges = !HashMap.isEqual(formValues, initialValues);
 
   const onCancelClick = () => {
     State.update((lastKnownState) => ({
       ...lastKnownState,
-      data: lastKnownState.initialState,
+      values: initialValues,
       isEditorActive: false,
     }));
 
-    if (typeof onSubmit === "function") onSubmit(lastKnownState.initialState);
+    if (typeof onSubmit === "function") onSubmit(initialValues);
     if (typeof onCancel === "function") onCancel();
   };
 
   const onSubmitClick = () => {
     onEditorToggle(false);
-    if (typeof onSubmit === "function") onSubmit(formState);
+    if (typeof onSubmit === "function") onSubmit(formValues);
   };
 
   return widget("components.molecule.tile", {
@@ -308,7 +340,7 @@ const Form = ({
       isMutable && !state.isEditorActive
         ? widget("components.atom.button", {
             classNames: {
-              root: "btn-sm btn-primary",
+              root: "btn-sm btn-secondary",
               adornment: "bi bi-pen-fill",
             },
 
@@ -323,7 +355,7 @@ const Form = ({
           className={`d-flex flex-column gap-${state.isEditorActive ? 1 : 4}`}
         >
           {fieldsRender({
-            formState,
+            formValues,
             formUpdate,
             isEditable: isMutable && state.isEditorActive,
             onFormSubmit: onSubmit,
@@ -339,18 +371,17 @@ const Form = ({
 
             {widget("components.atom.button", {
               classNames: { root: "btn-outline-danger shadow-none border-0" },
-              disabled: noChanges,
               label: cancelLabel ?? "Cancel",
               onClick: onCancelClick,
             })}
 
             {widget("components.atom.button", {
               classNames: {
-                root: "btn-success",
+                root: classNames.submit ?? "btn-success",
                 adornment: `bi ${classNames.submitAdornment}`,
               },
 
-              disabled: noChanges,
+              disabled: !hasUnsubmittedChanges,
               label: submitLabel ?? "Submit",
               onClick: onSubmitClick,
             })}
