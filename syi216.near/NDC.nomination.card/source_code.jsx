@@ -822,6 +822,7 @@ flex-grow: 0;
 `;
 
 const TagSection = styled.div`
+overflow: hidden;
 display: flex;
 width: 160px;
 align-items: flex-start;
@@ -1120,7 +1121,6 @@ return (
         <TagSectionContainer>
           <TagSection>
             {data.nominationData.tags.split(",").map((data) => {
-              console.log(data);
               return (
                 <Tag>
                   <TagText>{data}</TagText>
