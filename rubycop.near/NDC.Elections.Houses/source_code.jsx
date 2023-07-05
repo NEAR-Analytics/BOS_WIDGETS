@@ -3,15 +3,15 @@ const { houses, selectedHouse, handleSelect } = props;
 const housesMapping = {
   CouncilOfAdvisors: {
     title: "Council Of Advisors",
-    src: "https://bafkreibvbhjkfvtgagym7tdmasvt4mlpytjayunfetc4xeezlaxd7zdfxu.ipfs.nftstorage.link",
+    src: "https://bafkreidejnek5zzwlhd3lxnr7s3tvtrgul6jobfpikbs7zjkpuovxdz7je.ipfs.nftstorage.link",
   },
   HouseOfMerit: {
     title: "House of Merit",
-    src: "https://bafkreieycuuk5qop3s23cix6oqtx7fw5aas6w4xe4ca33p3t53slo3o4j4.ipfs.nftstorage.link",
+    src: "https://bafkreihoomeeaeyqerqftn3n7yb2jrnmqtpwgpsl3xpelek6qmly3qzob4.ipfs.nftstorage.link",
   },
   TransparencyCommission: {
     title: "Transparency Commission",
-    src: "https://bafkreidmamsclzjo3itskji3opgkrurz4nj6e3gj23sczuouioorr4ikqu.ipfs.nftstorage.link",
+    src: "https://bafkreihcog3rs2gj4wgwfixk6yqir7k3csyaqiqwcvm2gedlh6dlvr7ik4.ipfs.nftstorage.link",
   },
 };
 
