@@ -460,9 +460,8 @@ return (
             </ButtonDeleteDiv>
           ) : (
             <ButtonNominateDiv
-              disabled={status.sbt ? false : true}
               onClick={async () => {
-                State.update({ showModal: true });
+                status.sbt ? State.update({ showModal: true }) : "";
               }}
             >
               <ButtonNominateText>Self Nominate</ButtonNominateText>
