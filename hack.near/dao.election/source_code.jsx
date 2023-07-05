@@ -1,112 +1,41 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? context.accountId;
-const roleId = props.roleId ?? "voter";
-const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
+let { memberId, roleId, daoId } = props;
+
+memberId = memberId ?? accountId;
+roleId = roleId ?? "voter";
+daoId = daoId ?? "rc-dao.sputnik-dao.near";
 
 const policy = Near.view(daoId, "get_policy");
+if (policy === null) return "";
 
-if (policy === null) {
-  return "";
-}
-
-const deposit = policy.proposal_bond;
 const group = policy.roles
   .filter((role) => role.name === roleId)
-  .map((role) => role.kind.Group);
+  .map((role) => role.kind.Group)
+  .join(", ");
+State.init({ isMember: group.includes(memberId) });
 
-State.init({
-  isMember: false,
-});
-
-const groupMembers = group.join(", ");
-
-const checkMembership = (groupMembers) => {
-  if (groupMembers.indexOf(memberId) !== -1) {
-    return State.update({ isMember: true });
-  }
-};
-
-const validMember = checkMembership(groupMembers);
-
-// IAH Verification
-let human = false;
-const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+let human = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
   account: memberId,
-});
+}).some((i) => i[0] === "fractal.i-am-human.near");
 
-for (let i = 0; i < userSBTs.length; i++) {
-  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
-    human = true;
-  }
-}
+const checkProposals = (proposals) =>
+  proposals.every((p) => p.proposer !== memberId);
+const getProposals = (daoId) =>
+  Near.view(daoId, "get_proposals", { from_index: 0, limit: 888 });
 
-const proposals = Near.view(daoId, "get_proposals", {
-  from_index: 0,
-  limit: 888,
-});
-
-const af_proposals = Near.view(
+const daoList = [
+  "rc-dao.sputnik-dao.near",
   "africa-community.sputnik-dao.near",
-  "get_proposals",
-  { from_index: 0, limit: 888 }
-);
-const as_proposals = Near.view("asia.sputnik-dao.near", "get_proposals", {
-  from_index: 0,
-  limit: 888,
-});
-const au_proposals = Near.view("australia.sputnik-dao.near", "get_proposals", {
-  from_index: 0,
-  limit: 888,
-});
-const eu_proposals = Near.view("europe.sputnik-dao.near", "get_proposals", {
-  from_index: 0,
-  limit: 888,
-});
-const na_proposals = Near.view(
+  "asia.sputnik-dao.near",
+  "australia.sputnik-dao.near",
+  "europe.sputnik-dao.near",
   "north-america.sputnik-dao.near",
-  "get_proposals",
-  { from_index: 0, limit: 888 }
-);
-const sa_proposals = Near.view(
   "south-america.sputnik-dao.near",
-  "get_proposals",
-  { from_index: 0, limit: 888 }
-);
+];
+const allProposals = daoList.map((dao) => getProposals(dao));
+if (allProposals.some((p) => p === null)) return "";
 
-if (
-  proposals === null ||
-  af_proposals === null ||
-  as_proposals === null ||
-  au_proposals === null ||
-  eu_proposals === null ||
-  na_proposals === null ||
-  sa_proposals === null
-) {
-  return "";
-}
-
-console.log(proposals);
-
-const checkProposals = (proposals) => {
-  for (let i = 0; i < proposals.length; i++) {
-    if (proposals[i].proposer === memberId) {
-      return false;
-    }
-  }
-  return true;
-};
-
-let canJoin = checkProposals(proposals);
-let canJoinContinent =
-  checkProposals(af_proposals) &&
-  checkProposals(as_proposals) &&
-  checkProposals(au_proposals) &&
-  checkProposals(eu_proposals) &&
-  checkProposals(na_proposals) &&
-  checkProposals(sa_proposals);
-
-console.log(canJoin);
-console.log(canJoinContinent);
+let canJoin = allProposals.every((p) => checkProposals(p));
 
 return (
   <div className="m-2">
@@ -248,6 +177,50 @@ return (
                 memberId: accountId,
                 proposalId: 38,
                 candidateId: "candidate7.near",
+                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+              }}
+            />
+          </div>
+        </div>
+      )}
+      <br />
+      <div className="mb-2">
+        {validMember && canJoinContinent && (
+          <div className="mb-2">
+            <h3>Australia</h3>
+            <Widget
+              src="hack.near/widget/communities.regional"
+              props={{
+                daoId: "australia.sputnik-dao.near",
+                name: "Join NEAR Australia",
+                memberId: accountId,
+                roleId,
+              }}
+            />
+          </div>
+        )}
+      </div>
+      {!canJoinContinent && (
+        <div>
+          <h3>Australia</h3>
+          <div className="mb-3">
+            <Widget
+              src="hack.near/widget/dao.candidate"
+              props={{
+                memberId: accountId,
+                proposalId: 43,
+                candidateId: "candidate12.near",
+                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+              }}
+            />
+          </div>
+          <div className="mb-3">
+            <Widget
+              src="hack.near/widget/dao.candidate"
+              props={{
+                memberId: accountId,
+                proposalId: 42,
+                candidateId: "candidate11.near",
                 postUrl: "https://social.near.page/p/rc-dao.near/94244727",
               }}
             />
