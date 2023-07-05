@@ -260,14 +260,18 @@ return (
       <CommentUserContent>
         <ProfileImageComment
           src={
-            state.nominationData.img.cid
+            data.removed
+              ? "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+              : state.nominationData.img.cid
               ? "https://nativonft.mypinata.cloud/ipfs/" +
                 state.nominationData.img.cid
               : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
           }
           alt="pic"
         ></ProfileImageComment>
-        <CommentUser>{data.commentator}</CommentUser>
+        <CommentUser>
+          {data.removed ? "@[deleted]" : data.commentator}
+        </CommentUser>
       </CommentUserContent>
       {state.hasReply ? (
         <ReplyCounterDiv>
@@ -281,7 +285,9 @@ return (
         <></>
       )}
     </CommentCardHeader>
-    <CommentCardContent>{data.comment}</CommentCardContent>
+    <CommentCardContent>
+      {data.removed ? "This comment is deleted." : data.comment}
+    </CommentCardContent>
     <CommentCardLowerSection>
       <TimestampCommentDiv>
         <TimestampIconComment
