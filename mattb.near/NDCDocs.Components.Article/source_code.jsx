@@ -194,7 +194,7 @@ const Content = styled.div`
     }
 
     .markdown {
-      padding:40px 0;
+      padding:20px 0;
       
       &:first-of-type {
         padding-top:0;
@@ -209,10 +209,10 @@ const Wrapper = styled.div`
   & > div > img, & > div > p img {
       display:block;
       margin:0 auto;
-      height:300px;
+      height:400px;
       border-radius:20px;
       background-color:rgba(0,0,0,.05);
-      margin-bottom:30px;
+      margin:30px 0;
   }
 
   h1 {
