@@ -259,13 +259,17 @@ return (
         ></ProfileImageComment>
         <CommentUser>{data.commentator}</CommentUser>
       </CommentUserContent>
-      <ReplyCounterDiv>
-        <ReplyIconPurple
-          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmQ2XjRy2zRU86H4km9qihm6VRZiFGPGjocTofURoxg8Uv?_gl=1*3eysmk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMzU0NS40LjAuMTY4NzkwMzU0NS42MC4wLjA."
-          alt="pic"
-        ></ReplyIconPurple>
-        {state.hasReply ? <ReplyCounterText>1 reply</ReplyCounterText> : <></>}
-      </ReplyCounterDiv>
+      {state.hasReply ? (
+        <ReplyCounterDiv>
+          <ReplyIconPurple
+            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmQ2XjRy2zRU86H4km9qihm6VRZiFGPGjocTofURoxg8Uv?_gl=1*3eysmk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMzU0NS40LjAuMTY4NzkwMzU0NS42MC4wLjA."
+            alt="pic"
+          ></ReplyIconPurple>
+          <ReplyCounterText>1 reply</ReplyCounterText>
+        </ReplyCounterDiv>
+      ) : (
+        <></>
+      )}
     </CommentCardHeader>
     <CommentCardContent>{data.comment}</CommentCardContent>
     <CommentCardLowerSection>
