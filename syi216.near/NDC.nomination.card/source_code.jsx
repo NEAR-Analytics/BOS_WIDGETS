@@ -444,7 +444,9 @@ flex-grow: 0;
 
 const CandidateTagText = styled.p`
 height: 12px;
-
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
@@ -631,6 +633,9 @@ const KeyIssueDescription = styled.p`
 width: 302px;
 height: 12px;
 
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 400;
