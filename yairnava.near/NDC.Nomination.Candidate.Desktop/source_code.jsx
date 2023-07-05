@@ -817,10 +817,6 @@ return (
                   props={{
                     candidateOrReplay: true,
                     username: props.candidate,
-                    originalComment: "",
-                    originalCommentId: 0,
-                    timeago: "",
-                    _share_url: "",
                     onClickConfirm: () => State.update({ showModal: false }),
                     onClickCancel: () => State.update({ showModal: false }),
                   }}
