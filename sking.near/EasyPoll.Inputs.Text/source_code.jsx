@@ -6,6 +6,7 @@ const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
 const textarea = props.textarea ?? false;
 const inputProps = props.inputProps ?? {};
+const disabled = props.disabled ?? "";
 
 const Container = styled.div`
   display: flex;
@@ -54,6 +55,12 @@ const Input = styled[textarea ? "textarea" : "input"]`
   border-radius: 4px;
   color: #101828;
   width: 100%;
+  background: #fff;
+
+  &[disabled] {
+    background: #f1f1fd;
+    opacity: 0.7;
+  }
 `;
 
 return (
@@ -65,6 +72,7 @@ return (
       value={value}
       onChange={({ target: { value } }) => onChange(value)}
       onBlur={() => validate()}
+      disabled={disabled}
       {...inputProps}
     />
     <Error className={error ? "show" : ""}>{error}</Error>
