@@ -8,32 +8,37 @@ const tabs = {
   OFFICIAL_POLLS: {
     text: "Official Polls by NDC",
     description:
-      "Explore polls officially conducted by the NDC. These are verified, authoritative, and can provide valuable insights!",
-    href: `#/${props.componentAccountId}/widget/${props.componentName}?page=official_polls`,
+      "Explore polls officially conducted by the NDC. These are verified, authoritative, and can provide valuable insights! Participating in the Official Polls by the NDC may eventually contribute to your on-chain reputation!",
+    href: `#/${widgetOwner}/widget/EasyPoll?page=official_polls`,
     active: page === "OFFICIAL_POLLS",
   },
   PUBLIC_POLLS: {
     text: "All Public Polls",
     description:
       "Dive into the world of public opinion. These are polls created by users like you, a melting pot of diverse thoughts and perspectives!",
-    href: `#/${props.componentAccountId}/widget/${props.componentName}?page=public_polls`,
+    href: `#/${widgetOwner}/widget/EasyPoll?page=public_polls`,
     active: page === "PUBLIC_POLLS",
   },
   MY_POLLS: {
     text: "My Polls",
     description:
       "Your personal polling station! Manage and review your own polls, watch them gain traction, and get insights from responses.",
-    href: `#/${props.componentAccountId}/widget/${props.componentName}?page=my_polls`,
+    href: `#/${widgetOwner}/widget/EasyPoll?page=my_polls`,
     active: page === "MY_POLLS",
   },
   CREATE_POLL: {
-    href: `#/${props.componentAccountId}/widget/${props.componentName}?page=create_poll`,
+    href: `#/${widgetOwner}/widget/EasyPoll?page=create_poll`,
     active: page === "CREATE_POLL",
     hideSidebar: true,
   },
   VIEW_POLL: {
-    href: `#/${props.componentAccountId}/widget/${props.componentName}?page=view_poll&blockHeight=`,
+    href: `#/${widgetOwner}/widget/EasyPoll?page=view_poll&blockHeight=`,
     active: page === "VIEW_POLL",
+    hideSidebar: true,
+  },
+  RESULTS: {
+    href: `#/${widgetOwner}/widget/EasyPoll?page=results&blockHeight=`,
+    active: page === "RESULTS",
     hideSidebar: true,
   },
 };
@@ -225,7 +230,7 @@ return (
               letterSpacing: "-1px",
             }}
           >
-            EasyPolls
+            EasyPoll
           </h3>
         </a>
 
@@ -343,15 +348,23 @@ return (
                 blockHeight: props.blockHeight,
                 shouldDisplayViewAll: false,
                 indexVersion,
-                canOperate: true,
-                whitelist,
                 tabs,
+                isHuman: hasSBTToken,
+                resultsHref: tabs["RESULTS"].href + props.blockHeight,
               }}
             />
           ) : page === "CREATE_POLL" ? (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.CreatePoll`}
               props={{ indexVersion, blockHeight: props.blockHeight }}
+            />
+          ) : page === "RESULTS" ? (
+            <Widget
+              src={`${widgetOwner}/widget/EasyPoll.Results`}
+              props={{
+                indexVersion,
+                blockHeight: props.blockHeight,
+              }}
             />
           ) : (
             "404"
