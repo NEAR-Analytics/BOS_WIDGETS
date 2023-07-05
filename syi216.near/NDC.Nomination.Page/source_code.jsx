@@ -448,9 +448,9 @@ return (
           }}
         />
       )}
-      <ButtonNominateContainer>
-        {state.og ? (
-          state.selfNomination ? (
+      {state.og ? (
+        <ButtonNominateContainer>
+          {state.selfNomination ? (
             <ButtonDeleteDiv onClick={handleSelfRevoke}>
               <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
               <ButtonDeleteIcon
@@ -471,11 +471,11 @@ return (
                 alt="pic"
               ></ButtonNominateIcon>
             </ButtonNominateDiv>
-          )
-        ) : (
-          <></>
-        )}
-      </ButtonNominateContainer>
+          )}
+        </ButtonNominateContainer>
+      ) : (
+        <></>
+      )}
     </Toolbar>
     <Container className="d-flex row">
       <Left className="col-lg">
