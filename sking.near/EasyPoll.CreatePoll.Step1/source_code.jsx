@@ -61,7 +61,9 @@ const validationConfig = {
       if (getTimestamp(value) < getTimestamp(new Date())) {
         return "Please Ensure the End Date is Set to a Future Time";
       }
-      if (getTimestamp(value) <= getTimestamp(state.form.startTimestamp.value)) {
+      if (
+        getTimestamp(value) <= getTimestamp(state.form.startTimestamp.value)
+      ) {
         return "Please Ensure the End Date is Set to after Start Date";
       }
       return false;
