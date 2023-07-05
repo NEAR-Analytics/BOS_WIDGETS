@@ -564,14 +564,14 @@ return (
                   {props.candidate}
                 </NominationUser>
                 <TagContainer>
-                  {Object.keys(props.data.profile.tags).map((data) => {
-                    return (
+                  {props.data.nominations.tags.split(",").map((tag) => {
+                    return tag ? (
                       <TagDiv>
                         <TagDivText style={{ "font-size": "10px" }}>
-                          #{data}
+                          {tag}
                         </TagDivText>
                       </TagDiv>
-                    );
+                    ) : null;
                   })}
                 </TagContainer>
               </NominationTitleContainer>
