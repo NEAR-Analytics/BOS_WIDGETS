@@ -118,7 +118,6 @@ align-items: center;
 padding: 4px 8px;
 gap: 10px;
 
-width: 74px;
 height: 18px;
 
 border: solid 1px transparent;
