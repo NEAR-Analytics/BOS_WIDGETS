@@ -1,5 +1,4 @@
 const data = props;
-console.log(window.location.host);
 console.log("props card", data);
 State.init({ verified: false, start: true, voted: false });
 let nominationContract = "nominations-v1.gwg-testing.near";
@@ -1014,7 +1013,9 @@ return (
           <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
-      <UpvoteButton onClick={state.verified ? handleUpVote : ""}>
+      <UpvoteButton
+        onClick={data.preview ? "" : state.verified ? handleUpVote : ""}
+      >
         <UpvoteButtonText>
           + {data.upVoteData.upvotes ? data.upVoteData.upvotes : "0"}
         </UpvoteButtonText>
@@ -1104,7 +1105,11 @@ return (
           </TextLowerSectionContainer>
           <CommentButtonDiv
             onClick={async () => {
-              state.verified ? State.update({ showModal: true }) : "";
+              data.preview
+                ? ""
+                : state.verified
+                ? State.update({ showModal: true })
+                : "";
             }}
           >
             <CommentButtonCounter>
@@ -1125,28 +1130,34 @@ return (
             })}
           </TagSection>
           <ViewButtonContainer>
-            <ViewButtonDiv
-              href={
-                "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
-                data.indexerData.house +
-                "&candidate=" +
-                data.indexerData.nominee
-              }
-            >
-              <ViewButtonText>View</ViewButtonText>
-            </ViewButtonDiv>
-            <ShareButtonDiv
-              onClick={() => {
-                clipboard.writeText(
-                  "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+            {data.preview ? (
+              <></>
+            ) : (
+              <>
+                <ViewButtonDiv
+                  href={
+                    "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
                     data.indexerData.house +
                     "&candidate=" +
                     data.indexerData.nominee
-                );
-              }}
-            >
-              <ShareButtonText>Share</ShareButtonText>
-            </ShareButtonDiv>
+                  }
+                >
+                  <ViewButtonText>View</ViewButtonText>
+                </ViewButtonDiv>
+                <ShareButtonDiv
+                  onClick={() => {
+                    clipboard.writeText(
+                      "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+                        data.indexerData.house +
+                        "&candidate=" +
+                        data.indexerData.nominee
+                    );
+                  }}
+                >
+                  <ShareButtonText>Share</ShareButtonText>
+                </ShareButtonDiv>
+              </>
+            )}
           </ViewButtonContainer>
         </TagSectionContainer>
       </LowerSectionContainer>
