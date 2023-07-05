@@ -169,7 +169,7 @@ return (
       />
     </Formsectiontag>
 
-    <div>
+    <div style={{ padding: "0px" }}>
       <H2Declarationstyled>
         {"Declaration of transparency "}
       </H2Declarationstyled>
