@@ -6,7 +6,6 @@ State.init({
   image: {},
   text: "",
   showPreview: false,
-  isVisible: isVisible,
 });
 
 const profile = Social.getr(`${context.accountId}/profile`);
@@ -95,65 +94,12 @@ function autoCompleteAccountId(id) {
   State.update({ text, showAccountAutocomplete: false });
 }
 
-const Modal = styled.div`
-  position:fixed;
-  top:0;
-  left:0;
-  z-index: 2002;
-  width: 100%;
-  height: 80vh;
-   background: #fff;
-`;
-
 const Wrapper = styled.div`
   --padding: 24px;
-  position:fixed;
-  top:0;
-width: 100%;
-  height: 100%;
+  position: relative;
+
   @media (max-width: 1200px) {
     --padding: 12px;
-  }
-  background: #fff;
-`;
-
-const FloatingButton = styled.button`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #185AC4;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 24px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  z-index:100;
-`;
-
-const PlusIcon = styled.span`
-  position: relative;
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    width: 26px;
-    height: 4px;
-    background-color: #fff;
-    top: calc(50% - 2px);
-    left: calc(50% - 13px);
-  }
-  &::before {
-    transform: rotate(0deg);
-  }
-  &::after {
-    transform: rotate(90deg);
   }
 `;
 
@@ -181,16 +127,15 @@ const Textarea = styled.div`
   display: grid;
   vertical-align: top;
   align-items: center;
-  top:0;
+  position: relative;
   align-items: stretch;
-  height:100%; 
-  background: white;
+  height: 100vh; /* Set the height to fill the screen */
 
   &::after,
   textarea {
     width: 100%;
     min-width: 1em;
-    height: 100%; 
+    height: 100%; /* Set the textarea height to fill the container */
     font: inherit;
     padding: var(--padding) var(--padding) calc(40px + (var(--padding) * 2))
       calc(40px + (var(--padding) * 2));
@@ -245,7 +190,7 @@ const TextareaDescription = styled.p`
   line-height: 18px;
   font-weight: 400;
   color: #687076;
- 
+  pointer-events: none;
   display: none;
 
   a {
@@ -375,218 +320,123 @@ const AutoComplete = styled.div`
   }
 `;
 
-function toggleModal() {
-  State.update({ isVisible: !state.isVisible });
-}
+const textareaRef = useRef(null);
 
-// Initialize the state
-State.init({
-  searchTerm: "",
-  gifs: [],
-  showGifs: false,
-});
-
-const fetchGiphyData = (queryURI) => {
-  return asyncFetch(
-    `https://api.giphy.com/v1/gifs/search?q=${queryURI}&api_key=Wjhf2pRJKiqRzIPvYiyEMhFovaDeyt3v&limit=20`,
-    {
-      method: "GET",
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerHeight < window.outerHeight) {
+      // Keyboard is open
+      const keyboardHeight = window.outerHeight - window.innerHeight;
+      const textareaHeight =
+        window.innerHeight - textareaRef.current.offsetTop - keyboardHeight;
+      textareaRef.current.style.height = `${textareaHeight}px`;
+    } else {
+      // Keyboard is closed
+      textareaRef.current.style.height = "100%";
     }
-  );
-};
+  };
 
-// Handle change
-const handleChange = (event) => {
-  const searchTerm = event.target.value;
-  State.update({ searchTerm: searchTerm });
-
-  fetchGiphyData(searchTerm).then((res) => {
-    const data = res.body.data;
-    const gifs = data.map((gif) => ({
-      imageUrl: gif.images.fixed_height_small.url,
-      value: `https://media.giphy.com/media/${gif.id}/giphy.gif`,
-    }));
-    console.log(gifs);
-    State.update({ gifs: gifs, showGifs: true });
-  });
-};
-
-const copyToClipboard = (url) => {
-  console.log("Copying to clipboard:", url);
-  navigator.clipboard
-    .writeText(url)
-    .then(() => {
-      alert("Gif URL copied to clipboard!");
-    })
-    .catch((err) => {
-      // handle error if any
-      console.error("Error copying to clipboard", err);
-    });
-};
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
 return (
-  <div>
-    <FloatingButton className="floating-button" onClick={toggleModal}>
-      <PlusIcon />
-    </FloatingButton>
-    {state.isVisible && (
-      <Modal>
-        <Wrapper>
-          <button
-            style={{
-              position: "absolute",
-              left: "2%",
-              bottom: "2%",
-              zIndex: 102,
-              backgroundColor: "#185AC4",
-              width: "12",
-              height: "12",
+  <Wrapper>
+    {state.showPreview ? (
+      <PreviewWrapper>
+        <Widget
+          src="near/widget/Posts.Post"
+          props={{
+            accountId: context.accountId,
+            blockHeight: "now",
+            content,
+          }}
+        />
+      </PreviewWrapper>
+    ) : (
+      <>
+        <Avatar>
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: profile.image,
+              alt: profile.name,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
             }}
-            onClick={toggleModal}
-            focusable="false"
-          >
-            X
-          </button>
-          <>
-            <Avatar>
-              <Widget
-                src="mob.near/widget/Image"
-                props={{
-                  image: profile.image,
-                  alt: profile.name,
-                  fallbackUrl:
-                    "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-                }}
-              />
-            </Avatar>
-            <Textarea data-value={state.text}>
-              <div
-                style={{
-                  background:
-                    "linear-gradient(to top, #f7f7f7 0%, #fff 50%, #f7f7f7 100%)",
-                }}
-              >
-                <div>
-                  <div>
-                    Search & Post Gifs
-                    <small>
-                      <i>(experimental)</i>
-                    </small>
-                    <br />
-                    <small>
-                      <i>Click on the image and it will add to your post</i>
-                    </small>
-                    <input
-                      type="text"
-                      placeholder="Find That Gif!"
-                      value={state.searchTerm}
-                      onChange={handleChange}
-                      width="300"
-                    />
-                    {state.showGifs && (
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          flexWrap: "wrap",
-                          justifyContent: "space-around",
-                        }}
-                      >
-                        {state.gifs.map((gif, index) => (
-                          <div
-                            key={index}
-                            onClick={() =>
-                              State.update({
-                                text: state.text + "\n" + gif.imageUrl,
-                                searchTerm: "",
-                                gifs: [],
-                              })
-                            }
-                          >
-                            <img src={gif.imageUrl} alt="Gif" />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+          />
+        </Avatar>
 
-              <textarea
-                placeholder="What the dog doin'?"
-                onInput={(event) => textareaInputHandler(event.target.value)}
-                onKeyUp={(event) => {
-                  if (event.key === "Escape") {
-                    State.update({ showAccountAutocomplete: false });
-                  }
-                }}
-                value={state.text}
-              />
-              <TextareaDescription>
-                <br />
-                <a
-                  href="https://www.markdownguide.org/basic-syntax/"
-                  target="_blank"
-                >
-                  Markdown
-                </a>
-                is supported
-                <br />
-                Examples: **bold text** *emphasis* `code`
-                <br />
-                Lists can be with numbers 1. or *
-                <br />
-                You can paste links here directly and some will auto-expand
-                and/or hyperlink
-                <br />
-                Youtube and Spotify links will auto-embed
-              </TextareaDescription>
-              <PreviewWrapper>
-                <Widget
-                  src="near/widget/Posts.Post"
-                  props={{
-                    accountId: context.accountId,
-                    blockHeight: "now",
-                    content,
-                  }}
-                />
-              </PreviewWrapper>
-            </Textarea>
-          </>
-          {autocompleteEnabled && state.showAccountAutocomplete && (
-            <AutoComplete>
-              <Widget
-                src="near/widget/AccountAutocomplete"
-                props={{
-                  term: state.text.split("@").pop(),
-                  onSelect: autoCompleteAccountId,
-                  onClose: () =>
-                    State.update({ showAccountAutocomplete: false }),
-                }}
-              />
-            </AutoComplete>
-          )}
+        <Textarea data-value={state.text}>
+          <textarea
+            ref={textareaRef}
+            placeholder="What's happening?"
+            onInput={(event) => textareaInputHandler(event.target.value)}
+            onKeyUp={(event) => {
+              if (event.key === "Escape") {
+                State.update({ showAccountAutocomplete: false });
+              }
+            }}
+            value={state.text}
+          />
 
-          <Actions>
-            {!state.showPreview && (
-              <IpfsImageUpload
-                image={state.image}
-                className="upload-image-button bi bi-image"
-              />
-            )}
-
-            <CommitButton
-              disabled={!state.text}
-              force
-              data={composeData}
-              onCommit={onCommit}
-              className="commit-post-button"
+          <TextareaDescription>
+            <a
+              href="https://www.markdownguide.org/basic-syntax/"
+              target="_blank"
             >
-              Post
-            </CommitButton>
-          </Actions>
-        </Wrapper>
-      </Modal>
+              Markdown
+            </a>
+            is supported
+          </TextareaDescription>
+        </Textarea>
+      </>
     )}
-  </div>
+
+    {autocompleteEnabled && state.showAccountAutocomplete && (
+      <AutoComplete>
+        <Widget
+          src="near/widget/AccountAutocomplete"
+          props={{
+            term: state.text.split("@").pop(),
+            onSelect: autoCompleteAccountId,
+            onClose: () => State.update({ showAccountAutocomplete: false }),
+          }}
+        />
+      </AutoComplete>
+    )}
+
+    <Actions>
+      {!state.showPreview && (
+        <IpfsImageUpload
+          image={state.image}
+          className="upload-image-button bi bi-image"
+        />
+      )}
+
+      <button
+        type="button"
+        disabled={!state.text}
+        className="preview-post-button"
+        title={state.showPreview ? "Edit Post" : "Preview Post"}
+        onClick={() => State.update({ showPreview: !state.showPreview })}
+      >
+        {state.showPreview ? (
+          <i className="bi bi-pencil" />
+        ) : (
+          <i className="bi bi-eye-fill" />
+        )}
+      </button>
+
+      <CommitButton
+        disabled={!state.text}
+        force
+        data={composeData}
+        onCommit={onCommit}
+        className="commit-post-button"
+      >
+        Post
+      </CommitButton>
+    </Actions>
+  </Wrapper>
 );
