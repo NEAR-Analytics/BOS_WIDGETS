@@ -23,7 +23,7 @@ const widgets = {
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const _bookmarked = Social.index(ndcOrganization, typ);
-console.log("_bookmarked", _bookmarked);
+console.log(_bookmarked);
 const currentUser = context.accountId;
 
 const housesMapping = {
