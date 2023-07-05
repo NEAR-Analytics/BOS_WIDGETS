@@ -1120,9 +1120,12 @@ return (
         <TagSectionContainer>
           <TagSection>
             {data.nominationData.tags.split(",").map((data) => {
-              <Tag>
-                <TagText>{data}</TagText>
-              </Tag>;
+              console.log(data);
+              return (
+                <Tag>
+                  <TagText>{data}</TagText>
+                </Tag>
+              );
             })}
           </TagSection>
           <ViewButtonContainer>
