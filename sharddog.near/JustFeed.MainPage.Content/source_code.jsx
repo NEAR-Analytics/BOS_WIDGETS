@@ -35,7 +35,7 @@ if (state.feedIndex === 0) {
   }
 }
 
-const accountId = props.accountId ?? "orangejoe.near";
+const accountId = context.accountId ?? "orangejoe.near";
 
 const nftData = Near.view(contractId, "nft_tokens_for_owner", {
   account_id: accountId,
