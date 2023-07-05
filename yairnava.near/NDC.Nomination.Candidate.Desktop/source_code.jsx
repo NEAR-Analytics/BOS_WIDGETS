@@ -183,7 +183,7 @@ border-radius: 4px;
 border: solid 1px transparent;
 filter: grayscale(100%);
 background: rgb(195,202,206);
-cursor: default;
+cursor: default !important;
 `;
 
 const UpvoteButton = styled.button`
