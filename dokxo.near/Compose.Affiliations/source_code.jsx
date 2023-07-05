@@ -228,7 +228,7 @@ const {
 return (
   <div
     name={"aff"}
-    class="row col-sm-12     "
+    class="row col-sm-12 mx-auto    "
     style={{
       height: "auto",
       "padding-left": "16px",
