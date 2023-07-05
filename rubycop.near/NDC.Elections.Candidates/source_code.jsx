@@ -15,8 +15,6 @@ const {
   isIAmHuman,
 } = props;
 
-console.log(props);
-
 const widgets = {
   voters: "rubycop.near/widget/NDC.Elections.Voters",
   button: "rubycop.near/widget/NDC.StyledComponents",
@@ -33,7 +31,7 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 const myVotesForHouse = myVotes.filter((vote) => vote.house === typ);
-
+console.log(seats - myVotesForHouse.length);
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse.length,
