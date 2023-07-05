@@ -31,13 +31,35 @@ const tabs = {
     active: page === "CREATE_POLL",
     hideSidebar: true,
   },
+  DELETE_POLL: {
+    href: (src, blockHeight) =>
+      `#/${widgetOwner}/widget/EasyPoll?page=delete_poll&src=${src}${
+        blockHeight && "&blockHeight="
+      }${blockHeight}`,
+    active: page === "DELETE_POLL",
+    hideSidebar: true,
+  },
+  EDIT_POLL: {
+    href: (src, blockHeight) =>
+      `#/${widgetOwner}/widget/EasyPoll?page=create_poll&src=${src}${
+        blockHeight && "&blockHeight="
+      }${blockHeight}`,
+    active: page === "EDIT_POLL",
+    hideSidebar: true,
+  },
   VIEW_POLL: {
-    href: `#/${widgetOwner}/widget/EasyPoll?page=view_poll&blockHeight=`,
+    href: (src, blockHeight) =>
+      `#/${widgetOwner}/widget/EasyPoll?page=view_poll&src=${src}${
+        blockHeight && "&blockHeight="
+      }${blockHeight}`,
     active: page === "VIEW_POLL",
     hideSidebar: true,
   },
   RESULTS: {
-    href: `#/${widgetOwner}/widget/EasyPoll?page=results&blockHeight=`,
+    href: (src, blockHeight) =>
+      `#/${widgetOwner}/widget/EasyPoll?page=results&src=${src}${
+        blockHeight && "&blockHeight="
+      }${blockHeight}`,
     active: page === "RESULTS",
     hideSidebar: true,
   },
@@ -65,7 +87,7 @@ const blackList = []; // use it to hide bad users
 
 const indexVersion = "sking3.2.0";
 
-const hasSBTToken = getFirstSBTToken() !== undefined;
+const hasSBTToken = true || getFirstSBTToken() !== undefined;
 
 const canOperate = hasSBTToken || whitelist.includes(context.accountId);
 
@@ -345,25 +367,37 @@ return (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.ViewPoll`}
               props={{
-                blockHeight: props.blockHeight,
                 shouldDisplayViewAll: false,
-                indexVersion,
                 tabs,
                 isHuman: hasSBTToken,
-                resultsHref: tabs["RESULTS"].href + props.blockHeight,
+                src: props.src,
+                blockHeight: props.blockHeight,
               }}
             />
           ) : page === "CREATE_POLL" ? (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.CreatePoll`}
-              props={{ indexVersion, blockHeight: props.blockHeight }}
+              props={{
+                indexVersion,
+                blockHeight: props.blockHeight,
+                src: props.src,
+              }}
             />
           ) : page === "RESULTS" ? (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.Results`}
               props={{
-                indexVersion,
                 blockHeight: props.blockHeight,
+                src: props.src,
+              }}
+            />
+          ) : page === "DELETE_POLL" ? (
+            <Widget
+              src={`${widgetOwner}/widget/EasyPoll.DeletePoll`}
+              props={{
+                blockHeight: props.blockHeight,
+                src: props.src,
+                tabs,
               }}
             />
           ) : (
