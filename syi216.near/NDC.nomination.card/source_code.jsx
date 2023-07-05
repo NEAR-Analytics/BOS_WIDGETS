@@ -255,7 +255,7 @@ background-origin: border-box;
 background-clip: padding-box, border-box;`
       : `border-radius: 10px;
         border: 1px solid var(--buttons-disable,#C3CACE);`
-    : ""
+    : "border: 1px solid var(--buttons-disable,#C3CACE);"
 };
 
 border-radius: 4px;
@@ -289,7 +289,7 @@ ${
 background-clip: text;
 text-fill-color: transparent;`
       : `color: var(--buttons-disable, #C3CACE);`
-    : ""
+    : "color: var(--buttons-disable, #C3CACE);"
 }
 
 
