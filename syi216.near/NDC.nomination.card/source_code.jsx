@@ -17,9 +17,15 @@ function getVerifiedHuman() {
 }
 
 function handleUpVote() {
-  Near.call(nominationContract, "upvote", {
-    candidate: data.indexerData.nominee,
-  });
+  Near.call(
+    nominationContract,
+    "upvote",
+    {
+      candidate: data.indexerData.nominee,
+    },
+    300000000000000,
+    100000000000000000000
+  );
 }
 
 const Card = styled.div`
