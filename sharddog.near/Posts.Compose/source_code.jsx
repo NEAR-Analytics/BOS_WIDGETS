@@ -320,26 +320,6 @@ const AutoComplete = styled.div`
   }
 `;
 
-const textareaRef = useRef(null);
-
-useEffect(() => {
-  const handleResize = () => {
-    if (window.innerHeight < window.outerHeight) {
-      // Keyboard is open
-      const keyboardHeight = window.outerHeight - window.innerHeight;
-      const textareaHeight =
-        window.innerHeight - textareaRef.current.offsetTop - keyboardHeight;
-      textareaRef.current.style.height = `${textareaHeight}px`;
-    } else {
-      // Keyboard is closed
-      textareaRef.current.style.height = "100%";
-    }
-  };
-
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
-
 return (
   <Wrapper>
     {state.showPreview ? (
