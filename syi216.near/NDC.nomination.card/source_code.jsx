@@ -1028,9 +1028,14 @@ return (
         <CandidateTagContainer>
           {JSON.parse(data.nominationData.afiliation).map((data) => {
             return (
-              <CandidateTag>
-                <CandidateTagText>{data.company_name}</CandidateTagText>
-              </CandidateTag>
+              <>
+                <CandidateTag>
+                  <CandidateTagText>{data.company_name}</CandidateTagText>
+                </CandidateTag>
+                <CandidateTag>
+                  <CandidateTagText>{data.company_name}</CandidateTagText>
+                </CandidateTag>
+              </>
             );
           })}
         </CandidateTagContainer>
