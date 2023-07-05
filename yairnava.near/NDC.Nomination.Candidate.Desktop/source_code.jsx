@@ -924,7 +924,11 @@ return (
                   <CommentButtonDisabled
                     style={{ width: "100%", "justify-content": "center" }}
                   >
-                    <CommentText>Add a Comment +</CommentText>
+                    <CommentText
+                      style={{ color: "var(--primary-gray-dark, #828688)" }}
+                    >
+                      Add a Comment +
+                    </CommentText>
                   </CommentButtonDisabled>
                 )}
               </CommentHeader>
