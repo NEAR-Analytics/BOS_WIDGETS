@@ -83,7 +83,7 @@ height: 40px;
 
 
 /* Inside auto layout */
-
+border-radius: 20px;
 flex: none;
 order: 0;
 flex-grow: 0;
