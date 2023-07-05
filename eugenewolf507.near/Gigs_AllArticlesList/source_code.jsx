@@ -276,8 +276,12 @@ const Card = ({ article }) => (
   </div>
 );
 
+const Wrapper = styled.div`
+overflow-x: scroll !important;
+`;
+
 return (
-  <div>
+  <Wrapper>
     <div class="row gx-2 d-flex flex-nowrap">
       {statusTagsArr.map((tag) => (
         <div class="col">
@@ -291,5 +295,5 @@ return (
         </div>
       ))}
     </div>
-  </div>
+  </Wrapper>
 );
