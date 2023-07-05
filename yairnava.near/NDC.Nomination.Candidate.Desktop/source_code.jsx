@@ -518,7 +518,11 @@ return (
             }}
           >
             <ProfilePicture
-              style={{ width: "100px", height: "100px" }}
+              style={{
+                width: "100px",
+                height: "100px",
+                "border-radius": "20px",
+              }}
               src={
                 props.data.nominations.img.cid
                   ? "https://nativonft.mypinata.cloud/ipfs/" +
