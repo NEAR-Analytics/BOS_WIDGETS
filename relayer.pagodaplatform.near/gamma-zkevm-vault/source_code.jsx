@@ -342,8 +342,8 @@ const handleToken0Change = (amount) => {
       State.update({
         isLoading: true,
         isError: true,
-        loadingMsg:
-          "Something went wrong while getting deposit amount... Please try again.",
+        amount1: 0,
+        loadingMsg: "Something went wrong. Please try again.",
       });
     });
 };
@@ -382,6 +382,14 @@ const handleToken1Change = (amount) => {
       State.update({ amount0 });
       State.update({ isLoading: false });
       checkApproval(amount0, amount);
+    })
+    .catch((e) => {
+      State.update({
+        isLoading: true,
+        isError: true,
+        amount1: 0,
+        loadingMsg: "Something went wrong. Please try again.",
+      });
     });
 };
 
