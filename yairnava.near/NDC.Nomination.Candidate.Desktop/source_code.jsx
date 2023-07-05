@@ -548,6 +548,18 @@ border-radius: 4px;
 background: var(--buttons-yellow-default, #FFD50D);
 `;
 
+const CommentButtonDisabled = styled.div`
+cursor: pointer;
+display: flex;
+padding: 2px 12px;
+align-items: center;
+gap: 6px;
+align-self: stretch;
+border-radius: 4px;
+background: rgb(195,202,206);
+cursor: default !important;
+`;
+
 const CommentText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
@@ -896,14 +908,22 @@ return (
               <CommentHeader
                 style={{ width: "100%", "justify-content": "center" }}
               >
-                <CommentButton
-                  style={{ width: "100%", "justify-content": "center" }}
-                  onClick={async () => {
-                    state.verified ? State.update({ showModal: true }) : "";
-                  }}
-                >
-                  <CommentText>Add a Comment +</CommentText>
-                </CommentButton>
+                {state.verified ? (
+                  <CommentButton
+                    style={{ width: "100%", "justify-content": "center" }}
+                    onClick={async () => {
+                      State.update({ showModal: true });
+                    }}
+                  >
+                    <CommentText>Add a Comment +</CommentText>
+                  </CommentButton>
+                ) : (
+                  <CommentButtonDisabled
+                    style={{ width: "100%", "justify-content": "center" }}
+                  >
+                    <CommentText>Add a Comment +</CommentText>
+                  </CommentButtonDisabled>
+                )}
               </CommentHeader>
 
               {comments.map((data) => {
