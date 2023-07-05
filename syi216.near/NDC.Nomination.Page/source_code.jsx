@@ -489,7 +489,7 @@ return (
           }}
         />
         <div>
-          {state.verified ? (
+          {state.sbt ? (
             ""
           ) : (
             <VerifiedDiv>
