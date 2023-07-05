@@ -903,9 +903,14 @@ align-items: center;
 gap: 6px;
 border: solid 1px transparent;
 border-radius: 80px;
-background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+${
+  state.verified
+    ? `background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
-background-clip: padding-box, border-box;
+background-clip: padding-box, border-box;`
+    : "border: 1px solid var(--buttons-disable, #C3CACE);"
+}
+
 border-radius: 4px;
 `;
 
@@ -915,11 +920,16 @@ font-family: Avenir;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
-background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+${
+  state.verified
+    ? `background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
-text-fill-color: transparent;
+text-fill-color: transparent;`
+    : "border: 1px solid var(--buttons-disable, #C3CACE);"
+}
+
 `;
 
 const CommentButtonIcon = styled.img`
