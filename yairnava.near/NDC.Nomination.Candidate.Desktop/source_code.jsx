@@ -174,6 +174,18 @@ font-family: Avenir;
 line-height: 120%;
 `;
 
+const UpvoteButtonDisabled = styled.button`
+display: flex;
+padding: 2px 12px;
+align-items: center;
+gap: 6px;
+border-radius: 4px;
+border: solid 1px transparent;
+filter: grayscale(100%);
+background: rgb(195,202,206);
+cursor: default;
+`;
+
 const UpvoteButton = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -626,15 +638,27 @@ return (
             <HeaderDetailContent
               style={{ "align-items": "end", height: "71.17px" }}
             >
-              <UpvoteButton onClick={state.verified ? handleUpVote : ""}>
-                <UpvoteCount>
-                  +
-                  {props.data.comments[0].upvotes
-                    ? props.data.comments[0].upvotes
-                    : 0}
-                </UpvoteCount>
-                <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
-              </UpvoteButton>
+              {state.verified ? (
+                <UpvoteButton onClick={handleUpVote}>
+                  <UpvoteCount>
+                    +
+                    {props.data.comments[0].upvotes
+                      ? props.data.comments[0].upvotes
+                      : 0}
+                  </UpvoteCount>
+                  <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
+                </UpvoteButton>
+              ) : (
+                <UpvoteButtonDisabled>
+                  <UpvoteCount>
+                    +
+                    {props.data.comments[0].upvotes
+                      ? props.data.comments[0].upvotes
+                      : 0}
+                  </UpvoteCount>
+                  <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
+                </UpvoteButtonDisabled>
+              )}
             </HeaderDetailContent>
           </DetailHeader>
         </div>
