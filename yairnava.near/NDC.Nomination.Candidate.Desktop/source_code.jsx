@@ -930,14 +930,16 @@ return (
                 )}
               </CommentHeader>
 
-              {comments.map((data) => {
-                return (
-                  <Widget
-                    props={{ data }}
-                    src={"syi216.near/widget/NDC.Nomination.CommentCard"}
-                  />
-                );
-              })}
+              {comments
+                .map((data) => {
+                  return (
+                    <Widget
+                      props={{ data }}
+                      src={"syi216.near/widget/NDC.Nomination.CommentCard"}
+                    />
+                  );
+                })
+                .reverse()}
             </CommentSection>
           )}
         </div>
