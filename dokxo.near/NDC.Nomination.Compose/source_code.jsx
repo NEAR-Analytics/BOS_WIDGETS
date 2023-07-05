@@ -226,7 +226,7 @@ border-radius: 10px;
 `;
 
 const HiddeableWidget = styled.div`
-  
+  display: none;
   @media (max-width: 480px) {
     display: block;
   }
@@ -390,10 +390,11 @@ const addFields = () => {
 };
 const removeField = (index) => {
   let data = state.afiliation;
-  console.log(data);
-  data.splice(index, 1);
-  console.log(data);
-  State.update({ afiliation: data, error_msg: null });
+  console.log("remove", index, data);
+  let newData = data.splice(index, 1);
+  console.log("remove", index, data);
+  State.update({ afiliation: data });
+  State.update({ error_msg: null });
 };
 const handleAFFCompanyName = (params) => {
   let data = state.afiliation;
