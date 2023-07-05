@@ -21,9 +21,10 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 60px;
   border: 1px solid #ccc;
+  background-color: white;
 `;
 
 const Body = styled.div`
@@ -42,11 +43,10 @@ if (custom) {
   return (
     <Container>
       <Header>
-        <p>Header</p>
         <Button onClick={handleCloseMenu}>close</Button>
       </Header>
       <Body>
-        <p>Body</p>
+        <p>body</p>
       </Body>
       {accountId ? (
         <Button onClick={logOut}>log out</Button>
