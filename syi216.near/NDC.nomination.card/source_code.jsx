@@ -398,6 +398,7 @@ flex-grow: 0;
 `;
 
 const CandidateTagContainer = styled.div`
+overflow:hidden;
 display: flex;
 flex-direction: row;
 align-items: flex-start;
