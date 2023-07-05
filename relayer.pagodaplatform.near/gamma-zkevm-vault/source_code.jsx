@@ -458,6 +458,9 @@ const handleDeposit = () => {
       State.update({
         isLoading: false,
       });
+
+      const { refetch } = props;
+      if (refetch) refetch();
     })
     .catch((error) => {
       State.update({
