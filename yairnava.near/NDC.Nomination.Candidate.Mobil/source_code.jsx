@@ -3,9 +3,7 @@ State.init({
   start: true,
   voted: false,
 });
-
 let nominationContract = "nominations-v1.gwg-testing.near";
-
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
@@ -28,14 +26,12 @@ function getVerifiedHuman() {
     State.update({ voted: res.body });
   });
 }
-
 if (state.start) {
   getVerifiedHuman();
   State.update({
     start: false,
   });
 }
-
 function handleUpVote() {
   Near.call(
     nominationContract,
@@ -47,7 +43,6 @@ function handleUpVote() {
     state.voted ? 0 : 1000000000000000000000
   );
 }
-
 const DetailContent = styled.div`
 display: inline-flex;
 flex-direction: column;
@@ -82,6 +77,7 @@ flex-direction: column;
 align-items: flex-start;
 gap: 4px;
 flex: 1 0 0;
+overflow: hidden;
 `;
 const TagContainer = styled.div`
 display: flex;
@@ -105,6 +101,10 @@ font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
+display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 const TagDiv = styled.div`
 display: flex;
@@ -518,7 +518,7 @@ return (
               </HouseTagText>
             </HouseTagDiv>
             {CandidateProps.tags.split(",").map((tag, index) => {
-              return tag ? (
+              return tag && index < 2 ? (
                 <TagDiv key={index}>
                   <TagDivText>{tag}</TagDivText>
                 </TagDiv>
@@ -671,14 +671,16 @@ return (
           <CommentText>Add a Comment +</CommentText>
         </CommentButton>
       </CommentHeader>
-      {comments.map((data) => {
-        return (
-          <Widget
-            props={{ data }}
-            src={"syi216.near/widget/NDC.Nomination.CommentCard"}
-          />
-        );
-      })}
+      {comments
+        .map((data) => {
+          return (
+            <Widget
+              props={{ data }}
+              src={"syi216.near/widget/NDC.Nomination.CommentCard"}
+            />
+          );
+        })
+        .reverse()}
     </CommentSection>
   </DetailContent>
 );
