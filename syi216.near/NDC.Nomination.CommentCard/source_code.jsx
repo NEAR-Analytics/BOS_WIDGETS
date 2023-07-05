@@ -1,5 +1,8 @@
+const data = props;
 State.init({
   showModal: false,
+  hasReply: false,
+  nominationData: Social.getr(`${data.commentator}/nominations`),
 });
 
 const CommentCard = styled.div`
@@ -245,35 +248,44 @@ return (
     <CommentCardHeader>
       <CommentUserContent>
         <ProfileImageComment
-          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+          src={
+            state.nominationData.img.cid
+              ? "https://nativonft.mypinata.cloud/ipfs/" +
+                state.nominationData.img.cid
+              : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+          }
           alt="pic"
         ></ProfileImageComment>
-        <CommentUser>@[deleted]</CommentUser>
+        <CommentUser>{data.commentator}</CommentUser>
       </CommentUserContent>
       <ReplyCounterDiv>
         <ReplyIconPurple
           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmQ2XjRy2zRU86H4km9qihm6VRZiFGPGjocTofURoxg8Uv?_gl=1*3eysmk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMzU0NS40LjAuMTY4NzkwMzU0NS42MC4wLjA."
           alt="pic"
         ></ReplyIconPurple>
-        <ReplyCounterText>1 reply</ReplyCounterText>
+        {state.hasReply ? <ReplyCounterText>1 reply</ReplyCounterText> : <></>}
       </ReplyCounterDiv>
     </CommentCardHeader>
-    <CommentCardContent>This comment is deleted</CommentCardContent>
+    <CommentCardContent>{data.comment}</CommentCardContent>
     <CommentCardLowerSection>
       <TimestampCommentDiv>
         <TimestampIconComment
           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTvukihn95FGcAG9DCX6VuHzwRguHtynrKnaqEJczDg6V?_gl=1*mha71r*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4Nzg5NzQ3OS4yLjEuMTY4Nzg5OTA1MS42MC4wLjA."
           alt="pic"
         ></TimestampIconComment>
-        <TimestampTextComment>2 hours ago</TimestampTextComment>
+        <TimestampTextComment>{data.timestamp}</TimestampTextComment>
       </TimestampCommentDiv>
       <CommentButtonDiv>
-        <DeleteCommentButton>
-          <DeleteCommentIcon
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
-            alt="pic"
-          ></DeleteCommentIcon>
-        </DeleteCommentButton>
+        {context.accountId == data.candidate ? (
+          <DeleteCommentButton>
+            <DeleteCommentIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
+              alt="pic"
+            ></DeleteCommentIcon>
+          </DeleteCommentButton>
+        ) : (
+          <></>
+        )}
         <ShareCommentButton>
           <ShareCommentIcon
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmX8CfMjpndJzmyRfRtLKrfKKV6vi186Tj1mkhqqLdr7yd?_gl=1*5rd8dj*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTIxNC42MC4wLjA."
@@ -308,46 +320,51 @@ return (
         }}
       />
     )}
-    <div>
-      <CommentReplySeparator></CommentReplySeparator>
-      <ReplyContainer>
-        <ReplyHeader>
-          <ProfileImageComment
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-            alt="pic"
-          ></ProfileImageComment>
-          <CommentUser>user.near</CommentUser>
-        </ReplyHeader>
-        <ReplyContent>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quam
-          enim, dignissim sed ante at, convallis maximus enim. Duis condimentum
-          aliquam nisl nec sagittis. Ut tristique facilisis... See more
-        </ReplyContent>
-        <ReplyLowerSection>
-          <TimestampCommentDiv>
-            <TimestampIconComment
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTvukihn95FGcAG9DCX6VuHzwRguHtynrKnaqEJczDg6V?_gl=1*mha71r*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4Nzg5NzQ3OS4yLjEuMTY4Nzg5OTA1MS42MC4wLjA."
+    {state.hasReply ? (
+      <div>
+        <CommentReplySeparator></CommentReplySeparator>
+        <ReplyContainer>
+          <ReplyHeader>
+            <ProfileImageComment
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
               alt="pic"
-            ></TimestampIconComment>
-            <TimestampTextComment>2 hours ago</TimestampTextComment>
-          </TimestampCommentDiv>
-          <ReplyButtonSection>
-            <ShareCommentButton>
-              <ShareCommentIcon
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmX8CfMjpndJzmyRfRtLKrfKKV6vi186Tj1mkhqqLdr7yd?_gl=1*5rd8dj*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTIxNC42MC4wLjA."
+            ></ProfileImageComment>
+            <CommentUser>user.near</CommentUser>
+          </ReplyHeader>
+          <ReplyContent>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+            quam enim, dignissim sed ante at, convallis maximus enim. Duis
+            condimentum aliquam nisl nec sagittis. Ut tristique facilisis... See
+            more
+          </ReplyContent>
+          <ReplyLowerSection>
+            <TimestampCommentDiv>
+              <TimestampIconComment
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTvukihn95FGcAG9DCX6VuHzwRguHtynrKnaqEJczDg6V?_gl=1*mha71r*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4Nzg5NzQ3OS4yLjEuMTY4Nzg5OTA1MS42MC4wLjA."
                 alt="pic"
-              ></ShareCommentIcon>
-            </ShareCommentButton>
-            <DeleteReplyButton>
-              <DeleteReplyText>Delete</DeleteReplyText>
-              <DeleteCommentIcon
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
-                alt="pic"
-              ></DeleteCommentIcon>
-            </DeleteReplyButton>
-          </ReplyButtonSection>
-        </ReplyLowerSection>
-      </ReplyContainer>
-    </div>
+              ></TimestampIconComment>
+              <TimestampTextComment>2 hours ago</TimestampTextComment>
+            </TimestampCommentDiv>
+            <ReplyButtonSection>
+              <ShareCommentButton>
+                <ShareCommentIcon
+                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmX8CfMjpndJzmyRfRtLKrfKKV6vi186Tj1mkhqqLdr7yd?_gl=1*5rd8dj*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTIxNC42MC4wLjA."
+                  alt="pic"
+                ></ShareCommentIcon>
+              </ShareCommentButton>
+              <DeleteReplyButton>
+                <DeleteReplyText>Delete</DeleteReplyText>
+                <DeleteCommentIcon
+                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*1bheqbv*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjAuMTY4NzkwMTAwNy42MC4wLjA."
+                  alt="pic"
+                ></DeleteCommentIcon>
+              </DeleteReplyButton>
+            </ReplyButtonSection>
+          </ReplyLowerSection>
+        </ReplyContainer>
+      </div>
+    ) : (
+      <></>
+    )}
   </CommentCard>
 );
