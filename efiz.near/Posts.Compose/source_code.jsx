@@ -414,7 +414,7 @@ return (
     {state.showPreview ? (
       <PreviewWrapper>
         <Widget
-          src="near/widget/Posts.Post"
+          src="efiz.near/widget/Posts.Post"
           props={{
             accountId: context.accountId,
             blockHeight: "now",
