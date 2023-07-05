@@ -498,14 +498,31 @@ return (
         <Widget
           src={`syi216.near/widget/NDC.nomination.card`}
           props={{
-            name: state.name,
-            profileAccount: state.profileAccount,
-            issued1: state.issued1,
-            issued2: state.issued2,
-            issued3: state.issued3,
-            house_intended: state.house_intended,
-            afiliation: state.afiliation,
-            tags: state.tags.split(","),
+            nominationData: {
+              img: {
+                cid: state.img.cid,
+              },
+              profileAccount: state.profileAccount,
+              afiliation: JSON.stringify(state.afiliation),
+              issued1: state.issued1,
+              issued2: state.issued2,
+              issued3: state.issued3,
+              addition_platform: state.addition_platform,
+              tags: state.tags.split(","),
+            },
+            indexerData: {
+              house: state.house_intended,
+              timestamp: "",
+              nominee: "",
+            },
+            profileData: {
+              name: state.name,
+            },
+            upVoteData: {
+              upvotes: "0",
+              comments: [],
+            },
+            preview: true,
           }}
         />
       </HiddeableWidget>
