@@ -31,7 +31,7 @@ const proposal = Near.view(daoId, "get_proposal", {
 });
 
 if (proposal === null) {
-  return "missing *proposalId*";
+  return "";
 }
 
 console.log(proposal);
