@@ -20,7 +20,7 @@ const houses = [
 
 const widgets = {
   header: "syi216.near/widget/NDC.Nomination.Header",
-  houses: "rubycop.near/widget/NDC.Elections.Houses",
+  houses: "syi216.near/widget/NDC.Nomination.Houses",
   card: "syi216.near/widget/NDC.nomination.card",
 };
 
