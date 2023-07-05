@@ -45,6 +45,7 @@ const VStack = styled.div`
 
 const Comment = styled.span`
   font-size: 12px;
+  color: ${(props) => (props.isError ? "#E25D58" : "#fff")};
 `;
 
 const Wrapper = styled.div`
@@ -157,6 +158,7 @@ State.init({
   balances: [],
   amount0: "",
   amount1: "",
+  isError: false,
   isLoading: false,
   isToken0Approved: true,
   isToken1Approved: true,
@@ -246,6 +248,7 @@ const {
   amount0,
   amount1,
   isLoading,
+  isError,
   isToken0Approved,
   isToken1Approved,
   loadingMsg,
@@ -335,7 +338,14 @@ const handleToken0Change = (amount) => {
       State.update({ isLoading: false });
       checkApproval(amount, amount1);
     })
-    .catch((e) => console.log("ERROR while getting deposit amount"));
+    .catch((e) => {
+      State.update({
+        isLoading: true,
+        isError: true,
+        loadingMsg:
+          "Something went wrong while getting deposit amount... Please try again.",
+      });
+    });
 };
 
 const handleToken1Change = (amount) => {
@@ -469,7 +479,7 @@ return (
           <span>Balance: {balances[token1]}</span>
         </InputWrapper>
         <VStack>
-          {isLoading && <Comment>{loadingMsg}</Comment>}
+          {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
           {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
           {!isInSufficient &&
             (isToken0Approved && isToken1Approved ? (
