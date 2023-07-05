@@ -226,7 +226,7 @@ border-radius: 10px;
 `;
 
 const HiddeableWidget = styled.div`
-  display: none;
+ display: none;
   @media (max-width: 480px) {
     display: block;
   }
