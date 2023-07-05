@@ -42,7 +42,7 @@ State.init({
 
 const ModalCard = styled.div`
  position: absolute;
-  z-index: 1;
+  z-index: 99;
   left: 0;
   top: 0;
   width: 100%;
@@ -63,7 +63,7 @@ width: 60%;
 height: 100%;
  
 background: #F8F8F9;
-
+gap:10px;
 border-radius: 10px;
 margin-left:auto;
 margin-right:auto;
