@@ -1,7 +1,8 @@
 const poll = props.poll;
 const accountId = props.accountId ?? context.accountId;
 const href = props.href;
-
+const editHref = props.editHref;
+const deleteHref = props.deleteHref;
 const canEdit = poll.accountId === accountId;
 
 const Button = styled.button`
@@ -45,6 +46,8 @@ const Wrapper = styled.div`
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
+    display: block;
+    text-decoration: none;
   }
 
   .item.danger {
@@ -108,9 +111,15 @@ return (
               }}
             />
             <DropdownMenu.Group>
-              <DropdownMenu.Item className="item">Edit</DropdownMenu.Item>
-              <DropdownMenu.Item className="item danger">
-                Delete Poll
+              <DropdownMenu.Item asChild>
+                <a className="item" href={editHref}>
+                  Edit
+                </a>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item asChild>
+                <a className="item danger" href={deleteHref}>
+                  Delete Poll
+                </a>
               </DropdownMenu.Item>
             </DropdownMenu.Group>
           </>
