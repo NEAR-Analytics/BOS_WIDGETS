@@ -446,7 +446,7 @@ return (
           </ButtonDeleteDiv>
         ) : (
           <ButtonNominateDiv
-            disabled={status.verified ? false : true}
+            disabled={status.verified ? true : false}
             onClick={async () => {
               State.update({ showModal: true });
             }}
