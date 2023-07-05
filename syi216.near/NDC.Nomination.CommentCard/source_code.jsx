@@ -33,7 +33,7 @@ const ProfileImageComment = styled.img`
 width: 20px;
 height: 20px;
 flex-shrink: 0;
-"border-radius": "20px"
+"border-radius": "20px";
 `;
 
 const CommentUser = styled.p`
