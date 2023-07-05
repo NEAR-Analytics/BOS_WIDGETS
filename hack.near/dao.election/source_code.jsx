@@ -3,10 +3,6 @@ const memberId = props.memberId ?? context.accountId;
 const roleId = props.roleId ?? "voter";
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 
-if (!accountId) {
-  return "";
-}
-
 const policy = Near.view(daoId, "get_policy");
 
 if (policy === null) {
