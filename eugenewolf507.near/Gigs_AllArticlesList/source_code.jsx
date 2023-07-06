@@ -141,15 +141,6 @@ const sortedArticlesByTag = sortArticlesByTag();
 sortedArticlesByTag && State.init(sortedArticlesByTag);
 
 // ========== UTILS ==========
-const getDateLastEdit = (timestamp) => {
-  const date = new Date(Number(timestamp));
-  const dateString = {
-    date: date.toLocaleDateString(),
-    time: date.toLocaleTimeString(),
-  };
-  return dateString;
-};
-
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const composeData = (gigObject) => {
@@ -166,7 +157,6 @@ const composeData = (gigObject) => {
       }),
     },
   };
-  console.log("data ", data);
   return data;
 };
 
@@ -187,7 +177,6 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
       timeLastEdit: Date.now(),
       statusTag: newStatus,
     };
-    console.log("updatedObjectToMove", updatedObjectToMove);
     const newData = composeData(updatedObjectToMove);
     Social.set(newData, {
       force: true,
@@ -201,29 +190,19 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
 };
 
 // ========== Modal POP Up ==========
-const openModalHandler = () => {
-  State.update({
-    showModal: true,
-  });
-};
-
-const closeModalHandler = () => {
-  State.update({
-    showModal: false,
-  });
-};
-
 const ModalWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(100, 100, 100, 0.7);
   z-index:100;
 `;
-const Modal = styled.div`
-  width: 100%;
-  height: 100%;
+const ModalStyles = styled.div`
+  width: 95%;
+  height: 95%;
   background: #fff;
   
 `;
@@ -234,102 +213,18 @@ const ScrollWrapper = styled.div`
   padding-bottom: 15px;
 `;
 
-const CardWrapper = styled.div`
-  min-width: 340px;
-`;
-
-const StatusTagGroup = ({ activeStatus, articleId }) => (
-  <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
-    {statusTagsArr.map((tag) => (
-      <button
-        onClick={() => clickHandler(activeStatus, tag, articleId)}
-        className={`btn btn-sm ${
-          activeStatus === tag ? "btn-primary" : "btn-outline-primary"
-        }`}
-        disabled={activeStatus === tag}
-      >
-        #{tag}
-      </button>
-    ))}
-  </div>
-);
-
-const Card = ({ article }) => (
-  <CardWrapper className="col gy-3" key={article.articleId}>
-    <div className="card h-100">
-      <a
-        className="text-decoration-none text-dark"
-        href={`#/${authorForWidget}/widget/Gigs_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
-            `}
-      >
-        <div className="card-body">
-          <div className="row d-flex justify-content-center">
-            <h5 className="card-title text-center pb-2 border-bottom">
-              {article.articleId}
-            </h5>
-            <div className="col flex-grow-1">
-              <Widget
-                src="mob.near/widget/Profile.ShortInlineBlock"
-                props={{
-                  accountId: article.author,
-                  tooltip: true,
-                }}
-              />
-            </div>
-            {/*
-            <div className="col flex-grow-0">
-              <p className="card-subtitle text-muted text-end">
-                {getDateLastEdit(article.timeCreate).date}
-              </p>{" "}
-              <p className="card-subtitle text-muted text-end">
-                {getDateLastEdit(article.timeCreate).time}
-              </p>
-            </div>
-            */}
-          </div>
-          <div
-            className="mt-3 mb-0 alert alert-secondary"
-            style={{ backgroundColor: "white" }}
-          >
-            <div>
-              Posted on {getDateLastEdit(article.timeCreate).date}
-              <br />
-              Edited on {getDateLastEdit(article.timeLastEdit).date}
-              <br />
-              Last edit by{" "}
-              <a
-                href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-                style={{ textDecoration: "underline" }}
-              >
-                {article.lastEditor}
-              </a>
-              <br />
-              Edit versions: {article.version}
-            </div>
-          </div>
-        </div>
-      </a>
-      <StatusTagGroup
-        activeStatus={article.statusTag}
-        articleId={article.articleId}
-      />
-      <div>
-        <button onClick={openModalHandler}>OpenModal</button>
-      </div>
-    </div>
-  </CardWrapper>
-);
-
 return (
   <>
+    {/*
     {state.showModal && (
       <ModalWrapper>
-        <Modal>
+        <ModalStyles>
           Modal Window
           <button onClick={closeModalHandler}>CloseModal</button>
-        </Modal>
+        </ModalStyles>
       </ModalWrapper>
     )}
+    */}
     <ScrollWrapper>
       <div class="row gx-2 d-flex flex-nowrap">
         {statusTagsArr.map((tag) => (
@@ -338,7 +233,14 @@ return (
               <div className="row card-group">
                 <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
                 {state[tag].length > 0 &&
-                  state[tag].map((item) => <Card article={item} />)}
+                  state[tag].map((item) => (
+                    <Widget
+                      src="eugenewolf507.near/widget/Gigs_AllArticlesList.Card"
+                      props={{
+                        article: item,
+                      }}
+                    />
+                  ))}
               </div>
             </div>
           </div>
