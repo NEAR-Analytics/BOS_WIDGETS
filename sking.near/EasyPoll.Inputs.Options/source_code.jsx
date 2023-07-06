@@ -85,7 +85,7 @@ const onOptionChange = (id, v) => {
 };
 
 const onOptionRemove = (id) => {
-  if (value < 2) return;
+  if (value.length < 2) return;
   const new_value = [...value];
   new_value.splice(id, 1);
 
@@ -93,7 +93,7 @@ const onOptionRemove = (id) => {
 };
 
 const onAddOption = () => {
-  if (value < 12) return;
+  if (value.length > 12) return;
 
   const new_value = [...value, ""];
 
