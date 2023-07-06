@@ -1174,7 +1174,9 @@ return (
                   style={{ cursor: "pointer" }}
                   onClick={() => State.update({ currentScreen: 1 })}
                 >
-                  <div class="button-connectwallet">🚀 Create</div>
+                  <div class="button-connectwallet" style={{ color: "white" }}>
+                    🚀 Create
+                  </div>
                 </div>
                 <div
                   class="sync-button"
