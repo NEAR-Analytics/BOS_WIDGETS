@@ -190,8 +190,8 @@ const propsSize = props.size ? props.size : "large";
 
 console.log("propsSize", propsSize);
 
-const totalUsrNum = 500;
-const percentage = Math.round((totalMembers / 500) * 100);
+const totalUsrNum = 1000;
+const percentage = Math.round((totalMembers / 1000) * 100);
 const widgetTitle = props.infoTitle ? props.infoTitle : "Total Members";
 
 return (
