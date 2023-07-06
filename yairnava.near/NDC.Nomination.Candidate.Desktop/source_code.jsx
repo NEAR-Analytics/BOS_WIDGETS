@@ -121,20 +121,15 @@ margin: 0px;
 const TagDiv = styled.div`
 display: flex;
 justify-content: center;
+padding: 4px 8px;
 align-items: center;
 gap: 10px;
 border-radius: 100px;
 border: solid 1px transparent;
 border-radius: 80px;
-background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-image: linear-gradient(#EAE5F7, #EAE5F7), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
-`;
-
-const TagDivBackground = styled.div`
-    border-radius: 80px;
-    background: #EAE5F7;
-    padding: 4px 8px;
 `;
 
 const TagDivText = styled.p`
@@ -197,7 +192,7 @@ align-items: center;
 gap: 6px;
 border-radius: 4px;
 border: solid 1px transparent;
-background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-image: linear-gradient(#F8F8F9, #F8F8F9), radial-gradient(circle at left top, rgb(147, 51, 234) 0%, rgb(79, 70, 229) 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
 `;
@@ -644,11 +639,9 @@ return (
                   {props.data.nominations.tags.split(",").map((tag) => {
                     return tag ? (
                       <TagDiv>
-                        <TagDivBackground>
-                          <TagDivText style={{ "font-size": "10px" }}>
-                            {tag}
-                          </TagDivText>
-                        </TagDivBackground>
+                        <TagDivText style={{ "font-size": "10px" }}>
+                          {tag}
+                        </TagDivText>
                       </TagDiv>
                     ) : null;
                   })}
