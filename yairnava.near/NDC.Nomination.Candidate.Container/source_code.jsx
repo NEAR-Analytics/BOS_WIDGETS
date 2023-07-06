@@ -35,8 +35,6 @@ let nominations = Social.getr(`${props.candidate}/nominations`);
 State.update({ profile: profile });
 State.update({ nominations: nominations });
 
-//console.log("state: ", state);
-
 const Movile = styled.div`
 display: flex;
 justify-content: center;
