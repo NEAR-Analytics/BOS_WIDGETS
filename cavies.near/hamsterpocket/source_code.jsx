@@ -284,6 +284,7 @@ if (!state.theme) {
         font-family: "Poppins", sans-serif;
         ${cssFont}
         ${css}
+        color: white;
         .button-primary-36-px,
         .button-primary-36-px * {
           box-sizing: border-box;
