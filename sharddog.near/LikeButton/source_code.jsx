@@ -28,19 +28,14 @@ if (state.hasLike === true) {
 const accountsWithLikes = Object.keys(likesByUsers);
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
 
-const totalLikes =
-  accountsWithLikes.length +
-  (hasLike === false && state.hasLike === true ? 1 : 0) -
-  (hasLike === true && state.hasLike === false ? 1 : 0);
-
 const LikeButton = styled.button`
   border: 0 !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  width: 1em;
-  height: 1em;
+  width: 2.5em;
+  height: 2.5em;
   &:hover {
     color: red;
     background: pink;
@@ -86,7 +81,7 @@ const likeClick = () => {
 const title = hasLike ? "Unlike" : "Like";
 
 return (
-  <div className="align-items-center">
+  <div className="d-inline-flex align-items-center">
     <LikeButton
       disabled={state.loading || dataLoading || !context.accountId}
       className="btn me-1"
@@ -100,11 +95,12 @@ return (
           aria-hidden="true"
         />
       ) : (
-        <i className={`bi fs-4 pt-1 ${hasLike ? "bi-heart-fill" : "bi-heart"}`}>
-          {" "}
-        </i>
+        <i
+          className={`bi fs-4 pt-1 ${hasLike ? "bi-heart-fill" : "bi-heart"}`}
+        />
       )}
     </LikeButton>
-    <div className="align-items-center text-center">{totalLikes}</div>
+    <br />
+    <Widget src="mob.near/widget/LikeButton.Faces" props={{ likesByUsers }} />
   </div>
 );
