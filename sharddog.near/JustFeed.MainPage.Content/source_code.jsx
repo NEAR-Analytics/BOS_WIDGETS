@@ -119,7 +119,6 @@ if (nftDataCount > 0) {
             {options[1].title}
           </button>
         </li>
-        )
       </ul>
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
