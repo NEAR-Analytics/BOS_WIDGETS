@@ -100,7 +100,6 @@ function getNominationInfo() {
         setTimeout(() => {
           profileData = Social.getr(`${data.nominee}/profile`);
           nominationData = Social.getr(`${data.nominee}/nominations`);
-          console.log("profileData: " + profileData);
         }, 1000);
 
         setTimeout(() => {
