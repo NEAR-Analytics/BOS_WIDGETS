@@ -92,20 +92,34 @@ if (nftDataCount > 0) {
       <p>
         <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs
       </p>
-      <ul className="nav nav-pills mb-3">
-        {options.map((option, i) => (
-          <li className="nav-item" key={i}>
-            <button
-              className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
-                option.disabled ? "disabled" : ""
-              }`}
-              aria-disabled={!!option.disabled}
-              onClick={() => !option.disabled && State.update({ feedIndex: i })}
-            >
-              {option.title}
-            </button>
-          </li>
-        ))}
+      <ul className="nav nav-pills mb-12">
+        <li className="nav-item col-6 mb-6">
+          <button
+            className={`nav-link ${state.feedIndex === 0 ? "active" : ""} ${
+              options[0].disabled ? "disabled" : ""
+            }`}
+            aria-disabled={!!options[0].disabled}
+            onClick={() =>
+              !options[0].disabled && State.update({ feedIndex: 0 })
+            }
+          >
+            {options[0].title}
+          </button>
+        </li>
+        <li className="nav-item col-6 mb-6">
+          <button
+            className={`nav-link ${state.feedIndex === 1 ? "active" : ""} ${
+              options[1].disabled ? "disabled" : ""
+            }`}
+            aria-disabled={!!options[1].disabled}
+            onClick={() =>
+              !options[1].disabled && State.update({ feedIndex: 1 })
+            }
+          >
+            {options[1].title}
+          </button>
+        </li>
+        )
       </ul>
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
