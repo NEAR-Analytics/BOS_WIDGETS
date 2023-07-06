@@ -1,5 +1,4 @@
 const data = props;
-console.log("props card", data);
 State.init({ verified: false, start: true, voted: false });
 let nominationContract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
