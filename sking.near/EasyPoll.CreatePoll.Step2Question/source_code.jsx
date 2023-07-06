@@ -100,20 +100,47 @@ return (
       src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
       props={{
         label: "Title*",
-        placeholder: "Enter Your Question (Markdown Supported)",
-        value: question.question.value,
-        error: question.question.error,
-        onChange: (v) => onQuestionFieldChange(id, "question", "value", v),
+        placeholder: "Enter Your Question",
+        value: question.title.value,
+        error: question.title.error,
+        onChange: (v) => onQuestionFieldChange(id, "title", "value", v),
         validate: () =>
-          onValidate("question", question.question.value, (e) =>
-            onQuestionFieldChange(id, "question", "error", e)
+          onValidate("title", question.title.value, (e) =>
+            onQuestionFieldChange(id, "title", "error", e)
           ),
         inputProps: {
           minLength: 4,
-          maxLength: 400,
+          maxLength: 70,
           required: true,
         },
+      }}
+    />
+    <Widget
+      src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+      props={{
+        label: "Description",
+        placeholder: "More Details About Your Question (Markdown Supported)",
+        value: question.description.value,
+        error: question.description.error,
+        onChange: (v) => onQuestionFieldChange(id, "description", "value", v),
+        validate: () =>
+          onValidate("description", question.description.value, (e) =>
+            onQuestionFieldChange(id, "description", "error", e)
+          ),
+        inputProps: {
+          minLength: 0,
+          maxLength: 500,
+        },
         textarea: true,
+      }}
+    />
+    <Widget
+      src={`${widgetOwner}/widget/EasyPoll.Inputs.Toggle`}
+      props={{
+        label: "Answer Required",
+        value: question.required.value,
+        error: question.required.error,
+        onChange: (v) => onQuestionFieldChange(id, "required", "value", v),
       }}
     />
     <Widget
@@ -126,7 +153,7 @@ return (
       }}
     />
     <Widget
-      src={`${widgetOwner}/widget/EasyPoll.Inputs.QuestionType`}
+      src={`${widgetOwner}/widget/EasyPoll.CreatePoll.QuestionType`}
       props={{
         label: "Question Type*",
         value: question.questionType.value,
@@ -134,21 +161,181 @@ return (
         onChange: (v) => onQuestionFieldChange(id, "questionType", "value", v),
       }}
     />
-    {(question.questionType.value === "1" ||
-      question.questionType.value === "2") && (
-      <Widget
-        src={`${widgetOwner}/widget/EasyPoll.Inputs.Options`}
-        props={{
-          label: "Answer Options*",
-          value: question.choicesOptions.value,
-          error: question.choicesOptions.error,
-          onChange: (v) => {
-            console.log(v);
-            onQuestionFieldChange(id, "choicesOptions", "value", v);
-          },
-          placeholder: "",
-        }}
-      />
+    {question.questionType.value === 1 && (
+      <>
+        <div className="d-flex align-items-center gap-2">
+          <Widget
+            src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+            props={{
+              label: "Min Choices",
+              placeholder: "",
+              value: question.minChoices.value,
+              error: question.minChoices.error,
+              onChange: (v) =>
+                onQuestionFieldChange(id, "minChoices", "value", v),
+              validate: () =>
+                onValidate("minChoices", question.minChoices.value, (e) =>
+                  onQuestionFieldChange(id, "minChoices", "error", e)
+                ),
+              inputProps: {
+                type: "number",
+                min: 1,
+                max: 100,
+              },
+            }}
+          />
+          <Widget
+            src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+            props={{
+              label: "Max Choices",
+              placeholder: "",
+              value: question.maxChoices.value,
+              error: question.maxChoices.error,
+              onChange: (v) =>
+                onQuestionFieldChange(id, "maxChoices", "value", v),
+              validate: () =>
+                onValidate("maxChoices", question.maxChoices.value, (e) =>
+                  onQuestionFieldChange(id, "maxChoices", "error", e)
+                ),
+              inputProps: {
+                type: "number",
+                min: 1,
+                max: 100,
+              },
+            }}
+          />
+        </div>
+        <Widget
+          src={`${widgetOwner}/widget/EasyPoll.Inputs.Options`}
+          props={{
+            label: "Answer Options*",
+            value: question.choicesOptions.value,
+            error: question.choicesOptions.error,
+            onChange: (v) => {
+              console.log(v);
+              onQuestionFieldChange(id, "choicesOptions", "value", v);
+            },
+            placeholder: "",
+          }}
+        />
+      </>
+    )}
+    {question.questionType.value === 2 && (
+      <>
+        <div className="d-flex align-items-center gap-2">
+          <Widget
+            src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+            props={{
+              label: "Min Choices",
+              placeholder: "",
+              value: question.minChoices.value,
+              error: question.minChoices.error,
+              onChange: (v) =>
+                onQuestionFieldChange(id, "minChoices", "value", v),
+              validate: () =>
+                onValidate("minChoices", question.minChoices.value, (e) =>
+                  onQuestionFieldChange(id, "minChoices", "error", e)
+                ),
+              inputProps: {
+                type: "number",
+                min: 1,
+                max: 100,
+              },
+            }}
+          />
+          <Widget
+            src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+            props={{
+              label: "Max Choices",
+              placeholder: "",
+              value: question.maxChoices.value,
+              error: question.maxChoices.error,
+              onChange: (v) =>
+                onQuestionFieldChange(id, "maxChoices", "value", v),
+              validate: () =>
+                onValidate("maxChoices", question.maxChoices.value, (e) =>
+                  onQuestionFieldChange(id, "maxChoices", "error", e)
+                ),
+              inputProps: {
+                type: "number",
+                min: 1,
+                max: 100,
+              },
+            }}
+          />
+        </div>
+        <Widget
+          src={`${widgetOwner}/widget/EasyPoll.Inputs.PicturesOptions`}
+          props={{
+            label: "Answer Options*",
+            value: question.choicesOptions.value,
+            error: question.choicesOptions.error,
+            onChange: (v) => {
+              console.log(v);
+              onQuestionFieldChange(id, "choicesOptions", "value", v);
+            },
+            placeholder: "",
+          }}
+        />
+      </>
+    )}
+    {question.questionType.value === 3 && (
+      <>
+        <Widget
+          src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+          props={{
+            label: "0 label",
+            placeholder: "",
+            value: question.label0.value,
+            error: question.label0.error,
+            onChange: (v) => onQuestionFieldChange(id, "label0", "value", v),
+            validate: () =>
+              onValidate("label0", question.label0.value, (e) =>
+                onQuestionFieldChange(id, "label0", "error", e)
+              ),
+            inputProps: {
+              minLength: 0,
+              maxLength: 20,
+            },
+          }}
+        />
+        <Widget
+          src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+          props={{
+            label: "5 label",
+            placeholder: "",
+            value: question.label5.value,
+            error: question.label5.error,
+            onChange: (v) => onQuestionFieldChange(id, "label5", "value", v),
+            validate: () =>
+              onValidate("label5", question.label5.value, (e) =>
+                onQuestionFieldChange(id, "label5", "error", e)
+              ),
+            inputProps: {
+              minLength: 0,
+              maxLength: 20,
+            },
+          }}
+        />
+        <Widget
+          src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+          props={{
+            label: "10 label",
+            placeholder: "",
+            value: question.label10.value,
+            error: question.label10.error,
+            onChange: (v) => onQuestionFieldChange(id, "label10", "value", v),
+            validate: () =>
+              onValidate("label10", question.label10.value, (e) =>
+                onQuestionFieldChange(id, "label10", "error", e)
+              ),
+            inputProps: {
+              minLength: 0,
+              maxLength: 20,
+            },
+          }}
+        />
+      </>
     )}
   </Container>
 );
