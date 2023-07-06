@@ -97,6 +97,7 @@ background: var(--gradient-purple-gradient, linear-gradient(90deg, #9333EA 0%, #
 const HouseTagText = styled.p`
 color: #FFF;
 font-size: 8px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -114,14 +115,13 @@ gap: 10px;
 border-radius: 100px;
 border: solid 1px transparent;
 border-radius: 80px;
-background-image: linear-gradient(#EAE5F7
-, #EAE5F7
-), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
 `;
 const TagDivText = styled.p`
 font-size: 8px;
+font-family: Avenir;
 margin: 0px;
 font-weight: 500;
 line-height: 120%;
@@ -143,6 +143,7 @@ justify-content: center;
 margin: 0px;
 color: #000;
 font-size: 14px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 `;
@@ -153,6 +154,7 @@ justify-content: center;
 color: #828688;
 margin:0px;
 font-size: 12px;
+font-family: Avenir;
 line-height: 120%;
 `;
 
@@ -174,14 +176,13 @@ align-items: center;
 gap: 6px;
 border-radius: 4px;
 border: solid 1px transparent;
-background-image: linear-gradient(#F8F8F9
-, #F8F8F9
-), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
 `;
 const UpvoteCount = styled.p`
 font-size: 12px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -222,6 +223,7 @@ flex-direction: column;
 flex: 1 0 0;
 color: #000;
 font-size: 12px;
+font-family: Avenir;
 font-weight: 800;
 line-height: 120%;
 margin: 0px;
@@ -243,6 +245,7 @@ const PlatInforHeadText = styled.p`
 margin: 0px;
 color: var(--000000, #000);
 font-size: 10px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 `;
@@ -262,16 +265,16 @@ gap: 2px;
 const KeyIssueTitle = styled.p`
 color: var(--primary-000000, #000);
 font-size: 12px;
+font-family: Avenir;
 line-height: 120%;
 margin: 0px;
 `;
 const KeyIssueDescription = styled.p`
 color: #828688;
 font-size: 12px;
-line-height: 130%;
+font-family: Avenir;
+line-height: 120%;
 margin: 0px;
-width: 302px;
-text-align: justify;
 `;
 const CandidateCard = styled.div`
 display: flex;
@@ -299,6 +302,7 @@ align-self: stretch;
 const CandidateHeaderText = styled.p`
 color: #000;
 font-size: 12px;
+font-family: Avenir;
 font-weight: 800;
 line-height: 120%;
 margin: 0px;
@@ -343,6 +347,7 @@ background: #F0E1CE;
 const CandidateTagText = styled.p`
 color: var(--secondary-warning, #F19D38);
 font-size: 10px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -351,6 +356,7 @@ const CandidateTime = styled.p`
 margin: 0px;
 color: var(--primary-828688, #828688);
 font-size: 10px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 `;
@@ -364,6 +370,7 @@ align-self: stretch;
 const CandidateTitle = styled.p`
 color: var(--000000, #000);
 font-size: 12px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 margin:0px;
@@ -371,10 +378,9 @@ margin:0px;
 const CandidateDescription = styled.p`
 color: var(--primary-828688, #828688);
 font-size: 12px;
+font-family: Avenir;
 line-height: 130%;
 margin: 0px;
-width: 295px;
-text-align: justify;
 `;
 const DeclarationCard = styled.div`
 display: flex;
@@ -402,6 +408,7 @@ align-self: stretch;
 const DeclarationHeaderText = styled.p`
 color: #000;
 font-size: 12px;
+font-family: Avenir;
 font-weight: 800;
 line-height: 120%;
 `;
@@ -418,8 +425,8 @@ background: #FFF;
 const DeclarationDescription = styled.p`
 color: var(--primary-828688, #828688);
 font-size: 12px;
+font-family: Avenir;
 line-height: 130%;
-text-align: justify;
 `;
 const DeclarationImage = styled.img`
 width: 290px;
@@ -444,6 +451,7 @@ gap: 20px;
 const CommentHeaderText = styled.p`
 color: var(--000000, #000);
 font-size: 16px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -492,11 +500,13 @@ background: var(--buttons-yellow-default, #FFD50D);
 const CommentText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
+font-family: Avenir;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
 `;
 let profileInfo = Social.getr(`${context.accountId}/profile`);
+console.log("profileInfo", profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
 let nftData = profileInfo.image.nft;
 const getNftCid = Near.view(nftData.contractId, "nft_token", {
@@ -504,22 +514,20 @@ const getNftCid = Near.view(nftData.contractId, "nft_token", {
 });
 const CandidateProps = props.data.nominations;
 const comments = props.data.comments[0].comments;
-let isNFTURL = CandidateProps.img.url;
-
-const afilations = JSON.parse(CandidateProps.afiliation);
-
-const afiilationsSort = afilations
-  .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
-  .reverse();
-
+console.log("getNftCid", getNftCid);
+let isNFTCid = CandidateProps.img.cid
+  ? "https://nativonft.mypinata.cloud/ipfs/" + CandidateProps.img.cid
+  : "";
+console.log("CandidateComment", CandidateComment);
+console.log("CandidateProps", CandidateProps);
 return (
   <DetailContent>
     <DetailCard>
       <DetailHeader>
         <ProfilePicture
           src={
-            isNFTURL
-              ? isNFTURL
+            isNFTCid
+              ? isNFTCid
               : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
           }
           alt="pic"
@@ -535,18 +543,15 @@ return (
                   : "Transparency Commission"}
               </HouseTagText>
             </HouseTagDiv>
-            {CandidateProps.tags
-              .trim()
-              .split(",")
-              .map((tag, index) => {
-                return tag && index < 2 ? (
-                  <TagDiv key={index}>
-                    <TagDivText>{tag}</TagDivText>
-                  </TagDiv>
-                ) : (
-                  <></>
-                );
-              })}
+            {CandidateProps.tags.split(",").map((tag, index) => {
+              return tag && index < 2 ? (
+                <TagDiv key={index}>
+                  <TagDivText>{tag}</TagDivText>
+                </TagDiv>
+              ) : (
+                <></>
+              );
+            })}
           </TagContainer>
           <NominationTitleContainer>
             <NominationTitle>
@@ -595,38 +600,21 @@ return (
               <PlatInfoHeadSeparator></PlatInfoHeadSeparator>
             </PlatformInfoHeader>
             <KeyIssuesContainer>
-              <KeyIssueTitle>
-                Involvement in the NEAR ecosystem, qualifications to be a
-                candidate and reasons for being voted
-              </KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.HAYInvolve}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>
-                Strategy to develop the NEAR ecosystem
-              </KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.WIYStrategy}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
               <KeyIssueDescription>
-                {CandidateProps.Key_Issue_1}
+                {CandidateProps.issued1}
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
               <KeyIssueDescription>
-                {CandidateProps.Key_Issue_2}
+                {CandidateProps.issued2}
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
               <KeyIssueDescription>
-                {CandidateProps.Key_Issue_3}
+                {CandidateProps.issued3}
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
@@ -643,7 +631,7 @@ return (
           <CandidateHeader>
             <CandidateHeaderText>Candidate Affiliations</CandidateHeaderText>
           </CandidateHeader>
-          {afilations.map((affiliation) => {
+          {JSON.parse(CandidateProps.afiliation).map((affiliation) => {
             return (
               <CandidateInfoDiv>
                 <CandidateInfoHeader>
@@ -678,49 +666,20 @@ return (
       <DeclarationCard>
         <DeclarationContent>
           <DeclarationHeader>
-            <DeclarationHeaderText>
-              Declaration of Transparency and Accountability
-            </DeclarationHeaderText>
+            <DeclarationHeaderText>Declaration</DeclarationHeaderText>
           </DeclarationHeader>
           <DeclarationInfo>
             <DeclarationDescription>
-              I hereby declare my unwavering commitment to transparency,
-              accountability, and the resolution of critical ecosystem
-              challenges as a candidate seeking election to the NEAR Digital
-              Collective. It is my utmost goal to instill faith and prosperity
-              in our ecosystem. In the event of my election, I pledge to support
-              and promote the operation and development of the NEAR Digital
-              Collective.
-              <br /> <br /> Transparency stands as the cornerstone of a thriving
-              governance framework and as a candidate, I strongly believe in
-              leading by example. I vow to disclose comprehensive information
-              about my previous affiliations, partnerships, and associations
-              that may influence my decision-making or impact the public
-              interest. This includes openly sharing any conflicts of interest,
-              financial relationships, or external influences that could
-              compromise my ability to serve with impartiality and integrity.
-              <br /> <br />
-              Moreover, I fully recognize the numerous challenges that our NEAR
-              ecosystem currently faces, demanding immediate attention and
-              effective solutions. As a responsible candidate, I am deeply
-              committed to identifying, addressing, and resolving these issues
-              to the best of my abilities. I acknowledge the gravity of these
-              problems and understand that superficial fixes and empty promises
-              are insufficient. Therefore, I pledge to conduct thorough
-              research, seek input from experts, and engage with stakeholders to
-              devise sustainable, equitable strategies. In the event of my
-              election, my top priorities will be focused on addressing critical
-              ecosystem challenges.
-              <br /> <br />I recognize that this declaration is not merely a
-              symbolic gesture, but a solemn commitment to the NEAR ecosystem. I
-              understand the weight of the expectations. I pledge to honor the
-              trust placed in me with unwavering dedication, determination, and
-              integrity. Through this declaration, I affirm my commitment to
-              transparency, accountability, and the resolve to actualize my
-              pledges to the best of my abilities if elected. Together, let us
-              embark on a journey towards a brighter future of the NEAR
-              ecosystem.
+              Lorem ipsum dolor sit amet consectetur. Turpis maecenas pulvinar
+              quis massanibh porttitor non lacus venenatis. Mi in iaculis
+              viverra ac sapien augue nisl odio. Neque eget magna nibh sed neque
+              ipsum enim sed. Consectetur dictum quisque faucibus nunc.
+              Suspendisse lacus tempus tempor nisl .
             </DeclarationDescription>
+            <DeclarationImage
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmRXqPtacR16tfe7EoA55u97FkXa1EoHvrPZrLfMk8wZs1?_gl=1*1dx7soz*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NzQ4MTc4Ni42LjEuMTY4NzQ4MTgxOC4yOC4wLjA."
+              alt="pic"
+            ></DeclarationImage>
           </DeclarationInfo>
         </DeclarationContent>
       </DeclarationCard>
