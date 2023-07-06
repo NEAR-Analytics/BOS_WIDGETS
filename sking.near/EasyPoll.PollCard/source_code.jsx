@@ -5,6 +5,7 @@ const href = props.href;
 const editHref = props.editHref;
 const deleteHref = props.deleteHref;
 const accountId = props.accountId ?? context.accountId;
+const indexVersion = props.indexVersion ?? "3.2.0";
 
 if (!src) {
   return "Please provide poll src";
@@ -20,12 +21,12 @@ poll.accountId = src.split("/")[0];
 
 let profile = Social.getr(`${poll.accountId}/profile`);
 
-let userAnswers = Social.index("easypoll_answer", `${src}`, {
+let userAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`, {
   accountId: accountId,
 });
 if (!userAnswers) return "Loading...";
 
-let allAnswers = Social.index("easypoll_answer", `${src}`);
+let allAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`);
 if (!allAnswers) return "Loading...";
 
 const isVerifiedHuman = (account) => {
