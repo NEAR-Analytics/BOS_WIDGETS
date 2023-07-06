@@ -1,7 +1,16 @@
-const { config, data, onRequestClose, onActionSuccess, chainId } = props;
+const {
+  config,
+  data,
+  onRequestClose,
+  onActionSuccess,
+  chainId,
+  depositETHGas,
+  depositERC20Gas,
+  formatHealthFactor,
+} = props;
 
 if (!data) {
-  return;
+  return <div />;
 }
 
 const MIN_ETH_GAS_FEE = 0.001;
@@ -22,6 +31,7 @@ const {
   decimals,
   token,
   name: tokenName,
+  healthFactor,
 } = data;
 
 const WithdrawContainer = styled.div`
@@ -108,7 +118,23 @@ State.init({
   amount: "",
   amountInUSD: "0.00",
   loading: false,
+  newHealthFactor: "-",
+  gas: "-",
 });
+
+function updateGas() {
+  if (["ETH", "WETH"].includes(symbol)) {
+    depositETHGas().then((value) => {
+      State.update({ gas: value });
+    });
+  } else {
+    depositERC20Gas().then((value) => {
+      State.update({ gas: value });
+    });
+  }
+}
+
+updateGas();
 
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
@@ -281,10 +307,55 @@ function depositErc20(amount) {
     .catch(() => State.update({ loading: false }));
 }
 
+/**
+ *
+ * @param {string} chainId
+ * @param {string} address user address
+ * @param {string} asset asset address
+ * @param {string} action 'deposit' | 'withdraw' | 'borrow' | 'repay'
+ * @param {string} amount amount in USD with 2 fixed decimals
+ * @returns
+ */
+function getNewHealthFactor(chainId, address, asset, action, amount) {
+  const url = `https://aave-api.pages.dev/${chainId}/health/${address}`;
+  return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
+}
+
 const maxValue =
   symbol === "ETH" || symbol === "WETH"
     ? Big(balance).minus(MIN_ETH_GAS_FEE).toFixed()
     : balance;
+
+function debounce(fn, wait) {
+  let timer = state.timer;
+  return () => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn();
+    }, wait);
+    State.update({ timer });
+  };
+}
+
+const updateNewHealthFactor = debounce(() => {
+  State.update({ newHealthFactor: "-" });
+
+  Ethers.provider()
+    .getSigner()
+    .getAddress()
+    .then((address) => {
+      getNewHealthFactor(
+        chainId,
+        address,
+        data.underlyingAsset,
+        "deposit",
+        state.amountInUSD
+      ).then((response) => {
+        const newHealthFactor = formatHealthFactor(JSON.parse(response.body));
+        State.update({ newHealthFactor });
+      });
+    });
+}, 1000);
 
 const changeValue = (value) => {
   if (Number(value) > Number(maxValue)) {
@@ -294,13 +365,18 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
+    const amountInUSD = Big(value)
+      .mul(marketReferencePriceInUsd)
+      .toFixed(2, ROUND_DOWN);
     State.update({
-      amountInUSD: Big(value)
-        .mul(marketReferencePriceInUsd)
-        .toFixed(2, ROUND_DOWN),
+      amountInUSD,
     });
+    updateNewHealthFactor();
   } else {
-    State.update({ amountInUSD: "0.00" });
+    State.update({
+      amountInUSD: "0.00",
+      newHealthFactor: "-",
+    });
   }
   State.update({ amount: value });
 };
@@ -399,9 +475,36 @@ return (
                         ),
                       }}
                     />
+                    <Widget
+                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                      props={{
+                        left: <PurpleTexture>Health Factor</PurpleTexture>,
+                        right: (
+                          <div style={{ textAlign: "right" }}>
+                            <GreenTexture>
+                              {healthFactor}
+                              <img
+                                src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
+                                width={16}
+                                height={16}
+                              />{" "}
+                              {state.newHealthFactor}
+                            </GreenTexture>
+                            <WhiteTexture>
+                              Liquidation at &lt;{" "}
+                              {config.FIXED_LIQUIDATION_VALUE}
+                            </WhiteTexture>
+                          </div>
+                        ),
+                      }}
+                    />
                   </TransactionOverviewContainer>
                 ),
               }}
+            />
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.GasEstimation`}
+              props={{ gas: state.gas, config }}
             />
             <Widget
               src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
