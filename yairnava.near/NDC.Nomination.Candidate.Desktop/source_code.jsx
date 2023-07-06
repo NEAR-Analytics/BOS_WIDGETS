@@ -649,8 +649,7 @@ return (
             <HeaderDetailContent
               style={{ "align-items": "end", height: "71.17px" }}
             >
-              {state.verified &&
-              context.accountId != props.data.nominations.name ? (
+              {state.verified && context.accountId != props.candidate ? (
                 <UpvoteButton onClick={handleUpVote}>
                   <UpvoteCount>
                     {props.data.comments[0].upvotes
