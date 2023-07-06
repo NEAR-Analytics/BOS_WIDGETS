@@ -160,7 +160,7 @@ State.init({
   component: "quickswap",
 });
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
 
 if (sender) {
   Ethers.provider()
@@ -170,24 +170,12 @@ if (sender) {
     });
 }
 
-const getEVMAccountId = () => {
-  if (ethers !== undefined) {
-    return Ethers.send("eth_requestAccounts", [])[0] ?? "";
-  }
-  return "";
-};
-
 if (state.sender === undefined) {
-  return State.update({
-    sender: getEVMAccountId(),
-  });
-}
-
-if (state.sender !== "") {
+  const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ chainId });
+      State.update({ sender, chainId });
     });
 }
 
