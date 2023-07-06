@@ -16,7 +16,7 @@ State.init({
 });
 
 // HOST NAME API.
-const CONFIRMATION_AWAIT = 5;
+const CONFIRMATION_AWAIT = 1;
 const ACTIVE_STATUS = "POOL_STATUS::ACTIVE";
 var contract; // Declare a variable 'contract' (presumably for holding a contract instance)
 const API = "https://dev-pocket-api.hamsterbox.xyz/api"; // Set the API endpoint URL
