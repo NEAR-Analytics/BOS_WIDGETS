@@ -495,7 +495,8 @@ const assetsList = state.assets
       <Widget
         src="zavodil.near/widget/TokenBalance"
         props={{
-          tokenId,
+          tokenId: tokenId,
+          coinGeckoTokenId: state.coinGeckoTokenIds[tokenId],
           network: state.network,
           hideZeroBalance: true,
           fractionDigits: 2,
