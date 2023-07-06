@@ -564,7 +564,7 @@ return (
             </NominationUser>
           </NominationTitleContainer>
         </HeaderDetailContent>
-        {state.verified ? (
+        {state.verified && context.accountId != props.candidate ? (
           <UpvoteButton onClick={handleUpVote}>
             <UpvoteCount>
               {props.data.comments[0].upvotes
