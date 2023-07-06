@@ -1,5 +1,6 @@
 const hasVoted = props.hasVoted ?? false;
 const src = props.src;
+const indexVersion = props.indexVersion ?? "3.2.0";
 const widgetOwner = props.widgetOwner ?? "sking.near";
 const blockHeight = props.blockHeight;
 const { questions } = props.poll;
@@ -74,7 +75,7 @@ if (isUpcoming) {
       >
         Vote Begins:{" "}
         <span style={{ color: "#000" }}>
-          {new Date(Date(poll.startTimestamp)).toLocaleString()}
+          {new Date(props.poll.startTimestamp).toLocaleString()}
         </span>
       </span>
     </div>
@@ -143,12 +144,7 @@ if (humansOnly && !isHuman) {
 
 State.init({
   step: 0,
-  form: {
-    0: {
-      value: "",
-      error: null,
-    },
-  },
+  form: {},
 });
 
 const currentQuestion = questions[state.step];
@@ -156,6 +152,7 @@ const currentQuestion = questions[state.step];
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 const handleNext = () => {
+  if (!validateCurrentStep()) return;
   if (state.form[state.step].error) return;
 
   if (questions.length === state.step) {
@@ -184,39 +181,6 @@ const onFormFieldChange = (step, key, value) => {
   });
 };
 
-const onValidate = (value, setError, options) => {
-  if (options.required) {
-    if (!value || value === "" || value.length < 1) {
-      return setError("This field is required");
-    }
-  }
-
-  if (options.minLength) {
-    if (value.length < options.minLength) {
-      return setError(
-        `Input is too short. Minimum length is ${options.minLength} characters.`
-      );
-    }
-  }
-
-  if (options.maxLength) {
-    if (value.length > options.maxLength) {
-      return setError(
-        `Input is too long. Maximum length is ${options.maxLength} characters.`
-      );
-    }
-  }
-
-  if (options.custom) {
-    const customError = options.custom(value);
-    if (customError) {
-      return setError(customError);
-    }
-  }
-
-  setError(null);
-};
-
 const formatStateForDB = (input) => {
   let answers = input;
 
@@ -227,16 +191,82 @@ const formatStateForDB = (input) => {
   return {
     answers: answers,
     timestamp: Date.now(),
-    pollBlockHeight: blockHeight,
   };
+};
+const validateCurrentStep = () => {
+  if (currentQuestion.required) {
+    if (!state.form[state.step].value) {
+      onFormFieldChange(state.step, "error", "This question is required");
+      return false;
+    }
+    onFormFieldChange(state.step, "error", null);
+  }
+  if (Number(currentQuestion.minChoices)) {
+    if (
+      state.form[state.step].value.length <
+        Number(currentQuestion.minChoices) ||
+      !state.form[state.step].value
+    ) {
+      onFormFieldChange(
+        state.step,
+        "error",
+        `Select at least ${currentQuestion.minChoices} answer${
+          Number(currentQuestion.minChoices) === 1 ? "" : "s"
+        } to continue`
+      );
+      return false;
+    }
+    onFormFieldChange(state.step, "error", null);
+  }
+  if (currentQuestion.maxChoices) {
+    if (
+      state.form[state.step].value.length > Number(currentQuestion.maxChoices)
+    ) {
+      onFormFieldChange(
+        state.step,
+        "error",
+        `Select ${currentQuestion.maxChoices} answers or less to continue`
+      );
+      return false;
+    }
+    onFormFieldChange(state.step, "error", null);
+  }
+  if (currentQuestion.minLength) {
+    if (
+      state.form[state.step].value.length < Number(currentQuestion.minLength)
+    ) {
+      onFormFieldChange(
+        state.step,
+        "error",
+        `Input is too short. Minimum length is ${currentQuestion.minLength} characters.`
+      );
+      return false;
+    }
+    onFormFieldChange(state.step, "error", null);
+  }
+  if (currentQuestion.maxLength) {
+    if (
+      state.form[state.step].value.length > Number(currentQuestion.maxLength)
+    ) {
+      onFormFieldChange(
+        state.step,
+        "error",
+        `Input is too long. Maximum length is ${currentQuestion.maxLength} characters.`
+      );
+      return false;
+    }
+    onFormFieldChange(state.step, "error", null);
+  }
+  return true;
 };
 
 const onFinish = () => {
   const formattedAnswers = formatStateForDB(state.form);
+  console.log("answer to commit", formattedAnswers);
 
   const commit = {
     index: {
-      easypoll_answer: JSON.stringify(
+      ["easypoll-" + indexVersion + "-answer"]: JSON.stringify(
         {
           key: `${src}`,
           value: formattedAnswers,
@@ -364,15 +394,27 @@ return (
       <div
         style={{
           fontWeight: "700",
-          fontSize: currentQuestion.question.length > 200 ? 17 : 24,
+          fontSize: 20,
+          marginLeft: "15px",
+          overflow: "auto",
+        }}
+      >
+        {currentQuestion.title}
+      </div>
+    </div>
+
+    {currentQuestion.description && (
+      <div
+        style={{
+          fontSize: 14,
           marginLeft: "15px",
           maxHeight: 1000,
           overflow: "auto",
         }}
       >
-        <Markdown text={currentQuestion.question} />
+        <Markdown text={currentQuestion.description} />
       </div>
-    </div>
+    )}
 
     {currentQuestion.imageIPFS && (
       <div className="d-flex w-100 mb-3">
@@ -389,56 +431,84 @@ return (
       </div>
     )}
 
-    {(currentQuestion.questionType === "0" ||
-      currentQuestion.questionType === "1" ||
-      currentQuestion.questionType === "2") && (
+    {currentQuestion.questionType == 0 && (
       <Widget
-        src={`${widgetOwner}/widget/EasyPoll.Inputs.Choices`}
+        src={`${widgetOwner}/widget/EasyPoll.Inputs.YesNo`}
         props={{
-          label:
-            currentQuestion.questionType === "0" ||
-            currentQuestion.questionType === "1"
-              ? "Select one option:"
-              : "Select multiple options:",
-          placeholder: "Type Your Answer Here...",
+          label: "Vote",
           value: alreadyVoted
             ? userAnswers[0].value.answers[state.step]
             : state.form[state.step].value,
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
-          choices:
-            currentQuestion.questionType === "0"
-              ? ["Yes", "No"]
-              : currentQuestion.choicesOptions,
-          type: currentQuestion.questionType === "2" ? "multiple" : "single",
           disabled: alreadyVoted,
         }}
       />
     )}
-    {currentQuestion.questionType === "3" && (
+
+    {currentQuestion.questionType === 1 && (
       <Widget
-        src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+        src={`${widgetOwner}/widget/EasyPoll.Inputs.Choices`}
         props={{
-          label: "Answer",
-          placeholder: "Type Your Answer Here...",
           value: alreadyVoted
             ? userAnswers[0].value.answers[state.step]
             : state.form[state.step].value,
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
-          validate: () =>
-            onValidate(
-              state.form[state.step].value,
-              (e) => onFormFieldChange(state.step, "error", e),
-              {
-                maxLength: 2000,
-              }
-            ),
-          inputProps: {
-            maxLength: 2000,
-            autoFocus: true,
-          },
-          textarea: true,
+          choices: currentQuestion.choicesOptions,
+          disabled: alreadyVoted,
+          min: currentQuestion.minChoices,
+          max: currentQuestion.maxChoices,
+        }}
+      />
+    )}
+
+    {currentQuestion.questionType === 2 && (
+      <Widget
+        src={`${widgetOwner}/widget/EasyPoll.Inputs.Choices`}
+        props={{
+          value: alreadyVoted
+            ? userAnswers[0].value.answers[state.step]
+            : state.form[state.step].value,
+          error: state.form[state.step].error,
+          onChange: (v) => onFormFieldChange(state.step, "value", v),
+          disabled: alreadyVoted,
+          min: currentQuestion.minChoices,
+          max: currentQuestion.maxChoices,
+          choices: currentQuestion.choicesOptions.map((_, i) => i + 1),
+          images: currentQuestion.choicesOptions.map((v) => ipfsUrl(v)),
+        }}
+      />
+    )}
+
+    {currentQuestion.questionType === 3 && (
+      <Widget
+        src={`${widgetOwner}/widget/EasyPoll.Inputs.OpinionScale`}
+        props={{
+          value: alreadyVoted
+            ? userAnswers[0].value.answers[state.step]
+            : state.form[state.step].value,
+          error: state.form[state.step].error,
+          onChange: (v) => onFormFieldChange(state.step, "value", v),
+          disabled: alreadyVoted,
+          label0: currentQuestion.label0,
+          label5: currentQuestion.label5,
+          label10: currentQuestion.label10,
+        }}
+      />
+    )}
+
+    {currentQuestion.questionType === 4 && (
+      <Widget
+        src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
+        props={{
+          label: "Answer",
+          placeholder: "Type your answer here...",
+          value: alreadyVoted
+            ? userAnswers[0].value.answers[state.step]
+            : state.form[state.step].value,
+          error: state.form[state.step].error,
+          onChange: (v) => onFormFieldChange(state.step, "value", v),
           disabled: alreadyVoted,
         }}
       />
