@@ -825,7 +825,11 @@ const createPocketScreen = () => {
                 >
                   {TIME_CONDITIONS.map((item, index) => {
                     return (
-                      <option value={item.label} key={`frequency-item${index}`}>
+                      <option
+                        style={{ color: "black" }}
+                        value={item.label}
+                        key={`frequency-item${index}`}
+                      >
                         {item.label}
                       </option>
                     );
