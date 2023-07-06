@@ -174,64 +174,47 @@ order: 1;
 flex-grow: 0;
 `;
 
-const UpvoteButton = styled.button`
-box-sizing: border-box;
+const UpvoteButtonDisabled = styled.button`
 display: flex;
-flex-direction: row;
-align-items: center;
 padding: 2px 12px;
+align-items: center;
 gap: 6px;
-width: 72px;
-height: 28px;
-${
-  context.accountId != data.indexerData.nominee
-    ? state.verified
-      ? `border: solid 1px transparent;
-border-radius: 80px;
+border-radius: 4px;
+border: solid 1px transparent;
+background: var(--buttons-disable, #C3CACE);
+cursor: default !important;
+`;
+
+const UpvoteButton = styled.button`
+display: flex;
+padding: 2px 12px;
+align-items: center;
+gap: 6px;
+border-radius: 4px;
+border: solid 1px transparent;
 background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
-background-clip: padding-box, border-box;`
-      : `border-radius: 10px;
-        border: 1px solid var(--buttons-disable,#C3CACE);`
-    : "border: 1px solid var(--buttons-disable,#C3CACE);"
-};
-border-radius: 4px;
-flex: none;
-order: 2;
-flex-grow: 0;`;
+background-clip: padding-box, border-box;
+`;
 
-const UpvoteButtonText = styled.p`
-width: 28px;
-height: 24px;
-font-family: 'Avenir';
-font-style: normal;
-font-weight: 500;
+const UpvoteCount = styled.p`
 font-size: 12px;
+font-family: Avenir;
+font-weight: 500;
 line-height: 24px;
 margin: 0px;
-${
-  context.accountId != data.indexerData.nominee
-    ? state.verified
-      ? `background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
-text-fill-color: transparent;`
-      : `color: var(--buttons-disable, #C3CACE);`
-    : "color: var(--buttons-disable, #C3CACE);"
-}
-flex: none;
-order: 0;
-flex-grow: 0;
+text-fill-color: transparent;
 `;
 
-const UpvoteIcon = styled.img`
-width: 14px;
-height: 14px;
-flex: none;
-order: 1;
-flex-grow: 0;
+const Icon = styled.img`
+width: 17px;
+height: 17px;
 `;
+
 const CollapseCandidate = styled.div`
 display: flex;
 flex-direction: row;
