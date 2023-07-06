@@ -28,11 +28,6 @@ const closeModalHandler = () => {
 };
 
 // ========== STYLED ==========
-const ScrollWrapper = styled.div`
-  overflow-x: scroll !important;
-  padding-bottom: 15px;
-`;
-
 const CardWrapper = styled.div`
   min-width: 340px;
 `;
