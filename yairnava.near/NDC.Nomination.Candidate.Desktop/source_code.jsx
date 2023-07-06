@@ -345,7 +345,7 @@ margin: 0px;
 const CandidateInfoDiv = styled.div`
 display: flex;
 width: 290px;
-padding: 8px;
+padding: 16px;
 flex-direction: column;
 align-items: flex-start;
 gap: 16px;
