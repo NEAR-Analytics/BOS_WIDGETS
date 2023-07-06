@@ -490,11 +490,23 @@ NETWORKS.map(
     })
 );
 
-//console.log("networks", networks);
+const assetsList = state.assets
+  ? state.assets.map((tokenId) => (
+      <Widget
+        src="zavodil.near/widget/TokenBalance"
+        props={{
+          tokenId,
+          network: state.network,
+          hideZeroBalance: true,
+          fractionDigits: 2,
+        }}
+      ></Widget>
+    ))
+  : "";
+
 console.log("state", state.selectedDex, networks);
 
 const getFromNetworkLabel = () => {
-  console.log("getFromNetworkLabel", selectedChainId, selectedDex);
   if (!selectedDex && selectedChainId) {
     console.log("selectedDex is missing");
     let chainKeyDataArray = Object.keys(networks).filter(
@@ -820,7 +832,9 @@ return (
                 </div>
               </ContainerNetwork>
             )}
-            {/*DD*/}
+            <div style={{ display: "flex", paddingLeft: "5px" }}>
+              {assetsList}
+            </div>
 
             <div class="top-container">
               {assetContainer(
