@@ -54,7 +54,7 @@ const nftData = Near.view(contractId, "nft_tokens_for_owner", {
 let holder = false;
 
 nftData.forEach((item) => {
-  if (item.series_id === 19) {
+  if (item.series_id === 1) {
     holder = true;
     return true;
   }
@@ -81,7 +81,7 @@ const Greeting = () => {
   return <span>{greeting}</span>;
 };
 
-if (nftDataCount > 0) {
+if (holder) {
   return (
     <>
       {context.accountId && (
@@ -92,34 +92,6 @@ if (nftDataCount > 0) {
       <p>
         <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs
       </p>
-      <ul className="nav nav-pills mb-12">
-        <li className="nav-item col-6 mb-6">
-          <button
-            className={`nav-link ${state.feedIndex === 0 ? "active" : ""} ${
-              options[0].disabled ? "disabled" : ""
-            }`}
-            aria-disabled={!!options[0].disabled}
-            onClick={() =>
-              !options[0].disabled && State.update({ feedIndex: 0 })
-            }
-          >
-            {options[0].title}
-          </button>
-        </li>
-        <li className="nav-item col-6 mb-6">
-          <button
-            className={`nav-link ${state.feedIndex === 1 ? "active" : ""} ${
-              options[1].disabled ? "disabled" : ""
-            }`}
-            aria-disabled={!!options[1].disabled}
-            onClick={() =>
-              !options[1].disabled && State.update({ feedIndex: 1 })
-            }
-          >
-            {options[1].title}
-          </button>
-        </li>
-      </ul>
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
       ) : (
