@@ -51,15 +51,9 @@ flex-direction: column;
 align-items: flex-start;
 padding: 16px;
 gap: 16px;
-
 width: 358px;
-
-
 background: #F8F8F9;
 border-radius: 10px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 2;
 flex-grow: 0;
@@ -71,7 +65,6 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 12px;
-
 width: 326px;
 height: 53px;
 `;
@@ -79,9 +72,6 @@ height: 53px;
 const ProfilePicture = styled.img`
 width: 40px;
 height: 40px;
-
-
-/* Inside auto layout */
 border-radius: 20px;
 flex: none;
 order: 0;
@@ -94,13 +84,8 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 4px;
-
 width: 190px;
 height: 53px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 1;
@@ -108,77 +93,50 @@ flex-grow: 1;
 
 const HeaderTag = styled.div`
 box-sizing: border-box;
-
-/* Auto layout */
-
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;
 padding: 4px 8px;
 gap: 10px;
-
 height: 18px;
-
 border: solid 1px transparent;
 border-radius: 80px;
 background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
-
-
 border-radius: 100px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;`;
 
 const HeaderTagP = styled.p`
 height: 10px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
 font-size: 8px;
 line-height: 120%;
 margin: 0px;
-/* identical to box height, or 10px */
-
 display: flex;
 align-items: center;
-
-/* Gradient/Purple gradient */
-
 background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
 text-fill-color: transparent;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
 `;
 
 const HeaderContentText = styled.div`
-/* Auto layout */
-
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 padding: 0px;
-
 width: 228px;
 height: 31px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;`;
@@ -186,23 +144,15 @@ flex-grow: 0;`;
 const NominationName = styled.p`
 width: 228px;
 height: 17px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
 line-height: 120%;
 margin: 0px;
-/* identical to box height, or 17px */
-
 display: flex;
 align-items: center;
-
 color: #000000;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;`;
@@ -210,23 +160,15 @@ flex-grow: 0;`;
 const NominationUser = styled.p`
 width: 228px;
 height: 14px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 400;
 font-size: 12px;
 margin: 0px;
 line-height: 120%;
-/* or 14px */
-
 display: flex;
 align-items: center;
-
 color: #828688;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -234,15 +176,11 @@ flex-grow: 0;
 
 const UpvoteButton = styled.button`
 box-sizing: border-box;
-
-/* Auto layout */
-
 display: flex;
 flex-direction: row;
 align-items: center;
 padding: 2px 12px;
 gap: 6px;
-
 width: 72px;
 height: 28px;
 ${
@@ -257,11 +195,7 @@ background-clip: padding-box, border-box;`
         border: 1px solid var(--buttons-disable,#C3CACE);`
     : "border: 1px solid var(--buttons-disable,#C3CACE);"
 };
-
 border-radius: 4px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 2;
 flex-grow: 0;`;
@@ -269,17 +203,12 @@ flex-grow: 0;`;
 const UpvoteButtonText = styled.p`
 width: 28px;
 height: 24px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
 font-size: 12px;
 line-height: 24px;
 margin: 0px;
-/* identical to box height, or 200% */
-
-
-/* Buttons/Gradient default */
 ${
   context.accountId != data.indexerData.nominee
     ? state.verified
@@ -291,11 +220,6 @@ text-fill-color: transparent;`
       : `color: var(--buttons-disable, #C3CACE);`
     : "color: var(--buttons-disable, #C3CACE);"
 }
-
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -304,10 +228,6 @@ flex-grow: 0;
 const UpvoteIcon = styled.img`
 width: 14px;
 height: 14px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -318,15 +238,10 @@ flex-direction: row;
 align-items: center;
 padding: 8px 12px;
 gap: 12px;
-
 width: 326px;
 height: 56px;
-
 background: #FFFFFF;
 border-radius: 6px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 align-self: stretch;
@@ -340,13 +255,8 @@ justify-content: center;
 align-items: flex-start;
 padding: 0px;
 gap: 4px;
-
 width: 302px;
 height: 40px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -358,13 +268,8 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 12px;
-
 width: 302px;
 height: 16px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 align-self: stretch;
@@ -374,21 +279,13 @@ flex-grow: 0;
 const CollapseCandidateText = styled.p`
 width: 274px;
 height: 14px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 800;
 font-size: 12px;
 line-height: 120%;
 margin: 0px;
-/* or 14px */
-
-
 color: #000000;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 1;
@@ -397,10 +294,6 @@ flex-grow: 1;
 const DownArrow = styled.img`
 width: 16px;
 height: 16px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -415,10 +308,6 @@ padding: 0px;
 gap: 4px;
 width: 100%;
 height: 20px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -426,26 +315,16 @@ flex-grow: 0;
 
 const CandidateTag = styled.div`
 box-sizing: border-box;
-
-/* Auto layout */
-
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;
 padding: 4px 8px;
 gap: 10px;
-
 height: 20px;
-
 background: #F0E1CE;
-/* Secondary/Warning */
-
 border: 1px solid #F19D38;
 border-radius: 100px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -462,38 +341,21 @@ font-weight: 500;
 font-size: 10px;
 line-height: 120%;
 margin: 0px;
-/* identical to box height, or 12px */
-
-
-/* Secondary/Warning */
-
 color: #F19D38;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
 `;
 
 const KeyIssues = styled.div`
-/* Auto layout */
-
 display: flex;
 flex-direction: row;
 align-items: flex-start;
 padding: 8px 12px;
 gap: 12px;
-
 width: 326px;
-
-
 background: #FFFFFF;
 border-radius: 6px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -505,13 +367,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 12px;
-
 width: 302px;
-
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -523,13 +379,8 @@ flex-direction: row;
 align-items: flex-start;
 padding: 0px;
 gap: 12px;
-
 width: 302px;
 height: 14px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -538,20 +389,13 @@ flex-grow: 0;
 const KeyIssuesTitle = styled.p`
 width: 302px;
 height: 14px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 800;
 font-size: 12px;
 line-height: 120%;
 /* or 14px */
-
-
 color: #000000;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 1;
@@ -563,13 +407,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 8px;
-
 width: 302px;
-
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -581,13 +419,8 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 2px;
-
 width: 302px;
 height: 28px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -599,13 +432,8 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 8px;
-
 width: 302px;
 height: 14px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 align-self: stretch;
@@ -615,23 +443,13 @@ flex-grow: 0;
 const KeyIssueTitle = styled.p`
 width: 302px;
 height: 12px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
 font-size: 10px;
 line-height: 120%;
 margin: 0px;
-/* identical to box height, or 12px */
-
-
-/* #000000 */
-
 color: #000000;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 align-self: stretch;
@@ -641,7 +459,6 @@ flex-grow: 0;
 const KeyIssueDescription = styled.p`
 width: 302px;
 height: 12px;
-
 overflow:hidden;
 text-overflow:ellipsis;
 white-space:nowrap;
@@ -651,14 +468,7 @@ font-weight: 400;
 font-size: 10px;
 margin: 0px;
 line-height: 120%;
-/* identical to box height, or 12px */
-
-
 color: #828688;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 align-self: stretch;
@@ -669,11 +479,7 @@ const KeyIssueSeparator = styled.hr`
 width: 302px;
 height: 0px;
 margin: 0px;
-
 border: 1px solid rgba(208, 214, 217, 1);
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -686,12 +492,6 @@ flex-direction: column;
 justify-content: center;
 align-items: flex-start;
 gap: 8px;
-
-
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 2;
 flex-grow: 0;
@@ -704,11 +504,6 @@ justify-content: center;
 align-items: flex-start;
 gap: 8px;
 align-self: stretch;
-
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -719,13 +514,8 @@ display: flex;
 flex-direction: row;
 align-items: center;
 padding: 0px;
-
 width: 326px;
 height: 28px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -737,13 +527,8 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 4px;
-
 width: 239px;
 height: 24px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 1;
@@ -752,10 +537,6 @@ flex-grow: 1;
 const ClockIcon = styled.img`
 width: 12px;
 height: 12px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -764,7 +545,6 @@ flex-grow: 0;
 const TimestampText = styled.p`
 width: 119px;
 height: 20px;
-
 font-family: 'Avenir';
 font-style: italic;
 font-weight: 300;
@@ -773,12 +553,7 @@ line-height: 14px;
 margin: 0px;
 display: flex;
 align-items: center;
-
 color: #000000;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -787,28 +562,18 @@ flex-grow: 0;
 const CommentsCounter = styled.p`
 width: 96px;
 height: 24px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
 font-size: 12px;
 line-height: 24px;
 margin: 0px;
-/* identical to box height, or 200% */
-
 text-align: right;
-
-/* Buttons/Gradient default */
-
 background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
 text-fill-color: transparent;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 2;
 flex-grow: 0;
@@ -820,13 +585,8 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 4px;
-
 width: 87px;
 height: 28px;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -835,34 +595,25 @@ flex-grow: 0;
 const TagSection = styled.div`
 overflow: hidden;
 display: flex;
-
 align-items: flex-start;
 gap: 4px;
 `;
 
 const Tag = styled.div`
 box-sizing: border-box;
-
-/* Auto layout */
-
 display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;
 padding: 4px 8px;
 gap: 10px;
-
 height: 20px;
-
 border: solid 1px transparent;
 border-radius: 80px;
 background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
 border-radius: 100px;
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -870,27 +621,17 @@ flex-grow: 0;
 
 const TagText = styled.p`
 height: 12px;
-
 font-family: 'Avenir';
 font-style: normal;
 font-weight: 500;
 font-size: 10px;
 margin: 0px;
 line-height: 120%;
-/* identical to box height, or 12px */
-
-
-/* Gradient/Purple gradient */
-
 background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
 text-fill-color: transparent;
-
-
-/* Inside auto layout */
-
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -910,7 +651,6 @@ background-origin: border-box;
 background-clip: padding-box, border-box;`
     : "border: 1px solid var(--buttons-disable, #C3CACE);"
 }
-
 border-radius: 4px;
 `;
 
