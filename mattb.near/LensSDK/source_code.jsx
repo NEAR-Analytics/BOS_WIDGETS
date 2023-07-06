@@ -88,9 +88,7 @@ let LensSDK = {
     return LensSDK.request(
       `
                 query Profile {
-                    profile(request: { profileId: "` +
-        profileId +
-        `" }) {
+                    profile(request: { profileId: "${profileId}" }) {
                         isFollowedByMe
                     }
                 }`,
@@ -190,9 +188,7 @@ let LensSDK = {
             proxyAction(request: {
                 follow: {
                     freeFollow: {
-                        profileId: "` +
-        profileId +
-        `"
+                        profileId: "${profileId}"
                     }
                 }
             })
@@ -208,9 +204,7 @@ let LensSDK = {
     return LensSDK.request(
       `
         mutation Unfollow {
-  createUnfollowTypedData(request: { profile: "` +
-        profileId +
-        `" }) {
+  createUnfollowTypedData(request: { profile: "${profileId}" }) {
     id
     expiresAt
     typedData {
