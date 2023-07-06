@@ -200,14 +200,44 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
   }
 };
 
+// ========== Modal POP Up ==========
+const openModalHandler = () => {
+  State.update({
+    showModal: true,
+  });
+};
+
+const closeModalHandler = () => {
+  State.update({
+    showModal: false,
+  });
+};
+
+const ModalWrapper = styled.div`
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 100, 100, 0.7);
+  z-index:100;
+`;
+const Modal = styled.div`
+  width: 80%;
+  height: 80%;
+  background: #fff;
+  
+`;
+
 // ========== JSX ==========
 const ScrollWrapper = styled.div`
-overflow-x: scroll !important;
-padding-bottom: 15px;
+  overflow-x: scroll !important;
+  padding-bottom: 15px;
 `;
 
 const CardWrapper = styled.div`
-min-width: 340px;
+  min-width: 340px;
 `;
 
 const StatusTagGroup = ({ activeStatus, articleId }) => (
@@ -285,24 +315,37 @@ const Card = ({ article }) => (
         activeStatus={article.statusTag}
         articleId={article.articleId}
       />
+      <div>
+        <button onClick={openModalHandler}>OpenModal</button>
+      </div>
     </div>
   </CardWrapper>
 );
 
 return (
-  <ScrollWrapper>
-    <div class="row gx-2 d-flex flex-nowrap">
-      {statusTagsArr.map((tag) => (
-        <div class="col">
-          <div class="border border-dark rounded-2 px-3 pb-3">
-            <div className="row card-group">
-              <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
-              {state[tag].length > 0 &&
-                state[tag].map((item) => <Card article={item} />)}
+  <>
+    {state.showModal && (
+      <ModalWrapper>
+        <Modal>
+          Modal Window
+          <button onClick={closeModalHandler}>CloseModal</button>
+        </Modal>
+      </ModalWrapper>
+    )}
+    <ScrollWrapper>
+      <div class="row gx-2 d-flex flex-nowrap">
+        {statusTagsArr.map((tag) => (
+          <div class="col">
+            <div class="border border-dark rounded-2 px-3 pb-3">
+              <div className="row card-group">
+                <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
+                {state[tag].length > 0 &&
+                  state[tag].map((item) => <Card article={item} />)}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  </ScrollWrapper>
+        ))}
+      </div>
+    </ScrollWrapper>
+  </>
 );
