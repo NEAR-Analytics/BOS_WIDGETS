@@ -50,49 +50,39 @@ const CONTRACT_DATA = {
   ], // Set an array of whitelisted routers with their addresses, AMM tags, names, and DEX URLs
 };
 
-console.log(state.frequency);
-
 // Frequency options.
 const TIME_CONDITIONS = [
   {
     label: "Hourly",
     value: { hours: 1 },
-    secondValue: 60,
   },
   {
     label: "Daily",
     value: { days: 1 },
-    secondValue: 60 * 24,
   },
   {
     label: "Weekly",
     value: { weeks: 1 },
-    secondValue: 60 * 24 * 7,
   },
   {
     label: "Every 2 Weeks",
     value: { weeks: 2 },
-    secondValue: 60 * 24 * 7 * 2,
   },
   {
     label: "Monthly",
     value: { months: 1 },
-    secondValue: 60 * 24 * 30,
   },
   {
     label: "Every 3 Months",
     value: { months: 3 },
-    secondValue: 60 * 24 * 30 * 3,
   },
   {
     label: "Every 6 Months",
     value: { months: 6 },
-    secondValue: 60 * 24 * 30 * 6,
   },
   {
     label: "Yearly",
     value: { years: 1 },
-    secondValue: 60 * 24 * 365,
   },
 ];
 
@@ -261,7 +251,7 @@ const handleCreatePocket = () => {
         ((new Date().getTime() + 30000) / 1000).toString()
       ).toString(),
       batchVolume: ethers.BigNumber.from(
-        `0x${(state.depositAmount * Math.pow(10, 18).toFixed(0)).toString(16)}`
+        `0x${(state.depositAmount * Math.pow(10, 18)).toString(16)}`
       ),
       stopConditions: [],
       frequency: state.frequency,
@@ -284,9 +274,7 @@ const handleCreatePocket = () => {
       contract
         .createPocketAndDepositEther(createdParams, {
           value: ethers.BigNumber.from(
-            `0x${(state.depositAmount * Math.pow(10, 18).toFixed(0)).toString(
-              16
-            )}`
+            `0x${(state.depositAmount * Math.pow(10, 18)).toString(16)}`
           ),
         })
         .then((tx) => {
@@ -811,24 +799,11 @@ const createPocketScreen = () => {
             </div>
             <div>
               <div class="frame" style={{ marginBottom: "32px" }}>
-                <Typeahead
-                  defaultSelected={[
-                    {
-                      id: state.selectedTokenAddress,
-                      label:
-                        state.whiteLists[state.selectedTokenAddress].symbol,
-                    },
-                  ]}
-                  filterBy={() => true}
-                  options={TIME_CONDITIONS.map((item) => {
-                    return {
-                      id: item.label,
-                      label: item.label,
-                    };
-                  })}
-                  onChange={(value) => {
+                <select
+                  class="token-select"
+                  onChange={(e) => {
                     const option = TIME_CONDITIONS.find(
-                      (item) => item.label === value[0].id
+                      (item) => item.label === e.target.value
                     );
                     const proccessFrequency = convertDurationsTime(
                       option.value
@@ -837,7 +812,15 @@ const createPocketScreen = () => {
                       frequency: proccessFrequency,
                     });
                   }}
-                />
+                >
+                  {TIME_CONDITIONS.map((item, index) => {
+                    return (
+                      <option value={item.label} key={`frequency-item${index}`}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
             </div>
           </div>
@@ -934,13 +917,7 @@ const pocketDetailScreen = () => {
                 <div class="strategy2">Frequency</div>
 
                 <div class="frame-48097840">
-                  {console.log(state.pocket.frequency.seconds, TIME_CONDITIONS)}
-                  <div class="frame-48098084">
-                    {TIME_CONDITIONS.find(
-                      (item) =>
-                        item.secondValue * 60 === state.pocket.frequency.seconds
-                    ).label || "⏰"}
-                  </div>
+                  <div class="frame-48098084">Hourly</div>
                 </div>
               </div>
 
