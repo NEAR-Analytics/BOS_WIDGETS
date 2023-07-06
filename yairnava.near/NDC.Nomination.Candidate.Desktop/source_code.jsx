@@ -323,7 +323,7 @@ width: 302px;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
-gap: 4px;
+gap: 12px;
 `;
 
 const CandidateHeader = styled.div`
