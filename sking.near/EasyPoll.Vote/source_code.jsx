@@ -261,6 +261,7 @@ const validateCurrentStep = () => {
 };
 
 const onFinish = () => {
+  if (!validateCurrentStep()) return;
   const formattedAnswers = formatStateForDB(state.form);
   console.log("answer to commit", formattedAnswers);
 
