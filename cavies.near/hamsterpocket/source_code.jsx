@@ -286,9 +286,9 @@ const handleCreatePocket = () => {
       contract
         .createPocketAndDepositEther(createdParams, {
           value: ethers.BigNumber.from(
-            `0x${(state.depositAmount * Math.pow(10, 18).toFixed(0)).toString(
-              16
-            )}`
+            `0x${(state.depositAmount * Math.pow(10, 18))
+              .toFixed(0)
+              .toString(16)}`
           ),
         })
         .then((tx) => {
