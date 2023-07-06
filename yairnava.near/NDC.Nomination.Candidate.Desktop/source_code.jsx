@@ -5,8 +5,6 @@ State.init({
   voted: false,
 });
 
-console.log(props);
-
 let nominationContract = "nominations-v1.gwg-testing.near";
 
 function getVerifiedHuman() {
@@ -573,6 +571,11 @@ margin: 0px;
 `;
 
 const afilations = JSON.parse(props.data.nominations.afiliation);
+
+const afiilationsSort = afilations
+  .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
+  .reverse();
+
 const issues = [
   props.data.nominations.issued1,
   props.data.nominations.issued2,
