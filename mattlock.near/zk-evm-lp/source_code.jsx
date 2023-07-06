@@ -171,13 +171,7 @@ if (sender) {
 }
 
 if (state.sender === undefined) {
-  const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
-  const foo = "bar";
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({ sender, chainId, foo });
-    });
+  State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] || "" });
 }
 
 const handleRadioChange = (radio) => {
@@ -197,7 +191,7 @@ if (state.sender === "" || state.chainId !== 1101) {
             <div className="logo">{logo}</div>
             <h1>Bring Ethereum to everyone.</h1>
             <h2>Fast, cheap and secure.</h2>
-            {state.sender === "" && (
+            {!state.sender === undefined && (
               <Web3Connect
                 connectLabel="Connect with Web3"
                 className="connect-web3"
