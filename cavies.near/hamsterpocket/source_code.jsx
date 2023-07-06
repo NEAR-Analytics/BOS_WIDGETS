@@ -284,9 +284,6 @@ if (!state.theme) {
         font-family: "Poppins", sans-serif;
         ${cssFont}
         ${css}
-        .on-going{
-            min-height: 100vh
-        }
         .button-primary-36-px,
         .button-primary-36-px * {
           box-sizing: border-box;
@@ -1103,7 +1100,7 @@ const renderAppScreen = () => {
 
 return (
   <Theme>
-    <div class="on-going">
+    <div class="on-going" style={{ minHeight: "100vh" }}>
       <div class="frame-48098139">
         {state.currentScreen > 0 && (
           <button onClick={() => State.update({ currentScreen: 0 })}>
