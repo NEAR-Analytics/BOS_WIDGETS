@@ -48,7 +48,7 @@ const accountId = context.accountId;
 
 const nftData = Near.view(contractId, "nft_tokens_for_owner", {
   account_id: accountId,
-  limit: 100,
+  limit: 1000,
 });
 
 let holder = false;
