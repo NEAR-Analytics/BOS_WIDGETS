@@ -665,8 +665,8 @@ return (
     </Wrapper>
     {isPostTx && (
       <Info>
-        If you dont see the updated balance in the table after 1 minute,
-        <br /> please click the refresh button above.
+        If you dont see the updated balance in the table after 1 minute, please
+        click the refresh button above.
       </Info>
     )}
   </VStack>
