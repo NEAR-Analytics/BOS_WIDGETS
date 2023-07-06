@@ -862,6 +862,7 @@ return (
           {state.verified ? (
             <CommentButtonDiv
               onClick={async () => {
+                console.log("entra al click");
                 data.preview ? State.update({ showModal: true }) : "";
               }}
             >
