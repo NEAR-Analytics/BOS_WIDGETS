@@ -195,7 +195,9 @@ const handleCreatePocket = () => {
         })
         .then((hash) => {
           console.log("tx hash", hash);
-          State.update({ currentScreen: 0 });
+          return tx.wait(5).then(() => {
+            State.update({ currentScreen: 0 });
+          });
         });
     } catch (err) {
       console.error(err);
@@ -226,8 +228,9 @@ const handleClosePocket = () => {
   try {
     contract
       .closePocket(state.pocket._id)
-      .then((txHash) => {
+      .then((tx) => {
         console.log("txHash", txHash);
+        return tx.wait(5);
       })
       .finally(() => {
         handleSyncPocket();
@@ -242,8 +245,9 @@ const handleWithdraw = () => {
     console.log("Withdraw", state.pocket._id);
     contract
       .withdraw(state.pocket._id)
-      .then((txHash) => {
+      .then((tx) => {
         console.log("txHash", txHash);
+        return tx.wait(5);
       })
       .finally(() => {
         handleSyncPocket(() => {
