@@ -77,7 +77,11 @@ if (holder) {
   return (
     <>
       <div className="tab-content col-sm-10">
-        <h3>Woof! Need to hold a ShardDog to view feed</h3>
+        <h3>
+          Woof! Sorry, you need to hold a Social ShardDog to view the feed
+          <br />
+          Maybe someone you know has the link?
+        </h3>
       </div>
     </>
   );
