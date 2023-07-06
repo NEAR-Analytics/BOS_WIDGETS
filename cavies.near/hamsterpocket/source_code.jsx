@@ -49,13 +49,15 @@ const CONTRACT_DATA = {
 };
 
 // Fetch the JSON file from the given URL and update the 'abiJson' state property
-asyncFetch(
-  "https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/pocketchef.json"
-).then((result) => {
-  State.update({
-    abiJson: JSON.parse(result.body), // Parse the JSON response and update the 'abiJson' state property
+if (!state.abiJson) {
+  asyncFetch(
+    "https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/pocketchef.json"
+  ).then((result) => {
+    State.update({
+      abiJson: JSON.parse(result.body), // Parse the JSON response and update the 'abiJson' state property
+    });
   });
-});
+}
 
 // Function to reload configuration data
 const reloadConfig = () => {
@@ -191,7 +193,8 @@ const handleCreatePocket = () => {
             `0x${(state.depositAmount * Math.pow(10, 18)).toString(16)}`
           ),
         })
-        .then(() => {
+        .then((hash) => {
+          console.log("tx hash", hash);
           State.update({ currentScreen: 0 });
         });
     } catch (err) {
