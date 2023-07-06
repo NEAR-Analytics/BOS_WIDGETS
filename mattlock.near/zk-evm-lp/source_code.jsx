@@ -197,7 +197,7 @@ const handleRadioChange = (radio) => {
 
 const { radio, component } = state;
 
-console.log(state.sender, state.chainId);
+console.log("output", sender, state.sender, state.chainId);
 
 if (state.sender === "" || state.chainId !== 1101) {
   return (
