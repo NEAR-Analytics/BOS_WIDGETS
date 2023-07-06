@@ -223,10 +223,12 @@ const handleClosePocket = () => {
   try {
     const tx = contract.closePocket(state.pocket._id);
 
-    tx.wait().then(() => {
+    tx.wait(1).then(() => {
       handleSyncPocket();
     }); // Close the specified pocket
-  } catch {}
+  } catch {
+    handleSyncPocket();
+  }
 };
 
 // Function to handle withdrawing from a pocket
@@ -236,12 +238,16 @@ const handleWithdraw = () => {
     console.log("Withdraw", state.pocket._id);
     const tx = contract.withdraw(state.pocket._id);
 
-    tx.wait().then(() => {
+    tx.wait(1).then(() => {
       handleSyncPocket(() => {
         State.update({ currentScreen: 0 });
       });
     }); // Withdraw from the specified pocket
-  } catch {}
+  } catch {
+    handleSyncPocket(() => {
+      State.update({ currentScreen: 0 });
+    });
+  }
 };
 
 // DETECT SENDER
