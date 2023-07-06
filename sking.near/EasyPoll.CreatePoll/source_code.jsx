@@ -91,53 +91,59 @@ const formatStateForDB = (input) => {
         [key]: question[key].value,
       };
     });
-    if (question.questionType == "0") {
+    if (question.questionType.value == 0) {
       new_questions[index] = {
         ...new_questions[index],
         choicesOptions: ["Yes", "No"],
       };
+    }
+    if (
+      question.questionType.value !== 1 &&
+      question.questionType.value !== 2
+    ) {
+      delete new_questions[index].minChoices;
+      delete new_questions[index].maxChoices;
+      delete new_questions[index].choicesOptions;
+    }
+    if (question.questionType.value !== 3) {
+      delete new_questions[index].label0;
+      delete new_questions[index].label5;
+      delete new_questions[index].label10;
     }
   });
 
   return {
     ...firstStep,
     questions: new_questions,
-    isDraft: false, // TODO: add save to Draft button in the UI
   };
 };
 
-const onFinish = () => {
+const onFinish = (isDraft) => {
   const answers = state.answers;
   const formattedAnswers = formatStateForDB(answers);
 
-  // const commit = {
-  //   index: {
-  //     poll_question: JSON.stringify(
-  //       {
-  //         key: `question-v${indexVersion}`,
-  //         value: formattedAnswers,
-  //       },
-  //       undefined,
-  //       0
-  //     ),
-  //   },
-  // };
+  console.log("poll to commit", formattedAnswers);
 
   let uid =
     Math.random().toString(16).slice(2) +
     Date.now().toString(36) +
     Math.random().toString(16).slice(2);
+
   if (isEdit) {
-    uid = src.split("/")[2].replace("poll-", "");
+    uid = src.split("/")[3];
   }
+
+  let key = isDraft ? "draft" : "poll";
 
   const commit = {
     ["easypoll-" + indexVersion]: {
-      ["poll-" + uid]: JSON.stringify(formattedAnswers),
+      [key]: {
+        [uid]: JSON.stringify(formattedAnswers),
+      },
     },
     index: {
       ["easypoll-" + indexVersion]: JSON.stringify({
-        key: "poll",
+        key: key,
         value: uid,
       }),
     },
@@ -251,7 +257,7 @@ return (
     <Widget
       src={`${widgetOwner}/widget/EasyPoll.CreatePoll.Step${state.step}`}
       props={{
-        onSubmit: (formState) => {
+        onSubmit: (formState, isDraft) => {
           State.update({
             answers: {
               ...state.answers,
@@ -259,7 +265,7 @@ return (
             },
           });
           if (steps.length === state.step) {
-            onFinish();
+            onFinish(isDraft ?? false);
           }
           State.update({
             step: steps.length === state.step ? state.step : state.step + 1,
