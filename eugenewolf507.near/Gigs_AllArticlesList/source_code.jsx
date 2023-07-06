@@ -215,17 +215,15 @@ const closeModalHandler = () => {
 
 const ModalWrapper = styled.div`
   position: absolute;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
   background: rgba(100, 100, 100, 0.7);
   z-index:100;
 `;
 const Modal = styled.div`
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   background: #fff;
   
 `;
