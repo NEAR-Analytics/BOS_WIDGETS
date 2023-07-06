@@ -95,7 +95,13 @@ const onImageChange = debounce((e) => {
 
 return (
   <div>
-    <ul className={`nav nav-tabs`} style={{ backgroundColor: props.theme.ui }}>
+    <ul
+      className={`nav nav-tabs`}
+      style={{
+        backgroundColor: props.theme.ui,
+        borderBottom: "1px green solid",
+      }}
+    >
       <li className="nav-item">
         <button
           className="nav-link"
@@ -183,7 +189,7 @@ return (
 
         backgroundColor: props.theme.backgroundColor,
 
-        borderBottom: "1px red solid",
+        borderTop: "1px red solid",
       }}
     >
       <div className={`${state.tab === Tab.Upload ? "" : "visually-hidden"}`}>
