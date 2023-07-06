@@ -16,7 +16,7 @@ const extractNotifyAccountId = (item) => {
   return `${accountId}/post/main` === item.path ? accountId : undefined;
 };
 
-const link = `mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const item = {
   type: "social",
@@ -57,7 +57,7 @@ return (
           </div>
           <div className="me-4">
             <Widget
-              src="sharddog.near/widget/LikeButton"
+              src="mob.near/widget/LikeButton"
               props={{
                 notifyAccountId,
                 item,
@@ -67,7 +67,7 @@ return (
           {parentItem && (
             <div key="comment" className="me-4">
               <Widget
-                src="sharddog.near/widget/CommentButton"
+                src="mob.near/widget/CommentButton"
                 props={{
                   onClick: () =>
                     !state.showReply && State.update({ showReply: true }),
