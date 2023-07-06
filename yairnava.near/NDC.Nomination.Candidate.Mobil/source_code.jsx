@@ -520,6 +520,13 @@ const comments = props.data.comments[0].comments;
 let isNFTCid = CandidateProps.img.cid
   ? "https://nativonft.mypinata.cloud/ipfs/" + CandidateProps.img.cid
   : "";
+
+const afilations = JSON.parse(CandidateProps.afiliation);
+
+const afiilationsSort = afilations
+  .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
+  .reverse();
+
 return (
   <DetailContent>
     <DetailCard>
@@ -631,7 +638,7 @@ return (
           <CandidateHeader>
             <CandidateHeaderText>Candidate Affiliations</CandidateHeaderText>
           </CandidateHeader>
-          {JSON.parse(CandidateProps.afiliation).map((affiliation) => {
+          {afilations.map((affiliation) => {
             return (
               <CandidateInfoDiv>
                 <CandidateInfoHeader>
