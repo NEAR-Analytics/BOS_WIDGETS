@@ -2,7 +2,7 @@ return (
   <>
     <div className="row">
       <div
-        className="tab-content col-sm-12 offset-sm-12 border-left top-0"
+        className="tab-content col-sm-12 offset-sm-12 top-0"
         id="pills-tabContent"
       >
         <div
