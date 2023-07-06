@@ -1,2 +1,2 @@
-return <Thing src="efiz.near/widget/placeholder" />;
+return <Thing src="every.near/thing/core" />;
 // return <p>hello world</p>;
