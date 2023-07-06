@@ -1,33 +1,33 @@
 State.init({
-  loaded: false,
-  currentScreen: 0,
-  whiteLists: {},
-  pocketList: [],
-  pocket: null,
-  targetToken: null,
-  baseToken: null,
-  abiJson: null,
-  selectedTokenAddress: "",
-  batchAmount: 0,
-  depositAmount: 0,
-  balance: 0,
+  loaded: false, // Initialize the 'loaded' state property to false
+  currentScreen: 0, // Initialize the 'currentScreen' state property to 0
+  whiteLists: {}, // Initialize the 'whiteLists' state property as an empty object
+  pocketList: [], // Initialize the 'pocketList' state property as an empty array
+  pocket: null, // Initialize the 'pocket' state property to null
+  targetToken: null, // Initialize the 'targetToken' state property to null
+  baseToken: null, // Initialize the 'baseToken' state property to null
+  abiJson: null, // Initialize the 'abiJson' state property to null
+  selectedTokenAddress: "", // Initialize the 'selectedTokenAddress' state property as an empty string
+  batchAmount: 0, // Initialize the 'batchAmount' state property to 0
+  depositAmount: 0, // Initialize the 'depositAmount' state property to 0
+  balance: 0, // Initialize the 'balance' state property to 0
 });
 
 // HOST NAME API.
 const ACTIVE_STATUS = "POOL_STATUS::ACTIVE";
-var contract;
-const API = "https://dev-pocket-api.hamsterbox.xyz/api";
+var contract; // Declare a variable 'contract' (presumably for holding a contract instance)
+const API = "https://dev-pocket-api.hamsterbox.xyz/api"; // Set the API endpoint URL
 const CONTRACT_DATA = {
-  wagmiKey: "bsc",
-  chainName: "BNB",
+  wagmiKey: "bsc", // Set a property 'wagmiKey' with value "bsc"
+  chainName: "BNB", // Set a property 'chainName' with value "BNB"
   chainLogo:
-    "https://s3.coinmarketcap.com/static/img/portraits/62876e92bedeb632050eb4ae.png",
-  rpcUrl: "https://bsc-rpc.hamsterbox.xyz",
-  chainId: 56,
-  programAddress: "0xd74Ad94208935a47b1Bd289d28d45Bce6369E064",
-  vaultAddress: "0x4bcD48D0Af9b48716EDb30BFF560d08036439871",
-  registryAddress: "0xb9599963729Acf22a18629355dA23e0bA4fBa611",
-  explorerUrl: "https://bscscan.com/",
+    "https://s3.coinmarketcap.com/static/img/portraits/62876e92bedeb632050eb4ae.png", // Set a property 'chainLogo' with an image URL
+  rpcUrl: "https://bsc-rpc.hamsterbox.xyz", // Set the RPC URL
+  chainId: 56, // Set the chain ID to 56
+  programAddress: "0xd74Ad94208935a47b1Bd289d28d45Bce6369E064", // Set the program address
+  vaultAddress: "0x4bcD48D0Af9b48716EDb30BFF560d08036439871", // Set the vault address
+  registryAddress: "0xb9599963729Acf22a18629355dA23e0bA4fBa611", // Set the registry address
+  explorerUrl: "https://bscscan.com/", // Set the explorer URL
   whitelistedRouters: [
     {
       address: "0x5Dc88340E1c5c6366864Ee415d6034cadd1A9897",
@@ -43,21 +43,24 @@ const CONTRACT_DATA = {
       ammName: "Pancake Swap",
       dexUrl: "https://pancakeswap.finance/swap/",
     },
-  ],
+  ], // Set an array of whitelisted routers with their addresses, AMM tags, names, and DEX URLs
 };
 
-asyncFetch(
-  "https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/pocketchef.json"
-).then((result) => {
+// Fetch the JSON file from the given URL and update the 'abiJson' state property
+asyncFetch("https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/pocketchef.json").then((result) => {
   State.update({
-    abiJson: JSON.parse(result.body),
+    abiJson: JSON.parse(result.body), // Parse the JSON response and update the 'abiJson' state property
   });
 });
 
+// Function to reload configuration data
 const reloadConfig = () => {
+  // Fetch whitelist data from the API
   asyncFetch(`${API}/whitelist`).then((result) => {
     const tokens = result.body;
     const mapping = {};
+
+    // Create a mapping of tokens with their addresses
     tokens.forEach((token) => {
       if (token.chainId === "bnb") {
         mapping[token.address] = token;
@@ -65,26 +68,28 @@ const reloadConfig = () => {
     });
 
     State.update({
-      whiteLists: mapping,
+      whiteLists: mapping, // Update the 'whiteLists' state property with the token mapping
       selectedTokenAddress:
-        Object.keys(mapping).length > 1 ? Object.keys(mapping)[1] : "",
+        Object.keys(mapping).length > 1 ? Object.keys(mapping)[1] : "", // Set the 'selectedTokenAddress' to the second token address if there are more than one, otherwise set it to an empty string
     });
   });
 };
 
 if (!state.loaded) {
-  State.update({ loaded: true });
-  reloadConfig();
-  loaded += 1;
+  State.update({ loaded: true }); // Update the 'loaded' state property to true
+  reloadConfig(); // Call the 'reloadConfig' function to load configuration data
+  loaded += 1; // Increment the 'loaded' variable by 1 (assuming 'loaded' is a global variable)
 }
 
+// Function to handle getting pocket data by ID
 const handleGetPocket = async (id) => {
   try {
+    // Fetch pocket data from the API for the given ID
     asyncFetch(`${API}/pool/${id}/decimals-formatted`).then((result) => {
       State.update({
-        pocket: result.body,
-        targetToken: state.whiteLists[result.body.targetTokenAddress],
-        baseToken: state.whiteLists[result.body.baseTokenAddress],
+        pocket: result.body, // Update the 'pocket' state property with the fetched pocket data
+        targetToken: state.whiteLists[result.body.targetTokenAddress], // Set the 'targetToken' state property to the token from 'whiteLists' based on the target token address
+        baseToken: state.whiteLists[result.body.baseTokenAddress], // Set the 'baseToken' state property to the token from 'whiteLists' based on the base token address
       });
     });
   } catch (err) {
@@ -92,13 +97,15 @@ const handleGetPocket = async (id) => {
   }
 };
 
+// Function to handle getting pockets for a wallet address
 const handleGetPockets = (walletAddress) => {
   try {
+    // Fetch pocket data from the API for the given wallet address
     asyncFetch(
       `${API}/pool/decimals-formatted?limit=9999&offset=0&chainId=bnb&ownerAddress=${walletAddress}&statuses=POOL_STATUS%3A%3AACTIVE&statuses=POOL_STATUS%3A%3ACLOSED&sortBy=DATE_START_DESC`
     ).then((result) => {
       State.update({
-        pocketList: result.body,
+        pocketList: result.body, // Update the 'pocketList' state property with the fetched pocket data
       });
     });
   } catch (err) {
@@ -106,20 +113,22 @@ const handleGetPockets = (walletAddress) => {
   }
 };
 
+// Function to sync the wallet data
 const handleSyncWallet = () => {
-  if (!state.sender) return;
+  if (!state.sender) return; // Return if the 'sender' state property is not defined
   asyncFetch(`${API}/pool/user/evm/${state.sender}/sync?chainId=bnb`, {
     method: "POST",
     headers: {
       "content-type": "text/plain;charset=UTF-8",
     },
   }).then(() => {
-    handleGetPockets(state.sender);
+    handleGetPockets(state.sender); // Sync the wallet data and then fetch the pockets for the wallet
   });
 };
 
+// Function to handle depositing into a pocket
 const handleDepositPocket = () => {
-  if (contract === undefined) return;
+  if (contract === undefined) return; // Return if the 'contract' variable is undefined
 
   const desiredAmount = ethers.BigNumber.from(
     `0x${(
@@ -130,9 +139,10 @@ const handleDepositPocket = () => {
 
   contract.depositEther(state.pocket._id, {
     value: desiredAmount,
-  });
+  }); // Deposit the desired amount of Ether into the specified pocket
 };
 
+// Function to handle creating a new pocket
 const handleCreatePocket = () => {
   asyncFetch(`${API}/pool/bnb/${state.sender}`, {
     method: "POST",
@@ -144,9 +154,9 @@ const handleCreatePocket = () => {
       id: result.body._id,
       owner: state.sender,
       baseTokenAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", // Default BNB
-      targetTokenAddress: state.selectedTokenAddress,
+      targetTokenAddress: state.selectedTokenAddress, // Use the selected token address
       ammRouterVersion: "0",
-      ammRouterAddress: CONTRACT_DATA.whitelistedRouters[0].address,
+      ammRouterAddress: CONTRACT_DATA.whitelistedRouters[0].address, // Use the address of the first whitelisted router
       startAt: parseInt(
         ((new Date().getTime() + 30000) / 1000).toString()
       ).toString(),
@@ -186,30 +196,33 @@ const handleCreatePocket = () => {
   });
 };
 
+// Function to sync a pocket
 const handleSyncPocket = () => {
-  if (!state.pocket) return;
+  if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   asyncFetch(`${API}/pool/evm/${state.pocket._id}/sync`, {
     method: "POST",
     headers: {
       "content-type": "text/plain;charset=UTF-8",
     },
   }).then(() => {
-    handleGetPocket(state.pocket._id);
+    handleGetPocket(state.pocket._id); // Sync the pocket and then fetch the updated pocket data
   });
 };
 
+// Function to close a pocket
 const handleClosePocket = () => {
-  if (!state.pocket) return;
+  if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
-    contract.closePocket(state.pocket._id);
+    contract.closePocket(state.pocket._id); // Close the specified pocket
   } catch {}
 };
+
+// Function to handle withdrawing from a pocket
 const handleWithdraw = () => {
-  if (!state.pocket) return;
+  if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
     console.log("Withdraw", state.pocket._id);
-    contract.withdraw(state.pocket._id);
-  } catch {}
+    contract.withdraw(state.pocket._id); // Withdraw from the specified pocket} catch {}
 };
 
 console.log(Ethers.provider());
@@ -217,13 +230,13 @@ console.log(Ethers.provider());
 // DETECT SENDER
 if (state.sender === undefined && Ethers.send("eth_requestAccounts", [])[0]) {
   State.update({
-    sender: ethers.utils.getAddress(Ethers.send("eth_requestAccounts", [])[0]),
+    sender: ethers.utils.getAddress(Ethers.send("eth_requestAccounts", [])[0]), // Detect the sender's address and update the 'sender' state property
   });
 }
 
 // Forbith
 if (!(state.sender && Ethers.provider().network.chainId === 56)) {
-  return <h1>👉 Please connect to BNB chain and reload page to continue</h1>;
+  return <h1>👉 Please connect to BNB chain and reload page to continue</h1>; // If the sender and chain ID conditions are not met, display a message to connect to BNB chain and reload the page
 }
 
 // Get sender balance.
@@ -231,13 +244,13 @@ if (state.sender) {
   Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(10) });
+      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(10) }); // Get the sender's balance and update the 'balance' state property
     });
 }
 
 if (state.whiteLists !== {} && state.sender) {
   // Get pocket data when config has been loaded.
-  handleGetPockets(state.sender);
+  handleGetPockets(state.sender); // Fetch the pockets for the sender if the whiteLists and sender are defined
 }
 
 // Setup contract
@@ -246,7 +259,7 @@ if (state.sender && state.abiJson) {
     CONTRACT_DATA.programAddress,
     state.abiJson,
     Ethers.provider().getSigner()
-  );
+  ); // Setup the contract instance with the program address, ABI JSON, and signer
 }
 
 const cssFont = fetch(
