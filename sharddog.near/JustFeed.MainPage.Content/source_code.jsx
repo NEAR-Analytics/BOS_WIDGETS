@@ -54,7 +54,7 @@ const nftData = Near.view(contractId, "nft_tokens_for_owner", {
 let holder = false;
 
 nftData.forEach((item) => {
-  if (item.series_id === 1) {
+  if (item.series_id === 141) {
     holder = true;
     return true;
   }
