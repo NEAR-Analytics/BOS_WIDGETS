@@ -1,28 +1,108 @@
+if (!context.accountId) {
+  return <></>;
+}
+
 State.init({
-  isOpen,
   image: {},
   text: "",
   showPreview: false,
+  isVisible: isVisible,
 });
 
-const Modal = styled.div`
-  position: fixed;
-  z-index: 101;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  display: ${state.isOpen ? "block" : "none"};
-  background: rgba(128, 128, 128, 0.65);
-`;
+const profile = Social.getr(`${context.accountId}/profile`);
+const autocompleteEnabled = true;
 
-const ComponentWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  z-index: 100;
-  top:50%;
-  left:50%;
-  transform: translate(-50%, -50%);
+const content = {
+  type: "md",
+  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
+  text: state.text,
+};
+
+function extractMentions(text) {
+  const mentionRegex =
+    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+  mentionRegex.lastIndex = 0;
+  const accountIds = new Set();
+  for (const match of text.matchAll(mentionRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+      match[1].length >= 2 &&
+      match[1].length <= 64
+    ) {
+      accountIds.add(match[1].toLowerCase());
+    }
+  }
+  return [...accountIds];
+}
+
+function extractTagNotifications(text, item) {
+  return extractMentions(text || "")
+    .filter((accountId) => accountId !== context.accountId)
+    .map((accountId) => ({
+      key: accountId,
+      value: {
+        type: "mention",
+        item,
+      },
+    }));
+}
+
+function composeData() {
+  const data = {
+    post: {
+      main: JSON.stringify(content),
+    },
+    index: {
+      post: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
+
+  const notifications = extractTagNotifications(state.text, {
+    type: "social",
+    path: `${context.accountId}/post/main`,
+  });
+
+  if (notifications.length) {
+    data.index.notify = JSON.stringify(
+      notifications.length > 1 ? notifications : notifications[0]
+    );
+  }
+
+  return data;
+}
+
+function onCommit() {
+  State.update({
+    image: {},
+    text: "",
+  });
+}
+
+function textareaInputHandler(value) {
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
+  State.update({ text: value, showAccountAutocomplete });
+}
+
+function autoCompleteAccountId(id) {
+  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
+  text = `${text} @${id}`.trim() + " ";
+  State.update({ text, showAccountAutocomplete: false });
+}
+
+const Wrapper = styled.div`
+  --padding: 24px;
+  position: relative;
+
+  @media (max-width: 1200px) {
+    --padding: 12px;
+  }
+  display:block;
 `;
 
 const FloatingButton = styled.button`
@@ -42,6 +122,7 @@ const FloatingButton = styled.button`
   color: #fff;
   font-size: 24px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  z-index:100;
 `;
 
 const PlusIcon = styled.span`
@@ -62,16 +143,6 @@ const PlusIcon = styled.span`
   &::after {
     transform: rotate(90deg);
   }
-`;
-
-const Wrapper = styled.div`
-  --padding: 24px;
-  position: relative;
-
-  @media (max-width: 1200px) {
-    --padding: 12px;
-  }
-  background: #fff;
 `;
 
 const Avatar = styled.div`
@@ -291,135 +362,16 @@ const AutoComplete = styled.div`
   }
 `;
 
-const toggleModal = () => {
-  console.log(state.isOpen);
-  if (state.isOpen === true) {
-    State.update({ isOpen: false });
-  } else {
-    State.update({ isOpen: true });
-  }
-};
-
-if (!context.accountId) {
-  return <></>;
-}
-
-const profile = Social.getr(`${context.accountId}/profile`);
-const autocompleteEnabled = true;
-
-const content = {
-  type: "md",
-  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
-  text: state.text,
-};
-
-function extractMentions(text) {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-}
-
-function extractTagNotifications(text, item) {
-  return extractMentions(text || "")
-    .filter((accountId) => accountId !== context.accountId)
-    .map((accountId) => ({
-      key: accountId,
-      value: {
-        type: "mention",
-        item,
-      },
-    }));
-}
-
-function composeData() {
-  const data = {
-    post: {
-      main: JSON.stringify(content),
-    },
-    index: {
-      post: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-    },
-  };
-
-  const notifications = extractTagNotifications(state.text, {
-    type: "social",
-    path: `${context.accountId}/post/main`,
-  });
-
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
-  }
-
-  return data;
-}
-
-function onCommit() {
-  State.update({
-    image: {},
-    text: "",
-  });
-}
-
-function textareaInputHandler(value) {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
-  State.update({ text: value, showAccountAutocomplete });
-}
-
-function autoCompleteAccountId(id) {
-  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
-  text = `${text} @${id}`.trim() + " ";
-  State.update({ text, showAccountAutocomplete: false });
+function toggleModal() {
+  State.update({ isVisible: !state.isVisible });
 }
 
 return (
-  <>
+  <div>
     <FloatingButton className="floating-button" onClick={toggleModal}>
       <PlusIcon />
     </FloatingButton>
-
-    <Modal>
-      <button
-        style={{
-          position: "absolute",
-          right: "2%",
-          top: "2%",
-          zIndex: 102,
-          backgroundColor: "#64a19d",
-        }}
-        onClick={toggleModal}
-        focusable="false"
-      >
-        <svg
-          height="20px"
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
-          focusable="false"
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          data-testid="CloseIcon"
-        >
-          <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-        </svg>
-      </button>
-
+    {state.isVisible && (
       <Wrapper>
         {state.showPreview ? (
           <PreviewWrapper>
@@ -517,6 +469,6 @@ return (
           </CommitButton>
         </Actions>
       </Wrapper>
-    </Modal>
-  </>
+    )}
+  </div>
 );
