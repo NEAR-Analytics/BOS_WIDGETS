@@ -98,7 +98,7 @@ return (
     )}
     {!canJoin && (
       <button disabled={!canJoin} className="btn btn-success m-1">
-        Joined
+        Pending
       </button>
     )}
     <a
