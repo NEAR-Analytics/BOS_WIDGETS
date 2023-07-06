@@ -33,7 +33,7 @@ return (
       <Widget
         src="hack.near/widget/community.join"
         props={{
-          memberId: accountId,
+          memberId,
           roleId,
         }}
       />
