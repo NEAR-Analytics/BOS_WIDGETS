@@ -1160,7 +1160,9 @@ return (
             href="https://bos.gg/#/cavies.near/widget/hamsterpocket-guide"
             target="_blank"
           >
-            <div class="sync">📚 Watch tutorial</div>
+            <div class="sync" style={{ color: "white" }}>
+              📚 Watch tutorial
+            </div>
           </a>{" "}
         </div>
         {state.currentScreen === 0 && (
@@ -1183,7 +1185,9 @@ return (
                   }}
                   onClick={() => handleSyncWallet()}
                 >
-                  <div class="sync">Refresh</div>
+                  <div class="sync" style={{ color: "white" }}>
+                    Refresh
+                  </div>
                   <div class="ic-16-refresh" style={{ marginLeft: "10px" }}>
                     <div class="ic-16-refresh">
                       <svg
