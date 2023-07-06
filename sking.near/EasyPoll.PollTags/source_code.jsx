@@ -92,7 +92,7 @@ return (
           ? "#D9FCEF"
           : "#FFE5E5",
         color: isUpcoming(poll)
-          ? "#FFC905"
+          ? "#000"
           : isActive(poll)
           ? "#00B37D"
           : "#FF4747",
