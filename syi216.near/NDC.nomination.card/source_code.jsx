@@ -462,7 +462,7 @@ const KeyIssueSeparator = styled.hr`
 width: 302px;
 height: 0px;
 margin: 0px;
-border: 1px solid rgba(208, 214, 217, 1);
+border: 0.5px solid rgba(208, 214, 217, 1);
 flex: none;
 order: 1;
 flex-grow: 0;
