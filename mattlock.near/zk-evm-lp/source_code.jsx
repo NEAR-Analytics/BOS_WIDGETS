@@ -291,7 +291,7 @@ return (
               />
               <h1>Balancer</h1>
               <button
-                disabled={true || component === "balancer"}
+                disabled={component === "balancer"}
                 onClick={() => State.update({ component: "balancer" })}
               >
                 Dex
@@ -342,6 +342,18 @@ return (
               src="zavodil.near/widget/swap-styled"
               props={{
                 dex: "Pancake Swap",
+                forceNetwork: "ZKEVM",
+              }}
+            />
+          </div>
+        )}
+
+        {component === "balancer" && (
+          <div className="center">
+            <Widget
+              src="zavodil.near/widget/swap-styled"
+              props={{
+                dex: "Balancer",
                 forceNetwork: "ZKEVM",
               }}
             />
