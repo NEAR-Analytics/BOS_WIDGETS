@@ -34,7 +34,10 @@ return (
       }}
     />
     {state.assetData && (
-      <button class="input-asset-token" style={{ paddingRight: "4px" }}>
+      <button
+        class="input-asset-token"
+        style={{ paddingRight: "4px", display: "inline-block" }}
+      >
         <span class="input-asset-token-menu">
           <div class="input-asset-token-name">
             <div class="input-asset-token-icon">
