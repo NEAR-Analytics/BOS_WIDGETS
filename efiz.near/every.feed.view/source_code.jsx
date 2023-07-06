@@ -4,7 +4,6 @@ return (
   <>
     {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
       <>
-        // Slate editor
         <Widget
           src="efiz.near/widget/Community.Posts.Compose"
           props={{
