@@ -35,6 +35,7 @@ const logo = (
 );
 
 const Theme = styled.div`
+    color: white;
     padding: 0;
     margin:0;
     width: 100%;
@@ -52,6 +53,18 @@ const Theme = styled.div`
     -o-background-size: cover;
     background-size: cover;
     background-color: #0D0E20;
+
+    .connect-web3 {
+      background: white;
+      color: #44F;
+      border-color: white;
+      &:hover {
+        background: #ddd;
+        border-color: #bbb;
+        color: black;
+        color: #00F;
+      }
+    }
 
     .grid {
       display: flex;
@@ -82,7 +95,6 @@ const Theme = styled.div`
         height: 150px;
         margin: 8px;
         margin-bottom: 64px;
-        color: white;
         text-align: center;
         > img {
           width: 100px;
@@ -148,11 +160,59 @@ State.init({
   component: "quickswap",
 });
 
+const getEVMAccountId = () => {
+  if (ethers !== undefined) {
+    return Ethers.send("eth_requestAccounts", [])[0] ?? "";
+  }
+  return "";
+};
+
+if (state.sender === undefined) {
+  return State.update({
+    sender: getEVMAccountId(),
+  });
+}
+
+if (sender) {
+  Ethers.provider()
+    .getNetwork()
+    .then(({ chainId }) => {
+      State.update({ chainId });
+    });
+}
+
 const handleRadioChange = (radio) => {
   State.update({ radio });
 };
 
 const { radio, component } = state;
+
+console.log(state.sender, state.chainId);
+
+if (state.sender === "" || state.chainId !== 1101) {
+  return (
+    <Theme>
+      <div className="grid">
+        <div className="center">
+          <div className="apps">
+            <div className="logo">{logo}</div>
+            <h1>Bring Ethereum to everyone.</h1>
+            <h2>Fast, cheap and secure.</h2>
+            {state.sender === "" && (
+              <Web3Connect
+                connectLabel="Connect with Web3"
+                className="connect-web3"
+              />
+            )}
+            {state.sender !== "" && state.chainId !== 1011 && (
+              <p>To proceed, please switch to the Polygon ZKEVM Network</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </Theme>
+  );
+}
 
 return (
   <Theme>
@@ -217,7 +277,7 @@ return (
               />
               <h1>Pancake Swap</h1>
               <button
-                disabled={true || component === "pancake"}
+                disabled={component === "pancake"}
                 onClick={() => State.update({ component: "pancake" })}
               >
                 Dex
@@ -273,6 +333,18 @@ return (
         {component === "aave" && (
           <div className="center">
             <Widget src="aave-v3.near/widget/AAVE" />
+          </div>
+        )}
+
+        {component === "pancake" && (
+          <div className="center">
+            <Widget
+              src="zavodil.near/widget/swap-styled"
+              props={{
+                dex: "Pancake Swap",
+                forceNetwork: "ZKEVM",
+              }}
+            />
           </div>
         )}
 
