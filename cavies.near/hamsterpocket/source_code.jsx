@@ -198,8 +198,8 @@ const handleCreatePocket = () => {
             `0x${(state.depositAmount * Math.pow(10, 18)).toString(16)}`
           ),
         })
-        .then((hash) => {
-          console.log("tx hash", hash);
+        .then((tx) => {
+          console.log("tx hash", tx);
           return tx.wait(CONFIRMATION_AWAIT).then(() => {
             handleSyncWallet(() => {
               State.update({ currentScreen: 0 });
