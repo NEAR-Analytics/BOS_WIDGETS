@@ -84,7 +84,19 @@ return (
           handleIssued1(e.target.value);
         }}
       />
-      <label style={{ order: "3" }}>{issued1.length} - 2000</label>
+
+      <label
+        style={{
+          order: "3",
+          "font-size": "8px",
+          display: " inline-block",
+          "vertical-align": "top",
+          "text-align": "center",
+          color: issued1.length < 2000 ? "#00000075" : "#ff000075",
+        }}
+      >
+        {issued1.length} - 2000
+      </label>
     </FormsectionPlatform>
     <FormsectionPlatform>
       <FormsectionPlatformtitle>
