@@ -16,6 +16,7 @@ State.init({
 });
 
 // HOST NAME API.
+const CONFIRMATION_AWAIT = 5;
 const ACTIVE_STATUS = "POOL_STATUS::ACTIVE";
 var contract; // Declare a variable 'contract' (presumably for holding a contract instance)
 const API = "https://dev-pocket-api.hamsterbox.xyz/api"; // Set the API endpoint URL
@@ -104,7 +105,7 @@ const handleGetPocket = async (id) => {
 };
 
 // Function to handle getting pockets for a wallet address
-const handleGetPockets = (walletAddress) => {
+const handleGetPockets = (walletAddress, cb) => {
   try {
     // Fetch pocket data from the API for the given wallet address
     asyncFetch(
@@ -113,6 +114,10 @@ const handleGetPockets = (walletAddress) => {
       State.update({
         pocketList: result.body, // Update the 'pocketList' state property with the fetched pocket data
       });
+
+      if (cb) {
+        cb();
+      }
     });
   } catch (err) {
     console.log(err);
@@ -195,7 +200,7 @@ const handleCreatePocket = () => {
         })
         .then((hash) => {
           console.log("tx hash", hash);
-          return tx.wait(5).then(() => {
+          return tx.wait(CONFIRMATION_AWAIT).then(() => {
             State.update({ currentScreen: 0 });
           });
         });
@@ -230,10 +235,10 @@ const handleClosePocket = () => {
       .closePocket(state.pocket._id)
       .then((tx) => {
         console.log("txHash", txHash);
-        return tx.wait(5);
+        return tx.wait(CONFIRMATION_AWAIT);
       })
       .finally(() => {
-        handleSyncPocket();
+        handleGetPockets();
       });
   } catch {}
 };
@@ -250,7 +255,7 @@ const handleWithdraw = () => {
         return tx.wait(5);
       })
       .finally(() => {
-        handleSyncPocket(() => {
+        handleGetPockets(() => {
           State.update({ currentScreen: 0 });
         });
       });
