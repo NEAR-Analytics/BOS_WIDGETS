@@ -119,7 +119,7 @@ return (
 
           return (
             <Widget
-              src="zahidulislam.near/widget/Profile.Contributions.Item"
+              src="saidulbadhon.near/widget/ProfilePage.Contributions.Item"
               props={{
                 color: color,
                 date: formattedDate,
