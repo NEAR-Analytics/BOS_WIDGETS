@@ -361,7 +361,7 @@ const coinsMap = {
 
 State.init({
   selectedToken: "ETH",
-  selectedNetwork: "ethereum",
+  // selectedNetwork: "ethereum",
   isNetworkSelectOpen: false,
   isTokenDialogOpen: false,
   amount: 0,
@@ -372,7 +372,7 @@ State.init({
 
 const {
   isNetworkSelectOpen,
-  selectedNetwork,
+  // selectedNetwork,
   chainId,
   selectedToken,
   isTokenDialogOpen,
@@ -381,10 +381,13 @@ const {
   prices,
 } = state;
 
+const selectedNetwork = chainId === 1 || chainId === 5 ? "ethereum" : "polygon";
+
 const isTestnet = chainId === 5 || chainId === 1442;
 const isMainnet = chainId === 1 || chainId === 1101;
 
 const switchNetwork = (chainId) => {
+  console.log(`0x${chainId.toString(16)}`);
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
@@ -446,7 +449,6 @@ tokens.filter((t) => t.chainId === chainId).map(updateBalance);
 
 const changeNetwork = (network) => {
   console.log(network);
-  State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
   if (isTestnet) {
     if (network === "polygon") {
       switchNetwork(1442);
@@ -460,6 +462,7 @@ const changeNetwork = (network) => {
       switchNetwork(1);
     }
   }
+  State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
 };
 
 const openNetworkList = () => {
