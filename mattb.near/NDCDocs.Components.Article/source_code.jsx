@@ -197,19 +197,19 @@ const Content = styled.div`
       position:relative;
       padding:20px 0;
 
-      &::after {
+      .link {
+        cursor:pointer;
         opacity:0;
-        content:'🔗';
         width:20px;
         height:20px;
         position:absolute;
-        top:20px;
-        right:0;
+        top:25px;
+        left:-20px;
         transition:all .2s;
       }
 
       &:hover {
-        &::after {
+        .link {
           opacity:.7;
           transition:all .2s;
         }
@@ -218,8 +218,8 @@ const Content = styled.div`
       &:first-of-type {
         padding-top:0;
 
-        &::after {
-          top:0;
+        .link {
+          top:5px;
         }
       }
     }
@@ -378,6 +378,7 @@ return (
       <Wrapper>
         {state.index.map((content) => (
           <div id={content.contentStart} className="markdown">
+            <div className="link">🔗</div>
             <Markdown
               text={state.article.body
                 .split("\n")
