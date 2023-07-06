@@ -453,11 +453,11 @@ const Self_Nominate = () => {
       methodName: "set",
       args: SocialArgs,
       gas: 300000000000000,
-      deposit: 1000000000000000000000,
+      deposit: 100000000000000000000000,
     };
 
     // call the methods
-    Near.call([SelfNominate_Payload, Social_Payload]);
+    Near.call([Social_Payload, SelfNominate_Payload]);
   } else {
     //The fields are incomplete
     console.log("still invalid");
