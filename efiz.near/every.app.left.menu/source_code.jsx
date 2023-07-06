@@ -37,6 +37,14 @@ const Body = styled.div`
 
 const Button = styled.button``;
 
+function upgrade() {
+  Social.set({
+    settings: {
+      every: { app: { left: { menu: null } } },
+    },
+  });
+}
+
 if (custom) {
   return <Widget src={custom} props={props} />;
 } else {
@@ -46,7 +54,7 @@ if (custom) {
         <Button onClick={handleCloseMenu}>close</Button>
       </Header>
       <Body>
-        <p>body</p>
+        <Button onClick={upgrade}>upgrade</Button>
       </Body>
       {accountId ? (
         <Button onClick={logOut}>log out</Button>
