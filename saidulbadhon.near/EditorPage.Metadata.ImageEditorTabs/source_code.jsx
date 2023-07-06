@@ -182,6 +182,8 @@ return (
         minHeight: "9em",
 
         backgroundColor: props.theme.backgroundColor,
+
+        borderBottom: "1px red solid",
       }}
     >
       <div className={`${state.tab === Tab.Upload ? "" : "visually-hidden"}`}>
