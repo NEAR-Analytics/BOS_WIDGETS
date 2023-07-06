@@ -160,6 +160,16 @@ State.init({
   component: "quickswap",
 });
 
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+
+if (sender) {
+  Ethers.provider()
+    .getNetwork()
+    .then(({ chainId }) => {
+      State.update({ selectedChainId: chainId });
+    });
+}
+
 const getEVMAccountId = () => {
   if (ethers !== undefined) {
     return Ethers.send("eth_requestAccounts", [])[0] ?? "";
