@@ -57,7 +57,7 @@ return (
           </div>
           <div className="me-4">
             <Widget
-              src="mob.near/widget/LikeButton"
+              src="sharddog.near/widget/LikeButton"
               props={{
                 notifyAccountId,
                 item,
@@ -67,7 +67,7 @@ return (
           {parentItem && (
             <div key="comment" className="me-4">
               <Widget
-                src="mob.near/widget/CommentButton"
+                src="sharddog.near/widget/CommentButton"
                 props={{
                   onClick: () =>
                     !state.showReply && State.update({ showReply: true }),
