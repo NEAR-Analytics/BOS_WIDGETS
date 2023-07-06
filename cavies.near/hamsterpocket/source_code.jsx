@@ -206,12 +206,12 @@ const handleDepositPocket = () => {
   if (contract === undefined) return; // Return if the 'contract' variable is undefined
 
   const desiredAmount = ethers.BigNumber.from(
-    `0x${(
-      parseFloat(state.pocketDepositedAmount) *
-      parseFloat(Math.pow(10, state.baseToken.decimals))
-    )
-      .toFixed(0)
-      .toString(16)}`
+    `0x${parseFloat(
+      (
+        parseFloat(state.pocketDepositedAmount) *
+        parseFloat(Math.pow(10, state.baseToken.decimals))
+      ).toFixed(0)
+    ).toString(16)}`
   );
 
   contract
@@ -263,7 +263,9 @@ const handleCreatePocket = () => {
         ((new Date().getTime() + 30000) / 1000).toString()
       ).toString(),
       batchVolume: ethers.BigNumber.from(
-        `0x${(state.batchAmount * Math.pow(10, 18)).toFixed(0).toString(16)}`
+        `0x${parseFloat(
+          (state.batchAmount * Math.pow(10, 18)).toFixed(0)
+        ).toString(16)}`
       ),
       stopConditions: [],
       frequency: state.frequency,
@@ -286,9 +288,9 @@ const handleCreatePocket = () => {
       contract
         .createPocketAndDepositEther(createdParams, {
           value: ethers.BigNumber.from(
-            `0x${(state.depositAmount * Math.pow(10, 18))
-              .toFixed(0)
-              .toString(16)}`
+            `0x${parseFloat(
+              (state.depositAmount * Math.pow(10, 18)).toFixed(0)
+            ).toString(16)}`
           ),
         })
         .then((tx) => {
