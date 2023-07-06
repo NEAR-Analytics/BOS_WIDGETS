@@ -1,17 +1,19 @@
 const data = props.data;
 
+const Container = styled.div`
+    min-height: 1200px;
+`;
+
 return (
-  <>
+  <Container>
     {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
-      <>
-        <Widget
-          src="efiz.near/widget/Community.Posts.Compose"
-          props={{
-            allowPublicPosting: true,
-            embedHashtags: data.hashtagWhitelist,
-          }}
-        />
-      </>
+      <Widget
+        src="efiz.near/widget/Community.Posts.Compose"
+        props={{
+          allowPublicPosting: true,
+          embedHashtags: data.hashtagWhitelist,
+        }}
+      />
     ) : (
       <></>
     )}
@@ -27,5 +29,5 @@ return (
         disableCaching: data.disableCaching,
       }}
     />
-  </>
+  </Container>
 );
