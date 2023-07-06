@@ -4,10 +4,7 @@ const alreadyVoted = props.alreadyVoted;
 const showVoteButton = props.showVoteButton ?? true;
 
 function isActive(poll) {
-  return (
-    poll.startTimestamp < Date.now() &&
-    Date.now() < poll.endTimestamp
-  );
+  return poll.startTimestamp < Date.now() && Date.now() < poll.endTimestamp;
 }
 
 function isUpcoming(poll) {
@@ -74,8 +71,7 @@ return (
     <Label>{pollAnswers.length} votes</Label>
     <Label>
       {Date.now() < poll.startTimestamp ||
-      (Date.now() > poll.startTimestamp &&
-        Date.now() < poll.endTimestamp) ? (
+      (Date.now() > poll.startTimestamp && Date.now() < poll.endTimestamp) ? (
         <span>Ends in</span>
       ) : (
         <span>Ended</span>
