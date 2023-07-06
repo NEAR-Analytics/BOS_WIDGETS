@@ -1215,7 +1215,7 @@ return (
               </>
             ) : (
               <Web3Connect
-                className="button-primary-36-px button-connectwallet text-white"
+                className="button-primary-36-px button-connectwallet"
                 connectLabel="🧳 Connect wallet"
               />
             )}
