@@ -183,6 +183,7 @@ border-radius: 4px;
 border: solid 1px transparent;
 background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
+order:2;
 `;
 
 const UpvoteButton = styled.button`
@@ -195,6 +196,7 @@ border: solid 1px transparent;
 background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
 background-clip: padding-box, border-box;
+order:2;
 `;
 
 const UpvoteCount = styled.p`
