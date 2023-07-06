@@ -278,7 +278,7 @@ if (state.sender) {
     });
 }
 
-if (state.whiteLists !== {} && state.sender) {
+if (state.whiteLists !== {} && state.sender && state.currentScreen === 0) {
   // Get pocket data when config has been loaded.
   handleGetPockets(state.sender); // Fetch the pockets for the sender if the whiteLists and sender are defined
 }
