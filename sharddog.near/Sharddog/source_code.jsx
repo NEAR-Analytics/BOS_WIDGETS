@@ -1,4 +1,4 @@
-const limit = 1000;
+const limit = 20;
 
 State.init({
   offset: 0,
