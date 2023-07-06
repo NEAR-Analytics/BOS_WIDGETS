@@ -95,7 +95,10 @@ if (holder) {
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
       ) : (
-        <Widget src="mob.near/widget/MainPage.Feed.Beta" props={{ accounts }} />
+        <Widget
+          src="sharddog.near/widget/MainPage.Feed.Beta"
+          props={{ accounts }}
+        />
       )}
     </>
   );
