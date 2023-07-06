@@ -354,15 +354,43 @@ const handleHouse = (item) => {
   State.update({ house_intended: item, error_msg: null });
 };
 const handleIssued1 = (item) => {
+  if (state.issued1.length >= 2000) {
+    State.update({
+      issued1: item.substring(0, item.length - 1),
+      error_msg: null,
+    });
+    return;
+  }
   State.update({ issued1: item, error_msg: null });
 };
 const handleIssued2 = (item) => {
+  if (state.issued2.length >= 2000) {
+    State.update({
+      issued2: item.substring(0, item.length - 1),
+      error_msg: null,
+    });
+    return;
+  }
   State.update({ issued2: item, error_msg: null });
 };
 const handleIssued3 = (item) => {
+  if (state.issued3.length >= 2000) {
+    State.update({
+      issued3: item.substring(0, item.length - 1),
+      error_msg: null,
+    });
+    return;
+  }
   State.update({ issued3: item, error_msg: null });
 };
 const handleAditional = (item) => {
+  if (state.addition_platform.length >= 2000) {
+    State.update({
+      addition_platform: item.substring(0, item.length - 1),
+      error_msg: null,
+    });
+    return;
+  }
   State.update({ addition_platform: item, error_msg: null });
 };
 const addFields = () => {
