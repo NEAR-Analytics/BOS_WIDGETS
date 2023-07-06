@@ -98,6 +98,8 @@ if (holder) {
       <p>
         <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs <br />
         {canShare}
+        <br />
+        This is a super early beta, feedback is welcome 🐶
       </p>
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
