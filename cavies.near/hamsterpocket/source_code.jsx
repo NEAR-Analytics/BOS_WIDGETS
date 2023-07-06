@@ -297,6 +297,7 @@ const handleCreatePocket = () => {
           console.log("tx hash", tx);
           return tx.wait(CONFIRMATION_AWAIT).then(() => {
             handleSyncWallet(() => {
+              State.update({ frequency: "3600" });
               State.update({ currentScreen: 0 });
             });
           });
@@ -849,7 +850,10 @@ const createPocketScreen = () => {
       <div class="button-group" style={{ display: "flex" }}>
         <div
           class="frame-48098259"
-          onClick={() => State.update({ currentScreen: 0 })}
+          onClick={() => {
+            State.update({ currentScreen: 0 });
+            State.update({ frequency: "3600" });
+          }}
           style={{ float: "left ", cursor: "pointer" }}
         >
           <div class="deposit">Back</div>
