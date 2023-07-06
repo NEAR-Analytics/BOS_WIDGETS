@@ -1,13 +1,13 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const postType = props.postType ?? "post";
-const externalLink = `https://social.near.page/${
+const externalLink = `https://sharddog.social/${
   postType === "post" ? "p" : "c"
 }/${accountId}/${blockHeight}`;
 
 const clickbaitPrompt =
   props.clickbaitPrompt ??
-  `Check out this ${postType} on @NearSocial_\n#NearSocial #NEAR #BOS\n${externalLink}`;
+  `Check out this ${postType} on ShardDog Social\nBuilt on #NearSocial #NEAR \n${externalLink}`;
 
 const twitterUrl = new URL("https://twitter.com/intent/tweet");
 twitterUrl.searchParams.set("text", clickbaitPrompt);
@@ -15,7 +15,7 @@ twitterUrl.searchParams.set("text", clickbaitPrompt);
 const mailtoUrl = new URL("mailto:");
 mailtoUrl.searchParams.set(
   "subject",
-  `Check out this ${postType} on Near Social`
+  `Check out this ${postType} on ShardDog Social`
 );
 mailtoUrl.searchParams.set(
   "body",
