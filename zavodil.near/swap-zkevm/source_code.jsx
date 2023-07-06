@@ -521,7 +521,11 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
       <div class="swap-main-container pt-5">
-        To proceed, kindly switch to {forceNetwork}.
+        To proceed, kindly switch to{" "}
+        <a href="#" onClick={() => switchNetwork(1101)}>
+          {forceNetwork}
+        </a>
+        .
         {!state.sender && (
           <div class="swap-button-container">
             <Web3Connect
