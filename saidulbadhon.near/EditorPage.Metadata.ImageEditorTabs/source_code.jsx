@@ -99,7 +99,7 @@ return (
       className={`nav nav-tabs`}
       style={{
         backgroundColor: props.theme.ui,
-        borderBottom: "1px green solid",
+        borderBottom: `1px ${props.theme.borderColor} solid`,
       }}
     >
       <li className="nav-item">
@@ -188,8 +188,6 @@ return (
         minHeight: "9em",
 
         backgroundColor: props.theme.backgroundColor,
-
-        borderTop: "1px red solid",
       }}
     >
       <div className={`${state.tab === Tab.Upload ? "" : "visually-hidden"}`}>
