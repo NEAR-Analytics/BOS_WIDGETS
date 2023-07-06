@@ -11,7 +11,7 @@ const Modal = styled.div`
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: ${state.isOpen ? "block" : "none"};
   background: rgba(128, 128, 128, 0.65);
 `;
