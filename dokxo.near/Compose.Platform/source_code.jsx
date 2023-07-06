@@ -89,7 +89,7 @@ return (
         style={{
           order: "3",
           "font-size": "8px",
-          display: " inline-block",
+          display: "none",
           "vertical-align": "top",
           "text-align": "center",
           color: issued1.length < 2000 ? "#00000075" : "#ff000075",
