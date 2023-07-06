@@ -1,5 +1,5 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? context.accountId;
+const memberId = props.memberId ?? "mintlu.near";
 const roleId = props.roleId ?? "voter";
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 
@@ -27,18 +27,6 @@ const checkMembership = (groupMembers) => {
 };
 
 const validMember = checkMembership(groupMembers);
-
-// IAH Verification
-let human = false;
-const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: memberId,
-});
-
-for (let i = 0; i < userSBTs.length; i++) {
-  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
-    human = true;
-  }
-}
 
 const proposals = Near.view(daoId, "get_proposals", {
   from_index: 0,
@@ -127,50 +115,16 @@ return (
       </p>
     </div>
     <hr />
-    {!validMember && (
-      <div className="m-2">
-        {!human ? (
-          <div>
-            <Widget
-              src="near/widget/DIG.Button"
-              props={{
-                href: "https://i-am-human.app/?community=banyan&vertical=regionalcommunities",
-                label: "Get Verified",
-                variant: "outline-primary",
-                size: "small",
-              }}
-            />
-          </div>
-        ) : (
-          <div>
-            <Widget
-              src="hack.near/widget/community.join"
-              props={{
-                daoId,
-                memberId,
-                roleId,
-              }}
-            />
-          </div>
-        )}
-      </div>
-    )}
+    <div>
+      <Widget
+        src="hack.near/widget/community.onboarding"
+        props={{
+          memberId,
+          roleId,
+        }}
+      />
+    </div>
     <br />
-    {!accountId && (
-      <div>
-        <p>Please connect with your NEAR account.</p>
-        <h5>Don't have one?</h5>
-        <Widget
-          src="near/widget/DIG.Button"
-          props={{
-            href: "https://near.org/signup",
-            label: "Create Account",
-            variant: "outline-dark",
-            size: "small",
-          }}
-        />
-      </div>
-    )}
     <div>
       {validMember && canJoinContinent && (
         <div className="mb-2">
@@ -186,7 +140,6 @@ return (
           />
         </div>
       )}
-
       {!canJoinContinent && (
         <div>
           <h3>Africa</h3>
@@ -214,7 +167,6 @@ return (
           </div>
         </div>
       )}
-      <br />
       <div className="mb-2">
         {validMember && canJoinContinent && (
           <div className="mb-2">
@@ -258,12 +210,49 @@ return (
           </div>
         </div>
       )}
-      <br />
+      <div className="mb-3">
+        {validMember && canJoinContinent && (
+          <div className="mb-3">
+            <h3>Australia</h3>
+            <Widget
+              src="hack.near/widget/communities.regional"
+              props={{
+                daoId: "australia.sputnik-dao.near",
+                name: "Join NEAR Australia",
+                memberId: accountId,
+                roleId,
+              }}
+            />
+          </div>
+        )}
+      </div>
+      {!canJoinContinent && (
+        <div>
+          <h3>Australia</h3>
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 43,
+              candidateId: "candidate12.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 42,
+              candidateId: "candidate11.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
+        </div>
+      )}
       <div className="mb-2">
         {validMember && canJoinContinent && (
           <div className="mb-2">
             <h3>Europe</h3>
-
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -279,36 +268,30 @@ return (
       {!canJoinContinent && (
         <div>
           <h3>Europe</h3>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 37,
-                candidateId: "candidate6.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 36,
-                candidateId: "candidate5.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 37,
+              candidateId: "candidate6.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 36,
+              candidateId: "candidate5.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
         </div>
       )}
-      <br />
       <div className="mb-2">
         {validMember && canJoinContinent && (
           <div className="mb-2">
             <h3>North America</h3>
-
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -324,36 +307,30 @@ return (
       {!canJoinContinent && (
         <div>
           <h3>North America</h3>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 35,
-                candidateId: "candidate4.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 34,
-                candidateId: "candidate3.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 35,
+              candidateId: "candidate4.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 34,
+              candidateId: "candidate3.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
         </div>
       )}
-      <br />
       <div className="mb-3">
         {validMember && canJoinContinent && (
           <div className="mb-3">
             <h3>South America</h3>
-
             <Widget
               src="hack.near/widget/communities.regional"
               props={{
@@ -369,31 +346,26 @@ return (
       {!canJoinContinent && (
         <div>
           <h3>South America</h3>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 33,
-                candidateId: "candidate2.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 32,
-                candidateId: "candidate1.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 33,
+              candidateId: "candidate2.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId: accountId,
+              proposalId: 32,
+              candidateId: "candidate1.near",
+              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
+            }}
+          />
         </div>
       )}
-      <br />
     </div>
   </div>
 );
