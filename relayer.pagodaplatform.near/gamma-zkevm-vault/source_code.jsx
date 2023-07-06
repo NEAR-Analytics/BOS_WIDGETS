@@ -154,10 +154,12 @@ const Spinner = styled.i`
 `;
 
 State.init({
-  isDeposit: true,
+  isDeposit: false,
+  lpBalance: "",
   balances: [],
   amount0: "",
   amount1: "",
+  lpAmount: "",
   isError: false,
   isLoading: false,
   isToken0Approved: true,
@@ -199,6 +201,23 @@ const getFromDepositAmount = (depositAmount, tokenDecimal) => {
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 
+const { token0, token1, decimals0, decimals1, id } = props.pair || defaultPair;
+const hypeAddress = addresses[id];
+
+const updateLPBalance = () => {
+  const abi = ["function balanceOf(address) view returns (uint256)"];
+  const vaultContract = new ethers.Contract(
+    hypeAddress,
+    abi,
+    Ethers.provider()
+  );
+  vaultContract.balanceOf(sender).then((balanceBig) => {
+    const adjustedBalance = ethers.utils.formatUnits(balanceBig, 18);
+    State.update({
+      lpBalance: adjustedBalance,
+    });
+  });
+};
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
 
@@ -233,14 +252,14 @@ const updateBalance = (token) => {
   }
 };
 
-const { token0, token1, decimals0, decimals1, id } = props.pair || defaultPair;
-const hypeAddress = addresses[id];
-
-if (sender)
+if (sender) {
   [
     { symbol: token0, address: addresses[token0], decimals: decimals0 },
     { symbol: token1, address: addresses[token1], decimals: decimals1 },
   ].map(updateBalance);
+
+  updateLPBalance();
+}
 
 const {
   isDeposit,
@@ -252,6 +271,8 @@ const {
   isToken0Approved,
   isToken1Approved,
   loadingMsg,
+  lpBalance,
+  lpAmount,
 } = state;
 
 const checkApproval = (token0Amount, token1Amount) => {
@@ -393,6 +414,13 @@ const handleToken1Change = (amount) => {
         loadingMsg: "Something went wrong. Please try again.",
       });
     });
+};
+
+const handleLPChange = (amount) => {
+  console.log("LP amount changed :", amount);
+  State.update({
+    lpAmount: amount,
+  });
 };
 
 const handleApprove = (isToken0) => {
@@ -545,7 +573,13 @@ return (
           <span>
             Amount of {token0}-{token1}
           </span>
-          <Input />
+          <Input
+            value={lpAmount}
+            type="number"
+            onChange={(e) => handleLPChange(e.target.value)}
+          />
+          <MaxButton onClick={() => handleLPChange(lpBalance)}>Max</MaxButton>
+          <span>Balance: {lpBalance}</span>
         </InputWrapper>
         <Button> Withdraw </Button>
       </SubWrapper>
