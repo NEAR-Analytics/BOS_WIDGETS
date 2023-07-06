@@ -1,11 +1,7 @@
 const data = props.data;
 
-const Container = styled.div`
-  height: 100vh;
-`;
-
 return (
-  <Container>
+  <>
     {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
       <>
         // Slate editor
@@ -32,5 +28,5 @@ return (
         disableCaching: data.disableCaching,
       }}
     />
-  </Container>
+  </>
 );
