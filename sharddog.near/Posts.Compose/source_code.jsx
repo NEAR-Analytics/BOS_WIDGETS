@@ -390,7 +390,7 @@ return (
           <button
             style={{
               position: "absolute",
-              right: "2%",
+              left: "2%",
               top: "2%",
               zIndex: 102,
               backgroundColor: "#64a19d",
