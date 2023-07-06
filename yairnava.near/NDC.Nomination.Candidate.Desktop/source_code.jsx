@@ -838,9 +838,9 @@ return (
                   }}
                 >
                   {state.tabSelected == "declaration" ? (
-                    <Icon src="https://nativonft.mypinata.cloud/ipfs/Qmb2JVUWqvWmKSCifDjEvz1MCU557knkoQBZfvNVZks3BE"></Icon>
+                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmcFY8p1wkThK91xa3aZHjgaLHj48Cxcdgr2HzpeNEhNFS?_gl=1*2xnemk*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
                   ) : (
-                    <Icon src="https://nativonft.mypinata.cloud/ipfs/QmWtxhrmz9kDcaaVkk46Uf2uwxYj3k4yKvKHGKhahbWGZz"></Icon>
+                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmRT9nmotDAEBcPC5bR3M57pnwNJi7bJxsussUNUvb4Ena?_gl=1*2xnemk*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
                   )}
                   {title}
                 </PillButtonActive>
@@ -851,9 +851,9 @@ return (
                   }}
                 >
                   {state.tabSelected == "comments" ? (
-                    <Icon src="https://nativonft.mypinata.cloud/ipfs/Qmb2JVUWqvWmKSCifDjEvz1MCU557knkoQBZfvNVZks3BE"></Icon>
+                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmSS4qbsAc9E5EgFKiJRSUjFAfCXXsCH4BQEmDT9s2dT9W?_gl=1*updvyu*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
                   ) : (
-                    <Icon src="https://nativonft.mypinata.cloud/ipfs/QmWtxhrmz9kDcaaVkk46Uf2uwxYj3k4yKvKHGKhahbWGZz"></Icon>
+                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmYHQBAWPUFRYzjxCASciM93ezH73VFPhQkuAEoeKpZBEo?_gl=1*updvyu*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
                   )}
                   {title}
                 </PillButton>
