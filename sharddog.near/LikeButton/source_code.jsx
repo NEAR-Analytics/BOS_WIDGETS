@@ -34,8 +34,8 @@ const LikeButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  width: 2.5em;
-  height: 2.5em;
+  width: 1em;
+  height: 1em;
   &:hover {
     color: red;
     background: pink;
@@ -100,7 +100,5 @@ return (
         />
       )}
     </LikeButton>
-    <br />
-    <Widget src="mob.near/widget/LikeButton.Faces" props={{ likesByUsers }} />
   </div>
 );
