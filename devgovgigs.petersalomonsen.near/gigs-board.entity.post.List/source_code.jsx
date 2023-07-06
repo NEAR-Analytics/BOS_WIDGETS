@@ -17,7 +17,6 @@ function widget(widgetName, widgetProps, key) {
     ...widgetProps,
     nearDevGovGigsContractAccountId: props.nearDevGovGigsContractAccountId,
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
-    transactionHashes: props.transactionHashes,
     referral: props.referral,
   };
 
@@ -58,6 +57,7 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
+/* INCLUDE: "core/lib/draftstate" */
 const DRAFT_STATE_STORAGE_KEY = "POST_DRAFT_STATE";
 if (props.transactionHashes) {
   Storage.privateSet(DRAFT_STATE_STORAGE_KEY, undefined);
@@ -69,6 +69,7 @@ let draftState;
 try {
   draftState = JSON.parse(Storage.privateGet(DRAFT_STATE_STORAGE_KEY));
 } catch (e) {}
+/* END_INCLUDE: "core/lib/draftstate" */
 
 initState({
   period: "week",
