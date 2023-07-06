@@ -774,7 +774,7 @@ return (
         <UpvoteButtonDisabled>
           <UpvoteCount style={{ filter: "grayscale(1)" }}>
             {props.data.comments[0].upvotes
-              ? "+" + data.upVoteData.comments
+              ? "+" + data.upVoteData.upvotes
               : "+" + 0}
           </UpvoteCount>
           <Icon
