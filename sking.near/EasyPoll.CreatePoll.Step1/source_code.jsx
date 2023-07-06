@@ -38,8 +38,8 @@ const validationConfig = {
     maxLength: 70,
   },
   description: {
-    required: true,
-    minLength: 20,
+    required: false,
+    minLength: 0,
     maxLength: 2000,
   },
   tgLink: {
@@ -179,7 +179,7 @@ return (
     <Widget
       src={`${widgetOwner}/widget/EasyPoll.Inputs.Text`}
       props={{
-        label: "Description*",
+        label: "Description",
         placeholder: "Describe Your Poll (Markdown Supported)",
         value: state.form.description.value,
         error: state.form.description.error,
@@ -190,9 +190,9 @@ return (
           ),
         textarea: true,
         inputProps: {
-          minLength: 20,
+          minLength: 0,
           maxLength: 2000,
-          required: true,
+          required: false,
         },
       }}
     />
