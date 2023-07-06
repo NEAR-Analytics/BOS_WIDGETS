@@ -95,8 +95,8 @@ gap: 8px;
 }
 `;
 const BCMProfile = styled.div`
-width: 20px;
-height: 20px;
+width: 28px;
+height: 28px;
 flex-shrink: 0;
 flex-direction:row;
 border-radius: 29px;
@@ -107,8 +107,8 @@ text-align: center;
 }
 `;
 const BCMProfileimg = styled.img`
-width: 12.5px;
-height: 12.5px;
+width: 28px;
+height: 28px;
 flex-shrink: 0;
 vertical-align: initial;
 @media only screen and (max-width: 480px) {
@@ -122,7 +122,7 @@ flex-direction: column;
 justify-content: center;
 flex-shrink: 0;
 color: #000;
-font-size: 12px;
+font-size: 14px;
 font-family: Avenir;
 font-style: normal;
 font-weight: 500;
@@ -137,7 +137,7 @@ flex-direction: column;
 align-self: stretch;
 color: #828688;
 font-size: 14px;
-font-family: Avenir;
+font-family:  Open Sans;
 font-style: normal;
 font-weight: 400;
 line-height: 120%;
@@ -171,7 +171,7 @@ flex-direction: column;
 justify-content: center;
 flex: 1 0 0;
 color: #000;
-font-size: 10px;
+font-size: 14px;
 font-family: Avenir;
 font-style: normal;
 font-weight: 300;
@@ -337,6 +337,7 @@ const {
   username,
   profile_picture,
   originalComment,
+  originalCommentID,
   timeago,
   _share_url,
 } = props;
@@ -349,16 +350,10 @@ State.init({
   e_message: "",
 });
 
-const Submit = () => {
-  console.log(state);
-};
-
 return (
   <ModalCard>
-    {" "}
     <CommentCard>
       <CTitle>
-        {" "}
         {candidateOrReplay ? "Comment candidate" : "Comment to reply"}
       </CTitle>
       <Ccontainer>
@@ -369,17 +364,26 @@ return (
                 <BCommentmessage>
                   <BCMHeader>
                     <BCMProfile>
-                      <BCMProfileimg
-                        alt="pic"
-                        src={
-                          profile_picture
-                            ? profile_picture
-                            : "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTKv1yHQKRDQcmc5Jkv2jkaTx2Q1jJE9srHEmyYPq53vJ?preview=1"
-                        }
-                      />
+                      {profile_picture ? (
+                        <BCMProfileimg
+                          style={{ "border-radius": "20px" }}
+                          alt="pic"
+                          src={
+                            "https://nativonft.mypinata.cloud/ipfs/" +
+                            profile_picture
+                          }
+                        />
+                      ) : (
+                        <BCMProfileimg
+                          alt="pic"
+                          src={
+                            "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTKv1yHQKRDQcmc5Jkv2jkaTx2Q1jJE9srHEmyYPq53vJ?preview=1"
+                          }
+                        />
+                      )}
                     </BCMProfile>
                     <BCMProfileUsername>
-                      {username ? username : "@user.near"}
+                      {username ? "@" + username : "@user.near"}
                     </BCMProfileUsername>
                   </BCMHeader>
                   <BCMMessage>
@@ -399,6 +403,7 @@ return (
                       src={
                         "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP3uRUgZtqV3HAgcZoYaDA6JSPpFcpqULvgenWUs3ctSP"
                       }
+                      style={{ width: "14px", height: "14px" }}
                     />
                     <BFCTimetext>
                       {" "}
