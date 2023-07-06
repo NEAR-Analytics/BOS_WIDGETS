@@ -451,7 +451,7 @@ font-weight: 400;
 font-size: 10px;
 margin: 0px;
 line-height: 120%;
-color: #828688;
+color: #585b5c;
 flex: none;
 order: 1;
 align-self: stretch;
@@ -836,7 +836,6 @@ return (
             <KeyIssueDescription>
               {data.nominationData.addition_platform}
             </KeyIssueDescription>
-            <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
         </KeyIssuesContainer>
       </KeyIssuesContent>
