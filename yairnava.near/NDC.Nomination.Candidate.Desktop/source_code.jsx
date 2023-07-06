@@ -218,7 +218,7 @@ height: 17px;
 const PlatformCard = styled.div`
 display: flex;
 width: 326px;
-padding: 8px 12px;
+padding: 16px 12px;
 align-items: flex-start;
 gap: 12px;
 border-radius: 6px;
@@ -754,7 +754,7 @@ return (
                   style={{
                     background: "white",
                     "border-collapse": "collapse",
-                    "border-radius": "30px",
+                    "border-radius": "8px",
                     "border-style": "hidden",
                     "box-shadow": "0 0 0 1px #dee2e6",
                     overflow: "hidden",
