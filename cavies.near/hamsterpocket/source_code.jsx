@@ -284,10 +284,9 @@ if (!state.theme) {
         font-family: "Poppins", sans-serif;
         ${cssFont}
         ${css}
-        overflow: auto;
-        min-height: 80vh;
-        background: black;
-        margin: 32px 0;
+        .on-going{
+            min-height: 100vh
+        }
         .button-primary-36-px,
         .button-primary-36-px * {
           box-sizing: border-box;
