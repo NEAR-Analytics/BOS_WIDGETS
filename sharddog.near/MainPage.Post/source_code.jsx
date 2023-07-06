@@ -14,7 +14,7 @@ const item = {
   blockHeight,
 };
 
-const link = `sharddog.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 return (
   <div className="border-bottom pt-3 pb-1 postcard">
@@ -24,15 +24,33 @@ return (
     />
     <div className="mt-3 text-break">
       <Widget
-        src="sharddog.near/widget/MainPage.Post.Content"
+        src="mob.near/widget/MainPage.Post.Content"
         props={{ content, raw }}
       />
     </div>
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
+        <div className="me-4 commentbtn">
+          <Widget
+            src="mob.near/widget/CommentButton"
+            props={{
+              onClick: () =>
+                !state.showReply && State.update({ showReply: true }),
+            }}
+          />
+        </div>
         <div className="me-4 repostbtn">
           <Widget
-            src="sharddog.near/widget/RepostButton"
+            src="mob.near/widget/RepostButton"
+            props={{
+              notifyAccountId,
+              item,
+            }}
+          />
+        </div>
+        <div className="me-4 likebtn">
+          <Widget
+            src="mob.near/widget/LikeButton"
             props={{
               notifyAccountId,
               item,
@@ -41,26 +59,8 @@ return (
         </div>
         <div className="me-4 sharebtn">
           <Widget
-            src="sharddog.near/widget/MainPage.Post.ShareButton"
+            src="mob.near/widget/MainPage.Post.ShareButton"
             props={{ accountId, blockHeight, postType: "post" }}
-          />
-        </div>
-        <div className="me-4 likebtn">
-          <Widget
-            src="sharddog.near/widget/LikeButton"
-            props={{
-              notifyAccountId,
-              item,
-            }}
-          />
-        </div>
-        <div className="me-4 commentbtn">
-          <Widget
-            src="sharddog.near/widget/CommentButton"
-            props={{
-              onClick: () =>
-                !state.showReply && State.update({ showReply: true }),
-            }}
           />
         </div>
       </div>
@@ -79,7 +79,7 @@ return (
         </div>
       )}
       <Widget
-        src="sharddog.near/widget/MainPage.Comment.Feed"
+        src="mob.near/widget/MainPage.Comment.Feed"
         props={{
           item,
           highlightComment: props.highlightComment,
