@@ -81,7 +81,6 @@ return (
         value={issued1}
         onChange={(e) => {
           handleIssued1(e.target.value);
-          console.log("handleIssued1");
         }}
       />
     </FormsectionPlatform>
