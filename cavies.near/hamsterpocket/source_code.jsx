@@ -328,6 +328,9 @@ if (!state.theme) {
           top: 0px;
           overflow: visible;
         }
+        .text-white {
+            color: white!important
+        }
       `,
   });
 }
@@ -1216,7 +1219,7 @@ return (
             ) : (
               <Web3Connect
                 style={{ color: "white" }}
-                className="button-primary-36-px button-connectwallet"
+                className="button-primary-36-px button-connectwallet text-white"
                 connectLabel="🧳 Connect wallet"
               />
             )}
