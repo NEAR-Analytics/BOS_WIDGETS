@@ -2,7 +2,7 @@ const FormsectionPlatform = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-padding: 9px 0px 0px 0px;
+padding: 0px 0px 0px 0px;
 width: 100%;
  
 flex: none;
@@ -85,18 +85,28 @@ return (
         }}
       />
 
-      <label
+      <div
         style={{
+          "margin-top": "5px",
+
           order: "3",
-          "font-size": "8px",
-          display: "none",
-          "vertical-align": "top",
-          "text-align": "center",
-          color: issued1.length < 2000 ? "#00000075" : "#ff000075",
+          width: "100%",
+          display: "flex",
+          "justify-content": "end",
         }}
       >
-        {issued1.length} - 2000
-      </label>
+        <label
+          style={{
+            "font-size": "8px",
+            display: "flex",
+            "vertical-align": "top",
+            "text-align": "center",
+            color: issued1.length < 2000 ? "#00000075" : "#ff000075",
+          }}
+        >
+          {issued1.length} - 2000
+        </label>
+      </div>
     </FormsectionPlatform>
     <FormsectionPlatform>
       <FormsectionPlatformtitle>
@@ -112,6 +122,28 @@ return (
           handleIssued2(e.target.value);
         }}
       />
+      <div
+        style={{
+          "margin-top": "5px",
+
+          order: "3",
+          width: "100%",
+          display: "flex",
+          "justify-content": "end",
+        }}
+      >
+        <label
+          style={{
+            "font-size": "8px",
+            display: "flex",
+            "vertical-align": "top",
+            "text-align": "center",
+            color: issued2.length < 2000 ? "#00000075" : "#ff000075",
+          }}
+        >
+          {issued2.length} - 2000
+        </label>
+      </div>
     </FormsectionPlatform>
     <FormsectionPlatform>
       <FormsectionPlatformtitle>
@@ -127,6 +159,28 @@ return (
           handleIssued3(e.target.value);
         }}
       />
+      <div
+        style={{
+          "margin-top": "5px",
+
+          order: "3",
+          width: "100%",
+          display: "flex",
+          "justify-content": "end",
+        }}
+      >
+        <label
+          style={{
+            "font-size": "8px",
+            display: "flex",
+            "vertical-align": "top",
+            "text-align": "center",
+            color: issued3.length < 2000 ? "#00000075" : "#ff000075",
+          }}
+        >
+          {issued3.length} - 2000
+        </label>
+      </div>
     </FormsectionPlatform>
     <FormsectionPlatform>
       <FormsectionPlatformtitle>
@@ -142,6 +196,28 @@ return (
           handleAditional(e.target.value);
         }}
       />
+      <div
+        style={{
+          "margin-top": "5px",
+
+          order: "3",
+          width: "100%",
+          display: "flex",
+          "justify-content": "end",
+        }}
+      >
+        <label
+          style={{
+            "font-size": "8px",
+            display: "flex",
+            "vertical-align": "top",
+            "text-align": "center",
+            color: addition_platform.length < 2000 ? "#00000075" : "#ff000075",
+          }}
+        >
+          {addition_platform.length} - 2000
+        </label>
+      </div>
     </FormsectionPlatform>
   </div>
 );
