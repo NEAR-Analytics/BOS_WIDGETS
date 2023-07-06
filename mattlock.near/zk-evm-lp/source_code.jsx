@@ -174,6 +174,10 @@ if (state.sender === undefined) {
   State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] || "" });
 }
 
+if (state.sender === "") {
+  State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] || "" });
+}
+
 const handleRadioChange = (radio) => {
   State.update({ radio });
 };
