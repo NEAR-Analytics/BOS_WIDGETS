@@ -24,7 +24,8 @@ line-height: 120%;
 display: flex;
 align-items: center;
 color: #000000;
-    margin-bottom: 0px;
+margin-bottom: 0px;
+order: 1;
 @media only screen and (max-width: 480px) {
   
  
@@ -42,7 +43,7 @@ background: #FFFFFF;
 border: 1px solid #D0D6D9;
 border-radius: 8px;
 
-order: 1;
+order: 2;
 
 font-size: 12px;
 @media only screen and (max-width: 480px) {
@@ -83,6 +84,7 @@ return (
           handleIssued1(e.target.value);
         }}
       />
+      <label style={{ order: "3" }}>{issued1.length} - 2000</label>
     </FormsectionPlatform>
     <FormsectionPlatform>
       <FormsectionPlatformtitle>
