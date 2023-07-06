@@ -38,7 +38,9 @@ return (
     />
     <Theme>
       {state.assetData &&
-        (!state.hideZeroBalance || state.assetData.balance > 0) && (
+        (!state.hideZeroBalance ||
+          parseFloat(state.assetData.balance_hr).toFixed(state.fractionDigits) >
+            0) && (
           <button
             class="input-asset-token"
             style={{ paddingRight: "4px", display: "inline-block" }}
