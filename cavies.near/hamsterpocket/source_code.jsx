@@ -238,7 +238,7 @@ const handleClosePocket = () => {
         return tx.wait(CONFIRMATION_AWAIT);
       })
       .finally(() => {
-        handleGetPockets(state.sender);
+        handleSyncPocket();
       });
   } catch {}
 };
