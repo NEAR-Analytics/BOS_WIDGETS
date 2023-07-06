@@ -14,11 +14,14 @@ const loadNFT = () => {
     `https://eth-goerli.g.alchemy.com/nft/v2/${alchemyApiKey}/getNFTsForCollection?contractAddress=${address}&withMetadata=true&startToken=${tokenId}&limit=1`,
     options
   );
-  console.log("nfts", nfts);
+  console.log("nft", nfts);
 
   State.update({ token: nfts.body.nfts[0] });
+  console.log("state.token", state.token);
   State.update({ loading: false });
 };
+
+loadNFT();
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
@@ -37,12 +40,16 @@ return (
         </div>
       </>
     )}
-    {token && (
+    {state.token && (
       <>
-        <h1 className="text-center mb-3">{token.title}</h1>
+        <h1 className="text-center mb-3">{state.token.title}</h1>
         <div className="container">
           <div className="card shadow-sm">
-            <img src={token.media[0].gateway} width={300} alt={token.title} />
+            <img
+              src={state.token.media[0].gateway}
+              width={300}
+              alt={state.token.title}
+            />
             <div className="card-body">
               <p className="card-text">
                 <a
