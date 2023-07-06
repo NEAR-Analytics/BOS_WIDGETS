@@ -87,7 +87,7 @@ const blackList = []; // use it to hide bad users
 
 const indexVersion = "sking3.2.0";
 
-const hasSBTToken = true || getFirstSBTToken() !== undefined;
+const hasSBTToken = getFirstSBTToken() !== undefined;
 
 const canOperate = hasSBTToken || whitelist.includes(context.accountId);
 
@@ -322,7 +322,7 @@ return (
           />
         </SidebarWrapper>
 
-        <MainWrapper className="px-4 pt-4 pb-3">
+        <MainWrapper className="pt-4 pb-3">
           {tabs[page].text && <SectionHeader>{tabs[page].text}</SectionHeader>}
           {tabs[page].description && (
             <SectionDescription>{tabs[page].description}</SectionDescription>
@@ -372,6 +372,7 @@ return (
                 isHuman: hasSBTToken,
                 src: props.src,
                 blockHeight: props.blockHeight,
+                indexVersion,
               }}
             />
           ) : page === "CREATE_POLL" ? (
@@ -389,6 +390,7 @@ return (
               props={{
                 blockHeight: props.blockHeight,
                 src: props.src,
+                indexVersion,
               }}
             />
           ) : page === "DELETE_POLL" ? (
