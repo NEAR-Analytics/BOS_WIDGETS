@@ -18,7 +18,7 @@ const Wrapper = styled.div`
  
 `;
 
-const walletRequestConection = () => window.alert("message");
+const walletRequestConection = () => console.log("test button");
 
 const wallletRequestSendTransaction = () => {};
 
