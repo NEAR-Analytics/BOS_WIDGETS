@@ -224,7 +224,6 @@ return (
           value={name}
           onChange={(e) => {
             handleName(e.target.value);
-            console.log("name");
           }}
         />
       </Formsection>
