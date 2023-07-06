@@ -24,6 +24,7 @@ function fetchTokens() {
               order_by: {minted_timestamp: desc}
             ) {
               media
+              owner
             }
           }
         `,
@@ -78,24 +79,26 @@ return (
     <Grid>
       {state.tokens?.map((it) => {
         return (
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: {
-                url: it.media,
-              },
-              style: {
-                width: size,
-                height: size,
-                objectFit: "cover",
-                minWidth: size,
-                minHeight: size,
-                maxWidth: size,
-                maxHeight: size,
-                overflowWrap: "break-word",
-              },
-            }}
-          />
+          <Link to={`/mob.near/widget/ProfilePage?accountId=${it.owner}`}>
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: {
+                  url: it.media,
+                },
+                style: {
+                  width: size,
+                  height: size,
+                  objectFit: "cover",
+                  minWidth: size,
+                  minHeight: size,
+                  maxWidth: size,
+                  maxHeight: size,
+                  overflowWrap: "break-word",
+                },
+              }}
+            />
+          </Link>
         );
       })}
     </Grid>
