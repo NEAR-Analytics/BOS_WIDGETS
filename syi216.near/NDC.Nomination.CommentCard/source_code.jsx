@@ -75,7 +75,7 @@ margin: 0px;
 `;
 
 const CommentCardContent = styled.p`
-color: #828688;
+color: #585b5c;
 font-size: 12px;
 font-family: Avenir;
 line-height: 120%;
