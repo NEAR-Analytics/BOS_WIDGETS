@@ -166,7 +166,7 @@ if (sender) {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ selectedChainId: chainId });
+      State.update({ chainId });
     });
 }
 
