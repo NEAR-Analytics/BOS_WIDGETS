@@ -33,6 +33,8 @@ const metadata = {
       : undefined,
   tags: options.tags ? state.metadata.tags : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
+
+  platform: "Components.gg",
 };
 
 if (
