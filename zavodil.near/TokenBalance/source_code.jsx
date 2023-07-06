@@ -1,6 +1,6 @@
 State.init({
-  tokenId: props.tokenId ?? "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-  network: props.network ?? "ETH",
+  tokenId: props.tokenId1 ?? "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  network: props.network1 ?? "ETH",
 });
 
 const css = fetch(
@@ -21,7 +21,7 @@ if (!state.theme) {
 const Theme = state.theme;
 
 return (
-  <Theme>
+  <>
     <Widget
       src="zavodil.near/widget/TokenData"
       props={{
@@ -33,31 +33,33 @@ return (
         },
       }}
     />
-    {state.assetData && (
-      <button
-        class="input-asset-token"
-        style={{ paddingRight: "4px", display: "inline-block" }}
-      >
-        <span class="input-asset-token-menu">
-          <div class="input-asset-token-name">
-            <div class="input-asset-token-icon">
-              {state.assetData.metadata.icon ? (
-                <img
-                  alt={`${state.assetData.metadata.name} logo`}
-                  src={state.assetData.metadata.icon}
-                  class="input-asset-token-icon-img"
-                />
-              ) : (
-                <>Undefined</>
-              )}
+    <Theme>
+      {state.assetData && (
+        <button
+          class="input-asset-token"
+          style={{ paddingRight: "4px", display: "inline-block" }}
+        >
+          <span class="input-asset-token-menu">
+            <div class="input-asset-token-name">
+              <div class="input-asset-token-icon">
+                {state.assetData.metadata.icon ? (
+                  <img
+                    alt={`${state.assetData.metadata.name} logo`}
+                    src={state.assetData.metadata.icon}
+                    class="input-asset-token-icon-img"
+                  />
+                ) : (
+                  <>Undefined</>
+                )}
+              </div>
+              <span class="input-asset-token-ticker">
+                {state.assetData.balance_hr}
+                {state.assetData.metadata.symbol}
+              </span>
             </div>
-            <span class="input-asset-token-ticker">
-              {state.assetData.balance_hr}
-              {state.assetData.metadata.symbol}
-            </span>
-          </div>
-        </span>
-      </button>
-    )}
-  </Theme>
+          </span>
+        </button>
+      )}
+    </Theme>
+  </>
 );
