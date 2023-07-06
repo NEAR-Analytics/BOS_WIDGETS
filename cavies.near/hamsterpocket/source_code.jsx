@@ -11,6 +11,8 @@ State.init({
   batchAmount: 0, // Initialize the 'batchAmount' state property to 0
   depositAmount: 0, // Initialize the 'depositAmount' state property to 0
   balance: 0, // Initialize the 'balance' state property to 0
+  sender: null,
+  chainId: null,
 });
 
 // HOST NAME API.
@@ -228,18 +230,20 @@ const handleWithdraw = () => {
   } catch {}
 };
 
-console.log(Ethers.provider());
-
 // DETECT SENDER
-if (state.sender === undefined && Ethers.send("eth_requestAccounts", [])[0]) {
-  State.update({
-    sender: ethers.utils.getAddress(Ethers.send("eth_requestAccounts", [])[0]), // Detect the sender's address and update the 'sender' state property
-  });
-}
-
-// Forbith
-if (!(state.sender && Ethers.provider().network.chainId === 56)) {
-  return <h1>👉 Please connect to BNB chain and reload page to continue</h1>; // If the sender and chain ID conditions are not met, display a message to connect to BNB chain and reload the page
+if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({
+          chainId: chainIdData.chainId,
+          sender: ethers.utils.getAddress(
+            Ethers.send("eth_requestAccounts", [])[0]
+          ),
+        });
+      }
+    });
 }
 
 // Get sender balance.
@@ -330,6 +334,14 @@ if (!state.theme) {
 const Theme = state.theme;
 
 const pocketListScreen = () => {
+  if (state.sender === null || state.chainId !== 56) {
+    return (
+      <>
+        <div>Please connect to BNB chain wallet 🚀</div>
+      </>
+    );
+  }
+
   if (state.pocketList.length === 0) {
     return (
       <>
@@ -1153,41 +1165,53 @@ return (
         </div>
         {state.currentScreen === 0 && (
           <>
-            <div
-              class="button-primary-36-px"
-              style={{ cursor: "pointer" }}
-              onClick={() => State.update({ currentScreen: 1 })}
-            >
-              <div class="button-connectwallet">🚀 Create</div>
-            </div>
-
-            <div
-              class="sync-button"
-              style={{ cursor: "pointer", marginLeft: "10px", height: "40px" }}
-              onClick={() => handleSyncWallet()}
-            >
-              <div class="sync">Refresh</div>
-              <div class="ic-16-refresh" style={{ marginLeft: "10px" }}>
-                <div class="ic-16-refresh">
-                  <svg
-                    class="refresh-2"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
-                      stroke="#735CF7"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+            {state.sender !== null && state.chainId === 56 ? (
+              <>
+                <div
+                  class="button-primary-36-px"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => State.update({ currentScreen: 1 })}
+                >
+                  <div class="button-connectwallet">🚀 Create</div>
                 </div>
-              </div>
-            </div>
+                <div
+                  class="sync-button"
+                  style={{
+                    cursor: "pointer",
+                    marginLeft: "10px",
+                    height: "40px",
+                  }}
+                  onClick={() => handleSyncWallet()}
+                >
+                  <div class="sync">Refresh</div>
+                  <div class="ic-16-refresh" style={{ marginLeft: "10px" }}>
+                    <div class="ic-16-refresh">
+                      <svg
+                        class="refresh-2"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14.6668 7.99967C14.6668 11.6797 11.6802 14.6663 8.00016 14.6663C4.32016 14.6663 2.0735 10.9597 2.0735 10.9597M2.0735 10.9597H5.08683M2.0735 10.9597V14.293M1.3335 7.99967C1.3335 4.31967 4.2935 1.33301 8.00016 1.33301C12.4468 1.33301 14.6668 5.03967 14.6668 5.03967M14.6668 5.03967V1.70634M14.6668 5.03967H11.7068"
+                          stroke="#735CF7"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <Web3Connect
+                className="button-primary-36-px button-connectwallet"
+                connectLabel="🧳 Connect wallet"
+              />
+            )}
           </>
         )}
       </div>
