@@ -43,7 +43,7 @@ return (
       />
       <div className="mt-2 text-break">
         <Widget
-          src="sharddog.near/widget/MainPage.Post.Content"
+          src="mob.near/widget/MainPage.Post.Content"
           props={{ content, raw }}
         />
       </div>
