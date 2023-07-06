@@ -30,15 +30,6 @@ return (
     </div>
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
-        <div className="me-4 commentbtn">
-          <Widget
-            src="mob.near/widget/CommentButton"
-            props={{
-              onClick: () =>
-                !state.showReply && State.update({ showReply: true }),
-            }}
-          />
-        </div>
         <div className="me-4 repostbtn">
           <Widget
             src="mob.near/widget/RepostButton"
