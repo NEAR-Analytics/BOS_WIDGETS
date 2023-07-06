@@ -1,7 +1,7 @@
 const data = props.data;
 
 const Container = styled.div`
-  height: 100%;
+  height: 100vh;
 `;
 
 return (
