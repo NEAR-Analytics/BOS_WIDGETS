@@ -18,8 +18,6 @@ const Wrapper = styled.div`
  
 `;
 
-const walletRequestConection = () => console.log("test button");
-
 const wallletRequestSendTransaction = () => {};
 
 const initiatePayout = () => {};
@@ -37,10 +35,7 @@ return (
       {sender ? (
         <p>Account: {sender}</p>
       ) : (
-        <button type="button" onclick={walletRequestConection}>
-          {" "}
-          connect wallet{" "}
-        </button>
+        <Web3Connect className="web3-connect" connectLabel="Connect Wallet" />
       )}
       <div>
         <select name="countries" id="">
@@ -58,7 +53,7 @@ return (
           <option value="Rwanda"> Pay To Phonenumber </option>
         </select>
 
-        {sender ? <Button> Start Sending </Button> : null}
+        {sender ? <button> Start Sending </button> : null}
       </div>
     </div>
     <div></div>
