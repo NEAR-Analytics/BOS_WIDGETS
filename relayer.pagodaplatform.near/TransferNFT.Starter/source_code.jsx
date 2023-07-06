@@ -5,13 +5,19 @@ const transferNFT = () => {
     "https://raw.githubusercontent.com/atilatech/together/master/src/artifacts/contracts/NFT.sol/NFT.json"
   );
 
+  console.log("nftABI", nftABI);
+
   const sender = Ethers.send("eth_requestAccounts");
   console.log("sender", sender);
-  if (!sender) return "Please login first";
+  if (!sender) {
+    console.log("Please login first");
+    // window.ethereum.send("eth_requestAccounts");
+    console.log(" window.ethereum.send");
+  }
 
   const signer = Ethers.provider().getSigner();
 
-  console.log({ sender, signer });
+  console.log("sender, signer", { sender, signer });
   const nftContract = new ethers.Contract(address, nftABI.body, signer);
   console.log({ nftContract });
 
