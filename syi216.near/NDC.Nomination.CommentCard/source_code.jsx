@@ -1,5 +1,4 @@
 const data = props.data;
-console.log(data);
 State.init({
   showModal: false,
   hasReply: false,
