@@ -32,6 +32,23 @@ const CardWrapper = styled.div`
   min-width: 340px;
 `;
 
+const ModalWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 100, 100, 0.7);
+  z-index:100;
+`;
+const ModalStyles = styled.div`
+  width: 95%;
+  height: 95%;
+  background: #fff;
+  
+`;
+
 // ========== JSX ==========
 const StatusTagGroup = ({ activeStatus, articleId }) => (
   <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
@@ -51,14 +68,14 @@ const StatusTagGroup = ({ activeStatus, articleId }) => (
 
 const Modal = ({ onClose, children }) => {
   return (
-    <div>
-      <div>
+    <ModalWrapper>
+      <ModalStyles>
         <button onClick={onClose} class="btn btn-outline-dark btn-sm">
           &times;
         </button>
         {children}
-      </div>
-    </div>
+      </ModalStyles>
+    </ModalWrapper>
   );
 };
 
