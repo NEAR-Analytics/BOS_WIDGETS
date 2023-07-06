@@ -391,9 +391,11 @@ return (
             style={{
               position: "absolute",
               left: "2%",
-              top: "2%",
+              bottom: "2%",
               zIndex: 102,
               backgroundColor: "#64a19d",
+              width: "12",
+              height: "12",
             }}
             onClick={toggleModal}
             focusable="false"
