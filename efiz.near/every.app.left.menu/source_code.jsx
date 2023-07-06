@@ -16,6 +16,7 @@ const Container = styled.div`
   height: 100%;
   width: 80%;
   max-width: 400px;
+  background-color: white;
 `;
 
 const Header = styled.div`
@@ -24,7 +25,6 @@ const Header = styled.div`
   justify-content: flex-end;
   height: 60px;
   border: 1px solid #ccc;
-  background-color: white;
 `;
 
 const Body = styled.div`
