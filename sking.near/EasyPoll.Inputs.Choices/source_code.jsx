@@ -1,9 +1,10 @@
-const label = props.label ?? "Label";
-const choices = props.choices ?? ["a", "b"];
+const label = props.label;
+const choices = props.choices ?? [];
+const min = Number(props.min ?? 0);
+const max = Number(props.max ?? 0);
 const images = props.images;
-const value = props.value ?? "0";
+const value = props.value ?? [];
 const onChange = props.onChange ?? (() => {});
-const type = props.type ?? "single"; // single, multiple
 const error = props.error ?? "";
 const disabled = props.disabled ?? "";
 
@@ -143,53 +144,69 @@ if (hasImage) {
   `;
 }
 
+let defaultLabel;
+
+if (max === 1) {
+  defaultLabel = "Select one answer";
+} else if (min === max) {
+  defaultLabel = `Select exactly ${min} answers`;
+} else if (max > 1000) {
+  defaultLabel = `Choose at least ${min} answers.`;
+} else if (min === 0) {
+  defaultLabel = `Please choose up to ${max} answers.`;
+} else {
+  defaultLabel = `Select between ${min} and ${max} answers`;
+}
+
+const type = max === 1 ? "single" : "multiple";
+
 const handleChange = (v) => {
   if (type === "single") {
-    console.log(v);
-    onChange(v);
+    onChange([v]);
     return;
   }
-  if (type === "multiple") {
-    if (value.includes(v)) {
-      const new_value = value;
-      const index = value.indexOf(v);
-      if (index > -1) {
-        new_value.splice(index, 1);
-      }
-      onChange(new_value);
-    } else {
+  if (value.includes(v)) {
+    const new_value = value.filter((val) => val !== v);
+    onChange(new_value);
+  } else {
+    if (value.length < max) {
       onChange([...value, v]);
+    } else {
+      console.log("Maximum limit reached");
     }
-    return;
   }
 };
 
 return (
   <Container>
-    <Label>{label}</Label>
+    <Label>{label || defaultLabel}</Label>
     <div
       className={`d-flex flex-wrap w-100 ${
         !hasImage ? "gap-3 flex-column" : "gap-3"
       }`}
     >
-      {choices?.map((v, i) => (
-        <Option
-          role="button"
-          className={value == v || value.includes(v) ? "active" : ""}
-          onClick={() => !disabled && handleChange(v)}
-          disabled={disabled}
-        >
-          {hasImage && <img src={images[i]} />}
-          <div className="d-flex gap-1 align-items-center">
-            <input
-              className="form-check-input"
-              type={type === "single" ? "radio" : "checkbox"}
-              checked={value == v || value.includes(v)}
-            />
-            <h5>{v}</h5>
-          </div>
-        </Option>
-      ))}
+      {choices?.map((v, i) => {
+        let text = v;
+        v = hasImage ? images[i] : v;
+        return (
+          <Option
+            role="button"
+            className={value == v || value.includes(v) ? "active" : ""}
+            onClick={() => !disabled && handleChange(v)}
+            disabled={disabled}
+          >
+            {hasImage && <img src={images[i]} />}
+            <div className="d-flex gap-1 align-items-center">
+              <input
+                className="form-check-input"
+                type={type === "single" ? "radio" : "checkbox"}
+                checked={value == v || value.includes(v)}
+              />
+              <h5>{text}</h5>
+            </div>
+          </Option>
+        );
+      })}
     </div>
     <Error className={error ? "show" : ""}>{error}</Error>
   </Container>
