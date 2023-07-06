@@ -221,7 +221,9 @@ const handleSyncPocket = (cb) => {
 const handleClosePocket = () => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
-    contract.closePocket(state.pocket._id).then(() => {
+    const tx = contract.closePocket(state.pocket._id);
+
+    tx.wait().then(() => {
       handleSyncPocket();
     }); // Close the specified pocket
   } catch {}
@@ -232,7 +234,9 @@ const handleWithdraw = () => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
     console.log("Withdraw", state.pocket._id);
-    contract.withdraw(state.pocket._id).then(() => {
+    const tx = contract.withdraw(state.pocket._id);
+
+    tx.wait().then(() => {
       handleSyncPocket(() => {
         State.update({ currentScreen: 0 });
       });
