@@ -3,21 +3,10 @@ const memberId = props.memberId ?? context.accountId;
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const role = props.role ?? "voter";
 
-const policy = Near.view(daoId, "get_policy");
-const deposit = policy.proposal_bond;
-
-if (policy === null) {
-  return "";
-}
-
-const group = policy.roles
-  .filter((role) => role.name === roleId)
-  .map((role) => role.kind.Group);
-
 // IAH Verification
 let human = false;
 const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: accountId,
+  account: memberId,
 });
 
 for (let i = 0; i < userSBTs.length; i++) {
@@ -25,29 +14,6 @@ for (let i = 0; i < userSBTs.length; i++) {
     human = true;
   }
 }
-
-const handleJoin = () => {
-  const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "potential member",
-          kind: {
-            AddMemberToRole: {
-              member_id: accountId,
-            },
-          },
-        },
-      },
-      gas: gas,
-      deposit: deposit,
-    },
-  ]);
-};
 
 return (
   <div className="m-2">
