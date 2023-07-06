@@ -1215,6 +1215,7 @@ return (
               </>
             ) : (
               <Web3Connect
+                style={{ color: "white" }}
                 className="button-primary-36-px button-connectwallet"
                 connectLabel="🧳 Connect wallet"
               />
