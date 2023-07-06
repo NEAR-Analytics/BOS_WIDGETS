@@ -1,5 +1,5 @@
 State.init({
-  tabSelected: "declaration",
+  tabSelected: "comments",
   verified: false,
   start: true,
   voted: false,
