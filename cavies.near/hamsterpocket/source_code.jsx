@@ -234,7 +234,7 @@ const handleWithdraw = () => {
     console.log("Withdraw", state.pocket._id);
     contract.withdraw(state.pocket._id).then(() => {
       handleSyncPocket(() => {
-        State.update({ screen: 0 });
+        State.update({ currentScreen: 0 });
       });
     }); // Withdraw from the specified pocket
   } catch {}
