@@ -47,7 +47,9 @@ const CONTRACT_DATA = {
 };
 
 // Fetch the JSON file from the given URL and update the 'abiJson' state property
-asyncFetch("https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/pocketchef.json").then((result) => {
+asyncFetch(
+  "https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/pocketchef.json"
+).then((result) => {
   State.update({
     abiJson: JSON.parse(result.body), // Parse the JSON response and update the 'abiJson' state property
   });
@@ -222,7 +224,8 @@ const handleWithdraw = () => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
     console.log("Withdraw", state.pocket._id);
-    contract.withdraw(state.pocket._id); // Withdraw from the specified pocket} catch {}
+    contract.withdraw(state.pocket._id); // Withdraw from the specified pocket
+  } catch {}
 };
 
 console.log(Ethers.provider());
