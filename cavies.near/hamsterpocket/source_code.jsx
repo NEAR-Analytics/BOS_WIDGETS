@@ -1100,7 +1100,7 @@ const renderAppScreen = () => {
 
 return (
   <Theme>
-    <div class="on-going" style={{ minHeight: "100vh" }}>
+    <div class="on-going" style={{ minHeight: "100vh", margin: "32px 0" }}>
       <div class="frame-48098139">
         {state.currentScreen > 0 && (
           <button onClick={() => State.update({ currentScreen: 0 })}>
@@ -1214,7 +1214,7 @@ return (
               </>
             ) : (
               <Web3Connect
-                className="button-primary-36-px button-connectwallet"
+                className="button-primary-36-px button-connectwallet text-white"
                 connectLabel="🧳 Connect wallet"
               />
             )}
