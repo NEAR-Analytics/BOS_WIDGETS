@@ -4,15 +4,16 @@ const href = props.href;
 const editHref = props.editHref;
 const accountId = props.accountId ?? context.accountId;
 const tabs = props.tabs;
+const indexVersion = props.indexVersion ?? "3.2.0";
 const isHuman = props.isHuman;
 const blockHeight = props.blockHeight ?? "final";
+const showDraft = props.showDraft ?? false;
 
 if (!src) {
   return "Please provide poll src";
 }
 
 const poll = Social.get(`${src}`, blockHeight);
-
 if (!poll) {
   return "Loading...";
 }
@@ -21,12 +22,12 @@ poll.accountId = src.split("/")[0];
 
 let profile = Social.getr(`${poll.accountId}/profile`);
 
-let userAnswers = Social.index("easypoll_answer", `${src}`, {
+let userAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`, {
   accountId: accountId,
 });
 if (!userAnswers) return "Loading...";
 
-let allAnswers = Social.index("easypoll_answer", `${src}`);
+let allAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`);
 if (!allAnswers) return "Loading...";
 
 const isVerifiedHuman = (account) => {
@@ -82,6 +83,7 @@ return (
         profile,
         userAnswers: userAnswers,
         pollAnswers: state.filteredAnswers,
+        indexVersion,
         src,
       }}
     />
