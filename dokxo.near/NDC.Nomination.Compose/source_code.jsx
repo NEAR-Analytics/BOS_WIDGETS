@@ -453,7 +453,7 @@ const Self_Nominate = () => {
       methodName: "set",
       args: SocialArgs,
       gas: 300000000000000,
-      deposit: 100000000000000000000,
+      deposit: 1000000000000000000000,
     };
 
     // call the methods
