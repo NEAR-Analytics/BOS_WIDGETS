@@ -172,10 +172,11 @@ if (sender) {
 
 if (state.sender === undefined) {
   const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
+  const foo = "bar";
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ sender, chainId });
+      State.update({ sender, chainId, foo });
     });
 }
 
