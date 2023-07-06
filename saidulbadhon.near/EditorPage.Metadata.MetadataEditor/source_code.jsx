@@ -54,6 +54,7 @@ return (
           style={{
             backgroundColor: props.theme.backgroundColor,
             borderColor: props.theme.borderColor,
+            color: props.theme.textColor,
           }}
           type="text"
           value={state.metadata.name}
