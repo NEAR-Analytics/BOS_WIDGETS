@@ -179,7 +179,7 @@ const H5 = styled.h5`
 `;
 
 const Toolbar = styled.div`
-margin: 32px 0 0 0;
+margin: 16px 0 0 0;
 display: flex;
 width: 100%;
 flex-direction: row;
