@@ -11,8 +11,8 @@ State.init({
   batchAmount: 0, // Initialize the 'batchAmount' state property to 0
   depositAmount: 0, // Initialize the 'depositAmount' state property to 0
   balance: 0, // Initialize the 'balance' state property to 0
-  sender: null,
-  chainId: null,
+  sender: null, // initialize sender as null
+  chainId: null, // initialize chain id as null
 });
 
 // HOST NAME API.
@@ -137,6 +137,23 @@ const handleSyncWallet = (cb) => {
   });
 };
 
+// Function to sync a pocket
+const handleSyncPocket = (cb) => {
+  if (!state.pocket) return; // Return if the 'pocket' state property is not defined
+  asyncFetch(`${API}/pool/evm/${state.pocket._id}/sync`, {
+    method: "POST",
+    headers: {
+      "content-type": "text/plain;charset=UTF-8",
+    },
+  }).then(() => {
+    handleGetPocket(state.pocket._id); // Sync the pocket and then fetch the updated pocket data
+
+    if (cb) {
+      cb();
+    }
+  });
+};
+
 // Function to handle depositing into a pocket
 const handleDepositPocket = () => {
   if (contract === undefined) return; // Return if the 'contract' variable is undefined
@@ -148,9 +165,16 @@ const handleDepositPocket = () => {
     ).toString(16)}`
   );
 
-  contract.depositEther(state.pocket._id, {
-    value: desiredAmount,
-  }); // Deposit the desired amount of Ether into the specified pocket
+  contract
+    .depositEther(state.pocket._id, {
+      value: desiredAmount,
+    })
+    .then((tx) => {
+      console.log("tx hash", tx);
+      return tx.wait(CONFIRMATION_AWAIT).then(() => {
+        handleSyncPocket();
+      });
+    }); // Deposit the desired amount of Ether into the specified pocket
 };
 
 // Function to handle creating a new pocket
@@ -208,23 +232,6 @@ const handleCreatePocket = () => {
         });
     } catch (err) {
       console.error(err);
-    }
-  });
-};
-
-// Function to sync a pocket
-const handleSyncPocket = (cb) => {
-  if (!state.pocket) return; // Return if the 'pocket' state property is not defined
-  asyncFetch(`${API}/pool/evm/${state.pocket._id}/sync`, {
-    method: "POST",
-    headers: {
-      "content-type": "text/plain;charset=UTF-8",
-    },
-  }).then(() => {
-    handleGetPocket(state.pocket._id); // Sync the pocket and then fetch the updated pocket data
-
-    if (cb) {
-      cb();
     }
   });
 };
