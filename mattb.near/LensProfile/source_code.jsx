@@ -142,6 +142,21 @@ const BoxLoading = styled.div`
   margin:0 auto;
   color:#fff;
   text-align:center;
+  
+  @keyframes loading {
+    0% {
+      opacity: 0.5;
+    }
+
+    100% { 
+      opacity: 1;
+    }
+  }
+  animation-name:loading;
+  animation-duration:.5s;
+  animation-iteration-count:infinite;
+  animation-fill-mode:both;
+  animation-direction: alternate;
 `;
 
 const BoxCoverLoading = styled.div`
