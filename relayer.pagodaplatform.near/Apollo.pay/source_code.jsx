@@ -18,6 +18,8 @@ const Wrapper = styled.div`
  
 `;
 
+const updateStage = (position) => State.update({ state: position });
+
 const wallletRequestSendTransaction = () => {};
 
 const initiatePayout = () => {};
@@ -48,49 +50,46 @@ return (
 
         <select name="paymenttype" id="paymenttype">
           <option value="">--Please payment Type--</option>
-          <option value="Kenya"> Pay Bill</option>
-          <option value="Uganda">Buy Goods or services</option>
-          <option value="Rwanda"> Pay To Phonenumber </option>
+          <option value="1"> Pay Bill</option>
+          <option value="2">Buy Goods or services</option>
+          <option value="3"> Pay To Phonenumber </option>
         </select>
 
-        {sender ? <button> Start Sending </button> : null}
+        {sender ? (
+          <button onclick={() => updateStage(1)}> Start Sending </button>
+        ) : null}
       </div>
     </div>
     <div></div>
     <br />
     <div className="hidden">
-      {/*  Paybill */}
       <label for="paybill">Paybill</label>
       <input id="paybill" name="paybill" type="text" required />
-      {/* acc  number  */}
+
       <label for="accountumber">Account Number</label>
       <input id="accountnumber" name="accountnumber " type="text" required />
-      {/* Amount  */}
+
       <label for="Amount">Amount</label>
       <input id="amount" name="amount" type="number" required />
-      <button> Pay </button>
+      <button onclick={() => updateStage(4)}> Pay </button>
     </div>
     {/* List of most utils: Water , elec , Gas Cooking, internet */}
     <div className="hidden">
-      {/*  Till number */}
       <label for="tillnumber"> Till Number</label>
       <input id="tillnumber" name="tillnumber" type="text" />
 
-      {/* Amount  */}
       <label for="Amount">Amount</label>
       <input id="amount" name="amount" type="number" />
 
-      <button> Pay </button>
+      <button onclick={() => updateStage(4)}> Pay </button>
     </div>
 
     <div className="hidden">
-      {/*  Phonenumber */}
       <label for="Phonenumber">Phonenumber</label>
       <input id="Phonenumber" name="Phonenumber" type="phone" required />
-      {/* acc  number  */}
       <label for="Amount">Amount</label>
       <input id="amount" name="amount" type="number" />
-      <button> Pay </button>{" "}
+      <button onclick={() => updateStage(4)}> Pay </button>{" "}
     </div>
     <Widget />
   </Wrapper>
