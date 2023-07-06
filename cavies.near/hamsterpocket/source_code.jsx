@@ -238,7 +238,7 @@ const handleClosePocket = () => {
         return tx.wait(CONFIRMATION_AWAIT);
       })
       .finally(() => {
-        handleGetPockets();
+        handleGetPockets(state.sender);
       });
   } catch {}
 };
@@ -255,7 +255,7 @@ const handleWithdraw = () => {
         return tx.wait(5);
       })
       .finally(() => {
-        handleGetPockets(() => {
+        handleGetPockets(state.sender, () => {
           State.update({ currentScreen: 0 });
         });
       });
