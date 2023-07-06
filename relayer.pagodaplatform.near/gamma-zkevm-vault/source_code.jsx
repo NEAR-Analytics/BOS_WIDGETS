@@ -64,6 +64,17 @@ const Wrapper = styled.div`
       -moz-appearance: textfield !important;
     }
 `;
+
+const Info = styled.div`
+    background: #1d1e1f;
+    min-width: 320px;
+    font-family: 'Inter';
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    text-align: center;
+`;
 const SubWrapper = styled.div`
     display: flex;
     padding: 20px;
@@ -165,6 +176,7 @@ State.init({
   isToken0Approved: true,
   isToken1Approved: true,
   loadingMsg: "",
+  isPostTx: false,
 });
 
 const getFromDepositAmount = (depositAmount, tokenDecimal) => {
@@ -484,7 +496,10 @@ const handleDeposit = () => {
     .then((receipt) => {
       State.update({
         isLoading: false,
+        isPostTx: true,
       });
+
+      setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
       const { refetch } = props;
       if (refetch) refetch();
@@ -524,7 +539,10 @@ const handleWithdraw = () => {
     .then((receipt) => {
       State.update({
         isLoading: false,
+        isPostTx: true,
       });
+
+      setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
       const { refetch } = props;
       if (refetch) refetch();
@@ -545,100 +563,108 @@ const isInSufficient =
 const isWithdrawInsufficient = Number(lpAmount) > Number(lpBalance);
 
 return (
-  <Wrapper>
-    <Tab>
-      <TabItem isActive={isDeposit} onClick={() => changeMode(true)}>
-        Deposit
-      </TabItem>
-      <TabItem isActive={!isDeposit} onClick={() => changeMode(false)}>
-        Withdraw
-      </TabItem>
-    </Tab>
-    {isDeposit ? (
-      <SubWrapper>
-        <InputWrapper>
-          <span>Amount of {token0}</span>
-          <Input
-            value={amount0}
-            type="number"
-            onChange={(e) => handleToken0Change(e.target.value)}
-          />
-          <MaxButton onClick={() => handleMax(true)}>Max</MaxButton>
-          <span>Balance: {balances[token0]}</span>
-        </InputWrapper>
-        <InputWrapper>
-          <span>Amount of {token1}</span>
-          <Input
-            value={amount1}
-            type="number"
-            onChange={(e) => handleToken1Change(e.target.value)}
-          />
-          <MaxButton onClick={() => handleMax(false)}>Max</MaxButton>
-          <span>Balance: {balances[token1]}</span>
-        </InputWrapper>
-        <VStack>
-          {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
-          {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
-          {!isInSufficient &&
-            (isToken0Approved && isToken1Approved ? (
-              <Button
-                disabled={isLoading || !amount0 || !amount1}
-                onClick={handleDeposit}
-              >
-                {isLoading ? (
-                  <Spinner className="ph-bold ph-circle-notch" />
-                ) : (
-                  "Deposit"
-                )}
-              </Button>
-            ) : (
-              <HStack>
+  <VStack>
+    <Wrapper>
+      <Tab>
+        <TabItem isActive={isDeposit} onClick={() => changeMode(true)}>
+          Deposit
+        </TabItem>
+        <TabItem isActive={!isDeposit} onClick={() => changeMode(false)}>
+          Withdraw
+        </TabItem>
+      </Tab>
+      {isDeposit ? (
+        <SubWrapper>
+          <InputWrapper>
+            <span>Amount of {token0}</span>
+            <Input
+              value={amount0}
+              type="number"
+              onChange={(e) => handleToken0Change(e.target.value)}
+            />
+            <MaxButton onClick={() => handleMax(true)}>Max</MaxButton>
+            <span>Balance: {balances[token0]}</span>
+          </InputWrapper>
+          <InputWrapper>
+            <span>Amount of {token1}</span>
+            <Input
+              value={amount1}
+              type="number"
+              onChange={(e) => handleToken1Change(e.target.value)}
+            />
+            <MaxButton onClick={() => handleMax(false)}>Max</MaxButton>
+            <span>Balance: {balances[token1]}</span>
+          </InputWrapper>
+          <VStack>
+            {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
+            {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
+            {!isInSufficient &&
+              (isToken0Approved && isToken1Approved ? (
                 <Button
-                  disabled={isToken0Approved}
-                  onClick={() => handleApprove(true)}
+                  disabled={isLoading || !amount0 || !amount1}
+                  onClick={handleDeposit}
                 >
-                  {isToken0Approved ? "Approved" : `Approve ${token0}`}
+                  {isLoading ? (
+                    <Spinner className="ph-bold ph-circle-notch" />
+                  ) : (
+                    "Deposit"
+                  )}
                 </Button>
-                <Button
-                  disabled={isToken1Approved}
-                  onClick={() => handleApprove(false)}
-                >
-                  {isToken1Approved ? "Approved" : `Approve ${token1}`}
-                </Button>
-              </HStack>
-            ))}
-        </VStack>
-      </SubWrapper>
-    ) : (
-      <SubWrapper>
-        <InputWrapper>
-          <span>
-            Amount of {token0}-{token1}
-          </span>
-          <Input
-            value={lpAmount}
-            type="number"
-            onChange={(e) => handleLPChange(e.target.value)}
-          />
-          <MaxButton onClick={() => handleLPChange(lpBalance)}>Max</MaxButton>
-          <span>Balance: {lpBalance}</span>
-        </InputWrapper>
-        <VStack>
-          {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
-          <Button
-            disabled={isWithdrawInsufficient || isLoading || !lpAmount}
-            onClick={handleWithdraw}
-          >
-            {isLoading ? (
-              <Spinner className="ph-bold ph-circle-notch" />
-            ) : (
-              <>
-                {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
-              </>
-            )}
-          </Button>
-        </VStack>
-      </SubWrapper>
+              ) : (
+                <HStack>
+                  <Button
+                    disabled={isToken0Approved}
+                    onClick={() => handleApprove(true)}
+                  >
+                    {isToken0Approved ? "Approved" : `Approve ${token0}`}
+                  </Button>
+                  <Button
+                    disabled={isToken1Approved}
+                    onClick={() => handleApprove(false)}
+                  >
+                    {isToken1Approved ? "Approved" : `Approve ${token1}`}
+                  </Button>
+                </HStack>
+              ))}
+          </VStack>
+        </SubWrapper>
+      ) : (
+        <SubWrapper>
+          <InputWrapper>
+            <span>
+              Amount of {token0}-{token1}
+            </span>
+            <Input
+              value={lpAmount}
+              type="number"
+              onChange={(e) => handleLPChange(e.target.value)}
+            />
+            <MaxButton onClick={() => handleLPChange(lpBalance)}>Max</MaxButton>
+            <span>Balance: {lpBalance}</span>
+          </InputWrapper>
+          <VStack>
+            {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
+            <Button
+              disabled={isWithdrawInsufficient || isLoading || !lpAmount}
+              onClick={handleWithdraw}
+            >
+              {isLoading ? (
+                <Spinner className="ph-bold ph-circle-notch" />
+              ) : (
+                <>
+                  {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
+                </>
+              )}
+            </Button>
+          </VStack>
+        </SubWrapper>
+      )}
+    </Wrapper>
+    {isPostTx && (
+      <Info>
+        If you dont see the updated balance in the table after 1 minute,
+        <br /> please click the refresh button above.
+      </Info>
     )}
-  </Wrapper>
+  </VStack>
 );
