@@ -62,7 +62,7 @@ nftData.forEach((item) => {
 
 const nftDataCount = Near.view(contractId, "nft_supply_for_owner", {
   account_id: accountId,
-  limit: 100,
+  limit: 1000,
 });
 
 let canShare;
