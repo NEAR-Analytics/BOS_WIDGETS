@@ -445,6 +445,15 @@ return (
                     Markdown
                   </a>
                   is supported
+                  <br />
+                  Examples: **bold text** *emphasis* `code`
+                  <br />
+                  Lists can be with numbers 1. or *
+                  <br />
+                  You can paste links here directly and some will auto-expand
+                  and/or hyperlink
+                  <br />
+                  Youtube and Spotify links will auto-embed
                 </TextareaDescription>
               </Textarea>
             </>
