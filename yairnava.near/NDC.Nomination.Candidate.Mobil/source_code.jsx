@@ -506,7 +506,6 @@ line-height: 24px;
 margin: 0px;
 `;
 let profileInfo = Social.getr(`${context.accountId}/profile`);
-console.log("profileInfo", profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
 let nftData = profileInfo.image.nft;
 const getNftCid = Near.view(nftData.contractId, "nft_token", {
@@ -514,12 +513,9 @@ const getNftCid = Near.view(nftData.contractId, "nft_token", {
 });
 const CandidateProps = props.data.nominations;
 const comments = props.data.comments[0].comments;
-console.log("getNftCid", getNftCid);
 let isNFTCid = CandidateProps.img.cid
   ? "https://nativonft.mypinata.cloud/ipfs/" + CandidateProps.img.cid
   : "";
-console.log("CandidateComment", CandidateComment);
-console.log("CandidateProps", CandidateProps);
 return (
   <DetailContent>
     <DetailCard>
