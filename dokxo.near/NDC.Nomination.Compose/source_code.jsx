@@ -2,13 +2,11 @@ let Nominationcontract = "nominations-v1.gwg-testing.near";
 let Socialcontract = "social.near";
 
 let profileInfo = Social.getr(`${context.accountId}/profile`);
-console.log("profileInfo", profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
 let nftData = profileInfo.image.nft;
 const getNftCid = Near.view(nftData.contractId, "nft_token", {
   token_id: nftData.tokenId,
 });
-console.log("getNftCid", getNftCid);
 let isNFTCid = getNftCid.metadata.media ? getNftCid.metadata.media : "";
 // State
 State.init({
@@ -245,7 +243,7 @@ const validatedInputs = () => {
     agreement,
     tags,
   } = state;
-  console.log(state);
+
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
@@ -328,20 +326,15 @@ const validatedInputs = () => {
 };
 
 const uploadFileUpdateState = (body) => {
-  console.log("sending img");
   asyncFetch("https://ipfs.near.social/add", {
     method: "POST",
     headers: { Accept: "application/json" },
     body,
   }).then(async (res) => {
-    console.log("body", res.body);
     const _cid = res.body.cid;
     const _name = body.name;
     State.update({ img: { uploading: true, cid: _cid, name: _name } });
-    console.log("final ", state);
   });
-
-  console.log("final ", state.img);
 };
 
 const filesOnChange = (files) => {
@@ -390,15 +383,15 @@ const addFields = () => {
 };
 const removeField = (index) => {
   let data = state.afiliation;
-  console.log("remove", index, data);
+
   let newData = data.splice(index, 1);
-  console.log("remove", index, data);
+
   State.update({ afiliation: data });
   State.update({ error_msg: null });
 };
 const handleAFFCompanyName = (params) => {
   let data = state.afiliation;
-  console.log("updating the company", params);
+
   data[params.index].company_name = params.event.target.value;
   State.update({ afiliation: data, error_msg: null });
 };
@@ -429,7 +422,6 @@ const handleDeclaration = (item) => {
 const Self_Nominate = () => {
   //Validate the Data outPut
   if (validatedInputs()) {
-    console.log("was valid");
     //Create a copy
     let newstate = Object.assign({}, state);
     //modify the affiliations into a string
