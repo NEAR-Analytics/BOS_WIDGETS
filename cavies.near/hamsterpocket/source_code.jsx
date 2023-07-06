@@ -1100,7 +1100,7 @@ const renderAppScreen = () => {
 
 return (
   <Theme>
-    <div class="on-going" style={{ minHeight: "100vh", margin: "32px 0" }}>
+    <div class="on-going">
       <div class="frame-48098139">
         {state.currentScreen > 0 && (
           <button onClick={() => State.update({ currentScreen: 0 })}>
