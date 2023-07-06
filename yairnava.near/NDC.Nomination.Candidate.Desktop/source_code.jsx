@@ -524,6 +524,7 @@ border-bottom: 4px solid;
 border-image: var(--gradient-purple-gradient, linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
 border-image-slice: 1;
 cursor: pointer;
+padding-bottom: 5px;
   }
 `;
 
@@ -533,6 +534,7 @@ border-bottom: 4px solid;
 border-color: #dee2e6;
 border-image-slice: 1;
 cursor: pointer;
+padding-bottom: 5px;
   }
 `;
 
