@@ -406,6 +406,7 @@ return (
           backgroundColor: "#64a19d",
         }}
         onClick={toggleModal}
+        focusable="false"
       >
         <svg
           height="20px"
