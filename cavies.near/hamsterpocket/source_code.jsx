@@ -815,23 +815,11 @@ const createPocketScreen = () => {
             </div>
             <div>
               <div class="frame" style={{ marginBottom: "32px" }}>
-                <Typeahead
-                  defaultSelected={[
-                    {
-                      id: TIME_CONDITIONS[0].label,
-                      label: TIME_CONDITIONS[0].label,
-                    },
-                  ]}
-                  filterBy={() => true}
-                  options={TIME_CONDITIONS.map((item) => {
-                    return {
-                      id: item.label,
-                      label: item.label,
-                    };
-                  })}
-                  onChange={(value) => {
+                <select
+                  class="token-select"
+                  onChange={(e) => {
                     const option = TIME_CONDITIONS.find(
-                      (item) => item.label === value[0].id
+                      (item) => item.label === e.target.value
                     );
                     const proccessFrequency = convertDurationsTime(
                       option.value
@@ -840,7 +828,15 @@ const createPocketScreen = () => {
                       frequency: proccessFrequency,
                     });
                   }}
-                />
+                >
+                  {TIME_CONDITIONS.map((item, index) => {
+                    return (
+                      <option value={item.label} key={`frequency-item${index}`}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
             </div>
           </div>
@@ -937,7 +933,6 @@ const pocketDetailScreen = () => {
                 <div class="strategy2">Frequency</div>
 
                 <div class="frame-48097840">
-                  {console.log(state.pocket.frequency.seconds, TIME_CONDITIONS)}
                   <div class="frame-48098084">
                     {TIME_CONDITIONS.find(
                       (item) =>
