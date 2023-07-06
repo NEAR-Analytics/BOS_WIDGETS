@@ -499,7 +499,7 @@ const assetsList = state.assets
           coinGeckoTokenId: state.coinGeckoTokenIds[tokenId],
           network: state.network,
           hideZeroBalance: true,
-          fractionDigits: 2,
+          fractionDigits: 4,
         }}
       ></Widget>
     ))
@@ -833,7 +833,7 @@ return (
                 </div>
               </ContainerNetwork>
             )}
-            <div style={{ display: "flex", paddingLeft: "5px" }}>
+            <div style={{ display: "flex", paddingLeft: "10px" }}>
               {assetsList}
             </div>
 
