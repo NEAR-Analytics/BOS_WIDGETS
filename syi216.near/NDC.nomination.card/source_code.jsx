@@ -761,7 +761,7 @@ return (
           <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
-      {state.verified ? (
+      {state.verified && context.accountId != data.indexerData.nominee ? (
         <UpvoteButton onClick={handleUpVote}>
           <UpvoteCount>
             {props.data.comments[0].upvotes
