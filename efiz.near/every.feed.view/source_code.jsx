@@ -1,9 +1,14 @@
 const data = props.data;
 
+const Container = styled.div`
+  height: 100%;
+`;
+
 return (
-  <>
+  <Container>
     {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
       <>
+        // Slate editor
         <Widget
           src="efiz.near/widget/Community.Posts.Compose"
           props={{
@@ -27,5 +32,5 @@ return (
         disableCaching: data.disableCaching,
       }}
     />
-  </>
+  </Container>
 );
