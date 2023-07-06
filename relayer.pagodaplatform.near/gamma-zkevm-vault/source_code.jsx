@@ -52,8 +52,8 @@ const Wrapper = styled.div`
     background: #1d1e1f;
     display: flex;
     flex-direction: column;
-    max-width: 320px;
-    width: 100%;
+    width: 320px;
+    
     font-family: 'Inter';
     color: #fff;
     border-radius: 8px;
@@ -68,8 +68,8 @@ const Wrapper = styled.div`
 
 const Info = styled.div`
     background: #1d1e1f;
-    max-width: 320px;
-    width: 100%;
+    width: 320px;
+    
     font-family: 'Inter';
     color: #fff;
     border-radius: 8px;
