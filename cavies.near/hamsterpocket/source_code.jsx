@@ -125,7 +125,7 @@ const handleGetPockets = (walletAddress, cb) => {
 };
 
 // Function to sync the wallet data
-const handleSyncWallet = () => {
+const handleSyncWallet = (cb) => {
   if (!state.sender) return; // Return if the 'sender' state property is not defined
   asyncFetch(`${API}/pool/user/evm/${state.sender}/sync?chainId=bnb`, {
     method: "POST",
@@ -133,7 +133,7 @@ const handleSyncWallet = () => {
       "content-type": "text/plain;charset=UTF-8",
     },
   }).then(() => {
-    handleGetPockets(state.sender); // Sync the wallet data and then fetch the pockets for the wallet
+    handleGetPockets(state.sender, cb); // Sync the wallet data and then fetch the pockets for the wallet
   });
 };
 
@@ -201,7 +201,9 @@ const handleCreatePocket = () => {
         .then((hash) => {
           console.log("tx hash", hash);
           return tx.wait(CONFIRMATION_AWAIT).then(() => {
-            State.update({ currentScreen: 0 });
+            handleSyncWallet(() => {
+              State.update({ currentScreen: 0 });
+            });
           });
         });
     } catch (err) {
@@ -234,8 +236,10 @@ const handleClosePocket = () => {
     contract
       .closePocket(state.pocket._id)
       .then((tx) => {
-        console.log("txHash", txHash);
-        return tx.wait(CONFIRMATION_AWAIT);
+        console.log("txHash", tx);
+        return tx.wait(CONFIRMATION_AWAIT).then(() => {
+          handleSyncPocket();
+        });
       })
       .finally(() => {
         handleSyncPocket();
@@ -251,10 +255,16 @@ const handleWithdraw = () => {
     contract
       .withdraw(state.pocket._id)
       .then((tx) => {
-        console.log("txHash", txHash);
-        return tx.wait(5);
+        console.log("txHash", tx);
+        return tx.wait(CONFIRMATION_AWAIT).then(() => {
+          handleSyncPocket(() => {
+            handleGetPockets(state.sender, () => {
+              State.update({ currentScreen: 0 });
+            });
+          });
+        });
       })
-      .finally(() => {
+      .catch(() => {
         handleGetPockets(state.sender, () => {
           State.update({ currentScreen: 0 });
         });
