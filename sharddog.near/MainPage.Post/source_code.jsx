@@ -48,6 +48,12 @@ return (
             }}
           />
         </div>
+        <div className="me-4 sharebtn">
+          <Widget
+            src="sharddog.near/widget/MainPage.Post.ShareButton"
+            props={{ accountId, blockHeight, postType: "post" }}
+          />
+        </div>
         <div className="me-4 likebtn">
           <Widget
             src="sharddog.near/widget/LikeButton"
@@ -57,10 +63,13 @@ return (
             }}
           />
         </div>
-        <div className="me-4 sharebtn">
+        <div className="me-4 commentbtn">
           <Widget
-            src="sharddog.near/widget/MainPage.Post.ShareButton"
-            props={{ accountId, blockHeight, postType: "post" }}
+            src="mob.near/widget/CommentButton"
+            props={{
+              onClick: () =>
+                !state.showReply && State.update({ showReply: true }),
+            }}
           />
         </div>
       </div>
