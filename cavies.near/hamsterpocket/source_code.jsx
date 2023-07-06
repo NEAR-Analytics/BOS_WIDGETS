@@ -221,14 +221,15 @@ const handleSyncPocket = (cb) => {
 const handleClosePocket = () => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
-    const tx = contract.closePocket(state.pocket._id);
-
-    tx.wait(1).then(() => {
-      handleSyncPocket();
-    }); // Close the specified pocket
-  } catch {
-    handleSyncPocket();
-  }
+    contract
+      .closePocket(state.pocket._id)
+      .then((txHash) => {
+        console.log("txHash", txHash);
+      })
+      .finally(() => {
+        handleSyncPocket();
+      });
+  } catch {}
 };
 
 // Function to handle withdrawing from a pocket
@@ -236,18 +237,17 @@ const handleWithdraw = () => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
     console.log("Withdraw", state.pocket._id);
-    const tx = contract.withdraw(state.pocket._id);
-
-    tx.wait(1).then(() => {
-      handleSyncPocket(() => {
-        State.update({ currentScreen: 0 });
+    contract
+      .withdraw(state.pocket._id)
+      .then((txHash) => {
+        console.log("txHash", txHash);
+      })
+      .finally(() => {
+        handleSyncPocket(() => {
+          State.update({ currentScreen: 0 });
+        });
       });
-    }); // Withdraw from the specified pocket
-  } catch {
-    handleSyncPocket(() => {
-      State.update({ currentScreen: 0 });
-    });
-  }
+  } catch {}
 };
 
 // DETECT SENDER
