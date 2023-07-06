@@ -96,6 +96,9 @@ function autoCompleteAccountId(id) {
 }
 
 const Modal = styled.div`
+  position:fixed;
+  top:0;
+  left:0;
   z-index: 102;
   width: 100%;
   height: 80%;
@@ -179,7 +182,7 @@ const Textarea = styled.div`
   align-items: center;
   position: relative;
   align-items: stretch;
-  height: 100vh; /* Set the height to fill the screen */
+  height: 80vh; /* Set the height to fill the screen */
 
   &::after,
   textarea {
