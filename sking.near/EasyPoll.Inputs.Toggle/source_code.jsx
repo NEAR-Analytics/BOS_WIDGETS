@@ -21,6 +21,7 @@ const ToggleSwitchRoot = styled("Switch.Root")`
   border-radius: 9999px;
   position: relative;
   box-shadow: 0 2px 10px var(--blackA7);
+  min-width: 42px;
 
   &[data-state="checked"] {
     background-color: #00d084;
@@ -48,9 +49,11 @@ const ToggleSwitchThumb = styled("Switch.Thumb")`
 `;
 
 const ToggleLabel = styled.label`
-  white-space: nowrap;
-  font-size: 17px;
-  font-weight: 700;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.95em;
+  line-height: 1.25em;
+  color: #344054;
   cursor: pointer;
 `;
 
