@@ -361,7 +361,6 @@ const coinsMap = {
 
 State.init({
   selectedToken: "ETH",
-  // selectedNetwork: "ethereum",
   isNetworkSelectOpen: false,
   isTokenDialogOpen: false,
   amount: 0,
@@ -372,7 +371,6 @@ State.init({
 
 const {
   isNetworkSelectOpen,
-  // selectedNetwork,
   chainId,
   selectedToken,
   isTokenDialogOpen,
@@ -387,7 +385,6 @@ const isTestnet = chainId === 5 || chainId === 1442;
 const isMainnet = chainId === 1 || chainId === 1101;
 
 const switchNetwork = (chainId) => {
-  console.log(`0x${chainId.toString(16)}`);
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
