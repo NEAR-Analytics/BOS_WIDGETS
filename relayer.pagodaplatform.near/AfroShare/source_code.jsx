@@ -1,8 +1,7 @@
 let { address, tokenId } = props;
 State.init({
   loading: false,
-  title: "",
-  image: "",
+  token: {},
   error: null,
 });
 
@@ -11,15 +10,15 @@ const alchemyApiKey = props.alchemyApiKey || "docs-demo";
 const loadNFT = () => {
   State.update({ loading: true });
   const options = { method: "GET", headers: { accept: "application/json" } };
-  const nft = fetch(
+  const nfts = fetch(
     `https://eth-goerli.g.alchemy.com/nft/v2/${alchemyApiKey}/getNFTsForCollection?contractAddress=${address}&withMetadata=true&startToken=${tokenId}&limit=1`,
     options
   );
-  console.log("nft", nft);
+  console.log("nfts", nfts);
+
+  State.update({ token: nfts.body.nfts[0] });
   State.update({ loading: false });
 };
-
-loadNFT();
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
@@ -38,23 +37,27 @@ return (
         </div>
       </>
     )}
-    <h1 className="text-center mb-3">{title}</h1>
-    <div className="container">
-      <div className="card shadow-sm">
-        <img src={image} width={300} alt={title} />
-        <div className="card-body">
-          <p className="card-text">
-            <a
-              href={`https://testnets.opensea.io/assets/goerli/${address}/${tokenId}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              View NFT on Opensea
-            </a>
-          </p>
+    {token && (
+      <>
+        <h1 className="text-center mb-3">{token.title}</h1>
+        <div className="container">
+          <div className="card shadow-sm">
+            <img src={token.media[0].gateway} width={300} alt={token.title} />
+            <div className="card-body">
+              <p className="card-text">
+                <a
+                  href={`https://testnets.opensea.io/assets/goerli/${address}/${tokenId}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View NFT on Opensea
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </>
+    )}
     <hr />
     <Widget src="tomiwa1a1.near/widget/TransferNFT" props={props} />
   </div>
