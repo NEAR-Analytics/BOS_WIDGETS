@@ -417,7 +417,6 @@ const handleToken1Change = (amount) => {
 };
 
 const handleLPChange = (amount) => {
-  console.log("LP amount changed :", amount);
   State.update({
     lpAmount: amount,
   });
@@ -499,9 +498,51 @@ const handleDeposit = () => {
     });
 };
 
+const handleWithdraw = () => {
+  State.update({
+    isLoading: true,
+    isError: false,
+    loadingMsg: "Withdrawing...",
+  });
+
+  const lpWeiAmount = ethers.utils.parseUnits(lpAmount, 18);
+  const abi = [
+    "function withdraw(uint256, address, address,uint256[4] memory) external returns (uint256, uint256)",
+  ];
+
+  const hypeContract = new ethers.Contract(
+    proxyAddress,
+    abi,
+    Ethers.provider().getSigner()
+  );
+
+  hypeContract
+    .withdraw(lpWeiAmount, sender, sender, [0, 0, 0, 0])
+    .then((tx) => {
+      return tx.wait();
+    })
+    .then((receipt) => {
+      State.update({
+        isLoading: false,
+      });
+
+      const { refetch } = props;
+      if (refetch) refetch();
+    })
+    .catch((error) => {
+      State.update({
+        isError: true,
+        isLoading: false,
+        loadingMsg: error,
+      });
+    });
+};
+
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
   Number(amount1) > Number(balances[token1]);
+
+const isWithdrawInsufficient = Number(lpAmount) > Number(lpBalance);
 
 return (
   <Wrapper>
@@ -540,11 +581,12 @@ return (
           {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
           {!isInSufficient &&
             (isToken0Approved && isToken1Approved ? (
-              <Button disabled={isLoading} onClick={handleDeposit}>
+              <Button
+                disabled={isLoading || !amount0 || !amount1}
+                onClick={handleDeposit}
+              >
                 {isLoading ? (
-                  <>
-                    <Spinner className="ph-bold ph-circle-notch" />{" "}
-                  </>
+                  <Spinner className="ph-bold ph-circle-notch" />
                 ) : (
                   "Deposit"
                 )}
@@ -581,7 +623,21 @@ return (
           <MaxButton onClick={() => handleLPChange(lpBalance)}>Max</MaxButton>
           <span>Balance: {lpBalance}</span>
         </InputWrapper>
-        <Button> Withdraw </Button>
+        <VStack>
+          {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
+          <Button
+            disabled={isWithdrawInsufficient || isLoading || !lpAmount}
+            onClick={handleWithdraw}
+          >
+            {isLoading ? (
+              <Spinner className="ph-bold ph-circle-notch" />
+            ) : (
+              <>
+                {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
+              </>
+            )}
+          </Button>
+        </VStack>
       </SubWrapper>
     )}
   </Wrapper>
