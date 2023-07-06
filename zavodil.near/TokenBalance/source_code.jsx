@@ -1,6 +1,8 @@
 State.init({
   tokenId: props.tokenId ?? "0x6B175474E89094C44Da98b954EedeAC495271d0F",
   network: props.network ?? "ETH",
+  coinGeckoTokenId:
+    props.coinGeckoTokenId ?? "0x6b175474e89094c44da98b954eedeac495271d0f",
   hideZeroBalance: props.hideZeroBalance ?? true,
   fractionDigits: props.fractionDigits ?? 2,
 });
@@ -8,8 +10,6 @@ State.init({
 const css = fetch(
   "https://pluminite.mypinata.cloud/ipfs/QmVLdPM2v8R5qxhshCbKSTNAwnxtVm8FD6bQznqiirAkMT"
 ).body;
-
-console.log(state);
 
 if (!css) return "";
 
@@ -28,6 +28,7 @@ return (
       src="zavodil.near/widget/TokenData"
       props={{
         tokenId: state.tokenId,
+        coinGeckoTokenId: state.coinGeckoTokenId,
         network: state.network,
         onLoad: (assetData) => {
           assetData.metadata.symbol = assetData.metadata.symbol.toUpperCase();
