@@ -629,13 +629,9 @@ align-items: center;
 gap: 6px;
 border: solid 1px transparent;
 border-radius: 80px;
-${
-  state.verified
-    ? `background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
+background-image: linear-gradient(white, white), radial-gradient(circle at top left, #9333EA 0%,#4F46E5 100%);
 background-origin: border-box;
-background-clip: padding-box, border-box;`
-    : "border: 1px solid var(--buttons-disable, #C3CACE);"
-}
+background-clip: padding-box, border-box;
 border-radius: 4px;
 `;
 
@@ -645,16 +641,11 @@ font-family: Avenir;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
-${
-  state.verified
-    ? `background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
-text-fill-color: transparent;`
-    : "border: 1px solid var(--buttons-disable, #C3CACE);"
-}
-
+text-fill-color: transparent;
 `;
 
 const CommentButtonIcon = styled.img`
