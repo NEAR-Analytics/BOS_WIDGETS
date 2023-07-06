@@ -430,7 +430,7 @@ const selectedDex = state.selectedDex;
 
 const switchNetwork = (chainId, dex) => {
   console.log("switchNetwork", chainId, dex);
-  Ethers.send("wallet_switchEthereumChain", [
+  Ethers.provider().send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
   State.update({
@@ -521,11 +521,10 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
       <div class="swap-main-container pt-5">
-        To proceed, kindly switch to{" "}
-        <a href="#" onClick={() => switchNetwork(1101)}>
-          {forceNetwork}
-        </a>
-        .
+        <button onClick={() => switchNetwork(1101)}>
+          To proceed, kindly switch to ${forceNetwork}
+        </button>
+
         {!state.sender && (
           <div class="swap-button-container">
             <Web3Connect
