@@ -201,7 +201,7 @@ const handleCreatePocket = () => {
 };
 
 // Function to sync a pocket
-const handleSyncPocket = () => {
+const handleSyncPocket = (cb) => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   asyncFetch(`${API}/pool/evm/${state.pocket._id}/sync`, {
     method: "POST",
@@ -210,6 +210,10 @@ const handleSyncPocket = () => {
     },
   }).then(() => {
     handleGetPocket(state.pocket._id); // Sync the pocket and then fetch the updated pocket data
+
+    if (cb) {
+      cb();
+    }
   });
 };
 
@@ -217,7 +221,9 @@ const handleSyncPocket = () => {
 const handleClosePocket = () => {
   if (!state.pocket) return; // Return if the 'pocket' state property is not defined
   try {
-    contract.closePocket(state.pocket._id); // Close the specified pocket
+    contract.closePocket(state.pocket._id).then(() => {
+      handleSyncPocket();
+    }); // Close the specified pocket
   } catch {}
 };
 
@@ -227,7 +233,9 @@ const handleWithdraw = () => {
   try {
     console.log("Withdraw", state.pocket._id);
     contract.withdraw(state.pocket._id).then(() => {
-      State.update({ screen: 0 });
+      handleSyncPocket(() => {
+        State.update({ screen: 0 });
+      });
     }); // Withdraw from the specified pocket
   } catch {}
 };
