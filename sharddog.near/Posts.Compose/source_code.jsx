@@ -107,8 +107,10 @@ const Modal = styled.div`
 
 const Wrapper = styled.div`
   --padding: 24px;
- 
-
+  position:fixed;
+  top:0;
+width: 100%;
+  height: 100%;
   @media (max-width: 1200px) {
     --padding: 12px;
   }
