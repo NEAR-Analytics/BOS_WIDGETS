@@ -65,6 +65,12 @@ const nftDataCount = Near.view(contractId, "nft_supply_for_owner", {
   limit: 100,
 });
 
+let canShare;
+//Nice work if you found the access link from here ;)
+if (nftDataCount > 2) {
+  canShare = "Share this ShardDog to invite others: https://shard.dog/social";
+}
+
 const Greeting = () => {
   const currentTime = new Date();
   const currentHour = currentTime.getHours();
@@ -90,7 +96,8 @@ if (holder) {
         </div>
       )}
       <p>
-        <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs
+        <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs <br />
+        {canShare}
       </p>
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
