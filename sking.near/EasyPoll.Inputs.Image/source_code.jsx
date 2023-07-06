@@ -1,4 +1,4 @@
-const label = props.label ?? "Label";
+const label = props.label;
 const onChange = props.onChange ?? (() => {});
 const buttonText = props.buttonText || "Upload an image";
 const cid = props.value ?? null;
@@ -78,7 +78,7 @@ const Error = styled.span`
 
 return (
   <Container>
-    <Label>{label}</Label>
+    {label && <Label>{label}</Label>}
     <div className="d-inline-block">
       {cid ? <img src={ipfsUrl(cid)} width={100} /> : <></>}
       <Files
