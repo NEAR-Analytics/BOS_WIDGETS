@@ -173,7 +173,7 @@ if (state.sender === undefined) {
   });
 }
 
-if (sender) {
+if (state.sender !== "") {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
