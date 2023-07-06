@@ -67,7 +67,7 @@ return (
   <Container>
     <Label>{label}</Label>
     <Input
-      type="text"
+      type={inputProps.type ?? "text"}
       placeholder={placeholder}
       value={value}
       onChange={({ target: { value } }) => onChange(value)}
