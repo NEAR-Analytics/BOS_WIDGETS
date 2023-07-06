@@ -50,39 +50,49 @@ const CONTRACT_DATA = {
   ], // Set an array of whitelisted routers with their addresses, AMM tags, names, and DEX URLs
 };
 
+console.log(state.frequency);
+
 // Frequency options.
 const TIME_CONDITIONS = [
   {
     label: "Hourly",
     value: { hours: 1 },
+    secondValue: 60,
   },
   {
     label: "Daily",
     value: { days: 1 },
+    secondValue: 60 * 24,
   },
   {
     label: "Weekly",
     value: { weeks: 1 },
+    secondValue: 60 * 24 * 7,
   },
   {
     label: "Every 2 Weeks",
     value: { weeks: 2 },
+    secondValue: 60 * 24 * 7 * 2,
   },
   {
     label: "Monthly",
     value: { months: 1 },
+    secondValue: 60 * 24 * 30,
   },
   {
     label: "Every 3 Months",
     value: { months: 3 },
+    secondValue: 60 * 24 * 30 * 3,
   },
   {
     label: "Every 6 Months",
     value: { months: 6 },
+    secondValue: 60 * 24 * 30 * 6,
   },
   {
     label: "Yearly",
     value: { years: 1 },
+    secondValue: 60 * 24 * 365,
   },
 ];
 
@@ -815,7 +825,11 @@ const createPocketScreen = () => {
                 >
                   {TIME_CONDITIONS.map((item, index) => {
                     return (
-                      <option value={item.label} key={`frequency-item${index}`}>
+                      <option
+                        style={{ color: "black" }}
+                        value={item.label}
+                        key={`frequency-item${index}`}
+                      >
                         {item.label}
                       </option>
                     );
@@ -917,7 +931,13 @@ const pocketDetailScreen = () => {
                 <div class="strategy2">Frequency</div>
 
                 <div class="frame-48097840">
-                  <div class="frame-48098084">Hourly</div>
+                  {console.log(state.pocket.frequency.seconds, TIME_CONDITIONS)}
+                  <div class="frame-48098084">
+                    {TIME_CONDITIONS.find(
+                      (item) =>
+                        item.secondValue * 60 === state.pocket.frequency.seconds
+                    ).label || "⏰"}
+                  </div>
                 </div>
               </div>
 
