@@ -101,8 +101,8 @@ const Modal = styled.div`
   left:0;
   z-index: 102;
   width: 100%;
-  height: 100%;
-  background: rgba(128, 128, 128, 0.65);
+  height: 80vh;
+   background: #fff;
 `;
 
 const Wrapper = styled.div`
@@ -112,7 +112,6 @@ const Wrapper = styled.div`
   @media (max-width: 1200px) {
     --padding: 12px;
   }
-  display:block;
   background: #fff;
 `;
 
@@ -180,9 +179,10 @@ const Textarea = styled.div`
   display: grid;
   vertical-align: top;
   align-items: center;
-  position: relative;
+  top:0;
   align-items: stretch;
-  height:50%; 
+  height:100%; 
+  background: white;
 
   &::after,
   textarea {
