@@ -1,5 +1,5 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? "mintlu.near";
+const memberId = props.memberId ?? context.accountId;
 const roleId = props.roleId ?? "voter";
 const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 
@@ -73,8 +73,6 @@ if (
   return "";
 }
 
-console.log(proposals);
-
 const checkProposals = (proposals) => {
   for (let i = 0; i < proposals.length; i++) {
     if (proposals[i].proposer === memberId) {
@@ -92,9 +90,6 @@ let canJoinContinent =
   checkProposals(eu_proposals) &&
   checkProposals(na_proposals) &&
   checkProposals(sa_proposals);
-
-console.log(canJoin);
-console.log(canJoinContinent);
 
 return (
   <div className="m-2">
