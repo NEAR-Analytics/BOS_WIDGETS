@@ -1,13 +1,13 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const postType = props.postType ?? "post";
-const externalLink = `https://sharddog.social/sharddog.near/widget/MainPage.${
-  postType === "post" ? "Post" : "Comment"
-}.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const externalLink = `https://social.near.page/${
+  postType === "post" ? "p" : "c"
+}/${accountId}/${blockHeight}`;
 
 const clickbaitPrompt =
   props.clickbaitPrompt ??
-  `Check out this ${postType} on ShardDog Social\nBuilt on #NearSocial #NEAR \n${externalLink}`;
+  `Check out this ${postType} on @NearSocial_\n#NearSocial #NEAR #BOS\n${externalLink}`;
 
 const twitterUrl = new URL("https://twitter.com/intent/tweet");
 twitterUrl.searchParams.set("text", clickbaitPrompt);
@@ -15,7 +15,7 @@ twitterUrl.searchParams.set("text", clickbaitPrompt);
 const mailtoUrl = new URL("mailto:");
 mailtoUrl.searchParams.set(
   "subject",
-  `Check out this ${postType} on ShardDog Social`
+  `Check out this ${postType} on Near Social`
 );
 mailtoUrl.searchParams.set(
   "body",
@@ -25,13 +25,14 @@ ${externalLink}
 );
 
 const Button = styled.button`
-  border: 0 !important;
+  border: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  width: 1em;
-  height: 1em;
+  width: 2.5em;
+  height: 2.5em;
+  padding-left: 0.5em;
   &:hover {
     color: DeepSkyBlue;
     background: rgba(0, 191, 255, 0.1);
