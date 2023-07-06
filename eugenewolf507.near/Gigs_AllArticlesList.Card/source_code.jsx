@@ -49,11 +49,7 @@ const StatusTagGroup = ({ activeStatus, articleId }) => (
   </div>
 );
 
-const Modal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) {
-    return null; // Don't render anything if the modal is closed
-  }
-
+const Modal = ({ onClose, children }) => {
   return (
     <div>
       <div>
@@ -69,10 +65,12 @@ const Modal = ({ isOpen, onClose, children }) => {
 return (
   <CardWrapper className="col gy-3" key={article.articleId}>
     <div className="card h-100">
-      <Modal isOpen={state.showModal} onClose={closeModalHandler}>
-        <h2>Hello</h2>
-        <p>description</p>
-      </Modal>
+      {state.showModal && (
+        <Modal onClose={closeModalHandler}>
+          <h2>Hello</h2>
+          <p>description</p>
+        </Modal>
+      )}
       <a
         className="text-decoration-none text-dark"
         href={`#/${authorForWidget}/widget/Gigs_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
