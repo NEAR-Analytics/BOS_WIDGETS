@@ -28,7 +28,7 @@ State.update({ isIAmHuman: isHuman[0][1].length > 0 });
 
 const totalHumal = 3000;
 
-asyncFetch("https://api.pikespeak.ai/election/total-votes", {
+asyncFetch("https://api.pikespeak.ai/election/total-voters", {
   headers: {
     "x-api-key": apiKey,
   },
