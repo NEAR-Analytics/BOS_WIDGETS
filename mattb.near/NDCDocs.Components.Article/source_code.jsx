@@ -194,10 +194,33 @@ const Content = styled.div`
     }
 
     .markdown {
+      position:relative;
       padding:20px 0;
+
+      &::after {
+        opacity:0;
+        content:'🔗';
+        width:20px;
+        height:20px;
+        position:absolute;
+        top:20px;
+        right:0;
+        transition:all .2s;
+      }
+
+      &:hover {
+        &::after {
+          opacity:.7;
+          transition:all .2s;
+        }
+      }
       
       &:first-of-type {
         padding-top:0;
+
+        &::after {
+          top:0;
+        }
       }
     }
 `;
