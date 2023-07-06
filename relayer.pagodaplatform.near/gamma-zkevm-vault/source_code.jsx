@@ -511,7 +511,7 @@ const handleWithdraw = () => {
   ];
 
   const hypeContract = new ethers.Contract(
-    proxyAddress,
+    hypeAddress,
     abi,
     Ethers.provider().getSigner()
   );
