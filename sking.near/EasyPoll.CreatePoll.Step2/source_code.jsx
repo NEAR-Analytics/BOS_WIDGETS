@@ -4,18 +4,43 @@ const onSubmit = props.onSubmit ?? (() => {});
 const initialFormState = props.initialFormState ?? {
   questions: [
     {
-      question: {
+      title: {
         value: "",
         error: null,
       },
+      description: {
+        value: "",
+        error: null,
+      },
+      required: {
+        value: false,
+        error: null,
+      },
       questionType: {
-        value: "0",
+        value: 0,
         error: null,
       },
       choicesOptions: { value: ["", ""], error: null },
       imageIPFS: {
         value: "",
         error: null,
+      },
+      minChoices: {
+        value: "1",
+        error: null,
+      },
+      maxChoices: {
+        value: "4",
+        error: null,
+      },
+      label0: {
+        value: "Strongly Disagree",
+      },
+      label5: {
+        value: "Neutral",
+      },
+      label10: {
+        value: "Strongly Agree",
       },
     },
   ],
@@ -32,18 +57,43 @@ const onAddQuestion = () => {
       questions: [
         ...state.form.questions,
         {
-          question: {
+          title: {
             value: "",
             error: null,
           },
+          description: {
+            value: "",
+            error: null,
+          },
+          required: {
+            value: false,
+            error: null,
+          },
           questionType: {
-            value: "0",
+            value: 0,
             error: null,
           },
           choicesOptions: { value: ["", ""], error: null },
           imageIPFS: {
             value: "",
             error: null,
+          },
+          minChoices: {
+            value: "1",
+            error: null,
+          },
+          maxChoices: {
+            value: "4",
+            error: null,
+          },
+          label0: {
+            value: "Strongly Disagree",
+          },
+          label5: {
+            value: "Neutral",
+          },
+          label10: {
+            value: "Strongly Agree",
           },
         },
       ],
@@ -164,8 +214,10 @@ return (
         hasNext: false,
         hasPrev: true,
         hasSubmit: true,
+        hasDraft: true,
         onPrev: () => onPrev(state.form),
         onSubmit: () => onSubmit(state.form),
+        onDraft: () => onSubmit(state.form, true),
       }}
     />
   </div>
