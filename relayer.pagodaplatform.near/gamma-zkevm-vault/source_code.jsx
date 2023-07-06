@@ -154,7 +154,7 @@ const Spinner = styled.i`
 `;
 
 State.init({
-  isDeposit: false,
+  isDeposit: true,
   lpBalance: "",
   balances: [],
   amount0: "",
