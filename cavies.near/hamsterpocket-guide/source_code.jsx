@@ -10,12 +10,12 @@ HamsterPocket is your personal digital magic piggy bank. You place one type of t
 Here you decide the rules for your HamsterPocket, including:
 - **Source Token**: The token you're starting with.
 - **Target Token**: The token you want to collect.
-- **Frequency**: How often the conversion should happen.
+- **Frequency**: How often the conversion should happen (currently we only support hourly frequency, more frequency types will be added later)
 - **Price**: The desired price for your target token.
 - **Amount**: The number of tokens to be converted at a time.
-- **Stop-Loss**: The safety net - if your potential loss reaches a specific limit, the pocket will stop or close.
-- **Take Profit**: The victory lap - if your potential profit hits a specific threshold, the pocket will stop or close.
-- **Pocket Closure Conditions**: Additional options for when the pocket should stop, such as reaching a certain time or accumulated token amount.
+- **Stop-Loss**: The safety net - if your potential loss reaches a specific limit, the pocket will stop or close. (to be added later)
+- **Take Profit**: The victory lap - if your potential profit hits a specific threshold, the pocket will stop or close. (to be added later)
+- **Pocket Closure Conditions**: Additional options for when the pocket should stop, such as reaching a certain time or accumulated token amount. (to be added later)
 
 ![Busy Mr Hamser](https://raw.githubusercontent.com/CaviesLabs/hamsterpocket-assets/main/2.png)
 
