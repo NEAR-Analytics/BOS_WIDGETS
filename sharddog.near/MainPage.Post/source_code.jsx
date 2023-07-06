@@ -50,7 +50,7 @@ return (
         </div>
         <div className="me-4 likebtn">
           <Widget
-            src="mob.near/widget/LikeButton"
+            src="sharddog.near/widget/LikeButton"
             props={{
               notifyAccountId,
               item,
@@ -59,7 +59,7 @@ return (
         </div>
         <div className="me-4 sharebtn">
           <Widget
-            src="mob.near/widget/MainPage.Post.ShareButton"
+            src="sharddog.near/widget/MainPage.Post.ShareButton"
             props={{ accountId, blockHeight, postType: "post" }}
           />
         </div>
