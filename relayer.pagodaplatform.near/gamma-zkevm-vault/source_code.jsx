@@ -285,6 +285,7 @@ const {
   loadingMsg,
   lpBalance,
   lpAmount,
+  isPostTx,
 } = state;
 
 const checkApproval = (token0Amount, token1Amount) => {
