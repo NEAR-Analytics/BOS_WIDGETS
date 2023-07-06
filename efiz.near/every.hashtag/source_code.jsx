@@ -139,25 +139,36 @@ return (
       />
       <Count>{state.name ? filtered_tags : total_tags}</Count>
     </InputContainer>
-    {filteredTags?.map((tag, j) => (
-      <TagContainer>
-        <Link
-          to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Button>{tag.name}</Button>
-        </Link>
-      </TagContainer>
-    ))}
+    {state.selectedTag ? (
+      <>
+        <Button onClick={() => State.update({ selectedTag: null })}>
+          back
+        </Button>
+        <Widget
+          src="efiz.near/widget/every.hashtag.view"
+          props={{ hashtag: state.selectedTag }}
+        />
+      </>
+    ) : (
+      <>
+        {filteredTags?.map((tag, j) => (
+          <TagContainer>
+            <Button onClick={() => State.update({ selectedTag: tag.name })}>
+              {tag.name}
+            </Button>
+          </TagContainer>
+        ))}
+      </>
+    )}
   </Container>
 );
 
-<TagContainer>
-  <TagName>{tag.name}</TagName>
-  <Link to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`}>
-    visit
-  </Link>
-  <p>{tag.count}</p>
-  //{" "}
-</TagContainer>;
+// <TagContainer>
+//   <TagName>{tag.name}</TagName>
+//   <Link to={`/efiz.near/widget/every.hashtag.view?hashtag=${tag.name}`} style={{ textDecoration: "none", color: "inherit" }}>
+//     visit
+//   </Link>
+//   <p>{tag.count}</p>
+//{" "}
+// </TagContainer>;
 // add filter by DAOs with profiles
