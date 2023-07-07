@@ -129,7 +129,7 @@ color: #828688;
   `;
 const Photopickersection = styled.div`
   padding: 10px;
-  width:93%; 
+  width:95%; 
   margin-left:10px;
 @media only screen and (max-width: 480px) {
   
