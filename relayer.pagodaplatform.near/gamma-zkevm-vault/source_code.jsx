@@ -450,7 +450,7 @@ const handleApprove = (isToken0) => {
   State.update({
     ...payload,
     isLoading: true,
-    loadingMsg: `Approving ${_token}`,
+    loadingMsg: `Approving ${_token}...`,
   });
 
   const tokenWei = ethers.utils.parseUnits(
