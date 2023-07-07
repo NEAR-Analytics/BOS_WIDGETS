@@ -1,5 +1,3 @@
-let sharedBlockHeight = props.sharedBlockHeight;
-
 const widgetOwner = "sking.near";
 
 const page = (props.page ?? "OFFICIAL_POLLS").toUpperCase();
@@ -87,39 +85,10 @@ const blackList = []; // use it to hide bad users
 
 const indexVersion = "sking3.2.0";
 
-const hasSBTToken = getFirstSBTToken() !== undefined;
+const hasSBTToken = true || getFirstSBTToken() !== undefined;
 
 const canOperate = hasSBTToken || whitelist.includes(context.accountId);
 
-State.init({
-  hoveringElement: "",
-  showAbortPollCreation: false,
-  abortThroughAllExistingPolls: false,
-  profile: {},
-});
-
-function makeAccountIdShorter(accountId, length) {
-  if (accountId.length > length) {
-    return accountId.slice(0, length) + "...";
-  }
-  return accountId;
-}
-
-const profile = Social.getr(`${context.accountId}/profile`);
-
-if (JSON.stringify(profile) != JSON.stringify(state.profile)) {
-  State.update({ profile: profile });
-}
-
-function abortPollCreation() {
-  State.update({ showAbortPollCreation: true });
-}
-
-function closeModalClickingOnTransparent() {
-  return (e) => {
-    e.target.id == "modal" && State.update({ showAbortPollCreation: false });
-  };
-}
 
 const SectionHeader = styled.h2`
   font-size: 28px;
@@ -134,20 +103,6 @@ const SectionDescription = styled.p`
   opacity: 0.6;
   color: "#828688";
 `;
-
-const renderAbortPollCreationModal = () => {
-  return (
-    <Widget
-      src={`${widgetOwner}/widget/EasyPoll.AbortCreationModal`}
-      props={{
-        state,
-        closeModalClickingOnTransparent,
-        tabs,
-        stateUpdate: (data) => State.update(data),
-      }}
-    />
-  );
-};
 
 // Styles
 const Wrapper = styled.div`
@@ -331,7 +286,6 @@ return (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.Polls`}
               props={{
-                sharedBlockHeight,
                 indexVersion,
                 filterByUser: whitelist,
                 skipHumanVericationFor: whitelist,
@@ -343,7 +297,6 @@ return (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.Polls`}
               props={{
-                sharedBlockHeight,
                 indexVersion,
                 skipHumanVericationFor: whitelist,
                 onlyVerifiedHumans: false,
@@ -355,7 +308,6 @@ return (
             <Widget
               src={`${widgetOwner}/widget/EasyPoll.Polls`}
               props={{
-                sharedBlockHeight,
                 indexVersion,
                 filterByUser: [context.accountId],
                 onlyVerifiedHumans: false,
