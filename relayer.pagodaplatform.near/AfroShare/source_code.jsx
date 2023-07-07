@@ -1,8 +1,10 @@
 let { address, tokenId } = props;
 State.init({
   loading: false,
+  showLogin: true,
   token: {},
   error: null,
+  signer: null,
 });
 
 const alchemyApiKey = props.alchemyApiKey || "docs-demo";
@@ -23,7 +25,27 @@ const loadNFT = () => {
   State.update({ token: nfts.body.nfts[0] });
   console.log("state.token", state.token);
   State.update({ loading: false });
+
+  const signer = Ethers.send("eth_requestAccounts")[0];
+  console.log("signer", signer);
+  if (!signer) {
+    State.update({ error: "Please login first", showLogin: true });
+    return;
+  } else {
+    State.update({ error: "", signer: signer });
+  }
 };
+
+const loginButton = (
+  <Web3Connect
+    className="FormSubmitContainer"
+    connectLabel={web3connectLabel}
+    onConnect={(provider) => {
+      console.log("provider", provider);
+      State.update({ provider });
+    }}
+  />
+);
 
 loadNFT();
 
@@ -75,6 +97,12 @@ return (
       </>
     )}
     {state.error && <p className="text-danger">{state.error}</p>}
+    {state.showLogin && (
+      <>
+        <hr />
+        {loginButton}
+      </>
+    )}
     <hr />
     <Widget src="tomiwa1a1.near/widget/RentNFT" props={props} />
     <hr />
