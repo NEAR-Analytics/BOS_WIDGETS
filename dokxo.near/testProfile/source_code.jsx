@@ -129,7 +129,7 @@ color: #828688;
   `;
 const Photopickersection = styled.div`
   padding: 10px;
-  width:100%; 
+  width:96%; 
   margin-left:10px;
 @media only screen and (max-width: 480px) {
   
@@ -163,7 +163,7 @@ return (
       <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
 
       <div class="row flex-nowrap">
-        <div class="col-2">
+        <div class="col-2  " style={{ "margin-left": "20px" }}>
           {props.img.cid ? (
             <img
               style={{
