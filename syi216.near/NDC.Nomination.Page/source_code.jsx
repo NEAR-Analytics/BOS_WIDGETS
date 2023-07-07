@@ -448,7 +448,7 @@ return (
             alt="pic"
           ></SearchIcon>
           <InputSearch
-            placeholder="Search by candidate name and affiliation"
+            placeholder="Search by candidate name"
             value={state.searchText}
             onChange={(e) => {
               handleFilter(e.target.value);
