@@ -11,7 +11,7 @@ flex: none;
 flex-grow: 0;
 @media only screen and (max-width: 480px) {
   
-  
+
 }
   `;
 const AffiliationHead = styled.div`
@@ -344,6 +344,29 @@ return (
                         handleAFFRole(_param);
                       }}
                     />
+                    <div
+                      style={{
+                        "margin-top": "5px",
+
+                        order: "3",
+                        width: "100%",
+                        display: "flex",
+                        "justify-content": "end",
+                      }}
+                    >
+                      <label
+                        style={{
+                          "font-size": "8px",
+                          display: "flex",
+                          "vertical-align": "top",
+                          "text-align": "center",
+                          color:
+                            form.role.length < 500 ? "#00000075" : "#ff000075",
+                        }}
+                      >
+                        {form.role.length} - 500
+                      </label>
+                    </div>
                   </div>
                 </div>
 
