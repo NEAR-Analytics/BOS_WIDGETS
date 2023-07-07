@@ -36,7 +36,10 @@ const filteredResults = result.filter((res) =>
   candidateId === "" ? true : res[0].includes(candidateId)
 );
 
+console.log("-----");
+console.log(candidateId);
 console.log(filteredResults);
+console.log("-----");
 
 State.init({
   loading: false,
