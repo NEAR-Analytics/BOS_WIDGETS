@@ -869,7 +869,7 @@ return (
           ) : (
             <CommentButtonDisabled>
               <CommentButtonCounter style={{ filter: "grayscale(1)" }}>
-                {data.upVoteData.comments.length
+                {data.upVoteData.comments
                   ? "+" + data.upVoteData.comments.length
                   : "+" + 0}
               </CommentButtonCounter>
