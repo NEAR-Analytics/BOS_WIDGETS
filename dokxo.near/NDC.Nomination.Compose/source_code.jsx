@@ -333,7 +333,7 @@ const uploadFileUpdateState = (body) => {
   }).then(async (res) => {
     const _cid = res.body.cid;
     const _name = body.name;
-    State.update({ img: { uploading: true, cid: _cid, name: _name } });
+    State.update({ img: { uploading: "true", cid: _cid, name: _name } });
   });
 };
 
