@@ -22,6 +22,9 @@ tabs = tabs || {
   gigs: {
     text: "Gigs",
   },
+  wg: {
+    text: "NDC Work Group",
+  },
 };
 
 const refresh = (data) => {
