@@ -90,65 +90,54 @@ return (
           <p>description</p>
         </Modal>
       )}
+      {/*
       <a
         className="text-decoration-none text-dark"
         href={`#/${authorForWidget}/widget/Gigs_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `}
       >
-        <div className="card-body">
-          <div className="row d-flex justify-content-center">
-            <h5 className="card-title text-center pb-2 border-bottom">
-              {article.articleId}
-            </h5>
-            <div className="col flex-grow-1">
-              <Widget
-                src="mob.near/widget/Profile.ShortInlineBlock"
-                props={{
-                  accountId: article.author,
-                  tooltip: true,
-                }}
-              />
-            </div>
-            {/*
-            <div className="col flex-grow-0">
-              <p className="card-subtitle text-muted text-end">
-                {getDateLastEdit(article.timeCreate).date}
-              </p>{" "}
-              <p className="card-subtitle text-muted text-end">
-                {getDateLastEdit(article.timeCreate).time}
-              </p>
-            </div>
-            */}
-          </div>
-          <div
-            className="mt-3 mb-0 alert alert-secondary"
-            style={{ backgroundColor: "white" }}
-          >
-            <div>
-              Posted on {getDateLastEdit(article.timeCreate).date}
-              <br />
-              Edited on {getDateLastEdit(article.timeLastEdit).date}
-              <br />
-              Last edit by{" "}
-              <a
-                href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-                style={{ textDecoration: "underline" }}
-              >
-                {article.lastEditor}
-              </a>
-              <br />
-              Edit versions: {article.version}
-            </div>
+      */}
+      <div role="button" className="card-body" onClick={openModalHandler}>
+        <div className="row d-flex justify-content-center">
+          <h5 className="card-title text-center pb-2 border-bottom">
+            {article.articleId}
+          </h5>
+          <div className="col flex-grow-1">
+            <Widget
+              src="mob.near/widget/Profile.ShortInlineBlock"
+              props={{
+                accountId: article.author,
+                tooltip: true,
+              }}
+            />
           </div>
         </div>
-      </a>
+        <div
+          className="mt-3 mb-0 alert alert-secondary"
+          style={{ backgroundColor: "white" }}
+        >
+          <div>
+            Posted on {getDateLastEdit(article.timeCreate).date}
+            <br />
+            Edited on {getDateLastEdit(article.timeLastEdit).date}
+            <br />
+            Last edit by{" "}
+            <a
+              href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
+              style={{ textDecoration: "underline" }}
+            >
+              {article.lastEditor}
+            </a>
+            <br />
+            Edit versions: {article.version}
+          </div>
+        </div>
+      </div>
+      {/*</a>*/}
       <StatusTagGroup
         activeStatus={article.statusTag}
         articleId={article.articleId}
       />
-      <div>
-        <button onClick={openModalHandler}>OpenModal</button>
-      </div>
     </div>
   </CardWrapper>
 );
