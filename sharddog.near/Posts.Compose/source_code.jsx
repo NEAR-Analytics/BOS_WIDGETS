@@ -416,7 +416,7 @@ const copyToClipboard = (url) => {
   navigator.clipboard
     .writeText(url)
     .then(() => {
-      console.log("Gif URL copied to clipboard!");
+      alert("Gif URL copied to clipboard!");
     })
     .catch((err) => {
       // handle error if any
@@ -463,7 +463,7 @@ return (
               <div>
                 <div>
                   <div>
-                    Search & Post Gifs{" "}
+                    Search & Post Gifs
                     <small>
                       <i>(experimental)</i>
                     </small>
@@ -494,11 +494,7 @@ return (
                             key={index}
                             onClick={() => copyToClipboard(gif.value)}
                           >
-                            <img
-                              src={gif.imageUrl}
-                              alt="Gif"
-                              onClick={() => copyToClipboard(gif.value)}
-                            />
+                            <img src={gif.imageUrl} alt="Gif" />
                           </a>
                         ))}
                       </div>
