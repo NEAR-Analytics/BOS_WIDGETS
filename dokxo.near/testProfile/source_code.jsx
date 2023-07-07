@@ -127,6 +127,14 @@ color: #828688;
   
 }
   `;
+const Photopickersection = styled.div`
+  padding: "10px",
+  width: "83.33333%" 
+@media only screen and (max-width: 480px) {
+  
+  
+}
+  `;
 const Separator = styled.div`
 width:100%;
 height:2px;
@@ -182,7 +190,7 @@ return (
             ></div>
           )}
         </div>
-        <div class="col-10" style={{ padding: "10px", width: "95%" }}>
+        <Photopickersection name="picker" class="col-10">
           <LabelFile style={{ width: "100%" }}>
             <Files
               name="file"
@@ -237,7 +245,7 @@ return (
               </div>
             </Files>
           </LabelFile>
-        </div>
+        </Photopickersection>
       </div>
     </div>
     <WrapNoWrap
