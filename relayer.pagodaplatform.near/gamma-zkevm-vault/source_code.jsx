@@ -177,6 +177,8 @@ State.init({
   isLoading: false,
   isToken0Approved: true,
   isToken1Approved: true,
+  isToken0Approving: false,
+  isToken1Approving: false,
   loadingMsg: "",
   isPostTx: false,
 });
@@ -444,7 +446,6 @@ const handleApprove = (isToken0) => {
     isToken0 ? decimals0 : decimals1
   );
 
-  console.log(tokenWei.toString());
   const abi = ["function approve(address, uint) public"];
 
   const tokenContract = new ethers.Contract(
@@ -458,8 +459,8 @@ const handleApprove = (isToken0) => {
     .then((tx) => tx.wait())
     .then((receipt) => {
       const payload = isToken0
-        ? { isToken0Approved: true }
-        : { isToken1Approved: true };
+        ? { isToken0Approved: true, isToken0Approving: false }
+        : { isToken1Approved: true, isToken1Approving: false };
 
       State.update(payload);
     })
@@ -602,7 +603,10 @@ return (
             {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
             {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
             {!isInSufficient &&
-              (isToken0Approved && isToken1Approved ? (
+              (isToken0Approved &&
+              isToken1Approved &&
+              !isToken0Approving &&
+              !isToken1Approving ? (
                 <Button
                   disabled={isLoading || !amount0 || !amount1}
                   onClick={handleDeposit}
