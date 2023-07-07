@@ -157,8 +157,8 @@ return (
         <div class="col-2">
           <img
             style={{
-              width: "30px",
-              height: "30px",
+              width: "60px",
+              height: "60px",
               background: "#00",
               "border-radius": "20px",
             }}
