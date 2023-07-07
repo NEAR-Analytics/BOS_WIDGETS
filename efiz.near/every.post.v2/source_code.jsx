@@ -6,11 +6,9 @@ const accountBlacklist = props.accountBlacklist;
 const feedOrder = props.feedOrder || "desc";
 const disableCaching = props.disableCaching || false;
 
-const { Test } = VM.require("efiz.near/widget/test.template");
-
-if (hashtagBlacklist.length) {
-  hashtagBlacklist = hashtagBlacklist.map((it) => it.toLowerCase());
-}
+const { Test } = VM.require("efiz.near/widget/test.template"); // takes the data and renders, this can be a thing, or provided via a map.
+// Post template
+// template for the item in the feed...
 
 let index = [];
 const options = {
@@ -37,15 +35,6 @@ if (hashtagWhitelist.length) {
   }));
 }
 
-const Post = styled.div`
-  border-bottom: 1px solid #eceef0;
-  padding: 24px 0 12px;
-
-  @media (max-width: 1200px) {
-    padding: 12px 0 0;
-  }
-`;
-
 function extractPath(a) {
   let path;
   if (hashtagWhitelist.length) {
@@ -64,43 +53,20 @@ function extractPath(a) {
   return path;
 }
 
-const extractHashtags = (text) => {
-  const hashtagRegex = /#(\w+)/gi;
-  hashtagRegex.lastIndex = 0;
-  const hashtags = new Set();
-  for (const match of text.matchAll(hashtagRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-    ) {
-      hashtags.add(match[1].toLowerCase());
-    }
-  }
-  return [...hashtags];
-};
-
 const renderItem = (a) => {
   // Filter out post if account is in blacklist
-  if (accountBlacklist.length && accountBlacklist.includes(a.accountId)) {
+  // Filter out post if type is not in whitelist
+  if (
+    (accountBlacklist.length && accountBlacklist.includes(a.accountId)) ||
+    (hashtagWhitelist.length && !typeWhitelist.includes(a.value.type))
+  ) {
     return <></>;
   }
 
   const path = extractPath(a);
   const blockHeight = a.blockHeight;
-  // Filter out post if type is not in whitelist
-  if (hashtagWhitelist.length) {
-    // although you can't really do this for hashtags... cuz the type is always "social"
-    // so we're just gonna return for now...
-    return <Test path={path} blockHeight={blockHeight} />;
 
-    // It would be great if I could pass the necessary
-  } else {
-    if (typeWhitelist.includes(a.value.type)) {
-      return <Test path={path} blockHeight={blockHeight} />;
-    } else {
-      return <></>;
-    }
-  }
+  return <Test path={path} blockHeight={blockHeight} />;
 };
 
 return (
