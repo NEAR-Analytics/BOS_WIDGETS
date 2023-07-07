@@ -35,6 +35,7 @@ State.init({
   search: false,
   searchText: "",
   originNominations: [],
+  notFound: "There are no active nominations at the moment",
 });
 
 function getVerifiedHuman() {
@@ -159,11 +160,18 @@ function handleFilter(text) {
     State.update({ originNominations: state.nominations, search: true });
   }
   if (text.length > 0) {
+    if (state.nominations.length) {
+      State.update({
+        notFound:
+          "There are no nominations that match the search parameters you used.",
+      });
+    }
     let filtered = state.nominations.filter((data) =>
       data.profileData.name.toLowerCase().includes(text.toLowerCase())
     );
     State.update({ nominations: filtered });
   } else {
+    State.update({ notFound: "There are no active nominations at the moment" });
     State.update({
       nominations: state.originNominations,
       originNominations: [],
@@ -545,9 +553,9 @@ return (
             );
           })
         ) : (
-          <H5 className="mt-10">
-            There are no active nominations at the moment
-          </H5>
+          <div className="flex mt-10 container-fluid align-self-center">
+            <H5 className="text-center">{state.notFound}</H5>
+          </div>
         )}
       </Center>
     </Container>
