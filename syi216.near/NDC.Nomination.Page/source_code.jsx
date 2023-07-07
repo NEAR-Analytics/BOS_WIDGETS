@@ -105,8 +105,6 @@ function getNominationInfo() {
         }, 1000);
 
         setTimeout(() => {
-          console.log(profileData);
-          console.log(nominationData);
           objCard = {
             profileData: profileData,
             nominationData: nominationData,
