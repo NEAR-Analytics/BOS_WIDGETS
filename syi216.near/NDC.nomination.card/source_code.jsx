@@ -48,6 +48,16 @@ function handleUpVote() {
   );
 }
 
+function handleShare() {
+  State.update({ shareText: "Copied" });
+  clipboard.writeText(
+    "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+      data.indexerData.house +
+      "&candidate=" +
+      data.indexerData.nominee
+  );
+}
+
 const Card = styled.div`
 display: flex;
 flex-direction: column;
@@ -916,13 +926,7 @@ return (
                 >
                   <ShareButtonDiv
                     onClick={() => {
-                      State.update({ shareText: "Copied" });
-                      clipboard.writeText(
-                        "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
-                          data.indexerData.house +
-                          "&candidate=" +
-                          data.indexerData.nominee
-                      );
+                      handleShare;
                     }}
                   >
                     <ShareButtonText>Share</ShareButtonText>
