@@ -1,5 +1,10 @@
 const data = props;
-State.init({ verified: false, start: true, voted: false });
+State.init({
+  verified: false,
+  start: true,
+  voted: false,
+  shareText: "Copy link to the clipboard",
+});
 let nominationContract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
   asyncFetch(
@@ -911,6 +916,7 @@ return (
                 >
                   <ShareButtonDiv
                     onClick={() => {
+                      State.update({ shareText: "Copied" });
                       clipboard.writeText(
                         "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
                           data.indexerData.house +
