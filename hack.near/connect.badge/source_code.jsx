@@ -1,3 +1,5 @@
+const orgId = props.orgId ?? "freelancerdao.near";
+
 const accountId = props.accountId;
 
 if (!accountId) {
@@ -5,7 +7,7 @@ if (!accountId) {
 }
 
 const connectionData = Social.keys(
-  `build.sputnik-dao.near/graph/connect/${accountId}`,
+  `${orgId}/graph/connect/${accountId}`,
   undefined,
   {
     values_only: true,
