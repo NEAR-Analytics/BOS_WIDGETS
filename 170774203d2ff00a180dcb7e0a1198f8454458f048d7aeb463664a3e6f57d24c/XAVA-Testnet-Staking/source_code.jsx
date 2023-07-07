@@ -1,7 +1,8 @@
+State.init({ xavaToStake: "0.01" });
+
 if (state.user === undefined) {
   State.update({ user: Ethers.send("eth_requestAccounts", [])[0] });
 }
-
 if (!state.user) return <Web3Connect />;
 
 const XAVA_ADDRESS = "0x64E7AB33C8764a9285cbd48A3b5977c51D2eE645";
@@ -41,10 +42,7 @@ const getXavaBalance = () => {
         rawBalance
       );
 
-      return Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(18))
-        .toFixed(2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+      return Big(receiverBalanceHex.toString()).div(Big(10).pow(18)).toFixed(2);
     });
 };
 
@@ -66,10 +64,7 @@ const getStakedBalance = () => {
         rawBalance
       );
 
-      return Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(18))
-        .toFixed(2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+      return Big(receiverBalanceHex.toString()).div(Big(10).pow(18)).toFixed(2);
     });
 };
 
@@ -95,9 +90,64 @@ if (state.xavaStaked === undefined && state.user) {
   setStakedXava();
 }
 
+const convertToWei = (tokens) => {
+  return Big(parseFloat(tokens)).times(Big(10).pow(18)).toFixed(0).toString();
+};
+
+const handleStakeXava = () => {
+  console.log(convertToWei(state.xavaToStake));
+  console.log(JSON.parse(XAVA_ABIS.body).fuji.AllocationStaking);
+  let contract = new ethers.Contract(
+    XAVA_STAKING,
+    xavaAllocationIface,
+    Ethers.provider().getSigner()
+  );
+  contract
+    .deposit("0", convertToWei(state.xavaToStake))
+    .then((result) => {
+      console.log(result);
+      State.update({ txHash: result.hash, errorMsg: null });
+    })
+    .catch((e) => {
+      console.log(e);
+      State.update({ errorMsg: e.reason, txHash: null });
+    });
+};
+
 return (
   <div>
     <p>You have: {state.xavaBalance}XAVA</p>
     <p>You have staked: {state.xavaStaked} XAVA</p>
+    {state.xavaBalance && (
+      <div>
+        <input
+          class="form-range"
+          type="range"
+          min={0.01}
+          step={0.01}
+          max={parseInt(state.xavaBalance)}
+          value={state.xavaToStake}
+          onChange={(e) => State.update({ xavaToStake: e.target.value })}
+        />
+        <button onClick={handleStakeXava}>
+          Stake: {state.xavaToStake} XAVA
+        </button>
+        {state.txHash && (
+          <p style={{ color: "black" }}>
+            Staking successful{" "}
+            <a
+              target="_blank"
+              href={`https://testnet.snowtrace.io/tx/${state.txHash}`}
+            >
+              Transaction Hash
+            </a>
+          </p>
+        )}
+
+        {state.errorMsg && (
+          <p style={{ color: "red" }}>Error: {state.errorMsg}</p>
+        )}
+      </div>
+    )}
   </div>
 );
