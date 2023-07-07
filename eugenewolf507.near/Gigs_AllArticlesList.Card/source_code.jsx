@@ -37,6 +37,7 @@ const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  padding: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,8 +46,6 @@ const ModalWrapper = styled.div`
   z-index:100;
 `;
 const ModalStyles = styled.div`
-  width: 95%;
-  height: 95%;
   background: #fff;
   border-radius: .375rem;
 `;
