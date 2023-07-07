@@ -45,15 +45,7 @@ return (
         }}
       />
     ) : (
-      <Widget
-        src="near/widget/DIG.Button"
-        props={{
-          href: "#/hack.near/widget/freelancers.page",
-          label: "Get Involved",
-          variant: "outline-dark",
-          size: "small",
-        }}
-      />
+      <h5>NOT CONNECTED</h5>
     )}
   </Badge>
 );
