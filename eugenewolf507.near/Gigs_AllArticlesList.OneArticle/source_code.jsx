@@ -6,9 +6,7 @@ const accountId = props.accountId ?? context.accountId;
 //   return "No account ID";
 // }
 
-const lastEditor = props.lastEditor;
-const blockHeight =
-  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const article = props.article;
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 const statusTagsArr = props.statusTagsArr;
@@ -19,10 +17,6 @@ const notifyAccountId = accountId;
 console.log("props", props);
 
 State.init({ showReply: false, isMain: true });
-
-const article = JSON.parse(
-  Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-);
 State.update({ article });
 
 // ======= CHECK WHO CAN EDIT ARTICLE
