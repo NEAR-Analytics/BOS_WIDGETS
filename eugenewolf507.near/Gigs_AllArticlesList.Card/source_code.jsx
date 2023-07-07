@@ -1,6 +1,6 @@
 State.init({ showModal: false });
 const article = props.article;
-console.log(props);
+const statusChangeHandler = props.statusChangeHandler;
 //TODO get statusTagsArr from props
 const statusTagsArr = ["open", "claimed", "closed"];
 
@@ -57,7 +57,7 @@ const StatusTagGroup = ({ activeStatus, articleId }) => (
   <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
     {statusTagsArr.map((tag) => (
       <button
-        onClick={() => clickHandler(activeStatus, tag, articleId)}
+        onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
         className={`btn btn-sm ${
           activeStatus === tag ? "btn-primary" : "btn-outline-primary"
         }`}
