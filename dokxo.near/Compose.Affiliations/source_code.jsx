@@ -277,7 +277,7 @@ return (
               }}
             >
               {" "}
-              Add An Affilitaiton
+              Add an Affiliation
             </label>
             <img
               style={{}}
