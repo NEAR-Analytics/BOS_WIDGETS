@@ -10,78 +10,106 @@ initState({
   isNFTButtonClicked: false,
   filteredNFTData: [],
 });
+
+const PRICE_CONVERSION_VALUE = 1000000000000000000000000;
+
+const nearLogo =
+  "https://ipfs.near.social/ipfs/bafkreidptf634houwtbxryegonzyys3wnz3m75zqyxfcot5u42slwdtb2e";
+
+const getUsdValue = (price) => {
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=Near&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * price.toFixed(2);
+    return value.toFixed(3);
+  }
+};
+
 const fetchData = () => {
   State.update({ nftData: [] });
 
-  let response = fetch("https://byz-multi-chain-01.hasura.app/v1/graphql", {
-    method: "POST",
-    headers: {
-      "x-api-key": "ChRbeKE.c94220449dbb45973a67a614b1f590be",
-      "Content-Type": "application/json",
-      "Hasura-Client-Name": "near-social",
-    },
-    body: JSON.stringify({
-      query: `
-        query MyQuery {
-      near {
-        collection(where: {slug: {_eq: "${state.collectionSlug}"}}) {
-          slug
-      cover_image
-      description
-      floor
-      usd_volume
-      volume
-      title
-      collection_size
-      nft_metas {
-        image
-        name
-        rarity
-        ranking
-        token_id
-        nft_state {
-          owner
-          staked
-          staked_owner
-        }
-        nft_state_lists( limit: 1
-          order_by: {list_contract: {name: desc}}
-        ) {
-          list_price
-          listed
-          list_contract {
-            name
-          }
-        }
+  let response = fetch(
+    "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+            query MyQuery {
+             nfts(orderBy: createdAtTimestamp) {
+                category
+                chain
+                createdAtTimestamp
+                id
+                isSold
+                isListed
+                price
+                tokenID
+                owner {
+                    id
+                }
+                tokenIPFSPath
+                transactions {
+                  price
+                  txDate
+                  txId
+                  to {
+                    id
+                  }
+                  owner: from {
+                    id
+                  }
+                  type
+                }
+                }
+            }
+        `,
+      }),
+    }
+  );
+
+  console.log(response.body.data.nfts);
+  if (!response.ok) {
+    return "Loading";
+  }
+  const collectionData = response.body.data.nfts;
+
+  if (collectionData) {
+    const nftBody = collectionData.map((data) => {
+      const fetchIPFSData = fetch(
+        data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+      );
+
+      if (fetchIPFSData.status === 403) {
+        console.log(fetchIPFSData);
+        return State.update({ error: true });
       }
-        }
+      if (!fetchIPFSData.ok) {
+        return "Loading NFTS from IPFS";
       }
-    }`,
-    }),
-  });
+      if (fetchIPFSData.ok) {
+        const nft = fetchIPFSData.body;
 
-  if (response) {
-    const data = response;
-    const collectionData = data.body.data.near.collection[0];
-    let nftData = collectionData.nft_metas;
-
-    // Sort NFTs based on list price (lowest to highest) and list status
-    nftData.sort((a, b) => {
-      const aListed = a.nft_state_lists && a.nft_state_lists[0];
-      const bListed = b.nft_state_lists && b.nft_state_lists[0];
-
-      if (aListed && bListed) {
-        return aListed.list_price - bListed.list_price;
-      } else if (aListed) {
-        return -1;
-      } else if (bListed) {
-        return 1;
-      } else {
-        return 0;
+        let nftObject = {};
+        nftObject.id = data.id;
+        nftObject.sold = data.isSold;
+        nftObject.isListed = data.isListed;
+        nftObject.owner = data.owner.id;
+        nftObject.price = data.price;
+        nftObject.tokenId = data.tokenID;
+        nftObject.name = nft?.name;
+        nftObject.description = nft?.description;
+        nftObject.image = nft?.image;
+        return nftObject;
       }
     });
-
-    State.update({ collectionData, nftData });
+    State.update({
+      nftData: nftBody,
+    });
   }
 };
 fetchData();
@@ -278,6 +306,12 @@ const PriceArea = styled.div`
   margin: 0px;
   }
 `;
+const Logo = styled.div`
+    &>img {
+        width: 55px;
+        border-radius: 100%;
+    }
+`;
 const HandleViewNft = (nft) => {
   State.update({ singleNftProps: nft, isNFTButtonClicked: true });
   console.log(nft);
@@ -309,16 +343,13 @@ return (
         {state.searchTerm === "" ? (
           state.nftData.map((nft) => (
             <a
-              // href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
-              // target="_blank"
-              //   href={`https://bos.genadrop.io/#/mob.near/widget/MyPage?accountId=${nft.nft_state.owner}`}
-              // rel="noopener noreferrer"
+              href={`/#/mob.near/widget/MyPage?accountId=${nft.nft_state.owner}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <NFTCard className="card">
                 <ImageCard>
                   <img
-                    src={nft.image}
+                    src={nft.image.replace("ipfs://", "https://ipfs.io/ipfs/")}
                     alt={nft.name}
                     width="100%"
                     height="100%"
@@ -328,8 +359,9 @@ return (
                 <NFTCardText>
                   <hr />
                   <div className="d-flex my-4 justify-content-between w-100 px-2">
-                    <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
-                    <div>{nft.nft_state_lists[0].list_contract.name}</div>
+                    <RankCard>
+                      Owner: {nft.owner.slice(0, 6)}...{nft.owner.slice(38)}
+                    </RankCard>
                   </div>
                   <div className="px-2">
                     <h3
@@ -360,19 +392,12 @@ return (
                           color: "#0d99ff",
                         }}
                       >
-                        {nft.token_id}
+                        {nft.tokenId}
                       </p>
                     </div>
-                    {nft.nft_state && (
-                      <div>
-                        <div style={{ color: "#a4a9b6" }}>Owner</div>
-                        <p style={{ fontSize: "14px" }}>
-                          {nft.nft_state.owner.length > 12
-                            ? nft.nft_state.owner.slice(0, 12) + "..."
-                            : nft.nft_state.owner}
-                        </p>
-                      </div>
-                    )}
+                    <Logo>
+                      <img src={nearLogo} />
+                    </Logo>
                   </div>
                   {/*<p style={{ fontSize: "14px" }} className="px-2">
                     Collection: {nft.collection.slug}
@@ -391,41 +416,32 @@ return (
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
-                      {nft.nft_state_lists && (
-                        <PriceArea>
-                          <h6>
-                            {`${(nft.nft_state_lists[0].list_price
-                              ? nft.nft_state_lists[0].list_price /
-                                1000000000000000000000000
-                              : 0
-                            ).toFixed(2)}N`}
-                          </h6>
-                          <span>
-                            {`($${(nft.nft_state_lists[0].list_price
-                              ? (nft.nft_state_lists[0].list_price /
-                                  1000000000000000000000000) *
-                                1.56
-                              : 0
-                            ).toFixed(2)})`}
-                          </span>
-                        </PriceArea>
-                      )}
+                      <PriceArea>
+                        <h6>
+                          {(nft.price / PRICE_CONVERSION_VALUE).toFixed(2)}
+                        </h6>
+                        <span>
+                          (${getUsdValue(nft.price / PRICE_CONVERSION_VALUE)})
+                        </span>
+                      </PriceArea>
                     </div>
-                    {nft.nft_state.owner === accountId ? (
-                      !nft.nft_state_lists[0].listed && (
+                    {accountId === nft.owner ? (
+                      !nft.isListed && (
                         //Add logic from
                         <button className="button active">List</button>
                       )
-                    ) : !nft.nft_state_lists[0].listed ? (
+                    ) : !nft.isListed ? (
                       //Add logic from
                       <button className="button inactive">Not Listed</button>
-                    ) : (
+                    ) : !nft.isSold ? (
                       <button
                         // onClick={() => HandleViewNft(nft)}
                         className="button active"
                       >
                         Buy Now{" "}
                       </button>
+                    ) : (
+                      <button className="button inactive">Sold</button>
                     )}
                   </div>
                 </NFTCardText>
@@ -435,16 +451,13 @@ return (
         ) : state.filteredNFTData.length > 0 ? (
           state.filteredNFTData.map((nft) => (
             <a
-              // href={`https://www.tradeport.xyz/near/collection/${state.collectionData.slug}/${nft.token_id}`}
-              // target="_blank"
-              href={`https://bos.genadrop.io/#/mob.near/widget/MyPage?accountId=${nft.nft_state.owner}`}
-              // rel="noopener noreferrer"
+              href={`/#/mob.near/widget/MyPage?accountId=${nft.nft_state.owner}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <NFTCard classNmae="card">
+              <NFTCard className="card">
                 <ImageCard>
                   <img
-                    src={nft.image}
+                    src={nft.image.replace("ipfs://", "https://ipfs.io/ipfs/")}
                     alt={nft.name}
                     width="100%"
                     height="100%"
@@ -454,8 +467,9 @@ return (
                 <NFTCardText>
                   <hr />
                   <div className="d-flex my-4 justify-content-between w-100 px-2">
-                    <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
-                    <div>{nft.nft_state_lists[0].list_contract.name}</div>
+                    <RankCard>
+                      Owner: {nft.owner.slice(0, 6)}...{nft.owner.slice(38)}
+                    </RankCard>
                   </div>
                   <div className="px-2">
                     <h3
@@ -486,19 +500,12 @@ return (
                           color: "#0d99ff",
                         }}
                       >
-                        {nft.token_id}
+                        {nft.tokenId}
                       </p>
                     </div>
-                    {nft.nft_state && (
-                      <div>
-                        <div style={{ color: "#a4a9b6" }}>Owner</div>
-                        <p style={{ fontSize: "14px" }}>
-                          {nft.nft_state.owner.length > 12
-                            ? nft.nft_state.owner.slice(0, 12) + "..."
-                            : nft.nft_state.owner}
-                        </p>
-                      </div>
-                    )}
+                    <Logo>
+                      <img src={nearLogo} />
+                    </Logo>
                   </div>
                   {/*<p style={{ fontSize: "14px" }} className="px-2">
                     Collection: {nft.collection.slug}
@@ -517,41 +524,32 @@ return (
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
-                      {nft.nft_state_lists && (
-                        <PriceArea>
-                          <h6>
-                            {`${(nft.nft_state_lists[0].list_price
-                              ? nft.nft_state_lists[0].list_price /
-                                1000000000000000000000000
-                              : 0
-                            ).toFixed(2)}N`}
-                          </h6>
-                          <span>
-                            {`($${(nft.nft_state_lists[0].list_price
-                              ? (nft.nft_state_lists[0].list_price /
-                                  1000000000000000000000000) *
-                                1.56
-                              : 0
-                            ).toFixed(2)})`}
-                          </span>
-                        </PriceArea>
-                      )}
+                      <PriceArea>
+                        <h6>
+                          {(nft.price / PRICE_CONVERSION_VALUE).toFixed(2)}
+                        </h6>
+                        <span>
+                          (${getUsdValue(nft.price / PRICE_CONVERSION_VALUE)})
+                        </span>
+                      </PriceArea>
                     </div>
-                    {nft.nft_state.owner === accountId ? (
-                      !nft.nft_state_lists[0].listed && (
+                    {accountId === nft.owner ? (
+                      !nft.isListed && (
                         //Add logic from
                         <button className="button active">List</button>
                       )
-                    ) : !nft.nft_state_lists[0].listed ? (
+                    ) : !nft.isListed ? (
                       //Add logic from
                       <button className="button inactive">Not Listed</button>
-                    ) : (
+                    ) : !nft.isSold ? (
                       <button
                         // onClick={() => HandleViewNft(nft)}
                         className="button active"
                       >
                         Buy Now{" "}
                       </button>
+                    ) : (
+                      <button className="button inactive">Sold</button>
                     )}
                   </div>
                 </NFTCardText>
