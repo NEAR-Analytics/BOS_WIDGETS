@@ -240,28 +240,21 @@ return (
           href={`${accountUrl}&tab=apps`}
           selected={state.selectedTab === "apps"}
         >
-          Components
+          Discussion
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&tab=nfts`}
           selected={state.selectedTab === "nfts"}
         >
-          NFTs
-        </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=following`}
-          selected={state.selectedTab === "following"}
-        >
-          Following
+          Job Board
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&tab=followers`}
           selected={state.selectedTab === "followers"}
         >
-          Followers
+          Events
         </TabsButton>
 
         <TabsButton
