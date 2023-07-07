@@ -12,6 +12,7 @@ const blockHeight =
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 const statusTagsArr = props.statusTagsArr;
+const statusChangeHandler = props.statusChangeHandler;
 
 const notifyAccountId = accountId;
 
@@ -294,7 +295,6 @@ return (
         })}
       </div>
       <hr />
-      Put Buttons Here
       <StatusTagGroup
         activeStatus={article.statusTag}
         articleId={article.articleId}
