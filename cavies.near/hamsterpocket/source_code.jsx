@@ -50,8 +50,6 @@ const CONTRACT_DATA = {
   ], // Set an array of whitelisted routers with their addresses, AMM tags, names, and DEX URLs
 };
 
-console.log(state.frequency);
-
 // Frequency options.
 const TIME_CONDITIONS = [
   {
