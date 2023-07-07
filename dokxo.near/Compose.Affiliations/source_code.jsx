@@ -290,6 +290,7 @@ return (
                   <div>
                     <CompanyInputName
                       placeholder="Company Name"
+                      value={form.company_name}
                       onChange={(event) => {
                         let _param = { index, event };
                         handleAFFCompanyName(_param);
