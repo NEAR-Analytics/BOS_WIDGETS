@@ -1,8 +1,11 @@
 const authorForWidget = "eugenewolf507.near";
-State.init({ showModal: false });
+State.init({ showModal: false, copiedShareUrl: false });
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const statusTagsArr = props.statusTagsArr;
+const mainPartForSharingGig =
+  "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
+const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
@@ -47,6 +50,39 @@ const ModalStyles = styled.div`
   border-radius: .375rem;
 `;
 
+const ShareButtonWrapper = styled.div`
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    height: 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    color: #11181c !important;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+    }
+
+    i {
+      color: #000;
+    }
+
+    .bi-16 {
+      font-size: 21px;
+    }
+  }
+`;
+
 // ========== JSX ==========
 const StatusTagGroup = ({ activeStatus, articleId }) => (
   <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
@@ -69,19 +105,41 @@ const Modal = ({ onClose, children }) => {
     <ModalWrapper>
       <ModalStyles>
         <div
-          class="d-flex justify-content-between"
+          class="d-flex justify-content-between align-items-baseline"
           style={{ padding: "1rem 2rem 0" }}
         >
-          <button onClick={onClose} class="btn btn-outline-dark btn-sm">
-            share
-          </button>
-          <button
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
+          >
+            <ShareButtonWrapper>
+              <button
+                className="button"
+                type="button"
+                onMouseLeave={() => {
+                  State.update({ copiedShareUrl: false });
+                }}
+                onClick={() => {
+                  clipboard.writeText(shareUrl).then(() => {
+                    State.update({ copiedShareUrl: true });
+                  });
+                }}
+              >
+                {state.copiedShareUrl ? (
+                  <i className="bi-16 bi bi-check"></i>
+                ) : (
+                  <i className="bi-16 bi-link-45deg"></i>
+                )}
+              </button>
+            </ShareButtonWrapper>
+          </OverlayTrigger>
+          <span
+            role="button"
             onClick={onClose}
-            class="btn btn-outline-dark btn-sm"
-            style={{ width: "2rem" }}
+            style={{ fontSize: "1.5rem", width: "2rem", textAlign: "center" }}
           >
             &times;
-          </button>
+          </span>
         </div>
         {children}
       </ModalStyles>
@@ -104,13 +162,6 @@ return (
           />
         </Modal>
       )}
-      {/*
-      <a
-        className="text-decoration-none text-dark"
-        href={`#/${authorForWidget}/widget/Gigs_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
-            `}
-      >
-      */}
       <div role="button" className="card-body" onClick={openModalHandler}>
         <div className="row d-flex justify-content-center">
           <h5 className="card-title text-center pb-2 border-bottom">
@@ -147,7 +198,6 @@ return (
           </div>
         </div>
       </div>
-      {/*</a>*/}
       <StatusTagGroup
         activeStatus={article.statusTag}
         articleId={article.articleId}
