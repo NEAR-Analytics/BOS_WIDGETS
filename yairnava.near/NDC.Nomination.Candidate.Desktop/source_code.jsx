@@ -425,7 +425,8 @@ font-family: Avenir;
 line-height: 130%;
 margin: 0px;
 width: 258px;
-    overflow: hidden;
+overflow: hidden;
+text-align: justify;
 `;
 
 const DeclarationCard = styled.div`
