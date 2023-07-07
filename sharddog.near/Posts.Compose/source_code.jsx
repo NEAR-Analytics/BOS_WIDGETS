@@ -490,10 +490,7 @@ return (
                         }}
                       >
                         {state.gifs.map((gif, index) => (
-                          <div
-                            key={index}
-                            onClick={() => copyToClipboard(gif.value)}
-                          >
+                          <div key={index} onClick={copyToClipboard(gif.value)}>
                             <img src={gif.imageUrl} alt="Gif" />
                           </div>
                         ))}
