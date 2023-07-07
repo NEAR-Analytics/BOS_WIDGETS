@@ -160,7 +160,7 @@ return (
               width: "60px",
               height: "60px",
               background: "#00",
-              "border-radius": "20px",
+              "border-radius": "60px",
             }}
             alt="pic"
             src={"https://nativonft.mypinata.cloud/ipfs/" + props.img.cid}
