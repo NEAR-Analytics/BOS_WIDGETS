@@ -131,9 +131,28 @@ return (
       >
         <a
           href="#/syi216.near/widget/NDC.Nomination.Page"
-          style={{ "font-weight": "500", color: "black" }}
+          style={{
+            "font-weight": "500",
+            color: "black",
+            display: "flex",
+            "align-items": "center",
+            "text-decoration": "none",
+          }}
         >
-          <label style={{ cursor: "pointer" }}>{"< Back"}</label>
+          <div
+            style={{
+              display: "flex",
+              "justify-content": "center",
+              "align-items": "center",
+              gap: "5px",
+            }}
+          >
+            <img
+              style={{ height: "10px" }}
+              src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmbhHT91uXs13i1zx8ZTGMoLzCFU3PqE6c19a7RTMtiKwA?_gl=1*1frs7k7*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODc2MjYzNS40LjEuMTY4ODc2MjY4NC4xMS4wLjA."
+            ></img>
+            <label style={{ cursor: "pointer" }}>Back</label>
+          </div>
         </a>
       </div>
     </Desktop>
