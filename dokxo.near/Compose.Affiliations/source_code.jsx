@@ -213,6 +213,25 @@ height:2px;
 background-color: #D0D6D966;
 border: solid 0px transparent;
 `;
+const getCurdate = () => {
+  let year = new Date(Date.now()).getFullYear().toString();
+  console.log(year);
+  let month =
+    new Date(Date.now()).getMonth() < 10
+      ? "0" + (new Date(Date.now()).getMonth() + 1)
+      : new Date(Date.now()).getMonth() + 1;
+  console.log(month);
+  let day =
+    new Date(Date.now()).getDate() < 10
+      ? "0" + new Date(Date.now()).getDate().toString()
+      : new Date(Date.now()).getDate().toString();
+  console.log(day);
+  let fullYEAR = year + "-" + month + "-" + day;
+  console.log(fullYEAR);
+  return fullYEAR;
+};
+let datnoe = getCurdate();
+console.log("d", datnoe);
 const {
   affiliations,
   addFields,
@@ -305,6 +324,7 @@ return (
                       <CompanyTitle>{"Start date"}</CompanyTitle>
                       <CompanyInput
                         type="date"
+                        max={getCurdate()}
                         onChange={(event) => {
                           let _param = { index, event };
                           handleAFFStartdate(_param);
@@ -315,6 +335,7 @@ return (
                       <CompanyTitle>{"End date"}</CompanyTitle>
                       <CompanyInput
                         type="date"
+                        max={getCurdate()}
                         onChange={(event) => {
                           let _param = { index, event };
                           handleAFFEnddate(_param);
