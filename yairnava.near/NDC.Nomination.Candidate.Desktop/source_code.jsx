@@ -771,11 +771,18 @@ return (
                         style={{
                           border: "1px solid",
                           "border-color": "#dee2e6",
+                          width: "30%",
                         }}
                       >
                         Key Issues
                       </th>
-                      <th>Candidate's Positions</th>
+                      <th
+                        style={{
+                          width: "70%",
+                        }}
+                      >
+                        Candidate's Positions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -804,7 +811,14 @@ return (
                               )}
                             </td>
                             <td style={{ background: "#F8F8F9" }}>
-                              <KeyIssueDescription style={{ color: "black" }}>
+                              <KeyIssueDescription
+                                style={{
+                                  color: "black",
+                                  "padding-inline": "20px",
+                                  "padding-top": "15px",
+                                  "padding-bottom": "15px",
+                                }}
+                              >
                                 {data}
                               </KeyIssueDescription>
                             </td>
