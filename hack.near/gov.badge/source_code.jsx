@@ -1,28 +1,27 @@
-const Badge = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: top;
-  width: 100%;
+const orgId = props.orgId ?? "rc-dao.near";
 
-  .image {
-    display: block;
-    height: 8em;
+const accountId = props.accountId;
+
+if (!accountId) {
+  return "";
+}
+
+const connectionData = Social.keys(
+  `${orgId}/graph/connect/${accountId}`,
+  undefined,
+  {
+    values_only: true,
   }
-}`;
+);
+
+const connected = Object.keys(connectionData || {}).length > 0;
 
 return (
-  <Badge>
-    <a href="https://i-am-human.app/?community=banyan&vertical=regionalcommunities">
-      <Widget
-        src="mob.near/widget/Image"
-        props={{
-          className: "image",
-          image: {
-            ipfs_cid: "QmR4U2XnTSCCUhQRcC1Hh5SRwMndtAGYuVzphc2QuiRJrJ",
-          },
-          alt: "I am human.",
-        }}
-      />
-    </a>
-  </Badge>
+  <div>
+    {connected ? (
+      <Widget src="hack.near/widget/dao.badge" />
+    ) : (
+      <h5>none found</h5>
+    )}
+  </div>
 );
