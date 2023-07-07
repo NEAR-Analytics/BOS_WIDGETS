@@ -71,15 +71,12 @@ return (
           <div className="float-end">
             <Widget
               src="hack.near/widget/connect.badge"
-              props={{ accountId: state.profileId }}
+              props={{
+                accountId: state.profileId,
+                orgId,
+              }}
             />
           </div>
-        </div>
-        <div style={{ minWidth: "12rem" }}>
-          <Widget
-            src="mob.near/widget/LinkTree"
-            props={{ linktree: profile.linktree }}
-          />
         </div>
         <div className="me-3 d-sm-flex gap-1 mt-3 flex-row align-items-center">
           <Widget
