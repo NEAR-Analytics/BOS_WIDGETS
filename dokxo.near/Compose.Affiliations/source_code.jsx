@@ -339,6 +339,7 @@ return (
                       id="Description"
                       type="text"
                       placeholder="Please describe your role at the organization"
+                      value={form.role}
                       onChange={(event) => {
                         let _param = { index, event };
                         handleAFFRole(_param);
