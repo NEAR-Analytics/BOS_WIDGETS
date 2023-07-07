@@ -458,8 +458,6 @@ const Self_Nominate = () => {
       methodName: "self_nominate",
       args: {
         house: state.house_intended,
-        comment: "hello dokxo",
-        link: "OWA.io",
       },
       gas: 300000000000000,
       deposit: 100000000000000000000000,
