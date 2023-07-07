@@ -4,7 +4,7 @@ State.init({
   start: true,
   voted: false,
 });
-
+console.log(props);
 let nominationContract = "nominations-v1.gwg-testing.near";
 
 function getVerifiedHuman() {
