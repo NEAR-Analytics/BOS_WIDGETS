@@ -384,10 +384,47 @@ const selectedNetwork = chainId === 1 || chainId === 5 ? "ethereum" : "polygon";
 const isTestnet = chainId === 5 || chainId === 1442;
 const isMainnet = chainId === 1 || chainId === 1101;
 
+const walletChains = {
+  1442: {
+    chainId: `0x5a2`,
+    chainName: "zkEVM Testnet",
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rpc.public.zkevm-test.net/"],
+    blockExplorerUrls: ["https://testnet-zkevm.polygonscan.com/"],
+  },
+  1101: {
+    chainId: `0x44d`,
+    chainName: "zkEVM Mainnet",
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://zkevm-rpc.com"],
+    blockExplorerUrls: ["https://zkevm.polygonscan.com/"],
+  },
+};
+
 const switchNetwork = (chainId) => {
-  Ethers.provider().send("wallet_switchEthereumChain", [
-    { chainId: `0x${chainId.toString(16)}` },
-  ]);
+  Ethers.provider()
+    .send("wallet_switchEthereumChain", [
+      { chainId: `0x${chainId.toString(16)}` },
+    ])
+    .catch((err) => {
+      if (err.code === 4902) {
+        Ethers.provider()
+          .send("wallet_addEthereumChain", [walletChains[chainId]])
+          .then(() => {
+            Ethers.provider().send("wallet_switchEthereumChain", [
+              { chainId: `0x${chainId.toString(16)}` },
+            ]);
+          });
+      }
+    });
 };
 
 const coins = Object.keys(coinsMap);
