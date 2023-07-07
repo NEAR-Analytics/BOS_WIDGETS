@@ -603,7 +603,7 @@ return (
           </InputWrapper>
           <VStack>
             {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
-            {isInSufficient && <Button disabled>"InSufficient Balance"</Button>}
+            {isInSufficient && <Button disabled>InSufficient Balance</Button>}
             {!isInSufficient &&
               (isToken0Approved &&
               isToken1Approved &&
