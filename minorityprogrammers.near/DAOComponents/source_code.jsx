@@ -48,8 +48,19 @@ return (
     <Header>
       <H2>DAO COMPONENTS</H2>
     </Header>
-
     <Items>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "ndcplug.near/widget/DAO.main" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "ndcplug.near/widget/AllDAOs" }}
+        />
+      </Item>
       <Item>
         <Widget
           src="near/widget/ComponentCard"
