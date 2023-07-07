@@ -61,7 +61,7 @@ const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
 };
 
-const handleFilter = (e) => State.update({ candicateId: e.target.value });
+const handleFilter = (e) => State.update({ candidateId: e.target.value });
 
 const Container = styled.div`
   padding: 20px 0;
@@ -131,7 +131,7 @@ return (
         />
       </Left>
       <div className="col-lg-6 p-2 p-md-3">
-        {houses.map((house) => (
+        {state.houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
               <Widget
