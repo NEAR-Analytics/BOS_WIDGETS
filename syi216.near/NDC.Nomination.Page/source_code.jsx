@@ -455,7 +455,7 @@ return (
             }}
           ></InputSearch>
         </LabelFile>
-        <SortButton disabled>
+        <SortButton hidden>
           <SortIcon
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmNivRaFySDTXDK3rsNXNZn7ySyhCR82rVwqA15Nn2hofK?_gl=1*jc7vlr*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
             alt="pic"
