@@ -306,6 +306,7 @@ align-items: flex-start;
 padding: 0px;
 gap: 4px;
 width: 100%;
+flex-wrap: wrap;
 height: 20px;
 flex: none;
 order: 1;
@@ -595,6 +596,9 @@ const TagSection = styled.div`
 display: flex;
 align-items: flex-start;
 gap: 4px;
+flex-wrap: wrap;
+max-height: 20px;
+overflow: hidden;
 `;
 
 const Tag = styled.div`
