@@ -29,6 +29,11 @@ loadNFT();
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
+    <h1 className="text-center mb-3">AfroShare</h1>
+    <h3>
+      Afroshare allows you to easily share your Afropolitan NFT by renting it to
+      others.
+    </h3>
     {state.loading && (
       <>
         <p className="text-primary">Loading NFT details...</p>
@@ -46,7 +51,7 @@ return (
     )}
     {state.token && (
       <>
-        <h1 className="text-center mb-3">{state.token.title}</h1>
+        <h3 className="text-center mb-3">{state.token.title}</h3>
         <div className="container">
           <div className="card shadow-sm">
             <img
@@ -72,6 +77,8 @@ return (
     {state.error && <p className="text-danger">{state.error}</p>}
     <hr />
     <Widget src="tomiwa1a1.near/widget/RentNFT" props={props} />
+    <hr />
+    <Widget src="tomiwa1a1.near/widget/TokenGate" props={props} />
     <hr />
     <Widget src="tomiwa1a1.near/widget/TransferNFT" props={props} />
   </div>
