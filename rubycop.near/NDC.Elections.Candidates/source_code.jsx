@@ -12,6 +12,7 @@ const {
   voters_num,
   result,
   isIAmHuman,
+  candidateId,
 } = props;
 
 const widgets = {
@@ -30,6 +31,7 @@ const housesMapping = {
 };
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+const filteredResult = result.filter((res) => res[0].includes(candidateId));
 
 State.init({
   loading: false,
@@ -40,7 +42,7 @@ State.init({
       ? _bookmarked[_bookmarked.length - 1].value
       : [],
   selectedCandidates: [],
-  candidates: result,
+  candidates: filteredResult,
   filter: {
     bookmark: false,
     candidate: false,
