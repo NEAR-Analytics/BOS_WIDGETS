@@ -125,6 +125,33 @@ const reloadConfig = () => {
         Object.keys(mapping).length > 1 ? Object.keys(mapping)[1] : "", // Set the 'selectedTokenAddress' to the second token address if there are more than one, otherwise set it to an empty string
     });
   });
+
+  // DETECT SENDER
+  if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
+    Ethers.provider()
+      .getNetwork()
+      .then((chainIdData) => {
+        if (chainIdData?.chainId) {
+          State.update({
+            chainId: chainIdData.chainId,
+            sender: ethers.utils.getAddress(
+              Ethers.send("eth_requestAccounts", [])[0]
+            ),
+          });
+        }
+      });
+  }
+
+  // Get sender balance.
+  if (state.sender) {
+    Ethers.provider()
+      .getBalance(state.sender)
+      .then((balance) => {
+        State.update({
+          balance: Big(balance).div(Big(10).pow(18)).toFixed(10),
+        }); // Get the sender's balance and update the 'balance' state property
+      });
+  }
 };
 
 if (!state.loaded) {
@@ -347,31 +374,6 @@ const handleWithdraw = () => {
       });
   } catch {}
 };
-
-// DETECT SENDER
-if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
-  Ethers.provider()
-    .getNetwork()
-    .then((chainIdData) => {
-      if (chainIdData?.chainId) {
-        State.update({
-          chainId: chainIdData.chainId,
-          sender: ethers.utils.getAddress(
-            Ethers.send("eth_requestAccounts", [])[0]
-          ),
-        });
-      }
-    });
-}
-
-// Get sender balance.
-if (state.sender) {
-  Ethers.provider()
-    .getBalance(state.sender)
-    .then((balance) => {
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(10) }); // Get the sender's balance and update the 'balance' state property
-    });
-}
 
 if (state.whiteLists !== {} && state.sender && state.currentScreen === 0) {
   // Get pocket data when config has been loaded.
@@ -856,7 +858,7 @@ const createPocketScreen = () => {
           <div class="deposit">Back</div>
         </div>
 
-        {state.balance && state.balance > 0 && (
+        {!!state.balance && state.balance > 0 && (
           <div
             onClick={() => handleCreatePocket()}
             class="frame-48098260"
