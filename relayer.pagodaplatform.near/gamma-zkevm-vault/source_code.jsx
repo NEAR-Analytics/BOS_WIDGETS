@@ -442,13 +442,17 @@ const handleLPChange = (amount) => {
 };
 
 const handleApprove = (isToken0) => {
+  const _token = isToken0 ? token0 : token1;
   const payload = isToken0
     ? { isToken0Approving: true }
     : { isToken1Approving: true };
 
-  State.update(payload);
+  State.update({
+    ...payload,
+    isLoading: true,
+    loadingMsg: `Approving ${_token}`,
+  });
 
-  const _token = isToken0 ? token0 : token1;
   const tokenWei = ethers.utils.parseUnits(
     isToken0 ? amount0 : amount1,
     isToken0 ? decimals0 : decimals1
@@ -470,11 +474,12 @@ const handleApprove = (isToken0) => {
         ? { isToken0Approved: true, isToken0Approving: false }
         : { isToken1Approved: true, isToken1Approving: false };
 
-      State.update(payload);
+      State.update({ ...payload, isLoading: false, loadingMsg: "" });
     })
     .catch((error) => {
       State.update({
         isError: true,
+        isLoading: false,
         loadingMsg: error,
       });
     });
