@@ -1,5 +1,5 @@
 const ModalCard = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 1;
   left: 0;
   top: 0;
@@ -349,8 +349,13 @@ State.init({
   share_url: _share_url,
   cancel: false,
   e_message: "",
+  shareText: "Copy to the clipboard ",
 });
 
+const SetText = (txt) => {
+  console.log("cop");
+  State.update({ shareText: txt });
+};
 return (
   <ModalCard>
     <CommentCard>
@@ -417,12 +422,13 @@ return (
                       placement={placement}
                       overlay={
                         <Tooltip id={`tooltip-${placement}`}>
-                          Copy to clipboard <strong>{placement}</strong>.
+                          {state.shareText}
                         </Tooltip>
                       }
                     >
                       <BFCButtonitem
                         onClick={() => {
+                          SetText("Copied to the clipboard");
                           clipboard.writeText(state.share_url);
                         }}
                       >
