@@ -592,7 +592,6 @@ flex-grow: 0;
 `;
 
 const TagSection = styled.div`
-overflow: hidden;
 display: flex;
 align-items: flex-start;
 gap: 4px;
