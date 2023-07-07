@@ -469,10 +469,7 @@ return (
                     </small>
                     <br />
                     <small>
-                      <i>
-                        Click on the image and it will copy a link to it, paste
-                        that within your post
-                      </i>
+                      <i>Click on the image and it will add to your post</i>
                     </small>
                     <input
                       type="text"
@@ -492,9 +489,11 @@ return (
                         {state.gifs.map((gif, index) => (
                           <div
                             key={index}
-                            onClick={() => {
-                              navigator.clipboard.writeText(gif.imageUrl);
-                            }}
+                            onClick={() =>
+                              State.update({
+                                text: state.text + "\n" + gif.imageUrl,
+                              })
+                            }
                           >
                             <img src={gif.imageUrl} alt="Gif" />
                           </div>
