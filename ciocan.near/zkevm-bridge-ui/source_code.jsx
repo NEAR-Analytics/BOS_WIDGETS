@@ -385,7 +385,7 @@ const isTestnet = chainId === 5 || chainId === 1442;
 const isMainnet = chainId === 1 || chainId === 1101;
 
 const switchNetwork = (chainId) => {
-  Ethers.send("wallet_switchEthereumChain", [
+  Ethers.provider().send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
 };
