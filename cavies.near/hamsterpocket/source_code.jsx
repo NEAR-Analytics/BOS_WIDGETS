@@ -597,7 +597,7 @@ const createPocketScreen = () => {
             </defs>
           </svg>
 
-          <div class="frame-48098209">
+          <div class="frame-48098209" style={{ marginTop: 14 }}>
             <div class="frame-480978682">
               <div class="solana-sol">
                 <div class="solana-sol2">
@@ -610,7 +610,7 @@ const createPocketScreen = () => {
                 </div>
               </div>
 
-              <div class="frame" style={{}}>
+              <div class="frame" style={{ marginTop: 8 }}>
                 {state.whiteLists && Object.keys(state.whiteLists).length > 0 && (
                   <Typeahead
                     defaultSelected={[
