@@ -326,6 +326,7 @@ align-self: stretch;
 border-radius: 10px;
 background: var(--ffd-50-d, #FFD50D);
 border:0px;
+text-decoration: none;
 `;
 
 const VerifyButtonText = styled.p`
