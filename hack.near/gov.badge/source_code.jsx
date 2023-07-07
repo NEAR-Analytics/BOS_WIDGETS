@@ -1,6 +1,6 @@
 const orgId = props.orgId ?? "rc-dao.near";
 
-const accountId = props.accountId;
+const accountId = props.accountId ?? "hack.near";
 
 if (!accountId) {
   return "";
@@ -31,7 +31,7 @@ const Badge = styled.div`
 return (
   <Badge>
     {connected ? (
-      <Widget src="hack.near/widget/gov.Badge" />
+      <Widget src="hack.near/widget/dao.badge" />
     ) : (
       <h5>none found</h5>
     )}
