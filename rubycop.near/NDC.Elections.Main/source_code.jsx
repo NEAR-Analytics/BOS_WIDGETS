@@ -131,7 +131,7 @@ return (
         />
       </Left>
       <div className="col-lg-6 p-2 p-md-3">
-        {state.houses.map((house) => (
+        {houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
               <Widget
