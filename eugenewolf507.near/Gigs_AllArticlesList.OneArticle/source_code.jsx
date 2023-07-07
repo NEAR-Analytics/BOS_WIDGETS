@@ -298,3 +298,149 @@ return (
                 type="button"
                 className="btn btn-outline-success mx-1"
                 style={{ minWidth: "120px" }}
+                onClick={() => {
+                  if (!state.note || article.body === state.note) return;
+
+                  const args = {
+                    article_id: state?.articleId,
+                    body: state.note,
+                    navigation_id: null,
+                  };
+
+                  saveArticle(args);
+                }}
+              >
+                Save Article{" "}
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-outline-danger mx-1"
+                style={{ minWidth: "120px" }}
+                onClick={() => {
+                  State.update({
+                    ...state,
+                    editArticle: false,
+                    note: undefined,
+                  });
+                }}
+              >
+                Close
+              </button>
+            </div>
+            <hr />
+          </>
+        )}
+
+        {/* === EDIT ARTICLE === */}
+        {state.editArticle && (
+          <>
+            <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
+              <div className="w-50">
+                <Widget
+                  src="mob.near/widget/MarkdownEditorIframe"
+                  props={{
+                    initialText: state.article.body,
+                    onChange: (note) => State.update({ note }),
+                  }}
+                />
+              </div>
+              <div className="w-50">
+                <Widget
+                  src="mob.near/widget/SocialMarkdown"
+                  props={{ text: state.note }}
+                />
+              </div>
+            </div>
+          </>
+        )}
+        {!state.editArticle && !state.viewHistory && (
+          <>
+            {!state.isMain && (
+              <i
+                className="bi bi-arrow-left"
+                style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                onClick={() => {
+                  handleHeaderClick(0, 0);
+                }}
+              ></i>
+            )}
+            <Markdown text={state.note || state.article.body} />
+          </>
+        )}
+        {/* === VIEW HISTORY === */}
+        {state.viewHistory && (
+          <div className="mt-3 ps-5">
+            <div className="d-flex justify-content-between">
+              <i
+                className="bi bi-arrow-left"
+                style={{ cursor: "pointer", fontSize: "1.5rem" }}
+                onClick={() => {
+                  State.update({
+                    ...state,
+                    viewHistory: false,
+                  });
+                }}
+              ></i>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  State.update({
+                    ...state,
+                    viewHistory: false,
+                  });
+                }}
+              >
+                Close
+              </button>
+            </div>
+            <Widget
+              src={`${authorForWidget}/widget/Gigs_History.History`}
+              props={{
+                articleId: state.article.articleId,
+                resultArticles,
+              }}
+            />
+          </div>
+        )}
+        {/* === CREATE COMMENT BUTTON === */}
+        {blockHeight !== "now" && (
+          <div className="mt-1 d-flex justify-content-between">
+            <Widget
+              src="mob.near/widget/CommentButton"
+              props={{
+                onClick: () => State.update({ showReply: !state.showReply }),
+              }}
+            />
+          </div>
+        )}
+        {/* === COMPOSE COMMENT === */}
+        <div className="mt-3 ps-5">
+          {state.showReply && (
+            <div className="mb-2">
+              <Widget
+                src={`${authorForWidget}/widget/Gigs_Comment.Compose`}
+                props={{
+                  notifyAccountId,
+                  item,
+                  onComment: () => State.update({ showReply: false }),
+                }}
+              />
+            </div>
+          )}
+          {/* === SHOW COMMENT === */}
+          <Widget
+            src={`${authorForWidget}/widget/Gig_Comment.Feed`}
+            props={{
+              item,
+              highlightComment: props.highlightComment,
+              limit: props.commentsLimit,
+              subscribe,
+              raw,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+);
