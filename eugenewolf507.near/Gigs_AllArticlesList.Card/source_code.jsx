@@ -1,3 +1,4 @@
+const authorForWidget = "eugenewolf507.near";
 State.init({ showModal: false });
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
@@ -72,9 +73,17 @@ const Modal = ({ onClose, children }) => {
   return (
     <ModalWrapper>
       <ModalStyles>
-        <button onClick={onClose} class="btn btn-outline-dark btn-sm">
-          &times;
-        </button>
+        <div
+          class="d-flex justify-content-between"
+          style={{ padding: "1rem 2rem 0" }}
+        >
+          <button onClick={onClose} class="btn btn-outline-dark btn-sm">
+            share
+          </button>
+          <button onClick={onClose} class="btn btn-outline-dark btn-sm">
+            &times;
+          </button>
+        </div>
         {children}
       </ModalStyles>
     </ModalWrapper>
@@ -86,8 +95,14 @@ return (
     <div className="card h-100" style={{ position: "static" }}>
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
-          <h2>{article.articleId}</h2>
-          <p>description</p>
+          <Widget
+            src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
+            props={{
+              articleId: article.articleId,
+              blockHeight: article.blockHeight,
+              lastEditor: article.lastEditor,
+            }}
+          />
         </Modal>
       )}
       {/*
