@@ -16,6 +16,8 @@ const statusChangeHandler = props.statusChangeHandler;
 
 const notifyAccountId = accountId;
 
+console.log("props", props);
+
 State.init({ showReply: false, isMain: true });
 
 const article = JSON.parse(
