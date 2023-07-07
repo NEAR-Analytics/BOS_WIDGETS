@@ -23,7 +23,7 @@ const Badge = styled.div`
 
   .image {
     display: block;
-    height: 5em;
+    height: 7em;
     margin: 0.5em;
   }
 }`;
