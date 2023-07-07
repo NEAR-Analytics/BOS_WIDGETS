@@ -218,7 +218,7 @@ height: 17px;
 const PlatformCard = styled.div`
 display: flex;
 width: 326px;
-padding: 16px 12px;
+padding-top: 16px;
 align-items: flex-start;
 gap: 12px;
 border-radius: 6px;
@@ -687,7 +687,7 @@ return (
             "margin-top": "10px",
             "padding-left": "0",
             "padding-right": "0",
-            width: "330px",
+            width: "310px",
           }}
         >
           <div>
@@ -740,7 +740,7 @@ return (
           style={{
             "border-radius": "8px",
             "margin-top": "10px",
-            width: "600px",
+            width: "620px",
             background: "#F8F8F9",
             "margin-left": "10px",
           }}
@@ -837,8 +837,7 @@ return (
     <div
       class="col-3"
       style={{
-        "min-width": "350px",
-        "max-width": "350px",
+        width: "350px",
         background: "#F8F8F9",
         "border-radius": "8px",
       }}
