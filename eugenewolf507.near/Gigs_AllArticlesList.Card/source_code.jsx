@@ -198,10 +198,6 @@ return (
           </div>
         </div>
       </div>
-      <StatusTagGroup
-        activeStatus={article.statusTag}
-        articleId={article.articleId}
-      />
     </div>
   </CardWrapper>
 );
