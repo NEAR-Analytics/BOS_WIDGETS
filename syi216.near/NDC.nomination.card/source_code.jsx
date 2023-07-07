@@ -703,6 +703,7 @@ background-origin: border-box;
 background-clip: padding-box, border-box;
 gap: 10px;
 border-radius: 4px;
+text-decoration: none;
 `;
 
 const ViewButtonText = styled.p`
