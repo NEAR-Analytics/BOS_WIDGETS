@@ -186,7 +186,14 @@ return (
           }}
         />
         <PStyled>
-          I agree the <AStyled>{"Declaration of transparency"} </AStyled>
+          I agree the{" "}
+          <AStyled
+            href="https://bafkreiarbw2noibmrvb2zexgsgbff23lhe5dzwjdepglsad3rp6fhvbhua.ipfs.nftstorage.link/"
+            target={"_blank"}
+            rel={"noopener"}
+          >
+            {"Declaration of transparency"}{" "}
+          </AStyled>
         </PStyled>
       </FormsectionDecaration>
     </div>
