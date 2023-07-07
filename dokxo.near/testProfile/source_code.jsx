@@ -163,7 +163,7 @@ return (
       <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
 
       <div class="row flex-nowrap">
-        <div class="col-2  " style={{ "margin-left": "20px" }}>
+        <div class="col-2  ">
           {props.img.cid ? (
             <img
               style={{
