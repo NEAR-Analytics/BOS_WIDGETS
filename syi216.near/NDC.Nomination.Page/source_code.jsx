@@ -534,6 +534,7 @@ return (
                 </VerifiedHeaderContainer>
               </VerifiedHeader>
               <VerifyButton
+                className="text-decoration-none"
                 href="https://i-am-human.app/"
                 target="_blank"
                 rel="noopener"
