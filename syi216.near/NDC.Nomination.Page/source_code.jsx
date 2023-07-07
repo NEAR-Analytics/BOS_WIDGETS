@@ -36,30 +36,6 @@ State.init({
   searchText: "",
   originNominations: [],
 });
-//
-
-function handleNominations(data) {
-  State.update({ nominations: data });
-}
-
-function handleFilter(text) {
-  State.update({ searchText: text });
-  if (!state.search) {
-    State.update({ originNominations: state.nominations, search: true });
-  }
-  if (text.length > 0) {
-    let filtered = state.nominations.filter((data) =>
-      data.profileData.name.toLowerCase().includes(text.toLowerCase())
-    );
-    State.update({ nominations: filtered });
-  } else {
-    State.update({
-      nominations: state.originNominations,
-      originNominations: [],
-      search: false,
-    });
-  }
-}
 
 function getVerifiedHuman() {
   asyncFetch(
@@ -110,26 +86,32 @@ function getNominationInfo() {
       State.update({ nominations: [] });
     }
     for (const [i, data] of res.body.entries()) {
+      let objCard = {
+        indexerData: data,
+      };
+      let nominee = data.nominee;
       asyncFetch(
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
         { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
-      ).then((res) => {
-        let upVoteInfo = res.body[0];
+      ).then((info) => {
+        let upVoteInfo = info.body[0];
         let profileData;
         let nominationData;
-        Social.getr(`${data.nominee}/profile`);
-        Social.getr(`${data.nominee}/nominations`);
+        Social.getr(`${nominee}/profile`);
+        Social.getr(`${nominee}/nominations`);
         setTimeout(() => {
-          profileData = Social.getr(`${data.nominee}/profile`);
-          nominationData = Social.getr(`${data.nominee}/nominations`);
+          profileData = Social.getr(`${nominee}/profile`);
+          nominationData = Social.getr(`${nominee}/nominations`);
         }, 1000);
 
         setTimeout(() => {
-          let objCard = {
-            indexerData: data,
+          console.log(profileData);
+          console.log(nominationData);
+          objCard = {
             profileData: profileData,
             nominationData: nominationData,
             upVoteData: upVoteInfo,
+            ...objCard,
           };
           if (!data.is_revoked) {
             if (profileData && nominationData) {
@@ -144,6 +126,7 @@ function getNominationInfo() {
     }
   });
 }
+
 //
 
 if (state.start) {
@@ -171,6 +154,25 @@ const handleSelect = (item) => {
   }
   State.update({ selectedHouse: item.id });
 };
+
+function handleFilter(text) {
+  State.update({ searchText: text });
+  if (!state.search) {
+    State.update({ originNominations: state.nominations, search: true });
+  }
+  if (text.length > 0) {
+    let filtered = state.nominations.filter((data) =>
+      data.profileData.name.toLowerCase().includes(text.toLowerCase())
+    );
+    State.update({ nominations: filtered });
+  } else {
+    State.update({
+      nominations: state.originNominations,
+      originNominations: [],
+      search: false,
+    });
+  }
+}
 
 const Container = styled.div`
   padding: 30px 0;
