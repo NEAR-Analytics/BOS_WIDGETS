@@ -442,6 +442,12 @@ const handleLPChange = (amount) => {
 };
 
 const handleApprove = (isToken0) => {
+  const payload = isToken0
+    ? { isToken0Approving: true }
+    : { isToken1Approving: true };
+
+  State.update(payload);
+
   const _token = isToken0 ? token0 : token1;
   const tokenWei = ethers.utils.parseUnits(
     isToken0 ? amount0 : amount1,
