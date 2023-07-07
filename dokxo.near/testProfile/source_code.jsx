@@ -130,6 +130,7 @@ color: #828688;
 const Photopickersection = styled.div`
   padding: 10px;
   width: 83.33333%; 
+  margin-left:10px;
 @media only screen and (max-width: 480px) {
   
   
