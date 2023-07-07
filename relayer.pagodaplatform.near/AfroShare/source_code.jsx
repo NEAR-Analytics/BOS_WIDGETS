@@ -30,10 +30,10 @@ loadNFT();
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <h1 className="text-center mb-3">AfroShare</h1>
-    <h3>
+    <p className="text-center mb-3">
       Afroshare allows you to easily share your Afropolitan NFT by renting it to
       others.
-    </h3>
+    </p>
     {state.loading && (
       <>
         <p className="text-primary">Loading NFT details...</p>
