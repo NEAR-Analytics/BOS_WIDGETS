@@ -277,9 +277,10 @@ const KeyIssueDescription = styled.p`
 color: #828688;
 font-size: 12px;
 font-family: Avenir;
-line-height: 120%;
+line-height: 130%;
 margin: 0px;
 width: 302px;
+text-align: justify;
 `;
 const CandidateCard = styled.div`
 display: flex;
@@ -387,6 +388,7 @@ font-family: Avenir;
 line-height: 130%;
 margin: 0px;
 width: 295px;
+text-align: justify;
 `;
 const DeclarationCard = styled.div`
 display: flex;
@@ -433,6 +435,7 @@ color: var(--primary-828688, #828688);
 font-size: 12px;
 font-family: Avenir;
 line-height: 130%;
+text-align: justify;
 `;
 const DeclarationImage = styled.img`
 width: 290px;
