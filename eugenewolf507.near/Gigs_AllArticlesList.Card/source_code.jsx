@@ -155,9 +155,7 @@ return (
           <Widget
             src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
             props={{
-              articleId: article.articleId,
-              blockHeight: article.blockHeight,
-              lastEditor: article.lastEditor,
+              article,
               statusChangeHandler,
               statusTagsArr,
             }}
