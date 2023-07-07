@@ -45,7 +45,7 @@ return (
         }}
       />
     ) : (
-      <h5>NOT CONNECTED</h5>
+      <h5>NO BADGES FOUND</h5>
     )}
   </Badge>
 );
