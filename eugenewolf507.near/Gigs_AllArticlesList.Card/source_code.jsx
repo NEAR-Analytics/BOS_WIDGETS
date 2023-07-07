@@ -1,8 +1,9 @@
 State.init({ showModal: false });
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
+const statusTagsArr = props.statusTagsArr;
 //TODO get statusTagsArr from props
-const statusTagsArr = ["open", "claimed", "closed"];
+// const statusTagsArr = ["open", "claimed", "closed"];
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
