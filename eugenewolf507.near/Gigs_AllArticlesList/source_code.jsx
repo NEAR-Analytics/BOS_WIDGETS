@@ -210,6 +210,7 @@ return (
                     src="eugenewolf507.near/widget/Gigs_AllArticlesList.Card"
                     props={{
                       article: item,
+                      ststusChangeHandler: clickHandler,
                     }}
                   />
                 ))}
