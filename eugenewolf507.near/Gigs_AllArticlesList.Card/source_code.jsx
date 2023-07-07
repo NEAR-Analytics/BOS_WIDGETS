@@ -87,7 +87,7 @@ return (
     <div className="card h-100" style={{ position: "static" }}>
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
-          <h2>Hello</h2>
+          <h2>{article.articleId}</h2>
           <p>description</p>
         </Modal>
       )}
