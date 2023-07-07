@@ -69,6 +69,7 @@ return (
         </div>
       </>
     )}
+    {state.error && <p className="text-danger">{state.error}</p>}
     <hr />
     <Widget src="tomiwa1a1.near/widget/RentNFT" props={props} />
     <hr />
