@@ -22,7 +22,6 @@ const widgetOwner = "sking.near";
 const blockHeight = props.blockHeight;
 const indexVersion = props.indexVersion;
 const poll = props.poll;
-const pollAnswers = props.pollAnswers;
 const userAnswers = props.userAnswers;
 const href = props.href;
 const editHref = props.editHref;
@@ -103,12 +102,24 @@ return (
         props={{ accountId: poll.accountId }}
       />
       <Widget
-        src={`${widgetOwner}/widget/EasyPoll.PollTags`}
+        src={`${widgetOwner}/widget/EasyPoll.Data.GetAnswers`}
         props={{
-          poll: poll,
-          showVoteButton: false,
-          pollAnswers,
-          alreadyVoted: userAnswers.length > 0,
+          src,
+          indexVersion,
+          poll,
+          children: ({ data }) => (
+            <Widget
+              src={`${widgetOwner}/widget/EasyPoll.PollTags`}
+              props={{
+                poll: poll,
+                showVoteButton: true,
+                pollAnswers: data,
+                alreadyVoted: userAnswers.length > 0,
+              }}
+            />
+          ),
+          loading: () => "",
+          blocking: false,
         }}
       />
     </div>
