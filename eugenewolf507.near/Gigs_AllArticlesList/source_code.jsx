@@ -189,63 +189,34 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
   }
 };
 
-// ========== Modal POP Up ==========
-const ModalWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(100, 100, 100, 0.7);
-  z-index:100;
-`;
-const ModalStyles = styled.div`
-  width: 95%;
-  height: 95%;
-  background: #fff;
-  
-`;
-
 // ========== JSX ==========
 const ScrollWrapper = styled.div`
   overflow-x: scroll !important;
+  position: relative;
   padding-bottom: 15px;
 `;
 
 return (
-  <>
-    {/*
-    {state.showModal && (
-      <ModalWrapper>
-        <ModalStyles>
-          Modal Window
-          <button onClick={closeModalHandler}>CloseModal</button>
-        </ModalStyles>
-      </ModalWrapper>
-    )}
-    */}
-    <ScrollWrapper>
-      <div class="row gx-2 d-flex flex-nowrap">
-        {statusTagsArr.map((tag) => (
-          <div class="col">
-            <div class="border border-dark rounded-2 px-3 pb-3">
-              <div className="row card-group">
-                <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
-                {state[tag].length > 0 &&
-                  state[tag].map((item) => (
-                    <Widget
-                      src="eugenewolf507.near/widget/Gigs_AllArticlesList.Card"
-                      props={{
-                        article: item,
-                      }}
-                    />
-                  ))}
-              </div>
+  <ScrollWrapper>
+    <div class="row gx-2 d-flex flex-nowrap">
+      {statusTagsArr.map((tag) => (
+        <div class="col">
+          <div class="border border-dark rounded-2 px-3 pb-3">
+            <div className="row card-group">
+              <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
+              {state[tag].length > 0 &&
+                state[tag].map((item) => (
+                  <Widget
+                    src="eugenewolf507.near/widget/Gigs_AllArticlesList.Card"
+                    props={{
+                      article: item,
+                    }}
+                  />
+                ))}
             </div>
           </div>
-        ))}
-      </div>
-    </ScrollWrapper>
-  </>
+        </div>
+      ))}
+    </div>
+  </ScrollWrapper>
 );
