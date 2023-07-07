@@ -130,7 +130,6 @@ const reloadConfig = () => {
 if (!state.loaded) {
   State.update({ loaded: true }); // Update the 'loaded' state property to true
   reloadConfig(); // Call the 'reloadConfig' function to load configuration data
-  loaded += 1; // Increment the 'loaded' variable by 1 (assuming 'loaded' is a global variable)
 }
 
 // Function to handle getting pocket data by ID
