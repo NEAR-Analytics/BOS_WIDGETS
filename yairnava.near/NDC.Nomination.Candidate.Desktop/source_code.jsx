@@ -4,7 +4,7 @@ State.init({
   start: true,
   voted: false,
 });
-console.log(props);
+
 let nominationContract = "nominations-v1.gwg-testing.near";
 
 function getVerifiedHuman() {
@@ -819,6 +819,9 @@ return (
                                   "padding-inline": "20px",
                                   "padding-top": "15px",
                                   "padding-bottom": "15px",
+                                  "line-height": "130%",
+                                  "font-weight": "bold",
+                                  "text-align": "justify",
                                 }}
                               >
                                 {data}
