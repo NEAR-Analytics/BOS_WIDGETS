@@ -258,6 +258,15 @@ let views = {
       <Widget src="neardigitalcollective.near/widget/Gigs" />
     </>
   ),
+  wg: () => {
+    <Widget src="neardigitalcollective.near/widget/NDCDocs_OneArticle"
+      props={{
+        "articleId": "workgroups",
+        "blockHeight": "94330352",
+        "lastEditor": "blaze.near"
+      }}
+    />
+  }
 };
 
 function getSkeleton() {
