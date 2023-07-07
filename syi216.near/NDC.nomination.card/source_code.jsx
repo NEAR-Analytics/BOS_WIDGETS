@@ -922,7 +922,7 @@ return (
                 </ViewButtonDiv>
                 <OverlayTrigger
                   placement={top}
-                  overlay={<Tooltip>Copy link to the clipboard</Tooltip>}
+                  overlay={<Tooltip>${state.shareText}</Tooltip>}
                 >
                   <ShareButtonDiv
                     onClick={() => {
