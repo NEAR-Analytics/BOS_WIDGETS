@@ -85,10 +85,9 @@ const blackList = []; // use it to hide bad users
 
 const indexVersion = "sking3.2.0";
 
-const hasSBTToken = true || getFirstSBTToken() !== undefined;
+const hasSBTToken = getFirstSBTToken() !== undefined;
 
 const canOperate = hasSBTToken || whitelist.includes(context.accountId);
-
 
 const SectionHeader = styled.h2`
   font-size: 28px;
