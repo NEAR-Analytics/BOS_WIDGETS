@@ -695,7 +695,7 @@ const createPocketScreen = () => {
                     placeholder="Amout BNB of each batch"
                     onChange={(e) =>
                       State.update({
-                        batchAmount: parseFloat(e.target.value),
+                        batchAmount: parseFloat(e.target.value || 0),
                       })
                     }
                   />
@@ -756,7 +756,7 @@ const createPocketScreen = () => {
                     placeholder="Amout BNB to deposit"
                     onChange={(e) =>
                       State.update({
-                        depositAmount: parseFloat(e.target.value),
+                        depositAmount: parseFloat(e.target.value || 0),
                       })
                     }
                   />
@@ -1146,7 +1146,9 @@ const pocketDetailScreen = () => {
                         style={{ background: "#22232f !important" }}
                         onChange={(e) =>
                           State.update({
-                            pocketDepositedAmount: parseFloat(e.target.value),
+                            pocketDepositedAmount: parseFloat(
+                              e.target.value || 0
+                            ),
                           })
                         }
                       />
