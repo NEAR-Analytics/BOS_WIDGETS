@@ -913,6 +913,7 @@ return (
             ) : (
               <>
                 <ViewButtonDiv
+                  className="text-decoration-none"
                   href={
                     "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
                     data.indexerData.house +
