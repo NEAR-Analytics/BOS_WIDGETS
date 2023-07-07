@@ -32,11 +32,33 @@ State.init({
   sbt: false,
   og: false,
   selfNomination: false,
+  search: false,
+  searchText: "",
+  originNominations: [],
 });
 //
 
 function handleNominations(data) {
   State.update({ nominations: data });
+}
+
+function handleFilter(text) {
+  State.update({ searchText: text });
+  if (!state.search) {
+    State.update({ originNominations: state.nominations, search: true });
+  }
+  if (text.length > 0) {
+    let filtered = state.nominations.filter((data) =>
+      data.profileData.name.toLowerCase().includes(text.toLowerCase())
+    );
+    State.update({ nominations: filtered });
+  } else {
+    State.update({
+      nominations: state.originNominations,
+      originNominations: [],
+      search: false,
+    });
+  }
 }
 
 function getVerifiedHuman() {
@@ -427,7 +449,10 @@ return (
           ></SearchIcon>
           <InputSearch
             placeholder="Search by candidate name and affiliation"
-            disabled
+            value={state.searchText}
+            onChange={(e) => {
+              handleFilter(e.target.value);
+            }}
           ></InputSearch>
         </LabelFile>
         <SortButton disabled>
