@@ -412,13 +412,16 @@ const handleChange = (event) => {
 };
 
 const copyToClipboard = (url) => {
-  let dummy = document.createElement("textarea");
-  document.body.appendChild(dummy);
-  dummy.value = url;
-  dummy.select();
-  document.execCommand("copy");
-  document.body.removeChild(dummy);
-  alert("Gif URL copied to clipboard!");
+  console.log("Copying to clipboard:", url);
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      console.log("Gif URL copied to clipboard!");
+    })
+    .catch((err) => {
+      // handle error if any
+      console.error("Error copying to clipboard", err);
+    });
 };
 
 return (
