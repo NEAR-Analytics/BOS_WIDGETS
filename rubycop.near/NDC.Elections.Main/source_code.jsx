@@ -7,7 +7,7 @@ const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
-const houses = [
+let houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
@@ -18,6 +18,7 @@ State.init({
   humanVoted: 0,
   myVotes: [],
   isIAmHuman: false,
+  candidateId: "",
 });
 
 const isHuman = Near.view(registryContract, "is_human", {
@@ -49,6 +50,7 @@ asyncFetch(
 
 const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
+  filter: "rubycop.near/widget/NDC.Elections.Filter",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
   candidates: "rubycop.near/widget/NDC.Elections.Candidates",
   statistic: "rubycop.near/widget/NDC.Elections.Statistic",
@@ -59,8 +61,10 @@ const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
 };
 
+const handleFilter = (e) => State.update({ candicateId: e.target.value });
+
 const Container = styled.div`
-  padding: 30px 0;
+  padding: 20px 0;
 `;
 
 const ActivityContainer = styled.div`
@@ -73,7 +77,8 @@ const Left = styled.div`
   border-radius: 8px;
 `;
 
-const Center = styled.div`
+const Filter = styled.div`
+  margin-top: 32px;
 `;
 
 const Right = styled.div`
@@ -104,6 +109,15 @@ return (
         )}
       </>
     ))}
+    <Filter>
+      <Widget
+        src={widgets.filter}
+        props={{
+          handleFilter,
+          candidateId: state.candidateId,
+        }}
+      />
+    </Filter>
     <Container className="d-flex row">
       <Left className="col-lg">
         <H5>To Vote</H5>
@@ -116,7 +130,7 @@ return (
           }}
         />
       </Left>
-      <Center className="col-lg-6 p-2 p-md-3">
+      <div className="col-lg-6 p-2 p-md-3">
         {houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
@@ -129,13 +143,14 @@ return (
                   ndcOrganization: org,
                   isIAmHuman: state.isIAmHuman,
                   myVotes: state.myVotes,
+                  candidateId: state.candidateId,
                   ...house,
                 }}
               />
             )}
           </>
         ))}
-      </Center>
+      </div>
 
       <div className="col-lg">
         <Right className="col">
