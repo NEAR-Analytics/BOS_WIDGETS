@@ -135,7 +135,7 @@ const BCMMessage = styled.div`
 display: flex;
 flex-direction: column;
 align-self: stretch;
-color: #828688;
+color: #686B6D;
 font-size: 14px;
 font-family:  Open Sans;
 font-style: normal;
@@ -208,6 +208,7 @@ cursor: pointer;
   
 `;
 const NewComment = styled.textarea`
+width: 100%;
 display: flex;
 height: 100px;
 padding: 9px 10px 0px 10px;
@@ -218,7 +219,7 @@ align-self: stretch;
   border-radius: 8px;
     border: 1px solid #D0D6D9;
     background: #FFF;
-    color: #828688;
+   
 font-size: 12px;
 font-family: Avenir;
 font-style: normal;
@@ -354,7 +355,7 @@ return (
   <ModalCard>
     <CommentCard>
       <CTitle>
-        {candidateOrReplay ? "Comment candidate" : "Comment to reply"}
+        {candidateOrReplay ? " Add a Comment" : "Replay to comment"}
       </CTitle>
       <Ccontainer>
         {!candidateOrReplay ? (
@@ -453,13 +454,36 @@ return (
         ) : (
           <></>
         )}
-
-        <NewComment
-          placeholder="Replay here"
-          onChange={(e) => {
-            State.update({ reply: e.target.value });
-          }}
-        />
+        <div class="w-100 col">
+          <NewComment
+            value={state.reply}
+            placeholder="Replay here"
+            onChange={(e) => {
+              State.update({
+                reply: e.target.value.substring(0, 1000),
+              });
+            }}
+          />
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              "justify-content": "end",
+            }}
+          >
+            <label
+              style={{
+                "font-size": "8px",
+                display: "flex",
+                "vertical-align": "top",
+                "text-align": "center",
+                color: state.reply.length < 1000 ? "#00000075" : "#ff000075",
+              }}
+            >
+              {state.reply.length} - 1000
+            </label>
+          </div>
+        </div>
         <CommentFooter>
           <CFCancel onClick={props.onClickCancel}>Cancel</CFCancel>
           <CFSubmit
