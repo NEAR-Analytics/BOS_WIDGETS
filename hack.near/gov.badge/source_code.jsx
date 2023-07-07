@@ -16,12 +16,26 @@ const connectionData = Social.keys(
 
 const connected = Object.keys(connectionData || {}).length > 0;
 
+const Badge = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0.5em 1em;
+
+  .image {
+    display: block;
+    height: 7em;
+    margin: 0.5em;
+  }
+}`;
+
 return (
-  <div>
+  <Badge>
     {connected ? (
-      <Widget src="hack.near/widget/dao.badge" />
+      <Widget src="hack.near/widget/gov.Badge" />
     ) : (
       <h5>none found</h5>
     )}
-  </div>
+  </Badge>
 );
