@@ -2,7 +2,6 @@ State.init({ showModal: false });
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const statusTagsArr = props.statusTagsArr;
-const authorForWidget = "neardigitalcollective.near";
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
@@ -88,14 +87,7 @@ return (
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
           <h2>{article.articleId}</h2>
-          <Widget
-            src={`${authorForWidget}/widget/Gigs_OneArticle`}
-            props={{
-              articleId: article.articleId,
-              blockHeight: article.blockHeight,
-              lastEditor: article.lastEditor,
-            }}
-          />
+          <p>description</p>
         </Modal>
       )}
       {/*
