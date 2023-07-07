@@ -245,7 +245,7 @@ const TextareaDescription = styled.p`
   line-height: 18px;
   font-weight: 400;
   color: #687076;
-  pointer-events: none;
+ 
   display: none;
 
   a {
@@ -379,6 +379,51 @@ function toggleModal() {
   State.update({ isVisible: !state.isVisible });
 }
 
+// Initialize the state
+State.init({
+  searchTerm: "",
+  gifs: [],
+  showGifs: false,
+});
+
+const fetchGiphyData = (queryURI) => {
+  return asyncFetch(
+    `https://api.giphy.com/v1/gifs/search?q=${queryURI}&api_key=Wjhf2pRJKiqRzIPvYiyEMhFovaDeyt3v&limit=20`,
+    {
+      method: "GET",
+    }
+  );
+};
+
+// Handle change
+const handleChange = (event) => {
+  const searchTerm = event.target.value;
+  State.update({ searchTerm: searchTerm });
+
+  fetchGiphyData(searchTerm).then((res) => {
+    const data = res.body.data;
+    const gifs = data.map((gif) => ({
+      imageUrl: gif.images.fixed_height_small.url,
+      value: `https://media.giphy.com/media/${gif.id}/giphy.gif`,
+    }));
+    console.log(gifs);
+    State.update({ gifs: gifs, showGifs: true });
+  });
+};
+
+const copyToClipboard = (url) => {
+  console.log("Copying to clipboard:", url);
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      alert("Gif URL copied to clipboard!");
+    })
+    .catch((err) => {
+      // handle error if any
+      console.error("Error copying to clipboard", err);
+    });
+};
+
 return (
   <div>
     <FloatingButton className="floating-button" onClick={toggleModal}>
@@ -402,65 +447,106 @@ return (
           >
             X
           </button>
-          {state.showPreview ? (
-            <PreviewWrapper>
+          <>
+            <Avatar>
               <Widget
-                src="near/widget/Posts.Post"
+                src="mob.near/widget/Image"
                 props={{
-                  accountId: context.accountId,
-                  blockHeight: "now",
-                  content,
+                  image: profile.image,
+                  alt: profile.name,
+                  fallbackUrl:
+                    "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
                 }}
               />
-            </PreviewWrapper>
-          ) : (
-            <>
-              <Avatar>
+            </Avatar>
+            <Textarea data-value={state.text}>
+              <div>
+                <div>
+                  <div>
+                    Search & Post Gifs{" "}
+                    <small>
+                      <i>(experimental)</i>
+                    </small>
+                    <br />
+                    <small>
+                      <i>
+                        Click on the image and it will copy a link to it, paste
+                        that within your post
+                      </i>
+                    </small>
+                    <input
+                      type="text"
+                      placeholder="Find That Gif!"
+                      value={state.searchTerm}
+                      onChange={handleChange}
+                    />
+                    {state.showGifs && (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          flexWrap: "wrap",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        {state.gifs.map((gif, index) => (
+                          <a
+                            key={index}
+                            onClick={() => copyToClipboard(gif.value)}
+                          >
+                            <img
+                              src={gif.imageUrl}
+                              alt="Gif"
+                              onClick={() => copyToClipboard(gif.value)}
+                            />
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <textarea
+                placeholder="What the dog doin'?"
+                onInput={(event) => textareaInputHandler(event.target.value)}
+                onKeyUp={(event) => {
+                  if (event.key === "Escape") {
+                    State.update({ showAccountAutocomplete: false });
+                  }
+                }}
+                value={state.text}
+              />
+              <TextareaDescription>
+                <br />
+                <a
+                  href="https://www.markdownguide.org/basic-syntax/"
+                  target="_blank"
+                >
+                  Markdown
+                </a>
+                is supported
+                <br />
+                Examples: **bold text** *emphasis* `code`
+                <br />
+                Lists can be with numbers 1. or *
+                <br />
+                You can paste links here directly and some will auto-expand
+                and/or hyperlink
+                <br />
+                Youtube and Spotify links will auto-embed
+              </TextareaDescription>
+              <PreviewWrapper>
                 <Widget
-                  src="mob.near/widget/Image"
+                  src="near/widget/Posts.Post"
                   props={{
-                    image: profile.image,
-                    alt: profile.name,
-                    fallbackUrl:
-                      "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+                    accountId: context.accountId,
+                    blockHeight: "now",
+                    content,
                   }}
                 />
-              </Avatar>
-
-              <Textarea data-value={state.text}>
-                <textarea
-                  placeholder="What's happening?"
-                  onInput={(event) => textareaInputHandler(event.target.value)}
-                  onKeyUp={(event) => {
-                    if (event.key === "Escape") {
-                      State.update({ showAccountAutocomplete: false });
-                    }
-                  }}
-                  value={state.text}
-                />
-
-                <TextareaDescription>
-                  <a
-                    href="https://www.markdownguide.org/basic-syntax/"
-                    target="_blank"
-                  >
-                    Markdown
-                  </a>
-                  is supported
-                  <br />
-                  Examples: **bold text** *emphasis* `code`
-                  <br />
-                  Lists can be with numbers 1. or *
-                  <br />
-                  You can paste links here directly and some will auto-expand
-                  and/or hyperlink
-                  <br />
-                  Youtube and Spotify links will auto-embed
-                </TextareaDescription>
-              </Textarea>
-            </>
-          )}
-
+              </PreviewWrapper>
+            </Textarea>
+          </>
           {autocompleteEnabled && state.showAccountAutocomplete && (
             <AutoComplete>
               <Widget
@@ -482,20 +568,6 @@ return (
                 className="upload-image-button bi bi-image"
               />
             )}
-
-            <button
-              type="button"
-              disabled={!state.text}
-              className="preview-post-button"
-              title={state.showPreview ? "Edit Post" : "Preview Post"}
-              onClick={() => State.update({ showPreview: !state.showPreview })}
-            >
-              {state.showPreview ? (
-                <i className="bi bi-pencil" />
-              ) : (
-                <i className="bi bi-eye-fill" />
-              )}
-            </button>
 
             <CommitButton
               disabled={!state.text}
