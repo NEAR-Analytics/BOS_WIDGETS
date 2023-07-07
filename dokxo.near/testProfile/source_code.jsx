@@ -156,7 +156,12 @@ return (
       <div class="row">
         <div class="col-2">
           <img
-            style={{ background: "#00", "border-radius": "20px" }}
+            style={{
+              width: "30px",
+              height: "30px",
+              background: "#00",
+              "border-radius": "20px",
+            }}
             alt="pic"
             src={"https://nativonft.mypinata.cloud/ipfs/" + props.img.cid}
           />
