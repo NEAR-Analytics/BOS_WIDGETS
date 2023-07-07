@@ -279,6 +279,7 @@ font-size: 12px;
 font-family: Avenir;
 line-height: 120%;
 margin: 0px;
+width: 302px;
 `;
 const CandidateCard = styled.div`
 display: flex;
