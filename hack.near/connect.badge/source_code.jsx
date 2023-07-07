@@ -1,10 +1,18 @@
-const o = Social.keys(
-  `build.sputnik-dao.near/graph/connect/${props.accountId}`,
+const accountId = props.accountId;
+
+if (!accountId) {
+  return "";
+}
+
+const connectionData = Social.keys(
+  `build.sputnik-dao.near/graph/connect/${accountId}`,
   undefined,
   {
     values_only: true,
   }
 );
+
+const connected = Object.keys(connectionData || {}).length > 0;
 
 const Badge = styled.div`
   display: flex;
@@ -22,18 +30,18 @@ const Badge = styled.div`
 
 return (
   <Badge>
-    <Widget
-      src="mob.near/widget/Image"
-      props={{
-        image: {
-          ipfs_cid: "QmcxtybPoeXG1ypbDQDNe4U2c4cNFW4KeuQ5q42gZwnceV",
-        },
-        alt: "connected",
-        fallbackUrl:
-          "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-        className: "image",
-        thumbnail,
-      }}
-    />
+    {connected && (
+      <Widget
+        src="mob.near/widget/Image"
+        props={{
+          image: {
+            ipfs_cid: "QmcxtybPoeXG1ypbDQDNe4U2c4cNFW4KeuQ5q42gZwnceV",
+          },
+          alt: "connected",
+          className: "image",
+          thumbnail,
+        }}
+      />
+    )}
   </Badge>
 );
