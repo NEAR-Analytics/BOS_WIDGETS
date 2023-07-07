@@ -286,6 +286,8 @@ const {
   isError,
   isToken0Approved,
   isToken1Approved,
+  isToken0Approving,
+  isToken1Approving,
   loadingMsg,
   lpBalance,
   lpAmount,
@@ -620,16 +622,28 @@ return (
               ) : (
                 <HStack>
                   <Button
-                    disabled={isToken0Approved}
+                    disabled={isToken0Approved || isToken0Approving}
                     onClick={() => handleApprove(true)}
                   >
-                    {isToken0Approved ? "Approved" : `Approve ${token0}`}
+                    {isToken0Approving ? (
+                      <Spinner className="ph-bold ph-circle-notch" />
+                    ) : (
+                      <>
+                        {isToken0Approved ? "Approved" : "Approve"} {token0}
+                      </>
+                    )}
                   </Button>
                   <Button
-                    disabled={isToken1Approved}
+                    disabled={isToken1Approved || isToken1Approving}
                     onClick={() => handleApprove(false)}
                   >
-                    {isToken1Approved ? "Approved" : `Approve ${token1}`}
+                    {isToken1Approving ? (
+                      <Spinner className="ph-bold ph-circle-notch" />
+                    ) : (
+                      <>
+                        {isToken1Approved ? "Approved" : "Approve"} {token1}
+                      </>
+                    )}
                   </Button>
                 </HStack>
               ))}
