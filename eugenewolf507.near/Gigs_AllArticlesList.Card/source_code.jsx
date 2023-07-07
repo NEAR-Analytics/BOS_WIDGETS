@@ -84,21 +84,21 @@ const ShareButtonWrapper = styled.div`
 `;
 
 // ========== JSX ==========
-const StatusTagGroup = ({ activeStatus, articleId }) => (
-  <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
-    {statusTagsArr.map((tag) => (
-      <button
-        onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
-        className={`btn btn-sm ${
-          activeStatus === tag ? "btn-primary" : "btn-outline-primary"
-        }`}
-        disabled={activeStatus === tag}
-      >
-        #{tag}
-      </button>
-    ))}
-  </div>
-);
+// const StatusTagGroup = ({ activeStatus, articleId }) => (
+//   <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
+//     {statusTagsArr.map((tag) => (
+//       <button
+//         onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
+//         className={`btn btn-sm ${
+//           activeStatus === tag ? "btn-primary" : "btn-outline-primary"
+//         }`}
+//         disabled={activeStatus === tag}
+//       >
+//         #{tag}
+//       </button>
+//     ))}
+//   </div>
+// );
 
 const Modal = ({ onClose, children }) => {
   return (
@@ -158,6 +158,8 @@ return (
               articleId: article.articleId,
               blockHeight: article.blockHeight,
               lastEditor: article.lastEditor,
+              statusChangeHandler,
+              statusTagsArr,
             }}
           />
         </Modal>
@@ -198,10 +200,11 @@ return (
           </div>
         </div>
       </div>
-      <StatusTagGroup
+      {/*<StatusTagGroup
         activeStatus={article.statusTag}
         articleId={article.articleId}
       />
+      */}
     </div>
   </CardWrapper>
 );
