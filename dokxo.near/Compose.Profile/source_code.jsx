@@ -127,6 +127,15 @@ color: #828688;
   
 }
   `;
+const Photopickersection = styled.div`
+  padding: 10px;
+  width:95%; 
+  margin-left:10px;
+@media only screen and (max-width: 480px) {
+  
+  
+}
+  `;
 const Separator = styled.div`
 width:100%;
 height:2px;
@@ -153,57 +162,95 @@ return (
     >
       <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
 
-      <LabelFile class="    ">
-        <Files
-          name="file"
-          multiple={false}
-          accepts={["image/*"]}
-          minFileSize={1}
-          clickable
-          onChange={filesOnChange}
-          style={{
-            display: "flex",
-            "justify-content": "center",
-            height: "inherit",
-          }}
-        >
-          <div class="row " style={{ display: "flex", "flex-wrap": "nowrap" }}>
-            <div
-              style={{
-                width: "34px",
-                display: "flex",
-                "align-items": "center",
-                "justify-content": "center",
-              }}
-            >
+      <div class="row flex-nowrap">
+        <div class="col-1  ">
+          {props.img.cid ? (
+            <>
               {" "}
               <img
-                src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  background: "#000000",
+                  "border-radius": "60px",
+                }}
+                alt="pic"
+                src={"https://nativonft.mypinata.cloud/ipfs/" + props.img.cid}
               />
-            </div>
-
-            <p
+            </>
+          ) : (
+            <div
               style={{
-                "font-family": "Avenir",
-                "font-style": "normal",
-                "font-weight": "400",
-                "font-size": "12px",
-                "line-height": "120%",
-                display: "flex",
-                "align-items": "center",
-                color: "#828688",
-                flex: "none",
-                order: "1",
-                "flex-grow": "0",
+                width: "60px",
+                height: "60px",
+                background: "#C8CED1",
 
-                "margin-bottom": "0rem",
+                border: " 3px solid transparent",
+                "border-radius": "60%",
+
+                "-moz-box-sizing": " border-box",
+                "box-sizing": "border-box",
+              }}
+            ></div>
+          )}
+        </div>
+        <Photopickersection name="picker" class="col-11">
+          <LabelFile style={{ width: "100%" }}>
+            <Files
+              name="file"
+              multiple={false}
+              accepts={["image/*"]}
+              minFileSize={1}
+              clickable
+              onChange={filesOnChange}
+              style={{
+                display: "flex",
+                "justify-content": "center",
+                height: "inherit",
               }}
             >
-              {img.name === "" ? "Update your profile image" : img.name}
-            </p>
-          </div>
-        </Files>
-      </LabelFile>
+              <div
+                class="row "
+                style={{ display: "flex", "flex-wrap": "nowrap" }}
+              >
+                <div
+                  style={{
+                    width: "34px",
+                    display: "flex",
+                    "align-items": "center",
+                    "justify-content": "center",
+                  }}
+                >
+                  {" "}
+                  <img
+                    src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
+                  />
+                </div>
+
+                <p
+                  style={{
+                    "font-family": "Avenir",
+                    "font-style": "normal",
+                    "font-weight": "400",
+                    "font-size": "12px",
+                    "line-height": "120%",
+                    display: "flex",
+                    "align-items": "center",
+                    color: "#828688",
+                    flex: "none",
+                    order: "1",
+                    "flex-grow": "0",
+
+                    "margin-bottom": "0rem",
+                  }}
+                >
+                  {img.name === "" ? "Update your profile image" : img.name}
+                </p>
+              </div>
+            </Files>
+          </LabelFile>
+        </Photopickersection>
+      </div>
     </div>
     <WrapNoWrap
       class="row col-sm-12     "
