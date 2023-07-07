@@ -492,7 +492,7 @@ return (
                             onClick={() =>
                               State.update({
                                 text: state.text + "\n" + gif.imageUrl,
-                                searchTerm: "",
+                                searchTerm: " ",
                               })
                             }
                           >
