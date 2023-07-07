@@ -41,6 +41,7 @@ const ModalWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: .375rem;
   background: rgba(100, 100, 100, 0.7);
   z-index:100;
 `;
@@ -48,7 +49,7 @@ const ModalStyles = styled.div`
   width: 95%;
   height: 95%;
   background: #fff;
-  
+  border-radius: .375rem;
 `;
 
 // ========== JSX ==========
