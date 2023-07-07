@@ -41,7 +41,7 @@ return (
         >
           <Widget
             src="mob.near/widget/Profile.ShortInlineBlock"
-            props={{ accountId: "every.near" }}
+            props={{ accountId: "freelancerdao.near" }}
           />
         </a>
       </div>
