@@ -386,6 +386,7 @@ font-size: 12px;
 font-family: Avenir;
 line-height: 130%;
 margin: 0px;
+width: 295px;
 `;
 const DeclarationCard = styled.div`
 display: flex;
