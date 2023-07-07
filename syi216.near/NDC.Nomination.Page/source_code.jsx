@@ -510,7 +510,7 @@ return (
           )}
         </div>
       </Left>
-      <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-start gap-4">
+      <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-4">
         {state.nominations.length > 0 ? (
           state.nominations.map((data) => {
             return (
