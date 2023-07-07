@@ -30,7 +30,7 @@ const Badge = styled.div`
 
 return (
   <Badge>
-    {connected && (
+    {connected ? (
       <Widget
         src="mob.near/widget/Image"
         props={{
@@ -40,6 +40,16 @@ return (
           alt: "connected",
           className: "image",
           thumbnail,
+        }}
+      />
+    ) : (
+      <Widget
+        src="near/widget/DIG.Button"
+        props={{
+          href: "#/hack.near/widget/freelancers.page",
+          label: "Get Involved",
+          variant: "outline-dark",
+          size: "small",
         }}
       />
     )}
