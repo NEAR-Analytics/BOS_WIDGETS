@@ -479,6 +479,7 @@ color: black;
 font-size: 12px;
 font-family: Avenir;
 line-height: 130%;
+text-align: justify;
 `;
 
 const DeclarationImage = styled.img`
