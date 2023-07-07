@@ -26,47 +26,6 @@ let userAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`, {
 });
 if (!userAnswers) return "Loading...";
 
-let allAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`);
-if (!allAnswers) return "Loading...";
-
-const isVerifiedHuman = (account) => {
-  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-    account: `${account}`,
-    issuer: "fractal.i-am-human.near",
-  });
-  return view?.[0]?.[1]?.[0];
-};
-
-const getValidAnswersOnly = (input) => {
-  const { verifiedHumansOnly, endTimestamp, startTimestamp } = poll;
-
-  // should be only right poll
-  let filtered = input
-    // should be 1 per user
-    .map((e) => e["accountId"])
-    .map((e, i, final) => final.indexOf(e) === i && i)
-    .filter((e) => input[e])
-    .map((e) => input[e])
-    //
-    .filter(async (v, i) => {
-      // should respect human only
-      if (verifiedHumansOnly && !isVerifiedHuman(v.accountId)) return false;
-      // should respect startTimestamp
-      if (v.value.timestamp < startTimestamp) return false;
-      // should respect endTimestamp
-      if (v.value.timestamp > endTimestamp) return false;
-
-      return true;
-    });
-
-  return filtered;
-};
-
-if (!state) {
-  const filteredAnswers = getValidAnswersOnly(allAnswers);
-  State.init({ filteredAnswers });
-}
-
 function sliceString(string, newStringLength) {
   if (string.length > newStringLength) {
     return string.slice(0, newStringLength) + "...";
@@ -176,13 +135,26 @@ return (
       </Heading>
 
       <Paragraph>{sliceString(stripMarkdown(poll.description), 300)}</Paragraph>
+
       <Widget
-        src={`${widgetOwner}/widget/EasyPoll.PollTags`}
+        src={`${widgetOwner}/widget/EasyPoll.Data.GetAnswers`}
         props={{
-          poll: poll,
-          showVoteButton: true,
-          pollAnswers: state.filteredAnswers,
-          alreadyVoted: userAnswers.length > 0,
+          src,
+          indexVersion,
+          poll,
+          children: ({ data }) => (
+            <Widget
+              src={`${widgetOwner}/widget/EasyPoll.PollTags`}
+              props={{
+                poll: poll,
+                showVoteButton: true,
+                pollAnswers: data,
+                alreadyVoted: userAnswers.length > 0,
+              }}
+            />
+          ),
+          loading: () => "",
+          blocking: false,
         }}
       />
     </Content>
