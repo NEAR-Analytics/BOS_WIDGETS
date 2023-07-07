@@ -38,9 +38,6 @@ const ModalWrapper = styled.div`
   left: 0;
   width: 100%;
   padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: .375rem;
   background: rgba(100, 100, 100, 0.7); 
   z-index:100;
