@@ -37,15 +37,16 @@ const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: .375rem;
-  background: rgba(100, 100, 100, 0.7);
+  background: rgba(100, 100, 100, 0.7); 
   z-index:100;
 `;
 const ModalStyles = styled.div`
+  overflow-y: scroll;
   width: 95%;
   height: 95%;
   background: #fff;
@@ -80,7 +81,11 @@ const Modal = ({ onClose, children }) => {
           <button onClick={onClose} class="btn btn-outline-dark btn-sm">
             share
           </button>
-          <button onClick={onClose} class="btn btn-outline-dark btn-sm">
+          <button
+            onClick={onClose}
+            class="btn btn-outline-dark btn-sm"
+            style={{ width: "2rem" }}
+          >
             &times;
           </button>
         </div>
