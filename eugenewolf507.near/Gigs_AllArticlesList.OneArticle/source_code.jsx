@@ -180,11 +180,10 @@ return (
   <div
     className="row h-100"
     style={{
-      width: "90%",
       minWidth: "360px",
       margin: "0 auto",
       backgroundColor: "white",
-      padding: "2rem",
+      padding: "1rem 2rem 2rem",
       borderRadius: "20px",
     }}
   >
