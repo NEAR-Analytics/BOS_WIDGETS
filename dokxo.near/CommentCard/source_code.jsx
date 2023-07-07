@@ -457,7 +457,7 @@ return (
         <div class="w-100 col">
           <NewComment
             value={state.reply}
-            placeholder="Replay here"
+            placeholder="Reply here"
             onChange={(e) => {
               State.update({
                 reply: e.target.value.substring(0, 1000),
