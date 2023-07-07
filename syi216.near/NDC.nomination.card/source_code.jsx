@@ -49,6 +49,7 @@ function handleUpVote() {
 }
 
 function handleShare() {
+  console.log(copied);
   State.update({ shareText: "Copied" });
   clipboard.writeText(
     "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
@@ -922,13 +923,9 @@ return (
                 </ViewButtonDiv>
                 <OverlayTrigger
                   placement={top}
-                  overlay={<Tooltip>${state.shareText}</Tooltip>}
+                  overlay={<Tooltip>{state.shareText}</Tooltip>}
                 >
-                  <ShareButtonDiv
-                    onClick={() => {
-                      handleShare;
-                    }}
-                  >
+                  <ShareButtonDiv onClick={handleShare}>
                     <ShareButtonText>Share</ShareButtonText>
                   </ShareButtonDiv>
                 </OverlayTrigger>
