@@ -11,6 +11,7 @@ const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
+const statusTagsArr = props.statusTagsArr;
 
 const notifyAccountId = accountId;
 
@@ -140,6 +141,7 @@ const { resultText, resultHeading } = articleParts(
   state.article.body.split("\n")
 );
 
+// ========== HANDLERS ==========
 const handleHeaderClick = (index1, index2) => {
   if ((!state.viewHistory && !state.editArticle) || index2 === 0) {
     let resp;
@@ -153,6 +155,7 @@ const handleHeaderClick = (index1, index2) => {
   }
 };
 
+// ========== STYLED ==========
 const Button = styled.button`
   width: 100%;
   display: inline-block;
@@ -175,6 +178,23 @@ const Button = styled.button`
     background-color: white;
   }
 `;
+
+// ========== JSX ==========
+const StatusTagGroup = ({ activeStatus, articleId }) => (
+  <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
+    {statusTagsArr.map((tag) => (
+      <button
+        onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
+        className={`btn btn-sm ${
+          activeStatus === tag ? "btn-primary" : "btn-outline-primary"
+        }`}
+        disabled={activeStatus === tag}
+      >
+        #{tag}
+      </button>
+    ))}
+  </div>
+);
 
 return (
   <div
@@ -273,6 +293,12 @@ return (
           );
         })}
       </div>
+      <hr />
+      Put Buttons Here
+      <StatusTagGroup
+        activeStatus={article.statusTag}
+        articleId={article.articleId}
+      />
       <div className="mb-3" />
       {/* === FOOTER === */}
       <Widget
