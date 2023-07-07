@@ -133,6 +133,7 @@ const reloadConfig = () => {
       .then((chainIdData) => {
         if (chainIdData?.chainId) {
           State.update({
+            loaded: true,
             chainId: chainIdData.chainId,
             sender: ethers.utils.getAddress(
               Ethers.send("eth_requestAccounts", [])[0]
@@ -155,7 +156,6 @@ const reloadConfig = () => {
 };
 
 if (!state.loaded) {
-  State.update({ loaded: true }); // Update the 'loaded' state property to true
   reloadConfig(); // Call the 'reloadConfig' function to load configuration data
 }
 
