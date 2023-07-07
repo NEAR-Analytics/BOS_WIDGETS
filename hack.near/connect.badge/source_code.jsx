@@ -1,5 +1,5 @@
 const o = Social.keys(
-  `build.sputnik-dao.near/graph/connect/${context.accountId}`,
+  `build.sputnik-dao.near/graph/connect/${props.accountId}`,
   undefined,
   {
     values_only: true,
