@@ -476,6 +476,7 @@ return (
                       placeholder="Find That Gif!"
                       value={state.searchTerm}
                       onChange={handleChange}
+                      width="300"
                     />
                     {state.showGifs && (
                       <div
@@ -492,7 +493,8 @@ return (
                             onClick={() =>
                               State.update({
                                 text: state.text + "\n" + gif.imageUrl,
-                                searchTerm: " ",
+                                searchTerm: "",
+                                gifs: [],
                               })
                             }
                           >
@@ -504,6 +506,7 @@ return (
                   </div>
                 </div>
               </div>
+              <hr />
               <textarea
                 placeholder="What the dog doin'?"
                 onInput={(event) => textareaInputHandler(event.target.value)}
