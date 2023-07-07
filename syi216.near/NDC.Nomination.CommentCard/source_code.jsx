@@ -308,7 +308,7 @@ return (
         ) : (
           <></>
         )}
-        <ShareCommentButton>
+        <ShareCommentButton hidden>
           <ShareCommentIcon
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmX8CfMjpndJzmyRfRtLKrfKKV6vi186Tj1mkhqqLdr7yd?_gl=1*5rd8dj*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTIxNC42MC4wLjA."
             alt="pic"
