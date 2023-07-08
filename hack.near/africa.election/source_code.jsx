@@ -9,71 +9,68 @@ const canJoinContinent = props.canJoinContinent;
 
 return (
   <div className="m-2">
-    <div>
-      {validMember && canJoinContinent && (
-        <div className="mb-2">
-          <h3>Africa</h3>
+    {validMember && canJoinContinent && (
+      <div className="mb-2">
+        <h3>Africa</h3>
+        <Widget
+          src="hack.near/widget/communities.regional"
+          props={{
+            daoId: "africa-community.sputnik-dao.near",
+            name: "Join NEAR Africa",
+            memberId,
+            roleId,
+          }}
+        />
+      </div>
+    )}
+    {!canJoinContinent && (
+      <div>
+        <h3>Africa</h3>
+        <div className="mb-3">
           <Widget
-            src="hack.near/widget/communities.regional"
+            src="hack.near/widget/dao.candidate"
             props={{
-              daoId: "africa-community.sputnik-dao.near",
-              name: "Join NEAR Africa",
-              memberId: accountId,
-              roleId,
+              memberId,
+              proposalId: 41,
+              candidateId: "jeromemrys.near",
+              postUrl: "https://social.near.page/p/jeromemrys.near/94344897",
             }}
           />
         </div>
-      )}
-      {!canJoinContinent && (
-        <div>
-          <h3>Africa</h3>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 41,
-                candidateId: "jeromemrys.near",
-                postUrl: "https://social.near.page/p/jeromemrys.near/94344897",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 40,
-                candidateId: "fatokunmayowa.near",
-                postUrl:
-                  "https://social.near.page/p/fatokunmayowa.near/95012620",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 40,
-                candidateId: "mrmoh.near",
-                postUrl: "https://social.near.page/p/mrmoh.near/95405581",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 40,
-                candidateId: "psalm.near",
-                postUrl: "https://social.near.page/p/psalm.near/95178985",
-              }}
-            />
-          </div>
+        <div className="mb-3">
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId,
+              proposalId: 40,
+              candidateId: "fatokunmayowa.near",
+              postUrl: "https://social.near.page/p/fatokunmayowa.near/95012620",
+            }}
+          />
         </div>
-      )}
-    </div>
+        <div className="mb-3">
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId,
+              proposalId: 40,
+              candidateId: "mrmoh.near",
+              postUrl: "https://social.near.page/p/mrmoh.near/95405581",
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <Widget
+            src="hack.near/widget/dao.candidate"
+            props={{
+              memberId,
+              proposalId: 40,
+              candidateId: "psalm.near",
+              postUrl: "https://social.near.page/p/psalm.near/95178985",
+            }}
+          />
+        </div>
+      </div>
+    )}
   </div>
 );
