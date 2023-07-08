@@ -7,8 +7,43 @@ const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 
 if (!accountId) {
-  return "";
+  return "No account ID";
 }
+
+const Wrapper1 = styled.div`
+  .join-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    height: 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    cursor: pointer;
+    background: #FBFCFD;
+    border: 1px solid #D7DBDF;
+    color: ${props.primary ? "#006ADC" : "#11181C"} !important;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+      background: #ECEDEE;
+      text-decoration: none;
+      outline: none;
+    }
+
+    i {
+      display: inline-block;
+      transform: rotate(90deg);
+      color: #7E868C;
+    }
+  }
+`;
+
 // check if human then verify human
 // Profile Data:
 const tags = Object.keys(profile.tags || {});
@@ -299,6 +334,17 @@ return (
             Share
           </button>
         </OverlayTrigger>
+      </Actions>
+      <Actions>
+        <FollowButtonWrapper>
+          <Widget
+            src="potlock.near/widget/potlock.project.sidebar.donateButton"
+            props={{
+              accountId: accountId,
+              amount: state.amount, // add a way to enter ammount
+            }}
+          />
+        </FollowButtonWrapper>
       </Actions>
     </Section>
 
