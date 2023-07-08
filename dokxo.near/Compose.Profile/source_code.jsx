@@ -127,12 +127,20 @@ color: #828688;
   
 }
   `;
+const Photosection = styled.div`
+  
+  width:8.33333%; 
+   
+@media only screen and (max-width: 480px) {
+  display:none;
+}
+  `;
 const Photopickersection = styled.div`
   padding: 10px;
   width:95%; 
   margin-left:10px;
 @media only screen and (max-width: 480px) {
-  display:none;
+  
 }
   `;
 const Separator = styled.div`
@@ -162,7 +170,7 @@ return (
       <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
 
       <div class="row flex-nowrap">
-        <div class="col-1  ">
+        <Photosection>
           {props.img.cid ? (
             <>
               {" "}
@@ -192,7 +200,7 @@ return (
               }}
             ></div>
           )}
-        </div>
+        </Photosection>
         <Photopickersection name="picker" class="col-11">
           <LabelFile style={{ width: "100%" }}>
             <Files
