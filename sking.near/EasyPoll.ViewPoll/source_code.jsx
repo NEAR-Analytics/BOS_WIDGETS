@@ -4,10 +4,11 @@ const href = props.href;
 const editHref = props.editHref;
 const accountId = props.accountId ?? context.accountId;
 const tabs = props.tabs;
-const indexVersion = props.indexVersion ?? "3.2.0";
+const indexVersion = props.indexVersion ?? "4.0.0";
 const isHuman = props.isHuman;
 const blockHeight = props.blockHeight ?? "final";
 const showDraft = props.showDraft ?? false;
+const isLoggedIn = accountId ? true : false;
 
 if (!src) {
   return "Please provide poll src";
@@ -20,9 +21,11 @@ if (!poll) {
 poll = JSON.parse(poll);
 poll.accountId = src.split("/")[0];
 
-let userAnswers = Social.index(`easypoll-${indexVersion}-answer`, `${src}`, {
-  accountId: accountId,
-});
+let userAnswers = isLoggedIn
+  ? Social.index(`easypoll-${indexVersion}-answer`, `${src}`, {
+      accountId: accountId,
+    })
+  : [];
 if (!userAnswers) return "";
 
 return (
