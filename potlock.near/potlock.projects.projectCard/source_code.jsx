@@ -184,7 +184,8 @@ const Footer = styled.a`
 
 const footer = (
   <Footer
-    href={`/nearhorizon.near/widget/Index?tab=project&accountId=${accountId}`}
+    href={`/potlock.near/widget/potlock.project.profile?accountId=${accountId}`}
+    target="_blank"
     onClick={() =>
       props.update({
         tab: "project",
