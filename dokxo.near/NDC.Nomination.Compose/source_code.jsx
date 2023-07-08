@@ -459,6 +459,8 @@ const Self_Nominate = () => {
       methodName: "self_nominate",
       args: {
         house: state.house_intended,
+        comment: context.accountId,
+        link: "",
       },
       gas: 300000000000000,
       deposit: 100000000000000000000000,
