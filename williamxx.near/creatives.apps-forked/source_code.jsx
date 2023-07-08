@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "discussion",
+  selectedTab: props.tab || "updates",
 });
 
 const accountId = props.accountId ?? context.accountId;
@@ -91,6 +91,13 @@ return (
   <Wrapper>
     <Tabs>
       <TabsButton
+        onClick={() => handleTabClick("updates")}
+        selected={state.selectedTab === "updates"}
+      >
+        News & Updates
+      </TabsButton>
+
+      <TabsButton
         onClick={() => handleTabClick("discussion")}
         selected={state.selectedTab === "discussion"}
       >
@@ -109,13 +116,6 @@ return (
         selected={state.selectedTab === "members"}
       >
         Members
-      </TabsButton>
-
-      <TabsButton
-        onClick={() => handleTabClick("explore")}
-        selected={state.selectedTab === "explore"}
-      >
-        Explore
       </TabsButton>
     </Tabs>
 
@@ -139,11 +139,8 @@ return (
       />
     )}
 
-    {state.selectedTab === "explore" && (
-      <Widget
-        src="efiz.near/widget/core"
-        props={{ path: "every.near/thing/test" }}
-      />
+    {state.selectedTab === "updates" && (
+      <Widget src="williamxx.near/widget/CreativesProfilePage" />
     )}
   </Wrapper>
 );
