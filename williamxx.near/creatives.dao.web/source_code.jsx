@@ -227,7 +227,16 @@ return (
       incredible things your community has accomplished! Type them down below
       any time you have something to share!
     </Text>
-    <Widget src="crans.near/widget/dao.create.post.creatives" />
+    <div
+      style={{
+        border: "2px solid gray",
+        borderRadius: "10px",
+        padding: "10px",
+      }}
+    >
+      <Widget src="crans.near/widget/dao.create.post.creatives" />
+    </div>
+
     <Widget src="williamxx.near/widget/creatives.apps-forked" props={{ tab }} />
     <Widget src="hack.near/widget/creatives.why" />
     <hr />
