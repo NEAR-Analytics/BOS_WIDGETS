@@ -113,6 +113,7 @@ return (
               props={{
                 onChange: (value) => onOptionChange(i, value),
                 value: v,
+                showDelete: false,
               }}
             />
           </div>
