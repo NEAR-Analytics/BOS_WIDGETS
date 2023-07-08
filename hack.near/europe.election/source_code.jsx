@@ -17,7 +17,7 @@ return (
           props={{
             daoId: "europe.sputnik-dao.near",
             name: "Join NEAR Europe",
-            memberId: accountId,
+            memberId,
             roleId,
           }}
         />
@@ -30,7 +30,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "ananastya.near",
               postUrl: "https://social.near.page/p/ananastya.near/94866343",
@@ -41,10 +41,10 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "kiskesis.near",
-              postUrl: "https://social.near.page/p/ananastya.near/94866343",
+              postUrl: "https://social.near.page/p/kiskesis.near/94484171",
             }}
           />
         </div>
@@ -52,10 +52,10 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "kemo.near",
-              postUrl: "https://social.near.page/p/ananastya.near/94866343",
+              postUrl: "https://social.near.page/p/kemo.near/95082496",
             }}
           />
         </div>
@@ -63,10 +63,10 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "bjirken.near",
-              postUrl: "https://social.near.page/p/ananastya.near/94866343",
+              postUrl: "https://social.near.page/p/bjirken.near/95409527",
             }}
           />
         </div>
