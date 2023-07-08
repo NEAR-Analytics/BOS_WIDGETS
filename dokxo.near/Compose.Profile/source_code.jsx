@@ -132,8 +132,7 @@ const Photopickersection = styled.div`
   width:95%; 
   margin-left:10px;
 @media only screen and (max-width: 480px) {
-  
-  
+  display:none;
 }
   `;
 const Separator = styled.div`
