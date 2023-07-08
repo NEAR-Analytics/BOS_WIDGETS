@@ -218,6 +218,16 @@ return (
       <br />
     </Container>
     <Widget src="williamxx.near/widget/Number.Page" />
+    <H1>Make Your Wins Heard!</H1>
+    <Text>Dear community leaders!</Text>
+    <Text>
+      It's time to make your voice heard, and inspire others to embark on their
+      own journeys of success. Remember, your wins matter, and we can't wait to
+      showcase them. Share your triumphs today, and let the world know the
+      incredible things your community has accomplished! Type them down below
+      any time you have something to share!
+    </Text>
+    <Widget src="crans.near/widget/dao.create.post.creatives" />
     <Widget src="williamxx.near/widget/creatives.apps-forked" props={{ tab }} />
     <hr />
     <br />
