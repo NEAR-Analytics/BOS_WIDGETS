@@ -17,7 +17,7 @@ return (
           props={{
             daoId: "north-america.sputnik-dao.near",
             name: "Join NEAR North America",
-            memberId: accountId,
+            memberId,
             roleId,
           }}
         />
@@ -30,7 +30,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "izcc.near",
               postUrl: "https://social.near.page/p/izcc.near/95327942",
@@ -41,7 +41,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "nneoma.near",
               postUrl: "https://social.near.page/c/nneoma.near/95351465",
@@ -52,7 +52,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "sirs.near",
               postUrl: "https://social.near.page/p/sirs.near/95409155",
