@@ -17,7 +17,7 @@ return (
           props={{
             daoId: "australia.sputnik-dao.near",
             name: "Join NEAR Australia",
-            memberId: accountId,
+            memberId,
             roleId,
           }}
         />
@@ -30,7 +30,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "alejandro.near",
               postUrl: "https://social.near.page/p/alejandro.near/95415438",
