@@ -1,5 +1,5 @@
 const widgetOwner = "sking.near";
-const indexVersion = props.indexVersion ?? "3.2.0";
+const indexVersion = props.indexVersion ?? "4.0.0";
 const src = props.src;
 const blockHeight = props.blockHeight ?? "final";
 const isEdit = src ? true : false;
