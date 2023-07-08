@@ -112,7 +112,7 @@ return (
               src={`${widgetOwner}/widget/EasyPoll.PollTags`}
               props={{
                 poll: poll,
-                showVoteButton: true,
+                showVoteButton: false,
                 pollAnswers: data,
                 alreadyVoted: userAnswers.length > 0,
               }}
