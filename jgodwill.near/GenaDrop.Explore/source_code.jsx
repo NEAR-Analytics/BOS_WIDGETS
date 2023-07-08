@@ -40,7 +40,7 @@ const fetchData = () => {
       body: JSON.stringify({
         query: `
             query MyQuery {
-             nfts(orderBy: createdAtTimestamp) {
+             nfts( orderBy: createdAtTimestamp) {
                 category
                 chain
                 createdAtTimestamp
