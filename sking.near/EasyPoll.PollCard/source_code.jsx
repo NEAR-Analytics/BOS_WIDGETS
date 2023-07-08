@@ -5,8 +5,9 @@ const href = props.href;
 const editHref = props.editHref;
 const deleteHref = props.deleteHref;
 const accountId = props.accountId ?? context.accountId;
-const indexVersion = props.indexVersion ?? "3.2.0";
+const indexVersion = props.indexVersion ?? "4.0.0";
 
+const isLoggedIn = accountId ? true : false;
 if (!src) {
   return "Please provide poll src";
 }
@@ -147,7 +148,7 @@ return (
               src={`${widgetOwner}/widget/EasyPoll.PollTags`}
               props={{
                 poll: poll,
-                showVoteButton: true,
+                showVoteButton: isLoggedIn,
                 pollAnswers: data,
                 alreadyVoted: userAnswers.length > 0,
               }}
