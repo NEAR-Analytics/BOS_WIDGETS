@@ -119,8 +119,9 @@ const onQuestionFieldChange = (id, field, key, value) => {
   });
 };
 
-const onQuestionDelete = () => {
+const onQuestionDelete = (i) => {
   if (state.form.questions.length < 2) return;
+
   let new_questions = [...state.form.questions];
   new_questions.splice(i, 1);
 
@@ -197,7 +198,7 @@ return (
             onQuestionFieldChange,
             id: i,
             question: state.form.questions[i],
-            onDelete: onQuestionDelete,
+            onDelete: () => onQuestionDelete(i),
             onMoveUp: () => onQuestionMoveUp(i),
             onMoveDown: () => onQuestionMoveDown(i),
           }}
