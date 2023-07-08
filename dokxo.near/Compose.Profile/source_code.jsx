@@ -234,6 +234,7 @@ return (
                 display: "flex",
                 "justify-content": "center",
                 height: "inherit",
+                width: "100%",
               }}
             >
               <div
