@@ -2,7 +2,7 @@ const src = props.src;
 const blocking = props.blocking ?? true;
 const poll = props.poll;
 const { verifiedHumansOnly, endTimestamp, startTimestamp } = poll;
-const indexVersion = props.indexVersion ?? "3.2.0";
+const indexVersion = props.indexVersion ?? "4.0.0";
 const Children = props.children ?? (() => <></>);
 const Loading = props.Loading ?? (() => <></>);
 
