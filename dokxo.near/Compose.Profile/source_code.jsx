@@ -24,8 +24,26 @@ border-radius: 8px;
 flex: none;
 order: 1;
 flex-grow: 0;
+
 @media only screen and (max-width: 480px) {
-   
+  display:none;
+}
+
+`;
+const LabelFileDesk = styled.label`
+box-sizing: border-box;
+align-content: center,
+width: 100%;
+height: 42px;
+background: #FFFFFF;
+border: 1px dashed #D0D6D9;
+border-radius: 8px;
+flex: none;
+order: 1;
+flex-grow: 0;
+display:none;
+@media only screen and (max-width: 480px) {
+   display:flex;
 }
 
 `;
@@ -259,6 +277,57 @@ return (
           </LabelFile>
         </Photopickersection>
       </div>
+      <LabelFileDesk style={{ width: "100%" }}>
+        <Files
+          name="file"
+          multiple={false}
+          accepts={["image/*"]}
+          minFileSize={1}
+          clickable
+          onChange={filesOnChange}
+          style={{
+            display: "flex",
+            "justify-content": "center",
+            height: "inherit",
+          }}
+        >
+          <div class="row " style={{ display: "flex", "flex-wrap": "nowrap" }}>
+            <div
+              style={{
+                width: "34px",
+                display: "flex",
+                "align-items": "center",
+                "justify-content": "center",
+              }}
+            >
+              {" "}
+              <img
+                src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
+              />
+            </div>
+
+            <p
+              style={{
+                "font-family": "Avenir",
+                "font-style": "normal",
+                "font-weight": "400",
+                "font-size": "12px",
+                "line-height": "120%",
+                display: "flex",
+                "align-items": "center",
+                color: "#828688",
+                flex: "none",
+                order: "1",
+                "flex-grow": "0",
+
+                "margin-bottom": "0rem",
+              }}
+            >
+              {img.name === "" ? "Update your profile image" : img.name}
+            </p>
+          </div>
+        </Files>
+      </LabelFileDesk>
     </div>
     <WrapNoWrap
       class="row col-sm-12     "
