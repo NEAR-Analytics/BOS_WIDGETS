@@ -174,7 +174,7 @@ return (
         <span style={{ fontSize: "1.2em" }}> Thanks for participating 🗳️</span>
       </p>
     </div>
-    <hr />
+    <br />
     <div>
       <div className="mb-2">
         <Widget
