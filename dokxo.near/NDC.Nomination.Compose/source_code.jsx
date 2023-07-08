@@ -50,6 +50,7 @@ const ModalCard = styled.div`
   align-items: center;
   background: rgba(0, 0, 0, 0.70);
   overflow:auto;
+  flex-direction:column;
 @media only screen and (max-width: 480px) {
  
 }
