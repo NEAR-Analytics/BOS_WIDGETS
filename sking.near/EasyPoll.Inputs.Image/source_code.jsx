@@ -2,6 +2,7 @@ const label = props.label;
 const onChange = props.onChange ?? (() => {});
 const buttonText = props.buttonText || "Upload an image";
 const cid = props.value ?? null;
+const showDelete = props.showDelete ?? true;
 
 State.init({
   file: { cid },
@@ -39,6 +40,9 @@ const filesOnChange = (file) => {
     State.update({
       file: null,
     });
+    if (onChange) {
+      onChange(null);
+    }
   }
 };
 
@@ -76,10 +80,33 @@ const Error = styled.span`
   }
 `;
 
+const IconButton = styled.div`
+  font-size: 18px;
+  padding: 5px;
+  transition: all 100ms ease;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.danger {
+    color: red;
+  }
+
+  &.danger:hover {
+    color: red;
+  }
+
+  &:hover {
+    color: #4f46e5;
+    transform: scale(1.3);
+  }
+`;
+
 return (
   <Container>
     {label && <Label>{label}</Label>}
-    <div className="d-inline-block">
+    <div className="d-inline-flex align-items-center gap-2">
       {cid ? <img src={ipfsUrl(cid)} width={100} /> : <></>}
       <Files
         multiple={false}
@@ -91,6 +118,16 @@ return (
       >
         {state.file?.uploading ? "Uploading" : cid ? "Replace" : buttonText}
       </Files>
+      {showDelete && !state.file?.uploading && cid ? (
+        <IconButton
+          className="danger"
+          role="button"
+          title="Delete Image"
+          onClick={() => filesOnChange([])}
+        >
+          <i class="bi bi-x-lg"></i>
+        </IconButton>
+      ) : null}
     </div>
     <Error className={error ? "show" : ""}>{error}</Error>
   </Container>
