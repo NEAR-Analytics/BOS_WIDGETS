@@ -1,9 +1,10 @@
-const indexVersion = props.indexVersion ?? "3.2.0";
+const indexVersion = props.indexVersion ?? "4.0.0";
 const filterByUser = props.filterByUser;
 const skipHumanVericationFor = props.skipHumanVericationFor;
 const onlyVerifiedHumans = props.onlyVerifiedHumans ?? true;
 const blackList = props.blackList;
 const tabs = props.tabs;
+const draft = props.draft ?? false;
 
 State.init({
   polls: {},
@@ -32,11 +33,11 @@ const shouldDisplayUserQuestions = (accountId) => {
   return true;
 };
 
-let keys = `*/easypoll-${indexVersion}/poll/*`;
+let keys = `*/easypoll-${indexVersion}/${draft ? "draft" : "poll"}/*`;
 
 if (filterByUser) {
   keys = filterByUser.map((v) => {
-    return `${v}/easypoll-${indexVersion}/poll/*`;
+    return `${v}/easypoll-${indexVersion}/${draft ? "draft" : "poll"}/*`;
   });
 }
 
@@ -52,13 +53,15 @@ const polls_keys = [];
 // TODO: should cache the logic bellow in state, polls_keys can be huge
 Object.keys(results).forEach((accountId) => {
   return Object.keys(
-    results[accountId][`easypoll-${indexVersion}`]["poll"]
+    results[accountId][`easypoll-${indexVersion}`][draft ? "draft" : "poll"]
   ).forEach((pollId) => {
     polls_keys.push({
       accountId,
       pollId,
       blockHeight:
-        results[accountId][`easypoll-${indexVersion}`]["poll"][pollId],
+        results[accountId][`easypoll-${indexVersion}`][
+          draft ? "draft" : "poll"
+        ][pollId],
     });
   });
 });
@@ -69,7 +72,9 @@ return (
   <>
     <div className="d-flex flex-column gap-4 mb-3">
       {polls_keys.map((p) => {
-        const src = `${p.accountId}/easypoll-${indexVersion}/poll/${p.pollId}`;
+        const src = `${p.accountId}/easypoll-${indexVersion}/${
+          draft ? "draft" : "poll"
+        }/${p.pollId}`;
         return (
           <Widget
             src={`${widgetOwner}/widget/EasyPoll.PollCard`}
