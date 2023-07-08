@@ -17,7 +17,7 @@ return (
           props={{
             daoId: "asia.sputnik-dao.near",
             name: "Join NEAR Asia",
-            memberId: accountId,
+            memberId,
             roleId,
           }}
         />
@@ -30,7 +30,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "coineasydao.near",
               postUrl: "https://social.near.page/p/coineasydao.near/94552554",
@@ -41,7 +41,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 38,
               candidateId: "harveys.near",
               postUrl: "https://social.near.page/p/harveys.near/94819011",
@@ -52,7 +52,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "rileytran.near",
               postUrl: "https://social.near.page/p/rileytran.near/94851239",
@@ -63,7 +63,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 38,
               candidateId: "monish016.near",
               postUrl: "https://social.near.page/p/monish016.near/95021235",
@@ -74,7 +74,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "rahulgoel.near",
               postUrl: "https://social.near.page/p/rahulgoel.near/95242325",
@@ -85,7 +85,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 38,
               candidateId: "nearlove.near",
               postUrl: "https://social.near.page/p/nearlove.near/95309607",
@@ -96,7 +96,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "sachinmurali03.near",
               postUrl:
@@ -108,7 +108,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 38,
               candidateId: "escobarindo.near",
               postUrl: "https://social.near.page/p/escobarindo.near/95318546",
@@ -119,7 +119,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 39,
               candidateId: "dineshkruplani.near",
               postUrl:
@@ -131,7 +131,7 @@ return (
           <Widget
             src="hack.near/widget/dao.candidate"
             props={{
-              memberId: accountId,
+              memberId,
               proposalId: 38,
               candidateId: "derymars.near",
               postUrl: "https://social.near.page/p/derymars.near/95381654",
