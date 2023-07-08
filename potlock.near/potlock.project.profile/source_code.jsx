@@ -187,7 +187,7 @@ return (
             href={`${accountUrl}&tab=requests`}
             selected={state.selectedTab === "requests"}
           >
-            Documents
+            Requests
           </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=documents`}
@@ -205,7 +205,7 @@ return (
             href={`${accountUrl}&tab=funding`}
             selected={state.selectedTab === "funding"}
           >
-            Documents
+            Funding
           </TabsButton>
         </Tabs>
 
