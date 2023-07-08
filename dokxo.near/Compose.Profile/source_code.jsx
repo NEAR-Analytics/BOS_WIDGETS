@@ -140,7 +140,8 @@ const Photopickersection = styled.div`
   width:95%; 
   margin-left:10px;
 @media only screen and (max-width: 480px) {
-  
+  width:100%; 
+  margin-left:0px;
 }
   `;
 const Separator = styled.div`
