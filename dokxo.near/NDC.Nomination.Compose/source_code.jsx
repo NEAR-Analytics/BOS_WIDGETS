@@ -52,7 +52,7 @@ const ModalCard = styled.div`
   overflow:auto;
   flex-direction:column;
 @media only screen and (max-width: 480px) {
- 
+  width: 92%;
 }
 `;
 
