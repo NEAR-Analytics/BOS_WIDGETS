@@ -214,13 +214,13 @@ return (
         </div>
         <Widget src="williamxx.near/widget/Creatives.Home.Tracks" />
       </FlexContainer>
-      <Widget src="hack.near/widget/creatives.why" />
       <br />
     </Container>
     <Widget src="williamxx.near/widget/Number.Page" />
     <H1>Make Your Wins Heard!</H1>
-    <Text>Dear community leaders!</Text>
-    <Text>
+    <div style={{ height: "20px" }}></div>
+    <Text style={{ paddingLeft: "10px" }}>Dear community leaders!</Text>
+    <Text style={{ paddingLeft: "10px" }}>
       It's time to make your voice heard, and inspire others to embark on their
       own journeys of success. Remember, your wins matter, and we can't wait to
       showcase them. Share your triumphs today, and let the world know the
@@ -229,6 +229,7 @@ return (
     </Text>
     <Widget src="crans.near/widget/dao.create.post.creatives" />
     <Widget src="williamxx.near/widget/creatives.apps-forked" props={{ tab }} />
+    <Widget src="hack.near/widget/creatives.why" />
     <hr />
     <br />
     <Flex>
