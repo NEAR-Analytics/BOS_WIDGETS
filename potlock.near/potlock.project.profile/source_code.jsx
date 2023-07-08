@@ -1,7 +1,7 @@
 State.init({
   selectedTab: props.tab || "overview",
 });
-// add join page to sidebar and put donate button taking from donate tab
+// add join page to sidebar and put donate button taking from donate tab // need to fork sidebar
 
 const accountId = props.accountId ?? context.accountId ?? "potlock.near";
 
@@ -12,7 +12,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`; // need to fork own profile page
+const accountUrl = `#/potlock.near/widget/potlock.project.profile?accountId=${accountId}`; // need to fork own profile page
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -167,7 +167,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="near/widget/ProfilePage.Sidebar"
+          src="potlock.near/widget/potlock.project.sidebar.main"
           props={{
             accountId,
             profile,
@@ -184,6 +184,12 @@ return (
             Overview
           </TabsButton>
           <TabsButton
+            href={`${accountUrl}&tab=requests`}
+            selected={state.selectedTab === "requests"}
+          >
+            Documents
+          </TabsButton>
+          <TabsButton
             href={`${accountUrl}&tab=documents`}
             selected={state.selectedTab === "documents"}
           >
@@ -195,15 +201,22 @@ return (
           >
             Team
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=funding`}
+            selected={state.selectedTab === "funding"}
+          >
+            Documents
+          </TabsButton>
         </Tabs>
 
         {state.selectedTab === "overview" && (
           <>
             {profile.description && (
               <>
-                <Title as="h2" size="19px" margin>
-                  About
-                </Title>
+                <Widget
+                  src={`nearhorizon.near/widget/Project.About`}
+                  props={{ accountId: accountId, isAdmin: false }}
+                />
 
                 <Bio>
                   <Widget
@@ -222,49 +235,34 @@ return (
         )}
 
         {state.selectedTab === "documents" && (
-          <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+          <Widget
+            src={`nearhorizon.near/widget/Project.Documents`}
+            props={{ accountId: props.accountId, isAdmin: false }}
+          />
+        )}
+        {state.selectedTab === "funding" && (
+          <Widget
+            src={`potlock.near/widget/potlock.project.funding.main`}
+            props={{ accountId: props.accountId, isAdmin: false }}
+          />
         )}
         {state.selectedTab === "team" && (
           <>
-            {profile.description && (
-              <>
-                <Title as="h2" size="19px" margin>
-                  About
-                </Title>
-
-                <Bio>
-                  <Widget
-                    src="near/widget/SocialMarkdown"
-                    props={{ text: profile.description }}
-                  />
-                </Bio>
-              </>
-            )}
+            {" "}
+            <Widget
+              src={`nearhorizon.near/widget/Project.People`}
+              props={{ accountId: props.accountId, isAdmin: false }}
+            />
           </>
         )}
-
-        {state.selectedTab === "apps" && (
-          <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
-        )}
-
-        {state.selectedTab === "followers" && (
-          <Widget src="near/widget/FollowersList" props={{ accountId }} />
-        )}
-
-        {state.selectedTab === "following" && (
-          <Widget src="near/widget/FollowingList" props={{ accountId }} />
-        )}
-
-        {state.selectedTab === "explorer" && (
-          <Widget
-            src="near/widget/Explorer.Account"
-            props={{
-              accountId,
-              network: context.networkId,
-              language: "en",
-              baseUrl: props.baseUrl,
-            }}
-          />
+        {state.selectedTab === "requests" && (
+          <>
+            {" "}
+            <Widget
+              src={`nearhorizon.near/widget/Project.Requests`}
+              props={{ accountId: props.accountId }}
+            />
+          </>
         )}
       </Content>
     </Main>
