@@ -184,7 +184,7 @@ const Footer = styled.a`
 
 const footer = (
   <Footer
-    href={`/potlock.near/widget/potlock.project.profile?accountId=${accountId}`}
+    href={`#/potlock.near/widget/potlock.project.profile?accountId=${accountId}`}
     target="_blank"
     onClick={() =>
       props.update({
