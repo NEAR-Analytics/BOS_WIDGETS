@@ -1,6 +1,6 @@
 const hasVoted = props.hasVoted ?? false;
 const src = props.src;
-const indexVersion = props.indexVersion ?? "3.2.0";
+const indexVersion = props.indexVersion ?? "4.0.0";
 const widgetOwner = props.widgetOwner ?? "sking.near";
 const blockHeight = props.blockHeight;
 const { questions } = props.poll;
@@ -9,6 +9,9 @@ const humansOnly = props.poll.verifiedHumansOnly;
 const isHuman = props.isHuman ?? false;
 const alreadyVoted = userAnswers.length > 0;
 const resultsHref = props.resultsHref ?? "";
+const accountId = props.accountId ?? context.accountId;
+const isLoggedIn = accountId ? true : false;
+
 if (!questions) return <></>;
 
 if (!src) return "Please provide poll src";
@@ -82,7 +85,7 @@ if (isUpcoming) {
   );
 }
 
-if (humansOnly && !isHuman) {
+if (humansOnly && !isHuman && isLoggedIn) {
   return (
     <div
       className="d-flex flex-column gap-3 justify-content-center align-items-center"
@@ -152,7 +155,9 @@ const currentQuestion = questions[state.step];
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 const handleNext = () => {
-  if (!validateCurrentStep()) return;
+  if (isLoggedIn && !alreadyVoted) {
+    if (!validateCurrentStep()) return;
+  }
   if (state.form[state.step].error) return;
 
   if (questions.length === state.step) {
@@ -371,8 +376,20 @@ return (
         }}
       >
         <i className="bi bi-check-lg h5" />
-        <span className="me-auto">You've already voted</span>
+        <span className="me-auto">"You've already voted"</span>
         <ViewResultsButton />
+      </div>
+    )}
+    {!isLoggedIn && (
+      <div
+        className="py-2 d-flex align-content-center gap-1"
+        style={{
+          fontWeight: "bold",
+          fontsize: 15,
+          color: "#DD5E56",
+        }}
+      >
+        <span className="me-auto">Sign In To Use EasyPoll</span>
       </div>
     )}
     <div className="d-flex">
@@ -442,7 +459,7 @@ return (
             : state.form[state.step].value,
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
-          disabled: alreadyVoted,
+          disabled: alreadyVoted || !isLoggedIn,
         }}
       />
     )}
@@ -457,7 +474,7 @@ return (
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
           choices: currentQuestion.choicesOptions,
-          disabled: alreadyVoted,
+          disabled: alreadyVoted || !isLoggedIn,
           min: currentQuestion.minChoices,
           max: currentQuestion.maxChoices,
         }}
@@ -473,7 +490,7 @@ return (
             : state.form[state.step].value,
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
-          disabled: alreadyVoted,
+          disabled: alreadyVoted || !isLoggedIn,
           min: currentQuestion.minChoices,
           max: currentQuestion.maxChoices,
           choices: currentQuestion.choicesOptions.map((_, i) => i + 1),
@@ -491,7 +508,7 @@ return (
             : state.form[state.step].value,
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
-          disabled: alreadyVoted,
+          disabled: alreadyVoted || !isLoggedIn,
           label0: currentQuestion.label0,
           label5: currentQuestion.label5,
           label10: currentQuestion.label10,
@@ -510,7 +527,7 @@ return (
             : state.form[state.step].value,
           error: state.form[state.step].error,
           onChange: (v) => onFormFieldChange(state.step, "value", v),
-          disabled: alreadyVoted,
+          disabled: alreadyVoted || !isLoggedIn,
         }}
       />
     )}
@@ -520,7 +537,8 @@ return (
       props={{
         hasNext: questions.length > 1 && state.step !== questions.length - 1,
         onNext: handleNext,
-        hasSubmit: !alreadyVoted && state.step === questions.length - 1,
+        hasSubmit:
+          !alreadyVoted && isLoggedIn && state.step === questions.length - 1,
         onSubmit: onFinish,
         hasPrev: state.step > 0,
         onPrev: handlePrev,
