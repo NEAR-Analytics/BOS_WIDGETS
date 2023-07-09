@@ -22,7 +22,7 @@ const handleProposal = () => {
           },
         },
       },
-      gas: 300000000000000,
+      gas: 219000000000000,
       deposit: deposit,
     },
   ]);
