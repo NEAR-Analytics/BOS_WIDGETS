@@ -69,7 +69,6 @@ if (
 
 console.log(proposals);
 
-// New function to check proposals
 const checkProposals = (proposals) => {
   for (let i = 0; i < proposals.length; i++) {
     if (proposals[i].proposer === memberId) {
@@ -168,6 +167,11 @@ return (
         Members
       </a>
     </ButtonContainer>
+    {!canJoinContinent && (
+      <ButtonContainer>
+        <h5 className="text-muted">Joined Continental Group</h5>
+      </ButtonContainer>
+    )}
     {validMember && canJoinContinent && (
       <ButtonContainer>
         <h5>Select Your Home Continent:</h5>
