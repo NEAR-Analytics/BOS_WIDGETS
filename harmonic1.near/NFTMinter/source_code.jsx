@@ -123,7 +123,7 @@ const buttonStyle = {
 
 const primaryButtonStyle = {
   ...buttonStyle,
-  backgroundColor: "#007bff",
+  backgroundColor: "#4472c4",
   color: "#fff",
   border: "none",
 };
