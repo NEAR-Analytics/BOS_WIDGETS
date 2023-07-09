@@ -70,7 +70,7 @@ return (
                   key={i}
                   src="hack.near/widget/DAO.AddMember"
                   props={{
-                    daoId: daoId,
+                    daoId,
                     accountId: accountId,
                     memberId: state.memberId,
                     roleId: group.name,
@@ -83,7 +83,7 @@ return (
       )}
       <div className="mt-2">
         <h2 className="mb-2">Groups</h2>
-        <Widget src="hack.near/widget/DAO.Members" props={{ daoId: daoId }} />
+        <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
       </div>
     </div>
   </div>
