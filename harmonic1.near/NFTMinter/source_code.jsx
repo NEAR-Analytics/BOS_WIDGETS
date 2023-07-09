@@ -83,7 +83,7 @@ const headerStyle = {
 };
 
 const formFieldStyle = {
-  marginBottom: "1.5rem",
+  marginBottom: "1rem",
 };
 
 const labelStyle = {
@@ -181,7 +181,7 @@ return (
     <div style={formFieldStyle}>
       <button
         type="button"
-        className="btn btn-primary my-3 px-4"
+        className="btn btn-primary my-1 px-4"
         onClick={handleMint}
         style={primaryButtonStyle}
       >
