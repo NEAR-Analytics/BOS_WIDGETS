@@ -96,17 +96,14 @@ return (
     <a className="btn flex-fill btn-outline-primary" href={postUrl}>
       Discuss
     </a>
-    {human ? (
+    {!human ? (
       <div className="m-1 d-flex flex-row gap-1">
         {canVote ? (
           <button className="btn flex-fill btn-success" onClick={handleApprove}>
             Vote
           </button>
         ) : (
-          <Widget
-            src="mob.near/widget/FollowButton"
-            props={{ accountId: candidateId }}
-          />
+          <h5 className="mt-1">Voted</h5>
         )}
       </div>
     ) : (
