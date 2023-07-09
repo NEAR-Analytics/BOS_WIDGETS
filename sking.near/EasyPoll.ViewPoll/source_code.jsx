@@ -15,9 +15,13 @@ if (!src) {
 }
 
 const poll = Social.get(`${src}`, blockHeight);
-if (!poll) {
+if (poll === null) {
   return "Loading...";
 }
+if (poll === undefined) {
+  return "404 Poll not found";
+}
+
 poll = JSON.parse(poll);
 poll.accountId = src.split("/")[0];
 
