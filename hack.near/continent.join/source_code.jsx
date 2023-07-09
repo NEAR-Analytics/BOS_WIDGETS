@@ -155,9 +155,14 @@ return (
           Join DAO
         </button>
       )}
-      {!canJoin && (
+      {!validMember && !canJoin && (
         <button disabled={!canJoin} className="btn btn-success m-1">
           Pending
+        </button>
+      )}
+      {validMember && !canJoin && (
+        <button disabled={validMember} className="btn btn-success m-1">
+          Joined
         </button>
       )}
       <a
@@ -169,7 +174,7 @@ return (
     </ButtonContainer>
     {!canJoinContinent && (
       <ButtonContainer>
-        <h5 className="text-muted">Joined Continental Group</h5>
+        <h5 className="text-muted">Continental Group Selected</h5>
       </ButtonContainer>
     )}
     {validMember && canJoinContinent && (
