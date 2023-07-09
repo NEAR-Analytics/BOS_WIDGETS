@@ -16,7 +16,7 @@ const heroStyles = {
 };
 
 const blueTextStyles = {
-  color: "#0000FF", // Blue color
+  color: "#4472c4", // Blue color
 };
 
 const paragraphStyles = {
@@ -47,7 +47,7 @@ return (
       </p>
     </div>
     <div className="mb-5">
-      <Widget src="harmonic1.near/widget/MusicPlayer-Harmonic" />
+      <Widget src="harmonic1.near.near/widget/MusicPlayer-Harmonic" />
     </div>
     <div className="mb-5">
       <Widget src="harmonic1.near/widget/NFTMinter" />
