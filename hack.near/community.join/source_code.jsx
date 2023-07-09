@@ -96,9 +96,14 @@ return (
         Join DAO
       </button>
     )}
-    {!canJoin && (
+    {!validMember && !canJoin && (
       <button disabled={!canJoin} className="btn btn-success m-1">
         Pending
+      </button>
+    )}
+    {validMember && (
+      <button disabled={validMember} className="btn btn-success m-1">
+        Joined
       </button>
     )}
     <a
