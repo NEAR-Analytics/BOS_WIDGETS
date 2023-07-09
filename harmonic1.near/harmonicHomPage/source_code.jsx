@@ -5,7 +5,7 @@ const containerStyles = {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  height: "100vh", // Full viewport height
+  height: "90vh", // Full viewport height
   backgroundColor: "#fff", // White background
 };
 
