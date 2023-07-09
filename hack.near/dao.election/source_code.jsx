@@ -100,7 +100,7 @@ return (
           props={{ accountId: "rc-dao.sputnik-dao.near" }}
         />
       </div>
-      <div className="mt-2 mb-3">
+      <div className="mt-4 mb-4">
         <Widget
           src="hack.near/widget/community.onboarding"
           props={{
@@ -123,7 +123,7 @@ return (
         <span style={{ fontSize: "0.8em" }}>
           <i>
             NOTE ~ if you did not join the voter group before 23:59 UTC on July
-            8, you are unable to vote this round. You are welcome to get
+            8, you are unable to vote in this round. You are welcome to get
             verified and register for upcoming votes.
           </i>
         </span>
