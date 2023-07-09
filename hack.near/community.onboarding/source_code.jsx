@@ -24,7 +24,7 @@ return (
           href: "https://near.org/signup",
           label: "Create Account",
           variant: "outline-dark",
-          size: "large",
+          size: "small",
         }}
       />
     )}
@@ -44,7 +44,7 @@ return (
           href: "https://i-am-human.app/?community=banyan&vertical=regionalcommunities",
           label: "Get Verified",
           variant: "outline-primary",
-          size: "large",
+          size: "small",
         }}
       />
     )}
