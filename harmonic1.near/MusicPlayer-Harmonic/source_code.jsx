@@ -35,7 +35,7 @@ const styles = {
   container: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    //justifyContent: "center",
     alignItems: "center",
     padding: "1rem",
     borderRadius: "0.5rem",
@@ -141,10 +141,9 @@ function selectSong(index) {
   });
 }
 
+//<h1 style={styles.heading}>Decentralised Music Streaming</h1>
 return (
   <>
-    <h1 style={styles.heading}>Decentralised Music Streaming</h1>
-
     <div style={styles.container}>
       <div style={styles.innerContainer}>
         <div style={styles.playerContainer}>
