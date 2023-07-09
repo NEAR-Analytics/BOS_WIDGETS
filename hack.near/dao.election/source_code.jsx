@@ -100,267 +100,176 @@ return (
           props={{ accountId: "rc-dao.sputnik-dao.near" }}
         />
       </div>
+      <div className="mt-2 mb-3">
+        <Widget
+          src="hack.near/widget/community.onboarding"
+          props={{
+            memberId,
+            roleId,
+          }}
+        />
+      </div>
       <h3>
         <b>Election Demo</b>
       </h3>
       <p>
         <span style={{ fontSize: "0.8em" }}>
-          🚧 <i>UNDER CONSTRUCTION</i> 🚧
+          This on-chain page is a ballot with candidates for the RC DAO council,
+          which reviews funding proposals from NEAR communities around the
+          world. Let's get decentralized!
         </span>
       </p>
-    </div>
-    <hr />
-    <div>
-      <Widget
-        src="hack.near/widget/community.onboarding"
-        props={{
-          memberId,
-          roleId,
-        }}
-      />
+      <p>
+        <span style={{ fontSize: "0.8em" }}>
+          <i>
+            NOTE ~ if you did not join the voter group before 23:59 UTC on July
+            8, you are unable to vote this round. You are welcome to get
+            verified and register for upcoming votes.
+          </i>
+        </span>
+      </p>
+      <h5>RULES</h5>
+      <p>
+        <span style={{ fontSize: "0.8em" }}>
+          Each RC DAO member can vote <b>once per candidate</b>. Voters may
+          support any of the candidates across the continental regions.
+          Remember, the mission is to build a better future for everyone, using
+          the blockchain operating system!
+        </span>
+      </p>
+      <div>
+        <div className="public-tags collapse show">
+          <button
+            className="btn btn-sm btn-outline-secondary border-0"
+            data-bs-toggle="collapse"
+            data-bs-target={`.public-tags`}
+            aria-expanded="false"
+            aria-controls={"public-tags"}
+          >
+            <i className="bi bi-arrows-angle-expand me-1"></i>click here for
+            details
+          </button>
+        </div>
+        <div className="collapse public-tags">
+          <p>
+            <span style={{ fontSize: "0.8em" }}>
+              As you can see below, every candidate wrote an on-chain
+              self-nomination post, and voters are welcome to discuss or ask
+              them questions in the comments.
+            </span>
+          </p>
+          <p>
+            <span style={{ fontSize: "0.8em" }}>
+              There will be 7 council members initially. That includes 5
+              continental seats, with one from each of the following regions:
+              Africa, Asia, Europe, North America, and South America. The two
+              remaining seats will be filled by candidates from any continent
+              with the most votes.
+            </span>
+          </p>
+        </div>
+      </div>
+      <br />
+      {!validMember ? (
+        <div>
+          {!canJoinContinent ? (
+            <p>
+              <span style={{ fontSize: "1.2em" }}>
+                <i class="bi bi-check2-circle"></i>
+                Continental Group Selected
+              </span>
+            </p>
+          ) : (
+            <p>
+              <span style={{ fontSize: "1.2em" }}>
+                <i class="bi bi-arrow-down-square"></i> Select Continental Group
+              </span>
+            </p>
+          )}
+        </div>
+      ) : (
+        <p>
+          <span style={{ fontSize: "1.2em" }}>
+            <i class="bi bi-globe2"></i>
+            Thanks for being NEAR!
+          </span>
+        </p>
+      )}
     </div>
     <br />
     <div>
-      {validMember && canJoinContinent && (
-        <div className="mb-2">
-          <h3>Africa</h3>
-          <Widget
-            src="hack.near/widget/communities.regional"
-            props={{
-              daoId: "africa-community.sputnik-dao.near",
-              name: "Join NEAR Africa",
-              memberId: accountId,
-              roleId,
-            }}
-          />
-        </div>
-      )}
-      {!canJoinContinent && (
-        <div>
-          <h3>Africa</h3>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 41,
-                candidateId: "candidate10.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 40,
-                candidateId: "candidate9.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-        </div>
-      )}
       <div className="mb-2">
-        {validMember && canJoinContinent && (
-          <div className="mb-2">
-            <h3>Asia</h3>
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "asia.sputnik-dao.near",
-                name: "Join NEAR Asia",
-                memberId: accountId,
-                roleId,
-              }}
-            />
-          </div>
-        )}
+        <Widget
+          src="hack.near/widget/africa.election"
+          props={{
+            daoId: "africa-community.sputnik-dao.near",
+            memberId,
+            canJoin,
+            canJoinContinent,
+            validMember,
+          }}
+        />
       </div>
-      {!canJoinContinent && (
-        <div>
-          <h3>Asia</h3>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 39,
-                candidateId: "candidate8.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-          <div className="mb-3">
-            <Widget
-              src="hack.near/widget/dao.candidate"
-              props={{
-                memberId: accountId,
-                proposalId: 38,
-                candidateId: "candidate7.near",
-                postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-              }}
-            />
-          </div>
-        </div>
-      )}
+      <div className="mb-2">
+        <Widget
+          src="hack.near/widget/asia.election"
+          props={{
+            daoId: "asia.sputnik-dao.near",
+            memberId,
+            canJoin,
+            canJoinContinent,
+            validMember,
+          }}
+        />
+      </div>
       <div className="mb-3">
-        {validMember && canJoinContinent && (
-          <div className="mb-3">
-            <h3>Australia</h3>
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "australia.sputnik-dao.near",
-                name: "Join NEAR Australia",
-                memberId: accountId,
-                roleId,
-              }}
-            />
-          </div>
-        )}
+        <Widget
+          src="hack.near/widget/australia.election"
+          props={{
+            daoId: "australia.sputnik-dao.near",
+            memberId,
+            canJoin,
+            canJoinContinent,
+            validMember,
+          }}
+        />
       </div>
-      {!canJoinContinent && (
-        <div>
-          <h3>Australia</h3>
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 43,
-              candidateId: "candidate12.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 42,
-              candidateId: "candidate11.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-        </div>
-      )}
       <div className="mb-2">
-        {validMember && canJoinContinent && (
-          <div className="mb-2">
-            <h3>Europe</h3>
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "europe.sputnik-dao.near",
-                name: "Join NEAR Europe",
-                memberId: accountId,
-                roleId,
-              }}
-            />
-          </div>
-        )}
+        <Widget
+          src="hack.near/widget/europe.election"
+          props={{
+            daoId: "europe.sputnik-dao.near",
+            memberId,
+            canJoin,
+            canJoinContinent,
+            validMember,
+          }}
+        />
       </div>
-      {!canJoinContinent && (
-        <div>
-          <h3>Europe</h3>
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 37,
-              candidateId: "candidate6.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 36,
-              candidateId: "candidate5.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-        </div>
-      )}
       <div className="mb-2">
-        {validMember && canJoinContinent && (
-          <div className="mb-2">
-            <h3>North America</h3>
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "north-america.sputnik-dao.near",
-                name: "Join NEAR North America",
-                memberId: accountId,
-                roleId,
-              }}
-            />
-          </div>
-        )}
+        <Widget
+          src="hack.near/widget/north-america.election"
+          props={{
+            daoId: "north-america.sputnik-dao.near",
+            memberId,
+            canJoin,
+            canJoinContinent,
+            validMember,
+          }}
+        />
       </div>
-      {!canJoinContinent && (
-        <div>
-          <h3>North America</h3>
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 35,
-              candidateId: "candidate4.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 34,
-              candidateId: "candidate3.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-        </div>
-      )}
       <div className="mb-3">
-        {validMember && canJoinContinent && (
-          <div className="mb-3">
-            <h3>South America</h3>
-            <Widget
-              src="hack.near/widget/communities.regional"
-              props={{
-                daoId: "south-america.sputnik-dao.near",
-                name: "Join NEAR South America",
-                memberId: accountId,
-                roleId,
-              }}
-            />
-          </div>
-        )}
+        <Widget
+          src="hack.near/widget/south-america.election"
+          props={{
+            daoId: "south-america.sputnik-dao.near",
+            memberId,
+            canJoin,
+            canJoinContinent,
+            validMember,
+          }}
+        />
       </div>
-      {!canJoinContinent && (
-        <div>
-          <h3>South America</h3>
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 33,
-              candidateId: "candidate2.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-          <Widget
-            src="hack.near/widget/dao.candidate"
-            props={{
-              memberId: accountId,
-              proposalId: 32,
-              candidateId: "candidate1.near",
-              postUrl: "https://social.near.page/p/rc-dao.near/94244727",
-            }}
-          />
-        </div>
-      )}
     </div>
   </div>
 );
