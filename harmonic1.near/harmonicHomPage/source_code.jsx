@@ -64,7 +64,7 @@ return (
       </div>
     </div>
     <div style={containerStyles}>
-      <div className="mb-5" style={{ display: "flex" }}>
+      <div className="" style={{ display: "flex" }}>
         <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
           <p style={{ fontSize: "2rem", fontWeight: "bold" }}>
             Introducing Minter
@@ -77,15 +77,15 @@ return (
             as we strive to bring cutting-edge encryption features to our
             platform. Together, let's unlock the potential of encrypted music.
           </p>
+          <p>
+            Contact us at hello@harmonicguild.io to get a trial account to use
+            our Minter for free. No passphrase, no crypto needed.
+          </p>
         </div>
         <div style={{ flex: 1 }}>
           <Widget src="harmonic1.near/widget/NFTMinter" />
         </div>
       </div>
-      <p className="mt-5" style={paragraphStyles2}>
-        Contact us at hello@harmonicguild.io to get a trial account to use our
-        Minter for free. No passphrase, no crypto needed.
-      </p>
     </div>
   </div>
 );
