@@ -27,7 +27,7 @@ return (
             <div className>
               <Widget
                 src="hack.near/widget/DAO.RemoveMember"
-                props={{ memberId: member, roleId: group.name }}
+                props={{ daoId, memberId: member, roleId: group.name }}
               />
             </div>
           </div>
