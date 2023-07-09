@@ -308,5 +308,6 @@ return (
         </a>
       </div>
     </OrgsSection>
+    <Widget src="nearefi.near/widget/ReFi.footer.main" />
   </>
 );
