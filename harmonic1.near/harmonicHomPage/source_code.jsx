@@ -7,7 +7,7 @@ const containerStyles = {
   alignItems: "center",
   height: "90vh", // Full viewport height
   backgroundColor: "#fff", // White background
-  //backgroundImage: "linear-gradient(to right, #b6fbff, #83a4d4)",
+  backgroundImage: "linear-gradient(to right, #b6fbff, #83a4d4)",
 };
 
 const heroStyles = {
