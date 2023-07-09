@@ -170,7 +170,7 @@ return (
         </div>
       </div>
       <br />
-      {!validMember ? (
+      {accountId && !validMember ? (
         <div>
           {!canJoinContinent ? (
             <p>
