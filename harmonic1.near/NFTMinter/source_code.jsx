@@ -73,6 +73,7 @@ const containerStyle = {
   margin: "0 auto",
   padding: "2rem",
   backgroundColor: "#f5f5f5",
+  borderRadius: "0.5rem",
 };
 
 const headerStyle = {
