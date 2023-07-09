@@ -31,33 +31,25 @@ const tabs = {
   },
   DELETE_POLL: {
     href: (src, blockHeight) =>
-      `#/${widgetOwner}/widget/EasyPoll?page=delete_poll&src=${src}${
-        blockHeight && "&blockHeight="
-      }${blockHeight}`,
+      `#/${widgetOwner}/widget/EasyPoll?page=delete_poll&src=${src}`,
     active: page === "DELETE_POLL",
     hideSidebar: true,
   },
   EDIT_POLL: {
     href: (src, blockHeight) =>
-      `#/${widgetOwner}/widget/EasyPoll?page=create_poll&src=${src}${
-        blockHeight && "&blockHeight="
-      }${blockHeight}`,
+      `#/${widgetOwner}/widget/EasyPoll?page=create_poll&src=${src}`,
     active: page === "EDIT_POLL",
     hideSidebar: true,
   },
   VIEW_POLL: {
     href: (src, blockHeight) =>
-      `#/${widgetOwner}/widget/EasyPoll?page=view_poll&src=${src}${
-        blockHeight && "&blockHeight="
-      }${blockHeight}`,
+      `#/${widgetOwner}/widget/EasyPoll?page=view_poll&src=${src}`,
     active: page === "VIEW_POLL",
     hideSidebar: true,
   },
   RESULTS: {
     href: (src, blockHeight) =>
-      `#/${widgetOwner}/widget/EasyPoll?page=results&src=${src}${
-        blockHeight && "&blockHeight="
-      }${blockHeight}`,
+      `#/${widgetOwner}/widget/EasyPoll?page=results&src=${src}`,
     active: page === "RESULTS",
     hideSidebar: true,
   },
