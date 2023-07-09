@@ -93,17 +93,23 @@ return (
       src="near/widget/AccountProfile"
       props={{ accountId: candidateId }}
     />
-    <a className="btn flex-fill btn-outline-primary" href={postUrl}>
+    <a className="btn flex-fill btn-outline-primary " href={postUrl}>
       Discuss
     </a>
-    {!human ? (
+    {human ? (
       <div className="m-1 d-flex flex-row gap-1">
         {canVote ? (
           <button className="btn flex-fill btn-success" onClick={handleApprove}>
             Vote
           </button>
         ) : (
-          <h5 className="mt-1">Voted</h5>
+          <button
+            className="btn flex-fill btn-success"
+            onClick={handleApprove}
+            disabled={!canVote}
+          >
+            Voted
+          </button>
         )}
       </div>
     ) : (
