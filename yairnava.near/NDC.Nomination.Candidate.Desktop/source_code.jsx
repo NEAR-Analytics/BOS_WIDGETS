@@ -581,6 +581,8 @@ const afiilationsSort = afilations
   .reverse();
 
 const issues = [
+  props.data.nominations.HAYInvolve,
+  props.data.nominations.WIYStrategy,
   props.data.nominations.issued1,
   props.data.nominations.issued2,
   props.data.nominations.issued3,
@@ -808,7 +810,11 @@ return (
                             >
                               {key < issues.length - 1 ? (
                                 <KeyIssueTitle>
-                                  Key Issue {key + 1}
+                                  {key == 0
+                                    ? "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted"
+                                    : key == 1
+                                    ? "Strategy to develop the NEAR ecosystem"
+                                    : "Key Issue" + key + 1}
                                 </KeyIssueTitle>
                               ) : (
                                 <KeyIssueTitle>Other Platform</KeyIssueTitle>
