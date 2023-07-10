@@ -102,9 +102,9 @@ return (
       ) : (
         <i className={`bi fs-4 pt-1 ${hasLike ? "bi-heart-fill" : "bi-heart"}`}>
           {" "}
-          {totalLikes}
         </i>
       )}
     </LikeButton>
+    {totalLikes}
   </div>
 );
