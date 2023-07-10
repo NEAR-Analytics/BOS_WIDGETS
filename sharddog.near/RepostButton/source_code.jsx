@@ -119,7 +119,7 @@ const repostSvg = (
 );
 
 return (
-  <div className="d-inline-flex align-items-center">
+  <div className=" align-items-center">
     <RepostButton
       disabled={state.loading || dataLoading || !context.accountId}
       className="btn me-1"
@@ -138,5 +138,6 @@ return (
         </span>
       )}
     </RepostButton>
+    <div className="align-items-center text-center">{repostsByUsers}</div>
   </div>
 );
