@@ -481,10 +481,24 @@ return (
           }}
         />
       )}
+      {state.showModalDelete && (
+        <Widget
+          src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
+          props={{
+            candidateOrReplay: true,
+            onClickConfirm: () => State.update({ showModalDelete: false }),
+            onClickCancel: () => State.update({ showModalDelete: false }),
+          }}
+        />
+      )}
       {state.og ? (
         <ButtonNominateContainer>
           {state.selfNomination ? (
-            <ButtonDeleteDiv onClick={handleSelfRevoke}>
+            <ButtonDeleteDiv
+              onClick={async () => {
+                State.update({ showModalDelete: false });
+              }}
+            >
               <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
               <ButtonDeleteIcon
                 src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
