@@ -11,8 +11,8 @@ const mainPartForSharingGig =
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 if (sharedArticleId === article.articleId) {
-  state.update({ showModal: true });
   console.log("state.update({showModal: true})");
+  state.update({ showModal: true });
 }
 
 // ========== UTILS ==========
