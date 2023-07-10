@@ -110,8 +110,8 @@ const handleProposal = () => {
 const handleCreate = () =>
   Social.set({
     widget: {
-      [`${state.widgetId}`]: {
-        "": `${state.code}`,
+      [`${widgetName}`]: {
+        "": `${code}`,
         metadata: {
           tags: {
             build: "",
