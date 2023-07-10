@@ -1,3 +1,5 @@
-const data = props.data;
+function Test(props) {
+  return <p>{JSON.stringify(props)}</p>;
+}
 
-return <div>{data.value}</div>;
+return { Test };
