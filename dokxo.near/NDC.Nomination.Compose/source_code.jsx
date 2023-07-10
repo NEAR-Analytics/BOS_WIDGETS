@@ -20,7 +20,7 @@ State.init({
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
   house_intended: "",
-  HAYInvolve: "dedede",
+  HAYInvolve: "",
   WIYStrategy: "",
   issued1: "",
   issued2: "",
@@ -452,19 +452,6 @@ const Self_Nominate = () => {
   }
 };
 
-const Test_Self_Nominate = () => {
-  //Validate the Data outPut
-
-  //Store the state in the local storage
-  Storage.privateSet("SelfNominate_Payload", state);
-
-  // call the smart contract Self nominate method
-  const contract = "hello.near-examples.near";
-  Near.call(contract, "set_greeting", {
-    greeting: "holaaa",
-  });
-};
-
 return (
   <ModalCard>
     <div
@@ -485,6 +472,8 @@ return (
               },
               profileAccount: state.profileAccount,
               afiliation: JSON.stringify(state.afiliation),
+              HAYInvolve: state.HAYInvolve,
+              WIYStrategy: state.WIYStrategy,
               issued1: state.issued1,
               issued2: state.issued2,
               issued3: state.issued3,
