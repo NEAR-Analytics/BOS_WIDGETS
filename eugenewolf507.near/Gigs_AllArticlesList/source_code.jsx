@@ -14,7 +14,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "eugenewolf507.near",
 ];
 const sharedArticleId = props.articleId;
-console.log("sharedArticleId in All Articles Llist = ", sharedArticleId);
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const statusTagsArr = ["open", "claimed", "closed"];
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
