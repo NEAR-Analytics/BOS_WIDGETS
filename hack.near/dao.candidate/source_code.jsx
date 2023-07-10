@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const memberId = props.memberId ?? context.accountId;
 
-const daoId = props.daoId ?? "multi.sputnik-dao.near";
+const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 const groupId = props.groupId ?? "community";
 
 const candidateId = props.candidateId ?? "multi.near";
@@ -115,8 +115,8 @@ return (
     ) : (
       <div className="m-1 d-flex flex-row gap-1">
         <Widget
-          src="hack.near/widget/dao.verify"
-          props={{ accountId: memberId }}
+          src="mob.near/widget/FollowButton"
+          props={{ accountId: candidateId }}
         />
       </div>
     )}
