@@ -20,6 +20,8 @@ State.init({
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
   house_intended: "",
+  HAYInvolve: "dedede",
+  WIYStrategy: "",
   issued1: "",
   issued2: "",
   issued3: "",
@@ -237,6 +239,8 @@ const validatedInputs = () => {
     name,
     profileAccount,
     house_intended,
+    HAYInvolve,
+    WIYStrategy,
     issued1,
     issued2,
     issued3,
@@ -264,6 +268,21 @@ const validatedInputs = () => {
   }
   if (isEmpty(house_intended)) {
     State.update({ error_msg: "Select a house" });
+
+    isValid = false;
+  }
+  if (isEmpty(HAYInvolve)) {
+    State.update({ error_msg: "How are you involved?" });
+
+    isValid = false;
+  }
+  if (isEmpty(WIYStrategy)) {
+    State.update({ error_msg: "What is your strategy?" });
+
+    isValid = false;
+  }
+  if (isEmpty(issued1)) {
+    State.update({ error_msg: "Fill the key issued 1" });
 
     isValid = false;
   }
@@ -353,6 +372,21 @@ const handleProfile = (item) => {
 };
 const handleHouse = (item) => {
   State.update({ house_intended: item, error_msg: null });
+};
+const handleHAYInvolve = (item) => {
+  console.log(item);
+  State.update({
+    HAYInvolve: item.substring(0, 2000),
+    error_msg: null,
+  });
+  return;
+};
+const handleWIYStrategy = (item) => {
+  State.update({
+    WIYStrategy: item.substring(0, 2000),
+    error_msg: null,
+  });
+  return;
 };
 const handleIssued1 = (item) => {
   State.update({
@@ -562,11 +596,15 @@ return (
           <Widget
             src={`dokxo.near/widget/Compose.Platform`}
             props={{
+              HAYInvolve: state.HAYInvolve,
+              WIYStrategy: state.WIYStrategy,
               issued1: state.issued1,
               issued2: state.issued2,
               issued3: state.issued3,
               addition_platform: state.addition_platform,
 
+              handleHAYInvolve: (text) => handleHAYInvolve(text),
+              handleWIYStrategy: (text) => handleWIYStrategy(text),
               handleIssued1: (file) => handleIssued1(file),
               handleIssued2: (text) => handleIssued2(text),
               handleIssued3: (text) => handleIssued3(text),
