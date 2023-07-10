@@ -113,7 +113,10 @@ justify-content: flex-end;
 align-items: center;
 gap: 8px;
 margin-bottom:16px;
+@media only screen and (max-width: 480px) {
+ margin-top:10px;
 
+}
 `;
 const SubmitBtn = styled.button`
  display: flex;
@@ -137,9 +140,7 @@ border-radius: 10px;
   background-image: linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);
   background-origin: border-box;
   background-clip: padding-box, border-box;
-@media only screen and (max-width: 480px) {
- 
-}
+
 
 `;
 const CancelBtn = styled.button`
