@@ -31,7 +31,7 @@ return (
             src="hack.near/widget/dao.candidate"
             props={{
               memberId,
-              proposalId: 39,
+              proposalId: 927,
               candidateId: "ananastya.near",
               postUrl: "https://social.near.page/p/ananastya.near/94866343",
             }}
@@ -42,7 +42,7 @@ return (
             src="hack.near/widget/dao.candidate"
             props={{
               memberId,
-              proposalId: 39,
+              proposalId: 928,
               candidateId: "kiskesis.near",
               postUrl: "https://social.near.page/p/kiskesis.near/94484171",
             }}
@@ -53,7 +53,7 @@ return (
             src="hack.near/widget/dao.candidate"
             props={{
               memberId,
-              proposalId: 39,
+              proposalId: 929,
               candidateId: "kemo.near",
               postUrl: "https://social.near.page/p/kemo.near/95082496",
             }}
@@ -64,7 +64,7 @@ return (
             src="hack.near/widget/dao.candidate"
             props={{
               memberId,
-              proposalId: 39,
+              proposalId: 930,
               candidateId: "bjirken.near",
               postUrl: "https://social.near.page/p/bjirken.near/95409527",
             }}
