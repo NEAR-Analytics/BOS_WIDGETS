@@ -1,4 +1,3 @@
-const accountId = props.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const code = props.code;
 
@@ -6,57 +5,15 @@ const policy = Near.view(daoId, "get_policy");
 
 const deposit = policy.proposal_bond;
 
-const widgetName = props.widgetName;
-const widgetPath = `${accountId}/widget/${widgetName}`;
+const widgetPath = props.widgetPath ?? "mob.near/widget/WidgetSource";
+const [accountId, widget, widgetName] = widgetPath.split("/");
+
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
 const renderTag = props.renderTag;
 
 const name = metadata.name ?? widgetName;
-const description = metadata.description;
 const image = metadata.image;
-const tags = Object.keys(metadata.tags ?? {});
-const expanded = !!props.expanded;
-
-const linktree = Object.entries(metadata.linktree ?? {});
-const linktreeElements = {
-  website: {
-    prefix: "https://",
-    icon: "bi-globe2",
-  },
-};
-
-const linktreeObjects = linktree.map((o, i) => {
-  const key = o[0];
-  let value = o[1];
-  if (!value) {
-    return null;
-  }
-  const e = linktreeElements[key];
-  if (e.prefix) {
-    value = value && value.replace(e.prefix, "");
-  }
-  const icon = e.icon ? (
-    <i className={`bi ${e.icon ?? ""} text-secondary me-1`}></i>
-  ) : (
-    ""
-  );
-  return e.prefix ? (
-    <div key={i} className="text-truncate">
-      <a href={`${e.prefix}${value}`}>
-        {icon}
-        {value}
-      </a>
-    </div>
-  ) : (
-    <div key={i} className="text-truncate">
-      {key}: {icon}
-      {value}
-    </div>
-  );
-});
-
-const descriptionKey = `${widgetPath}-description`.replaceAll(/[._\/-]/g, "--");
 
 const item = {
   type: "dev",
