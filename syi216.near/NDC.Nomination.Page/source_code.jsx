@@ -73,6 +73,10 @@ function getVerifiedHuman() {
   });
 }
 
+const Page = styled.div`
+width:100vh;
+`;
+
 function getNominationInfo() {
   let nominationsArr = [];
   asyncFetch(
@@ -433,7 +437,7 @@ height: 18px;
 `;
 
 return (
-  <div>
+  <Page>
     {houses.map((group) => (
       <>
         {group.id === state.selectedHouse && (
@@ -575,5 +579,5 @@ return (
         )}
       </Center>
     </Container>
-  </div>
+  </Page>
 );
