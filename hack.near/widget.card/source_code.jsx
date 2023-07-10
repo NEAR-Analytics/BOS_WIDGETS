@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const code = props.code;
 
@@ -6,7 +6,7 @@ const policy = Near.view(daoId, "get_policy");
 
 const deposit = policy.proposal_bond;
 
-const widgetName = props.widgetName ?? "Academy";
+const widgetName = props.widgetName;
 const widgetPath = `${accountId}/widget/${widgetName}`;
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
@@ -110,8 +110,8 @@ const handleProposal = () => {
 const handleCreate = () =>
   Social.set({
     widget: {
-      [`${widgetName}`]: {
-        "": `${code}`,
+      [`${state.widgetId}`]: {
+        "": `${state.code}`,
         metadata: {
           tags: {
             build: "",
@@ -122,7 +122,7 @@ const handleCreate = () =>
   });
 
 return (
-  <div className="card" style={{ borderRadius: "12px" }}>
+  <div className="card" style={{ borderRadius: "2em" }}>
     <div className="row py-3 g-1">
       <div className="m-auto text-center" style={{ maxWidth: "12em" }}>
         <div
@@ -145,12 +145,13 @@ return (
       </div>
       <div className="col-6 px-2">
         <div className="position-relative">
-          <h5 className="card-title">
-            <a href={`#/${widgetPath}`}>
+          <h5 className="card-title">{name}</h5>
+          <div className="text-truncate mb-1">
+            <a className="stretched-link" href={`#/${widgetPath}`}>
               <i className="bi bi-box-arrow-up-right text-secondary me-1" />
-              {name}
+              {widgetPath}
             </a>
-          </h5>
+          </div>
         </div>
         <div className="card-text">
           {tags.length > 0 && (
@@ -181,7 +182,7 @@ return (
             className="btn btn-sm btn-outline-secondary border-0"
             target="_blank"
           >
-            <i className="bi bi-code me-1"></i>source
+            <i className="bi bi-file-earmark-code me-1"></i>source
           </a>
           <a
             href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
@@ -192,34 +193,27 @@ return (
           </a>
         </div>
         <div className="m-2">
-          {accountId !== context.accountId && (
-            <button className="btn btn-primary border-0" onClick={handleCreate}>
-              <i className="bi bi-bezier2 me-1"></i>
-              {accountId === context.accountId ? "edit" : "clone"}
-            </button>
-          )}
-          <a
-            className="btn btn-success border-0 m-1"
-            href={`#/edit/${widgetPath}`}
+          <button className="btn btn-primary border-0" onClick={handleCreate}>
+            <i className="bi bi-bezier2 me-1"></i>
+            {accountId === context.accountId ? "Edit" : "Duplicate Source"}
+          </button>
+        </div>
+        <div className="m-2">
+          <button
+            className="btn btn-secondary border-0"
+            onClick={handleProposal}
           >
-            <i className="bi bi-diagram-2 me-1"></i>
-            {accountId === context.accountId ? "edit" : "fork"}
-          </a>
-          {accountId === daoId && (
-            <button
-              className="btn btn-secondary mt-1 border-0"
-              onClick={handleProposal}
-            >
-              <i className="bi bi-git me-1"></i>
-              {accountId === context.accountId ? "update" : "propose changes"}
-            </button>
-          )}
+            <i className="bi bi-git me-1"></i>
+            {accountId === context.accountId
+              ? "Make Changes"
+              : "Propose Changes"}
+          </button>
         </div>
       </div>
       <div className="col-2 mt-2">
         <Widget
-          src="hack.near/widget/star.button"
-          props={{ widgetPath, accountId }}
+          src="hack.near/widget/StarButton"
+          props={{ notifyAccountId, item }}
         />
       </div>
     </div>
