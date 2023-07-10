@@ -77,6 +77,8 @@ const Page = styled.div`
 position: fixed;
   width: 100vw;
   height: calc(-98px + 100vh);
+  top: 98px;
+  left: 0;
 `;
 
 function getNominationInfo() {
