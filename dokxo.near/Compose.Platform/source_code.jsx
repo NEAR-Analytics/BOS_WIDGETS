@@ -31,6 +31,25 @@ order: 1;
  margin-bottom: 10px;
 }
   `;
+const FormsectionPlatformtitleHAYI = styled.h2`
+width: 100%;
+height: 28px;
+font-family: 'Avenir';
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+line-height: 120%;
+display: flex;
+align-items: center;
+color: #000000;
+margin-bottom: 0px;
+order: 1;
+@media only screen and (max-width: 480px) {
+  
+ margin-bottom: 10px;
+ padding-bottom:10px;
+}
+  `;
 const FormsectionPlatformtextarea = styled.textarea`
 box-sizing: border-box;
 display: flex;
@@ -74,11 +93,11 @@ return (
     style={{ "padding-left": "16px", "padding-right": "16px" }}
   >
     <FormsectionPlatform name="HAYInvolve">
-      <FormsectionPlatformtitle>
+      <FormsectionPlatformtitleHAYI>
         {
           "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?"
         }{" "}
-      </FormsectionPlatformtitle>
+      </FormsectionPlatformtitleHAYI>
       <FormsectionPlatformtextarea
         name="HAYInvolve"
         id="HAYInvolve"
