@@ -53,6 +53,8 @@ font-size: 12px;
   `;
 
 const {
+  HAYInvolve,
+  WIYStrategy,
   issued1,
   issued2,
   issued3,
@@ -70,7 +72,85 @@ return (
     name="div2"
     style={{ "padding-left": "16px", "padding-right": "16px" }}
   >
-    <FormsectionPlatform name=" ">
+    <FormsectionPlatform name="HAYInvolve">
+      <FormsectionPlatformtitle>
+        {
+          "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?"
+        }{" "}
+      </FormsectionPlatformtitle>
+      <FormsectionPlatformtextarea
+        name="HAYInvolve"
+        id="HAYInvolve"
+        type="text"
+        placeholder="Elaborate"
+        value={HAYInvolve}
+        onChange={(e) => {
+          handleHAYInvolve(e.target.value);
+        }}
+      />
+
+      <div
+        style={{
+          "margin-top": "5px",
+
+          order: "3",
+          width: "100%",
+          display: "flex",
+          "justify-content": "end",
+        }}
+      >
+        <label
+          style={{
+            "font-size": "8px",
+            display: "flex",
+            "vertical-align": "top",
+            "text-align": "center",
+            color: HAYInvolve.length < 2000 ? "#00000075" : "#ff000075",
+          }}
+        >
+          {HAYInvolve.length} - 2000
+        </label>
+      </div>
+    </FormsectionPlatform>
+    <FormsectionPlatform name="WIYStrategy">
+      <FormsectionPlatformtitle>
+        {"What is your strategy to develop the NEAR ecosystem?"}{" "}
+      </FormsectionPlatformtitle>
+      <FormsectionPlatformtextarea
+        name="WIYStrategy"
+        id="WIYStrategy"
+        type="text"
+        placeholder="Elaborate on your strategy"
+        value={WIYStrategy}
+        onChange={(e) => {
+          handleWIYStrategy(e.target.value);
+        }}
+      />
+
+      <div
+        style={{
+          "margin-top": "5px",
+
+          order: "3",
+          width: "100%",
+          display: "flex",
+          "justify-content": "end",
+        }}
+      >
+        <label
+          style={{
+            "font-size": "8px",
+            display: "flex",
+            "vertical-align": "top",
+            "text-align": "center",
+            color: WIYStrategy.length < 2000 ? "#00000075" : "#ff000075",
+          }}
+        >
+          {WIYStrategy.length} - 2000
+        </label>
+      </div>
+    </FormsectionPlatform>
+    <FormsectionPlatform name="KI-1">
       <FormsectionPlatformtitle>
         {"Platform: What’s your view and pledge on Key Issue 1?"}{" "}
       </FormsectionPlatformtitle>
@@ -108,7 +188,7 @@ return (
         </label>
       </div>
     </FormsectionPlatform>
-    <FormsectionPlatform>
+    <FormsectionPlatform name="KI-2">
       <FormsectionPlatformtitle>
         {"Platform: What’s your view and pledge on Key Issue 2"}{" "}
       </FormsectionPlatformtitle>
@@ -145,7 +225,7 @@ return (
         </label>
       </div>
     </FormsectionPlatform>
-    <FormsectionPlatform>
+    <FormsectionPlatform name="KI-3">
       <FormsectionPlatformtitle>
         {"Platform: What’s your view and pledge on Key Issue 3?"}{" "}
       </FormsectionPlatformtitle>
@@ -182,7 +262,7 @@ return (
         </label>
       </div>
     </FormsectionPlatform>
-    <FormsectionPlatform>
+    <FormsectionPlatform name="AddP">
       <FormsectionPlatformtitle>
         {"Additional Platform"}{" "}
       </FormsectionPlatformtitle>
