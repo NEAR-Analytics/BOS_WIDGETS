@@ -1,6 +1,7 @@
 // TODO: Should be grabbed from contract side
 let { ids, org } = props;
-ids = props.ids ? ids : [1, 2, 3];
+ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
+org = props.org ? org : "test"; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
@@ -24,9 +25,7 @@ const widgets = {
 };
 
 State.init({
-  selectedHouse: Storage.privateGet("Houseselected")
-    ? Storage.privateGet("Houseselected")
-    : ids[0],
+  selectedHouse: ids[0],
   house: "HouseOfMerit",
   start: true,
   nominations: [],
@@ -37,27 +36,7 @@ State.init({
   searchText: "",
   originNominations: [],
   notFound: "There are no active nominations at the moment",
-  pointer: 0,
-  noNominationsPage: 9,
-  totalNominations: {},
-  totalPages: [],
-  selectedPage: 1,
-  selectionPages: [],
 });
-
-if (Storage.privateGet("Houseselected")) {
-  switch (Storage.privateGet("Houseselected")) {
-    case 2:
-      State.update({ house: "CouncilOfAdvisors" });
-      break;
-    case 1:
-      State.update({ house: "HouseOfMerit" });
-      break;
-    case 3:
-      State.update({ house: "TransparencyCommission" });
-      break;
-  }
-}
 
 function getVerifiedHuman() {
   asyncFetch(
@@ -94,92 +73,10 @@ function getVerifiedHuman() {
   });
 }
 
-function getPageNumbers(arrPages, selectedPage) {
-  let arrPagesDisplay = [];
-  if (arrPages[state.selectedHouse - 1] >= 5) {
-    if (selectedPage <= 3) {
-      arrPagesDisplay = [1, 2, 3, 4, 5];
-    } else if (
-      selectedPage > 3 &&
-      selectedPage <= arrPages[state.selectedHouse - 1] - 2
-    ) {
-      arrPagesDisplay = [
-        selectedPage - 2,
-        selectedPage - 1,
-        selectedPage,
-        selectedPage + 1,
-        selectedPage + 2,
-      ];
-    } else if (
-      selectedPage > 3 &&
-      selectedPage == arrPages[state.selectedHouse - 1]
-    ) {
-      arrPagesDisplay = [
-        selectedPage - 4,
-        selectedPage - 3,
-        selectedPage - 2,
-        selectedPage - 1,
-        selectedPage,
-      ];
-    } else if (
-      selectedPage > 3 &&
-      selectedPage >= arrPages[state.selectedHouse - 1] - 2
-    ) {
-      arrPagesDisplay = [
-        selectedPage - 3,
-        selectedPage - 2,
-        selectedPage - 1,
-        selectedPage,
-        selectedPage + 1,
-      ];
-    }
-  } else {
-    for (let i = 1; i <= arrPages[state.selectedHouse - 1]; i++) {
-      arrPagesDisplay.push(i);
-    }
-  }
-  //console.log(arrPagesDisplay);
-  State.update({ selectionPages: arrPagesDisplay });
-}
-
-function getPagination() {
-  asyncFetch(`https://api.pikespeak.ai/nominations/nomination-count-by-house`, {
-    headers: {
-      "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-    },
-  }).then((res) => {
-    State.update({ totalNominations: res.body });
-    let arrPages = [
-      Math.ceil(res.body.HouseOfMerit / state.noNominationsPage),
-      Math.ceil(res.body.CouncilOfAdvisors / state.noNominationsPage),
-      Math.ceil(res.body.TransparencyCommission / state.noNominationsPage),
-    ];
-    console.log(arrPages);
-    getPageNumbers(arrPages, state.selectedPage);
-    State.update({ totalPages: arrPages });
-  });
-}
-
-function handleChangePage(noPage) {
-  State.update({ selectedPage: noPage });
-  if (noPage == 1) {
-    State.update({ pointer: 0 });
-  } else {
-    State.update({ pointer: (noPage - 1) * state.noNominationsPage });
-    //console.log((noPage - 1) * state.noNominationsPage);
-  }
-  getPageNumbers(state.totalPages, noPage);
-  getNominationInfo();
-}
-
-const Page = styled.div`
-`;
-
 function getNominationInfo() {
   let nominationsArr = [];
-  console.log(state.pointer);
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}&offset=${state.pointer}&limit=${state.noNominationsPage}`,
+    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
     {
       headers: {
         "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
@@ -194,7 +91,6 @@ function getNominationInfo() {
         indexerData: data,
       };
       let nominee = data.nominee;
-      let revoke = data.is_revoked;
       asyncFetch(
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
         { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
@@ -202,7 +98,6 @@ function getNominationInfo() {
         let upVoteInfo = info.body[0];
         let profileData;
         let nominationData;
-
         Social.getr(`${nominee}/profile`);
         Social.getr(`${nominee}/nominations`);
         setTimeout(() => {
@@ -211,42 +106,13 @@ function getNominationInfo() {
         }, 1000);
 
         setTimeout(() => {
-          let imageIsNFT = profileData.image.nft ? true : false;
-          let imageIsIpfs_cid = profileData.image.ipfs_cid ? true : false;
-          let imageIsUrl = profileData.image.url ? true : false;
-          let url = "";
-          if (imageIsNFT) {
-            let nftData = profileData.image.nft;
-            const getNftCid = Near.view(nftData.contractId, "nft_token", {
-              token_id: nftData.tokenId,
-            });
-            if (getNftCid.metadata.media.includes("https")) {
-              url = getNftCid.metadata.media;
-            } else {
-              url =
-                "https://nativonft.mypinata.cloud/ipfs/" +
-                getNftCid.metadata.media;
-            }
-          }
-          if (imageIsIpfs_cid) {
-            url =
-              "https://nativonft.mypinata.cloud/ipfs/" +
-              profileData.image.ipfs_cid;
-          }
-          if (imageIsUrl) {
-            url = profileData.image.url;
-          }
-
           objCard = {
             profileData: profileData,
             nominationData: nominationData,
             upVoteData: upVoteInfo,
-            imgURL: url,
-            verified: state.sbt,
             ...objCard,
           };
-          console.log(objCard);
-          if (!revoke) {
+          if (!data.is_revoked) {
             if (profileData && nominationData) {
               nominationsArr.push(objCard);
             }
@@ -263,7 +129,6 @@ function getNominationInfo() {
 //
 
 if (state.start) {
-  getPagination();
   getNominationInfo();
   getVerifiedHuman();
   State.update({
@@ -272,31 +137,21 @@ if (state.start) {
 }
 
 const handleSelect = (item) => {
-  Storage.privateSet("Houseselected", item.id);
-  State.update({ selectedHouse: item.id });
   switch (item.id) {
     case 2:
       State.update({ house: "CouncilOfAdvisors" });
-      State.update({ pointer: 0 });
-      State.update({ selectedPage: 1 });
-      getPageNumbers(state.totalPages, 1);
       getNominationInfo();
       break;
     case 1:
       State.update({ house: "HouseOfMerit" });
-      State.update({ pointer: 0 });
-      State.update({ selectedPage: 1 });
-      getPageNumbers(state.totalPages, 1);
       getNominationInfo();
       break;
     case 3:
       State.update({ house: "TransparencyCommission" });
-      State.update({ pointer: 0 });
-      State.update({ selectedPage: 1 });
-      getPageNumbers(state.totalPages, 1);
       getNominationInfo();
       break;
   }
+  State.update({ selectedHouse: item.id });
 };
 
 function handleFilter(text) {
@@ -324,19 +179,6 @@ function handleFilter(text) {
     });
   }
 }
-
-const cssFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
-).body;
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-    font-family: Open Sans;
-    ${cssFont}
-`,
-  });
-}
-const Theme = state.theme;
 
 const Container = styled.div`
   padding: 30px 0;
@@ -412,6 +254,7 @@ const InputSearch = styled.input`
 color: #828688;
 font-size: 12px;
 width: 100%;
+font-family: Avenir;
 font-weight: 500;
 line-height: 120%;
 border: 0px;
@@ -451,6 +294,7 @@ flex-direction: column;
 justify-content: center;
 color: var(--000000, #000);
 font-size: 14px;
+font-family: Avenir;
 font-style: normal;
 font-weight: 500;
 line-height: 120%;
@@ -464,6 +308,7 @@ justify-content: center;
 align-self: stretch;
 color: var(--primary-gray-dark, #828688);
 font-size: 12px;
+font-family: Avenir;
 font-style: normal;
 font-weight: 500;
 line-height: 120%;
@@ -487,6 +332,7 @@ text-decoration: none;
 const VerifyButtonText = styled.p`
 color: var(--primary-black, #000);
 font-size: 14px;
+font-family: Avenir;
 font-style: normal;
 font-weight: 500;
 line-height: 24px;
@@ -544,6 +390,7 @@ background: #F1D6D5;
 const ButtonDeleteText = styled.p`
 color: #C23F38;
 font-size: 14px;
+font-family: Avenir;
 font-style: normal;
 font-weight: 500;
 line-height: 24px;
@@ -574,6 +421,7 @@ const ButtonNominateText = styled.p`
 margin: 0px;
 color: var(--primary-black, #000);
 font-size: 14px;
+font-family: Avenir;
 font-style: normal;
 font-weight: 500;
 line-height: 24px;
@@ -585,7 +433,7 @@ height: 18px;
 `;
 
 return (
-  <Page>
+  <div>
     {houses.map((group) => (
       <>
         {group.id === state.selectedHouse && (
@@ -638,7 +486,6 @@ return (
           src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
           props={{
             candidateOrReplay: true,
-            house: state.selectedHouse,
             onClickConfirm: () => State.update({ showModalDelete: false }),
             onClickCancel: () => State.update({ showModalDelete: false }),
           }}
@@ -649,7 +496,7 @@ return (
           {state.selfNomination ? (
             <ButtonDeleteDiv
               onClick={async () => {
-                State.update({ showModalDelete: true });
+                State.update({ showModalDelete: false });
               }}
             >
               <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
@@ -661,16 +508,7 @@ return (
           ) : (
             <ButtonNominateDiv
               onClick={async () => {
-                handleChangePage(1);
-                handleChangePage(2);
-                handleChangePage(3);
-                handleChangePage(4);
-                handleChangePage(5);
-                handleChangePage(6);
-                handleChangePage(7);
-                handleChangePage(8);
-                handleChangePage(9);
-                //!status.sbt ? State.update({ showModal: true }) : "";
+                !status.sbt ? State.update({ showModal: true }) : "";
               }}
             >
               <ButtonNominateText>Self Nominate</ButtonNominateText>
@@ -721,66 +559,21 @@ return (
           )}
         </div>
       </Left>
-
-      {state.nominations.length > 0 ? (
-        <>
-          <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-4">
-            {state.nominations.map((data) => {
-              return (
-                <div className="">
-                  <Widget src={widgets.card} props={data} />
-                </div>
-              );
-            })}
-          </Center>
-          <div className="mt-3 d-flex flex-row justify-content-center">
-            {state.selectedPage != 1 ? (
-              <button
-                onClick={() => {
-                  handleChangePage(state.selectedPage - 1);
-                }}
-                className={`border border-0 rounded-circle px-3 py-1 mx-2 bg-white`}
-              >
-                <b>{"<"}</b>
-              </button>
-            ) : (
-              ""
-            )}
-            {state.selectionPages.map((data) => {
-              return (
-                <button
-                  onClick={() => {
-                    data != state.selectedPage ? handleChangePage(data) : "";
-                  }}
-                  className={`border border-0 rounded-circle px-3 py-1 mx-2 ${
-                    data == state.selectedPage ? "bg-warning" : "bg-white"
-                  } `}
-                >
-                  <b>{data}</b>
-                </button>
-              );
-            })}
-            {state.selectedPage < state.totalPages[state.selectedHouse - 1] ? (
-              <button
-                onClick={() => {
-                  handleChangePage(state.selectedPage + 1);
-                }}
-                className={`border border-0 rounded-circle px-3 py-1 mx-2 bg-white`}
-              >
-                <b>{">"}</b>
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </>
-      ) : (
-        <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-4">
+      <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-4">
+        {state.nominations.length > 0 ? (
+          state.nominations.map((data) => {
+            return (
+              <>
+                <Widget src={widgets.card} props={data} />
+              </>
+            );
+          })
+        ) : (
           <div className="flex mt-10 container-fluid align-self-center">
             <H5 className="text-center">{state.notFound}</H5>
           </div>
-        </Center>
-      )}
+        )}
+      </Center>
     </Container>
-  </Page>
+  </div>
 );
