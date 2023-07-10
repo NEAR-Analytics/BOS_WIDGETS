@@ -86,7 +86,7 @@ const likeClick = () => {
 const title = hasLike ? "Unlike" : "Like";
 
 return (
-  <div className="d-inline-flex align-items-center">
+  <div className="align-items-center">
     <LikeButton
       disabled={state.loading || dataLoading || !context.accountId}
       className="btn me-1"
@@ -105,7 +105,6 @@ return (
         </i>
       )}
     </LikeButton>
-    <div className="clearfix"></div>
-    <div className="d-inline-flex align-items-center">{totalLikes}</div>
+    <div className="align-items-center">{totalLikes}</div>
   </div>
 );
