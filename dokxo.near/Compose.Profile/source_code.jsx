@@ -101,15 +101,14 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
  
-width: 33%;
+width: 100%;
 height: 54px;
 flex: none;
 display: flex;
 order: 6;
 flex-grow: 0;
 @media only screen and (max-width: 480px) {
-width: 100%;
-  
+ 
    
 }
 
@@ -183,11 +182,11 @@ const {
 } = props;
 return (
   <div class="w-100">
-    <div
+    {/*  <div
       class=" row col-sm-12  mx-0   "
       style={{ "padding-left": "16px", "padding-right": "16px" }}
     >
-      <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
+       <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
 
       <div class="row flex-nowrap">
         <Photosection>
@@ -330,7 +329,7 @@ return (
           </div>
         </Files>
       </LabelFileDesk>
-    </div>
+    </div>*/}
     <WrapNoWrap
       class="row col-sm-12     "
       name="div1"
@@ -340,7 +339,7 @@ return (
         "padding-right": "16px",
       }}
     >
-      <Formsection style={{ order: "1" }}>
+      {/*} <Formsection style={{ order: "1" }}>
         <H2styled>Name </H2styled>
         <InputStyled
           name="Name"
@@ -365,7 +364,7 @@ return (
             handleProfile(e.target.value);
           }}
         />
-      </Formsection>
+      </Formsection>*/}
       <FormsectionHouse style={{ order: "3" }}>
         <H2styled>{"House"} </H2styled>
         <FormsectionHouseDropdown
