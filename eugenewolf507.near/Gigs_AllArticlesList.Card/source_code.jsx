@@ -1,3 +1,5 @@
+//TODO !!!!!! update authorForWidget
+// const authorForWidget = "neardigitalcollective.near";
 const authorForWidget = "eugenewolf507.near";
 State.init({ showModal: false, copiedShareUrl: false });
 const article = props.article;
