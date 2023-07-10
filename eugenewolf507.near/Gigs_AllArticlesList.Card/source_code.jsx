@@ -10,7 +10,6 @@ const mainPartForSharingGig =
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 if (sharedArticleId === article.articleId) {
-  console.log("state.update({showModal: true})");
   State.init({ showModal: true, copiedShareUrl: false });
 } else {
   State.init({ showModal: false, copiedShareUrl: false });
