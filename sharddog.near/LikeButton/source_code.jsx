@@ -105,6 +105,7 @@ return (
         </i>
       )}
     </LikeButton>
+    <br />
     {totalLikes}
   </div>
 );
