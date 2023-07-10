@@ -122,7 +122,7 @@ const handleCreate = () =>
   });
 
 return (
-  <div className="card" style={{ borderRadius: "2em" }}>
+  <div className="card" style={{ borderRadius: "12px" }}>
     <div className="row py-3 g-1">
       <div className="m-auto text-center" style={{ maxWidth: "12em" }}>
         <div
@@ -182,7 +182,7 @@ return (
             className="btn btn-sm btn-outline-secondary border-0"
             target="_blank"
           >
-            <i className="bi bi-file-earmark-code me-1"></i>source
+            <i className="bi bi-code me-1"></i>source
           </a>
           <a
             href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
@@ -195,7 +195,7 @@ return (
         <div className="m-2">
           <button className="btn btn-primary border-0" onClick={handleCreate}>
             <i className="bi bi-bezier2 me-1"></i>
-            {accountId === context.accountId ? "Edit" : "Duplicate Source"}
+            {accountId === context.accountId ? "edit" : "clone repository"}
           </button>
         </div>
         <div className="m-2">
@@ -204,9 +204,7 @@ return (
             onClick={handleProposal}
           >
             <i className="bi bi-git me-1"></i>
-            {accountId === context.accountId
-              ? "Make Changes"
-              : "Propose Changes"}
+            {accountId === context.accountId ? "update" : "propose changes"}
           </button>
         </div>
       </div>
