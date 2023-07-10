@@ -105,6 +105,7 @@ return (
         </i>
       )}
     </LikeButton>
+    <div className="clearfix"></div>
     <div className="d-inline-flex align-items-center">{totalLikes}</div>
   </div>
 );
