@@ -176,11 +176,11 @@ const Button = styled.button`
 
 // ========== JSX ==========
 const StatusTagGroup = ({ activeStatus, articleId }) => (
-  <div className="d-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
+  <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
     {statusTagsArr.map((tag) => (
       <button
         onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
-        className={`btn btn-sm ${
+        className={`btn btn-sm me-2 me-xxl-0 ${
           activeStatus === tag ? "btn-primary" : "btn-outline-primary"
         }`}
         disabled={activeStatus === tag}
