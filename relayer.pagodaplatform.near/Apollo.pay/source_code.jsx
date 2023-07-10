@@ -10,6 +10,14 @@ State.init({
   success: true,
 });
 
+const ecr20abi = fetch(
+  "https://raw.githubusercontent.com/corndao/aave-v3-bos-app/main/abi/ERC20Permit.json"
+).body;
+//const usdcAddresses = fetch("");
+const usdcAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
+const apolloPayEscrow = "0x160d136869e86189a58864Cc40777cDD355501f5";
+//const usdtAddresses = fetch("");
+
 const Wrapper = styled.div`
   .hidden {
     display: none;
@@ -25,10 +33,30 @@ function updateCountry(country) {
   State.update({ ...state, country });
 }
 
-function wallletRequestSendTransaction() {
+function wallletRequestSendTransaction(amount) {
   console.log({
-    d: Ethers,
+    amount,
+    ecr20abi: JSON.parse(ecr20abi),
+    usdcAddress,
   });
+  const signer = Ethers.provider().getSigner();
+  const sendContract = new ethers.Contract(
+    usdcAddress,
+    JSON.parse(ecr20abi),
+    signer
+  );
+  console.log({
+    sendContract,
+    nm: sendContract.name,
+  });
+
+  sendContract.transfer(apolloPayEscrow, 30);
+  // .then(function (value) {
+  //   console.log({ value });
+  // })
+  // .catch(function (error) {
+  //   console.log({ error });
+  // });
 }
 
 const initiatePayout = () => {};
@@ -71,10 +99,6 @@ return (
           <option value={2}>Buy Goods or services</option>
           <option value={3}> Pay To Phonenumber </option>
         </select>
-
-        {sender ? (
-          <button onClick={() => updateStage(1)}> Start Sending </button>
-        ) : null}
       </div>
     </div>
     <br />
@@ -118,7 +142,7 @@ return (
 
     {state.stage == "4" && (
       <div>
-        <button onClick={() => wallletRequestSendTransaction()}>
+        <button onClick={() => wallletRequestSendTransaction(20)}>
           {" "}
           Send Coin{" "}
         </button>{" "}
