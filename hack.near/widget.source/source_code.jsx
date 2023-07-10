@@ -1,7 +1,7 @@
 const src = props.src ?? "mob.near/widget/WidgetSource";
 const [accountId, widget, widgetName] = src.split("/");
 
-const code = Social.get(src);
+const code = props.code ?? Social.get(src);
 
 const text = `
 \`\`\`jsx
