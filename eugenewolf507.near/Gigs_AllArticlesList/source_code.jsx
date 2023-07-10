@@ -12,7 +12,8 @@ const authorsWhitelist = props.writersWhiteList ?? [
 ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
-const authorForWidget = "neardigitalcollective.near";
+// const authorForWidget = "neardigitalcollective.near";
+const authorForWidget = "eugenewolf507.near";
 const statusTagsArr = ["open", "claimed", "closed"];
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
@@ -208,7 +209,7 @@ return (
               {state[tag].length > 0 &&
                 state[tag].map((item) => (
                   <Widget
-                    src="eugenewolf507.near/widget/Gigs_AllArticlesList.Card"
+                    src={`${authorForWidget}/widget/Gigs_AllArticlesList.Card`}
                     props={{
                       article: item,
                       statusChangeHandler: clickHandler,
