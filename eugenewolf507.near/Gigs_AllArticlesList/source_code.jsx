@@ -49,68 +49,6 @@ const filteredArticles =
     }
   }, []);
 
-// const filteredArticles = [
-//   {
-//     articleId: "EasyPollForHumans",
-//     author: "neardigitalcollective.near",
-//     lastEditor: "yuensid.near",
-//     timeLastEdit: 1684556562667,
-//     timeCreate: 1683245865699,
-//     body: "## Easy Poll Gig ",
-//     version: 6,
-//     navigation_id: null,
-//     blockHeight: 92271082,
-//     statusTag: "claimed",
-//   },
-//   {
-//     articleId: "IAMHUMANProgressMeter",
-//     author: "jlw.near",
-//     lastEditor: "yuensid.near",
-//     timeLastEdit: 1685208918024,
-//     timeCreate: 1683552279387,
-//     body: "## I-AM-HUMAN Progress Meter Widget (Closed)",
-//     version: 7,
-//     navigation_id: null,
-//     blockHeight: 92843969,
-//     statusTag: "open",
-//   },
-//   {
-//     articleId: "NdcProgressMeter",
-//     author: "kazanderdad.near",
-//     lastEditor: "yuensid.near",
-//     timeLastEdit: 1685208948805,
-//     timeCreate: 1684240650738,
-//     body: "## NDC Progress Meter Widget (Closed)",
-//     version: 4,
-//     navigation_id: null,
-//     blockHeight: 92843996,
-//     statusTag: "closed",
-//   },
-//   {
-//     articleId: "EngineerRecruiting",
-//     author: "jlw.near",
-//     lastEditor: "yuensid.near",
-//     timeLastEdit: 1685208768245,
-//     timeCreate: 1683571833722,
-//     body: "## Engineering Recruiting (Closed)",
-//     version: 4,
-//     navigation_id: null,
-//     blockHeight: 92843841,
-//     statusTag: "claimed",
-//   },
-//   {
-//     articleId: "MigrateGWGDocs",
-//     author: "neardigitalcollective.near",
-//     lastEditor: "yuensid.near",
-//     timeLastEdit: 1684559639688,
-//     timeCreate: 1683243150976,
-//     body: "## Migrate GWG Docs #1 (Closed)",
-//     version: 7,
-//     navigation_id: null,
-//     blockHeight: 92273748,
-//   },
-// ];
-
 const sortArticlesByTag = () => {
   if (filteredArticles === 0 || filteredArticles === undefined) {
     return;
