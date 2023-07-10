@@ -5,7 +5,7 @@ function Post({ path, blockHeight }) {
     return <p>Loading...</p>;
   }
 
-  return <p>Hello world</p>;
+  return <p>{JSON.parse(thing)}</p>;
 }
 
 return { Post };
