@@ -10,10 +10,10 @@ const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
-if (sharedArticleId === article.articleId) {
-  console.log("state.update({showModal: true})");
-  state.update({ showModal: true });
-}
+// if (sharedArticleId === article.articleId) {
+//   console.log("state.update({showModal: true})");
+//   state.update({ showModal: true });
+// }
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
