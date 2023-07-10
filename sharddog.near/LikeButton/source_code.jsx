@@ -28,6 +28,11 @@ if (state.hasLike === true) {
 const accountsWithLikes = Object.keys(likesByUsers);
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
 
+const totalLikes =
+  accountsWithLikes.length +
+  (hasLike === false && state.hasLike === true ? 1 : 0) -
+  (hasLike === true && state.hasLike === false ? 1 : 0);
+
 const LikeButton = styled.button`
   border: 0 !important;
   display: inline-flex;
@@ -95,9 +100,10 @@ return (
           aria-hidden="true"
         />
       ) : (
-        <i
-          className={`bi fs-4 pt-1 ${hasLike ? "bi-heart-fill" : "bi-heart"}`}
-        />
+        <i className={`bi fs-4 pt-1 ${hasLike ? "bi-heart-fill" : "bi-heart"}`}>
+          {" "}
+          {totalLikes}
+        </i>
       )}
     </LikeButton>
   </div>
