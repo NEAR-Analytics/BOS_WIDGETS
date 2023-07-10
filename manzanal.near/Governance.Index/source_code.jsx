@@ -65,8 +65,6 @@ const logo = (
 const ContentContainer = styled.div`
   width: 100%;
   background: #ffffff;
-  border: 1px solid #eceef0;
-  padding: 1.5em;
 
   &.form {
     border: none;
