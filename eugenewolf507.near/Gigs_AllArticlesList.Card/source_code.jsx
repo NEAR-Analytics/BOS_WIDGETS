@@ -12,7 +12,7 @@ const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 if (sharedArticleId === article.articleId) {
   console.log("state.update({showModal: true})");
-  state.update({ showModal: true });
+  State.update({ showModal: true });
 }
 
 // ========== UTILS ==========
@@ -27,15 +27,11 @@ const getDateLastEdit = (timestamp) => {
 
 // ========== HANDLERS ==========
 const openModalHandler = () => {
-  State.update({
-    showModal: true,
-  });
+  State.update({ showModal: true });
 };
 
 const closeModalHandler = () => {
-  State.update({
-    showModal: false,
-  });
+  State.update({ showModal: false });
 };
 
 // ========== STYLED ==========
