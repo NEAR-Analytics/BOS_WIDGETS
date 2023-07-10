@@ -98,7 +98,7 @@ return (
         </div>
       </div>
       <div className="col-5">
-        <div className="m-1 mb-3 text-truncate">
+        <div className="m-1 mb-3">
           <Widget
             src="mob.near/widget/ProfileLine"
             props={{ accountId, link: props.profileLink }}
