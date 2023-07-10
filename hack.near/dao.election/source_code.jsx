@@ -161,9 +161,22 @@ return (
               are welcome to discuss or ask them questions in the comments.
             </span>
           </p>
+          {!validMember && (
+            <div className="mb-3">
+              <Widget
+                src="near/widget/DIG.Button"
+                props={{
+                  href: "https://near.social/#/hack.near/widget/dao.candidates",
+                  label: "Discuss Candidates",
+                  variant: "outline-dark",
+                  size: "small",
+                }}
+              />
+            </div>
+          )}
           <p>
             <span>
-              There will be 7 council members initially. That includes 5
+              There will be seven council members initially. That includes five
               continental seats, with one from each of the following regions:
               Africa, Asia, Europe, North America, and South America. The two
               remaining seats will be filled by candidates from any continent
