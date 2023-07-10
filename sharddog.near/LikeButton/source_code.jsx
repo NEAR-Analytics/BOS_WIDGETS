@@ -105,6 +105,6 @@ return (
         </i>
       )}
     </LikeButton>
-    <div className="align-items-center">{totalLikes}</div>
+    <div className="align-items-center text-center">{totalLikes}</div>
   </div>
 );
