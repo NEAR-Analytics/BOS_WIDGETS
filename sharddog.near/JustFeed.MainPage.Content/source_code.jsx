@@ -117,11 +117,12 @@ if (holder) {
       <div className="tab-content col-sm-10">
         <h3>
           Woof! Sorry, you need to hold a Social ShardDog to view the feed
-          <br />
+        </h3>
+        <p>
           <a href="https://shard.dog/social" target="_blank">
             Claim a social ShardDog today
           </a>
-        </h3>
+        </p>
       </div>
     </>
   );
