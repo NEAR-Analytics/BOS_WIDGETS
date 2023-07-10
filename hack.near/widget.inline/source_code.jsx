@@ -7,7 +7,7 @@ const policy = Near.view(daoId, "get_policy");
 const deposit = policy.proposal_bond;
 
 const widgetName = props.widgetName;
-const widgetPath = props.widgetPath ?? `${accountId}/widget/${widgetName}`;
+const widgetPath = `${accountId}/widget/${widgetName}`;
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
 const renderTag = props.renderTag;
@@ -140,7 +140,7 @@ return (
           />
         </div>
       </div>
-      <div className="col">
+      <div className="col-5">
         <div className="m-1 mb-3 text-truncate">
           <Widget
             src="mob.near/widget/ProfileLine"
@@ -157,29 +157,6 @@ return (
           </div>
         </div>
         <div className="card-text">
-          {tags.length > 0 && (
-            <div>
-              {tags.map((tag, i) => {
-                const tagBadge = (
-                  <span key={i} className="me-1 mb-1 badge bg-secondary">
-                    #{tag}
-                  </span>
-                );
-                return renderTag ? renderTag(tag, tagBadge) : tagBadge;
-              })}
-            </div>
-          )}
-          {!expanded && (description || linktreeObjects.length > 0) && (
-            <button
-              className="btn btn-sm btn-outline-secondary border-0"
-              data-bs-toggle="collapse"
-              data-bs-target={`#${descriptionKey}`}
-              aria-expanded="false"
-              aria-controls={descriptionKey}
-            >
-              <i className="bi bi-arrows-angle-expand me-1"></i>about
-            </button>
-          )}
           <a
             href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
             className="btn btn-sm btn-outline-secondary border-0"
@@ -196,7 +173,7 @@ return (
           </a>
         </div>
       </div>
-      <div className="col-2 m-2">
+      <div className="col-3 m-2">
         <Widget
           src="hack.near/widget/StarButton"
           props={{ notifyAccountId, item }}
@@ -211,13 +188,6 @@ return (
           </small>
         </div>
       </div>
-    </div>
-    <div
-      className={`card-text p-2 pt-0 ${expanded ? "" : "collapse"}`}
-      id={descriptionKey}
-    >
-      <Markdown text={description} />
-      {linktreeObjects}
     </div>
   </div>
 );
