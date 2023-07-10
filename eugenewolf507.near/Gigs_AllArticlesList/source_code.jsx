@@ -1,3 +1,6 @@
+//TODO !!!!!! update authorForWidget
+// const authorForWidget = "neardigitalcollective.near";
+const authorForWidget = "eugenewolf507.near";
 const accountId = props.accountId ?? context.accountId;
 const addressForArticles = "ndcGigArticle";
 const authorsWhitelist = props.writersWhiteList ?? [
@@ -12,8 +15,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
 ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
-// const authorForWidget = "neardigitalcollective.near";
-const authorForWidget = "eugenewolf507.near";
 const statusTagsArr = ["open", "claimed", "closed"];
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
