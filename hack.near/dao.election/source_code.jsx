@@ -113,14 +113,14 @@ return (
         <b>Election Demo</b>
       </h3>
       <p>
-        <span style={{ fontSize: "0.8em" }}>
+        <span>
           This on-chain page is a ballot with candidates for the RC DAO council,
           which reviews funding proposals from NEAR communities around the
           world. Let's get decentralized!
         </span>
       </p>
       <p>
-        <span style={{ fontSize: "0.8em" }}>
+        <span>
           <i>
             NOTE ~ if you did not join the voter group before 23:59 UTC on July
             8, you are unable to vote in this round. You are welcome to get
@@ -130,9 +130,13 @@ return (
       </p>
       <h5>RULES</h5>
       <p>
-        <span style={{ fontSize: "0.8em" }}>
+        <span>
           Each RC DAO member can vote <b>once per candidate</b>. Voters may
           support any of the candidates across the continental regions.
+        </span>
+      </p>
+      <p>
+        <span>
           Remember, the mission is to build a better future for everyone, using
           the blockchain operating system!
         </span>
@@ -152,14 +156,14 @@ return (
         </div>
         <div className="collapse public-tags">
           <p>
-            <span style={{ fontSize: "0.8em" }}>
+            <span>
               As you can see below, every candidate wrote an on-chain
               self-nomination post, and voters are welcome to discuss or ask
               them questions in the comments.
             </span>
           </p>
           <p>
-            <span style={{ fontSize: "0.8em" }}>
+            <span>
               There will be 7 council members initially. That includes 5
               continental seats, with one from each of the following regions:
               Africa, Asia, Europe, North America, and South America. The two
