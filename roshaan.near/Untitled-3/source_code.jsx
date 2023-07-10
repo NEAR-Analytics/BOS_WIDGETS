@@ -1,1 +1,1 @@
-return <div>Hello BOS!</div>;
+return <div>Hello BOS!!</div>;
