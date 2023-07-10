@@ -5,9 +5,15 @@ State.init({ showModal: false, copiedShareUrl: false });
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const statusTagsArr = props.statusTagsArr;
+const sharedArticleId = props.sharedArticleId;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
+
+if (sharedArticleId === article.articleId) {
+  state.update({ showModal: true });
+  console.log("state.update({showModal: true})");
+}
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
