@@ -31,7 +31,7 @@ return (
             src="hack.near/widget/dao.candidate"
             props={{
               memberId,
-              proposalId: 39,
+              proposalId: 926,
               candidateId: "alejandro.near",
               postUrl: "https://social.near.page/p/alejandro.near/95415438",
             }}
