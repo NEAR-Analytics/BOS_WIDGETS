@@ -140,7 +140,7 @@ return (
           />
         </div>
       </div>
-      <div className="col-5">
+      <div className="col-auto">
         <div className="m-1 mb-3 text-truncate">
           <Widget
             src="mob.near/widget/ProfileLine"
