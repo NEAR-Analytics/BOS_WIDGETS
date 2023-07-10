@@ -28,7 +28,7 @@ margin-bottom: 0px;
 order: 1;
 @media only screen and (max-width: 480px) {
   
- 
+ margin-bottom: 10px;
 }
   `;
 const FormsectionPlatformtextarea = styled.textarea`
