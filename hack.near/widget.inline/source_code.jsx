@@ -7,7 +7,7 @@ const policy = Near.view(daoId, "get_policy");
 const deposit = policy.proposal_bond;
 
 const widgetName = props.widgetName;
-const widgetPath = `${accountId}/widget/${widgetName}`;
+const widgetPath = props.widgetPath ?? `${accountId}/widget/${widgetName}`;
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
 const renderTag = props.renderTag;
