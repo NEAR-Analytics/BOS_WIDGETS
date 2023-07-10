@@ -26,7 +26,6 @@ const tabSelect = (selectedTab) => {
 };
 const TabsContainer = styled.div`
   position: relative;
-  height: 200px;
 `;
 const Tabs = styled.div`
     display:flex;
