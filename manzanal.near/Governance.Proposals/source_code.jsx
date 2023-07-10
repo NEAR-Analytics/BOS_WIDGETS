@@ -250,6 +250,8 @@ return (
                 <i class="bi bi-info-circle" />
               </>
             ),
+            tooltip:
+              "A quorum is the minimum number of voting power required for a governing body to approve a proposal. ",
           }}
         />
         <Widget
@@ -261,6 +263,8 @@ return (
                 Proposal threshold {q} <i class="bi bi-info-circle" />
               </>
             ),
+            tooltip:
+              "Proposal thresholds are the criteria someone needs to meet in order to introduce a proposal that will be voted on.",
           }}
         />
         <Widget
@@ -277,6 +281,8 @@ return (
                 Voters / VP Holders <i class="bi bi-info-circle" />
               </>
             ),
+            tooltip:
+              "Numbers of active voters / Number of accounts with voting power",
           }}
         />
       </Metrics>
