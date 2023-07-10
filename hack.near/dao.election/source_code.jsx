@@ -142,24 +142,23 @@ return (
         </span>
       </p>
       <div>
-        <div className="public-tags collapse show">
+        <div className="detailed-rules collapse show">
           <button
             className="btn btn-sm btn-outline-secondary border-0"
             data-bs-toggle="collapse"
-            data-bs-target={`.public-tags`}
+            data-bs-target={`.detailed-rules`}
             aria-expanded="false"
-            aria-controls={"public-tags"}
+            aria-controls={"detailed-rules"}
           >
             <i className="bi bi-arrows-angle-expand me-1"></i>click here for
             details
           </button>
         </div>
-        <div className="collapse public-tags">
+        <div className="collapse detailed-rules">
           <p>
             <span>
-              As you can see below, every candidate wrote an on-chain
-              self-nomination post, and voters are welcome to discuss or ask
-              them questions in the comments.
+              Every candidate wrote an on-chain self-nomination post, and voters
+              are welcome to discuss or ask them questions in the comments.
             </span>
           </p>
           <p>
