@@ -74,7 +74,9 @@ function getVerifiedHuman() {
 }
 
 const Page = styled.div`
-width:100vh;
+position: fixed;
+  width: 100vw;
+  height: calc(-98px + 100vh);
 `;
 
 function getNominationInfo() {
