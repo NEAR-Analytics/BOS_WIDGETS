@@ -105,7 +105,6 @@ return (
         </i>
       )}
     </LikeButton>
-    <br />
-    {totalLikes}
+    <div className="d-inline-flex align-items-center">{totalLikes}</div>
   </div>
 );
