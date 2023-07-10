@@ -59,7 +59,8 @@ const {
   issued2,
   issued3,
   addition_platform,
-
+  handleHAYInvolve,
+  handleWIYStrategy,
   handleIssued1,
   handleIssued2,
   handleIssued3,
