@@ -44,12 +44,14 @@ const ModalWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
   padding: 2rem;
   border-radius: .375rem;
   background: rgba(100, 100, 100, 0.7); 
   z-index:100;
 `;
 const ModalStyles = styled.div`
+  height: calc(100% - 3rem);
   background: #fff;
   border-radius: .375rem;
 `;
