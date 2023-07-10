@@ -612,6 +612,23 @@ return (
               <PlatInfoHeadSeparator></PlatInfoHeadSeparator>
             </PlatformInfoHeader>
             <KeyIssuesContainer>
+              <KeyIssueTitle>
+                Involvement in the NEAR ecosystem, qualifications to be a
+                candidate and reasons for being voted
+              </KeyIssueTitle>
+              <KeyIssueDescription>
+                {CandidateProps.HAYInvolve}
+              </KeyIssueDescription>
+            </KeyIssuesContainer>
+            <KeyIssuesContainer>
+              <KeyIssueTitle>
+                Strategy to develop the NEAR ecosystem
+              </KeyIssueTitle>
+              <KeyIssueDescription>
+                {CandidateProps.WIYStrategy}
+              </KeyIssueDescription>
+            </KeyIssuesContainer>
+            <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
               <KeyIssueDescription>
                 {CandidateProps.issued1}
