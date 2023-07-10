@@ -118,7 +118,9 @@ if (holder) {
         <h3>
           Woof! Sorry, you need to hold a Social ShardDog to view the feed
           <br />
-          Maybe someone you know has the link?
+          <a href="https://shard.dog/social" target="_blank">
+            Claim a social ShardDog today
+          </a>
         </h3>
       </div>
     </>
