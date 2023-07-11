@@ -131,8 +131,9 @@ return (
       <h5>RULES</h5>
       <p>
         <span>
-          Each RC DAO member can vote <b>once per candidate</b>. Voters may
-          support any of the candidates across the continental regions.
+          Each RC DAO member can vote <b>once for each of the candidates</b>{" "}
+          (vote for multiple candidates). Voters may support candidates from any
+          of the continental regions.
         </span>
       </p>
       <p>
