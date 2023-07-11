@@ -23,6 +23,7 @@ return (
         accountWhitelist: data.accountWhitelist,
         accountBlacklist: data.accountBlacklist,
         disableCaching: data.disableCaching,
+        postTemplate: data.postTemplate,
       }}
     />
   </>
