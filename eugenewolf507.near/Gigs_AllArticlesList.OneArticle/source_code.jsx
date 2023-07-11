@@ -151,6 +151,9 @@ const handleHeaderClick = (index1, index2) => {
   }
 };
 
+// ========== UTILS ==========
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
 // ========== STYLED ==========
 const Button = styled.button`
   width: 100%;
@@ -191,7 +194,7 @@ const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
         </button>
       ))
     ) : (
-      <span>Status: ${activeStatus}</span>
+      <span>Status: {capitalize(activeStatus)}</span>
     )}
   </div>
 );
