@@ -1,4 +1,4 @@
-const { account, widgetProvider, proposal_id, ftList } = props;
+const { account, widgetProvider, proposal_id, ftList, parent } = props;
 const apiProposalUrl = `https://api.pikespeak.ai/daos/proposal/${account}`;
 const apiPolicyUrl = `https://api.pikespeak.ai/daos/policy`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -31,11 +31,12 @@ const Input = (
 );
 
 const getVoters = () => {
-    const proposalType = state.proposal.proposal_type.toLowerCase();
+    let proposalType = state.proposal.proposal_type.toLowerCase();
+    proposalType = proposalType==='functioncall'?'call':proposalType;
     return state.policy.state.policy.roles.reduce((acc,val) => {
         const isGroupAllowed = val.permissions.some((p) => {
             const parsedP = p.toLowerCase().replaceAll('_','');
-            return parsedP.includes(`${proposalType}:voteapprove`)
+            return parsedP.includes(`${proposalType}:voteapprove`)||parsedP.includes(`*:voteapprove`)
         });
         if(isGroupAllowed) {
             acc.push(...val.kind);
@@ -53,6 +54,7 @@ const ProposalCard = (
       ftList: state.ftList,
       council: state.policy && state.proposal && getVoters(),
       voteExpired: state.policy && state.policy.state.policy.proposal_period,
+      parent,
     }}
   />
 );
