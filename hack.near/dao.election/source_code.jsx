@@ -110,7 +110,7 @@ return (
         />
       </div>
       <h3>
-        <b>Election Demo</b>
+        <b>Election is live now!</b>
       </h3>
       <p>
         <span>
