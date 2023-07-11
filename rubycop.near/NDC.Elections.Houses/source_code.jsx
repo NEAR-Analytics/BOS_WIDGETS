@@ -150,7 +150,7 @@ const HouseItem = ({ house }) => (
 );
 
 return (
-  <div>
+  <div className="h-100">
     <div className="align-items-start">
       {houses.map((house) => (
         <HouseItem house={house} />
