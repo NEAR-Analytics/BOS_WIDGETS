@@ -825,8 +825,7 @@ return (
           <KeyIssue name="HowAreYouInvolved">
             <KeyIssueHeader>
               <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
-                Involvement in the NEAR ecosystem, qualifications to be a
-                candidate and reasons for being voted
+                Involvement in the NEAR ecosystem, qualifications to be ...
               </KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
