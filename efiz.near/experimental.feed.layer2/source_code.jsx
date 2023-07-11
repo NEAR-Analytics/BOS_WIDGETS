@@ -8,7 +8,7 @@ if (!data.length) {
 
 return (
   <Grid>
-    {data.map((it) => (
+    {data?.map((it) => (
       <Sharddog owner={it.owner} media={it.media} />
     ))}
   </Grid>
