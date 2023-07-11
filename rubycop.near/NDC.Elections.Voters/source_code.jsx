@@ -86,7 +86,8 @@ return (
         <div className="d-flex align-items-center">
           <TxnLink
             role="button"
-            src={`https://explorer.mainnet.near.org/transactions/${voter.transaction_id}`}
+            target="_blank"
+            href={`https://explorer.mainnet.near.org/transactions/${voter.transaction_id}`}
           >
             {voter.transaction_id}
           </TxnLink>
