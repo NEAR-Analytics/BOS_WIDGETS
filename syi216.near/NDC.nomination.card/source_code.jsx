@@ -126,7 +126,7 @@ flex-grow: 0;`;
 
 const HeaderTagP = styled.p`
 height: 10px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 8px;
@@ -158,7 +158,7 @@ flex-grow: 0;`;
 const NominationName = styled.p`
 width: 228px;
 height: 17px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -174,7 +174,7 @@ flex-grow: 0;`;
 const NominationUser = styled.p`
 width: 228px;
 height: 14px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 400;
 font-size: 12px;
@@ -215,7 +215,7 @@ order:2;
 
 const UpvoteCount = styled.p`
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -278,7 +278,7 @@ flex-grow: 0;
 const CollapseCandidateText = styled.p`
 width: 274px;
 height: 14px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 800;
 font-size: 12px;
@@ -335,7 +335,7 @@ height: 12px;
 overflow:hidden;
 text-overflow:ellipsis;
 white-space:nowrap;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 10px;
@@ -389,7 +389,7 @@ flex-grow: 0;
 const KeyIssuesTitle = styled.p`
 width: 302px;
 height: 14px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 800;
 font-size: 12px;
@@ -443,7 +443,7 @@ flex-grow: 0;
 const KeyIssueTitle = styled.p`
 width: 302px;
 height: 12px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 10px;
@@ -462,7 +462,7 @@ height: 12px;
 overflow:hidden;
 text-overflow:ellipsis;
 white-space:nowrap;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 400;
 font-size: 10px;
@@ -545,7 +545,7 @@ flex-grow: 0;
 const TimestampText = styled.p`
 width: 119px;
 height: 20px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: italic;
 font-weight: 300;
 font-size: 10px;
@@ -562,7 +562,7 @@ flex-grow: 0;
 const CommentsCounter = styled.p`
 width: 96px;
 height: 24px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 12px;
@@ -623,7 +623,7 @@ flex-grow: 0;
 
 const TagText = styled.p`
 height: 12px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 10px;
@@ -665,7 +665,7 @@ border-radius: 4px;
 
 const CommentButtonCounter = styled.p`
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -711,7 +711,7 @@ text-decoration: none;
 
 const ViewButtonText = styled.p`
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -735,7 +735,7 @@ border: 1px solid #FFD50D;
 const ShareButtonText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
