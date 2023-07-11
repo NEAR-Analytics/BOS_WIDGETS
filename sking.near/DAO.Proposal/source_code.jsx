@@ -69,6 +69,10 @@ let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
 const userRoles = [];
 for (const role of roles) {
+  if (role.kind === "Everyone") {
+    userRoles.push(role);
+    continue;
+  }
   if (!role.kind.Group) continue;
   if (
     context.accountId &&
