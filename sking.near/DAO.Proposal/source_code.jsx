@@ -21,7 +21,11 @@ if (!proposal && proposalId && daoId) {
 
 // --- check user permissions
 function toPolicyLabel(proposalKind) {
-  switch (Object.keys(proposalKind)[0]) {
+  const kindName =
+    typeof proposalKind === "string"
+      ? proposalKind
+      : Object.keys(proposalKind)[0];
+  switch (kindName) {
     case "ChangeConfig":
       return "config";
     case "ChangePolicy":
@@ -65,6 +69,7 @@ let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
 const userRoles = [];
 for (const role of roles) {
+  if (!role.kind.Group) continue;
   if (
     context.accountId &&
     role.kind.Group &&
@@ -97,6 +102,8 @@ const isAllowedTo = (action) => {
 const isAllowedToVoteYes = isAllowedTo("VoteApprove")[0];
 const isAllowedToVoteNo = isAllowedTo("VoteReject")[0];
 const isAllowedToVoteRemove = isAllowedTo("VoteRemove")[0];
+
+console.log(isAllowedToVoteYes, isAllowedToVoteNo, isAllowedToVoteRemove);
 // --- end of check
 
 proposal.type =
