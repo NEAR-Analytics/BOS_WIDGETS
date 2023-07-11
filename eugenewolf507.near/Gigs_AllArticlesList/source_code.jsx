@@ -12,7 +12,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "sarahkornfeld.near",
   "yuensid.near",
   "eugenewolf507.near",
-  "",
 ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
