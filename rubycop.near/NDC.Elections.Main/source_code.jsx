@@ -104,6 +104,7 @@ return (
               startTime: house.start,
               endTime: house.end,
               type: "Election",
+              myVotes,
             }}
           />
         )}
