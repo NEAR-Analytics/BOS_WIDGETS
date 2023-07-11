@@ -5,6 +5,7 @@ const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const statusTagsArr = props.statusTagsArr;
 const sharedArticleId = props.sharedArticleId;
+const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
@@ -148,6 +149,7 @@ return (
               article,
               statusChangeHandler,
               statusTagsArr,
+              doesUserCanChangeStatus,
             }}
           />
         </Modal>
