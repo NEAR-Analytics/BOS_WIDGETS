@@ -194,7 +194,9 @@ const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
         </button>
       ))
     ) : (
-      <span>Status: {capitalize(activeStatus)}</span>
+      <span>
+        Status: <span class="fw-bolder">{capitalize(activeStatus)}</span>
+      </span>
     )}
   </div>
 );
