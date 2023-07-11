@@ -18,6 +18,7 @@ return (
       <br />
       Posted on {getDate(timeCreated)}
       <br />
+      <br />
       Last edit by{" "}
       <a
         href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${lastEditor}`}
@@ -27,6 +28,7 @@ return (
       </a>
       <br />
       Edited on {getDate(timeLastEdit)}
+      <br />
       <br />
       Edit versions: {version}
     </div>
