@@ -217,14 +217,6 @@ if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
 
 return (
   <Theme>
-    <button
-      disabled={bridge}
-      className="bridge-abs"
-      onClick={() => setComponent("bridge")}
-    >
-      Bridge
-    </button>
-
     <div className="grid">
       <div className="center">
         <div className="apps">
