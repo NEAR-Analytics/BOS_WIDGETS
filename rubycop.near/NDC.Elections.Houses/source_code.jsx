@@ -67,7 +67,7 @@ const HouseItem = ({ house }) => (
   <ItemContainer
     role="button"
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
-    onClick={() => handleSelect(item)}
+    onClick={() => handleSelect(house)}
     selected={selectedHouse === house.id}
   >
     <div className="d-flex align-items-center">
