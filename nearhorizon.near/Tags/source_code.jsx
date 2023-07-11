@@ -32,7 +32,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    {tags.map((tag) => (
+    {tags.slice(0, 6).map((tag) => (
       <TagItem key={tag}>{tag}</TagItem>
     ))}
   </Container>
