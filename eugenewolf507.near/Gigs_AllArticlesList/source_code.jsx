@@ -158,6 +158,7 @@ return (
                       statusChangeHandler: clickHandler,
                       statusTagsArr,
                       sharedArticleId,
+                      doesUserCanChangeStatus,
                     }}
                   />
                 ))}
