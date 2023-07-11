@@ -7,9 +7,10 @@ const things = Social.index("post", "main", {
 return (
   <div>
     <Grid>
-      {things?.map((it) => (
-        <p>{JSON.stringify(it)}</p>
-      ))}
+      <div>Hello</div>
+      <div>Hello</div>
+      <div>Hello</div>
+      <div>Hello</div>
     </Grid>
   </div>
 );
