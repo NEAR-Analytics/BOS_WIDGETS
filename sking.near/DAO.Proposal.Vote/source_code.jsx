@@ -7,8 +7,14 @@ const vote_counts = props.proposal.vote_counts ?? {
 };
 
 const userVote = props.proposal.votes[accountId];
+const isAllowedToVote = props.isAllowedToVote ?? [true, true, true];
 const canVote =
-  !userVote && props.proposal.status === "In Progress" && accountId;
+  isAllowedToVote[0] &&
+  isAllowedToVote[1] &&
+  isAllowedToVote[2] &&
+  !userVote &&
+  props.proposal.status === "In Progress" &&
+  accountId;
 const yesWin = props.proposal.status === "Approved";
 const noWin = props.proposal.status === "Rejected";
 
@@ -72,7 +78,7 @@ const VoteButton = styled.button`
   display: flex;
   padding: 0;
   position: relative;
-  background: #f3f3f2;
+  background: rgb(128 128 128 / 13%);
   width: 100%;
   margin-bottom: 14px;
   cursor: pointer;
