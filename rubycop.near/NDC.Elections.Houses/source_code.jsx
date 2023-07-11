@@ -150,14 +150,14 @@ const HouseItem = ({ house }) => (
 );
 
 return (
-  <div className="h-100">
-    <div className="align-items-start">
+  <div className="d-flex flex-column justify-content-between">
+    <div>
       {houses.map((house) => (
         <HouseItem house={house} />
       ))}
     </div>
-    <Stepper className="align-items-end">
-      <div className="d-flex justify-content-between">
+    <Stepper>
+      <div className="d-flex justify-content-between align-items-center">
         <div>Your voting progress</div>
         <div>
           <CompleteText> {state.step}</CompleteText>/
