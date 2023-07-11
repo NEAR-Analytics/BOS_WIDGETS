@@ -20,4 +20,16 @@ function mergeItems(iIndex, oldItems, newItems, desc) {
   return items;
 }
 
-return { mergeItems };
+function Grid({ children, numColumns }) {
+  const StyledGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(${numColumns || 3}, 1fr);
+
+    @media (hover: none) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  `;
+  return <StyledGrid>{children}</StyledGrid>;
+}
+
+return { mergeItems, Grid };
