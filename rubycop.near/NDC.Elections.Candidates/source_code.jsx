@@ -338,7 +338,13 @@ const CandidateList = ({ candidateId, votes }) => (
     <CandidateItem
       className="d-flex align-items-center justify-content-between"
       onClick={(e) => {
-        if (e.target.id === "input" || e.target.id === "bookmark") return;
+        if (
+          e.target.id === "input" ||
+          e.target.id === "bookmark" ||
+          e.target.id === "link" ||
+          e.target.id === "nomination"
+        )
+          return;
 
         State.update({
           selected: state.selected === candidateId ? null : candidateId,
@@ -364,7 +370,7 @@ const CandidateList = ({ candidateId, votes }) => (
             )}
           </Bookmark>
         )}
-        <div className="d-flex">
+        <div className="d-flex" id="link">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
@@ -381,6 +387,7 @@ const CandidateList = ({ candidateId, votes }) => (
       </div>
       <div className="d-flex">
         <NominationLink
+          id="nomination"
           className="d-flex"
           href={ref_link}
           selected={state.selected === candidateId}
@@ -442,7 +449,7 @@ const Filters = () => {
       </div>
       <div className="d-flex">
         <Nomination className="text-secondary text-end text-md-start">
-          <small>Platform</small>
+          <small>Noomination</small>
         </Nomination>
         <Votes
           role="button"
@@ -540,11 +547,6 @@ return (
         </CandidatesContainer>
       </>
     ) : (
-      <div className="p-5 d-flex justify-content-center align-items-center">
-        <h4 className="text-center">
-          There are no candidates found regarding searching query
-        </h4>
-      </div>
     )}
     <div className="position-sticky">
       {isIAmHuman ? <CastVotes /> : <VerifyHuman />}
