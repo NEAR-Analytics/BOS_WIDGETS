@@ -104,7 +104,6 @@ return (
               startTime: house.start,
               endTime: house.end,
               type: "Election",
-              myVotes,
             }}
           />
         )}
@@ -128,6 +127,7 @@ return (
             selectedHouse: state.selectedHouse,
             houses,
             handleSelect,
+            myVotes,
           }}
         />
       </Left>
