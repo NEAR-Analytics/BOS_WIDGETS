@@ -57,16 +57,16 @@ return image.nft.contractId && image.nft.tokenId ? (
       }}
     />
     <div
-      class="modal fade"
+      className="modal fade"
       id="imgModal"
-      tabindex="-1"
+      tabIndex="-1"
       role="dialog"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-body">
-            <img src={state.imageUrl} class="img-fluid" />
+      <div className="modal-dialog modal-lg">
+        <div className="modal-content">
+          <div className="modal-body">
+            <img src={state.imageUrl} className="img-fluid" alt="Modal" />
           </div>
         </div>
       </div>
