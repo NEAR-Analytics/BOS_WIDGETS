@@ -113,15 +113,17 @@ return (
         <b>Election is live now!</b>
       </h3>
       <h5>Voting closes 11:59pm UTC on July 16</h5>
-      <Widget
-        key={i}
-        src="hack.near/widget/dao.election.header"
-        props={{
-          startTime: 1688986800000,
-          endTime: 1689551999000,
-          type: "Election",
-        }}
-      />
+      <div>
+        <Widget
+          key={i}
+          src="hack.near/widget/dao.election.header"
+          props={{
+            startTime: 1688986800000,
+            endTime: 1689551999000,
+            type: "Election",
+          }}
+        />
+      </div>
       <br />
       <p>
         <span>
@@ -144,8 +146,12 @@ return (
         <span>
           Each RC DAO member is able to vote{" "}
           <b>once for each and every candidate</b> (they can vote for multiple
-          candidates). Voters may support candidates from any of the continental
-          regions.
+          candidates).
+        </span>
+      </p>
+      <p>
+        <span>
+          Voters may support candidates from any of the continental regions.
         </span>
       </p>
       <p>
