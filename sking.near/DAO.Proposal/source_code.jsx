@@ -19,6 +19,86 @@ if (!proposal && proposalId && daoId) {
   return "Please provide a proposal or proposalId.";
 }
 
+// --- check user permissions
+function toPolicyLabel(proposalKind) {
+  switch (Object.keys(proposalKind)[0]) {
+    case "ChangeConfig":
+      return "config";
+    case "ChangePolicy":
+      return "policy";
+    case "AddMemberToRole":
+      return "add_member_to_role";
+    case "RemoveMemberFromRole":
+      return "remove_member_from_role";
+    case "FunctionCall":
+      return "call";
+    case "UpgradeSelf":
+      return "upgrade_self";
+    case "UpgradeRemote":
+      return "upgrade_remote";
+    case "Transfer":
+      return "transfer";
+    case "SetStakingContract":
+      return "set_vote_token";
+    case "AddBounty":
+      return "add_bounty";
+    case "BountyDone":
+      return "bounty_done";
+    case "Vote":
+      return "vote";
+    case "FactoryInfoUpdate":
+      return "factory_info_update";
+    case "ChangePolicyAddOrUpdateRole":
+      return "policy_add_or_update_role";
+    case "ChangePolicyRemoveRole":
+      return "policy_remove_role";
+    case "ChangePolicyUpdateDefaultVotePolicy":
+      return "policy_update_default_vote_policy";
+    case "ChangePolicyUpdateParameters":
+      return "policy_update_parameters";
+    default:
+      return "";
+  }
+}
+
+let roles = Near.view(daoId, "get_policy");
+roles = roles === null ? [] : roles.roles;
+const userRoles = [];
+for (const role of roles) {
+  if (
+    context.accountId &&
+    role.kind.Group &&
+    role.kind.Group.includes(context.accountId)
+  ) {
+    userRoles.push(role);
+  }
+}
+
+const isAllowedTo = (action) => {
+  let allowed = false;
+
+  const allowedRoles = userRoles
+    .filter(({ permissions }) => {
+      const allowedRole =
+        permissions.includes(
+          `${toPolicyLabel(proposal.kind)}:${action.toString()}`
+        ) ||
+        permissions.includes(`${toPolicyLabel(proposal.kind)}:*`) ||
+        permissions.includes(`*:${action.toString()}`) ||
+        permissions.includes("*:*");
+      allowed = allowed || allowedRole;
+      return allowedRole;
+    })
+    .map((role) => role.name);
+
+  return [allowed, allowedRoles];
+};
+
+const isAllowedToVoteYes = isAllowedTo("VoteApprove")[0];
+const isAllowedToVoteNo = isAllowedTo("VoteReject")[0];
+const isAllowedToVoteRemove = isAllowedTo("VoteRemove")[0];
+// --- end of check
+
 proposal.type =
   typeof proposal.kind === "string"
     ? proposal.kind
@@ -421,6 +501,11 @@ return (
         props={{
           daoId: daoId,
           proposal: proposal,
+          isAllowedToVote: [
+            isAllowedToVoteYes,
+            isAllowedToVoteNo,
+            isAllowedToVoteRemove,
+          ],
         }}
       />
     </div>
