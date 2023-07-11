@@ -8,6 +8,7 @@ const thumbnail = props.thumbnail;
 State.init({
   image,
   modalImageUrl: null, // Add modalImageUrl to your State object
+  showModal: false, // Add showModal to your State object
 });
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
@@ -47,14 +48,15 @@ return image.nft.contractId && image.nft.tokenId ? (
     <img
       className={className}
       onClick={() => {
-        // When an image is clicked, update the modal image state
+        // When an image is clicked, update the modal image state and open the modal
         const imageUrl = state.imageUrl
           ? thumb(state.imageUrl)
           : thumb(toUrl(image));
-        State.update({ modalImageUrl: imageUrl });
+        State.update({
+          modalImageUrl: imageUrl,
+          showModal: true,
+        });
       }}
-      data-bs-toggle="modal"
-      data-bs-target="#imgModal"
       style={style}
       src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
       alt={alt}
@@ -66,30 +68,26 @@ return image.nft.contractId && image.nft.tokenId ? (
         }
       }}
     />
-    <div
-      className="modal fade"
-      id="imgModal"
-      tabIndex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
+    {state.showModal && (
       <div
-        className="modal-dialog modal-lg"
-        onClick={() => {
-          // When an image is clicked, update the modal image state
-          State.update({ modalImageUrl: null });
-        }}
+        className="modal fade show d-block"
+        onClick={() => State.update({ showModal: false })}
+        tabIndex="-1"
+        role="dialog"
+        aria-hidden={!state.showModal}
       >
-        <div className="modal-content">
-          <div className="modal-body">
-            <img
-              src={state.modalImageUrl} // Use the modalImageUrl from State for the modal image
-              className="img-fluid"
-              alt="Modal"
-            />
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-body">
+              <img
+                src={state.modalImageUrl} // Use the modalImageUrl from State for the modal image
+                className="img-fluid"
+                alt="Modal"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )}
   </>
 );
