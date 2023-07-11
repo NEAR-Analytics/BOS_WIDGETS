@@ -66,7 +66,11 @@ return image.nft.contractId && image.nft.tokenId ? (
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <div className="modal-body">
-            <img src={state.imageUrl} className="img-fluid" alt="Modal" />
+            <img
+              src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+              className="img-fluid"
+              alt="Modal"
+            />
           </div>
         </div>
       </div>
