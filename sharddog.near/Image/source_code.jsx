@@ -75,12 +75,16 @@ return image.nft.contractId && image.nft.tokenId ? (
         tabIndex="-1"
         role="dialog"
         aria-hidden={!state.showModal}
+        style={{ backgroundColor: "rgba(0,0,0,0.5)" }} // Darkens the screen
       >
-        <div className="modal-dialog modal-lg">
+        <div
+          className="modal-dialog modal-lg modal-dialog-centered" // Center the modal vertically
+          role="document"
+        >
           <div className="modal-content">
             <div className="modal-body">
               <img
-                src={state.modalImageUrl} // Use the modalImageUrl from State for the modal image
+                src={state.modalImageUrl}
                 className="img-fluid"
                 alt="Modal"
               />
