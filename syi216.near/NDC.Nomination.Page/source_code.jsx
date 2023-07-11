@@ -73,15 +73,16 @@ function getVerifiedHuman() {
   });
 }
 
-const Page = styled.div`
-position: fixed;
-  width: 100vw;
-  height: calc(-98px + 100vh);
-  top: 98px;
-  left: 0;
-  padding-left:20px;
-  padding-right:20px;
-`;
+const Page = styled.div``;
+// `
+// position: fixed;
+//   width: 100vw;
+//   height: calc(-98px + 100vh);
+//   top: 98px;
+//   left: 0;
+//   padding-left:20px;
+//   padding-right:20px;
+// `;
 
 function getNominationInfo() {
   let nominationsArr = [];
@@ -264,7 +265,7 @@ const InputSearch = styled.input`
 color: #828688;
 font-size: 12px;
 width: 100%;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 border: 0px;
@@ -304,7 +305,7 @@ flex-direction: column;
 justify-content: center;
 color: var(--000000, #000);
 font-size: 14px;
-font-family: Avenir;
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 line-height: 120%;
@@ -318,7 +319,7 @@ justify-content: center;
 align-self: stretch;
 color: var(--primary-gray-dark, #828688);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 line-height: 120%;
@@ -342,7 +343,7 @@ text-decoration: none;
 const VerifyButtonText = styled.p`
 color: var(--primary-black, #000);
 font-size: 14px;
-font-family: Avenir;
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 line-height: 24px;
@@ -400,7 +401,7 @@ background: #F1D6D5;
 const ButtonDeleteText = styled.p`
 color: #C23F38;
 font-size: 14px;
-font-family: Avenir;
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 line-height: 24px;
@@ -431,7 +432,7 @@ const ButtonNominateText = styled.p`
 margin: 0px;
 color: var(--primary-black, #000);
 font-size: 14px;
-font-family: Avenir;
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 line-height: 24px;
