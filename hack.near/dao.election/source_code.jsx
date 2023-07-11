@@ -145,8 +145,8 @@ return (
       <p>
         <span>
           Each RC DAO member is able to vote{" "}
-          <b>once for each and every candidate</b> (they can vote for multiple
-          candidates).
+          <b>once for each and every candidate</b> That means they can vote for
+          multiple candidates.
         </span>
       </p>
       <p>
