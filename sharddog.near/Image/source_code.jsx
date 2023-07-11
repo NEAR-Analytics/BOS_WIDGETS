@@ -7,6 +7,7 @@ const thumbnail = props.thumbnail;
 
 State.init({
   image,
+  modalImageUrl: null, // Add modalImageUrl to your State object
 });
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
@@ -50,7 +51,7 @@ return image.nft.contractId && image.nft.tokenId ? (
         const imageUrl = state.imageUrl
           ? thumb(state.imageUrl)
           : thumb(toUrl(image));
-        setModalImageUrl(imageUrl);
+        State.update({ modalImageUrl: imageUrl });
       }}
       data-bs-toggle="modal"
       data-bs-target="#imgModal"
@@ -76,7 +77,7 @@ return image.nft.contractId && image.nft.tokenId ? (
         <div className="modal-content">
           <div className="modal-body">
             <img
-              src={modalImageUrl} // Use the modalImageUrl state for the modal image
+              src={state.modalImageUrl} // Use the modalImageUrl from State for the modal image
               className="img-fluid"
               alt="Modal"
             />
