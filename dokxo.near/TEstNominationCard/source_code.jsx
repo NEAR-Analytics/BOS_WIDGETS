@@ -739,6 +739,13 @@ font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
+@media (hover: hover) {
+  /* when hover is supported */
+  a:hover {
+    color: white;
+    background: black;
+  }
+}
 `;
 
 return (
