@@ -1,4 +1,4 @@
-const { houses, selectedHouse, handleSelec, myVotes } = props;
+const { houses, selectedHouse, handleSelec, votesLeft } = props;
 
 const housesMapping = {
   CouncilOfAdvisors: {
@@ -59,9 +59,6 @@ const ItemContainer = styled.div`
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   }
 `;
-
-const votesLeft = (house) =>
-  house.seats - myVotes.filter((vote) => vote.house === house.typ).length;
 
 const HouseItem = ({ house }) => (
   <ItemContainer
