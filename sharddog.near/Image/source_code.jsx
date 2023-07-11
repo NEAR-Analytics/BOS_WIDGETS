@@ -45,6 +45,8 @@ return image.nft.contractId && image.nft.tokenId ? (
   <>
     <img
       className={className}
+      data-bs-toggle="modal"
+      data-bs-target="#imgModal"
       style={style}
       src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
       alt={alt}
