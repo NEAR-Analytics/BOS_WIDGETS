@@ -824,7 +824,7 @@ return (
         <KeyIssuesContainer>
           <KeyIssue name="HowAreYouInvolved">
             <KeyIssueHeader>
-              <KeyIssueTitle>
+              <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
                 Involvement in the NEAR ecosystem, qualifications to be a
                 candidate and reasons for being voted
               </KeyIssueTitle>
@@ -836,7 +836,7 @@ return (
           </KeyIssue>
           <KeyIssue name="WhatIsYourStrategy">
             <KeyIssueHeader>
-              <KeyIssueTitle>
+              <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
                 Strategy to develop the NEAR ecosystem
               </KeyIssueTitle>
             </KeyIssueHeader>
