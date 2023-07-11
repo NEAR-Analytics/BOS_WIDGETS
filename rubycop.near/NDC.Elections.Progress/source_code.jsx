@@ -42,8 +42,8 @@ houses.map((house) => {
 State.update({ step });
 
 return (
-  <Stepper className="position-sticky">
-    <div className="d-flex justify-content-between">
+  <Stepper>
+    <div className="d-flex justify-content-between align-items-center">
       <div>Your voting progress</div>
       <div>
         <CompleteText> {state.step}</CompleteText>/
