@@ -1,6 +1,6 @@
 const Wrapper = styled.div`
   font-size: 14px;
-  // line-height: 20px;
+  line-height: 20px;
   font-weight: 400;
   color: #11181c;
   word-break: break-word;
@@ -64,17 +64,21 @@ const renderMention =
     />
   ));
 
+const WidgetWrapper = styled.div``;
+
 const renderPath =
   props.renderPath ??
   ((properties) => (
-    <Widget
-      key={properties}
-      src="every.near/widget/every.thing.view"
-      props={{
-        path: properties.path,
-        blockHeight: properties.blockHeight,
-      }}
-    />
+    <WidgetWrapper>
+      <Widget
+        key={properties}
+        src="every.near/widget/every.thing.view"
+        props={{
+          path: properties.path,
+          blockHeight: properties.blockHeight,
+        }}
+      />
+    </WidgetWrapper>
   ));
 
 return (
