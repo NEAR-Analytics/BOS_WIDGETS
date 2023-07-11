@@ -79,28 +79,9 @@ const handleCreate = () =>
   });
 
 return (
-  <div className="card" style={{ borderRadius: "12px" }}>
-    <div className="row py-3">
-      <div className="m-auto text-center" style={{ maxWidth: "12em" }}>
-        <div
-          className="d-inline-block mb-2"
-          style={{ width: "7em", height: "7em" }}
-        >
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image,
-              className: "w-100 h-100 shadow",
-              style: { objectFit: "cover", borderRadius: "12px" },
-              thumbnail: false,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e",
-              alt: widgetName,
-            }}
-          />
-        </div>
-      </div>
-      <div className="col-5">
+  <div>
+    <div className="row">
+      <div className="col">
         <div className="m-1 mb-3 text-truncate">
           <Widget
             src="mob.near/widget/ProfileLine"
@@ -108,7 +89,7 @@ return (
           />
         </div>
         <div className="m-1 position-relative">
-          <h5 className="card-title">{name}</h5>
+          <h5 className="card-title mb-2">{name}</h5>
           <div className="text-truncate mb-1">
             <a className="stretched-link" href={`#/${widgetPath}`}>
               <i className="bi bi-box-arrow-up-right text-secondary me-1" />
@@ -133,7 +114,7 @@ return (
           </a>
         </div>
       </div>
-      <div className="col-3 m-2">
+      <div className="col m-2">
         <Widget
           src="hack.near/widget/StarButton"
           props={{ notifyAccountId, item }}
