@@ -4,7 +4,7 @@ const description = props.description ?? "Description";
 const img = props.img ?? "";
 const height = props.height ?? "375px";
 const video =
-  props.video ?? "https://youtu.be/QZLUQSOv7VY?origin=https://near.org/";
+  props.video ?? "https://shortlink.near.foundation/horizon-first-looks?origin=https://near.org";
 
 const Card = styled.div`
   box-sizing: border-box;
@@ -33,6 +33,14 @@ const DetailsSection = styled.div`
   gap: 1em;
   width: 100%;
   flex-grow: 1;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
 
   h4 {
     font-style: normal;
@@ -65,7 +73,7 @@ const LinkSection = styled.div`
   flex-grow: 0;
 `;
 
-const Link = styled.a`
+const Anchor = styled.a`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -118,7 +126,7 @@ return (
       )}
     </DetailsSection>
     <LinkSection>
-      <Link href={link}>Learn more {linkIcon}</Link>
+      <Anchor href={link}>Learn more {linkIcon}</Anchor>
     </LinkSection>
   </Card>
 );
