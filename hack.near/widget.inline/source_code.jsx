@@ -112,15 +112,7 @@ return (
           >
             <i className="bi bi-clock me-1"></i>history
           </a>
-        </div>
-      </div>
-      <div className="col m-2">
-        <Widget
-          src="hack.near/widget/StarButton"
-          props={{ notifyAccountId, item }}
-        />
-        <div className="mt-4">
-          <small className="text-nowrap text-muted ms-auto m-1">
+          <small className="text-nowrap text-muted m-3">
             <i className="bi bi-hourglass me-1"></i>
             <Widget
               src="mob.near/widget/TimeAgo"
@@ -128,6 +120,12 @@ return (
             />
           </small>
         </div>
+      </div>
+      <div className="col m-2">
+        <Widget
+          src="hack.near/widget/StarButton"
+          props={{ notifyAccountId, item }}
+        />
       </div>
     </div>
   </div>
