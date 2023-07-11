@@ -902,13 +902,16 @@ return (
         </ButtonsLowerSection>
         <TagSectionContainer>
           <TagSection>
-            {data.nominationData.tags.split(",").map((data) => {
-              return (
-                <Tag>
-                  <TagText>{data}</TagText>
-                </Tag>
-              );
-            })}
+            {data.nominationData.tags
+              .trim()
+              .split(",")
+              .map((data) => {
+                return (
+                  <Tag>
+                    <TagText>{data}</TagText>
+                  </Tag>
+                );
+              })}
           </TagSection>
           <ViewButtonContainer>
             {data.preview ? (
