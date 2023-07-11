@@ -1,4 +1,5 @@
 const limit = 20;
+const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
 
 State.init({
   offset: 0,
@@ -47,6 +48,8 @@ function fetchTokens() {
   });
 }
 
+const size = "144px";
+
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(143px, 0.1fr));
@@ -55,8 +58,6 @@ const Grid = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(143px, 0.1fr));
   }
 `;
-
-const size = "144px";
 
 const loader = (
   <div className="loader" key={"loader"}>
@@ -78,28 +79,7 @@ return (
   >
     <Grid>
       {state.tokens?.map((it) => {
-        return (
-          <Link to={`/mob.near/widget/ProfilePage?accountId=${it.owner}`}>
-            <Widget
-              src="mob.near/widget/Image"
-              props={{
-                image: {
-                  url: it.media,
-                },
-                style: {
-                  width: size,
-                  height: size,
-                  objectFit: "cover",
-                  minWidth: size,
-                  minHeight: size,
-                  maxWidth: size,
-                  maxHeight: size,
-                  overflowWrap: "break-word",
-                },
-              }}
-            />
-          </Link>
-        );
+        return <Sharddog owner={it.owner} media={it.media} />;
       })}
     </Grid>
   </InfiniteScroll>
