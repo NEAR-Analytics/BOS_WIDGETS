@@ -730,6 +730,13 @@ gap: 10px;
 border-radius: 4px;
 background: var(--buttons-yellow-default, #FFD50D);
 border: 1px solid #FFD50D;
+@media (hover: hover) {
+  /* when hover is supported */
+  a:hover {
+    color: white;
+    background: black;
+  }
+}
 `;
 
 const ShareButtonText = styled.p`
@@ -739,6 +746,7 @@ font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
+
 `;
 
 return (
@@ -822,6 +830,29 @@ return (
           <KeyIssuesTitle>Key issues</KeyIssuesTitle>
         </KeyIssuesHeader>
         <KeyIssuesContainer>
+          <KeyIssue name="HowAreYouInvolved" style={{ height: "35px" }}>
+            <KeyIssueHeader>
+              <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
+                Involvement in the NEAR ecosystem, qualifications to be a
+                candidate and reasons for being voted
+              </KeyIssueTitle>
+            </KeyIssueHeader>
+            <KeyIssueDescription style={{ "margin-top": "10px" }}>
+              {data.nominationData.HAYInvolve}
+            </KeyIssueDescription>
+            <KeyIssueSeparator></KeyIssueSeparator>
+          </KeyIssue>
+          <KeyIssue name="WhatIsYourStrategy">
+            <KeyIssueHeader>
+              <KeyIssueTitle>
+                Strategy to develop the NEAR ecosystem
+              </KeyIssueTitle>
+            </KeyIssueHeader>
+            <KeyIssueDescription>
+              {data.nominationData.WIYStrategy}
+            </KeyIssueDescription>
+            <KeyIssueSeparator></KeyIssueSeparator>
+          </KeyIssue>
           <KeyIssue>
             <KeyIssueHeader>
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
@@ -902,13 +933,18 @@ return (
         </ButtonsLowerSection>
         <TagSectionContainer>
           <TagSection>
-            {data.nominationData.tags.split(",").map((data) => {
-              return (
-                <Tag>
-                  <TagText>{data}</TagText>
-                </Tag>
-              );
-            })}
+            {data.nominationData.tags
+              .trim()
+              .split(",")
+              .map((data) => {
+                return data === "" ? (
+                  <></>
+                ) : (
+                  <Tag>
+                    <TagText>{data}</TagText>
+                  </Tag>
+                );
+              })}
           </TagSection>
           <ViewButtonContainer>
             {data.preview ? (
