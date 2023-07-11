@@ -1,7 +1,6 @@
 const Container = styled.div`
   background-color: #000;
   color: #fff;
-  padding: 40px;
 `;
 
 const Title = styled.h1`
@@ -22,16 +21,30 @@ const Description = styled.p`
 
 return (
   <Container>
-    <Title>Marma J Gaming</Title>
-    <Description>
-      Explore the crypto-based gaming world of Marma J Gaming where you can
+    <Widget
+      src="jay100.near/widget/CTTDescription"
+      props={{
+        title: "Marma J Gaming",
+        description: `Explore the crypto-based gaming world of Marma J Gaming where you can
       collaborate artistically with friends, gather your pets for a battle,
       outfit your hero to explore dungeons and take part in raids, and gather an
-      army to position yourself as the master tactician.
-    </Description>
+      army to position yourself as the master tactician.`,
+      }}
+    />
+    {/*<Widget
+      src="jay100.near/widget/CTTDescription"
+      props={{
+        title: "Marma J Gaming",
+        description: ` Explore the crypto-based gaming world of Marma J Gaming where you can
+      collaborate artistically with friends, gather your pets for a battle,
+      outfit your hero to explore dungeons and take part in raids, and gather an
+      army to position yourself as the master tactician.`,
+      }}
+    /> */}
     <Widget src={"shemar268abel.near/widget/PixelParty"} />
     <Widget src={"ihyshan.near/widget/MJG-Widget"} />
     <Widget src={"quan15.near/widget/MJG-Widget"} />
     <Widget src={"jay100.near/widget/MJG-Widget"} />
+    <Widget />
   </Container>
 );
