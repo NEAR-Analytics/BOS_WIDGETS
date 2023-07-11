@@ -35,129 +35,112 @@ const logo = (
 );
 
 const Theme = styled.div`
-    color: white;
-    padding: 0;
-    margin:0;
-    width: 100%;
-    min-width: 1000px;
-    height: 100%;
-    min-height: 400px;
-    display: grid;
-    place-items: center;
-    padding-top: 100px;
-    padding-bottom: 100px;
-    margin: 0 auto;
-    background: url(https://bafybeifnxzoabfcn4txprj7pkexb4adkcxnp34qfnsk3wkztay2sweuh44.ipfs.w3s.link/polygon-bg-optimized.png) no-repeat center center; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-color: #0D0E20;
+  color: white;
+  padding: 0;
+  margin:0;
+  width: 100%;
+  min-width: 1000px;
+  height: 100%;
+  min-height: 400px;
+  display: grid;
+  place-items: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  margin: 0 auto;
+  background: url(https://bafybeifnxzoabfcn4txprj7pkexb4adkcxnp34qfnsk3wkztay2sweuh44.ipfs.w3s.link/polygon-bg-optimized.png) no-repeat center center; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-color: #0D0E20;
 
-    .connect-web3 {
-      background: white;
-      color: #44F;
-      border-color: white;
-      &:hover {
-        background: #ddd;
-        border-color: #bbb;
-        color: black;
-        color: #00F;
-      }
+  @mixin button-styled {
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 24px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    list-style: none;
+  }
+
+  .connect-web3 {
+    background: white;
+    color: #44F;
+    border-color: white;
+    &:hover {
+      background: #ddd;
+      border-color: #bbb;
+      color: black;
+      color: #00F;
     }
+  }
 
-    .grid {
+  .1234 {
+    background: red !important;
+  }
+
+  .grid {
+    display: flex;
+    align-items: flex-start;
+    justify-items: center;
+    > div {
+      padding: 16px;
+    }
+  }
+
+  .apps {
+    width: 332px;
+
+    >h1 {
+      color: white;
+    }
+    >h2 {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.4rem;
+      margin-bottom: 32px;
+    }
+    >div {
       display: flex;
-      align-items: flex-start;
-      justify-items: center;
-      > div {
-        padding: 16px;
+      flex-wrap: wrap;
+      
+    > div {
+      width: 150px;
+      height: 150px;
+      margin: 8px;
+      margin-bottom: 64px;
+      text-align: center;
+      > img {
+        width: 100px;
+        border-radius: 50%;
       }
-    }
-
-    .apps {
-      width: 332px;
-
       >h1 {
-        color: white;
+        margin: 16px 0;
+        font-size: 1rem;
       }
-      >h2 {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 1.4rem;
-        margin-bottom: 32px;
-      }
-      >div {
-        display: flex;
-        flex-wrap: wrap;
-        
-      > div {
-        width: 150px;
-        height: 150px;
-        margin: 8px;
-        margin-bottom: 64px;
-        text-align: center;
-        > img {
-          width: 100px;
-          border-radius: 50%;
-        }
-        >h1 {
-          margin: 16px 0;
-          font-size: 1rem;
-        }
-        > button {
-          background: rgba(255, 255, 255, 0.5);
-          border: none;
-          border-radius: 24px;
-          font-size: 0.8rem;
-          text-transform: uppercase;
-        }
-}
+      > button {
+        @include button-styled;
       }
     }
+  }
 
-    .center {
-      display: grid;
-      align-items: center;
-      justify-items: center;
-    }
+  .center {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+  }
 
-    .logo {
-        margin: 32px 0px;
-    }
+  .logo {
+    margin: 32px 0px;
+  }
 
-    .radio {
-        display: inline-flex;
-        justify-content: center;
-        border-radius: 999px;
-        background-color: #353535;
-
-        .item {
-          border: none;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 12px;
-          line-height: 15px;
-          padding: 6px 8px;
-          border-radius: 999px;
-          background-color: #353535;
-          color: white;
-        }
-
-        .item[data-state='checked'] {
-          background-color: #8247E5;
-          border-radius: 999px;
-        }
-    }
-
-    .component {
-      margin-top: 1.5rem;
-    }
+  .component {
+    margin-top: 1.5rem;
+  }
 `;
 
 State.init({
-  radio: "bridge",
-  component: "quickswap",
+  bridge: true,
+  component: null,
 });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
@@ -178,15 +161,9 @@ if (state.sender === "") {
   State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] || "" });
 }
 
-const handleRadioChange = (radio) => {
-  State.update({ radio });
-};
+const { bridge, component } = state;
 
-const { radio, component } = state;
-
-console.log("output", JSON.stringify(state));
-
-if (state.sender === "" || state.chainId !== 1101) {
+if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
   return (
     <Theme>
       <div className="grid">
@@ -215,8 +192,18 @@ return (
   <Theme>
     <div className="grid">
       <div className="center">
+        <div className="logo">{logo}</div>
+
+        <div style={{ textAlign: "center", margin: "16px 0" }}>
+          <button
+            style={{ margin: "auto" }}
+            onClick={() => State.update({ bridge: true, component: null })}
+          >
+            Bridge
+          </button>
+        </div>
+
         <div className="apps">
-          <div className="logo">{logo}</div>
           <h1>Bring Ethereum to everyone.</h1>
           <h2>Fast, cheap and secure.</h2>
 
@@ -299,71 +286,49 @@ return (
       </div>
 
       <div className="component">
-        {component === "quickswap" && (
-          <div className="center">
-            <RadioGroup.Root
-              className="radio"
-              type="single"
-              defaultValue="bridge"
-              aria-label="zkevm"
-              onValueChange={handleRadioChange}
-            >
-              <RadioGroup.Item
-                className="item"
-                value="bridge"
-                aria-label="Bridge"
-              >
-                <span>Bridge</span>
-              </RadioGroup.Item>
-              <RadioGroup.Item className="item" value="swap" aria-label="Swap">
-                <span>Swap</span>
-              </RadioGroup.Item>
-            </RadioGroup.Root>
-            {radio === "bridge" ? (
-              <Widget src="ciocan.near/widget/zkevm-bridge" />
-            ) : (
-              <Widget src="zavodil.near/widget/swap-styled" />
-            )}
-          </div>
-        )}
+        <div className="center">
+          {bridge === true && component === null ? (
+            <Widget src="ciocan.near/widget/zkevm-bridge" />
+          ) : (
+            <>
+              {component === "quickswap" && (
+                <Widget src="zavodil.near/widget/swap-zkevm" />
+              )}
 
-        {component === "aave" && (
-          <div className="center">
-            <Widget src="aave-v3.near/widget/AAVE" />
-          </div>
-        )}
+              {component === "aave" && (
+                <Widget src="aave-v3.near/widget/AAVE" />
+              )}
 
-        {component === "pancake" && (
-          <div className="center">
-            <Widget
-              src="zavodil.near/widget/swap-styled"
-              props={{
-                dex: "Pancake Swap",
-                forceNetwork: "ZKEVM",
-              }}
-            />
-          </div>
-        )}
+              {component === "pancake" && (
+                <Widget
+                  src="zavodil.near/widget/swap-zkevm"
+                  props={{
+                    dex: "Pancake Swap",
+                    forceNetwork: "ZKEVM",
+                  }}
+                />
+              )}
 
-        {component === "balancer" && (
-          <div className="center">
-            <Widget
-              src="zavodil.near/widget/swap-styled"
-              props={{
-                dex: "Balancer",
-                forceNetwork: "ZKEVM",
-              }}
-            />
-          </div>
-        )}
+              {component === "balancer" && (
+                <Widget
+                  src="zavodil.near/widget/swap-zkevm"
+                  props={{
+                    dex: "Balancer",
+                    forceNetwork: "ZKEVM",
+                  }}
+                />
+              )}
 
-        {component === "gamma" && (
-          <div className="center">
-            <Widget src="james-cordova423.near/widget/gamma-zkevm-table" />
-            <br />
-            <Widget src="james-cordova423.near/widget/gamma-zkevm-vault" />
-          </div>
-        )}
+              {component === "gamma" && (
+                <>
+                  <Widget src="james-cordova423.near/widget/gamma-zkevm-app" />
+                  <br />
+                  <Widget src="james-cordova423.near/widget/gamma-zkevm-vault" />
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   </Theme>
