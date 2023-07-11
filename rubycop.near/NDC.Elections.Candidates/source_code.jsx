@@ -5,7 +5,7 @@ const {
   id,
   typ,
   ref_link,
-  isEnded,
+  winnerId,
   quorum,
   seats,
   voters_num,
@@ -103,7 +103,7 @@ const CandidateItem = styled.div`
   background: ${(props) =>
     props.selected
       ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"
-      : props.isEnded
+      : props.winnerId
       ? "#239F28"
       : "#F8F8F9"};
   border-color: ${(props) => (props.selected ? "#4F46E5" : "#F8F8F9")};
@@ -341,7 +341,7 @@ const CandidateList = ({ candidateId, votes }) => (
           });
       }}
       selected={state.selected === candidateId}
-      isEnded={isEnded === candidateId}
+      winnerId={winnerId === candidateId}
     >
       <div className="d-flex">
         {isIAmHuman && (
