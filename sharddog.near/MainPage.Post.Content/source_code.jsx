@@ -32,8 +32,6 @@ return content ? (
         <div className="w-100 rounded-3 text-center">
           <Widget
             src="sharddog.near/widget/Image"
-            dataToggle="modal"
-            dataTarget="#imgModal"
             props={{
               image: content.image,
               className: "img-fluid rounded-3",
