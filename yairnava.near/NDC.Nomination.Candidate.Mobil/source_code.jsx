@@ -97,7 +97,7 @@ background: var(--gradient-purple-gradient, linear-gradient(90deg, #9333EA 0%, #
 const HouseTagText = styled.p`
 color: #FFF;
 font-size: 8px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -123,7 +123,7 @@ background-clip: padding-box, border-box;
 `;
 const TagDivText = styled.p`
 font-size: 8px;
-font-family: Avenir;
+font-family: Open Sans;
 margin: 0px;
 font-weight: 500;
 line-height: 120%;
@@ -145,7 +145,7 @@ justify-content: center;
 margin: 0px;
 color: #000;
 font-size: 14px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 `;
@@ -156,7 +156,7 @@ justify-content: center;
 color: #828688;
 margin:0px;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 120%;
 `;
 
@@ -186,7 +186,7 @@ background-clip: padding-box, border-box;
 `;
 const UpvoteCount = styled.p`
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -227,7 +227,7 @@ flex-direction: column;
 flex: 1 0 0;
 color: #000;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 800;
 line-height: 120%;
 margin: 0px;
@@ -249,7 +249,7 @@ const PlatInforHeadText = styled.p`
 margin: 0px;
 color: var(--000000, #000);
 font-size: 10px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 `;
@@ -269,14 +269,14 @@ gap: 2px;
 const KeyIssueTitle = styled.p`
 color: var(--primary-000000, #000);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 120%;
 margin: 0px;
 `;
 const KeyIssueDescription = styled.p`
 color: #828688;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 130%;
 margin: 0px;
 width: 302px;
@@ -308,7 +308,7 @@ align-self: stretch;
 const CandidateHeaderText = styled.p`
 color: #000;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 800;
 line-height: 120%;
 margin: 0px;
@@ -353,7 +353,7 @@ background: #F0E1CE;
 const CandidateTagText = styled.p`
 color: var(--secondary-warning, #F19D38);
 font-size: 10px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -362,7 +362,7 @@ const CandidateTime = styled.p`
 margin: 0px;
 color: var(--primary-828688, #828688);
 font-size: 10px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 `;
@@ -376,7 +376,7 @@ align-self: stretch;
 const CandidateTitle = styled.p`
 color: var(--000000, #000);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin:0px;
@@ -384,7 +384,7 @@ margin:0px;
 const CandidateDescription = styled.p`
 color: var(--primary-828688, #828688);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 130%;
 margin: 0px;
 width: 295px;
@@ -416,7 +416,7 @@ align-self: stretch;
 const DeclarationHeaderText = styled.p`
 color: #000;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 800;
 line-height: 120%;
 `;
@@ -433,7 +433,7 @@ background: #FFF;
 const DeclarationDescription = styled.p`
 color: var(--primary-828688, #828688);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 130%;
 text-align: justify;
 `;
@@ -460,7 +460,7 @@ gap: 20px;
 const CommentHeaderText = styled.p`
 color: var(--000000, #000);
 font-size: 16px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -509,7 +509,7 @@ background: var(--buttons-yellow-default, #FFD50D);
 const CommentText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
