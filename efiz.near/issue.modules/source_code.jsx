@@ -4,13 +4,16 @@ const things = Social.index("post", "main", {
   limit: 10,
 });
 
+if (!things) {
+  return <p>Loading...</p>;
+}
+
 return (
   <div>
     <Grid>
-      <div>Hello</div>
-      <div>Hello</div>
-      <div>Hello</div>
-      <div>Hello</div>
+      {things?.map((it) => (
+        <p>{JSON.stringify(it)}</p>
+      ))}
     </Grid>
   </div>
 );
