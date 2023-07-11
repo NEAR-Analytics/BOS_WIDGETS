@@ -822,14 +822,16 @@ return (
           <KeyIssuesTitle>Key issues</KeyIssuesTitle>
         </KeyIssuesHeader>
         <KeyIssuesContainer>
-          <KeyIssue name="HowAreYouInvolved">
+          <KeyIssue name="HowAreYouInvolved" style={{ height: "35px]" }}>
             <KeyIssueHeader>
               <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
                 Involvement in the NEAR ecosystem, qualifications to be a
                 candidate and reasons for being voted
               </KeyIssueTitle>
             </KeyIssueHeader>
-            <KeyIssueDescription style={{ "margin-top": "5px" }}>
+            <KeyIssueDescription
+              style={{ "margin-top": "5px", "margin-bottom": "5px" }}
+            >
               {data.nominationData.HAYInvolve}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
