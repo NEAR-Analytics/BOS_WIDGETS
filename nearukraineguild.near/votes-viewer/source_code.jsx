@@ -16,6 +16,7 @@ const TableCell = styled.td`
   padding: 8px;
   white-space: nowrap;
   text-align: left;
+  width: 33.33%;
 
   @media (max-width: 768px) {
     display: block;
@@ -52,14 +53,15 @@ const candidates = Near.view("rc-dao.sputnik-dao.near", "get_proposals", {
 });
 console.log("candidates", candidates);
 
+State.init({ expandedCandidate: null });
+
 const extractCandidateInfo = (description) => {
   const startIndex = description.indexOf("Candidate:") + 11;
   const endIndex = description.indexOf("(");
   const candidateName = description.substring(startIndex, endIndex).trim();
   const nameWithoutLink = candidateName.replace(/ *\([^)]*\) */g, "");
-  const link = description
-    .substring(endIndex + 1, description.length - 1)
-    .trim();
+  const linkIndex = description.indexOf(")");
+  const link = description.substring(linkIndex + 1, description.length).trim();
 
   return {
     candidateName: nameWithoutLink,
@@ -73,8 +75,6 @@ const afrika = [];
 const northAmerica = [];
 const southAmerica = [];
 const avb = [];
-
-State.init({ selectedCandidate: null });
 
 candidates.map((candidate) => {
   let votesCount = 0;
@@ -93,6 +93,7 @@ candidates.map((candidate) => {
     votesCount,
     ...candidateName,
   };
+
   const description = candidate.description.toLowerCase();
   if (description.includes("europe")) {
     europe.push(updatedCandidate);
@@ -110,30 +111,14 @@ candidates.map((candidate) => {
   return;
 });
 
-const handleCandidateClick = (candidate) => {
-  State.update({ selectedCandidate: candidate });
-};
+console.log(state.expandedCandidate);
 
-console.log(selectedCandidate);
-
-const renderVotesTable = () => {
-  if (!selectedCandidate) {
-    return null;
+const toggleExpansion = (id) => {
+  if (state.expandedCandidate === id) {
+    State.update({ expandedCandidate: null });
+  } else {
+    State.update({ expandedCandidate: id });
   }
-
-  const votesKeys = Object.keys(selectedCandidate.votes);
-
-  return (
-    <VotesTable>
-      <tbody>
-        {votesKeys.map((voteKey, index) => (
-          <VotesTableRow key={index}>
-            <VotesTableCell>{voteKey}</VotesTableCell>
-          </VotesTableRow>
-        ))}
-      </tbody>
-    </VotesTable>
-  );
 };
 
 const CandidateTable = ({ title, candidates }) => (
@@ -143,23 +128,45 @@ const CandidateTable = ({ title, candidates }) => (
       <Table>
         <tbody>
           {candidates.map((candidate, index) => (
-            <TableRow
-              key={index}
-              onClick={() => handleCandidateClick(candidate)}
-            >
-              <TableCell>
-                <CandidateName>
-                  <a
-                    href={candidate.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {candidate.candidateName}
-                  </a>
-                </CandidateName>
-              </TableCell>
-              <TableCell>Votes: {candidate.votesCount}</TableCell>
-            </TableRow>
+            <>
+              <TableRow key={index}>
+                <TableCell>
+                  <CandidateName>
+                    <a
+                      href={candidate.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {candidate.candidateName}
+                    </a>
+                  </CandidateName>
+                </TableCell>
+                <TableCell>Votes: {candidate.votesCount}</TableCell>
+                <TableCell>
+                  <button onClick={() => toggleExpansion(candidate.id)}>
+                    Open
+                  </button>
+                </TableCell>
+              </TableRow>
+              {state.expandedCandidate === candidate.id && (
+                <TableRow>
+                  <TableCell colSpan="2">
+                    <VotesTable>
+                      <tbody>
+                        {Object.entries(candidate.votes).map(
+                          ([voter, vote], voteIndex) => (
+                            <VotesTableRow key={voteIndex}>
+                              <VotesTableCell>{voter}</VotesTableCell>
+                              <VotesTableCell>{vote}</VotesTableCell>
+                            </VotesTableRow>
+                          )
+                        )}
+                      </tbody>
+                    </VotesTable>
+                  </TableCell>
+                </TableRow>
+              )}
+            </>
           ))}
         </tbody>
       </Table>
@@ -180,7 +187,6 @@ const sortedAvb = avb.slice().sort((a, b) => b.votesCount - a.votesCount);
 
 return (
   <div>
-    {renderVotesTable()}
     <CandidateTable title="Europe Candidates" candidates={sortedEurope} />
     <CandidateTable title="Asia Candidates" candidates={sortedAsia} />
     <CandidateTable title="Africa Candidates" candidates={sortedAfrika} />
