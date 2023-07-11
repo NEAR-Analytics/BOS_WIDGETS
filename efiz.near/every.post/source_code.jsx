@@ -6,6 +6,7 @@ const accountWhitelist = props.accountWhitelist;
 const accountBlacklist = props.accountBlacklist;
 const feedOrder = props.feedOrder || "desc";
 const disableCaching = props.disableCaching || false;
+const postTemplate = props.postTemplate || "every.near/widget/every.post.view";
 
 if (hashtagBlacklist.length) {
   hashtagBlacklist = hashtagBlacklist.map((it) => it.toLowerCase());
@@ -92,7 +93,7 @@ const renderItem = (a) => {
     // so we're just gonna return for now...
     return (
       <Widget
-        src="every.near/widget/every.post.view"
+        src={{ postTemplate }}
         props={{
           path,
           blockHeight: a.blockHeight,
@@ -120,7 +121,7 @@ const renderItem = (a) => {
 
       return (
         <Widget
-          src="every.near/widget/every.post.view"
+          src={{ postTemplate }}
           props={{
             path,
             blockHeight: a.blockHeight,
