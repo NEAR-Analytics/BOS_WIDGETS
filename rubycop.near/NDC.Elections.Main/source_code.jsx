@@ -19,6 +19,7 @@ State.init({
   myVotes: [],
   isIAmHuman: false,
   candidateId: "",
+  houses,
 });
 
 const isHuman = Near.view(registryContract, "is_human", {
@@ -61,7 +62,10 @@ const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
 };
 
-const handleFilter = (e) => State.update({ candidateId: e.target.value });
+const handleFilter = (e) => {
+  const text = e.target.value;
+  State.update({ candidateId: text });
+};
 
 const Container = styled.div`
   padding: 20px 0;
@@ -91,10 +95,10 @@ const Right = styled.div`
 const H5 = styled.h5`
   margin-bottom: 20px;
 `;
-
+console.log(state.houses);
 return (
   <div>
-    {houses.map((house) => (
+    {state.houses.map((house) => (
       <>
         {house.id === state.selectedHouse && (
           <Widget
@@ -125,14 +129,14 @@ return (
           src={widgets.houses}
           props={{
             selectedHouse: state.selectedHouse,
-            houses,
+            houses: state.houses,
             handleSelect,
             myVotes: state.myVotes,
           }}
         />
       </Left>
       <div className="col-lg-6 p-2 p-md-3">
-        {houses.map((house) => (
+        {state.houses.map((house) => (
           <>
             {house.id === state.selectedHouse && (
               <Widget
