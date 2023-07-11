@@ -401,7 +401,10 @@ const handleAFFRole = (params) => {
   return;
 };
 const handleTags = (item) => {
-  State.update({ tags: item.target.value.substring(0, 500), error_msg: null });
+  State.update({
+    tags: item.target.value.substring(0, 500).trim(),
+    error_msg: null,
+  });
 };
 const handleDeclaration = (item) => {
   State.update({ agreement: item.target.checked.toString(), error_msg: null });
