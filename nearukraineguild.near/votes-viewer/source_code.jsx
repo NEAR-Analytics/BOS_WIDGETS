@@ -48,7 +48,7 @@ const VotesTableCell = styled.td`
 
 const candidates = Near.view("rc-dao.sputnik-dao.near", "get_proposals", {
   from_index: 911,
-  limit: 26,
+  limit: 27,
 });
 console.log("candidates", candidates);
 
