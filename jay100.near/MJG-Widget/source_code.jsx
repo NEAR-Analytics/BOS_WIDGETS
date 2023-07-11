@@ -77,7 +77,7 @@ const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
             key={index}
             target="_blank"
             rel="noopener noreferrer"
-            /*onClick={()=> handleButtonClick(button.url)}*/ href={button.url}
+            href={button.url}
           >
             {" "}
             <PixelContainer>
@@ -169,7 +169,30 @@ return (
         ></div>
       </div>
     </Hero>
+
     <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />
+    {isUserRegistered && (
+      <a
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "1rem",
+        }}
+        key={index}
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://pd.marmaj.org/chainteam"
+      >
+        {" "}
+        <PixelContainer>
+          <Pixel>
+            <PixelText>Play Now</PixelText>
+          </Pixel>
+        </PixelContainer>
+      </a>
+    )}
+
     <Widget src="jay100.near/widget/Carousel" props={slide_data} />
     {isUserRegistered ? (
       <Widget src="jay100.near/widget/PlayerDashboard" />
