@@ -19,10 +19,10 @@ const Description = styled.p`
 `;
 
 const FakeButton = styled.a`
-  border-radius: 5px;
-  width: auto;
+  border-radius: 0px;
+  width: 100%;
   text-transform: uppercase;
-  padding: 8px 14px;
+  padding: 10px 14px;
   background: rgba(155, 155, 155, 0.2);
   color: #fff;
   cursor: pointer;
@@ -50,7 +50,7 @@ const Card = styled.div`
 
 const Hero = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   border-radius: 15px;
   text-align: center;
   justify-content: center;
@@ -85,7 +85,7 @@ const WidgetCard = (props) => {
         style={{
           display: "flex",
           flexFlow: "row wrap",
-          justifyContent: "space-evenly",
+          justifyContent: "center",
         }}
       >
         {actionButtons.map((button, index) => (
@@ -109,35 +109,14 @@ const WidgetImages = [
     title: "Pixel Party Image",
     url: "https://pd.marmaj.org/pixelparty2.jpg",
   },
-  {
-    title: "Pixel Pets Image",
-    url: "https://pd.marmaj.org/hatch.png",
-  },
-  {
-    title: "Crypto Heroes Image",
-    url: "https://github.com/Dark-St-r/mjg-widget-data/assets/93423666/8d7eab5a-f278-43f5-a2da-88a323ce9da9",
-  },
-  {
-    title: "Chain Team Tactics Image",
-    url: "https://pd.marmaj.org/ctt/mint2.png",
-  },
 ];
 
 const Mainnet = [
   { title: "Pixel Party", url: "https://pixelparty.marmaj.org/" },
-  { title: "Pixel Pets", url: "https://pd.marmaj.org/pixelpets" },
-  { title: "Crypto Heroes", url: "https://pd.marmaj.org/cryptoheroes" },
-  { title: "Chain Team Tactics", url: "https://pd.marmaj.org/chainteam" },
 ];
 
 const Testnet = [
   { title: "Pixel Party", url: "https://testnet.pixelparty.marmaj.org/" },
-  { title: "Pixel Pets", url: "https://pd-testnet.marmaj.org/pixelpets" },
-  { title: "Crypto Heroes", url: "https://pd-testnet.marmaj.org/cryptoheroes" },
-  {
-    title: "Chain Team Tactics",
-    url: "https://pd-testnet.marmaj.org/chainteam",
-  },
 ];
 
 const Wiki = [
@@ -145,17 +124,12 @@ const Wiki = [
     title: "Pixel Party Wiki",
     url: "https://github.com/MarmaJFoundation/pixelparty-wiki/wiki",
   },
+];
+
+const NFT = [
   {
-    title: "Pixel Pets Wiki",
-    url: "https://github.com/MarmaJFoundation/pixelpets-wiki/wiki",
-  },
-  {
-    title: "Crypto Heroes Wiki",
-    url: "https://github.com/MarmaJFoundation/cryptoheroes-wiki/wiki",
-  },
-  {
-    title: "Chain Team Tactics Wiki",
-    url: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
+    title: "Pixel Party NFT",
+    url: "https://www.mintbase.xyz/contract/mjr.mintbase1.near/token/0",
   },
 ];
 
@@ -170,45 +144,59 @@ return (
     }}
   >
     <Hero>
-      <Cover
-        src={WidgetImages[0].url}
-        alt={WidgetImages[0].title}
-        style={{ width: "100%" }}
-      />
-      <h1 style={{ marginBottom: "10px", textAlign: "center" }}>
-        <a
-          href="https://pixelparty.marmaj.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          PIXEL PARTY
-        </a>
-      </h1>
-      <p
-        style={{ marginBottom: "20px", fontSize: "1.3em", fontWeight: "bold" }}
+      <div
+        style={{
+          display: "flex",
+          flexFlow: "column",
+          alignItems: "space-evenly",
+          backgroundColor: "#0e0e1e",
+          padding: "20px",
+        }}
       >
-        NFT FRAME SHOWCASE
-      </p>
-
-      <Description
-        style={{ marginBottom: "20px", width: "100%", textAlign: "justify" }}
-      >
-        PixelParty, a groundbreaking and innovative NFT Frame showcase
-        meticulously constructed on the NEAR Protocol, embodies the fusion of
-        cutting-edge technology and artistic brilliance, boasting a truly
-        remarkable total supply of 600 tokens that serve as a testament to its
-        exceptional rarity and exclusivity.
-      </Description>
-      <div style={{ marginBottom: "20px", width: "100%" }}>
-        <div
+        <Cover
+          src={WidgetImages[0].url}
+          alt={WidgetImages[0].title}
+          style={{ width: "100%" }}
+        />
+        <h1 style={{ marginBottom: "10px", textAlign: "center" }}>
+          <a
+            href="https://pixelparty.marmaj.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            PIXEL PARTY
+          </a>
+        </h1>
+        <p
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            marginBottom: "20px",
+            fontSize: "1.3em",
+            fontWeight: "bold",
           }}
-        ></div>
+        >
+          NFT FRAME SHOWCASE
+        </p>
+
+        <Description
+          style={{ marginBottom: "20px", width: "100%", textAlign: "justify" }}
+        >
+          PixelParty, a groundbreaking and innovative NFT Frame showcase
+          meticulously constructed on the NEAR Protocol, embodies the fusion of
+          cutting-edge technology and artistic brilliance, boasting a truly
+          remarkable total supply of 600 tokens that serve as a testament to its
+          exceptional rarity and exclusivity.
+        </Description>
       </div>
+    </Hero>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        marginLeft: "15px",
+      }}
+    >
       <FakeButton
         href={Mainnet[0].url}
         target="_blank"
@@ -229,6 +217,10 @@ return (
         {" "}
         Wiki{" "}
       </FakeButton>
-    </Hero>
+      <FakeButton href={NFT[0].url} target="_blank" rel="noopener noreferrer">
+        {" "}
+        NFT{" "}
+      </FakeButton>
+    </div>
   </div>
 );
