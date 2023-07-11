@@ -148,7 +148,7 @@ const validateTrove = () => {
  *   4. sortedTroves
  *   5. hintHelpers
  */
-const borrowerOperationAddress = "0x24179CD81c9e782A4096035f7eC97fB8B783e007";
+const borrowerOperationAddress = "0xD69fC8928D4F3229341cb431263F1EBd87B1ade8";
 const borrowerOperationABI = [
   {
     inputs: [
@@ -164,7 +164,7 @@ const borrowerOperationABI = [
   },
 ];
 
-const troveManagerAddress = "0xA39739EF8b0231DbFA0DcdA07d7e29faAbCf4bb2";
+const troveManagerAddress = "0x0ECDF34731eE8Dd46caa99a1AAE173beD1B32c67";
 
 const troveManagerABI = [
   {
@@ -211,18 +211,18 @@ const troveManagerABI = [
   },
 ];
 
-const priceFeedAddress = "0x4c517D4e2C851CA76d7eC94B805269Df0f2201De";
+const priceFeedAddress = "0x07dD4Ce17De84bA13Fc154A7FdB46fC362a41E2C";
 const priceFeedABI = [
   {
     inputs: [],
-    name: "lastGoodPrice",
+    name: "getPrice",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
 ];
 
-const sortedtrovesAddress = "0x8FdD3fbFEb32b28fb73555518f8b361bCeA741A6";
+const sortedtrovesAddress = "0x136eF31a3aF35929e3Fc870dDB9b7c071DAB1B97";
 const sortedtrovesABI = [
   {
     inputs: [],
@@ -247,7 +247,7 @@ const sortedtrovesABI = [
   },
 ];
 
-const hintHelpersAddress = "0xE84251b93D9524E0d2e621Ba7dc7cb3579F997C0";
+const hintHelpersAddress = "0x5E24dC4C8f8052903c5dBe801F5A5faC18561a83";
 const hintHelpersABI = [
   {
     inputs: [
@@ -372,7 +372,7 @@ if (Ethers.provider()) {
   const signer = Ethers.provider().getSigner();
   signer.getAddress().then((address) => {
     State.update({ address });
-    if (state.chainId === 1) {
+    if (state.chainId === 11155111) {
       const troveManagerContract = new ethers.Contract(
         troveManagerAddress,
         troveManagerABI,
@@ -450,7 +450,7 @@ if (Ethers.provider()) {
       Ethers.provider().getSigner()
     );
 
-    priceFeedContract.lastGoodPrice().then((priceRes) => {
+    priceFeedContract.getPrice().then((priceRes) => {
       const price = Number(ethers.utils.formatEther(priceRes));
 
       State.update({ price });
@@ -496,95 +496,95 @@ Ethers.provider() &&
  * Update this code block to change the style.
  */
 const BorrowWrapper = styled.div`
-  width: 100%;
-  .input-section{
     width: 100%;
-    color: #8e9aaf;
-    &.deposit{
-        margin-bottom: 1rem;
+    .input-section{
+      width: 100%;
+      color: #8e9aaf;
+      &.deposit{
+          margin-bottom: 1rem;
+      }
     }
-  }
-  .input-label{
-    color: black;
-    margin-bottom: 0.5rem;
-  }
-  .input-wrapper{
-    display: flex;
-    width: 100%;
-    border: rgb(220, 220, 220) 1px solid;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .info-wrapper{
-    display: flex;
-    flex-direction: column;
-    margin: 0 0 2rem 0;
-    div {
-      height: 1.75rem;
+    .input-label{
+      color: black;
+      margin-bottom: 0.5rem;
+    }
+    .input-wrapper{
+      display: flex;
+      width: 100%;
+      border: rgb(220, 220, 220) 1px solid;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .info-wrapper{
+      display: flex;
+      flex-direction: column;
+      margin: 0 0 2rem 0;
+      div {
+        height: 1.75rem;
+        display: flex;
+        align-items: center;
+      }
+    }
+    .detail-info-wrapper{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #8e9aaf;
+    }
+      .error-message{
+          height: 2rem;
+          width: 100%;
+          color: #3a0ca3;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+  
+      .info-unit{
+          margin-left: 0.5rem;
+      }
+  
+      .confirm-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .confirm {
+      border: none;
+      border-radius: 1000px;
+      width: 75%;
+      height: 2rem;
+      transition: 0.5s all;
+      
+      font-weight: 600;
       display: flex;
       align-items: center;
+      justify-content: center;
+      &.ok {
+        background-color: #3a0ca3;
+        color: white;
+        font-size: 1.1rem;
+      }
+      &.not-ok {
+        background-color: #8e9aaf;
+        color: white;
+        font-size: 0.9rem;
+      }
     }
-  }
-  .detail-info-wrapper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #8e9aaf;
-  }
-    .error-message{
-        height: 2rem;
-        width: 100%;
-        color: #3a0ca3;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  
+    input {
+      border: none;
+      background-color: transparent;
     }
-
-    .info-unit{
-        margin-left: 0.5rem;
+    input:focus {
+      outline: none;
     }
-
-    .confirm-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  .confirm {
-    border: none;
-    border-radius: 1000px;
-    width: 75%;
-    height: 2rem;
-    transition: 0.5s all;
-    
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.ok {
-      background-color: #3a0ca3;
-      color: white;
-      font-size: 1.1rem;
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
-    &.not-ok {
-      background-color: #8e9aaf;
-      color: white;
-      font-size: 0.9rem;
-    }
-  }
-
-  input {
-    border: none;
-    background-color: transparent;
-  }
-  input:focus {
-    outline: none;
-  }
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
+  `;
 
 /**
  * @description
@@ -593,7 +593,7 @@ const BorrowWrapper = styled.div`
  * The UI is activated when the conditions below are satisfied.
  * 1. Connect your wallet.
  * 2. Network is Ethereum mainnet.
- * 3. Passes the "validateTreve" function result.
+ * 3. Passes the "validateTrove" function result.
  * 4. There should be no active trove.
  * 5. Enter a value greater than 0 in the "coll" and "borrow" Number fields.
  */
@@ -605,7 +605,9 @@ return (
         <input
           type="text"
           placeholder="0.0000 ETH"
-          disabled={!state.address || state.isOpenTrove || state.chainId !== 1}
+          disabled={
+            !state.address || state.isOpenTrove || state.chainId !== 11155111
+          }
           onChange={setcoll}
           value={state.displayColl}
         ></input>
@@ -617,7 +619,9 @@ return (
         <input
           type="text"
           placeholder="0.0000 LUSD"
-          disabled={!state.address || state.isOpenTrove || state.chainId !== 1}
+          disabled={
+            !state.address || state.isOpenTrove || state.chainId !== 11155111
+          }
           onChange={setBorrow}
           value={state.displayBorrow}
         />
@@ -673,8 +677,8 @@ return (
           disabled={state.isBlocked}
           onClick={openTrove}
         >
-          {Ethers.provider() && state.chainId !== 1
-            ? "Change network to Ethereum"
+          {Ethers.provider() && state.chainId !== 11155111
+            ? "Change network to Sepolia"
             : state.isOpenTrove === true
             ? "You already have active Trove"
             : state.loading
