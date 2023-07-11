@@ -32,12 +32,6 @@ const housesMapping = {
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 
-const filteredCandidates = result.filter(([candidate, _vote], _index) =>
-  candidate.toLowerCase().includes(candidateId.toLowerCase())
-);
-
-console.log(filteredCandidates);
-
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
@@ -47,7 +41,7 @@ State.init({
       ? _bookmarked[_bookmarked.length - 1].value
       : [],
   selectedCandidates: [],
-  candidates: filteredCandidates,
+  candidates: result,
   filter: {
     bookmark: false,
     candidate: false,
@@ -56,6 +50,12 @@ State.init({
   },
   voters: [],
 });
+
+const filteredCandidates = result.filter(([candidate, _vote], _index) =>
+  candidate.toLowerCase().includes(candidateId.toLowerCase())
+);
+
+State.update({ candidates: filteredCandidates });
 
 const H4 = styled.h4`
   margin-bottom: 0;
