@@ -526,7 +526,7 @@ const VerifyHuman = () => (
 return (
   <Container>
     <h1>{housesMapping[typ]}</h1>
-    {state.candidates.length > 0 && (
+    {state.candidates.length > 0 ? (
       <>
         <Filters />
         <CandidatesContainer>
@@ -539,6 +539,12 @@ return (
           ))}
         </CandidatesContainer>
       </>
+    ) : (
+      <div className="p-5 d-flex justify-content-center align-items-center">
+        <h4 className="text-center">
+          There are no candidates found regarding searching query
+        </h4>
+      </div>
     )}
     <div className="position-sticky">
       {isIAmHuman ? <CastVotes /> : <VerifyHuman />}
