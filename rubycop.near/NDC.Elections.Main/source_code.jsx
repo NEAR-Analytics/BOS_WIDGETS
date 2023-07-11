@@ -91,7 +91,7 @@ const Right = styled.div`
 const H5 = styled.h5`
   margin-bottom: 20px;
 `;
-console.log(houses);
+
 return (
   <div>
     {houses.map((house) => (
