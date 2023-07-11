@@ -72,7 +72,7 @@ const getProposalVotes = (mpip_id) => {
   const proposalVotes = Near.view(contractId, "get_proposal_votes", {
     mpip_id,
   });
-  if (!proposalVotes.has_voted.length) return "0VP";
+  if (!proposalVotes.has_voted.length) return "0";
   const voting_power = proposalVotes.has_voted.reduce(
     (accumulator, vote) => accumulator + parseInt(vote.voting_power),
     0
@@ -189,7 +189,7 @@ return (
               <td class="text-end">
                 <Cell end>
                   <Label>{getVotingTimeRemaining(proposal)}</Label>
-                  <Value> {getProposalVotes(proposal.mpip_id)}</Value>
+                  <Value> {getProposalVotes(proposal.mpip_id)}VP</Value>
                 </Cell>
               </td>
             </tr>
