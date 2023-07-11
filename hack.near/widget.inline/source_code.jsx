@@ -112,7 +112,7 @@ return (
           >
             <i className="bi bi-clock me-1"></i>history
           </a>
-          <small className="text-nowrap text-muted m-3">
+          <small className="text-nowrap text-muted m-1">
             <i className="bi bi-hourglass me-1"></i>
             <Widget
               src="mob.near/widget/TimeAgo"
