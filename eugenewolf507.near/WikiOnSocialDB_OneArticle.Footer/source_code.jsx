@@ -16,12 +16,7 @@ return (
         {author}
       </a>
       <br />
-      {timeCreated && (
-        <>
-          Posted on {getDate(timeCreated)}
-          <br />
-        </>
-      )}
+      Posted on {getDate(timeCreated)}
       <br />
       Last edit by{" "}
       <a
@@ -32,7 +27,6 @@ return (
       </a>
       <br />
       Edited on {getDate(timeLastEdit)}
-      <br />
       <br />
       Edit versions: {version}
     </div>
