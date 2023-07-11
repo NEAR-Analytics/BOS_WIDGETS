@@ -1,1 +1,1 @@
-return <h3>Hi BOS!</h3>;
+return "Hey BOS!";
