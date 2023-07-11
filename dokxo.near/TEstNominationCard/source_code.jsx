@@ -822,7 +822,7 @@ return (
           <KeyIssuesTitle>Key issues</KeyIssuesTitle>
         </KeyIssuesHeader>
         <KeyIssuesContainer>
-          <KeyIssue name="HowAreYouInvolved" style={{ height: "35px]" }}>
+          <KeyIssue name="HowAreYouInvolved" style={{ height: "35px" }}>
             <KeyIssueHeader>
               <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
                 Involvement in the NEAR ecosystem, qualifications to be a
