@@ -547,6 +547,7 @@ return (
         </CandidatesContainer>
       </>
     ) : (
+      <></>
     )}
     <div className="position-sticky">
       {isIAmHuman ? <CastVotes /> : <VerifyHuman />}
