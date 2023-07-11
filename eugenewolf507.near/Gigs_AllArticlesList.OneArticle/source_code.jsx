@@ -180,7 +180,7 @@ const Button = styled.button`
 
 // ========== JSX ==========
 const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
-  <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
+  <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-2 pb-3 ">
     {showButtons ? (
       statusTagsArr.map((tag) => (
         <button
