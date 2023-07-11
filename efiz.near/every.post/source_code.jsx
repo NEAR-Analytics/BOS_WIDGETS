@@ -93,7 +93,7 @@ const renderItem = (a) => {
     // so we're just gonna return for now...
     return (
       <Widget
-        src={{ postTemplate }}
+        src={postTemplate}
         props={{
           path,
           blockHeight: a.blockHeight,
@@ -121,7 +121,7 @@ const renderItem = (a) => {
 
       return (
         <Widget
-          src={{ postTemplate }}
+          src={postTemplate}
           props={{
             path,
             blockHeight: a.blockHeight,
