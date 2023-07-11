@@ -34,6 +34,23 @@ const logo = (
   </svg>
 );
 
+const buttonStyled = `
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 24px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  list-style: none;
+  color: white;
+  &:hover {
+  background: rgba(255, 255, 255, 0.8);
+  }
+  &:disabled {
+    color: black;
+    background: rgba(255, 255, 255, 0.25);
+  }
+`;
+
 const Theme = styled.div`
   color: white;
   padding: 0;
@@ -54,15 +71,6 @@ const Theme = styled.div`
   background-size: cover;
   background-color: #0D0E20;
 
-  @mixin button-styled {
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 24px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    list-style: none;
-  }
-
   .connect-web3 {
     background: white;
     color: #44F;
@@ -75,23 +83,36 @@ const Theme = styled.div`
     }
   }
 
-  .1234 {
-    background: red !important;
-  }
-
   .grid {
     display: flex;
     align-items: flex-start;
-    justify-items: center;
-    > div {
-      padding: 16px;
-    }
+    justify-content: center;
   }
 
   .apps {
-    width: 332px;
+    width: 380px;
+
+    .grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-right: 16px;
+
+      > .logo {
+        width: 260px;
+        height: 40px;
+        margin: 0;
+      }
+
+      > .bridge-button {
+        ${buttonStyled}
+        padding: 6px 12px;
+      }
+    }
 
     >h1 {
+      margin-top: 48px;
       color: white;
     }
     >h2 {
@@ -99,7 +120,7 @@ const Theme = styled.div`
       font-size: 1.4rem;
       margin-bottom: 32px;
     }
-    >div {
+    > div {
       display: flex;
       flex-wrap: wrap;
       
@@ -118,19 +139,9 @@ const Theme = styled.div`
         font-size: 1rem;
       }
       > button {
-        @include button-styled;
+        ${buttonStyled}
       }
     }
-  }
-
-  .center {
-    display: grid;
-    align-items: center;
-    justify-items: center;
-  }
-
-  .logo {
-    margin: 32px 0px;
   }
 
   .component {
@@ -163,13 +174,21 @@ if (state.sender === "") {
 
 const { bridge, component } = state;
 
+const setComponent = (component) => {
+  let update = { component, bridge: null };
+  if (component === "bridge") update = { component: null, bridge: true };
+  State.update(update);
+};
+
 if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
   return (
     <Theme>
       <div className="grid">
         <div className="center">
           <div className="apps">
-            <div className="logo">{logo}</div>
+            <div className="grid">
+              <div className="logo">{logo}</div>
+            </div>
             <h1>Bring Ethereum to everyone.</h1>
             <h2>Fast, cheap and secure.</h2>
             {!state.sender === undefined && (
@@ -192,18 +211,17 @@ return (
   <Theme>
     <div className="grid">
       <div className="center">
-        <div className="logo">{logo}</div>
-
-        <div style={{ textAlign: "center", margin: "16px 0" }}>
-          <button
-            style={{ margin: "auto" }}
-            onClick={() => State.update({ bridge: true, component: null })}
-          >
-            Bridge
-          </button>
-        </div>
-
         <div className="apps">
+          <div className="grid">
+            <div className="logo">{logo}</div>
+            <button
+              disabled={bridge}
+              className="bridge-button"
+              onClick={() => setComponent("bridge")}
+            >
+              Bridge
+            </button>
+          </div>
           <h1>Bring Ethereum to everyone.</h1>
           <h2>Fast, cheap and secure.</h2>
 
@@ -217,7 +235,7 @@ return (
               <h1>Quickswap</h1>
               <button
                 disabled={component === "quickswap"}
-                onClick={() => State.update({ component: "quickswap" })}
+                onClick={() => setComponent("quickswap")}
               >
                 DEX
               </button>
@@ -231,7 +249,7 @@ return (
               <h1>Gamma</h1>
               <button
                 disabled={component === "gamma"}
-                onClick={() => State.update({ component: "gamma" })}
+                onClick={() => setComponent("gamma")}
               >
                 Liquidity
               </button>
@@ -246,7 +264,7 @@ return (
                 <h1>Aave</h1>
                 <button
                   disabled={component === "aave"}
-                  onClick={() => State.update({ component: "aave" })}
+                  onClick={() => setComponent("aave")}
                 >
                   Lending Protocol
                 </button>
@@ -262,7 +280,7 @@ return (
               <h1>Pancake Swap</h1>
               <button
                 disabled={component === "pancake"}
-                onClick={() => State.update({ component: "pancake" })}
+                onClick={() => setComponent("pancake")}
               >
                 Dex
               </button>
