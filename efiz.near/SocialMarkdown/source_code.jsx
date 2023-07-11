@@ -64,7 +64,9 @@ const renderMention =
     />
   ));
 
-const WidgetWrapper = styled.div``;
+const WidgetWrapper = styled.div`
+  all: unset;
+`;
 
 const renderPath =
   props.renderPath ??
