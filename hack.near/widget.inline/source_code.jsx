@@ -82,7 +82,10 @@ return (
   <div className="card" style={{ borderRadius: "12px" }}>
     <div className="row py-3">
       <div className="m-auto text-center" style={{ maxWidth: "12em" }}>
-        <div className="d-inline-block" style={{ width: "5em", height: "5em" }}>
+        <div
+          className="d-inline-block mb-2"
+          style={{ width: "7em", height: "7em" }}
+        >
           <Widget
             src="mob.near/widget/Image"
             props={{
