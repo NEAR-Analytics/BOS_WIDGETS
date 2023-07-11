@@ -339,16 +339,12 @@ const CandidateList = ({ candidateId, votes }) => (
       className="d-flex align-items-center justify-content-between"
       onClick={(e) => {
         if (
-          e.target.id === "input" ||
-          e.target.id === "bookmark" ||
-          e.target.href ||
-          e.target.id === "link"
+          !["input", "bookmark", "link"].includes(e.target.id) &&
+          !e.target.href
         )
-          return;
-
-        State.update({
-          selected: state.selected === candidateId ? null : candidateId,
-        });
+          State.update({
+            selected: state.selected === candidateId ? null : candidateId,
+          });
       }}
       selected={state.selected === candidateId}
     >
@@ -387,9 +383,9 @@ const CandidateList = ({ candidateId, votes }) => (
       </div>
       <div className="d-flex">
         <NominationLink
-          id="nomination"
           className="d-flex"
           href={ref_link}
+          target="_blank"
           selected={state.selected === candidateId}
         >
           <span id="link" className="d-none d-md-block">
