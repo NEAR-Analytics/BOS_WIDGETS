@@ -99,7 +99,7 @@ margin-top:16px;
 margin-right:auto; 
 width: 104px;
 height: 19px;
-font-family: 'Avenir';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 500;
 font-size: 16px;
