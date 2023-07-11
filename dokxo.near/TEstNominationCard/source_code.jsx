@@ -822,6 +822,29 @@ return (
           <KeyIssuesTitle>Key issues</KeyIssuesTitle>
         </KeyIssuesHeader>
         <KeyIssuesContainer>
+          <KeyIssue name="HowAreYouInvolved">
+            <KeyIssueHeader>
+              <KeyIssueTitle>
+                Involvement in the NEAR ecosystem, qualifications to be a
+                candidate and reasons for being voted
+              </KeyIssueTitle>
+            </KeyIssueHeader>
+            <KeyIssueDescription>
+              {data.nominationData.HAYInvolve}
+            </KeyIssueDescription>
+            <KeyIssueSeparator></KeyIssueSeparator>
+          </KeyIssue>
+          <KeyIssue name="WhatIsYourStrategy">
+            <KeyIssueHeader>
+              <KeyIssueTitle>
+                Strategy to develop the NEAR ecosystem
+              </KeyIssueTitle>
+            </KeyIssueHeader>
+            <KeyIssueDescription>
+              {data.nominationData.WIYStrategy}
+            </KeyIssueDescription>
+            <KeyIssueSeparator></KeyIssueSeparator>
+          </KeyIssue>
           <KeyIssue>
             <KeyIssueHeader>
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
