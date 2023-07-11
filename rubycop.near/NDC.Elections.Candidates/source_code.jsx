@@ -341,8 +341,8 @@ const CandidateList = ({ candidateId, votes }) => (
         if (
           e.target.id === "input" ||
           e.target.id === "bookmark" ||
-          e.target.id === "link" ||
-          e.target.id === "nomination"
+          e.target.href ||
+          e.target.id === "link"
         )
           return;
 
@@ -370,7 +370,7 @@ const CandidateList = ({ candidateId, votes }) => (
             )}
           </Bookmark>
         )}
-        <div className="d-flex" id="link">
+        <div className="d-flex">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
@@ -392,9 +392,11 @@ const CandidateList = ({ candidateId, votes }) => (
           href={ref_link}
           selected={state.selected === candidateId}
         >
-          <span className="d-none d-md-block">Nomination</span>
+          <span id="link" className="d-none d-md-block">
+            Nomination
+          </span>
 
-          <i className="bi bi-arrow-up-right" />
+          <i id="link" className="bi bi-arrow-up-right" />
         </NominationLink>
         <Votes>{votes}</Votes>
         {isIAmHuman && (
