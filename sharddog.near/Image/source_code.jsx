@@ -75,7 +75,7 @@ return image.nft.contractId && image.nft.tokenId ? (
         tabIndex="-1"
         role="dialog"
         aria-hidden={!state.showModal}
-        style={{ backgroundColor: "rgba(0,0,0,0.5)" }} // Darkens the screen
+        style={{ backgroundColor: "rgba(0,0,0,0.8)" }} // Darkens the screen
       >
         <div
           className="modal-dialog modal-lg modal-dialog-centered" // Center the modal vertically
