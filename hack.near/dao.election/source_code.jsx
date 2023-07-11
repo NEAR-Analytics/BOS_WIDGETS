@@ -151,7 +151,7 @@ return (
       </p>
       <p>
         <span>
-          Voters may support candidates from any of the continental regions.
+          Voters may select candidates from any of the continental regions.
         </span>
       </p>
       <p>
