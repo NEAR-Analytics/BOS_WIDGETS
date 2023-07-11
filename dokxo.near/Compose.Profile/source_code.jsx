@@ -1,7 +1,7 @@
 const H2styled = styled.h1`
  
 height: 14px;
-font-family: 'Avenir';
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -129,7 +129,7 @@ flex: none;
 order: 1;
 
 font-size:12px;
-font-family: 'Avenir';
+font-family: Open Sans;
 font-style: normal;
 font-weight: 400;
 font-size: 12px;
@@ -256,7 +256,7 @@ return (
 
                 <p
                   style={{
-                    "font-family": "Avenir",
+                    "font-family": "Open Sans",
                     "font-style": "normal",
                     "font-weight": "400",
                     "font-size": "12px",
@@ -309,7 +309,7 @@ return (
 
             <p
               style={{
-                "font-family": "Avenir",
+                "font-family": "Open Sans",
                 "font-style": "normal",
                 "font-weight": "400",
                 "font-size": "12px",
