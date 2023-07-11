@@ -80,7 +80,7 @@ const handleCreate = () =>
 
 const Card = styled.div`
   position: relative;
-  width: 100%;
+  width: 98%;
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
