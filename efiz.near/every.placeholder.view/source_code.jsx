@@ -1,7 +1,9 @@
-const data = props.data;
+const width = props.width;
+const height = props.height;
+const note = props.note;
 
 const Container = styled.div`
-  width: 100%;
+  width: ${width || "100%"};
   height: auto;
   background-color: gray;
   border: 2px solid #000;
@@ -9,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 300px;
+  min-height: ${height || "300px"};
 `;
 
 const Text = styled.div`
@@ -22,6 +24,6 @@ const Button = styled.button`
 
 return (
   <Container>
-    <Text>placeholder</Text>
+    <Text>{note || "placeholder"}</Text>
   </Container>
 );
