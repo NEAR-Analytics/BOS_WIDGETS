@@ -151,11 +151,12 @@ return (
       <Widget
         src={`hack.near/widget/widget.inline`}
         props={{
-          widgetPath: state.updatedWidget ?? initWidgetPath,
+          widgetPath: state.updatedWidget || `${accountId}/widget/common`,
         }}
       />
       <div className="m-2">
         <button
+          disabled={!state.updatedWidget}
           className="btn btn-secondary border-0 m-1"
           onClick={handleProposal}
         >
