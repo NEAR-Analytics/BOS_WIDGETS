@@ -51,8 +51,8 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/lib/record" */
-const Record = {
+/* INCLUDE: "core/lib/struct" */
+const Struct = {
   deepFieldUpdate: (
     node,
     { input, params, path: [nextNodeKey, ...remainingPath], via: toFieldValue }
@@ -61,8 +61,8 @@ const Record = {
 
     [nextNodeKey]:
       remainingPath.length > 0
-        ? Record.deepFieldUpdate(
-            Record.typeMatch(node[nextNodeKey]) ||
+        ? Struct.deepFieldUpdate(
+            Struct.typeMatch(node[nextNodeKey]) ||
               Array.isArray(node[nextNodeKey])
               ? node[nextNodeKey]
               : {
@@ -81,9 +81,9 @@ const Record = {
   }),
 
   isEqual: (input1, input2) =>
-    Record.typeMatch(input1) && Record.typeMatch(input2)
-      ? JSON.stringify(Record.toOrdered(input1)) ===
-        JSON.stringify(Record.toOrdered(input2))
+    Struct.typeMatch(input1) && Struct.typeMatch(input2)
+      ? JSON.stringify(Struct.toOrdered(input1)) ===
+        JSON.stringify(Struct.toOrdered(input2))
       : false,
 
   toOrdered: (input) =>
@@ -101,7 +101,7 @@ const Record = {
   typeMatch: (input) =>
     input !== null && typeof input === "object" && !Array.isArray(input),
 };
-/* END_INCLUDE: "core/lib/record" */
+/* END_INCLUDE: "core/lib/struct" */
 /* INCLUDE: "core/lib/gui/form" */
 const defaultFieldUpdate = ({
   input,
@@ -143,7 +143,7 @@ const useForm = ({ initialValues, stateKey: formStateKey, uninitialized }) => {
   };
 
   const formState = state[formStateKey] ?? null,
-    isSynced = Record.isEqual(formState?.values ?? {}, initialFormState.values);
+    isSynced = Struct.isEqual(formState?.values ?? {}, initialFormState.values);
 
   const formReset = () =>
     State.update((lastKnownComponentState) => ({
@@ -155,7 +155,7 @@ const useForm = ({ initialValues, stateKey: formStateKey, uninitialized }) => {
   const formUpdate =
     ({ path, via: customFieldUpdate, ...params }) =>
     (fieldInput) => {
-      const updatedValues = Record.deepFieldUpdate(
+      const updatedValues = Struct.deepFieldUpdate(
         formState?.values ?? {},
 
         {
@@ -174,7 +174,7 @@ const useForm = ({ initialValues, stateKey: formStateKey, uninitialized }) => {
         ...lastKnownComponentState,
 
         [formStateKey]: {
-          hasUnsubmittedChanges: !Record.isEqual(
+          hasUnsubmittedChanges: !Struct.isEqual(
             updatedValues,
             initialFormState.values
           ),
@@ -301,7 +301,7 @@ const Editor = ({
   formatter: toFormatted,
   heading,
   isEditorActive,
-  isMutable,
+  isEditingAllowed,
   noEditorFrame,
   onCancel,
   onChangesSubmit,
@@ -318,8 +318,8 @@ const Editor = ({
     isEditorActive: isEditorActive ?? false,
   });
 
-  const initialValues = Record.typeMatch(schema)
-    ? Record.pick(data ?? {}, Object.keys(schema))
+  const initialValues = Struct.typeMatch(schema)
+    ? Struct.pick(data ?? {}, Object.keys(schema))
     : {};
 
   const form = useForm({ initialValues, stateKey: "form" });
@@ -355,7 +355,7 @@ const Editor = ({
     noFrame: noEditorFrame,
 
     headerSlotRight:
-      isMutable && !state.isEditorActive
+      isEditingAllowed && !state.isEditorActive
         ? widget("components.atom.button", {
             classNames: {
               root: "btn-sm btn-secondary",
@@ -374,12 +374,12 @@ const Editor = ({
         >
           {fieldsRender({
             form,
-            isEditable: isMutable && state.isEditorActive,
+            isEditable: isEditingAllowed && state.isEditorActive,
             schema,
           })}
         </div>
 
-        {!noEditorFrame && isMutable && state.isEditorActive ? (
+        {!noEditorFrame && isEditingAllowed && state.isEditorActive ? (
           <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
             {actionsAdditional ? (
               <div className="me-auto">{actionsAdditional}</div>
