@@ -79,7 +79,7 @@ const Timer = styled.div`
   .time {
     font-size: 48px;
     font-weight: 800;
-    color: #FFD50D;
+    color: #62C6F2;
     width: 100px;
     line-height: 1;
   }
@@ -93,7 +93,7 @@ const TimerContainer = styled.div`
   .time {
     font-size: 48px;
     font-weight: 700;
-    color: #FFD50D;
+    color: #62C6F2;
     width: 100px;
     line-height: 1;
   }
