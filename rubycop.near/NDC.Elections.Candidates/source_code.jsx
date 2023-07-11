@@ -299,13 +299,6 @@ const filterBy = (option) => {
         candidates: result,
         filter: { bookmark: false },
       });
-  else if (option.candidate)
-    State.update({
-      candidates: state.candidates.sort((a, b) =>
-        state.filter.candidate ? a[0] - b[0] : b[0] - a[0]
-      ),
-      filter: { candidate: !state.filter.candidate },
-    });
   else if (option.votes)
     State.update({
       candidates: state.candidates.sort((a, b) =>
@@ -432,17 +425,8 @@ const Filters = () => {
             <i className="bi bi-funnel" />
           </Bookmark>
         )}
-        <div
-          role="button"
-          className="text-secondary"
-          onClick={() => filterBy({ candidate: true })}
-        >
+        <div className="text-secondary">
           <small>Candidate</small>
-          <i
-            className={`bi ${
-              state.filter.candidate ? "bi-arrow-down" : "bi-arrow-up"
-            }`}
-          />
         </div>
       </div>
       <div className="d-flex">
