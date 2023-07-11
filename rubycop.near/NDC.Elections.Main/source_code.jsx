@@ -52,6 +52,7 @@ const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
   filter: "rubycop.near/widget/NDC.Elections.Filter",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
+  progress: "rubycop.near/widget/NDC.Elections.Progress",
   candidates: "rubycop.near/widget/NDC.Elections.Candidates",
   statistic: "rubycop.near/widget/NDC.Elections.Statistic",
   activities: "rubycop.near/widget/NDC.Elections.Activities",
@@ -62,6 +63,9 @@ const handleSelect = (item) => {
 };
 
 const handleFilter = (e) => State.update({ candidateId: e.target.value });
+
+const votesLeft = (house) =>
+  house.seats - state.myVotes.filter((vote) => vote.house === house.typ).length;
 
 const Container = styled.div`
   padding: 20px 0;
@@ -119,15 +123,24 @@ return (
       />
     </Filter>
     <Container className="d-flex row">
-      <Left className="col-lg">
-        <H5>To Vote</H5>
+      <Left className="h-screen col-lg d-flex flex-column justify-content-between">
+        <div>
+          <H5>To Vote</H5>
+          <Widget
+            src={widgets.houses}
+            props={{
+              selectedHouse: state.selectedHouse,
+              houses,
+              handleSelect,
+              votesLeft: (house) => votesLeft(house),
+            }}
+          />
+        </div>
         <Widget
-          src={widgets.houses}
+          src={widgets.progress}
           props={{
-            selectedHouse: state.selectedHouse,
-            houses: houses,
-            handleSelect,
-            myVotes: state.myVotes,
+            houses,
+            votesLeft: (house) => votesLeft(house),
           }}
         />
       </Left>
