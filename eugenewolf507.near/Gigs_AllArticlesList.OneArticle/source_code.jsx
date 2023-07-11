@@ -2,6 +2,7 @@ const addressForComments = "gig-comments";
 const addressForArticles = "ndcGigArticle";
 const authorForWidget = "neardigitalcollective.near";
 const accountId = props.accountId ?? context.accountId;
+const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 // if (!accountId) {
 //   return "No account ID";
 // }
@@ -175,19 +176,23 @@ const Button = styled.button`
 `;
 
 // ========== JSX ==========
-const StatusTagGroup = ({ activeStatus, articleId }) => (
+const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
   <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-3 pb-3 ">
-    {statusTagsArr.map((tag) => (
-      <button
-        onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
-        className={`btn btn-sm me-2 me-xxl-0 ${
-          activeStatus === tag ? "btn-primary" : "btn-outline-primary"
-        }`}
-        disabled={activeStatus === tag}
-      >
-        #{tag}
-      </button>
-    ))}
+    {showButtons ? (
+      statusTagsArr.map((tag) => (
+        <button
+          onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
+          className={`btn btn-sm me-2 me-xxl-0 ${
+            activeStatus === tag ? "btn-primary" : "btn-outline-primary"
+          }`}
+          disabled={activeStatus === tag}
+        >
+          #{tag}
+        </button>
+      ))
+    ) : (
+      <span>Status: ${activeStatus}</span>
+    )}
   </div>
 );
 
@@ -292,6 +297,7 @@ return (
       <StatusTagGroup
         activeStatus={article.statusTag}
         articleId={article.articleId}
+        showButtons={doesUserCanChangeStatus}
       />
       <div className="mb-3" />
       {/* === FOOTER === */}
