@@ -48,7 +48,7 @@ border-radius: 20px;
 const CommentUser = styled.p`
 color: #000;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
@@ -68,7 +68,7 @@ height: 14px;
 const ReplyCounterText = styled.p`
 color: #000;
 font-size: 10px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 margin: 0px;
 `;
@@ -76,7 +76,7 @@ margin: 0px;
 const CommentCardContent = styled.p`
 color: #585b5c;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 120%;
 display: flex;
 width: 294px;
@@ -108,7 +108,7 @@ height: 12px;
 const TimestampTextComment = styled.p`
 color: #000;
 font-size: 10px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 300;
 margin: 0px;
 `;
@@ -174,7 +174,7 @@ background: var(--buttons-yellow-default, #FFD50D);
 const ReplyCommentText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -212,7 +212,7 @@ align-self: stretch;
 const ReplyContent = styled.p`
 color: #828688;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 line-height: 120%;
 margin: 0px;
 `;
@@ -247,7 +247,7 @@ background: #F1D6D5;
 const DeleteReplyText = styled.p`
 color: #C23F38;
 font-size: 12px;
-font-family: Avenir;
+font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
