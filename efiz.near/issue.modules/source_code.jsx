@@ -10,6 +10,7 @@ if (!things) {
 
 return (
   <div>
+    <button onClick={() => State.update({ test: "test" })}>break me!</button>
     <Grid>
       {things?.map((it) => (
         <p>{JSON.stringify(it)}</p>
