@@ -73,14 +73,14 @@ const handleCreate = () =>
   });
 
 let CodeWrapper = styled.div`
-& > pre > div {
-  margin: 0px !important;
-}
+  & > pre > div {
+    margin: 0px !important;
+  }
 
-& > pre {
-  margin: 0px !important;
-  border-radius: 0px 0px 5px 5px;
-}
+  & > pre {
+    margin: 0px !important;
+    border-radius: 0px 0px 5px 5px;
+  }
 `;
 
 return (
@@ -97,72 +97,78 @@ return (
       </div>
     </div>
     <div className="p-1 m-1">
-      <h5>Base Widget</h5>
-      <div class="input-group mb-3">
-        <input
-          class="form-control"
-          placeholder={initWidgetPath}
-          defaultValue={state.widgetPath || initWidgetPath}
-          onChange={(e) => {
-            State.update({
-              widgetPath: e.target.value,
-            });
-          }}
-        />
-      </div>
-      <Widget
-        src={`hack.near/widget/widget.inline`}
-        props={{
-          widgetPath: state.widgetPath,
-        }}
-      />
-      <div className="m-2">
-        {accountId !== daoId && (
-          <button
-            className="btn btn-primary border-0 m-1"
-            onClick={handleCreate}
-          >
-            <i className="bi bi-bezier2 me-1"></i>
-            Clone
-          </button>
-        )}
-        <a
-          className="btn btn-success border-0 m-1"
-          href={`#/edit/${state.widgetPath}`}
-        >
-          <i className="bi bi-diagram-2 me-1"></i>
-          {accountId === daoId ? "Edit" : "Fork"}
-        </a>
-      </div>
-      <br />
-      <h5>Updated Version</h5>
-      <div class="input-group mb-3">
-        <input
-          class="form-control"
-          placeholder={`${accountId}/widget/${widgetName}`}
-          defaultValue={updatedWidget}
-          onChange={(e) => {
-            State.update({
-              updatedWidget: e.target.value,
-            });
-          }}
-        />
-      </div>
-      <Widget
-        src={`hack.near/widget/widget.inline`}
-        props={{
-          widgetPath: state.updatedWidget || `${accountId}/widget/common`,
-        }}
-      />
-      <div className="m-2">
-        <button
-          disabled={!state.updatedWidget}
-          className="btn btn-secondary border-0 m-1"
-          onClick={handleProposal}
-        >
-          <i className="bi bi-git me-1"></i>
-          {accountId === daoId ? "Update" : "Propose Changes"}
-        </button>
+      <div className="row">
+        <div className="col m-2">
+          <h5>Base Widget</h5>
+          <div className="input-group mb-3">
+            <input
+              className="form-control"
+              placeholder={initWidgetPath}
+              defaultValue={state.widgetPath || initWidgetPath}
+              onChange={(e) => {
+                State.update({
+                  widgetPath: e.target.value,
+                });
+              }}
+            />
+          </div>
+          <Widget
+            src={`hack.near/widget/widget.inline`}
+            props={{
+              widgetPath: state.widgetPath,
+            }}
+          />
+          <div className="m-2">
+            {accountId !== daoId && (
+              <button
+                className="btn btn-primary border-0 m-1"
+                onClick={handleCreate}
+              >
+                <i className="bi bi-bezier2 me-1"></i>
+                Clone
+              </button>
+            )}
+            <a
+              className="btn btn-success border-0 m-1"
+              href={`#/edit/${state.widgetPath}`}
+            >
+              <i className="bi bi-diagram-2 me-1"></i>
+              {accountId === daoId ? "Edit" : "Fork"}
+            </a>
+          </div>
+        </div>
+        <br />
+        <div className="col m-2">
+          <h5>Updated Version</h5>
+          <div className="input-group mb-3">
+            <input
+              className="form-control"
+              placeholder={`${accountId}/widget/${widgetName}`}
+              defaultValue={updatedWidget}
+              onChange={(e) => {
+                State.update({
+                  updatedWidget: e.target.value,
+                });
+              }}
+            />
+          </div>
+          <Widget
+            src={`hack.near/widget/widget.inline`}
+            props={{
+              widgetPath: state.updatedWidget || `${accountId}/widget/common`,
+            }}
+          />
+          <div className="m-2">
+            <button
+              disabled={!state.updatedWidget}
+              className="btn btn-secondary border-0 m-1"
+              onClick={handleProposal}
+            >
+              <i className="bi bi-git me-1"></i>
+              {accountId === daoId ? "Update" : "Propose Changes"}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
