@@ -150,13 +150,13 @@ const HouseItem = ({ house }) => (
 );
 
 return (
-  <div className="h-100 d-flex flex-column justify-content-between">
+  <div>
     <div>
       {houses.map((house) => (
         <HouseItem house={house} />
       ))}
     </div>
-    <Stepper>
+    <Stepper className="position-sticky">
       <div className="d-flex justify-content-between">
         <div>Your voting progress</div>
         <div>
