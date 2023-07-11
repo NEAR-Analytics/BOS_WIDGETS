@@ -5,7 +5,7 @@ const {
   id,
   typ,
   ref_link,
-  winnerId,
+  winnerIds,
   quorum,
   seats,
   voters_num,
@@ -82,14 +82,13 @@ const NominationLink = styled.a`
   font-size: 12px;
   line-height: 24px;
   background: ${(props) =>
-    props.selected
-      ? "linear-gradient(90deg, #ffffff 0%, #ffffff 100%)"
-      : "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"};
+    props.selected || props.winnerId ? "#fff" : "#4F46E5"};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  border: ${(props) =>
-    props.selected ? "1px solid #ffffff" : "1px solid #9333EA"};
+  border: 1px solid;
+  border-color: ${(props) =>
+    props.selected || props.winnerId ? "#fff" : "#4F46E5"};
   padding: 0 10px;
   border-radius: 5px;
 `;
@@ -101,20 +100,22 @@ const CandidateItem = styled.div`
   margin-bottom: 8px;
   border: 1px solid;
   background: ${(props) =>
-    props.selected
-      ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"
-      : props.winnerId
+    props.winnerId
       ? "#239F28"
+      : props.selected
+      ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"
       : "#F8F8F9"};
-  border-color: ${(props) => (props.selected ? "#4F46E5" : "#F8F8F9")};
-  color: ${(props) => (props.selected ? "white" : "inherit")};
+  border-color: ${(props) =>
+    props.selected ? "#4F46E5" : props.winnerId ? "#239F28" : "#F8F8F9"};
+  color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
 
   &:hover {
     cursor: pointer;
-    border: 1px solid #4F46E5;
     background: ${(props) =>
       props.selected
         ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"
+        : props.winnerId
+        ? "#239F28"
         : "linear-gradient(90deg, rgba(147, 51, 234, 0.08) 0%, rgba(79, 70, 229, 0.08) 100%)"};
   }
 `;
@@ -123,7 +124,8 @@ const Bookmark = styled.div`
   width: 100px;
 
   #bookmark.bi-bookmark-fill {
-    color: ${(props) => (props.selected ? "#fff" : "#4F46E5")};
+    color: ${(props) =>
+      props.selected || props.winnerId ? "#fff" : "#4F46E5"};
   }
 `;
 
@@ -207,6 +209,11 @@ const CastVotesSection = styled.div`
       font-size: 12px;
     }
   }
+`;
+
+const Winner = styled.i`
+  margin-left: 10px;
+  font-size: 14px;
 `;
 
 const UserLink = ({ title, src }) => (
@@ -341,11 +348,14 @@ const CandidateList = ({ candidateId, votes }) => (
           });
       }}
       selected={state.selected === candidateId}
-      winnerId={winnerId === candidateId}
+      winnerId={winnerIds.includes(candidateId)}
     >
       <div className="d-flex">
         {isIAmHuman && (
-          <Bookmark selected={state.selected === candidateId}>
+          <Bookmark
+            selected={state.selected === candidateId}
+            winnerId={winnerIds.includes(candidateId)}
+          >
             {state.loading === candidateId ? (
               <Loader />
             ) : (
@@ -374,6 +384,9 @@ const CandidateList = ({ candidateId, votes }) => (
             src={`https://wallet.near.org/profile/${candidateId}`}
             title={candidateId}
           />
+          {winnerIds.includes(candidateId) && (
+            <Winner className="bi bi-trophy p-1" />
+          )}
         </div>
       </div>
       <div className="d-flex">
@@ -382,6 +395,7 @@ const CandidateList = ({ candidateId, votes }) => (
           href={ref_link}
           target="_blank"
           selected={state.selected === candidateId}
+          winnerId={winnerIds.includes(candidateId)}
         >
           <span id="link" className="d-none d-md-block">
             Nomination
