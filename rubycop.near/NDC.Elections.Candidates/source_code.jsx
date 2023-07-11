@@ -549,10 +549,10 @@ return (
         </CandidatesContainer>
       </>
     ) : (
-      <></>
+      <div className="d-flex p-5 justify-content-center">
+        There are no candidates found
+      </div>
     )}
-    <div className="position-sticky">
-      {isIAmHuman ? <CastVotes /> : <VerifyHuman />}
-    </div>
+    <div>{isIAmHuman ? <CastVotes /> : <VerifyHuman />}</div>
   </Container>
 );
