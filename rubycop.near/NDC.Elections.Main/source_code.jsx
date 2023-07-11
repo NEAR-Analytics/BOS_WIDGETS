@@ -25,6 +25,13 @@ const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
 });
 
+const isEnded = () => {
+  const now = new Date().getTime();
+  const end = new Date(parseInt(state.selectedHouse.endTime)).getTime();
+
+  return now > end;
+};
+
 State.update({ isIAmHuman: isHuman[0][1].length > 0 });
 
 const totalHumal = 3000;
@@ -158,6 +165,7 @@ return (
                   isIAmHuman: state.isIAmHuman,
                   myVotes: state.myVotes,
                   candidateId: state.candidateId,
+                  isEnded: isEnded(),
                   ...house,
                 }}
               />
