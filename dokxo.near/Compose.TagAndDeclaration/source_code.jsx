@@ -18,7 +18,7 @@ margin-top:10px;
 const H2styled = styled.h1`
  
 height: 14px;
-font-family: 'Avenir';
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -54,7 +54,7 @@ order: 1;
 const H2Declarationstyled = styled.h1`
 width: 100%;
 height: 14px;
-font-family: 'Avenir';
+font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -99,7 +99,7 @@ flex-grow: 0;
 const PStyled = styled.p`
 width: 236px;
 height: 14px;
-font-family: 'Avenir';
+font-family: Open Sans;
 font-style: normal;
 font-weight: 400;
 font-size: 12px;
@@ -117,7 +117,7 @@ margin-bottom:0;
 const AStyled = styled.a`
 margin-left:4px;
 height: 14px;
-font-family: 'Avenir';
+font-family: Open Sans;
 font-style: normal;
 font-weight: 600;
 font-size: 12px;
@@ -152,7 +152,7 @@ return (
 
       <InputStyled
         style={{
-          "font-family": "Avenir",
+          "font-family": "Open Sans",
           "font-style": "normal",
           "font-weight": "400",
           "font-size": "12px",
