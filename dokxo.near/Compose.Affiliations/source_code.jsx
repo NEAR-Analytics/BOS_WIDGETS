@@ -399,7 +399,7 @@ return (
                     style={{
                       background: "#F1D6D5",
                       "border-color": "#C23F38",
-                      width: "136px",
+                      width: "137px",
                       height: "28px",
                       display: "flex",
                       padding: " 2px 12px",
