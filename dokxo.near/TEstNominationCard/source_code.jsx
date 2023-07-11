@@ -840,7 +840,7 @@ return (
                 Strategy to develop the NEAR ecosystem
               </KeyIssueTitle>
             </KeyIssueHeader>
-            <KeyIssueDescription>
+            <KeyIssueDescription style={{ margin: "5px" }}>
               {data.nominationData.WIYStrategy}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
