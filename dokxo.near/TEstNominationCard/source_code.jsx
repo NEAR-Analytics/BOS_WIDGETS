@@ -970,9 +970,6 @@ return (
                     <ShareButtonText>Share</ShareButtonText>
                   </ShareButtonDiv>
                 </OverlayTrigger>
-                <ShareButtonDiv onClick={handleShare}>
-                  <ShareButtonText>Share</ShareButtonText>
-                </ShareButtonDiv>
               </>
             )}
           </ViewButtonContainer>
