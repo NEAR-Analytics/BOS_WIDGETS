@@ -829,9 +829,7 @@ return (
                 candidate and reasons for being voted
               </KeyIssueTitle>
             </KeyIssueHeader>
-            <KeyIssueDescription
-              style={{ "margin-top": "5px", "margin-bottom": "5px" }}
-            >
+            <KeyIssueDescription style={{ "margin-top": "10px" }}>
               {data.nominationData.HAYInvolve}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
