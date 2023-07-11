@@ -112,6 +112,17 @@ return (
       <h3>
         <b>Election is live now!</b>
       </h3>
+      <h5>Voting closes 11:59pm UTC on July 16</h5>
+      <Widget
+        key={i}
+        src="hack.near/widget/dao.election.header"
+        props={{
+          startTime: 1688986800000,
+          endTime: 1689551999000,
+          type: "Election",
+        }}
+      />
+      <br />
       <p>
         <span>
           This on-chain page is a ballot with candidates for the RC DAO council,
@@ -131,9 +142,10 @@ return (
       <h5>RULES</h5>
       <p>
         <span>
-          Each RC DAO member can vote <b>once for each of the candidates</b>{" "}
-          (vote for multiple candidates). Voters may support candidates from any
-          of the continental regions.
+          Each RC DAO member is able to vote{" "}
+          <b>once for each and every candidate</b> (they can vote for multiple
+          candidates). Voters may support candidates from any of the continental
+          regions.
         </span>
       </p>
       <p>
