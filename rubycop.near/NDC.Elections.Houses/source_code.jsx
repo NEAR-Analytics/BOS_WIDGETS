@@ -60,8 +60,8 @@ const ItemContainer = styled.div`
   }
 `;
 
-const completedHouseVoting = (house) =>
-  myVotes.filter((vote) => vote.house === house.typ).length === house.seats;
+const votesLeft = (house) =>
+  house.seats - myVotes.filter((vote) => vote.house === house.typ).length;
 
 const HouseItem = ({ house }) => (
   <ItemContainer
@@ -90,11 +90,13 @@ const HouseItem = ({ house }) => (
       </ImgContainer>
       <div>
         <h6>{housesMapping[house.typ].title}</h6>
-        <Small>{house.seats} members</Small>
+        <Small>
+          {votesLeft(house)} / {house.seats} votes left
+        </Small>
       </div>
     </div>
     <div>
-      {completedHouseVoting(house) && (
+      {votesLeft(house) === 0 && (
         <CompletedIcon
           className="bi bi-check-circle fs-5"
           selected={selectedHouse === house.id}
