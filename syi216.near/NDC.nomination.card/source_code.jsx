@@ -65,7 +65,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 16px;
 gap: 16px;
-width: 330px;
+width: 358px;
 background: #F8F8F9;
 border-radius: 10px;
 flex: none;
@@ -79,10 +79,12 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 12px;
+width: 326px;
 height: 53px;
 `;
 
 const ProfilePicture = styled.img`
+width: 40px;
 height: 40px;
 border-radius: 20px;
 flex: none;
@@ -96,6 +98,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 4px;
+width: 190px;
 height: 53px;
 flex: none;
 order: 1;
@@ -146,12 +149,14 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 padding: 0px;
+width: 228px;
 height: 31px;
 flex: none;
 order: 1;
 flex-grow: 0;`;
 
 const NominationName = styled.p`
+width: 228px;
 height: 17px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -167,6 +172,7 @@ order: 0;
 flex-grow: 0;`;
 
 const NominationUser = styled.p`
+width: 228px;
 height: 14px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -231,6 +237,7 @@ flex-direction: row;
 align-items: center;
 padding: 8px 12px;
 gap: 12px;
+width: 326px;
 height: 56px;
 background: #FFFFFF;
 border-radius: 6px;
@@ -247,6 +254,7 @@ justify-content: center;
 align-items: flex-start;
 padding: 0px;
 gap: 4px;
+width: 302px;
 height: 40px;
 flex: none;
 order: 0;
@@ -259,6 +267,7 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 12px;
+width: 302px;
 height: 16px;
 flex: none;
 order: 0;
@@ -267,6 +276,7 @@ flex-grow: 0;
 `;
 
 const CollapseCandidateText = styled.p`
+width: 274px;
 height: 14px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -343,6 +353,7 @@ flex-direction: row;
 align-items: flex-start;
 padding: 8px 12px;
 gap: 12px;
+width: 326px;
 background: #FFFFFF;
 border-radius: 6px;
 flex: none;
@@ -356,6 +367,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 12px;
+width: 302px;
 flex: none;
 order: 0;
 flex-grow: 0;
@@ -367,6 +379,7 @@ flex-direction: row;
 align-items: flex-start;
 padding: 0px;
 gap: 12px;
+width: 302px;
 height: 14px;
 flex: none;
 order: 0;
@@ -374,6 +387,7 @@ flex-grow: 0;
 `;
 
 const KeyIssuesTitle = styled.p`
+width: 302px;
 height: 14px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -393,6 +407,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 8px;
+width: 302px;
 flex: none;
 order: 1;
 flex-grow: 0;
@@ -404,6 +419,7 @@ flex-direction: column;
 align-items: flex-start;
 padding: 0px;
 gap: 2px;
+width: 302px;
 height: 28px;
 flex: none;
 order: 0;
@@ -416,6 +432,7 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 8px;
+width: 302px;
 height: 14px;
 flex: none;
 order: 0;
@@ -424,6 +441,7 @@ flex-grow: 0;
 `;
 
 const KeyIssueTitle = styled.p`
+width: 302px;
 height: 12px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -439,8 +457,8 @@ flex-grow: 0;
 `;
 
 const KeyIssueDescription = styled.p`
+width: 302px;
 height: 12px;
-width: 100%;
 overflow:hidden;
 text-overflow:ellipsis;
 white-space:nowrap;
@@ -458,6 +476,7 @@ flex-grow: 0;
 `;
 
 const KeyIssueSeparator = styled.hr`
+width: 302px;
 height: 0px;
 margin: 0px;
 border: 0.5px solid rgba(208, 214, 217, 1);
@@ -468,6 +487,7 @@ flex-grow: 0;
 
 const LowerSection = styled.div`
 display: flex;
+width: 326px;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
@@ -494,6 +514,7 @@ display: flex;
 flex-direction: row;
 align-items: center;
 padding: 0px;
+width: 326px;
 height: 28px;
 flex: none;
 order: 0;
@@ -506,6 +527,7 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 4px;
+width: 239px;
 height: 24px;
 flex: none;
 order: 0;
@@ -513,6 +535,7 @@ flex-grow: 1;
 `;
 
 const ClockIcon = styled.img`
+width: 12px;
 height: 12px;
 flex: none;
 order: 0;
@@ -520,6 +543,7 @@ flex-grow: 0;
 `;
 
 const TimestampText = styled.p`
+width: 119px;
 height: 20px;
 font-family: 'Open Sans';
 font-style: italic;
@@ -536,6 +560,7 @@ flex-grow: 0;
 `;
 
 const CommentsCounter = styled.p`
+width: 96px;
 height: 24px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -560,6 +585,7 @@ flex-direction: row;
 align-items: center;
 padding: 0px;
 gap: 4px;
+width: 87px;
 height: 28px;
 flex: none;
 order: 1;
