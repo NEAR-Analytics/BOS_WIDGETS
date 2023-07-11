@@ -447,7 +447,7 @@ const Filters = () => {
       </div>
       <div className="d-flex">
         <Nomination className="text-secondary text-end text-md-start">
-          <small>Noomination</small>
+          <small>Nomination</small>
         </Nomination>
         <Votes
           role="button"
