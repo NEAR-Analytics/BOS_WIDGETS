@@ -1,6 +1,7 @@
 const addressForComments = "gig-comments";
 const addressForArticles = "ndcGigArticle";
 const authorForWidget = "neardigitalcollective.near";
+const authorForWidget2 = "eugenewolf507.near";
 const accountId = props.accountId ?? context.accountId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 // if (!accountId) {
@@ -307,9 +308,10 @@ return (
       <div className="mb-3" />
       {/* === FOOTER === */}
       <Widget
-        src={`${authorForWidget}/widget/WikiOnSocialDB_OneArticle.Footer`}
+        src={`${authorForWidget2}/widget/WikiOnSocialDB_OneArticle.Footer`}
         props={{
           author: state.article.author,
+          timeCreated: state.article.timeCreate,
           lastEditor: state.article.lastEditor,
           timeLastEdit: state.article.timeLastEdit,
           version: state.article.version,
