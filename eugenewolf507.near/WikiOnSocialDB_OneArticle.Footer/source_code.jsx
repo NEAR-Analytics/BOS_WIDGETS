@@ -1,11 +1,11 @@
-const { author, lastEditor, timeLastEdit, version } = props;
+const { author, timeCreated, lastEditor, timeLastEdit, version } = props;
 const getDate = (timestamp) => {
   const date = new Date(Number(timestamp));
   return date.toDateString();
 };
 
 return (
-  <div className="mt-5 alert alert-secondary">
+  <div className="alert alert-secondary bg-white">
     <div>
       Created by{" "}
       <a
@@ -15,6 +15,8 @@ return (
       >
         {author}
       </a>
+      <br />
+      Posted on {getDate(timeCreated)}
       <br />
       Last edit by{" "}
       <a
