@@ -1,4 +1,4 @@
-const { houses, selectedHouse, handleSelec, votesLeft } = props;
+const { houses, selectedHouse, handleSelect, votesLeft } = props;
 
 const housesMapping = {
   CouncilOfAdvisors: {
