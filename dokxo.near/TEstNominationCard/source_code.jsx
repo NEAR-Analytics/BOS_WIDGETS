@@ -829,18 +829,18 @@ return (
                 candidate and reasons for being voted
               </KeyIssueTitle>
             </KeyIssueHeader>
-            <KeyIssueDescription>
+            <KeyIssueDescription style={{ "margin-top": "5px" }}>
               {data.nominationData.HAYInvolve}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
           <KeyIssue name="WhatIsYourStrategy">
             <KeyIssueHeader>
-              <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
+              <KeyIssueTitle>
                 Strategy to develop the NEAR ecosystem
               </KeyIssueTitle>
             </KeyIssueHeader>
-            <KeyIssueDescription style={{ margin: "5px" }}>
+            <KeyIssueDescription>
               {data.nominationData.WIYStrategy}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
