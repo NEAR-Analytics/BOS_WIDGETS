@@ -71,6 +71,14 @@ const Theme = styled.div`
   background-size: cover;
   background-color: #0D0E20;
 
+  .bridge-abs {
+    ${buttonStyled}
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99999;
+  }
+
   .connect-web3 {
     background: white;
     color: #44F;
@@ -209,6 +217,14 @@ if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
 
 return (
   <Theme>
+    <button
+      disabled={bridge}
+      className="bridge-abs"
+      onClick={() => setComponent("bridge")}
+    >
+      Bridge
+    </button>
+
     <div className="grid">
       <div className="center">
         <div className="apps">
