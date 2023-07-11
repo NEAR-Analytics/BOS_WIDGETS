@@ -320,11 +320,7 @@ return (
               )}
 
               {component === "gamma" && (
-                <>
-                  <Widget src="james-cordova423.near/widget/gamma-zkevm-app" />
-                  <br />
-                  <Widget src="james-cordova423.near/widget/gamma-zkevm-vault" />
-                </>
+                <Widget src="james-cordova423.near/widget/gamma-zkevm-app" />
               )}
             </>
           )}
