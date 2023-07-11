@@ -25,11 +25,17 @@ const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
 });
 
-const isEnded = () => {
+const getWinner = () => {
+  const house = state.selectedHouse;
   const now = new Date().getTime();
-  const end = new Date(parseInt(state.selectedHouse.endTime)).getTime();
+  const end = new Date(parseInt(house.endTime)).getTime();
 
-  return now > end;
+  if (now < end) return;
+
+  const res = house.result.sort((a, b) => b[1] - a[1]);
+  const winners = house.result.filter(([_w, vote]) => vote === res[0][1]);
+
+  return winners[(0, house.quorum)];
 };
 
 State.update({ isIAmHuman: isHuman[0][1].length > 0 });
@@ -165,7 +171,7 @@ return (
                   isIAmHuman: state.isIAmHuman,
                   myVotes: state.myVotes,
                   candidateId: state.candidateId,
-                  isEnded: isEnded(),
+                  winnerIds: getWinner(),
                   ...house,
                 }}
               />
