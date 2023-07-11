@@ -43,10 +43,12 @@ return image.nft.contractId && image.nft.tokenId ? (
   />
 ) : (
   <>
+    // assuming this code is in a loop where `i` is the index of the current
+    image
     <img
       className={className}
       data-bs-toggle="modal"
-      data-bs-target="#imgModal"
+      data-bs-target={`#imgModal${i}`}
       style={style}
       src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
       alt={alt}
@@ -60,7 +62,7 @@ return image.nft.contractId && image.nft.tokenId ? (
     />
     <div
       className="modal fade"
-      id="imgModal"
+      id={`imgModal${i}`}
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"
