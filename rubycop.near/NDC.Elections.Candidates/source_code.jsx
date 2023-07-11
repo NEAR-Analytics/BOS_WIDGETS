@@ -36,6 +36,8 @@ const filteredCandidates = result.filter(([candidate, _vote], _index) =>
   candidate.toLowerCase().includes(candidateId.toLowerCase())
 );
 
+console.log(filteredCandidates);
+
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
