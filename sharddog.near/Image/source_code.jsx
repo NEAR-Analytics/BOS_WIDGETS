@@ -73,7 +73,13 @@ return image.nft.contractId && image.nft.tokenId ? (
       role="dialog"
       aria-hidden="true"
     >
-      <div className="modal-dialog modal-lg">
+      <div
+        className="modal-dialog modal-lg"
+        onClick={() => {
+          // When an image is clicked, update the modal image state
+          State.update({ modalImageUrl: null });
+        }}
+      >
         <div className="modal-content">
           <div className="modal-body">
             <img
