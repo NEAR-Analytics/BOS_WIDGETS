@@ -508,7 +508,7 @@ return (
             <ButtonDeleteDiv
               onClick={async () => {
                 console.log("entra a delete modal");
-                State.update({ showModalDelete: false });
+                State.update({ showModalDelete: true });
               }}
             >
               <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
