@@ -16,8 +16,12 @@ return (
         {author}
       </a>
       <br />
-      Posted on {getDate(timeCreated)}
-      <br />
+      {timeCreated && (
+        <>
+          Posted on {getDate(timeCreated)}
+          <br />
+        </>
+      )}
       <br />
       Last edit by{" "}
       <a
