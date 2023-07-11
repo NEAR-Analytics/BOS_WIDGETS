@@ -906,7 +906,9 @@ return (
               .trim()
               .split(",")
               .map((data) => {
-                return (
+                return data === "" ? (
+                  <></>
+                ) : (
                   <Tag>
                     <TagText>{data}</TagText>
                   </Tag>
