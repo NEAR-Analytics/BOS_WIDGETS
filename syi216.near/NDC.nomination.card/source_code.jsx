@@ -440,6 +440,7 @@ flex-grow: 0;
 
 const KeyIssueDescription = styled.p`
 height: 12px;
+width: 100%;
 overflow:hidden;
 text-overflow:ellipsis;
 white-space:nowrap;
