@@ -11,7 +11,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
-  "eugenewolf507.near",
 ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
@@ -101,6 +100,11 @@ const composeData = (gigObject) => {
   return data;
 };
 
+const doesUserCanChangeStatus = authorsWhitelist.some(
+  (whiteAddr) => whiteAddr === accountId
+);
+console.log("doesUserCanChangeStatus = ", doesUserCanChangeStatus);
+
 // ========== HANDLER ==========
 const clickHandler = (oldStatus, newStatus, articleId) => {
   const actualTag = oldStatus.toLowerCase();
@@ -109,8 +113,8 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
   const objectIndex = state[actualTag].findIndex(
     (obj) => obj.articleId === articleId
   );
-  // Check if an object was found
-  if (objectIndex !== -1) {
+  // Check if an object was found and user have permission to change status
+  if (objectIndex !== -1 && doesUserCanChangeStatus) {
     const objectToMove = state[actualTag].slice(objectIndex, 1)[0];
     const updatedObjectToMove = {
       ...objectToMove,
