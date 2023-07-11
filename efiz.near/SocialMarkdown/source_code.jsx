@@ -1,6 +1,6 @@
 const Wrapper = styled.div`
   font-size: 14px;
-  line-height: 20px;
+  // line-height: 20px;
   font-weight: 400;
   color: #11181c;
   word-break: break-word;
