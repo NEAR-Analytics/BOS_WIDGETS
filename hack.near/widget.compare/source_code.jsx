@@ -4,7 +4,7 @@ const newCode = Social.get(`${props.updatedWidget}`);
 
 if (newCode === null) return "Loading...";
 
-if (!props.widgetPath) return "send updatedWidget in props";
+if (!props.widgetPath) return "send widgetPath in props";
 
 const baseCode = Social.get(`${props.widgetPath}`);
 
