@@ -31,7 +31,7 @@ return content ? (
       ) : (
         <div className="w-100 rounded-3 text-center">
           <Widget
-            src="mob.near/widget/Image"
+            src="sharddog.near/widget/Image"
             dataToggle="modal"
             dataTarget="#imgModal"
             props={{
