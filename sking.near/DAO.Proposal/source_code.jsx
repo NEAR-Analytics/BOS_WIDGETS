@@ -267,14 +267,14 @@ const RenderProposalArgs = () => {
           <Widget
             src="mob.near/widget/Profile.ShortInlineBlock"
             props={{
-              accountId: proposal.kind.AddMemberToRole.member_id,
+              accountId: proposal.kind[proposal_type].member_id,
               tooltip: true,
             }}
           />
         </div>
         <div>
           <h5>Role</h5>
-          <p>{proposal.kind.AddMemberToRole.role}</p>
+          <p>{proposal.kind[proposal_type].role}</p>
         </div>
       </>
     );
