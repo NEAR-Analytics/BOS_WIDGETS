@@ -43,12 +43,17 @@ return image.nft.contractId && image.nft.tokenId ? (
   />
 ) : (
   <>
-    // assuming this code is in a loop where `i` is the index of the current
-    image
     <img
       className={className}
+      onClick={() => {
+        // When an image is clicked, update the modal image state
+        const imageUrl = state.imageUrl
+          ? thumb(state.imageUrl)
+          : thumb(toUrl(image));
+        setModalImageUrl(imageUrl);
+      }}
       data-bs-toggle="modal"
-      data-bs-target={`#imgModal${i}`}
+      data-bs-target="#imgModal"
       style={style}
       src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
       alt={alt}
@@ -62,7 +67,7 @@ return image.nft.contractId && image.nft.tokenId ? (
     />
     <div
       className="modal fade"
-      id={`imgModal${i}`}
+      id="imgModal"
       tabIndex="-1"
       role="dialog"
       aria-hidden="true"
@@ -71,7 +76,7 @@ return image.nft.contractId && image.nft.tokenId ? (
         <div className="modal-content">
           <div className="modal-body">
             <img
-              src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+              src={modalImageUrl} // Use the modalImageUrl state for the modal image
               className="img-fluid"
               alt="Modal"
             />
