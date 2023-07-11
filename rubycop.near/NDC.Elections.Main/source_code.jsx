@@ -127,7 +127,7 @@ return (
             selectedHouse: state.selectedHouse,
             houses,
             handleSelect,
-            myVotes,
+            myVotes: state.myVotes,
           }}
         />
       </Left>
