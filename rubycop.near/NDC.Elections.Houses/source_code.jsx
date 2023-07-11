@@ -1,4 +1,4 @@
-const { houses, selectedHouse, handleSelect } = props;
+const { houses, selectedHouse, handleSelect, myVotes } = props;
 
 const housesMapping = {
   CouncilOfAdvisors: {
@@ -60,20 +60,23 @@ const ItemContainer = styled.div`
   }
 `;
 
-const GroupItem = ({ item }) => (
+const completedHouseVoting = (house) =>
+  myVotes.filter((vote) => vote.house === house.typ).length === house.seats;
+
+const HouseItem = ({ house }) => (
   <ItemContainer
     role="button"
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
     onClick={() => handleSelect(item)}
-    selected={selectedHouse === item.id}
+    selected={selectedHouse === house.id}
   >
     <div className="d-flex align-items-center">
       <ImgContainer>
         <Widget
           src="mob.near/widget/Image"
           props={{
-            image: { url: housesMapping[item.typ].src },
-            alt: housesMapping[item.typ].title,
+            image: { url: housesMapping[house.typ].src },
+            alt: housesMapping[house.typ].title,
             style: {
               height: "40px",
               objectFit: "cover",
@@ -86,15 +89,15 @@ const GroupItem = ({ item }) => (
         />
       </ImgContainer>
       <div>
-        <h6>{housesMapping[item.typ].title}</h6>
-        <Small>{item.seats} members</Small>
+        <h6>{housesMapping[house.typ].title}</h6>
+        <Small>{house.seats} members</Small>
       </div>
     </div>
     <div>
-      {item.available_seats === 0 && (
+      {completedHouseVoting(house) && (
         <CompletedIcon
           className="bi bi-check-circle fs-5"
-          selected={selectedHouse === item.id}
+          selected={selectedHouse === house.id}
         />
       )}
     </div>
@@ -103,8 +106,8 @@ const GroupItem = ({ item }) => (
 
 return (
   <div>
-    {houses.map((item) => (
-      <GroupItem item={item} />
+    {houses.map((house) => (
+      <HouseItem house={house} />
     ))}
   </div>
 );
