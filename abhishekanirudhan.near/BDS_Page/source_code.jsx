@@ -50,7 +50,7 @@ return (
           <div className="py-5">
             <div class="row py-5">
               <div class="card shadow-sm bg-dark">
-                <h1 class="fw-light">NEAR Projects</h1>
+                <h1 class="fw-light">BD Partner Projects</h1>
 
                 <Widget src="abhishekanirudhan.near/widget/NEAR.ATLAS.REACT.BDS.TABLE.TOP.DAPPS" />
               </div>
