@@ -74,15 +74,15 @@ font-size: 12px;
 const {
   HAYInvolve,
   WIYStrategy,
-  issued1,
-  issued2,
-  issued3,
+  Key_Issue_1,
+  Key_Issue_2,
+  Key_Issue_3,
   addition_platform,
   handleHAYInvolve,
   handleWIYStrategy,
-  handleIssued1,
-  handleIssued2,
-  handleIssued3,
+  handleKey_Issue_1,
+  handleKey_Issue_2,
+  handleKey_Issue_3,
   handleAditional,
 } = props;
 
@@ -175,13 +175,13 @@ return (
         {"Platform: What’s your view and pledge on Key Issue 1?"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="issued1"
-        id="issued1"
+        name="Key_Issue_1"
+        id="Key_Issue_1"
         type="text"
         placeholder="Elaborate on your position and pledge "
-        value={issued1}
+        value={Key_Issue_1}
         onChange={(e) => {
-          handleIssued1(e.target.value);
+          handleKey_Issue_1(e.target.value);
         }}
       />
 
@@ -201,10 +201,10 @@ return (
             display: "flex",
             "vertical-align": "top",
             "text-align": "center",
-            color: issued1.length < 2000 ? "#00000075" : "#ff000075",
+            color: Key_Issue_1.length < 2000 ? "#00000075" : "#ff000075",
           }}
         >
-          {issued1.length} - 2000
+          {Key_Issue_1.length} - 2000
         </label>
       </div>
     </FormsectionPlatform>
@@ -213,13 +213,13 @@ return (
         {"Platform: What’s your view and pledge on Key Issue 2"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="issued2"
-        id="issued2"
+        name="Key_Issue_2"
+        id="Key_Issue_2"
         type="text"
         placeholder="Elaborate on your position and pledge "
-        value={issued2}
+        value={Key_Issue_2}
         onChange={(e) => {
-          handleIssued2(e.target.value);
+          handleKey_Issue_2(e.target.value);
         }}
       />
       <div
@@ -238,10 +238,10 @@ return (
             display: "flex",
             "vertical-align": "top",
             "text-align": "center",
-            color: issued2.length < 2000 ? "#00000075" : "#ff000075",
+            color: Key_Issue_2.length < 2000 ? "#00000075" : "#ff000075",
           }}
         >
-          {issued2.length} - 2000
+          {Key_Issue_2.length} - 2000
         </label>
       </div>
     </FormsectionPlatform>
@@ -250,13 +250,13 @@ return (
         {"Platform: What’s your view and pledge on Key Issue 3?"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
-        name="issued3"
-        id="issued3"
+        name="Key_Issue_3"
+        id="Key_Issue_3"
         type="text"
         placeholder="Elaborate on your position and pledge "
-        value={issued3}
+        value={Key_Issue_3}
         onChange={(e) => {
-          handleIssued3(e.target.value);
+          handleKey_Issue_3(e.target.value);
         }}
       />
       <div
@@ -275,10 +275,10 @@ return (
             display: "flex",
             "vertical-align": "top",
             "text-align": "center",
-            color: issued3.length < 2000 ? "#00000075" : "#ff000075",
+            color: Key_Issue_3.length < 2000 ? "#00000075" : "#ff000075",
           }}
         >
-          {issued3.length} - 2000
+          {Key_Issue_3.length} - 2000
         </label>
       </div>
     </FormsectionPlatform>
