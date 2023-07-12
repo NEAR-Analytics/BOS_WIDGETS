@@ -1,5 +1,6 @@
 const widgetOwner = "sking.near";
 const indexVersion = props.indexVersion ?? "4.0.0";
+const whitelist = props.whitelist ?? [];
 const src = props.src;
 const blockHeight = props.blockHeight ?? "final";
 const isEdit = src ? true : false;
@@ -120,6 +121,7 @@ const formatStateForDB = (input) => {
 
 const onFinish = (isDraft) => {
   const answers = state.answers;
+  const isOfficialNDCPoll = answers[1].officialNDCPoll.value;
   const formattedAnswers = formatStateForDB(answers);
 
   console.log("poll to commit", formattedAnswers);
@@ -133,7 +135,7 @@ const onFinish = (isDraft) => {
     uid = src.split("/")[3];
   }
 
-  let key = isDraft ? "draft" : "poll";
+  let key = isDraft ? "draft" : isOfficialNDCPoll ? "official" : "poll";
 
   const commit = {
     ["easypoll-" + indexVersion]: {
@@ -257,6 +259,7 @@ return (
     <Widget
       src={`${widgetOwner}/widget/EasyPoll.CreatePoll.Step${state.step}`}
       props={{
+        whitelist,
         onSubmit: (formState, isDraft) => {
           State.update({
             answers: {
@@ -281,6 +284,7 @@ return (
           });
         },
         initialFormState: state.answers[state.step],
+        isEditNotDraft: isEdit && src.split("/")[2] !== "draft",
       }}
     />
   </Container>
