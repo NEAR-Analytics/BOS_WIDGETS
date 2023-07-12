@@ -33,12 +33,12 @@ order: 1;
   `;
 const FormsectionPlatformtitleHAYI = styled.h2`
 width: 100%;
-height: 28px;
+height: 40px;
 font-family: Open Sans;
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
-line-height: 120%;
+line-height: 100%;
 display: flex;
 align-items: center;
 color: #000000;
