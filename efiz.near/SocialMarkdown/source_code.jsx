@@ -74,11 +74,8 @@ const renderPath =
     <WidgetWrapper>
       <Widget
         key={properties}
-        src="every.near/widget/every.thing.view"
-        props={{
-          path: properties.path,
-          blockHeight: properties.blockHeight,
-        }}
+        src={properties.path}
+        props={properties.params}
       />
     </WidgetWrapper>
   ));
