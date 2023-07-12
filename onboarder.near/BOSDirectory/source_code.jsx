@@ -128,6 +128,14 @@ const social = {
         "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
     },
     {
+      key: 10,
+      name: "ShardDog Social",
+      url: "https://sharddog.social/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreibjlc2hyxfve55gp2fg6lojf6eliptgiiawprhbg4dyc2wbpzy7tm",
+      description: "Token gated rich media supported social feeds",
+    },
+    {
       key: 3,
       name: "Cantopia",
       url: "https://bos-viewer.pages.dev/",
