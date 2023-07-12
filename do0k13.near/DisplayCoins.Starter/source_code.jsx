@@ -20,13 +20,13 @@ const mockData = [
   },
   {
     name: "Near",
-    current_price: 0.005153,
+    current_price: 1.34,
     image:
       "https://assets.coingecko.com/coins/images/10365/large/near.jpg?1683515160",
   },
   {
     name: "Meta Pool",
-    current_price: 1.34,
+    current_price: 0.005153,
     image:
       "https://assets.coingecko.com/coins/images/24249/large/aB2d0Nmn_400x400.png?1657277012",
   },
