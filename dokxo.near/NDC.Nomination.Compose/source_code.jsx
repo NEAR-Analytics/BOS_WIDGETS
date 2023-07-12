@@ -402,7 +402,7 @@ const handleAFFRole = (params) => {
 };
 const handleTags = (item) => {
   State.update({
-    tags: item.target.value.substring(0, 500).trim(),
+    tags: item.target.value.substring(0, 500),
     error_msg: null,
   });
 };
