@@ -129,14 +129,11 @@ function getNominationInfo() {
           let imageIsIpfs_cid = profileData.image.ipfs_cid ? true : false;
           let imageIsUrl = profileData.image.url ? true : false;
           let url = "";
-          console.log(nominee);
-          console.log(profileData.image);
           if (imageIsNFT) {
             let nftData = profileData.image.nft;
             const getNftCid = Near.view(nftData.contractId, "nft_token", {
               token_id: nftData.tokenId,
             });
-            console.log("NFT", getNftCid);
             if (getNftCid.metadata.media.includes("https")) {
               url = getNftCid.metadata.media;
             } else {
