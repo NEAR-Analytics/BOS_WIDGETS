@@ -1,8 +1,7 @@
 // TODO: Should be grabbed from contract side
 let { ids, org } = props;
 console.log(props);
-ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
-org = props.org ? org : "test"; // for testing purposes
+ids = props.ids ? ids : [1, 2, 3];
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
@@ -26,7 +25,10 @@ const widgets = {
 };
 
 State.init({
-  selectedHouse: ids[0],
+  selectedHouse:
+    Storage.privateGet("Houseselected") != null
+      ? Storage.privateGet("Houseselected")
+      : ids[0],
   house: "HouseOfMerit",
   start: true,
   nominations: [],
@@ -38,6 +40,10 @@ State.init({
   originNominations: [],
   notFound: "There are no active nominations at the moment",
 });
+
+if (Storage.privateGet("Houseselected")) {
+  Storage.privateSet("Houseselected", null);
+}
 
 function getVerifiedHuman() {
   asyncFetch(
@@ -523,6 +529,7 @@ return (
           src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
           props={{
             candidateOrReplay: true,
+            house: state.selectedHouse,
             onClickConfirm: () => State.update({ showModalDelete: false }),
             onClickCancel: () => State.update({ showModalDelete: false }),
           }}
