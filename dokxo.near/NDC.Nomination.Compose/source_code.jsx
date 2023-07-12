@@ -46,9 +46,9 @@ State.init({
   house_intended: "",
   HAYInvolve: "",
   WIYStrategy: "",
-  issued1: "",
-  issued2: "",
-  issued3: "",
+  Key_Issue_1: "",
+  Key_Issue_2: "",
+  Key_Issue_3: "",
   addition_platform: "",
 
   afiliation: [
@@ -201,9 +201,9 @@ const validatedInputs = () => {
     house_intended,
     HAYInvolve,
     WIYStrategy,
-    issued1,
-    issued2,
-    issued3,
+    Key_Issue_1,
+    Key_Issue_2,
+    Key_Issue_3,
     afiliation,
     agreement,
     tags,
@@ -241,22 +241,22 @@ const validatedInputs = () => {
 
     isValid = false;
   }
-  if (isEmpty(issued1)) {
+  if (isEmpty(Key_Issue_1)) {
     State.update({ error_msg: "Fill the key issued 1" });
 
     isValid = false;
   }
-  if (isEmpty(issued1)) {
+  if (isEmpty(Key_Issue_1)) {
     State.update({ error_msg: "Fill the key issued 1" });
 
     isValid = false;
   }
-  if (isEmpty(issued2)) {
+  if (isEmpty(Key_Issue_2)) {
     State.update({ error_msg: "Fill the key issued 2" });
 
     isValid = false;
   }
-  if (isEmpty(issued3)) {
+  if (isEmpty(Key_Issue_3)) {
     State.update({ error_msg: "Fill the key issued 3" });
 
     isValid = false;
@@ -348,22 +348,22 @@ const handleWIYStrategy = (item) => {
   });
   return;
 };
-const handleIssued1 = (item) => {
+const handleKey_Issue_1 = (item) => {
   State.update({
-    issued1: item.substring(0, 2000),
+    Key_Issue_1: item.substring(0, 2000),
     error_msg: null,
   });
   return;
 };
-const handleIssued2 = (item) => {
+const handleKey_Issue_2 = (item) => {
   State.update({
-    issued2: item.substring(0, 2000),
+    Key_Issue_2: item.substring(0, 2000),
     error_msg: null,
   });
 };
-const handleIssued3 = (item) => {
+const handleKey_Issue_3 = (item) => {
   State.update({
-    issued3: item.substring(0, 2000),
+    Key_Issue_3: item.substring(0, 2000),
     error_msg: null,
   });
   return;
@@ -502,9 +502,9 @@ return (
               afiliation: JSON.stringify(state.afiliation),
               HAYInvolve: state.HAYInvolve,
               WIYStrategy: state.WIYStrategy,
-              issued1: state.issued1,
-              issued2: state.issued2,
-              issued3: state.issued3,
+              Key_Issue_1: state.Key_Issue_1,
+              Key_Issue_2: state.Key_Issue_2,
+              Key_Issue_3: state.Key_Issue_3,
               addition_platform: state.addition_platform,
               tags: state.tags,
             },
@@ -552,16 +552,16 @@ return (
             props={{
               HAYInvolve: state.HAYInvolve,
               WIYStrategy: state.WIYStrategy,
-              issued1: state.issued1,
-              issued2: state.issued2,
-              issued3: state.issued3,
+              Key_Issue_1: state.Key_Issue_1,
+              Key_Issue_2: state.Key_Issue_2,
+              Key_Issue_3: state.Key_Issue_3,
               addition_platform: state.addition_platform,
 
               handleHAYInvolve: (text) => handleHAYInvolve(text),
               handleWIYStrategy: (text) => handleWIYStrategy(text),
-              handleIssued1: (file) => handleIssued1(file),
-              handleIssued2: (text) => handleIssued2(text),
-              handleIssued3: (text) => handleIssued3(text),
+              handleKey_Issue_1: (file) => handleKey_Issue_1(file),
+              handleKey_Issue_2: (text) => handleKey_Issue_2(text),
+              handleKey_Issue_3: (text) => handleKey_Issue_3(text),
               handleAditional: (text) => handleAditional(text),
             }}
           />
