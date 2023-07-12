@@ -1,4 +1,4 @@
-const ownerId = "contribut3.near";
+const ownerId = "nearhorizon.near";
 
 const about = {
   founders: (
@@ -101,7 +101,7 @@ const RegisterButton = styled.a`
 `;
 
 const registerButton = ({ text, href }) => (
-  <RegisterButton href={href ?? `${ownerId}/widget/Onboarding.Page`}>
+  <RegisterButton href={href ?? `/${ownerId}/widget/Onboarding.Page`}>
     {text}
   </RegisterButton>
 );
