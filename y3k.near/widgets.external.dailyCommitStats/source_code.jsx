@@ -3,46 +3,71 @@ const code = `
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart" style="position: relative; height:80vh; width:80vw"></canvas>
 
 <script>
 
-
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
+async function fetchData() {
+  let response = await fetch(
+    "https://api.flipsidecrypto.com/api/v2/queries/84e3bf99-a78b-4a0e-97af-e9af193ce868/data/latest",
+    {
+      subscribe: true,
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+      },
     }
-});
+  );
+  
+  let data = await response.json();
+  
+  const sortedData = data.sort((a, b) => {
+    return new Date(a["FULL_DATE"]) - new Date(b["FULL_DATE"]);
+  });
+
+  const commitCounts = sortedData.map(entry => entry["COMMITS_COUNT"]);
+  const dates = sortedData.map(entry => entry["FULL_DATE"]);
+
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: dates,
+          datasets: [
+   {
+        label: "COMMITS_COUNT",
+        data: commitCounts,
+        backgroundColor: "rgb(75, 192, 192)",
+      },
+          ]
+      },
+      options: {
+  scales: {
+      y: {
+        stacked: true,
+        grid: {
+          color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+          borderColor: "rgb(240,255,240)",
+        },
+        ticks: {
+          color: "rgb(240,255,240)", // This will change the axis text label color
+        },
+      },
+      x: {
+        stacked: true,
+        grid: {
+          color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        },
+        ticks: {
+          color: "rgb(240,255,240)", // This will change the axis text label color
+        },
+      },
+    },
+      }
+  });
+}
+
+fetchData();
 </script>
 `;
 
