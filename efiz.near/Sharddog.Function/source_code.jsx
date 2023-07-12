@@ -22,6 +22,7 @@ function sharddogFetch(limit, offset) {
         `,
     }),
   });
+  console.log(res);
   if (res.ok) {
     return res.body.data.mb_views_nft_tokens;
   } else {
