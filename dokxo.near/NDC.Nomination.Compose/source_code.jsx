@@ -488,7 +488,6 @@ const Self_Nominate = () => {
       deposit: 100000000000000000000000,
     };
 
-    Storage.privateSet("Houseselected", props.house);
     // call the methods
     Near.call([Social_Payload, SelfNominate_Payload]);
   } else {
