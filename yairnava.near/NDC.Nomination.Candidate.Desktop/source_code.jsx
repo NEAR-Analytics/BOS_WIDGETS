@@ -584,9 +584,9 @@ const afiilationsSort = afilations
 const issues = [
   props.data.nominations.HAYInvolve,
   props.data.nominations.WIYStrategy,
-  props.data.nominations.issued1,
-  props.data.nominations.issued2,
-  props.data.nominations.issued3,
+  props.data.nominations.Key_Issue_1,
+  props.data.nominations.Key_Issue_2,
+  props.data.nominations.Key_Issue_3,
   props.data.nominations.addition_platform,
 ];
 const comments = props.data.comments[0].comments;
@@ -617,9 +617,8 @@ return (
                 "border-radius": "20px",
               }}
               src={
-                props.data.nominations.img.cid
-                  ? "https://nativonft.mypinata.cloud/ipfs/" +
-                    props.data.nominations.img.cid
+                props.data.nominations.img.url
+                  ? props.data.nominations.img.url
                   : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
               }
               alt="pic"
@@ -649,7 +648,7 @@ return (
                 </NominationUser>
                 <TagContainer>
                   {props.data.nominations.tags.split(",").map((tag) => {
-                    return tag ? (
+                    return tag && tag != "" ? (
                       <TagDiv>
                         <TagDivText style={{ "font-size": "10px" }}>
                           {tag}
@@ -815,7 +814,7 @@ return (
                                     ? "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted"
                                     : key == 1
                                     ? "Strategy to develop the NEAR ecosystem"
-                                    : "Key Issue" + key + 1}
+                                    : "Key Issue " + (key - 1)}
                                 </KeyIssueTitle>
                               ) : (
                                 <KeyIssueTitle>Other Platform</KeyIssueTitle>
