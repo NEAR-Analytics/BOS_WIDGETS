@@ -16,13 +16,13 @@ const star = starEdge && Object.keys(starEdge).length;
 const type = star ? "unstar" : "star";
 
 const data = {
-  graph: { star: { [accountId]: star ? null : "" } },
+  graph: { star: { [widgetPath]: star ? null : "" } },
   index: {
     graph: JSON.stringify({
       key: "star",
       value: {
         type,
-        accountId: accountId,
+        widgetPath: widgetPath,
       },
     }),
     notify: JSON.stringify({
