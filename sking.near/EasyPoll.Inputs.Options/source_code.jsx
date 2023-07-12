@@ -1,6 +1,7 @@
 const label = props.label ?? "Label";
 const placeholder = props.placeholder ?? "Placeholder";
 const value = props.value ?? [{}];
+const textarea = props.textarea ?? false;
 const onChange = props.onChange ?? (() => {});
 const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
@@ -110,9 +111,7 @@ return (
             type="text"
             placeholder={placeholder}
             value={v}
-            onChange={({ target: { value } }) =>
-              onOptionChange(i, value)
-            }
+            onChange={({ target: { value } }) => onOptionChange(i, value)}
             className="flex-1"
           />
           <IconButton
