@@ -27,6 +27,10 @@ function getVerifiedHuman() {
   ).then((res) => {
     State.update({ voted: res.body });
   });
+  let profileInfo = Social.getr(`${data.indexerData.nominee}/profile`);
+  let imageIsNFT = profileInfo.image.nft ? true : false;
+  let imageIsIpfs_cid = profileInfo.image.ipfs_cid ? true : false;
+  let imageIsUrl = profileInfo.image.url ? true : false;
 }
 
 if (state.start) {
@@ -58,7 +62,6 @@ function handleShare() {
       data.indexerData.nominee
   );
 }
-
 const Card = styled.div`
 display: flex;
 flex-direction: column;
@@ -72,7 +75,6 @@ flex: none;
 order: 2;
 flex-grow: 0;
 `;
-
 const HeaderCard = styled.div`
 display: flex;
 flex-direction: row;
@@ -82,7 +84,6 @@ gap: 12px;
 width: 326px;
 height: 53px;
 `;
-
 const ProfilePicture = styled.img`
 width: 40px;
 height: 40px;
@@ -91,7 +92,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const HeaderContent = styled.div`
 display: flex;
 flex-direction: column;
@@ -104,7 +104,6 @@ flex: none;
 order: 1;
 flex-grow: 1;
 `;
-
 const HeaderTag = styled.div`
 box-sizing: border-box;
 display: flex;
@@ -123,7 +122,6 @@ border-radius: 100px;
 flex: none;
 order: 0;
 flex-grow: 0;`;
-
 const HeaderTagP = styled.p`
 height: 10px;
 font-family: 'Open Sans';
@@ -143,7 +141,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const HeaderContentText = styled.div`
 display: flex;
 flex-direction: column;
@@ -154,7 +151,6 @@ height: 31px;
 flex: none;
 order: 1;
 flex-grow: 0;`;
-
 const NominationName = styled.p`
 width: 228px;
 height: 17px;
@@ -170,7 +166,6 @@ color: #000000;
 flex: none;
 order: 0;
 flex-grow: 0;`;
-
 const NominationUser = styled.p`
 width: 228px;
 height: 14px;
@@ -187,7 +182,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const UpvoteButtonDisabled = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -199,7 +193,6 @@ background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
 order:2;
 `;
-
 const UpvoteButton = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -212,7 +205,6 @@ background-origin: border-box;
 background-clip: padding-box, border-box;
 order:2;
 `;
-
 const UpvoteCount = styled.p`
 font-size: 12px;
 font-family: Open Sans;
@@ -225,12 +217,10 @@ background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 background-clip: text;
 text-fill-color: transparent;
 `;
-
 const Icon = styled.img`
 width: 17px;
 height: 17px;
 `;
-
 const CollapseCandidate = styled.div`
 display: flex;
 flex-direction: row;
@@ -246,7 +236,6 @@ order: 1;
 align-self: stretch;
 flex-grow: 0;
 `;
-
 const CollapseCandidateContent = styled.div`
 display: flex;
 flex-direction: column;
@@ -260,7 +249,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const CollapseCandidateHeader = styled.div`
 display: flex;
 flex-direction: row;
@@ -274,7 +262,6 @@ order: 0;
 align-self: stretch;
 flex-grow: 0;
 `;
-
 const CollapseCandidateText = styled.p`
 width: 274px;
 height: 14px;
@@ -289,7 +276,6 @@ flex: none;
 order: 0;
 flex-grow: 1;
 `;
-
 const DownArrow = styled.img`
 width: 16px;
 height: 16px;
@@ -297,7 +283,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const CandidateTagContainer = styled.div`
 overflow:hidden;
 display: flex;
@@ -312,7 +297,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const CandidateTag = styled.div`
 box-sizing: border-box;
 display: flex;
@@ -329,7 +313,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const CandidateTagText = styled.p`
 height: 12px;
 overflow:hidden;
@@ -346,7 +329,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const KeyIssues = styled.div`
 display: flex;
 flex-direction: row;
@@ -360,7 +342,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const KeyIssuesContent = styled.div`
 display: flex;
 flex-direction: column;
@@ -372,7 +353,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const KeyIssuesHeader = styled.div`
 display: flex;
 flex-direction: row;
@@ -385,7 +365,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const KeyIssuesTitle = styled.p`
 width: 302px;
 height: 14px;
@@ -400,7 +379,6 @@ flex: none;
 order: 0;
 flex-grow: 1;
 `;
-
 const KeyIssuesContainer = styled.div`
 display: flex;
 flex-direction: column;
@@ -412,7 +390,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const KeyIssue = styled.div`
 display: flex;
 flex-direction: column;
@@ -425,7 +402,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const KeyIssueHeader = styled.div`
 display: flex;
 flex-direction: row;
@@ -439,7 +415,6 @@ order: 0;
 align-self: stretch;
 flex-grow: 0;
 `;
-
 const KeyIssueTitle = styled.p`
 width: 302px;
 height: 12px;
@@ -455,7 +430,6 @@ order: 0;
 align-self: stretch;
 flex-grow: 0;
 `;
-
 const KeyIssueDescription = styled.p`
 width: 302px;
 height: 12px;
@@ -474,7 +448,6 @@ order: 1;
 align-self: stretch;
 flex-grow: 0;
 `;
-
 const KeyIssueSeparator = styled.hr`
 width: 302px;
 height: 0px;
@@ -484,7 +457,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const LowerSection = styled.div`
 display: flex;
 width: 326px;
@@ -496,7 +468,6 @@ flex: none;
 order: 2;
 flex-grow: 0;
 `;
-
 const LowerSectionContainer = styled.div`
 display: flex;
 flex-direction: column;
@@ -508,7 +479,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const ButtonsLowerSection = styled.div`
 display: flex;
 flex-direction: row;
@@ -520,7 +490,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const TextLowerSectionContainer = styled.div`
 display: flex;
 flex-direction: row;
@@ -533,7 +502,6 @@ flex: none;
 order: 0;
 flex-grow: 1;
 `;
-
 const ClockIcon = styled.img`
 width: 12px;
 height: 12px;
@@ -541,7 +509,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const TimestampText = styled.p`
 width: 119px;
 height: 20px;
@@ -558,7 +525,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const CommentsCounter = styled.p`
 width: 96px;
 height: 24px;
@@ -578,7 +544,6 @@ flex: none;
 order: 2;
 flex-grow: 0;
 `;
-
 const ButtonsContainer = styled.div`
 display: flex;
 flex-direction: row;
@@ -591,7 +556,6 @@ flex: none;
 order: 1;
 flex-grow: 0;
 `;
-
 const TagSection = styled.div`
 display: flex;
 align-items: flex-start;
@@ -600,7 +564,6 @@ flex-wrap: wrap;
 max-height: 20px;
 overflow: hidden;
 `;
-
 const Tag = styled.div`
 box-sizing: border-box;
 display: flex;
@@ -620,7 +583,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const TagText = styled.p`
 height: 12px;
 font-family: 'Open Sans';
@@ -638,7 +600,6 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
-
 const CommentButtonDisabled = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -649,7 +610,6 @@ border: solid 1px transparent;
 background: var(--buttons-disable, #C3CACE);
 cursor: default !important;
 `;
-
 const CommentButtonDiv = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -662,7 +622,6 @@ background-origin: border-box;
 background-clip: padding-box, border-box;
 border-radius: 4px;
 `;
-
 const CommentButtonCounter = styled.p`
 font-size: 12px;
 font-family: Open Sans;
@@ -675,26 +634,22 @@ background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 background-clip: text;
 text-fill-color: transparent;
 `;
-
 const CommentButtonIcon = styled.img`
 width: 14px;
 height: 14px;
 `;
-
 const TagSectionContainer = styled.div`
 display: flex;
 justify-content: space-between;
 align-items: center;
 align-self: stretch;
 `;
-
 const ViewButtonContainer = styled.div`
 display: flex;
 padding: 0px 0px 0px 8px;
 align-items: flex-start;
 gap: 8px;
 `;
-
 const ViewButtonDiv = styled.a`
 display: flex;
 padding: 2px 12px;
@@ -708,7 +663,6 @@ gap: 10px;
 border-radius: 4px;
 text-decoration: none;
 `;
-
 const ViewButtonText = styled.p`
 font-size: 12px;
 font-family: Open Sans;
@@ -721,7 +675,6 @@ background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 background-clip: text;
 text-fill-color: transparent;
 `;
-
 const ShareButtonDiv = styled.button`
 display: flex;
 padding: 2px 12px;
@@ -738,7 +691,6 @@ border: 1px solid #FFD50D;
   }
 }
 `;
-
 const ShareButtonText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
@@ -746,9 +698,7 @@ font-family: Open Sans;
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
-
 `;
-
 return (
   <Card>
     {state.showModal && (
@@ -765,8 +715,8 @@ return (
     <HeaderCard>
       <ProfilePicture
         src={
-          data.nominationData.img.url
-            ? data.nominationData.img.url
+          state.img
+            ? state.img
             : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
         }
         alt="pic"
