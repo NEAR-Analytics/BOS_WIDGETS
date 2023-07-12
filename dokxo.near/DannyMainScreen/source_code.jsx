@@ -76,7 +76,7 @@ function getVerifiedHuman() {
 
 const Page = styled.div`
  
- position: absolute;
+ position: relative;
    width: 100vw;
     
    top: 98px;
