@@ -86,7 +86,6 @@ const Images = styled.div`
         display: block;
         width: 100%;
         opacity: 0;
-        transition: opacity 300ms;
         position: absolute;
         top: 0;
         left: 0;
