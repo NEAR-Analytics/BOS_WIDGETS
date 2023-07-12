@@ -363,7 +363,7 @@ const getFormatedTxDate = (newDate) => {
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
-      currentChain[props.singleNftProps.chain].livePrice
+      currentChain[props.state.singleNftProps.chain].livePrice
     }&vs_currencies=usd`
   );
   if (res.ok) {
@@ -379,29 +379,29 @@ const handleSendClick = () => {
   console.log(
     "Input value:",
     Ethers.provider().getSigner(),
-    currentChain[props.singleNftProps.chain].contract
+    currentChain[props.state.singleNftProps.chain].contract
   );
   const contract = new ethers.Contract(
-    currentChain[props.singleNftProps.chain].contract,
+    currentChain[props.state.singleNftProps.chain].contract,
     listAbi,
     Ethers.provider().getSigner()
   );
   console.log("Formed thee", contract);
-  const nftContract = props.singleNftProps.id.split(
-    props.singleNftProps.tokenId
+  const nftContract = props.state.singleNftProps.id.split(
+    props.state.singleNftProps.tokenId
   )[0];
 
   console.log(
     "Logged Thee",
     nftContract,
-    props.singleNftProps.tokenId,
+    props.state.singleNftProps.tokenId,
     (Number(state.listingPrice) * 1e18).toString()
   );
 
   contract
     .createMarketplaceItem(
       nftContract,
-      props.singleNftProps.tokenId,
+      props.state.singleNftProps.tokenId,
       (Number(state.listingPrice) * 1e18).toString(),
       "General",
       "0xB4bE310666D2f909789Fb1a2FD09a9bEB0Edd99D"
@@ -412,7 +412,7 @@ const handleSendClick = () => {
       State.update({
         isOpen: false,
         message: true,
-        text: `${currentChain[props.singleNftProps.chain].explorer}/tx/${
+        text: `${currentChain[props.state.singleNftProps.chain].explorer}/tx/${
           ricit.transactionHash
         }`,
       });
@@ -442,8 +442,8 @@ const handleInputChange = (e) => {
   });
 };
 
-const price = props.singleNftProps.price
-  ? props.singleNftProps.price * PRICE_CONVERSION_VALUE
+const price = props.state.singleNftProps.price
+  ? props.state.singleNftProps.price * PRICE_CONVERSION_VALUE
   : 0;
 
 const handleClose = () => {
@@ -461,11 +461,13 @@ return (
           />
         </CloseNFT>
         <TopImageContainer>
-          <HeaderText>{props.singleNftProps.name || "AI Sunset"}</HeaderText>
+          <HeaderText>
+            {props.state.singleNftProps.name || "AI Sunset"}
+          </HeaderText>
           <img
             src={
-              props.singleNftProps.image
-                ? props.singleNftProps?.image.replace(
+              props.state.singleNftProps.image
+                ? props.state.singleNftProps?.image.replace(
                     "ipfs://",
                     "https://ipfs.io/ipfs/"
                   )
@@ -494,12 +496,12 @@ return (
             </p>
             <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
               {`${
-                props.singleNftProps.owner
-                  ? props.singleNftProps.owner.slice(0, 6)
+                props.state.singleNftProps.owner
+                  ? props.state.singleNftProps.owner.slice(0, 6)
                   : "0x022"
               }...${
-                props.singleNftProps.owner
-                  ? props.singleNftProps.owner.slice(36)
+                props.state.singleNftProps.owner
+                  ? props.state.singleNftProps.owner.slice(36)
                   : "0454et"
               }`}
             </span>
@@ -522,14 +524,15 @@ return (
                 <span>
                   ($
                   {getUsdValue(
-                    props.singleNftProps.price * PRICE_CONVERSION_VALUE || 0
+                    props.state.singleNftProps.price * PRICE_CONVERSION_VALUE ||
+                      0
                   )}
                   )
                 </span>
               </PriceArea>
             </div>
             <div>
-              {props.singleNftProps.isListed ? (
+              {props.state.singleNftProps.isListed ? (
                 <button
                   style={{
                     backgroundColor: "#525c76",
@@ -539,7 +542,7 @@ return (
                 >
                   Listed
                 </button>
-              ) : props.singleNftProps.owner == props.sender ? (
+              ) : props.state.singleNftProps.owner == props.state.sender ? (
                 <button onClick={handleListing}>List</button>
               ) : (
                 <button
@@ -590,14 +593,15 @@ return (
           <Description>
             <h6>Description</h6>
             <span>
-              {props.singleNftProps.description || "Ai generated sunset cliffs"}
+              {props.state.singleNftProps.description ||
+                "Ai generated sunset cliffs"}
             </span>
           </Description>
           <Description>
             <h6>Attributes</h6>
             <AttributeContainer>
-              {props.singleNftProps.attributes ? (
-                props.singleNftProps.attributes.map((data) => (
+              {props.state.singleNftProps.attributes ? (
+                props.state.singleNftProps.attributes.map((data) => (
                   <Attribute>
                     <div>
                       <span style={{ color: "#b2b7c2" }}>File Type</span>
@@ -630,16 +634,16 @@ return (
               <a
                 target="_blank"
                 href={`${
-                  currentChain[props.singleNftProps.chain].explorer
-                }/address/${props.singleNftProps.owner || ""}`}
+                  currentChain[props.state.singleNftProps.chain].explorer
+                }/address/${props.state.singleNftProps.owner || ""}`}
               >
                 {`${
-                  props.singleNftProps.owner
-                    ? props.singleNftProps.owner.slice(0, 6)
+                  props.state.singleNftProps.owner
+                    ? props.state.singleNftProps.owner.slice(0, 6)
                     : "0x022"
                 }...${
-                  props.singleNftProps.owner
-                    ? props.singleNftProps.owner.slice(36)
+                  props.state.singleNftProps.owner
+                    ? props.state.singleNftProps.owner.slice(36)
                     : "0454et"
                 }`}
               </a>
@@ -652,8 +656,8 @@ return (
       <TableHeader>
         <h1>Transaction History</h1>
       </TableHeader>
-      {props.singleNftProps.transactions ? (
-        props.singleNftProps.transactions.map((data) => (
+      {props.state.singleNftProps.transactions ? (
+        props.state.singleNftProps.transactions.map((data) => (
           <TableBody>
             <RowType>{data.type}</RowType>
             <RowBody>
