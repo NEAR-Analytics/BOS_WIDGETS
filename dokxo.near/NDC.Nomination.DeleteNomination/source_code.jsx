@@ -144,12 +144,22 @@ return (
             }}
           >
             {" "}
-            <img alt="close" src={"https://pin.ski/44jOK6r"} />
+            <img
+              alt="close"
+              src={
+                "https://nativonft.mypinata.cloud/ipfs/QmXeHUR2zF3VwLgiW6i8S1DgZBETpD55ynJktnPdSeC54m"
+              }
+            />
           </button>
         </div>
       </ExitContainer>
       <IconContainer>
-        <img alt="close" src={"https://pin.ski/3XJ7dqG"} />
+        <img
+          alt="close"
+          src={
+            "https://nativonft.mypinata.cloud/ipfs/QmYXaSUh7XnQH4VsogAwRQM7epuQaPGByM8C7ZazCp2Dk2"
+          }
+        />
         <div
           style={{
             display: "flex",
