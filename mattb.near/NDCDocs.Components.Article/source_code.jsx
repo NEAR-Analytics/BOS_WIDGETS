@@ -1,13 +1,15 @@
 const addressForComments = "NDCDOCS-comments";
 const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId || context.accountId;
 
 const lastEditor = props.lastEditor;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
+
+const path = `${authorForWidget}/widget/${context.widgetSrc}?lastEditor=${lastEditor}&blockHeight=${blockHeight}&subscribe=${subscribe}&raw=${raw}`;
 
 const notifyAccountId = accountId;
 
@@ -378,7 +380,14 @@ return (
       <Wrapper>
         {state.index.map((content) => (
           <div id={content.contentStart} className="markdown">
-            <div className="link">🔗</div>
+            <div
+              className="link"
+              onClick={() =>
+                Clipboard.writeText(`${path}#${content.contentStart}`)
+              }
+            >
+              🔗
+            </div>
             <Markdown
               text={state.article.body
                 .split("\n")
