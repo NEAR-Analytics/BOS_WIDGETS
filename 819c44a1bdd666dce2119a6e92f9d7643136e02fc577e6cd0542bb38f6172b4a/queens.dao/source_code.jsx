@@ -300,7 +300,24 @@ return (
         <Widget src="near/widget/NFTCollection" props={{ accountId }} />
       )}
       {state.selectedTab === "apps" && (
-        <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
+        <PopupWrapper
+          id="create-proposal-popup"
+          onClick={(e) => {
+            if (e.target.id === "create-proposal-popup") {
+              State.update({ ...state, showCreateProposal: false });
+            }
+          }}
+        >
+          <Widget
+            src={"sking.near/widget/DAO.Bounty.Proposal"}
+            props={{
+              daoId: daoId,
+              accountId: accountId,
+              onClose: () =>
+                State.update({ ...state, showCreateProposal: false }),
+            }}
+          />
+        </PopupWrapper>
       )}
       {state.selectedTab === "followers" && (
         <Widget src="near/widget/FollowersList" props={{ accountId }} />
