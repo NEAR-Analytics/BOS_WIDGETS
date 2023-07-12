@@ -73,7 +73,9 @@ return (
     <div class="col  ">
       <div
         style={{
-          display: "absolute",
+          display: "flex",
+          position: "relative",
+          "z-index": "3",
           "justify-content": " end",
           "align-items": "center",
         }}
