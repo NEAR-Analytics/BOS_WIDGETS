@@ -4,19 +4,42 @@ let Socialcontract = "social.near";
 let profileInfo = Social.getr(`${context.accountId}/profile`);
 console.log(profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
-let nftData = profileInfo.image.nft;
-const getNftCid = Near.view(nftData.contractId, "nft_token", {
-  token_id: nftData.tokenId,
-});
-let isNFTCid = getNftCid.metadata.media ? getNftCid.metadata.media : "";
+let imageIsIpfs_cid = profileInfo.image.ipfs_cid ? true : false;
+let imageIsUrl = profileInfo.image.url ? true : false;
+let RealProfileImageAsURL = { IS_CID: false, data: "" };
+
+//Recover image from NFT
+if (imageIsNFT) {
+  let nftData = profileInfo.image.nft;
+  const getNftCid = Near.view(nftData.contractId, "nft_token", {
+    token_id: nftData.tokenId,
+  });
+
+  RealProfileImageAsURL =
+    "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media;
+  console.log("was nft", RealProfileImageAsURL);
+}
+//Recover image from IPFS_CID
+
+if (imageIsIpfs_cid) {
+  RealProfileImageAsURL =
+    "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid;
+  console.log("was ipfs", RealProfileImageAsURL);
+}
+//Recover image from URL
+
+if (imageIsUrl) {
+  RealProfileImageAsURL = profileInfo.image.url;
+  console.log("was url", RealProfileImageAsURL);
+}
 // State
 State.init({
   theme,
 
   img: {
     uploading: "false",
-    cid: isNFTCid,
-    name: isNFTCid ? "Uploaded from Social Profile" : "",
+    cid: RealProfileImageAsURL,
+    name: RealProfileImageAsURL ? "Uploaded from Social Profile" : "",
   },
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
@@ -98,7 +121,7 @@ const H1styled = styled.h1`
 margin-left:16px;
 margin-top:16px;
 margin-right:auto; 
-width: 104px;
+width: 100%;
 height: 19px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -473,6 +496,7 @@ return (
             nominationData: {
               img: {
                 cid: state.img.cid,
+                isCid: RealProfileImageCid.IS_CID,
               },
               profileAccount: state.profileAccount,
               afiliation: JSON.stringify(state.afiliation),
@@ -512,6 +536,7 @@ return (
             src={`dokxo.near/widget/Compose.Profile`}
             props={{
               img: state.img,
+              isCid: RealProfileImageCid.IS_CID,
               name: state.name,
               profileAccount: state.profileAccount,
               house_intended: state.house_intended,
