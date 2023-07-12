@@ -10,6 +10,10 @@ const ToggleRoot = styled.div`
   display: flex;
   gap: 16px;
   align-items: center;
+
+  &.disabled {
+    cursor: not-allowed;
+  }
 `;
 
 const ToggleSwitchRoot = styled("Switch.Root")`
@@ -57,18 +61,20 @@ const ToggleLabel = styled.label`
   cursor: pointer;
 `;
 
+const key = props.key ?? Math.random().toString(16).slice(2);
+
 return (
-  <ToggleRoot>
+  <ToggleRoot className={disabled ? "disabled" : ""}>
     <ToggleSwitchRoot
       type="text"
       checked={active}
-      id={`toggle-${label}`}
+      id={`toggle-${key}`}
       onCheckedChange={disabled ? null : onChange}
-      title={disabled ? `Permanently ${active ? "enabled" : "disabled"}` : null}
+      title={disabled ? `Disabled` : null}
       {...{ disabled }}
     >
-      {!disabled && <ToggleSwitchThumb className="bg-light" />}
+      <ToggleSwitchThumb className="bg-light" />
     </ToggleSwitchRoot>
-    <ToggleLabel htmlFor={`toggle-${label}`}>{label}</ToggleLabel>
+    <ToggleLabel htmlFor={`toggle-${key}`}>{label}</ToggleLabel>
   </ToggleRoot>
 );
