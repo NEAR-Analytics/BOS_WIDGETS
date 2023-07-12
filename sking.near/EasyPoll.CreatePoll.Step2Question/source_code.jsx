@@ -208,7 +208,7 @@ return (
         <Widget
           src={`${widgetOwner}/widget/EasyPoll.Inputs.Options`}
           props={{
-            label: "Answer Options*",
+            label: "Answer Options* (Markdown Supported)",
             value: question.choicesOptions.value,
             error: question.choicesOptions.error,
             onChange: (v) => {
@@ -216,6 +216,7 @@ return (
               onQuestionFieldChange(id, "choicesOptions", "value", v);
             },
             placeholder: "",
+            textarea: true,
           }}
         />
       </>
