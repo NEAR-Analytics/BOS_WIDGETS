@@ -36,7 +36,9 @@ return (
     <div class="text-center">
       <div class="">
         <div class="row  ">
-          <h1 class="fw-light">Monthly Active Accounts</h1>
+          <h1> BD Partner Overview </h1>
+          <br></br>
+          <h2 class="fw-light">Monthly Active Accounts</h2>
 
           <div class="row ">
             <Widget
