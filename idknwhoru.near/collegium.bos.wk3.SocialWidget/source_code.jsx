@@ -5,7 +5,7 @@ const widgetEntries = data === undefined ? [] : Object.entries(data);
 
 console.log(widgetEntries);
 
-const widgets = widgetEntries.map(([title, content]) => {
+const widgets = widgetEntries.map(([title]) => {
   return (
     <div
       style={{
