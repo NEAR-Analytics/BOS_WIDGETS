@@ -148,7 +148,7 @@ flex: none;
 order: 1;
 flex-grow: 0;`;
 const NominationName = styled.p`
-width: 228px;
+width: 90%;
 height: 17px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -161,9 +161,12 @@ align-items: center;
 color: #000000;
 flex: none;
 order: 0;
-flex-grow: 0;`;
+flex-grow: 0;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;`;
 const NominationUser = styled.p`
-width: 228px;
+width: 90%;
 height: 14px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -177,6 +180,9 @@ color: #828688;
 flex: none;
 order: 1;
 flex-grow: 0;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 `;
 const UpvoteButtonDisabled = styled.button`
 display: flex;
