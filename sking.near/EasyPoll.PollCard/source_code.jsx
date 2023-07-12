@@ -4,6 +4,7 @@ const blockHeight = props.blockHeight ?? "final";
 const href = props.href;
 const editHref = props.editHref;
 const deleteHref = props.deleteHref;
+const topLabel = props.topLabel;
 const accountId = props.accountId ?? context.accountId;
 const indexVersion = props.indexVersion ?? "4.0.0";
 
@@ -98,8 +99,18 @@ const Paragraph = styled.p`
   color: #828688;
 `;
 
+const TopLabel = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-right: auto;
+  border-radius: 12px;
+  color: #828688;
+`;
+
 return (
   <Container className="w-100 flex-grow-1 d-flex flex-column justify-content-start">
+    {topLabel && <TopLabel>{topLabel}</TopLabel>}
     <div className="d-flex justify-content-between gap-3 mb-2">
       <Widget
         src={`${widgetOwner}/widget/EasyPoll.UserLabel`}
