@@ -9,13 +9,8 @@ State.init({
 });
 
 function fetchTokens() {
-  const res = sharddogFetch(limit, state.offset);
-  console.log(`outside: ${res}`);
-  if (res.ok) {
-    return res.body.data.mb_views_nft_tokens;
-  } else {
-    return [];
-  }
+  const tokens = sharddogFetch(limit, state.offset);
+  console.log(`outside: ${JSON.stringify(tokens)}`);
   if (tokens.length > 0) {
     State.update({
       tokens: [...state.tokens, ...tokens],
