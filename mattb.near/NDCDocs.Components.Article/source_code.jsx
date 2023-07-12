@@ -9,7 +9,7 @@ const blockHeight =
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 
-const path = `${authorForWidget}/widget/${context.widgetSrc}?lastEditor=${lastEditor}&blockHeight=${blockHeight}&subscribe=${subscribe}&raw=${raw}`;
+const path = `${context.widgetSrc}?lastEditor=${lastEditor}&blockHeight=${blockHeight}&subscribe=${subscribe}&raw=${raw}`;
 
 const notifyAccountId = accountId;
 
