@@ -83,7 +83,7 @@ const TopImageContainer = styled.div`
     width: 40%;
     min-width: 355px;
   border: 2px solid #cacdd5;
-  margin-right: 20px;
+  margin-right: 40px;
   box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
   border-radius: 0.7em;
   &>img {
@@ -210,6 +210,10 @@ const TableBody = styled.div`
     padding: 0.5em;
     justify-content: space-between;
     border-bottom: 1px solid #dde1e6;
+    a {
+        cursor: pointer;
+        text-decoration: none;
+    }
 `;
 
 const RowType = styled.div`
@@ -428,8 +432,6 @@ const handleSendClick = () => {
 };
 
 const handleListing = () => {
-  // Handle the send button click event
-
   State.update({
     isOpen: true,
   });
@@ -660,21 +662,29 @@ return (
         props.state.singleNftProps.transactions.map((data) => (
           <TableBody>
             <RowType>{data.type}</RowType>
-            <RowBody>
-              <span>From</span>
-              <p>
-                {`${data.owner ? data.owner.id.slice(0, 4) : ".."}...${
-                  data.owner ? data.owner.id.slice(40) : "."
-                }`}
-              </p>
-              <span>To</span>
-              <p>
-                {`${data.to ? data.to.id.slice(0, 4) : ".."}...${
-                  data.to ? data.to.id.slice(40) : "."
-                }`}
-              </p>
-              <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
-            </RowBody>
+            <a
+              href={`${
+                currentChain[props.state.singleNftProps.chain].explorer
+              }/tx/${data.txId || ""}`}
+              target="_blank"
+              style={{}}
+            >
+              <RowBody>
+                <span>From</span>
+                <p>
+                  {`${data.owner ? data.owner.id.slice(0, 4) : ".."}...${
+                    data.owner ? data.owner.id.slice(40) : "."
+                  }`}
+                </p>
+                <span>To</span>
+                <p>
+                  {`${data.to ? data.to.id.slice(0, 4) : ".."}...${
+                    data.to ? data.to.id.slice(40) : "."
+                  }`}
+                </p>
+                <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
+              </RowBody>
+            </a>
           </TableBody>
         ))
       ) : (
