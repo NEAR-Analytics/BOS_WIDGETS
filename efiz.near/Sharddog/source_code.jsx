@@ -9,17 +9,20 @@ State.init({
 });
 
 function fetchTokens() {
-  const tokens = sharddogFetch(limit, state.offset);
-  if (tokens.length > 0) {
-    State.update({
-      tokens: [...state.tokens, ...tokens],
-      offset: state.offset + limit,
-      hasMore: true,
-    });
-  } else {
-    State.update({
-      hasMore: false,
-    });
+  const res = sharddogFetch(limit, state.offset);
+  if (res.ok) {
+    const tokens = res.body.data.mb_views_nft_tokens;
+    if (tokens.length > 0) {
+      State.update({
+        tokens: [...state.tokens, ...tokens],
+        offset: state.offset + limit,
+        hasMore: true,
+      });
+    } else {
+      State.update({
+        hasMore: false,
+      });
+    }
   }
 }
 
