@@ -1,4 +1,4 @@
-const content = props.content || "frickin love contetn";
+const content = { type: "md", text: "frickin love contetn" };
 
 const raw = !!props.raw;
 console.log({ raw, content });
