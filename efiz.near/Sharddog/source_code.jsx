@@ -1,5 +1,6 @@
 const limit = 20;
 const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
+const { Grid } = VM.require("efiz.near/widget/every.module");
 
 State.init({
   offset: 0,
