@@ -1,6 +1,6 @@
 // TODO: Should be grabbed from contract side
 let { ids, org } = props;
-console.log(props);
+console.log(Storage.privateGet("Houseselected"));
 ids = props.ids ? ids : [1, 2, 3];
 
 const electionContract = "elections-v1.gwg-testing.near";
