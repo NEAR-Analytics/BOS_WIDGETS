@@ -74,7 +74,7 @@ return (
       <div
         style={{
           display: "flex",
-          position: "relative",
+          position: "absolute",
           "z-index": "3",
           "justify-content": " end",
           "align-items": "center",
