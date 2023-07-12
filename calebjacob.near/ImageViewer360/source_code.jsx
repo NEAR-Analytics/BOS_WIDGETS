@@ -74,8 +74,8 @@ const Wrapper = styled.div`
     width: 100%;
     max-width: 600px;
     position: relative;
-    background: #f00;
-    touch-action: pan-x pan-y;
+    background: #000;
+    touch-action: none;
 `;
 
 const Images = styled.div`
