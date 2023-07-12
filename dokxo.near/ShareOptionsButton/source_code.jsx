@@ -63,10 +63,10 @@ function handleShare(urlToCopy) {
     "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
       "&candidate="
   );
-  /*
+
   setTimeout(() => {
     State.update({ showShareOptions: false, shareText: "Copy" });
-  }, "1500");*/
+  }, "1500");
 }
 return (
   <>
