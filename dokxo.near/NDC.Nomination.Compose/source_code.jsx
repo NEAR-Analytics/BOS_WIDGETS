@@ -2,6 +2,7 @@ let Nominationcontract = "nominations-v1.gwg-testing.near";
 let Socialcontract = "social.near";
 
 let profileInfo = Social.getr(`${context.accountId}/profile`);
+console.log(profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
 let nftData = profileInfo.image.nft;
 const getNftCid = Near.view(nftData.contractId, "nft_token", {
@@ -41,7 +42,7 @@ State.init({
 });
 
 const ModalCard = styled.div`
- position: fixed;
+ position: absolute;
   z-index: 99;
   left: 0;
   top: 0;
