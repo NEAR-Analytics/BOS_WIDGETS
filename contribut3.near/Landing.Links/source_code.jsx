@@ -1,3 +1,5 @@
+const ownerId = "contribut3.near";
+
 const links = {
   product: {
     desktop: "bafkreihdjvyefnqkqrlcolfw5pbigtn5jxjnp3vrffyyh76hhwffjdjndq",
