@@ -259,8 +259,8 @@ return (
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}&tab=apps`}
-          selected={state.selectedTab === "apps"}
+          href={`${accountUrl}&tab=overview`}
+          selected={state.selectedTab === "overview"}
         >
           Discussion
         </TabsButton>
