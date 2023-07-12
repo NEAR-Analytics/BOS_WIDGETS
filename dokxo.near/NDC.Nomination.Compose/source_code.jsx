@@ -38,7 +38,7 @@ State.init({
 
   img: {
     uploading: "false",
-    cid: RealProfileImageAsURL,
+    url: RealProfileImageAsURL,
     name: RealProfileImageAsURL ? "Uploaded from Social Profile" : "",
   },
   name: profileInfo.name ? profileInfo.name : "",
