@@ -80,7 +80,7 @@ const TopSection = styled.div`
 const TopImageContainer = styled.div`
   padding: 1em;
   background: #ffffff;
-    width: 50%;
+    width: 40%;
     min-width: 355px;
   border: 2px solid #cacdd5;
   margin-right: 20px;
@@ -306,6 +306,18 @@ const Button = styled.button`
   font-size: 16px;
 `;
 
+const CloseNFT = styled.div`
+  margin-right: 10px;
+  display: flex;
+  align-items: flex-start !important;
+  justify-content: space-between !important; 
+  img {
+    width: 40px;  
+    cursor: pointer;
+    align-self: flex-start;
+  }
+`;
+
 const CloseButton = styled.button`
     background-color: white;
     color: #0d99ff;
@@ -434,10 +446,20 @@ const price = props.singleNftProps.price
   ? props.singleNftProps.price * PRICE_CONVERSION_VALUE
   : 0;
 
+const handleClose = () => {
+  props.isNFTButtonClicked = false;
+};
+
 return (
   <Root>
     <MainContainer>
       <TopSection>
+        <CloseNFT onClick={() => props.handleCloseNft()}>
+          <img
+            src="https://cdn-icons-png.flaticon.com/256/109/109618.png"
+            alt=""
+          />
+        </CloseNFT>
         <TopImageContainer>
           <HeaderText>{props.singleNftProps.name || "AI Sunset"}</HeaderText>
           <img
