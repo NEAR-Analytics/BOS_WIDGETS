@@ -3,9 +3,9 @@ const account_id = context.accountId;
 const data = Social.getr(`${account_id}/widget/*`, "final", {
   subscribe: true,
 });
-const widgetEntries = data === undefined ? [] : Object.entries(data);
 
-console.log(widgetEntries);
+const widgetEntries =
+  data === undefined || data === null ? [] : Object.entries(data);
 
 const widgets = widgetEntries.map(([title]) => {
   return (
