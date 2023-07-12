@@ -344,27 +344,6 @@ return (
           src="sking.near/widget/DAO.Bounty.Claim"
           props={{ daoId: daoId, accountId: accountId }}
         />
-
-        {state.showCreateProposal && (
-          <PopupWrapper
-            id="create-proposal-popup"
-            onClick={(e) => {
-              if (e.target.id === "create-proposal-popup") {
-                State.update({ ...state, showCreateProposal: false });
-              }
-            }}
-          >
-            <Widget
-              src={"sking.near/widget/DAO.Bounty.Proposal"}
-              props={{
-                daoId: daoId,
-                accountId: accountId,
-                onClose: () =>
-                  State.update({ ...state, showCreateProposal: false }),
-              }}
-            />
-          </PopupWrapper>
-        )}
       </>
     )}
 
