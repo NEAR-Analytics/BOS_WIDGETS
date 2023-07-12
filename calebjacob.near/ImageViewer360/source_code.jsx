@@ -1,7 +1,10 @@
 State.init({
   currentImageIndex: 0,
+  pointerIsDown: false,
+  pointerStartPositionX: 0,
 });
 
+const pointerMoveThreshold = 20;
 const description = "A description of my image";
 const images = [
   "https://ipfs.near.social/ipfs/bafkreibu3gr4saomeeg6cwlu5vj7x2lfl7ixx7peigklad34dtxemlape4",
@@ -42,6 +45,29 @@ function previousImage() {
       ? images.length - 1
       : state.currentImageIndex - 1;
   State.update({ currentImageIndex: index });
+}
+
+function onPointerDown(e) {
+  State.update({ pointerIsDown: true, pointerStartPositionX: e.clientX });
+}
+
+function onPointerUp() {
+  State.update({ pointerIsDown: false });
+}
+
+function onPointerMove(e) {
+  if (state.pointerIsDown) {
+    const diff = state.pointerStartPositionX - e.clientX;
+
+    if (Math.abs(diff) > pointerMoveThreshold) {
+      State.update({ pointerStartPositionX: e.clientX });
+      if (diff < 0) {
+        nextImage();
+      } else {
+        previousImage();
+      }
+    }
+  }
 }
 
 const Wrapper = styled.div`
@@ -85,7 +111,12 @@ const Icon360 = styled.img`
 `;
 
 return (
-  <Wrapper onClick={previousImage}>
+  <Wrapper
+    onPointerDown={onPointerDown}
+    onPointerUp={onPointerUp}
+    onPointerLeave={onPointerUp}
+    onPointerMove={onPointerMove}
+  >
     <Icon360
       src="https://ipfs.near.social/ipfs/bafkreidnqbpcuc5ufvvnq7kgde5fyefbctpxfrf56s2s4jydghovjpxy2q"
       alt="360 Image View"
