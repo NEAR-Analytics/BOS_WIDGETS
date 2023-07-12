@@ -765,9 +765,8 @@ return (
     <HeaderCard>
       <ProfilePicture
         src={
-          data.nominationData.img.cid
-            ? "https://nativonft.mypinata.cloud/ipfs/" +
-              data.nominationData.img.cid
+          data.nominationData.img.url
+            ? data.nominationData.img.url
             : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
         }
         alt="pic"
@@ -858,7 +857,7 @@ return (
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              {data.nominationData.issued1}
+              {data.nominationData.Key_Issue_1}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
@@ -867,7 +866,7 @@ return (
               <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              {data.nominationData.issued2}
+              {data.nominationData.Key_Issue_2}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
@@ -876,7 +875,7 @@ return (
               <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
             </KeyIssueHeader>
             <KeyIssueDescription>
-              {data.nominationData.issued3}
+              {data.nominationData.Key_Issue_3}
             </KeyIssueDescription>
             <KeyIssueSeparator></KeyIssueSeparator>
           </KeyIssue>
