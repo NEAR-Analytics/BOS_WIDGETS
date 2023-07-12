@@ -210,7 +210,7 @@ return (
     </FormsectionPlatform>
     <FormsectionPlatform name="KI-2">
       <FormsectionPlatformtitle>
-        {"Platform: What’s your view and pledge on Key Issue 2"}{" "}
+        {"Platform: What’s your view and pledge on Key Issue 2?"}{" "}
       </FormsectionPlatformtitle>
       <FormsectionPlatformtextarea
         name="Key_Issue_2"
