@@ -148,11 +148,7 @@ function getNominationInfo() {
             imgURL: url,
             ...objCard,
           };
-          console.log(revoke, nominee);
           if (!revoke) {
-            console.log(nominee);
-            console.log("profile data:", profileData);
-            console.log("nominationData:", nominationData);
             if (profileData && nominationData) {
               nominationsArr.push(objCard);
             }
