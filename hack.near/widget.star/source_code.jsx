@@ -1,16 +1,16 @@
 const accountId = props.accountId ?? context.accountId;
 
-const widgetPath = props.widgetPath ?? "hack.near/widget/Academy";
+const widgetPath = props.widgetPath ?? "devs.near/widget/dev.library";
+const [ownerId, widget, widgetName] = widgetPath.split("/");
 
 const starEdge = Social.keys(
-  `${context.accountId}/graph/star/${widgetPath}`,
+  `${accountId}/graph/star/${widgetPath}`,
   undefined,
   {
     values_only: true,
   }
 );
 
-const loading = starEdge === null;
 const star = starEdge && Object.keys(starEdge).length;
 
 const type = star ? "unstar" : "star";
@@ -26,7 +26,7 @@ const data = {
       },
     }),
     notify: JSON.stringify({
-      key: accountId,
+      key: ownerId,
       value: {
         type,
       },
