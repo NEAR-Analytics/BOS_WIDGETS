@@ -7,8 +7,6 @@ if (metadata === null) {
   return "Loading";
 }
 
-console.log(metadata);
-
 return (
   <Widget
     key={widgetPath}
