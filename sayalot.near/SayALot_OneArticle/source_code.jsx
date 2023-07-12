@@ -1,7 +1,7 @@
 const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
-const accountId = "blaze.near" ?? context.accountId;
+const accountId = context.accountId;
 
 const lastEditor = props.lastEditor;
 const blockHeight =
