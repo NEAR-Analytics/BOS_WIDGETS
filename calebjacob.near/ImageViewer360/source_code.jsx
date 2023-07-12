@@ -56,6 +56,8 @@ function onPointerUp() {
 }
 
 function onPointerMove(e) {
+  e.preventDefault();
+
   if (state.pointerIsDown) {
     const diff = state.pointerStartPositionX - e.clientX;
 
@@ -74,7 +76,7 @@ const Wrapper = styled.div`
     width: 100%;
     max-width: 600px;
     position: relative;
-    background: #000;
+    background: #f00;
 `;
 
 const Images = styled.div`
