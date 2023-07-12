@@ -48,7 +48,7 @@ const loader = (
 return (
   <InfiniteScroll
     pageStart={0}
-    loadMore={fetchTokens}
+    loadMore={() => fetchTokens()}
     hasMore={state.hasMore}
     loader={loader}
   >
