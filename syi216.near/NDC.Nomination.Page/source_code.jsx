@@ -81,7 +81,7 @@ function getVerifiedHuman() {
 
 const Page = styled.div`
 position: fixed;
-  width: 1500px;
+  width: 1600px;
   height: calc(-98px + 100vh);
   top: 98px;
   left: 0;
