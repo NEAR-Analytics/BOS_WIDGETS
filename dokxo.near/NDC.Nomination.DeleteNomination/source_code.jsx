@@ -125,6 +125,7 @@ border-radius: 10px;
 `;
 let nominationContract = "nominations-v1.gwg-testing.near";
 function handleSelfRevoke() {
+  Storage.privateSet("Houseselected", props.house);
   Near.call(nominationContract, "self_revoke");
 }
 
