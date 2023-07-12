@@ -970,6 +970,31 @@ return (
                     <ShareButtonText>Share</ShareButtonText>
                   </ShareButtonDiv>
                 </OverlayTrigger>
+                <Widget
+                  src={"dokxo.near/widget/ShareOptionsButton"}
+                  props={{
+                    shareoptions: [
+                      {
+                        title: "Share as a link",
+                        icon: "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA.",
+                        shareUrl:
+                          "https://near.org/near/widget/ComponentDetailsPage?src=syi216.near/widget/NDC.nomination.card",
+                      },
+                      {
+                        title: "Share on twitter",
+                        icon: "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA.",
+                        shareUrl:
+                          "https://near.org/near/widget/ComponentDetailsPage?src=syi216.near/widget/NDC.nomination.card",
+                      },
+                      {
+                        title: "Share by email",
+                        icon: "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA.",
+                        shareUrl:
+                          "https://near.org/near/widget/ComponentDetailsPage?src=syi216.near/widget/NDC.nomination.card",
+                      },
+                    ],
+                  }}
+                />
               </>
             )}
           </ViewButtonContainer>
