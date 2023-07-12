@@ -1,5 +1,5 @@
 const limit = 20;
-const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
+// const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
 
 State.init({
   offset: 0,
@@ -79,7 +79,28 @@ return (
   >
     <Grid>
       {state.tokens?.map((it) => {
-        return <Sharddog owner={it.owner} media={it.media} />;
+        return (
+          <Link to={`/mob.near/widget/ProfilePage?accountId=${it.owner}`}>
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: {
+                  url: it.media,
+                },
+                style: {
+                  width: size,
+                  height: size,
+                  objectFit: "cover",
+                  minWidth: size,
+                  minHeight: size,
+                  maxWidth: size,
+                  maxHeight: size,
+                  overflowWrap: "break-word",
+                },
+              }}
+            />
+          </Link>
+        );
       })}
     </Grid>
   </InfiniteScroll>
