@@ -102,6 +102,7 @@ function getNominationInfo() {
         indexerData: data,
       };
       let nominee = data.nominee;
+      let revoke = data.is_revoked;
       asyncFetch(
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
         { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
@@ -109,6 +110,7 @@ function getNominationInfo() {
         let upVoteInfo = info.body[0];
         let profileData;
         let nominationData;
+
         Social.getr(`${nominee}/profile`);
         Social.getr(`${nominee}/nominations`);
         setTimeout(() => {
@@ -117,13 +119,40 @@ function getNominationInfo() {
         }, 1000);
 
         setTimeout(() => {
+          let imageIsNFT = profileData.image.nft ? true : false;
+          let imageIsIpfs_cid = profileData.image.ipfs_cid ? true : false;
+          let imageIsUrl = profileData.image.url ? true : false;
+          let url = "";
+          if (imageIsNFT) {
+            let nftData = profileData.image.nft;
+            const getNftCid = Near.view(nftData.contractId, "nft_token", {
+              token_id: nftData.tokenId,
+            });
+
+            url =
+              "https://nativonft.mypinata.cloud/ipfs/" +
+              getNftCid.metadata.media;
+          }
+          if (imageIsIpfs_cid) {
+            url =
+              "https://nativonft.mypinata.cloud/ipfs/" +
+              profileData.image.ipfs_cid;
+          }
+          if (imageIsUrl) {
+            url = profileData.image.url;
+          }
           objCard = {
             profileData: profileData,
             nominationData: nominationData,
             upVoteData: upVoteInfo,
+            imgURL: url,
             ...objCard,
           };
-          if (!data.is_revoked) {
+          console.log(revoke, nominee);
+          if (!revoke) {
+            console.log(nominee);
+            console.log("profile data:", profileData);
+            console.log("nominationData:", nominationData);
             if (profileData && nominationData) {
               nominationsArr.push(objCard);
             }
