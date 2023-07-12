@@ -18,7 +18,7 @@ const isNftHolder = false;
 if (nftData > 0) {
   isNftHolder = true;
 }
-const accountUrl = `#/819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a/widget/nyc.dao`;
+const accountUrl = `819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a`;
 
 const Wrapper = styled.div`
   --section-gap: 23px;
