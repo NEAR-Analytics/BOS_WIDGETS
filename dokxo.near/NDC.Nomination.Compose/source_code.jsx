@@ -331,15 +331,22 @@ const handleProfile = (item) => {
   State.update({ profileAccount: item, error_msg: null });
 };
 const handleHouse = (item) => {
+  console.log(item);
   if (item === "HouseOfMerit") {
+    console.log("HouseOfMerit");
     Storage.privateSet("Houseselected", 1);
   }
   if (item === "CouncilOfAdvisors") {
+    console.log("CouncilOfAdvisors");
+
     Storage.privateSet("Houseselected", 2);
   }
   if (item === "TransparencyCommission") {
+    console.log("TransparencyCommission");
+
     Storage.privateSet("Houseselected", 3);
   }
+  console.log(Storage.privateGet("Houseselected"));
 
   State.update({ house_intended: item, error_msg: null });
 };
@@ -481,6 +488,7 @@ const Self_Nominate = () => {
       deposit: 100000000000000000000000,
     };
 
+    Storage.privateSet("Houseselected", props.house);
     // call the methods
     Near.call([Social_Payload, SelfNominate_Payload]);
   } else {
@@ -635,6 +643,7 @@ return (
             <Submitcontainer>
               <CancelBtn onClick={props.onClickCancel}> Cancel </CancelBtn>
               <SubmitBtn onClick={Self_Nominate}> Submit </SubmitBtn>
+              {}
             </Submitcontainer>
           </div>
         </CardForm>
