@@ -52,7 +52,7 @@ font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
-width: 100%;
+width: 62%;
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
