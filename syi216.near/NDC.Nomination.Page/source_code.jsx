@@ -25,10 +25,9 @@ const widgets = {
 };
 
 State.init({
-  selectedHouse:
-    Storage.privateGet("Houseselected") != null
-      ? Storage.privateGet("Houseselected")
-      : ids[0],
+  selectedHouse: Storage.privateGet("Houseselected")
+    ? Storage.privateGet("Houseselected")
+    : ids[0],
   house: "HouseOfMerit",
   start: true,
   nominations: [],
