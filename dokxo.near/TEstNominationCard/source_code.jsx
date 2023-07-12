@@ -156,7 +156,7 @@ order: 1;
 flex-grow: 0;`;
 
 const NominationName = styled.p`
-width: 100%;
+width: 90%;
 height: 17px;
 font-family: 'Open Sans';
 font-style: normal;
