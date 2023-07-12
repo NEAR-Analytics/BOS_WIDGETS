@@ -185,6 +185,7 @@ const handleSelect = (item) => {
       getNominationInfo();
       break;
   }
+  Storage.privateSet("Houseselected", item.id);
   State.update({ selectedHouse: item.id });
 };
 
