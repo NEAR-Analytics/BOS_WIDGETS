@@ -27,28 +27,6 @@ function getVerifiedHuman() {
   ).then((res) => {
     State.update({ voted: res.body });
   });
-  let profileInfo = Social.getr(`${data.indexerData.nominee}/profile`);
-  let imageIsNFT = profileInfo.image.nft ? true : false;
-  let imageIsIpfs_cid = profileInfo.image.ipfs_cid ? true : false;
-  let imageIsUrl = profileInfo.image.url ? true : false;
-  if (imageIsNFT) {
-    let nftData = profileInfo.image.nft;
-    const getNftCid = Near.view(nftData.contractId, "nft_token", {
-      token_id: nftData.tokenId,
-    });
-    State.update({
-      img: "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media,
-    });
-  }
-  if (imageIsIpfs_cid) {
-    State.update({
-      img:
-        "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid,
-    });
-  }
-  if (imageIsUrl) {
-    State.update({ img: profileInfo.image.url });
-  }
 }
 
 if (state.start) {
@@ -733,8 +711,8 @@ return (
     <HeaderCard>
       <ProfilePicture
         src={
-          state.img
-            ? state.img
+          data.imgURL
+            ? data.imgURL
             : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
         }
         alt="pic"
