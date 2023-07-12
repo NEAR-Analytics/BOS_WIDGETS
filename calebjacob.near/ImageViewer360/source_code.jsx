@@ -28,8 +28,6 @@ const images = [
   "https://ipfs.near.social/ipfs/bafkreiaw7hltj3pxaotgb62zofoe2gte6etreho3t5vnvn5i52eeczyzwy",
 ];
 
-const currentImageSrc = images[state.currentImageIndex];
-
 function nextImage() {
   const index =
     state.currentImageIndex < images.length - 1
@@ -38,18 +36,19 @@ function nextImage() {
   State.update({ currentImageIndex: index });
 }
 
+function previousImage() {
+  const index =
+    state.currentImageIndex === 0
+      ? images.length - 1
+      : state.currentImageIndex - 1;
+  State.update({ currentImageIndex: index });
+}
+
 const Wrapper = styled.div`
     width: 100%;
     max-width: 600px;
-    border: 1px solid #ccc;
     position: relative;
-
-    img {
-        display: block;
-        width: 100%;
-        opacity: 0;
-        transition: opacity 300ms;
-    }
+    background: #000;
 `;
 
 const Images = styled.div`
@@ -57,8 +56,13 @@ const Images = styled.div`
     inset: 1rem;
 
     img {
+        display: block;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 300ms;
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
     }
 
     .currentImage {
@@ -66,9 +70,28 @@ const Images = styled.div`
     }
 `;
 
+const DefaultImage = styled.img`
+    display: block;
+    width: 100%;
+    opacity: 0;
+`;
+
+const Icon360 = styled.img`
+    z-index: 10;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    width: 60px;
+`;
+
 return (
-  <Wrapper onClick={nextImage}>
-    <img src={images[0]} alt={description} />
+  <Wrapper onClick={previousImage}>
+    <Icon360
+      src="https://ipfs.near.social/ipfs/bafkreidnqbpcuc5ufvvnq7kgde5fyefbctpxfrf56s2s4jydghovjpxy2q"
+      alt="360 Image View"
+    />
+
+    <DefaultImage src={images[0]} alt={description} />
 
     <Images>
       {images.map((image, i) => {
