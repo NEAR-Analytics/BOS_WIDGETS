@@ -49,6 +49,7 @@ const DEFAULT_COMPONENT_COLOR = state.darkmode ? "rgba(0,0,0,.8)" : "#fff";
 const DEFAULT_TEXT_COLOR = state.darkmode ? "#fff" : "#000";
 
 const Logo = styled.img`
+    cursor:pointer;
     max-width:30px;
 `;
 
@@ -246,7 +247,10 @@ const MenuButton = styled.div`
 return (
   <Header>
     <Navigation>
-      <Logo src={DEFAULT_LOGO_URL} />
+      <Logo
+        src={DEFAULT_LOGO_URL}
+        onClick={() => refresh({ tab: "home", currentView: "home" })}
+      />
       <ul className={state.menuOpen ? "open" : ""}>
         {Object.keys(tabs).map((key) => (
           <li>
