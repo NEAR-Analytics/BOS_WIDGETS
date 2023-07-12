@@ -128,7 +128,7 @@ function handleSelfRevoke() {
   console.log(props.house);
   Storage.privateSet("Houseselected", props.house);
   console.log(Storage.privateGet("Houseselected"));
-  Near.call(nominationContract, "self_revoke");
+  // Near.call(nominationContract, "self_revoke");
 }
 
 return (
