@@ -6,7 +6,7 @@ console.log(profileInfo);
 let imageIsNFT = profileInfo.image.nft ? true : false;
 let imageIsIpfs_cid = profileInfo.image.ipfs_cid ? true : false;
 let imageIsUrl = profileInfo.image.url ? true : false;
-let RealProfileImageAsURL = { IS_CID: false, data: "" };
+let RealProfileImageAsURL = "";
 
 //Recover image from NFT
 if (imageIsNFT) {
