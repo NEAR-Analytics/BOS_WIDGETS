@@ -176,7 +176,7 @@ flex-grow: 0;
   `;
 
 const NominationUser = styled.p`
-width: 100%;
+width: 90%;
 height: 14px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -192,7 +192,7 @@ order: 1;
 flex-grow: 0;
 white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: " [..]";
 `;
 
 const UpvoteButtonDisabled = styled.button`
