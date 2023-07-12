@@ -138,7 +138,6 @@ if (body) {
       return nftObject;
     }
   });
-
   State.update({
     nftData: nftBody,
   });
@@ -358,9 +357,14 @@ if (state.sender === undefined) {
   }
 }
 
+const handleCloseNft = () => State.update({ isNFTButtonClicked: false });
+
 return state.isNFTButtonClicked ? (
   <>
-    <Widget src="agwaze.near/widget/Eth-SingleNFT" props={state} />
+    <Widget
+      src="agwaze.near/widget/Eth-SingleNFT"
+      props={{ state, handleCloseNft }}
+    />
   </>
 ) : (
   <>
