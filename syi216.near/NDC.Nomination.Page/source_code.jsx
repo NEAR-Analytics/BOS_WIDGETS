@@ -80,14 +80,6 @@ function getVerifiedHuman() {
 }
 
 const Page = styled.div`
-position: fixed;
-  width: 1580px;
-  height: calc(-98px + 100vh);
-  top: 98px;
-  left: 0;
-  padding-left:20px;
-  padding-right:20px;
-  overflow: auto;
 `;
 
 function getNominationInfo() {
@@ -478,7 +470,7 @@ height: 18px;
 `;
 
 return (
-  <Page>
+  <Page name="pagina">
     {houses.map((group) => (
       <>
         {group.id === state.selectedHouse && (
