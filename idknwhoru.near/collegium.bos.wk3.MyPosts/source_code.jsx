@@ -60,8 +60,9 @@ const Post = state.posts.map((post, index) => {
         <div
           style={{
             padding: "15px 15px 0 15px",
-            border: "solid 1px",
+            border: "solid 1px #bbb",
             borderRadius: "3px",
+            borderWidth: "0 0 0 4px",
           }}
         >
           <Markdown text={content.text} />
