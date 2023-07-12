@@ -141,17 +141,15 @@ return (
             accompanied by their beloved soft toys and bolsters.
           </Text>
         </div>
-        {context.accountId && (
-          <div className="m-3">
-            <Widget
-              src="gordonjun.near/widget/PresidentProfileCard"
-              props={{
-                presidentId: presidentId,
-                vicePresidentId: vicePresidentId,
-              }}
-            />
-          </div>
-        )}
+        <div className="m-3">
+          <Widget
+            src="gordonjun.near/widget/PresidentProfileCard"
+            props={{
+              presidentId: presidentId,
+              vicePresidentId: vicePresidentId,
+            }}
+          />
+        </div>
       </Flex>
     </Container>
     <div className="m-2">
