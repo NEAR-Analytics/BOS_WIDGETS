@@ -40,10 +40,6 @@ State.init({
   notFound: "There are no active nominations at the moment",
 });
 
-if (Storage.privateGet("Houseselected")) {
-  Storage.privateSet("Houseselected", null);
-}
-
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
@@ -106,6 +102,7 @@ function getNominationInfo() {
         { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
       ).then((info) => {
         let upVoteInfo = info.body[0];
+        console.log(nominee, info.body);
         let profileData;
         let nominationData;
 
