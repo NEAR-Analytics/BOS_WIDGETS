@@ -1,5 +1,6 @@
 // TODO: Should be grabbed from contract side
 let { ids, org } = props;
+console.log(props);
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 org = props.org ? org : "test"; // for testing purposes
 
