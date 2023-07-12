@@ -12,8 +12,8 @@ const getMyPosts = () => {
       method: "POST",
       headers: { "x-hasura-role": "nearpavel_near" },
       body: JSON.stringify({
-        query: `query MyQuery {
-          nearpavel_near_social_posts_posts(where: {account_id: {_eq: "${account_id}"}}) {
+        query: `query MyPosts {
+          nearpavel_near_social_posts_posts(where: {account_id: {_eq: "${account_id}"}}, order_by: {block_timestamp: desc}) {
           account_id
           block_height
           block_timestamp
@@ -51,7 +51,7 @@ const Post = state.posts.map((post, index) => {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h2>No.{index + 1}</h2>
+        <h2>No.{state.posts.length - index}</h2>
         <h3>
           {year}-{month}-{day} {hours}:{minutes}
         </h3>
