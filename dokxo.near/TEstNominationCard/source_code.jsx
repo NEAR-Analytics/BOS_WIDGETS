@@ -156,7 +156,7 @@ order: 1;
 flex-grow: 0;`;
 
 const NominationName = styled.p`
- ;
+width: 90%;
 height: 17px;
 font-family: 'Open Sans';
 font-style: normal;
@@ -169,10 +169,10 @@ align-items: center;
 color: #000000;
 flex: none;
 order: 0;
-white-space: nowrap; 
-  width: 100px; 
+flex-grow: 0;
+ white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
   `;
 
 const NominationUser = styled.p`
