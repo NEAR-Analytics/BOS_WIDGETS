@@ -73,7 +73,7 @@ return (
     <div class="col  ">
       <div
         style={{
-          display: "relative",
+          display: "absolute",
           "justify-content": " end",
           "align-items": "center",
         }}
