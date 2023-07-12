@@ -45,7 +45,7 @@ const Wrapper = styled.div`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: 290px minmax(0px, 1fr) 290px;
+    grid-template-columns: 290px calc(100% - 290px);
     gap: 16px;
 `;
 
@@ -226,9 +226,6 @@ let views = {
               }}
             />
           </PollContainer>
-        </Section>
-        <Section>
-          <Widget src="neardigitalcollective.near/widget/OfficeHours" />
         </Section>
       </Grid>
     </>
