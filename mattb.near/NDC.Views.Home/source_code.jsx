@@ -255,7 +255,7 @@ let views = {
       <Widget src="neardigitalcollective.near/widget/Gigs" />
     </>
   ),
-  wg: () => {
+  wg: () => (
     <Widget src="neardigitalcollective.near/widget/NDCDocs_OneArticle"
       props={{
         "articleId": "workgroups",
@@ -263,7 +263,7 @@ let views = {
         "lastEditor": "blaze.near"
       }}
     />
-  }
+  )
 };
 
 function getSkeleton() {
