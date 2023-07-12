@@ -383,7 +383,7 @@ return (
             <div
               className="link"
               onClick={() =>
-                Clipboard.writeText(`${path}#${content.contentStart}`)
+                clipboard.writeText(`${path}#${content.contentStart}`)
               }
             >
               🔗
