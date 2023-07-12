@@ -87,6 +87,7 @@ position: fixed;
   left: 0;
   padding-left:20px;
   padding-right:20px;
+  overflow: auto;
 `;
 
 function getNominationInfo() {
