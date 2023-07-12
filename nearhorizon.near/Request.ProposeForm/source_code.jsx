@@ -137,6 +137,10 @@ if (!state.vendorsIsFetched) {
         requestTypes: requestTypes.map((value) => ({ value, text: value })),
       })
   );
+  if (!context.accountId) {
+    State.update({ vendorsIsFetched: true, vendors: [] });
+    return <>Loading...</>;
+  }
   Near.asyncView(
     ownerId,
     "get_admin_vendors",
@@ -197,6 +201,27 @@ if (!state.requestIsFetched) {
     })
   );
   return <>Loading...</>;
+}
+
+if (!state.vendors || state.vendors.length === 0) {
+  return (
+    <Widget
+      src={`${ownerId}/widget/InfoSegment`}
+      props={{
+        title: "No contributor to request as!",
+        description: (
+          <>
+            You need to log in with an account that has admin rights to a
+            contributor or create a{" "}
+            <a href={`/${ownerId}/widget/Index?tab=createvendor`}>
+              new contributor
+            </a>
+            !
+          </>
+        ),
+      }}
+    />
+  );
 }
 
 const Container = styled.div`
