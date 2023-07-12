@@ -171,6 +171,7 @@ margin-top:9px;
 `;
 const {
   img,
+  isCid,
   name,
   profileAccount,
   house_intended,
@@ -182,154 +183,163 @@ const {
 } = props;
 return (
   <div class="w-100">
-    {/*  <div
-      class=" row col-sm-12  mx-0   "
-      style={{ "padding-left": "16px", "padding-right": "16px" }}
-    >
-       <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
+    {
+      <div
+        class=" row col-sm-12  mx-0   "
+        style={{ "padding-left": "16px", "padding-right": "16px" }}
+      >
+        <H2styled style={{ padding: " 0px" }}> Profile picture </H2styled>
 
-      <div class="row flex-nowrap">
-        <Photosection>
-          {props.img.cid ? (
-            <>
-              {" "}
-              <img
+        <div class="row flex-nowrap">
+          <Photosection>
+            {props.img.cid ? (
+              <>
+                {" "}
+                <img
+                  style={{
+                    width: "60px",
+                    height: "60px",
+                    background: "#000000",
+                    "border-radius": "60px",
+                  }}
+                  alt="pic"
+                  src={
+                    props.isCid
+                      ? "https://nativonft.mypinata.cloud/ipfs/" + props.img.cid
+                      : props.img.cid
+                  }
+                />
+              </>
+            ) : (
+              <div
                 style={{
                   width: "60px",
                   height: "60px",
-                  background: "#000000",
-                  "border-radius": "60px",
+                  background: "#C8CED1",
+
+                  border: " 3px solid transparent",
+                  "border-radius": "60%",
+
+                  "-moz-box-sizing": " border-box",
+                  "box-sizing": "border-box",
                 }}
-                alt="pic"
-                src={"https://nativonft.mypinata.cloud/ipfs/" + props.img.cid}
-              />
-            </>
-          ) : (
-            <div
-              style={{
-                width: "60px",
-                height: "60px",
-                background: "#C8CED1",
-
-                border: " 3px solid transparent",
-                "border-radius": "60%",
-
-                "-moz-box-sizing": " border-box",
-                "box-sizing": "border-box",
-              }}
-            ></div>
-          )}
-        </Photosection>
-        <Photopickersection name="picker" class="col-11">
-          <LabelFile style={{ width: "100%" }}>
-            <Files
-              name="file"
-              multiple={false}
-              accepts={["image/*"]}
-              minFileSize={1}
-              clickable
-              onChange={filesOnChange}
-              style={{
-                display: "flex",
-                "justify-content": "center",
-                height: "inherit",
-                width: "100%",
-              }}
-            >
-              <div
-                class="row "
-                style={{ display: "flex", "flex-wrap": "nowrap" }}
+              ></div>
+            )}
+          </Photosection>
+          <Photopickersection name="picker" class="col-11">
+            <LabelFile style={{ width: "100%" }}>
+              <Files
+                name="file"
+                multiple={false}
+                accepts={["image/*"]}
+                minFileSize={1}
+                clickable
+                onChange={filesOnChange}
+                style={{
+                  display: "flex",
+                  "justify-content": "center",
+                  height: "inherit",
+                  width: "100%",
+                }}
               >
                 <div
-                  style={{
-                    width: "34px",
-                    display: "flex",
-                    "align-items": "center",
-                    "justify-content": "center",
-                  }}
+                  class="row "
+                  style={{ display: "flex", "flex-wrap": "nowrap" }}
                 >
-                  {" "}
-                  <img
-                    src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
-                  />
+                  <div
+                    style={{
+                      width: "34px",
+                      display: "flex",
+                      "align-items": "center",
+                      "justify-content": "center",
+                    }}
+                  >
+                    {" "}
+                    <img
+                      src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
+                    />
+                  </div>
+
+                  <p
+                    style={{
+                      "font-family": "Open Sans",
+                      "font-style": "normal",
+                      "font-weight": "400",
+                      "font-size": "12px",
+                      "line-height": "120%",
+                      display: "flex",
+                      "align-items": "center",
+                      color: "#828688",
+                      flex: "none",
+                      order: "1",
+                      "flex-grow": "0",
+
+                      "margin-bottom": "0rem",
+                    }}
+                  >
+                    {img.name === "" ? "Update your profile image" : img.name}
+                  </p>
                 </div>
-
-                <p
-                  style={{
-                    "font-family": "Open Sans",
-                    "font-style": "normal",
-                    "font-weight": "400",
-                    "font-size": "12px",
-                    "line-height": "120%",
-                    display: "flex",
-                    "align-items": "center",
-                    color: "#828688",
-                    flex: "none",
-                    order: "1",
-                    "flex-grow": "0",
-
-                    "margin-bottom": "0rem",
-                  }}
-                >
-                  {img.name === "" ? "Update your profile image" : img.name}
-                </p>
-              </div>
-            </Files>
-          </LabelFile>
-        </Photopickersection>
-      </div>
-      <LabelFileDesk style={{ width: "100%" }}>
-        <Files
-          name="file"
-          multiple={false}
-          accepts={["image/*"]}
-          minFileSize={1}
-          clickable
-          onChange={filesOnChange}
-          style={{
-            display: "flex",
-            "justify-content": "center",
-            height: "inherit",
-          }}
-        >
-          <div class="row " style={{ display: "flex", "flex-wrap": "nowrap" }}>
+              </Files>
+            </LabelFile>
+          </Photopickersection>
+        </div>
+        <LabelFileDesk style={{ width: "100%" }}>
+          <Files
+            name="file"
+            multiple={false}
+            accepts={["image/*"]}
+            minFileSize={1}
+            clickable
+            onChange={filesOnChange}
+            style={{
+              display: "flex",
+              "justify-content": "center",
+              height: "inherit",
+            }}
+          >
             <div
-              style={{
-                width: "34px",
-                display: "flex",
-                "align-items": "center",
-                "justify-content": "center",
-              }}
+              class="row "
+              style={{ display: "flex", "flex-wrap": "nowrap" }}
             >
-              {" "}
-              <img
-                src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
-              />
+              <div
+                style={{
+                  width: "34px",
+                  display: "flex",
+                  "align-items": "center",
+                  "justify-content": "center",
+                }}
+              >
+                {" "}
+                <img
+                  src={`https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmWyPdBc3nqDe2mAp26a4BAvDYiuk1JEfJiyGejff3ZrjL?_gl=1*mwwy4f*rs_ga*YTcxZDg1OTgtZTYyOC00M2U2LWE4MTctNzUzMDRkMjA3ZWVl*rs_ga_5RMPXG14TE*MTY4Njk2NDYyNi4xNC4xLjE2ODY5NjQ2NDQuNDIuMC4w`}
+                />
+              </div>
+
+              <p
+                style={{
+                  "font-family": "Open Sans",
+                  "font-style": "normal",
+                  "font-weight": "400",
+                  "font-size": "12px",
+                  "line-height": "120%",
+                  display: "flex",
+                  "align-items": "center",
+                  color: "#828688",
+                  flex: "none",
+                  order: "1",
+                  "flex-grow": "0",
+
+                  "margin-bottom": "0rem",
+                }}
+              >
+                {img.name === "" ? "Update your profile image" : img.name}
+              </p>
             </div>
-
-            <p
-              style={{
-                "font-family": "Open Sans",
-                "font-style": "normal",
-                "font-weight": "400",
-                "font-size": "12px",
-                "line-height": "120%",
-                display: "flex",
-                "align-items": "center",
-                color: "#828688",
-                flex: "none",
-                order: "1",
-                "flex-grow": "0",
-
-                "margin-bottom": "0rem",
-              }}
-            >
-              {img.name === "" ? "Update your profile image" : img.name}
-            </p>
-          </div>
-        </Files>
-      </LabelFileDesk>
-    </div>*/}
+          </Files>
+        </LabelFileDesk>
+      </div>
+    }
     <WrapNoWrap
       class="row col-sm-12     "
       name="div1"
