@@ -1,1 +1,1 @@
-return "sup BOS?!";
+return "hello BOS";
