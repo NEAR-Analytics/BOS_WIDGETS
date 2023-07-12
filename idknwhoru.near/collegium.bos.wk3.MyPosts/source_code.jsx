@@ -49,24 +49,26 @@ const Post = state.posts.map((post, index) => {
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <h2>No.{state.posts.length - index}</h2>
-        <h3>
-          {year}-{month}-{day} {hours}:{minutes}
-        </h3>
-      </div>
-      <div
-        style={{
-          padding: "15px 15px 0 15px",
-          border: "solid 1px",
-          borderRadius: "3px",
-        }}
-      >
-        <Markdown text={content.text} />
+    <>
+      <div style={{ padding: "15px 20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h2>No.{state.posts.length - index}</h2>
+          <h3>
+            {year}-{month}-{day} {hours}:{minutes}
+          </h3>
+        </div>
+        <div
+          style={{
+            padding: "15px 15px 0 15px",
+            border: "solid 1px",
+            borderRadius: "3px",
+          }}
+        >
+          <Markdown text={content.text} />
+        </div>
       </div>
       <hr />
-    </div>
+    </>
   );
 });
 
