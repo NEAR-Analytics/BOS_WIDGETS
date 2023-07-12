@@ -1,5 +1,5 @@
 function sharddogFetch(limit, offset) {
-  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+  return asyncFetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
     headers: {
       "mb-api-key": "omni-site",
