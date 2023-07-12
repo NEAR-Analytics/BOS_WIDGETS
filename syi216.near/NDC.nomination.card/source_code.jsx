@@ -31,6 +31,24 @@ function getVerifiedHuman() {
   let imageIsNFT = profileInfo.image.nft ? true : false;
   let imageIsIpfs_cid = profileInfo.image.ipfs_cid ? true : false;
   let imageIsUrl = profileInfo.image.url ? true : false;
+  if (imageIsNFT) {
+    let nftData = profileInfo.image.nft;
+    const getNftCid = Near.view(nftData.contractId, "nft_token", {
+      token_id: nftData.tokenId,
+    });
+    State.update({
+      img: "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media,
+    });
+  }
+  if (imageIsIpfs_cid) {
+    State.update({
+      img:
+        "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid,
+    });
+  }
+  if (imageIsUrl) {
+    State.update({ img: profileInfo.image.url });
+  }
 }
 
 if (state.start) {
