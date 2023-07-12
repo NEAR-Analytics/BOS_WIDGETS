@@ -52,6 +52,10 @@ font-family: Open Sans;
 font-weight: 500;
 line-height: 120%;
 margin: 0px;
+width: 100%;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 `;
 
 const ReplyCounterDiv = styled.div`
