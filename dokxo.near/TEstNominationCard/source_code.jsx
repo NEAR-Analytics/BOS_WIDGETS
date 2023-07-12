@@ -783,8 +783,14 @@ return (
           </HeaderTagP>
         </HeaderTag>
         <HeaderContentText>
-          <NominationName>{data.profileData.name}</NominationName>
-          <NominationUser>{data.nominationData.profileAccount}</NominationUser>
+          <NominationName>
+            {data.profileData.name +
+              "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+          </NominationName>
+          <NominationUser>
+            {data.nominationData.profileAccount +
+              "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"}
+          </NominationUser>
         </HeaderContentText>
       </HeaderContent>
       {state.verified && context.accountId != data.indexerData.nominee ? (
