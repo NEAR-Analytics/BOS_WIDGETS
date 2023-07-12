@@ -68,17 +68,12 @@ const WidgetWrapper = styled.div`
   all: unset;
 `;
 
-const renderPath =
-  props.renderPath ??
-  ((properties) => (
-    <WidgetWrapper>
-      <Widget
-        key={properties}
-        src={properties.path}
-        props={properties.params}
-      />
-    </WidgetWrapper>
-  ));
+const renderPath = (properties) => {
+  console.log(JSON.stringify(properties));
+  return (
+    <Widget key={properties} src={properties.path} props={properties.params} />
+  );
+};
 
 return (
   <Wrapper>
