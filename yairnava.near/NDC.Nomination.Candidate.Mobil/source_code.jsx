@@ -522,9 +522,7 @@ const getNftCid = Near.view(nftData.contractId, "nft_token", {
 });
 const CandidateProps = props.data.nominations;
 const comments = props.data.comments[0].comments;
-let isNFTCid = CandidateProps.img.cid
-  ? "https://nativonft.mypinata.cloud/ipfs/" + CandidateProps.img.cid
-  : "";
+let isNFTURL = CandidateProps.img.url;
 
 const afilations = JSON.parse(CandidateProps.afiliation);
 
@@ -538,8 +536,8 @@ return (
       <DetailHeader>
         <ProfilePicture
           src={
-            isNFTCid
-              ? isNFTCid
+            isNFTURL
+              ? isNFTURL
               : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
           }
           alt="pic"
@@ -555,15 +553,18 @@ return (
                   : "Transparency Commission"}
               </HouseTagText>
             </HouseTagDiv>
-            {CandidateProps.tags.split(",").map((tag, index) => {
-              return tag && index < 2 ? (
-                <TagDiv key={index}>
-                  <TagDivText>{tag}</TagDivText>
-                </TagDiv>
-              ) : (
-                <></>
-              );
-            })}
+            {CandidateProps.tags
+              .trim()
+              .split(",")
+              .map((tag, index) => {
+                return tag && index < 2 ? (
+                  <TagDiv key={index}>
+                    <TagDivText>{tag}</TagDivText>
+                  </TagDiv>
+                ) : (
+                  <></>
+                );
+              })}
           </TagContainer>
           <NominationTitleContainer>
             <NominationTitle>
@@ -631,19 +632,19 @@ return (
             <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
               <KeyIssueDescription>
-                {CandidateProps.issued1}
+                {CandidateProps.Key_Issue_1}
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
               <KeyIssueDescription>
-                {CandidateProps.issued2}
+                {CandidateProps.Key_Issue_2}
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
               <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
               <KeyIssueDescription>
-                {CandidateProps.issued3}
+                {CandidateProps.Key_Issue_3}
               </KeyIssueDescription>
             </KeyIssuesContainer>
             <KeyIssuesContainer>
