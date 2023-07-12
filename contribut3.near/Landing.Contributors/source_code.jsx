@@ -1,3 +1,5 @@
+const ownerId = "contribut3.near";
+
 const images = {
   desktop: "bafkreigrs36in3bq4mf6mv2cezjqdq5nobevgqitsj3tsexnf22phv2tmu",
   mobile: "bafkreihdikmkpfklanm5yafjha4bhrxdi3b4is6hjnj7klxkpwifxix3ym",
