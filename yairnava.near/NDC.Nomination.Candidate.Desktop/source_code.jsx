@@ -647,15 +647,18 @@ return (
                   {props.candidate}
                 </NominationUser>
                 <TagContainer>
-                  {props.data.nominations.tags.split(",").map((tag) => {
-                    return tag && tag != "" ? (
-                      <TagDiv>
-                        <TagDivText style={{ "font-size": "10px" }}>
-                          {tag}
-                        </TagDivText>
-                      </TagDiv>
-                    ) : null;
-                  })}
+                  {props.data.nominations.tags
+                    .trim()
+                    .split(",")
+                    .map((tag) => {
+                      return tag && tag != "" ? (
+                        <TagDiv>
+                          <TagDivText style={{ "font-size": "10px" }}>
+                            {tag}
+                          </TagDivText>
+                        </TagDiv>
+                      ) : null;
+                    })}
                 </TagContainer>
               </NominationTitleContainer>
             </HeaderDetailContent>
