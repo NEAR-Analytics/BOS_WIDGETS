@@ -1,6 +1,5 @@
 const limit = 20;
 const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
-const { sharddogFetch } = VM.require(efiz.near / widget / Sharddog.Function);
 
 State.init({
   offset: 0,
