@@ -3,7 +3,7 @@ const widget_activity_feed =
   props.widget_activity_feed || "widget-activity-feed";
 
 const GRAPHQL_ENDPOINT =
-  props.GRAPHQL_ENDPOINT || "queryapi-hasura-graphql-vcqilefdcq-ew.a.run.app";
+  props.GRAPHQL_ENDPOINT || "near-queryapi.dev.api.pagoda.co";
 
 const LIMIT = 10;
 const accountId = props.accountId || "roshaan.near" || context.accountId;
@@ -106,7 +106,7 @@ const TextLink = styled.a`
 
 const RowContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow-x: auto;
 
 `;
