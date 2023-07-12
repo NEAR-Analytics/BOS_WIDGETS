@@ -213,6 +213,25 @@ const TableBody = styled.div`
     a {
         cursor: pointer;
         text-decoration: none;
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    padding-left: 7px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    @media and screen
+    p {
+        margin: 0;
+        border-bottom: 1px solid #e5e8eb;
+        font-size: 12px;
+        min-width: 100px;
+        text-align: center;
+    }
+    span {
+        font-size: 12px;
+    }
     }
 `;
 
@@ -667,7 +686,6 @@ return (
                 currentChain[props.state.singleNftProps.chain].explorer
               }/tx/${data.txId || ""}`}
               target="_blank"
-              style={{}}
             >
               <RowBody>
                 <span>From</span>
@@ -690,13 +708,15 @@ return (
       ) : (
         <TableBody>
           <RowType>Listing</RowType>
-          <RowBody>
-            <span>From</span>
-            <p>---</p>
-            <span>To</span>
-            <p>waze.near</p>
-            <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
-          </RowBody>
+          <a>
+            <RowBody>
+              <span>From</span>
+              <p>---</p>
+              <span>To</span>
+              <p>waze.near</p>
+              <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
+            </RowBody>
+          </a>
         </TableBody>
       )}
     </TransactionTable>
