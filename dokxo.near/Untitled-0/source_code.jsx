@@ -23,12 +23,15 @@ margin: 0px;
 `;
 
 const ShareOptionButtonContainer = styled.button`
- 
 width: 100%;
- 
+padding:0px;
+background:transparent;
+border-color:transparent;
 @media (hover: hover) {
-  .button {
-    background:red;
+ 
+  button:hover {
+    color: black;
+    background: #F8F8F9;
   }
 }
 
@@ -37,6 +40,7 @@ const ShareOptionButton = styled.button`
 color: #000000;
 width: 100%;
 border-radius: 10px; 
+border-color: transparent; 
 background:#FFFFFF;
 font-size: 12px;
 font-family: Open Sans;
@@ -44,16 +48,26 @@ font-weight: 500;
 line-height: 24px;
 text-align: left
 padding:0px;
-@media (hover: hover) {
-  .button {
-    background:red;
-  }
-}
+ 
 
 `;
+
 State.init({
   showShareOptions: false,
+  shareText: "Copy",
 });
+function handleShare(urlToCopy) {
+  console.log(urlToCopy);
+  State.update({ shareText: "Copied" });
+  clipboard.writeText(
+    "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+      "&candidate="
+  );
+  /*
+  setTimeout(() => {
+    State.update({ showShareOptions: false, shareText: "Copy" });
+  }, "1500");*/
+}
 return (
   <>
     <div class="col  ">
@@ -92,30 +106,39 @@ return (
               top: "0",
               left: "50%",
               color: "rgb(255, 255, 255)",
-              "background-color": "rgb(155, 155, 155)",
-              "border-radius": "10px",
+              "background-color": "rgb(255, 255, 255)",
+              "border-radius": "6px",
               padding: "2px 5px",
               display: "flex",
               gap: "5px",
-              "box-shadow": "10px 10px;",
+              "box-shadow": ".1px .1px 5px",
             }}
           >
             {props.shareoptions.map((op) => {
               return (
-                <ShareOptionButtonContainer style={{ width: "100%" }}>
-                  <ShareOptionButton>
-                    <div
-                      style={{
-                        display: "flex",
-                        "justify-content": "space-between",
-                        padding: "2px 5px",
+                <OverlayTrigger
+                  placement={"left"}
+                  overlay={<Tooltip>{state.shareText}</Tooltip>}
+                >
+                  <ShareOptionButtonContainer>
+                    <ShareOptionButton
+                      onClick={() => {
+                        handleShare(op.shareUrl);
                       }}
                     >
-                      {op.title}
-                      <img src={op.icon} />
-                    </div>
-                  </ShareOptionButton>
-                </ShareOptionButtonContainer>
+                      <div
+                        style={{
+                          display: "flex",
+                          "justify-content": "space-between",
+                          padding: "2px 5px",
+                        }}
+                      >
+                        {op.title}
+                        <img src={op.icon} />
+                      </div>
+                    </ShareOptionButton>
+                  </ShareOptionButtonContainer>
+                </OverlayTrigger>
               );
             })}
           </div>
