@@ -125,10 +125,10 @@ if (hasImage) {
       background: #f1f1fd;
     }
 
-    h5 {
-      font-size: 16px;
-      font-weight: 600;
-      text-align: center;
+    .md > p:last-child {
+      font-size: 15px;
+      font-weight: 500;
+      text-align: left;
       margin: 0;
     }
 
@@ -140,6 +140,8 @@ if (hasImage) {
       accent-color: #4f46e5;
       margin: 0;
       margin-right: 8px;
+      min-width: 16px;
+      height: 16px;
     }
   `;
 }
@@ -202,7 +204,13 @@ return (
                 type={type === "single" ? "radio" : "checkbox"}
                 checked={value == v || value.includes(v)}
               />
-              <h5>{text}</h5>
+              {hasImage ? (
+                <h5>{text}</h5>
+              ) : (
+                <div className="md">
+                  <Markdown text={text} />
+                </div>
+              )}
             </div>
           </Option>
         );
