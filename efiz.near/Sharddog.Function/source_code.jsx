@@ -1,5 +1,5 @@
 function sharddogFetch(limit, offset) {
-  return fetch("https://graph.mintbase.xyz/mainnet", {
+  const res = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
     headers: {
       "mb-api-key": "omni-site",
@@ -21,7 +21,11 @@ function sharddogFetch(limit, offset) {
           }
         `,
     }),
-  }).body.data.mb_views_nft_tokens;
+  });
+  if (res.ok) {
+    return res.body.data.mb_views_nft_tokens;
+  } else {
+    return [];
+  }
 }
-
 return { sharddogFetch };
