@@ -170,7 +170,7 @@ color: #000000;
 flex: none;
 order: 0;
 flex-grow: 0;
- white-space: nowrap;
+white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   `;
