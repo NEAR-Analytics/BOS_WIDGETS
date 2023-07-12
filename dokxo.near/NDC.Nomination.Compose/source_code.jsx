@@ -331,6 +331,16 @@ const handleProfile = (item) => {
   State.update({ profileAccount: item, error_msg: null });
 };
 const handleHouse = (item) => {
+  if (item === "HouseOfMerit") {
+    Storage.privateSet("Houseselected", 1);
+  }
+  if (item === "CouncilOfAdvisors") {
+    Storage.privateSet("Houseselected", 2);
+  }
+  if (item === "TransparencyCommission") {
+    Storage.privateSet("Houseselected", 3);
+  }
+
   State.update({ house_intended: item, error_msg: null });
 };
 const handleHAYInvolve = (item) => {
