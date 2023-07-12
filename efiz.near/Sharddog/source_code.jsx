@@ -1,6 +1,6 @@
 const limit = 20;
 const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
-const { sharddogFetch } = VM.require("efiz.near/widget/Sharddog.Function");
+const { sharddogFetch } = VM.require(efiz.near / widget / Sharddog.Function);
 
 State.init({
   offset: 0,
@@ -9,19 +9,44 @@ State.init({
 });
 
 function fetchTokens() {
-  const tokens = sharddogFetch(limit, state.offset);
-  console.log(`outside: ${JSON.stringify(tokens)}`);
-  if (tokens.length > 0) {
-    State.update({
-      tokens: [...state.tokens, ...tokens],
-      offset: state.offset + limit,
-      hasMore: true,
-    });
-  } else {
-    State.update({
-      hasMore: false,
-    });
-  }
+  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "omni-site",
+      "Content-Type": "application/json",
+      "x-hasura-role": "anonymous",
+    },
+    body: JSON.stringify({
+      query: `
+          query MyQuery {
+            mb_views_nft_tokens(
+                limit: ${limit},
+                offset: ${state.offset}
+              where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
+              order_by: {minted_timestamp: desc}
+            ) {
+              media
+              owner
+            }
+          }
+        `,
+    }),
+  }).then((res) => {
+    if (res.ok) {
+      const tokens = res.body.data.mb_views_nft_tokens;
+      if (tokens.length > 0) {
+        State.update({
+          tokens: [...state.tokens, ...tokens],
+          offset: state.offset + limit,
+          hasMore: true,
+        });
+      } else {
+        State.update({
+          hasMore: false,
+        });
+      }
+    }
+  });
 }
 
 const size = "144px";
