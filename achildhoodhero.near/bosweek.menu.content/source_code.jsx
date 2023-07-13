@@ -1,14 +1,9 @@
-const menu = context.accountId
-  ? Social.get(`${context.accountId}/settings/near.social/page.menu`)
-  : undefined;
-
-if (menu === null) {
-  return "";
-}
-
 const defaultWidgets = [
   {
     src: "nearweekapp.near/widget/nearweek-newsletter",
+  },
+  {
+    src: "achildhoodhero.near/widget/hero.certified-apps.bos",
   },
   {
     src: "nearweekapp.near/widget/NEARWEEKNews",
@@ -19,7 +14,8 @@ const defaultWidgets = [
   },
 ];
 
-const widgets = (menu && JSON.parse(menu)) ?? defaultWidgets;
+// Ignore any existing menu and only use your own components
+const widgets = defaultWidgets;
 
 const Div = styled.div`
   position: relative;
