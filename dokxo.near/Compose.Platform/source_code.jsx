@@ -16,7 +16,7 @@ flex-grow: 0;
 const FormsectionPlatformtitle = styled.h2`
 width: 100%;
 height: 28px;
-font-family: Open Sans;
+ 
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -34,7 +34,7 @@ order: 1;
 const FormsectionPlatformtitleHAYI = styled.h2`
 width: 100%;
 height: 40px;
-font-family: Open Sans;
+ 
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
