@@ -76,7 +76,7 @@ return (
           src={`${authorForWidget}/widget/SayALot_Comment`}
           props={{
             item,
-            accountId: context.accountId,
+            articleAccountId: context.accountId,
             content: state.content,
             articleBlockHeight: "now",
             isDebug,
