@@ -78,7 +78,7 @@ return (
         className="navbar-brand text-decoration-none"
         href={
           isDebug
-            ? `#/${authorForWidget}/widget/SayALot?isDebbug=true`
+            ? `#/${authorForWidget}/widget/SayALot?isDebug=true`
             : `#/${authorForWidget}/widget/SayALot`
         }
       >
@@ -119,7 +119,7 @@ return (
               <a
                 href={
                   isDebug
-                    ? `#/${authorForWidget}/widget/${widgetName}?isDebbug=true`
+                    ? `#/${authorForWidget}/widget/${widgetName}?isDebug=true`
                     : `#/${authorForWidget}/widget/${widgetName}`
                 }
                 className={`nav-link ${
@@ -139,7 +139,7 @@ return (
                   className="btn btn-outline-dark"
                   href={
                     isDebug
-                      ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
+                      ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebug=true`
                       : `#/${authorForWidget}/widget/SayALot_CreateArticle`
                   }
                 >
@@ -155,7 +155,7 @@ return (
             <a
               href={
                 isDebug
-                  ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
+                  ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebug=true`
                   : `#/${authorForWidget}/widget/SayALot_CreateArticle`
               }
             >
