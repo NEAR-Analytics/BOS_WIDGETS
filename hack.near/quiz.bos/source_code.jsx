@@ -54,7 +54,7 @@ if (state.answer1.toLowerCase() === "blockchain operating system") {
   showQuestion2 = true;
 }
 
-if (state.answer2.toLowerCase === "javascript") {
+if (state.answer2.toLowerCase() === "javascript") {
   showQuestion3 = true;
 }
 
@@ -62,7 +62,7 @@ if (state.answer3 === "hack.near/widget/quiz.bos") {
   showQuestion4 = true;
 }
 
-if (state.answer4.toLowerCase === "near") {
+if (state.answer4.toLowerCase() === "near") {
   showQuestion5 = true;
 }
 
