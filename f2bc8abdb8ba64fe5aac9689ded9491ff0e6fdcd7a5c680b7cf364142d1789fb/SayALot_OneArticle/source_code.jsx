@@ -364,7 +364,7 @@ return (
         >
           View History
         </Button>
-        {((canUserEditArticle() && !state.editArticle) || true) && (
+        {canUserEditArticle() && !state.editArticle && (
           <button
             className="btn btn-outline-dark w-100"
             onClick={() => {
@@ -441,9 +441,9 @@ return (
       <hr className="d-md-none" />
       <div className="col-12 col-md-9">
         <div>
-          {/* === BUTTON - EDIT ARTICLE === */}
           {state.editArticle && (
             <>
+              {/* === BUTTON - EDIT ARTICLE === */}
               <div className="d-flex justify-content-center w-100">
                 <button
                   type="button"
@@ -477,12 +477,7 @@ return (
                 </button>
               </div>
               <hr />
-            </>
-          )}
-
-          {/* === EDIT ARTICLE === */}
-          {state.editArticle && (
-            <>
+              {/* === EDIT ARTICLE === */}
               <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
                 <div className="w-50">
                   <Widget
