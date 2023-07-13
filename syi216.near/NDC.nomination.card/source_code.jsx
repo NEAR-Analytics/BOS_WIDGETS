@@ -504,7 +504,7 @@ order: 0;
 flex-grow: 0;
 `;
 const TimestampText = styled.p`
-width: 119px;
+width: 150px;
 height: 20px;
 font-style: italic;
 font-weight: 300;
