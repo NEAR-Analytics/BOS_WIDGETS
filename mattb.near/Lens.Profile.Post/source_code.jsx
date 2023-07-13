@@ -1,13 +1,23 @@
 const { postId, post } = props;
+const DEFAULT_POST_ID = "0x01-0x02";
 
 State.init({
   post: post || null,
   sdk: null,
+  displayCommentSection: false,
+  comments: [],
 });
 
 if (!state.post && state.sdk) {
-  state.sdk.getPost(postId || "0x01-0x02").then((payload) => {
+  state.sdk.getPost(postId || DEFAULT_POST_ID).then((payload) => {
     State.update({ post: payload.body.data.publication });
+  });
+}
+
+if (state.displayCommentSection && state.sdk) {
+  state.sdk.getPostComments(postId || DEFAULT_POST_ID).then((payload) => {
+    console.log(payload.body.data.publications.items);
+    State.update({ comments: payload.body.data.publications.items });
   });
 }
 
@@ -170,6 +180,23 @@ const Actions = styled.div`
     }
 `;
 
+const Comments = styled.div`
+    border-top: 2px solid rgba(0,0,0,.05);
+    margin-top:1.5rem;
+`;
+
+const Comment = styled.div`
+    width:100%;
+    min-height:100px;
+    margin-top:20px;
+    border-bottom: 2px solid rgba(0,0,0,.05);
+`;
+
+const Content = styled.div`
+    padding:1rem 0;
+    font-size:.8rem;
+`;
+
 return (
   <>
     <Widget
@@ -204,7 +231,13 @@ return (
           </Time>
         </Post>
         <Actions>
-          <p>
+          <p
+            onClick={() =>
+              State.update({
+                displayCommentSection: !state.displayCommentSection,
+              })
+            }
+          >
             <img src="https://ipfs.near.social/ipfs/bafkreihzp4er5k54cqym5tzj6yqo5oftnpfillxshuou6qyjbbap677lyu" />
             <span class="badge">{state.post.stats.totalAmountOfComments}</span>
             <span class="tip">Comment</span>
@@ -225,6 +258,29 @@ return (
             <span class="tip">Like</span>
           </p>
         </Actions>
+        {state.displayCommentSection && (
+          <Comments>
+            {state.comments.length > 0 &&
+              state.comments.map((comment) => (
+                <Comment>
+                  <Profile>
+                    <Avatar
+                      style={{
+                        backgroundImage: `url("${comment.profile.picture.original.url}`,
+                        maxWidth: "40px",
+                        maxHeight: "40px",
+                      }}
+                    ></Avatar>
+                    <Details>
+                      <p class="name">{comment.profile.name}</p>
+                      <p class="handle">@{comment.profile.handle}</p>
+                    </Details>
+                  </Profile>
+                  <Content>{comment.metadata.content}</Content>
+                </Comment>
+              ))}
+          </Comments>
+        )}
       </Box>
     )}
   </>
