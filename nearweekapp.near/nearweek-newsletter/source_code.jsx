@@ -154,12 +154,16 @@ return (
         </CardBody>
         <CardFooter>
           <ButtonLink
-            href="https://us1.campaign-archive.com/home/?u=ed13caf5cf7d37689d81ef60b&id=86d4e11a12"
+            href={"https://nearweek.com/newsletters/" + issue.slug}
             target="_blank"
           >
             Read
           </ButtonLink>
-          <ButtonLink href="https://shard.dog/nearweek" target="_blank" primary>
+          <ButtonLink
+            href="https://subscribe.nearweek.com"
+            target="_blank"
+            primary
+          >
             Subscribe
           </ButtonLink>
         </CardFooter>
