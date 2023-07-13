@@ -51,15 +51,14 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex">
-          {parentItem &&
-            {
-              /*<Widget
+          {parentItem && (
+            <Widget
               src="mob.near/widget/CommentButton"
               props={{
                 onClick: () => State.update({ showReply: !state.showReply }),
               }}
-            />*/
-            }}
+            />
+          )}
 
           {/*<Widget
             src={`${authorForWidget}/widget/SayALot_Reactions`}
