@@ -39,15 +39,15 @@ return (
         highlight ? "bg-warning bg-opacity-10" : ""
       }`}
     >
-      <Widget
+      {/*<Widget
         src="mob.near/widget/MainPage.Post.Header"
         props={{ accountId, blockHeight, link, postType: "comment" }}
-      />
+      />*/}
       <div className="mt-2 text-break">
-        {/*<Widget
+        <Widget
           src="mob.near/widget/MainPage.Post.Content"
           props={{ content, raw }}
-        />*/}
+        />
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex">
