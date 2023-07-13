@@ -19,6 +19,8 @@ const content =
     ) ?? "null"
   );
 
+console.log(content);
+
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
