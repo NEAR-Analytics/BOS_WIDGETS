@@ -257,19 +257,36 @@ const getArticleData = () => {
 };
 
 const composeData = () => {
-  const data = {
-    sayALotArticle: {
-      main: JSON.stringify(getArticleData()),
-    },
-    index: {
-      sayALotArticle: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-    },
-  };
+  let data;
+  if (isDebug) {
+    data = {
+      test_sayALotArticle: {
+        main: JSON.stringify(getArticleData()),
+      },
+      index: {
+        test_sayALotArticle: JSON.stringify({
+          key: "main",
+          value: {
+            type: "md",
+          },
+        }),
+      },
+    };
+  } else {
+    data = {
+      sayALotArticle: {
+        main: JSON.stringify(getArticleData()),
+      },
+      index: {
+        sayALotArticle: JSON.stringify({
+          key: "main",
+          value: {
+            type: "md",
+          },
+        }),
+      },
+    };
+  }
 
   if (tagsArray.length) {
     data.index.tag = JSON.stringify(
