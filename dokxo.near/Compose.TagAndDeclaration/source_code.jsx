@@ -199,13 +199,13 @@ return (
             }}
           />
           <PStyled>
-            I agree the{" "}
+            I agree to the{" "}
             <AStyled
               href="https://bafkreiarbw2noibmrvb2zexgsgbff23lhe5dzwjdepglsad3rp6fhvbhua.ipfs.nftstorage.link/"
               target={"_blank"}
               rel={"noopener"}
             >
-              {"Declaration of Transparency and Accountability"}{" "}
+              {"Declaration of Transparency and Accountability."}{" "}
             </AStyled>
           </PStyled>
         </FormsectionDecaration>
