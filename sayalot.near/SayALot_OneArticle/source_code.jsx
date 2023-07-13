@@ -322,10 +322,10 @@ return (
     className="container-fluid"
     style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0 0 1rem 0" }}
   >
-    {/* <Widget
+    <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
       props={{ currentNavPill: "create" }}
-    /> */}
+    />
     <div
       className="row h-100"
       style={{
