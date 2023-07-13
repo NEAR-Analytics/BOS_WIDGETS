@@ -1,6 +1,5 @@
 // TODO: Should be grabbed from contract side
 let { ids, org } = props;
-console.log(Storage.privateGet("Houseselected"));
 ids = props.ids ? ids : [1, 2, 3];
 
 const electionContract = "elections-v1.gwg-testing.near";
@@ -102,7 +101,6 @@ function getNominationInfo() {
         { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
       ).then((info) => {
         let upVoteInfo = info.body[0];
-        console.log(nominee, info.body);
         let profileData;
         let nominationData;
 
@@ -139,11 +137,13 @@ function getNominationInfo() {
           if (imageIsUrl) {
             url = profileData.image.url;
           }
+
           objCard = {
             profileData: profileData,
             nominationData: nominationData,
             upVoteData: upVoteInfo,
             imgURL: url,
+            verified: state.sbt,
             ...objCard,
           };
           if (!revoke) {
@@ -532,7 +532,6 @@ return (
           {state.selfNomination ? (
             <ButtonDeleteDiv
               onClick={async () => {
-                console.log("entra a delete modal");
                 State.update({ showModalDelete: true });
               }}
             >
