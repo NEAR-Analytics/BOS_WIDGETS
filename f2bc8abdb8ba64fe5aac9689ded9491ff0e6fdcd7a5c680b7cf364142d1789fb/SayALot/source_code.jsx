@@ -1,4 +1,4 @@
-const isDebbug = props.isDebbug;
+const isDebug = props.isDebug;
 
 const writersWhiteList = [
   "neardigitalcollective.near",
@@ -17,8 +17,8 @@ const sayALotWorkers = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 
-if (isDebbug) {
-  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+if (isDebug) {
+  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
 }
 
 const authorForWidget = "sayalot.near";
@@ -43,12 +43,12 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "articles", writersWhiteList, isDebbug }}
+      props={{ currentNavPill: "articles", writersWhiteList, isDebug }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
-        props={{ writersWhiteList, isDebbug }}
+        props={{ writersWhiteList, isDebug }}
       />
     </div>
   </div>
