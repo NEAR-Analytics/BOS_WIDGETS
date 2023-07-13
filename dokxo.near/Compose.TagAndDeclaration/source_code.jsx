@@ -18,7 +18,7 @@ margin-top:10px;
 const H2styled = styled.h1`
  
 height: 14px;
-font-family: Open Sans;
+ 
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -54,7 +54,7 @@ order: 1;
 const H2Declarationstyled = styled.h1`
 width: 100%;
 height: 14px;
-font-family: Open Sans;
+ 
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -97,9 +97,9 @@ flex-grow: 0;
 `;
 
 const PStyled = styled.p`
-width: 236px;
+ 
 height: 14px;
-font-family: Open Sans;
+ 
 font-style: normal;
 font-weight: 400;
 font-size: 12px;
@@ -117,7 +117,7 @@ margin-bottom:0;
 const AStyled = styled.a`
 margin-left:4px;
 height: 14px;
-font-family: Open Sans;
+ 
 font-style: normal;
 font-weight: 600;
 font-size: 12px;
@@ -137,65 +137,79 @@ State.init({
   tags: "",
   error_msg: "",
 });
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+).body;
+console.log(cssFont);
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+    font-family: "Open Sans";
+    ${cssFont}
+`,
+  });
+}
+const Theme = state.theme;
 const { agreement, tags, handleTags, handleDeclaration } = props;
 return (
-  <div
-    class="row col-sm-12  mx-0   "
-    style={{
-      "padding-left": "16px",
-      "padding-right": "16px",
-      height: "auto",
-    }}
-  >
-    <Formsectiontag>
-      <H2styled>{"Tags"} </H2styled>
+  <Theme>
+    <div
+      class="row col-sm-12  mx-0   "
+      style={{
+        "padding-left": "16px",
+        "padding-right": "16px",
+        height: "auto",
+      }}
+    >
+      <Formsectiontag>
+        <H2styled>{"Tags"} </H2styled>
 
-      <InputStyled
-        style={{
-          "font-family": "Open Sans",
-          "font-style": "normal",
-          "font-weight": "400",
-          "font-size": "12px",
-          "line-height": "120%",
-        }}
-        name="Tags"
-        id="Tags"
-        type="text"
-        value={tags}
-        placeholder="Add tags separated by comma"
-        onChange={(e) => {
-          handleTags(e);
-        }}
-      />
-    </Formsectiontag>
-
-    <div style={{ padding: "0px" }}>
-      <H2Declarationstyled>
-        {"Declaration of transparency "}
-      </H2Declarationstyled>
-      <FormsectionDecaration
-        style={{
-          "margin-top": "15px",
-        }}
-      >
-        <InputcheckboxStyled
-          type="checkbox"
-          value={agreement}
+        <InputStyled
+          style={{
+            "font-style": "normal",
+            "font-weight": "400",
+            "font-size": "12px",
+            "line-height": "120%",
+          }}
+          name="Tags"
+          id="Tags"
+          type="text"
+          value={tags}
+          placeholder="Add tags separated by comma"
           onChange={(e) => {
-            handleDeclaration(e);
+            handleTags(e);
           }}
         />
-        <PStyled>
-          I agree the{" "}
-          <AStyled
-            href="https://bafkreiarbw2noibmrvb2zexgsgbff23lhe5dzwjdepglsad3rp6fhvbhua.ipfs.nftstorage.link/"
-            target={"_blank"}
-            rel={"noopener"}
-          >
-            {"Declaration of transparency"}{" "}
-          </AStyled>
-        </PStyled>
-      </FormsectionDecaration>
-    </div>
-  </div>
+      </Formsectiontag>
+
+      <div style={{ padding: "0px" }}>
+        <H2Declarationstyled>
+          {"Declaration of transparency "}
+        </H2Declarationstyled>
+        <FormsectionDecaration
+          style={{
+            "margin-top": "15px",
+          }}
+        >
+          <InputcheckboxStyled
+            type="checkbox"
+            value={agreement}
+            onChange={(e) => {
+              handleDeclaration(e);
+            }}
+          />
+          <PStyled>
+            I agree the{" "}
+            <AStyled
+              href="https://bafkreiarbw2noibmrvb2zexgsgbff23lhe5dzwjdepglsad3rp6fhvbhua.ipfs.nftstorage.link/"
+              target={"_blank"}
+              rel={"noopener"}
+            >
+              {"Declaration of Transparency and Accountability"}{" "}
+            </AStyled>
+          </PStyled>
+        </FormsectionDecaration>
+      </div>
+    </div>{" "}
+  </Theme>
 );
