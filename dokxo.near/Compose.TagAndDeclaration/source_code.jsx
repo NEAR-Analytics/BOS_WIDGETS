@@ -145,6 +145,7 @@ if (!state.theme) {
   State.update({
     theme: styled.div`
     font-family: "Open Sans";
+    width: 100%;
     ${cssFont}
 `,
   });
