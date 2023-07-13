@@ -1,7 +1,8 @@
-const isDebbug = props.isDebbug;
+const isDebug = props.isDebug;
 
-const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
-const authorForWidget = "sayalot.near";
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = context.accountId;
 
 const lastEditor = props.lastEditor;
@@ -48,8 +49,8 @@ const sayALotWorkers = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 
-if (isDebbug) {
-  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+if (isDebug) {
+  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
 }
 
 const canUserEditArticle = () => {
@@ -118,7 +119,7 @@ const getArticleData = () => {
 
 const composeData = () => {
   let data;
-  if (isDebbug) {
+  if (isDebug) {
     data = {
       test_sayALotArticle: {
         main: JSON.stringify(getArticleData()),
@@ -321,7 +322,7 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "articles", isDebbug }}
+      props={{ currentNavPill: "articles", isDebug }}
     />
     <div
       className="row h-100"
@@ -537,7 +538,7 @@ return (
               <div className="pt-2">
                 <Widget
                   src={`${authorForWidget}/widget/SayALot_TagList`}
-                  props={{ tags: state.article.tags, isDebbug }}
+                  props={{ tags: state.article.tags, isDebug }}
                 />
               </div>
               <Widget
@@ -552,8 +553,8 @@ return (
                     >
                       <a
                         href={
-                          isDebbug
-                            ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebbug=true`
+                          isDebug
+                            ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
                             : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
                         }
                       >
@@ -594,7 +595,7 @@ return (
                 props={{
                   articleId: state.article.articleId,
                   resultArticles,
-                  isDebbug,
+                  isDebug,
                 }}
               />
             </div>
@@ -631,7 +632,7 @@ return (
                     notifyAccountId,
                     item,
                     onComment: () => State.update({ showReply: false }),
-                    isDebbug,
+                    isDebug,
                   }}
                 />
               </div>
@@ -645,7 +646,7 @@ return (
                 limit: props.commentsLimit,
                 subscribe,
                 raw,
-                isDebbug,
+                isDebug,
               }}
             />
           </div>
