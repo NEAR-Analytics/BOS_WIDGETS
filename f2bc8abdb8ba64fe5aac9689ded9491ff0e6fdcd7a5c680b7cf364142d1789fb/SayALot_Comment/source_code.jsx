@@ -44,10 +44,10 @@ return (
         highlight ? "bg-warning bg-opacity-10" : ""
       }`}
     >
-      <Widget
+      {/*<Widget
         src="mob.near/widget/MainPage.Post.Header"
         props={{ accountId, blockHeight, link, postType: "comment" }}
-      />
+      />*/}
       <div className="mt-2 text-break">
         <Widget
           src="mob.near/widget/MainPage.Post.Content"
