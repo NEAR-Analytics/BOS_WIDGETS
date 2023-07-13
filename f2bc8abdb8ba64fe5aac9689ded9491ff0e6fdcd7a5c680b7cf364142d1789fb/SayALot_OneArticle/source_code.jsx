@@ -364,20 +364,21 @@ return (
         >
           View History
         </Button>
-        {canUserEditArticle() && !state.editArticle && (
-          <button
-            className="btn btn-outline-dark w-100"
-            onClick={() => {
-              State.update({
-                viewHistory: false,
-                editArticle: true,
-                note: state.article.body,
-              });
-            }}
-          >
-            Edit Article
-          </button>
-        )}
+        {((canUserEditArticle() && !state.editArticle) ||
+          (true)) && (
+            <button
+              className="btn btn-outline-dark w-100"
+              onClick={() => {
+                State.update({
+                  viewHistory: false,
+                  editArticle: true,
+                  note: state.article.body,
+                });
+              }}
+            >
+              Edit Article
+            </button>
+          ))}
         <hr />
         <div className="accordion accordion-flush" id="accordionFlushExample">
           {resultHeading.map((arrItem, index1) => {
