@@ -475,150 +475,148 @@ height: 18px;
 `;
 
 return (
-  <Theme>
-    <Page>
-      {houses.map((group) => (
-        <>
-          {group.id === state.selectedHouse && (
-            <Widget
-              key={i}
-              src={widgets.header}
-              props={{
-                startTime: group.start,
-                endTime: group.end,
-                type: "Nomination",
+  <Page>
+    {houses.map((group) => (
+      <>
+        {group.id === state.selectedHouse && (
+          <Widget
+            key={i}
+            src={widgets.header}
+            props={{
+              startTime: group.start,
+              endTime: group.end,
+              type: "Nomination",
+            }}
+          />
+        )}
+      </>
+    ))}
+    <Toolbar>
+      <FilterBar>
+        <LabelFile>
+          <SearchIcon
+            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmUgE9Cgge5VRgQB1VYxMaAjJWgzmXUzMcPSTwQ8ZfLJqz?_gl=1*xfjfsk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkxMTcwOS41LjAuMTY4NzkxMTcxNi41My4wLjA."
+            alt="pic"
+          ></SearchIcon>
+          <InputSearch
+            placeholder="Search by candidate name"
+            value={state.searchText}
+            onChange={(e) => {
+              handleFilter(e.target.value);
+            }}
+          ></InputSearch>
+        </LabelFile>
+        <SortButton hidden>
+          <SortIcon
+            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmNivRaFySDTXDK3rsNXNZn7ySyhCR82rVwqA15Nn2hofK?_gl=1*jc7vlr*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
+            alt="pic"
+          ></SortIcon>
+        </SortButton>
+      </FilterBar>
+      {state.showModal && (
+        <Widget
+          src={`dokxo.near/widget/NDC.Nomination.Compose`}
+          props={{
+            candidateOrReplay: true,
+            onClickConfirm: () => State.update({ showModal: false }),
+            onClickCancel: () => State.update({ showModal: false }),
+          }}
+        />
+      )}
+      {state.showModalDelete && (
+        <Widget
+          src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
+          props={{
+            candidateOrReplay: true,
+            house: state.selectedHouse,
+            onClickConfirm: () => State.update({ showModalDelete: false }),
+            onClickCancel: () => State.update({ showModalDelete: false }),
+          }}
+        />
+      )}
+      {state.og ? (
+        <ButtonNominateContainer>
+          {state.selfNomination ? (
+            <ButtonDeleteDiv
+              onClick={async () => {
+                State.update({ showModalDelete: true });
               }}
-            />
-          )}
-        </>
-      ))}
-      <Toolbar>
-        <FilterBar>
-          <LabelFile>
-            <SearchIcon
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmUgE9Cgge5VRgQB1VYxMaAjJWgzmXUzMcPSTwQ8ZfLJqz?_gl=1*xfjfsk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkxMTcwOS41LjAuMTY4NzkxMTcxNi41My4wLjA."
-              alt="pic"
-            ></SearchIcon>
-            <InputSearch
-              placeholder="Search by candidate name"
-              value={state.searchText}
-              onChange={(e) => {
-                handleFilter(e.target.value);
-              }}
-            ></InputSearch>
-          </LabelFile>
-          <SortButton hidden>
-            <SortIcon
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmNivRaFySDTXDK3rsNXNZn7ySyhCR82rVwqA15Nn2hofK?_gl=1*jc7vlr*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
-              alt="pic"
-            ></SortIcon>
-          </SortButton>
-        </FilterBar>
-        {state.showModal && (
-          <Widget
-            src={`dokxo.near/widget/NDC.Nomination.Compose`}
-            props={{
-              candidateOrReplay: true,
-              onClickConfirm: () => State.update({ showModal: false }),
-              onClickCancel: () => State.update({ showModal: false }),
-            }}
-          />
-        )}
-        {state.showModalDelete && (
-          <Widget
-            src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
-            props={{
-              candidateOrReplay: true,
-              house: state.selectedHouse,
-              onClickConfirm: () => State.update({ showModalDelete: false }),
-              onClickCancel: () => State.update({ showModalDelete: false }),
-            }}
-          />
-        )}
-        {state.og ? (
-          <ButtonNominateContainer>
-            {state.selfNomination ? (
-              <ButtonDeleteDiv
-                onClick={async () => {
-                  State.update({ showModalDelete: true });
-                }}
-              >
-                <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
-                <ButtonDeleteIcon
-                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
-                  alt="pic"
-                ></ButtonDeleteIcon>
-              </ButtonDeleteDiv>
-            ) : (
-              <ButtonNominateDiv
-                onClick={async () => {
-                  !status.sbt ? State.update({ showModal: true }) : "";
-                }}
-              >
-                <ButtonNominateText>Self Nominate</ButtonNominateText>
-                <ButtonNominateIcon
-                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
-                  alt="pic"
-                ></ButtonNominateIcon>
-              </ButtonNominateDiv>
-            )}
-          </ButtonNominateContainer>
-        ) : (
-          <></>
-        )}
-      </Toolbar>
-      <Container className="d-flex row">
-        <Left className="col-lg">
-          <H5>Houses</H5>
-          <Widget
-            src={widgets.houses}
-            props={{
-              selectedHouse: state.selectedHouse,
-              houses: houses,
-              handleSelect: (item) => handleSelect(item),
-            }}
-          />
-          <div>
-            {state.sbt ? (
-              ""
-            ) : (
-              <VerifiedDiv>
-                <VerifiedHeader>
-                  <VerifiedHeaderContainer>
-                    <VerfiedTitle>To Comment or to Upvote</VerfiedTitle>
-                    <VerifedDesc>
-                      Verify as a Human to comment or to upvote
-                    </VerifedDesc>
-                  </VerifiedHeaderContainer>
-                </VerifiedHeader>
-                <VerifyButton
-                  className="text-decoration-none"
-                  href="https://i-am-human.app/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <VerifyButtonText>Verify as a Human</VerifyButtonText>
-                </VerifyButton>
-              </VerifiedDiv>
-            )}
-          </div>
-        </Left>
-        <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-4">
-          {state.nominations.length > 0 ? (
-            state.nominations.map((data) => {
-              return (
-                <>
-                  <Widget src={widgets.card} props={data} />
-                </>
-              );
-            })
+            >
+              <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
+              <ButtonDeleteIcon
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
+                alt="pic"
+              ></ButtonDeleteIcon>
+            </ButtonDeleteDiv>
           ) : (
-            <div className="flex mt-10 container-fluid align-self-center">
-              <H5 className="text-center">{state.notFound}</H5>
-            </div>
+            <ButtonNominateDiv
+              onClick={async () => {
+                !status.sbt ? State.update({ showModal: true }) : "";
+              }}
+            >
+              <ButtonNominateText>Self Nominate</ButtonNominateText>
+              <ButtonNominateIcon
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
+                alt="pic"
+              ></ButtonNominateIcon>
+            </ButtonNominateDiv>
           )}
-        </Center>
-      </Container>
-    </Page>
-  </Theme>
+        </ButtonNominateContainer>
+      ) : (
+        <></>
+      )}
+    </Toolbar>
+    <Container className="d-flex row">
+      <Left className="col-lg">
+        <H5>Houses</H5>
+        <Widget
+          src={widgets.houses}
+          props={{
+            selectedHouse: state.selectedHouse,
+            houses: houses,
+            handleSelect: (item) => handleSelect(item),
+          }}
+        />
+        <div>
+          {state.sbt ? (
+            ""
+          ) : (
+            <VerifiedDiv>
+              <VerifiedHeader>
+                <VerifiedHeaderContainer>
+                  <VerfiedTitle>To Comment or to Upvote</VerfiedTitle>
+                  <VerifedDesc>
+                    Verify as a Human to comment or to upvote
+                  </VerifedDesc>
+                </VerifiedHeaderContainer>
+              </VerifiedHeader>
+              <VerifyButton
+                className="text-decoration-none"
+                href="https://i-am-human.app/"
+                target="_blank"
+                rel="noopener"
+              >
+                <VerifyButtonText>Verify as a Human</VerifyButtonText>
+              </VerifyButton>
+            </VerifiedDiv>
+          )}
+        </div>
+      </Left>
+      <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap justify-content-center justify-content-lg-start gap-4">
+        {state.nominations.length > 0 ? (
+          state.nominations.map((data) => {
+            return (
+              <>
+                <Widget src={widgets.card} props={data} />
+              </>
+            );
+          })
+        ) : (
+          <div className="flex mt-10 container-fluid align-self-center">
+            <H5 className="text-center">{state.notFound}</H5>
+          </div>
+        )}
+      </Center>
+    </Container>
+  </Page>
 );
