@@ -5,7 +5,7 @@ State.init({
 });
 
 const pointerMoveThreshold = 20;
-const description = "A description of my image";
+const description = "A fancy description of my image";
 const images = [
   "https://ipfs.near.social/ipfs/bafkreibu3gr4saomeeg6cwlu5vj7x2lfl7ixx7peigklad34dtxemlape4",
   "https://ipfs.near.social/ipfs/bafkreiaw7hltj3pxaotgb62zofoe2gte6etreho3t5vnvn5i52eeczyzwy",
@@ -76,6 +76,7 @@ const Wrapper = styled.div`
     position: relative;
     background: #000;
     touch-action: none;
+    user-select: none;
 `;
 
 const Images = styled.div`
