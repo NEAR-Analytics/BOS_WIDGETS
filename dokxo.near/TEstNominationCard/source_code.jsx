@@ -170,10 +170,10 @@ color: #000000;
 flex: none;
 order: 0;
 flex-grow: 0;
- white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  `;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+`;
 
 const NominationUser = styled.p`
 width: 90%;
@@ -192,7 +192,7 @@ order: 1;
 flex-grow: 0;
 white-space: nowrap;
   overflow: hidden;
-  text-overflow: " [..]";
+  text-overflow: ellipsis;
 `;
 
 const UpvoteButtonDisabled = styled.button`
@@ -222,7 +222,7 @@ order:2;
 
 const UpvoteCount = styled.p`
 font-size: 12px;
-font-family: Open Sans;
+
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -672,7 +672,7 @@ border-radius: 4px;
 
 const CommentButtonCounter = styled.p`
 font-size: 12px;
-font-family: Open Sans;
+
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -718,7 +718,7 @@ text-decoration: none;
 
 const ViewButtonText = styled.p`
 font-size: 12px;
-font-family: Open Sans;
+
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
@@ -749,7 +749,7 @@ border: 1px solid #FFD50D;
 const ShareButtonText = styled.p`
 color: var(--primary-black, #000);
 font-size: 12px;
-font-family: Open Sans;
+
 font-weight: 500;
 line-height: 24px;
 margin: 0px;
