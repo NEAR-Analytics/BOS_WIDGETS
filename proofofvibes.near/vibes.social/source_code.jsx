@@ -1,6 +1,7 @@
 const hashtags = [
-  { name: "ProofOfVibes", required: true },
-  { name: "Paris", required: true },
+  { name: "ProofOfVibes", required: false },
+  { name: "VibeCheck", required: true },
+  { name: "Paris", required: false },
 ];
 
 return (
