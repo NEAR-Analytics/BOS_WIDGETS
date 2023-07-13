@@ -18,10 +18,14 @@ const postsIndex = Social.index(addressForArticles, "main", {
   accountId: undefined,
 });
 
+const whitelistedPostsIndex = postsIndex.filter((post) => {
+  return writersWhiteList.includes(post.accountId);
+});
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
-  postsIndex &&
-  postsIndex
+  whitelistedPostsIndex &&
+  whitelistedPostsIndex
     .reduce((acc, { accountId, blockHeight }) => {
       const postData = Social.get(
         `${accountId}/${addressForArticles}/main`,
