@@ -1,4 +1,6 @@
-const isDebbug = props.isDebbug;
+State.init({ start: Date.now() });
+
+const isDebug = props.isDebug;
 
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
@@ -17,11 +19,11 @@ const sayALotWorkers = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 
-if (isDebbug) {
-  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+if (isDebug) {
+  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
 }
 
-const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
@@ -83,8 +85,8 @@ return (
               <a
                 className="text-decoration-none text-dark"
                 href={
-                  isDebbug
-                    ? `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}&isDebbug=true
+                  isDebug
+                    ? `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}&isDebug=true
             `
                     : `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
             `
@@ -129,7 +131,7 @@ return (
                     </div>
                     <Widget
                       src={`${authorForWidget}/widget/SayALot_TagList`}
-                      props={{ tags: article.tags, isDebbug }}
+                      props={{ tags: article.tags, isDebug }}
                     />
                   </div>
                 </div>
