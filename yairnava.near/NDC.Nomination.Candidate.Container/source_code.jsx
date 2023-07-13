@@ -41,7 +41,6 @@ justify-content: center;
 @media only screen and (min-width: 601px) {
   display: none !important;
 }
-font-family: Open Sans;
 `;
 
 const Desktop = styled.div`
@@ -50,7 +49,6 @@ justify-content: center;
 @media only screen and (max-width: 600px) {
   display: none !important;
 }
-font-family: Open Sans;
 `;
 
 return (
