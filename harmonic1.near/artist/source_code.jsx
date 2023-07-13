@@ -1,4 +1,5 @@
 const data = props.data;
+console.log(data);
 
 const containerStyle = {
   textAlign: "center",
