@@ -171,11 +171,11 @@ return (
       <div class="card-body">
         <div class="d-flex align-items-baseline">
           <span class="fw-bold">
-            {props.token in tokenMap && matchToken(props.token)}{" "}
+            {props.token in tokenMap && matchToken(props.token)}{"  "}
           </span>
           {props.token in tokenMap ? (
             <span class="d-flex fw-bold fs-2 align-items-center">
-              ${amountToReadable(convertAmount(props.amount, props.token))}
+              {amountToReadable(convertAmount(props.amount, props.token))}
               {kycRequired && <ShieldIcon />}
             </span>
           ) : (
