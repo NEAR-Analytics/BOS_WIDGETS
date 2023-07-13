@@ -19,6 +19,7 @@ const renderItem = (a) => {
 
 const specificComponents = [
   "achildhoodhero.near/widget/nearweek.editorial.bos",
+  "nearhorizon.near/widget/Index",
   "achildhoodhero.near/widget/swap.near",
   "achildhoodhero.near/widget/trisolaris.swap.near",
   "wormhole3.near/widget/Wormhole3.Twitter",
