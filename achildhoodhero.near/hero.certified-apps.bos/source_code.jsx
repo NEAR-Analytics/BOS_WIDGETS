@@ -19,7 +19,9 @@ const renderItem = (a) => {
 
 const renderUserImage = (userId) => {
   return (
-    <a href={`#/${userId}`}>
+    <a
+      href={`https://near.org/near/widget/ProfilePage?accountId=${userId}&tab=overview`}
+    >
       <Widget
         src="mob.near/widget/ProfileImage"
         props={{
