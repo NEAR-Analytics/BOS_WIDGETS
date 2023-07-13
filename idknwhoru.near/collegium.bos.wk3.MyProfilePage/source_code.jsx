@@ -12,7 +12,14 @@ const ProfileWrapper = styled.div`
     .account-id { color: #656d76; font-size: 1.4rem; }
 `;
 
-const ActivityWrapper = styled.div` display: flex; `;
+const ActivityWrapper = styled.div`
+     display: flex;
+     .post-wrapper { padding: 30px; }
+     .vertical-line { border: 1px solid #bbb; transform: scaleX(0.5);}
+     .widget-wrapper { padding: 30px; }
+`;
+
+const VR = styled.div` `;
 
 const Banner = () => {
   return (
@@ -48,8 +55,13 @@ return (
       <Profile />
     </ProfileWrapper>
     <ActivityWrapper>
-      <Widget src={`idknwhoru.near/widget/collegium.bos.wk3.MyPosts`} />
-      <Widget src={`idknwhoru.near/widget/collegium.bos.wk3.SocialWidget`} />
+      <div className="post-wrapper">
+        <Widget src={`idknwhoru.near/widget/collegium.bos.wk3.MyPosts`} />
+      </div>
+      <div className="vertical-line" />
+      <div className="widget-wrapper">
+        <Widget src={`idknwhoru.near/widget/collegium.bos.wk3.SocialWidget`} />
+      </div>
     </ActivityWrapper>
   </>
 );
