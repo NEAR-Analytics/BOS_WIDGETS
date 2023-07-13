@@ -1,7 +1,5 @@
 const account_id = context.accountId ?? props.accountId;
 
-console.log(context, props, account_id);
-
 const profileData = Social.getr(`${account_id}/profile`);
 
 const ProfileWrapper = styled.div`
@@ -62,11 +60,17 @@ return (
     </ProfileWrapper>
     <ActivityWrapper>
       <div className="post-wrapper">
-        <Widget src={`idknwhoru.near/widget/collegium.bos.wk3.MyPosts`} />
+        <Widget
+          src={`idknwhoru.near/widget/collegium.bos.wk3.MyPosts`}
+          props={props}
+        />
       </div>
       <div className="vertical-line" />
       <div className="widget-wrapper">
-        <Widget src={`idknwhoru.near/widget/collegium.bos.wk3.SocialWidget`} />
+        <Widget
+          src={`idknwhoru.near/widget/collegium.bos.wk3.SocialWidget`}
+          props={props}
+        />
       </div>
     </ActivityWrapper>
   </>
