@@ -20,9 +20,8 @@ const sayALotWorkers = [
 ];
 
 if (isDebug) {
-  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
 }
-
 const authorForWidget = "sayalot.near";
 const pills = [
   {
