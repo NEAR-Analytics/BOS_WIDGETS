@@ -1,5 +1,4 @@
-const account_id =
-  context.accountId === undefined ? props.accountId : context.accountId;
+const account_id = context.accountId ?? props.accountId;
 
 State.init({
   isInit: false,
