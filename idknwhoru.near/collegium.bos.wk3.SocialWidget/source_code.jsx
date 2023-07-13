@@ -21,7 +21,7 @@ const widgets = widgetEntries.map(([title]) => {
         }}
       >
         <a
-          href={`near/widget/ComponentDetailsPage?src=${account_id}/widget/${title}`}
+          href={`/near/widget/ComponentDetailsPage?src=${account_id}/widget/${title}`}
           style={{
             padding: "15px",
             border: "solid 2px #bbb",
@@ -35,7 +35,7 @@ const widgets = widgetEntries.map(([title]) => {
         </a>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <a
-            href={`${account_id}/widget/${title}`}
+            href={`/${account_id}/widget/${title}`}
             style={{
               padding: "0 0 0 15px",
               overflow: "hidden",
@@ -50,7 +50,7 @@ const widgets = widgetEntries.map(([title]) => {
             {title}
           </a>
           <a
-            href={`near/widget/ProfilePage?${account_id}`}
+            href={`/near/widget/ProfilePage?${account_id}`}
             style={{
               padding: "0 0 0 14px",
               overflow: "hidden",
