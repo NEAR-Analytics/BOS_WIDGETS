@@ -475,23 +475,23 @@ height: 18px;
 `;
 
 return (
-  <Theme>
-    <Page>
-      {houses.map((group) => (
-        <>
-          {group.id === state.selectedHouse && (
-            <Widget
-              key={i}
-              src={widgets.header}
-              props={{
-                startTime: group.start,
-                endTime: group.end,
-                type: "Nomination",
-              }}
-            />
-          )}
-        </>
-      ))}
+  <Page>
+    {houses.map((group) => (
+      <>
+        {group.id === state.selectedHouse && (
+          <Widget
+            key={i}
+            src={widgets.header}
+            props={{
+              startTime: group.start,
+              endTime: group.end,
+              type: "Nomination",
+            }}
+          />
+        )}
+      </>
+    ))}
+    <Theme>
       <Toolbar>
         <FilterBar>
           <LabelFile>
@@ -619,6 +619,6 @@ return (
           )}
         </Center>
       </Container>
-    </Page>
-  </Theme>
+    </Theme>
+  </Page>
 );
