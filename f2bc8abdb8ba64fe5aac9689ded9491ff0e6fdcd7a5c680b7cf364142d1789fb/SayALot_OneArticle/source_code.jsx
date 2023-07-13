@@ -441,7 +441,7 @@ return (
       <hr className="d-md-none" />
       <div className="col-12 col-md-9">
         <div>
-          {!state.editArticle && (
+          {state.editArticle && (
             <>
               {/* === BUTTON - EDIT ARTICLE === */}
               <div className="d-flex justify-content-center w-100">
