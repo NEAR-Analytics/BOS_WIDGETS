@@ -14,7 +14,9 @@ const autocompleteEnabled = true;
 
 const content = {
   type: "md",
-  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
+  images: Object.values(state).map((image) =>
+    image.cid ? { ipfs_cid: image.cid } : undefined
+  ),
   text: state.text,
 };
 
@@ -565,7 +567,7 @@ return (
           <Actions>
             {!state.showPreview && (
               <IpfsImageUpload
-                image={state.image}
+                image={state.images}
                 className="upload-image-button bi bi-image"
               />
             )}
