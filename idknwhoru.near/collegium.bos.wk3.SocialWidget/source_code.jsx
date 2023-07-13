@@ -72,17 +72,19 @@ const widgets = widgetEntries.map(([title]) => {
 
 return (
   <>
-    <h1>
-      Your("{account_id}") Widgets: {widgetEntries.length}
-    </h1>
-    <hr />
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      {widgets}
+    <div>
+      <h1>
+        Your("{account_id}") Widgets: {widgetEntries.length}
+      </h1>
+      <hr />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {widgets}
+      </div>
     </div>
   </>
 );
