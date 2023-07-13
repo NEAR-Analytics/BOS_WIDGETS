@@ -1,6 +1,6 @@
 const currentPill = props.currentNavPill ?? "";
 
-const isDebbug = props.isDebbug;
+const isDebug = props.isDebug;
 
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
@@ -19,11 +19,11 @@ const sayALotWorkers = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 
-if (isDebbug) {
-  sayALotWorkers.foreach((accountId) => writersWhiteList.push(accountId));
+if (isDebug) {
+  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
 }
-
-const authorForWidget = "sayalot.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const pills = [
   {
     id: "articles",
@@ -77,7 +77,7 @@ return (
       <a
         className="navbar-brand text-decoration-none"
         href={
-          isDebbug
+          isDebug
             ? `#/${authorForWidget}/widget/SayALot?isDebbug=true`
             : `#/${authorForWidget}/widget/SayALot`
         }
@@ -118,7 +118,7 @@ return (
             <li className="nav-item">
               <a
                 href={
-                  isDebbug
+                  isDebug
                     ? `#/${authorForWidget}/widget/${widgetName}?isDebbug=true`
                     : `#/${authorForWidget}/widget/${widgetName}`
                 }
@@ -138,7 +138,7 @@ return (
                 <a
                   className="btn btn-outline-dark"
                   href={
-                    isDebbug
+                    isDebug
                       ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
                       : `#/${authorForWidget}/widget/SayALot_CreateArticle`
                   }
@@ -154,7 +154,7 @@ return (
           <Button>
             <a
               href={
-                isDebbug
+                isDebug
                   ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
                   : `#/${authorForWidget}/widget/SayALot_CreateArticle`
               }
