@@ -3,9 +3,9 @@ const Box = styled.div`
     flex-direction:column;
     width:100%;
     max-width:500px;
-    background-color:rgba(0,0,0,.05);
+    background-color:#F2F2F2;
     border-radius:20px;
-    border: 3px solid rgba(0,0,0,.02);
+    border: 3px solid rgba(0,0,0,.05);
     box-sizing:border-box;
     padding:1.5rem;
 
@@ -30,7 +30,7 @@ const Avatar = styled.div`
     background-size:cover;
     background-repeat:no-repeat;
     background-color:rgba(0,0,0,.05);
-    box-shadow: 0 0 0 5px rgba(0,0,0,.1);
+    box-shadow: 0 0 0 3px rgba(0,0,0,.05);
 `;
 
 const Details = styled.div`
@@ -86,31 +86,15 @@ const Time = styled.div`
     border-top:1px solid rgba(0,0,0,.1);
 `;
 
-const Statistics = styled.div`
-    display:flex;
-    justify-content:space-between;
-    border-top:2px solid rgba(0,0,0,.05);
-    border-bottom:2px solid rgba(0,0,0,.05);
-    padding:.8rem 0;
-    text-align:center;
-
-    p {
-        display:inline-block;
-        font-size:.8rem;
-        font-weight:bold;
-        background-color:rgba(0,0,0,.05);
-        padding:.5rem 1rem;
-        border-radius:20px;
-    }
-`;
-
 const Actions = styled.div`
     display:flex;
     justify-content:space-between;
-    padding:1.2rem 0 0;
+    padding:1.6rem 0 0;
     text-align:center;
+    border-top: 2px solid rgba(0,0,0,.05);
 
     p {
+        position:relative;
         display:flex;
         align-items:center;
         justify-content:center;
@@ -120,16 +104,48 @@ const Actions = styled.div`
         font-weight:bold;
         padding:1rem;
         border-radius:100%;
-        background-color:rgba(0,0,0,.05);
+        background-color:#E6E6E6;
         color:red;
         cursor:pointer;
-        border: 3px solid rgba(0,0,0,.01);
+        border: 2px solid rgba(0,0,0,.05);
 
         &:hover {
             img {
                 opacity:.9;
                 transition: all .2s;
             }
+
+            .tip {
+                opacity:1;
+                transition: all .2s;
+            }
+        }
+
+        .badge {
+            position:absolute;
+            top:0;
+            transform:translateX(calc(50% + 8px));
+            font-size:.7rem;
+            color:#fff;
+            padding: 2px 4px;
+            background-color:#35393C;
+            border-radius:10px;
+            border: 1px solid rgba(0,0,0,.05);
+        }
+
+        .tip {
+            opacity:0;
+            pointer-events:none;
+            display:block;
+            position:absolute;
+            bottom:-85%;
+            font-size:.8rem;
+            color: #fff;
+            background-color:#35393C;
+            padding: 2px 8px;
+            border-radius:5px;
+            font-weight:normal;
+            transition: all .2s;
         }
         
         img {
@@ -159,24 +175,26 @@ return (
         <p>05/07/2023 · 17:20 · Posted via Lenster</p>
       </Time>
     </Post>
-    <Statistics>
-      <p>50 Comments</p>
-      <p>143 Mirrors</p>
-      <p>155 Collects</p>
-      <p>379 Likes</p>
-    </Statistics>
     <Actions>
       <p>
         <img src="https://ipfs.near.social/ipfs/bafkreihzp4er5k54cqym5tzj6yqo5oftnpfillxshuou6qyjbbap677lyu" />
+        <span class="badge">50</span>
+        <span class="tip">Comments</span>
       </p>
       <p>
         <img src="https://ipfs.near.social/ipfs/bafkreihzytwkhu3u6jc7yapsbuwsff33wlltrlcyv2s7h6jqld7qdmfxqm" />
+        <span class="badge">143</span>
+        <span class="tip">Mirrors</span>
       </p>
       <p>
         <img src="https://ipfs.near.social/ipfs/bafkreiag6hlzwic63nonmqon5cdfs6hbw3qzpdvz3nhckfvezcthc3otrq" />
+        <span class="badge">155</span>
+        <span class="tip">Collects</span>
       </p>
       <p>
         <img src="https://ipfs.near.social/ipfs/bafkreieqyco26dt23l4v66ppp3sdh6pei72h4pdirhl7ety6rxpmxdtra4" />
+        <span class="badge">379</span>
+        <span class="tip">Likes</span>
       </p>
     </Actions>
   </Box>
