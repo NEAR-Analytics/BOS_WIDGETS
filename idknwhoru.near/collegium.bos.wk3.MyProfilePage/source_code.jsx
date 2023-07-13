@@ -14,9 +14,9 @@ const ProfileWrapper = styled.div`
 
 const ActivityWrapper = styled.div`
      display: flex;
-     .post-wrapper { padding: 30px; }
+     .post-wrapper { padding: 30px; width: 50%; }
      .vertical-line { border: 1px solid #bbb; transform: scaleX(0.5);}
-     .widget-wrapper { padding: 30px; }
+     .widget-wrapper { padding: 30px; width: 50%; }
 `;
 
 const VR = styled.div` `;
