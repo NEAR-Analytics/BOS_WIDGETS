@@ -19,7 +19,7 @@ const sayALotWorkers = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
 ];
 
-if (isDebug) {
+if (isDebug && !props.writersWhiteList) {
   sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
 }
 const authorForWidget =
