@@ -14,9 +14,7 @@ const autocompleteEnabled = true;
 
 const content = {
   type: "md",
-  images: Object.values(state).map((image) =>
-    image.cid ? { ipfs_cid: image.cid } : undefined
-  ),
+  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
 };
 
