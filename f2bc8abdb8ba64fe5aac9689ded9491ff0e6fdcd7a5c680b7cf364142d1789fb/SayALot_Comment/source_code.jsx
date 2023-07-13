@@ -7,7 +7,7 @@ const addressForComments = isDebug
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 State.init({ showReply: false });
-const accountId = props.articleAccountId;
+const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -44,10 +44,10 @@ return (
         highlight ? "bg-warning bg-opacity-10" : ""
       }`}
     >
-      {/*<Widget
+      <Widget
         src="mob.near/widget/MainPage.Post.Header"
         props={{ accountId, blockHeight, link, postType: "comment" }}
-      />*/}
+      />
       <div className="mt-2 text-break">
         <Widget
           src="mob.near/widget/MainPage.Post.Content"
