@@ -51,29 +51,28 @@ return (
       </div>
       {blockHeight !== "now" && (
         <div className="mt-1 d-flex">
-          {parentItem &&
-            {
-              /*<Widget
+          {parentItem && (
+            <Widget
               src="mob.near/widget/CommentButton"
               props={{
                 onClick: () => State.update({ showReply: !state.showReply }),
               }}
-            />*/
-            }}
+            />
+          )}
 
-          {/*<Widget
+          <Widget
             src={`${authorForWidget}/widget/SayALot_Reactions`}
             props={{
               // notifyAccountId,
               item,
             }}
-          />*/}
+          />
         </div>
       )}
     </div>
     {state.showReply && (
       <div className="mb-2" key="reply">
-        {/*<Widget
+        <Widget
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
             isDebug,
@@ -82,7 +81,7 @@ return (
             item: parentItem,
             onComment: () => State.update({ showReply: false }),
           }}
-        />*/}
+        />
       </div>
     )}
   </>
