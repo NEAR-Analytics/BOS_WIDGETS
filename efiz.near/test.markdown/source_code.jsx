@@ -1,169 +1,17 @@
-const allowPublicPosting = props.allowPublicPosting || false;
-const isMember = props.isMember || false;
-const communityDomain = props.communityDomain || null;
-const embedHashtags = props.embedHashtags || [];
-const exclusive = props.exclusive || false;
-const key = props.key || "main";
-
-// Do not show if user is not logged in
-// Do not show if exclusive and user is not a member
-if (!context.accountId || (exclusive && !isMember)) return <></>;
-
 State.init({
   image: {},
   text: "",
   showPreview: false,
-  publicPosting: allowPublicPosting,
 });
-
-const profile = Social.getr(`${context.accountId}/profile`);
-const autocompleteEnabled = true;
 
 const content = {
   type: "md",
-  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
 };
-
-function extractMentions(text) {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-}
-
-function extractTagNotifications(text, item) {
-  return extractMentions(text || "")
-    .filter((accountId) => accountId !== context.accountId)
-    .map((accountId) => ({
-      key: accountId,
-      value: {
-        type: "mention",
-        item,
-      },
-    }));
-}
-
-const extractHashtags = (text) => {
-  const hashtagRegex = /#(\w+)/gi;
-  hashtagRegex.lastIndex = 0;
-  const hashtags = new Set();
-  for (const match of text.matchAll(hashtagRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-    ) {
-      hashtags.add(match[1].toLowerCase());
-    }
-  }
-  return [...hashtags];
-};
-
-function composeData() {
-  const data = {
-    post: {
-      [key]: JSON.stringify(content),
-    },
-    index: {},
-  };
-
-  function mergeArrays(array1, array2) {
-    const mergedArray = [...array1, ...array2];
-    const uniqueArray = [];
-    mergedArray.forEach((item) => {
-      if (!uniqueArray.includes(item)) {
-        uniqueArray.push(item);
-      }
-    });
-    return uniqueArray;
-  }
-  const hashtags = extractHashtags(content.text);
-  // Add the embed hashtags to any found within the content
-  hashtags = mergeArrays(hashtags, embedHashtags);
-  /**
-   * If domains have been provided, then we create an index under that "domain". Otherwise, we post to the catch-all "post" domain
-   */
-  if (state.publicPosting) {
-    data.index.post = JSON.stringify({
-      key,
-      value: {
-        type: "md",
-      },
-    });
-  }
-  if (isMember && communityDomain) {
-    data.index[communityDomain] = JSON.stringify({
-      key,
-      value: {
-        type: "md",
-      },
-    });
-  }
-  if (hashtags.length) {
-    if (state.publicPosting) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: {
-            type: "social",
-            path: `${context.accountId}/post/${key}`,
-          },
-        }))
-      );
-    } else if (isMember && communityDomain) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: {
-            type: "social",
-            path: `${context.accountId}/${communityDomain}/${key}`,
-          },
-        }))
-      );
-    }
-  }
-
-  const notifications = extractTagNotifications(state.text, {
-    type: "social",
-    path: `${context.accountId}/post/${key}`,
-  });
-
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
-  }
-
-  return data;
-}
-
-function onCommit() {
-  State.update({
-    image: {},
-    text: "",
-  });
-}
 
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
   State.update({ text: value, showAccountAutocomplete });
-}
-
-function autoCompleteAccountId(id) {
-  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
-  text = `${text} @${id}`.trim() + " ";
-  State.update({ text, showAccountAutocomplete: false });
 }
 
 const Wrapper = styled.div`
@@ -172,24 +20,6 @@ const Wrapper = styled.div`
 
   @media (max-width: 1200px) {
     --padding: 12px;
-  }
-`;
-
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  pointer-events: none;
-  position: absolute;
-  top: var(--padding);
-  left: var(--padding);
-  img {
-    object-fit: cover;
-    border-radius: 40px;
-    width: 100%;
-    height: 100%;
-  }
-  @media (max-width: 992px) {
-    display: none;
   }
 `;
 
@@ -378,56 +208,20 @@ const PreviewWrapper = styled.div`
   padding-bottom: calc(40px + (var(--padding) * 2));
 `;
 
-const AutoComplete = styled.div`
-  position: absolute;
-  z-index: 5;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  > div > div {
-    padding: calc(var(--padding) / 2);
-  }
-`;
-
-const PillSelectButton = styled.button`
-  border: 1px solid #e6e8eb;
-  padding: 3px 24px;
-  border-radius: 6px;
-  font-size: 12px;
-  line-height: 18px;
-  color: ${state.publicPosting ? "#fff" : "#687076"};
-  background: ${state.publicPosting ? "#006ADC !important" : "#FBFCFD"};
-  font-weight: 600;
-  transition: all 200ms;
-`;
+const renderPath = (properties) => {
+  return (
+    <Widget key={properties} src={properties.path} props={properties.params} />
+  );
+};
 
 return (
   <Wrapper>
     {state.showPreview ? (
       <PreviewWrapper>
-        <Widget
-          src="efiz.near/widget/Posts.Post"
-          props={{
-            accountId: context.accountId,
-            blockHeight: "now",
-            content,
-          }}
-        />
+        <Markdown text={content.text} onPath={renderPath} />
       </PreviewWrapper>
     ) : (
       <>
-        <Avatar>
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: profile.image,
-              alt: profile.name,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-            }}
-          />
-        </Avatar>
         <Textarea data-value={state.text}>
           <textarea
             placeholder="What's happening?"
@@ -451,25 +245,7 @@ return (
         </Textarea>
       </>
     )}
-    {autocompleteEnabled && state.showAccountAutocomplete && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text.split("@").pop(),
-            onSelect: autoCompleteAccountId,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
     <Actions>
-      {!state.showPreview && (
-        <IpfsImageUpload
-          image={state.image}
-          className="upload-image-button bi bi-image"
-        />
-      )}
       <button
         type="button"
         disabled={!state.text}
@@ -483,15 +259,6 @@ return (
           <i className="bi bi-eye-fill" />
         )}
       </button>
-      <CommitButton
-        disabled={!state.text}
-        force
-        data={composeData}
-        onCommit={onCommit}
-        className="commit-post-button"
-      >
-        Post
-      </CommitButton>
     </Actions>
   </Wrapper>
 );
