@@ -50,7 +50,7 @@ const widgets = widgetEntries.map(([title]) => {
             {title}
           </a>
           <a
-            href={`/near/widget/ProfilePage?${account_id}`}
+            href={`/near/widget/ProfilePage?accountId=${account_id}`}
             style={{
               padding: "0 0 0 14px",
               overflow: "hidden",
