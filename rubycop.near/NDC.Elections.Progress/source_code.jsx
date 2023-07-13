@@ -33,11 +33,11 @@ const CompleteText = styled.span`
   font-size: 22px;
 `;
 
-State.init({ step: 1 });
+State.init({ step: 0 });
 
 const step = 0;
 houses.map((house) => {
-  step += votesLeft(house) === 0 ? 1 : 0;
+  step += votesLeft(house) === house.seats ? 0 : 1;
 });
 State.update({ step });
 
