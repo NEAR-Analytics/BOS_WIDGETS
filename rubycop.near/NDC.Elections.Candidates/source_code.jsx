@@ -150,6 +150,11 @@ const FilterRow = styled.div`
   padding: 15px 20px;
 `;
 
+const Info = styled.i`
+  font-size: 12px;
+  margin: 0 !important;
+`;
+
 const CandidatesContainer = styled.div`
   overflow-y: scroll;
   max-height: 490px;
@@ -478,36 +483,42 @@ const Filters = () => {
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
-    <div className="d-flex align-items-end">
-      <H3>
-        {seats - myVotesForHouse().length - state.selectedCandidates.length}
-      </H3>
-      <span>/</span>
-      <H4>{seats}</H4>
-      <span className="text-secondary">votes left</span>
-      {state.selectedCandidates.length > 0 && (
-        <Widget
-          src={widgets.button}
-          props={{
-            Button: {
-              size: "sm",
-              className: "secondary",
-              text: "Reset Selection",
-              onClick: () =>
-                State.update({
-                  selectedCandidates: [],
-                  availableVotes: seats - myVotesForHouse().length,
-                }),
-            },
-          }}
-        />
-      )}
+    <div>
+      <div className="d-flex align-items-end">
+        <H3>
+          {seats - myVotesForHouse().length - state.selectedCandidates.length}
+        </H3>
+        <span>/</span>
+        <H4>{seats}</H4>
+        <span className="text-secondary">votes left</span>
+        {state.selectedCandidates.length > 0 && (
+          <Widget
+            src={widgets.button}
+            props={{
+              Button: {
+                size: "sm",
+                className: "secondary",
+                text: "Reset Selection",
+                onClick: () =>
+                  State.update({
+                    selectedCandidates: [],
+                    availableVotes: seats - myVotesForHouse().length,
+                  }),
+              },
+            }}
+          />
+        )}
+      </div>
+      <Info className="text-secondary">
+        <i class="bi bi-info-circle"></i>
+        Make sure you selected all {seats} candidates
+      </Info>
     </div>
     <Widget
       src={widgets.button}
       props={{
         Button: {
-          disabled: !state.selectedCandidates.length,
+          disabled: state.selectedCandidates.length < seats,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: handleVote,
         },
