@@ -107,7 +107,7 @@ const onTeamSelect = (team, matchIndex) => {
 };
 
 const onSubmit = () => {
-  return Near.call("pickem.near", "bulkPick", { picks: state.selections });
+  return Near.call("pickem.near", "bulkPick", state.selections);
 };
 
 const button = (name, image, first, selected, onClick) => (
