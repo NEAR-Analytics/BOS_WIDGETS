@@ -1,6 +1,8 @@
 const account_id =
   context.accountId === undefined ? props.accountId : context.accountId;
 
+console.log(context, props);
+
 const profileData = Social.getr(`${account_id}/profile`);
 
 const ProfileWrapper = styled.div`
