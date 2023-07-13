@@ -53,8 +53,7 @@ padding-right:26px;
 const H2styled = styled.h1`
  
 height: 14px;
-font-family: Open Sans;
-font-style: normal;
+ font-style: normal;
 font-weight: 500;
 font-size: 14px;
 line-height: 120%;
@@ -86,8 +85,7 @@ margin-top:16px;
 const CompanyTitle = styled.div`
 width: 100%;
 height: 12px;
-font-family: Open Sans;
-font-style: normal;
+ font-style: normal; 
 font-weight: 500;
 font-size: 14px;
 line-height: 120%;
@@ -120,8 +118,7 @@ border-radius: 8px;
 flex: none;
 order: 1;
 flex-grow: 0;
-font-family: Open Sans;
-font-style: normal;
+ font-style: normal;
 font-weight: 400;
 font-size: 12px;
 line-height: 120%;
@@ -174,8 +171,7 @@ border-radius: 8px;
 flex: none;
 order: 1;
 flex-grow: 0;
-font-family: Open Sans;
-font-style: normal;
+ font-style: normal;
 font-weight: 400;
 font-size: 12px;
 line-height: 120%;
@@ -270,7 +266,6 @@ return (
           >
             <label
               style={{
-                "font-family": "Open Sans",
                 "font-size": "12px",
                 color: "#000000",
                 "padding-left": "5px",
@@ -351,7 +346,6 @@ return (
                   <div>
                     <FormsectionPlatformtextarea
                       style={{
-                        "font-family": "Open Sans",
                         "font-style": "normal",
                         "font-weight": "400",
                         "font-size": "12px",
@@ -410,7 +404,6 @@ return (
                   >
                     <label
                       style={{
-                        "font-family": "Open Sans",
                         "font-style": "normal",
                         "font-weight": "400",
                         "font-size": "12px",
