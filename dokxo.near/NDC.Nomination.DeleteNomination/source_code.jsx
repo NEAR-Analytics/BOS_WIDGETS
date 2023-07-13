@@ -185,7 +185,7 @@ return (
           "line-height": "120%",
         }}
       >
-        Are you sure about delete your nomination?
+        Are you sure about to delete your nomination?
       </label>
 
       <CommentFooter>
