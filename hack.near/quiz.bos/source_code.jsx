@@ -111,22 +111,21 @@ return (
         />
       )}
     </div>
-    {showQuestion1 && (
-      <div>
-        <h5>Question 1:</h5>
-        <p>What does the "BOS" acronym stand for?</p>
-        <input
-          className="form-control"
-          placeholder="Your answer goes here :)"
-          defaultValue={state.answer1}
-          onChange={(e) => {
-            State.update({
-              answer1: e.target.value,
-            });
-          }}
-        />
-      </div>
-    )}
+    <br />
+    <div>
+      <h5>Question 1:</h5>
+      <p>What does the "BOS" acronym stand for?</p>
+      <input
+        className="form-control"
+        placeholder="Your answer goes here :)"
+        defaultValue={state.answer1}
+        onChange={(e) => {
+          State.update({
+            answer1: e.target.value,
+          });
+        }}
+      />
+    </div>
     <br />
     {showQuestion2 && (
       <div>
