@@ -1,4 +1,5 @@
-const account_id = context.accountId;
+const account_id =
+  context.accountId === undefined ? props.accountId : context.accountId;
 
 const data = Social.getr(`${account_id}/widget/*`, "final", {
   subscribe: true,
