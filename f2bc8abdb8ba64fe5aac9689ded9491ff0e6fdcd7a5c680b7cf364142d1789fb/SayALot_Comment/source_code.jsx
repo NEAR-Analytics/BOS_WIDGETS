@@ -65,13 +65,13 @@ return (
             />
           )}
 
-          {/*<Widget
+          <Widget
             src={`${authorForWidget}/widget/SayALot_Reactions`}
             props={{
               // notifyAccountId,
               item,
             }}
-          />*/}
+          />
         </div>
       )}
     </div>
