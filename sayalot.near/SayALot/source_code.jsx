@@ -29,10 +29,10 @@ return (
       padding: "0",
     }}
   >
-    {/* <Widget
+    <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
-    /> */}
+    />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
