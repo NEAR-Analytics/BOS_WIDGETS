@@ -3,9 +3,10 @@
 count(count: number)?: function,
 */
 
-const isDebbug = props.isDebbug;
-const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
-const authorForWidget = "sayalot.near";
+const isDebug = props.isDebug;
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const { articleId } = props;
 
 // if (typeof props.widgetPath !== "string")
