@@ -5,6 +5,7 @@ State.init({
   voted: false,
   shareText: "Copy link to the clipboard",
 });
+console.log("fv verificado", props.verified);
 let nominationContract = "nominations-v1.gwg-testing.near";
 function getVerifiedHuman() {
   asyncFetch(
