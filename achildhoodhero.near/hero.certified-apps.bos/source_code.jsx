@@ -51,11 +51,13 @@ const specificComponents = [
 const users = [
   "near",
   "nearweek.near",
-  "achildhoodhero.near",
-  "root.near",
+  "pagodaplatform.near",
+  "proximity_social.near",
   "calimero.near",
-  "auroraecosystemnews.near",
+  "devgovgigs.near",
   "sharddog.near",
+  "root.near",
+  "marieke.near",
 ];
 
 if (JSON.stringify(specificComponents) !== JSON.stringify(state.data || {})) {
