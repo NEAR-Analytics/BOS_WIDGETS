@@ -23,8 +23,6 @@ const article =
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
   // If some widget posts data different than an array it will be ignored
-  console.log(1, article);
-  console.log(2, article.tags);
   if (!Array.isArray(article.tags)) article.tags = [];
   State.update({ article, note: article.body });
 }
@@ -517,7 +515,11 @@ return (
                           style={{ fontWeight: 500 }}
                         >
                           <a
-                            href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                            href={
+                              isDebug
+                                ? `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
+                                : `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}`
+                            }
                           >
                             #{hashtag}
                           </a>
