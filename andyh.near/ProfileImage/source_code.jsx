@@ -15,18 +15,19 @@ const tooltip =
 
 const inner = (
   <div className={className} style={style}>
-    <Widget
-      src="andyh.near/widget/Image"
-      props={{
-        image,
-        alt: title,
-        className: imageClassName,
-        style: imageStyle,
-        thumbnail,
-        fallbackUrl:
-          "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-      }}
-    />
+    image widget
+    // <Widget
+    //   src="andyh.near/widget/Image"
+    //   props={{
+    //     image,
+    //     alt: title,
+    //     className: imageClassName,
+    //     style: imageStyle,
+    //     thumbnail,
+    //     fallbackUrl:
+    //       "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+    //   }}
+    // />
   </div>
 );
 
