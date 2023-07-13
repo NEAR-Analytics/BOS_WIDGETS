@@ -6,8 +6,8 @@ State.init({
 if (state.read_index != -1) {
   const tokens = Near.view("registry.i-am-human.near", "sbt_tokens", {
     issuer: "community.i-am-human.near",
-    from_token: 1 + state.read_index * 33,
-    limit: 33,
+    from_token: 1 + state.read_index * 100,
+    limit: 100,
   });
 
   if (tokens) {
