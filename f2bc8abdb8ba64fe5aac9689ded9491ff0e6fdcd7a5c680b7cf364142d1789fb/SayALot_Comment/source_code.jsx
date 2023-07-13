@@ -60,19 +60,19 @@ return (
             />
           )}
 
-          <Widget
+          {/*<Widget
             src={`${authorForWidget}/widget/SayALot_Reactions`}
             props={{
               // notifyAccountId,
               item,
             }}
-          />
+          />*/}
         </div>
       )}
     </div>
     {state.showReply && (
       <div className="mb-2" key="reply">
-        {/*<Widget
+        <Widget
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
             isDebug,
@@ -81,7 +81,7 @@ return (
             item: parentItem,
             onComment: () => State.update({ showReply: false }),
           }}
-        />*/}
+        />
       </div>
     )}
   </>
