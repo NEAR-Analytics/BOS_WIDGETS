@@ -59,6 +59,16 @@ function handleShare() {
       data.indexerData.nominee
   );
 }
+
+function getComponentURL() {
+  const url =
+    "https://twitter.com/intent/tweet?text=Watch%20This%20Nomination:%20&url=https%3A%2F%2Fnear.org%2F%23%2Fyairnava.near%2Fwidget%2FNDC.Nomination.Candidate.Container%3Fhouse%3D" +
+    data.indexerData.house +
+    "%26candidate%3D" +
+    data.indexerData.nominee;
+  return url;
+}
+
 const Card = styled.div`
 display: flex;
 flex-direction: column;
@@ -687,6 +697,75 @@ font-weight: 500;
 line-height: 24px;
 margin: 0px;
 `;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const Dropbtn = styled.button`
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+`;
+
+const DropdownContent = styled.div`
+  display: none;
+  font-size: 13px;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  border-radius: 8px;
+  background: #FFFFFF;  
+  width: 200px;
+  gap: 9px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.20);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 8px;
+`;
+
+const Element = styled.div`
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+    width: 100%;
+  &:hover {
+    border-radius: 6px;
+    background: #F8F8F9;
+  }
+`;
+
+const ShareLink = styled.a`
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: start;
+`;
+
+const ShareIcon = styled.img`
+  width: 20px;
+`;
+
+const DropdownContainerHover = styled.div`
+        width: fit-content;
+    float: right;
+  &:hover ${DropdownContent} {
+    display: flex;
+  }
+`;
+
+const Separation = styled.div`
+    padding-top: 10px;
+    width: 200px;
+    position: absolute;
+    left: 155px;
+  }
+`;
+
 return (
   <Card>
     {state.showModal && (
@@ -899,14 +978,59 @@ return (
                 >
                   <ViewButtonText>View</ViewButtonText>
                 </ViewButtonDiv>
-                <OverlayTrigger
-                  placement={top}
-                  overlay={<Tooltip>{state.shareText}</Tooltip>}
-                >
+                <DropdownContainerHover>
                   <ShareButtonDiv onClick={handleShare}>
                     <ShareButtonText>Share</ShareButtonText>
                   </ShareButtonDiv>
-                </OverlayTrigger>
+                  <Separation>
+                    <DropdownContent>
+                      <Element onClick={handleShare}>
+                        <OverlayTrigger
+                          placement={top}
+                          overlay={<Tooltip>{state.shareText}</Tooltip>}
+                        >
+                          <ShareLink
+                            style={{
+                              width: "132px",
+                              "text-decoration": "none",
+                              color: "black",
+                            }}
+                          >
+                            Share as a Link
+                          </ShareLink>
+                        </OverlayTrigger>
+                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmV7qjDVv5dhsMJF1hRqCzeVNEHervtSURQmyBqWLdvtq3" />
+                      </Element>
+                      <Element>
+                        <ShareLink
+                          target="_blank"
+                          href={getComponentURL()}
+                          style={{
+                            width: "132px",
+                            "text-decoration": "none",
+                            color: "black",
+                          }}
+                        >
+                          Share on Twitter
+                        </ShareLink>
+                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTXndeq7DWFW8gwsmhLBXTd4KzCeKr2Q6GgMwUA8fmfoJ" />
+                      </Element>
+                      <Element>
+                        <ShareLink
+                          href="#"
+                          style={{
+                            width: "132px",
+                            "text-decoration": "none",
+                            color: "black",
+                          }}
+                        >
+                          Share by Email
+                        </ShareLink>
+                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdDa1om9dWr49n7ozBsGhQfNrkQ3FxYWCtKRtNwHkuz3Q" />
+                      </Element>
+                    </DropdownContent>
+                  </Separation>
+                </DropdownContainerHover>
               </>
             )}
           </ViewButtonContainer>
