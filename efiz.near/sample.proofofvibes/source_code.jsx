@@ -12,7 +12,7 @@ return (
         hashtagWhitelist: hashtags,
         typeWhitelist: ["md"],
         embedMentions: mentions,
-        postTemplate: "efiz.near/widget/placeholder",
+        // postTemplate: "efiz.near/widget/placeholder",
       },
     }}
   />
