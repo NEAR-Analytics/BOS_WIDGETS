@@ -28,7 +28,7 @@ return (
   <div style={containerStyle}>
     <h1 style={headingStyle}>{data.name}</h1>
     <img src={data.avatar} alt="Musician's Avatar" style={imageStyle} />
-    <p>Bio goes here...</p>
+    <p>{data.bio}</p>
     {data.links && data.links.length > 0 && (
       <div>
         {data.links.map((link, index) => (
