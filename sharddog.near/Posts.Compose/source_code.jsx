@@ -3,7 +3,7 @@ if (!context.accountId) {
 }
 
 State.init({
-  image: {},
+  images: [],
   text: "",
   showPreview: false,
   isVisible: isVisible,
