@@ -13,10 +13,10 @@ if (!state.roomId) {
   return <h1>roomId property must be specified</h1>;
 }
 
-const user = "ostolex.near";
+const user = "let45fc.testnet";
 
 const abiObjData = fetch(
-  "https://raw.githubusercontent.com/OSTOLEX-Technologies/Castledice-smart-contract/main/abi.json"
+  "https://raw.githubusercontent.com/OSTOLEX-Technologies/Castledice-smart-contract/develop/abi.json"
 );
 
 if (!abiObjData) {
@@ -38,7 +38,7 @@ if (!sender) {
   );
 }
 
-const contractId = "0xAb926c04Fa3E0CbE23f51BE4Ea2B0777cbB675CC";
+const contractId = "0xdABc474d726FBaBB8fE5FAb4D10D9fF1601fc7e4";
 
 const castledice = new ethers.Contract(
   contractId,
@@ -60,20 +60,21 @@ function onGameLoaded(message) {
 }
 
 function onMoveMade(message) {
-  const row = message.payload.row;
-  const col = message.payload.col;
-
-  castledice.makeMove(state.roomId, row, col).then((result) =>
+  castledice.makeBatchedMoves(state.roomId, message.payload).then((result) =>
     result.wait().then((result) => {
-      sendMessage({ type: "moveFinished" });
+      // sendMessage({ type: "moveFinished" });
       if (message.actions === 0) {
         getActionsCount().then((actionsCount) => {
+          sendMessage({
+            type: "switchTurn",
+            actions: actionsCount,
+            currentPlayer: state.playerColor === "red" ? "blue" : "red",
+          });
           State.update({
             currentPlayer: state.playerColor === "red" ? "blue" : "red",
             actionsCount: actionsCount,
             showDice: true,
           });
-          sendMessage({ type: "switchTurn", actions: actionsCount });
           console.log(
             "Switched turn",
             "Prev currentPlayer",
@@ -114,7 +115,11 @@ function pollForOpponentMoves(opponentColor) {
               actionsCount: actionsCount,
               showDice: true,
             });
-            sendMessage({ type: "switchTurn", actions: actionsCount });
+            sendMessage({
+              type: "switchTurn",
+              actions: actionsCount,
+              currentPlayer,
+            });
           }
         });
       });
@@ -131,9 +136,6 @@ function onGameMessage(message) {
     case "makeMove":
       onMoveMade(message);
       break;
-    // case "updateActions":
-    //   updateActions(message);
-    //   break;
   }
 }
 
@@ -218,7 +220,8 @@ return (
           : state.message
       }
       onMessage={onGameMessage}
-      style={{ width: "100%", height: "100%" }}
+      class="w-100 h-100"
+      style={{ width: "100%", height: "800px" }}
     />
     {state.showDice && (
       <Widget
