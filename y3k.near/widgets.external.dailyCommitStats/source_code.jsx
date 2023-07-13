@@ -50,7 +50,7 @@ async function fetchData() {
           borderColor: "rgb(240,255,240)",
         },
         ticks: {
-          color: "rgb(240,255,240)", // This will change the axis text label color
+          color: "rgb(0,0,0)", // This will change the axis text label color
         },
       },
       x: {
@@ -59,7 +59,7 @@ async function fetchData() {
           color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
         },
         ticks: {
-          color: "rgb(240,255,240)", // This will change the axis text label color
+          color: "rgb(0,0,0)", // This will change the axis text label color
         },
       },
     },
