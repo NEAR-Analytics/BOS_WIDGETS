@@ -8,6 +8,7 @@ return (
         props={{
           allowPublicPosting: true,
           embedHashtags: data.hashtagWhitelist,
+          embedMentions: data.embedMentions,
         }}
       />
     ) : (
