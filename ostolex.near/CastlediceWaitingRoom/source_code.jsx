@@ -62,7 +62,7 @@ if (!abiObjData) {
 }
 const abiObj = JSON.parse(abiObjData.body);
 
-const contractId = "0xAb926c04Fa3E0CbE23f51BE4Ea2B0777cbB675CC";
+const contractId = "0xdABc474d726FBaBB8fE5FAb4D10D9fF1601fc7e4";
 
 const iface = new ethers.utils.Interface(abiObj);
 
