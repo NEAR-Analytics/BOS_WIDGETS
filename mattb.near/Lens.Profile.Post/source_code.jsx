@@ -1,3 +1,16 @@
+const { postId, post } = props;
+
+State.init({
+  post: post || null,
+  sdk: null,
+});
+
+if (!state.post && state.sdk) {
+  state.sdk.getPost(postId || "0x01-0x02").then((payload) => {
+    State.update({ post: payload.body.data.publication });
+  });
+}
+
 const Box = styled.div`
     display:flex;
     flex-direction:column;
@@ -77,6 +90,7 @@ const Post = styled.div`
     box-sizing:border-box;
     padding:1rem;
     color:rgba(0,0,0,.8);
+    word-break:break-words;
 `;
 
 const Time = styled.div`
@@ -157,45 +171,61 @@ const Actions = styled.div`
 `;
 
 return (
-  <Box>
-    <Profile>
-      <Avatar
-        style={{
-          backgroundImage: `url("https://ipfs.near.social/ipfs/bafkreigj7fckrxx4fjgzu2ntgtvbnnest3phljot2vroshnq7kki7xqyoe")`,
-        }}
-      ></Avatar>
-      <Details>
-        <p class="name">Lens Protocol</p>
-        <p class="handle">@lensprotocol.lens</p>
-      </Details>
-    </Profile>
-    <Post>
-      <p>{`We are thrilled to announce we have collaborated with Coinbase Wallet and @xmtp_. With this integration, Lens Protocol users can now message directly within Coinbase Wallet.`}</p>
-      <Time>
-        <p>05/07/2023 · 17:20 · Posted via Lenster</p>
-      </Time>
-    </Post>
-    <Actions>
-      <p>
-        <img src="https://ipfs.near.social/ipfs/bafkreihzp4er5k54cqym5tzj6yqo5oftnpfillxshuou6qyjbbap677lyu" />
-        <span class="badge">50</span>
-        <span class="tip">Comments</span>
-      </p>
-      <p>
-        <img src="https://ipfs.near.social/ipfs/bafkreihzytwkhu3u6jc7yapsbuwsff33wlltrlcyv2s7h6jqld7qdmfxqm" />
-        <span class="badge">143</span>
-        <span class="tip">Mirrors</span>
-      </p>
-      <p>
-        <img src="https://ipfs.near.social/ipfs/bafkreiag6hlzwic63nonmqon5cdfs6hbw3qzpdvz3nhckfvezcthc3otrq" />
-        <span class="badge">155</span>
-        <span class="tip">Collects</span>
-      </p>
-      <p>
-        <img src="https://ipfs.near.social/ipfs/bafkreieqyco26dt23l4v66ppp3sdh6pei72h4pdirhl7ety6rxpmxdtra4" />
-        <span class="badge">379</span>
-        <span class="tip">Likes</span>
-      </p>
-    </Actions>
-  </Box>
+  <>
+    <Widget
+      src="mattb.near/widget/LensSDK"
+      props={{
+        onLoad: (sdk) => State.update({ sdk: sdk }),
+        onRefresh: (sdk) => State.update({ sdk: sdk }),
+        loaded: !!state.sdk,
+      }}
+    />
+
+    {state.sdk && state.post && (
+      <Box>
+        <Profile>
+          <Avatar
+            style={{
+              backgroundImage: `url("${state.post.profile.picture.original.url}")`,
+            }}
+          ></Avatar>
+          <Details>
+            <p class="name">{state.post.profile.name}</p>
+            <p class="handle">@{state.post.profile.handle}</p>
+          </Details>
+        </Profile>
+        <Post>
+          <p>{state.post.metadata.content}</p>
+          <Time>
+            <p>
+              {state.post.createdAt} ·{" "}
+              {state.post.appId && `Posted via ${state.post.appId}`}
+            </p>
+          </Time>
+        </Post>
+        <Actions>
+          <p>
+            <img src="https://ipfs.near.social/ipfs/bafkreihzp4er5k54cqym5tzj6yqo5oftnpfillxshuou6qyjbbap677lyu" />
+            <span class="badge">{state.post.stats.totalAmountOfComments}</span>
+            <span class="tip">Comment</span>
+          </p>
+          <p>
+            <img src="https://ipfs.near.social/ipfs/bafkreihzytwkhu3u6jc7yapsbuwsff33wlltrlcyv2s7h6jqld7qdmfxqm" />
+            <span class="badge">{state.post.stats.totalAmountOfMirrors}</span>
+            <span class="tip">Mirror</span>
+          </p>
+          <p>
+            <img src="https://ipfs.near.social/ipfs/bafkreiag6hlzwic63nonmqon5cdfs6hbw3qzpdvz3nhckfvezcthc3otrq" />
+            <span class="badge">{state.post.stats.totalAmountOfCollects}</span>
+            <span class="tip">Collect</span>
+          </p>
+          <p>
+            <img src="https://ipfs.near.social/ipfs/bafkreieqyco26dt23l4v66ppp3sdh6pei72h4pdirhl7ety6rxpmxdtra4" />
+            <span class="badge">{state.post.stats.totalUpvotes}</span>
+            <span class="tip">Like</span>
+          </p>
+        </Actions>
+      </Box>
+    )}
+  </>
 );
