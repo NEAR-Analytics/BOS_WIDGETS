@@ -46,8 +46,7 @@ return (
     <div className="d-flex justify-content-between align-items-center">
       <div>Your voting progress</div>
       <div>
-        <CompleteText> {state.step}</CompleteText>/
-        <span className="text-secondary">{houses.length}</span>
+        <CompleteText> {state.step}</CompleteText>/<span>{houses.length}</span>
         <span className="text-secondary">Houses</span>
       </div>
     </div>
