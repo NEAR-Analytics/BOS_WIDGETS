@@ -18,6 +18,7 @@ const content =
       blockHeight
     ) ?? "null"
   );
+
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
