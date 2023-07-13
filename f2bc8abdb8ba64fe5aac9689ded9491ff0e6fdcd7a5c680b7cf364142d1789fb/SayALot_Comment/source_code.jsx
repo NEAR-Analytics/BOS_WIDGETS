@@ -1,10 +1,11 @@
-const isDebbug = props.isDebbug;
+const isDebug = props.isDebug;
 
-const addressForArticles = isDebbug ? "test_sayALotArticle" : "sayALotArticle";
-const addressForComments = isDebbug
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const addressForComments = isDebug
   ? "test_sayalot-comments"
   : "sayalot-comments";
-const authorForWidget = "sayalot.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 State.init({ showReply: false });
 const accountId = props.accountId;
 const blockHeight =
@@ -73,7 +74,7 @@ return (
         <Widget
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
-            isDebbug,
+            isDebug,
             initialText: `${accountId}, `,
             // notifyAccountId: extractNotifyAccountId(parentItem),
             item: parentItem,
