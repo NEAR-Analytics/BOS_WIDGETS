@@ -13,7 +13,7 @@ if (!state.roomId) {
   return <h1>roomId property must be specified</h1>;
 }
 
-const user = "let45fc.testnet";
+const user = "ostolex.near";
 
 const abiObjData = fetch(
   "https://raw.githubusercontent.com/OSTOLEX-Technologies/Castledice-smart-contract/develop/abi.json"
