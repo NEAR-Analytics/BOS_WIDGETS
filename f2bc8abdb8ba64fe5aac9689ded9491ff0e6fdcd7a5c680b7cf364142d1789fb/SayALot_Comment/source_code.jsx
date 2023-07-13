@@ -7,7 +7,7 @@ const addressForComments = isDebug
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 State.init({ showReply: false });
-const articleAccountId = props.accountId;
+const articleAccountId = props.articleAccountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
