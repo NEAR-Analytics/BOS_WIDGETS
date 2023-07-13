@@ -761,7 +761,7 @@ const Separation = styled.div`
     padding-top: 10px;
     width: 200px;
     position: absolute;
-    left: 155px;
+    left: 489px;
   }
 `;
 
