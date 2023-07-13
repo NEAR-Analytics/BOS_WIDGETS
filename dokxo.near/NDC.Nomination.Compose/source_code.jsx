@@ -74,6 +74,7 @@ const ModalCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+   
   background: rgba(0, 0, 0, 0.70);
   overflow:auto;
   flex-direction:column;
@@ -123,7 +124,7 @@ margin-top:16px;
 margin-right:auto; 
 width: 100%;
 height: 19px;
-font-family: 'Open Sans';
+ 
 font-style: normal;
 font-weight: 500;
 font-size: 16px;
