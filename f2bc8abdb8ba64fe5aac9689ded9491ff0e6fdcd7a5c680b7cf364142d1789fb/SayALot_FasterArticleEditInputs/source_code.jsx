@@ -1,6 +1,8 @@
 //======= Get props =======
+const defaultStateUpdate = (obj) => State.update(obj);
+const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
+
 const textAreaInitialText = props.firstTextareaText ?? "";
-const stateUpdate = props.stateUpdate;
 const isDebug = props.isDebug;
 
 //======= Initialisation =======
