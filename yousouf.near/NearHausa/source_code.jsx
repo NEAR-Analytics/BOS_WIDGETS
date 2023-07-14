@@ -129,7 +129,10 @@ return (
     </Container>
 
     <div className="m-2">
-      <Widget src="yousouf.near/widget/ProfilePage" />
+      <Widget
+        src="mob.near/widget/ProfilePage"
+        props={{ accountId: "nearhausa.near" }}
+      />
     </div>
     <Flex>
       <Widget
