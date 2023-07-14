@@ -1,3 +1,15 @@
+State.init({
+  value: "value to update",
+});
+
+console.log(Near.view("nearinturkiye.near", "socialMedia"));
+
+const testCall = () => {
+  return Near.call("nearinturkiye.near", "socialMedia", {
+    message: "Hi Near Social",
+  });
+};
+
 let user_account = context.accountId;
 
 return (
@@ -10,8 +22,11 @@ return (
     <br></br>
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
-    <button onclick="window.location.href='https://www.google.com';">
-      Click Here
-    </button>
+
+    <div>
+      <button onclick="window.location.href='https://w3docs.com';">
+        Click Here
+      </button>
+    </div>
   </>
 );
