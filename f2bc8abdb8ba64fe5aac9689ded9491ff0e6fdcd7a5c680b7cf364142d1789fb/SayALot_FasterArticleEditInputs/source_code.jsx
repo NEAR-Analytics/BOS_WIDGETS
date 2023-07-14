@@ -35,10 +35,6 @@ const getTagObjectfromArray = (tagArray) => {
 //   return result;
 // };
 
-if (state.isOverSaveButton) {
-  stateUpdate({ note: state.textAreaText, tags: state.tags });
-}
-
 //======= Render =======
 return (
   <>
@@ -49,8 +45,9 @@ return (
         className="btn btn-outline-success mx-1"
         style={{ minWidth: "120px" }}
         onClick={saveHandler}
-        onMouseEnter={() => State.update({ overSaveButton: true })}
-        onMouseLeave={() => State.update({ overSaveButton: false })}
+        onMouseEnter={() =>
+          stateUpdate({ note: state.textAreaText, tags: state.tags })
+        }
       >
         {isSaving && (
           <div
