@@ -4,9 +4,6 @@ State.init({
 
 // const accountId = props.accountId ?? context.accountId;
 const accountId = "neardigitalcollective.near";
-if (!accountId) {
-  return "No account ID";
-}
 
 if (props.tab && props.tab !== state.selectedTab) {
   State.update({
@@ -16,7 +13,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 // const accountUrl = `#/ndcplug.near/widget/NDC.SBT.main=${accountId}`;
-const accountUrl = `#/ndcplug.near/widget/NDC.SBT.main`;
+const accountUrl = `#/ndcplug.near/widget/NDC.SBT.main=`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
