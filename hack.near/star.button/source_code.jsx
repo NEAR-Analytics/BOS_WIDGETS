@@ -13,7 +13,7 @@ const starEdge = Social.keys(
 
 const starred = starEdge && Object.keys(starEdge).length > 0;
 
-const type = starred ? "unstar" : "star";
+const type = star ? "unstar" : "star";
 
 const data = {
   graph: { star: { [widgetPath]: starred ? null : "" } },
