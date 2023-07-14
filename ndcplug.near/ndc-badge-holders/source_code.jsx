@@ -1,8 +1,8 @@
 const issuer = props.issuer ?? "community.i-am-human.near";
 const title = props.title ?? "NDC SBTs";
-const showProgress = props.showProgress ?? true;
-const showDropdown = props.showDropdown ?? true;
-const showHeader = props.showHeader ?? true;
+const showProgress = props.showProgress ?? false;
+const showDropdown = props.showDropdown ?? false;
+const showHeader = props.showHeader ?? false;
 
 State.init({
   read_index: 0,
