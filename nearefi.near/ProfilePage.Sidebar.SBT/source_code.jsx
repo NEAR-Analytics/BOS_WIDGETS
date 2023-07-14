@@ -329,7 +329,7 @@ return (
         </Text>
         <Text
           as="a"
-          href={`${accountUrl}ndcplug.near/widget/ndc-badge-holders?issuer=${issuer}`}
+          href={`ndcplug.near/widget/ndc-badge-holders?issuer=${issuer}`}
         >
           ✅{" "}
           <b bold as="span">
