@@ -3,6 +3,7 @@ const defaultStateUpdate = (obj) => State.update(obj);
 const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
 const saveHandler = props.saveHandler;
+const isSaving = props.isSaving;
 const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
 const isDebug = props.isDebug;
@@ -51,7 +52,7 @@ return (
         onMouseEnter={() => State.update({ overSaveButton: true })}
         onMouseLeave={() => State.update({ overSaveButton: false })}
       >
-        {state.saving && (
+        {isSaving && (
           <div
             className="spinner-border text-secondary"
             style={{ height: "1rem", width: "1rem" }}
@@ -68,7 +69,7 @@ return (
         className="btn btn-outline-danger mx-1"
         style={{ minWidth: "120px" }}
         onClick={() => {
-          State.update({
+          stateUpdate({
             editArticle: false,
           });
         }}
