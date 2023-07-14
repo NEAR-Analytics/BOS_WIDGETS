@@ -53,6 +53,49 @@ return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div classname="random thing">
       <h1 className="text-center mb-3"> big text </h1>
+      <head>
+  <title>Mentorship Website</title>
+  <style>
+    /* Add some basic styles for the page */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #333;
+    }
+    
+    .livestream-link {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Mentorship Website</h1>
+    <p>Join the livestream conferences with our talented teachers!</p>
+    <div class="livestream-link">
+      <a href="#" id="livestreamBtn">Join Livestream</a>
+    </div>
+  </div>
+
+  <script>
+    // Add an event listener to the "Join Livestream" button
+    document.getElementById('livestreamBtn').addEventListener('click', function(event) {
+      event.preventDefault();
+      // Replace the '#' with the actual URL of the livestream platform
+      var livestreamUrl = 'https://www.example.com/livestream';
+      window.open(livestreamUrl, '_blank');
+    });
+  </script>
+</body>
     </div>
     {state.loading && (
       <>
