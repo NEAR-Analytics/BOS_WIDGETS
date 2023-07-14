@@ -45,7 +45,7 @@ if (!name) {
 
 if (
   !image.ipfs_cid &&
-  (!image.nft.contractId || !image.nft.tokenId) &&
+  (!image?.nft?.contractId || !image.nft.tokenId) &&
   !image.url
 ) {
   return (
