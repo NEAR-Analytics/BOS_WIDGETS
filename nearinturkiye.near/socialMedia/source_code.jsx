@@ -10,7 +10,7 @@ return (
     <br></br>
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
-    <button onclick="window.location='http://twitter.com/near_turkey';">
+    <button onclick="window.location='https://twitter.com/near_turkey'">
       Near Türkiye Twitter
     </button>
   </>
