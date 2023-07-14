@@ -66,8 +66,7 @@ return (
       </h1>
       <p
         style={{
-          textAlign: "justify",
-          textAlignLast: "center",
+          textAlign: "center",
           fontFamily: "Inter",
           fontSize: "18px",
           color: "#777",
