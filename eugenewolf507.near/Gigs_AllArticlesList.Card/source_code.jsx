@@ -7,15 +7,11 @@ const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const statusTagsArr = props.statusTagsArr;
 const sharedArticleId = props.sharedArticleId;
-const closeAllModals = props.closeAllModals;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
-if (closeAllModals) {
-  State.update({ showModal: false });
-}
 if (sharedArticleId === article.articleId && sharedArticleId) {
   State.update({ showModal: true });
 }
