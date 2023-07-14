@@ -180,34 +180,34 @@ return (
       <Content>
         <Tabs>
           <TabsButton
-            href={`${accountUrl}&tab=og`}
+            href={`${accountUrl}?tab=og`}
             selected={state.selectedTab === "og"}
           >
             OG
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=human`}
+            href={`${accountUrl}?tab=human`}
             selected={state.selectedTab === "human"}
           >
             I-Am-Human
           </TabsButton>
           <TabsButton
-            href={`${accountUrl}&tab=regen`}
+            href={`${accountUrl}?tab=regen`}
             selected={state.selectedTab === "regen"}
           >
             Proof of Regen
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=vibes`}
+            href={`${accountUrl}?tab=vibes`}
             selected={state.selectedTab === "vibes"}
           >
             Proof of Vibes
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=explorer`}
+            href={`${accountUrl}?tab=explorer`}
             selected={state.selectedTab === "explorer"}
           >
             Registry Contract
