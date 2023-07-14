@@ -3,6 +3,7 @@ const title = props.title ?? "NDC SBTs";
 const showProgress = props.showProgress ?? false;
 const showDropdown = props.showDropdown ?? false;
 const showHeader = props.showHeader ?? false;
+const showHolders = props.showHolders ?? true;
 
 State.init({
   read_index: 0,
@@ -124,8 +125,7 @@ return (
         }}
       />
     )}
-
-    <h3>Total Holders: {state.tokens.length}</h3>
+    {showHolders && <h3>Total Holders: {state.tokens.length}</h3>}
     {showDropdown && (
       <div>
         <label>Choose A NDC Community SBT 🛡️ Badge</label>
