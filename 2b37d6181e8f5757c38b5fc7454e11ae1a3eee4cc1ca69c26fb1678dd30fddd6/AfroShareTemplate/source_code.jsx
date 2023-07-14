@@ -63,7 +63,7 @@ return (
           //marginTop: "30px",
         }}
       >
-        AfroMentors
+        Afromentor
       </h1>
     </div>
     {state.loading && (
