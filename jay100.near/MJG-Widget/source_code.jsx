@@ -53,6 +53,11 @@ const Pixel = styled.div` background: aliceblue; font-size: 1.3rem; font-weight:
 const PixelText = styled.p` @import url("https://fonts.googleapis.com/css?family=Press+Start+2P"); font-family: "Pixel Emulator", "Press Start 2P", "Courier new", "monospace"; display: inline-block; vertical-align: top; position: relative; width: 6.5rem; text-align: center; margin: -20px -20px; line-height: 1.5rem; transition: all 0.2s ease-in-out; :hover { transform: scale(1.1); } padding: 10px 20px; background: linear-gradient(135deg, transparent 10px, #000000 0) top left, linear-gradient(225deg, transparent 10px, #000000 0) top right, linear-gradient(315deg, transparent 10px, #000000 0) bottom right, linear-gradient(45deg, transparent 10px, #000000 0) bottom left; background-size: 50% 50%; background-repeat: no-repeat; background-image: radial-gradient(circle at 0 0, rgba(204,0,0,0) 14px, #000000 15px), radial-gradient(circle at 100% 0, rgba(204,0,0,0) 14px, #000000 15px), radial-gradient(circle at 100% 100%, rgba(204,0,0,0) 14px, #000000 15px), radial-gradient(circle at 0 100%, rgba(204,0,0,0) 14px, #000000 15px); `;
 const PixelContainer = styled.div` display: flex; width: 50%; text-align: center; align-items: center; justify-content: center; `;
 
+const EightBitContainer = styled.a`
+  text-align: center;
+  padding: 2rem;
+`;
+
 const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
   return (
     <Card>
@@ -171,26 +176,35 @@ return (
     </Hero>
 
     <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />
+
     {isUserRegistered && (
-      <a
+      <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          margin: "1rem",
+          width: "100%",
         }}
-        key={index}
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://pd.marmaj.org/chainteam"
       >
-        {" "}
-        <PixelContainer>
-          <Pixel>
-            <PixelText>Play Now</PixelText>
-          </Pixel>
-        </PixelContainer>
-      </a>
+        <a
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "1rem",
+          }}
+          key={index}
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://pd.marmaj.org/chainteam"
+        >
+          <PixelContainer>
+            <Pixel>
+              <PixelText>Play Now</PixelText>
+            </Pixel>
+          </PixelContainer>
+        </a>
+      </div>
     )}
 
     <Widget src="jay100.near/widget/Carousel" props={slide_data} />
