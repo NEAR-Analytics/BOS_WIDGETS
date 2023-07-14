@@ -1,5 +1,6 @@
 const issuer = props.issuer ?? "community.i-am-human.near";
 const title = props.title ?? "NDC SBTs";
+const showProgress = props.showProgress ?? false;
 State.init({
   read_index: 0,
   tokens: [],
@@ -105,16 +106,19 @@ return (
       src="ndcplug.near/widget/NDC.Common.SimpleHeader"
       props={{ title: state.title }}
     />
-    <Widget
-      src="ndcplug.near/widget/NDC.Common.ProgressMeter"
-      props={{
-        total: "300",
-        users: state.tokens.length,
-        description: "OG Holders",
-        width: "150",
-        title: "NDC OG Holders",
-      }}
-    />
+    {showProgress && (
+      <Widget
+        src="ndcplug.near/widget/NDC.Common.ProgressMeter"
+        props={{
+          total: "300",
+          users: state.tokens.length,
+          description: "OG Holders",
+          width: "150",
+          title: "NDC OG Holders",
+        }}
+      />
+    )}
+
     <h3>Total Holders: {state.tokens.length}</h3>
     <label>Choose A NDC Community SBT 🛡️ Badge</label>
     <div className="sbt">
