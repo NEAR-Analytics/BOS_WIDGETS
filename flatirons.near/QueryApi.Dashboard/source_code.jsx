@@ -323,9 +323,13 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "indexer-status",
             });
-            window.location.search = window.location.search.replace(
-              "view=w+-w+",
-              `view=indexer-status`
+            history.pushState(
+              {},
+              "Indexer Status",
+              window.location.href.replace(
+                /view=\w+\-\w+/,
+                `view=indexer-status`
+              )
             );
           }}
         >
@@ -337,9 +341,13 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "editor-window",
             });
-            window.location.search = window.location.search.replace(
-              "view=w+-w+",
-              `view=editor-window`
+            history.pushState(
+              {},
+              "Editor Window",
+              window.location.href.replace(
+                /view=\w+\-\w+/,
+                `view=editor-window`
+              )
             );
           }}
         >
@@ -379,9 +387,13 @@ return (
             type="button"
             onClick={() => {
               State.update({ activeTab: "editor-window" });
-              window.location.search = window.location.search.replace(
-                "view=w+-w+",
-                `view=editor-window`
+              history.pushState(
+                {},
+                "Editor",
+                window.location.href.replace(
+                  /view=\w+\-\w+/,
+                  `view=editor-window`
+                )
               );
             }}
             selected={state.activeTab === "editor-window"}
@@ -393,9 +405,13 @@ return (
             type="button"
             onClick={() => {
               State.update({ activeTab: "editor-window" });
-              window.location.search = window.location.search.replace(
-                "view=w+-w+",
-                `view=indexer-status`
+              history.pushState(
+                {},
+                "Indexer Status",
+                window.location.href.replace(
+                  /view=\w+\-\w+/,
+                  `view=indexer-status`
+                )
               );
             }}
             selected={state.activeTab === "indexer-status"}
