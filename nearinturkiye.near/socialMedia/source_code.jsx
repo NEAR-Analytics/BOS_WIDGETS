@@ -10,9 +10,6 @@ const testCall = () => {
   });
 };
 
-let user_account = context.accountId;
-const user = "nearinturkiye.near";
-const props = { name: "Anna" };
 return (
   <>
     <div class="container border border-info p-3 text-center min-vw-100">
@@ -42,7 +39,16 @@ return (
       NEAR Türkiye Youtube
     </button>
     <br></br>
-
-    <iframe iframeResizer src="https://nearzombies.io" />
+    <div>
+      <iframe
+        iframeResizer={{
+          onResized: ({ width, height }) => {
+            console.log("iframe resized", width, height);
+          },
+        }}
+        onLoad={() => console.log("iframe loaded")}
+        src="https://www.nearzombies.io"
+      />
+    </div>
   </>
 );
