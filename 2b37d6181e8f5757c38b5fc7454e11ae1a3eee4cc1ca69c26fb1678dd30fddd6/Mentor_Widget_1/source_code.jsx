@@ -104,7 +104,7 @@ const lockedEventImage = (
   <img src={state.token.media[0].gateway} width={300} alt={state.token.title} />
 );
 
-const lockedImage = "https://pasteboard.co/ov0QqqVG1lQs.png";
+const lockedImage = "https://i.imgur.com/EsThDIl.jpg";
 const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 
 return (
