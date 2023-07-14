@@ -12,7 +12,7 @@ const writersWhiteList = props.writersWhiteList ?? [
 ];
 const articleBlackList = [
   91092435, 91092174, 91051228, 91092223, 91051203, 96414482, 96402919,
-  96402330, 96401880, 96412953, 96412953, 95766840,
+  96402330, 96401880, 96412953, 96412953, 95766840, 95413943,
 ];
 const authorForWidget = "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
