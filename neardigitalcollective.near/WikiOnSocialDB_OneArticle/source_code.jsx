@@ -27,12 +27,9 @@ const authorsWhiteList = [
   "blaze.near",
   "jlw.near",
   "kazanderdad.near",
+  "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
-  "psalm.near",
-  "fiftycent.near",
-  "vikash.near",
-  "rahulgoel.near",
 ];
 const doesUserCanEditArticle = () => {
   const isAccountIdInWhiteList = authorsWhiteList.some(
@@ -200,7 +197,7 @@ return (
       <div className="col-12 col-md-3 border-end">
         <h4
           className="text-center"
-          style={{ cursor: "pointer", fontSize: "0.7rem" }}
+          style={{ cursor: "pointer", fontSize: "1.5rem" }}
           onClick={() => {
             State.update({
               note: state.article.body,
