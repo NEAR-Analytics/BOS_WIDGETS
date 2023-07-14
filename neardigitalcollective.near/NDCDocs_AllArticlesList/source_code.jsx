@@ -12,6 +12,7 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "fiftycent.near",
   "matthewsiegel.near",
   "kdot.near",
+  "vikash.near",
 ];
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "neardigitalcollective.near";
