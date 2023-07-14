@@ -208,7 +208,7 @@ const ButtonLink = styled.a`
   }
 `;
 
-const news = [...data.body.data, ...posts]
+const news = [...(data?.body?.data ?? []), ...posts]
   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   .slice(0, limit);
 const nwSite = "https://nearweek.com";
