@@ -75,9 +75,9 @@ return (
         }}
       >
         Connecting members of the Afropolitan community with relevant teachers,
-        mentors, and seminars, Afromentors gives NFT holders tight-knit learning
-        and networking opportunities while letting teachers earn compensation
-        for their expertise.
+        mentors, and seminars, Afromentors gives Afropolitan NFT holders
+        tight-knit learning and networking opportunities while letting teachers
+        earn compensation for their expertise.
       </p>
     </div>
     {state.loading && (
