@@ -39,14 +39,15 @@ console.log(state.note);
 return (
   <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
     <div className="w-50">
-      <Widget
-        src="mob.near/widget/MarkdownEditorIframe"
-        props={{
-          initialText: state.textAreaText,
-          onChange: (textAreaText) => State.update({ textAreaText }),
-        }}
-        onBlur={() => console.log("Ey!")}
-      />
+      <div onBlur={() => console.log("ey!")}>
+        <Widget
+          src="mob.near/widget/MarkdownEditorIframe"
+          props={{
+            initialText: state.textAreaText,
+            onChange: (textAreaText) => State.update({ textAreaText }),
+          }}
+        />
+      </div>
     </div>
     <div className="w-50">
       <Widget
