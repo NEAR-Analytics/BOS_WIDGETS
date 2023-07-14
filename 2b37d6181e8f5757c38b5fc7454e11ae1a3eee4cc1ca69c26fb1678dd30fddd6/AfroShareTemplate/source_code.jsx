@@ -74,10 +74,10 @@ return (
           letterSpacing: "0",
         }}
       >
-        A platform connecting members of the Afropolitan community with relevant
-        mentors, teachers, and seminars, Afromentors allows NFT holders
-        tight-knit learning and networking while allowing teachers to be
-        compensated for their expertise. Current NFT holders
+        Connecting members of the Afropolitan community with relevant teachers,
+        mentors, and seminars, Afromentors gives NFT holders tight-knit learning
+        and networking opportunities while allowing teachers to be compensated
+        for their expertise.
       </p>
     </div>
     {state.loading && (
