@@ -1,4 +1,5 @@
 State.init({ showModal: false, copiedShareUrl: false });
+console.log(article.articleId, state);
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 
@@ -20,7 +21,7 @@ if (sharedArticleId === article.articleId && sharedArticleId) {
 // }
 
 if (state.showModal) {
-  console.log(article.articleId, state);
+  console.log("+++", article.articleId, state);
 }
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
