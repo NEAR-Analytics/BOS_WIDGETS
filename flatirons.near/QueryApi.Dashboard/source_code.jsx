@@ -323,14 +323,14 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "indexer-status",
             });
-            history.pushState(
-              {},
-              "Indexer Status",
-              window.location.href.replace(
-                /view=\w+\-\w+/,
-                `view=indexer-status`
-              )
-            );
+            // history.pushState(
+            //   {},
+            //   "Indexer Status",
+            //   window.location.href.replace(
+            //     /view=\w+\-\w+/,
+            //     `view=indexer-status`
+            //   )
+            // );
           }}
         >
           View Status
@@ -341,14 +341,14 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "editor-window",
             });
-            history.pushState(
-              {},
-              "Editor Window",
-              window.location.href.replace(
-                /view=\w+\-\w+/,
-                `view=editor-window`
-              )
-            );
+            // history.pushState(
+            //   {},
+            //   "Editor Window",
+            //   window.location.href.replace(
+            //     /view=\w+\-\w+/,
+            //     `view=editor-window`
+            //   )
+            // );
           }}
         >
           {accountId === context.accountId ? "Edit Indexer" : "View Indexer"}
@@ -395,15 +395,14 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              console.log("url", history.pushState, window.history.pushState);
-              window.history.pushState(
-                {},
-                "Editor",
-                window.location.href.replace(
-                  /view=\w+\-\w+/,
-                  `view=editor-window`
-                )
-              );
+              //   window.history.pushState(
+              //     {},
+              //     "Editor",
+              //     window.location.href.replace(
+              //       /view=\w+\-\w+/,
+              //       `view=editor-window`
+              //     )
+              //   );
               State.update({ activeTab: "editor-window" });
             }}
             selected={state.activeTab === "editor-window"}
@@ -414,15 +413,14 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              console.log("url", history.pushState, window.history.pushState);
-              window.history.pushState(
-                {},
-                "Indexer Status",
-                window.location.href.replace(
-                  /view=\w+\-\w+/,
-                  `view=indexer-status`
-                )
-              );
+              //   window.history.pushState(
+              //     {},
+              //     "Indexer Status",
+              //     window.location.href.replace(
+              //       /view=\w+\-\w+/,
+              //       `view=indexer-status`
+              //     )
+              //   );
               State.update({ activeTab: "editor-window" });
             }}
             selected={state.activeTab === "indexer-status"}
