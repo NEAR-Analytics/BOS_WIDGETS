@@ -115,6 +115,7 @@ const Theme = styled.div`
   .apps {
     min-width: 380px;
     max-width: 500px;
+    text-align: left;
 
     .grid {
       display: flex;
@@ -143,6 +144,7 @@ const Theme = styled.div`
       color: rgba(255, 255, 255, 0.8);
       font-size: 1.4rem;
       margin-bottom: 32px;
+      width: 100%;
     }
     > div {
       display: flex;
@@ -246,6 +248,7 @@ return (
               Bridge
             </button>
           </div>
+
           <h1>Bring Ethereum to everyone.</h1>
           <h2>Fast, cheap and secure.</h2>
 
