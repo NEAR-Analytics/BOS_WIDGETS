@@ -139,7 +139,7 @@ const renderCategory = (categoryId) => {
       <div class="container">
         <div className="row ">
           {item.components.map((comp, i) => (
-            <div class="col-6 mb-2">
+            <div class="mb-3">
               <Widget
                 key={i}
                 src="hack.near/widget/widget.inline"
@@ -173,7 +173,7 @@ const renderHome = () => {
         </p>
         <div className="mb-3">
           {curatedComps && (
-            <div className="mb-6">
+            <div className="mb-3 m-3">
               {curatedComps.map((cat, i) => renderCategory(cat.id))}
             </div>
           )}
