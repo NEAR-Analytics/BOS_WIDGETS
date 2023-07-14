@@ -37,8 +37,12 @@ return (
     </button>
     <br></br>
     <br></br>
-    <button OnClick=" <a href='https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw' ">
+    <button OnClick="https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw">
       NEAR Türkiye Youtube
     </button>
+
+    <div>
+      <iframe iframeResizer={{ log: true }} src="https://coin-net.com" />
+    </div>
   </>
 );
