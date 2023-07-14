@@ -11,13 +11,16 @@ const mainPartForSharingGig =
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 if (sharedArticleId === article.articleId && sharedArticleId) {
-  console.log(sharedArticleId, sharedArticleId, article.articleId);
+  console.log("TRUE ", sharedArticleId, sharedArticleId, article.articleId);
   State.init({ showModal: true, copiedShareUrl: false });
 } else {
+  console.log("FALSE ", sharedArticleId, sharedArticleId, article.articleId);
   State.init({ showModal: false, copiedShareUrl: false });
 }
 
-console.log(article.articleId, state);
+if (state.showModal) {
+  console.log(article.articleId, state);
+}
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
