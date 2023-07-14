@@ -5,7 +5,7 @@ const daoId = props.daoId ?? "academy.near";
 
 return (
   <div className="d-flex flex-column">
-    <Widget src="mob.near/widget/Profile" props={{ accountId: daoId }} />
+    <Widget src="mob.near/widget/ProfileImage" props={{ accountId: daoId }} />
     <br />
     <a
       className="nav-link mt-2"
