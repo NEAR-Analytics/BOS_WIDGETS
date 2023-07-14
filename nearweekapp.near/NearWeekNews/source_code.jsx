@@ -227,11 +227,9 @@ function dateToDays(date) {
   return timeAgo(Date.now() - d.getTime());
 }
 
-console.log(news);
-
 return (
   <Theme>
-    {data !== null ? (
+    {news && news.length > 0 ? (
       <Wrapper>
         <H2>News</H2>
         <Content>
