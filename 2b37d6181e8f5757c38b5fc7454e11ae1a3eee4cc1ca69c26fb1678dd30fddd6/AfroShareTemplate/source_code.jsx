@@ -52,7 +52,7 @@ loadNFT();
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div classname="random thing">
-      <p style={{ width: "100%" }}> hi </p>
+      <p style={{ width: "100%", color: "blue" }}> hi </p>
     </div>
     {state.loading && (
       <>
