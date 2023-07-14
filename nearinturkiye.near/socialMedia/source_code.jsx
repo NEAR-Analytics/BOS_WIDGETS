@@ -11,7 +11,8 @@ const testCall = () => {
 };
 
 let user_account = context.accountId;
-
+const user = "nearinturkiye.near";
+const props = { name: "Anna" };
 return (
   <>
     <div class="container border border-info p-3 text-center min-vw-100">
@@ -42,6 +43,6 @@ return (
     </button>
     <br></br>
 
-    <iframe iframeResizer src="https://www.near.org" />
+    <iframe iframeResizer src="https://nearzombies.io" />
   </>
 );
