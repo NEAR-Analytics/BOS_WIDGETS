@@ -292,13 +292,6 @@ const indexerView = (accountId, indexerName) => {
     "_"
   )}`;
 
-  const updateViewUrl = function (tab) {
-    window.location.search = window.location.search.replace(
-      "view=w+-w+",
-      `view=${tab}`
-    );
-  };
-
   return (
     <Card>
       <CardBody>
@@ -330,7 +323,10 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "indexer-status",
             });
-            updateViewUrl("indexer-status");
+            window.location.search = window.location.search.replace(
+              "view=w+-w+",
+              `view=indexer-status`
+            );
           }}
         >
           View Status
@@ -341,7 +337,10 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "editor-window",
             });
-            updateViewUrl("editor-window");
+            window.location.search = window.location.search.replace(
+              "view=w+-w+",
+              `view=editor-window`
+            );
           }}
         >
           {accountId === context.accountId ? "Edit Indexer" : "View Indexer"}
@@ -380,7 +379,10 @@ return (
             type="button"
             onClick={() => {
               State.update({ activeTab: "editor-window" });
-              updateViewUrl("editor-window");
+              window.location.search = window.location.search.replace(
+                "view=w+-w+",
+                `view=editor-window`
+              );
             }}
             selected={state.activeTab === "editor-window"}
           >
@@ -391,7 +393,10 @@ return (
             type="button"
             onClick={() => {
               State.update({ activeTab: "editor-window" });
-              updateViewUrl("indexer-status");
+              window.location.search = window.location.search.replace(
+                "view=w+-w+",
+                `view=indexer-status`
+              );
             }}
             selected={state.activeTab === "indexer-status"}
           >
