@@ -2,6 +2,8 @@
 const defaultStateUpdate = (obj) => State.update(obj);
 const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
+const isOverSaveButton = props.isOverSaveButton;
+console.log(isOverSaveButton ? "si" : "no");
 const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
 const isDebug = props.isDebug;
@@ -39,15 +41,13 @@ console.log(state.note);
 return (
   <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
     <div className="w-50">
-      <div onBlur={() => console.log("ey!")}>
-        <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
-          props={{
-            initialText: state.textAreaText,
-            onChange: (textAreaText) => State.update({ textAreaText }),
-          }}
-        />
-      </div>
+      <Widget
+        src="mob.near/widget/MarkdownEditorIframe"
+        props={{
+          initialText: state.textAreaText,
+          onChange: (textAreaText) => State.update({ textAreaText }),
+        }}
+      />
     </div>
     <div className="w-50">
       <Widget
