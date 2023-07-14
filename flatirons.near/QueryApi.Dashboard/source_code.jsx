@@ -282,7 +282,12 @@ const ButtonLink = styled.a`
       else return "#ECEDEE";
     }}
 `;
-
+const updateViewUrl = (tab) => {
+  window.location.search = window.location.search.replace(
+    "view=w+-w+",
+    `view=${tab}`
+  );
+};
 const indexerView = (accountId, indexerName) => {
   const editUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
   const statusUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
@@ -323,14 +328,7 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "indexer-status",
             });
-            // history.pushState(
-            //   {},
-            //   "Indexer Status",
-            //   window.location.href.replace(
-            //     /view=\w+\-\w+/,
-            //     `view=indexer-status`
-            //   )
-            // );
+            updateViewUrl("indexer-status");
           }}
         >
           View Status
@@ -341,14 +339,7 @@ const indexerView = (accountId, indexerName) => {
             State.update({
               activeTab: "editor-window",
             });
-            // history.pushState(
-            //   {},
-            //   "Editor Window",
-            //   window.location.href.replace(
-            //     /view=\w+\-\w+/,
-            //     `view=editor-window`
-            //   )
-            // );
+            updateViewUrl("editor-window");
           }}
         >
           {accountId === context.accountId ? "Edit Indexer" : "View Indexer"}
@@ -360,15 +351,6 @@ const indexerView = (accountId, indexerName) => {
     </Card>
   );
 };
-
-console.log(
-  "top url",
-  document,
-  document.window.location.href,
-  history.pushState,
-  window.history.pushState,
-  window.location.href
-);
 
 return (
   <Wrapper negativeMargin={state.activeTab === "indexers"}>
@@ -395,15 +377,8 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              //   window.history.pushState(
-              //     {},
-              //     "Editor",
-              //     window.location.href.replace(
-              //       /view=\w+\-\w+/,
-              //       `view=editor-window`
-              //     )
-              //   );
               State.update({ activeTab: "editor-window" });
+              updateViewUrl("editor-window");
             }}
             selected={state.activeTab === "editor-window"}
           >
@@ -413,15 +388,8 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              //   window.history.pushState(
-              //     {},
-              //     "Indexer Status",
-              //     window.location.href.replace(
-              //       /view=\w+\-\w+/,
-              //       `view=indexer-status`
-              //     )
-              //   );
               State.update({ activeTab: "editor-window" });
+              updateViewUrl("indexer-status");
             }}
             selected={state.activeTab === "indexer-status"}
           >
