@@ -1,13 +1,15 @@
-const location = "Paris";
-const tastemaker = "ogruss.near";
+const location = "#Paris";
+const tastemaker = "@ogruss.near";
+const vibeTag = "#ProofOfVibes";
 return (
   <Widget
     src="proofofvibes.near/widget/vibes.feed.main"
     props={{
       data: {
-        hashtagWhitelist: ["ProofOfVibes", location],
+        hashtagWhitelist: vibeTag,
+        location,
         typeWhitelist: ["md"],
-        embedMentions: [tastemaker, "ndcplug.near"],
+        embedMentions: [tastemaker, "@ndcplug.near"],
         // postTemplate: "efiz.near/widget/placeholder",
       },
     }}
