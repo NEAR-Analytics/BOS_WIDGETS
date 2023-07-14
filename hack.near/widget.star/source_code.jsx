@@ -22,7 +22,7 @@ const data = {
       key: "star",
       value: {
         type,
-        widgetPath: widgetPath,
+        path: widgetPath,
       },
     }),
     notify: JSON.stringify({
