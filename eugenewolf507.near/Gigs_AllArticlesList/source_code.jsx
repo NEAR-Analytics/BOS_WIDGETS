@@ -151,6 +151,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
       onCommit: () => {
         state[actualTag].splice(objectIndex, 1);
         state[newTag].unshift(updatedObjectToMove);
+        state.closeAllModals = true;
         State.update();
       },
     });
@@ -182,6 +183,7 @@ return (
                       statusTagsArr,
                       sharedArticleId,
                       doesUserCanChangeStatus,
+                      closeAllModals: state.closeAllModals,
                     }}
                   />
                 ))}
