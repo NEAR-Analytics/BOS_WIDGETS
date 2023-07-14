@@ -229,7 +229,7 @@ return (
             >
               <Widget
                 src="mob.near/widget/Profile"
-                props={{ accountId: "academy.near" }}
+                props={{ accountId: "build.sputnik-dao.near" }}
               />
             </a>
           </div>
