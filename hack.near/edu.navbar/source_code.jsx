@@ -1,12 +1,11 @@
 const navItems = props.navItems;
 if (!navItems) return "must define nav items";
 const ownerId = "hack.near";
+const daoId = props.daoId ?? "build.sputnik-dao.near";
 
 return (
   <div className="d-flex flex-column">
-    <h4 className="fs-4 text-nowrap d-flex flex-row align-items-center">
-      <span>Library</span>
-    </h4>
+    <Widget src="near/widget/Profile" props={{ accountId: daoId }} />
     <a
       className="nav-link mt-2"
       href={`https://near.social/#/${ownerId}/widget/edu.library?tab=home`}
