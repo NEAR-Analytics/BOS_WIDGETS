@@ -386,7 +386,6 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              State.update({ activeTab: "editor-window" });
               history.pushState(
                 {},
                 "Editor",
@@ -395,6 +394,7 @@ return (
                   `view=editor-window`
                 )
               );
+              State.update({ activeTab: "editor-window" });
             }}
             selected={state.activeTab === "editor-window"}
           >
@@ -404,7 +404,6 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              State.update({ activeTab: "editor-window" });
               history.pushState(
                 {},
                 "Indexer Status",
@@ -413,6 +412,7 @@ return (
                   `view=indexer-status`
                 )
               );
+              State.update({ activeTab: "editor-window" });
             }}
             selected={state.activeTab === "indexer-status"}
           >
