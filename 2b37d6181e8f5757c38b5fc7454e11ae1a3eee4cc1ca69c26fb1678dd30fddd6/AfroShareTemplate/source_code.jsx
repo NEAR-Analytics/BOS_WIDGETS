@@ -52,7 +52,7 @@ loadNFT();
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div classname="random thing">
-      <h1 style="text-align: center">Welcome to Our Website</h1>
+      <p> hi </p>
     </div>
     {state.loading && (
       <>
