@@ -1,5 +1,6 @@
 //======= Get props =======
 const defaultStateUpdate = (obj) => State.update(obj);
+console.log(props.state ? "si" : "no");
 const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
 const articleTags = props.articleTags ?? [];
