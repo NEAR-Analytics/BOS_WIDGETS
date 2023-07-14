@@ -93,7 +93,7 @@ return (
       </div>
     )}
     <Widget
-      src="mob.near/widget/ItemFeed"
+      src="efiz.near/widget/ItemFeed"
       props={{ items: state.allItems || [], renderItem }}
     />
   </div>
