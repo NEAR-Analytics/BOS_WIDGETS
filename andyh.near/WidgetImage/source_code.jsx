@@ -2,7 +2,6 @@ const accountId = props.accountId;
 const widgetName = props.widgetName;
 const widgetPath = `${accountId}/widget/${widgetName}`;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
-console.log({ metadata });
 
 const className = props.className ?? "d-inline-block";
 const style = props.style ?? { width: "3em", height: "3em" };
@@ -19,7 +18,6 @@ const title = props.title ?? name;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
 
-console.log({ image });
 const inner = (
   <div className={className} style={style}>
     <Widget
