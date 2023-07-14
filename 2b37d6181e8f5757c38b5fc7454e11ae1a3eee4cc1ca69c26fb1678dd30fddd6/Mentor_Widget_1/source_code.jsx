@@ -132,9 +132,8 @@ return (
       }}
     >
       7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Dr. Beverly Winters, chair of
-      Yale University's Pathology and Blood Medicine Department, shares advice
-      on medical school applications and what to expect for your first few years
-      in the medical field
+      Yale University's Pathology Department, shares advice on medical school
+      applications and what to expect for your first few years in the field
     </p>
     <div className="container">
       <div className="card shadow-sm">
