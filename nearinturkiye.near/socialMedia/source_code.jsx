@@ -22,7 +22,6 @@ return (
     <br></br>
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
-
     <button OnClick="location.href='https://www.twitter.com/near_turkey' ">
       NEAR Türkiye Twitter
     </button>
@@ -38,7 +37,7 @@ return (
     </button>
     <br></br>
     <br></br>
-    <button OnClick=" location.href='https://www.google.com' ">
+    <button OnClick=" <a href='https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw' ">
       NEAR Türkiye Youtube
     </button>
   </>
