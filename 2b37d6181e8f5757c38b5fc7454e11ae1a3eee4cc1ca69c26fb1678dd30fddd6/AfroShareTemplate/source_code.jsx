@@ -65,8 +65,8 @@ return (
       >
         Welcome to Our Website
       </h1>
-      <h1 style={{ font: "Seb Neue" }}> Random Thing1 </h1>
-      <h1 style={{ font: "Roboto" }}> Random Thing2 </h1>
+      //<h1 style={{ font: "Seb Neue" }}> Random Thing1 </h1>
+      //<h1 style={{ font: "Roboto" }}> Random Thing2 </h1>
     </div>
     {state.loading && (
       <>
