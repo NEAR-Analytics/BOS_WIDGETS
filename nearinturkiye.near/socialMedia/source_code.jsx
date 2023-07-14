@@ -42,6 +42,6 @@ return (
     </button>
     <br></br>
 
-    <iframe width="100%" height="100%" src="https://coin-net.com" />
+    <iframe iframeresizer src="https://near.org" />
   </>
 );
