@@ -55,7 +55,7 @@ const curatedComps = [
     components: [
       { accountId: "mob.near", widgetName: "Explorer" },
       { accountId: "efiz.near", widgetName: "Tree" },
-      { accountId: "mob.near", widgetName: "WidgetHistory" },
+      { accountId: "bozon.near", widgetName: "WidgetHistory" },
       { accountId: "mob.near", widgetName: "WidgetSource" },
     ],
   },
@@ -112,7 +112,7 @@ const searchComponents = () => {
           {state.components.map((comp, i) => (
             <div class="mb-2" key={i}>
               <Widget
-                src="hack.near/widget/widget.card"
+                src="hack.near/widget/widget.inline"
                 props={{
                   accountId: comp.accountId,
                   widgetPath: comp.widgetName,
@@ -142,7 +142,7 @@ const renderCategory = (categoryId) => {
             <div class="col-6 mb-2">
               <Widget
                 key={i}
-                src="hack.near/widget/widget.card"
+                src="hack.near/widget/widget.inline"
                 props={{
                   accountId: comp.accountId,
                   widgetPath: `${comp.accountId}/widget/${comp.widgetName}`,
@@ -216,9 +216,27 @@ return (
         />
       </div>
       <div class="col-md-9">
-        {" "}
-        <h2>BOS Academy</h2>
-        <p class="text text-muted">Learn how to build together!</p>
+        <div className="d-flex flex-wrap justify-content-between mb-3">
+          <div className="m-1">
+            <h2>
+              <b>#edu</b>
+            </h2>
+          </div>
+          <div className="m-1">
+            <a
+              href={`#/near/widget/ProfilePage?accountId=every.near`}
+              class="text-muted"
+            >
+              <Widget
+                src="mob.near/widget/Profile"
+                props={{ accountId: "academy.near" }}
+              />
+            </a>
+          </div>
+        </div>
+        <p class="text text-muted">
+          Learn how to build on the blockchain operating system together!
+        </p>
         {renderContent}
       </div>
     </div>
