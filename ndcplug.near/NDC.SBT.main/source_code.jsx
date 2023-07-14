@@ -11,9 +11,8 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 // const accountUrl = `#/ndcplug.near/widget/NDC.SBT.main=${accountId}`;
-const accountUrl = `#/ndcplug.near/widget/NDC.SBT.main=`;
+const accountUrl = `#/ndcplug.near/widget/NDC.SBT.main`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
