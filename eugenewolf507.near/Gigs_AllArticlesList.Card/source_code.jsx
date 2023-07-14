@@ -10,7 +10,7 @@ const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
-if (sharedArticleId === article.articleId) {
+if (sharedArticleId === article.articleId && sharedArticleId) {
   console.log(sharedArticleId, sharedArticleId);
   State.init({ showModal: true, copiedShareUrl: false });
 } else {
