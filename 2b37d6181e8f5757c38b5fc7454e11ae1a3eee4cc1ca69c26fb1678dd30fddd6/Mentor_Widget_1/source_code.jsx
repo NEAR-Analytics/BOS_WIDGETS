@@ -113,7 +113,7 @@ return (
       style={{
         textAlign: "center",
         fontFamily: "Inter",
-        fontSize: "40px",
+        fontSize: "20px",
         color: "#333",
         fontWeight: "bold",
         letterSpacing: "-1px",
