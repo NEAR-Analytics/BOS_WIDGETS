@@ -60,11 +60,28 @@ return (
           color: "#333",
           fontWeight: "bold",
           letterSpacing: "-1px",
-          //marginTop: "30px",
         }}
       >
-        Afromentor
+        Afromentors
       </h1>
+      <p
+        style={{
+          textAlign: "center",
+          fontFamily: "Inter",
+          fontSize: "18px",
+          color: "#777",
+          fontWeight: "normal",
+          letterSpacing: "0",
+        }}
+      >
+        Afromentors is a platform that connects aspiring individuals with
+        experienced mentors from the African diaspora. Our mission is to empower
+        and support individuals in achieving their goals by providing guidance,
+        knowledge, and inspiration through mentorship. With a diverse community
+        of mentors, Afromentors offers a wide range of expertise across various
+        fields, including entrepreneurship, technology, arts, and more. Join us
+        today and embark on a transformative journey towards success!
+      </p>
     </div>
     {state.loading && (
       <>
