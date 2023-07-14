@@ -55,10 +55,10 @@ return (
       <h1
         style={{
           textAlign: "center",
-          fontFamily: "Arial, sans-serif",
-          fontSize: "36px",
+          fontFamily: "Verdana, sans-serif",
+          fontSize: "40px",
           color: "#333",
-          //textShadow: "2px 2px 4px #888",
+          fontWeight: "bold",
           letterSpacing: "2px",
           marginTop: "50px",
         }}
