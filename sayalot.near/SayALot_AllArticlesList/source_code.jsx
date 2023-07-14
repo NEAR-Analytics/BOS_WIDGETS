@@ -10,7 +10,10 @@ const writersWhiteList = props.writersWhiteList ?? [
   "fiftycent.near",
   "ozymandius.near",
 ];
-const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
+const articleBlackList = [
+  91092435, 91092174, 91051228, 91092223, 91051203, 96414482, 96412953,
+  96402919, 96402476, 96401880,
+];
 const authorForWidget = "sayalot.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
