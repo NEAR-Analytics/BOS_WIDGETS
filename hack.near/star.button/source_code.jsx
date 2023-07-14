@@ -16,7 +16,7 @@ const starred = starEdge && Object.keys(starEdge).length;
 const type = star ? "unstar" : "star";
 
 const data = {
-  graph: { star: { [widgetPath]: star ? null : "" } },
+  graph: { star: { [widgetPath]: starred ? null : "" } },
   index: {
     graph: JSON.stringify({
       key: "star",
