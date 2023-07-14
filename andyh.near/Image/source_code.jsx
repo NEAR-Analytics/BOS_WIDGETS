@@ -57,5 +57,5 @@ return image?.nft?.contractId && image.nft.tokenId ? (
       }}
     />
     hi!
-  <>
+  </>
 );
