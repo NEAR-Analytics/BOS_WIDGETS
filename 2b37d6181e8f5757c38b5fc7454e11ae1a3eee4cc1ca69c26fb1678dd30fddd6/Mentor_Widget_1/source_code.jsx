@@ -110,7 +110,9 @@ const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div className="The image">
-      <img src="https://pasteboard.co/ov0QqqVG1lQs.png" />
+      <a href="https://pasteboard.co/ov0QqqVG1lQs.png">
+        <img src="https://pasteboard.co/ov0QqqVG1lQs.png" />
+      </a>
     </div>
     <h3
       style={{
