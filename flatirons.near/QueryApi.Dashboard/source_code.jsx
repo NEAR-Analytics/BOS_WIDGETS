@@ -282,12 +282,7 @@ const ButtonLink = styled.a`
       else return "#ECEDEE";
     }}
 `;
-const updateViewUrl = (tab) => {
-  window.location.search = window.location.search.replace(
-    "view=w+-w+",
-    `view=${tab}`
-  );
-};
+
 const indexerView = (accountId, indexerName) => {
   const editUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}?selectedIndexerPath=${accountId}/${indexerName}&view=editor-window`;
   const statusUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.${appPath}?selectedIndexerPath=${accountId}/${indexerName}&view=indexer-status`;
@@ -296,6 +291,13 @@ const indexerView = (accountId, indexerName) => {
     ".",
     "_"
   )}`;
+
+  const updateViewUrl = (tab) => {
+    window.location.search = window.location.search.replace(
+      "view=w+-w+",
+      `view=${tab}`
+    );
+  };
 
   return (
     <Card>
