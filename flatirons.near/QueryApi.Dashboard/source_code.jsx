@@ -386,6 +386,7 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
+              console.log("url", window.location.href);
               window.history.pushState(
                 {},
                 "Editor",
@@ -404,6 +405,7 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
+              console.log("url", window.location.href);
               window.history.pushState(
                 {},
                 "Indexer Status",
