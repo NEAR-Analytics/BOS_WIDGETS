@@ -74,7 +74,7 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 }
 
 return (
-  <div className="px-2 mx-auto" style={{ maxWidth: "42em" }}>
+  <div className="px-2 mx-auto">
     {(accountId || tag) && (
       <div className="mb-2">
         Filter:
