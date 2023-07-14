@@ -1,5 +1,13 @@
-const { title, description, limit, backgroundColor, color, width, total } =
-  props;
+const {
+  title,
+  description,
+  limit,
+  backgroundColor,
+  color,
+  width,
+  total,
+  users,
+} = props;
 color = color || "#000";
 backgroundColor = backgroundColor || "#fff";
 width = width || 400;
