@@ -1,6 +1,6 @@
 const GRAPHQL_ENDPOINT =
   "https://queryapi-hasura-graphql-24ktefolwq-ew.a.run.app";
-const APP_OWNER = "dataplatform.near";
+const APP_OWNER = "flatirons.near";
 const EXTERNAL_APP_URL = "http://localhost:3000";
 const REGISTRY_CONTRACT_ID = "queryapi.dataplatform.near";
 const view = props.view;
