@@ -7,6 +7,8 @@ const ResponsiveContainer = styled.div`
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
+  background: linear-gradient(45deg, #f3ec78, #af4261);
+
 
   @media screen and (min-width: 576px) {
     max-width: 540px;
