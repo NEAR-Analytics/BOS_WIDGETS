@@ -2,6 +2,7 @@
 const defaultStateUpdate = (obj) => State.update(obj);
 const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
+const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
 const isDebug = props.isDebug;
 
@@ -49,7 +50,7 @@ return (
       <Widget
         src="mob.near/widget/TagsEditor"
         props={{
-          initialTagsObject: getTagObjectfromArray(state.article.tags),
+          initialTagsObject: getTagObjectfromArray(articleTags),
           placeholder: "Input tags",
           setTagsObject: (tags) => {
             // console.log(filterTagsFromNull(tags));
@@ -59,6 +60,7 @@ return (
           },
         }}
       />
+
       <Widget
         src="mob.near/widget/SocialMarkdown"
         props={{
