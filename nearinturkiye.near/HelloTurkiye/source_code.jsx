@@ -1,9 +1,10 @@
-let greeting = "Bizi Near Social'da takip etmeyi unutma :)";
+let name = props.name || "User";
+let greeting = "Have a great day";
+
 return (
   <>
-    <div class="container border border-info p-3 text-center">
-      <h1>NEAR Türkiye'ye Hoşgeldin {props.name}</h1>
-
+    <div class="container border border-info p-3 text-center min-vw-100">
+      <h1>Hello {name}</h1>
       <p> {greeting} </p>
     </div>
   </>
