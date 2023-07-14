@@ -10,7 +10,7 @@ if (!context.accountId || (exclusive && !isMember)) return <></>;
 
 State.init({
   image: {},
-  text: "",
+  text: `${embedHashtags.map((it) => `#${it} `).join("")}`,
   showPreview: false,
   publicPosting: allowPublicPosting,
 });
