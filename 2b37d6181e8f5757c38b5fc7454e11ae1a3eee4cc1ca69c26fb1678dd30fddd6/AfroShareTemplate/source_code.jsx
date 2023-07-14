@@ -66,6 +66,8 @@ return (
       </h1>
       <p
         style={{
+          display: "flex",
+          justifyContent: "space-between",
           textAlign: "center",
           fontFamily: "Inter",
           fontSize: "18px",
