@@ -5,7 +5,7 @@ const daoId = props.daoId ?? "build.sputnik-dao.near";
 
 return (
   <div className="d-flex flex-column">
-    <Widget src="near/widget/Profile" props={{ accountId: daoId }} />
+    <Widget src="mob.near/widget/Profile" props={{ accountId: daoId }} />
     <a
       className="nav-link mt-2"
       href={`https://near.social/#/${ownerId}/widget/edu.library?tab=home`}
