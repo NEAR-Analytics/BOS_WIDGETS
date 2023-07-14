@@ -20,20 +20,11 @@ const statusTagsArr = ["open", "claimed", "closed"];
 // ========== LOCAL STORAGE ==========
 const myData = JSON.parse(Storage.privateGet("sortedArticlesByTagFromStorage"));
 const doesDataFresh = myData.time ? Date.now() - myData.time < 3000 : false;
-console.log("1 === doesDataFresh = ", doesDataFresh);
-console.log(
-  ".time= ",
-  myData.time,
-  ".sortedArticlesByTag= ",
-  !!myData.sortedArticlesByTag
-);
 if (doesDataFresh && myData.sortedArticlesByTag) {
-  console.log("2 Use data from Storage - IF PART");
   // ========== STATE INIT ==========
   State.init(myData.sortedArticlesByTag);
 } else {
   Storage.privateSet("sortedArticlesByTagFromStorage", "");
-  console.log("2 Get data from nearSocial - IF PART");
 
   // ========== GET INDEX ARRAY FOR ARTICLES ==========
   const postsIndex = Social.index(addressForArticles, "main", {
@@ -112,8 +103,6 @@ if (doesDataFresh && myData.sortedArticlesByTag) {
     JSON.stringify(dataForStorage)
   );
 }
-
-console.log("*********** STATE", state);
 
 // ========== UTILS ==========
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
