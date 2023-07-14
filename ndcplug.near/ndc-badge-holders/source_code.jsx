@@ -2,7 +2,6 @@ State.init({
   read_index: 0,
   tokens: [],
   issuer: "community.i-am-human.near",
-  collectionName: "OG",
   sbtList: [],
 });
 
@@ -85,6 +84,18 @@ const handleSbtChange = (e) => {
 
 console.log(tokens.length); // put in progress meter
 
+const Members = () => (
+  <>
+    {state.tokens.map((token) => (
+      <li class="mb-2">
+        <Widget
+          src="chaotictempest.near/widget/AccountProfileCard"
+          props={{ accountId: token.owner }}
+        />
+      </li>
+    ))}
+  </>
+);
 return (
   <div>
     <Widget
@@ -122,14 +133,7 @@ return (
       />
     </div>
     <ol>
-      {state.tokens.map((token) => (
-        <li class="mb-2">
-          <Widget
-            src="chaotictempest.near/widget/AccountProfileCard"
-            props={{ accountId: token.owner }}
-          />
-        </li>
-      ))}
+      <Members />
     </ol>
   </div>
 );
