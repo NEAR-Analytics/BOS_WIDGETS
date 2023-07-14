@@ -1,11 +1,12 @@
 const accountId = props.accountId;
+const typeName = props.typeName;
 const tag = props.tag;
 
-let keys = `${accountId ?? "*"}/type/*`;
+let keys = `${accountId ?? "*"}/${typeName}/*`;
 
 if (tag) {
   const taggedWidgets = Social.keys(
-    `${accountId ?? "*"}/type/*/metadata/tags/${tag}`,
+    `${accountId ?? "*"}/${typeName}/*/metadata/tags/${tag}`,
     "final"
   );
 
@@ -14,7 +15,9 @@ if (tag) {
   }
 
   keys = Object.entries(taggedWidgets)
-    .map((kv) => Object.keys(kv[1].type).map((w) => `${kv[0]}/type/${w}`))
+    .map((kv) =>
+      Object.keys(kv[1][typeName]).map((w) => `${kv[0]}/${typeName}/${w}`)
+    )
     .flat();
 
   if (!keys.length) {
@@ -27,7 +30,7 @@ const data = Social.keys(keys, "final", {
 });
 
 if (data === null) {
-  return render("Loading");
+  return <p>"Loading"</p>;
 }
 
 const processData = (data) => {
@@ -36,7 +39,7 @@ const processData = (data) => {
   const allItems = accounts
     .map((account) => {
       const accountId = account[0];
-      return Object.entries(account[1].type).map((kv) => ({
+      return Object.entries(account[1][typeName]).map((kv) => ({
         accountId,
         typeName: kv[0],
         blockHeight: kv[1],
