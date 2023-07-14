@@ -66,14 +66,14 @@ return (
       </h1>
       <p
         style={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: "grid",
           textAlign: "center",
           fontFamily: "Inter",
           fontSize: "18px",
           color: "#777",
           fontWeight: "normal",
           letterSpacing: "0",
+          gridTemplateColumns: "1fr",
         }}
       >
         Connecting members of the Afropolitan community with relevant teachers,
