@@ -38,7 +38,7 @@ State.init({
   originNominations: [],
   notFound: "There are no active nominations at the moment",
   pointer: 0,
-  noNominationsPage: 2,
+  noNominationsPage: 9,
   totalNominations: {},
   totalPages: [],
   selectedPage: 1,
