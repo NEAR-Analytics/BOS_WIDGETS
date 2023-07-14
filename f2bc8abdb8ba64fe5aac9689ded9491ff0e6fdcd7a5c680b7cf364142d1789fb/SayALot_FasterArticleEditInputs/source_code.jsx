@@ -2,6 +2,7 @@
 const defaultStateUpdate = (obj) => State.update(obj);
 const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
+const saveHandler = props.saveHandler;
 const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
 const isDebug = props.isDebug;
