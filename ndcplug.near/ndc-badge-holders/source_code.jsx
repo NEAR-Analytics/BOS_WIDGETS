@@ -95,13 +95,23 @@ const Members = () => (
     ))}
   </>
 );
+
 return (
   <div>
     <Widget
       src="ndcplug.near/widget/NDC.Common.SimpleHeader"
-      props={{ title: "NDC OG SBT Holders" }}
+      props={{ title: "NDC OG Holders" }}
     />
-    <h3>Total Holders: {state.tokens.length}</h3>
+    <Widget
+      src="ndcplug.near/widget/NDC.Common.ProgressMeter"
+      props={{
+        total: "300",
+        users: state.tokens.length,
+        description: "OG Holders",
+        width: "150",
+        title: "NDC OG Holders",
+      }}
+    />
     <label>Choose A NDC Community SBT 🛡️ Badge</label>
     <div className="sbt">
       <select
