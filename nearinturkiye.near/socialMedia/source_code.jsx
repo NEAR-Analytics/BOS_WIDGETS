@@ -23,10 +23,6 @@ return (
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
 
-    <div>
-      <button onclick="window.location.href='https://w3docs.com';">
-        Click Here
-      </button>
-    </div>
+    <button OnClick=" location.href='link.html' ">Visit Page Now</button>
   </>
 );
