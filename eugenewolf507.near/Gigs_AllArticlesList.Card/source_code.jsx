@@ -155,6 +155,7 @@ return (
               statusChangeHandler,
               statusTagsArr,
               doesUserCanChangeStatus,
+              closeModalHandler,
             }}
           />
         </Modal>
