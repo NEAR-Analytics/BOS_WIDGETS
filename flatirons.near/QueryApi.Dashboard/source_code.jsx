@@ -363,6 +363,8 @@ const indexerView = (accountId, indexerName) => {
 
 console.log(
   "top url",
+  document,
+  document.window.location.href,
   history.pushState,
   window.history.pushState,
   window.location.href
