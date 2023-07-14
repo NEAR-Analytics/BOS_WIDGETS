@@ -61,7 +61,7 @@ function handleShare() {
 
 function getComponentURL() {
   const url =
-    "https://twitter.com/intent/tweet?text=Watch%20This%20Nomination:%20&url=https%3A%2F%2Fnear.org%2F%23%2Fyairnava.near%2Fwidget%2FNDC.Nomination.Candidate.Container%3Fhouse%3D" +
+    "https%3A%2F%2Fnear.org%2F%23%2Fyairnava.near%2Fwidget%2FNDC.Nomination.Candidate.Container%3Fhouse%3D" +
     data.indexerData.house +
     "%26candidate%3D" +
     data.indexerData.nominee;
@@ -1002,7 +1002,10 @@ return (
                       <Element>
                         <ShareLink
                           target="_blank"
-                          href={getComponentURL()}
+                          href={
+                            "https://twitter.com/intent/tweet?text=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election!%20&url=" +
+                            getComponentURL()
+                          }
                           style={{
                             width: "132px",
                             "text-decoration": "none",
@@ -1015,7 +1018,10 @@ return (
                       </Element>
                       <Element>
                         <ShareLink
-                          href="#"
+                          href={
+                            "mailto:?subject=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election&body=Support%20the%20NDC%20Election!%20" +
+                            getComponentURL()
+                          }
                           style={{
                             width: "132px",
                             "text-decoration": "none",
