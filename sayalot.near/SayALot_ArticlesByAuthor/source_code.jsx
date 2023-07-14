@@ -48,10 +48,6 @@ const filteredArticles =
         return acc;
       }
     }, [])
-    .filter((article) =>
-      writersWhiteList.some((addr) => addr === article.author)
-    )
-    .filter((article) => article.lastEditor === article.author)
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
 const filteredArticlesByTag =
