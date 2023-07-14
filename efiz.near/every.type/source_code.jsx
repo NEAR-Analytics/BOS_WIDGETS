@@ -1,53 +1,6 @@
 const accountId = props.accountId;
 const tag = props.tag;
 
-const makeLink = (accountId, tag) => {
-  const args = [];
-  if (accountId) {
-    args.push(`accountId=${accountId}`);
-  }
-  if (tag) {
-    args.push(`tag=${tag}`);
-  }
-  return `#/mob.near/widget/LastWidgets${args.length > 0 ? "?" : ""}${args.join(
-    "&"
-  )}`;
-};
-
-const render = (content) => {
-  return (
-    <div className="px-2 mx-auto" style={{ maxWidth: "42em" }}>
-      {(accountId || tag) && (
-        <div className="mb-2">
-          Filter:
-          {accountId && (
-            <a
-              href={makeLink(undefined, tag)}
-              className="btn btn-outline-primary"
-            >
-              <Widget
-                src="mob.near/widget/ProfileLine"
-                props={{ accountId, link: false }}
-              />
-              <i className="bi bi-x-square"></i>
-            </a>
-          )}
-          {tag && (
-            <a
-              href={makeLink(accountId, undefined)}
-              className="btn btn-outline-primary"
-            >
-              <span className="badge text-bg-secondary">#{tag}</span>
-              <i className="bi bi-x-square"></i>
-            </a>
-          )}
-        </div>
-      )}
-      {content}
-    </div>
-  );
-};
-
 let keys = `${accountId ?? "*"}/type/*`;
 
 if (tag) {
@@ -65,7 +18,7 @@ if (tag) {
     .flat();
 
   if (!keys.length) {
-    return render(`No widgets found by tag #${tag}`);
+    return render(`No types found by tag #${tag}`);
   }
 }
 
@@ -95,21 +48,15 @@ const processData = (data) => {
   return allItems;
 };
 
-const renderTag = (tag, tagBadge) => (
-  <a href={makeLink(accountId, tag)}>{tagBadge}</a>
-);
-
 const renderItem = (a) => {
   return (
     <div className="mb-3" key={JSON.stringify(a)} style={{ minHeight: "10em" }}>
       <Widget
-        src="mob.near/widget/WidgetMetadata"
+        src="efiz.near/widget/every.type.metadata"
         props={{
           accountId: a.accountId,
           widgetName: a.typeName,
           blockHeight: a.blockHeight,
-          renderTag,
-          profileLink: makeLink(a.accountId, tag),
         }}
       />
     </div>
@@ -123,9 +70,31 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
   });
 }
 
-return render(
-  <Widget
-    src="mob.near/widget/ItemFeed"
-    props={{ items: state.allItems || [], renderItem }}
-  />
+return (
+  <div className="px-2 mx-auto" style={{ maxWidth: "42em" }}>
+    {(accountId || tag) && (
+      <div className="mb-2">
+        Filter:
+        {accountId && (
+          <a className="btn btn-outline-primary">
+            <Widget
+              src="mob.near/widget/ProfileLine"
+              props={{ accountId, link: false }}
+            />
+            <i className="bi bi-x-square"></i>
+          </a>
+        )}
+        {tag && (
+          <a className="btn btn-outline-primary">
+            <span className="badge text-bg-secondary">#{tag}</span>
+            <i className="bi bi-x-square"></i>
+          </a>
+        )}
+      </div>
+    )}
+    <Widget
+      src="mob.near/widget/ItemFeed"
+      props={{ items: state.allItems || [], renderItem }}
+    />
+  </div>
 );
