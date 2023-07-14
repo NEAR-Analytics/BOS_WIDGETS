@@ -2,6 +2,8 @@ const issuer = props.issuer ?? "community.i-am-human.near";
 const title = props.title ?? "NDC SBTs";
 const showProgress = props.showProgress ?? true;
 const showDropdown = props.showDropdown ?? true;
+const showHeader = props.showHeader ?? true;
+
 State.init({
   read_index: 0,
   tokens: [],
@@ -103,10 +105,13 @@ const Members = () => (
 
 return (
   <div>
-    <Widget
-      src="ndcplug.near/widget/NDC.Common.SimpleHeader"
-      props={{ title: state.title }}
-    />
+    {showHeader && (
+      <Widget
+        src="ndcplug.near/widget/NDC.Common.SimpleHeader"
+        props={{ title: state.title }}
+      />
+    )}
+
     {showProgress && (
       <Widget
         src="ndcplug.near/widget/NDC.Common.ProgressMeter"
@@ -121,9 +126,10 @@ return (
     )}
 
     <h3>Total Holders: {state.tokens.length}</h3>
-    <label>Choose A NDC Community SBT 🛡️ Badge</label>
     {showDropdown && (
       <div>
+        <label>Choose A NDC Community SBT 🛡️ Badge</label>
+
         <div className="sbt">
           <select
             className="form-select"
