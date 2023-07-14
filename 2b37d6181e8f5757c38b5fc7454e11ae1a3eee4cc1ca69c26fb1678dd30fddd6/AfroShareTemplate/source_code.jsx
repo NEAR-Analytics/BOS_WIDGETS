@@ -65,14 +65,14 @@ return (
         Afromentors
       </h1>
       <p
-        style={{
-          textAlign: "center",
-          fontFamily: "Inter",
-          fontSize: "18px",
-          color: "#777",
-          fontWeight: "normal",
-          letterSpacing: "0",
-        }}
+        style="text-align: justify;
+           text-justify: inter-word;
+           textAlign: center;
+           fontFamily: Inter;
+           fontSize: 18px;
+           color: #777;
+           fontWeight: normal;
+           letterSpacing: 0;"
       >
         Connecting members of the Afropolitan community with relevant teachers,
         mentors, and seminars, Afromentors gives Afropolitan NFT holders
