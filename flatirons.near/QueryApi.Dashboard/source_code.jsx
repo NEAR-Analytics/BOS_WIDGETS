@@ -386,7 +386,7 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              console.log("url", location, window.location);
+              console.log("url", history.pushState, window.history.pushState);
               window.history.pushState(
                 {},
                 "Editor",
@@ -405,7 +405,7 @@ return (
           <TabsButton
             type="button"
             onClick={() => {
-              console.log("url", location, window.location);
+              console.log("url", history.pushState, window.history.pushState);
               window.history.pushState(
                 {},
                 "Indexer Status",
