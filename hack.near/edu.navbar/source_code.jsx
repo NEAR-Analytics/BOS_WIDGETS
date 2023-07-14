@@ -7,6 +7,7 @@ return (
   <div className="d-flex flex-column">
     <Widget src="mob.near/widget/Profile" props={{ accountId: daoId }} />
     <br />
+    <hr />
     <a
       className="nav-link mt-2"
       href={`https://near.social/#/${ownerId}/widget/edu.library?tab=home`}
