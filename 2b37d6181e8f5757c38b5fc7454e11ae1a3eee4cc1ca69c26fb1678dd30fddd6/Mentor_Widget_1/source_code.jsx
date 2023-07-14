@@ -119,7 +119,7 @@ return (
         letterSpacing: "-1px",
       }}
     >
-      Beverly Winters Molecular Science
+      Dr. Beverly Winters: Pathology and Radiology Presentation and Networking
     </h3>
     <p
       style={{
