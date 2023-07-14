@@ -11,10 +11,9 @@ const mainPartForSharingGig =
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 if (sharedArticleId === article.articleId && sharedArticleId) {
-  console.log(sharedArticleId, sharedArticleId);
+  console.log(sharedArticleId, sharedArticleId, article.articleId);
   State.init({ showModal: true, copiedShareUrl: false });
 } else {
-  console.log(sharedArticleId, sharedArticleId);
   State.init({ showModal: false, copiedShareUrl: false });
 }
 
