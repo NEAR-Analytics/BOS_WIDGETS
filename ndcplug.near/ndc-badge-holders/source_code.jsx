@@ -24,25 +24,7 @@ State.update({ sbtList: sbtList });
 if (!state.sbtList) {
   return "⧗ Loading  SBT List...";
 }
-const handleIssuerChange = (e) => {
-  State.update({ issuer: e.target.value });
-  console.log("Issuer Address: " + state.issuer);
-  loadHolders();
-};
 
-const handleSbtChange = (e) => {
-  State.update({
-    issuer: sbtList
-      .filter((sbt) => sbt.title === e.target.value)
-      .map((el) => el.address)[0],
-  });
-  console.log(
-    sbtList
-      .filter((sbt) => sbt.title === e.target.value)
-      .map((el) => el.address)[0]
-  );
-  loadHolders();
-}; // need to change this around
 // if (state.read_index != -1) {
 //   const tokens = Near.view("registry.i-am-human.near", "sbt_tokens", {
 //     issuer: state.issuer,
@@ -85,14 +67,29 @@ function loadHolders() {
   renderHolders();
 }
 loadHolders();
+const handleIssuerChange = (e) => {
+  State.update({ issuer: e.target.value });
+  console.log("Issuer Address: " + state.issuer);
+  loadHolders();
+};
+
+const handleSbtChange = (e) => {
+  State.update({
+    issuer: sbtList
+      .filter((sbt) => sbt.title === e.target.value)
+      .map((el) => el.address)[0],
+  });
+  console.log("New Issuer based on SBT change " + state.issuer);
+  loadHolders();
+}; // need to change this around
 
 console.log(tokens.length); // put in progress meter
 
 return (
   <div>
-    <h1>NDC {state.collectionName} SBT Holders:</h1>
+    <h1>NDC SBT Holders:</h1>
     <label>Choose A NDC Community SBT Badge</label>
-    <div className="charities">
+    <div className="sbt">
       <select
         className="form-select"
         aria-label="select asset"
