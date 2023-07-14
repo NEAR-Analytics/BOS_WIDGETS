@@ -109,6 +109,7 @@ const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
+    <h1> test text </h1>
     <h3 className="text-center mb-3">Token Gated Event</h3>
     <p className="text-center">
       This event is gated by a token. You must own or be renting the token to be
