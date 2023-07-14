@@ -42,6 +42,6 @@ return (
     </button>
     <br></br>
 
-    <iframe iframeresizer src="https://near.org" />
+    <iframe iframeResizer src="https://www.near.org" />
   </>
 );
