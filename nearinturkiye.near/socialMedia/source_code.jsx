@@ -40,9 +40,8 @@ return (
     <button OnClick="https://twitter.com/TwitterDev?ref_src=twsrc%5Etfw">
       NEAR Türkiye Youtube
     </button>
+    <br></br>
 
-    <div>
-      <iframe iframeResizer src="https://medium.com/@nearprotocolturkey" />
-    </div>
+    <iframe width="100%" height="100%" src="https://coin-net.com" />
   </>
 );
