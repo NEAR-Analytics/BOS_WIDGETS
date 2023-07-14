@@ -1,6 +1,7 @@
 const issuer = props.issuer ?? "community.i-am-human.near";
 const title = props.title ?? "NDC SBTs";
-const showProgress = props.showProgress ?? false;
+const showProgress = props.showProgress ?? true;
+const showDropdown = props.showDropdown ?? true;
 State.init({
   read_index: 0,
   tokens: [],
@@ -121,35 +122,39 @@ return (
 
     <h3>Total Holders: {state.tokens.length}</h3>
     <label>Choose A NDC Community SBT 🛡️ Badge</label>
-    <div className="sbt">
-      <select
-        className="form-select"
-        aria-label="select asset"
-        onChange={handleSbtChange}
-      >
-        <option selected disabled>
-          {" "}
-          Select a badge
-        </option>
-        {sbtList &&
-          sbtList.map((sbt) => (
-            <option value={sbt.title} selected={sbt.selected}>
-              {sbt.title}
+    {showDropdown && (
+      <div>
+        <div className="sbt">
+          <select
+            className="form-select"
+            aria-label="select asset"
+            onChange={handleSbtChange}
+          >
+            <option selected disabled>
+              {" "}
+              Select a badge
             </option>
-          ))}
-        // add receiver logic here
-      </select>
-    </div>
-    <div className="balance input-group">
-      <input
-        style={{ maxWidth: "100%" }}
-        type="string"
-        defaultValue={state.issuer} // feel like this wrong
-        value={state.issuer}
-        placeholder={state.issuer}
-        onChange={handleIssuerChange}
-      />
-    </div>
+            {sbtList &&
+              sbtList.map((sbt) => (
+                <option value={sbt.title} selected={sbt.selected}>
+                  {sbt.title}
+                </option>
+              ))}
+            // add receiver logic here
+          </select>
+        </div>
+        <div className="balance input-group">
+          <input
+            style={{ maxWidth: "100%" }}
+            type="string"
+            defaultValue={state.issuer} // feel like this wrong
+            value={state.issuer}
+            placeholder={state.issuer}
+            onChange={handleIssuerChange}
+          />
+        </div>
+      </div>
+    )}
     <ol>
       <Members />
     </ol>
