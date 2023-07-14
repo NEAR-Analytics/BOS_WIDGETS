@@ -110,7 +110,7 @@ const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div className="The image">
-      <img src="https://imgur.com/a/Eku3DEU"> </img>
+      <img src="https://imgur.com/a/eS3ZwgH"> </img>
     </div>
     <h3
       style={{
@@ -122,7 +122,7 @@ return (
         letterSpacing: "-1px",
       }}
     >
-      Dr. Beverly Winters: Getting Started in Medicine
+      Dr. Beverley Winters: Getting Started in Medicine
     </h3>
     <p
       style={{
