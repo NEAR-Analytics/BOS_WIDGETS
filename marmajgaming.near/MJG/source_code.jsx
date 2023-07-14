@@ -31,8 +31,6 @@ const ResponsiveContainer = styled.div`
 
 return (
   <ResponsiveContainer>
-    <h5>Components can be composed</h5>
-    <hr />
     <Widget src="jay100.near/widget/MJG" />
   </ResponsiveContainer>
 );
