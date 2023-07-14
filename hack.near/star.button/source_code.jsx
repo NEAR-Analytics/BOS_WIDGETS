@@ -11,7 +11,7 @@ const starEdge = Social.keys(
   }
 );
 
-const starred = starEdge && Object.keys(starEdge).length;
+const starred = starEdge && Object.keys(starEdge).length > 0;
 
 const type = starred ? "unstar" : "star";
 
@@ -40,7 +40,7 @@ return (
     className="btn btn-outline-secondary"
     data={data}
   >
-    <i className={`bi ${starred ? "bi-star" : "bi-star-fill"}`} />
+    <i className={`bi ${starred ? "bi-star-fill" : "bi-star"}`} />
     <span style={{ marginLeft: "0.2rem" }}>{starred ? "Starred" : "Star"}</span>
   </CommitButton>
 );
