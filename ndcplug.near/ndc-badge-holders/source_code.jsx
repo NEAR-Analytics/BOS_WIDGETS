@@ -100,7 +100,7 @@ return (
   <div>
     <Widget
       src="ndcplug.near/widget/NDC.Common.SimpleHeader"
-      props={{ title: "NDC OG Holders" }}
+      props={{ title: "NDC SBT Holders" }}
     />
     <Widget
       src="ndcplug.near/widget/NDC.Common.ProgressMeter"
