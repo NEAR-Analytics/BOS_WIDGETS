@@ -74,13 +74,10 @@ return (
           letterSpacing: "0",
         }}
       >
-        Afromentors is a platform that connects aspiring individuals with
-        experienced mentors from the African diaspora. Our mission is to empower
-        and support individuals in achieving their goals by providing guidance,
-        knowledge, and inspiration through mentorship. With a diverse community
-        of mentors, Afromentors offers a wide range of expertise across various
-        fields, including entrepreneurship, technology, arts, and more. Join us
-        today and embark on a transformative journey towards success!
+        A platform connecting members of the Afropolitan community with relevant
+        mentors, teachers, and seminars, Afromentors allows NFT holders
+        tight-knit learning and networking while allowing teachers to be
+        compensated for their expertise. Current NFT holders
       </p>
     </div>
     {state.loading && (
