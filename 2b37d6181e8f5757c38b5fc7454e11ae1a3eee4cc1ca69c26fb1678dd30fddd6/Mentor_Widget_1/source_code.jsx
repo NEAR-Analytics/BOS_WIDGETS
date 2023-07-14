@@ -121,7 +121,16 @@ return (
     >
       Token Gated Event
     </h3>
-    <p className="text-center">
+    <p
+      style={{
+        textAlign: "center",
+        fontFamily: "Inter",
+        fontSize: "18px",
+        color: "#777",
+        fontWeight: "normal",
+        letterSpacing: "0",
+      }}
+    >
       This event is gated by a token. You must own or be renting the token to be
       able to attend.
     </p>
