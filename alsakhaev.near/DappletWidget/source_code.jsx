@@ -1,3 +1,3 @@
 const ctx = JSON.parse(props.ctx);
 
-return <button>{ctx.authorUsername}</button>;
+return <button onClick={() => console.log(ctx)}>{ctx.authorUsername}</button>;
