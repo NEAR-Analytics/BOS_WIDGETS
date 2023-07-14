@@ -58,7 +58,7 @@ return (
           fontFamily: "Arial, sans-serif",
           fontSize: "36px",
           color: "#333",
-          textShadow: "2px 2px 4px #888",
+          //textShadow: "2px 2px 4px #888",
           letterSpacing: "2px",
           marginTop: "50px",
         }}
