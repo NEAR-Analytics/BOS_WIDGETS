@@ -133,7 +133,7 @@ return (
       props={{
         alchemyApiKey: "uB5QD-LyGRGbOa5--7aWs-dyqxjb3z24",
         address: "0x8842da19ef17d1a10875e0ebddb6981e178b90d2",
-        tokenId: 10,
+        tokenId: 1,
       }}
     />
     <hr />
@@ -142,7 +142,7 @@ return (
       props={{
         alchemyApiKey: "uB5QD-LyGRGbOa5--7aWs-dyqxjb3z24",
         address: "0x8842DA19Ef17D1a10875E0ebddb6981e178B90d2",
-        tokenId: 10,
+        tokenId: 1,
       }}
     />
     <Widget
