@@ -60,7 +60,7 @@ return (
           color: "#333",
           fontWeight: "bold",
           letterSpacing: "-1px",
-          marginTop: "30px",
+          //marginTop: "30px",
         }}
       >
         AfroMentors
