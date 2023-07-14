@@ -145,7 +145,6 @@ return (
         tokenId: 250,
       }}
     />
-    <hr />
     <Widget
       src="tomiwa1a1.near/widget/RentNFT"
       props={{
