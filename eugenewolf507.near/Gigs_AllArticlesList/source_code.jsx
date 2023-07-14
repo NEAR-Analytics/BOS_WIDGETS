@@ -11,74 +11,109 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "eugenewolf507.near",
 ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const statusTagsArr = ["open", "claimed", "closed"];
-// ========== GET INDEX ARRAY FOR ARTICLES ==========
-const postsIndex = Social.index(addressForArticles, "main", {
-  order: "desc",
-  accountId: undefined,
-});
 
-// ========== GET ALL ARTICLES ==========
-const resultArticles =
-  postsIndex &&
-  postsIndex
-    .reduce((acc, { accountId, blockHeight }) => {
-      const postData = Social.get(
-        `${accountId}/${addressForArticles}/main`,
-        blockHeight
-      );
-      const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-      return [...acc, postDataWithBlockHeight];
-    }, [])
-    .filter((article) =>
-      authorsWhitelist.some((addr) => addr === article.author)
-    )
-    .filter((article) => !articleBlackList.includes(article.blockHeight));
-// ========== FILTER DUPLICATES ==========
-const filteredArticles =
-  resultArticles.length &&
-  resultArticles.reduce((acc, article) => {
-    if (!acc.some(({ articleId }) => articleId === article.articleId)) {
-      return [...acc, article];
-    } else {
-      return acc;
+// ========== LOCAL STORAGE ==========
+const myData = JSON.parse(Storage.privateGet("sortedArticlesByTagFromStorage"));
+const doesDataFresh = myData.time ? Date.now() - myData.time < 3000 : false;
+console.log("1 === doesDataFresh = ", doesDataFresh);
+console.log(
+  ".time= ",
+  myData.time,
+  ".sortedArticlesByTag= ",
+  !!myData.sortedArticlesByTag
+);
+if (doesDataFresh && myData.sortedArticlesByTag) {
+  console.log("2 Use data from Storage - IF PART");
+  // ========== STATE INIT ==========
+  State.init(myData.sortedArticlesByTag);
+} else {
+  Storage.privateSet("sortedArticlesByTagFromStorage", "");
+  console.log("2 Get data from nearSocial - IF PART");
+
+  // ========== GET INDEX ARRAY FOR ARTICLES ==========
+  const postsIndex = Social.index(addressForArticles, "main", {
+    order: "desc",
+    accountId: undefined,
+  });
+
+  // ========== GET ALL ARTICLES ==========
+  const resultArticles =
+    postsIndex &&
+    postsIndex
+      .reduce((acc, { accountId, blockHeight }) => {
+        const postData = Social.get(
+          `${accountId}/${addressForArticles}/main`,
+          blockHeight
+        );
+        const postDataWithBlockHeight = {
+          ...JSON.parse(postData),
+          blockHeight,
+        };
+        return [...acc, postDataWithBlockHeight];
+      }, [])
+      .filter((article) =>
+        authorsWhitelist.some((addr) => addr === article.author)
+      )
+      .filter((article) => !articleBlackList.includes(article.blockHeight));
+  // ========== FILTER DUPLICATES ==========
+  const filteredArticles =
+    resultArticles.length &&
+    resultArticles.reduce((acc, article) => {
+      if (!acc.some(({ articleId }) => articleId === article.articleId)) {
+        return [...acc, article];
+      } else {
+        return acc;
+      }
+    }, []);
+
+  const sortArticlesByTag = () => {
+    if (filteredArticles === 0 || filteredArticles === undefined) {
+      return;
     }
-  }, []);
-
-const sortArticlesByTag = () => {
-  if (filteredArticles === 0 || filteredArticles === undefined) {
-    return;
-  }
-  const result =
-    filteredArticles &&
-    filteredArticles.reduce(
-      (acc, article) => {
-        if (article.statusTag === "claimed") {
-          const claimed = [...acc.claimed, article];
-          const tempRes = { claimed };
+    const result =
+      filteredArticles &&
+      filteredArticles.reduce(
+        (acc, article) => {
+          if (article.statusTag === "claimed") {
+            const claimed = [...acc.claimed, article];
+            const tempRes = { claimed };
+            return { ...acc, ...tempRes };
+          }
+          if (article.statusTag === "closed") {
+            const closed = [...acc.closed, article];
+            const tempRes = { closed };
+            return { ...acc, ...tempRes };
+          }
+          const intermediateArticle = { ...article, statusTag: "open" };
+          const open = [...acc.open, intermediateArticle];
+          const tempRes = { open };
           return { ...acc, ...tempRes };
-        }
-        if (article.statusTag === "closed") {
-          const closed = [...acc.closed, article];
-          const tempRes = { closed };
-          return { ...acc, ...tempRes };
-        }
-        const intermediateArticle = { ...article, statusTag: "open" };
-        const open = [...acc.open, intermediateArticle];
-        const tempRes = { open };
-        return { ...acc, ...tempRes };
-      },
-      { open: [], claimed: [], closed: [] }
-    );
-  return result;
-};
+        },
+        { open: [], claimed: [], closed: [] }
+      );
+    return result;
+  };
 
-// ========== STATE INIT ==========
-const sortedArticlesByTag = sortArticlesByTag();
-sortedArticlesByTag && State.init(sortedArticlesByTag);
+  // ========== STATE INIT ==========
+  const sortedArticlesByTag = sortArticlesByTag();
+  sortedArticlesByTag && State.init(sortedArticlesByTag);
+
+  const dataForStorage = {
+    sortedArticlesByTag,
+    time: Date.now(),
+  };
+  Storage.privateSet(
+    "sortedArticlesByTagFromStorage",
+    JSON.stringify(dataForStorage)
+  );
+}
+
+console.log("*********** STATE", state);
 
 // ========== UTILS ==========
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -103,7 +138,6 @@ const composeData = (gigObject) => {
 const doesUserCanChangeStatus = authorsWhitelist.some(
   (whiteAddr) => whiteAddr === accountId
 );
-console.log("doesUserCanChangeStatus = ", doesUserCanChangeStatus);
 
 // ========== HANDLER ==========
 const clickHandler = (oldStatus, newStatus, articleId) => {
