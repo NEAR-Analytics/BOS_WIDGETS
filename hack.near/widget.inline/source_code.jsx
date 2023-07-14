@@ -91,6 +91,18 @@ const Card = styled.div`
   padding: 23px;
 `;
 
+const StarButton = styled.div`
+  position: absolute;
+  top: 23px;
+  right: 18px;
+`;
+
+const ForkButton = styled.div`
+  position: absolute;
+  bottom: 23px;
+  right: 18px;
+`;
+
 return (
   <Card>
     <div className="m-1 mb-3 text-truncate">
@@ -131,5 +143,14 @@ return (
         />
       </small>
     </div>
+    <StarButton>
+      <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
+    </StarButton>
+    <ForkButton>
+      <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
+        <i className="bi bi-git me-1"></i>
+        {accountId === context.accountId ? "edit" : "fork"}
+      </a>
+    </ForkButton>
   </Card>
 );
