@@ -71,6 +71,11 @@ const Theme = styled.div`
   background-size: cover;
   background-color: #0D0E20;
 
+  .swap-main-column {
+    padding-top: 0 !important;
+    margin-top: -16px !important;
+  }
+
   .bridge-abs {
     ${buttonStyled}
     position: absolute;
@@ -95,10 +100,21 @@ const Theme = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .center {
+    > div {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
   }
 
   .apps {
-    width: 380px;
+    min-width: 380px;
+    max-width: 500px;
 
     .grid {
       display: flex;
@@ -318,7 +334,12 @@ return (
           ) : (
             <>
               {component === "quickswap" && (
-                <Widget src="zavodil.near/widget/swap-zkevm" />
+                <Widget
+                  src="zavodil.near/widget/swap-zkevm"
+                  props={{
+                    dex: "QuickSwap",
+                  }}
+                />
               )}
 
               {component === "aave" && (
