@@ -1,14 +1,3 @@
-let greeting = "Bizi Near Social'da takip etmeyi unutma :)";
-return (
-  <>
-    <div class="container border border-info p-3 text-center">
-      <h1>Welcome to Near Türkyiye {props.name}</h1>
-
-      <p> {greeting} </p>
-    </div>
-  </>
-);
-
 State.init({ img: null });
 
 const uploadFileUpdateState = (body) => {
