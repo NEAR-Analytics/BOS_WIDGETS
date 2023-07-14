@@ -31,7 +31,7 @@ const thumb = (imageUrl) =>
 
 return image?.nft?.contractId && image.nft.tokenId ? (
   <Widget
-    src="mob.near/widget/NftImage"
+    src="andyh.near/widget/NftImage"
     props={{
       className,
       style,
