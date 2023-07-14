@@ -117,6 +117,7 @@ return (
         </a>
       </HeaderButtonsContainer>
     </Hero>
+    <Widget src="nearefi.near/widget/ReFi.Home.apps" />
     <Widget src="nearefi.near/widget/ReFi.Home.orgs" />
     <Widget src="nearefi.near/widget/ReFi.footer.main" />
   </>
