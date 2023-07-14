@@ -1,7 +1,8 @@
+const issuer = props.issuer ?? "community.i-am-human.near";
 State.init({
   read_index: 0,
   tokens: [],
-  issuer: "community.i-am-human.near",
+  issuer: issuer,
   sbtList: [],
 });
 // TO-DO
