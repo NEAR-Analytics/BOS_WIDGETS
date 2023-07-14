@@ -29,26 +29,26 @@ const postsIndex = Social.index(addressForArticles, "main", {
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
-  postsIndex.reduce((acc, { accountId, blockHeight }) => {
-    const postData = Social.get(
-      `${accountId}/${addressForArticles}/main`,
-      blockHeight
-    );
-    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-    return [...acc, postDataWithBlockHeight];
-  }, []);
+  postsIndex
+    .reduce((acc, { accountId, blockHeight }) => {
+      const postData = Social.get(
+        `${accountId}/${addressForArticles}/main`,
+        blockHeight
+      );
+      const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+      return [...acc, postDataWithBlockHeight];
+    }, [])
+    .filter((article) => !articleBlackList.includes(article.blockHeight));
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
-  resultArticles
-    .reduce((acc, article) => {
-      if (!acc.some(({ articleId }) => articleId === article.articleId)) {
-        return [...acc, article];
-      } else {
-        return acc;
-      }
-    }, [])
-    .filter((article) => !articleBlackList.includes(article.blockHeight));
+  resultArticles.reduce((acc, article) => {
+    if (!acc.some(({ articleId }) => articleId === article.articleId)) {
+      return [...acc, article];
+    } else {
+      return acc;
+    }
+  }, []);
 
 const filteredArticlesByTag =
   filteredArticles.length &&
