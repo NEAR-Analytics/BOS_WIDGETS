@@ -9,6 +9,9 @@ const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
+if (state.showModal) {
+  console.log("BEFORE", article.articleId, state);
+}
 
 if (sharedArticleId === article.articleId && sharedArticleId) {
   console.log("TRUE ", sharedArticleId, sharedArticleId, article.articleId);
