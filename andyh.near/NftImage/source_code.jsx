@@ -33,9 +33,10 @@ const tokenMetadata =
   nft.tokenMetadata ??
   Near.view(contractId, "nft_token", {
     token_id: tokenId,
-  })?.metadata;
+  }).metadata;
 
 let imageUrl = null;
+
 if (nftMetadata && tokenMetadata) {
   let tokenMedia = tokenMetadata.media || "";
 
