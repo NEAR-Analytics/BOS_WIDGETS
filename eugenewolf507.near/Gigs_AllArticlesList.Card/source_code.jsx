@@ -1,6 +1,7 @@
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 State.init({ showModal: false, copiedShareUrl: false });
+console.log(article.articleId, state);
 const authorForWidget = "eugenewolf507.near";
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
