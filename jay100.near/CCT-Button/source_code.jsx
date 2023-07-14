@@ -53,8 +53,8 @@ const GameButton = () => {
 	        display: inline-block;
 	        position: relative;
 	        text-align: center;
-	        font-size: 30px;
-	        padding: 20px;
+	        font-size: 1rem;
+	        padding: 1rem;
 	        font-family: 'Press Start 2P', cursive;
 	        text-decoration: none;
 	        color: white;
@@ -112,7 +112,7 @@ const GameButton = () => {
     <div>
       <div style={{ backgroundColor: "white" }} className="d-flex">
         <iframe
-          style={{ height: "20vh", width: "100%" }}
+          style={{ height: "30vh", width: "100%" }}
           srcDoc={code}
           message={{ data: data || "No Data" }}
         />
