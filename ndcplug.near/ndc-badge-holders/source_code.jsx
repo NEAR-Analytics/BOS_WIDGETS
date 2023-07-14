@@ -4,11 +4,10 @@ State.init({
   issuer: "community.i-am-human.near",
   sbtList: [],
 });
-
-// issuer.regens.near, community.i-am-human.near, fractal.i-am-human.near, issuer.proofofvibes.near
-// add conditional dropdown
+// TO-DO
+// add conditional dropdown, add search, add icons on dropdown // add total holders
 // future add classes
-// add drop down
+
 // add custom
 
 // Load badge helper functions
@@ -102,6 +101,7 @@ return (
       src="ndcplug.near/widget/NDC.Common.SimpleHeader"
       props={{ title: "NDC OG SBT Holders" }}
     />
+    <h3>Total Holders: {state.tokens.length}</h3>
     <label>Choose A NDC Community SBT Badge</label>
     <div className="sbt">
       <select
