@@ -112,6 +112,7 @@ return (
         title: "NDC OG Holders",
       }}
     />
+    <h3>Total Holders: {state.tokens.length}</h3>
     <label>Choose A NDC Community SBT 🛡️ Badge</label>
     <div className="sbt">
       <select
