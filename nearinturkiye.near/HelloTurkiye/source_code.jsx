@@ -23,11 +23,10 @@ return (
     <>
       <div class="container border border-info p-3 text-center">
         <h1>
-          Welcome to Near Türkiye, upload an image and proove your humanity
+          Welcome to Near Türkiye
           {props.name}
         </h1>
-
-        <p> {greeting} </p>
+        <h2>upload an image and proove your humanity</h2>
       </div>
     </>
     {state.img ? (
