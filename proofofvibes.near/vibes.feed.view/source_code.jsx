@@ -4,7 +4,7 @@ return (
   <>
     {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
       <Widget
-        src="efiz.near/widget/Community.Posts.Compose"
+        src="proofofvibes.near/widget/vibes.post.create"
         props={{
           allowPublicPosting: true,
           embedHashtags: data.hashtagWhitelist,
