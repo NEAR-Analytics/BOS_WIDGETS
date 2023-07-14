@@ -1,5 +1,6 @@
+const tab = props.tab ?? "og";
 State.init({
-  selectedTab: props.tab || "og",
+  selectedTab: tab,
 });
 
 // const accountId = props.accountId ?? context.accountId;
