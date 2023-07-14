@@ -81,7 +81,7 @@ function composeData() {
 
 function onCommit() {
   State.update({
-    image: {},
+    images: [],
     text: "",
   });
 }
@@ -462,7 +462,12 @@ return (
               />
             </Avatar>
             <Textarea data-value={state.text}>
-              <div>
+              <div
+                style={{
+                  background:
+                    "linear-gradient(to top, #f7f7f7 0%, #fff 50%, #f7f7f7 100%)",
+                }}
+              >
                 <div>
                   <div>
                     Search & Post Gifs
@@ -508,7 +513,6 @@ return (
                   </div>
                 </div>
               </div>
-              <hr />
               <textarea
                 placeholder="What the dog doin'?"
                 onInput={(event) => textareaInputHandler(event.target.value)}
