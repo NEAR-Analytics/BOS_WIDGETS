@@ -1,9 +1,11 @@
 const issuer = props.issuer ?? "community.i-am-human.near";
+const title = props.title ?? "NDC SBTs";
 State.init({
   read_index: 0,
   tokens: [],
   issuer: issuer,
   sbtList: [],
+  title: title,
 });
 // TO-DO
 // add conditional dropdown, add search, add icons on dropdown // add total holders
@@ -101,7 +103,7 @@ return (
   <div>
     <Widget
       src="ndcplug.near/widget/NDC.Common.SimpleHeader"
-      props={{ title: "NDC SBT Holders" }}
+      props={{ title: state.title }}
     />
     <Widget
       src="ndcplug.near/widget/NDC.Common.ProgressMeter"
