@@ -292,7 +292,7 @@ const indexerView = (accountId, indexerName) => {
     "_"
   )}`;
 
-  const updateViewUrl = (tab) => {
+  const updateViewUrl = function (tab) {
     window.location.search = window.location.search.replace(
       "view=w+-w+",
       `view=${tab}`
