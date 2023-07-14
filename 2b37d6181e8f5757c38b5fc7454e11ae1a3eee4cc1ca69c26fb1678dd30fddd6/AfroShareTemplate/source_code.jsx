@@ -101,8 +101,7 @@ return (
         {loginButton}
       </>
     )}
-    // <hr />
-    //{" "}
+    <hr />{" "}
     <Widget
       src="tomiwa1a1.near/widget/RentNFT"
       props={{
