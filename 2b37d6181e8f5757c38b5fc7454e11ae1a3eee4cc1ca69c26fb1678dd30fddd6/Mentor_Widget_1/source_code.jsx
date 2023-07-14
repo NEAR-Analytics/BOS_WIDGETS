@@ -104,15 +104,13 @@ const lockedEventImage = (
   <img src={state.token.media[0].gateway} width={300} alt={state.token.title} />
 );
 
-const lockedImage = "https://i.imgur.com/EsThDIl.jpg";
+const lockedImage = "https://pasteboard.co/ov0QqqVG1lQs.png";
 const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div className="The image">
-      <a href="https://pasteboard.co/ov0QqqVG1lQs.png">
-        <img src="https://pasteboard.co/ov0QqqVG1lQs.png" />
-      </a>
+      <img src="https://pasteboard.co/ov0QqqVG1lQs.png" />
     </div>
     <h3
       style={{
