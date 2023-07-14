@@ -119,7 +119,7 @@ return (
         letterSpacing: "-1px",
       }}
     >
-      Token Gated Event
+      Beverly Winters Molecular Science
     </h3>
     <p
       style={{
@@ -131,8 +131,7 @@ return (
         letterSpacing: "0",
       }}
     >
-      This event is gated by a token. You must own or be renting the token to be
-      able to attend.
+      Dr. Beverly Winters gives a synopsis of the 10 best molecules
     </p>
     <div className="container">
       <div className="card shadow-sm">
