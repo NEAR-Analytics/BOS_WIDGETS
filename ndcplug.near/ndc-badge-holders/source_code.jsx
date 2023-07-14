@@ -87,7 +87,10 @@ console.log(tokens.length); // put in progress meter
 
 return (
   <div>
-    <h1>NDC SBT Holders:</h1>
+    <Widget
+      src="ndcplug.near/widget/NDC.Common.SimpleHeader"
+      props={{ title: "NDC OG SBT Holders" }}
+    />
     <label>Choose A NDC Community SBT Badge</label>
     <div className="sbt">
       <select
