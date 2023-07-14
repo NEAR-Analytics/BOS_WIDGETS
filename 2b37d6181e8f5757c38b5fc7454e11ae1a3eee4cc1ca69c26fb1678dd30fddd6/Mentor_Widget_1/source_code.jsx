@@ -112,7 +112,7 @@ return (
     <div className="The image">
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIFkJhfFnsBV7-Q-0v7mWIr7GCRKMsXdFCQQ&usqp=CAU"
-        style={{ width: "300px", height: "300px" }}
+        style={{ width: "200px", height: "200px" }}
       />
     </div>
     <h3
