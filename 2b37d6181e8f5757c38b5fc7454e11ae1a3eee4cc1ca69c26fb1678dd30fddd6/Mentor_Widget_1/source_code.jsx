@@ -109,10 +109,10 @@ const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    /*{" "}
+    /*
     <div className="The image">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIFkJhfFnsBV7-Q-0v7mWIr7GCRKMsXdFCQQ&usqp=CAU" />
-    </div>{" "}
+    </div>
     */
     <h3
       style={{
