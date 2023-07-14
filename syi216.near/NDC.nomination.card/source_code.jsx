@@ -758,7 +758,7 @@ const DropdownContainerHover = styled.div`
 `;
 
 const Separation = styled.div`
-    margin-top: -200px;
+    margin-top: -180px;
     width: 200px;
     position: absolute;
   }
