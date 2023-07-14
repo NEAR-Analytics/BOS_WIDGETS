@@ -1,6 +1,8 @@
 const accountId = props.accountId;
-const typeName = props.typeName;
+const typeName = props.typeName || "type";
 const tag = props.tag;
+const metadataTemplate =
+  props.metadataTemplate || "efiz.near/widget/every.type.metadata";
 
 let keys = `${accountId ?? "*"}/${typeName}/*`;
 
@@ -27,6 +29,7 @@ if (tag) {
 
 const data = Social.keys(keys, "final", {
   return_type: "BlockHeight",
+  limit: 1,
 });
 
 if (data === null) {
