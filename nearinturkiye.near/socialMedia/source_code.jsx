@@ -23,6 +23,8 @@ return (
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
 
-    <button OnClick=" location.href='link.html' ">Visit Page Now</button>
+    <button OnClick=" location.href='https://www.google.com' ">
+      Visit Page Now
+    </button>
   </>
 );
