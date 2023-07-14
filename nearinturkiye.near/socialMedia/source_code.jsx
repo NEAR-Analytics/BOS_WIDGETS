@@ -42,15 +42,7 @@ return (
     </button>
 
     <div>
-      <iframe
-        iframeResizer={{
-          onResized: ({ width, height }) => {
-            console.log("iframe resized", width, height);
-          },
-        }}
-        onLoad={() => console.log("iframe loaded")}
-        src="https://near.social/#/mob.near/widget/ProfilePage?accountId=nearinturkiye.near"
-      />
+      <iframe iframeResizer src="https://medium.com/@nearprotocolturkey" />
     </div>
   </>
 );
