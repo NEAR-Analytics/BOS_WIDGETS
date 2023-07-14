@@ -43,7 +43,6 @@ return (
           initialText: textAreaText,
           onChange: (textAreaText) => State.update({ textAreaText }),
         }}
-        onBlur={stateUpdate({ note: textAreaText })}
       />
     </div>
     <div className="w-50">
