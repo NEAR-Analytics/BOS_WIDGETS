@@ -361,6 +361,13 @@ const indexerView = (accountId, indexerName) => {
   );
 };
 
+console.log(
+  "top url",
+  history.pushState,
+  window.history.pushState,
+  window.location.href
+);
+
 return (
   <Wrapper negativeMargin={state.activeTab === "indexers"}>
     <Tabs>
