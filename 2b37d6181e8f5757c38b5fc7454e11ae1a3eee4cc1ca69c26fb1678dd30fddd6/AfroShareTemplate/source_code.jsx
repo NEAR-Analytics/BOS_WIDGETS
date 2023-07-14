@@ -55,7 +55,7 @@ return (
       <h1
         style={{
           textAlign: "center",
-          fontFamily: "Cursive, sans-serif",
+          fontFamily: "Inter",
           fontSize: "40px",
           color: "#333",
           fontWeight: "bold",
