@@ -1,7 +1,8 @@
 //======= Get props =======
 const defaultStateUpdate = (obj) => State.update(obj);
 console.log(props.state ? "si" : "no");
-const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
+const stateUpdate = props.stateUpdate;
+stateUpdate({ debug: "Entré" });
 
 const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
