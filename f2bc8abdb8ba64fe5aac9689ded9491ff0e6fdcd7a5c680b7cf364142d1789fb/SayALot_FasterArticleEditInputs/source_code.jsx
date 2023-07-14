@@ -1,8 +1,6 @@
 //======= Get props =======
 const defaultStateUpdate = (obj) => State.update(obj);
-console.log(props.state ? "si" : "no");
-const stateUpdate = props.stateUpdate;
-stateUpdate({ debug: "Entré" });
+const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
 const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
@@ -45,7 +43,8 @@ return (
         src="mob.near/widget/MarkdownEditorIframe"
         props={{
           initialText: textAreaText,
-          onChange: (textAreaText) => stateUpdate({ textAreaText }),
+          onChange: (textAreaText) =>
+            stateUpdate({ textAreaText: textAreaText }),
         }}
       />
     </div>
@@ -59,7 +58,7 @@ return (
             // console.log(filterTagsFromNull(tags));
             // Next line is from parent widget. Not sure what it was used for.
             // state.tags = filterTagsFromNull(tags);
-            stateUpdate({ tags });
+            stateUpdate({ tags: tags });
           },
         }}
       />
