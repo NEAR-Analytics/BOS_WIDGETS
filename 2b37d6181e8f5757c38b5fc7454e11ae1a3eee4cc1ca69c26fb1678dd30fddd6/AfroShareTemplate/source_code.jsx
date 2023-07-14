@@ -52,7 +52,9 @@ loadNFT();
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div classname="random thing">
-      <<h1 style="text-align: center; font-family: Arial, sans-serif; font-size: 36px; color: #333; text-shadow: 2px 2px 4px #888; letter-spacing: 2px; margin-top: 50px;">Welcome to Our Website</h1>
+      <h1 style="text-align: center; font-family: Arial, sans-serif; font-size: 36px; color: #333; text-shadow: 2px 2px 4px #888; letter-spacing: 2px; margin-top: 50px;">
+        Welcome to Our Website
+      </h1>
     </div>
     {state.loading && (
       <>
