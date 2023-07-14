@@ -1,13 +1,31 @@
 const data = props.data;
-const typeWhitelist = JSON.stringify(data.typeWhitelist);
-const key = data.key;
 
 return (
   <>
+    {JSON.stringify(data.typeWhitelist) === JSON.stringify(["md"]) ? (
+      <Widget
+        src={data.composeTemplate || "efiz.near/widget/Community.Posts.Compose"}
+        props={{
+          allowPublicPosting: true,
+          embedHashtags: data.hashtagWhitelist,
+          embedMentions: data.embedMentions,
+        }}
+      />
+    ) : (
+      <></>
+    )}
     <Widget
-      src="efiz.near/widget/Every.Post.Create"
-      props={{ typeWhitelist, key }}
+      src="efiz.near/widget/every.post"
+      props={{
+        sources: data.sources,
+        typeWhitelist: data.typeWhitelist,
+        hashtagWhitelist: data.hashtagWhitelist,
+        hashtagBlacklist: data.hashtagBlacklist,
+        accountWhitelist: data.accountWhitelist,
+        accountBlacklist: data.accountBlacklist,
+        disableCaching: data.disableCaching,
+        postTemplate: data.postTemplate,
+      }}
     />
-    <Widget src="efiz.near/widget/Every.Post" props={{ typeWhitelist, key }} />
   </>
 );
