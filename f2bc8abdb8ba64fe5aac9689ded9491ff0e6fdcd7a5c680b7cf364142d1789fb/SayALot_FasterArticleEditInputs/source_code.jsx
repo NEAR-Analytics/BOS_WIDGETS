@@ -33,6 +33,8 @@ const getTagObjectfromArray = (tagArray) => {
 //   return result;
 // };
 
+console.log(state.note);
+
 //======= Render =======
 return (
   <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
@@ -41,7 +43,7 @@ return (
         src="mob.near/widget/MarkdownEditorIframe"
         props={{
           initialText: textAreaText,
-          onChange: (textAreaText) => State.update({ textAreaText }),
+          onChange: (textAreaText) => stateUpdate({ textAreaText }),
         }}
       />
     </div>
