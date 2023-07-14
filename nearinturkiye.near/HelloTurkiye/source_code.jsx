@@ -19,7 +19,17 @@ const filesOnChange = (files) => {
 };
 
 return (
+
   <div className="d-inline-block">
+        <>
+   
+
+     <div class="container border border-info p-3 text-center">
+      <h1>Welcome to Near Türkiye {props.name}</h1>
+
+      <p> {greeting} </p>
+    </div>
+      </>
     {state.img ? (
       <img
         class="rounded w-100 h-100"
@@ -41,4 +51,9 @@ return (
       {state.img?.uploading ? <> Uploading </> : "Upload an Image"}
     </Files>
   </div>
+);
+
+let greeting = "Bizi Near Social'da takip etmeyi unutma :)";
+return (
+
 );
