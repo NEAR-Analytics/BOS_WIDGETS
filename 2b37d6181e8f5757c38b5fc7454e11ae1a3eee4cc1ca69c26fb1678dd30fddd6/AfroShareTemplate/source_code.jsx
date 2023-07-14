@@ -52,7 +52,19 @@ loadNFT();
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div classname="random thing">
-      <h1 className="text-center mb-3"> big text </h1>
+      <title>Stylish Title Heading</title>
+  <style>
+    /* Add some styles for the title heading */
+    .title-heading {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 36px;
+      color: #333;
+      text-shadow: 2px 2px 4px #888;
+      letter-spacing: 2px;
+      margin-top: 50px;
+    }
+  </style>
     </div>
     {state.loading && (
       <>
