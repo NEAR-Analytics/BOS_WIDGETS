@@ -1,5 +1,4 @@
 State.init({ showModal: false, copiedShareUrl: false });
-console.log(article.articleId, state.showModal);
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 
@@ -8,13 +7,17 @@ const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const statusTagsArr = props.statusTagsArr;
 const sharedArticleId = props.sharedArticleId;
+const closeAllModals = props.closeAllModals;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
+if (closeAllModals) {
+  State.update({ showModal: true });
+}
 if (sharedArticleId === article.articleId && sharedArticleId) {
-  State.update({ showModal: true, copiedShareUrl: false });
+  State.update({ showModal: true });
 }
 //else {
 //   State.init({ showModal: false, copiedShareUrl: false });
