@@ -3,7 +3,7 @@ if (!context.accountId) {
 }
 
 State.init({
-  images: [],
+  image: {},
   text: "",
   showPreview: false,
   isVisible: isVisible,
@@ -14,9 +14,7 @@ const autocompleteEnabled = true;
 
 const content = {
   type: "md",
-  images: Object.values(state).map((image) =>
-    image.cid ? { ipfs_cid: image.cid } : undefined
-  ),
+  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
 };
 
@@ -81,7 +79,7 @@ function composeData() {
 
 function onCommit() {
   State.update({
-    images: [],
+    image: {},
     text: "",
   });
 }
@@ -513,6 +511,7 @@ return (
                   </div>
                 </div>
               </div>
+
               <textarea
                 placeholder="What the dog doin'?"
                 onInput={(event) => textareaInputHandler(event.target.value)}
@@ -571,7 +570,7 @@ return (
           <Actions>
             {!state.showPreview && (
               <IpfsImageUpload
-                image={state.images}
+                image={state.image}
                 className="upload-image-button bi bi-image"
               />
             )}
