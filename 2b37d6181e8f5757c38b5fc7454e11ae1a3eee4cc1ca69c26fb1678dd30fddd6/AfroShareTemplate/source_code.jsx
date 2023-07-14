@@ -60,10 +60,10 @@ return (
           color: "#333",
           fontWeight: "bold",
           letterSpacing: "-1px",
-          marginTop: "50px",
+          marginTop: "30px",
         }}
       >
-        Welcome to Our Website
+        AfroMentors
       </h1>
     </div>
     {state.loading && (
