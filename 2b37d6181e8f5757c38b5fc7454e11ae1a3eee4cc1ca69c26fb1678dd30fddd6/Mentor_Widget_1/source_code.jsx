@@ -119,7 +119,7 @@ return (
         letterSpacing: "-1px",
       }}
     >
-      Dr. Beverly Winters: Pathology and Radiology Presentation and Networking
+      Dr. Beverly Winters: Getting Started in Medicine
     </h3>
     <p
       style={{
@@ -131,8 +131,10 @@ return (
         letterSpacing: "0",
       }}
     >
-      7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Dr. Beverly Winters gives a
-      synopsis of the 10 best molecules
+      7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Dr. Beverly Winters, chair of
+      Yale University's Pathology and Blood Medicine Department, shares advice
+      on medical school applications and what to expect for your first few years
+      in the medical field
     </p>
     <div className="container">
       <div className="card shadow-sm">
