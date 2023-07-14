@@ -42,20 +42,17 @@ return image?.nft?.contractId && image.nft.tokenId ? (
     }}
   />
 ) : (
-  <>
-    <img
-      className={className}
-      style={style}
-      src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
-      alt={alt}
-      onError={() => {
-        if (state.imageUrl !== fallbackUrl) {
-          State.update({
-            imageUrl: fallbackUrl,
-          });
-        }
-      }}
-    />
-    hi!
-  </>
+  <img
+    className={className}
+    style={style}
+    src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+    alt={alt}
+    onError={() => {
+      if (state.imageUrl !== fallbackUrl) {
+        State.update({
+          imageUrl: fallbackUrl,
+        });
+      }
+    }}
+  />
 );
