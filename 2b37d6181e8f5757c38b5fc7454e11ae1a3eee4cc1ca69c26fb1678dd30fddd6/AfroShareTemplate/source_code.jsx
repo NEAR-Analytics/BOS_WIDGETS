@@ -126,13 +126,5 @@ return (
       }}
     />
     <hr />
-    <Widget
-      src="tomiwa1a1.near/widget/TransferNFT"
-      props={{
-        alchemyApiKey: "uB5QD-LyGRGbOa5--7aWs-dyqxjb3z24",
-        address: "0x8842da19ef17d1a10875e0ebddb6981e178b90d2",
-        tokenId: 250,
-      }}
-    />
   </div>
 );
