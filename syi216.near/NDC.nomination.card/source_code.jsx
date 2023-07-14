@@ -758,10 +758,9 @@ const DropdownContainerHover = styled.div`
 `;
 
 const Separation = styled.div`
-    padding-top: 10px;
+    padding-top: -100px;
     width: 200px;
     position: absolute;
-    bottom: 270px;
   }
 `;
 
