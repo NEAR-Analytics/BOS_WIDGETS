@@ -2,8 +2,6 @@
 const defaultStateUpdate = (obj) => State.update(obj);
 const stateUpdate = props.stateUpdate ?? defaultStateUpdate;
 
-const isOverSaveButton = props.isOverSaveButton;
-console.log(isOverSaveButton ? "si" : "no");
 const articleTags = props.articleTags ?? [];
 const textAreaInitialText = props.firstTextareaText ?? "";
 const isDebug = props.isDebug;
@@ -35,58 +33,98 @@ const getTagObjectfromArray = (tagArray) => {
 //   return result;
 // };
 
-console.log(state.note);
+if (state.isOverSaveButton) {
+  stateUpdate({ note: state.textAreaText, tags: state.tags });
+}
 
 //======= Render =======
 return (
-  <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-    <div className="w-50">
-      <Widget
-        src="mob.near/widget/MarkdownEditorIframe"
-        props={{
-          initialText: state.textAreaText,
-          onChange: (textAreaText) => State.update({ textAreaText }),
-        }}
-      />
-    </div>
-    <div className="w-50">
-      <Widget
-        src="mob.near/widget/TagsEditor"
-        props={{
-          initialTagsObject: getTagObjectfromArray(articleTags),
-          placeholder: "Input tags",
-          setTagsObject: (tags) => {
-            // console.log(filterTagsFromNull(tags));
-            // Next line is from parent widget. Not sure what it was used for.
-            // state.tags = filterTagsFromNull(tags);
-            stateUpdate({ tags: tags });
-          },
-        }}
-      />
+  <>
+    {/* === BUTTON - EDIT ARTICLE === */}
+    <div className="d-flex justify-content-center w-100">
+      <button
+        type="button"
+        className="btn btn-outline-success mx-1"
+        style={{ minWidth: "120px" }}
+        onClick={saveHandler}
+        onMouseEnter={() => State.update({ overSaveButton: true })}
+        onMouseLeave={() => State.update({ overSaveButton: false })}
+      >
+        {state.saving && (
+          <div
+            className="spinner-border text-secondary"
+            style={{ height: "1rem", width: "1rem" }}
+            role="status"
+          >
+            <span className="sr-only" title="Loading..."></span>
+          </div>
+        )}
+        Save Article
+      </button>
 
-      <Widget
-        src="mob.near/widget/SocialMarkdown"
-        props={{
-          text: state.textAreaText,
-          onHashtag: (hashtag) => (
-            <span
-              key={hashtag}
-              className="d-inline-flex"
-              style={{ fontWeight: 500 }}
-            >
-              <a
-                href={
-                  isDebug
-                    ? `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
-                    : `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}`
-                }
-              >
-                #{hashtag}
-              </a>
-            </span>
-          ),
+      <button
+        type="button"
+        className="btn btn-outline-danger mx-1"
+        style={{ minWidth: "120px" }}
+        onClick={() => {
+          State.update({
+            editArticle: false,
+          });
         }}
-      />
+      >
+        Close
+      </button>
     </div>
-  </div>
+    <hr />
+    <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
+      <div className="w-50">
+        <Widget
+          src="mob.near/widget/MarkdownEditorIframe"
+          props={{
+            initialText: state.textAreaText,
+            onChange: (textAreaText) => State.update({ textAreaText }),
+          }}
+        />
+      </div>
+      <div className="w-50">
+        <Widget
+          src="mob.near/widget/TagsEditor"
+          props={{
+            initialTagsObject: getTagObjectfromArray(articleTags),
+            placeholder: "Input tags",
+            setTagsObject: (tags) => {
+              // console.log(filterTagsFromNull(tags));
+              // Next line is from parent widget. Not sure what it was used for.
+              // state.tags = filterTagsFromNull(tags);
+              State.update({ tags });
+            },
+          }}
+        />
+
+        <Widget
+          src="mob.near/widget/SocialMarkdown"
+          props={{
+            text: state.textAreaText,
+            onHashtag: (hashtag) => (
+              <span
+                key={hashtag}
+                className="d-inline-flex"
+                style={{ fontWeight: 500 }}
+              >
+                <a
+                  href={
+                    isDebug
+                      ? `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
+                      : `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}`
+                  }
+                >
+                  #{hashtag}
+                </a>
+              </span>
+            ),
+          }}
+        />
+      </div>
+    </div>
+  </>
 );
