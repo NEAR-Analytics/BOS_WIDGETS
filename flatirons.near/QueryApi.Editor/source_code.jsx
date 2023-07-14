@@ -3,10 +3,7 @@ const tab = props.tab || "";
 const REGISTRY_CONTRACT_ID =
   props.REGISTRY_CONTRACT_ID || "queryapi.dataplatform.near";
 let accountId = props.accountId || context.accountId;
-let externalAppUrl =
-  props.EXTERNAL_APP_URL || "https://queryapi-frontend-24ktefolwq-ew.a.run.app";
-externalAppUrl += `/${path}?accountId=${accountId}`;
-// let externalAppUrl = `http://localhost:3000/${path}?accountId=${accountId}`;
+let externalAppUrl = `http://localhost:3000/${path}?accountId=${accountId}`;
 
 if (props.indexerName) {
   externalAppUrl += `&indexerName=${props.indexerName}`;
@@ -27,7 +24,9 @@ const registerFunctionHandler = (request, response) => {
   const { indexerName, code, schema, blockHeight, contractFilter } =
     request.payload;
 
-  const jsonFilter = `{"indexer_rule_kind":"Action","matching_rule":{"rule":"ACTION_ANY","affected_account_id":"${contractFilter || "social.near"}","status":"SUCCESS"}}`
+  const jsonFilter = `{"indexer_rule_kind":"Action","matching_rule":{"rule":"ACTION_ANY","affected_account_id":"${
+    contractFilter || "social.near"
+  }","status":"SUCCESS"}}`;
 
   Near.call(
     REGISTRY_CONTRACT_ID,
@@ -37,7 +36,7 @@ const registerFunctionHandler = (request, response) => {
       code,
       schema,
       start_block_height: blockHeight,
-      filter_json: jsonFilter 
+      filter_json: jsonFilter,
     },
     gas
   );
