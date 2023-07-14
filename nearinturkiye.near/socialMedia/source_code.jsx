@@ -23,15 +23,21 @@ return (
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
 
-    <button OnClick=" location.href='https://www.google.com' ">
+    <button OnClick="location.href='https://www.twitter.com/near_turkey' ">
       NEAR Türkiye Twitter
     </button>
+    <br></br>
+    <br></br>
     <button OnClick=" location.href='https://www.google.com' ">
       NEAR Türkiye Telegram
     </button>
+    <br></br>
+    <br></br>
     <button OnClick=" location.href='https://www.google.com' ">
       NEAR Türkiye Near Social
     </button>
+    <br></br>
+    <br></br>
     <button OnClick=" location.href='https://www.google.com' ">
       NEAR Türkiye Youtube
     </button>
