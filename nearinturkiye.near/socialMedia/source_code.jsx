@@ -42,7 +42,15 @@ return (
     </button>
 
     <div>
-      <iframe iframeResizer={{ log: true }} src="https://coin-net.com" />
+      <iframe
+        iframeResizer={{
+          onResized: ({ width, height }) => {
+            console.log("iframe resized", width, height);
+          },
+        }}
+        onLoad={() => console.log("iframe loaded")}
+        src="https://near.social/#/mob.near/widget/ProfilePage?accountId=nearinturkiye.near"
+      />
     </div>
   </>
 );
