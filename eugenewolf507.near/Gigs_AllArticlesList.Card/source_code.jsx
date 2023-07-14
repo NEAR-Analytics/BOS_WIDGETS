@@ -17,6 +17,7 @@ if (sharedArticleId === article.articleId && sharedArticleId) {
   State.init({ showModal: false, copiedShareUrl: false });
 }
 
+console.log(article.articleId, state);
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
