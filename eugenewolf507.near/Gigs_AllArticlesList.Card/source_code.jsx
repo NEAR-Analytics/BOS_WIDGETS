@@ -1,5 +1,5 @@
 State.init({ showModal: false, copiedShareUrl: false });
-console.log(article.articleId, state);
+console.log(article.articleId, state.showModal);
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 
