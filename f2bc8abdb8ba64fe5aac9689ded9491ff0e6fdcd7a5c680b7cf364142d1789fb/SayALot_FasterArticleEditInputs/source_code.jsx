@@ -42,7 +42,7 @@ return (
       <Widget
         src="mob.near/widget/MarkdownEditorIframe"
         props={{
-          initialText: textAreaText,
+          initialText: state.textAreaText,
           onChange: (textAreaText) =>
             stateUpdate({ textAreaText: textAreaText }),
         }}
