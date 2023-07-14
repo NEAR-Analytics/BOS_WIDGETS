@@ -131,8 +131,8 @@ return (
         letterSpacing: "0",
       }}
     >
-      7/15 <br /> 6:00 - 8:00 PM E.S.T. <br /> Dr. Beverly Winters gives a
-      synopsis of the 10 best molecules
+      7/15 <br /> 6:00 - 8:00 PM EST <br /> Dr. Beverly Winters gives a synopsis
+      of the 10 best molecules
     </p>
     <div className="container">
       <div className="card shadow-sm">
