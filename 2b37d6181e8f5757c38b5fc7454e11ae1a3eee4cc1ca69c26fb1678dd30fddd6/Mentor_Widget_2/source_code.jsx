@@ -101,28 +101,57 @@ const loginButton = (
 );
 
 const lockedEventImage = (
-  <img src={state.token.media[0].gateway} width={300} alt={state.token.title} />
+  <img src={state.token.media[0].gateway} width={200} alt={state.token.title} />
 );
 
-const lockedImage = "https://i.imgur.com/EsThDIl.jpg";
-const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
+const lockedImage = "https://cdn-icons-png.flaticon.com/512/44/44594.png";
+const unlockedImage =
+  "https://www.blackdoctors.us/cdn-cgi/imagedelivery/n12z2FIWKA5iB6vfvG4ygw/Shawanica-Roberts-649eb334c0f97/public";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <h3 className="text-center mb-3">Token Gated Event</h3>
-    <p className="text-center">
-      This event is gated by a token. You must own or be renting the token to be
-      able to attend.
-    </p>
     <div className="container">
       <div className="card shadow-sm">
         <div className="card-body">
+          <h3
+            style={{
+              textAlign: "center",
+              fontFamily: "Inter",
+              fontSize: "30px",
+              color: "#333",
+              fontWeight: "bold",
+              letterSpacing: "-1px",
+            }}
+          >
+            Dr. Beverley Winters: Getting Started in Medicine
+          </h3>
+          <p
+            style={{
+              textAlign: "center",
+              fontFamily: "Inter",
+              fontSize: "18px",
+              color: "#777",
+              fontWeight: "normal",
+              letterSpacing: "0",
+            }}
+          >
+            7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Seminar, Networking{" "}
+            <br /> Dr. Beverley Winters, chair of Yale University's Pathology
+            Department, shares advice on medical school applications and what to
+            expect for your first few years in the field
+          </p>
           <img
             src={state.eventUnlocked ? unlockedImage : lockedImage}
-            width={300}
+            width={200}
             alt={state.token.title}
           />
           {unlockButton}
+
+          {state.eventUnlocked && (
+            <a href="https://mattkotzbauer.com" target="_blank">
+              <p>Event Unlocked! Click to access</p>
+            </a>
+          )}
 
           {state.loading && (
             <>
