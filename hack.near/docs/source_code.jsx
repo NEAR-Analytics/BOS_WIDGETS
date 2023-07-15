@@ -275,7 +275,7 @@ return (
           </div>
         </div>
         <p class="text">
-          Learn how to build the blockchain operating system together!
+          Everyone can build the blockchain operating system together!
         </p>
         {renderContent}
       </div>
