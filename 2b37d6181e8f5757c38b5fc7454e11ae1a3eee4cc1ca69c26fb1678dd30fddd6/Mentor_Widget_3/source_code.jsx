@@ -135,10 +135,12 @@ return (
               letterSpacing: "0",
             }}
           >
-            7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Seminar, Networking{" "}
-            <br /> Dr. Beverley Winters, chair of Yale University's Pathology
-            Department, shares advice on medical school applications and what to
-            expect for your first few years in the field
+            7/18/2023 <br /> 1:00 - 3:00 PM EST <br /> Nonprofit,
+            Entrepreneurship
+            <br /> Steven White, a nonprofit-sector entrepreneur who has
+            recently raised $10M+ for his newest nonprofit FoodRelief, speaks on
+            nonprofit filing, zero-to-nothing traction, and purpose-based
+            entrepreneurship.
           </p>
           <img
             src={state.eventUnlocked ? unlockedImage : lockedImage}
@@ -149,7 +151,7 @@ return (
 
           {state.eventUnlocked && (
             <a href="https://mattkotzbauer.com" target="_blank">
-              <p>Event Unlocked! Click to access</p>
+              <p>Event Unlocked - Access Here</p>
             </a>
           )}
 
