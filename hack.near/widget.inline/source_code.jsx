@@ -126,36 +126,38 @@ return (
         </StarButton>
       </div>
     </div>
-    <div className="card-text">
-      <div className="m-2 position-relative">
-        <h5 className="card-title mb-2">
-          <a className="stretched-link" href={`#/${widgetPath}`}>
-            {name}
-          </a>
-        </h5>
-      </div>
-      <a
-        href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
-        className="btn btn-sm btn-outline-secondary border-0"
-        target="_blank"
-      >
-        <i className="bi bi-code me-1"></i>source
-      </a>
-      <a
-        href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
-        className="btn btn-sm btn-outline-secondary border-0"
-        target="_blank"
-      >
-        <i className="bi bi-clock me-1"></i>history
-      </a>
-    </div>
-    <div className="d-flex flex-column align-items-end">
-      <ForkButton>
-        <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
-          <i className="bi bi-git me-1"></i>
-          {accountId === context.accountId ? "edit" : "fork"}
+    <div className="m-2 position-relative">
+      <h5 className="card-title mb-2">
+        <a className="stretched-link" href={`#/${widgetPath}`}>
+          {name}
         </a>
-      </ForkButton>
+      </h5>
+    </div>
+    <div className="row">
+      <div className="col-auto">
+        <a
+          href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+          className="btn btn-sm btn-outline-secondary border-0"
+          target="_blank"
+        >
+          <i className="bi bi-code me-1"></i>source
+        </a>
+        <a
+          href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
+          className="btn btn-sm btn-outline-secondary border-0"
+          target="_blank"
+        >
+          <i className="bi bi-clock me-1"></i>history
+        </a>
+      </div>
+      <div className="col-auto d-flex flex-column align-items-end">
+        <ForkButton>
+          <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
+            <i className="bi bi-git me-1"></i>
+            {accountId === context.accountId ? "edit" : "fork"}
+          </a>
+        </ForkButton>
+      </div>
     </div>
   </Card>
 );
