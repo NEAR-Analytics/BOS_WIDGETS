@@ -95,8 +95,7 @@ return (
         props={{ accountId: "build.sputnik-dao.near" }}
       />
     </div>
-    <br />
-    <div className="m-3">
+    <div className="m-4">
       <h5>Explore Projects</h5>
       <Widget
         src="hack.near/widget/widget.search"
