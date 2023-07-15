@@ -261,7 +261,10 @@ return (
           </Footer>
         </>
       ) : (
-        <Widget src="every.near/widget/every.type.create" />
+        <Widget
+          src="every.near/widget/every.type.create"
+          props={{ typeSrc: state.selectedType }}
+        />
       )}
     </SidePanel>
     <MainContent>
