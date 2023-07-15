@@ -8,7 +8,7 @@ return content ? (
         <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
       ) : (
         <Widget
-          src="mob.near/widget/SocialMarkdown"
+          src="sharddog.near/widget/SocialMarkdown"
           props={{
             text: content.text,
             onHashtag: (hashtag) => (
