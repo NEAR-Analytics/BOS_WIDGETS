@@ -30,11 +30,13 @@ const sbtMint = () => {
     {
       contractName: state.issuer,
       methodName: "sbt_mint",
-      receiver: receiver,
-      metadata: {
-        class: 1,
+      args: {
+        receiver: state.receiver,
+        metadata: {
+          class: 1,
+        },
+        reference: reference,
       },
-      reference: reference,
       gas: gas,
       deposit: deposit,
     },
