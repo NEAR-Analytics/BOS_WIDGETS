@@ -108,7 +108,7 @@ return (
   <Card>
     <div className="row mb-2">
       <div className="col-6">
-        <div className="m-1 mb-3 text-truncate">
+        <div className="m-2 mb-3 text-truncate">
           <Widget
             src="mob.near/widget/Profile"
             props={{ accountId, link: props.profileLink }}
@@ -127,7 +127,7 @@ return (
       </div>
     </div>
     <div className="m-3">
-      <h5 className="card-title mb-3 mt-2">
+      <h5 className="card-title mb-2 mt-3">
         <a className="stretched-link" href={`#/${widgetPath}`}>
           {name}
         </a>
