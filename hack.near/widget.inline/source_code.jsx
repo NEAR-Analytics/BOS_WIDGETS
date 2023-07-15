@@ -1,3 +1,17 @@
+const Container = styled.div`
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media (max-width: 576px) {
+    .profile-image {
+      width: 160px;
+      height: 160px;
+    }
+  }
+`;
+
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const code = props.code;
 const starCount = props.starCount;
@@ -96,12 +110,27 @@ const StarButton = styled.div`
   position: absolute;
   top: 23px;
   right: 18px;
+  z-index: 1;
+  cursor: pointer;
 `;
 
 const ForkButton = styled.div`
   position: absolute;
   bottom: 23px;
   right: 18px;
+  z-index: 1;
+  cursor: pointer;
+`;
+
+const ButtonLink = styled.a`
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #212529;
+
+  &:hover {
+    color: #212529;
+  }
 `;
 
 return (
@@ -128,27 +157,25 @@ return (
     </div>
     <div className="m-2">
       <h5 className="card-title mb-2 mt-3">
-        <a className="stretched-link" href={`#/${widgetPath}`}>
-          {name}
-        </a>
+        <a href={`#/${widgetPath}`}>{name}</a>
       </h5>
     </div>
     <div className="row mt-4 mb-3">
       <div className="col-auto">
-        <a
-          href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
-          className="btn btn-sm btn-outline-secondary border-0"
-          target="_blank"
-        >
-          <i className="bi bi-code me-1"></i>source
-        </a>
-        <a
-          href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
-          className="btn btn-sm btn-outline-secondary border-0"
-          target="_blank"
-        >
-          <i className="bi bi-clock me-1"></i>history
-        </a>
+        <div>
+          <ButtonLink
+            href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+            target="_blank"
+          >
+            <i className="bi bi-code me-1"></i>source
+          </ButtonLink>
+          <ButtonLink
+            href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
+            target="_blank"
+          >
+            <i className="bi bi-clock me-1"></i>history
+          </ButtonLink>
+        </div>
       </div>
       <div className="col-auto d-flex flex-column align-items-end">
         <ForkButton>
