@@ -13,15 +13,15 @@ const Separator = styled.div`
 `;
 
 const Desc = styled.div`
-  text-align: center;
+  text-align: start;
   color: #777;
   font-size: 14px;
-  height: 400px;
+  height: 200px;
 `;
 
-const Benefit = styled.div`
+const Price = styled.div`
   font-size: 14px;
-  color: #1890FF;
+  color: #a08f2e;
   margin: 10px 0;
 `;
 
@@ -55,9 +55,9 @@ function Recharge(props) {
           <Separator />
           <Desc>{item.desc}</Desc>
           <Separator />
-          <Benefit>{item.benefit}</Benefit>
+          <Price>{item.price}</Price>
           <Separator />
-          <Button>充值</Button>
+          <Button>Buy now</Button>
         </RechargeItem>
       ))}
     </div>
@@ -68,16 +68,24 @@ return (
     <Recharge
       items={[
         {
-          title: "免费获取",
-          desc: "参加每个月的Community Call可以获得POAP, 每个POAP自动充值30天的使用权",
+          title: "Free way",
+          desc: "By participating in the monthly Community Calls, you can earn a POAP. Each POAP automatically recharges 30 days of usage rights.",
+          price: "price: 5 NEAR",
         },
         {
-          title: "月卡",
-          desc: "购买月卡可以享受全站70%折扣",
+          title: "30 days",
+          desc: "Purchase 30 days of service for this product",
+          price: "price: 5 NEAR",
         },
         {
-          title: "季卡",
-          desc: "购买季卡免费获得xxx课程",
+          title: "90 days",
+          desc: "Purchase 90 days of service for this product. Enjoy a 10% discount!",
+          price: "price: 13.5 NEAR",
+        },
+        {
+          title: "360 days",
+          desc: "Purchase 360 days of service for this product. Enjoy a 20% discount!",
+          price: "price: 48 NEAR",
         },
         {
           title: "终身会员NFT",
