@@ -181,7 +181,6 @@ return (
     {isUserRegistered ? (
       <>
         <Widget src="jay100.near/widget/PlayerDashboard" />
-        // <Widget src="jay100.near/widget/CTT-Button" />
       </>
     ) : (
       <Widget src="jay100.near/widget/CTT-Button" />
