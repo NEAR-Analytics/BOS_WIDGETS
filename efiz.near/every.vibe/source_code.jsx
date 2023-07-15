@@ -13,7 +13,7 @@ return (
         typeWhitelist: ["md"],
         embedMentions: mentions,
         postTemplate: "efiz.near/widget/every.vibe.view",
-        composeTemplate: "efiz.near/widget/Community.Posts.Compose",
+        composeTemplate: "efiz.near/widget/every.vibe.create",
       },
     }}
   />
