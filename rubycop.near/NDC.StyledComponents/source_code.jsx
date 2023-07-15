@@ -12,7 +12,7 @@ const StyledButton = styled.button`
     background: #FFD50D;
 
     &:hover {
-      background: #D9B50B;
+      background: #E7C211;
     }
 
     &.dark {
@@ -20,7 +20,7 @@ const StyledButton = styled.button`
       background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
 
       &:hover {
-        background: linear-gradient(90deg, #5D2193 0%, #2F2A87 100%);
+        background: linear-gradient(90deg, #792AC0 0%, #423ABD 100%);
       }
     }
 
