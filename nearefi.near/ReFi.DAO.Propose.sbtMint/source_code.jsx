@@ -3,6 +3,8 @@ const daoId = props.daoId ?? "refi.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
 const receiver = props.receiver ?? "daoshe.near";
 const showReciever = props.showReciever ?? true;
+const showIssuer = props.showIssuer ?? true;
+const showReference = props.showReference ?? true;
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
@@ -15,6 +17,7 @@ if (profile === null) {
 State.init({
   receiver: receiver,
   issuer: issuer,
+  reference: reference,
 });
 const changeReceiver = (receiver) => {
   State.update({
@@ -223,6 +226,8 @@ return (
         />
       </div>
     )}
+    {showReference && <div className="input-group"></div>}
+    {showIssuer && <div className="input-group"></div>}
     <ButtonWrapper>
       <button className="join-button" onClick={handleProposal}>
         Propose to Mint SBT
