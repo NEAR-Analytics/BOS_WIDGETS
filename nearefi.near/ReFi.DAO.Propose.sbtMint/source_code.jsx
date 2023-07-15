@@ -41,14 +41,21 @@ const changeReceiver = (receiver) => {
 //   },
 // });
 
+// const post_args = JSON.stringify({
+//   data: {
+//     receiver: state.receiver,
+//     metadata: {
+//       class: 1,
+//     },
+//     reference: reference,
+//   },
+// });
 const post_args = JSON.stringify({
-  data: {
-    receiver: state.receiver,
-    metadata: {
-      class: 1,
-    },
-    reference: reference,
+  receiver: state.receiver,
+  metadata: {
+    class: 1,
   },
+  reference: reference,
 });
 
 const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
@@ -64,7 +71,7 @@ const handleProposal = () => {
           description: "create proposal to mint SBT",
           kind: {
             FunctionCall: {
-              receiver_id: issuer,
+              receiver_id: state.issuer,
               actions: [
                 {
                   method_name: "sbt_mint",
@@ -240,11 +247,7 @@ return (
       </div>
     )}
     <ButtonWrapper>
-      <button
-        className="join-button"
-        onClick={handleProposal}
-        disabled={!state.text}
-      >
+      <button className="join-button" onClick={handleProposal}>
         Propose to Mint SBT
       </button>
     </ButtonWrapper>
