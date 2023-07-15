@@ -1,84 +1,4 @@
-const daoId = props.daoId ?? "build.sputnik-dao.near";
-const code = props.code;
-const starCount = props.starCount;
-
-const policy = Near.view(daoId, "get_policy");
-
-const deposit = policy.proposal_bond;
-
-const widgetPath = props.widgetPath ?? "mob.near/widget/WidgetSource";
-const [accountId, widget, widgetName] = widgetPath.split("/");
-
-const blockHeight = props.blockHeight;
-const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
-const renderTag = props.renderTag;
-
-const name = metadata.name ?? widgetName;
-const image = metadata.image;
-
-const item = {
-  type: "dev",
-  path: widgetPath,
-  blockHeight,
-};
-
-const widget_args = JSON.stringify({
-  data: {
-    [daoId]: {
-      widget: {
-        [`${widgetName}`]: {
-          "": `${code}`,
-        },
-      },
-    },
-  },
-});
-
-const proposal_args = Buffer.from(widget_args, "utf-8").toString("base64");
-
-const handleProposal = () => {
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "update widget",
-          kind: {
-            FunctionCall: {
-              receiver_id: "social.near",
-              actions: [
-                {
-                  method_name: "set",
-                  args: proposal_args,
-                  deposit: "50000000000000000000000",
-                  gas: "30000000000000",
-                },
-              ],
-            },
-          },
-        },
-      },
-      deposit: deposit,
-      gas: "219000000000000",
-    },
-  ]);
-};
-
-const handleCreate = () =>
-  Social.set({
-    widget: {
-      [`${widgetName}`]: {
-        "": `${code}`,
-        metadata: {
-          tags: {
-            build: "",
-          },
-        },
-      },
-    },
-  });
-
+const accountId = "hack.near";
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -90,6 +10,7 @@ const Card = styled.div`
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 23px;
+  margin: 8px;
 `;
 
 const StarButton = styled.div`
@@ -106,11 +27,11 @@ const ForkButton = styled.div`
 
 return (
   <Card>
-    <div className="row">
+    <div className="row m-2">
       <div className="col-8">
         <div className="m-1 mb-3 text-truncate">
           <Widget
-            src="mob.near/widget/ProfileLine"
+            src="near/widget/AccountProfile"
             props={{ accountId, link: props.profileLink }}
           />
         </div>
@@ -140,7 +61,7 @@ return (
           </a>
           <div className="mt-1">
             <small className="text-nowrap text-muted">
-              latest update:
+              updated:
               <i className="bi bi-hourglass me-1"></i>
               <Widget
                 src="mob.near/widget/TimeAgo"
@@ -154,22 +75,22 @@ return (
           </div>
         </div>
       </div>
-    </div>
-    <div className="col-3">
-      <StarButton>
-        {starCount && (
-          <h5>
-            {starCount} builder{starCount !== 1 && "s"}
-          </h5>
-        )}
-        <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
-      </StarButton>
-      <ForkButton>
-        <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
-          <i className="bi bi-git me-1"></i>
-          {accountId === context.accountId ? "edit" : "fork"}
-        </a>
-      </ForkButton>
+      <div className="col-4 d-flex flex-column align-items-end">
+        <StarButton>
+          {starCount && (
+            <h5>
+              {starCount} builder{starCount !== 1 && "s"}
+            </h5>
+          )}
+          <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
+        </StarButton>
+        <ForkButton>
+          <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
+            <i className="bi bi-git me-1"></i>
+            {accountId === context.accountId ? "edit" : "fork"}
+          </a>
+        </ForkButton>
+      </div>
     </div>
   </Card>
 );
