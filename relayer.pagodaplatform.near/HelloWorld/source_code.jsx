@@ -18,8 +18,10 @@ const getNftContract = async () => {
     nftCollectionABI,
     signer
   );
-  const response = await nftContract.balanceOf(sender);
-  console.log(response);
+  nftContract
+    .balanceOf(sender)
+    .then((res) => console.log(res))
+    .catch((error) => console.log(error));
 };
 
 return (
