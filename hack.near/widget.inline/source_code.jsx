@@ -134,7 +134,7 @@ return (
       </h5>
     </div>
     <div className="row m-1">
-      <div className="col-auto">
+      <div className="col-6">
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
           className="btn btn-sm btn-outline-secondary border-0"
@@ -150,7 +150,7 @@ return (
           <i className="bi bi-clock me-1"></i>history
         </a>
       </div>
-      <div className="col-auto d-flex flex-column align-items-end">
+      <div className="col-5 d-flex flex-column align-items-end">
         <ForkButton>
           <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
             <i className="bi bi-git me-1"></i>
