@@ -65,57 +65,87 @@ return (
       </h6>
       <hr />
     </div>
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ marginRight: "1rem" }}>
-        <img
-          style={{ borderRadius: "50%", margin: "0.5rem" }}
-          width={80}
-          src="https://i.seadn.io/gcs/files/4530fc473fea3a9dbdb8e61afe177920.jpg?auto=format&dpr=1&w=640"
-          alt="Profile Image"
-        />
-        <img
-          style={{ borderRadius: "50%", margin: "0.5rem" }}
-          width={80}
-          src="https://i.seadn.io/gcs/files/4530fc473fea3a9dbdb8e61afe177920.jpg?auto=format&dpr=1&w=640"
-          alt="Profile Image"
-        />
-        <img
-          style={{ borderRadius: "50%", margin: "0.5rem" }}
-          width={80}
-          src="https://i.seadn.io/gcs/files/4530fc473fea3a9dbdb8e61afe177920.jpg?auto=format&dpr=1&w=640"
-          alt="Profile Image"
-        />
-      </div>
+    {state.isLoggedIn ? (
+      <>
+        <iframe />
+      </>
+    ) : (
       <div>
-        <p style={{ fontFamily: "Arial, sans-serif", fontSize: "1rem" }}>
-          You can only enter the network if you own an Afropolitan Network NFT\n
-        </p>
-        <p style={{ fontFamily: "Arial, sans-serif", fontSize: "1rem" }}>
-          Make sure metamask is installed as we will use it to verify your
-          ownership
-        </p>
-        <button
+        <div
           style={{
-            marginTop: "1rem",
-            fontSize: "1rem",
-            padding: "0.5rem 1rem",
-            borderRadius: "0.25rem",
-            backgroundColor: "#CF574A",
-            color: "white",
-            outline: "none",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          onClick={getNftContract}
-          disabled={state.loading}
         >
-          Enter Network
-        </button>
+          <div style={{ marginRight: "1rem" }}>
+            <img
+              style={{
+                borderRadius: "50%",
+                margin: "0.5rem",
+              }}
+              width={80}
+              src="https://i.seadn.io/gcs/files/4530fc473fea3a9dbdb8e61afe177920.jpg?auto=format&dpr=1&w=640"
+              alt="Profile Image"
+            />
+            <img
+              style={{
+                borderRadius: "50%",
+                margin: "0.5rem",
+              }}
+              width={80}
+              src="https://i.seadn.io/gcs/files/b1ecedc94ed29bacf8a57500fa824523.jpg?auto=format&dpr=1&w=640"
+              alt="Profile Image"
+            />
+            <img
+              style={{
+                borderRadius: "50%",
+                margin: "0.5rem",
+              }}
+              width={80}
+              src="https://i.seadn.io/gcs/files/3704274360a7809fac8f73917db90f16.jpg?auto=format&dpr=1&w=640"
+              alt="Profile Image"
+            />
+          </div>
+          <div>
+            <p
+              style={{
+                fontFamily: "Arial, sans-serif",
+                fontSize: "1.5rem",
+                color: "#CF574A",
+              }}
+            >
+              Welcome to the Afropolitan Network!
+            </p>
+            <p
+              style={{
+                fontFamily: "Arial, sans-serif",
+                fontSize: "1rem",
+                color: "#333",
+                marginBottom: "1rem",
+              }}
+            >
+              Own an Afropolitan Network NFT to join the exclusive community
+            </p>
+            <button
+              style={{
+                marginTop: "1rem",
+                fontSize: "1rem",
+                padding: "0.5rem 1rem",
+                borderRadius: "0.25rem",
+                backgroundColor: "#CF574A",
+                color: "white",
+                border: "none",
+                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+              }}
+              onClick={getNftContract}
+              disabled={state.loading}
+            >
+              Enter Network
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    )}
   </div>
 );
