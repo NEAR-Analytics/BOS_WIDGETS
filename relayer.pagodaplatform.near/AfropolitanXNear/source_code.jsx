@@ -67,7 +67,7 @@ return (
     </div>
     {state.isLoggedIn ? (
       <>
-        <iframe />
+        <iframe src="https://1234-nearexamples-donationjs-70k9fwuh5p5.ws-us101.gitpod.io/" />
       </>
     ) : (
       <div>
