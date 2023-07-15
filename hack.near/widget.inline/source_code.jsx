@@ -126,7 +126,7 @@ return (
         </StarButton>
       </div>
     </div>
-    <div className="m-3">
+    <div className="m-2">
       <h5 className="card-title mb-2 mt-3">
         <a className="stretched-link" href={`#/${widgetPath}`}>
           {name}
