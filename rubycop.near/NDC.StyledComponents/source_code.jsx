@@ -150,7 +150,11 @@ return (
     </div>
 
     <div className="d-flex align-items-end flex-wrap">
-      <WidgetButton text="Danger" className="danger" />
+      <WidgetButton
+        text="Danger"
+        className="danger"
+        icon={<i class="bi bi-trash-fill fs-7"></i>}
+      />
     </div>
   </Container>
 );
