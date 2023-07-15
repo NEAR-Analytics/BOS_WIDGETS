@@ -1,8 +1,8 @@
 const hashtag = props.hashtag || "ProofOfVibes, Paris";
-const hashtags = hashtag.split(",")?.map((it) => it.trim());
+const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
 
 const mention = props.mention || "";
-const mentions = mention.split(",")?.map((it) => it.trim());
+const mentions = mention && mention.split(",")?.map((it) => it.trim());
 
 return (
   <Widget
