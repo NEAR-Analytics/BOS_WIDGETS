@@ -67,7 +67,7 @@ return (
           <i class="bi bi-bookmark-star"></i>
         </h3>
         <Widget
-          src="mob.near/widget/ProfileLine"
+          src="near/widget/AccountProfileCard"
           props={{ accountId: "build.sputnik-dao.near" }}
         />
       </div>
@@ -81,6 +81,7 @@ return (
       </div>
     </div>
     <div className="mb-2">
+      <h5>Explore Projects</h5>
       <Widget
         src="hack.near/widget/widget.search"
         props={{ extraButtons: starButton }}
