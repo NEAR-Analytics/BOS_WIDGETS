@@ -1,5 +1,6 @@
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const code = props.code;
+const starCount = props.starCount;
 
 const policy = Near.view(daoId, "get_policy");
 
@@ -137,18 +138,30 @@ return (
           >
             <i className="bi bi-clock me-1"></i>history
           </a>
-          <small className="text-nowrap text-muted m-1">
-            <i className="bi bi-hourglass me-1"></i>
-            <Widget
-              src="mob.near/widget/TimeAgo"
-              props={{ keyPath: widgetPath, now: props.metadata, blockHeight }}
-            />
-          </small>
+          <div className="mt-1">
+            <small className="text-nowrap text-muted">
+              latest update:
+              <i className="bi bi-hourglass me-1"></i>
+              <Widget
+                src="mob.near/widget/TimeAgo"
+                props={{
+                  keyPath: widgetPath,
+                  now: props.metadata,
+                  blockHeight,
+                }}
+              />
+            </small>
+          </div>
         </div>
       </div>
     </div>
     <div className="col-3">
       <StarButton>
+        {starCount && (
+          <h5>
+            {starCount} builder{starCount !== 1 && "s"}
+          </h5>
+        )}
         <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
       </StarButton>
       <ForkButton>
