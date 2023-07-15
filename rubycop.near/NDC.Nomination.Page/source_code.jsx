@@ -30,8 +30,8 @@ State.init({
   house: "HouseOfMerit",
   start: true,
   nominations: [],
-  sbt: false,
-  og: false,
+  sbt: true,
+  og: true,
   selfNomination: false,
   search: false,
   candidateId: "",
@@ -200,18 +200,6 @@ const H5 = styled.h5`
   margin-bottom: 20px;
 `;
 
-const Toolbar = styled.div`
-margin: 16px 0 0 0;
-display: flex;
-width: 100%;
-flex-direction: row;
-align-items: flex-start;
-gap: 20px;
-@media only screen and (max-width: 480px){
-  flex-direction:column;
-}
-`;
-
 const VerifiedDiv = styled.div`
 display: flex;
 width: 100%;
@@ -375,6 +363,17 @@ height: 18px;
 
 const Filter = styled.div`
   margin-top: 32px;
+
+  @media only screen and (max-width: 1061px){
+    flex-direction: column;
+  }
+`;
+
+const Toolbar = styled.div`
+  margin-left: 20px;
+  @media only screen and (max-width: 1061px){
+    margin: 10px 0 0 0;
+  }
 `;
 
 return (
@@ -394,70 +393,72 @@ return (
         )}
       </>
     ))}
-    <Filter>
-      <Widget
-        src={widgets.filter}
-        props={{
-          handleFilter,
-          candidateId: state.candidateId,
-          placeholder: "Search by candidate name and affiliation",
-        }}
-      />
+    <Filter className="d-flex">
+      <div className="w-100">
+        <Widget
+          src={widgets.filter}
+          props={{
+            handleFilter,
+            candidateId: state.candidateId,
+            placeholder: "Search by candidate name and affiliation",
+          }}
+        />
+      </div>
+      <Toolbar>
+        {state.showModal && (
+          <Widget
+            src={`dokxo.near/widget/NDC.Nomination.Compose`}
+            props={{
+              candidateOrReplay: true,
+              onClickConfirm: () => State.update({ showModal: false }),
+              onClickCancel: () => State.update({ showModal: false }),
+            }}
+          />
+        )}
+        {state.showModalDelete && (
+          <Widget
+            src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
+            props={{
+              candidateOrReplay: true,
+              onClickConfirm: () => State.update({ showModalDelete: false }),
+              onClickCancel: () => State.update({ showModalDelete: false }),
+            }}
+          />
+        )}
+        {state.og ? (
+          <ButtonNominateContainer>
+            {state.selfNomination ? (
+              <ButtonDeleteDiv
+                onClick={async () => {
+                  console.log("entra a delete modal");
+                  State.update({ showModalDelete: true });
+                }}
+              >
+                <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
+                <ButtonDeleteIcon
+                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
+                  alt="pic"
+                ></ButtonDeleteIcon>
+              </ButtonDeleteDiv>
+            ) : (
+              <ButtonNominateDiv
+                onClick={async () => {
+                  !status.sbt ? State.update({ showModal: true }) : "";
+                }}
+              >
+                <ButtonNominateText>Self Nominate</ButtonNominateText>
+                <ButtonNominateIcon
+                  src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
+                  alt="pic"
+                ></ButtonNominateIcon>
+              </ButtonNominateDiv>
+            )}
+          </ButtonNominateContainer>
+        ) : (
+          <></>
+        )}
+      </Toolbar>
     </Filter>
-    <Toolbar>
-      {state.showModal && (
-        <Widget
-          src={`dokxo.near/widget/NDC.Nomination.Compose`}
-          props={{
-            candidateOrReplay: true,
-            onClickConfirm: () => State.update({ showModal: false }),
-            onClickCancel: () => State.update({ showModal: false }),
-          }}
-        />
-      )}
-      {state.showModalDelete && (
-        <Widget
-          src={`dokxo.near/widget/NDC.Nomination.DeleteNomination`}
-          props={{
-            candidateOrReplay: true,
-            onClickConfirm: () => State.update({ showModalDelete: false }),
-            onClickCancel: () => State.update({ showModalDelete: false }),
-          }}
-        />
-      )}
-      {state.og ? (
-        <ButtonNominateContainer>
-          {state.selfNomination ? (
-            <ButtonDeleteDiv
-              onClick={async () => {
-                console.log("entra a delete modal");
-                State.update({ showModalDelete: true });
-              }}
-            >
-              <ButtonDeleteText>Delete Self Nomination</ButtonDeleteText>
-              <ButtonDeleteIcon
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma7DF8kyoGN4Mf3Yty5uoP64RpZewCsZFawae4Ux4wBBF?_gl=1*6fastp*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
-                alt="pic"
-              ></ButtonDeleteIcon>
-            </ButtonDeleteDiv>
-          ) : (
-            <ButtonNominateDiv
-              onClick={async () => {
-                !status.sbt ? State.update({ showModal: true }) : "";
-              }}
-            >
-              <ButtonNominateText>Self Nominate</ButtonNominateText>
-              <ButtonNominateIcon
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmPRtMgbzoPxsuLLYdntJzEUDLZdndSiWWvMw4VZYozd29?_gl=1*1loq8cw*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxNTA1MC42MC4wLjA."
-                alt="pic"
-              ></ButtonNominateIcon>
-            </ButtonNominateDiv>
-          )}
-        </ButtonNominateContainer>
-      ) : (
-        <></>
-      )}
-    </Toolbar>
     <Container className="d-flex row">
       <Left className="col-lg">
         <H5>Houses</H5>
