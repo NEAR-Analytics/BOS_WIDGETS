@@ -239,6 +239,12 @@ function textareaInputHandler(value) {
 
 return (
   <Wrapper>
+    {showHeader && (
+      <Widget
+        src="ndcplug.near/widget/NDC.Common.SimpleHeader"
+        props={{ title: "Propose to Mint SBT to DAO" }}
+      />
+    )}
     {showReciever && (
       <div className="input-group row">
         <p>Input SBT Receiver</p>
