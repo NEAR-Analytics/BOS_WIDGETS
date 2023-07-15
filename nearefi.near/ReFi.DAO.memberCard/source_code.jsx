@@ -1,11 +1,25 @@
+// To-DO
+// check if owner and gate the proposal
 const accountId = props.accountId ?? "ndcplug.near";
-
+const issuer = props.issuer ?? "issuer.regens.near";
 const roleName = props.roleName ?? "Council";
-const daoId = props.daoId ?? "blunt.sputnik-dao.near";
+const daoId = props.daoId ?? "refi.sputnik-dao.near";
+const classId = props.classId ?? 1;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
 const profileUrl = `/ndcplug.near/widget/DAO.main?daoId=${accountId}`;
+const reference =
+  props.reference ??
+  "https://genadrop.mypinata.cloud/ipfs/QmUxy2gB1QQD8mqRSwKkU2k6an4o99ip5ZL12if2opyjas?_gl=1*qk5u0e*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTM1MzU2Mi4yLjEuMTY4OTM1MzU5Ny4yNS4wLjA";
 
+const isMintAuthority = true; // add sbt minter contract
+// View call: issuer.regens.near.class_minter({"class": 1})
+// {
+//   requires_iah: false,
+//   minters: [ 'nearefi.near', 'refi.sputnik-dao.near', 'admin.regens.near' ]
+// }
+const checkMintersJson = Near.view(issuer, "class_minter"); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
+const canProposeToDAO = true; // add logic for whether can propose to DAO and whether dao is a minter
 const onPointerUp =
   props.onClick ??
   ((event) => {
@@ -128,10 +142,29 @@ return (
         props={{ accountId: props.accountId }}
       />
     )}
-    <Widget
-      src="nearefi.near/widget/ReFi.Regen.sbtMint"
-      props={{ showReciever: false, receiver: accountId }}
-    />
+    {isMintAuthority && (
+      <Widget
+        src="nearefi.near/widget/ReFi.Regen.sbtMint"
+        props={{ showReciever: false, receiver: accountId }}
+      />
+    )}
+    {canProposeToDAO && (
+      <Widget
+        src="nearefi.near/widget/ReFi.DAO.Propose.sbtMint"
+        props={{
+          showReciever: false,
+          showDAO: false,
+          showReference: false,
+          showIssuer: false,
+          showHeader: false,
+          daoId: daoId,
+          issuer: issuer,
+          classId: classId,
+          reference: reference,
+          receiver: accountId,
+        }}
+      />
+    )}
   </Card>
 );
 // add number of members and recent activity, like time for last proposal using time ago
