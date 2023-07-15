@@ -42,7 +42,7 @@ if (state.keyUse == 1) {
     <div className="content">
       <h1>You're all set! Enjoy the event</h1>
       <a
-        href={`https://mynearwallet.com/linkdrop/${state.contract}/${props.pk}`}
+        href={`https://app.mynearwallet.com/linkdrop/${state.contract}/${props.pk}`}
         target="_blank"
         rel="noopener noreferrer"
       >
