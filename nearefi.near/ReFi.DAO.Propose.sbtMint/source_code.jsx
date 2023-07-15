@@ -51,7 +51,7 @@ const post_args = JSON.stringify({
   metadata: {
     class: classId,
   },
-  reference: reference,
+  reference: state.reference,
 });
 
 const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
@@ -64,7 +64,7 @@ const deposit = policy.proposal_bond;
 const handleProposal = () => {
   Near.call([
     {
-      contractName: daoId,
+      contractName: state.daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
