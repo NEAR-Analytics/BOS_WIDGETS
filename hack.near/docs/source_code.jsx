@@ -126,40 +126,31 @@ const debug = props.debug ?? false;
 
 const searchComponents = () => {
   return (
-    <div className="mb-3">
+    <div class="mb-4">
       <div className="mb-2">
         <Widget
           src="mob.near/widget/ComponentSearch"
           props={{
-            boostedTag: "edu",
-            placeholder: "🔍 Search Applications",
-            limit: 10,
+            debug: debug,
+            filterTag: filterTag,
+            placeholder: "🔍  explore available components",
+            limit: 24,
             onChange: ({ result }) => {
-              State.update({ apps: result });
+              State.update({ components: result });
             },
           }}
         />
       </div>
-      {state.apps && (
+      {state.components && (
         <div className="mb-2">
-          {state.apps.map((app, i) => (
-            <div key={i}>
+          {state.components.map((comp, i) => (
+            <div class="mb-2" key={i}>
               <Widget
-                src="mob.near/widget/ComponentSearch.Item"
+                src="hack.near/widget/widget.inline"
                 props={{
-                  link: `#/${app.widgetSrc}`,
-                  accountId: app.accountId,
-                  widgetName: app.widgetName,
-                  onHide: () => State.update({ apps: null }),
-                  extraButtons: ({ widgetPath }) => (
-                    <a
-                      target="_blank"
-                      className="btn btn-outline-secondary"
-                      href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
-                    >
-                      Source
-                    </a>
-                  ),
+                  accountId: comp.accountId,
+                  widgetPath: comp.widgetName,
+                  expanded: false,
                 }}
               />
             </div>
@@ -185,7 +176,7 @@ const renderCategory = (categoryId) => {
             <div class="mb-3">
               <Widget
                 key={i}
-                src="hack.near/widget/docs.card"
+                src="hack.near/widget/widget.inline"
                 props={{
                   accountId: comp.accountId,
                   widgetPath: `${comp.accountId}/widget/${comp.widgetName}`,
@@ -208,9 +199,12 @@ const renderHome = () => {
   return (
     <>
       {searchComponents()}
-
       <div class="mt-2">
         <h4>Resources</h4>
+        <p class="text text-muted ">
+          Test your knowledge and skills to earn an official builder badge by
+          passing various levels of quizzes and solving fun code puzzles.
+        </p>
         <div className="mb-3">
           {curatedComps && (
             <div className="mb-3 m-3">
@@ -238,7 +232,7 @@ return (
     <div class="row">
       <div class="col-md-3">
         <Widget
-          src={`hack.near/widget/dev.sidebar`}
+          src={`hack.near/widget/edu.navbar`}
           props={{
             tab: state.tab,
             onSelect,
@@ -250,12 +244,16 @@ return (
           }}
         />
         <hr className="border-2" />
+        <Widget
+          src="miraclx.near/widget/Attribution"
+          props={{ authors: [ownerId], dep: true }}
+        />
       </div>
       <div class="col-md-9">
         <div className="d-flex flex-wrap justify-content-between mb-3">
           <div className="m-1">
             <h2>
-              <b>#docs</b>
+              <b>#dev</b>
             </h2>
           </div>
           <div className="m-1">
@@ -270,8 +268,8 @@ return (
             </a>
           </div>
         </div>
-        <p class="text">
-          Everyone can build the blockchain operating system together!
+        <p class="text text-muted">
+          Learn how to build on the blockchain operating system together!
         </p>
         {renderContent}
       </div>
