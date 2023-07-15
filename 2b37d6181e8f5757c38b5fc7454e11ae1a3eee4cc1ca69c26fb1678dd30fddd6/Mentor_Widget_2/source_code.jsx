@@ -136,9 +136,10 @@ return (
             }}
           >
             7/16/2023 <br /> 4:00 - 5:30 PM EST <br /> Mentorship, Career Paths{" "}
-            <br /> Jason Sun, 10-year employee at Google, offers and advising
-            session about openings in the software landscape, navigating the big
-            tech hiring networks, and the future of computer science jobs.
+            <br /> Jason Sun, 10-year employee and Senior Software Manager at
+            Google, offers an advising session about opportunities in the
+            software landscape, navigating big tech hiring, and the future of
+            computer science jobs.
           </p>
           <img
             src={state.eventUnlocked ? unlockedImage : lockedImage}
