@@ -148,7 +148,10 @@ return (
           {unlockButton}
 
           {state.eventUnlocked && (
-            <a href="https://google.com" target="_blank">
+            <a
+              href="https://us04web.zoom.us/j/3176087118?pwd=OEhOTTVsNWpuZ0c0bElOT2tRdVJLdz09"
+              target="_blank"
+            >
               <p>Event Unlocked - Access Here</p>
             </a>
           )}
