@@ -16,12 +16,12 @@ const housesMapping = {
 };
 
 const Small = styled.small`
+  margin-top: 10px;
   font-weight: 400;
 `;
 
 const H6 = styled.h6`
   margin-bottom: 0;
-  font-weight: 600;
 `;
 
 const ImgContainer = styled.div`
@@ -86,20 +86,24 @@ const HouseItem = ({ house }) => (
         />
       </ImgContainer>
       <div>
-        <h6>{housesMapping[house.typ].title}</h6>
-        <Small>
-          {votesLeft(house)} / {house.seats} votes left
-        </Small>
+        <H6>{housesMapping[house.typ].title}</H6>
+        {votesLeft && (
+          <Small>
+            {votesLeft(house)} / {house.seats} votes left
+          </Small>
+        )}
       </div>
     </div>
-    <div>
-      {votesLeft(house) < house.seats && (
-        <CompletedIcon
-          className="bi bi-check-circle fs-5"
-          selected={selectedHouse === house.id}
-        />
-      )}
-    </div>
+    {votesLeft && (
+      <div>
+        {votesLeft(house) < house.seats && (
+          <CompletedIcon
+            className="bi bi-check-circle fs-5"
+            selected={selectedHouse === house.id}
+          />
+        )}
+      </div>
+    )}
   </ItemContainer>
 );
 
