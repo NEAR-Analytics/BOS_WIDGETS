@@ -51,7 +51,7 @@ loadNFT();
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <h1 className="text-center mb-3">AfroShare</h1>
+    <h1 className="text-center mb-3">AfroShare by Eden</h1>
     <p className="text-center mb-3">
       Afroshare allows you to easily share your Afropolitan NFT by renting it to
       others.
