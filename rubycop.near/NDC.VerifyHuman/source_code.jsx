@@ -1,37 +1,31 @@
 const { title } = props;
-
 const Container = styled.div`
-  background: #FDFEFF;
+  background: #fdfeff;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 16px;
-
-  h3, h4 {
+  h3,
+  h4 {
     margin: 0 3px;
   }
-
   h3 {
     font-weight: 900;
   }
-
   .text-secondary {
     margin: 0 10px;
   }
-
   &.not-verified {
     h4 {
       font-size: 16px;
       margin: 0 0 5px 0;
       font-weight: 600;
     }
-
     h5 {
       margin: 0;
       font-size: 12px;
     }
   }
 `;
-
 const PrimaryLink = styled.a`
   width: max-content;
   padding: 8px 20px;
@@ -40,16 +34,14 @@ const PrimaryLink = styled.a`
   font-weight: 500;
   line-height: 24px;
   border: 0;
-  background: #FFD50D;
+  background: #ffd50d;
   color: black;
-
   &:hover {
-    background: #E7C211;
+    background: #e7c211;
     text-decoration: none;
     color: inherit;
   }
 `;
-
 const VerifyHuman = () => (
   <Container className="not-verified d-flex align-items-center justify-content-between">
     <div>
@@ -59,5 +51,4 @@ const VerifyHuman = () => (
     <PrimaryLink href="https://i-am-human.app/">Verify as Human</PrimaryLink>
   </Container>
 );
-
 return <VerifyHuman />;
