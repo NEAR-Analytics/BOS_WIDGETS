@@ -236,6 +236,12 @@ return (
           >
             Followers
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=jobs`}
+            selected={state.selectedTab === "jobs"}
+          >
+            Jobs{" "}
+          </TabsButton>
 
           <TabsButton
             href={`${accountUrl}&tab=bounties`}
@@ -285,6 +291,17 @@ return (
                 issuer: "issuer.regens.near",
                 showProgress: false,
                 showDropdown: false,
+                showHeader: false,
+              }}
+            />
+          </>
+        )}
+        {state.selectedTab === "jobs" && (
+          <>
+            <Widget
+              src="nearefi.near/widget/ReFi.Requests"
+              props={{
+                showSidebar: false,
                 showHeader: false,
               }}
             />
