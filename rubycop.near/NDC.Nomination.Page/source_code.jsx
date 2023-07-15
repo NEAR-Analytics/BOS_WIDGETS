@@ -20,7 +20,8 @@ const houses = [
 
 const widgets = {
   header: "syi216.near/widget/NDC.Nomination.Header",
-  houses: "syi216.near/widget/NDC.Nomination.Houses",
+  houses: "rubycop.near/widget/NDC.Elections.Houses",
+  filter: "rubycop.near/widget/NDC.Elections.Filter",
   card: "syi216.near/widget/NDC.nomination.card",
 };
 
@@ -395,7 +396,7 @@ return (
     ))}
     <Filter>
       <Widget
-        src={`rubycop.near/widget/NDC.Elections.Filter`}
+        src={widgets.filter}
         props={{
           handleFilter,
           candidateId: state.candidateId,
