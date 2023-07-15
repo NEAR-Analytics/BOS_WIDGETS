@@ -2,6 +2,7 @@ const receiver = props.receiver ?? "efiz.near";
 const daoId = props.daoId ?? "refi.sputnik-dao.near";
 const accountId = context.accountId;
 const issuer = props.issuer ?? "issuer.regens.near";
+const showReciever = props.showReciever ?? true;
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
@@ -103,14 +104,17 @@ const Wrapper = styled.div`
 // change function call
 return (
   <div className="">
-    <div className="input-group">
-      <input
-        type="text"
-        className={`form-control`}
-        onChange={(e) => changeReceiver(e.target.value)}
-        placeholder={props.placeholder ?? `Enter Reciever`}
-      />
-    </div>
+    {showReciever && (
+      <div className="input-group">
+        <input
+          type="text"
+          className={`form-control`}
+          onChange={(e) => changeReceiver(e.target.value)}
+          placeholder={props.placeholder ?? `Enter Reciever`}
+        />
+      </div>
+    )}
+
     <Wrapper>
       <button className="join-button" onClick={sbtMint}>
         Issue SBT
