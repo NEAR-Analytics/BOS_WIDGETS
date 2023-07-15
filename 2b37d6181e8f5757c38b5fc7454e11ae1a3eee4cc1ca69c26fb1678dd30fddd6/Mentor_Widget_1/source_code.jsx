@@ -110,13 +110,6 @@ const unlockedImage =
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <div className="The image">
-      <img
-        src="https://www.blackdoctors.us/cdn-cgi/imagedelivery/n12z2FIWKA5iB6vfvG4ygw/Shawanica-Roberts-649eb334c0f97/public
-"
-        style={{ width: "200px", height: "200px" }}
-      />
-    </div>
     <h3
       style={{
         textAlign: "center",
