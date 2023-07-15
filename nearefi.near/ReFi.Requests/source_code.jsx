@@ -1,6 +1,6 @@
 const ownerId = "nearhorizon.near";
 // const accountId = props.accountId ?? context.accountId;
-const accountId = "nearefi.near";
+const accountId = props.account ?? "nearefi.near";
 const showHeader = props.showHeader ?? true;
 State.init({
   isAdmin: false,
