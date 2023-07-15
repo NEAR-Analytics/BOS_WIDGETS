@@ -72,10 +72,12 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 100px;
+  width: 90px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 14px;
+  padding-top: 2px;
 `;
 
 const NominationLink = styled.a`
@@ -169,6 +171,10 @@ const StickyContainer = styled.div`
   width: 100%;
 `;
 
+const Icon = styled.i`
+  font-size: 14px;
+`;
+
 const PrimaryLink = styled.a`
   padding: 8px 20px;
   background: #FFD50D;
@@ -224,9 +230,9 @@ const Winner = styled.i`
 const UserLink = ({ title, src }) => (
   <>
     <StyledLink href={src}>{title}</StyledLink>
-    <span>
-      <i class="bi bi-arrow-up-right" />
-    </span>
+    <div>
+      <Icon className="bi bi-arrow-up-right" />
+    </div>
   </>
 );
 
