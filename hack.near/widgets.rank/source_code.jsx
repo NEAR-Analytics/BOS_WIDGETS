@@ -53,49 +53,33 @@ const limitedWidgetStarSort = Object.entries(widgetStarCount)
 
 console.log(limitedWidgetStarSort);
 
+const starButton = ({ widgetPath }) => {
+  return <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />;
+};
+
 return (
   <>
-    <h3>All Stars</h3>
-    <br />
+    <h3>
+      {" "}
+      <b>GitBos All Stars</b>
+      <i class="bi bi-bookmark-star"></i>
+    </h3>
+    <h5>Components Ranked by Builders</h5>
+    <div className="mb-2">
+      <Widget
+        src="hack.near/widget/widget.search"
+        props={{ extraButtons: starButton }}
+      />
+    </div>
     {limitedWidgetStarSort.map((rank, index) => {
       let widgetPath = rank[0];
       let starCount = rank[1];
       return (
-        <div className="d-flex justify-content-between mb-3">
-          <div className="d-flex flex-column" style={{ width: "20%" }}>
-            <div>
-              Rank:
-              <span
-                style={{
-                  backgroundColor: "black",
-                  borderRadius: "5px",
-                  padding: "5px",
-                  color: "white",
-                }}
-              >
-                {index + 1}
-              </span>
-            </div>
-            <br />
-            <div>
-              Stars:{" "}
-              <span
-                style={{
-                  fontWeight: "bold",
-                }}
-              >
-                {starCount}
-              </span>
-            </div>
-          </div>
-          <hr />
-
-          <div className="me-4" style={{ width: "80%" }}>
-            <Widget
-              src="hack.near/widget/widget.inline"
-              props={{ widgetPath: widgetPath }}
-            />
-          </div>
+        <div className="m-3">
+          <Widget
+            src="hack.near/widget/widget.inline"
+            props={{ widgetPath: widgetPath, starCount }}
+          />
         </div>
       );
     })}
