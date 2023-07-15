@@ -21,7 +21,7 @@ if (accountId) {
 }
 
 if (hasToken) {
-  return <Icon />;
+  return <span>✅</span>;
 } else {
   return <></>;
 }
