@@ -110,36 +110,36 @@ const unlockedImage =
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <h3
-      style={{
-        textAlign: "center",
-        fontFamily: "Inter",
-        fontSize: "30px",
-        color: "#333",
-        fontWeight: "bold",
-        letterSpacing: "-1px",
-      }}
-    >
-      Dr. Beverley Winters: Getting Started in Medicine
-    </h3>
-    <p
-      style={{
-        textAlign: "center",
-        fontFamily: "Inter",
-        fontSize: "18px",
-        color: "#777",
-        fontWeight: "normal",
-        letterSpacing: "0",
-      }}
-    >
-      7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Seminar, Networking <br /> Dr.
-      Beverley Winters, chair of Yale University's Pathology Department, shares
-      advice on medical school applications and what to expect for your first
-      few years in the field
-    </p>
     <div className="container">
       <div className="card shadow-sm">
         <div className="card-body">
+          <h3
+            style={{
+              textAlign: "center",
+              fontFamily: "Inter",
+              fontSize: "30px",
+              color: "#333",
+              fontWeight: "bold",
+              letterSpacing: "-1px",
+            }}
+          >
+            Dr. Beverley Winters: Getting Started in Medicine
+          </h3>
+          <p
+            style={{
+              textAlign: "center",
+              fontFamily: "Inter",
+              fontSize: "18px",
+              color: "#777",
+              fontWeight: "normal",
+              letterSpacing: "0",
+            }}
+          >
+            7/15/2023 <br /> 6:00 - 8:00 PM EST <br /> Seminar, Networking{" "}
+            <br /> Dr. Beverley Winters, chair of Yale University's Pathology
+            Department, shares advice on medical school applications and what to
+            expect for your first few years in the field
+          </p>
           <img
             src={state.eventUnlocked ? unlockedImage : lockedImage}
             width={200}
