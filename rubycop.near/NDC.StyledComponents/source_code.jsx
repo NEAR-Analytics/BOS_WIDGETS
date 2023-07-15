@@ -2,7 +2,7 @@ const { Button } = props;
 
 const StyledButton = styled.button`
   padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
-  height: ${(props) => (Button.size === "sm" ? "28px" : "48px")};
+  height: ${(props) => (Button.size === "sm" ? "28px" : "")};
   font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
   border-radius: 10px;
   font-weight: 500;
