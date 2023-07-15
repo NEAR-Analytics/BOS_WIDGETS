@@ -86,19 +86,21 @@ return (
         />
       </div>
       <div className="w-50">
-        <Widget
-          src="mob.near/widget/TagsEditor"
-          props={{
-            initialTagsObject: getTagObjectfromArray(articleTags),
-            placeholder: "Input tags",
-            setTagsObject: (tags) => {
-              // console.log(filterTagsFromNull(tags));
-              // Next line is from parent widget. Not sure what it was used for.
-              // state.tags = filterTagsFromNull(tags);
-              State.update({ tags });
-            },
-          }}
-        />
+        {
+          //<Widget
+          //   src="mob.near/widget/TagsEditor"
+          //   props={{
+          //     initialTagsObject: getTagObjectfromArray(articleTags),
+          //     placeholder: "Input tags",
+          //     setTagsObject: (tags) => {
+          //       // console.log(filterTagsFromNull(tags));
+          //       // Next line is from parent widget. Not sure what it was used for.
+          //       // state.tags = filterTagsFromNull(tags);
+          //       State.update({ tags });
+          //     },
+          //   }}
+          // />
+        }
 
         <Widget
           src="mob.near/widget/SocialMarkdown"
