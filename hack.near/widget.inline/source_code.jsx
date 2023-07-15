@@ -114,31 +114,8 @@ return (
             props={{ accountId, link: props.profileLink }}
           />
         </div>
-        <div className="m-1 position-relative">
-          <h5 className="card-title mb-2">
-            <a className="stretched-link" href={`#/${widgetPath}`}>
-              {name}
-            </a>
-          </h5>
-        </div>
-        <div className="card-text">
-          <a
-            href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
-            className="btn btn-sm btn-outline-secondary border-0"
-            target="_blank"
-          >
-            <i className="bi bi-code me-1"></i>source
-          </a>
-          <a
-            href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
-            className="btn btn-sm btn-outline-secondary border-0"
-            target="_blank"
-          >
-            <i className="bi bi-clock me-1"></i>history
-          </a>
-        </div>
       </div>
-      <div className="col-5 d-flex flex-column align-items-end">
+      <div className="col-5">
         <StarButton>
           {starCount && (
             <h5>
@@ -147,13 +124,38 @@ return (
           )}
           <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
         </StarButton>
-        <ForkButton>
-          <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
-            <i className="bi bi-git me-1"></i>
-            {accountId === context.accountId ? "edit" : "fork"}
-          </a>
-        </ForkButton>
       </div>
+    </div>
+    <div className="card-text">
+      <div className="m-1 position-relative">
+        <h5 className="card-title mb-2">
+          <a className="stretched-link" href={`#/${widgetPath}`}>
+            {name}
+          </a>
+        </h5>
+      </div>
+      <a
+        href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+        className="btn btn-sm btn-outline-secondary border-0"
+        target="_blank"
+      >
+        <i className="bi bi-code me-1"></i>source
+      </a>
+      <a
+        href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
+        className="btn btn-sm btn-outline-secondary border-0"
+        target="_blank"
+      >
+        <i className="bi bi-clock me-1"></i>history
+      </a>
+    </div>
+    <div className="d-flex flex-column align-items-end">
+      <ForkButton>
+        <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
+          <i className="bi bi-git me-1"></i>
+          {accountId === context.accountId ? "edit" : "fork"}
+        </a>
+      </ForkButton>
     </div>
   </Card>
 );
