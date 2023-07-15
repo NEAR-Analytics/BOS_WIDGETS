@@ -43,6 +43,6 @@ return (
     data={data}
   >
     <i className={`bi ${starred ? "bi-star-fill" : "bi-star"}`} />
-    <span style={{ marginLeft: "0.2rem" }}>{starred ? "Starred" : "Star"}</span>
+    <span style={{ marginLeft: "0.2rem" }}>{starred ? "" : "Star"}</span>
   </CommitButton>
 );
