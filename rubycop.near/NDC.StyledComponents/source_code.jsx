@@ -108,7 +108,7 @@ if (Button)
 if (Dropdown)
   return (
     <div>
-      <H2>{Dropdown.label}</H2>
+      <label>{Dropdown.label}</label>
       <Select onChange={(e) => Dropdown.handleChange(e.target.value)}>
         {Dropdown.options.map((opt) => (
           <>
