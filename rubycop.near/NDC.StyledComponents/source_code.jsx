@@ -88,7 +88,7 @@ if (Button)
     >
       <div>{Button.text}</div>
       {Button.icon && (
-        <div className={`${Button.size === "sm" ? "fs-7" : "fs-5"}`}>
+        <div className={`${Button.size === "sm" ? "fs-7" : "fs-6"}`}>
           {Button.icon}
         </div>
       )}
@@ -153,7 +153,7 @@ return (
       <WidgetButton
         text="Danger"
         className="danger"
-        icon={<i class="bi bi-trash-fill" />}
+        icon={<i class="bi bi-trash" />}
       />
     </div>
   </Container>
