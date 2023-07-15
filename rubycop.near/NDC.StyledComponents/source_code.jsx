@@ -11,29 +11,51 @@ const StyledButton = styled.button`
   &.primary {
     background: #FFD50D;
 
+    &:hover {
+      background: #D9B50B;
+    }
+
     &.dark {
       color: #fff;
       background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+
+      &:hover {
+        background: linear-gradient(90deg, #5D2193 0%, #2F2A87 100%);
+      }
+    }
+
+    &:disabled {
+      background: #C3CACE;
+      color: #828688;
+      border: 0;
     }
   }
 
   &.secondary {
     background: transparent;
-    border: 1px solid #FFD50D;
-  }
+    border: 1px solid;
+    border-color: #FFD50D;
+    color: #FFD50D;
 
-  &:hover {
-    background: #D9B50B;
+    &:hover {
+      border-color: #E7C211;
+      color: #E7C211;
+    }
 
     &.dark {
-      background: linear-gradient(90deg, #5D2193 0%, #2F2A87 100%);
-    }
-  }
+      color: #4F46E5;
+      border-color: #4F46E5;
 
-  &:disabled {
-    background: #C3CACE;
-    color: #828688;
-    border: 0;
+      &:hover {
+        border-color: #2F2A87;
+        color: #2F2A87;
+      }
+    }
+
+    &:disabled {
+      border-color: #C3CACE;
+      color: #828688;
+    }
   }
 
   i {
@@ -93,6 +115,7 @@ return (
     <WidgetButton size="sm" text="Primary small" />
 
     <WidgetButton className="secondary" text="Secondary" />
+    <WidgetButton className="secondary dark" text="Secondary" />
     <WidgetButton
       className="secondary"
       text="Secondary with Icon"
