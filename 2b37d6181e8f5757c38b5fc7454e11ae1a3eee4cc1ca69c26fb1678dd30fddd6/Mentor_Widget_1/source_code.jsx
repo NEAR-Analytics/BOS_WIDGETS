@@ -149,7 +149,7 @@ return (
 
           {state.eventUnlocked && (
             <a href="https://mattkotzbauer.com" target="_blank">
-              <p>Event is unlocked! Click here to access</p>
+              <p>Attend Event</p>
             </a>
           )}
 
