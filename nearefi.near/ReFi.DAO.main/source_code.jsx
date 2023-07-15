@@ -301,6 +301,7 @@ return (
             <Widget
               src="nearefi.near/widget/ReFi.Requests"
               props={{
+                accountId: socialAccountId,
                 showSidebar: false,
                 showHeader: false,
               }}
