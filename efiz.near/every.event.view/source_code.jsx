@@ -1,13 +1,13 @@
 const data = props.data;
 const path = props.path;
 
-const daoId = data.daoId;
 const name = data.name || "No-name profile";
 const image = data.logo;
 const backgroundImage = data.background;
 const tags = Object.keys(data.tags ?? {});
 const link = `https://everything.dev/${path}`;
 const organizer = data.organizer;
+const hashtags = data.hashtags;
 
 const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{data.name}</h4>;
 
@@ -54,6 +54,7 @@ return (
                 ) : (
                   nameHeader
                 )}
+                {}
                 <div className="small text-truncate">
                   <i className="bi bi-person-fill text-secondary"></i>
                   {organizer}
@@ -115,8 +116,19 @@ return (
       </div>
     </div>
     <Widget
-      src="every.near/widget/every.thing.view"
-      props={{ path: "ethcc2023.near/thing/ethcc2023.feed" }}
+      src="every.near/widget/every.feed.view"
+      props={{
+        data: {
+          typeWhitelist: ["md"],
+          sources: [
+            {
+              domain: "post",
+              key: "main",
+            },
+          ],
+          hashtagWhitelist: hashtags,
+        },
+      }}
     />
   </>
 );
