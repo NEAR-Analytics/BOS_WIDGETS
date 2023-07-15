@@ -382,7 +382,7 @@ return (
         </Avatar>
         <Textarea data-value={state.text}>
           <textarea
-            placeholder="What's happening?"
+            placeholder="Vibe check!"
             onInput={(event) => textareaInputHandler(event.target.value)}
             onKeyUp={(event) => {
               if (event.key === "Escape") {
@@ -391,15 +391,6 @@ return (
             }}
             value={state.text}
           />
-          <TextareaDescription>
-            <a
-              href="https://www.markdownguide.org/basic-syntax/"
-              target="_blank"
-            >
-              Markdown
-            </a>
-            is supported
-          </TextareaDescription>
         </Textarea>
       </>
     )}
