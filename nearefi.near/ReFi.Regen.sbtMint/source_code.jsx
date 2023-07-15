@@ -14,6 +14,7 @@ const reference =
 
 State.init({
   receiver: receiver,
+  issuer: issuer,
 });
 const changeReceiver = (receiver) => {
   State.update({
