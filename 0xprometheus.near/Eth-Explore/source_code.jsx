@@ -492,8 +492,10 @@ return state.isNFTButtonClicked ? (
                       </PriceArea>
                     </div>
                     <button onClick={() => HandleViewNft(nft)}>
-                      {state.sender === nft.owner && nft.isListed
-                        ? "List"
+                      {state.sender != nft.owner && nft.isListed
+                        ? "Buy"
+                        : state.sender === nft.owner && !nft.isListed
+                        ? "list"
                         : "View"}
                     </button>
                   </div>
