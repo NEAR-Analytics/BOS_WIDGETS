@@ -24,7 +24,7 @@ const GameButton = () => {
 	        text-align: center;
 	        padding: 30px;
             font-family: sans-serif;
-	        max-width: 1000px;
+	        max-width: 100%;
 	        margin: 0 auto;
 	        font-family: 'Maven Pro', sans-serif;
 	        text-align: center;
@@ -93,7 +93,18 @@ const GameButton = () => {
     </style>
 
     <body>
-        <a class="eightbit-btn">Play Game</a>
+        <div class="col">
+            <div class="col">
+                <div class="row"><a class="eightbit-btn">Play Game</a></div>
+                
+                 <div class="row"><a class="eightbit-btn">TestNet</a></div>
+            </div>
+            <div class="col">
+                 <div class="row"><a class="eightbit-btn">Wiki</a></div>
+                 <div class="row"><a class="eightbit-btn">NFT</a></div>
+            </div>
+        </div>
+        
     </body>
     <script>
         window.addEventListener("message", (event) => {
@@ -112,7 +123,7 @@ const GameButton = () => {
     <div>
       <div style={{ backgroundColor: "white" }} className="d-flex">
         <iframe
-          style={{ height: "30vh", width: "100%" }}
+          style={{ height: "50vh", width: "100%" }}
           srcDoc={code}
           message={{ data: data || "No Data" }}
         />
