@@ -1,4 +1,4 @@
-const accountId = context.accountId;
+const accountId = props.accountId ?? "efiz.near";
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
 
