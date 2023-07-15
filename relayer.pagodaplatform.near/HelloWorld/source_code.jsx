@@ -21,7 +21,7 @@ const getNftContract = async () => {
   nftContract
     .balanceOf(sender)
     .then((res) => {
-      console.log(res["_hex"]);
+      console.log(parseInt(res["_hex"], 16));
     })
     .catch((error) => console.log(error));
 };
