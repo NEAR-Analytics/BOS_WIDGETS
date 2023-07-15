@@ -103,7 +103,10 @@ return (
         {loginButton}
       </>
     )}
-    // <hr />
+
+    <hr />
+    <Widget src="edenchan.near/widget/MintNFT" props={props} />
+    <hr />
     <Widget src="edenchan.near/widget/RentNFT" props={props} />
     <hr />
     <Widget src="edenchan.near/widget/TokenGate" props={props} />
