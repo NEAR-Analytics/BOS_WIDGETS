@@ -3,12 +3,14 @@ function getConfig(network) {
   switch (network) {
     case "mainnet":
       return {
+        gatewayDomain: "openweb.build",
         ownerId: "openwebbuild.near",
         discoveryAccountId: "near",
         eugeneId: "mob.near",
       };
     case "testnet":
       return {
+        gatewayDomain: "dev.openweb.build",
         ownerId: "openwebbuild.testnet",
         discoveryAccountId: "one.testnet",
         eugeneId: "eugenethedream",
@@ -24,7 +26,7 @@ const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const subscribe = !!props.subscribe;
 const notifyAccountId = accountId;
-const postUrl = `https://${config.gatewayDomain}/${config.discoveryAccountId}/widget/PostPage?accountId=${accountId}&blockHeight=${blockHeight}`;
+const postUrl = `https://${config.gatewayDomain}/${config.ownerId}/widget/Page.Post?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const content =
   props.content ??
@@ -44,7 +46,7 @@ const Post = styled.div`
     display: block;
     position: absolute;
     left: 19px;
-    top: 0px;
+    top: ${props.hideAvatar ? "0px" : "52px"};
     bottom: 12px;
     width: 2px;
     background: #eceef0;
@@ -95,7 +97,7 @@ const Comments = styled.div`
 
 return (
   <Post>
-    {props.showAvatar && (
+    {!props.hideAvatar && (
       <Header>
         <Widget
           src={`${config.discoveryAccountId}/widget/AccountProfile`}
@@ -111,7 +113,11 @@ return (
                   ) : (
                     <>
                       <Widget
-                        src={`${config.discoveryAccountId}/widget/TimeAgo`}
+                        src={`${
+                          context.networkId === "mainnet"
+                            ? "mob.near"
+                            : "one.testnet"
+                        }/widget/TimeAgo`}
                         props={{ blockHeight }}
                       />{" "}
                       ago
@@ -182,10 +188,10 @@ return (
         </div>
       )}
 
-      {props.showComments && (
+      {!props.hideComments && (
         <Comments>
           <Widget
-            src={`${config.discoveryAccountId}/widget/Comments.Feed`}
+            src={`${config.ownerId}/widget/Comment.Feed`}
             props={{
               item,
               highlightComment: props.highlightComment,
