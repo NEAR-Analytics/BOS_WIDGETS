@@ -153,7 +153,7 @@ return (
       <WidgetButton
         text="Danger"
         className="danger"
-        icon={<i class="bi bi-trash-fill fs-7"></i>}
+        icon={<i class="bi bi-trash-fill" />}
       />
     </div>
   </Container>
