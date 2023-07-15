@@ -1,8 +1,8 @@
 const { Button } = props;
 
 const StyledButton = styled.button`
-  padding: ${(props) => (props.size === "sm" ? "4px 12px" : "8px 20px")};
-  font-size: ${(props) => (props.size === "sm" ? "12px" : "14px")};
+  padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
+  font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
   border-radius: 10px;
   font-weight: 500;
   line-height: 24px;
@@ -38,56 +38,56 @@ const Container = styled.div`
   }
 `;
 
-const RenderButton = (props) => (
-  <StyledButton
-    size={props.size}
-    className={`align-items-center d-flex ${props.className ?? "primary"}`}
-    onClick={props.onClick}
-    disabled={props.disabled}
-  >
-    <div>{props.text}</div>
-    {props.icon && (
-      <div className={`${props.size === "sm" ? "fs-7" : "fs-5"}`}>
-        {props.icon}
-      </div>
-    )}
-  </StyledButton>
-);
-
 if (Button)
   return (
-    <RenderButton
+    <StyledButton
       size={Button.size}
-      className={Button.className}
+      className={`align-items-center d-flex ${Button.className ?? "primary"}`}
       onClick={Button.onClick}
       disabled={Button.disabled}
-      text={Button.text}
-      icon={Button.icon}
-    />
+    >
+      <div>{Button.text}</div>
+      {Button.icon && (
+        <div className={`${Button.size === "sm" ? "fs-7" : "fs-5"}`}>
+          {Button.icon}
+        </div>
+      )}
+    </StyledButton>
   );
+
+const WidgetButton = ({ size, className, disabled, text, icon }) => (
+  <Widget
+    src={"rubycop.near/widget/NDC.StyledComponents"}
+    props={{
+      Button: {
+        size,
+        className,
+        disabled,
+        text,
+        icon,
+      },
+    }}
+  />
+);
 
 return (
   <Container>
     <h4>Buttons</h4>
-    <RenderButton text="Primary" />
-    <RenderButton
+    <WidgetButton text="Primary" />
+    <WidgetButton
       text="Primary with Icon"
       icon={<i class="bi bi-check-lg"></i>}
     />
-    <RenderButton disabled={true} text="Primary disabled" />
-    <RenderButton size="sm" text="Primary small" />
+    <WidgetButton disabled text="Primary disabled" />
+    <WidgetButton size="sm" text="Primary small" />
 
-    <RenderButton className="secondary" text="Secondary" />
-    <RenderButton
+    <WidgetButton className="secondary" text="Secondary" />
+    <WidgetButton
       className="secondary"
       text="Secondary with Icon"
       icon={<i class="bi bi-check-lg"></i>}
     />
-    <RenderButton
-      className="secondary"
-      disabled={true}
-      text="Secondary disabled"
-    />
-    <RenderButton className="secondary" size="sm" text="Secondary small" />
+    <WidgetButton className="secondary" disabled text="Secondary disabled" />
+    <WidgetButton className="secondary" size="sm" text="Secondary small" />
   </Container>
 );
