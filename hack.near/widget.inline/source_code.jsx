@@ -116,25 +116,11 @@ return (
         </div>
         <div className="m-1 position-relative">
           <h5 className="card-title mb-2">
-            {name}
-            <small className="text-nowrap text-muted ms-2">
-              <i className="bi bi-hourglass me-1"></i>
-              <Widget
-                src="mob.near/widget/TimeAgo"
-                props={{
-                  keyPath: widgetPath,
-                  now: props.metadata,
-                  blockHeight,
-                }}
-              />
-            </small>
-          </h5>
-          <div className="text-truncate mb-1">
             <a className="stretched-link" href={`#/${widgetPath}`}>
               <i className="bi bi-box-arrow-up-right text-secondary me-1" />
-              {widgetPath}
+              {name}
             </a>
-          </div>
+          </h5>
         </div>
         <div className="card-text">
           <a
