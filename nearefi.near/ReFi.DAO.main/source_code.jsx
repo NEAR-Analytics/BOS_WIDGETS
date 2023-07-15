@@ -3,7 +3,7 @@ State.init({
 });
 const socialAccountId = props.socialAccountId ?? "nearefi.near";
 const socialProfile = Social.getr(`${socialAccountId}/profile`);
-
+const role = props.role ?? "regens";
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "refi.sputnik-dao.near";
 
@@ -190,6 +190,7 @@ return (
           props={{
             daoId,
             profile,
+            role: role,
           }}
         />
       </SidebarWrapper>
