@@ -1,4 +1,4 @@
-const hashtag = props.hashtag || "";
+const hashtag = props.hashtag || "ProofOfVibes, Paris";
 const hashtags = hashtag.split(",")?.map((it) => it.trim());
 
 const mention = props.mention || "";
