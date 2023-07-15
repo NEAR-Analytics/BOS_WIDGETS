@@ -24,12 +24,62 @@ const mintNFT = () => {
   const nftContract = new ethers.Contract(address, contractAbi.abi, signer);
   console.log({ nftContract });
   console.log("state.destination", state.destination);
-  nftContract["mint()"]()
-    .then((transaction) => {
+
+  const _tokenURI = nftContract["tokenURI(uint256)"](tokenId).then(
+    (transaction) => {
       console.log("Transaction Hash:", transaction);
       State.update({ loading: true });
       transaction.wait().then(() => {
         console.log("NFT rented successfully!");
+        State.update({ transaction: transaction, loading: false });
+        console.log(
+          "Transaction URL:",
+          `https://goerli.etherscan.io/tx/${transaction.hash}`
+        );
+      });
+    }
+  );
+
+  // {
+  //       "inputs": [
+  //         {
+  //           "internalType": "uint256",
+  //           "name": "tokenId",
+  //           "type": "uint256"
+  //         }
+  //       ],
+  //       "name": "tokenURI",
+  //       "outputs": [
+  //         {
+  //           "internalType": "string",
+  //           "name": "",
+  //           "type": "string"
+  //         }
+  //       ],
+  //       "stateMutability": "view",
+  //       "type": "function"
+  //     },
+
+  nftContract["mint(string)"](_tokenURI)
+    .then((transaction) => {
+      console.log("Transaction Hash:", transaction);
+      State.update({ loading: true });
+      transaction.wait().then(() => {
+        // {
+        //       "inputs": [
+        //         {
+        //           "internalType": "string",
+        //           "name": "_tokenURI",
+        //           "type": "string"
+        //         }
+        //       ],
+        //       "name": "mint",
+        //       "outputs": [],
+        //       "stateMutability": "nonpayable",
+        //       "type": "function"
+        //     },
+
+        console.log("NFT minted successfully!");
         State.update({ transaction: transaction, loading: false });
         console.log(
           "Transaction URL:",
@@ -63,10 +113,10 @@ return (
     <div className="container">
       <div className="card shadow-sm">
         <div className="card-body">
-          <label className="mb-1">Destination Address</label>
+          <label className="mb-1">Token ID</label>
           <input
-            type="text"
-            placeholder="Enter Destination Address"
+            type="number"
+            placeholder="Enter Token ID"
             value={state.destination}
             onChange={(e) => setDestinationAddress(e.target.value)}
             className="form-control mb-3"
