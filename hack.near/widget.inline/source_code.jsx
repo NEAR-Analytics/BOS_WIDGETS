@@ -90,7 +90,6 @@ const Card = styled.div`
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 23px;
-  margin: 8px;
 `;
 
 const StarButton = styled.div`
@@ -107,16 +106,29 @@ const ForkButton = styled.div`
 
 return (
   <Card>
-    <div className="row m-2">
+    <div className="row">
       <div className="col-8">
         <div className="m-1 mb-3 text-truncate">
           <Widget
-            src="near/widget/AccountProfile"
+            src="mob.near/widget/ProfileLine"
             props={{ accountId, link: props.profileLink }}
           />
         </div>
         <div className="m-1 position-relative">
-          <h5 className="card-title mb-2">{name}</h5>
+          <h5 className="card-title mb-2">
+            {name}
+            <small className="text-nowrap text-muted ms-2">
+              <i className="bi bi-hourglass me-1"></i>
+              <Widget
+                src="mob.near/widget/TimeAgo"
+                props={{
+                  keyPath: widgetPath,
+                  now: props.metadata,
+                  blockHeight,
+                }}
+              />
+            </small>
+          </h5>
           <div className="text-truncate mb-1">
             <a className="stretched-link" href={`#/${widgetPath}`}>
               <i className="bi bi-box-arrow-up-right text-secondary me-1" />
@@ -139,20 +151,6 @@ return (
           >
             <i className="bi bi-clock me-1"></i>history
           </a>
-          <div className="mt-1">
-            <small className="text-nowrap text-muted">
-              updated:
-              <i className="bi bi-hourglass me-1"></i>
-              <Widget
-                src="mob.near/widget/TimeAgo"
-                props={{
-                  keyPath: widgetPath,
-                  now: props.metadata,
-                  blockHeight,
-                }}
-              />
-            </small>
-          </div>
         </div>
       </div>
       <div className="col-4 d-flex flex-column align-items-end">
