@@ -75,6 +75,9 @@ const Container = styled.div`
   button {
     margin: 5px;
   }
+  h4 {
+    margin: 10px 0;
+  }
 `;
 
 const Select = styled.select`
@@ -86,6 +89,13 @@ const Select = styled.select`
   border-radius: 8px;
   font-size: 14px;
   color: #828688;
+`;
+
+const Label = styled.label`
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  margin-bottom: 5px;
 `;
 
 if (Button)
@@ -108,7 +118,7 @@ if (Button)
 if (Dropdown)
   return (
     <div>
-      <label>{Dropdown.label}</label>
+      <Label>{Dropdown.label}</Label>
       <Select onChange={(e) => Dropdown.handleChange(e.target.value)}>
         {Dropdown.options.map((opt) => (
           <>
