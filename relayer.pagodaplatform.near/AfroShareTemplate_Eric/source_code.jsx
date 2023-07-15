@@ -103,11 +103,11 @@ return (
         {loginButton}
       </>
     )}
-    // <hr />
-    // <Widget src="ericliujt.near/widget/RentNFT" props={props} />
     <hr />
-    <Widget src="tomiwa1a1.near/widget/TokenGate" props={props} />
+    <Widget src="ericliujt.near/widget/RentNFT_Eric" props={props} />
     <hr />
-    <Widget src="tomiwa1a1.near/widget/TransferNFT" props={props} />
+    <Widget src="ericliujt.near/widget/TokenGate_Eric" props={props} />
+    <hr />
+    <Widget src="ericliujt.near/widget/TransferNFT_Eric" props={props} />
   </div>
 );
