@@ -8,10 +8,9 @@ const notifyAccountId = accountId;
 
 const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-State.init({ hasBeenFlagged: false });
-
 const content = props.content ?? JSON.parse(Social.get(path, blockHeight));
 const type = content.type;
+const metadata = content.metadata;
 
 const item = {
   type: "social",
@@ -94,60 +93,150 @@ function renderContent() {
   }
 }
 
+const daoId = props.daoId ?? "vibes.sputnik-dao.near";
+const role = props.role ?? "vibee";
+
+if (!accountId) {
+  return "Please connect your NEAR wallet :)";
+}
+
+// need to check role if tastemaker
+
+const handleProposal = () => {
+  const gas = 200000000000000;
+  const deposit = 100000000000000000000000;
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "Recommended as a vibee",
+          kind: {
+            AddMemberToRole: {
+              member_id: accountId,
+              role: role,
+            },
+          },
+        },
+      },
+      gas: gas,
+      deposit: deposit,
+    },
+  ]);
+};
+
 return (
-  <Post>
-    <Header>
-      <div className="row">
-        <div className="col-auto">
+  <div className="border-bottom pt-3 pb-1">
+    <div>
+      <div className="d-flex flex-row align-items-center">
+        <div className="flex-grow-1 text-truncate">
+          <a
+            className="text-dark text-decoration-none text-truncate"
+            href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+          >
+            <Widget
+              src="mob.near/widget/Profile.ShortInlineBlock"
+              props={{ accountId, tooltip: true }}
+            />
+          </a>
+        </div>
+
+        <span className="text-nowrap text-muted">
+          <small>
+            {blockHeight === "now" ? (
+              "now"
+            ) : (
+              <a className="text-muted" href={link}>
+                <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+              </a>
+            )}
+          </small>
+          {metadata?.tastemaker?.length &&
+            metadata.tastmaker.includes(context.accountId) &&
+            blockHeight !== "now" && (
+              <span>
+                <a
+                  href="javascript:void"
+                  className="link-secondary ms-2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fs-6 bi bi-three-dots" />
+                </a>
+                <ul className="dropdown-menu">
+                  <li className="dropdown-item">
+                    <a
+                      className="link-dark text-decoration-none"
+                      href={`${link}&raw=true`}
+                    >
+                      <i className="bi bi-emoji-sunglasses" /> Recommend as
+                      Vibee
+                    </a>
+                  </li>
+                </ul>
+              </span>
+            )}
+        </span>
+      </div>
+    </div>
+    <div className="mt-3 text-break">
+      <Widget
+        src="mob.near/widget/MainPage.Post.Content"
+        props={{ content, raw }}
+      />
+    </div>
+    {blockHeight !== "now" && (
+      <div className="mt-1 d-flex justify-content-between">
+        <div className="me-4">
           <Widget
-            src="near/widget/AccountProfile"
+            src="mob.near/widget/CommentButton"
             props={{
-              accountId,
-              hideAccountId: true,
-              inlineContent: (
-                <>
-                  <Text as="span">･</Text>
-                  <Text>
-                    {blockHeight === "now" ? (
-                      "now"
-                    ) : (
-                      <>
-                        <Widget
-                          src="mob.near/widget/TimeAgo"
-                          props={{ blockHeight }}
-                        />{" "}
-                        ago
-                      </>
-                    )}
-                  </Text>
-                  <Widget
-                    src="efiz.near/widget/SBT.Badge"
-                    props={{ accountId: accountId }}
-                  />
-                  <Widget
-                    src="proofofvibes.near/widget/Vibes.Button.proposeVibee"
-                    props={{}}
-                  />
-                </>
-              ),
+              onClick: () =>
+                !state.showReply && State.update({ showReply: true }),
             }}
           />
         </div>
-      </div>
-    </Header>
-
-    <Body>
-      <Content>{renderContent()}</Content>
-      {blockHeight !== "now" && (
-        <Actions>
+        <div className="me-4">
           <Widget
-            src="near/widget/CopyUrlButton"
+            src="mob.near/widget/LikeButton"
             props={{
-              url: postUrl,
+              notifyAccountId,
+              item,
             }}
           />
-        </Actions>
+        </div>
+        <div>
+          <Widget
+            src="mob.near/widget/MainPage.Post.ShareButton"
+            props={{ accountId, blockHeight, postType: "post" }}
+          />
+        </div>
+      </div>
+    )}
+    <div className="mt-3 ps-5">
+      {state.showReply && (
+        <div className="mb-2">
+          <Widget
+            src="mob.near/widget/MainPage.Comment.Compose"
+            props={{
+              notifyAccountId,
+              item,
+              onComment: () => State.update({ showReply: false }),
+            }}
+          />
+        </div>
       )}
-    </Body>
-  </Post>
+      <Widget
+        src="mob.near/widget/MainPage.Comment.Feed"
+        props={{
+          item,
+          highlightComment: props.highlightComment,
+          limit: props.commentsLimit,
+          subscribe,
+          raw,
+        }}
+      />
+    </div>
+  </div>
 );
