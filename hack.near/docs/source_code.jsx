@@ -259,7 +259,7 @@ return (
         <div className="d-flex flex-wrap justify-content-between mb-3">
           <div className="m-1">
             <h2>
-              <b>#dev</b>
+              <b>#docs</b>
             </h2>
           </div>
           <div className="m-1">
