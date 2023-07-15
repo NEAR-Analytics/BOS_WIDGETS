@@ -29,9 +29,9 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const daoPageAccount = "ndcplug.near";
+const daoPageAccount = "nearefi.near";
 const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/${daoPageAccount}/widget/DAO.main?daoId=${daoId}`;
+const accountUrl = `#/${daoPageAccount}/widget/ReFi.DAO.main?daoId=${daoId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
