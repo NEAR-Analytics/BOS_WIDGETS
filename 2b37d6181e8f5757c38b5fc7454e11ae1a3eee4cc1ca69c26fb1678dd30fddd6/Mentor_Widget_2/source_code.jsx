@@ -5,7 +5,7 @@ State.init({
   transaction: null,
   loading: false,
   error: null,
-  eventUnlocked: false,
+  eventUnlocked: true,
 });
 
 const checkNFT = () => {
@@ -106,7 +106,7 @@ const lockedEventImage = (
 
 const lockedImage = "https://cdn-icons-png.flaticon.com/512/44/44594.png";
 const unlockedImage =
-  "https://www.blackdoctors.us/cdn-cgi/imagedelivery/n12z2FIWKA5iB6vfvG4ygw/Shawanica-Roberts-649eb334c0f97/public";
+  "https://cdn3.vectorstock.com/i/1000x1000/90/12/stylish-black-man-programmer-sitting-vector-20219012.jpg";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
