@@ -1,3 +1,84 @@
+const daoId = props.daoId ?? "build.sputnik-dao.near";
+const code = props.code;
+const starCount = props.starCount;
+
+const policy = Near.view(daoId, "get_policy");
+
+const deposit = policy.proposal_bond;
+
+const widgetPath = props.widgetPath ?? "mob.near/widget/WidgetSource";
+const [accountId, widget, widgetName] = widgetPath.split("/");
+
+const blockHeight = props.blockHeight;
+const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
+const renderTag = props.renderTag;
+
+const name = metadata.name ?? widgetName;
+const image = metadata.image;
+
+const item = {
+  type: "dev",
+  path: widgetPath,
+  blockHeight,
+};
+
+const widget_args = JSON.stringify({
+  data: {
+    [daoId]: {
+      widget: {
+        [`${widgetName}`]: {
+          "": `${code}`,
+        },
+      },
+    },
+  },
+});
+
+const proposal_args = Buffer.from(widget_args, "utf-8").toString("base64");
+
+const handleProposal = () => {
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "update widget",
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: proposal_args,
+                  deposit: "50000000000000000000000",
+                  gas: "21900000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: deposit,
+      gas: "219000000000000",
+    },
+  ]);
+};
+
+const handleCreate = () =>
+  Social.set({
+    widget: {
+      [`${widgetName}`]: {
+        "": `${code}`,
+        metadata: {
+          tags: {
+            build: "",
+          },
+        },
+      },
+    },
+  });
+
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -31,7 +112,7 @@ return (
         <div className="m-1 mb-3 text-truncate">
           <Widget
             src="near/widget/AccountProfile"
-            props={{ accountId: props.accountId, link: props.profileLink }}
+            props={{ accountId, link: props.profileLink }}
           />
         </div>
         <div className="m-1 position-relative">
