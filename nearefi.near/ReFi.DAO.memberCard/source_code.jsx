@@ -7,7 +7,7 @@ const daoId = props.daoId ?? "refi.sputnik-dao.near";
 const classId = props.classId ?? 1;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `/ndcplug.near/widget/DAO.main?daoId=${accountId}`;
+const profileUrl = `near/widget/ProfilePage?accountId=${accountId}`;
 const reference =
   props.reference ??
   "https://genadrop.mypinata.cloud/ipfs/QmUxy2gB1QQD8mqRSwKkU2k6an4o99ip5ZL12if2opyjas?_gl=1*qk5u0e*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTM1MzU2Mi4yLjEuMTY4OTM1MzU5Ny4yNS4wLjA";
@@ -108,7 +108,12 @@ const TagsWrapper = styled.div`
 return (
   <Card>
     <CardLeft>
-      <Avatar href={profileUrl} onPointerUp={onPointerUp}>
+      <Avatar
+        href={profileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        onPointerUp={onPointerUp}
+      >
         <Widget
           src="mob.near/widget/Image"
           props={{
@@ -121,10 +126,23 @@ return (
       </Avatar>
 
       <div>
-        <TextLink href={profileUrl} onPointerUp={onPointerUp} ellipsis bold>
+        <TextLink
+          href={profileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onPointerUp={onPointerUp}
+          ellipsis
+          bold
+        >
           {profile.name || accountId.split(".near")[0]}
         </TextLink>
-        <TextLink href={profileUrl} onPointerUp={onPointerUp} ellipsis>
+        <TextLink
+          href={profileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          onPointerUp={onPointerUp}
+          ellipsis
+        >
           @{accountId}
         </TextLink>
 
