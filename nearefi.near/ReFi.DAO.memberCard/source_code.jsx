@@ -23,6 +23,8 @@ const canProposeToDAO = true; // add logic for whether can propose to DAO and wh
 const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
 const mintAuthorities = checkMintersJson.minters;
 isMintAuthority = mintAuthorities.includes(context.accountId);
+const daoIsMinter = mintAuthorities.includes(daoId);
+// now check if this person can propose in dao
 
 // console.log(checkMintersJson);
 // if (!!mintAuthorities) {
