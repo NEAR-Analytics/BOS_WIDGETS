@@ -347,6 +347,13 @@ return (
           </button>
         </OverlayTrigger>
       </Actions>
+      <a
+        className="button button--primary"
+        href="#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate"
+      >
+        <i className="bi bi-pencil"></i>
+        Propose Edit Profile
+      </a>
     </Section>
 
     <Section>
