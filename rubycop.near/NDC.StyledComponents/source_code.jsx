@@ -10,6 +10,12 @@ const StyledButton = styled.button`
   line-height: 24px;
   border: 0;
 
+  &.danger {
+    border: 1px solid #C23F38;
+    background: #F1D6D5;
+    color: #C23F38;
+  }
+
   &.primary {
     background: #FFD50D;
 
@@ -141,6 +147,10 @@ return (
         className="secondary dark"
         text="Secondary dark"
       />
+    </div>
+
+    <div className="d-flex align-items-end flex-wrap">
+      <WidgetButton text="Danger" className="danger" />
     </div>
   </Container>
 );
