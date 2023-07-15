@@ -18,7 +18,7 @@ const checkNFT = () => {
     State.update({ error: "" });
   }
 
-  const message = `Access Afropolitan token gated event with token ${address} and tokenId ${tokenId}}`;
+  const message = `Access Eden's Afropolitan token gated event with token ${address} and tokenId ${tokenId}}`;
   const signer = Ethers.provider().getSigner();
   signer.signMessage(message).then((signature) => {
     console.log({ message, signature, ethers });
@@ -109,7 +109,7 @@ const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <h3 className="text-center mb-3">Token Gated Event</h3>
+    <h3 className="text-center mb-3">Eden Token Gated Event</h3>
     <p className="text-center">
       This event is gated by a token. You must own or be renting the token to be
       able to attend.
