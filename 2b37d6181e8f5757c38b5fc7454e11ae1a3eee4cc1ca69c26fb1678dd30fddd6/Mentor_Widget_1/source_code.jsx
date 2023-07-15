@@ -5,7 +5,7 @@ State.init({
   transaction: null,
   loading: false,
   error: null,
-  eventUnlocked: false,
+  eventUnlocked: true,
 });
 
 const checkNFT = () => {
@@ -113,6 +113,11 @@ return (
     <div className="container">
       <div className="card shadow-sm">
         <div className="card-body">
+          {state.eventUnlocked && (
+            <a href="mattkotzbauer.com" target="_blank">
+              <p>Event is unlocked. Click here to access the link.</p>
+            </a>
+          )}
           <h3
             style={{
               textAlign: "center",
