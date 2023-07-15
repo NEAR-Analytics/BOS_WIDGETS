@@ -1,22 +1,31 @@
-const Embedded = styled.span`
-  white-space: normal;
-`;
-
 const renderMention =
   props.renderMention ??
+  props.onMention ??
   ((accountId) => (
-    <Widget
-      key={accountId}
-      src={`mob.near/widget/Account.ProfileInline`}
-      props={{
-        accountId,
-        hideAvatar: true,
-      }}
-    />
+    <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
+      <Widget
+        src="mob.near/widget/ProfileLine"
+        props={{
+          accountId: accountId.toLowerCase(),
+          hideAccountId: true,
+          tooltip: true,
+        }}
+      />
+    </span>
   ));
+
+const onHashtag = props.onHashtag;
+
+const Wrapper = styled.div`
+  word-break: break-word;
+  p {
+    white-space: pre-line;
+  }
+`;
 
 const renderWidget =
   props.renderWidget ??
+  props.onWidget ??
   // URL pattern: scheme://authority/path?query#fragment
   (({ url, scheme, authority, path, query }) => {
     // widget URL now allows "bos" and "near" schemes
@@ -41,9 +50,12 @@ const renderWidget =
   });
 
 return (
-  <Markdown
-    text={props.text}
-    onMention={renderMention}
-    onWidget={renderWidget}
-  />
+  <Wrapper>
+    <Markdown
+      text={props.text}
+      onMention={renderMention}
+      onHashtag={onHashtag}
+      onWidget={renderWidget}
+    />
+  </Wrapper>
 );
