@@ -218,7 +218,7 @@ return (
       </div>
       <div className="col-2 mt-2">
         <Widget
-          src="hack.near/widget/widget.star"
+          src="hack.near/widget/star.button"
           props={{ widgetPath, accountId }}
         />
       </div>
