@@ -98,6 +98,7 @@ const GameButton = () => {
             <div class="col">
                  <div class="row"><a class="eightbit-btn">Wiki</a></div>
                  <div class="row"><a class="eightbit-btn">NFT</a></div>
+                 <div class="row"><a class="eightbit-btn">Mobile</a></div>
             </div>
         </div>
         
@@ -119,7 +120,7 @@ const GameButton = () => {
     <div>
       <div style={{ backgroundColor: "white" }} className="d-flex">
         <iframe
-          style={{ height: "50vh", width: "100%" }}
+          style={{ height: "55vh", width: "100%" }}
           srcDoc={code}
           message={{ data: data || "No Data" }}
         />
