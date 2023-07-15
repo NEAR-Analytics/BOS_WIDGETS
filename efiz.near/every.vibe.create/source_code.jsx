@@ -57,7 +57,7 @@ function composeData() {
     },
     index: {
       post: JSON.stringify({
-        key,
+        key: "main",
         value: {
           type: "md",
         },
@@ -70,7 +70,7 @@ function composeData() {
 
   const item = {
     type: "social",
-    path: `${context.accountId}/post/${key}`,
+    path: `${context.accountId}/post/main`,
   };
   if (hashtags.length) {
     data.index.hashtag = JSON.stringify(
