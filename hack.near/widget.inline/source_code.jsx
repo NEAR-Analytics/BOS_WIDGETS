@@ -133,7 +133,7 @@ return (
         </a>
       </h5>
     </div>
-    <div className="row">
+    <div className="row mt-2">
       <div className="col-auto">
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
