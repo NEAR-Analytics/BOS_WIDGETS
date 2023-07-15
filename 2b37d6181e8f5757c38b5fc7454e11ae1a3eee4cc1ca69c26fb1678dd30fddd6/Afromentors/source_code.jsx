@@ -155,7 +155,7 @@ return (
       }}
     />
     <Widget
-      src="tomiwa1a1.near/widget/RentNFT"
+      src="2b37d6181e8f5757c38b5fc7454e11ae1a3eee4cc1ca69c26fb1678dd30fddd6/widget/RentNFT"
       props={{
         alchemyApiKey: "uB5QD-LyGRGbOa5--7aWs-dyqxjb3z24",
         address: "0x8842da19ef17d1a10875e0ebddb6981e178b90d2",
