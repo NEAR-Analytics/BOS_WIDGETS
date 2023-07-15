@@ -1,3 +1,17 @@
+const Container = styled.div`
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media (max-width: 576px) {
+    .profile-image {
+      width: 160px;
+      height: 160px;
+    }
+  }
+`;
+
 const widgetStarCount = {};
 
 const data = Social.keys("*/graph/star/widget/*/*", "final");
@@ -58,29 +72,31 @@ const starButton = ({ widgetPath }) => {
 };
 
 return (
-  <>
-    <div className="d-flex flex-wrap justify-content-between mb-3">
-      <div className="m-1">
+  <Container>
+    <div className="d-flex flex-wrap align-items-center">
+      <div className="m-3">
         <h3>
-          {" "}
-          <b>GitBos All Stars</b>
-          <i class="bi bi-bookmark-star"></i>
+          <b>All Stars</b> <i className="bi bi-bookmark-star"></i>
         </h3>
-        <Widget
-          src="near/widget/AccountProfileCard"
-          props={{ accountId: "build.sputnik-dao.near" }}
-        />
       </div>
-      <div className="m-2">
-        <a href={`#/hack.near/widget/GitBos`} class="text-muted">
+      <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
+        <a href="#/hack.near/widget/GitBos" className="text-muted m-2">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{ accountId: "academy.near" }}
+            className="profile-image"
           />
         </a>
       </div>
     </div>
-    <div className="mb-2">
+    <div className="m-3">
+      <Widget
+        src="near/widget/AccountProfile"
+        props={{ accountId: "build.sputnik-dao.near" }}
+      />
+    </div>
+    <br />
+    <div className="m-3">
       <h5>Explore Projects</h5>
       <Widget
         src="hack.near/widget/widget.search"
@@ -99,5 +115,5 @@ return (
         </div>
       );
     })}
-  </>
+  </Container>
 );
