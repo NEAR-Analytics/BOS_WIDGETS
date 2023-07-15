@@ -4,7 +4,7 @@ const roleName = props.roleName ?? "Council";
 const daoId = props.daoId ?? "blunt.sputnik-dao.near";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `/ndcplug.near/widget/DAO.main?daoId=${accountId}`;
+const profileUrl = `chaotictempest.near/widget/AccountProfileCard?accountId=${accountId}`;
 
 const onPointerUp =
   props.onClick ??
