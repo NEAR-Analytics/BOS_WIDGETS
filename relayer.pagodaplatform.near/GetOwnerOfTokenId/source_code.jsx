@@ -27,9 +27,9 @@ const getBalanceOf = () => {
   nftContract["ownerOf(uint256)"](Number.parseInt(tokenId))
     .then((owner) => {
       console.log({ owner });
-      State.update({ loading: true });
+      State.update({ loading: false });
       State.update({ owner: owner });
-
+      // alert("The address of the owner of tokenId:" + tokenId + " is: " + owner);
       //   var inputElement = document.getElementById("owner_address");
       //   Change the value of the input element
       //   inputElement.value = "New Value";
@@ -48,7 +48,7 @@ const transferButton = (
     onClick={() => getBalanceOf()}
     disabled={state.loading}
   >
-    Get your Balance
+    Get Owner Address Console Logged
   </button>
 );
 
