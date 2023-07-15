@@ -124,6 +124,52 @@ const curatedComps = [
 const filterTag = props.commonComponentTag ?? "edu";
 const debug = props.debug ?? false;
 
+const searchComponents = () => {
+  return (
+    <div className="mb-3">
+      <div className="mb-2">
+        <Widget
+          src="mob.near/widget/ComponentSearch"
+          props={{
+            boostedTag: "edu",
+            placeholder: "🔍 Search Applications",
+            limit: 10,
+            onChange: ({ result }) => {
+              State.update({ apps: result });
+            },
+          }}
+        />
+      </div>
+      {state.apps && (
+        <div className="mb-2">
+          {state.apps.map((app, i) => (
+            <div key={i}>
+              <Widget
+                src="mob.near/widget/ComponentSearch.Item"
+                props={{
+                  link: `#/${app.widgetSrc}`,
+                  accountId: app.accountId,
+                  widgetName: app.widgetName,
+                  onHide: () => State.update({ apps: null }),
+                  extraButtons: ({ widgetPath }) => (
+                    <a
+                      target="_blank"
+                      className="btn btn-outline-secondary"
+                      href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+                    >
+                      Source
+                    </a>
+                  ),
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const renderCategory = (categoryId) => {
   if (!categoryId || categoryId === "") return <></>;
   const item = curatedComps.find((i) => i.id == categoryId);
@@ -161,6 +207,8 @@ State.init({
 const renderHome = () => {
   return (
     <>
+      {searchComponents()}
+
       <div class="mt-2">
         <h4>Resources</h4>
         <div className="mb-3">
@@ -181,6 +229,7 @@ const onSelect = (selection) => {
 
 const renderContent = {
   home: renderHome(),
+  searchComponents: searchComponents(),
   category: renderCategory(state.id),
 }[state.tab];
 
