@@ -126,7 +126,7 @@ return (
         </StarButton>
       </div>
     </div>
-    <div className="m-3 position-relative">
+    <div className="m-2 position-relative">
       <h5 className="card-title mb-2">
         <a className="stretched-link" href={`#/${widgetPath}`}>
           {name}
@@ -134,7 +134,7 @@ return (
       </h5>
     </div>
     <br />
-    <div className="row mt-2">
+    <div className="row">
       <div className="col-auto">
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
