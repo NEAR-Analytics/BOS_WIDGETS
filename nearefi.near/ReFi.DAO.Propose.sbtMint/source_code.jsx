@@ -25,25 +25,25 @@ const changeReceiver = (receiver) => {
   State.update({
     receiver,
   });
-  console.log(state.receiver);
+  console.log("Receiver: " + state.receiver);
 };
 const changeReference = (reference) => {
   State.update({
     reference,
   });
-  console.log(state.reference);
+  console.log("Reference: " + state.reference);
 };
 const changeDAO = (daoId) => {
   State.update({
     daoId,
   });
-  console.log(state.daoId);
+  console.log("DAO: " + state.daoId);
 };
 const changeIssuer = (issuer) => {
   State.update({
     issuer,
   });
-  console.log(state.daoId);
+  console.log("DAO: " + state.issuer);
 };
 const post_args = JSON.stringify({
   receiver: state.receiver,
@@ -236,18 +236,49 @@ function textareaInputHandler(value) {
 return (
   <Wrapper>
     {showReciever && (
-      <div className="input-group">
+      <div className="input-group row">
+        <p>Input SBT Receiver</p>
         <input
           type="text"
           className={`form-control`}
           onChange={(e) => changeReceiver(e.target.value)}
-          placeholder={props.placeholder ?? `Enter Reciever`}
+          placeholder={state.receiver ?? `Enter Reciever`}
         />
       </div>
     )}
-    {showReference && <div className="input-group"></div>}
-    {showDAO && <div className="input-group"></div>}
-    {showIssuer && <div className="input-group"></div>}
+    {showReference && (
+      <div className="input-group row">
+        <p>Input Reference JSON (Upload to IPFS)</p>
+        <input
+          type="text"
+          className={`form-control`}
+          onChange={(e) => changeReference(e.target.value)}
+          placeholder={state.reference ?? `Enter Reference`}
+        />
+      </div>
+    )}
+    {showDAO && (
+      <div className="input-group row">
+        <p>Input DAO Contract Address</p>
+        <input
+          type="text"
+          className={`form-control`}
+          onChange={(e) => changeDAO(e.target.value)}
+          placeholder={state.daoId ?? `Enter DAO Contract`}
+        />
+      </div>
+    )}
+    {showIssuer && (
+      <div className="input-group row">
+        <p>Input SBT Issuer Contract Address</p>
+        <input
+          type="text"
+          className={`form-control`}
+          onChange={(e) => changeIssuer(e.target.value)}
+          placeholder={state.issuer ?? `Enter Reference`}
+        />
+      </div>
+    )}
     <ButtonWrapper>
       <button className="join-button" onClick={handleProposal}>
         Propose to Mint SBT
