@@ -1,4 +1,4 @@
-const { Button } = props;
+const { Button, Dropdown } = props;
 
 const StyledButton = styled.button`
   width: max-content;
@@ -11,29 +11,29 @@ const StyledButton = styled.button`
   border: 0;
 
   &.danger {
-    border: 1px solid #C23F38;
-    background: #F1D6D5;
-    color: #C23F38;
+    border: 1px solid #c23f38;
+    background: #f1d6d5;
+    color: #c23f38;
   }
 
   &.primary {
-    background: #FFD50D;
+    background: #ffd50d;
 
     &:hover {
-      background: #E7C211;
+      background: #e7c211;
     }
 
     &.dark {
       color: #fff;
-      background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);
+      background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
 
       &:hover {
-        background: linear-gradient(90deg, #792AC0 0%, #423ABD 100%);
+        background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
       }
     }
 
     &:disabled {
-      background: #C3CACE;
+      background: #c3cace;
       color: #828688;
       border: 0;
     }
@@ -42,26 +42,26 @@ const StyledButton = styled.button`
   &.secondary {
     background: transparent;
     border: 1px solid;
-    border-color: #FFD50D;
-    color: #FFD50D;
+    border-color: #ffd50d;
+    color: #ffd50d;
 
     &:hover {
-      border-color: #E7C211;
-      color: #E7C211;
+      border-color: #e7c211;
+      color: #e7c211;
     }
 
     &.dark {
-      color: #4F46E5;
-      border-color: #4F46E5;
+      color: #4f46e5;
+      border-color: #4f46e5;
 
       &:hover {
-        border-color: #2F2A87;
-        color: #2F2A87;
+        border-color: #2f2a87;
+        color: #2f2a87;
       }
     }
 
     &:disabled {
-      border-color: #C3CACE;
+      border-color: #c3cace;
       color: #828688;
     }
   }
@@ -75,6 +75,17 @@ const Container = styled.div`
   button {
     margin: 5px;
   }
+`;
+
+const Select = styled.select`
+  padding: 8px 10px;
+  width: 100%;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #d0d6d9;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #828688;
 `;
 
 if (Button)
@@ -94,6 +105,26 @@ if (Button)
     </StyledButton>
   );
 
+if (Dropdown)
+  return (
+    <div>
+      <H2>{Dropdown.label}</H2>
+      <Select onChange={(e) => Dropdown.handleChange(e.target.value)}>
+        {Dropdown.options.map((opt) => (
+          <>
+            {opt.default ? (
+              <option default value={opt.value}>
+                {opt.title}
+              </option>
+            ) : (
+              <option value={opt.value}>{opt.title}</option>
+            )}
+          </>
+        ))}
+      </Select>
+    </div>
+  );
+
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
     src={"rubycop.near/widget/NDC.StyledComponents"}
@@ -104,6 +135,22 @@ const WidgetButton = ({ size, className, disabled, text, icon }) => (
         disabled,
         text,
         icon,
+      },
+    }}
+  />
+);
+
+const WidgetSelect = () => (
+  <Widget
+    src={"rubycop.near/widget/NDC.StyledComponents"}
+    props={{
+      Dropdown: {
+        label: "Select label",
+        options: [
+          { title: "Select value", default: true, value: 0 },
+          { title: "value 1", value: 1 },
+          { title: "value 2", value: 2 },
+        ],
       },
     }}
   />
@@ -155,5 +202,8 @@ return (
         icon={<i class="bi bi-trash" />}
       />
     </div>
+
+    <h4>Select</h4>
+    <WidgetSelect />
   </Container>
 );
