@@ -117,7 +117,6 @@ return (
         <div className="m-1 position-relative">
           <h5 className="card-title mb-2">
             <a className="stretched-link" href={`#/${widgetPath}`}>
-              <i className="bi bi-box-arrow-up-right text-secondary me-1" />
               {name}
             </a>
           </h5>
