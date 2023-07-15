@@ -162,20 +162,20 @@ return (
     </div>
     <div className="row mt-4 mb-3">
       <div className="col-auto">
-        <div>
-          <ButtonLink
-            href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
-            target="_blank"
-          >
-            <i className="bi bi-code me-1"></i>source
-          </ButtonLink>
-          <ButtonLink
-            href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
-            target="_blank"
-          >
-            <i className="bi bi-clock me-1"></i>history
-          </ButtonLink>
-        </div>
+        <a
+          href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+          className="btn btn-sm btn-outline-secondary border-0"
+          target="_blank"
+        >
+          <i className="bi bi-code me-1"></i>source
+        </a>
+        <a
+          href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
+          className="btn btn-sm btn-outline-secondary border-0"
+          target="_blank"
+        >
+          <i className="bi bi-clock me-1"></i>history
+        </a>
       </div>
       <div className="col-auto d-flex flex-column align-items-end">
         <ForkButton>
