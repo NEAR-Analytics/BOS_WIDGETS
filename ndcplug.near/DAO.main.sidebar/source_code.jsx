@@ -4,7 +4,7 @@ State.init({
   copiedShareUrl: false,
 });
 
-const accountId = props.daoId ?? props.accountId ?? "multi.sputnik-dao.near";
+const accountId = props.daoId ?? props.accountId ?? "refi.sputnik-dao.near";
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 
@@ -349,7 +349,7 @@ return (
       </Actions>
       <a
         className="button button--primary"
-        href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${daoId}`}
+        href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${accountId}`}
       >
         <i className="bi bi-pencil"></i>
         Propose Edit Profile
