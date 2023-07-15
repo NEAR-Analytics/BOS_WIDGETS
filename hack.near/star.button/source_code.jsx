@@ -1,53 +1,48 @@
 const accountId = props.accountId ?? context.accountId;
 
-const path = props.path ?? "mob.near/widget/MetadataEditor";
-const [creatorId, namespace, thingId] = path.split("/");
+const widgetPath = props.widgetPath ?? "devs.near/widget/dev.library";
+const [ownerId, widget, widgetName] = widgetPath.split("/");
 
-const starEdge = Social.keys(`${accountId}/graph/star/${path}`, undefined, {
-  values_only: true,
-});
+const starEdge = Social.keys(
+  `${accountId}/graph/star/widget/${ownerId}/${widgetName}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
 
 const starred = starEdge && Object.keys(starEdge).length > 0;
 
-const type = starred ? "unstar" : "star";
+const type = star ? "unstar" : "star";
 
 const data = {
   graph: {
-    star: { [creatorId]: { [namespace]: { [thingId]: starred ? null : "" } } },
+    star: { widget: { [ownerId]: { [widgetName]: starred ? null : "" } } },
   },
   index: {
     graph: JSON.stringify({
       key: "star",
       value: {
         type,
-        path,
+        src: widgetPath,
       },
     }),
     notify: JSON.stringify({
-      key: creatorId,
+      key: ownerId,
       value: {
         type,
-        item: {
-          path,
-        },
       },
     }),
   },
 };
 
-const handleSave = () => {
-  Social.set({ data });
-};
-
 return (
   <CommitButton
     disabled={!context.accountId}
-    className={`btn ${
-      starred ? "btn btn-sm btn-secondary" : "btn btn-sm btn-outline-secondary"
-    }`}
+    className="btn btn-outline-secondary"
     data={data}
   >
-    {" "}
-    <i className="bi-star-fill" />
+    <i className={`bi ${starred ? "bi-star-fill" : "bi-star"}`} />
+    <span style={{ marginLeft: "0.2rem" }}>{starred ? "Starred" : "Star"}</span>
   </CommitButton>
 );
