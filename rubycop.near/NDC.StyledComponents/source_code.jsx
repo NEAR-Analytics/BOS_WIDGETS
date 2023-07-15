@@ -22,9 +22,18 @@ const StyledButton = styled.button`
     border: 1px solid #FFD50D;
   }
 
+  &:hover {
+    background: #D9B50B;
+
+    &.dark {
+      background: linear-gradient(90deg, #5D2193 0%, #2F2A87 100%);
+    }
+  }
+
   &:disabled {
     background: #C3CACE;
     color: #828688;
+    border: 1px solid #828688;
   }
 
   i {
@@ -75,6 +84,7 @@ return (
   <Container>
     <h4>Buttons</h4>
     <WidgetButton text="Primary" />
+    <WidgetButton text="Primary Dark" className="primary dark" />
     <WidgetButton
       text="Primary with Icon"
       icon={<i class="bi bi-check-lg"></i>}
