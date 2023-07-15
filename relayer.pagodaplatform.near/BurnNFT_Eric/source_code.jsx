@@ -24,7 +24,7 @@ const burnNFT = () => {
   const nftContract = new ethers.Contract(address, contractAbi.abi, signer);
   console.log({ nftContract });
   console.log("state.destination", state.destination);
-  nftContract["burn(uint256"](Number.parseInt(tokenId))
+  nftContract["burn(uint256)"](Number.parseInt(tokenId))
     .then((transaction) => {
       console.log("Transaction Hash:", transaction);
       State.update({ loading: true });
