@@ -68,7 +68,6 @@ const StyledButton = styled.button`
 
   i {
     margin: 0 0 0 5px;
-    &:before { vertical-align: -0.2rem; }
   }
 `;
 
