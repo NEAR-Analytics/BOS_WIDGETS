@@ -13,7 +13,7 @@ return (
     <div className="d-flex justify-content-between align-items-center mb-3">
       <div className="me-2 text-truncate">
         <Widget
-          src="mob.near/widget/Component.InlineBlock"
+          src="hack.near/widget/widget.profile"
           props={{ accountId, widgetName }}
         />
       </div>
