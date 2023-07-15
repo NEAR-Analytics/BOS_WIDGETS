@@ -51,7 +51,7 @@ loadNFT();
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <h1 className="text-center mb-3">AfroShare</h1>
+    <h1 className="text-center mb-3">AfroShare by Eden</h1>
     <p className="text-center mb-3">
       Afroshare allows you to easily share your Afropolitan NFT by renting it to
       others.
@@ -103,10 +103,11 @@ return (
         {loginButton}
       </>
     )}
-    <Widget src="kyigof.near/widget/Rent" props={props} />
+    // <hr />
+    <Widget src="edenchan.near/widget/RentNFT" props={props} />
     <hr />
-    <Widget src="tomiwa1a1.near/widget/TokenGate" props={props} />
+    <Widget src="edenchan.near/widget/TokenGate" props={props} />
     <hr />
-    <Widget src="tomiwa1a1.near/widget/TransferNFT" props={props} />
+    <Widget src="edenchan.near/widget/TransferNFT" props={props} />
   </div>
 );
