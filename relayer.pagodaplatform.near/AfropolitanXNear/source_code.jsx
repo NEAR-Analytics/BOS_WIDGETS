@@ -15,7 +15,8 @@ State.init({ isLoggedIn: false, loading: false, displayMsg: false });
 
 const getNftContract = async () => {
   State.update({ loading: true });
-  State.update({ isLoggedIn: true, displayMsg: false });
+  window.location.href =
+    "https://1234-nearexamples-donationjs-70k9fwuh5p5.ws-us101.gitpod.io/";
   const signer = Ethers.provider().getSigner();
   const nftContract = new ethers.Contract(
     nftCollectionAddress,
