@@ -23,33 +23,6 @@ const changeReceiver = (receiver) => {
   console.log(state.receiver);
 };
 
-// const post_args = JSON.stringify({
-//   data: {
-//     [daoId]: {
-//       post: {
-//         main: JSON.stringify(content),
-//       },
-//       index: {
-//         post: JSON.stringify({
-//           key: "main",
-//           value: {
-//             type: "md",
-//           },
-//         }),
-//       },
-//     },
-//   },
-// });
-
-// const post_args = JSON.stringify({
-//   data: {
-//     receiver: state.receiver,
-//     metadata: {
-//       class: 1,
-//     },
-//     reference: reference,
-//   },
-// });
 const post_args = JSON.stringify({
   receiver: state.receiver,
   metadata: {
@@ -61,6 +34,10 @@ const post_args = JSON.stringify({
 const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
 //   const gas = 200000000000000;
 //   const deposit = 80000000000000000000000; // 0.008 //
+const policy = Near.view(daoId, "get_policy");
+
+const deposit = policy.proposal_bond;
+// add min poliicy bond
 const handleProposal = () => {
   Near.call([
     {
