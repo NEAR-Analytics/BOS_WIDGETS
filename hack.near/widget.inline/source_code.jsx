@@ -1,4 +1,3 @@
-const accountId = "hack.near";
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -32,7 +31,7 @@ return (
         <div className="m-1 mb-3 text-truncate">
           <Widget
             src="near/widget/AccountProfile"
-            props={{ accountId, link: props.profileLink }}
+            props={{ accountId: props.accountId, link: props.profileLink }}
           />
         </div>
         <div className="m-1 position-relative">
