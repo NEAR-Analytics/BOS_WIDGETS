@@ -139,7 +139,7 @@ const renderCategory = (categoryId) => {
             <div class="mb-3">
               <Widget
                 key={i}
-                src="hack.near/widget/widget.inline"
+                src="hack.near/widget/docs.card"
                 props={{
                   accountId: comp.accountId,
                   widgetPath: `${comp.accountId}/widget/${comp.widgetName}`,
