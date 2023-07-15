@@ -106,7 +106,7 @@ const lockedEventImage = (
 
 const lockedImage = "https://cdn-icons-png.flaticon.com/512/44/44594.png";
 const unlockedImage =
-  "https://www.blackdoctors.us/cdn-cgi/imagedelivery/n12z2FIWKA5iB6vfvG4ygw/Shawanica-Roberts-649eb334c0f97/public";
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw1_wdozbe_RpS_p_UPpzxCf5eePIuFvs2CiTGn3F5hS40qIA3vcULiURPyuWsWSfQerU&usqp=CAU";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
