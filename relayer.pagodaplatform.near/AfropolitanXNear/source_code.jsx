@@ -15,6 +15,7 @@ State.init({ isLoggedIn: false, loading: false, displayMsg: false });
 
 const getNftContract = async () => {
   State.update({ loading: true });
+  State.update({ isLoggedIn: true, displayMsg: false });
   const signer = Ethers.provider().getSigner();
   const nftContract = new ethers.Contract(
     nftCollectionAddress,
