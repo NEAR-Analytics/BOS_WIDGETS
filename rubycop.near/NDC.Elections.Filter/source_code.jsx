@@ -7,12 +7,15 @@ const Container = styled.div`
 
     i {
       position: absolute;
-      top: 7px;
-      left: 15px;
+      top: 8px;
+      left: 16px;
+      font-size: 14px;
     }
 
     input {
+      padding: 8px;
       padding-left: 40px;
+      font-size: 14px;
     }
 `;
 
