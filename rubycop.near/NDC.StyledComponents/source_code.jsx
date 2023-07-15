@@ -23,7 +23,8 @@ const StyledButton = styled.button`
   }
 
   &:disabled {
-    background: rgb(255 234 119);
+    background: #C3CACE;
+    color: #828688;
   }
 
   i {
