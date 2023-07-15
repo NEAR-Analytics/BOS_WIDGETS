@@ -68,7 +68,17 @@ const limitedWidgetStarSort = Object.entries(widgetStarCount)
 console.log(limitedWidgetStarSort);
 
 const starButton = ({ widgetPath }) => {
-  return <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />;
+  return (
+    <div>
+      <a
+        className="btn btn-outline-primary m-1"
+        href={`#/near/widget/ComponentDetailsPage?src=${widgetPath}`}
+      >
+        View Code
+      </a>{" "}
+      <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
+    </div>
+  );
 };
 
 return (
