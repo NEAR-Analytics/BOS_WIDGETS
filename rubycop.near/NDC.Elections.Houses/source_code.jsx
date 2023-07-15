@@ -18,7 +18,6 @@ const housesMapping = {
 const Small = styled.small`
   margin-top: 10px;
   font-weight: 400;
-  color: #D0D6D9;
 `;
 
 const H6 = styled.h6`
