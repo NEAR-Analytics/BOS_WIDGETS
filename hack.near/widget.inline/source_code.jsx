@@ -106,7 +106,7 @@ const ForkButton = styled.div`
 
 return (
   <Card>
-    <div className="row">
+    <div className="row mb-2">
       <div className="col-6">
         <div className="m-1 mb-3 text-truncate">
           <Widget
