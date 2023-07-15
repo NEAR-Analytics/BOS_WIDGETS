@@ -106,7 +106,7 @@ const Carousel = () => {
     }
 
     .slideImg {
-        width: 80%;
+        width: 70%;
     }
 
     /* Fading animation */
