@@ -163,6 +163,13 @@ const renderHome = () => {
     <>
       <div class="mt-2">
         <h4>Resources</h4>
+        <div className="mb-3">
+          {curatedComps && (
+            <div className="mb-3 m-3">
+              {curatedComps.map((cat, i) => renderCategory(cat.id))}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
