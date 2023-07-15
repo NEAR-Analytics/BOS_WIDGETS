@@ -349,7 +349,7 @@ return (
       </Actions>
       <a
         className="button button--primary"
-        href="#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate"
+        href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${daoId}`}
       >
         <i className="bi bi-pencil"></i>
         Propose Edit Profile
