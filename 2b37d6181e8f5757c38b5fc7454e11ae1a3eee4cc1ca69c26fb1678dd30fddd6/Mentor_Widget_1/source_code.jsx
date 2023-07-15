@@ -101,21 +101,18 @@ const loginButton = (
 );
 
 const lockedEventImage = (
-  <img src={state.token.media[0].gateway} width={200} alt={state.token.title} />
+  <img src={state.token.media[0].gateway} width={300} alt={state.token.title} />
 );
 
 const lockedImage = "https://i.imgur.com/EsThDIl.jpg";
-const unlockedImage = (
-  <a href="mattkotzbauer.com" target="_blank">
-    <img src="https://i.imgur.com/6qyuwCf.jpg" width={200} />
-  </a>
-);
+const unlockedImage = "https://i.imgur.com/6qyuwCf.jpg";
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
     <div className="The image">
       <img
-        src="https://www.blackdoctors.us/cdn-cgi/imagedelivery/n12z2FIWKA5iB6vfvG4ygw/Shawanica-Roberts-649eb334c0f97/public"
+        src="https://www.blackdoctors.us/cdn-cgi/imagedelivery/n12z2FIWKA5iB6vfvG4ygw/Shawanica-Roberts-649eb334c0f97/public
+"
         style={{ width: "200px", height: "200px" }}
       />
     </div>
@@ -148,9 +145,13 @@ return (
     <div className="container">
       <div className="card shadow-sm">
         <div className="card-body">
-          state.eventUnlocked ? unlockedImage :{" "}
-          <img src={lockedImage} width={200} />
+          <img
+            src={state.eventUnlocked ? unlockedImage : lockedImage}
+            width={300}
+            alt={state.token.title}
+          />
           {unlockButton}
+
           {state.loading && (
             <>
               <p className="text-primary">Loading transaction...</p>
@@ -178,6 +179,7 @@ return (
               </a>
             </p>
           )}
+
           {state.error && <p className="text-danger">{state.error}</p>}
           <hr />
           {state.showLogin && loginButton}
