@@ -132,6 +132,7 @@ return (
         props={{
           handleFilter,
           candidateId: state.candidateId,
+          placeholder: "Search by candidate name",
         }}
       />
     </Filter>
