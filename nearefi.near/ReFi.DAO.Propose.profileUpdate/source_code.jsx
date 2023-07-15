@@ -141,14 +141,12 @@ return (
           <button
             className="btn btn-outline-success m-1"
             onClick={handleProposal}
-            disabled={!validName}
           >
             Propose Changes
           </button>
           <button
             className="btn btn-outline-primary m-1"
             href={`#/hack.near/widget/DAO.Profile?daoId=${daoId}`}
-            disabled={!validName}
           >
             Request Permission to Post on Behalf of DAO
           </button>
