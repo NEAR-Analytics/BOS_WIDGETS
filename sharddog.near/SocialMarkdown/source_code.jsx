@@ -54,7 +54,7 @@ return (
       text={props.text}
       onMention={renderMention}
       onHashtag={onHashtag}
-      onWidget={renderWidget}
+      onURL={renderWidget}
     />
   </Wrapper>
 );
