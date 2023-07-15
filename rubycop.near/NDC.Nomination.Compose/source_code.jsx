@@ -14,7 +14,6 @@ const widgets = {
   button: "rubycop.near/widget/NDC.StyledComponents",
 };
 
-//Recover image from NFT
 if (imageIsNFT) {
   let nftData = profileInfo.image.nft;
   const getNftCid = Near.view(nftData.contractId, "nft_token", {
@@ -25,23 +24,20 @@ if (imageIsNFT) {
     "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media;
   console.log("was nft", RealProfileImageAsURL);
 }
-//Recover image from IPFS_CID
 
 if (imageIsIpfs_cid) {
   RealProfileImageAsURL =
     "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid;
   console.log("was ipfs", RealProfileImageAsURL);
 }
-//Recover image from URL
 
 if (imageIsUrl) {
   RealProfileImageAsURL = profileInfo.image.url;
   console.log("was url", RealProfileImageAsURL);
 }
-// State
+
 State.init({
   theme,
-
   img: {
     uploading: "false",
     url: RealProfileImageAsURL,
@@ -56,7 +52,6 @@ State.init({
   Key_Issue_2: "",
   Key_Issue_3: "",
   addition_platform: "",
-
   afiliation: [
     {
       company_name: "",
@@ -162,6 +157,7 @@ const validatedInputs = () => {
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
+
   if (img.cid === null) {
     State.update({ error_msg: "Pic an image" });
     isValid = false;
@@ -274,74 +270,19 @@ const filesOnChange = (files) => {
   }
 };
 
-const handleName = (item) => {
-  State.update({ name: item, error_msg: null });
-};
-const handleProfile = (item) => {
+const handleName = (item) => State.update({ name: item, error_msg: null });
+
+const handleProfile = (item) =>
   State.update({ profileAccount: item, error_msg: null });
-};
+
 const handleHouse = (item) => {
-  console.log(item);
-  if (item === "HouseOfMerit") {
-    console.log("HouseOfMerit");
-    Storage.privateSet("Houseselected", 1);
-  }
-  if (item === "CouncilOfAdvisors") {
-    console.log("CouncilOfAdvisors");
-
-    Storage.privateSet("Houseselected", 2);
-  }
-  if (item === "TransparencyCommission") {
-    console.log("TransparencyCommission");
-
-    Storage.privateSet("Houseselected", 3);
-  }
-  console.log(Storage.privateGet("Houseselected"));
+  if (item === "HouseOfMerit") Storage.privateSet("Houseselected", 1);
+  if (item === "CouncilOfAdvisors") Storage.privateSet("Houseselected", 2);
+  if (item === "TransparencyCommission") Storage.privateSet("Houseselected", 3);
 
   State.update({ house_intended: item, error_msg: null });
 };
-const handleHAYInvolve = (item) => {
-  console.log(item);
-  State.update({
-    HAYInvolve: item.substring(0, 2000),
-    error_msg: null,
-  });
-  return;
-};
-const handleWIYStrategy = (item) => {
-  State.update({
-    WIYStrategy: item.substring(0, 2000),
-    error_msg: null,
-  });
-  return;
-};
-const handleKey_Issue_1 = (item) => {
-  State.update({
-    Key_Issue_1: item.substring(0, 2000),
-    error_msg: null,
-  });
-  return;
-};
-const handleKey_Issue_2 = (item) => {
-  State.update({
-    Key_Issue_2: item.substring(0, 2000),
-    error_msg: null,
-  });
-};
-const handleKey_Issue_3 = (item) => {
-  State.update({
-    Key_Issue_3: item.substring(0, 2000),
-    error_msg: null,
-  });
-  return;
-};
-const handleAditional = (item) => {
-  State.update({
-    addition_platform: item.substring(0, 2000),
-    error_msg: null,
-  });
-  return;
-};
+
 const addFields = () => {
   var temp = state.afiliation;
   let object = {
@@ -351,99 +292,236 @@ const addFields = () => {
     role: "",
   };
 
-  if (temp.length === 6) {
-    return;
-  } else {
-    temp.push(object);
-    State.update({ afiliation: temp, error_msg: null });
-  }
+  if (temp.length === 6) return;
+
+  temp.push(object);
+  State.update({ afiliation: temp, error_msg: null });
 };
+
 const removeField = (index) => {
-  let data = state.afiliation;
-
-  let newData = data.splice(index, 1);
-
-  State.update({ afiliation: data });
-  State.update({ error_msg: null });
-};
-const handleAFFCompanyName = (params) => {
-  let data = state.afiliation;
-
-  data[params.index].company_name = params.event.target.value.substring(0, 500);
-  State.update({ afiliation: data, error_msg: null });
-  return;
-};
-const handleAFFStartdate = (params) => {
-  let data = state.afiliation;
-
-  data[params.index].start_date = params.event.target.value;
-  State.update({ afiliation: data, error_msg: null });
-};
-const handleAFFEnddate = (params) => {
-  let data = state.afiliation;
-
-  data[params.index].end_date = params.event.target.value;
-  State.update({ afiliation: data, error_msg: null });
-};
-const handleAFFRole = (params) => {
-  let data = state.afiliation;
-  data[params.index].role = params.event.target.value.substring(0, 500);
-  State.update({ afiliation: data, error_msg: null });
-  return;
-};
-const handleTags = (item) => {
   State.update({
-    tags: item.target.value.substring(0, 500),
+    afiliation: state.afiliation.splice(index, 1),
     error_msg: null,
   });
 };
+
+const validate = (key, item, limit) =>
+  State.update({ [key]: item.substring(0, limit ?? 2000), error_msg: null });
+
+const validateAffiliations = (params, key, limit) => {
+  let data = state.afiliation;
+
+  data[params.index][key] = params.event.target.value.substring(0, limit);
+  State.update({ afiliation: data, error_msg: null });
+};
+
 const handleDeclaration = (item) => {
   State.update({ agreement: item.target.checked.toString(), error_msg: null });
 };
 
 const handleNominate = () => {
-  //Validate the Data outPut
-  if (validatedInputs()) {
-    //Create a copy
-    let newstate = Object.assign({}, state);
-    //modify the affiliations into a string
-    newstate.afiliation = JSON.stringify(newstate.afiliation);
-    //convert all the newstate into a string
-    const stateAsString = JSON.stringify(newstate);
-    //Storage.privateSet("SelfNominate_Payload", state);
-    //prepare a the final structure
-    const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
+  if (!validatedInputs()) return;
 
-    //convert the string into and object
-    const SocialArgs = JSON.parse(data);
+  let newstate = Object.assign({}, state);
+  newstate.afiliation = JSON.stringify(newstate.afiliation);
+  const stateAsString = JSON.stringify(newstate);
+  const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
+  const SocialArgs = JSON.parse(data);
 
-    // set the payloads for the batch
-    let SelfNominate_Payload = {
-      contractName: Nominationcontract,
-      methodName: "self_nominate",
-      args: {
-        house: state.house_intended,
-        comment: context.accountId,
-        link: "",
-      },
-      gas: 300000000000000,
-      deposit: 100000000000000000000000,
-    };
+  let SelfNominate_Payload = {
+    contractName: Nominationcontract,
+    methodName: "self_nominate",
+    args: {
+      house: state.house_intended,
+      comment: context.accountId,
+      link: "",
+    },
+    gas: 300000000000000,
+    deposit: 100000000000000000000000,
+  };
 
-    let Social_Payload = {
-      contractName: Socialcontract,
-      methodName: "set",
-      args: SocialArgs,
-      gas: 300000000000000,
-      deposit: 100000000000000000000000,
-    };
+  let Social_Payload = {
+    contractName: Socialcontract,
+    methodName: "set",
+    args: SocialArgs,
+    gas: 300000000000000,
+    deposit: 100000000000000000000000,
+  };
 
-    // call the methods
-    Near.call([Social_Payload, SelfNominate_Payload]);
-  } else {
-    //The fields are incomplete
-    console.log("still invalid");
-  }
+  Near.call([Social_Payload, SelfNominate_Payload]);
 };
 
-return "";
+return (
+  <Modal>
+    <ComponentWrapper>
+      <div
+        style={{
+          display: "flex",
+          "justify-content": "center",
+          "padding-top": "16px",
+          "margin-bottom": "15px",
+        }}
+      >
+        <HiddeableWidget>
+          <Widget
+            src={`syi216.near/widget/NDC.nomination.card`}
+            props={{
+              nominationData: {
+                img: {
+                  cid: state.img.cid,
+                  isCid: RealProfileImageCid.IS_CID,
+                },
+                profileAccount: state.profileAccount,
+                afiliation: JSON.stringify(state.afiliation),
+                HAYInvolve: state.HAYInvolve,
+                WIYStrategy: state.WIYStrategy,
+                Key_Issue_1: state.Key_Issue_1,
+                Key_Issue_2: state.Key_Issue_2,
+                Key_Issue_3: state.Key_Issue_3,
+                addition_platform: state.addition_platform,
+                tags: state.tags,
+              },
+              indexerData: {
+                house: state.house_intended,
+                timestamp: "",
+                nominee: "",
+              },
+              profileData: {
+                name: state.name,
+              },
+              upVoteData: {
+                upvotes: "0",
+                comments: [],
+              },
+              preview: true,
+            }}
+          />
+        </HiddeableWidget>
+      </div>
+      <CardStyled name="compose">
+        <div className="d-flex flex-column ">
+          <div className="d-flex flex-column">
+            <H1styled>Self Nominate</H1styled>
+          </div>
+
+          <CardForm name="cardform">
+            <Widget
+              src={`dokxo.near/widget/Compose.Profile`}
+              props={{
+                img: state.img,
+                isCid: RealProfileImageCid.IS_CID,
+                name: state.name,
+                profileAccount: state.profileAccount,
+                house_intended: state.house_intended,
+                filesOnChange,
+                handleName,
+                handleProfile,
+                handleHouse,
+              }}
+            />
+            <Widget
+              src={`dokxo.near/widget/Compose.Platform`}
+              props={{
+                HAYInvolve: state.HAYInvolve,
+                WIYStrategy: state.WIYStrategy,
+                Key_Issue_1: state.Key_Issue_1,
+                Key_Issue_2: state.Key_Issue_2,
+                Key_Issue_3: state.Key_Issue_3,
+                addition_platform: state.addition_platform,
+                handleHAYInvolve: (text) => validate("HAYInvolve", text),
+                handleWIYStrategy: (text) => validate("WIYStrategy", text),
+                handleKey_Issue_1: (text) => validate("Key_Issue_1", text),
+                handleKey_Issue_2: (text) => validate("Key_Issue_2", text),
+                handleKey_Issue_3: (text) => validate("Key_Issue_3", text),
+                handleAditional: (text) => validate("addition_platform", text),
+              }}
+            />
+            <Widget
+              src={`dokxo.near/widget/Compose.Affiliations`}
+              props={{
+                affiliations: state.afiliation,
+                addFields,
+                removeField,
+                handleAFFCompanyName: (params) =>
+                  validateAffiliations(params, "company_name", 500),
+                handleAFFStartdate: (params) =>
+                  validateAffiliations(params, "start_date"),
+                handleAFFEnddate: (params) =>
+                  validateAffiliations(params, "end_date"),
+                handleAFFRole: (params) =>
+                  validateAffiliations(params, "role", 500),
+              }}
+            />
+
+            <Widget
+              src={`dokxo.near/widget/Compose.TagAndDeclaration`}
+              props={{
+                agreement: state.agreement,
+                tags: state.tags,
+                handleTags: (e) => validate("tags", e.target.value, 500),
+                handleDeclaration,
+              }}
+            />
+            <div
+              class="row col-sm-12 mx-0"
+              style={{
+                width: "100%",
+                "padding-left": "16px",
+                "padding-right": "16px",
+              }}
+            >
+              {
+                <div
+                  style={{
+                    display: "flex",
+                    "justify-content": "start",
+                  }}
+                >
+                  {state.error_msg && (
+                    <label
+                      style={{
+                        display: "flex",
+                        "justify-content": "end",
+                        color: "#FF0000",
+                        "border-bottom": "1px solid red",
+                        "font-size": "14px",
+                        "margin-bottom": "10px",
+                        "margin-top": "10px",
+                      }}
+                    >
+                      {state.error_msg}
+                    </label>
+                  )}
+                </div>
+              }
+              <Submitcontainer>
+                <Widget
+                  src={widgets.button}
+                  props={{
+                    Button: {
+                      className: "secondary dark",
+                      text: "Cancel",
+                      onClick: handleClose,
+                    },
+                  }}
+                />
+                <Widget
+                  src={widgets.button}
+                  props={{
+                    Button: {
+                      text: "Submit",
+                      onClick: () => {
+                        handleNominate();
+                        handleClose();
+                      },
+                    },
+                  }}
+                />
+              </Submitcontainer>
+            </div>
+          </CardForm>
+        </div>
+      </CardStyled>
+    </ComponentWrapper>
+  </Modal>
+);
