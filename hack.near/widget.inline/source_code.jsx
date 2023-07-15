@@ -107,7 +107,7 @@ const ForkButton = styled.div`
 return (
   <Card>
     <div className="row">
-      <div className="col-8">
+      <div className="col-7">
         <div className="m-1 mb-3 text-truncate">
           <Widget
             src="mob.near/widget/Profile"
@@ -138,7 +138,7 @@ return (
           </a>
         </div>
       </div>
-      <div className="col-4 d-flex flex-column align-items-end">
+      <div className="col-5 d-flex flex-column align-items-end">
         <StarButton>
           {starCount && (
             <h5>
