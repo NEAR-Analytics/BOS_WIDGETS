@@ -148,7 +148,7 @@ return (
           {unlockButton}
 
           {state.eventUnlocked && (
-            <a href="https://mattkotzbauer.com" target="_blank">
+            <a href="https://google.com" target="_blank">
               <p>Event Unlocked - Access Here</p>
             </a>
           )}
