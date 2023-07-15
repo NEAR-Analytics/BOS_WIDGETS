@@ -11,7 +11,7 @@ const nftCollectionABI = [
   },
 ];
 
-State.init({ isLoggedIn: false, loading: false });
+State.init({ isLoggedIn: false, loading: false, displayMsg: false });
 
 const getNftContract = async () => {
   State.update({ loading: true });
@@ -25,9 +25,9 @@ const getNftContract = async () => {
     .balanceOf(sender)
     .then((res) => {
       if (parseInt(res["_hex"], 16) > 0) {
-        State.update({ isLoggedIn: true });
+        State.update({ isLoggedIn: true, displayMsg: false });
       } else {
-        State.update({ isLoggedIn: false });
+        State.update({ isLoggedIn: false, displayMsg: true });
       }
       State.update({ loading: false });
     })
@@ -143,6 +143,21 @@ return (
             >
               Enter Network
             </button>
+            <br />
+            {state.displayMsg ? (
+              <div style={{ fontSize: "0.8rem", textAlign: "center" }}>
+                Bye bye bro! Go get one from
+                <a
+                  href="https://opensea.io/collection/afropolitan"
+                  style={{ textDecoration: "none", color: "#CF574A" }}
+                >
+                  here!
+                </a>
+                Can't let you get in :/
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
