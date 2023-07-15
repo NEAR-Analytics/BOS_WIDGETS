@@ -10,7 +10,7 @@ State.init({
   error: null,
 });
 
-const rentNFT = () => {
+const mintNFT = () => {
   const nftABI = fetch(
     "https://raw.githubusercontent.com/atilatech/together/f69d581b5f6d14b1d9f0d85dbd488f6d7ebce01b/src/artifacts/contracts/RentableNFT.sol/RentableNFT.json"
   );
@@ -46,50 +46,11 @@ const rentNFT = () => {
 const transferButton = (
   <button
     className="btn btn-primary m-3"
-    onClick={() => rentNFT()}
+    onClick={() => mintNFT()}
     disabled={state.loading}
   >
-    Rent NFT
+    Mint NFT
   </button>
-);
-
-const setExpires = (seconds) => {
-  currentTime = new Date().getTime() / 1000;
-  const expirationTime = currentTime + seconds; // Convert minutes to seconds
-  State.update({ expires: expirationTime });
-};
-
-const expiresButtons = (
-  <div>
-    <button
-      className="btn btn-outline-primary m-3"
-      onClick={() => setExpires(60)}
-    >
-      1 Minute
-    </button>
-    <button
-      className="btn btn-outline-primary m-3"
-      onClick={() => setExpires(300)}
-    >
-      5 Minutes
-    </button>
-    <button
-      className="btn btn-outline-primary m-3"
-      onClick={() => setExpires(600)}
-    >
-      10 Minutes
-    </button>
-  </div>
-);
-
-const humanReadableDate = new Date(state.expires * 1000).toLocaleString();
-console.log({ humanReadableDate });
-
-const expiresSection = (
-  <div>
-    <label>Rental will expire in: {humanReadableDate}</label>
-    {expiresButtons}
-  </div>
 );
 
 const setDestinationAddress = (value) => {
@@ -98,7 +59,7 @@ const setDestinationAddress = (value) => {
 
 return (
   <div className="EventDetail container card shadow my-5 p-5">
-    <h3 className="text-center mb-3">Rent NFT</h3>
+    <h3 className="text-center mb-3">Mint NFT</h3>
     <div className="container">
       <div className="card shadow-sm">
         <div className="card-body">
