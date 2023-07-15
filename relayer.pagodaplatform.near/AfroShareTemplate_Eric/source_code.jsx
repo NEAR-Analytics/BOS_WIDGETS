@@ -104,7 +104,7 @@ return (
       </>
     )}
     <hr />
-    <Widget src="ericliujt.near/widget/RentNF_Eric" props={props} />
+    <Widget src="ericliujt.near/widget/RentNFT_Eric" props={props} />
     <hr />
     <Widget src="ericliujt.near/widget/TokenGate_Eric" props={props} />
     <hr />
