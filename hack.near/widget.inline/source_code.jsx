@@ -128,7 +128,7 @@ return (
     </div>
     <div className="row m-1">
       <div className="col-auto">
-        <h5 className="card-title m-1">
+        <h5 className="card-title mb-3">
           <a className="stretched-link" href={`#/${widgetPath}`}>
             {name}
           </a>
