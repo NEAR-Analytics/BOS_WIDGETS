@@ -1,20 +1,14 @@
-const allowPublicPosting = props.allowPublicPosting || false;
-const isMember = props.isMember || false;
-const communityDomain = props.communityDomain || null;
 const embedHashtags = props.embedHashtags || [];
-const exclusive = props.exclusive || false;
-const key = props.key || "main";
 const embedMentions = props.embedMentions || [];
 
-const sources = [{ domain: "post", key: "main" }];
-
-if (!context.accountId || (exclusive && !isMember)) return <></>;
+if (!context.accountId) return <></>;
 
 State.init({
   image: {},
-  text: "",
+  text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
+    (it) => `@${it}`
+  )}`,
   showPreview: false,
-  publicPosting: allowPublicPosting,
 });
 
 const profile = Social.getr(`${context.accountId}/profile`);
@@ -59,52 +53,32 @@ const extractHashtags = (text) => {
 function composeData() {
   const data = {
     post: {
-      [key]: JSON.stringify(content),
+      main: JSON.stringify(content),
     },
-    index: {},
+    index: {
+      post: JSON.stringify({
+        key,
+        value: {
+          type: "md",
+        },
+      }),
+    },
   };
 
   const hashtags = extractHashtags(content.text);
   hashtags = hashtags.concat(embedHashtags);
-  if (state.publicPosting) {
-    data.index.post = JSON.stringify({
-      key,
-      value: {
-        type: "md",
-      },
-    });
-  }
-  if (isMember && communityDomain) {
-    data.index[communityDomain] = JSON.stringify({
-      key,
-      value: {
-        type: "md",
-      },
-    });
-  }
+
   const item = {
     type: "social",
     path: `${context.accountId}/post/${key}`,
   };
   if (hashtags.length) {
-    if (state.publicPosting) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: item,
-        }))
-      );
-    } else if (isMember && communityDomain) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: {
-            type: "social",
-            path: `${context.accountId}/${communityDomain}/${key}`,
-          },
-        }))
-      );
-    }
+    data.index.hashtag = JSON.stringify(
+      hashtags.map((hashtag) => ({
+        key: hashtag,
+        value: item,
+      }))
+    );
   }
 
   const notifications = extractTagNotifications(state.text, item);
@@ -380,18 +354,6 @@ const AutoComplete = styled.div`
   }
 `;
 
-const PillSelectButton = styled.button`
-  border: 1px solid #e6e8eb;
-  padding: 3px 24px;
-  border-radius: 6px;
-  font-size: 12px;
-  line-height: 18px;
-  color: ${state.publicPosting ? "#fff" : "#687076"};
-  background: ${state.publicPosting ? "#006ADC !important" : "#FBFCFD"};
-  font-weight: 600;
-  transition: all 200ms;
-`;
-
 return (
   <Wrapper>
     {state.showPreview ? (
@@ -452,19 +414,6 @@ return (
           }}
         />
       </AutoComplete>
-    )}
-    {!state.showPreview && isMember && allowPublicPosting && (
-      <Domain>
-        <PillSelectButton
-          type="button"
-          onClick={() => State.update({ publicPosting: !state.publicPosting })}
-          selected={state.publicPosting}
-        >
-          {state.publicPosting
-            ? "Public Posting Enabled"
-            : "Public Posting Disabled"}
-        </PillSelectButton>
-      </Domain>
     )}
 
     <Actions>
