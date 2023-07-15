@@ -6,6 +6,7 @@ const showReciever = props.showReciever ?? true;
 const showIssuer = props.showIssuer ?? true;
 const showReference = props.showReference ?? true;
 const showDAO = props.showDAO ?? true;
+const showHeader = props.showHeader ?? true;
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
@@ -48,7 +49,7 @@ const changeIssuer = (issuer) => {
 const post_args = JSON.stringify({
   receiver: state.receiver,
   metadata: {
-    class: 1,
+    class: classId,
   },
   reference: reference,
 });
@@ -95,6 +96,9 @@ const Wrapper = styled.div`
 
   @media (max-width: 1200px) {
     --padding: 12px;
+  }
+  .input-group {
+    margin: 0.5em
   }
 `;
 
