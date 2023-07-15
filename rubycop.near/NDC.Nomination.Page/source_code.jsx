@@ -33,19 +33,21 @@ State.init({
   og: false,
   selfNomination: false,
   search: false,
-  searchText: "",
+  candidateId: "",
   originNominations: [],
   notFound: "There are no active nominations at the moment",
 });
 
+const httpRequestOpt = {
+  headers: {
+    "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+  },
+};
+
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
-    {
-      headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    }
+    httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
       State.update({ sbt: true });
@@ -53,11 +55,7 @@ function getVerifiedHuman() {
   });
   asyncFetch(
     `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=2&issuer=fractal.i-am-human.near&with_expired=false`,
-    {
-      headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    }
+    httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
       State.update({ og: true });
@@ -77,11 +75,7 @@ function getNominationInfo() {
   let nominationsArr = [];
   asyncFetch(
     `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
-    {
-      headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    }
+    httpRequestOpt
   ).then((res) => {
     if (res.body.length <= 0) {
       State.update({ nominations: [] });
@@ -93,7 +87,7 @@ function getNominationInfo() {
       let nominee = data.nominee;
       asyncFetch(
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
-        { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
+        httpRequestOpt
       ).then((info) => {
         let upVoteInfo = info.body[0];
         let profileData;
@@ -126,8 +120,6 @@ function getNominationInfo() {
   });
 }
 
-//
-
 if (state.start) {
   getNominationInfo();
   getVerifiedHuman();
@@ -155,15 +147,14 @@ const handleSelect = (item) => {
 };
 
 function handleFilter(text) {
-  State.update({ searchText: text });
+  State.update({ candidateId: text });
   if (!state.search) {
     State.update({ originNominations: state.nominations, search: true });
   }
   if (text.length > 0) {
     if (state.nominations.length) {
       State.update({
-        notFound:
-          "There are no nominations that match the search parameters you used.",
+        notFound: "There are no such nominations",
       });
     }
     let filtered = state.nominations.filter((data) =>
@@ -218,45 +209,6 @@ gap: 20px;
 @media only screen and (max-width: 480px){
   flex-direction:column;
 }
-`;
-
-const FilterBar = styled.div`
-display: flex;
-padding: 12px 16px;
-width: 66%;
-@media only screen and (max-width: 480px) {
- width: 100%;  
-}
-align-items: center;
-gap: 8px;
-flex: 1 0 0;
-border-radius: 8px;
-background: #F8F8F9;
-`;
-
-const SearchIcon = styled.img`
-width: 14px;
-height: 14px;
-`;
-
-const LabelFile = styled.div`
-display: flex;
-padding: 12px;
-align-items: flex-start;
-gap: 12px;
-flex: 1 0 0;
-border-radius: 8px;
-border: 1px solid #D0D6D9;
-background: #FFF;
-`;
-
-const InputSearch = styled.input`
-color: #828688;
-font-size: 12px;
-width: 100%;
-font-weight: 500;
-line-height: 120%;
-border: 0px;
 `;
 
 const VerifiedDiv = styled.div`
@@ -348,12 +300,6 @@ background: var(--buttons-gradient-default, linear-gradient(90deg, #9333EA 0%, #
 border: 0px;
 `;
 
-const SortIcon = styled.img`
-width: 18px;
-height: 18px;
-flex-shrink: 0;
-`;
-
 const ButtonNominateContainer = styled.div`
 display: flex;
 flex-direction:row;
@@ -426,6 +372,10 @@ width: 18px;
 height: 18px;
 `;
 
+const Filter = styled.div`
+  margin-top: 32px;
+`;
+
 return (
   <div>
     {houses.map((group) => (
@@ -443,28 +393,17 @@ return (
         )}
       </>
     ))}
+    <Filter>
+      <Widget
+        src={`rubycop.near/widget/NDC.Elections.Filter`}
+        props={{
+          handleFilter,
+          candidateId: state.candidateId,
+          placeholder: "Search by candidate name and affiliation",
+        }}
+      />
+    </Filter>
     <Toolbar>
-      <FilterBar>
-        <LabelFile>
-          <SearchIcon
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmUgE9Cgge5VRgQB1VYxMaAjJWgzmXUzMcPSTwQ8ZfLJqz?_gl=1*xfjfsk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkxMTcwOS41LjAuMTY4NzkxMTcxNi41My4wLjA."
-            alt="pic"
-          ></SearchIcon>
-          <InputSearch
-            placeholder="Search by candidate name"
-            value={state.searchText}
-            onChange={(e) => {
-              handleFilter(e.target.value);
-            }}
-          ></InputSearch>
-        </LabelFile>
-        <SortButton hidden>
-          <SortIcon
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmNivRaFySDTXDK3rsNXNZn7ySyhCR82rVwqA15Nn2hofK?_gl=1*jc7vlr*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4ODQxMzUxMS43LjEuMTY4ODQxMzUzMi4zOS4wLjA."
-            alt="pic"
-          ></SortIcon>
-        </SortButton>
-      </FilterBar>
       {state.showModal && (
         <Widget
           src={`dokxo.near/widget/NDC.Nomination.Compose`}
