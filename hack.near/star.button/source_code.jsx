@@ -4,7 +4,7 @@ const widgetPath = props.widgetPath ?? "devs.near/widget/dev.library";
 const [ownerId, widget, widgetName] = widgetPath.split("/");
 
 const starEdge = Social.keys(
-  `${accountId}/graph/star/${widgetPath}`,
+  `${accountId}/graph/star/widget/${ownerId}/${widgetName}`,
   undefined,
   {
     values_only: true,
