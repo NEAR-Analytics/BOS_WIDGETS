@@ -23,6 +23,10 @@ const Wrapper = styled.div`
   }
 `;
 
+const Embedded = styled.span`
+  white-space: normal;
+`;
+
 const renderWidget =
   props.renderWidget ??
   props.onWidget ??
