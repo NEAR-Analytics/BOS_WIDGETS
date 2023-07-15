@@ -110,27 +110,12 @@ const StarButton = styled.div`
   position: absolute;
   top: 23px;
   right: 18px;
-  z-index: 1;
-  cursor: pointer;
 `;
 
 const ForkButton = styled.div`
   position: absolute;
   bottom: 23px;
   right: 18px;
-  z-index: 1;
-  cursor: pointer;
-`;
-
-const ButtonLink = styled.a`
-  display: inline-block;
-  margin-right: 10px;
-  text-decoration: none;
-  color: #212529;
-
-  &:hover {
-    color: #212529;
-  }
 `;
 
 return (
