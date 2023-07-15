@@ -15,6 +15,7 @@ const renderMention =
   ));
 
 const onHashtag = props.onHashtag;
+const onWidget = props.onWidget;
 
 const Wrapper = styled.div`
   word-break: break-word;
