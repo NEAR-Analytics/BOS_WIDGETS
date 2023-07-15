@@ -25,6 +25,7 @@ const Wrapper = styled.div`
 
 const renderWidget =
   props.renderWidget ??
+  props.onWidget ??
   // URL pattern: scheme://authority/path?query#fragment
   (({ url, scheme, authority, path, query }) => {
     // widget URL now allows "bos" and "near" schemes
