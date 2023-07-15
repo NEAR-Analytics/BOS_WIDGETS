@@ -18,13 +18,14 @@ const getNftContract = async () => {
     nftCollectionABI,
     signer
   );
-  console.log(nftContract);
+  const response = await nftContract.balanceOf(sender);
+  console.log(response);
 };
 
 return (
   <div>
     <h1>NFT Gateway</h1>
     <p>You are logged in as : {sender}</p>
-    <button onClick={getNftContract}>Get Contract</button>
+    <button onClick={getNftContract}>Login to DAO</button>
   </div>
 );
