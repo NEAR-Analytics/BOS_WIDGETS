@@ -69,7 +69,7 @@ const fetchData = () => {
     body: JSON.stringify({
       query: `
             query MyQuery {
-             nfts(first: 6 orderBy: createdAtTimestamp ) {
+             nfts(orderBy: createdAtTimestamp ) {
                 category
                 chain
                 createdAtTimestamp
@@ -138,9 +138,6 @@ if (body) {
       return nftObject;
     }
   });
-
-  console.log(nftBody);
-
   State.update({
     nftData: nftBody,
   });
@@ -259,7 +256,7 @@ const Logo = styled.div`
 `;
 const InputContainer = styled.div`
     width:80%;
-    max-width: 700px;
+    max-width: 900px;
     display: flex;
     align-items: center;
     justify-content:center;
@@ -293,6 +290,30 @@ const RankCard = styled.span`
   font-size: 12px;
   font-weight: bold;
   padding: 8px;
+`;
+
+const SelectChain = styled.div`
+    select {
+    margin: 0 10px;
+    border: 1px solid #0d99ff;
+    cursor: pointer;
+    border-radius: 7px;
+    height: 35px;
+    background: transparent;
+   }
+   select:focus {
+    outline: none;
+   }
+`;
+
+const MyAcc = styled.p`
+    margin: 0;
+    margin-left: 8px;
+    color: #0a2830;
+    background: transparent;
+    border: 1px solid #0d99ff;
+    padding: 5px;
+    border-radius: 10px;
 `;
 
 const PriceArea = styled.div`
@@ -330,19 +351,20 @@ const getSender = () => {
 };
 
 if (state.sender === undefined) {
-  console.log("of course it's undefined", ethers);
   const accounts = Ethers.send("eth_requestAccounts", []);
-  console.log("account", accounts);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
   }
-  console.log("elsefs", Ethers.provider());
 }
+
+const handleCloseNft = () => State.update({ isNFTButtonClicked: false });
 
 return state.isNFTButtonClicked ? (
   <>
-    <Widget src="0xprometheus.near/widget/Eth-SingleNFT" props={state} />
+    <Widget
+      src="0xprometheus.near/widget/Eth-SingleNFT"
+      props={{ state, handleCloseNft }}
+    />
   </>
 ) : (
   <>
@@ -358,18 +380,20 @@ return state.isNFTButtonClicked ? (
           placeholder="Search NFTs"
           onChange={seachInputHandler}
         />
-        <select value={chain} onChange={handleDropdownChange}>
-          <option value="1313161554">Aurora</option>
-          <option value="42220">Celo</option>
-          <option value="137">Polygon</option>
-          <option value="42161">Arbitrum</option>
-        </select>
+        <SelectChain>
+          <select value={chain} onChange={handleDropdownChange}>
+            <option value="1313161554">Aurora</option>
+            <option value="42220">Celo</option>
+            <option value="137">Polygon</option>
+            <option value="42161">Arbitrum</option>
+          </select>
+        </SelectChain>
         {state.sender ? (
           <div>
-            <span>{state.sender ? getSender() : "0x00..."}</span>
+            <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
           </div>
         ) : (
-          <Web3Connect connectLabel="Connect Wallet" />
+          <Web3Connect connectLabel="Connect Wallet" className="w-50" />
         )}
       </InputContainer>
     </Hero>
@@ -459,13 +483,19 @@ return state.isNFTButtonClicked ? (
                         Price
                       </div>
                       <PriceArea>
-                        <h6>{nft.price * PRICE_CONVERSION_VALUE}</h6>
+                        <h6>
+                          {(nft.price * PRICE_CONVERSION_VALUE).toFixed(2)}
+                        </h6>
                         <span>
                           (${getUsdValue(nft.price * PRICE_CONVERSION_VALUE)})
                         </span>
                       </PriceArea>
                     </div>
-                    <button onClick={() => HandleViewNft(nft)}>Buy Now</button>
+                    <button onClick={() => HandleViewNft(nft)}>
+                      {state.sender === nft.owner && nft.isListed
+                        ? "List"
+                        : "View"}
+                    </button>
                   </div>
                 </NFTCardText>
               </NFTCard>
@@ -474,12 +504,12 @@ return state.isNFTButtonClicked ? (
         ) : state.filteredNFTData.length > 0 ? (
           state.filteredNFTData.map((nft) => (
             <a style={{ textDecoration: "none", color: "inherit" }}>
-              <NFTCard classNmae="card">
+              <NFTCard className="card">
                 <ImageCard>
                   <img
                     src={nft?.image?.replace(
                       "ipfs://",
-                      "https://genadrop.mypinata.cloud/ipfs/"
+                      "https://ipfs.io/ipfs/"
                     )}
                     alt={nft.name}
                     width="100%"
@@ -490,8 +520,9 @@ return state.isNFTButtonClicked ? (
                 <NFTCardText>
                   <hr />
                   <div className="d-flex my-4 justify-content-between w-100 px-2">
-                    <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
-                    <div>{nft.nft_state_lists[0].list_contract.name}</div>
+                    <RankCard>
+                      Owner: {nft.owner.slice(0, 6)}...{nft.owner.slice(38)}
+                    </RankCard>
                   </div>
                   <div className="px-2">
                     <h3
@@ -525,20 +556,11 @@ return state.isNFTButtonClicked ? (
                         {nft.tokenId}
                       </p>
                     </div>
-                    {nft && (
-                      <div>
-                        <div style={{ color: "#a4a9b6" }}>Owner</div>
-                        <p style={{ fontSize: "14px" }}>
-                          {nft.owner.length > 12
-                            ? nft.owner.slice(0, 12) + "..."
-                            : nft.owner}
-                        </p>
-                      </div>
-                    )}
+                    <Logo>
+                      <img src={currentChain[state.chain].logoUrl} />
+                    </Logo>
                   </div>
-                  {/*<p style={{ fontSize: "14px" }} className="px-2">
-                    Collection: {nft.collection.slug}
-                  </p>*/}
+
                   <hr />
                   <div
                     style={{
@@ -560,7 +582,11 @@ return state.isNFTButtonClicked ? (
                         </PriceArea>
                       )}
                     </div>
-                    <button onClick={() => HandleViewNft(nft)}>Buy Now </button>
+                    <button onClick={() => HandleViewNft(nft)}>
+                      {state.sender === nft.owner && nft.isListed
+                        ? "List"
+                        : "View"}
+                    </button>
                   </div>
                 </NFTCardText>
               </NFTCard>
