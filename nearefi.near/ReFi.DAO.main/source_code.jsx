@@ -177,7 +177,7 @@ return (
             image: socialProfile.backgroundImage,
             alt: "profile background image",
             fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+              "https://ipfs.near.social/ipfs/bafkreidcmajif3wgkl5f5u66d6bzjinxlticp7vqufzsc7eaz5ytat72pi",
           }}
         />
       )}
