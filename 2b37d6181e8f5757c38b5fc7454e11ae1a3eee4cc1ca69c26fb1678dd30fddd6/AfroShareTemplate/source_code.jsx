@@ -145,6 +145,15 @@ return (
         tokenId: 250,
       }}
     />
+    <hr />
+    <Widget
+      src="2b37d6181e8f5757c38b5fc7454e11ae1a3eee4cc1ca69c26fb1678dd30fddd6/widget/Mentor_Widget_3"
+      props={{
+        alchemyApiKey: "uB5QD-LyGRGbOa5--7aWs-dyqxjb3z24",
+        address: "0x8842DA19Ef17D1a10875E0ebddb6981e178B90d2",
+        tokenId: 250,
+      }}
+    />
     <Widget
       src="tomiwa1a1.near/widget/RentNFT"
       props={{
