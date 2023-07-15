@@ -123,7 +123,7 @@ return (
               letterSpacing: "-1px",
             }}
           >
-            Dr. Beverley Winters: Getting Started in Medicine
+            Steven White: Bringing a Nonprofit from $0 to $10M
           </h3>
           <p
             style={{
