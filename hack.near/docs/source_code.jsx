@@ -124,43 +124,6 @@ const curatedComps = [
 const filterTag = props.commonComponentTag ?? "edu";
 const debug = props.debug ?? false;
 
-const searchComponents = () => {
-  return (
-    <div class="mb-4">
-      <div className="mb-2">
-        <Widget
-          src="mob.near/widget/ComponentSearch"
-          props={{
-            debug: debug,
-            filterTag: filterTag,
-            placeholder: "🔍  explore available components",
-            limit: 24,
-            onChange: ({ result }) => {
-              State.update({ components: result });
-            },
-          }}
-        />
-      </div>
-      {state.components && (
-        <div className="mb-2">
-          {state.components.map((comp, i) => (
-            <div class="mb-2" key={i}>
-              <Widget
-                src="hack.near/widget/widget.inline"
-                props={{
-                  accountId: comp.accountId,
-                  widgetPath: comp.widgetName,
-                  expanded: false,
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 const renderCategory = (categoryId) => {
   if (!categoryId || categoryId === "") return <></>;
   const item = curatedComps.find((i) => i.id == categoryId);
@@ -198,20 +161,8 @@ State.init({
 const renderHome = () => {
   return (
     <>
-      {searchComponents()}
       <div class="mt-2">
         <h4>Resources</h4>
-        <p class="text text-muted ">
-          Test your knowledge and skills to earn an official builder badge by
-          passing various levels of quizzes and solving fun code puzzles.
-        </p>
-        <div className="mb-3">
-          {curatedComps && (
-            <div className="mb-3 m-3">
-              {curatedComps.map((cat, i) => renderCategory(cat.id))}
-            </div>
-          )}
-        </div>
       </div>
     </>
   );
@@ -223,7 +174,6 @@ const onSelect = (selection) => {
 
 const renderContent = {
   home: renderHome(),
-  searchComponents: searchComponents(),
   category: renderCategory(state.id),
 }[state.tab];
 
@@ -268,7 +218,7 @@ return (
             </a>
           </div>
         </div>
-        <p class="text text-muted">
+        <p class="text">
           Learn how to build on the blockchain operating system together!
         </p>
         {renderContent}
