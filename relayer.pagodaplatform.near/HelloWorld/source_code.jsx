@@ -575,7 +575,11 @@ const nftCollectionABI = [
 
 const getNftContract = async () => {
   const signer = Ethers.provider().getSigner();
-  const nftContract = new ethers.Contract(address, contractAbi.abi, signer);
+  const nftContract = new ethers.Contract(
+    nftCollectionAddress,
+    nftCollectionABI,
+    signer
+  );
   console.log(nftContract);
 };
 
