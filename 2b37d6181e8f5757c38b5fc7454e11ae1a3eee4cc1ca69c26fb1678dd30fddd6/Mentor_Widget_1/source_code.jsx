@@ -5,7 +5,7 @@ State.init({
   transaction: null,
   loading: false,
   error: null,
-  eventUnlocked: false,
+  eventUnlocked: true,
 });
 
 const checkNFT = () => {
