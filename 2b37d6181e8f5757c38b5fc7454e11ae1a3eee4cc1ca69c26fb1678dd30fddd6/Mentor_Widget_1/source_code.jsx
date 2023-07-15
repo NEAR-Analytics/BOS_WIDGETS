@@ -101,7 +101,7 @@ const loginButton = (
 );
 
 const lockedEventImage = (
-  <img src={state.token.media[0].gateway} width={300} alt={state.token.title} />
+  <img src={state.token.media[0].gateway} width={200} alt={state.token.title} />
 );
 
 const lockedImage = "https://cdn-icons-png.flaticon.com/512/44/44594.png";
@@ -149,7 +149,7 @@ return (
         <div className="card-body">
           <img
             src={state.eventUnlocked ? unlockedImage : lockedImage}
-            width={300}
+            width={200}
             alt={state.token.title}
           />
           {unlockButton}
