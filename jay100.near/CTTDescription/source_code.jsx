@@ -52,7 +52,7 @@ const GameDescription = () => {
     <div>
       <div style={{ backgroundColor: "white" }} className="d-flex">
         <iframe
-          style={{ height: "20vh", width: "100%" }}
+          style={{ height: "30vh", width: "100%" }}
           srcDoc={code}
           message={{ data: data || "No Data" }}
         />
