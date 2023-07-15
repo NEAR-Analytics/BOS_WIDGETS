@@ -139,7 +139,7 @@ return (
             Entrepreneurship
             <br /> Steven White, a nonprofit-sector entrepreneur who has
             recently raised $10M+ for his nonprofit FoodRelief, speaks on
-            nonprofit filing, zero-to-nothing traction, and purpose-based
+            nonprofit filing, gaining traction, and purpose-based
             entrepreneurship.
           </p>
           <img
