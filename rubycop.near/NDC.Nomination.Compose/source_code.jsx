@@ -70,34 +70,24 @@ const CardStyled = styled.div`
   height: 100%;
   background: #f8f8f9;
   gap: 10px;
-  border-radius: 10px;
+  padding: 20px;
   margin: 0 auto;
+  border-radius: 10px;
   overflow-y: scroll;
-  @media only screen and (max-width: 480px) {
-    width: 92%;
-  }
 `;
 
 const CardForm = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
   width: 100%;
   height: auto;
 `;
 
-const H1styled = styled.h1`
-  margin-left: 16px;
-  margin-top: 16px;
-  margin-right: auto;
-  width: 100%;
-  height: 19px;
+const H1 = styled.h1`
+  margin-bottom: 10px;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 120%;
-  color: #000000;
 `;
 
 const Submitcontainer = styled.div`
@@ -136,6 +126,16 @@ const ComponentWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+const ErrorBlock = styled.div`
+  border-radius: 4px;
+  border: 1px solid #c23f38;
+  background: #f1d6d5;
+  color: #c23f38;
+  font-size: 12px;
+  padding: 8px 12px;
+  margin: 20px 0 30px 0;
 `;
 
 const validatedInputs = () => {
@@ -348,7 +348,9 @@ const handleNominate = () => {
     deposit: 100000000000000000000000,
   };
 
-  Near.call([Social_Payload, SelfNominate_Payload]);
+  Near.call([Social_Payload, SelfNominate_Payload]).then((data) =>
+    handleClose()
+  );
 };
 
 return (
@@ -400,9 +402,7 @@ return (
       </div>
       <CardStyled name="compose">
         <div className="d-flex flex-column ">
-          <div className="d-flex flex-column">
-            <H1styled>Self Nominate</H1styled>
-          </div>
+          <H1>Self Nominate</H1>
 
           <CardForm name="cardform">
             <Widget
@@ -462,38 +462,14 @@ return (
                 handleDeclaration,
               }}
             />
-            <div
-              class="row col-sm-12 mx-0"
-              style={{
-                width: "100%",
-                "padding-left": "16px",
-                "padding-right": "16px",
-              }}
-            >
-              {
-                <div
-                  style={{
-                    display: "flex",
-                    "justify-content": "start",
-                  }}
-                >
-                  {state.error_msg && (
-                    <label
-                      style={{
-                        display: "flex",
-                        "justify-content": "end",
-                        color: "#FF0000",
-                        "border-bottom": "1px solid red",
-                        "font-size": "14px",
-                        "margin-bottom": "10px",
-                        "margin-top": "10px",
-                      }}
-                    >
-                      {state.error_msg}
-                    </label>
-                  )}
-                </div>
-              }
+
+            {state.error_msg && (
+              <ErrorBlock>
+                <label className="text-danger">{state.error_msg}</label>
+              </ErrorBlock>
+            )}
+
+            <div className="col-sm-12 px-4 w-100">
               <Submitcontainer>
                 <Widget
                   src={widgets.button}
@@ -510,10 +486,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: () => {
-                        handleNominate();
-                        handleClose();
-                      },
+                      onClick: handleNominate,
                     },
                   }}
                 />
