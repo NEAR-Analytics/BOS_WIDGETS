@@ -32,4 +32,8 @@ function Grid({ children, numColumns }) {
   return <StyledGrid>{children}</StyledGrid>;
 }
 
-return { mergeItems, Grid };
+function normalizePath(path) {
+  return path.replace(/\//g, "_");
+}
+
+return { mergeItems, Grid, normalizePath };
