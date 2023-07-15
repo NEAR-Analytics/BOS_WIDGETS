@@ -12,14 +12,25 @@ const reference =
   props.reference ??
   "https://genadrop.mypinata.cloud/ipfs/QmUxy2gB1QQD8mqRSwKkU2k6an4o99ip5ZL12if2opyjas?_gl=1*qk5u0e*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTM1MzU2Mi4yLjEuMTY4OTM1MzU5Ny4yNS4wLjA";
 
-const isMintAuthority = true; // add sbt minter contract
+const isMintAuthority = false; // add sbt minter contract
 // View call: issuer.regens.near.class_minter({"class": 1})
 // {
 //   requires_iah: false,
 //   minters: [ 'nearefi.near', 'refi.sputnik-dao.near', 'admin.regens.near' ]
 // }
-const checkMintersJson = Near.view(issuer, "class_minter"); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
 const canProposeToDAO = true; // add logic for whether can propose to DAO and whether dao is a minter
+
+const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
+const mintAuthorities = checkMintersJson.minters;
+isMintAuthority = mintAuthorities.includes(context.accountId);
+
+// console.log(checkMintersJson);
+// if (!!mintAuthorities) {
+//   for (let i = 0; i < mintAuthorities.length; i++) {
+//     console.log("MintAuthority " + i + " " + mintAuthorities[i]);
+
+//   }
+// }
 const onPointerUp =
   props.onClick ??
   ((event) => {
