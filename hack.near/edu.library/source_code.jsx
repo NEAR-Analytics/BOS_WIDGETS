@@ -92,31 +92,40 @@ const debug = props.debug ?? false;
 
 const searchComponents = () => {
   return (
-    <div class="mb-4">
+    <div className="mb-3">
       <div className="mb-2">
         <Widget
           src="mob.near/widget/ComponentSearch"
           props={{
-            debug: debug,
-            filterTag: filterTag,
-            placeholder: "🔍  explore available components",
-            limit: 24,
+            boostedTag: "edu",
+            placeholder: "🔍 Search Applications",
+            limit: 10,
             onChange: ({ result }) => {
-              State.update({ components: result });
+              State.update({ apps: result });
             },
           }}
         />
       </div>
-      {state.components && (
+      {state.apps && (
         <div className="mb-2">
-          {state.components.map((comp, i) => (
-            <div class="mb-2" key={i}>
+          {state.apps.map((app, i) => (
+            <div key={i}>
               <Widget
-                src="hack.near/widget/widget.inline"
+                src="mob.near/widget/ComponentSearch.Item"
                 props={{
-                  accountId: comp.accountId,
-                  widgetPath: comp.widgetName,
-                  expanded: false,
+                  link: `#/${app.widgetSrc}`,
+                  accountId: app.accountId,
+                  widgetName: app.widgetName,
+                  onHide: () => State.update({ apps: null }),
+                  extraButtons: ({ widgetPath }) => (
+                    <a
+                      target="_blank"
+                      className="btn btn-outline-secondary"
+                      href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
+                    >
+                      Source
+                    </a>
+                  ),
                 }}
               />
             </div>
@@ -142,7 +151,7 @@ const renderCategory = (categoryId) => {
             <div class="mb-3">
               <Widget
                 key={i}
-                src="hack.near/widget/widget.inline"
+                src="hack.near/widget/docs.card"
                 props={{
                   accountId: comp.accountId,
                   widgetPath: `${comp.accountId}/widget/${comp.widgetName}`,
