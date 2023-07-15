@@ -13,17 +13,13 @@ const GameButton = () => {
         }
 
         body {
-            padding: 5px;
-            background: rgb(14, 14, 30);
-            font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
-            color: #f8f8f8;
-            text-shadow: 2px 0 0 #000, 0 2px 0 #000;
-        }
-
-        body {
-	        text-align: center;
-	        padding: 30px;
-            font-family: sans-serif;
+          padding: 5px;
+          background: rgb(14, 14, 30);
+          font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
+          color: #f8f8f8;
+          text-shadow: 2px 0 0 #000, 0 2px 0 #000;
+          text-align: center;
+	        padding: 20px;
 	        max-width: 100%;
 	        margin: 0 auto;
 	        font-family: 'Maven Pro', sans-serif;
