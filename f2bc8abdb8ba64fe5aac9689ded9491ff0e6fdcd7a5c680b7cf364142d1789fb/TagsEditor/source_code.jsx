@@ -13,7 +13,8 @@ const normalizeTag = (tag) =>
     .trim("-");
 
 const hasModifications =
-  Object.keys(initialTagsObject).map(normalizeTag) !== state.tags;
+  JSON.stringify(Object.keys(initialTagsObject).map(normalizeTag)) !==
+  JSON.stringify(state.tags);
 console.log(1, hasModifications);
 console.log(2, Object.keys(initialTagsObject).map(normalizeTag));
 console.log(3, state.tags);
