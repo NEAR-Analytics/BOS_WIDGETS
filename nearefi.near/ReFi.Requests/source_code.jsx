@@ -1,6 +1,7 @@
 const ownerId = "nearhorizon.near";
 // const accountId = props.accountId ?? context.accountId;
 const accountId = "nearefi.near";
+const showHeader = props.showHeader ?? true;
 State.init({
   isAdmin: false,
   isAdminIsFetched: false,
@@ -198,10 +199,13 @@ return (
   <Container>
     <Header>
       <HeaderDetails>
-        <Widget
-          src={`${ownerId}/widget/Project.HeaderDetails`}
-          props={{ accountId, isAdmin: state.isAdmin }}
-        />
+        {showHeader && (
+          <Widget
+            src={`${ownerId}/widget/Project.HeaderDetails`}
+            props={{ accountId, isAdmin: state.isAdmin }}
+          />
+        )}
+
         <CTARow>
           {state.isAdmin ? (
             <>
