@@ -67,7 +67,7 @@ const StyledButton = styled.button`
 
 const Container = styled.div`
   button {
-    margin-bottom:10px;
+    margin: 5px;
   }
 `;
 
@@ -106,23 +106,40 @@ const WidgetButton = ({ size, className, disabled, text, icon }) => (
 return (
   <Container>
     <h4>Buttons</h4>
-    <WidgetButton text="Primary" />
-    <WidgetButton text="Primary Dark" className="primary dark" />
-    <WidgetButton
-      text="Primary with Icon"
-      icon={<i class="bi bi-check-lg"></i>}
-    />
-    <WidgetButton disabled text="Primary disabled" />
-    <WidgetButton size="sm" text="Primary small" />
+    <div className="d-flex align-items-end flex-wrap">
+      <WidgetButton text="Primary" />
+      <WidgetButton text="Primary" icon={<i class="bi bi-check-lg"></i>} />
+      <WidgetButton
+        text="Secondary"
+        className="secondary"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton disabled text="Primary" />
+      <WidgetButton disabled className="secondary" text="Secondary" />
+      <WidgetButton size="sm" text="Primary" />
+      <WidgetButton size="sm" className="secondary" text="Secondary" />
+    </div>
 
-    <WidgetButton className="secondary" text="Secondary" />
-    <WidgetButton className="secondary dark" text="Secondary" />
-    <WidgetButton
-      className="secondary"
-      text="Secondary with Icon"
-      icon={<i class="bi bi-check-lg"></i>}
-    />
-    <WidgetButton className="secondary" disabled text="Secondary disabled" />
-    <WidgetButton className="secondary" size="sm" text="Secondary small" />
+    <div className="d-flex align-items-end flex-wrap">
+      <WidgetButton text="Primary Dark" className="primary dark" />
+      <WidgetButton
+        text="Primary Dark"
+        className="primary dark"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton
+        text="Secondary Dark"
+        className="secondary dark"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton disabled className="primary dark" text="Primary dark" />
+      <WidgetButton disabled className="secondary dark" text="Secondary dark" />
+      <WidgetButton size="sm" className="primary dark" text="Primary dark" />
+      <WidgetButton
+        size="sm"
+        className="secondary dark"
+        text="Secondary dark"
+      />
+    </div>
   </Container>
 );
