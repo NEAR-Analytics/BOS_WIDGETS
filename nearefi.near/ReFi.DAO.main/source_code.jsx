@@ -223,6 +223,12 @@ return (
           >
             Social
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=sbt`}
+            selected={state.selectedTab === "sbt"}
+          >
+            SBT Holders
+          </TabsButton>
 
           <TabsButton
             href={`${accountUrl}&tab=followers`}
@@ -269,6 +275,20 @@ return (
             src="sking.near/widget/DAO.Proposal"
             props={{ daoId, ...props }}
           />
+        )}
+        {state.selectedTab === "sbt" && (
+          <>
+            <Widget
+              src="ndcplug.near/widget/ndc-badge-holders"
+              props={{
+                title: "NDC Proof of Regen",
+                issuer: "issuer.regens.near",
+                showProgress: false,
+                showDropdown: false,
+                showHeader: false,
+              }}
+            />
+          </>
         )}
         {state.selectedTab === "feed" && (
           <Widget
