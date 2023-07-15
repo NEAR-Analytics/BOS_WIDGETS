@@ -138,7 +138,7 @@ return (
             7/18/2023 <br /> 1:00 - 3:00 PM EST <br /> Nonprofit,
             Entrepreneurship
             <br /> Steven White, a nonprofit-sector entrepreneur who has
-            recently raised $10M+ for his newest nonprofit FoodRelief, speaks on
+            recently raised $10M+ for his nonprofit FoodRelief, speaks on
             nonprofit filing, zero-to-nothing traction, and purpose-based
             entrepreneurship.
           </p>
