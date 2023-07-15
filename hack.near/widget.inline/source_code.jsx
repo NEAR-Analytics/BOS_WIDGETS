@@ -126,13 +126,15 @@ return (
         </StarButton>
       </div>
     </div>
+    <div className="m-2">
+      <h5 className="card-title mb-3">
+        <a className="stretched-link" href={`#/${widgetPath}`}>
+          {name}
+        </a>
+      </h5>
+    </div>
     <div className="row m-1">
       <div className="col-auto">
-        <h5 className="card-title mb-3">
-          <a className="stretched-link" href={`#/${widgetPath}`}>
-            {name}
-          </a>
-        </h5>
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
           className="btn btn-sm btn-outline-secondary border-0"
