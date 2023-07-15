@@ -5,6 +5,7 @@ const receiver = props.receiver ?? "daoshe.near";
 const showReciever = props.showReciever ?? true;
 const showIssuer = props.showIssuer ?? true;
 const showReference = props.showReference ?? true;
+const showDAO = props.showDAO ?? true;
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
@@ -18,6 +19,7 @@ State.init({
   receiver: receiver,
   issuer: issuer,
   reference: reference,
+  daoId: daoId,
 });
 const changeReceiver = (receiver) => {
   State.update({
@@ -25,7 +27,24 @@ const changeReceiver = (receiver) => {
   });
   console.log(state.receiver);
 };
-
+const changeReference = (reference) => {
+  State.update({
+    reference,
+  });
+  console.log(state.reference);
+};
+const changeDAO = (daoId) => {
+  State.update({
+    daoId,
+  });
+  console.log(state.daoId);
+};
+const changeIssuer = (issuer) => {
+  State.update({
+    issuer,
+  });
+  console.log(state.daoId);
+};
 const post_args = JSON.stringify({
   receiver: state.receiver,
   metadata: {
@@ -227,6 +246,7 @@ return (
       </div>
     )}
     {showReference && <div className="input-group"></div>}
+    {showDAO && <div className="input-group"></div>}
     {showIssuer && <div className="input-group"></div>}
     <ButtonWrapper>
       <button className="join-button" onClick={handleProposal}>
