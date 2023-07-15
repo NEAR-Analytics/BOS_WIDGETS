@@ -170,11 +170,11 @@ if (profile === null) {
 return (
   <Wrapper>
     <BackgroundImage>
-      {socialProfile.backgroundImage && (
+      {profile.backgroundImage && (
         <Widget
           src="mob.near/widget/Image"
           props={{
-            image: socialProfile.backgroundImage,
+            image: profile.backgroundImage,
             alt: "profile background image",
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreidcmajif3wgkl5f5u66d6bzjinxlticp7vqufzsc7eaz5ytat72pi",
