@@ -350,9 +350,20 @@ return (
       <a
         className="button button--primary"
         href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${accountId}`}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <i className="bi bi-pencil"></i>
         Propose Edit Profile
+      </a>
+      <a
+        className="button button--primary"
+        href={`#/nearefi.near/widget/ReFi.DAO.Propose.post?daoId=${accountId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className="bi bi-pencil"></i>
+        Propose To Make A Post
       </a>
     </Section>
 
