@@ -1,6 +1,7 @@
 const { Button } = props;
 
 const StyledButton = styled.button`
+  width: max-content;
   padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
   height: ${(props) => (Button.size === "sm" ? "28px" : "")};
   font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
