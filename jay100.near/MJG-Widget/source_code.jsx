@@ -177,55 +177,14 @@ return (
 
     <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />
 
-    {isUserRegistered && (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <a
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "1rem",
-          }}
-          key={index}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://pd.marmaj.org/chainteam"
-        >
-          <PixelContainer>
-            <Pixel>
-              <PixelText>Play Now</PixelText>
-            </Pixel>
-          </PixelContainer>
-        </a>
-      </div>
-    )}
-
     <Widget src="jay100.near/widget/Carousel" props={slide_data} />
     {isUserRegistered ? (
-      <Widget src="jay100.near/widget/PlayerDashboard" />
+      <>
+        <Widget src="jay100.near/widget/PlayerDashboard" />
+        // <Widget src="jay100.near/widget/CTT-Button" />
+      </>
     ) : (
-      <CardList>
-        {" "}
-        {Mainnet.map((widget, index) => (
-          <WidgetCard
-            key={index}
-            coverSrc={WidgetImages[index].url}
-            description=""
-            actionButtons={[
-              { label: "Play", url: widget.url },
-              { label: "Test", url: Testnet[index].url },
-              { label: "Wiki", url: Wiki[index].url },
-            ]}
-          />
-        ))}
-      </CardList>
+      <Widget src="jay100.near/widget/CTT-Button" />
     )}
   </div>
 );
