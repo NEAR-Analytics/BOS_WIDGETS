@@ -124,6 +124,10 @@ return (
                     src="efiz.near/widget/SBT.Badge"
                     props={{ accountId: accountId }}
                   />
+                  <Widget
+                    src="proofofvibes.near/widget/Vibes.Button.proposeVibee"
+                    props={{}}
+                  />
                 </>
               ),
             }}
