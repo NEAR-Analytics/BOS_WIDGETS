@@ -25,7 +25,7 @@ const content = {
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
   text: state.text,
   metadata: {
-    tastemaker: embedMentions[0],
+    tastemaker: embedMentions,
   },
 };
 
