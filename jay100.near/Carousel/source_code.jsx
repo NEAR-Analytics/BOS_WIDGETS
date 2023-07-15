@@ -59,10 +59,9 @@ const Carousel = () => {
 
     /* Slideshow container */
     .slideshow-container {
-        max-width: 80%;
         position: relative;
         margin: auto;
-        height: 100%;
+        height: fit-content;
         padding: 1rem;
     }
 
