@@ -110,7 +110,7 @@ const Carousel = () => {
 
     @media (min-width: 768px) {
       .slideImg {
-        width: 50%;
+        width: 45%;
       }
     }
 
