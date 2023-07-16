@@ -110,7 +110,7 @@ const HeaderTag = styled.div`
   align-items: center;
   padding: 4px 8px;
   height: 18px;
-  background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
   border-radius: 100px;
 `;
 const HeaderTagP = styled.p`
@@ -121,6 +121,7 @@ const HeaderTagP = styled.p`
   display: flex;
   align-items: center;
   color: white;
+  margin: 0;
 `;
 const HeaderContentText = styled.div`
   display: flex;
@@ -164,24 +165,33 @@ const UpvoteButtonDisabled = styled.button`
   align-items: center;
   gap: 6px;
   border-radius: 4px;
-  b
   background: var(--buttons-disable, #c3cace);
   cursor: default !important;
-  
 `;
+
 const UpvoteButton = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  b
-  background-image: linear-gradient(#f8f8f9, #f8f8f9),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  color: ${(props) => (props.disabled ? "#C3CACE" : "#9333EA")};
+  border: 1px solid #9333ea;
+  border-color: ${(props) => (props.disabled ? "#C3CACE" : "")};
 `;
+
+const ViewButton = styled.button`
+  padding: 2px 12px;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #9333ea;
+  border: 1px solid #9333ea;
+`;
+
 const UpvoteCount = styled.p`
   font-size: 12px;
   font-weight: 500;
@@ -705,21 +715,17 @@ return (
       </HeaderContent>
       {state.verified && context.accountId != data.indexerData.nominee ? (
         <UpvoteButton onClick={handleUpVote}>
-          <UpvoteCount>
-            {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
-          </UpvoteCount>
+          {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
           <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
         </UpvoteButton>
       ) : (
-        <UpvoteButtonDisabled>
-          <UpvoteCount style={{ filter: "grayscale(1)" }}>
-            {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
-          </UpvoteCount>
+        <UpvoteButton onClick={handleUpVote} disabled>
+          {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
           <Icon
             style={{ filter: "grayscale(1)" }}
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
           ></Icon>
-        </UpvoteButtonDisabled>
+        </UpvoteButton>
       )}
     </HeaderCard>
     <CollapseCandidate>
