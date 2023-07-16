@@ -15,8 +15,9 @@ return (
         className="text-truncate text-muted"
         style={{ paddingLeft: "1.8em" }}
       >
-        {props.L}
+        {" "}
         <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+        {props.L}
       </div>
       {props.R}
     </div>
