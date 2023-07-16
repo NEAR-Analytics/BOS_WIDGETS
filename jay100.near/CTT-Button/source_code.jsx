@@ -89,33 +89,76 @@ const GameButton = () => {
     </style>
 
     <body>
-        <div class="col">
-            <div class="col">
-                <div class="row"><a class="eightbit-btn">Play Game</a></div>
-                
-                 <div class="row"><a class="eightbit-btn">TestNet</a></div>
-            </div>
-            <div class="col">
-                 <div class="row"><a class="eightbit-btn">Wiki</a></div>
-                 <div class="row"><a class="eightbit-btn">NFT</a></div>
-                 <div class="row"><a class="eightbit-btn">Mobile</a></div>
-            </div>
+        <div class="col main-container">
         </div>
-        
     </body>
     <script>
+        console.log(window)
         window.addEventListener("message", (event) => {
-            const title = event.data.data.title;
-            const description = event.data.data.description;
+         const button_data = event.data.data;
+         const main_container = $(".main-container");
 
-            const descriptionHeader = $("<h4></h4>").text(title).addClass("title");
-            const gameDescription = $("<p></p>").text(description).addClass("description");
+         const send_response = () => {
+           event.source.postMessage("THIS IS RESPONSE", "*");
+         }
 
-            $(".gameDescription").append(descriptionHeader, gameDescription);
-        });
+         button_data.forEach((item) => {
+            if(item.title === "Play Now"){
+                const row = $("<div></div>").addClass("row playnow")
+                const link_text = $("<a></a>").addClass("eightbit-btn").append(item.title);
+
+                row.append(link_text);
+                main_container.append(row)
+            }
+
+            if(item.title === "TestNet"){
+                const row = $("<div></div>").addClass("row testnet")
+                const link_text = $("<a></a>").addClass("eightbit-btn").append(item.title);
+
+                row.append(link_text);
+                main_container.append(row)
+            }
+
+            if(item.title === "Wiki"){
+                const row = $("<div></div>").addClass("row wiki")
+                const link_text = $("<a></a>").addClass("eightbit-btn").append(item.title);
+
+                row.append(link_text);
+                main_container.append(row)
+            }
+
+            if(item.title === "NFT"){
+                const row = $("<div></div>").addClass("row nft")
+                const link_text = $("<a></a>").addClass("eightbit-btn").append(item.title);
+
+                row.append(link_text);
+                main_container.append(row)
+            }
+
+            if(item.title === "Mobile"){
+                const row = $("<div></div>").addClass("row mobile")
+                const link_text = $("<a></a>").addClass("eightbit-btn").append(item.title);
+
+                row.append(link_text);
+                main_container.append(row)
+            }
+         })
+
+         $(".playnow").on("click", () => {
+            console.log(window.parent)
+         })
+
+        }, false);
     </script> 
 `;
-  const data = props;
+  const data = [
+    { title: "Play Now", link: "" },
+    { title: "TestNet", link: "" },
+    { title: "Wiki", link: "" },
+    { title: "NFT", link: "" },
+    { title: "Mobile", link: "" },
+  ];
+
   return (
     <div>
       <div style={{ backgroundColor: "white" }} className="d-flex">
@@ -123,6 +166,11 @@ const GameButton = () => {
           style={{ height: "55vh", width: "100%" }}
           srcDoc={code}
           message={{ data: data || "No Data" }}
+          onMessage={(response) => {
+            console.log(window);
+          }}
+          sandbox
+          sandbox="allow-top-navigation allow-top-navigation-by-user-activation"
         />
       </div>
     </div>
