@@ -9,7 +9,6 @@ return (
           props={{ accountId, tooltip: true }}
         />
       </div>
-      {props.R}
     </div>
     <div className="text-nowrap col-auto">
       <div
@@ -21,6 +20,7 @@ return (
         <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
         ago
       </div>
+      {props.R}
     </div>
   </div>
 );
