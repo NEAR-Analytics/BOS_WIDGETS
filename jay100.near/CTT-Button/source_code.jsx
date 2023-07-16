@@ -93,7 +93,6 @@ const GameButton = () => {
         </div>
     </body>
     <script>
-        console.log(window)
         window.addEventListener("message", (event) => {
          const button_data = event.data.data;
          const main_container = $(".main-container");
@@ -145,7 +144,7 @@ const GameButton = () => {
          })
 
          $(".playnow").on("click", () => {
-            console.log(window.parent)
+            console.log(window.parent.location)
          })
 
         }, false);
@@ -170,7 +169,7 @@ const GameButton = () => {
             console.log(window);
           }}
           sandbox
-          sandbox="allow-top-navigation allow-top-navigation-by-user-activation"
+          sandbox="allow-top-navigation"
         />
       </div>
     </div>
