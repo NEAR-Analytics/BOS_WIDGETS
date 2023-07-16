@@ -84,7 +84,6 @@ const Styled = {
   TextArea: styled.textarea`
     padding: 8px 10px;
     width: 100%;
-    height: 40px;
     background: #ffffff;
     border: 1px solid #d0d6d9;
     border-radius: 8px;
@@ -146,13 +145,26 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea)
+if (TextArea) {
+  const handleChange = () => {
+    if (TextArea.limit && TextArea.value.length > TextArea.limit) return;
+
+    TextArea.handleChange();
+  };
+
   return (
     <div>
       <Label>{TextArea.label}</Label>
-      <Styled.TextArea onChange={TextArea.handleChange} rows={5} />
+      <Styled.TextArea
+        value={TextArea.value}
+        handleChange={handleChange}
+        placeholder={TextArea.placeholder}
+        onChange={TextArea.handleChange}
+        rows={5}
+      />
     </div>
   );
+}
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
@@ -185,14 +197,23 @@ const WidgetSelect = () => (
   />
 );
 
-const WidgetTextArea = () => (
-  <Widget
-    src={"rubycop.near/widget/NDC.StyledComponents"}
-    props={{
-      TextArea: { label: "Select label" },
-    }}
-  />
-);
+const WidgetTextArea = () => {
+  State.init({ text: "" });
+
+  return (
+    <Widget
+      src={"rubycop.near/widget/NDC.StyledComponents"}
+      props={{
+        TextArea: {
+          label: "Select label",
+          placeholder: "placeholder text",
+          limit: 20,
+          handleChange: (e) => State.update({ text: e.target.value }),
+        },
+      }}
+    />
+  );
+};
 
 return (
   <Container>
