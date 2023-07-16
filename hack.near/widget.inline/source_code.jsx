@@ -169,20 +169,18 @@ return (
         </a>
       </div>
       <div className="col-auto mt-4">
-        <div className="m-2 align-items-end">
-          <StarButton>
-            {starCount && (
-              <a
-                href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
-              >
-                <h5>
-                  {starCount} builder{starCount !== 1 && "s"}
-                </h5>
-              </a>
-            )}
-            <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
-          </StarButton>
-        </div>
+        <StarButton>
+          {starCount && (
+            <a
+              href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
+            >
+              <h5>
+                {starCount} builder{starCount !== 1 && "s"}
+              </h5>
+            </a>
+          )}
+          <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
+        </StarButton>
         {context.accountId !== accountId && (
           <button className="btn btn-outline-success" onClick={handleCreate}>
             <i className="bi bi-bezier2 me-1"></i>
