@@ -137,20 +137,20 @@ return (
     </div>
     <div className="row mt-2 justify-content-between">
       <div className="col-auto m-1">
-        <h3 className="mb-2 mt-1">
+        <h4 className="mb-2 mt-1">
           <a
             className="text-decoration-none link-dark"
             href={`#/${widgetPath}`}
           >
             {name} <i className="bi bi-box-arrow-up-right m-1"></i>
           </a>
-        </h3>
+        </h4>
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
           className="btn btn-sm btn-outline-secondary border-0"
           target="_blank"
         >
-          <i className="bi bi-code me-1"></i>source
+          <i className="bi bi-code me-1"></i>src
         </a>
         <a
           href={`#/bozon.near/widget/WidgetHistory?widgetPath=${widgetPath}`}
