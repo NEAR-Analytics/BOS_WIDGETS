@@ -8,8 +8,8 @@ return (
           src="mob.near/widget/Profile"
           props={{ accountId, tooltip: true }}
         />
-        {props.R}
       </div>
+      {props.R}
     </div>
     <div className="text-nowrap col-auto">
       <div
