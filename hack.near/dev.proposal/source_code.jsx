@@ -1,9 +1,12 @@
+const accountId = props.accountId ?? context.accountId;
+
+let widgetName;
+
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const proposalId = props.proposalId ?? 187;
 
 let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
 
-// if proposal is not provided and proposalId and daoId are provided then fetch proposal
 if (!proposal && proposalId && daoId) {
   let new_proposal = Near.view(daoId, "get_proposal", {
     id: Number(proposalId),
@@ -19,48 +22,43 @@ if (!proposal && proposalId && daoId) {
   return "Please provide a proposal or proposalId.";
 }
 
-// --- check user permissions
-function toPolicyLabel(proposalKind) {
-  const kindName =
-    typeof proposalKind === "string"
-      ? proposalKind
-      : Object.keys(proposalKind)[0];
-  switch (kindName) {
-    case "FunctionCall":
-      return "call";
-    default:
-      return "";
-  }
-}
+const proposalKinds = {
+  FunctionCall: "call",
+};
 
+const actionTypes = {
+  AddProposal: "AddProposal",
+  VoteApprove: "VoteApprove",
+  VoteReject: "VoteReject",
+  VoteRemove: "VoteRemove",
+};
+
+// -- Get all the roles from the DAO policy
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
-const userRoles = [];
-for (const role of roles) {
-  if (role.kind === "Everyone") {
-    userRoles.push(role);
-    continue;
-  }
-  if (!role.kind.Group) continue;
-  if (
-    context.accountId &&
-    role.kind.Group &&
-    role.kind.Group.includes(context.accountId)
-  ) {
-    userRoles.push(role);
-  }
-}
 
-const isAllowedTo = (action) => {
+const isUserAllowedTo = (user, kind, action) => {
+  // -- Filter the user roles
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      userRoles.push(role);
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (accountId && role.kind.Group && role.kind.Group.includes(accountId)) {
+      userRoles.push(role);
+    }
+  }
+
+  // -- Check if the user is allowed to perform the action
   let allowed = false;
 
-  const allowedRoles = userRoles
+  userRoles
     .filter(({ permissions }) => {
       const allowedRole =
-        permissions.includes(
-          `${toPolicyLabel(proposal.kind)}:${action.toString()}`
-        ) ||
-        permissions.includes(`${toPolicyLabel(proposal.kind)}:*`) ||
+        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
+        permissions.includes(`${kind.toString()}:*`) ||
         permissions.includes(`*:${action.toString()}`) ||
         permissions.includes("*:*");
       allowed = allowed || allowedRole;
@@ -68,14 +66,37 @@ const isAllowedTo = (action) => {
     })
     .map((role) => role.name);
 
-  return [allowed, allowedRoles];
+  return allowed;
 };
 
-const isAllowedToVoteYes = isAllowedTo("VoteApprove")[0];
-const isAllowedToVoteNo = isAllowedTo("VoteReject")[0];
-const isAllowedToVoteRemove = isAllowedTo("VoteRemove")[0];
+console.log(
+  "Is User Allowed To 'Add a Proposal' of type 'FunctionCall'?",
+  isUserAllowedTo(
+    accountId,
+    proposalKinds.FunctionCall,
+    actionTypes.AddProposal
+  )
+);
 
-console.log(isAllowedToVoteYes, isAllowedToVoteNo, isAllowedToVoteRemove);
+console.log(
+  "Is User Allowed To 'Vote Yes' on a proposal of type 'FunctionCall'?",
+  isUserAllowedTo(
+    accountId,
+    proposalKinds.FunctionCall,
+    actionTypes.VoteApprove
+  )
+);
+
+const canPropose = isUserAllowedTo(
+  accountId,
+  proposalKinds.FunctionCall,
+  actionTypes.AddProposal
+);
+const canVote = isUserAllowedTo(
+  accountId,
+  proposalKinds.FunctionCall,
+  actionTypes.VoteApprove
+);
 // --- end of check
 
 proposal.type =
@@ -106,17 +127,20 @@ const statusBackgroundColor =
     ? "#fdf4f4"
     : "#fff";
 
+const Card = styled.div`
+  background-color: ${statusBackgroundColor};
+
+`;
+
 const Wrapper = styled.div`
   background-color: ${statusBackgroundColor};
-  margin: 16px auto;
-  max-width: 900px;
+  margin: 23px auto;
+  max-width: 888px;
   border-radius: 16px;
-  padding: 24px;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  padding: 19px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  min-height: 500px;
+  gap: 23px;
 
   p {
     line-height: 1.4;
@@ -231,102 +255,118 @@ function deepSortObject(obj) {
   return sortedObject;
 }
 
-const RenderProposalArgs = () => {
-  const proposal_type =
-    typeof proposal.kind === "string"
-      ? proposal.kind
-      : Object.keys(proposal.kind)[0];
+const proposal_type =
+  typeof proposal.kind === "string"
+    ? proposal.kind
+    : Object.keys(proposal.kind)[0];
 
-  if (proposal_type === "FunctionCall")
-    return proposal.kind.FunctionCall.actions.reduce((acc, { args }) => {
-      return acc.concat(
-        <div className="w-100">
-          <h5>Arguments</h5>
-          <Markdown
-            text={
-              "```json\n" +
-              JSON.stringify(
-                JSON.parse(Buffer.from(args, "base64").toString("utf8")),
-                null,
-                2
-              ) +
-              "\n```"
-            }
-          />
-        </div>
-      );
-    });
-};
+const actions = proposal.kind.FunctionCall.actions;
 
-const useMarkdownForDescription =
-  proposal.type === "FunctionCall" ? true : false;
+if (!actions || actions.length === 0) {
+  return null;
+}
+
+const details = actions.map(({ args }) => {
+  console.log("Args:", args);
+
+  const selectedArgs = JSON.parse(Buffer.from(args, "base64").toString("utf8"));
+
+  console.log("Selected Args:", selectedArgs);
+
+  const newCode = selectedArgs.data[daoId].widget.community[""];
+
+  console.log("New Code:", newCode);
+
+  widgetName = Object.keys(selectedArgs.data[daoId].widget)[0];
+
+  console.log("Widget Name:", widgetName);
+
+  const baseCode = Social.get(`${daoId}/widget/${widgetName}`);
+
+  console.log("Base Code:", baseCode);
+
+  console.log("Details:", details);
+});
 
 const proposalURL = `/#/sking.near/widget/DAO.Page?daoId=${daoId}&tab=proposal&proposalId=${proposal.id}`;
 return (
   <Wrapper>
-    <div className="d-flex justify-content-between align-items-center">
-      <div>
-        <h5>#{proposal.id}</h5>
-        <h3>
-          <a href={proposalURL} target="_blank" rel="noreferrer">
-            <i className="bi bi-link-45deg"></i>
+    <div className="row justify-content-between align-items-center text-muted">
+      <div className="col-auto mb-1">
+        <h4>
+          proposal{" "}
+          <a
+            className="text-muted"
+            href={proposalURL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            #{proposal.id}
           </a>
-        </h3>
+        </h4>
       </div>
-      <div className="d-flex flex-column align-items-end">
-        <h5>Status</h5>
-        <span className="status">{proposal.status}</span>
+      <div className="col-auto mb-1">
+        <Widget
+          src="hack.near/widget/dev.profile.line"
+          props={{ accountId: proposal.proposer }}
+        />
       </div>
     </div>
-    <div>
-      <h5>PROPOSER</h5>
+    <div className="mb-2 justify-content-between align-items-center">
       <Widget
-        src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: proposal.proposer, tooltip: true }}
-      />
-    </div>
-    <div>
-      <h5>Description</h5>
-      {useMarkdownForDescription ? (
-        <MarkdownContainer>
-          <Markdown text={proposal.description} />
-        </MarkdownContainer>
-      ) : (
-        <p>{proposal.description}</p>
-      )}
-    </div>
-    <div
-      className="d-flex flex-wrap align-items-start"
-      style={{
-        rowGap: "16px",
-        columnGap: "48px",
-      }}
-    >
-      <RenderProposalArgs />
-    </div>
-
-    <div className="w-100">
-      <h5>Votes</h5>
-      <Widget
-        src="sking.near/widget/DAO.Proposal.Vote"
+        src="hack.near/widget/widget.inline"
         props={{
-          daoId: daoId,
-          proposal: proposal,
-          isAllowedToVote: [
-            isAllowedToVoteYes,
-            isAllowedToVoteNo,
-            isAllowedToVoteRemove,
-          ],
+          widgetPath: `${daoId}/widget/${widgetName}`,
         }}
       />
     </div>
-
-    <Widget
-      src="sking.near/widget/DAO.Proposal.Additional"
-      props={{
-        daoId: daoId,
-        proposal: proposal,
-      }}
-    />
+    {canVote && (
+      <div className="me-1">
+        <Widget
+          src="hack.near/widget/dev.proposal.vote"
+          props={{
+            daoId: daoId,
+            proposal: proposal,
+            isAllowedToVote: [
+              isAllowedToVoteYes,
+              isAllowedToVoteNo,
+              isAllowedToVoteRemove,
+            ],
+          }}
+        />
+      </div>
+    )}
+    <div className="row justify-content-between">
+      <div className="mb-3">
+        <Widget
+          src="hack.near/widget/dev.proposal.comments"
+          props={{
+            daoId: daoId,
+            proposal: proposal,
+          }}
+        />
+      </div>
+      <div className="col-auto m-2">
+        <button
+          className="btn btn-sm btn-outline-secondary border-0"
+          data-bs-toggle="collapse"
+          data-bs-target={`.details`}
+          aria-expanded="false"
+          aria-controls={"details"}
+        >
+          <i className="bi bi-arrows-expand me-1"></i> see proposed changes
+        </button>
+      </div>
+    </div>
+    <div className="collapse details">
+      <Widget
+        src="hack.near/widget/widget.compare"
+        props={{
+          updatedWidget: `${proposal.proposer}/widget/${widgetName}`,
+          widgetPath: `${daoId}/widget/${widgetName}`,
+          ...props,
+        }}
+      />
+    </div>
   </Wrapper>
 );
