@@ -133,7 +133,7 @@ const Wrapper = styled.div`
 
   h3 {
     font-weight: 600;
-    font-size: 24px;
+    font-size: 29px;
     color: #1b1b18;
   }
 
