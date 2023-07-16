@@ -5,7 +5,7 @@ return (
     <div className="me-2 text-truncate">
       <div className="text-truncate">
         <Widget
-          src="mob.near/widget/ProfileLine"
+          src="mob.near/widget/Profile"
           props={{ accountId, tooltip: true }}
         />
       </div>
@@ -14,9 +14,11 @@ return (
         style={{ paddingLeft: "1.8em" }}
       >
         {props.L}
-        <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
       </div>
     </div>
-    <div className="text-nowrap">{props.R}</div>
+    <div className="text-nowrap">
+      {props.R}
+      <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+    </div>
   </div>
 );
