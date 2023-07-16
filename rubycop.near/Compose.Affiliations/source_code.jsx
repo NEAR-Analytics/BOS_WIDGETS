@@ -237,44 +237,44 @@ return (
             style={{ width: "100%", "margin-top": "20px" }}
           >
             <div class=" col-sm-12 gap-1">
-              <div name="AFOrganization">
-                <CompanyTitle>{"Organization Name"}</CompanyTitle>
-                <div>
-                  <CompanyInputName
-                    placeholder="Company Name"
-                    value={form.company_name}
-                    onChange={(event) => {
-                      let _param = { index, event };
-                      handleAFFCompanyName(_param);
-                    }}
-                  />
-                </div>
-              </div>
-              <div>
-                <AFDates name="AFdates">
-                  <DateContItem>
-                    <CompanyTitle>{"Start date"}</CompanyTitle>
-                    <CompanyInput
-                      type="date"
-                      max={getCurrDate()}
-                      onChange={(event) => {
-                        let _param = { index, event };
-                        handleAFFStartdate(_param);
-                      }}
-                    ></CompanyInput>
-                  </DateContItem>
-                  <DateContItem>
-                    <CompanyTitle>{"End date"}</CompanyTitle>
-                    <CompanyInput
-                      type="date"
-                      max={getCurrDate()}
-                      onChange={(event) => {
-                        let _param = { index, event };
-                        handleAFFEnddate(_param);
-                      }}
-                    ></CompanyInput>
-                  </DateContItem>
-                </AFDates>
+              <Widget
+                src={"rubycop.near/widget/NDC.StyledComponents"}
+                props={{
+                  Input: {
+                    label: "Organization Name",
+                    placeholder: "Company Name",
+                    value: form.company_name,
+                    handleChange: (event) =>
+                      handleAFFCompanyName({ index, event }),
+                  },
+                }}
+              />
+              <div className="d-flex">
+                <Widget
+                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  props={{
+                    Date: {
+                      label: "Start date",
+                      min: getCurrDate(),
+                      value: form.company_name,
+                      handleChange: (event) =>
+                        handleAFFStartdate({ index, event }),
+                    },
+                  }}
+                />
+                <div className="px-3" />
+                <Widget
+                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  props={{
+                    Date: {
+                      label: "End date",
+                      min: getCurrDate(),
+                      value: form.company_name,
+                      handleChange: (event) =>
+                        handleAFFEnddate({ index, event }),
+                    },
+                  }}
+                />
               </div>
 
               <div class=" py-2">
