@@ -19,8 +19,8 @@ const houses = [
 ];
 
 const widgets = {
-  header: "syi216.near/widget/NDC.Nomination.Header",
-  card: "syi216.near/widget/NDC.nomination.card",
+  header: "rubycop.near/widget/NDC.Elections.Header",
+  card: "rubycop.near/widget/NDC.Nomination.Card",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
   filter: "rubycop.near/widget/NDC.Elections.Filter",
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
@@ -66,7 +66,7 @@ function getVerifiedHuman() {
   });
   asyncFetch(
     `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}`,
-    { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
+    httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
       State.update({ selfNomination: true });
