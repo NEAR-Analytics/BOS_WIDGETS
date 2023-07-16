@@ -80,7 +80,9 @@ return (
         onClick={handleApprove}
         disabled={!canVote}
       >
-        <span>Vote Yes</span>
+        <span>
+          <b>vote yes</b>
+        </span>
       </a>
     </div>
     <div className="col-6">
@@ -89,7 +91,9 @@ return (
         onClick={handleReject}
         disabled={!canVote}
       >
-        <span className="button no">Vote No</span>
+        <span className="button no">
+          <b>vote no</b>
+        </span>
       </a>
     </div>
   </div>
