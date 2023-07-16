@@ -3,7 +3,7 @@ const accountId = props.accountId ?? context.accountId;
 let widgetName;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
-const proposalId = props.proposalId ?? 187;
+const proposalId = props.proposalId;
 
 let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
 
