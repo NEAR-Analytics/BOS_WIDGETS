@@ -85,8 +85,7 @@ const Styled = {
     padding: 8px 10px;
     width: 100%;
     background: #ffffff;
-    border: 1px solid;
-    border-color ${(props) => (props.charLeft === 0 ? "#c23f38" : "#d0d6d9")};
+    border: 1px solid #d0d6d9;
     border-radius: 8px;
     font-size: 14px;
     color: #828688;
@@ -147,24 +146,26 @@ if (Dropdown)
   );
 
 if (TextArea)
-  <div>
-    <Label>{TextArea.label}</Label>
-    <Styled.TextArea
-      value={TextArea.value}
-      placeholder={TextArea.placeholder}
-      onChange={TextArea.handleChange}
-      rows={5}
-      maxLength={TextArea.maxLength}
-    />
+  return (
+    <div>
+      <Label>{TextArea.label}</Label>
+      <Styled.TextArea
+        value={TextArea.value}
+        placeholder={TextArea.placeholder}
+        onChange={TextArea.handleChange}
+        rows={5}
+        maxLength={TextArea.maxLength}
+      />
 
-    {TextArea.maxLength && (
-      <div className="justify-content-end">
-        <small className="text-secondary">
-          {TextArea.maxLength - TextArea.value.length} left
-        </small>
-      </div>
-    )}
-  </div>;
+      {TextArea.maxLength && (
+        <div className="justify-content-end">
+          <small className="text-secondary">
+            {TextArea.maxLength - TextArea.value.length} left
+          </small>
+        </div>
+      )}
+    </div>
+  );
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
