@@ -9,14 +9,14 @@ return (
           props={{ accountId, tooltip: true }}
         />
       </div>
+    </div>
+    <div className="text-nowrap">
       <div
         className="text-truncate text-muted"
         style={{ paddingLeft: "1.8em" }}
       >
         {props.L}
       </div>
-    </div>
-    <div className="text-nowrap">
       {props.R}
       <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
     </div>
