@@ -161,8 +161,13 @@ return (
         {context.accountId && (
           <div className="m-3" style={{ maxWidth: "75%" }}>
             <Widget
-              src="near/widget/AccountProfileCard"
-              props={{ accountId: daoId }}
+              src="near/widget/DIG.Button"
+              props={{
+                href: `${props.link ?? "#/hack.near/widget/docs"}`,
+                label: "Get Started",
+                variant: "outline-dark",
+                size: "large",
+              }}
             />
           </div>
         )}
