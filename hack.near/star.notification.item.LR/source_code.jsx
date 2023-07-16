@@ -11,16 +11,13 @@ return (
       </div>
     </div>
     <div className="text-nowrap col-auto">
-      <div
-        className="text-truncate text-muted"
-        style={{ paddingLeft: "1.8em" }}
-      >
+      <div className="text-truncate text-muted">
         {" "}
         {props.L}
         <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
         ago
       </div>
-      {props.R}
     </div>
+    {props.R}
   </div>
 );
