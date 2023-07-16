@@ -78,24 +78,26 @@ const Tabs = () => {
       <ul>
         <li>
           <button
-            className={"Comments" === state.activeTab ? "active" : ""}
-            onClick={() => onTabChange("Comments")}
+            className={"comments" === state.activeTab ? "active" : ""}
+            onClick={() => onTabChange("comments")}
           >
             <i className="bi bi-chat-left-text"></i>
-            Comments
+            comments
             <label>{totalComments}</label>
           </button>
         </li>
-        <li>
-          <button
-            className={"Voters" === state.activeTab ? "active" : ""}
-            onClick={() => onTabChange("Voters")}
-          >
-            <i className="bi bi-people"></i>
-            Voters
-            <label>{totalVoters}</label>
-          </button>
-        </li>
+        {proposal && (
+          <li>
+            <button
+              className={"voters" === state.activeTab ? "active" : ""}
+              onClick={() => onTabChange("voters")}
+            >
+              <i className="bi bi-people"></i>
+              voters
+              <label>{totalVoters}</label>
+            </button>
+          </li>
+        )}
       </ul>
     </TabsStyled>
   );
@@ -109,23 +111,27 @@ return (
   <>
     <Tabs />
     <Wrapper>
-      {state.activeTab === "Comments" && (
-        <Widget
-          src="sking.near/widget/DAO.Proposal.Comments"
-          props={{
-            daoId: daoId,
-            proposalId: proposal.id,
-            commentsCount: totalComments,
-          }}
-        />
+      {state.activeTab === "comments" && (
+        <div className="mt-3">
+          <Widget
+            src="sking.near/widget/DAO.Proposal.Comments"
+            props={{
+              daoId: daoId,
+              proposalId: proposal.id,
+              commentsCount: totalComments,
+            }}
+          />
+        </div>
       )}
-      {state.activeTab === "Voters" && (
-        <Widget
-          src="sking.near/widget/DAO.Proposal.Voters"
-          props={{
-            votes: proposal.votes,
-          }}
-        />
+      {state.activeTab === "voters" && proposal && (
+        <div className="mt-3">
+          <Widget
+            src="sking.near/widget/DAO.Proposal.Voters"
+            props={{
+              votes: proposal.votes,
+            }}
+          />
+        </div>
       )}
     </Wrapper>
   </>
