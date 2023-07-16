@@ -3,7 +3,7 @@ const accountId = props.accountId ?? context.accountId;
 let widgetName;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
-const proposalId = props.proposalId ?? 187;
+const proposalId = props.proposalId;
 
 let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
 
@@ -69,24 +69,6 @@ const isUserAllowedTo = (user, kind, action) => {
   return allowed;
 };
 
-console.log(
-  "Is User Allowed To 'Add a Proposal' of type 'FunctionCall'?",
-  isUserAllowedTo(
-    accountId,
-    proposalKinds.FunctionCall,
-    actionTypes.AddProposal
-  )
-);
-
-console.log(
-  "Is User Allowed To 'Vote Yes' on a proposal of type 'FunctionCall'?",
-  isUserAllowedTo(
-    accountId,
-    proposalKinds.FunctionCall,
-    actionTypes.VoteApprove
-  )
-);
-
 const canPropose = isUserAllowedTo(
   accountId,
   proposalKinds.FunctionCall,
@@ -97,7 +79,6 @@ const canVote = isUserAllowedTo(
   proposalKinds.FunctionCall,
   actionTypes.VoteApprove
 );
-// --- end of check
 
 proposal.type =
   typeof proposal.kind === "string"
@@ -267,25 +248,21 @@ if (!actions || actions.length === 0) {
 }
 
 const details = actions.map(({ args }) => {
-  console.log("Args:", args);
-
   const selectedArgs = JSON.parse(Buffer.from(args, "base64").toString("utf8"));
 
-  console.log("Selected Args:", selectedArgs);
+  const newCode = selectedArgs.data[daoId].widget[widgetName][""];
 
-  const newCode = selectedArgs.data[daoId].widget.community[""];
-
-  console.log("New Code:", newCode);
+  if (!newCode) {
+    return "";
+  }
 
   widgetName = Object.keys(selectedArgs.data[daoId].widget)[0];
 
-  console.log("Widget Name:", widgetName);
-
   const baseCode = Social.get(`${daoId}/widget/${widgetName}`);
 
-  console.log("Base Code:", baseCode);
-
-  console.log("Details:", details);
+  if (!baseCode) {
+    return "";
+  }
 });
 
 const proposalURL = `/#/sking.near/widget/DAO.Page?daoId=${daoId}&tab=proposal&proposalId=${proposal.id}`;
