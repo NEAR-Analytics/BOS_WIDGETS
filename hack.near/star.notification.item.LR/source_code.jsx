@@ -4,6 +4,8 @@ return (
   <div className="d-flex justify-content-between row">
     <div className="me-2 text-truncate col-auto">
       <div className="text-truncate">
+        {props.R}
+
         <Widget
           src="mob.near/widget/Profile"
           props={{ accountId, tooltip: true }}
@@ -18,6 +20,5 @@ return (
         ago
       </div>
     </div>
-    {props.R}
   </div>
 );
