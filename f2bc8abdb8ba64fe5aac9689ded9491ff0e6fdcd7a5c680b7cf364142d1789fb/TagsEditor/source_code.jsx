@@ -1,8 +1,35 @@
-const tagsPattern = props.tagsPattern ?? "*/profile/tags/*";
+const tagsPattern = "*/profile/tags/*";
 const placeholder = props.placeholder ?? "Tags";
 const initialTagsObject = props.initialTagsObject || {};
 
-const tagsObject = {};
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "ayelen.near",
+  "kenrou-it.near",
+];
+
+const data = {
+  index: {
+    test_sayALotTags: JSON.stringify({
+      key: "main",
+      value: { tags: { testTag: true } },
+    }),
+  },
+};
+
+// Social.set(data, {
+//   force: true,
+//   onCommit: () => {
+//     console.log("Commit compleate");
+//   },
+// });
+
+const tagsObject = JSON.parse(
+  Social.get(
+    `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/index/test_sayALotTags`
+  )
+).value;
 
 const normalizeTag = (tag) =>
   tag
@@ -28,7 +55,7 @@ const processTagsObject = (obj) => {
 };
 
 const getTags = () => {
-  processTagsObject(tagsObject);
+  processTagsObject(tagsObject.tags);
   const tags = Object.entries(tagsCount);
   tags.sort((a, b) => b[1] - a[1]);
   return tags.map((t) => ({
@@ -69,12 +96,15 @@ const setTags = (tags) => {
 
 return (
   <>
+    {sayALotWorkers.includes(context.accountId) && (
+      <input value={state.newTags} />
+    )}
     <Typeahead
       id={state.id}
       multiple
       labelKey="name"
       onChange={setTags}
-      options={[]}
+      options={state.allTags}
       placeholder={placeholder}
       selected={state.tags}
       positionFixed
