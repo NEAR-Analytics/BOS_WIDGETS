@@ -81,6 +81,15 @@ const Styled = {
     font-size: 14px;
     color: #828688;
   `,
+  TextArea: styled.textarea`
+    padding: 8px 10px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d0d6d9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
+  `,
 };
 
 const Container = styled.div`
@@ -136,19 +145,7 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea) {
-  Styled.TextArea = styled.textarea`
-    padding: 8px 10px;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid;
-    border-color: ${(p) =>
-      p.value.length - p.maxLength === 0 ? "#c23f38" : "#d0d6d9"};
-    border-radius: 8px;
-    font-size: 14px;
-    color: #828688;
-  `;
-
+if (TextArea)
   return (
     <div>
       <Label>{TextArea.label}</Label>
@@ -169,7 +166,6 @@ if (TextArea) {
       )}
     </div>
   );
-}
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
