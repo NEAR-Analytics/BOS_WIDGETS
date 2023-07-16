@@ -390,11 +390,13 @@ return (
             }}
           />
           <div>
-            {true && (
-              <Widget
-                src={widgets.verifyHuman}
-                props={{ title: "Want to upvote?", small: true }}
-              />
+            {!state.sbt && (
+              <div className="mt-5">
+                <Widget
+                  src={widgets.verifyHuman}
+                  props={{ title: "Want to upvote?", small: true }}
+                />
+              </div>
             )}
           </div>
         </Left>
