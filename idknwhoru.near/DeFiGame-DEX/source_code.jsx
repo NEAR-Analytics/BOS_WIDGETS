@@ -44,11 +44,6 @@ const MyWalletInfo = styled.div`
 
 const TokenWrapper = styled.div`
     display: flex;
-
-    .token-quantity {
-        width: 100%;
-        text-align: end;
-    }
 `;
 
 const QuantityFieldWrapper = styled.div`
@@ -91,25 +86,29 @@ return (
     {state.activeTab === 1 ? (
       <div>
         <TokenWrapper>
-          <input
-            type="number"
-            className="token-quantity"
-            min={0}
-            placeHolder={0}
-          />
+          <QuantityFieldWrapper>
+            <input
+              type="number"
+              className="token-quantity"
+              min={0}
+              placeHolder={0}
+            />
+          </QuantityFieldWrapper>
           <select>
             <option>S토큰</option>
             <option>L토큰</option>
           </select>
         </TokenWrapper>
         <TokenWrapper>
-          <input
-            type="number"
-            className="token-quantity"
-            min={0}
-            value={0}
-            disabled={true}
-          />
+          <QuantityFieldWrapper>
+            <input
+              type="number"
+              className="token-quantity"
+              min={0}
+              value={0}
+              disabled={true}
+            />
+          </QuantityFieldWrapper>
           <select disabled={true}>
             <option>S토큰</option>
             <option>L토큰</option>
