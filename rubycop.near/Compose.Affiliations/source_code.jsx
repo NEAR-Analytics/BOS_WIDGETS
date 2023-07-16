@@ -27,6 +27,7 @@ const H2 = styled.h1`
   margin-top: 25px;
 `;
 const AffiliationBody = styled.div`
+  width: 100;
   margin-top: 16px;
 `;
 const Separator = styled.div`
@@ -66,18 +67,20 @@ const {
 
 return (
   <FormsectionAffiliation>
-    <H2>{"Afiliations"}</H2>
-    <Widget
-      src={"rubycop.near/widget/NDC.StyledComponents"}
-      props={{
-        Button: {
-          size: "sm",
-          text: "Add More Affiliations",
-          icon: <i className="bi bi-lg-plus" />,
-          handleClick: addFields,
-        },
-      }}
-    />
+    <div className="d-flex justify-content-between">
+      <H2>{"Afiliations"}</H2>
+      <Widget
+        src={"rubycop.near/widget/NDC.StyledComponents"}
+        props={{
+          Button: {
+            size: "sm",
+            text: "Add More Affiliations",
+            icon: <i className="bi bi-lg-plus" />,
+            handleClick: addFields,
+          },
+        }}
+      />
+    </div>
 
     <AffiliationBody>
       {affiliations.map((form, index) => {
