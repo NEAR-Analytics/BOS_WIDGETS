@@ -92,6 +92,7 @@ return (
               className="token-quantity"
               min={0}
               placeHolder={0}
+              step={20}
             />
           </QuantityFieldWrapper>
           <select>
