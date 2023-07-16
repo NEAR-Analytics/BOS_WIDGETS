@@ -15,6 +15,27 @@ const Container = styled.div`
     color: #000;
     margin-left: 8px;
     text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .bell-icon:hover {
+    color: #000;
+  }
+
+  .bell-icon .bi-bell {
+    display: inline;
+  }
+
+  .bell-icon .bi-bell-fill {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell-fill {
+    display: inline;
   }
 
   @media (max-width: 576px) {
@@ -109,7 +130,9 @@ return (
             className="bell-icon me-2"
           >
             <i className="bi bi-bell"></i>
+            <i className="bi bi-bell-fill"></i>
           </a>
+
           <a href="#/hack.near/widget/GitBos" className="text-muted m-2">
             <Widget
               src="mob.near/widget/ProfileImage"
