@@ -86,7 +86,8 @@ const Styled = {
     width: 100%;
     background: #ffffff;
     border: 1px solid;
-    border-color: ${(p) => (p.highlight ? "#c23f38" : "#d0d6d9")};
+    border-color: ${(p) =>
+      p.value.length - p.maxLength === 0 ? "#c23f38" : "#d0d6d9"};
     border-radius: 8px;
     font-size: 14px;
     color: #828688;
@@ -156,7 +157,6 @@ if (TextArea)
         onChange={TextArea.handleChange}
         rows={5}
         maxLength={TextArea.maxLength}
-        highlight={TextArea.maxLength - TextArea.value.length === 0}
       />
 
       {TextArea.maxLength && (
