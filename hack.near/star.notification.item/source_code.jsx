@@ -8,7 +8,7 @@ return (
         props={{
           L: value.type === "star" && "starred your widget",
           R: (
-            <div className="m-3">
+            <div className="m-2">
               <Widget
                 src="mob.near/widget/FollowButton"
                 props={{ accountId }}
