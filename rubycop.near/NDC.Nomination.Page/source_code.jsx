@@ -433,7 +433,6 @@ return (
         <Widget
           src={`rubycop.near/widget/NDC.Nomination.Compose`}
           props={{
-            candidateOrReplay: true,
             handleClose: () => State.update({ showModal: false }),
           }}
         />
@@ -442,7 +441,7 @@ return (
         <Widget
           src={`rubycop.near/widget/NDC.Nomination.DeleteNomination`}
           props={{
-            candidateOrReplay: true,
+            house: state.house,
             handleClose: () => State.update({ showModalDelete: false }),
           }}
         />
