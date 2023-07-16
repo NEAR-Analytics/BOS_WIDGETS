@@ -57,6 +57,21 @@ const QuantityFieldWrapper = styled.div`
     }
 `;
 
+const StakeButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+
+  .stake-button {
+    min-width: 115px;
+    min-height: 40px;
+    width: 5vw;
+    background-color: #0d6efd;
+    color: #fff;
+    border: solid 1px #0d6efd;
+    border-radius: 5px;
+  }
+`;
+
 return (
   <>
     <h1>DEX</h1>
@@ -118,7 +133,7 @@ return (
         <button>스왑하기</button>
       </div>
     ) : (
-      <div>
+      <>
         <h2>스테이크 비율 21 : 10</h2>
         <QuantityFieldWrapper>
           <input
@@ -126,10 +141,22 @@ return (
             type="number"
             min={0}
             placeHolder={0}
+            disabled={true}
+          />
+          <input
+            className="token-quantity"
+            type="number"
+            min={0}
+            placeHolder={0}
+            disabled={true}
           />
         </QuantityFieldWrapper>
+        <StakeButtonWrapper>
+          <button className="stake-button">UP</button>
+          <button className="stake-button">DOWN</button>
+        </StakeButtonWrapper>
         <button>스테이크하기</button>
-      </div>
+      </>
     )}
   </>
 );
