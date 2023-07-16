@@ -27,9 +27,6 @@ const ToKenWrapper = styled.div`
 return (
   <>
     <h1>CEX</h1>
-    <button onClick={activePurchase}>구매</button>
-    <button onClick={activeSale}>인출</button>
-    <button onClick={activeStake}>스테이크</button>
     <div>
       <h2>내 자산정보</h2>
       <ul>
@@ -38,6 +35,9 @@ return (
         <li>L토큰: ?개</li>
       </ul>
     </div>
+    <button onClick={activePurchase}>구매</button>
+    <button onClick={activeSale}>인출</button>
+    <button onClick={activeStake}>스테이크</button>
     <hr />
     {state.activeTab === 1 ? (
       <>
