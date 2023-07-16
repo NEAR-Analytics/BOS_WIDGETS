@@ -1,5 +1,15 @@
 const { Button, Dropdown, TextArea } = props;
 
+const InputStyle = css`
+  padding: 8px 10px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d0d6d9;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #828688;
+`;
+
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -82,13 +92,10 @@ const Styled = {
     color: #828688;
   `,
   TextArea: styled.textarea`
-    padding: 8px 10px;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #d0d6d9;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #828688;
+    ${InputStyle}
+  `,
+  Input: styled.input`
+    ${InputStyle}
   `,
 };
 
@@ -161,6 +168,27 @@ if (TextArea)
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 10 }} className="text-secondary">
             {TextArea.maxLength - TextArea.value.length} left
+          </small>
+        </div>
+      )}
+    </div>
+  );
+
+if (Input)
+  return (
+    <div>
+      <Label>{Input.label}</Label>
+      <Styled.Input
+        value={Input.value}
+        placeholder={Input.placeholder}
+        onChange={Input.handleChange}
+        maxLength={Input.maxLength}
+      />
+
+      {Input.maxLength && (
+        <div className="d-flex justify-content-end">
+          <small style={{ fontSize: 10 }} className="text-secondary">
+            {Input.maxLength - Input.value.length} left
           </small>
         </div>
       )}
