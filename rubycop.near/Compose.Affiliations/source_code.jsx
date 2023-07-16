@@ -149,7 +149,7 @@ return (
                 />
               </Section>
 
-              <div className="flex justify-content-end my-2">
+              <div className="d-flex justify-content-end">
                 <Widget
                   src={"rubycop.near/widget/NDC.StyledComponents"}
                   props={{
