@@ -258,6 +258,10 @@ const details = actions.map(({ args }) => {
 
   widgetName = Object.keys(selectedArgs.data[daoId].widget)[0];
 
+  if (!widgetName) {
+    return "";
+  }
+
   const baseCode = Social.get(`${daoId}/widget/${widgetName}`);
 
   if (!baseCode) {
