@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "multi.sputnik-dao.near";
+const communityId = props.communityId ?? "multi.sputnik-dao.near";
 const contractId = props.contractId ?? "mint.sharddog.near";
 
 const tab = props.tab === "following" ? props.tab : "members";
@@ -182,7 +182,10 @@ return (
       </HiddenText>
     )}
     <div className="m-2">
-      <Widget src="hack.near/widget/dao.people" props={{ daoId }} />
+      <Widget
+        src="hack.near/widget/dao.people"
+        props={{ daoId: communityId }}
+      />
     </div>
     <br />
     <br />
