@@ -80,7 +80,12 @@ return (
     {state.activeTab === 1 ? (
       <div>
         <TokenWrapper>
-          <input type="number" className="token-quantity" min={0} value={0} />
+          <input
+            type="number"
+            className="token-quantity"
+            min={0}
+            placeHolder={0}
+          />
           <select>
             <option>S토큰</option>
             <option>L토큰</option>
