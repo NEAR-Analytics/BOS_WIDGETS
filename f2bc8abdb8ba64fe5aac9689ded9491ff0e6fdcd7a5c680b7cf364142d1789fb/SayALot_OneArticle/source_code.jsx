@@ -21,7 +21,7 @@ const article =
         Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
       );
 
-console.log(article);
+console.log("sa:", state.article);
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
   // If some widget posts data different than an array it will be ignored
@@ -286,7 +286,6 @@ const getTagObjectfromArray = (tagArray) => {
   if (!tagArray) return {};
   return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
 };
-// console.log(getTagObjectfromArray(initialTestArray));
 
 const areTheTextAndTagsTheSame = () => {
   const isThereNoTextInBody = !state.note;
@@ -303,8 +302,6 @@ const areTheTextAndTagsTheSame = () => {
   }
   return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
 };
-
-console.log("t", state.debug);
 
 const filterTagsFromNull = (tagsObj) => {
   const entries = Object.entries(tagsObj);
