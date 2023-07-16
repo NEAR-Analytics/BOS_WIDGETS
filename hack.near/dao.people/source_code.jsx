@@ -7,11 +7,27 @@ if (profile === null) {
   return "Loading...";
 }
 
+const Text = styled.p`
+  font-family: "Courier", sans-serif;
+  font-size: ${(p) => p.size ?? "16px"};
+  line-height: ${(p) => p.lineHeight ?? "1.5"};
+  font-weight: ${(p) => p.weight ?? "400"};
+  color: ${(p) => p.color ?? "#000"};
+  margin: 0;
+  max-width: 670px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
 return (
   <>
     <div className="m-2">
       <div className="tab-content">
-        <h3>Community</h3>
+        <Text>
+          <h3>People</h3>
+        </Text>
         {accountId && (
           <div className="mt-3 mb-5">
             <Widget
