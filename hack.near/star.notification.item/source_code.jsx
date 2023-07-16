@@ -10,7 +10,6 @@ return (
           R: (
             <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
           ),
-          ...props,
         }}
       />
     )}
