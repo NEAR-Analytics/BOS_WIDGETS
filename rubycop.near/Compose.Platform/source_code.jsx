@@ -1,18 +1,11 @@
 const { inputs } = props;
 
 const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0;
-  width: 100%;
-  flex: none;
-  order: 3;
-  flex-grow: 0;
+  margin-bottom: 10px;
 `;
 
 return (
-  <div class="col-sm-12 mx-0">
+  <div>
     {inputs.map((input, i) => {
       <Section key={i}>
         <Widget
