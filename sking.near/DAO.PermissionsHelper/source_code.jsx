@@ -82,7 +82,7 @@ console.log(
 return (
   <div className="d-flex flex-column gap-2">
     <div>
-      <b>Is User Allowed To 'Add a Proposal' of type 'FunctionCall'?</b>
+      <b>Is {accountId} Allowed To 'Add a Proposal' of type 'FunctionCall'?</b>
       <div className="text-muted">
         {isUserAllowedTo(
           accountId,
@@ -92,7 +92,10 @@ return (
       </div>
     </div>
     <div>
-      <b>Is User Allowed To 'Vote Yes' on a proposal of type 'FunctionCall'?</b>
+      <b>
+        Is {accountId} Allowed To 'Vote Yes' on a proposal of type
+        'FunctionCall'?
+      </b>
       <div className="text-muted">
         {isUserAllowedTo(
           accountId,
@@ -102,7 +105,9 @@ return (
       </div>
     </div>
     <div>
-      <b>Is User Allowed To 'Add a Proposal' of type 'AddMemberToRole'?</b>
+      <b>
+        Is {accountId} Allowed To 'Add a Proposal' of type 'AddMemberToRole'?
+      </b>
       <div className="text-muted">
         {isUserAllowedTo(
           accountId,
