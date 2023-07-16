@@ -74,7 +74,7 @@ const handleSpam = () => {
 
 return (
   <div className="row">
-    <div className="col-4">
+    <div className="col-6">
       <a
         className="btn btn-success m-1 w-100"
         onClick={handleApprove}
@@ -83,22 +83,13 @@ return (
         <span>Vote Yes</span>
       </a>
     </div>
-    <div className="col-4">
+    <div className="col-6">
       <a
         className="btn btn-danger m-1 w-100"
         onClick={handleReject}
         disabled={!canVote}
       >
         <span className="button no">Vote No</span>
-      </a>
-    </div>
-    <div className="col-3">
-      <a
-        className="btn btn-warning m-1 w-100"
-        onClick={handleSpam}
-        disabled={!canVote}
-      >
-        <span className="button no">Spam</span>
       </a>
     </div>
   </div>
