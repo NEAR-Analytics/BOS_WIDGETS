@@ -132,9 +132,13 @@ return (
       <div className="col-5">
         <StarButton>
           {starCount && (
-            <h5>
-              {starCount} builder{starCount !== 1 && "s"}
-            </h5>
+            <a
+              href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName${widgetName}`}
+            >
+              <h5>
+                {starCount} builder{starCount !== 1 && "s"}
+              </h5>
+            </a>
           )}
           <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
         </StarButton>
