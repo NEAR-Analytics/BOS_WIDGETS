@@ -30,7 +30,7 @@ const Wrapper = styled.div`
 `;
 
 const H1 = styled.h1`
-  font-family: "FK Grotesk", sans-serif;
+  font-family: ${props.h1Font ?? "sans-serif"};
   font-style: normal;
   font-weight: 500;
   font-size: 90px;
@@ -47,7 +47,7 @@ const H1 = styled.h1`
 `;
 
 const H2 = styled.h1`
-  font-family: "FK Grotesk", sans-serif;
+  font-family: ${props.h2Font ?? "sans-serif"};
   font-style: normal;
   font-weight: 500;
   font-size: 90px;
