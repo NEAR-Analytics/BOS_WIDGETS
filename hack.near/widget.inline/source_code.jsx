@@ -145,11 +145,11 @@ return (
       </div>
     </div>
     <div className="m-2">
-      <h5 className="card-title mb-2 mt-3">
+      <h3 className="mb-2 mt-3">
         <a href={`#/${widgetPath}`}>
           <b>{name}</b>
         </a>
-      </h5>
+      </h3>
     </div>
     <div className="row mt-4 mb-3">
       <div className="col-auto">
