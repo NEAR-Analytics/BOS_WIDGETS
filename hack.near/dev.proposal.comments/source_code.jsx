@@ -126,7 +126,7 @@ return (
       {state.activeTab === "voters" && proposal && (
         <div className="mt-3">
           <Widget
-            src="sking.near/widget/DAO.Proposal.Voters"
+            src="hack.near/widget/dev.proposal.voters"
             props={{
               votes: proposal.votes,
             }}
