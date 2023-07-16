@@ -2,7 +2,7 @@ const { accountId, blockHeight, value } = props;
 
 return (
   <div className="d-flex justify-content-between row">
-    <div className="me-2 text-truncate col-5">
+    <div className="me-2 text-truncate col-auto">
       <div className="text-truncate">
         <Widget
           src="mob.near/widget/Profile"
@@ -10,7 +10,7 @@ return (
         />
       </div>
     </div>
-    <div className="text-nowrap col-5">
+    <div className="text-nowrap col-auto">
       <div
         className="text-truncate text-muted"
         style={{ paddingLeft: "1.8em" }}
