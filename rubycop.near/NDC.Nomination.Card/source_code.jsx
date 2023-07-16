@@ -676,6 +676,9 @@ const Separation = styled.div`
   }
 `;
 
+const canUpvote =
+  state.verified && context.accountId != data.indexerData.nominee;
+
 return (
   <Card>
     {state.showModal && (
@@ -713,18 +716,26 @@ return (
           <NominationUser>{data.nominationData.profileAccount}</NominationUser>
         </HeaderContentText>
       </HeaderContent>
-      {state.verified && context.accountId != data.indexerData.nominee ? (
+      {canUpvote && (
         <UpvoteButton onClick={handleUpVote}>
           {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
-          <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
-        </UpvoteButton>
-      ) : (
-        <UpvoteButton onClick={handleUpVote} disabled>
-          {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
-          <Icon
-            style={{ filter: "grayscale(1)" }}
-            src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
-          ></Icon>
+          <Widget
+            src="rubycoptest.testnet/widget/Image"
+            props={{
+              image: {
+                url: canUpvote
+                  ? "https://bafkreihtxbozr3tpmzyijzvgmnzjhfnvfudu5twxi5e736omfor6rrbcde.ipfs.nftstorage.link"
+                  : "https://bafkreiew3fr6fxxw6p5zibr7my7ykdqyppblaldsudsnropawfkghjkhuu.ipfs.nftstorage.link",
+              },
+              style: {
+                height: "15px",
+                marginBottom: "3px",
+              },
+              alt: "kudos",
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+            }}
+          />
         </UpvoteButton>
       )}
     </HeaderCard>
