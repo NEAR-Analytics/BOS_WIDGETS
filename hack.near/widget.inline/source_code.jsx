@@ -146,9 +146,7 @@ return (
     </div>
     <div className="m-2">
       <h3 className="mb-2 mt-3">
-        <a href={`#/${widgetPath}`}>
-          <b>{name}</b>
-        </a>
+        <a href={`#/${widgetPath}`}>{name}</a>
       </h3>
     </div>
     <div className="row mt-4 mb-3">
