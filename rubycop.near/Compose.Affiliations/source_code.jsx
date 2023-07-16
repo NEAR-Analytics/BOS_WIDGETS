@@ -26,24 +26,6 @@ const AffiliationHead = styled.div`
   @media only screen and (max-width: 480px) {
   }
 `;
-const AffiliationTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 8px;
-  width: 100%;
-  height: 20px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin-top: 16px;
-  padding-right: 26px;
-  @media only screen and (max-width: 480px) {
-    padding-right: 0px;
-  }
-`;
 const H2 = styled.h1`
   height: 14px;
   font-style: normal;
@@ -62,7 +44,7 @@ const AffiliationBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
+  padding: 0;
   gap: 8px;
   width: 100%;
   height: auto;
@@ -70,116 +52,6 @@ const AffiliationBody = styled.div`
   order: 1;
 
   margin-top: 16px;
-  @media only screen and (max-width: 480px) {
-  }
-`;
-const CompanyTitle = styled.div`
-  width: 100%;
-  height: 12px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  color: #000000;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  @media only screen and (max-width: 480px) {
-  }
-`;
-
-const CompanyInputName = styled.input`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 9px 10px;
-  gap: 10px;
-  width: 100%;
-  height: 40px;
-  background: #ffffff;
-  border: 1px solid #d0d6d9;
-  border-radius: 8px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-`;
-const AFDates = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 0.25rem;
-  flex-wrap: nowrap;
-  @media only screen and (max-width: 480px) {
-  }
-`;
-const DateContItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-
-  width: 50%;
-  height: 50px;
-  flex: none;
-  order: 0;
-  flex-grow: 1;
-  margin-bottom: 10px;
-
-  @media only screen and (max-width: 480px) {
-  }
-`;
-const CompanyInput = styled.input`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 9px 10px;
-  gap: 10px;
-  width: 100%;
-  height: 40px;
-  background: #ffffff;
-  border: 1px solid #d0d6d9;
-  border-radius: 8px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-
-  @media only screen and (max-width: 480px) {
-  }
-`;
-const FormsectionPlatformtextarea = styled.textarea`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 9px 10px;
-  width: 100%;
-  height: 100px;
-  background: #ffffff;
-  border: 1px solid #d0d6d9;
-  border-radius: 8px;
-
-  order: 1;
-
-  font-size: 12px;
-  @media only screen and (max-width: 480px) {
-  }
 `;
 const Separator = styled.div`
   width: 100%;
@@ -187,6 +59,10 @@ const Separator = styled.div`
   background-color: #d0d6d966;
   border: solid 0px transparent;
 `;
+const Section = styled.div`
+  margin-bottom: 5px;
+`;
+
 const getCurrDate = () => {
   let year = new Date().getFullYear().toString();
 
@@ -250,7 +126,7 @@ return (
                 }}
               />
               <div className="d-flex">
-                <div className="w-100">
+                <Section className="w-100">
                   <Widget
                     src={"rubycop.near/widget/NDC.StyledComponents"}
                     props={{
@@ -264,9 +140,9 @@ return (
                       },
                     }}
                   />
-                </div>
-                <div className="px-3" />
-                <div className="w-100">
+                </Section>
+                <div className="px-2" />
+                <Section className="w-100">
                   <Widget
                     src={"rubycop.near/widget/NDC.StyledComponents"}
                     props={{
@@ -280,55 +156,24 @@ return (
                       },
                     }}
                   />
-                </div>
+                </Section>
               </div>
 
-              <div class=" py-2">
-                <CompanyTitle>{"Role Description"}</CompanyTitle>
-
-                <div>
-                  <FormsectionPlatformtextarea
-                    style={{
-                      "font-style": "normal",
-                      "font-weight": "400",
-                      "font-size": "12px",
-                      height: "72px",
-                    }}
-                    name="Description"
-                    id="Description"
-                    type="text"
-                    placeholder="Please describe your role at the organization"
-                    value={form.role}
-                    onChange={(event) => {
-                      let _param = { index, event };
-                      handleAFFRole(_param);
-                    }}
-                  />
-                  <div
-                    style={{
-                      "margin-top": "5px",
-
-                      order: "3",
-                      width: "100%",
-                      display: "flex",
-                      "justify-content": "end",
-                    }}
-                  >
-                    <label
-                      style={{
-                        "font-size": "8px",
-                        display: "flex",
-                        "vertical-align": "top",
-                        "text-align": "center",
-                        color:
-                          form.role.length < 500 ? "#00000075" : "#ff000075",
-                      }}
-                    >
-                      {form.role.length} - 500
-                    </label>
-                  </div>
-                </div>
-              </div>
+              <Section>
+                <Widget
+                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  props={{
+                    TextArea: {
+                      label: "Role Description",
+                      placeholder:
+                        "Please describe your role at the organization",
+                      value: form.role,
+                      limit: 2000,
+                      handleChange: (event) => handleAFFRole({ index, event }),
+                    },
+                  }}
+                />
+              </Section>
 
               <div class="flex justify-content-end my-2">
                 <Widget
