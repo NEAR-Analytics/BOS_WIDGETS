@@ -1,3 +1,5 @@
+const { onClickCancel, house } = props;
+
 const ModalCard = styled.div`
   position: fixed;
   z-index: 1;
@@ -13,12 +15,10 @@ const ModalCard = styled.div`
 const CommentCard = styled.div`
   width: 305px;
   padding: 20px;
-
   border-radius: 10px;
   background: #fff;
   border: 1px solid transparent;
   margin: 0 auto;
-
   @media only screen and (max-width: 480px) {
     width: 90%;
   }
@@ -30,6 +30,7 @@ const ExitContainer = styled.div`
   align-items: flex-end;
   justify-content: end;
 `;
+
 const IconContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -42,7 +43,7 @@ const widgets = {
 let nominationContract = "nominations-v1.gwg-testing.near";
 
 function handleSelfRevoke() {
-  Storage.privateSet("Houseselected", props.house);
+  Storage.privateSet("Houseselected", house);
 
   Near.call(nominationContract, "self_revoke");
 }
@@ -51,11 +52,7 @@ return (
   <ModalCard>
     <CommentCard>
       <ExitContainer>
-        <i
-          role="button"
-          className="fs-3 bi bi-x"
-          onClick={props.onClickCancel}
-        />
+        <i role="button" className="fs-3 bi bi-x" onClick={onClickCancel} />
       </ExitContainer>
       <IconContainer>
         <i className="fs-1 bi bi-trash" />
@@ -70,7 +67,7 @@ return (
             Button: {
               text: "Cancel",
               className: "dark primary",
-              onClick: props.onClickCancel,
+              onClick: onClickCancel,
             },
           }}
         />
