@@ -33,7 +33,7 @@ const H1 = styled.h1`
   font-family: ${props.h1Font ?? "sans-serif"};
   font-style: normal;
   font-weight: 500;
-  font-size: 90px;
+  font-size: ${props.h1FontSize ?? "90px"};
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
@@ -50,7 +50,7 @@ const H2 = styled.h1`
   font-family: ${props.h2Font ?? "sans-serif"};
   font-style: normal;
   font-weight: 500;
-  font-size: 90px;
+  font-size: ${props.h2FontSize ?? "90px"};
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
