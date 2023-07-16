@@ -208,6 +208,7 @@ const WidgetTextArea = () => {
           label: "Select label",
           placeholder: "placeholder text",
           limit: 20,
+          value: state.text,
           handleChange: (e) => State.update({ text: e.target.value }),
         },
       }}
