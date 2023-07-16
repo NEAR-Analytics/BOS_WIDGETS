@@ -54,14 +54,15 @@ const timer = setInterval(() => {
 }, 1000);
 
 const Logo = styled.img`
-    width: 60px;
-    margin: 0 20px 0 10px;
+  width: 60px;
+  margin: 0 20px 0 10px;
 `;
 
 const H1 = styled.h1`
   font-size: 40px;
   font-weight: 500;
   margin-bottom: 0;
+  text-transform: capitalize;
 `;
 
 const H6 = styled.h6`
@@ -79,7 +80,7 @@ const Timer = styled.div`
   .time {
     font-size: 48px;
     font-weight: 800;
-    color: #FFD50D;
+    color: #ffd50d;
     width: 100px;
     line-height: 1;
   }
@@ -93,7 +94,7 @@ const TimerContainer = styled.div`
   .time {
     font-size: 48px;
     font-weight: 700;
-    color: #FFD50D;
+    color: #ffd50d;
     width: 100px;
     line-height: 1;
   }
@@ -104,7 +105,7 @@ const TimerContainer = styled.div`
 `;
 
 const SmallTimerContainer = styled.div`
-  background: #FFD50D;
+  background: #ffd50d;
 
   .time {
     font-size: 36px;
@@ -123,7 +124,7 @@ const SmallTimerContainer = styled.div`
 const TitleContainer = () => (
   <>
     <Logo src="https://pbs.twimg.com/profile_images/1622941553839816707/nmf3MWw1_400x400.jpg" />
-    <H1>NDC Elections</H1>
+    <H1>NDC {type}s</H1>
   </>
 );
 
