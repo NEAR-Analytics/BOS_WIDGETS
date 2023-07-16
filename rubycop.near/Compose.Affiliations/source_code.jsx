@@ -39,7 +39,7 @@ const getCurrDate = () => {
 
 return (
   <div className="w-100">
-    <div className="d-flex justify-content-between">
+    <div className="d-flex justify-content-between pt-2">
       <H2>Afiliations</H2>
       <Widget
         src={widgets.styledComponents}
@@ -74,7 +74,7 @@ return (
                   }}
                 />
               </Section>
-              <Section className="d-flex pt-5">
+              <Section className="d-flex">
                 <div className="w-100">
                   <Widget
                     src={widgets.styledComponents}
