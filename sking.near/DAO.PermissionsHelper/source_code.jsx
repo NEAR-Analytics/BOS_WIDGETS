@@ -28,11 +28,11 @@ const actions = {
   VoteRemove: "VoteRemove",
 };
 
-const isUserAllowedTo = (user, kind, action) => {
-  // -- Get all the roles from the DAO policy
-  let roles = Near.view(daoId, "get_policy");
-  roles = roles === null ? [] : roles.roles;
+// -- Get all the roles from the DAO policy
+let roles = Near.view(daoId, "get_policy");
+roles = roles === null ? [] : roles.roles;
 
+const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
   const userRoles = [];
   for (const role of roles) {
