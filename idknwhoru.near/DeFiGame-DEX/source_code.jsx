@@ -51,6 +51,17 @@ const TokenWrapper = styled.div`
     }
 `;
 
+const QuantityFieldWrapper = styled.div`
+    width: 100%;
+    border: none;
+    padding: 0;
+
+    .token-quantity{
+      width: 100%;
+      text-align: end;
+    }
+`;
+
 return (
   <>
     <h1>DEX</h1>
@@ -109,7 +120,14 @@ return (
     ) : (
       <div>
         <h2>스테이크 비율 21 : 10</h2>
-        <input type="number" />
+        <QuantityFieldWrapper>
+          <input
+            className="token-quantity"
+            type="number"
+            min={0}
+            placeHolder={0}
+          />
+        </QuantityFieldWrapper>
         <button>스테이크하기</button>
       </div>
     )}
