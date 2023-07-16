@@ -1,4 +1,4 @@
-const { Button, Dropdown, TextArea } = props;
+const { Button, Dropdown, TextArea, Input } = props;
 
 const Styled = {
   Button: styled.button`
@@ -237,7 +237,7 @@ const WidgetInput = ({ type }) => {
       props={{
         [type]: {
           label: "Select label",
-          placeholder: "placeholder text",
+          placeholder: "Placeholder text here...",
           maxLength: 20,
           value: state.text,
           handleChange: (e) => State.update({ text: e.target.value }),
