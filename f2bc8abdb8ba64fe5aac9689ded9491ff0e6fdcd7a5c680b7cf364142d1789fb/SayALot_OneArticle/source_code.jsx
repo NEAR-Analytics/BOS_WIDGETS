@@ -460,7 +460,7 @@ return (
             </>
           )}
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
-          {state.editArticle && (
+          {!state.editArticle && (
             <>
               <div className="pt-2">
                 <Widget
