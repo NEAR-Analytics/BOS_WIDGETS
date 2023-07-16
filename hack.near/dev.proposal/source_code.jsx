@@ -3,7 +3,7 @@ const accountId = props.accountId ?? context.accountId;
 let widgetName;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
-const proposalId = props.proposalId;
+const proposalId = props.proposalId ?? 187;
 
 let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
 
@@ -250,15 +250,15 @@ if (!actions || actions.length === 0) {
 const details = actions.map(({ args }) => {
   const selectedArgs = JSON.parse(Buffer.from(args, "base64").toString("utf8"));
 
-  const newCode = selectedArgs.data[daoId].widget[widgetName][""];
-
-  if (!newCode) {
-    return "";
-  }
-
   widgetName = Object.keys(selectedArgs.data[daoId].widget)[0];
 
   if (!widgetName) {
+    return "";
+  }
+
+  const newCode = selectedArgs.data[daoId].widget[widgetName][""];
+
+  if (!newCode) {
     return "";
   }
 
