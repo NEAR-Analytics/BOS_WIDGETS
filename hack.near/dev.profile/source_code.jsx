@@ -1,167 +1,70 @@
-const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "missing *accountId*";
-}
-
-const link =
-  props.link &&
-  (props.link === true
-    ? `https://social.near.page/u/${accountId}`
-    : props.link);
+const accountId = props.accountId ?? context.accountId ?? "devs.near";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-if (profile === null) {
-  return "Loading";
-}
-
-const showEditButton =
-  profile !== undefined &&
-  (!props.profile || props.showEditButton) &&
-  accountId &&
-  accountId === context.accountId;
-
-const name = profile.name || "No-name profile";
-const image = profile.image;
-const backgroundImage = profile.backgroundImage;
+const name = profile.name;
+const description = profile.description;
 const tags = Object.keys(profile.tags ?? {});
 
-const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
+const TagLink = styled.div`
 
-// IAH Verification
-let human = false;
-const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: props.accountId,
-});
+        text-decoration: none;
 
-for (let i = 0; i < userSBTs.length; i++) {
-  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
-    human = true;
-  }
-}
+      .tag-link:hover {
+        text-decoration: none;
+      }
+      `;
+
+const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+`;
 
 return (
-  <div className="bg-white shadow rounded overflow-hidden m-3">
-    <div className="px-4 pt-0 pb-5 bg-dark position-relative">
-      {backgroundImage && (
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: backgroundImage,
-            alt: "profile background",
-            className: "position-absolute w-100 h-100",
-            style: { objectFit: "cover", left: 0, top: 0 },
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-          }}
-        />
-      )}
-      {showEditButton && (
-        <a
-          href="#/mob.near/widget/ProfileEditor"
-          className="btn mt-4 btn-outline-light float-end position-relative"
-          style={{ zIndex: 1 }}
-        >
-          Edit profile
-        </a>
-      )}
-      <div
-        className="profile-picture d-inline-block"
-        style={{ transform: "translateY(7rem)" }}
-      >
-        <Widget
-          src="mob.near/widget/ProfileImage"
-          props={{
-            profile,
-            accountId,
-            style: { width: "10rem", height: "10rem" },
-            className: "mb-2",
-            imageClassName: "rounded-circle w-100 h-100 img-thumbnail d-block",
-            thumbnail: false,
-          }}
-        />
+  <div className="d-flex flex-row">
+    <a href={`#/near/widget/ProfilePage?accountId=${accountId}`}>
+      <Widget
+        src="mob.near/widget/ProfileImage"
+        props={{
+          metadata,
+          accountId,
+          widgetName,
+          style: { height: "3em", width: "3em", minWidth: "3em" },
+          className: "me-2",
+        }}
+      />
+    </a>
+    <div className="text-truncate">
+      <div className="text-truncate">
+        <span className="fw-bold">{name}</span>{" "}
+        <small>
+          <span className="font-monospace">@{accountId}</span>
+        </small>
       </div>
-    </div>
-    <div className="bg-light px-4 pb-4">
-      <div className="d-md-flex justify-content-between pt-3 mb-2">
-        <div style={{ paddingTop: "3rem" }}>
-          <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
-            <div className="me-2 position-relative">
-              <div className="d-flex align-items-center">
-                {link ? (
-                  <a className="text-truncate text-dark" href={link}>
-                    {nameHeader}
+      <div className="text-truncate text-muted">
+        {tags.length > 0 && (
+          <>
+            <TagContainer>
+              {tags.map((tag, i) => (
+                <TagLink>
+                  <a
+                    key={i}
+                    href={`#/efiz.near/widget/every.hashtag.view?hashtag=${tag}`}
+                  >
+                    <span
+                      key={i}
+                      className="fw-light badge border border-secondary text-bg-light"
+                    >
+                      #{tag}
+                    </span>
                   </a>
-                ) : (
-                  nameHeader
-                )}
-                &nbsp;
-                <Widget
-                  src="hack.near/widget/dev.badge"
-                  props={{ accountId }}
-                />
-              </div>
-
-              <div>
-                {human ? (
-                  <i className="bi bi-patch-check"></i>
-                ) : (
-                  <i className="bi bi-patch-question"></i>
-                )}
-                {accountId}
-                <Widget
-                  src="mob.near/widget/CopyButton"
-                  props={{
-                    text: accountId,
-                    className: "btn btn-sm btn-outline-dark border-0",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div>
-            <Widget src="hack.near/widget/trust.stats" props={{ accountId }} />
-          </div>
-        </div>
-        <div style={{ minWidth: "12rem" }}>
-          <Widget
-            src="mob.near/widget/LinkTree"
-            props={{ linktree: profile.linktree }}
-          />
-        </div>
-      </div>
-
-      {tags.length > 0 && (
-        <div>
-          {tags.map((tag, i) => (
-            <span
-              key={i}
-              className="me-1 mb-1 fw-light badge border border-secondary text-bg-light"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div>
-        <div className="float-end">
-          <Widget src="hack.near/widget/trust.button" props={{ accountId }} />
-        </div>
-        <div className="public-tags collapse show">
-          <button
-            className="btn btn-sm btn-outline-secondary border-0"
-            data-bs-toggle="collapse"
-            data-bs-target={`.public-tags`}
-            aria-expanded="false"
-            aria-controls={"public-tags"}
-          >
-            <i className="bi bi-arrows-angle-expand me-1"></i>Show public tags
-          </button>
-        </div>
-        <div className="collapse public-tags">
-          <Widget src="mob.near/widget/PublicTags" props={{ accountId }} />
-        </div>
+                </TagLink>
+              ))}
+            </TagContainer>
+          </>
+        )}
       </div>
     </div>
   </div>
