@@ -25,9 +25,6 @@ return (
       <div className="d-inline-block">
         <div className="text-truncate">
           <span className="fw-bold">{name}</span>{" "}
-          <small>
-            <span className="font-monospace">{widgetPath}</span>
-          </small>
         </div>
         <div className="text-truncate text-muted">
           {tags.length > 0 && (
