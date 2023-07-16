@@ -182,9 +182,12 @@ if (Input)
       <Label>{Input.label}</Label>
       <Styled.Input
         value={Input.value}
+        type={Input.type ?? "text"}
         placeholder={Input.placeholder}
         onChange={Input.handleChange}
         maxLength={Input.maxLength}
+        min={Input.min}
+        max={Input.max}
       />
 
       {Input.maxLength && (
@@ -239,6 +242,7 @@ const WidgetInput = ({ type }) => {
           label: "Select label",
           placeholder: "Placeholder text here...",
           maxLength: 20,
+          min: new Date(),
           value: state[type],
           handleChange: (e) => State.update({ [type]: e.target.value }),
         },
