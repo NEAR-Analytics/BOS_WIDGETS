@@ -14,7 +14,7 @@ const H2 = styled.h2`
 const Separator = styled.div`
   width: 100%;
   height: 1px;
-  margin: 2px 0 12px 0;
+  margin: 5px 0 12px 0;
   background-color: #d0d6d966;
 `;
 const Section = styled.div`
@@ -56,18 +56,20 @@ return (
         return (
           <div className="bg-white rounded p-4">
             <div>
-              <Widget
-                src={"rubycop.near/widget/NDC.StyledComponents"}
-                props={{
-                  Input: {
-                    label: "Organization Name",
-                    placeholder: "Company Name",
-                    value: form.company_name,
-                    handleChange: (event) =>
-                      handleAFFCompanyName({ index, event }),
-                  },
-                }}
-              />
+              <Section>
+                <Widget
+                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  props={{
+                    Input: {
+                      label: "Organization Name",
+                      placeholder: "Company Name",
+                      value: form.company_name,
+                      handleChange: (event) =>
+                        handleAFFCompanyName({ index, event }),
+                    },
+                  }}
+                />
+              </Section>
               <Section className="d-flex">
                 <div className="w-100">
                   <Widget
