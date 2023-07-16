@@ -12,73 +12,6 @@ const normalizeTag = (tag) =>
     .toLowerCase()
     .trim("-");
 
-const hasModifications =
-  JSON.stringify(Object.keys(initialTagsObject).map(normalizeTag)) !==
-  JSON.stringify(state.tags);
-console.log(1, hasModifications);
-console.log(2, Object.keys(initialTagsObject).map(normalizeTag));
-console.log(3, state.tags);
-
-if (hasModifications) {
-  const tagsObject = Social.keys(tagsPattern, "final");
-
-  if (tagsObject === null) {
-    return "Loading";
-  }
-
-  const tagsCount = {};
-
-  const processTagsObject = (obj) => {
-    Object.entries(obj).forEach((kv) => {
-      if (typeof kv[1] === "object") {
-        processTagsObject(kv[1]);
-      } else {
-        const tag = normalizeTag(kv[0]);
-        tagsCount[tag] = (tagsCount[tag] || 0) + 1;
-      }
-    });
-  };
-
-  const getTags = () => {
-    processTagsObject(tagsObject);
-    const tags = Object.entries(tagsCount);
-    tags.sort((a, b) => b[1] - a[1]);
-    return tags.map((t) => ({
-      name: t[0],
-      count: t[1],
-    }));
-  };
-
-  if (!state.allTags) {
-    initState({
-      allTags: getTags(),
-      tags: Object.keys(initialTagsObject).map((tag) => ({
-        name: normalizeTag(tag),
-      })),
-      originalTags: Object.fromEntries(
-        Object.keys(initialTagsObject).map((tag) => [tag, null])
-      ),
-      id: `tags-selector-${Date.now()}`,
-    });
-  }
-
-  const setTags = (tags) => {
-    tags = tags.map((o) => {
-      o.name = normalizeTag(o.name);
-      return o;
-    });
-    State.update({ tags });
-    if (props.setTagsObject) {
-      props.setTagsObject(
-        Object.assign(
-          {},
-          state.originalTags,
-          Object.fromEntries(tags.map((tag) => [tag.name, ""]))
-        )
-      );
-    }
-  };
-}
 return (
   <>
     <Typeahead
@@ -86,7 +19,7 @@ return (
       multiple
       labelKey="name"
       onChange={setTags}
-      options={state.allTags}
+      options={[]}
       placeholder={placeholder}
       selected={state.tags}
       positionFixed
