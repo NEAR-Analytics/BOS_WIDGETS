@@ -114,7 +114,7 @@ return (
       {state.activeTab === "comments" && (
         <div className="mt-3">
           <Widget
-            src="sking.near/widget/DAO.Proposal.Comments"
+            src="hack.near/widget/dao.proposal.comments"
             props={{
               daoId: daoId,
               proposalId: proposal.id,
