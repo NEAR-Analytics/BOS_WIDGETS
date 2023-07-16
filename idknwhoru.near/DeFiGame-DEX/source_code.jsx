@@ -14,6 +14,34 @@ const activeStake = (_) => {
   });
 };
 
+const TabWrapper = styled.div`
+    display: flex;
+
+    .actived {
+        color: #0d6efd;
+    }
+
+    button {
+        background-color: #fff;
+        border: none;
+    }
+`;
+
+const MyWalletInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    .wallet-properties {
+        display: flex;
+        padding: 0;
+    }
+
+    .wallet-properties > li {
+        display: block;
+        padding: 10px;
+    }
+`;
+
 const TokenWrapper = styled.div`
     display: flex;
 
@@ -26,16 +54,28 @@ const TokenWrapper = styled.div`
 return (
   <>
     <h1>DEX</h1>
-    <div>
+    <MyWalletInfo>
       <h2>내 자산정보</h2>
-      <ul>
+      <ul className="wallet-properties">
         <li>현금: ?원</li>
         <li>S토큰: ?개</li>
         <li>L토큰: ?개</li>
       </ul>
-    </div>
-    <button onClick={activeSwap}>SWAP</button>
-    <button onClick={activeStake}>Stake</button>
+    </MyWalletInfo>
+    <TabWrapper>
+      <button
+        className={state.activeTab === 1 ? "actived" : ""}
+        onClick={activeSwap}
+      >
+        SWAP
+      </button>
+      <button
+        className={state.activeTab === 2 ? "actived" : ""}
+        onClick={activeStake}
+      >
+        Stake
+      </button>
+    </TabWrapper>
     <hr />
     {state.activeTab === 1 ? (
       <div>
@@ -65,7 +105,7 @@ return (
       <div>
         <h2>스테이크 비율 21 : 10</h2>
         <input type="number" />
-        <button>스테이킹하기</button>
+        <button>스테이크하기</button>
       </div>
     )}
   </>
