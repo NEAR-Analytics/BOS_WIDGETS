@@ -229,7 +229,7 @@ const WidgetSelect = () => (
 );
 
 const WidgetInput = ({ type }) => {
-  State.init({ text: "" });
+  State.init({ [type]: "" });
 
   return (
     <Widget
@@ -239,8 +239,8 @@ const WidgetInput = ({ type }) => {
           label: "Select label",
           placeholder: "Placeholder text here...",
           maxLength: 20,
-          value: state.text,
-          handleChange: (e) => State.update({ text: e.target.value }),
+          value: state[type],
+          handleChange: (e) => State.update({ [type]: e.target.value }),
         },
       }}
     />
