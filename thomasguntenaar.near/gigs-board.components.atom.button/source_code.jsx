@@ -1,5 +1,4 @@
 const ButtonRoot = styled.button`
-  padding: 0.5rem 0.75rem !important;
   min-height: 42;
   line-height: 1.5;
 
@@ -13,14 +12,13 @@ const ButtonRoot = styled.button`
   }
 
   &.btn-sm {
-    padding: 0.5rem 0.75rem !important;
     min-height: 32;
     line-height: 1;
   }
 
   &.btn-lg {
-    padding: 1rem 1.5rem !important;
     min-height: 48;
+    line-height: 1.7;
   }
 
   &.btn-primary {
@@ -85,63 +83,29 @@ const ButtonRoot = styled.button`
     --bs-btn-disabled-color: #6c757d8f;
   }
 
-  .adornmentHover {
-    display: none;
+  & *:first-child {
+    padding-left: 4px;
   }
 
-  .label {
-    display: ${({ isCollapsible }) =>
-      isCollapsible ?? false ? "none" : "block"};
-  }
-
-  &:hover {
-    & .adornment {
-      display: none;
-    }
-
-    & .adornmentHover {
-      display: block;
-    }
-
-    & .label {
-      display: block;
-    }
+  & *:last-child {
+    padding-right: 4px;
   }
 `;
 
-const Button = ({ adornment, classNames, label, ...restProps }) => (
+const Button = ({ classNames, label, ...restProps }) => (
   <ButtonRoot
     className={[
-      "btn d-inline-flex align-items-center gap-2 rounded-pill",
-      restProps.isCollapsible ? "collapsible" : "",
+      "btn d-inline-flex align-items-center gap-2 rounded-pill p-2",
       classNames.root ?? "btn-primary",
     ].join(" ")}
     style={{ width: "fit-content" }}
     {...restProps}
   >
-    {(adornment ?? null) !== null ? adornment : null}
-
-    {(adornment ?? null) === null && classNames.adornment ? (
-      <i
-        className={[
-          classNames.adornment,
-          (classNames.adornmentHover ?? null) === null ? "" : "adornment",
-        ].join(" ")}
-        style={{ lineHeight: !restProps.isCollapsible ? 1 : 1.5 }}
-      />
+    {classNames.adornment ? (
+      <i className={classNames.adornment} style={{ lineHeight: 1 }} />
     ) : null}
 
-    {(adornment ?? null) === null && classNames.adornmentHover ? (
-      <i
-        className={[classNames.adornmentHover, "adornmentHover"].join(" ")}
-        style={{ lineHeight: !restProps.isCollapsible ? 1 : 1.5 }}
-      />
-    ) : null}
-
-    <span
-      className={[classNames.label, "label"].join(" ")}
-      style={{ lineHeight: "inherit" }}
-    >
+    <span className={classNames.label} style={{ lineHeight: "inherit" }}>
       {label}
     </span>
   </ButtonRoot>
