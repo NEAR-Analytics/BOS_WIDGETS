@@ -43,11 +43,11 @@ return (
         <div className="text-truncate">
           <div>
             <span className="fw-bold">{name}</span>{" "}
-            <Widget src="hack.near/widget/dev.badge" props={{ accountId }} />
           </div>
           <div>
             <small>
               <span className="font-monospace">@{accountId}</span>
+              <Widget src="hack.near/widget/dev.badge" props={{ accountId }} />
             </small>
           </div>
         </div>
