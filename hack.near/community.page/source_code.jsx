@@ -89,7 +89,7 @@ const H2 = styled.h1`
 `;
 
 const Text = styled.p`
-  font-family: "Courier", sans-serif;
+  font-family: ${props.taglineFont ?? "sans-serif"};
   font-size: ${(p) => p.size ?? "16px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
