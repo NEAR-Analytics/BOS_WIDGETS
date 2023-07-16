@@ -302,6 +302,8 @@ const areTheTextAndTagsTheSame = () => {
   return isThereNoTextInBody || (doesTextUnchanged && doesTagsUnchanged);
 };
 
+console.log("t", state.debug);
+
 const filterTagsFromNull = (tagsObj) => {
   const entries = Object.entries(tagsObj);
 
@@ -443,96 +445,23 @@ return (
         <div>
           {state.editArticle && (
             <>
-              {/* === BUTTON - EDIT ARTICLE === */}
-              <div className="d-flex justify-content-center w-100">
-                <button
-                  type="button"
-                  className="btn btn-outline-success mx-1"
-                  style={{ minWidth: "120px" }}
-                  onClick={saveHandler}
-                >
-                  {state.saving && (
-                    <div
-                      className="spinner-border text-secondary"
-                      style={{ height: "1rem", width: "1rem" }}
-                      role="status"
-                    >
-                      <span className="sr-only" title="Loading..."></span>
-                    </div>
-                  )}
-                  Save Article
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-danger mx-1"
-                  style={{ minWidth: "120px" }}
-                  onClick={() => {
-                    State.update({
-                      editArticle: false,
-                    });
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-              <hr />
               {/* === EDIT ARTICLE === */}
-              <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-                <div className="w-50">
-                  <Widget
-                    src="mob.near/widget/MarkdownEditorIframe"
-                    props={{
-                      initialText: state.article.body,
-                      onChange: (note) => State.update({ note }),
-                    }}
-                  />
-                </div>
-                <div className="w-50">
-                  <Widget
-                    src="mob.near/widget/TagsEditor"
-                    props={{
-                      initialTagsObject: getTagObjectfromArray(
-                        state.article.tags
-                      ),
-                      placeholder: "Input tags",
-                      setTagsObject: (tags) => {
-                        // console.log(filterTagsFromNull(tags));
-                        // state.tags = filterTagsFromNull(tags);
-                        state.tags = tags;
-                        State.update();
-                      },
-                    }}
-                  />
-                  <Widget
-                    src="mob.near/widget/SocialMarkdown"
-                    props={{
-                      text: state.note,
-                      onHashtag: (hashtag) => (
-                        <span
-                          key={hashtag}
-                          className="d-inline-flex"
-                          style={{ fontWeight: 500 }}
-                        >
-                          <a
-                            href={
-                              isDebug
-                                ? `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
-                                : `https://near.social/#/${authorForWidget}/widget/SayALot_ArticlesByTag?tag=${hashtag}`
-                            }
-                          >
-                            #{hashtag}
-                          </a>
-                        </span>
-                      ),
-                    }}
-                  />
-                </div>
-              </div>
+              <Widget
+                src={`${authorForWidget}/widget/SayALot_FasterArticleEditInputs`}
+                props={{
+                  firstTextareaText: state.note,
+                  stateUpdate: (obj) => State.update(obj),
+                  articleTags: state.article.tags,
+                  isDebug,
+                  isOverSaveButton: state.overSaveButton,
+                  saveHandler,
+                  isSaving: state.saving,
+                }}
+              />
             </>
           )}
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
-          {!state.editArticle && (
+          {state.editArticle && (
             <>
               <div className="pt-2">
                 <Widget
