@@ -25,7 +25,7 @@ const policy = Near.view(daoId, "get_policy");
 
 const deposit = policy.proposal_bond;
 
-const widgetPath = props.widgetPath ?? "mob.near/widget/WidgetSource";
+const widgetPath = props.widgetPath ?? "hack.near/widget/Academy";
 const [accountId, widget, widgetName] = widgetPath.split("/");
 
 const code = props.code ?? Social.get(`${widgetPath}`);
@@ -115,24 +115,14 @@ const Card = styled.div`
 
 return (
   <Card>
-    <div className="mb-2">
-      <div className="m-2 mb-3 text-truncate">
-        <Widget
-          src="hack.near/widget/dev.profile.line"
-          props={{ accountId, link: props.profileLink }}
-        />
-      </div>
-    </div>
-    <div className="row mt-2 justify-content-between">
-      <div className="col-auto m-1">
-        <h4 className="mb-2 mt-1">
-          <a
-            className="text-decoration-none link-dark"
-            href={`#/${widgetPath}`}
-          >
-            <i className="bi bi-box-arrow-up-right m-1"></i> {name}
-          </a>
-        </h4>
+    <div className="row justify-content-between">
+      <div className="col-auto">
+        <div className="m-2 mb-3 text-truncate">
+          <Widget
+            src="hack.near/widget/widget.profile"
+            props={{ accountId, widgetName, link: props.profileLink }}
+          />
+        </div>
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
           className="btn btn-sm btn-outline-secondary border-0"
@@ -152,34 +142,35 @@ return (
           className="btn btn-sm btn-outline-secondary border-0"
           target="_blank"
         >
-          <i className="bi bi-git me-1"></i>
-          {accountId === context.accountId ? "edit" : "fork"}
+          <i className="bi bi-code-slash me-1"></i>
+          dev
         </a>
       </div>
       <div className="col-auto">
         <div className="row mt-3">
-          <div className="col-auto m-2">
-            {context.accountId === accountId ? (
+          <div className="col-auto m-1">
+            {context.accountId !== accountId ? (
               <button
                 disabled={!context.accountId}
                 className="btn btn-outline-success"
                 onClick={handleCreate}
               >
-                <i className="bi bi-bezier2 me-1"></i>
-                clone
+                <i className="bi bi-infinity me-1"></i>
+                create
               </button>
             ) : (
               <button
                 disabled={!context.accountId}
                 className="btn btn-outline-success"
-                onClick={handleCreate}
+                onClick={handleProposal}
               >
-                <i className="bi bi-pencil-square me-1"></i>
-                edit
+                <i className="bi bi-git me-1"></i>
+                push
               </button>
             )}
           </div>
-          <div className="col-auto m-2">
+          <div className="col-auto m-1">
+            <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
             {starCount && (
               <a
                 href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
@@ -189,7 +180,6 @@ return (
                 </h5>
               </a>
             )}
-            <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
           </div>
         </div>
       </div>
