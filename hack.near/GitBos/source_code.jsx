@@ -6,7 +6,7 @@ const policy = Near.view(daoId, "get_policy");
 const deposit = policy.proposal_bond;
 
 const initWidgetPath =
-  props.widgetPath ?? "build.sputnik-dao.near/widget/common";
+  props.widgetPath ?? "build.sputnik-dao.near/widget/community";
 
 State.init({
   accountId: accountId ?? "",
@@ -155,7 +155,8 @@ return (
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
-              widgetPath: state.updatedWidget || `${accountId}/widget/common`,
+              widgetPath:
+                state.updatedWidget || `${accountId}/widget/community`,
             }}
           />
           <div className="m-2">
