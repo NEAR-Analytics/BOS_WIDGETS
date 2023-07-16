@@ -1,4 +1,4 @@
-d; /* INCLUDE: "common.jsx" */
+/* INCLUDE: "common.jsx" */
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId ||
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
@@ -52,22 +52,22 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-const CommunityPageTemplate = ({ children, handle, path, title }) => (
-  <div className="w-100 h-100">
-    {widget("components.layout.app-header")}
-    {/* TODO: Add breadcrumbs rendered from path prop */}
-
-    {typeof handle === "string" ? (
-      <>
-        {widget("entity.community.header", { activeTabTitle: title, handle })}
-        <div style={{ padding: "0 32px" }}>{children}</div>
-      </>
-    ) : (
+const CommunityPageTemplate = ({ children, handle, title }) => {
+  if (!handle) {
+    return (
       <div class="alert alert-danger" role="alert">
         Error: community handle not found in URL parameters
       </div>
-    )}
-  </div>
-);
+    );
+  }
 
-return <CommunityPageTemplate {...props} />;
+  return (
+    <>
+      {widget("components.layout.app-header")}
+      {widget("entity.community.header", { activeTabTitle: title, handle })}
+      <div style={{ padding: "0 32px" }}>{children}</div>
+    </>
+  );
+};
+
+return CommunityPageTemplate(props);
