@@ -124,5 +124,8 @@ return (
         </div>
       );
     })}
+    <br />
+    <Widget src="hack.near/widget/dev.Badge" />
+    <br />
   </Container>
 );
