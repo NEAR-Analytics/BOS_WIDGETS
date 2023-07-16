@@ -24,6 +24,7 @@ const widgets = {
   houses: "rubycop.near/widget/NDC.Elections.Houses",
   filter: "rubycop.near/widget/NDC.Elections.Filter",
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  verifyHuman: "rubycop.near/widget/NDC.VerifyHuman",
 };
 
 State.init({
@@ -367,7 +368,7 @@ return (
                     Button: {
                       text: "Self Nominate",
                       onClick: () =>
-                        !status.sbt ? State.update({ showModal: true }) : "",
+                        state.sbt ? "" : State.update({ showModal: true }),
                       icon: <i class="bi bi-plus-lg"></i>,
                     },
                   }}
@@ -389,39 +390,19 @@ return (
             }}
           />
           <div>
-            {state.sbt ? (
-              ""
-            ) : (
-              <VerifiedDiv>
-                <VerifiedHeader>
-                  <VerifiedHeaderContainer>
-                    <VerfiedTitle>To Comment or to Upvote</VerfiedTitle>
-                    <VerifedDesc>
-                      Verify as a Human to comment or to upvote
-                    </VerifedDesc>
-                  </VerifiedHeaderContainer>
-                </VerifiedHeader>
-                <VerifyButton
-                  className="text-decoration-none"
-                  href="https://i-am-human.app/"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  <VerifyButtonText>Verify as a Human</VerifyButtonText>
-                </VerifyButton>
-              </VerifiedDiv>
+            {true && (
+              <Widget
+                src={widgets.verifyHuman}
+                props={{ title: "Want to upvote?", small: true }}
+              />
             )}
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap ">
           {state.nominations.length > 0 ? (
-            state.nominations.map((data) => {
-              return (
-                <>
-                  <Widget src={widgets.card} props={data} />
-                </>
-              );
-            })
+            state.nominations.map((data) => (
+              <Widget src={widgets.card} props={data} />
+            ))
           ) : (
             <div className="flex mt-10 container-fluid align-self-center">
               <H5 className="text-center">{state.notFound}</H5>
