@@ -21,20 +21,6 @@ const getTagObjectfromArray = (tagArray) => {
   return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
 };
 
-// Next function cames from parent widget. Not sure what it was used for.
-// const filterTagsFromNull = (tagsObj) => {
-//   const entries = Object.entries(tagsObj);
-
-//   const result = entries.reduce((acc, value) => {
-//     if (value[1] !== null) {
-//       return [...acc, value[0]];
-//     } else {
-//       return acc;
-//     }
-//   }, []);
-//   return result;
-// };
-
 //======= Render =======
 return (
   <>
@@ -92,9 +78,6 @@ return (
             initialTagsObject: getTagObjectfromArray(articleTags),
             placeholder: "Input tags",
             setTagsObject: (tags) => {
-              // console.log(filterTagsFromNull(tags));
-              // Next line is from parent widget. Not sure what it was used for.
-              // state.tags = filterTagsFromNull(tags);
               State.update({ tags });
             },
           }}
