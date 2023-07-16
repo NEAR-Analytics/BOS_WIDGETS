@@ -1,7 +1,5 @@
 const { Button, Dropdown, TextArea } = props;
 
-State.init({ text: "" });
-
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -83,17 +81,6 @@ const Styled = {
     font-size: 14px;
     color: #828688;
   `,
-  TextArea: styled.textarea`
-    padding: 8px 10px;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid;
-    border-color: ${(p) =>
-      p.value.length - p.maxLength === 0 ? "#c23f38" : "#d0d6d9"};
-    border-radius: 8px;
-    font-size: 14px;
-    color: #828688;
-  `,
 };
 
 const Container = styled.div`
@@ -149,7 +136,19 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea)
+if (TextArea) {
+  const TextArea = styled.textarea`
+    padding: 8px 10px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid;
+    border-color: ${(p) =>
+      p.value.length - p.maxLength === 0 ? "#c23f38" : "#d0d6d9"};
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
+  `;
+
   return (
     <div>
       <Label>{TextArea.label}</Label>
@@ -170,6 +169,7 @@ if (TextArea)
       )}
     </div>
   );
+}
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
@@ -203,6 +203,8 @@ const WidgetSelect = () => (
 );
 
 const WidgetTextArea = () => {
+  State.init({ text: "" });
+
   return (
     <Widget
       src={"rubycop.near/widget/NDC.StyledComponents"}
