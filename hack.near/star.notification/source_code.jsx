@@ -14,19 +14,31 @@ const index = {
   },
 };
 
+const Wrapper = styled.div`
+  padding: 16px;
+`;
+
+const ItemWrapper = styled.div`
+  margin-bottom: 12px;
+`;
+
 const renderItem = (item, i) => {
   if (i === 0) {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
   return (
-    <div className="m-2 mt-3">
+    <ItemWrapper>
       <Widget
         src="hack.near/widget/star.notification.item"
         key={i}
         props={item}
       />
-    </div>
+    </ItemWrapper>
   );
 };
 
-return <Widget src="mob.near/widget/IndexFeed" props={{ index, renderItem }} />;
+return (
+  <Wrapper>
+    <Widget src="mob.near/widget/IndexFeed" props={{ index, renderItem }} />
+  </Wrapper>
+);
