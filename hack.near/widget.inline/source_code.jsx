@@ -127,28 +127,12 @@ const ForkButton = styled.div`
 
 return (
   <Card>
-    <div className="row mb-2">
-      <div className="col-auto">
-        <div className="m-2 mb-3 text-truncate">
-          <Widget
-            src="hack.near/widget/dev.profile.line"
-            props={{ accountId, link: props.profileLink }}
-          />
-        </div>
-      </div>
-      <div className="col-auto m-2 align-items-end">
-        <StarButton>
-          {starCount && (
-            <a
-              href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
-            >
-              <h5>
-                {starCount} builder{starCount !== 1 && "s"}
-              </h5>
-            </a>
-          )}
-          <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
-        </StarButton>
+    <div className="mb-2">
+      <div className="m-2 mb-3 text-truncate">
+        <Widget
+          src="hack.near/widget/dev.profile.line"
+          props={{ accountId, link: props.profileLink }}
+        />
       </div>
     </div>
     <div className="row mt-2 justify-content-between">
@@ -185,6 +169,20 @@ return (
         </a>
       </div>
       <div className="col-auto mt-4">
+        <div className="col-auto m-2 align-items-end">
+          <StarButton>
+            {starCount && (
+              <a
+                href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
+              >
+                <h5>
+                  {starCount} builder{starCount !== 1 && "s"}
+                </h5>
+              </a>
+            )}
+            <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
+          </StarButton>
+        </div>
         {context.accountId !== accountId && (
           <button className="btn btn-outline-success" onClick={handleCreate}>
             <i className="bi bi-bezier2 me-1"></i>
