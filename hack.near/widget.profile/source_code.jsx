@@ -39,7 +39,6 @@ return (
               ))}
             </>
           )}
-          {description}
         </div>
       </div>
     </a>
