@@ -147,7 +147,10 @@ if (Dropdown)
 
 if (TextArea) {
   const handleChange = () => {
-    if (TextArea.limit && TextArea.value.length > TextArea.limit) return;
+    if (TextArea.limit && TextArea.value.length > TextArea.limit) {
+      e.preventDefault();
+      return;
+    }
 
     TextArea.handleChange();
   };
