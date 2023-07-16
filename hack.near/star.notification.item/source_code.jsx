@@ -6,7 +6,11 @@ return (
       <Widget
         src="hack.near/widget/star.notification.item.LR"
         props={{
-          L: value.type === "star" && "starred your widget",
+          L: (
+            <div className="m-2">
+              value.type === "star" && "starred your widget"
+            </div>
+          ),
           R: (
             <div className="m-2">
               <Widget
