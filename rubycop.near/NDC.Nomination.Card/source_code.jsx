@@ -181,17 +181,6 @@ const UpvoteButton = styled.button`
   border-color: ${(props) => (props.disabled ? "#C3CACE" : "")};
 `;
 
-const ViewButton = styled.button`
-  padding: 2px 12px;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  color: #9333ea;
-  border: 1px solid #9333ea;
-`;
-
 const UpvoteCount = styled.p`
   font-size: 12px;
   font-weight: 500;
@@ -390,10 +379,6 @@ const KeyIssueSeparator = styled.hr`
   width: 302px;
   height: 0px;
   margin: 0px;
-  b
-  
-  
-  
 `;
 const LowerSection = styled.div`
   display: flex;
@@ -487,16 +472,12 @@ const Tag = styled.div`
   padding: 4px 8px;
   gap: 10px;
   height: 20px;
-  b
   border-radius: 80px;
   background-image: linear-gradient(#eae5f7, #eae5f7),
     radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   border-radius: 100px;
-  
-  
-  
 `;
 const TagText = styled.p`
   height: 12px;
@@ -562,29 +543,14 @@ const ViewButtonContainer = styled.div`
   gap: 8px;
 `;
 const ViewButtonDiv = styled.a`
-  display: flex;
   padding: 2px 12px;
-  align-items: flex-start;
-  b
-  border-radius: 80px;
-  background-image: linear-gradient(#f8f8f9, #f8f8f9),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  gap: 10px;
-  border-radius: 4px;
-  text-decoration: none;
-`;
-const ViewButtonText = styled.p`
+  border-radius: 8px;
+  background: #fff;
   font-size: 12px;
   font-weight: 500;
   line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
+  color: #9333ea;
+  border: 1px solid #9333ea;
 `;
 const ShareButtonDiv = styled.button`
   display: flex;
@@ -593,7 +559,7 @@ const ShareButtonDiv = styled.button`
   gap: 10px;
   border-radius: 4px;
   background: var(--buttons-yellow-default, #ffd50d);
-  b @media (hover: hover) {
+  @media (hover: hover) {
     /* when hover is supported */
     a:hover {
       color: white;
@@ -619,7 +585,6 @@ const Dropbtn = styled.button`
   color: white;
   padding: 16px;
   font-size: 16px;
-  b
 `;
 
 const DropdownContent = styled.div`
@@ -718,20 +683,17 @@ return (
       </HeaderContent>
       {canUpvote && (
         <UpvoteButton onClick={handleUpVote}>
-          {data.upVoteData.upvotes ? "+" + data.upVoteData.upvotes : "+" + 0}
+          +{data.upVoteData.upvotes ?? 0}
           <Widget
-            src="rubycoptest.testnet/widget/Image"
+            src="mob.near/widget/Image"
             props={{
               image: {
                 url: canUpvote
                   ? "https://bafkreihtxbozr3tpmzyijzvgmnzjhfnvfudu5twxi5e736omfor6rrbcde.ipfs.nftstorage.link"
                   : "https://bafkreiew3fr6fxxw6p5zibr7my7ykdqyppblaldsudsnropawfkghjkhuu.ipfs.nftstorage.link",
               },
-              style: {
-                height: "15px",
-                marginBottom: "3px",
-              },
-              alt: "kudos",
+              style: { height: "15px", marginBottom: "3px" },
+              alt: "upvote",
               fallbackUrl:
                 "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
             }}
@@ -880,9 +842,7 @@ return (
               })}
           </TagSection>
           <ViewButtonContainer>
-            {data.preview ? (
-              <></>
-            ) : (
+            {!data.preview && (
               <>
                 <ViewButtonDiv
                   className="text-decoration-none"
@@ -893,7 +853,7 @@ return (
                     data.indexerData.nominee
                   }
                 >
-                  <ViewButtonText>View</ViewButtonText>
+                  View
                 </ViewButtonDiv>
                 <DropdownContainerHover>
                   <ShareButtonDiv onClick={handleShare}>
