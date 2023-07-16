@@ -44,7 +44,7 @@ return (
             size: "sm",
             text: "Add More Affiliations",
             icon: <i className="bi bi-lg-plus" />,
-            handleClick: addFields,
+            onClick: addFields,
           },
         }}
       />
@@ -129,7 +129,7 @@ return (
                       className: "danger",
                       text: "Delete Affiliation",
                       icon: <i className="bi bi-trash" />,
-                      handleClick: () => removeField(index),
+                      onClick: () => removeField(index),
                     },
                   }}
                 />
