@@ -104,39 +104,23 @@ const HeaderContent = styled.div`
   flex-grow: 1;
 `;
 const HeaderTag = styled.div`
-  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 4px 8px;
-  gap: 10px;
   height: 18px;
-  b
-  border-radius: 80px;
-  background-image: linear-gradient(#eae5f7, #eae5f7),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+  linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
   border-radius: 100px;
-  
-  
-  
 `;
 const HeaderTagP = styled.p`
   height: 10px;
   font-style: normal;
   font-weight: 500;
-  font-size: 8px;
-  line-height: 120%;
-  margin: 0px;
+  font-size: 10px;
   display: flex;
   align-items: center;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
+  color: white;
 `;
 const HeaderContentText = styled.div`
   display: flex;
@@ -150,7 +134,7 @@ const NominationName = styled.p`
   width: 90%;
   font-weight: 500;
   font-size: 14px;
-  margin: 3px 0;
+  margin: 5px 0;
   display: flex;
   align-items: center;
   color: #000000;
@@ -284,11 +268,7 @@ const CandidateTag = styled.div`
   gap: 10px;
   height: 20px;
   background: #f0e1ce;
-  b
   border-radius: 100px;
-  
-  
-  
 `;
 const CandidateTagText = styled.p`
   height: 12px;
