@@ -181,7 +181,7 @@ return (
               <BuildersLink
                 href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
               >
-                <h5 className="text-decoration-none link-dark align-items-end text-muted mt-3">
+                <h5 className="text-decoration-none link-dark align-items-center text-muted mt-3">
                   {starCount} builder{starCount !== 1 && "s"}
                 </h5>
               </BuildersLink>
