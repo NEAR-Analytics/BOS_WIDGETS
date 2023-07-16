@@ -51,7 +51,7 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "shared/lib/form" */
+/* INCLUDE: "core/lib/form" */
 /**
  *! TODO: Extract into separate library module
  *! once `useForm` is converted into a form factory widget
@@ -142,13 +142,13 @@ const useForm = ({ stateKey: formStateKey }) => ({
         })
       ),
 });
-/* END_INCLUDE: "shared/lib/form" */
-/* INCLUDE: "shared/lib/record" */
+/* END_INCLUDE: "core/lib/form" */
+/* INCLUDE: "core/lib/record" */
 const pick = (object, subsetKeys) =>
   Object.fromEntries(
     Object.entries(object ?? {}).filter(([key, _]) => subsetKeys.includes(key))
   );
-/* END_INCLUDE: "shared/lib/record" */
+/* END_INCLUDE: "core/lib/record" */
 
 const fieldParamsByType = {
   array: {
@@ -193,7 +193,7 @@ const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
                 <label className="fw-bold w-25">{label}</label>
 
                 {format !== "markdown" ? (
-                  <p className={contentDisplayClassName}>
+                  <p className={[contentDisplayClassName, "w-75"].join(" ")}>
                     {(fieldType === "array"
                       ? formState[fieldKey]
                           .filter((string) => string.length > 0)
@@ -202,7 +202,7 @@ const fieldsRenderDefault = ({ schema, formState, formUpdate, isEditable }) => (
                     )?.toString?.() || "none"}
                   </p>
                 ) : (
-                  <p className={contentDisplayClassName}>
+                  <p className={[contentDisplayClassName, "w-75"].join(" ")}>
                     {(formState[fieldKey]?.length ?? 0) > 0 ? (
                       <Markdown text={formState[fieldKey]} />
                     ) : (
@@ -256,6 +256,7 @@ const Form = ({
   onSubmit,
   schema,
   submitLabel,
+  ...restProps
 }) => {
   const fieldsRender =
     typeof fieldsRenderCustom === "function"
@@ -279,7 +280,7 @@ const Form = ({
 
   const { formState, formUpdate } = useForm({ stateKey: "data" });
 
-  const noSubmit =
+  const noChanges =
     JSON.stringify(formState) === JSON.stringify(state.initialState ?? {});
 
   const onCancelClick = () => {
@@ -289,13 +290,13 @@ const Form = ({
       isEditorActive: false,
     }));
 
-    typeof onSubmit === "function" && onSubmit(lastKnownState.initialState);
-    return typeof onCancel === "function" ? onCancel() : null;
+    if (typeof onSubmit === "function") onSubmit(lastKnownState.initialState);
+    if (typeof onCancel === "function") onCancel();
   };
 
   const onSubmitClick = () => {
     onEditorToggle(false);
-    return typeof onSubmit === "function" ? onSubmit(formState) : null;
+    if (typeof onSubmit === "function") onSubmit(formState);
   };
 
   return widget("components.molecule.tile", {
@@ -338,6 +339,7 @@ const Form = ({
 
             {widget("components.atom.button", {
               classNames: { root: "btn-outline-danger shadow-none border-0" },
+              disabled: noChanges,
               label: cancelLabel ?? "Cancel",
               onClick: onCancelClick,
             })}
@@ -348,7 +350,7 @@ const Form = ({
                 adornment: `bi ${classNames.submitAdornment}`,
               },
 
-              disabled: noSubmit,
+              disabled: noChanges,
               label: submitLabel ?? "Submit",
               onClick: onSubmitClick,
             })}
@@ -356,6 +358,8 @@ const Form = ({
         ) : null}
       </div>
     ),
+
+    ...restProps,
   });
 };
 
