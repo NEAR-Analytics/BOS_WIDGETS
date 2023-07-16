@@ -50,7 +50,7 @@ const Wrapper = styled.ul`
 return (
   <Wrapper>
     {Object.keys(votes).length === 0 && (
-      <span className="text-muted text-center">No votes yet.</span>
+      <span className="text-muted text-center">0 votes</span>
     )}
     {Object.keys(votes).map((voterId) => {
       const vote = votes[voterId];
