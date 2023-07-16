@@ -113,18 +113,6 @@ const Card = styled.div`
   padding: 23px;
 `;
 
-const StarButton = styled.div`
-  position: absolute;
-  top: 23px;
-  right: 18px;
-`;
-
-const ForkButton = styled.div`
-  position: absolute;
-  bottom: 23px;
-  right: 18px;
-`;
-
 return (
   <Card>
     <div className="mb-2">
@@ -168,25 +156,32 @@ return (
           {accountId === context.accountId ? "edit" : "fork"}
         </a>
       </div>
-      <div className="col-auto mt-4">
-        <StarButton>
-          {starCount && (
-            <a
-              href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
-            >
-              <h5>
-                {starCount} builder{starCount !== 1 && "s"}
-              </h5>
-            </a>
-          )}
-          <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
-        </StarButton>
-        {context.accountId !== accountId && (
-          <button className="btn btn-outline-success" onClick={handleCreate}>
-            <i className="bi bi-bezier2 me-1"></i>
-            clone
-          </button>
-        )}
+      <div className="col-auto">
+        <div className="row mt-3">
+          <div className="col-auto m-2">
+            {context.accountId !== accountId && (
+              <button
+                className="btn btn-outline-success"
+                onClick={handleCreate}
+              >
+                <i className="bi bi-bezier2 me-1"></i>
+                clone
+              </button>
+            )}
+          </div>
+          <div className="col-auto m-2">
+            {starCount && (
+              <a
+                href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
+              >
+                <h5>
+                  {starCount} builder{starCount !== 1 && "s"}
+                </h5>
+              </a>
+            )}
+            <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
+          </div>
+        </div>
       </div>
     </div>
   </Card>
