@@ -7,13 +7,12 @@ const description = profile.description;
 const tags = Object.keys(profile.tags ?? {});
 
 const TagLink = styled.div`
+  text-decoration: none;
 
-        text-decoration: none;
-
-      .tag-link:hover {
-        text-decoration: none;
-      }
-      `;
+  .tag-link:hover {
+    text-decoration: none;
+  }
+`;
 
 const TagContainer = styled.div`
   display: flex;
@@ -37,13 +36,18 @@ return (
       />
     </a>
     <div className="text-truncate">
-      <div className="text-truncate">
-        <span className="fw-bold">{name}</span>{" "}
-        <small>
-          <span className="font-monospace">@{accountId}</span>
-        </small>
-        <Widget src="hack.near/widget/dev.badge" props={{ accountId }} />
-      </div>
+      <a
+        href={`#/near/widget/ProfilePage?accountId=${accountId}`}
+        className="text-decoration-none link-dark"
+      >
+        <div className="text-truncate">
+          <span className="fw-bold">{name}</span>{" "}
+          <small>
+            <span className="font-monospace">@{accountId}</span>
+          </small>
+          <Widget src="hack.near/widget/dev.badge" props={{ accountId }} />
+        </div>
+      </a>
       <div className="text-truncate text-muted">
         {tags.length > 0 && (
           <>
