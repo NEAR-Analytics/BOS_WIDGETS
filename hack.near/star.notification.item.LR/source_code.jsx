@@ -19,7 +19,7 @@ return (
         <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
         {props.L}
       </div>
-      {props.R}
     </div>
+    {props.R}
   </div>
 );
