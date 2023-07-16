@@ -489,7 +489,7 @@ return (
               }}
             />
             <Widget
-              src={`dokxo.near/widget/Compose.Affiliations`}
+              src={`rubycop.near/widget/Compose.Affiliations`}
               props={{
                 affiliations: state.afiliation,
                 addFields,
