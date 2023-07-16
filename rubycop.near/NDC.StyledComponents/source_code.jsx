@@ -156,6 +156,7 @@ if (TextArea)
         rows={5}
         maxLength={TextArea.maxLength}
       />
+
       {TextArea.maxLength && (
         <div className="justify-content-end">
           <small className="text-secondary">
@@ -197,18 +198,24 @@ const WidgetSelect = () => (
   />
 );
 
-const WidgetTextArea = () => (
-  <Widget
-    src={"rubycop.near/widget/NDC.StyledComponents"}
-    props={{
-      TextArea: {
-        label: "Select label",
-        placeholder: "placeholder text",
-        maxLength: 20,
-      },
-    }}
-  />
-);
+const WidgetTextArea = () => {
+  State.init({ text: "" });
+
+  return (
+    <Widget
+      src={"rubycop.near/widget/NDC.StyledComponents"}
+      props={{
+        TextArea: {
+          label: "Select label",
+          placeholder: "placeholder text",
+          maxLength: 20,
+          value: state.text,
+          handleChange: (e) => State.update({ text: e.target.value }),
+        },
+      }}
+    />
+  );
+};
 
 return (
   <Container>
