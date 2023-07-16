@@ -1,5 +1,6 @@
 State.init({
   activeTab: 1,
+  stakeValue: 0,
 });
 
 const activePurchase = (_) => {
@@ -18,6 +19,20 @@ const activeStake = (_) => {
   State.update({
     activeTab: 3,
   });
+};
+
+const stakeUp = (_) => {
+  State.update({
+    stakeValue: state.stakeValue + 20,
+  });
+};
+
+const stakeDown = (_) => {
+  if (state.stakeValue > 0) {
+    State.update({
+      stakeValue: state.stakeValue - 20,
+    });
+  }
 };
 
 const TabWrapper = styled.div`
@@ -61,6 +76,21 @@ const QuantityFieldWrapper = styled.div`
       width: 100%;
       text-align: end;
     }
+`;
+
+const StakeButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+
+  .stake-button {
+    min-width: 115px;
+    min-height: 40px;
+    width: 5vw;
+    background-color: #0d6efd;
+    color: #fff;
+    border: solid 1px #0d6efd;
+    border-radius: 5px;
+  }
 `;
 
 return (
@@ -132,17 +162,27 @@ return (
         <button>인출하기</button>
       </>
     ) : (
-      <div>
+      <>
         <QuantityFieldWrapper>
           <input
             type="number"
             className="token-quantity"
             min={0}
             placeHolder={0}
+            value={state.stakeValue}
+            disabled={true}
           />
         </QuantityFieldWrapper>
+        <StakeButtonWrapper>
+          <button className="stake-button" onClick={stakeUp}>
+            UP
+          </button>
+          <button className="stake-button" onClick={stakeDown}>
+            DOWN
+          </button>
+        </StakeButtonWrapper>
         <button>스테이킹하기</button>
-      </div>
+      </>
     )}
   </>
 );
