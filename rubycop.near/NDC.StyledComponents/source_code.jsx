@@ -85,7 +85,8 @@ const Styled = {
     padding: 8px 10px;
     width: 100%;
     background: #ffffff;
-    border: 1px solid #d0d6d9;
+    border: 1px solid;
+    border-color ${(props) => (props.charLeft === 0 ? "#c23f38" : "#d0d6d9")};
     border-radius: 8px;
     font-size: 14px;
     color: #828688;
@@ -145,7 +146,9 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea)
+if (TextArea) {
+  const charLeft = TextArea.maxLength - TextArea.value.length;
+
   return (
     <div>
       <Label>{TextArea.label}</Label>
@@ -155,17 +158,17 @@ if (TextArea)
         onChange={TextArea.handleChange}
         rows={5}
         maxLength={TextArea.maxLength}
+        charLeft={charLeft}
       />
 
       {TextArea.maxLength && (
         <div className="justify-content-end">
-          <small className="text-secondary">
-            {TextArea.maxLength - TextArea.value.length} left
-          </small>
+          <small className="text-secondary">{charLeft} left</small>
         </div>
       )}
     </div>
   );
+}
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
