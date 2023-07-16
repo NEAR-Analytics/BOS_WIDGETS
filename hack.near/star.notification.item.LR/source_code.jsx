@@ -3,13 +3,14 @@ const { accountId, blockHeight, value } = props;
 return (
   <div className="d-flex justify-content-between row">
     <div className="me-2 text-truncate col-auto">
-      <div className="text-truncate">
-        {props.R}
-
-        <Widget
-          src="mob.near/widget/Profile"
-          props={{ accountId, tooltip: true }}
-        />
+      <div className="text-truncate row">
+        <div className="text-truncate col-auto">{props.R}</div>
+        <div className="text-truncate col-auto">
+          <Widget
+            src="mob.near/widget/Profile"
+            props={{ accountId, tooltip: true }}
+          />
+        </div>
       </div>
     </div>
     <div className="text-nowrap col-auto">
