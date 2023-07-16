@@ -54,13 +54,13 @@ const H2 = styled.h1`
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: ${props.bgColor ?? "#fff"};
+  color: ${props.h2Color ?? "#fff"};
   margin: 0;
   max-width: 700px;
 
   span {
     display: inline-block;
-    background: ${props.mainColor ?? "#000"};
+    background: ${props.bgColor ?? "#000"};
     border-radius: 20px;
     position: relative;
     padding: 0.1em 0.2em 0;
