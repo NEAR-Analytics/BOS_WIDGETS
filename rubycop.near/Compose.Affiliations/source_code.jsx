@@ -250,33 +250,37 @@ return (
                 }}
               />
               <div className="d-flex">
-                <Widget
-                  src={"rubycop.near/widget/NDC.StyledComponents"}
-                  props={{
-                    Input: {
-                      type: "date",
-                      label: "Start date",
-                      min: getCurrDate(),
-                      value: form.start_date ?? getCurrDate(),
-                      handleChange: (event) =>
-                        handleAFFStartdate({ index, event }),
-                    },
-                  }}
-                />
+                <div className="w-100">
+                  <Widget
+                    src={"rubycop.near/widget/NDC.StyledComponents"}
+                    props={{
+                      Input: {
+                        type: "date",
+                        label: "Start date",
+                        min: getCurrDate(),
+                        value: form.start_date ?? getCurrDate(),
+                        handleChange: (event) =>
+                          handleAFFStartdate({ index, event }),
+                      },
+                    }}
+                  />
+                </div>
                 <div className="px-3" />
-                <Widget
-                  src={"rubycop.near/widget/NDC.StyledComponents"}
-                  props={{
-                    Input: {
-                      type: "date",
-                      label: "End date",
-                      min: getCurrDate(),
-                      value: form.end_date ?? getCurrDate(),
-                      handleChange: (event) =>
-                        handleAFFEnddate({ index, event }),
-                    },
-                  }}
-                />
+                <div className="w-100">
+                  <Widget
+                    src={"rubycop.near/widget/NDC.StyledComponents"}
+                    props={{
+                      Input: {
+                        type: "date",
+                        label: "End date",
+                        min: getCurrDate(),
+                        value: form.end_date ?? getCurrDate(),
+                        handleChange: (event) =>
+                          handleAFFEnddate({ index, event }),
+                      },
+                    }}
+                  />
+                </div>
               </div>
 
               <div class=" py-2">
