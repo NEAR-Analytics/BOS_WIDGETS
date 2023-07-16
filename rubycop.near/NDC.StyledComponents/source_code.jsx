@@ -145,36 +145,26 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea) {
-  const handleChange = () => {
-    if (TextArea.limit && TextArea.value.length > TextArea.limit) {
-      e.preventDefault();
-      return;
-    }
-
-    TextArea.handleChange();
-  };
-
+if (TextArea)
   return (
     <div>
       <Label>{TextArea.label}</Label>
       <Styled.TextArea
         value={TextArea.value}
-        handleChange={handleChange}
         placeholder={TextArea.placeholder}
         onChange={TextArea.handleChange}
         rows={5}
+        maxLength={TextArea.maxLength}
       />
-      {TextArea.limit && (
+      {TextArea.maxLength && (
         <div className="justify-content-end">
           <small className="text-secondary">
-            {TextArea.limit - TextArea.value.length} left
+            {TextArea.maxLength - TextArea.value.length} left
           </small>
         </div>
       )}
     </div>
   );
-}
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
@@ -207,24 +197,18 @@ const WidgetSelect = () => (
   />
 );
 
-const WidgetTextArea = () => {
-  State.init({ text: "" });
-
-  return (
-    <Widget
-      src={"rubycop.near/widget/NDC.StyledComponents"}
-      props={{
-        TextArea: {
-          label: "Select label",
-          placeholder: "placeholder text",
-          limit: 20,
-          value: state.text,
-          handleChange: (e) => State.update({ text: e.target.value }),
-        },
-      }}
-    />
-  );
-};
+const WidgetTextArea = () => (
+  <Widget
+    src={"rubycop.near/widget/NDC.StyledComponents"}
+    props={{
+      TextArea: {
+        label: "Select label",
+        placeholder: "placeholder text",
+        maxLength: 20,
+      },
+    }}
+  />
+);
 
 return (
   <Container>
