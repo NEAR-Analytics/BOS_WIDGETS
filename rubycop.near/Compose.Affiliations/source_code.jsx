@@ -253,7 +253,8 @@ return (
                 <Widget
                   src={"rubycop.near/widget/NDC.StyledComponents"}
                   props={{
-                    Date: {
+                    Input: {
+                      type: "date",
                       label: "Start date",
                       min: getCurrDate(),
                       value: form.company_name,
@@ -266,7 +267,8 @@ return (
                 <Widget
                   src={"rubycop.near/widget/NDC.StyledComponents"}
                   props={{
-                    Date: {
+                    Input: {
+                      type: "date",
                       label: "End date",
                       min: getCurrDate(),
                       value: form.company_name,
