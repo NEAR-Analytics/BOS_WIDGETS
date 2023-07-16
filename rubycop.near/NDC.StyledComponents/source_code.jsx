@@ -1,4 +1,4 @@
-const { Button, Dropdown } = props;
+const { Button, Dropdown, TextArea } = props;
 
 const StyledButton = styled.button`
   width: max-content;
@@ -135,6 +135,14 @@ if (Dropdown)
     </div>
   );
 
+if (TextArea)
+  return (
+    <div>
+      <Label>{TextArea.label}</Label>
+      <textarea onChange={TextArea.handleChange} rows={5} />
+    </div>
+  );
+
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
     src={"rubycop.near/widget/NDC.StyledComponents"}
@@ -162,6 +170,15 @@ const WidgetSelect = () => (
           { title: "value 2", value: 2 },
         ],
       },
+    }}
+  />
+);
+
+const WidgetTextArea = () => (
+  <Widget
+    src={"rubycop.near/widget/NDC.StyledComponents"}
+    props={{
+      TextArea: { label: "Select label" },
     }}
   />
 );
@@ -215,5 +232,8 @@ return (
 
     <h4>Select</h4>
     <WidgetSelect />
+
+    <h4>Textarea</h4>
+    <WidgetTextArea />
   </Container>
 );
