@@ -113,6 +113,12 @@ const Card = styled.div`
   padding: 23px;
 `;
 
+const BuildersLink = styled.a`
+  &:hover {
+    text-decoration: none;
+  }
+`;
+
 return (
   <Card>
     <div className="row justify-content-between">
@@ -172,13 +178,13 @@ return (
           <div className="col-auto m-1">
             <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
             {starCount && (
-              <a
+              <BuildersLink
                 href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
               >
                 <h5 className="text-decoration-none link-dark align-items-end text-muted mt-3">
                   {starCount} builder{starCount !== 1 && "s"}
                 </h5>
-              </a>
+              </BuildersLink>
             )}
           </div>
         </div>
