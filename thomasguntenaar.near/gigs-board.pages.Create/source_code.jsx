@@ -52,6 +52,28 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
+/* INCLUDE: "core/lib/autocomplete" */
+const autocompleteEnabled = true;
+const AutoComplete = styled.div`
+  z-index: 5;
+
+  > div > div {
+    padding: calc(var(--padding) / 2);
+  }
+`;
+
+function textareaInputHandler(value) {
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
+  State.update({ text: value, showAccountAutocomplete });
+}
+
+function autoCompleteAccountId(id) {
+  let description = state.description.replace(/[\s]{0,1}@[^\s]*$/, "");
+  description = `${description} @${id}`.trim() + " ";
+  State.update({ description, showAccountAutocomplete: false });
+}
+/* END_INCLUDE: "core/lib/autocomplete" */
+
 const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
 const mode = props.mode ?? "Create";
@@ -64,6 +86,7 @@ const labels = labelStrings.map((s) => {
   return { name: s };
 });
 
+// TODO: REMOVE INIT STATE // gitblock
 initState({
   seekingFunding: false,
   //
@@ -73,14 +96,14 @@ initState({
   // Should be a list of labels as strings.
   // Both of the label structures should be modified together.
   labelStrings,
-  postType: "Idea",
-  name: props.name ?? "",
-  description: props.description ?? "",
-  amount: props.amount ?? "",
-  token: props.token ?? "NEAR",
+  postType: "Solution",
+  name: props.name ?? "TESTING title",
+  description: props.description ?? "Testing Solution",
+  amount: props.amount ?? "800",
+  token: props.token ?? "USDC",
   supervisor: props.supervisor ?? "neardevgov.near",
   githubLink: props.githubLink ?? "",
-  warning: "",
+  warning: "This is the warning",
 });
 
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
@@ -133,7 +156,7 @@ const onSubmit = () => {
         labels,
         body: body,
       },
-      deposit: Big(10).pow(21).mul(2),
+      deposit: Big(10).pow(21).mul(3),
       gas: Big(10).pow(12).mul(100),
     });
   } else if (mode == "Edit") {
@@ -295,8 +318,26 @@ const descriptionDiv = (
       type="text"
       rows={6}
       className="form-control"
+      onInput={(event) => textareaInputHandler(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
       onChange={(event) => State.update({ description: event.target.value })}
     />
+    {autocompleteEnabled && state.showAccountAutocomplete && (
+      <AutoComplete>
+        <Widget
+          src="near/widget/AccountAutocomplete"
+          props={{
+            term: state.text.split("@").pop(),
+            onSelect: autoCompleteAccountId,
+            onClose: () => State.update({ showAccountAutocomplete: false }),
+          }}
+        />
+      </AutoComplete>
+    )}
   </div>
 );
 
@@ -409,7 +450,7 @@ function generateDescription(text, amount, token, supervisor) {
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1">
-    {widget("components.layout.Banner")}
+    {widget("components.layout.app-header")}
     <div class="mx-5 mb-5">
       <div aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -511,7 +552,7 @@ return (
         <div class="card-body">
           <p class="text-muted m-0">Preview</p>
           <div>
-            {widget("components.posts.Post", {
+            {widget("entity.post.Post", {
               isPreview: true,
               id: 0, // irrelevant
               post: {
