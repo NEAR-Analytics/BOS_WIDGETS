@@ -137,7 +137,7 @@ if (Dropdown)
   );
 
 if (TextArea) {
-  const TextArea = styled.textarea`
+  Styled.TextArea = styled.textarea`
     padding: 8px 10px;
     width: 100%;
     background: #ffffff;
