@@ -110,7 +110,7 @@ const HeaderTag = styled.div`
   align-items: center;
   padding: 4px 8px;
   height: 18px;
-  linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
+  background: linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
   border-radius: 100px;
 `;
 const HeaderTagP = styled.p`
