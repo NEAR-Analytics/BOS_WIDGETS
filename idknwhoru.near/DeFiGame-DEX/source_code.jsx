@@ -38,7 +38,7 @@ return (
     ) : (
       <div>
         <h2>스테이크</h2>
-        <h3>스테이크 비율</h3>
+        <h3>스테이크 비율 21 : 10</h3>
         <input type="number" />
         <button>스테이킹하기</button>
       </div>
