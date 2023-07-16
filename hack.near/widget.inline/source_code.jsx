@@ -175,7 +175,7 @@ return (
               <a
                 href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
               >
-                <h5 className="text-decoration-none link-dark mt-3">
+                <h5 className="text-decoration-none link-dark text-muted mt-3">
                   {starCount} builder{starCount !== 1 && "s"}
                 </h5>
               </a>
