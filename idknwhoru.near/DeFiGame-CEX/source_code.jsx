@@ -20,6 +20,10 @@ const activeStake = (_) => {
   });
 };
 
+const ToKenWrapper = styled.div`
+  display: flex;
+`;
+
 return (
   <>
     <h1>CEX</h1>
@@ -36,23 +40,27 @@ return (
     </div>
     <hr />
     {state.activeTab === 1 ? (
-      <div>
-        <input type="number" />
-        <select>
-          <option>S토큰</option>
-          <option>L토큰</option>
-        </select>
+      <>
+        <ToKenWrapper>
+          <input type="number" />
+          <select>
+            <option>S토큰</option>
+            <option>L토큰</option>
+          </select>
+        </ToKenWrapper>
         <button>구매하기</button>
-      </div>
+      </>
     ) : state.activeTab === 2 ? (
-      <div>
-        <input type="number" />
-        <select>
-          <option>S토큰</option>
-          <option>L토큰</option>
-        </select>
+      <>
+        <ToKenWrapper>
+          <input type="number" />
+          <select>
+            <option>S토큰</option>
+            <option>L토큰</option>
+          </select>
+        </ToKenWrapper>
         <button>인출하기</button>
-      </div>
+      </>
     ) : (
       <div>
         <input type="number" />
