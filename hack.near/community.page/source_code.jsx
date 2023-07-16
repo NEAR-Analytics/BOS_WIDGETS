@@ -164,7 +164,7 @@ return (
               src="near/widget/DIG.Button"
               props={{
                 href: `${props.link ?? "#/hack.near/widget/docs"}`,
-                label: "Get Started",
+                label: `${props.buttonText ?? "Get Started"}`,
                 variant: "outline-dark",
                 size: "large",
               }}
