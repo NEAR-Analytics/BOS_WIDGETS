@@ -1,40 +1,14 @@
-const FormsectionAffiliation = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-
-  width: 100%;
-  height: auto;
-  flex: none;
-
-  flex-grow: 0;
-  @media only screen and (max-width: 480px) {
-  }
-`;
-const H2 = styled.h1`
-  height: 14px;
-  font-style: normal;
-  font-weight: 500;
+const H2 = styled.h2`
   font-size: 14px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  color: #000000;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin-top: 25px;
 `;
 const AffiliationBody = styled.div`
-  width: 100;
+  width: 100%;
   margin-top: 16px;
 `;
 const Separator = styled.div`
   width: 100%;
-  height: 2px;
+  height: 1px;
   background-color: #d0d6d966;
-  border: solid 0px transparent;
 `;
 const Section = styled.div`
   margin-bottom: 5px;
@@ -66,9 +40,9 @@ const {
 // State
 
 return (
-  <FormsectionAffiliation>
+  <div className="w-100">
     <div className="d-flex justify-content-between">
-      <H2>{"Afiliations"}</H2>
+      <H2>Afiliations</H2>
       <Widget
         src={"rubycop.near/widget/NDC.StyledComponents"}
         props={{
@@ -81,6 +55,7 @@ return (
         }}
       />
     </div>
+    <Separator />
 
     <AffiliationBody>
       {affiliations.map((form, index) => {
@@ -168,5 +143,5 @@ return (
         );
       })}
     </AffiliationBody>
-  </FormsectionAffiliation>
+  </div>
 );
