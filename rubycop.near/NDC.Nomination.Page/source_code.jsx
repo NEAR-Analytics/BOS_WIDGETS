@@ -148,8 +148,11 @@ const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
 };
 
-function handleFilter(text) {
+function handleFilter(e) {
+  const text = e.target.value;
+
   State.update({ candidateId: text });
+
   if (!state.search) {
     State.update({ originNominations: state.nominations, search: true });
   }
