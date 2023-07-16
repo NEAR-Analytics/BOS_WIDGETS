@@ -162,6 +162,13 @@ if (TextArea) {
         onChange={TextArea.handleChange}
         rows={5}
       />
+      {TextArea.limit && (
+        <div className="justify-content-end">
+          <small className="text-secondary">
+            {TextArea.limit - TextArea.value.length} left
+          </small>
+        </div>
+      )}
     </div>
   );
 }
