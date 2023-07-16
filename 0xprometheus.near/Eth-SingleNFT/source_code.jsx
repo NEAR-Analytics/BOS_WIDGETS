@@ -45,6 +45,7 @@ const currentChain = {
 
 const listAbi = [
   "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
+  "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
 ];
 
 const Root = styled.div`
@@ -80,10 +81,10 @@ const TopSection = styled.div`
 const TopImageContainer = styled.div`
   padding: 1em;
   background: #ffffff;
-    width: 50%;
+    width: 40%;
     min-width: 355px;
   border: 2px solid #cacdd5;
-  margin-right: 20px;
+  margin-right: 40px;
   box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
   border-radius: 0.7em;
   &>img {
@@ -210,6 +211,29 @@ const TableBody = styled.div`
     padding: 0.5em;
     justify-content: space-between;
     border-bottom: 1px solid #dde1e6;
+    a {
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    padding-left: 7px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    @media and screen
+    p {
+        margin: 0;
+        border-bottom: 1px solid #e5e8eb;
+        font-size: 12px;
+        min-width: 100px;
+        text-align: center;
+    }
+    span {
+        font-size: 12px;
+    }
+    }
 `;
 
 const RowType = styled.div`
@@ -270,13 +294,17 @@ const Popup = styled.div`
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px); /* Apply background blur */
+  
 `;
 
 const PopupContent = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
-  max-width: 400px;
+  align-items: center;
+  max-width: 350px;
+  display: flex;
+  justify-content: center;
   width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -291,13 +319,38 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: #0d99ff;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 15px;
   border: none;
+    margin-top: 20px;
+    margin-right: 10px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+`;
+
+const CloseNFT = styled.div`
+  margin-right: 10px;
+  display: flex;
+  align-items: flex-start !important;
+  justify-content: space-between !important; 
+  img {
+    width: 40px;  
+    cursor: pointer;
+    align-self: flex-start;
+  }
+`;
+
+const CloseButton = styled.button`
+    background-color: white;
+    color: #0d99ff;
+    margin-top: 20px;
+    padding: 5px 15px;
+    border: 1px solid #0d99ff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 `;
 
 const MarketplaceListed = styled.div`
@@ -334,7 +387,7 @@ const getFormatedTxDate = (newDate) => {
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
-      currentChain[props.singleNftProps.chain].livePrice
+      currentChain[props.state.singleNftProps.chain].livePrice
     }&vs_currencies=usd`
   );
   if (res.ok) {
@@ -344,35 +397,72 @@ const getUsdValue = (price) => {
   }
 };
 
+const handleBuyClick = () => {
+  const contract = new ethers.Contract(
+    currentChain[props.state.singleNftProps.chain].contract,
+    listAbi,
+    Ethers.provider().getSigner()
+  );
+
+  const nftContract = props.state.singleNftProps.id.split(
+    props.state.singleNftProps.tokenId
+  )[0];
+
+  contract
+    .nftSale(
+      props.state.singleNftProps.price,
+      props.state.singleNftProps.tokenId,
+      props.state.singleNftProps.owner,
+      nftContract
+    )
+    .then((transactionHash) => transactionHash.wait())
+    .then((ricit) => {
+      console.log("does not get hiere", ricit);
+      State.update({
+        message: true,
+        text: `${currentChain[props.state.singleNftProps.chain].explorer}/tx/${
+          ricit.transactionHash
+        }`,
+      });
+      props.handleCloseNft();
+    })
+    .catch((err) => {
+      State.update({
+        error: true,
+        text: err.reason,
+      });
+    });
+};
+
 const handleSendClick = () => {
   // Handle the send button click event
   console.log("Input value:", state.listingPrice, Number(state.listingPrice));
   console.log(
     "Input value:",
     Ethers.provider().getSigner(),
-    currentChain[props.singleNftProps.chain].contract
+    currentChain[props.state.singleNftProps.chain].contract
   );
   const contract = new ethers.Contract(
-    currentChain[props.singleNftProps.chain].contract,
+    currentChain[props.state.singleNftProps.chain].contract,
     listAbi,
     Ethers.provider().getSigner()
   );
   console.log("Formed thee", contract);
-  const nftContract = props.singleNftProps.id.split(
-    props.singleNftProps.tokenId
+  const nftContract = props.state.singleNftProps.id.split(
+    props.state.singleNftProps.tokenId
   )[0];
 
   console.log(
     "Logged Thee",
     nftContract,
-    props.singleNftProps.tokenId,
+    props.state.singleNftProps.tokenId,
     (Number(state.listingPrice) * 1e18).toString()
   );
 
   contract
     .createMarketplaceItem(
       nftContract,
-      props.singleNftProps.tokenId,
+      props.state.singleNftProps.tokenId,
       (Number(state.listingPrice) * 1e18).toString(),
       "General",
       "0xB4bE310666D2f909789Fb1a2FD09a9bEB0Edd99D"
@@ -383,7 +473,7 @@ const handleSendClick = () => {
       State.update({
         isOpen: false,
         message: true,
-        text: `${currentChain[props.singleNftProps.chain].explorer}/tx/${
+        text: `${currentChain[props.state.singleNftProps.chain].explorer}/tx/${
           ricit.transactionHash
         }`,
       });
@@ -399,8 +489,6 @@ const handleSendClick = () => {
 };
 
 const handleListing = () => {
-  // Handle the send button click event
-
   State.update({
     isOpen: true,
   });
@@ -413,24 +501,32 @@ const handleInputChange = (e) => {
   });
 };
 
-const price = props.singleNftProps.price
-  ? props.singleNftProps.price * PRICE_CONVERSION_VALUE
+const price = props.state.singleNftProps.price
+  ? props.state.singleNftProps.price * PRICE_CONVERSION_VALUE
   : 0;
 
-const HandleList = () => {
-  console.log(props.singleNftProps);
+const handleClose = () => {
+  props.isNFTButtonClicked = false;
 };
 
 return (
   <Root>
     <MainContainer>
       <TopSection>
+        <CloseNFT onClick={() => props.handleCloseNft()}>
+          <img
+            src="https://cdn-icons-png.flaticon.com/256/109/109618.png"
+            alt=""
+          />
+        </CloseNFT>
         <TopImageContainer>
-          <HeaderText>{props.singleNftProps.name || "AI Sunset"}</HeaderText>
+          <HeaderText>
+            {props.state.singleNftProps.name || "AI Sunset"}
+          </HeaderText>
           <img
             src={
-              props.singleNftProps.image
-                ? props.singleNftProps?.image.replace(
+              props.state.singleNftProps.image
+                ? props.state.singleNftProps?.image.replace(
                     "ipfs://",
                     "https://ipfs.io/ipfs/"
                   )
@@ -459,12 +555,12 @@ return (
             </p>
             <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
               {`${
-                props.singleNftProps.owner
-                  ? props.singleNftProps.owner.slice(0, 6)
+                props.state.singleNftProps.owner
+                  ? props.state.singleNftProps.owner.slice(0, 6)
                   : "0x022"
               }...${
-                props.singleNftProps.owner
-                  ? props.singleNftProps.owner.slice(36)
+                props.state.singleNftProps.owner
+                  ? props.state.singleNftProps.owner.slice(36)
                   : "0454et"
               }`}
             </span>
@@ -487,36 +583,42 @@ return (
                 <span>
                   ($
                   {getUsdValue(
-                    props.singleNftProps.price * PRICE_CONVERSION_VALUE || 0
+                    props.state.singleNftProps.price * PRICE_CONVERSION_VALUE ||
+                      0
                   )}
                   )
                 </span>
               </PriceArea>
             </div>
-            <div onClick={() => HandleList()}>
-              {props.singleNftProps.isListed ? (
-                <button
-                  style={{
-                    backgroundColor: "#525c76",
-                    borderColor: "#525c76",
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Listed
-                </button>
-              ) : props.singleNftProps.owner == props.sender ? (
-                <button onClick={handleListing}>List</button>
-              ) : (
-                <button
-                  style={{
-                    backgroundColor: "#525c76",
-                    borderColor: "#525c76",
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Not Listed
-                </button>
-              )}
+            <div>
+              {props.state.singleNftProps.isListed &&
+                (props.state.singleNftProps.owner == props.state.sender ? (
+                  <button
+                    style={{
+                      backgroundColor: "#525c76",
+                      borderColor: "#525c76",
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    Cancel Listing
+                  </button>
+                ) : (
+                  <button onClick={handleBuyClick}>Buy</button>
+                ))}
+              {!props.state.singleNftProps.isListed &&
+                (props.state.singleNftProps.owner == props.state.sender ? (
+                  <button onClick={handleListing}>List</button>
+                ) : (
+                  <button
+                    style={{
+                      backgroundColor: "#525c76",
+                      borderColor: "#525c76",
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    Not Listed
+                  </button>
+                ))}
             </div>
             {state.isOpen && (
               <Popup>
@@ -527,9 +629,25 @@ return (
                         type="text"
                         value={state.listingPrice}
                         onChange={handleInputChange}
-                        placeholder="enter Listing Price"
+                        placeholder="Enter Listing Price"
                       />
-                      <Button onClick={handleSendClick}>List Nft</Button>
+                      <div
+                        style={{
+                          width: "100%",
+                          display: flex,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          marginLeft: "40px",
+                        }}
+                      >
+                        <Button onClick={handleSendClick}>List NFT</Button>
+                        <CloseButton
+                          onClick={() => State.update({ isOpen: false })}
+                        >
+                          Close
+                        </CloseButton>
+                      </div>
                     </div>
                   </PopupContent>
                 </div>
@@ -539,14 +657,15 @@ return (
           <Description>
             <h6>Description</h6>
             <span>
-              {props.singleNftProps.description || "Ai generated sunset cliffs"}
+              {props.state.singleNftProps.description ||
+                "Ai generated sunset cliffs"}
             </span>
           </Description>
           <Description>
             <h6>Attributes</h6>
             <AttributeContainer>
-              {props.singleNftProps.attributes ? (
-                props.singleNftProps.attributes.map((data) => (
+              {props.state.singleNftProps.attributes ? (
+                props.state.singleNftProps.attributes.map((data) => (
                   <Attribute>
                     <div>
                       <span style={{ color: "#b2b7c2" }}>File Type</span>
@@ -579,16 +698,16 @@ return (
               <a
                 target="_blank"
                 href={`${
-                  currentChain[props.singleNftProps.chain].explorer
-                }/address/${props.singleNftProps.owner || ""}`}
+                  currentChain[props.state.singleNftProps.chain].explorer
+                }/address/${props.state.singleNftProps.owner || ""}`}
               >
                 {`${
-                  props.singleNftProps.owner
-                    ? props.singleNftProps.owner.slice(0, 6)
+                  props.state.singleNftProps.owner
+                    ? props.state.singleNftProps.owner.slice(0, 6)
                     : "0x022"
                 }...${
-                  props.singleNftProps.owner
-                    ? props.singleNftProps.owner.slice(36)
+                  props.state.singleNftProps.owner
+                    ? props.state.singleNftProps.owner.slice(36)
                     : "0454et"
                 }`}
               </a>
@@ -601,37 +720,46 @@ return (
       <TableHeader>
         <h1>Transaction History</h1>
       </TableHeader>
-      {props.singleNftProps.transactions ? (
-        props.singleNftProps.transactions.map((data) => (
+      {props.state.singleNftProps.transactions ? (
+        props.state.singleNftProps.transactions.map((data) => (
           <TableBody>
             <RowType>{data.type}</RowType>
-            <RowBody>
-              <span>From</span>
-              <p>
-                {`${data.owner ? data.owner.id.slice(0, 4) : ".."}...${
-                  data.owner ? data.owner.id.slice(40) : "."
-                }`}
-              </p>
-              <span>To</span>
-              <p>
-                {`${data.to ? data.to.id.slice(0, 4) : ".."}...${
-                  data.to ? data.to.id.slice(40) : "."
-                }`}
-              </p>
-              <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
-            </RowBody>
+            <a
+              href={`${
+                currentChain[props.state.singleNftProps.chain].explorer
+              }/tx/${data.txId || ""}`}
+              target="_blank"
+            >
+              <RowBody>
+                <span>From</span>
+                <p>
+                  {`${data.owner ? data.owner.id.slice(0, 4) : ".."}...${
+                    data.owner ? data.owner.id.slice(40) : "."
+                  }`}
+                </p>
+                <span>To</span>
+                <p>
+                  {`${data.to ? data.to.id.slice(0, 4) : ".."}...${
+                    data.to ? data.to.id.slice(40) : "."
+                  }`}
+                </p>
+                <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
+              </RowBody>
+            </a>
           </TableBody>
         ))
       ) : (
         <TableBody>
           <RowType>Listing</RowType>
-          <RowBody>
-            <span>From</span>
-            <p>---</p>
-            <span>To</span>
-            <p>waze.near</p>
-            <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
-          </RowBody>
+          <a>
+            <RowBody>
+              <span>From</span>
+              <p>---</p>
+              <span>To</span>
+              <p>waze.near</p>
+              <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
+            </RowBody>
+          </a>
         </TableBody>
       )}
     </TransactionTable>
