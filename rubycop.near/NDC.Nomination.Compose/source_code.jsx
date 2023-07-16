@@ -138,6 +138,13 @@ const ErrorBlock = styled.div`
   margin: 20px 0 30px 0;
 `;
 
+const Hr = styled.div`
+  height: 1px;
+  margin: 15px 0;
+  width: 100%;
+  background: rgba(208, 214, 217, 0.4);
+`;
+
 const validatedInputs = () => {
   const {
     img,
@@ -426,6 +433,7 @@ return (
                 },
               }}
             />
+            <Hr />
             <Widget
               src={`rubycop.near/widget/Compose.Platform`}
               props={{
