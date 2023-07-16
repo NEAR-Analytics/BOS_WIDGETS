@@ -146,29 +146,25 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea) {
-  const charLeft = TextArea.maxLength - TextArea.value.length;
+if (TextArea)
+  <div>
+    <Label>{TextArea.label}</Label>
+    <Styled.TextArea
+      value={TextArea.value}
+      placeholder={TextArea.placeholder}
+      onChange={TextArea.handleChange}
+      rows={5}
+      maxLength={TextArea.maxLength}
+    />
 
-  return (
-    <div>
-      <Label>{TextArea.label}</Label>
-      <Styled.TextArea
-        value={TextArea.value}
-        placeholder={TextArea.placeholder}
-        onChange={TextArea.handleChange}
-        rows={5}
-        maxLength={TextArea.maxLength}
-        charLeft={charLeft}
-      />
-
-      {TextArea.maxLength && (
-        <div className="justify-content-end">
-          <small className="text-secondary">{charLeft} left</small>
-        </div>
-      )}
-    </div>
-  );
-}
+    {TextArea.maxLength && (
+      <div className="justify-content-end">
+        <small className="text-secondary">
+          {TextArea.maxLength - TextArea.value.length} left
+        </small>
+      </div>
+    )}
+  </div>;
 
 const WidgetButton = ({ size, className, disabled, text, icon }) => (
   <Widget
