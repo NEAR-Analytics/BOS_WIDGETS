@@ -12,20 +12,6 @@ const FormsectionAffiliation = styled.div`
   @media only screen and (max-width: 480px) {
   }
 `;
-const AffiliationHead = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-
-  width: 100%;
-  height: 26px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  @media only screen and (max-width: 480px) {
-  }
-`;
 const H2 = styled.h1`
   height: 14px;
   font-style: normal;
@@ -41,16 +27,6 @@ const H2 = styled.h1`
   margin-top: 25px;
 `;
 const AffiliationBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0;
-  gap: 8px;
-  width: 100%;
-  height: auto;
-  flex: none;
-  order: 1;
-
   margin-top: 16px;
 `;
 const Separator = styled.div`
@@ -90,29 +66,24 @@ const {
 
 return (
   <FormsectionAffiliation>
-    <AffiliationHead>
-      <H2>{"Afiliations"}</H2>
-      <Widget
-        src={"rubycop.near/widget/NDC.StyledComponents"}
-        props={{
-          Button: {
-            size: "sm",
-            text: "Add More Affiliations",
-            icon: <i class="bi bi-lg-plus" />,
-            handleClick: addFields,
-          },
-        }}
-      />
-    </AffiliationHead>
+    <H2>{"Afiliations"}</H2>
+    <Widget
+      src={"rubycop.near/widget/NDC.StyledComponents"}
+      props={{
+        Button: {
+          size: "sm",
+          text: "Add More Affiliations",
+          icon: <i className="bi bi-lg-plus" />,
+          handleClick: addFields,
+        },
+      }}
+    />
 
     <AffiliationBody>
       {affiliations.map((form, index) => {
         return (
-          <div
-            class="bg-white rounded p-4"
-            style={{ width: "100%", "margin-top": "20px" }}
-          >
-            <div class=" col-sm-12 gap-1">
+          <div className="bg-white rounded p-4">
+            <div className=" col-sm-12 gap-1">
               <Widget
                 src={"rubycop.near/widget/NDC.StyledComponents"}
                 props={{
@@ -175,7 +146,7 @@ return (
                 />
               </Section>
 
-              <div class="flex justify-content-end my-2">
+              <div className="flex justify-content-end my-2">
                 <Widget
                   src={"rubycop.near/widget/NDC.StyledComponents"}
                   props={{
@@ -183,7 +154,7 @@ return (
                       size: "sm",
                       className: "danger",
                       text: "Delete Affiliation",
-                      icon: <i class="bi bi-trash" />,
+                      icon: <i className="bi bi-trash" />,
                       handleClick: () => removeField(index),
                     },
                   }}
