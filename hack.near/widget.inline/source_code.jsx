@@ -133,7 +133,7 @@ return (
         <StarButton>
           {starCount && (
             <a
-              href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName${widgetName}`}
+              href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
             >
               <h5>
                 {starCount} builder{starCount !== 1 && "s"}
