@@ -5,7 +5,7 @@ const Section = styled.div`
 `;
 
 return (
-  <div>
+  <>
     {inputs.map((input, i) => (
       <Section key={i}>
         <Widget
@@ -22,5 +22,5 @@ return (
         />
       </Section>
     ))}
-  </div>
+  </>
 );
