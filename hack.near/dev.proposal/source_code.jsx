@@ -252,7 +252,7 @@ const details = actions.map(({ args }) => {
 
   widgetName = Object.keys(selectedArgs.data[daoId].widget)[0];
 
-  if (widgetName === null) {
+  if (widgetName === undefined) {
     return "";
   }
 
@@ -349,6 +349,5 @@ return (
         }}
       />
     </div>
-    <br />
   </Wrapper>
 );
