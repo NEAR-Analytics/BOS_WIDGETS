@@ -1,5 +1,7 @@
 const { Button, Dropdown, TextArea } = props;
 
+State.init({ text: "" });
+
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -201,8 +203,6 @@ const WidgetSelect = () => (
 );
 
 const WidgetTextArea = () => {
-  State.init({ text: "" });
-
   return (
     <Widget
       src={"rubycop.near/widget/NDC.StyledComponents"}
