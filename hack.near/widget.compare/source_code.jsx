@@ -1,12 +1,12 @@
 if (!props.updatedWidget) return "";
 
-const newCode = Social.get(`${props.updatedWidget}`);
+const newCode = props.newCode ?? Social.get(`${props.updatedWidget}`);
 
 if (newCode === null) return "Loading...";
 
 if (!props.widgetPath) return "";
 
-const baseCode = Social.get(`${props.widgetPath}`);
+const baseCode = props.baseCode ?? Social.get(`${props.widgetPath}`);
 
 if (baseCode === null) return "Loading...";
 
