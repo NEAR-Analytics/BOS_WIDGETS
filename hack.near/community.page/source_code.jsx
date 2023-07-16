@@ -90,7 +90,7 @@ const H2 = styled.h1`
 
 const Text = styled.p`
   font-family: ${props.taglineFont ?? "sans-serif"};
-  font-size: ${(p) => p.size ?? "16px"};
+  font-size: ${(p) => p.size ?? "21px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
