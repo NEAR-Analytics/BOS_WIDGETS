@@ -23,7 +23,7 @@ const widgets = {
   card: "syi216.near/widget/NDC.nomination.card",
   houses: "rubycop.near/widget/NDC.Elections.Houses",
   filter: "rubycop.near/widget/NDC.Elections.Filter",
-  button: "rubycop.near/widget/NDC.StyledComponents",
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
 
 State.init({
@@ -347,7 +347,7 @@ return (
             <ButtonNominateContainer>
               {state.selfNomination ? (
                 <Widget
-                  src={widgets.button}
+                  src={widgets.styledComponents}
                   props={{
                     Button: {
                       className: "danger",
@@ -359,7 +359,7 @@ return (
                 />
               ) : (
                 <Widget
-                  src={widgets.button}
+                  src={widgets.styledComponents}
                   props={{
                     Button: {
                       text: "Self Nominate",
