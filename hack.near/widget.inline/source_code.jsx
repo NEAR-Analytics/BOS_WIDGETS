@@ -169,7 +169,7 @@ return (
         </a>
       </div>
       <div className="col-auto mt-4">
-        <div className="col-auto m-2 align-items-end">
+        <div className="m-2 align-items-end">
           <StarButton>
             {starCount && (
               <a
