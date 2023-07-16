@@ -471,7 +471,7 @@ return (
         <div className="d-flex flex-column pt-3">
           {!state.saveComplete && (
             <Widget
-              src="mob.near/widget/TagsEditor"
+              src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor"
               props={{
                 initialTagsObject: state.tags,
                 placeholder: "Input tags",
