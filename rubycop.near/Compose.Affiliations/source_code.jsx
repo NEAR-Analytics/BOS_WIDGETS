@@ -1,17 +1,24 @@
+const {
+  affiliations,
+  addFields,
+  removeField,
+  handleAFFCompanyName,
+  handleAFFStartdate,
+  handleAFFEnddate,
+  handleAFFRole,
+} = props;
+
 const H2 = styled.h2`
   font-size: 14px;
-`;
-const AffiliationBody = styled.div`
-  width: 100%;
-  margin-top: 16px;
 `;
 const Separator = styled.div`
   width: 100%;
   height: 1px;
+  margin: 2px 0 12px 0;
   background-color: #d0d6d966;
 `;
 const Section = styled.div`
-  margin-bottom: 5px;
+  margin-bottom: 12px;
 `;
 
 const getCurrDate = () => {
@@ -25,19 +32,6 @@ const getCurrDate = () => {
 
   return year + "-" + month + "-" + day;
 };
-
-let currDate = getCurrDate();
-
-const {
-  affiliations,
-  addFields,
-  removeField,
-  handleAFFCompanyName,
-  handleAFFStartdate,
-  handleAFFEnddate,
-  handleAFFRole,
-} = props;
-// State
 
 return (
   <div className="w-100">
@@ -57,11 +51,11 @@ return (
     </div>
     <Separator />
 
-    <AffiliationBody>
+    <div className="w-100">
       {affiliations.map((form, index) => {
         return (
           <div className="bg-white rounded p-4">
-            <div className=" col-sm-12 gap-1">
+            <div>
               <Widget
                 src={"rubycop.near/widget/NDC.StyledComponents"}
                 props={{
@@ -74,8 +68,8 @@ return (
                   },
                 }}
               />
-              <div className="d-flex">
-                <Section className="w-100">
+              <Section className="d-flex">
+                <div className="w-100">
                   <Widget
                     src={"rubycop.near/widget/NDC.StyledComponents"}
                     props={{
@@ -89,9 +83,9 @@ return (
                       },
                     }}
                   />
-                </Section>
+                </div>
                 <div className="px-2" />
-                <Section className="w-100">
+                <div className="w-100">
                   <Widget
                     src={"rubycop.near/widget/NDC.StyledComponents"}
                     props={{
@@ -105,8 +99,8 @@ return (
                       },
                     }}
                   />
-                </Section>
-              </div>
+                </div>
+              </Section>
 
               <Section>
                 <Widget
@@ -142,6 +136,6 @@ return (
           </div>
         );
       })}
-    </AffiliationBody>
+    </div>
   </div>
 );
