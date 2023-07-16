@@ -1,4 +1,4 @@
-const { onClickCancel, house } = props;
+const { handleClose, house } = props;
 
 const ModalCard = styled.div`
   position: fixed;
@@ -52,7 +52,7 @@ return (
   <ModalCard>
     <CommentCard>
       <ExitContainer>
-        <i role="button" className="fs-3 bi bi-x" onClick={onClickCancel} />
+        <i role="button" className="fs-3 bi bi-x" onClick={handleClose} />
       </ExitContainer>
       <IconContainer>
         <i className="fs-1 bi bi-trash" />
@@ -67,7 +67,7 @@ return (
             Button: {
               text: "Cancel",
               className: "dark primary",
-              onClick: onClickCancel,
+              onClick: handleClose,
             },
           }}
         />
