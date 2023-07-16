@@ -21,6 +21,10 @@ const Section = styled.div`
   margin-bottom: 12px;
 `;
 
+const widgets = {
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+};
+
 const getCurrDate = () => {
   let year = new Date().getFullYear().toString();
 
@@ -38,7 +42,7 @@ return (
     <div className="d-flex justify-content-between">
       <H2>Afiliations</H2>
       <Widget
-        src={"rubycop.near/widget/NDC.StyledComponents"}
+        src={widgets.styledComponents}
         props={{
           Button: {
             size: "sm",
@@ -58,7 +62,7 @@ return (
             <div>
               <Section>
                 <Widget
-                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  src={widgets.styledComponents}
                   props={{
                     Input: {
                       label: "Organization Name",
@@ -70,10 +74,10 @@ return (
                   }}
                 />
               </Section>
-              <Section className="d-flex">
+              <Section className="d-flex pt-5">
                 <div className="w-100">
                   <Widget
-                    src={"rubycop.near/widget/NDC.StyledComponents"}
+                    src={widgets.styledComponents}
                     props={{
                       Input: {
                         type: "date",
@@ -89,7 +93,7 @@ return (
                 <div className="px-2" />
                 <div className="w-100">
                   <Widget
-                    src={"rubycop.near/widget/NDC.StyledComponents"}
+                    src={widgets.styledComponents}
                     props={{
                       Input: {
                         type: "date",
@@ -106,7 +110,7 @@ return (
 
               <Section>
                 <Widget
-                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  src={widgets.styledComponents}
                   props={{
                     TextArea: {
                       label: "Role Description",
@@ -122,7 +126,7 @@ return (
 
               <div className="d-flex justify-content-end">
                 <Widget
-                  src={"rubycop.near/widget/NDC.StyledComponents"}
+                  src={widgets.styledComponents}
                   props={{
                     Button: {
                       size: "sm",
