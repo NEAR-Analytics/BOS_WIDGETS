@@ -130,7 +130,7 @@ return (
             className="text-decoration-none link-dark"
             href={`#/${widgetPath}`}
           >
-            {name} <i className="bi bi-box-arrow-up-right m-1"></i>
+            <i className="bi bi-box-arrow-up-right m-1"></i> {name}
           </a>
         </h4>
         <a
