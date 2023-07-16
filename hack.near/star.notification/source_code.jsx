@@ -39,6 +39,9 @@ const renderItem = (item, i) => {
 
 return (
   <Wrapper>
-    <Widget src="mob.near/widget/IndexFeed" props={{ index, renderItem }} />
+    <Widget
+      src="mob.near/widget/FilteredIndexFeed"
+      props={{ index, renderItem }}
+    />
   </Wrapper>
 );
