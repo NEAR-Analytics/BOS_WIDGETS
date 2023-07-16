@@ -51,7 +51,7 @@ const GameButton = () => {
 	        text-align: center;
 	        font-size: 1rem;
 	        padding: 1rem;
-	        font-family: 'Press Start 2P', cursive;
+	        font-family: cursive;
 	        text-decoration: none;
 	        color: white;
 	        box-shadow: inset -4px -4px 0px 0px #4aa52e;
@@ -97,10 +97,6 @@ const GameButton = () => {
          const button_data = event.data.data;
          const main_container = $(".main-container");
 
-         const send_response = () => {
-           event.source.postMessage("THIS IS RESPONSE", "*");
-         }
-
          button_data.forEach((item) => {
             if(item.title === "Play Now"){
                 const row = $("<div></div>").addClass("row playnow")
@@ -144,7 +140,7 @@ const GameButton = () => {
          })
 
          $(".playnow").on("click", () => {
-            console.log(window.parent.location)
+            console.log(window.location)
          })
 
         }, false);
@@ -163,13 +159,13 @@ const GameButton = () => {
       <div style={{ backgroundColor: "white" }} className="d-flex">
         <iframe
           style={{ height: "55vh", width: "100%" }}
+          src="about:none"
           srcDoc={code}
           message={{ data: data || "No Data" }}
           onMessage={(response) => {
             console.log(window);
           }}
-          sandbox
-          sandbox="allow-top-navigation"
+          sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
         />
       </div>
     </div>
