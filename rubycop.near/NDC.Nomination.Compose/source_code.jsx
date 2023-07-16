@@ -275,7 +275,7 @@ const handleName = (item) => State.update({ name: item, error_msg: null });
 const handleProfile = (item) =>
   State.update({ profileAccount: item, error_msg: null });
 
-const handleHouse = (item) => {
+const handleChangeHouse = (item) => {
   if (item === "HouseOfMerit") Storage.privateSet("Houseselected", 1);
   if (item === "CouncilOfAdvisors") Storage.privateSet("Houseselected", 2);
   if (item === "TransparencyCommission") Storage.privateSet("Houseselected", 3);
@@ -406,34 +406,73 @@ return (
 
           <CardForm name="cardform">
             <Widget
-              src={`dokxo.near/widget/Compose.Profile`}
+              src={"rubycop.near/widget/NDC.StyledComponents"}
               props={{
-                img: state.img,
-                isCid: RealProfileImageCid.IS_CID,
-                name: state.name,
-                profileAccount: state.profileAccount,
-                house_intended: state.house_intended,
-                filesOnChange,
-                handleName,
-                handleProfile,
-                handleHouse,
+                Dropdown: {
+                  label: "House",
+                  handleChange: (e) => handleChangeHouse(e.target.value),
+                  options: [
+                    { title: "Select house", value: 0, default: true },
+                    { title: "House Of Merit", value: "HouseOfMerit" },
+                    {
+                      title: "Council Of Advisors",
+                      value: "CouncilOfAdvisors",
+                    },
+                    {
+                      title: "Transparency Commission",
+                      value: "TransparencyCommission",
+                    },
+                  ],
+                },
               }}
             />
             <Widget
-              src={`dokxo.near/widget/Compose.Platform`}
+              src={`rubycop.near/widget/Compose.Platform`}
               props={{
-                HAYInvolve: state.HAYInvolve,
-                WIYStrategy: state.WIYStrategy,
-                Key_Issue_1: state.Key_Issue_1,
-                Key_Issue_2: state.Key_Issue_2,
-                Key_Issue_3: state.Key_Issue_3,
-                addition_platform: state.addition_platform,
-                handleHAYInvolve: (text) => validate("HAYInvolve", text),
-                handleWIYStrategy: (text) => validate("WIYStrategy", text),
-                handleKey_Issue_1: (text) => validate("Key_Issue_1", text),
-                handleKey_Issue_2: (text) => validate("Key_Issue_2", text),
-                handleKey_Issue_3: (text) => validate("Key_Issue_3", text),
-                handleAditional: (text) => validate("addition_platform", text),
+                inputs: [
+                  {
+                    label:
+                      "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
+                    placeholder: "Elaborate",
+                    value: state.HAYInvolve,
+                    handleChange: (text) => validate("HAYInvolve", text),
+                  },
+                  {
+                    label:
+                      "What is your strategy to develop the NEAR ecosystem?",
+                    placeholder: "Elaborate on your strategy",
+                    value: state.WIYStrategy,
+                    handleChange: (text) => validate("WIYStrategy", text),
+                  },
+                  {
+                    label:
+                      "Platform: What’s your view and pledge on Key Issue 1?",
+                    placeholder: "Elaborate on your position and pledge",
+                    value: state.Key_Issue_1,
+                    handleChange: (text) => validate("Key_Issue_1", text),
+                  },
+                  {
+                    label:
+                      "Platform: What’s your view and pledge on Key Issue 2?",
+                    placeholder: "Elaborate on your position and pledge",
+                    value: state.Key_Issue_2,
+                    handleChange: (text) => validate("Key_Issue_2", text),
+                  },
+                  {
+                    label:
+                      "Platform: What’s your view and pledge on Key Issue 3?",
+                    placeholder: "Elaborate on your position and pledge",
+                    value: state.Key_Issue_3,
+                    handleChange: (text) => validate("Key_Issue_3", text),
+                  },
+                  {
+                    label: "Additional Platform",
+                    placeholder:
+                      "Elaborate on your position and your pledge on additional issues and topics",
+                    value: state.addition_platform,
+                    handleChange: (text) => validate("addition_platform", text),
+                  },
+                ],
               }}
             />
             <Widget
