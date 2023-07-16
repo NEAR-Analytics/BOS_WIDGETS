@@ -1,4 +1,5 @@
 const data = props;
+
 State.init({
   verified: false,
   start: true,
@@ -6,6 +7,11 @@ State.init({
   shareText: "Copy link to the clipboard",
 });
 let nominationContract = "nominations-v1.gwg-testing.near";
+
+const widgets = {
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+};
+
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
@@ -552,28 +558,6 @@ const ViewButtonDiv = styled.a`
   color: #9333ea;
   border: 1px solid #9333ea;
 `;
-const ShareButtonDiv = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: flex-start;
-  gap: 10px;
-  border-radius: 4px;
-  background: var(--buttons-yellow-default, #ffd50d);
-  @media (hover: hover) {
-    /* when hover is supported */
-    a:hover {
-      color: white;
-      background: black;
-    }
-  }
-`;
-const ShareButtonText = styled.p`
-  color: var(--primary-black, #000);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-`;
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -856,9 +840,16 @@ return (
                   View
                 </ViewButtonDiv>
                 <DropdownContainerHover>
-                  <ShareButtonDiv onClick={handleShare}>
-                    <ShareButtonText>Share</ShareButtonText>
-                  </ShareButtonDiv>
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Button: {
+                        text: "Share",
+                        size: "sm",
+                        onClick: handleShare,
+                      },
+                    }}
+                  />
                   <Separation>
                     <DropdownContent>
                       <Element onClick={handleShare}>
