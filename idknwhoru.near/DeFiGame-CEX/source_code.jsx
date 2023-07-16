@@ -33,6 +33,21 @@ const TabWrapper = styled.div`
     }
 `;
 
+const MyWalletInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    .wallet-properties {
+        display: flex;
+        padding: 0;
+    }
+
+    .wallet-properties > li {
+        display: block;
+        padding: 10px;
+    }
+`;
+
 const ToKenWrapper = styled.div`
   display: flex;
 `;
@@ -51,14 +66,14 @@ const QuantityFieldWrapper = styled.div`
 return (
   <>
     <h1>CEX</h1>
-    <div>
+    <MyWalletInfo>
       <h2>내 자산정보</h2>
-      <ul>
+      <ul className="wallet-properties">
         <li>현금: ?원</li>
         <li>S토큰: ?개</li>
         <li>L토큰: ?개</li>
       </ul>
-    </div>
+    </MyWalletInfo>
     <TabWrapper>
       <button
         className={state.activeTab === 1 ? "actived" : ""}
