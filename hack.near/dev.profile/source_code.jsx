@@ -42,6 +42,7 @@ return (
         <small>
           <span className="font-monospace">@{accountId}</span>
         </small>
+        <Widget src="hack.near/widget/dev.badge" props={{ accountId }} />
       </div>
       <div className="text-truncate text-muted">
         {tags.length > 0 && (
