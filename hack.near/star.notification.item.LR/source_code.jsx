@@ -16,8 +16,9 @@ return (
         style={{ paddingLeft: "1.8em" }}
       >
         {" "}
-        <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
         {props.L}
+        <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+        ago
       </div>
     </div>
     {props.R}
