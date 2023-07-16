@@ -4,6 +4,19 @@ const Container = styled.div`
     height: 120px;
   }
 
+  .top-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .bell-icon {
+    font-size: 28px;
+    color: #000;
+    margin-left: 8px;
+    text-decoration: none;
+  }
+
   @media (max-width: 576px) {
     .profile-image {
       width: 160px;
@@ -90,13 +103,21 @@ return (
         </h3>
       </div>
       <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
-        <a href="#/hack.near/widget/GitBos" className="text-muted m-2">
-          <Widget
-            src="mob.near/widget/ProfileImage"
-            props={{ accountId: "academy.near" }}
-            className="profile-image"
-          />
-        </a>
+        <div className="top-right">
+          <a
+            href="#/hack.near/widget/star.notification"
+            className="bell-icon me-2"
+          >
+            <i className="bi bi-bell"></i>
+          </a>
+          <a href="#/hack.near/widget/GitBos" className="text-muted m-2">
+            <Widget
+              src="mob.near/widget/ProfileImage"
+              props={{ accountId: "academy.near" }}
+              className="profile-image"
+            />
+          </a>
+        </div>
       </div>
     </div>
     <div className="m-3">
