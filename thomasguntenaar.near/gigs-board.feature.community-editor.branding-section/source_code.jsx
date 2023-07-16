@@ -51,57 +51,6 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/lib/struct" */
-const Struct = {
-  deepFieldUpdate: (
-    node,
-    { input, params, path: [nextNodeKey, ...remainingPath], via: toFieldValue }
-  ) => ({
-    ...node,
-
-    [nextNodeKey]:
-      remainingPath.length > 0
-        ? Struct.deepFieldUpdate(
-            Struct.typeMatch(node[nextNodeKey]) ||
-              Array.isArray(node[nextNodeKey])
-              ? node[nextNodeKey]
-              : {
-                  ...((node[nextNodeKey] ?? null) !== null
-                    ? { __archivedLeaf__: node[nextNodeKey] }
-                    : {}),
-                },
-
-            { input, path: remainingPath, via: toFieldValue }
-          )
-        : toFieldValue({
-            input,
-            lastKnownValue: node[nextNodeKey],
-            params,
-          }),
-  }),
-
-  isEqual: (input1, input2) =>
-    Struct.typeMatch(input1) && Struct.typeMatch(input2)
-      ? JSON.stringify(Struct.toOrdered(input1)) ===
-        JSON.stringify(Struct.toOrdered(input2))
-      : false,
-
-  toOrdered: (input) =>
-    Object.keys(input)
-      .sort()
-      .reduce((output, key) => ({ ...output, [key]: input[key] }), {}),
-
-  pick: (object, subsetKeys) =>
-    Object.fromEntries(
-      Object.entries(object ?? {}).filter(([key, _]) =>
-        subsetKeys.includes(key)
-      )
-    ),
-
-  typeMatch: (input) =>
-    input !== null && typeof input === "object" && !Array.isArray(input),
-};
-/* END_INCLUDE: "core/lib/struct" */
 /* INCLUDE: "core/lib/gui/attractable" */
 const AttractableDiv = styled.div`
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
@@ -145,12 +94,7 @@ const Banner = styled.div`
   }
 
   .btn {
-    padding: 0.5rem 0.75rem !important;
-    min-height: 32;
-    line-height: 1;
-
     border: none;
-    border-radius: 50px;
     --bs-btn-color: #ffffff;
     --bs-btn-bg: #087990;
     --bs-btn-border-color: #087990;
@@ -162,7 +106,7 @@ const Banner = styled.div`
     --bs-btn-active-bg: #055160;
     --bs-btn-active-border-color: #055160;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    opacity: 0.8;
+    opacity: 0.7;
 
     &:hover {
       opacity: 1;
@@ -180,12 +124,7 @@ const Logo = styled.div`
   }
 
   .btn {
-    padding: 0.5rem 0.75rem !important;
-    min-height: 32;
-    line-height: 1;
-
     border: none;
-    border-radius: 50px;
     --bs-btn-color: #ffffff;
     --bs-btn-bg: #087990;
     --bs-btn-border-color: #087990;
@@ -197,7 +136,7 @@ const Logo = styled.div`
     --bs-btn-active-bg: #055160;
     --bs-btn-active-border-color: #055160;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    opacity: 0.8;
+    opacity: 0.7;
 
     &:hover {
       opacity: 1;
@@ -205,41 +144,41 @@ const Logo = styled.div`
   }
 `;
 
-const cidToURL = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+const communityBrandingDefaults = {
+  banner_cid: "bafkreic4xgorjt6ha5z4s5e3hscjqrowe5ahd7hlfc5p4hb6kdfp6prgy4",
+  logo_cid: "bafkreibysr2mkwhb4j36h2t7mqwhynqdy4vzjfygfkfg65kuspd2bawauu",
+};
 
 const CommunityEditorBrandingSection = ({
+  data: { description, name, ...data },
   isEditingAllowed,
-  onChangesSubmit,
-  values,
+  onSubmit,
 }) => {
-  const initialInput = { banner: null, logo: null };
-
-  const initialValues = {
-    banner: { cid: values.banner_url.split("/").at(-1) },
-    logo: { cid: values.logo_url.split("/").at(-1) },
-  };
-
   State.init({
-    input: initialInput,
+    data: {
+      banner: {
+        cid:
+          data.banner_url?.split?.("/")?.at?.(-1) ??
+          communityBrandingDefaults.banner_cid,
+      },
+
+      logo: {
+        cid:
+          data.logo_url?.split?.("/")?.at?.(-1) ??
+          communityBrandingDefaults.logo_cid,
+      },
+    },
   });
 
-  const hasUnsubmittedChanges = Object.values(state.input).some(
-    (value) => value !== null
-  );
+  onSubmit({
+    banner_url: `https://ipfs.near.social/ipfs/${
+      state.data.banner.cid ?? communityBrandingDefaults.banner_cid
+    }`,
 
-  const isSynced = Struct.isEqual(state.input, initialValues);
-
-  if (hasUnsubmittedChanges && !isSynced) {
-    onChangesSubmit({
-      banner_url: cidToURL(state.input.banner?.cid ?? initialValues.banner.cid),
-      logo_url: cidToURL(state.input.logo?.cid ?? initialValues.logo.cid),
-    });
-
-    State.update((lastKnownState) => ({
-      ...lastKnownState,
-      input: initialInput,
-    }));
-  }
+    logo_url: `https://ipfs.near.social/ipfs/${
+      state.data.logo.cid ?? communityBrandingDefaults.logo_cid
+    }`,
+  });
 
   return (
     <AttractableDiv
@@ -250,13 +189,11 @@ const CommunityEditorBrandingSection = ({
         alt="Community banner preview"
         className="card-img-top d-flex flex-column justify-content-end align-items-end p-4"
         style={{
-          background: `center / cover no-repeat url(${cidToURL(
-            initialValues.banner.cid
-          )})`,
+          background: `center / cover no-repeat url(${data.banner_url})`,
         }}
       >
         {isEditingAllowed ? (
-          <IpfsImageUpload image={state.input.banner} />
+          <IpfsImageUpload image={state.data.banner} />
         ) : null}
       </Banner>
 
@@ -270,13 +207,10 @@ const CommunityEditorBrandingSection = ({
           marginTop: -64,
           width: 128,
           height: 128,
-
-          background: `center / cover no-repeat url(${cidToURL(
-            initialValues.logo.cid
-          )})`,
+          background: `center / cover no-repeat url(${data.logo_url})`,
         }}
       >
-        {isEditingAllowed ? <IpfsImageUpload image={state.input.logo} /> : null}
+        {isEditingAllowed ? <IpfsImageUpload image={state.data.logo} /> : null}
       </Logo>
 
       <div
@@ -287,18 +221,17 @@ const CommunityEditorBrandingSection = ({
           className="h5 text-nowrap overflow-hidden"
           style={{ textOverflow: "ellipsis" }}
         >
-          {values.name}
+          {name}
         </h5>
-
         <p
           className="card-text text-nowrap overflow-hidden"
           style={{ textOverflow: "ellipsis" }}
         >
-          {values.description}
+          {description}
         </p>
       </div>
     </AttractableDiv>
   );
 };
 
-return <CommunityEditorBrandingSection {...props} />;
+return CommunityEditorBrandingSection(props);
