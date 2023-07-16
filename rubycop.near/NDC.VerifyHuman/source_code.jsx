@@ -33,6 +33,7 @@ const PrimaryLink = styled.a`
   font-size: 14px;
   border-radius: 10px;
   font-weight: 500;
+  text-align:center;
   line-height: 24px;
   border: 0;
   background: #ffd50d;
@@ -49,7 +50,7 @@ const VerifyHuman = () => (
       small ? "flex-column" : "align-items-center justify-content-between"
     }`}
   >
-    <div className={`${small ? "pb-2" : ""}`}>
+    <div className={`${small ? "pb-3" : ""}`}>
       <h4>{title}</h4>
       <h5 className="text-secondary">Click on Verify as a Human to proceed.</h5>
     </div>
