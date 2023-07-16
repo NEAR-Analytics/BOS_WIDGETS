@@ -1,15 +1,5 @@
 const { Button, Dropdown, TextArea } = props;
 
-const InputStyle = css`
-  padding: 8px 10px;
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #d0d6d9;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #828688;
-`;
-
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -92,10 +82,22 @@ const Styled = {
     color: #828688;
   `,
   TextArea: styled.textarea`
-    ${InputStyle}
+    padding: 8px 10px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d0d6d9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
   `,
   Input: styled.input`
-    ${InputStyle}
+    padding: 8px 10px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d0d6d9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
   `,
 };
 
@@ -226,14 +228,14 @@ const WidgetSelect = () => (
   />
 );
 
-const WidgetTextArea = () => {
+const WidgetInput = ({ type }) => {
   State.init({ text: "" });
 
   return (
     <Widget
       src={"rubycop.near/widget/NDC.StyledComponents"}
       props={{
-        TextArea: {
+        [type]: {
           label: "Select label",
           placeholder: "placeholder text",
           maxLength: 20,
@@ -295,7 +297,8 @@ return (
     <h4>Select</h4>
     <WidgetSelect />
 
-    <h4>Textarea</h4>
-    <WidgetTextArea />
+    <h4>Inputs</h4>
+    <WidgetInput type="Input" />
+    <WidgetInput type="TextArea" />
   </Container>
 );
