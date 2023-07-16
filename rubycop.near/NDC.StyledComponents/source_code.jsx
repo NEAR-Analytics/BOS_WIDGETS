@@ -168,7 +168,7 @@ if (TextArea)
 
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
-          <small style={{ fontSize: 10 }} className="text-secondary">
+          <small style={{ fontSize: 12 }} className="text-secondary">
             {TextArea.maxLength - TextArea.value.length} left
           </small>
         </div>
@@ -189,7 +189,7 @@ if (Input)
 
       {Input.maxLength && (
         <div className="d-flex justify-content-end">
-          <small style={{ fontSize: 10 }} className="text-secondary">
+          <small style={{ fontSize: 12 }} className="text-secondary">
             {Input.maxLength - Input.value.length} left
           </small>
         </div>
