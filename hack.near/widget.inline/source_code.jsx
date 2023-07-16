@@ -4,16 +4,21 @@ const Container = styled.div`
     height: 120px;
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 569px) {
     .profile-image {
       width: 160px;
       height: 160px;
     }
   }
+
+  .profile-name {
+    @media (max-width: 569px) {
+      display: none;
+    }
+  }
 `;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
-const code = props.code;
 const starCount = props.starCount;
 
 const policy = Near.view(daoId, "get_policy");
@@ -22,6 +27,8 @@ const deposit = policy.proposal_bond;
 
 const widgetPath = props.widgetPath ?? "mob.near/widget/WidgetSource";
 const [accountId, widget, widgetName] = widgetPath.split("/");
+
+const code = props.code ?? Social.get(`${widgetPath}`);
 
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
@@ -121,15 +128,15 @@ const ForkButton = styled.div`
 return (
   <Card>
     <div className="row mb-2">
-      <div className="col-6">
+      <div className="col-auto">
         <div className="m-2 mb-3 text-truncate">
           <Widget
-            src="mob.near/widget/Profile"
+            src="hack.near/widget/dev.profile.line"
             props={{ accountId, link: props.profileLink }}
           />
         </div>
       </div>
-      <div className="col-5">
+      <div className="col-auto m-2 align-items-end">
         <StarButton>
           {starCount && (
             <a
@@ -144,13 +151,16 @@ return (
         </StarButton>
       </div>
     </div>
-    <div className="m-2">
-      <h3 className="mb-2 mt-3">
-        <a href={`#/${widgetPath}`}>{name}</a>
-      </h3>
-    </div>
-    <div className="row mt-4 mb-3">
-      <div className="col-auto">
+    <div className="row mt-2 justify-content-between">
+      <div className="col-auto m-1">
+        <h3 className="mb-2 mt-1">
+          <a
+            className="text-decoration-none link-dark"
+            href={`#/${widgetPath}`}
+          >
+            {name} <i className="bi bi-box-arrow-up-right m-1"></i>
+          </a>
+        </h3>
         <a
           href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
           className="btn btn-sm btn-outline-secondary border-0"
@@ -165,14 +175,22 @@ return (
         >
           <i className="bi bi-clock me-1"></i>history
         </a>
+        <a
+          href={`#/edit/${widgetPath}`}
+          className="btn btn-sm btn-outline-secondary border-0"
+          target="_blank"
+        >
+          <i className="bi bi-git me-1"></i>
+          {accountId === context.accountId ? "edit" : "fork"}
+        </a>
       </div>
-      <div className="col-auto d-flex flex-column align-items-end">
-        <ForkButton>
-          <a className="btn btn-outline-success" href={`#/edit/${widgetPath}`}>
-            <i className="bi bi-git me-1"></i>
-            {accountId === context.accountId ? "edit" : "fork"}
-          </a>
-        </ForkButton>
+      <div className="col-auto mt-4">
+        {context.accountId !== accountId && (
+          <button className="btn btn-outline-success" onClick={handleCreate}>
+            <i className="bi bi-bezier2 me-1"></i>
+            clone
+          </button>
+        )}
       </div>
     </div>
   </Card>
