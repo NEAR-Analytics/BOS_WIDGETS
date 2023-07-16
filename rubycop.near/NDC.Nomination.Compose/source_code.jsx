@@ -435,42 +435,47 @@ return (
                       "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
                     placeholder: "Elaborate",
                     value: state.HAYInvolve,
-                    handleChange: (text) => validate("HAYInvolve", text),
+                    handleChange: (e) => validate("HAYInvolve", e.target.value),
                   },
                   {
                     label:
                       "What is your strategy to develop the NEAR ecosystem?",
                     placeholder: "Elaborate on your strategy",
                     value: state.WIYStrategy,
-                    handleChange: (text) => validate("WIYStrategy", text),
+                    handleChange: (e) =>
+                      validate("WIYStrategy", e.target.value),
                   },
                   {
                     label:
                       "Platform: What’s your view and pledge on Key Issue 1?",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_1,
-                    handleChange: (text) => validate("Key_Issue_1", text),
+                    handleChange: (e) =>
+                      validate("Key_Issue_1", e.target.value),
                   },
                   {
                     label:
                       "Platform: What’s your view and pledge on Key Issue 2?",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_2,
-                    handleChange: (text) => validate("Key_Issue_2", text),
+                    handleChange: (e) =>
+                      validate("Key_Issue_2", e.target.value),
                   },
                   {
                     label:
                       "Platform: What’s your view and pledge on Key Issue 3?",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_3,
-                    handleChange: (text) => validate("Key_Issue_3", text),
+                    handleChange: (e) =>
+                      validate("Key_Issue_3", e.target.value),
                   },
                   {
                     label: "Additional Platform",
                     placeholder:
                       "Elaborate on your position and your pledge on additional issues and topics",
                     value: state.addition_platform,
-                    handleChange: (text) => validate("addition_platform", text),
+                    handleChange: (e) =>
+                      validate("addition_platform", e.target.value),
                   },
                 ],
               }}
