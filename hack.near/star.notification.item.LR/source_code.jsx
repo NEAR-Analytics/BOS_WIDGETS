@@ -8,6 +8,7 @@ return (
           src="mob.near/widget/Profile"
           props={{ accountId, tooltip: true }}
         />
+        {props.R}
       </div>
     </div>
     <div className="text-nowrap col-auto">
@@ -21,6 +22,5 @@ return (
         ago
       </div>
     </div>
-    {props.R}
   </div>
 );
