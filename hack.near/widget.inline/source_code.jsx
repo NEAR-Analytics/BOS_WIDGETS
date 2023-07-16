@@ -159,13 +159,23 @@ return (
       <div className="col-auto">
         <div className="row mt-3">
           <div className="col-auto m-2">
-            {context.accountId !== accountId && (
+            {context.accountId === accountId ? (
               <button
+                disabled={!context.accountId}
                 className="btn btn-outline-success"
                 onClick={handleCreate}
               >
                 <i className="bi bi-bezier2 me-1"></i>
                 clone
+              </button>
+            ) : (
+              <button
+                disabled={!context.accountId}
+                className="btn btn-outline-success"
+                onClick={handleCreate}
+              >
+                <i className="bi bi-pencil-square me-1"></i>
+                edit
               </button>
             )}
           </div>
