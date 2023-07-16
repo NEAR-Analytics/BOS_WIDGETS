@@ -158,7 +158,7 @@ if (TextArea)
       />
 
       {TextArea.maxLength && (
-        <div className="justify-content-end">
+        <div className="d-flex justify-content-end">
           <small className="text-secondary">
             {TextArea.maxLength - TextArea.value.length} left
           </small>
