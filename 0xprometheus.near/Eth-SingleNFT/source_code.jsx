@@ -37,7 +37,7 @@ const currentChain = {
     chain: "Polygon",
     livePrice: "matic-network",
     explorer: "https://polygonscan.com",
-    contract: "0xd91cC6DE129D13F4384FB0bC07a1a99D4F858e72",
+    contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
@@ -408,12 +408,21 @@ const handleBuyClick = () => {
     props.state.singleNftProps.tokenId
   )[0];
 
+  console.log("trying to buy oo");
+  console.log(
+    "variab;es",
+    currentChain[props.state.singleNftProps.chain].contract,
+    nftContract,
+    contract
+  );
+
   contract
     .nftSale(
       props.state.singleNftProps.price,
       props.state.singleNftProps.tokenId,
       props.state.singleNftProps.owner,
-      nftContract
+      nftContract,
+      { value: props.state.singleNftProps.price }
     )
     .then((transactionHash) => transactionHash.wait())
     .then((ricit) => {
@@ -551,7 +560,7 @@ return (
                 color: "#0d99ff",
               }}
             >
-              Created by
+              Owned by
             </p>
             <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
               {`${
