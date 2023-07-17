@@ -2,33 +2,6 @@ State.init({
   contracts: props.contracts,
 });
 
-console.log("props", props);
-console.log("state", state);
-
-const fetchContracts = () => {
-  try {
-    const res = Near.view("v1.sourcescan.near", "get_contracts", {
-      from_index: props.from_index || 0,
-      limit: props.limit || 10,
-    });
-
-    if (!res) return;
-
-    State.update({
-      contracts: res[0],
-    });
-  } catch {
-    console.log("error");
-  }
-};
-
-if (props.contracts) {
-  State.update({
-    contracts: props.contracts,
-  });
-}
-if (!contracts) fetchContracts();
-
 return (
   <table class="table border border-gray-300">
     <thead>
