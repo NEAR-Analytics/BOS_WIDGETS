@@ -188,9 +188,6 @@ const Icon = styled.img`
   height: 17px;
 `;
 const CollapseCandidate = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   padding: 12px;
   background: #ffffff;
   border-radius: 6px;
