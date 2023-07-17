@@ -290,19 +290,18 @@ if (Dropdown)
 if (TextArea)
   return (
     <div>
-      <Label>{TextArea.label}</Label>
+      {TextArea.label && <Label>{TextArea.label}</Label>}
       <Styled.TextArea
         value={TextArea.value}
         placeholder={TextArea.placeholder}
         onChange={TextArea.handleChange}
         rows={5}
-        maxLength={TextArea.maxLength}
       />
 
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
-            {TextArea.maxLength - TextArea.value.length} left
+            {TextArea.maxLength - TextArea.value.length ?? 0} left
           </small>
         </div>
       )}
@@ -326,7 +325,7 @@ if (Input)
       {Input.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
-            {Input.maxLength - Input.value.length} left
+            {Input.maxLength - Input.value.length ?? 0} left
           </small>
         </div>
       )}
