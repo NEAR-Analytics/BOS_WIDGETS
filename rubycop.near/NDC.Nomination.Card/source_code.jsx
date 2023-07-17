@@ -120,7 +120,7 @@ const HeaderTagP = styled.p`
   height: 10px;
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 11px;
   display: flex;
   align-items: center;
   color: white;
@@ -249,7 +249,7 @@ const CandidateTagText = styled.p`
   max-width: 200px;
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 120%;
   margin: 0px;
   color: #9333ea;
@@ -296,7 +296,7 @@ const KeyIssuesContainer = styled.div`
 `;
 const KeyIssueTitle = styled.p`
   font-weight: 500;
-  font-size: 10px;
+  font-size: 11px;
   margin-bottom: 0px;
   width: 302px;
   overflow: hidden;
@@ -305,12 +305,13 @@ const KeyIssueTitle = styled.p`
 `;
 const KeyIssueDescription = styled.p`
   font-weight: 400;
-  font-size: 10px;
+  font-size: 11px;
   margin-bottom: 0;
 `;
 const KeyIssueSeparator = styled.div`
   height: 1px;
   margin: 7px 0 2px 0;
+  background: rgba(208, 214, 217, 0.40);
 `;
 const LowerSection = styled.div`
   display: flex;
@@ -356,7 +357,7 @@ const TimestampText = styled.p`
   height: 20px;
   font-style: italic;
   font-weight: 300;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 14px;
   margin: 0px;
   display: flex;
@@ -415,7 +416,7 @@ const TagText = styled.p`
   height: 12px;
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 11px;
   margin: 0px;
   line-height: 120%;
   background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
@@ -666,11 +667,10 @@ return (
         <ButtonsLowerSection>
           <TextLowerSectionContainer>
             <i className="bi bi-clock"></i>
-            {console.log(data.indexerData.timestamp)}
-            {data.indexerData && data.indexerData.timestamp && (
+            {data.indexerData.timestamp && (
               <TimestampText>
                 {new Date(data.indexerData.timestamp).toDateString()} by{" "}
-                {data.indexerData.nominee}
+                <b>{data.indexerData.nominee}</b>
               </TimestampText>
             )}
           </TextLowerSectionContainer>
@@ -678,7 +678,7 @@ return (
             src={widgets.styledComponents}
             props={{
               Button: {
-                text: `+${data.upVoteData.comments.length}`,
+                text: `+${data.upVoteData.comments.length ?? 0}`,
                 disabled: !state.verified,
                 size: "sm",
                 className: "secondary dark",
@@ -690,7 +690,7 @@ return (
             }}
           />
         </ButtonsLowerSection>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex w-100 justify-content-between align-items-center">
           <TagSection>
             {data.nominationData.tags
               .trim()
@@ -707,7 +707,7 @@ return (
           </TagSection>
 
           {!data.preview && (
-            <div className="d-flex gap-4">
+            <div className="d-flex gap-2">
               <Widget
                 src={widgets.styledComponents}
                 props={{
