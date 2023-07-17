@@ -6,6 +6,7 @@ const authorForWidget = "eugenewolf507.near";
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const updateModalHandler = props.updateModalHandler;
+const cardWithOpenModal = props.cardWithOpenModal;
 const statusTagsArr = props.statusTagsArr;
 const sharedArticleId = props.sharedArticleId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
@@ -16,13 +17,10 @@ const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 if (sharedArticleId === article.articleId && sharedArticleId) {
   State.update({ showModal: true });
 }
-//else {
-//   State.init({ showModal: false, copiedShareUrl: false });
-// }
-
-if (state.showModal) {
-  console.log("+++", article.articleId, state);
+if (cardWithOpenModal === article.articleId) {
+  State.update({ showModal: true });
 }
+
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -34,13 +32,6 @@ const getDateLastEdit = (timestamp) => {
 };
 
 // ========== HANDLERS ==========
-const openModalHandler = () => {
-  State.update({ showModal: true });
-};
-
-const closeModalHandler = () => {
-  State.update({ showModal: false });
-};
 
 // ========== STYLED ==========
 const CardWrapper = styled.div`
