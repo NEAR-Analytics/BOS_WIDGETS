@@ -56,16 +56,34 @@ const Theme = styled.div`
   padding: 0;
   margin:0 16px;
   width: 100%;
-  min-width: 100vw;
   height: 100%;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 64px;
+  padding-bottom: 64px;
   margin: 0 auto;
   background: rgb(0,0,0);
   background: linear-gradient(135deg, rgba(0,0,0,1) 50%, rgba(130,71,229,1) 100%);
+
+  > .logo-wrap {
+    text-align: center;
+    margin-bottom: 16px;
+    > h1 {
+      color: white;
+    }
+    > h2 {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.4rem;
+    }
+  }
+  
+
+  @media only screen and (min-device-width: 375px) and (orientation: portrait) {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    .grid {
+      flex-direction: row-reverse !important;
+      flex-flow: wrap-reverse !important;
+    }
+  }
 
   .swap-main-column {
     padding-top: 0 !important;
@@ -89,6 +107,30 @@ const Theme = styled.div`
       border-color: #bbb;
       color: black;
       color: #00F;
+    }
+  }
+
+  .grid, .logo-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    width: 100%;
+    min-width: 375px;
+  }
+
+  .logo-grid {
+    margin-bottom: 16px;
+    > .logo {
+      margin-right: 32px;
+    }
+    > .bridge-button {
+      ${buttonStyled}
+      padding: 6px 12px;
+      &:disabled {
+        opacity: 0 !important;
+      }
     }
   }
 
@@ -119,26 +161,8 @@ const Theme = styled.div`
         margin: 0;
       }
 
-      > .bridge-button {
-        ${buttonStyled}
-        padding: 6px 12px;
-        &:disabled {
-          opacity: 0 !important;
-        }
-      }
     }
 
-    >h1 {
-      margin-top: 48px;
-      color: white;
-    }
-
-    >h2 {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1.4rem;
-      margin-bottom: 32px 0;
-      width: 100%;
-    }
     > div {
       display: flex;
       flex-wrap: wrap;
@@ -166,15 +190,6 @@ const Theme = styled.div`
   .component {
     margin-top: 1.5rem;
   }
-
-  @media only screen and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
-    .center {
-      > div {
-        flex-direction: column-reverse !important;
-      }
-    }
-  }
-
 `;
 
 State.init({
@@ -211,25 +226,25 @@ const setComponent = (component) => {
 if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
   return (
     <Theme>
-      <div className="grid">
-        <div className="center">
-          <div className="apps">
-            <div className="grid">
-              <div className="logo">{logo}</div>
-            </div>
-            <h1>Bring Ethereum to everyone.</h1>
-            <h2>Fast, cheap and secure.</h2>
-            {!state.sender === undefined && (
-              <Web3Connect
-                connectLabel="Connect with Web3"
-                className="connect-web3"
-              />
-            )}
-            {state.sender !== "" && state.chainId !== 1011 && (
-              <p>To proceed, please switch to the Polygon ZKEVM Network</p>
-            )}
-          </div>
-        </div>
+      <div className="logo-grid">
+        <div className="logo">{logo}</div>
+      </div>
+
+      <div className="logo-wrap">
+        <h1>Bring Ethereum to everyone.</h1>
+        <h2>Fast, cheap and secure.</h2>
+        {!state.sender === undefined && (
+          <Web3Connect
+            connectLabel="Connect with Web3"
+            className="connect-web3"
+          />
+        )}
+        {state.sender !== "" && state.chainId !== 1011 && (
+          <p>
+            To proceed, please switch to the Polygon ZKEVM Network using your
+            wallet.
+          </p>
+        )}
       </div>
     </Theme>
   );
@@ -237,23 +252,29 @@ if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
 
 return (
   <Theme>
+    <div className="logo-grid">
+      <div className="logo">{logo}</div>
+      <button
+        disabled={bridge}
+        className="bridge-button"
+        onClick={() => setComponent("bridge")}
+      >
+        Bridge
+      </button>
+    </div>
+
+    <div className="logo-wrap">
+      {bridge && (
+        <>
+          <h1>Bring Ethereum to everyone.</h1>
+          <h2>Fast, cheap and secure.</h2>
+        </>
+      )}
+    </div>
+
     <div className="grid">
       <div className="center">
         <div className="apps">
-          <div className="grid">
-            <div className="logo">{logo}</div>
-            <button
-              disabled={bridge}
-              className="bridge-button"
-              onClick={() => setComponent("bridge")}
-            >
-              Bridge
-            </button>
-          </div>
-
-          <h1>Bring Ethereum to everyone.</h1>
-          <h2>Fast, cheap and secure.</h2>
-
           <div>
             <div>
               <img
