@@ -88,6 +88,11 @@ const Theme = styled.div`
       flex-direction: row-reverse !important;
       flex-flow: wrap-reverse !important;
     }
+    .center {
+      > div {
+        margin: 0 !important;
+      }
+    }
   }
   
   .swap-main-column {
@@ -145,7 +150,6 @@ const Theme = styled.div`
       align-items: flex-start;
       justify-content: center;
       flex-wrap: wrap;
-      margin: auto !important;
     }
   }
 
