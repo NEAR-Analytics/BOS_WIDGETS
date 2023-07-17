@@ -12,7 +12,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ButtonText = styled.span`
-    background: green;
+    background: rgb(146, 205, 65);
 	display: inline-block;
 	position: relative;
 	text-align: center;
