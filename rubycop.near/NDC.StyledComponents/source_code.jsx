@@ -6,7 +6,7 @@ const Styled = {
     padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
     height: ${(props) => (Button.size === "sm" ? "28px" : "")};
     font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
-    border-radius: 10px;
+    border-radius: ${(props) => (Button.size === "sm" ? "6px" : "10px")};
     font-weight: 500;
     line-height: 24px;
     text-align: center;
@@ -78,7 +78,7 @@ const Styled = {
     padding: ${(props) => (Link.size === "sm" ? "4px 12px" : "8px 20px")};
     height: ${(props) => (Link.size === "sm" ? "28px" : "")};
     font-size: ${(props) => (Link.size === "sm" ? "12px" : "14px")};
-    border-radius: 10px;
+    border-radius: ${(props) => (Link.size === "sm" ? "6px" : "10px")};
     font-weight: 500;
     line-height: 24px;
     text-align: center;
