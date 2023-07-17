@@ -1,9 +1,11 @@
-let { ids, org } = props;
+let { ids } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
-org = props.org ? org : "test"; // for testing purposes
 
 const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
+  mobile: "rubycop.near/widget/NDC.Nomination.Candidate.MobileView",
+  desktop: "rubycop.near/widget/NDC.Nomination.Candidate.DesktopView",
+  back: "#/rubycop.near/widget/NDC.Nomination.Page",
 };
 
 const electionContract = "elections-v1.gwg-testing.near";
@@ -79,7 +81,7 @@ return (
     </Mobile>
     <Mobile class="row">
       <div className="my-3">
-        <BackLink href="#/rubycop.near/widget/NDC.Nomination.Page">
+        <BackLink href={widgets.back}>
           <i className="bi bi-chevron-left mr-2"></i>
           Back
         </BackLink>
@@ -88,7 +90,7 @@ return (
     <Mobile>
       <Widget
         props={{ data: state, house: props.house, candidate: props.candidate }}
-        src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"}
+        src={widgets.mobile}
       />
     </Mobile>
     <Desktop style={{ display: "flex", "justify-content": "center" }}>
@@ -120,7 +122,7 @@ return (
     </Desktop>
     <Desktop class="row">
       <div className="my-3">
-        <BackLink href="#/rubycop.near/widget/NDC.Nomination.Page">
+        <BackLink href={widgets.back}>
           <i className="bi bi-chevron-left mr-2"></i>
           Back
         </BackLink>
@@ -129,7 +131,7 @@ return (
     <Desktop class="row">
       <Widget
         props={{ data: state, house: props.house, candidate: props.candidate }}
-        src={"yairnava.near/widget/NDC.Nomination.Candidate.Desktop"}
+        src={widgets.desktop}
       />
     </Desktop>
   </div>
