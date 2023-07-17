@@ -132,13 +132,12 @@ const HeaderContentText = styled.div`
   align-items: flex-start;
   padding: 0px;
   width: 228px;
-  height: 31px;
 `;
 const NominationName = styled.p`
   width: 90%;
   font-weight: 500;
   font-size: 14px;
-  margin: 5px 0;
+  margin: 0;
   display: flex;
   align-items: center;
   color: #000000;
@@ -147,8 +146,6 @@ const NominationName = styled.p`
   text-overflow: ellipsis;
 `;
 const NominationUser = styled.p`
-  width: 90%;
-  height: 14px;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -218,9 +215,7 @@ const CollapseCandidateContent = styled.div`
   justify-content: center;
   align-items: flex-start;
   padding: 0px;
-  gap: 4px;
-  width: 302px;
-  height: 40px;
+  gap: 5px;
 `;
 const CollapseCandidateHeader = styled.div`
   display: flex;
@@ -250,15 +245,7 @@ const DownArrow = styled.img`
   height: 16px;
 `;
 const CandidateTagContainer = styled.div`
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
   gap: 4px;
-  width: 100%;
-  flex-wrap: wrap;
-  height: 20px;
 `;
 const CandidateTag = styled.div`
   box-sizing: border-box;
@@ -269,7 +256,11 @@ const CandidateTag = styled.div`
   padding: 4px 8px;
   gap: 10px;
   height: 20px;
-  background: #f0e1ce;
+  background: linear-gradient(
+    90deg,
+    rgba(147, 51, 234, 0.1) 0%,
+    rgba(79, 70, 229, 0.1) 100%
+  );
   border-radius: 100px;
 `;
 const CandidateTagText = styled.p`
@@ -277,20 +268,20 @@ const CandidateTagText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 200px;
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 120%;
   margin: 0px;
-  color: #f19d38;
+  color: #9333ea;
 `;
 const KeyIssues = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 8px 12px;
+  padding: 12px;
   gap: 12px;
-  width: 326px;
   background: #ffffff;
   border-radius: 6px;
 `;
@@ -308,20 +299,13 @@ const KeyIssuesHeader = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 12px;
-  width: 302px;
-  height: 14px;
 `;
 const KeyIssuesTitle = styled.p`
-  width: 302px;
-  height: 14px;
   font-style: normal;
   font-weight: 800;
   font-size: 12px;
   line-height: 120%;
-  /* or 14px */
   color: #000000;
-
-  flex-grow: 1;
 `;
 const KeyIssuesContainer = styled.div`
   display: flex;
@@ -329,59 +313,23 @@ const KeyIssuesContainer = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 8px;
-  width: 302px;
-`;
-const KeyIssue = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 2px;
-  width: 302px;
-  height: 28px;
-`;
-const KeyIssueHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 8px;
-  width: 302px;
-  height: 14px;
-
-  align-self: stretch;
 `;
 const KeyIssueTitle = styled.p`
-  width: 302px;
-  height: 12px;
-  font-style: normal;
   font-weight: 500;
   font-size: 10px;
-  line-height: 120%;
-  margin: 0px;
-  color: #000000;
-
-  align-self: stretch;
-`;
-const KeyIssueDescription = styled.p`
+  margin-bottom: 5px;
   width: 302px;
-  height: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-style: normal;
+`;
+const KeyIssueDescription = styled.p`
   font-weight: 400;
   font-size: 10px;
-  margin: 0px;
-  line-height: 120%;
-  color: #585b5c;
-
-  align-self: stretch;
 `;
-const KeyIssueSeparator = styled.hr`
-  width: 302px;
-  height: 0px;
-  margin: 0px;
+const KeyIssueSeparator = styled.div`
+  height: 1px;
+  margin: 7px 0;
 `;
 const LowerSection = styled.div`
   display: flex;
@@ -603,6 +551,49 @@ const Separation = styled.div`
 const canUpvote =
   state.verified && context.accountId != data.indexerData.nominee;
 
+const getShortUserName = (userId) => {
+  if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
+  const name = userId.slice(0, -5); // truncate .near
+
+  return name.length > 12 ? `${name.slice(0, 9)}...` : name;
+};
+
+const trimText = (text, limit) => {
+  const _limit = limit ?? 200;
+  const ending = text.length > _limit ? "..." : "";
+  const trimmed = text.slice(0, limit ?? 200);
+
+  return `${trimmed}${ending}`;
+};
+
+const keyIssues = [
+  {
+    title:
+      "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted",
+    desc: data.nominationData.HAYInvolve,
+  },
+  {
+    title: "Strategy to develop the NEAR ecosystem",
+    desc: data.nominationData.WIYStrategy,
+  },
+  {
+    title: "Key Issue 1",
+    desc: data.nominationData.Key_Issue_1,
+  },
+  {
+    title: "Key Issue 2",
+    desc: data.nominationData.Key_Issue_2,
+  },
+  {
+    title: "Key Issue 3",
+    desc: data.nominationData.Key_Issue_3,
+  },
+  {
+    title: "Other Platform",
+    desc: data.nominationData.addition_platform,
+  },
+];
+
 return (
   <Card>
     {state.showModal && (
@@ -637,7 +628,9 @@ return (
         </HeaderTag>
         <HeaderContentText>
           <NominationName>{data.profileData.name}</NominationName>
-          <NominationUser>{data.nominationData.profileAccount}</NominationUser>
+          <NominationUser>
+            {getShortUserName(data.nominationData.profileAccount)}
+          </NominationUser>
         </HeaderContentText>
       </HeaderContent>
       {canUpvote && (
@@ -646,6 +639,7 @@ return (
           props={{
             Button: {
               text: `+${data.upVoteData.upvotes ?? 0}`,
+              size: "sm",
               className: "secondary dark",
               onClick: handleUpVote,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
@@ -659,14 +653,12 @@ return (
         <CollapseCandidateHeader>
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
         </CollapseCandidateHeader>
-        <CandidateTagContainer>
+        <CandidateTagContainer className="w-100 d-flex flex-wrap">
           {JSON.parse(data.nominationData.afiliation).map((data) => {
             return (
-              <>
-                <CandidateTag>
-                  <CandidateTagText>{data.company_name}</CandidateTagText>
-                </CandidateTag>
-              </>
+              <CandidateTag>
+                <CandidateTagText>{data.company_name}</CandidateTagText>
+              </CandidateTag>
             );
           })}
         </CandidateTagContainer>
@@ -678,64 +670,13 @@ return (
           <KeyIssuesTitle>Key issues</KeyIssuesTitle>
         </KeyIssuesHeader>
         <KeyIssuesContainer>
-          <KeyIssue name="HowAreYouInvolved" style={{ height: "35px" }}>
-            <KeyIssueHeader>
-              <KeyIssueTitle style={{ "text-overflow": "ellipsis" }}>
-                Involvement in the NEAR ecosystem, qualifications to be a
-                candidate and reasons for being voted
-              </KeyIssueTitle>
-            </KeyIssueHeader>
-            <KeyIssueDescription style={{ "margin-top": "10px" }}>
-              {data.nominationData.HAYInvolve}
-            </KeyIssueDescription>
-            <KeyIssueSeparator></KeyIssueSeparator>
-          </KeyIssue>
-          <KeyIssue name="WhatIsYourStrategy">
-            <KeyIssueHeader>
-              <KeyIssueTitle>
-                Strategy to develop the NEAR ecosystem
-              </KeyIssueTitle>
-            </KeyIssueHeader>
-            <KeyIssueDescription>
-              {data.nominationData.WIYStrategy}
-            </KeyIssueDescription>
-            <KeyIssueSeparator></KeyIssueSeparator>
-          </KeyIssue>
-          <KeyIssue>
-            <KeyIssueHeader>
-              <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
-            </KeyIssueHeader>
-            <KeyIssueDescription>
-              {data.nominationData.Key_Issue_1}
-            </KeyIssueDescription>
-            <KeyIssueSeparator></KeyIssueSeparator>
-          </KeyIssue>
-          <KeyIssue>
-            <KeyIssueHeader>
-              <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
-            </KeyIssueHeader>
-            <KeyIssueDescription>
-              {data.nominationData.Key_Issue_2}
-            </KeyIssueDescription>
-            <KeyIssueSeparator></KeyIssueSeparator>
-          </KeyIssue>
-          <KeyIssue>
-            <KeyIssueHeader>
-              <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
-            </KeyIssueHeader>
-            <KeyIssueDescription>
-              {data.nominationData.Key_Issue_3}
-            </KeyIssueDescription>
-            <KeyIssueSeparator></KeyIssueSeparator>
-          </KeyIssue>
-          <KeyIssue>
-            <KeyIssueHeader>
-              <KeyIssueTitle>Other Platform</KeyIssueTitle>
-            </KeyIssueHeader>
-            <KeyIssueDescription>
-              {data.nominationData.addition_platform}
-            </KeyIssueDescription>
-          </KeyIssue>
+          {keyIssues.map((issue, i) => (
+            <div key={i}>
+              <KeyIssueTitle>{issue.title}</KeyIssueTitle>
+              <KeyIssueDescription>{trimText(issue.desc)}</KeyIssueDescription>
+              <KeyIssueSeparator />
+            </div>
+          ))}
         </KeyIssuesContainer>
       </KeyIssuesContent>
     </KeyIssues>
