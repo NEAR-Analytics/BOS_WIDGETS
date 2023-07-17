@@ -688,7 +688,7 @@ return (
                       Button: {
                         text: "Share",
                         size: "sm",
-                        className: "primaty w-100 justify-content-center",
+                        className: "primary w-100 justify-content-center",
                         onClick: handleShare,
                         icon: <i className="bi bi-share-fill"></i>,
                       },
