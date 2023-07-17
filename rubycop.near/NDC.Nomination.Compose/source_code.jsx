@@ -161,9 +161,6 @@ const validatedInputs = () => {
     tags,
   } = state;
 
-  console.log(state);
-  return true;
-
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
@@ -174,57 +171,42 @@ const validatedInputs = () => {
   }
   if (isEmpty(name)) {
     State.update({ error_msg: "Fill the name" });
-
     isValid = false;
   }
   if (isEmpty(profileAccount)) {
     State.update({ error_msg: "Fill the Profile Account" });
-
     isValid = false;
   }
   if (isEmpty(house_intended)) {
     State.update({ error_msg: "Select a house" });
-
     isValid = false;
   }
   if (isEmpty(HAYInvolve)) {
     State.update({ error_msg: "How are you involved?" });
-
     isValid = false;
   }
   if (isEmpty(WIYStrategy)) {
     State.update({ error_msg: "What is your strategy?" });
-
     isValid = false;
   }
   if (isEmpty(Key_Issue_1)) {
     State.update({ error_msg: "Fill the key issued 1" });
-
-    isValid = false;
-  }
-  if (isEmpty(Key_Issue_1)) {
-    State.update({ error_msg: "Fill the key issued 1" });
-
     isValid = false;
   }
   if (isEmpty(Key_Issue_2)) {
     State.update({ error_msg: "Fill the key issued 2" });
-
     isValid = false;
   }
   if (isEmpty(Key_Issue_3)) {
     State.update({ error_msg: "Fill the key issued 3" });
-
     isValid = false;
   }
   if (tags.split(",").length == 0) {
     State.update({ error_msg: "Write a tag" });
-
     isValid = false;
   }
   if (isFalse(agreement)) {
     State.update({ error_msg: "Accept the declaration" });
-
     isValid = false;
   }
   if (afiliation.length == 0) {
@@ -236,28 +218,26 @@ const validatedInputs = () => {
     afiliation.forEach((element) => {
       if (isEmpty(element.company_name)) {
         State.update({ error_msg: "Fill the company name" });
-
         isValid = false;
       }
       if (isEmpty(element.start_date)) {
         State.update({ error_msg: "Select a start date" });
-
         isValid = false;
       }
       if (isEmpty(element.end_date)) {
         State.update({ error_msg: "Select a end date" });
-
         isValid = false;
       }
       if (isEmpty(element.role)) {
         State.update({ error_msg: "Write your role" });
-
         isValid = false;
       }
     });
   } else {
     State.update({ error_msg: null });
+    isValid = false;
   }
+
   return isValid;
 };
 
