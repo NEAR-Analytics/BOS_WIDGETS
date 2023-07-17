@@ -22,7 +22,7 @@ const addresses = {
   stMATIC: "0x83b874c1e09d316059d929da402dcb1a98e92082",
   "stMATIC-MATIC": "0x9616052273a598bc04bd1ad7f7a753157c24f77e",
 };
-const proxyAddress = "0x66cd859053c458688044d816117d5bdf42a56813";
+const proxyAddress = "0x8480199e5d711399abb4d51bda329e064c89ad77";
 
 const defaultPair = {
   id: "N WETH-USDC",
