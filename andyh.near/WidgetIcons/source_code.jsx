@@ -13,7 +13,6 @@ if (tag) {
     return "Loading tags";
   }
 
-  console.log({ taggedWidgets });
   keys = Object.entries(taggedWidgets || {})
     .map((kv) => Object.keys(kv[1].widget).map((w) => `${kv[0]}/widget/${w}`))
     .flat();
