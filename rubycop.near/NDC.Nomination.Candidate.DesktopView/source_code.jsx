@@ -471,7 +471,7 @@ return (
             "border-radius": "8px",
           }}
         >
-          <div className="w-100 p-4 d-flex justify-content-between align-items-start">
+          <div className="w-100 p-3 d-flex justify-content-between align-items-start">
             <div className="d-flex">
               <ProfilePicture
                 style={{
@@ -713,10 +713,10 @@ return (
         <div>
           {state.tabSelected == "declaration" ? (
             <DeclarationCard>
-              <SectionTitle>
+              <SectionTitle className="mt-4 mb-3">
                 Declaration of Transparency and Accountability
               </SectionTitle>
-              <br />
+
               <SectionDescription>
                 I hereby declare my unwavering commitment to transparency,
                 accountability, and the resolution of critical ecosystem
