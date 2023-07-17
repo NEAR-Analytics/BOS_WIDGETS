@@ -580,8 +580,8 @@ const keyIssues = [
 ];
 
 return (
-  <div className="px-3">
-    <Card className="col-lg-4">
+  <div className="px-2 col-lg-4">
+    <Card>
       {state.showModal && (
         <Widget
           src={`dokxo.near/widget/CommentCard`}
