@@ -88,17 +88,6 @@ const Theme = styled.div`
       flex-direction: row-reverse !important;
       flex-flow: wrap-reverse !important;
     }
-    .grid {
-      > .center {
-        > .component {
-          > .center {
-            > div {
-              margin: 0 !important;
-            }
-          }
-        }
-      }
-    }
   }
   
   .swap-main-column {
