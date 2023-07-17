@@ -5,6 +5,7 @@ State.init({ showModal: false, copiedShareUrl: false });
 const authorForWidget = "eugenewolf507.near";
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
+const updateModalHandler = props.updateModalHandler;
 const statusTagsArr = props.statusTagsArr;
 const sharedArticleId = props.sharedArticleId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
@@ -146,6 +147,7 @@ const Modal = ({ onClose, children }) => {
 
 return (
   <CardWrapper className="col gy-3" key={article.articleId}>
+    <button onClick={updateModalHandler}>change cardWithOpenModal</button>
     <div className="card h-100" style={{ position: "static" }}>
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
