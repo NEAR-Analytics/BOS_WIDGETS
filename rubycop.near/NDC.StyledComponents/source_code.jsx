@@ -185,9 +185,8 @@ const Styled = {
     justify-content: center;
     align-items: center;
     padding: 4px 8px;
-    border: 1px solid;
-    border-color: #ffd50d;
-    color: #ffd50d;
+    border: 1px solid #9333ea;
+    color: #9333ea;
     background: linear-gradient(
       90deg,
       rgba(147, 51, 234, 0.1) 0%,
@@ -204,6 +203,7 @@ const Styled = {
       font-weight: 500;
       font-size: 11px;
       line-height: 120%;
+      margin-bottom: 0;
     }
   `,
 };
