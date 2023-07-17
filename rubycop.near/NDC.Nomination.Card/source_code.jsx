@@ -320,7 +320,7 @@ const LowerSectionContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 8px;
+  gap: 12px;
   align-self: stretch;
 `;
 const ButtonsLowerSection = styled.div`
