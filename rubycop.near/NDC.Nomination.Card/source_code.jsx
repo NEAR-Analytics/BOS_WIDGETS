@@ -666,17 +666,18 @@ return (
                 ))}
             </TagSection>
           </div>
-          <div className="d-flex w-100 justify-content-end align-items-center">
+          <div className="d-flex w-100 align-items-center">
             {!data.preview && (
-              <div className="d-flex gap-2">
+              <div className="d-flex w-100 gap-2 justify-content-between">
                 <Widget
                   src={widgets.styledComponents}
                   props={{
                     Link: {
                       text: "View",
                       size: "sm",
-                      className: "secondary dark",
+                      className: "secondary dark w-100 justify-content-center",
                       href: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                      icon: <i className="bi bi-eye"></i>,
                     },
                   }}
                 />
@@ -687,6 +688,7 @@ return (
                       Button: {
                         text: "Share",
                         size: "sm",
+                        className: "primaty w-100 justify-content-center",
                         onClick: handleShare,
                         icon: <i className="bi bi-share-fill"></i>,
                       },
