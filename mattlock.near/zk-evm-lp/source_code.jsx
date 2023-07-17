@@ -54,7 +54,7 @@ const buttonStyled = `
 const Theme = styled.div`
   color: white;
   padding: 0;
-  margin:0;
+  margin:0 16px;
   width: 100%;
   min-width: 100vw;
   height: 100%;
@@ -90,13 +90,6 @@ const Theme = styled.div`
       color: black;
       color: #00F;
     }
-  }
-
-  .grid {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
   }
 
   .center {
@@ -139,10 +132,11 @@ const Theme = styled.div`
       margin-top: 48px;
       color: white;
     }
+
     >h2 {
       color: rgba(255, 255, 255, 0.8);
       font-size: 1.4rem;
-      margin-bottom: 32px;
+      margin-bottom: 32px 0;
       width: 100%;
     }
     > div {
@@ -172,6 +166,15 @@ const Theme = styled.div`
   .component {
     margin-top: 1.5rem;
   }
+
+  @media only screen and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+    .center {
+      > div {
+        flex-direction: column-reverse !important;
+      }
+    }
+  }
+
 `;
 
 State.init({
