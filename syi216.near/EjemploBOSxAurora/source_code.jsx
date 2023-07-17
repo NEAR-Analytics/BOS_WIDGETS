@@ -1,7 +1,7 @@
 const todolistContract = "0xbA494aEa8295B5640Efb4FF9252df8D388e655dc";
 
 const todolistAbi = fetch(
-  "https://gateway.pinata.cloud/ipfs/QmVgbfZJiXk1JRtNTkCTMUQtFhhCpaeD4aUiHFmZiKnPd7?_gl=1*jgy6f*rs_ga*ZWExOWRjODgtOWM4Ny00MzE1LTlhMGQtMDc1NDFhZjA2YWQy*rs_ga_5RMPXG14TE*MTY4MzIxOTg2NS4yLjEuMTY4MzIyMDkzMy42MC4wLjA."
+  "https://nativonft.mypinata.cloud/ipfs/QmVgbfZJiXk1JRtNTkCTMUQtFhhCpaeD4aUiHFmZiKnPd7"
 );
 
 if (!todolistAbi.ok) {
