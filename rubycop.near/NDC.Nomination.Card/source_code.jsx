@@ -77,7 +77,6 @@ const Card = styled.div`
   align-items: flex-start;
   padding: 16px;
   gap: 16px;
-  width: 100%;
   background: #f8f8f9;
   border-radius: 10px;
 `;
@@ -581,7 +580,7 @@ const keyIssues = [
 ];
 
 return (
-  <Card>
+  <Card className="col-lg-4">
     {state.showModal && (
       <Widget
         src={`dokxo.near/widget/CommentCard`}
