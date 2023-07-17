@@ -8,6 +8,20 @@ const props = {
 State.init({
   img: null,
 });
+const Programacion = [
+  {
+    nombre: "PYTHON",
+  },
+  {
+    nombre: "C++",
+  },
+  {
+    nombre: "ENSAMBLADOR X86",
+  },
+  {
+    nombre: "JAVA",
+  },
+];
 
 return (
   <>
@@ -17,7 +31,7 @@ return (
       </div>
       <div className="d-flex justify-content-center">
         <div className="d-flex p-2">
-          {state.nombres.map((data) => {
+          {Programacion.map((data) => {
             return <p className="mx-4"> {data.nombre} </p>;
           })}
         </div>
