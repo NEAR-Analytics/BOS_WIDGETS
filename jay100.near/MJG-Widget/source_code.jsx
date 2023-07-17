@@ -40,6 +40,21 @@ const slide_data = [
   },
 ];
 
+// * Buttons
+const button_data = [
+  { title: "Play Now", link: "https://pd.marmaj.org/chainteam" },
+  { title: "TestNet", link: "https://pd-testnet.marmaj.org/chainteam" },
+  {
+    title: "Wiki",
+    link: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
+  },
+  { title: "NFT", link: "https://mitntbase.xyz/" },
+  {
+    title: "Mobile",
+    link: "https://pd-testnet.marmaj.org/chainteam/mainnet-ws.html",
+  },
+];
+
 // End
 
 const Title = styled.h5` color: #fff; font-weight: 700; font-size: 16px; text-align: center; text-transform: uppercase; `;
@@ -181,9 +196,10 @@ return (
     {isUserRegistered ? (
       <>
         <Widget src="jay100.near/widget/PlayerDashboard" />
+        <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
       </>
     ) : (
-      <Widget src="jay100.near/widget/CTT-Button" />
+      <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
     )}
   </div>
 );
