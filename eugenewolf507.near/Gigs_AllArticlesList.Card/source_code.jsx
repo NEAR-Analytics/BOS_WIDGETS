@@ -143,6 +143,7 @@ return (
     <button onClick={() => updateModalHandler(article.articleId)}>
       change cardWithOpenModal
     </button>
+    <span>{cardWithOpenModal}</span>
     <div className="card h-100" style={{ position: "static" }}>
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
