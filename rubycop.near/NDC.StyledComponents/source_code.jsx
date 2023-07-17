@@ -194,6 +194,11 @@ const Styled = {
     );
     border-radius: 100px;
 
+    &.dark {
+      color: #fff;
+      background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+    }
+
     p {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -434,6 +439,10 @@ return (
 
     <h4>Tag</h4>
     <div className="d-flex align-items-end flex-wrap gap-2">
+      <Widget
+        src={"rubycop.near/widget/NDC.StyledComponents"}
+        props={{ Tag: { title: "Lorem ipsum", className: "dark" } }}
+      />
       <Widget
         src={"rubycop.near/widget/NDC.StyledComponents"}
         props={{ Tag: { title: "Lorem ipsum" } }}
