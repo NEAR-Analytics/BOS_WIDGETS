@@ -418,6 +418,8 @@ const Dropbtn = styled.button`
 
 const DropdownContent = styled.div`
   display: none;
+  top: -200px;
+  right: 125px;
   font-size: 13px;
   flex-direction: column;
   align-items: flex-start;
@@ -435,7 +437,6 @@ const DropdownContent = styled.div`
 const Element = styled.div`
   display: flex;
   cursor: pointer;
-  justify-content: center;
   width: 100%;
   &:hover {
     border-radius: 6px;
@@ -445,7 +446,7 @@ const Element = styled.div`
 
 const ShareLink = styled.a`
   color: black;
-  padding: 12px 16px;
+  padding: 8px 12px;
   text-decoration: none;
   display: block;
   text-align: start;
@@ -464,7 +465,6 @@ const DropdownContainerHover = styled.div`
 `;
 
 const Separation = styled.div`
-    margin-top: -196px;
     width: 200px;
     position: absolute;
   }
