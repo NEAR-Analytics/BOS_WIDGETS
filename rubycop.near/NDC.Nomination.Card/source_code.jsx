@@ -584,12 +584,16 @@ return (
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
           <CandidateTagContainer className="w-100 d-flex flex-wrap">
             {JSON.parse(data.nominationData.afiliation).map((data) => (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Tag: { title: data.company_name },
-                }}
-              />
+              <>
+                {data.company_name && (
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Tag: { title: data.company_name },
+                    }}
+                  />
+                )}
+              </>
             ))}
           </CandidateTagContainer>
         </CollapseCandidateContent>
@@ -643,21 +647,26 @@ return (
               }}
             />
           </ButtonsLowerSection>
-          <div className="d-flex w-100 justify-content-between align-items-center">
+          <div className="d-flex w-100 my-3">
             <TagSection>
               {data.nominationData.tags
                 .trim()
                 .split(",")
                 .map((data) => (
-                  <Widget
-                    src={widgets.styledComponents}
-                    props={{
-                      Tag: { title: data },
-                    }}
-                  />
+                  <>
+                    {data && (
+                      <Widget
+                        src={widgets.styledComponents}
+                        props={{
+                          Tag: { title: data },
+                        }}
+                      />
+                    )}
+                  </>
                 ))}
             </TagSection>
-
+          </div>
+          <div className="d-flex w-100 justify-content-end align-items-center">
             {!data.preview && (
               <div className="d-flex gap-2">
                 <Widget
