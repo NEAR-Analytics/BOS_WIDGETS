@@ -317,6 +317,7 @@ const ContentHeaderText = styled.p`
 `;
 
 const CandidateInfoDiv = styled.div`
+  width: 100%;
   padding: 16px;
   background: white;
   gap: 16px;
