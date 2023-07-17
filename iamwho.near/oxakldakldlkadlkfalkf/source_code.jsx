@@ -19,10 +19,6 @@ const fetchContracts = () => {
   }
 };
 
-if (props.contracts)
-  State.update({
-    contracts: props.contracts,
-  });
 if (!contracts) fetchContracts();
 
 return (
