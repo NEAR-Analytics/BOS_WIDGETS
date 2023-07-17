@@ -139,16 +139,15 @@ return (
             src={`hack.near/widget/widget.inline`}
             props={{
               widgetPath: state.widgetPath,
-              updatedWidget: state.updatedWidget,
             }}
           />
           <div className="m-2">
             <a
-              className="btn btn-success border-0 m-1"
+              className="btn btn-secondary border-0 m-1"
               href={`#/edit/${state.widgetPath}`}
             >
-              <i className="bi bi-diagram-2 me-1"></i>
-              {accountId === daoId ? "Edit" : "Fork"}
+              <i className="bi bi-terminal-plus me-1"></i>
+              {accountId === daoId ? "Edit" : "Build"}
             </a>
           </div>
         </div>
@@ -162,7 +161,6 @@ return (
             src={`hack.near/widget/widget.inline`}
             props={{
               widgetPath: state.updatedWidget,
-              updatedWidget: state.updatedWidget,
             }}
           />
           <div className="m-2">
