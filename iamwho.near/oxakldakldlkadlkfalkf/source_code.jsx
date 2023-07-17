@@ -2,9 +2,6 @@ State.init({
   contracts: props.contracts,
 });
 
-console.log(props);
-console.log(state);
-
 const fetchContracts = () => {
   try {
     const res = Near.view("v1.sourcescan.near", "get_contracts", {
@@ -22,6 +19,10 @@ const fetchContracts = () => {
   }
 };
 
+if (!props.contracts)
+  State.update({
+    contracts: props.contracts,
+  });
 if (!contracts) fetchContracts();
 
 return (
