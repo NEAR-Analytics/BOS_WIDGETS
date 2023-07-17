@@ -483,6 +483,10 @@ const Container = styled.div`
   }
 `;
 
+const H6 = styled.h6`
+  margin-bottom: 0;
+`;
+
 const PillButtonActive = styled.div`
 font-weight: 700;
 border-bottom: 4px solid;
@@ -691,7 +695,7 @@ return (
           style={{
             "border-radius": "8px",
             margin: "10px 0 0 10px",
-            width: "620px",
+            width: "600px",
             background: "#F8F8F9",
             padding: "20px",
           }}
@@ -720,7 +724,7 @@ return (
                         width: "30%",
                       }}
                     >
-                      <h6>Key Issues</h6>
+                      <H6>Key Issues</H6>
                     </th>
                     <th
                       style={{
