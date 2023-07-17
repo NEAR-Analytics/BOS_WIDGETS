@@ -12,7 +12,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ButtonText = styled.span`
-    background: rgb(146, 205, 65);
+    background: rgba(30, 40, 70, 1);
 	display: inline-block;
 	position: relative;
 	text-align: center;
@@ -21,20 +21,20 @@ const ButtonText = styled.span`
 	font-family: cursive;
 	text-decoration: none;
 	color: white;
-	box-shadow: inset -4px -4px 0px 0px #4aa52e;
+	box-shadow: inset -4px -4px 0px 0px rgb(32, 41, 55);
 
     :hover{
-        background: #76c442;
-	    box-shadow: inset -6px -6px 0px 0px #4aa52e;
+        background: rgba(255,255,255,.5);
+	    box-shadow: inset -6px -6px 0px 0px rgb(32, 41, 55);
     }
 
     :focus{
-        background: #76c442;
-	    box-shadow: inset -6px -6px 0px 0px #4aa52e;
+        background: rgba(255,255,255,.5);
+	    box-shadow: inset -6px -6px 0px 0px rgb(32, 41, 55);
     }
 
     :active{
-        box-shadow: inset 4px 4px 0px 0px #4aa52e;
+        box-shadow: inset 4px 4px 0px 0px rgb(32, 41, 55);
     }
 
     :before{
@@ -63,7 +63,21 @@ const ButtonText = styled.span`
 `;
 
 const GameButton = () => {
-  const data = props;
+  const data = props
+    ? [
+        { title: "Play Now", link: "https://pd.marmaj.org/chainteam" },
+        { title: "TestNet", link: "https://pd-testnet.marmaj.org/chainteam" },
+        {
+          title: "Wiki",
+          link: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
+        },
+        { title: "NFT", link: "https://mitntbase.xyz/" },
+        {
+          title: "Mobile",
+          link: "https://pd-testnet.marmaj.org/chainteam/mainnet-ws.html",
+        },
+      ]
+    : null;
 
   return (
     <div
