@@ -138,7 +138,6 @@ const NominationName = styled.p`
   font-weight: 500;
   font-size: 14px;
   margin: 0;
-  display: flex;
   align-items: center;
   color: #000000;
   white-space: nowrap;
@@ -214,13 +213,11 @@ const CollapseCandidateContent = styled.div`
 const CollapseCandidateText = styled.p`
   width: 274px;
   font-style: normal;
-  font-weight: 800;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 700;
   font-size: 12px;
   line-height: 120%;
   margin: 0px;
+  margin-bottom: 3px;
   color: #000000;
 `;
 const DownArrow = styled.img`
@@ -283,10 +280,10 @@ const KeyIssuesHeader = styled.div`
 `;
 const KeyIssuesTitle = styled.p`
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 12px;
   line-height: 120%;
-  color: #000000;
+  margin-bottom: 0;
 `;
 const KeyIssuesContainer = styled.div`
   display: flex;
@@ -298,7 +295,7 @@ const KeyIssuesContainer = styled.div`
 const KeyIssueTitle = styled.p`
   font-weight: 500;
   font-size: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   width: 302px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -307,10 +304,11 @@ const KeyIssueTitle = styled.p`
 const KeyIssueDescription = styled.p`
   font-weight: 400;
   font-size: 10px;
+  margin-bottom: 0;
 `;
 const KeyIssueSeparator = styled.div`
   height: 1px;
-  margin: 7px 0;
+  margin: 7px 0 2px 0;
 `;
 const LowerSection = styled.div`
   display: flex;
@@ -629,10 +627,9 @@ return (
         />
       )}
     </HeaderCard>
-    <CollapseCandidate>
+    <CollapseCandidate className="w-100">
       <CollapseCandidateContent>
         <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
-
         <CandidateTagContainer className="w-100 d-flex flex-wrap">
           {JSON.parse(data.nominationData.afiliation).map((data) => {
             return (
