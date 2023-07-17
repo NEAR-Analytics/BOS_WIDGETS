@@ -665,29 +665,42 @@ return (
       <LowerSectionContainer>
         <ButtonsLowerSection>
           <TextLowerSectionContainer>
-            <i class="bi bi-clock"></i>
-            {data.indexerData.timestamp && (
-              <TimestampText>
-                {data.indexerData.timestamp.toDateString()} by{" "}
-                {data.indexerData.nominee}
-              </TimestampText>
-            )}
+            <ClockIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTUjsGCFy6YrmjgS7zPVbdcKs4V8PZrXKC5zn6LUBfdoi?_gl=1*1141dsg*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4Njk0NzU3Mi41LjEuMTY4Njk0ODc2Ny42MC4wLjA."
+              alt="pic"
+            ></ClockIcon>
+            <TimestampText>
+              {data.indexerData.timestamp.toDateString()} by{" "}
+              {data.indexerData.nominee}
+            </TimestampText>
           </TextLowerSectionContainer>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Button: {
-                text: `+${data.upVoteData.comments.length}`,
-                disabled: !state.verified,
-                size: "sm",
-                className: "secondary dark",
-                onClick: () => {
-                  !data.preview ? State.update({ showModal: true }) : "";
-                },
-                icon: <i className="bi bi-chat-square-text-fill"></i>,
-              },
-            }}
-          />
+          {state.verified ? (
+            <CommentButtonDiv
+              onClick={async () => {
+                !data.preview ? State.update({ showModal: true }) : "";
+              }}
+            >
+              <CommentButtonCounter>
+                +{data.upVoteData.comments.length}
+              </CommentButtonCounter>
+              <CommentButtonIcon
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
+                alt="pic"
+              ></CommentButtonIcon>
+            </CommentButtonDiv>
+          ) : (
+            <CommentButtonDisabled>
+              <CommentButtonCounter style={{ filter: "grayscale(1)" }}>
+                {data.upVoteData.comments
+                  ? "+" + data.upVoteData.comments.length
+                  : "+" + 0}
+              </CommentButtonCounter>
+              <Icon
+                style={{ filter: "grayscale(1)" }}
+                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
+              ></Icon>
+            </CommentButtonDisabled>
+          )}
         </ButtonsLowerSection>
         <div className="d-flex justify-content-between">
           <TagSection>
@@ -704,9 +717,9 @@ return (
                 </>
               ))}
           </TagSection>
-
+          \
           {!data.preview && (
-            <div className="d-flex gap-4">
+            <div>
               <Widget
                 src={widgets.styledComponents}
                 props={{
@@ -726,7 +739,6 @@ return (
                       text: "Share",
                       size: "sm",
                       onClick: handleShare,
-                      icon: <i class="bi bi-share-fill"></i>,
                     },
                   }}
                 />
