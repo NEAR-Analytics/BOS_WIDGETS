@@ -179,12 +179,36 @@ const Styled = {
     font-size: 14px;
     color: #828688;
   `,
+  Tag: styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid;
+    border-color: #ffd50d;
+    color: #ffd50d;
+    background: linear-gradient(
+      90deg,
+      rgba(147, 51, 234, 0.1) 0%,
+      rgba(79, 70, 229, 0.1) 100%
+    );
+    border-radius: 100px;
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 120%;
+    }
+  `,
 };
 
 const Container = styled.div`
-  button, a {
-    margin: 5px;
-  }
   h4 {
     margin: 10px 0;
   }
@@ -229,6 +253,13 @@ if (Button)
         </div>
       )}
     </Styled.Button>
+  );
+
+if (Tag)
+  return (
+    <Styled.Tag>
+      <p>{Tag.title}</p>
+    </Styled.Tag>
   );
 
 if (Dropdown)
@@ -351,7 +382,7 @@ const WidgetInput = ({ type }) => {
 return (
   <Container>
     <h4>Buttons</h4>
-    <div className="d-flex align-items-end flex-wrap">
+    <div className="d-flex align-items-end flex-wrap gap-2">
       <WidgetButton text="Primary" />
       <WidgetButton text="Primary" icon={<i class="bi bi-check-lg"></i>} />
       <WidgetButton
@@ -365,7 +396,7 @@ return (
       <WidgetButton size="sm" className="secondary" text="Secondary" />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap">
+    <div className="d-flex align-items-end flex-wrap gap-2">
       <WidgetButton text="Primary Dark" className="primary dark" />
       <WidgetButton
         text="Primary Dark"
@@ -387,7 +418,7 @@ return (
       />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap">
+    <div className="d-flex align-items-end flex-wrap gap-2">
       <WidgetButton
         text="Danger"
         className="danger"
@@ -396,9 +427,25 @@ return (
     </div>
 
     <h4>Link Button</h4>
-    <div className="d-flex align-items-end flex-wrap">
+    <div className="d-flex align-items-end flex-wrap gap-2">
       <WidgetButton type="Link" text="Primary" className="primary dark" />
       <WidgetButton type="Link" text="Secondary" className="secondary dark" />
+    </div>
+
+    <h4>Tag</h4>
+    <div className="d-flex align-items-end flex-wrap gap-2">
+      <Widget
+        src={"rubycop.near/widget/NDC.StyledComponents"}
+        props={{ Tag: { title: "Lorem ipsum" } }}
+      />
+      <Widget
+        src={"rubycop.near/widget/NDC.StyledComponents"}
+        props={{
+          Tag: {
+            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          },
+        }}
+      />
     </div>
 
     <h4>Select</h4>
