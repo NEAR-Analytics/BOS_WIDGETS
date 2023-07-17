@@ -419,7 +419,7 @@ const Dropbtn = styled.button`
 const DropdownContent = styled.div`
   display: none;
   top: -170px;
-  right: -75px;
+  left: 0;
   font-size: 12px;
   flex-direction: column;
   align-items: flex-start;
