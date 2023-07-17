@@ -15,19 +15,22 @@ return (
       <div className="d-flex justify-content-center">
         <h3>PROGRAMMING WORLD</h3>
       </div>
-      <div className="d-flex p-2">
-        {state.nombres.map((data) => {
-          return <p className="mx-4"> {data.nombre} </p>;
-        })}
+      <div className="d-flex justify-content-center">
+        <div className="d-flex p-2">
+          {state.nombres.map((data) => {
+            return <p className="mx-4"> {data.nombre} </p>;
+          })}
+        </div>
       </div>
-      <p>
+      <p className="d-flex justify-content-center">
         Learn new programming languages to improve your developing skills to
         reach a higher sucess in your professional life.
       </p>
       <hr />
       <Widget src={`${user}/widget/Greetings`} props={props} />
     </div>
-    <div className="d-grid gap-2">
+
+    <div className="d-grid gap-2 mt-4">
       <button class="btn btn-primary" type="button">
         JUNIOR DEVELOPER
       </button>
@@ -35,7 +38,7 @@ return (
         SENIOR DEVELOPER
       </button>
     </div>
-    <div className="container row">
+    <div className="container row ">
       <div>
         Image upload: <br />
         <IpfsImageUpload image={state.img} />
