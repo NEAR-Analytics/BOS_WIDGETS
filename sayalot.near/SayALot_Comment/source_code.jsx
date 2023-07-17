@@ -1,5 +1,9 @@
-const addressForArticles = "sayALotArticle";
-const addressForComments = "sayalot-comments";
+const isDebug = props.isDebug;
+
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const addressForComments = isDebug
+  ? "test_sayalot-comments"
+  : "sayalot-comments";
 const authorForWidget = "sayalot.near";
 State.init({ showReply: false });
 const accountId = props.accountId;
@@ -13,6 +17,7 @@ const content =
       blockHeight
     ) ?? "null"
   );
+
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
@@ -25,6 +30,11 @@ const item = {
 
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+
+console.log(
+  "props: ",
+  `{accountId: ${accountId}, blockHeight: ${blockHeight}, link: ${link}, postType: "comment" }`
+);
 
 return (
   <>
@@ -69,6 +79,7 @@ return (
         <Widget
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
+            isDebug,
             initialText: `${accountId}, `,
             // notifyAccountId: extractNotifyAccountId(parentItem),
             item: parentItem,
