@@ -2,6 +2,7 @@ State.init({
   contracts: props.contracts,
 });
 
+console.log(props);
 console.log(state);
 
 const fetchContracts = () => {
