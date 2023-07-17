@@ -177,6 +177,7 @@ function handleFilter(e) {
 
 const Container = styled.div`
   padding: 30px 0;
+  margin: 0;
 `;
 
 const ActivityContainer = styled.div`
