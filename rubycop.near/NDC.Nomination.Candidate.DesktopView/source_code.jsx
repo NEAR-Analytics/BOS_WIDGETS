@@ -326,10 +326,8 @@ const CandidateHeader = styled.div`
 `;
 
 const CandidateHeaderText = styled.p`
-  color: #000;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 120%;
+  font-size: 18px;
+  font-weight: 500;
   margin: 0px;
 `;
 
@@ -380,9 +378,8 @@ const CandidateTagText = styled.p`
   margin: 0px;
 `;
 
-const CandidateTime = styled.p`
-  margin-top: 5px;
-  color: var(--primary-828688, #828688);
+const CandidateTime = styled.h6`
+  margin-top: 3px;
   font-size: 10px;
   font-weight: 500;
   line-height: 120%;
@@ -396,8 +393,7 @@ const CandidateTextInfo = styled.div`
   align-self: stretch;
 `;
 
-const CandidateTitle = styled.p`
-  color: var(--000000, #000);
+const CandidateTitle = styled.h5`
   font-size: 12px;
   font-weight: 500;
   line-height: 120%;
@@ -405,12 +401,9 @@ const CandidateTitle = styled.p`
 `;
 
 const CandidateDescription = styled.p`
-  color: var(--primary-828688, #828688);
-  font-size: 12px;
-  line-height: 130%;
+  font-size: 11px;
+  line-height: 16px;
   margin: 0px;
-  width: 258px;
-  overflow: hidden;
   text-align: justify;
 `;
 
@@ -675,40 +668,37 @@ return (
                 background: "#F8F8F9",
               }}
             >
-              <CandidateContent style={{ display: "grid", width: "100%" }}>
+              <CandidateContent>
                 <CandidateHeader>
                   <CandidateHeaderText>
                     Candidate Affiliations
                   </CandidateHeaderText>
                 </CandidateHeader>
-                {afilations.map((data) => {
-                  return (
-                    <CandidateInfoDiv>
-                      <CandidateInfoHeader>
-                        <CandidateImage
-                          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-                          alt="pic"
-                        ></CandidateImage>
-                        <CandidateInfoData>
-                          <Widget
-                            src={widgets.styledComponents}
-                            props={{
-                              Tag: { title: data.company_name },
-                            }}
-                          />
-                          <CandidateTime>
-                            {new Date(data.start_date).toDateString()} -{" "}
-                            {new Date(data.end_date).toDateString()}
-                          </CandidateTime>
-                        </CandidateInfoData>
-                      </CandidateInfoHeader>
-                      <CandidateTextInfo>
-                        <CandidateTitle>Role Description</CandidateTitle>
-                        <CandidateDescription>{data.role}</CandidateDescription>
-                      </CandidateTextInfo>
-                    </CandidateInfoDiv>
-                  );
-                })}
+                {afilations.map((data) => (
+                  <CandidateInfoDiv>
+                    <CandidateInfoHeader className="d-flex align-items-center">
+                      <CandidateImage
+                        src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+                        alt="pic"
+                      ></CandidateImage>
+                      <CandidateInfoData>
+                        <Widget
+                          src={widgets.styledComponents}
+                          props={{
+                            Tag: { title: data.company_name },
+                          }}
+                        />
+                        <CandidateTime className="text-secondary">
+                          {data.start_date} - {data.end_date}
+                        </CandidateTime>
+                      </CandidateInfoData>
+                    </CandidateInfoHeader>
+                    <CandidateTextInfo>
+                      <CandidateTitle>Role Description</CandidateTitle>
+                      <CandidateDescription>{data.role}</CandidateDescription>
+                    </CandidateTextInfo>
+                  </CandidateInfoDiv>
+                ))}
               </CandidateContent>
             </CandidateCard>
           </div>
