@@ -463,7 +463,7 @@ const DropdownContainerHover = styled.div`
 
   &:hover ${DropdownContent} {
     display: flex;
-    margin-top: -170px;
+    margin-top: -165px;
   }
 `;
 
