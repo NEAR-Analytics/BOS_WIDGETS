@@ -1,45 +1,25 @@
-// TODO: Should be grabbed from contract side
-let { ids, org } = props;
-ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
-org = props.org ? org : "test"; // for testing purposes
-
-const electionContract = "elections-v1.gwg-testing.near";
-const registryContract = "registry-v1.gwg-testing.near";
-const nominationContract = "nominations-v1.gwg-testing.near";
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-
-function handleSelfRevoke() {
-  Near.call(nominationContract, "self_revoke");
-}
-
-const houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-];
-
-const widgets = {
-  header: "rubycop.near/widget/NDC.Elections.Header",
-  card: "rubycop.near/widget/NDC.Nomination.Card",
-  houses: "rubycop.near/widget/NDC.Elections.Houses",
-  filter: "rubycop.near/widget/NDC.Elections.Filter",
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  verifyHuman: "rubycop.near/widget/NDC.VerifyHuman",
-};
+const data = props;
 
 State.init({
-  selectedHouse: ids[0],
-  house: "HouseOfMerit",
+  verified: false,
   start: true,
-  nominations: [],
-  sbt: false,
-  og: false,
-  selfNomination: false,
-  search: false,
-  candidateId: "",
-  originNominations: [],
-  notFound: "There are no active nominations at the moment",
+  voted: false,
+  shareText: "Copy link to the clipboard",
 });
+
+const nominationContract = "nominations-v1.gwg-testing.near";
+const registryContract = "registry-v1.gwg-testing.near";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+
+const widgets = {
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+};
+
+const isHuman = Near.view(registryContract, "is_human", {
+  account: context.accountId,
+});
+
+State.update({ verified: isHuman[0][1].length > 0 });
 
 const httpRequestOpt = {
   headers: { "x-api-key": apiKey },
@@ -47,389 +27,768 @@ const httpRequestOpt = {
 
 function getVerifiedHuman() {
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}`,
     httpRequestOpt
   ).then((res) => {
-    if (res.body.length > 0) {
-      State.update({ sbt: true });
-    }
-  });
-  asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=2&issuer=fractal.i-am-human.near&with_expired=false`,
-    httpRequestOpt
-  ).then((res) => {
-    if (res.body.length > 0) {
-      State.update({ og: true });
-    }
-  });
-  asyncFetch(
-    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}`,
-    httpRequestOpt
-  ).then((res) => {
-    if (res.body.length > 0) {
-      State.update({ selfNomination: true });
-    }
-  });
-}
-
-function getNominationInfo() {
-  let nominationsArr = [];
-  asyncFetch(
-    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
-    httpRequestOpt
-  ).then((res) => {
-    if (res.body.length <= 0) {
-      State.update({ nominations: [] });
-    }
-    for (const [i, data] of res.body.entries()) {
-      let objCard = {
-        indexerData: data,
-      };
-      let nominee = data.nominee;
-      asyncFetch(
-        `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
-        httpRequestOpt
-      ).then((info) => {
-        let upVoteInfo = info.body[0];
-        let profileData;
-        let nominationData;
-        Social.getr(`${nominee}/profile`);
-        Social.getr(`${nominee}/nominations`);
-        setTimeout(() => {
-          profileData = Social.getr(`${nominee}/profile`);
-          nominationData = Social.getr(`${nominee}/nominations`);
-        }, 1000);
-
-        setTimeout(() => {
-          objCard = {
-            profileData: profileData,
-            nominationData: nominationData,
-            upVoteData: upVoteInfo,
-            ...objCard,
-          };
-          if (!data.is_revoked) {
-            if (profileData && nominationData) {
-              nominationsArr.push(objCard);
-            }
-          }
-          if (i == res.body.length - 1) {
-            State.update({ nominations: nominationsArr });
-          }
-        }, 1000);
-      });
-    }
+    State.update({ voted: res.body });
   });
 }
 
 if (state.start) {
-  getNominationInfo();
   getVerifiedHuman();
-  State.update({
-    start: false,
-  });
+  State.update({ start: false });
 }
 
-const handleSelect = (item) => {
-  switch (item.id) {
-    case 2:
-      State.update({ house: "CouncilOfAdvisors" });
-      getNominationInfo();
-      break;
-    case 1:
-      State.update({ house: "HouseOfMerit" });
-      getNominationInfo();
-      break;
-    case 3:
-      State.update({ house: "TransparencyCommission" });
-      getNominationInfo();
-      break;
-  }
-  State.update({ selectedHouse: item.id });
-};
-
-function handleFilter(e) {
-  const text = e.target.value;
-
-  State.update({ candidateId: text });
-
-  if (!state.search) {
-    State.update({ originNominations: state.nominations, search: true });
-  }
-  if (text.length > 0) {
-    if (state.nominations.length) {
-      State.update({
-        notFound: "There are no such nominations",
-      });
-    }
-    let filtered = state.nominations.filter((data) =>
-      data.profileData.name.toLowerCase().includes(text.toLowerCase())
-    );
-    State.update({ nominations: filtered });
-  } else {
-    State.update({ notFound: "There are no active nominations at the moment" });
-    State.update({
-      nominations: state.originNominations,
-      originNominations: [],
-      search: false,
-    });
-  }
+function handleUpVote() {
+  Near.call(
+    nominationContract,
+    state.voted ? "remove_upvote" : "upvote",
+    {
+      candidate: data.indexerData.nominee,
+    },
+    300000000000000,
+    state.voted ? 0 : 1000000000000000000000
+  );
 }
 
-const Container = styled.div`
-  padding: 30px 0;
-`;
+function handleShare() {
+  console.log(copied);
+  State.update({ shareText: "Copied" });
+  clipboard.writeText(
+    "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
+      data.indexerData.house +
+      "&candidate=" +
+      data.indexerData.nominee
+  );
+}
 
-const ActivityContainer = styled.div`
-  overflow-y: scroll;
-`;
+function getComponentURL() {
+  const url =
+    "https%3A%2F%2Fnear.org%2F%23%2Fyairnava.near%2Fwidget%2FNDC.Nomination.Candidate.Container%3Fhouse%3D" +
+    data.indexerData.house +
+    "%26candidate%3D" +
+    data.indexerData.nominee;
+  return url;
+}
 
-const Left = styled.div`
-  padding: 20px;
-  background: #f8f8f9;
-  border-radius: 8px;
-`;
-
-const Center = styled.div``;
-
-const Right = styled.div`
-  padding: 20px;
-  margin-bottom: 20px;
-  background: #f8f8f9;
-  border-radius: 8px;
-`;
-
-const H5 = styled.h5`
-  margin-bottom: 20px;
-`;
-
-const VerifiedDiv = styled.div`
+const Card = styled.div`
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  border-radius: 8px;
-  background: var(--ffffff, #fff);
-  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-`;
-
-const VerifiedHeader = styled.div`
-  display: flex;
-  align-items: flex-start;
   gap: 16px;
-  align-self: stretch;
+  width: 358px;
+  background: #f8f8f9;
+  border-radius: 10px;
 `;
-
-const VerifiedHeaderContainer = styled.div`
+const HeaderCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+  width: 326px;
+  height: 53px;
+`;
+const ProfilePicture = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+`;
+const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: 0px;
   gap: 4px;
-  flex: 1 0 0;
-`;
+  width: 190px;
+  height: 53px;
 
-const VerfiedTitle = styled.p`
-  display: flex;
-  width: 176px;
-  flex-direction: column;
-  justify-content: center;
-  color: var(--000000, #000);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-  margin: 0px;
+  flex-grow: 1;
 `;
-
-const VerifedDesc = styled.p`
+const HeaderTag = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-self: stretch;
-  color: var(--primary-gray-dark, #828688);
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 120%;
-  margin: 0px;
-`;
-
-const VerifyButton = styled.a`
-  display: flex;
-  padding: 8px 20px;
-  justify-content: center;
-  width: 100%;
   align-items: center;
-  gap: 10px;
-  align-self: stretch;
-  border-radius: 10px;
-  background: var(--ffd-50-d, #ffd50d);
-  border: 0px;
-  text-decoration: none;
+  padding: 4px 8px;
+  height: 18px;
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  border-radius: 100px;
+`;
+const HeaderTagP = styled.p`
+  height: 10px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  color: white;
+  margin: 0;
+`;
+const HeaderContentText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  width: 228px;
+`;
+const NominationName = styled.p`
+  width: 90%;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  align-items: center;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const NominationUser = styled.p`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  margin: 0px;
+  line-height: 120%;
+  display: flex;
+  align-items: center;
+  color: #828688;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const UpvoteButtonDisabled = styled.button`
+  display: flex;
+  padding: 2px 12px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  background: var(--buttons-disable, #c3cace);
+  cursor: default !important;
 `;
 
-const VerifyButtonText = styled.p`
-  color: var(--primary-black, #000);
+const UpvoteButton = styled.button`
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #fff;
   font-size: 14px;
-  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: ${(props) => (props.disabled ? "#C3CACE" : "#9333EA")};
+  border: 1px solid #9333ea;
+  border-color: ${(props) => (props.disabled ? "#C3CACE" : "")};
+`;
+
+const UpvoteCount = styled.p`
+  font-size: 12px;
   font-weight: 500;
   line-height: 24px;
   margin: 0px;
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 `;
-
-const SortButton = styled.button`
+const Icon = styled.img`
+  width: 17px;
+  height: 17px;
+`;
+const CollapseCandidate = styled.div`
   display: flex;
-  width: 38px;
-  height: 38px;
-  padding: 8px 12px;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 6px;
+`;
+const CollapseCandidateContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 5px;
+`;
+const CollapseCandidateText = styled.p`
+  width: 274px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 120%;
+  margin: 0px;
+  margin-bottom: 3px;
+  color: #000000;
+`;
+const DownArrow = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+const CandidateTagContainer = styled.div`
+  gap: 4px;
+`;
+const CandidateTag = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 6px;
-  border-radius: 6px;
-  background: var(
-    --buttons-gradient-default,
-    linear-gradient(90deg, #9333ea 0%, #4f46e5 100%)
+  padding: 4px 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(147, 51, 234, 0.1) 0%,
+    rgba(79, 70, 229, 0.1) 100%
   );
-  border: 0px;
+  border-radius: 100px;
+`;
+const CandidateTagText = styled.p`
+  height: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 120%;
+  margin: 0px;
+  color: #9333ea;
+`;
+const KeyIssues = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+  background: #ffffff;
+  border-radius: 6px;
+`;
+const KeyIssuesContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+  width: 302px;
+`;
+const KeyIssuesHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+`;
+const KeyIssuesTitle = styled.p`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 120%;
+  margin-bottom: 0;
+`;
+const KeyIssuesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  overflow-y: scroll;
+  height: 250px;
+`;
+const KeyIssueTitle = styled.p`
+  font-weight: 500;
+  font-size: 10px;
+  margin-bottom: 0px;
+  width: 302px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+const KeyIssueDescription = styled.p`
+  font-weight: 400;
+  font-size: 10px;
+  margin-bottom: 0;
+`;
+const KeyIssueSeparator = styled.div`
+  height: 1px;
+  margin: 7px 0 2px 0;
+`;
+const LowerSection = styled.div`
+  display: flex;
+  width: 326px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+`;
+const LowerSectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+`;
+const ButtonsLowerSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  width: 326px;
+  height: 28px;
+`;
+const TextLowerSectionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+  width: 239px;
+  height: 24px;
+
+  flex-grow: 1;
+`;
+const ClockIcon = styled.img`
+  width: 12px;
+  height: 12px;
+`;
+const TimestampText = styled.p`
+  width: 150px;
+  height: 20px;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 14px;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+`;
+const CommentsCounter = styled.p`
+  width: 96px;
+  height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 24px;
+  margin: 0px;
+  text-align: right;
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+`;
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+  width: 87px;
+  height: 28px;
+`;
+const TagSection = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  flex-wrap: wrap;
+  max-height: 20px;
+  overflow: hidden;
+`;
+const Tag = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
+  gap: 10px;
+  height: 20px;
+  border-radius: 80px;
+  background-image: linear-gradient(#eae5f7, #eae5f7),
+    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 100px;
+`;
+const TagText = styled.p`
+  height: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  margin: 0px;
+  line-height: 120%;
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+`;
+const CommentButtonDisabled = styled.button`
+  display: flex;
+  padding: 2px 12px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  b
+  background: var(--buttons-disable, #c3cace);
+  cursor: default !important;
+`;
+const CommentButtonDiv = styled.button`
+  display: flex;
+  padding: 2px 12px;
+  align-items: center;
+  gap: 6px;
+  b
+  border-radius: 80px;
+  background-image: linear-gradient(#f8f8f9, #f8f8f9),
+    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 4px;
+`;
+const CommentButtonCounter = styled.p`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 24px;
+  margin: 0px;
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+`;
+const CommentButtonIcon = styled.img`
+  width: 14px;
+  height: 14px;
 `;
 
-const ButtonNominateContainer = styled.div`
+const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const Dropbtn = styled.button`
+  background-color: #4caf50;
+  color: white;
   padding: 16px;
+  font-size: 16px;
+`;
+
+const DropdownContent = styled.div`
+  display: none;
+  font-size: 13px;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
   border-radius: 8px;
-  background: #f8f8f9;
+  background: #ffffff;
+  width: 200px;
+  gap: 9px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1;
+  padding: 8px;
 `;
 
-const Filter = styled.div`
-  margin-top: 32px;
-
-  @media only screen and (max-width: 1061px) {
-    flex-direction: column;
+const Element = styled.div`
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  width: 100%;
+  &:hover {
+    border-radius: 6px;
+    background: #f8f8f9;
   }
 `;
 
-const Toolbar = styled.div`
-  margin-left: 20px;
-  @media only screen and (max-width: 1061px) {
-    margin: 10px 0 0 0;
+const ShareLink = styled.a`
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: start;
+`;
+
+const ShareIcon = styled.img`
+  width: 20px;
+`;
+
+const DropdownContainerHover = styled.div`
+  width: fit-content;
+  float: right;
+  &:hover ${DropdownContent} {
+    display: flex;
   }
 `;
+
+const Separation = styled.div`
+    margin-top: -196px;
+    width: 200px;
+    position: absolute;
+  }
+`;
+
+const canUpvote =
+  state.verified && context.accountId != data.indexerData.nominee;
+
+const getShortUserName = (userId) => {
+  if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
+  const name = userId.slice(0, -5); // truncate .near
+
+  return name.length > 12 ? `${name.slice(0, 9)}...` : name;
+};
+
+const trimText = (text, limit) => {
+  const _limit = limit ?? 200;
+  const ending = text.length > _limit ? "..." : "";
+  const trimmed = text.slice(0, limit ?? 200);
+
+  return `${trimmed}${ending}`;
+};
+
+const keyIssues = [
+  {
+    title:
+      "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted",
+    desc: data.nominationData.HAYInvolve,
+  },
+  {
+    title: "Strategy to develop the NEAR ecosystem",
+    desc: data.nominationData.WIYStrategy,
+  },
+  {
+    title: "Key Issue 1",
+    desc: data.nominationData.Key_Issue_1,
+  },
+  {
+    title: "Key Issue 2",
+    desc: data.nominationData.Key_Issue_2,
+  },
+  {
+    title: "Key Issue 3",
+    desc: data.nominationData.Key_Issue_3,
+  },
+  {
+    title: "Other Platform",
+    desc: data.nominationData.addition_platform,
+  },
+];
 
 return (
-  <>
-    <div>
-      {houses.map((group) => (
-        <>
-          {group.id === state.selectedHouse && (
-            <Widget
-              key={i}
-              src={widgets.header}
-              props={{
-                startTime: group.start,
-                endTime: group.end,
-                type: "Nomination",
-              }}
-            />
-          )}
-        </>
-      ))}
-      <Filter className="d-flex">
-        <div className="w-100">
-          <Widget
-            src={widgets.filter}
-            props={{
-              handleFilter,
-              candidateId: state.candidateId,
-              placeholder: "Search by candidate name and affiliation",
-            }}
-          />
-        </div>
-        <Toolbar>
-          {state.og && (
-            <ButtonNominateContainer>
-              {state.selfNomination ? (
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      className: "danger",
-                      text: "Delete Self Nomination",
-                      onClick: () => State.update({ showModalDelete: true }),
-                      icon: <i class="bi bi-trash"></i>,
-                    },
-                  }}
-                />
-              ) : (
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      text: "Self Nominate",
-                      onClick: () =>
-                        state.sbt ? "" : State.update({ showModal: true }),
-                      icon: <i class="bi bi-plus-lg"></i>,
-                    },
-                  }}
-                />
-              )}
-            </ButtonNominateContainer>
-          )}
-        </Toolbar>
-      </Filter>
-      <Container className="d-flex row">
-        <Left className="col-lg">
-          <H5>Houses</H5>
-          <Widget
-            src={widgets.houses}
-            props={{
-              selectedHouse: state.selectedHouse,
-              houses: houses,
-              handleSelect: (item) => handleSelect(item),
-            }}
-          />
-          <div>
-            {!state.sbt && (
-              <div className="mt-5">
-                <Widget
-                  src={widgets.verifyHuman}
-                  props={{ title: "Want to upvote?", small: true }}
-                />
-              </div>
+  <Card>
+    {state.showModal && (
+      <Widget
+        src={`dokxo.near/widget/CommentCard`}
+        props={{
+          candidateOrReplay: true,
+          username: data.indexerData.nominee,
+          onClickConfirm: () => State.update({ showModal: false }),
+          onClickCancel: () => State.update({ showModal: false }),
+        }}
+      />
+    )}
+    <HeaderCard>
+      <ProfilePicture
+        src={
+          data.imgURL
+            ? data.imgURL
+            : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+        }
+        alt="pic"
+      ></ProfilePicture>
+      <HeaderContent>
+        <HeaderTag>
+          <HeaderTagP>
+            {data.indexerData.house == "HouseOfMerit"
+              ? "House of Merit"
+              : data.indexerData.house == "CouncilOfAdvisors"
+              ? "Council of Advisors"
+              : "Transparency Commission"}
+          </HeaderTagP>
+        </HeaderTag>
+        <HeaderContentText>
+          <NominationName>{data.profileData.name}</NominationName>
+          <NominationUser>
+            {getShortUserName(data.nominationData.profileAccount)}
+          </NominationUser>
+        </HeaderContentText>
+      </HeaderContent>
+      {canUpvote && (
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              text: `+${data.upVoteData.upvotes ?? 0}`,
+              size: "sm",
+              className: "secondary dark",
+              onClick: handleUpVote,
+              icon: <i className="bi bi-hand-thumbs-up"></i>,
+            },
+          }}
+        />
+      )}
+    </HeaderCard>
+    <CollapseCandidate className="w-100">
+      <CollapseCandidateContent>
+        <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
+        <CandidateTagContainer className="w-100 d-flex flex-wrap">
+          {JSON.parse(data.nominationData.afiliation).map((data) => {
+            return (
+              <CandidateTag>
+                <CandidateTagText>{data.company_name}</CandidateTagText>
+              </CandidateTag>
+            );
+          })}
+        </CandidateTagContainer>
+      </CollapseCandidateContent>
+    </CollapseCandidate>
+    <KeyIssues>
+      <KeyIssuesContent>
+        <KeyIssuesHeader>
+          <KeyIssuesTitle>Key issues</KeyIssuesTitle>
+        </KeyIssuesHeader>
+        <KeyIssuesContainer>
+          {keyIssues.map((issue, i) => (
+            <div key={i}>
+              <KeyIssueTitle>{issue.title}</KeyIssueTitle>
+              <KeyIssueDescription className="text-secondary">
+                {trimText(issue.desc)}
+              </KeyIssueDescription>
+              <KeyIssueSeparator />
+            </div>
+          ))}
+        </KeyIssuesContainer>
+      </KeyIssuesContent>
+    </KeyIssues>
+    <LowerSection>
+      <LowerSectionContainer>
+        <ButtonsLowerSection>
+          <TextLowerSectionContainer>
+            <i class="bi bi-clock"></i>
+            {data.indexerData.timestamp && (
+              <TimestampText>
+                {data.indexerData.timestamp.toDateString()} by{" "}
+                {data.indexerData.nominee}
+              </TimestampText>
             )}
-          </div>
-        </Left>
-        <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap ">
-          {state.nominations.length > 0 ? (
-            state.nominations.map((data) => (
-              <Widget src={widgets.card} props={data} />
-            ))
-          ) : (
-            <div className="flex mt-10 container-fluid align-self-center">
-              <H5 className="text-center">{state.notFound}</H5>
+          </TextLowerSectionContainer>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Button: {
+                text: `+${data.upVoteData.comments.length}`,
+                disabled: !state.verified,
+                size: "sm",
+                className: "secondary dark",
+                onClick: () => {
+                  !data.preview ? State.update({ showModal: true }) : "";
+                },
+                icon: <i className="bi bi-chat-square-text-fill"></i>,
+              },
+            }}
+          />
+        </ButtonsLowerSection>
+        <div className="d-flex justify-content-between">
+          <TagSection>
+            {data.nominationData.tags
+              .trim()
+              .split(",")
+              .map((data) => (
+                <>
+                  {data !== "" && (
+                    <Tag>
+                      <TagText>{data}</TagText>
+                    </Tag>
+                  )}
+                </>
+              ))}
+          </TagSection>
+
+          {!data.preview && (
+            <div className="d-flex gap-4">
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Link: {
+                    text: "View",
+                    size: "sm",
+                    className: "secondary dark",
+                    href: `#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                  },
+                }}
+              />
+              <DropdownContainerHover>
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Button: {
+                      text: "Share",
+                      size: "sm",
+                      onClick: handleShare,
+                      icon: <i class="bi bi-share-fill"></i>,
+                    },
+                  }}
+                />
+                <Separation>
+                  <DropdownContent>
+                    <Element onClick={handleShare}>
+                      <OverlayTrigger
+                        placement={top}
+                        overlay={<Tooltip>{state.shareText}</Tooltip>}
+                      >
+                        <ShareLink
+                          style={{
+                            width: "132px",
+                            "text-decoration": "none",
+                            color: "black",
+                          }}
+                        >
+                          Share as a Link
+                        </ShareLink>
+                      </OverlayTrigger>
+                      <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmV7qjDVv5dhsMJF1hRqCzeVNEHervtSURQmyBqWLdvtq3" />
+                    </Element>
+                    <Element>
+                      <ShareLink
+                        target="_blank"
+                        href={
+                          "https://twitter.com/intent/tweet?text=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election!%20&url=" +
+                          getComponentURL()
+                        }
+                        style={{
+                          width: "132px",
+                          "text-decoration": "none",
+                          color: "black",
+                        }}
+                      >
+                        Share on Twitter
+                      </ShareLink>
+                      <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTXndeq7DWFW8gwsmhLBXTd4KzCeKr2Q6GgMwUA8fmfoJ" />
+                    </Element>
+                    <Element>
+                      <ShareLink
+                        href={
+                          "mailto:?subject=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election&body=Support%20the%20NDC%20Election!%20" +
+                          getComponentURL()
+                        }
+                        style={{
+                          width: "132px",
+                          "text-decoration": "none",
+                          color: "black",
+                        }}
+                      >
+                        Share by Email
+                      </ShareLink>
+                      <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdDa1om9dWr49n7ozBsGhQfNrkQ3FxYWCtKRtNwHkuz3Q" />
+                    </Element>
+                  </DropdownContent>
+                </Separation>
+              </DropdownContainerHover>
             </div>
           )}
-        </Center>
-      </Container>
-    </div>
-
-    <>
-      {state.showModal && (
-        <Widget
-          src={`rubycop.near/widget/NDC.Nomination.Compose`}
-          props={{
-            handleClose: () => State.update({ showModal: false }),
-          }}
-        />
-      )}
-      {state.showModalDelete && (
-        <Widget
-          src={`rubycop.near/widget/NDC.Nomination.DeleteNomination`}
-          props={{
-            house: state.house,
-            handleClose: () => State.update({ showModalDelete: false }),
-          }}
-        />
-      )}
-    </>
-  </>
+        </div>
+      </LowerSectionContainer>
+    </LowerSection>
+  </Card>
 );
