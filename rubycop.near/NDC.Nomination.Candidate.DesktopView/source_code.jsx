@@ -722,6 +722,7 @@ return (
                   "border-radius": "8px",
                   "border-style": "hidden",
                   overflow: "hidden",
+                  "box-shadow": "0px 0px 2px #bfbfbfb3",
                 }}
               >
                 <thead>
