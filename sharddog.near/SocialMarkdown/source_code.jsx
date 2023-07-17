@@ -27,6 +27,10 @@ const Embedded = styled.span`
   white-space: normal;
 `;
 
+const blockquote = styled.span`
+  white-space: normal;
+`;
+
 const renderWidget =
   props.renderWidget ??
   props.onWidget ??
