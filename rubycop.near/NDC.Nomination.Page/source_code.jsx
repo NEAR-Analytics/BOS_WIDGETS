@@ -366,8 +366,7 @@ return (
                   props={{
                     Button: {
                       text: "Self Nominate",
-                      onClick: () =>
-                        state.sbt ? "" : State.update({ showModal: true }),
+                      onClick: () => State.update({ showModal: true }),
                       icon: <i class="bi bi-plus-lg"></i>,
                     },
                   }}
