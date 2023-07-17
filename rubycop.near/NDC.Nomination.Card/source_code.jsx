@@ -89,9 +89,9 @@ const HeaderCard = styled.div`
   width: 100%;
 `;
 const ProfilePicture = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 `;
 const HeaderContent = styled.div`
   display: flex;
@@ -536,7 +536,7 @@ const getShortUserName = (userId) => {
   if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
   const name = userId.slice(0, -5); // truncate .near
 
-  return name.length > 12 ? `${name.slice(0, 9)}...` : name;
+  return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
 
 const trimText = (text, limit) => {
@@ -590,7 +590,7 @@ return (
         />
       )}
       <HeaderCard className="d-flex justify-content-between">
-        <div>
+        <div className="d-flex align-items-center gap-2">
           <ProfilePicture
             src={
               data.imgURL
@@ -623,7 +623,6 @@ return (
             props={{
               Button: {
                 text: `+${data.upVoteData.upvotes ?? 0}`,
-                size: "sm",
                 className: "secondary dark",
                 onClick: handleUpVote,
                 icon: <i className="bi bi-hand-thumbs-up"></i>,
