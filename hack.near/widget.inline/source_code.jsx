@@ -25,7 +25,8 @@ const policy = Near.view(daoId, "get_policy");
 
 const deposit = policy.proposal_bond;
 
-const widgetPath = props.widgetPath ?? "hack.near/widget/Academy";
+const widgetPath =
+  props.widgetPath ?? props.updatedWidgetPath ?? "hack.near/widget/Academy";
 const [accountId, widget, widgetName] = widgetPath.split("/");
 
 const code = props.code ?? Social.get(`${widgetPath}`);
