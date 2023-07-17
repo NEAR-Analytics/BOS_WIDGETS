@@ -1,120 +1,204 @@
-const id = props.id ?? "builders";
+const accountId = props.accountId ?? context.accountId;
+const daoId = props.daoId ?? "build.sputnik-dao.near";
+
+const policy = Near.view(daoId, "get_policy");
+
+const latestProposalId = Near.view(daoId, "get_last_proposal_id") - 1;
+
+const deposit = policy.proposal_bond;
+
+const initWidgetPath = props.widgetPath ?? `${daoId}/widget/community`;
+const updatedWidgetPath =
+  props.updatedWidget ?? `${accountId}/widget/community`;
 
 State.init({
-  feedIndex: "projects",
+  accountId: accountId ?? "",
+  widgetPath: initWidgetPath ?? "",
+  updatedWidget: updatedWidgetPath ?? "",
 });
 
-const options = [
-  {
-    id: "projects",
-    title: "Projects",
+const [ownerId, oldWidget, widgetName] = state.widgetPath.split("/");
+
+const newCode = Social.get(`${state.updatedWidget}`);
+
+const oldCode = Social.get(`${state.widgetPath}`);
+
+const widget_args = JSON.stringify({
+  data: {
+    [daoId]: {
+      widget: {
+        [`${widgetName}`]: {
+          "": `${newCode}`,
+        },
+      },
+    },
   },
-  {
-    id: "activity",
-    title: "Activity",
-  },
-  {
-    id: "groups",
-    title: "Groups",
-  },
-  {
-    id: "menu",
-    title: "Menu",
-    mobileOnly: true,
-  },
-];
+});
 
-const [connectedAccounts, setConnectedAccounts] = useState([]);
+const proposal_args = Buffer.from(widget_args, "utf-8").toString("base64");
 
-const graph = context.accountId
-  ? Social.keys(`${context.accountId}/graph/${id}/*`, "final")
-  : {};
-useEffect(() => {
-  if (graph !== null) {
-    const accounts = Object.keys(graph[context.accountId].graph.follow || {});
-    accounts.push(context.accountId);
-    setConnectedAccounts(accounts);
+const handleProposal = () => {
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "update widget",
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: proposal_args,
+                  deposit: "50000000000000000000000",
+                  gas: "30000000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: deposit,
+      gas: "219000000000000",
+    },
+  ]);
+};
+
+const handleCreate = () =>
+  Social.set({
+    widget: {
+      [`${widgetName}`]: {
+        "": `${oldCode}`,
+      },
+    },
+  });
+
+let CodeWrapper = styled.div`
+  & > pre > div {
+    margin: 0px !important;
   }
-}, [graph, context.accountId]);
 
-const Nav = styled.div`
-  .nav-pills {
-    background: #fbfbfb;
-    font-weight: 500;
-    --bs-nav-pills-border-radius: 0;
-    --bs-nav-link-color: #000;
-    --bs-nav-pills-link-active-color: #000;
-    --bs-nav-pills-link-active-bg: #fbfbfb;
-    --bs-nav-link-padding-y: 0.75rem;
-    border-bottom: 1px solid #eee;
-    padding-top: 3px;
-  }
-  .nav-link.active {
-    border-bottom: 3px solid rgb(13, 110, 253);
-  }
-
-  .nav-item:not(:has(> .disabled)):hover {
-    background: rgba(13, 110, 253, 0.15);
-  }
-
-  margin: 0 -12px;
-
-  @media(max-width: 991px) {
-    margin: -24px -12px 0;
+  & > pre {
+    margin: 0px !important;
+    border-radius: 0px 0px 5px 5px;
   }
 `;
 
-const isMember = true;
+const setButton = ({ widgetPath, onHide }) => {
+  return (
+    <button
+      className="btn btn-primary"
+      onClick={() => {
+        State.update({ widgetPath });
+        onHide();
+      }}
+    >
+      <i className="bi bi-plus-lg" /> add
+    </button>
+  );
+};
+
+const updateButton = ({ widgetPath, onHide }) => {
+  return (
+    <button
+      className="btn btn-primary"
+      onClick={() => {
+        State.update({ updatedPath: widgetPath });
+        onHide();
+      }}
+    >
+      <i className="bi bi-plus-lg" /> add
+    </button>
+  );
+};
 
 return (
-  <div className="row">
-    <div className="col-lg-8">
-      <Nav>
-        <ul className="nav nav-pills nav-fill">
-          {options.map((option, i) => (
-            <li
-              className={`nav-item ${option.mobileOnly ? "d-lg-none" : ""}`}
-              key={i}
-            >
-              <button
-                className={`nav-link ${
-                  state.feedIndex === option.id ? "active" : ""
-                } ${option.disabled ? "disabled" : ""}`}
-                aria-disabled={!!option.disabled}
-                onClick={() =>
-                  !option.disabled && State.update({ feedIndex: option.id })
-                }
-              >
-                {option.title}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </Nav>
-      <div
-        className={`${
-          state.feedIndex === "menu" ? "d-none" : ""
-        } d-lg-block m-3`}
-      >
-        {state.feedIndex === "activity" ? (
-          <Widget
-            key="recent"
-            src="mob.near/widget/LastWidgets"
-            props={{ accounts: connectedAccounts }}
-          />
-        ) : state.feedIndex === "projects" ? (
-          <Widget key="featured" src="near/widget/FeaturedComponents" />
-        ) : (
-          <Widget key="community" src="hack.near/widget/every.group" />
-        )}
+  <div className="d-flex flex-column">
+    <div className="p-1 m-1">
+      <h2>
+        <b>Request Updates</b>
+      </h2>
+      <div>
+        <Widget
+          src="hack.near/widget/dev.proposal"
+          props={{ accountId, daoId, proposalId: latestProposalId }}
+        />
       </div>
     </div>
-    <div
-      className={`${
-        state.feedIndex !== "menu" ? "d-none" : "pt-3"
-      } d-lg-block col-lg-4`}
-    >
-      <Widget src="devs.near/widget/GitBos.kit" props={props} />
+    <div className="p-1 m-1">
+      <div className="row">
+        <div className="col m-2">
+          <h5>Template</h5>
+          <Widget
+            src="hack.near/widget/widget.search"
+            props={{ extraButtons: setButton }}
+          />
+          <Widget
+            src={`hack.near/widget/widget.inline`}
+            props={{
+              widgetPath: state.widgetPath,
+            }}
+          />
+          <div className="m-2">
+            <a
+              className="btn btn-secondary border-0 m-1"
+              href={`#/edit/${state.widgetPath}`}
+            >
+              <i className="bi bi-terminal-plus me-1"></i>
+              {accountId === daoId ? "Edit" : "Build"}
+            </a>
+          </div>
+        </div>
+
+        <div className="col m-2">
+          <h5>Updated Version</h5>
+          <Widget
+            src="hack.near/widget/widget.search"
+            props={{ extraButtons: updateButton }}
+          />
+          <Widget
+            src={`hack.near/widget/widget.inline`}
+            props={{
+              widgetPath: state.updatedPath,
+            }}
+          />
+          <div className="m-2">
+            <button
+              disabled={!state.widgetPath}
+              className="btn btn-secondary border-0 m-1"
+              onClick={handleProposal}
+            >
+              <i className="bi bi-git me-1"></i>
+              {accountId === daoId ? "Update" : "Propose Changes"}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <CodeWrapper>
+      <Widget
+        src={`hack.near/widget/widget.compare`}
+        props={{
+          widgetPath: state.widgetPath,
+          updatedWidget: state.updatedWidget,
+          findUniqueResult: (
+            lineCountDeleted,
+            lineCountInserted,
+            lineCountCurrentCode,
+            lineCountPrevCode,
+            allLineCount
+          ) => {
+            if (
+              state.lineCountDeleted === undefined ||
+              state.lineCountInserted === undefined
+            )
+              State.update({ lineCountDeleted, lineCountInserted });
+          },
+        }}
+      />
+    </CodeWrapper>
   </div>
 );
