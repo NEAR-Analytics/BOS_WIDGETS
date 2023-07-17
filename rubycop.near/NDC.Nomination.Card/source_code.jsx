@@ -533,12 +533,6 @@ const CommentButtonIcon = styled.img`
   width: 14px;
   height: 14px;
 `;
-const TagSectionContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
-`;
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -791,104 +785,104 @@ return (
             </CommentButtonDisabled>
           )}
         </ButtonsLowerSection>
-        <TagSectionContainer>
+        <div className="d-flex justify-content-between">
           <TagSection>
             {data.nominationData.tags
               .trim()
               .split(",")
-              .map((data) => {
-                return data === "" ? (
-                  <></>
-                ) : (
-                  <Tag>
-                    <TagText>{data}</TagText>
-                  </Tag>
-                );
-              })}
+              .map((data) => (
+                <>
+                  {data !== "" && (
+                    <Tag>
+                      <TagText>{data}</TagText>
+                    </Tag>
+                  )}
+                </>
+              ))}
           </TagSection>
-          <div>
-            {!data.preview && (
-              <>
+          \
+          {!data.preview && (
+            <div>
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Link: {
+                    text: "View",
+                    size: "sm",
+                    className: "secondary dark",
+                    href: `#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                  },
+                }}
+              />
+              <DropdownContainerHover>
                 <Widget
                   src={widgets.styledComponents}
                   props={{
-                    Link: {
-                      text: "View",
+                    Button: {
+                      text: "Share",
                       size: "sm",
-                      href: `#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                      onClick: handleShare,
                     },
                   }}
                 />
-                <DropdownContainerHover>
-                  <Widget
-                    src={widgets.styledComponents}
-                    props={{
-                      Button: {
-                        text: "Share",
-                        size: "sm",
-                        onClick: handleShare,
-                      },
-                    }}
-                  />
-                  <Separation>
-                    <DropdownContent>
-                      <Element onClick={handleShare}>
-                        <OverlayTrigger
-                          placement={top}
-                          overlay={<Tooltip>{state.shareText}</Tooltip>}
-                        >
-                          <ShareLink
-                            style={{
-                              width: "132px",
-                              "text-decoration": "none",
-                              color: "black",
-                            }}
-                          >
-                            Share as a Link
-                          </ShareLink>
-                        </OverlayTrigger>
-                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmV7qjDVv5dhsMJF1hRqCzeVNEHervtSURQmyBqWLdvtq3" />
-                      </Element>
-                      <Element>
+                <Separation>
+                  <DropdownContent>
+                    <Element onClick={handleShare}>
+                      <OverlayTrigger
+                        placement={top}
+                        overlay={<Tooltip>{state.shareText}</Tooltip>}
+                      >
                         <ShareLink
-                          target="_blank"
-                          href={
-                            "https://twitter.com/intent/tweet?text=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election!%20&url=" +
-                            getComponentURL()
-                          }
                           style={{
                             width: "132px",
                             "text-decoration": "none",
                             color: "black",
                           }}
                         >
-                          Share on Twitter
+                          Share as a Link
                         </ShareLink>
-                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTXndeq7DWFW8gwsmhLBXTd4KzCeKr2Q6GgMwUA8fmfoJ" />
-                      </Element>
-                      <Element>
-                        <ShareLink
-                          href={
-                            "mailto:?subject=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election&body=Support%20the%20NDC%20Election!%20" +
-                            getComponentURL()
-                          }
-                          style={{
-                            width: "132px",
-                            "text-decoration": "none",
-                            color: "black",
-                          }}
-                        >
-                          Share by Email
-                        </ShareLink>
-                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdDa1om9dWr49n7ozBsGhQfNrkQ3FxYWCtKRtNwHkuz3Q" />
-                      </Element>
-                    </DropdownContent>
-                  </Separation>
-                </DropdownContainerHover>
-              </>
-            )}
-          </div>
-        </TagSectionContainer>
+                      </OverlayTrigger>
+                      <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmV7qjDVv5dhsMJF1hRqCzeVNEHervtSURQmyBqWLdvtq3" />
+                    </Element>
+                    <Element>
+                      <ShareLink
+                        target="_blank"
+                        href={
+                          "https://twitter.com/intent/tweet?text=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election!%20&url=" +
+                          getComponentURL()
+                        }
+                        style={{
+                          width: "132px",
+                          "text-decoration": "none",
+                          color: "black",
+                        }}
+                      >
+                        Share on Twitter
+                      </ShareLink>
+                      <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTXndeq7DWFW8gwsmhLBXTd4KzCeKr2Q6GgMwUA8fmfoJ" />
+                    </Element>
+                    <Element>
+                      <ShareLink
+                        href={
+                          "mailto:?subject=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election&body=Support%20the%20NDC%20Election!%20" +
+                          getComponentURL()
+                        }
+                        style={{
+                          width: "132px",
+                          "text-decoration": "none",
+                          color: "black",
+                        }}
+                      >
+                        Share by Email
+                      </ShareLink>
+                      <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdDa1om9dWr49n7ozBsGhQfNrkQ3FxYWCtKRtNwHkuz3Q" />
+                    </Element>
+                  </DropdownContent>
+                </Separation>
+              </DropdownContainerHover>
+            </div>
+          )}
+        </div>
       </LowerSectionContainer>
     </LowerSection>
   </Card>
