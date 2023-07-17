@@ -90,6 +90,13 @@ const Theme = styled.div`
       flex-flow: wrap-reverse !important;
     }
   }
+
+
+  @media only screen and (min-device-width: 375px) {
+    .apps {
+      max-width: 350px;
+    }
+  }
   
   .swap-main-column {
     padding-top: 0 !important;
