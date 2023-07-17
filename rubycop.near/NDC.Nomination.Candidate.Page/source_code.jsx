@@ -1,5 +1,6 @@
-let { ids } = props;
+let { ids, org } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
+org = props.org ? org : "test"; // for testing purposes
 
 const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
@@ -62,15 +63,15 @@ return (
   <div>
     <Mobile style={{ display: "flex", "justify-content": "center" }}>
       <Mobile style={{ width: "359px" }}>
-        {houses.map((group) => (
+        {houses.map((house) => (
           <>
-            {group.id === state.selectedHouse && (
+            {house.id === state.selectedHouse && (
               <Widget
                 key={i}
                 src={widgets.header}
                 props={{
-                  startTime: group.start,
-                  endTime: group.end,
+                  startTime: house.start,
+                  endTime: house.end,
                   type: "Nomination",
                 }}
               />
@@ -101,17 +102,17 @@ return (
           "padding-left": "5px",
         }}
       >
-        {houses.map((group) => (
+        {houses.map((house) => (
           <>
-            {group.id === state.selectedHouse && (
+            {house.id === state.selectedHouse && (
               <Widget
                 key={i}
                 src={widgets.header}
                 props={{
                   house: props.house,
                   candidate: props.candidate,
-                  startTime: group.start,
-                  endTime: group.end,
+                  startTime: house.start,
+                  endTime: house.end,
                   type: "Nomination",
                 }}
               />
