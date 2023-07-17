@@ -81,6 +81,12 @@ const Label = styled.label`
     line-height: 1.25em;
     color: #344054;
   `;
+const ButtonsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
 return (
   <>
     <Widget
@@ -150,7 +156,7 @@ return (
         error: state.functionCallError,
       }}
     />
-    <div className="ms-auto">
+    <ButtonsContainer>
       <Widget
         src={`${authorId}/widget/Common.Button`}
         props={{
@@ -170,6 +176,6 @@ return (
           variant: "success",
         }}
       />
-    </div>
+    </ButtonsContainer>
   </>
 );
