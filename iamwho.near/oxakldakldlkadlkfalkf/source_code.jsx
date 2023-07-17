@@ -23,7 +23,7 @@ const fetchContracts = () => {
 if (!contracts) fetchContracts();
 
 return (
-  <table class="table-auto w-full border border-gray-300 p-4">
+  <table class="table border border-gray-300">
     <thead>
       <tr>
         <th class="px-4 py-2">Contract</th>
