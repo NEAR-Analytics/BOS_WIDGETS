@@ -227,6 +227,7 @@ const CandidateTag = styled.div`
   justify-content: center;
   align-items: center;
   padding: 4px 8px;
+  border: 1px solid rgb(206 153 255);
   background: linear-gradient(
     90deg,
     rgba(147, 51, 234, 0.1) 0%,
@@ -634,9 +635,12 @@ return (
           <CandidateTagContainer className="w-100 d-flex flex-wrap">
             {JSON.parse(data.nominationData.afiliation).map((data) => {
               return (
-                <CandidateTag>
-                  <CandidateTagText>{data.company_name}</CandidateTagText>
-                </CandidateTag>
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Tag: { title: data.company_name },
+                  }}
+                />
               );
             })}
           </CandidateTagContainer>
