@@ -3,7 +3,7 @@ ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 org = props.org ? org : "test"; // for testing purposes
 
 const widgets = {
-  header: "rubycop.near/widget/NDC.Nomination.Header",
+  header: "rubycop.near/widget/NDC.Elections.Header",
 };
 
 const electionContract = "elections-v1.gwg-testing.near";
@@ -20,6 +20,15 @@ State.init({
   profile: {},
   nominations: {},
 });
+
+const BackLink = styled.a`
+  color: black;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+`;
 
 asyncFetch(
   `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${props.candidate}`,
@@ -71,38 +80,11 @@ return (
       </Movile>
     </Movile>
     <Movile class="row">
-      <div
-        style={{
-          width: "358px",
-          "margin-bottom": "15px",
-          "margin-top": "10px",
-        }}
-      >
-        <a
-          href="#/syi216.near/widget/NDC.Nomination.Page"
-          style={{
-            "font-weight": "500",
-            color: "black",
-            display: "flex",
-            "align-items": "center",
-            "text-decoration": "none",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              "justify-content": "center",
-              "align-items": "center",
-              gap: "5px",
-            }}
-          >
-            <img
-              style={{ height: "10px" }}
-              src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmbhHT91uXs13i1zx8ZTGMoLzCFU3PqE6c19a7RTMtiKwA?_gl=1*1frs7k7*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODc2MjYzNS40LjEuMTY4ODc2MjY4NC4xMS4wLjA."
-            ></img>
-            <label style={{ cursor: "pointer" }}>Back</label>
-          </div>
-        </a>
+      <div className="my-3">
+        <BackLink href="#/rubycop.near/widget/NDC.Nomination.Page">
+          <i className="bi bi-chevron-left mr-2"></i>
+          Back
+        </BackLink>
       </div>
     </Movile>
     <Movile>
@@ -139,38 +121,11 @@ return (
       </div>
     </Desktop>
     <Desktop class="row">
-      <div
-        style={{
-          width: "1305px",
-          "margin-bottom": "15px",
-          "margin-top": "10px",
-        }}
-      >
-        <a
-          href="#/syi216.near/widget/NDC.Nomination.Page"
-          style={{
-            "font-weight": "500",
-            color: "black",
-            display: "flex",
-            "align-items": "center",
-            "text-decoration": "none",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              "justify-content": "center",
-              "align-items": "center",
-              gap: "5px",
-            }}
-          >
-            <img
-              style={{ height: "10px" }}
-              src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmbhHT91uXs13i1zx8ZTGMoLzCFU3PqE6c19a7RTMtiKwA?_gl=1*1frs7k7*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODc2MjYzNS40LjEuMTY4ODc2MjY4NC4xMS4wLjA."
-            ></img>
-            <label style={{ cursor: "pointer" }}>Back</label>
-          </div>
-        </a>
+      <div className="my-3">
+        <BackLink href="#/rubycop.near/widget/NDC.Nomination.Page">
+          <i className="bi bi-chevron-left mr-2"></i>
+          Back
+        </BackLink>
       </div>
     </Desktop>
     <Desktop class="row">
