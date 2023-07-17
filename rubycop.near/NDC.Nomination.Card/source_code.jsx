@@ -647,7 +647,7 @@ return (
               }}
             />
           </ButtonsLowerSection>
-          <div className="d-flex w-100 my-3">
+          <div className="d-flex w-100">
             <TagSection>
               {data.nominationData.tags
                 .trim()
