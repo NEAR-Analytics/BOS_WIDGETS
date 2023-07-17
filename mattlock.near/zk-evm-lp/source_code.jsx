@@ -35,7 +35,6 @@ const logo = (
 );
 
 const buttonStyled = `
-  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.5);
   border: none;
   border-radius: 24px;
@@ -53,6 +52,7 @@ const buttonStyled = `
 `;
 
 const Theme = styled.div`
+  box-sizing: border-box;
   color: white;
   padding: 0;
   margin: 0;
