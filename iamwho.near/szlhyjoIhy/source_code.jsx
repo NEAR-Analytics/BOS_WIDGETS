@@ -6,6 +6,8 @@ const handleChange = (e) => {
   State.update({ value: e.target.value });
 };
 
+console.log(state.value);
+
 return (
   <div class="flex">
     <input
