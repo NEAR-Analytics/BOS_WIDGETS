@@ -269,6 +269,7 @@ const handleChangeHouse = (item) => {
   if (item === "HouseOfMerit") Storage.privateSet("Houseselected", 1);
   if (item === "CouncilOfAdvisors") Storage.privateSet("Houseselected", 2);
   if (item === "TransparencyCommission") Storage.privateSet("Houseselected", 3);
+
   console.log(item);
   State.update({ house_intended: item, error_msg: null });
 };
@@ -401,7 +402,7 @@ return (
                 Dropdown: {
                   label: "House",
                   value: state.house_intended,
-                  handleChange: handleChangeHouse,
+                  handleChange: (item) => handleChangeHouse(item),
                   options: [
                     { title: "Select house", value: 0, default: true },
                     { title: "House Of Merit", value: "HouseOfMerit" },
