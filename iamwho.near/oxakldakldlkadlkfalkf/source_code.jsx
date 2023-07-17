@@ -6,7 +6,7 @@ const fetchContracts = () => {
   try {
     const res = Near.view("v1.sourcescan.near", "get_contracts", {
       from_index: props.from_index || 0,
-      limit: props.from_index || 10,
+      limit: props.limit || 10,
     });
     console.log(res);
 
