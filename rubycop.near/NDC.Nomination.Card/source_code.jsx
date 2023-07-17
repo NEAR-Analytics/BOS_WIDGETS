@@ -641,23 +641,17 @@ return (
         </HeaderContentText>
       </HeaderContent>
       {canUpvote && (
-        <UpvoteButton onClick={handleUpVote}>
-          +{data.upVoteData.upvotes ?? 0}
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: {
-                url: canUpvote
-                  ? "https://bafkreihtxbozr3tpmzyijzvgmnzjhfnvfudu5twxi5e736omfor6rrbcde.ipfs.nftstorage.link"
-                  : "https://bafkreiew3fr6fxxw6p5zibr7my7ykdqyppblaldsudsnropawfkghjkhuu.ipfs.nftstorage.link",
-              },
-              style: { height: "15px", marginBottom: "3px" },
-              alt: "upvote",
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-            }}
-          />
-        </UpvoteButton>
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              text: `+${data.upVoteData.upvotes ?? 0}`,
+              className: "secondary dark",
+              onClick: handleUpVote,
+              icon: <i className="bi bi-hand-thumbs-up"></i>,
+            },
+          }}
+        />
       )}
     </HeaderCard>
     <CollapseCandidate>
