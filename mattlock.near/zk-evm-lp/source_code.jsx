@@ -80,6 +80,7 @@ const Theme = styled.div`
 
   @media only screen and (min-device-width: 375px) and (orientation: portrait) {
     padding: 16px;
+    padding-top: 90px !important;
     min-height: 100vh !important;
     min-width: 100vw !important;
     overflow: hidden !important;
