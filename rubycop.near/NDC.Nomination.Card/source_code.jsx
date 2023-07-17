@@ -220,34 +220,7 @@ const DownArrow = styled.img`
 const CandidateTagContainer = styled.div`
   gap: 4px;
 `;
-const CandidateTag = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 8px;
-  border: 1px solid rgb(206 153 255);
-  background: linear-gradient(
-    90deg,
-    rgba(147, 51, 234, 0.1) 0%,
-    rgba(79, 70, 229, 0.1) 100%
-  );
-  border-radius: 100px;
-`;
-const CandidateTagText = styled.p`
-  height: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 200px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 120%;
-  margin: 0px;
-  color: #9333ea;
-`;
+
 const KeyIssues = styled.div`
   display: flex;
   flex-direction: row;
@@ -389,38 +362,9 @@ const TagSection = styled.div`
   align-items: flex-start;
   gap: 4px;
   flex-wrap: wrap;
-  max-height: 20px;
   overflow: hidden;
 `;
-const Tag = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 8px;
-  gap: 10px;
-  height: 20px;
-  border-radius: 80px;
-  background-image: linear-gradient(#eae5f7, #eae5f7),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 100px;
-`;
-const TagText = styled.p`
-  height: 12px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  margin: 0px;
-  line-height: 120%;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
+
 const CommentButtonDisabled = styled.button`
   display: flex;
   padding: 2px 12px;
