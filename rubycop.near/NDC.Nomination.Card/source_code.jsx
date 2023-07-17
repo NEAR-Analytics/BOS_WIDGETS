@@ -606,7 +606,7 @@ return (
           </KeyIssuesHeader>
           <KeyIssuesContainer>
             {keyIssues.map((issue, i) => (
-              <div key={i}>
+              <div className="w-100" key={i}>
                 <KeyIssueTitle>{issue.title}</KeyIssueTitle>
                 <KeyIssueDescription className="text-secondary">
                   {trimText(issue.desc)}
