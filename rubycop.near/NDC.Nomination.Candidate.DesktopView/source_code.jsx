@@ -81,15 +81,8 @@ const DetailCard = styled.div`
 const ProfilePicture = styled.img`
   width: 40px;
   height: 40px;
+  margin-right: 20px;
   flex-shrink: 0;
-`;
-
-const HeaderDetailContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  flex: 1 0 0;
 `;
 
 const TagContainer = styled.div`
@@ -334,19 +327,17 @@ const CandidateHeader = styled.div`
 
 const CandidateHeaderText = styled.p`
   color: #000;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 120%;
   margin: 0px;
 `;
 
 const CandidateInfoDiv = styled.div`
-  display: flex;
-  width: 290px;
   padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
+  background: white;
   gap: 16px;
+  border-radius: 8px;
 `;
 
 const CandidateInfoHeader = styled.div`
@@ -390,7 +381,7 @@ const CandidateTagText = styled.p`
 `;
 
 const CandidateTime = styled.p`
-  margin: 0px;
+  margin-top: 5px;
   color: var(--primary-828688, #828688);
   font-size: 10px;
   font-weight: 500;
@@ -585,15 +576,14 @@ return (
     <div class="col-9" style={{ "margin-right": "5px", width: "950px" }}>
       <div class="row" style={{ "margin-inline": "5px" }}>
         <div
-          class="col-12"
+          class="col-12 p-0 w-100"
           style={{
-            width: "100%",
             background: "#F8F8F9",
             "border-radius": "8px",
           }}
         >
           <div className="w-100 p-3 d-flex justify-content-between align-items-start">
-            <div>
+            <div className="d-flex">
               <ProfilePicture
                 style={{
                   width: "100px",
@@ -607,8 +597,8 @@ return (
                 }
                 alt="pic"
               ></ProfilePicture>
-              <HeaderDetailContent>
-                <TagContainer style={{ "margin-bottom": "5px" }}>
+              <div className="d-flex flex-column">
+                <TagContainer>
                   <Widget
                     src={widgets.styledComponents}
                     props={{
@@ -626,7 +616,7 @@ return (
                 </TagContainer>
                 <NominationTitleContainer>
                   <NominationTitle
-                    style={{ "margin-bottom": "5px", "font-size": "18px" }}
+                    style={{ margin: "5px 0", "font-size": "18px" }}
                   >
                     {data.nominations.name}
                   </NominationTitle>
@@ -651,24 +641,22 @@ return (
                       })}
                   </TagContainer>
                 </NominationTitleContainer>
-              </HeaderDetailContent>
+              </div>
             </div>
-            <HeaderDetailContent>
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Button: {
-                    text: `+${data.comments[0].upvotes ?? 0}`,
-                    disabled:
-                      !state.verified || context.accountId === props.candidate,
-                    className: "secondary dark",
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Button: {
+                  text: `+${data.comments[0].upvotes ?? 0}`,
+                  disabled:
+                    !state.verified || context.accountId === props.candidate,
+                  className: "secondary dark",
 
-                    onClick: handleUpVote,
-                    icon: <i className="bi bi-hand-thumbs-up"></i>,
-                  },
-                }}
-              />
-            </HeaderDetailContent>
+                  onClick: handleUpVote,
+                  icon: <i className="bi bi-hand-thumbs-up"></i>,
+                },
+              }}
+            />
           </div>
         </div>
         <div
@@ -695,22 +683,22 @@ return (
                 </CandidateHeader>
                 {afilations.map((data) => {
                   return (
-                    <CandidateInfoDiv
-                      style={{ background: "white", "border-radius": "8px" }}
-                    >
+                    <CandidateInfoDiv>
                       <CandidateInfoHeader>
                         <CandidateImage
                           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
                           alt="pic"
                         ></CandidateImage>
                         <CandidateInfoData>
-                          <CandidateTagDiv>
-                            <CandidateTagText>
-                              {data.company_name}
-                            </CandidateTagText>
-                          </CandidateTagDiv>
+                          <Widget
+                            src={widgets.styledComponents}
+                            props={{
+                              Tag: { title: data.company_name },
+                            }}
+                          />
                           <CandidateTime>
-                            {data.start_date} - {data.end_date}
+                            {data.start_date.toDateString()} -{" "}
+                            {data.end_date.toDateString()}
                           </CandidateTime>
                         </CandidateInfoData>
                       </CandidateInfoHeader>
