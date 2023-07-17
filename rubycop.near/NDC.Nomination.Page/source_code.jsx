@@ -398,7 +398,7 @@ return (
             )}
           </div>
         </Left>
-        <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap ">
+        <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap gap-4">
           {state.nominations.length > 0 ? (
             state.nominations.map((data) => (
               <Widget src={widgets.card} props={data} />
