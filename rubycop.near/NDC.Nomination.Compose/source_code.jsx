@@ -45,7 +45,7 @@ State.init({
   },
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
-  house_intended: "",
+  house_intended: 0,
   HAYInvolve: "",
   WIYStrategy: "",
   Key_Issue_1: "",
@@ -177,7 +177,7 @@ const validatedInputs = () => {
     State.update({ error_msg: "Fill the Profile Account" });
     isValid = false;
   }
-  if (isEmpty(house_intended)) {
+  if (house_intended === 0) {
     State.update({ error_msg: "Select a house" });
     isValid = false;
   }
@@ -400,7 +400,8 @@ return (
               props={{
                 Dropdown: {
                   label: "House",
-                  handleChange: (e) => handleChangeHouse(e.target.value),
+                  value: state.house_intended,
+                  handleChange: handleChangeHouse,
                   options: [
                     { title: "Select house", value: 0, default: true },
                     { title: "House Of Merit", value: "HouseOfMerit" },
