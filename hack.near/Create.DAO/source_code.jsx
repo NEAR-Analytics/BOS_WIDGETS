@@ -36,7 +36,7 @@ const handleCreate = () => {
         name: state.name,
         args: dao_args,
       },
-      deposit: "7000000000000000000000000",
+      deposit: "6000000000000000000000000",
       gas: "300000000000000",
     },
   ]);
