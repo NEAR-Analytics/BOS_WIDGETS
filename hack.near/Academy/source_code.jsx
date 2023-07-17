@@ -338,7 +338,7 @@ return (
           </div>
           <TimelineItem>
             <TimelineText>
-              <b>July 5:</b>
+              <b>July 7:</b>
               <a href="https://zoom.us/webinar/register/WN_zXO7b31-TM62J_sxiytAVQ">
                 Indexers, APIs, and Components
               </a>
@@ -348,20 +348,6 @@ return (
             <Widget
               src="miraclx.near/widget/Attribution"
               props={{ dep: true, authors: ["microchipgnu.near"] }}
-            />
-          </div>
-          <TimelineItem>
-            <TimelineText>
-              <b>July 11:</b>
-              <a href="https://zoom.us/webinar/register/WN_K0Dq50nGRiiX9fiv3BDINw">
-                BOS Component Design Patterns
-              </a>
-            </TimelineText>
-          </TimelineItem>
-          <div className="row mb-3">
-            <Widget
-              src="miraclx.near/widget/Attribution"
-              props={{ dep: true, authors: ["manzanal.near"] }}
             />
           </div>
           <TimelineItem>
@@ -380,6 +366,20 @@ return (
           </div>
           <TimelineItem>
             <TimelineText>
+              <b>July 21:</b>
+              <a href="https://zoom.us/webinar/register/WN_K0Dq50nGRiiX9fiv3BDINw">
+                BOS Component Design Patterns
+              </a>
+            </TimelineText>
+          </TimelineItem>
+          <div className="row mb-3">
+            <Widget
+              src="miraclx.near/widget/Attribution"
+              props={{ dep: true, authors: ["manzanal.near"] }}
+            />
+          </div>
+          <TimelineItem>
+            <TimelineText>
               <b>July 25:</b>
               <a href="https://zoom.us/webinar/register/WN_8Ba3cAzzS5euv4ck094WvA">
                 BOS Web Engine + Gateways
@@ -394,7 +394,7 @@ return (
           </div>
           <TimelineItem>
             <TimelineText>
-              <b>August 11-27</b>
+              <b>August 11-27:</b>
               <a href="https://nearbuilders.com/boshacks">
                 Virtual BOS Hackathon
               </a>
