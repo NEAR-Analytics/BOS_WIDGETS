@@ -159,7 +159,10 @@ const validatedInputs = () => {
     afiliation,
     agreement,
     tags,
-  } = State;
+  } = state;
+
+  console.log(state);
+  return true;
 
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
