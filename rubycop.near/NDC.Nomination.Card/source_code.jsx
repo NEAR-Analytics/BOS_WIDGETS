@@ -89,8 +89,8 @@ const HeaderCard = styled.div`
   width: 100%;
 `;
 const ProfilePicture = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
 `;
 const HeaderContent = styled.div`
@@ -347,7 +347,6 @@ const ClockIcon = styled.img`
   height: 12px;
 `;
 const TimestampText = styled.div`
-  width: 150px;
   font-style: italic;
   font-weight: 300;
   font-size: 11px;
@@ -623,6 +622,7 @@ return (
               Button: {
                 text: `+${data.upVoteData.upvotes ?? 0}`,
                 className: "secondary dark",
+                size: "sm",
                 onClick: handleUpVote,
                 icon: <i className="bi bi-hand-thumbs-up"></i>,
               },
@@ -672,6 +672,7 @@ return (
                   <span>
                     {new Date(data.indexerData.timestamp).toDateString()}
                   </span>
+                  {" by "}
                   <b>{data.indexerData.nominee}</b>
                 </TimestampText>
               )}
