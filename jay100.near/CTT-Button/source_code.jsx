@@ -78,7 +78,7 @@ const GameButton = () => {
   ];
 
   return (
-    <div>
+    <div style={{ backgroundColor: "rgb(12, 12, 31)", height: "58vh" }}>
       {data ? (
         <>
           {data.map((button) => {
