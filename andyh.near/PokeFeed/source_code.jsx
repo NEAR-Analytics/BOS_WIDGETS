@@ -6,6 +6,7 @@ if (!items) {
   return "Loading";
 }
 
+console.log({ items });
 items.reverse();
 
 const renderItem = (a) => (
