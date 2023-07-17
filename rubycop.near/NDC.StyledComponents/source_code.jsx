@@ -301,7 +301,7 @@ if (TextArea)
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
-            {TextArea.maxLength - TextArea.value.length ?? 0} left
+            {parseInt(TextArea.maxLength) - TextArea.value.length ?? 0} left
           </small>
         </div>
       )}
@@ -325,7 +325,7 @@ if (Input)
       {Input.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
-            {Input.maxLength - Input.value.length ?? 0} left
+            {parseInt(Input.maxLength) - Input.value.length ?? 0} left
           </small>
         </div>
       )}
@@ -373,7 +373,7 @@ const WidgetInput = ({ type }) => {
         [type]: {
           label: "Select label",
           placeholder: "Placeholder text here...",
-          maxLength: 20,
+          maxLength: "20",
           min: new Date(),
           value: state[type],
           handleChange: (e) => State.update({ [type]: e.target.value }),
