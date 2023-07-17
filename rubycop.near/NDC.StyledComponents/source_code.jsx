@@ -258,7 +258,7 @@ if (Button)
 if (Tag)
   return (
     <Styled.Tag>
-      <p>{Tag.title}</p>
+      <p title={Tag.title}>{Tag.title}</p>
     </Styled.Tag>
   );
 
@@ -381,7 +381,7 @@ const WidgetInput = ({ type }) => {
 
 return (
   <Container>
-    <h4>Buttons</h4>
+    <h4>Button</h4>
     <div className="d-flex align-items-end flex-wrap gap-2">
       <WidgetButton text="Primary" />
       <WidgetButton text="Primary" icon={<i class="bi bi-check-lg"></i>} />
@@ -451,7 +451,7 @@ return (
     <h4>Select</h4>
     <WidgetSelect />
 
-    <h4>Inputs</h4>
+    <h4>Input</h4>
     <WidgetInput type="Input" />
     <WidgetInput type="TextArea" />
   </Container>
