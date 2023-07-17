@@ -77,7 +77,7 @@ const Card = styled.div`
   align-items: flex-start;
   padding: 16px;
   gap: 16px;
-  width: 358px;
+  width: 100%;
   background: #f8f8f9;
   border-radius: 10px;
 `;
@@ -352,17 +352,21 @@ const ClockIcon = styled.img`
   width: 12px;
   height: 12px;
 `;
-const TimestampText = styled.p`
+const TimestampText = styled.div`
   width: 150px;
-  height: 20px;
   font-style: italic;
   font-weight: 300;
   font-size: 11px;
   line-height: 14px;
   margin: 0px;
+  gap: 2px;
   display: flex;
   align-items: center;
   color: #000000;
+
+  b {
+    font-weight: 600;
+  }
 `;
 const CommentsCounter = styled.p`
   width: 96px;
@@ -669,7 +673,9 @@ return (
             <i className="bi bi-clock"></i>
             {data.indexerData.timestamp && (
               <TimestampText>
-                {new Date(data.indexerData.timestamp).toDateString()} by{" "}
+                <span>
+                  {new Date(data.indexerData.timestamp).toDateString()}
+                </span>
                 <b>{data.indexerData.nominee}</b>
               </TimestampText>
             )}
