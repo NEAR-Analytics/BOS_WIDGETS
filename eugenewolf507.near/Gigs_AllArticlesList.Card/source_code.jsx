@@ -16,12 +16,18 @@ const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
-if (sharedArticleId === article.articleId && sharedArticleId) {
+if (
+  (sharedArticleId === article.articleId && sharedArticleId) ||
+  cardWithOpenModal === article.articleId
+) {
   State.update({ showModal: true });
+} else {
+  State.update({ showModal: false });
 }
-if (cardWithOpenModal === article.articleId) {
-  State.update({ showModal: true });
-}
+
+// if (cardWithOpenModal === article.articleId) {
+//   State.update({ showModal: true });
+// }
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
