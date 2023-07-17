@@ -147,7 +147,9 @@ const Modal = ({ onClose, children }) => {
 
 return (
   <CardWrapper className="col gy-3" key={article.articleId}>
-    <button onClick={updateModalHandler}>change cardWithOpenModal</button>
+    <button onClick={() => updateModalHandler("Card")}>
+      change cardWithOpenModal
+    </button>
     <div className="card h-100" style={{ position: "static" }}>
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
