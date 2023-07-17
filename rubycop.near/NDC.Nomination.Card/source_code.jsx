@@ -419,7 +419,7 @@ const Dropbtn = styled.button`
 const DropdownContent = styled.div`
   display: none;
   top: -170px;
-  right: 75px;
+  right: -75px;
   font-size: 12px;
   flex-direction: column;
   align-items: flex-start;
@@ -435,11 +435,10 @@ const DropdownContent = styled.div`
 const Element = styled.div`
   width: 150px;
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
   padding: 10px;
-  width: 100%;
 
   &:hover {
     border-radius: 6px;
