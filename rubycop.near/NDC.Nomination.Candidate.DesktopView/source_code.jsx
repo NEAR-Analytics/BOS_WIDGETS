@@ -213,12 +213,8 @@ const Icon = styled.img`
 
 const PlatformCard = styled.div`
   display: flex;
-  width: 326px;
-  padding-top: 16px;
-  align-items: flex-start;
-  gap: 12px;
   border-radius: 6px;
-  background: #fff;
+  background: background: "rgb(255 255 255 / 0%);
 `;
 
 const PlatformContent = styled.div`
@@ -269,17 +265,23 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const KeyIssueTitle = styled.p`
-  font-size: 10px;
+  font-size: 11px;
   line-height: 120%;
   margin: 0px;
   font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  padding: 10px;
 `;
 
 const KeyIssueDescription = styled.p`
   color: #828688;
-  font-size: 12px;
-  line-height: 120%;
+  font-size: 11px;
+  line-height: 130%;
   margin: 0px;
+  padding: 10px;
+  line-height: 16px;
+  text-align: justify;
 `;
 
 const CandidateCard = styled.div`
@@ -688,99 +690,94 @@ return (
           class="col-7"
           style={{
             "border-radius": "8px",
-            "margin-top": "10px",
+            margin: "10px 0 0 10px",
             width: "620px",
             background: "#F8F8F9",
-            "margin-left": "10px",
+            padding: "20px",
           }}
         >
-          <div>
-            <PlatformCard
-              style={{ background: "rgb(255 255 255 / 0%)", width: "100%" }}
-            >
-              <PlatformContent>
-                <ContentHeader>
-                  <ContentHeaderText>Platform</ContentHeaderText>
-                </ContentHeader>
+          <PlatformCard>
+            <PlatformContent>
+              <ContentHeader>
+                <ContentHeaderText>Platform</ContentHeaderText>
+              </ContentHeader>
 
-                <table
-                  className="table table-sm"
-                  style={{
-                    background: "white",
-                    "border-collapse": "collapse",
-                    "border-radius": "8px",
-                    "border-style": "hidden",
-                    overflow: "hidden",
-                  }}
-                >
-                  <thead>
-                    <tr class="p-3 mb-2 rounded-5 text-center">
-                      <th
-                        style={{
-                          border: "1px solid rgba(208, 214, 217, 0.40)",
-                          width: "30%",
-                        }}
-                      >
-                        <h6>Key Issues</h6>
-                      </th>
-                      <th
-                        style={{
-                          width: "70%",
-                        }}
-                      >
-                        <h6>Candidate's Positions</h6>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {issues.map((data, key) => {
-                      return (
-                        <>
-                          <tr
-                            class="text-center"
+              <table
+                className="table table-sm"
+                style={{
+                  background: "white",
+                  "border-collapse": "collapse",
+                  "border-radius": "8px",
+                  "border-style": "hidden",
+                  overflow: "hidden",
+                }}
+              >
+                <thead>
+                  <tr class="p-3 mb-2 rounded-5 text-center">
+                    <th
+                      style={{
+                        border: "1px solid rgba(208, 214, 217, 0.40)",
+                        width: "30%",
+                      }}
+                    >
+                      <h6>Key Issues</h6>
+                    </th>
+                    <th
+                      style={{
+                        width: "70%",
+                      }}
+                    >
+                      <h6>Candidate's Positions</h6>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {issues.map((data, key) => {
+                    return (
+                      <>
+                        <tr
+                          class="text-center"
+                          style={{
+                            height: "80px",
+                            "vertical-align": "middle",
+                          }}
+                        >
+                          <td
                             style={{
-                              height: "80px",
-                              "vertical-align": "middle",
+                              border: "1px solid rgba(208, 214, 217, 0.40)",
+                              verticalAlign: "text-top",
                             }}
                           >
-                            <td
-                              style={{
-                                border: "1px solid rgba(208, 214, 217, 0.40)",
-                              }}
-                            >
-                              {key < issues.length - 1 ? (
-                                <KeyIssueTitle>
-                                  {key == 0
-                                    ? "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted"
-                                    : key == 1
-                                    ? "Strategy to develop the NEAR ecosystem"
-                                    : "Key Issue " + (key - 1)}
-                                </KeyIssueTitle>
-                              ) : (
-                                <KeyIssueTitle>Other Platform</KeyIssueTitle>
-                              )}
-                            </td>
-                            <td style={{ background: "#F8F8F9" }}>
-                              <KeyIssueDescription
-                                className="text-seconodary"
-                                style={{
-                                  padding: "15px 0",
-                                  "line-height": "130%",
-                                  "text-align": "justify",
-                                }}
-                              >
-                                {data}
-                              </KeyIssueDescription>
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </PlatformContent>
-            </PlatformCard>
-          </div>
+                            {key < issues.length - 1 ? (
+                              <KeyIssueTitle>
+                                {key == 0
+                                  ? "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted"
+                                  : key == 1
+                                  ? "Strategy to develop the NEAR ecosystem"
+                                  : "Key Issue " + (key - 1)}
+                              </KeyIssueTitle>
+                            ) : (
+                              <KeyIssueTitle>Other Platform</KeyIssueTitle>
+                            )}
+                          </td>
+                          <td
+                            style={{
+                              background: "#F8F8F9",
+                              verticalAlign: "text-top",
+                            }}
+                          >
+                            <KeyIssueDescription className="text-seconodary">
+                              {data}
+                            </KeyIssueDescription>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </PlatformContent>
+          </PlatformCard>
         </div>
       </div>
     </div>
