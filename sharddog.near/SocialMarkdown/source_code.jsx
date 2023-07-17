@@ -31,8 +31,6 @@ const blockquote = styled.span`
   white-space: normal;
 `;
 
-const script;
-
 const renderWidget =
   props.renderWidget ??
   props.onWidget ??
@@ -54,20 +52,6 @@ const renderWidget =
           </Embedded>
         );
       }
-    } else if (url && url.includes("twitter.com")) {
-      return (
-        <>
-          <blockquote class="twitter-tweet">
-            <p lang="en" dir="ltr" />
-            <a href={url}></a>
-          </blockquote>{" "}
-          <script
-            async
-            src="https://platform.twitter.com/widgets.js"
-            charset="utf-8"
-          ></script>
-        </>
-      );
     }
     // If not a valid widget URL, return the original URL
     return url;
