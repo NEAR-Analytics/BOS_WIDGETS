@@ -62,7 +62,12 @@ const Theme = styled.div`
   margin: 0 auto;
   background: rgb(0,0,0);
   background: linear-gradient(135deg, rgba(0,0,0,1) 50%, rgba(130,71,229,1) 100%);
-  background-attachment: fixed;
+  background-attachment: fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat:no-repeat;
 
   > .logo-wrap {
     text-align: center;
