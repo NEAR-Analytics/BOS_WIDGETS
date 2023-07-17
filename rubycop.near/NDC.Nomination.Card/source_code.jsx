@@ -258,6 +258,7 @@ const KeyIssues = styled.div`
   flex-direction: row;
   align-items: flex-start;
   padding: 12px;
+  width: 100%;
   gap: 12px;
   background: #ffffff;
   border-radius: 6px;
@@ -580,7 +581,7 @@ const keyIssues = [
 ];
 
 return (
-  <div className="px-2 col-lg-4">
+  <div className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
