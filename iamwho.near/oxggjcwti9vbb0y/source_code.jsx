@@ -1,7 +1,7 @@
 State.init({
   searchBarProps: {
     placeHolder: "Account ID",
-    handleSubmit: handleSubmit,
+    handleSubmit: (value) => handleSubmit(value),
   },
   tableProps: {
     contracts: null,
@@ -35,6 +35,8 @@ const searchContracts = (value) => {
     console.log("error");
   }
 };
+
+console.log(state.tableProps);
 
 return (
   <div class="flex items-center justify-center w-screen h-screen">
