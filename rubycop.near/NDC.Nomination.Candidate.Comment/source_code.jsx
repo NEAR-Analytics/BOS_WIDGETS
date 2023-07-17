@@ -98,6 +98,7 @@ const CommentCardLowerSection = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 4px;
+  width: 100%;
 `;
 
 const TimestampCommentDiv = styled.div`
@@ -228,7 +229,6 @@ const ReplyLowerSection = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4px;
-  width: 100%;
 `;
 
 const ReplyButtonSection = styled.div`
