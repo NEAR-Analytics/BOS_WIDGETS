@@ -228,7 +228,7 @@ const ReplyLowerSection = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4px;
-  align-self: stretch;
+  width: 100%;
 `;
 
 const ReplyButtonSection = styled.div`
