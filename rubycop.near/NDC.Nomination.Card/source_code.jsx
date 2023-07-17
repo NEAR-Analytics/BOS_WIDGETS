@@ -353,8 +353,6 @@ const TimestampText = styled.div`
   line-height: 14px;
   margin: 0px;
   gap: 2px;
-  display: flex;
-  align-items: center;
   color: #000000;
 
   b {
@@ -665,14 +663,14 @@ return (
       <LowerSection>
         <LowerSectionContainer>
           <ButtonsLowerSection>
-            <TextLowerSectionContainer>
+            <TextLowerSectionContainer className="align-items-center">
               <i className="bi bi-clock"></i>
               {data.indexerData.timestamp && (
                 <TimestampText>
-                  <span>
+                  <div>
                     {new Date(data.indexerData.timestamp).toDateString()}
-                  </span>
-                  {" by "}
+                  </div>
+                  <span>by</span>
                   <b>{data.indexerData.nominee}</b>
                 </TimestampText>
               )}
