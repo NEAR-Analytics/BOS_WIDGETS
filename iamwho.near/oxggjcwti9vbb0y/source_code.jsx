@@ -1,4 +1,16 @@
+const options = [1, 10, 20, 50];
+const handleOptionsChange = (e) => {
+  State.update({
+    tableProps: {
+      ...state.tableProps,
+      limit: parseInt(e.target.value),
+    },
+  });
+};
+
 State.init({
+  from_index: 0,
+  limit: options[0],
   searchValue: "",
   searchBarProps: {
     placeHolder: "Account ID",
@@ -6,8 +18,6 @@ State.init({
   },
   tableProps: {
     contracts: null,
-    from_index: 0,
-    limit: 10,
   },
 });
 
@@ -20,8 +30,8 @@ const searchContracts = (value) => {
   try {
     const res = Near.view("v1.sourcescan.near", "search", {
       key: value,
-      from_index: props.from_index || 0,
-      limit: props.limit || 10,
+      from_index: state.from_index,
+      limit: state.limit,
     });
 
     State.update({
@@ -36,16 +46,6 @@ const searchContracts = (value) => {
 };
 
 if (!state.tableProps.contracts) searchContracts(state.searchValue);
-
-const options = [1, 10, 20, 50];
-const handleOptionsChange = (e) => {
-  State.update({
-    tableProps: {
-      ...state.tableProps,
-      from_index: e.target.value,
-    },
-  });
-};
 
 return (
   <div class="flex items-center justify-center w-screen h-screen">
