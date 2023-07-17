@@ -418,7 +418,6 @@ const Dropbtn = styled.button`
 
 const DropdownContent = styled.div`
   display: none;
-  top: -170px;
   left: 0;
   font-size: 12px;
   flex-direction: column;
@@ -460,6 +459,7 @@ const ShareIcon = styled.img`
 
 const DropdownContainerHover = styled.div`
   width: fit-content;
+  margin-top: -170px;
   float: right;
   &:hover ${DropdownContent} {
     display: flex;
