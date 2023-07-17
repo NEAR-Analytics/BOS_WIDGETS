@@ -33,7 +33,6 @@ const CommentCard = styled.div`
 
 const CommentCardHeader = styled.div`
   display: flex;
-  width: 294px;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
@@ -87,7 +86,6 @@ const CommentCardContent = styled.p`
   font-size: 12px;
   line-height: 120%;
   display: flex;
-  width: 294px;
   flex-direction: column;
   margin: 0px;
 `;
@@ -193,10 +191,8 @@ const ReplyCommentIcon = styled.img`
 `;
 
 const CommentReplySeparator = styled.hr`
-  width: 294px;
   height: 0px;
   margin: 16px 0 16px 0;
-
   border: 1px solid rgba(208, 214, 217, 1);
 `;
 
