@@ -459,10 +459,11 @@ const ShareIcon = styled.img`
 
 const DropdownContainerHover = styled.div`
   width: fit-content;
-  margin-top: -170px;
   float: right;
+
   &:hover ${DropdownContent} {
     display: flex;
+    margin-top: -170px;
   }
 `;
 
