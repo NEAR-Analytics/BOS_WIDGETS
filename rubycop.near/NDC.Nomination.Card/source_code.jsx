@@ -99,6 +99,7 @@ const HeaderContent = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 4px;
+  width: 70%;
 `;
 const HeaderTag = styled.div`
   display: flex;
@@ -125,10 +126,8 @@ const HeaderContentText = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-  width: max-content;
 `;
 const NominationName = styled.p`
-  width: 90%;
   font-weight: 500;
   font-size: 14px;
   margin: 0;
