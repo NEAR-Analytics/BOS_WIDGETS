@@ -55,7 +55,7 @@ const buttonStyled = `
 const Theme = styled.div`
   color: white;
   padding: 0;
-  margin:0 16px;
+  margin: 0;
   width: 100%;
   height: 100%;
   padding-top: 64px;
@@ -78,10 +78,10 @@ const Theme = styled.div`
   
 
   @media only screen and (min-device-width: 375px) and (orientation: portrait) {
-    padding: 16px;
-    min-height: 100vh;
-    background-position: top;
-    background-size: cover;
+    margin: 16px;
+    min-height: 100vh !important;
+    background-position: top !important;
+    background-size: cover !important;
     .grid {
       flex-direction: row-reverse !important;
       flex-flow: wrap-reverse !important;
