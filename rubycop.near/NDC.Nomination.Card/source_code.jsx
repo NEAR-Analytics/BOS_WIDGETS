@@ -809,7 +809,7 @@ return (
                 );
               })}
           </TagSection>
-          <ViewButtonContainer>
+          <div>
             {!data.preview && (
               <>
                 <Widget
@@ -891,7 +891,7 @@ return (
                 </DropdownContainerHover>
               </>
             )}
-          </ViewButtonContainer>
+          </div>
         </TagSectionContainer>
       </LowerSectionContainer>
     </LowerSection>
