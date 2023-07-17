@@ -203,7 +203,7 @@ const Styled = {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      max-width: 200px;
+      max-width: 150px;
       font-style: normal;
       font-weight: 500;
       font-size: 11px;
