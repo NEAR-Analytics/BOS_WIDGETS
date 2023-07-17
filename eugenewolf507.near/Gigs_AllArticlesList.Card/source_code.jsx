@@ -6,6 +6,8 @@ const authorForWidget = "eugenewolf507.near";
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
 const updateModalHandler = props.updateModalHandler;
+const openModalHandler = props.openModalHandler;
+const closeModalHandler = props.closeModalHandler;
 const cardWithOpenModal = props.cardWithOpenModal;
 const statusTagsArr = props.statusTagsArr;
 const sharedArticleId = props.sharedArticleId;
@@ -159,7 +161,7 @@ return (
       <div
         role="button"
         className="card-body"
-        onClick={() => updateModalHandler(article.articleId)}
+        onClick={() => openModalHandler(article.articleId)}
       >
         <div className="row d-flex justify-content-center">
           <h5 className="card-title text-center pb-2 border-bottom">
