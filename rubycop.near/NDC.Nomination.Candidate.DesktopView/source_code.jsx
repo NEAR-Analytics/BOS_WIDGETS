@@ -226,24 +226,7 @@ const PlatformContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-`;
-
-const PlatformHeaderDiv = styled.div`
-  display: flex;
-  width: 302px;
-  align-items: flex-start;
-  gap: 12px;
-`;
-
-const PlatformHeaderText = styled.p`
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 0;
-  color: #000;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 120%;
-  margin: 0px;
+  width: 100%;
 `;
 
 const PlatformInfoDiv = styled.div`
@@ -286,10 +269,10 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const KeyIssueTitle = styled.p`
-  color: var(--primary-000000, #000);
-  font-size: 12px;
+  font-size: 10px;
   line-height: 120%;
   margin: 0px;
+  font-weight: 400;
 `;
 
 const KeyIssueDescription = styled.p`
@@ -317,14 +300,14 @@ const CandidateContent = styled.div`
   gap: 12px;
 `;
 
-const CandidateHeader = styled.div`
+const ContentHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
   align-self: stretch;
 `;
 
-const CandidateHeaderText = styled.p`
+const ContentHeaderText = styled.p`
   font-size: 18px;
   font-weight: 500;
   margin: 0px;
@@ -645,7 +628,6 @@ return (
                   disabled:
                     !state.verified || context.accountId === props.candidate,
                   className: "secondary dark",
-
                   onClick: handleUpVote,
                   icon: <i className="bi bi-hand-thumbs-up"></i>,
                 },
@@ -659,7 +641,7 @@ return (
             "margin-top": "10px",
             "padding-left": "0",
             "padding-right": "0",
-            width: "310px",
+            width: "330px",
           }}
         >
           <div>
@@ -670,11 +652,9 @@ return (
               }}
             >
               <CandidateContent>
-                <CandidateHeader>
-                  <CandidateHeaderText>
-                    Candidate Affiliations
-                  </CandidateHeaderText>
-                </CandidateHeader>
+                <ContentHeader>
+                  <ContentHeaderText>Candidate Affiliations</ContentHeaderText>
+                </ContentHeader>
                 {afilations.map((data) => (
                   <CandidateInfoDiv>
                     <CandidateInfoHeader className="d-flex align-items-center">
@@ -718,10 +698,10 @@ return (
             <PlatformCard
               style={{ background: "rgb(255 255 255 / 0%)", width: "100%" }}
             >
-              <PlatformContent style={{ width: "100%" }}>
-                <PlatformHeaderDiv>
-                  <PlatformHeaderText>Platform</PlatformHeaderText>
-                </PlatformHeaderDiv>
+              <PlatformContent>
+                <ContentHeader>
+                  <ContentHeaderText>Platform</ContentHeaderText>
+                </ContentHeader>
 
                 <table
                   className="table table-sm"
@@ -730,7 +710,6 @@ return (
                     "border-collapse": "collapse",
                     "border-radius": "8px",
                     "border-style": "hidden",
-                    "box-shadow": "0 0 0 1px #dee2e6",
                     overflow: "hidden",
                   }}
                 >
@@ -738,19 +717,18 @@ return (
                     <tr class="p-3 mb-2 rounded-5 text-center">
                       <th
                         style={{
-                          border: "1px solid",
-                          "border-color": "#dee2e6",
+                          border: "1px solid rgba(208, 214, 217, 0.40)",
                           width: "30%",
                         }}
                       >
-                        Key Issues
+                        <h6>Key Issues</h6>
                       </th>
                       <th
                         style={{
                           width: "70%",
                         }}
                       >
-                        Candidate's Positions
+                        <h6>Candidate's Positions</h6>
                       </th>
                     </tr>
                   </thead>
@@ -767,8 +745,7 @@ return (
                           >
                             <td
                               style={{
-                                border: "1px solid",
-                                "border-color": "#dee2e6",
+                                border: "1px solid rgba(208, 214, 217, 0.40)",
                               }}
                             >
                               {key < issues.length - 1 ? (
@@ -785,13 +762,10 @@ return (
                             </td>
                             <td style={{ background: "#F8F8F9" }}>
                               <KeyIssueDescription
+                                className="text-seconodary"
                                 style={{
-                                  color: "black",
-                                  "padding-inline": "20px",
-                                  "padding-top": "15px",
-                                  "padding-bottom": "15px",
+                                  padding: "15px 0",
                                   "line-height": "130%",
-                                  "font-weight": "bold",
                                   "text-align": "justify",
                                 }}
                               >
