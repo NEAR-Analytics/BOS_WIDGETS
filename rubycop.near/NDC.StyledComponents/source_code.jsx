@@ -82,11 +82,11 @@ const Styled = {
     font-weight: 500;
     line-height: 24px;
     text-align: center;
-    color: black;
     border: 0;
 
     &:hover {
       text-decoration: none;
+      color: black;
     }
 
     &.danger {
