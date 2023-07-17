@@ -394,9 +394,7 @@ const SectionDescription = styled.p`
 `;
 
 const DeclarationCard = styled.div`
-  padding: 20px;
-  gap: 12px;
-  border-radius: 6px;
+  padding: 0px;
 `;
 
 const CommentSection = styled.div`
@@ -407,22 +405,6 @@ const CommentSection = styled.div`
   gap: 12px;
   border-radius: 10px;
   background: #f8f8f9;
-`;
-
-const CommentHeader = styled.div`
-  display: flex;
-  width: 326px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-`;
-
-const CommentHeaderText = styled.p`
-  color: var(--000000, #000);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 120%;
-  margin: 0px;
 `;
 
 const Container = styled.div`
@@ -448,40 +430,11 @@ const Tab = styled.div`
   font-size: 14px;
 
   i {
-    color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
+    &::before {
+      color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
+    }
     margin-right: 5px;
   }
-`;
-
-const CommentButton = styled.div`
-  cursor: pointer;
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  align-self: stretch;
-  border-radius: 4px;
-  background: var(--buttons-yellow-default, #ffd50d);
-`;
-
-const CommentButtonDisabled = styled.div`
-  cursor: pointer;
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  align-self: stretch;
-  border-radius: 4px;
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
-
-const CommentText = styled.p`
-  color: var(--primary-black, #000);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
 `;
 
 const TH = styled.th`
@@ -740,7 +693,7 @@ return (
       }}
     >
       <>
-        <ul className="nav nav-pills nav-fill mb-4">
+        <ul className="nav nav-pills nav-fill">
           {tabs.map(({ id, title, icon }, i) => (
             <li className="nav-item" role="presentation" key={i}>
               <Tab
@@ -816,31 +769,18 @@ return (
                   }}
                 />
               )}
-              <CommentHeader
-                style={{ width: "100%", "justify-content": "center" }}
-              >
-                {state.verified ? (
-                  <CommentButton
-                    style={{ width: "100%", "justify-content": "center" }}
-                    onClick={async () => {
-                      State.update({ showModal: true });
-                    }}
-                  >
-                    <CommentText>Add a Comment +</CommentText>
-                  </CommentButton>
-                ) : (
-                  <CommentButtonDisabled
-                    style={{ width: "100%", "justify-content": "center" }}
-                  >
-                    <CommentText
-                      style={{ color: "var(--primary-gray-dark, #828688)" }}
-                    >
-                      Add a Comment +
-                    </CommentText>
-                  </CommentButtonDisabled>
-                )}
-              </CommentHeader>
-
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    text: "Add a Comment",
+                    disabled: !state.verified,
+                    className: "w-100",
+                    onClick: () => State.update({ showModal: true }),
+                    icon: <i className="bi bi-plus-lg"></i>,
+                  },
+                }}
+              />
               {comments
                 .map((data) => {
                   return (
