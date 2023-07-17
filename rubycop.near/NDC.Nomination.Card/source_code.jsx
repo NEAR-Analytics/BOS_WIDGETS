@@ -86,8 +86,7 @@ const HeaderCard = styled.div`
   align-items: center;
   padding: 0px;
   gap: 12px;
-  width: 326px;
-  height: 53px;
+  width: 100%;
 `;
 const ProfilePicture = styled.img`
   width: 40px;
@@ -315,7 +314,7 @@ const KeyIssueSeparator = styled.div`
 `;
 const LowerSection = styled.div`
   display: flex;
-  width: 326px;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -334,7 +333,7 @@ const ButtonsLowerSection = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0px;
-  width: 326px;
+  width: 100%;
   height: 28px;
 `;
 const TextLowerSectionContainer = styled.div`
