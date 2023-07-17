@@ -677,11 +677,11 @@ return (
                       size: "sm",
                       className: "secondary dark w-100 justify-content-center",
                       href: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
-                      icon: <i className="bi bi-eye"></i>,
+                      icon: <i className="bi bi-eye fs-6"></i>,
                     },
                   }}
                 />
-                <DropdownContainerHover>
+                <DropdownContainerHover className="w-100">
                   <Widget
                     src={widgets.styledComponents}
                     props={{
