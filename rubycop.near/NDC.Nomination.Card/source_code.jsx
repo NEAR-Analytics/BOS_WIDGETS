@@ -269,7 +269,6 @@ const KeyIssuesContent = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 12px;
-  width: 302px;
 `;
 const KeyIssuesHeader = styled.div`
   display: flex;
@@ -298,7 +297,6 @@ const KeyIssueTitle = styled.p`
   font-weight: 500;
   font-size: 11px;
   margin-bottom: 0px;
-  width: 302px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
