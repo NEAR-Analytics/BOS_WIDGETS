@@ -418,9 +418,9 @@ const Dropbtn = styled.button`
 
 const DropdownContent = styled.div`
   display: none;
-  top: -179px;
-  right: 125px;
-  font-size: 13px;
+  top: -170px;
+  right: 75px;
+  font-size: 12px;
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
@@ -433,9 +433,14 @@ const DropdownContent = styled.div`
 `;
 
 const Element = styled.div`
+  width: 150px;
   display: flex;
+  justify-content: between;
+  align-items: center;
   cursor: pointer;
+  padding: 10px;
   width: 100%;
+
   &:hover {
     border-radius: 6px;
     background: #f8f8f9;
@@ -444,7 +449,7 @@ const Element = styled.div`
 
 const ShareLink = styled.a`
   color: black;
-  padding: 8px 12px;
+  margin-right: 8px 12px;
   text-decoration: none;
   display: block;
   text-align: start;
@@ -686,15 +691,7 @@ return (
                           placement={top}
                           overlay={<Tooltip>{state.shareText}</Tooltip>}
                         >
-                          <ShareLink
-                            style={{
-                              width: "132px",
-                              "text-decoration": "none",
-                              color: "black",
-                            }}
-                          >
-                            Share as a Link
-                          </ShareLink>
+                          <ShareLink>Share as a Link</ShareLink>
                         </OverlayTrigger>
                         <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmV7qjDVv5dhsMJF1hRqCzeVNEHervtSURQmyBqWLdvtq3" />
                       </Element>
@@ -705,11 +702,6 @@ return (
                             "https://twitter.com/intent/tweet?text=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election!%20&url=" +
                             getComponentURL()
                           }
-                          style={{
-                            width: "132px",
-                            "text-decoration": "none",
-                            color: "black",
-                          }}
                         >
                           Share on Twitter
                         </ShareLink>
@@ -721,11 +713,6 @@ return (
                             "mailto:?subject=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election&body=Support%20the%20NDC%20Election!%20" +
                             getComponentURL()
                           }
-                          style={{
-                            width: "132px",
-                            "text-decoration": "none",
-                            color: "black",
-                          }}
                         >
                           Share by Email
                         </ShareLink>
