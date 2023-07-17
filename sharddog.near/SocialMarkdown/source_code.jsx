@@ -31,6 +31,8 @@ const blockquote = styled.span`
   white-space: normal;
 `;
 
+const script;
+
 const renderWidget =
   props.renderWidget ??
   props.onWidget ??
