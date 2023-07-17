@@ -79,6 +79,8 @@ const Theme = styled.div`
   @media only screen and (min-device-width: 375px) and (orientation: portrait) {
     margin: 16px;
     height: 100vh;
+    background-position: top;
+    background-size: cover;
     .grid {
       flex-direction: row-reverse !important;
       flex-flow: wrap-reverse !important;
