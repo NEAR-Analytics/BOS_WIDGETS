@@ -21,6 +21,7 @@ function handleDeleteComment() {
 }
 
 const CommentCard = styled.div`
+  width: 100%;
   display: flex;
   padding: 14px 16px;
   flex-direction: column;
@@ -93,9 +94,8 @@ const CommentCardContent = styled.p`
 
 const CommentCardLowerSection = styled.div`
   display: flex;
-  width: 294px;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 4px;
 `;
@@ -322,7 +322,7 @@ return (
               text: "",
               className: "secondary dark",
               size: "sm",
-              disabled,
+              disabled: true,
               onClick: () => {},
               icon: <i className="bi bi-share"></i>,
             },
