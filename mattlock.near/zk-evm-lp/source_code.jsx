@@ -56,20 +56,16 @@ const Theme = styled.div`
   padding: 0;
   margin:0;
   width: 100%;
-  min-width: 1000px;
+  min-width: 100vw;
   height: 100%;
-  min-height: 400px;
+  min-height: 100vh;
   display: grid;
   place-items: center;
   padding-top: 100px;
   padding-bottom: 100px;
   margin: 0 auto;
-  background: url(https://bafybeifnxzoabfcn4txprj7pkexb4adkcxnp34qfnsk3wkztay2sweuh44.ipfs.w3s.link/polygon-bg-optimized.png) no-repeat center center; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background-color: #0D0E20;
+  background: rgb(0,0,0);
+  background: linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(130,71,229,1) 100%);
 
   .swap-main-column {
     padding-top: 0 !important;
@@ -133,6 +129,9 @@ const Theme = styled.div`
       > .bridge-button {
         ${buttonStyled}
         padding: 6px 12px;
+        &:disabled {
+          opacity: 0 !important;
+        }
       }
     }
 
