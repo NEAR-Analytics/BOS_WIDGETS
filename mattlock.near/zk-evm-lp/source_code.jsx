@@ -69,6 +69,7 @@ const Theme = styled.div`
     margin-bottom: 16px;
     > h1 {
       color: white;
+      margin-top: 16px;
     }
     > h2 {
       color: rgba(255, 255, 255, 0.8);
@@ -115,7 +116,7 @@ const Theme = styled.div`
     }
   }
 
-  .grid, .logo-grid {
+  .grid {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,7 +127,7 @@ const Theme = styled.div`
   }
 
   .logo-grid {
-    margin-bottom: 16px;
+    text-align: center;
     > .logo {
       margin-right: 32px;
     }
@@ -136,6 +137,11 @@ const Theme = styled.div`
       &:disabled {
         opacity: 0 !important;
       }
+    }
+    > p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 32px;
     }
   }
 
@@ -149,8 +155,6 @@ const Theme = styled.div`
   }
 
   .apps {
-    min-width: 380px;
-    max-width: 500px;
     text-align: left;
 
     .grid {
@@ -257,15 +261,18 @@ if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
 
 return (
   <Theme>
-    <div className="logo-grid">
+    <div className="logo-grid" onClick={() => setComponent("bridge")}>
       <div className="logo">{logo}</div>
-      <button
-        disabled={bridge}
-        className="bridge-button"
-        onClick={() => setComponent("bridge")}
-      >
-        Bridge
-      </button>
+      {!bridge && <p>(back)</p>}
+      {
+        //   <button
+        //   disabled={bridge}
+        //   className="bridge-button"
+        //   onClick={() => setComponent("bridge")}
+        // >
+        //   Bridge
+        // </button>
+      }
     </div>
 
     <div className="logo-wrap">
@@ -279,83 +286,85 @@ return (
 
     <div className="grid">
       <div className="center">
-        <div className="apps">
-          <div>
+        {bridge && (
+          <div className="apps">
             <div>
-              <img
-                src={
-                  "https://bafkreicivus3yfqvnefgprxf3lj5hzjpgiqe3gwld4bhxeyng4ndpeaxje.ipfs.nftstorage.link/"
-                }
-              />
-              <h1>Quickswap</h1>
-              <button
-                disabled={component === "quickswap"}
-                onClick={() => setComponent("quickswap")}
-              >
-                DEX
-              </button>
-            </div>
-            <div>
-              <img
-                src={
-                  "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
-                }
-              />
-              <h1>Gamma</h1>
-              <button
-                disabled={component === "gamma"}
-                onClick={() => setComponent("gamma")}
-              >
-                Liquidity
-              </button>
-            </div>
-            {false && (
               <div>
                 <img
                   src={
-                    "https://bafkreiagr7ikurfd2jthfnrje6ckqsww5labskp3qy2vowed32j4amhdlq.ipfs.nftstorage.link/"
+                    "https://bafkreicivus3yfqvnefgprxf3lj5hzjpgiqe3gwld4bhxeyng4ndpeaxje.ipfs.nftstorage.link/"
                   }
                 />
-                <h1>Aave</h1>
+                <h1>Quickswap</h1>
                 <button
-                  disabled={component === "aave"}
-                  onClick={() => setComponent("aave")}
+                  disabled={component === "quickswap"}
+                  onClick={() => setComponent("quickswap")}
                 >
-                  Lending Protocol
+                  DEX
                 </button>
               </div>
-            )}
+              <div>
+                <img
+                  src={
+                    "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
+                  }
+                />
+                <h1>Gamma</h1>
+                <button
+                  disabled={component === "gamma"}
+                  onClick={() => setComponent("gamma")}
+                >
+                  Liquidity
+                </button>
+              </div>
+              {false && (
+                <div>
+                  <img
+                    src={
+                      "https://bafkreiagr7ikurfd2jthfnrje6ckqsww5labskp3qy2vowed32j4amhdlq.ipfs.nftstorage.link/"
+                    }
+                  />
+                  <h1>Aave</h1>
+                  <button
+                    disabled={component === "aave"}
+                    onClick={() => setComponent("aave")}
+                  >
+                    Lending Protocol
+                  </button>
+                </div>
+              )}
 
-            <div>
-              <img
-                src={
-                  "https://bafkreiafnfe7jzj3xxmpcxfkwob2fnfqdi66blmvpcrmcb3wnuwiaahtvi.ipfs.nftstorage.link/"
-                }
-              />
-              <h1>Pancake Swap</h1>
-              <button
-                disabled={component === "pancake"}
-                onClick={() => setComponent("pancake")}
-              >
-                Dex
-              </button>
-            </div>
-            <div>
-              <img
-                src={
-                  "https://bafkreiepbud73mssal3blwkj3pz3zyfloojhtw2kvxl7tli55tzrw6lmlu.ipfs.nftstorage.link/"
-                }
-              />
-              <h1>Balancer</h1>
-              <button
-                disabled={component === "balancer"}
-                onClick={() => State.update({ component: "balancer" })}
-              >
-                Dex
-              </button>
+              <div>
+                <img
+                  src={
+                    "https://bafkreiafnfe7jzj3xxmpcxfkwob2fnfqdi66blmvpcrmcb3wnuwiaahtvi.ipfs.nftstorage.link/"
+                  }
+                />
+                <h1>Pancake Swap</h1>
+                <button
+                  disabled={component === "pancake"}
+                  onClick={() => setComponent("pancake")}
+                >
+                  Dex
+                </button>
+              </div>
+              <div>
+                <img
+                  src={
+                    "https://bafkreiepbud73mssal3blwkj3pz3zyfloojhtw2kvxl7tli55tzrw6lmlu.ipfs.nftstorage.link/"
+                  }
+                />
+                <h1>Balancer</h1>
+                <button
+                  disabled={component === "balancer"}
+                  onClick={() => State.update({ component: "balancer" })}
+                >
+                  Dex
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="component">
