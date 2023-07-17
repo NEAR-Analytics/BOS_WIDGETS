@@ -3,6 +3,7 @@ const authorId = "manzanal.near";
 const onClose = props.onClose;
 const edit = props.edit;
 const mpip_id = props.mpip_id ?? null;
+const update = props.update;
 
 const Wrapper = styled.div`
   margin: 16px auto;
@@ -95,7 +96,7 @@ return (
     <div className="d-flex flex-column gap-2">
       <Widget
         src={`${authorId}/widget/Governance.Proposal.Create.Text`}
-        props={{ edit, mpip_id }}
+        props={{ edit, mpip_id, update }}
       />
     </div>
   </Wrapper>
