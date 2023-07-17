@@ -83,6 +83,7 @@ const Styled = {
     line-height: 24px;
     text-align: center;
     border: 0;
+    color: black;
 
     &:hover {
       text-decoration: none;
@@ -181,7 +182,7 @@ const Styled = {
 };
 
 const Container = styled.div`
-  button {
+  button, a {
     margin: 5px;
   }
   h4 {
@@ -394,8 +395,11 @@ return (
       />
     </div>
 
-    <h4>Link</h4>
-    <WidgetButton type="Link" text="Primary" />
+    <h4>Link Button</h4>
+    <div className="d-flex align-items-end flex-wrap">
+      <WidgetButton type="Link" text="Primary" className="primary dark" />
+      <WidgetButton type="Link" text="Secondary" className="secondary dark" />
+    </div>
 
     <h4>Select</h4>
     <WidgetSelect />
