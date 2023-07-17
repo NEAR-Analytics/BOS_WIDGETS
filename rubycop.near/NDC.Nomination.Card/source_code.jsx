@@ -418,14 +418,14 @@ const Dropbtn = styled.button`
 
 const DropdownContent = styled.div`
   display: none;
-  top: -200px;
+  top: -179px;
   right: 125px;
   font-size: 13px;
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
   border-radius: 8px;
-  background: #fff;
+  background: #ffffff;
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   z-index: 1;
@@ -463,7 +463,6 @@ const DropdownContainerHover = styled.div`
 `;
 
 const Separation = styled.div`
-    width: -179px;
     position: absolute;
   }
 `;
