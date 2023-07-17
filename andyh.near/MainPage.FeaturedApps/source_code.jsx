@@ -64,7 +64,7 @@ return (
               </p>
               <h2>{app.name}</h2>
               <p>{app.description}</p>
-              <p>
+              <div>
                 <Widget
                   src="andyh.near/widget/ProfileLine"
                   props={{
@@ -73,7 +73,7 @@ return (
                     hideAccountId: true,
                   }}
                 />
-              </p>
+              </div>
               <a
                 className="btn btn-dark rounded-3"
                 href={`#/${featuredApps[i]}`}
