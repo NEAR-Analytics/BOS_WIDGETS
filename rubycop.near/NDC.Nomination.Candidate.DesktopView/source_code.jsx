@@ -489,15 +489,17 @@ const H6 = styled.h6`
 `;
 
 const Tab = styled.div`
-  font-weight: 500;
+  font-weight: ${(props) => (props.active ? "600" : "500")};
   border-bottom: 2px solid;
   border-color: ${(props) => (props.active ? "#4F46E5" : "#dee2e6")};
-  border-image-slice: 1;
+  color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
   cursor: pointer;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
+  font-size: 14px;
 
   i {
-    color: ${(props) => (props.active ? "#4F46E5" : "#dee2e6")};
+    color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
+    margin-right: 5px;
   }
 `;
 
