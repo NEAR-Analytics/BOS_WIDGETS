@@ -77,8 +77,8 @@ const Theme = styled.div`
   
 
   @media only screen and (min-device-width: 375px) and (orientation: portrait) {
-    margin: 16px;
-    height: 100vh;
+    padding: 16px;
+    min-height: 100vh;
     background-position: top;
     background-size: cover;
     .grid {
