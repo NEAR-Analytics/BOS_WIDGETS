@@ -14,7 +14,6 @@ const Item = styled.div`
 `;
 
 const renderItem = (a) => {
-  console.log({ a });
   return (
     <Item key={JSON.stringify(a)} className="mb-2">
       <Widget
