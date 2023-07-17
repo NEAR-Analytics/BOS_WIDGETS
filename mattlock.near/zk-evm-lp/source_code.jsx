@@ -272,15 +272,6 @@ return (
     <div className="logo-grid" onClick={() => setComponent("bridge")}>
       <div className="logo">{logo}</div>
       {!bridge && <p>(back)</p>}
-      {
-        //   <button
-        //   disabled={bridge}
-        //   className="bridge-button"
-        //   onClick={() => setComponent("bridge")}
-        // >
-        //   Bridge
-        // </button>
-      }
     </div>
 
     <div className="logo-wrap">
@@ -365,7 +356,7 @@ return (
                 <h1>Balancer</h1>
                 <button
                   disabled={component === "balancer"}
-                  onClick={() => State.update({ component: "balancer" })}
+                  onClick={() => setComponent("balancer")}
                 >
                   Dex
                 </button>
