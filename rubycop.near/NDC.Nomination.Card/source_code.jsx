@@ -292,7 +292,7 @@ const KeyIssuesContainer = styled.div`
   padding: 0px;
   gap: 8px;
   overflow-y: scroll;
-  height: 250px;
+    height: 250px;
 `;
 const KeyIssueTitle = styled.p`
   font-weight: 500;
@@ -670,8 +670,7 @@ return (
               alt="pic"
             ></ClockIcon>
             <TimestampText>
-              {data.indexerData.timestamp.toDateString()} by{" "}
-              {data.indexerData.nominee}
+              {data.indexerData.timestamp} by {data.indexerData.nominee}
             </TimestampText>
           </TextLowerSectionContainer>
           {state.verified ? (
