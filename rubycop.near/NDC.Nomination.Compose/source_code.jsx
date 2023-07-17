@@ -327,6 +327,7 @@ const handleDeclaration = (item) => {
 };
 
 const handleNominate = () => {
+  console.log(validatedInputs());
   if (!validatedInputs()) return;
 
   let newstate = Object.assign({}, state);
@@ -538,7 +539,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: handleNominate,
+                      onClick: () => handleNominate(),
                     },
                   }}
                 />
