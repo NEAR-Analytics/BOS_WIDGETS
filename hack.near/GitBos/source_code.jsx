@@ -100,12 +100,12 @@ const setButton = ({ widgetPath, onHide }) => {
   );
 };
 
-const addButton = ({ updatedWidget, onHide }) => {
+const updateButton = ({ widgetPath, onHide }) => {
   return (
     <button
       className="btn btn-primary"
       onClick={() => {
-        State.update({ updatedWidget });
+        State.update({ updatedPath: widgetPath });
         onHide();
       }}
     >
@@ -151,21 +151,22 @@ return (
             </a>
           </div>
         </div>
+
         <div className="col m-2">
           <h5>Updated Version</h5>
           <Widget
             src="hack.near/widget/widget.search"
-            props={{ extraButtons: addButton }}
+            props={{ extraButtons: updateButton }}
           />
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
-              widgetPath: state.updatedWidget,
+              widgetPath: state.updatedPath,
             }}
           />
           <div className="m-2">
             <button
-              disabled={!state.updatedWidget}
+              disabled={!state.widgetPath}
               className="btn btn-secondary border-0 m-1"
               onClick={handleProposal}
             >
