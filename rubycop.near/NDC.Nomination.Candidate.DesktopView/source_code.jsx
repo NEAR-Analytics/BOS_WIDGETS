@@ -471,7 +471,7 @@ return (
             "border-radius": "8px",
           }}
         >
-          <div className="w-100 p-3 d-flex justify-content-between align-items-start">
+          <div className="w-100 p-4 d-flex justify-content-between align-items-start">
             <div className="d-flex">
               <ProfilePicture
                 style={{
@@ -716,6 +716,8 @@ return (
               <SectionTitle>
                 Declaration of Transparency and Accountability
               </SectionTitle>
+              <br />
+              <br />
               <SectionDescription>
                 I hereby declare my unwavering commitment to transparency,
                 accountability, and the resolution of critical ecosystem
@@ -724,16 +726,16 @@ return (
                 in our ecosystem. In the event of my election, I pledge to
                 support and promote the operation and development of the NEAR
                 Digital Collective.
-                <br /> <br /> Transparency stands as the cornerstone of a
-                thriving governance framework and as a candidate, I strongly
-                believe in leading by example. I vow to disclose comprehensive
-                information about my previous affiliations, partnerships, and
-                associations that may influence my decision-making or impact the
-                public interest. This includes openly sharing any conflicts of
+                <br /> Transparency stands as the cornerstone of a thriving
+                governance framework and as a candidate, I strongly believe in
+                leading by example. I vow to disclose comprehensive information
+                about my previous affiliations, partnerships, and associations
+                that may influence my decision-making or impact the public
+                interest. This includes openly sharing any conflicts of
                 interest, financial relationships, or external influences that
                 could compromise my ability to serve with impartiality and
                 integrity.
-                <br /> <br />
+                <br />
                 Moreover, I fully recognize the numerous challenges that our
                 NEAR ecosystem currently faces, demanding immediate attention
                 and effective solutions. As a responsible candidate, I am deeply
@@ -745,15 +747,15 @@ return (
                 stakeholders to devise sustainable, equitable strategies. In the
                 event of my election, my top priorities will be focused on
                 addressing critical ecosystem challenges.
-                <br /> <br />I recognize that this declaration is not merely a
-                symbolic gesture, but a solemn commitment to the NEAR ecosystem.
-                I understand the weight of the expectations. I pledge to honor
-                the trust placed in me with unwavering dedication,
-                determination, and integrity. Through this declaration, I affirm
-                my commitment to transparency, accountability, and the resolve
-                to actualize my pledges to the best of my abilities if elected.
-                Together, let us embark on a journey towards a brighter future
-                of the NEAR ecosystem.
+                <br />I recognize that this declaration is not merely a symbolic
+                gesture, but a solemn commitment to the NEAR ecosystem. I
+                understand the weight of the expectations. I pledge to honor the
+                trust placed in me with unwavering dedication, determination,
+                and integrity. Through this declaration, I affirm my commitment
+                to transparency, accountability, and the resolve to actualize my
+                pledges to the best of my abilities if elected. Together, let us
+                embark on a journey towards a brighter future of the NEAR
+                ecosystem.
               </SectionDescription>
             </DeclarationCard>
           ) : (
