@@ -1,6 +1,7 @@
 const items = props.items;
 const renderItem = props.renderItem;
 const perPage = props.perPage || 10;
+console.log("itemFeed");
 
 const jItems = JSON.stringify(items);
 if (state.jItems !== jItems) {
