@@ -484,6 +484,7 @@ const Container = styled.div`
 `;
 
 const H6 = styled.h6`
+  font-size: 14px;
   margin-bottom: 0;
 `;
 
@@ -536,6 +537,13 @@ const CommentText = styled.p`
   font-weight: 500;
   line-height: 24px;
   margin: 0px;
+`;
+
+const TH = styled.th`
+  border: 1px solid rgba(208, 214, 217, 0.4);
+  width: ${(props) => props.width};
+  text-align: left;
+  padding: 15px 20px;
 `;
 
 const afilations = JSON.parse(data.nominations.afiliation);
@@ -718,21 +726,12 @@ return (
               >
                 <thead>
                   <tr class="p-3 mb-2 rounded-5 text-center">
-                    <th
-                      style={{
-                        border: "1px solid rgba(208, 214, 217, 0.40)",
-                        width: "30%",
-                      }}
-                    >
+                    <TH width="30%">
                       <H6>Key Issues</H6>
-                    </th>
-                    <th
-                      style={{
-                        width: "70%",
-                      }}
-                    >
-                      <h6>Candidate's Positions</h6>
-                    </th>
+                    </TH>
+                    <TH width="70%">
+                      <H6>Candidate's Positions</H6>
+                    </TH>
                   </tr>
                 </thead>
                 <tbody>
