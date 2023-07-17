@@ -1,5 +1,9 @@
-const addressForComments = "sayalot-comments";
-const addressForArticles = "sayALotArticle";
+const isDebug = props.isDebug;
+
+const addressForComments = isDebug
+  ? "test_sayalot-comments"
+  : "sayalot-comments";
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
 if (!context.accountId) {
   return "";
@@ -32,6 +36,7 @@ const composeCommentData = () => {
 };
 
 State.init({
+  content: "",
   onChange: ({ content }) => {
     State.update({ content });
   },
@@ -70,9 +75,10 @@ return (
           src={`${authorForWidget}/widget/SayALot_Comment`}
           props={{
             item,
-            articleAccountId: context.accountId,
+            accountId: context.accountId,
             content: state.content,
-            articleBlockHeight: "now",
+            blockHeight: "now",
+            isDebug,
           }}
         />
       </div>
