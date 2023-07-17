@@ -1,11 +1,9 @@
 State.init({ showModal: false, copiedShareUrl: false });
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
-
 const authorForWidget = "eugenewolf507.near";
 const article = props.article;
 const statusChangeHandler = props.statusChangeHandler;
-const updateModalHandler = props.updateModalHandler;
 const openModalHandler = props.openModalHandler;
 const closeModalHandler = props.closeModalHandler;
 const cardWithOpenModal = props.cardWithOpenModal;
@@ -25,13 +23,6 @@ if (
   State.update({ showModal: false });
 }
 
-// if (sharedArticleId === article.articleId && sharedArticleId) {
-//   State.update({ showModal: true });
-// }
-// if (cardWithOpenModal === article.articleId) {
-//   State.update({ showModal: true });
-// }
-
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -41,8 +32,6 @@ const getDateLastEdit = (timestamp) => {
   };
   return dateString;
 };
-
-// ========== HANDLERS ==========
 
 // ========== STYLED ==========
 const CardWrapper = styled.div`
@@ -149,10 +138,6 @@ const Modal = ({ onClose, children }) => {
 
 return (
   <CardWrapper className="col gy-3" key={article.articleId}>
-    <button onClick={() => updateModalHandler(article.articleId)}>
-      change cardWithOpenModal
-    </button>
-    <span>{cardWithOpenModal}</span>
     <div className="card h-100" style={{ position: "static" }}>
       {state.showModal && (
         <Modal onClose={closeModalHandler}>
