@@ -6,30 +6,29 @@ State.init({
   voted: false,
   shareText: "Copy link to the clipboard",
 });
-let nominationContract = "nominations-v1.gwg-testing.near";
+
+const nominationContract = "nominations-v1.gwg-testing.near";
+const registryContract = "registry-v1.gwg-testing.near";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
 
+const isHuman = Near.view(registryContract, "is_human", {
+  account: context.accountId,
+});
+
+State.update({ verified: isHuman[0][1].length > 0 });
+
+const httpRequestOpt = {
+  headers: { "x-api-key": apiKey },
+};
+
 function getVerifiedHuman() {
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
-    {
-      headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    }
-  ).then((res) => {
-    State.update({ verified: res.body });
-  });
-  asyncFetch(
     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}`,
-    {
-      headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    }
+    httpRequestOpt
   ).then((res) => {
     State.update({ voted: res.body });
   });
@@ -37,9 +36,7 @@ function getVerifiedHuman() {
 
 if (state.start) {
   getVerifiedHuman();
-  State.update({
-    start: false,
-  });
+  State.update({ start: false });
 }
 
 function handleUpVote() {
@@ -813,12 +810,11 @@ return (
             {!data.preview && (
               <>
                 <Widget
-                  src={widget.styledComponents}
+                  src={widgets.styledComponents}
                   props={{
                     Link: {
                       text: "View",
                       size: "sm",
-                      className: "secondary dark",
                       href: `#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
                     },
                   }}
