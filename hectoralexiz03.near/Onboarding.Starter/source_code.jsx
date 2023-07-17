@@ -1,58 +1,23 @@
 const user = "gagdiez.near";
-State.init({ nombres: [] });
-State.update({ nombres: props.nombres });
-console.log(props.nombres);
-const props = {
-  name: "What programming language would you like to learn so far?",
-};
+const props = { name: "welcome to my first pager on NEAR" };
 State.init({
   img: null,
 });
-const Programacion = [
-  {
-    nombre: "PYTHON",
-  },
-  {
-    nombre: "C++",
-  },
-  {
-    nombre: "ENSAMBLADOR X86",
-  },
-  {
-    nombre: "JAVA",
-  },
-];
 
 return (
   <>
     <div class="container min-vw-100">
-      <div className="d-flex justify-content-center">
-        <h3>PROGRAMMING WORLD</h3>
-      </div>
-      <div className="d-flex justify-content-center">
-        <div className="d-flex p-2">
-          {Programacion.map((data) => {
-            return <p className="mx-4"> {data.nombre} </p>;
-          })}
-        </div>
-      </div>
-      <p className="d-flex justify-content-center">
-        Learn new programming languages to improve your developing skills to
-        reach a higher sucess in your professional life.
+      <h3>Hector's first web page</h3>
+      <p>
+        {" "}
+        This is the brand new way to make brand new web pages and to improve all
+        yor strategies, so what are you waiting for!
       </p>
       <hr />
+
       <Widget src={`${user}/widget/Greetings`} props={props} />
     </div>
-
-    <div className="d-grid gap-2 mt-4">
-      <button class="btn btn-primary" type="button">
-        JUNIOR DEVELOPER
-      </button>
-      <button class="btn btn-primary" type="button">
-        SENIOR DEVELOPER
-      </button>
-    </div>
-    <div className="container row ">
+    <div className="container row">
       <div>
         Image upload: <br />
         <IpfsImageUpload image={state.img} />
