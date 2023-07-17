@@ -490,7 +490,7 @@ const H6 = styled.h6`
 
 const PillButtonActive = styled.div`
 font-weight: 700;
-border-bottom: 4px solid;
+border-bottom: 2px solid;
 border-image: var(--gradient-purple-gradient, linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
 border-image-slice: 1;
 cursor: pointer;
@@ -791,41 +791,31 @@ return (
         width: "350px",
         background: "#F8F8F9",
         "border-radius": "8px",
+        padding: "20px",
       }}
     >
       <>
-        <ul
-          className="nav nav-pills nav-fill mb-4"
-          id="pills-tab2"
-          role="tablist2"
-          style={{ "margin-top": "15px" }}
-        >
+        <ul className="nav nav-pills nav-fill mb-4">
           {pillsVesting.map(({ id, title }, i) => (
             <li className="nav-item" role="presentation" key={i}>
               {state.tabSelected == id ? (
                 <PillButtonActive
-                  onClick={() => {
-                    State.update({ tabSelected: id });
-                  }}
+                  onClick={() => State.update({ tabSelected: id })}
                 >
-                  {state.tabSelected == "declaration" ? (
-                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmcFY8p1wkThK91xa3aZHjgaLHj48Cxcdgr2HzpeNEhNFS?_gl=1*2xnemk*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
-                  ) : (
-                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmRT9nmotDAEBcPC5bR3M57pnwNJi7bJxsussUNUvb4Ena?_gl=1*2xnemk*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
-                  )}
+                  <i
+                    class={`bi bi-trophy ${
+                      state.tabSelected == "declaration" ? "text-secondary" : ""
+                    }`}
+                  />
                   {title}
                 </PillButtonActive>
               ) : (
-                <PillButton
-                  onClick={() => {
-                    State.update({ tabSelected: id });
-                  }}
-                >
-                  {state.tabSelected == "comments" ? (
-                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmSS4qbsAc9E5EgFKiJRSUjFAfCXXsCH4BQEmDT9s2dT9W?_gl=1*updvyu*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
-                  ) : (
-                    <Icon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmYHQBAWPUFRYzjxCASciM93ezH73VFPhQkuAEoeKpZBEo?_gl=1*updvyu*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4ODY2OTUwNS4zLjEuMTY4ODY2OTU2NC4xLjAuMA.."></Icon>
-                  )}
+                <PillButton onClick={() => State.update({ tabSelected: id })}>
+                  <i
+                    class={`bi bi-chat-square-dots-fill ${
+                      state.tabSelected == "comments" ? "text-secondary" : ""
+                    }`}
+                  />
                   {title}
                 </PillButton>
               )}
