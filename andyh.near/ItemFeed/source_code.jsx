@@ -15,7 +15,7 @@ const makeMoreItems = () => {
     widgets: state.widgets + perPage,
   });
 };
-
+console.log({ items, renderItem });
 return (
   <InfiniteScroll
     pageStart={0}
