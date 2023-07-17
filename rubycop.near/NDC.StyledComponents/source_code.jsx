@@ -1,4 +1,4 @@
-const { Button, Dropdown, TextArea, Input } = props;
+const { Button, Dropdown, TextArea, Input, Link } = props;
 
 const Styled = {
   Button: styled.button`
@@ -9,6 +9,7 @@ const Styled = {
     border-radius: 10px;
     font-weight: 500;
     line-height: 24px;
+    text-align: center;
     border: 0;
 
     &.danger {
@@ -71,6 +72,81 @@ const Styled = {
       margin: 0 0 0 5px;
     }
   `,
+
+  Link: styled.a`
+    width: max-content;
+    padding: ${(props) => (Link.size === "sm" ? "4px 12px" : "8px 20px")};
+    height: ${(props) => (Link.size === "sm" ? "28px" : "")};
+    font-size: ${(props) => (Link.size === "sm" ? "12px" : "14px")};
+    border-radius: 10px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    color: black;
+    text-decoration: none;
+    border: 0;
+
+    &.danger {
+      border: 1px solid #c23f38;
+      background: #f1d6d5;
+      color: #c23f38;
+    }
+
+    &.primary {
+      background: #ffd50d;
+
+      &:hover {
+        background: #e7c211;
+      }
+
+      &.dark {
+        color: #fff;
+        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+
+        &:hover {
+          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+        }
+      }
+
+      &:disabled {
+        background: #c3cace;
+        color: #828688;
+        border: 0;
+      }
+    }
+
+    &.secondary {
+      background: transparent;
+      border: 1px solid;
+      border-color: #ffd50d;
+      color: #ffd50d;
+
+      &:hover {
+        border-color: #e7c211;
+        color: #e7c211;
+      }
+
+      &.dark {
+        color: #4f46e5;
+        border-color: #4f46e5;
+
+        &:hover {
+          border-color: #2f2a87;
+          color: #2f2a87;
+        }
+      }
+
+      &:disabled {
+        border-color: #c3cace;
+        color: #828688;
+      }
+    }
+
+    i {
+      margin: 0 0 0 5px;
+    }
+  `,
+
   Select: styled.select`
     padding: 8px 10px;
     width: 100%;
@@ -116,6 +192,23 @@ const Label = styled.label`
   font-weight: 500;
   margin-bottom: 5px;
 `;
+
+if (Link)
+  return (
+    <Styled.Link
+      size={Link.size}
+      className={`align-items-center d-flex ${Link.className ?? "primary"}`}
+      href={Link.href}
+      disabled={Link.disabled}
+    >
+      <div>{Link.text}</div>
+      {Link.icon && (
+        <div className={`${Link.size === "sm" ? "fs-7" : "fs-6"}`}>
+          {Link.icon}
+        </div>
+      )}
+    </Styled.Link>
+  );
 
 if (Button)
   return (
@@ -200,11 +293,11 @@ if (Input)
     </div>
   );
 
-const WidgetButton = ({ size, className, disabled, text, icon }) => (
+const WidgetButton = ({ type, size, className, disabled, text, icon }) => (
   <Widget
     src={"rubycop.near/widget/NDC.StyledComponents"}
     props={{
-      Button: {
+      [type ?? "Button"]: {
         size,
         className,
         disabled,
@@ -297,6 +390,9 @@ return (
         icon={<i class="bi bi-trash" />}
       />
     </div>
+
+    <h4>Link</h4>
+    <WidgetButton type="Link" text="Primary" />
 
     <h4>Select</h4>
     <WidgetSelect />
