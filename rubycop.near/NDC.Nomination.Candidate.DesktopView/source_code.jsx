@@ -334,12 +334,10 @@ const CandidateHeaderText = styled.p`
 `;
 
 const CandidateInfoDiv = styled.div`
-  display: flex;
-  width: 290px;
   padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
+  background: white;
   gap: 16px;
+  border-radius: 8px;
 `;
 
 const CandidateInfoHeader = styled.div`
@@ -383,7 +381,7 @@ const CandidateTagText = styled.p`
 `;
 
 const CandidateTime = styled.p`
-  margin: 0px;
+  margin-top: 5px;
   color: var(--primary-828688, #828688);
   font-size: 10px;
   font-weight: 500;
@@ -685,23 +683,22 @@ return (
                 </CandidateHeader>
                 {afilations.map((data) => {
                   return (
-                    <CandidateInfoDiv
-                      style={{ background: "white", "border-radius": "8px" }}
-                    >
+                    <CandidateInfoDiv>
                       <CandidateInfoHeader>
                         <CandidateImage
                           src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
                           alt="pic"
                         ></CandidateImage>
                         <CandidateInfoData>
-                          <CandidateTagDiv>
-                            <CandidateTagText>
-                              {data.company_name}
-                            </CandidateTagText>
-                          </CandidateTagDiv>
+                          <Widget
+                            src={widgets.styledComponents}
+                            props={{
+                              Tag: { title: data.company_name },
+                            }}
+                          />
                           <CandidateTime>
-                            {data.start_date.toDateString()} -{" "}
-                            {data.end_date.toDateString()}
+                            {new Date(data.start_date).toDateString()} -{" "}
+                            {new Date(data.end_date).toDateString()}
                           </CandidateTime>
                         </CandidateInfoData>
                       </CandidateInfoHeader>
