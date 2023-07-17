@@ -1,16 +1,22 @@
-const data = props.data;
+const { data, commentator, candidate, id } = props;
+
 State.init({
   showModal: false,
   hasReply: false,
-  nominationData: Social.getr(`${data.commentator}/nominations`),
+  nominationData: Social.getr(`${commentator}/nominations`),
 });
 
 let nominationContract = "nominations-v1.gwg-testing.near";
 
+const widgets = {
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  comment: "rubycop.near/widget/NDC.Nomination.Candidate.Comment",
+};
+
 function handleDeleteComment() {
   Near.call(nominationContract, "remove_comment", {
-    candidate: data.candidate,
-    comment: data.id,
+    candidate: candidate,
+    comment: id,
   });
 }
 
@@ -266,9 +272,7 @@ return (
           }
           alt="pic"
         ></ProfileImageComment>
-        <CommentUser>
-          {data.removed ? "@[deleted]" : data.commentator}
-        </CommentUser>
+        <CommentUser>{data.removed ? "@[deleted]" : commentator}</CommentUser>
       </CommentUserContent>
       {state.hasReply ? (
         <ReplyCounterDiv>
@@ -296,7 +300,7 @@ return (
       <CommentButtonDiv>
         {data.removed ? (
           <></>
-        ) : context.accountId == data.commentator ? (
+        ) : context.accountId == commentator ? (
           <Widget
             src={widgets.styledComponents}
             props={{
