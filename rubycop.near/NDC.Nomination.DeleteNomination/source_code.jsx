@@ -45,7 +45,8 @@ let nominationContract = "nominations-v1.gwg-testing.near";
 function handleSelfRevoke() {
   Storage.privateSet("Houseselected", house);
 
-  Near.call(nominationContract, "self_revoke").then(() => handleClose());
+  Near.call(nominationContract, "self_revoke");
+  handleClose();
 }
 
 return (
