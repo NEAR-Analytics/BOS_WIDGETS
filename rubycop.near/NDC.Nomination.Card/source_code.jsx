@@ -597,15 +597,20 @@ return (
             alt="pic"
           ></ProfilePicture>
           <HeaderContent>
-            <HeaderTag>
-              <HeaderTagP>
-                {data.indexerData.house == "HouseOfMerit"
-                  ? "House of Merit"
-                  : data.indexerData.house == "CouncilOfAdvisors"
-                  ? "Council of Advisors"
-                  : "Transparency Commission"}
-              </HeaderTagP>
-            </HeaderTag>
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Tag: {
+                  title:
+                    data.indexerData.house == "HouseOfMerit"
+                      ? "House of Merit"
+                      : data.indexerData.house == "CouncilOfAdvisors"
+                      ? "Council of Advisors"
+                      : "Transparency Commission",
+                  className: "dark",
+                },
+              }}
+            />
             <HeaderContentText>
               <NominationName>{data.profileData.name}</NominationName>
               <NominationUser>
@@ -633,16 +638,14 @@ return (
         <CollapseCandidateContent>
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
           <CandidateTagContainer className="w-100 d-flex flex-wrap">
-            {JSON.parse(data.nominationData.afiliation).map((data) => {
-              return (
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Tag: { title: data.company_name },
-                  }}
-                />
-              );
-            })}
+            {JSON.parse(data.nominationData.afiliation).map((data) => (
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Tag: { title: data.company_name },
+                }}
+              />
+            ))}
           </CandidateTagContainer>
         </CollapseCandidateContent>
       </CollapseCandidate>
@@ -701,13 +704,12 @@ return (
                 .trim()
                 .split(",")
                 .map((data) => (
-                  <>
-                    {data !== "" && (
-                      <Tag>
-                        <TagText>{data}</TagText>
-                      </Tag>
-                    )}
-                  </>
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Tag: { title: data },
+                    }}
+                  />
                 ))}
             </TagSection>
 
