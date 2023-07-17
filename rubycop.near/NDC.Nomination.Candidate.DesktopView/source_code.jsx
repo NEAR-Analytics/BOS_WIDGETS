@@ -301,9 +301,8 @@ const KeyIssueDescription = styled.p`
 
 const CandidateCard = styled.div`
   display: flex;
-  padding: 16px 12px;
+  padding: 20px;
   align-items: center;
-  gap: 12px;
   align-self: stretch;
   border-radius: 6px;
   background: #fff;
@@ -379,10 +378,11 @@ const CandidateTagText = styled.p`
 `;
 
 const CandidateTime = styled.h6`
-  margin-top: 3px;
+  margin: 3px 0 0 0;
   font-size: 10px;
   font-weight: 500;
   line-height: 120%;
+  color: #828688;
 `;
 
 const CandidateTextInfo = styled.div`
@@ -397,7 +397,7 @@ const CandidateTitle = styled.h5`
   font-size: 12px;
   font-weight: 500;
   line-height: 120%;
-  margin: 0px;
+  margin: 16px 0 0 0;
 `;
 
 const CandidateDescription = styled.p`
@@ -405,6 +405,7 @@ const CandidateDescription = styled.p`
   line-height: 16px;
   margin: 0px;
   text-align: justify;
+  color: #828688;
 `;
 
 const DeclarationCard = styled.div`
@@ -688,7 +689,7 @@ return (
                             Tag: { title: data.company_name },
                           }}
                         />
-                        <CandidateTime className="text-secondary">
+                        <CandidateTime>
                           {data.start_date} - {data.end_date}
                         </CandidateTime>
                       </CandidateInfoData>
