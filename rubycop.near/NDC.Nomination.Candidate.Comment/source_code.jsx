@@ -1,9 +1,9 @@
-const { data, commentator, candidate, id } = props;
+const { data } = props;
 
 State.init({
   showModal: false,
   hasReply: false,
-  nominationData: Social.getr(`${commentator}/nominations`),
+  nominationData: Social.getr(`${data.commentator}/nominations`),
 });
 
 let nominationContract = "nominations-v1.gwg-testing.near";
@@ -15,8 +15,8 @@ const widgets = {
 
 function handleDeleteComment() {
   Near.call(nominationContract, "remove_comment", {
-    candidate: candidate,
-    comment: id,
+    candidate: data.candidate,
+    comment: data.id,
   });
 }
 
@@ -272,9 +272,11 @@ return (
           }
           alt="pic"
         ></ProfileImageComment>
-        <CommentUser>{data.removed ? "@[deleted]" : commentator}</CommentUser>
+        <CommentUser>
+          {data.removed ? "@[deleted]" : data.commentator}
+        </CommentUser>
       </CommentUserContent>
-      {state.hasReply ? (
+      {state.hasReply && (
         <ReplyCounterDiv>
           <ReplyIconPurple
             src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmQ2XjRy2zRU86H4km9qihm6VRZiFGPGjocTofURoxg8Uv?_gl=1*3eysmk*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMzU0NS40LjAuMTY4NzkwMzU0NS42MC4wLjA."
@@ -282,25 +284,22 @@ return (
           ></ReplyIconPurple>
           <ReplyCounterText>1 reply</ReplyCounterText>
         </ReplyCounterDiv>
-      ) : (
-        <></>
       )}
     </CommentCardHeader>
     <CommentCardContent>
-      {data.removed ? "This comment is deleted." : data.comment}
+      {data.removed ? "This comment was deleted" : data.comment}
     </CommentCardContent>
     <CommentCardLowerSection>
       <TimestampCommentDiv>
-        <TimestampIconComment
-          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTvukihn95FGcAG9DCX6VuHzwRguHtynrKnaqEJczDg6V?_gl=1*mha71r*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4Nzg5NzQ3OS4yLjEuMTY4Nzg5OTA1MS42MC4wLjA."
-          alt="pic"
-        ></TimestampIconComment>
-        <TimestampTextComment>{data.timestamp}</TimestampTextComment>
+        <i className="bi bi-clock" />
+        <TimestampTextComment>
+          {new Date(data.timestamp).toDateString()}
+        </TimestampTextComment>
       </TimestampCommentDiv>
       <CommentButtonDiv>
         {data.removed ? (
           <></>
-        ) : context.accountId == commentator ? (
+        ) : context.accountId == data.commentator ? (
           <Widget
             src={widgets.styledComponents}
             props={{
@@ -320,7 +319,8 @@ return (
           src={widgets.styledComponents}
           props={{
             Button: {
-              text: "Share",
+              text: "",
+              className: "secondary dark",
               size: "sm",
               disabled,
               onClick: () => {},
