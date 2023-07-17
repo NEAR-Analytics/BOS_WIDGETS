@@ -99,10 +99,6 @@ const HeaderContent = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 4px;
-  width: 190px;
-  height: 53px;
-
-  flex-grow: 1;
 `;
 const HeaderTag = styled.div`
   display: flex;
@@ -129,7 +125,7 @@ const HeaderContentText = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-  width: 228px;
+  width: max-content;
 `;
 const NominationName = styled.p`
   width: 90%;
@@ -593,32 +589,34 @@ return (
           }}
         />
       )}
-      <HeaderCard>
-        <ProfilePicture
-          src={
-            data.imgURL
-              ? data.imgURL
-              : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-          }
-          alt="pic"
-        ></ProfilePicture>
-        <HeaderContent>
-          <HeaderTag>
-            <HeaderTagP>
-              {data.indexerData.house == "HouseOfMerit"
-                ? "House of Merit"
-                : data.indexerData.house == "CouncilOfAdvisors"
-                ? "Council of Advisors"
-                : "Transparency Commission"}
-            </HeaderTagP>
-          </HeaderTag>
-          <HeaderContentText>
-            <NominationName>{data.profileData.name}</NominationName>
-            <NominationUser>
-              {getShortUserName(data.nominationData.profileAccount)}
-            </NominationUser>
-          </HeaderContentText>
-        </HeaderContent>
+      <HeaderCard className="d-flex justify-content-between">
+        <div>
+          <ProfilePicture
+            src={
+              data.imgURL
+                ? data.imgURL
+                : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+            }
+            alt="pic"
+          ></ProfilePicture>
+          <HeaderContent>
+            <HeaderTag>
+              <HeaderTagP>
+                {data.indexerData.house == "HouseOfMerit"
+                  ? "House of Merit"
+                  : data.indexerData.house == "CouncilOfAdvisors"
+                  ? "Council of Advisors"
+                  : "Transparency Commission"}
+              </HeaderTagP>
+            </HeaderTag>
+            <HeaderContentText>
+              <NominationName>{data.profileData.name}</NominationName>
+              <NominationUser>
+                {getShortUserName(data.nominationData.profileAccount)}
+              </NominationUser>
+            </HeaderContentText>
+          </HeaderContent>
+        </div>
         {canUpvote && (
           <Widget
             src={widgets.styledComponents}
