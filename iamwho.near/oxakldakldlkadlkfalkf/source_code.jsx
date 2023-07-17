@@ -19,7 +19,7 @@ const fetchContracts = () => {
   }
 };
 
-if (!props.contracts)
+if (props.contracts)
   State.update({
     contracts: props.contracts,
   });
