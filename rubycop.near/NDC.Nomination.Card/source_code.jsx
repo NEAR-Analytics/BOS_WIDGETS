@@ -667,7 +667,7 @@ return (
                       text: "View",
                       size: "sm",
                       className: "secondary dark",
-                      href: `#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                      href: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
                     },
                   }}
                 />
