@@ -42,9 +42,8 @@ let nominations = Social.getr(`${props.candidate}/nominations`);
 State.update({ profile: profile });
 State.update({ nominations: nominations });
 
-const Movile = styled.div`
+const Mobile = styled.div`
   display: flex;
-  justify-content: center;
   @media only screen and (min-width: 601px) {
     display: none !important;
   }
@@ -52,7 +51,6 @@ const Movile = styled.div`
 
 const Desktop = styled.div`
   display: flex;
-  justify-content: center;
   @media only screen and (max-width: 600px) {
     display: none !important;
   }
@@ -60,8 +58,8 @@ const Desktop = styled.div`
 
 return (
   <div>
-    <Movile style={{ display: "flex", "justify-content": "center" }}>
-      <Movile style={{ width: "359px" }}>
+    <Mobile style={{ display: "flex", "justify-content": "center" }}>
+      <Mobile style={{ width: "359px" }}>
         {houses.map((group) => (
           <>
             {group.id === state.selectedHouse && (
@@ -77,22 +75,22 @@ return (
             )}
           </>
         ))}
-      </Movile>
-    </Movile>
-    <Movile class="row">
+      </Mobile>
+    </Mobile>
+    <Mobile class="row">
       <div className="my-3">
         <BackLink href="#/rubycop.near/widget/NDC.Nomination.Page">
           <i className="bi bi-chevron-left mr-2"></i>
           Back
         </BackLink>
       </div>
-    </Movile>
-    <Movile>
+    </Mobile>
+    <Mobile>
       <Widget
         props={{ data: state, house: props.house, candidate: props.candidate }}
         src={"yairnava.near/widget/NDC.Nomination.Candidate.Mobil"}
       />
-    </Movile>
+    </Mobile>
     <Desktop style={{ display: "flex", "justify-content": "center" }}>
       <div
         style={{
