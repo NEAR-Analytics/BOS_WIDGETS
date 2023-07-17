@@ -540,10 +540,10 @@ const CommentText = styled.p`
 `;
 
 const TH = styled.th`
-  border: 1px solid rgba(208, 214, 217, 0.4);
-  width: ${(props) => props.width};
-  text-align: left;
-  padding: 15px 20px;
+  border: 1px solid rgba(208, 214, 217, 0.4) !important;
+  width: ${(props) => props.width} !important;
+  text-align: left !important;
+  padding: 15px 20px !important;
 `;
 
 const afilations = JSON.parse(data.nominations.afiliation);
