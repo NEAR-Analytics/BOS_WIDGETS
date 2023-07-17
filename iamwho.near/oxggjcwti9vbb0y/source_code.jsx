@@ -15,26 +15,23 @@ const handleSubmit = (value) => {
 };
 
 const searchContracts = (value) => {
-  while (true) {
-    try {
-      const res = Near.view("v1.sourcescan.near", "search", {
-        key: value,
-        from_index: props.from_index || 0,
-        limit: props.limit || 10,
-      });
+  try {
+    const res = Near.view("v1.sourcescan.near", "search", {
+      key: value,
+      from_index: props.from_index || 0,
+      limit: props.limit || 10,
+    });
 
-      if (res) {
-        State.update({
-          tableProps: {
-            ...state.tableProps,
-            contracts: res[0],
-          },
-        });
-        break;
-      }
-    } catch {
-      console.log("error");
-    }
+    if (!res) return;
+
+    State.update({
+      tableProps: {
+        ...state.tableProps,
+        contracts: res[0],
+      },
+    });
+  } catch {
+    console.log("error");
   }
 };
 
