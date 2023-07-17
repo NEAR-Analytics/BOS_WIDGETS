@@ -80,14 +80,16 @@ const Theme = styled.div`
   @media only screen and (min-device-width: 375px) and (orientation: portrait) {
     padding: 16px;
     min-height: 100vh !important;
-    background-position: top !important;
-    background-size: cover !important;
+    min-width: 100vw !important;
+    overflow: hidden !important;
+    overflow-y: scroll !important;
+    background: black !important;
     .grid {
       flex-direction: row-reverse !important;
       flex-flow: wrap-reverse !important;
     }
   }
-
+  
   .swap-main-column {
     padding-top: 0 !important;
     margin-top: -16px !important;
