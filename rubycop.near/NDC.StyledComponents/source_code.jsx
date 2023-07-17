@@ -83,8 +83,11 @@ const Styled = {
     line-height: 24px;
     text-align: center;
     color: black;
-    text-decoration: none;
     border: 0;
+
+    &:hover {
+      text-decoration: none;
+    }
 
     &.danger {
       border: 1px solid #c23f38;
