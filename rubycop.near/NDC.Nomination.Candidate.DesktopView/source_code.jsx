@@ -9,6 +9,7 @@ State.init({
 
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  comment: "rubycop.near/widget/NDC.Nomination.Candidate.Comment",
 };
 
 let nominationContract = "nominations-v1.gwg-testing.near";
@@ -782,16 +783,9 @@ return (
                   },
                 }}
               />
-              {comments
-                .map((data) => {
-                  return (
-                    <Widget
-                      props={{ data }}
-                      src={"syi216.near/widget/NDC.Nomination.CommentCard"}
-                    />
-                  );
-                })
-                .reverse()}
+              {comments.map((data) => (
+                <Widget props={{ data }} src={widgets.comment} />
+              ))}
             </CommentSection>
           )}
         </div>
