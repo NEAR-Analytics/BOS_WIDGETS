@@ -21,13 +21,12 @@ const searchContracts = (value) => {
       from_index: props.from_index || 0,
       limit: props.limit || 10,
     });
-    console.log(res);
 
     if (!res) return;
 
     State.update({
       tableProps: {
-        ...tableProps,
+        ...state.tableProps,
         contracts: res[0],
       },
     });
@@ -35,8 +34,6 @@ const searchContracts = (value) => {
     console.log("error");
   }
 };
-
-console.log(state.tableProps);
 
 return (
   <div class="flex items-center justify-center w-screen h-screen">
