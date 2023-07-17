@@ -425,9 +425,7 @@ const DropdownContent = styled.div`
   align-items: flex-start;
   position: absolute;
   border-radius: 8px;
-  background: #ffffff;
-  width: 200px;
-  gap: 9px;
+  background: #fff;
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   z-index: 1;
@@ -465,7 +463,7 @@ const DropdownContainerHover = styled.div`
 `;
 
 const Separation = styled.div`
-    width: 200px;
+    width: -179px;
     position: absolute;
   }
 `;
