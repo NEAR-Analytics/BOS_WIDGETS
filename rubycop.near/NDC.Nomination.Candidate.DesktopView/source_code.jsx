@@ -394,54 +394,9 @@ const SectionDescription = styled.p`
 `;
 
 const DeclarationCard = styled.div`
-  display: flex;
-  padding: 16px 12px;
-  align-items: center;
+  padding: 20px;
   gap: 12px;
-  align-self: stretch;
   border-radius: 6px;
-  background: #fff;
-`;
-
-const DeclarationContent = styled.div`
-  display: flex;
-  width: 302px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 4px;
-`;
-
-const DeclarationHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  align-self: stretch;
-`;
-
-const DeclarationHeaderText = styled.p`
-  color: #000;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 120%;
-`;
-
-const DeclarationInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const DeclarationDescription = styled.p`
-  color: rgb(130, 134, 136);
-  font-size: 11px;
-  line-height: 130%;
-  text-align: justify;
-`;
-
-const DeclarationImage = styled.img`
-  width: 290px;
-  height: 234px;
 `;
 
 const CommentSection = styled.div`
