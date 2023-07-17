@@ -665,14 +665,13 @@ return (
       <LowerSectionContainer>
         <ButtonsLowerSection>
           <TextLowerSectionContainer>
-            <ClockIcon
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmTUjsGCFy6YrmjgS7zPVbdcKs4V8PZrXKC5zn6LUBfdoi?_gl=1*1141dsg*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4Njk0NzU3Mi41LjEuMTY4Njk0ODc2Ny42MC4wLjA."
-              alt="pic"
-            ></ClockIcon>
-            <TimestampText>
-              {data.indexerData.timestamp.toDateString()} by{" "}
-              {data.indexerData.nominee}
-            </TimestampText>
+            <i class="bi bi-clock"></i>
+            {data.indexerData.timestamp && (
+              <TimestampText>
+                {data.indexerData.timestamp.toDateString()} by{" "}
+                {data.indexerData.nominee}
+              </TimestampText>
+            )}
           </TextLowerSectionContainer>
           <Widget
             src={widgets.styledComponents}
