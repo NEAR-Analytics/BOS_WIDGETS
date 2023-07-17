@@ -16,24 +16,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const statusTagsArr = ["open", "claimed", "closed"];
-// State.init({ cardWithOpenModal: "no" });
-
-// MODAL HANDLERS
-
-const openModalHandler = (text) => {
-  console.log("openModalHandler");
-  State.update({ cardWithOpenModal: text });
-};
-
-const closeModalHandler = () => {
-  console.log("closeModalHandler");
-  State.update({ cardWithOpenModal: false });
-};
-
-const updateModalHandler = (text) => {
-  console.log("updateModalHandler");
-  State.update({ cardWithOpenModal: text });
-};
 
 // ========== LOCAL STORAGE ==========
 const localStorageData = JSON.parse(
@@ -151,7 +133,17 @@ const doesUserCanChangeStatus = authorsWhitelist.some(
 );
 
 // ========== HANDLER ==========
-const clickHandler = (oldStatus, newStatus, articleId) => {
+const openModalHandler = (text) => {
+  console.log("openModalHandler");
+  State.update({ cardWithOpenModal: text });
+};
+
+const closeModalHandler = () => {
+  console.log("closeModalHandler");
+  State.update({ cardWithOpenModal: false });
+};
+
+const updateStatusHandler = (oldStatus, newStatus, articleId) => {
   const actualTag = oldStatus.toLowerCase();
   const newTag = newStatus.toLowerCase();
   // Find the index of the object to be moved
@@ -201,11 +193,10 @@ return (
                     src={`${authorForWidget}/widget/Gigs_AllArticlesList.Card`}
                     props={{
                       article: item,
-                      statusChangeHandler: clickHandler,
+                      statusChangeHandler: updateStatusHandler,
                       statusTagsArr,
                       sharedArticleId,
                       doesUserCanChangeStatus,
-                      updateModalHandler,
                       openModalHandler,
                       closeModalHandler,
                       cardWithOpenModal: state.cardWithOpenModal,
