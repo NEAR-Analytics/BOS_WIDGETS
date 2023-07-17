@@ -338,8 +338,7 @@ const handleNominate = () => {
     deposit: 100000000000000000000000,
   };
 
-  Near.call([Social_Payload, SelfNominate_Payload]);
-  handleClose();
+  Near.call([Social_Payload, SelfNominate_Payload]).then(() => handleClose());
 };
 
 return (
