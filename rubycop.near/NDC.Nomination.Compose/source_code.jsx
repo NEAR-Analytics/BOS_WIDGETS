@@ -269,7 +269,7 @@ const handleChangeHouse = (item) => {
   if (item === "HouseOfMerit") Storage.privateSet("Houseselected", 1);
   if (item === "CouncilOfAdvisors") Storage.privateSet("Houseselected", 2);
   if (item === "TransparencyCommission") Storage.privateSet("Houseselected", 3);
-
+  console.log(item);
   State.update({ house_intended: item, error_msg: null });
 };
 
