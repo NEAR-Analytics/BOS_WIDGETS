@@ -291,6 +291,8 @@ const KeyIssuesContainer = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 8px;
+  overflow-y: scroll;
+  height: 250px;
 `;
 const KeyIssueTitle = styled.p`
   font-weight: 500;
@@ -668,36 +670,25 @@ return (
               alt="pic"
             ></ClockIcon>
             <TimestampText>
-              {data.indexerData.timestamp} by {data.indexerData.nominee}
+              {data.indexerData.timestamp.toDateString()} by{" "}
+              {data.indexerData.nominee}
             </TimestampText>
           </TextLowerSectionContainer>
-          {state.verified ? (
-            <CommentButtonDiv
-              onClick={async () => {
-                !data.preview ? State.update({ showModal: true }) : "";
-              }}
-            >
-              <CommentButtonCounter>
-                +{data.upVoteData.comments.length}
-              </CommentButtonCounter>
-              <CommentButtonIcon
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
-                alt="pic"
-              ></CommentButtonIcon>
-            </CommentButtonDiv>
-          ) : (
-            <CommentButtonDisabled>
-              <CommentButtonCounter style={{ filter: "grayscale(1)" }}>
-                {data.upVoteData.comments
-                  ? "+" + data.upVoteData.comments.length
-                  : "+" + 0}
-              </CommentButtonCounter>
-              <Icon
-                style={{ filter: "grayscale(1)" }}
-                src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmeZWTSG87x4RVE2MmaW5EPt3R2qBw6KpDvQNnGPV1hF2Q?_gl=1*11ayqft*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzgwODA5Ny4xLjEuMTY4NzgwODA5OS41OC4wLjA."
-              ></Icon>
-            </CommentButtonDisabled>
-          )}
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Button: {
+                text: `+${data.upVoteData.comments.length}`,
+                disabled: !state.verified,
+                size: "sm",
+                className: "secondary dark",
+                onClick: () => {
+                  !data.preview ? State.update({ showModal: true }) : "";
+                },
+                icon: <i className="bi bi-chat-square-text-fill"></i>,
+              },
+            }}
+          />
         </ButtonsLowerSection>
         <div className="d-flex justify-content-between">
           <TagSection>
@@ -714,9 +705,9 @@ return (
                 </>
               ))}
           </TagSection>
-          \
+
           {!data.preview && (
-            <div>
+            <div className="d-flex gap-4">
               <Widget
                 src={widgets.styledComponents}
                 props={{
