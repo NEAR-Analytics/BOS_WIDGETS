@@ -542,22 +542,6 @@ const TagSectionContainer = styled.div`
   align-items: center;
   align-self: stretch;
 `;
-const ViewButtonContainer = styled.div`
-  display: flex;
-  padding: 0px 0px 0px 8px;
-  align-items: flex-start;
-  gap: 8px;
-`;
-const ViewButtonDiv = styled.a`
-  padding: 2px 12px;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  color: #9333ea;
-  border: 1px solid #9333ea;
-`;
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -828,17 +812,17 @@ return (
           <ViewButtonContainer>
             {!data.preview && (
               <>
-                <ViewButtonDiv
-                  className="text-decoration-none"
-                  href={
-                    "#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
-                    data.indexerData.house +
-                    "&candidate=" +
-                    data.indexerData.nominee
-                  }
-                >
-                  View
-                </ViewButtonDiv>
+                <Widget
+                  src={widget.styledComponents}
+                  props={{
+                    Link: {
+                      text: "View",
+                      size: "sm",
+                      className: "secondary dark",
+                      href: `#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                    },
+                  }}
+                />
                 <DropdownContainerHover>
                   <Widget
                     src={widgets.styledComponents}
