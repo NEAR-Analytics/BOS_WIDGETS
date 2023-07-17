@@ -15,7 +15,7 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "vikash.near",
 ];
 const articleBlackList = [
-  91092435, 91092174, 91051228, 91092223, 91051203, 96690092,
+  91092435, 91092174, 91051228, 91092223, 91051203, 96690092, 96511883,
 ];
 const authorForWidget = "neardigitalcollective.near";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
