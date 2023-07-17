@@ -2,6 +2,11 @@ State.init({
   contracts: props.contracts,
 });
 
+if (props.contracts)
+  State.update({
+    contracts: props.contracts,
+  });
+
 return (
   <table class="table border border-gray-300">
     <thead>
