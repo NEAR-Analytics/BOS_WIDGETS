@@ -376,7 +376,7 @@ return (
           )}
         </Toolbar>
       </Filter>
-      <Container className="d-flex row">
+      <Container className="d-flex row justify-content-between w-100">
         <Left className="col-lg">
           <H5>Houses</H5>
           <Widget
