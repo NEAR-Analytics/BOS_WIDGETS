@@ -8,7 +8,6 @@ const fetchContracts = () => {
       from_index: props.from_index || 0,
       limit: props.limit || 10,
     });
-    console.log(res);
 
     if (!res) return;
 
