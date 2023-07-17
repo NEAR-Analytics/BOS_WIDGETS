@@ -666,9 +666,10 @@ return (
         <ButtonsLowerSection>
           <TextLowerSectionContainer>
             <i className="bi bi-clock"></i>
+            {console.log(data.indexerData.timestamp)}
             {data.indexerData && data.indexerData.timestamp && (
               <TimestampText>
-                {data.indexerData.timestamp.toDateString()} by{" "}
+                {new Date(data.indexerData.timestamp).toDateString()} by{" "}
                 {data.indexerData.nominee}
               </TimestampText>
             )}
