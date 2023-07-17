@@ -145,6 +145,7 @@ const Theme = styled.div`
       align-items: flex-start;
       justify-content: center;
       flex-wrap: wrap;
+      margin: auto !important;
     }
   }
 
