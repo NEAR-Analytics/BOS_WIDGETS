@@ -7,7 +7,7 @@ const handleChange = (e) => {
 };
 
 return (
-  <div class="w-screen flex flex-col items-center">
+  <div class="flex">
     <input
       class="rounded border px-3 py-1 w-10vw"
       placeholder={props.placeHolder}
