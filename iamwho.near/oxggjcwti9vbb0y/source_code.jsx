@@ -1,4 +1,5 @@
 State.init({
+  searchValue: "",
   searchBarProps: {
     placeHolder: "Account ID",
     handleSubmit: (value) => handleSubmit(value),
@@ -11,6 +12,7 @@ State.init({
 });
 
 const handleSubmit = (value) => {
+  State.update({ searchValue: value });
   searchContracts(value);
 };
 
@@ -21,8 +23,6 @@ const searchContracts = (value) => {
       from_index: props.from_index || 0,
       limit: props.limit || 10,
     });
-
-    if (!res) return;
 
     State.update({
       tableProps: {
@@ -35,7 +35,7 @@ const searchContracts = (value) => {
   }
 };
 
-if (!state.tableProps.contracts) searchContracts("");
+if (!state.tableProps.contracts) searchContracts(state.searchValue);
 
 return (
   <div class="flex items-center justify-center w-screen h-screen">
