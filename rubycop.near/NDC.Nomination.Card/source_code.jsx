@@ -258,10 +258,10 @@ const KeyIssues = styled.div`
   flex-direction: row;
   align-items: flex-start;
   padding: 12px;
-  width: 100%;
   gap: 12px;
   background: #ffffff;
   border-radius: 6px;
+  width: 100%;
 `;
 const KeyIssuesContent = styled.div`
   display: flex;
@@ -269,6 +269,7 @@ const KeyIssuesContent = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 12px;
+  width: 100%;
 `;
 const KeyIssuesHeader = styled.div`
   display: flex;
@@ -292,6 +293,7 @@ const KeyIssuesContainer = styled.div`
   gap: 8px;
   overflow-y: scroll;
   height: 250px;
+  width: 100%;
 `;
 const KeyIssueTitle = styled.p`
   font-weight: 500;
