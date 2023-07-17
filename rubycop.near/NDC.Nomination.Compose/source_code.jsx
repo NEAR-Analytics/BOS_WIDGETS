@@ -159,7 +159,7 @@ const validatedInputs = () => {
     afiliation,
     agreement,
     tags,
-  } = state;
+  } = State;
 
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
@@ -327,7 +327,6 @@ const handleDeclaration = (item) => {
 };
 
 const handleNominate = () => {
-  console.log(validatedInputs());
   if (!validatedInputs()) return;
 
   let newstate = Object.assign({}, state);
