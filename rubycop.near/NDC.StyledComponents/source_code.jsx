@@ -1,4 +1,4 @@
-const { Button, Dropdown, TextArea, Input, Link } = props;
+const { Button, Dropdown, TextArea, Input, Link, Tag } = props;
 
 const Styled = {
   Button: styled.button`
