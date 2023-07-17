@@ -273,7 +273,7 @@ if (Dropdown)
       <Label>{Dropdown.label}</Label>
       <Styled.Select
         value={Dropdown.value}
-        onChange={() => Dropdown.handleChange(Dropdown.value)}
+        onChange={(e) => Dropdown.handleChange(e.target.value)}
       >
         {Dropdown.options.map((opt) => (
           <>
