@@ -55,9 +55,9 @@ function handleUpVote() {
   );
 }
 
-const pillsVesting = [
-  { id: "declaration", title: "Declaration" },
-  { id: "comments", title: "Comments" },
+const tabs = [
+  { id: "declaration", title: "Declaration", icon: "bi bi-trophy" },
+  { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
 ];
 
 const DetailContent = styled.div`
@@ -488,23 +488,16 @@ const H6 = styled.h6`
   margin-bottom: 0;
 `;
 
-const PillButtonActive = styled.div`
-font-weight: 700;
-border-bottom: 2px solid;
-border-image: var(--gradient-purple-gradient, linear-gradient(90deg, #9333EA 0%, #4F46E5 100%));
-border-image-slice: 1;
-cursor: pointer;
-padding-bottom: 5px;
-  }
-`;
+const Tab = styled.div`
+  font-weight: 500;
+  border-bottom: 2px solid;
+  border-color: ${(props) => (props.active ? "#4F46E5" : "#dee2e6")};
+  border-image-slice: 1;
+  cursor: pointer;
+  padding-bottom: 5px;
 
-const PillButton = styled.div`
-font-weight: 700;
-border-bottom: 4px solid;
-border-color: #dee2e6;
-border-image-slice: 1;
-cursor: pointer;
-padding-bottom: 5px;
+  i {
+    color: ${(props) => (props.active ? "#4F46E5" : "#dee2e6")};
   }
 `;
 
@@ -796,29 +789,19 @@ return (
     >
       <>
         <ul className="nav nav-pills nav-fill mb-4">
-          {pillsVesting.map(({ id, title }, i) => (
+          {tabs.map(({ id, title, icon }, i) => (
             <li className="nav-item" role="presentation" key={i}>
-              {state.tabSelected == id ? (
-                <PillButtonActive
-                  onClick={() => State.update({ tabSelected: id })}
-                >
-                  <i
-                    class={`bi bi-trophy ${
-                      state.tabSelected == "declaration" ? "text-secondary" : ""
-                    }`}
-                  />
-                  {title}
-                </PillButtonActive>
-              ) : (
-                <PillButton onClick={() => State.update({ tabSelected: id })}>
-                  <i
-                    class={`bi bi-chat-square-dots-fill ${
-                      state.tabSelected == "comments" ? "text-secondary" : ""
-                    }`}
-                  />
-                  {title}
-                </PillButton>
-              )}
+              <Tab
+                active={state.tabSelected === id}
+                onClick={() => State.update({ tabSelected: id })}
+              >
+                <i
+                  class={`${icon} ${
+                    state.tabSelected == "declaration" ? "text-secondary" : ""
+                  }`}
+                />
+                {title}
+              </Tab>
             </li>
           ))}
         </ul>
