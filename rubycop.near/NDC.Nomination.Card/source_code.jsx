@@ -726,6 +726,7 @@ return (
                       text: "Share",
                       size: "sm",
                       onClick: handleShare,
+                      icon: <i class="bi bi-share-fill"></i>,
                     },
                   }}
                 />
