@@ -1,9 +1,15 @@
+const { data } = props;
+
 State.init({
   tabSelected: "comments",
   verified: false,
   start: true,
   voted: false,
 });
+
+const widgets = {
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+};
 
 let nominationContract = "nominations-v1.gwg-testing.near";
 
@@ -70,13 +76,6 @@ const DetailCard = styled.div`
   gap: 16px;
   border-radius: 10px;
   background: #f8f8f9;
-`;
-
-const DetailHeader = styled.div`
-  display: flex;
-  width: 326px;
-  align-items: center;
-  gap: 12px;
 `;
 
 const ProfilePicture = styled.img`
@@ -565,21 +564,21 @@ const CommentText = styled.p`
   margin: 0px;
 `;
 
-const afilations = JSON.parse(props.data.nominations.afiliation);
+const afilations = JSON.parse(data.nominations.afiliation);
 
 const afiilationsSort = afilations
   .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
   .reverse();
 
 const issues = [
-  props.data.nominations.HAYInvolve,
-  props.data.nominations.WIYStrategy,
-  props.data.nominations.Key_Issue_1,
-  props.data.nominations.Key_Issue_2,
-  props.data.nominations.Key_Issue_3,
-  props.data.nominations.addition_platform,
+  data.nominations.HAYInvolve,
+  data.nominations.WIYStrategy,
+  data.nominations.Key_Issue_1,
+  data.nominations.Key_Issue_2,
+  data.nominations.Key_Issue_3,
+  data.nominations.addition_platform,
 ];
-const comments = props.data.comments[0].comments;
+const comments = data.comments[0].comments;
 
 return (
   <Container class="row">
@@ -593,92 +592,84 @@ return (
             "border-radius": "8px",
           }}
         >
-          <DetailHeader
-            style={{
-              width: "100%",
-              "margin-top": "10px",
-              "margin-bottom": "10px",
-            }}
-          >
-            <ProfilePicture
-              style={{
-                width: "100px",
-                height: "100px",
-                "border-radius": "20px",
-              }}
-              src={
-                props.data.nominations.img.url
-                  ? props.data.nominations.img.url
-                  : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-              }
-              alt="pic"
-            ></ProfilePicture>
-            <HeaderDetailContent>
-              <TagContainer style={{ "margin-bottom": "5px" }}>
-                <HouseTagDiv>
-                  <HouseTagText style={{ "font-size": "12px" }}>
-                    {props.house == "HouseOfMerit"
-                      ? "House of Merit"
-                      : props.house == "CouncilOfAdvisors"
-                      ? "Council of Advisors"
-                      : "Transparency Commission"}
-                  </HouseTagText>
-                </HouseTagDiv>
-              </TagContainer>
-              <NominationTitleContainer>
-                <NominationTitle
-                  style={{ "margin-bottom": "5px", "font-size": "18px" }}
-                >
-                  {props.data.nominations.name}
-                </NominationTitle>
-                <NominationUser
-                  style={{ "margin-bottom": "5px", "font-size": "14px" }}
-                >
-                  {props.candidate}
-                </NominationUser>
-                <TagContainer>
-                  {props.data.nominations.tags
-                    .trim()
-                    .split(",")
-                    .map((tag) => {
-                      return tag && tag != "" ? (
-                        <TagDiv>
-                          <TagDivText style={{ "font-size": "10px" }}>
-                            {tag}
-                          </TagDivText>
-                        </TagDiv>
-                      ) : null;
-                    })}
+          <div className="w-100 p-3 d-flex justify-content-between align-items-start">
+            <div>
+              <ProfilePicture
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  "border-radius": "20px",
+                }}
+                src={
+                  data.nominations.img.url
+                    ? data.nominations.img.url
+                    : "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm"
+                }
+                alt="pic"
+              ></ProfilePicture>
+              <HeaderDetailContent>
+                <TagContainer style={{ "margin-bottom": "5px" }}>
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Tag: {
+                        title:
+                          data.indexerData.house == "HouseOfMerit"
+                            ? "House of Merit"
+                            : data.indexerData.house == "CouncilOfAdvisors"
+                            ? "Council of Advisors"
+                            : "Transparency Commission",
+                        className: "dark",
+                      },
+                    }}
+                  />
                 </TagContainer>
-              </NominationTitleContainer>
+                <NominationTitleContainer>
+                  <NominationTitle
+                    style={{ "margin-bottom": "5px", "font-size": "18px" }}
+                  >
+                    {data.nominations.name}
+                  </NominationTitle>
+                  <NominationUser
+                    style={{ "margin-bottom": "5px", "font-size": "14px" }}
+                  >
+                    {props.candidate}
+                  </NominationUser>
+                  <TagContainer>
+                    {data.nominations.tags
+                      .trim()
+                      .split(",")
+                      .map((tag) => {
+                        return tag && tag != "" ? (
+                          <Widget
+                            src={widgets.styledComponents}
+                            props={{
+                              Tag: { title: tag },
+                            }}
+                          />
+                        ) : null;
+                      })}
+                  </TagContainer>
+                </NominationTitleContainer>
+              </HeaderDetailContent>
+            </div>
+            <HeaderDetailContent>
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    text: `+${data.comments[0].upvotes ?? 0}`,
+                    disabled:
+                      !state.verified || context.accountId === props.candidate,
+                    className: "secondary dark",
+
+                    onClick: handleUpVote,
+                    icon: <i className="bi bi-hand-thumbs-up"></i>,
+                  },
+                }}
+              />
             </HeaderDetailContent>
-            <HeaderDetailContent
-              style={{ "align-items": "end", height: "71.17px" }}
-            >
-              {state.verified && context.accountId != props.candidate ? (
-                <UpvoteButton onClick={handleUpVote}>
-                  <UpvoteCount>
-                    {props.data.comments[0].upvotes
-                      ? "+" + props.data.comments[0].upvotes
-                      : "+" + 0}
-                  </UpvoteCount>
-                  <Icon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></Icon>
-                </UpvoteButton>
-              ) : (
-                <UpvoteButtonDisabled>
-                  <UpvoteCount style={{ filter: "grayscale(1)" }}>
-                    {props.data.comments[0].upvotes
-                      ? "+" + props.data.comments[0].upvotes
-                      : "+" + 0}
-                  </UpvoteCount>
-                  <Icon
-                    style={{ filter: "grayscale(1)" }}
-                    src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
-                  ></Icon>
-                </UpvoteButtonDisabled>
-              )}
-            </HeaderDetailContent>
-          </DetailHeader>
+          </div>
         </div>
         <div
           class="col-5"
