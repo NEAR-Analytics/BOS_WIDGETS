@@ -154,7 +154,6 @@ const NominationUser = styled.p`
   display: flex;
   align-items: center;
   color: #828688;
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -200,14 +199,9 @@ const CollapseCandidate = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 8px 12px;
-  gap: 12px;
-  width: 326px;
-  height: 56px;
+  padding: 12px;
   background: #ffffff;
   border-radius: 6px;
-
-  align-self: stretch;
 `;
 const CollapseCandidateContent = styled.div`
   display: flex;
@@ -217,28 +211,17 @@ const CollapseCandidateContent = styled.div`
   padding: 0px;
   gap: 5px;
 `;
-const CollapseCandidateHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 12px;
-  width: 302px;
-  height: 16px;
-
-  align-self: stretch;
-`;
 const CollapseCandidateText = styled.p`
   width: 274px;
-  height: 14px;
   font-style: normal;
   font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 12px;
   line-height: 120%;
   margin: 0px;
   color: #000000;
-
-  flex-grow: 1;
 `;
 const DownArrow = styled.img`
   width: 16px;
@@ -254,8 +237,6 @@ const CandidateTag = styled.div`
   justify-content: center;
   align-items: center;
   padding: 4px 8px;
-  gap: 10px;
-  height: 20px;
   background: linear-gradient(
     90deg,
     rgba(147, 51, 234, 0.1) 0%,
@@ -271,7 +252,7 @@ const CandidateTagText = styled.p`
   max-width: 200px;
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 10px;
   line-height: 120%;
   margin: 0px;
   color: #9333ea;
@@ -650,9 +631,8 @@ return (
     </HeaderCard>
     <CollapseCandidate>
       <CollapseCandidateContent>
-        <CollapseCandidateHeader>
-          <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
-        </CollapseCandidateHeader>
+        <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
+
         <CandidateTagContainer className="w-100 d-flex flex-wrap">
           {JSON.parse(data.nominationData.afiliation).map((data) => {
             return (
@@ -673,7 +653,9 @@ return (
           {keyIssues.map((issue, i) => (
             <div key={i}>
               <KeyIssueTitle>{issue.title}</KeyIssueTitle>
-              <KeyIssueDescription>{trimText(issue.desc)}</KeyIssueDescription>
+              <KeyIssueDescription className="text-secondary">
+                {trimText(issue.desc)}
+              </KeyIssueDescription>
               <KeyIssueSeparator />
             </div>
           ))}
