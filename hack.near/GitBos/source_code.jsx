@@ -3,15 +3,18 @@ const daoId = props.daoId ?? "build.sputnik-dao.near";
 
 const policy = Near.view(daoId, "get_policy");
 
+const latestProposalId = Near.view(daoId, "get_last_proposal_id") - 1;
+
 const deposit = policy.proposal_bond;
 
-const initWidgetPath =
-  props.widgetPath ?? "build.sputnik-dao.near/widget/community";
+const initWidgetPath = props.widgetPath ?? `${daoId}/widget/community`;
+const updatedWidgetPath =
+  props.updatedWidget ?? `${accountId}/widget/community`;
 
 State.init({
   accountId: accountId ?? "",
   widgetPath: initWidgetPath ?? "",
-  updatedWidget: props.updatedWidget ?? "",
+  updatedWidget: updatedWidgetPath ?? "",
 });
 
 const [ownerId, oldWidget, widgetName] = state.widgetPath.split("/");
@@ -83,6 +86,34 @@ let CodeWrapper = styled.div`
   }
 `;
 
+const setButton = ({ widgetPath, onHide }) => {
+  return (
+    <button
+      className="btn btn-primary"
+      onClick={() => {
+        State.update({ widgetPath });
+        onHide();
+      }}
+    >
+      <i className="bi bi-plus-lg" /> add
+    </button>
+  );
+};
+
+const addButton = ({ updatedWidget, onHide }) => {
+  return (
+    <button
+      className="btn btn-primary"
+      onClick={() => {
+        State.update({ updatedWidget });
+        onHide();
+      }}
+    >
+      <i className="bi bi-plus-lg" /> add
+    </button>
+  );
+};
+
 return (
   <div className="d-flex flex-column">
     <div className="p-1 m-1">
@@ -91,43 +122,27 @@ return (
       </h2>
       <div>
         <Widget
-          src="near/widget/AccountProfileCard"
-          props={{ accountId: daoId }}
+          src="hack.near/widget/dev.proposal"
+          props={{ accountId, daoId, proposalId: latestProposalId }}
         />
       </div>
     </div>
     <div className="p-1 m-1">
       <div className="row">
         <div className="col m-2">
-          <h5>Base Widget</h5>
-          <div className="input-group mb-3">
-            <input
-              className="form-control"
-              placeholder={initWidgetPath}
-              defaultValue={state.widgetPath || initWidgetPath}
-              onChange={(e) => {
-                State.update({
-                  widgetPath: e.target.value,
-                });
-              }}
-            />
-          </div>
+          <h5>Template</h5>
+          <Widget
+            src="hack.near/widget/widget.search"
+            props={{ extraButtons: setButton }}
+          />
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
               widgetPath: state.widgetPath,
+              updatedWidget: state.updatedWidget,
             }}
           />
           <div className="m-2">
-            {accountId !== daoId && (
-              <button
-                className="btn btn-primary border-0 m-1"
-                onClick={handleCreate}
-              >
-                <i className="bi bi-bezier2 me-1"></i>
-                Clone
-              </button>
-            )}
             <a
               className="btn btn-success border-0 m-1"
               href={`#/edit/${state.widgetPath}`}
@@ -137,26 +152,17 @@ return (
             </a>
           </div>
         </div>
-        <br />
         <div className="col m-2">
           <h5>Updated Version</h5>
-          <div className="input-group mb-3">
-            <input
-              className="form-control"
-              placeholder={`${accountId}/widget/${widgetName}`}
-              defaultValue={updatedWidget}
-              onChange={(e) => {
-                State.update({
-                  updatedWidget: e.target.value,
-                });
-              }}
-            />
-          </div>
+          <Widget
+            src="hack.near/widget/widget.search"
+            props={{ extraButtons: addButton }}
+          />
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
-              widgetPath:
-                state.updatedWidget || `${accountId}/widget/community`,
+              widgetPath: state.updatedWidget,
+              updatedWidget: state.updatedWidget,
             }}
           />
           <div className="m-2">
