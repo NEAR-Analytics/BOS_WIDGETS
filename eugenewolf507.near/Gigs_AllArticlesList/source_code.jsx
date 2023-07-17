@@ -16,13 +16,35 @@ const authorsWhitelist = props.writersWhiteList ?? [
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const statusTagsArr = ["open", "claimed", "closed"];
+// State.init({ cardWithOpenModal: "no" });
+
+// MODAL HANDLERS
+
+const openModalHandler = (text) => {
+  console.log("openModalHandler");
+  State.update({ cardWithOpenModal: text });
+};
+
+const closeModalHandler = () => {
+  console.log("closeModalHandler");
+  State.update({ cardWithOpenModal: false });
+};
+
+const updateModalHandler = (text) => {
+  console.log("updateModalHandler");
+  State.update({ cardWithOpenModal: text });
+};
 
 // ========== LOCAL STORAGE ==========
-const myData = JSON.parse(Storage.privateGet("sortedArticlesByTagFromStorage"));
-const doesDataFresh = myData.time ? Date.now() - myData.time < 3000 : false;
-if (doesDataFresh && myData.sortedArticlesByTag) {
-  // ========== STATE INIT ==========
-  State.init(myData.sortedArticlesByTag);
+const localStorageData = JSON.parse(
+  Storage.privateGet("sortedArticlesByTagFromStorage")
+);
+const doesDataFresh = localStorageData.time
+  ? Date.now() - localStorageData.time < 3000
+  : false;
+if (doesDataFresh && localStorageData.sortedArticlesByTag) {
+  // ========== STATE INIT ========== by articles from
+  State.init(localStorageData.sortedArticlesByTag);
 } else {
   Storage.privateSet("sortedArticlesByTagFromStorage", "");
 
@@ -90,7 +112,7 @@ if (doesDataFresh && myData.sortedArticlesByTag) {
     return result;
   };
 
-  // ========== STATE INIT ==========
+  // ========== STATE INIT ========== by articles from near.social
   const sortedArticlesByTag = sortArticlesByTag();
   sortedArticlesByTag && State.init(sortedArticlesByTag);
 
@@ -151,7 +173,7 @@ const clickHandler = (oldStatus, newStatus, articleId) => {
       onCommit: () => {
         state[actualTag].splice(objectIndex, 1);
         state[newTag].unshift(updatedObjectToMove);
-        state.closeAllModals = true;
+        state.cardWithOpenModal = "";
         State.update();
       },
     });
@@ -183,7 +205,10 @@ return (
                       statusTagsArr,
                       sharedArticleId,
                       doesUserCanChangeStatus,
-                      closeAllModals: state.closeAllModals,
+                      updateModalHandler,
+                      openModalHandler,
+                      closeModalHandler,
+                      cardWithOpenModal: state.cardWithOpenModal,
                     }}
                   />
                 ))}
