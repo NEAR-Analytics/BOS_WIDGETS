@@ -156,7 +156,11 @@ return (
           />
         </Modal>
       )}
-      <div role="button" className="card-body" onClick={openModalHandler}>
+      <div
+        role="button"
+        className="card-body"
+        onClick={() => updateModalHandler(article.articleId)}
+      >
         <div className="row d-flex justify-content-center">
           <h5 className="card-title text-center pb-2 border-bottom">
             {article.articleId}
