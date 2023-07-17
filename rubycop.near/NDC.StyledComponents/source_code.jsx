@@ -262,7 +262,7 @@ if (Button)
 
 if (Tag)
   return (
-    <Styled.Tag>
+    <Styled.Tag className={Tag.className}>
       <p title={Tag.title}>{Tag.title}</p>
     </Styled.Tag>
   );
