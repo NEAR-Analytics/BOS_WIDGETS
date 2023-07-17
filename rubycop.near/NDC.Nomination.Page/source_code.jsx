@@ -5,7 +5,7 @@ org = props.org ? org : "test"; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
-let nominationContract = "nominations-v1.gwg-testing.near";
+const nominationContract = "nominations-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 function handleSelfRevoke() {
@@ -42,9 +42,7 @@ State.init({
 });
 
 const httpRequestOpt = {
-  headers: {
-    "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-  },
+  headers: { "x-api-key": apiKey },
 };
 
 function getVerifiedHuman() {
