@@ -1,3 +1,4 @@
+const data = props.data;
 const ownerId = data.ownerId;
 const categories = data.categories;
 const filterTag = data.filterTag;
@@ -128,11 +129,13 @@ return (
             tab: state.tab,
             onSelect,
             navItems:
-              categories?.map((i) => ({
-                category: i.label,
-                icon: i.icon,
-                id: i.id,
-              })) || [],
+              (categories &&
+                categories.map((i) => ({
+                  category: i.label,
+                  icon: i.icon,
+                  id: i.id,
+                }))) ||
+              [],
           }}
         />
         <hr className="border-2" />
@@ -145,7 +148,7 @@ return (
         <div className="d-flex flex-wrap justify-content-between mb-3">
           <div className="m-1">
             <h2>
-              <b>#${filterTag}</b>
+              <b>#{filterTag}</b>
             </h2>
           </div>
           <div className="m-1">
