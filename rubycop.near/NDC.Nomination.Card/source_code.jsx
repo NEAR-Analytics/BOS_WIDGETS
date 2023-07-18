@@ -609,7 +609,7 @@ return (
               <div className="w-100" key={i}>
                 <KeyIssueTitle>{issue.title}</KeyIssueTitle>
                 <KeyIssueDescription className="text-secondary">
-                  {trimText(issue.desc)}
+                  {issue.desc}
                 </KeyIssueDescription>
                 <KeyIssueSeparator />
               </div>
