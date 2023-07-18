@@ -55,7 +55,8 @@ return (
         <i className="fs-1 bi bi-trash" />
       </IconContainer>
       <h5 className="text-center py-3">
-        Are you sure about to delete your nomination?
+        Are you sure you’d like to delete your nomination? You will lose the
+        current upvotes and comments.
       </h5>
       <div className="d-flex justify-content-between align-items-center">
         <Widget
