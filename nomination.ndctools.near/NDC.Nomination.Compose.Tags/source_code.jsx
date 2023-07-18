@@ -69,8 +69,8 @@ return (
         <Checkbox
           type="checkbox"
           value={state.agreement}
-          onChange={(e) => {
-            handleDeclaration(e);
+          onChange={() => {
+            handleDeclaration(!state.agreement);
             State.update({ agreement: !state.agreement });
           }}
         />
