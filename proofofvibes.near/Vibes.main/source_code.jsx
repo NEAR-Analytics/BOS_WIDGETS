@@ -6,7 +6,9 @@ const socialProfile = Social.getr(`${socialAccountId}/profile`);
 const role = props.role ?? "vibee";
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
-const referece = props.reference ?? "";
+const reference =
+  props.reference ??
+  "https://genadrop.mypinata.cloud/ipfs/QmQ1662QyTESnzWK8gBJdD7BtwQ3ddfXCMy6Hh3FHdmjMk?_gl=1*wrbb39*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTY4Njc3Ni44LjEuMTY4OTY4NjgyMi4xNC4wLjA";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -228,7 +230,7 @@ return (
             href={`${accountUrl}&tab=sbt`}
             selected={state.selectedTab === "sbt"}
           >
-            SBT Holders
+            Vibe SBT Holders
           </TabsButton>
 
           <TabsButton
@@ -244,29 +246,18 @@ return (
             Jobs{" "}
           </TabsButton>
           <TabsButton
+            href={`${accountUrl}&tab=tastemaker`}
+            selected={state.selectedTab === "tastemaker"}
+          >
+            Tastemakers
+          </TabsButton>
+          <TabsButton
             href={`${accountUrl}&tab=vibes`}
             selected={state.selectedTab === "vibes"}
           >
             VibeChecks{" "}
           </TabsButton>
         </Tabs>
-
-        {state.selectedTab === "discussion" && (
-          <>
-            <h3>Curated Posts</h3>
-            <a
-              className="btn btn-outline-secondary m-2"
-              href="/#/hack.near/widget/DAO.Feed.Editor"
-            >
-              <b>Update Feed</b>
-            </a>
-            <hr />
-            <Widget
-              src={feed ?? "hack.near/widget/DAO.Social"}
-              props={{ daoId }}
-            />
-          </>
-        )}
 
         {state.selectedTab === "proposals" && (
           <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
@@ -341,7 +332,24 @@ return (
         {state.selectedTab === "members" && (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
-            props={{ daoId, issuer: issuer, classId: 1, reference: reference }}
+            props={{
+              daoId: daoId,
+              issuer: issuer,
+              classId: 1,
+              reference: reference,
+            }}
+          />
+        )}
+
+        {state.selectedTab === "tastemakers" && (
+          <Widget
+            src="nearefi.near/widget/ReFi.DAO.members"
+            props={{
+              daoId: "vibes.sputnik-dao.near",
+              issuer: "issuer.proofofvibes.near",
+              classId: 1,
+              reference: reference,
+            }}
           />
         )}
 
