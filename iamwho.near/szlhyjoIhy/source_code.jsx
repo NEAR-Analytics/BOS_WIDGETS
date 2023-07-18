@@ -2,10 +2,6 @@ State.init({
   value: "",
 });
 
-const handleChange = (e) => {
-  State.update({ value: e.target.value });
-};
-
 return (
   <div class="flex">
     <input
