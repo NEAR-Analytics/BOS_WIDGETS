@@ -1,4 +1,4 @@
-const accountId = props.accountId || context.accountId;
+const accountId = props.accountId;
 
 let hasToken = false;
 
@@ -12,7 +12,7 @@ const Icon = styled.div`
 if (accountId) {
   const getFirstSBTToken = () => {
     const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-      account: `${context.accountId}`,
+      account: `${accountId}`,
       issuer: "fractal.i-am-human.near",
     });
     return view?.[0]?.[1]?.[0];
