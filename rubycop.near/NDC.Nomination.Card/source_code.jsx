@@ -248,7 +248,7 @@ const KeyIssuesHeader = styled.div`
 const KeyIssuesTitle = styled.p`
   font-style: normal;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 120%;
   margin-bottom: 0;
 `;
@@ -619,6 +619,32 @@ return (
       </KeyIssues>
       <LowerSection>
         <LowerSectionContainer>
+          <KeyIssues>
+            <KeyIssuesContent>
+              <KeyIssuesHeader>
+                <KeyIssuesTitle>Tags</KeyIssuesTitle>
+              </KeyIssuesHeader>
+              <div className="d-flex w-100">
+                <TagSection>
+                  {data.nominationData.tags
+                    .trim()
+                    .split(",")
+                    .map((data) => (
+                      <>
+                        {data && (
+                          <Widget
+                            src={widgets.styledComponents}
+                            props={{
+                              Tag: { title: data },
+                            }}
+                          />
+                        )}
+                      </>
+                    ))}
+                </TagSection>
+              </div>
+            </KeyIssuesContent>
+          </KeyIssues>
           <ButtonsLowerSection>
             <TextLowerSectionContainer className="align-items-center">
               <i className="bi bi-clock"></i>
@@ -633,28 +659,6 @@ return (
               )}
             </TextLowerSectionContainer>
           </ButtonsLowerSection>
-          <div className="d-flex w-100">
-            <KeyIssuesHeader>
-              <KeyIssuesTitle>Tags</KeyIssuesTitle>
-            </KeyIssuesHeader>
-            <TagSection>
-              {data.nominationData.tags
-                .trim()
-                .split(",")
-                .map((data) => (
-                  <>
-                    {data && (
-                      <Widget
-                        src={widgets.styledComponents}
-                        props={{
-                          Tag: { title: data },
-                        }}
-                      />
-                    )}
-                  </>
-                ))}
-            </TagSection>
-          </div>
           <div className="d-flex w-100 align-items-center">
             {!data.preview && (
               <div className="d-flex w-100 gap-2 justify-content-between">
