@@ -76,7 +76,8 @@ const Styled = {
     }
 
     i {
-      margin: 0 0 0 5px;
+      margin: 0;
+      margin-left: ${(props) => (props.text ? "5px" : "0")};
     }
   `,
 
@@ -257,6 +258,7 @@ if (Button)
       className={`align-items-center d-flex ${Button.className ?? "primary"}`}
       onClick={Button.onClick}
       disabled={Button.disabled}
+      text={Button.text}
     >
       <div>{Button.text}</div>
       {Button.icon && (
@@ -396,7 +398,7 @@ const WidgetInput = ({ type }) => {
 return (
   <Container>
     <h4>Button</h4>
-    <div className="d-flex align-items-end flex-wrap gap-2">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
       <WidgetButton text="Primary" />
       <WidgetButton text="Primary" icon={<i class="bi bi-check-lg"></i>} />
       <WidgetButton
@@ -410,7 +412,7 @@ return (
       <WidgetButton size="sm" className="secondary" text="Secondary" />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap gap-2">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
       <WidgetButton text="Primary Dark" className="primary dark" />
       <WidgetButton
         text="Primary Dark"
@@ -432,7 +434,19 @@ return (
       />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap gap-2">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
+      <WidgetButton
+        className="primary dark"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton
+        disabled
+        className="primary dark"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+    </div>
+
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
       <WidgetButton
         text="Danger"
         className="danger"
@@ -447,7 +461,7 @@ return (
     </div>
 
     <h4>Tag</h4>
-    <div className="d-flex align-items-end flex-wrap gap-2">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
       <Widget
         src={"rubycop.near/widget/NDC.StyledComponents"}
         props={{ Tag: { title: "Lorem ipsum", className: "dark" } }}
