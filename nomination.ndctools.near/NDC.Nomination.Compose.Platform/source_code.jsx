@@ -5,7 +5,7 @@ const Section = styled.div`
 `;
 
 const widgets = {
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
 return (
