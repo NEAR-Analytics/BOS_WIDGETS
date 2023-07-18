@@ -215,7 +215,7 @@ const SmallReactButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: start;
-  width: 2em;
+  width: 3em;
   height: 2.5em;
   padding: 6px 12px;
   margin: 2px 0;
