@@ -7,7 +7,6 @@ State.init({
   networkIsLoaded: false,
 });
 
-console.log("ethers", ethers);
 if (!state.networkIsLoaded) {
   if (!ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
     Ethers.provider()
@@ -16,25 +15,32 @@ if (!state.networkIsLoaded) {
         console.log("chainId", chainIdData.chainId);
         if (chainIdData.chainId === ETH_CHAINID) {
           // ETH
-          State.update({ network: NETWORK_ETH, networlIsLoaded: true });
+          State.update({ network: NETWORK_ETH, networkIsLoaded: true });
         } else {
-          State.update({ network: NETWORK_NEAR, networlIsLoaded: true });
+          State.update({ network: NETWORK_NEAR, networkIsLoaded: true });
         }
       });
   } else {
     // ethers not supported on this gateway
-    State.update({ network: NETWORK_NEAR, networlIsLoaded: true });
+    State.update({ network: NETWORK_NEAR, networkIsLoaded: true });
   }
 }
+
+if (!state.networkIsLoaded) return <>Loading</>;
 const getContent = {
-  NETWORK_NEAR: (
+  NEAR: (
     <Widget src={`${authorId}/widget/TokenWrapper.v2.NearWrapper`} props={{}} />
   ),
-  NETWORK_ETH: (
+  ETH: (
     <Widget src={`${authorId}/widget/TokenWrapper.v2.EthWrapper`} props={{}} />
   ),
 }[state.network];
 
-console.log("NETWORK", state.network);
-if (!state.networkIsLoaded) return <>Loading</>;
-return <>{getContent}</>;
+const Container = styled.div`
+  width: 100%;
+
+  * {
+    margin: 0;
+  }
+`;
+return <Container>{getContent}</Container>;
