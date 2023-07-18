@@ -16,6 +16,8 @@ const Container = styled.div`
 `;
 
 const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
   .title {
     margin-left: 20px;
     color: #666;
