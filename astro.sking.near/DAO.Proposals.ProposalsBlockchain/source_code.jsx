@@ -47,7 +47,10 @@ return (
           <Widget
             key={i}
             src={"sking.near/widget/DAO.Proposal"}
-            props={{ daoId: state.daoId, proposal: proposal }}
+            props={{
+              daoId: state.daoId,
+              proposal: proposal,
+            }}
           />
         );
       })}
