@@ -347,29 +347,17 @@ const Spinner = () => {
   );
 };
 
-const renderUsersReaction = (item) => {
-  return item.accounts.includes(userEmoji.accountId) ? (
-    <span>
-      <Widget
-        src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
-        props={{ accounts: item.accounts, emoji: item.emoji }}
-      />
-    </span>
-  ) : (
-    <></>
-  );
-};
-
-const renderReactionsWithoutUsersReactionType = (item) => {
-  return item.accounts.includes(userEmoji.accountId) ? (
-    <></>
-  ) : (
-    <span className="ps-3">
-      <Widget
-        src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
-        props={{ accounts: item.accounts, emoji: item.emoji }}
-      />
-    </span>
+const renderReaction = (item, isOtherUserVote) => {
+  return (
+    (item.accounts.includes(userEmoji.accountId) || isOtherUserVote) && (
+      <span>
+        <Widget
+          className={isOtherUserVote ? "ps-3" : ""}
+          src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+          props={{ accounts: item.accounts, emoji: item.emoji }}
+        />
+      </span>
+    )
   );
 };
 
@@ -387,13 +375,11 @@ return (
       <SmallReactButton>
         {state.loading && <Spinner />}
         {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderUsersReaction(item))}
+          state.likesStatistics.map((item) => renderReaction(item, false))}
       </SmallReactButton>
     )}
     <Overlay />
     {state.likesStatistics &&
-      state.likesStatistics.map((item) =>
-        renderReactionsWithoutUsersReactionType(item)
-      )}
+      state.likesStatistics.map((item) => renderReaction(item, true))}
   </EmojiWrapper>
 );
