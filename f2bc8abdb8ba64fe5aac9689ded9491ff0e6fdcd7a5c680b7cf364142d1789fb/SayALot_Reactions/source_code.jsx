@@ -347,13 +347,17 @@ const Spinner = () => {
   );
 };
 
-const renderReaction = (item, isOtherUserVote) => {
-  console.log("i: ", item, item.accounts.includes(userEmoji.accountId));
+const renderReaction = (item) => {
+  console.log(
+    "i: ",
+    item,
+    item.accounts.includes(userEmoji.accountId) && !isThisUserVote
+  );
   return (
-    (item.accounts.includes(userEmoji.accountId) || isOtherUserVote) && (
+    (item.accounts.includes(userEmoji.accountId) || !userEmoji) && (
       <span>
         <Widget
-          className={isOtherUserVote ? "ps-3" : ""}
+          className={!userEmoji ? "ps-3" : ""}
           src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
           props={{ accounts: item.accounts, emoji: item.emoji }}
         />
@@ -376,11 +380,11 @@ return (
       <SmallReactButton>
         {state.loading && <Spinner />}
         {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderReaction(item, false))}
+          state.likesStatistics.map((item) => renderReaction(item))}
       </SmallReactButton>
     )}
     <Overlay />
     {state.likesStatistics &&
-      state.likesStatistics.map((item) => renderReaction(item, true))}
+      state.likesStatistics.map((item) => renderReaction(item))}
   </EmojiWrapper>
 );
