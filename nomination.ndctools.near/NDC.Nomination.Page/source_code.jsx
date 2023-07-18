@@ -26,8 +26,8 @@ const houses = [
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
-  houses: "nomination.ndctools.near/widget/NDC.Elections.Houses",
-  filter: "nomination.ndctools.near/widget/NDC.Elections.Filter",
+  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
+  filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
   compose: "nomination.ndctools.near/widget/NDC.Nomination.Compose",
