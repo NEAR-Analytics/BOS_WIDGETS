@@ -119,10 +119,11 @@ function getNominationInfo() {
             upVoteData: upVoteInfo,
             ...objCard,
           };
+          console.log("->", profileData, "-->", nominationData);
 
           if (data.is_revoked || !profileData || !nominationData) return;
           nominationsArr.push(objCard);
-          console.log(nominationsArr);
+
           State.update({ nominations: nominationsArr });
         }, 1000);
       });
