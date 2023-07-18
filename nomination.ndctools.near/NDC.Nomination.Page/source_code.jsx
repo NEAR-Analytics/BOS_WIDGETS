@@ -401,7 +401,11 @@ return (
               <div className="mt-5">
                 <Widget
                   src={widgets.verifyHuman}
-                  props={{ title: "Want to upvote?", small: true }}
+                  props={{
+                    title: "To Comment or to Upvote",
+                    description: "Verify as a Human to comment or to Upvote",
+                    small: true,
+                  }}
                 />
               </div>
             )}
