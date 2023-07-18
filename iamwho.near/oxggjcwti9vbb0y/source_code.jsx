@@ -1,11 +1,9 @@
 const options = [1, 10, 20, 50];
 const handleOptionsChange = (e) => {
   State.update({
-    tableProps: {
-      ...state.tableProps,
-      limit: parseInt(e.target.value),
-    },
+    limit: parseInt(e.target.value),
   });
+  searchContracts(state.searchValue);
 };
 
 State.init({
@@ -27,6 +25,7 @@ const handleSubmit = (value) => {
 };
 
 const searchContracts = (value) => {
+  console.log(state.limit);
   try {
     const res = Near.view("v1.sourcescan.near", "search", {
       key: value,
