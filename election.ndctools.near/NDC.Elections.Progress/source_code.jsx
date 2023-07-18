@@ -44,18 +44,18 @@ State.update({ step });
 return (
   <Stepper>
     <div className="d-flex justify-content-between align-items-center">
-      <div>Voting progress</div>
+      <div>Your voting progress</div>
       <div>
         <CompleteText> {state.step}</CompleteText>/<span>{houses.length}</span>
         <span className="text-secondary">Houses</span>
       </div>
     </div>
     <ProgressBar className="position-relative">
-      {state.step > 0 && <DoneBar className={`col-${state.step * 3}`} />}
+      {state.step > 0 && <DoneBar className={`col-${state.step * 4}`} />}
       <div className="position-absolute top-0 start-50">
         <small>
           <b className={`${state.step > 1 ? "text-light" : "inherit"}`}>
-            {state.step === 4 ? 100 : state.step * 25} %
+            {state.step === 3 ? 100 : state.step * 33} %
           </b>
         </small>
       </div>
