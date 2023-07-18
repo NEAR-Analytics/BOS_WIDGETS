@@ -6,7 +6,7 @@ const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
-  header: "nomination.ndctools.near/widget/NDC.Elections.Header",
+  header: "election.ndctools.near/widget/NDC.Elections.Header",
   mobile: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.MobileView",
   desktop:
     "nomination.ndctools.near/widget/NDC.Nomination.Candidate.DesktopView",
