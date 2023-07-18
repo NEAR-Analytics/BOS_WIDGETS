@@ -5,7 +5,6 @@ return (
     <div>
       <div className="d-flex justify-content-between flex-wrap mb-3 align-items-center gap-3 pb-3">
         <h2 className="my-auto">Proposals</h2>
-
         <Widget
           src="nui.sking.near/widget/Layout.Modal"
           props={{
