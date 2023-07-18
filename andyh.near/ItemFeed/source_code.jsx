@@ -19,7 +19,8 @@ const makeMoreItems = () => {
 console.log({
   items,
   renderItem,
-  rendered: await Promise.all(items.map(renderItem)),
+  // rendered: await Promise.all(items.map(renderItem)),
+  rendered: items.map(renderItem),
 });
 return (
   <InfiniteScroll
