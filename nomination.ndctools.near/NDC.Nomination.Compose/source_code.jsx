@@ -10,10 +10,11 @@ let imageIsUrl = profileInfo.image.url ? true : false;
 let RealProfileImageAsURL = "";
 
 const widgets = {
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  affiliations: "rubycop.near/widget/NDC.Nomination.Compose.Affiliations",
-  platform: "rubycop.near/widget/NDC.Nomination.Compose.Platform",
-  page: "rubycop.near/widget/NDC.Nomination.Page",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  affiliations:
+    "nomination.ndctools.near/widget/NDC.Nomination.Compose.Affiliations",
+  platform: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Platform",
+  page: "nomination.ndctools.near/widget/NDC.Nomination.Page",
 };
 
 if (imageIsNFT) {
