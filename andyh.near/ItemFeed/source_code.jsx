@@ -11,6 +11,7 @@ if (state.jItems !== jItems) {
 }
 
 const makeMoreItems = () => {
+  console.log("more items@!");
   State.update({
     widgets: state.widgets + perPage,
   });
