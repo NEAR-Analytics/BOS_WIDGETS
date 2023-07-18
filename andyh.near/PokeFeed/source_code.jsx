@@ -45,6 +45,9 @@ console.log("rendering!");
 return (
   <div>
     <h2>it's something</h2>
-    <Widget src="andyh.near/widget/ItemFeed" props={{ items, renderItem }} />
+    <Widget
+      src="andyh.near/widget/ItemFeed"
+      props={{ items: items.slice(0, 5), renderItem }}
+    />
   </div>
 );
