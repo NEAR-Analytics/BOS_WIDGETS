@@ -494,18 +494,16 @@ return (
         ? initialEmoji
         : state.likesStatistics &&
           state.likesStatistics.map((item) => {
-            {
-              item.accounts.includes(userEmoji.accountId) ? (
-                <span className="ps-3">
-                  <Widget
-                    src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
-                    props={{ accounts: item.accounts, emoji: item.emoji }}
-                  />
-                </span>
-              ) : (
-                <></>
-              );
-            }
+            item.accounts.includes(userEmoji.accountId) ? (
+              <span className="ps-3">
+                <Widget
+                  src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+                  props={{ accounts: item.accounts, emoji: item.emoji }}
+                />
+              </span>
+            ) : (
+              <></>
+            );
           })}
     </Button>
     <Overlay />
