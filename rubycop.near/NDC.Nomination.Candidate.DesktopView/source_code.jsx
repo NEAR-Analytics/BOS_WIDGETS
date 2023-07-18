@@ -1,4 +1,4 @@
-const { data } = props;
+const { data, nomination_contract } = props;
 
 State.init({
   tabSelected: "comments",
@@ -12,7 +12,7 @@ const widgets = {
   comment: "rubycop.near/widget/NDC.Nomination.Candidate.Comment",
 };
 
-let nominationContract = "nominations-v1.gwg-testing.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 
 function getVerifiedHuman() {
   asyncFetch(
@@ -462,6 +462,13 @@ const issues = [
 ];
 const comments = data.comments[0].comments;
 
+const titles = [
+  "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
+  "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
+  "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
+  "Other Platform",
+];
+
 return (
   <Container class="row">
     <div class="col-9" style={{ "margin-right": "5px", width: "950px" }}>
@@ -652,22 +659,13 @@ return (
                               verticalAlign: "text-top",
                             }}
                           >
-                            {key < issues.length - 1 ? (
-                              <KeyIssueTitle>
-                                {key == 0
-                                  ? "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted"
-                                  : key == 1
-                                  ? "Strategy to develop the NEAR ecosystem"
-                                  : "Key Issue " + (key - 1)}
-                              </KeyIssueTitle>
-                            ) : (
-                              <KeyIssueTitle>Other Platform</KeyIssueTitle>
-                            )}
+                            <KeyIssueTitle>{titles[key]}</KeyIssueTitle>
                           </td>
                           <td
                             style={{
                               background: "#F8F8F9",
                               verticalAlign: "text-top",
+                              color: "#212427",
                             }}
                           >
                             <KeyIssueDescription className="text-seconodary">
