@@ -12,7 +12,7 @@ return (
     <Button onClick={() => State.update({ view: "widget" })}>widget</Button>
     <div>
       <Widget
-        src="efiz.near/widget/every.type"
+        src="efiz.near/widget/every.thing"
         props={{ typeName: state.view }}
       />
     </div>
