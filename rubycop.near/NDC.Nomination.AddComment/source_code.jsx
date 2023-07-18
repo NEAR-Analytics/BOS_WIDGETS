@@ -437,14 +437,27 @@ return (
           />
         </div>
         <CommentFooter>
-          <CFCancel onClick={props.onClickCancel}>Cancel</CFCancel>
-          <CFSubmit
-            onClick={() => {
-              candidateOrReplay ? CommentCandidate() : CommenttoReplay();
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Button: {
+                text: "Cancel",
+                className: "secondary dark",
+                onClick: props.onClickCancel,
+              },
             }}
-          >
-            Submit
-          </CFSubmit>
+          />
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Button: {
+                text: "Submit",
+                onClick: () => {
+                  candidateOrReplay ? CommentCandidate() : CommenttoReplay();
+                },
+              },
+            }}
+          />
         </CommentFooter>
       </Container>
     </CommentCard>
