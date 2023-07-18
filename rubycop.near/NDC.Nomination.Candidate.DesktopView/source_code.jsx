@@ -634,10 +634,10 @@ return (
               >
                 <thead>
                   <tr class="p-3 mb-2 rounded-5 text-center">
-                    <TH width="30%">
+                    <TH width="40%">
                       <H6>Key Issues</H6>
                     </TH>
-                    <TH width="70%">
+                    <TH width="60%">
                       <H6>Candidate's Positions</H6>
                     </TH>
                   </tr>
