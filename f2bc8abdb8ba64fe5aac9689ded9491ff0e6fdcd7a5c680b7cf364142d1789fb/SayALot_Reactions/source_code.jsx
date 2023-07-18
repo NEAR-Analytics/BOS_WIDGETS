@@ -484,7 +484,19 @@ const Spinner = () => {
   );
 };
 
-console.log("UE:", userEmoji);
+const renderUsersReaction = (item) => {
+  console.log(item.accounts.includes(userEmoji.accountId));
+  return item.accounts.includes(userEmoji.accountId) ? (
+    <span className="ps-3">
+      <Widget
+        src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+        props={{ accounts: item.accounts, emoji: item.emoji }}
+      />
+    </span>
+  ) : (
+    <></>
+  );
+};
 
 return (
   <EmojiWrapper>
@@ -493,18 +505,7 @@ return (
       {!userEmoji
         ? initialEmoji
         : state.likesStatistics &&
-          state.likesStatistics.map((item) => {
-            item.accounts.includes(userEmoji.accountId) ? (
-              <span className="ps-3">
-                <Widget
-                  src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
-                  props={{ accounts: item.accounts, emoji: item.emoji }}
-                />
-              </span>
-            ) : (
-              <></>
-            );
-          })}
+          state.likesStatistics.map((item) => renderUsersReaction(item))}
     </Button>
     <Overlay />
     {state.likesStatistics &&
