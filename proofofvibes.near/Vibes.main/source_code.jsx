@@ -345,8 +345,8 @@ return (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
             props={{
-              daoId: "vibes.sputnik-dao.near",
-              issuer: "issuer.proofofvibes.near",
+              daoId: daoId,
+              issuer: issuer,
               classId: 1,
               reference: reference,
             }}
