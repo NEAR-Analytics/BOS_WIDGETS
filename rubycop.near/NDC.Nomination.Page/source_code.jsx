@@ -437,6 +437,7 @@ return (
           src={widgets.compose}
           props={{
             handleClose: () => State.update({ showModal: false }),
+            nomination_contract: nominationContract,
           }}
         />
       )}
@@ -446,6 +447,7 @@ return (
           props={{
             house: state.house,
             handleClose: () => State.update({ showModalDelete: false }),
+            nomination_contract: nominationContract,
           }}
         />
       )}
