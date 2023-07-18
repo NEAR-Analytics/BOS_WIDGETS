@@ -40,12 +40,9 @@ const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
 
-const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
-
 function handleSelfRevoke() {
   Storage.privateSet("Houseselected", house);
-
-  Near.call(nominationContract, "self_revoke").then(() => handleClose());
+  Near.call(nomination_contract, "self_revoke").then(() => handleClose());
 }
 
 return (
