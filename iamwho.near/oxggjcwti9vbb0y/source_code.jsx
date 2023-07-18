@@ -11,7 +11,7 @@ State.init({
   limit: limits[0],
   searchValue: "",
   pages: 1,
-  selectedPage,
+  selectedPage: 1,
   searchBarProps: {
     placeHolder: "Account ID",
     handleSubmit: (value) => handleSubmit(value),
@@ -90,9 +90,7 @@ return (
               : state.pages - 1
             : state.pages - 1
         ).map((x, i) => (
-          <button key={`button_${i}`} onClick={(x) => handlePageChange(x)}>
-            {x + 1}
-          </button>
+          <button onClick={(x) => handlePageChange(x)}>{x + 1}</button>
         ))}
       </div>
     ) : null}
