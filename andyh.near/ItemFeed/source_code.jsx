@@ -5,7 +5,7 @@ const perPage = props.perPage || 10;
 const jItems = JSON.stringify(items);
 if (state.jItems !== jItems) {
   State.update({
-    widgets: 0,
+    widgets: 10,
     jItems,
   });
 }
