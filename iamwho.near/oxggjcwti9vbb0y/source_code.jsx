@@ -11,6 +11,7 @@ State.init({
   limit: limits[0],
   searchValue: "",
   pages: 1,
+  selectedPage,
   searchBarProps: {
     placeHolder: "Account ID",
     handleSubmit: (value) => handleSubmit(value),
@@ -47,6 +48,19 @@ const searchContracts = (value) => {
 
 if (!state.tableProps.contracts) searchContracts(state.searchValue);
 
+const range = (start, stop, step) =>
+  Array.from(
+    { length: (stop - start) / step + 1 },
+    (value, index) => start + index * step
+  );
+
+const handlePageChange = (x) => {
+  state.update({
+    selectedPage: x + 1,
+    from_index: x * state.limit,
+  });
+};
+
 return (
   <div class="flex items-center justify-center w-screen h-screen">
     <select onChange={(e) => handleOptionsChange(e)}>
@@ -62,5 +76,25 @@ return (
       src={"iamwho.near/widget/oxakldakldlkadlkfalkf"}
       props={state.tableProps}
     />
+    {state.pages ? (
+      <div>
+        {range(
+          state.pages > 1
+            ? state.selectedPage > 2
+              ? state.selectedPage - 2
+              : 0
+            : state.selectedPage - 1,
+          state.pages > 1
+            ? state.selectedPage + 1 < state.pages
+              ? state.selectedPage
+              : state.pages - 1
+            : state.pages - 1
+        ).map((x, i) => (
+          <button key={`button_${i}`} onClick={(x) => handlePageChange(x)}>
+            {x + 1}
+          </button>
+        ))}
+      </div>
+    ) : null}
   </div>
 );
