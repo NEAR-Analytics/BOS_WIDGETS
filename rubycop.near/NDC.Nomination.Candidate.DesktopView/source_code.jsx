@@ -542,18 +542,33 @@ return (
                 </NominationTitleContainer>
               </div>
             </div>
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Button: {
-                  text: `+${data.comments[0].upvotes ?? 0}`,
-                  disabled: !state.verified || context.accountId === candidate,
-                  className: "secondary dark",
-                  onClick: handleUpVote,
-                  icon: <i className="bi bi-hand-thumbs-up"></i>,
-                },
-              }}
-            />
+            <div className="d-flex gap-3">
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    text: `+${data.comments[0].upvotes ?? 0}`,
+                    disabled:
+                      !state.verified || context.accountId === candidate,
+                    className: "secondary dark",
+                    onClick: handleUpVote,
+                    icon: <i className="bi bi-hand-thumbs-up"></i>,
+                  },
+                }}
+              />
+              {data.nominations.video.length > 0 && (
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Link: {
+                      text: `Watch Video`,
+                      className: "dark",
+                      href: data.nominations.video,
+                    },
+                  }}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div
