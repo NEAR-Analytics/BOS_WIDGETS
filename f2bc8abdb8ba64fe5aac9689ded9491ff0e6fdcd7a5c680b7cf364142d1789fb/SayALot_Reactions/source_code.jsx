@@ -225,6 +225,9 @@ const SmallReactButton = styled.button`
     background: #EBEBEB; 
     outline: 1px solid #C6C7C8;
   }
+  span {
+    padding-left: 0;
+  }
 `;
 
 const SmallButton = styled.button`
