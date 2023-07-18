@@ -28,6 +28,6 @@ return (
     hasMore={state.widgets < items.length}
     loader={<div className="loader">Loading ...</div>}
   >
-    {await Promise.all(items.slice(0, state.widgets).map(renderItem))}
+    {items.slice(0, state.widgets).map(renderItem)}
   </InfiniteScroll>
 );
