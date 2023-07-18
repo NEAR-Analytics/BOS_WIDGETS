@@ -677,7 +677,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Link: {
-                      text: "View nomination",
+                      text: "View",
                       size: "sm",
                       className: "primary w-100 justify-content-center",
                       href: `${widgets.candidatePage}?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}&nomination_contract=${nomination_contract}&election_contract=${election_contract}`,
