@@ -55,7 +55,7 @@ const httpRequestOpt = {
 
 function getVerifiedHuman() {
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
+    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
     httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
@@ -63,7 +63,7 @@ function getVerifiedHuman() {
     }
   });
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=2&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
+    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=2&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
     httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
