@@ -56,6 +56,8 @@ const arrayLastLikeForEachUser =
     return false;
   });
 
+console.log(1, arrayLastLikeForEachUser);
+
 // ========= GET USER EMOJI =========
 const userEmoji = arrayLastLikeForEachUser.find((obj) => {
   return obj.accountId === accountThatIsLoggedIn;
