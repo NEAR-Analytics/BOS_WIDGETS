@@ -15,6 +15,8 @@ const emojiArray = [
 ];
 const item = props.item;
 
+const isDebug = props.isDebug;
+
 const accountThatIsLoggedIn = context.accountId;
 
 if (!item) {
@@ -29,7 +31,8 @@ State.init({
 });
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const unfilteredLikes = Social.index("like", item, {
+const path = isDebug ? "test_like" : "like";
+const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
 
@@ -165,16 +168,31 @@ const clickHandler = (emojiMessage) => {
       ? emojiArray[0]
       : emojiMessage;
 
-  const data = {
-    index: {
-      like: JSON.stringify({
-        key: item,
-        value: {
-          type: emojiToWrite,
-        },
-      }),
-    },
-  };
+  let data;
+
+  if (isDebug) {
+    data = data = {
+      index: {
+        test_like: JSON.stringify({
+          key: item,
+          value: {
+            type: emojiToWrite,
+          },
+        }),
+      },
+    };
+  } else {
+    data = {
+      index: {
+        like: JSON.stringify({
+          key: item,
+          value: {
+            type: emojiToWrite,
+          },
+        }),
+      },
+    };
+  }
 
   Social.set(data, {
     onCommit: () => {
