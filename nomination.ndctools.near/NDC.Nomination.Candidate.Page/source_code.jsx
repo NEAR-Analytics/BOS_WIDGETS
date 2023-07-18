@@ -6,10 +6,11 @@ const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
-  header: "rubycop.near/widget/NDC.Elections.Header",
-  mobile: "rubycop.near/widget/NDC.Nomination.Candidate.MobileView",
-  desktop: "rubycop.near/widget/NDC.Nomination.Candidate.DesktopView",
-  back: "#/rubycop.near/widget/NDC.Nomination.Page",
+  header: "nomination.ndctools.near/widget/NDC.Elections.Header",
+  mobile: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.MobileView",
+  desktop:
+    "nomination.ndctools.near/widget/NDC.Nomination.Candidate.DesktopView",
+  back: "#/nomination.ndctools.near/widget/NDC.Nomination.Page",
 };
 
 const houses = [
