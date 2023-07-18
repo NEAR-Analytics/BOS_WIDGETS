@@ -1,7 +1,7 @@
 const H2 = styled.h1`
   font-weight: 500;
   font-size: 14px;
-  margin: 15px 0 10px 0;
+  margin: 15px 0 5PX 0;
 `;
 const Section = styled.div`
   gap: 8px;
@@ -63,7 +63,7 @@ return (
 
     <div>
       <H2>{"Declaration of transparency "}</H2>
-      <Section>
+      <Section className="d-flex">
         <Checkbox
           type="checkbox"
           value={agreement}
