@@ -348,11 +348,7 @@ const Spinner = () => {
 };
 
 const renderReaction = (item, isInButton) => {
-  console.log(
-    "i: ",
-    item,
-    item.accounts.includes(userEmoji.accountId) && !isThisUserVote
-  );
+  userEmoji && console.log(item.accounts.includes(userEmoji.accountId));
   return (
     (item.accounts.includes(userEmoji.accountId) && isInButton) ||
     (!item.accounts.includes(userEmoji.accountId) && !isInButton && (
