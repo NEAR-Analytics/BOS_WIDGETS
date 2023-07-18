@@ -123,7 +123,7 @@ function getNominationInfo() {
           };
 
           nominationsArr.push(objCard);
-          console.log(nominationsArr);
+
           State.update({ nominations: nominationsArr });
         }, 1000);
       });
@@ -411,16 +411,19 @@ return (
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
           {state.nominations.length > 0 ? (
             state.nominations.map((data) => (
-              <Widget
-                src={widgets.card}
-                props={{
-                  data,
-                  registry_contract: registryContract,
-                  nomination_contract: nominationContract,
-                  election_contract: electionContract,
-                  api_key: apiKey,
-                }}
-              />
+              <>
+                {console.log(data)}
+                <Widget
+                  src={widgets.card}
+                  props={{
+                    data,
+                    registry_contract: registryContract,
+                    nomination_contract: nominationContract,
+                    election_contract: electionContract,
+                    api_key: apiKey,
+                  }}
+                />
+              </>
             ))
           ) : (
             <div className="flex mt-10 container-fluid align-self-center">
