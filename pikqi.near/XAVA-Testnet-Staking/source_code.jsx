@@ -145,7 +145,9 @@ const css = fetch(
   "https://gist.githubusercontent.com/Pikqi/658b6ee444d26dd69f0d5150797077dd/raw/d8f929729176bb30d86e2839443fddb83a87a685/tw-all-classes.css",
 );
 
-console.log(css.body);
+if (!css.ok) {
+  return null;
+}
 
 if (!state.styles) {
   State.update({
