@@ -314,8 +314,8 @@ const validateAffiliations = (params, key, limit) => {
   State.update({ afiliation: data, error_msg: null });
 };
 
-const handleDeclaration = (item) => {
-  State.update({ agreement: item.target.checked.toString(), error_msg: null });
+const handleDeclaration = (agreement) => {
+  State.update({ agreement, error_msg: null });
 };
 
 const handleNominate = () => {
