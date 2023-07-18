@@ -225,9 +225,6 @@ const SmallReactButton = styled.button`
     background: #EBEBEB; 
     outline: 1px solid #C6C7C8;
   }
-  span {
-    padding-left: 0;
-  }
 `;
 
 const SmallButton = styled.button`
@@ -506,7 +503,7 @@ const Spinner = () => {
 
 const renderUsersReaction = (item) => {
   return item.accounts.includes(userEmoji.accountId) ? (
-    <span className="ps-3">
+    <span>
       <Widget
         src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
         props={{ accounts: item.accounts, emoji: item.emoji }}
