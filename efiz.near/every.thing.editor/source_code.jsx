@@ -1,8 +1,12 @@
 const path = props.path;
-const blockHeight = props.blockHeight;
+const blockHeight = props.blockHeight || "final";
 
 const thing = Social.get(path, blockHeight) || "{}";
 // const type = thing.type;
+
+if (!thing) {
+  return <></>;
+}
 
 return (
   <Widget
