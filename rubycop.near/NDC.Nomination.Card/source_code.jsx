@@ -38,9 +38,7 @@ function getVerifiedHuman() {
 }
 
 if (state.start) {
-  console.log("--0");
   getVerifiedHuman();
-  console.log("--1");
   State.update({ start: false });
 }
 
@@ -523,15 +521,15 @@ return (
   <div className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
       {state.showModal && (
-        <Widget
-          src={widgets.addComment}
-          props={{
-            candidateOrReplay: true,
-            username: data.indexerData.nominee,
-            onClickConfirm: () => State.update({ showModal: false }),
-            onClickCancel: () => State.update({ showModal: false }),
-          }}
-        />
+        // <Widget
+        //   src={widgets.addComment}
+        //   props={{
+        //     candidateOrReplay: true,
+        //     username: data.indexerData.nominee,
+        //     onClickConfirm: () => State.update({ showModal: false }),
+        //     onClickCancel: () => State.update({ showModal: false }),
+        //   }}
+        // />
       )}
       <HeaderCard className="d-flex justify-content-between">
         <div className="d-flex align-items-center gap-2">
