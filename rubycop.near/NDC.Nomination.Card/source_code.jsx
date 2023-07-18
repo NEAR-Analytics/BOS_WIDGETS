@@ -581,7 +581,6 @@ return (
       <CollapseCandidate className="w-100">
         <CollapseCandidateContent>
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
-          {console.log("aff", data.nominationData?.afiliation)}
           <CandidateTagContainer className="w-100 d-flex flex-wrap">
             {JSON.parse(data.nominationData?.afiliation).map((data) => (
               <>
@@ -647,25 +646,7 @@ return (
               }}
             />
           </ButtonsLowerSection>
-          <div className="d-flex w-100">
-            <TagSection>
-              {data.nominationData.tags
-                .trim()
-                .split(",")
-                .map((data) => (
-                  <>
-                    {data && (
-                      <Widget
-                        src={widgets.styledComponents}
-                        props={{
-                          Tag: { title: data },
-                        }}
-                      />
-                    )}
-                  </>
-                ))}
-            </TagSection>
-          </div>
+          <div className="d-flex w-100"></div>
           <div className="d-flex w-100 align-items-center">
             {!data.preview && (
               <div className="d-flex w-100 gap-2 justify-content-between">
