@@ -482,6 +482,8 @@ const getShortUserName = (userId) => {
 };
 
 const trimText = (text, limit) => {
+  if (text.length === 0) return "";
+
   const _limit = limit ?? 200;
   const ending = text.length > _limit ? "..." : "";
   const trimmed = text.slice(0, limit ?? 200);
@@ -620,7 +622,6 @@ return (
           <ButtonsLowerSection>
             <TextLowerSectionContainer className="align-items-center">
               <i className="bi bi-clock"></i>
-              {console.log("-0")}
               {data.indexerData.timestamp && (
                 <TimestampText>
                   <div>
@@ -631,7 +632,6 @@ return (
                 </TimestampText>
               )}
             </TextLowerSectionContainer>
-            {console.log("-1")}
             <Widget
               src={widgets.styledComponents}
               props={{
@@ -649,7 +649,6 @@ return (
             />
           </ButtonsLowerSection>
           <div className="d-flex w-100">
-            {console.log("-2")}
             <TagSection>
               {data.nominationData.tags
                 .trim()
@@ -671,7 +670,6 @@ return (
           <div className="d-flex w-100 align-items-center">
             {!data.preview && (
               <div className="d-flex w-100 gap-2 justify-content-between">
-                {console.log("-3")}
                 <Widget
                   src={widgets.styledComponents}
                   props={{
@@ -685,7 +683,6 @@ return (
                   }}
                 />
                 <DropdownContainerHover className="w-100">
-                  {console.log("-4")}
                   <Widget
                     src={widgets.styledComponents}
                     props={{
@@ -700,7 +697,6 @@ return (
                   />
                   <Separation>
                     <DropdownContent>
-                      {console.log("-5")}
                       <Element onClick={handleShare}>
                         <OverlayTrigger
                           placement={top}
