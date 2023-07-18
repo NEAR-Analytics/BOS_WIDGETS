@@ -1,4 +1,4 @@
-const { data } = props;
+const { data, nomination_contract } = props;
 
 State.init({
   showModal: false,
@@ -6,7 +6,7 @@ State.init({
   nominationData: Social.getr(`${data.commentator}/nominations`),
 });
 
-let nominationContract = "nominations-v1.gwg-testing.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
