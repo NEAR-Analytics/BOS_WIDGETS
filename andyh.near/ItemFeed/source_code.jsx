@@ -16,12 +16,10 @@ const makeMoreItems = () => {
     widgets: state.widgets + perPage,
   });
 };
-console.log({
-  items,
-  renderItem,
-  // rendered: await Promise.all(items.map(renderItem)),
-  rendered: items.map(renderItem),
-});
+const rendered = await Promise.all(
+  items.slice(0, state.widgets).map(renderItem)
+);
+console.log({ rendered });
 return (
   <InfiniteScroll
     pageStart={0}
@@ -29,6 +27,6 @@ return (
     hasMore={state.widgets < items.length}
     loader={<div className="loader">Loading ...</div>}
   >
-    {items.slice(0, state.widgets).map(renderItem)}
+    {rendered}
   </InfiniteScroll>
 );
