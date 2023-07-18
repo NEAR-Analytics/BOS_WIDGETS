@@ -265,22 +265,22 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const KeyIssueTitle = styled.p`
-  font-size: 11px;
+  font-size: 12px;
   line-height: 120%;
   margin: 0px;
   font-weight: 400;
-  line-height: 16px;
+  line-height: 18px;
   text-align: left;
   padding: 10px;
 `;
 
 const KeyIssueDescription = styled.p`
-  color: #828688;
-  font-size: 11px;
+  color: #212427;
+  font-size: 12px;
   line-height: 130%;
   margin: 0px;
   padding: 10px;
-  line-height: 16px;
+  line-height: 18px;
   text-align: justify;
 `;
 
@@ -387,8 +387,8 @@ const SectionTitle = styled.h5`
 `;
 
 const SectionDescription = styled.p`
-  font-size: 11px;
-  line-height: 16px;
+  font-size: 12px;
+  line-height: 18px;
   margin: 0px;
   text-align: justify;
   color: #828688;
