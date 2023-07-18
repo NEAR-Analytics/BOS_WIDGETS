@@ -32,11 +32,6 @@ const item = {
 //TODO - adress should be changed
 const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-console.log(
-  "props: ",
-  `{accountId: ${accountId}, blockHeight: ${blockHeight}, link: ${link}, postType: "comment" }`
-);
-
 return (
   <>
     <div
