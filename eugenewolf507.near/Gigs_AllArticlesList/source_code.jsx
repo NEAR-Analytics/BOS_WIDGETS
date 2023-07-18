@@ -88,15 +88,21 @@ const doesDataFresh = localStorageData.time
   ? Date.now() - localStorageData.time < 4000
   : false;
 
+const initialCardWithOpenModal = { cardWithOpenModal: sharedArticleId };
+
 if (doesDataFresh && localStorageData.sortedArticlesByTag) {
   // ========== STATE INIT ========== with articles from Storage
-  State.init(localStorageData.sortedArticlesByTag);
+  State.init({
+    ...localStorageData.sortedArticlesByTag,
+    ...initialCardWithOpenModal,
+  });
 } else {
   Storage.privateSet("sortedArticlesByTagFromStorage", "");
 
   // ========== STATE INIT ========== with articles from near.social
   const sortedArticlesByTag = getActualArticles();
-  sortedArticlesByTag && State.init(sortedArticlesByTag);
+  sortedArticlesByTag &&
+    State.init({ ...sortedArticlesByTag, ...initialCardWithOpenModal });
 
   const dataForStorage = {
     sortedArticlesByTag,
@@ -132,9 +138,9 @@ const doesUserCanChangeStatus = authorsWhitelist.some(
   (whiteAddr) => whiteAddr === accountId
 );
 
-if (sharedArticleId) {
-  State.update({ cardWithOpenModal: sharedArticleId });
-}
+// if (sharedArticleId) {
+//   State.update({ cardWithOpenModal: sharedArticleId });
+// }
 
 // ========== HANDLER ==========
 const openModalHandler = (text) => {
@@ -173,6 +179,7 @@ const updateStatusHandler = (oldStatus, newStatus, articleId) => {
     });
   }
 };
+console.log("STATE", state);
 
 // ========== JSX ==========
 const ScrollWrapper = styled.div`
