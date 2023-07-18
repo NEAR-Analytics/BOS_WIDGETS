@@ -1,4 +1,4 @@
-const { handleClose, house } = props;
+const { handleClose, house, nomination_contract } = props;
 
 const ModalCard = styled.div`
   position: fixed;
@@ -40,7 +40,7 @@ const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
 
-let nominationContract = "nominations-v1.gwg-testing.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 
 function handleSelfRevoke() {
   Storage.privateSet("Houseselected", house);
