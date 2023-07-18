@@ -36,8 +36,8 @@ const BackLink = styled.a`
 `;
 
 asyncFetch(
-  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${props.candidate}`,
-  { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
+  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${props.candidate}&contract=${nominationContract}`,
+  { headers: { "x-api-key": apiKey } }
 ).then((res) => {
   State.update({ comments: res.body });
 });
