@@ -1,5 +1,1 @@
-return (
-  <>
-    <button>Search</button>
-  </>
-);
+return <></>;
