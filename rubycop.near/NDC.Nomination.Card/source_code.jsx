@@ -34,6 +34,7 @@ function getVerifiedHuman() {
     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}`,
     httpRequestOpt
   ).then((res) => {
+    console.log("res", res);
     State.update({ voted: res.body });
   });
 }
@@ -56,7 +57,6 @@ function handleUpVote() {
 }
 
 function handleShare() {
-  console.log(copied);
   State.update({ shareText: "Copied" });
   clipboard.writeText(
     "https://near.org/#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=" +
@@ -537,9 +537,8 @@ return (
         <div className="d-flex align-items-center gap-2">
           <ProfilePicture
             src={
-              data.imgURL
-                ? data.imgURL
-                : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+              data.imgURL ??
+              "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
             }
             alt="pic"
           ></ProfilePicture>
@@ -559,9 +558,9 @@ return (
               }}
             />
             <HeaderContentText>
-              <NominationName>{data.profileData.name}</NominationName>
+              <NominationName>{data.profileData?.name}</NominationName>
               <NominationUser>
-                {getShortUserName(data.nominationData.profileAccount)}
+                {getShortUserName(data.nominationData?.profileAccount)}
               </NominationUser>
             </HeaderContentText>
           </HeaderContent>
@@ -571,7 +570,7 @@ return (
             src={widgets.styledComponents}
             props={{
               Button: {
-                text: `+${data.upVoteData.upvotes ?? 0}`,
+                text: `+${data.upVoteData?.upvotes ?? 0}`,
                 className: "secondary dark",
                 size: "sm",
                 onClick: handleUpVote,
@@ -585,7 +584,7 @@ return (
         <CollapseCandidateContent>
           <CollapseCandidateText>Candidate Affiliations</CollapseCandidateText>
           <CandidateTagContainer className="w-100 d-flex flex-wrap">
-            {JSON.parse(data.nominationData.afiliation).map((data) => (
+            {JSON.parse(data.nominationData?.afiliation).map((data) => (
               <>
                 {data.company_name && (
                   <Widget
