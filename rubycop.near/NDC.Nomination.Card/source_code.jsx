@@ -7,12 +7,15 @@ State.init({
   shareText: "Copy link to the clipboard",
 });
 
-const nominationContract = "nominations-v1.gwg-testing.near";
-const registryContract = "registry-v1.gwg-testing.near";
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const registryContract = props.registry_contract ?? "registry.i-am-human.near";
+const nominationContract =
+  props.nomination_contract ?? "nominations.ndc-gwg.near";
+const apiKey = props.api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
+  addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
 };
 
 const isHuman = Near.view(registryContract, "is_human", {
@@ -520,7 +523,7 @@ return (
     <Card>
       {state.showModal && (
         <Widget
-          src={`dokxo.near/widget/CommentCard`}
+          src={widgets.addComment}
           props={{
             candidateOrReplay: true,
             username: data.indexerData.nominee,
@@ -674,7 +677,7 @@ return (
                       text: "View",
                       size: "sm",
                       className: "secondary dark w-100 justify-content-center",
-                      href: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
+                      href: `${candidatePage}?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}`,
                       icon: <i className="bi bi-eye fs-6"></i>,
                     },
                   }}
