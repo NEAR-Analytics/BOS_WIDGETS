@@ -1,20 +1,10 @@
-State.init({
-  value: "",
-});
-
 return (
-  <div class="flex">
+  <>
     <input
-      class="rounded border px-3 py-1 w-10vw"
       placeholder={props.placeHolder}
       value={state.value}
       onChange={handleChange}
     />
-    <button
-      onClick={() => props.handleSubmit(state.value)}
-      class="rounded bg-transparent border border-gray-600 text-gray-800 px-2 py-1"
-    >
-      Search
-    </button>
-  </div>
+    <button>Search</button>
+  </>
 );
