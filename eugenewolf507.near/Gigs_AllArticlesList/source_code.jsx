@@ -17,25 +17,12 @@ const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const statusTagsArr = ["open", "claimed", "closed"];
 
-// ========== LOCAL STORAGE ==========
-const localStorageData = JSON.parse(
-  Storage.privateGet("sortedArticlesByTagFromStorage")
-);
-const doesDataFresh = localStorageData.time
-  ? Date.now() - localStorageData.time < 4000
-  : false;
-if (doesDataFresh && localStorageData.sortedArticlesByTag) {
-  // ========== STATE INIT ========== by articles from
-  State.init(localStorageData.sortedArticlesByTag);
-} else {
-  Storage.privateSet("sortedArticlesByTagFromStorage", "");
-
+const getActualArticles = () => {
   // ========== GET INDEX ARRAY FOR ARTICLES ==========
   const postsIndex = Social.index(addressForArticles, "main", {
     order: "desc",
     accountId: undefined,
   });
-
   // ========== GET ALL ARTICLES ==========
   const resultArticles =
     postsIndex &&
@@ -66,36 +53,49 @@ if (doesDataFresh && localStorageData.sortedArticlesByTag) {
       }
     }, []);
 
-  const sortArticlesByTag = () => {
-    if (filteredArticles === 0 || filteredArticles === undefined) {
-      return;
-    }
-    const result =
-      filteredArticles &&
-      filteredArticles.reduce(
-        (acc, article) => {
-          if (article.statusTag === "claimed") {
-            const claimed = [...acc.claimed, article];
-            const tempRes = { claimed };
-            return { ...acc, ...tempRes };
-          }
-          if (article.statusTag === "closed") {
-            const closed = [...acc.closed, article];
-            const tempRes = { closed };
-            return { ...acc, ...tempRes };
-          }
-          const intermediateArticle = { ...article, statusTag: "open" };
-          const open = [...acc.open, intermediateArticle];
-          const tempRes = { open };
+  if (filteredArticles === 0 || filteredArticles === undefined) {
+    return;
+  }
+  const result =
+    filteredArticles &&
+    filteredArticles.reduce(
+      (acc, article) => {
+        if (article.statusTag === "claimed") {
+          const claimed = [...acc.claimed, article];
+          const tempRes = { claimed };
           return { ...acc, ...tempRes };
-        },
-        { open: [], claimed: [], closed: [] }
-      );
-    return result;
-  };
+        }
+        if (article.statusTag === "closed") {
+          const closed = [...acc.closed, article];
+          const tempRes = { closed };
+          return { ...acc, ...tempRes };
+        }
+        const intermediateArticle = { ...article, statusTag: "open" };
+        const open = [...acc.open, intermediateArticle];
+        const tempRes = { open };
+        return { ...acc, ...tempRes };
+      },
+      { open: [], claimed: [], closed: [] }
+    );
+  return result;
+};
 
-  // ========== STATE INIT ========== by articles from near.social
-  const sortedArticlesByTag = sortArticlesByTag();
+// ========== LOCAL STORAGE ==========
+const localStorageData = JSON.parse(
+  Storage.privateGet("sortedArticlesByTagFromStorage")
+);
+const doesDataFresh = localStorageData.time
+  ? Date.now() - localStorageData.time < 4000
+  : false;
+
+if (doesDataFresh && localStorageData.sortedArticlesByTag) {
+  // ========== STATE INIT ========== with articles from Storage
+  State.init(localStorageData.sortedArticlesByTag);
+} else {
+  Storage.privateSet("sortedArticlesByTagFromStorage", "");
+
+  // ========== STATE INIT ========== with articles from near.social
+  const sortedArticlesByTag = getActualArticles();
   sortedArticlesByTag && State.init(sortedArticlesByTag);
 
   const dataForStorage = {
