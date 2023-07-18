@@ -436,13 +436,15 @@ return (
 
     <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
       <WidgetButton
+        size="sm"
         className="primary dark"
-        icon={<i class="bi bi-check-lg"></i>}
+        icon={<i class="bi bi-share"></i>}
       />
       <WidgetButton
         disabled
+        size="sm"
         className="primary dark"
-        icon={<i class="bi bi-check-lg"></i>}
+        icon={<i class="bi bi-share"></i>}
       />
     </div>
 
