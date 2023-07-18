@@ -351,7 +351,7 @@ if (Input)
 
 const WidgetButton = ({ type, size, className, disabled, text, icon }) => (
   <Widget
-    src={"rubycop.near/widget/NDC.StyledComponents"}
+    src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
     props={{
       [type ?? "Button"]: {
         size,
@@ -366,7 +366,7 @@ const WidgetButton = ({ type, size, className, disabled, text, icon }) => (
 
 const WidgetSelect = () => (
   <Widget
-    src={"rubycop.near/widget/NDC.StyledComponents"}
+    src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
     props={{
       Dropdown: {
         label: "Select label",
@@ -385,7 +385,7 @@ const WidgetInput = ({ type }) => {
 
   return (
     <Widget
-      src={"rubycop.near/widget/NDC.StyledComponents"}
+      src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
       props={{
         [type]: {
           label: "Select label",
@@ -470,15 +470,15 @@ return (
     <h4>Tag</h4>
     <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <Widget
-        src={"rubycop.near/widget/NDC.StyledComponents"}
+        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
         props={{ Tag: { title: "Lorem ipsum", className: "dark" } }}
       />
       <Widget
-        src={"rubycop.near/widget/NDC.StyledComponents"}
+        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
         props={{ Tag: { title: "Lorem ipsum" } }}
       />
       <Widget
-        src={"rubycop.near/widget/NDC.StyledComponents"}
+        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
         props={{
           Tag: {
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
