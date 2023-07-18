@@ -22,7 +22,6 @@ const widgets = {
 const isHuman = Near.view(registry_contract, "is_human", {
   account: context.accountId,
 });
-console.log("isHuman", isHuman);
 State.update({ verified: isHuman[0][1].length > 0 });
 
 const httpRequestOpt = {
@@ -39,7 +38,9 @@ function getVerifiedHuman() {
 }
 
 if (state.start) {
+  consolele.log("--0");
   getVerifiedHuman();
+  consolele.log("--1");
   State.update({ start: false });
 }
 
