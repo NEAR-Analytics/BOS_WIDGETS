@@ -10,7 +10,7 @@ function onChange(code) {
 
 return (
   <Container>
-    <p>{code}</p>
+    <p>{state.code}</p>
     <MonacoEditor path={"test"} language={"json"} onChange={onChange} />
   </Container>
 );
