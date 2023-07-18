@@ -2,8 +2,15 @@ const Container = styled.div`
     height: 500px;
 `;
 
+function onChange(code) {
+  State.update({
+    code,
+  });
+}
+
 return (
   <Container>
-    <MonacoEditor path={"test"} language={"json"} />
+    <p>{code}</p>
+    <MonacoEditor path={"test"} language={"json"} onChange={onChange} />
   </Container>
 );
