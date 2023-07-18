@@ -32,12 +32,12 @@ State.init({
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
 const path = isDebug ? "test_like" : "like";
-console.log(0, isDebug);
+// console.log(0, isDebug);
 const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
 
-console.log(1, unfilteredLikes);
+// console.log(1, unfilteredLikes);
 
 if (!unfilteredLikes) {
   return "Loading...";
@@ -351,10 +351,15 @@ const Spinner = () => {
 };
 
 const renderReaction = (item, isInButton) => {
-  userEmoji && console.log(2, item.accounts.includes(userEmoji.accountId));
+  console.log(
+    0,
+    item,
+    isInButton,
+    item.accounts.includes(context.accountId) && isInButton
+  );
   return (
-    (item.accounts.includes(userEmoji.accountId) && isInButton) ||
-    (!item.accounts.includes(userEmoji.accountId) && !isInButton && (
+    (item.accounts.includes(context.accountId) && isInButton) ||
+    (!item.accounts.includes(context.accountId) && !isInButton && (
       <span>
         <Widget
           className={isInButton ? "ps-3" : ""}
