@@ -1,5 +1,9 @@
-let { ids, org, election_contract } = props;
+let { ids, org, election_contract, nomination_contract } = props;
 ids = ids ? ids : [1, 2, 3]; // for testing purposes
+
+const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
@@ -7,8 +11,6 @@ const widgets = {
   desktop: "rubycop.near/widget/NDC.Nomination.Candidate.DesktopView",
   back: "#/rubycop.near/widget/NDC.Nomination.Page",
 };
-
-const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 
 const houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -64,7 +66,7 @@ return (
       <Mobile style={{ width: "359px" }}>
         {houses.map((house) => (
           <>
-            {house.id === state.selectedHouse && (
+            {house.typ === props.house && (
               <Widget
                 key={i}
                 src={widgets.header}
@@ -89,7 +91,13 @@ return (
     </Mobile>
     <Mobile>
       <Widget
-        props={{ data: state, house: props.house, candidate: props.candidate }}
+        props={{
+          data: state,
+          house: props.house,
+          candidate: props.candidate,
+          nomination_contract: nominationContract,
+          api_key: apiKey,
+        }}
         src={widgets.mobile}
       />
     </Mobile>
@@ -103,7 +111,7 @@ return (
       >
         {houses.map((house) => (
           <>
-            {house.id === state.selectedHouse && (
+            {house.typ === props.house && (
               <Widget
                 key={i}
                 src={widgets.header}
@@ -130,7 +138,13 @@ return (
     </Desktop>
     <Desktop class="row">
       <Widget
-        props={{ data: state, house: props.house, candidate: props.candidate }}
+        props={{
+          data: state,
+          house: props.house,
+          candidate: props.candidate,
+          nomination_contract: nominationContract,
+          api_key: apiKey,
+        }}
         src={widgets.desktop}
       />
     </Desktop>
