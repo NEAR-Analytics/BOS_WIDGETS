@@ -360,8 +360,8 @@ const renderReaction = (item, isInButton) => {
     item.accounts.includes(context.accountId) && isInButton
   );
   return (
-    (item.accounts.includes(context.accountId) && isInButton) ||
-    (!item.accounts.includes(context.accountId) && !isInButton && (
+    ((item.accounts.includes(context.accountId) && isInButton) ||
+      (!item.accounts.includes(context.accountId) && !isInButton)) && (
       <span>
         <Widget
           className={isInButton ? "ps-3" : ""}
@@ -369,7 +369,7 @@ const renderReaction = (item, isInButton) => {
           props={{ accounts: item.accounts, emoji: item.emoji }}
         />
       </span>
-    ))
+    )
   );
 };
 
