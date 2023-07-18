@@ -60,7 +60,7 @@ const Table = styled.div`
 return (
   <div className="ndc-card p-4">
     <div className="d-flex justify-content-between gap-2">
-      <h2 className="mb-3">NEAR Transactions</h2>
+      <h3 className="mb-3">NEAR Transactions</h3>
       <div>
         <Widget
           src="nui.sking.near/widget/Input.Select"
