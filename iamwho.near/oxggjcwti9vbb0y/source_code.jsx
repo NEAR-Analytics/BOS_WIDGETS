@@ -1,4 +1,4 @@
-const options = [1, 10, 20, 50];
+const limits = [1, 10, 20, 50];
 const handleOptionsChange = (e) => {
   State.update({
     limit: parseInt(e.target.value),
@@ -8,7 +8,7 @@ const handleOptionsChange = (e) => {
 
 State.init({
   from_index: 0,
-  limit: options[0],
+  limit: limits[0],
   searchValue: "",
   pages: 1,
   searchBarProps: {
@@ -50,8 +50,8 @@ if (!state.tableProps.contracts) searchContracts(state.searchValue);
 return (
   <div class="flex items-center justify-center w-screen h-screen">
     <select onChange={(e) => handleOptionsChange(e)}>
-      {options.map((option) => (
-        <option value={option}>{option}</option>
+      {limits.map((limit) => (
+        <option value={limit}>{limit}</option>
       ))}
     </select>
     <Widget
