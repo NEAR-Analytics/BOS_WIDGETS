@@ -193,12 +193,11 @@ function showWhenCalled(objText) {
 
 // =============== CSS Styles ===============
 const Button = styled.button`
-  min-width: fit-content;
   background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: start;
-  width: 8em;
+  width: fit-content;
   height: 2.5em;
   padding: 6px 12px;
   margin: 2px 0;
