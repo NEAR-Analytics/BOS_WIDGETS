@@ -45,18 +45,9 @@ const renderItem = (a) => (
 return (
   <div>
     <h2>it's something</h2>
-    {/*<Widget
+    <Widget
       src="andyh.near/widget/ItemFeed"
       props={{ items: items.slice(0, 5), renderItem }}
-    />*/}
-    <Widget
-      src="andyh.near/widget/ProfileLine"
-      props={{
-        accountId: "andyh.near",
-        hideName: true,
-        hideAccountId: true,
-        tooltip: true,
-      }}
     />
   </div>
 );
