@@ -58,7 +58,9 @@ function getVerifiedHuman() {
     `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
     httpRequestOpt
   ).then((res) => {
-    console.log(res.body);
+    console.log(
+      `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`
+    );
     if (res.body.length > 0) {
       State.update({ sbt: true });
     }
