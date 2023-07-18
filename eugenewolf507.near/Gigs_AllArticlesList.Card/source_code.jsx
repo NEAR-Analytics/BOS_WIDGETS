@@ -1,4 +1,4 @@
-State.init({ showModal: false, copiedShareUrl: false });
+State.init({ copiedShareUrl: false });
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 const authorForWidget = "eugenewolf507.near";
@@ -13,15 +13,6 @@ const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
-
-// if (
-//   // (sharedArticleId === article.articleId && sharedArticleId) ||
-//   cardWithOpenModal === article.articleId
-// ) {
-//   State.update({ showModal: true });
-// } else {
-//   State.update({ showModal: false });
-// }
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
