@@ -8,6 +8,8 @@ let {
 } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
+// https://near.org/rubycop.near/widget/NDC.Nomination.Page?registry_contract=registry-v1.i-am-human.near&nomination_contract=nominations-v1.gwg-testing.near&election_contract=elections-v1.gwg-testing.near&api_key=36f2b87a-7ee6-40d8-80b9-5e68e587a5b5
+
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const registryContract = registry_contract ?? "registry.i-am-human.near";
 const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
@@ -86,12 +88,12 @@ function getNominationInfo() {
     httpRequestOpt
   ).then((res) => {
     console.log(res.body);
-    console.log(
-      `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`
-    );
+
     if (res.body.length <= 0) {
       State.update({ nominations: [] });
+      return;
     }
+
     for (const [i, data] of res.body.entries()) {
       let objCard = {
         indexerData: data,
