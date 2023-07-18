@@ -543,6 +543,18 @@ return (
               </div>
             </div>
             <div className="d-flex gap-3">
+              {data.nominations.video.length > 0 && (
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Link: {
+                      text: `Watch Video`,
+                      className: "primary dark",
+                      href: data.nominations.video,
+                    },
+                  }}
+                />
+              )}
               <Widget
                 src={widgets.styledComponents}
                 props={{
@@ -556,18 +568,6 @@ return (
                   },
                 }}
               />
-              {data.nominations.video.length > 0 && (
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Link: {
-                      text: `Watch Video`,
-                      className: "dark",
-                      href: data.nominations.video,
-                    },
-                  }}
-                />
-              )}
             </div>
           </div>
         </div>
