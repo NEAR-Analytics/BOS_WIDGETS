@@ -79,6 +79,9 @@ function getNominationInfo() {
     httpRequestOpt
   ).then((res) => {
     console.log(res.body);
+    console.log(
+      `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`
+    );
     if (res.body.length <= 0) {
       State.update({ nominations: [] });
     }
