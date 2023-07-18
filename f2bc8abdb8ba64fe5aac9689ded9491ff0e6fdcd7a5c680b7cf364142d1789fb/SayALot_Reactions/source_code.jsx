@@ -367,7 +367,7 @@ const Overlay = () => (
     show={state.show}
   >
     {emojiArray &&
-      emojiArray.map((item) => (
+      emojiArray.map((item, index) => (
         <SmallButton onClick={() => clickHandler(item)} isHeart={index === 0}>
           <OverlayTrigger
             placement="top"
@@ -490,15 +490,13 @@ return (
       {state.loading && <Spinner />}
       {!userEmoji ? initialEmoji : <Stats />}
     </Button>
+    {!userEmoji ? (
+      <Reactions>
+        <Stats />
+      </Reactions>
+    ) : (
+      <></>
+    )}
     <Overlay />
-    {state.likesStatistics &&
-      state.likesStatistics.map((item) => (
-        <span className="ps-3">
-          <Widget
-            src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts, emoji: item.emoji }}
-          />
-        </span>
-      ))}
   </EmojiWrapper>
 );
