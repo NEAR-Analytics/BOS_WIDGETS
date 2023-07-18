@@ -252,8 +252,6 @@ const {
   _share_url,
 } = props;
 
-let nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
-
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
@@ -268,7 +266,7 @@ const CommentCandidate = () => {
     // call the smart contract Self nominate comment
 
     Near.call(
-      nominationContract ? nominationContract : "nominations.ndc-gwg.near",
+      nomination_contract,
       "comment",
       {
         candidate: username,
@@ -287,8 +285,8 @@ const CommenttoReplay = () => {
   if (state.reply != null) {
     // call the smart contract Self nominate comment
     /*   Near.call(
-      nominationContract
-        ? nominationContract
+      nomination_contract
+        ? nomination_contract
         : "nominations.ndc-gwg.near",
       "comment",
       {
