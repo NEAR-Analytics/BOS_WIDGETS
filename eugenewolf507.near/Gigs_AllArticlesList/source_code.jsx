@@ -26,6 +26,7 @@ const doesDataFresh = localStorageData.time
   : false;
 if (doesDataFresh && localStorageData.sortedArticlesByTag) {
   // ========== STATE INIT ========== by articles from
+  console.log("Storage", Date.now());
   State.init(localStorageData.sortedArticlesByTag);
 } else {
   Storage.privateSet("sortedArticlesByTagFromStorage", "");
@@ -35,6 +36,7 @@ if (doesDataFresh && localStorageData.sortedArticlesByTag) {
     order: "desc",
     accountId: undefined,
   });
+  console.log("Social.index", Date.now());
 
   // ========== GET ALL ARTICLES ==========
   const resultArticles =
@@ -166,6 +168,7 @@ const updateStatusHandler = (oldStatus, newStatus, articleId) => {
         state[actualTag].splice(objectIndex, 1);
         state[newTag].unshift(updatedObjectToMove);
         state.cardWithOpenModal = "";
+        console.log("Social set", Date.now());
         State.update();
       },
     });
