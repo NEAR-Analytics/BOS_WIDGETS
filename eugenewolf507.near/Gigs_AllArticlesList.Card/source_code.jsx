@@ -8,14 +8,14 @@ const openModalHandler = props.openModalHandler;
 const closeModalHandler = props.closeModalHandler;
 const cardWithOpenModal = props.cardWithOpenModal;
 const statusTagsArr = props.statusTagsArr;
-const sharedArticleId = props.sharedArticleId;
+// const sharedArticleId = props.sharedArticleId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 if (
-  (sharedArticleId === article.articleId && sharedArticleId) ||
+  // (sharedArticleId === article.articleId && sharedArticleId) ||
   cardWithOpenModal === article.articleId
 ) {
   State.update({ showModal: true });
