@@ -367,7 +367,7 @@ const Overlay = () => (
     show={state.show}
   >
     {emojiArray &&
-      emojiArray.map((item, index) => (
+      emojiArray.map((item) => (
         <SmallButton onClick={() => clickHandler(item)} isHeart={index === 0}>
           <OverlayTrigger
             placement="top"
@@ -484,19 +484,33 @@ const Spinner = () => {
   );
 };
 
+console.log("UE:", userEmoji);
+
 return (
   <EmojiWrapper>
     <Button onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
       {state.loading && <Spinner />}
-      {!userEmoji ? initialEmoji : <Stats />}
+      {!userEmoji
+        ? initialEmoji
+        : state.likesStatistics &&
+          state.likesStatistics.map((item) => (
+            <span className="ps-3">
+              <Widget
+                src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+                props={{ accounts: item.accounts, emoji: item.emoji }}
+              />
+            </span>
+          ))}
     </Button>
-    {!userEmoji ? (
-      <Reactions>
-        <Stats />
-      </Reactions>
-    ) : (
-      <></>
-    )}
     <Overlay />
+    {state.likesStatistics &&
+      state.likesStatistics.map((item) => (
+        <span className="ps-3">
+          <Widget
+            src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+            props={{ accounts: item.accounts, emoji: item.emoji }}
+          />
+        </span>
+      ))}
   </EmojiWrapper>
 );
