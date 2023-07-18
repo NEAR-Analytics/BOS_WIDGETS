@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "proposals",
+  selectedTab: props.tab || "social",
 });
 const socialAccountId = props.socialAccountId ?? "proofofvibes.near";
 const socialProfile = Social.getr(`${socialAccountId}/profile`);
@@ -340,7 +340,7 @@ return (
         {state.selectedTab === "members" && (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
-            props={{ daoId }}
+            props={{ daoId, issuer: issuer, classId: 1 }}
           />
         )}
 
