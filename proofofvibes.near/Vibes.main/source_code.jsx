@@ -29,7 +29,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const daoPageAccount = "nearefi.near";
+const daoPageAccount = "proofofvibes.near";
 const profile = props.profile ?? Social.getr(`${daoId}/profile`);
 const accountUrl = `#/${daoPageAccount}/widget/Vibes.main?daoId=${daoId}`;
 
