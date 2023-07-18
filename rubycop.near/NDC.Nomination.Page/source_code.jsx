@@ -113,15 +113,15 @@ function getNominationInfo() {
         }, 1000);
 
         setTimeout(() => {
+          if (data.is_revoked || !profileData || !nominationData) return;
+
           objCard = {
             profileData: profileData,
             nominationData: nominationData,
             upVoteData: upVoteInfo,
             ...objCard,
           };
-          console.log("->", profileData, "-->", nominationData);
 
-          if (data.is_revoked || !profileData || !nominationData) return;
           nominationsArr.push(objCard);
 
           State.update({ nominations: nominationsArr });
