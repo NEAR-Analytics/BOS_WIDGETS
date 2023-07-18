@@ -82,7 +82,6 @@ return (
                       Input: {
                         type: "date",
                         label: "Start date",
-                        min: getCurrDate(),
                         value: form.start_date ?? getCurrDate(),
                         handleChange: (event) =>
                           handleAFFStartdate({ index, event }),
@@ -98,7 +97,6 @@ return (
                       Input: {
                         type: "date",
                         label: "End date",
-                        min: getCurrDate(),
                         value: form.end_date ?? getCurrDate(),
                         handleChange: (event) =>
                           handleAFFEnddate({ index, event }),
