@@ -5,6 +5,14 @@ const Container = styled.div`
   .side {
     margin-top: 20px;
   }
+
+  .w3button button {
+    background-color: #854ce6;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 15px;
+  }
 `;
 
 const tokens = [
@@ -490,7 +498,13 @@ const onUpdateToken = (props) => {
 };
 
 if (!sender) {
-  return <Web3Connect connectLabel="Connect ETH Wallet" />;
+  return (
+    <Container>
+      <div className="w3button">
+        <Web3Connect connectLabel="Connect to a wallet" />
+      </div>
+    </Container>
+  );
 }
 
 console.log(state);
