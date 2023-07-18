@@ -71,7 +71,7 @@ function getVerifiedHuman() {
     }
   });
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}&registry=${registry_contract}`,
+    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}`,
     httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
