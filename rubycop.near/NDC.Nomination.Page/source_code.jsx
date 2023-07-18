@@ -95,19 +95,19 @@ function getNominationInfo() {
     }
 
     for (const [i, data] of res.body.entries()) {
-      let objCard = {
-        indexerData: data,
-      };
+      let objCard = { indexerData: data };
       let nominee = data.nominee;
+      console.log(nominee);
       asyncFetch(
         `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
         httpRequestOpt
       ).then((info) => {
+        console.log("info", info);
+
         let upVoteInfo = info.body[0];
         let profileData;
         let nominationData;
-        Social.getr(`${nominee}/profile`);
-        Social.getr(`${nominee}/nominations`);
+
         setTimeout(() => {
           profileData = Social.getr(`${nominee}/profile`);
           nominationData = Social.getr(`${nominee}/nominations`);
