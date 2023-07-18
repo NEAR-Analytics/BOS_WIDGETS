@@ -1,11 +1,10 @@
 // TODO: Should be grabbed from contract side
-let { ids, org } = props;
+let { ids } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
-org = props.org ? org : "test"; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
-const registryContract = "registry-v1.gwg-testing.near";
-const nominationContract = "nominations-v1.gwg-testing.near";
+const registryContract = "registry.i-am-human.near";
+const nominationContract = "nominations.ndc-gwg.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 function handleSelfRevoke() {
