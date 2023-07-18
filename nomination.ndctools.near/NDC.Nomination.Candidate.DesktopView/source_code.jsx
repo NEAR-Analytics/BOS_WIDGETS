@@ -15,7 +15,7 @@ const widgets = {
 
 function getVerifiedHuman() {
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
+    `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
     {
       headers: {
         "x-api-key": api_key,
