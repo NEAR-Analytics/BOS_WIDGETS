@@ -6,6 +6,7 @@ const socialProfile = Social.getr(`${socialAccountId}/profile`);
 const role = props.role ?? "vibee";
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
+const referece = props.reference ?? "";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -340,7 +341,7 @@ return (
         {state.selectedTab === "members" && (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
-            props={{ daoId, issuer: issuer, classId: 1 }}
+            props={{ daoId, issuer: issuer, classId: 1, reference: reference }}
           />
         )}
 
