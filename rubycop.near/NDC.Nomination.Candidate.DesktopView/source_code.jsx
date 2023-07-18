@@ -1,4 +1,4 @@
-const { data, nomination_contract, api_key } = props;
+const { data, house, candidate, nomination_contract, api_key } = props;
 
 State.init({
   tabSelected: "comments",
@@ -25,7 +25,7 @@ function getVerifiedHuman() {
     State.update({ verified: res.body });
   });
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}`,
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${candidate}&upvoter=${context.accountId}`,
     {
       headers: {
         "x-api-key": api_key,
@@ -48,7 +48,7 @@ function handleUpVote() {
     nomination_contract,
     state.voted ? "remove_upvote" : "upvote",
     {
-      candidate: props.candidate,
+      candidate: candidate,
     },
     300000000000000,
     state.voted ? 0 : 1000000000000000000000
@@ -522,7 +522,7 @@ return (
                   <NominationUser
                     style={{ "margin-bottom": "5px", "font-size": "14px" }}
                   >
-                    {props.candidate}
+                    {candidate}
                   </NominationUser>
                   <TagContainer>
                     {data.nominations.tags
@@ -547,8 +547,7 @@ return (
               props={{
                 Button: {
                   text: `+${data.comments[0].upvotes ?? 0}`,
-                  disabled:
-                    !state.verified || context.accountId === props.candidate,
+                  disabled: !state.verified || context.accountId === candidate,
                   className: "secondary dark",
                   onClick: handleUpVote,
                   icon: <i className="bi bi-hand-thumbs-up"></i>,
@@ -765,7 +764,7 @@ return (
                   src={widgets.addComment}
                   props={{
                     candidateOrReplay: true,
-                    username: props.candidate,
+                    username: candidate,
                     onClickConfirm: () => State.update({ showModal: false }),
                     onClickCancel: () => State.update({ showModal: false }),
                     nomination_contract,
