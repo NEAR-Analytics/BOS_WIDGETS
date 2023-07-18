@@ -35,6 +35,7 @@ const Styled = {
       }
 
       &:disabled {
+        cursor: not-allowed;
         background: #c3cace;
         color: #828688;
         border: 0;
@@ -65,6 +66,12 @@ const Styled = {
       &:disabled {
         border-color: #c3cace;
         color: #828688;
+        cursor: not-allowed;
+
+        &:hover {
+          border-color: #c3cace;
+          color: #828688;
+        }
       }
     }
 
