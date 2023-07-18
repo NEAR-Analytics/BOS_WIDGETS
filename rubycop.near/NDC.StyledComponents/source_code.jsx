@@ -441,6 +441,14 @@ return (
 
     <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <WidgetButton
+        text="Danger"
+        className="danger"
+        icon={<i class="bi bi-trash" />}
+      />
+    </div>
+
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
+      <WidgetButton
         size="sm"
         className="secondary dark"
         icon={<i class="bi bi-share"></i>}
@@ -450,14 +458,6 @@ return (
         size="sm"
         className="secondary dark"
         icon={<i class="bi bi-share"></i>}
-      />
-    </div>
-
-    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
-      <WidgetButton
-        text="Danger"
-        className="danger"
-        icon={<i class="bi bi-trash" />}
       />
     </div>
 
