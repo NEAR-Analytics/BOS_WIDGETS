@@ -485,7 +485,6 @@ const Spinner = () => {
 };
 
 const renderUsersReaction = (item) => {
-  console.log(item.accounts.includes(userEmoji.accountId));
   return item.accounts.includes(userEmoji.accountId) ? (
     <span className="ps-3">
       <Widget
@@ -495,6 +494,19 @@ const renderUsersReaction = (item) => {
     </span>
   ) : (
     <></>
+  );
+};
+
+const renderReactionsWithoutUsersReactionType = (item) => {
+  return item.accounts.includes(userEmoji.accountId) ? (
+    <></>
+  ) : (
+    <span className="ps-3">
+      <Widget
+        src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+        props={{ accounts: item.accounts, emoji: item.emoji }}
+      />
+    </span>
   );
 };
 
@@ -509,13 +521,8 @@ return (
     </Button>
     <Overlay />
     {state.likesStatistics &&
-      state.likesStatistics.map((item) => (
-        <span className="ps-3">
-          <Widget
-            src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
-            props={{ accounts: item.accounts, emoji: item.emoji }}
-          />
-        </span>
-      ))}
+      state.likesStatistics.map((item) =>
+        renderReactionsWithoutUsersReactionType(item)
+      )}
   </EmojiWrapper>
 );
