@@ -3,6 +3,7 @@ ids = ids ? ids : [1, 2, 3]; // for testing purposes
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
+const registryContract = registry_contract ?? "registry.i-am-human.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
@@ -97,6 +98,7 @@ return (
           house: props.house,
           candidate: props.candidate,
           nomination_contract: nominationContract,
+          registry_contract: registryContract,
           api_key: apiKey,
         }}
         src={widgets.mobile}
@@ -144,6 +146,7 @@ return (
           house: props.house,
           candidate: props.candidate,
           nomination_contract: nominationContract,
+          registry_contract: registryContract,
           api_key: apiKey,
         }}
         src={widgets.desktop}
