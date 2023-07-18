@@ -2,6 +2,8 @@ const toggle = props.toggle ?? <button>Open Modal</button>;
 const content = props.content ?? (
   <div className="p-5 bg-white">Modal Content</div>
 );
+const open = props.open;
+const onOpenChange = props.onOpenChange;
 
 const Overlay = styled.div`
   position: fixed;
@@ -21,7 +23,7 @@ const Overlay = styled.div`
 
 const Content = styled.div`
   min-width: 500px;
-  max-width: 900px;
+  max-width: 1000px;
   margin-top: 20px;
   margin-bottom: 20px;
 
@@ -39,7 +41,7 @@ const NoButton = styled.button`
 `;
 
 return (
-  <Dialog.Root>
+  <Dialog.Root open={open} onOpenChange={onOpenChange}>
     <Dialog.Trigger asChild>
       <NoButton>{toggle}</NoButton>
     </Dialog.Trigger>
