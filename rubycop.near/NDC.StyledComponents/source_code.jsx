@@ -39,6 +39,11 @@ const Styled = {
         background: #c3cace;
         color: #828688;
         border: 0;
+
+        &:hover {
+          background: #c3cace;
+          color: #828688;
+        }
       }
     }
 
@@ -398,7 +403,7 @@ const WidgetInput = ({ type }) => {
 return (
   <Container>
     <h4>Button</h4>
-    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <WidgetButton text="Primary" />
       <WidgetButton text="Primary" icon={<i class="bi bi-check-lg"></i>} />
       <WidgetButton
@@ -412,7 +417,7 @@ return (
       <WidgetButton size="sm" className="secondary" text="Secondary" />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <WidgetButton text="Primary Dark" className="primary dark" />
       <WidgetButton
         text="Primary Dark"
@@ -434,21 +439,21 @@ return (
       />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <WidgetButton
         size="sm"
-        className="primary dark"
+        className="secondary dark"
         icon={<i class="bi bi-share"></i>}
       />
       <WidgetButton
         disabled
         size="sm"
-        className="primary dark"
+        className="secondary dark"
         icon={<i class="bi bi-share"></i>}
       />
     </div>
 
-    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <WidgetButton
         text="Danger"
         className="danger"
@@ -463,7 +468,7 @@ return (
     </div>
 
     <h4>Tag</h4>
-    <div className="d-flex align-items-end flex-wrap gap-2 mb-1">
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <Widget
         src={"rubycop.near/widget/NDC.StyledComponents"}
         props={{ Tag: { title: "Lorem ipsum", className: "dark" } }}
