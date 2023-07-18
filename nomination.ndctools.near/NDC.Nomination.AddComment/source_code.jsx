@@ -253,7 +253,7 @@ const {
 } = props;
 
 const widgets = {
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
 
 const CommentCandidate = () => {
