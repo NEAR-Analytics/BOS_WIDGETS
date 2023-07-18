@@ -1,6 +1,7 @@
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "refi.sputnik-dao.near";
-
+const issuer = props.issuer ?? "issuer.regens.near";
+const classId = props.classId ?? 1;
 const policy = Near.view(daoId, "get_policy");
 
 const groups = policy.roles
@@ -19,7 +20,12 @@ return (
           <div className="d-flex justify-content-between mb-3">
             <Widget
               src="nearefi.near/widget/ReFi.DAO.memberCard"
-              props={{ accountId: member, roleName: group.name }}
+              props={{
+                classId: classId,
+                issuer: issuer,
+                accountId: member,
+                roleName: group.name,
+              }}
             />
           </div>
         ))}
