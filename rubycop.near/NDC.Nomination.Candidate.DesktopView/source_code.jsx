@@ -1,4 +1,4 @@
-const { data, nomination_contract } = props;
+const { data, nomination_contract, api_key } = props;
 
 State.init({
   tabSelected: "comments",
@@ -13,14 +13,12 @@ const widgets = {
   addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
 };
 
-const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
-
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false`,
     {
       headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+        "x-api-key": api_key,
       },
     }
   ).then((res) => {
@@ -30,7 +28,7 @@ function getVerifiedHuman() {
     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}`,
     {
       headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+        "x-api-key": api_key,
       },
     }
   ).then((res) => {
@@ -47,7 +45,7 @@ if (state.start) {
 
 function handleUpVote() {
   Near.call(
-    nominationContract,
+    nomination_contract,
     state.voted ? "remove_upvote" : "upvote",
     {
       candidate: props.candidate,
@@ -770,6 +768,7 @@ return (
                     username: props.candidate,
                     onClickConfirm: () => State.update({ showModal: false }),
                     onClickCancel: () => State.update({ showModal: false }),
+                    nomination_contract,
                   }}
                 />
               )}
@@ -786,7 +785,10 @@ return (
                 }}
               />
               {comments.map((data) => (
-                <Widget props={{ data }} src={widgets.comment} />
+                <Widget
+                  props={{ data, nomination_contract }}
+                  src={widgets.comment}
+                />
               ))}
             </CommentSection>
           )}
