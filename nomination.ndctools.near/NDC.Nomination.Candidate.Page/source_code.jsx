@@ -1,25 +1,22 @@
-let { ids, dev, house, accountId } = props;
+let { ids, org, election_contract, nomination_contract } = props;
 ids = ids ? ids : [1, 2, 3]; // for testing purposes
 
-const registryContract = dev
-  ? "registry-v1.gwg-testing.near"
-  : "registry.i-am-human.near";
-const nominationContract = dev
-  ? "nominations-v1.gwg-testing.near"
-  : "nominations.ndc-gwg.near";
+const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const widgets = {
-  header: "election.ndctools.near/widget/NDC.Elections.Header",
-  mobile: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.MobileView",
-  desktop:
-    "nomination.ndctools.near/widget/NDC.Nomination.Candidate.DesktopView",
-  back: `#/nomination.ndctools.near/widget/NDC.Nomination.Page${
-    dev ? "?dev=true" : ""
-  }`,
+  header: "rubycop.near/widget/NDC.Elections.Header",
+  mobile: "rubycop.near/widget/NDC.Nomination.Candidate.MobileView",
+  desktop: "rubycop.near/widget/NDC.Nomination.Candidate.DesktopView",
+  back: "#/rubycop.near/widget/NDC.Nomination.Page",
 };
 
-const time = Near.view(nominationContract, "active_time", {});
+const houses = [
+  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+];
 
 State.init({
   selectedHouse: ids[0],
@@ -38,24 +35,26 @@ const BackLink = styled.a`
 `;
 
 asyncFetch(
-  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${accountId}&contract=${nominationContract}`,
-  { headers: { "x-api-key": apiKey } }
+  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${props.candidate}`,
+  { headers: { "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5" } }
 ).then((res) => {
   State.update({ comments: res.body });
 });
 
-let profile = Social.getr(`${accountId}/profile`);
-let nominations = Social.getr(`${accountId}/nominations`);
+let profile = Social.getr(`${props.candidate}/profile`);
+let nominations = Social.getr(`${props.candidate}/nominations`);
 State.update({ profile: profile });
 State.update({ nominations: nominations });
 
 const Mobile = styled.div`
+  display: flex;
   @media only screen and (min-width: 601px) {
     display: none !important;
   }
 `;
 
 const Desktop = styled.div`
+  display: flex;
   @media only screen and (max-width: 600px) {
     display: none !important;
   }
@@ -63,16 +62,23 @@ const Desktop = styled.div`
 
 return (
   <div>
-    <Mobile className="d-flex justify-content-center">
-      <Mobile>
-        <Widget
-          src={widgets.header}
-          props={{
-            startTime: time ? time[0] : 0,
-            endTime: time ? time[1] : 0,
-            type: "Nomination",
-          }}
-        />
+    <Mobile style={{ display: "flex", "justify-content": "center" }}>
+      <Mobile style={{ width: "359px" }}>
+        {houses.map((house) => (
+          <>
+            {house.typ === props.house && (
+              <Widget
+                key={i}
+                src={widgets.header}
+                props={{
+                  startTime: house.start,
+                  endTime: house.end,
+                  type: "Nomination",
+                }}
+              />
+            )}
+          </>
+        ))}
       </Mobile>
     </Mobile>
     <Mobile class="row">
@@ -88,23 +94,39 @@ return (
         props={{
           data: state,
           house: props.house,
-          accountId,
+          candidate: props.candidate,
           nomination_contract: nominationContract,
-          registry_contract: registryContract,
           api_key: apiKey,
         }}
         src={widgets.mobile}
       />
     </Mobile>
-    <Desktop className="w-100">
-      <Widget
-        src={widgets.header}
-        props={{
-          startTime: time ? time[0] : 0,
-          endTime: time ? time[1] : 0,
-          type: "Nomination",
+    <Desktop style={{ display: "flex", "justify-content": "center" }}>
+      <div
+        style={{
+          width: "1305px",
+          "margin-bottom": "10px",
+          "padding-left": "5px",
         }}
-      />
+      >
+        {houses.map((house) => (
+          <>
+            {house.typ === props.house && (
+              <Widget
+                key={i}
+                src={widgets.header}
+                props={{
+                  house: props.house,
+                  candidate: props.candidate,
+                  startTime: house.start,
+                  endTime: house.end,
+                  type: "Nomination",
+                }}
+              />
+            )}
+          </>
+        ))}
+      </div>
     </Desktop>
     <Desktop class="row">
       <div className="my-3">
@@ -119,9 +141,8 @@ return (
         props={{
           data: state,
           house: props.house,
-          accountId,
+          candidate: props.candidate,
           nomination_contract: nominationContract,
-          registry_contract: registryContract,
           api_key: apiKey,
         }}
         src={widgets.desktop}
