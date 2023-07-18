@@ -1,11 +1,17 @@
 // TODO: Should be grabbed from contract side
-let { ids } = props;
+let {
+  ids,
+  election_contract,
+  registry_contract,
+  nomination_contract,
+  api_key,
+} = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
-const electionContract = "elections-v1.gwg-testing.near";
-const registryContract = "registry.i-am-human.near";
-const nominationContract = "nominations.ndc-gwg.near";
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
+const registryContract = registry_contract ?? "registry.i-am-human.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
+const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 function handleSelfRevoke() {
   Near.call(nominationContract, "self_revoke");
@@ -24,6 +30,8 @@ const widgets = {
   filter: "rubycop.near/widget/NDC.Elections.Filter",
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   verifyHuman: "rubycop.near/widget/NDC.VerifyHuman",
+  compose: "rubycop.near/widget/NDC.Nomination.Compose",
+  deleteNomination: "rubycop.near/widget/NDC.Nomination.DeleteNomination",
 };
 
 State.init({
@@ -418,7 +426,7 @@ return (
     <>
       {state.showModal && (
         <Widget
-          src={`rubycop.near/widget/NDC.Nomination.Compose`}
+          src={widgets.compose}
           props={{
             handleClose: () => State.update({ showModal: false }),
           }}
@@ -426,7 +434,7 @@ return (
       )}
       {state.showModalDelete && (
         <Widget
-          src={`rubycop.near/widget/NDC.Nomination.DeleteNomination`}
+          src={widgets.deleteNomination}
           props={{
             house: state.house,
             handleClose: () => State.update({ showModalDelete: false }),
