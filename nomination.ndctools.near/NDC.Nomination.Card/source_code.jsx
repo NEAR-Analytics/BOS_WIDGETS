@@ -31,7 +31,7 @@ const httpRequestOpt = {
 
 function getVerifiedHuman() {
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}`,
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}&contract=${nomination_contract}`,
     httpRequestOpt
   ).then((res) => {
     State.update({ voted: res.body });
