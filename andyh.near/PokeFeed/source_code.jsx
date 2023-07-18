@@ -52,7 +52,7 @@ return (
     <Widget
       src="andyh.near/widget/ProfileLine"
       props={{
-        accountId: a.accountId,
+        accountId: "andyh.near",
         hideName: true,
         hideAccountId: true,
         tooltip: true,
