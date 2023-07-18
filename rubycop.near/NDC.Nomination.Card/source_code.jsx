@@ -1,4 +1,4 @@
-const data = props;
+const { data, registry_contract, nomination_contract, api_key } = props;
 
 State.init({
   verified: false,
@@ -7,25 +7,20 @@ State.init({
   shareText: "Copy link to the clipboard",
 });
 
-const registryContract = props.registry_contract ?? "registry.i-am-human.near";
-const nominationContract =
-  props.nomination_contract ?? "nominations.ndc-gwg.near";
-const apiKey = props.api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
   addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
 };
 
-const isHuman = Near.view(registryContract, "is_human", {
+const isHuman = Near.view(registry_contract, "is_human", {
   account: context.accountId,
 });
 
 State.update({ verified: isHuman[0][1].length > 0 });
 
 const httpRequestOpt = {
-  headers: { "x-api-key": apiKey },
+  headers: { "x-api-key": api_key },
 };
 
 function getVerifiedHuman() {
@@ -44,7 +39,7 @@ if (state.start) {
 
 function handleUpVote() {
   Near.call(
-    nominationContract,
+    nomination_contract,
     state.voted ? "remove_upvote" : "upvote",
     {
       candidate: data.indexerData.nominee,
