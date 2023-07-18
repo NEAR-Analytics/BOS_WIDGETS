@@ -8,8 +8,6 @@ let {
 } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
-// https://near.org/rubycop.near/widget/NDC.Nomination.Page?registry_contract=registry-v1.i-am-human.near&nomination_contract=nominations-v1.gwg-testing.near&election_contract=elections-v1.gwg-testing.near&api_key=36f2b87a-7ee6-40d8-80b9-5e68e587a5b5
-
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const registryContract = registry_contract ?? "registry.i-am-human.near";
 const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
@@ -26,14 +24,15 @@ const houses = [
 ];
 
 const widgets = {
-  header: "rubycop.near/widget/NDC.Elections.Header",
-  card: "rubycop.near/widget/NDC.Nomination.Card",
-  houses: "rubycop.near/widget/NDC.Elections.Houses",
-  filter: "rubycop.near/widget/NDC.Elections.Filter",
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  verifyHuman: "rubycop.near/widget/NDC.VerifyHuman",
-  compose: "rubycop.near/widget/NDC.Nomination.Compose",
-  deleteNomination: "rubycop.near/widget/NDC.Nomination.DeleteNomination",
+  header: "nomination.ndctools.near/widget/NDC.Elections.Header",
+  card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
+  houses: "nomination.ndctools.near/widget/NDC.Elections.Houses",
+  filter: "nomination.ndctools.near/widget/NDC.Elections.Filter",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
+  compose: "nomination.ndctools.near/widget/NDC.Nomination.Compose",
+  deleteNomination:
+    "nomination.ndctools.near/widget/NDC.Nomination.DeleteNomination",
 };
 
 State.init({
@@ -411,19 +410,16 @@ return (
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
           {state.nominations.length > 0 ? (
             state.nominations.map((data) => (
-              <>
-                {console.log(data)}
-                <Widget
-                  src={widgets.card}
-                  props={{
-                    data,
-                    registry_contract: registryContract,
-                    nomination_contract: nominationContract,
-                    election_contract: electionContract,
-                    api_key: apiKey,
-                  }}
-                />
-              </>
+              <Widget
+                src={widgets.card}
+                props={{
+                  data,
+                  registry_contract: registryContract,
+                  nomination_contract: nominationContract,
+                  election_contract: electionContract,
+                  api_key: apiKey,
+                }}
+              />
             ))
           ) : (
             <div className="flex mt-10 container-fluid align-self-center">
