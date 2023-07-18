@@ -122,7 +122,7 @@ function getNominationInfo() {
 
           if (data.is_revoked || !profileData || !nominationData) return;
           nominationsArr.push(objCard);
-
+          console.log(nominationsArr);
           State.update({ nominations: nominationsArr });
         }, 1000);
       });
