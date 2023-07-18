@@ -7,9 +7,9 @@ State.init({
 });
 
 const widgets = {
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  comment: "rubycop.near/widget/NDC.Nomination.Candidate.Comment",
-  addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  comment: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment",
+  addComment: "nomination.ndctools.near/widget/NDC.Nomination.AddComment",
 };
 
 function getVerifiedHuman() {
