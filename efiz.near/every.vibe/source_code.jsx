@@ -1,5 +1,7 @@
-const hashtag = props.hashtag || "ProofOfVibes, Paris";
+const location = props.location || "Paris";
+const hashtag = props.hashtag || "ProofOfVibes";
 const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
+hashtags.push(location);
 
 const mention = props.mention || "";
 const mentions = mention && mention.split(",")?.map((it) => it.trim());
