@@ -37,7 +37,7 @@ const IconContainer = styled.div`
 `;
 
 const widgets = {
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
 };
 
 function handleSelfRevoke() {
@@ -75,7 +75,7 @@ return (
           props={{
             Button: {
               text: "Delete nomination",
-              className: "danger secondary",
+              className: "danger",
               onClick: handleSelfRevoke,
             },
           }}
