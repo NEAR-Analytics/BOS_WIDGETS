@@ -10,6 +10,7 @@ State.init({
   from_index: 0,
   limit: options[0],
   searchValue: "",
+  pages: 1,
   searchBarProps: {
     placeHolder: "Account ID",
     handleSubmit: (value) => handleSubmit(value),
@@ -25,7 +26,6 @@ const handleSubmit = (value) => {
 };
 
 const searchContracts = (value) => {
-  console.log(state.limit);
   try {
     const res = Near.view("v1.sourcescan.near", "search", {
       key: value,
@@ -34,6 +34,7 @@ const searchContracts = (value) => {
     });
 
     State.update({
+      pages: res[1],
       tableProps: {
         ...state.tableProps,
         contracts: res[0],
