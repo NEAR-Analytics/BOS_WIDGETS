@@ -418,6 +418,7 @@ return (
                   data,
                   registry_contract: registryContract,
                   nomination_contract: nominationContract,
+                  election_contract: electionContract,
                   api_key: apiKey,
                 }}
               />
