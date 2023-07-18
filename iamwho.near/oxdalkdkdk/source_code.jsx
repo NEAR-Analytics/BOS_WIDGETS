@@ -4,6 +4,18 @@ const handleAddFile = (files) => {
   files.forEach((file) => {
     console.log("file", file);
     State.update((prev) => {
+      if (
+        prev.files.some(
+          (local) =>
+            local.name === file.name &&
+            local.size === file.size &&
+            local.lastModifiedDate.toString() ===
+              file.lastModifiedDate.toString()
+        )
+      ) {
+        return prev;
+      }
+
       return {
         files: [...prev.files, file],
       };
