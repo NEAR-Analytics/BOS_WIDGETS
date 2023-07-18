@@ -1,6 +1,7 @@
-const { handleClose } = props;
+const { handleClose, nomination_contract } = props;
 
-let Nominationcontract = "nominations-v1.gwg-testing.near";
+let nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
+
 let Socialcontract = "social.near";
 
 let profileInfo = Social.getr(`${context.accountId}/profile`);
@@ -12,6 +13,8 @@ let RealProfileImageAsURL = "";
 
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  affiliations: "rubycop.near/widget/NDC.Nomination.Compose.Affiliations",
+  platform: "rubycop.near/widget/NDC.Nomination.Compose.Platform",
 };
 
 if (imageIsNFT) {
@@ -319,7 +322,7 @@ const handleNominate = () => {
   const SocialArgs = JSON.parse(data);
 
   let SelfNominate_Payload = {
-    contractName: Nominationcontract,
+    contractName: nominationContract,
     methodName: "self_nominate",
     args: {
       house: state.house_intended,
@@ -417,7 +420,7 @@ return (
             />
             <Hr />
             <Widget
-              src={`rubycop.near/widget/Compose.Platform`}
+              src={widgets.platform}
               props={{
                 inputs: [
                   {
@@ -437,7 +440,7 @@ return (
                   },
                   {
                     label:
-                      "Platform: What’s your view and pledge on Key Issue 1?",
+                      "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_1,
                     handleChange: (e) =>
@@ -445,7 +448,7 @@ return (
                   },
                   {
                     label:
-                      "Platform: What’s your view and pledge on Key Issue 2?",
+                      "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_2,
                     handleChange: (e) =>
@@ -453,7 +456,7 @@ return (
                   },
                   {
                     label:
-                      "Platform: What’s your view and pledge on Key Issue 3?",
+                      "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_3,
                     handleChange: (e) =>
@@ -471,7 +474,7 @@ return (
               }}
             />
             <Widget
-              src={`rubycop.near/widget/Compose.Affiliations`}
+              src={widgets.affiliations}
               props={{
                 affiliations: state.afiliation,
                 addFields,
