@@ -490,13 +490,6 @@ return (
       {state.loading && <Spinner />}
       {!userEmoji ? initialEmoji : <Stats />}
     </Button>
-    {!userEmoji ? (
-      <Reactions>
-        <Stats />
-      </Reactions>
-    ) : (
-      <></>
-    )}
     <Overlay />
     {state.likesStatistics &&
       state.likesStatistics.map((item) => (
