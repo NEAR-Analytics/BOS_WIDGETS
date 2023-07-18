@@ -1,1 +1,8 @@
-return <Widget src="astraplusplus.ndctools.near/widget/DAO" props={props} />;
+const widgetOwner = "astro.sking.near";
+
+return (
+  <Widget
+    src={`${widgetOwner}/widget/DAO.index`}
+    props={{ widgetOwner, ...props }}
+  />
+);
