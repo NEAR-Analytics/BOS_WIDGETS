@@ -14,14 +14,14 @@ const mainPartForSharingGig =
   "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
-if (
-  // (sharedArticleId === article.articleId && sharedArticleId) ||
-  cardWithOpenModal === article.articleId
-) {
-  State.update({ showModal: true });
-} else {
-  State.update({ showModal: false });
-}
+// if (
+//   // (sharedArticleId === article.articleId && sharedArticleId) ||
+//   cardWithOpenModal === article.articleId
+// ) {
+//   State.update({ showModal: true });
+// } else {
+//   State.update({ showModal: false });
+// }
 
 // ========== UTILS ==========
 const getDateLastEdit = (timestamp) => {
@@ -139,7 +139,7 @@ const Modal = ({ onClose, children }) => {
 return (
   <CardWrapper className="col gy-3" key={article.articleId}>
     <div className="card h-100" style={{ position: "static" }}>
-      {state.showModal && (
+      {cardWithOpenModal === article.articleId && (
         <Modal onClose={closeModalHandler}>
           <Widget
             src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
