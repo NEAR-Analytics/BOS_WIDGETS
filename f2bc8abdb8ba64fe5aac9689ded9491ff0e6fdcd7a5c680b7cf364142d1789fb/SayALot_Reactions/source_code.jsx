@@ -274,20 +274,6 @@ overflow: visible !important;
 padding-left: 8px;
 `;
 
-const Reactions = styled.div`
-  position: relative;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: start;
-  width: 8em;
-  height: 2.5em;
-  padding: 6px 12px;
-  margin: 2px 0;
-  border: 0;
-  border-radius: .375rem;
-`;
-
 const EmojiListWrapper = styled.div`
 display: flex;
 flex-wrap: wrap;
@@ -303,76 +289,6 @@ box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
     position: absolute;
     transform: translateY(-10%);
     zIndex: 2;
-  }
-`;
-
-const StatWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  overflow: visible !important;
-  border-radius: ${({ isUserVote }) => (isUserVote ? "1rem" : "0")};
-  background-color: ${({ isUserVote }) =>
-    isUserVote ? "rgba(0, 191, 255, 0.3)" : "transparent"};
-`;
-
-const EmojiQty = styled.span`
-  width: 1rem;
-  padding-right: 8px;
-`;
-
-const AccountsListBigContainer = styled.div`
-  position: absolute;
-  overflow: hidden;
-  bottom: 2rem;
-  background-color: rgb(230, 230, 230);
-  border-radius: 12px;
-  width: 40vw;
-`;
-
-const AccountsListSmallContainer = styled.div`
-  margin: 0.5rem;
-  border-radius: 12px;
-  overflow: hidden;
-  padding: 10px;
-  text-overflow: ellipsis;
-  background-color: white;
-  max-height: 20rem;
-`;
-
-const AccountContainer = styled.p`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  text-align: start;
-  margin: 0.2rem;
-  user-select: text;
-  cursor: text;
-`;
-
-const ShowMoreIndicator = styled.p`
-  color: var(--bs-link-color);
-  cursor: pointer;
-  text-decoration: underline;
-  text-align: start;
-  margin: 0.2rem;
-
-  :hover {
-      color: var(--bs-indigo);
-  }
-`;
-
-const CloseButton = styled.div`
-  cursor: pointer;
-  border-radius: 12px;
-  border: 1px solid black;
-  background-color: transparent;
-  transition: all 0.5s;
-  height: 26px;
-  width: 25px;
-
-  :hover {
-    background-color: rgb(146, 155, 237, 0.4);
   }
 `;
 
@@ -400,94 +316,6 @@ const Overlay = () => (
       ))}
   </EmojiListWrapper>
 );
-
-let maxAmountOfAccountsShown = 7;
-
-const renderReactionListModal = (accounts, objText) => {
-  return (
-    <div
-      className="modal"
-      style={showWhenCalled(objText)}
-      tabindex="-1"
-      role="dialog"
-    >
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{`All ${objText} reactions`}</h5>
-            <CloseButton
-              onClick={() => State.update({ showReactionsListModal: "" })}
-              type="button"
-            >
-              <i className="bi bi-x"></i>
-            </CloseButton>
-          </div>
-          <div className="modal-body">
-            {accounts.map((acc) => {
-              return <AccountContainer title={acc}>{acc}</AccountContainer>;
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const renderReactionList = (accounts, objText) => {
-  return (
-    <AccountsListBigContainer
-      onMouseLeave={() => State.update({ expandReactionList: "" })}
-    >
-      <AccountsListSmallContainer>
-        {accounts &&
-          accounts.map((acc, i) => {
-            if (i < maxAmountOfAccountsShown - 1) {
-              return <AccountContainer title={acc}>{acc}</AccountContainer>;
-            } else if (i == maxAmountOfAccountsShown) {
-              return (
-                <ShowMoreIndicator
-                  onClick={() =>
-                    State.update({ showReactionsListModal: objText })
-                  }
-                >{`And ${
-                  accounts.length - maxAmountOfAccountsShown
-                } more...`}</ShowMoreIndicator>
-              );
-            } else {
-              return <></>;
-            }
-          })}
-      </AccountsListSmallContainer>
-    </AccountsListBigContainer>
-  );
-};
-
-const Stats = () =>
-  likesStatistics && likesStatistics.length ? (
-    likesStatistics.map((obj) => {
-      const userReaction = userEmoji ? userEmoji.value.type.slice(0, 2) : "";
-      return (
-        <div
-          onMouseOver={() => State.update({ expandReactionList: obj.text })}
-          onMouseLeave={() => State.update({ expandReactionList: "" })}
-        >
-          {state.expandReactionList == obj.text &&
-            renderReactionList(obj.accounts, obj.text)}
-          {state.showReactionsListModal == obj.text &&
-            renderReactionListModal(obj.accounts, obj.text)}
-          <StatWrapper
-            title={`${obj.text}`}
-            isUserVote={obj.emoji === userReaction}
-          >
-            <EmojiWrapper>{obj.emoji}</EmojiWrapper>
-            <EmojiQty>{obj.quantity}</EmojiQty>
-          </StatWrapper>
-        </div>
-      );
-    })
-  ) : (
-    <></>
-  );
 
 const Spinner = () => {
   return (
