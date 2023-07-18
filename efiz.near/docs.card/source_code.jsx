@@ -20,6 +20,8 @@ const Card = styled.div`
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
+  textOverflow: "ellipsis";
+  whiteSpace: "nowrap";
   padding: 23px;
 `;
 
