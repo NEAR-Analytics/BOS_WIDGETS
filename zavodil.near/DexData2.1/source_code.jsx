@@ -41,12 +41,14 @@ if (debug) {
 
       data.sender = "0xCde2aE6aAaFDf4Af492d65561Cc1fF4989c32c5a";
       data.inputAssetAmount = "4123";
+      data.inputAssetTokenId = "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035";
       data.inputAsset = {
         metadata: {
           symbol: "USDC",
           decimals: 6,
         },
       };
+      data.outputAssetTokenId = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
       data.outputAsset = {
         metadata: {
           symbol: "WETH",
@@ -59,7 +61,7 @@ if (debug) {
 
       data.callTx(data, f, undefined, undefined, undefined, [
         "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-        "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
+        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
       ]);
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
@@ -569,69 +571,6 @@ const callTxQuickSwap = (
   }
 };
 
-const callTxPancakeZKEVM = (
-  input,
-  onComplete,
-  gasPrice,
-  gasLimit,
-  sqrtPriceLimitX96,
-  path
-) => {
-  const poolFee = "500";
-  console.log("callTxPancakeZKEVM 0", input, path);
-  if (
-    input.sender &&
-    input.routerContract !== undefined &&
-    input.routerAbi &&
-    input.inputAssetAmount &&
-    input.inputAsset.metadata.decimals
-  ) {
-    const value = expandToken(
-      input.inputAssetAmount,
-      input.inputAsset.metadata.decimals
-    ).toFixed();
-
-    const swapContract = new ethers.Contract(
-      input.routerContract,
-      input.routerAbi,
-      Ethers.provider().getSigner()
-    );
-
-    console.log("swapContract", swapContract);
-
-    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
-
-    if (path.length === 2) {
-      // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
-
-      const params = [
-        input.inputAssetTokenId,
-        input.outputAssetTokenId,
-        poolFee,
-        input.sender,
-        /*deadline.toFixed(),*/
-        value,
-        "0",
-        sqrtPriceLimitX96 ?? "0",
-      ];
-
-      console.log("swapContract", params);
-      swapContract
-        .exactInputSingle(params, {
-          gasPrice: ethers.utils.parseUnits(gasPrice ?? "1.29", "gwei"),
-          gasLimit: gasLimit ?? 300000,
-        })
-        .then((transactionHash) => {
-          console.log("32");
-          onComplete(transactionHash);
-        });
-      console.log("2");
-    } else {
-      console.log("path.length", path.length);
-    }
-  }
-};
-
 const callTxPancakeZKEVM2 = (
   input,
   onComplete,
@@ -640,7 +579,7 @@ const callTxPancakeZKEVM2 = (
   sqrtPriceLimitX96,
   path
 ) => {
-  const poolFee = 2500;
+  const poolFee = "2500";
   console.log(
     "callTxPancakeZKEVM2",
     input,
@@ -663,40 +602,60 @@ const callTxPancakeZKEVM2 = (
 
     const ifaceErc20 = new ethers.utils.Interface(input.routerAbi);
 
-    console.log("ifaceErc20", ifaceErc20);
-
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
 
-    const encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
-      "exactInputSingle",
-      [
-        {
-          tokenIn: input.inputAssetTokenId,
-          tokenOut: input.outputAssetTokenId,
-          fee: "2500", //poolFee,
-          recipient: input.sender,
-          /*deadline.toFixed(),*/
-          amountIn: value,
-          amountOutMinimum: "0",
-          sqrtPriceLimitX96: sqrtPriceLimitX96 ?? "0",
-        },
-      ]
-    );
+    let swapType;
+
+    const WETH = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
+    if (input.inputAssetTokenId != WETH && input.outputAssetTokenId != WETH) {
+      swapType = "complex";
+      path = [input.inputAssetTokenId, WETH, input.outputAssetTokenId];
+    } else {
+      swapType = "single";
+    }
+
+    let encodedExactOutputSingleData;
+    if (swapType == "complex") {
+      console.log(swapType, "path", path);
+      const pathBytes =
+        "0x" + path.map((address) => address.substr(2)).join("");
+
+      encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
+        "exactInput",
+        [
+          {
+            path: pathBytes,
+            recipient: input.sender,
+            amountIn: value,
+            amountOutMinimum: "0",
+          },
+        ]
+      );
+    } else {
+      console.log(swapType);
+      encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
+        "exactInputSingle",
+        [
+          {
+            tokenIn: input.inputAssetTokenId,
+            tokenOut: input.outputAssetTokenId,
+            fee: poolFee,
+            recipient: input.sender,
+            amountIn: value,
+            amountOutMinimum: "0",
+            sqrtPriceLimitX96: sqrtPriceLimitX96 ?? "0",
+          },
+        ]
+      );
+    }
 
     const multicallParams = [encodedExactOutputSingleData];
-    console.log(
-      "encodedExactOutputSingleData",
-      encodedExactOutputSingleData,
-      multicallParams
-    );
 
     const multicallContract = new ethers.Contract(
       input.routerContract,
       input.routerAbi,
       Ethers.provider().getSigner()
     );
-
-    console.log("multicallContract", multicallContract);
 
     const multicallData = ifaceErc20.encodeFunctionData(
       "multicall(uint256,bytes[])",
