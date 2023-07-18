@@ -348,6 +348,8 @@ const Spinner = () => {
 };
 
 const renderReaction = (item, isOtherUserVote) => {
+  console.log("i: ", item);
+  console.log("ue: ", userEmoji);
   return (
     (item.accounts.includes(userEmoji.accountId) || isOtherUserVote) && (
       <span>
