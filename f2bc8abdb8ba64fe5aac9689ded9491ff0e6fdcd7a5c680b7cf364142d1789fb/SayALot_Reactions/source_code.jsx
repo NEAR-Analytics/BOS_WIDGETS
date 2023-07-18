@@ -36,6 +36,8 @@ const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
 
+console.log(1, unfilteredLikes);
+
 if (!unfilteredLikes) {
   return "Loading...";
 }
@@ -348,7 +350,7 @@ const Spinner = () => {
 };
 
 const renderReaction = (item, isInButton) => {
-  userEmoji && console.log(item.accounts.includes(userEmoji.accountId));
+  userEmoji && console.log(2, item.accounts.includes(userEmoji.accountId));
   return (
     (item.accounts.includes(userEmoji.accountId) && isInButton) ||
     (!item.accounts.includes(userEmoji.accountId) && !isInButton && (
