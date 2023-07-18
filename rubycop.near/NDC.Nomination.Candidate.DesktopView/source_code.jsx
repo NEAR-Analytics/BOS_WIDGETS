@@ -10,6 +10,7 @@ State.init({
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   comment: "rubycop.near/widget/NDC.Nomination.Candidate.Comment",
+  addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
 };
 
 const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
@@ -763,7 +764,7 @@ return (
             <CommentSection style={{ padding: "0px" }}>
               {state.showModal && (
                 <Widget
-                  src={`dokxo.near/widget/CommentCard`}
+                  src={widgets.addComment}
                   props={{
                     candidateOrReplay: true,
                     username: props.candidate,
