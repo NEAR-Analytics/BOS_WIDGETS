@@ -482,7 +482,7 @@ const getShortUserName = (userId) => {
 };
 
 const trimText = (text, limit) => {
-  if (text.length === 0) return "";
+  if (!text) return "";
 
   const _limit = limit ?? 200;
   const ending = text.length > _limit ? "..." : "";
@@ -609,7 +609,7 @@ return (
               <div className="w-100" key={i}>
                 <KeyIssueTitle>{issue.title}</KeyIssueTitle>
                 <KeyIssueDescription className="text-secondary">
-                  {issue.desc}
+                  {trimText(issue.desc)}
                 </KeyIssueDescription>
                 <KeyIssueSeparator />
               </div>
