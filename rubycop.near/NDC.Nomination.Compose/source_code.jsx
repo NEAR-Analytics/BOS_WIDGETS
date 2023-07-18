@@ -13,6 +13,7 @@ const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   affiliations: "rubycop.near/widget/NDC.Nomination.Compose.Affiliations",
   platform: "rubycop.near/widget/NDC.Nomination.Compose.Platform",
+  page: "rubycop.near/widget/NDC.Nomination.Page",
 };
 
 if (imageIsNFT) {
@@ -64,6 +65,7 @@ State.init({
   agreement: "false",
   tags: "",
   error_msg: "",
+  video: "",
 });
 
 const CardStyled = styled.div`
@@ -144,6 +146,10 @@ const Hr = styled.div`
   margin: 15px 0;
   width: 100%;
   background: rgba(208, 214, 217, 0.4);
+`;
+
+const Section = styled.div`
+  margin: 12px 0;
 `;
 
 const validatedInputs = () => {
@@ -355,7 +361,7 @@ return (
       >
         <HiddeableWidget>
           <Widget
-            src={`syi216.near/widget/NDC.nomination.card`}
+            src={widgets.page}
             props={{
               nominationData: {
                 img: {
@@ -371,6 +377,7 @@ return (
                 Key_Issue_3: state.Key_Issue_3,
                 addition_platform: state.addition_platform,
                 tags: state.tags,
+                video: state.video,
               },
               indexerData: {
                 house: state.house_intended,
@@ -487,6 +494,21 @@ return (
                   validateAffiliations(params, "role", 500),
               }}
             />
+
+            <Section>
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Input: {
+                    label: "Video URL",
+                    placeholder: "Provide video url",
+                    value: state.video,
+                    handleChange: (e) =>
+                      State.update({ video: e.target.value }),
+                  },
+                }}
+              />
+            </Section>
 
             <Widget
               src={`dokxo.near/widget/Compose.TagAndDeclaration`}
