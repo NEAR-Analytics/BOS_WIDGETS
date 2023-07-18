@@ -15,6 +15,7 @@ const widgets = {
     "nomination.ndctools.near/widget/NDC.Nomination.Compose.Affiliations",
   platform: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Platform",
   page: "nomination.ndctools.near/widget/NDC.Nomination.Page",
+  tags: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Tags",
 };
 
 if (imageIsNFT) {
@@ -513,7 +514,7 @@ return (
             </Section>
 
             <Widget
-              src={`dokxo.near/widget/Compose.TagAndDeclaration`}
+              src={widgets.tags}
               props={{
                 agreement: state.agreement,
                 tags: state.tags,
