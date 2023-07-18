@@ -17,7 +17,7 @@ const overlay = (
     onMouseLeave={handleOnMouseLeave}
   >
     <Widget
-      src="mob.near/widget/Profile.Popover"
+      src="andyh.near/widget/Profile.Popover"
       props={{ accountId: props.accountId }}
     />
   </div>
