@@ -51,11 +51,10 @@ const ProfileImageComment = styled.img`
 
 const CommentUser = styled.p`
   color: #000;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 120%;
   margin: 0px;
-  width: 62%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -82,7 +81,7 @@ const ReplyCounterText = styled.p`
 const CommentCardContent = styled.p`
   color: #585b5c;
   font-size: 12px;
-  line-height: 120%;
+  line-height: 130%;
   display: flex;
   flex-direction: column;
   margin: 0px;
