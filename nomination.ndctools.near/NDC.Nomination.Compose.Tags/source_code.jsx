@@ -43,7 +43,8 @@ State.init({
   error_msg: "",
 });
 
-const { agreement, tags, handleTags, handleDeclaration } = props;
+const { tags, handleTags, handleDeclaration } = props;
+
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
@@ -67,8 +68,11 @@ return (
       <Section className="d-flex">
         <Checkbox
           type="checkbox"
-          value={agreement}
-          onChange={handleDeclaration}
+          value={state.agreement}
+          onChange={(e) => {
+            handleDeclaration(e);
+            State.update({ agreement: !state.agreement });
+          }}
         />
         <P>
           I agree to the
