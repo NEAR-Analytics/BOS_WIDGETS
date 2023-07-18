@@ -113,22 +113,17 @@ function getNominationInfo() {
         }, 1000);
 
         setTimeout(() => {
-          if (!profileData || !nominationData) return;
-
           objCard = {
             profileData: profileData,
             nominationData: nominationData,
             upVoteData: upVoteInfo,
             ...objCard,
           };
-          if (!data.is_revoked) {
-            if (profileData && nominationData) {
-              nominationsArr.push(objCard);
-            }
-          }
-          if (i == res.body.length - 1) {
-            State.update({ nominations: nominationsArr });
-          }
+
+          if (data.is_revoked || !profileData || !nominationData) return;
+          nominationsArr.push(objCard);
+
+          State.update({ nominations: nominationsArr });
         }, 1000);
       });
     }
