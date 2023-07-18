@@ -6,15 +6,13 @@ State.init({
   nominationData: Social.getr(`${data.commentator}/nominations`),
 });
 
-const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
-
 const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   comment: "rubycop.near/widget/NDC.Nomination.Candidate.Comment",
 };
 
 function handleDeleteComment() {
-  Near.call(nominationContract, "remove_comment", {
+  Near.call(nomination_contract, "remove_comment", {
     candidate: data.candidate,
     comment: data.id,
   });
