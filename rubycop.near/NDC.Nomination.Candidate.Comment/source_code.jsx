@@ -81,7 +81,7 @@ const ReplyCounterText = styled.p`
 const CommentCardContent = styled.p`
   color: #585b5c;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 18px;
   display: flex;
   flex-direction: column;
   margin: 0px;
