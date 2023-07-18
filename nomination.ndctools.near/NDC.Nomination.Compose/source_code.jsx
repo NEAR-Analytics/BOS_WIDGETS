@@ -501,8 +501,9 @@ return (
                 src={widgets.styledComponents}
                 props={{
                   Input: {
-                    label: "Video URL",
-                    placeholder: "Provide video url",
+                    label: "Video Link (optional)",
+                    placeholder:
+                      "Add a Youtube video link that describes your candidacy",
                     value: state.video,
                     handleChange: (e) =>
                       State.update({ video: e.target.value }),
