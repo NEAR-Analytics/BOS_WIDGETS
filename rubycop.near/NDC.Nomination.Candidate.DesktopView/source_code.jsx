@@ -503,9 +503,9 @@ return (
                     props={{
                       Tag: {
                         title:
-                          data.indexerData.house == "HouseOfMerit"
+                          house == "HouseOfMerit"
                             ? "House of Merit"
-                            : data.indexerData.house == "CouncilOfAdvisors"
+                            : house == "CouncilOfAdvisors"
                             ? "Council of Advisors"
                             : "Transparency Commission",
                         className: "dark",
