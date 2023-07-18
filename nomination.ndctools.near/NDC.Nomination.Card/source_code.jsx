@@ -14,9 +14,10 @@ State.init({
 });
 
 const widgets = {
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
-  addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  candidatePage:
+    "#/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page",
+  addComment: "nomination.ndctools.near/widget/NDC.Nomination.AddComment",
 };
 
 const isHuman = Near.view(registry_contract, "is_human", {
@@ -57,7 +58,7 @@ function handleUpVote() {
 function handleShare() {
   State.update({ shareText: "Copied" });
   clipboard.writeText(
-    "https://near.org/#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=" +
+    "https://near.org/#/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=" +
       data.indexerData.house +
       "&candidate=" +
       data.indexerData.nominee
@@ -66,7 +67,7 @@ function handleShare() {
 
 function getComponentURL() {
   const url =
-    "https%3A%2F%2Fnear.org%2F%23%2Frubycop.near%2Fwidget%2FNDC.Nomination.Candidate.Page%3Fhouse%3D" +
+    "https%3A%2F%2Fnear.org%2F%23%2Fnomination.ndctools.near%2Fwidget%2FNDC.Nomination.Candidate.Page%3Fhouse%3D" +
     data.indexerData.house +
     "%26candidate%3D" +
     data.indexerData.nominee;
