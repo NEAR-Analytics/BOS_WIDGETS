@@ -1,7 +1,9 @@
 const authorId = "manzanal.near";
 const NETWORK_NEAR = "NEAR";
 const NETWORK_ETH = "ETH";
+const NETWORK_POLYGON = "POLYGON";
 const ETH_CHAINID = 1;
+const POLYGON_CHAINID = 137;
 State.init({
   network: null,
   networkIsLoaded: false,
@@ -10,39 +12,33 @@ State.init({
 
 console.log("ethers", ethers);
 if (!state.networkIsLoaded) {
-  if (ethers !== undefined) {
-    console.log(
-      "eth_requestAccounts",
-      Ethers.send("eth_requestAccounts", [])[0]
-    );
-    if (Ethers.send("eth_requestAccounts", [])[0]) {
-      Ethers.provider()
-        .getNetwork()
-        .then((chainIdData) => {
-          console.log("chainId", chainIdData.chainId);
-          if (chainIdData.chainId === ETH_CHAINID) {
-            // ETH
-            State.update({
-              network: NETWORK_ETH,
-              networkIsLoaded: true,
-              error: null,
-            });
-          } else {
-            State.update({
-              network: null,
-              networkIsLoaded: true,
-              error: "Wrong network. Please connect to Ethereum mainnet",
-            });
-          }
-        });
-    } else {
-      // ethers not supported on this gateway
-      State.update({
-        network: NETWORK_NEAR,
-        networkIsLoaded: true,
-        error: null,
+  if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
+    Ethers.provider()
+      .getNetwork()
+      .then((chainIdData) => {
+        console.log("chainId", chainIdData.chainId);
+        if (chainIdData.chainId === ETH_CHAINID) {
+          // ETH
+          State.update({
+            network: NETWORK_ETH,
+            networkIsLoaded: true,
+            error: null,
+          });
+        } else if (chainIdData.chainId === POLYGON_CHAINID) {
+          // POLYGON
+          State.update({
+            network: NETWORK_POLYGON,
+            networkIsLoaded: true,
+            error: null,
+          });
+        } else {
+          State.update({
+            network: null,
+            networkIsLoaded: true,
+            error: "Wrong network. Please connect to Ethereum mainnet",
+          });
+        }
       });
-    }
   } else {
     // ethers not supported on this gateway
     State.update({ network: NETWORK_NEAR, networkIsLoaded: true, error: null });
@@ -58,6 +54,12 @@ const getContent = {
   ),
   ETH: (
     <Widget src={`${authorId}/widget/TokenWrapper.v2.EthWrapper`} props={{}} />
+  ),
+  POLYGON: (
+    <Widget
+      src={`${authorId}/widget/TokenWrapper.v2.MaticWrapper`}
+      props={{}}
+    />
   ),
 }[state.network];
 
