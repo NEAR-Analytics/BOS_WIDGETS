@@ -105,14 +105,15 @@ function getNominationInfo() {
         let upVoteInfo = info.body[0];
         let profileData;
         let nominationData;
-        Social.getr(`${nominee}/profile`);
-        Social.getr(`${nominee}/nominations`);
+
         setTimeout(() => {
           profileData = Social.getr(`${nominee}/profile`);
           nominationData = Social.getr(`${nominee}/nominations`);
         }, 1000);
 
-        if (!profileData || !nominationData) return;
+        setTimeout(() => {
+          if (!profileData || !nominationData) return;
+        }, 2000);
 
         setTimeout(() => {
           objCard = {
