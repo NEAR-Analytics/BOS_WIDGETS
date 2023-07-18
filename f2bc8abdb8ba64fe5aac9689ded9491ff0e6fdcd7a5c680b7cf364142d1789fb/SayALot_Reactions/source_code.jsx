@@ -193,11 +193,29 @@ function showWhenCalled(objText) {
 
 // =============== CSS Styles ===============
 const Button = styled.button`
+  min-width: fit-content;
   background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: start;
-  width: fit-content;
+  width: 8em;
+  height: 2.5em;
+  padding: 6px 12px;
+  margin: 2px 0;
+  border: 0;
+  border-radius: .375rem;
+  :hover {
+    background: #EBEBEB; 
+    outline: 1px solid #C6C7C8;
+  }
+`;
+
+const SmallReactButton = styled.button`
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  width: 2em;
   height: 2.5em;
   padding: 6px 12px;
   margin: 2px 0;
@@ -511,13 +529,21 @@ const renderReactionsWithoutUsersReactionType = (item) => {
 
 return (
   <EmojiWrapper>
-    <Button onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-      {state.loading && <Spinner />}
-      {!userEmoji
-        ? initialEmoji
-        : state.likesStatistics &&
+    {!userEmoji ? (
+      <Button
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+      >
+        {state.loading && <Spinner />}
+        {initialEmoji}
+      </Button>
+    ) : (
+      <SmallReactButton>
+        {state.loading && <Spinner />}
+        {state.likesStatistics &&
           state.likesStatistics.map((item) => renderUsersReaction(item))}
-    </Button>
+      </SmallReactButton>
+    )}
     <Overlay />
     {state.likesStatistics &&
       state.likesStatistics.map((item) =>
