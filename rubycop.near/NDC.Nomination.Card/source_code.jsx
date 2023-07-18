@@ -634,10 +634,10 @@ return (
             </TextLowerSectionContainer>
           </ButtonsLowerSection>
           <div className="d-flex w-100">
+            <KeyIssuesHeader>
+              <KeyIssuesTitle>Tags</KeyIssuesTitle>
+            </KeyIssuesHeader>
             <TagSection>
-              <KeyIssuesHeader>
-                <KeyIssuesTitle>Tags</KeyIssuesTitle>
-              </KeyIssuesHeader>
               {data.nominationData.tags
                 .trim()
                 .split(",")
