@@ -24,7 +24,7 @@ const houses = [
 ];
 
 const widgets = {
-  header: "nomination.ndctools.near/widget/NDC.Elections.Header",
+  header: "election.ndctools.near/widget/NDC.Elections.Header",
   card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
   houses: "nomination.ndctools.near/widget/NDC.Elections.Houses",
   filter: "nomination.ndctools.near/widget/NDC.Elections.Filter",
