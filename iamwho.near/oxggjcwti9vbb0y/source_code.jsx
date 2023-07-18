@@ -55,10 +55,12 @@ const range = (start, stop, step) =>
   );
 
 const handlePageChange = (x) => {
-  state.update({
+  console.log(x);
+  State.update({
     selectedPage: x + 1,
     from_index: x * state.limit,
   });
+  searchContracts();
 };
 
 return (
@@ -88,9 +90,10 @@ return (
             ? state.selectedPage + 1 < state.pages
               ? state.selectedPage
               : state.pages - 1
-            : state.pages - 1
+            : state.pages - 1,
+          1
         ).map((x, i) => (
-          <button onClick={(x) => handlePageChange(x)}>{x + 1}</button>
+          <button onClick={() => handlePageChange(x)}>{x + 1}</button>
         ))}
       </div>
     ) : null}
