@@ -1,6 +1,5 @@
-let { ids, org } = props;
-ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
-org = props.org ? org : "test"; // for testing purposes
+let { ids, org, election_contract } = props;
+ids = ids ? ids : [1, 2, 3]; // for testing purposes
 
 const widgets = {
   header: "rubycop.near/widget/NDC.Elections.Header",
@@ -9,7 +8,7 @@ const widgets = {
   back: "#/rubycop.near/widget/NDC.Nomination.Page",
 };
 
-const electionContract = "elections-v1.gwg-testing.near";
+const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 
 const houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
