@@ -24,7 +24,7 @@ function getVerifiedHuman() {
     State.update({ verified: res.body });
   });
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}`,
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}&contract=${nomination_contract}`,
     {
       headers: {
         "x-api-key": api_key,
