@@ -132,6 +132,10 @@ const doesUserCanChangeStatus = authorsWhitelist.some(
   (whiteAddr) => whiteAddr === accountId
 );
 
+if (sharedArticleId) {
+  State.update({ cardWithOpenModal: sharedArticleId });
+}
+
 // ========== HANDLER ==========
 const openModalHandler = (text) => {
   State.update({ cardWithOpenModal: text });
