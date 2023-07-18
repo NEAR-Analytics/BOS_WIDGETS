@@ -602,7 +602,7 @@ return (
       <KeyIssues>
         <KeyIssuesContent>
           <KeyIssuesHeader>
-            <KeyIssuesTitle>Key issues</KeyIssuesTitle>
+            <KeyIssuesTitle>Platform</KeyIssuesTitle>
           </KeyIssuesHeader>
           <KeyIssuesContainer>
             {keyIssues.map((issue, i) => (
@@ -624,32 +624,20 @@ return (
               <i className="bi bi-clock"></i>
               {data.indexerData.timestamp && (
                 <TimestampText>
-                  <div>
+                  <span>
                     {new Date(data.indexerData.timestamp).toDateString()}
-                  </div>
+                  </span>
                   <span>by</span>
                   <b>{data.indexerData.nominee}</b>
                 </TimestampText>
               )}
             </TextLowerSectionContainer>
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Button: {
-                  text: `+${data.upVoteData.comments.length ?? 0}`,
-                  disabled: !state.verified,
-                  size: "sm",
-                  className: "secondary dark",
-                  onClick: () => {
-                    !data.preview ? State.update({ showModal: true }) : "";
-                  },
-                  icon: <i className="bi bi-chat-square-text-fill"></i>,
-                },
-              }}
-            />
           </ButtonsLowerSection>
           <div className="d-flex w-100">
             <TagSection>
+              <KeyIssuesHeader>
+                <KeyIssuesTitle>Tags</KeyIssuesTitle>
+              </KeyIssuesHeader>
               {data.nominationData.tags
                 .trim()
                 .split(",")
@@ -673,65 +661,30 @@ return (
                 <Widget
                   src={widgets.styledComponents}
                   props={{
-                    Link: {
-                      text: "View",
+                    Button: {
+                      text: `+${data.upVoteData.comments.length ?? 0} Comments`,
+                      disabled: !state.verified,
                       size: "sm",
-                      className: "secondary dark w-100 justify-content-center",
+                      className: "secondary dark",
+                      onClick: () => {
+                        !data.preview ? State.update({ showModal: true }) : "";
+                      },
+                      icon: <i className="bi bi-chat-square-text-fill"></i>,
+                    },
+                  }}
+                />
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Link: {
+                      text: "View nomination",
+                      size: "sm",
+                      className: "primary w-100 justify-content-center",
                       href: `${widgets.candidatePage}?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}&nomination_contract=${nomination_contract}&election_contract=${election_contract}`,
                       icon: <i className="bi bi-eye fs-6"></i>,
                     },
                   }}
                 />
-                <DropdownContainerHover className="w-100">
-                  <Widget
-                    src={widgets.styledComponents}
-                    props={{
-                      Button: {
-                        text: "Share",
-                        size: "sm",
-                        className: "primary w-100 justify-content-center",
-                        onClick: handleShare,
-                        icon: <i className="bi bi-share-fill"></i>,
-                      },
-                    }}
-                  />
-                  <Separation>
-                    <DropdownContent>
-                      <Element onClick={handleShare}>
-                        <OverlayTrigger
-                          placement={top}
-                          overlay={<Tooltip>{state.shareText}</Tooltip>}
-                        >
-                          <ShareLink>Share as a Link</ShareLink>
-                        </OverlayTrigger>
-                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmV7qjDVv5dhsMJF1hRqCzeVNEHervtSURQmyBqWLdvtq3" />
-                      </Element>
-                      <Element>
-                        <ShareLink
-                          target="_blank"
-                          href={
-                            "https://twitter.com/intent/tweet?text=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election!%20&url=" +
-                            getComponentURL()
-                          }
-                        >
-                          Share on Twitter
-                        </ShareLink>
-                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTXndeq7DWFW8gwsmhLBXTd4KzCeKr2Q6GgMwUA8fmfoJ" />
-                      </Element>
-                      <Element>
-                        <ShareLink
-                          href={
-                            "mailto:?subject=Please%20checkout%20this%20NDC%20Candidate%20and%20Support%20the%20NDC%20Election&body=Support%20the%20NDC%20Election!%20" +
-                            getComponentURL()
-                          }
-                        >
-                          Share by Email
-                        </ShareLink>
-                        <ShareIcon src="https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdDa1om9dWr49n7ozBsGhQfNrkQ3FxYWCtKRtNwHkuz3Q" />
-                      </Element>
-                    </DropdownContent>
-                  </Separation>
-                </DropdownContainerHover>
               </div>
             )}
           </div>
