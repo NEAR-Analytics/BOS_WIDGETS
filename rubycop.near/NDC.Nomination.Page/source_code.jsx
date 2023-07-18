@@ -412,7 +412,15 @@ return (
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
           {state.nominations.length > 0 ? (
             state.nominations.map((data) => (
-              <Widget src={widgets.card} props={data} />
+              <Widget
+                src={widgets.card}
+                props={{
+                  data,
+                  registry_contract: registryContract,
+                  nomination_contract: nominationContract,
+                  api_key: apiKey,
+                }}
+              />
             ))
           ) : (
             <div className="flex mt-10 container-fluid align-self-center">
