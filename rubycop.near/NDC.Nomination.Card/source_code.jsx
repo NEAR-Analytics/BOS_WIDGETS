@@ -665,7 +665,7 @@ return (
                       text: `+${data.upVoteData.comments.length ?? 0} Comments`,
                       disabled: !state.verified,
                       size: "sm",
-                      className: "secondary dark",
+                      className: "secondary dark w-100 justify-content-center",
                       onClick: () => {
                         !data.preview ? State.update({ showModal: true }) : "";
                       },
