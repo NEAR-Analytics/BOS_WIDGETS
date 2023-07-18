@@ -1,10 +1,11 @@
 const H2 = styled.h1`
   font-weight: 500;
   font-size: 14px;
-  margin: 15px 0 5PX 0;
+  margin: 15px 0 10px 0;
 `;
 const Section = styled.div`
   gap: 8px;
+  margin-bottom: 10px;
 `;
 const Checkbox = styled.input`
   box-sizing: border-box;
@@ -67,9 +68,7 @@ return (
         <Checkbox
           type="checkbox"
           value={agreement}
-          onChange={(e) => {
-            handleDeclaration(e);
-          }}
+          onChange={handleDeclaration}
         />
         <P>
           I agree to the
