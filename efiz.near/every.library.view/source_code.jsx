@@ -8,7 +8,12 @@ if (!lists) {
 return (
   <div>
     {lists?.map((it) => {
-      return <Widget src={"efiz.near/widget/every.list.view"} props={it} />;
+      return (
+        <Widget
+          src={"efiz.near/widget/every.list.view"}
+          props={{ data: { path: it.path } }}
+        />
+      );
     })}
   </div>
 );
