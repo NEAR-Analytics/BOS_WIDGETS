@@ -71,7 +71,7 @@ function getVerifiedHuman() {
     }
   });
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}`,
+    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}`,
     httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
@@ -83,7 +83,7 @@ function getVerifiedHuman() {
 function getNominationInfo() {
   let nominationsArr = [];
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}`,
+    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}&contract=${electionContract}`,
     httpRequestOpt
   ).then((res) => {
     console.log(res.body);
