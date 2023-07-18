@@ -10,15 +10,41 @@ let imageIsUrl = profileInfo.image.url ? true : false;
 let RealProfileImageAsURL = "";
 
 const widgets = {
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
-  affiliations:
-    "nomination.ndctools.near/widget/NDC.Nomination.Compose.Affiliations",
-  platform: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Platform",
-  page: "nomination.ndctools.near/widget/NDC.Nomination.Page",
-  tags: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Tags",
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  affiliations: "rubycop.near/widget/NDC.Nomination.Compose.Affiliations",
+  platform: "rubycop.near/widget/NDC.Nomination.Compose.Platform",
+  page: "rubycop.near/widget/NDC.Nomination.Page",
 };
 
+if (imageIsNFT) {
+  let nftData = profileInfo.image.nft;
+  const getNftCid = Near.view(nftData.contractId, "nft_token", {
+    token_id: nftData.tokenId,
+  });
+
+  RealProfileImageAsURL =
+    "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media;
+  console.log("was nft", RealProfileImageAsURL);
+}
+
+if (imageIsIpfs_cid) {
+  RealProfileImageAsURL =
+    "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid;
+  console.log("was ipfs", RealProfileImageAsURL);
+}
+
+if (imageIsUrl) {
+  RealProfileImageAsURL = profileInfo.image.url;
+  console.log("was url", RealProfileImageAsURL);
+}
+
 State.init({
+  theme,
+  img: {
+    uploading: "false",
+    url: RealProfileImageAsURL,
+    name: RealProfileImageAsURL ? "Uploaded from Social Profile" : "",
+  },
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
   house_intended: 0,
@@ -37,17 +63,17 @@ State.init({
     },
   ],
   agreement: "false",
+  tags: "",
   error_msg: "",
   video: "",
-  tags: [],
 });
 
 const CardStyled = styled.div`
-  width: 100%;
+  width: 70%;
   height: 100%;
   background: #f8f8f9;
   gap: 10px;
-  padding: 25px;
+  padding: 20px;
   margin: 0 auto;
   border-radius: 10px;
   overflow-y: scroll;
@@ -87,40 +113,32 @@ const HiddeableWidget = styled.div`
 
 const Modal = styled.div`
   position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
+  z-index: 101;
+  top: 0px;
+  left: 0px;
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.7);
+  height: 100vh;
+  background: rgba(128, 128, 128, 0.65);
 `;
 
 const ComponentWrapper = styled.div`
-  display: flex;
-  width: 80%;
+  position: absolute;
+  width: 100%;
   height: 80%;
-  flex-direction: column;
-  align-items: flex-start;
-  border-radius: 10px;
-  background: #fff;
-  border: 1px solid transparent;
-  margin: 140px auto auto auto;
-  @media only screen and (max-width: 480px) {
-    width: 90%;
-  }
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const ErrorBlock = styled.div`
+  border-radius: 4px;
+  border: 1px solid #c23f38;
+  background: #f1d6d5;
   color: #c23f38;
-  font-size: 14px;
-  margin: 10px 0;
-
-  label {
-    white-space: pre-line;
-  }
+  font-size: 12px;
+  padding: 8px 12px;
+  margin: 20px 0 30px 0;
 `;
 
 const Hr = styled.div`
@@ -147,85 +165,85 @@ const validatedInputs = () => {
     Key_Issue_3,
     afiliation,
     agreement,
+    tags,
   } = state;
 
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
-  let error_msg = [];
 
+  if (img.cid === null) {
+    State.update({ error_msg: "Pic an image" });
+    isValid = false;
+  }
+  if (isEmpty(name)) {
+    State.update({ error_msg: "Fill the name" });
+    isValid = false;
+  }
+  if (isEmpty(profileAccount)) {
+    State.update({ error_msg: "Fill the Profile Account" });
+    isValid = false;
+  }
   if (house_intended === 0) {
     State.update({ error_msg: "Select a house" });
     isValid = false;
   }
-
-  if (img.cid === null) {
-    isValid = false;
-    error_msg.push("Image CID is empty");
-  }
-  if (isEmpty(name)) {
-    isValid = false;
-    error_msg.push("Name is empty");
-  }
-  if (isEmpty(profileAccount)) {
-    isValid = false;
-    error_msg.push("Account is empty");
-  }
   if (isEmpty(HAYInvolve)) {
+    State.update({ error_msg: "How are you involved?" });
     isValid = false;
-    error_msg.push("Involve field is empty");
   }
   if (isEmpty(WIYStrategy)) {
+    State.update({ error_msg: "What is your strategy?" });
     isValid = false;
-    error_msg.push("Strategy field is empty");
   }
   if (isEmpty(Key_Issue_1)) {
+    State.update({ error_msg: "Fill the key issued 1" });
     isValid = false;
-    error_msg.push("First key issue is empty");
   }
   if (isEmpty(Key_Issue_2)) {
+    State.update({ error_msg: "Fill the key issued 2" });
     isValid = false;
-    error_msg.push("Second key issue is empty");
   }
   if (isEmpty(Key_Issue_3)) {
+    State.update({ error_msg: "Fill the key issued 3" });
     isValid = false;
-    error_msg.push("Third key issue is empty");
+  }
+  if (tags.split(",").length == 0) {
+    State.update({ error_msg: "Write a tag" });
+    isValid = false;
   }
   if (isFalse(agreement)) {
+    State.update({ error_msg: "Accept the declaration" });
     isValid = false;
-    error_msg.push("Aggreement is not checked");
   }
   if (afiliation.length == 0) {
+    State.update({ error_msg: "Add a affiliation" });
     isValid = false;
-    error_msg.push("Affiliation is empty");
   }
 
   if (afiliation.length > 0) {
     afiliation.forEach((element) => {
       if (isEmpty(element.company_name)) {
+        State.update({ error_msg: "Fill the company name" });
         isValid = false;
-        error_msg.push("Affiliation company name is empty");
       }
       if (isEmpty(element.start_date)) {
+        State.update({ error_msg: "Select a start date" });
         isValid = false;
-        error_msg.push("Affiliation start date is empty");
       }
       if (isEmpty(element.end_date)) {
+        State.update({ error_msg: "Select a end date" });
         isValid = false;
-        error_msg.push("Affiliation end date is empty");
       }
       if (isEmpty(element.role)) {
+        State.update({ error_msg: "Write your role" });
         isValid = false;
-        error_msg.push("Affiliation company role is empty");
       }
     });
   } else {
+    State.update({ error_msg: null });
     isValid = false;
   }
-
-  State.update({
-    error_msg: isValid ? null : error_msg.join("\n"),
-  });
 
   return isValid;
 };
@@ -289,16 +307,13 @@ const validate = (key, item, limit) =>
 
 const validateAffiliations = (params, key, limit) => {
   let data = state.afiliation;
-  let error_msg = null;
-
-  if (params.event.target.value === "") error_msg = `"${key}" is empty`;
 
   data[params.index][key] = params.event.target.value.substring(0, limit);
-  State.update({ afiliation: data, error_msg });
+  State.update({ afiliation: data, error_msg: null });
 };
 
-const handleDeclaration = (agreement) => {
-  State.update({ agreement: agreement.toString, error_msg: null });
+const handleDeclaration = (item) => {
+  State.update({ agreement: item.target.checked.toString(), error_msg: null });
 };
 
 const handleNominate = () => {
@@ -306,7 +321,6 @@ const handleNominate = () => {
 
   let newstate = Object.assign({}, state);
   newstate.afiliation = JSON.stringify(newstate.afiliation);
-  newstate.tags = newstate.tags.join(",");
   const stateAsString = JSON.stringify(newstate);
   const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
   const SocialArgs = JSON.parse(data);
@@ -337,6 +351,51 @@ const handleNominate = () => {
 return (
   <Modal>
     <ComponentWrapper>
+      <div
+        style={{
+          display: "flex",
+          "justify-content": "center",
+          "padding-top": "16px",
+          "margin-bottom": "15px",
+        }}
+      >
+        <HiddeableWidget>
+          <Widget
+            src={widgets.page}
+            props={{
+              nominationData: {
+                img: {
+                  cid: state.img.cid,
+                  isCid: RealProfileImageCid.IS_CID,
+                },
+                profileAccount: state.profileAccount,
+                afiliation: JSON.stringify(state.afiliation),
+                HAYInvolve: state.HAYInvolve,
+                WIYStrategy: state.WIYStrategy,
+                Key_Issue_1: state.Key_Issue_1,
+                Key_Issue_2: state.Key_Issue_2,
+                Key_Issue_3: state.Key_Issue_3,
+                addition_platform: state.addition_platform,
+                tags: state.tags,
+                video: state.video,
+              },
+              indexerData: {
+                house: state.house_intended,
+                timestamp: "",
+                nominee: "",
+              },
+              profileData: {
+                name: state.name,
+              },
+              upVoteData: {
+                upvotes: "0",
+                comments: [],
+              },
+              preview: true,
+            }}
+          />
+        </HiddeableWidget>
+      </div>
       <CardStyled name="compose">
         <div className="d-flex flex-column ">
           <H1>Self Nominate</H1>
@@ -371,14 +430,14 @@ return (
                 inputs: [
                   {
                     label:
-                      "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you? *",
-                    placeholder: "Elaborate on your candidacy",
+                      "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
+                    placeholder: "Elaborate",
                     value: state.HAYInvolve,
                     handleChange: (e) => validate("HAYInvolve", e.target.value),
                   },
                   {
                     label:
-                      "What is your strategy to develop the NEAR ecosystem? *",
+                      "What is your strategy to develop the NEAR ecosystem?",
                     placeholder: "Elaborate on your strategy",
                     value: state.WIYStrategy,
                     handleChange: (e) =>
@@ -386,7 +445,7 @@ return (
                   },
                   {
                     label:
-                      "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users. *",
+                      "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_1,
                     handleChange: (e) =>
@@ -394,7 +453,7 @@ return (
                   },
                   {
                     label:
-                      "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet. *",
+                      "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_2,
                     handleChange: (e) =>
@@ -402,7 +461,7 @@ return (
                   },
                   {
                     label:
-                      "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation. *",
+                      "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
                     placeholder: "Elaborate on your position and pledge",
                     value: state.Key_Issue_3,
                     handleChange: (e) =>
@@ -411,7 +470,7 @@ return (
                   {
                     label: "Additional Platform",
                     placeholder:
-                      "Elaborate on your position and your pledge on additional issues and topics *",
+                      "Elaborate on your position and your pledge on additional issues and topics",
                     value: state.addition_platform,
                     handleChange: (e) =>
                       validate("addition_platform", e.target.value),
@@ -441,9 +500,8 @@ return (
                 src={widgets.styledComponents}
                 props={{
                   Input: {
-                    label: "Video Link (optional)",
-                    placeholder:
-                      "Add a Youtube video link that describes your candidacy",
+                    label: "Video URL",
+                    placeholder: "Provide video url",
                     value: state.video,
                     handleChange: (e) =>
                       State.update({ video: e.target.value }),
@@ -453,11 +511,11 @@ return (
             </Section>
 
             <Widget
-              src={widgets.tags}
+              src={`dokxo.near/widget/Compose.TagAndDeclaration`}
               props={{
                 agreement: state.agreement,
                 tags: state.tags,
-                handleTags: (tags) => State.update({ tags: Object.keys(tags) }),
+                handleTags: (e) => validate("tags", e.target.value, 500),
                 handleDeclaration,
               }}
             />
@@ -485,7 +543,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: handleNominate,
+                      onClick: () => handleNominate(),
                     },
                   }}
                 />
