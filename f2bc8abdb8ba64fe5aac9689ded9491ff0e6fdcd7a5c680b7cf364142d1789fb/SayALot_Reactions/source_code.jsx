@@ -56,12 +56,11 @@ const arrayLastLikeForEachUser =
     return false;
   });
 
-console.log(1, arrayLastLikeForEachUser);
-
 // ========= GET USER EMOJI =========
 const userEmoji = arrayLastLikeForEachUser.find((obj) => {
   return obj.accountId === accountThatIsLoggedIn;
 });
+console.log(1, userEmoji);
 
 // ========= GET LIKES STATISTICS =========
 const getLikeStats = (acc, likeObj) => {
@@ -357,6 +356,7 @@ const renderReaction = (item, isInButton) => {
     0,
     item,
     isInButton,
+    item.accounts,
     item.accounts.includes(context.accountId) && isInButton
   );
   return (
