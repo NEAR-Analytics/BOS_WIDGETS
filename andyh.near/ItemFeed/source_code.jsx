@@ -16,10 +16,11 @@ const makeMoreItems = () => {
     widgets: state.widgets + perPage,
   });
 };
+
 const rendered = await Promise.all(
   items.slice(0, state.widgets).map(renderItem)
 );
-console.log({ rendered });
+console.log({ rendered, cnt: state.widgets });
 return (
   <InfiniteScroll
     pageStart={0}
