@@ -22,11 +22,10 @@ const localStorageData = JSON.parse(
   Storage.privateGet("sortedArticlesByTagFromStorage")
 );
 const doesDataFresh = localStorageData.time
-  ? Date.now() - localStorageData.time < 3000
+  ? Date.now() - localStorageData.time < 4000
   : false;
 if (doesDataFresh && localStorageData.sortedArticlesByTag) {
   // ========== STATE INIT ========== by articles from
-  console.log("Storage", Date.now());
   State.init(localStorageData.sortedArticlesByTag);
 } else {
   Storage.privateSet("sortedArticlesByTagFromStorage", "");
@@ -36,7 +35,6 @@ if (doesDataFresh && localStorageData.sortedArticlesByTag) {
     order: "desc",
     accountId: undefined,
   });
-  console.log("Social.index", Date.now());
 
   // ========== GET ALL ARTICLES ==========
   const resultArticles =
@@ -136,12 +134,10 @@ const doesUserCanChangeStatus = authorsWhitelist.some(
 
 // ========== HANDLER ==========
 const openModalHandler = (text) => {
-  console.log("openModalHandler");
   State.update({ cardWithOpenModal: text });
 };
 
 const closeModalHandler = () => {
-  console.log("closeModalHandler");
   State.update({ cardWithOpenModal: false });
 };
 
@@ -168,7 +164,6 @@ const updateStatusHandler = (oldStatus, newStatus, articleId) => {
         state[actualTag].splice(objectIndex, 1);
         state[newTag].unshift(updatedObjectToMove);
         state.cardWithOpenModal = "";
-        console.log("Social set", Date.now());
         State.update();
       },
     });
