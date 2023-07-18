@@ -1,7 +1,5 @@
 const { handleClose, nomination_contract } = props;
 
-let nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
-
 let Socialcontract = "social.near";
 
 let profileInfo = Social.getr(`${context.accountId}/profile`);
@@ -322,7 +320,7 @@ const handleNominate = () => {
   const SocialArgs = JSON.parse(data);
 
   let SelfNominate_Payload = {
-    contractName: nominationContract,
+    contractName: nomination_contract,
     methodName: "self_nominate",
     args: {
       house: state.house_intended,
