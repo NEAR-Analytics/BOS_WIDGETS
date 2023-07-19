@@ -91,7 +91,7 @@ function getNominationInfo(house) {
   State.update({ loading: true });
   asyncFetch(endpoints.houseNominations(house), httpRequestOpt).then((res) => {
     if (res.body.length <= 0) {
-      State.update({ nominations: [] });
+      State.update({ nominations: [], loading: false });
       return;
     }
 
