@@ -389,6 +389,7 @@ const DeclarationContent = styled.div`
   justify-content: center;
   align-items: flex-start;
   gap: 4px;
+  width: 100%;
 `;
 const DeclarationHeader = styled.div`
   display: flex;
