@@ -70,8 +70,8 @@ const Desktop = styled.div`
 
 return (
   <div>
-    <Mobile style={{ display: "flex", "justify-content": "center" }}>
-      <Mobile style={{ width: "359px" }}>
+    <Mobile className="d-flex justify-content-center">
+      <Mobile>
         {houses.map((house) => (
           <>
             {house.typ === props.house && (
