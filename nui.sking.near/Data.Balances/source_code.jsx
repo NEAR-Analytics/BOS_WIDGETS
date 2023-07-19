@@ -70,6 +70,7 @@ const chartData = {
       data: balanceData,
       label: "Balance in USD",
       backgroundColor: colors,
+      hoverBackgroundColor: colors,
       hoverOffset: -4,
       borderAlign: "inner",
       borderWidth: 2,
