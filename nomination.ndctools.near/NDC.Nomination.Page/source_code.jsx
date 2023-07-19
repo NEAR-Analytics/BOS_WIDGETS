@@ -98,7 +98,7 @@ function getNominationInfo() {
       let nominee = data.nominee;
 
       asyncFetch(
-        `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
+        `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}&contract=${nominationContract}`,
         httpRequestOpt
       ).then((info) => {
         let upVoteInfo = info.body[0];
@@ -120,7 +120,6 @@ function getNominationInfo() {
             upVoteData: upVoteInfo,
             ...objCard,
           };
-          console.log(upVoteInfo);
           nominationsArr.push(objCard);
 
           State.update({ nominations: nominationsArr });
