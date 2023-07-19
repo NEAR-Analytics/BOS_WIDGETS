@@ -721,7 +721,7 @@ return (
         </DeclarationContent>
       </DeclarationCard>
     </DetailCard>
-    <CommentSection>
+    <CommentSection className="w-100">
       {state.showModal && (
         <Widget
           src={widgets.addComment}
@@ -734,25 +734,20 @@ return (
           }}
         />
       )}
-      <CommentHeader>
+      <CommentHeader className="w-100">
         <CommentHeaderText>Comments</CommentHeaderText>
-
-        {state.verified ? (
-          <CommentButton
-            style={{ "justify-content": "center" }}
-            onClick={async () => {
-              State.update({ showModal: true });
-            }}
-          >
-            <CommentText>Add a Comment +</CommentText>
-          </CommentButton>
-        ) : (
-          <CommentButtonDisabled style={{ "justify-content": "center" }}>
-            <CommentText style={{ color: "var(--primary-gray-dark, #828688)" }}>
-              Add a Comment +
-            </CommentText>
-          </CommentButtonDisabled>
-        )}
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              text: "Add a Comment",
+              disabled: !state.verified,
+              className: "primary w-100 mt-4 mb-2 justify-content-center",
+              onClick: () => State.update({ showModal: true }),
+              icon: <i className="bi bi-plus-lg"></i>,
+            },
+          }}
+        />
       </CommentHeader>
       {comments
         .map((data) => {
