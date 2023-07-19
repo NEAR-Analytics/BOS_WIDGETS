@@ -3,7 +3,6 @@ const handleOptionsChange = (e) => {
   State.update({
     limit: parseInt(e.target.value),
   });
-  searchContracts(state.searchValue);
 };
 
 State.init({
@@ -23,30 +22,7 @@ State.init({
 
 const handleSubmit = (value) => {
   State.update({ searchValue: value });
-  searchContracts(value);
 };
-
-const searchContracts = (value) => {
-  try {
-    const res = Near.view("v1.sourcescan.near", "search", {
-      key: value,
-      from_index: state.from_index,
-      limit: state.limit,
-    });
-
-    State.update({
-      pages: res[1],
-      tableProps: {
-        ...state.tableProps,
-        contracts: res[0],
-      },
-    });
-  } catch {
-    console.log("error");
-  }
-};
-
-if (!state.tableProps.contracts) searchContracts(state.searchValue);
 
 const range = (start, stop, step) =>
   Array.from(
@@ -60,7 +36,6 @@ const handlePageChange = (x) => {
     selectedPage: x + 1,
     from_index: x * state.limit,
   });
-  searchContracts();
 };
 
 return (
