@@ -66,5 +66,5 @@ if (tooltip) {
     </OverlayTrigger>
   );
 }
-
+console.log({ inner });
 return inner;
