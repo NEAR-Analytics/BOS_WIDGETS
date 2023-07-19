@@ -62,7 +62,8 @@ const endpoints = {
     dev ? 2 : 1
   }&issuer=${issuer}&with_expired=false&registry=${registryContract}`,
   candidateComments: `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}`,
-  houseNominations: `${baseApi}/nominations/house-nominations?house=${state.house}&contract=${nominationContract}`,
+  houseNominations: (house) =>
+    `${baseApi}/nominations/house-nominations?house=${house}&contract=${nominationContract}`,
 };
 
 function getVerifiedHuman() {
@@ -83,9 +84,9 @@ function getVerifiedHuman() {
   });
 }
 
-function getNominationInfo() {
+function getNominationInfo(house) {
   let nominationsArr = [];
-  asyncFetch(endpoints.houseNominations, httpRequestOpt).then((res) => {
+  asyncFetch(endpoints.houseNominations(house), httpRequestOpt).then((res) => {
     console.log(res.body);
 
     if (res.body.length <= 0) {
@@ -130,7 +131,7 @@ function getNominationInfo() {
 }
 
 if (state.start) {
-  getNominationInfo();
+  getNominationInfo("HouseOfMerit");
   getVerifiedHuman();
   State.update({
     start: false,
@@ -139,17 +140,14 @@ if (state.start) {
 
 const handleSelect = (item) => {
   switch (item.id) {
-    case 2:
-      State.update({ house: "CouncilOfAdvisors" });
-      getNominationInfo();
-      break;
     case 1:
-      State.update({ house: "HouseOfMerit" });
-      getNominationInfo();
+      getNominationInfo("HouseOfMerit");
+      break;
+    case 2:
+      getNominationInfo("CouncilOfAdvisors");
       break;
     case 3:
-      State.update({ house: "TransparencyCommission" });
-      getNominationInfo();
+      getNominationInfo("TransparencyCommission");
       break;
   }
   State.update({ selectedHouse: item.id });
