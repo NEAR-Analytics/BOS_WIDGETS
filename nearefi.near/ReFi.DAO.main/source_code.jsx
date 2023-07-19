@@ -6,6 +6,8 @@ const socialProfile = Social.getr(`${socialAccountId}/profile`);
 const role = props.role ?? "regens";
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "refi.sputnik-dao.near";
+const issuer = props.issuer ?? "issuer.regens.near";
+const sbtTitle = props.sbtTitle ?? "Proof of Regen";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -29,9 +31,9 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const daoPageAccount = "nearefi.near";
+const widgetOwner = "nearefi.near";
 const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/${daoPageAccount}/widget/ReFi.DAO.main?daoId=${daoId}`;
+const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -287,8 +289,8 @@ return (
             <Widget
               src="ndcplug.near/widget/ndc-badge-holders"
               props={{
-                title: "NDC Proof of Regen",
-                issuer: "issuer.regens.near",
+                title: sbtTitle,
+                issuer: issuer,
                 showProgress: false,
                 showDropdown: false,
                 showHeader: false,
