@@ -142,12 +142,8 @@ const ComponentWrapper = styled.div`
 `;
 
 const ErrorBlock = styled.div`
-  border-radius: 4px;
-  border: 1px solid #c23f38;
-  background: #f1d6d5;
   color: #c23f38;
   font-size: 12px;
-  padding: 8px 12px;
   margin: 20px 0 30px 0;
 `;
 
