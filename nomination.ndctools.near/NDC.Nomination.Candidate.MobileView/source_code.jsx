@@ -558,18 +558,6 @@ return (
                   : "Transparency Commission"}
               </HouseTagText>
             </HouseTagDiv>
-            {CandidateProps.tags
-              .trim()
-              .split(",")
-              .map((tag, index) => {
-                return tag && index < 2 ? (
-                  <TagDiv key={index}>
-                    <TagDivText>{tag}</TagDivText>
-                  </TagDiv>
-                ) : (
-                  <></>
-                );
-              })}
           </TagContainer>
           <NominationTitleContainer>
             <NominationTitle>
@@ -580,6 +568,21 @@ return (
                 ? CandidateProps.profileAccount
                 : "@candidate.near"}
             </NominationUser>
+            <TagContainer>
+              {CandidateProps.tags
+                .trim()
+                .split(",")
+                .map((tag) => {
+                  return tag && tag != "" ? (
+                    <Widget
+                      src={widgets.styledComponents}
+                      props={{
+                        Tag: { title: tag },
+                      }}
+                    />
+                  ) : null;
+                })}
+            </TagContainer>
           </NominationTitleContainer>
         </HeaderDetailContent>
         {data.nominations.video.length > 0 && (
