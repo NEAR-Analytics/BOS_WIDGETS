@@ -630,32 +630,34 @@ return (
       </KeyIssues>
       <LowerSection>
         <LowerSectionContainer>
-          <KeyIssues>
-            <KeyIssuesContent>
-              <KeyIssuesHeader>
-                <KeyIssuesTitle>Tags</KeyIssuesTitle>
-              </KeyIssuesHeader>
-              <div className="d-flex w-100">
-                <TagSection>
-                  {data.nominationData.tags
-                    .trim()
-                    .split(",")
-                    .map((data) => (
-                      <>
-                        {data && (
-                          <Widget
-                            src={widgets.styledComponents}
-                            props={{
-                              Tag: { title: data },
-                            }}
-                          />
-                        )}
-                      </>
-                    ))}
-                </TagSection>
-              </div>
-            </KeyIssuesContent>
-          </KeyIssues>
+          {data.nominationData.tags.length > 0 && (
+            <KeyIssues>
+              <KeyIssuesContent>
+                <KeyIssuesHeader>
+                  <KeyIssuesTitle>Tags</KeyIssuesTitle>
+                </KeyIssuesHeader>
+                <div className="d-flex w-100">
+                  <TagSection>
+                    {data.nominationData.tags
+                      .trim()
+                      .split(",")
+                      .map((data) => (
+                        <>
+                          {data && (
+                            <Widget
+                              src={widgets.styledComponents}
+                              props={{
+                                Tag: { title: data },
+                              }}
+                            />
+                          )}
+                        </>
+                      ))}
+                  </TagSection>
+                </div>
+              </KeyIssuesContent>
+            </KeyIssues>
+          )}
           <ButtonsLowerSection>
             <TextLowerSectionContainer className="align-items-center">
               <i className="bi bi-clock"></i>
