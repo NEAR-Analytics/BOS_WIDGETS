@@ -17,10 +17,13 @@ const writersWhiteList = props.writersWhiteList ?? [
 const sayALotWorkers = [
   "silkking.near",
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
 ];
 
-if (isDebug && !props.writersWhiteList) {
-  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
+if (isDebug) {
+  writersWhiteList = sayALotWorkers;
 }
 
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
@@ -32,6 +35,10 @@ const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
 });
+
+if (!postsIndex) {
+  return "Loading...";
+}
 
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
