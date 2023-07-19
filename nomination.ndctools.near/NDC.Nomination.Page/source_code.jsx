@@ -46,6 +46,7 @@ State.init({
   candidateId: "",
   originNominations: [],
   notFound: "There are no active nominations at the moment",
+  loading: false,
 });
 
 const time = Near.view(nominationContract, "active_time", {});
@@ -86,9 +87,9 @@ function getVerifiedHuman() {
 
 function getNominationInfo(house) {
   let nominationsArr = [];
-  asyncFetch(endpoints.houseNominations(house), httpRequestOpt).then((res) => {
-    console.log(res.body);
 
+  State.update({ loading: true });
+  asyncFetch(endpoints.houseNominations(house), httpRequestOpt).then((res) => {
     if (res.body.length <= 0) {
       State.update({ nominations: [] });
       return;
@@ -113,7 +114,10 @@ function getNominationInfo(house) {
         }, 1000);
 
         setTimeout(() => {
-          if (data.is_revoked || !profileData || !nominationData) return;
+          if (data.is_revoked || !profileData || !nominationData) {
+            State.update({ loading: false });
+            return;
+          }
 
           objCard = {
             profileData: profileData,
@@ -123,7 +127,7 @@ function getNominationInfo(house) {
           };
           nominationsArr.push(objCard);
 
-          State.update({ nominations: nominationsArr });
+          State.update({ nominations: nominationsArr, loading: false });
         }, 1000);
       });
     }
@@ -323,6 +327,14 @@ const Toolbar = styled.div`
   }
 `;
 
+const Loader = () => (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
+
 return (
   <>
     <div>
@@ -410,7 +422,9 @@ return (
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
-          {state.nominations.length > 0 ? (
+          {state.loading ? (
+            <Loader />
+          ) : state.nominations.length > 0 ? (
             state.nominations.map((data) => (
               <Widget
                 src={widgets.card}
