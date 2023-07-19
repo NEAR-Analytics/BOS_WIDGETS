@@ -20,7 +20,7 @@ const timer = setInterval(() => {
   if (now < start)
     diff = new Date(parseInt(start)).getTime() - new Date().getTime();
   else if (now > start && now < end)
-    diff = new Date(parseInt(end)).getTime() - Date(parseInt(start)).getTime();
+    diff = new Date(parseInt(end)).getTime() - new Date().getTime();
   else diff = 0;
 
   let days = Math.floor(diff / (1000 * 60 * 60 * 24));
