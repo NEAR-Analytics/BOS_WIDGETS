@@ -473,6 +473,13 @@ const Separation = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+    @media only screen and (max-width: 6100px) {
+      width: 100%;
+    }
+  }
+`;
+
 const canUpvote = () =>
   state.verified && context.accountId != data.indexerData?.nominee;
 
@@ -522,7 +529,7 @@ const keyIssues = [
 ];
 
 return (
-  <div className="p-2 col-lg-4 w-100 col-md-6 col-sm-12">
+  <Wrapper className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
@@ -699,5 +706,5 @@ return (
         </LowerSectionContainer>
       </LowerSection>
     </Card>
-  </div>
+  </Wrapper>
 );
