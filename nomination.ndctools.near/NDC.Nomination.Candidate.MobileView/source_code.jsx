@@ -4,6 +4,7 @@ State.init({
   verified: false,
   start: true,
   voted: false,
+  showDeclaration: false,
 });
 
 const widgets = {
@@ -677,47 +678,63 @@ return (
             <DeclarationHeaderText>
               Declaration of Transparency and Accountability
             </DeclarationHeaderText>
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Button: {
+                  text: "View Declaration",
+                  size: "sm",
+                  disabled: !state.verified,
+                  className: "secondary dark justify-content-center",
+                  onClick: () => State.update({ showDeclaration: true }),
+                  icon: <i className="bi bi-eye"></i>,
+                },
+              }}
+            />
           </DeclarationHeader>
-          <DeclarationInfo>
-            <DeclarationDescription>
-              I hereby declare my unwavering commitment to transparency,
-              accountability, and the resolution of critical ecosystem
-              challenges as a candidate seeking election to the NEAR Digital
-              Collective. It is my utmost goal to instill faith and prosperity
-              in our ecosystem. In the event of my election, I pledge to support
-              and promote the operation and development of the NEAR Digital
-              Collective.
-              <br /> <br /> Transparency stands as the cornerstone of a thriving
-              governance framework and as a candidate, I strongly believe in
-              leading by example. I vow to disclose comprehensive information
-              about my previous affiliations, partnerships, and associations
-              that may influence my decision-making or impact the public
-              interest. This includes openly sharing any conflicts of interest,
-              financial relationships, or external influences that could
-              compromise my ability to serve with impartiality and integrity.
-              <br /> <br />
-              Moreover, I fully recognize the numerous challenges that our NEAR
-              ecosystem currently faces, demanding immediate attention and
-              effective solutions. As a responsible candidate, I am deeply
-              committed to identifying, addressing, and resolving these issues
-              to the best of my abilities. I acknowledge the gravity of these
-              problems and understand that superficial fixes and empty promises
-              are insufficient. Therefore, I pledge to conduct thorough
-              research, seek input from experts, and engage with stakeholders to
-              devise sustainable, equitable strategies. In the event of my
-              election, my top priorities will be focused on addressing critical
-              ecosystem challenges.
-              <br /> <br />I recognize that this declaration is not merely a
-              symbolic gesture, but a solemn commitment to the NEAR ecosystem. I
-              understand the weight of the expectations. I pledge to honor the
-              trust placed in me with unwavering dedication, determination, and
-              integrity. Through this declaration, I affirm my commitment to
-              transparency, accountability, and the resolve to actualize my
-              pledges to the best of my abilities if elected. Together, let us
-              embark on a journey towards a brighter future of the NEAR
-              ecosystem.
-            </DeclarationDescription>
-          </DeclarationInfo>
+          {showDeclaration && (
+            <DeclarationInfo>
+              <DeclarationDescription>
+                I hereby declare my unwavering commitment to transparency,
+                accountability, and the resolution of critical ecosystem
+                challenges as a candidate seeking election to the NEAR Digital
+                Collective. It is my utmost goal to instill faith and prosperity
+                in our ecosystem. In the event of my election, I pledge to
+                support and promote the operation and development of the NEAR
+                Digital Collective.
+                <br /> <br /> Transparency stands as the cornerstone of a
+                thriving governance framework and as a candidate, I strongly
+                believe in leading by example. I vow to disclose comprehensive
+                information about my previous affiliations, partnerships, and
+                associations that may influence my decision-making or impact the
+                public interest. This includes openly sharing any conflicts of
+                interest, financial relationships, or external influences that
+                could compromise my ability to serve with impartiality and
+                integrity.
+                <br /> <br />
+                Moreover, I fully recognize the numerous challenges that our
+                NEAR ecosystem currently faces, demanding immediate attention
+                and effective solutions. As a responsible candidate, I am deeply
+                committed to identifying, addressing, and resolving these issues
+                to the best of my abilities. I acknowledge the gravity of these
+                problems and understand that superficial fixes and empty
+                promises are insufficient. Therefore, I pledge to conduct
+                thorough research, seek input from experts, and engage with
+                stakeholders to devise sustainable, equitable strategies. In the
+                event of my election, my top priorities will be focused on
+                addressing critical ecosystem challenges.
+                <br /> <br />I recognize that this declaration is not merely a
+                symbolic gesture, but a solemn commitment to the NEAR ecosystem.
+                I understand the weight of the expectations. I pledge to honor
+                the trust placed in me with unwavering dedication,
+                determination, and integrity. Through this declaration, I affirm
+                my commitment to transparency, accountability, and the resolve
+                to actualize my pledges to the best of my abilities if elected.
+                Together, let us embark on a journey towards a brighter future
+                of the NEAR ecosystem.
+              </DeclarationDescription>
+            </DeclarationInfo>
+          )}
         </DeclarationContent>
       </DeclarationCard>
     </DetailCard>
