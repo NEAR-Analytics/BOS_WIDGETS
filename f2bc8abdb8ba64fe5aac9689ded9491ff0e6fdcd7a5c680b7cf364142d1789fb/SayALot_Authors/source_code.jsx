@@ -53,14 +53,13 @@ const resultArticles =
         `${accountId}/${addressForArticles}/main`,
         blockHeight
       );
-      if (!postData) {
-        return "Loading...";
-      }
       return [...acc, JSON.parse(postData)];
     }, [])
     .filter((article) =>
       writersWhiteList.some((addr) => addr === article.author)
     );
+
+console.log("resultArticles: ", resultArticles);
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
