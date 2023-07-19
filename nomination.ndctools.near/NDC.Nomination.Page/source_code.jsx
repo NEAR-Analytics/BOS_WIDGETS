@@ -10,6 +10,7 @@ ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const registryContract = registry_contract ?? "registry.i-am-human.near";
+const communityContract = community_contract ?? "community.i-am-human.near";
 const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
@@ -65,7 +66,7 @@ function getVerifiedHuman() {
     }
   });
   asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=community.i-am-human.near&with_expired=false&registry=${registryContract}`,
+    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=${communityContract}&with_expired=false&registry=${registryContract}`,
     httpRequestOpt
   ).then((res) => {
     if (res.body.length > 0) {
