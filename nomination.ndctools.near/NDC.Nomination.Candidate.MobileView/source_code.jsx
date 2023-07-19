@@ -239,6 +239,7 @@ const PlatformInfoHeader = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  width: 100%;
 `;
 const PlatInforHeadText = styled.p`
   font-size: 12px;
@@ -252,7 +253,7 @@ const HR = styled.div`
   height: 1px;
   width: 100%;
   margin: 8px 0 0 0;
-  border: 1px solid rgba(208, 214, 217, 1);
+  background: rgba(208, 214, 217, 1);
 `;
 const KeyIssuesContainer = styled.div`
   display: flex;
@@ -634,7 +635,7 @@ return (
       <CandidateCard>
         <CandidateContent>
           <CandidateHeader>
-            <CandidateHeaderText>Candidate Affiliations</CandidateHeaderText>
+            <PlatformHeaderText>Candidate Affiliations</PlatformHeaderText>
           </CandidateHeader>
           {afilations.map((affiliation) => {
             return (
@@ -647,11 +648,12 @@ return (
                     alt="pic"
                   ></CandidateImage>
                   <CandidateInfoData>
-                    <CandidateTagDiv>
-                      <CandidateTagText>
-                        {affiliation.company_name}
-                      </CandidateTagText>
-                    </CandidateTagDiv>
+                    <Widget
+                      src={widgets.styledComponents}
+                      props={{
+                        Tag: { title: affiliation.company_name },
+                      }}
+                    />
                     <CandidateTime>
                       {affiliation.start_date} - {affiliation.end_date}
                     </CandidateTime>
