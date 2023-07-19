@@ -37,6 +37,7 @@ if (sender) {
 }
 
 State.init({
+  rpcError: false,
   isNetworkSelectOpen: false,
   inputAssetModalHidden: true,
   outputAssetModalHidden: true,
@@ -55,6 +56,29 @@ State.init({
     });
   },
 });
+
+const reload = () => {
+  State.update({
+    rpcError: false,
+    isNetworkSelectOpen: false,
+    inputAssetModalHidden: true,
+    outputAssetModalHidden: true,
+    inputAssetAmount: 1,
+    outputAssetAmount: 0,
+    slippagetolerance: "0.5",
+    reloadPools: false,
+    estimate: {},
+    selectedDex: props.dex ?? "Pancake Swap",
+    loadRes: (value) => {
+      console.log("loadRes", value);
+      if (value.estimate === "NaN") value.estimate = 0;
+      State.update({
+        estimate: value,
+        outputAssetAmount: value === null ? "" : value.estimate,
+      });
+    },
+  });
+};
 
 const refReferralId = props.refReferralId ?? "ukraine";
 const forceNetwork = props.forceNetwork ?? NETWORK_ZKEVM;
@@ -130,6 +154,47 @@ const rearrangeAssets = () => {
     approvalNeeded: undefined,
   });
 };
+
+if (state.sender && state.network === NETWORK_ZKEVM) {
+  // load weth balance to check rpc availability
+  const wethAbiUrl =
+    "https://gist.githubusercontent.com/zavodil/40945d102e2b76d2cf364c4930ab562a/raw/6d156ead258b88a1df0f14f8b44ba7f074825345/weth.json";
+
+  const wethAbi = fetch(wethAbiUrl);
+  if (!wethAbi.ok) {
+    return "Loading";
+  }
+
+  const iface = new ethers.utils.Interface(wethAbi.body);
+
+  const encodedRequest = iface.encodeFunctionData("balanceOf", [state.sender]);
+
+  const weth = "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9";
+
+  Ethers.provider()
+    .call({
+      to: weth,
+      data: encodedRequest,
+    })
+    .then((rawBalance) => {
+      console.log("rawBalance", rawBalance);
+      const receiverBalanceHex = iface.decodeFunctionResult(
+        "balanceOf",
+        rawBalance
+      );
+
+      const balance = Big(receiverBalanceHex.toString())
+        .div(Big(10).pow(18))
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+      console.log("balance", balance);
+    })
+    .catch((ex) => {
+      State.update({ rpcError: true });
+      console.log("exception", ex);
+    });
+}
 
 // REUSABLE UI ELEMEETS
 
@@ -517,13 +582,42 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
 
 // OUTPUT
 
+if (state.rpcError) {
+  return (
+    <Theme>
+      <div class="swap-main-container pt-5">
+        <div style={{ fontSize: "1.1rem" }}>
+          It looks like the RPC is not responsive at the moment
+        </div>
+        <div class="swap-button-container">
+          <button
+            class={"swap-button-enabled swap-button-text p-2"}
+            onClick={() => {
+              reload();
+            }}
+          >
+            Click to refresh
+          </button>
+        </div>
+      </div>
+    </Theme>
+  );
+}
+
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
       <div class="swap-main-container pt-5">
-        <button onClick={() => switchNetwork(1101)}>
-          To proceed, kindly switch to ${forceNetwork}
-        </button>
+        {state.sender && (
+          <div class="swap-button-container">
+            <button
+              onClick={() => switchNetwork(1101)}
+              class="swap-button-enabled swap-button-text p-2"
+            >
+              To proceed, kindly switch to {forceNetwork}
+            </button>
+          </div>
+        )}
 
         {!state.sender && (
           <div class="swap-button-container">
