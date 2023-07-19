@@ -558,6 +558,18 @@ return (
             </NominationUser>
           </NominationTitleContainer>
         </HeaderDetailContent>
+        {props.data.nominations.video.length > 0 && (
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                text: `Watch Video`,
+                className: "primary dark",
+                href: props.data.nominations.video,
+              },
+            }}
+          />
+        )}
         {state.verified && context.accountId != props.candidate ? (
           <UpvoteButton onClick={handleUpVote}>
             <UpvoteCount>
