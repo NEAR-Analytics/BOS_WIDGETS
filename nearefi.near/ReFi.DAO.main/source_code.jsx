@@ -46,7 +46,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 
 const widgetOwner = "nearefi.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
-const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${state.daoId}&issuer=${state.issuer}&accountId=${state.accountId}&role=${state.role}&sbtTitle=${state.sbtTitle}`;
+const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -203,9 +203,9 @@ return (
         <Widget
           src="ndcplug.near/widget/DAO.main.sidebar"
           props={{
-            daoId: state.daoId,
+            daoId: daoId,
             profile,
-            role: state.role,
+            role: role,
           }}
         />
       </SidebarWrapper>
@@ -278,7 +278,7 @@ return (
             <hr />
             <Widget
               src={feed ?? "hack.near/widget/DAO.Social"}
-              props={{ daoId: state.daoId }}
+              props={{ daoId: daoId }}
             />
           </>
         )}
@@ -305,8 +305,8 @@ return (
             <Widget
               src="ndcplug.near/widget/ndc-badge-holders"
               props={{
-                title: state.sbtTitle,
-                issuer: state.issuer,
+                title: sbtTitle,
+                issuer: issuer,
                 showProgress: false,
                 showDropdown: false,
                 showHeader: false,
@@ -319,7 +319,7 @@ return (
             <Widget
               src="nearefi.near/widget/ReFi.Requests"
               props={{
-                accountId: state.accountId,
+                accountId: accountId,
                 showSidebar: false,
                 showHeader: false,
               }}
@@ -343,7 +343,7 @@ return (
                 <Bio>
                   <Widget
                     src="near/widget/SocialMarkdown"
-                    props={{ text: state.socialProfile.description }}
+                    props={{ text: socialProfile.description }}
                   />
                 </Bio>
               </>
@@ -351,7 +351,7 @@ return (
 
             <Widget
               src="near/widget/Posts.Feed"
-              props={{ accounts: [state.accountId] }}
+              props={{ accounts: [accountId] }}
             />
           </>
         )}
@@ -366,7 +366,7 @@ return (
         {state.selectedTab === "followers" && (
           <Widget
             src="near/widget/FollowersList"
-            props={{ accountId: state.daoId }}
+            props={{ accountId: daoId }}
           />
         )}
 
