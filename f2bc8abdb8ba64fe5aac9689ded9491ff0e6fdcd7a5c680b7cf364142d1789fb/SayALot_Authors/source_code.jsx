@@ -59,7 +59,6 @@ const resultArticles =
       writersWhiteList.some((addr) => addr === article.author)
     );
 
-console.log("resultArticles: ", resultArticles);
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
