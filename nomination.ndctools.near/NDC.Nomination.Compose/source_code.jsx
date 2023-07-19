@@ -75,7 +75,7 @@ const CardStyled = styled.div`
   height: 100%;
   background: #f8f8f9;
   gap: 10px;
-  padding: 20px;
+  padding: 25px;
   margin: 0 auto;
   border-radius: 10px;
   overflow-y: scroll;
@@ -365,8 +365,6 @@ return (
         style={{
           display: "flex",
           "justify-content": "center",
-          "padding-top": "16px",
-          "margin-bottom": "15px",
         }}
       >
         <HiddeableWidget>
