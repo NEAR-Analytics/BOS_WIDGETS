@@ -73,9 +73,9 @@ const DetailHeader = styled.div`
   gap: 12px;
 `;
 const ProfilePicture = styled.img`
-  border-radius: 20px;
-  width: 40px;
-  height: 40px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   flex-shrink: 0;
 `;
 const HeaderDetailContent = styled.div`
@@ -568,22 +568,22 @@ return (
                 ? CandidateProps.profileAccount
                 : "@candidate.near"}
             </NominationUser>
-            <TagContainer>
-              {CandidateProps.tags
-                .trim()
-                .split(",")
-                .map((tag) => {
-                  return tag && tag != "" ? (
-                    <Widget
-                      src={widgets.styledComponents}
-                      props={{
-                        Tag: { title: tag },
-                      }}
-                    />
-                  ) : null;
-                })}
-            </TagContainer>
           </NominationTitleContainer>
+          <TagContainer>
+            {CandidateProps.tags
+              .trim()
+              .split(",")
+              .map((tag) => {
+                return tag && tag != "" ? (
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Tag: { title: tag },
+                    }}
+                  />
+                ) : null;
+              })}
+          </TagContainer>
         </HeaderDetailContent>
         {data.nominations.video.length > 0 && (
           <Widget
