@@ -18,7 +18,7 @@ const contentBeforeParse =
   ) ??
   "null";
 
-if (contentBeforeParse) {
+if (!contentBeforeParse) {
   return "Loading...";
 }
 
