@@ -5,7 +5,7 @@ const perPage = props.perPage || 10;
 const jItems = JSON.stringify(items);
 if (state.jItems !== jItems) {
   State.update({
-    widgets: 10,
+    widgets: 0,
     jItems,
   });
 }
@@ -15,10 +15,6 @@ const makeMoreItems = () => {
     widgets: state.widgets + perPage,
   });
 };
-
-// const rendered = await Promise.all(
-//   items.slice(0, state.widgets).map(renderItem)
-// );
 
 return (
   <InfiniteScroll
