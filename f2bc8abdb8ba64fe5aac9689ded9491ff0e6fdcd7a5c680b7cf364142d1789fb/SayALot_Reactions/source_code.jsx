@@ -36,8 +36,6 @@ const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
 
-console.log(1, unfilteredLikes);
-
 if (!unfilteredLikes) {
   return "Loading...";
 }
@@ -59,7 +57,6 @@ const arrayLastLikeForEachUser =
 const userEmoji = arrayLastLikeForEachUser.find((obj) => {
   return obj.accountId === accountThatIsLoggedIn;
 });
-console.log(1, userEmoji);
 
 // ========= GET LIKES STATISTICS =========
 const getLikeStats = (acc, likeObj) => {
