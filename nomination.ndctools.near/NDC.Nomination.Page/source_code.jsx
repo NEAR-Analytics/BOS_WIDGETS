@@ -18,9 +18,9 @@ function handleSelfRevoke() {
 }
 
 const houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+  Near.view(nominationContract, "proposal", { prop_id: ids[0] }),
+  Near.view(nominationContract, "proposal", { prop_id: ids[1] }),
+  Near.view(nominationContract, "proposal", { prop_id: ids[2] }),
 ];
 
 const widgets = {
