@@ -47,10 +47,13 @@ const writersWhiteList = props.writersWhiteList ?? [
 const sayALotWorkers = [
   "silkking.near",
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
 ];
 
-if (isDebug && !props.writersWhiteList) {
-  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
+if (isDebug) {
+  writersWhiteList = sayALotWorkers;
 }
 
 const canUserEditArticle = () => {
@@ -74,6 +77,10 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
+if (!articlesIndex) {
+  return "Loading...";
+}
+
 const resultArticles =
   articlesIndex &&
   articlesIndex.reduce((acc, { accountId, blockHeight }) => {
@@ -81,6 +88,9 @@ const resultArticles =
       `${accountId}/${addressForArticles}/main`,
       blockHeight
     );
+    if (!postData) {
+      return "Loading...";
+    }
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
