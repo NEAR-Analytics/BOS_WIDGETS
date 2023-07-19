@@ -139,6 +139,7 @@ if (state.start) {
 }
 
 const handleSelect = (item) => {
+  console.log("id", item.id);
   switch (item.id) {
     case 1:
       getNominationInfo("HouseOfMerit");
