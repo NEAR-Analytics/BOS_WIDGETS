@@ -143,8 +143,8 @@ const ComponentWrapper = styled.div`
 
 const ErrorBlock = styled.div`
   color: #c23f38;
-  font-size: 12px;
-  margin: 20px 0 30px 0;
+  font-size: 14px;
+  margin: 10px 0;
 `;
 
 const Hr = styled.div`
@@ -210,7 +210,7 @@ const validatedInputs = () => {
   State.update({
     error_msg: isValid
       ? null
-      : error_msg || "Please complete all required fields",
+      : error_msg || "* Please complete all required fields",
   });
 
   return isValid;
