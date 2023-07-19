@@ -85,7 +85,7 @@ function getVerifiedHuman() {
 function getNominationInfo() {
   let nominationsArr = [];
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}&contract=${electionContract}`,
+    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}&contract=${nominationContract}`,
     httpRequestOpt
   ).then((res) => {
     console.log(res.body);
