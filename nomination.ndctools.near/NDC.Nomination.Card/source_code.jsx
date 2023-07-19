@@ -665,6 +665,7 @@ return (
           <div className="d-flex w-100 align-items-center">
             {!data.preview && (
               <div className="d-flex w-100 gap-2 justify-content-between">
+                {console.log(data)}
                 <Widget
                   src={widgets.styledComponents}
                   props={{
