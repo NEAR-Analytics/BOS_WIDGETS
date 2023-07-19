@@ -682,17 +682,18 @@ return (
               src={widgets.styledComponents}
               props={{
                 Button: {
-                  text: "View Declaration",
+                  text: "View",
                   size: "sm",
                   disabled: !state.verified,
                   className: "secondary dark justify-content-center",
-                  onClick: () => State.update({ showDeclaration: true }),
+                  onClick: () =>
+                    State.update({ showDeclaration: !state.showDeclaration }),
                   icon: <i className="bi bi-eye"></i>,
                 },
               }}
             />
           </DeclarationHeader>
-          {showDeclaration && (
+          {state.showDeclaration && (
             <DeclarationInfo>
               <DeclarationDescription>
                 I hereby declare my unwavering commitment to transparency,
