@@ -1,4 +1,5 @@
-const { nomination_contract, registry_contract, api_key } = props;
+const { nomination_contract, registry_contract, api_key, data, candidate } =
+  props;
 
 State.init({
   verified: false,
@@ -222,13 +223,8 @@ const PlatformHeaderDiv = styled.div`
   gap: 12px;
 `;
 const PlatformHeaderText = styled.p`
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 0;
-  color: #000;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 120%;
+  font-size: 18px;
+  font-weight: 500;
   margin: 0px;
 `;
 const PlatformInfoDiv = styled.div`
@@ -244,11 +240,12 @@ const PlatformInfoHeader = styled.div`
   gap: 2px;
 `;
 const PlatInforHeadText = styled.p`
-  margin: 0px;
-  color: var(--000000, #000);
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 12px;
   line-height: 120%;
+  margin: 0px;
+  font-weight: 400;
+  line-height: 18px;
+  text-align: left;
 `;
 const PlatInfoHeadSeparator = styled.hr`
   height: 0px;
@@ -558,7 +555,7 @@ return (
             </NominationUser>
           </NominationTitleContainer>
         </HeaderDetailContent>
-        {props.data.nominations.video.length > 0 && (
+        {data.nominations.video.length > 0 && (
           <Widget
             src={widgets.styledComponents}
             props={{
@@ -570,28 +567,18 @@ return (
             }}
           />
         )}
-        {state.verified && context.accountId != props.candidate ? (
-          <UpvoteButton onClick={handleUpVote}>
-            <UpvoteCount>
-              {props.data.comments[0].upvotes
-                ? "+" + props.data.comments[0].upvotes
-                : "+" + 0}
-            </UpvoteCount>
-            <UpvoteIcon src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."></UpvoteIcon>
-          </UpvoteButton>
-        ) : (
-          <UpvoteButtonDisabled>
-            <UpvoteCount style={{ filter: "grayscale(1)" }}>
-              {props.data.comments[0].upvotes
-                ? "+" + props.data.comments[0].upvotes
-                : "+" + 0}
-            </UpvoteCount>
-            <UpvoteIcon
-              style={{ filter: "grayscale(1)" }}
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmXqGSZvrgGkVviBJirnBtT9krTHHsjPYX1UM8EWExFxCM?_gl=1*1hd2izc*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzOTYyNC40LjAuMTY4NjkzOTYyNC42MC4wLjA."
-            ></UpvoteIcon>
-          </UpvoteButtonDisabled>
-        )}
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              text: `+${data.comments[0].upvotes ?? 0}`,
+              disabled: !state.verified || context.accountId === candidate,
+              className: "secondary dark",
+              onClick: handleUpVote,
+              icon: <i className="bi bi-hand-thumbs-up"></i>,
+            },
+          }}
+        />
       </DetailHeader>
       <PlatformCard>
         <PlatformContent>
