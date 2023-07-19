@@ -8,9 +8,7 @@ const showReference = props.showReference ?? true;
 const showDAO = props.showDAO ?? true;
 const showHeader = props.showHeader ?? true;
 const classId = props.classId ?? 1;
-const reference =
-  props.reference ??
-  "https://genadrop.mypinata.cloud/ipfs/QmUxy2gB1QQD8mqRSwKkU2k6an4o99ip5ZL12if2opyjas?_gl=1*qk5u0e*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTM1MzU2Mi4yLjEuMTY4OTM1MzU5Ny4yNS4wLjA";
+const reference = props.reference ?? null;
 let profile = Social.getr(`${daoId}/profile`);
 
 if (profile === null) {
