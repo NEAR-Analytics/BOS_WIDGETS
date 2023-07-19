@@ -120,7 +120,7 @@ function getNominationInfo() {
             upVoteData: upVoteInfo,
             ...objCard,
           };
-
+          console.log(upVoteInfo);
           nominationsArr.push(objCard);
 
           State.update({ nominations: nominationsArr });
