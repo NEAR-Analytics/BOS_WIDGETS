@@ -401,6 +401,7 @@ const DeclarationHeaderText = styled.p`
   font-size: 12px;
   font-weight: 800;
   line-height: 120%;
+  margin-bottom: 0;
 `;
 const DeclarationInfo = styled.div`
   display: flex;
