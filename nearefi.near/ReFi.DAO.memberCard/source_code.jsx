@@ -8,9 +8,7 @@ const classId = props.classId ?? 1;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
-const reference =
-  props.reference ??
-  "https://genadrop.mypinata.cloud/ipfs/QmUxy2gB1QQD8mqRSwKkU2k6an4o99ip5ZL12if2opyjas?_gl=1*qk5u0e*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTM1MzU2Mi4yLjEuMTY4OTM1MzU5Ny4yNS4wLjA";
+const reference = props.reference ?? null;
 
 const isMintAuthority = false; // add sbt minter contract
 // View call: issuer.regens.near.class_minter({"class": 1})
@@ -188,6 +186,7 @@ return (
           showReference: false,
           showIssuer: false,
           showHeader: false,
+          showClass: false,
           daoId: daoId,
           issuer: issuer,
           classId: classId,
