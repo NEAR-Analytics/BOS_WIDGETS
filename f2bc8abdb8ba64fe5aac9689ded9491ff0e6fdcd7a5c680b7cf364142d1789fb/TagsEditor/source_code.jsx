@@ -2,14 +2,6 @@ const tagsPattern = "*/profile/tags/*";
 const placeholder = props.placeholder ?? "Tags";
 const initialTagsObject = props.initialTagsObject || {};
 
-const sayALotWorkers = [
-  "silkking.near",
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-  "ayelen.near",
-  "kenrou-it.near",
-  "blaze.near",
-];
-
 const tagsOptions = {};
 
 const normalizeTag = (tag) =>
