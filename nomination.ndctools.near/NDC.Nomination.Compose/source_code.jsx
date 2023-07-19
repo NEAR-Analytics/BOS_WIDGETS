@@ -128,7 +128,7 @@ const Modal = styled.div`
 
 const ComponentWrapper = styled.div`
   display: flex;
-  width: 70%
+  width: 70%;
   height: 80%;
   flex-direction: column;
   align-items: flex-start;
