@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const authorId = "manzanal.near";
-const contractId = "v003.mpip.near";
+const contractId = props.contractId || "v004.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const GET_VP_METHOD = "get_all_locking_positions";
 const GET_IN_USE_VP_METHOD = "get_used_voting_power";
