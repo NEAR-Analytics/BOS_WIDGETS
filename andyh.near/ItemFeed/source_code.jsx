@@ -16,9 +16,9 @@ const makeMoreItems = () => {
   });
 };
 
-const rendered = await Promise.all(
-  items.slice(0, state.widgets).map(renderItem)
-);
+// const rendered = await Promise.all(
+//   items.slice(0, state.widgets).map(renderItem)
+// );
 
 return (
   <InfiniteScroll
@@ -27,6 +27,6 @@ return (
     hasMore={state.widgets < items.length}
     loader={<div className="loader">Loading ...</div>}
   >
-    {rendered}
+    {items.slice(0, state.widgets).map(renderItem)}
   </InfiniteScroll>
 );
