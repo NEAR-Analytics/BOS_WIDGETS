@@ -20,7 +20,7 @@ State.init({
   functionCallError: "",
   proposalIsFetched: false,
   isValid: false,
-  proposalThresholdIsFetched: true,
+  proposalThresholdIsFetched: false,
   thresholdPassed: false,
   inUseVotingPower: null,
   inUseVotingPowerIsFetched: false,
