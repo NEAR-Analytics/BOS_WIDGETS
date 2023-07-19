@@ -87,9 +87,11 @@ if (state.jInitialItems !== jInitialItems) {
   }
 }
 
+let newItems;
+
 if (state.fetchFrom) {
   const limit = addDisplayCount;
-  const newItems = Social.index(
+  newItems = Social.index(
     index.action,
     index.key,
     Object.assign({}, index.options, {
@@ -105,6 +107,10 @@ if (state.fetchFrom) {
       nextFetchFrom: computeFetchFrom(newItems, limit),
     });
   }
+}
+
+if (!newItems) {
+  return "Loading...";
 }
 
 const makeMoreItems = () => {
