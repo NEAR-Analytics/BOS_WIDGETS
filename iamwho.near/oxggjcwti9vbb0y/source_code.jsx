@@ -1,19 +1,4 @@
-const limits = [1, 10, 20, 50];
-const handleOptionsChange = (e) => {
-  State.update({
-    limit: parseInt(e.target.value),
-  });
-};
-
-State.init({
-  limit: limits[0],
-  pages: 1,
-  selectedPage: 1,
-});
-
-const handleSubmit = (value) => {
-  State.update({ searchValue: value });
-};
+const limits = [1, 2, 3];
 
 return (
   <div class="flex items-center justify-center w-screen h-screen">
