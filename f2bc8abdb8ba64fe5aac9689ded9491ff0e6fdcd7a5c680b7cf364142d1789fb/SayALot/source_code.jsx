@@ -1,6 +1,6 @@
 const isDebug = props.isDebug;
 
-const writersWhiteList = [
+let writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -15,15 +15,19 @@ const writersWhiteList = [
 const sayALotWorkers = [
   "silkking.near",
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
 ];
 
 if (isDebug) {
-  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
+  writersWhiteList = sayALotWorkers;
 }
 
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
+
 // if (!accountId) {
 //   return "No account ID";
 // }
