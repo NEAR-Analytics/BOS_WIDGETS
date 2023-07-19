@@ -247,8 +247,8 @@ const PlatInforHeadText = styled.p`
   line-height: 18px;
   text-align: left;
 `;
-const PlatInfoHeadSeparator = styled.hr`
-  height: 0px;
+const HR = styled.div`
+  height: 1px;
   margin: 8px 0 0 0;
   border: 1px solid rgba(208, 214, 217, 1);
 `;
@@ -258,16 +258,15 @@ const KeyIssuesContainer = styled.div`
   align-items: flex-start;
   gap: 2px;
 `;
-const KeyIssueTitle = styled.p`
-  color: var(--primary-000000, #000);
-  font-size: 12px;
-  line-height: 120%;
-  margin: 0px;
+const KeyIssueTitle = styled.h5`
+  font-size: 13px;
+  line-height: 16px;
+  margin: 5px 0;
 `;
 const KeyIssueDescription = styled.p`
   color: #828688;
   font-size: 12px;
-  line-height: 130%;
+  line-height: 18px;
   margin: 0px;
   text-align: justify;
 `;
@@ -508,6 +507,34 @@ const afiilationsSort = afilations
   .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
   .reverse();
 
+const issues = [
+  {
+    description: CandidateProps.HAYInvolve,
+    title:
+      "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
+  },
+  {
+    description: CandidateProps.WIYStrategy,
+    title: "What is your strategy to develop the NEAR ecosystem?",
+  },
+  {
+    description: CandidateProps.Key_Issue_1,
+    title:
+      "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
+  },
+  {
+    description: CandidateProps.Key_Issue_2,
+    title:
+      "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
+  },
+  {
+    description: CandidateProps.Key_Issue_3,
+    title:
+      "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
+  },
+  { description: CandidateProps.addition_platform, title: "Other Platform" },
+];
+
 return (
   <DetailContent>
     <DetailCard className="justify-content-center">
@@ -587,52 +614,15 @@ return (
           </PlatformHeaderDiv>
           <PlatformInfoDiv>
             <PlatformInfoHeader>
-              <PlatInforHeadText>
-                Key Issues and Candidate's Position
-              </PlatInforHeadText>
-              <PlatInfoHeadSeparator></PlatInfoHeadSeparator>
+              <KeyIssueTitle>Key Issues and Candidate's Position</KeyIssueTitle>
+              <HR></HR>
             </PlatformInfoHeader>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>
-                Involvement in the NEAR ecosystem, qualifications to be a
-                candidate and reasons for being voted
-              </KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.HAYInvolve}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>
-                Strategy to develop the NEAR ecosystem
-              </KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.WIYStrategy}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>Key Issue 1</KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.Key_Issue_1}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>Key Issue 2</KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.Key_Issue_2}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>Key Issue 3</KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.Key_Issue_3}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
-            <KeyIssuesContainer>
-              <KeyIssueTitle>Other Platform</KeyIssueTitle>
-              <KeyIssueDescription>
-                {CandidateProps.addition_platform}
-              </KeyIssueDescription>
-            </KeyIssuesContainer>
+            {issues.map((issue, i) => (
+              <KeyIssuesContainer>
+                <KeyIssueTitle>{issue.title}</KeyIssueTitle>
+                <KeyIssueDescription>{issue.description}</KeyIssueDescription>
+              </KeyIssuesContainer>
+            ))}
           </PlatformInfoDiv>
         </PlatformContent>
       </PlatformCard>
