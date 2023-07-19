@@ -10,14 +10,19 @@ State.init({ showReply: false });
 const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
-const content =
+const contentBeforeParse =
   props.content ??
-  JSON.parse(
-    Social.get(
-      `${accountId}/${addressForArticles}/${addressForComments}`,
-      blockHeight
-    ) ?? "null"
-  );
+  Social.get(
+    `${accountId}/${addressForArticles}/${addressForComments}`,
+    blockHeight
+  ) ??
+  "null";
+
+if (contentBeforeParse) {
+  return "Loading...";
+}
+
+const content = props.content ?? JSON.parse(contentBeforeParse);
 
 const parentItem = content.item;
 const highlight = !!props.highlight;
