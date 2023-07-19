@@ -64,7 +64,7 @@ return (
       props={{
         config,
         style: {
-          marginTop: "16px",
+          marginTop: "10px",
         },
         title: "Assets to borrow",
         body: (
@@ -225,7 +225,7 @@ return (
     />
     {showBorrowModal && (
       <Widget
-        src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
+        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
         props={{
           config,
           onRequestClose: () => setShowBorrowModal(false),
