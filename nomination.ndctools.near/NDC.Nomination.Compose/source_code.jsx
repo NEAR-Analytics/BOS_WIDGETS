@@ -315,7 +315,7 @@ const validateAffiliations = (params, key, limit) => {
 };
 
 const handleDeclaration = (agreement) => {
-  State.update({ agreement, error_msg: null });
+  State.update({ agreement: agreement.toString, error_msg: null });
 };
 
 const handleNominate = () => {
