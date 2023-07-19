@@ -7,14 +7,14 @@ State.init({
   senderInfo: {},
   sentToEscrow: false,
   error: false,
-  success: true,
+  success: false,
 });
 
 const ecr20abi = fetch(
   "https://raw.githubusercontent.com/corndao/aave-v3-bos-app/main/abi/ERC20Permit.json"
 ).body;
 //const usdcAddresses = fetch("");
-const usdcAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
+const usdTestAddress = "0xfe4F5145f6e09952a5ba9e956ED0C25e3Fa4c7F1";
 const apolloPayEscrow = "0x160d136869e86189a58864Cc40777cDD355501f5";
 //const usdtAddresses = fetch("");
 
@@ -33,30 +33,33 @@ function updateCountry(country) {
   State.update({ ...state, country });
 }
 
-function wallletRequestSendTransaction(amount) {
-  console.log({
-    amount,
-    ecr20abi: JSON.parse(ecr20abi),
-    usdcAddress,
-  });
+async function wallletRequestSendTransaction(amount) {
   const signer = Ethers.provider().getSigner();
   const sendContract = new ethers.Contract(
-    usdcAddress,
+    usdTestAddress,
     JSON.parse(ecr20abi),
     signer
   );
-  console.log({
-    sendContract,
-    nm: sendContract.name,
-  });
 
-  sendContract.transfer(apolloPayEscrow, 30);
-  // .then(function (value) {
-  //   console.log({ value });
-  // })
-  // .catch(function (error) {
-  //   console.log({ error });
-  // });
+  const prep = sendContract.transfer(apolloPayEscrow, 30);
+
+  prep
+    .then((value) => {
+      console.log("Oh yessss!");
+      console.log({
+        value,
+      });
+
+      State.update({ ...state, sucess: true, stage: "5" });
+      return;
+    })
+    .catch((error) => {
+      console.log("Oh noooo!");
+      console.log({
+        error,
+      });
+      State.update({ ...state, sucess: false, stage: "6" });
+    });
 }
 
 const initiatePayout = () => {};
@@ -146,6 +149,22 @@ return (
           {" "}
           Send Coin{" "}
         </button>{" "}
+      </div>
+    )}
+
+    {state.stage == "5" && (
+      <div>
+        <h4> Sucess !! </h4>
+        <input />
+      </div>
+    )}
+
+    {state.stage == "6" && (
+      <div>
+        <h4> oops something went wrong!! </h4>
+        <button>Retry</button>
+
+        <button>Reset</button>
       </div>
     )}
   </Wrapper>
