@@ -115,22 +115,30 @@ const HiddeableWidget = styled.div`
 
 const Modal = styled.div`
   position: fixed;
-  z-index: 101;
-  top: 0px;
-  left: 0px;
+  z-index: 1;
+  left: 0;
+  top: 0;
   width: 100%;
-  height: 100vh;
-  background: rgba(128, 128, 128, 0.65);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
 `;
 
 const ComponentWrapper = styled.div`
-  position: absolute;
-  width: 100%;
+  display: flex;
+  width: 70%
   height: 80%;
-  z-index: 100;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid transparent;
+  margin: auto;
+  @media only screen and (max-width: 480px) {
+    width: 90%;
+  }
 `;
 
 const ErrorBlock = styled.div`
