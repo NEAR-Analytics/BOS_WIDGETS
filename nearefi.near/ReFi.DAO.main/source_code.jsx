@@ -1,10 +1,10 @@
 State.init({
   selectedTab: props.tab || "proposals",
 });
-const socialAccountId = props.socialAccountId ?? "nearefi.near";
+const accountId = props.accountId ?? "nearefi.near";
 const socialProfile = Social.getr(`${socialAccountId}/profile`);
 const role = props.role ?? "regens";
-const accountId = props.accountId ?? context.accountId;
+// const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "refi.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
 const sbtTitle = props.sbtTitle ?? "Proof of Regen";
@@ -303,7 +303,7 @@ return (
             <Widget
               src="nearefi.near/widget/ReFi.Requests"
               props={{
-                accountId: socialAccountId,
+                accountId: accountId,
                 showSidebar: false,
                 showHeader: false,
               }}
@@ -335,7 +335,7 @@ return (
 
             <Widget
               src="near/widget/Posts.Feed"
-              props={{ accounts: [socialAccountId] }}
+              props={{ accounts: [accountId] }}
             />
           </>
         )}
