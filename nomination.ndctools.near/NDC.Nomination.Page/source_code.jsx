@@ -49,6 +49,8 @@ State.init({
   notFound: "There are no active nominations at the moment",
 });
 
+const time = Near.view(nominationContract, "active_time", {});
+
 const httpRequestOpt = {
   headers: { "x-api-key": apiKey },
 };
@@ -328,15 +330,15 @@ const Toolbar = styled.div`
 return (
   <>
     <div>
-      {houses.map((group) => (
+      {houses.map((house) => (
         <>
-          {group.id === state.selectedHouse && (
+          {house.id === state.selectedHouse && (
             <Widget
               key={i}
               src={widgets.header}
               props={{
-                startTime: group.start,
-                endTime: group.end,
+                startTime: time[0],
+                endTime: time[1],
                 type: "Nomination",
               }}
             />
