@@ -14,12 +14,16 @@ const raw = !!props.raw;
 const notifyAccountId = accountId;
 
 State.init({ showReply: false, isMain: true, article: {} });
-const article =
+const articleBeforeParse =
   state.saveComplete || blockHeight === "now"
-    ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
-    : JSON.parse(
-        Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-      );
+    ? Social.get(`${lastEditor}/${addressForArticles}/main`)
+    : Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight);
+
+if (articleBeforeParse) {
+  return "Loading...";
+}
+
+const article = JSON.parse(articleBeforeParse);
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
   // If some widget posts data different than an array it will be ignored
@@ -88,9 +92,6 @@ const resultArticles =
       `${accountId}/${addressForArticles}/main`,
       blockHeight
     );
-    if (!postData) {
-      return "Loading...";
-    }
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
