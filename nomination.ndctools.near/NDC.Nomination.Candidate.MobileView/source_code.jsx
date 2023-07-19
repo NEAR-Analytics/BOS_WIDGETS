@@ -59,17 +59,14 @@ const DetailContent = styled.div`
 `;
 const DetailCard = styled.div`
   display: flex;
-  width: 358px;
   padding: 16px;
   flex-direction: column;
-  align-items: flex-start;
   gap: 16px;
   border-radius: 10px;
   background: #f8f8f9;
 `;
 const DetailHeader = styled.div`
   display: flex;
-  width: 326px;
   align-items: center;
   gap: 12px;
 `;
@@ -206,7 +203,6 @@ const UpvoteIcon = styled.img`
 `;
 const PlatformCard = styled.div`
   display: flex;
-  width: 326px;
   padding: 8px 12px;
   align-items: flex-start;
   gap: 12px;
@@ -221,7 +217,6 @@ const PlatformContent = styled.div`
 `;
 const PlatformHeaderDiv = styled.div`
   display: flex;
-  width: 302px;
   align-items: flex-start;
   gap: 12px;
 `;
@@ -256,14 +251,12 @@ const PlatInforHeadText = styled.p`
   line-height: 120%;
 `;
 const PlatInfoHeadSeparator = styled.hr`
-  width: 302px;
   height: 0px;
   margin: 8px 0 0 0;
   border: 1px solid rgba(208, 214, 217, 1);
 `;
 const KeyIssuesContainer = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
@@ -293,7 +286,6 @@ const CandidateCard = styled.div`
 `;
 const CandidateContent = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -314,7 +306,6 @@ const CandidateHeaderText = styled.p`
 `;
 const CandidateInfoDiv = styled.div`
   display: flex;
-  width: 290px;
   padding: 8px;
   flex-direction: column;
   align-items: flex-start;
@@ -382,7 +373,6 @@ const CandidateDescription = styled.p`
   font-size: 12px;
   line-height: 130%;
   margin: 0px;
-  width: 295px;
   text-align: justify;
 `;
 const DeclarationCard = styled.div`
@@ -416,7 +406,6 @@ const DeclarationHeaderText = styled.p`
 `;
 const DeclarationInfo = styled.div`
   display: flex;
-  width: 290px;
   padding: 8px 0px;
   flex-direction: column;
   align-items: flex-start;
@@ -431,7 +420,6 @@ const DeclarationDescription = styled.p`
   text-align: justify;
 `;
 const DeclarationImage = styled.img`
-  width: 290px;
   height: 234px;
 `;
 const CommentSection = styled.div`
@@ -445,7 +433,6 @@ const CommentSection = styled.div`
 `;
 const CommentHeader = styled.div`
   display: flex;
-  width: 326px;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -526,7 +513,7 @@ const afiilationsSort = afilations
 
 return (
   <DetailContent>
-    <DetailCard>
+    <DetailCard className="justify-content-center">
       <DetailHeader>
         <ProfilePicture
           src={
@@ -539,7 +526,7 @@ return (
         <HeaderDetailContent>
           <TagContainer>
             <HouseTagDiv>
-              <HouseTagText style={{ "font-size": "8px" }}>
+              <HouseTagText style={{ "font-size": "10px" }}>
                 {props.house == "HouseOfMerit"
                   ? "House of Merit"
                   : props.house == "CouncilOfAdvisors"
