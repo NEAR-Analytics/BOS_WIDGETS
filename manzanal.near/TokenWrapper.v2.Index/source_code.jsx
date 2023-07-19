@@ -8,11 +8,26 @@ State.init({
   network: null,
   networkIsLoaded: false,
   error: null,
+  sender: null,
 });
+
+const getEVMAccountId = () => {
+  if (ethers !== undefined) {
+    return Ethers.send("eth_requestAccounts", [])[0] ?? "";
+  }
+  return "";
+};
+
+if (state.sender === undefined) {
+  return State.update({
+    sender: getEVMAccountId(),
+  });
+}
 
 console.log("ethers", ethers);
 if (!state.networkIsLoaded) {
-  if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
+  if (state.sender) {
+    console.log("ethers is loading network");
     Ethers.provider()
       .getNetwork()
       .then((chainIdData) => {
@@ -53,7 +68,10 @@ const getContent = {
     <Widget src={`${authorId}/widget/TokenWrapper.v2.NearWrapper`} props={{}} />
   ),
   ETH: (
-    <Widget src={`${authorId}/widget/TokenWrapper.v2.EthWrapper`} props={{}} />
+    <Widget
+      src={`${authorId}/widget/TokenWrapper.v2.EthWrapper`}
+      props={{ sender: state.sender }}
+    />
   ),
   POLYGON: (
     <Widget
