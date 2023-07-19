@@ -9,9 +9,8 @@ let {
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
-const registryContract = registry_contract ?? "registry-v1.i-am-human.near";
-const nominationContract =
-  nomination_contract ?? "nominations-v1.gwg-testing.near";
+const registryContract = registry_contract ?? "registry.i-am-human.near";
+const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 function handleSelfRevoke() {
