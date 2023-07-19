@@ -381,14 +381,16 @@ return (
   <Container>
     <div>
       <Widget
-        src={`${authorId}/widget/Common.ButtonRound`}
+        src={`${authorId}/widget/Common.Button`}
         props={{
           children: (
             <>
               <i class="bi bi-arrow-left" />
+              Back
             </>
           ),
-          onClick: () => State.update({ mpip_id }),
+          onClick: () => State.update({ tabs: "home", content: "" }),
+          className: "mt-2",
           variant: "primary",
           href: `/${authorId}/widget/Governance.Index?tab=home`,
         }}
