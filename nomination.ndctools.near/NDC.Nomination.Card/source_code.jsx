@@ -485,9 +485,8 @@ const canUpvote = () =>
 
 const getShortUserName = (userId) => {
   if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
-  const name = userId.slice(0, -5); // truncate .near
 
-  return name.length > 20 ? `${name.slice(0, 20)}...` : name;
+  return userId;
 };
 
 const trimText = (text, limit) => {
