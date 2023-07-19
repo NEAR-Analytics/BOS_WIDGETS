@@ -421,6 +421,7 @@ return (
                   nomination_contract: nominationContract,
                   election_contract: electionContract,
                   api_key: apiKey,
+                  dev,
                 }}
               />
             ))
