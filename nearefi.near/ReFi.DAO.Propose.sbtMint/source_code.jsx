@@ -6,6 +6,7 @@ const showReciever = props.showReciever ?? true;
 const showIssuer = props.showIssuer ?? true;
 const showReference = props.showReference ?? true;
 const showDAO = props.showDAO ?? true;
+const showClass = props.showClass ?? true;
 const showHeader = props.showHeader ?? true;
 const classId = props.classId ?? 1;
 const reference = props.reference ?? null;
@@ -19,12 +20,19 @@ State.init({
   issuer: issuer,
   reference: reference,
   daoId: daoId,
+  classId: classId,
 });
 const changeReceiver = (receiver) => {
   State.update({
     receiver,
   });
   console.log("Receiver: " + state.receiver);
+};
+const changeClass = (classId) => {
+  State.update({
+    classId,
+  });
+  console.log("classId: " + state.classId);
 };
 const changeReference = (reference) => {
   State.update({
@@ -47,7 +55,7 @@ const changeIssuer = (issuer) => {
 const post_args = JSON.stringify({
   receiver: state.receiver,
   metadata: {
-    class: classId,
+    class: state.classId,
   },
   reference: state.reference,
 });
@@ -245,7 +253,7 @@ return (
     )}
     {showReciever && (
       <div className="input-group row">
-        <p>Input SBT Receiver</p>
+        <p>SBT Receiver</p>
         <input
           type="text"
           className={`form-control`}
@@ -256,7 +264,7 @@ return (
     )}
     {showReference && (
       <div className="input-group row">
-        <p>Input Reference JSON (Upload to IPFS)</p>
+        <p>Input</p>
         <input
           type="text"
           className={`form-control`}
@@ -278,12 +286,23 @@ return (
     )}
     {showIssuer && (
       <div className="input-group row">
-        <p>Input SBT Issuer Contract Address</p>
+        <p>Issuer Contract</p>
         <input
           type="text"
           className={`form-control`}
           onChange={(e) => changeIssuer(e.target.value)}
           placeholder={state.issuer ?? `Enter Reference`}
+        />
+      </div>
+    )}
+    {showClass && (
+      <div className="input-group row">
+        <p>SBT Class</p>
+        <input
+          type="text"
+          className={`form-control`}
+          onChange={(e) => changeClass(e.target.value)}
+          placeholder={state.classId ?? `Enter Class ID`}
         />
       </div>
     )}
