@@ -28,6 +28,8 @@ State.init({
   allVotingPowerIsFetched: false,
   availableVotingPower: null,
   availableVotingPowerIsFetched: false,
+  storageRequired: null,
+  storageRequiredIsFetched: false,
 });
 
 const yoctoToNear = (amountYocto) =>
@@ -113,7 +115,19 @@ if (!state.proposalThresholdIsFetched && state.availableVotingPowerIsFetched) {
     State.update({ thresholdPassed, proposalThresholdIsFetched: true })
   );
 }
-if (edit && !state.proposalIsFetched && !state.proposalThresholdIsFetched)
+
+if (!state.storageRequiredIsFetched) {
+  Near.asyncView(contractId, "get_mpip_storage_near", {}, "final", false).then(
+    (storageRequired) =>
+      State.update({ storageRequired, storageRequiredIsFetched: true })
+  );
+}
+if (
+  edit &&
+  !state.proposalIsFetched &&
+  !state.proposalThresholdIsFetched &&
+  !state.storageRequiredIsFetched
+)
   return <>Loading...</>;
 
 const isEmpty = (string) =>
@@ -293,6 +307,11 @@ return (
     {!state.isValid && !state.thresholdPassed && (
       <div className="text-danger d-flex justify-content-end text-right">
         Not enough voting power to create a proposal.
+      </div>
+    )}
+    {state.isValid && (
+      <div className="text-info d-flex justify-content-end text-right">
+        A deposit of {state.storageRequired} NEAR will be required for storage
       </div>
     )}
   </>
