@@ -675,7 +675,7 @@ return (
       </CandidateCard>
       <DeclarationCard>
         <DeclarationContent>
-          <DeclarationHeader>
+          <DeclarationHeader className="d-flex justify-content-between">
             <DeclarationHeaderText>
               Declaration of Transparency and Accountability
             </DeclarationHeaderText>
