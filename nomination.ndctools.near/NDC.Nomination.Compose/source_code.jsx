@@ -128,14 +128,14 @@ const Modal = styled.div`
 
 const ComponentWrapper = styled.div`
   display: flex;
-  width: 80%;
+  width: 70%;
   height: 80%;
   flex-direction: column;
   align-items: flex-start;
   border-radius: 10px;
   background: #fff;
   border: 1px solid transparent;
-  margin: auto;
+  margin: 140px auto auto auto;
   @media only screen and (max-width: 480px) {
     width: 90%;
   }
