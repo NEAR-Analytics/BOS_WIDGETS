@@ -238,7 +238,6 @@ const PlatformInfoDiv = styled.div`
 `;
 const PlatformInfoHeader = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
@@ -272,7 +271,6 @@ const KeyIssueDescription = styled.p`
   font-size: 12px;
   line-height: 130%;
   margin: 0px;
-  width: 302px;
   text-align: justify;
 `;
 const CandidateCard = styled.div`
@@ -386,7 +384,6 @@ const DeclarationCard = styled.div`
 `;
 const DeclarationContent = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
