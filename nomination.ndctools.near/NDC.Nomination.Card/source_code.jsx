@@ -4,6 +4,7 @@ const {
   nomination_contract,
   election_contract,
   api_key,
+  dev,
 } = props;
 
 State.init({
@@ -12,8 +13,6 @@ State.init({
   voted: false,
   shareText: "Copy link to the clipboard",
 });
-
-console.log(data);
 
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -689,7 +688,7 @@ return (
                       text: "View",
                       size: "sm",
                       className: "primary w-100 justify-content-center",
-                      href: `${widgets.candidatePage}?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}&nomination_contract=${nomination_contract}&election_contract=${election_contract}`,
+                      href: `${widgets.candidatePage}?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}&dev=${dev}`,
                       icon: <i className="bi bi-eye fs-6"></i>,
                     },
                   }}
