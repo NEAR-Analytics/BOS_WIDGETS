@@ -23,6 +23,11 @@ const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
 });
+
+if (!postsIndex) {
+  return "Loading...";
+}
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
