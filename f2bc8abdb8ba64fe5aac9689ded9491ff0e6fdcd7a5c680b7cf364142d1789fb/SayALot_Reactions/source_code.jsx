@@ -31,8 +31,7 @@ State.init({
 });
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const path = false ? "test_like" : "like";
-console.log(0, isDebug);
+const path = isDebug ? "test_like" : "like";
 const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
