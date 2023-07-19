@@ -333,7 +333,7 @@ return (
             alignItems: "start",
           }}
         >
-          <h2>Pending Predictions</h2>
+          <h2>Your Picks</h2>
           {matches
             .filter((m) =>
               predictions.some(
