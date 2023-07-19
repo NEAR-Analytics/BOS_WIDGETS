@@ -2,13 +2,26 @@ State.init({
   selectedTab: props.tab || "proposals",
 });
 const accountId = props.accountId ?? "nearefi.near";
-const socialProfile = Social.getr(`${socialAccountId}/profile`);
+const socialProfile = Social.getr(`${accountId}/profile`);
 const role = props.role ?? "regens";
 // const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "refi.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
-const sbtTitle = props.sbtTitle ?? "Proof of Regen";
-
+const sbtTitle = props.sbtTitle ?? "";
+State.init({
+  accountId: accountId,
+  socialProfile: socialProfile,
+  daoId: daoId,
+  issuer: issuer,
+  role: role,
+  sbtTitle: sbtTitle,
+});
+const changeReceiver = (receiver) => {
+  State.update({
+    receiver,
+  });
+  console.log("Receiver: " + state.receiver);
+};
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
   : undefined;
@@ -17,8 +30,8 @@ if (page === null) {
   return "Loading...";
 }
 
-const feed = accountId
-  ? Social.get(`${accountId}/settings/dao/feed`)
+const feed = state.accountId
+  ? Social.get(`${state.accountId}/settings/dao/feed`)
   : undefined;
 
 if (feed === null) {
@@ -32,8 +45,8 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const widgetOwner = "nearefi.near";
-const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}`;
+const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
+const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${state.daoId}&issuer=${state.issuer}&accountId=${state.accountId}&role=${state.role}&sbtTitle=${state.sbtTitle}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -190,9 +203,9 @@ return (
         <Widget
           src="ndcplug.near/widget/DAO.main.sidebar"
           props={{
-            daoId,
+            daoId: state.daoId,
             profile,
-            role: role,
+            role: state.role,
           }}
         />
       </SidebarWrapper>
@@ -265,23 +278,26 @@ return (
             <hr />
             <Widget
               src={feed ?? "hack.near/widget/DAO.Social"}
-              props={{ daoId }}
+              props={{ daoId: state.daoId }}
             />
           </>
         )}
 
         {state.selectedTab === "proposals" && (
-          <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
+          <Widget
+            src="sking.near/widget/DAO.Proposals"
+            props={{ daoId: daoId }}
+          />
         )}
 
         {state.selectedTab === "data" && (
-          <Widget src="hack.near/widget/DAO.Tabs" props={{ daoId }} />
+          <Widget src="hack.near/widget/DAO.Tabs" props={{ daoId: daoId }} />
         )}
 
         {state.selectedTab === "proposal" && (
           <Widget
             src="sking.near/widget/DAO.Proposal"
-            props={{ daoId, ...props }}
+            props={{ daoId: daoId, ...props }}
           />
         )}
         {state.selectedTab === "sbt" && (
@@ -289,8 +305,8 @@ return (
             <Widget
               src="ndcplug.near/widget/ndc-badge-holders"
               props={{
-                title: sbtTitle,
-                issuer: issuer,
+                title: state.sbtTitle,
+                issuer: state.issuer,
                 showProgress: false,
                 showDropdown: false,
                 showHeader: false,
@@ -303,7 +319,7 @@ return (
             <Widget
               src="nearefi.near/widget/ReFi.Requests"
               props={{
-                accountId: accountId,
+                accountId: state.accountId,
                 showSidebar: false,
                 showHeader: false,
               }}
@@ -318,7 +334,7 @@ return (
         )}
         {state.selectedTab === "overview" && (
           <>
-            {socialProfile.description && (
+            {state.socialProfile.description && (
               <>
                 <Title as="h2" size="19px" margin>
                   About
@@ -327,7 +343,7 @@ return (
                 <Bio>
                   <Widget
                     src="near/widget/SocialMarkdown"
-                    props={{ text: socialProfile.description }}
+                    props={{ text: state.socialProfile.description }}
                   />
                 </Bio>
               </>
@@ -335,7 +351,7 @@ return (
 
             <Widget
               src="near/widget/Posts.Feed"
-              props={{ accounts: [accountId] }}
+              props={{ accounts: [state.accountId] }}
             />
           </>
         )}
@@ -343,25 +359,28 @@ return (
         {state.selectedTab === "members" && (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
-            props={{ daoId }}
+            props={{ daoId: daoId }}
           />
         )}
 
         {state.selectedTab === "followers" && (
           <Widget
             src="near/widget/FollowersList"
-            props={{ accountId: daoId }}
+            props={{ accountId: state.daoId }}
           />
         )}
 
         {state.selectedTab === "bounties" && (
-          <Widget src="sking.near/widget/DAO.Bounties" props={{ daoId }} />
+          <Widget
+            src="sking.near/widget/DAO.Bounties"
+            props={{ daoId: daoId }}
+          />
         )}
 
         {state.selectedTab === "bounty" && (
           <Widget
             src="sking.near/widget/DAO.Bounty"
-            props={{ daoId, ...props }}
+            props={{ daoId: daoId, ...props }}
           />
         )}
       </Content>
