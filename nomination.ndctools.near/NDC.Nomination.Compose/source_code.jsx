@@ -71,7 +71,7 @@ State.init({
 });
 
 const CardStyled = styled.div`
-  width: 70%;
+  width: 100%;
   height: 100%;
   background: #f8f8f9;
   gap: 10px;
@@ -128,7 +128,7 @@ const Modal = styled.div`
 
 const ComponentWrapper = styled.div`
   display: flex;
-  width: 70%;
+  width: 80%;
   height: 80%;
   flex-direction: column;
   align-items: flex-start;
