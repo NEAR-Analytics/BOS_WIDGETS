@@ -238,7 +238,7 @@ return (
     <div class="row">
       <div class="col-md-3">
         <Widget
-          src={`hack.near/widget/edu.navbar`}
+          src={`hack.near/widget/dev.sidebar`}
           props={{
             tab: state.tab,
             onSelect,
@@ -250,10 +250,6 @@ return (
           }}
         />
         <hr className="border-2" />
-        <Widget
-          src="miraclx.near/widget/Attribution"
-          props={{ authors: [ownerId], dep: true }}
-        />
       </div>
       <div class="col-md-9">
         <div className="d-flex flex-wrap justify-content-between mb-3">
