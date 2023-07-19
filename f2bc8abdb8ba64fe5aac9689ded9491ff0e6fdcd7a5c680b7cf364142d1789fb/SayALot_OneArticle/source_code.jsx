@@ -19,7 +19,7 @@ const articleBeforeParse =
     ? Social.get(`${lastEditor}/${addressForArticles}/main`)
     : Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight);
 
-if (articleBeforeParse) {
+if (!articleBeforeParse) {
   return "Loading...";
 }
 
