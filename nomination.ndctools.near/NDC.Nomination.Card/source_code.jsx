@@ -522,7 +522,7 @@ const keyIssues = [
 ];
 
 return (
-  <div className="p-2 col-lg-4 col-md-6 col-sm-12">
+  <div className="p-2 col-lg-4 w-100 col-md-6 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
