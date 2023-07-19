@@ -144,6 +144,7 @@ const NominationTitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin: 5px 0;
 `;
 const NominationTitle = styled.p`
   display: flex;
@@ -249,6 +250,7 @@ const PlatInforHeadText = styled.p`
 `;
 const HR = styled.div`
   height: 1px;
+  width: 100%;
   margin: 8px 0 0 0;
   border: 1px solid rgba(208, 214, 217, 1);
 `;
