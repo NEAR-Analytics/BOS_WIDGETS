@@ -20,7 +20,7 @@ State.init({
   functionCallError: "",
   proposalIsFetched: false,
   isValid: false,
-  proposalThresholdIsFetched: false,
+  proposalThresholdIsFetched: true,
   thresholdPassed: false,
   inUseVotingPower: null,
   inUseVotingPowerIsFetched: false,
@@ -289,12 +289,11 @@ return (
           disabled: !state.isValid,
         }}
       />
-      {!state.isValid && !state.thresholdPassed && (
-        <div className="text-danger">
-          Proposal Threshold is not reached. Not enough voting power to create a
-          proposal.
-        </div>
-      )}
     </ButtonsContainer>
+    {!state.isValid && !state.thresholdPassed && (
+      <div className="text-danger d-flex justify-content-end text-right">
+        Not enough voting power to create a proposal.
+      </div>
+    )}
   </>
 );
