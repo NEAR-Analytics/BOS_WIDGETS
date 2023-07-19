@@ -1,4 +1,4 @@
-let { ids, dev } = props;
+let { ids, dev, house, candidate } = props;
 ids = ids ? ids : [1, 2, 3]; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
