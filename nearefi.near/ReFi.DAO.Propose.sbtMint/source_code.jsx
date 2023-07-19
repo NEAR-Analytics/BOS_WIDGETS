@@ -264,7 +264,7 @@ return (
     )}
     {showReference && (
       <div className="input-group row">
-        <p>Input</p>
+        <p>Reference = link to a JSON file (eg, IPFS), [optional]</p>
         <input
           type="text"
           className={`form-control`}
