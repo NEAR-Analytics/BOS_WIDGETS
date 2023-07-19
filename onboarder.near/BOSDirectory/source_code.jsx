@@ -101,6 +101,15 @@ const social = {
         "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web. Built in EVM, FastAuth w/ Metatransactions",
     },
     {
+      key: 2,
+      name: "zkEVM Gateway",
+      url: "https://bos.quickswap.exchange",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreifihbw7snvqkkhmicbr7x7jevtnw6mtvln4wlgmuq6jnhy4netyke",
+      description:
+        "A zkEVM by Quickswap featuring PancakeSwap, Quickswap, Gamma, and Balancer. ",
+    },
+    {
       key: 5,
       name: "NEARPad",
       url: "https://nearpad.dev/",
