@@ -11,7 +11,7 @@ return (
     <br />
     <a
       className="nav-link mt-2"
-      href={`https://near.social/#/${ownerId}/widget/dev.library?tab=home`}
+      href={`https://near.social/#/${ownerId}/widget/docs?tab=home`}
       onClick={() => props.onSelect({ tab: "home", id: "" })}
     >
       <i className="bi-house" />
@@ -25,7 +25,7 @@ return (
           className={`nav-link mt-2 rounded-3${
             item.id === props.tab ? "bg-secondary" : ""
           }`}
-          href={`https://near.social/#/${ownerId}/widget/dev.library?tab=category&id=${item.id}`}
+          href={`https://near.social/#/${ownerId}/widget/docs?tab=category&id=${item.id}`}
           onClick={() => props.onSelect({ tab: "category", id: item.id })}
         >
           {" "}
