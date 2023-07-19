@@ -1,18 +1,16 @@
 // TODO: Should be grabbed from contract side
-let {
-  ids,
-  election_contract,
-  registry_contract,
-  nomination_contract,
-  api_key,
-} = props;
+let { ids, dev } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
-const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
-const registryContract = registry_contract ?? "registry.i-am-human.near";
-const communityContract = community_contract ?? "community.i-am-human.near";
-const nominationContract = nomination_contract ?? "nominations.ndc-gwg.near";
-const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const electionContract = "elections-v1.gwg-testing.near";
+const registryContract = dev
+  ? "registry-v1.gwg-testing.near"
+  : "registry.i-am-human.near";
+const issuer = dev ? "fractal.i-am-human.near" : "community.i-am-human.near";
+const nominationContract = dev
+  ? "nominations-v1.gwg-testing.near"
+  : "nominations.ndc-gwg.near";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 function handleSelfRevoke() {
   Near.call(nominationContract, "self_revoke");
@@ -56,27 +54,29 @@ const httpRequestOpt = {
   headers: { "x-api-key": apiKey },
 };
 
+const baseApi = "https://api.pikespeak.ai";
+
+const endpoints = {
+  sbt: `${baseApi}/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
+  og: `${baseApi}/sbt/sbt-by-owner?holder=${context.accountId}&class_id=${
+    dev ? 2 : 1
+  }&issuer=${issuer}&with_expired=false&registry=${registryContract}`,
+  candidateComments: `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}`,
+  houseNominations: `${baseApi}/nominations/house-nominations?house=${state.house}&contract=${nominationContract}`,
+};
+
 function getVerifiedHuman() {
-  asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
-    httpRequestOpt
-  ).then((res) => {
+  asyncFetch(endpoints.sbt, httpRequestOpt).then((res) => {
     if (res.body.length > 0) {
       State.update({ sbt: true });
     }
   });
-  asyncFetch(
-    `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=${communityContract}&with_expired=false&registry=${registryContract}`,
-    httpRequestOpt
-  ).then((res) => {
+  asyncFetch(endpoints.og, httpRequestOpt).then((res) => {
     if (res.body.length > 0) {
       State.update({ og: true });
     }
   });
-  asyncFetch(
-    `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}`,
-    httpRequestOpt
-  ).then((res) => {
+  asyncFetch(endpoints.candidateComments, httpRequestOpt).then((res) => {
     if (res.body.length > 0) {
       State.update({ selfNomination: true });
     }
@@ -85,10 +85,7 @@ function getVerifiedHuman() {
 
 function getNominationInfo() {
   let nominationsArr = [];
-  asyncFetch(
-    `https://api.pikespeak.ai/nominations/house-nominations?house=${state.house}&contract=${nominationContract}`,
-    httpRequestOpt
-  ).then((res) => {
+  asyncFetch(endpoints.houseNominations, httpRequestOpt).then((res) => {
     console.log(res.body);
 
     if (res.body.length <= 0) {
@@ -101,7 +98,7 @@ function getNominationInfo() {
       let nominee = data.nominee;
 
       asyncFetch(
-        `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
+        `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}`,
         httpRequestOpt
       ).then((info) => {
         let upVoteInfo = info.body[0];
