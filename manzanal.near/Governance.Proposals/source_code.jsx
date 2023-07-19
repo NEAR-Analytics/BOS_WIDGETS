@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const contractId = props.contractId ?? "v003.mpip.near";
+const contractId = props.contractId ?? "v004.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const authorId = "manzanal.near";
 const proposalsPerPage = props.proposalsPerPage ?? 10; // Number of proposals to fetch at a time
@@ -305,6 +305,47 @@ return (
         }}
       />
     </Section>
+    {/* FILTERS NOT IMPLEMENTED YET
+        <Filters>
+            <Widget
+                src={`${authorId}/widget/Common.SearchInput`}
+                props={{ search: state.search, update: (s) => State.update(s) }}
+            />
+
+       
+            <Filter>
+                <Widget
+                    src={`${authorId}/widget/Common.Filter`}
+                    props={{
+                        name: "Status",
+                        options: [
+                            { id: "all", text: "All", href: "#" },
+                            { id: "idea", text: "Idea", href: "#" },
+                            { id: "draft", text: "Draft", href: "#" },
+                            { id: "review", text: "Review", href: "#" },
+                            { id: "voting", text: "Voting", href: "#" },
+                            { id: "inactive", text: "Inactive", href: "#" },
+                            { id: "finalized", text: "Finalized", href: "#" },
+                        ],
+                        selected: "all",
+                        update: (id) => alert(id),
+                    }}
+                />
+                <Widget
+                    src={`${authorId}/widget/Common.Filter`}
+                    props={{
+                        name: "Sort by",
+                        options: [
+                            { id: "proposalId", text: "Proposal Id", href: "#" },
+                            { id: "title", text: "Proposal Title", href: "#" },
+                        ],
+                        selected: "proposalId",
+                        update: (id) => alert(id),
+                    }}
+                />
+            </Filter>
+        </Filters>
+         */}
     <div class="table-responsive w-100 mt-2">
       <Widget
         src={`${authorId}/widget/Governance.ProposalsTable`}
