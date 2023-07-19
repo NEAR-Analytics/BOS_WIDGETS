@@ -741,8 +741,9 @@ return (
           props={{
             Button: {
               text: "Add a Comment",
+              size: "sm",
               disabled: !state.verified,
-              className: "primary w-100 mt-4 mb-2 justify-content-center",
+              className: "primary justify-content-center",
               onClick: () => State.update({ showModal: true }),
               icon: <i className="bi bi-plus-lg"></i>,
             },
