@@ -264,7 +264,7 @@ const KeyIssuesContainer = styled.div`
 const KeyIssueTitle = styled.h5`
   font-size: 13px;
   line-height: 16px;
-  margin: 5px 0;
+  margin: 7px 0 3px 0;
 `;
 const KeyIssueDescription = styled.p`
   color: #828688;
@@ -659,12 +659,10 @@ return (
                     </CandidateTime>
                   </CandidateInfoData>
                 </CandidateInfoHeader>
-                <CandidateTextInfo>
-                  <CandidateTitle>Role Description</CandidateTitle>
-                  <CandidateDescription>
-                    {affiliation.role}
-                  </CandidateDescription>
-                </CandidateTextInfo>
+                <KeyIssuesContainer>
+                  <KeyIssueTitle>Role Description</KeyIssueTitle>
+                  <KeyIssueDescription>{affiliation.role}</KeyIssueDescription>
+                </KeyIssuesContainer>
               </CandidateInfoDiv>
             );
           })}
