@@ -13,6 +13,8 @@ State.init({
   shareText: "Copy link to the clipboard",
 });
 
+console.log(data);
+
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   candidatePage:
@@ -665,7 +667,6 @@ return (
           <div className="d-flex w-100 align-items-center">
             {!data.preview && (
               <div className="d-flex w-100 gap-2 justify-content-between">
-                {console.log(data)}
                 <Widget
                   src={widgets.styledComponents}
                   props={{
