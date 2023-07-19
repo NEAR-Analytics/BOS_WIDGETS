@@ -474,7 +474,7 @@ const Separation = styled.div`
 `;
 
 const Wrapper = styled.div`
-    @media only screen and (max-width: 6100px) {
+    @media only screen and (max-width: 610px) {
       width: 100%;
     }
   }
