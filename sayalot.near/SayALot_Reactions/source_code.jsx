@@ -15,6 +15,8 @@ const emojiArray = [
 ];
 const item = props.item;
 
+const isDebug = props.isDebug;
+
 const accountThatIsLoggedIn = context.accountId;
 
 if (!item) {
@@ -29,9 +31,14 @@ State.init({
 });
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const unfilteredLikes = Social.index("like", item, {
+const path = false ? "test_like" : "like";
+const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
+
+if (!unfilteredLikes) {
+  return "Loading...";
+}
 
 // ========= ARRAY LAST LIKE FOR EACH USER =========
 // arrayLastLikeForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
@@ -46,12 +53,10 @@ const arrayLastLikeForEachUser =
     return false;
   });
 
-
 // ========= GET USER EMOJI =========
 const userEmoji = arrayLastLikeForEachUser.find((obj) => {
-  return obj.accountId === accountThatIsLoggedIn
-})
-
+  return obj.accountId === accountThatIsLoggedIn;
+});
 
 // ========= GET LIKES STATISTICS =========
 const getLikeStats = (acc, likeObj) => {
@@ -63,7 +68,7 @@ const getLikeStats = (acc, likeObj) => {
       quantity: 0,
       emoji: likeObj.value.type.slice(0, 2),
       text: likeObj.value.type.slice(2),
-      accounts: []
+      accounts: [],
     };
     // acc[likeObj.value.type].quantity = 0;
     // acc[likeObj.value.type].emoji = likeObj.value.type.slice(0, 2);
@@ -163,16 +168,31 @@ const clickHandler = (emojiMessage) => {
       ? emojiArray[0]
       : emojiMessage;
 
-  const data = {
-    index: {
-      like: JSON.stringify({
-        key: item,
-        value: {
-          type: emojiToWrite,
-        },
-      }),
-    },
-  };
+  let data;
+
+  if (isDebug) {
+    data = data = {
+      index: {
+        test_like: JSON.stringify({
+          key: item,
+          value: {
+            type: emojiToWrite,
+          },
+        }),
+      },
+    };
+  } else {
+    data = {
+      index: {
+        like: JSON.stringify({
+          key: item,
+          value: {
+            type: emojiToWrite,
+          },
+        }),
+      },
+    };
+  }
 
   Social.set(data, {
     onCommit: () => {
@@ -183,13 +203,37 @@ const clickHandler = (emojiMessage) => {
   });
 };
 
+function showWhenCalled(objText) {
+  return state.showReactionsListModal == objText
+    ? { display: "block", backdropFilter: "blur(3px)", cursor: "auto" }
+    : {};
+}
+
 // =============== CSS Styles ===============
 const Button = styled.button`
+  min-width: fit-content;
   background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: start;
   width: 8em;
+  height: 2.5em;
+  padding: 6px 12px;
+  margin: 2px 0;
+  border: 0;
+  border-radius: .375rem;
+  :hover {
+    background: #EBEBEB; 
+    outline: 1px solid #C6C7C8;
+  }
+`;
+
+const SmallReactButton = styled.button`
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  width: fit-content;
   height: 2.5em;
   padding: 6px 12px;
   margin: 2px 0;
@@ -248,19 +292,6 @@ overflow: visible !important;
 padding-left: 8px;
 `;
 
-const Reactions = styled.div`
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: start;
-  width: 8em;
-  height: 2.5em;
-  padding: 6px 12px;
-  margin: 2px 0;
-  border: 0;
-  border-radius: .375rem;
-`;
-
 const EmojiListWrapper = styled.div`
 display: flex;
 flex-wrap: wrap;
@@ -279,20 +310,6 @@ box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
   }
 `;
 
-const StatWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  overflow: visible !important;
-  border-radius: ${({ isUserVote }) => (isUserVote ? "1rem" : "0")};
-  background-color: ${({ isUserVote }) => (isUserVote ? "rgba(0, 191, 255, 0.3)" : "transparent")};
-`;
-
-const EmojiQty = styled.span`
-  width: 1rem;
-  padding-right: 8px;
-`;
-
 // =============== NEW JSX ===============!!!!!!!!
 const Overlay = () => (
   <EmojiListWrapper
@@ -301,7 +318,7 @@ const Overlay = () => (
     show={state.show}
   >
     {emojiArray &&
-      emojiArray.map((item, index) => (
+      emojiArray.map((item) => (
         <SmallButton onClick={() => clickHandler(item)} isHeart={index === 0}>
           <OverlayTrigger
             placement="top"
@@ -318,29 +335,52 @@ const Overlay = () => (
   </EmojiListWrapper>
 );
 
-const Stats = () => (
-  (likesStatistics && likesStatistics.length) ?
-    likesStatistics.map((obj) => {
-      const userReaction = userEmoji ? userEmoji.value.type.slice(0, 2) : ""
-      return (
-        <StatWrapper title={`${obj.text}`} isUserVote={obj.emoji === userReaction}>
-          <EmojiWrapper>{obj.emoji}</EmojiWrapper>
-          <EmojiQty>{obj.quantity}</EmojiQty>
-        </StatWrapper>
-      )
-    })
-    : <></>
-)
+const Spinner = () => {
+  return (
+    <div
+      className="spinner-border text-secondary"
+      style={{ height: "1rem", width: "1rem", marginTop: "2px" }}
+      role="status"
+    >
+      <span className="sr-only" title="Loading..."></span>
+    </div>
+  );
+};
+
+const renderReaction = (item, isInButton) => {
+  return (
+    ((item.accounts.includes(context.accountId) && isInButton) ||
+      (!item.accounts.includes(context.accountId) && !isInButton)) && (
+      <span>
+        <Widget
+          className={isInButton ? "ps-3" : ""}
+          src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
+          props={{ accounts: item.accounts, emoji: item.emoji }}
+        />
+      </span>
+    )
+  );
+};
 
 return (
   <EmojiWrapper>
-    <Button
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
-    >
-      {!userEmoji ? initialEmoji : <Stats />}
-    </Button>
-    {!userEmoji ? <Reactions><Stats /></Reactions> : <></>}
+    {!userEmoji ? (
+      <Button
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+      >
+        {state.loading && <Spinner />}
+        {initialEmoji}
+      </Button>
+    ) : (
+      <SmallReactButton>
+        {state.loading && <Spinner />}
+        {state.likesStatistics &&
+          state.likesStatistics.map((item) => renderReaction(item, true))}
+      </SmallReactButton>
+    )}
     <Overlay />
+    {state.likesStatistics &&
+      state.likesStatistics.map((item) => renderReaction(item, false))}
   </EmojiWrapper>
 );
