@@ -42,12 +42,10 @@ const resultArticles =
       `${accountId}/${addressForArticles}/main`,
       blockHeight
     );
-    if (!postData) {
-      return "Loading...";
-    }
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
+
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
