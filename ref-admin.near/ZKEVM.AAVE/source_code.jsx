@@ -687,7 +687,6 @@ const AAVEContainer = styled.div`
   width:750px;
   margin:0 auto;
 `
-console.log();
 // Component body
 const body = loading ? (
   <>
