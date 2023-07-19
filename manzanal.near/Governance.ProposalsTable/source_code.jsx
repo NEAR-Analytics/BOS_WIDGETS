@@ -4,7 +4,10 @@ const contractId = props.contractId || "v004.mpip.near";
 State.init({});
 
 // sort proposals by mpip_id descending
-proposals.sort((p1, p2) => p2.mpip_id - p1.mpip_id);
+if (proposals && proposals !== null) {
+  proposals.sort((p1, p2) => p2.mpip_id - p1.mpip_id);
+}
+
 const yoctoToNear = (amountYocto) =>
   new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
 
@@ -153,50 +156,57 @@ const Container = styled.div`
   width: 100%;
   margin-bottom: 2em;
 `;
+if (!proposals || proposals === null || proposals.length == 0) {
+  return (
+    <Container class="table-responsive">
+      <table class="table table-striped">
+        <tbody>No proposals created</tbody>
+      </table>
+    </Container>
+  );
+}
 
 return (
   <Container class="table-responsive">
     <table class="table table-striped">
       <tbody>
-        {!proposals || (proposals.length == 0 && <>No proposals created</>)}
-        {proposals.length > 0 &&
-          proposals.map((proposal) => (
-            <tr className="align-middle">
-              <td class="text-start">
-                <a
-                  href={`/${authorId}/widget/Governance.Index?tab=proposal&mpip_id=${proposal.mpip_id}`}
-                  onClick={() =>
-                    props.update({
-                      tab: "proposal",
-                      mpip_id,
-                    })
-                  }
-                >
-                  <Cell>
-                    <Label>
-                      {" "}
-                      Prop {proposal.mpip_id} - {proposal.title}
-                    </Label>
-                    <Value>{proposal.short_description}</Value>
-                  </Cell>
-                </a>
-              </td>
-              <td class="text-end">
-                <Cell end>
-                  <Label>Status</Label>
-                  <Value color={getProposalStateColor(proposal.mpip_id)}>
-                    {getProposalState(proposal.mpip_id)}
-                  </Value>
+        {proposals.map((proposal) => (
+          <tr className="align-middle">
+            <td class="text-start">
+              <a
+                href={`/${authorId}/widget/Governance.Index?tab=proposal&mpip_id=${proposal.mpip_id}`}
+                onClick={() =>
+                  props.update({
+                    tab: "proposal",
+                    mpip_id,
+                  })
+                }
+              >
+                <Cell>
+                  <Label>
+                    {" "}
+                    Prop {proposal.mpip_id} - {proposal.title}
+                  </Label>
+                  <Value>{proposal.short_description}</Value>
                 </Cell>
-              </td>
-              <td class="text-end">
-                <Cell end>
-                  <Label>{getVotingTimeRemaining(proposal)}</Label>
-                  <Value> {getProposalVotes(proposal.mpip_id)}VP</Value>
-                </Cell>
-              </td>
-            </tr>
-          ))}
+              </a>
+            </td>
+            <td class="text-end">
+              <Cell end>
+                <Label>Status</Label>
+                <Value color={getProposalStateColor(proposal.mpip_id)}>
+                  {getProposalState(proposal.mpip_id)}
+                </Value>
+              </Cell>
+            </td>
+            <td class="text-end">
+              <Cell end>
+                <Label>{getVotingTimeRemaining(proposal)}</Label>
+                <Value> {getProposalVotes(proposal.mpip_id)}VP</Value>
+              </Cell>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   </Container>
