@@ -568,7 +568,7 @@ return (
               }}
             />
             <UserLink
-              href={`https://www.near.org/near/widget/ProfilePage?accountId/${data.nominationData?.profileAccount.substring(
+              href={`https://www.near.org/near/widget/ProfilePage?accountId=${data.nominationData?.profileAccount.substring(
                 1
               )}`}
             >
