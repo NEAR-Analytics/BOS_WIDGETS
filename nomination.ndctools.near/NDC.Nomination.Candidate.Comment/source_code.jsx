@@ -259,7 +259,7 @@ return (
           props={{
             accountId: data.commentator,
             imageClassName: "rounded-circle w-100 h-100",
-            style: { width: "20px", height: "20px" },
+            style: { width: "25px", height: "25px" },
           }}
         />
         <CommentUser>
