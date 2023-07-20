@@ -238,8 +238,6 @@ color: #828688;
  
   `;
 const AFDates = styled.div`
-padding-left:0px;
-
 display: flex;  
 width:100%;
 gap:.5rem;
