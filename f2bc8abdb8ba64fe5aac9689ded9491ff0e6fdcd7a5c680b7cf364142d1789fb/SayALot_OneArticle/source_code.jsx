@@ -325,6 +325,8 @@ const filterTagsFromNull = (tagsObj) => {
   return result;
 };
 
+console.log(state.tags);
+
 return (
   <div
     className="container-fluid"
