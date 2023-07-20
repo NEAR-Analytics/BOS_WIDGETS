@@ -132,36 +132,21 @@ const getArticleData = () => {
 };
 
 const composeData = () => {
-  let data;
-  if (isDebug) {
-    data = {
-      test_sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        test_sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-          },
-        }),
-      },
-    };
-  } else {
-    data = {
-      sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-          },
-        }),
-      },
-    };
-  }
+  const key = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+
+  let data = {
+    [key]: {
+      main: JSON.stringify(getArticleData()),
+    },
+    index: {
+      [key]: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
 
   if (tagsArray.length) {
     data.index.tag = JSON.stringify(
