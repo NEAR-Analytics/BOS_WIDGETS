@@ -58,11 +58,7 @@ const setTags = (tags) => {
   State.update({ tags });
   if (props.setTagsObject) {
     props.setTagsObject(
-      Object.assign(
-        {},
-        state.originalTags,
-        Object.fromEntries(tags.map((tag) => [tag.name, ""]))
-      )
+      Object.assign({}, Object.fromEntries(tags.map((tag) => [tag.name, ""])))
     );
   }
 };
