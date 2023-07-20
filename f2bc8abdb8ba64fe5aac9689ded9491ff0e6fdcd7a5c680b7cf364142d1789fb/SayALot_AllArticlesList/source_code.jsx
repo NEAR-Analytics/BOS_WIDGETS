@@ -1,6 +1,7 @@
 State.init({ start: Date.now() });
 
 const isDebug = props.isDebug;
+const author = props.author;
 
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
@@ -59,7 +60,7 @@ const resultArticles =
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
 // ========== FILTER DUPLICATES ==========
-const filteredArticles =
+let filteredArticles =
   resultArticles.length &&
   resultArticles.reduce((acc, article) => {
     if (!acc.some(({ articleId }) => articleId === article.articleId)) {
@@ -68,6 +69,12 @@ const filteredArticles =
       return acc;
     }
   }, []);
+
+if (author) {
+  filteredArticles = filteredArticles.filter(
+    (article) => article.author === author
+  );
+}
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
