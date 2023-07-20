@@ -5,7 +5,7 @@ const daoId = props.daoId ?? "every.near";
 
 return (
   <div className="d-flex flex-column">
-    <a href="#/hack.near/widget/Academy">
+    <a href="#/efiz.near/widget/every">
       <Widget src="mob.near/widget/ProfileImage" props={{ accountId: daoId }} />
     </a>
     <br />
