@@ -163,6 +163,7 @@ while (filteredItems.length < state.displayCount) {
     //   }
     // }
   }
+  // Remove duplicates
   const existingItemIndex = filteredItems.findIndex(
     (item) => item.blockHeight === bestItem.blockHeight
   );
