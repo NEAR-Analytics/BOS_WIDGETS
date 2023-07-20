@@ -125,11 +125,11 @@ const HeaderTagP = styled.p`
   color: white;
   margin: 0;
 `;
-const HeaderContentText = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
+const UserLink = styled.a`
+  cursor: pointer;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 const NominationName = styled.p`
   font-weight: 500;
@@ -542,7 +542,6 @@ return (
           }}
         />
       )}
-      {console.log(data.nominationData)}
       <HeaderCard className="d-flex justify-content-between">
         <div className="d-flex align-items-center gap-2">
           <Widget
@@ -568,12 +567,16 @@ return (
                 },
               }}
             />
-            <HeaderContentText>
+            <UserLink
+              href={`https://wallet.near.org/profile/${data.nominationData?.profileAccount.substring(
+                1
+              )}`}
+            >
               <NominationName>{data.profileData?.name}</NominationName>
               <NominationUser>
                 {getShortUserName(data.nominationData?.profileAccount)}
               </NominationUser>
-            </HeaderContentText>
+            </UserLink>
           </HeaderContent>
         </div>
         {canUpvote() && (
