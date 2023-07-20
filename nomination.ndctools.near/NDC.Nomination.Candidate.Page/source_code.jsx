@@ -68,7 +68,6 @@ return (
     <Mobile className="d-flex justify-content-center">
       <Mobile>
         <Widget
-          key={i}
           src={widgets.header}
           props={{
             startTime: time.start,
@@ -99,9 +98,8 @@ return (
         src={widgets.mobile}
       />
     </Mobile>
-    <Desktop style={{ display: "flex", "justify-content": "center" }}>
+    <Desktop className="w-100">
       <Widget
-        key={i}
         src={widgets.header}
         props={{
           startTime: time.start,
