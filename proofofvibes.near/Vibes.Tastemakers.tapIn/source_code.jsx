@@ -36,7 +36,7 @@ if (profile === null) {
 
 // const qrPayload = `https://social.near.page/u/${accountId}`;
 
-const qrPayload = `https://near.org/efiz.near/widget/every.vibe?mention=${accountId}`; // logic is out of order
+const qrPayload = `https://near.social/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${accountId}`; // logic is out of order
 // qrPayload = qrPayload + "&location=${eventHashtag}";
 
 const renderQR = () => {
