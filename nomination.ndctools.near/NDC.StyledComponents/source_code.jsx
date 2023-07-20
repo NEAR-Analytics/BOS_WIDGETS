@@ -1,48 +1,74 @@
 const { Button, Dropdown, TextArea, Input, Link, Tag } = props;
 
+const inverse = Button.inverse ?? Link.inverse ?? false;
+const getColor = (color) => (inverse ? "#fff" : color);
+
+const colors = {
+  orange: {
+    default: getColor("ffd50d"),
+    hover: getColor("#e7c211"),
+  },
+  blue: {
+    default: getColor("4f46e5"),
+    hover: getColor("#2f2a87"),
+  },
+  grey: {
+    default: getColor("c3cace"),
+    text: getColor("#828688"),
+  },
+  red: {
+    default: getColor("c23f38"),
+    hover: getColor("#f1d6d5"),
+  },
+};
+
 const Styled = {
   Button: styled.button`
     width: max-content;
-    padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
-    height: ${(props) => (Button.size === "sm" ? "28px" : "")};
-    font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
-    border-radius: ${(props) => (Button.size === "sm" ? "6px" : "10px")};
+    padding: ${Button.size === "sm" ? "4px 12px" : "8px 20px"};
+    height: ${Button.size === "sm" ? "28px" : ""};
+    font-size: ${Button.size === "sm" ? "12px" : "14px"};
+    border-radius: ${Button.size === "sm" ? "6px" : "10px"};
     font-weight: 500;
     line-height: 24px;
     text-align: center;
     border: 0;
 
     &.danger {
-      border: 1px solid #c23f38;
-      background: #f1d6d5;
-      color: #c23f38;
+      border: 1px solid ${colors.red.default};
+      background: #fff;
+      color: ${colors.red.default};
+
+      hover: {
+        background: ${colors.red.hover}
+      }
     }
 
     &.primary {
-      background: #ffd50d;
+      background: ${colors.orange.default};
 
       &:hover {
-        background: #e7c211;
+        background: ${colors.orange.hover};
       }
 
       &.dark {
         color: #fff;
-        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+        background: ${colors.blue.default};
 
         &:hover {
-          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+          background: ${colors.blue.hover};
         }
       }
 
       &:disabled {
         cursor: not-allowed;
-        background: #c3cace;
-        color: #828688;
+        background: ${colors.grey.default};
+        color: ${colors.grey.text};
         border: 0;
 
         &:hover {
-          background: #c3cace;
-          color: #828688;
+          background: ${colors.grey.default};
+          color: ${colors.grey.text};
         }
       }
     }
@@ -50,32 +76,32 @@ const Styled = {
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: #ffd50d;
-      color: #ffd50d;
+      border-color: ${colors.orange.default};
+      color: ${colors.orange.default};
 
       &:hover {
-        border-color: #e7c211;
-        color: #e7c211;
+        border-color: ${colors.orange.hover};
+        color: ${colors.orange.hover};
       }
 
       &.dark {
-        color: #4f46e5;
-        border-color: #4f46e5;
+        border-color: ${colors.blue.default};
+        color: ${colors.blue.default};
 
         &:hover {
-          border-color: #2f2a87;
-          color: #2f2a87;
+          border-color: ${colors.blue.hover};
+          color: ${colors.blue.hover};
         }
       }
 
       &:disabled {
-        border-color: #c3cace;
-        color: #828688;
+        border-color: ${colors.grey.default};
+        color: ${colors.grey.text};
         cursor: not-allowed;
 
         &:hover {
-          border-color: #c3cace;
-          color: #828688;
+          border-color: ${colors.grey.default};
+          color: ${colors.grey.text};
         }
       }
     }
@@ -88,10 +114,10 @@ const Styled = {
 
   Link: styled.a`
     width: max-content;
-    padding: ${(props) => (Link.size === "sm" ? "4px 12px" : "8px 20px")};
-    height: ${(props) => (Link.size === "sm" ? "28px" : "")};
-    font-size: ${(props) => (Link.size === "sm" ? "12px" : "14px")};
-    border-radius: ${(props) => (Link.size === "sm" ? "6px" : "10px")};
+    padding: ${Link.size === "sm" ? "4px 12px" : "8px 20px"};
+    height: ${Link.size === "sm" ? "28px" : ""};
+    font-size: ${Link.size === "sm" ? "12px" : "14px"};
+    border-radius: ${Link.size === "sm" ? "6px" : "10px"};
     font-weight: 500;
     line-height: 24px;
     text-align: center;
@@ -104,58 +130,70 @@ const Styled = {
     }
 
     &.danger {
-      border: 1px solid #c23f38;
-      background: #f1d6d5;
-      color: #c23f38;
+      border: 1px solid ${colors.red.border};
+      background: ${colors.red.default};
+      color: ${colors.red.border};
     }
 
     &.primary {
-      background: #ffd50d;
+      background: ${colors.orange.default};
 
       &:hover {
-        background: #e7c211;
+        background: ${colors.orange.hover};
       }
 
       &.dark {
         color: #fff;
-        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+        background: ${colors.blue.default};
 
         &:hover {
-          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+          background: ${colors.blue.hover};
         }
       }
 
       &:disabled {
-        background: #c3cace;
-        color: #828688;
+        cursor: not-allowed;
+        background: ${colors.grey.default};
+        color: ${colors.grey.text};
         border: 0;
+
+        &:hover {
+          background: ${colors.grey.default};
+          color: ${colors.grey.text};
+        }
       }
     }
 
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: #ffd50d;
-      color: #ffd50d;
+      border-color: ${colors.orange.default};
+      color: ${colors.orange.default};
 
       &:hover {
-        border-color: #e7c211;
-        color: #e7c211;
+        border-color: ${colors.orange.hover};
+        color: ${colors.orange.hover};
       }
 
       &.dark {
-        color: #4f46e5;
-        border-color: #4f46e5;
+        border-color: ${colors.blue.default};
+        color: ${colors.blue.default};
 
         &:hover {
-          border-color: #2f2a87;
-          color: #2f2a87;
+          border-color: ${colors.blue.hover};
+          color: ${colors.blue.hover};
         }
       }
 
       &:disabled {
-        border-color: #c3cace;
-        color: #828688;
+        border-color: ${colors.grey.default};
+        color: ${colors.grey.text};
+        cursor: not-allowed;
+
+        &:hover {
+          border-color: ${colors.grey.default};
+          color: ${colors.grey.text};
+        }
       }
     }
 
@@ -247,6 +285,7 @@ if (Link)
       href={Link.href}
       target="_blank"
       disabled={Link.disabled}
+      inverse={Link.inverse}
     >
       <div>{Link.text}</div>
       {Link.icon && (
@@ -265,6 +304,7 @@ if (Button)
       onClick={Button.onClick}
       disabled={Button.disabled}
       text={Button.text}
+      inverse={Button.inverse}
     >
       <div>{Button.text}</div>
       {Button.icon && (
