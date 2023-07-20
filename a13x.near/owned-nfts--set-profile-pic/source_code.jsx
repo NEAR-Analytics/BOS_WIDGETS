@@ -64,7 +64,7 @@ owned_tokens.map((token) => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id={`token-${token_id}Label`}>
-              Token {token.token_id}
+              {contractId} ➡️ {token.token_id}
               {price > 0 && (
                 <span class="ms-1 badge bg-success">
                   Mint Price: {price} NEAR
