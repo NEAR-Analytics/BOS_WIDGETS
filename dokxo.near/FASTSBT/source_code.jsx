@@ -557,7 +557,7 @@ return (
                     </Dropdown>
                   </div>
                 </Metarow>
-                <div class="row">
+                <Metarow>
                   {" "}
                   <AFDates name="AFdates">
                     <DateContItem>
@@ -581,9 +581,9 @@ return (
                       ></CompanyInput>
                     </DateContItem>
                   </AFDates>
-                </div>
+                </Metarow>
 
-                <div class="row ">
+                <Metarow>
                   <MetaTitles>
                     {"Reference = link to a JSON file (eg, IPFS)."}
                   </MetaTitles>
@@ -597,9 +597,9 @@ return (
                       }}
                     />
                   </div>
-                </div>
+                </Metarow>
 
-                <div class="row ">
+                <Metarow>
                   <MetaTitles>
                     {"Reference hash = Base64-encoded sha256 hash of JSON."}
                   </MetaTitles>
@@ -613,7 +613,7 @@ return (
                       }}
                     />
                   </div>
-                </div>
+                </Metarow>
               </div>
             </MetaCard>
           ) : (
