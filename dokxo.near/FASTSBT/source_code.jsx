@@ -439,44 +439,47 @@ return (
 
     <CardStyled name="compose" class="Cardstyled">
       <BodyForm class="mx-auto">
-        <div className="d-flex flex-column mt-2">
-          <H1styled>DAO</H1styled>
-          <InputStyled
-            type="text"
-            placeholder="Input DAO contract address"
-            value={state.Dao_Contract}
-            onChange={(e) => {
-              State.update({ Dao_Contract: e.target.value });
-            }}
-          />
+        <div>
+          <div className="d-flex flex-column mt-2">
+            <H1styled>DAO</H1styled>
+            <InputStyled
+              type="text"
+              placeholder="Input DAO contract address"
+              value={state.Dao_Contract}
+              onChange={(e) => {
+                State.update({ Dao_Contract: e.target.value });
+              }}
+            />
+          </div>
+          <div className="d-flex flex-column mt-2">
+            <H1styled>Issuer</H1styled>
+            <Dropdown
+              placeholder="Input DAO contract address"
+              value={state.Issuer_selected}
+              onChange={(e) => {
+                State.update({ Issuer_selected: e.target.value });
+              }}
+            >
+              <option default value="0">
+                Select issuer
+              </option>
+              {}
+              <option value="nothing">more options from fetch</option>
+            </Dropdown>
+          </div>
+          <div className="d-flex flex-column mt-2">
+            <H1styled>Receiver</H1styled>
+            <InputStyled
+              type="text"
+              placeholder="dokxo.near"
+              value={state.Receiver}
+              onChange={(e) => {
+                State.update({ Receiver: e.target.value });
+              }}
+            />
+          </div>
         </div>
-        <div className="d-flex flex-column mt-2">
-          <H1styled>Issuer</H1styled>
-          <Dropdown
-            placeholder="Input DAO contract address"
-            value={state.Issuer_selected}
-            onChange={(e) => {
-              State.update({ Issuer_selected: e.target.value });
-            }}
-          >
-            <option default value="0">
-              Select issuer
-            </option>
-            {}
-            <option value="nothing">more options from fetch</option>
-          </Dropdown>
-        </div>
-        <div className="d-flex flex-column mt-2">
-          <H1styled>Receiver</H1styled>
-          <InputStyled
-            type="text"
-            placeholder="dokxo.near"
-            value={state.Receiver}
-            onChange={(e) => {
-              State.update({ Receiver: e.target.value });
-            }}
-          />
-        </div>
+
         <div className="d-flex flex-column mt-2">
           <div class="d-flex">
             <H1styled>Metadata</H1styled>
