@@ -328,29 +328,14 @@ return (
         )}
         {state.selectedTab === "feed" && (
           <>
-            <Widget
-              src="ndcplug.near/widget/ndc-badge-holders"
-              props={{
-                title: sbtTitle,
-                issuer: issuer,
-                showProgress: false,
-                showDropdown: false,
-                showHeader: false,
-              }}
-            />
+            <Widget src="proofofvibes.near/widget/Vibes.Feed.main" props={{}} />
           </>
         )}
         {state.selectedTab === "tastemaker" && (
           <>
             <Widget
-              src="ndcplug.near/widget/ndc-badge-holders"
-              props={{
-                title: sbtTitle,
-                issuer: issuer,
-                showProgress: false,
-                showDropdown: false,
-                showHeader: false,
-              }}
+              src="proofofvibes.near/widgetVibes.Tastemakers.tapIn"
+              props={{}}
             />
           </>
         )}
