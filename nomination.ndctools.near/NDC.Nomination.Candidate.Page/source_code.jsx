@@ -50,14 +50,12 @@ State.update({ profile: profile });
 State.update({ nominations: nominations });
 
 const Mobile = styled.div`
-  display: flex;
   @media only screen and (min-width: 601px) {
     display: none !important;
   }
 `;
 
 const Desktop = styled.div`
-  display: flex;
   @media only screen and (max-width: 600px) {
     display: none !important;
   }
