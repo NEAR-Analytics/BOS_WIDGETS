@@ -92,6 +92,9 @@ const resultArticles =
       `${accountId}/${addressForArticles}/main`,
       blockHeight
     );
+    if (!postData) {
+      return acc;
+    }
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
