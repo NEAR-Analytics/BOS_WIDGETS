@@ -17,7 +17,7 @@ State.init({
 
 const WithdrawButton = ({ data }) => (
   <Widget
-    src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+    src={`ref-admin.near/widget/ZKEVM.AAVE.PrimaryButton`}
     props={{
       config,
       children: "Withdraw",
@@ -164,7 +164,7 @@ return (
     />
     {showWithdrawModal && (
       <Widget
-        src={`${config.ownerId}/widget/AAVE.Modal.WithdrawModal`}
+        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.WithdrawModal`}
         props={{
           config,
           chainId,
