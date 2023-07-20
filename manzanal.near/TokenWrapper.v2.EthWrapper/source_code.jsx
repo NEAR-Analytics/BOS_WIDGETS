@@ -6,7 +6,7 @@ const wethAddress =
 const tokenDecimals = 18;
 const wethAbiUrl =
   props.wethAbiUrl ||
-  "https://raw.githubusercontent.com/leomanza/chain-agnostic-bos-workshop/main/ABIs/WETH.abi.json?token=GHSAT0AAAAAACFEJMQZ5IOBEZ6DTYA2T6CSZFZIIXQ";
+  "https://raw.githubusercontent.com/leomanza/chain-agnostic-bos-workshop/main/ABIs/WETH.abi.json";
 const wethAbi = fetch(wethAbiUrl);
 
 if (!wethAbi.ok) {
