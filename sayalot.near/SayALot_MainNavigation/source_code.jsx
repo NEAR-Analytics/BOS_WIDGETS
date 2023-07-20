@@ -17,12 +17,18 @@ const writersWhiteList = props.writersWhiteList ?? [
 const sayALotWorkers = [
   "silkking.near",
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
 ];
 
 if (isDebug) {
-  sayALotWorkers.forEach((accountId) => writersWhiteList.push(accountId));
+  writersWhiteList = sayALotWorkers;
 }
+
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const pills = [
   {
     id: "articles",
@@ -77,7 +83,7 @@ return (
         className="navbar-brand text-decoration-none"
         href={
           isDebug
-            ? `#/${authorForWidget}/widget/SayALot?isDebbug=true`
+            ? `#/${authorForWidget}/widget/SayALot?isDebug=true`
             : `#/${authorForWidget}/widget/SayALot`
         }
       >
@@ -118,7 +124,7 @@ return (
               <a
                 href={
                   isDebug
-                    ? `#/${authorForWidget}/widget/${widgetName}?isDebbug=true`
+                    ? `#/${authorForWidget}/widget/${widgetName}?isDebug=true`
                     : `#/${authorForWidget}/widget/${widgetName}`
                 }
                 className={`nav-link ${
@@ -138,7 +144,7 @@ return (
                   className="btn btn-outline-dark"
                   href={
                     isDebug
-                      ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
+                      ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebug=true`
                       : `#/${authorForWidget}/widget/SayALot_CreateArticle`
                   }
                 >
@@ -154,7 +160,7 @@ return (
             <a
               href={
                 isDebug
-                  ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebbug=true`
+                  ? `#/${authorForWidget}/widget/SayALot_CreateArticle?isDebug=true`
                   : `#/${authorForWidget}/widget/SayALot_CreateArticle`
               }
             >
