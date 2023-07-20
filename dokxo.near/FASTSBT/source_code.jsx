@@ -362,6 +362,13 @@ border-radius: 10px;
  
 }
 `;
+const Rowcont = styled.div`
+ 
+@media only screen and (max-width: 480px) {
+ display:flex;
+ 
+}
+`;
 
 const HiddeableWidget = styled.div`
   display: none;
@@ -439,7 +446,7 @@ return (
 
     <CardStyled name="compose" class="Cardstyled">
       <BodyForm class="mx-auto">
-        <div>
+        <Rowcont>
           <div className="d-flex flex-column mt-2">
             <H1styled>DAO</H1styled>
             <InputStyled
@@ -478,7 +485,7 @@ return (
               }}
             />
           </div>
-        </div>
+        </Rowcont>
 
         <div className="d-flex flex-column mt-2">
           <div class="d-flex">
