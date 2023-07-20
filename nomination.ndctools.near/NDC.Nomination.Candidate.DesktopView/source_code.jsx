@@ -1,7 +1,7 @@
 const {
   data,
   house,
-  candidate,
+  accountId,
   nomination_contract,
   registry_contract,
   api_key,
@@ -32,7 +32,7 @@ function getVerifiedHuman() {
     State.update({ verified: res.body });
   });
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${candidate}&upvoter=${context.accountId}&contract=${nomination_contract}`,
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${accountId}&upvoter=${context.accountId}&contract=${nomination_contract}`,
     {
       headers: {
         "x-api-key": api_key,
@@ -55,7 +55,7 @@ function handleUpVote() {
     nomination_contract,
     state.voted ? "remove_upvote" : "upvote",
     {
-      candidate: candidate,
+      candidate: accountId,
     },
     300000000000000,
     state.voted ? 0 : 1000000000000000000000
@@ -491,7 +491,7 @@ return (
               <Widget
                 src="mob.near/widget/ProfileImage"
                 props={{
-                  accountId: candidate,
+                  accountId,
                   imageClassName: "rounded-circle w-100 h-100",
                   style: {
                     width: "100px",
@@ -519,10 +519,10 @@ return (
                 </TagContainer>
                 <NominationTitleContainer>
                   <UserLink
-                    href={`https://www.near.org/near/widget/ProfilePage?accountId=${candidate}`}
+                    href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
                   >
                     <NominationTitle>{data.nominations.name}</NominationTitle>
-                    <NominationUser>{candidate}</NominationUser>
+                    <NominationUser>{accountId}</NominationUser>
                   </UserLink>
                   <TagContainer>
                     {data.nominations.tags
@@ -561,7 +561,7 @@ return (
                   Button: {
                     text: `+${data.comments[0].upvotes ?? 0}`,
                     disabled:
-                      !state.verified || context.accountId === candidate,
+                      !state.verified || context.accountId === accountId,
                     className: "secondary dark",
                     onClick: handleUpVote,
                     icon: <i className="bi bi-hand-thumbs-up"></i>,
@@ -792,7 +792,7 @@ return (
                   src={widgets.addComment}
                   props={{
                     candidateOrReplay: true,
-                    username: candidate,
+                    username: accountId,
                     onClickConfirm: () => State.update({ showModal: false }),
                     onClickCancel: () => State.update({ showModal: false }),
                     nomination_contract,
