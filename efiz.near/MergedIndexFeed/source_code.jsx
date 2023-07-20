@@ -138,9 +138,6 @@ while (filteredItems.length < state.displayCount) {
     if (!item) {
       continue;
     }
-    if (item.blockHeight === bestItem.blockHeight) {
-      continue;
-    }
     if (
       bestItem === null ||
       (desc
@@ -166,7 +163,12 @@ while (filteredItems.length < state.displayCount) {
     //   }
     // }
   }
-  filteredItems.push(bestItem);
+  const existingItemIndex = filteredItems.findIndex(
+    (item) => item.blockHeight === bestItem.blockHeight
+  );
+  if (existingItemIndex === -1) {
+    filteredItems.push(bestItem);
+  }
 }
 
 // Fetch new items for feeds that don't have enough items.
