@@ -52,7 +52,7 @@ return (
       props={{ currentNavPill: "articles", writersWhiteList, isDebug }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
-      {author && <h4>{author} articles</h4>}
+      {author && <h4>`${author}'s articles`</h4>}
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
         props={{ writersWhiteList, isDebug, author }}
