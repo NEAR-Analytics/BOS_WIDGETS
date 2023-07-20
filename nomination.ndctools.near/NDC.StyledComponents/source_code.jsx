@@ -352,7 +352,15 @@ if (Input)
     </div>
   );
 
-const WidgetButton = ({ type, size, className, disabled, text, icon }) => (
+const WidgetButton = ({
+  type,
+  size,
+  className,
+  disabled,
+  text,
+  icon,
+  inverse,
+}) => (
   <Widget
     src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
     props={{
