@@ -229,7 +229,9 @@ const Winner = styled.i`
 
 const UserLink = ({ title, src }) => (
   <>
-    <StyledLink href={src}>{title}</StyledLink>
+    <StyledLink href={src} target="_blank">
+      {title}
+    </StyledLink>
     <div>
       <Icon className="bi bi-arrow-up-right" />
     </div>
