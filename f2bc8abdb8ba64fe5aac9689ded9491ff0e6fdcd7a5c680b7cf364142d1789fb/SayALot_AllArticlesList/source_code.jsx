@@ -59,6 +59,8 @@ const resultArticles =
     .filter((article) => article.lastEditor === article.author)
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
+console.log(resultArticles);
+
 // ========== FILTER DUPLICATES ==========
 let filteredArticles =
   resultArticles.length &&
