@@ -59,7 +59,7 @@ return (
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       {author && (
         <h4
-          style={{ marginTop: "1.5rem" }}
+          style={{ margin: "1.5rem 0 0 0" }}
         >{`${authorProfile.name}'s articles`}</h4>
       )}
       <Widget
