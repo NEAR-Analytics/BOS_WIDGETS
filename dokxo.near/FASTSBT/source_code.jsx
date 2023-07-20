@@ -12,14 +12,15 @@ background: rgba(0, 0, 0, 0.70);
 
 
  
+ @media only screen and (max-width: 820px) {
+background: rgba(0, 255, 0, 0.70);
+
+}
 @media only screen and (max-width: 480px) {
 background: rgba(255, 0, 0, 0.70);
 
 }
-@media only screen and (max-width: 820px) {
-background: rgba(0, 255, 0, 0.70);
 
-}
 `;
 
 const Header = styled.div`
