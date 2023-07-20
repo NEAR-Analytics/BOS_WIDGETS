@@ -562,7 +562,9 @@ return (
               }}
             />
             <UserLink
-              href={`https://www.near.org/near/widget/ProfilePage?accountId=${data.indexerData.nominee}`}
+              href={`${widgets.candidatePage}?house=${
+                data.indexerData.house
+              }&accountId=${data.indexerData.nominee}${dev ? "&dev=true" : ""}`}
             >
               <NominationName>{data.profileData?.name}</NominationName>
               <NominationUser>{data.indexerData.nominee}</NominationUser>
