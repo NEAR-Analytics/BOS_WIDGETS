@@ -7,15 +7,16 @@ State.init({
 });
 
 const STORAGE_KEY = "proposalsMultiVote";
-const STORAGE = Storage.get(STORAGE_KEY);
+const STORAGE_SRC = "astro.sking.near/widget/DAO.Proposals.Card.MultiVote";
+const STORAGE = Storage.get(STORAGE_KEY, STORAGE_SRC);
 
 console.log(STORAGE);
 
 if (STORAGE === null) return "";
 
-// if (Object.keys(STORAGE[daoId] || {}).length < 1) {
-//   return "";
-// }
+if (Object.keys(STORAGE[daoId] || {}).length < 1) {
+  return "";
+}
 
 const proposal_ids = Object.keys(STORAGE[daoId]).map((id) => parseInt(id));
 
