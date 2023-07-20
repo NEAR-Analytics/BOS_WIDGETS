@@ -209,6 +209,8 @@ const CurrencyPillWrapper = styled.div`
 const CurrencyPillImageWrapper = styled.div`
   display: flex;
   align-items: center;
+   width: 24px;
+  height: 24px;
 `;
 
 const CurrencyPillImage = styled.img`
