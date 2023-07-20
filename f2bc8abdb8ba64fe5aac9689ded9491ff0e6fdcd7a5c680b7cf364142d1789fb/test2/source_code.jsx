@@ -1,4 +1,4 @@
-State.init({ articleId: "widget con pavadas" });
+State.init({ articleId: "" });
 
 return (
   <input
