@@ -539,7 +539,7 @@ return (
                   "padding-top": "11px",
                 }}
               >
-                <div name="Classid" class="row px-0">
+                <div name="Classid" class="row ">
                   <MetaTitles>{"Class id"}</MetaTitles>
                   <div>
                     <Dropdown
@@ -582,7 +582,7 @@ return (
                   </AFDates>
                 </div>
 
-                <div class="row px-0">
+                <div class="row ">
                   <MetaTitles>
                     {"Reference = link to a JSON file (eg, IPFS)."}
                   </MetaTitles>
@@ -598,7 +598,7 @@ return (
                   </div>
                 </div>
 
-                <div class="row px-0">
+                <div class="row ">
                   <MetaTitles>
                     {"Reference hash = Base64-encoded sha256 hash of JSON."}
                   </MetaTitles>
