@@ -364,6 +364,9 @@ border-radius: 10px;
 `;
 const Rowcont = styled.div`
  display:flex;
+ @media only screen and (max-width: 820px) {
+ display:block;
+}
 @media only screen and (max-width: 480px) {
   display:block;
  
