@@ -1,8 +1,9 @@
-const contractId = props.contractId || "v004.mpip.near";
+const contractId = props.contractId || "v005.mpip.near";
 const accountId = props.accountId ?? context.accountId;
 const authorId = "manzanal.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const mpip_id = props.mpip_id ? parseInt(props.mpip_id) : null;
+const update = props.update;
 if (mpip_id == null) return "Proposal Id not defined";
 
 const commentItemIndex = { contractId, mpip: `MPIP-${mpip_id}` };
