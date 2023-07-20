@@ -59,12 +59,12 @@ const Styled = {
       }
 
       &.dark {
-        color: #4f46e5;
-        border-color: #4f46e5;
+        border-color: ${(props) => (props.inverse ? "#fff" : "#4f46e5")};
+        color: ${(props) => (props.inverse ? "#fff" : "#4f46e5")};
 
         &:hover {
-          border-color: #2f2a87;
-          color: #2f2a87;
+          border-color: ${(props) => (props.inverse ? "#fff" : "#2f2a87")};
+          color: ${(props) => (props.inverse ? "#fff" : "#2f2a87")};
         }
       }
 
@@ -135,21 +135,21 @@ const Styled = {
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: #ffd50d;
-      color: #ffd50d;
+      border-color: ${(props) => (props.inverse ? "#fff" : "#ffd50d")};
+      color: ${(props) => (props.inverse ? "#fff" : "#ffd50d")};
 
       &:hover {
-        border-color: #e7c211;
-        color: #e7c211;
+        border-color: ${(props) => (props.inverse ? "#fff" : "#e7c211")};
+        color: ${(props) => (props.inverse ? "#fff" : "#e7c211")};
       }
 
       &.dark {
-        color: #4f46e5;
-        border-color: #4f46e5;
+        border-color: ${(props) => (props.inverse ? "#fff" : "#4f46e5")};
+        color: ${(props) => (props.inverse ? "#fff" : "#4f46e5")};
 
         &:hover {
-          border-color: #2f2a87;
-          color: #2f2a87;
+          border-color: ${(props) => (props.inverse ? "#fff" : "#2f2a87")};
+          color: ${(props) => (props.inverse ? "#fff" : "#2f2a87")};
         }
       }
 
