@@ -1,4 +1,8 @@
-const addressForArticles = "sayALotArticle";
+State.init({ start: Date.now() });
+
+const isDebug = props.isDebug;
+const author = props.author;
+
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
@@ -7,28 +11,41 @@ const writersWhiteList = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "shubham007.near",
   "fiftycent.near",
-  "ozymandius.near",
 ];
-const articleBlackList = [
-  91092435, 91092174, 91051228, 91092223, 91051203, 96414482, 96402919,
-  96402330, 96401880, 96412953, 96412953, 95766840, 95413943,
+
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
 ];
+
+if (isDebug) {
+  writersWhiteList = sayALotWorkers;
+}
+
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
 const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
 });
 
-const whitelistedPostsIndex = postsIndex.filter((post) => {
-  return writersWhiteList.includes(post.accountId);
-});
+if (!postsIndex) {
+  return "Loading...";
+}
 
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
-  whitelistedPostsIndex &&
-  whitelistedPostsIndex
+  postsIndex &&
+  postsIndex
     .reduce((acc, { accountId, blockHeight }) => {
       const postData = Social.get(
         `${accountId}/${addressForArticles}/main`,
@@ -43,8 +60,12 @@ const resultArticles =
     .filter((article) => article.lastEditor === article.author)
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
+if (resultArticles.length === 0) {
+  return "No articles found yet";
+}
+
 // ========== FILTER DUPLICATES ==========
-const filteredArticles =
+let filteredArticles =
   resultArticles.length &&
   resultArticles.reduce((acc, article) => {
     if (!acc.some(({ articleId }) => articleId === article.articleId)) {
@@ -53,6 +74,12 @@ const filteredArticles =
       return acc;
     }
   }, []);
+
+if (author) {
+  filteredArticles = filteredArticles.filter(
+    (article) => article.author === author
+  );
+}
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -77,8 +104,13 @@ return (
             <div className="card h-100">
               <a
                 className="text-decoration-none text-dark"
-                href={`#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
-            `}
+                href={
+                  isDebug
+                    ? `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}&isDebug=true
+            `
+                    : `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
+            `
+                }
               >
                 <div className="card-body">
                   <div className="row d-flex justify-content-center">
@@ -119,7 +151,7 @@ return (
                     </div>
                     <Widget
                       src={`${authorForWidget}/widget/SayALot_TagList`}
-                      props={{ tags: article.tags }}
+                      props={{ tags: article.tags, isDebug }}
                     />
                   </div>
                 </div>
