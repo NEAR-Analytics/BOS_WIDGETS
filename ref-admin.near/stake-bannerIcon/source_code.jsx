@@ -4,7 +4,8 @@ const {
   secondIconName,
   secondIconUrl,
   componentType,
-} = props; // liNEAR, xref
+  apy_value
+} = props; // liNEAR, xref, NearX
 const BannerData = styled.div`
   display: flex;
   align-items: center;
@@ -98,7 +99,21 @@ function getxrefAPY() {
     (Number(reward_per_sec) * 365 * 24 * 60 * 60 * 100);
   return Big(apr).toFixed(2) + "%";
 }
-const apy = componentType == "liNEAR" ? getAPY() : getxrefAPY();
+function getNearXAPY() {
+  if (apy_value) {
+    return `${apy_value}%`
+  } else {
+    return '-'
+  }
+}
+let apy;
+if (componentType == 'liNEAR') {
+  apy = getAPY();
+} else if (componentType == 'NearX') {
+  apy = getNearXAPY();
+} else {
+  apy = getxrefAPY();
+}
 return (
   <BannerData>
     <ExchangeRoute>
