@@ -19,6 +19,11 @@ width: 100px;
 height: 100px;
     `;
 
+let tokenImgLarge = styled.img`
+max-width: 50%;
+max-height: 50%;
+    `;
+
 let previews = [];
 let modals = [];
 
@@ -74,7 +79,7 @@ owned_tokens.map((token) => {
             ></button>
           </div>
           <div class="modal-body">
-            <tokenImg src={token.metadata.media} />
+            <tokenImgLarge src={token.metadata.media} />
           </div>
           <div class="modal-footer">
             <button
