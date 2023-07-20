@@ -1,4 +1,5 @@
 const isDebug = props.isDebug;
+
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
@@ -27,7 +28,6 @@ const postsIndex = Social.index(addressForArticles, "main", {
 if (!postsIndex) {
   return "Loading...";
 }
-
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
@@ -36,6 +36,9 @@ const resultArticles =
       `${accountId}/${addressForArticles}/main`,
       blockHeight
     );
+    if (!postData) {
+      return acc;
+    }
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
@@ -50,11 +53,12 @@ const filteredArticles =
     }
   }, []);
 
+console.log("FA: ", filteredArticles);
+
 const filteredArticlesByTag =
   filteredArticles.length &&
   filteredArticles.reduce((acc, article) => {
     if (article.tags && article.tags.includes(tagSelected)) {
-      console.log(article);
       return [...acc, article];
     } else {
       return acc;
