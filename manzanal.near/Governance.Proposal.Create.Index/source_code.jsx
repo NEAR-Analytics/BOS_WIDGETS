@@ -84,15 +84,6 @@ return (
     <div className="d-flex justify-content-between align-items-center">
       <FormHeader>Create Proposal</FormHeader>
     </div>
-    <div className="d-flex gap-3 flex-wrap">
-      <div className="d-flex flex-column gap-3">
-        <h5>Proposer</h5>
-        <Widget
-          src="mob.near/widget/Profile.ShortInlineBlock"
-          props={{ accountId: accountId, tooltip: true }}
-        />
-      </div>
-    </div>
     <div className="d-flex flex-column gap-2">
       <Widget
         src={`${authorId}/widget/Governance.Proposal.Create.Text`}
