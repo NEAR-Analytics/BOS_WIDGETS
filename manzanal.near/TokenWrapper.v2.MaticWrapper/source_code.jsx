@@ -6,13 +6,14 @@ const wmaticAddress =
 const tokenDecimals = 18;
 const wmaticAbiUrl =
   props.wmaticAbiUrl ||
-  "https://api.polygonscan.com/api?module=contract&action=getabi&address=0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270&format=raw";
+  "https://raw.githubusercontent.com/leomanza/chain-agnostic-bos-workshop/main/ABIs/WETH.abi.json?token=GHSAT0AAAAAACFEJMQZUSUDFPBXDYUPLNOYZFZIHMA";
 const wmaticAbi = fetch(wmaticAbiUrl);
 
 if (!wmaticAbi.ok) {
   return "Loading";
 }
 const wmaticAbiBody = wmaticAbi.body;
+console.log("ABI", wmaticAbiBody);
 const signer = Ethers.provider() ? Ethers.provider().getSigner() : null;
 const wmaticContract = new ethers.Contract(
   wmaticAddress,
