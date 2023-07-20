@@ -529,7 +529,7 @@ return (
           </div>
           {state.ischeckselected ? (
             <MetaCard>
-              <div class="row  col-sm-12   gap-1   ">
+              <div class="row  col-sm-12  mx-0  gap-1   ">
                 <div name="Classid" class="row ">
                   <MetaTitles>{"Class id"}</MetaTitles>
                   <div>
