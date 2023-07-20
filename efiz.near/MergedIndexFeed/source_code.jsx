@@ -70,6 +70,7 @@ const computeFetchFrom = (items, limit, desc) => {
 const mergeItems = (iIndex, oldItems, newItems, desc) => {
   const index = indices[iIndex];
   const mergedItems = [...oldItems];
+  console.log(mergedItems.length);
 
   for (const newItem of newItems) {
     const existingItemIndex = mergedItems.findIndex(
