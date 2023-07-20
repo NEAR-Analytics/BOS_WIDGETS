@@ -59,7 +59,9 @@ const resultArticles =
     .filter((article) => article.lastEditor === article.author)
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
-console.log(resultArticles);
+if (resultArticles.length === 0) {
+  return "No articles found yet";
+}
 
 // ========== FILTER DUPLICATES ==========
 let filteredArticles =
