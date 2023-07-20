@@ -9,11 +9,7 @@ State.init({
 
 asyncFetch(
   `https://api.pikespeak.ai/election/votes-by-candidate?candidate=${candidateId}&contract=${electionContract}`,
-  {
-    headers: {
-      "x-api-key": apiKey,
-    },
-  }
+  { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   State.update({ voters: resp.body });
 });
