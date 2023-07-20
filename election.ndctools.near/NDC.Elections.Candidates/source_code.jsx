@@ -378,6 +378,7 @@ const CandidateList = ({ candidateId, votes }) => (
               style: { width: "24px", height: "24px", marginRight: 4 },
             }}
           />
+          sdf
           <UserLink
             src={`https://www.near.org/near/widget/ProfilePage?accountId=${candidateId}`}
             title={candidateId}
