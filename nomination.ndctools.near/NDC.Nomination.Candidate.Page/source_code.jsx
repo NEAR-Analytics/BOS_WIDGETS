@@ -1,4 +1,4 @@
-let { ids, dev, house, candidate } = props;
+let { ids, dev, house, accountId } = props;
 ids = ids ? ids : [1, 2, 3]; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
@@ -43,14 +43,14 @@ const BackLink = styled.a`
 `;
 
 asyncFetch(
-  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${props.candidate}&contract=${nominationContract}`,
+  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${accountId}&contract=${nominationContract}`,
   { headers: { "x-api-key": apiKey } }
 ).then((res) => {
   State.update({ comments: res.body });
 });
 
-let profile = Social.getr(`${props.candidate}/profile`);
-let nominations = Social.getr(`${props.candidate}/nominations`);
+let profile = Social.getr(`${accountId}/profile`);
+let nominations = Social.getr(`${accountId}/nominations`);
 State.update({ profile: profile });
 State.update({ nominations: nominations });
 
@@ -102,7 +102,7 @@ return (
         props={{
           data: state,
           house: props.house,
-          candidate: props.candidate,
+          accountId,
           nomination_contract: nominationContract,
           registry_contract: registryContract,
           api_key: apiKey,
@@ -126,7 +126,7 @@ return (
                 src={widgets.header}
                 props={{
                   house: props.house,
-                  candidate: props.candidate,
+                  accountId,
                   startTime: house.start,
                   endTime: house.end,
                   type: "Nomination",
@@ -150,7 +150,7 @@ return (
         props={{
           data: state,
           house: props.house,
-          candidate: props.candidate,
+          accountId,
           nomination_contract: nominationContract,
           registry_contract: registryContract,
           api_key: apiKey,
