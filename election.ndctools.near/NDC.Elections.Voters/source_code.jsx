@@ -77,7 +77,7 @@ return (
             }}
           />
           <UserLink
-            src={`https://wallet.near.org/profile/${voter.voter}`}
+            src={`https://www.near.org/near/widget/ProfilePage?accountId=${voter.voter}`}
             title={voter.voter}
           />
         </div>
