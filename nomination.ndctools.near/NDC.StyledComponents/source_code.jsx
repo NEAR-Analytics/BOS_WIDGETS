@@ -1,74 +1,48 @@
 const { Button, Dropdown, TextArea, Input, Link, Tag } = props;
 
-const inverse = Button.inverse ?? Link.inverse ?? false;
-const getColor = (color) => (inverse ? "#fff" : color);
-
-const colors = {
-  orange: {
-    default: getColor("ffd50d"),
-    hover: getColor("#e7c211"),
-  },
-  blue: {
-    default: getColor("4f46e5"),
-    hover: getColor("#2f2a87"),
-  },
-  grey: {
-    default: getColor("c3cace"),
-    text: getColor("#828688"),
-  },
-  red: {
-    default: getColor("c23f38"),
-    hover: getColor("#f1d6d5"),
-  },
-};
-
 const Styled = {
   Button: styled.button`
     width: max-content;
-    padding: ${Button.size === "sm" ? "4px 12px" : "8px 20px"};
-    height: ${Button.size === "sm" ? "28px" : ""};
-    font-size: ${Button.size === "sm" ? "12px" : "14px"};
-    border-radius: ${Button.size === "sm" ? "6px" : "10px"};
+    padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
+    height: ${(props) => (Button.size === "sm" ? "28px" : "")};
+    font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
+    border-radius: ${(props) => (Button.size === "sm" ? "6px" : "10px")};
     font-weight: 500;
     line-height: 24px;
     text-align: center;
     border: 0;
 
     &.danger {
-      border: 1px solid ${colors.red.default};
-      background: #fff;
-      color: ${colors.red.default};
-
-      hover: {
-        background: ${colors.red.hover}
-      }
+      border: 1px solid #c23f38;
+      background: #f1d6d5;
+      color: #c23f38;
     }
 
     &.primary {
-      background: ${colors.orange.default};
+      background: #ffd50d;
 
       &:hover {
-        background: ${colors.orange.hover};
+        background: #e7c211;
       }
 
       &.dark {
         color: #fff;
-        background: ${colors.blue.default};
+        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
 
         &:hover {
-          background: ${colors.blue.hover};
+          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
         }
       }
 
       &:disabled {
         cursor: not-allowed;
-        background: ${colors.grey.default};
-        color: ${colors.grey.text};
+        background: #c3cace;
+        color: #828688;
         border: 0;
 
         &:hover {
-          background: ${colors.grey.default};
-          color: ${colors.grey.text};
+          background: #c3cace;
+          color: #828688;
         }
       }
     }
@@ -76,32 +50,32 @@ const Styled = {
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: ${colors.orange.default};
-      color: ${colors.orange.default};
+      border-color: ${(props) => (props.inverse ? "#fff" : "#ffd50d")}
+      color: ${(props) => (props.inverse ? "#fff" : "#ffd50d")}
 
       &:hover {
-        border-color: ${colors.orange.hover};
-        color: ${colors.orange.hover};
+        border-color: ${(props) => (props.inverse ? "#fff" : "#e7c211")}
+        color: ${(props) => (props.inverse ? "#fff" : "#e7c211")}
       }
 
       &.dark {
-        border-color: ${colors.blue.default};
-        color: ${colors.blue.default};
+        border-color: ${(props) => (props.inverse ? "#fff" : "#4f46e5")}
+        color: ${(props) => (props.inverse ? "#fff" : "#4f46e5")}
 
         &:hover {
-          border-color: ${colors.blue.hover};
-          color: ${colors.blue.hover};
+          border-color: #2f2a87;
+          color: #2f2a87;
         }
       }
 
       &:disabled {
-        border-color: ${colors.grey.default};
-        color: ${colors.grey.text};
+        border-color: #c3cace;
+        color: #828688;
         cursor: not-allowed;
 
         &:hover {
-          border-color: ${colors.grey.default};
-          color: ${colors.grey.text};
+          border-color: #c3cace;
+          color: #828688;
         }
       }
     }
@@ -114,10 +88,10 @@ const Styled = {
 
   Link: styled.a`
     width: max-content;
-    padding: ${Link.size === "sm" ? "4px 12px" : "8px 20px"};
-    height: ${Link.size === "sm" ? "28px" : ""};
-    font-size: ${Link.size === "sm" ? "12px" : "14px"};
-    border-radius: ${Link.size === "sm" ? "6px" : "10px"};
+    padding: ${(props) => (Link.size === "sm" ? "4px 12px" : "8px 20px")};
+    height: ${(props) => (Link.size === "sm" ? "28px" : "")};
+    font-size: ${(props) => (Link.size === "sm" ? "12px" : "14px")};
+    border-radius: ${(props) => (Link.size === "sm" ? "6px" : "10px")};
     font-weight: 500;
     line-height: 24px;
     text-align: center;
@@ -130,70 +104,58 @@ const Styled = {
     }
 
     &.danger {
-      border: 1px solid ${colors.red.border};
-      background: ${colors.red.default};
-      color: ${colors.red.border};
+      border: 1px solid #c23f38;
+      background: #f1d6d5;
+      color: #c23f38;
     }
 
     &.primary {
-      background: ${colors.orange.default};
+      background: #ffd50d;
 
       &:hover {
-        background: ${colors.orange.hover};
+        background: #e7c211;
       }
 
       &.dark {
         color: #fff;
-        background: ${colors.blue.default};
+        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
 
         &:hover {
-          background: ${colors.blue.hover};
+          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
         }
       }
 
       &:disabled {
-        cursor: not-allowed;
-        background: ${colors.grey.default};
-        color: ${colors.grey.text};
+        background: #c3cace;
+        color: #828688;
         border: 0;
-
-        &:hover {
-          background: ${colors.grey.default};
-          color: ${colors.grey.text};
-        }
       }
     }
 
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: ${colors.orange.default};
-      color: ${colors.orange.default};
+      border-color: #ffd50d;
+      color: #ffd50d;
 
       &:hover {
-        border-color: ${colors.orange.hover};
-        color: ${colors.orange.hover};
+        border-color: #e7c211;
+        color: #e7c211;
       }
 
       &.dark {
-        border-color: ${colors.blue.default};
-        color: ${colors.blue.default};
+        color: #4f46e5;
+        border-color: #4f46e5;
 
         &:hover {
-          border-color: ${colors.blue.hover};
-          color: ${colors.blue.hover};
+          border-color: #2f2a87;
+          color: #2f2a87;
         }
       }
 
       &:disabled {
-        border-color: ${colors.grey.default};
-        color: ${colors.grey.text};
-        cursor: not-allowed;
-
-        &:hover {
-          border-color: ${colors.grey.default};
-          color: ${colors.grey.text};
-        }
+        border-color: #c3cace;
+        color: #828688;
       }
     }
 
