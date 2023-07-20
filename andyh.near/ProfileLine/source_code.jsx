@@ -11,6 +11,7 @@ const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
 
+console.log({ props });
 let inner = (
   <>
     {!hideImage && (
