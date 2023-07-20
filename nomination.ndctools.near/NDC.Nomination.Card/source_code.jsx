@@ -483,12 +483,6 @@ const Wrapper = styled.div`
 const canUpvote = () =>
   state.verified && context.accountId != data.indexerData?.nominee;
 
-const getShortUserName = (userId) => {
-  if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
-
-  return userId;
-};
-
 const trimText = (text, limit) => {
   if (!text) return "";
 
@@ -568,14 +562,10 @@ return (
               }}
             />
             <UserLink
-              href={`https://www.near.org/near/widget/ProfilePage?accountId=${data.nominationData?.profileAccount.substring(
-                1
-              )}`}
+              href={`https://www.near.org/near/widget/ProfilePage?accountId=${data.indexerData.nominee}`}
             >
               <NominationName>{data.profileData?.name}</NominationName>
-              <NominationUser>
-                {getShortUserName(data.nominationData?.profileAccount)}
-              </NominationUser>
+              <NominationUser>{data.indexerData.nominee}</NominationUser>
             </UserLink>
           </HeaderContent>
         </div>
