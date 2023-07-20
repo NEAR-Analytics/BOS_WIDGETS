@@ -1,4 +1,4 @@
-const { nomination_contract, registry_contract, api_key, data, candidate } =
+const { nomination_contract, registry_contract, api_key, data, accountId } =
   props;
 
 State.init({
@@ -26,7 +26,7 @@ function getVerifiedHuman() {
     State.update({ verified: res.body });
   });
   asyncFetch(
-    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${props.candidate}&upvoter=${context.accountId}&contract=${nomination_contract}`,
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${accountId}&upvoter=${context.accountId}&contract=${nomination_contract}`,
     {
       headers: {
         "x-api-key": api_key,
@@ -47,7 +47,7 @@ function handleUpVote() {
     nomination_contract,
     state.voted ? "remove_upvote" : "upvote",
     {
-      candidate: props.candidate,
+      candidate: accountId,
     },
     300000000000000,
     state.voted ? 0 : 1000000000000000000000
@@ -569,7 +569,7 @@ return (
             <NominationUser>
               {CandidateProps.profileAccount
                 ? CandidateProps.profileAccount
-                : "@candidate.near"}
+                : "-"}
             </NominationUser>
           </NominationTitleContainer>
           <TagContainer>
@@ -754,7 +754,7 @@ return (
           src={widgets.addComment}
           props={{
             candidateOrReplay: true,
-            username: props.candidate,
+            username: accountId,
             onClickConfirm: () => State.update({ showModal: false }),
             onClickCancel: () => State.update({ showModal: false }),
             nomination_contract,
