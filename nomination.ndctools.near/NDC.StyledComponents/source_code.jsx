@@ -245,6 +245,7 @@ if (Link)
       size={Link.size}
       className={`align-items-center d-flex ${Link.className ?? "primary"}`}
       href={Link.href}
+      target="_blank"
       disabled={Link.disabled}
     >
       <div>{Link.text}</div>
