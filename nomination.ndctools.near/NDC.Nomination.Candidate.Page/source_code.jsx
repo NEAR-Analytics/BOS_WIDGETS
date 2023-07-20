@@ -15,9 +15,9 @@ const widgets = {
   mobile: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.MobileView",
   desktop:
     "nomination.ndctools.near/widget/NDC.Nomination.Candidate.DesktopView",
-  back: dev
-    ? `#/nomination.ndctools.near/widget/NDC.Nomination.Page?dev=true`
-    : `#/nomination.ndctools.near/widget/NDC.Nomination.Page`,
+  back: `#/nomination.ndctools.near/widget/NDC.Nomination.Page${
+    dev ? "?dev=true" : ""
+  }`,
 };
 
 const houses = [
