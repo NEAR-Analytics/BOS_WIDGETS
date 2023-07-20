@@ -71,7 +71,7 @@ owned_tokens.map((token) => {
             ></button>
           </div>
           <div class="modal-body">
-            <img src={token.metadata.media} />
+            <tokenImg src={token.metadata.media} />
           </div>
           <div class="modal-footer">
             <button
