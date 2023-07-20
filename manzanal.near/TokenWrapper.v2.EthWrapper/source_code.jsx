@@ -6,14 +6,14 @@ const wethAddress =
 const tokenDecimals = 18;
 const wethAbiUrl =
   props.wethAbiUrl ||
-  "https://api.etherscan.io/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&format=raw";
+  "https://raw.githubusercontent.com/leomanza/chain-agnostic-bos-workshop/main/ABIs/WETH.abi.json?token=GHSAT0AAAAAACFEJMQZ5IOBEZ6DTYA2T6CSZFZIIXQ";
 const wethAbi = fetch(wethAbiUrl);
 
 if (!wethAbi.ok) {
   return "Loading";
 }
-console.log("ABI", wethAbi);
 const wethAbiBody = wethAbi.body;
+console.log("ABI", wethAbi.body);
 const signer = Ethers.provider() ? Ethers.provider().getSigner() : null;
 const wethContract = new ethers.Contract(wethAddress, wethAbiBody, signer);
 
