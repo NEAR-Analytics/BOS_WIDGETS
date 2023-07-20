@@ -4,7 +4,9 @@ width: 100vw;
 height:100vh;
 top: 72px;
 left: 0;
+
 overflow:scroll; 
+padding-bottom:100px;
 z-index: 1;
 background: rgba(0, 0, 0, 0.70);
 
