@@ -547,8 +547,8 @@ return (
           src="mob.near/widget/ProfileImage"
           props={{
             accountId,
-            imageClassName: "rounded-circle w-70 h-70",
-            style: { width: "70px", height: "70px", marginRight: "10px" },
+            imageClassName: "rounded-circle w-100 h-100",
+            style: { width: "70px", height: "70px" },
           }}
         />
         <HeaderDetailContent>
