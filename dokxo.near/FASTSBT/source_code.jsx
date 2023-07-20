@@ -139,7 +139,7 @@ align-items: flex-start;
 padding: 0px 10px;
 gap: 10px;
 width: 100%;
-height: 32px;
+height: 35px;
 background: #FFFFFF;
 border: 1px solid #D0D6D9;
 border-radius: 8px;
@@ -364,11 +364,25 @@ border-radius: 10px;
 `;
 const Rowcont = styled.div`
  display:flex;
+ 
  @media only screen and (max-width: 820px) {
  display:block;
 }
 @media only screen and (max-width: 480px) {
   display:block;
+ 
+}
+`;
+const Colcont = styled.div`
+
+
+margin-top:.5rem;
+ width:33.3%;
+ @media only screen and (max-width: 820px) {
+ width:100%;
+}
+@media only screen and (max-width: 480px) {
+ width:100%;
  
 }
 `;
@@ -450,7 +464,7 @@ return (
     <CardStyled name="compose" class="Cardstyled">
       <BodyForm class="mx-auto">
         <Rowcont>
-          <div className="d-flex flex-column mt-2">
+          <Colcont>
             <H1styled>DAO</H1styled>
             <InputStyled
               type="text"
@@ -460,8 +474,8 @@ return (
                 State.update({ Dao_Contract: e.target.value });
               }}
             />
-          </div>
-          <div className="d-flex flex-column mt-2">
+          </Colcont>
+          <Colcont>
             <H1styled>Issuer</H1styled>
             <Dropdown
               placeholder="Input DAO contract address"
@@ -476,8 +490,8 @@ return (
               {}
               <option value="nothing">more options from fetch</option>
             </Dropdown>
-          </div>
-          <div className="d-flex flex-column mt-2">
+          </Colcont>
+          <Colcont>
             <H1styled>Receiver</H1styled>
             <InputStyled
               type="text"
@@ -487,7 +501,7 @@ return (
                 State.update({ Receiver: e.target.value });
               }}
             />
-          </div>
+          </Colcont>
         </Rowcont>
 
         <div className="d-flex flex-column mt-2">
