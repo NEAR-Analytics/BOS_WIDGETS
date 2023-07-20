@@ -1,7 +1,9 @@
 const ModalCard = styled.div`
-position: fixed;
-width: 100vw;
-height:100vh;
+//position: fixed;
+//width: 100vw;
+//height:100vh;
+width: 100%;
+height:100%;
 top: 72px;
 left: 0;
 
@@ -12,13 +14,13 @@ background: rgba(0, 0, 0, 0.70);
 
 
  
- @media only screen and (max-width: 820px) {
+@media only screen and (max-width: 820px) {
 background: rgba(0, 255, 0, 0.70);
 
 }
 @media only screen and (max-width: 480px) {
-background: rgba(255, 0, 0, 0.70);
 
+background: rgba(255, 0, 0, 0.70);
 }
 
 `;
@@ -47,7 +49,7 @@ const Headerlabel = styled.label`
   `;
 const CardStyled = styled.div`
  
-width: 95%;
+
  
 background: #F8F8F9;
 border-radius: 10px;
@@ -55,8 +57,13 @@ margin-top:12px;
 margin-left:auto;
 margin-right:auto;
 
+@media only screen and (max-width: 820px) {
+width: 85%;
+
+}
 @media only screen and (max-width: 480px) {
-  width: 100%;
+
+width: 95%;
 }
 
   `;
