@@ -334,7 +334,7 @@ return (
         {state.selectedTab === "tastemaker" && (
           <>
             <Widget
-              src="proofofvibes.near/widgetVibes.Tastemakers.tapIn"
+              src="proofofvibes.near/widget/Vibes.Tastemakers.tapIn"
               props={{}}
             />
           </>
