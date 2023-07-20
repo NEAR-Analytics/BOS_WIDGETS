@@ -143,10 +143,7 @@ return (
         </div>
 
         <span className="text-nowrap text-muted">
-          <Widget
-            src="efiz.near/widget/SBT.Badge"
-            props={{ accountId: accountId }}
-          />
+          <Widget src="efiz.near/widget/SBT.Badge" props={{ accountId }} />
           <small>
             {blockHeight === "now" ? (
               "now"
@@ -156,28 +153,31 @@ return (
               </a>
             )}
           </small>
-          {true && blockHeight !== "now" && (
-            <span>
-              <a
-                href="javascript:void"
-                className="link-secondary ms-2"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i className="fs-6 bi bi-three-dots" />
-              </a>
-              <ul className="dropdown-menu">
-                <li className="dropdown-item">
-                  <a
-                    className="link-dark text-decoration-none"
-                    href={`${link}&raw=true`}
-                  >
-                    <i className="bi bi-emoji-sunglasses" /> Recommend as Vibee
-                  </a>
-                </li>
-              </ul>
-            </span>
-          )}
+          {metadata?.tastemaker?.length &&
+            metadata.tastmaker.includes(context.accountId) &&
+            blockHeight !== "now" && (
+              <span>
+                <a
+                  href="javascript:void"
+                  className="link-secondary ms-2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fs-6 bi bi-three-dots" />
+                </a>
+                <ul className="dropdown-menu">
+                  <li className="dropdown-item">
+                    <a
+                      className="link-dark text-decoration-none"
+                      href={`${link}&raw=true`}
+                    >
+                      <i className="bi bi-emoji-sunglasses" /> Recommend as
+                      Vibee
+                    </a>
+                  </li>
+                </ul>
+              </span>
+            )}
         </span>
       </div>
     </div>
