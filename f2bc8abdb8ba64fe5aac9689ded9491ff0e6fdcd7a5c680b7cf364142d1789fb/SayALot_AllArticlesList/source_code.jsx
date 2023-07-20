@@ -60,7 +60,7 @@ const resultArticles =
     .filter((article) => !articleBlackList.includes(article.blockHeight));
 
 if (resultArticles.length === 0) {
-  return "No articles found yet";
+  return "Loading...";
 }
 
 // ========== FILTER DUPLICATES ==========
