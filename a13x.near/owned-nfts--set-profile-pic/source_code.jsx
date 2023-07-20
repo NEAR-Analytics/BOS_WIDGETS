@@ -32,7 +32,10 @@ owned_tokens.map((token) => {
     console.log(e);
   }
 
-  const token_id = token.token_id.replace("#", "-").replace(" ", "");
+  const token_id = token.token_id
+    .replace("#", "-")
+    .replace(" ", "_")
+    .replace(":", "-");
 
   previews.push(
     <tokenImg
