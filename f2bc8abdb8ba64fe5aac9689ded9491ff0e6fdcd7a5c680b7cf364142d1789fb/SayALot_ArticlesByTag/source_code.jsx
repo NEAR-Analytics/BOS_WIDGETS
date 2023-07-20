@@ -53,8 +53,6 @@ const filteredArticles =
     }
   }, []);
 
-console.log("FA: ", filteredArticles);
-
 const filteredArticlesByTag =
   filteredArticles.length &&
   filteredArticles.reduce((acc, article) => {
