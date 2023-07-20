@@ -48,22 +48,19 @@ const Headerlabel = styled.label`
 
   `;
 const CardStyled = styled.div`
- 
-
- 
+width: 80%;
+margin-top:64px; 
 background: #F8F8F9;
 border-radius: 10px;
-margin-top:12px;
+
 margin-left:auto;
 margin-right:auto;
 
-@media only screen and (max-width: 820px) {
-width: 80%;
-margin-top:64px;
-}
+
 @media only screen and (max-width: 480px) {
 
 width: 95%;
+margin-top:12px;
 }
 
   `;
