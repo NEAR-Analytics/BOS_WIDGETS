@@ -58,8 +58,8 @@ margin-left:auto;
 margin-right:auto;
 
 @media only screen and (max-width: 820px) {
-width: 85%;
-
+width: 80%;
+margin-top:64px;
 }
 @media only screen and (max-width: 480px) {
 
