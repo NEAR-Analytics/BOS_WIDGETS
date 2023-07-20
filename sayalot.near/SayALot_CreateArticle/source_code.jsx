@@ -2,6 +2,8 @@ const isDebug = props.isDebug;
 
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -470,7 +472,7 @@ return (
         <div className="d-flex flex-column pt-3">
           {!state.saveComplete && (
             <Widget
-              src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor"
+              src={`${authorForWidget}/widget/TagsEditor`}
               props={{
                 initialTagsObject: state.tags,
                 placeholder: "Input tags",
