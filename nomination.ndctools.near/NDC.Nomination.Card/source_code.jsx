@@ -542,6 +542,7 @@ return (
           }}
         />
       )}
+      {console.log(data.nominationData)}
       <HeaderCard className="d-flex justify-content-between">
         <div className="d-flex align-items-center gap-2">
           <Widget
