@@ -57,13 +57,13 @@ asyncFetch(
 });
 
 const widgets = {
-  header: "rubycop.near/widget/NDC.Elections.Header",
-  filter: "rubycop.near/widget/NDC.Elections.Filter",
-  houses: "rubycop.near/widget/NDC.Elections.Houses",
-  progress: "rubycop.near/widget/NDC.Elections.Progress",
-  candidates: "rubycop.near/widget/NDC.Elections.Candidates",
-  statistic: "rubycop.near/widget/NDC.Elections.Statistic",
-  activities: "rubycop.near/widget/NDC.Elections.Activities",
+  header: "election.ndctools.near/widget/NDC.Elections.Header",
+  filter: "election.ndctools.near/widget/NDC.Elections.Filter",
+  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
+  progress: "election.ndctools.near/widget/NDC.Elections.Progress",
+  candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
+  statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
+  activities: "election.ndctools.near/widget/NDC.Elections.Activities",
 };
 
 const handleSelect = (item) => {
