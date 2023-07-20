@@ -79,21 +79,6 @@ const StyledLink = styled.a`
   padding-top: 2px;
 `;
 
-const NominationLink = styled.a`
-  font-size: 12px;
-  line-height: 24px;
-  background: ${(props) =>
-    props.selected || props.winnerId ? "#fff" : "#4F46E5"};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  border: 1px solid;
-  border-color: ${(props) =>
-    props.selected || props.winnerId ? "#fff" : "#4F46E5"};
-  padding: 0 10px;
-  border-radius: 5px;
-`;
-
 const CandidateItem = styled.div`
   padding: 0 20px;
   height: 48px;
@@ -403,19 +388,18 @@ const CandidateList = ({ candidateId, votes }) => (
         </div>
       </div>
       <div className="d-flex">
-        <NominationLink
-          className="d-flex"
-          href={ref_link}
-          target="_blank"
-          selected={state.selected === candidateId}
-          winnerId={winnerIds.includes(candidateId)}
-        >
-          <span id="link" className="d-none d-md-block">
-            Nomination
-          </span>
-
-          <i id="link" className="bi bi-arrow-up-right" />
-        </NominationLink>
+        <Widget
+          src={widgets.button}
+          props={{
+            Link: {
+              size: "sm",
+              className: "secondary dark",
+              text: "Reset Selection",
+              icon: <i id="link" className="bi bi-arrow-up-right" />,
+              href: ref_link,
+            },
+          }}
+        />
         <Votes>{votes}</Votes>
         {isIAmHuman && (
           <Votes>
