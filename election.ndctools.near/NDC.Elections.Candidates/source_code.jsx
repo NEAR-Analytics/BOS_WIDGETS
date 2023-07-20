@@ -394,7 +394,7 @@ const CandidateList = ({ candidateId, votes }) => (
             }}
           />
           <UserLink
-            src={`https://wallet.near.org/profile/${candidateId}`}
+            src={`https://www.near.org/near/widget/ProfilePage?accountId=${candidateId}`}
             title={candidateId}
           />
           {winnerIds.includes(candidateId) && (
@@ -560,7 +560,13 @@ return (
       {isIAmHuman ? (
         <CastVotes />
       ) : (
-        <Widget src={widgets.verifyHuman} props={{ title: "Want to vote?" }} />
+        <Widget
+          src={widgets.verifyHuman}
+          props={{
+            title: "Want to vote?",
+            description: "Click on Verify as a Human to proceed.",
+          }}
+        />
       )}
     </div>
   </Container>
