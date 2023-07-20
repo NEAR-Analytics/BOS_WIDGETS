@@ -38,6 +38,11 @@ if (profile === null) {
   return "Loading";
 }
 
+const authorProfile = Social.getr(`${author}/profile`);
+if (author && !authorProfile) {
+  return "Loading...";
+}
+
 return (
   <div
     className="container-fluid"
@@ -52,7 +57,7 @@ return (
       props={{ currentNavPill: "articles", writersWhiteList, isDebug }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
-      {author && <h4>{`${author}'s articles`}</h4>}
+      {author && <h4>{`${authorProfile.name}'s articles`}</h4>}
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
         props={{ writersWhiteList, isDebug, author }}
