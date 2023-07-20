@@ -75,6 +75,8 @@ const mergeItems = (iIndex, oldItems, newItems, desc) => {
     const existingItemIndex = mergedItems.findIndex(
       (item) => item.blockHeight === newItem.blockHeight
     );
+    console.log(item.blockHeight);
+    console.log(newItem.blockHeight);
     if (existingItemIndex === -1) {
       mergedItems.push({
         ...newItem,
