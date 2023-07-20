@@ -8,8 +8,8 @@ const owned_tokens = Near.view(contractId, "nft_tokens_for_owner", {
 if (!owned_tokens.length) {
   return (
     <div class="text-center">
-      Mint a {{ contractId }}, a Social Avatar, freemint a Shard Dog, or buy and
-      NFT to set it as a Profile Picture.
+      Mint a {contractId}, a Social Avatar, freemint a Shard Dog, or buy and NFT
+      to set it as a Profile Picture.
     </div>
   );
 }
