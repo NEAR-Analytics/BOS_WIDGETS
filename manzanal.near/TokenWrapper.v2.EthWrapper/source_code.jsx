@@ -12,6 +12,7 @@ const wethAbi = fetch(wethAbiUrl);
 if (!wethAbi.ok) {
   return "Loading";
 }
+console.log("ABI", wethAbi);
 const wethAbiBody = wethAbi.body;
 const signer = Ethers.provider() ? Ethers.provider().getSigner() : null;
 const wethContract = new ethers.Contract(wethAddress, wethAbiBody, signer);
