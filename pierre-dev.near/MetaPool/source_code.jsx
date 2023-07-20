@@ -193,54 +193,9 @@ const Background = styled.div`
     background: rgb(206, 255, 26);
 `;
 
-const updateTabName = (tabName) =>
-  State.update({
-    tabName,
-  });
-
 // const updatePage = (pageName) => State.update({ page: pageName });
 const updateAction = (action) => State.update({ action: action });
 
-// Account balances
-function getNearBalance(accountId, onInvalidate) {
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: "dontcare",
-      method: "query",
-      params: {
-        request_type: "view_account",
-        finality: "final",
-        account_id: accountId,
-      },
-    }),
-  };
-  asyncFetch(config.nodeUrl, options).then((res) => {
-    const { amount, storage_usage } = res.body.result;
-    const COMMON_MIN_BALANCE = 0.05;
-
-    let newBalance = "-";
-    if (amount) {
-      const availableBalance = Big(amount || 0).minus(
-        Big(storage_usage).mul(Big(10).pow(19))
-      );
-      const balance = availableBalance
-        .div(Big(10).pow(NEAR_DECIMALS))
-        .minus(COMMON_MIN_BALANCE);
-      newBalance = balance.lt(0) ? "0" : balance.toFixed(5, BIG_ROUND_DOWN);
-    }
-    State.update({
-      nearBalance: newBalance,
-    });
-    if (onInvalidate) {
-      onInvalidate(nearBalance, newBalance);
-    }
-  });
-}
 
 function getSTNEARBalance(accountId, subscribe) {
   const stnearBalanceRaw = Near.view(
@@ -257,59 +212,8 @@ function getSTNEARBalance(accountId, subscribe) {
   return balance.lt(0) ? "0" : balance.toFixed();
 }
 
-function getAccountDetails(accountId, subscribe) {
-  return Near.view(
-    config.contractId,
-    "get_account_details",
-    {
-      account_id: accountId,
-    },
-    undefined,
-    subscribe
-  );
-}
 
-const nearBalance = accountId ? state.nearBalance : "-";
-// Initial fetch of account NEAR balance
-if (accountId && !isValid(nearBalance)) {
-  getNearBalance(accountId);
-}
 const stnearBalance = accountId ? getSTNEARBalance(accountId) : "-";
-const accountDetails = accountId ? getAccountDetails(accountId) : "-";
-
-function updateAccountInfo({ notUpdateNearBalance, callback }) {
-  const interval1 = setInterval(() => {
-    const data = getAccountDetails(accountId, true);
-    if (
-      data.unstaked_balance !== accountDetails.unstaked_balance ||
-      data.staked_balance !== accountDetails.staked_balance
-    ) {
-      // stop polling
-      clearInterval(interval1);
-      // update NEAR and StNEAR balances
-      getSTNEARBalance(accountId, true);
-      if (notUpdateNearBalance) {
-        getNearBalance(accountId);
-      }
-      // invoke callback functions if any
-      if (callback) callback();
-    }
-  }, 500);
-  if (!notUpdateNearBalance) {
-    const interval2 = setInterval(() => {
-      getNearBalance(accountId, (oldBalance, newBalance) => {
-        if (
-          newBalance !== "-" &&
-          oldBalance !== "-" &&
-          Big(newBalance).sub(oldBalance).abs().gt(MIN_BALANCE_CHANGE)
-        ) {
-          // stop polling
-          clearInterval(interval2);
-        }
-      });
-    }, 500);
-  }
-}
 
 function onLoad(data) {
   State.update({ unstakeInfo: data });
@@ -442,10 +346,6 @@ const body =
 return (
   <>
     <Main>
-      <Widget
-        src={`${config.ownerId}/widget/MetaPool.Data.Unstake`}
-        props={{ config, accountDetails, onLoad }}
-      />
       <Sidebar>
         <Widget
           src={`${config.ownerId}/widget/MetaPool.Layout.Navigation`}
