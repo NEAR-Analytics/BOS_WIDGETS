@@ -81,9 +81,9 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
-// if (!articlesIndex) {
-//   return "Loading...";
-// }
+if (!articlesIndex) {
+  return "Loading...";
+}
 
 const resultArticles =
   articlesIndex &&
