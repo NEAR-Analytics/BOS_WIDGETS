@@ -109,6 +109,8 @@ if (state.fetchFrom) {
   }
 }
 
+console.log("ni: ", newItems);
+
 if (!newItems) {
   return "Loading...";
 }
