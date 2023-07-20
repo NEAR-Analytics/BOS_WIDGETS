@@ -171,7 +171,7 @@ const clickHandler = (emojiMessage) => {
   let data;
 
   if (isDebug) {
-    data = data = {
+    data = {
       index: {
         test_like: JSON.stringify({
           key: item,
