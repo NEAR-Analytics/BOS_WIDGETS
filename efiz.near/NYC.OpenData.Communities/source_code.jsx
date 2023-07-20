@@ -31,42 +31,47 @@ const Website = styled.a`
   display: block;
 `;
 
-const OrganizationCard = ({ data }) => {
+const OrganizationCard = ({ organization, index }) => {
   return (
     <>
-      {data.map((organization, index) => (
-        <Container>
-          <div key={index}>
-            <OrganizationName>
-              {organization.organization_name}
-            </OrganizationName>
-            <Mission
-              dangerouslySetInnerHTML={{ __html: organization.mission }}
-            />
-            <VolunteerProgramDescription>
-              {organization.volunteer_program_description}
-            </VolunteerProgramDescription>
-            <Address>
-              {organization.street_address}, {organization.city},{" "}
-              {organization.state} {organization.postcode}
-            </Address>
-            <Website
-              href={organization.website.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {organization.website.url}
-            </Website>
-          </div>
-        </Container>
-      ))}
+      <Container>
+        <div key={index}>
+          <OrganizationName>{organization.organization_name}</OrganizationName>
+          <Mission dangerouslySetInnerHTML={{ __html: organization.mission }} />
+          <VolunteerProgramDescription>
+            {organization.volunteer_program_description}
+          </VolunteerProgramDescription>
+          <Address>
+            {organization.street_address}, {organization.city},{" "}
+            {organization.state} {organization.postcode}
+          </Address>
+          <Website
+            href={organization.website.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {organization.website.url}
+          </Website>
+        </div>
+      </Container>
     </>
+  );
+};
+
+const renderItem = (a, index) => {
+  return (
+    <div key={JSON.stringify(a)}>
+      <OrganizationCard organization={a} index={index} />
+    </div>
   );
 };
 
 return (
   <div>
     <h1>Organizations</h1>
-    <OrganizationCard data={data.body} />
+    <Widget
+      src="efiz.near/widget/ItemFeed"
+      props={{ items: data.body || [], renderItem }}
+    />
   </div>
 );
