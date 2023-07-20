@@ -119,8 +119,8 @@ return (
                   className="text-start mt-3"
                   href={
                     isDebug
-                      ? `#/${authorForWidget}/widget/SayALot_ArticlesByAuthor?author=${author}&isDebug=true`
-                      : `#/${authorForWidget}/widget/SayALot_ArticlesByAuthor?author=${author}`
+                      ? `#/${authorForWidget}/widget/SayALot?author=${author}&isDebug=true`
+                      : `#/${authorForWidget}/widget/SayALot?author=${author}`
                   }
                 >
                   {quantity} articles
