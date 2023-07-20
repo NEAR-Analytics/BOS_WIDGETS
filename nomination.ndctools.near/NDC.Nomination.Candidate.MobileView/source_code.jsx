@@ -72,12 +72,6 @@ const DetailHeader = styled.div`
   align-items: center;
   gap: 12px;
 `;
-const ProfilePicture = styled.img`
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  flex-shrink: 0;
-`;
 const HeaderDetailContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -145,6 +139,13 @@ const NominationTitleContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 5px 0;
+`;
+
+const UserLink = styled.a`
+  cursor: pointer;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 const NominationTitle = styled.p`
   display: flex;
@@ -542,14 +543,14 @@ return (
   <DetailContent>
     <DetailCard className="justify-content-center">
       <DetailHeader>
-        <ProfilePicture
-          src={
-            isNFTURL
-              ? isNFTURL
-              : "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-          }
-          alt="pic"
-        ></ProfilePicture>
+        <Widget
+          src="mob.near/widget/ProfileImage"
+          props={{
+            accountId,
+            imageClassName: "rounded-circle w-70 h-70",
+            style: { width: "70px", height: "70px", marginRight: "10px" },
+          }}
+        />
         <HeaderDetailContent>
           <TagContainer>
             <HouseTagDiv>
@@ -563,14 +564,12 @@ return (
             </HouseTagDiv>
           </TagContainer>
           <NominationTitleContainer>
-            <NominationTitle>
-              {CandidateProps.name ? CandidateProps.name : "candidate name"}
-            </NominationTitle>
-            <NominationUser>
-              {CandidateProps.profileAccount
-                ? CandidateProps.profileAccount
-                : "-"}
-            </NominationUser>
+            <UserLink
+              href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
+            >
+              <NominationTitle>{CandidateProps.name}</NominationTitle>
+              <NominationUser>{accountId}</NominationUser>
+            </UserLink>
           </NominationTitleContainer>
           <TagContainer>
             {CandidateProps.tags
