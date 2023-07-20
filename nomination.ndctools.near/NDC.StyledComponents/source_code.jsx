@@ -360,6 +360,7 @@ const WidgetButton = ({ type, size, className, disabled, text, icon }) => (
         size,
         className,
         disabled,
+        inverse,
         text,
         icon,
       },
@@ -472,7 +473,7 @@ return (
         <WidgetButton
           type="Link"
           text="Secondary"
-          inverse
+          inverse={true}
           className="secondary dark"
         />
       </div>
