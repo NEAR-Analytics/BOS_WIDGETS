@@ -109,12 +109,6 @@ if (state.fetchFrom) {
   }
 }
 
-console.log("ni: ", newItems);
-
-if (!newItems) {
-  return "Loading...";
-}
-
 const makeMoreItems = () => {
   State.update({
     displayCount: state.displayCount + addDisplayCount,
