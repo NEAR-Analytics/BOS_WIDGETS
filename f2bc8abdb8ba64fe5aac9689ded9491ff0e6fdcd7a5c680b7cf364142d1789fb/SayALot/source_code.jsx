@@ -1,4 +1,5 @@
 const isDebug = props.isDebug;
+const author = props.author;
 
 let writersWhiteList = [
   "neardigitalcollective.near",
@@ -53,7 +54,7 @@ return (
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
-        props={{ writersWhiteList, isDebug }}
+        props={{ writersWhiteList, isDebug, author }}
       />
     </div>
   </div>
