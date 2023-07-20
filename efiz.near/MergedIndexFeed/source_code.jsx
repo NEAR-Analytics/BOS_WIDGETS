@@ -45,64 +45,26 @@ const computeFetchFrom = (items, limit, desc) => {
   return desc ? blockHeight - 1 : blockHeight + 1;
 };
 
-// const mergeItems = (iIndex, oldItems, newItems, desc) => {
-//   const index = indices[iIndex];
-//   const items = [
-//     ...new Set(
-//       [
-//         ...newItems.map((item) => ({
-//           ...item,
-//           action: index.action,
-//           key: index.key,
-//           index: iIndex,
-//         })),
-//         ...oldItems,
-//       ].map((i) => JSON.stringify(i))
-//     ),
-//   ].map((i) => JSON.parse(i));
-//   items.sort((a, b) => a.blockHeight - b.blockHeight);
-//   if (desc) {
-//     items.reverse();
-//   }
-//   return items;
-// };
-
 const mergeItems = (iIndex, oldItems, newItems, desc) => {
   const index = indices[iIndex];
-  const mergedItems = [...oldItems];
-  console.log(mergedItems.length);
-
-  for (const newItem of newItems) {
-    const existingItemIndex = mergedItems.findIndex(
-      (item) => item.blockHeight === newItem.blockHeight
-    );
-    console.log(item.blockHeight);
-    console.log(newItem.blockHeight);
-    if (existingItemIndex === -1) {
-      mergedItems.push({
-        ...newItem,
-        action: index.action,
-        key: index.key,
-        index: iIndex,
-      });
-    } else {
-      // If matching blockHeight found, you can choose whether to update the existing item with newItem's properties or keep the old item.
-      // For example, to keep the old item, comment out the line below.
-      // mergedItems[existingItemIndex] = {
-      //   ...newItem,
-      //   action: index.action,
-      //   key: index.key,
-      //   index: iIndex,
-      // };
-    }
-  }
-
-  mergedItems.sort((a, b) => a.blockHeight - b.blockHeight);
+  const items = [
+    ...new Set(
+      [
+        ...newItems.map((item) => ({
+          ...item,
+          action: index.action,
+          key: index.key,
+          index: iIndex,
+        })),
+        ...oldItems,
+      ].map((i) => JSON.stringify(i))
+    ),
+  ].map((i) => JSON.parse(i));
+  items.sort((a, b) => a.blockHeight - b.blockHeight);
   if (desc) {
-    mergedItems.reverse();
+    items.reverse();
   }
-
-  return mergedItems;
+  return items;
 };
 
 const jIndices = JSON.stringify(indices);
@@ -176,6 +138,9 @@ while (filteredItems.length < state.displayCount) {
     if (!item) {
       continue;
     }
+    if (item.blockHeight === bestItem.blockHeight) {
+      console.log(item.blockHeight)
+    }
     if (
       bestItem === null ||
       (desc
@@ -189,6 +154,7 @@ while (filteredItems.length < state.displayCount) {
     break;
   }
   state.feeds[bestItem.index].usedCount++;
+  newItem.blockHeight);
   if (filter) {
     if (filter.accountBlacklist) {
       if (bestItem.accountId in filter.accountBlacklist) {
