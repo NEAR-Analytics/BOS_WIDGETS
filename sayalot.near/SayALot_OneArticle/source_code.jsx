@@ -1,6 +1,9 @@
-const addressForComments = "sayalot-comments";
-const addressForArticles = "sayALotArticle";
+const isDebug = props.isDebug;
+
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = context.accountId;
 
 const lastEditor = props.lastEditor;
@@ -12,12 +15,16 @@ const raw = !!props.raw;
 const notifyAccountId = accountId;
 
 State.init({ showReply: false, isMain: true, article: {} });
-const article =
+const articleBeforeParse =
   state.saveComplete || blockHeight === "now"
-    ? JSON.parse(Social.get(`${lastEditor}/${addressForArticles}/main`))
-    : JSON.parse(
-        Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight)
-      );
+    ? Social.get(`${lastEditor}/${addressForArticles}/main`)
+    : Social.get(`${lastEditor}/${addressForArticles}/main`, blockHeight);
+
+if (!articleBeforeParse) {
+  return "Loading...";
+}
+
+const article = JSON.parse(articleBeforeParse);
 
 if (JSON.stringify(state.article) != JSON.stringify(article)) {
   // If some widget posts data different than an array it will be ignored
@@ -30,7 +37,7 @@ if (!state.article) {
 }
 
 // ======= CHECK WHO CAN EDIT ARTICLE
-const writersWhiteList = [
+const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -39,7 +46,20 @@ const writersWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "shubham007.near",
+  "fiftycent.near",
 ];
+
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
+];
+
+if (isDebug) {
+  writersWhiteList = sayALotWorkers;
+}
 
 const canUserEditArticle = () => {
   const canOnlyAuthorEdit = true;
@@ -62,6 +82,10 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
+if (!articlesIndex) {
+  return "Loading...";
+}
+
 const resultArticles =
   articlesIndex &&
   articlesIndex.reduce((acc, { accountId, blockHeight }) => {
@@ -69,6 +93,9 @@ const resultArticles =
       `${accountId}/${addressForArticles}/main`,
       blockHeight
     );
+    if (!postData) {
+      return acc;
+    }
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
@@ -88,7 +115,7 @@ const item = {
   blockHeight: firstArticleBlockHeight,
 };
 
-const tagsArray = state.tags ? state.tags : state.article.tags;
+const tagsArray = state.tags ? Object.keys(state.tags) : state.article.tags;
 
 const getArticleData = () => {
   const args = {
@@ -106,12 +133,14 @@ const getArticleData = () => {
 };
 
 const composeData = () => {
-  const data = {
-    sayALotArticle: {
+  const key = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+
+  let data = {
+    [key]: {
       main: JSON.stringify(getArticleData()),
     },
     index: {
-      sayALotArticle: JSON.stringify({
+      [key]: JSON.stringify({
         key: "main",
         value: {
           type: "md",
@@ -174,37 +203,6 @@ const saveHandler = (e) => {
       State.update({ errorBody: errTextNoBody });
     }
   }
-};
-
-const saveArticle = (args) => {
-  const newArticleData = {
-    ...state.article,
-    body: state.note,
-    lastEditor: accountId,
-    timeLastEdit: Date.now(),
-    version: Number(state.article.version) + 1,
-    tags: state.tags ? state.tags : state.article.tags,
-  };
-
-  const composeArticleData = () => {
-    const data = {
-      [addressForArticles]: {
-        main: JSON.stringify(newArticleData),
-      },
-      index: {
-        [addressForArticles]: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-          },
-        }),
-      },
-    };
-    return data;
-  };
-
-  const newData = composeArticleData();
-  Social.set(newData, { force: true });
 };
 
 // ========== article parts ========== //
@@ -286,7 +284,6 @@ const getTagObjectfromArray = (tagArray) => {
   if (!tagArray) return {};
   return tagArray.reduce((acc, value) => ({ ...acc, [value]: "" }), {});
 };
-// console.log(getTagObjectfromArray(initialTestArray));
 
 const areTheTextAndTagsTheSame = () => {
   const isThereNoTextInBody = !state.note;
@@ -324,7 +321,7 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "create" }}
+      props={{ currentNavPill: "articles", isDebug }}
     />
     <div
       className="row h-100"
@@ -443,93 +440,21 @@ return (
       <hr className="d-md-none" />
       <div className="col-12 col-md-9">
         <div>
-          {/* === BUTTON - EDIT ARTICLE === */}
           {state.editArticle && (
             <>
-              <div className="d-flex justify-content-center w-100">
-                <button
-                  type="button"
-                  className="btn btn-outline-success mx-1"
-                  style={{ minWidth: "120px" }}
-                  onClick={saveHandler}
-                >
-                  {state.saving && (
-                    <div
-                      className="spinner-border text-secondary"
-                      style={{ height: "1rem", width: "1rem" }}
-                      role="status"
-                    >
-                      <span className="sr-only" title="Loading..."></span>
-                    </div>
-                  )}
-                  Save Article
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-outline-danger mx-1"
-                  style={{ minWidth: "120px" }}
-                  onClick={() => {
-                    State.update({
-                      editArticle: false,
-                    });
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-              <hr />
-            </>
-          )}
-
-          {/* === EDIT ARTICLE === */}
-          {state.editArticle && (
-            <>
-              <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-                <div className="w-50">
-                  <Widget
-                    src="mob.near/widget/MarkdownEditorIframe"
-                    props={{
-                      initialText: state.article.body,
-                      onChange: (note) => State.update({ note }),
-                    }}
-                  />
-                </div>
-                <div className="w-50">
-                  <Widget
-                    src="mob.near/widget/TagsEditor"
-                    props={{
-                      initialTagsObject: getTagObjectfromArray(
-                        state.article.tags
-                      ),
-                      placeholder: "Input tags",
-                      setTagsObject: (tags) => {
-                        state.tags = Object.keys(filterTagsFromNull(tags));
-                        State.update();
-                      },
-                    }}
-                  />
-                  <Widget
-                    src="mob.near/widget/SocialMarkdown"
-                    props={{
-                      text: state.note,
-                      onHashtag: (hashtag) => (
-                        <span
-                          key={hashtag}
-                          className="d-inline-flex"
-                          style={{ fontWeight: 500 }}
-                        >
-                          <a
-                            href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
-                          >
-                            #{hashtag}
-                          </a>
-                        </span>
-                      ),
-                    }}
-                  />
-                </div>
-              </div>
+              {/* === EDIT ARTICLE === */}
+              <Widget
+                src={`${authorForWidget}/widget/SayALot_FasterArticleEditInputs`}
+                props={{
+                  firstTextareaText: state.note,
+                  stateUpdate: (obj) => State.update(obj),
+                  articleTags: state.article.tags,
+                  isDebug,
+                  isOverSaveButton: state.overSaveButton,
+                  saveHandler,
+                  isSaving: state.saving,
+                }}
+              />
             </>
           )}
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
@@ -538,7 +463,7 @@ return (
               <div className="pt-2">
                 <Widget
                   src={`${authorForWidget}/widget/SayALot_TagList`}
-                  props={{ tags: state.article.tags }}
+                  props={{ tags: state.article.tags, isDebug }}
                 />
               </div>
               <Widget
@@ -552,7 +477,11 @@ return (
                       style={{ fontWeight: 500 }}
                     >
                       <a
-                        href={`https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`}
+                        href={
+                          isDebug
+                            ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
+                            : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
+                        }
                       >
                         #{hashtag}
                       </a>
@@ -591,6 +520,7 @@ return (
                 props={{
                   articleId: state.article.articleId,
                   resultArticles,
+                  isDebug,
                 }}
               />
             </div>
@@ -613,6 +543,7 @@ return (
               src={`${authorForWidget}/widget/SayALot_Reactions`}
               props={{
                 // notifyAccountId,
+                isDebug,
                 item,
               }}
             />
@@ -627,6 +558,7 @@ return (
                     notifyAccountId,
                     item,
                     onComment: () => State.update({ showReply: false }),
+                    isDebug,
                   }}
                 />
               </div>
@@ -640,6 +572,7 @@ return (
                 limit: props.commentsLimit,
                 subscribe,
                 raw,
+                isDebug,
               }}
             />
           </div>
