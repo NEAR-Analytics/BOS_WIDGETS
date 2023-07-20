@@ -34,7 +34,7 @@ const getWinner = () => {
 
   const res = house.result.sort((a, b) => b[1] - a[1]);
   const winners = house.result.filter((item) => item[1] === res[0][1]);
-
+  console.log(house.result);
   return winners.slice(0, house.quorum);
 };
 
