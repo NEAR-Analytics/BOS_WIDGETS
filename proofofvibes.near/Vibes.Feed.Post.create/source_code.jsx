@@ -7,7 +7,7 @@ State.init({
   image: {},
   text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
     (it) => `@${it}`
-  )}`,
+  )} @proofofvibes.near`,
   showPreview: false,
 });
 
@@ -17,7 +17,7 @@ const autocompleteEnabled = true;
 const content = {
   type: "md",
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
-  text: state.text + "@proofofvibes.near",
+  text: state.text,
   metadata: {
     tastemaker: embedMentions,
   },
