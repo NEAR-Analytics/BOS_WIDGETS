@@ -1,5 +1,5 @@
 let accountId = props.accountId || context.accountId;
-let contractId = props.accountId || context.contractId || "avtr.near";
+let contractId = props.contractId || context.contractId || "avtr.near";
 
 const owned_tokens = Near.view(contractId, "nft_tokens_for_owner", {
   account_id: accountId,
