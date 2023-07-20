@@ -6,7 +6,7 @@ const wmaticAddress =
 const tokenDecimals = 18;
 const wmaticAbiUrl =
   props.wmaticAbiUrl ||
-  "https://raw.githubusercontent.com/leomanza/chain-agnostic-bos-workshop/main/ABIs/WETH.abi.json?token=GHSAT0AAAAAACFEJMQZUSUDFPBXDYUPLNOYZFZIHMA";
+  "https://raw.githubusercontent.com/leomanza/chain-agnostic-bos-workshop/main/ABIs/WMATIC.abi.json";
 const wmaticAbi = fetch(wmaticAbiUrl);
 
 if (!wmaticAbi.ok) {
