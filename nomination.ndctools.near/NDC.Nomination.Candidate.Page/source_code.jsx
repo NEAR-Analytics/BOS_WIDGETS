@@ -1,7 +1,6 @@
 let { ids, dev, house, accountId } = props;
 ids = ids ? ids : [1, 2, 3]; // for testing purposes
 
-const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = dev
   ? "registry-v1.gwg-testing.near"
   : "registry.i-am-human.near";
@@ -20,11 +19,7 @@ const widgets = {
   }`,
 };
 
-const houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-];
+const time = Near.view(nominationContract, "active_time", {});
 
 State.init({
   selectedHouse: ids[0],
@@ -72,21 +67,15 @@ return (
   <div>
     <Mobile className="d-flex justify-content-center">
       <Mobile>
-        {houses.map((house) => (
-          <>
-            {house.typ === props.house && (
-              <Widget
-                key={i}
-                src={widgets.header}
-                props={{
-                  startTime: house.start,
-                  endTime: house.end,
-                  type: "Nomination",
-                }}
-              />
-            )}
-          </>
-        ))}
+        <Widget
+          key={i}
+          src={widgets.header}
+          props={{
+            startTime: time.start,
+            endTime: time.end,
+            type: "Nomination",
+          }}
+        />
       </Mobile>
     </Mobile>
     <Mobile class="row">
@@ -111,31 +100,15 @@ return (
       />
     </Mobile>
     <Desktop style={{ display: "flex", "justify-content": "center" }}>
-      <div
-        style={{
-          width: "1305px",
-          "margin-bottom": "10px",
-          "padding-left": "5px",
+      <Widget
+        key={i}
+        src={widgets.header}
+        props={{
+          startTime: time.start,
+          endTime: time.end,
+          type: "Nomination",
         }}
-      >
-        {houses.map((house) => (
-          <>
-            {house.typ === props.house && (
-              <Widget
-                key={i}
-                src={widgets.header}
-                props={{
-                  house: props.house,
-                  accountId,
-                  startTime: house.start,
-                  endTime: house.end,
-                  type: "Nomination",
-                }}
-              />
-            )}
-          </>
-        ))}
-      </div>
+      />
     </Desktop>
     <Desktop class="row">
       <div className="my-3">
