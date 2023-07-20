@@ -229,10 +229,10 @@ const getAPIData = (chainId, poolId) => {
 function getTransformedData() {
   const data = runAllInOneQuery(!state.showZeroLiquidity);
   /** @type {TransformedPool[]} */
+  if (!data?.pools?.map) return { balancers: [], pools: [] };
   const transformedPools = data.pools.map((pool) => {
-    const poolId = pool.id;
-    const chainId = state.chainId || "0x1";
-    console.log("chyainId", chainId);
+    const poolId = pool?.id;
+    const chainId = state?.chainId || "0x1";
     const aprRes = getAPIData(chainId, poolId);
 
     const graphLiquidity = pool.totalLiquidity;
@@ -246,6 +246,14 @@ function getTransformedData() {
     );
 
     const tokenWeights = calculateTokenWeights(pool);
+    // const tokenWeights = pool.tokens.map((_token) => {
+    //   const { token } = _token;
+    //   const weight = parseFloat(token.totalBalanceUSD);
+    //   return {
+    //     address: token.address,
+    //     weight,
+    //   };
+    // });
     const flattenedTokens = pool.tokens.map((_token) => {
       const { token } = _token;
       return token;
@@ -502,7 +510,20 @@ if (
   );
 }
 
+// loading component with rotating icon and a big loading text
+function LoadingComponent() {
+  return (
+    <div className="d-flex flex-column align-items-center text-light">
+      <h1>Loading...</h1>
+      <div className="spinner-border text-light" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
+}
 function PaginationComponent({ forceMaxPage, forcedMaxPage }) {
+  if (typeof transformedData?.balancers?.length !== "number")
+    return <LoadingComponent />;
   forceMaxPage = forceMaxPage || false;
   forcedMaxPage = forcedMaxPage || 0;
   const page = state.page;
@@ -572,8 +593,8 @@ function PaginationComponent({ forceMaxPage, forcedMaxPage }) {
   );
 }
 
-// let forceMaxPage = false;
-// let forcedMaxPage = 0;
+let forceMaxPage = false;
+let forcedMaxPage = 0;
 
 function MainExport() {
   if (!state.chainId) {
@@ -586,26 +607,40 @@ function MainExport() {
   }
   const chainId = state.chainId || "0x1";
   // if transformedData?.pools is an empty array, set the page to previous page until we get a non-empty array
-  if (transformedData?.pools?.length === 0) {
+  if (
+    transformedData?.pools?.length === 0 &&
+    transformedData?.balancers?.length !== 0
+  ) {
     const page = state.page;
-    if (typeof page !== "number") return undefined;
+    if (typeof page !== "number") return <LoadingComponent />;
     if (page > 0) {
       State.update({ page: page - 1 });
     }
   }
-  if (transformedData?.pools?.length < 10) {
+  if (
+    transformedData?.pools?.length < 10 &&
+    transformedData?.balancers?.length > 0
+  ) {
     State.update({ forceMaxPage: true });
     // we've reached the end of the list, so this is the max page
     State.update({ forcedMaxPage: state.page + 1 });
   }
+  // if (transformedData?.pools?.length === 10) {
+  //   State.update({ forceMaxPage: false });
+  //   State.update({ forcedMaxPage: 0 });
+  // }
   return (
     <div className="bg-dark d-flex flex-column align-items-center text-light pt-3">
       <ConnectButton />
-      {transformedData.balancers[0].poolCount > 10 && (
+      {transformedData.balancers[0].poolCount > 10 ? (
         <PaginationComponent
           forceMaxPage={state.forceMaxPage}
           forcedMaxPage={state.forcedMaxPage}
         />
+      ) : (
+        <div className="mb-3 mt-1 text-center text-light fs-5 fw-bold">
+          <LoadingComponent />
+        </div>
       )}
       {/* toggle to see if user wants to hide pools that have zero liquidity, light switch type right left */}
       <div className="form-check form-switch mb-3">
@@ -639,8 +674,6 @@ function MainExport() {
       <h1 className="mt-3">Balancer Pools</h1>
       <div className="d-flex flex-wrap gap-3 justify-content-center">
         {transformedData?.pools?.map((pool) => {
-          console.log("poolId", pool.id);
-          console.log("chainId", chainId);
           return (
             <Widget
               src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/BalancerPool"
