@@ -1,16 +1,15 @@
-let appName = "avtr";
-let ownerId = "zavodil.near";
-let userId = context.accountId;
-let contractId = context.contractId || "avtr.near";
+let accountId = props.accountId || context.accountId;
+let contractId = props.accountId || context.contractId || "avtr.near";
 
 const owned_tokens = Near.view(contractId, "nft_tokens_for_owner", {
-  account_id: userId,
+  account_id: accountId,
 });
 
 if (!owned_tokens.length) {
   return (
     <div class="text-center">
-      Mint Social Avatar to set it as a Profile Picture
+      Mint Social Avatar, freemint a Shard Dog, or buy and NFT to set it as a
+      Profile Picture.
     </div>
   );
 }
