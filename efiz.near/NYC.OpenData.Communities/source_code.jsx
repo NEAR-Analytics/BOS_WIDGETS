@@ -33,28 +33,34 @@ const Website = styled.a`
 
 const OrganizationCard = ({ data }) => {
   return (
-    <Container>
+    <>
       {data.map((organization, index) => (
-        <div key={index}>
-          <OrganizationName>{organization.organization_name}</OrganizationName>
-          <Mission dangerouslySetInnerHTML={{ __html: organization.mission }} />
-          <VolunteerProgramDescription>
-            {organization.volunteer_program_description}
-          </VolunteerProgramDescription>
-          <Address>
-            {organization.street_address}, {organization.city},{" "}
-            {organization.state} {organization.postcode}
-          </Address>
-          <Website
-            href={organization.website.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {organization.website.url}
-          </Website>
-        </div>
+        <Container>
+          <div key={index}>
+            <OrganizationName>
+              {organization.organization_name}
+            </OrganizationName>
+            <Mission
+              dangerouslySetInnerHTML={{ __html: organization.mission }}
+            />
+            <VolunteerProgramDescription>
+              {organization.volunteer_program_description}
+            </VolunteerProgramDescription>
+            <Address>
+              {organization.street_address}, {organization.city},{" "}
+              {organization.state} {organization.postcode}
+            </Address>
+            <Website
+              href={organization.website.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {organization.website.url}
+            </Website>
+          </div>
+        </Container>
       ))}
-    </Container>
+    </>
   );
 };
 
