@@ -25,8 +25,7 @@ if (isDebug) {
   writersWhiteList = sayALotWorkers;
 }
 
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "sayalot.near";
 // const authorForWidget =
 // "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
