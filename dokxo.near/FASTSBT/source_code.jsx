@@ -431,6 +431,16 @@ height: 60px,
  
 }
   `;
+
+const Metarow = styled.div`
+flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-top: var(--bs-gutter-y);
+        margin-left: 1px;
+`;
 const Separator = styled.div`
 width:100%;
 height:2px;
@@ -530,7 +540,7 @@ return (
           {state.ischeckselected ? (
             <MetaCard>
               <div class="row  col-sm-12  mx-0  gap-1   ">
-                <div name="Classid" class="row ">
+                <Metarow name="Classid">
                   <MetaTitles>{"Class id"}</MetaTitles>
                   <div>
                     <Dropdown
@@ -546,7 +556,7 @@ return (
                       <option value="nothing">more options from fetch</option>
                     </Dropdown>
                   </div>
-                </div>
+                </Metarow>
                 <div class="row">
                   {" "}
                   <AFDates name="AFdates">
