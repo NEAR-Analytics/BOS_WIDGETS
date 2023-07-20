@@ -81,9 +81,9 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
-// if (!articlesIndex) {
-//   return "Loading...";
-// }
+if (!articlesIndex) {
+  return "Loading...";
+}
 
 const resultArticles =
   articlesIndex &&
@@ -575,17 +575,19 @@ return (
               </div>
             )}
             {/* === SHOW COMMENT === */}
-            <Widget
-              src={`${authorForWidget}/widget/SayALot_Comment.Feed`}
-              props={{
-                item,
-                highlightComment: props.highlightComment,
-                limit: props.commentsLimit,
-                subscribe,
-                raw,
-                isDebug,
-              }}
-            />
+            {
+              //   <Widget
+              //   src={`${authorForWidget}/widget/SayALot_Comment.Feed`}
+              //   props={{
+              //     item,
+              //     highlightComment: props.highlightComment,
+              //     limit: props.commentsLimit,
+              //     subscribe,
+              //     raw,
+              //     isDebug,
+              //   }}
+              // />
+            }
           </div>
         </div>
       </div>
