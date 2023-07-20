@@ -30,6 +30,8 @@ const postsIndex = Social.index(addressForArticles, "main", {
   accountId: undefined,
 });
 
+console.log(0, postsIndex);
+
 if (!postsIndex) {
   return "Loading...";
 }
@@ -45,6 +47,7 @@ const resultArticles =
     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
     return [...acc, postDataWithBlockHeight];
   }, []);
+console.log(1, resultArticles);
 
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
@@ -58,6 +61,7 @@ const filteredArticles =
       }
     }, [])
     .filter((article) => !articleBlackList.includes(article.blockHeight));
+console.log(2, filteredArticles);
 
 const filteredArticlesByTag =
   filteredArticles.length &&
@@ -69,6 +73,7 @@ const filteredArticlesByTag =
       return acc;
     }
   }, []);
+console.log(3, filteredArticlesByTag);
 
 return (
   <>
