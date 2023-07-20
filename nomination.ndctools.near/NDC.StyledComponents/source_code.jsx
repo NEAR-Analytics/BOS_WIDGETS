@@ -50,12 +50,12 @@ const Styled = {
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: #ffd50d;
-      color: #ffd50d;
+      border-color: ${(props) => (props.inverse ? "#fff" : "#ffd50d")};
+      color: ${(props) => (props.inverse ? "#fff" : "#ffd50d")};
 
       &:hover {
-        border-color: #e7c211;
-        color: #e7c211;
+        border-color: ${(props) => (props.inverse ? "#fff" : "#e7c211")};
+        color: ${(props) => (props.inverse ? "#fff" : "#e7c211")};
       }
 
       &.dark {
@@ -247,6 +247,7 @@ if (Link)
       href={Link.href}
       target="_blank"
       disabled={Link.disabled}
+      inverse={Link.inverse}
     >
       <div>{Link.text}</div>
       {Link.icon && (
@@ -265,6 +266,7 @@ if (Button)
       onClick={Button.onClick}
       disabled={Button.disabled}
       text={Button.text}
+      inverse={Button.inverse}
     >
       <div>{Button.text}</div>
       {Button.icon && (
