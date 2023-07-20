@@ -251,7 +251,7 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 padding: 0px;
-width: 50%;
+width: 49.5%;
 height: 50px;
 flex: none;
 order: 0;
