@@ -20,8 +20,6 @@ const widgets = {
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
 
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-
 const currentUser = context.accountId;
 
 const housesMapping = {
