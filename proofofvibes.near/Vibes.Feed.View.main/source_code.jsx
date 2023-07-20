@@ -14,7 +14,9 @@ const showDAO = props.showDAO ?? true;
 const showClass = props.showClass ?? true;
 const showHeader = props.showHeader ?? true;
 const classId = props.classId ?? 1;
-const reference = props.reference ?? null;
+const reference =
+  props.reference ??
+  "https://genadrop.mypinata.cloud/ipfs/QmQ1662QyTESnzWK8gBJdD7BtwQ3ddfXCMy6Hh3FHdmjMk?_gl=1*wrbb39*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTY4Njc3Ni44LjEuMTY4OTY4NjgyMi4xNC4wLjA";
 const accountLoggedIn = context.accountId; // use this just in case
 const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&blockHeight=${blockHeight}`;
 
@@ -236,20 +238,6 @@ return (
                       <i className="bi bi-emoji-sunglasses" /> Recommend as
                       Vibee
                     </a>
-                  </li>
-                </ul>
-              </span>
-              <span>
-                <a
-                  href="javascript:void"
-                  className="link-secondary ms-2"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="fs-6 bi bi-three-dots" />
-                </a>
-                <ul className="dropdown-menu">
-                  <li className="dropdown-item">
                     <a
                       className="link-dark text-decoration-none"
                       onClick={sbtMint}
