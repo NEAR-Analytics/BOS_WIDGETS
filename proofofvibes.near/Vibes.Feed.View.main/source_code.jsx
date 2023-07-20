@@ -20,6 +20,8 @@ const reference =
 const accountLoggedIn = context.accountId; // use this just in case
 const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&blockHeight=${blockHeight}`;
 
+const daoId = props.daoId ?? "vibes.sputnik-dao.near";
+const role = props.role ?? "vibee";
 State.init({
   receiver: receiver,
   issuer: issuer,
@@ -125,15 +127,16 @@ function renderContent() {
   }
 }
 
-const daoId = props.daoId ?? "vibes.sputnik-dao.near";
-const role = props.role ?? "vibee";
-
 if (!accountId) {
   return "Please connect your NEAR wallet :)";
 }
 
 // need to check role if tastemaker
 
+const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
+const mintAuthorities = checkMintersJson.minters;
+isMintAuthority = mintAuthorities.includes(context.accountId);
+const daoIsMinter = mintAuthorities.includes(daoId);
 const proposeVibee = () => {
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
@@ -229,8 +232,8 @@ return (
                 >
                   <i className="fs-6 bi bi-three-dots" />
                 </a>
-                <ul className="dropdown-menu row">
-                  <li className="dropdown-item col">
+                <ul className="dropdown-menu col">
+                  <li className="dropdown-item row">
                     <a
                       className="link-dark text-decoration-none"
                       onClick={proposeVibee}
@@ -238,14 +241,18 @@ return (
                       <i className="bi bi-emoji-sunglasses" /> Recommend as
                       Vibee
                     </a>
-                    <a
-                      className="link-dark text-decoration-none"
-                      onClick={sbtMint}
-                    >
-                      <i className="bi bi-shield-lock" /> Propose to Mint Proof
-                      of Vibe SBT
-                    </a>
                   </li>
+                  {daoIsMinter && (
+                    <li className="dropdown-item row">
+                      <a
+                        className="link-dark text-decoration-none"
+                        onClick={sbtMint}
+                      >
+                        <i className="bi bi-shield-lock" /> Propose to Mint
+                        Proof of Vibe SBT
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </span>
             </div>
