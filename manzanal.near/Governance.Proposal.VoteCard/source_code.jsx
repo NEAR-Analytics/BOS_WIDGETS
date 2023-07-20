@@ -70,6 +70,7 @@ if (!state.votingPowerIsFetched) {
     const votingPowerYocto = votingPower.toLocaleString("fullwide", {
       useGrouping: false,
     });
+    console.log("voting power", votingPowerYocto);
     State.update({
       votingPower: yoctoToNear(votingPowerYocto),
       votingPowerYocto,
@@ -90,7 +91,6 @@ if (!state.votingPowerInUseIsFetched) {
   ).then((votingPowerInUse) =>
     State.update({
       votingPowerInUse: yoctoToNear(votingPowerInUse),
-      votingPowerYocto,
       votingPowerInUseIsFetched: true,
     })
   );
