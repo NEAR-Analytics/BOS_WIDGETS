@@ -5,10 +5,9 @@ const NETWORK_POLYGON = "POLYGON";
 const ETH_CHAINID = 1;
 const POLYGON_CHAINID = 137;
 State.init({
-  network: null,
+  network: undefined,
   networkIsLoaded: false,
   error: null,
-  sender: null,
 });
 
 const getEVMAccountId = () => {
@@ -18,15 +17,9 @@ const getEVMAccountId = () => {
   return "";
 };
 
-if (state.sender === undefined) {
-  return State.update({
-    sender: getEVMAccountId(),
-  });
-}
-
 console.log("ethers", ethers);
 if (!state.networkIsLoaded) {
-  if (state.sender) {
+  if (getEVMAccountId() !== "") {
     console.log("ethers is loading network");
     Ethers.provider()
       .getNetwork()
@@ -50,7 +43,7 @@ if (!state.networkIsLoaded) {
           State.update({
             network: null,
             networkIsLoaded: true,
-            error: "Wrong network. Please connect to Ethereum mainnet",
+            error: "Wrong network. Please connect to an allowed network",
           });
         }
       });
@@ -61,17 +54,14 @@ if (!state.networkIsLoaded) {
 }
 
 console.log("NETWORK", state.network);
-if (!state.networkIsLoaded) return <>Loading</>;
+if (!state.networkIsLoaded && !state.network) return <>Loading</>;
 if (state.error) return <>{state.error}</>;
 const getContent = {
   NEAR: (
     <Widget src={`${authorId}/widget/TokenWrapper.v2.NearWrapper`} props={{}} />
   ),
   ETH: (
-    <Widget
-      src={`${authorId}/widget/TokenWrapper.v2.EthWrapper`}
-      props={{ sender: state.sender }}
-    />
+    <Widget src={`${authorId}/widget/TokenWrapper.v2.EthWrapper`} props={{}} />
   ),
   POLYGON: (
     <Widget
