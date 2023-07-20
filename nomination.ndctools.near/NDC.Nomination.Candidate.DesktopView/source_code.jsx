@@ -493,7 +493,11 @@ return (
                 props={{
                   accountId: candidate,
                   imageClassName: "rounded-circle w-100 h-100",
-                  style: { width: "100px", height: "100px" },
+                  style: {
+                    width: "100px",
+                    height: "100px",
+                    marginRight: "15px",
+                  },
                 }}
               />
               <div className="d-flex flex-column">
