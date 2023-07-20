@@ -12,7 +12,7 @@ background: rgba(0, 0, 0, 0.70);
 
 
  
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 480px) {
 background: rgba(255, 0, 0, 0.70);
 
 }
