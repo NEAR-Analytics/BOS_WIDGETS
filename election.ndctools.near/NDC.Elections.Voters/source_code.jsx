@@ -1,7 +1,6 @@
 const { candidateId } = props;
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
-const registryContract = registry_contract ?? "registry.i-am-human.near";
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 State.init({
@@ -9,7 +8,7 @@ State.init({
 });
 
 asyncFetch(
-  `https://api.pikespeak.ai/election/votes-by-candidate?candidate=${candidateId}&contract=${electionContract}&registry=${registryContract}`,
+  `https://api.pikespeak.ai/election/votes-by-candidate?candidate=${candidateId}&contract=${electionContract}`,
   {
     headers: {
       "x-api-key": apiKey,
