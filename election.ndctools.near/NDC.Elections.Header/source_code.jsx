@@ -1,4 +1,4 @@
-const { startTime, endTime, type, isWhistleblower, cooldown } = props;
+const { startTime, endTime, type } = props;
 
 State.init({
   days: "-",
@@ -18,13 +18,13 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
-  const coold = new Date(parseInt(cooldown)).getTime();
   let title = "";
 
   let diff;
-  if (now < start) diff = start - now;
-  else if (now > start && now < end) diff = end - now;
-  else if (now > end && now < coold) diff = coold - now;
+  if (now < start)
+    diff = new Date(parseInt(start)).getTime() - new Date().getTime();
+  else if (now > start && now < end)
+    diff = new Date(parseInt(end)).getTime() - new Date().getTime();
   else diff = 0;
 
   let days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -32,15 +32,18 @@ const timer = setInterval(() => {
   let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  if (now < start) title = <>Time before {type} starts</>;
+  if (now < start)
+    title = (
+      <>
+        Time before <br /> {type} starts
+      </>
+    );
   else if (now > start && now < end)
-    title =
-      type === "Nomination" ? (
-        <>TIME LEFT TO NOMINATE - ELECTIONS START SEPT 8</>
-      ) : (
-        <>Time remaining in current {type}</>
-      );
-  else if (now > end && now < coold) title = <>{type} is under review</>;
+    title = (
+      <>
+        Time remaining in <br /> current {type}
+      </>
+    );
   else {
     title = <>{type} is ended</>;
     days = 0;
@@ -62,11 +65,11 @@ const timer = setInterval(() => {
 
 const Logo = styled.img`
   width: 60px;
-  margin: ${(props) => (props.mobile ? "0 10px 0 0" : "0 20px 0 10px")};
+  margin: 0 20px 0 10px;
 `;
 
 const H1 = styled.h1`
-  font-size: ${(props) => (props.mobile ? "30px" : "40px")};
+  font-size: 40px;
   font-weight: 500;
   margin-bottom: 0;
   text-transform: capitalize;
@@ -74,14 +77,13 @@ const H1 = styled.h1`
 
 const H6 = styled.h6`
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 300;
   margin-right: 32px;
   margin-bottom: 0;
   line-height: 1.5;
   align-items: center;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  width: ${(props) => (props.mobile ? "100%" : "130px")};
 `;
 
 const Timer = styled.div`
@@ -133,19 +135,16 @@ const Info = styled.div`
   background: #ffd50d;
 `;
 
-const TitleContainer = ({ mobile }) => (
+const TitleContainer = () => (
   <>
-    <Logo
-      mobile={mobile}
-      src="https://pbs.twimg.com/profile_images/1622941553839816707/nmf3MWw1_400x400.jpg"
-    />
-    <H1 mobile={mobile}>NDC {type}s</H1>
+    <Logo src="https://pbs.twimg.com/profile_images/1622941553839816707/nmf3MWw1_400x400.jpg" />
+    <H1>NDC {type}s</H1>
   </>
 );
 
-const TimerContent = ({ mobile }) => {
-  const TimeSlot = ({ time, title, mobile }) => (
-    <div className={`${mobile ? "text-center" : ""}`}>
+const TimerContent = () => {
+  const TimeSlot = ({ time, title }) => (
+    <div>
       <div className="time">{formatTime(time)}</div>
       <small>{title}</small>
     </div>
@@ -153,10 +152,8 @@ const TimerContent = ({ mobile }) => {
 
   return (
     <>
-      <H6 mobile={mobile} className={`${mobile ? "m-0 mb-3 text-center" : ""}`}>
-        {state.title}
-      </H6>
-      <Timer className="d-flex" mobile={mobile}>
+      <H6>{state.title}</H6>
+      <Timer className="d-flex">
         <TimeSlot title="days" time={state.days} />
         <TimeSlot title="hours" time={state.hours} />
         <TimeSlot title="minutes" time={state.minutes} />
@@ -166,41 +163,27 @@ const TimerContent = ({ mobile }) => {
   );
 };
 
-const InfoBlock = ({ mobile }) => (
-  <Info
-    className={`py-2 d-flex justify-content-center align-items-center gap-2 ${
-      mobile ? "" : "rounded-bottom"
-    }`}
-  >
-    <b className={`mb-0 ${mobile ? "w-50" : ""}`}>
-      {isWhistleblower ? (
-        <>LEARN ABOUT THE WHISTLEBLOWER BOUNTY PROGRAM</>
-      ) : (
-        <>NDC NOMINATION AND ELECTION EDUCATION</>
-      )}
-    </b>
-    <div>
-      <Widget
-        src={widgets.styledComponents}
-        props={{
-          Link: {
-            text: "Learn More",
-            size: "sm",
-            className: "primary dark",
-            href: isWhistleblower
-              ? "https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
-              : "https://pages.near.org/blog/ndc-v1-governance-elections-faq",
-          },
-        }}
-      />
-    </div>
+const InfoBlock = () => (
+  <Info className="py-2 d-flex justify-content-center align-items-center gap-2">
+    <b className="mb-0">NDC NOMINATION AND ELECTION EDUCATION</b>
+    <Widget
+      src={widgets.styledComponents}
+      props={{
+        Link: {
+          text: "Learn More",
+          size: "sm",
+          className: "primary dark",
+          href: "https://pages.near.org/blog/ndc-v1-governance-elections-faq",
+        },
+      }}
+    />
   </Info>
 );
 
 return (
   <div>
     <div className="d-none d-lg-flex flex-column">
-      <div className="p-4 bg-black text-white d-lg-flex rounded-top justify-content-between align-items-center">
+      <div className="p-4 bg-black text-white d-lg-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <TitleContainer />
         </div>
@@ -211,14 +194,14 @@ return (
       <InfoBlock />
     </div>
     <div className="d-md-flex d-lg-none d-xl-none">
-      <div className="row">
-        <div className="d-flex bg-black align-items-center justify-content-center bg-black text-white">
-          <TitleContainer mobile />
+      <div className="row bg-black">
+        <div className="d-flex align-items-center justify-content-center bg-black text-white">
+          <TitleContainer />
         </div>
-        <SmallTimerContainer className="d-flex flex-column p-3 align-items-center justify-content-between">
-          <TimerContent mobile />
+        <SmallTimerContainer className="d-flex p-3 align-items-center justify-content-between">
+          <TimerContent />
         </SmallTimerContainer>
-        <InfoBlock mobile />
+        <InfoBlock />
       </div>
     </div>
   </div>
