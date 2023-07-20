@@ -7,15 +7,15 @@ State.init({
 });
 
 const STORAGE_KEY = "proposalsMultiVote";
-const STORAGE = Storage.privateGet(STORAGE_KEY);
+const STORAGE = Storage.get(STORAGE_KEY);
 
 console.log(STORAGE);
 
 if (STORAGE === null) return "";
 
-if (Object.keys(STORAGE[daoId] || {}).length < 1) {
-  return "";
-}
+// if (Object.keys(STORAGE[daoId] || {}).length < 1) {
+//   return "";
+// }
 
 const proposal_ids = Object.keys(STORAGE[daoId]).map((id) => parseInt(id));
 
@@ -88,7 +88,7 @@ return (
         props={{
           children: "Clear",
           onClick: () => {
-            Storage.privateSet(STORAGE_KEY, {});
+            Storage.set(STORAGE_KEY, {});
           },
           variant: "secondary outline",
         }}
