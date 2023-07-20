@@ -1,1 +1,1 @@
-return <div>Hello World - A2 - DRAFT</div>;
+return <div>A2</div>;
