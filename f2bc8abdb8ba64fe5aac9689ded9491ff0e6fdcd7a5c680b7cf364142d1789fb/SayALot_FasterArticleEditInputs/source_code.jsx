@@ -79,6 +79,7 @@ return (
             placeholder: "Input tags",
             setTagsObject: (tags) => {
               State.update({ tags });
+              stateUpdate({ tags });
             },
           }}
         />
