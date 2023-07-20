@@ -70,6 +70,8 @@ const filteredArticlesByTag =
       console.log(article);
       return [...acc, article];
     } else {
+      console.log(acc);
+      console.log(article);
       return acc;
     }
   }, []);
