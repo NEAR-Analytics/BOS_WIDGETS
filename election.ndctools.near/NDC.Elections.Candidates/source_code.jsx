@@ -397,6 +397,7 @@ const CandidateList = ({ candidateId, votes }) => (
               text: "Nomination",
               icon: <i id="link" className="bi bi-arrow-up-right" />,
               href: ref_link,
+              inverse: state.selected === candidateId,
             },
           }}
         />
