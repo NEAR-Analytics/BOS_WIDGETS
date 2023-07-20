@@ -363,9 +363,9 @@ border-radius: 10px;
 }
 `;
 const Rowcont = styled.div`
- 
-@media only screen and (max-width: 480px) {
  display:flex;
+@media only screen and (max-width: 480px) {
+  display:block;
  
 }
 `;
