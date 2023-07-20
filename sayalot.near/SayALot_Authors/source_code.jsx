@@ -1,5 +1,9 @@
-const addressForArticles = "sayALotArticle";
+const isDebug = props.isDebug;
+
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
@@ -10,16 +14,37 @@ const writersWhiteList = [
   "yuensid.near",
 ];
 
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
+];
+
+if (isDebug) {
+  writersWhiteList = sayALotWorkers;
+}
+
 const articleBlackList = [
   91092435, 91092174, 91051228, 91092223, 91051203, 96414482, 96402919,
   96402330, 96401880, 96412953, 96412953, 95766840, 95413943,
 ];
 
 // ========== GET INDEX ARRAY FOR ARTICLES ==========
-const postsIndex = Social.index(addressForArticles, "main", {
+let postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
-}).filter((article) => !articleBlackList.includes(article.blockHeight));
+});
+
+if (!postsIndex) {
+  return "Loading...";
+}
+
+postsIndex = postsIndex.filter(
+  (article) => !articleBlackList.includes(article.blockHeight)
+);
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
@@ -34,6 +59,7 @@ const resultArticles =
     .filter((article) =>
       writersWhiteList.some((addr) => addr === article.author)
     );
+
 // ========== FILTER DUBLICATES ==========
 const filteredArticles =
   resultArticles.length &&
@@ -76,7 +102,7 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "authors" }}
+      props={{ currentNavPill: "authors", isDebug }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <h6>Total authors: {authorsCountArray.length}</h6>
@@ -92,7 +118,11 @@ return (
                 />
                 <a
                   className="text-start mt-3"
-                  href={`#/${authorForWidget}/widget/SayALot_ArticlesByAuthor?author=${author}`}
+                  href={
+                    isDebug
+                      ? `#/${authorForWidget}/widget/SayALot?author=${author}&isDebug=true`
+                      : `#/${authorForWidget}/widget/SayALot?author=${author}`
+                  }
                 >
                   {quantity} articles
                 </a>
