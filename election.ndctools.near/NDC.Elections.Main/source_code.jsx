@@ -44,22 +44,14 @@ const totalHumal = 3000;
 
 asyncFetch(
   `https://api.pikespeak.ai/election/total-voters&contract=${electionContract}`,
-  {
-    headers: {
-      "x-api-key": apiKey,
-    },
-  }
+  { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   if (resp.body) State.update({ humanVoted: resp.body });
 });
 
 asyncFetch(
   `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
-  {
-    headers: {
-      "x-api-key": apiKey,
-    },
-  }
+  { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   if (resp.body) State.update({ myVotes: resp.body });
 });
@@ -93,7 +85,7 @@ const ActivityContainer = styled.div`
 
 const Left = styled.div`
   padding: 20px;
-  background: #F8F8F9;
+  background: #f8f8f9;
   border-radius: 8px;
 `;
 
@@ -104,7 +96,7 @@ const Filter = styled.div`
 const Right = styled.div`
   padding: 20px;
   margin-bottom: 20px;
-  background: #F8F8F9;
+  background: #f8f8f9;
   border-radius: 8px;
 `;
 
