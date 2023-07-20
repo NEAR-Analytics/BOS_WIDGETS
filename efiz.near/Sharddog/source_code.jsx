@@ -1,5 +1,4 @@
 const limit = 20;
-const { Sharddog } = VM.require("efiz.near/widget/Sharddog.Template");
 
 State.init({
   offset: 0,
@@ -46,6 +45,33 @@ function fetchTokens() {
       }
     }
   });
+}
+
+function Sharddog({ owner, media }) {
+  const size = "144px";
+
+  return (
+    <Link to={`/mob.near/widget/ProfilePage?accountId=${owner}`}>
+      <Widget
+        src="mob.near/widget/Image"
+        props={{
+          image: {
+            url: media,
+          },
+          style: {
+            width: size,
+            height: size,
+            objectFit: "cover",
+            minWidth: size,
+            minHeight: size,
+            maxWidth: size,
+            maxHeight: size,
+            overflowWrap: "break-word",
+          },
+        }}
+      />
+    </Link>
+  );
 }
 
 const size = "144px";
