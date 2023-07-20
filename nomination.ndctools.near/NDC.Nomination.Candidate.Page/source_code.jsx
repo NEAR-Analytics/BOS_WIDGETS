@@ -70,8 +70,8 @@ return (
         <Widget
           src={widgets.header}
           props={{
-            startTime: time.start,
-            endTime: time.end,
+            startTime: time[0],
+            endTime: time[1],
             type: "Nomination",
           }}
         />
@@ -102,8 +102,8 @@ return (
       <Widget
         src={widgets.header}
         props={{
-          startTime: time.start,
-          endTime: time.end,
+          startTime: time[0],
+          endTime: time[1],
           type: "Nomination",
         }}
       />
