@@ -52,6 +52,102 @@ const item = {
   blockHeight,
 };
 
+// const daoId = "vibes.sputnik-dao.near"; // add tastemaker logic here
+const isTasteMaker = true;
+// const accountId = context.accountId;
+if (!accountId) {
+  return (
+    <div>
+      <p>Login to NEAR with your 🥂 tastemaker approved wallet</p>
+    </div>
+  );
+}
+
+// const accountId = props.accountId ?? context.accountId;
+
+const proposalKinds = {
+  ChangeConfig: "config",
+  ChangePolicy: "policy",
+  AddMemberToRole: "add_member_to_role",
+  RemoveMemberFromRole: "remove_member_from_role",
+  FunctionCall: "call",
+  UpgradeSelf: "upgrade_self",
+  UpgradeRemote: "upgrade_remote",
+  Transfer: "transfer",
+  SetStakingContract: "set_vote_token",
+  AddBounty: "add_bounty",
+  BountyDone: "bounty_done",
+  Vote: "vote",
+  FactoryInfoUpdate: "factory_info_update",
+  ChangePolicyAddOrUpdateRole: "policy_add_or_update_role",
+  ChangePolicyRemoveRole: "policy_remove_role",
+  ChangePolicyUpdateDefaultVotePolicy: "policy_update_default_vote_policy",
+  ChangePolicyUpdateParameters: "policy_update_parameters",
+};
+
+const actions = {
+  AddProposal: "AddProposal",
+  VoteApprove: "VoteApprove",
+  VoteReject: "VoteReject",
+  VoteRemove: "VoteRemove",
+};
+
+// -- Get all the roles from the DAO policy
+let roles = Near.view(daoId, "get_policy");
+roles = roles === null ? [] : roles.roles;
+
+const isUserAllowedTo = (user, kind, action) => {
+  // -- Filter the user roles
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      userRoles.push(role);
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (accountId && role.kind.Group && role.kind.Group.includes(accountId)) {
+      userRoles.push(role);
+    }
+  }
+
+  // -- Check if the user is allowed to perform the action
+  let allowed = false;
+
+  userRoles
+    .filter(({ permissions }) => {
+      const allowedRole =
+        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
+        permissions.includes(`${kind.toString()}:*`) ||
+        permissions.includes(`*:${action.toString()}`) ||
+        permissions.includes("*:*");
+      allowed = allowed || allowedRole;
+      return allowedRole;
+    })
+    .map((role) => role.name);
+
+  return allowed;
+};
+
+console.log(
+  "Is User Allowed To 'Add a Proposal' of type 'FunctionCall'?",
+  isUserAllowedTo(accountId, proposalKinds.FunctionCall, actions.AddProposal)
+);
+
+console.log(
+  "Is User Allowed To 'Vote Yes' on a proposal of type 'FunctionCall'?",
+  isUserAllowedTo(accountId, proposalKinds.FunctionCall, actions.VoteApprove)
+);
+
+console.log(
+  "Is User Allowed To 'Add a Proposal' of type 'AddMemberToRole'?",
+  isUserAllowedTo(accountId, proposalKinds.AddMemberToRole, actions.AddProposal)
+);
+const canPropose = isUserAllowedTo(
+  accountId,
+  proposalKinds.FunctionCall,
+  actions.AddProposal
+);
+
 const Post = styled.div`
   position: relative;
 
@@ -233,16 +329,19 @@ return (
                   <i className="fs-6 bi bi-three-dots" />
                 </a>
                 <ul className="dropdown-menu col">
-                  <li className="dropdown-item row">
-                    <a
-                      className="link-dark text-decoration-none"
-                      onClick={proposeVibee}
-                    >
-                      <i className="bi bi-emoji-sunglasses" /> Recommend as
-                      Vibee
-                    </a>
-                  </li>
-                  {daoIsMinter && (
+                  {canPropose && (
+                    <li className="dropdown-item row">
+                      <a
+                        className="link-dark text-decoration-none"
+                        onClick={proposeVibee}
+                      >
+                        <i className="bi bi-emoji-sunglasses" /> Recommend as
+                        Vibee
+                      </a>
+                    </li>
+                  )}
+
+                  {canPropose && daoIsMinter && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
