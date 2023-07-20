@@ -144,9 +144,6 @@ const onClickStake = () => {
     },
   };
   const txs = [unstake];
-  // If account has no StNEAR, we assume she/he needs to register StNEAR token.
-  // By adding a `ft_balance_of` function call, the NEAR indexer will automatically
-  // add StNEAR token into caller's NEAR wallet token list.
   if (Number(stnearBalance) === 0) {
     txs.push(registerFt);
   }
