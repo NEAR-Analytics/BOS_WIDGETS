@@ -1,5 +1,7 @@
-const addressForArticles = "ndcGigsArticle";
-const writersWhiteList = [
+const isDebug = props.isDebug;
+const author = props.author;
+
+let writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
@@ -10,14 +12,37 @@ const writersWhiteList = [
   "shubham007.near",
   "fiftycent.near",
 ];
-const authorForWidget = "sayalot.near";
+
+const sayALotWorkers = [
+  "silkking.near",
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+  "blaze.near",
+  "ayelen.near",
+  "kenrou-it.near",
+];
+
+if (isDebug) {
+  writersWhiteList = sayALotWorkers;
+}
+
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = props.accountId ?? context.accountId;
+
 // if (!accountId) {
 //   return "No account ID";
 // }
+
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
   return "Loading";
+}
+
+const authorProfile = Social.getr(`${author}/profile`);
+if (author && !authorProfile) {
+  return "Loading...";
 }
 
 return (
@@ -31,12 +56,17 @@ return (
   >
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
-      props={{ currentNavPill: "articles", writersWhiteList }}
+      props={{ currentNavPill: "articles", writersWhiteList, isDebug }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
+      {author && (
+        <h4
+          style={{ margin: "1.5rem 0 0 0" }}
+        >{`${authorProfile.name}'s articles`}</h4>
+      )}
       <Widget
         src={`${authorForWidget}/widget/SayALot_AllArticlesList`}
-        props={{ writersWhiteList }}
+        props={{ writersWhiteList, isDebug, author }}
       />
     </div>
   </div>
