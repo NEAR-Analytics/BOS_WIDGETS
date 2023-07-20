@@ -229,8 +229,8 @@ return (
                 >
                   <i className="fs-6 bi bi-three-dots" />
                 </a>
-                <ul className="dropdown-menu">
-                  <li className="dropdown-item">
+                <ul className="dropdown-menu col">
+                  <li className="dropdown-item row">
                     <a
                       className="link-dark text-decoration-none"
                       onClick={proposeVibee}
