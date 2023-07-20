@@ -139,7 +139,7 @@ while (filteredItems.length < state.displayCount) {
       continue;
     }
     if (item.blockHeight === bestItem.blockHeight) {
-      console.log(item.blockHeight)
+      console.log(item.blockHeight);
     }
     if (
       bestItem === null ||
@@ -154,7 +154,6 @@ while (filteredItems.length < state.displayCount) {
     break;
   }
   state.feeds[bestItem.index].usedCount++;
-  newItem.blockHeight);
   if (filter) {
     if (filter.accountBlacklist) {
       if (bestItem.accountId in filter.accountBlacklist) {
