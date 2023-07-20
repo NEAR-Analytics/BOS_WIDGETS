@@ -164,7 +164,7 @@ const TimerContent = () => {
 };
 
 const InfoBlock = () => (
-  <Info className="py-2 d-flex justify-content-center align-items-center gap-2">
+  <Info className="py-2 d-flex justify-content-center align-items-center gap-2 rounded-bottom">
     <b className="mb-0">NDC NOMINATION AND ELECTION EDUCATION</b>
     <Widget
       src={widgets.styledComponents}
@@ -183,7 +183,7 @@ const InfoBlock = () => (
 return (
   <div>
     <div className="d-none d-lg-flex flex-column">
-      <div className="p-4 bg-black text-white d-lg-flex justify-content-between align-items-center">
+      <div className="p-4 bg-black text-white d-lg-flex rounded-top justify-content-between align-items-center">
         <div className="d-flex align-items-center">
           <TitleContainer />
         </div>
@@ -194,8 +194,8 @@ return (
       <InfoBlock />
     </div>
     <div className="d-md-flex d-lg-none d-xl-none">
-      <div className="row bg-black">
-        <div className="d-flex align-items-center justify-content-center bg-black text-white">
+      <div className="row">
+        <div className="d-flex bg-black rounded-top align-items-center justify-content-center bg-black text-white">
           <TitleContainer />
         </div>
         <SmallTimerContainer className="d-flex p-3 align-items-center justify-content-between">
