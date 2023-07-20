@@ -468,6 +468,14 @@ return (
     <div className="d-flex align-items-end flex-wrap gap-2">
       <WidgetButton type="Link" text="Primary" className="primary dark" />
       <WidgetButton type="Link" text="Secondary" className="secondary dark" />
+      <div className="bg-dark">
+        <WidgetButton
+          type="Link"
+          text="Secondary"
+          inverse
+          className="secondary dark"
+        />
+      </div>
     </div>
 
     <h4>Tag</h4>
