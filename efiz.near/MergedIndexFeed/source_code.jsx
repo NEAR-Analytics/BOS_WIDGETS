@@ -139,7 +139,7 @@ while (filteredItems.length < state.displayCount) {
       continue;
     }
     if (item.blockHeight === bestItem.blockHeight) {
-      console.log(item.blockHeight);
+      break;
     }
     if (
       bestItem === null ||
