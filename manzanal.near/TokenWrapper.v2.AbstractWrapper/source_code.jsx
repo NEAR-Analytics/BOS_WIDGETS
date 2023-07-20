@@ -211,6 +211,13 @@ const CurrencyPillImageWrapper = styled.div`
   align-items: center;
 `;
 
+const CurrencyPillSvgImageContainer = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 2px;
+`;
+
 const CurrencyPillImage = styled.img`
   color: rgb(255, 255, 255);
   width: 24px;
@@ -327,7 +334,9 @@ return (
               <CurrencyPillContainer>
                 <CurrencyPillWrapper>
                   <CurrencyPillImageWrapper>
-                    {state.unwrap ? imgWrapTokenSvg : imgTokenSvg}
+                    <CurrencyPillSvgImageContainer>
+                      {state.unwrap ? imgWrapTokenSvg : imgTokenSvg}
+                    </CurrencyPillSvgImageContainer>
                     <CurrencyPillText>
                       {state.unwrap ? wrapTokenName : tokenName}
                     </CurrencyPillText>
@@ -409,7 +418,9 @@ return (
               <CurrencyPillContainer>
                 <CurrencyPillWrapper>
                   <CurrencyPillImageWrapper>
-                    {state.unwrap ? imgTokenSvg : imgWrapTokenSvg}
+                    <CurrencyPillSvgImageContainer>
+                      {state.unwrap ? imgTokenSvg : imgWrapTokenSvg}
+                    </CurrencyPillSvgImageContainer>
                     <CurrencyPillText>
                       {state.unwrap ? tokenName : wrapTokenName}
                     </CurrencyPillText>
