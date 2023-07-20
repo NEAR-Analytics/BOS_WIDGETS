@@ -1,9 +1,9 @@
 const ModalCard = styled.div`
-//position: fixed;
-//width: 100vw;
-//height:100vh;
-width: 100%;
-height:100%;
+position: fixed;
+width: 100vw;
+height:100vh;
+//width: 100%;
+//height:100%;
 top: 72px;
 left: 0;
 
