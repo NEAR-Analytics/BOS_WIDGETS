@@ -135,7 +135,7 @@ if (!accountId) {
 
 const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
 const mintAuthorities = checkMintersJson.minters;
-isMintAuthority = mintAuthorities.includes(context.accountId);
+const isMintAuthority = mintAuthorities.includes(context.accountId);
 const daoIsMinter = mintAuthorities.includes(daoId);
 const proposeVibee = () => {
   const gas = 200000000000000;
