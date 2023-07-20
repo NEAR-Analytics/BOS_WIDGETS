@@ -15,12 +15,11 @@ background: rgba(0, 0, 0, 0.70);
 
  
 @media only screen and (max-width: 820px) {
-background: rgba(0, 255, 0, 0.70);
+
 
 }
 @media only screen and (max-width: 480px) {
 
-background: rgba(255, 0, 0, 0.70);
 }
 
 `;
@@ -530,13 +529,7 @@ return (
           </div>
           {state.ischeckselected ? (
             <MetaCard>
-              <div
-                class="row  col-sm-12  mx-0  gap-1   "
-                style={{
-                  "padding-left": "16px",
-                  "padding-top": "11px",
-                }}
-              >
+              <div class="row  col-sm-12   gap-1   ">
                 <div name="Classid" class="row ">
                   <MetaTitles>{"Class id"}</MetaTitles>
                   <div>
