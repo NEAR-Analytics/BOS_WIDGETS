@@ -491,7 +491,7 @@ return (
               <Widget
                 src="mob.near/widget/ProfileImage"
                 props={{
-                  accountId: data.nominationData?.profileAccount.substring(1),
+                  accountId: candidate,
                   imageClassName: "rounded-circle w-100 h-100",
                   style: { width: "100px", height: "100px" },
                 }}
