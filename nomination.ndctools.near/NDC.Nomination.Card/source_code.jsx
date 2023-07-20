@@ -690,7 +690,7 @@ return (
                       text: "View",
                       size: "sm",
                       className: "primary w-100 justify-content-center",
-                      href: `${widgets.candidatePage}?house=${data.indexerData.house}&candidate=${data.indexerData.nominee}&dev=${dev}`,
+                      href: `${widgets.candidatePage}?house=${data.indexerData.house}&accountId=${data.indexerData.nominee}&dev=${dev}`,
                       icon: <i className="bi bi-eye fs-6"></i>,
                     },
                   }}
