@@ -11,7 +11,9 @@ const isDebug = props.isDebug;
 //======= Initialisation =======
 
 State.init({ textAreaText: textAreaInitialText });
-const authorForWidget = "sayalot";
+const authorForWidget = "sayalot.near";
+// const authorForWidget =
+// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 
 //======= Functions =======
 
@@ -72,8 +74,9 @@ return (
       </div>
       <div className="w-50">
         <Widget
-          src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor`}
+          src={`${authorForWidget}/widget/TagsEditor`}
           props={{
+            isDebug,
             initialTagsObject: getTagObjectfromArray(articleTags),
             placeholder: "Input tags",
             setTagsObject: (tags) => {
