@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const authorId = "manzanal.near";
-const contractId = props.contractId || "v004.mpip.near";
+const contractId = props.contractId || "v005.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const edit = props.edit ?? false;
 const mpip_id = props.mpip_id ?? null;
@@ -209,6 +209,15 @@ const ButtonsContainer = styled.div`
 
 return (
   <>
+    <div className="d-flex gap-3 flex-wrap">
+      <div className="d-flex flex-column gap-3">
+        <h5>Proposer</h5>
+        <Widget
+          src="mob.near/widget/Profile.ShortInlineBlock"
+          props={{ accountId: accountId, tooltip: true }}
+        />
+      </div>
+    </div>
     <Widget
       src={`${authorId}/widget/Common.Inputs.Text`}
       props={{
