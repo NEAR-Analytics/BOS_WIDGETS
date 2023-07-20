@@ -394,7 +394,7 @@ const CandidateList = ({ candidateId, votes }) => (
             Link: {
               size: "sm",
               className: "secondary dark",
-              text: "Reset Selection",
+              text: "Nomination",
               icon: <i id="link" className="bi bi-arrow-up-right" />,
               href: ref_link,
             },
