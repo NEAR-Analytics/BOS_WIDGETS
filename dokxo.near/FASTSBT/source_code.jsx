@@ -462,14 +462,11 @@ State.init({
   Dao_Contract: "",
   Issuer_selected: null,
   Receiver: "",
-
-  Metadata: {
-    ClassIdSelected: "",
-    IssuedAT: "",
-    ExpiresAt: "",
-    Referencelink: "",
-    Referencehash: "",
-  },
+  ClassIdSelected: "",
+  IssuedAT: "",
+  ExpiresAt: "",
+  Referencelink: "",
+  Referencehash: "",
 
   ischeckselected: false,
   Submitdisable: true,
@@ -500,28 +497,33 @@ const validatedInputs = () => {
 
     return (isValid = false);
   }
+  if (state.ischeckselected === true) {
+    console.log("se activo la meta");
+    if (isEmpty(state.ClassIdSelected)) {
+      console.log("select toke");
 
-  if (isEmpty(state.Metadata.ClassIdSelected)) {
-    State.update({ error_msg: "Select a token class", Submitdisable: true });
+      State.update({ error_msg: "Select a token class", Submitdisable: true });
 
-    return (isValid = false);
-  }
-  if (isEmpty(state.Metadata.IssuedAT)) {
-    State.update({ error_msg: "pic and issued date", Submitdisable: true });
+      return (isValid = false);
+    }
+    if (isEmpty(state.IssuedAT)) {
+      State.update({ error_msg: "pic and issued date", Submitdisable: true });
 
-    return (isValid = false);
-  }
-  if (isEmpty(state.Metadata.ExpiresAt)) {
-    State.update({ error_msg: "pic and expires date", Submitdisable: true });
+      return (isValid = false);
+    }
+    if (isEmpty(state.ExpiresAt)) {
+      State.update({ error_msg: "pic and expires date", Submitdisable: true });
 
-    return (isValid = false);
+      return (isValid = false);
+    }
+    if (!isEmpty(state.Referencelink)) {
+      return (isValid = false);
+    }
+    if (!isEmpty(state.Referencehash)) {
+      return (isValid = false);
+    }
   }
-  if (!isEmpty(state.Metadata.Referencelink)) {
-    return (isValid = false);
-  }
-  if (!isEmpty(state.Metadata.Referencehash)) {
-    return (isValid = false);
-  }
+
   if (isEmpty(state.Memo)) {
     State.update({ error_msg: "Write the memo", Submitdisable: true });
 
@@ -531,6 +533,43 @@ const validatedInputs = () => {
   State.update({ Submitdisable: false });
 
   return isValid;
+};
+const EnableSubmit = () => {
+  const isEmpty = (str) => str.trim() === "";
+
+  console.log("1");
+  if (isEmpty(state.Dao_Contract)) {
+    console.log("2");
+
+    State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
+  }
+  if (isEmpty(state.Issuer_selected)) {
+    State.update({ error_msg: "Select an issuer", Submitdisable: true });
+  }
+  if (isEmpty(state.Receiver)) {
+    State.update({ error_msg: "Write the receiver", Submitdisable: true });
+  }
+  if (state.ischeckselected === "true") {
+    if (isEmpty(state.Metadata.ClassIdSelected)) {
+      State.update({ error_msg: "Select a token class", Submitdisable: true });
+    }
+    if (isEmpty(state.Metadata.IssuedAT)) {
+      State.update({ error_msg: "pic and issued date", Submitdisable: true });
+    }
+    if (isEmpty(state.Metadata.ExpiresAt)) {
+      State.update({ error_msg: "pic and expires date", Submitdisable: true });
+    }
+    if (!isEmpty(state.Metadata.Referencelink)) {
+    }
+    if (!isEmpty(state.Metadata.Referencehash)) {
+    }
+  }
+
+  if (isEmpty(state.Memo)) {
+    State.update({ error_msg: "Write the memo", Submitdisable: true });
+  }
+
+  State.update({ Submitdisable: false });
 };
 return (
   <ModalCard>
@@ -550,6 +589,7 @@ return (
               value={state.Dao_Contract}
               onChange={(e) => {
                 State.update({ Dao_Contract: e.target.value });
+                validatedInputs();
               }}
             />
           </Colcont>
@@ -560,6 +600,7 @@ return (
               value={state.Issuer_selected}
               onChange={(e) => {
                 State.update({ Issuer_selected: e.target.value });
+                validatedInputs();
               }}
             >
               <option default value="0">
@@ -577,6 +618,7 @@ return (
               value={state.Receiver}
               onChange={(e) => {
                 State.update({ Receiver: e.target.value });
+                validatedInputs();
               }}
             />
           </Colcont>
@@ -588,6 +630,7 @@ return (
             <CustomCheckbox
               onClick={() => {
                 State.update({ ischeckselected: !state.ischeckselected });
+                validatedInputs();
               }}
             >
               {state.ischeckselected ? (
@@ -704,7 +747,7 @@ return (
 
       <FooterForm name="Footerform">
         <Submitcontainer>
-          <SubmitBtn onClick={console.log("click")}> Submit </SubmitBtn>
+          <SubmitBtn> Submit </SubmitBtn>
         </Submitcontainer>
       </FooterForm>
     </CardStyled>
