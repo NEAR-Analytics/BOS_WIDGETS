@@ -34,7 +34,7 @@ const SearchInput = styled.input`
   padding-left: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
-  border: 1px solid ${useTheme(light, border, dark.border)};
+  border: 1px solid ${useTheme(light.border, dark.border)};
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)}; 
 `;
