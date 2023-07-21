@@ -19,6 +19,7 @@ const compareWasm = () => {
     .then((rpc_res) => {
       asyncFetch(`props.apiHost/ipfs/${props.cid}/wasm_code_base64`)
         .then((ipfs_res) => {
+          console.log(rpc_res.data === ipfs_res.data.result.code_base64);
           return rpc_res.data === ipfs_res.data.result.code_base64;
         })
         .catch((err) => {
