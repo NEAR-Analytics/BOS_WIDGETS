@@ -1,11 +1,14 @@
 /** To-DO
  * - add slider logic, add automatic tagging for proof of vibes.near
+ * - map sliders amount into emojis w markdown friednliness ❤️ diversity 🌈 desntiy 🧊 energy ⚡️
+ * add mint button
+ * detect change and if no change on sliders dont let post
  */
 const embedHashtags = props.embedHashtags || [];
 const embedMentions = props.embedMentions || [];
-const showSliders = props.showSliders ?? false;
+const showSliders = props.showSliders ?? true;
 if (!context.accountId) return <></>;
-
+const maxSliderPoints = 10;
 State.init({
   image: {},
   text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
@@ -20,7 +23,23 @@ State.init({
 
 const handleSliderFriendliness = (event) => {
   const value = event.target.value;
-  setSliderValue(value); // state update
+  State.update({ friendliness: value });
+  console.log("New Friendliness Score: " + state.friendliness);
+};
+const handleSliderEnergy = (event) => {
+  const value = event.target.value;
+  State.update({ energy: value });
+  console.log("New Energy Score: " + state.energy);
+};
+const handleSliderDensity = (event) => {
+  const value = event.target.value;
+  State.update({ density: value });
+  console.log("New Density Score: " + state.density);
+};
+const handleSliderDiversity = (event) => {
+  const value = event.target.value;
+  State.update({ diversity: value });
+  console.log("New Diversity Score: " + state.diversity);
 };
 const profile = Social.getr(`${context.accountId}/profile`);
 const autocompleteEnabled = true;
@@ -139,6 +158,39 @@ const Wrapper = styled.div`
   @media (max-width: 1200px) {
     --padding: 12px;
   }
+
+`;
+
+const SliderWrapper = styled.div`
+
+  .slider-container {
+  width: 100%;
+  margin: 1em;
+  text-align: center;
+}
+
+.slider {
+  width: 100%;
+  height: 1em;
+  background: #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider-value {
+  display: block;
+  margin-top: 10px;
+}
 `;
 
 const Avatar = styled.div`
@@ -367,100 +419,155 @@ const AutoComplete = styled.div`
 `;
 
 return (
-  <Wrapper>
-    {showSliders && (
-      <div className="slider-container">
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={sliderValue}
-          onChange={handleSliderChange}
-          className="slider"
-        />
-        <span className="slider-value">{sliderValue}</span>
-      </div>
-    )}
-    {state.showPreview ? (
-      <PreviewWrapper>
-        <Widget
-          src="near/widget/Posts.Post"
-          props={{
-            accountId: context.accountId,
-            blockHeight: "now",
-            content,
-          }}
-        />
-      </PreviewWrapper>
-    ) : (
-      <>
-        <Avatar>
+  <>
+    <Wrapper>
+      {state.showPreview ? (
+        <PreviewWrapper>
           <Widget
-            src="mob.near/widget/Image"
+            src="near/widget/Posts.Post"
             props={{
-              image: profile.image,
-              alt: profile.name,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+              accountId: context.accountId,
+              blockHeight: "now",
+              content,
             }}
           />
-        </Avatar>
-        <Textarea data-value={state.text}>
-          <textarea
-            placeholder="Vibe check!"
-            onInput={(event) => textareaInputHandler(event.target.value)}
-            onKeyUp={(event) => {
-              if (event.key === "Escape") {
-                State.update({ showAccountAutocomplete: false });
-              }
-            }}
-            value={state.text}
-          />
-        </Textarea>
-      </>
-    )}
-    {autocompleteEnabled && state.showAccountAutocomplete && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text.split("@").pop(),
-            onSelect: autoCompleteAccountId,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
-
-    <Actions>
-      {!state.showPreview && (
-        <IpfsImageUpload
-          image={state.image}
-          className="upload-image-button bi bi-image"
-        />
+        </PreviewWrapper>
+      ) : (
+        <>
+          <Avatar>
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: profile.image,
+                alt: profile.name,
+                fallbackUrl:
+                  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+              }}
+            />
+          </Avatar>
+          <Textarea data-value={state.text}>
+            <textarea
+              placeholder="Vibe check!"
+              onInput={(event) => textareaInputHandler(event.target.value)}
+              onKeyUp={(event) => {
+                if (event.key === "Escape") {
+                  State.update({ showAccountAutocomplete: false });
+                }
+              }}
+              value={state.text}
+            />
+          </Textarea>
+        </>
       )}
-      <button
-        type="button"
-        disabled={!state.text}
-        className="preview-post-button"
-        title={state.showPreview ? "Edit Post" : "Preview Post"}
-        onClick={() => State.update({ showPreview: !state.showPreview })}
-      >
-        {state.showPreview ? (
-          <i className="bi bi-pencil" />
-        ) : (
-          <i className="bi bi-eye-fill" />
+      {autocompleteEnabled && state.showAccountAutocomplete && (
+        <AutoComplete>
+          <Widget
+            src="near/widget/AccountAutocomplete"
+            props={{
+              term: state.text.split("@").pop(),
+              onSelect: autoCompleteAccountId,
+              onClose: () => State.update({ showAccountAutocomplete: false }),
+            }}
+          />
+        </AutoComplete>
+      )}
+
+      <Actions>
+        {!state.showPreview && (
+          <IpfsImageUpload
+            image={state.image}
+            className="upload-image-button bi bi-image"
+          />
         )}
-      </button>
-      <CommitButton
-        disabled={!state.text}
-        force
-        data={composeData}
-        onCommit={onCommit}
-        className="commit-post-button"
-      >
-        Post
-      </CommitButton>
-    </Actions>
-  </Wrapper>
+        <button
+          type="button"
+          disabled={!state.text}
+          className="preview-post-button"
+          title={state.showPreview ? "Edit Post" : "Preview Post"}
+          onClick={() => State.update({ showPreview: !state.showPreview })}
+        >
+          {state.showPreview ? (
+            <i className="bi bi-pencil" />
+          ) : (
+            <i className="bi bi-eye-fill" />
+          )}
+        </button>
+        <CommitButton
+          disabled={!state.text}
+          force
+          data={composeData}
+          onCommit={onCommit}
+          className="commit-post-button"
+        >
+          Post
+        </CommitButton>
+      </Actions>
+    </Wrapper>
+    <SliderWrapper>
+      {showSliders && (
+        <div>
+          <label className="slider-label" for="friendlySlider">
+            ❤️ Friendliness :{" "}
+          </label>
+          <div className="slider-container">
+            <input
+              type="range"
+              min="0"
+              id="friendlySlider"
+              max={maxSliderPoints}
+              value={state.friendliness}
+              onChange={handleSliderFriendliness}
+              className="slider"
+            />
+            <span className="slider-value">{sliderValue}</span>
+          </div>
+          <label className="slider-label" for="energySlider">
+            ⚡️ Energy :{" "}
+          </label>
+          <div className="slider-container">
+            <input
+              type="range"
+              min="0"
+              id="energySlider"
+              max={maxSliderPoints}
+              value={state.energy}
+              onChange={handleSliderEnergy}
+              className="slider"
+            />
+            <span className="slider-value">{sliderValue}</span>
+          </div>
+          <label className="slider-label" for="densitySlider">
+            🧊 Density :{" "}
+          </label>
+          <div className="slider-container">
+            <input
+              type="range"
+              min="0"
+              id="densitySlider"
+              max={maxSliderPoints}
+              value={state.density}
+              onChange={handleSliderDensity}
+              className="slider"
+            />
+            <span className="slider-value">{sliderValue}</span>
+          </div>
+          <label className="slider-label" for="diversitySlider">
+            🌈 Diversity :{" "}
+          </label>
+          <div className="slider-container">
+            <input
+              type="range"
+              min="0"
+              id="diversitySlider"
+              max={maxSliderPoints}
+              value={state.diversity}
+              onChange={handleSliderDiversity}
+              className="slider"
+            />
+            <span className="slider-value">{sliderValue}</span>
+          </div>
+        </div>
+      )}
+    </SliderWrapper>
+  </>
 );
