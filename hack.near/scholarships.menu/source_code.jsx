@@ -1,7 +1,7 @@
 const navItems = props.navItems;
 if (!navItems) return "must define nav items";
 const ownerId = "hack.near";
-const daoId = props.daoId ?? "academy.near";
+const daoId = props.daoId ?? "techgirlnyu.near";
 
 return (
   <div className="d-flex flex-column">
