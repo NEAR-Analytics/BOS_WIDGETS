@@ -17,8 +17,8 @@ const useTheme = (light, dark) => {
 };
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   color: ${state.theme === "light" ? light.color : dark.color};
   background-color: ${state.theme === "light" ? light.bg : dark.bg};
 `;
