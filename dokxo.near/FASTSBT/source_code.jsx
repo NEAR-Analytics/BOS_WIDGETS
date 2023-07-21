@@ -1,9 +1,9 @@
 const ModalCard = styled.div`
-//position: fixed;
-//width: 100vw;
-//height:100vh;
-width: 100%;
-height:100%;
+position: fixed;
+width: 100vw;
+height:100vh;
+//width: 100%;
+//height:100%;
 top: 72px;
 left: 0;
 
@@ -534,42 +534,13 @@ const validatedInputs = () => {
 
   return isValid;
 };
-const EnableSubmit = () => {
-  const isEmpty = (str) => str.trim() === "";
 
-  console.log("1");
-  if (isEmpty(state.Dao_Contract)) {
-    console.log("2");
-
-    State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
+const Submitform = () => {
+  if (validatedInputs()) {
+    console.log("es valido");
+  } else {
+    console.log("no es valido");
   }
-  if (isEmpty(state.Issuer_selected)) {
-    State.update({ error_msg: "Select an issuer", Submitdisable: true });
-  }
-  if (isEmpty(state.Receiver)) {
-    State.update({ error_msg: "Write the receiver", Submitdisable: true });
-  }
-  if (state.ischeckselected === "true") {
-    if (isEmpty(state.Metadata.ClassIdSelected)) {
-      State.update({ error_msg: "Select a token class", Submitdisable: true });
-    }
-    if (isEmpty(state.Metadata.IssuedAT)) {
-      State.update({ error_msg: "pic and issued date", Submitdisable: true });
-    }
-    if (isEmpty(state.Metadata.ExpiresAt)) {
-      State.update({ error_msg: "pic and expires date", Submitdisable: true });
-    }
-    if (!isEmpty(state.Metadata.Referencelink)) {
-    }
-    if (!isEmpty(state.Metadata.Referencehash)) {
-    }
-  }
-
-  if (isEmpty(state.Memo)) {
-    State.update({ error_msg: "Write the memo", Submitdisable: true });
-  }
-
-  State.update({ Submitdisable: false });
 };
 return (
   <ModalCard>
@@ -603,7 +574,7 @@ return (
                 validatedInputs();
               }}
             >
-              <option default value="0">
+              <option default value="">
                 Select issuer
               </option>
               {}
@@ -658,9 +629,10 @@ return (
                       value={state.ClassIdSelected}
                       onChange={(e) => {
                         State.update({ ClassIdSelected: e.target.value });
+                        validatedInputs();
                       }}
                     >
-                      <option default value="0">
+                      <option default value="">
                         Select token class id
                       </option>
                       {}
@@ -678,6 +650,7 @@ return (
                         value={state.IssuedAT}
                         onChange={(e) => {
                           State.update({ IssuedAT: e.target.value });
+                          validatedInputs();
                         }}
                       ></CompanyInput>
                     </DateContItem>
@@ -688,6 +661,7 @@ return (
                         value={state.ExpiresAt}
                         onChange={(e) => {
                           State.update({ ExpiresAt: e.target.value });
+                          validatedInputs();
                         }}
                       ></CompanyInput>
                     </DateContItem>
@@ -739,6 +713,7 @@ return (
               value={state.Memo}
               onChange={(e) => {
                 State.update({ Memo: e.target.value });
+                validatedInputs();
               }}
             />
           </div>
@@ -747,7 +722,15 @@ return (
 
       <FooterForm name="Footerform">
         <Submitcontainer>
-          <SubmitBtn> Submit </SubmitBtn>
+          <SubmitBtn
+            disabled={status.Submitdisable ? true : false}
+            onClick={() => {
+              Submitform();
+            }}
+          >
+            {" "}
+            Submit{" "}
+          </SubmitBtn>
         </Submitcontainer>
       </FooterForm>
     </CardStyled>
