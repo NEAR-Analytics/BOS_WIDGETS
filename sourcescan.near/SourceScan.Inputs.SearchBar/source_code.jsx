@@ -23,6 +23,12 @@ const handleChange = (e) => {
   State.update({ value: e.target.value });
 };
 
+const HStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+`;
+
 const SearchInput = styled.input`
   border-radius: 5px;
   padding-left: 5px;
@@ -43,7 +49,7 @@ const SearchButton = styled.button`
 `;
 
 return (
-  <>
+  <HStack>
     <SearchInput
       placeholder={"Account ID"}
       value={state.value}
@@ -53,5 +59,5 @@ return (
     <SearchButton onClick={() => props.handleSubmit(state.value)}>
       Search
     </SearchButton>
-  </>
+  </HStack>
 );
