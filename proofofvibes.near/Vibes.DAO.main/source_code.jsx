@@ -341,7 +341,7 @@ return (
             />
           </>
         )}
-        {state.selectedTab === "feed" && (
+        {state.selectedTab === "proposalId" && (
           <Widget
             src="sking.near/widget/DAO.Proposal"
             props={{ daoId, ...props }}
