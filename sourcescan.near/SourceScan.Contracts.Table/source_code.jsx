@@ -3,6 +3,26 @@ State.init({
   theme: props.theme || "light",
 });
 
+const getConfig = (network) => {
+  switch (network) {
+    case "mainnet":
+      return {
+        rpcUrl: "https://rpc.mainnet.near.org",
+        contractId: "v1.sourcescan.near",
+        apiHost: "https://sourcescan.2bb.dev",
+      };
+    case "testnet":
+      return {
+        rpcUrl: "https://rpc.testnet.near.org",
+        contractId: "v5.sourcescan.testnet",
+        apiHost: "https://sourcescan.2bb.dev",
+      };
+    default:
+      throw Error(`Unconfigured environment '${network}'.`);
+  }
+};
+const config = getConfig(context.networkId);
+
 if (props.contracts)
   State.update({
     contracts: props.contracts,
@@ -77,8 +97,8 @@ return (
                   <Widget
                     src="sourcescan.near/widget/SourceScan.Contracts.Approved"
                     props={{
-                      rpcUrl: props.rpcUrl,
-                      apiHost: props.apiHost,
+                      rpcUrl: config.rpcUrl,
+                      apiHost: config.apiHost,
                       accountId: contractId,
                       cid: cid,
                     }}
