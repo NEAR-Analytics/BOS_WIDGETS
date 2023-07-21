@@ -32,16 +32,23 @@ const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 10px;
+
+  th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center
 `;
 
 return (
   <Table>
     <thead>
       <tr>
-        <th class="px-4 py-2">Contract</th>
-        <th class="px-4 py-2">Lang</th>
-        <th class="px-4 py-2">Source</th>
-        <th class="px-4 py-2">Approved</th>
+        <th>Contract</th>
+        <th>Lang</th>
+        <th>Source</th>
+        <th>Approved</th>
       </tr>
     </thead>
     <tbody>
