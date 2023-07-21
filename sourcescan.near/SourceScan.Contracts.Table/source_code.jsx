@@ -25,6 +25,7 @@ const useTheme = (light, dark) => {
 };
 
 const Table = styled.table`
+  border: 1px solid ${useTheme(light.border, dark.border)};
   background-color: ${useTheme(light.bg, dark.bg)}; 
   color: ${useTheme(light.color, dark.color)};
   width: 100%;
