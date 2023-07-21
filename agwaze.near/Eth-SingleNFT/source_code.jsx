@@ -37,7 +37,7 @@ const currentChain = {
     chain: "Polygon",
     livePrice: "matic-network",
     explorer: "https://polygonscan.com",
-    contract: "0xd91cC6DE129D13F4384FB0bC07a1a99D4F858e72",
+    contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
@@ -45,6 +45,7 @@ const currentChain = {
 
 const listAbi = [
   "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
+  "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
 ];
 
 const Root = styled.div`
@@ -370,6 +371,7 @@ const MarketplaceListed = styled.div`
 State.init({
   isOpen: false,
   error: false,
+  disabled: false,
 });
 
 const getFormatedTxDate = (newDate) => {
@@ -394,6 +396,55 @@ const getUsdValue = (price) => {
     const value = multiplyBy * price.toFixed(2);
     return value.toFixed(4);
   }
+};
+
+if (!props.state.sender) {
+  State.update({ disabled: true });
+}
+const handleBuyClick = () => {
+  const contract = new ethers.Contract(
+    currentChain[props.state.singleNftProps.chain].contract,
+    listAbi,
+    Ethers.provider().getSigner()
+  );
+
+  const nftContract = props.state.singleNftProps.id.split(
+    props.state.singleNftProps.tokenId
+  )[0];
+
+  console.log("trying to buy oo");
+  console.log(
+    "variab;es",
+    currentChain[props.state.singleNftProps.chain].contract,
+    nftContract,
+    contract
+  );
+
+  contract
+    .nftSale(
+      props.state.singleNftProps.price,
+      props.state.singleNftProps.tokenId,
+      props.state.singleNftProps.owner,
+      nftContract,
+      { value: props.state.singleNftProps.price }
+    )
+    .then((transactionHash) => transactionHash.wait())
+    .then((ricit) => {
+      console.log("does not get hiere", ricit);
+      State.update({
+        message: true,
+        text: `${currentChain[props.state.singleNftProps.chain].explorer}/tx/${
+          ricit.transactionHash
+        }`,
+      });
+      props.handleCloseNft();
+    })
+    .catch((err) => {
+      State.update({
+        error: true,
+        text: err.reason,
+      });
+    });
 };
 
 const handleSendClick = () => {
@@ -513,7 +564,7 @@ return (
                 color: "#0d99ff",
               }}
             >
-              Created by
+              Owned by
             </p>
             <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
               {`${
@@ -553,29 +604,36 @@ return (
               </PriceArea>
             </div>
             <div>
-              {props.state.singleNftProps.isListed ? (
-                <button
-                  style={{
-                    backgroundColor: "#525c76",
-                    borderColor: "#525c76",
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Listed
-                </button>
-              ) : props.state.singleNftProps.owner == props.state.sender ? (
-                <button onClick={handleListing}>List</button>
-              ) : (
-                <button
-                  style={{
-                    backgroundColor: "#525c76",
-                    borderColor: "#525c76",
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Not Listed
-                </button>
-              )}
+              {props.state.singleNftProps.isListed &&
+                (props.state.singleNftProps.owner == props.state.sender ? (
+                  <button
+                    style={{
+                      backgroundColor: "#525c76",
+                      borderColor: "#525c76",
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    Listed
+                  </button>
+                ) : (
+                  <button onClick={handleBuyClick}>Buy</button>
+                ))}
+              {!props.state.singleNftProps.isListed &&
+                (props.state.singleNftProps.owner == props.state.sender ? (
+                  <button disabled={state.disabled} onClick={handleListing}>
+                    List
+                  </button>
+                ) : (
+                  <button
+                    style={{
+                      backgroundColor: "#525c76",
+                      borderColor: "#525c76",
+                      cursor: "not-allowed",
+                    }}
+                  >
+                    Not Listed
+                  </button>
+                ))}
             </div>
             {state.isOpen && (
               <Popup>
