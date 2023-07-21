@@ -1,6 +1,9 @@
+/** To-DO
+ * - add slider logic, add automatic tagging for proof of vibes.near
+ */
 const embedHashtags = props.embedHashtags || [];
 const embedMentions = props.embedMentions || [];
-
+const showSliders = props.showSliders ?? false;
 if (!context.accountId) return <></>;
 
 State.init({
@@ -9,8 +12,16 @@ State.init({
     (it) => `@${it}`
   )} @proofofvibes.near`,
   showPreview: false,
+  friendliness: 5,
+  energy: 5,
+  density: 5,
+  diversity: 5,
 });
 
+const handleSliderFriendliness = (event) => {
+  const value = event.target.value;
+  setSliderValue(value); // state update
+};
 const profile = Social.getr(`${context.accountId}/profile`);
 const autocompleteEnabled = true;
 
@@ -357,6 +368,19 @@ const AutoComplete = styled.div`
 
 return (
   <Wrapper>
+    {showSliders && (
+      <div className="slider-container">
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={sliderValue}
+          onChange={handleSliderChange}
+          className="slider"
+        />
+        <span className="slider-value">{sliderValue}</span>
+      </div>
+    )}
     {state.showPreview ? (
       <PreviewWrapper>
         <Widget
