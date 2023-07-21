@@ -11,10 +11,12 @@ const getConfig = (network) => {
   switch (network) {
     case "mainnet":
       return {
+        rpcUrl: "https://rpc.near.org",
         contractId: "v1.sourcescan.near",
       };
     case "testnet":
       return {
+        rpcUrl: "https://rpc.testnet.near.org",
         contractId: "v5.sourcescan.testnet",
       };
     default:
