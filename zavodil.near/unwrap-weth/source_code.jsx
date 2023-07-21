@@ -65,9 +65,8 @@ if (!state.balance) {
 
 return (
   <div>
-    {new Big(state.balance).div(Big(10).pow(18)).toFixed()}
+    Your balance is {new Big(state.balance).div(Big(10).pow(18)).toFixed()} WETH
     <hr />
-
     {state.balance > 0 && (
       <button onClick={() => unwrap(state.balance)}>UNWRAP</button>
     )}
