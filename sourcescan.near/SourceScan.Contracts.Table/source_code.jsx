@@ -35,7 +35,7 @@ const Table = styled.table`
 `;
 
 return (
-  <Table class="table border border-gray-300">
+  <Table>
     <thead>
       <tr>
         <th class="px-4 py-2">Contract</th>
