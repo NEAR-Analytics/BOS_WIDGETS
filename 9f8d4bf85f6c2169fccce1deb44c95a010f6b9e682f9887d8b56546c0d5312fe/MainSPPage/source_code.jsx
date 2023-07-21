@@ -31,6 +31,7 @@ const Wrapper = styled.div`
   p {
     color: white;
     text-align: center;
+    width: 100%;
   }
 
   background-color: black;
@@ -41,6 +42,7 @@ const Wrapper = styled.div`
 
   * {
     font-family: 'Londrina Solid', cursive;
+    margin: 20px;
   }
 
 `;
