@@ -33,10 +33,12 @@ const Table = styled.table`
   border-radius: 10px;
 
   th {
+    max-width: 200px;
     padding: 15px;
   }
 
   td {
+    max-width: 200px;
     border-top: 0.5px dashed ${useTheme(light.border, dark.border)};
     padding: 15px;
   }
