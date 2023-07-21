@@ -1,4 +1,8 @@
 const Images = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
     img {
         height: 50px;
         margin: 10px
