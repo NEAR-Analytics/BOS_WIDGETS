@@ -33,8 +33,22 @@ const Table = styled.table`
   border-spacing: 0;
   border-radius: 10px;
 
-  tr: {
+  tr {
     border: 1px solid ${useTheme(light.button.bg, dark.button.bg)};
+  }
+
+  th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 `;
 
