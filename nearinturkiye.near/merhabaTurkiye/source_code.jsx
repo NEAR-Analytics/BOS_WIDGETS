@@ -20,7 +20,7 @@ return (
     <br></br>
     <br></br>
     <h2>Near Türkiye official social media channels: </h2>
-    <button OnClick="location.href='https://www.twitter.com/near_turkey' ">
+    <button OnClick="https://www.twitter.com/near_turkey">
       NEAR Türkiye Twitter
     </button>
     <br></br>
