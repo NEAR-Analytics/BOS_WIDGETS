@@ -317,7 +317,11 @@ border-radius: 10px;
   border: solid 1px transparent;
  
  
-  background-image: linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);
+  background-image: ${
+    state.Submitdisable
+      ? "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
+      : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
+  }
   background-origin: border-box;
   background-clip: padding-box, border-box;
 @media only screen and (max-width: 480px) {
@@ -458,12 +462,76 @@ State.init({
   Dao_Contract: "",
   Issuer_selected: null,
   Receiver: "",
-  ClassIdSelected: "",
-  IssuedT: "",
-  ExpiresAt: "",
+
+  Metadata: {
+    ClassIdSelected: "",
+    IssuedAT: "",
+    ExpiresAt: "",
+    Referencelink: "",
+    Referencehash: "",
+  },
+
   ischeckselected: false,
+  Submitdisable: true,
 });
 
+const validatedInputs = () => {
+  console.log(state);
+  const isEmpty = (str) => str.trim() === "";
+  const isFalse = (check) => check === false;
+  let isValid = true;
+  /*
+  if (img.cid === null) {
+    State.update({ error_msg: "Pic a image" });
+    return false;
+  }*/
+  if (isEmpty(state.Dao_Contract)) {
+    State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
+
+    return (isValid = false);
+  }
+  if (isEmpty(state.Issuer_selected)) {
+    State.update({ error_msg: "Select an issuer", Submitdisable: true });
+
+    return (isValid = false);
+  }
+  if (isEmpty(state.Receiver)) {
+    State.update({ error_msg: "Write the receiver", Submitdisable: true });
+
+    return (isValid = false);
+  }
+
+  if (isEmpty(state.Metadata.ClassIdSelected)) {
+    State.update({ error_msg: "Select a token class", Submitdisable: true });
+
+    return (isValid = false);
+  }
+  if (isEmpty(state.Metadata.IssuedAT)) {
+    State.update({ error_msg: "pic and issued date", Submitdisable: true });
+
+    return (isValid = false);
+  }
+  if (isEmpty(state.Metadata.ExpiresAt)) {
+    State.update({ error_msg: "pic and expires date", Submitdisable: true });
+
+    return (isValid = false);
+  }
+  if (!isEmpty(state.Metadata.Referencelink)) {
+    return (isValid = false);
+  }
+  if (!isEmpty(state.Metadata.Referencehash)) {
+    return (isValid = false);
+  }
+  if (isEmpty(state.Memo)) {
+    State.update({ error_msg: "Write the memo", Submitdisable: true });
+
+    return (isValid = false);
+  }
+
+  State.update({ Submitdisable: false });
+
+  return isValid;
+};
 return (
   <ModalCard>
     <Header>
@@ -564,9 +632,9 @@ return (
                       <MetaTitles>{"Issued at date"}</MetaTitles>
                       <CompanyInput
                         type="date"
-                        value={state.IssuedT}
+                        value={state.IssuedAT}
                         onChange={(e) => {
-                          State.update({ IssuedT: e.target.value });
+                          State.update({ IssuedAT: e.target.value });
                         }}
                       ></CompanyInput>
                     </DateContItem>
