@@ -132,7 +132,7 @@ return (
     <div class="row">
       <div class="col-md-3">
         <Widget
-          src={`hack.near/widget/data.menu`}
+          src={`hack.near/widget/OpenData.Menu`}
           props={{
             tab: state.tab,
             onSelect,
