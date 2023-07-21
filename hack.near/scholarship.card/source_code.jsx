@@ -82,7 +82,7 @@ const TagsWrapper = styled.div`
 return (
   <Card>
     <CardLeft>
-      <Avatar href={profileUrl}>
+      <Avatar href={scholarshipUrl}>
         <Widget
           src="mob.near/widget/Image"
           props={{
