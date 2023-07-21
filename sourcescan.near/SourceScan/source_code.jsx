@@ -19,8 +19,8 @@ const useTheme = (light, dark) => {
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  color: ${state.theme === "light" ? light.color : dark.color};
-  background-color: ${state.theme === "light" ? light.bg : dark.bg};
+  color: ${useTheme(light.color, dark.color)};
+  background-color: ${useTheme(light.bg, dark.bg)};
 `;
 
 const Stack = styled.div`
