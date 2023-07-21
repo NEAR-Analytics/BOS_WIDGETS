@@ -41,8 +41,20 @@ const Container = styled.div`
 
 const Stack = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 30px;
+`;
+
+const Right = styled.div`
+  display: flex;
   flex-direction: row;
   justify-content: flex-end; 
+`;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const switchTheme = () => {
@@ -54,11 +66,19 @@ const switchTheme = () => {
 return (
   <Container>
     <Stack>
-      <button onClick={switchTheme}>{state.theme}</button>
+      <Right>
+        <button onClick={switchTheme}>{state.theme}</button>
+      </Right>
+      <Center>
+        <Widget
+          src={"sourcescan.near/widget/SourceScan.Inputs.SearchBar"}
+          props={{ theme: state.theme }}
+        />
+      </Center>
+      <Widget
+        src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
+        props={{ theme: state.theme }}
+      />
     </Stack>
-    <Widget
-      src="sourcescan.near/widget/SourceScan.Contracts.Table"
-      props={{ theme: state.theme }}
-    />
   </Container>
 );
