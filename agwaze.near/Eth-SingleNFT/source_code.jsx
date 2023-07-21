@@ -616,7 +616,7 @@ return (
                     Listed
                   </button>
                 ) : (
-                  <button disabled={disabled} onClick={handleBuyClick}>
+                  <button disabled={state.disabled} onClick={handleBuyClick}>
                     Buy
                   </button>
                 ))}
