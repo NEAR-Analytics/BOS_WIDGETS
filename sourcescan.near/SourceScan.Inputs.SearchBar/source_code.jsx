@@ -37,7 +37,8 @@ const HStack = styled.div`
 
 const SearchInput = styled.input`
   border-radius: 5px;
-  padding-left: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid ${useTheme(light.border, dark.border)};
