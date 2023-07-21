@@ -11,6 +11,8 @@ const profile =
 if (!accountId) {
   return "";
 }
+const isLoggedIn = !!context.accountId;
+console.log("Is logged in: " + isLoggedIn);
 
 // Profile Data:
 const tags = Object.keys(profile.tags || {});
@@ -312,15 +314,17 @@ return (
         )}
       </Actions>
       <Actions>
-        <FollowButtonWrapper>
-          <Widget
-            src="hack.near/widget/DAO.Join"
-            props={{
-              daoId: accountId,
-              role,
-            }}
-          />
-        </FollowButtonWrapper>
+        {isLoggedIn && (
+          <FollowButtonWrapper>
+            <Widget
+              src="hack.near/widget/DAO.Join"
+              props={{
+                daoId: accountId,
+                role,
+              }}
+            />
+          </FollowButtonWrapper>
+        )}
 
         <OverlayTrigger
           placement="top"
@@ -347,24 +351,28 @@ return (
           </button>
         </OverlayTrigger>
       </Actions>
-      <a
-        className="button button--primary"
-        href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${accountId}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <i className="bi bi-pencil"></i>
-        Propose Edit Profile
-      </a>
-      <a
-        className="button button--primary"
-        href={`#/nearefi.near/widget/ReFi.DAO.Propose.post?daoId=${accountId}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <i className="bi bi-pencil"></i>
-        Propose To Make A Post
-      </a>
+      {isLoggedIn && (
+        <a
+          className="button button--primary"
+          href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${accountId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="bi bi-pencil"></i>
+          Propose Edit Profile
+        </a>
+      )}
+      {isLoggedIn && (
+        <a
+          className="button button--primary"
+          href={`#/nearefi.near/widget/ReFi.DAO.Propose.post?daoId=${accountId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="bi bi-pencil"></i>
+          Propose To Make A Post
+        </a>
+      )}
     </Section>
 
     <Section>
@@ -430,7 +438,7 @@ return (
         </SocialLinks>
 
         <Wrapper1>
-          <a href="#/ndcplug.near/widget/AllDAOs">
+          <a href="#/ndcplug.near/widget/AllDAOs" target="_blank">
             <button className="join-button">Search All DAOs</button>
           </a>
         </Wrapper1>
