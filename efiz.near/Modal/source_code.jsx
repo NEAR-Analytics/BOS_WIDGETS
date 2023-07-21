@@ -1,44 +1,43 @@
-const ModalBackdrop = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
+const ModalOverlay = styled.div`
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 `;
 
-// Modal content styled component
 const ModalContent = styled.div`
-  background-color: #fff;
+  background-color: white;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 `;
 
-// Close button styled component
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+const ModalTitle = styled.h3`
+  margin-bottom: 10px;
+`;
+
+const Button = styled.button`
 `;
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <ModalBackdrop>
+    <ModalOverlay>
       <ModalContent>
-        <CloseButton onClick={onClose}>X</CloseButton>
-        {children}
+        <Button
+          onClick={() => State.update({ isModalOpen: false, modalData: null })}
+        >
+          X
+        </Button>
+        <ModalTitle>Save Confirmation</ModalTitle>
       </ModalContent>
-    </ModalBackdrop>
+    </ModalOverlay>
   );
 };
 
