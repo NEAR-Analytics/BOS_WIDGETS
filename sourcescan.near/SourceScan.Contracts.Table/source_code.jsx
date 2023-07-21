@@ -32,10 +32,6 @@ const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 10px;
-
-  th {
-    padding-top: 10px;
-    padding-bottom: 10px;
 `;
 
 return (
@@ -52,10 +48,10 @@ return (
       {state.contracts
         ? state.contracts.map((contract) => (
             <tr>
-              <td class="border px-4 py-2">{contract[0]}</td>
-              <td class="border px-4 py-2">{contract[1].lang}</td>
-              <td class="border px-4 py-2">{contract[1].cid}</td>
-              <td class="border px-4 py-2">{}</td>
+              <td>{contract[0]}</td>
+              <td>{contract[1].lang}</td>
+              <td>{contract[1].cid}</td>
+              <td>{}</td>
             </tr>
           ))
         : null}
