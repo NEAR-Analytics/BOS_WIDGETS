@@ -33,7 +33,6 @@ const Table = styled.table`
   border-radius: 10px;
 
   th {
-    max-width: 200px;
     padding: 15px;
   }
 
@@ -45,7 +44,6 @@ const Table = styled.table`
 `;
 
 const Truncated = styled.p`
-  max-width: 250px;
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis; /
