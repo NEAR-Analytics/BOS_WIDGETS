@@ -49,9 +49,14 @@ const SearchButton = styled.button`
   border-radius: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
-  border: 1px solid ${useTheme(light, border, dark.border)};
+  border: 1px solid ${useTheme(light.border, dark.border)};
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
+  transition: background-color 0.1s ease-in-out;
+
+  :hover {
+    background-color: ${useTheme(light.bg, dark.bg)};
+  }
 `;
 
 return (
