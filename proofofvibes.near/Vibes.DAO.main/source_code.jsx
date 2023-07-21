@@ -266,7 +266,6 @@ return (
           >
             💼 Jobs
           </TabsButton>
-          //{" "}
         </Tabs>
 
         {state.selectedTab === "discussion" && (
