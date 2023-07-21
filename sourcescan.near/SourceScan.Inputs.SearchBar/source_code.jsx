@@ -48,6 +48,7 @@ return (
       placeholder={"Account ID"}
       value={state.value}
       onChange={handleChange}
+      autoFocus
     />
     <SearchButton onClick={() => props.handleSubmit(state.value)}>
       Search
