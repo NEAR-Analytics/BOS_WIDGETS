@@ -616,7 +616,9 @@ return (
                     Listed
                   </button>
                 ) : (
-                  <button onClick={handleBuyClick}>Buy</button>
+                  <button disabled={disabled} onClick={handleBuyClick}>
+                    Buy
+                  </button>
                 ))}
               {!props.state.singleNftProps.isListed &&
                 (props.state.singleNftProps.owner == props.state.sender ? (
