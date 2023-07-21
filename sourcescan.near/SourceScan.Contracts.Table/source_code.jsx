@@ -36,7 +36,6 @@ const Table = styled.table`
   th {
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 20px;
 `;
 
 return (
