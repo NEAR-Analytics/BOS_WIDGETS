@@ -43,13 +43,12 @@ const wethAbiBody = wethAbi.body;
 const signer = Ethers.provider() ? Ethers.provider().getSigner() : null;
 const wethContract = new ethers.Contract(wethAddress, wethAbiBody, signer);
 
-if (state.sender === undefined) {
+if (!state.sender || state.sender === null) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
   }
 }
-const getWrapTokenBalance = (signerAddress, updateStateCb) => {};
 
 const parseToUnits = (amount) => {
   const tokenDecimals = 18;
