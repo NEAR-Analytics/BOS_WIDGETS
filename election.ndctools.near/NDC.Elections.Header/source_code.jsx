@@ -166,17 +166,19 @@ const TimerContent = () => {
 const InfoBlock = () => (
   <Info className="py-2 d-flex justify-content-center align-items-center gap-2 rounded-bottom">
     <b className="mb-0">NDC NOMINATION AND ELECTION EDUCATION</b>
-    <Widget
-      src={widgets.styledComponents}
-      props={{
-        Link: {
-          text: "Learn More",
-          size: "sm",
-          className: "primary dark",
-          href: "https://pages.near.org/blog/ndc-v1-governance-elections-faq",
-        },
-      }}
-    />
+    <div>
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Link: {
+            text: "Learn More",
+            size: "sm",
+            className: "primary dark",
+            href: "https://pages.near.org/blog/ndc-v1-governance-elections-faq",
+          },
+        }}
+      />
+    </div>
   </Info>
 );
 
