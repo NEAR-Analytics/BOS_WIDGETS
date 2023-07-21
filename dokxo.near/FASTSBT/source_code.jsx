@@ -1,9 +1,9 @@
 const ModalCard = styled.div`
-position: fixed;
-width: 100vw;
-height:100vh;
-//width: 100%;
-//height:100%;
+//position: fixed;
+//width: 100vw;
+//height:100vh;
+width: 100%;
+height:100%;
 top: 72px;
 left: 0;
 
@@ -319,7 +319,7 @@ border-radius: 10px;
  
   background-image: ${
     state.Submitdisable
-      ? "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
+      ? "linear-gradient(#a4a39e, #cbcac8), radial-gradient(circle at top left,#000000, #000000);"
       : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
   }
   background-origin: border-box;
