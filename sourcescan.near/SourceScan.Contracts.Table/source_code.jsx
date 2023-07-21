@@ -25,17 +25,12 @@ const useTheme = (light, dark) => {
 };
 
 const Table = styled.table`
-  border: 1px solid ${useTheme(light.border, dark.border)};
   background-color: ${useTheme(light.bg, dark.bg)}; 
   color: ${useTheme(light.color, dark.color)};
   width: 100%;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 0;
   border-radius: 10px;
-
-  tr {
-    border: 1px solid ${useTheme(light.button.bg, dark.button.bg)};
-  }
 
   th {
     padding: 15px;
@@ -44,6 +39,10 @@ const Table = styled.table`
   td {
     padding: 15px;
   }
+`;
+
+const TrData = styled.tr`
+  border-top: 0.5px dashed ${useTheme(light.border, dark.border)};
 `;
 
 return (
@@ -59,12 +58,12 @@ return (
     <tbody>
       {state.contracts
         ? state.contracts.map((contract) => (
-            <tr>
+            <TrData>
               <td>{contract[0]}</td>
               <td>{contract[1].lang}</td>
               <td>{contract[1].cid}</td>
               <td>{}</td>
-            </tr>
+            </TrData>
           ))
         : null}
     </tbody>
