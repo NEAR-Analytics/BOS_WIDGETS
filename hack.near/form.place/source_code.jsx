@@ -9,7 +9,7 @@ const options = [
 
 return (
   <Widget
-    src="nearhorizon.near/widget/Inputs.Select"
+    src="hack.near/widget/form.select"
     props={{
       label: "continent *",
       noLabel: props.noLabel,
