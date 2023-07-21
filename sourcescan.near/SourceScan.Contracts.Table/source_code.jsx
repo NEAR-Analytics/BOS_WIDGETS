@@ -42,6 +42,13 @@ const Table = styled.table`
   }
 `;
 
+const Truncated = styled.p`
+  max-width: 250px;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; /
+`;
+
 return (
   <Table>
     <thead>
@@ -58,7 +65,9 @@ return (
             <tr>
               <td>{contract[0]}</td>
               <td>{contract[1].lang}</td>
-              <td>{contract[1].cid}</td>
+              <td>
+                <Truncated>{contract[1].cid}</Truncated>
+              </td>
               <td>{}</td>
             </tr>
           ))
