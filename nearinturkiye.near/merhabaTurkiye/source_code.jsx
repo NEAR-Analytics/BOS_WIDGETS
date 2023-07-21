@@ -39,6 +39,13 @@ return (
       NEAR Türkiye Youtube
     </button>
     <br></br>
+
+    <input
+      type="button"
+      onclick="location.href='https://google.com';"
+      value="Go to Google"
+    />
+
     <div>
       <iframe
         iframeResizer={{
