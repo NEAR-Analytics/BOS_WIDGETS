@@ -1,3 +1,7 @@
+State.init({
+  theme: "light",
+});
+
 const dark = {
   bg: "#28282b",
   color: "#e6eaee",
@@ -8,9 +12,9 @@ const light = {
   color: "#4c5566",
 };
 
-State.init({
-  theme: "light",
-});
+const useTheme = (light, dark) => {
+  return state.theme === "light" ? light : dark;
+};
 
 const Container = styled.div`
   width: 100vw;
@@ -36,6 +40,9 @@ return (
     <Stack>
       <button onClick={switchTheme}>{state.theme}</button>
     </Stack>
-    <p>Hello World</p>
+    <Widget
+      src="sourcescan.near/widget/SourceScan.Contracts.Table"
+      props={{ theme: state.theme }}
+    />
   </Container>
 );
