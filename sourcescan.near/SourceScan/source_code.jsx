@@ -103,7 +103,11 @@ return (
       <Center>
         <Widget
           src={"sourcescan.near/widget/SourceScan.Inputs.SearchBar"}
-          props={{ theme: state.theme, handleSubmit: handleSubmit }}
+          props={{
+            theme: state.theme,
+            handleSubmit: handleSubmit,
+            value: state.search,
+          }}
         />
       </Center>
       <Center>
