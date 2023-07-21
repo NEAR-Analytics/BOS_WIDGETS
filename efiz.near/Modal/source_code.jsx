@@ -30,12 +30,9 @@ const Modal = ({ isOpen, onClose, children }) => {
   return (
     <ModalOverlay>
       <ModalContent>
-        <Button
-          onClick={() => State.update({ isModalOpen: false, modalData: null })}
-        >
-          X
-        </Button>
+        <Button onClick={onClose}>X</Button>
         <ModalTitle>Save Confirmation</ModalTitle>
+        {children}
       </ModalContent>
     </ModalOverlay>
   );
