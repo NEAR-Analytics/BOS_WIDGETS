@@ -33,7 +33,8 @@ const Table = styled.table`
   border: 1px solid ${useTheme(light.border, dark.border)};
   background-color: ${useTheme(light.bg, dark.bg)}; 
   color: ${useTheme(light.color, dark.color)};
-  width: 80%;
+  width: 100%;
+  px: 2;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 10px;
