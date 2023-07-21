@@ -38,7 +38,7 @@ const compareWasm = () => {
 
 return (
   <>
-    {!state.value === null
+    {state.value === null
       ? "Loading..."
       : state.value
       ? "Approved"
