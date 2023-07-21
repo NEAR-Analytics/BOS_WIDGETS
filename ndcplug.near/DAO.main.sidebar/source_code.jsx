@@ -1,5 +1,5 @@
 const role = props.role ?? "community";
-
+// TO-DO: check if a person has permission to do. afunction call proposal
 State.init({
   copiedShareUrl: false,
 });
