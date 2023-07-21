@@ -117,7 +117,12 @@ return (
       <Center>
         <Widget
           src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
-          props={{ theme: state.theme, contracts: state.contracts }}
+          props={{
+            theme: state.theme,
+            contracts: state.contracts,
+            rpcUrl: config.rpcUrl,
+            apiHost: config.apiHost,
+          }}
         />
       </Center>
     </Stack>
