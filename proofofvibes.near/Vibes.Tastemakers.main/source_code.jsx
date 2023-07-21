@@ -58,6 +58,9 @@ if (!accountId) {
   return (
     <div>
       <p>Login to NEAR with your 🥂 tastemaker approved wallet</p>
+      <ButtonLink href="https://ProofOfVibes.com/wallet" target="_blank">
+        <i className="bi bi-wallet"></i> Get A NEAR Wallet
+      </ButtonLink>
       <p>Apply to be a tastemaker here</p>
       <ButtonLink href="https://ProofOfVibes.com/apply" target="_blank">
         <i className="bi bi-pencil-fill"></i> Apply to Be A Tastemaker
