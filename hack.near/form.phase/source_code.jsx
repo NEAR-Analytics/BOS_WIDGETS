@@ -1,8 +1,8 @@
 const options = [
   { text: "idea", value: "idea" },
-  { text: "project", value: "build" },
-  { text: "organization", value: "org" },
-  { text: "community", value: "dao" },
+  { text: "project", value: "project" },
+  { text: "organization", value: "organization" },
+  { text: "community", value: "community" },
   { text: "hub", value: "hub" },
 ];
 
