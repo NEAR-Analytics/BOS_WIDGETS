@@ -34,7 +34,6 @@ const Table = styled.table`
   background-color: ${useTheme(light.bg, dark.bg)}; 
   color: ${useTheme(light.color, dark.color)};
   width: 100%;
-  px: 2;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 10px;
