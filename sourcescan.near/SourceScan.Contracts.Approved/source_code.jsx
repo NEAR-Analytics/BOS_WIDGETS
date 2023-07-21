@@ -1,3 +1,7 @@
+State.init({
+  value: null,
+});
+
 const compareWasm = () => {
   const options = {
     method: "POST",
@@ -19,8 +23,9 @@ const compareWasm = () => {
     .then((rpc_res) => {
       asyncFetch(`props.apiHost/ipfs/${props.cid}/wasm_code_base64`)
         .then((ipfs_res) => {
-          console.log(rpc_res.data === ipfs_res.data.result.code_base64);
-          return rpc_res.data === ipfs_res.data.result.code_base64;
+          State.update({
+            value: rpc_res.data === ipfs_res.data.result.code_base64,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -31,4 +36,12 @@ const compareWasm = () => {
     });
 };
 
-return <>{compareWasm()}</>;
+return (
+  <>
+    {!state.value === null
+      ? "Loading..."
+      : state.value
+      ? "Approved"
+      : "Not Approved"}
+  </>
+);
