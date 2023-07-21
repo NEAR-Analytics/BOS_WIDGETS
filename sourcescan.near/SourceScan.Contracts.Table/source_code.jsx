@@ -61,16 +61,32 @@ return (
     </thead>
     <tbody>
       {state.contracts
-        ? state.contracts.map((contract) => (
-            <tr>
-              <td>{contract[0]}</td>
-              <td>{contract[1].lang}</td>
-              <td>
-                <Truncated>{contract[1].cid}</Truncated>
-              </td>
-              <td>{}</td>
-            </tr>
-          ))
+        ? state.contracts.map((contract) => {
+            const contractId = contract[0];
+            const lang = contract[1].lang;
+            const cid = contract[1].cid;
+
+            return (
+              <tr>
+                <td>{contractId}</td>
+                <td>{lang}</td>
+                <td>
+                  <Truncated>{cid}</Truncated>
+                </td>
+                <td>
+                  <Widget
+                    src="sourcescan.near/widget/SourceScan.Contracts.Approved"
+                    props={{
+                      rpcUrl: props.rpcUrl,
+                      apiHost: props.apiHost,
+                      accountId: contractId,
+                      cid: cid,
+                    }}
+                  />
+                </td>
+              </tr>
+            );
+          })
         : null}
     </tbody>
   </Table>
