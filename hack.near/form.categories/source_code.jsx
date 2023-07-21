@@ -55,8 +55,8 @@ return (
           props.setError("please select a category");
         }
         if (
-          !mapOldToNew(props.categories).every((vertical) =>
-            options.find(({ value }) => vertical === value)
+          !mapOldToNew(props.categories).every((category) =>
+            options.find(({ value }) => category === value)
           )
         ) {
           props.setError("please select a valid category");
