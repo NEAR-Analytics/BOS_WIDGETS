@@ -1,7 +1,7 @@
 const PRIMARY_COLOR = "#403E3E";
 const accountId = props.accountId ?? context.accountId ?? "ogruss.near";
 // add check you must be logged in and be a tastemaker
-const isKnownUser = !!context.accountId;
+const isLoggedIn = !!context.accountId;
 const fileName = `${accountId}.svg`;
 const NFT_CONTRACT = "nft.genadrop.near";
 const SVG_CONTENT_TYPE = "image/svg+xml";
@@ -84,7 +84,7 @@ initState({
   bgColor: "#201E1E",
   bgPattern: "Proof of Vibes",
   qrColor: PRIMARY_COLOR,
-  qrDotsType: "dots",
+  qrDotsType: "square",
   qrCornersSquareType: "extra-rounded",
   qrCodeData: "",
   showNearSocialLogo: true,
@@ -173,33 +173,37 @@ const pictureUrl = URL.createObjectURL(pictureBlob);
 
 return (
   <div className="container row mt-3 mb-3">
-    {!isKnownUser && (
+    {!isLoggedIn && (
       <h5 className="text-center mb-3">
         Sign In to create card as a tastemaker
       </h5>
     )}
-    <div className="col col-lg-12">
-      <div className="card border-0">
-        <img src={mainSvgImage} className="rounded" />
-        <div className="card-body d-flex justify-content-around">
-          <a href={pictureUrl} download={fileName}>
-            <button
-              type="button"
-              className="btn btn-primary btn-lg m-3"
-              onClick={downloadFile}
-            >
-              <i class="bi bi-filetype-svg"></i>
-              Download Vibe Check
-            </button>
-          </a>
+    {isLoggedIn && (
+      <div>
+        <div className="col col-lg-12">
+          <div className="card border-0">
+            <img src={mainSvgImage} className="rounded" />
+            <div className="card-body d-flex justify-content-around">
+              <a href={pictureUrl} download={fileName}>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-lg m-3"
+                  onClick={downloadFile}
+                >
+                  <i class="bi bi-filetype-svg"></i>
+                  Download Vibe Check
+                </button>
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <iframe
-      srcDoc={srcData}
-      onMessage={(data) => State.update({ qrCodeData: data })}
-      style={{ width: 0, height: 0 }}
-    />
+        <iframe
+          srcDoc={srcData}
+          onMessage={(data) => State.update({ qrCodeData: data })}
+          style={{ width: 0, height: 0 }}
+        />
+      </div>
+    )}
   </div>
 );
