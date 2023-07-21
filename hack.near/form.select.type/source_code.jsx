@@ -39,16 +39,15 @@ return (
       placeholder: "community",
       options,
       labelKey: "text",
-      value: props.productType.map(mapValueToOption),
-      onChange: (productType) =>
-        props.update(productType.map(mapOptionToValue)),
+      value: props.pageType.map(mapValueToOption),
+      onChange: (pageType) => props.update(pageType.map(mapOptionToValue)),
       validate: () => {
-        if (!props.productType) {
+        if (!props.pageType) {
           props.setError("please choose a type");
         }
         if (
-          !props.productType.every((productType) =>
-            options.find(({ value }) => productType === value)
+          !props.pageType.every((pageType) =>
+            options.find(({ value }) => pageType === value)
           )
         ) {
           props.setError("please choose a valid type");
