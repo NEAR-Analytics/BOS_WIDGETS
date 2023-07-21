@@ -106,10 +106,12 @@ return (
           props={{ theme: state.theme, handleSubmit: handleSubmit }}
         />
       </Center>
-      <Widget
-        src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
-        props={{ theme: state.theme, contracts: state.contracts }}
-      />
+      <Center>
+        <Widget
+          src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
+          props={{ theme: state.theme, contracts: state.contracts }}
+        />
+      </Center>
     </Stack>
   </Container>
 );
