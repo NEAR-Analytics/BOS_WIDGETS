@@ -1,5 +1,14 @@
-const tokenId = "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9";
 const receiver = Ethers.send("eth_requestAccounts", [])[0];
+
+Ethers.provider()
+  .getNetwork()
+  .then((chainIdData) => {
+    if (chainIdData.chainId === 1) {
+      State.update({ tokenId: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" });
+    } else if (chainIdData.chainId === 1101) {
+      State.update({ tokenId: "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9" });
+    }
+  });
 
 const abiUrl =
   "https://eth.blockscout.com/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
@@ -16,7 +25,7 @@ const encodedBalanceData = iface.encodeFunctionData("balanceOf", [receiver]);
 
 Ethers.provider()
   .call({
-    to: tokenId,
+    to: state.tokenId,
     data: encodedBalanceData,
   })
   .then((rawBalance) => {
@@ -32,7 +41,7 @@ Ethers.provider()
 
 const unwrap = (balance) => {
   const wEthContract = new ethers.Contract(
-    tokenId,
+    state.tokenId,
     abi.body.result,
     Ethers.provider().getSigner()
   );
