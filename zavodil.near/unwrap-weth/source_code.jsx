@@ -1,5 +1,9 @@
 const receiver = Ethers.send("eth_requestAccounts", [])[0];
 
+if (!receiver) {
+  return <Web3Connect />;
+}
+
 Ethers.provider()
   .getNetwork()
   .then((chainIdData) => {
@@ -9,6 +13,10 @@ Ethers.provider()
       State.update({ tokenId: "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9" });
     }
   });
+
+if (!state.tokenId) {
+  return "Unknown WETH contract for a selected network";
+}
 
 const abiUrl =
   "https://eth.blockscout.com/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
@@ -60,6 +68,8 @@ return (
     {new Big(state.balance).div(Big(10).pow(18)).toFixed()}
     <hr />
 
-    <button onClick={() => unwrap(state.balance)}>UNWRAP</button>
+    {state.balance > 0 && (
+      <button onClick={() => unwrap(state.balance)}>UNWRAP</button>
+    )}
   </div>
 );
