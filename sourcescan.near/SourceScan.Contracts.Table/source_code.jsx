@@ -32,6 +32,10 @@ const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 10px;
+
+  tr: {
+    border: 1px solid ${useTheme(light.button.bg, dark.button.bg)};
+  }
 `;
 
 return (
