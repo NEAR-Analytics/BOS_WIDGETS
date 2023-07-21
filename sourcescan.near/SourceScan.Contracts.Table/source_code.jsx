@@ -3,11 +3,6 @@ State.init({
   theme: props.theme || "light",
 });
 
-if (props.theme)
-  State.update({
-    theme: props.theme,
-  });
-
 if (props.contracts)
   State.update({
     contracts: props.contracts,
