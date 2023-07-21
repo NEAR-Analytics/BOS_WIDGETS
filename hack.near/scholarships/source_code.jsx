@@ -210,7 +210,7 @@ return (
     <div class="row">
       <div class="col-md-3">
         <Widget
-          src={`hack.near/widget/edu.navbar`}
+          src={`hack.near/widget/scholarships.menu`}
           props={{
             tab: state.tab,
             onSelect,
