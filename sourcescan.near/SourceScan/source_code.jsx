@@ -1,5 +1,10 @@
 State.init({
   theme: "light",
+  from_index: 0,
+  limit: 10,
+  contracts: null,
+  pages: 1,
+  search: "",
 });
 
 const getConfig = (network) => {
@@ -63,6 +68,32 @@ const switchTheme = () => {
   });
 };
 
+const handleSubmit = (value) => {
+  console.log(value);
+  State.update({ search: value });
+  searchContracts(value);
+};
+
+const searchContracts = async (value) => {
+  Near.asyncView(config.contractId, "search", {
+    key: value,
+    from_index: state.from_index,
+    limit: state.limit,
+  })
+    .then((res) => {
+      console.log(res);
+      State.update({
+        pages: res[1],
+        contracts: res[0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+if (!state.contracts) searchContracts(state.search);
+
 return (
   <Container>
     <Stack>
@@ -72,12 +103,12 @@ return (
       <Center>
         <Widget
           src={"sourcescan.near/widget/SourceScan.Inputs.SearchBar"}
-          props={{ theme: state.theme }}
+          props={{ theme: state.theme, handleSubmit: handleSubmit }}
         />
       </Center>
       <Widget
         src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
-        props={{ theme: state.theme }}
+        props={{ theme: state.theme, contracts: state.contracts }}
       />
     </Stack>
   </Container>
