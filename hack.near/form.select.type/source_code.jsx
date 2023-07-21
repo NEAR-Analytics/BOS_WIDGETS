@@ -1,10 +1,10 @@
 /** @type {{text:string;value:string}[]} */
 const options = [
-  { text: "art", value: "art" },
-  { text: "gov", value: "gov" },
-  { text: "edu", value: "edu" },
-  { text: "dev", value: "dev" },
-  { text: "sci", value: "sci" },
+  { text: "onboarding", value: "onboarding" },
+  { text: "activity", value: "activity" },
+  { text: "library", value: "library" },
+  { text: "community", value: "community" },
+  { text: "project", value: "project" },
 ];
 
 /**
