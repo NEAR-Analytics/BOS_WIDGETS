@@ -1,6 +1,6 @@
 State.init({
   theme: props.theme || "light",
-  value: "",
+  value: props.value || "",
 });
 
 const dark = {
