@@ -21,7 +21,7 @@ const compareWasm = () => {
   };
   asyncFetch(props.rpcUrl, options)
     .then((rpc_res) => {
-      asyncFetch(`props.apiHost/ipfs/${props.cid}/wasm_code_base64`)
+      asyncFetch(`${props.apiHost}/ipfs/${props.cid}/wasm_code_base64`)
         .then((ipfs_res) => {
           State.update({
             value: rpc_res.data === ipfs_res.data.result.code_base64,
@@ -30,11 +30,14 @@ const compareWasm = () => {
         .catch((err) => {
           console.log(err);
         });
+      console.log(rpc_res);
     })
     .catch((err) => {
       console.log(err);
     });
 };
+
+compareWasm();
 
 return (
   <>
