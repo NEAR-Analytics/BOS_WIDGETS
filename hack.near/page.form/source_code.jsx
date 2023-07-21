@@ -25,8 +25,6 @@ State.init({
   pageTypeError: "",
   language: null,
   languageError: "",
-  tagline: "",
-  taglineError: "",
   description: "",
   descriptionError: "",
   tags: [],
@@ -46,7 +44,7 @@ State.init({
   args: {
     config: {
       name: state.name,
-      purpose: state.tagline,
+      purpose: state.description,
       metadata: "",
     },
     policy: {
@@ -173,26 +171,6 @@ const Label = styled.label`
   color: #344054;
 `;
 
-const validateForm = () => {
-  return (
-    state.name &&
-    state.nameError === "" &&
-    state.accountId &&
-    state.accountIdError === "" &&
-    state.pageType &&
-    state.pageTypeError === "" &&
-    state.language &&
-    state.languageError === "" &&
-    (!state.tagline || state.taglineError === "") &&
-    (!state.description || state.descriptionError === "") &&
-    (!state.tags || state.tagsError === "") &&
-    (!state.website || state.websiteError === "") &&
-    (!state.geo || state.geoError === "") &&
-    (!state.members || state.membersError === "") &&
-    (!state.oss || state.ossError === "")
-  );
-};
-
 const onChangeName = (name) => {
   State.update({
     name,
@@ -242,9 +220,7 @@ const handleCreate = () => {
 
 return (
   <Container>
-    <div>
-      <Header>page maker</Header>
-    </div>
+    <Header>page maker</Header>
     <Form>
       <FormHeader>input details below</FormHeader>
       <Label>name</Label>
@@ -255,45 +231,44 @@ return (
         value={state.name}
         onChange={(e) => onChangeName(e.target.value)}
       ></input>
-      <div className="mb-3">
-        {validName ? (
-          <div>
-            {availableName ? (
-              <p className="text-secondary">occupied</p>
-            ) : (
-              <p className="text-success">available</p>
-            )}
-          </div>
-        ) : (
-          <div>
-            {state.name ? (
-              <p className="text-secondary">not enough characters</p>
-            ) : (
-              ""
-            )}
-          </div>
-        )}
-      </div>
+      {validName ? (
+        <div>
+          {availableName ? (
+            <p className="text-secondary">occupied</p>
+          ) : (
+            <p className="text-success">available</p>
+          )}
+        </div>
+      ) : (
+        <div>
+          {state.name ? (
+            <p className="text-secondary">not enough characters</p>
+          ) : (
+            ""
+          )}
+        </div>
+      )}
       {validName && (
         <>
           <Widget
-            src="hack.near/widget/form.text"
+            src="hack.near/widget/form.select"
             props={{
-              label: "tagline",
-              placeholder: "summary",
-              value: state.tagline,
-              onChange: (tagline) => State.update({ tagline }),
-              validate: () => {
-                if (state.tagline.length > 50) {
-                  State.update({
-                    taglineError: "Tagline must be less than 50 characters",
-                  });
-                  return;
-                }
-
-                State.update({ taglineError: "" });
-              },
-              error: state.taglineError,
+              label: "tags",
+              placeholder: "dev",
+              options: [
+                { name: "dev" },
+                { name: "edu" },
+                { name: "art" },
+                { name: "sci" },
+                { name: "gov" },
+              ],
+              value: state.tags,
+              onChange: (tags) =>
+                State.update({
+                  tags: tags.map(({ name }) => ({
+                    name: name.trim().replaceAll(/\s+/g, "-"),
+                  })),
+                }),
             }}
           />
           <Widget
@@ -317,84 +292,6 @@ return (
               error: state.descriptionError,
             }}
           />
-          <Widget
-            src="hack.near/widget/form.select"
-            props={{
-              label: "tags",
-              placeholder: "dev",
-              options: [
-                { name: "dev" },
-                { name: "edu" },
-                { name: "art" },
-                { name: "sci" },
-                { name: "gov" },
-              ],
-              value: state.tags,
-              onChange: (tags) =>
-                State.update({
-                  tags: tags.map(({ name }) => ({
-                    name: name.trim().replaceAll(/\s+/g, "-"),
-                  })),
-                }),
-            }}
-          />
-          <Widget
-            src="hack.near/widget/form.text"
-            props={{
-              label: "website",
-              placeholder: "https://near.org",
-              value: state.website,
-              onChange: (website) => State.update({ website }),
-              validate: () => {
-                if (state.website.length > 50) {
-                  State.update({
-                    websiteError: "URL must be less than 50 characters",
-                  });
-                  return;
-                }
-
-                State.update({ websiteError: "" });
-              },
-            }}
-          />
-          <Widget
-            src="hack.near/widget/form.number"
-            props={{
-              label: "members",
-              placeholder: 10,
-              value: state.members,
-              onChange: (members) => State.update({ members }),
-              validate: () => {
-                if (state.members < 1) {
-                  State.update({
-                    membersError: "must be at least 1",
-                  });
-                  return;
-                }
-
-                State.update({ membersError: "" });
-              },
-            }}
-          />
-          <Widget
-            src="hack.near/widget/form.text"
-            props={{
-              label: "region",
-              placeholder: "where",
-              value: state.geo,
-              onChange: (geo) => State.update({ geo }),
-              validate: () => {
-                if (state.geo.length > 100) {
-                  State.update({
-                    geoError: "Location must be less than 100 characters",
-                  });
-                  return;
-                }
-
-                State.update({ geoError: "" });
-              },
-            }}
-          />
         </>
       )}
       {validName && (
@@ -407,8 +304,6 @@ return (
                   [context.accountId]: {
                     page: {
                       name: state.name,
-                      ...(state.members ? { members: `${state.members}` } : {}),
-                      ...(state.tagline ? { tagline: state.tagline } : {}),
                       ...(state.description
                         ? { description: state.description }
                         : {}),
@@ -421,22 +316,6 @@ return (
                             ),
                           }
                         : {}),
-                      ...(state.website || state.socials
-                        ? {
-                            ...state.socials,
-                            ...(state.website
-                              ? {
-                                  website: state.website.startsWith("http://")
-                                    ? state.website.substring(7)
-                                    : state.website.startsWith("https://")
-                                    ? state.website.substring(8)
-                                    : state.website,
-                                }
-                              : {}),
-                          }
-                        : {}),
-                      language: state.language.value,
-                      ...(state.geo ? { geo: state.geo } : {}),
                     },
                   },
                 };
@@ -450,7 +329,81 @@ return (
                   {
                     contractName: "sputnik-dao.near",
                     methodName: "create",
-                    args: dao_args,
+                    args: {
+                      config: { name: state.name, purpose: state.description },
+                      policy: {
+                        roles: [
+                          {
+                            name: "council",
+                            slug: "council",
+                            kind: {
+                              Group: [context.accountId],
+                            },
+                            permissions: [
+                              "*:Finalize",
+                              "policy:AddProposal",
+                              "add_bounty:AddProposal",
+                              "bounty_done:AddProposal",
+                              "transfer:AddProposal",
+                              "vote:AddProposal",
+                              "remove_member_from_role:AddProposal",
+                              "add_member_to_role:AddProposal",
+                              "config:AddProposal",
+                              "call:AddProposal",
+                              "upgrade_remote:AddProposal",
+                              "upgrade_self:AddProposal",
+                              "set_vote_token:AddProposal",
+                              "policy:VoteApprove",
+                              "policy:VoteReject",
+                              "policy:VoteRemove",
+                              "add_bounty:VoteApprove",
+                              "add_bounty:VoteReject",
+                              "add_bounty:VoteRemove",
+                              "bounty_done:VoteApprove",
+                              "bounty_done:VoteReject",
+                              "bounty_done:VoteRemove",
+                              "transfer:VoteApprove",
+                              "transfer:VoteReject",
+                              "transfer:VoteRemove",
+                              "vote:VoteApprove",
+                              "vote:VoteReject",
+                              "vote:VoteRemove",
+                              "remove_member_from_role:VoteApprove",
+                              "remove_member_from_role:VoteReject",
+                              "remove_member_from_role:VoteRemove",
+                              "add_member_to_role:VoteApprove",
+                              "add_member_to_role:VoteReject",
+                              "add_member_to_role:VoteRemove",
+                              "call:VoteApprove",
+                              "call:VoteReject",
+                              "call:VoteRemove",
+                              "config:VoteApprove",
+                              "config:VoteReject",
+                              "config:VoteRemove",
+                              "set_vote_token:VoteApprove",
+                              "set_vote_token:VoteReject",
+                              "set_vote_token:VoteRemove",
+                              "upgrade_self:VoteApprove",
+                              "upgrade_self:VoteReject",
+                              "upgrade_self:VoteRemove",
+                              "upgrade_remote:VoteApprove",
+                              "upgrade_remote:VoteReject",
+                              "upgrade_remote:VoteRemove",
+                            ],
+                            vote_policy: {},
+                          },
+                        ],
+                        default_vote_policy: {
+                          weight_kind: "RoleWeight",
+                          quorum: "0",
+                          threshold: [1, 2],
+                        },
+                        proposal_bond: "100000000000000000000000",
+                        proposal_period: "604800000000000",
+                        bounty_bond: "100000000000000000000000",
+                        bounty_forgiveness_period: "604800000000000",
+                      },
+                    },
                     deposit: "7000000000000000000000000",
                   },
                 ];
