@@ -43,12 +43,6 @@ const res = fetch(
     },
   }
 );
-if (res == null) {
-  return "Loading...";
-}
-if (!res.body) {
-  return "something went wrong!";
-}
 
 return (
   <>
@@ -146,51 +140,72 @@ return (
         }}
       />
     </div>
-    {res.body.map(({ proposal, proposal_type, proposal_id }, i) => {
-      proposal.kind = {
-        [proposal_type]: {
-          ...proposal.kind,
-        },
-      };
-      proposal.id = proposal_id;
-      if (proposal.status === "Removed") return null;
-      Object.keys(proposal.vote_counts).forEach((k) => {
-        if (typeof proposal.vote_counts[k] == "string") {
-          proposal.vote_counts[k] = proposal.vote_counts[k]
-            .match(/.{1,2}/g)
-            .map((x) => parseInt(x));
-        }
-      });
-      return (
+    {res !== null && !res.body && (
+      <div className="alert alert-danger" role="alert">
+        Couldn't fetch proposals from API. Please try again later.
+      </div>
+    )}
+
+    <div
+      style={{
+        minHeight: 650 * (res.body?.length ?? resPerPage),
+      }}
+    >
+      {res == null && (
+        <>
+          {new Array(resPerPage).fill(0).map((_, i) => (
+            <Widget src="astro.sking.near/widget/DAO.Proposals.Card.skeleton" />
+          ))}
+        </>
+      )}
+      {res !== null &&
+        res.body.map(({ proposal, proposal_type, proposal_id }, i) => {
+          proposal.kind = {
+            [proposal_type]: {
+              ...proposal.kind,
+            },
+          };
+          proposal.id = proposal_id;
+          if (proposal.status === "Removed") return <></>;
+          Object.keys(proposal.vote_counts).forEach((k) => {
+            if (typeof proposal.vote_counts[k] == "string") {
+              proposal.vote_counts[k] = proposal.vote_counts[k]
+                .match(/.{1,2}/g)
+                .map((x) => parseInt(x));
+            }
+          });
+          return (
+            <Widget
+              key={i}
+              src={"astro.sking.near/widget/DAO.Proposals.Card.index"}
+              props={{
+                daoId: state.daoId,
+                proposalString: JSON.stringify(proposal),
+                multiSelectMode: state.multiSelectMode,
+              }}
+            />
+          );
+        })}
+
+      <div className="d-flex justify-content-center my-4">
         <Widget
-          key={i}
-          src={"astro.sking.near/widget/DAO.Proposals.Card.index"}
+          src="nui.sking.near/widget/Navigation.PrevNext"
           props={{
-            daoId: state.daoId,
-            proposal: proposal,
-            multiSelectMode: state.multiSelectMode,
+            hasPrev: state.page > 0,
+            hasNext: res.body.length == resPerPage,
+            onPrev: () => {
+              State.update({
+                page: state.page - 1,
+              });
+            },
+            onNext: () => {
+              State.update({
+                page: state.page + 1,
+              });
+            },
           }}
         />
-      );
-    })}
-    <div className="d-flex justify-content-center my-4">
-      <Widget
-        src="nui.sking.near/widget/Navigation.PrevNext"
-        props={{
-          hasPrev: state.page > 0,
-          hasNext: res.body.length == resPerPage,
-          onPrev: () => {
-            State.update({
-              page: state.page - 1,
-            });
-          },
-          onNext: () => {
-            State.update({
-              page: state.page + 1,
-            });
-          },
-        }}
-      />
+      </div>
     </div>
     {state.multiSelectMode && (
       <>
