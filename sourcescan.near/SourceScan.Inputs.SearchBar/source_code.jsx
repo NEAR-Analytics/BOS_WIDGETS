@@ -7,12 +7,18 @@ const dark = {
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  button: {
+    bg: "#39393c",
+  },
 };
 
 const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  button: {
+    bg: "#eef2f6",
+  },
 };
 
 const useTheme = (light, dark) => {
@@ -45,7 +51,7 @@ const SearchButton = styled.button`
   padding-bottom: 5px;
   border: 1px solid ${useTheme(light, border, dark.border)};
   color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.bg, dark.bg)}; 
+  background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
 `;
 
 return (
