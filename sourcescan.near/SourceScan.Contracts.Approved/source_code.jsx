@@ -30,6 +30,4 @@ const compareWasm = () => {
     });
 };
 
-console.log(props.cid, compareWasm());
-
-return <></>;
+return <>{(props.cid, compareWasm())}</>;
