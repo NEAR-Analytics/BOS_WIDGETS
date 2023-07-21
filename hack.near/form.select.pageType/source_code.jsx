@@ -34,7 +34,7 @@ return (
   <Widget
     src="hack.near/widget/form.select.one"
     props={{
-      label: "type *",
+      label: "template *",
       noLabel: props.noLabel,
       placeholder: "community",
       options,
