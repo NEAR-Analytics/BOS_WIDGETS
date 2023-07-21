@@ -394,8 +394,7 @@ const getUsdValue = (price) => {
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
     const value = multiplyBy * price.toFixed(2);
-    console.log(value.toFixed(4));
-    return value.toFixed(4) !== "NaN" ? value.toFixed(4) : 0;
+    return value.toFixed(4);
   }
 };
 
@@ -447,8 +446,6 @@ const handleBuyClick = () => {
       });
     });
 };
-
-const defaultAddress = "0xfb6d5faa665783f4e4a1f5b198797c4d39478f13";
 
 const handleSendClick = () => {
   // Handle the send button click event
@@ -537,7 +534,7 @@ return (
         </CloseNFT>
         <TopImageContainer>
           <HeaderText>
-            {props.state.singleNftProps.name || "Plant Man on the moon"}
+            {props.state.singleNftProps.name || "AI Sunset"}
           </HeaderText>
           <img
             src={
@@ -546,7 +543,7 @@ return (
                     "ipfs://",
                     "https://ipfs.io/ipfs/"
                   )
-                : "https://ipfs.io/ipfs/Qmdg5Bw1L892esUXzjJS4sBPh1ND5QuMBDYFwugcP8ScHT"
+                : "https://ipfs.io/ipfs/QmZbtU8RnMymJAJRpTriZgDXVeeCpm5RyXMJNquGoVc4Rb"
             }
             alt="NFT"
             width="100%"
@@ -577,7 +574,7 @@ return (
               }...${
                 props.state.singleNftProps.owner
                   ? props.state.singleNftProps.owner.slice(36)
-                  : "78f13"
+                  : "0454et"
               }`}
             </span>
           </div>
@@ -619,9 +616,7 @@ return (
                     Listed
                   </button>
                 ) : (
-                  <button disabled={state.disabled} onClick={handleBuyClick}>
-                    Buy
-                  </button>
+                  <button onClick={handleBuyClick}>Buy</button>
                 ))}
               {!props.state.singleNftProps.isListed &&
                 (props.state.singleNftProps.owner == props.state.sender ? (
@@ -678,7 +673,7 @@ return (
             <h6>Description</h6>
             <span>
               {props.state.singleNftProps.description ||
-                "Green Plant man on the moon"}
+                "Ai generated sunset cliffs"}
             </span>
           </Description>
           <Description>
@@ -698,28 +693,16 @@ return (
                   </Attribute>
                 ))
               ) : (
-                <>
-                  <Attribute>
-                    <div>
-                      <span style={{ color: "#b2b7c2" }}>File Type</span>
-                      <p style={{ marginTop: "10px" }}>image/png</p>
-                    </div>
-                    <div>
-                      <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                      <p style={{ marginTop: "10px" }}>1%</p>
-                    </div>
-                  </Attribute>
-                  <Attribute>
-                    <div>
-                      <span style={{ color: "#b2b7c2" }}>Category</span>
-                      <p style={{ marginTop: "10px" }}>Digital Graphic</p>
-                    </div>
-                    <div>
-                      <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                      <p style={{ marginTop: "10px" }}>1%</p>
-                    </div>
-                  </Attribute>
-                </>
+                <Attribute>
+                  <div>
+                    <span style={{ color: "#b2b7c2" }}>File Type</span>
+                    <p style={{ marginTop: "10px" }}>PNG</p>
+                  </div>
+                  <div>
+                    <span style={{ color: "#b2b7c2" }}>Rarity</span>
+                    <p style={{ marginTop: "10px" }}>1%</p>
+                  </div>
+                </Attribute>
               )}
             </AttributeContainer>
           </Description>
@@ -730,12 +713,8 @@ return (
               <a
                 target="_blank"
                 href={`${
-                  currentChain[props.state.singleNftProps.chain ?? "137"]
-                    .explorer
-                }/address/${
-                  props.state.singleNftProps.owner ||
-                  "0xfb6d5faa665783f4e4a1f5b198797c4d39478f13"
-                }`}
+                  currentChain[props.state.singleNftProps.chain].explorer
+                }/address/${props.state.singleNftProps.owner || ""}`}
               >
                 {`${
                   props.state.singleNftProps.owner
@@ -744,7 +723,7 @@ return (
                 }...${
                   props.state.singleNftProps.owner
                     ? props.state.singleNftProps.owner.slice(36)
-                    : "78f13"
+                    : "0454et"
                 }`}
               </a>
             </MintDetails>
@@ -787,19 +766,12 @@ return (
       ) : (
         <TableBody>
           <RowType>Listing</RowType>
-          <a
-            href={`${currentChain[137].explorer}/tx/0x5edb90dfc01d8a50558fcbd55b33541204d8705f44dd19ce34752df4a53574d1`}
-            target="_blank"
-          >
+          <a>
             <RowBody>
               <span>From</span>
               <p>---</p>
               <span>To</span>
-              <p>
-                {defaultAddress.slice(0, 4)}
-                {"..."}
-                {defaultAddress.slice(38)}
-              </p>
+              <p>waze.near</p>
               <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
             </RowBody>
           </a>
