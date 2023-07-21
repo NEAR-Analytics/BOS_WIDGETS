@@ -14,7 +14,7 @@ const TabItem = styled.div`
   justify-content:center;
   align-items:center;
   height: 42px;
-  width:160px;
+  width:140px;
   border-radius: 10px;
   color:#fff;
   font-weight:500;
