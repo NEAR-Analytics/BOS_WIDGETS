@@ -2,6 +2,22 @@ State.init({
   theme: "light",
 });
 
+const getConfig = (network) => {
+  switch (network) {
+    case "mainnet":
+      return {
+        contractId: "v1.sourcescan.near",
+      };
+    case "testnet":
+      return {
+        contractId: "v5.sourcescan.testnet",
+      };
+    default:
+      throw Error(`Unconfigured environment '${network}'.`);
+  }
+};
+const config = getConfig(context.networkId);
+
 const dark = {
   bg: "#28282b",
   color: "#e6eaee",
