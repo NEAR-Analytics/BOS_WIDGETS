@@ -120,6 +120,8 @@ return (
           props={{
             theme: state.theme,
             contracts: state.contracts,
+            rpcUrl: config.rpcUrl,
+            apiHost: config.apiHost,
           }}
         />
       </Center>
