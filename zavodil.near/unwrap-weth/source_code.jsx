@@ -1,20 +1,28 @@
 const receiver = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!receiver) {
+  // Web3 login button
   return <Web3Connect />;
 }
 
 Ethers.provider()
   .getNetwork()
   .then((chainIdData) => {
-    if (chainIdData.chainId === 1) {
-      State.update({ tokenId: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" });
-    } else if (chainIdData.chainId === 1101) {
-      State.update({ tokenId: "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9" });
-    }
+    const chainId = chainIdData.chainId;
+    // load chain data for a current Chain Id from the Social DB (data storage on NEAR)
+    // all chainlist data: https://near.social/#/zavodil.near/widget/Explorer?path=zavodil.near/chainlist/**
+    const chainlistData = Social.get(
+      `zavodil.near/chainlist/*/${chainId}/**`,
+      "final"
+    );
+
+    State.update({
+      wethTokenId: chainlistData.contracts[chainId].weth,
+      network: chainlistData.chains[chainId].name,
+    });
   });
 
-if (!state.tokenId) {
+if (!state.wethTokenId) {
   return "Unknown WETH contract for a selected network";
 }
 
@@ -33,7 +41,7 @@ const encodedBalanceData = iface.encodeFunctionData("balanceOf", [receiver]);
 
 Ethers.provider()
   .call({
-    to: state.tokenId,
+    to: state.wethTokenId,
     data: encodedBalanceData,
   })
   .then((rawBalance) => {
@@ -49,7 +57,7 @@ Ethers.provider()
 
 const unwrap = (balance) => {
   const wEthContract = new ethers.Contract(
-    state.tokenId,
+    state.wethTokenId,
     abi.body.result,
     Ethers.provider().getSigner()
   );
@@ -65,10 +73,16 @@ if (!state.balance) {
 
 return (
   <div>
-    Your balance is {new Big(state.balance).div(Big(10).pow(18)).toFixed()} WETH
-    <hr />
+    {state.network && <p>Current network is {state.network}.</p>}
+    <p>
+      Your balance is {Big(state.balance).div(Big(10).pow(18)).toFixed()} WETH.
+    </p>
+
     {state.balance > 0 && (
-      <button onClick={() => unwrap(state.balance)}>UNWRAP</button>
+      <>
+        <hr />
+        <button onClick={() => unwrap(state.balance)}>UNWRAP</button>
+      </>
     )}
   </div>
 );
