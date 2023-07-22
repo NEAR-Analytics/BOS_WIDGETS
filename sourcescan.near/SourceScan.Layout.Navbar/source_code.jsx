@@ -98,9 +98,15 @@ return (
         }
         width={"100px"}
       />
-      {pages.map((page) => (
-        <NavButton>{page.label}</NavButton>
-      ))}
+      {pages.map((page) => {
+        return page.href ? (
+          <a href={page.href} target={"_blank"}>
+            <NavButton>{page.label}</NavButton>
+          </a>
+        ) : (
+          <NavButton>{page.label}</NavButton>
+        );
+      })}
     </HStack>
     <ThemeChangerContainer>
       <Widget
