@@ -96,6 +96,8 @@ function composeData() {
   const data = {
     post: {
       main: JSON.stringify(content),
+      rating:
+        state.friendliness + state.energy + state.density + state.diversity,
     },
     index: {
       post: JSON.stringify({
