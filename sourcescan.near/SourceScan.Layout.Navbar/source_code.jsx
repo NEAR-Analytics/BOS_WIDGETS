@@ -36,13 +36,6 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
-const NavBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 20%;
-`;
-
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
@@ -66,25 +59,41 @@ const NavButton = styled.button`
   }
 `;
 
+const NetworkSwitcherContainer = styled.div`
+  position: absolute;
+  top: 0px;
+  left: 10px;
+`;
+
+const ThemeChangerContainer = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 10px;
+`;
+
 return (
-  <NavBar>
-    <Widget
-      src={`${props.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
-      props={{
-        theme: state.theme,
-      }}
-    />
+  <>
+    <NetworkSwitcherContainer>
+      <Widget
+        src={`${props.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
+        props={{
+          theme: state.theme,
+        }}
+      />
+    </NetworkSwitcherContainer>
     <HStack>
       {pages.map((page) => (
         <NavButton>{page.label}</NavButton>
       ))}
     </HStack>
-    <Widget
-      src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
-      props={{
-        theme: state.theme,
-        switchTheme: switchTheme,
-      }}
-    />
-  </NavBar>
+    <ThemeChangerContainer>
+      <Widget
+        src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
+        props={{
+          theme: state.theme,
+          switchTheme: switchTheme,
+        }}
+      />
+    </ThemeChangerContainer>
+  </>
 );
