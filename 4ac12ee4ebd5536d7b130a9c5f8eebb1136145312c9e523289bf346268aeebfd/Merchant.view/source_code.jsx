@@ -25,7 +25,11 @@ if (!factoryABI.ok) {
 }
 
 if (!Ethers.provider()) {
-  return "Provider unavailable";
+  return (
+    <div class="row d-flex justify-content-center">
+      <Web3Connect connectLabel="Connect with Web3" />
+    </div>
+  );
 }
 
 const subscriptionsFactoryContract = new ethers.Contract(
