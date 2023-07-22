@@ -430,13 +430,6 @@ const nftMint = () => {
   }
 };
 
-initState({
-  title: "",
-  description: "",
-  showAlert: false,
-  toastMessage: "",
-});
-
 // change this
 const sbtDAOMint = () => {
   Near.call([
