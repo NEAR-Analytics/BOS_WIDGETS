@@ -52,8 +52,8 @@ const formattedDate = formatDate(Date.now());
 const nftTitle =
   props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedPostDate; // see about adding title and person that vibes them // also date should be when post was posted
 
-const hasImageInPost = true; // need to check if image in post
-
+const hasImageInPost = !!content.image; // need to check if image in post
+// need to get image url
 const content = props.content ?? JSON.parse(Social.get(path, blockHeight));
 const image = content.image;
 const type = content.type;
