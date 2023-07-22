@@ -7,7 +7,10 @@ const data = JSON.parse(metadata.thing[handle]).data;
 console.log(data);
 
 const name = data.name;
-const image = metadata.avatar;
+const image = data.avatar;
+const bio = data.bio;
+
+console.log(bio);
 
 const imageStyle = {
   width: "200px",
@@ -41,6 +44,7 @@ return (
     </div>
     <div className="m-1 position-relative">
       <h5 className="card-title mb-2">{name}</h5>
+      <p>{bio}</p>
     </div>
   </Card>
   //</a>
