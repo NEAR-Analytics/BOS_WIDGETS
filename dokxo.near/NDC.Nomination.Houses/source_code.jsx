@@ -172,7 +172,7 @@ return (
         <label class="Headerlabel">FAST-SBT</label>
       </div>
 
-      <div name="card" class="Cardstyled">
+      <div class="CardStyled" name="card">
         <div class=" BodyForm mx-auto">
           <div class="Rowcont">
             <div class="Colcont">
