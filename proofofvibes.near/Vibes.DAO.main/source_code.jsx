@@ -321,7 +321,10 @@ return (
         )}
         {state.selectedTab === "feed" && (
           <>
-            <Widget src="proofofvibes.near/widget/Vibes.Feed.main" props={{}} />
+            <Widget
+              src="proofofvibes.near/widget/Vibes.Feed.main"
+              props={{ props }}
+            />
           </>
         )}
         {state.selectedTab === "tastemaker" && (
