@@ -126,10 +126,28 @@ const handlePageChange = (x) => {
   searchContracts();
 };
 
+console.log(state.config);
+
+const handleNetworkSwitch = (e) => {
+  console.log(e.target.value);
+  State.update({
+    config: getConfig(e.target.value),
+  });
+  searchContracts();
+};
+
 return (
   <Main>
     <Stack>
-      <Right>
+      <HStack>
+        <Widget
+          src={"sourcescan.near/widget/SourceScan.Inputs.NetworkSwitcher"}
+          props={{
+            theme: state.theme,
+            network: state.config.network,
+            handleNetworkSwitch: handleNetworkSwitch,
+          }}
+        />
         <Widget
           src={"sourcescan.near/widget/SourceScan.Inputs.ThemeChanger"}
           props={{
@@ -137,7 +155,7 @@ return (
             switchTheme: switchTheme,
           }}
         />
-      </Right>
+      </HStack>
       <Center>
         <HStack>
           <Widget
