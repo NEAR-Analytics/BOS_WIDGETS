@@ -77,6 +77,8 @@ return (
         src={`${USER}/widget/Common.menu`}
         props={{ balance: state.balance }}
       />
+      <h3 class="text-white text-center pt-5"> Your subscriptions</h3>
+
       <Widget
         src={`${USER}/widget/Customer.view`}
         props={{
