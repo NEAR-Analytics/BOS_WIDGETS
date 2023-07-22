@@ -22,7 +22,7 @@ const useTheme = (light, dark) => {
 };
 
 const Select = styled.select`
-  font-weight: bold;
+  font-weight: 600;
   padding-top: 10px;
   padding-bottom: 10px;
   border: 1px dashed ${useTheme(light.border, dark.border)};
