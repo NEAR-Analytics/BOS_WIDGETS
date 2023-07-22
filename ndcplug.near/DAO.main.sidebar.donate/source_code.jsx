@@ -53,12 +53,14 @@ const Wrapper = styled.div`
     top: 0;
     z-index: 100;
     font-size: 14px;
+    width: 100%;
     line-height: 40px;
     color: #687076;
   }
 
   .input-group {
     height: 100%;
+    wdith: 100%;
   }
 
   input {
@@ -104,16 +106,17 @@ const Wrapper = styled.div`
 return (
   <div className="row">
     <Actions>
+      <Wrapper>
+        <input
+          type="number"
+          className=".bi-search col"
+          placeholder={state.amount}
+          value={state.amount}
+          onChange={(e) => onChangeAmount(e.target.value)}
+        />
+      </Wrapper>
       <FollowButtonWrapper>
         <Wrapper>
-          <input
-            type="number"
-            className=".bi-search"
-            placeholder={state.amount}
-            value={state.amount}
-            onChange={(e) => onChangeAmount(e.target.value)}
-          />
-
           <button
             disabled={context.loading}
             onClick={donate}
