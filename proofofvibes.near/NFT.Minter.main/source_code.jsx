@@ -100,7 +100,7 @@ const handleMint = () => {
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
               reference: `ipfs://${cid}`,
             },
-            receiver_id: accountId,
+            receiver_id: state.receiver,
           },
           gas: gas,
           deposit: deposit,
