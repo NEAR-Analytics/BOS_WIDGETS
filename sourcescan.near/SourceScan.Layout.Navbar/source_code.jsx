@@ -1,7 +1,7 @@
 const pages = [
   {
     label: "SourceScan",
-    href: "https://sourcescan.2bb.dev",
+    href: props.app || "https://sourcescan.2bb.dev",
   },
   { label: "Contracts", href: null },
 ];
