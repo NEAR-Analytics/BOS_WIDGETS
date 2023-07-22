@@ -75,7 +75,7 @@ const ThemeChangerContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  filter: ${useTheme("invert(1)", "invert(0)")};
+  filter: ${useTheme("invert(0)", "invert(1)")};
 `;
 
 return (
