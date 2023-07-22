@@ -62,15 +62,6 @@ const HStack = styled.div`
   gap: 5px;
 `;
 
-const Select = styled.select`
-  border: 1px solid ${useTheme(light.border, dark.border)};
-  background-color: transparent;
-  border-radius: 5px;
-  width: 55px;
-  text-align: center;
-  color: ${useTheme(light.color, dark.color)};
-`;
-
 const Right = styled.div`
   display: flex;
   flex-direction: row;
@@ -115,7 +106,12 @@ const searchContracts = async (value) => {
 
 if (!state.contracts) searchContracts(state.search);
 
-const limits = [1, 10, 20, 50];
+const handleOptionsChange = (e) => {
+  State.update({
+    limit: parseInt(e.target.value),
+  });
+  searchContracts(state.search);
+};
 
 return (
   <Container>
@@ -133,11 +129,13 @@ return (
               value: state.search,
             }}
           />
-          <Select onChange={(e) => handleOptionsChange(e)}>
-            {limits.map((limit) => (
-              <option value={limit}>{limit}</option>
-            ))}
-          </Select>
+          <Widget
+            src={"sourcescan.near/widget/SourceScan.Inputs.Limits"}
+            props={{
+              handleOptionsChange: handleOptionsChange,
+              theme: state.theme,
+            }}
+          />
         </HStack>
       </Center>
       <Center>
