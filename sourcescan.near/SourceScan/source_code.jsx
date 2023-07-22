@@ -126,16 +126,6 @@ const handlePageChange = (x) => {
   searchContracts();
 };
 
-console.log(state.config);
-
-const handleNetworkSwitch = (e) => {
-  console.log(e.target.value);
-  State.update({
-    config: getConfig(e.target.value),
-  });
-  searchContracts();
-};
-
 return (
   <Main>
     <Stack>
@@ -144,8 +134,6 @@ return (
           src={"sourcescan.near/widget/SourceScan.Inputs.NetworkSwitcher"}
           props={{
             theme: state.theme,
-            network: state.config.network,
-            handleNetworkSwitch: handleNetworkSwitch,
           }}
         />
         <Widget
