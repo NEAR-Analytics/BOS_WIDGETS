@@ -1,4 +1,8 @@
-let { onRefresh } = props;
+let { onRefresh, onConnect } = props;
+
+State.init({
+  account: "",
+});
 
 const HeaderBox = styled.div`
     display:flex;
@@ -62,6 +66,15 @@ let tabs = {
   join: "Join quest",
   review: "Review quests",
 };
+
+// Init
+if (state.account === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ account: accounts[0] });
+    onConnect(() => Ethers);
+  }
+}
 
 return (
   <>
