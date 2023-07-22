@@ -3,8 +3,6 @@ let keys = "*/artist/*";
 const metadataTemplate =
   props.metadataTemplate || "harmonic1.near/widget/artist.card";
 
-console.log("Keys ->", keys);
-
 State.init({
   data: {},
 });
@@ -17,8 +15,6 @@ const data = Social.keys(keys, "final", {
 State.update({
   data: data,
 });
-
-console.log("Data ->", data);
 
 if (data === null) {
   return <p>"Loading"</p>;
@@ -36,8 +32,6 @@ const processData = (data) => {
       }));
     })
     .flat();
-
-  console.log("AllItems ->", allItems);
 
   allItems.sort((a, b) => b.blockHeight - a.blockHeight);
   return allItems;
