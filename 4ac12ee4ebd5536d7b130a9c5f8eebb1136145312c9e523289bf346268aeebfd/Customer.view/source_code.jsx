@@ -1,6 +1,6 @@
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
-if (!Ethers.provider()) {
+if (!Ethers.provider() || !props.sender) {
   return (
     <div class="row d-flex justify-content-center pt-4">
       <div class="col-8 col-md-4 text-center">
