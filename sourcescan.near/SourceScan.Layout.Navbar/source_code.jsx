@@ -37,6 +37,7 @@ const useTheme = (light, dark) => {
 };
 
 const HStack = styled.div`
+  width: 100%;
   padding-top: 20px;
   display: flex;
   flex-direction: row;
@@ -63,14 +64,18 @@ const NavButton = styled.button`
 
 const NetworkSwitcherContainer = styled.div`
   position: absolute;
-  top: 20px;
+  top: 30px;
   left: 20px;
 `;
 
 const ThemeChangerContainer = styled.div`
   position: absolute;
-  top: 20px;
+  top: 30px;
   right: 20px;
+`;
+
+const Logo = styled.img`
+  filter: ${useTheme("invert(1)", "invert(0)")};
 `;
 
 return (
@@ -84,6 +89,12 @@ return (
       />
     </NetworkSwitcherContainer>
     <HStack>
+      <Logo
+        src={
+          "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
+        }
+        width={"100px"}
+      />
       {pages.map((page) => (
         <NavButton>{page.label}</NavButton>
       ))}
