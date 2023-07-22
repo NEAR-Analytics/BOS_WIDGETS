@@ -1,3 +1,5 @@
+const factoryAddress = "0x0aBeC91137108C54bdfA2B909E0EC529ECd99429";
+
 // PROPS
 if (!props.collectionAddress)
   return (
@@ -37,42 +39,61 @@ if (state.sender === undefined) {
 }
 
 // CONTRACT INSTANCE
+const factoryABI = fetch(
+  "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsFactory.sol/SubscriptionsFactory.json"
+);
+if (!factoryABI.ok) {
+  return "Contract unavailable.";
+}
+
 const collectionABI = fetch(
   "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsCollection.sol/SubscriptionsCollection.json"
 );
 if (!collectionABI.ok) {
   return "Contract unavailable.";
 }
+
+const subscriptionsFactoryContract = new ethers.Contract(
+  factoryAddress,
+  JSON.parse(factoryABI.body)["abi"],
+  Ethers.provider().getSigner()
+);
 const subscriptionsCollectionContract = new ethers.Contract(
   props.collectionAddress,
   JSON.parse(collectionABI.body)["abi"],
   Ethers.provider().getSigner()
 );
+
 subscriptionsCollectionContract
   .getTierPrice(tier)
   .then((price) => State.update({ price: price.toString() }));
 
 const subscribe = () => {
-  console.log("To: ", state.sender);
-  console.log("Tier: ", tier);
-  console.log("Price: ", state.price);
+  console.log({
+    to: state.sender,
+    tier,
+    price: state.price,
+  });
 
   try {
     State.update({ loading: true });
-    subscriptionsCollectionContract
-      .mint(state.sender, tier, { value: state.price })
+    subscriptionsFactoryContract
+      .subscribe(props.collectionAddress, state.sender, tier, {
+        value: state.price,
+      })
       .catch((err) => {
         State.update({ loading: false });
         console.log(err);
       })
       .then((tx) => {
         console.log("Waiting for confirmation: ", tx);
-        tx.wait().then(() => {
-          console.log("TX Confirmed");
+        tx.wait().then((receipt) => {
+          console.log("TX Confirmed: ", receipt);
           State.update({ loading: false });
         });
       });
   } catch (err) {
+    State.update({ loading: false });
     console.log(err);
   }
 };
