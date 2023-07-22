@@ -1,5 +1,5 @@
 State.init({
-  defaultLimit: props.selectedtLimit || props.limits[0] || 10,
+  selectedtLimit: props.selectedtLimit || props.limits[0] || 10,
   limits: props.limits || [10, 20, 50],
   theme: props.theme || "light",
 });
