@@ -37,7 +37,7 @@ const Table = styled.table`
   }
 
   td {
-    max-width: 200px;
+    width: 200px;
     border-top: 0.5px dashed ${useTheme(light.border, dark.border)};
     padding: 15px;
   }
