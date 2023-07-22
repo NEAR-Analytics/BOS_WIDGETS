@@ -14,11 +14,9 @@ const GeoqueteSDK = {
   },
   listQuests: () => {},
   getQuest: (questId) => {
-    const encodedData = GeoqueteSDK.encode("viewQuest", [questId]);
-
     return Ethers.provider().call({
       to: CONTRACT_ADDRESS,
-      data: encodedData,
+      data: GeoqueteSDK.encode("viewQuest", [questId]),
     });
   },
   createQuest: (walletAddress, quest) => {},
