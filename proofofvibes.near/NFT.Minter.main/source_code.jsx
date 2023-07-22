@@ -1,5 +1,7 @@
 let accountId = context.accountId;
-
+/**
+ * add better default cid, add receiver validation for near address
+ */
 // if (!accountId) {
 //   return "Please sign in with NEAR wallet";
 // }
@@ -16,7 +18,7 @@ if (image) {
   console.log("Image CID: " + cid);
 }
 
-let description = props.description ?? "";
+let description = props.description ?? "Proof of Vibes powered by GenaDrop";
 const profile = socialGetr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -26,7 +28,7 @@ if (profile === null) {
 State.init({
   cid: cid,
   description: description,
-  title: tilte,
+  title: title,
   image: image,
   receiver: receiver,
   //   image: "",
@@ -120,6 +122,11 @@ initState({
 const onChangeTitle = (title) => {
   State.update({
     title,
+  });
+};
+const onChangeReceiver = (receiver) => {
+  State.update({
+    receiver,
   });
 };
 
@@ -275,6 +282,7 @@ return (
             <Input
               type="text"
               onChange={(e) => onChangeTitle(e.target.value)}
+              placeholder={state.title}
             />
           </Card>
           <Card>
@@ -282,6 +290,15 @@ return (
             <TextArea
               type="text"
               onChange={(e) => onChangeDesc(e.target.value)}
+              placeholder={state.description}
+            />
+          </Card>
+          <Card>
+            Receiver:
+            <Input
+              type="text"
+              onChange={(e) => onChangeReceiver(e.target.value)}
+              placeholder={state.receiver}
             />
           </Card>
         </Card>
