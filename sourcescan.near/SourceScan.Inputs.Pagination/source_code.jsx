@@ -33,6 +33,7 @@ const HStack = styled.div`
 `;
 
 const PageButton = styled.button`
+  font-weight: 600;
   width: 30px;
   height: 30px;
   border-radius: 5px;
