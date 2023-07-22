@@ -52,7 +52,7 @@ const NavButton = styled.button`
   padding-left: 10px;
   padding-right: 10px;
   border: 1px solid transparent;
-  color: ${useTheme(light.color, dark.color)}
+  color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
   transition: background-color 0.1s ease-in-out;
 
