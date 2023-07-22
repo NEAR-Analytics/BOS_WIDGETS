@@ -1,3 +1,6 @@
+/**
+ * Do tastemaker check, see if toast notifcation works, add to nft, add default cid for minting images, pull description from post
+ */
 const path = props.path;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
@@ -13,6 +16,9 @@ const showReference = props.showReference ?? true;
 const showDAO = props.showDAO ?? true;
 const showClass = props.showClass ?? true;
 const showHeader = props.showHeader ?? true;
+const nftDescription =
+  props.nftDescription ?? "Proof of Vibe NFT powered by GenaDrop"; // pull from post
+const nftTitle = props.nftTitle ?? "Proof of Vibes " + "";
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
@@ -28,6 +34,10 @@ State.init({
   reference: reference,
   daoId: daoId,
   classId: classId,
+  toastMessage: "",
+  showAlert: false,
+  description: nftDescription,
+  title: nftTitle,
 });
 const post_args = JSON.stringify({
   receiver: state.receiver,
@@ -36,6 +46,7 @@ const post_args = JSON.stringify({
   },
   reference: state.reference,
 });
+const hasImageInPost = true; // need to check if image in post
 
 const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
 //   const gas = 200000000000000;
@@ -44,7 +55,9 @@ const policy = Near.view(daoId, "get_policy");
 
 const content = props.content ?? JSON.parse(Social.get(path, blockHeight));
 const type = content.type;
+console.log("Content type: " + type);
 const metadata = content.metadata;
+console.log("Content Metadata: " + metadata);
 
 const item = {
   type: "social",
@@ -256,6 +269,90 @@ const proposeVibee = () => {
     },
   ]);
 };
+const nftMint = () => {
+  if (!state.image.cid) {
+    return;
+  }
+  if (!accountId) {
+    console.log("Please login"); // add share dogvwallet
+    State.update({
+      showAlert: true,
+      toastMessage: "Please log in before continuing",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else if (!state.title) {
+    console.log("Please Enter title");
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a title for the NFT",
+    });
+
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else if (!state.description) {
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a description for the NFT",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else {
+    const metadata = {
+      name: state.title,
+      description: state.description,
+      properties: [],
+      image: `ipfs://${state.image.cid}`,
+    };
+    console.log("come", metadata);
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: metadata,
+    }).then((res) => {
+      console.log("GO ON SOUN", res);
+      const cid = res.body.cid;
+      const gas = 200000000000000;
+      const deposit = 10000000000000000000000;
+      Near.call([
+        {
+          contractName: "nft.genadrop.near",
+          methodName: "nft_mint",
+          args: {
+            token_id: `${Date.now()}`,
+            metadata: {
+              title: state.title,
+              description: state.description,
+              media: `https://ipfs.io/ipfs/${state.image.cid}`,
+              reference: `ipfs://${cid}`,
+            },
+            receiver_id: accountId,
+          },
+          gas: gas,
+          deposit: deposit,
+        },
+      ]);
+    });
+  }
+};
+
+initState({
+  title: "",
+  description: "",
+  showAlert: false,
+  toastMessage: "",
+});
 
 // change this
 const sbtMint = () => {
@@ -329,6 +426,17 @@ return (
                   <i className="fs-6 bi bi-three-dots" />
                 </a>
                 <ul className="dropdown-menu col">
+                  {hasImageInPost && (
+                    <li className="dropdown-item row">
+                      <a
+                        className="link-dark text-decoration-none"
+                        onClick={nftMint}
+                      >
+                        <i className="bi bi-emoji-gift" /> Mint to User As NFT
+                      </a>
+                    </li>
+                  )}
+
                   {canPropose && (
                     <li className="dropdown-item row">
                       <a
@@ -417,5 +525,8 @@ return (
         }}
       />
     </div>
+    {state.showAlert && (
+      <Widget src="jgodwill.near/widget/genalert" props={state} />
+    )}
   </div>
 );
