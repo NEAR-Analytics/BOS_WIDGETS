@@ -8,12 +8,18 @@ const dark = {
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  button: {
+    bg: "#39393c",
+  },
 };
 
 const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  button: {
+    bg: "#eef2f6",
+  },
 };
 
 const useTheme = (light, dark) => {
