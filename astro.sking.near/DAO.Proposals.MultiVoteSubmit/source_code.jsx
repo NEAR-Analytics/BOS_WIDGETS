@@ -43,7 +43,7 @@ const handleSubmit = () => {
       contractName: daoId,
       methodName: "act_proposal",
       args: {
-        id: `${id}`,
+        id: parseInt(id),
         action: vote,
       },
       gas: 200000000000000,
