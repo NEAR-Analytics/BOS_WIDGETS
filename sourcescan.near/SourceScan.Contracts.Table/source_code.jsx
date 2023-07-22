@@ -81,6 +81,11 @@ const LinkIcon = (width, height) => {
   );
 };
 
+const Link = styled.a`
+  text-decoration: none; 
+  color: ${useTheme(light.color, dark.color)};
+`;
+
 return (
   <Table>
     <thead>
@@ -103,10 +108,12 @@ return (
                 <td>{contractId}</td>
                 <td>{lang}</td>
                 <td>
-                  <HStack>
-                    <Truncated>{cid}</Truncated>
-                    <LinkIcon width={"64px"} height={"64px"} />
-                  </HStack>
+                  <Link href={`${props.apiHost}/ipfs/${cid}`}>
+                    <HStack>
+                      <Truncated>{cid}</Truncated>
+                      <LinkIcon width={"64px"} height={"64px"} />
+                    </HStack>
+                  </Link>
                 </td>
                 <td>
                   <Widget
