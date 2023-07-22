@@ -39,7 +39,7 @@ const formatDate = (timestamp) => {
   const month = date.getMonth() + 1; // Months are zero-based, so we add 1
   const day = date.getDate();
   const year = date.getFullYear();
-  return `${month}/${day}, ${year}`;
+  return `${month}/${day}/${year}`;
 };
 const formatDateBlockHeight = (blockHeight) => {
   const block = Near.block(blockHeight);
@@ -55,8 +55,8 @@ const formattedPostDate = formatDateBlockHeight(blockHeight); // this is showing
 const formattedDate = formatDate(Date.now());
 
 // const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
-const titleWithDate = "Proof of Vibes " + profileName;
-const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
+const titleWithDate = "Proof of Vibes " + profileName + " " + formattedPostDate;
+// const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
 
 const hasImageInPost = content.image != null; // need to check if image in post
 // need to get image url
@@ -94,7 +94,6 @@ State.init({
   content,
 });
 
-// const daoId = "vibes.sputnik-dao.near"; // add tastemaker logic here
 const isTasteMaker = true;
 // const accountId = context.accountId;
 if (!accountLoggedIn) {
