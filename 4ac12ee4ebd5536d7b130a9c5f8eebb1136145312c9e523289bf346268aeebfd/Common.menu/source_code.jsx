@@ -30,7 +30,7 @@ return (
           <a
             class="nav-link text-light text-capitalize"
             style={{ fontWeight: 700 }}
-            href="#"
+            onClick={props.onNavClick("create")}
           >
             Create
           </a>
@@ -39,7 +39,7 @@ return (
           <a
             class="nav-link text-light text-capitalize"
             style={{ fontWeight: 700 }}
-            href="#"
+            onClick={props.onNavClick("manage")}
           >
             Manage
           </a>
@@ -48,7 +48,7 @@ return (
           <a
             class="nav-link text-white"
             style={{ fontWeight: 700 }}
-            href="#"
+            onClick={props.onNavClick("view")}
             tabindex="-1"
           >
             View
@@ -57,7 +57,7 @@ return (
       </ul>
     </div>
     <div class="d-flex justify-content-between">
-      {state.balance && <a class="nav-link text-white">{state.balance} Ξ</a>}
+      {props.balance && <a class="nav-link text-white">{props.balance} Ξ</a>}
       <Web3Connect connectLabel="Connect with Web3" />
     </div>
   </div>
