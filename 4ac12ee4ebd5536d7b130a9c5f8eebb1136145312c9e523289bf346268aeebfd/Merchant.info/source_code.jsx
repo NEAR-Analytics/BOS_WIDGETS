@@ -31,7 +31,7 @@ const getTotalEarnings = () => {
   const tierValue = 0;
   const tierHex = "0x" + tierValue.toString(16).padStart(64, "0");
   const filter = {
-    address: contractAddress,
+    address: props.collectionAddress,
     topics: [
       ethers.utils.id("SubscriptionUpdate(uint256,address,uint256)"),
       tierHex,
