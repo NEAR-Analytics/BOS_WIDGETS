@@ -15,7 +15,7 @@ return (
         typeWhitelist: ["md"],
         embedMentions: mentions,
         postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
-        composeTemplate: "efiz.near/widget/every.vibe.create",
+        composeTemplate: "proofofvibes.near/widget/Vibes.Feed.Post.create",
       },
     }}
   />
