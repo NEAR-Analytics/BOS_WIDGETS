@@ -98,7 +98,7 @@ const ScoreInfo = styled.div`
   
   
       .scoreContainer div {
-          width: 100px;
+          width: 25%;
           // padding: 0 2.5%;
           color: white;
       }
