@@ -29,6 +29,8 @@ const Select = styled.select`
   color: ${useTheme(light.color, dark.color)};
 `;
 
+console.log("selectedLimit: ", state.selectedtLimit);
+
 return (
   <Select onChange={(e) => props.handleOptionsChange(e)}>
     {state.limits.map((limit) => (
