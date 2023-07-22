@@ -175,6 +175,7 @@ return (
             <Widget
               src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
               props={{
+                theme: state.theme,
                 pages: state.pages,
                 selectedPage: state.selectedPage,
                 handlePageChange: handlePageChange,
