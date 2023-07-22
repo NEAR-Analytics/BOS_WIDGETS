@@ -37,7 +37,7 @@ const ButtonContainer = styled.div`
   gap: 10px;
   padding-top: 10px;
 `;
-const CustomButtonLeft = styled.button`
+const CustomButtonLeft = styled.a`
   padding: 16px;
   background-color: white;
   color: black;
@@ -46,9 +46,15 @@ const CustomButtonLeft = styled.button`
   transition: background-color 0.3s ease;
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
+    text-decoration:none;
+    decoration:none;
+    color:white;
   }
+  cursor:pointer;
+  text-decoration:none;
+  decoration:none;
 `;
-const CustomButtonRight = styled.button`
+const CustomButtonRight = styled.a`
   padding: 16px;
   border: 2px solid white;
   background-color: black;
@@ -59,7 +65,12 @@ const CustomButtonRight = styled.button`
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
     color: black;
+    text-decoration:none;
+    decoration:none;
   }
+  cursor:pointer;
+  text-decoration:none;
+  decoration:none;
 `;
 return (
   <Main>
@@ -73,19 +84,10 @@ return (
         <CallToAction>Unlock the potential of DeFi.</CallToAction>
       </div>
       <ButtonContainer>
-        <CustomButtonLeft
-          onClick={() => {
-            // router.push("/strategies");
-            window.open("https://zk-alpha-frontend.vercel.app/strategies");
-          }}
-        >
+        <CustomButtonLeft href="https://zk-alpha-frontend.vercel.app/strategies">
           {"I'm an investor"}
         </CustomButtonLeft>
-        <CustomButtonRight
-          onClick={() => {
-            window.open("https://zk-alpha-frontend.vercel.app/trader");
-          }}
-        >
+        <CustomButtonRight href="https://zk-alpha-frontend.vercel.app/trader">
           {"I'm a trader"}
         </CustomButtonRight>
       </ButtonContainer>
