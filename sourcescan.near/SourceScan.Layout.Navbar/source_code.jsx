@@ -36,10 +36,19 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
+const NavBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 20%;
+`;
+
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const NavButton = styled.button`
@@ -57,29 +66,25 @@ const NavButton = styled.button`
   }
 `;
 
-const ThemeSwitcherContainer = styled.div`
-  justify-self: flex-end; 
-`;
-
 return (
-  <HStack>
+  <NavBar>
     <Widget
       src={`${props.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
       props={{
         theme: state.theme,
       }}
     />
-    {pages.map((page) => (
-      <NavButton>{page.label}</NavButton>
-    ))}
-    <ThemeSwitcherContainer>
-      <Widget
-        src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
-        props={{
-          theme: state.theme,
-          switchTheme: switchTheme,
-        }}
-      />
-    </ThemeSwitcherContainer>
-  </HStack>
+    <HStack>
+      {pages.map((page) => (
+        <NavButton>{page.label}</NavButton>
+      ))}
+    </HStack>
+    <Widget
+      src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
+      props={{
+        theme: state.theme,
+        switchTheme: switchTheme,
+      }}
+    />
+  </NavBar>
 );
