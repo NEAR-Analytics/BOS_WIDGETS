@@ -1,4 +1,4 @@
-let { onRefresh, onConnect } = props;
+let { onRefresh } = props;
 
 State.init({
   account: "",
@@ -66,15 +66,6 @@ let tabs = {
   join: "Join quest",
   review: "Review quests",
 };
-
-// Init
-if (state.account === undefined) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  if (accounts.length) {
-    State.update({ account: accounts[0] });
-    onConnect(() => Ethers);
-  }
-}
 
 return (
   <>
