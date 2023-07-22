@@ -4,12 +4,14 @@ const getConfig = (network) => {
   switch (network) {
     case "mainnet":
       return {
+        ownerId: "sourcescan.near",
         rpcUrl: "https://rpc.mainnet.near.org",
         contractId: "v1.sourcescan.near",
         apiHost: "https://sourcescan.2bb.dev",
       };
     case "testnet":
       return {
+        ownerId: "sourcescan.testnet",
         rpcUrl: "https://rpc.testnet.near.org",
         contractId: "v5.sourcescan.testnet",
         apiHost: "https://sourcescan.2bb.dev",
@@ -129,15 +131,19 @@ const handlePageChange = (x) => {
 return (
   <Main>
     <Stack>
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
+        props={{ theme: state.theme }}
+      />
       <HStack>
         <Widget
-          src={"sourcescan.near/widget/SourceScan.Inputs.NetworkSwitcher"}
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
           props={{
             theme: state.theme,
           }}
         />
         <Widget
-          src={"sourcescan.near/widget/SourceScan.Inputs.ThemeChanger"}
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
           props={{
             theme: state.theme,
             switchTheme: switchTheme,
@@ -147,7 +153,7 @@ return (
       <Center>
         <HStack>
           <Widget
-            src={"sourcescan.near/widget/SourceScan.Inputs.SearchBar"}
+            src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
             props={{
               theme: state.theme,
               handleSubmit: handleSubmit,
@@ -155,7 +161,7 @@ return (
             }}
           />
           <Widget
-            src={"sourcescan.near/widget/SourceScan.Inputs.Limits"}
+            src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
             props={{
               handleOptionsChange: handleOptionsChange,
               theme: state.theme,
@@ -168,7 +174,7 @@ return (
       <Center>
         <Stack>
           <Widget
-            src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
+            src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
             props={{
               theme: state.theme,
               contracts: state.contracts,
@@ -178,7 +184,7 @@ return (
           />
           <Center>
             <Widget
-              src={"sourcescan.near/widget/SourceScan.Inputs.Pagination"}
+              src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
               props={{
                 pages: state.pages,
                 selectedPage: state.selectedPage,
