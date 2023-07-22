@@ -8,7 +8,8 @@ let cid =
 let image = props.image;
 const mintButton = props.mintButton ?? "Mint";
 const showDetails = props.showDetails ?? true;
-const title = props.title ?? "";
+const title = props.title ?? "Example title";
+const receiver = props.receiver ?? "ogruss.near";
 
 if (image) {
   cid = image.cid;
@@ -27,6 +28,7 @@ State.init({
   description: description,
   title: tilte,
   image: image,
+  receiver: receiver,
   //   image: "",
 });
 
