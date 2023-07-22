@@ -911,9 +911,9 @@ return (
           </>
         )}
         {state.selectTab == "credit" && (
-          <button href={link} className="btn mt-10 w-100 btn-success">
+          <a href={link} className="btn mt-10 w-100 btn-success">
             Get Credit Score
-          </button>
+          </a>
         )}
         {state.alertModalText && (
           <Widget
