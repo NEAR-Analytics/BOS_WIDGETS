@@ -6,9 +6,15 @@ const CONTRACT_ABI =
 const iface = new ethers.utils.Interface(CONTRACT_ABI);
 
 const GeoqueteSDK = {
+  encode: (method, params) => {
+    return iface.encodeFunctionData(method, params);
+  },
+  decode: (method, rawResponse) => {
+    return iface.decodeFunctionResult(method, rawResponse);
+  },
   listQuests: () => {},
   getQuest: (questId) => {
-    const encodedData = iface.encodeFunctionData("viewQuest", [questId]);
+    const encodedData = GeoqueteSDK.encode("viewQuest", [questId]);
 
     return Ethers.provider().call({
       to: CONTRACT_ADDRESS,
@@ -18,12 +24,6 @@ const GeoqueteSDK = {
   createQuest: (walletAddress, quest) => {},
   joinQuest: (questId) => {},
   submitSolution: (questId) => {},
-  parseQuest: (quest) => {
-    console.log(quest);
-    return {
-      creator: quest["creator"],
-    };
-  },
 };
 
 if (!!onLoad && typeof onLoad === "function" && !loaded) {
