@@ -180,6 +180,8 @@ return (
           Ethers.provider().getSigner()
         );
 
+        console.log(contract.tokenURI(0));
+
         contract.mint("0xDD6BFbe9EC414FFABBcc80BB88378c0684e2Ad9c", {
           GitcoinScore: 10,
           WalletData: 10,
