@@ -374,7 +374,7 @@ return (
         {state.selectedTab === "members" && (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
-            props={{ daoId: daoId }}
+            props={{ daoId: daoId, issuer: issuer }}
           />
         )}
 
