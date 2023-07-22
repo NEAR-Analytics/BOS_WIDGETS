@@ -42,6 +42,7 @@ return (
   <Select>
     {networks.map((network) => (
       <option value={network} disabled={state.network !== network}>
+        {console.log(network, state.network)}
         {strCapitalize(network)}
       </option>
     ))}
