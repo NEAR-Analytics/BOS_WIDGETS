@@ -79,7 +79,17 @@ return (
             : state.pages - 1,
           1
         ).map((x, i) => (
-          <PageButton onClick={() => props.handlePageChange(x)}>
+          <PageButton
+            onClick={() => props.handlePageChange(x)}
+            style={
+              state.selectedPage === x + 1
+                ? {
+                    textDecoration: "underline",
+                    textUnderlineOffset: "2px",
+                  }
+                : null
+            }
+          >
             {x + 1}
           </PageButton>
         ))}
