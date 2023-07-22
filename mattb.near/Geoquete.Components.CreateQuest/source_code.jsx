@@ -202,9 +202,9 @@ return (
     </div>
 
     <div className="form-group">
-      <input id="eth" type="number" placeholder="ETH" />
+      <input id="eth" type="number" placeholder="APE" />
       <label className="eth-label" for="eth">
-        ETH
+        APE
       </label>
     </div>
 
