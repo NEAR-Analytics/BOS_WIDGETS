@@ -8,6 +8,10 @@ const pages = [
 
 State.init({
   theme: props.theme || "light",
+  ownerId:
+    props.ownerId || context.network === "mainnet"
+      ? "sourcescan.near"
+      : "sourcescan.testnet",
 });
 
 const dark = {
@@ -53,10 +57,29 @@ const NavButton = styled.button`
   }
 `;
 
+const ThemeSwitcherContainer = styled.div`
+  justify-self: flex-end; 
+`;
+
 return (
   <HStack>
+    <Widget
+      src={`${props.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
+      props={{
+        theme: state.theme,
+      }}
+    />
     {pages.map((page) => (
       <NavButton>{page.label}</NavButton>
     ))}
+    <ThemeSwitcherContainer>
+      <Widget
+        src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
+        props={{
+          theme: state.theme,
+          switchTheme: switchTheme,
+        }}
+      />
+    </ThemeSwitcherContainer>
   </HStack>
 );
