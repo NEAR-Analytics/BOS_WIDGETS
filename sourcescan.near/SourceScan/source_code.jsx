@@ -24,7 +24,9 @@ const getConfig = (network) => {
 };
 
 State.init({
-  theme: Storage.get("theme") || "light",
+  theme:
+    Storage.get(`${state.config.ownerId}/widget/SourceScan`, "theme") ||
+    "light",
   from_index: 0,
   limit: limits[0],
   contracts: null,
