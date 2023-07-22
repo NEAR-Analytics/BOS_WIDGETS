@@ -77,8 +77,6 @@ const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -118,8 +116,8 @@ State.init({
   isModalOpen: false,
   typeSrc: "harmonic1.near",
   selectedType: "harmonic1.near/type/artist",
-  //view: defaultView,
-  preview: "TEMPLATE",
+  view: defaultView,
+  preview: false, //"TEMPLATE",
   template: "harmonic1.near/widget/artist",
   templateVal: template,
   thingId,
@@ -132,7 +130,8 @@ const handleOnChange = (value) => {
 const handleApply = () => {
   State.update({
     config: state.data,
-    template: state.templateVal,
+    preview: true,
+    //template: state.templateVal,
   });
   // set the props for the main content
 };
@@ -140,7 +139,8 @@ const handleApply = () => {
 const handleSave = () => {
   // create the thing
   State.update({ isModalOpen: false });
-  const thingId = state.thingId || Math.random();
+  const thingId = state.data.handle;
+  //state.thingId || Math.random();
   let edges = [];
   if (buildEdges) {
     const newPath = `${context.accountId}/thing/${thingId}`;
@@ -148,17 +148,19 @@ const handleSave = () => {
   }
 
   const data = {
-    thing: {
-      [thingId]: JSON.stringify({
-        data: state.config,
-        template: {
-          src: state.template,
-        },
-        type: state.selectedType,
-      }),
+    artist: {
+      thing: {
+        [thingId]: JSON.stringify({
+          data: state.config,
+          template: {
+            src: state.template,
+          },
+          type: state.selectedType,
+        }),
+      },
     },
     index: {
-      thing: JSON.stringify({
+      artist: JSON.stringify({
         key: thingId,
         value: {
           type: state.selectedType,
@@ -185,15 +187,22 @@ const handleSave = () => {
   });
 };
 
-let availableTypes = [];
-const types = Social.get(`${state.typeSrc}/type/**`, "final");
-if (types !== null) {
-  availableTypes =
-    Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
-}
-
 const handleTypeChange = (e) => {
   State.update({ selectedType: e.target.value, templateVal: "", data: {} });
+};
+
+const handleProfileSave = () => {
+  State.update({
+    config: state.data,
+  });
+  //check if handle is present
+  // in future check if handle is unique
+  if (!state.data.handle) {
+    console.log("Needs handle.");
+    //Alert does not work.
+  } else {
+    State.update({ isModalOpen: true });
+  }
 };
 
 return (
@@ -215,7 +224,8 @@ return (
         <Footer>
           <Button onClick={() => handleApply()}>Preview</Button>
           <Button
-            onClick={() => State.update({ isModalOpen: true })}
+            //onClick={() => State.update({ isModalOpen: true })}
+            onClick={() => handleProfileSave()}
             disabled={state.config === undefined}
           >
             Save
@@ -225,24 +235,15 @@ return (
     </SidePanel>
     <MainContent>
       <>
-        {(state.template && (
+        {(state.preview && (
           <Widget src={state.template} props={{ data: state.config }} />
         )) || <CenteredDiv>Click on Preview to see your profile.</CenteredDiv>}
       </>
-      )
     </MainContent>
     {state.isModalOpen && (
       <ModalOverlay>
         <ModalContent>
-          <ModalTitle>create thing</ModalTitle>
-          <p>option to provide a thing id</p>
-          <Row style={{ gap: "8px" }}>
-            <Input
-              value={state.thingId}
-              onChange={(e) => State.update({ thingId: e.target.value })}
-              placeholder="thing id"
-            />
-          </Row>
+          <ModalTitle>Create Profile</ModalTitle>
           <Widget
             src="efiz.near/widget/Every.Raw.View"
             props={{
