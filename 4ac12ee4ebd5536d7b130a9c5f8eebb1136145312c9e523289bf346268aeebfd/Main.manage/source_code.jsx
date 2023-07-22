@@ -43,12 +43,11 @@ if (state.sender === undefined) {
 
 // FETCH SENDER BALANCE
 if (state.balance === undefined && state.sender) {
-  /*Ethers.provider()
+  Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
-    });*/
-  State.update({ balance: 0.11 });
+    });
 }
 
 const css = fetch(
