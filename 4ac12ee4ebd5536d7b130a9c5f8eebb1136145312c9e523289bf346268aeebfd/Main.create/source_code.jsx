@@ -1,5 +1,7 @@
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
+const factoryAddress = "0x0aBeC91137108C54bdfA2B909E0EC529ECd99429";
+
 const Container = styled.div`
 min-height: 100vh;
 background-color: #1c1f2a;
@@ -75,7 +77,10 @@ return (
         src={`${USER}/widget/Common.menu`}
         props={{ balance: state.balance }}
       />
-      <Widget src={`${USER}/widget/Merchant.create`} />
+      <Widget
+        src={`${USER}/widget/Merchant.create`}
+        props={{ factory: factoryAddress }}
+      />
       <Widget src={`${USER}/widget/Common.footer`} />
     </Container>
   </Theme>
