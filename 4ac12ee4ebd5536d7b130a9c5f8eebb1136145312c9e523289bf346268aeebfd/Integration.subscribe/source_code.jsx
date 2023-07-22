@@ -9,14 +9,22 @@ if (!props.collectionAddress)
     />
   );
 const tier = Big(props.tier ?? 0).toString();
-const style = props.style ?? { backgroundColor: "blue", fontWeight: 500 };
+const style = props.style ?? {
+  backgroundColor: "blue",
+  fontWeight: 500,
+  minWidth: "10vw",
+};
+
+State.init({
+  loading: false,
+});
 
 // CHECK FOR WALLET CONNECTION
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-  } else
+  } else {
     return (
       <Widget
         src={
@@ -25,6 +33,7 @@ if (state.sender === undefined) {
         props={{ message: "`signer` undefined." }}
       />
     );
+  }
 }
 
 // CONTRACT INSTANCE
@@ -35,27 +44,33 @@ if (!collectionABI.ok) {
   return "Contract unavailable.";
 }
 const subscriptionsCollectionContract = new ethers.Contract(
-  contractAddress,
+  props.collectionAddress,
   JSON.parse(collectionABI.body)["abi"],
   Ethers.provider().getSigner()
 );
 subscriptionsCollectionContract
   .getTierPrice(tier)
   .then((price) => State.update({ price: price.toString() }));
-//}
 
 const subscribe = () => {
   console.log("To: ", state.sender);
   console.log("Tier: ", tier);
   console.log("Price: ", state.price);
+
   try {
+    State.update({ loading: true });
     subscriptionsCollectionContract
       .mint(state.sender, tier, { value: state.price })
-      //.sendTransaction()
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        State.update({ loading: false });
+        console.log(err);
+      })
       .then((tx) => {
         console.log("Waiting for confirmation: ", tx);
-        tx.wait().then(() => console.log("TX Confirmed"));
+        tx.wait().then(() => {
+          console.log("TX Confirmed");
+          State.update({ loading: false });
+        });
       });
   } catch (err) {
     console.log(err);
@@ -69,7 +84,11 @@ return (
       onClick={subscribe}
       id={props.id ?? "subscribeButton"}
     >
-      Subscribe
+      {state.loading ? (
+        <div class="spinner-border text-light" role="status"></div>
+      ) : (
+        "Subscribe"
+      )}
     </button>
   </>
 );
