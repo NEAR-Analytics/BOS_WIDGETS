@@ -80,7 +80,7 @@ State.init({
 // const daoId = "vibes.sputnik-dao.near"; // add tastemaker logic here
 const isTasteMaker = true;
 // const accountId = context.accountId;
-if (!accountId) {
+if (!accountLoggedIn) {
   return (
     <div>
       <p>Login to NEAR with your 🥂 tastemaker approved wallet</p>
@@ -179,7 +179,7 @@ console.log(
   isUserAllowedTo(accountId, proposalKinds.AddMemberToRole, actions.AddProposal)
 );
 const canPropose = isUserAllowedTo(
-  accountId,
+  context.accountId,
   proposalKinds.FunctionCall,
   actions.AddProposal
 );
@@ -263,10 +263,10 @@ function renderContent() {
   }
 }
 
-if (!accountId) {
+if (!accountLoggedIn) {
   return "Please connect your NEAR wallet :)";
 }
-
+// may need to comment out
 // need to check role if tastemaker
 
 const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
@@ -391,7 +391,7 @@ initState({
 });
 
 // change this
-const sbtMint = () => {
+const sbtDAOMint = () => {
   Near.call([
     {
       contractName: state.daoId,
@@ -489,7 +489,7 @@ return (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
-                        onClick={sbtMint}
+                        onClick={sbtDAOMint}
                       >
                         <i className="bi bi-shield-lock" /> Propose to Mint
                         Proof of Vibe SBT
