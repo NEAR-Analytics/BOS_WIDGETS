@@ -36,11 +36,19 @@ const formatDate = (timestamp) => {
   const year = date.getFullYear();
   return `${month}/${day}, ${year}`;
 };
+const formatDateBlockHeight = (blockHeight) => {
+  const block = Near.block(blockHeight);
+  const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
+  const date = new Date(timeMs);
+  const dateString = date.toDateString();
+};
+
+const formattedPostDate = formatDateBlockHeight(blockHeight);
 
 const formattedDate = formatDate(Date.now());
 
 const nftTitle =
-  props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedDate; // see about adding title and person that vibes them // also date should be when post was posted
+  props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedPostDate; // see about adding title and person that vibes them // also date should be when post was posted
 
 const hasImageInPost = true; // need to check if image in post
 
