@@ -1,18 +1,15 @@
 const ModalCard = styled.div`
-position: fixed;
-width: 100vw;
-height:100vh;
-//width: 100%;
-//height:100%;
+//position: fixed;
+//width: 100vw;
+//height:100vh;
+width: 100%;
+height:100%;
 top: 72px;
 left: 0;
-
 overflow:scroll; 
 padding-bottom:100px;
 z-index: 1;
 background: rgba(0, 0, 0, 0.70);
-
-
  
 @media only screen and (max-width: 820px) {
 
@@ -461,6 +458,7 @@ State.init({
   theme: "",
   Dao_Contract: "",
   Issuer_selected: null,
+  Issuer_filled: "",
   Receiver: "",
   ClassIdSelected: "",
   IssuedAT: "",
@@ -491,6 +489,14 @@ const validatedInputs = () => {
     State.update({ error_msg: "Select an issuer", Submitdisable: true });
 
     return (isValid = false);
+  }
+  // the user will provide a new issuer
+  if (state.Issuer_selected === "showinput") {
+    if (isEmpty(state.Issuer_filled)) {
+      State.update({ error_msg: "provide an issuer", Submitdisable: true });
+
+      return (isValid = false);
+    }
   }
   if (isEmpty(state.Receiver)) {
     State.update({ error_msg: "Write the receiver", Submitdisable: true });
@@ -577,10 +583,30 @@ return (
               <option default value="">
                 Select issuer
               </option>
+
               {}
               <option value="nothing">more options from fetch</option>
+              <option default value="showinput">
+                Other-- write down.
+              </option>
             </Dropdown>
           </Colcont>
+          {state.Issuer_selected === "showinput" ? (
+            <Colcont>
+              <H1styled>Enter issuer</H1styled>
+              <InputStyled
+                type="text"
+                placeholder="Input Issuer"
+                value={state.Issuer_filled}
+                onChange={(e) => {
+                  State.update({ Issuer_filled: e.target.value });
+                  validatedInputs();
+                }}
+              />
+            </Colcont>
+          ) : (
+            <></>
+          )}
           <Colcont>
             <H1styled>Receiver</H1styled>
             <InputStyled
@@ -636,7 +662,8 @@ return (
                         Select token class id
                       </option>
                       {}
-                      <option value="nothing">more options from fetch</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
                     </Dropdown>
                   </div>
                 </Metarow>
@@ -644,7 +671,7 @@ return (
                   {" "}
                   <AFDates name="AFdates">
                     <DateContItem>
-                      <MetaTitles>{"Issued at date"}</MetaTitles>
+                      <MetaTitles>{"Issued at"}</MetaTitles>
                       <CompanyInput
                         type="date"
                         value={state.IssuedAT}
@@ -712,10 +739,13 @@ return (
               placeholder="Write a memo"
               value={state.Memo}
               onChange={(e) => {
-                State.update({ Memo: e.target.value });
+                State.update({ Memo: e.target.value.substring(0, 200) });
                 validatedInputs();
               }}
             />
+            <div class="row justify-enda ">
+              <a>{state.Memo.length}</a>
+            </div>
           </div>
         </div>
       </BodyForm>
