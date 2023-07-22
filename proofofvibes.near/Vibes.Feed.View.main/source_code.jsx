@@ -40,7 +40,7 @@ const formatDateBlockHeight = (blockHeight) => {
   const block = Near.block(blockHeight);
   const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
   const date = new Date(timeMs);
-  const dateString = date.toDateString();
+  return date.toDateString();
 };
 
 const formattedPostDate = formatDateBlockHeight(blockHeight);
