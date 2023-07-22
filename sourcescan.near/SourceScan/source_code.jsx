@@ -133,23 +133,8 @@ return (
     <Stack>
       <Widget
         src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
-        props={{ theme: state.theme }}
+        props={{ theme: state.theme, ownerId: state.config.ownerId }}
       />
-      <HStack>
-        <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
-          props={{
-            theme: state.theme,
-          }}
-        />
-        <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
-          props={{
-            theme: state.theme,
-            switchTheme: switchTheme,
-          }}
-        />
-      </HStack>
       <Center>
         <HStack>
           <Widget
