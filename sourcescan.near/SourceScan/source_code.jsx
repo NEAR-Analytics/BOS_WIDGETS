@@ -66,7 +66,7 @@ const Stack = styled.div`
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 15px;
 `;
 
 const Right = styled.div`
