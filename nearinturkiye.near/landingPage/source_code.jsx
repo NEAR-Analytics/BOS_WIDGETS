@@ -89,16 +89,6 @@ a, a:focus, a:visited, a:hover {
     height: 260px;
 }
 
-.noise {
-    mix-blend-mode: soft-light;
-    position: absolute;
-    z-index: 1;
-    opacity: 0.5;
-  width: 100vw;
-  height: 260px;
-  background: url('https://ipfs.near.social/ipfs/bafybeib7kr66dgccanis5n3q5fhmwg2ff42n2csy6peoge4buylwzkj3qa');
- }
-
  .header-content-left {
      position: absolute;
      z-index: 2;
