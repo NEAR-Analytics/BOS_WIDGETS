@@ -1,15 +1,5 @@
 const limits = [1, 10, 20, 50];
 
-State.init({
-  theme: "light",
-  from_index: 0,
-  limit: limits[0],
-  contracts: null,
-  pages: 1,
-  selectedPage: 1,
-  search: "",
-});
-
 const getConfig = (network) => {
   switch (network) {
     case "mainnet":
@@ -28,7 +18,17 @@ const getConfig = (network) => {
       throw Error(`Unconfigured environment '${network}'.`);
   }
 };
-const config = getConfig(context.networkId);
+
+State.init({
+  theme: "light",
+  from_index: 0,
+  limit: limits[0],
+  contracts: null,
+  pages: 1,
+  selectedPage: 1,
+  search: "",
+  config: getConfig(context.networkId),
+});
 
 const dark = {
   bg: "#28282b",
@@ -90,7 +90,7 @@ const handleSubmit = (value) => {
 };
 
 const searchContracts = async () => {
-  Near.asyncView(config.contractId, "search", {
+  Near.asyncView(state.config.contractId, "search", {
     key: state.search,
     from_index: state.from_index,
     limit: state.limit,
@@ -166,8 +166,8 @@ return (
             props={{
               theme: state.theme,
               contracts: state.contracts,
-              rpcUrl: config.rpcUrl,
-              apiHost: config.apiHost,
+              rpcUrl: state.config.rpcUrl,
+              apiHost: state.config.apiHost,
             }}
           />
           <Center>
