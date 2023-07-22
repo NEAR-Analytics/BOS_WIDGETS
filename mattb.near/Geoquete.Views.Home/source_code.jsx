@@ -1,13 +1,13 @@
 State.init({
     currentView: "home",
     isConnected: false,
+    connection: () => null,
     account: ""
 });
 
 let views = {
   home: (
     <>
-      {console.log(state.account)}
       <Widget src="mattb.near/widget/Geoquete.Components.CreateQuest" />
     </>
   ),
@@ -23,14 +23,28 @@ let views = {
   ),
 };
 
+
+// Init
+if (state.account == "") {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ account: accounts[0] });
+  }
+}
+
+const Main = styled.div`
+  padding:4rem 0;
+`;
+
 return (
   <>
     <Widget src="mattb.near/widget/Geoquete.Components.Header" 
-        props={{
-            onRefresh: (tab) => State.update({ currentView: tab }),
-            onConnect: (connection) => State.update({connection: connection})
-        }}
+      props={{
+        onRefresh: (tab) => State.update({ currentView: tab })
+      }}
     />
-    {state.currentView in views ? views[state.currentView] : "404"}
+    <Main>
+      {state.currentView in views ? views[state.currentView] : "404"}
+    </Main>
   </>
 );
