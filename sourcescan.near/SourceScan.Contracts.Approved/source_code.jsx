@@ -1,4 +1,5 @@
 State.init({
+  placement: props.placement || "top",
   value: null,
 });
 
@@ -87,9 +88,25 @@ return (
     {state.value === null ? (
       "Loading..."
     ) : state.value ? (
-      <CheckIcon width={"32px"} height={"32px"} />
+      <OverlayTrigger
+        key={state.placement}
+        placement={state.placement}
+        overlay={
+          <Tooltip id={`tooltip-${placement}`}>{"Wasm code matches"}</Tooltip>
+        }
+      >
+        <CheckIcon width={"32px"} height={"32px"} />
+      </OverlayTrigger>
     ) : (
-      <CrossIcon width={"32px"} height={"32px"} />
+      <OverlayTrigger
+        key={state.placement}
+        placement={state.placement}
+        overlay={
+          <Tooltip id={`tooltip-${placement}`}>{"Wasm code mismatch"}</Tooltip>
+        }
+      >
+        <CrossIcon width={"32px"} height={"32px"} />
+      </OverlayTrigger>
     )}
   </>
 );
