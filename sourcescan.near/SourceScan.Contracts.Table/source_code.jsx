@@ -81,7 +81,7 @@ const LinkIcon = (width, height) => {
   );
 };
 
-const Link = styled.a`
+const A = styled.a`
   text-decoration: none; 
   color: ${useTheme(light.color, dark.color)};
 `;
@@ -108,12 +108,12 @@ return (
                 <td>{contractId}</td>
                 <td>{lang}</td>
                 <td>
-                  <Link href={`${props.apiHost}/ipfs/${cid}`}>
+                  <A href={`${props.apiHost}/ipfs/${cid}`}>
                     <HStack>
                       <Truncated>{cid}</Truncated>
                       <LinkIcon width={"64px"} height={"64px"} />
                     </HStack>
-                  </Link>
+                  </A>
                 </td>
                 <td>
                   <Widget
