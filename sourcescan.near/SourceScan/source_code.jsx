@@ -23,8 +23,6 @@ const getConfig = (network) => {
   }
 };
 
-console.log(Storage.get(`${state.config.ownerId}/widget/SourceScan`, "theme"));
-
 State.init({
   theme: Storage.privateGet("theme") || "light",
   from_index: 0,
@@ -116,6 +114,12 @@ const searchContracts = async () => {
 };
 
 if (!state.contracts) searchContracts();
+
+const localStorageTheme = Storage.privateGet("theme");
+if (localStorageTheme)
+  State.update({
+    theme: localStorageTheme,
+  });
 
 const handleOptionsChange = (e) => {
   State.update({
