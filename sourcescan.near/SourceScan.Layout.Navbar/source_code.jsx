@@ -9,7 +9,7 @@ const pages = [
 State.init({
   theme: props.theme || "light",
   ownerId:
-    props.ownerId || context.network === "mainnet"
+    props.ownerId || context.networkId === "mainnet"
       ? "sourcescan.near"
       : "sourcescan.testnet",
 });
@@ -77,7 +77,7 @@ return (
   <>
     <NetworkSwitcherContainer>
       <Widget
-        src={`${props.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
+        src={`${state.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
         props={{
           theme: state.theme,
         }}
@@ -90,7 +90,7 @@ return (
     </HStack>
     <ThemeChangerContainer>
       <Widget
-        src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
+        src={`${state.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
         props={{
           theme: state.theme,
           switchTheme: props.switchTheme,
