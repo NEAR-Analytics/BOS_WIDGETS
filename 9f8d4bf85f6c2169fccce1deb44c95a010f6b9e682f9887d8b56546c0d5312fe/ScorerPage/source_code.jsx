@@ -69,7 +69,7 @@ const ScoreInfo = styled.div`
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      width: 70%;
+      width: 900px;
       
       background-color: #2C2C2C;
       border: 3px white solid;
@@ -98,7 +98,7 @@ const ScoreInfo = styled.div`
   
   
       .scoreContainer div {
-          width: 25%;
+          width: 100px;
           // padding: 0 2.5%;
           color: white;
       }
