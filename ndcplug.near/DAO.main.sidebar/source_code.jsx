@@ -373,6 +373,12 @@ return (
           Propose To Make A Post
         </a>
       )}
+      {isLoggedIn && (
+        <Widget
+          src={`ndcplug.near/widget/DAO.main.sidebar.donate`}
+          props={{ reciever: accountId }}
+        />
+      )}
     </Section>
 
     <Section>
