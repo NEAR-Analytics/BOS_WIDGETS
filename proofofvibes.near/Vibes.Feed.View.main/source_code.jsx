@@ -49,7 +49,7 @@ const formattedPostDate = formatDateBlockHeight(blockHeight); // this is showing
 
 const formattedDate = formatDate(Date.now());
 
-const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
+// const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
 const titleWithDate = "Proof of Vibes " + accountId;
 const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
 
