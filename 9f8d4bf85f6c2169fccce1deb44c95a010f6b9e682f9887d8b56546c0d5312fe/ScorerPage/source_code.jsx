@@ -1,3 +1,5 @@
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+
 State.init({
   wallet: {
     nfts: -1,
@@ -17,30 +19,11 @@ State.init({
   },
 });
 
-const data = fetch(
-  "https://tonft.app/get-scores?recipient=0x3C739adDe59fA08E21d8A75884B8E0FB1745705F"
-);
+const data = fetch(`https://tonft.app/get-scores?recipient=${sender}`);
 
 const dataParsed = JSON.parse(data.body);
 
 console.log(dataParsed);
-
-// function asyncTestFetch() {
-//   asyncFetch(
-//     "https://tonft.app/get-scores?recipient=0x3C739adDe59fA08E21d8A75884B8E0FB1745705F"
-//   ).then((res) => {
-//     const data = JSON.parse(res.body);
-//     console.log(data)
-
-//     State.update({
-//       scores: {
-//         nomisEth: data.scores.nomisEth
-//       }
-//     })
-//   });
-// }
-
-// asyncTestFetch();
 
 const Wrapper = styled.div`
   
@@ -94,7 +77,7 @@ const ScoreInfo = styled.div`
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      width: 900px;
+      width: 60%;
       
       background-color: #2C2C2C;
       border: 3px white solid;
@@ -133,7 +116,7 @@ const ScoreInfo = styled.div`
 
 const Scores = styled.div`
       display: flex;
-      justify-content: center;
+      // justify-content: center;
       width: 100%;
       flex-wrap: wrap;
       
@@ -143,7 +126,7 @@ const Scores = styled.div`
   
       .title {
           color: white;
-          width: 20%
+          width: 50px;
       }
   `;
 
@@ -157,95 +140,99 @@ const ScoresContainer = styled.div`
       }
   `;
 
-return (
-  <Wrapper>
-    <div className="Logo">
-      <img src="https://ipfs.near.social/ipfs/bafkreidydvsw5i7fy4emzbtmmaw3zuyjktu7nnuyimftju7tlmt6hcj6um" />
-    </div>
-    <h1>Scores Passport: your web2 and web3 activity</h1>
-    <Scores>
-      <ScoresContainer>
-        <div className="title">scores</div>
-        <ScoreInfo className="box">
-          <h2 className="spScores">
-            SP Scores{" "}
-            <span>{dataParsed.scores.spot_score.toFixed(2)} / 777</span>
-          </h2>
-          <hr />
-          <div className="scoreContainer">
-            <div>
-              Gitcoin <span>{dataParsed.scores.gitcoin_score.toFixed(2)}</span>
-            </div>
-            <div>
-              Degen <span>{dataParsed.scores.degen_score.toFixed(2)}</span>
-            </div>
-            <div>
-              Social Score{" "}
-              <span>{dataParsed.scores.social_score.toFixed(2)}</span>
-            </div>
-            <div>
-              Nomis Ethereum{" "}
-              <span>{dataParsed.scores.nomis_score_eth.toFixed(2)}</span>
-            </div>
-          </div>
-        </ScoreInfo>
-        <button>Mint Score</button>
-      </ScoresContainer>
-      <ScoresContainer>
-        <div className="title">wallets</div>
-        <ScoreInfo className="box">
-          <div className="scoreContainer">
-            <div>
-              POAPs{" "}
-              <span>{dataParsed.data.profile_data.Wallet.poaps.length}</span>
-            </div>
-          </div>
-        </ScoreInfo>
-      </ScoresContainer>
-      <ScoresContainer>
-        <div className="title">socials</div>
-        <ScoreInfo className="box">
-          <div className="imageContainer">
-            <div className="socialLogo">
-              <img src="https://ipfs.near.social/ipfs/bafkreihhumscbreynqex4hhmeu6rmwb3dsgs64erwpomsotrmepk5hgvw4" />
-            </div>
-            <div className="scoreContainer">
-              <div>
-                Followers <span>{state.wallet.nfts}</span>
-              </div>
-              <div>
-                Following <span>{state.wallet.tokens}</span>
-              </div>
-              <div>
-                Comments <span>{state.wallet.walletAge}</span>
-              </div>
-              <div>
-                Posts <span>{state.wallet.guilds}</span>
-              </div>
-            </div>
+if (sender) {
+  return (
+    <Wrapper>
+      <div className="Logo">
+        <img src="https://ipfs.near.social/ipfs/bafkreidydvsw5i7fy4emzbtmmaw3zuyjktu7nnuyimftju7tlmt6hcj6um" />
+      </div>
+      <h1>Scores Passport: your web2 and web3 activity</h1>
+      <Scores>
+        <ScoresContainer>
+          <div className="title">scores</div>
+          <ScoreInfo className="box">
+            <h2 className="spScores">
+              SP Scores{" "}
+              <span>{dataParsed.scores.spot_score.toFixed(2)} / 777</span>
+            </h2>
             <hr />
-            <div className="socialLogo">
-              <img src="https://ipfs.near.social/ipfs/bafkreifplxkftq5lq7mljdj6rrolqiffpqg7cxdggjocmwpvz3gm5jq22y" />
-            </div>
             <div className="scoreContainer">
               <div>
-                Followers{" "}
-                <span>{dataParsed.data.lens_data.totalFollowers}</span>
+                Gitcoin{" "}
+                <span>{dataParsed.scores.gitcoin_score.toFixed(2)}</span>
               </div>
               <div>
-                Following{" "}
-                <span>{dataParsed.data.lens_data.totalFollowing}</span>
+                Degen <span>{dataParsed.scores.degen_score.toFixed(2)}</span>
               </div>
               <div>
-                Comments <span>{dataParsed.data.lens_data.totalComments}</span>
+                Social Score{" "}
+                <span>{dataParsed.scores.social_score.toFixed(2)}</span>
               </div>
               <div>
-                Posts <span>{dataParsed.data.lens_data.totalPosts}</span>
+                Nomis Ethereum{" "}
+                <span>{dataParsed.scores.nomis_score_eth.toFixed(2)}</span>
               </div>
             </div>
-          </div>
-        </ScoreInfo>
-      </ScoresContainer>
-    </Scores>
-  </Wrapper>
-);
+          </ScoreInfo>
+          <button>Mint Score</button>
+        </ScoresContainer>
+        <ScoresContainer>
+          <div className="title">wallets</div>
+          <ScoreInfo className="box">
+            <div className="scoreContainer">
+              <div>
+                POAPs{" "}
+                <span>{dataParsed.data.profile_data.Wallet.poaps.length}</span>
+              </div>
+            </div>
+          </ScoreInfo>
+        </ScoresContainer>
+        <ScoresContainer>
+          <div className="title">socials</div>
+          <ScoreInfo className="box">
+            <div className="imageContainer">
+              <div className="socialLogo">
+                <img src="https://ipfs.near.social/ipfs/bafkreihhumscbreynqex4hhmeu6rmwb3dsgs64erwpomsotrmepk5hgvw4" />
+              </div>
+              <div className="scoreContainer">
+                <div>
+                  Followers <span>{state.wallet.nfts}</span>
+                </div>
+                <div>
+                  Following <span>{state.wallet.tokens}</span>
+                </div>
+                <div>
+                  Comments <span>{state.wallet.walletAge}</span>
+                </div>
+                <div>
+                  Posts <span>{state.wallet.guilds}</span>
+                </div>
+              </div>
+              <hr />
+              <div className="socialLogo">
+                <img src="https://ipfs.near.social/ipfs/bafkreifplxkftq5lq7mljdj6rrolqiffpqg7cxdggjocmwpvz3gm5jq22y" />
+              </div>
+              <div className="scoreContainer">
+                <div>
+                  Followers{" "}
+                  <span>{dataParsed.data.lens_data.totalFollowers}</span>
+                </div>
+                <div>
+                  Following{" "}
+                  <span>{dataParsed.data.lens_data.totalFollowing}</span>
+                </div>
+                <div>
+                  Comments{" "}
+                  <span>{dataParsed.data.lens_data.totalComments}</span>
+                </div>
+                <div>
+                  Posts <span>{dataParsed.data.lens_data.totalPosts}</span>
+                </div>
+              </div>
+            </div>
+          </ScoreInfo>
+        </ScoresContainer>
+      </Scores>
+    </Wrapper>
+  );
+}
