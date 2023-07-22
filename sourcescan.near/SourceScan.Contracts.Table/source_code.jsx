@@ -1,6 +1,11 @@
+const useNetwork = (mainnet, testnet) => {
+  return context.networkId === "mainnet" ? mainnet : testnet;
+};
+
 State.init({
   contracts: props.contracts,
   theme: props.theme || "light",
+  ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
 });
 
 if (props.contracts)
@@ -136,7 +141,7 @@ return (
                     <td>
                       <Center>
                         <Widget
-                          src="sourcescan.near/widget/SourceScan.Contracts.Approved"
+                          src={`${state.ownerId}/widget/SourceScan.Contracts.Approved`}
                           props={{
                             rpcUrl: props.rpcUrl,
                             apiHost: props.apiHost,
