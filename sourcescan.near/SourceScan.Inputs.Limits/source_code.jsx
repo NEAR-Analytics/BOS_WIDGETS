@@ -35,6 +35,7 @@ return (
   <Select onChange={(e) => props.handleOptionsChange(e)}>
     {state.limits.map((limit) => (
       <option value={limit} selected={state.selectedtLimit === limit}>
+        {console.log(state.selectedtLimit === limit)}
         {limit}
       </option>
     ))}
