@@ -41,6 +41,20 @@ const formattedDate = formatDate(Date.now());
 const nftTitle =
   props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedDate; // see about adding title and person that vibes them // also date should be when post was posted
 
+const hasImageInPost = true; // need to check if image in post
+
+const content = props.content ?? JSON.parse(Social.get(path, blockHeight));
+const image = content.image;
+const type = content.type;
+console.log("Content type: " + type);
+const metadata = content.metadata;
+console.log("Content Metadata: " + metadata);
+
+const item = {
+  type: "social",
+  path: path,
+  blockHeight,
+};
 State.init({
   receiver: receiver,
   issuer: issuer,
@@ -53,32 +67,8 @@ State.init({
   title: nftTitle,
   imageCid: "bafkreiak7jzkpmrv365dskqk4thmlki3ts7kzq44hqr62dmrimbn47676e",
   cid: "bafkreifsrsklegk4r3jft4fucwvo4pzzwczjecsfg5qrjgp2arevnel2ee",
+  image,
 });
-const post_args = JSON.stringify({
-  receiver: state.receiver,
-  metadata: {
-    class: state.classId,
-  },
-  reference: state.reference,
-});
-const hasImageInPost = true; // need to check if image in post
-
-const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
-//   const gas = 200000000000000;
-//   const deposit = 80000000000000000000000; // 0.008 //
-const policy = Near.view(daoId, "get_policy");
-
-const content = props.content ?? JSON.parse(Social.get(path, blockHeight));
-const type = content.type;
-console.log("Content type: " + type);
-const metadata = content.metadata;
-console.log("Content Metadata: " + metadata);
-
-const item = {
-  type: "social",
-  path: path,
-  blockHeight,
-};
 
 // const daoId = "vibes.sputnik-dao.near"; // add tastemaker logic here
 const isTasteMaker = true;
@@ -91,6 +81,17 @@ if (!accountId) {
   );
 }
 
+const post_args = JSON.stringify({
+  receiver: state.receiver,
+  metadata: {
+    class: state.classId,
+  },
+  reference: state.reference,
+});
+const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
+//   const gas = 200000000000000;
+//   const deposit = 80000000000000000000000; // 0.008 //
+const policy = Near.view(daoId, "get_policy");
 // const accountId = props.accountId ?? context.accountId;
 
 const proposalKinds = {
@@ -326,8 +327,8 @@ const nftMint = () => {
       name: state.title,
       description: state.description,
       properties: [],
-      //   image: `ipfs://${state.image.cid}`,
-      image: `ipfs://${state.imageCid}`,
+      image: `ipfs://${state.image.cid}`,
+      //   image: `ipfs://${state.imageCid}`,
     };
     console.log("come", metadata);
     asyncFetch("https://ipfs.near.social/add", {
@@ -352,8 +353,8 @@ const nftMint = () => {
               description: state.description,
               media: `https://ipfs.io/ipfs/${state.imageCid}`,
               //   media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              //   reference: `ipfs://${cid}`,
-              reference: `ipfs://${state.cid}`,
+              reference: `ipfs://${cid}`,
+              //   reference: `ipfs://${state.cid}`,
             },
             receiver_id: accountId,
           },
