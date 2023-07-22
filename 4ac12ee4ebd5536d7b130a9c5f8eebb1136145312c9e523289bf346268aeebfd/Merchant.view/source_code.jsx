@@ -4,6 +4,7 @@ const factoryAddress = "0x1A1F1D20C404D9C2399a56166256d25fe3e2A93D";
 
 const Container = styled.div`
     background-color: #1c1f2a;
+    padding: 2rem 2rem
 `;
 
 State.init({
