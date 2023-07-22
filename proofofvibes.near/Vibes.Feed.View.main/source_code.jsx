@@ -45,12 +45,12 @@ const formatDateBlockHeight = (blockHeight) => {
   return date.toDateString();
 };
 
-const formattedPostDate = formatDateBlockHeight(blockHeight);
+const formattedPostDate = formatDateBlockHeight(blockHeight); // this is showing as error
 
 const formattedDate = formattedPostDate ?? formatDate(Date.now());
 
-const nftTitle =
-  props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedDate; // see about adding title and person that vibes them // also date should be when post was posted
+const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
+const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
 
 const hasImageInPost = content.image != null; // need to check if image in post
 // need to get image url
