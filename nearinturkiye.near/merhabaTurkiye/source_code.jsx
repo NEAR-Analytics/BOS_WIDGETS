@@ -25,9 +25,7 @@ return (
     </button>
     <br></br>
     <br></br>
-    <button OnClick=" location.href='https://www.google.com' ">
-      NEAR Türkiye Telegram
-    </button>
+    <button href="https://www.google.com">NEAR Türkiye Telegram</button>
     <br></br>
     <br></br>
     <button OnClick=" location.href='https://www.google.com' ">
