@@ -47,7 +47,7 @@ const formatDateBlockHeight = (blockHeight) => {
 
 const formattedPostDate = formatDateBlockHeight(blockHeight); // this is showing as error
 
-const formattedDate = formattedPostDate ?? formatDate(Date.now());
+const formattedDate = formatDate(Date.now());
 
 const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
 const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
@@ -347,6 +347,18 @@ const nftMint = () => {
       showAlert: true,
       toastMessage: "Please log in before continuing",
     });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else if (!state.title) {
+    console.log("Please Enter title");
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a title for the NFT",
+    });
+
     setTimeout(() => {
       State.update({
         showAlert: false,
