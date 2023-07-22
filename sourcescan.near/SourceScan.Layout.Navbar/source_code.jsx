@@ -48,6 +48,7 @@ const HStack = styled.div`
 
 const NavButton = styled.button`
   font-weight: bold;
+  font-size: 18px;
   border-radius: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
