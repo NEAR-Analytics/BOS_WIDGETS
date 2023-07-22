@@ -77,8 +77,9 @@ const ScoreInfo = styled.div`
 
     hr {
       width: 100%;
+      border: 2px solid white;
+      background-color: white;
       color: white;
-      height: 5px;
     }
 
     .scoreContainer {
@@ -122,6 +123,11 @@ const Scores = styled.div`
 const ScoresContainer = styled.div`
     display: flex;
     align-items: center;
+
+    button {
+      background-color: #BDFF00!important;
+      color: black!important;
+    }
 `;
 
 return (
@@ -156,6 +162,7 @@ return (
             </div>
           </div>
         </ScoreInfo>
+        <button>Mint Score</button>
       </ScoresContainer>
       <ScoresContainer>
         <div className="title">wallets</div>
