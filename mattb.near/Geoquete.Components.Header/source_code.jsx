@@ -16,7 +16,6 @@ const HeaderBox = styled.div`
         font-size:.8rem;
         font-weight:bold;
         color:#fff;
-        box-shadow: 0 0 0 4px rgba(0,0,0,.1);
         height:40px;
     }
 `;
