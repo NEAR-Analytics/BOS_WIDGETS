@@ -74,6 +74,7 @@ State.init({
   imageCid: "bafkreiak7jzkpmrv365dskqk4thmlki3ts7kzq44hqr62dmrimbn47676e",
   cid: "bafkreifsrsklegk4r3jft4fucwvo4pzzwczjecsfg5qrjgp2arevnel2ee",
   image,
+  content,
 });
 
 // const daoId = "vibes.sputnik-dao.near"; // add tastemaker logic here
@@ -235,7 +236,9 @@ const Actions = styled.div`
 `;
 
 function renderContent() {
-  console.log("Content Image " + content.image);
+  console.log(
+    "Content Image: Type: " + typeof content.image + " Image " + content.image
+  );
 
   if (type === "md" || type === "social") {
     return (
@@ -364,7 +367,7 @@ const nftMint = () => {
               description: state.description,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              media: `${state.image}`,
+              media: `${state.content.image}`,
 
               //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
