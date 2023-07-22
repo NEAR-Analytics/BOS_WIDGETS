@@ -149,24 +149,11 @@ const Button = styled.div`
 `;
 
 State.init({
-  locations: [
-    "Possible location 1",
-    "Possible location 2",
-    "Possible location 3",
-    "Possible location 4",
-    "Possible location 5",
-  ],
   location: "",
   city: "",
 });
 
 const cities = ["Paris"];
-
-const clean = (index) => {
-  let locations = state.locations;
-  locations[index] = "";
-  State.update({ locations });
-};
 
 const match = () => {
   const inputText = state.city.toLowerCase();
@@ -177,6 +164,7 @@ const match = () => {
 };
 
 const handleCityClick = (city) => {
+  State.update({ location: "Eiffel Tower, Paris France" });
   State.update({ city });
 };
 
@@ -236,6 +224,16 @@ return (
           );
         })}
       </ul>
+    </div>
+
+    <div className="form-group">
+      <input
+        id="location"
+        type="text"
+        value={state.location}
+        placeholder="Location"
+      />
+      <label for="location">Location</label>
     </div>
 
     <Button>Create Quest</Button>
