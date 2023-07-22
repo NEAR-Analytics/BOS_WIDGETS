@@ -17,20 +17,24 @@ if (!props.factory) {
     />
   );
 }
-const factoryAddress = props.factory;
 
-if (!props.factoryAbi) {
+const factoryABI = fetch(
+  "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsFactory.sol/SubscriptionsFactory.json"
+);
+
+if (!factoryABI.ok) {
   return (
     <Widget
       src={`${USER}/widget/Common.error`}
-      props={{ message: "Collection ABI missing." }}
+      props={{ message: "Factory ABI unavailable." }}
     />
   );
 }
+const factoryAddress = props.factory;
 
 const subscriptionsFactoryContract = new ethers.Contract(
   factoryAddress,
-  props.factoryAbi,
+  JSON.parse(factoryABI.body)["abi"],
   Ethers.provider().getSigner()
 );
 
