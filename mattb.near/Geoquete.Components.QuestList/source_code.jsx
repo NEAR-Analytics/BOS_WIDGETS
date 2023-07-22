@@ -56,13 +56,19 @@ if (state.sdk && state.quests.length == 0) {
 
 return (
   <Main>
-    <Widget
-      src="mattb.near/widget/Geoquete.Libs.GeoqueteSDK"
-      props={{
-        onLoad: (sdk) => State.update({ sdk: sdk }),
-        loaded: !!state.sdk,
+    <div
+      style={{
+        display: "none",
       }}
-    />
+    >
+      <Widget
+        src="mattb.near/widget/Geoquete.Libs.GeoqueteSDK"
+        props={{
+          onLoad: (sdk) => State.update({ sdk: sdk }),
+          loaded: !!state.sdk,
+        }}
+      />
+    </div>
 
     {state.quests.map((quest) => (
       <Widget
