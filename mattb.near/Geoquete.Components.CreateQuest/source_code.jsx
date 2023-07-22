@@ -1,8 +1,5 @@
 const CreateQuest = styled.div`
-        position: absolute;
-        top: 10%;
-        left: 50%;
-        transform: translate(-50%, -10%);
+        margin: 0 auto;
         width:100%;
         max-width: 400px;
         border: 1px solid rgba(0,0,0, .15);
