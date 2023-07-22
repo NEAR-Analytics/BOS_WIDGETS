@@ -1,7 +1,9 @@
 if (!props.collectionAddress || !props.abi) {
   return (
     <tr>
-      <td colspan="6">Data unavailable</td>
+      <td colspan="6" class="text-white">
+        Data unavailable
+      </td>
     </tr>
   );
 }
@@ -22,6 +24,7 @@ State.init({
   max_supply: 0,
   price: 0,
   total_earnings: 0,
+  uri: "",
 });
 
 const getTotalEarnings = () => {
@@ -95,6 +98,31 @@ const getCollectionName = () => {
     });
 };
 
+const getCollectionImage = () => {
+  try {
+    const encodedData = iface.encodeFunctionData("uri", [0]);
+
+    return Ethers.provider()
+      .call({
+        to: contract,
+        data: encodedData,
+      })
+      .then((url) => {
+        console.log(url);
+        const uri = iface.decodeFunctionResult("uri", url);
+        console.log("URI: ", uri);
+        const metas = fetch(uri);
+        if (metas.ok) {
+          const jsonmeta = JSON.parse(metas.body);
+          console.log(jsonmeta);
+          State.update({ uri: jsonmeta["image"] });
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const getPrice = () => {
   const encodedData = iface.encodeFunctionData("getTierPrice", [0]);
 
@@ -117,13 +145,15 @@ if (Ethers.provider()) {
   getMaxSupply();
   getCollectionName();
   getPrice();
+  getCollectionImage();
 } else return <Web3Connect connectLabel="Connect with Web3" />;
 
 return (
   <tr>
     <th scope="row" class="text-white">
-      {state.name}
+      <img src={state.uri} class="img-fluid" />
     </th>
+    <th class="text-white">{state.name}</th>
     <td class="text-white">{state.circulating_supply}</td>
     <td class="text-white">{state.max_supply}</td>
     <td class="text-white">{state.price}</td>
