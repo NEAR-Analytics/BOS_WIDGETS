@@ -368,6 +368,7 @@ const config = getConfig(context.networkId);
 // App states
 State.init({
   imports: {},
+  theme: null,
   chainId: undefined,
   showWithdrawModal: false,
   showSupplyModal: false,
@@ -735,185 +736,197 @@ const TabItem = styled.div`
     }
   `}
 `;
-// Component body
-const body = loading ? (
-  <>
-    <Widget src={`${config.ownerId}/widget/AAVE.Header`} props={{ config }} />
-    <Body>
-      {state.walletConnected
-        ? state.chainId === DEFAULT_CHAIN_ID
-          ? "Loading..."
-          : `Please switch network to ${
-              getNetworkConfig(DEFAULT_CHAIN_ID).chainName
-            }`
-        : "Need to connect wallet first."}
-    </Body>
-  </>
-) : (
-  <>
-    <Widget src={`${config.ownerId}/widget/AAVE.Header`} props={{ config }} />
-    <Body>
-      <FlexContainer>
-        <Widget
-          src={`${config.ownerId}/widget/AAVE.NetworkSwitcher`}
-          props={{
-            chainId: state.chainId,
-            config,
-            switchNetwork: (chainId) => {
-              switchEthereumChain(chainId);
-            },
-            disabled: true,
-          }}
-        />
-        <Widget
-          src={`${config.ownerId}/widget/AAVE.HeroData`}
-          props={{
-            config,
-            netWorth: `$ ${
-              state.assetsToBorrow?.netWorthUSD
-                ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
-                : "-"
-            }`,
-            netApy: `${
-              state.assetsToBorrow?.netAPY
-                ? Number(
-                    Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                  ) === 0
-                  ? "0.00"
-                  : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                : "-"
-            }%`,
-            healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
-            showHealthFactor:
-              state.yourBorrows &&
-              state.yourBorrows.debts &&
-              state.yourBorrows.debts.length > 0,
-          }}
-        />
-      </FlexContainer>
-      <TabContainer>
-        <TabItem
-          selected={state.selectTab === "supply"}
-          onClick={() => State.update({ selectTab: "supply" })}
-        >
-          Supply
-        </TabItem>
-        <TabItem
-          selected={state.selectTab === "borrow"}
-          onClick={() => State.update({ selectTab: "borrow" })}
-        >
-          Borrow
-        </TabItem>
-        <TabItem
-          selected={state.selectTab === "credit"}
-          onClick={() => State.update({ selectTab: "credit" })}
-        >
-          Credit
-        </TabItem>
-      </TabContainer>
-      {state.selectTab === "supply" && (
-        <>
-          <Widget
-            src={`${config.ownerId}/widget/AAVE.Card.YourSupplies`}
-            props={{
-              config,
-              chainId: state.chainId,
-              yourSupplies: state.yourSupplies,
-              showWithdrawModal: state.showWithdrawModal,
-              setShowWithdrawModal: (isShow) =>
-                State.update({ showWithdrawModal: isShow }),
-              onActionSuccess,
-              healthFactor: formatHealthFactor(
-                state.assetsToBorrow.healthFactor
-              ),
-              formatHealthFactor,
-              withdrawETHGas,
-              withdrawERC20Gas,
-            }}
-          />
-          <Widget
-            src={`${config.ownerId}/widget/AAVE.Card.AssetsToSupply`}
-            props={{
-              config,
-              chainId: state.chainId,
-              assetsToSupply: state.assetsToSupply,
-              showSupplyModal: state.showSupplyModal,
-              setShowSupplyModal: (isShow) =>
-                State.update({ showSupplyModal: isShow }),
-              onActionSuccess,
-              healthFactor: formatHealthFactor(
-                state.assetsToBorrow.healthFactor
-              ),
-              formatHealthFactor,
-              depositETHGas,
-              depositERC20Gas,
-            }}
-          />
-        </>
-      )}
-      {state.selectTab === "borrow" && (
-        <>
-          <Widget
-            src={`${config.ownerId}/widget/AAVE.Card.YourBorrows`}
-            props={{
-              config,
-              chainId: state.chainId,
-              yourBorrows: state.yourBorrows,
-              showRepayModal: state.showRepayModal,
-              setShowRepayModal: (isShow) =>
-                State.update({ showRepayModal: isShow }),
-              showBorrowModal: state.showBorrowModal,
-              setShowBorrowModal: (isShow) =>
-                State.update({ showBorrowModal: isShow }),
-              formatHealthFactor,
-              onActionSuccess,
-              repayETHGas,
-              repayERC20Gas,
-              borrowETHGas,
-              borrowERC20Gas,
-            }}
-          />
-          <Widget
-            src={`${config.ownerId}/widget/AAVE.Card.AssetsToBorrow`}
-            props={{
-              config,
-              chainId: state.chainId,
-              assetsToBorrow: state.assetsToBorrow,
-              showBorrowModal: state.showBorrowModal,
-              yourSupplies: state.yourSupplies,
-              setShowBorrowModal: (isShow) =>
-                State.update({ showBorrowModal: isShow }),
-              formatHealthFactor,
-              onActionSuccess,
-              borrowETHGas,
-              borrowERC20Gas,
-            }}
-          />
-        </>
-      )}
-      {state.alertModalText && (
-        <Widget
-          src={`${config.ownerId}/widget/AAVE.Modal.AlertModal`}
-          props={{
-            config,
-            title: "All done!",
-            description: state.alertModalText,
-            onRequestClose: () => State.update({ alertModalText: false }),
-          }}
-        />
-      )}
-    </Body>
-  </>
-);
+const daisyUiTheme = props.daisyUiTheme || "light";
 
+const tailwindCssUrl =
+  "https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css";
+
+const daisyUiCssUrl =
+  "https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css";
+// Component body
+const tailwindCss = fetch(tailwindCssUrl).body;
+
+const daisyUiCss = fetch(daisyUiCssUrl).body;
+if (!tailwindCss || !daisyUiCss) return "Can't load CSS 😔.";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+    ${daisyUiCss}
+    ${tailwindCss}
+`,
+  });
+}
+const Theme = state.theme;
+const { link } = props;
 return (
-  <div>
+  <Theme>
     {/* Component Head */}
     <Widget
       src={`${config.ownerId}/widget/Utils.Import`}
       props={{ modules, onLoad: importFunctions }}
     />
     {/* Component Body */}
-    {body}
-  </div>
+    <>
+      <Widget src={`${config.ownerId}/widget/AAVE.Header`} props={{ config }} />
+      <Body>
+        <FlexContainer>
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.NetworkSwitcher`}
+            props={{
+              chainId: state.chainId,
+              config,
+              switchNetwork: (chainId) => {
+                switchEthereumChain(chainId);
+              },
+              disabled: true,
+            }}
+          />
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.HeroData`}
+            props={{
+              config,
+              netWorth: `$ ${
+                state.assetsToBorrow?.netWorthUSD
+                  ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
+                  : "-"
+              }`,
+              netApy: `${
+                state.assetsToBorrow?.netAPY
+                  ? Number(
+                      Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+                    ) === 0
+                    ? "0.00"
+                    : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+                  : "-"
+              }%`,
+              healthFactor: formatHealthFactor(
+                state.assetsToBorrow.healthFactor
+              ),
+              showHealthFactor:
+                state.yourBorrows &&
+                state.yourBorrows.debts &&
+                state.yourBorrows.debts.length > 0,
+            }}
+          />
+        </FlexContainer>
+        <TabContainer>
+          <TabItem
+            selected={state.selectTab === "supply"}
+            onClick={() => State.update({ selectTab: "supply" })}
+          >
+            Supply
+          </TabItem>
+          <TabItem
+            selected={state.selectTab === "borrow"}
+            onClick={() => State.update({ selectTab: "borrow" })}
+          >
+            Borrow
+          </TabItem>
+          <TabItem
+            selected={state.selectTab === "credit"}
+            onClick={() => State.update({ selectTab: "credit" })}
+          >
+            Credit
+          </TabItem>
+        </TabContainer>
+        {state.selectTab === "supply" && (
+          <>
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.Card.YourSupplies`}
+              props={{
+                config,
+                chainId: state.chainId,
+                yourSupplies: state.yourSupplies,
+                showWithdrawModal: state.showWithdrawModal,
+                setShowWithdrawModal: (isShow) =>
+                  State.update({ showWithdrawModal: isShow }),
+                onActionSuccess,
+                healthFactor: formatHealthFactor(
+                  state.assetsToBorrow.healthFactor
+                ),
+                formatHealthFactor,
+                withdrawETHGas,
+                withdrawERC20Gas,
+              }}
+            />
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.Card.AssetsToSupply`}
+              props={{
+                config,
+                chainId: state.chainId,
+                assetsToSupply: state.assetsToSupply,
+                showSupplyModal: state.showSupplyModal,
+                setShowSupplyModal: (isShow) =>
+                  State.update({ showSupplyModal: isShow }),
+                onActionSuccess,
+                healthFactor: formatHealthFactor(
+                  state.assetsToBorrow.healthFactor
+                ),
+                formatHealthFactor,
+                depositETHGas,
+                depositERC20Gas,
+              }}
+            />
+          </>
+        )}
+        {state.selectTab === "borrow" && (
+          <>
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.Card.YourBorrows`}
+              props={{
+                config,
+                chainId: state.chainId,
+                yourBorrows: state.yourBorrows,
+                showRepayModal: state.showRepayModal,
+                setShowRepayModal: (isShow) =>
+                  State.update({ showRepayModal: isShow }),
+                showBorrowModal: state.showBorrowModal,
+                setShowBorrowModal: (isShow) =>
+                  State.update({ showBorrowModal: isShow }),
+                formatHealthFactor,
+                onActionSuccess,
+                repayETHGas,
+                repayERC20Gas,
+                borrowETHGas,
+                borrowERC20Gas,
+              }}
+            />
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.Card.AssetsToBorrow`}
+              props={{
+                config,
+                chainId: state.chainId,
+                assetsToBorrow: state.assetsToBorrow,
+                showBorrowModal: state.showBorrowModal,
+                yourSupplies: state.yourSupplies,
+                setShowBorrowModal: (isShow) =>
+                  State.update({ showBorrowModal: isShow }),
+                formatHealthFactor,
+                onActionSuccess,
+                borrowETHGas,
+                borrowERC20Gas,
+              }}
+            />
+          </>
+        )}
+        {state.selectTab == "credit" && (
+          <button href={link} className="btn mt-10 w-100 btn-success">
+            Get Credit Score
+          </button>
+        )}
+        {state.alertModalText && (
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.Modal.AlertModal`}
+            props={{
+              config,
+              title: "All done!",
+              description: state.alertModalText,
+              onRequestClose: () => State.update({ alertModalText: false }),
+            }}
+          />
+        )}
+      </Body>
+    </>
+  </Theme>
 );
