@@ -1,0 +1,108 @@
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
+
+const factoryAddress = "0x1A1F1D20C404D9C2399a56166256d25fe3e2A93D";
+
+const Container = styled.div`
+    background-color: #1c1f2a;
+`;
+
+State.init({
+  collections: [],
+});
+
+const collectionABI = fetch(
+  "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsCollection.sol/SubscriptionsCollection.json"
+);
+if (!collectionABI.ok) {
+  return "Contract unavailable.";
+}
+
+const factoryABI = fetch(
+  "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsFactory.sol/SubscriptionsFactory.json"
+);
+if (!factoryABI.ok) {
+  return "Contract unavailable.";
+}
+
+const subscriptionsFactoryContract = new ethers.Contract(
+  factoryAddress,
+  JSON.parse(factoryABI.body)["abi"],
+  Ethers.provider().getSigner()
+);
+
+const getMerchantCollections = (merchant) => {
+  const filter = {
+    address: factoryAddress,
+    topics: [
+      ethers.utils.id(
+        "NewCollectionCreated(string,address,uint256[],int256[],uint256,address,string,uint256)"
+      ),
+      null,
+      ethers.utils.hexZeroPad(ethers.utils.getAddress(merchant), 32),
+    ],
+    fromBlock: 0, // Starting block to search for events
+    toBlock: "latest", // Ending block (optional: use 'latest' for most recent block)
+  };
+  Ethers.provider()
+    .getLogs(filter)
+    .then((logs) => {
+      const collections = [];
+      for (let i = 0; i < logs.length; i++) {
+        const collectionAddress =
+          subscriptionsFactoryContract.interface.parseLog(logs[i]).args[1];
+        collections.push(collectionAddress);
+      }
+      State.update({ collections: collections });
+      console.log(collections);
+    })
+    .catch((err) => console.log(err));
+};
+
+if (Ethers.provider()) {
+  getMerchantCollections(props.merchant);
+} else return <Web3Connect connectLabel="Connect with Web3" />;
+
+return (
+  <Container>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" class="text-white">
+              Icon
+            </th>
+            <th scope="col" class="text-white">
+              Name
+            </th>
+            <th scope="col" class="text-white">
+              Supply
+            </th>
+            <th scope="col" class="text-white">
+              Max Supply
+            </th>
+            <th scope="col" class="text-white">
+              Price
+            </th>
+            <th scope="col" class="text-white">
+              Total earnings
+            </th>
+            <th scope="col" class="text-white">
+              Date created
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {state.collections.map((e) => (
+            <Widget
+              src={`${USER}/widget/Merchant.info`}
+              props={{
+                collectionAddress: e,
+                abi: JSON.parse(collectionABI.body)["abi"],
+              }}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </Container>
+);
