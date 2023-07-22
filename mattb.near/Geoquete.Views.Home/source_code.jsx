@@ -1,10 +1,13 @@
 State.init({
-    currentView: "home"
+    currentView: "home",
+    isConnected: false,
+    account: ""
 });
 
 let views = {
   home: (
     <>
+      {console.log(state.account)}
       <Widget src="mattb.near/widget/Geoquete.Components.CreateQuest" />
     </>
   ),
@@ -24,7 +27,8 @@ return (
   <>
     <Widget src="mattb.near/widget/Geoquete.Components.Header" 
         props={{
-            onRefresh: (tab) => State.update({ currentView: tab })
+            onRefresh: (tab) => State.update({ currentView: tab }),
+            onConnect: (connection) => State.update({connection: connection})
         }}
     />
     {state.currentView in views ? views[state.currentView] : "404"}
