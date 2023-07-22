@@ -37,6 +37,7 @@ const useTheme = (light, dark) => {
 };
 
 const HStack = styled.div`
+  padding-top: 20px;
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -61,14 +62,14 @@ const NavButton = styled.button`
 
 const NetworkSwitcherContainer = styled.div`
   position: absolute;
-  top: 0px;
-  left: 10px;
+  top: 20px;
+  left: 20px;
 `;
 
 const ThemeChangerContainer = styled.div`
   position: absolute;
-  top: 0px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
 `;
 
 return (
