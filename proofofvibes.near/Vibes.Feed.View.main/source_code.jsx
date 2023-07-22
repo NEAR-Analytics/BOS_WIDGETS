@@ -18,7 +18,7 @@ const showClass = props.showClass ?? true;
 const showHeader = props.showHeader ?? true;
 const nftDescription =
   props.nftDescription ?? "Proof of Vibe NFT powered by GenaDrop"; // pull from post
-const nftTitle = props.nftTitle ?? "Proof of Vibes  ${Date.now()";
+const nftTitle = props.nftTitle ?? "Proof of Vibes  ${Date.now()}";
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
