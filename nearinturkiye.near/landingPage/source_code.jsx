@@ -213,6 +213,11 @@ return (
         Nearzombies
       </button>
     </div>
+    <div class="main">
+      <button onclick="window.location.href='https://gptverse.art';">
+        GPTVerse
+      </button>
+    </div>
 
     <div class="main">
       <h3>Discover dApps</h3>
