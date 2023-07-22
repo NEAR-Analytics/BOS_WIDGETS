@@ -32,7 +32,7 @@ const sbtMint = () => {
       args: {
         receiver: state.receiver,
         metadata: {
-          class: 1,
+          class: classId,
         },
         reference: reference,
       },
