@@ -1,0 +1,87 @@
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
+
+if (!props.sender) {
+  return (
+    <Widget
+      src={`${USER}/widget/Common.error`}
+      props={{ message: "No user connected." }}
+    />
+  );
+}
+
+if (!props.factory) {
+  return (
+    <Widget
+      src={`${USER}/widget/Common.error`}
+      props={{ message: "Factory address missing." }}
+    />
+  );
+}
+const factoryAddress = props.factory;
+
+if (!props.factoryAbi) {
+  return (
+    <Widget
+      src={`${USER}/widget/Common.error`}
+      props={{ message: "Collection ABI missing." }}
+    />
+  );
+}
+
+const subscriptionsFactoryContract = new ethers.Contract(
+  factoryAddress,
+  props.factoryAbi,
+  Ethers.provider().getSigner()
+);
+
+State.init({
+  widgets: [],
+});
+
+const getSubscriptionEvents = (user) => {
+  const filter = {
+    address: factoryAddress,
+    topics: [
+      ethers.utils.id("NewSubscription(address,address,uint256)"),
+      null,
+      ethers.utils.hexZeroPad(ethers.utils.getAddress(user), 32),
+    ],
+    fromBlock: 0,
+    toBlock: "latest",
+  };
+
+  Ethers.provider()
+    .getLogs(filter)
+    .then((logs) => {
+      const widgets = [];
+      for (let i = 0; i < logs.length; i++) {
+        const parsedLog = subscriptionsFactoryContract.interface.parseLog(
+          logs[i]
+        );
+        widgets.push(
+          <Widget
+            src={`${USER}/widget/Customer.token`}
+            props={{
+              collectionAddress: parsedLog.args[0],
+              abi: props.abi,
+              owner: props.sender,
+            }}
+          />
+        );
+      }
+      State.update({ widgets: widgets });
+    })
+    .catch((err) => console.log(err));
+};
+
+getSubscriptionEvents(props.sender);
+
+return (
+  <div class="container-fluid bg-dark h-100">
+    <div class="row d-flex justify-content-center mt-2">
+      {state.widgets.map((w) => (
+        <div class="col-10 col-md-4 mt-2">{w}</div>
+      ))}
+    </div>
+  </div>
+);
