@@ -49,6 +49,12 @@ const type = content.type;
 console.log("Content type: " + type);
 const metadata = content.metadata;
 console.log("Content Metadata: " + metadata);
+if (content.text) {
+  State.update({
+    description: content.text,
+  });
+  console.log("Content Text: " + context.text);
+}
 
 const item = {
   type: "social",
