@@ -25,7 +25,7 @@ const useTheme = (light, dark) => {
 };
 
 const Button = styled.button`
-  border-radius: 5px;
+  border-radius: 20px;
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid transparent;
