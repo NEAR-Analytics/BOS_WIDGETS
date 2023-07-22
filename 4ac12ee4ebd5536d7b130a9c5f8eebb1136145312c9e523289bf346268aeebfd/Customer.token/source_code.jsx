@@ -1,6 +1,6 @@
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
-if (!props.collectionAddress || !props.abi || !props.owner || !props.name)
+if (!props.collectionAddress || !props.abi || !props.owner)
   return (
     <Widget
       src={`${USER}/widget/Common.error`}
@@ -11,11 +11,12 @@ if (!props.collectionAddress || !props.abi || !props.owner || !props.name)
 const tier = props.tier ?? 0;
 
 State.init({
+  name: "",
+  image: "",
   amount: 0,
   price: 0,
   deadline: 0,
   totalPaid: 0,
-  image: "",
 });
 
 const iface = new ethers.utils.Interface(props.abi);
@@ -94,7 +95,7 @@ const getAmount = () => {
     })
     .then((amt) => {
       const amount = iface.decodeFunctionResult("balanceOf", amt);
-      State.update({ amount: amount });
+      State.update({ amount: amount.toString() });
     });
 };
 
@@ -138,7 +139,7 @@ return (
       <li class="list-group-item">Total paid: {state.totalPaid}</li>
     </ul>
     <div class="card-body">
-      <h5 class="card-title">{props.name}</h5>
+      <h5 class="card-title">{state.name}</h5>
     </div>
   </div>
 );
