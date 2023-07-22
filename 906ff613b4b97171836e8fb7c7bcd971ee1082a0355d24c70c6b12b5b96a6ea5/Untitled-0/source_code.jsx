@@ -76,17 +76,14 @@ return (
         <CustomButtonLeft
           onClick={() => {
             // router.push("/strategies");
-            window.location.href =
-              "https://zk-alpha-frontend.vercel.app/strategies";
+            window.open("https://zk-alpha-frontend.vercel.app/strategies");
           }}
         >
           {"I'm an investor"}
         </CustomButtonLeft>
         <CustomButtonRight
           onClick={() => {
-            // router.push("/trader");
-            window.location.href =
-              "https://zk-alpha-frontend.vercel.app/trader";
+            window.open("https://zk-alpha-frontend.vercel.app/trader");
           }}
         >
           {"I'm a trader"}
