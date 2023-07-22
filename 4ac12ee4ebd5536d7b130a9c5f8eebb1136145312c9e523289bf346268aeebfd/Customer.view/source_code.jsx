@@ -18,6 +18,19 @@ if (!props.factory) {
   );
 }
 
+const collectionABI = fetch(
+  "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsCollection.sol/SubscriptionsCollection.json"
+);
+
+if (!collectionABI.ok) {
+  return (
+    <Widget
+      src={`${USER}/widget/Common.error`}
+      props={{ message: "Collection ABI unavailable." }}
+    />
+  );
+}
+
 const factoryABI = fetch(
   "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsFactory.sol/SubscriptionsFactory.json"
 );
@@ -67,7 +80,7 @@ const getSubscriptionEvents = (user) => {
             src={`${USER}/widget/Customer.token`}
             props={{
               collectionAddress: parsedLog.args[0],
-              abi: props.abi,
+              abi: JSON.parse(collectionABI.body)["abi"],
               owner: props.sender,
             }}
           />
