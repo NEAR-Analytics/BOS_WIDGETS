@@ -89,7 +89,7 @@ if (!accountLoggedIn) {
 }
 
 const post_args = JSON.stringify({
-  receiver: state.receiver,
+  receiver: accountId, // accountId is the person who wrote the post
   metadata: {
     class: state.classId,
   },
@@ -296,6 +296,25 @@ const proposeVibee = () => {
     },
   ]);
 };
+const sbtMint = () => {
+  const gas = 200000000000000;
+  const deposit = 80000000000000000000000; // 0.008 // maybe change zero
+  Near.call([
+    {
+      contractName: state.issuer,
+      methodName: "sbt_mint",
+      args: {
+        receiver: accountId,
+        metadata: {
+          class: classId,
+        },
+        reference: reference,
+      },
+      gas: gas,
+      deposit: deposit,
+    },
+  ]);
+};
 const nftMint = () => {
   //   if (!state.image.cid) {
   //     return;
@@ -469,6 +488,16 @@ return (
                         onClick={nftMint}
                       >
                         <i className="bi bi-emoji-gift" /> Mint to User As NFT
+                      </a>
+                    </li>
+                  )}
+                  {isMintAuthority && (
+                    <li className="dropdown-item row">
+                      <a
+                        className="link-dark text-decoration-none"
+                        onClick={sbtMint}
+                      >
+                        <i className="bi bi-shield" /> Issue SBT
                       </a>
                     </li>
                   )}
