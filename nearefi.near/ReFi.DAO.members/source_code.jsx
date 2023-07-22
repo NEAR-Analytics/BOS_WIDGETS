@@ -22,6 +22,7 @@ return (
             <Widget
               src="nearefi.near/widget/ReFi.DAO.memberCard"
               props={{
+                daoId: daoId,
                 classId: classId,
                 issuer: issuer,
                 accountId: member,
