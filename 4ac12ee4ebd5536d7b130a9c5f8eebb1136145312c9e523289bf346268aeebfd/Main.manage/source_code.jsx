@@ -3,6 +3,10 @@ const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 const Container = styled.div`
 min-height: 100vh;
 background-color: #1c1f2a;
+margin: 0;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
 `;
 
 State.init({
