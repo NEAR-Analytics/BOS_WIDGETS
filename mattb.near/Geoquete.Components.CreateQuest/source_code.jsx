@@ -146,7 +146,7 @@ const search = (val) => {};
 
 return (
   <CreateQuest>
-    <h1>Create a Quête:</h1>
+    <h1>Create a Quête</h1>
 
     <div className="form-group">
       <input id="name" type="text" placeholder="Quête name" required />
