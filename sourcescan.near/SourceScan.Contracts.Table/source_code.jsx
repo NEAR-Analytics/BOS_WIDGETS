@@ -84,6 +84,11 @@ const LinkIcon = (width, height) => {
 const A = styled.a`
   text-decoration: none; 
   color: ${useTheme(light.color, dark.color)};
+
+  :hover {
+    text-decoration: none; 
+    color: ${useTheme(light.color, dark.color)};
+  }
 `;
 
 return (
