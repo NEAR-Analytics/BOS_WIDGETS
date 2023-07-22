@@ -218,6 +218,75 @@ return (
       </a>
     </div>
 
+    <div class="main">
+      <h3>Discover dApps</h3>
+      <p class="gray">
+        Discover a range of fully decentralized frontends that leverage the
+        power of BOS.
+      </p>
+
+      <div>
+        <div className="mb-2">
+          <Widget
+            src="mattlock.near/widget/ComponentSearch"
+            props={{
+              limit: 10,
+              onChange: ({ result: components, term }) => {
+                console.log(components);
+                State.update({ components, term });
+              },
+            }}
+          />
+        </div>
+        {state.components && state.components.length > 0 && (
+          <div class="apps">
+            {state.components.map((component, i) => (
+              <div key={i} class="widget">
+                <div class="flex">
+                  <a href={`#/${component.widgetSrc}`} target="_blank">
+                    <div class="image-parent">
+                      <Widget
+                        src="mob.near/widget/WidgetImage"
+                        props={{
+                          accountId: component.accountId,
+                          widgetName: component.widgetName,
+                          alt: component.widgetName,
+                          className,
+                          style: {},
+                          fallbackUrl:
+                            "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e",
+                        }}
+                      />
+                      <div class="shadow"></div>
+                      <div class="eth-logo">
+                        <img
+                          src={
+                            "https://ipfs.near.social/ipfs/bafkreibkkypb3zybzlwfotwa6tdmelalfnfucmvgzzeqwge4e75mkpq6dq"
+                          }
+                        />
+                      </div>
+                    </div>
+                  </a>
+                  <div class="flex-right">
+                    <p>{component.widgetName}</p>
+                    <p class="subtle gray">Ethereum</p>
+                  </div>
+                </div>
+                <p>{component.description}</p>
+
+                <a
+                  href={`#/mob.near/widget/WidgetSource?src=${component.widgetSrc}`}
+                  target="_blank"
+                >
+                  <i className="bi bi-file-earmark-code me-1"></i>Source
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+
     <div class="footer">
       <div className="text-center">
         <a href="/#/thebos.near/widget/Terms">Terms of Use</a> <span>|</span>{" "}
