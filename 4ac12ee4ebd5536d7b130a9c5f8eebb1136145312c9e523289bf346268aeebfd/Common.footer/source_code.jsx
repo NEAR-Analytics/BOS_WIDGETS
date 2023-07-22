@@ -4,7 +4,8 @@ text-align: center;
 background-color: #343a40;
 align-items: center;
 display: flex;
-flex-direction: column
+flex-direction: column;
+margin-top: auto
 `;
 const HorizontalLine = styled.hr`
 width: 100%;
