@@ -1,3 +1,4 @@
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 return (
   <div class="navbar navbar-dark navbar-expand-lg bg-dark px-3">
     <a
@@ -30,7 +31,7 @@ return (
           <a
             class="nav-link text-light text-capitalize"
             style={{ fontWeight: 700 }}
-            onClick={props.onNavClick("create")}
+            href={`#/${USER}/widget/Merchant.create`}
           >
             Create
           </a>
@@ -39,7 +40,7 @@ return (
           <a
             class="nav-link text-light text-capitalize"
             style={{ fontWeight: 700 }}
-            onClick={props.onNavClick("manage")}
+            href={`#/${USER}/widget/Merchant.view`}
           >
             Manage
           </a>
@@ -48,7 +49,7 @@ return (
           <a
             class="nav-link text-white"
             style={{ fontWeight: 700 }}
-            onClick={props.onNavClick("view")}
+            href={`#/${USER}/widget/Customer.view`}
             tabindex="-1"
           >
             View
@@ -56,7 +57,10 @@ return (
         </li>
       </ul>
     </div>
-    <div class="d-flex justify-content-between">
+    <div
+      class="d-flex justify-content-between align-items-center"
+      style={{ minWidth: "18vw" }}
+    >
       {props.balance && <a class="nav-link text-white">{props.balance} Ξ</a>}
       <Web3Connect connectLabel="Connect with Web3" />
     </div>
