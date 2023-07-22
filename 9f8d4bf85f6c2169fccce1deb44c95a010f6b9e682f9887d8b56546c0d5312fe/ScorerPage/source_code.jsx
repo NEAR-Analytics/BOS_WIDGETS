@@ -17,6 +17,31 @@ State.init({
   },
 });
 
+const data = fetch(
+  "https://tonft.app/get-scores?recipient=0x3C739adDe59fA08E21d8A75884B8E0FB1745705F"
+);
+
+const dataParsed = JSON.parse(data.body);
+
+console.log(dataParsed);
+
+// function asyncTestFetch() {
+//   asyncFetch(
+//     "https://tonft.app/get-scores?recipient=0x3C739adDe59fA08E21d8A75884B8E0FB1745705F"
+//   ).then((res) => {
+//     const data = JSON.parse(res.body);
+//     console.log(data)
+
+//     State.update({
+//       scores: {
+//         nomisEth: data.scores.nomisEth
+//       }
+//     })
+//   });
+// }
+
+// asyncTestFetch();
+
 const Wrapper = styled.div`
   
      .Logo {
@@ -143,24 +168,24 @@ return (
         <div className="title">scores</div>
         <ScoreInfo className="box">
           <h2 className="spScores">
-            SP Scores <span>10 / 100</span>
+            SP Scores{" "}
+            <span>{dataParsed.scores.spot_score.toFixed(2)} / 777</span>
           </h2>
           <hr />
           <div className="scoreContainer">
             <div>
-              Gitcoin <span>{state.wallet.nfts}</span>
+              Gitcoin <span>{dataParsed.scores.gitcoin_score.toFixed(2)}</span>
             </div>
             <div>
-              Nomis Polygon <span>{state.wallet.tokens}</span>
+              Degen <span>{dataParsed.scores.degen_score.toFixed(2)}</span>
             </div>
             <div>
-              Degen <span>{state.wallet.walletAge}</span>
+              Social Score{" "}
+              <span>{dataParsed.scores.social_score.toFixed(2)}</span>
             </div>
             <div>
-              Cred <span>{state.wallet.guilds}</span>
-            </div>
-            <div>
-              Nomis Ethereum <span>{state.wallet.transactions}</span>
+              Nomis Ethereum{" "}
+              <span>{dataParsed.scores.nomis_score_eth.toFixed(2)}</span>
             </div>
           </div>
         </ScoreInfo>
@@ -171,25 +196,8 @@ return (
         <ScoreInfo className="box">
           <div className="scoreContainer">
             <div>
-              NFTs <span>{state.wallet.nfts}</span>
-            </div>
-            <div>
-              Tokens <span>{state.wallet.tokens}</span>
-            </div>
-            <div>
-              Wallet age <span>{state.wallet.walletAge}</span>
-            </div>
-            <div>
-              Guilds <span>{state.wallet.guilds}</span>
-            </div>
-            <div>
-              Transactions <span>{state.wallet.transactions}</span>
-            </div>
-            <div>
-              POAPs <span>{state.wallet.poaps}</span>
-            </div>
-            <div>
-              Domains <span>{state.wallet.domains}</span>
+              POAPs{" "}
+              <span>{dataParsed.data.profile_data.Wallet.poaps.length}</span>
             </div>
           </div>
         </ScoreInfo>
@@ -221,16 +229,18 @@ return (
             </div>
             <div className="scoreContainer">
               <div>
-                Followers <span>{state.wallet.nfts}</span>
+                Followers{" "}
+                <span>{dataParsed.data.lens_data.totalFollowers}</span>
               </div>
               <div>
-                Following <span>{state.wallet.tokens}</span>
+                Following{" "}
+                <span>{dataParsed.data.lens_data.totalFollowing}</span>
               </div>
               <div>
-                Comments <span>{state.wallet.walletAge}</span>
+                Comments <span>{dataParsed.data.lens_data.totalComments}</span>
               </div>
               <div>
-                Posts <span>{state.wallet.guilds}</span>
+                Posts <span>{dataParsed.data.lens_data.totalPosts}</span>
               </div>
             </div>
           </div>
