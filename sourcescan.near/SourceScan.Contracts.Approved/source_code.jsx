@@ -25,7 +25,7 @@ const compareWasm = () => {
       asyncFetch(`${props.apiHost}/ipfs/${props.cid}/wasm_code_base64`)
         .then((ipfs_res) => {
           State.update({
-            value: rpc_res.data === ipfs_res.data.result.code_base64,
+            value: rpc_res.body.result.code_base64 === ipfs_res.body,
           });
         })
         .catch((err) => {
@@ -87,7 +87,7 @@ return (
   <>
     {state.value === null ? (
       "Loading..."
-    ) : state.value ? (
+    ) : state.value === true ? (
       <OverlayTrigger
         key={state.placement}
         placement={state.placement}
