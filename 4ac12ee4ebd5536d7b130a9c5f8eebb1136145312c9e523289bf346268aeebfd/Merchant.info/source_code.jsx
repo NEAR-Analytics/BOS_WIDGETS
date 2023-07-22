@@ -43,7 +43,6 @@ const getTotalEarnings = () => {
     .getLogs(filter)
     .then((logs) => {
       const tot = state.price * logs.length;
-      //console.log("Total earning: ", tot);
       State.update({ total_earnings: tot });
     })
     .catch((err) => console.log(err));
@@ -61,7 +60,6 @@ const getCirculatingSupply = () => {
       const circulating_supply = iface
         .decodeFunctionResult("getTierSupply", circulating)
         .toString();
-      //console.log("Circulating supply: ", circulating_supply);
       State.update({ circulating_supply: circulating_supply });
     });
 };
@@ -78,7 +76,6 @@ const getMaxSupply = () => {
       const max_supply = iface
         .decodeFunctionResult("getTierSupply", total)
         .toString();
-      //console.log("Total supply: ", max_supply);
       State.update({ max_supply: max_supply == -1 ? "-" : max_supply });
     });
 };
@@ -93,7 +90,6 @@ const getCollectionName = () => {
     })
     .then((n) => {
       const name = iface.decodeFunctionResult("collectionName", n)[0];
-      //console.log("Name: ", name);
       State.update({ name: name });
     });
 };
@@ -110,7 +106,6 @@ const getCollectionImage = () => {
       .then((url) => {
         const uri = iface.decodeFunctionResult("uri", url);
         const real_uri = uri[0].slice(0, uri[0].length - 1);
-        //console.log("url: ", real_uri);
         const metas = fetch(real_uri);
         if (metas.ok) {
           const jsonmeta = JSON.parse(metas.body);
@@ -135,7 +130,6 @@ const getPrice = () => {
     .then((p) => {
       const price = iface.decodeFunctionResult("getTierPrice", p);
       const _price = Big(price.toString()).div(Big(10).pow(18)).toString();
-      //console.log("Price: ", _price);
       State.update({ price: _price });
     });
 };
