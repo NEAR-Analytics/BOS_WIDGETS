@@ -24,6 +24,10 @@ if (!factoryABI.ok) {
   return "Contract unavailable.";
 }
 
+if (!Ethers.provider()) {
+  return "Provider unavailable";
+}
+
 const subscriptionsFactoryContract = new ethers.Contract(
   factoryAddress,
   JSON.parse(factoryABI.body)["abi"],
