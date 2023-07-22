@@ -352,18 +352,6 @@ const nftMint = () => {
         showAlert: false,
       });
     }, 3000);
-  } else if (!state.title) {
-    console.log("Please Enter title");
-    State.update({
-      showAlert: true,
-      toastMessage: "Please enter a title for the NFT",
-    });
-
-    setTimeout(() => {
-      State.update({
-        showAlert: false,
-      });
-    }, 3000);
   } else if (!state.description) {
     State.update({
       showAlert: true,
