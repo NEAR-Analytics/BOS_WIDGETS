@@ -28,7 +28,8 @@ const handleSliderFriendliness = (event) => {
 };
 const handleSliderEnergy = (event) => {
   const value = event.target.value;
-  State.update({ energy: value });
+  const newText = state.text; // adds to many needs better indicator of this
+  State.update({ energy: value, text: newText });
   console.log("New Energy Score: " + state.energy);
 };
 const handleSliderDensity = (event) => {
@@ -82,6 +83,16 @@ const extractHashtags = (text) => {
 };
 
 function composeData() {
+  content.text =
+    context.text +
+    " Friendliness: " +
+    state.friendliness +
+    " Energy: " +
+    state.energy +
+    " Density: " +
+    state.density +
+    " Diversity: " +
+    state.diversity;
   const data = {
     post: {
       main: JSON.stringify(content),
@@ -499,7 +510,7 @@ return (
           onCommit={onCommit}
           className="commit-post-button"
         >
-          Post
+          Vibe Check
         </CommitButton>
       </Actions>
     </Wrapper>
