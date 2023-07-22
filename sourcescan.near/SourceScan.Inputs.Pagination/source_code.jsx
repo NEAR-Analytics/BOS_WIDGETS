@@ -33,9 +33,9 @@ const HStack = styled.div`
 `;
 
 const PageButton = styled.button`
+  width: 30px;
+  height: 30px;
   border-radius: 5px;
-  padding-right: 10px;
-  padding-left: 10px;
   border: 1px solid transparent;
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
