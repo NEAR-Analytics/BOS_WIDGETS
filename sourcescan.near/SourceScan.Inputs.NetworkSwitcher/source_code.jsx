@@ -1,4 +1,4 @@
-const networks = ["mainnet"];
+const networks = ["mainnet", "testnet"];
 
 State.init({
   theme: props.theme || "light",
@@ -39,9 +39,9 @@ const strCapitalize = (str) => {
 };
 
 return (
-  <Select onChange={(e) => props.handleNetworkSwitch(e)}>
+  <Select>
     {networks.map((network) => (
-      <option value={network} selected={state.network === network}>
+      <option value={network} disabled={state.network !== network}>
         {strCapitalize(network)}
       </option>
     ))}
