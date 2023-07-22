@@ -84,7 +84,7 @@ const extractHashtags = (text) => {
 
 function composeData() {
   content.text =
-    context.text +
+    content.text +
     " Friendliness: " +
     state.friendliness +
     " Energy: " +
