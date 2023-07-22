@@ -235,6 +235,8 @@ const Actions = styled.div`
 `;
 
 function renderContent() {
+  console.log("Content Image " + content.image);
+
   if (type === "md" || type === "social") {
     return (
       <>
@@ -256,7 +258,6 @@ function renderContent() {
       </>
     );
   }
-  console.log("Content Image " + content.image);
 }
 
 if (!accountId) {
