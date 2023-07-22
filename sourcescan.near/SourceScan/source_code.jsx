@@ -4,6 +4,7 @@ const getConfig = (network) => {
   switch (network) {
     case "mainnet":
       return {
+        app: "https://sourcescan.2bb.dev",
         ownerId: "sourcescan.near",
         rpcUrl: "https://rpc.mainnet.near.org",
         contractId: "v1.sourcescan.near",
@@ -11,6 +12,7 @@ const getConfig = (network) => {
       };
     case "testnet":
       return {
+        app: "https://sourcescan.testnet.2bb.dev",
         ownerId: "sourcescan.testnet",
         rpcUrl: "https://rpc.testnet.near.org",
         contractId: "v5.sourcescan.testnet",
