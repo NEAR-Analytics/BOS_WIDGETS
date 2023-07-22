@@ -53,13 +53,10 @@ const getCollectionImage = () => {
       .then((url) => {
         const uri = iface.decodeFunctionResult("uri", url);
         const real_uri = uri[0].slice(0, uri[0].length - 1);
-        //console.log("url: ", real_uri);
         const metas = fetch(real_uri);
         if (metas.ok) {
           const jsonmeta = JSON.parse(metas.body);
           State.update({ image: jsonmeta["image"] });
-        } else {
-          console.log(metas);
         }
       });
   } catch (err) {
