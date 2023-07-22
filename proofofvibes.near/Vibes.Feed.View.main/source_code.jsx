@@ -333,7 +333,9 @@ const nftMint = () => {
       name: state.title,
       description: state.description,
       properties: [],
-      image: `ipfs://${state.image.ipfs_cid}`,
+      image: `${state.image.url}`,
+
+      //   image: `ipfs://${state.image.ipfs_cid}`,
       //   image: `ipfs://${state.image.cid}`,
       //   image: `ipfs://${state.imageCid}`,
     };
@@ -360,8 +362,9 @@ const nftMint = () => {
               description: state.description,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
+              media: `${state.image.url}`,
 
-              media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
+              //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
               //   reference: `ipfs://${state.cid}`,
             },
