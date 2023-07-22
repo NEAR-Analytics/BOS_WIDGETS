@@ -91,7 +91,7 @@ return (
         src={`${props.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
         props={{
           theme: state.theme,
-          switchTheme: switchTheme,
+          switchTheme: props.switchTheme,
         }}
       />
     </ThemeChangerContainer>
