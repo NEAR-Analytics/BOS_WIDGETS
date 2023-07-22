@@ -39,7 +39,7 @@ const strCapitalize = (str) => {
 };
 
 return (
-  <Select>
+  <Select onChange={(e) => props.handleNetworkSwitch(e)}>
     {networks.map((network) => (
       <option value={network} selected={state.network === network}>
         {strCapitalize(network)}
