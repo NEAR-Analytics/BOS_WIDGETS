@@ -476,10 +476,6 @@ return (
         </div>
 
         <span className="text-nowrap text-muted">
-          <Widget
-            src="efiz.near/widget/SBT.Badge"
-            props={{ accountId: accountId }}
-          />
           {badges.map((badge) => (
             <Widget
               src="proofofvibes.near/widget/sbtEmojiHelper"
