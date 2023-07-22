@@ -28,7 +28,7 @@ const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&b
 const profile = Social.getr(`${accountId}/profile`);
 const profileName = "";
 if (profile) {
-  profileName = profile.name || accounId; // profile name
+  profileName = profile.name || accountId; // profile name
 }
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
