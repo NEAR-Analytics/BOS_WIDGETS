@@ -50,11 +50,7 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
-const Main = styled.div`
-  @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');
-
-  font-family: 'Source Code Pro', monospace;
-  
+const Main = styled.div`  
   width: 100%;
   height: 100vh;
   color: ${useTheme(light.color, dark.color)};
