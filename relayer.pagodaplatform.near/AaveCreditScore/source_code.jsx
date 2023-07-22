@@ -717,7 +717,6 @@ const renderItems = () => {
   for (let i = 0; i < state.assetsToSupply.length; i++) {
     elements.push(
       <tr key={i}>
-        <th>{state.assetsToSupply[i].token}</th>
         <th>{state.assetsToSupply[i].name}</th>
         <th>{state.assetsToSupply[i].symbol}</th>
         <th>{state.assetsToSupply[i].availableLiquidityUSD}</th>
@@ -727,34 +726,28 @@ const renderItems = () => {
   }
   return elements;
 };
-// Component body
-const body = (
-  <>
-    <Body>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Token</th>
-              <th>Name</th>
-              <th>Symbol</th>
-              <th>Available Liquidity USD</th>
-              <th>Supply APY</th>
-            </tr>
-          </thead>
-          <tbody>{renderItems()}</tbody>
-        </table>
-      </div>
-      <div class="divider"></div>
-      <button className="btn btn-success">Get Credit Score</button>
-    </Body>
-  </>
-);
-
 return (
   <Theme>
     <div data-theme={daisyUiTheme}>
-      <div className="card w-96 bg-base-100 shadow-xl">{body}</div>
+      <div className="card w-96 bg-base-100 shadow-xl">
+        <Body>
+          <div class="overflow-x-auto">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Available Liquidity USD</th>
+                  <th>Supply APY</th>
+                </tr>
+              </thead>
+              <tbody>{renderItems()}</tbody>
+            </table>
+          </div>
+          <div class="divider"></div>
+          <button className="btn w-100 btn-success">Get Credit Score</button>
+        </Body>
+      </div>
     </div>
   </Theme>
 );
