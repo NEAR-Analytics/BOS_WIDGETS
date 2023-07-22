@@ -97,7 +97,10 @@ function composeData() {
     post: {
       main: JSON.stringify(content),
       rating:
-        state.friendliness + state.energy + state.density + state.diversity,
+        parseInt(state.friendliness) +
+        parseInt(state.energy) +
+        parseInt(state.density) +
+        parseInt(state.diversity),
     },
     index: {
       post: JSON.stringify({
