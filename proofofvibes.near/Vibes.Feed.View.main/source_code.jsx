@@ -25,7 +25,11 @@ const reference =
   "https://genadrop.mypinata.cloud/ipfs/QmQ1662QyTESnzWK8gBJdD7BtwQ3ddfXCMy6Hh3FHdmjMk?_gl=1*wrbb39*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY4OTY4Njc3Ni44LjEuMTY4OTY4NjgyMi4xNC4wLjA";
 const accountLoggedIn = context.accountId; // use this just in case
 const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&blockHeight=${blockHeight}`;
-
+const profile = Social.getr(`${accountId}/profile`);
+const profileName = "";
+if (!profile) {
+  profileName = profile.name || accounId; // profile name
+}
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
 
@@ -50,7 +54,7 @@ const formattedPostDate = formatDateBlockHeight(blockHeight); // this is showing
 const formattedDate = formatDate(Date.now());
 
 // const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
-const titleWithDate = "Proof of Vibes " + accountId;
+const titleWithDate = "Proof of Vibes " + profileName;
 const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
 
 const hasImageInPost = content.image != null; // need to check if image in post
