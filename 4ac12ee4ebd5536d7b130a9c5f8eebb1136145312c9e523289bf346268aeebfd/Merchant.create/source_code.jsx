@@ -2,6 +2,16 @@
 const APP_TITLE = "SubScript.io";
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
+if (!props.factory) {
+  return (
+    <Widget
+      src={`${USER}/widget/Common.error`}
+      props={{ message: "Factory address missing" }}
+    />
+  );
+}
+const contractAddress = props.factory;
+
 const Box = styled.div`
 display: flex;
 flex-direction: row;
@@ -53,8 +63,6 @@ background-color: #1c1f2a;
 padding: 2rem;
 width: 32rem
 `;
-
-const contractAddress = "0x1A1F1D20C404D9C2399a56166256d25fe3e2A93D";
 
 const factoryABI = fetch(
   "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsFactory.sol/SubscriptionsFactory.json"
