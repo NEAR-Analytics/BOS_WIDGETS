@@ -20,10 +20,6 @@ a, a:focus, a:visited, a:hover {
 }
 
 
-
-
-
-
 .image-container {
   z-index: 2;
   width: 100px;
@@ -181,7 +177,7 @@ return (
         </div>
       </div>
       <div>
-        <h2> Landing Page</h2>
+        <h2> Landing Page ( in progress ...)</h2>
       </div>
     </div>
 
@@ -213,17 +209,14 @@ return (
     </div>
 
     <div class="main">
-      <button onclick="window.location='http://www.nearzombies.io';">
+      <button onclick="window.location.href='https://nearzombies.io';">
         Nearzombies
       </button>
     </div>
 
     <div class="main">
       <h3>Discover dApps</h3>
-      <p class="gray">
-        Discover a range of fully decentralized frontends that leverage the
-        power of BOS.
-      </p>
+      <p class="gray">Search a component below</p>
 
       <div>
         <div className="mb-2">
