@@ -1,5 +1,5 @@
 State.init({
-  selectedtLimit: props.selectedtLimit || props.limits[0] || 10,
+  selectedLimit: props.selectedLimit || props.limits[0] || 10,
   limits: props.limits || [10, 20, 50],
   theme: props.theme || "light",
 });
@@ -29,13 +29,10 @@ const Select = styled.select`
   color: ${useTheme(light.color, dark.color)};
 `;
 
-console.log("selectedLimit: ", state.selectedtLimit);
-
 return (
   <Select onChange={(e) => props.handleOptionsChange(e)}>
     {state.limits.map((limit) => (
       <option value={limit} selected={state.selectedtLimit === limit}>
-        {console.log(state.selectedtLimit === limit)}
         {limit}
       </option>
     ))}
