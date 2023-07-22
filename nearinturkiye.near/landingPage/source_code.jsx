@@ -213,9 +213,9 @@ return (
     </div>
 
     <div class="main">
-      <a href="https://nearzombie.io" target="_blank">
-        <h2>Nearzombies</h2>
-      </a>
+      <button onclick="window.location='http://www.nearzombies.io';">
+        Nearzombies
+      </button>
     </div>
 
     <div class="main">
