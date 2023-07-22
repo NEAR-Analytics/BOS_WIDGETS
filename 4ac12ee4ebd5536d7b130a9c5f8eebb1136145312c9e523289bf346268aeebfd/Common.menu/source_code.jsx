@@ -31,7 +31,7 @@ return (
           <a
             class="nav-link text-light text-capitalize"
             style={{ fontWeight: 700 }}
-            href={`#/${USER}/widget/Merchant.create`}
+            href={`#/${USER}/widget/Main.create`}
           >
             Create
           </a>
@@ -40,7 +40,7 @@ return (
           <a
             class="nav-link text-light text-capitalize"
             style={{ fontWeight: 700 }}
-            href={`#/${USER}/widget/Merchant.view`}
+            href={`#/${USER}/widget/Main.manage`}
           >
             Manage
           </a>
@@ -49,7 +49,7 @@ return (
           <a
             class="nav-link text-white"
             style={{ fontWeight: 700 }}
-            href={`#/${USER}/widget/Customer.view`}
+            href={`#/${USER}/widget/Main.view`}
             tabindex="-1"
           >
             View
