@@ -112,7 +112,7 @@ const getDeadline = () => {
     })
     .then((ts) => {
       const dl = iface.decodeFunctionResult("getSubscriptionDeadline", ts);
-      const deadline = timestampToDate(Big(dl).toString());
+      const deadline = timestampToDateTime(dl.toString());
       State.update({ deadline: deadline });
     });
 };
@@ -133,10 +133,18 @@ return (
       <img src={state.image} class="img-fluid" />
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">Amount: {state.amount}</li>
-      <li class="list-group-item">Price: {state.price}</li>
-      <li class="list-group-item">Next billing: {state.deadline}</li>
-      <li class="list-group-item">Total paid: {state.totalPaid}</li>
+      <li class="list-group-item">
+        <i>Amount</i>: {state.amount}
+      </li>
+      <li class="list-group-item">
+        <i>Price</i>: {state.price} Ξ
+      </li>
+      <li class="list-group-item">
+        <i>Total paid</i>: {state.totalPaid} Ξ
+      </li>
+      <li class="list-group-item">
+        <i>Next billing</i>: {state.deadline}
+      </li>
     </ul>
     <div class="card-body">
       <h5 class="card-title text-center">{state.name}</h5>
