@@ -29,11 +29,11 @@ const Button = styled.button`
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid transparent;
-  background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
+  background-color: ${useTheme(light.bg, dark.bg)};
   transition: background-color 0.1s ease-in-out;
 
   :hover {
-    background-color: ${useTheme(light.bg, dark.bg)};
+    background-color: ${useTheme(light.button.bg, dark.button.bg)};
   }
 `;
 
