@@ -113,7 +113,7 @@ return (
                 <td>{contractId}</td>
                 <td>{lang}</td>
                 <td>
-                  <A href={`${props.apiHost}/ipfs/${cid}`}>
+                  <A href={`${props.apiHost}/ipfs/${cid}`} target={"_blank"}>
                     <HStack>
                       <Truncated>{cid}</Truncated>
                       <LinkIcon width={"64px"} height={"64px"} />
