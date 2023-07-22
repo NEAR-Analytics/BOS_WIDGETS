@@ -1,6 +1,6 @@
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
-const factoryAddress = "0x1A1F1D20C404D9C2399a56166256d25fe3e2A93D";
+const factoryAddress = "0x0aBeC91137108C54bdfA2B909E0EC529ECd99429";
 
 const Container = styled.div`
     background-color: #1c1f2a;
@@ -25,11 +25,19 @@ if (!factoryABI.ok) {
   return "Contract unavailable.";
 }
 
-const subscriptionsFactoryContract = new ethers.Contract(
-  factoryAddress,
-  JSON.parse(factoryABI.body)["abi"],
-  Ethers.provider().getSigner()
-);
+try {
+  const subscriptionsFactoryContract = new ethers.Contract(
+    factoryAddress,
+    JSON.parse(factoryABI.body)["abi"],
+    Ethers.provider().getSigner()
+  );
+} catch (err) {
+  return (
+    <div class="d-flex justify-content-center w-100">
+      <Web3Connect connectLabel="Connect with Web3" />
+    </div>
+  );
+}
 
 const getMerchantCollections = (merchant) => {
   const filter = {
