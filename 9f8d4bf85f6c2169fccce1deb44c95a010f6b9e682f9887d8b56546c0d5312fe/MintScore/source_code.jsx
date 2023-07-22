@@ -1,4 +1,4 @@
-const priceFeedAddress = "0xf31fc3cb29a09AC83B6bd5329278D99bf5565b0A";
+const priceFeedAddress = "0xf25521b0B380eDE1b35A6A6DBBECf07602FeE901";
 
 const priceFeedABI = [
   {
@@ -174,7 +174,19 @@ return (
     </CardInfo>
     <button
       onClick={() => {
-        props.updatePage();
+        const contract = new ethers.Contract(
+          priceFeedAddress,
+          priceFeedABI,
+          Ethers.provider().getSigner()
+        );
+
+        contract.mint("0xDD6BFbe9EC414FFABBcc80BB88378c0684e2Ad9c", {
+          GitcoinScore: 10,
+          WalletData: 10,
+          SpotScore: 10,
+          SocialScore: 10,
+          owner: "0xDD6BFbe9EC414FFABBcc80BB88378c0684e2Ad9c",
+        });
       }}
     >
       Mint Score
