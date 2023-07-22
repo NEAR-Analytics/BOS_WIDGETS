@@ -362,7 +362,7 @@ const nftMint = () => {
               description: state.description,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              media: `${content.image.url}`,
+              media: `${state.image}`,
 
               //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
