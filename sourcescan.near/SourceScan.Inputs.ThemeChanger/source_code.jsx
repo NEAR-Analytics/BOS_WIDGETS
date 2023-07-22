@@ -2,6 +2,24 @@ State.init({
   theme: props.theme || "light",
 });
 
+const dark = {
+  bg: "#28282b",
+  color: "#e6eaee",
+  border: "#748094",
+  button: {
+    bg: "#39393c",
+  },
+};
+
+const light = {
+  bg: "#e3e8ef",
+  color: "#4c5566",
+  border: "#748094",
+  button: {
+    bg: "#eef2f6",
+  },
+};
+
 const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
@@ -11,7 +29,7 @@ const Button = styled.button`
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid transparent;
-  background-color: transparent; 
+  background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
   transition: background-color 0.1s ease-in-out;
 
   :hover {
@@ -31,8 +49,7 @@ const Moon = (width, height) => {
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
-      stroke="currentColor"
-      class="w-6 h-6"
+      stroke={useTheme(light.color, dark.color)}
     >
       <path
         stroke-linecap="round"
@@ -55,8 +72,7 @@ const Sun = (width, height) => {
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
-      stroke="currentColor"
-      class="w-6 h-6"
+      stroke={useTheme(light.color, dark.color)}
     >
       <path
         stroke-linecap="round"
