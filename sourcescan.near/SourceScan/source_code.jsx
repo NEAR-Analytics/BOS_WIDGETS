@@ -130,7 +130,13 @@ return (
   <Main>
     <Stack>
       <Right>
-        <button onClick={switchTheme}>{state.theme}</button>
+        <Widget
+          src={"sourcescan.near/widget/SourceScan.Inputs.ThemeChanger"}
+          props={{
+            theme: state.theme,
+            switchTheme: switchTheme,
+          }}
+        />
       </Right>
       <Center>
         <HStack>
