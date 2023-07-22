@@ -30,11 +30,13 @@ const config = getConfig(context.networkId);
 const dark = {
   bg: "#28282b",
   color: "#e6eaee",
+  border: "#748094",
 };
 
 const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
+  border: "#748094",
 };
 
 const useTheme = (light, dark) => {
@@ -43,7 +45,7 @@ const useTheme = (light, dark) => {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
 `;
@@ -52,6 +54,21 @@ const Stack = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+`;
+
+const HStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+`;
+
+const Select = styled.select`
+  border: 1px solid ${useTheme(light.border, dark.border)};
+  background-color: transparent;
+  border-radius: 5px;
+  width: 55px;
+  text-align: center;
+  color: ${useTheme(light.color, dark.color)};
 `;
 
 const Right = styled.div`
@@ -98,6 +115,8 @@ const searchContracts = async (value) => {
 
 if (!state.contracts) searchContracts(state.search);
 
+const limits = [1, 10, 20, 50];
+
 return (
   <Container>
     <Stack>
@@ -105,14 +124,21 @@ return (
         <button onClick={switchTheme}>{state.theme}</button>
       </Right>
       <Center>
-        <Widget
-          src={"sourcescan.near/widget/SourceScan.Inputs.SearchBar"}
-          props={{
-            theme: state.theme,
-            handleSubmit: handleSubmit,
-            value: state.search,
-          }}
-        />
+        <HStack>
+          <Widget
+            src={"sourcescan.near/widget/SourceScan.Inputs.SearchBar"}
+            props={{
+              theme: state.theme,
+              handleSubmit: handleSubmit,
+              value: state.search,
+            }}
+          />
+          <Select onChange={(e) => handleOptionsChange(e)}>
+            {limits.map((limit) => (
+              <option value={limit}>{limit}</option>
+            ))}
+          </Select>
+        </HStack>
       </Center>
       <Center>
         <Widget
