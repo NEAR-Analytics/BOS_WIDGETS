@@ -27,7 +27,7 @@ if (!factoryABI.ok) {
 if (!Ethers.provider()) {
   return (
     <div class="row d-flex justify-content-center">
-      <div class="col-8 col-md-4">
+      <div class="col-8 col-md-4 text-center">
         <Web3Connect connectLabel="Connect with Web3" />
       </div>
     </div>
