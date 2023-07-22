@@ -91,6 +91,12 @@ const A = styled.a`
   }
 `;
 
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 return (
   <Table>
     <thead>
@@ -121,15 +127,17 @@ return (
                   </A>
                 </td>
                 <td>
-                  <Widget
-                    src="sourcescan.near/widget/SourceScan.Contracts.Approved"
-                    props={{
-                      rpcUrl: props.rpcUrl,
-                      apiHost: props.apiHost,
-                      accountId: contractId,
-                      cid: cid,
-                    }}
-                  />
+                  <Center>
+                    <Widget
+                      src="sourcescan.near/widget/SourceScan.Contracts.Approved"
+                      props={{
+                        rpcUrl: props.rpcUrl,
+                        apiHost: props.apiHost,
+                        accountId: contractId,
+                        cid: cid,
+                      }}
+                    />
+                  </Center>
                 </td>
               </tr>
             );
