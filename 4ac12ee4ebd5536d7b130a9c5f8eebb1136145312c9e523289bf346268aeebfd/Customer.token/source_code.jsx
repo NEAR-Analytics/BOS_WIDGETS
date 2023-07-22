@@ -129,7 +129,7 @@ fetchData();
 
 return (
   <div class="card bg-light mb-3 d-flex w-100">
-    <div class="card-header">
+    <div class="card-header text-center">
       <img src={state.image} class="img-fluid" />
     </div>
     <ul class="list-group list-group-flush">
@@ -139,7 +139,7 @@ return (
       <li class="list-group-item">Total paid: {state.totalPaid}</li>
     </ul>
     <div class="card-body">
-      <h5 class="card-title">{state.name}</h5>
+      <h5 class="card-title text-center">{state.name}</h5>
     </div>
   </div>
 );
