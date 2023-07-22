@@ -98,51 +98,60 @@ const Center = styled.div`
 `;
 
 return (
-  <Table>
-    <thead>
-      <tr>
-        <th>Contract</th>
-        <th>Lang</th>
-        <th>Source</th>
-        <th>Approved</th>
-      </tr>
-    </thead>
-    <tbody>
-      {state.contracts
-        ? state.contracts.map((contract) => {
-            const contractId = contract[0];
-            const lang = contract[1].lang;
-            const cid = contract[1].cid;
+  <>
+    {state.contracts.length === 0 ? (
+      <>Nothing here...</>
+    ) : (
+      <Table>
+        <thead>
+          <tr>
+            <th>Contract</th>
+            <th>Lang</th>
+            <th>Source</th>
+            <th>Approved</th>
+          </tr>
+        </thead>
+        <tbody>
+          {state.contracts
+            ? state.contracts.map((contract) => {
+                const contractId = contract[0];
+                const lang = contract[1].lang;
+                const cid = contract[1].cid;
 
-            return (
-              <tr>
-                <td>{contractId}</td>
-                <td>{lang}</td>
-                <td>
-                  <A href={`${props.apiHost}/ipfs/${cid}`} target={"_blank"}>
-                    <HStack>
-                      <Truncated>{cid}</Truncated>
-                      <LinkIcon width={"64px"} height={"64px"} />
-                    </HStack>
-                  </A>
-                </td>
-                <td>
-                  <Center>
-                    <Widget
-                      src="sourcescan.near/widget/SourceScan.Contracts.Approved"
-                      props={{
-                        rpcUrl: props.rpcUrl,
-                        apiHost: props.apiHost,
-                        accountId: contractId,
-                        cid: cid,
-                      }}
-                    />
-                  </Center>
-                </td>
-              </tr>
-            );
-          })
-        : null}
-    </tbody>
-  </Table>
+                return (
+                  <tr>
+                    <td>{contractId}</td>
+                    <td>{lang}</td>
+                    <td>
+                      <A
+                        href={`${props.apiHost}/ipfs/${cid}`}
+                        target={"_blank"}
+                      >
+                        <HStack>
+                          <Truncated>{cid}</Truncated>
+                          <LinkIcon width={"64px"} height={"64px"} />
+                        </HStack>
+                      </A>
+                    </td>
+                    <td>
+                      <Center>
+                        <Widget
+                          src="sourcescan.near/widget/SourceScan.Contracts.Approved"
+                          props={{
+                            rpcUrl: props.rpcUrl,
+                            apiHost: props.apiHost,
+                            accountId: contractId,
+                            cid: cid,
+                          }}
+                        />
+                      </Center>
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
+        </tbody>
+      </Table>
+    )}
+  </>
 );
