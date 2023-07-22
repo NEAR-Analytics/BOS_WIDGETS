@@ -39,7 +39,7 @@ const formatDate = (timestamp) => {
 const formattedDate = formatDate(Date.now());
 
 const nftTitle =
-  props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedDate; // see about adding title and person that vibes them
+  props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedDate; // see about adding title and person that vibes them // also date should be when post was posted
 
 State.init({
   receiver: receiver,
