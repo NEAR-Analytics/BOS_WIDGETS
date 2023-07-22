@@ -1,7 +1,6 @@
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
 const factoryAddress = props.factory;
-
 const Container = styled.div`
     background-color: #1c1f2a;
     padding: 2rem 2rem
@@ -25,19 +24,11 @@ if (!factoryABI.ok) {
   return "Contract unavailable.";
 }
 
-try {
-  const subscriptionsFactoryContract = new ethers.Contract(
-    factoryAddress,
-    JSON.parse(factoryABI.body)["abi"],
-    Ethers.provider().getSigner()
-  );
-} catch (err) {
-  return (
-    <div class="d-flex justify-content-center w-100">
-      <Web3Connect connectLabel="Connect with Web3" />
-    </div>
-  );
-}
+const subscriptionsFactoryContract = new ethers.Contract(
+  factoryAddress,
+  JSON.parse(factoryABI.body)["abi"],
+  Ethers.provider().getSigner()
+);
 
 const getMerchantCollections = (merchant) => {
   const filter = {
@@ -49,16 +40,18 @@ const getMerchantCollections = (merchant) => {
       null,
       ethers.utils.hexZeroPad(ethers.utils.getAddress(merchant), 32),
     ],
-    fromBlock: 0, // Starting block to search for events
-    toBlock: "latest", // Ending block (optional: use 'latest' for most recent block)
+    fromBlock: 0,
+    toBlock: "latest",
   };
   Ethers.provider()
     .getLogs(filter)
     .then((logs) => {
       const collections = [];
       for (let i = 0; i < logs.length; i++) {
+        console.log(subscriptionsFactoryContract.interface.parseLog(logs[i]));
         const collectionAddress =
           subscriptionsFactoryContract.interface.parseLog(logs[i]).args[1];
+        console.log("collectionAddress: ", collectionAddress);
         collections.push(collectionAddress);
       }
       State.update({ collections: collections });
