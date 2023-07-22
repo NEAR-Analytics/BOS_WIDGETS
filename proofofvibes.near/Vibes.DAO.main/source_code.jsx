@@ -8,6 +8,7 @@ const role = props.role ?? "vibee";
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.proofofvibes.near";
 const reference =
+  props.reference ??
   "https://genadrop.mypinata.cloud/ipfs/QmQ1662QyTESnzWK8gBJdD7BtwQ3ddfXCMy6Hh3FHdmjMk?_gl=1*1wqwed9*_ga*MTQ0ODg3NzEzNS4xNjgyNjA0ODQy*_ga_5RMPXG14TE*MTY5MDA1MDEyNC4xMS4xLjE2OTAwNTAxMjcuNTcuMC4w"; // vibes sbt mint
 const sbtTitle = props.sbtTitle ?? "";
 State.init({
