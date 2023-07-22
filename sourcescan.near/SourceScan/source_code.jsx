@@ -83,12 +83,12 @@ const switchTheme = () => {
 const handleSubmit = (value) => {
   console.log(value);
   State.update({ search: value });
-  searchContracts(value);
+  searchContracts();
 };
 
-const searchContracts = async (value) => {
+const searchContracts = async () => {
   Near.asyncView(config.contractId, "search", {
-    key: value,
+    key: state.search,
     from_index: state.from_index,
     limit: state.limit,
   })
@@ -104,13 +104,13 @@ const searchContracts = async (value) => {
     });
 };
 
-if (!state.contracts) searchContracts(state.search);
+if (!state.contracts) searchContracts();
 
 const handleOptionsChange = (e) => {
   State.update({
     limit: parseInt(e.target.value),
   });
-  searchContracts(state.search);
+  searchContracts();
 };
 
 const handlePageChange = (x) => {
