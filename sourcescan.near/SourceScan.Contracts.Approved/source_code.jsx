@@ -30,7 +30,6 @@ const compareWasm = () => {
         .catch((err) => {
           console.log(err);
         });
-      console.log(rpc_res);
     })
     .catch((err) => {
       console.log(err);
