@@ -113,6 +113,14 @@ const handleOptionsChange = (e) => {
   searchContracts(state.search);
 };
 
+const handlePageChange = (x) => {
+  State.update({
+    selectedPage: x + 1,
+    from_index: x * state.limit,
+  });
+  searchContracts();
+};
+
 return (
   <Container>
     <Stack>
@@ -139,15 +147,27 @@ return (
         </HStack>
       </Center>
       <Center>
-        <Widget
-          src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
-          props={{
-            theme: state.theme,
-            contracts: state.contracts,
-            rpcUrl: config.rpcUrl,
-            apiHost: config.apiHost,
-          }}
-        />
+        <Stack>
+          <Widget
+            src={"sourcescan.near/widget/SourceScan.Contracts.Table"}
+            props={{
+              theme: state.theme,
+              contracts: state.contracts,
+              rpcUrl: config.rpcUrl,
+              apiHost: config.apiHost,
+            }}
+          />
+          <Center>
+            <Widget
+              src={"sourcescan.near/widget/SourceScan.Inputs.Pagination"}
+              props={{
+                pages: state.pages,
+                selectedPage: state.selectedPage,
+                handlePageChange: handlePageChange,
+              }}
+            />
+          </Center>
+        </Stack>
       </Center>
     </Stack>
   </Container>
