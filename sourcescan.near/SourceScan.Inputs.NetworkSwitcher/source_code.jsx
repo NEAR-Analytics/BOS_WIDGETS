@@ -1,4 +1,4 @@
-const networks = ["mainnet", "testnet"];
+const networks = ["mainnet"];
 
 State.init({
   theme: props.theme || "light",
