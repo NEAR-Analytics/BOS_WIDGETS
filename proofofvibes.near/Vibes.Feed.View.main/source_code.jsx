@@ -33,7 +33,7 @@ if (!!profile) {
 }
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
-
+const badges = ["og", "vibes", "regen", "human"];
 const formatDate = (timestamp) => {
   const date = new Date(timestamp);
   const month = date.getMonth() + 1; // Months are zero-based, so we add 1
@@ -480,6 +480,12 @@ return (
             src="efiz.near/widget/SBT.Badge"
             props={{ accountId: accountId }}
           />
+          {badges.map((badge) => (
+            <Widget
+              src="proofofvibes.near/widget/sbtEmojiHelper"
+              props={{ accountId: accountId, badgeType: badge }}
+            />
+          ))}
           <small>
             {blockHeight === "now" ? (
               "now"
