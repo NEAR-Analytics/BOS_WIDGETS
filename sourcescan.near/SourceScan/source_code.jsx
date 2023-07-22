@@ -23,10 +23,10 @@ const getConfig = (network) => {
   }
 };
 
+console.log(Storage.get(`${state.config.ownerId}/widget/SourceScan`, "theme"));
+
 State.init({
-  theme:
-    Storage.get(`${state.config.ownerId}/widget/SourceScan`, "theme") ||
-    "light",
+  theme: Storage.privateGet("theme") || "light",
   from_index: 0,
   limit: limits[0],
   contracts: null,
