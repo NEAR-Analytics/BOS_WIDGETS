@@ -18,7 +18,6 @@ const showClass = props.showClass ?? true;
 const showHeader = props.showHeader ?? true;
 const nftDescription =
   props.nftDescription ?? "Proof of Vibe NFT powered by GenaDrop"; // pull from post
-const nftTitle = props.nftTitle ?? "Proof of Vibes  ${Date.now()}";
 const classId = props.classId ?? 1;
 const reference =
   props.reference ??
@@ -28,6 +27,20 @@ const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&b
 
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
+
+const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}/${day}, ${year}`;
+};
+
+const formattedDate = formatDate(Date.now());
+
+const nftTitle =
+  props.nftTitle ?? "Proof of Vibes " + accountId + " " + formattedDate; // see about adding title and person that vibes them
+
 State.init({
   receiver: receiver,
   issuer: issuer,
