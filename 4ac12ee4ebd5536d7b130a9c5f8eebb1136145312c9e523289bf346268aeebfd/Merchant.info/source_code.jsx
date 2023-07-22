@@ -157,8 +157,8 @@ return (
     <th class="text-white">{state.name}</th>
     <td class="text-white">{state.circulating_supply}</td>
     <td class="text-white">{state.max_supply}</td>
-    <td class="text-white">{state.price}</td>
-    <td class="text-white">{state.total_earnings}</td>
+    <td class="text-white">{state.price} Ξ</td>
+    <td class="text-white">{state.total_earnings} Ξ</td>
     <td class="text-white">{new Date().toLocaleDateString()}</td>
   </tr>
 );
