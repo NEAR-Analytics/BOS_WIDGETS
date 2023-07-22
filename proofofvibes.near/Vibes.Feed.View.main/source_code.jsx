@@ -1,5 +1,6 @@
 /**
- * Do tastemaker check, see if toast notifcation works, add to nft, add default cid for minting images, pull description from post
+ * Do tastemaker check, see if toast notifcation works, add to nft, add default cid for minting images, add title with day
+ * add human check
  */
 const path = props.path;
 const blockHeight =
@@ -183,6 +184,17 @@ const canPropose = isUserAllowedTo(
   proposalKinds.FunctionCall,
   actions.AddProposal
 );
+
+// IAH Verification
+const getFirstSBTToken = () => {
+  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+    account: accountId,
+    issuer: "fractal.i-am-human.near",
+  });
+  return view?.[0]?.[1]?.[0];
+};
+
+const isHuman = getFirstSBTToken(state.accountId) !== undefined;
 
 const Post = styled.div`
   position: relative;
@@ -491,7 +503,7 @@ return (
                       </a>
                     </li>
                   )}
-                  {isMintAuthority && (
+                  {isMintAuthority && isHuman && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
@@ -514,7 +526,7 @@ return (
                     </li>
                   )}
 
-                  {canPropose && daoIsMinter && (
+                  {canPropose && daoIsMinter && isHuman && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
