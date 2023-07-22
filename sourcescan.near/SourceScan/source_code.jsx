@@ -6,6 +6,7 @@ State.init({
   limit: limits[0],
   contracts: null,
   pages: 1,
+  selectedPage: 1,
   search: "",
 });
 
@@ -111,6 +112,8 @@ if (!state.contracts) searchContracts();
 const handleOptionsChange = (e) => {
   State.update({
     limit: parseInt(e.target.value),
+    selectedPage: 1,
+    from_index: 0,
   });
   searchContracts();
 };
