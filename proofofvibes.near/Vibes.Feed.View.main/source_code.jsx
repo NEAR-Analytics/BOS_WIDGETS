@@ -38,8 +38,10 @@ const formatDate = (timestamp) => {
 };
 const formatDateBlockHeight = (blockHeight) => {
   const block = Near.block(blockHeight);
+  console.log("Block: " + block);
   const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
   const date = new Date(timeMs);
+  console.log("Date: " + date);
   return date.toDateString();
 };
 
