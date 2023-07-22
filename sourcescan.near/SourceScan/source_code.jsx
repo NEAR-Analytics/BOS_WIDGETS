@@ -24,7 +24,7 @@ const getConfig = (network) => {
 };
 
 State.init({
-  theme: "light",
+  theme: Storage.get("theme") || "light",
   from_index: 0,
   limit: limits[0],
   contracts: null,
@@ -82,9 +82,11 @@ const Center = styled.div`
 `;
 
 const switchTheme = () => {
+  const themeToChange = useTheme("dark", "light");
   State.update({
-    theme: state.theme === "light" ? "dark" : "light",
+    theme: themeToChange,
   });
+  Storage.privateSet("theme", themeToChange);
 };
 
 const handleSubmit = (value) => {
