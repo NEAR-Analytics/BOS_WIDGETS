@@ -63,7 +63,7 @@ const unwrap = (balance) => {
   );
 
   wEthContract.withdraw(balance, {}).then((transactionHash) => {
-    onComplete(transactionHash);
+    console.log(transactionHash);
   });
 };
 
