@@ -27,10 +27,11 @@ if (!factoryABI.ok) {
 if (!Ethers.provider()) {
   return (
     <div
-      class="row d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
+      class="row d-flex justify-content-center align-items-center bg-dark"
+      style={{ minHeight: "80vh" }}
     >
       <div class="col-8 col-md-4 text-center">
+        <h3>Login first.</h3>
         <Web3Connect connectLabel="Connect with Web3" />
       </div>
     </div>
