@@ -87,12 +87,20 @@ function composeData() {
     content.text +
     " Friendliness: " +
     state.friendliness +
+    "/" +
+    maxSliderPoints +
     " Energy: " +
     state.energy +
+    "/" +
+    maxSliderPoints +
     " Density: " +
     state.density +
+    "/" +
+    maxSliderPoints +
     " Diversity: " +
-    state.diversity;
+    state.diversity +
+    "/" +
+    maxSliderPoints;
   const data = {
     post: {
       main: JSON.stringify(content),
