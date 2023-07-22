@@ -38,6 +38,8 @@ State.init({
   showAlert: false,
   description: nftDescription,
   title: nftTitle,
+  imageCid: "bafkreiak7jzkpmrv365dskqk4thmlki3ts7kzq44hqr62dmrimbn47676e",
+  cid: "bafkreifsrsklegk4r3jft4fucwvo4pzzwczjecsfg5qrjgp2arevnel2ee",
 });
 const post_args = JSON.stringify({
   receiver: state.receiver,
@@ -270,9 +272,9 @@ const proposeVibee = () => {
   ]);
 };
 const nftMint = () => {
-  if (!state.image.cid) {
-    return;
-  }
+  //   if (!state.image.cid) {
+  //     return;
+  //   }
   if (!accountId) {
     console.log("Please login"); // add share dogvwallet
     State.update({
@@ -311,7 +313,8 @@ const nftMint = () => {
       name: state.title,
       description: state.description,
       properties: [],
-      image: `ipfs://${state.image.cid}`,
+      //   image: `ipfs://${state.image.cid}`,
+      image: `ipfs://${state.imageCid}`,
     };
     console.log("come", metadata);
     asyncFetch("https://ipfs.near.social/add", {
@@ -334,8 +337,10 @@ const nftMint = () => {
             metadata: {
               title: state.title,
               description: state.description,
-              media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              reference: `ipfs://${cid}`,
+              media: `https://ipfs.io/ipfs/${state.imageCid}`,
+              //   media: `https://ipfs.io/ipfs/${state.image.cid}`,
+              //   reference: `ipfs://${cid}`,
+              reference: `ipfs://${state.cid}`,
             },
             receiver_id: accountId,
           },
