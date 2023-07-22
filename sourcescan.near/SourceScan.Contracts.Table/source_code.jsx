@@ -43,10 +43,10 @@ const Table = styled.table`
   }
 `;
 
-const Truncated = styled.p`
+const Truncated = styled.div`
   white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /
+  text-overflow: ellipsis; 
 `;
 
 return (
