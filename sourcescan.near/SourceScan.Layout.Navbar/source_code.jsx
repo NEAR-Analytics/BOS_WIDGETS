@@ -6,12 +6,13 @@ const pages = [
   { label: "Contracts", href: null },
 ];
 
+const useNetwork = (mainnet, testnet) => {
+  return context.networkId === "mainnet" ? mainnet : testnet;
+};
+
 State.init({
   theme: props.theme || "light",
-  ownerId:
-    props.ownerId || context.networkId === "mainnet"
-      ? "sourcescan.near"
-      : "sourcescan.testnet",
+  ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
 });
 
 const dark = {
