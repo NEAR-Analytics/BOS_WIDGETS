@@ -174,7 +174,13 @@ return (
     {isMintAuthority && (
       <Widget
         src="nearefi.near/widget/ReFi.Regen.sbtMint"
-        props={{ showReciever: false, receiver: accountId }}
+        props={{
+          showReciever: false,
+          receiver: accountId,
+          classId: classId,
+          reference: reference,
+          issuer: issuer,
+        }}
       />
     )}
     {canProposeToDAO && (
