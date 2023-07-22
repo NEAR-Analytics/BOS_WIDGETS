@@ -1,11 +1,12 @@
 const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
-if (!props.sender) {
+if (!Ethers.provider()) {
   return (
-    <Widget
-      src={`${USER}/widget/Common.error`}
-      props={{ message: "No user connected." }}
-    />
+    <div class="row d-flex justify-content-center pt-4">
+      <div class="col-8 col-md-4 text-center">
+        <Web3Connect connectLabel="Connect with Web3" />
+      </div>
+    </div>
   );
 }
 
