@@ -256,6 +256,7 @@ function renderContent() {
       </>
     );
   }
+  console.log("Content Image " + content.image);
 }
 
 if (!accountId) {
