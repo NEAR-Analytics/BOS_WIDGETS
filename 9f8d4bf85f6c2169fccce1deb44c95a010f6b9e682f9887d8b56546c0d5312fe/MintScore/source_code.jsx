@@ -172,6 +172,12 @@ return (
         </div>
       </div>
     </CardInfo>
-    <button>Mint Score</button>
+    <button
+      onClick={() => {
+        props.updatePage();
+      }}
+    >
+      Mint Score
+    </button>
   </Wrapper>
 );
