@@ -22,6 +22,13 @@ const GeoqueteSDK = {
   createQuest: (walletAddress, quest) => {},
   joinQuest: (questId) => {},
   submitSolution: (questId) => {},
+  hexToString: (hex) => {
+    let str = "";
+    for (let i = 0; i < hex.length; i += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    }
+    return str;
+  },
 };
 
 if (!!onLoad && typeof onLoad === "function" && !loaded) {
