@@ -114,12 +114,35 @@ const getDeadline = () => {
     });
 };
 
+const getTotalEarnings = () => {
+  const tierValue = 0;
+  const tierHex = "0x" + tierValue.toString(16).padStart(64, "0");
+  const filter = {
+    address: props.collectionAddress,
+    topics: [
+      ethers.utils.id("SubscriptionUpdate(uint256,address,uint256)"),
+      tierHex,
+      ethers.utils.hexZeroPad(ethers.utils.getAddress(props.owner), 32),
+    ],
+    fromBlock: 0,
+    toBlock: "latest",
+  };
+  Ethers.provider()
+    .getLogs(filter)
+    .then((logs) => {
+      const tot = state.price * logs.length;
+      State.update({ totalPaid: tot });
+    })
+    .catch((err) => console.log(err));
+};
+
 const fetchData = () => {
   getCollectionName();
   getCollectionImage();
   getPrice();
   getAmount();
   getDeadline();
+  getTotalEarnings();
 };
 
 fetchData();
