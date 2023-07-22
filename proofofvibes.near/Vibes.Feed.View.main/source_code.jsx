@@ -27,7 +27,7 @@ const accountLoggedIn = context.accountId; // use this just in case
 const postUrl = `https://near.org#/near/widget/PostPage?accountId=${accountId}&blockHeight=${blockHeight}`;
 const profile = Social.getr(`${accountId}/profile`);
 const profileName = accountId;
-if (profile) {
+if (!!profile) {
   profileName = profile.name; // profile name
   console.log("Profile Name: " + profileName);
 }
