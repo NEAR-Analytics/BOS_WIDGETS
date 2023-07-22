@@ -46,7 +46,7 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
-const Container = styled.div`
+const Main = styled.div`
   width: 100%;
   height: 100vh;
   color: ${useTheme(light.color, dark.color)};
@@ -127,7 +127,7 @@ const handlePageChange = (x) => {
 };
 
 return (
-  <Container>
+  <Main>
     <Stack>
       <Right>
         <button onClick={switchTheme}>{state.theme}</button>
@@ -177,5 +177,5 @@ return (
         </Stack>
       </Center>
     </Stack>
-  </Container>
+  </Main>
 );
