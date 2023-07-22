@@ -1,4 +1,4 @@
-const { challenge } = props;
+const { quest } = props;
 
 const Box = styled.div`
     box-sizing:border-box;
@@ -24,6 +24,7 @@ const Status = styled.div`
     color:#fff;
     font-weight:bold;
     margin:10px 0;
+    text-transform:capitalize;
 `;
 
 const Button = styled.div`
@@ -72,7 +73,7 @@ const Badges = styled.div`
 
 const Description = styled.div`
   opacity:.7;
-  padding: 1rem .2rem;
+  padding: .8rem .2rem;
   font-size:.8rem;
 
   p {
@@ -81,15 +82,21 @@ const Description = styled.div`
   }
 `;
 
+const Location = styled.div`
+  font-size:1.4rem;
+  font-weight:bold;
+  padding:.5rem 0;
+`;
+
 return (
   <Box>
-    <Title>The Lost Jewels of Montmartre</Title>
+    <Title>{quest.questName || "The Lost Jewels of Montmartre"}</Title>
     <Badges>
       <Prize>
         <img src="https://ipfs.near.social/ipfs/bafkreifgnes6e5xuxaeknpm3q7tgk4m5yy2zb4nof3th34pawx5lbr5654" />{" "}
-        1 ETH
+        {quest.questPrize || "1"} APE
       </Prize>
-      <Status>Ongoing</Status>
+      <Status>{quest.questStatus || "ongoing"}</Status>
     </Badges>
     <Description>
       <p>
@@ -98,6 +105,7 @@ return (
         in order to find the treasure.
       </p>
     </Description>
+    <Location>{quest.location || "Paris"}</Location>
     <Button>Join the challenge</Button>
   </Box>
 );
