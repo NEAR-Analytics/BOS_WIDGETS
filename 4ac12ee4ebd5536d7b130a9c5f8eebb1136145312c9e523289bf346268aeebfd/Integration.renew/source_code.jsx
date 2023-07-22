@@ -31,7 +31,7 @@ if (state.sender === undefined) {
         src={
           "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
         }
-        props={{ message: "`signer` undefined." }}
+        props={{ message: "Please login first." }}
       />
     );
   }
