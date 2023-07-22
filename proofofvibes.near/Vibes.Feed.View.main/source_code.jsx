@@ -29,6 +29,7 @@ const profile = Social.getr(`${accountId}/profile`);
 const profileName = accountId;
 if (profile) {
   profileName = profile.name; // profile name
+  console.log("Profile Name: " + profileName);
 }
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
