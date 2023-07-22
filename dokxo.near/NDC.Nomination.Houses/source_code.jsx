@@ -284,7 +284,8 @@ return (
                           Select token class id
                         </option>
                         {}
-                        <option value="nothing">more options from fetch</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
                       </select>
                     </div>
                   </div>
