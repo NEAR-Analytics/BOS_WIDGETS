@@ -136,6 +136,7 @@ return (
       <Widget
         src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
         props={{
+          app: state.config.app,
           theme: state.theme,
           ownerId: state.config.ownerId,
           switchTheme: switchTheme,
