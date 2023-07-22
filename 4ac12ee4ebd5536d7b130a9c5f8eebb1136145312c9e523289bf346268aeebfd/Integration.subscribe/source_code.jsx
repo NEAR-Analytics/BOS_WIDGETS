@@ -1,0 +1,75 @@
+// PROPS
+if (!props.collectionAddress)
+  return (
+    <Widget
+      src={
+        "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
+      }
+      props={{ message: "`collectionAddress` undefined." }}
+    />
+  );
+const tier = Big(props.tier ?? 0).toString();
+const style = props.style ?? { backgroundColor: "blue", fontWeight: 500 };
+
+// CHECK FOR WALLET CONNECTION
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  } else
+    return (
+      <Widget
+        src={
+          "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
+        }
+        props={{ message: "`signer` undefined." }}
+      />
+    );
+}
+
+// CONTRACT INSTANCE
+const collectionABI = fetch(
+  "https://raw.githubusercontent.com/knwtechs/subscript.io-contracts/main/artifacts/contracts/SubscriptionsCollection.sol/SubscriptionsCollection.json"
+);
+if (!collectionABI.ok) {
+  return "Contract unavailable.";
+}
+const subscriptionsCollectionContract = new ethers.Contract(
+  contractAddress,
+  JSON.parse(collectionABI.body)["abi"],
+  Ethers.provider().getSigner()
+);
+subscriptionsCollectionContract
+  .getTierPrice(tier)
+  .then((price) => State.update({ price: price.toString() }));
+//}
+
+const subscribe = () => {
+  console.log("To: ", state.sender);
+  console.log("Tier: ", tier);
+  console.log("Price: ", state.price);
+  try {
+    subscriptionsCollectionContract
+      .mint(state.sender, tier, { value: state.price })
+      //.sendTransaction()
+      .catch((err) => console.log(err))
+      .then((tx) => {
+        console.log("Waiting for confirmation: ", tx);
+        tx.wait().then(() => console.log("TX Confirmed"));
+      });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+return (
+  <>
+    <button
+      style={style}
+      onClick={subscribe}
+      id={props.id ?? "subscribeButton"}
+    >
+      Subscribe
+    </button>
+  </>
+);
