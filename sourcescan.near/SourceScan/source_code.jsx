@@ -1,7 +1,9 @@
+const limits = [1, 10, 20, 50];
+
 State.init({
   theme: "light",
   from_index: 0,
-  limit: 10,
+  limit: limits[0],
   contracts: null,
   pages: 1,
   search: "",
@@ -142,6 +144,8 @@ return (
             props={{
               handleOptionsChange: handleOptionsChange,
               theme: state.theme,
+              limits: limits,
+              selectedLimit: state.limit,
             }}
           />
         </HStack>
