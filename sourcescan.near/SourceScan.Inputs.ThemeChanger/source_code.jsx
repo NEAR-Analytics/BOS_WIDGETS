@@ -87,8 +87,8 @@ return (
   <>
     <Button onClick={props.switchTheme}>
       {useTheme(
-        <Sun width={"25px"} height={"25px"} />,
-        <Moon width={"25px"} height={"25px"} />
+        <Moon width={"25px"} height={"25px"} />,
+        <Sun width={"25px"} height={"25px"} />
       )}
     </Button>
   </>
