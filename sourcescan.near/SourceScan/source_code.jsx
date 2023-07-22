@@ -146,7 +146,6 @@ return (
         props={{
           app: state.config.app,
           theme: state.theme,
-          ownerId: state.config.ownerId,
           switchTheme: switchTheme,
         }}
       />
