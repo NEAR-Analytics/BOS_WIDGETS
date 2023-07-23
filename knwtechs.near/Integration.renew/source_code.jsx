@@ -2,9 +2,7 @@
 if (!props.collectionAddress)
   return (
     <Widget
-      src={
-        "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
-      }
+      src={"knwtechs.near/widget/Common.error"}
       props={{ message: "`collectionAddress` undefined." }}
     />
   );
@@ -28,9 +26,7 @@ if (state.sender === undefined) {
   } else {
     return (
       <Widget
-        src={
-          "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
-        }
+        src={"knwtechs.near/widget/Common.error"}
         props={{ message: "Please login first." }}
       />
     );
