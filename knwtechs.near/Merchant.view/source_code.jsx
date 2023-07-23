@@ -1,4 +1,4 @@
-const USER = "knwtechs.near";
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
 const factoryAddress = props.factory;
 const Container = styled.div`
@@ -57,10 +57,11 @@ const getMerchantCollections = (merchant) => {
     .getLogs(filter)
     .then((logs) => {
       const collections = [];
-      for (let i = 1; i < logs.length; i++) {
+      for (let i = 0; i < logs.length; i++) {
         console.log(subscriptionsFactoryContract.interface.parseLog(logs[i]));
         const collectionAddress =
           subscriptionsFactoryContract.interface.parseLog(logs[i]).args[1];
+        console.log("collectionAddress: ", collectionAddress);
         collections.push(collectionAddress);
       }
       State.update({ collections: collections });
@@ -100,9 +101,6 @@ return (
             <th scope="col" class="text-white">
               Date created
             </th>
-            <th scope="col" class="text-white text-center">
-              SDK
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -112,7 +110,6 @@ return (
               props={{
                 collectionAddress: e,
                 abi: JSON.parse(collectionABI.body)["abi"],
-                sender: state.sender,
               }}
             />
           ))}
