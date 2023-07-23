@@ -283,9 +283,6 @@ function renderContent() {
   }
 }
 
-if (!accountLoggedIn) {
-  return "Please connect your NEAR wallet :)";
-}
 // may need to comment out
 // need to check role if tastemaker
 
