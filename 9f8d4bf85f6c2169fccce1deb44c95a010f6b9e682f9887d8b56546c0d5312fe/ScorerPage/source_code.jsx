@@ -134,6 +134,7 @@ const Scores = styled.div`
 const ScoresContainer = styled.div`
       display: flex;
       align-items: center;
+      width: 100%;
   
       button {
         background-color: #BDFF00!important;
