@@ -148,7 +148,7 @@ return (
     <th scope="row" class="text-white">
       <img src={state.uri} class="img-fluid" style={{ maxWidth: "5vw" }} />
     </th>
-    <th class="text-white">{state.name}</th>
+    <th class="text-white d-flex align-items-center">{state.name}</th>
     <td class="text-white">{state.circulating_supply}</td>
     <td class="text-white">{state.max_supply > 0 ? state.max_supply : "-"}</td>
     <td class="text-white">{state.price} Ξ</td>
