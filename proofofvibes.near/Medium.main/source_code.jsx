@@ -61,26 +61,28 @@ const fetchData = (url) => {
 const coindeskLink = "https://www.coindesk.com/arc/outboundfeeds/rss/"; // coindesk
 const rssToJson = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-const coindeskFetch = coindeskLink + rssToJson;
+const coindeskFetch = rssToJson + coindeskLink;
 
 const fetchCoindesk = fetch(coindeskFetch, { method: "GET" });
 // change this
-if (fetchCoindesk && fetchMedium?.body?.items?.length > 0) {
-  fetchMedium.body.items.forEach((item) => {
+if (fetchCoindesk && fetchCoindesk?.body?.items?.length > 0) {
+  fetchCoindesk.body.items.forEach((item) => {
     coindeskPosts.push({
       title: item.title,
       url: item.link,
-      thumbnail: item.thumbnail,
+      thumbnail: item["media:content"].content.url,
       createdAt: item.pubDate,
       categories: item.categories,
     });
   });
-} // DOUBLE CHECK IF THESE CATEGORIES ARE CHILL
+} // CHANGE THUMBNAILS AND IF CATEGORIES
 
-const fetchLink =
-  "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/";
+// const fetchLink =
+//   "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/";
 const mediumHandle = props.handle ?? "@nearweek";
-fetchLink = fetchLink + mediumHandle;
+const mediumLink = "https://medium.com/feed/";
+mediumLink = mediumLink + mediumHandle;
+const fetchLink = rssToJson + mediumLink;
 const fetchMedium = fetch(fetchLink, { method: "GET" });
 
 if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
@@ -395,6 +397,34 @@ const Post = (props) => {
   );
 };
 
+const PostCoin = (props) => {
+  const { key, post } = props;
+  return (
+    <Card key={key} index={props.index}>
+      <CardImage src={post.thumbnail} alt="" />
+      <CardContent>
+        <CardTitle>
+          <a href={post.url} target="_blank">
+            {post.title}
+          </a>
+        </CardTitle>
+        <CardFooter>
+          <Badges>
+            {post.categories &&
+              post.categories.length > 0 &&
+              post.categories.map((category, index) => (
+                <Badge index={index}>{category}</Badge>
+              ))}
+          </Badges>
+          <CardDate>
+            <ClockIconSVG />
+            {post.createdAt ? dateToDays(post.createdAt) : ""}
+          </CardDate>
+        </CardFooter>
+      </CardContent>
+    </Card>
+  );
+};
 return (
   <Theme>
     <NwWidget>
@@ -432,7 +462,7 @@ return (
         <TabContent active={state.active === 1}>
           <>
             {blog.length > 0 ? (
-              blog.map((blog, index) => <Post post={blog} index={index} />)
+              blog.map((blog, index) => <PostCoin post={blog} index={index} />)
             ) : (
               <div>Loading ...</div>
             )}
