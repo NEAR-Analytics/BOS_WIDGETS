@@ -429,7 +429,7 @@ return (
   <Theme>
     <NwWidget>
       <Header>
-        <H2>News</H2>
+        <H2>Editorial</H2>
         <Promo>
           <a href={nwSite} target="_blank">
             Widget by Nearweek
