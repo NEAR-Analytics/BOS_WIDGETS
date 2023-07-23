@@ -145,10 +145,12 @@ if (Ethers.provider()) {
 
 return (
   <tr>
-    <th scope="row" class="text-white">
+    <th scope="row" class="text-white" style={{ verticalAlign: "middle" }}>
       <img src={state.uri} class="img-fluid" style={{ maxWidth: "5vw" }} />
     </th>
-    <th class="text-white d-flex align-items-center">{state.name}</th>
+    <th class="text-white align-center" style={{ verticalAlign: "middle" }}>
+      {state.name}
+    </th>
     <td class="text-white">{state.circulating_supply}</td>
     <td class="text-white">{state.max_supply > 0 ? state.max_supply : "-"}</td>
     <td class="text-white">{state.price} Ξ</td>
