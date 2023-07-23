@@ -1,5 +1,9 @@
 const { quest } = props;
 
+State.update({
+  sdk: null,
+});
+
 const Box = styled.div`
     box-sizing:border-box;
     padding:1rem;
@@ -106,8 +110,28 @@ const Location = styled.div`
   }
 `;
 
+const joinQuest = () => {
+  state.sdk.joinQuest(quest.id || 0).then((rawResponse) => {
+    const response = state.sdk.decode("joinQuest", rawResponse);
+    console.log(response);
+  });
+};
+
 return (
   <Box>
+    <div
+      style={{
+        display: "none",
+      }}
+    >
+      <Widget
+        src="mattb.near/widget/Geoquete.Libs.GeoqueteSDK"
+        props={{
+          onLoad: (sdk) => State.update({ sdk: sdk }),
+          loaded: !!state.sdk,
+        }}
+      />
+    </div>
     <Title>{quest.questName || "The Lost Jewels of Montmartre"}</Title>
     <Badges>
       <Prize>
@@ -129,7 +153,10 @@ return (
       </span>
       {quest.location || "Paris"}
     </Location>
-    <Button className={quest.alreadyJoined ? "verify" : ""}>
+    <Button
+      className={quest.alreadyJoined ? "verify" : ""}
+      onClick={() => joinChallenge()}
+    >
       {quest.alreadyJoined ? "Verify my location" : "Join the challenge"}
     </Button>
   </Box>
