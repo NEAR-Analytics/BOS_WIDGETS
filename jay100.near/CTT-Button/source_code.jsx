@@ -108,7 +108,7 @@ const GameButton = () => {
     <div
       style={{
         backgroundColor: "rgb(12, 12, 31)",
-        height: "100%",
+        height: "80vh",
         padding: ".6rem",
       }}
     >
