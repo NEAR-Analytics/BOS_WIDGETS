@@ -4,7 +4,7 @@ const data = fetch(`https://tonft.app/get-scores?recipient=${sender}`);
 
 const dataParsed = JSON.parse(data.body);
 
-const priceFeedAddress = "0xf25521b0B380eDE1b35A6A6DBBECf07602FeE901";
+const priceFeedAddress = "0x1413D5F91bdf427d6d793dc4E9a65e59A40531bd";
 
 const priceFeedABI = [
   {
