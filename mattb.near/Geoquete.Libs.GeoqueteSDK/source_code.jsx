@@ -48,11 +48,11 @@ const GeoqueteSDK = {
   submitSolution: (questId, zkProof, ipfsPhotoUrl) => {
     return GeoqueteSDK.call("submitSolution", [questId, zkProof, ipfsPhotoUrl]);
   },
-  allowSpend: (address, amount) => {
+  allowSpend: (amount) => {
     return Ethers.provider().call({
       to: APECOIN_CONTRACT_ADDRESS,
       data: apecoinIface.encodeFunctionData("increaseAllowance", [
-        address,
+        GEOQUETE_CONTRACT_ADDRESS,
         amount,
       ]),
     });
