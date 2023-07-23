@@ -116,7 +116,7 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
       description:
-        "A gateway dedicated to developers. Siwtch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
+        "A gateway dedicated to developers. Switch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
     },
     {
       key: 4,
