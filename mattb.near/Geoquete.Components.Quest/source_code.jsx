@@ -41,16 +41,16 @@ const Button = styled.div`
 `;
 
 const Prize = styled.div`
-  display:flex;
+  display:inline-block;
+  width:100%;
   font-size:.7rem;
   background-color:orange;
   border-radius:20px;
-  padding:.2rem .2rem;
+  padding:.2rem .5rem;
   color:#fff;
   font-weight:bold;
   min-width:70px;
-  justify-content:center;
-  align-items:center;
+  max-width:120px;
 
   img {
     max-width:20px;
@@ -86,6 +86,12 @@ const Location = styled.div`
   font-size:1.4rem;
   font-weight:bold;
   padding:.5rem 0;
+
+  span {
+    img {
+      max-width:25px;
+    }
+  }
 `;
 
 return (
@@ -94,7 +100,7 @@ return (
     <Badges>
       <Prize>
         <img src="https://ipfs.near.social/ipfs/bafkreifgnes6e5xuxaeknpm3q7tgk4m5yy2zb4nof3th34pawx5lbr5654" />{" "}
-        {quest.questPrize || "1"} APE
+        {quest.questPrize || "10000"} APE
       </Prize>
       <Status>{quest.questStatus || "ongoing"}</Status>
     </Badges>
@@ -105,7 +111,12 @@ return (
         in order to find the treasure.
       </p>
     </Description>
-    <Location>{quest.location || "Paris"}</Location>
+    <Location>
+      <span>
+        <img src="https://ipfs.near.social/ipfs/bafkreig2lvgnd5tftg3ehone77plgagwaglnmp2hp7pirtpibecrb7ug4i" />
+      </span>
+      {quest.location || "Paris"}
+    </Location>
     <Button>Join the challenge</Button>
   </Box>
 );
