@@ -2,7 +2,7 @@ State.init({
   selectedTab: props.tab || "overview",
 });
 
-const accountId = "root.akaia.near";
+const accountId = "carina.akaia.near";
 
 if (props.tab && props.tab !== state.selectedTab) {
   State.update({
