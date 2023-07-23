@@ -57,7 +57,7 @@ const GeoqueteSDK = {
     );
 
     return contract.joinQuest(questId, {
-      gasPrice: ethers.utils.parseUnits("1", "gwei"),
+      gasPrice: ethers.utils.parseUnits("100", "gwei"),
       gasLimit: 1000000,
     });
   },
