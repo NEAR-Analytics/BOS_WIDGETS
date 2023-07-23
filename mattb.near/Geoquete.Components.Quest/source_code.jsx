@@ -122,9 +122,8 @@ return (
     </Badges>
     <Description>
       <p>
-        This is the description of the actual quest that is going on and will
-        provide hints for users to get to know about the places they have to go
-        in order to find the treasure.
+        {quest.description ||
+          "This is the description of the actual quest that is going on and will provide hints for users to get to know about the places they have to go in order to find the treasure."}
       </p>
     </Description>
     <Location>
