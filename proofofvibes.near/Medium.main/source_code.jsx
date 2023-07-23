@@ -1,9 +1,14 @@
 const accountId = "near";
 State.init({ active: 1 });
-const nwSite = "https://nearweek.com";
 let posts = [];
 let mediumPosts = [];
 let coindeskPosts = [];
+const firstTabName = props.firstTabName ?? "NEARWEEK";
+const secondTabName = props.secondTabName ?? "COINDESK";
+const widgetName = props.widgetName ?? "NEWS";
+const rssLink =
+  props.rssLink ?? "https://www.coindesk.com/arc/outboundfeeds/rss/"; // coindesk
+const mediumHandle = props.handle ?? "@nearweek";
 
 const indexedPosts = Social.index("post", "main", {
   accountId,
@@ -58,10 +63,9 @@ const fetchData = (url) => {
   });
 };
 
-const coindeskLink = "https://www.coindesk.com/arc/outboundfeeds/rss/"; // coindesk
 const rssToJson = "https://api.rss2json.com/v1/api.json?rss_url=";
 
-const coindeskFetch = rssToJson + coindeskLink;
+const coindeskFetch = rssToJson + rssLink;
 
 const fetchCoindesk = fetch(coindeskFetch, { method: "GET" });
 // change this
@@ -79,7 +83,6 @@ if (fetchCoindesk && fetchCoindesk?.body?.items?.length > 0) {
 
 // const fetchLink =
 //   "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/";
-const mediumHandle = props.handle ?? "@nearweek";
 const mediumLink = "https://medium.com/feed/";
 mediumLink = mediumLink + mediumHandle;
 const fetchLink = rssToJson + mediumLink;
@@ -180,7 +183,7 @@ const H2 = styled.h2`
 
 const Tabs = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   margin-bottom: 25px;
   align-items: center;
   overflow: hidden;
@@ -429,12 +432,7 @@ return (
   <Theme>
     <NwWidget>
       <Header>
-        <H2>News</H2>
-        <Promo>
-          <a href={nwSite} target="_blank">
-            Widget by Nearweek
-          </a>
-        </Promo>
+        <H2>{widgetName}</H2>
       </Header>
       <Tabs>
         <TabNavs>
@@ -444,7 +442,7 @@ return (
             active={state.active === 1}
             id={1}
           >
-            NEARWEEK
+            {firstTabName}
           </Tab>
         </TabNavs>
         <TabNavs>
@@ -454,7 +452,7 @@ return (
             active={state.active === 2}
             id={2}
           >
-            COINDESK
+            {secondTabName}
           </Tab>
         </TabNavs>
       </Tabs>
