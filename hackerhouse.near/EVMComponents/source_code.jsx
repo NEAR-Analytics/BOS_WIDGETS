@@ -58,6 +58,31 @@ return (
       <Item>
         <Widget
           src="near/widget/ComponentCard"
+          props={{ src: "ref-admin.near/widget/ZKEVM.GAMMA" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "ref-admin.near/widget/ZKEVMSwap.zkevm-swap" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "ref-admin.near/widget/ZKEVMSwap.zkevm-bridge" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "ref-admin.near/widget/ZKEVM.AAVE" }}
+        />
+      </Item>
+
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
           props={{ src: "zavodil.near/widget/DexData" }}
         />
       </Item>
@@ -163,12 +188,6 @@ return (
         <Widget
           src="near/widget/ComponentCard"
           props={{ src: "chanon.near/widget/1inch" }}
-        />
-      </Item>
-      <Item>
-        <Widget
-          src="near/widget/ComponentCard"
-          props={{ src: "garlicfaucet.near/widget/liquityWidget" }}
         />
       </Item>
       <Item>
