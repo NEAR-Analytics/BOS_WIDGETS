@@ -189,13 +189,11 @@ return (
           Ethers.provider().getSigner()
         );
 
-        console.log(contract.tokenURI(0));
-
         contract.mint(sender, {
-          GitcoinScore: dataParsed.scores.gitcoin_score.toFixed(2),
-          WalletData: dataParsed.scores.wallet_data.toFixed(2),
-          SpotScore: dataParsed.scores.spot_score.toFixed(2),
-          SocialScore: dataParsed.scores.gitcoin_score.toFixed(2),
+          GitcoinScore: dataParsed.scores.gitcoin_score.toFixed(2) * 100,
+          WalletData: dataParsed.scores.wallet_data.toFixed(2) * 100,
+          SpotScore: dataParsed.scores.spot_score.toFixed(2) * 100,
+          SocialScore: dataParsed.scores.gitcoin_score.toFixed(2) * 100,
           owner: sender,
         });
       }}
