@@ -2,7 +2,7 @@ State.init({ active: 2 });
 let posts = [];
 let mediumPosts = [];
 let rssPosts = [];
-const secondTabName = props.secondTabName ?? "COINDESK";
+const tabName = props.tabName ?? "COINDESK";
 const widgetName = props.widgetName ?? "NEWS";
 const rssLink =
   props.rssLink ?? "https://www.coindesk.com/arc/outboundfeeds/rss/"; // coindesk
@@ -349,7 +349,7 @@ return (
             active={state.active === 2}
             id={2}
           >
-            {secondTabName}
+            {tabName}
           </Tab>
         </TabNavs>
       </Tabs>
