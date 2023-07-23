@@ -21,6 +21,8 @@ const Header = (
   </div>
 );
 
+const web3connectLabel = props.web3connectLabel || "Connect Wallet";
+
 const Overview = (
   <div className="col-start-1 col-span-12 rounded-2xl border border-gray-200 bg-white shadow-xl p-5 mt-12">
     <div>
@@ -64,6 +66,10 @@ return (
       props={{
         children: Header,
       }}
+    />
+    <Web3Connect
+      className="FormSubmitContainer"
+      connectLabel={web3connectLabel}
     />
     <br />
     <Widget
