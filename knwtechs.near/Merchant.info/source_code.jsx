@@ -166,26 +166,28 @@ return (
     <td class="text-white" style={{ verticalAlign: "middle" }}>
       {new Date().toLocaleDateString()}
     </td>
-    <td class="text-white d-flex" style={{ verticalAlign: "middle" }}>
-      <button
-        onClick={() => {
-          clipboard.writeText(`<iframe src="https://ethglobal.knwtechs.com/#/knwtechs.near/widget/Integration.subscribe?collectionAddress=${state.collectionAddress}&sender=<here_your_customer_address>"
-          />`);
-        }}
-        class="btn btn-sm btn-secondary"
-      >
-        Subscribe iframe
-      </button>
-      <div style={{ marginLeft: "1vw" }} />
-      <button
-        onClick={() => {
-          clipboard.writeText(`<iframe src="https://ethglobal.knwtechs.com/#/knwtechs.near/widget/Integration.renew?collectionAddress=${state.collectionAddress}&tier=<optional>"
-          />`);
-        }}
-        class="btn btn-sm btn-secondary"
-      >
-        Renew iframe
-      </button>
+    <td class="text-white" style={{ verticalAlign: "middle" }}>
+      <div class="d-flex">
+        <button
+          onClick={() => {
+            clipboard.writeText(`<iframe src="https://ethglobal.knwtechs.com/#/knwtechs.near/widget/Integration.subscribe?collectionAddress=${state.collectionAddress}&sender=<here_your_customer_address>"
+            />`);
+          }}
+          class="btn btn-sm btn-secondary"
+        >
+          Subscribe iframe
+        </button>
+        <div style={{ marginLeft: "1vw" }} />
+        <button
+          onClick={() => {
+            clipboard.writeText(`<iframe src="https://ethglobal.knwtechs.com/#/knwtechs.near/widget/Integration.renew?collectionAddress=${state.collectionAddress}&tier=<optional>"
+            />`);
+          }}
+          class="btn btn-sm btn-secondary"
+        >
+          Renew iframe
+        </button>
+      </div>
     </td>
   </tr>
 );
