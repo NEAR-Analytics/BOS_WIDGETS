@@ -4,7 +4,9 @@ const factoryAddress = "0x0aBeC91137108C54bdfA2B909E0EC529ECd99429";
 if (!props.collectionAddress)
   return (
     <Widget
-      src={"knwtechs.near/widget/Common.error"}
+      src={
+        "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
+      }
       props={{ message: "`collectionAddress` undefined." }}
     />
   );
@@ -27,7 +29,9 @@ if (state.sender === undefined) {
   } else {
     return (
       <Widget
-        src={"knwtechs.near/widget/Common.error"}
+        src={
+          "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd/widget/Common.error"
+        }
         props={{ message: "Please login first." }}
       />
     );
