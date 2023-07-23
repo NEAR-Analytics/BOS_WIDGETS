@@ -1,4 +1,4 @@
-const { quest, onJoin } = props;
+const { quest, onJoin, onVerify } = props;
 
 State.update({
   sdk: null,
@@ -135,7 +135,9 @@ return (
     </Location>
     <Button
       className={quest.alreadyJoined ? "verify" : ""}
-      onClick={() => onJoin(quest.id)}
+      onClick={() =>
+        quest.alreadyJoined ? onVerify(quest.id) : onJoin(quest.id)
+      }
     >
       {quest.alreadyJoined ? "Verify my location" : "Join the challenge"}
     </Button>
