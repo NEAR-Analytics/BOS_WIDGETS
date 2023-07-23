@@ -1,4 +1,4 @@
-const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
+const USER = "knwtechs.near";
 
 const factoryAddress = "0x0aBeC91137108C54bdfA2B909E0EC529ECd99429";
 
