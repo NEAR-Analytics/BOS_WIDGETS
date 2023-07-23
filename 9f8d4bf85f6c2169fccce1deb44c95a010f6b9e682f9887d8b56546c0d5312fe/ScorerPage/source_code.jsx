@@ -78,6 +78,7 @@ const ScoreInfo = styled.div`
       justify-content: center;
       flex-wrap: wrap;
       width: 60%;
+      min-width: 400px;
       
       background-color: #2C2C2C;
       border: 3px white solid;
