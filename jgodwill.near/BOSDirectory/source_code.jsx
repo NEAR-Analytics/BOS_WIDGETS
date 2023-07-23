@@ -333,7 +333,7 @@ return (
         ))}
       </select>
       <Typeahead
-        options={state.uniqueCategories}
+        options={state.uniqueCategories.slice(1)}
         multiple
         onChange={(value) => {
           State.update({ choose: value });
