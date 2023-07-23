@@ -244,6 +244,7 @@ return (
           </button>
         </StakeButtonWrapper>
         <button>스테이킹하기</button>
+        <button>언스테이크</button>
       </>
     )}
   </>
