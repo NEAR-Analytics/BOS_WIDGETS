@@ -96,13 +96,6 @@ State.init({
 
 const isTasteMaker = true;
 // const accountId = context.accountId;
-if (!accountLoggedIn) {
-  return (
-    <div>
-      <p>Login to NEAR with your 🥂 tastemaker approved wallet</p>
-    </div>
-  );
-}
 
 const post_args = JSON.stringify({
   receiver: accountId, // accountId is the person who wrote the post
