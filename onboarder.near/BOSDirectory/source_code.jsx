@@ -90,6 +90,7 @@ const social = {
         "https://ipfs.near.social/ipfs/bafybeiewpf55q4ubml3cnbqdu62kamwyph2z4qqaiupz5md7ydlh4ghwwq",
       description:
         "Social Data Protocol On NEAR. The first gateway. Built in social features like custom domains, reports, link previews + more!",
+      category: ["NEAR", "EVM", "Social"],
     },
     {
       key: 2,
@@ -99,6 +100,7 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreifv5wmqng43g3la2mgwenyhcuzp6g5grnp4ucrwqaciz2ibpqfdgi",
       description:
         "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web. Built in EVM, FastAuth w/ Metatransactions",
+      category: ["NEAR", "EVM", "Social"],
     },
     {
       key: 2,
@@ -108,6 +110,7 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreifihbw7snvqkkhmicbr7x7jevtnw6mtvln4wlgmuq6jnhy4netyke",
       description:
         "A zkEVM by Quickswap featuring PancakeSwap, Quickswap, Gamma, and Balancer. ",
+      category: ["DeFi", "EVM", "zkEVM"],
     },
     {
       key: 5,
@@ -117,6 +120,7 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
       description:
         "A gateway dedicated to developers. Switch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
+      category: ["Dev", "EVM"],
     },
     {
       key: 4,
@@ -126,6 +130,7 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreia6etmuxr3xhhpoeqimcl2oyg5ovcsa25e4j4242hy44lk2q73udi",
       description:
         "A viewer for NEAR Analytics powered by the Flipside Crypto API built by the NEAR Foundation",
+      category: ["NEAR", "Data"],
     },
     {
       key: 7,
@@ -135,6 +140,7 @@ const social = {
         " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
       description:
         "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
+      category: ["NEAR", "Sui", "Aptos"],
     },
     {
       key: 10,
@@ -143,6 +149,7 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafkreibjlc2hyxfve55gp2fg6lojf6eliptgiiawprhbg4dyc2wbpzy7tm",
       description: "Token gated rich media supported social feeds",
+      category: ["NEAR", "Social", "NFT"],
     },
     {
       key: 3,
@@ -152,6 +159,7 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreifqzppapwceuwvecotf4uczonrc7gtvjqlmlxpy2hdo4hau3m6svm",
       description:
         "An example viewer of the Canto's blockchain, CantoSwap viewer",
+      category: ["DeFi", "EVM", "Canto"],
     },
     {
       key: 6,
@@ -160,6 +168,7 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafkreidx4rvihxc5ycpvlyaod7dscotlb6bmoffimjl7s2zvarhmxtymma",
       description: "A gateway dedicated to NFTs across different chains",
+      category: ["NEAR", "EVM", "NFT"],
     },
     {
       key: 8,
@@ -168,6 +177,7 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
       description: "Everything +  Data Visualizations for social.near",
+      category: ["NEAR", "Data", "Dev"],
     },
     {
       key: 0,
@@ -176,6 +186,7 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
       description: "Decentralized front ends for evm chains",
+      category: ["EVM", "DeFi"],
     },
     {
       key: 9,
@@ -184,6 +195,17 @@ const social = {
       image:
         "https://ipfs.near.social/ipfs/bafkreidjmhh4yvjgn7htpymtt3lqhlaoi3ksabixsicojzwichply4oxdy",
       description: "A NEAR gateway for music + NFTs",
+      category: ["NFT", "NEAR", "Music"],
+    },
+    {
+      key: 9,
+      name: "Proof Of Vibes",
+      url: "https://app.ProofOfVibes.com/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreievzivskwxnjqetpr2yc2yaxjzvpdn5w3fvmp67vknjvz5eotpfjq",
+      description:
+        "A feed of vibe checks and DAO dashboard for global network of tastemakers w/ SBT + NFT integration",
+      category: ["NFT", "NEAR", "Social"],
     },
   ],
 };
