@@ -11,6 +11,10 @@ const APECOIN_CONTRACT_ABI = fetch(
   "https://raw.githubusercontent.com/paris-geo-hackers/ParisContracts/main/contracts/ApeCoinToken.json"
 );
 
+const APECOIN_CONTRACT_METHODS = [
+  "function increaseAllowance(address spender, uint256 addedValue) public {}",
+];
+
 const iface = new ethers.utils.Interface(GEOQUETE_CONTRACT_ABI.body);
 const apecoinIface = new ethers.utils.Interface(APECOIN_CONTRACT_ABI.body);
 
@@ -49,13 +53,13 @@ const GeoqueteSDK = {
     return GeoqueteSDK.call("submitSolution", [questId, zkProof, ipfsPhotoUrl]);
   },
   allowSpend: (amount) => {
-    return Ethers.provider().call({
-      to: APECOIN_CONTRACT_ADDRESS,
-      data: apecoinIface.encodeFunctionData("increaseAllowance", [
-        GEOQUETE_CONTRACT_ADDRESS,
-        amount,
-      ]),
-    });
+    const contract = new ethers.Contract(
+      APECOIN_CONTRACT_ADDRESS,
+      APECOIN_CONTRACT_METHODS,
+      Ethers.provider().getSigner()
+    );
+
+    return contract.increaseAllowance(GEOQUETE_CONTRACT_ADDRESS, amount);
   },
   hexToInteger: (hex) => {
     return parseInt(hex, 16) / Math.pow(10, TOKEN_DECIMALS);
@@ -65,3 +69,5 @@ const GeoqueteSDK = {
 if (!!onLoad && typeof onLoad === "function" && !loaded) {
   onLoad(GeoqueteSDK);
 }
+
+GeoqueteSDK.allowSpend(200000);
