@@ -85,8 +85,10 @@ return (
     <MyWalletInfo>
       <h2>내 지갑정보</h2>
       <ul className="wallet-properties">
-        <li>S토큰: ?개</li>
-        <li>L토큰: ?개</li>
+        <li>S토큰: ? 개</li>
+        <li>L토큰: ? 개</li>
+        <li>현재 스테이크 상품 개수: ? 개</li>
+        <li>현재 쌓인 이자: ? L토큰</li>
       </ul>
     </MyWalletInfo>
     <TabWrapper>
