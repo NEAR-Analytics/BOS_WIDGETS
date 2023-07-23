@@ -179,74 +179,70 @@ const createCollection = async () => {
   if (isFormValid()) {
     console.log("form valid, performing contract call.");
 
-    try {
-      // CREATE JSON METADATA
-      const jsonData = {
-        name: state.product_name,
-        description: "SubScript.io",
-        image: state.uri,
-        external_url: "",
-        attributes: [],
-      };
+    // CREATE JSON METADATA
+    const jsonData = {
+      name: state.product_name,
+      description: "SubScript.io",
+      image: state.uri,
+      external_url: "",
+      attributes: [],
+    };
 
-      const jsonString = JSON.stringify(jsonData, null, 2);
+    const jsonString = JSON.stringify(jsonData, null, 2);
 
-      asyncFetch("https://ipfs.near.social/add", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: jsonString,
-      }).then((res) => {
-        console.log("Upload result: ", res);
-        const cid = res.body.cid;
-        const meta_uri = `https://ipfs.io/ipfs/${cid}`;
-        console.log("Meta URI: ", meta_uri);
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: jsonString,
+    }).then((res) => {
+      console.log("Upload result: ", res);
+      const cid = res.body.cid;
+      const meta_uri = `https://ipfs.io/ipfs/${cid}`;
+      console.log("Meta URI: ", meta_uri);
 
-        const amount = Big(state.price).mul(Big(10).pow(18)).toString();
-        const start = Big(
-          Math.floor(new Date(state.startTimestamp).getTime() / 1000)
-        ).toString();
-        const frame = Big(state.timeframe).mul(86400).toString();
+      const amount = Big(state.price).mul(Big(10).pow(18)).toString();
+      const start = Big(
+        Math.floor(new Date(state.startTimestamp).getTime() / 1000)
+      ).toString();
+      const frame = Big(state.timeframe).mul(86400).toString();
 
-        console.log("Amount: ", amount);
-        console.log("Start: ", start);
-        console.log("Frame: ", frame);
-        console.log("Sender: ", props.sender);
-        console.log("Supply: ", Big(state.supply).toString());
+      console.log("Amount: ", amount);
+      console.log("Start: ", start);
+      console.log("Frame: ", frame);
+      console.log("Sender: ", props.sender);
+      console.log("Supply: ", Big(state.supply).toString());
 
-        const subscriptionsFactoryContract = new ethers.Contract(
-          contractAddress,
-          JSON.parse(factoryABI.body)["abi"],
-          Ethers.provider().getSigner()
-        );
+      const subscriptionsFactoryContract = new ethers.Contract(
+        contractAddress,
+        JSON.parse(factoryABI.body)["abi"],
+        Ethers.provider().getSigner()
+      );
 
-        State.update({ waiting: true });
-        subscriptionsFactoryContract
-          .createCollection(
-            state.product_name,
-            [amount],
-            [Big(state.supply).toString()],
-            frame,
-            props.sender,
-            meta_uri,
-            start
-          )
-          .catch((err) => {
-            console.log(err);
-            State.update({ waiting: false });
-          })
-          .then((tx) => {
-            console.log("Waiting for confirmation: ", tx);
-            tx.wait().then((hash) => {
-              State.update({
-                waiting: false,
-                collectionCreated: hash.events[0].address,
-              });
+      State.update({ waiting: true });
+      subscriptionsFactoryContract
+        .createCollection(
+          state.product_name,
+          [amount],
+          [Big(state.supply).toString()],
+          frame,
+          props.sender,
+          meta_uri,
+          start
+        )
+        .catch((err) => {
+          console.log(err);
+          State.update({ waiting: false });
+        })
+        .then((tx) => {
+          console.log("Waiting for confirmation: ", tx);
+          tx.wait().then((hash) => {
+            State.update({
+              waiting: false,
+              collectionCreated: hash.events[0].address,
             });
           });
-      });
-    } catch (err) {
-      console.log(err);
-    }
+        });
+    });
   } else {
     console.log("form not ready");
   }
