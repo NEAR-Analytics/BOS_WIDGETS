@@ -198,7 +198,7 @@ const createCollection = async () => {
       }).then((res) => {
         console.log("Upload result: ", res);
         const cid = res.body.cid;
-        const meta_uri = `https://ipfs.near.social/ipfs/${cid}`;
+        const meta_uri = `https://ipfs.io/ipfs/${cid}`;
         console.log("Meta URI: ", meta_uri);
 
         const amount = Big(state.price).mul(Big(10).pow(18)).toString();
