@@ -152,6 +152,9 @@ return (
     <div class="card-header text-center">
       <img src={state.image} class="img-fluid" />
     </div>
+    <div class="card-body">
+      <h5 class="card-title text-center">{state.name}</h5>
+    </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
         <i>Amount</i>: {state.amount}
@@ -166,8 +169,11 @@ return (
         <i>Next billing</i>: {state.deadline}
       </li>
     </ul>
-    <div class="card-body">
-      <h5 class="card-title text-center">{state.name}</h5>
+    <div class="card-body text-center">
+      <Widget
+        src={`${USER}/widget/Integration.renew`}
+        props={{ collectionAddress: props.collectionAddress }}
+      />
     </div>
   </div>
 );
