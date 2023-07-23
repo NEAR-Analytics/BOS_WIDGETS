@@ -1,4 +1,4 @@
-const USER = "knwtechs.near";
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
 if (!props.collectionAddress || !props.abi || !props.owner)
   return (
@@ -149,13 +149,8 @@ fetchData();
 
 return (
   <div class="card bg-light mb-3 d-flex w-100">
-    {state.image && (
-      <div class="card-header text-center">
-        <img src={state.image} class="img-fluid" />
-      </div>
-    )}
-    <div class="card-body">
-      <h5 class="card-title text-center">{state.name}</h5>
+    <div class="card-header text-center">
+      <img src={state.image} class="img-fluid" />
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
@@ -171,11 +166,8 @@ return (
         <i>Next billing</i>: {state.deadline}
       </li>
     </ul>
-    <div class="card-body text-center">
-      <Widget
-        src={`${USER}/widget/Integration.renew`}
-        props={{ collectionAddress: props.collectionAddress }}
-      />
+    <div class="card-body">
+      <h5 class="card-title text-center">{state.name}</h5>
     </div>
   </div>
 );
