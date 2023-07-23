@@ -1,9 +1,8 @@
 const accountId = "near";
-State.init({ active: 1 });
+State.init({ active: 0 });
 const nwSite = "https://nearweek.com";
 let posts = [];
 let mediumPosts = [];
-let coindeskPosts = [];
 
 const indexedPosts = Social.index("post", "main", {
   accountId,
@@ -58,32 +57,10 @@ const fetchData = (url) => {
   });
 };
 
-const coindeskLink = "https://www.coindesk.com/arc/outboundfeeds/rss/"; // coindesk
-const rssToJson = "https://api.rss2json.com/v1/api.json?rss_url=";
-
-const coindeskFetch = rssToJson + coindeskLink;
-
-const fetchCoindesk = fetch(coindeskFetch, { method: "GET" });
-// change this
-if (fetchCoindesk && fetchCoindesk?.body?.items?.length > 0) {
-  fetchCoindesk.body.items.forEach((item) => {
-    coindeskPosts.push({
-      title: item.title,
-      url: item.link,
-      thumbnail: item["media:content"].content.url,
-      createdAt: item.pubDate,
-      categories: item.categories,
-    });
-  });
-} // CHANGE THUMBNAILS AND IF CATEGORIES
-
-// const fetchLink =
-//   "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/";
-const mediumHandle = props.handle ?? "@nearweek";
-const mediumLink = "https://medium.com/feed/";
-mediumLink = mediumLink + mediumHandle;
-const fetchLink = rssToJson + mediumLink;
-const fetchMedium = fetch(fetchLink, { method: "GET" });
+const fetchMedium = fetch(
+  "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@nearweek",
+  { method: "GET" }
+);
 
 if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
   fetchMedium.body.items.forEach((item) => {
@@ -118,12 +95,6 @@ const news = [...(fetchDaoNews?.body.data ?? []), ...posts]
 const blog = [...mediumPosts]
   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   .slice(0, 24);
-const coindeskFeed = [...coindeskPosts]
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-  .slice(0, 24);
-console.log(
-  "Coindesk Feed: " + typeof coindeskFeed + " " + (coindeskFeed === null)
-);
 const audio = [...(fetchAudio?.body.data ?? [])].map((item) => {
   return {
     title: item.Title,
@@ -180,7 +151,7 @@ const H2 = styled.h2`
 
 const Tabs = styled.div`
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   margin-bottom: 25px;
   align-items: center;
   overflow: hidden;
@@ -397,39 +368,11 @@ const Post = (props) => {
   );
 };
 
-const PostCoin = (props) => {
-  const { key, post } = props;
-  return (
-    <Card key={key} index={props.index}>
-      <CardImage src={post.thumbnail} alt="" />
-      <CardContent>
-        <CardTitle>
-          <a href={post.url} target="_blank">
-            {post.title}
-          </a>
-        </CardTitle>
-        <CardFooter>
-          <Badges>
-            {post.categories &&
-              post.categories.length > 0 &&
-              post.categories.map((category, index) => (
-                <Badge index={index}>{category}</Badge>
-              ))}
-          </Badges>
-          <CardDate>
-            <ClockIconSVG />
-            {post.createdAt ? dateToDays(post.createdAt) : ""}
-          </CardDate>
-        </CardFooter>
-      </CardContent>
-    </Card>
-  );
-};
 return (
   <Theme>
     <NwWidget>
       <Header>
-        <H2>Editorial</H2>
+        <H2>News</H2>
         <Promo>
           <a href={nwSite} target="_blank">
             Widget by Nearweek
@@ -438,49 +381,32 @@ return (
       </Header>
       <Tabs>
         <TabNavs>
-          <Tab
-            mobile={false}
-            onClick={handleTabClick}
-            active={state.active === 1}
-            id={1}
-          >
-            NEARWEEK
-          </Tab>
-        </TabNavs>
-        <TabNavs>
-          <Tab
-            mobile={false}
-            onClick={handleTabClick}
-            active={state.active === 2}
-            id={2}
-          >
-            COINDESK
+          <Tab mobile={false} onClick={handleTabClick} active={true} id={1}>
+            NEAR
           </Tab>
         </TabNavs>
       </Tabs>
       <>
-        <TabContent active={state.active === 1}>
+        <TabContent active={state.active === 0}>
           <>
             {blog.length > 0 ? (
-              blog.map((blog, index) => <PostCoin post={blog} index={index} />)
+              blog.map((blog, index) => <Post post={blog} index={index} />)
             ) : (
               <div>Loading ...</div>
             )}
             <TabContentFooter>
-              <ButtonLink href="https://nearweek.medium.com" target="_blank">
+              <ButtonLink href="//nearweek.medium.com" target="_blank">
                 View All
               </ButtonLink>
             </TabContentFooter>
           </>
         </TabContent>
-        <TabContent active={state.active === 2}>
+        <TabContent active={state.active === 1}>
           <>
-            {coindeskFeed.length > 0 ? (
-              coindeskFeed.map((blog, index) => (
-                <Post post={blog} index={index} />
-              ))
+            {blog.length > 0 ? (
+              blog.map((blog, index) => <Post post={blog} index={index} />)
             ) : (
-              <div>Loading Coindesk Feed...</div>
+              <div>Loading ...</div>
             )}
             <TabContentFooter>
               <ButtonLink href="//nearweek.medium.com" target="_blank">
