@@ -149,7 +149,7 @@ if (Ethers.provider()) {
 return (
   <Wrapper>
     <div className="Logo">
-      <img src="https://ipfs.near.social/ipfs/bafkreidydvsw5i7fy4emzbtmmaw3zuyjktu7nnuyimftju7tlmt6hcj6um" />
+      <img src="https://ipfs.near.social/ipfs/bafkreiaz22ygeaeyyeylfarvvfnub57ev24q2t23ltqifvgagwjukpid6q" />
     </div>
     <h1>Scores Passport</h1>
     <CardInfo>
