@@ -1,11 +1,9 @@
-const USER = "knwtechs.near";
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 return (
   <div class="navbar navbar-dark navbar-expand-lg bg-dark px-3">
     <a
       class="navbar-brand text-white"
       style={{ fontWeight: 700, textTransform: "uppercase" }}
-      href={"https://knwtechs.com"}
-      target={"_blank"}
     >
       <img
         src="https://www.knwtechs.com/_next/static/media/knw.39a87d22.png"
