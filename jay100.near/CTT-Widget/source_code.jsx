@@ -195,10 +195,7 @@ const PixelContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const EightBitContainer = styled.a`
-  text-align: center;
-  padding: 2rem;
-`;
+
 const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
   return (
     <Card>
@@ -236,40 +233,7 @@ const WidgetCard = ({ title, coverSrc, description, actionButtons }) => {
     </Card>
   );
 };
-const WidgetImages = [
-  {
-    title: "Chain Team Tactics Image",
-    url: "https://pd.marmaj.org/ctt/mint2.png",
-  },
-];
-const Mainnet = [
-  {
-    title: "Chain Team Tactics",
-    url: "https://pd.marmaj.org/chainteam",
-  },
-];
-const Testnet = [
-  {
-    title: "Chain Team Tactics",
-    url: "https://pd-testnet.marmaj.org/chainteam",
-  },
-];
-const Wiki = [
-  {
-    title: "Chain Team Tactics Wiki",
-    url: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
-  },
-];
-const Test_Slides = [
-  {
-    slideImage: "https://www.w3schools.com/howto/img_nature_wide.jpg",
-    slideInfo: "Dummy Information 1",
-  },
-  {
-    slideImage: "https://www.w3schools.com/howto/img_snow_wide.jpg",
-    slideInfo: "Dummy Information 2",
-  },
-];
+
 const isUserRegistered = Near.view(
   "pixeltoken.near",
   "ctt_is_player_registered",
