@@ -60,7 +60,6 @@ const Links = styled.ul`
 `;
 
 let tabs = {
-  home: "Home",
   create: "Create quest",
   join: "Join quest",
   review: "Review quests",
