@@ -1,16 +1,11 @@
 State.init({
-    currentView: "home",
+    currentView: "create",
     isConnected: false,
     connection: () => null,
     account: ""
 });
 
 let views = {
-  home: (
-    <>
-      <Widget src="mattb.near/widget/Geoquete.Components.CreateQuest" />
-    </>
-  ),
   create: (
     <>
       <Widget src="mattb.near/widget/Geoquete.Components.CreateQuest" />
