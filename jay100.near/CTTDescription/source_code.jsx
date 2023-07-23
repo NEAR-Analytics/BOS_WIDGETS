@@ -18,6 +18,7 @@ const GameDescription = () => {
   `;
 
   const Description = styled.p`
+    font-size: .8rem;
   `;
   return (
     <DescriptionContainer className="col">
