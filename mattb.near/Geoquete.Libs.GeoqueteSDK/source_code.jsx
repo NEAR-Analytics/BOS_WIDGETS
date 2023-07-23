@@ -15,6 +15,8 @@ const APECOIN_CONTRACT_METHODS = [
   "function increaseAllowance(address spender, uint256 addedValue) public {}",
 ];
 
+const GEOQUETE_CONTRACT_METHODS = ["function joinQuest(uint256 _questId) {}"];
+
 const iface = new ethers.utils.Interface(GEOQUETE_CONTRACT_ABI.body);
 const apecoinIface = new ethers.utils.Interface(APECOIN_CONTRACT_ABI.body);
 
@@ -47,7 +49,13 @@ const GeoqueteSDK = {
     ]);
   },
   joinQuest: (questId) => {
-    return GeoqueteSDK.call("joinQuest", [questId]);
+    const contract = new ethers.Contract(
+      GEOQUETE_CONTRACT_ADDRESS,
+      GEOQUETE_CONTRACT_METHODS,
+      Ethers.provider().getSigner()
+    );
+
+    return contract.joinQuest(questId);
   },
   submitSolution: (questId, zkProof, ipfsPhotoUrl) => {
     return GeoqueteSDK.call("submitSolution", [questId, zkProof, ipfsPhotoUrl]);
