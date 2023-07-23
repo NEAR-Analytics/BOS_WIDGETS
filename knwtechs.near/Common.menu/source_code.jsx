@@ -4,6 +4,8 @@ return (
     <a
       class="navbar-brand text-white"
       style={{ fontWeight: 700, textTransform: "uppercase" }}
+      href={"https://knwtechs.com"}
+      target={"_blank"}
     >
       <img
         src="https://www.knwtechs.com/_next/static/media/knw.39a87d22.png"
