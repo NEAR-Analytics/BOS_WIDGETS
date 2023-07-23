@@ -21,6 +21,7 @@ const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); 
 const mintAuthorities = checkMintersJson.minters;
 isMintAuthority = mintAuthorities.includes(context.accountId);
 const daoIsMinter = mintAuthorities.includes(daoId);
+console.log("Dao is minter: " + daoIsMinter);
 // now check if this person can propose in dao
 
 // console.log(checkMintersJson);
@@ -101,7 +102,11 @@ const canPropose = isUserAllowedTo(
   context.accountId,
   proposalKinds.FunctionCall,
   actions.AddProposal
+); // logic not working for some reason
+console.log(
+  "Can Propose Function call " + context.accountId + " " + canPropose
 );
+
 const onPointerUp =
   props.onClick ??
   ((event) => {
