@@ -18,7 +18,6 @@ const GameDescription = () => {
   `;
 
   const Description = styled.p`
-    padding: 1rem;
   `;
   return (
     <DescriptionContainer className="col">
