@@ -197,16 +197,16 @@ if (sender) {
               </div>
               <div className="scoreContainer">
                 <div>
-                  Followers <span>{state.wallet.nfts}</span>
+                  Followers <span>1</span>
                 </div>
                 <div>
-                  Following <span>{state.wallet.tokens}</span>
+                  Following <span>1</span>
                 </div>
                 <div>
-                  Comments <span>{state.wallet.walletAge}</span>
+                  Comments <span>1</span>
                 </div>
                 <div>
-                  Posts <span>{state.wallet.guilds}</span>
+                  Posts <span>1</span>
                 </div>
               </div>
               <hr />
