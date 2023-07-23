@@ -108,6 +108,14 @@ const StakeButtonWrapper = styled.div`
 return (
   <>
     <h1>CEX</h1>
+    <h2>CEX 정보</h2>
+    <ul>
+      <li>현재 S 토큰 가치: 1000 원</li>
+      <li>현재 L 토큰 가치: ? 원</li>
+      <li>S 토큰 출금 수수료: 2 원</li>
+      <li>L 토큰 출금 수수료: 4 원</li>
+      <li>Stake 이자: 20S 당 3S</li>
+    </ul>
     <MyWalletInfo>
       <h2>내 자산정보</h2>
       <ul className="wallet-properties">
