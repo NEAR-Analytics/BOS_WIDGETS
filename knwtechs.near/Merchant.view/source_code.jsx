@@ -101,6 +101,9 @@ return (
             <th scope="col" class="text-white">
               Date created
             </th>
+            <th scope="col" class="text-white text-center">
+              SDK
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +113,7 @@ return (
               props={{
                 collectionAddress: e,
                 abi: JSON.parse(collectionABI.body)["abi"],
+                sender: state.sender,
               }}
             />
           ))}
