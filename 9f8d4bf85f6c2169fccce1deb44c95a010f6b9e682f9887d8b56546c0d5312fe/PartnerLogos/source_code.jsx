@@ -15,7 +15,7 @@ const logos = [
   "https://ipfs.near.social/ipfs/bafkreihx7soukgfkool5xfvvypyur3ygjorearsk45iiqzf7cdlpzcn2fi",
   "https://ipfs.near.social/ipfs/bafkreieal5vpu4naw33o6vcgkk5yn7s5amwubpf53rf6elja3zx5ewzfze",
   "https://ipfs.near.social/ipfs/bafkreihkugg2xajx6rczq5e25bnbh72rohyfeeiymubm4wwyysf3xpkeiy",
-  "https://ipfs.near.social/ipfs/bafkreibtfjwp7qn7jfonocevduvyhfpv7cs4xzzqne44mwrbpcze3a5vda",
+  // "https://ipfs.near.social/ipfs/bafkreibtfjwp7qn7jfonocevduvyhfpv7cs4xzzqne44mwrbpcze3a5vda",
   "https://ipfs.near.social/ipfs/bafkreicx2lkdlt5uyn7wvj64q4rvw3nta2qpyowyi6yol4rvvvkxi2idyy",
   "https://ipfs.near.social/ipfs/bafkreiewp5ectp2al5mhdvvr7nortvvgdmvxu2iv656h4nh33jp4jqlnmy",
 ];
