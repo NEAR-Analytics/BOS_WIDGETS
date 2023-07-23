@@ -16,6 +16,11 @@ let views = {
       <Widget src="mattb.near/widget/Geoquete.Components.QuestList" />
     </>
   ),
+  review: (
+    <>
+      <Widget src="mattb.near/widget/Geoquete.Views.ReviewQuests" />
+    </>
+  )
 };
 
 
