@@ -338,7 +338,7 @@ return (
         onChange={(value) => {
           State.update({ choose: value });
         }}
-        placeholder="Choose a fruit..."
+        placeholder="Choose a tag to filter..."
       />
     </div>
     <Cards>
