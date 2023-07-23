@@ -1,8 +1,9 @@
 const accountId = "near";
-State.init({ active: 0 });
+State.init({ active: 1 });
 const nwSite = "https://nearweek.com";
 let posts = [];
 let mediumPosts = [];
+let coindeskPosts = [];
 
 const indexedPosts = Social.index("post", "main", {
   accountId,
@@ -56,6 +57,26 @@ const fetchData = (url) => {
     },
   });
 };
+
+const coindeskLink = "https://www.coindesk.com/arc/outboundfeeds/rss/"; // coindesk
+const rssToJson = "https://api.rss2json.com/v1/api.json?rss_url=";
+
+const coindeskFetch = coindeskLink + rssToJson;
+
+const fetchCoindesk = fetch(coindeskFetch, { method: "GET" });
+// change this
+if (fetchCoindesk && fetchMedium?.body?.items?.length > 0) {
+  fetchMedium.body.items.forEach((item) => {
+    coindeskPosts.push({
+      title: item.title,
+      url: item.link,
+      thumbnail: item.thumbnail,
+      createdAt: item.pubDate,
+      categories: item.categories,
+    });
+  });
+} // DOUBLE CHECK IF THESE CATEGORIES ARE CHILL
+
 const fetchLink =
   "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/";
 const mediumHandle = props.handle ?? "@nearweek";
@@ -95,6 +116,12 @@ const news = [...(fetchDaoNews?.body.data ?? []), ...posts]
 const blog = [...mediumPosts]
   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   .slice(0, 24);
+const coindeskFeed = [...coindeskPosts]
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  .slice(0, 24);
+console.log(
+  "Coindesk Feed: " + typeof coindeskFeed + " " + (coindeskFeed === null)
+);
 const audio = [...(fetchAudio?.body.data ?? [])].map((item) => {
   return {
     title: item.Title,
@@ -402,7 +429,7 @@ return (
         </TabNavs>
       </Tabs>
       <>
-        <TabContent active={state.active === 0}>
+        <TabContent active={state.active === 1}>
           <>
             {blog.length > 0 ? (
               blog.map((blog, index) => <Post post={blog} index={index} />)
@@ -416,12 +443,14 @@ return (
             </TabContentFooter>
           </>
         </TabContent>
-        <TabContent active={state.active === 1}>
+        <TabContent active={state.active === 2}>
           <>
-            {blog.length > 0 ? (
-              blog.map((blog, index) => <Post post={blog} index={index} />)
+            {coindeskFeed.length > 0 ? (
+              coindeskFeed.map((blog, index) => (
+                <Post post={blog} index={index} />
+              ))
             ) : (
-              <div>Loading ...</div>
+              <div>Loading Coindesk Feed...</div>
             )}
             <TabContentFooter>
               <ButtonLink href="//nearweek.medium.com" target="_blank">
