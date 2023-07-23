@@ -33,6 +33,7 @@ const loadQuests = () => {
       }
 
       const quest = {
+        id: i,
         creator: response["creator"],
         creatorFee: state.sdk.hexToInteger(response["creatorFee"]["_hex"]),
         location: response["location"],
@@ -43,7 +44,7 @@ const loadQuests = () => {
         questStatus: response["questStatus"],
         winner: response["winner"],
       };
-      console.log(quest);
+
       let quests = state.quests;
       quests.push(quest);
       State.update({ quests: quests });
