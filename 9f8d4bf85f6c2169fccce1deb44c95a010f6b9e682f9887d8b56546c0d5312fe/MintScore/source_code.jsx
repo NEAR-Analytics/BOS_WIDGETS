@@ -246,7 +246,7 @@ return (
     </button>
     <button>
       <a
-        href="https://issuer-ui.polygonid.me/credentials/scan-link/3bfcd843-87b8-4517-80e4-28838a41bfac"
+        href="https://sepolia.easscan.org/attestation/view/0x3c5ec8917337f1568119eea16f46b8a0eb0336ffacc8db8ac0b4289bc33053b6"
         target="_blank"
       >
         EAS
