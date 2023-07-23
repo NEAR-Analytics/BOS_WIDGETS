@@ -11,6 +11,24 @@ flex-direction: column;
 min-height: 100vh;
 `;
 
+// CHECK FOR SEPOLIA NETWORK
+if (
+  state.chainId === undefined &&
+  ethers !== undefined &&
+  Ethers.send("eth_requestAccounts", [])[0]
+) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+}
+if (state.chainId !== undefined && state.chainId !== 11155111) {
+  return <p>Switch to Sepolia</p>;
+}
+
 // CHECK FOR WALLET CONNECTION
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
