@@ -11,7 +11,15 @@ const css = fetch(
 );
 
 if (!css.ok) {
-  return <Widget src="nui.sking.near/widget/Feedback.Spinner" />;
+  return (
+    <Widget
+      props={{
+        color1: "#ef4444",
+        color2: "#7f1d1d",
+      }}
+      src="nui.sking.near/widget/Feedback.Spinner"
+    />
+  );
 }
 
 if (!state.styles) {
@@ -88,8 +96,7 @@ const unixTimestampToLocalDate = (unixTimestamp) => {
   const minutes = date.getMinutes().toString().padStart(2, "0");
   const seconds = date.getSeconds().toString().padStart(2, "0");
 
-  // Format the date as "YYYY-MM-DD HH:mm:ss" (e.g., "2023-07-22 12:34:56")
-  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
 
   return formattedDate;
 };
@@ -135,7 +142,15 @@ const XAVA_ABIS = fetch(
 );
 
 if (!XAVA_ABIS.ok) {
-  return <Widget src="nui.sking.near/widget/Feedback.Spinner" />;
+  return (
+    <Widget
+      props={{
+        color1: "#ef4444",
+        color2: "#7f1d1d",
+      }}
+      src="nui.sking.near/widget/Feedback.Spinner"
+    />
+  );
 }
 if (XAVA_ABIS.ok) {
   State.update({ stakingAbi: JSON.parse(XAVA_ABIS.body) });
@@ -147,7 +162,15 @@ const ERC20_ABI = fetch(
   "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json",
 );
 if (!ERC20_ABI.ok) {
-  return <Widget src="nui.sking.near/widget/Feedback.Spinner" />;
+  return (
+    <Widget
+      props={{
+        color1: "#ef4444",
+        color2: "#7f1d1d",
+      }}
+      src="nui.sking.near/widget/Feedback.Spinner"
+    />
+  );
 }
 
 // GET XAVA BALANCE
@@ -290,81 +313,96 @@ const handleWithdrawXava = () => {
 
 return (
   <TWStyles>
-    <p>You have staked: {state.xavaStaked} XAVA</p>
-    <p>
-      There is a 2% deposit fee taken on all new XAVA deposits. This fee is
-      redistributed to the current XAVA stakers, rewards long-term participants
-      and combats dilution.
-    </p>
-    <div class="flex gap-2">
-      <div class="flex-col flex gap-1 max-w-lg">
-        <input
-          type="number"
-          onChange={(e) => State.update({ xavaToStake: e.target.value })}
-          value={state.xavaToStake}
-        />
-        <button
-          onClick={handleStakeXava}
-          class="h-10 py-3 bg-gradient-to-r from-red-500 to-red-800 rounded justify-center items-center gap-2 inline-flex text-white text-bold border-none"
-          disabled={
-            parseFloat(state.xavaToStake) > state.xavaBalance ||
-            state.xavaToStake === ""
-          }
-        >
-          Stake
-        </button>
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <div class="flex gap-1 max-w-2xl">
-        <input
-          type="number"
-          onChange={(e) => State.update({ xavaToWithdraw: e.target.value })}
-          value={state.xavaToWithdraw}
-        />
-        <button
-          class="py-2 px-3"
-          class="h-14 px-5 py-4 bg-gradient-to-r from-red-500 to-red-800 rounded justify-center items-center gap-2 inline-flex text-white text-bold border-none"
-          onClick={handleWithdrawXava}
-          disabled={
-            parseFloat(state.xavaToWithdraw) > state.xavaStaked ||
-            state.xavaToWithdraw === ""
-          }
-        >
-          Withdraw
-        </button>
-      </div>
-    </div>
-
-    <div>
-      {state.stakeHistory && (
-        <div>
-          <h4>Your recent deposits/withdrawals:</h4>
-          <div class="flex flex-col gap-4">
-            <div class="flex justify-between ">
-              <p>Type</p>
-              <p>Time</p>
-              <p>Amount</p>
-              <p>Trnasaction</p>
-            </div>
-            {state.stakeHistory.map((stake) => (
-              <div class="flex justify-between">
-                <p class="">{stake.deposit === "1" ? "Deposit" : "Withdraw"}</p>
-                <p>{unixTimestampToLocalDate(stake.blockTimestamp)}</p>
-                <p>{weisToTokens(stake.amount).toFixed(2)} XAVA</p>
-                <a
-                  target="_blank"
-                  class="text-red-400 cursor-pointer"
-                  href={`https://snowtrace.io/tx/${stake.transactionHash}`}
-                >
-                  View transaction
-                </a>
-              </div>
-            ))}
+    <div class="flex flex-col items-center w-full">
+      <div class="bg-slate-100 shadow-lg rounded-xl flex flex-col items-center p-10 h-26 w-8/12">
+        <div class="flex justify-between px-2 w-8/12">
+          <p>
+            Your Balance:
+            <br /> <span className="text-bold">{state.xavaBalance}</span> XAVA
+          </p>
+          <p>
+            Staked:
+            <br /> {state.xavaStaked} XAVA
+          </p>
+        </div>
+        <div class="flex gap-2 w-8/12">
+          <div class="flex flex gap-1 w-full">
+            <input
+              placeholder="Amount to stake"
+              style={{ flexGrow: 4 }}
+              type="number"
+              onChange={(e) => State.update({ xavaToStake: e.target.value })}
+              value={state.xavaToStake}
+            />
+            <button
+              style={{ flexGrow: 1 }}
+              onClick={handleStakeXava}
+              class="h-10 w-full py-3 bg-gradient-to-r from-red-500 to-red-800 rounded justify-center items-center gap-2 inline-flex text-white text-bold border-none"
+              disabled={
+                parseFloat(state.xavaToStake) > state.xavaBalance ||
+                state.xavaToStake === ""
+              }
+            >
+              Stake
+            </button>
           </div>
         </div>
-      )}
+        <div class="flex gap-2 w-8/12 mt-3">
+          <div class="flex flex gap-1 w-full">
+            <input
+              placeholder="Amount to withdraw"
+              style={{ flexGrow: 4 }}
+              type="number"
+              onChange={(e) => State.update({ xavaToWithdraw: e.target.value })}
+              value={state.xavaToWithdraw}
+            />
+            <button
+              style={{ flexGrow: 1 }}
+              onClick={handleStakeXava}
+              class="h-10 w-full py-3 bg-gradient-to-r from-red-500 to-red-800 rounded justify-center items-center gap-2 inline-flex text-white text-bold border-none"
+              onClick={handleWithdrawXava}
+              disabled={
+                parseFloat(state.xavaToWithdraw) > state.xavaStaked ||
+                state.xavaToWithdraw === ""
+              }
+            >
+              Withdraw
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-100 shadow-lg rounded-2xl flex flex-col items-center px-6 py-7 w-10/12 mt-2">
+        {state.stakeHistory && (
+          <div class="w-full">
+            <h4 className="text-xl">Your recent deposits/withdrawals:</h4>
+            <div class="flex flex-col gap-4">
+              <div class="flex justify-between ">
+                <p>Type</p>
+                <p>Time</p>
+                <p>Amount</p>
+                <p>Transaction</p>
+              </div>
+              {state.stakeHistory.map((stake) => (
+                <div class="flex justify-between">
+                  <p class="">
+                    {stake.deposit === "1" ? "Deposit" : "Withdraw"}
+                  </p>
+                  <p>{unixTimestampToLocalDate(stake.blockTimestamp)}</p>
+                  <p>{weisToTokens(stake.amount).toFixed(2)} XAVA</p>
+                  <a
+                    target="_blank"
+                    class="text-red-400 cursor-pointer"
+                    href={`https://snowtrace.io/tx/${stake.transactionHash}`}
+                  >
+                    View transaction
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   </TWStyles>
 );
