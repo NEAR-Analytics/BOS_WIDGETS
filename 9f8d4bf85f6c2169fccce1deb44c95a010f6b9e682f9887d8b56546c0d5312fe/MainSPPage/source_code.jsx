@@ -42,7 +42,6 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
 
   * {
-    font-family: 'Londrina Solid', cursive;
     margin: 20px;
   }
 
