@@ -192,7 +192,7 @@ return (
         contract.mint(sender, {
           GitcoinScore: dataParsed.scores.gitcoin_score.toFixed(2) * 100,
           WalletData: dataParsed.scores.wallet_data.toFixed(2) * 100,
-          SpotScore: dataParsed.scores.spot_score.toFixed(2) * 100,
+          SpotScore: dataParsed.scores.spot_score.toFixed(0),
           SocialScore: dataParsed.scores.gitcoin_score.toFixed(2) * 100,
           owner: sender,
         });
