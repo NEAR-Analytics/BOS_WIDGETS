@@ -38,6 +38,14 @@ const Button = styled.div`
     border-radius:10px;
     background-color:#2fbc2f;
     text-align:center;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 3px 3px rgba(0,0,0,.3);
+
+    &:active {
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transform: translateY(2px);
+    }
 `;
 
 const Prize = styled.div`
