@@ -69,5 +69,3 @@ const GeoqueteSDK = {
 if (!!onLoad && typeof onLoad === "function" && !loaded) {
   onLoad(GeoqueteSDK);
 }
-
-GeoqueteSDK.allowSpend(200000);
