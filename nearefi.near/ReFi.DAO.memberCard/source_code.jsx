@@ -9,7 +9,7 @@ const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 const reference = props.reference ?? null;
-
+const isLoggedIn = context.accountId;
 const isMintAuthority = false; // add sbt minter contract
 // View call: issuer.regens.near.class_minter({"class": 1})
 // {
@@ -183,7 +183,7 @@ return (
         }}
       />
     )}
-    {canProposeToDAO && (
+    {isLoggedIn && canProposeToDAO && daoIsMinter && (
       <Widget
         src="nearefi.near/widget/ReFi.DAO.Propose.sbtMint"
         props={{
