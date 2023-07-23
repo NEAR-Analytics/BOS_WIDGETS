@@ -46,7 +46,7 @@ const PlayerDashboard = () => {
     flex-direction: column;
     padding: 1rem;
     margin: 0.5rem;
-    width: fit-content;
+    width: 65%;
     height: fit-content;
   `;
 
@@ -88,7 +88,7 @@ const PlayerDashboard = () => {
                 <TroopDetailItem>Speed mod:{unit.speed_mod}</TroopDetailItem>
                 <TroopDetailItem>Price:{unit.price}</TroopDetailItem>
                 <TroopDetailItem>Class:{troopDetails.name}</TroopDetailItem>
-                <TroopDetailItem>Power:{troopDetails.power}</TroopDetailItem>
+                <TroopDetailItem>{troopDetails.power}</TroopDetailItem>
               </TroopDataList>
             </TroopDataContainer>
           );
