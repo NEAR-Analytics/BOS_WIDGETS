@@ -15,9 +15,21 @@ const activeSale = (_) => {
   });
 };
 
-const activeStake = (_) => {
+const activeDeposit = (_) => {
   State.update({
     activeTab: 3,
+  });
+};
+
+const activeWithDraw = (_) => {
+  State.update({
+    activeTab: 4,
+  });
+};
+
+const activeStake = (_) => {
+  State.update({
+    activeTab: 5,
   });
 };
 
@@ -102,6 +114,8 @@ return (
         <li>현금: ?원</li>
         <li>S토큰: ?개</li>
         <li>L토큰: ?개</li>
+        <li>스테이크: ?개</li>
+        <li>스테이크 이자: ?개</li>
       </ul>
     </MyWalletInfo>
     <TabWrapper>
@@ -115,10 +129,22 @@ return (
         className={state.activeTab === 2 ? "actived" : ""}
         onClick={activeSale}
       >
-        인출
+        판매
       </button>
       <button
         className={state.activeTab === 3 ? "actived" : ""}
+        onClick={activeDeposit}
+      >
+        입금
+      </button>
+      <button
+        className={state.activeTab === 4 ? "actived" : ""}
+        onClick={activeWithDraw}
+      >
+        출금
+      </button>
+      <button
+        className={state.activeTab === 5 ? "actived" : ""}
         onClick={activeStake}
       >
         스테이크
@@ -159,7 +185,43 @@ return (
             <option>L토큰</option>
           </select>
         </ToKenWrapper>
-        <button>인출하기</button>
+        <button>판매하기</button>
+      </>
+    ) : state.activeTab === 3 ? (
+      <>
+        <ToKenWrapper>
+          <QuantityFieldWrapper>
+            <input
+              type="number"
+              className="token-quantity"
+              min={0}
+              placeHolder={0}
+            />
+          </QuantityFieldWrapper>
+          <select>
+            <option>S토큰</option>
+            <option>L토큰</option>
+          </select>
+        </ToKenWrapper>
+        <button>입금하기</button>
+      </>
+    ) : state.activeTab === 4 ? (
+      <>
+        <ToKenWrapper>
+          <QuantityFieldWrapper>
+            <input
+              type="number"
+              className="token-quantity"
+              min={0}
+              placeHolder={0}
+            />
+          </QuantityFieldWrapper>
+          <select>
+            <option>S토큰</option>
+            <option>L토큰</option>
+          </select>
+        </ToKenWrapper>
+        <button>출금하기</button>
       </>
     ) : (
       <>
