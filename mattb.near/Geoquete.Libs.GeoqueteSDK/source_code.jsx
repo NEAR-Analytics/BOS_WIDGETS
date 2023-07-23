@@ -49,13 +49,17 @@ const GeoqueteSDK = {
     ]);
   },
   joinQuest: (questId) => {
+    // Test
     const contract = new ethers.Contract(
       GEOQUETE_CONTRACT_ADDRESS,
       GEOQUETE_CONTRACT_METHODS,
       Ethers.provider().getSigner()
     );
 
-    return contract.joinQuest(questId);
+    return contract.joinQuest(questId, {
+      gasPrice: ethers.utils.parseUnits("1", "gwei"),
+      gasLimit: 1000000,
+    });
   },
   submitSolution: (questId, zkProof, ipfsPhotoUrl) => {
     return GeoqueteSDK.call("submitSolution", [questId, zkProof, ipfsPhotoUrl]);
