@@ -135,7 +135,7 @@ return (
     </Location>
     <Button
       className={quest.alreadyJoined ? "verify" : ""}
-      onClick={() => onJoin()}
+      onClick={() => onJoin(quest.id)}
     >
       {quest.alreadyJoined ? "Verify my location" : "Join the challenge"}
     </Button>
