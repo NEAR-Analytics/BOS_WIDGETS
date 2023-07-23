@@ -70,6 +70,5 @@ return (
     <Widget
       src={`9f8d4bf85f6c2169fccce1deb44c95a010f6b9e682f9887d8b56546c0d5312fe/widget/PartnerLogos`}
     />
-    )
   </Wrapper>
 );
