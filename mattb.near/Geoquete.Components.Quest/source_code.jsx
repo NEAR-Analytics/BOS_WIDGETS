@@ -46,6 +46,10 @@ const Button = styled.div`
       box-shadow: 0 0 0 rgba(0,0,0,0);
       transform: translateY(2px);
     }
+
+    &.verify {
+        background-color:#288fbf;
+    }
 `;
 
 const Prize = styled.div`
@@ -125,6 +129,8 @@ return (
       </span>
       {quest.location || "Paris"}
     </Location>
-    <Button>Join the challenge</Button>
+    <Button className={quest.alreadyJoined ? "verify" : ""}>
+      {quest.alreadyJoined ? "Verify my location" : "Join the challenge"}
+    </Button>
   </Box>
 );
