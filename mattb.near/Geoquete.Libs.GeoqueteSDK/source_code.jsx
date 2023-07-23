@@ -51,7 +51,10 @@ const GeoqueteSDK = {
   allowSpend: (address, amount) => {
     return Ethers.provider().call({
       to: APECOIN_CONTRACT_ADDRESS,
-      data: iface.encodeFunctionData("increaseAllowance", [address, amount]),
+      data: apecoinIface.encodeFunctionData("increaseAllowance", [
+        address,
+        amount,
+      ]),
     });
   },
   hexToInteger: (hex) => {
