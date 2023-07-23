@@ -324,7 +324,7 @@ return (
     <Widget src="jay100.near/widget/Carousel" props={slide_data} />{" "}
     {isUserRegistered ? (
       <>
-        <Widget src="jay100.near/widget/PlayerDashboard" />
+        <Widget src="jay100.near/widget/CTTDashboard" />
         <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
       </>
     ) : (
