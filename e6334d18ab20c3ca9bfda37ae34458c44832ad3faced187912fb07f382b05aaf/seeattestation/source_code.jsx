@@ -321,7 +321,7 @@ return (
           </TabsButton>
 
           <TabsButton
-            href={`${url}&tab=Seetheattestation`}
+            href={`?errorCode=userRejected&errorMessage=User%2520rejected%2520transaction&transactionHashes=DtUjEkQBFs88FXtG7e8WG7r1FoT3TRhwwCf9cSuU3gWH#/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/seeattestation`}
             selected={state.selectedTab === "Seetheattestation"}
           >
             See the attestations
