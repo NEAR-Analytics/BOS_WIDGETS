@@ -142,7 +142,7 @@ const ScoresContainer = styled.div`
       }
   `;
 
-if (sender) {
+if (sender && dataParsed.scores) {
   return (
     <Wrapper>
       <div className="Logo">
