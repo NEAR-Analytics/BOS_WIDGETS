@@ -154,7 +154,7 @@ if (sender && dataParsed.scores) {
           <div className="title">scores</div>
           <ScoreInfo className="box">
             <h2 className="spScores">
-              SP Scores{" "}
+              SPOT Scores{" "}
               <span>{dataParsed.scores.spot_score.toFixed(2)} / 100</span>
             </h2>
             <hr />
