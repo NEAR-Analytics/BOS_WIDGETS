@@ -1,4 +1,4 @@
-const USER = "knwtechs.near";
+const USER = "4ac12ee4ebd5536d7b130a9c5f8eebb1136145312c9e523289bf346268aeebfd";
 
 if (!Ethers.provider() || !props.sender) {
   return (
@@ -95,7 +95,7 @@ const getSubscriptionEvents = (user) => {
 getSubscriptionEvents(props.sender);
 
 return (
-  <div class="container-fluid h-100">
+  <div class="container-fluid bg-dark h-100">
     <div class="row d-flex justify-content-center mt-2">
       {state.widgets.map((w) => (
         <div class="col-10 col-md-4 mt-2">{w}</div>
