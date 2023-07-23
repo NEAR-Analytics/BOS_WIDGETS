@@ -1,4 +1,4 @@
-const cssFont = fetch(
+const pixelFont = fetch(
   "https://fonts.googleapis.com/css?family=Press+Start+2P"
 ).body;
 
@@ -41,7 +41,7 @@ const Pixel = styled.div`
 `;
 const PixelText = styled.p`
   font-family: "Pixel Emulator", "Press Start 2P", "Courier new", "monospace";
-  ${cssFont}
+  ${pixelFont}
   font-size: 1.1rem;
   display: inline-block;
   vertical-align: top;
