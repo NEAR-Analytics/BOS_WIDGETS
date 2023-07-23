@@ -1,65 +1,90 @@
-const ButtonContainer = styled.div`
-    padding: 5px;
-    background: rgb(14, 14, 30);
-    font-family: "Pixel Emulator", "Press Start 2P", Courier new, monospace;
-    color: #f8f8f8;
-    text-shadow: 2px 0 0 #000, 0 2px 0 #000;
-    text-align: center;
-	max-width: 100%;
-	margin: 0 auto;
-	font-family: 'Maven Pro', sans-serif;
-    text-align: center;
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css?family=Press+Start+2P"
+).body;
+
+const Pixel = styled.div`
+  background: aliceblue;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 10rem;
+  color: white;
+  height: auto;
+  margin: 10px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 0;
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -o-crisp-edges; /* Opera */
+  image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+  border-style: solid;
+  border-width: 20px;
+  border-image: url(https://i.imgur.com/sREM8Yn.png) 20 / 10 / 0 stretch;
+  :active {
+    top: 2px;
+  }
+  transition: all 0.2s ease-in-out;
+  :hover{
+    transform: scale(1.1);
+   }
 `;
-
-const ButtonText = styled.span`
-    background: rgba(30, 40, 70, 1);
-	display: inline-block;
-	position: relative;
-	text-align: center;
-	font-size: 1rem;
-	padding: 1rem;
-	font-family: cursive;
-	text-decoration: none;
-	color: white;
-	box-shadow: inset -4px -4px 0px 0px rgb(32, 41, 55);
-
-    :hover{
-        background: rgba(255,255,255,.5);
-	    box-shadow: inset -6px -6px 0px 0px rgb(32, 41, 55);
-    }
-
-    :focus{
-        background: rgba(255,255,255,.5);
-	    box-shadow: inset -6px -6px 0px 0px rgb(32, 41, 55);
-    }
-
-    :active{
-        box-shadow: inset 4px 4px 0px 0px rgb(32, 41, 55);
-    }
-
-    :before{
-        content: '';
-	    position: absolute;
-	    width: 100%;
-	    height: 100%;
-	    box-sizing: content-box;
-        top: -6px;
-	    left: 0;
-	    border-top: 6px black solid;
-	    border-bottom: 6px black solid;
-    }
-
-    :after{
-        content: '';
-	    position: absolute;
-	    width: 100%;
-	    height: 100%;
-	    box-sizing: content-box;
-        top: -6px;
-	    left: 0;
-	    border-top: 6px black solid;
-	    border-bottom: 6px black solid;
-    }
+const PixelText = styled.p`
+  font-family: "Pixel Emulator", "Press Start 2P", "Courier new", "monospace";
+  ${cssFont}
+  font-size: 1.1rem;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  line-height: 1.5rem;
+  margin: -20px;
+  transition: all 0.2s ease-in-out 0s;
+  padding: 1.5rem;
+  background: radial-gradient(
+        circle at 0px 0px,
+        rgba(204, 0, 0, 0) 14px,
+        rgb(0, 0, 0) 15px
+      )
+      left top / 50% 50% no-repeat,
+    radial-gradient(
+        circle at 100% 0px,
+        rgba(204, 0, 0, 0) 14px,
+        rgb(0, 0, 0) 15px
+      )
+      right top,
+    radial-gradient(
+        circle at 100% 100%,
+        rgba(204, 0, 0, 0) 14px,
+        rgb(0, 0, 0) 15px
+      )
+      right bottom,
+    radial-gradient(
+        circle at 0px 100%,
+        rgba(204, 0, 0, 0) 14px,
+        rgb(0, 0, 0) 15px
+      )
+      left bottom;
+  background-repeat: no-repeat;
+`;
+const PixelContainer = styled.div`
+  display: flex;
+  width: 75%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 `;
 
 const GameButton = () => {
@@ -83,7 +108,7 @@ const GameButton = () => {
     <div
       style={{
         backgroundColor: "rgb(12, 12, 31)",
-        height: "58vh",
+        height: "100%",
         padding: ".6rem",
       }}
     >
@@ -92,9 +117,15 @@ const GameButton = () => {
           {data.map((button) => {
             return (
               <a href={button.link}>
-                <ButtonContainer className="col">
-                  <ButtonText className="w-100">{button.title}</ButtonText>
-                </ButtonContainer>
+                <div className="row">
+                  <div className="col-12">
+                    <PixelContainer>
+                      <Pixel>
+                        <PixelText>{button.title}</PixelText>{" "}
+                      </Pixel>{" "}
+                    </PixelContainer>{" "}
+                  </div>
+                </div>
               </a>
             );
           })}
