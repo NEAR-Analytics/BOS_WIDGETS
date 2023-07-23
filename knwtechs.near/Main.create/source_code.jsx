@@ -11,28 +11,6 @@ flex-direction: column;
 min-height: 100vh;
 `;
 
-State.init({
-  page: "create",
-});
-
-// CHECK FOR SEPOLIA NETWORK
-if (
-  state.chainId === undefined &&
-  ethers !== undefined &&
-  Ethers.send("eth_requestAccounts", [])[0]
-) {
-  Ethers.provider()
-    .getNetwork()
-    .then((chainIdData) => {
-      if (chainIdData?.chainId) {
-        State.update({ chainId: chainIdData.chainId });
-      }
-    });
-}
-if (state.chainId !== undefined && state.chainId !== 11155111) {
-  return <p>Switch to Sepolia</p>;
-}
-
 // CHECK FOR WALLET CONNECTION
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -79,7 +57,7 @@ return (
       />
       <Widget
         src={`${USER}/widget/Merchant.create`}
-        props={{ factory: factoryAddress }}
+        props={{ factory: factoryAddress, sender: state.sender }}
       />
       <Widget src={`${USER}/widget/Common.footer`} />
     </Container>
