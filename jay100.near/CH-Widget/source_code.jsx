@@ -11,6 +11,20 @@ const wiki_description = {
         Heroes`,
 };
 
+const slide_data = [
+  {
+    img_url:
+      "https://user-images.githubusercontent.com/93423666/240480322-7ae64756-e31e-4c3f-b776-fac8719ddca0.png",
+    title: "The Rundown",
+  },
+  {
+    img_url:
+      "https://user-images.githubusercontent.com/93423666/240481674-dd55212c-caba-4024-803c-a07c0f5c0463.png",
+    title: "Main Menu",
+    description: `In the main menu, we see 3 available characters — knight, mage and ranger. To open access to the character, click on the “+” above the class name. Three icons will appear above the hero — inventory (armor icon), a dungeon window (axe icon) and a potions window (bottle icon).`,
+  },
+];
+
 const Title = styled.h5`
   color: #fff;
   font-weight: 700;
@@ -247,6 +261,7 @@ return (
         src="jay100.near/widget/CTTDescription"
         props={wiki_description}
       />{" "}
+      <Widget src="jay100.near/widget/Carousel" props={slide_data} />
       <div style={{ marginBottom: "20px", width: "100%" }}>
         <div
           style={{
