@@ -39,7 +39,10 @@ return (
       }}
     />
     <Main>
-      {state.currentView in views ? views[state.currentView] : "404"}
+      {state.account && (state.currentView in views ? views[state.currentView] : "404")}
+      {!state.account && (
+        <h2 className="text-center">Please, connect your wallet</h2>
+      )}
     </Main>
   </>
 );
