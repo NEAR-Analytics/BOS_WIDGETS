@@ -36,9 +36,6 @@ const loadQuests = () => {
         creator: response["creator"],
         creatorFee: state.sdk.hexToInteger(response["creatorFee"]["_hex"]),
         location: response["location"],
-        numberOfPlayers: state.sdk.hexToInteger(
-          response["numberOfPlayers"]["_hex"]
-        ),
         payoutCompleted: response["payoutCompleted"],
         players: response["players"],
         questName: response["questName"],
@@ -47,7 +44,9 @@ const loadQuests = () => {
         winner: response["winner"],
       };
       console.log(quest);
-      State.update({ quests: [...state.quests, quest] });
+      let quests = state.quests;
+      quests.push(quest);
+      State.update({ quests: quests });
     });
   }
 };
