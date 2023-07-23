@@ -28,6 +28,7 @@ const GeoqueteSDK = {
     return GeoqueteSDK.call("createQuest", [
       quest.questName,
       quest.location,
+      quest.description,
       quest.coordinates,
       quest.numberOfPlayers,
       quest.questPrize,
