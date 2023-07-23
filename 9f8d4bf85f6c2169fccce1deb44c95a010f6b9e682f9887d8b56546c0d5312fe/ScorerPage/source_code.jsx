@@ -142,6 +142,14 @@ const ScoresContainer = styled.div`
       }
   `;
 
+const NFTs = dataParsed.data.profile_data.Wallet.tokenBalances.filter(
+  (token) => {
+    return token.tokenType == "ERC721";
+  }
+);
+
+console.log(NFTs);
+
 if (sender && dataParsed.scores) {
   return (
     <Wrapper>
@@ -185,6 +193,21 @@ if (sender && dataParsed.scores) {
               <div>
                 POAPs{" "}
                 <span>{dataParsed.data.profile_data.Wallet.poaps.length}</span>
+              </div>
+              <div>
+                Tokens{" "}
+                <span>
+                  {dataParsed.data.profile_data.Wallet.tokenBalances.length}
+                </span>
+              </div>
+              <div>
+                NFTs <span>{NFTs.length}</span>
+              </div>
+              <div>
+                transactions{" "}
+                <span>
+                  {dataParsed.data.profile_data.Wallet.tokenTransfers.length}
+                </span>
               </div>
             </div>
           </ScoreInfo>
