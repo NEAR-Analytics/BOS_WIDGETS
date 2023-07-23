@@ -28,7 +28,7 @@ if (state.account == "") {
 }
 
 const Main = styled.div`
-  padding:4rem 0;
+  padding:2rem 0;
 `;
 
 return (
