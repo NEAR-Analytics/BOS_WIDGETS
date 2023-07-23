@@ -34,17 +34,19 @@ const loadQuests = () => {
 
       const quest = {
         creator: response["creator"],
-        creatorFee: response["creatorFee"]["_hex"],
+        creatorFee: state.sdk.hexToInteger(response["creatorFee"]["_hex"]),
         location: response["location"],
-        numberOfPlayers: response["numberOfPlayers"]["_hex"],
+        numberOfPlayers: state.sdk.hexToInteger(
+          response["numberOfPlayers"]["_hex"]
+        ),
         payoutCompleted: response["payoutCompleted"],
         players: response["players"],
         questName: response["questName"],
-        questPrize: response["questPrize"]["_hex"],
+        questPrize: state.sdk.hexToInteger(response["questPrize"]["_hex"]),
         questStatus: response["questStatus"],
         winner: response["winner"],
       };
-
+      console.log(quest);
       State.update({ quests: [...state.quests, quest] });
     });
   }
