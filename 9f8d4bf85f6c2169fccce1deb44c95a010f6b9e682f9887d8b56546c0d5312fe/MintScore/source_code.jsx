@@ -135,6 +135,42 @@ const CardInfo = styled.div`
       
   `;
 
+const polygon = dataParsed
+  ? fetch(
+      `https://tonft.app/issue-polygon-link?social_score=${Math.floor(
+        dataParsed.scores.social_score * 100
+      )}&degen_score=${Math.floor(
+        dataParsed.scores.degen_score * 100
+      )}&nomis_score_eth=${Math.floor(
+        dataParsed.scores.nomis_score_eth * 100
+      )}&gitcoin_score=${Math.floor(
+        dataParsed.scores.gitcoin_score * 100
+      )}&spot_score=${Math.floor(
+        dataParsed.scores.spot_score * 100
+      )}&wallet_data=${Math.floor(dataParsed.scores.wallet_data * 100)}`
+    )
+  : {};
+
+// const eas = fetch(
+//   `https://tonft.app/issue-eas-attestation?social_score=${Math.floor(
+//     dataParsed.scores.social_score * 100
+//   )}&degen_score=${Math.floor(
+//     dataParsed.scores.degen_score * 100
+//   )}&nomis_score_eth=${Math.floor(
+//     dataParsed.scores.nomis_score_eth * 100
+//   )}&gitcoin_score=${Math.floor(
+//     dataParsed.scores.gitcoin_score * 100
+//   )}&spot_score=${Math.floor(
+//     dataParsed.scores.spot_score * 100
+//   )}&wallet_data=${Math.floor(
+//     dataParsed.scores.wallet_data * 100
+//   )}&recipient=${sender}`
+// );
+
+console.log(polygon, "polygon");
+
+// console.log(eas, "eas");
+
 if (Ethers.provider()) {
   const priceFeedContract = new ethers.Contract(
     priceFeedAddress,
@@ -199,6 +235,22 @@ return (
       }}
     >
       Mint Score
+    </button>
+    <button>
+      <a
+        href="https://issuer-ui.polygonid.me/credentials/scan-link/3bfcd843-87b8-4517-80e4-28838a41bfac"
+        target="_blank"
+      >
+        Polygon ID
+      </a>
+    </button>
+    <button>
+      <a
+        href="https://issuer-ui.polygonid.me/credentials/scan-link/3bfcd843-87b8-4517-80e4-28838a41bfac"
+        target="_blank"
+      >
+        EAS
+      </a>
     </button>
   </Wrapper>
 );
