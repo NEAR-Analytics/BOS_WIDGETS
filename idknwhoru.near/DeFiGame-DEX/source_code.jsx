@@ -75,10 +75,16 @@ const StakeButtonWrapper = styled.div`
 return (
   <>
     <h1>DEX</h1>
+    <h2>DEX 정보</h2>
+    <ul>
+      <li>현재 S토큰 가치: 1000 원</li>
+      <li>현재 L토큰 가치: ? 원</li>
+      <li>스왑 수수료: 1 L토큰</li>
+      <li>페어 예치 비율: ?L : ?S</li>
+    </ul>
     <MyWalletInfo>
-      <h2>내 자산정보</h2>
+      <h2>내 지갑정보</h2>
       <ul className="wallet-properties">
-        <li>현금: ?원</li>
         <li>S토큰: ?개</li>
         <li>L토큰: ?개</li>
       </ul>
@@ -134,7 +140,6 @@ return (
       </div>
     ) : (
       <>
-        <h2>스테이크 비율 21 : 10</h2>
         <QuantityFieldWrapper>
           <input
             className="token-quantity"
@@ -156,6 +161,7 @@ return (
           <button className="stake-button">DOWN</button>
         </StakeButtonWrapper>
         <button>스테이크하기</button>
+        <button>언스테이크하기</button>
       </>
     )}
   </>
