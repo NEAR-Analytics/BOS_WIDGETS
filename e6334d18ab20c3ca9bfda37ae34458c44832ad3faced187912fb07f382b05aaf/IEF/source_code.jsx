@@ -136,12 +136,6 @@ const css = `
     color: #273852;
 }
 
-
-.LidoStakeFormInputContainerSpan3Max{
-    position: relative;
-    pointer-events: none;
-    visibility: visible;
-}
 .centered-container {
   display: flex;
   justify-content: center;
@@ -297,24 +291,24 @@ return (
       <div className="d-flex justify-content-start"></div>
       <Tabs>
         <TabsButton
-          href={`${url}&tab=home`}
+          href={`?errorCode=userRejected&errorMessage=User%2520rejected%2520transaction&transactionHashes=DtUjEkQBFs88FXtG7e8WG7r1FoT3TRhwwCf9cSuU3gWH#/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/IEF`}
           selected={state.selectedTab === "home"}
         >
           Home
         </TabsButton>
 
         <TabsButton
-          href={`${url}&tab=createanattestation`}
+          href={`?errorCode=userRejected&errorMessage=User%2520rejected%2520transaction&transactionHashes=DtUjEkQBFs88FXtG7e8WG7r1FoT3TRhwwCf9cSuU3gWH#/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/createanattestation`}
           selected={state.selectedTab === "Makeanattestation"}
         >
           Create an attestation
         </TabsButton>
 
         <TabsButton
-          href={`${url}&tab=Seetheattestation`}
+          href={`?errorCode=userRejected&errorMessage=User%2520rejected%2520transaction&transactionHashes=DtUjEkQBFs88FXtG7e8WG7r1FoT3TRhwwCf9cSuU3gWH#/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/seeattestation`}
           selected={state.selectedTab === "Seetheattestation"}
         >
-          Attestation
+          See the attestations
         </TabsButton>
 
         <div className="input-group">
