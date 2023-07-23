@@ -34,6 +34,8 @@ const PlayerDashboard = () => {
      display: flex;
      align-items: center;
      justify-content: space-around;
+    overflow-y: scroll;
+    height: 80vh;
   `;
 
   const TroopDataContainer = styled.div`
