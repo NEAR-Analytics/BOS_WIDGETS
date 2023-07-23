@@ -13,16 +13,32 @@ const GeoqueteSDK = {
   decode: (method, rawResponse) => {
     return iface.decodeFunctionResult(method, rawResponse);
   },
-  listQuests: () => {},
-  getQuest: (questId) => {
+  call: (method, params) => {
     return Ethers.provider().call({
       to: CONTRACT_ADDRESS,
-      data: GeoqueteSDK.encode("viewQuest", [questId]),
+      data: GeoqueteSDK.encode(method, params),
     });
   },
-  createQuest: (walletAddress, quest) => {},
-  joinQuest: (questId) => {},
-  submitSolution: (questId) => {},
+  listQuests: () => {},
+  getQuest: (questId) => {
+    return GeoqueteSDK.call("viewQuest", [questId]);
+  },
+  createQuest: (quest) => {
+    return GeoqueteSDK.call("createQuest", [
+      quest.questName,
+      quest.location,
+      quest.coordinates,
+      quest.numberOfPlayers,
+      quest.questPrize,
+      10,
+    ]);
+  },
+  joinQuest: (questId) => {
+    return GeoqueteSDK.call("joinQuest", [questId]);
+  },
+  submitSolution: (questId, zkProof, ipfsPhotoUrl) => {
+    return GeoqueteSDK.call("submitSolution", [questId, zkProof, ipfsPhotoUrl]);
+  },
   hexToInteger: (hex) => {
     return parseInt(hex, 16) / Math.pow(10, TOKEN_DECIMALS);
   },
