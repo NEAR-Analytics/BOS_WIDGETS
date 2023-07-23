@@ -155,7 +155,7 @@ if (sender && dataParsed.scores) {
           <ScoreInfo className="box">
             <h2 className="spScores">
               SP Scores{" "}
-              <span>{dataParsed.scores.spot_score.toFixed(2)} / 777</span>
+              <span>{dataParsed.scores.spot_score.toFixed(2)} / 100</span>
             </h2>
             <hr />
             <div className="scoreContainer">
@@ -193,24 +193,6 @@ if (sender && dataParsed.scores) {
           <div className="title">socials</div>
           <ScoreInfo className="box">
             <div className="imageContainer">
-              <div className="socialLogo">
-                <img src="https://ipfs.near.social/ipfs/bafkreihhumscbreynqex4hhmeu6rmwb3dsgs64erwpomsotrmepk5hgvw4" />
-              </div>
-              <div className="scoreContainer">
-                <div>
-                  Followers <span>1</span>
-                </div>
-                <div>
-                  Following <span>1</span>
-                </div>
-                <div>
-                  Comments <span>1</span>
-                </div>
-                <div>
-                  Posts <span>1</span>
-                </div>
-              </div>
-              <hr />
               <div className="socialLogo">
                 <img src="https://ipfs.near.social/ipfs/bafkreifplxkftq5lq7mljdj6rrolqiffpqg7cxdggjocmwpvz3gm5jq22y" />
               </div>
