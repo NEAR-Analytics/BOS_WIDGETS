@@ -381,8 +381,23 @@ return (
       </Header>
       <Tabs>
         <TabNavs>
-          <Tab mobile={false} onClick={handleTabClick} active={true} id={1}>
-            NEAR
+          <Tab
+            mobile={false}
+            onClick={handleTabClick}
+            active={state.active === 1}
+            id={1}
+          >
+            NEARWEEK
+          </Tab>
+        </TabNavs>
+        <TabNavs>
+          <Tab
+            mobile={false}
+            onClick={handleTabClick}
+            active={state.active === 2}
+            id={2}
+          >
+            COINDESK
           </Tab>
         </TabNavs>
       </Tabs>
