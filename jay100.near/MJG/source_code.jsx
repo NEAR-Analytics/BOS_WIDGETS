@@ -31,16 +31,6 @@ return (
       army to position yourself as the master tactician.`,
       }}
     />
-    {/*<Widget
-      src="jay100.near/widget/CTTDescription"
-      props={{
-        title: "Marma J Gaming",
-        description: ` Explore the crypto-based gaming world of Marma J Gaming where you can
-      collaborate artistically with friends, gather your pets for a battle,
-      outfit your hero to explore dungeons and take part in raids, and gather an
-      army to position yourself as the master tactician.`,
-      }}
-    /> */}
     <Widget src={"shemar268abel.near/widget/PixelParty"} />
     <Widget src={"ihyshan.near/widget/MJG-Widget"} />
     <Widget src={"quan15.near/widget/MJG-Widget"} />
