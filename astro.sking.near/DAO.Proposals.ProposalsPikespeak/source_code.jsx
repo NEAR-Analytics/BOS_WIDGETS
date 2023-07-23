@@ -5,6 +5,11 @@ const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const resPerPage = 10;
 
+const defaultMultiSelectMode = Storage.privateGet("multiSelectMode");
+
+if (defaultMultiSelectMode === null) return "";
+console.log(defaultMultiSelectMode)
+
 State.init({
   daoId,
   daos: [daoId],
@@ -16,8 +21,9 @@ State.init({
     time_end: "",
   },
   filtersOpen: false,
-  multiSelectMode: false,
+  multiSelectMode: defaultMultiSelectMode ?? false,
 });
+
 
 const forgeUrl = (apiUrl, params) =>
   apiUrl +
@@ -84,6 +90,7 @@ return (
           variant: "secondary outline",
           size: "md",
           onClick: () => {
+            Storage.privateSet("multiSelectMode", !state.multiSelectMode);
             State.update({
               ...state,
               multiSelectMode: !state.multiSelectMode,
@@ -224,6 +231,7 @@ return (
                 ...state,
                 multiSelectMode: false,
               });
+              Storage.privateSet("multiSelectMode", false);
             },
           }}
         />
