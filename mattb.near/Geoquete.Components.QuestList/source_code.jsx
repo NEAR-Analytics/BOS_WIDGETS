@@ -1,7 +1,15 @@
 State.init({
   sdk: null,
   quests: [],
+  account: null,
 });
+
+if (!state.account) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length > 0) {
+    State.update({ account: accounts[0] });
+  }
+}
 
 const Main = styled.div`
     width:100%;
@@ -39,6 +47,7 @@ const loadQuests = () => {
         location: response["location"],
         payoutCompleted: response["payoutCompleted"],
         players: response["players"],
+        description: response["description"],
         questName: response["questName"],
         questPrize: state.sdk.hexToInteger(response["questPrize"]["_hex"]),
         questStatus: response["questStatus"],
@@ -77,6 +86,14 @@ return (
         src="mattb.near/widget/Geoquete.Components.Quest"
         props={{
           quest,
+          onJoin: (questId) => {
+            console.log(state.account);
+            state.sdk.allowSpend(1000000000).then((rawResponse) => {
+              state.sdk.joinQuest(questId).then((response) => {
+                console.log(response);
+              });
+            });
+          },
         }}
       />
     ))}
