@@ -1,4 +1,4 @@
-const ownerId = "nearcon23.near";
+const ownerId = "ndcplug.near";
 const availableTabs = ["home", "register", "hackathon", "speakers"];
 
 const getTab = (tab) => {
@@ -19,7 +19,7 @@ const isForm = [].includes(state.tab);
 const update = (state) => State.update(state);
 
 const tabContentWidget = {
-  home: "Home.Page",
+  home: "BOSHacks.Home.Main",
   register: "Register.Page",
   hackathon: "Hackathon.Page",
   speakers: "Speakers.Page",
@@ -89,15 +89,15 @@ const Container = styled.div``;
 
 return (
   <Container>
-    <Widget src={`${ownerId}/widget/Navbar`} props={{ update }} />
+    <Widget src={`ndcplug.near/widget/BOSHACKS.Navbar`} props={{ update }} />
     <Content>
       <Sidebar show={showSidebar}>
         <Widget
-          src={`${ownerId}/widget/Sidebar`}
+          src={`${ownerId}/widget/BOSHACKS.Sidebar.Main`}
           props={{ tab: state.tab, update, collapsible: true }}
         />
         <Widget
-          src={`${ownerId}/widget/Sidebar`}
+          src={`${ownerId}/widget/BOSHACKS.Sidebar.Main`}
           props={{ tab: state.tab, update, collapsible: false }}
         />
       </Sidebar>
