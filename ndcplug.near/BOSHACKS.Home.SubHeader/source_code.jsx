@@ -1,4 +1,4 @@
-const ownerId = "nearcon23.near";
+const ownerId = "ndcplug.near";
 
 const Container = styled.div`
   display: flex;
@@ -115,8 +115,8 @@ return (
         <li>Win $10,000 in prizes</li>
       </ul>
       <ButtonContainer>
-        <Widget src={`${ownerId}/widget/Register.Button`} />
-        <Widget src={`${ownerId}/widget/Home.SpeakerButton`} />
+        <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
+        <Widget src={`${ownerId}/widget/BOSHACKS.Home.SpeakerButton`} />
       </ButtonContainer>
     </Text>
     <Visual>
