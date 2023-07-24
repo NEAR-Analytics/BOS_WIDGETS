@@ -9,7 +9,7 @@ const mentions = mention && mention.split(",")?.map((it) => it.trim());
 // Vibes Enter lookcation proofofvibes.near/widget/Vibes.Feed.main // add location
 
 // add style devs
-const thisComponent = `proofofvibes.near/widget/Vibes.Feed.main?mention=${mention}location=${location}`; // need to onchange to this
+const thisComponent = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${mention}&location=${location}`; // need to onchange to this
 // Suggested location. use onChange like for nft selector
 
 State.init({ location, thisComponent, mention });
@@ -22,7 +22,7 @@ const onChangeLocation = (location) => {
   recalculateComponent();
 };
 const recalculateComponent = () => {
-  const componentName = `proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`;
+  const componentName = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`;
   State.update({
     thisComponent: componentName,
   });
@@ -127,10 +127,12 @@ const Wrapper = styled.div`
 return (
   <div>
     <Card>
-      <div className="location-ticker">
-        📍 Suggested Location:
-        <Widget src="proofofvibes.near/widget/Vibes.Feed.Post.Location" />
-      </div>
+      {false && (
+        <div className="location-ticker">
+          📍 Suggested Location:
+          <Widget src="proofofvibes.near/widget/Vibes.Feed.Post.Location" />
+        </div>
+      )}
       <div className="col">
         <Input
           type="text"
