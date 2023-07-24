@@ -1,4 +1,4 @@
-const ownerId = "nearcon23.near";
+const ownerId = "ndcplug.near";
 
 const Navbar = styled.div`
   z-index: 2;
@@ -213,7 +213,7 @@ const info = <Info>August 11-27, 2023 [Virtual] </Info>;
 const actions = (
   <ActionArea>
     {info}
-    <Widget src={`${ownerId}/widget/Register.Button`} />
+    <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
   </ActionArea>
 );
 
