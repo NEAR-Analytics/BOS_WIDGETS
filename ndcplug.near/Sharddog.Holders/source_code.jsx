@@ -1,5 +1,6 @@
 const limit = 20;
-const series = props.series ?? ""; // add series filter
+const series = props.series ?? "124"; // add series filter
+// add what nft they have and then add filter of unique people, add link to collection
 State.init({
   offset: 0,
   tokens: [],
@@ -20,7 +21,7 @@ function fetchTokens() {
             mb_views_nft_tokens(
                 limit: ${limit},
                 offset: ${state.offset}
-              where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
+              where: { nft_contract_id: { _eq: "mint.sharddog.near" } token_id: {_regex: "^${series}:"}}
               order_by: {minted_timestamp: desc}
             ) {
               media
@@ -48,15 +49,35 @@ function fetchTokens() {
 }
 
 function Sharddog({ owner, media }) {
-  const size = "144px";
+  const size = "100px";
 
   return (
-    <Widget
-      src="near/widget/AccountProfileCard"
-      props={{
-        accountId: owner,
-      }}
-    />
+    <div className="">
+      <Widget
+        src="mob.near/widget/Image"
+        props={{
+          image: {
+            url: media,
+          },
+          style: {
+            width: size,
+            height: size,
+            objectFit: "cover",
+            minWidth: size,
+            minHeight: size,
+            maxWidth: size,
+            maxHeight: size,
+            overflowWrap: "break-word",
+          },
+        }}
+      />
+      <Widget
+        src="near/widget/AccountProfileCard"
+        props={{
+          accountId: owner,
+        }}
+      />
+    </div>
   );
 }
 
