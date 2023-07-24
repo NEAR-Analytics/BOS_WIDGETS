@@ -266,11 +266,9 @@ const KeyIssuesContainer = styled.div`
 `;
 const KeyIssueTitle = styled.p`
   font-weight: 500;
-  font-size: 11px;
-  margin-bottom: 0px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 12px;
+  margin-bottom: 5px;
+  white-space: pre-wrap;
 `;
 const KeyIssueDescription = styled.p`
   font-weight: 400;
