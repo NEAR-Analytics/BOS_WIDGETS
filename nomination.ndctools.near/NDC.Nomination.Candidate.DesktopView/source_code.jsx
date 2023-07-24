@@ -273,7 +273,7 @@ const KeyIssueTitle = styled.p`
   font-size: 12px;
   line-height: 120%;
   margin: 0px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 18px;
   text-align: left;
   padding: 10px;
