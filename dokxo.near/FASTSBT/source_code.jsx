@@ -109,15 +109,14 @@ const validatedInputs = () => {
     return (isValid = false);
   }
   if (state.ischeckselected === true) {
-    console.log(
-      "se activo la meta",
-      state.ischeckselected === true,
-      state.ClassIdSelected
-    );
+    console.log("se activo la meta", isEmpty(state.ClassIdSelected));
     if (isEmpty(state.ClassIdSelected)) {
       console.log("select toke", isEmpty(state.ClassIdSelected));
       State.update({ error_msg: "Select a token class", Submitdisable: true });
       return (isValid = false);
+    } else {
+      State.update({ error_msg: "Select a token class", Submitdisable: false });
+      return (isValid = true);
     }
     /* if (isEmpty(state.IssuedAT)) {
       State.update({ error_msg: "pic an issued date", Submitdisable: true });
