@@ -1,5 +1,8 @@
 const limit = 20;
 const series = props.series ?? "124"; // add series filter
+const title = props.title ?? "Total Holders";
+const showHeader = props.showHeader ?? true;
+const showImage = props.showImage ?? true;
 // add what nft they have and then add filter of unique people, add link to collection
 State.init({
   offset: 0,
@@ -52,31 +55,37 @@ function Sharddog({ owner, media }) {
   const size = "100px";
 
   return (
-    <div className="">
-      <Widget
-        src="mob.near/widget/Image"
-        props={{
-          image: {
-            url: media,
-          },
-          style: {
-            width: size,
-            height: size,
-            objectFit: "cover",
-            minWidth: size,
-            minHeight: size,
-            maxWidth: size,
-            maxHeight: size,
-            overflowWrap: "break-word",
-          },
-        }}
-      />
-      <Widget
-        src="near/widget/AccountProfileCard"
-        props={{
-          accountId: owner,
-        }}
-      />
+    <div className="row">
+      <div className="col-sm-3">
+        {showImage && (
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: {
+                url: media,
+              },
+              style: {
+                width: size,
+                height: size,
+                objectFit: "cover",
+                minWidth: size,
+                minHeight: size,
+                maxWidth: size,
+                maxHeight: size,
+                overflowWrap: "break-word",
+              },
+            }}
+          />
+        )}
+      </div>
+      <div className="col-sm-9">
+        <Widget
+          src="near/widget/AccountProfileCard"
+          props={{
+            accountId: owner,
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -99,16 +108,20 @@ const loader = (
 );
 
 return (
-  <InfiniteScroll
-    pageStart={0}
-    loadMore={fetchTokens}
-    hasMore={state.hasMore}
-    loader={loader}
-  >
-    <Grid>
-      {state.tokens?.map((it) => {
-        return <Sharddog owner={it.owner} media={it.media} />;
-      })}
-    </Grid>
-  </InfiniteScroll>
+  <>
+    {showHeader && <h1>Total Holders: {state.tokens.length}</h1>}
+
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={fetchTokens}
+      hasMore={state.hasMore}
+      loader={loader}
+    >
+      <Grid>
+        {state.tokens?.map((it) => {
+          return <Sharddog owner={it.owner} media={it.media} />;
+        })}
+      </Grid>
+    </InfiniteScroll>
+  </>
 );
