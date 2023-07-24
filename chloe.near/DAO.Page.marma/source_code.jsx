@@ -3,7 +3,7 @@ const widgetOwner = props.widgetOwner ?? "astro.sking.near";
 State.init({
   tab: props.tab ?? "home",
   accountId: props.accountId ?? context.accountId,
-  daoId: props.daoId,
+  daoId: props.daoId ?? "marmaj.sputnik-dao.near",
   proposalId: props.proposalId,
 });
 
@@ -57,7 +57,7 @@ const tabs = {
   },
 };
 
-if (!props.daoId) {
+if (!state.daoId) {
   // TODO: add a proper error screen
   return "Please provide a DAO ID";
 }
