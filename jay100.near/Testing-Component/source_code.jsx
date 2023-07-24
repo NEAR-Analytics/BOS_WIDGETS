@@ -118,6 +118,22 @@ const Carouselv2 = async () => {
     }
   };
 
+  const auto_slide = async () => {
+    State.update({
+      image_index: (state.image_index += 1),
+    });
+
+    if (state.image_index > slide_data.length - 1) {
+      State.update({
+        image_index: 0,
+      });
+    }
+
+    setInterval(() => {
+      auto_slide();
+    }, 10000);
+  };
+
   return (
     <div className="d-flex col">
       <CarouselContainer>
