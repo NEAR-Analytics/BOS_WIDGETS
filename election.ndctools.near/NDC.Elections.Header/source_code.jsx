@@ -75,7 +75,7 @@ const H6 = styled.h6`
   align-items: center;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  width: ${(props) => (props.mobile ? "" : "130px")};
+  width: ${(props) => (props.mobile ? "100%" : "130px")};
 `;
 
 const Timer = styled.div`
