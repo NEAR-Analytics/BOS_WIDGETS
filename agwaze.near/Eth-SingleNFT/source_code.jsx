@@ -447,6 +447,8 @@ const handleBuyClick = () => {
     });
 };
 
+const defaultAddress = "0xfb6d5faa665783f4e4a1f5b198797c4d39478f13";
+
 const handleSendClick = () => {
   // Handle the send button click event
   console.log("Input value:", state.listingPrice, Number(state.listingPrice));
@@ -534,7 +536,7 @@ return (
         </CloseNFT>
         <TopImageContainer>
           <HeaderText>
-            {props.state.singleNftProps.name || "AI Sunset"}
+            {props.state.singleNftProps.name || "Plant Man on the moon"}
           </HeaderText>
           <img
             src={
@@ -543,7 +545,7 @@ return (
                     "ipfs://",
                     "https://ipfs.io/ipfs/"
                   )
-                : "https://ipfs.io/ipfs/QmZbtU8RnMymJAJRpTriZgDXVeeCpm5RyXMJNquGoVc4Rb"
+                : "https://ipfs.io/ipfs/Qmdg5Bw1L892esUXzjJS4sBPh1ND5QuMBDYFwugcP8ScHT"
             }
             alt="NFT"
             width="100%"
@@ -574,7 +576,7 @@ return (
               }...${
                 props.state.singleNftProps.owner
                   ? props.state.singleNftProps.owner.slice(36)
-                  : "0454et"
+                  : "78f13"
               }`}
             </span>
           </div>
@@ -675,7 +677,7 @@ return (
             <h6>Description</h6>
             <span>
               {props.state.singleNftProps.description ||
-                "Ai generated sunset cliffs"}
+                "Green Plant man on the moon"}
             </span>
           </Description>
           <Description>
@@ -695,16 +697,28 @@ return (
                   </Attribute>
                 ))
               ) : (
-                <Attribute>
-                  <div>
-                    <span style={{ color: "#b2b7c2" }}>File Type</span>
-                    <p style={{ marginTop: "10px" }}>PNG</p>
-                  </div>
-                  <div>
-                    <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                    <p style={{ marginTop: "10px" }}>1%</p>
-                  </div>
-                </Attribute>
+                <>
+                  <Attribute>
+                    <div>
+                      <span style={{ color: "#b2b7c2" }}>File Type</span>
+                      <p style={{ marginTop: "10px" }}>image/png</p>
+                    </div>
+                    <div>
+                      <span style={{ color: "#b2b7c2" }}>Rarity</span>
+                      <p style={{ marginTop: "10px" }}>1%</p>
+                    </div>
+                  </Attribute>
+                  <Attribute>
+                    <div>
+                      <span style={{ color: "#b2b7c2" }}>Category</span>
+                      <p style={{ marginTop: "10px" }}>Digital Graphic</p>
+                    </div>
+                    <div>
+                      <span style={{ color: "#b2b7c2" }}>Rarity</span>
+                      <p style={{ marginTop: "10px" }}>1%</p>
+                    </div>
+                  </Attribute>
+                </>
               )}
             </AttributeContainer>
           </Description>
@@ -715,8 +729,12 @@ return (
               <a
                 target="_blank"
                 href={`${
-                  currentChain[props.state.singleNftProps.chain].explorer
-                }/address/${props.state.singleNftProps.owner || ""}`}
+                  currentChain[props.state.singleNftProps.chain ?? "137"]
+                    .explorer
+                }/address/${
+                  props.state.singleNftProps.owner ||
+                  "0xfb6d5faa665783f4e4a1f5b198797c4d39478f13"
+                }`}
               >
                 {`${
                   props.state.singleNftProps.owner
@@ -725,7 +743,7 @@ return (
                 }...${
                   props.state.singleNftProps.owner
                     ? props.state.singleNftProps.owner.slice(36)
-                    : "0454et"
+                    : "78f13"
                 }`}
               </a>
             </MintDetails>
@@ -768,12 +786,19 @@ return (
       ) : (
         <TableBody>
           <RowType>Listing</RowType>
-          <a>
+          <a
+            href={`${currentChain[137].explorer}/tx/0x5edb90dfc01d8a50558fcbd55b33541204d8705f44dd19ce34752df4a53574d1`}
+            target="_blank"
+          >
             <RowBody>
               <span>From</span>
               <p>---</p>
               <span>To</span>
-              <p>waze.near</p>
+              <p>
+                {defaultAddress.slice(0, 4)}
+                {"..."}
+                {defaultAddress.slice(38)}
+              </p>
               <p>{getFormatedTxDate(data.txDate || "1662436482")}</p>
             </RowBody>
           </a>
