@@ -116,7 +116,7 @@ if (!state.theme) {
 const Theme = state.theme;
 return (
   <Theme>
-    <div class="text-center">
+    <div class="text-center mt-1">
       <div class="MainContainer">
         <div class="ProtocolContainer">
           <div class="ProtocolNetworkContainet">
