@@ -308,19 +308,6 @@ return (
         ) : (
           <></>
         )}
-        <Widget
-          src={widgets.styledComponents}
-          props={{
-            Button: {
-              text: "",
-              className: "secondary dark",
-              size: "sm",
-              disabled: true,
-              onClick: () => {},
-              icon: <i className="bi bi-share"></i>,
-            },
-          }}
-        />
       </CommentButtonDiv>
     </CommentCardLowerSection>
   </CommentCard>
