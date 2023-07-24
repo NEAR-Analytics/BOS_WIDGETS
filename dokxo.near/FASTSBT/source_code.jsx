@@ -1,4 +1,4 @@
-// the initial state
+// State
 State.init({
   theme: "",
   Dao_Contract: "",
@@ -10,23 +10,16 @@ State.init({
   ExpiresAt: "",
   Referencelink: "",
   Referencehash: "",
-  IssuerPropList: props.IssuerList || [],
+  IssuerPropList: props.IssuerList,
   ischeckselected: false,
   Submitdisable: true,
 });
-// Constants for URLs
-const cssFontURL =
-  "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800";
-const cssURL =
-  "https://raw.githubusercontent.com/dokxo96/fastSbt/master/fastsbt.css?token=GHSAT0AAAAAACEQ4SVRD7BVOYKVKF5B4FEAZF36DWQ";
-const NDCicon =
-  "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP5CETfUsGFqdcsnrfPgUk3NvRh78TGZcX2srfCVFuvqi?_gl=1*faq1pt*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg3Njc1OC4xMS4xLjE2ODk4NzY4MjYuNjAuMC4w";
-const CheckIcon =
-  "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmVGE45rLuHiEHh8RPfL11QsQBXVDfmdV3pevZU7CG1ucg?preview=1&_gl=1*1dpaowv*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg4MDMyOS4xMi4xLjE2ODk4ODA3MTAuMTkuMC4w";
-// fetch CSS and Fonts
-const cssFont = fetch(cssFontURL).body;
-const css = fetch(cssURL).body;
-
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
+).body;
+const css = fetch(
+  "https://raw.githubusercontent.com/dokxo96/fastSbt/master/fastsbt.css?token=GHSAT0AAAAAACEQ4SVRD7BVOYKVKF5B4FEAZF36DWQ"
+).body;
 if (!cssFont || !css) return "";
 if (!state.theme) {
   State.update({
@@ -37,102 +30,118 @@ if (!state.theme) {
 `,
   });
 }
-//Custom Components
 const Theme = state.theme;
+const NDCicon =
+  "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP5CETfUsGFqdcsnrfPgUk3NvRh78TGZcX2srfCVFuvqi?_gl=1*faq1pt*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg3Njc1OC4xMS4xLjE2ODk4NzY4MjYuNjAuMC4w";
+const CheckIcon =
+  "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmVGE45rLuHiEHh8RPfL11QsQBXVDfmdV3pevZU7CG1ucg?preview=1&_gl=1*1dpaowv*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg4MDMyOS4xMi4xLjE2ODk4ODA3MTAuMTkuMC4w";
 const SubmitBtn = styled.button`
-    display: flex;
-    width: 107px;
-    padding: 8px 12px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    color:#000;
-    display: flex;
-    width: 107px;
-    padding: 8px 12px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border-radius: 10px;
-    border-width: 1px;
-    border: solid 1px transparent;
-    background-image: ${
-      state.Submitdisable
-        ? "linear-gradient(#a4a39e, #cbcac8), radial-gradient(circle at top left,#000000, #000000);"
-        : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
-    }
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    @media only screen and (max-width: 480px) {
-    
-    }
+display: flex;
+width: 107px;
+padding: 8px 12px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+color:#000;
+display: flex;
+width: 107px;
+padding: 8px 12px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 10px;
+ border-width: 1px;
+  border: solid 1px transparent;
+ 
+ 
+  background-image: ${
+    state.Submitdisable
+      ? "linear-gradient(#a4a39e, #cbcac8), radial-gradient(circle at top left,#000000, #000000);"
+      : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
+  }
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+@media only screen and (max-width: 480px) {
+ 
+}
 `;
 const CustomCheckbox = styled.div`
-    width:20px;
-    height:20px;
-    background:${
-      state.ischeckselected
-        ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);"
-        : "#F8F8F9;"
-    }
-    border: medium solid ${
-      state.ischeckselected
-        ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);"
-        : "black"
-    };
-    border-radius:4px;
-    
-`;
-// This method will validate that all fields were filled.
-const validatedInputsImproved = () => {
-  const isEmpty = (str) => str.trim() === "";
-
-  const validationRules = {
-    Dao_Contract: {
-      isEmpty: isEmpty(state.Dao_Contract),
-      errorMsg: "Write the DAO contract",
-    },
-    Issuer_selected: {
-      isEmpty: isEmpty(state.Issuer_selected),
-      errorMsg: "Select an issuer",
-    },
-    Issuer_filled: {
-      isEmpty:
-        state.Issuer_selected === "showinput" && isEmpty(state.Issuer_filled),
-      errorMsg: "Provide an issuer",
-    },
-    Receiver: {
-      isEmpty: isEmpty(state.Receiver),
-      errorMsg: "Write the receiver",
-    },
-    ClassIdSelected: {
-      isEmpty: state.ischeckselected && isEmpty(state.ClassIdSelected),
-      errorMsg: "Select a token class",
-    },
-    Memo: {
-      isEmpty: isEmpty(state.Memo),
-      errorMsg: "Write the memo",
-    },
-  };
-
-  let error_msg = "";
-  let Submitdisable = false;
-
-  for (const field in validationRules) {
-    if (validationRules[field].isEmpty) {
-      error_msg = validationRules[field].errorMsg;
-      Submitdisable = true;
-      break; // Exit the loop as soon as we find an error
-    }
-  }
-
-  State.update({ error_msg, Submitdisable });
-  return !Submitdisable;
+ width:20px;
+ height:20px;
+ background:${
+   state.ischeckselected
+     ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);"
+     : "#F8F8F9;"
+ }
+border: medium solid ${
+  state.ischeckselected
+    ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%);"
+    : "black"
 };
-
-// This method will make a Function call to the DAO
+border-radius:4px;
+ 
+`;
+console.log("state init", state);
+const validatedInputs = () => {
+  console.log(state);
+  const isEmpty = (str) => str.trim() === "";
+  let isValid = false;
+  if (isEmpty(state.Dao_Contract)) {
+    console.log("V:DAO");
+    State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
+    return (isValid = false);
+  }
+  if (isEmpty(state.Issuer_selected)) {
+    console.log("V:Issuer");
+    State.update({ error_msg: "Select an issuer", Submitdisable: true });
+    return (isValid = false);
+  }
+  // the user will provide a new issuer
+  if (state.Issuer_selected === "showinput" && isEmpty(state.Issuer_filled)) {
+    console.log("V:META");
+    State.update({ error_msg: "provide an issuer", Submitdisable: true });
+    return (isValid = false);
+  }
+  if (isEmpty(state.Receiver)) {
+    console.log("V:Receiver ");
+    State.update({ error_msg: "Write the receiver", Submitdisable: true });
+    return (isValid = false);
+  }
+  if (state.ischeckselected === true) {
+    console.log("se activo la meta", isEmpty(state.ClassIdSelected));
+    if (isEmpty(state.ClassIdSelected)) {
+      console.log("select toke", isEmpty(state.ClassIdSelected));
+      State.update({ error_msg: "Select a token class", Submitdisable: true });
+      return (isValid = false);
+    } else {
+      State.update({ error_msg: "Select a token class", Submitdisable: false });
+      return (isValid = true);
+    }
+    /* if (isEmpty(state.IssuedAT)) {
+      State.update({ error_msg: "pic an issued date", Submitdisable: true });
+      return (isValid = false);
+    }
+    if (isEmpty(state.ExpiresAt)) {
+      State.update({ error_msg: "pic an expires date", Submitdisable: true });
+      return (isValid = false);
+    } 
+    if (!isEmpty(state.Referencelink)) {
+      return (isValid = false);
+    }
+    if (!isEmpty(state.Referencehash)) {
+      return (isValid = false);
+    }*/
+    return (isValid = false);
+  }
+  if (isEmpty(state.Memo)) {
+    State.update({ error_msg: "Write the memo", Submitdisable: true });
+    return (isValid = false);
+  }
+  State.update({ Submitdisable: false });
+  return (isValid = true);
+};
 const Submitform = () => {
-  if (validatedInputsImproved()) {
+  if (validatedInputs()) {
     console.log("es valido");
     const meta = JSON.stringify({
       receiver: state.Receiver,
@@ -172,61 +181,6 @@ const Submitform = () => {
     ]);
   } else {
     console.log("no es valido");
-  }
-};
-
-const submitProposalImproved = async () => {
-  console.log("state", state);
-  try {
-    const isValid = validatedInputsImproved();
-    if (!isValid) {
-      console.log("Form inputs are invalid.");
-      return;
-    }
-
-    console.log("Form is valid, submitting proposal...");
-
-    const meta = JSON.stringify({
-      receiver: state.Receiver,
-      metadata: {
-        class: state.ClassIdSelected,
-      },
-      reference: state.Referencelink || null,
-      reference_hash: state.Referencehash || null,
-    });
-
-    const argsEncoded = Buffer.from(meta, "utf-8").toString("base64");
-
-    const proposal = {
-      description: "create proposal to mint SBT",
-      kind: {
-        FunctionCall: {
-          receiver_id: state.issuer ? state.issuer : "issuer.regens.near",
-          actions: [
-            {
-              method_name: "sbt_mint",
-              args: argsEncoded,
-              deposit: "80000000000000000000000",
-              gas: "200000000000000",
-            },
-          ],
-        },
-      },
-    };
-
-    const callArgs = {
-      contractName: state.Dao_Contract,
-      methodName: "add_proposal",
-      args: { proposal },
-      deposit: "100000000000000000000000",
-      gas: "219000000000000",
-    };
-
-    await Near.call([callArgs]);
-
-    console.log("Proposal submitted successfully!");
-  } catch (error) {
-    console.error("Error submitting proposal:", error);
   }
 };
 return (
@@ -438,7 +392,7 @@ return (
             <SubmitBtn
               disabled={state.Submitdisable}
               onClick={() => {
-                submitProposalImproved();
+                Submitform();
               }}
             >
               {" "}
