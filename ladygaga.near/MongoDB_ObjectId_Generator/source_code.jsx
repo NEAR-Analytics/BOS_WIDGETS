@@ -22,7 +22,7 @@ if (state.mongoObjectId === undefined) {
 
 return (
   <div className="container">
-    <h2>MongoDB ObjectId generator</h2>
+    <h2>MongoDB ObjectId Generator</h2>
     <div className="col-12  mb-3">
       <label for="objIdInput" class="form-label">
         Id:
@@ -41,9 +41,13 @@ return (
       <button
         onClick={() => {
           clipboard.writeText(state.mongoObjectId);
+          State.update({ copied: true });
+          setTimeout(() => {
+            State.update({ copied: false });
+          }, 2000);
         }}
       >
-        Copy To Clipboard
+        {state.copied ? "Copied" : "Copy To Clipboard"}
       </button>
     </div>
   </div>
