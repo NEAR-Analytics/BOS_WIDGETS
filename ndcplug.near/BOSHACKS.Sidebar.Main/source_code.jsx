@@ -288,21 +288,13 @@ const content = (
       icon: home,
       iconSelected: homeSelected,
     })}
+    <NavItem href="https://nearbuilders.com/boshacks" target="-blank">
+      {hackathon}
+      <span>Manual</span>
+    </NavItem>
 
-    {navItem({
-      text: "Mentors",
-      id: "speakers",
-      icon: speakers,
-      iconSelected: speakersSelected,
-    })}
-    {navItem({
-      text: "Builders",
-      id: "hackathon",
-      icon: hackathon,
-      iconSelected: hackathonSelected,
-    })}
     <Divider />
-    <NavItem href="https://nearbuilders.com/tg-builders">
+    <NavItem href="https://nearbuilders.com/tg-builders" target="_blank">
       <svg
         width="25"
         height="24"
@@ -349,3 +341,10 @@ if (props.collapsible) {
 }
 
 return content;
+
+//     {navItem({
+//   text: "Mentors",
+//   id: "speakers",
+//   icon: speakers,
+//   iconSelected: speakersSelected,
+// })}
