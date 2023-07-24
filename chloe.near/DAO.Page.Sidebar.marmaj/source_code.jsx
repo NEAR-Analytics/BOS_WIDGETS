@@ -1,11 +1,8 @@
-const role = props.role ?? "researcher";
-
 State.init({
   copiedShareUrl: false,
 });
 
-const accountId =
-  props.daoId ?? props.accountId ?? "research-collective.sputnik-dao.near";
+const accountId = props.daoId ?? props.accountId ?? "marmaj.sputnik-dao.near";
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 
@@ -279,16 +276,6 @@ return (
         )}
       </Actions>
       <Actions>
-        <FollowButtonWrapper>
-          <Widget
-            src="hack.near/widget/DAO.Join"
-            props={{
-              daoId: accountId,
-              role,
-            }}
-          />
-        </FollowButtonWrapper>
-
         <OverlayTrigger
           placement="top"
           overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
