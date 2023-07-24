@@ -612,7 +612,14 @@ return (
                     </CandidateInfoHeader>
                     <CandidateTextInfo>
                       <SectionTitle>Role Description</SectionTitle>
-                      <SectionDescription>{data.role}</SectionDescription>
+                      <SectionDescription>
+                        <Widget
+                          src="mob.near/widget/SocialMarkdown"
+                          props={{
+                            text: data.role,
+                          }}
+                        />
+                      </SectionDescription>
                     </CandidateTextInfo>
                   </CandidateInfoDiv>
                 ))}
@@ -684,7 +691,10 @@ return (
                             }}
                           >
                             <KeyIssueDescription className="text-seconodary">
-                              {data}
+                              <Widget
+                                src="mob.near/widget/SocialMarkdown"
+                                props={{ text: data }}
+                              />
                             </KeyIssueDescription>
                           </td>
                         </tr>
