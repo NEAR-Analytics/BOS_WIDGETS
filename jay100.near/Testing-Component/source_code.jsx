@@ -247,11 +247,10 @@ const Carouselv2 = () => {
   ];
   const CarouselContainer = styled.div`
     width: 100%;
-    height: 100vh;
+    height: fit-content;
     background-color: #0e0e1e;
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
   `;
 
@@ -298,7 +297,6 @@ const Carouselv2 = () => {
         className="img-thumbnail"
         src={slide_data[state.image_index].img_url}
       />
-
       <Title>The Basics</Title>
     </CarouselContainer>
   );
@@ -306,7 +304,6 @@ const Carouselv2 = () => {
 
 return (
   <>
-    <Carousel />
     <Carouselv2 />
   </>
 );
