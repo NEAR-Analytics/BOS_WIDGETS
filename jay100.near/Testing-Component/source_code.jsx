@@ -91,7 +91,7 @@ const Carouselv2 = async () => {
     border-bottom: 5px solid white;
     border-right: 5px solid white;
     transform: rotate(45deg);
-    margin: -10px;
+    margin: -5px;
   `;
 
   const next_slide = async () => {
@@ -111,7 +111,7 @@ const Carouselv2 = async () => {
       image_index: (state.image_index -= 1),
     });
 
-    if (state.image_index == 0) {
+    if (state.image_index < 0) {
       State.update({
         image_index: slide_data.length - 1,
       });
@@ -120,8 +120,8 @@ const Carouselv2 = async () => {
 
   return (
     <div className="d-flex col">
-      <CarouselContainer onClick={next_slide}>
-        <ArrowLeftContainer>
+      <CarouselContainer>
+        <ArrowLeftContainer onClick={prev_slide}>
           <Arrow></Arrow>
         </ArrowLeftContainer>
         <div
@@ -139,7 +139,7 @@ const Carouselv2 = async () => {
           <Title>{slide_data[state.image_index].title}</Title>
           <Description>{slide_data[state.image_index].description}</Description>
         </div>
-        <ArrowRightContainer>
+        <ArrowRightContainer onClick={next_slide}>
           <Arrow></Arrow>
         </ArrowRightContainer>
       </CarouselContainer>
