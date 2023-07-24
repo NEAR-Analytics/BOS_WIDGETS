@@ -504,15 +504,15 @@ const keyIssues = [
     desc: data.nominationData.WIYStrategy,
   },
   {
-    title: "Key Issue 1",
+    title: "View and pledge on the issue of User Experience and Accessibility",
     desc: data.nominationData.Key_Issue_1,
   },
   {
-    title: "Key Issue 2",
+    title: "View and pledge on the issue of Economic Growth and Innovation",
     desc: data.nominationData.Key_Issue_2,
   },
   {
-    title: "Key Issue 3",
+    title: "View and pledge on the issue of Marketing and Outreach",
     desc: data.nominationData.Key_Issue_3,
   },
   {
@@ -615,7 +615,10 @@ return (
               <div className="w-100" key={i}>
                 <KeyIssueTitle>{issue.title}</KeyIssueTitle>
                 <KeyIssueDescription className="text-secondary">
-                  {trimText(issue.desc)}
+                  <Widget
+                    src="mob.near/widget/SocialMarkdown"
+                    props={{ text: trimText(issue.desc) }}
+                  />
                 </KeyIssueDescription>
                 <KeyIssueSeparator />
               </div>
