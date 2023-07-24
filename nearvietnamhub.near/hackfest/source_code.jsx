@@ -254,7 +254,17 @@ return (
             👨‍💻 Register for Workshops & Hackathon
           </Text>
 
-          {!state.hasRegistered && (
+          <div className="row">
+            <a
+              href="https://web3-hackfest.devfolio.co/"
+              className="btn btn-primary btn-lg"
+              onClick={handleSignup}
+            >
+              Register now
+            </a>
+          </div>
+
+          {1 == 2 && !state.hasRegistered && (
             <>
               <InputContainer>
                 <Widget
