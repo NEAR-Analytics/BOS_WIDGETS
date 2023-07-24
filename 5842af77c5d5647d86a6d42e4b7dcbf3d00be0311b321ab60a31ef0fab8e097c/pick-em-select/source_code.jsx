@@ -204,7 +204,7 @@ return (
           lineHeight: "2.5rem",
         }}
       >
-        BIG3 Week 5 Miami Pick 'Em
+        BIG3 6 Boston Pick 'Em
       </h1>
       <p
         style={{
