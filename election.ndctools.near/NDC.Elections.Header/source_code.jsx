@@ -32,18 +32,9 @@ const timer = setInterval(() => {
   let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  if (now < start)
-    title = (
-      <>
-        Time before <br /> {type} starts
-      </>
-    );
+  if (now < start) title = <>Time before {type} starts</>;
   else if (now > start && now < end)
-    title = (
-      <>
-        Time remaining in <br /> current {type}
-      </>
-    );
+    title = <>Time remaining in current {type}</>;
   else {
     title = <>{type} is ended</>;
     days = 0;
@@ -155,7 +146,7 @@ const TimerContent = ({ mobile }) => {
 
   return (
     <>
-      <H6 className={`${mobile ? "mb-3" : ""}`}>{state.title}</H6>
+      <H6 className={`${mobile ? "m-0" : ""}`}>{state.title}</H6>
       <Timer className="d-flex" mobile={mobile}>
         <TimeSlot title="days" time={state.days} />
         <TimeSlot title="hours" time={state.hours} />
