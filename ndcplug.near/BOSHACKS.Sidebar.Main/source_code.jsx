@@ -288,12 +288,7 @@ const content = (
       icon: home,
       iconSelected: homeSelected,
     })}
-    {navItem({
-      text: "Register",
-      id: "register",
-      icon: register,
-      iconSelected: registerSelected,
-    })}
+
     {navItem({
       text: "Builders",
       id: "speakers",
