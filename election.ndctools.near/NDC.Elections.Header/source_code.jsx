@@ -56,7 +56,7 @@ const timer = setInterval(() => {
 
 const Logo = styled.img`
   width: 60px;
-  margin: ${(props) => (props.mobile ? "0 20px 0 0px" : "0 20px 0 10px")};
+  margin: ${(props) => (props.mobile ? "0 10px 0 0" : "0 20px 0 10px")};
 `;
 
 const H1 = styled.h1`
