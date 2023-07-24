@@ -19,7 +19,7 @@ const isForm = [].includes(state.tab);
 const update = (state) => State.update(state);
 
 const tabContentWidget = {
-  home: "BOSHacks.Home.Main",
+  home: "BOSHACKS.Home.Main",
   register: "Register.Page",
   hackathon: "Hackathon.Page",
   speakers: "Speakers.Page",
@@ -103,7 +103,7 @@ return (
       </Sidebar>
       <ContentContainer className={isForm ? "form" : ""}>
         {tabContent}
-        <Widget src={`${ownerId}/widget/Footer`} />
+        <Widget src={`${ownerId}/widget/BOSHACKS.Footer`} />
       </ContentContainer>
     </Content>
   </Container>
