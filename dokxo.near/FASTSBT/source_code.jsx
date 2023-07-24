@@ -1,3 +1,21 @@
+const contract = "hello.near-examples.near";
+// State
+State.init({
+  theme: "",
+  dao_Contract: "",
+  issuer_selected: null,
+  issuer_filled: "",
+  Receiver: "",
+  ClassIdSelected: "",
+  IssuedAT: "",
+  ExpiresAt: "",
+  Referencelink: "",
+  Referencehash: "",
+
+  IssuerPropList: props.IssuerList,
+  ischeckselected: false,
+  Submitdisable: false,
+});
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
 ).body;
@@ -21,24 +39,7 @@ const NDCicon =
 const CheckIcon =
   "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmVGE45rLuHiEHh8RPfL11QsQBXVDfmdV3pevZU7CG1ucg?preview=1&_gl=1*1dpaowv*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg4MDMyOS4xMi4xLjE2ODk4ODA3MTAuMTkuMC4w";
 
-const contract = "hello.near-examples.near";
-// State
-State.init({
-  theme: "",
-  Dao_Contract: "",
-  Issuer_selected: null,
-  Issuer_filled: "",
-  Receiver: "",
-  ClassIdSelected: "",
-  IssuedAT: "",
-  ExpiresAt: "",
-  Referencelink: "",
-  Referencehash: "",
-
-  IssuerPropList: props.IssuerList,
-  ischeckselected: false,
-  Submitdisable: true,
-});
+console.log("state init", state);
 const SubmitBtn = styled.button`
 display: flex;
 width: 107px;
@@ -88,19 +89,18 @@ border-radius:4px;
  
 `;
 
-console.log("state init", state);
 const validatedInputs = () => {
   console.log(state);
   const isEmpty = (str) => str.trim() === "";
   let isValid = false;
 
-  if (isEmpty(state.Dao_Contract)) {
+  if (isEmpty(state.dao_Contract)) {
     console.log("V:DAO");
     State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
 
     return (isValid = false);
   }
-  if (isEmpty(state.Issuer_selected)) {
+  if (isEmpty(state.issuer_selected)) {
     console.log("V:Issuer");
 
     State.update({ error_msg: "Select an issuer", Submitdisable: true });
@@ -108,7 +108,7 @@ const validatedInputs = () => {
     return (isValid = false);
   }
   // the user will provide a new issuer
-  if (state.Issuer_selected === "showinput" && isEmpty(state.Issuer_filled)) {
+  if (state.issuer_selected === "showinput" && isEmpty(state.issuer_filled)) {
     console.log("V:META");
 
     State.update({ error_msg: "provide an issuer", Submitdisable: true });
@@ -182,7 +182,7 @@ const Submitform = () => {
 
     Near.call([
       {
-        contractName: state.Dao_Contract,
+        contractName: state.dao_Contract,
         methodName: "add_proposal",
         args: {
           proposal: {
@@ -227,9 +227,9 @@ return (
                 class="InputStyled"
                 type="text"
                 placeholder="Input DAO contract address"
-                value={state.Dao_Contract}
+                value={state.dao_Contract}
                 onChange={(e) => {
-                  State.update({ Dao_Contract: e.target.value });
+                  State.update({ dao_Contract: e.target.value });
                   validatedInputs();
                 }}
               />
@@ -239,9 +239,9 @@ return (
               <select
                 class="Dropdown"
                 placeholder="Input DAO contract address"
-                value={state.Issuer_selected}
+                value={state.issuer_selected}
                 onChange={(e) => {
-                  State.update({ Issuer_selected: e.target.value });
+                  State.update({ issuer_selected: e.target.value });
                   validatedInputs();
                 }}
               >
@@ -259,16 +259,16 @@ return (
                 <option value="showinput">Other -- write it.</option>
               </select>
             </div>
-            {state.Issuer_selected === "showinput" ? (
+            {state.issuer_selected === "showinput" ? (
               <div class="Colcont">
                 <h1 class="H1styled">Enter issuer</h1>
                 <input
                   class="InputStyled"
                   type="text"
                   placeholder="Input Issuer"
-                  value={state.Issuer_filled}
+                  value={state.issuer_filled}
                   onChange={(e) => {
-                    State.update({ Issuer_filled: e.target.value });
+                    State.update({ issuer_filled: e.target.value });
                     validatedInputs();
                   }}
                 />
@@ -325,6 +325,7 @@ return (
                         class="Dropdown"
                         value={state.ClassIdSelected}
                         onChange={(e) => {
+                          console.log(state.ClassIdSelected);
                           State.update({ ClassIdSelected: e.target.value });
                           validatedInputs();
                         }}
