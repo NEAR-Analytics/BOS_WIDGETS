@@ -52,7 +52,7 @@ function Sharddog({ owner, media }) {
 
   return (
     <a
-      href={`near.org/near/widget/ProfilePage?accountId=${owner}`}
+      href={`https://near.org/near/widget/ProfilePage?accountId=${owner}`}
       target="_blank"
     >
       <Widget
