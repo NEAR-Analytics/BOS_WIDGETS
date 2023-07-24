@@ -1,38 +1,80 @@
+const widgetOwner = props.widgetOwner ?? "astro.sking.near";
+
 State.init({
-  selectedTab: props.tab || "discussion",
+  tab: props.tab ?? "home",
+  accountId: props.accountId ?? context.accountId,
+  daoId: props.daoId ?? "marmaj.sputnik-dao.near",
+  proposalId: props.proposalId,
 });
 
-const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
+const update = (state) => State.update(state);
 
-const page = accountId
-  ? Social.get(`${accountId}/settings/dao/page`)
-  : undefined;
+const constructURL = (paramObj, base) => {
+  const baseURL = base ?? `#/${widgetOwner}/widget/DAO`;
+  let params = "";
+  for (const [key, value] of Object.entries(paramObj)) {
+    params += `${key}=${value}&`;
+  }
+  params = params.slice(0, -1);
+  return `${baseURL}?${params}`;
+};
 
-if (page === null) {
-  return "Loading...";
+const tabs = {
+  home: {
+    name: "Discussion",
+    widget: "DAO.Discussion",
+    href: constructURL({ tab: "home", daoId: state.daoId }),
+  },
+  proposals: {
+    name: "Proposals",
+    widget: "DAO.Proposals.index",
+    href: constructURL({ tab: "proposals", daoId: state.daoId }),
+  },
+  funds: {
+    name: "Fund Flows",
+    widget: "DAO.Funds.index",
+    href: constructURL({ tab: "funds", daoId: state.daoId }),
+  },
+  members: {
+    name: "Members & Policy",
+    widget: "DAO.Members.index",
+    href: constructURL({ tab: "members", daoId: state.daoId }),
+  },
+  projects: {
+    name: "Projects",
+    widget: "DAO.Projects",
+    href: constructURL({ tab: "projects", daoId: state.daoId }),
+  },
+  followers: {
+    name: "Followers",
+    widget: "DAO.Followers",
+    href: constructURL({ tab: "followers", daoId: state.daoId }),
+  },
+  bounties: {
+    name: "Bounties",
+    widget: "DAO.Bounties",
+    href: constructURL({ tab: "bounties", daoId: state.daoId }),
+  },
+};
+
+if (!state.daoId) {
+  // TODO: add a proper error screen
+  return "Please provide a DAO ID";
 }
 
-const feed = accountId
-  ? Social.get(`${accountId}/settings/dao/feed`)
-  : undefined;
-
-if (feed === null) {
-  return "Loading...";
-}
-
-if (props.tab && props.tab !== state.selectedTab) {
-  State.update({
-    selectedTab: props.tab,
-  });
-}
-
-const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/sking.near/widget/DAO.Page?daoId=${daoId}`;
-
-const Wrapper = styled.div`
-  padding-bottom: 48px;
-`;
+const tabContent = (
+  <Widget
+    src={`${widgetOwner}/widget/${tabs[state.tab || "home"].widget}`}
+    props={{
+      update,
+      tab: state.tab,
+      accountId: state.accountId,
+      daoId: state.daoId,
+      proposalId: state.proposalId,
+      ...props,
+    }}
+  />
+);
 
 const Main = styled.div`
   display: grid;
@@ -40,256 +82,97 @@ const Main = styled.div`
   grid-template-columns: 352px minmax(0, 1fr);
   align-items: start;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1024px) {
     grid-template-columns: minmax(0, 1fr);
   }
 `;
 
-const BackgroundImage = styled.div`
-  height: 240px;
-  border-radius: 20px 20px 0 0;
-  overflow: hidden;
-  margin: 0 -12px;
-  background: #eceef0;
+// To keep our styles  consistent across widgets, let's define them here based on html tags and classes
+const Root = styled.div`
+  font-family: "Open Sans", "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
 
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5em;
   }
 
-  @media (max-width: 1200px) {
-    margin: calc(var(--body-top-padding) * -1) -12px 0;
-    border-radius: 0;
+  h1 {
+    font-size: 28px;
   }
 
-  @media (max-width: 900px) {
-    height: 100px;
+  h2 {
+    font-size: 24px;
   }
-`;
 
-const SidebarWrapper = styled.div`
-  position: relative;
-  z-index: 5;
-  margin-top: -55px;
-
-  @media (max-width: 900px) {
-    margin-top: -40px;
+  h3 {
+    font-size: 20px;
   }
-`;
 
-const Content = styled.div`
-  .post {
-    padding-left: 0;
-    padding-right: 0;
+  h4 {
+    font-size: 16px;
   }
-`;
 
-const Title = styled.h1`
-  font-weight: 600;
-  font-size: ${(p) => p.size || "25px"};
-  line-height: 1.2em;
-  color: #11181c;
-  margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
-  overflow-wrap: anywhere;
-`;
+  h5 {
+    font-size: 14px;
+  }
 
-const Tabs = styled.div`
-  display: flex;
-  height: 48px;
-  border-bottom: 1px solid #eceef0;
-  margin-bottom: 28px;
-  overflow: auto;
-  scroll-behavior: smooth;
+  h6 {
+    font-size: 12px;
+  }
 
-  @media (max-width: 1200px) {
-    background: #f8f9fa;
-    border-top: 1px solid #eceef0;
-    margin: 0 -12px 26px;
+  a {
+    color: #000;
+    text-decoration: none;
+  }
 
-    > * {
-      flex: 1;
-    }
+  a:hover {
+    color: #4498e0;
+  }
+
+  .ndc-card {
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px, rgba(0, 0, 0, 0.05) 0 1px 20px;
+    background-color: #fff;
   }
 `;
-
-const TabsButton = styled.a`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-weight: 600;
-  font-size: 12px;
-  padding: 0 12px;
-  position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
-  background: none;
-  border: none;
-  outline: none;
-  text-align: center;
-  text-decoration: none !important;
-
-  &:hover {
-    color: #11181c;
-  }
-
-  &::after {
-    content: "";
-    display: ${(p) => (p.selected ? "block" : "none")};
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: #59e692;
-  }
-`;
-
-const Bio = styled.div`
-  color: #11181c;
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 48px;
-
-  > *:last-child {
-    margin-bottom: 0 !important;
-  }
-
-  @media (max-width: 900px) {
-    margin-bottom: 48px;
-  }
-`;
-
-if (profile === null) {
-  return "Loading...";
-}
 
 return (
-  <Wrapper>
-    <BackgroundImage>
-      {profile.backgroundImage && (
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: profile.backgroundImage,
-            alt: "profile background image",
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-          }}
-        />
-      )}
-    </BackgroundImage>
+  <Root className="pb-5">
+    <Widget src={`nui.sking.near/widget/Typography.OpenSansFont`} />
 
+    <Widget
+      src={`${widgetOwner}/widget/DAO.Layout.Header`}
+      props={{
+        daoId: state.daoId,
+      }}
+    />
     <Main>
-      <SidebarWrapper>
+      <Widget
+        src={`${widgetOwner}/widget/DAO.Layout.Sidebar`}
+        props={{
+          daoId: state.daoId,
+        }}
+      />
+      <div>
         <Widget
-          src="hack.near/widget/DAO.Page.Sidebar"
+          src={`${widgetOwner}/widget/DAO.Layout.Tabs`}
           props={{
-            daoId,
-            profile,
+            tabs: tabs,
+            tab: state.tab,
+            update,
           }}
         />
-      </SidebarWrapper>
-
-      <Content>
-        <Tabs>
-          <TabsButton
-            href={`${accountUrl}&tab=discussion`}
-            selected={state.selectedTab === "discussion"}
-          >
-            Discussion
-          </TabsButton>
-
-          <TabsButton
-            href={`${accountUrl}&tab=proposals`}
-            selected={state.selectedTab === "proposals"}
-          >
-            Proposals
-          </TabsButton>
-
-          <TabsButton
-            href={`${accountUrl}&tab=members`}
-            selected={state.selectedTab === "members"}
-          >
-            Members
-          </TabsButton>
-
-          <TabsButton
-            href={`${accountUrl}&tab=projects`}
-            selected={state.selectedTab === "projects"}
-          >
-            Projects
-          </TabsButton>
-
-          <TabsButton
-            href={`${accountUrl}&tab=followers`}
-            selected={state.selectedTab === "followers"}
-          >
-            Followers
-          </TabsButton>
-
-          <TabsButton
-            href={`${accountUrl}&tab=bounties`}
-            selected={state.selectedTab === "bounties"}
-          >
-            Bounties
-          </TabsButton>
-        </Tabs>
-
-        {state.selectedTab === "discussion" && (
-          <>
-            <h3>Curated Posts</h3>
-            <a
-              className="btn btn-outline-secondary m-2"
-              href="/#/hack.near/widget/DAO.Feed.Editor"
-            >
-              <b>Update Feed</b>
-            </a>
-            <hr />
-            <Widget
-              src={feed ?? "hack.near/widget/DAO.Social"}
-              props={{ daoId }}
-            />
-          </>
-        )}
-
-        {state.selectedTab === "proposals" && (
-          <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
-        )}
-
-        {state.selectedTab === "proposal" && (
-          <Widget
-            src="sking.near/widget/DAO.Proposal"
-            props={{ daoId, ...props }}
-          />
-        )}
-
-        {state.selectedTab === "members" && (
-          <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
-        )}
-
-        {state.selectedTab === "projects" && (
-          <Widget src="efiz.near/widget/Gigs.Board" props={{ daoId }} />
-        )}
-
-        {state.selectedTab === "followers" && (
-          <Widget
-            src="near/widget/FollowersList"
-            props={{ accountId: daoId }}
-          />
-        )}
-
-        {state.selectedTab === "bounties" && (
-          <Widget src="sking.near/widget/DAO.Bounties" props={{ daoId }} />
-        )}
-
-        {state.selectedTab === "bounty" && (
-          <Widget
-            src="sking.near/widget/DAO.Bounty"
-            props={{ daoId, ...props }}
-          />
-        )}
-      </Content>
+        {tabContent}
+      </div>
     </Main>
-  </Wrapper>
+  </Root>
 );
