@@ -161,7 +161,7 @@ const Submitform = () => {
             description: "create proposal to mint SBT",
             kind: {
               FunctionCall: {
-                receiver_id: state.issuer,
+                receiver_id: state.issuer ? state.issuer : "issuer.regens.near",
                 actions: [
                   {
                     method_name: "sbt_mint",
