@@ -152,6 +152,7 @@ const Submitform = () => {
       reference: state.Referencelink ? state.Referencelink : null,
       reference_hash: state.Referencehash ? state.Referencehash : null,
     };
+    const argsencoded = Buffer.from(meta, "utf-8").toString("base64");
     Near.call([
       {
         contractName: state.Dao_Contract,
@@ -165,7 +166,7 @@ const Submitform = () => {
                 actions: [
                   {
                     method_name: "sbt_mint",
-                    args: meta,
+                    args: argsencoded,
                     deposit: "80000000000000000000000",
                     gas: "200000000000000",
                   },
