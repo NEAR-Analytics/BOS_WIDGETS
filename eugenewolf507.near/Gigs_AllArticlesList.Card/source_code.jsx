@@ -28,14 +28,6 @@ const CardWrapper = styled.div`
   min-width: 340px;
 `;
 
-const Card = styled.div`
-  background: #F8F8F9;
-  padding: 16px;
-  border-radius: 40px;
-  gap: 16px;
-
-`;
-
 const ModalWrapper = styled.div`
   position: absolute;
   top: 0;
@@ -136,21 +128,21 @@ const Modal = ({ onClose, children }) => {
 
 return (
   <CardWrapper className="col gy-3" key={article.articleId}>
-    {cardWithOpenModal === article.articleId && (
-      <Modal onClose={closeModalHandler}>
-        <Widget
-          src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
-          props={{
-            article,
-            statusChangeHandler,
-            statusTagsArr,
-            doesUserCanChangeStatus,
-            closeModalHandler,
-          }}
-        />
-      </Modal>
-    )}
-    <Card className="card h-100" style={{ position: "static" }}>
+    <div className="card h-100" style={{ position: "static" }}>
+      {cardWithOpenModal === article.articleId && (
+        <Modal onClose={closeModalHandler}>
+          <Widget
+            src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
+            props={{
+              article,
+              statusChangeHandler,
+              statusTagsArr,
+              doesUserCanChangeStatus,
+              closeModalHandler,
+            }}
+          />
+        </Modal>
+      )}
       <div
         role="button"
         className="card-body"
@@ -191,6 +183,6 @@ return (
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   </CardWrapper>
 );
