@@ -56,10 +56,6 @@ const button_data = [
     title: "NFT",
     link: "https://mitntbase.xyz/",
   },
-  {
-    title: "Mobile",
-    link: "https://pd-testnet.marmaj.org/chainteam/mainnet-ws.html",
-  },
 ];
 // End
 const Title = styled.h5`
