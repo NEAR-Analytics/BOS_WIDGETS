@@ -144,14 +144,15 @@ const validatedInputs = () => {
 const Submitform = () => {
   if (validatedInputs()) {
     console.log("es valido");
-    const meta = {
+    const meta = JSON.stringify({
       receiver: state.Receiver,
       metadata: {
         class: state.ClassIdSelected,
       },
       reference: state.Referencelink ? state.Referencelink : null,
       reference_hash: state.Referencehash ? state.Referencehash : null,
-    };
+    });
+
     const argsencoded = Buffer.from(meta, "utf-8").toString("base64");
     Near.call([
       {
