@@ -88,21 +88,7 @@ const PixelContainer = styled.div`
 `;
 
 const GameButton = () => {
-  const data = props
-    ? [
-        { title: "Play Now", link: "https://pd.marmaj.org/chainteam" },
-        { title: "TestNet", link: "https://pd-testnet.marmaj.org/chainteam" },
-        {
-          title: "Wiki",
-          link: "https://github.com/MarmaJFoundation/chainteamtactics-wiki/wiki",
-        },
-        { title: "NFT", link: "https://mitntbase.xyz/" },
-        {
-          title: "Mobile",
-          link: "https://pd-testnet.marmaj.org/chainteam/mainnet-ws.html",
-        },
-      ]
-    : null;
+  const data = props;
 
   return (
     <div
