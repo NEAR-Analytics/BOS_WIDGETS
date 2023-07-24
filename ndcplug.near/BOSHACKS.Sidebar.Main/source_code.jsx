@@ -290,13 +290,13 @@ const content = (
     })}
 
     {navItem({
-      text: "Builders",
+      text: "Mentors",
       id: "speakers",
       icon: speakers,
       iconSelected: speakersSelected,
     })}
     {navItem({
-      text: "Submissions",
+      text: "Builders",
       id: "hackathon",
       icon: hackathon,
       iconSelected: hackathonSelected,
