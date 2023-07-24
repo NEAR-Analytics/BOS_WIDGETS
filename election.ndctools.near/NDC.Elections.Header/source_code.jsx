@@ -163,7 +163,7 @@ const InfoBlock = ({ mobile }) => (
       mobile ? "" : "rounded-bottom"
     }`}
   >
-    <b className="mb-0">NDC NOMINATION AND ELECTION EDUCATION</b>
+    <b className="mb-0 w-50">NDC NOMINATION AND ELECTION EDUCATION</b>
     <div>
       <Widget
         src={widgets.styledComponents}
