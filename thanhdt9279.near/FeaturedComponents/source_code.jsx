@@ -54,6 +54,12 @@ return (
       <Item>
         <Widget
           src="near/widget/ComponentCard"
+          props={{ src: "nearhorizon.near/widget/Index" }}
+        />
+      </Item>
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
           props={{ src: "devgovgigs.near/widget/Ideas" }}
         />
       </Item>
@@ -66,7 +72,7 @@ return (
       <Item>
         <Widget
           src="near/widget/ComponentCard"
-          props={{ src: "thanhdt9279.near/widget/ProfilePage" }}
+          props={{ src: "zavodil.near/widget/social-avatar-editor" }}
         />
       </Item>
       <Item>
