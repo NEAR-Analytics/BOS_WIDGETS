@@ -93,6 +93,8 @@ padding: 3em;
 State.init({
   tab: props.tab ?? "home",
   content: props.content ?? "",
+  transactionHashes: props.transactionHashes,
+  transactionHashesIsHandled: false,
 });
 
 const isForm = ["createproposal"].includes(state.tab);
@@ -115,6 +117,8 @@ const getContent = {
       props={{
         tab: state.tab,
         update,
+        transactionHashes: state.transactionHashes,
+        transactionHashesIsHandled: state.transactionHashesIsHandled,
       }}
     />
   ),
@@ -125,6 +129,8 @@ const getContent = {
         tab: state.tab,
         update,
         mpip_id: props.mpip_id,
+        transactionHashes: state.transactionHashes,
+        transactionHashesIsHandled: state.transactionHashesIsHandled,
       }}
     />
   ),
