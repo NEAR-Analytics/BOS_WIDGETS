@@ -2,19 +2,18 @@ const contract = "hello.near-examples.near";
 // State
 State.init({
   theme: "",
-  dao_Contract: "",
-  issuer_selected: null,
-  issuer_filled: "",
+  Dao_Contract: "",
+  Issuer_selected: null,
+  Issuer_filled: "",
   Receiver: "",
   ClassIdSelected: "",
   IssuedAT: "",
   ExpiresAt: "",
   Referencelink: "",
   Referencehash: "",
-
   IssuerPropList: props.IssuerList,
   ischeckselected: false,
-  Submitdisable: false,
+  Submitdisable: true,
 });
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
@@ -22,7 +21,6 @@ const cssFont = fetch(
 const css = fetch(
   "https://raw.githubusercontent.com/dokxo96/fastSbt/master/fastsbt.css?token=GHSAT0AAAAAACEQ4SVRD7BVOYKVKF5B4FEAZF36DWQ"
 ).body;
-
 if (!cssFont || !css) return "";
 if (!state.theme) {
   State.update({
@@ -38,8 +36,6 @@ const NDCicon =
   "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP5CETfUsGFqdcsnrfPgUk3NvRh78TGZcX2srfCVFuvqi?_gl=1*faq1pt*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg3Njc1OC4xMS4xLjE2ODk4NzY4MjYuNjAuMC4w";
 const CheckIcon =
   "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmVGE45rLuHiEHh8RPfL11QsQBXVDfmdV3pevZU7CG1ucg?preview=1&_gl=1*1dpaowv*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg4MDMyOS4xMi4xLjE2ODk4ODA3MTAuMTkuMC4w";
-
-console.log("state init", state);
 const SubmitBtn = styled.button`
 display: flex;
 width: 107px;
@@ -69,9 +65,7 @@ border-radius: 10px;
 @media only screen and (max-width: 480px) {
  
 }
-
 `;
-
 const CustomCheckbox = styled.div`
  width:20px;
  height:20px;
@@ -88,63 +82,49 @@ border: medium solid ${
 border-radius:4px;
  
 `;
-
+console.log("state init", state);
 const validatedInputs = () => {
   console.log(state);
   const isEmpty = (str) => str.trim() === "";
   let isValid = false;
-
-  if (isEmpty(state.dao_Contract)) {
+  if (isEmpty(state.Dao_Contract)) {
     console.log("V:DAO");
     State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
-
     return (isValid = false);
   }
-  if (isEmpty(state.issuer_selected)) {
+  if (isEmpty(state.Issuer_selected)) {
     console.log("V:Issuer");
-
     State.update({ error_msg: "Select an issuer", Submitdisable: true });
-
     return (isValid = false);
   }
   // the user will provide a new issuer
-  if (state.issuer_selected === "showinput" && isEmpty(state.issuer_filled)) {
+  if (state.Issuer_selected === "showinput" && isEmpty(state.Issuer_filled)) {
     console.log("V:META");
-
     State.update({ error_msg: "provide an issuer", Submitdisable: true });
-
     return (isValid = false);
   }
   if (isEmpty(state.Receiver)) {
     console.log("V:Receiver ");
     State.update({ error_msg: "Write the receiver", Submitdisable: true });
-
     return (isValid = false);
   }
-
   if (state.ischeckselected === true) {
     console.log(
       "se activo la meta",
       state.ischeckselected === true,
       state.ClassIdSelected
     );
-
     if (isEmpty(state.ClassIdSelected)) {
       console.log("select toke", isEmpty(state.ClassIdSelected));
-
       State.update({ error_msg: "Select a token class", Submitdisable: true });
-
       return (isValid = false);
     }
-
     /* if (isEmpty(state.IssuedAT)) {
       State.update({ error_msg: "pic an issued date", Submitdisable: true });
-
       return (isValid = false);
     }
     if (isEmpty(state.ExpiresAt)) {
       State.update({ error_msg: "pic an expires date", Submitdisable: true });
-
       return (isValid = false);
     } 
     if (!isEmpty(state.Referencelink)) {
@@ -155,22 +135,16 @@ const validatedInputs = () => {
     }*/
     return (isValid = false);
   }
-
   if (isEmpty(state.Memo)) {
     State.update({ error_msg: "Write the memo", Submitdisable: true });
-
     return (isValid = false);
   }
-
   State.update({ Submitdisable: false });
-
   return (isValid = true);
 };
-
 const Submitform = () => {
   if (validatedInputs()) {
     console.log("es valido");
-
     const meta = {
       receiver: state.Receiver,
       metadata: {
@@ -179,10 +153,9 @@ const Submitform = () => {
       reference: state.Referencelink ? state.Referencelink : null,
       reference_hash: state.Referencehash ? state.Referencehash : null,
     };
-
     Near.call([
       {
-        contractName: state.dao_Contract,
+        contractName: state.Dao_Contract,
         methodName: "add_proposal",
         args: {
           proposal: {
@@ -217,7 +190,6 @@ return (
         <img src={NDCicon} />
         <label class="Headerlabel">FAST-SBT</label>
       </div>
-
       <div class="CardStyled" name="card">
         <div class=" BodyForm mx-auto">
           <div class="Rowcont">
@@ -227,9 +199,9 @@ return (
                 class="InputStyled"
                 type="text"
                 placeholder="Input DAO contract address"
-                value={state.dao_Contract}
+                value={state.Dao_Contract}
                 onChange={(e) => {
-                  State.update({ dao_Contract: e.target.value });
+                  State.update({ Dao_Contract: e.target.value });
                   validatedInputs();
                 }}
               />
@@ -239,9 +211,9 @@ return (
               <select
                 class="Dropdown"
                 placeholder="Input DAO contract address"
-                value={state.issuer_selected}
+                value={state.Issuer_selected}
                 onChange={(e) => {
-                  State.update({ issuer_selected: e.target.value });
+                  State.update({ Issuer_selected: e.target.value });
                   validatedInputs();
                 }}
               >
@@ -255,20 +227,19 @@ return (
                 ) : (
                   <></>
                 )}
-
                 <option value="showinput">Other -- write it.</option>
               </select>
             </div>
-            {state.issuer_selected === "showinput" ? (
+            {state.Issuer_selected === "showinput" ? (
               <div class="Colcont">
                 <h1 class="H1styled">Enter issuer</h1>
                 <input
                   class="InputStyled"
                   type="text"
                   placeholder="Input Issuer"
-                  value={state.issuer_filled}
+                  value={state.Issuer_filled}
                   onChange={(e) => {
-                    State.update({ issuer_filled: e.target.value });
+                    State.update({ Issuer_filled: e.target.value });
                     validatedInputs();
                   }}
                 />
@@ -290,7 +261,6 @@ return (
               />
             </div>
           </div>
-
           <div className="d-flex flex-column mt-2">
             <div class="d-flex">
               <h1 class="H1styled">Metadata</h1>
@@ -325,7 +295,6 @@ return (
                         class="Dropdown"
                         value={state.ClassIdSelected}
                         onChange={(e) => {
-                          console.log(state.ClassIdSelected);
                           State.update({ ClassIdSelected: e.target.value });
                           validatedInputs();
                         }}
@@ -368,12 +337,10 @@ return (
                       </div>
                     </div>
                   </div> */}
-
                   <div class="Metarow">
                     <div class="MetaTitles">
                       {"Reference = link to a JSON file (eg, IPFS)."}
                     </div>
-
                     <div>
                       <input
                         class="FormInput"
@@ -385,12 +352,10 @@ return (
                       />
                     </div>
                   </div>
-
                   <div class="Metarow">
                     <div class="MetaTitles">
                       {"Reference hash = Base64-encoded sha256 hash of JSON."}
                     </div>
-
                     <div style={{ "font-size": "10px" }}>
                       <input
                         class="FormInput"
@@ -407,7 +372,6 @@ return (
             ) : (
               <div class="Separator"></div>
             )}
-
             <div className="d-flex flex-column mt-2">
               <h1 class="H1styled">Memo</h1>
               <input
@@ -423,7 +387,6 @@ return (
             </div>
           </div>
         </div>
-
         <div class="FooterForm" name="Footerform">
           <div class="Submitcontainer">
             <SubmitBtn
