@@ -1,10 +1,7 @@
-const ownerId = "nearcon23.near";
-
 return (
   <>
-    <Widget src={`${ownerId}/widget/Home.Header`} />
-    <Widget src={`${ownerId}/widget/Home.SubHeader`} />
-    <Widget src={`${ownerId}/widget/Home.Sponsors`} />
-    <Widget src={`${ownerId}/widget/Home.More`} />
+    <Widget src={`ndcplug.near/widget/BOSHACKS.Home.Header`} />
+    <Widget src={`ndcplug.near/widget/BOSHACKS.Home.SubHeader`} />
+    <Widget src={`ndcplug.near/widget/BOSHACKS.Home.Sponsors`} />
   </>
 );
