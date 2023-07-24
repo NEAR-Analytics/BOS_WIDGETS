@@ -147,7 +147,9 @@ const TimerContent = ({ mobile }) => {
 
   return (
     <>
-      <H6 className={`${mobile ? "m-0 mb-3" : ""}`}>{state.title}</H6>
+      <H6 mobile={mobile} className={`${mobile ? "m-0 mb-3" : ""}`}>
+        {state.title}
+      </H6>
       <Timer className="d-flex" mobile={mobile}>
         <TimeSlot title="days" time={state.days} />
         <TimeSlot title="hours" time={state.hours} />
