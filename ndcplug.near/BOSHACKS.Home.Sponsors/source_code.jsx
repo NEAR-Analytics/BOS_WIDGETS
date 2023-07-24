@@ -88,7 +88,7 @@ return (
         src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
         props={{
           text: "Become a Sponsor/Partner",
-          href: "http://nearbuilders.com/boshacks-sponsor",
+          href: "http://nearbuilders.com/sponsor",
         }}
       />
     </div>
