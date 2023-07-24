@@ -136,7 +136,7 @@ const Telegram = (
       }}
     ></iframe>
 
-    <a href={"https://t.me/" + communityData.telegram_handle}>
+    <a href={"https://t.me/" + communityData.telegram_handle} target="_blank">
       {widget("components.atom.button", {
         classNames: {
           root: "btn-primary",
