@@ -2,9 +2,10 @@ const pixelFont = fetch(
   "https://fonts.googleapis.com/css?family=Press+Start+2P"
 ).body;
 
-const Carouselv2 = async () => {
+const Carousel = async () => {
   State.init({
     image_index: 0,
+    auto: false,
   });
 
   const slide_data = [
@@ -86,8 +87,8 @@ const Carouselv2 = async () => {
 
   const Arrow = styled.span`
       display: block;
-    width: 1.5vw;
-    height: 1.5vw;
+    width: 2vw;
+    height: 2vw;
     border-bottom: 5px solid white;
     border-right: 5px solid white;
     transform: rotate(45deg);
@@ -97,11 +98,13 @@ const Carouselv2 = async () => {
   const next_slide = async () => {
     State.update({
       image_index: (state.image_index += 1),
+      auto: false,
     });
 
     if (state.image_index > slide_data.length - 1) {
       State.update({
         image_index: 0,
+        auto: false,
       });
     }
   };
@@ -109,18 +112,22 @@ const Carouselv2 = async () => {
   const prev_slide = async () => {
     State.update({
       image_index: (state.image_index -= 1),
+      auto: false,
     });
 
     if (state.image_index < 0) {
       State.update({
         image_index: slide_data.length - 1,
+        auto: false,
       });
     }
   };
 
   const auto_slide = async () => {
+    console.log("triggered!!");
     State.update({
       image_index: (state.image_index += 1),
+      auto: true,
     });
 
     if (state.image_index > slide_data.length - 1) {
@@ -129,9 +136,11 @@ const Carouselv2 = async () => {
       });
     }
 
-    setInterval(() => {
-      auto_slide();
-    }, 10000);
+    if (state.auto === true) {
+      setInterval(() => {
+        auto_slide();
+      }, 10000);
+    }
   };
 
   return (
@@ -165,6 +174,6 @@ const Carouselv2 = async () => {
 
 return (
   <>
-    <Carouselv2 />
+    <Carousel />
   </>
 );
