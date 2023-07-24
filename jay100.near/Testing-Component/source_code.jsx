@@ -1,12 +1,12 @@
-State.init({
-  image_index: 0,
-});
-
 const pixelFont = fetch(
   "https://fonts.googleapis.com/css?family=Press+Start+2P"
 ).body;
 
-const Carouselv2 = () => {
+const Carouselv2 = async () => {
+  State.init({
+    image_index: 0,
+  });
+
   const slide_data = [
     {
       img_url:
@@ -40,16 +40,22 @@ const Carouselv2 = () => {
         "Thanks to the cheeky placement of the warlock, You were able to take the first round. From here, you will have to wait for the opponent to respond before you can attack again.",
     },
   ];
+
   const CarouselContainer = styled.div`
+    @keyframes fade {
+      from {opacity: .8}
+      to {opacity: 1}
+    }
+    animation: fade 1.5s;
     width: 100%;
-    height: fit-content;
+    height: 100%%;
     background-color: #0e0e1e;
     display: flex;
     align-items: center;
-    flex-direction: column;
     font-family: "Pixel Emulator", "Press Start 2P", "Courier new", "monospace";
     ${pixelFont}
     padding: 1rem;
+    transition: all 1.5s ease;
   `;
 
   const ImageContainer = styled.img`
@@ -66,12 +72,34 @@ const Carouselv2 = () => {
     font-size: 0.8rem;
   `;
 
+  const ArrowLeftContainer = styled.div`
+    transform: translate(-50%, -50%);
+    transform: rotate(90deg);
+    cursor: pointer;
+    `;
+
+  const ArrowRightContainer = styled.div`
+    transform: translate(-50%, -50%);
+    transform: rotate(-90deg);
+    cursor: pointer;
+    `;
+
+  const Arrow = styled.span`
+      display: block;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-bottom: 5px solid white;
+    border-right: 5px solid white;
+    transform: rotate(45deg);
+    margin: -10px;
+  `;
+
   const next_slide = async () => {
     State.update({
       image_index: (state.image_index += 1),
     });
 
-    if (state.image_index == slide_data.length - 1) {
+    if (state.image_index > slide_data.length - 1) {
       State.update({
         image_index: 0,
       });
@@ -91,14 +119,31 @@ const Carouselv2 = () => {
   };
 
   return (
-    <CarouselContainer onClick={next_slide}>
-      <ImageContainer
-        className="img-thumbnail"
-        src={slide_data[state.image_index].img_url}
-      />
-      <Title>{slide_data[state.image_index].title}</Title>
-      <Description>{slide_data[state.image_index].description}</Description>
-    </CarouselContainer>
+    <div className="d-flex col">
+      <CarouselContainer onClick={next_slide}>
+        <ArrowLeftContainer>
+          <Arrow></Arrow>
+        </ArrowLeftContainer>
+        <div
+          className="col"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <ImageContainer
+            className="img-thumbnail"
+            src={slide_data[state.image_index].img_url}
+          />
+          <Title>{slide_data[state.image_index].title}</Title>
+          <Description>{slide_data[state.image_index].description}</Description>
+        </div>
+        <ArrowRightContainer>
+          <Arrow></Arrow>
+        </ArrowRightContainer>
+      </CarouselContainer>
+    </div>
   );
 };
 
