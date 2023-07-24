@@ -184,6 +184,13 @@ const Wrapper = styled.div`
   }
 
 `;
+const Card = styled.div`
+padding: 1em;
+border: 1px solid #e5e8eb;
+gap: 2em;
+margin: 10px auto;
+border-radius: .7em;
+`;
 
 const SliderWrapper = styled.div`
 
@@ -444,154 +451,156 @@ const AutoComplete = styled.div`
 
 return (
   <>
-    <Wrapper>
-      {state.showPreview ? (
-        <PreviewWrapper>
-          <Widget
-            src="near/widget/Posts.Post"
-            props={{
-              accountId: context.accountId,
-              blockHeight: "now",
-              content,
-            }}
-          />
-        </PreviewWrapper>
-      ) : (
-        <>
-          <Avatar>
+    <Card>
+      <Wrapper>
+        {state.showPreview ? (
+          <PreviewWrapper>
             <Widget
-              src="mob.near/widget/Image"
+              src="near/widget/Posts.Post"
               props={{
-                image: profile.image,
-                alt: profile.name,
-                fallbackUrl:
-                  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                accountId: context.accountId,
+                blockHeight: "now",
+                content,
               }}
             />
-          </Avatar>
-          <Textarea data-value={state.text}>
-            <textarea
-              placeholder="Vibe check!"
-              onInput={(event) => textareaInputHandler(event.target.value)}
-              onKeyUp={(event) => {
-                if (event.key === "Escape") {
-                  State.update({ showAccountAutocomplete: false });
-                }
-              }}
-              value={state.text}
-            />
-          </Textarea>
-        </>
-      )}
-      {autocompleteEnabled && state.showAccountAutocomplete && (
-        <AutoComplete>
-          <Widget
-            src="near/widget/AccountAutocomplete"
-            props={{
-              term: state.text.split("@").pop(),
-              onSelect: autoCompleteAccountId,
-              onClose: () => State.update({ showAccountAutocomplete: false }),
-            }}
-          />
-        </AutoComplete>
-      )}
-
-      <Actions>
-        {!state.showPreview && (
-          <IpfsImageUpload
-            image={state.image}
-            className="upload-image-button bi bi-image"
-          />
+          </PreviewWrapper>
+        ) : (
+          <>
+            <Avatar>
+              <Widget
+                src="mob.near/widget/Image"
+                props={{
+                  image: profile.image,
+                  alt: profile.name,
+                  fallbackUrl:
+                    "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                }}
+              />
+            </Avatar>
+            <Textarea data-value={state.text}>
+              <textarea
+                placeholder="Vibe check!"
+                onInput={(event) => textareaInputHandler(event.target.value)}
+                onKeyUp={(event) => {
+                  if (event.key === "Escape") {
+                    State.update({ showAccountAutocomplete: false });
+                  }
+                }}
+                value={state.text}
+              />
+            </Textarea>
+          </>
         )}
-        <button
-          type="button"
-          disabled={!state.text}
-          className="preview-post-button"
-          title={state.showPreview ? "Edit Post" : "Preview Post"}
-          onClick={() => State.update({ showPreview: !state.showPreview })}
-        >
-          {state.showPreview ? (
-            <i className="bi bi-pencil" />
-          ) : (
-            <i className="bi bi-eye-fill" />
+        {autocompleteEnabled && state.showAccountAutocomplete && (
+          <AutoComplete>
+            <Widget
+              src="near/widget/AccountAutocomplete"
+              props={{
+                term: state.text.split("@").pop(),
+                onSelect: autoCompleteAccountId,
+                onClose: () => State.update({ showAccountAutocomplete: false }),
+              }}
+            />
+          </AutoComplete>
+        )}
+
+        <Actions>
+          {!state.showPreview && (
+            <IpfsImageUpload
+              image={state.image}
+              className="upload-image-button bi bi-image"
+            />
           )}
-        </button>
-        <CommitButton
-          disabled={!state.text}
-          force
-          data={composeData}
-          onCommit={onCommit}
-          className="commit-post-button"
-        >
-          Vibe Check
-        </CommitButton>
-      </Actions>
-    </Wrapper>
-    <SliderWrapper>
-      {showSliders && (
-        <div>
-          <label className="slider-label" for="friendlySlider">
-            ❤️ Friendliness :{" "}
-          </label>
-          <div className="slider-container">
-            <input
-              type="range"
-              min="0"
-              id="friendlySlider"
-              max={maxSliderPoints}
-              value={state.friendliness}
-              onChange={handleSliderFriendliness}
-              className="slider"
-            />
-            <span className="slider-value">{sliderValue}</span>
+          <button
+            type="button"
+            disabled={!state.text}
+            className="preview-post-button"
+            title={state.showPreview ? "Edit Post" : "Preview Post"}
+            onClick={() => State.update({ showPreview: !state.showPreview })}
+          >
+            {state.showPreview ? (
+              <i className="bi bi-pencil" />
+            ) : (
+              <i className="bi bi-eye-fill" />
+            )}
+          </button>
+          <CommitButton
+            disabled={!state.text}
+            force
+            data={composeData}
+            onCommit={onCommit}
+            className="commit-post-button"
+          >
+            Vibe Check
+          </CommitButton>
+        </Actions>
+      </Wrapper>
+      <SliderWrapper>
+        {showSliders && (
+          <div>
+            <label className="slider-label" for="friendlySlider">
+              ❤️ Friendliness :{" "}
+            </label>
+            <div className="slider-container">
+              <input
+                type="range"
+                min="0"
+                id="friendlySlider"
+                max={maxSliderPoints}
+                value={state.friendliness}
+                onChange={handleSliderFriendliness}
+                className="slider"
+              />
+              <span className="slider-value">{sliderValue}</span>
+            </div>
+            <label className="slider-label" for="energySlider">
+              ⚡️ Energy :{" "}
+            </label>
+            <div className="slider-container">
+              <input
+                type="range"
+                min="0"
+                id="energySlider"
+                max={maxSliderPoints}
+                value={state.energy}
+                onChange={handleSliderEnergy}
+                className="slider"
+              />
+              <span className="slider-value">{sliderValue}</span>
+            </div>
+            <label className="slider-label" for="densitySlider">
+              🧊 Density :{" "}
+            </label>
+            <div className="slider-container">
+              <input
+                type="range"
+                min="0"
+                id="densitySlider"
+                max={maxSliderPoints}
+                value={state.density}
+                onChange={handleSliderDensity}
+                className="slider"
+              />
+              <span className="slider-value">{sliderValue}</span>
+            </div>
+            <label className="slider-label" for="diversitySlider">
+              🌈 Diversity :{" "}
+            </label>
+            <div className="slider-container">
+              <input
+                type="range"
+                min="0"
+                id="diversitySlider"
+                max={maxSliderPoints}
+                value={state.diversity}
+                onChange={handleSliderDiversity}
+                className="slider"
+              />
+              <span className="slider-value">{sliderValue}</span>
+            </div>
           </div>
-          <label className="slider-label" for="energySlider">
-            ⚡️ Energy :{" "}
-          </label>
-          <div className="slider-container">
-            <input
-              type="range"
-              min="0"
-              id="energySlider"
-              max={maxSliderPoints}
-              value={state.energy}
-              onChange={handleSliderEnergy}
-              className="slider"
-            />
-            <span className="slider-value">{sliderValue}</span>
-          </div>
-          <label className="slider-label" for="densitySlider">
-            🧊 Density :{" "}
-          </label>
-          <div className="slider-container">
-            <input
-              type="range"
-              min="0"
-              id="densitySlider"
-              max={maxSliderPoints}
-              value={state.density}
-              onChange={handleSliderDensity}
-              className="slider"
-            />
-            <span className="slider-value">{sliderValue}</span>
-          </div>
-          <label className="slider-label" for="diversitySlider">
-            🌈 Diversity :{" "}
-          </label>
-          <div className="slider-container">
-            <input
-              type="range"
-              min="0"
-              id="diversitySlider"
-              max={maxSliderPoints}
-              value={state.diversity}
-              onChange={handleSliderDiversity}
-              className="slider"
-            />
-            <span className="slider-value">{sliderValue}</span>
-          </div>
-        </div>
-      )}
-    </SliderWrapper>
+        )}
+      </SliderWrapper>
+    </Card>
   </>
 );
