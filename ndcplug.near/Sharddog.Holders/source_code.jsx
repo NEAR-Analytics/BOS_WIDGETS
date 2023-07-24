@@ -4,6 +4,7 @@ const title = props.title ?? "Total Holders";
 const showHeader = props.showHeader ?? true;
 const showImage = props.showImage ?? true;
 // add what nft they have and then add filter of unique people, add link to collection
+// add condition if no props fetch all collection
 State.init({
   offset: 0,
   tokens: [],
