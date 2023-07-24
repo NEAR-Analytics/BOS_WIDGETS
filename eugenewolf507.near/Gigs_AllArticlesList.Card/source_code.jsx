@@ -10,8 +10,7 @@ const cardWithOpenModal = props.cardWithOpenModal;
 const statusTagsArr = props.statusTagsArr;
 // const sharedArticleId = props.sharedArticleId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
-const mainPartForSharingGig =
-  "https://near.social/#/eugenewolf507.near/widget/Gigs_AllArticlesList";
+const mainPartForSharingGig = `https://near.social/#/${authorForWidget}/widget/Gigs_AllArticlesList`;
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
 
 // ========== UTILS ==========
