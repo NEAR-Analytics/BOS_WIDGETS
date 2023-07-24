@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = "marmaj.sputnik-dao.near";
 
 const profile = "marmaj.sputnik-dao.near";
 
