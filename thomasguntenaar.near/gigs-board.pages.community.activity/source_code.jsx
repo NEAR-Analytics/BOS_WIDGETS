@@ -109,16 +109,14 @@ const DevHub = {
       { subscribe: true }
     );
 
-    return cacheState === null
-      ? { ...cacheState, ...initialState }
-      : cacheState;
+    return cacheState === null ? initialState : cacheState;
   },
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
 const CommunityActivityPage = ({ handle }) => {
   const communityData = DevHub.get_community({ handle });
-  // console.log({ communityData });
+
   if (communityData === null) {
     return <div>Loading...</div>;
   }
@@ -126,22 +124,25 @@ const CommunityActivityPage = ({ handle }) => {
   return widget("components.template.community-page", {
     handle,
     title: "Activity",
-
     children:
       communityData !== null ? (
         <div class="row">
           <div class="col-md-9">
             <div class="row mb-2">
               <div class="col">
-                <small class="text-muted">
-                  <span>Required tags:</span>
-                  {widget("components.atom.tag", { label: communityData.tag })}
-                </small>
+                <div class="d-flex align-items-center justify-content-between">
+                  <small class="text-muted">
+                    <span>Required tags:</span>
+                    {widget("components.atom.tag", {
+                      label: communityData.tag,
+                    })}
+                  </small>
+                  {widget("components.layout.Controls", {
+                    labels: communityData.tag,
+                  })}
+                </div>
               </div>
             </div>
-            {widget("components.layout.Controls", {
-              labels: communityData.tag,
-            })}
             <div class="row">
               <div class="col">
                 {widget("entity.post.List", { tag: communityData.tag })}
