@@ -116,129 +116,131 @@ if (!state.theme) {
 const Theme = state.theme;
 return (
   <Theme>
-    <div class="MainContainer">
-      <div class="ProtocolContainer">
-        <div class="ProtocolNetworkContainet">
-          <div class="ProtocolNetworkTextSection">
-            <div class="ProtocolText">PROTOCOL</div>
+    <div class="text-center">
+      <div class="MainContainer">
+        <div class="ProtocolContainer">
+          <div class="ProtocolNetworkContainet">
+            <div class="ProtocolNetworkTextSection">
+              <div class="ProtocolText">PROTOCOL</div>
+            </div>
+            <div class="ProtocolNetworkSection">
+              <div class="ProtocolNetworkContainer">
+                <img
+                  class="ProtocolImg"
+                  src="https://etherscan.io/token/images/maverick_32.png"
+                />
+                <div class="NetworkText">Maverick</div>
+              </div>
+            </div>
           </div>
-          <div class="ProtocolNetworkSection">
-            <div class="ProtocolNetworkContainer">
-              <img
-                class="ProtocolImg"
-                src="https://etherscan.io/token/images/maverick_32.png"
+        </div>
+        <div class="SendRecieveContainer">
+          <div class="SendContainer">
+            <div class="TokenSection">
+              {state.tokenSendSelected ? (
+                <img class="TokenImg" src={state.tokenSendSelected.icon} />
+              ) : null}
+
+              <div class="TokenNameSection">
+                <div class="TokenAction">SEND {"->"}</div>
+                <select
+                  class="TokenNameSelect"
+                  select={state.tokenSendSelected}
+                  onChange={handleSendSelect}
+                >
+                  {!state.tokenSendSelected ? (
+                    <option>Select Token</option>
+                  ) : null}
+                  {TOKENS.map((token) => {
+                    return (
+                      <>
+                        <option>{token.name}</option>
+                      </>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <div class="TokenAmountSection">
+              <input
+                class="TokenAmountInput"
+                type="text"
+                placeholder="0"
+                inputmode="decimal"
+                min="0"
+                pattern="^[0-9]*[.]?[0-9]*$"
+                value={state.amountInput}
+                onChange={(e) => State.update({ amountInput: e.target.value })}
               />
-              <div class="NetworkText">Maverick</div>
+              <div class="TokenAmountPreview">${state.amountInput}</div>
+            </div>
+          </div>
+          <div class="RecieveContainer">
+            <div class="TokenSection">
+              {state.tokenRecieveSelected ? (
+                <img class="TokenImg" src={state.tokenRecieveSelected.icon} />
+              ) : null}
+
+              <div class="TokenNameSection">
+                <div class="TokenAction">{"->"} RECIEVE</div>
+                <select
+                  class="TokenNameSelect"
+                  select={state.tokenRecieveSelected}
+                  onChange={handleRecieveSelect}
+                >
+                  {!state.tokenRecieveSelected ? (
+                    <option>Select Token</option>
+                  ) : null}
+                  {TOKENS.map((token) => {
+                    return (
+                      <>
+                        <option>{token.name}</option>
+                      </>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <div class="TokenAmountSection">
+              <div class="TokenAmount">0.67</div>
+              <div class="TokenAmountPreview">$$1234.56 (-0.59%)</div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="SendRecieveContainer">
-        <div class="SendContainer">
-          <div class="TokenSection">
-            {state.tokenSendSelected ? (
-              <img class="TokenImg" src={state.tokenSendSelected.icon} />
-            ) : null}
-
-            <div class="TokenNameSection">
-              <div class="TokenAction">SEND {"->"}</div>
-              <select
-                class="TokenNameSelect"
-                select={state.tokenSendSelected}
-                onChange={handleSendSelect}
-              >
-                {!state.tokenSendSelected ? (
-                  <option>Select Token</option>
-                ) : null}
-                {TOKENS.map((token) => {
-                  return (
-                    <>
-                      <option>{token.name}</option>
-                    </>
-                  );
-                })}
-              </select>
-            </div>
+        <div class="FeesContainer">
+          <div class="Line" />
+          <div class="RateFeeContainer">
+            <div class="RateFeeText">Rate</div>
+            <div class="RateFeeValue">1 ETH = 1,846.334 USDC</div>
           </div>
-          <div class="TokenAmountSection">
-            <input
-              class="TokenAmountInput"
-              type="text"
-              placeholder="0"
-              inputmode="decimal"
-              min="0"
-              pattern="^[0-9]*[.]?[0-9]*$"
-              value={state.amountInput}
-              onChange={(e) => State.update({ amountInput: e.target.value })}
+          <div class="RateFeeContainer">
+            <div class="RateFeeText">Network fee</div>
+            <div class="RateFeeValue">Fast • $15.41</div>
+          </div>
+          <div class="RateFeeContainer">
+            <div class="RateFeeText">zkSync fee</div>
+            <div class="RateFeeValue">0.5%</div>
+          </div>
+        </div>
+        <div class="ConfirmContainer">
+          {state.sender ? (
+            <div
+              class={cantSwap() ? "ConfirmButton" : "ConfirmButtonDisabled"}
+              onClick={async () => {
+                confirmTransaction();
+              }}
+            >
+              <div class={cantSwap() ? "ConfirmText" : "ConfirmTextDisabled"}>
+                {cantSwap() ? "Confirm" : "Select a Pair and Amount"}
+              </div>
+            </div>
+          ) : (
+            <Web3Connect
+              className="ConfirmButton ConfirmText"
+              connectLabel="Connect Wallet"
             />
-            <div class="TokenAmountPreview">${state.amountInput}</div>
-          </div>
+          )}
         </div>
-        <div class="RecieveContainer">
-          <div class="TokenSection">
-            {state.tokenRecieveSelected ? (
-              <img class="TokenImg" src={state.tokenRecieveSelected.icon} />
-            ) : null}
-
-            <div class="TokenNameSection">
-              <div class="TokenAction">{"->"} RECIEVE</div>
-              <select
-                class="TokenNameSelect"
-                select={state.tokenRecieveSelected}
-                onChange={handleRecieveSelect}
-              >
-                {!state.tokenRecieveSelected ? (
-                  <option>Select Token</option>
-                ) : null}
-                {TOKENS.map((token) => {
-                  return (
-                    <>
-                      <option>{token.name}</option>
-                    </>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
-          <div class="TokenAmountSection">
-            <div class="TokenAmount">0.67</div>
-            <div class="TokenAmountPreview">$$1234.56 (-0.59%)</div>
-          </div>
-        </div>
-      </div>
-      <div class="FeesContainer">
-        <div class="Line" />
-        <div class="RateFeeContainer">
-          <div class="RateFeeText">Rate</div>
-          <div class="RateFeeValue">1 ETH = 1,846.334 USDC</div>
-        </div>
-        <div class="RateFeeContainer">
-          <div class="RateFeeText">Network fee</div>
-          <div class="RateFeeValue">Fast • $15.41</div>
-        </div>
-        <div class="RateFeeContainer">
-          <div class="RateFeeText">zkSync fee</div>
-          <div class="RateFeeValue">0.5%</div>
-        </div>
-      </div>
-      <div class="ConfirmContainer">
-        {state.sender ? (
-          <div
-            class={cantSwap() ? "ConfirmButton" : "ConfirmButtonDisabled"}
-            onClick={async () => {
-              confirmTransaction();
-            }}
-          >
-            <div class={cantSwap() ? "ConfirmText" : "ConfirmTextDisabled"}>
-              {cantSwap() ? "Confirm" : "Select a Pair and Amount"}
-            </div>
-          </div>
-        ) : (
-          <Web3Connect
-            className="ConfirmButton ConfirmText"
-            connectLabel="Connect Wallet"
-          />
-        )}
       </div>
     </div>
   </Theme>
