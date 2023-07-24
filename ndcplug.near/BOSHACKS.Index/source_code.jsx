@@ -1,6 +1,9 @@
 const ownerId = "ndcplug.near";
 const availableTabs = ["home", "register", "hackathon", "speakers"];
-
+/**
+ * Add schedule
+ * Add mentors
+ */
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
     return "home";
@@ -20,9 +23,9 @@ const update = (state) => State.update(state);
 
 const tabContentWidget = {
   home: "BOSHACKS.Home.Main",
-  register: "Register.Page",
-  hackathon: "Hackathon.Page",
-  speakers: "Speakers.Page",
+  register: "BOSHACKS.Register.Main",
+  hackathon: "BOSHACKS.Builders.Main",
+  speakers: "BOSHACKS.Submissions.Main",
 }[state.tab];
 
 const tabContent = (
