@@ -625,7 +625,14 @@ return (
             {issues.map((issue, i) => (
               <KeyIssuesContainer>
                 <KeyIssueTitle>{issue.title}</KeyIssueTitle>
-                <KeyIssueDescription>{issue.description}</KeyIssueDescription>
+                <KeyIssueDescription>
+                  <Widget
+                    src="mob.near/widget/SocialMarkdown"
+                    props={{
+                      text: issue.description,
+                    }}
+                  />
+                </KeyIssueDescription>
               </KeyIssuesContainer>
             ))}
           </PlatformInfoDiv>
@@ -660,7 +667,14 @@ return (
                 </CandidateInfoHeader>
                 <KeyIssuesContainer>
                   <KeyIssueTitle>Role Description</KeyIssueTitle>
-                  <KeyIssueDescription>{affiliation.role}</KeyIssueDescription>
+                  <KeyIssueDescription>
+                    <Widget
+                      src="mob.near/widget/SocialMarkdown"
+                      props={{
+                        text: affiliation.role,
+                      }}
+                    />
+                  </KeyIssueDescription>
                 </KeyIssuesContainer>
               </CandidateInfoDiv>
             );
