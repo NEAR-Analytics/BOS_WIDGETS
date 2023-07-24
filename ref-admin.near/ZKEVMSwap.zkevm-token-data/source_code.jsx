@@ -61,11 +61,13 @@ const getErc20Tokendata = (tokenId) => {
     dataUrl = `https://api.coingecko.com/api/v3/coins/aurora/contract/${tokenId}`;
   }
   const data = fetch(dataUrl);
+  console.log("datatokenData111111: ", data);
   if (!data.ok) {
     return "Loading";
   }
 
   const tokenData = data.body;
+  console.log("tokenData111111: ", tokenId, tokenData);
   const metadata = {
     name: tokenData.name,
     symbol: tokenData.symbol,
@@ -104,6 +106,7 @@ if (state.ethAccountId && state.erc20Abi) {
     // save decimals to metadata if it is already exists
     if (state.metadata !== undefined) {
       const metadata = state.metadata;
+      console.log("metadata: ", metadata);
       metadata.decimals = decimals;
       State.update({ metadata });
     }
@@ -115,6 +118,7 @@ if (state.ethAccountId && state.erc20Abi) {
   let tokenIdForCoingeckoAPI;
   if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(network)) {
     tokenIdForCoingeckoAPI = coinGeckoTokenId;
+    console.log("coinGeckoTokenId: ", tokenId, coinGeckoTokenId);
   }
 
   const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
@@ -124,6 +128,8 @@ if (state.ethAccountId && state.erc20Abi) {
   }
   State.update({ metadata, price });
 }
+
+console.log("state token data", { state }, tokenId);
 
 if (
   state.balance !== undefined &&
