@@ -152,7 +152,7 @@ const Hero = styled.div`
 `;
 
 const registerButton = ({ text, href }) => (
-  <RegisterButton href={href ?? `${ownerId}/widget/Onboarding.Page`}>
+  <RegisterButton href={href ?? `/${ownerId}/widget/Onboarding.Page`}>
     {text}
   </RegisterButton>
 );
@@ -171,11 +171,11 @@ return (
         </li>
         <li>
           {hero.contributors}
-          <b>Contributors</b> can offer services and earn
+          <b>Contributors</b> can offer services and and get hired
         </li>
         <li>
           {hero.backers}
-          <b>Backers</b> can find promising projects
+          <b>Backers</b> can find discover promising projects to support
         </li>
       </ul>
       {registerButton({ text: "Create profile" })}
