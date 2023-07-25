@@ -89,7 +89,7 @@ const assetList = assets
   .map((tokenId) => {
     return (
       <Widget
-        src="ref-admin.near/widget/ZKEVMSwap.zkevm-asset-item"
+        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-item"
         props={{
           tokenId,
           coinGeckoTokenId: coinGeckoTokenIds?.[tokenId] ?? tokenId,
