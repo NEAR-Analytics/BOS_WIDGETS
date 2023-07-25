@@ -2,7 +2,7 @@ return (
   <div>
     <Widget
       src="ndcplug.near/widget/Sharddog.Holders"
-      props={{ series: 167, title: "Hackers Registered" }}
+      props={{ series: 167, title: "Hackers Registered", showImage: false }}
     />
   </div>
 );
