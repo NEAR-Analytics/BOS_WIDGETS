@@ -9,6 +9,8 @@ State.init({
   IssuedAT: "",
   ExpiresAt: "",
   Referencelink: "",
+  Referencelink_valid: false,
+  Referencelink_json: false,
   Referencehash: "",
   IssuerPropList: props.IssuerList,
   ischeckselected: true,
@@ -83,8 +85,8 @@ border: medium solid ${
 border-radius:4px;
  
 `;
-console.log("state init", state);
-const validatedInputs = () => {
+
+const validatedInputs = async () => {
   console.log(state);
   const isEmpty = (str) => str.trim() === "";
   let isValid = false;
@@ -119,6 +121,7 @@ const validatedInputs = () => {
       State.update({ error_msg: "Select a token class", Submitdisable: false });
       return (isValid = true);
     }
+
     /* if (isEmpty(state.IssuedAT)) {
       State.update({ error_msg: "pic an issued date", Submitdisable: true });
       return (isValid = false);
@@ -126,15 +129,12 @@ const validatedInputs = () => {
     if (isEmpty(state.ExpiresAt)) {
       State.update({ error_msg: "pic an expires date", Submitdisable: true });
       return (isValid = false);
-    } 
-    if (!isEmpty(state.Referencelink)) {
-      return (isValid = false);
-    }
-    if (!isEmpty(state.Referencehash)) {
+    }    if (!isEmpty(state.Referencehash)) {
       return (isValid = false);
     }*/
     return (isValid = false);
   }
+
   if (isEmpty(state.Memo)) {
     State.update({ error_msg: "Write the memo", Submitdisable: true });
     return (isValid = false);
@@ -185,6 +185,25 @@ const Submitform = () => {
     console.log("no es valido");
   }
 };
+function logMovies() {}
+
+const validateReference = () => {
+  if (state.Referencelink.length > 0) {
+    const response = fetch(state.Referencelink);
+    console.log("res", response);
+    State.update({
+      Referencelink_valid: response.status === 200 ? true : false,
+      Referencelink_json:
+        response.contentType.trim() === "application/json" ? true : false,
+    });
+    console.log(
+      "state.Referencelink: " + state.Referencelink,
+      "state.Referencelink_valid: " + state.Referencelink_valid,
+      "state.Referencelink_json: " + state.Referencelink_json
+    );
+  }
+};
+
 return (
   <Theme>
     <div class="ModalCard">
@@ -363,12 +382,41 @@ return (
                     <div>
                       <input
                         class="FormInput"
-                        value={state.Reference}
+                        value={state.Referencelink}
                         placeholder="Write your reference (optional)"
-                        onChange={(e) => {
-                          State.update({ Reference: e.target.value });
+                        onChange={async (e) => {
+                          State.update({
+                            Referencelink: e.target.value,
+                            Referencehash: Buffer.from(
+                              e.target.value,
+                              "utf-8"
+                            ).toString("base64"),
+                          });
+                          validateReference();
                         }}
                       />
+                    </div>
+                    <div
+                      style={{
+                        "justify-content": " end",
+                        gap: "1rem",
+                        margin: "4px 2px 0px",
+                        display: "flex",
+                        "font-size": "10px",
+                      }}
+                    >
+                      {"["}
+                      <a
+                        style={{
+                          color: state.Referencelink_json
+                            ? "#008500"
+                            : "#FF0000",
+                          "font-size": "10px",
+                        }}
+                      >
+                        valid json
+                      </a>
+                      {"] "}
                     </div>
                   </div>
                   <div class="Metarow">
@@ -378,10 +426,11 @@ return (
                     <div style={{ "font-size": "10px" }}>
                       <input
                         class="FormInput"
-                        value={state.Reference_link}
+                        disabled
+                        value={state.Referencehash}
                         placeholder="Write your reference hash (optional)"
                         onChange={(e) => {
-                          State.update({ Reference_link: e.target.value });
+                          State.update({ Referencehash: e.target.value });
                         }}
                       />
                     </div>
