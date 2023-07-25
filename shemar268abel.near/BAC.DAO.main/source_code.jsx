@@ -3,7 +3,7 @@ State.init({
 });
 const accountId = props.accountId ?? "bac-inc.near";
 const socialProfile = Social.getr(`${accountId}/profile`);
-const role = props.role ?? "hackers";
+const role = props.role ?? "regens";
 // const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "marmaj-research.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
@@ -44,9 +44,9 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const widgetOwner = "shemar268abel.near";
+const widgetOwner = "nearefi.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
-const accountUrl = `#/${widgetOwner}/widget/BAC.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
+const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -192,7 +192,7 @@ return (
             image: profile.backgroundImage,
             alt: "profile background image",
             fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibbut7s2rl7hpstmxbjfph4oghjpxn5l4hdfyswsr5en7mzelgfpe",
+              "https://ipfs.near.social/ipfs/bafkreidcmajif3wgkl5f5u66d6bzjinxlticp7vqufzsc7eaz5ytat72pi",
           }}
         />
       )}
@@ -201,7 +201,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="astro.sking.near/widget/DAO.Layout.Sidebar"
+          src="ndcplug.near/widget/DAO.main.sidebar"
           props={{
             daoId: daoId,
             profile,
