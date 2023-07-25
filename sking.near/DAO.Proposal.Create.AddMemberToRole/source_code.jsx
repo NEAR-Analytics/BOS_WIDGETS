@@ -50,6 +50,12 @@ const handleProposal = () => {
     });
     return;
   }
+  if (allRolesArray && !allRolesArray.includes(state.role)) {
+    State.update({
+      error: "Please enter a valid role: " + allRolesArray.join(", "),
+    });
+    return;
+  }
 
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
@@ -101,7 +107,7 @@ return (
         <Typeahead
           options={allRolesArray}
           multiple={false}
-          onChange={onChangeRole}
+          onChange={(v) => onChangeRole(v[0])}
           placeholder="Choose a role..."
         />
       ) : (
