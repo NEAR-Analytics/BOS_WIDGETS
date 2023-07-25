@@ -29,26 +29,26 @@ const {
   supplyAPY,
   usageAsCollateralEnabled,
   decimals,
-  underlyingAsset,
+  token,
   name: tokenName,
   healthFactor,
-  supportPermit,
 } = data;
 
 const WithdrawContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  .splitDiv {
-    height: 1px;
-    .splitLine {
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: 100%;
-      border-top: 1px solid #332c4b;
+  .splitDiv{
+     height:1px;
+    .splitLine{
+      position:absolute;
+      left:0;
+      right:0;
+      width:100%;
+      border-top:1px solid #332C4B;
     }
   }
+  
 `;
 
 const TokenTexture = styled.div`
@@ -67,10 +67,10 @@ const TokenWrapper = styled.div`
 const GrayTexture = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: #7c7f96;
-  .balanceValue {
-    text-decoration: underline;
-    cursor: pointer;
+  color: #7C7F96;
+  .balanceValue{
+    text-decoration:underline;
+    cursor:pointer;
   }
 `;
 
@@ -98,8 +98,8 @@ const WhiteTexture = styled.div`
 `;
 const DeepPurpleTexture = styled.div`
   font-size: 14px;
-  color: #7c7f96;
-`;
+  color: #7C7F96;
+`
 const TransactionOverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -133,20 +133,20 @@ const Max = styled.span`
 `;
 
 const InputContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(53, 55, 73, 0.5);
-  height: 55px;
-  border-radius: 10px;
-  padding: 0 12px;
-`;
+   display: flex;
+   justify-content: space-between;
+   align-items:center;
+   background-color:rgba(53, 55, 73, 0.5);
+   height:55px;
+   border-radius:10px;
+   padding:0 12px;
+`
 const BalanceContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-`;
+   display: flex;
+   justify-content: space-between;
+   align-items:center;  
+   margin-top:10px;
+`
 
 State.init({
   amount: "",
@@ -154,12 +154,10 @@ State.init({
   loading: false,
   newHealthFactor: "-",
   gas: "-",
-  allowanceAmount: "0",
-  needApprove: false,
 });
 
 function updateGas() {
-  if (symbol === config.nativeCurrency.symbol) {
+  if (["ETH", "WETH"].includes(symbol)) {
     depositETHGas().then((value) => {
       State.update({ gas: value });
     });
@@ -171,8 +169,6 @@ function updateGas() {
 }
 
 updateGas();
-const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
-const questionSwitch = Storage.get("zkevm-aave-question-switch", "ref-bigboss.near/widget/ZKEVM.switch_quest_card");
 
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
@@ -278,7 +274,8 @@ function depositETH(amount) {
     })
     .then((tx) => {
       tx.wait().then((res) => {
-        const { status, transactionHash } = res;
+        const { status, blockHash } = res;
+        console.log('res', res);
         if (status === 1) {
           onActionSuccess({
             msg: `You supplied ${Big(amount)
@@ -299,196 +296,80 @@ function depositETH(amount) {
           });
         }
         add_action({
-          action_title: `Supply ${symbol} on AAVE`,
-          action_type: "Supply",
-          action_tokens: JSON.stringify([`${symbol}`]),
-          action_amount: null,
-          account_id: eth_account_id,
-          account_info: "",
-          template: "AAVE",
-          action_switch: questionSwitch == "on" ? '1': '0',
-          action_status: status === 1 ? "Success" : "Failed",
-          tx_id: transactionHash,
-        });
+          "action_title": `Supply ${symbol} on AAVE`,
+          "action_type": "Supply",
+          "action_tokens": JSON.stringify([`${symbol}`]),
+          "action_amount": null,
+          "account_id": eth_account_id,
+          "account_info": "",
+          "template": "AAVE",
+          "action_status": status === 1 ? "Success": "Failed",
+          "tx_id": blockHash,
+        })
       });
     })
     .catch(() => State.update({ loading: false }));
 }
 
-function getAllowance() {
-  const tokenAddress = underlyingAsset;
-  Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((userAddress) => {
-      const token = new ethers.Contract(
-        tokenAddress,
-        config.erc20Abi.body,
-        Ethers.provider().getSigner()
-      );
-      token
-        .allowance(userAddress, config.aavePoolV3Address)
-        .then((allowanceAmount) => allowanceAmount.toString())
-        .then((allowanceAmount) => {
-          State.update({
-            allowanceAmount: Big(allowanceAmount)
-              .div(Big(10).pow(decimals))
-              .toFixed(),
-          });
-        });
-    });
+function add_action(param_body) {
+  asyncFetch("http://139.162.85.48:8100/add-action-data", {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(param_body)
+  })
 }
 
-getAllowance();
-
-function depositFromApproval(amount) {
-  const tokenAddress = underlyingAsset;
-  const pool = new ethers.Contract(
-    config.aavePoolV3Address,
-    config.aavePoolV3ABI.body,
-    Ethers.provider().getSigner()
-  );
-
-  return Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((userAddress) => {
-      return pool["supply(address,uint256,address,uint16)"](
-        tokenAddress,
-        amount,
-        userAddress,
-        0
-      );
-    });
-}
-
-function approve(amount) {
-  const tokenAddress = underlyingAsset;
-  const token = new ethers.Contract(
-    tokenAddress,
-    config.erc20Abi.body,
-    Ethers.provider().getSigner()
-  );
-  return token["approve(address,uint256)"](config.aavePoolV3Address, amount);
-}
-
-function update() {
-  if (supportPermit) {
-    return;
-  }
-  if (
-    !isValid(state.amount) ||
-    !isValid(state.allowanceAmount) ||
-    Number(state.allowanceAmount) < Number(state.amount) ||
-    Number(state.amount) === 0
-  ) {
-    State.update({ needApprove: true });
-  } else {
-    State.update({ needApprove: false });
-  }
-}
-
-update();
-const is_disabled = state.loading || Big(state.amount || 0).lte(0) || Big(balance).lte(0);
 function depositErc20(amount) {
   State.update({
     loading: true,
   });
   const deadline = Math.floor(Date.now() / 1000 + 3600); // after an hour
-
   Ethers.provider()
     .getSigner()
     .getAddress()
     .then((userAddress) => {
-      if (!supportPermit) {
-        depositFromApproval(amount)
-          .then((tx) => {
-            tx.wait().then((res) => {
-              const { status, transactionHash } = res;
-              if (status === 1) {
-                onActionSuccess({
-                  msg: `You supplied ${Big(amount)
-                    .div(Big(10).pow(decimals))
-                    .toFixed(8)} ${symbol}`,
-                  callback: () => {
-                    onRequestClose();
-                    State.update({
-                      loading: false,
-                    });
-                  },
-                });
-                console.log("tx succeeded", res);
-              } else {
-                State.update({
-                  loading: false,
-                });
-                console.log("tx failed", res);
-              }
-              add_action({
-                action_title: `Supply ${symbol} on AAVE`,
-                action_type: "Supply",
-                action_tokens: JSON.stringify([`${symbol}`]),
-                action_amount: null,
-                account_id: eth_account_id,
-                account_info: "",
-                template: "AAVE",
-                action_switch: questionSwitch == "on" ? '1': '0',
-                action_status: status === 1 ? "Success" : "Failed",
-                tx_id: transactionHash,
+      signERC20Approval(userAddress, token, tokenName, amount, deadline)
+        .then((rawSig) => {
+          return supplyWithPermit(userAddress, token, amount, deadline, rawSig);
+        })
+        .then((tx) => {
+          tx.wait().then((res) => {
+            const { status, blockHash } = res;
+            if (status === 1) {
+              onActionSuccess({
+                msg: `You supplied ${Big(amount)
+                  .div(Big(10).pow(decimals))
+                  .toFixed(8)} ${symbol}`,
+                callback: () => {
+                  onRequestClose();
+                  State.update({
+                    loading: false,
+                  });
+                },
               });
-            });
-          })
-          .catch(() => State.update({ loading: false }));
-      } else {
-        const token = underlyingAsset;
-        signERC20Approval(userAddress, token, tokenName, amount, deadline)
-          .then((rawSig) => {
-            return supplyWithPermit(
-              userAddress,
-              token,
-              amount,
-              deadline,
-              rawSig
-            );
-          })
-          .then((tx) => {
-            tx.wait().then((res) => {
-              const { status, transactionHash } = res;
-              if (status === 1) {
-                onActionSuccess({
-                  msg: `You supplied ${Big(amount)
-                    .div(Big(10).pow(decimals))
-                    .toFixed(8)} ${symbol}`,
-                  callback: () => {
-                    onRequestClose();
-                    State.update({
-                      loading: false,
-                    });
-                  },
-                });
-                console.log("tx succeeded", res);
-              } else {
-                State.update({
-                  loading: false,
-                });
-                console.log("tx failed", res);
-              }
-              add_action({
-                action_title: `Supply ${symbol} on AAVE`,
-                action_type: "Supply",
-                action_tokens: JSON.stringify([`${symbol}`]),
-                action_amount: null,
-                account_id: eth_account_id,
-                account_info: "",
-                template: "AAVE",
-                action_switch: questionSwitch == "on" ? '1': '0',
-                action_status: status === 1 ? "Success" : "Failed",
-                tx_id: transactionHash,
+              console.log("tx succeeded", res);
+            } else {
+              State.update({
+                loading: false,
               });
-            });
-          })
-          .catch(() => State.update({ loading: false }));
-      }
+              console.log("tx failed", res);
+            }
+            add_action({
+              "action_title": `Supply ${symbol} on AAVE`,
+              "action_type": "Supply",
+              "action_tokens": JSON.stringify([`${symbol}`]),
+              "action_amount": null,
+              "account_id": eth_account_id,
+              "account_info": "",
+              "template": "AAVE",
+              "action_status": status === 1 ? "Success": "Failed",
+              "tx_id": blockHash,
+            })
+          });
+        })
+        .catch(() => State.update({ loading: false }));
     })
     .catch(() => State.update({ loading: false }));
 }
@@ -503,12 +384,12 @@ function depositErc20(amount) {
  * @returns
  */
 function getNewHealthFactor(chainId, address, asset, action, amount) {
-  const url = `${config.AAVE_API_BASE_URL}/${chainId}/health/${address}`;
+  const url = `https://aave-api.pages.dev/${chainId}/health/${address}`;
   return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
 }
 
 const maxValue =
-  symbol === config.nativeCurrency.symbol
+  symbol === "ETH" || symbol === "WETH"
     ? Big(balance).minus(MIN_ETH_GAS_FEE).toFixed(decimals)
     : Big(balance).toFixed(decimals);
 
@@ -533,11 +414,11 @@ const updateNewHealthFactor = debounce(() => {
       getNewHealthFactor(
         chainId,
         address,
-        underlyingAsset,
+        data.underlyingAsset,
         "deposit",
         state.amountInUSD
       ).then((response) => {
-        const newHealthFactor = formatHealthFactor(response.body);
+        const newHealthFactor = formatHealthFactor(JSON.parse(response.body));
         State.update({ newHealthFactor });
       });
     });
@@ -566,26 +447,18 @@ const changeValue = (value) => {
   }
   State.update({ amount: value });
 };
-function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param_body),
-    });
-}
+const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 return (
   <>
     <Widget
-      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
+      src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
       props={{
         title: `Supply ${symbol}`,
         onRequestClose: onRequestClose,
         children: (
           <WithdrawContainer>
             <Widget
-              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+              src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
               props={{
                 title: "Amount",
                 config,
@@ -614,28 +487,19 @@ return (
                     <BalanceContainer>
                       <GrayTexture>${state.amountInUSD}</GrayTexture>
                       <GrayTexture>
-                        Balance:{" "}
-                        <span
-                          className="balanceValue"
-                          onClick={() => {
-                            changeValue(maxValue);
-                          }}
-                        >
-                          {isValid(balance) && balance !== "-"
-                              ? Big(balance).toFixed(7)
-                              : balance}
-                        </span>
+                        Balance: <span className="balanceValue" onClick={() => {changeValue(maxValue);}}>{balance}</span>
                       </GrayTexture>
                     </BalanceContainer>
                   </>
                 ),
               }}
             />
-             <div className="splitDiv">
-              <div className="splitLine"></div>
+            <div className="splitDiv">
+               <div className="splitLine"></div>
             </div>
+            
             <Widget
-              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+              src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
               props={{
                 title: "Transaction Overview",
                 config,
@@ -644,7 +508,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <PurpleTexture>Supply APY</PurpleTexture>,
+                        left: <WhiteTexture>Supply APY</WhiteTexture>,
                         right: (
                           <WhiteTexture>
                             {(Number(supplyAPY) * 100).toFixed(2)}%
@@ -655,7 +519,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <PurpleTexture>Collateralization</PurpleTexture>,
+                        left: <WhiteTexture>Collateralization</WhiteTexture>,
                         right: usageAsCollateralEnabled ? (
                           <GreenTexture>Enabled</GreenTexture>
                         ) : (
@@ -666,7 +530,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <PurpleTexture>Health Factor</PurpleTexture>,
+                        left: <WhiteTexture>Health Factor</WhiteTexture>,
                         right: (
                           <div style={{ textAlign: "right" }}>
                             <GreenTexture>
@@ -691,74 +555,37 @@ return (
               }}
             />
             <div className="splitDiv">
-              <div className="splitLine"></div>
+               <div className="splitLine"></div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
+            <div style={{
+              display:'flex',
+              justifyContent:'flex-end'
+            }}>
               <Widget
                 src={`${config.ownerId}/widget/AAVE.GasEstimation`}
                 props={{ gas: state.gas, config }}
               />
             </div>
-            {state.needApprove && (
-              <Widget
-                src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
-                props={{
-                  config,
-                  loading: state.loading,
-                  children: `Approve ${symbol}`,
-                  disabled,
-                  onClick: () => {
-                    State.update({
-                      loading: true,
-                    });
-                    const amount = Big(state.amount)
-                      .mul(Big(10).pow(decimals))
-                      .toFixed(0);
-                    approve(amount)
-                      .then((tx) => {
-                        tx.wait().then((res) => {
-                          const { status } = res;
-                          if (status === 1) {
-                            State.update({
-                              needApprove: false,
-                              loading: false,
-                            });
-                          }
-                        });
-                      })
-                      .catch(() => State.update({ loading: false }));
-                  },
-                }}
-              />
-            )}
-            {!state.needApprove && (
-              <Widget
-                src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
-                props={{
-                  config,
-                  children: `Supply ${symbol}`,
-                  loading: state.loading,
-                  disabled: is_disabled,
-                  onClick: () => {
-                    const amount = Big(state.amount)
-                      .mul(Big(10).pow(decimals))
-                      .toFixed(0);
-                    if (symbol === config.nativeCurrency.symbol) {
-                      // supply eth
-                      depositETH(amount);
-                    } else {
-                      // supply common
-                      depositErc20(amount);
-                    }
-                  },
-                }}
-              />
-            )}
+            <Widget
+              src={`ref-admin.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
+              props={{
+                config,
+                children: `Supply ${symbol}`,
+                loading: state.loading,
+                onClick: () => {
+                  const amount = Big(state.amount || 0)
+                    .mul(Big(10).pow(decimals))
+                    .toFixed(0);
+                  if (symbol === "ETH" || symbol === "WETH") {
+                    // supply weth
+                    depositETH(amount);
+                  } else {
+                    // supply common
+                    depositErc20(amount);
+                  }
+                },
+              }}
+            />
           </WithdrawContainer>
         ),
         config,
