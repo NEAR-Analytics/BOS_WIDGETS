@@ -27,49 +27,57 @@ const Container = styled.div`
 
 const judges = [
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Kendall Cole",
     org: "Proximity Labs",
     accountId: "",
   },
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Tiffany Gao",
     org: "Pagoda",
-    accountId: "",
+    accountId: "tiffany.near",
   },
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Josh Ford",
     org: "Pagoda",
     accountId: "",
   },
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Damian Parrino",
     org: "Pagoda",
     accountId: "",
   },
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Gautham Ravi",
     org: "Pagoda",
-    accountId: "",
+    accountId: "root.near",
   },
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Samuel Henriquez",
     org: "Urbit Foundation",
     accountId: "",
   },
   {
-    image: "",
-    name: "Code Web3 Plug",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+    name: "Web3Plug",
     org: "The Crypto Streets",
-    accountId: "",
+    accountId: "ndcplug.near",
   },
   {
-    image: "",
+    image:
+      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "James Waugh",
     org: "Build DAO",
     accountId: "james.near",
@@ -105,7 +113,7 @@ const ContainerCard = styled.div`
     line-height: 150%;
   }
 
-  img {
+   img {
     width: 100%;
     border-radius: 10px;
   }
@@ -118,18 +126,21 @@ const ContainerCard = styled.div`
 `;
 
 return (
-  <Container>
-    {judges.map((judge) => (
-      <Container>
-        <a
-          href={`#/near/widget/ProfilePage?accountId=${judge.accountId}`}
-          target="_blank"
-        >
-          <img src={judge.image} alt={judge.name} />
-          <h3>{judge.name}</h3>
-        </a>
-        <p>{judge.org}</p>
-      </Container>
-    ))}
-  </Container>
+  <>
+    <h1>Judges</h1>
+    <Container>
+      {judges.map((judge) => (
+        <ContainerCard>
+          <a
+            href={`#/near/widget/ProfilePage?accountId=${judge.accountId}`}
+            target="_blank"
+          >
+            <img src={judge.image} alt={judge.name} />
+            <h3>{judge.name}</h3>
+          </a>
+          <p>{judge.org}</p>
+        </ContainerCard>
+      ))}
+    </Container>
+  </>
 );
