@@ -49,7 +49,33 @@ const Logos = styled.div`
     object-fit: contain;
   }
 `;
+const judges = [
+  {
+    url: "https://pagoda.co",
+    name: "Pagoda",
+    image:
+      "https://pbs.twimg.com/profile_images/1678452492739424257/kIn26g06_400x400.jpg",
+  },
+  {
+    url: "https://urbit.org/",
+    name: "Urbit",
+    image:
+      "https://pbs.twimg.com/profile_images/1571956374019637248/DNQHBb86_400x400.jpg",
+  },
 
+  {
+    url: "https://proximity.dev",
+    name: "Proximity Labs",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreibvv4ivrm72zrvuu4w7oev5zncks372k2eoud6os2ldxcf7qjcjyy",
+  },
+  {
+    url: "https://banyan.gg",
+    name: "Banyan Collective",
+    image:
+      "https://pbs.twimg.com/profile_images/1594723683062484993/d8aDzWMN_400x400.jpg",
+  },
+];
 const sponsors = [
   {
     url: "https://osec.io",
@@ -149,7 +175,7 @@ return (
         <Widget
           src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
           props={{
-            text: "Become a Sponsor/Partner",
+            text: "🤝 Become a Sponsor/Partner",
             href: "http://nearbuilders.com/sponsor",
           }}
         />
@@ -159,6 +185,25 @@ return (
         {partners.map((partner) => (
           <a href={partner.url} target="blank">
             <img src={partner.image} />
+          </a>
+        ))}
+      </Logos>
+    </Section>
+    <Section>
+      <div>
+        <h2>Judges & Mentors From</h2>
+        <Widget
+          src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
+          props={{
+            text: "🧑🏿‍🏫 See Mentors + Judges",
+            href: "http://nearbuilders.com/people",
+          }}
+        />
+      </div>
+      <Logos>
+        {judges.map((judge) => (
+          <a href={judge.url} target="blank">
+            <img src={judge.image} />
           </a>
         ))}
       </Logos>
