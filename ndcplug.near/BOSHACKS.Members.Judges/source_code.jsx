@@ -127,7 +127,7 @@ const ContainerCard = styled.div`
 
 return (
   <>
-    <h1>Judges</h1>
+    {false && <h1>Judges</h1>}
     <Container>
       {judges.map((judge) => (
         <ContainerCard>
