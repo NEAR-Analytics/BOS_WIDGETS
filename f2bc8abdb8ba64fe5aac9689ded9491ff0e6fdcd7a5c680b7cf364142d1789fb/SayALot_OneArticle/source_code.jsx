@@ -77,7 +77,7 @@ const canUserEditArticle = () => {
 // ======= GET DATA TO ATACH COMMENTS TO THE ARTICLE =======
 // we attach all comments to the first initial article (which version = 0)
 const articlesIndex = Social.index(addressForArticles, "main", {
-  order: "asc",
+  order: "desc",
   accountId: state.article.author,
 });
 
@@ -132,12 +132,13 @@ const getArticleData = () => {
 };
 
 function getNewArticleId() {
-  const newArticle = articlesIndex.find(
-    (article) => article.blockHeight == state.article.blockHeight
-  );
+  let newArticle =
+    blockHeight == "now"
+      ? articlesIndex[0]
+      : articles.find((article) => article.blockHeight == blockHeight);
 
   if (newArticle) {
-    return newArticleId.value.id;
+    return newArticle.value.id;
   } else {
     return `${context.accountId}-${Date.now()}`;
   }
