@@ -717,7 +717,6 @@ const {
   chainId,
   DEFAULT_CHAIN_ID,
   getNetworkConfig,
-  isChainSupported,
 } = props;
 const Container = styled.div`
   display:flex;
@@ -755,7 +754,7 @@ return <Container>
     {aaveBottomLogo}
     <div className="title">AAVE V3</div>
     {
-      walletConnected ? isChainSupported  ? <span className="text">Loading...</span>: <span className="text">Please switch network to {
+      walletConnected ? chainId === DEFAULT_CHAIN_ID  ? <span className="text">Loading...</span>: <span className="text">Please switch network to {
         getNetworkConfig(DEFAULT_CHAIN_ID).chainName
       }</span>:<div className="loginButton">
       <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
