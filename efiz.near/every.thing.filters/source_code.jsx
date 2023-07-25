@@ -14,7 +14,7 @@ return (
         />
         <i
           className="bi bi-x-square"
-          onClick={() => State.update({ accountId: "" })}
+          onClick={() => State.update({ accountId: null })}
         ></i>
       </a>
     ) : (
