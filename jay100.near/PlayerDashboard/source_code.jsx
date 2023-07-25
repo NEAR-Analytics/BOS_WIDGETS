@@ -88,7 +88,7 @@ const PlayerDashboard = () => {
                 <TroopDetailItem>Speed mod:{unit.speed_mod}</TroopDetailItem>
                 <TroopDetailItem>Price:{unit.price}</TroopDetailItem>
                 <TroopDetailItem>Class:{troopDetails.name}</TroopDetailItem>
-                <TroopDetailItem>Power:{troopDetails.power}</TroopDetailItem>
+                <TroopDetailItem>{troopDetails.power}</TroopDetailItem>
               </TroopDataList>
             </TroopDataContainer>
           );
