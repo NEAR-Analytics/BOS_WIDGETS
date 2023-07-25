@@ -2,7 +2,6 @@ State.init({
   activePair: defaultPair,
   isPoolFetching: false,
   isUserPositionsFetching: false,
-  chainId: '',
 });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -35,12 +34,7 @@ if (!sender)
     </ContainerLogin>
   );
 
-// const { chainId } = Ethers.getNetwork();
-Ethers.provider().getNetwork().then((data) => {
-  State.update({
-    chainId: data.chainId
-  })
-})
+const { chainId } = Ethers.getNetwork();
 const chainIdToSwitch = "0x44D";
 
 const switchChain = () => {
@@ -81,7 +75,7 @@ const SwitchWrapper = styled.div`
   }
 `;
 
-if (state.chainId !== 1101) {
+if (chainId !== 1101) {
   return (
     <SwitchWrapper>
       <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
@@ -215,12 +209,12 @@ return (
     <div className="tableTitle">Active Liquidity</div>
     <Wrapper>
       <Widget
-        src="ref-bigboss.near/widget/ZKEVM.gamma-zkevm-table"
+        src="ref-admin.near/widget/ZKEVM.gamma-zkevm-table"
         props={{ handlePairClick, poolsData, userPositions }}
       />
 
       <Widget
-        src="ref-bigboss.near/widget/ZKEVM.gamma-zkevm-vault"
+        src="ref-admin.near/widget/ZKEVM.gamma-zkevm-vault"
         props={{ pair: activePair, refetch: postRefetch }}
       />
     </Wrapper>
