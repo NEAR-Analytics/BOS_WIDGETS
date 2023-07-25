@@ -27,6 +27,10 @@ const getDateLastEdit = (timestamp) => {
 const CardWrapper = styled.div`
   min-width: 340px;
   font-family: "Open Sans", sans-serif;
+    margin-bottom: 16px;
+  @media (min-width: 900px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const Card = styled.div`
@@ -109,7 +113,7 @@ const ShareButtonWrapper = styled.div`
   }
 `;
 
-// ========== JSX ==========
+// ========== JSX MODAL ==========
 const Modal = ({ onClose, children }) => {
   return (
     <ModalWrapper>
@@ -157,6 +161,7 @@ const Modal = ({ onClose, children }) => {
   );
 };
 
+// ========== JSX CARD ==========
 return (
   <CardWrapper key={article.articleId}>
     <Card>
