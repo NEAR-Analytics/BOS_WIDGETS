@@ -182,9 +182,7 @@ const Legal = styled.div`
 
 const links = (
   <Legal>
-    <a href="https://Banyan.gg">Banyan Collective</a>
-    <span className="separator"></span>
-    <span>Scaling the NEAR Ecoystem</span>
+    <a href="https://Banyan.gg">Made with ❤️ by Banyan Collective</a>
   </Legal>
 );
 
