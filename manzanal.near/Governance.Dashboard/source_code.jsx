@@ -1,4 +1,5 @@
-const authorId = "manzanal.near";
+const authorId = props.authorId || "manzanal.near";
+const contractId = props.contractId;
 
 const availableContent = ["proposals", "voters", "votes"];
 
@@ -14,6 +15,7 @@ const contentSelector = (
   <Widget
     src={`${authorId}/widget/Governance.TabSelector`}
     props={{
+      authorId,
       tab: props.tab ?? "home",
       content: getContent(props.content),
       search: props.search,
@@ -40,19 +42,34 @@ const content = {
   proposals: (
     <Widget
       src={`${authorId}/widget/Governance.Proposals`}
-      props={{ search: state.search, update: props.update }}
+      props={{
+        search: state.search,
+        update: props.update,
+        authorId,
+        contractId,
+      }}
     />
   ),
   voters: (
     <Widget
       src={`${authorId}/widget/Governance.Voters`}
-      props={{ search: state.search, update: props.update }}
+      props={{
+        search: state.search,
+        update: props.update,
+        authorId,
+        contractId,
+      }}
     />
   ),
   votes: (
     <Widget
       src={`${authorId}/widget/Governance.Votes`}
-      props={{ search: state.search, update: props.update }}
+      props={{
+        search: state.search,
+        update: props.update,
+        authorId,
+        contractId,
+      }}
     />
   ),
 }[getContent(props.content)];
@@ -62,21 +79,6 @@ const Heading = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-
-  h1 {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2em;
-    color: #101828;
-  }
-
-  h2 {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1em;
-    line-height: 1.5em;
-    color: #475467;
-  }
 `;
 
 const Container = styled.div`
@@ -85,42 +87,32 @@ const Container = styled.div`
   align-items: stretch;
   justify-content: flex-start;
   gap: 1.5em;
-
-  h2 {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.3em;
-    line-height: 1.5em;
-    color: #475467;
-  }
-`;
-
-const Stats = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 0.5em;
   margin: 1em 0;
-
-  div {
-    width: 18%;
-  }
-
-  @media (max-width: 768px) {
-    div {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    div {
-      width: 49%;
-    }
-  }
 `;
 
+const Title = styled.p`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.75em;
+  color: #101828;
+
+  @media screen and (max-width: 768px) {
+   
+      font-size: 1.25em;
+  }
+    `;
+
+const Subtitle = styled.p`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.3em;
+  line-height: 1.5em;
+  color: #475467;
+
+  @media screen and (max-width: 768px) {
+      font-size: 1em;
+    }
+    `;
 State.init({
   search: "",
 });
@@ -128,8 +120,8 @@ State.init({
 return (
   <Container>
     <Heading>
-      <h1>On-chain voting for Meta Pool Improvement Proposals [MPIPs]</h1>
-      <h2>Participate in voting on protocol-wide changes</h2>
+      <Title>On-chain voting for Meta Pool Improvement Proposals [MPIPs]</Title>
+      <Subtitle>Participate in voting on protocol-wide changes</Subtitle>
     </Heading>
 
     <div>{contentSelector}</div>
