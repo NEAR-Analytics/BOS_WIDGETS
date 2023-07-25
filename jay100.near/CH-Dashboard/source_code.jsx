@@ -2,6 +2,10 @@ const pixelFont = fetch(
   "https://fonts.googleapis.com/css?family=Press+Start+2P"
 ).body;
 
+State.init({
+  display_weapons: true,
+});
+
 const PlayerDashboard = () => {
   let playerData = Near.view("pixeltoken.near", "ch_get_player_data", {
     account_id: context.accountId,
@@ -37,7 +41,7 @@ const PlayerDashboard = () => {
     {}
   ).decimals;
 
-  console.log(items_data);
+  console.log(characters_data);
 
   const DashBoardContainer = styled.div`
     font-family: "Pixel Emulator", "Press Start 2P", "Courier new", "monospace";
@@ -72,7 +76,7 @@ const PlayerDashboard = () => {
     flex-direction: column;
     padding: 1rem;
     margin: 0.5rem;
-    width: 65%;
+    width: fit-content;
     height: fit-content;
   `;
 
@@ -84,7 +88,7 @@ const PlayerDashboard = () => {
     flex-direction: column;
     padding: 1rem;
     margin: 0.5rem;
-    width: 65%;
+    width: fit-content;
     height: fit-content;
   `;
 
@@ -102,29 +106,70 @@ const PlayerDashboard = () => {
 
   const CharacterDetailItem = styled.li`
       list-style: inside url(data:image/gif;base64,R0lGODlhEAAQAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAAQABAAQAIOlI+py+0Po5y02ouzPgUAOw==) square;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     padding: 0.3rem;
   `;
 
   const WeaponDetailItem = styled.li`
       list-style: inside url(data:image/gif;base64,R0lGODlhEAAQAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAAQABAAQAIOlI+py+0Po5y02ouzPgUAOw==) square;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     padding: 0.3rem;
+    display: flex;
   `;
 
-  let display_weapons = true;
+  const WeaponButton = styled.button`
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background-color: red;
+  `;
+  const CharacterButton = styled.button`
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background-color: blue;
+  `;
 
   return (
     <DashBoardContainer>
       <div className="row">
-        <p>Player:{context.accountId}</p>
-        <p>Fight Balance:{fight_balance}</p>
+        <div className="col">
+          <p>Player:{context.accountId}</p>
+          <p>Fight Balance:{fight_balance}</p>
+        </div>
+
+        <div className="col">
+          <WeaponButton
+            onClick={() => {
+              State.update({
+                display_weapons: true,
+              });
+            }}
+            className="btn"
+          >
+            Weapons
+          </WeaponButton>
+          <CharacterButton
+            onClick={() => {
+              State.update({
+                display_weapons: false,
+              });
+            }}
+            className="btn"
+          >
+            Characters
+          </CharacterButton>
+        </div>
       </div>
-      {display_weapons ? (
+      {state.display_weapons ? (
         <WeaponsContainer className="row">
           {items_data.map((item) => {
             return (
-              <WeaponDataContainer className="col-sm">
+              <WeaponDataContainer>
                 <WeaponDataList>
                   <WeaponDetailItem>Token ID:{item.token_id}</WeaponDetailItem>
                   <WeaponDetailItem>
@@ -150,7 +195,31 @@ const PlayerDashboard = () => {
           })}
         </WeaponsContainer>
       ) : (
-        <></>
+        <CharactersContainer className="row">
+          {characters_data.map((character) => {
+            return (
+              <CharacterDataContainer className="col">
+                <CharacterDataList>
+                  <CharacterDetailItem>
+                    Character ID:{character.character_id}
+                  </CharacterDetailItem>
+                  <CharacterDetailItem>
+                    Class ID:{character.class_type}
+                  </CharacterDetailItem>
+                  <CharacterDetailItem>
+                    Exp:{character.experience}
+                  </CharacterDetailItem>
+                  <CharacterDetailItem>
+                    Level:{character.level}
+                  </CharacterDetailItem>
+                  <CharacterDetailItem>
+                    Injured Time:{character.injured_timer}
+                  </CharacterDetailItem>
+                </CharacterDataList>
+              </CharacterDataContainer>
+            );
+          })}
+        </CharactersContainer>
       )}
     </DashBoardContainer>
   );
