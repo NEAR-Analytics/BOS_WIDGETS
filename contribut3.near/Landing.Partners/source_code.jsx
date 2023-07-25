@@ -13,6 +13,7 @@ const Container = styled.div`
   align-items: flex-start;
   gap: 1.375rem;
   width: 100%;
+  margin: 1rem 0;
 
   & > div {
     width: 50%;
@@ -55,7 +56,7 @@ const Title = styled.div`
     background: var(--ui-elements-dark, #11181c);
     color: var(--ui-elements-white, #fff);
     font-size: 1rem;
-    font-family: Mona-Sans;
+    font-family: "Mona Sans";
     font-weight: 600;
     letter-spacing: 0.01rem;
   }
@@ -245,7 +246,7 @@ const RegisterButton = styled.a`
 `;
 
 const registerButton = ({ text, href }) => (
-  <RegisterButton href={href ?? `${ownerId}/widget/Onboarding.Page`}>
+  <RegisterButton href={href ?? `/${ownerId}/widget/Onboarding.Page`}>
     {text}
   </RegisterButton>
 );
