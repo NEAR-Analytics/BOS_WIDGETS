@@ -461,11 +461,15 @@ return (
               >
                 <a
                   style={{
-                    color: state.Memo.length < 200 ? "#008500" : "#FF0000",
+                    color:
+                      state.Memo.length < 200 || state.Memo.length === undefined
+                        ? "#008500"
+                        : "#FF0000",
                     "font-size": "10px",
                   }}
                 >
-                  {state.Memo.length + 0} of 200
+                  {state.Memo.length === undefined ? 0 : state.Memo.length} of
+                  200
                 </a>
               </div>
             </div>
