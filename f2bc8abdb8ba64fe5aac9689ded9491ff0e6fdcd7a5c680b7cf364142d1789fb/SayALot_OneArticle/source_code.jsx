@@ -132,12 +132,14 @@ const getArticleData = () => {
 };
 
 function getNewArticleId() {
-  const newArticle = articlesIndex.find(article => article.blockHeight == state.article.blockHeight)
-  
-  if(newArticle) {
-    return newArticleId.value.id
+  const newArticle = articlesIndex.find(
+    (article) => article.blockHeight == state.article.blockHeight
+  );
+
+  if (newArticle) {
+    return newArticleId.value.id;
   } else {
-    return `${context.accountId}-${Date.now()}`
+    return `${context.accountId}-${Date.now()}`;
   }
 }
 
@@ -153,7 +155,7 @@ const composeData = () => {
         key: "main",
         value: {
           type: "md",
-          id: `${}`,
+          id: `${getNewArticleId()}`,
         },
       }),
     },
