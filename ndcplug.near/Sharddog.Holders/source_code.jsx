@@ -79,7 +79,7 @@ function Sharddog({ owner, media }) {
           />
         )}
       </div>
-      <div className="col-sm-9">
+      <div className="col-sm-12">
         <Widget
           src="near/widget/AccountProfileCard"
           props={{
