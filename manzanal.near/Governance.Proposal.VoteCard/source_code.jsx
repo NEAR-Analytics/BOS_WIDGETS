@@ -137,7 +137,7 @@ const handleVote = (vote) => {
         args: {
           mpip_id: props.proposal.mpip_id,
           vote,
-          voting_power: state.votingPowerYocto,
+          voting_power: "2520219905500000000000000000000",
           memo: state.memo,
         },
         gas: 300000000000000,
@@ -189,6 +189,10 @@ const VotesContainer = styled.div`
   padding: 0;
   gap: 1em;
   width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Heading = styled.div`
