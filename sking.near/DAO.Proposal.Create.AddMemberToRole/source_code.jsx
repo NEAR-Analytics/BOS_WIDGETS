@@ -9,7 +9,11 @@ if (!accountId) {
 
 if (policy === null) return "";
 
-console.log(policy);
+let allRolesArray;
+if (policy.roles) {
+  policy?.roles?.filter((r) => r.kind !== "Everyone")?.map((r) => r.name);
+}
+console.log(allRolesArray);
 
 const roles = State.init({
   member_id: state.member_id,
@@ -88,9 +92,19 @@ return (
       <h5>Account ID</h5>
       <input type="text" onChange={(e) => onChangeMember(e.target.value)} />
     </div>
+
     <div className="mb-2">
       <h5>Role</h5>
-      <input type="text" onChange={(e) => onChangeRole(e.target.value)} />
+      {allRolesArray ? (
+        <Typeahead
+          options={allRolesArray}
+          multiple={false}
+          onChange={onChangeRole}
+          placeholder="Choose a role..."
+        />
+      ) : (
+        <input type="text" onChange={(e) => onChangeRole(e.target.value)} />
+      )}
     </div>
 
     {state.error && <div className="text-danger">{state.error}</div>}
