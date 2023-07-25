@@ -13,6 +13,7 @@ const writersWhiteList = props.writersWhiteList ?? [
   "shubham007.near",
   "fiftycent.near",
   "chloe.near",
+  "ozymandius.near",
 ];
 
 const sayALotWorkers = [
