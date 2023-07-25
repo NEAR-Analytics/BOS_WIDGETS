@@ -11,9 +11,11 @@ if (policy === null) return "";
 
 let allRolesArray;
 if (policy.roles) {
-  policy?.roles?.filter((r) => r.kind !== "Everyone")?.map((r) => r.name);
+  allRolesArray = policy?.roles
+    ?.filter((r) => r.kind !== "Everyone")
+    ?.map((r) => r.name);
 }
-console.log(allRolesArray, policy);
+console.log(allRolesArray);
 
 const roles = State.init({
   member_id: state.member_id,
