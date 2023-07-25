@@ -376,7 +376,7 @@ return (
                       stroke-linejoin="round"
                     />
                   </svg>
-                  create
+                  Launch
                 </>
               ),
             }}
