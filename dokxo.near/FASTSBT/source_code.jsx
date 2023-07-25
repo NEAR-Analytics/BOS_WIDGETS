@@ -164,7 +164,10 @@ const Submitform = () => {
             description: "create proposal to mint SBT",
             kind: {
               FunctionCall: {
-                receiver_id: state.issuer ? state.issuer : "issuer.regens.near",
+                receiver_id:
+                  state.Issuer_selected === "showinput"
+                    ? state.Issuer_filled
+                    : state.Issuer_selected,
                 actions: [
                   {
                     method_name: "sbt_mint",
@@ -185,7 +188,6 @@ const Submitform = () => {
     console.log("no es valido");
   }
 };
-function logMovies() {}
 
 const validateReference = () => {
   if (state.Referencelink.length > 0) {
