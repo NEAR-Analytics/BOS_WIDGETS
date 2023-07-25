@@ -152,7 +152,7 @@ const Modal = ({ onClose, children }) => {
               size: "sm",
               buttonProps: "button",
               onClick: () => {
-                onClose;
+                onClose();
               },
             }}
           />
