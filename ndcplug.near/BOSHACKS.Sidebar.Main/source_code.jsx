@@ -1,4 +1,4 @@
-const ownerId = "ndplcug.near";
+const ownerId = "ndcplug.near";
 
 const homeSelected = (
   <svg
@@ -160,7 +160,7 @@ const NavItem = styled.a`
 
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    href={`#/${ownerId}/widget/BOSHACKS.Index?tab=${id}`}
+    href={`/${ownerId}/widget/BOSHACKS.Index?tab=${id}`}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
