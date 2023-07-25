@@ -70,11 +70,10 @@ if (!state.votingPowerIsFetched) {
     const votingPowerYocto = votingPower.toLocaleString("fullwide", {
       useGrouping: false,
     });
-    console.log("voting power", votingPowerYocto);
     State.update({
       votingPower: yoctoToNear(votingPowerYocto),
       votingPowerYocto:
-        yoctoToNear(votingPowerYocto) * "000000000000000000000000",
+        yoctoToNear(votingPowerYocto) + "000000000000000000000000",
       votingPowerIsFetched: true,
     });
   });
