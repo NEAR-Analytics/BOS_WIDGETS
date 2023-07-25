@@ -14,7 +14,7 @@ if (props.memberTab && props.memberTab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=people&memberTab=${selectedTab}`;
+const accountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=people`;
 
 const Wrapper = styled.div`
   padding-bottom: 8px;
