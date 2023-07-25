@@ -10,6 +10,8 @@ const current_mode = Storage.get(
   "ref-admin.near/widget/user-builder"
 );
 
+const whitelist = ["juaner.near/widget/ref-home", "ref-admin.near/widget/xBox"];
+
 const { role } = props;
 
 const addComponentIcon = (
@@ -29,65 +31,7 @@ const addComponentIcon = (
 
 State.init({
   currentPage: 0,
-  selectedTab: props.tab || "all",
-  filters: [],
-  counts: {
-    Chain: 0,
-    Infrastructure: 0,
-    Dapps: 0,
-    NFT: 0,
-  },
 });
-
-if (props.tab && props.tab !== state.selectedTab) {
-  State.update({
-    selectedTab: props.tab,
-  });
-}
-
-const tagsData = Social.get("*/widget/*/metadata/tags/*", "final");
-
-const data = Social.keys("*/widget/*", "final", {
-  return_type: "BlockHeight",
-});
-
-if (data) {
-  const result = [];
-
-  Object.keys(data).forEach((accountId) => {
-    return Object.keys(data[accountId].widget).forEach((widgetName) => {
-      totalComponents++;
-
-      //   if (state.selectedTab === "apps") {
-
-      const tags = Object.keys(
-        tagsData[accountId].widget[widgetName]?.metadata?.tags || {}
-      );
-
-      const hasRefTag = tags.some((t) =>
-        state.filters.map((f) => f.toLowerCase()).includes(t.toLowerCase())
-      );
-
-      if (!hasRefTag && state.filters.length > 0) return;
-
-      //     const hasAppTag =
-      //       tagsData[accountId].widget[widgetName]?.metadata?.tags["app"] === "";
-      //     if (!hasAppTag) return;
-      //     totalApps++;
-      //   }
-
-      result.push({
-        accountId,
-        widgetName,
-        blockHeight: data[accountId].widget[widgetName],
-        tags: tags,
-      });
-    });
-  });
-
-  result.sort((a, b) => b.blockHeight - a.blockHeight);
-  components = result.slice(0, state.currentPage * limitPerPage + limitPerPage);
-}
 
 function onSearchChange({ result, term }) {
   if (term.trim()) {
@@ -97,7 +41,11 @@ function onSearchChange({ result, term }) {
   }
 }
 
-const items = state.searchResults || components;
+if (props.tab && props.tab !== state.selectedTab) {
+  State.update({
+    selectedTab: props.tab,
+  });
+}
 
 const Wrapper = styled.div`
   gap: 48px;
@@ -137,76 +85,68 @@ const Items = styled.div`
   width: 100%;
   grid-template-columns: repeat(auto-fill, 415px);
   gap: 20px;
-  height: 100%
-
+  height: 100%;
 `;
 
 const Item = styled.div`
-  :hover{
-  transform: ${(p) => (p.role === "Builder" ? "" : "scale(1.05)")}
-
+  :hover {
+    transform: ${(p) => (p.role === "Builder" ? "" : "scale(1.05)")};
   }
-
 `;
 
 const FlexStart = styled.div`
-    display:flex;
-align-items:center;
+  display: flex;
+  align-items: center;
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   margin-top: 20px;
-
-  
 `;
 
 const FunctionArea = styled.div`
-    display: flex;
-    align-items:center;
-    gap:12px;
-
+  display: flex;
+  align-items: center;
+  gap: 12px;
 `;
 
 const AddComponentWrapper = styled.a`
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #2d4348;
+  border-radius: 10px;
+  padding: 8px 16px 8px 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  gap: 10px;
+  margin-left: 12px;
+  cursor: pointer;
+  color: #ffffff;
 
-height: 36px;
-display:flex;
-align-items:center;
-background: #2D4348;
-border-radius: 10px;
-padding: 8px 16px 8px 16px;
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 19px;
-gap:10px;
-margin-left:12px;
-cursor:pointer;
-color: #FFFFFF;
-
-:hover{
+  :hover {
     color: white;
-    text-decoration:none;    
-}
+    text-decoration: none;
+  }
 `;
 
 const FunctionWrapper = styled.div`
-
-height: 36px;
-display:flex;
-align-items:center;
-background: #2D4348;
-border-radius: 10px;
-padding: 8px 16px 8px 16px;
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 19px;
-gap:10px;
-margin-left:12px;
-cursor:pointer;
-color: #FFFFFF;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #2d4348;
+  border-radius: 10px;
+  padding: 8px 16px 8px 16px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  gap: 10px;
+  margin-left: 12px;
+  cursor: pointer;
+  color: #ffffff;
 `;
 
 const sortIcon = (
@@ -281,37 +221,46 @@ const isHomeIndex = [
 ];
 
 const itemList = [
-  <Item role={role}>
-    <Widget
-      key={"juaner.near" + "ref-home"}
-      src="ref-admin.near/widget/ref-template-card"
-      props={{
-        src: `juaner.near/widget/ref-home`,
-        isHome:
-          Social.get(`${context.accountId}/myHomePagePath`) ===
-          `juaner.near/widget/ref-home`,
-        blockHeight: component.blockHeight,
-        imageSrc: "https://assets.ref.finance/images/ref_and_burrow.png",
-        role: role,
-      }}
-    />
-  </Item>,
-
-  <Item role={role}>
-    <Widget
-      key={"ref-admin.near/widget/xBox"}
-      src="ref-admin.near/widget/ref-template-card"
-      props={{
-        src: `ref-admin.near/widget/xBox`,
-        isHome:
-          Social.get(`${context.accountId}/myHomePagePath`) ===
-          `ref-admin.near/widget/xBox`,
-        blockHeight: component.blockHeight,
-        imageSrc: "https://assets.ref.finance/images/xbox_banner.png",
-        role: role,
-      }}
-    />
-  </Item>,
+  {
+    item: (
+      <Item role={role}>
+        <Widget
+          key={"juaner.near" + "ref-home"}
+          src="ref-admin.near/widget/ref-template-card"
+          props={{
+            src: `juaner.near/widget/ref-home`,
+            isHome:
+              Social.get(`${context.accountId}/myHomePagePath`) ===
+              `juaner.near/widget/ref-home`,
+            blockHeight: component.blockHeight,
+            imageSrc: "https://assets.ref.finance/images/ref_and_burrow.png",
+            role: role,
+          }}
+        />
+      </Item>
+    ),
+    src: `juaner.near/widget/ref-home`,
+  },
+  {
+    item: (
+      <Item role={role}>
+        <Widget
+          key={"ref-admin.near/widget/xBox"}
+          src="ref-admin.near/widget/ref-template-card"
+          props={{
+            src: `ref-admin.near/widget/xBox`,
+            isHome:
+              Social.get(`${context.accountId}/myHomePagePath`) ===
+              `ref-admin.near/widget/xBox`,
+            blockHeight: component.blockHeight,
+            imageSrc: "https://assets.ref.finance/images/xbox_banner.png",
+            role: role,
+          }}
+        />
+      </Item>
+    ),
+    src: `ref-admin.near/widget/xBox`,
+  },
 ];
 
 const displayItems = [];
@@ -339,29 +288,31 @@ return (
     >
       <FlexStart>
         <Widget
-          src="ref-admin.near/widget/ref-component-search"
+          src="ref-admin.near/widget/ref-template-search"
           props={{
             limit: 21,
+            onChange: onSearchChange,
             placeholder: searchPlaceholder,
-            filterTags: state.filters.length === 0 ? null : state.filters,
+            filterTags: null,
+            whitelist,
           }}
         />
 
         {role === "Builder" && (
-          <AddComponentWrapper href={"#edit"}>
+          <AddComponentWrapper href={"/sandbox"}>
             {addComponentIcon}
             <span>Add Template</span>
           </AddComponentWrapper>
         )}
       </FlexStart>
 
-      <FunctionArea>
+      {/* <FunctionArea>
         <FunctionWrapper>
           {sortIcon}
 
           <span>Latest</span>
         </FunctionWrapper>
-      </FunctionArea>
+      </FunctionArea> */}
     </div>
 
     <ContentWrapper>
@@ -369,7 +320,14 @@ return (
         <Text>No components matched your search.</Text>
       )}
 
-      <Items>{displayItems.map((item) => item)}</Items>
+      <Items>
+        {displayItems
+          .filter((d) => {
+            if (!state.searchResults) return true;
+            return state.searchResults.map((_) => _.widgetSrc).includes(d.src);
+          })
+          .map(({ item }) => item)}
+      </Items>
     </ContentWrapper>
   </Wrapper>
 );
