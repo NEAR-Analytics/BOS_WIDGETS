@@ -106,20 +106,16 @@ State.init({
   },
   selectedDex: props.dex ?? "Pancake Swap",
   loadRes: (value) => {
+    console.log("loadRes", value);
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
       estimate: value,
       outputAssetAmount: value === null ? "" : value.estimate,
     });
   },
-  add: false,
-  hasGetStorage: false,
 });
 
 const refReferralId = props.refReferralId ?? "ukraine";
-
-const { source } = props;
-
 const forceNetwork = NETWORK_ZKEVM;
 
 const getEVMAccountId = () => {
@@ -141,7 +137,6 @@ const onDexDataLoad = (data) => {
     ...data,
     forceReload: false,
     sender: getEVMAccountId(),
-    outputAssetAmount: "",
   });
 };
 
@@ -174,8 +169,6 @@ const changeAmount = (e) => {
 };
 
 // REUSABLE UI ELEMEETS
-
-console.log("output amount", state.outputAssetAmount);
 
 const assetContainer = (
   isInputAsset,
@@ -211,7 +204,7 @@ const assetContainer = (
             <div class="input-asset-token" onClick={assetNameOnClick}>
               <div class="input-asset-token-name">
                 <div class="input-asset-token-icon">
-                  {assetData?.metadata.icon ? (
+                  {assetData.metadata.icon ? (
                     <img
                       alt={`${assetData.metadata.name} logo`}
                       src={assetData.metadata.icon}
@@ -326,6 +319,13 @@ const canSwap =
   Number(state.inputAssetAmount || 0) > 0 &&
   state.inputAssetTokenId !== state.outputAssetTokenId;
 
+const onCallTxComple = (tx) => {
+  console.log("transactionHash", tx);
+  State.update({
+    outputAsset: undefined,
+  });
+};
+
 const ExchangeWrapper = () => {
   return (
     <div
@@ -353,10 +353,6 @@ const SwapMainContainer = styled.div`
   align-items: start;
   gap: 8px;
   font-size: 18px;
-  position: fixed;
-  left: 50%;
-  /* top: 50%; */
-  transform: translate(-50%);
 `;
 
 const NetworkList = styled.div`
@@ -473,7 +469,6 @@ const SwapPage = styled.div`
     align-items: center;
     gap: 8px;
     position: relative;
-    cursor: pointer;
     color: white;
     border: 1px solid #332c4b;
     background: linear-gradient(0deg, #222436, #222436),
@@ -669,7 +664,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
       <SwapMainContainer class="">
         To proceed, kindly switch to {forceNetwork}.
         <Widget
-          src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-connect"
+          src="ref-admin.near/widget/ZKEVMSwap.zkevm-connect"
           props={{
             title: "zkEvm Swap",
             src: "https://assets.ref.finance/images/zkevm-swap.png",
@@ -684,23 +679,11 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   );
 }
 
-let params = Storage.get(
-  "zk-evm-swap-params",
-  "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
-);
-const params_from_question_list = Storage.get(
-  "zk-evm-swap-params",
-  "ref-bigboss.near/widget/ZKEVM.QuestionList"
-);
+const params = Storage.get("zk-evm-swap-params");
 
-if (props.source == "question_list" && params_from_question_list) {
-  params = params_from_question_list;
-}
-
-if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
+if (params && !!state.sender && selectedChainId === 1101) {
   if (!!params?.amount && !!params?.assetId) {
     State.update({
-      storeParams: params,
       inputAssetAmount: params.amount,
       approvalNeeded: undefined,
       inputAssetTokenId: params.assetId,
@@ -715,54 +698,8 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
     switchNetwork(1101, params.dexName);
   }
 
-  State.update({
-    hasGetStorage: true,
-  });
+  Storage.set("zk-evm-swap-params", {});
 }
-
-function add_action(param_body) {
-  asyncFetch("https://bos-api.ref-finance.com/add-action-data", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(param_body),
-  });
-}
-
-const onCallTxComple = (tx) => {
-  console.log("transactionHash", tx);
-
-  const uuid = Storage.get(
-    "zkevm-warm-up-uuid",
-    "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
-  );
-
-  if (!state.add) return;
-
-  tx.wait().then((receipt) => {
-    const { status, transactionHash } = receipt;
-
-    add_action({
-      action_title: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
-      action_type: "Swap",
-      action_tokens: JSON.stringify([
-        `${state.inputAsset.metadata.symbol}`,
-        `${state.outputAsset.metadata.symbol}`,
-      ]),
-      action_amount: state.inputAssetAmount,
-      account_id: state.sender,
-      account_info: uuid,
-      template: "ZkEvm",
-      action_status: status === 1 ? "Success" : "Failed",
-      tx_id: transactionHash,
-    });
-
-    State.update({
-      outputAsset: undefined,
-    });
-  });
-};
 
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
@@ -775,7 +712,7 @@ if (!state.sender || selectedChainId !== 1101) {
 
   return (
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-connect"
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
         title,
         src: "https://assets.ref.finance/images/zkevm-swap.png",
@@ -787,11 +724,12 @@ if (!state.sender || selectedChainId !== 1101) {
     />
   );
 }
+//const prevSelectedDex =
 
 return (
   <Theme>
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-dexData"
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-dexData"
       props={{
         onLoad: onDexDataLoad,
         NETWORK_ZKSYNC,
@@ -803,13 +741,13 @@ return (
       }}
     />
 
-    {state.network && state.inputAssetTokenId && (
+    {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
-        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-list"
+        src="ref-admin.near/widget/ZKEVMSwap.zkevm-asset-list"
         props={{
+          hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
           assets: state.assets,
-          hidden: state.inputAssetModalHidden,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           selectedAssets: [state.inputAssetTokenId],
           onClick: (tokenId) => {
@@ -823,14 +761,14 @@ return (
         }}
       />
     )}
-    {state.network && state.outputAssetTokenId && (
+    {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
-        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-list"
+        src="ref-admin.near/widget/ZKEVMSwap.zkevm-asset-list"
         props={{
+          hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           network: state.network,
-          hidden: state.outputAssetModalHidden,
           selectedAssets: [state.outputAssetTokenId],
           onClick: (tokenId) => {
             State.update({
@@ -844,7 +782,7 @@ return (
       />
     )}
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-token-data"
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-token-data"
       props={{
         tokenId: state.inputAssetTokenId,
         coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
@@ -858,7 +796,7 @@ return (
       }}
     />
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-token-data"
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-token-data"
       props={{
         tokenId: state.outputAssetTokenId,
         coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.outputAssetTokenId],
@@ -885,7 +823,7 @@ return (
       state.outputAsset.metadata?.decimals &&
       parseFloat(state.inputAssetAmount) > 0 && (
         <Widget
-          src="ref-bigboss.near/widget/ZKEVMSwap.quickswap-v3-getEstimate"
+          src="zavodil.near/widget/quickswap-v3-getEstimate"
           props={{
             loadRes: state.loadRes,
             tokenIn: state.inputAssetTokenId,
@@ -896,7 +834,6 @@ return (
               state.inputAsset.metadata.decimals
             ).toFixed(0),
             reloadPools: state.reloadPools,
-            dex: state.selectedDex,
             setReloadPools: (value) =>
               State.update({
                 reloadPools: value,
@@ -929,8 +866,7 @@ return (
             fontWeight: 500,
           }}
         >
-          {/* Swap */}
-          {selectedDex}
+          Swap
         </div>
 
         <SwapPage>
@@ -972,9 +908,7 @@ return (
                     state.callTokenApproval(
                       state,
                       () => {
-                        State.update({
-                          outputAsset: undefined,
-                        });
+                        onCallTxComple();
                         tokenInApprovaleNeededCheck();
                       },
                       undefined /* "120"*/,
@@ -998,7 +932,7 @@ return (
                           state,
                           onCallTxComple,
                           "2.09",
-                          3000000,
+                          300000,
                           "0",
                           state.estimate.path
                         );
@@ -1016,27 +950,17 @@ return (
     </SwapMainContainer>
 
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMWarmUp.add-to-quest-card"
+      src="ref-admin.near/widget/ZKEVMWarmUp.add-to-quest-card"
       props={{
-        ...props,
-        add: state.add,
-        onChangeAdd: (value) => {
-          State.update({
-            add: value,
-          });
-        },
-        hide:
-          !state?.outputAsset ||
-          !state?.inputAssetAmount ||
-          !state?.inputAsset ||
-          !state?.selectedDex ||
-          (source === "quest-card" &&
-            state.storeParams &&
-            state.storeParams.amount === state.inputAssetAmount &&
-            state.storeParams.assetId.toLowerCase() ===
-              state.inputAssetTokenId.toLowerCase() &&
-            state.storeParams.dexName === state.selectedDex &&
-            state.storeParams.symbol === state?.inputAsset?.metadata?.symbol),
+        guestString: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
+        type: "Swap",
+        sender,
+        amount: state.inputAssetAmount,
+        action_tokens: [
+          state.inputAsset.metadata.symbol,
+          state.outputAsset.metadata.symbol,
+        ],
+        template: "ZkEvm",
       }}
     />
   </Theme>
