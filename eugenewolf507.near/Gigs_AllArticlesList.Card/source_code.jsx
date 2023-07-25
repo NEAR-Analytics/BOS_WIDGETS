@@ -108,24 +108,6 @@ const ShareButtonWrapper = styled.div`
   }
 `;
 
-const shareOnClickHandler = () => {
-  console.log("sadfjghasdjha");
-  clipboard.writeText(shareUrl).then(() => {
-    State.update({ copiedShareUrl: true });
-  });
-};
-// ========== JSX ICONS ==========
-const ShareText = () => (
-  <>
-    {state.copiedShareUrl ? (
-      <Widget src="eugenewolf507.near/widget/CheckIcon" />
-    ) : (
-      <Widget src="eugenewolf507.near/widget/ShareIcon" />
-    )}
-    Share
-  </>
-);
-
 // ========== JSX MODAL ==========
 const Modal = ({ onClose, children }) => {
   return (
@@ -193,18 +175,6 @@ const Modal = ({ onClose, children }) => {
 return (
   <CardWrapper key={article.articleId}>
     <Card>
-      <Modal onClose={closeModalHandler}>
-        <Widget
-          src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
-          props={{
-            article,
-            statusChangeHandler,
-            statusTagsArr,
-            doesUserCanChangeStatus,
-            closeModalHandler,
-          }}
-        />
-      </Modal>
       {cardWithOpenModal === article.articleId && (
         <Modal onClose={closeModalHandler}>
           <Widget
