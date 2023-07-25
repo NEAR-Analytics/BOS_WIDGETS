@@ -16,7 +16,6 @@ const PrimaryButton = styled.button`
   transition: all 0.3s ease;
 
   &:disabled {
-    opacity:0.5;
     cursor: not-allowed;
   }
 `;
