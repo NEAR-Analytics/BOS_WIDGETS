@@ -43,6 +43,7 @@ return (
     <Widget
       src={`${authorForWidget}/widget/SayALot_ManualIndexFeed`}
       props={{
+        isDebug,
         index,
         reverse: true,
         renderItem,
