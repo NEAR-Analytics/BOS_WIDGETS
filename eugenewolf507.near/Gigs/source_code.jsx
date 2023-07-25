@@ -34,8 +34,7 @@ if (profile === null) {
 }
 
 const Wrapper = styled.div`
-  padding: 0;
-  border-radius: 20px;
+  padding: 30px;
   background-color: #fff;
   background-image: linear-gradient(180deg, #fafcfd 0%, #b6dbfc 100%);
   position: fixed;
