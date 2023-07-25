@@ -26,6 +26,37 @@ const getDateLastEdit = (timestamp) => {
 // ========== STYLED ==========
 const CardWrapper = styled.div`
   min-width: 340px;
+  font-family: "Open Sans", sans-serif;
+`;
+
+const Card = styled.div`
+  position: "static";
+  height: 100%;
+  background: #F8F8F9;
+  padding: 16px;
+  border-radius: 10px;
+  border: none;
+  @media (min-width: 900px) {
+    padding: 30px;
+  }
+`;
+
+const PaddingWrapper = styled.div`
+padding-bottom: 16px;
+    @media (min-width: 900px) {
+    padding-bottom: 30px;
+  }
+`;
+
+const MainInfoWrrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+  align-items: left;
+  gap: 4px;
+  border-radius: 6px;
+  background: #FFF;
+  font-size: 14px;
 `;
 
 const ModalWrapper = styled.div`
@@ -127,8 +158,8 @@ const Modal = ({ onClose, children }) => {
 };
 
 return (
-  <CardWrapper className="col gy-3" key={article.articleId}>
-    <div className="card h-100" style={{ position: "static" }}>
+  <CardWrapper key={article.articleId}>
+    <Card>
       {cardWithOpenModal === article.articleId && (
         <Modal onClose={closeModalHandler}>
           <Widget
@@ -143,34 +174,36 @@ return (
           />
         </Modal>
       )}
-      <div
-        role="button"
-        className="card-body"
-        onClick={() => openModalHandler(article.articleId)}
-      >
-        <div className="row d-flex justify-content-center">
-          <h5 className="card-title text-center pb-2 border-bottom">
-            {article.articleId}
-          </h5>
-          <div className="col flex-grow-1">
-            <Widget
-              src="mob.near/widget/Profile.ShortInlineBlock"
-              props={{
-                accountId: article.author,
-                tooltip: true,
-              }}
-            />
-          </div>
-        </div>
-        <div
-          className="mt-3 mb-0 alert alert-secondary"
-          style={{ backgroundColor: "white" }}
-        >
+      <div role="button" onClick={() => openModalHandler(article.articleId)}>
+        <PaddingWrapper>
+          <Widget
+            src={`nui.sking.near/widget/Typography.Text`}
+            props={{
+              children: article.articleId,
+              tag: "h2",
+              size: "20px",
+              className: "text-center pb-3 border-bottom",
+            }}
+          />
+        </PaddingWrapper>
+        <PaddingWrapper>
+          <Widget
+            src="nui.sking.near/widget/Element.User"
+            props={{
+              accountId: article.author,
+              options: {
+                size: "md",
+                showSocialName: true,
+                showImage: true,
+                showHumanBadge: true,
+              },
+            }}
+          />
+        </PaddingWrapper>
+        <MainInfoWrrapper>
+          <div>Posted on {getDateLastEdit(article.timeCreate).date}</div>
+          <div>Edited on {getDateLastEdit(article.timeLastEdit).date}</div>
           <div>
-            Posted on {getDateLastEdit(article.timeCreate).date}
-            <br />
-            Edited on {getDateLastEdit(article.timeLastEdit).date}
-            <br />
             Last edit by{" "}
             <a
               href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
@@ -178,11 +211,10 @@ return (
             >
               {article.lastEditor}
             </a>
-            <br />
-            Edit versions: {article.version}
           </div>
-        </div>
+          <div>Edit versions: {article.version}</div>
+        </MainInfoWrrapper>
       </div>
-    </div>
+    </Card>
   </CardWrapper>
 );
