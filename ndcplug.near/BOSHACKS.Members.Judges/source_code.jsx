@@ -45,7 +45,7 @@ const judges = [
       "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
     name: "Josh Ford",
     org: "Pagoda",
-    accountId: "",
+    accountId: "joshua.near",
   },
   {
     image:
