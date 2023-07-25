@@ -2,18 +2,12 @@ State.init({
   selectedTab: props.memberTab || "hackers",
 });
 
-const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "No account ID";
-}
-
 if (props.memberTab && props.memberTab !== state.selectedTab) {
   State.update({
     selectedTab: props.memberTab,
   });
 }
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const accountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=people`;
 
 const Wrapper = styled.div`
