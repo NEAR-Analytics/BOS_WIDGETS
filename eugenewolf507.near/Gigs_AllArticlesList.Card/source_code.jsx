@@ -80,38 +80,40 @@ const ModalStyles = styled.div`
   border-radius: .375rem;
 `;
 
-const ShareButtonWrapper = styled.div`
-  .button {
-    display: inline-flex;
-    align-items: center;
+const ShareButtonWrapper = styled.div` 
+.button {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
-    gap: 8px;
-    padding: 8px 16px;
-    height: 32px;
-    border-radius: 100px;
-    font-weight: 600;
+    align-items: center;
+    gap: 0.5em;
+    white-space: nowrap;
+    width: max-content;
+    padding: 4px 20px;
     font-size: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    line-height: 24px;
     text-align: center;
-    cursor: pointer;
-    background-color: transparent;
-    border: 0;
-    color: #11181c !important;
-
+    border: 1px solid transparent;
+    color: #11181c;
+    background: #ffd50d;
+    border-color: #ffd50d;
+    
     &:hover,
     &:focus {
       text-decoration: none;
-      outline: none;
-    }
-
-    i {
-      color: #000;
-    }
-
-    .bi-16 {
-      font-size: 21px;
+      opacity: 0.85;
     }
   }
 `;
+
+const shareOnClickHandler = () => {
+  console.log("sadfjghasdjha");
+  clipboard.writeText(shareUrl).then(() => {
+    State.update({ copiedShareUrl: true });
+  });
+};
 // ========== JSX ICONS ==========
 const ShareText = () => (
   <>
@@ -151,31 +153,28 @@ const Modal = ({ onClose, children }) => {
                 }}
               >
                 {state.copiedShareUrl ? (
-                  <i className="bi-16 bi bi-check"></i>
+                  <Widget src="eugenewolf507.near/widget/CheckIcon" />
                 ) : (
-                  <i className="bi-16 bi-link-45deg"></i>
-                )}
+                  <Widget src="eugenewolf507.near/widget/ShareIcon" />
+                )}{" "}
+                Share
               </button>
             </ShareButtonWrapper>
           </OverlayTrigger>
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-          >
-            <Widget
-              src="nui.sking.near/widget/Input.Button"
-              props={{
-                children: <ShareText />,
-                variant: "primary",
-                size: "sm",
-                onClick: () => {
-                  clipboard.writeText(shareUrl).then(() => {
-                    State.update({ copiedShareUrl: true });
-                  });
-                },
-              }}
-            />
-          </OverlayTrigger>
+
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
+            props={{
+              children: <Widget src="eugenewolf507.near/widget/CloseIcon" />,
+              variant: "primary icon",
+              size: "sm",
+              buttonProps: "button",
+              onClick: () => {
+                onClose;
+              },
+            }}
+          />
+
           <span
             role="button"
             onClick={onClose}
