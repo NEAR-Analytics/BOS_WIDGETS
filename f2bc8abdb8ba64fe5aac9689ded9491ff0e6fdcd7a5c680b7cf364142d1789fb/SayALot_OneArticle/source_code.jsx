@@ -131,6 +131,8 @@ const getArticleData = () => {
   return args;
 };
 
+console.log(articlesIndex);
+
 function getNewArticleId() {
   let newArticle =
     blockHeight == "now"
