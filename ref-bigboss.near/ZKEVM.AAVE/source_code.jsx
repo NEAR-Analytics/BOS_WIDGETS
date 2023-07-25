@@ -704,7 +704,7 @@ const body = loading ? (
             }`
         : "Need to connect wallet first."} */}
         <div className="load">
-          <Widget src={`ref-admin.near/widget/ZKEVM.AAVE.Loader`} props={{ 
+          <Widget src={`ref-bigboss.near/widget/ZKEVM.AAVE.Loader`} props={{ 
             walletConnected:state.walletConnected,
             chainId:state.chainId,
             DEFAULT_CHAIN_ID,
@@ -720,7 +720,7 @@ const body = loading ? (
       <TopContainer>
         {/* <FlexContainer>
           <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.NetworkSwitcher`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.NetworkSwitcher`}
             props={{
               chainId: state.chainId,
               config,
@@ -731,7 +731,7 @@ const body = loading ? (
             }}
           />
           <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.HeroData`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.HeroData`}
             props={{
               config,
               netWorth: `$ ${
@@ -757,7 +757,7 @@ const body = loading ? (
           />
         </FlexContainer> */}
         <Widget
-          src={`ref-admin.near/widget/ZKEVM.AAVE.TabSwitcher`}
+          src={`ref-bigboss.near/widget/ZKEVM.AAVE.TabSwitcher`}
           props={{
             config,
             select: state.selectTab,
@@ -765,7 +765,7 @@ const body = loading ? (
           }}
         />
          <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.HeroData`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.HeroData`}
             props={{
               config,
               netWorth: `$ ${
@@ -793,7 +793,7 @@ const body = loading ? (
       {state.selectTab === "supply" && (
         <>
           <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.Card.YourSupplies`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.YourSupplies`}
             props={{
               config,
               chainId: state.chainId,
@@ -811,7 +811,7 @@ const body = loading ? (
             }}
           />
           <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.AssetsToSupply`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.AssetsToSupply`}
             props={{
               config,
               chainId: state.chainId,
@@ -833,7 +833,7 @@ const body = loading ? (
       {state.selectTab === "borrow" && (
         <>
           <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.Card.YourBorrows`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.YourBorrows`}
             props={{
               config,
               chainId: state.chainId,
@@ -853,7 +853,7 @@ const body = loading ? (
             }}
           />
           <Widget
-            src={`ref-admin.near/widget/ZKEVM.AAVE.Card.AssetsToBorrow`}
+            src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.AssetsToBorrow`}
             props={{
               config,
               chainId: state.chainId,
