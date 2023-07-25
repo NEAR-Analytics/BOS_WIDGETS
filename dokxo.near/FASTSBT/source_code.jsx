@@ -14,6 +14,7 @@ State.init({
   ischeckselected: false,
   Submitdisable: true,
 });
+const MAX_SAFE_INTEGER = 2e53 - 1;
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
 ).body;
@@ -65,6 +66,7 @@ border-radius: 10px;
  
 }
 `;
+
 const CustomCheckbox = styled.div`
  width:20px;
  height:20px;
@@ -188,7 +190,7 @@ return (
     <div class="ModalCard">
       <div class="Header">
         <img src={NDCicon} />
-        <label class="Headerlabel">FAST-SBT</label>
+        <label class="Headerlabel">SBT DAO minter</label>
       </div>
       <div class="CardStyled" name="card">
         <div class=" BodyForm mx-auto">
@@ -306,6 +308,23 @@ return (
                         <option value="1">1</option>
                         <option value="2">2</option>
                       </select>
+                    </div>
+                  </div>
+
+                  <div class="Metarow" name="Classid">
+                    <div class="MetaTitles">{"Class id"}</div>
+                    <div>
+                      <input
+                        class="Dropdown"
+                        type="number"
+                        min={1}
+                        max={MAX_SAFE_INTEGER}
+                        value={state.ClassIdSelected}
+                        onChange={(e) => {
+                          State.update({ ClassIdSelected: e.target.value });
+                          validatedInputs();
+                        }}
+                      ></input>
                     </div>
                   </div>
                   {/* <div class="Metarow">
