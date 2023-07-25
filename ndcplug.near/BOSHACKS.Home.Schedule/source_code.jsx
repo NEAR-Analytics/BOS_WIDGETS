@@ -64,7 +64,7 @@ const TimelineText = styled.p`
 const schedule = [
   {
     url: "https://nearbuilders.com/tg-builders",
-    day: "Day--, August 11:",
+    day: "Friday, August 11:",
     subtitle: "Hackathon Kick-Off",
   },
   {
@@ -73,7 +73,7 @@ const schedule = [
     subtitle: "Hackathon Submission",
   },
   {
-    url: "https://nearbuilders.com/tg-builders",
+    url: "https://build.boshacks.com/bos-hacks/hacker-manual/judges",
     day: "Monday, August 28th:",
     subtitle: "Judging Starts",
   },
@@ -89,9 +89,9 @@ return (
     <Container>
       <Flex>
         <TimelineContainer>
-          <h5>
+          <h3>
             <b>🗓️ Hackathon Schedule:</b> Virtual
-          </h5>
+          </h3>
           {schedule.map((schedule) => (
             <TimelineItem>
               <TimelineText>
@@ -101,6 +101,15 @@ return (
             </TimelineItem>
           ))}
         </TimelineContainer>
+        <h5>
+          <b>
+            🔗{" "}
+            <a href="https://nearbuilders.com/build-calendar" target="_blank">
+              Add
+            </a>{" "}
+            to Calendar
+          </b>
+        </h5>
       </Flex>
       <br />
     </Container>
