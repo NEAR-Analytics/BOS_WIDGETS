@@ -686,11 +686,11 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 const AAVEContainer = styled.div`
   width:750px;
   margin:0 auto;
-`
+`;
 // Component body
 const body = loading ? (
   <>
@@ -703,14 +703,17 @@ const body = loading ? (
               getNetworkConfig(DEFAULT_CHAIN_ID).chainName
             }`
         : "Need to connect wallet first."} */}
-        <div className="load">
-          <Widget src={`ref-bigboss.near/widget/ZKEVM.AAVE.Loader`} props={{ 
-            walletConnected:state.walletConnected,
-            chainId:state.chainId,
+      <div className="load">
+        <Widget
+          src={`ref-bigboss.near/widget/ZKEVM.AAVE.Loader`}
+          props={{
+            walletConnected: state.walletConnected,
+            chainId: state.chainId,
             DEFAULT_CHAIN_ID,
             getNetworkConfig,
-          }} />
-        </div>
+          }}
+        />
+      </div>
     </Body>
   </>
 ) : (
@@ -764,31 +767,31 @@ const body = loading ? (
             setSelect: (tabName) => State.update({ selectTab: tabName }),
           }}
         />
-         <Widget
-            src={`ref-bigboss.near/widget/ZKEVM.AAVE.HeroData`}
-            props={{
-              config,
-              netWorth: `$ ${
-                state.assetsToBorrow?.netWorthUSD
-                  ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
-                  : "-"
-              }`,
-              netApy: `${
-                state.assetsToBorrow?.netAPY
-                  ? Number(
-                      Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                    ) === 0
-                    ? "0.00"
-                    : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                  : "-"
-              }%`,
-              healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
-              showHealthFactor:
-                state.yourBorrows &&
-                state.yourBorrows.debts &&
-                state.yourBorrows.debts.length > 0,
-            }}
-          />
+        <Widget
+          src={`ref-bigboss.near/widget/ZKEVM.AAVE.HeroData`}
+          props={{
+            config,
+            netWorth: `$ ${
+              state.assetsToBorrow?.netWorthUSD
+                ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
+                : "-"
+            }`,
+            netApy: `${
+              state.assetsToBorrow?.netAPY
+                ? Number(
+                    Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+                  ) === 0
+                  ? "0.00"
+                  : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+                : "-"
+            }%`,
+            healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
+            showHealthFactor:
+              state.yourBorrows &&
+              state.yourBorrows.debts &&
+              state.yourBorrows.debts.length > 0,
+          }}
+        />
       </TopContainer>
       {state.selectTab === "supply" && (
         <>
