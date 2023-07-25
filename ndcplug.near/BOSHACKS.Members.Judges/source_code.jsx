@@ -7,6 +7,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  font: arial;
 
   & > div {
     width: 25%;
@@ -28,56 +29,56 @@ const Container = styled.div`
 const judges = [
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreihqiwouklh6qwvsino2hzvh5g5gakit3wwmqkq7b6yjaus3yqaeui",
     name: "Kendall Cole",
-    org: "Proximity Labs",
+    org: "Co-Founder Proximity Labs",
     accountId: "",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreifmj6kdalupps7henvxaivzeokjjxq7rgmfkthxv5w6ikuxfqe3oa",
     name: "Tiffany Gao",
-    org: "Pagoda",
+    org: "Product @ Pagoda",
     accountId: "tiffany.near",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreic7einkd37nctfqnphe6outp3p2dqlkf7lgozujcmecxggeqjuo7m",
     name: "Josh Ford",
-    org: "Pagoda",
+    org: "DevEx @ Pagoda",
     accountId: "joshua.near",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreid6oubaatprc764rdgtdzqczcohpj3ilugznxzjz2jsupnobz3uae",
     name: "Damian Parrino",
     org: "Pagoda",
     accountId: "",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreies4jyoz6oovc6ufjk5fs3m3shjexzymrdcsrb3p22uwzmwqcydmu",
     name: "Gautham Ravi",
     org: "Pagoda",
     accountId: "root.near",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreidtsghfvilu5zvz6jkyeaulhe7bdpowunp7cdw3cfgwuvct74y6g4",
     name: "Samuel Henriquez",
     org: "Urbit Foundation",
     accountId: "",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreigxnzkbaal7c3gaxqga6tslcssteekj5gu75hmi6z6635m6e4i7k4",
     name: "Web3Plug",
     org: "The Crypto Streets",
     accountId: "ndcplug.near",
   },
   {
     image:
-      "https://paras.id/_next/image?url=https%3A%2F%2Fparas-ipfs.paras.id%2Fbeefc56481ea7b4697fd9c04606a1c10b238e4d9&w=3840&q=75",
+      "https://ipfs.near.social/ipfs/bafkreiawtewwoi2msc7bmelnplu4wwewxsjf2acbfw7777ayddtzxnieuu",
     name: "James Waugh",
     org: "Build DAO",
     accountId: "james.near",
@@ -94,20 +95,19 @@ const ContainerCard = styled.div`
   gap: 0.625em;
   background: #ffffff;
   border-radius: 16px;
+  font: arial;
 
   h3 {
     color: var(--black, #000);
     font-size: 1.3rem;
-    font-family: FK Grotesk;
     font-style: normal;
     font-weight: 700;
     line-height: 2.5rem;
   }
 
   p {
-    color: var(--green, #00ec97);
+    color: var(--blue, #6393F8);
     font-size: 0.875rem;
-    font-family: Mona Sans;
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
