@@ -451,14 +451,14 @@ const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 return (
   <>
     <Widget
-      src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
+      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
       props={{
         title: `Supply ${symbol}`,
         onRequestClose: onRequestClose,
         children: (
           <WithdrawContainer>
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
               props={{
                 title: "Amount",
                 config,
@@ -499,7 +499,7 @@ return (
             </div>
             
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
               props={{
                 title: "Transaction Overview",
                 config,
@@ -567,7 +567,7 @@ return (
               />
             </div>
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
               props={{
                 config,
                 children: `Supply ${symbol}`,
