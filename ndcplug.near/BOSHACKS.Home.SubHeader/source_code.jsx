@@ -29,7 +29,6 @@ const Text = styled.div`
   }
 
   h2 {
-    font-family: "Mona Sans";
     font-style: normal;
     font-weight: 500;
     font-size: 1.625em;
@@ -38,7 +37,6 @@ const Text = styled.div`
   }
 
   p {
-    font-family: "Mona Sans";
     font-style: normal;
     font-weight: 500;
     font-size: 0.9em;
@@ -47,7 +45,6 @@ const Text = styled.div`
   }
 
   ul {
-    font-family: "Mona Sans";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
