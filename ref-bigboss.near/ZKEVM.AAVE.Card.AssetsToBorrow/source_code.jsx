@@ -29,7 +29,7 @@ State.init({
 
 const BorrowButton = ({ data }) => (
   <Widget
-    src={`ref-bigboss.near/widget/ZKEVM.AAVE.PrimaryButton`}
+    src={`ref-admin.near/widget/ZKEVM.AAVE.PrimaryButton`}
     props={{
       config,
       children: "Borrow",
@@ -60,13 +60,13 @@ const AlertContainer = styled.div`
 return (
   <>
     <Widget
-      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsView`}
+      src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsView`}
       props={{
         config,
         style: {
           marginTop: "10px",
         },
-        title: "Assets to Borrow",
+        title: "Assets to borrow",
         body: (
           <>
             {showAlert && (
@@ -86,7 +86,7 @@ return (
             )}
             {!debts || debts.length === 0 ? (
               <Widget
-                src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
+                src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
                 props={{
                   config,
                   children: "Nothing borrowed yet",
@@ -100,10 +100,6 @@ return (
                     src={`${config.ownerId}/widget/AAVE.Card.CardContainer`}
                     props={{
                       children: [
-                        <Widget
-                          src={`${config.ownerId}/widget/AAVE.Card.Divider`}
-                          props={{ config }}
-                        />,
                         <Widget
                           src={`${config.ownerId}/widget/AAVE.Card.CardsBody`}
                           props={{
@@ -177,19 +173,19 @@ return (
                 ))}
                 {/* pc view */}
                 <Widget
-                  src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsTable`}
+                  src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsTable`}
                   props={{
                     config,
                     headers: [
                       "Asset",
                       "Available to borrow",
-                      "APY(variable)",
+                      "APY, variable",
                       "",
                     ],
                     data: debts.map((row) => {
                       return [
                         <Widget
-                          src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
+                          src={`ref-admin.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
                           props={{
                             children: [
                               <img
@@ -229,7 +225,7 @@ return (
     />
     {showBorrowModal && (
       <Widget
-        src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
+        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
         props={{
           config,
           onRequestClose: () => setShowBorrowModal(false),
