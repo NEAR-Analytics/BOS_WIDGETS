@@ -117,6 +117,38 @@ const partners = [
       "https://ipfs.near.social/ipfs/bafkreibh4jzae37fo6cpvasg7e6qxfmxjuku5mi3lfow4tni2why632gei",
   },
   {
+    url: "https://marmaj.org/",
+    name: "MarmaJ",
+    image:
+      "https://pbs.twimg.com/profile_images/1621907418467663877/JcB4OAXp_400x400.jpg",
+  },
+  {
+    url: "https://nearpad.dev",
+    name: "Jutsu",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreidzmgel7mlhidphpbxhcsxol2lj6u6rd2kfcw5rqd2wyemthjffdi",
+  },
+  {
+    url: "https://twitter.com/NEAR_Toronto",
+    name: "NEAR Toronto",
+    image:
+      "https://pbs.twimg.com/profile_images/1658115879584911362/cLLS-pig_400x400.jpg",
+  },
+
+  {
+    url: "https://wuipod.transistor.fm/",
+    name: "Wuipod",
+    image:
+      "  https://ipfs.near.social/ipfs/bafybeib7z5q7rn4uwtelo36r4yp2exspih6cbv66velvpk3o77a3epz3fq",
+  },
+  {
+    url: "https://popula.io",
+    name: "Popula",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreigco2l2zqlehfdmytd6cm3u3v2xc447x3qu3twrcjlo56qeqxvkbu",
+  },
+
+  {
     url: "https://near.foundation",
     name: "NEAR Foundation",
     image:
