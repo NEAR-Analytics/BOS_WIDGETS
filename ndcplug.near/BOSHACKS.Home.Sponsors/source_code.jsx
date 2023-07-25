@@ -18,7 +18,6 @@ const Section = styled.div`
       flex-direction: column;
       color: var(--black, #000);
       font-size: 2rem;
-      font-family: FK Grotesk;
       font-weight: 500;
     }
 
