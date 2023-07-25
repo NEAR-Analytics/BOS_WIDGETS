@@ -55,6 +55,7 @@ const Input = styled.div`
   border-radius: 4px;
   color: #101828;
   width: 100%;
+  font-size: 14px;
 `;
 
 const Placeholder = styled.span`
@@ -82,6 +83,7 @@ const Content = styled.div`
   border-radius: 4px;
   background: #ffffff;
   z-index: 3 !important;
+  font-size: 14px;
 
   /* &[data-state="open"] { */
   /*   animation: ${scaleOut} 0.2s ease-in-out; */
