@@ -36,7 +36,7 @@ const availableLiquidityAmount = Big(availableLiquidity)
   .div(Big(10).pow(decimals))
   .toFixed();
 
-  const WithdrawContainer = styled.div`
+const WithdrawContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -155,7 +155,7 @@ State.init({
 });
 
 function updateGas() {
-  if (symbol === config.nativeCurrency.symbol) {
+  if (["ETH", "WETH"].includes(symbol)) {
     withdrawETHGas().then((value) => {
       State.update({ gas: value });
     });
@@ -297,7 +297,7 @@ function allowanceForGateway(tokenAddress) {
  * @returns
  */
 function getNewHealthFactor(chainId, address, asset, action, amount) {
-  const url = `${config.AAVE_API_BASE_URL}/${chainId}/health/${address}`;
+  const url = `https://aave-api.pages.dev/${chainId}/health/${address}`;
   return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
 }
 
@@ -368,7 +368,7 @@ const updateNewHealthFactor = debounce(() => {
         "withdraw",
         state.amountInUSD
       ).then((response) => {
-        const newHealthFactor = formatHealthFactor(response.body);
+        const newHealthFactor = formatHealthFactor(JSON.parse(response.body));
         State.update({ newHealthFactor });
       });
     });
@@ -406,46 +406,46 @@ const disabled =
 
 return (
   <Widget
-    src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
+    src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
     props={{
       title: `Withdraw ${symbol}`,
       onRequestClose: props.onRequestClose,
       children: (
         <WithdrawContainer>
           <Widget
-            src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+            src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
             props={{
               title: "Amount",
               config,
               children: (
                 <>
-                <InputContainer>
-                   <TokenTexture>
-                     <Input
-                       type="number"
-                       value={state.amount}
-                       onChange={(e) => {
-                         changeValue(e.target.value);
-                       }}
-                       placeholder="0"
-                     />
-                   </TokenTexture>
-                   <TokenWrapper>
-                       <img
-                         width={26}
-                         height={26}
-                         src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
-                       />
-                       <TokenTexture>{symbol}</TokenTexture>
-                     </TokenWrapper>
-                </InputContainer>
-                <BalanceContainer>
-                   <GrayTexture>${state.amountInUSD}</GrayTexture>
-                   <GrayTexture>
-                     Balance: <span className="balanceValue" onClick={() => {changeValue(shownMaxValue);}}>{Big(underlyingBalance).toFixed(3, ROUND_DOWN)}</span>
-                   </GrayTexture>
-                 </BalanceContainer>
-             </>
+                   <InputContainer>
+                      <TokenTexture>
+                        <Input
+                          type="number"
+                          value={state.amount}
+                          onChange={(e) => {
+                            changeValue(e.target.value);
+                          }}
+                          placeholder="0"
+                        />
+                      </TokenTexture>
+                      <TokenWrapper>
+                          <img
+                            width={26}
+                            height={26}
+                            src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
+                          />
+                          <TokenTexture>{symbol}</TokenTexture>
+                        </TokenWrapper>
+                   </InputContainer>
+                   <BalanceContainer>
+                      <GrayTexture>${state.amountInUSD}</GrayTexture>
+                      <GrayTexture>
+                        Balance: <span className="balanceValue" onClick={() => {changeValue(shownMaxValue);}}>{Big(underlyingBalance).toFixed(3, ROUND_DOWN)}</span>
+                      </GrayTexture>
+                    </BalanceContainer>
+                </>
               ),
             }}
           />
@@ -453,7 +453,7 @@ return (
                <div className="splitLine"></div>
             </div>
           <Widget
-            src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+            src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
             props={{
               title: "Transaction Overview",
               config,
@@ -462,7 +462,7 @@ return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <PurpleTexture>Remaining Supply</PurpleTexture>,
+                      left: <WhiteTexture>Remaining Supply</WhiteTexture>,
                       right: (
                         <WhiteTexture>
                           {remainingSupply} {symbol}
@@ -473,7 +473,7 @@ return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <PurpleTexture>Health Factor</PurpleTexture>,
+                      left: <WhiteTexture>Health Factor</WhiteTexture>,
                       right: (
                         <div style={{ textAlign: "right" }}>
                           <GreenTexture>
@@ -496,7 +496,7 @@ return (
               ),
             }}
           />
-           <div className="splitDiv">
+          <div className="splitDiv">
               <div className="splitLine"></div>
           </div>
           <div style={{display:'flex',justifyContent:'flex-end'}}> 
@@ -505,9 +505,10 @@ return (
               props={{ gas: state.gas, config }}
             />
           </div>
-          {state.needApprove && symbol === config.nativeCurrency.symbol && (
+          
+          {state.needApprove && symbol === "ETH" && (
             <Widget
-              src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
+              src={`ref-admin.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
               props={{
                 config,
                 loading: state.loading,
@@ -534,9 +535,9 @@ return (
               }}
             />
           )}
-          {!(state.needApprove && symbol === config.nativeCurrency.symbol) && (
+          {!(state.needApprove && symbol === "ETH") && (
             <Widget
-              src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
+              src={`ref-admin.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
               props={{
                 config,
                 loading: state.loading,
@@ -550,7 +551,7 @@ return (
                           .mul(Big(10).pow(decimals))
                           .toFixed(0, ROUND_DOWN);
                   const shownAmount = state.amount;
-                  if (symbol === config.nativeCurrency.symbol) {
+                  if (symbol === "ETH" || symbol === "WETH") {
                     // supply weth
                     withdrawETH(actualAmount, shownAmount);
                   } else {
