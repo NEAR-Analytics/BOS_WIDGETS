@@ -288,6 +288,12 @@ const content = (
       icon: home,
       iconSelected: homeSelected,
     })}
+    {navItem({
+      text: "People",
+      id: "people",
+      icon: speakers,
+      iconSelected: speakersSelected,
+    })}
     <NavItem href="https://nearbuilders.com/boshacks" target="-blank">
       {hackathon}
       <span>Manual</span>
