@@ -509,6 +509,13 @@ const banners = {
 };
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+
   & > h2 {
     color: var(--ui-elements-dark, #11181c);
     text-align: center;
@@ -566,7 +573,6 @@ const Container = styled.div`
 
 const Row = styled.div`
   display: flex;
-  padding: 0rem 0rem 1.5rem 0rem;
   align-items: center;
   gap: 1.375rem;
 
@@ -589,6 +595,10 @@ const Row = styled.div`
     & > div {
       width: 50%;
     }
+  }
+
+  p {
+    margin-bottom: 0 !important;
   }
 `;
 
@@ -661,7 +671,7 @@ const RegisterButton = styled.a`
 `;
 
 const registerButton = ({ text, href }) => (
-  <RegisterButton href={href ?? `${ownerId}/widget/Onboarding.Page`}>
+  <RegisterButton href={href ?? `/${ownerId}/widget/Onboarding.Page`}>
     {text}
   </RegisterButton>
 );
@@ -720,7 +730,7 @@ const Card = styled.div`
         color: var(--ui-elements-dark, #11181c);
         font-weight: 400;
         font-size: 0.75rem;
-        font-family: Mona-Sans;
+        font-family: "Mona Sans";
         line-height: 1.1rem;
         letter-spacing: 0.0075rem;
       }
@@ -729,7 +739,7 @@ const Card = styled.div`
     & > p {
       color: #000;
       font-size: 1rem;
-      font-family: Mona-Sans;
+      font-family: "Mona Sans";
       line-height: 130%;
       letter-spacing: 0.01rem;
     }
