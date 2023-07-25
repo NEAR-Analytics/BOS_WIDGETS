@@ -29,11 +29,11 @@ return (
   <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
     <h1 style={{ fontWeight: 800, opacity: 1 }}>BIG3 Pick 'Em Leaderboard</h1>
     <p style={{ fontWeight: 400, opacity: 0.5 }}>
-      Accounts marked in green are currently in the top 10 and in position for a
-      prize.
+      Top 30 accounts shown. If you don't see your username, make better picks
+      this week.
     </p>
     {leaderboard.length > 0 &&
-      leaderboard.map((user, i) => (
+      leaderboard.slice(0, 30).map((user, i) => (
         <div
           style={{
             display: "flex",
