@@ -256,8 +256,6 @@ if (isActonBridge) {
   const finalList = hintList.filter((t) => !!t.matched);
 
   onLoad(finalList);
-
-  return <div />;
 }
 if (isActionSwap) {
   const hintList = mapSwapTokens.map((token) => {
@@ -320,8 +318,6 @@ if (isActionSwap) {
   const finalList = hintList.filter((t) => !!t.matched);
 
   onLoad(finalList);
-
-  return <div />;
 }
 
 if (isActionSupply) {
@@ -346,7 +342,7 @@ if (isActionSupply) {
     };
   });
   onLoad(list);
-  return <div />;
+  return;
 }
 
 if (isActionBorrow) {
@@ -371,7 +367,7 @@ if (isActionBorrow) {
     };
   });
   onLoad(list);
-  return <div />;
+  return;
 }
 
 if (isActionRepay) {
@@ -397,7 +393,7 @@ if (isActionRepay) {
   });
   onLoad(list);
 
-  return <div />;
+  return;
 }
 
 return <div />;
