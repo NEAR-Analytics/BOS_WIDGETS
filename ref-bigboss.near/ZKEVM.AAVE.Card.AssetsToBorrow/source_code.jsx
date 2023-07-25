@@ -29,7 +29,7 @@ State.init({
 
 const BorrowButton = ({ data }) => (
   <Widget
-    src={`ref-admin.near/widget/ZKEVM.AAVE.PrimaryButton`}
+    src={`ref-bigboss.near/widget/ZKEVM.AAVE.PrimaryButton`}
     props={{
       config,
       children: "Borrow",
@@ -60,7 +60,7 @@ const AlertContainer = styled.div`
 return (
   <>
     <Widget
-      src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsView`}
+      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsView`}
       props={{
         config,
         style: {
@@ -86,7 +86,7 @@ return (
             )}
             {!debts || debts.length === 0 ? (
               <Widget
-                src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
+                src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
                 props={{
                   config,
                   children: "Nothing borrowed yet",
@@ -173,7 +173,7 @@ return (
                 ))}
                 {/* pc view */}
                 <Widget
-                  src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsTable`}
+                  src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsTable`}
                   props={{
                     config,
                     headers: [
@@ -185,7 +185,7 @@ return (
                     data: debts.map((row) => {
                       return [
                         <Widget
-                          src={`ref-admin.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
+                          src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
                           props={{
                             children: [
                               <img
@@ -225,7 +225,7 @@ return (
     />
     {showBorrowModal && (
       <Widget
-        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
+        src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
         props={{
           config,
           onRequestClose: () => setShowBorrowModal(false),
