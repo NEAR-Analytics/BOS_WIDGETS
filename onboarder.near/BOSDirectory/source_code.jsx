@@ -207,6 +207,15 @@ const social = {
         "A feed of vibe checks and DAO dashboard for global network of tastemakers w/ SBT + NFT integration",
       category: ["NFT", "NEAR", "Social"],
     },
+    {
+      key: 10,
+      name: "BOS HACKS",
+      url: "https://boshacks.com/",
+      image:
+        "https://ipfs.io/ipfs/bafkreifx6figu3o7xurc3coshzfewhcujczl62emuf3g4gof4ftjbqkvhi",
+      description: "BOS HACKS gateway and hackathon platform",
+      category: ["Hackathon", "NEAR", "Social"],
+    },
   ],
 };
 
