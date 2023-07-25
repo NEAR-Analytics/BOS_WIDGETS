@@ -405,7 +405,6 @@ return (
                         "font-size": "10px",
                       }}
                     >
-                      {"["}
                       <a
                         style={{
                           color: state.Referencelink_json
@@ -416,7 +415,6 @@ return (
                       >
                         valid json
                       </a>
-                      {"] "}
                     </div>
                   </div>
                   <div class="Metarow">
@@ -452,6 +450,24 @@ return (
                   validatedInputs();
                 }}
               />
+              <div
+                style={{
+                  "justify-content": " end",
+                  gap: "1rem",
+                  margin: "4px 2px 0px",
+                  display: "flex",
+                  "font-size": "10px",
+                }}
+              >
+                <a
+                  style={{
+                    color: state.Memo.length < 200 ? "#008500" : "#FF0000",
+                    "font-size": "10px",
+                  }}
+                >
+                  {state.Memo.length + 0} of 200
+                </a>
+              </div>
             </div>
           </div>
         </div>
