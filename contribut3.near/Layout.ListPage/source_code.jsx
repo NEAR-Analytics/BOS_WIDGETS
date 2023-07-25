@@ -70,7 +70,7 @@ State.init({
 });
 
 if (!state.itemsIsFetched) {
-  asyncFetch(`https://api-op3o.onrender.com/data/${entity}?${url()}`).then(
+  asyncFetch(`https://api-staging-fur7.onrender.com/data/${entity}?${url()}`).then(
     ({ body: items }) => State.update({ items, itemsIsFetched: true })
   );
 
