@@ -67,12 +67,12 @@ if (!state.votingPowerIsFetched) {
         accumulator + parseInt(lockingPosition.voting_power),
       0
     );
-    const votingPowerYocto = votingPower.toLocaleString("fullwide", {
-      useGrouping: false,
-    });
+
+    const votingPowerYocto =
+      yoctoToNear(votingPower) * "000000000000000000000000";
     console.log("voting power", votingPowerYocto);
     State.update({
-      votingPower: yoctoToNear(votingPowerYocto),
+      votingPower,
       votingPowerYocto,
       votingPowerIsFetched: true,
     });
