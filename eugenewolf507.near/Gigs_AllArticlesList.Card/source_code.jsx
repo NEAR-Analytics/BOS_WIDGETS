@@ -135,9 +135,9 @@ const Modal = ({ onClose, children }) => {
                 }}
               >
                 {state.copiedShareUrl ? (
-                  <Widget src="eugenewolf507.near/widget/CheckIcon" />
+                  <Widget src={`${authorForWidget}/widget/CheckIcon`} />
                 ) : (
-                  <Widget src="eugenewolf507.near/widget/ShareIcon" />
+                  <Widget src={`${authorForWidget}/widget/ShareIcon`} />
                 )}{" "}
                 Share
               </button>
@@ -147,7 +147,7 @@ const Modal = ({ onClose, children }) => {
           <Widget
             src="nui.sking.near/widget/Input.Button"
             props={{
-              children: <Widget src="eugenewolf507.near/widget/CloseIcon" />,
+              children: <Widget src={`${authorForWidget}/widget/CloseIcon`} />,
               variant: "primary icon",
               size: "sm",
               buttonProps: "button",
