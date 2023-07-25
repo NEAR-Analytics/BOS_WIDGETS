@@ -33,7 +33,12 @@ function getLastEditionsByArticle() {
     accountId: undefined,
   });
 
-  const oldFormatArticlesData = [["ayelen.near", 96927579]];
+  const oldFormatArticlesData = isDebug
+    ? [["ayelen.near", 96927579]]
+    : [
+        ["fiftycent.near", 97322138],
+        ["blaze.near", 97255023],
+      ];
   let oldFormatArticles = [];
 
   for (let i = 0; i < oldFormatArticlesData.length; i++) {
