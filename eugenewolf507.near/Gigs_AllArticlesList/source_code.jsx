@@ -1,4 +1,4 @@
-//TODO !!!!!! update authorForWidget
+//TODO !!!!!! update authorForWidget and authorsWhitelist!!!
 // const authorForWidget = "neardigitalcollective.near";
 const authorForWidget = "eugenewolf507.near";
 const accountId = props.accountId ?? context.accountId;
@@ -14,6 +14,15 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "eugenewolf507.near",
   "inc4social.near",
 ];
+// const authorsWhitelist = props.writersWhiteList ?? [
+//   "neardigitalcollective.near",
+//   "blaze.near",
+//   "jlw.near",
+//   "kazanderdad.near",
+//   "joep.near",
+//   "sarahkornfeld.near",
+//   "yuensid.near",
+// ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 const statusTagsArr = ["open", "claimed", "closed"];
@@ -194,7 +203,7 @@ return (
     <div class="row gx-2 d-flex flex-nowrap">
       {statusTagsArr.map((tag) => (
         <div class="col">
-          <div class="border border-dark rounded-2 px-3 pb-3">
+          <div class="border border-dark rounded-2 px-3 px-xl-4">
             <div className="row card-group">
               <h4 className="pt-2 text-center">{capitalize(tag)}</h4>
               {state[tag].length > 0 &&
