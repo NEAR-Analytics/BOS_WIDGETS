@@ -1,5 +1,5 @@
 const ownerId = "contribut3.near";
-const urlPrefix = "https://api-op3o.onrender.com/data";
+const urlPrefix = "https://api-staging-fur7.onrender.com/data";
 
 const Row = styled.div`
   display: flex;
