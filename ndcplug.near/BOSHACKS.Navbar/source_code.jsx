@@ -195,7 +195,6 @@ const Info = styled.div`
   flex: none;
   order: 0;
   align-self: stretch;
-  font-family: "Mona Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 1em;
