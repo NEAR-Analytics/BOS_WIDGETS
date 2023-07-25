@@ -33,7 +33,7 @@ return (
           onClick={() => {
             State.update({ accountId: state.accountIdVal });
             handleFilter({
-              accountId: accountIdVal,
+              accountId: state.accountIdVal,
             });
           }}
         >
@@ -62,7 +62,7 @@ return (
           onClick={() => {
             State.update({ tag: state.tagVal });
             handleFilter({
-              tag: tagVal,
+              tag: state.tagVal,
             });
           }}
         >
