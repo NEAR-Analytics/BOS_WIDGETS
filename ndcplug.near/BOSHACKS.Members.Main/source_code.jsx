@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "hackers",
+  selectedTab: props.memberTab || "hackers",
 });
 
 const accountId = props.accountId ?? context.accountId;
@@ -7,17 +7,17 @@ if (!accountId) {
   return "No account ID";
 }
 
-if (props.tab && props.tab !== state.selectedTab) {
+if (props.memberTab && props.memberTab !== state.selectedTab) {
   State.update({
-    selectedTab: props.tab,
+    selectedTab: props.memberTab,
   });
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=people&memberTab=${selectedTab}`;
 
 const Wrapper = styled.div`
-  padding-bottom: 48px;
+  padding-bottom: 8px;
 `;
 
 const Main = styled.div`
@@ -51,16 +51,6 @@ const BackgroundImage = styled.div`
 
   @media (max-width: 1024px) {
     height: 100px;
-  }
-`;
-
-const SidebarWrapper = styled.div`
-  position: relative;
-  z-index: 5;
-  margin-top: -55px;
-
-  @media (max-width: 1024px) {
-    margin-top: -40px;
   }
 `;
 
@@ -132,25 +122,6 @@ const TabsButton = styled.a`
   }
 `;
 
-const Bio = styled.div`
-  color: #11181c;
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 48px;
-
-  > *:last-child {
-    margin-bottom: 0 !important;
-  }
-
-  @media (max-width: 900px) {
-    margin-bottom: 48px;
-  }
-`;
-
-if (profile === null) {
-  return "Loading";
-}
-
 return (
   <Wrapper>
     <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Header`} />
@@ -158,21 +129,21 @@ return (
     <Content>
       <Tabs>
         <TabsButton
-          href={`${accountUrl}&tab=hackers`}
+          href={`${accountUrl}&memberTab=hackers`}
           selected={state.selectedTab === "hackers"}
         >
           Hackers
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}&tab=judges`}
+          href={`${accountUrl}&memberTab=judges`}
           selected={state.selectedTab === "judges"}
         >
           Judges
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}&tab=mentors`}
+          href={`${accountUrl}&memberTab=mentors`}
           selected={state.selectedTab === "mentors"}
         >
           Mentors
@@ -181,7 +152,7 @@ return (
 
       {state.selectedTab === "hackers" && (
         <>
-          <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Judges`} />
+          <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Hackers`} />
         </>
       )}
 
