@@ -46,18 +46,23 @@ const PlayerDashboard = () => {
     flex-direction: column;
     padding: 1rem;
     margin: 0.5rem;
-    width: 65%;
+    width: 100%;
     height: fit-content;
   `;
 
   const TroopDataList = styled.ul`
     padding: 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   `;
 
   const TroopDetailItem = styled.li`
       list-style: inside url(data:image/gif;base64,R0lGODlhEAAQAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAAQABAAQAIOlI+py+0Po5y02ouzPgUAOw==) square;
-    font-size: 0.9rem;
+    font-size: .9rem;
     padding: 0.3rem;
+    text-wrap: nowrap;
   `;
 
   return (
@@ -79,7 +84,7 @@ const PlayerDashboard = () => {
             power: unit.metadata.title.split("|")[1].trim(),
           };
           return (
-            <TroopDataContainer>
+            <TroopDataContainer className="col-sm">
               <TroopDataList>
                 <TroopDetailItem>ID:{unit.token_id}</TroopDetailItem>
                 <TroopDetailItem>Type:{unit.unit_type}</TroopDetailItem>
