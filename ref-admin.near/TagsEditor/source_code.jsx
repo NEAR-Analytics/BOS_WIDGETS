@@ -108,7 +108,25 @@ const getTags = () => {
   //   name: t[0],
   //   count: t[1],
   // }));
-  return [{name: 'Dex'}, {name: 'Trading'}, {name: 'Liquidity Staking'}, {name: 'Yield Aggregators'}, {name: 'Lending'}, {name: 'Wallets'}, {name: 'Expolorers'}, {name: 'Insurance'}, {name: 'Stablecoins'}, {name: 'Derivatives'}, {name: 'NFT marketplace'}, {name: 'Collectibles'}, {name: 'Bridges'}]
+  return [
+    { name: "Dex" },
+    { name: "Trading" },
+    { name: "Liquidity Staking" },
+    { name: "Yield Aggregators" },
+    { name: "Lending" },
+    { name: "Wallets" },
+    { name: "Expolorers" },
+    { name: "Insurance" },
+    { name: "Stablecoins" },
+    { name: "Derivatives" },
+    { name: "NFT marketplace" },
+    { name: "Collectibles" },
+    { name: "Bridges" },
+    { name: "Liquidity manager" },
+    { name: "Bridge" },
+    { name: "Polygon ZkEvm" },
+    { name: "Ethereum" },
+  ];
 };
 
 if (!state.allTags) {
