@@ -209,12 +209,12 @@ return (
     <div className="tableTitle">Active Liquidity</div>
     <Wrapper>
       <Widget
-        src="ref-admin.near/widget/ZKEVM.gamma-zkevm-table"
+        src="ref-bigboss.near/widget/ZKEVM.gamma-zkevm-table"
         props={{ handlePairClick, poolsData, userPositions }}
       />
 
       <Widget
-        src="ref-admin.near/widget/ZKEVM.gamma-zkevm-vault"
+        src="ref-bigboss.near/widget/ZKEVM.gamma-zkevm-vault"
         props={{ pair: activePair, refetch: postRefetch }}
       />
     </Wrapper>
