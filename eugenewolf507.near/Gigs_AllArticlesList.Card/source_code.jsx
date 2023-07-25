@@ -1,4 +1,4 @@
-State.init({ copiedShareUrl: false });
+State.init({ copiedShareUrl: true });
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 const authorForWidget = "eugenewolf507.near";
@@ -112,6 +112,17 @@ const ShareButtonWrapper = styled.div`
     }
   }
 `;
+// ========== JSX ICONS ==========
+const ShareText = () => (
+  <>
+    {state.copiedShareUrl ? (
+      <Widget src="eugenewolf507.near/widget/CheckIcon" />
+    ) : (
+      <Widget src="eugenewolf507.near/widget/ShareIcon" />
+    )}
+    Share
+  </>
+);
 
 // ========== JSX MODAL ==========
 const Modal = ({ onClose, children }) => {
@@ -147,12 +158,30 @@ const Modal = ({ onClose, children }) => {
               </button>
             </ShareButtonWrapper>
           </OverlayTrigger>
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
+          >
+            <Widget
+              src="nui.sking.near/widget/Input.Button"
+              props={{
+                children: <ShareText />,
+                variant: "primary",
+                size: "sm",
+                onClick: () => {
+                  clipboard.writeText(shareUrl).then(() => {
+                    State.update({ copiedShareUrl: true });
+                  });
+                },
+              }}
+            />
+          </OverlayTrigger>
           <span
             role="button"
             onClick={onClose}
             style={{ fontSize: "1.5rem", width: "2rem", textAlign: "center" }}
           >
-            &times;
+            <Widget src="eugenewolf507.near/widget/CloseIcon" />
           </span>
         </div>
         {children}
@@ -165,6 +194,18 @@ const Modal = ({ onClose, children }) => {
 return (
   <CardWrapper key={article.articleId}>
     <Card>
+      <Modal onClose={closeModalHandler}>
+        <Widget
+          src={`${authorForWidget}/widget/Gigs_AllArticlesList.OneArticle`}
+          props={{
+            article,
+            statusChangeHandler,
+            statusTagsArr,
+            doesUserCanChangeStatus,
+            closeModalHandler,
+          }}
+        />
+      </Modal>
       {cardWithOpenModal === article.articleId && (
         <Modal onClose={closeModalHandler}>
           <Widget
