@@ -17,7 +17,7 @@ State.init({
 
 const WithdrawButton = ({ data }) => (
   <Widget
-    src={`ref-admin.near/widget/ZKEVM.AAVE.PrimaryButton`}
+    src={`ref-bigboss.near/widget/ZKEVM.AAVE.PrimaryButton`}
     props={{
       config,
       children: "Withdraw",
@@ -32,7 +32,7 @@ const WithdrawButton = ({ data }) => (
 return (
   <>
     <Widget
-      src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsView`}
+      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsView`}
       props={{
         config,
         style: {
@@ -42,7 +42,7 @@ return (
         body:
           !yourSupplies || yourSupplies.length === 0 ? (
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
               props={{
                 config,
                 children: "Nothing supplied yet",
@@ -124,14 +124,14 @@ return (
               ))}
               {/* pcView */}
               <Widget
-                src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsTable`}
+                src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsTable`}
                 props={{
                   config,
                   headers: ["Asset", "Supply Balance", "Supply APY", ""],
                   data: yourSupplies.map((row) => {
                     return [
                       <Widget
-                        src={`ref-admin.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
+                        src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
                         props={{
                           children: [
                             <img
@@ -164,7 +164,7 @@ return (
     />
     {showWithdrawModal && (
       <Widget
-        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.WithdrawModal`}
+        src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.WithdrawModal`}
         props={{
           config,
           chainId,
