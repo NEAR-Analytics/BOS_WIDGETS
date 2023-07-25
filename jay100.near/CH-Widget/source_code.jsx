@@ -25,6 +25,25 @@ const slide_data = [
   },
 ];
 
+const button_data = [
+  {
+    title: "Play Now",
+    link: "https://pd.marmaj.org/cryptoheroes",
+  },
+  {
+    title: "TestNet",
+    link: "https://pd-testnet.marmaj.org/cryptoheroes",
+  },
+  {
+    title: "Wiki",
+    link: "https://github.com/MarmaJFoundation/cryptoheroes-wiki/wiki",
+  },
+  {
+    title: "NFT",
+    link: "https://mitntbase.xyz/",
+  },
+];
+
 const Title = styled.h5`
   color: #fff;
   font-weight: 700;
@@ -229,6 +248,14 @@ const Wiki = [
   },
 ];
 
+const isUserRegistered = Near.view(
+  "pixeltoken.near",
+  "ch_is_player_registered",
+  {
+    account_id: context.accountId,
+  }
+);
+
 return (
   <div
     style={{
@@ -257,11 +284,7 @@ return (
           src={`https://user-images.githubusercontent.com/93423666/240491905-685f6374-7997-4426-aa18-968a7377d866.png`}
         />
       </a>
-      <Widget
-        src="jay100.near/widget/CTTDescription"
-        props={wiki_description}
-      />{" "}
-      <Widget src="jay100.near/widget/Carousel" props={slide_data} />
+
       <div style={{ marginBottom: "20px", width: "100%" }}>
         <div
           style={{
@@ -272,19 +295,15 @@ return (
         ></div>
       </div>
     </Hero>
-    <CardList>
-      {Mainnet.map((widget, index) => (
-        <WidgetCard
-          key={index}
-          coverSrc={WidgetImages[index].url}
-          description=""
-          actionButtons={[
-            { label: "Play", url: widget.url },
-            { label: "Test", url: Testnet[index].url },
-            { label: "Wiki", url: Wiki[index].url },
-          ]}
-        />
-      ))}
-    </CardList>
+    <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />{" "}
+    <Widget src="jay100.near/widget/Carousel" props={slide_data} />
+    {isUserRegistered ? (
+      <>
+        <Widget src="jay100.near/widget/CH-Dashboard" />
+        <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
+      </>
+    ) : (
+      <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
+    )}{" "}
   </div>
 );
