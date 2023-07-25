@@ -159,7 +159,7 @@ const renderCategory = (categoryId) => {
       <div class="container">
         <div className="row ">
           {item.components.map((comp, i) => (
-            <div class="col-6 mb-2">
+            <div class="w-100 mb-2">
               <Widget
                 key={i}
                 src="mob.near/widget/WidgetMetadata"
@@ -229,10 +229,6 @@ return (
           }}
         />
         <hr className="border-2" />
-        <Widget
-          src="miraclx.near/widget/Attribution"
-          props={{ authors: [ownerId], dep: true }}
-        />
       </div>
       <div class="col-md-9">
         {" "}
