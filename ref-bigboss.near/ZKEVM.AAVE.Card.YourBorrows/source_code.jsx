@@ -30,7 +30,7 @@ const ButtonGroup = styled.div`
 
 const BorrowButton = ({ data }) => (
   <Widget
-    src={`ref-bigboss.near/widget/ZKEVM.AAVE.PrimaryButton`}
+    src={`ref-admin.near/widget/ZKEVM.AAVE.PrimaryButton`}
     props={{
       config,
       children: "Borrow",
@@ -44,7 +44,7 @@ const BorrowButton = ({ data }) => (
 
 const RepayButton = ({ data }) => (
   <Widget
-    src={`ref-bigboss.near/widget/ZKEVM.AAVE.PrimaryButton`}
+    src={`ref-admin.near/widget/ZKEVM.AAVE.PrimaryButton`}
     props={{
       config,
       children: "Repay",
@@ -65,18 +65,18 @@ const { debts, ...yourBorrowsCommonParams } = yourBorrows;
 return (
   <>
     <Widget
-      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsView`}
+      src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsView`}
       props={{
         config,
         style: {
           marginTop: "16px",
         },
-        title: "Your Borrowed",
+        title: "Your borrows",
         body: (
           <>
             {!debts || debts.length === 0 ? (
               <Widget
-                src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
+                src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardEmpty`}
                 props={{
                   config,
                   children: "Nothing borrowed yet",
@@ -168,14 +168,14 @@ return (
                 ))}
                 {/* pc view */}
                 <Widget
-                  src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.CardsTable`}
+                  src={`ref-admin.near/widget/ZKEVM.AAVE.Card.CardsTable`}
                   props={{
                     config,
                     headers: ["Asset", "Debt", "APY", ""],
                     data: debts.map((row) => {
                       return [
                         <Widget
-                          src={`ref-bigboss.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
+                          src={`ref-admin.near/widget/ZKEVM.AAVE.Card.TokenWrapper`}
                           props={{
                             children: [
                               <img
@@ -220,7 +220,7 @@ return (
     />
     {showRepayModal && (
       <Widget
-        src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RepayModal`}
+        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RepayModal`}
         props={{
           config,
           onRequestClose: () => setShowRepayModal(false),
@@ -236,7 +236,7 @@ return (
     )}
     {showBorrowModal && (
       <Widget
-        src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
+        src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BorrowModal`}
         props={{
           config,
           onRequestClose: () => setShowBorrowModal(false),
