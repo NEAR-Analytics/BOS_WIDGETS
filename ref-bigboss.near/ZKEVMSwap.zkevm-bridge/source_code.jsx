@@ -493,7 +493,7 @@ const onUpdateToken = (props) => {
 if (!sender) {
   return (
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-connect"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
         title: "zkEvm-Ethereum Bridge",
         src: "https://assets.ref.finance/images/zkevm-bridge.png",
@@ -510,12 +510,12 @@ if (chainId === undefined) return <div />;
 return (
   <Container>
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
       props={{ tokens }}
     />
 
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-bridge-ui"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-ui"
       props={{
         ...props,
         onConfirm,
