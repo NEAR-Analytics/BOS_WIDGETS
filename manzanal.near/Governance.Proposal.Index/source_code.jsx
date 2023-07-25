@@ -1,6 +1,6 @@
 const contractId = props.contractId || "v005.mpip.near";
 const accountId = props.accountId ?? context.accountId;
-const authorId = "manzanal.near";
+const authorId = props.authorId || "manzanal.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const transactionHashes = props.transactionHashes;
 const transactionHashesIsHandled = props.transactionHashesIsHandled;
@@ -180,7 +180,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 500px;
-  justify-content: start;
+  justify-content: start; 
 `;
 
 const ContentContainer = styled.div`
@@ -216,6 +216,9 @@ const ContentContainer = styled.div`
     font-weight: 600;
     line-height: 1.2;
     color: ${statusColor};
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 const WrapperLeft = styled.div`
@@ -303,6 +306,14 @@ const BackButton = styled.button`
   transform: translate(1em, -1em);
 `;
 
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 768px) {
+    flex-direction: column;  
+  }
+`;
+
 const onStartVotingButtonClick = () => {
   Near.call([
     {
@@ -363,7 +374,7 @@ return (
     <ContentContainer>
       <WrapperLeft>
         {state.proposalIsEditable && isProposalCreator() && (
-          <div className="ms-auto">
+          <ButtonsContainer>
             <Widget
               src={`${authorId}/widget/Common.Button`}
               props={{
@@ -407,7 +418,7 @@ return (
                 variant: "primary",
               }}
             />
-          </div>
+          </ButtonsContainer>
         )}
 
         <div className="d-flex justify-content-end align-items-center">
@@ -454,6 +465,8 @@ return (
             commentItemIndex: commentItemIndex,
             highlightComment: props.highlightComment,
             commentsLimit: props.commentsLimit,
+            authorId,
+            contractId,
           }}
         />
       </WrapperLeft>
@@ -464,6 +477,8 @@ return (
               src={`${authorId}/widget/Governance.Proposal.VoteCard`}
               props={{
                 proposal: { ...state.proposal, status: state.status },
+                authorId,
+                contractId,
               }}
             />
           </div>
@@ -475,6 +490,8 @@ return (
             props={{
               startDate: state.proposal.vote_start_timestamp,
               endDate: state.proposal.vote_end_timestamp,
+              authorId,
+              contractId,
             }}
           />
         </div>
@@ -489,6 +506,8 @@ return (
               isQuorumReached: state.isQuorumReached,
               isProposalSucceeded: state.isProposalSucceeded,
               onVotingPeriod,
+              authorId,
+              contractId,
             }}
           />
         </div>
