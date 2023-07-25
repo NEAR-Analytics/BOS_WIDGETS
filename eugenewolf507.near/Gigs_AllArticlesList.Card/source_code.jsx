@@ -156,14 +156,6 @@ const Modal = ({ onClose, children }) => {
               },
             }}
           />
-
-          <span
-            role="button"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", width: "2rem", textAlign: "center" }}
-          >
-            <Widget src="eugenewolf507.near/widget/CloseIcon" />
-          </span>
         </div>
         {children}
       </ModalStyles>
