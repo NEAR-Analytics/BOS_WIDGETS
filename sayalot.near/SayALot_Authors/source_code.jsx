@@ -13,6 +13,7 @@ const writersWhiteList = [
   "sarahkornfeld.near",
   "yuensid.near",
   "chloe.near",
+  "ozymandius.near",
 ];
 
 const sayALotWorkers = [
