@@ -131,6 +131,16 @@ const getArticleData = () => {
   return args;
 };
 
+function getNewArticleId() {
+  const newArticle = articlesIndex.find(article => article.blockHeight == state.article.blockHeight)
+  
+  if(newArticle) {
+    return newArticleId.value.id
+  } else {
+    return `${context.accountId}-${Date.now()}`
+  }
+}
+
 const composeData = () => {
   const key = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 
@@ -143,6 +153,7 @@ const composeData = () => {
         key: "main",
         value: {
           type: "md",
+          id: `${}`,
         },
       }),
     },
