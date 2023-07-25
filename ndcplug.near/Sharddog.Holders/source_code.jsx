@@ -110,7 +110,11 @@ const loader = (
 
 return (
   <>
-    {showHeader && <h1>Total Holders: {state.tokens.length}</h1>}
+    {showHeader && (
+      <h1>
+        {title}: {state.tokens.length}
+      </h1>
+    )}
 
     <InfiniteScroll
       pageStart={0}
