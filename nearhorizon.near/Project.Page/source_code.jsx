@@ -218,54 +218,6 @@ const GreyButton = styled.a`
   white-space: nowrap;
 `;
 
-const creditsCTA =
-  state.project.application === "NotSubmitted" ||
-    "Rejected" in state.project.application ? (
-    <GreyButton
-      onClick={() =>
-        Near.call(ownerId, "apply_for_program", {
-          account_id: accountId,
-        })
-      }
-    >
-      <svg
-        width="18"
-        height="16"
-        viewBox="0 0 18 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M9.75 2.75C9.75 3.57843 7.90317 4.25 5.625 4.25C3.34683 4.25 1.5 3.57843 1.5 2.75M9.75 2.75C9.75 1.92157 7.90317 1.25 5.625 1.25C3.34683 1.25 1.5 1.92157 1.5 2.75M9.75 2.75V3.875M1.5 2.75V11.75C1.5 12.5784 3.34683 13.25 5.625 13.25M5.625 7.25C5.49859 7.25 5.37351 7.24793 5.25 7.24388C3.14756 7.17499 1.5 6.53246 1.5 5.75M5.625 10.25C3.34683 10.25 1.5 9.57843 1.5 8.75M16.5 7.625C16.5 8.45343 14.6532 9.125 12.375 9.125C10.0968 9.125 8.25 8.45343 8.25 7.625M16.5 7.625C16.5 6.79657 14.6532 6.125 12.375 6.125C10.0968 6.125 8.25 6.79657 8.25 7.625M16.5 7.625V13.25C16.5 14.0784 14.6532 14.75 12.375 14.75C10.0968 14.75 8.25 14.0784 8.25 13.25V7.625M16.5 10.4375C16.5 11.2659 14.6532 11.9375 12.375 11.9375C10.0968 11.9375 8.25 11.2659 8.25 10.4375"
-          stroke="#006adc"
-          stroke-width="1.66667"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      Apply for credits
-    </GreyButton>
-  ) : (
-    <GreyButton disabled>
-      <svg
-        width="18"
-        height="13"
-        viewBox="0 0 18 13"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M17 1L6 12L1 7"
-          stroke="#878a8e"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      Credits requested
-    </GreyButton>
-  );
-
 return (
   <Container>
     <Header>
@@ -281,6 +233,24 @@ return (
                 href={`/${ownerId}/widget/Index?tab=createrequest&accountId=${accountId}`}
               >
                 {plus}Create request
+              </GreyButton>
+              <GreyButton href={`/${ownerId}/widget/Index?tab=partners`}>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 11.2502L6.75 9.00019M9 11.2502C10.0476 10.8517 11.0527 10.3492 12 9.75019M9 11.2502V15.0002C9 15.0002 11.2725 14.5877 12 13.5002C12.81 12.2852 12 9.75019 12 9.75019M6.75 9.00019C7.14911 7.96476 7.65165 6.97223 8.25 6.03769C9.12389 4.64043 10.3407 3.48997 11.7848 2.69575C13.2288 1.90154 14.852 1.48996 16.5 1.50019C16.5 3.54019 15.915 7.12519 12 9.75019M6.75 9.00019H3C3 9.00019 3.4125 6.72769 4.5 6.00019C5.715 5.19019 8.25 6.00019 8.25 6.00019M3.375 12.3752C2.25 13.3202 1.875 16.1252 1.875 16.1252C1.875 16.1252 4.68 15.7502 5.625 14.6252C6.1575 13.9952 6.15 13.0277 5.5575 12.4427C5.26598 12.1644 4.88197 12.0037 4.47917 11.9912C4.07637 11.9787 3.68316 12.1155 3.375 12.3752Z"
+                    stroke="#006ADC"
+                    stroke-width="1.66667"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Apply to accelerator
               </GreyButton>
             </>
           ) : (
