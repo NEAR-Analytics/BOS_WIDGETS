@@ -34,10 +34,36 @@ function getLastEditionsByArticle() {
   });
 
   const oldFormatArticlesData = isDebug
-    ? [["ayelen.near", 96927579]]
+    ? [
+        ["ayelen.near", 96927579],
+        [
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+          96399182,
+        ],
+      ]
     : [
         ["fiftycent.near", 97322138],
         ["blaze.near", 97255023],
+        ["jlw.near", 97250015],
+        ["kazanderdad.near", 96692435],
+        ["blaze.near", 96414482],
+        ["blaze.near", 96412953],
+        ["sarahkornfeld.near", 96402919],
+        ["sarahkornfeld.near", 96402476],
+        ["sarahkornfeld.near", 96402330],
+        ["sarahkornfeld.near", 96401880],
+        ["blaze.near", 95766756],
+        ["blaze.near", 95766700],
+        ["jlw.near", 95705034],
+        ["blaze.near", 95413943],
+        ["blaze.near", 94936576],
+        ["yuensid.near", 94866690],
+        ["sarahkornfeld.near", 94863580],
+        ["blaze.near", 94801223],
+        ["sarahkornfeld.near", 94344236],
+        ["sarahkornfeld.near", 94188387],
+        ["jlw.near", 93986868],
+        ["blaze.near", 92999498],
       ];
   let oldFormatArticles = [];
 
@@ -100,5 +126,7 @@ function getLastEditionsByArticle() {
 
   return finalArticles;
 }
+
+console.log(getLastEditionsByArticle());
 
 return <div>{JSON.stringify(getLastEditionsByArticle())}</div>;
