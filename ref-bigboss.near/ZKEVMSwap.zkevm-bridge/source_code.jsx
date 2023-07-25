@@ -3,10 +3,6 @@ const Container = styled.div`
   gap: 8px;
   width: 560px;
   flex-direction: column;
-  position: fixed;
-  left: 50%;
-  /* top: 50%; */
-  transform: translate(-50%);
 `;
 
 const tokens = [
@@ -151,11 +147,6 @@ const MAX_AMOUNT =
 State.init({
   gasLimit: ethers.BigNumber.from("300000"),
   isToastOpen: false,
-  add: false,
-  onChangeAdd: (add) => {
-    State.update({ add });
-  },
-  hide: true,
 });
 
 const {
@@ -168,16 +159,6 @@ const {
   isToastOpen,
 } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
-
-function add_action(param_body) {
-  asyncFetch("https://bos-api.ref-finance.com/add-action-data", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(param_body),
-  });
-}
 
 const onOpenChange = (v) => {
   State.update({
@@ -266,7 +247,7 @@ const handleBridge = (props) => {
       gasLimit,
     })
     .then((tx) => {
-      consle.log("tx111111:", tx);
+      consle.log("tx:", tx);
     })
     .catch((e) => {
       console.log("bridge error:", e);
@@ -277,25 +258,6 @@ const handleBridge = (props) => {
           title: "Asset bridged",
           description:
             "Please allow a few seconds and press the 'refresh list' button",
-        });
-
-        if (!state.add) return;
-
-        const uuid = Storage.get(
-          "zkevm-warm-up-uuid",
-          "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
-        );
-
-        add_action({
-          action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "ZKEVM"
-          }`,
-          action_type: "Bridge",
-          action_tokens: JSON.stringify([`${token.symbol}`]),
-          action_amount: amount,
-          account_id: sender,
-          account_info: uuid,
-          template: "ZkEvm-bridge",
         });
       }
     });
@@ -391,14 +353,12 @@ const handlePermit = (props) => {
     ],
   };
 
-  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
-
   const values = {
     deadline: MAX_AMOUNT,
     nonce: state.nonce || 0,
     owner: sender,
     spender: BRIDGE_CONTRACT_ADDRESS,
-    value: amountBig,
+    value: ethers.BigNumber.from(amount),
   };
 
   Ethers.provider()
@@ -460,13 +420,20 @@ const handlePermit = (props) => {
 
       const permit = erc20Iface.encodeFunctionData(
         "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
-        [sender, BRIDGE_CONTRACT_ADDRESS, amountBig, MAX_AMOUNT, v, r, s]
+        [
+          sender,
+          BRIDGE_CONTRACT_ADDRESS,
+          ethers.BigNumber.from(amount),
+          MAX_AMOUNT,
+          v,
+          r,
+          s,
+        ]
       );
 
       console.log("permitData", permit);
       handleBridge({ ...props, permit });
-    })
-    .catch(() => {});
+    });
 };
 
 const approve = (props) => {
@@ -526,7 +493,7 @@ const onUpdateToken = (props) => {
 if (!sender) {
   return (
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-connect"
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
         title: "zkEvm-Ethereum Bridge",
         src: "https://assets.ref.finance/images/zkevm-bridge.png",
@@ -541,41 +508,28 @@ if (!sender) {
 if (chainId === undefined) return <div />;
 
 return (
-  <>
-    <Container>
-      <Widget
-        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
-        props={{ tokens }}
-      />
-
-      <Widget
-        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-ui"
-        props={{
-          ...props,
-          onConfirm,
-          onUpdateToken,
-          onChangeAmount,
-          tokens,
-          chainId,
-          updateChainId: (chainId) => State.update(chainId),
-          updateHide: (hide) => State.update({ hide }),
-        }}
-      />
-
-      <Widget
-        src="ciocan.near/widget/toast"
-        props={{ open: isToastOpen, variant, title, description, onOpenChange }}
-      />
-    </Container>
+  <Container>
+    <Widget
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
+      props={{ tokens }}
+    />
 
     <Widget
-      src="ref-bigboss.near/widget/ZKEVMWarmUp.add-to-quest-card"
+      src="ref-admin.near/widget/ZKEVMSwap.zkevm-bridge-ui"
       props={{
-        add: state.add,
-        onChangeAdd: state.onChangeAdd,
-        hide: state.hide,
-        source: props.source,
+        ...props,
+        onConfirm,
+        onUpdateToken,
+        onChangeAmount,
+        tokens,
+        chainId,
+        updateChainId: (chainId) => State.update(chainId),
       }}
     />
-  </>
+
+    <Widget
+      src="ciocan.near/widget/toast"
+      props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+    />
+  </Container>
 );
