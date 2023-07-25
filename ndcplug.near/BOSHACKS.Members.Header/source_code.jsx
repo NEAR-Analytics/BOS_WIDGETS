@@ -8,7 +8,6 @@ const Container = styled.div`
   background: #000;
 
   h1 {
-    font-family: "FK Grotesk";
     font-style: normal;
     font-weight: 500;
     font-size: 2.5em;
@@ -17,7 +16,6 @@ const Container = styled.div`
   }
 
   p {
-    font-family: "Mona Sans";
     font-style: normal;
     font-weight: 400;
     font-size: 1.25em;
