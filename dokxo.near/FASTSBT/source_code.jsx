@@ -196,7 +196,7 @@ return (
         <div class=" BodyForm mx-auto">
           <div class="Rowcont">
             <div class="Colcont">
-              <h1 class="H1styled">DAO</h1>
+              <h1 class="H1styled">DAO *</h1>
               <input
                 class="InputStyled"
                 type="text"
@@ -209,10 +209,10 @@ return (
               />
             </div>
             <div class="Colcont">
-              <h1 class="H1styled">Issuer</h1>
+              <h1 class="H1styled">Issuer *</h1>
               <select
                 class="Dropdown"
-                placeholder="Input DAO contract address"
+                placeholder="Input DAO contract address "
                 value={state.Issuer_selected}
                 onChange={(e) => {
                   State.update({ Issuer_selected: e.target.value });
@@ -234,7 +234,7 @@ return (
             </div>
             {state.Issuer_selected === "showinput" ? (
               <div class="Colcont">
-                <h1 class="H1styled">Enter issuer</h1>
+                <h1 class="H1styled">Enter issuer *</h1>
                 <input
                   class="InputStyled"
                   type="text"
@@ -250,7 +250,7 @@ return (
               <></>
             )}
             <div class="Colcont">
-              <h1 class="H1styled">Receiver</h1>
+              <h1 class="H1styled">Receiver *</h1>
               <input
                 class="InputStyled"
                 type="text"
@@ -312,7 +312,7 @@ return (
                   </div>*/}
 
                   <div class="Metarow" name="Classid">
-                    <div class="MetaTitles">{"Class id"}</div>
+                    <div class="MetaTitles">{"Class id *"}</div>
                     <div>
                       <input
                         class="Dropdown"
@@ -392,7 +392,7 @@ return (
               <div class="Separator"></div>
             )}
             <div className="d-flex flex-column mt-2">
-              <h1 class="H1styled">Memo</h1>
+              <h1 class="H1styled">Memo *</h1>
               <input
                 class="InputStyled"
                 type="text"
