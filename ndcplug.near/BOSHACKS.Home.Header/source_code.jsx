@@ -8,7 +8,6 @@ const Container = styled.div`
   background: #000;
 
   h1 {
-    font-family: "FK Grotesk";
     font-style: normal;
     font-weight: 500;
     font-size: 2.5em;
@@ -17,7 +16,6 @@ const Container = styled.div`
   }
 
   p {
-    font-family: "Mona Sans";
     font-style: normal;
     font-weight: 400;
     font-size: 1.25em;
@@ -29,7 +27,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    <h1>The 2 week BOS Hackathon on BOS</h1>
+    <h1>The 2 week virtual BOS Hackathon</h1>
     <p>August 11-27, 2023</p>
   </Container>
 );
