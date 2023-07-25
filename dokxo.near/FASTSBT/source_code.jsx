@@ -11,7 +11,7 @@ State.init({
   Referencelink: "",
   Referencehash: "",
   IssuerPropList: props.IssuerList,
-  ischeckselected: false,
+  ischeckselected: true,
   Submitdisable: true,
 });
 const MAX_SAFE_INTEGER = 2e53 - 1;
@@ -266,7 +266,7 @@ return (
           <div className="d-flex flex-column mt-2">
             <div class="d-flex">
               <h1 class="H1styled">Metadata</h1>
-              <CustomCheckbox
+              {/* <CustomCheckbox
                 onClick={() => {
                   State.update({ ischeckselected: !state.ischeckselected });
                   validatedInputs();
@@ -285,12 +285,12 @@ return (
                 ) : (
                   <></>
                 )}
-              </CustomCheckbox>
+              </CustomCheckbox>*/}
             </div>
             {state.ischeckselected ? (
               <div class="MetaCard">
                 <div class="row  col-sm-12  mx-0  gap-1   ">
-                  <div class="Metarow" name="Classid">
+                  {/* <div class="Metarow" name="Classid">
                     <div class="MetaTitles">{"Class id"}</div>
                     <div>
                       <select
@@ -309,7 +309,7 @@ return (
                         <option value="2">2</option>
                       </select>
                     </div>
-                  </div>
+                  </div>*/}
 
                   <div class="Metarow" name="Classid">
                     <div class="MetaTitles">{"Class id"}</div>
