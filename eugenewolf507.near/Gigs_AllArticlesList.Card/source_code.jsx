@@ -148,7 +148,7 @@ const Modal = ({ onClose, children }) => {
             src="nui.sking.near/widget/Input.Button"
             props={{
               children: <Widget src="eugenewolf507.near/widget/CloseIcon" />,
-              variant: "primary outline",
+              variant: "primary icon",
               size: "sm",
               buttonProps: "button",
               onClick: () => {
