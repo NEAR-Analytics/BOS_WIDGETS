@@ -56,7 +56,7 @@ const about = {
 
 const Container = styled.div`
   display: flex;
-  padding: 1.5rem 2rem 3rem 2rem;
+  padding: 2rem 2rem 3rem 2rem;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -132,7 +132,7 @@ const Column = styled.div`
   & > p {
     color: var(--ui-elements-white, #fff);
     font-size: 1rem;
-    font-family: Mona-Sans;
+    font-family: "Mona Sans";
     line-height: 130%;
     letter-spacing: 0.01rem;
   }
@@ -142,7 +142,7 @@ const Column = styled.div`
     width: 100%;
     color: var(--primary-primary-default, #00ec97) !important;
     font-size: 0.875rem;
-    font-family: Mona-Sans;
+    font-family: "Mona Sans";
     line-height: 140%;
     letter-spacing: 0.00875rem;
   }
@@ -158,7 +158,6 @@ return (
           WEB3 FOUNDERS create profiles to boost their projects: post tasks,
           hire experts, get financial support, or get investments
         </p>
-        <a>Learn more</a>
       </Column>
       <Column>
         {about.contributors}
@@ -168,7 +167,6 @@ return (
           experts like you. Offer your services, earn and grow your customers
           base
         </p>
-        <a>Learn more</a>
       </Column>
       <Column>
         {about.backers}
@@ -177,7 +175,6 @@ return (
           BACKERS create profiles to connect with NEAR Ecosystem projects that
           are looking for early investors.
         </p>
-        <a>Learn more</a>
       </Column>
     </div>
     <div>{registerButton({ text: "Create profile" })}</div>
