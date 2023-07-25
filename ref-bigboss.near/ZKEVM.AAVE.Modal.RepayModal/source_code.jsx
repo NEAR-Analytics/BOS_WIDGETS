@@ -478,14 +478,14 @@ function add_action(param_body) {
 return (
   <>
     <Widget
-      src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
+      src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.BaseModal`}
       props={{
         title: `Repay ${symbol}`,
         onRequestClose: onRequestClose,
         children: (
           <RepayContainer>
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
               props={{
                 title: "Amount",
                 config,
@@ -525,7 +525,7 @@ return (
                <div className="splitLine"></div>
             </div>
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
               props={{
                 title: "Transaction Overview",
                 config,
@@ -615,7 +615,7 @@ return (
               />
             </div>
             <Widget
-              src={`ref-admin.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
+              src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
               props={{
                 config,
                 children: `Repay ${symbol}`,
