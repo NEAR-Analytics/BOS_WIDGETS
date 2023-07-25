@@ -13,7 +13,7 @@ let allRolesArray;
 if (policy.roles) {
   policy?.roles?.filter((r) => r.kind !== "Everyone")?.map((r) => r.name);
 }
-console.log(allRolesArray);
+console.log(allRolesArray, policy);
 
 const roles = State.init({
   member_id: state.member_id,
