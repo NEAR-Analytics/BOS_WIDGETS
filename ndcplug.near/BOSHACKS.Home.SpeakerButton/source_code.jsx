@@ -9,7 +9,6 @@ const Anchor = styled.a`
   border: 2px solid #7269e1;
   border-radius: 100px;
   background: #fff;
-  font-family: "FK Grotesk";
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
