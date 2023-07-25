@@ -48,10 +48,6 @@ const data = Social.keys(keys, "final", {
   limit: 1,
 });
 
-if (data === null) {
-  return <p>"Loading"</p>;
-}
-
 const processData = (data) => {
   const accounts = Object.entries(data);
 
