@@ -268,6 +268,7 @@ const composeData = () => {
           key: "main",
           value: {
             type: "md",
+            id: `${context.accountId}-${Date.now()}`,
           },
         }),
       },
@@ -282,6 +283,7 @@ const composeData = () => {
           key: "main",
           value: {
             type: "md",
+            id: `${context.accountId}-${Date.now()}`,
           },
         }),
       },
