@@ -131,13 +131,11 @@ const getArticleData = () => {
   return args;
 };
 
-console.log(articlesIndex);
-
 function getNewArticleId() {
   let newArticle =
     blockHeight == "now"
       ? articlesIndex[0]
-      : articles.find((article) => article.blockHeight == blockHeight);
+      : articlesIndex.find((article) => article.blockHeight == blockHeight);
 
   if (newArticle) {
     return newArticle.value.id;
