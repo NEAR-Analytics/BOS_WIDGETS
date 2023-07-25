@@ -664,7 +664,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
       <SwapMainContainer class="">
         To proceed, kindly switch to {forceNetwork}.
         <Widget
-          src="ref-admin.near/widget/ZKEVMSwap.zkevm-connect"
+          src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-connect"
           props={{
             title: "zkEvm Swap",
             src: "https://assets.ref.finance/images/zkevm-swap.png",
@@ -712,7 +712,7 @@ if (!state.sender || selectedChainId !== 1101) {
 
   return (
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-connect"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
         title,
         src: "https://assets.ref.finance/images/zkevm-swap.png",
@@ -729,7 +729,7 @@ if (!state.sender || selectedChainId !== 1101) {
 return (
   <Theme>
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-dexData"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-dexData"
       props={{
         onLoad: onDexDataLoad,
         NETWORK_ZKSYNC,
@@ -743,7 +743,7 @@ return (
 
     {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
-        src="ref-admin.near/widget/ZKEVMSwap.zkevm-asset-list"
+        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-list"
         props={{
           hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
@@ -763,7 +763,7 @@ return (
     )}
     {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
-        src="ref-admin.near/widget/ZKEVMSwap.zkevm-asset-list"
+        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-list"
         props={{
           hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
@@ -782,7 +782,7 @@ return (
       />
     )}
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-token-data"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-token-data"
       props={{
         tokenId: state.inputAssetTokenId,
         coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
@@ -796,7 +796,7 @@ return (
       }}
     />
     <Widget
-      src="ref-admin.near/widget/ZKEVMSwap.zkevm-token-data"
+      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-token-data"
       props={{
         tokenId: state.outputAssetTokenId,
         coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.outputAssetTokenId],
@@ -950,7 +950,7 @@ return (
     </SwapMainContainer>
 
     <Widget
-      src="ref-admin.near/widget/ZKEVMWarmUp.add-to-quest-card"
+      src="ref-bigboss.near/widget/ZKEVMWarmUp.add-to-quest-card"
       props={{
         guestString: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
         type: "Swap",
