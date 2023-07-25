@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "contribut3.near";
 const title = props.title ?? "List";
 const count = props.count ?? 0;
 const items = props.items ?? [];
