@@ -73,12 +73,6 @@ if (!state.votingPowerIsFetched) {
     console.log("voting power", votingPowerYocto);
     State.update({
       votingPower: yoctoToNear(votingPowerYocto),
-      votingPowerYocto,
-      votingPowerIsFetched: true,
-    });
-
-    State.update({
-      votingPower: yoctoToNear(votingPowerYocto),
       votingPowerYocto:
         yoctoToNear(votingPowerYocto) * "000000000000000000000000",
       votingPowerIsFetched: true,
