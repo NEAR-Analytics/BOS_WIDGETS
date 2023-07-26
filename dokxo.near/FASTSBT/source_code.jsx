@@ -8,7 +8,7 @@ State.init({
   ClassIdSelected: 1,
   IssuedAT: "",
   ExpiresAt: "",
-  Referencelink: "",
+  Referencelink: "  ",
   Referencelink_valid: false,
   Referencelink_json: false,
   Referencehash: "",
@@ -174,30 +174,35 @@ const Submitform = () => {
   }
 };
 
-const validateReference = () => {
+const validateReference = (link) => {
+  console.log("state", state.Referencelink);
+  console.log("param", link);
+
   try {
     if (state.Referencelink.length > 0) {
       //fetch the link
-      const response = fetch(state.Referencelink);
-      console.log("fetch", response);
-      //validate if its a JSON
-      if (response.contentType.trim() === "application/json") {
-        // convert to Uft8 the body content
-        const toUtf8 = ethers.utils.toUtf8Bytes(JSON.stringify(response.body));
-        //Encrypt the Uft8 string into Sha256
-        const encryptSha256 = ethers.utils.keccak256(toUtf8);
-        //parse the sha256 into a base64 string
-        let bodyEncoded = Buffer.from(encryptSha256, "utf-8").toString(
-          "base64"
-        );
-        //modify the state and mark the Rererence as a valid json and fill the reference hash with the
-        // Base64(sha256(bodycontent))
-        State.update({
-          Referencelink_valid: true,
-          Referencelink_json: true,
-          Referencehash: bodyEncoded,
-        });
-      }
+      asyncFetch(state.Referencelink).then((response) => {
+        //validate if its a JSON
+        if (response.contentType.trim() === "application/json") {
+          // convert to Uft8 the body content
+          const toUtf8 = ethers.utils.toUtf8Bytes(
+            JSON.stringify(response.body)
+          );
+          //Encrypt the Uft8 string into Sha256
+          const encryptSha256 = ethers.utils.keccak256(toUtf8);
+          //parse the sha256 into a base64 string
+          let bodyEncoded = Buffer.from(encryptSha256, "utf-8").toString(
+            "base64"
+          );
+          //modify the state and mark the Rererence as a valid json and fill the reference hash with the
+          // Base64(sha256(bodycontent))
+          State.update({
+            Referencelink_valid: true,
+            Referencelink_json: true,
+            Referencehash: bodyEncoded,
+          });
+        }
+      });
     }
   } catch (error) {
     console.log(error);
@@ -322,7 +327,7 @@ return (
                         placeholder="Write your reference (optional)"
                         onChange={(e) => {
                           State.update({ Referencelink: e.target.value });
-                          validateReference();
+                          validateReference(e.target.value);
                         }}
                       />
                     </div>
