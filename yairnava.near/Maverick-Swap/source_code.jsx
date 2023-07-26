@@ -119,13 +119,11 @@ if (state.sender === undefined) {
 const handleSendSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
   getPrice(true, token);
-  //State.update({ tokenSendSelected: token });
 };
 
 const handleRecieveSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
   getPrice(false, token);
-  //State.update({ tokenRecieveSelected: token });
 };
 
 const cantSwap = () => {
@@ -139,7 +137,7 @@ const confirmTransaction = () => {
 };
 
 const css = fetch(
-  "https://raw.githubusercontent.com/yaairnaavaa/zkSyncEraCSS/main/styled.css"
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/widget.css"
 ).body;
 
 if (!css) return "";
@@ -210,9 +208,7 @@ return (
                 value={state.amountInput}
                 onChange={(e) => State.update({ amountInput: e.target.value })}
               />
-              <div class="TokenAmountPreview">
-                {state.amountInput} {state.tokenSendSelected.name}
-              </div>
+              <div class="TokenAmountPreview">Balance: 0</div>
             </div>
           </div>
           <div class="RecieveContainer">
