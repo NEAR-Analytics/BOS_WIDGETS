@@ -474,35 +474,39 @@ return (
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
           {!state.editArticle && (
             <>
-              <div className="pt-2">
+              {!state.viewHistory && (
+                <div className="pt-2">
+                  <Widget
+                    src={`${authorForWidget}/widget/SayALot_TagList`}
+                    props={{ tags: state.article.tags, isDebug }}
+                  />
+                </div>
+              )}
+              {!state.viewHistory && (
                 <Widget
-                  src={`${authorForWidget}/widget/SayALot_TagList`}
-                  props={{ tags: state.article.tags, isDebug }}
-                />
-              </div>
-              <Widget
-                src="mob.near/widget/SocialMarkdown"
-                props={{
-                  text: article.body,
-                  onHashtag: (hashtag) => (
-                    <span
-                      key={hashtag}
-                      className="d-inline-flex"
-                      style={{ fontWeight: 500 }}
-                    >
-                      <a
-                        href={
-                          isDebug
-                            ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
-                            : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
-                        }
+                  src="mob.near/widget/SocialMarkdown"
+                  props={{
+                    text: article.body,
+                    onHashtag: (hashtag) => (
+                      <span
+                        key={hashtag}
+                        className="d-inline-flex"
+                        style={{ fontWeight: 500 }}
                       >
-                        #{hashtag}
-                      </a>
-                    </span>
-                  ),
-                }}
-              />
+                        <a
+                          href={
+                            isDebug
+                              ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
+                              : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
+                          }
+                        >
+                          #{hashtag}
+                        </a>
+                      </span>
+                    ),
+                  }}
+                />
+              )}
             </>
           )}
           {/* === VIEW HISTORY === */}
