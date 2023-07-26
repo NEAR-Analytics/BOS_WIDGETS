@@ -11,17 +11,21 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "james.near",
+  "ndcplug.near",
   "eugenewolf507.near",
   "inc4social.near",
 ];
 // const authorsWhitelist = props.writersWhiteList ?? [
-//   "neardigitalcollective.near",
-//   "blaze.near",
-//   "jlw.near",
-//   "kazanderdad.near",
-//   "joep.near",
-//   "sarahkornfeld.near",
-//   "yuensid.near",
+// "neardigitalcollective.near",
+// "blaze.near",
+// "jlw.near",
+// "kazanderdad.near",
+// "joep.near",
+// "sarahkornfeld.near",
+// "yuensid.near",
+// "james.near",
+// "ndcplug.near",
 // ];
 const sharedArticleId = props.articleId;
 const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
