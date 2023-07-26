@@ -1,9 +1,9 @@
 const ownerId = "ndcplug.near";
 const availableTabs = ["home", "register", "hackathon", "people"];
 const memberTab = props.memberTab ?? "";
+const resourceTab = props.resourceTab ?? "";
 /**
- * Add schedule
- * Add mentors
+ * Add resources, change telegram icon
  */
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
@@ -32,7 +32,7 @@ const tabContentWidget = {
 const tabContent = (
   <Widget
     src={`${ownerId}/widget/${tabContentWidget}`}
-    props={{ update, memberTab }}
+    props={{ update, memberTab, resourceTab }}
   />
 );
 
