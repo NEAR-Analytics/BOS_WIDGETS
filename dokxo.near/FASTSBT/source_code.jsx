@@ -201,7 +201,8 @@ const validateReference = () => {
         "state.Referencelink_json: " + state.Referencelink_json
       );
     }
-  } catch {
+  } catch (error) {
+    console.log(error);
     State.update({
       Referencelink_valid: false,
       Referencelink_json: false,
