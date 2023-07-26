@@ -25,10 +25,47 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1em;
+  width: 100%;
+`;
+
+const Header = styled.div`
+  & > a {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1em;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+    }
+  }
 `;
 
 return (
   <Container>
+    <Header>
+      <Link
+        href={`/${ownerId}/widget/Index?tab=project&accountId=${accountId}`}
+      >
+        <Widget
+          src={`${ownerId}/widget/Project.Icon`}
+          props={{ accountId: props.accountId, size: "30px" }}
+        />
+        <Widget
+          src={`${ownerId}/widget/NameAndAccount`}
+          props={{
+            accountId: props.accountId,
+            name: state.profile.name,
+            nameSize: ".95em",
+            accountSize: ".75em",
+          }}
+        />
+      </Link>
+    </Header>
     <Widget
       src={`${ownerId}/widget/Inputs.Viewable.Title`}
       props={{
