@@ -555,7 +555,7 @@ return (
                 </div>
               </div>
             </th>
-            <th>
+            {/* <th>
               <div className="head_th" onClick={switch_status_select}>
                 Status
                 <span className="arrow" style={{ marginLeft: "5px" }}>
@@ -587,9 +587,9 @@ return (
                   })}
                 </div>
               </div>
-            </th>
+            </th> */}
             <th>Time</th>
-            <th>Tx</th>
+            {/* <th>Tx</th> */}
           </tr>
         </thead>
         <tbody>
@@ -607,13 +607,13 @@ return (
                   ></img>
                   {record.template}
                 </td>
-                <td>
+                {/* <td>
                   <Status status={record.action_status}>
                     {record.action_status}
                   </Status>
-                </td>
+                </td> */}
                 <td>{getTime(record.timestamp)}</td>
-                <td>
+                {/* <td>
                   <Tx>
                     <a href={goTxDetail(record)} target="_blank">{displayTx(record.tx_id)}</a>
                     {record.tx_id ? (
@@ -627,7 +627,7 @@ return (
                       </span>
                     ) : null}
                   </Tx>
-                </td>
+                </td> */}
               </tr>
             );
           })}
