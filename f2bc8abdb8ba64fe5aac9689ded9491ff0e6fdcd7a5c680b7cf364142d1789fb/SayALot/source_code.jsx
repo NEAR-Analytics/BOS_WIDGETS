@@ -11,6 +11,7 @@ let writersWhiteList = [
   "yuensid.near",
   "shubham007.near",
   "fiftycent.near",
+  "ozymandius.near",
 ];
 
 const sayALotWorkers = [
