@@ -1,38 +1,41 @@
-const ResponsiveContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+const Container = styled.div`
+  background-color: #65B667;
+  color: #000;
   padding: 20px;
-  box-sizing: border-box;
-  width: 100%;
-  background: linear-gradient(45deg, #f3ec78, #af4261);
+`;
 
+const Title = styled.h1`
+  color: #fff;
+  font-weight: 700;
+  font-size: 2em;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+`;
 
-  @media screen and (min-width: 576px) {
-    max-width: 540px;
-    margin: auto;
-  }
-
-  @media screen and (min-width: 768px) {
-    max-width: 720px;
-    margin: auto;
-  }
-
-  @media screen and (min-width: 992px) {
-    max-width: 960px;
-    margin: auto;
-  }
-
-  @media screen and (min-width: 1200px) {
-    max-width: 1140px;
-    margin: auto;
-  }
+const Description = styled.p`
+  color: #fff;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 20px;
 `;
 
 return (
-  <ResponsiveContainer>
-    <Widget src="jay100.near/widget/MJG" />
-  </ResponsiveContainer>
+  <Container>
+    <Widget
+      src="jay100.near/widget/CTTDescription"
+      props={{
+        title: "Marma J Gaming",
+        description: `Explore the crypto-based gaming world of Marma J Gaming where you can
+      collaborate artistically with friends, gather your pets for a battle,
+      outfit your hero to explore dungeons and take part in raids, and gather an
+      army to position yourself as the master tactician.`,
+      }}
+    />
+    <Widget src={"shemar268abel.near/widget/PixelParty"} />
+    <Widget src={"ihyshan.near/widget/MJG-Widget"} />
+    <Widget src={"quan15.near/widget/MJG-Widget"} />
+    <Widget src={"jay100.near/widget/CTT-Widget"} />
+    <Widget />
+  </Container>
 );
