@@ -27,10 +27,10 @@ const Btn = styled.button`
   color: ${type === "outline" ? "black" : "rgb(255, 255, 255)"};
   background: ${type === "outline" ? "transparent" : "black"};
   border: ${type === "outline" ? "2px solid black" : "2px solid transparent"};
-  cursor: ${props.disabled ? "not-allowed" : "pointer"}
   &:disabled {
     background: ${type === "outline" ? "transparent" : "black"};
     color: white;
+    cursor: not-allowed
   }
 
   &:hover {
