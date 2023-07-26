@@ -105,7 +105,12 @@ function getLastEditionsByArticle() {
         oldFormatArticleBasicData[1]
       );
 
-      return JSON.parse(article);
+      let articleParsed = JSON.parse(article);
+      if (articleParsed) {
+        articleParsed.blockHeight = oldFormatArticleBasicData[1];
+      }
+
+      return articleParsed;
     }
   );
 
