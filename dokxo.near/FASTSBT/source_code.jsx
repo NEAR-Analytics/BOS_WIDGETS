@@ -115,6 +115,14 @@ const validatedInputs = async () => {
   }
   if (state.ischeckselected === true) {
     console.log("se activo la meta", isEmpty(state.ClassIdSelected));
+    if (state.ClassIdSelected === 0) {
+      State.update({
+        ClassIdSelected: "",
+        error_msg: "Select a token class",
+        Submitdisable: true,
+      });
+      return (isValid = false);
+    }
     if (isEmpty(state.ClassIdSelected) || state.ClassIdSelected === 0) {
       console.log("select toke", isEmpty(state.ClassIdSelected));
       State.update({ error_msg: "Select a token class", Submitdisable: true });
