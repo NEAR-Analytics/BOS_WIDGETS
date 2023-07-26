@@ -114,8 +114,9 @@ const validatedInputs = async () => {
     return (isValid = false);
   }
   if (state.ischeckselected === true) {
-    console.log("se activo la meta", isEmpty(state.ClassIdSelected));
-    if (state.ClassIdSelected === 0) {
+    console.log("se activo la meta", state.ClassIdSelected);
+    if (state.ClassIdSelected === "0") {
+      console.log("se ingresa 0");
       State.update({
         ClassIdSelected: "",
         error_msg: "Select a token class",
@@ -418,15 +419,21 @@ return (
         </div>
         <div class="FooterForm" name="Footerform">
           <div class="Submitcontainer">
-            <SubmitBtn
-              disabled={state.Submitdisable}
-              onClick={() => {
-                Submitform();
-              }}
-            >
-              {" "}
-              Submit{" "}
-            </SubmitBtn>
+            {context.accountId ? (
+              <SubmitBtn
+                disabled={state.Submitdisable}
+                onClick={() => {
+                  Submitform();
+                }}
+              >
+                {" "}
+                Submit{" "}
+              </SubmitBtn>
+            ) : (
+              <SubmitBtn disabled onClick={() => {}}>
+                Connect
+              </SubmitBtn>
+            )}
           </div>
         </div>
       </div>
