@@ -131,6 +131,36 @@ return (
         <div className="d-flex flex-row gap-1">
           <Widget
             src="nui.sking.near/widget/Input.Button"
+            props={{ children: "Button", variant: "info", size }}
+          />
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
+            props={{ children: "Button", variant: "info outline", size }}
+          />
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
+            props={{
+              children: <i className="bi bi-arrow-right" />,
+              variant: "info icon rounded",
+              size,
+            }}
+          />
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
+            props={{
+              children: <i className="bi bi-arrow-right" />,
+              variant: "info outline icon rounded",
+              size,
+            }}
+          />
+        </div>
+      ))}
+    </div>
+    <div className="d-flex flex-column gap-2">
+      {sizes.map((size) => (
+        <div className="d-flex flex-row gap-1">
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
             props={{ children: "Button", variant: "danger", size }}
           />
           <Widget
