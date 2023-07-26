@@ -45,7 +45,11 @@ const processData = (data) => {
 const renderItem = (a) => {
   console.log(`${a.accountId}/thing/artist/`);
   return (
-    <div className="m-1" key={JSON.stringify(a)} style={{ minHeight: "10em" }}>
+    <div
+      className="m-1 mx-3"
+      key={JSON.stringify(a)}
+      style={{ minHeight: "10em" }}
+    >
       <Widget
         src={metadataTemplate}
         props={{
