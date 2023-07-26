@@ -1,4 +1,4 @@
-State.init({ copiedShareUrl: true });
+State.init({ copiedShareUrl: false });
 //TODO !!!!!! update authorForWidget
 // const authorForWidget = "neardigitalcollective.near";
 const authorForWidget = "eugenewolf507.near";
@@ -61,6 +61,10 @@ const MainInfoWrrapper = styled.div`
   border-radius: 6px;
   background: #FFF;
   font-size: 14px;
+  margin-bottom: 16px;
+    @media (min-width: 900px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -80,9 +84,9 @@ const ModalStyles = styled.div`
   border-radius: .375rem;
 `;
 
-const ShareButtonWrapper = styled.div` 
+const ShareButtonWrapper = styled.span` 
 .button {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -108,6 +112,37 @@ const ShareButtonWrapper = styled.div`
   }
 `;
 
+const FooterButtonWrapper = styled.div`
+  display: flex;
+  justify-content: end;
+  gap: 16px;
+`;
+
+// ========== JSX SHARE BUTTON WITH OVERLAY ==========
+const ShareButtonWithOverlay = () => (
+  <ShareButtonWrapper>
+    <button
+      className="button"
+      type="button"
+      onMouseLeave={() => {
+        State.update({ copiedShareUrl: false });
+      }}
+      onClick={() => {
+        clipboard.writeText(shareUrl).then(() => {
+          State.update({ copiedShareUrl: true });
+        });
+      }}
+    >
+      {state.copiedShareUrl ? (
+        <Widget src={`${authorForWidget}/widget/CheckIcon`} />
+      ) : (
+        <Widget src={`${authorForWidget}/widget/ShareIcon`} />
+      )}{" "}
+      Share
+    </button>
+  </ShareButtonWrapper>
+);
+
 // ========== JSX MODAL ==========
 const Modal = ({ onClose, children }) => {
   return (
@@ -117,33 +152,7 @@ const Modal = ({ onClose, children }) => {
           class="d-flex justify-content-between align-items-baseline"
           style={{ padding: "1rem 2rem 0" }}
         >
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-          >
-            <ShareButtonWrapper>
-              <button
-                className="button"
-                type="button"
-                onMouseLeave={() => {
-                  State.update({ copiedShareUrl: false });
-                }}
-                onClick={() => {
-                  clipboard.writeText(shareUrl).then(() => {
-                    State.update({ copiedShareUrl: true });
-                  });
-                }}
-              >
-                {state.copiedShareUrl ? (
-                  <Widget src={`${authorForWidget}/widget/CheckIcon`} />
-                ) : (
-                  <Widget src={`${authorForWidget}/widget/ShareIcon`} />
-                )}{" "}
-                Share
-              </button>
-            </ShareButtonWrapper>
-          </OverlayTrigger>
-
+          <ShareButtonWithOverlay />
           <Widget
             src="nui.sking.near/widget/Input.Button"
             props={{
@@ -181,7 +190,12 @@ return (
           />
         </Modal>
       )}
+      {/* 
+      For the previous behavior when the modal opens on the card click 
+      update div with the role="button" and onClick, delete share and view button
       <div role="button" onClick={() => openModalHandler(article.articleId)}>
+      */}
+      <div>
         <PaddingWrapper>
           <Widget
             src={`nui.sking.near/widget/Typography.Text`}
@@ -221,6 +235,20 @@ return (
           </div>
           <div>Edit versions: {article.version}</div>
         </MainInfoWrrapper>
+        <FooterButtonWrapper>
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
+            props={{
+              children: "View",
+              variant: "secondary outline",
+              size: "sm",
+              onClick: () => {
+                openModalHandler(article.articleId);
+              },
+            }}
+          />
+          <ShareButtonWithOverlay />
+        </FooterButtonWrapper>
       </div>
     </Card>
   </CardWrapper>
