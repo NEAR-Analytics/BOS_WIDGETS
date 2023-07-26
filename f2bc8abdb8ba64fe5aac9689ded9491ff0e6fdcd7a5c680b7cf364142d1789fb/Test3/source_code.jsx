@@ -1,5 +1,6 @@
 const isDebug = props.isDebug;
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const author = props.author;
 
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
@@ -31,36 +32,33 @@ const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 function getLastEditionsByArticle() {
   const allArticles = Social.index(addressForArticles, "main", {
     order: "desc",
-    accountId: undefined,
+    accountId: author,
   });
 
   const oldFormatArticlesTestBasicDataArray = [
     [
-      [
-        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-        97325392,
-      ],
-      [
-        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-        97317287,
-      ],
-      ["blaze.near", 97314358],
-      ["ayelen.near", 96927579],
-      ["kenrou-it.near", 96924422],
-      [
-        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-        96879470,
-      ],
-      [
-        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-        96878182,
-      ],
-      [
-        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-        96643643,
-      ],
-      ["silkking.near", 96491128],
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+      97325392,
     ],
+    [
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+      97317287,
+    ],
+    ["ayelen.near", 96927579],
+    ["kenrou-it.near", 96924422],
+    [
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+      96879470,
+    ],
+    [
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+      96878182,
+    ],
+    [
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+      96643643,
+    ],
+    ["silkking.near", 96491128],
   ];
 
   const oldFormatArticlesMainBasicDataArray = [
@@ -90,16 +88,23 @@ function getLastEditionsByArticle() {
     ["blaze.near", 92999498],
   ];
 
-  const oldFormatArticlesDataArray = isDebug
+  const oldFormatArticlesBasicDataArray = isDebug
     ? oldFormatArticlesTestBasicDataArray
     : oldFormatArticlesMainBasicDataArray;
 
-  let oldFormatArticlesArray = oldFormatArticlesDataArray.map(
-    (oldFormatArticleData) => {
+  if (author) {
+    oldFormatArticlesBasicDataArray = oldFormatArticlesBasicDataArray.filter(
+      (articleBasicData) => articleBasicData[0] === author
+    );
+  }
+
+  let oldFormatArticlesArray = oldFormatArticlesBasicDataArray.map(
+    (oldFormatArticleBasicData) => {
       let article = Social.get(
-        `${oldFormatArticleData[0]}/${addressForArticles}/main`,
-        oldFormatArticleData[1]
+        `${oldFormatArticleBasicData[0]}/${addressForArticles}/main`,
+        oldFormatArticleBasicData[1]
       );
+
       return JSON.parse(article);
     }
   );
@@ -121,7 +126,7 @@ function getLastEditionsByArticle() {
         (newArticleData) => newArticleData.value.id
       );
       return (
-        JSON.stringify(articleData) !== JSON.stringify(latestEditForThisArticle)
+        JSON.stringify(articleData) === JSON.stringify(latestEditForThisArticle)
       );
     }
   );
@@ -153,4 +158,4 @@ function getLastEditionsByArticle() {
 
 console.log(getLastEditionsByArticle());
 
-return <div>{JSON.stringify(getLastEditionsByArticle())}</div>;
+return <div>{JSON.stringify(getLastEditionsByArticle().length)}</div>;
