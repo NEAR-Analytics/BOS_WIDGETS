@@ -121,24 +121,8 @@ const validatedInputs = async () => {
       State.update({ error_msg: "Select a token class", Submitdisable: false });
       return (isValid = true);
     }
-
-    /* if (isEmpty(state.IssuedAT)) {
-      State.update({ error_msg: "pic an issued date", Submitdisable: true });
-      return (isValid = false);
-    }
-    if (isEmpty(state.ExpiresAt)) {
-      State.update({ error_msg: "pic an expires date", Submitdisable: true });
-      return (isValid = false);
-    }    if (!isEmpty(state.Referencehash)) {
-      return (isValid = false);
-    }*/
-    return (isValid = false);
   }
 
-  if (isEmpty(state.Memo)) {
-    State.update({ error_msg: "Write the memo", Submitdisable: true });
-    return (isValid = false);
-  }
   State.update({ Submitdisable: false });
   return (isValid = true);
 };
@@ -217,7 +201,7 @@ return (
         <div class=" BodyForm mx-auto">
           <div class="Rowcont">
             <div class="Colcont">
-              <h1 class="H1styled">DAO *</h1>
+              <h1 class="H1styled">Minter DAO *</h1>
               <input
                 class="InputStyled"
                 type="text"
@@ -287,57 +271,17 @@ return (
           <div className="d-flex flex-column mt-2">
             <div class="d-flex">
               <h1 class="H1styled">Metadata</h1>
-              {/* <CustomCheckbox
-                onClick={() => {
-                  State.update({ ischeckselected: !state.ischeckselected });
-                  validatedInputs();
-                }}
-              >
-                {state.ischeckselected ? (
-                  <img
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      "object-fit": "cover",
-                      "vertical-align": " initial",
-                    }}
-                    src={CheckIcon}
-                  />
-                ) : (
-                  <></>
-                )}
-              </CustomCheckbox>*/}
             </div>
             {state.ischeckselected ? (
               <div class="MetaCard">
                 <div class="row  col-sm-12  mx-0  gap-1   ">
-                  {/* <div class="Metarow" name="Classid">
-                    <div class="MetaTitles">{"Class id"}</div>
-                    <div>
-                      <select
-                        class="Dropdown"
-                        value={state.ClassIdSelected}
-                        onChange={(e) => {
-                          State.update({ ClassIdSelected: e.target.value });
-                          validatedInputs();
-                        }}
-                      >
-                        <option default value="">
-                          Select token class id
-                        </option>
-                        {}
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </div>
-                  </div>*/}
-
                   <div class="Metarow" name="Classid">
                     <div class="MetaTitles">{"Class id *"}</div>
                     <div>
                       <input
                         class="Dropdown"
                         type="number"
+                        placeholder="write the class id"
                         min={1}
                         max={MAX_SAFE_INTEGER}
                         value={state.ClassIdSelected}
@@ -348,35 +292,7 @@ return (
                       ></input>
                     </div>
                   </div>
-                  {/* <div class="Metarow">
-                    {" "}
-                    <div class="AFDates" name="AFdates">
-                      <div class="DateContItem">
-                        <div class="MetaTitles">{"Issued at"}</div>
-                        <input
-                          class="FormInput"
-                          type="date"
-                          value={state.IssuedAT}
-                          onChange={(e) => {
-                            State.update({ IssuedAT: e.target.value });
-                            validatedInputs();
-                          }}
-                        />
-                      </div>
-                      <div class="DateContItem">
-                        <div class="MetaTitles">{"Expires at"}</div>
-                        <input
-                          class="FormInput"
-                          type="date"
-                          value={state.ExpiresAt}
-                          onChange={(e) => {
-                            State.update({ ExpiresAt: e.target.value });
-                            validatedInputs();
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div> */}
+
                   <div class="Metarow">
                     <div class="MetaTitles">
                       {"Reference = link to a JSON file (eg, IPFS)."}
@@ -441,7 +357,7 @@ return (
               <div class="Separator"></div>
             )}
             <div className="d-flex flex-column mt-2">
-              <h1 class="H1styled">Memo *</h1>
+              <h1 class="H1styled">Memo </h1>
               <input
                 class="InputStyled"
                 type="text"
