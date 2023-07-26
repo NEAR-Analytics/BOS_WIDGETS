@@ -95,6 +95,15 @@ return (
                 },
               }}
             />
+
+            <Widget
+              src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
+              props={{
+                onClick: () => {},
+                disabled: false,
+                text: "Stake now",
+              }}
+            />
           </Footer>
         </Content>
       </Dialog.Content>
