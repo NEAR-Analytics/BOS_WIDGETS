@@ -83,16 +83,13 @@ return (
                 <CloseButton href="/">Close</CloseButton>
               </Dialog.Close>
             )}
-
             <Widget
-              src={`${authorId}/widget/Common.Button`}
+              src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
               props={{
-                children: <>Ok</>,
-                href: href,
-                variant: "success",
                 onClick: () => {
                   onClose();
                 },
+                text: "Close",
               }}
             />
           </Footer>
