@@ -29,13 +29,6 @@ const Container = styled.div`
 const judges = [
   {
     image:
-      "https://ipfs.near.social/ipfs/bafkreigla4huhv2flyu5jyjemtf3fa6lhu5vnpixnrszhw3346ihofaefm",
-    name: "Evgeny Kuzyakov",
-    org: "Founder @ NEAR.Social",
-    accountId: "mob.near",
-  },
-  {
-    image:
       "https://ipfs.near.social/ipfs/bafkreicahodss6wyvssxbiewergh2ewk6wsnsvqftaktjbff6mcbtp6g3e",
     name: "Alan Estrada",
     org: "Open Web Academy",
