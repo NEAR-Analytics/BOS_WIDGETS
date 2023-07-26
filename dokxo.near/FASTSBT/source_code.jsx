@@ -5,7 +5,7 @@ State.init({
   Issuer_selected: null,
   Issuer_filled: "",
   Receiver: "",
-  ClassIdSelected: 1,
+  ClassIdSelected: "",
   IssuedAT: "",
   ExpiresAt: "",
   Referencelink: "  ",
@@ -175,9 +175,6 @@ const Submitform = () => {
 };
 
 const validateReference = (link) => {
-  console.log("state", state.Referencelink);
-  console.log("param", link);
-
   try {
     if (state.Referencelink.length > 0) {
       //fetch the link
