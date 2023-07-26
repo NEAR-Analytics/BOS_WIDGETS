@@ -530,6 +530,7 @@ return (
             src={"rodrigos.near/widget/popUp"}
             props={{
               open: state.openModal,
+              onClose: () => State.update({ openModal: true }),
             }}
           />
         </>
