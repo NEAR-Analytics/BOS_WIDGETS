@@ -605,7 +605,7 @@ return (
             Button: {
               text: `+${data.comments[0].upvotes ?? 0}`,
               disabled: !state.verified || context.accountId === candidate,
-              className: "secondary dark",
+              className: `${state.voted ? "primary" : "secondary"} dark`,
               onClick: handleUpVote,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
             },
