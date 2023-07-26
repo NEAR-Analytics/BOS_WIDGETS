@@ -362,56 +362,9 @@ const TagSection = styled.div`
   flex-wrap: wrap;
   overflow: hidden;
 `;
-
-const CommentButtonDisabled = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  b
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
-const CommentButtonDiv = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  b
-  border-radius: 80px;
-  background-image: linear-gradient(#f8f8f9, #f8f8f9),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 4px;
-`;
-const CommentButtonCounter = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
-const CommentButtonIcon = styled.img`
-  width: 14px;
-  height: 14px;
-`;
-
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
-`;
-
-const Dropbtn = styled.button`
-  background-color: #4caf50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
 `;
 
 const DropdownContent = styled.div`
