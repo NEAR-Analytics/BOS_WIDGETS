@@ -2,7 +2,6 @@ const authorId = props.authorId || "manzanal.near";
 const title = props.title || "Success!";
 const description =
   props.description || "Proposal created successfully. Going back Home";
-const href = props.href || `/${authorId}/widget/Governance.Index?tab=home`;
 const showClose = props.showClose || false;
 const onClose = props.onClose || (() => {});
 const Overlay = styled.div`
