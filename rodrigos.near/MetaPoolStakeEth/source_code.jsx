@@ -530,7 +530,7 @@ return (
             src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
             props={{
               open: state.openModal,
-              onClose: () => State.update({ openModal: true }),
+              onClose: () => State.update({ openModal: false }),
             }}
           />
         </>
