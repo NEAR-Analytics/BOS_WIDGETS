@@ -1,4 +1,4 @@
-const { proposal, council, ftList, widgetProvider, voteExpired } = props;
+const { proposal, council, ftList, widgetProvider, voteExpired, parent } = props;
 const userAccountId = context.accountId;
 
 const item = {
@@ -10,7 +10,6 @@ const comments = Social.index("comment", item);
 const totalComments = comments?.length || 0;
 
 const defaultHeight = "370px";
-const dataLoading = props.hideCount ? false : comments === null;
 
 State.init({
   showClipboardTooltip: false,
@@ -18,6 +17,10 @@ State.init({
   displayComments: false,
   height: defaultHeight,
 });
+let args;
+if(proposal.proposal.kind.actions && proposal.proposal.kind.actions[0].args) {
+  args = proposal.proposal.kind.actions[0].args;
+}
 
 const formatCountdown = (seconds) => {
   const d = Math.floor(seconds / (24 * 3600));
@@ -288,7 +291,8 @@ const getTimeLeft = (proposal) => {
 };
 
 function copy(proposal_id) {
-  const link = `https://near.social/#/${widgetProvider}/widget/NDC-Page?tab=proposal&proposal_id=${proposal_id}`;
+  const parentWidget = parent?parent:'NDC-Page';
+  const link = `https://near.org/#/${widgetProvider}/widget/${parentWidget}?tab=proposal&proposal_id=${proposal_id}&selected_dao=${proposal.dao_id}`;
 
   return () => {
     State.update({ showClipboardTooltip: true });
@@ -310,19 +314,6 @@ const VoteOnProposal = (
     }}
   />
 );
-
-const CommunityDiscussion = (
-  <Widget
-    src={`${widgetProvider}/widget/NDC-proposal-community-discussion`}
-    props={{
-      account: state.selectedDao,
-      widgetProvider,
-      proposal_id: proposal.proposal_id,
-      daoId: proposal.dao_id,
-    }}
-  />
-);
-/*<PropInfos>{CommunityDiscussion}</PropInfos>*/
 return (
   <>
     {proposal && council ? (
@@ -428,17 +419,17 @@ return (
               <span style={{ marginLeft: "5px" }}>
                 <a
                   href={`https://explorer.near.org/accounts/${
-                    proposal.proposal.kind[proposal.proposal_type].member_id
+                    proposal.proposal.kind.member_id
                   }`}
                   target="_blank"
                 >
-                  {proposal.proposal.kind[proposal.proposal_type].member_id}
+                  {proposal.proposal.kind.member_id}
                 </a>
                 will be
                 {proposal.proposal_type === "AddMemberToRole"
                   ? "added to the"
                   : "removed from the"}{" "}
-                role {proposal.proposal.kind[proposal.proposal_type].role}
+                role {proposal.proposal.kind.role}
               </span>
             </div>
           </InfoWrapper>
@@ -475,6 +466,19 @@ return (
         ) : (
           ""
         )}
+
+        {args && <div style={{position:'relative', display:'block'}}><Markdown
+            // Decode the args (Base64) to String then Parse the Json then format it and display it as markdown code
+            text={
+                "```json\n" +
+                JSON.stringify(
+                    JSON.parse(Buffer.from(args, "base64").toString("utf8")),
+                    null,
+                    2
+                ) +
+                "\n```"
+            }
+        /></div>}
       </ProposalCard>
     ) : (
       ""
