@@ -8,7 +8,7 @@ State.init({
   ClassIdSelected: "",
   IssuedAT: "",
   ExpiresAt: "",
-  Referencelink: "  ",
+  Referencelink: "",
   Referencelink_valid: false,
   Referencelink_json: false,
   Referencehash: "",
