@@ -163,15 +163,7 @@ function handleFilter(e) {
 
   State.update({ candidateId: text });
 
-  if (!state.search)
-    State.update({ originNominations: state.nominations, search: true });
-
   if (text.length > 0) {
-    if (state.nominations.length) {
-      State.update({
-        notFound: "There are no such candidates or affiliations",
-      });
-    }
     let filtered = state.nominations.filter((data) => {
       const affiliations = JSON.parse(data.nominationData.afiliation);
       const companyNames =
@@ -184,13 +176,18 @@ function handleFilter(e) {
           companyNames.some((c) => c.includes(text.toLowerCase())))
       );
     });
-    State.update({ nominations: filtered });
+
+    if (filtered.length > 0) State.update({ nominations: filtered });
+    else
+      State.update({
+        notFound: "There are no such candidates or affiliations",
+      });
   } else {
-    State.update({ notFound: "There are no active nominations at the moment" });
     State.update({
       nominations: state.originNominations,
       originNominations: [],
       search: false,
+      notFound: "There are no active nominations at the moment",
     });
   }
 }
