@@ -1,5 +1,6 @@
 const accountId = props.accountId ?? context.accountId ?? "sking.near";
 const options = props.options ?? {};
+const href = props.href ?? `#/mob.near/widget/ProfilePage?accountId=${accountId}`;
 
 const showHumanBadge = options.showHumanBadge ?? true;
 const showImage = options.showImage ?? true;
@@ -45,7 +46,7 @@ function makeAccountIdShorter(accountId) {
 return (
   <A
     className="d-flex text-decoration-none align-items-center"
-    href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+    href={href}
     target="_blank"
   >
     {showImage && (
