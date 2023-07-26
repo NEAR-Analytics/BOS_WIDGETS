@@ -179,20 +179,20 @@ const validateReference = () => {
     const response = fetch(state.Referencelink);
 
     const istJson = response.contentType.trim() === "application/json";
-    let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
+    // let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
 
     console.table(
       "res",
       response,
       "istJson",
       istJson,
-      "bodyEncoded",
-      bodyEncoded
+      "bodyEncoded"
+      // bodyEncoded
     );
     State.update({
       Referencelink_valid: response.status === 200 ? true : false,
       Referencelink_json: istJson ? true : false,
-      Referencehash: istJson ? bodyEncoded : "",
+      //  Referencehash: istJson ? bodyEncoded : "",
     });
 
     console.log(
@@ -322,9 +322,8 @@ return (
                         class="FormInput"
                         value={state.Referencelink}
                         placeholder="Write your reference (optional)"
-                        onChange={async (e) => {
+                        onChange={(e) => {
                           State.update({ Referencelink: e.target.value });
-
                           validateReference();
                         }}
                       />
