@@ -174,13 +174,11 @@ function handleFilter(e) {
     }
     let filtered = state.nominations.filter((data) => {
       const affiliations = data.nominationData.afiliation;
+      const companyName = JSON.parse(affiliations).company_name;
 
       return (
         data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
-        (affiliations &&
-          JSON.parse(affiliations)
-            .company_name.toLowerCase()
-            .includes(text.toLowerCase()))
+        (companyName && companyName.toLowerCase().includes(text.toLowerCase()))
       );
     });
     State.update({ nominations: filtered });
