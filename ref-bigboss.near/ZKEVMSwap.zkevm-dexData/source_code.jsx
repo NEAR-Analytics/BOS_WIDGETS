@@ -18,7 +18,7 @@ State.init({ loadComplete: false });
 
 if (forceReload) {
   State.update({
-    orceReload: false,
+    forceReload: false,
     factoryAbi: undefined,
     erc20Abi: undefined,
     routerAbi: undefined,
@@ -689,7 +689,7 @@ const callTxPancakeZKEVM2 = (
       .getSigner()
       .sendTransaction(txArgs)
       .then((transactionHash) => {
-        console.log(transactionHash);
+        onComplete(transactionHash);
       })
       .catch(() => {});
 
