@@ -73,6 +73,8 @@ const Tabs = styled.div`
   margin-bottom: 72px;
   overflow: auto;
   scroll-behavior: smooth;
+  margin-right: 1em;
+  margin-left: 1em;
 
   @media (max-width: 1024px) {
     background: #f8f9fa;
@@ -127,21 +129,21 @@ return (
           href={`${accountUrl}&memberTab=hackers`}
           selected={state.selectedTab === "hackers"}
         >
-          Hackers
+          👩🏽‍💻 Hackers
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&memberTab=judges`}
           selected={state.selectedTab === "judges"}
         >
-          Judges
+          🧑🏽‍⚖️ Judges
         </TabsButton>
 
         <TabsButton
           href={`${accountUrl}&memberTab=mentors`}
           selected={state.selectedTab === "mentors"}
         >
-          Mentors
+          🧑🏿‍🏫 Mentors
         </TabsButton>
       </Tabs>
 
@@ -155,7 +157,9 @@ return (
         <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Judges`} />
       )}
 
-      {state.selectedTab === "mentors" && <></>}
+      {state.selectedTab === "mentors" && (
+        <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Mentors`} />
+      )}
     </Content>
   </Wrapper>
 );
