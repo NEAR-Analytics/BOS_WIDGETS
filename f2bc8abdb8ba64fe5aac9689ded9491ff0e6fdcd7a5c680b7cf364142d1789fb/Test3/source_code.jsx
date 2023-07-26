@@ -11,6 +11,7 @@ const writersWhiteList = props.writersWhiteList ?? [
   "yuensid.near",
   "shubham007.near",
   "fiftycent.near",
+  "ozymandius.near",
 ];
 
 const sayALotWorkers = [
@@ -34,13 +35,36 @@ function getLastEditionsByArticle() {
   });
 
   const oldFormatArticlesTestBasicDataArray = [
-    ["ayelen.near", 96927579],
     [
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-      96399182,
+      [
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+        97325392,
+      ],
+      [
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+        97317287,
+      ],
+      ["blaze.near", 97314358],
+      ["ayelen.near", 96927579],
+      ["kenrou-it.near", 96924422],
+      [
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+        96879470,
+      ],
+      [
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+        96878182,
+      ],
+      [
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+        96643643,
+      ],
+      ["silkking.near", 96491128],
     ],
   ];
+
   const oldFormatArticlesMainBasicDataArray = [
+    ["ozymandius.near", 97329049],
     ["fiftycent.near", 97322138],
     ["blaze.near", 97255023],
     ["jlw.near", 97250015],
@@ -51,6 +75,7 @@ function getLastEditionsByArticle() {
     ["sarahkornfeld.near", 96402476],
     ["sarahkornfeld.near", 96402330],
     ["sarahkornfeld.near", 96401880],
+    ["ozymandius.near", 95810612],
     ["blaze.near", 95766756],
     ["blaze.near", 95766700],
     ["jlw.near", 95705034],
@@ -95,7 +120,9 @@ function getLastEditionsByArticle() {
       const latestEditForThisArticle = newFormatArticlesData.find(
         (newArticleData) => newArticleData.value.id
       );
-      return articleData !== latestEditForThisArticle;
+      return (
+        JSON.stringify(articleData) !== JSON.stringify(latestEditForThisArticle)
+      );
     }
   );
 
@@ -123,5 +150,7 @@ function getLastEditionsByArticle() {
 
   return finalArticles;
 }
+
+console.log(getLastEditionsByArticle());
 
 return <div>{JSON.stringify(getLastEditionsByArticle())}</div>;
