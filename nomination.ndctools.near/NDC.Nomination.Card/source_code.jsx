@@ -497,7 +497,9 @@ return (
             Button: {
               disabled: !canUpvote(),
               text: `+${data.upVoteData?.upvotes ?? 0}`,
-              className: `${state.voted ? "primary" : "secondary"} dark`,
+              className: `${
+                context.accountId && state.voted ? "primary" : "secondary"
+              } dark`,
               size: "sm",
               onClick: handleUpVote,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
