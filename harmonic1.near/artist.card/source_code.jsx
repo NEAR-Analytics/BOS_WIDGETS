@@ -24,7 +24,7 @@ const imageStyle = {
 
 const Card = styled.div`
   position: relative;
-  width: 50%;
+  width: 100%;
   border-radius: 12px;
   justify-content: center;
   background: #fff;
