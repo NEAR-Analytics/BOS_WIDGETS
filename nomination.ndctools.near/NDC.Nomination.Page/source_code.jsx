@@ -172,7 +172,7 @@ function handleFilter(e) {
         notFound: "There are no such candidates or affiliations",
       });
     }
-    console.log(data);
+    console.log(state.nominations);
     let filtered = state.nominations.filter(
       (data) =>
         data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
