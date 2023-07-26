@@ -173,16 +173,15 @@ function handleFilter(e) {
       });
     }
     let filtered = state.nominations.filter((data) => {
-      const affiliations = data.nominationData.afiliation;
-      const companyName = JSON.parse(affiliations).company_name;
+      const affiliations = JSON.parse(data.nominationData.afiliation);
+      const companyNames =
+        affiliations?.length > 0 &&
+        affiliations.map((af) => af.company_name.toLowerCase());
 
-      console.log("--");
-      console.log(affiliations);
-      console.log(companyName);
-      console.log("--");
       return (
         data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
-        (companyName && companyName.toLowerCase().includes(text.toLowerCase()))
+        (companyNames &&
+          companyNames.some((c) => c.includes(text.toLowerCase())))
       );
     });
     State.update({ nominations: filtered });
