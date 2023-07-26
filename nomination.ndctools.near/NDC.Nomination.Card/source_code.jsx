@@ -153,39 +153,7 @@ const NominationUser = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const UpvoteButtonDisabled = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
 
-const UpvoteButton = styled.button`
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  color: ${(props) => (props.disabled ? "#C3CACE" : "#9333EA")};
-  border: 1px solid #9333ea;
-  border-color: ${(props) => (props.disabled ? "#C3CACE" : "")};
-`;
-
-const UpvoteCount = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
 const Icon = styled.img`
   width: 17px;
   height: 17px;
@@ -527,7 +495,7 @@ return (
             Button: {
               disabled: !canUpvote(),
               text: `+${data.upVoteData?.upvotes ?? 0}`,
-              className: "secondary dark",
+              className: `${state.voted ? "primary" : "secondary"} dark`,
               size: "sm",
               onClick: handleUpVote,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
