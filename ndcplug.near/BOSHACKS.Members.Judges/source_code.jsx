@@ -34,33 +34,54 @@ const judges = [
     org: "Co-Founder Proximity Labs",
     accountId: "",
   },
-  {
-    image:
-      "https://ipfs.near.social/ipfs/bafkreifmj6kdalupps7henvxaivzeokjjxq7rgmfkthxv5w6ikuxfqe3oa",
-    name: "Tiffany Gao",
-    org: "Product @ Pagoda",
-    accountId: "tiffany.near",
-  },
-  {
-    image:
-      "https://ipfs.near.social/ipfs/bafkreic7einkd37nctfqnphe6outp3p2dqlkf7lgozujcmecxggeqjuo7m",
-    name: "Josh Ford",
-    org: "DevEx @ Pagoda",
-    accountId: "joshua.near",
-  },
-  {
-    image:
-      "https://ipfs.near.social/ipfs/bafkreid6oubaatprc764rdgtdzqczcohpj3ilugznxzjz2jsupnobz3uae",
-    name: "Damian Parrino",
-    org: "Pagoda",
-    accountId: "",
-  },
+  // {
+  //   image:
+  //     "https://ipfs.near.social/ipfs/bafkreifmj6kdalupps7henvxaivzeokjjxq7rgmfkthxv5w6ikuxfqe3oa",
+  //   name: "Tiffany Gao",
+  //   org: "Product @ Pagoda",
+  //   accountId: "tiffany.near",
+  // },
+  // {
+  //   image:
+  //     "https://ipfs.near.social/ipfs/bafkreic7einkd37nctfqnphe6outp3p2dqlkf7lgozujcmecxggeqjuo7m",
+  //   name: "Josh Ford",
+  //   org: "DevEx @ Pagoda",
+  //   accountId: "joshua.near",
+  // },
+  // {
+  //   image:
+  //     "https://ipfs.near.social/ipfs/bafkreid6oubaatprc764rdgtdzqczcohpj3ilugznxzjz2jsupnobz3uae",
+  //   name: "Damian Parrino",
+  //   org: "Pagoda",
+  //   accountId: "",
+  // },
   {
     image:
       "https://ipfs.near.social/ipfs/bafkreies4jyoz6oovc6ufjk5fs3m3shjexzymrdcsrb3p22uwzmwqcydmu",
     name: "Gautham Ravi",
     org: "Pagoda",
     accountId: "root.near",
+  },
+  {
+    image:
+      "https://ipfs.near.social/ipfs/bafkreigla4huhv2flyu5jyjemtf3fa6lhu5vnpixnrszhw3346ihofaefm",
+    name: "Evgeny Kuzyakov",
+    org: "Founder @ NEAR.Social",
+    accountId: "mob.near",
+  },
+  {
+    image:
+      "https://ipfs.near.social/ipfs/bafkreicahodss6wyvssxbiewergh2ewk6wsnsvqftaktjbff6mcbtp6g3e",
+    name: "Alan Estrada",
+    org: "Open Web Academy",
+    accountId: "alan777.near",
+  },
+  {
+    image:
+      "https://ipfs.near.social/ipfs/bafkreig3ikeylk2xb3qhjm73hg33zaagqyjavonepcf2x5m3hqwjtfz6ou",
+    name: "Yair Nava",
+    org: "Open Web Academy",
+    accountId: "yairnava.near",
   },
   {
     image:
