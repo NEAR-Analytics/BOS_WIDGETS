@@ -1,3 +1,5 @@
+let { previousArticle, nextArticle } = props;
+
 const addressForComments = "NDCDOCS-comments";
 const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
@@ -252,7 +254,7 @@ const Controls = styled.div`
   justify-content:space-between;
 `;
 
-const ControlButton = styled.div`
+const ControlButton = styled.a`
   display:flex;
   cursor:pointer;
   align-items:center;
@@ -266,6 +268,7 @@ const ControlButton = styled.div`
   padding:1rem;
   margin-top:20px;
   transition: all .2s;
+  color:inherit;
 
   &:not(:last-of-type) {
     margin-right:20px;
@@ -391,38 +394,44 @@ return (
             />
           </div>
         ))}
-        <Controls>
-          <ControlButton className="previous">
-            <div>
-              <img
-                src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
-                style={{
-                  maxWidth: "20px",
-                  maxHeight: "20px",
-                }}
-              />
-            </div>
-            <div>
-              <p>Previous</p>
-              <p>Introduction</p>
-            </div>
-          </ControlButton>
-          <ControlButton className="next">
-            <div>
-              <img
-                src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
-                style={{
-                  maxWidth: "20px",
-                  maxHeight: "20px",
-                }}
-              />
-            </div>
-            <div>
-              <p>Next</p>
-              <p>NDC Mission</p>
-            </div>
-          </ControlButton>
-        </Controls>
+        {(previousArticle || nextArticle) && (
+          <Controls>
+            {previousArticle && (
+              <ControlButton href={previousArticle.link} className="previous">
+                <div>
+                  <img
+                    src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+                    style={{
+                      maxWidth: "20px",
+                      maxHeight: "20px",
+                    }}
+                  />
+                </div>
+                <div>
+                  <p>Previous</p>
+                  <p>{previousArticle.title}</p>
+                </div>
+              </ControlButton>
+            )}
+            {nextArticle && (
+              <ControlButton href={nextArticle.link} className="next">
+                <div>
+                  <img
+                    src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+                    style={{
+                      maxWidth: "20px",
+                      maxHeight: "20px",
+                    }}
+                  />
+                </div>
+                <div>
+                  <p>Next</p>
+                  <p>{nextArticle.title}</p>
+                </div>
+              </ControlButton>
+            )}
+          </Controls>
+        )}
       </Wrapper>
     </Content>
   </Main>
