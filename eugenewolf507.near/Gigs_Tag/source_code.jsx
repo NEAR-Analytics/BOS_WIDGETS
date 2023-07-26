@@ -1,5 +1,6 @@
 const variant = props.variant ?? "";
 const className = props.className ?? "";
+const children = props.children ?? "#tag";
 
 const Tag = styled.span`
 display: inline-block;
@@ -19,4 +20,4 @@ line-height: 120%; /* 9.6px */
       border: 1px solid #4f46e5;
     }
 `;
-return <Tag className={`${variant} ${className}`}>Hello World</Tag>;
+return <Tag className={`${variant} ${className}`}>{children}</Tag>;
