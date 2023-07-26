@@ -92,7 +92,7 @@ return (
                 href: href,
                 variant: "success",
                 onClick: () => {
-                  props.accept();
+                  onClose();
                 },
               }}
             />
