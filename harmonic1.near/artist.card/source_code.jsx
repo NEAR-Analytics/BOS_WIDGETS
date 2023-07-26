@@ -1,16 +1,18 @@
-const path = props.path ?? "harmonic1.near/artist";
-const [accountId, type] = path.split("/");
+const path = props.path ?? "harmonic1.near/thing/artist";
+//const [accountId, type] = path.split("/");
 
 const metadata = Social.getr(path);
-const handle = Object.keys(metadata.thing)[0];
-const data = JSON.parse(metadata.thing[handle]).data;
-console.log(data);
+//console.log(metadata);
+const handle = Object.keys(metadata)[0];
+//console.log(handle);
+const data = JSON.parse(metadata[handle]).data;
+//console.log(data);
 
 const name = data.name;
 const image = data.avatar;
 const bio = data.bio;
 
-console.log(bio);
+//console.log(bio);
 
 const imageStyle = {
   width: "200px",
@@ -31,6 +33,7 @@ const Card = styled.div`
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   textOverflow: "ellipsis";
+  textAlign: "center";
   whiteSpace: "nowrap";
   padding: 20px;
 `;
