@@ -36,7 +36,7 @@ const authorForWidget =
 function getLastEditionsByArticle() {
   const allArticles = Social.index(addressForArticles, "main", {
     order: "desc",
-    accountId: undefined,
+    accountId: author,
   });
 
   const oldFormatArticlesTestBasicDataArray = [
@@ -95,6 +95,12 @@ function getLastEditionsByArticle() {
   const oldFormatArticlesBasicDataArray = isDebug
     ? oldFormatArticlesTestBasicDataArray
     : oldFormatArticlesMainBasicDataArray;
+
+  if (author) {
+    oldFormatArticlesBasicDataArray = oldFormatArticlesBasicDataArray.filter(
+      (articleBasicData) => articleBasicData[0] === author
+    );
+  }
 
   let oldFormatArticlesArray = oldFormatArticlesBasicDataArray.map(
     (oldFormatBasicArticleData) => {
