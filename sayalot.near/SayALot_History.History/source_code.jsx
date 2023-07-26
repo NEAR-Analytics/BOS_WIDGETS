@@ -2,8 +2,12 @@
 ---props---
 count(count: number)?: function,
 */
-const addressForArticles = "sayALotArticle";
+
+const isDebug = props.isDebug;
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const { articleId } = props;
 
 // if (typeof props.widgetPath !== "string")
@@ -19,6 +23,7 @@ const postsIndex = Social.index(addressForArticles, "main", {
   order: "desc",
   accountId: undefined,
 });
+
 // ========== GET ALL ARTICLES ==========
 const resultArticles =
   postsIndex &&
