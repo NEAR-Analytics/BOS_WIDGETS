@@ -106,11 +106,11 @@ const _getPlayImg = (img) => {
   console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
-      return "https://pin.ski/3qRhh4w";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Play.gif";
     case "https://pin.ski/3NwRR57":
-      return "https://pin.ski/3qRhh4w";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Play.gif";
     case "https://pin.ski/3JfJ1X6":
-      return "https://pin.ski/3qRhh4w";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Play.gif";
   }
 };
 
@@ -119,11 +119,11 @@ const _getEatImg = (img) => {
   console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
-      return "https://pin.ski/3peflmc";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Eat.gif";
     case "https://pin.ski/3NwRR57":
-      return "https://pin.ski/3JrypV0";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Planta-Eat.gif";
     case "https://pin.ski/3JfJ1X6":
-      return "https://pin.ski/43aHF7b";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Agua-Eat.gif";
   }
 };
 
