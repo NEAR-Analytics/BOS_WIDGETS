@@ -25,7 +25,7 @@ const Btn = styled.button`
   box-sizing: border-box;
   padding: 0 24px;
   color: ${type === "outline" ? "black" : "rgb(255, 255, 255)"};
-  background: ${type === "outline" ? "transparent" : "black"};
+  background: ${type === "outline" ? "transparent" : rgb(12, 34, 70)};
   border: ${type === "outline" ? "2px solid black" : "2px solid transparent"};
   &:disabled {
     background: ${type === "outline" ? "transparent" : "black"};
