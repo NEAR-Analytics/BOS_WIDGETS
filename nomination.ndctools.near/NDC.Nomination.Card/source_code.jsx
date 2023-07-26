@@ -89,7 +89,6 @@ const HeaderCard = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0px;
-  gap: 12px;
   width: 100%;
 `;
 const ProfilePicture = styled.img`
