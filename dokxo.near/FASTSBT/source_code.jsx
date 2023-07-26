@@ -304,6 +304,7 @@ return (
                         placeholder="write the class id"
                         min={1}
                         max={MAX_SAFE_INTEGER}
+                        step="1"
                         value={state.ClassIdSelected}
                         onChange={(e) => {
                           State.update({ ClassIdSelected: e.target.value });
