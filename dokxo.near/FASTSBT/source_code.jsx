@@ -179,7 +179,10 @@ const validateReference = () => {
     const response = fetch(state.Referencelink);
 
     const istJson = response.contentType.trim() === "application/json";
-    // let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
+    let bodyEncoded = Buffer.from(
+      JSON.stringify(response.body),
+      "utf-8"
+    ).toString("base64");
 
     console.log(
       "res",
@@ -192,7 +195,7 @@ const validateReference = () => {
     State.update({
       Referencelink_valid: response.status === 200 ? true : false,
       Referencelink_json: istJson ? true : false,
-      //  Referencehash: istJson ? bodyEncoded : "",
+      Referencehash: istJson ? bodyEncoded : "",
     });
 
     console.log(
