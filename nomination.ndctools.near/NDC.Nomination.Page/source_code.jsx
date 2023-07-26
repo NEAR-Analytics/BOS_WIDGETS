@@ -168,7 +168,7 @@ function handleFilter(e) {
   State.update({ candidateId: text });
 
   if (text.length > 0) {
-    let filtered = state.nominations.filter((data) => {
+    let filtered = state.originNominations.filter((data) => {
       const affiliations = JSON.parse(data.nominationData.afiliation);
       const companyNames =
         affiliations?.length > 0 &&
