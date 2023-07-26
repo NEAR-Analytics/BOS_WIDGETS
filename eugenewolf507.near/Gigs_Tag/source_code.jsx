@@ -13,11 +13,11 @@ font-size: 8px;
 font-style: normal;
 font-weight: 400;
 line-height: 120%; /* 9.6px */
+border: 1px solid #4f46e5;
 
 &.outline { 
-      background: transparent;
-      color: #4f46e5;
-      border: 1px solid #4f46e5;
+  background: linear-gradient(90deg, rgba(147, 51, 234, 0.10) 0%, rgba(79, 70, 229, 0.10) 100%);
+  color: #4f46e5;
     }
 `;
 return <Tag className={`${variant} ${className}`}>{children}</Tag>;
