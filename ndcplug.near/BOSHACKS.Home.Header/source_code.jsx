@@ -28,6 +28,6 @@ const Container = styled.div`
 return (
   <Container>
     <h1>The 2 week virtual BOS Hackathon</h1>
-    <p>August 11-27, 2023</p>
+    <p>August 25-September 10, 2023</p>
   </Container>
 );
