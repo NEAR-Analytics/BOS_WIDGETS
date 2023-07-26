@@ -527,7 +527,7 @@ return (
             />
           </StakeFormWrapper>
           <Widget
-            src={"rodrigos.near/widget/popUp"}
+            src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
             props={{
               open: state.openModal,
               onClose: () => State.update({ openModal: true }),
