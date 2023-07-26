@@ -164,7 +164,7 @@ const Content = styled("Accordion.Content")`
   align-self: stretch;
   color: var(--black, #000);
   font-size: 0.875rem;
-  font-family: MonaSans;
+  font-family: "Mona Sans";
   line-height: 140%;
   letter-spacing: 0.00875rem;
 
@@ -258,7 +258,7 @@ return (
     <div>
       <Title>
         <span>Horizon for Partners</span>
-        <h2>Leverage your outreach with Horizon</h2>
+        <h2>Broaden your reach with Horizon</h2>
       </Title>
       <Accordion defaultValue="acceleration">
         <Item value="acceleration">
