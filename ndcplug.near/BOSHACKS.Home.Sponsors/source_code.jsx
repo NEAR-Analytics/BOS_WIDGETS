@@ -74,6 +74,12 @@ const judges = [
     image:
       "https://pbs.twimg.com/profile_images/1594723683062484993/d8aDzWMN_400x400.jpg",
   },
+  {
+    url: "https://ow.academy/",
+    name: "Open Web Academy",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreidaqjryugkdvmwiereey7rc6zwix3bausjsvjxujbfsovkmbjnnwa",
+  },
 ];
 const sponsors = [
   {
