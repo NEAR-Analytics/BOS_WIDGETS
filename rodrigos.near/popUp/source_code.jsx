@@ -2,7 +2,6 @@ const authorId = props.authorId || "rodrigos.near";
 const title = props.title || "Success!";
 const description =
   props.description || "Proposal created successfully. Going back Home";
-const href = props.href || `/${authorId}/widget/MetaPoolStakeEth`;
 const showClose = props.showClose || false;
 const Overlay = styled.div`
   position: fixed;
