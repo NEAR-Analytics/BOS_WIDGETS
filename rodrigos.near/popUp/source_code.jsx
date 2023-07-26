@@ -1,8 +1,8 @@
-const authorId = props.authorId || "manzanal.near";
+const authorId = props.authorId || "rodrigos.near";
 const title = props.title || "Success!";
 const description =
   props.description || "Proposal created successfully. Going back Home";
-const href = props.href || `/${authorId}/widget/Governance.Index?tab=home`;
+const href = props.href || `/${authorId}/widget/MetaPoolStakeEth`;
 const showClose = props.showClose || false;
 const Overlay = styled.div`
   position: fixed;
@@ -93,6 +93,14 @@ return (
                 onClick: () => {
                   props.accept();
                 },
+              }}
+            />
+            <Widget
+              src={`${authorId}/widget/MetaPoolStakeEth.Button`}
+              props={{
+                onClick: () => {},
+                disabled: false,
+                text: "Stake now",
               }}
             />
           </Footer>
