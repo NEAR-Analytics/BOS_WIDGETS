@@ -171,11 +171,11 @@ const _getIsSleepyImg = (img) => {
   console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
-      return "https://pin.ski/3phdTQ0";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Sleepy.gif";
     case "https://pin.ski/3NwRR57":
-      return "https://pin.ski/3NJSw3e";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Planta-Sleepy.gif";
     case "https://pin.ski/3JfJ1X6":
-      return "https://pin.ski/3CMf6lD";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Agua-Sleepy.gif";
   }
 };
 
