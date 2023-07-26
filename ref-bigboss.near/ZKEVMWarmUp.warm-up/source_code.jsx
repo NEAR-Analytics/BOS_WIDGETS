@@ -151,6 +151,9 @@ const Wrapper = styled.div`
     gap: 6px;
     font-size: 14px;
     padding: 6px 0px;
+    :hover {
+      text-decoration: none;
+    }
   }
 
   .trend-card {
@@ -226,7 +229,7 @@ return (
     <Widget src="ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title">Participate in zkEvm easily</div>
+      <div className="header-title">Participate in zkEVM easily</div>
 
       <div className="header-description">
         Keep track of your activity and loyalty, make sure we are ready for any
@@ -242,9 +245,12 @@ return (
         My Quest
       </div>
 
-      <div className="execute-records">
-        <span>Execute Records</span>
-      </div>
+      <a
+        href="/ref-bigboss.near/widget/ZKEVM.ExecuteRecords"
+        className="execute-records"
+      >
+        Execute Records
+      </a>
     </div>
 
     <Widget src="ref-bigboss.near/widget/ZKEVMWarmUp.quest-list" />
