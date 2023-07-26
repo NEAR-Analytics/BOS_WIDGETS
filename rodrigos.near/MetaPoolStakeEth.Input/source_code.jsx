@@ -1,3 +1,5 @@
+const disabledInput = props.disabled || false;
+
 const InputWrapper = styled.div`
   width: 100%;
   border-radius: 10px;
@@ -127,6 +129,7 @@ return (
     </Left>
     <Right>
       <input
+        disabled={disabledInput}
         type="number"
         placeholder="0"
         value={props.value}
