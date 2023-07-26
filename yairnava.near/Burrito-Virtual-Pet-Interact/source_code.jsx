@@ -93,11 +93,11 @@ const _getIdleImg = (img) => {
   console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
-      return "https://pin.ski/3XjzdRA";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Idle.gif";
     case "https://pin.ski/3NwRR57":
-      return "https://pin.ski/44f1awc";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Planta-Idle.gif";
     case "https://pin.ski/3JfJ1X6":
-      return "https://pin.ski/3pieQYu";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Agua-Idle.gif";
   }
 };
 
