@@ -163,17 +163,20 @@ function handleFilter(e) {
 
   State.update({ candidateId: text });
 
-  if (!state.search) {
+  if (!state.search)
     State.update({ originNominations: state.nominations, search: true });
-  }
+
   if (text.length > 0) {
     if (state.nominations.length) {
       State.update({
-        notFound: "There are no such nominations",
+        notFound: "There are no such candidates or affiliations",
       });
     }
-    let filtered = state.nominations.filter((data) =>
-      data.profileData.name.toLowerCase().includes(text.toLowerCase())
+    console.log(data);
+    let filtered = state.nominations.filter(
+      (data) =>
+        data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
+        data.profileData.name.toLowerCase().includes(text.toLowerCase())
     );
     State.update({ nominations: filtered });
   } else {
