@@ -207,7 +207,7 @@ const Info = styled.div`
   }
 `;
 
-const info = <Info>August 11-27, 2023 [Virtual] </Info>;
+const info = <Info>Aug 25- Sep 10 </Info>;
 
 const actions = (
   <ActionArea>
