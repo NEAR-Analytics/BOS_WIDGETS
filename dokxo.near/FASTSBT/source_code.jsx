@@ -5,7 +5,7 @@ State.init({
   Issuer_selected: null,
   Issuer_filled: "",
   Receiver: "",
-  ClassIdSelected: 0,
+  ClassIdSelected: 1,
   IssuedAT: "",
   ExpiresAt: "",
   Referencelink: "",
