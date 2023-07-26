@@ -177,6 +177,7 @@ const UserList = (users) => {
 };
 
 const Sidebar = ({ label }) => {
+  console.log({label});
   const community = DevHub.get_community({ handle: label });
   const root_members = DevHub.get_root_members() ?? null;
   // TODO deploy with CONSOLE LOG HERE
