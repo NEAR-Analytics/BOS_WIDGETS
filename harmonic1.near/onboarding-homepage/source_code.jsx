@@ -41,6 +41,15 @@ const hoverLinkStyle = {
   backgroundColor: "#3b62a8",
 };
 
+const containerStyles = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "90vh", // Full viewport height
+  backgroundColor: "#fff", // White background
+};
+
 return (
   <>
     <div
@@ -77,6 +86,25 @@ return (
       <h3 style={titleStyle}>Join our Network of Artists</h3>
       <div>
         <Widget src="harmonic1.near/widget/artist.feed" />
+      </div>
+    </div>
+    <div style={containerStyles}>
+      <div className="mb-5" style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <Widget src="harmonic1.near/widget/MusicPlayer-Harmonic" />
+        </div>
+        <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
+          <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
+            Decentralised Distribution of Music
+          </p>
+          <p style={{ fontSize: "1.25rem" }}>
+            Experience a truly decentralized music player fully onchain. Our
+            mission is to bring transparency to streaming and revolutionize
+            payments for musicians. With Harmonic Guild, we are returning
+            ownership to music, ensuring that artists are fairly compensated for
+            their creations.
+          </p>
+        </div>
       </div>
     </div>
     <div style={footerStyle} className="m-2 text-center">
