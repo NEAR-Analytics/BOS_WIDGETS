@@ -79,7 +79,6 @@ function getNetworkConfig(chainId) {
       throw new Error("unknown chain id");
   }
 }
-
 function switchEthereumChain(chainId) {
   const chainIdHex = `0x${chainId.toString(16)}`;
   const res = Ethers.send("wallet_switchEthereumChain", [
@@ -897,5 +896,8 @@ return (
     />
     {/* Component Body */}
     {body}
+    <Widget
+      src={`ref-bigboss.near/widget/ZKEVM.switch_quest_card`}
+    />
   </AAVEContainer>
 );
