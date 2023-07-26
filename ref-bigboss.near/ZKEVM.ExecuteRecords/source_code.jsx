@@ -430,7 +430,24 @@ function displayTx(tx) {
   }
   return tx;
 }
-function goTxDetail(record) {
+function goTxDetail(record) { // todo
+  if (record.tx_id) {
+    if (record.template == 'Ethereum') {
+      const isMainnet = true;
+      return `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${
+        record.tx_id
+      }`;
+    } else {
+      let isMainnet = true;
+      if (record.template == 'AAVE') {
+        isMainnet = false;
+      }
+      return `https://${
+        isMainnet ? "" : "testnet-"
+  
+      }zkevm.polygonscan.com/tx/${record.tx_id}`
+    }
+  }
   return "";
 }
 const Status = styled.span`
@@ -597,8 +614,8 @@ return (
                 </td>
                 <td>{getTime(record.timestamp)}</td>
                 <td>
-                  <Tx href={goTxDetail(record)}>
-                    <a href="">{displayTx(record.tx_id)}</a>
+                  <Tx>
+                    <a href={goTxDetail(record)} target="_blank">{displayTx(record.tx_id)}</a>
                     {record.tx_id ? (
                       <span
                         onClick={() => {
