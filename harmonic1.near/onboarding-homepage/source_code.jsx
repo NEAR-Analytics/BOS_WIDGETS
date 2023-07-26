@@ -13,6 +13,12 @@ const titleStyle = {
   marginBottom: "1.5rem",
 };
 
+const footerStyle = {
+  fontSize: "1.25rem",
+  fontWeight: "medium",
+  marginBottom: "1.5rem",
+};
+
 const subTitleStyle = {
   fontSize: "1.25rem",
   marginBottom: "2rem",
@@ -73,6 +79,8 @@ return (
         <Widget src="harmonic1.near/widget/artist.feed" />
       </div>
     </div>
-    <div className="m-2 text-center">Built by Harmonic with Love.</div>
+    <div style={footerStyle} className="m-2 text-center">
+      Built by <span style={{ color: "#4472c4" }}>Harmonic</span> with Love.
+    </div>
   </>
 );
