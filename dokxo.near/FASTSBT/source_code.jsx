@@ -174,40 +174,40 @@ const Submitform = () => {
 };
 
 const validateReference = () => {
-  try {
-    if (state.Referencelink.length > 0) {
-      const response = fetch(state.Referencelink);
+  // try {
+  if (state.Referencelink.length > 0) {
+    const response = fetch(state.Referencelink);
 
-      const istJson = response.contentType.trim() === "application/json";
-      let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
+    const istJson = response.contentType.trim() === "application/json";
+    let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
 
-      console.table(
-        "res",
-        response,
-        "istJson",
-        istJson,
-        "bodyEncoded",
-        bodyEncoded
-      );
-      State.update({
-        Referencelink_valid: response.status === 200 ? true : false,
-        Referencelink_json: istJson ? true : false,
-        Referencehash: istJson ? bodyEncoded : "",
-      });
+    console.table(
+      "res",
+      response,
+      "istJson",
+      istJson,
+      "bodyEncoded",
+      bodyEncoded
+    );
+    State.update({
+      Referencelink_valid: response.status === 200 ? true : false,
+      Referencelink_json: istJson ? true : false,
+      Referencehash: istJson ? bodyEncoded : "",
+    });
 
-      console.log(
-        "state.Referencelink: " + state.Referencelink,
-        "state.Referencelink_valid: " + state.Referencelink_valid,
-        "state.Referencelink_json: " + state.Referencelink_json
-      );
-    }
-  } catch (error) {
+    console.log(
+      "state.Referencelink: " + state.Referencelink,
+      "state.Referencelink_valid: " + state.Referencelink_valid,
+      "state.Referencelink_json: " + state.Referencelink_json
+    );
+  }
+  /* } catch (error) {
     console.log(error);
     State.update({
       Referencelink_valid: false,
       Referencelink_json: false,
     });
-  }
+  }*/
 };
 
 return (
