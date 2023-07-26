@@ -287,6 +287,7 @@ return (
       }}
     >
       <FlexStart>
+        {/*
         <Widget
           src="ref-admin.near/widget/ref-template-search"
           props={{
@@ -297,6 +298,7 @@ return (
             whitelist,
           }}
         />
+        */}
 
         {role === "Builder" && (
           <AddComponentWrapper href={"/sandbox"}>
