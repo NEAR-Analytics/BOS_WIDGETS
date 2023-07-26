@@ -85,17 +85,6 @@ return (
             )}
 
             <Widget
-              src={`${authorId}/widget/Common.Button`}
-              props={{
-                children: <>Ok</>,
-                href: href,
-                variant: "success",
-                onClick: () => {
-                  props.accept();
-                },
-              }}
-            />
-            <Widget
               src={`${authorId}/widget/MetaPoolStakeEth.Button`}
               props={{
                 onClick: () => {},
