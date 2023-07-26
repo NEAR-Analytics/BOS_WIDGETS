@@ -569,20 +569,19 @@ return (
             </UserLink>
           </HeaderContent>
         </div>
-        {canUpvote() && (
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Button: {
-                text: `+${data.upVoteData?.upvotes ?? 0}`,
-                className: "secondary dark",
-                size: "sm",
-                onClick: handleUpVote,
-                icon: <i className="bi bi-hand-thumbs-up"></i>,
-              },
-            }}
-          />
-        )}
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              disabled: !canUpvote(),
+              text: `+${data.upVoteData?.upvotes ?? 0}`,
+              className: "secondary dark",
+              size: "sm",
+              onClick: handleUpVote,
+              icon: <i className="bi bi-hand-thumbs-up"></i>,
+            },
+          }}
+        />
       </HeaderCard>
       <CollapseCandidate className="w-100">
         <CollapseCandidateContent>
