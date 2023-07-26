@@ -12,7 +12,6 @@ const writersWhiteList = props.writersWhiteList ?? [
   "yuensid.near",
   "shubham007.near",
   "fiftycent.near",
-  "chloe.near",
   "ozymandius.near",
 ];
 
@@ -30,7 +29,7 @@ if (isDebug) {
 
 const authorForWidget = "sayalot.near";
 // const authorForWidget =
-// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const pills = [
   {
     id: "articles",
