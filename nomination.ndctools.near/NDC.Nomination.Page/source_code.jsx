@@ -181,6 +181,7 @@ function handleFilter(e) {
     else
       State.update({
         notFound: "There are no such candidates or affiliations",
+        originNominations: [],
       });
   } else {
     State.update({
