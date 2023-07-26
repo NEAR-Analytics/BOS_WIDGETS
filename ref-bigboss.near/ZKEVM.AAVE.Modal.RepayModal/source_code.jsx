@@ -67,9 +67,9 @@ const GrayTexture = styled.div`
   font-size: 12px;
   font-weight: 500;
   color: #7c7c86;
-  .balanceValue{
-    text-decoration:underline;
-    cursor:pointer;
+  .balanceValue {
+    text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
@@ -97,8 +97,8 @@ const WhiteTexture = styled.div`
 `;
 const DeepPurpleTexture = styled.div`
   font-size: 14px;
-  color: #7C7F96;
-`
+  color: #7c7f96;
+`;
 const TransactionOverviewContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -132,20 +132,20 @@ const Max = styled.span`
 `;
 
 const InputContainer = styled.div`
-   display: flex;
-   justify-content: space-between;
-   align-items:center;
-   background-color:rgba(53, 55, 73, 0.5);
-   height:55px;
-   border-radius:10px;
-   padding:0 12px;
-`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(53, 55, 73, 0.5);
+  height: 55px;
+  border-radius: 10px;
+  padding: 0 12px;
+`;
 const BalanceContainer = styled.div`
-   display: flex;
-   justify-content: space-between;
-   align-items:center;  
-   margin-top:10px;
-`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+`;
 
 State.init({
   amount: "",
@@ -168,6 +168,7 @@ function updateGas() {
 }
 
 updateGas();
+const questionSwitch = Storage.get("zkevm-aave-question-switch");
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 function bigMin(_a, _b) {
   const a = Big(_a);
@@ -387,16 +388,16 @@ function repayERC20(shownAmount, actualAmount) {
                 console.log("tx failed", res);
               }
               add_action({
-                "action_title": `Repay ${symbol} on AAVE`,
-                "action_type": "Repay",
-                "action_tokens": JSON.stringify([`${symbol}`]),
-                "action_amount": null,
-                "account_id": eth_account_id,
-                "account_info": "",
-                "template": "AAVE",
-                "action_status": status === 1 ? "Success": "Failed",
-                "tx_id": transactionHash,
-              })
+                action_title: `Repay ${symbol} on AAVE`,
+                action_type: "Repay",
+                action_tokens: JSON.stringify([`${symbol}`]),
+                action_amount: null,
+                account_id: eth_account_id,
+                account_info: "",
+                template: "AAVE",
+                action_status: status === 1 ? "Success" : "Failed",
+                tx_id: transactionHash,
+              });
             });
           });
         })
@@ -448,16 +449,16 @@ function repayETH(shownAmount, actualAmount) {
               console.log("tx failed", res);
             }
             add_action({
-              "action_title": `Repay ${symbol} on AAVE`,
-              "action_type": "Repay",
-              "action_tokens": JSON.stringify([`${symbol}`]),
-              "action_amount": null,
-              "account_id": eth_account_id,
-              "account_info": "",
-              "template": "AAVE",
-              "action_status": status === 1 ? "Success": "Failed",
-              "tx_id": transactionHash,
-            })
+              action_title: `Repay ${symbol} on AAVE`,
+              action_type: "Repay",
+              action_tokens: JSON.stringify([`${symbol}`]),
+              action_amount: null,
+              account_id: eth_account_id,
+              account_info: "",
+              template: "AAVE",
+              action_status: status === 1 ? "Success" : "Failed",
+              tx_id: transactionHash,
+            });
           });
         })
         .catch(() => State.update({ loading: false }));
@@ -466,13 +467,15 @@ function repayETH(shownAmount, actualAmount) {
 }
 
 function add_action(param_body) {
-  asyncFetch("http://139.162.85.48:8100/add-action-data", {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(param_body)
-  })
+  if (questionSwitch == "on") {
+    asyncFetch("https://bos-api.ref-finance.com/add-action-data", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(param_body),
+    });
+  }
 }
 
 return (
@@ -491,18 +494,18 @@ return (
                 config,
                 children: (
                   <>
-                  <InputContainer>
-                    <TokenTexture>
-                      <Input
-                        type="number"
-                        value={state.amount}
-                        onChange={(e) => {
-                          changeValue(e.target.value);
-                        }}
-                        placeholder="0"
-                      />
-                    </TokenTexture>
-                    <TokenWrapper>
+                    <InputContainer>
+                      <TokenTexture>
+                        <Input
+                          type="number"
+                          value={state.amount}
+                          onChange={(e) => {
+                            changeValue(e.target.value);
+                          }}
+                          placeholder="0"
+                        />
+                      </TokenTexture>
+                      <TokenWrapper>
                         <img
                           width={26}
                           height={26}
@@ -510,19 +513,29 @@ return (
                         />
                         <TokenTexture>{symbol}</TokenTexture>
                       </TokenWrapper>
-                  </InputContainer>
-                  <BalanceContainer>
-                    <GrayTexture>${state.amountInUSD}</GrayTexture>
-                    <GrayTexture>
-                      Balance: <span className="balanceValue"  onClick={() => {changeValue(shownMaxValue);}}>{balance === "" || !isValid(balance)? "-": Number(balance).toFixed(7)}</span>
-                    </GrayTexture>
-                  </BalanceContainer>
+                    </InputContainer>
+                    <BalanceContainer>
+                      <GrayTexture>${state.amountInUSD}</GrayTexture>
+                      <GrayTexture>
+                        Balance:{" "}
+                        <span
+                          className="balanceValue"
+                          onClick={() => {
+                            changeValue(shownMaxValue);
+                          }}
+                        >
+                          {balance === "" || !isValid(balance)
+                            ? "-"
+                            : Number(balance).toFixed(7)}
+                        </span>
+                      </GrayTexture>
+                    </BalanceContainer>
                   </>
                 ),
               }}
             />
             <div className="splitDiv">
-               <div className="splitLine"></div>
+              <div className="splitLine"></div>
             </div>
             <Widget
               src={`ref-bigboss.near/widget/ZKEVM.AAVE.Modal.RoundedCard`}
@@ -606,9 +619,9 @@ return (
               }}
             />
             <div className="splitDiv">
-               <div className="splitLine"></div>
+              <div className="splitLine"></div>
             </div>
-            <div style={{display:'flex',justifyContent:'flex-end'}}> 
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <Widget
                 src={`${config.ownerId}/widget/AAVE.GasEstimation`}
                 props={{ gas: state.gas, config }}
