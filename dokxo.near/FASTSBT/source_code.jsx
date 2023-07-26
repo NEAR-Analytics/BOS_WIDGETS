@@ -181,7 +181,7 @@ const validateReference = () => {
     const istJson = response.contentType.trim() === "application/json";
     // let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
 
-    console.table(
+    console.log(
       "res",
       response,
       "istJson",
