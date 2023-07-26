@@ -148,8 +148,8 @@ const handleSave = () => {
   }
 
   const data = {
-    artist: {
-      thing: {
+    thing: {
+      artist: {
         [thingId]: JSON.stringify({
           data: state.config,
           template: {
@@ -160,7 +160,7 @@ const handleSave = () => {
       },
     },
     index: {
-      artist: JSON.stringify({
+      thing: JSON.stringify({
         key: thingId,
         value: {
           type: state.selectedType,
