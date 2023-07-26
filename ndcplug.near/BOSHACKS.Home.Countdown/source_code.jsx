@@ -1,5 +1,5 @@
-const startTime = props.startTime ?? 1691712000000; //1691712000;
-const endTime = props.endTime ?? 1693094400000; // 1693094400;
+const startTime = props.startTime ?? 1692964800; //1692964800; // change august 25
+const endTime = props.endTime ?? 1694347200000; // 1694347200000; // sep 10
 const tupe = props.type ?? "";
 // const time = Near.view("nominations.ndc-gwg.near", "active_time", {});
 // console.log("Time:" + time);
