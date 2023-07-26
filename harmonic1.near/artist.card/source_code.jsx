@@ -25,6 +25,9 @@ const imageStyle = {
 const Card = styled.div`
   position: relative;
   width: 100%;
+  max-width: 300px; /* Set your desired fixed width here */
+  margin: 0 auto; /* This centers the card horizontally */
+
   border-radius: 12px;
   justify-content: center;
   background: #fff;
@@ -32,10 +35,15 @@ const Card = styled.div`
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
-  textOverflow: "ellipsis";
-  textAlign: "center";
-  whiteSpace: "nowrap";
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    /* Set styles for smaller screens */
+    max-width: 100%; /* Allow the card to take the full width of the screen on smaller devices */
+  }
 `;
 
 return (
