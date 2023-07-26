@@ -176,6 +176,10 @@ function handleFilter(e) {
       const affiliations = data.nominationData.afiliation;
       const companyName = JSON.parse(affiliations).company_name;
 
+      console.log("--");
+      console.log(affiliations);
+      console.log(companyName);
+      console.log("--");
       return (
         data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
         (companyName && companyName.toLowerCase().includes(text.toLowerCase()))
