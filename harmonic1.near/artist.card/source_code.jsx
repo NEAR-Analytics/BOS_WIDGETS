@@ -40,15 +40,20 @@ const Card = styled.div`
 
 return (
   // Have to rewrite thing veiwer to do so.
-  //<a href={`${accountId+"/widget/"}`}>
-  <Card>
-    <div>
-      <img src={data.avatar} alt="Musician's Avatar" style={imageStyle} />
-    </div>
-    <div className="m-1 position-relative">
-      <h5 className="card-title mb-2">{name}</h5>
-      <p>{bio}</p>
-    </div>
-  </Card>
-  //</a>
+  <a
+    href={`every.near/widget/every.thing.view?path=${path}/${handle}`}
+    style={{
+      color: "black",
+    }}
+  >
+    <Card>
+      <div>
+        <img src={data.avatar} alt="Musician's Avatar" style={imageStyle} />
+      </div>
+      <div className="m-1 position-relative">
+        <h5 className="card-title mb-2">{name}</h5>
+        <p>{bio}</p>
+      </div>
+    </Card>
+  </a>
 );
