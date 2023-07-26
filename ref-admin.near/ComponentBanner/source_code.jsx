@@ -113,9 +113,9 @@ return (
         <Text ellipsis>{finalSrc}</Text>
       </div>
     </Header>
-    <Widget
+    {/* <Widget
       src="ref-admin.near/widget/apply-as-home-button"
       props={{ src: props.src, istemplate: true }}
-    ></Widget>
+    ></Widget> */}
   </Wrapper>
 );
