@@ -56,15 +56,6 @@ function getIndex() {
 
 getIndex();
 
-const SECTIONS = [
-  "Introduction",
-  "The NDC",
-  "NDC Mission",
-  "NDC Core Principles",
-  "Key Deliverables",
-  "How is NDC Organized",
-];
-
 const Main = styled.div`
     display:flex;
     position:relative;
@@ -101,6 +92,10 @@ const SideBar = styled.div`
         li {
             cursor:pointer;
             position:relative;
+
+            a {
+              color:#000;
+            }
             
             h2 {
                 font-size:.8rem;
@@ -155,12 +150,9 @@ const SideBar = styled.div`
 `;
 
 const ArticleDetails = styled.div`
-    left:0;
-    right:0;
-    bottom:5px;
     margin:auto;
     width:100%;
-    min-height:150px;
+    min-height:250px;
     box-sizing:border-box;
     border-top: 1px solid rgba(0,0,0,.05);
     padding: .5rem 0;
@@ -197,7 +189,7 @@ const Content = styled.div`
 
     .markdown {
       position:relative;
-      padding:20px 0;
+      padding:10px 0;
 
       .link {
         cursor:pointer;
@@ -205,7 +197,7 @@ const Content = styled.div`
         width:20px;
         height:20px;
         position:absolute;
-        top:25px;
+        top:15px;
         left:-20px;
         transition:all .2s;
       }
