@@ -34,6 +34,8 @@ if (isDebug) {
   writersWhiteList = sayALotWorkers;
 }
 
+const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
+
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
   return "Loading";
@@ -44,40 +46,6 @@ const getDateLastEdit = (timestamp) => {
   const dateString = `${date.toLocaleDateString()} / ${date.toLocaleTimeString()}`;
   return dateString;
 };
-
-// // ========== GET INDEX ARRAY FOR ARTICLES ==========
-// const postsIndex = Social.index(addressForArticles, "main", {
-//   order: "desc",
-//   accountId: undefined,
-// });
-
-// if (!postsIndex) {
-//   return "Loading...";
-// }
-// // ========== GET ALL ARTICLES ==========
-// const resultArticles =
-//   postsIndex &&
-//   postsIndex.reduce((acc, { accountId, blockHeight }) => {
-//     const postData = Social.get(
-//       `${accountId}/${addressForArticles}/main`,
-//       blockHeight
-//     );
-//     if (!postData) {
-//       return acc;
-//     }
-//     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-//     return [...acc, postDataWithBlockHeight];
-//   }, []);
-// // ========== FILTER DUBLICATES ==========
-// const filteredArticles =
-//   resultArticles.length &&
-//   resultArticles.reduce((acc, article) => {
-//     if (!acc.some(({ articleId }) => articleId === article.articleId)) {
-//       return [...acc, article];
-//     } else {
-//       return acc;
-//     }
-//   }, []);
 
 function getLastEditionsByArticle() {
   const allArticles = Social.index(addressForArticles, "main", {
@@ -141,12 +109,6 @@ function getLastEditionsByArticle() {
   const oldFormatArticlesBasicDataArray = isDebug
     ? oldFormatArticlesTestBasicDataArray
     : oldFormatArticlesMainBasicDataArray;
-
-  if (author) {
-    oldFormatArticlesBasicDataArray = oldFormatArticlesBasicDataArray.filter(
-      (articleBasicData) => articleBasicData[0] === author
-    );
-  }
 
   let oldFormatArticlesArray = oldFormatArticlesBasicDataArray.map(
     (oldFormatBasicArticleData) => {
