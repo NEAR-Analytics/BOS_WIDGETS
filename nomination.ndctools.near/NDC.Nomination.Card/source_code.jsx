@@ -399,7 +399,9 @@ const Wrapper = styled.div`
 `;
 
 const canUpvote = () =>
-  state.verified && context.accountId != data.indexerData?.nominee;
+  state.verified &&
+  context.accountId &&
+  context.accountId != data.indexerData?.nominee;
 
 const trimText = (text, limit) => {
   if (!text) return "";
