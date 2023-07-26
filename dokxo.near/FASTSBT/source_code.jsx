@@ -174,20 +174,29 @@ const Submitform = () => {
 };
 
 const validateReference = () => {
-  if (state.Referencelink.length > 0) {
-    const response = fetch(state.Referencelink);
-    console.log("res", response);
-    State.update({
-      Referencelink_valid: response.status === 200 ? true : false,
-      Referencelink_json:
-        response.contentType.trim() === "application/json" ? true : false,
-    });
-    console.log(
-      "state.Referencelink: " + state.Referencelink,
-      "state.Referencelink_valid: " + state.Referencelink_valid,
-      "state.Referencelink_json: " + state.Referencelink_json
-    );
-  }
+    try{
+        if (state.Referencelink.length > 0) {
+            const response = fetch(state.Referencelink);
+            console.log("res", response);
+            State.update({
+            Referencelink_valid: response.status === 200 ? true : false,
+            Referencelink_json:  response.contentType.trim() === "application/json" ? true : false,
+            Referencehash: response.contentType.trim() === "application/json" ?  Buffer.from(response.body,"utf-8").toString("base64"):"",
+             });
+            
+            console.log(
+            "state.Referencelink: " + state.Referencelink,
+            "state.Referencelink_valid: " + state.Referencelink_valid,
+            "state.Referencelink_json: " + state.Referencelink_json
+            );
+        }
+    }catch{
+State.update({
+            Referencelink_valid:  false,
+            Referencelink_json:   false,
+            });
+    }
+  
 };
 
 return (
@@ -305,11 +314,7 @@ return (
                         onChange={async (e) => {
                           State.update({
                             Referencelink: e.target.value,
-                            Referencehash: Buffer.from(
-                              e.target.value,
-                              "utf-8"
-                            ).toString("base64"),
-                          });
+                           
                           validateReference();
                         }}
                       />
