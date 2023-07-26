@@ -179,6 +179,7 @@ const validateReference = () => {
     if (state.Referencelink.length > 0) {
       //fetch the link
       const response = fetch(state.Referencelink);
+      console.log("fetch", response);
       //validate if its a JSON
       if (response.contentType.trim() === "application/json") {
         // convert to Uft8 the body content
