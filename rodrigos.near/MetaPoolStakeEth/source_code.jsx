@@ -1,5 +1,6 @@
 State.init({
   openModal: false,
+  loading: false,
 });
 
 if (
@@ -111,12 +112,18 @@ const submitEthers = (strEther, _referral) => {
 
   let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
 
+  State.update({ loading: true });
+
   erc20
     .depositETH(state.sender, { value: amount })
     .then((txResp) => {
-      txResp.wait().then((waitResp) => State.update({ openModal: true }));
+      txResp
+        .wait()
+        .then((waitResp) =>
+          State.update({ openModal: true, loading: false, strEther: 0 })
+        );
     })
-    .catch((waitResp) => State.update({ openModal: true }));
+    .catch((waitResp) => State.update({ loading: false }));
 };
 
 // DETECT SENDER
@@ -484,7 +491,7 @@ return (
           )}
           <StakeFormWrapper>
             <Widget
-              src={`pierre-dev.near/widget/MetaPool.Element.Input`}
+              src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
               props={{
                 placeholder: "Enter ETH amount",
                 value: state.strEther,
@@ -518,11 +525,11 @@ return (
               }}
             />
             <Widget
-              src={`pierre-dev.near/widget/MetaPool.Element.Button`}
+              src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
               props={{
                 onClick: () => submitEthers(state.strEther, state.sender),
-                disabled: false,
-                text: "Stake now",
+                disabled: state.loading,
+                text: state.loading ? "Wait..." : "Stake ETH",
               }}
             />
           </StakeFormWrapper>
