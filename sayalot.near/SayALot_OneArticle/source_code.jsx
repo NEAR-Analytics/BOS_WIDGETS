@@ -3,7 +3,7 @@ const isDebug = props.isDebug;
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
 // const authorForWidget =
-// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const accountId = context.accountId;
 
 const lastEditor = props.lastEditor;
@@ -47,7 +47,6 @@ const writersWhiteList = props.writersWhiteList ?? [
   "yuensid.near",
   "shubham007.near",
   "fiftycent.near",
-  "chloe.near",
   "ozymandius.near",
 ];
 
@@ -80,7 +79,7 @@ const canUserEditArticle = () => {
 // ======= GET DATA TO ATACH COMMENTS TO THE ARTICLE =======
 // we attach all comments to the first initial article (which version = 0)
 const articlesIndex = Social.index(addressForArticles, "main", {
-  order: "asc",
+  order: "desc",
   accountId: state.article.author,
 });
 
@@ -134,6 +133,19 @@ const getArticleData = () => {
   return args;
 };
 
+function getNewArticleId() {
+  let newArticle =
+    blockHeight == "now"
+      ? articlesIndex[0]
+      : articlesIndex.find((article) => article.blockHeight == blockHeight);
+
+  if (newArticle.value.id) {
+    return newArticle.value.id;
+  } else {
+    return `${context.accountId}-${Date.now()}`;
+  }
+}
+
 const composeData = () => {
   const key = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 
@@ -146,6 +158,7 @@ const composeData = () => {
         key: "main",
         value: {
           type: "md",
+          id: `${getNewArticleId()}`,
         },
       }),
     },
@@ -462,35 +475,39 @@ return (
           {/* MARKDOWN and TAGS list when user doesn't edit article  */}
           {!state.editArticle && (
             <>
-              <div className="pt-2">
+              {!state.viewHistory && (
+                <div className="pt-2">
+                  <Widget
+                    src={`${authorForWidget}/widget/SayALot_TagList`}
+                    props={{ tags: state.article.tags, isDebug }}
+                  />
+                </div>
+              )}
+              {!state.viewHistory && (
                 <Widget
-                  src={`${authorForWidget}/widget/SayALot_TagList`}
-                  props={{ tags: state.article.tags, isDebug }}
-                />
-              </div>
-              <Widget
-                src="mob.near/widget/SocialMarkdown"
-                props={{
-                  text: article.body,
-                  onHashtag: (hashtag) => (
-                    <span
-                      key={hashtag}
-                      className="d-inline-flex"
-                      style={{ fontWeight: 500 }}
-                    >
-                      <a
-                        href={
-                          isDebug
-                            ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
-                            : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
-                        }
+                  src="mob.near/widget/SocialMarkdown"
+                  props={{
+                    text: article.body,
+                    onHashtag: (hashtag) => (
+                      <span
+                        key={hashtag}
+                        className="d-inline-flex"
+                        style={{ fontWeight: 500 }}
                       >
-                        #{hashtag}
-                      </a>
-                    </span>
-                  ),
-                }}
-              />
+                        <a
+                          href={
+                            isDebug
+                              ? `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}&isDebug=true`
+                              : `https://near.social/#/sayalot.near/widget/SayALot_ArticlesByTag?tag=${hashtag}`
+                          }
+                        >
+                          #{hashtag}
+                        </a>
+                      </span>
+                    ),
+                  }}
+                />
+              )}
             </>
           )}
           {/* === VIEW HISTORY === */}
