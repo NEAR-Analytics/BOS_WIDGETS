@@ -41,7 +41,7 @@ const Card = styled.div`
 return (
   // Have to rewrite thing veiwer to do so.
   <a
-    href={`every.near/widget/every.thing.view?path=${path}/${handle}`}
+    href={`/#/every.near/widget/every.thing.view?path=${path}/${handle}`}
     style={{
       color: "black",
     }}
