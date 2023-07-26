@@ -127,7 +127,11 @@ function getNominationInfo(house) {
           };
           nominationsArr.push(objCard);
 
-          State.update({ nominations: nominationsArr, loading: false });
+          State.update({
+            nominations: nominationsArr,
+            originNominations: nominationsArr,
+            loading: false,
+          });
         }, 1000);
       });
     }
@@ -181,15 +185,10 @@ function handleFilter(e) {
     else
       State.update({
         notFound: "There are no such candidates or affiliations",
-        originNominations: [],
+        nominations: [],
       });
   } else {
-    State.update({
-      nominations: state.originNominations,
-      originNominations: [],
-      search: false,
-      notFound: "There are no active nominations at the moment",
-    });
+    State.update({ nominations: state.originNominations });
   }
 }
 
