@@ -157,13 +157,13 @@ return (
       {state.proposalType.value === "Vote" && (
         <Widget
           src="sking.near/widget/DAO.Proposal.Create.Text"
-          props={{ daoId, onClose }}
+          props={{ daoId, onClose, policy }}
         />
       )}
       {state.proposalType.value === "Transfer" && (
         <Widget
           src="sking.near/widget/DAO.Proposal.Create.Transfer"
-          props={{ daoId, onClose }}
+          props={{ daoId, onClose, policy }}
         />
       )}
       {state.proposalType.value === "AddMemberToRole" && (
@@ -181,7 +181,7 @@ return (
       {state.proposalType.value === "FunctionCall" && (
         <Widget
           src="sking.near/widget/DAO.Proposal.Create.FunctionCall"
-          props={{ daoId, onClose }}
+          props={{ daoId, onClose, policy }}
         />
       )}
     </div>
