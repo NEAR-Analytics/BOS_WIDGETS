@@ -24,27 +24,27 @@ const postsIndex = Social.index(addressForArticles, "main", {
 });
 
 // ========== GET ALL ARTICLES ==========
-const resultArticles = props.resultArticles;
-//   postsIndex &&
-//   postsIndex.reduce((acc, { accountId, blockHeight }) => {
-//     const postData = Social.get(
-//       `${accountId}/${addressForArticles}/main`,
-//       blockHeight
-//     );
-//     const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
-//     return [...acc, postDataWithBlockHeight];
-//   }, []);
-// if (resultArticles === null) return "loading...";
-// // ========== FIND ALL VERSIONS OF ONE ARTICLE ==========
-// const filteredArticles =
-//   resultArticles.length &&
-//   resultArticles.reduce((acc, article) => {
-//     if (article.articleId === articleId) {
-//       return [...acc, article];
-//     } else {
-//       return acc;
-//     }
-//   }, []);
+const resultArticles =
+  postsIndex &&
+  postsIndex.reduce((acc, { accountId, blockHeight }) => {
+    const postData = Social.get(
+      `${accountId}/${addressForArticles}/main`,
+      blockHeight
+    );
+    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+    return [...acc, postDataWithBlockHeight];
+  }, []);
+if (resultArticles === null) return "loading...";
+// ========== FIND ALL VERSIONS OF ONE ARTICLE ==========
+const filteredArticles =
+  resultArticles.length &&
+  resultArticles.reduce((acc, article) => {
+    if (article.articleId === articleId) {
+      return [...acc, article];
+    } else {
+      return acc;
+    }
+  }, []);
 // ========== GET ARRAY OF BLOCK HEIGHT AND LAST EDITOR ==========
 let blocksChanges =
   filteredArticles &&
