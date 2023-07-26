@@ -132,11 +132,11 @@ const _getSleepImg = (img) => {
   console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
-      return "https://pin.ski/44a09FA";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Sleep.gif";
     case "https://pin.ski/3NwRR57":
-      return "https://pin.ski/44dtlvh";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Planta-Sleep.gif";
     case "https://pin.ski/3JfJ1X6":
-      return "https://pin.ski/3Ps9UuB";
+      return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Agua-Sleep.gif";
   }
 };
 
