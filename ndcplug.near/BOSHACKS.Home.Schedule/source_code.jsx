@@ -64,22 +64,22 @@ const TimelineText = styled.p`
 const schedule = [
   {
     url: "https://nearbuilders.com/tg-builders",
-    day: "Friday, August 11:",
+    day: "Friday, August 25th:",
     subtitle: "Hackathon Kick-Off",
   },
   {
     url: "https://nearbuilders.com/tg-builders",
-    day: "Sunday, August 27:",
+    day: "Sunday, September 10th:",
     subtitle: "Hackathon Submission",
   },
   {
     url: "https://build.boshacks.com/bos-hacks/hacker-manual/judges",
-    day: "Monday, August 28th:",
+    day: "Monday, September 11th:",
     subtitle: "Judging Starts",
   },
   {
     url: "https://nearbuilders.com/tg-builders",
-    day: "Friday, September 1st:",
+    day: "Friday, September 15th:",
     subtitle: "Prize Ceremony",
   },
 ];
