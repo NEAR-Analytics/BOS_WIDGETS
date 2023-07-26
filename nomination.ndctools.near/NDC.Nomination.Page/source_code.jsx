@@ -172,12 +172,17 @@ function handleFilter(e) {
         notFound: "There are no such candidates or affiliations",
       });
     }
-    console.log(state.nominations);
-    let filtered = state.nominations.filter(
-      (data) =>
+    let filtered = state.nominations.filter((data) => {
+      const affiliations = data.nominationData.afiliation;
+
+      return (
         data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
-        data.profileData.name.toLowerCase().includes(text.toLowerCase())
-    );
+        (affiliations &&
+          JSON.parse(affiliations)
+            .company_name.toLowerCase()
+            .includes(text.toLowerCase()))
+      );
+    });
     State.update({ nominations: filtered });
   } else {
     State.update({ notFound: "There are no active nominations at the moment" });
