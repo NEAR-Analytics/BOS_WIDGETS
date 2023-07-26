@@ -896,8 +896,11 @@ return (
     />
     {/* Component Body */}
     {body}
-    <Widget
+    {
+      !loading ? <Widget
       src={`ref-bigboss.near/widget/ZKEVM.switch_quest_card`}
-    />
+    />: null
+    }
+    
   </AAVEContainer>
 );
