@@ -368,7 +368,7 @@ function repayERC20(shownAmount, actualAmount) {
             sig.s
           ).then((tx) => {
             tx.wait().then((res) => {
-              const { status, blockHash } = res;
+              const { status, transactionHash } = res;
               if (status === 1) {
                 onActionSuccess({
                   msg: `You repaid ${Big(shownAmount).toFixed(8)} ${symbol}`,
@@ -395,7 +395,7 @@ function repayERC20(shownAmount, actualAmount) {
                 "account_info": "",
                 "template": "AAVE",
                 "action_status": status === 1 ? "Success": "Failed",
-                "tx_id": blockHash,
+                "tx_id": transactionHash,
               })
             });
           });
@@ -429,7 +429,7 @@ function repayETH(shownAmount, actualAmount) {
         )
         .then((tx) => {
           tx.wait().then((res) => {
-            const { status, blockHash } = res;
+            const { status, transactionHash } = res;
             if (status === 1) {
               onActionSuccess({
                 msg: `You repaid ${Big(shownAmount).toFixed(8)} ${symbol}`,
@@ -456,7 +456,7 @@ function repayETH(shownAmount, actualAmount) {
               "account_info": "",
               "template": "AAVE",
               "action_status": status === 1 ? "Success": "Failed",
-              "tx_id": blockHash,
+              "tx_id": transactionHash,
             })
           });
         })
