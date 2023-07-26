@@ -11,6 +11,7 @@ const onPageChange =
     console.log(`Clicked ${pageNumber}`);
   });
 const currentPage = props.currentPage ?? 1;
+const revaluateOnRender = props.revaluateOnRender ?? false;
 
 // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
 const totalPageNumbers = siblingCount + 5;
@@ -160,6 +161,13 @@ const onClickPage = (pageNumber) => {
 initState({
   pageRanges: viewRange(0),
 });
+
+if (revaluateOnRender) {
+  const pageRanges = viewRange(currentPage);
+  State.update({
+    pageRanges,
+  });
+}
 
 return (
   <PaginationContainer>
