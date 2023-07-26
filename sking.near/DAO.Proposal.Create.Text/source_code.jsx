@@ -26,7 +26,10 @@ const handleProposal = () => {
 
   if (policy.proposal_bond) {
     totalDeposit = totalDeposit.plus(policy.proposal_bond);
+  } else {
+    totalDeposit = Big(100000000000000000000000);
   }
+
   Near.call([
     {
       contractName: daoId,
