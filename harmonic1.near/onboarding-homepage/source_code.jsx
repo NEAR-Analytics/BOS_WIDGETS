@@ -59,7 +59,7 @@ return (
           </p>
         </div>
         <a
-          href="/#/harmonic.near/widget/create.artist"
+          href="/#/harmonic1.near/widget/create.artist"
           style={linkStyle}
           className="hover:bg-blue-600"
         >
@@ -67,12 +67,12 @@ return (
         </a>
       </div>
     </div>
-    <div className="m-4 text-center">
+    <div style={cardStyle} className="m-4 text-center">
       <h3 style={titleStyle}>Join our Network of Artists</h3>
       <div>
         <Widget src="harmonic1.near/widget/artist.feed" />
       </div>
     </div>
-    <div className="text-center">Built by Harmonic with love.</div>
+    <div className="m-2 text-center">Built by Harmonic with Love.</div>
   </>
 );
