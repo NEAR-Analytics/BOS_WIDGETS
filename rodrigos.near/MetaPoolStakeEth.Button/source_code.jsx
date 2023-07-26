@@ -40,7 +40,11 @@ const Btn = styled.button`
 `;
 
 return (
-  <Btn disabled={props.disabled} onClick={props.onClick}>
+  <Btn
+    disabled={props.disabled}
+    onClick={props.onClick}
+    cursor={props.disabled ? "forbidden" : "pointer"}
+  >
     {props.text}
   </Btn>
 );
