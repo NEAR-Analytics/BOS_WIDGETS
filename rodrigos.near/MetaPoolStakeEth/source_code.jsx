@@ -1,3 +1,7 @@
+State.init({
+  openModal: false,
+});
+
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
@@ -107,9 +111,12 @@ const submitEthers = (strEther, _referral) => {
 
   let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
 
-  erc20.depositETH(state.sender, { value: amount }).then((transactionHash) => {
-    console.log("transactionHash is " + transactionHash);
-  });
+  erc20
+    .depositETH(state.sender, { value: amount })
+    .then((txResp) => {
+      txResp.wait().then((waitResp) => State.update({ openModal: true }));
+    })
+    .catch((waitResp) => State.update({ openModal: true }));
 };
 
 // DETECT SENDER
@@ -519,6 +526,12 @@ return (
               }}
             />
           </StakeFormWrapper>
+          <Widget
+            src={"rodrigos.near/widget/popUp"}
+            props={{
+              open: state.openModal,
+            }}
+          />
         </>
       ) : (
         <Web3Connect
