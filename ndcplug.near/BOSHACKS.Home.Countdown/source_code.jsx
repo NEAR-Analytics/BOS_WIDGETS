@@ -37,7 +37,7 @@ const timer = setInterval(() => {
   let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  if (now < start) title = <>BOS HACK STARTS</>;
+  if (now < start) title = <>BOS HACKS STARTS</>;
   else if (now > start && now < end) title = <>BOS HACKS SUBMISSION</>;
   else {
     title = <>{type} is ended</>;
