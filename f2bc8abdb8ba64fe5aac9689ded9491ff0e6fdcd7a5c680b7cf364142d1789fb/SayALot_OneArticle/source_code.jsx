@@ -138,7 +138,7 @@ function getNewArticleId() {
       ? articlesIndex[0]
       : articlesIndex.find((article) => article.blockHeight == blockHeight);
 
-  if (newArticle) {
+  if (newArticle.value.id) {
     return newArticle.value.id;
   } else {
     return `${context.accountId}-${Date.now()}`;
