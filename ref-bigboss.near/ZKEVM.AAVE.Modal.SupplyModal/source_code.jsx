@@ -8,7 +8,6 @@ const {
   depositERC20Gas,
   formatHealthFactor,
 } = props;
-
 if (!data) {
   return <div />;
 }
@@ -169,7 +168,7 @@ function updateGas() {
 }
 
 updateGas();
-
+const questionSwitch = Storage.get("zkevm-aave-question-switch", 'ref-bigboss.near/widget/ZKEVM.switch_quest_card');
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
     tokenAddress,
@@ -274,8 +273,7 @@ function depositETH(amount) {
     })
     .then((tx) => {
       tx.wait().then((res) => {
-        const { status, blockHash } = res;
-        console.log('res', res);
+        const { status, transactionHash } = res;
         if (status === 1) {
           onActionSuccess({
             msg: `You supplied ${Big(amount)
@@ -304,21 +302,22 @@ function depositETH(amount) {
           "account_info": "",
           "template": "AAVE",
           "action_status": status === 1 ? "Success": "Failed",
-          "tx_id": blockHash,
+          "tx_id": transactionHash,
         })
       });
     })
     .catch(() => State.update({ loading: false }));
 }
-
 function add_action(param_body) {
-  asyncFetch("http://139.162.85.48:8100/add-action-data", {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(param_body)
-  })
+  if (questionSwitch == 'on') {
+    asyncFetch("http://139.162.85.48:8100/add-action-data", {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(param_body)
+    })
+  } 
 }
 
 function depositErc20(amount) {
@@ -336,7 +335,7 @@ function depositErc20(amount) {
         })
         .then((tx) => {
           tx.wait().then((res) => {
-            const { status, blockHash } = res;
+            const { status, transactionHash } = res;
             if (status === 1) {
               onActionSuccess({
                 msg: `You supplied ${Big(amount)
@@ -365,7 +364,7 @@ function depositErc20(amount) {
               "account_info": "",
               "template": "AAVE",
               "action_status": status === 1 ? "Success": "Failed",
-              "tx_id": blockHash,
+              "tx_id": transactionHash,
             })
           });
         })
