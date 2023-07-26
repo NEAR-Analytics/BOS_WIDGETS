@@ -16,6 +16,7 @@ State.init({
   ischeckselected: true,
   Submitdisable: true,
 });
+//const
 const MAX_SAFE_INTEGER = 2e53 - 1;
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
@@ -33,6 +34,7 @@ if (!state.theme) {
 `,
   });
 }
+//Custom components
 const Theme = state.theme;
 const NDCicon =
   "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP5CETfUsGFqdcsnrfPgUk3NvRh78TGZcX2srfCVFuvqi?_gl=1*faq1pt*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg3Njc1OC4xMS4xLjE2ODk4NzY4MjYuNjAuMC4w";
@@ -128,7 +130,6 @@ const validatedInputs = async () => {
 };
 const Submitform = () => {
   if (validatedInputs()) {
-    console.log("es valido");
     const meta = JSON.stringify({
       receiver: state.Receiver,
       metadata: {
@@ -169,48 +170,41 @@ const Submitform = () => {
       },
     ]);
   } else {
-    console.log("no es valido");
+    console.log("not valid");
   }
 };
 
 const validateReference = () => {
-  // try {
-  if (state.Referencelink.length > 0) {
-    const response = fetch(state.Referencelink);
-
-    const istJson = response.contentType.trim() === "application/json";
-    let bodyEncoded = Buffer.from(
-      JSON.stringify(response.body),
-      "utf-8"
-    ).toString("base64");
-
-    console.log(
-      "res",
-      response,
-      "istJson",
-      istJson,
-      "bodyEncoded"
-      // bodyEncoded
-    );
-    State.update({
-      Referencelink_valid: response.status === 200 ? true : false,
-      Referencelink_json: istJson ? true : false,
-      Referencehash: istJson ? bodyEncoded : "",
-    });
-
-    console.log(
-      "state.Referencelink: " + state.Referencelink,
-      "state.Referencelink_valid: " + state.Referencelink_valid,
-      "state.Referencelink_json: " + state.Referencelink_json
-    );
-  }
-  /* } catch (error) {
+  try {
+    if (state.Referencelink.length > 0) {
+      //fetch the link
+      const response = fetch(state.Referencelink);
+      //validate if its a JSON
+      if (response.contentType.trim() === "application/json") {
+        // convert to Uft8 the body content
+        const toUtf8 = ethers.utils.toUtf8Bytes(JSON.stringify(response.body));
+        //Encrypt the Uft8 string into Sha256
+        const encryptSha256 = ethers.utils.keccak256(toUtf8);
+        //parse the sha256 into a base64 string
+        let bodyEncoded = Buffer.from(encryptSha256, "utf-8").toString(
+          "base64"
+        );
+        //modify the state and mark the Rererence as a valid json and fill the reference hash with the
+        // Base64(sha256(bodycontent))
+        State.update({
+          Referencelink_valid: true,
+          Referencelink_json: true,
+          Referencehash: bodyEncoded,
+        });
+      }
+    }
+  } catch (error) {
     console.log(error);
     State.update({
       Referencelink_valid: false,
       Referencelink_json: false,
     });
-  }*/
+  }
 };
 
 return (
