@@ -58,7 +58,16 @@ const handleProposal = () => {
   }
 
   const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
+  const deposit = 0;
+
+  let totalDeposit = Big(deposit);
+
+  if (policy.proposal_bond) {
+    totalDeposit = totalDeposit.plus(policy.proposal_bond);
+  } else {
+    totalDeposit = Big(100000000000000000000000);
+  }
+
   Near.call([
     {
       contractName: daoId,
@@ -75,7 +84,7 @@ const handleProposal = () => {
         },
       },
       gas: gas,
-      deposit: deposit,
+      deposit: totalDeposit,
     },
   ]);
 };
