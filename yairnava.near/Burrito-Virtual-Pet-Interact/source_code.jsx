@@ -1,7 +1,7 @@
 const virtualPetContract = "0x559bB1D9a4236e6Fc3D3314c8832Ddf5476606C2";
 
 const virtualPetAbi = fetch(
-  "https://indigo-fluttering-emu-841.mypinata.cloud/ipfs/QmcNGm5jYV5fp4KqUZ3ew7F5kkPP7tnr6xP8vx5hPmEjhA"
+  "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/ABI.json"
 );
 
 if (!virtualPetAbi.ok) {
@@ -299,7 +299,7 @@ const ItemBodySelect = styled.div`
         margin: -20px 0px 0px;
         padding-inline: 10px;
         box-shadow: none;
-        background-image: url('https://pin.ski/42WiqFe');
+        background-image: url('https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/background.png');
         background-repeat: no-repeat;
         background-size: cover;        
         color: #feb75b;
@@ -316,7 +316,7 @@ const ItemBodyPlay = styled.div`
         margin: -20px 0px 0px;
         padding-inline: 10px;
         box-shadow: none;
-        background-image: url('https://pin.ski/43Xw8cv');
+        background-image: url('https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/backgorund-play.png');
         background-repeat: no-repeat;
         background-size: cover;        
         color: #feb75b;
@@ -377,7 +377,7 @@ const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800"
 ).body;
 const css = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/QmQNCGVCwmkPxcKqDdubvb8Goy5xP8md2MfWCAix7HxgGE"
+  "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/style.css"
 ).body;
 
 if (!cssFont || !css) return "";
@@ -400,7 +400,7 @@ return (
         <ItemHeader>
           <ItemTitle class="row">
             <div class="col-4" style={{ "text-align": "left" }}>
-              <ItemImage src="https://pin.ski/3phJiSm"></ItemImage>
+              <ItemImage src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/icon.png"></ItemImage>
             </div>
             <div
               class="col-4"
@@ -442,7 +442,7 @@ return (
               <div class="m-5">
                 <div style={{ "text-align": "center" }}>
                   <img
-                    src="https://pin.ski/46lsieQ"
+                    src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/find.png"
                     style={{
                       height: "230px",
                       background: "#ffe5bc",
@@ -503,7 +503,7 @@ return (
                   >
                     <img
                       style={{ height: "50px", "margin-right": "10px" }}
-                      src="https://pin.ski/3CHsZ4j"
+                      src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/happy.png"
                     ></img>
                     <label style={{ "font-weight": "900" }}>
                       {state.pet.happiness}
@@ -520,7 +520,7 @@ return (
                   >
                     <img
                       style={{ height: "50px", "margin-right": "10px" }}
-                      src="https://pin.ski/3CK6dsM"
+                      src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/eat.png"
                     ></img>
                     <label style={{ "font-weight": "900" }}>
                       {state.pet.hunger}
@@ -537,7 +537,7 @@ return (
                   >
                     <img
                       style={{ height: "50px", "margin-right": "10px" }}
-                      src="https://pin.ski/3piVHFO"
+                      src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/sleep.png"
                     ></img>
                     <label style={{ "font-weight": "900" }}>
                       {state.pet.sleep}
