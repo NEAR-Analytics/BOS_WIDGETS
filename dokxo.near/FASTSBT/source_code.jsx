@@ -178,10 +178,12 @@ const validateReference = () => {
     if (state.Referencelink.length > 0) {
       const response = fetch(state.Referencelink);
       console.log("res", response);
+      const istJson = response.contentType.trim() === "application/json";
+      let bodyEncoded = Buffer.from(response.body, "utf-8").toString("base64");
       State.update({
         Referencelink_valid: response.status === 200 ? true : false,
-        Referencelink_json:
-          response.contentType.trim() === "application/json" ? true : false,
+        Referencelink_json: istJson ? true : false,
+        Referencehash: istJson ? bodyEncoded : "",
       });
 
       console.log(
