@@ -1,7 +1,7 @@
 const virtualPetContract = "0x559bB1D9a4236e6Fc3D3314c8832Ddf5476606C2";
 
 const virtualPetAbi = fetch(
-  "https://indigo-fluttering-emu-841.mypinata.cloud/ipfs/QmcNGm5jYV5fp4KqUZ3ew7F5kkPP7tnr6xP8vx5hPmEjhA"
+  "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/ABI.json"
 );
 
 if (!virtualPetAbi.ok) {
@@ -157,7 +157,7 @@ const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700;800"
 ).body;
 const css = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/QmQNCGVCwmkPxcKqDdubvb8Goy5xP8md2MfWCAix7HxgGE"
+  "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/style.css"
 ).body;
 
 if (!cssFont || !css) return "";
@@ -180,7 +180,7 @@ return (
       <ItemContainer>
         <ItemHeader>
           <ItemTitle>
-            <ItemImage src="https://pin.ski/3phJiSm"></ItemImage>
+            <ItemImage src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/d2c54b3423f07d0e9e22bf8aa105b12cf7973922/icon.png"></ItemImage>
             <label
               style={{
                 "text-shadow":
@@ -242,7 +242,7 @@ return (
               ) : (
                 <div>
                   <img
-                    src="https://pin.ski/42XCmaZ"
+                    src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/d2c54b3423f07d0e9e22bf8aa105b12cf7973922/loading.gif"
                     style={{
                       height: "169px",
                       background: "rgb(255, 229, 188)",
