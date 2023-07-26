@@ -793,7 +793,10 @@ return (
             Button: {
               text: "Add a Comment",
               size: "sm",
-              disabled: !state.verified,
+              disabled:
+                !context.accountId ||
+                !state.verified ||
+                context.accountId === candidate,
               className: "primary justify-content-center",
               onClick: () => State.update({ showModal: true }),
               icon: <i className="bi bi-plus-lg"></i>,
