@@ -1,6 +1,8 @@
 const handleFilter = props.handleFilter;
+
 State.init({
-  accountId: "",
+  accountId: props.accountId || "",
+  tag: props.tag || "",
 });
 
 return (
