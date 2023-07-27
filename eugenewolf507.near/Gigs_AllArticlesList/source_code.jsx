@@ -193,7 +193,6 @@ const updateStatusHandler = (oldStatus, newStatus, articleId) => {
     });
   }
 };
-console.log("STATE", state);
 
 // ========== JSX ==========
 const ScrollWrapper = styled.div`
