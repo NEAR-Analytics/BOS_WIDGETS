@@ -115,7 +115,13 @@ let fields = {
   Idea: ["name", "description"],
   Submission: ["name", "description", "fund_raising"],
   Attestation: ["name", "description"],
-  Sponsorship: ["name", "description", "fund_raising"],
+  Sponsorship: [
+    "name",
+    "description",
+    "amount",
+    "sponsorship_token",
+    "supervisor",
+  ],
   Github: ["githubLink", "name", "description"],
 }[postType];
 
