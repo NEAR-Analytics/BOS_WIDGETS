@@ -332,6 +332,14 @@ const LidoFormTopContainerRightContent1Container = styled.div`
   align-items: center;
 `;
 
+const LidoFormTopContainerRightContent1Text = styled.div`
+  padding: 0px 6px;
+  font-weight: 400;
+  font-size: 32px;
+  border-radius: 16px;
+  background-color: white;
+`;
+
 const LidoFormTopContainerRightContent2 = styled.div`
   margin-top: 2px;
   font-size: 18px;
@@ -367,13 +375,34 @@ return (
   <Theme>
     <LidoContainer>
       <Header>
-        <div class="LidoFormTopContainerRight">
-          <div class="LidoFormTopContainerRightContent1">
-            <div class="LidoFormTopContainerRightContent1Text">
-              <span>{getSender()}</span>
-            </div>
-          </div>
-        </div>
+        <LidoFormTopContainer>
+          <LidoFormTopContainerLeft>
+            <LidoFormTopContainerLeftContent1>
+              <LidoFormTopContainerLeftContent1Container>
+                <svg
+                  width="59"
+                  height="30"
+                  viewBox="0 0 59 30"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.6 28.8L20.2 19.2L29.8 28.8L39.4 19.2L49 28.8L58.6 19.2L39.4 0L29.8 9.6L20.2 0L1 19.2L10.6 28.8Z"
+                    fill="#032131"
+                  />
+                </svg>
+              </LidoFormTopContainerLeftContent1Container>
+            </LidoFormTopContainerLeftContent1>
+          </LidoFormTopContainerLeft>
+          <LidoFormTopContainerRight>
+            <LidoFormTopContainerRightContent1>
+              <LidoFormTopContainerRightContent1Text>
+                {getSender()}
+              </LidoFormTopContainerRightContent1Text>
+            </LidoFormTopContainerRightContent1>
+          </LidoFormTopContainerRight>
+        </LidoFormTopContainer>
+
         <Widget src={`rodrigos.near/widget/MetaPoolStakeEth.Title`} />
       </Header>
 
