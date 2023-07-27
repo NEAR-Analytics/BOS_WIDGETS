@@ -1,8 +1,10 @@
 const variant = props.variant ?? "";
 const className = props.className ?? "";
 const children = props.children ?? "#tag";
+const disabled = props.children;
+const onClick = props.onClick ?? (() => {});
 
-const Tag = styled.span`
+const Tag = styled.button`
 display: inline-block;
 padding: 4px 8px;
 border-radius: 100px;
@@ -20,4 +22,12 @@ border: 1px solid #4f46e5;
   color: #4f46e5;
     }
 `;
-return <Tag className={`${variant} ${className}`}>{children}</Tag>;
+return (
+  <Tag
+    onClick={onClick}
+    disabled={disabled}
+    className={`${variant} ${className}`}
+  >
+    {children}
+  </Tag>
+);
