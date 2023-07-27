@@ -50,10 +50,18 @@ const BoxWrapper = styled.div`
   padding: 8px 0px;
   width: 488px;
   right: 0px;
-  max-height: 400px;
+  max-height: 250px;
   z-index: 100;
   overflow: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
 
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #ff61d3;
+    border-radius: 12px;
+  }
   .list-item {
     display: flex;
     align-items: center;
