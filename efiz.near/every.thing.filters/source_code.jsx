@@ -5,6 +5,20 @@ State.init({
   tag: props.tag || "",
 });
 
+function applyAccountFilter(val) {
+  State.update({ accountId: val });
+  handleFilter({
+    accountId: val,
+  });
+}
+
+function applyTagFilter(val) {
+  State.update({ tag: val });
+  handleFilter({
+    tag: val,
+  });
+}
+
 return (
   <div className="mb-2 d-flex align-items-baseline gap-2">
     Filter:
@@ -16,7 +30,7 @@ return (
         />
         <i
           className="bi bi-x-square"
-          onClick={() => State.update({ accountId: null })}
+          onClick={() => applyAccountFilter(null)}
         ></i>
       </a>
     ) : (
@@ -31,14 +45,7 @@ return (
             })
           }
         />
-        <button
-          onClick={() => {
-            State.update({ accountId: state.accountIdVal });
-            handleFilter({
-              accountId: state.accountIdVal,
-            });
-          }}
-        >
+        <button onClick={() => applyAccountFilter(state.accountIdVal)}>
           apply
         </button>
       </>
@@ -46,7 +53,7 @@ return (
     {state.tag ? (
       <a className="btn btn-outline-primary">
         <span className="badge text-bg-secondary">#{state.tag}</span>
-        <i className="bi bi-x-square"></i>
+        <i className="bi bi-x-square" onClick={() => applyTagFilter(null)}></i>
       </a>
     ) : (
       <>
@@ -60,16 +67,7 @@ return (
             })
           }
         />
-        <button
-          onClick={() => {
-            State.update({ tag: state.tagVal });
-            handleFilter({
-              tag: state.tagVal,
-            });
-          }}
-        >
-          apply
-        </button>
+        <button onClick={() => applyTagFilter(state.tagVal)}>apply</button>
       </>
     )}
   </div>
