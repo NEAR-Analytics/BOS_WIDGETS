@@ -110,7 +110,7 @@ return (
     </Left>
     <Right>
       <span className="value">
-        <Icon url={mpETHImage} /> {props.value || 0}
+        <mpETHImage /> {props.value || 0}
       </span>
       <div>{props.iconName}</div>
     </Right>
