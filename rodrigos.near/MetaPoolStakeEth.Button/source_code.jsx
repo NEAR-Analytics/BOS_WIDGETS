@@ -24,19 +24,21 @@ const Btn = styled.button`
   text-align: center;
   box-sizing: border-box;
   padding: 0 24px;
-  color: ${type === "outline" ? "black" : "rgb(255, 255, 255)"};
-  background: ${type === "outline" ? "transparent" : "black"};
-  border: ${type === "outline" ? "2px solid black" : "2px solid transparent"};
+  color: ${type === "outline" ? "rgb(12, 34, 70)" : "rgb(255, 255, 255)"};
+  background: ${type === "outline" ? "transparent" : "rgb(12, 34, 70)"};
+  border: ${
+    type === "outline" ? "2px solid rgb(12, 34, 70)" : "2px solid transparent"
+  };
   &:disabled {
-    background: ${type === "outline" ? "transparent" : "black"};
+    background: ${type === "outline" ? "transparent" : "rgb(12, 34, 70)"};
     color: white;
     cursor: not-allowed
   }
 
   &:hover {
-    border: 2px solid black;
-    color:  ${type === "outline" ? "white" : "black"};
-    background: ${type === "outline" ? "black" : "transparent"};
+    border: 4px solid rgb(12, 34, 70);
+    color:  ${type === "outline" ? "white" : "rgb(12, 34, 70)"};
+    background: ${type === "outline" ? "rgb(12, 34, 70)" : "transparent"};
   }
 `;
 
