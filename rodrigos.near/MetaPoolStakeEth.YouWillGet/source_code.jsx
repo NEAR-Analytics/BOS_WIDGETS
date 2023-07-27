@@ -94,6 +94,13 @@ const mpETHImage = (
   </svg>
 );
 
+const RightContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+`;
+
 const Icon = ({ iconUrl }) => (
   <img src={iconUrl} width={40} height={40} alt="coin icon" />
 );
@@ -109,7 +116,7 @@ return (
       <div>1 stNEAR = {props.price.toFixed(2) || 0}</div>
     </Left>
     <Right>
-      <span className="value">
+      <RightContainer>
         <svg
           width="32"
           height="32"
@@ -133,7 +140,7 @@ return (
           />
         </svg>{" "}
         {props.value || 0}
-      </span>
+      </RightContainer>
       <div>{props.iconName}</div>
     </Right>
   </Wrapper>
