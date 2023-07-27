@@ -30,7 +30,7 @@ return (
         />
         <i
           className="bi bi-x-square"
-          onClick={() => applyAccountFilter(null)}
+          onClick={() => applyAccountFilter("")}
         ></i>
       </a>
     ) : (
@@ -53,7 +53,7 @@ return (
     {state.tag ? (
       <a className="btn btn-outline-primary">
         <span className="badge text-bg-secondary">#{state.tag}</span>
-        <i className="bi bi-x-square" onClick={() => applyTagFilter(null)}></i>
+        <i className="bi bi-x-square" onClick={() => applyTagFilter("")}></i>
       </a>
     ) : (
       <>
