@@ -94,8 +94,8 @@ const mpETHImage = (
   </svg>
 );
 
-const Icon = ({ mpETHImage }) => (
-  <img src={mpETHImage} width={40} height={40} alt="coin icon" />
+const Icon = ({ iconUrl }) => (
+  <img src={iconUrl} width={40} height={40} alt="coin icon" />
 );
 
 const Highlight = styled.div`
@@ -110,7 +110,7 @@ return (
     </Left>
     <Right>
       <span className="value">
-        <Icon url={props.iconUrl} /> {props.value || 0}
+        <Icon url={mpETHImage} /> {props.value || 0}
       </span>
       <div>{props.iconName}</div>
     </Right>
