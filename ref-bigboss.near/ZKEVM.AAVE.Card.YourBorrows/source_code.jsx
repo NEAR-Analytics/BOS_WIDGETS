@@ -71,7 +71,7 @@ return (
         style: {
           marginTop: "16px",
         },
-        title: "Your borrows",
+        title: "Your Borrowed",
         body: (
           <>
             {!debts || debts.length === 0 ? (
