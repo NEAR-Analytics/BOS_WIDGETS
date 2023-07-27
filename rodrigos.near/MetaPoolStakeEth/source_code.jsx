@@ -20,7 +20,7 @@ if (state.chainId !== undefined && state.chainId !== 5) {
   return <p>Switch to Ethereum Goerli</p>;
 }
 
-// FETCH LIDO ABI
+// FETCH Stake ABI
 
 const stakingAddress = "0x748c905130CC15b92B97084Fd1eEBc2d2419146f";
 const tokenDecimals = 18;
@@ -68,7 +68,7 @@ const metapoolAbi = [
 
 const iface = new ethers.utils.Interface(metapoolAbi);
 
-// FETCH LIDO STAKING APR
+// FETCH Stake STAKING APR
 
 if (state.metrics === undefined) {
   const resp = fetch("https://eth-metapool.narwallets.com/metrics_json");
@@ -190,7 +190,7 @@ const getSender = () => {
 
 // STYLED COMPONENTS
 
-const LidoContainer = styled.div`
+const StakeContainer = styled.div`
   box-sizing: border-box;
   margin: 0px auto;
   min-width: 320px;
@@ -212,7 +212,7 @@ const Header = styled.div`
   text-align: center;
 `;
 
-const LidoForm = styled.div`
+const StakeForm = styled.div`
   background: rgb(12, 34, 70);
   margin-bottom: -20px;
   border-bottom-left-radius: 0px;
@@ -228,13 +228,13 @@ const LidoForm = styled.div`
   color: #fff;    
 `;
 
-const LidoFormTopContainer = styled.div`
+const StakeFormTopContainer = styled.div`
   margin-top: 0px;
   display: flex;
   margin: 10px 0px;
 `;
 
-const LidoFormTopContainerLeft = styled.div`
+const StakeFormTopContainerLeft = styled.div`
   margin-right: 18px;
   flex-basis: 50%;
   -webkit-box-flex: 1;
@@ -243,7 +243,7 @@ const LidoFormTopContainerLeft = styled.div`
   line-height: 1.6em;
 `;
 
-const LidoFormTopContainerLeftContent1 = styled.div`
+const StakeFormTopContainerLeftContent1 = styled.div`
   display: flex;
   flex-direction: row;
   -webkit-box-pack: start;
@@ -252,13 +252,13 @@ const LidoFormTopContainerLeftContent1 = styled.div`
   align-items: center;
 `;
 
-const LidoFormTopContainerLeftContent1Container = styled.div`
+const StakeFormTopContainerLeftContent1Container = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
 `;
 
-const LidoFormTopContainerLeftContent1Circle = styled.div`
+const StakeFormTopContainerLeftContent1Circle = styled.div`
   background-color: #53BA95;
   width: 8px;
   height: 8px;
@@ -266,7 +266,7 @@ const LidoFormTopContainerLeftContent1Circle = styled.div`
   margin-left: 8px;
 `;
 
-const LidoFormTopContainerLeftContent2 = styled.div`
+const StakeFormTopContainerLeftContent2 = styled.div`
   margin-top: 2px;
   font-size: 18px;
   line-height: 1.4em;
@@ -275,7 +275,7 @@ const LidoFormTopContainerLeftContent2 = styled.div`
   display: block;
 `;
 
-const LidoFormTopContainerCenter = styled.div`
+const StakeFormTopContainerCenter = styled.div`
   flex-basis: 50%;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -283,7 +283,7 @@ const LidoFormTopContainerCenter = styled.div`
   line-height: 1.6em;
 `;
 
-const LidoFormTopContainerCenterContent1 = styled.div`
+const StakeFormTopContainerCenterContent1 = styled.div`
   display: flex;
   flex-direction: row;
   -webkit-box-pack: start;
@@ -292,13 +292,13 @@ const LidoFormTopContainerCenterContent1 = styled.div`
   align-items: center;
 `;
 
-const LidoFormTopContainerCenterContent1Container = styled.div`
+const StakeFormTopContainerCenterContent1Container = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
 `;
 
-const LidoFormTopContainerCenterContent2 = styled.div`
+const StakeFormTopContainerCenterContent2 = styled.div`
   margin-top: 2px;
   font-size: 18px;
   line-height: 1.4em;
@@ -308,7 +308,7 @@ const LidoFormTopContainerCenterContent2 = styled.div`
   display: block;
 `;
 
-const LidoFormTopContainerRight = styled.div`
+const StakeFormTopContainerRight = styled.div`
   margin-left: 18px;
   flex-basis: 50%;
   -webkit-box-flex: 1;
@@ -317,7 +317,7 @@ const LidoFormTopContainerRight = styled.div`
   line-height: 1.6em;
 `;
 
-const LidoFormTopContainerRightContent1 = styled.div`
+const StakeFormTopContainerRightContent1 = styled.div`
   display: flex;
   flex-direction: row;
   -webkit-box-pack: start;
@@ -326,13 +326,13 @@ const LidoFormTopContainerRightContent1 = styled.div`
   align-items: center;
 `;
 
-const LidoFormTopContainerRightContent1Container = styled.div`
+const StakeFormTopContainerRightContent1Container = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
 `;
 
-const LidoFormTopContainerRightContent1Text = styled.div`
+const StakeFormTopContainerRightContent1Text = styled.div`
   padding: 0px 6px;
   font-weight: 400;
   font-size: 16px;
@@ -341,7 +341,7 @@ const LidoFormTopContainerRightContent1Text = styled.div`
   border-radius: 14px;
 `;
 
-const LidoFormTopContainerRightContent2 = styled.div`
+const StakeFormTopContainerRightContent2 = styled.div`
   margin-top: 2px;
   font-size: 18px;
   line-height: 1.4em;
@@ -373,11 +373,11 @@ const Spacer = styled.div`
 `;
 
 return (
-  <LidoContainer>
+  <StakeContainer>
     <Header>
-      <LidoFormTopContainer>
-        <LidoFormTopContainerLeft>
-          <LidoFormTopContainerLeftContent1>
+      <StakeFormTopContainer>
+        <StakeFormTopContainerLeft>
+          <StakeFormTopContainerLeftContent1>
             <div style={{ marginTop: "10px" }}>
               <svg
                 marginTop="10px"
@@ -425,63 +425,65 @@ return (
                 />
               </svg>
             </div>
-          </LidoFormTopContainerLeftContent1>
-        </LidoFormTopContainerLeft>
-        <LidoFormTopContainerRightContent1Text>
-          {getSender()}
-        </LidoFormTopContainerRightContent1Text>
-      </LidoFormTopContainer>
+          </StakeFormTopContainerLeftContent1>
+        </StakeFormTopContainerLeft>
+        {state.sender && (
+          <StakeFormTopContainerRightContent1Text>
+            {getSender()}
+          </StakeFormTopContainerRightContent1Text>
+        )}
+      </StakeFormTopContainer>
       <Spacer />
       <Widget src={`rodrigos.near/widget/MetaPoolStakeEth.Title`} />
     </Header>
     <Spacer />
-    <LidoForm>
+    <StakeForm>
       {state.sender && (
-        <LidoFormTopContainer>
-          <LidoFormTopContainerLeft>
-            <LidoFormTopContainerLeftContent1>
-              <LidoFormTopContainerLeftContent1Container>
+        <StakeFormTopContainer>
+          <StakeFormTopContainerLeft>
+            <StakeFormTopContainerLeftContent1>
+              <StakeFormTopContainerLeftContent1Container>
                 <span>Available to stake</span>
-                <LidoFormTopContainerLeftContent1Circle />
-              </LidoFormTopContainerLeftContent1Container>
-            </LidoFormTopContainerLeftContent1>
-            <LidoFormTopContainerLeftContent2>
+                <StakeFormTopContainerLeftContent1Circle />
+              </StakeFormTopContainerLeftContent1Container>
+            </StakeFormTopContainerLeftContent1>
+            <StakeFormTopContainerLeftContent2>
               <span>
                 {state.balance ?? (!state.sender ? "0" : "...")}&nbsp;ETH
               </span>
-            </LidoFormTopContainerLeftContent2>
-          </LidoFormTopContainerLeft>
+            </StakeFormTopContainerLeftContent2>
+          </StakeFormTopContainerLeft>
 
-          <LidoFormTopContainerCenter>
-            <LidoFormTopContainerCenterContent1>
-              <LidoFormTopContainerCenterContent1Container>
+          <StakeFormTopContainerCenter>
+            <StakeFormTopContainerCenterContent1>
+              <StakeFormTopContainerCenterContent1Container>
                 APY
-              </LidoFormTopContainerCenterContent1Container>
-            </LidoFormTopContainerCenterContent1>
-            <LidoFormTopContainerCenterContent2>
+              </StakeFormTopContainerCenterContent1Container>
+            </StakeFormTopContainerCenterContent1>
+            <StakeFormTopContainerCenterContent2>
               {state.metrics?.mp_eth_30_day_apy
                 ? state.metrics.mp_eth_30_day_apy.toFixed(2)
                 : "..."}
               %
-            </LidoFormTopContainerCenterContent2>
-          </LidoFormTopContainerCenter>
+            </StakeFormTopContainerCenterContent2>
+          </StakeFormTopContainerCenter>
 
-          <LidoFormTopContainerRight>
-            <LidoFormTopContainerRightContent1>
-              <LidoFormTopContainerRightContent1Container>
+          <StakeFormTopContainerRight>
+            <StakeFormTopContainerRightContent1>
+              <StakeFormTopContainerRightContent1Container>
                 <span>Staked amount</span>
-              </LidoFormTopContainerRightContent1Container>
-            </LidoFormTopContainerRightContent1>
-            <LidoFormTopContainerRightContent2>
+              </StakeFormTopContainerRightContent1Container>
+            </StakeFormTopContainerRightContent1>
+            <StakeFormTopContainerRightContent2>
               <span>
                 {state.stakedBalance ?? (!state.sender ? "0" : "...")}
                 &nbsp;mpETH
               </span>
-            </LidoFormTopContainerRightContent2>
-          </LidoFormTopContainerRight>
-        </LidoFormTopContainer>
+            </StakeFormTopContainerRightContent2>
+          </StakeFormTopContainerRight>
+        </StakeFormTopContainer>
       )}
-    </LidoForm>
+    </StakeForm>
     <StakeFormWrapper>
       <Widget
         src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
@@ -537,5 +539,5 @@ return (
         onClose: () => State.update({ openModal: false }),
       }}
     />
-  </LidoContainer>
+  </StakeContainer>
 );
