@@ -403,8 +403,7 @@ return (
                 <strong>{getDate(state.article.timeCreate)}</strong>
               </p>
               <p className="last-modification">
-                Last modification by{" "}
-                <strong>@{state.article.lastEditor}</strong> on{" "}
+                Last edit by <strong>@{state.article.lastEditor}</strong> on{" "}
                 <strong>{getDate(state.article.timeLastEdit)}</strong>
               </p>
             </div>
