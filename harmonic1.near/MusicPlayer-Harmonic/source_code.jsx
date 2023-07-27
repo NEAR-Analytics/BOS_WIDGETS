@@ -43,8 +43,11 @@ const styles = {
   innerContainer: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#F8F8F8",
+    borderColor: "#F5F5F5",
     borderRadius: "0.5rem",
+    //border: "1px solid", // Add a black border
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Add a shadow effect
   },
   playerContainer: {
     display: "flex",
@@ -172,7 +175,7 @@ return (
           <div style={styles.buttonContainer}>
             <button
               style={{
-                backgroundColor: "black",
+                backgroundColor: "#4472c4",
                 color: "white",
                 marginRight: "10px",
               }}
@@ -182,7 +185,7 @@ return (
             </button>
             <button
               style={{
-                backgroundColor: "black",
+                backgroundColor: "#4472c4",
                 color: "white",
                 marginRight: "10px",
               }}
@@ -192,7 +195,7 @@ return (
             </button>
             <button
               style={{
-                backgroundColor: "black",
+                backgroundColor: "#4472c4",
                 color: "white",
                 marginRight: "10px",
               }}
@@ -202,7 +205,7 @@ return (
             </button>
             <button
               style={{
-                backgroundColor: "black",
+                backgroundColor: "#4472c4",
                 color: "white",
                 marginRight: "10px",
               }}
@@ -213,7 +216,7 @@ return (
           </div>
         </div>
         <div style={styles.songListContainer}>
-          <h2 className="text-2xl font-bold">Playlist</h2>
+          <h3 className="font-bold">Songs</h3>
           {songs.map((song, i) => (
             <Widget
               src="efiz.near/widget/MusicPlayer-Harmonic.Track"
