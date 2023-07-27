@@ -157,6 +157,8 @@ const validateForm = () => {
   );
 };
 
+console.log(props);
+
 if (!state.projectIsFetched) {
   Near.asyncView(
     ownerId,
