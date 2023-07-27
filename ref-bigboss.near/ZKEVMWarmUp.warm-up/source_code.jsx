@@ -229,7 +229,7 @@ return (
     <Widget src="ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title">Participate in zkEVM easily</div>
+      <div className="header-title">Participate In zkEVM Easily</div>
 
       <div className="header-description">
         Keep track of your activity and loyalty, make sure we are ready for any
