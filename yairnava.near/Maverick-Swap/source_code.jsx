@@ -100,6 +100,32 @@ State.init({
   rate: 0,
 });
 
+const switchNetwork = () => {
+  console.log(Ethers.provider());
+  let chainId = 324;
+  try {
+    console.log(Ethers.provider().getNetwork());
+    Ethers.send("wallet_switchEthereumChain", [{ chainId: `0x${chainId}` }]);
+    setTimeout(() => {
+      console.log(Ethers.provider().getNetwork());
+    }, "5000");
+  } catch (err) {
+    console.log(err);
+    Ethers.send("wallet_addEthereumChain", [
+      {
+        chainId: "324",
+        chainName: "zkSync Era Mainnet",
+        rpcUrls: ["https://mainnet.era.zksync.io"],
+        blockExplorerUrls: ["https://explorer.zksync.io/"],
+        nativeCurrency: {
+          symbol: "",
+          decimals: 18,
+        },
+      },
+    ]);
+  }
+};
+
 const getErc20Balance = (tokenId, receiver, decimals, asset) => {
   if (state.sender === undefined) {
     return;
@@ -160,6 +186,7 @@ if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
+    switchNetwork();
   }
 }
 
@@ -177,6 +204,15 @@ const cantSwap = () => {
   return (
     state.tokenSendSelected && state.tokenRecieveSelected && state.amountInput
   );
+};
+
+const isSufficientBalance = () => {
+  if (!state.amountInput) {
+    return true;
+  } else if (state.amountInput > state.inputBalance) {
+    return false;
+  }
+  return true;
 };
 
 const confirmTransaction = () => {
@@ -260,6 +296,9 @@ return (
                   ? `Balance: ${state.inputBalance}`
                   : ""}
               </div>
+              {!isSufficientBalance() ? (
+                <div class="TokenInsufficientBalance">Insufficient Balance</div>
+              ) : null}
             </div>
           </div>
           <div class="RecieveContainer">
@@ -325,13 +364,27 @@ return (
         <div class="ConfirmContainer">
           {state.sender ? (
             <div
-              class={cantSwap() ? "ConfirmButton" : "ConfirmButtonDisabled"}
+              class={
+                cantSwap() && isSufficientBalance()
+                  ? "ConfirmButton"
+                  : "ConfirmButtonDisabled"
+              }
               onClick={async () => {
                 confirmTransaction();
               }}
             >
-              <div class={cantSwap() ? "ConfirmText" : "ConfirmTextDisabled"}>
-                {cantSwap() ? "Confirm" : "Select a Pair and Amount"}
+              <div
+                class={
+                  cantSwap() && isSufficientBalance()
+                    ? "ConfirmText"
+                    : "ConfirmTextDisabled"
+                }
+              >
+                {cantSwap()
+                  ? isSufficientBalance()
+                    ? "Confirm"
+                    : "Insufficient Balance"
+                  : "Select a Pair and Amount"}
               </div>
             </div>
           ) : (
