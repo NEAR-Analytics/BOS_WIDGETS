@@ -2,10 +2,12 @@ const hello = () => {
   console.log("hello");
 };
 
-const setName = (v) => State.update({ name: v });
+const data = Social.keys(`nui.sking.near/widget/*`, "final", {
+  return_type: "BlockHeight",
+});
 
 return {
   hello,
   user: context.accountId,
-  setName,
+  data,
 };
