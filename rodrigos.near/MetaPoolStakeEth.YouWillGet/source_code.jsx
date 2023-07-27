@@ -102,6 +102,15 @@ const RightContainer = styled.div`
     font-size: 32px;
 `;
 
+const Bottom = styled.div`
+    display: flex;
+    justifi-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 16x;
+`;
+
 const Icon = ({ iconUrl }) => (
   <img src={iconUrl} width={40} height={40} alt="coin icon" />
 );
@@ -114,7 +123,6 @@ return (
   <Wrapper>
     <Left>
       <Highlight>You'll get</Highlight>
-      <div>1 mpETH = {props.price.toFixed(5) || 0} ETH</div>
     </Left>
     <Right>
       <RightContainer>
@@ -142,7 +150,10 @@ return (
         </svg>{" "}
         {props.value || 0}
       </RightContainer>
-      <div>{props.iconName}</div>
     </Right>
+    <Bottom>
+      <div>1 mpETH = {props.price.toFixed(5) || 0} ETH</div>
+      <div>{props.iconName}</div>
+    </Bottom>
   </Wrapper>
 );
