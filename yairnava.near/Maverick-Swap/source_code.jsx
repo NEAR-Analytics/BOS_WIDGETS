@@ -87,9 +87,44 @@ State.init({
   rate: 0,
 });
 
+const getErc20Balance = (tokenId, receiver, decimals, asset) => {
+  if (state.sender === undefined) {
+    return;
+  }
+  if (asset == "ETH") {
+    console.log("ETH");
+    Ethers.provider()
+      .getBalance(state.sender)
+      .then((balance) => {
+        State.update({
+          inputBalance: ethers.utils.formatUnits(balance, decimals),
+        });
+      });
+  } else {
+    asyncFetch(
+      "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+    )
+      .catch((res) => {
+        console.log(err);
+      })
+      .then((res) => {
+        const contract = new ethers.Contract(
+          tokenId,
+          res.body,
+          Ethers.provider().getSigner()
+        );
+        contract.balanceOf(receiver).then((res) => {
+          let balance = ethers.utils.formatUnits(res, decimals);
+          State.update({ inputBalance: balance });
+        });
+      });
+  }
+};
+
 function getPrice(type, data) {
   let tokenIdForCoingeckoAPI;
   tokenIdForCoingeckoAPI = data.coinGeckoId;
+  getErc20Balance(data.address, state.sender, data.decimals, data.name);
   let dataUrl = `https://api.coingecko.com/api/v3/coins/${tokenIdForCoingeckoAPI}`;
   asyncFetch(dataUrl).then((res) => {
     const tokenData = res.body;
@@ -102,7 +137,6 @@ function getPrice(type, data) {
         ? State.update({ rate: price / state.tokenRecieveSelected.price })
         : State.update({ rate: state.tokenSendSelected.price / price });
     }
-    console.log({ price: price, ...data });
     type
       ? State.update({ tokenSendSelected: { price: price, ...data } })
       : State.update({ tokenRecieveSelected: { price: price, ...data } });
@@ -208,7 +242,11 @@ return (
                 value={state.amountInput}
                 onChange={(e) => State.update({ amountInput: e.target.value })}
               />
-              <div class="TokenAmountPreview">Balance: 0</div>
+              <div class="TokenAmountPreview">
+                {state.inputBalance != null
+                  ? `Balance: ${state.inputBalance}`
+                  : ""}
+              </div>
             </div>
           </div>
           <div class="RecieveContainer">
