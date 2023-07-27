@@ -123,6 +123,7 @@ if (communityData === null) {
 
 const Telegram = (
   <div>
+    {communityData}
     <iframe
       iframeResizer
       src={
