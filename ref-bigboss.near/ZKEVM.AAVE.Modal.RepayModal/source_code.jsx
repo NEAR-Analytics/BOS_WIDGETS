@@ -477,7 +477,7 @@ function add_action(param_body) {
     });
   }
 }
-
+const is_disabled = state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
 return (
   <>
     <Widget
@@ -633,6 +633,7 @@ return (
                 config,
                 children: `Repay ${symbol}`,
                 loading: state.loading,
+                disabled:is_disabled,
                 onClick: () => {
                   const actualAmount = Big(
                     state.amount === shownMaxValue
