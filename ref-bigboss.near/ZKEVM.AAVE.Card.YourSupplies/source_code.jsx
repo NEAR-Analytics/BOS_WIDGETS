@@ -38,7 +38,7 @@ return (
         style: {
           marginTop: "16px",
         },
-        title: "Your supplies",
+        title: "Your Supplied",
         body:
           !yourSupplies || yourSupplies.length === 0 ? (
             <Widget
