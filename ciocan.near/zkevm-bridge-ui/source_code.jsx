@@ -136,6 +136,13 @@ const NetworkList = styled.div`
   }
 `;
 
+const CloseButton = styled.button`
+  color: white;
+  background: none;
+  float: right;
+  margin-left: 12px;
+`;
+
 const caretSvg = (
   <svg width="6" height="4" viewBox="0 0 6 4" fill="none">
     <path
@@ -731,6 +738,9 @@ return (
     </ActionButton>
     {isTokenDialogOpen && (
       <Dialog>
+        <CloseButton onClick={() => State.update({ isTokenDialogOpen: false })}>
+          x
+        </CloseButton>
         <ul>
           {tokens
             .filter((t) => t.chainId === chainId)
