@@ -1,6 +1,7 @@
 const addressForComments = "gig-comments";
 const addressForArticles = "ndcGigArticle";
 const authorForWidget = "neardigitalcollective.near";
+const authorForWidget2 = "eugenewolf507.near";
 const accountId = props.accountId ?? context.accountId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 // if (!accountId) {
@@ -183,15 +184,31 @@ const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
   <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-2 pb-3 ">
     {showButtons ? (
       statusTagsArr.map((tag) => (
-        <button
-          onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
-          className={`btn btn-sm me-2 me-xxl-0 ${
-            activeStatus === tag ? "btn-primary" : "btn-outline-primary"
-          }`}
-          disabled={activeStatus === tag}
-        >
-          #{tag}
-        </button>
+        <>
+          {/*
+          <button
+            onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
+            className={`btn btn-sm me-2 me-xxl-0 ${
+              activeStatus === tag ? "btn-primary" : "btn-outline-primary"
+            }`}
+            disabled={activeStatus === tag}
+          >
+            #{tag}
+          </button>
+          */}
+          <Widget
+            src={`${authorForWidget2}/widget/Gigs_Tag`}
+            props={{
+              children: `#${tag}`,
+              variant: activeStatus === tag ? "" : "outline",
+              onClick: () => {
+                console.log("sadfsadf");
+                statusChangeHandler(activeStatus, tag, articleId);
+              },
+              disabled: activeStatus === tag,
+            }}
+          />
+        </>
       ))
     ) : (
       <span>
@@ -225,17 +242,22 @@ return (
         {state.article.articleId}
       </h4>
       <hr />
-      <Button
-        onClick={() => {
-          State.update({
-            ...state,
-            editArticle: false,
-            viewHistory: !state.viewHistory,
-          });
+      <Widget
+        src="nui.sking.near/widget/Input.Button"
+        props={{
+          children: "View History",
+          variant: "secondary",
+          className: "w-100",
+          size: "sm",
+          onClick: () => {
+            State.update({
+              ...state,
+              editArticle: false,
+              viewHistory: !state.viewHistory,
+            });
+          },
         }}
-      >
-        View History
-      </Button>
+      />
       {doesUserCanEditArticle() && (
         <button
           className="btn btn-outline-dark w-100"
