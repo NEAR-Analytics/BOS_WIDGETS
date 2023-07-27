@@ -3,6 +3,10 @@ const Container = styled.div`
   gap: 8px;
   width: 560px;
   flex-direction: column;
+  position: fixed;
+  left: 50%;
+  /* top: 50%; */
+  transform: translate(-50%);
 `;
 
 const tokens = [
