@@ -2,7 +2,15 @@ const hello = () => {
   console.log("hello");
 };
 
+State.init({
+  name: "bobo",
+});
+
+const setName = (v) => State.update({ name: v });
+
 return {
   hello,
-  hi: context.accountId,
+  user: context.accountId,
+  name,
+  setName,
 };
