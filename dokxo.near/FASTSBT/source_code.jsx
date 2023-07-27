@@ -34,8 +34,16 @@ if (!state.theme) {
 `,
   });
 }
+const proposalKinds = {
+  FunctionCall: "call",
+};
+const actions = {
+  AddProposal: "AddProposal",
+};
 //Custom components
 const Theme = state.theme;
+const daoId = props.daoId ?? "multi.sputnik-dao.near";
+const accountId = props.accountId ?? context.accountId;
 const NDCicon =
   "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP5CETfUsGFqdcsnrfPgUk3NvRh78TGZcX2srfCVFuvqi?_gl=1*faq1pt*_ga*Mzc5OTE2NDYyLjE2ODg1MTY4MTA.*_ga_5RMPXG14TE*MTY4OTg3Njc1OC4xMS4xLjE2ODk4NzY4MjYuNjAuMC4w";
 const CheckIcon =
@@ -88,13 +96,65 @@ border-radius:4px;
  
 `;
 
+// -- Get all the roles from the DAO policy
+let roles = Near.view(daoId, "get_policy");
+roles = roles === null ? [] : roles.roles;
+console.log("roles", roles);
+//Validate if the user can add a Function call to DAO
+const isUserAllowedTo = (user, kind, action) => {
+  // -- Filter the user roles
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      userRoles.push(role);
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (accountId && role.kind.Group && role.kind.Group.includes(accountId)) {
+      userRoles.push(role);
+    }
+  }
+
+  // -- Check if the user is allowed to perform the action
+  let allowed = false;
+
+  userRoles
+    .filter(({ permissions }) => {
+      const allowedRole =
+        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
+        permissions.includes(`${kind.toString()}:*`) ||
+        permissions.includes(`*:${action.toString()}`) ||
+        permissions.includes("*:*");
+      allowed = allowed || allowedRole;
+      return allowedRole;
+    })
+    .map((role) => role.name);
+
+  return allowed;
+};
+const canAddProposal = isUserAllowedTo(
+  accountId,
+  proposalKinds.FunctionCall,
+  actions.AddProposal
+);
+
+//Get alll daos
+const daos = Near.view("sputnik-dao.near", "get_dao_list");
+//console.log("daos", daos);
+
+//Methods
 const validatedInputs = async () => {
   console.log(state);
   const isEmpty = (str) => str.trim() === "";
   let isValid = false;
   if (isEmpty(state.Dao_Contract)) {
-    console.log("V:DAO");
+    console.log("V:DAO filled");
     State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
+    return (isValid = false);
+  }
+  if (!daos.includes(state.Dao_Contract)) {
+    console.log("V:DAO valid");
+    State.update({ error_msg: "Is not a Dao contract", Submitdisable: true });
     return (isValid = false);
   }
   if (isEmpty(state.Issuer_selected)) {
@@ -137,6 +197,7 @@ const validatedInputs = async () => {
   State.update({ Submitdisable: false });
   return (isValid = true);
 };
+
 const Submitform = () => {
   if (validatedInputs()) {
     const meta = JSON.stringify({
@@ -238,6 +299,7 @@ return (
                 value={state.Dao_Contract}
                 onChange={(e) => {
                   State.update({ Dao_Contract: e.target.value });
+
                   validatedInputs();
                 }}
               />
@@ -418,10 +480,30 @@ return (
           </div>
         </div>
         <div class="FooterForm" name="Footerform">
+          {!canAddProposal && (
+            <div
+              style={{
+                "justify-content": " end",
+                gap: "1rem",
+                margin: "4px 2px 0px",
+                display: "flex",
+                "font-size": "10px",
+              }}
+            >
+              <a
+                style={{
+                  color: "#850000",
+                  "font-size": "10px",
+                }}
+              >
+                You are not allowed to do a FunctionCall
+              </a>
+            </div>
+          )}
           <div class="Submitcontainer">
             {context.accountId ? (
               <SubmitBtn
-                disabled={state.Submitdisable}
+                disabled={state.Submitdisable && canAddProposal}
                 onClick={() => {
                   Submitform();
                 }}
