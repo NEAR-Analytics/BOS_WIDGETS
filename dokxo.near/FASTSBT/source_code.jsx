@@ -189,12 +189,12 @@ const validatedInputs = async () => {
       State.update({ error_msg: "Select a token class", Submitdisable: true });
       return (isValid = false);
     } else {
-      State.update({ error_msg: "Select a token class", Submitdisable: false });
+      State.update({ error_msg: "", Submitdisable: false });
       return (isValid = true);
     }
   }
 
-  State.update({ Submitdisable: false });
+  State.update({ error_msg: "", Submitdisable: false });
   return (isValid = true);
 };
 
@@ -501,6 +501,14 @@ return (
             </div>
           )}
           <div class="Submitcontainer">
+            <a
+              style={{
+                color: "#850000",
+                "font-size": "10px",
+              }}
+            >
+              {state.error_msg}
+            </a>
             {context.accountId ? (
               <SubmitBtn
                 disabled={state.Submitdisable && canAddProposal}
