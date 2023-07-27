@@ -69,6 +69,7 @@ const SideBarWrapper = styled.div`
   min-width:250px;
   position:relative;
   z-index:99999;
+  height:100vh;
 
   @media screen and (max-width:800px) {
     position:absolute;
@@ -85,10 +86,9 @@ const SideBarWrapper = styled.div`
 const SideBar = styled.div`
     display:flex;
     flex-direction:column;
-    position:fixed;
     width:250px;
     height:calc(100vh - 1.5rem);
-    border-right:1px solid rgba(0,0,0,.05);
+    border-right:3px solid rgba(0,0,0,.02);
     box-sizing:border-box;
     padding:1.5rem;
     background-color:#fff;
@@ -166,34 +166,6 @@ const SideBar = styled.div`
                     left:-12.5px;
                 }
             }
-        }
-    }
-`;
-
-const ArticleDetails = styled.div`
-    margin:auto;
-    width:100%;
-    min-height:250px;
-    box-sizing:border-box;
-    border-top: 1px solid rgba(0,0,0,.05);
-    padding: .5rem 0;
-
-    .title {
-        font-size:.8rem;
-        font-weight:bold;
-    }
-
-    p {
-        padding:0;
-        margin:0;
-    }
-
-    .title + p {
-        font-size:.7rem;
-        margin-bottom:10px;
-        padding-bottom:10px;
-        &:not(:last-of-type) {
-            border-bottom: 1px solid rgba(0,0,0,.05);
         }
     }
 `;
@@ -365,12 +337,15 @@ const ControlButton = styled.a`
 `;
 
 const Header = styled.div`
-  display:none;
-  position:relative;
+  position:absolute;
+  top:0;
+  left:0;
   box-sizing:border-box;
   padding:1rem;
   align-items:center;
   background-color:rgba(0,0,0,.02);
+  width:100%;
+  display:flex;
 
   > p {
     margin:0;
@@ -378,10 +353,15 @@ const Header = styled.div`
     margin-left:10px;
     font-weight:bold;
   }
+`;
 
-  @media screen and (max-width:800px) {
-    display:flex;
-  }
+const HeaderWrapper = styled.div`
+    position:relative;
+    height:70px;
+    
+    @media screen and (max-width:800px) {
+        display:block;
+    }
 `;
 
 const MenuButton = styled.div`
@@ -405,14 +385,60 @@ const MenuButton = styled.div`
 
 `;
 
+const ArticleDetails = styled.div`
+    display:flex;
+    margin:auto;
+    width:100%;
+    box-sizing:border-box;
+    padding: .5rem 0;
+    margin:0 auto 1rem;
+
+    div:first-of-type {
+      display:flex;
+      align-items:center;
+    }
+
+    div + div {
+      padding-left:10px;
+
+      .name {
+        font-weight:bold;
+        margin:0;
+      }
+
+      .handle, .last-modification {
+        font-size:.7rem;
+        margin:0;
+        opacity:.5;
+      }
+
+      .last-modification {
+        opacity:.5;
+      }
+
+    }
+`;
+
+const Avatar = styled.div`
+    border-radius:100%;
+    width:40px;
+    height:40px;
+    background-color:rgba(0,0,0,.05);
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+`;
+
 return (
   <>
-    <Header>
-      <MenuButton
-        onClick={() => State.update({ showMenu: !state.showMenu })}
-      ></MenuButton>
-      <p>NDCDocs</p>
-    </Header>
+    <HeaderWrapper>
+      <Header>
+        <MenuButton
+          onClick={() => State.update({ showMenu: !state.showMenu })}
+        ></MenuButton>
+        <p>NDCDocs</p>
+      </Header>
+    </HeaderWrapper>
     <Main>
       <SideBarWrapper className={state.showMenu ? "show" : ""}>
         <SideBar>
@@ -431,19 +457,24 @@ return (
               ))}
             </ul>
           </div>
-          <ArticleDetails>
-            <p className="title">Published by</p>
-            <p>@{state.article.author}</p>
-            <p className="title">Last edit by</p>
-            <p>@{state.article.lastEditor}</p>
-            <p className="title">Modified on</p>
-            <p>{getDate(state.article.timeLastEdit)}</p>
-            <p className="title">Version</p>
-            <p>#{state.article.version}</p>
-          </ArticleDetails>
         </SideBar>
       </SideBarWrapper>
       <Content>
+        <ArticleDetails>
+          <div>
+            <Avatar></Avatar>
+          </div>
+          <div>
+            <p className="name">NEAR Digital Community</p>
+            <p className="handle">
+              @neardigitalcollective.near · <strong>07/05/2023</strong>
+            </p>
+            <p className="last-modification">
+              Last modification by <strong>@neardigitalcollective.near</strong>{" "}
+              on <strong>07/05/2023</strong>
+            </p>
+          </div>
+        </ArticleDetails>
         <Wrapper>
           {state.index.map((content) => (
             <div id={content.contentStart} className="markdown">
