@@ -120,6 +120,7 @@ const Bottom = styled.div`
     justifi-content: space-between;
     align-items: center;
     flex-direction: row;
+    width: 100%;
     gap: 10px;
     font-size: 16x;
 `;
@@ -162,7 +163,7 @@ return (
               fill="#0C2246"
             />
           </svg>{" "}
-          {props.value || 0}
+          <div>{props.value || 0}</div>
         </RightContainer>
       </Right>
     </Top>
