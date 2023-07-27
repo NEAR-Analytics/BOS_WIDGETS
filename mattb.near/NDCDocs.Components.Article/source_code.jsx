@@ -1,4 +1,9 @@
-let { previousArticle, nextArticle } = props;
+let {
+  previousArticleLink,
+  nextArticleLink,
+  previousArticleName,
+  nextArticleName,
+} = props;
 
 const OWNER_ACCOUNT = "mattb.near";
 const addressForComments = "NDCDOCS-comments";
@@ -439,8 +444,14 @@ return (
         <Widget
           src={`${OWNER_ACCOUNT}/widget/NDCDocs.Components.Controls`}
           props={{
-            previousArticle,
-            nextArticle,
+            previousArticle: {
+              link: previousArticleLink,
+              name: previousArticleName,
+            },
+            nextArticle: {
+              link: nextArticleLink,
+              name: nextArticleName,
+            },
           }}
         />
       </Content>
