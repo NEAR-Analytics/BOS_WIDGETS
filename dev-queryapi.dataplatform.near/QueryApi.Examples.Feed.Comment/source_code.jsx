@@ -26,7 +26,7 @@ const commentUrl = `https://alpha.near.org/#/${APP_OWNER}/widget/QueryApi.Exampl
 if (!state.content && accountId && blockHeight !== "now") {
   const commentQuery = `
 query CommentQuery {
-  dataplatform_near__comments(
+  dataplatform_near_social_feed_comments(
     where: {_and: {account_id: {_eq: "${accountId}"}, block_height: {_eq: ${blockHeight}}}}
   ) {
     content
@@ -173,7 +173,7 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src={`${APP_OWNER}/widget/QueryApi.Examples.Feed.LikeButton`}
+            src={`mob.near/widget/LikeButton`}
             props={{
               item: {
                 type: "social",
@@ -181,9 +181,6 @@ return (
                 blockHeight,
               },
               notifyAccountId: state.notifyAccountId,
-              likes: [],
-              GRAPHQL_ENDPOINT,
-              APP_OWNER,
             }}
           />
           <Widget
