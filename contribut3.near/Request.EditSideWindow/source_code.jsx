@@ -60,7 +60,7 @@ return (
       ),
       children: (
         <Widget
-          src={`${ownerId}/widget/Request.Form`}
+          src={`${ownerId}/widget/Request.EditForm`}
           props={{ accountId, cid }}
         />
       ),
