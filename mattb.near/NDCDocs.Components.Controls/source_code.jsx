@@ -95,9 +95,9 @@ const ControlButton = styled.a`
 
 return (
   <>
-    {(previousArticle || nextArticle) && (
+    {(!!previousArticle.link || !!nextArticle.link) && (
       <Controls>
-        {previousArticle && (
+        {!!previousArticle.link && (
           <ControlButton href={previousArticle.link} className="previous">
             <div>
               <img
@@ -114,7 +114,7 @@ return (
             </div>
           </ControlButton>
         )}
-        {nextArticle && (
+        {!!nextArticle.link && (
           <ControlButton href={nextArticle.link} className="next">
             <div>
               <img
