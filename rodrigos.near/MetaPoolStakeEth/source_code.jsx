@@ -77,6 +77,15 @@ if (state.metrics === undefined) {
   State.update({ metrics: resp?.body ?? "..." });
 }
 
+// FETCH ETH PRICE
+
+if (!state.ethUsdPrice) {
+  const resp = fetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+  );
+  State.update({ ethUsdPrice: resp?.body?.ethereum.usd ?? "..." });
+}
+
 // HELPER FUNCTIONS
 
 const getStakedBalance = (receiver) => {
@@ -464,6 +473,10 @@ return (
       <Widget
         src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
         props={{
+          ethUsdPrice:
+            state.ethUsdPrice && state.strEther
+              ? (state.ethUsdPrice * parseFloat(state.strEther)).toFixed(2)
+              : "0",
           placeholder: "Enter ETH amount",
           value: state.strEther,
           onChange: (e) => State.update({ strEther: e.target.value }),
