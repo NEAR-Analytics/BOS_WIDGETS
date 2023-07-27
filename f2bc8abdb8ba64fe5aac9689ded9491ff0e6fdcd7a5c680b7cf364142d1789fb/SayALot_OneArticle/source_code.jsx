@@ -124,7 +124,7 @@ const getArticleData = () => {
     author: accountId,
     lastEditor: accountId,
     timeLastEdit: Date.now(),
-    timeCreate: state.article.timeCreate,
+    timeCreate: state.article.timeCreate ?? Date.now(),
     body: state.note,
     version: Number(state.article.version) + 1,
     navigation_id: null,
