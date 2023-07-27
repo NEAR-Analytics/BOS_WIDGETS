@@ -45,6 +45,31 @@ const Header = styled.div`
   }
 `;
 
+const Title = styled.h1`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  color: #101828;
+`;
+
+const Status = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  & > span {
+    &.open {
+      color: var(--success-500, #12b76a);
+      font-family: "Mona Sans";
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.1rem; /* 146.667% */
+    }
+  }
+`;
+
 return (
   <Container>
     <Header>
@@ -66,33 +91,18 @@ return (
         />
       </Link>
     </Header>
-    <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.Title`}
-      props={{
-        value: state.request.title,
-        id: "title",
-        onSave: (title) =>
-          Near.call(ownerId, "edit_request", {
-            cid,
-            request: { ...state.request, title },
-          }),
-        canEdit: props.isAdmin,
-      }}
-    />
-    <Widget
-      src={`${ownerId}/widget/Inputs.Viewable.Toggle`}
-      props={{
-        id: "open",
-        activeText: "Receiving proposals",
-        inactiveText: "Closed",
-        value: state.request.open,
-        onSave: (open) =>
-          Near.call(ownerId, "edit_request", {
-            cid,
-            request: { ...state.request, open },
-          }),
-        canEdit: props.isAdmin,
-      }}
-    />
+    <Title>{state.request.title}</Title>
+    <Status>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="7"
+        height="8"
+        viewBox="0 0 7 8"
+        fill="none"
+      >
+        <circle cx="3.5" cy="4" r="3.5" fill="#12B76A" />
+      </svg>
+      <span>{state.request.open ? "Receiving proposals" : "Closed"}</span>
+    </Status>
   </Container>
 );
