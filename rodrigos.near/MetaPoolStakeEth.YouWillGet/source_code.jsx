@@ -3,7 +3,7 @@ const Wrapper = styled.div`
     align-items: flex-start;
     -webkit-box-pack: justify;
     justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
 
     gap: 20px;
     padding: 16px;
@@ -102,6 +102,20 @@ const RightContainer = styled.div`
     font-size: 32px;
 `;
 
+const Top = styled.div`
+    display: flex;
+    align-items: flex-start;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    flex-direction: row;
+
+    gap: 20px;
+    padding: 16px;
+    border-radius: 16px;
+    background: rgb(247, 249, 251);
+    width: 100%;
+`;
+
 const Bottom = styled.div`
     display: flex;
     justifi-content: space-between;
@@ -121,36 +135,38 @@ const Highlight = styled.div`
 
 return (
   <Wrapper>
-    <Left>
-      <Highlight>You'll get</Highlight>
-    </Left>
-    <Right>
-      <RightContainer>
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 204 204"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="0.25"
-            y="0.235352"
-            width="203.501"
-            height="203.501"
-            rx="101.751"
-            fill="#BAC2E2"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M102.001 39.6226L86.8763 54.54L102.001 69.4575L117.126 54.54L102.001 39.6226ZM77.8967 63.2419L63.257 77.9581L101.794 116.696L140.331 77.9581L125.691 63.242L101.794 87.2638L77.8967 63.2419ZM54.6541 86.8613L39.6377 101.899L102.001 164.349L164.364 101.899L149.348 86.8614L102.001 134.274L54.6541 86.8613Z"
-            fill="#0C2246"
-          />
-        </svg>{" "}
-        {props.value || 0}
-      </RightContainer>
-    </Right>
+    <Top>
+      <Left>
+        <Highlight>You'll get</Highlight>
+      </Left>
+      <Right>
+        <RightContainer>
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 204 204"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="0.25"
+              y="0.235352"
+              width="203.501"
+              height="203.501"
+              rx="101.751"
+              fill="#BAC2E2"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M102.001 39.6226L86.8763 54.54L102.001 69.4575L117.126 54.54L102.001 39.6226ZM77.8967 63.2419L63.257 77.9581L101.794 116.696L140.331 77.9581L125.691 63.242L101.794 87.2638L77.8967 63.2419ZM54.6541 86.8613L39.6377 101.899L102.001 164.349L164.364 101.899L149.348 86.8614L102.001 134.274L54.6541 86.8613Z"
+              fill="#0C2246"
+            />
+          </svg>{" "}
+          {props.value || 0}
+        </RightContainer>
+      </Right>
+    </Top>
     <Bottom>
       <div>1 mpETH = {props.price.toFixed(5) || 0} ETH</div>
       <div>{props.iconName}</div>
