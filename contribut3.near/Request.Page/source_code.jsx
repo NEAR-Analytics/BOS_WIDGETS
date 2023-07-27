@@ -205,7 +205,10 @@ return (
         />
         <CTARow>
           {state.isAdmin ? (
-            <></>
+            <Widget
+              src={`${ownerId}/widget/Request.EditSideWindow`}
+              props={{ accountId, cid }}
+            />
           ) : (
             <Widget
               src={`${ownerId}/widget/Request.ProposeSideWindow`}
