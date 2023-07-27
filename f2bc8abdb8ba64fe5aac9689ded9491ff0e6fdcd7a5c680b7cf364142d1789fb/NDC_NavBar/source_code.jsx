@@ -50,10 +50,10 @@ if (
   (brand && (!logoRemWidth || !logoRemHeight || !brand.logoHref)) ||
   !authorForWidget
 ) {
-  const basicPropMissingMsg = "The following props are missing:";
+  const crucialPropMissingMsg = "The following props are missing:";
   return (
     <div>
-      <h3 className="text-danger">{basicPropMissingMsg}</h3>
+      <h3 className="text-danger">{crucialPropMissingMsg}</h3>
       <ul>{!mainPageLink && <li className="text-danger">mainPageLink</li>}</ul>
       <ul>
         {!authorForWidget && <li className="text-danger">authorForWidget</li>}
