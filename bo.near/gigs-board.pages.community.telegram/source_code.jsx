@@ -123,11 +123,11 @@ if (communityData === null) {
 
 const Telegram = (
   <div>
-    <iframe
+    {communityData.telegram_handle.map((tg => <><iframe
       iframeResizer
       src={
         "https://j96g3uepe0.execute-api.us-east-1.amazonaws.com/groups-ui/" +
-        communityData.telegram_handle
+        tg
       }
       frameborder="0"
       // Required by iframeResizer
@@ -137,7 +137,7 @@ const Telegram = (
       }}
     ></iframe>
 
-    <a href={"https://t.me/" + communityData.telegram_handle} target="_blank">
+    <a href={"https://t.me/" + tg} target="_blank">
       {widget("components.atom.button", {
         classNames: {
           root: "btn-primary",
@@ -145,7 +145,7 @@ const Telegram = (
 
         label: "View More",
       })}
-    </a>
+    </a></>))}
   </div>
 );
 
