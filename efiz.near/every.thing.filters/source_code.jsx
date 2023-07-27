@@ -60,7 +60,7 @@ return (
         <input
           className="form-control d-inline-block w-auto"
           placeholder={"tag"}
-          value={state.tag}
+          value={state.tagVal}
           onChange={(e) =>
             State.update({
               tagVal: e.target.value,
