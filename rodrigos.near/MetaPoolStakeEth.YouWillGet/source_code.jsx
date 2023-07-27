@@ -5,6 +5,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     flex-direction: column;
 
+    gap: 0px;
     padding: 16px;
     border-radius: 16px;
     background: rgb(247, 249, 251);
@@ -117,7 +118,7 @@ const Top = styled.div`
 
 const Bottom = styled.div`
     display: flex;
-    justifi-content: space-between;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
     width: 100%;
@@ -163,7 +164,7 @@ return (
               fill="#0C2246"
             />
           </svg>{" "}
-          <div>{props.value || 0}</div>
+          <div style={{ alignSelf: "end" }}>{props.value || 0}</div>
         </RightContainer>
       </Right>
     </Top>
