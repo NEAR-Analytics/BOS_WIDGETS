@@ -689,6 +689,13 @@ const TopContainer = styled.div`
 const AAVEContainer = styled.div`
   width:750px;
   margin:0 auto;
+  padding-bottom:50px;
+  .tip{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+  }
 `;
 // Component body
 const body = loading ? (
@@ -897,9 +904,9 @@ return (
     {/* Component Body */}
     {body}
     {
-      !loading ? <Widget
+      !loading ? <div className="tip"><Widget
       src={`ref-bigboss.near/widget/ZKEVM.switch_quest_card`}
-    />: null
+    /></div>: null
     }
     
   </AAVEContainer>
