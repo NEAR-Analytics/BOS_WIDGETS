@@ -13,7 +13,7 @@ const Form = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 60%;
+  width: 100%;
   gap: 1em;
 `;
 
