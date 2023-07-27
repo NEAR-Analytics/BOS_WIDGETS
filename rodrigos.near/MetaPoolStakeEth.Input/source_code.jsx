@@ -123,7 +123,7 @@ align-self: start;
 
 return (
   <Wrapper>
-    <Right>
+    <Right style={{ gap: "0px important!" }}>
       <Highlight>{props.placeholder || "Enter ETH amount"}</Highlight>
       <input
         disabled={disabledInput}
