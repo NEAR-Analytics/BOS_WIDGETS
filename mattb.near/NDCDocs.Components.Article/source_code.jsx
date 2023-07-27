@@ -411,14 +411,20 @@ return (
           </ArticleDetails>
           {state.index.map((content) => (
             <div id={content.contentStart} className="markdown">
-              <div
-                className="link"
-                onClick={() =>
-                  clipboard.writeText(`${path}#${content.contentStart}`)
-                }
+              <OverlayTrigger
+                key={content.contentStart}
+                placement="left"
+                overlay={<Tooltip id={`tooltip-left`}>Copy link</Tooltip>}
               >
-                🔗
-              </div>
+                <div
+                  className="link"
+                  onClick={() =>
+                    clipboard.writeText(`${path}#${content.contentStart}`)
+                  }
+                >
+                  🔗
+                </div>
+              </OverlayTrigger>
               <Markdown
                 text={state.article.body
                   .split("\n")
