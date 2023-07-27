@@ -1,3 +1,5 @@
+// TODO update authorForWidget2 with authorForWidget2 for widget/Gigs_Tag
+// TODO delete authorForWidget2
 const addressForComments = "gig-comments";
 const addressForArticles = "ndcGigArticle";
 const authorForWidget = "neardigitalcollective.near";
@@ -30,6 +32,7 @@ const authorsWhiteList = [
   "yuensid.near",
   "james.near",
   "ndcplug.near",
+  "eugenewolf507.near",
 ];
 const doesUserCanEditArticle = () => {
   const isAccountIdInWhiteList = authorsWhiteList.some(
@@ -184,31 +187,18 @@ const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
   <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-2 pb-3 ">
     {showButtons ? (
       statusTagsArr.map((tag) => (
-        <>
-          {/*
-          <button
-            onClick={() => statusChangeHandler(activeStatus, tag, articleId)}
-            className={`btn btn-sm me-2 me-xxl-0 ${
-              activeStatus === tag ? "btn-primary" : "btn-outline-primary"
-            }`}
-            disabled={activeStatus === tag}
-          >
-            #{tag}
-          </button>
-          */}
-          <Widget
-            src={`${authorForWidget2}/widget/Gigs_Tag`}
-            props={{
-              children: `#${tag}`,
-              variant: activeStatus === tag ? "" : "outline",
-              onClick: () => {
-                console.log("sadfsadf");
-                statusChangeHandler(activeStatus, tag, articleId);
-              },
-              disabled: activeStatus === tag,
-            }}
-          />
-        </>
+        <Widget
+          src={`${authorForWidget2}/widget/Gigs_Tag`}
+          props={{
+            children: `#${tag}`,
+            variant: activeStatus === tag ? "" : "outline",
+            onClick: () => {
+              console.log("sadfsadf");
+              statusChangeHandler(activeStatus, tag, articleId);
+            },
+            disabled: activeStatus === tag,
+          }}
+        />
       ))
     ) : (
       <span>
@@ -218,18 +208,19 @@ const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
   </div>
 );
 
+const HorizontalLine = () => <hr className="my-3 my-xl-4" />;
+
 return (
   <div
-    className="row h-100"
+    className="row h-100 p-3 p-xl-4"
     style={{
       minWidth: "360px",
       margin: "0 auto",
       backgroundColor: "white",
-      padding: "1rem 2rem 2rem",
       borderRadius: "20px",
     }}
   >
-    <div className="col-12 col-md-3 border-end">
+    <div className="col-12 col-md-3 border-end ps-0 pe-3 pe-xl-4">
       <h4
         className="text-center"
         style={{ cursor: "pointer", fontSize: "1.5rem" }}
@@ -241,7 +232,7 @@ return (
       >
         {state.article.articleId}
       </h4>
-      <hr />
+      <HorizontalLine />
       <Widget
         src="nui.sking.near/widget/Input.Button"
         props={{
@@ -259,21 +250,25 @@ return (
         }}
       />
       {doesUserCanEditArticle() && (
-        <button
-          className="btn btn-outline-dark w-100"
-          onClick={() => {
-            State.update({
-              ...state,
-              viewHistory: false,
-              editArticle: !state.editArticle,
-              note: state.article.body,
-            });
+        <Widget
+          src="nui.sking.near/widget/Input.Button"
+          props={{
+            children: "Edit Article",
+            variant: "secondary",
+            className: "w-100 mt-3 mt-xl-3",
+            size: "sm",
+            onClick: () => {
+              State.update({
+                ...state,
+                viewHistory: false,
+                editArticle: !state.editArticle,
+                note: state.article.body,
+              });
+            },
           }}
-        >
-          Edit Article
-        </button>
+        />
       )}
-      <hr />
+      <HorizontalLine />
       <div className="accordion accordion-flush" id="accordionFlushExample">
         {resultHeading.map((arrItem, index1) => {
           return (
@@ -320,7 +315,7 @@ return (
           );
         })}
       </div>
-      <hr />
+      <HorizontalLine />
       <StatusTagGroup
         activeStatus={article.statusTag}
         articleId={article.articleId}
@@ -341,7 +336,7 @@ return (
     </div>
     <div className="d-md-none mb-3" />
     <hr className="d-md-none" />
-    <div className="col-12 col-md-9">
+    <div className="col-12 col-md-9 pe-0 ps-3 ps-xl-4">
       <div>
         {/* === BUTTON - EDIT ARTICLE === */}
         {state.editArticle && (
