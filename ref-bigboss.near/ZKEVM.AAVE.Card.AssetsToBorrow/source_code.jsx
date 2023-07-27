@@ -66,7 +66,7 @@ return (
         style: {
           marginTop: "10px",
         },
-        title: "Assets to borrow",
+        title: "Assets to Borrow",
         body: (
           <>
             {showAlert && (
@@ -149,7 +149,7 @@ return (
                                     </div>,
                                     <div className="card-data-row">
                                       <div className="card-data-key">
-                                        APY, variable
+                                      APY(variable)
                                       </div>
                                       <div className="card-data-value">{`${(
                                         Number(row.variableBorrowAPY) * 100
@@ -179,7 +179,7 @@ return (
                     headers: [
                       "Asset",
                       "Available to borrow",
-                      "APY, variable",
+                      "APY(variable)",
                       "",
                     ],
                     data: debts.map((row) => {
