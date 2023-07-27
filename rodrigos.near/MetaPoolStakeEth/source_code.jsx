@@ -483,127 +483,64 @@ return (
           </LidoFormTopContainer>
         )}
       </LidoForm>
-      {false && (
-        <div class="LidoStakeFormInputContainer">
-          <span class="LidoStakeFormInputContainerSpan1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                opacity="0.6"
-                d="M11.999 3.75v6.098l5.248 2.303-5.248-8.401z"
-              ></path>
-              <path d="M11.999 3.75L6.75 12.151l5.249-2.303V3.75z"></path>
-              <path
-                opacity="0.6"
-                d="M11.999 16.103v4.143l5.251-7.135L12 16.103z"
-              ></path>
-              <path d="M11.999 20.246v-4.144L6.75 13.111l5.249 7.135z"></path>
-              <path
-                opacity="0.2"
-                d="M11.999 15.144l5.248-2.993-5.248-2.301v5.294z"
-              ></path>
-              <path
-                opacity="0.6"
-                d="M6.75 12.151l5.249 2.993V9.85l-5.249 2.3z"
-              ></path>
-            </svg>
-          </span>
-          <span class="LidoStakeFormInputContainerSpan2">
-            <input
-              disabled={!state.sender}
-              class="LidoStakeFormInputContainerSpan2Input"
-              value={state.strEther}
-              onChange={(e) => State.update({ strEther: e.target.value })}
-              placeholder="Amount"
-            />
-          </span>
-          <span
-            class="LidoStakeFormInputContainerSpan3"
-            onClick={() => {
+      <StakeFormWrapper>
+        <Widget
+          src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
+          props={{
+            placeholder: "Enter ETH amount",
+            value: state.strEther,
+            onChange: (e) => State.update({ strEther: e.target.value }),
+            onClickMax: () => {
               State.update({
                 strEther: (state.balance > 0.05
                   ? parseFloat(state.balance) - 0.05
                   : 0
                 ).toFixed(2),
               });
-            }}
-          >
-            <button
-              class="LidoStakeFormInputContainerSpan3Content"
-              disabled={!state.sender}
-            >
-              <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
-            </button>
-          </span>
-        </div>
-      )}
-      {!!state.sender ? (
-        <>
-          {false && (
-            <button
-              class="LidoStakeFormSubmitContainer"
-              onClick={() => submitEthers(state.strEther, state.sender)}
-            >
-              <span>Submit</span>
-            </button>
-          )}
-          <StakeFormWrapper>
-            <Widget
-              src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
-              props={{
-                placeholder: "Enter ETH amount",
-                value: state.strEther,
-                onChange: (e) => State.update({ strEther: e.target.value }),
-                onClickMax: () => {
-                  State.update({
-                    strEther: (state.balance > 0.05
-                      ? parseFloat(state.balance) - 0.05
-                      : 0
-                    ).toFixed(2),
-                  });
-                },
-                inputError: state.inputError,
-                balance: nearBalance,
-                iconName: "NEAR",
-                iconUrl:
-                  "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-              }}
-            />
-            <Widget
-              src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
-              props={{
-                value:
-                  state.strEther && state.metrics
-                    ? (state.strEther * state.metrics.mpethPrice).toFixed(5)
-                    : 0,
-                price: state.metrics ? state.metrics.mpethPrice : 1,
-                iconName: "mpETH",
-                iconUrl:
-                  "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-              }}
-            />
-            <Widget
-              src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
-              props={{
-                onClick: () => submitEthers(state.strEther, state.sender),
-                disabled: state.loading,
-                text: state.loading ? "Wait..." : "Stake ETH",
-              }}
-            />
-          </StakeFormWrapper>
+            },
+            inputError: state.inputError,
+            balance: nearBalance,
+            iconName: "NEAR",
+            iconUrl:
+              "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+          }}
+        />
+        <Widget
+          src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
+          props={{
+            value:
+              state.strEther && state.metrics
+                ? (state.strEther * state.metrics.mpethPrice).toFixed(5)
+                : 0,
+            price: state.metrics ? state.metrics.mpethPrice : 1,
+            iconName: "mpETH",
+            iconUrl:
+              "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
+          }}
+        />
+        {!!state.sender ? (
           <Widget
-            src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
+            src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
             props={{
-              open: state.openModal,
-              onClose: () => State.update({ openModal: false }),
+              onClick: () => submitEthers(state.strEther, state.sender),
+              disabled: state.loading,
+              text: state.loading ? "Wait..." : "Stake ETH",
             }}
           />
-        </>
-      ) : (
-        <Web3Connect
-          className="LidoStakeFormSubmitContainer"
-          connectLabel="Connect with Web3"
-        />
-      )}
+        ) : (
+          <Web3Connect
+            className="LidoStakeFormSubmitContainer"
+            connectLabel="Connect with Web3"
+          />
+        )}
+      </StakeFormWrapper>
+      <Widget
+        src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
+        props={{
+          open: state.openModal,
+          onClose: () => State.update({ openModal: false }),
+        }}
+      />
     </LidoContainer>
   </Theme>
 );
