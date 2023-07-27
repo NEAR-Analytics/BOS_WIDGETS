@@ -90,7 +90,7 @@ const Right = styled.div`
     align-items: flex-end;
     flex-direction: column;
     width: 100%;
-    gap: 0px;
+    gap: 0px important!;
     input {
       text-align: end;
       outline: none;
