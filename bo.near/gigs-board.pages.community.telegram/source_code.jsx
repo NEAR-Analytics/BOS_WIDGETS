@@ -115,6 +115,7 @@ const DevHub = {
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
 const communityData = DevHub.get_community({ handle: props.handle });
+console.log(communityData);
 
 if (communityData === null) {
   return <div>Loading...</div>;
@@ -122,6 +123,7 @@ if (communityData === null) {
 
 const Telegram = (
   <div>
+    {communityData}
     <iframe
       iframeResizer
       src={
