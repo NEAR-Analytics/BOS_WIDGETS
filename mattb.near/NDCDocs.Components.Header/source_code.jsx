@@ -1,4 +1,4 @@
-const { onClick, showMenu } = props;
+const { onClick, showMenu, title } = props;
 
 State.init({
   showMenu: showMenu || false,
@@ -68,7 +68,7 @@ return (
   <HeaderWrapper>
     <Header>
       <MenuButton onClick={() => toggleMenu()}></MenuButton>
-      <p>NDCDocs</p>
+      <p>{title || "NDCDocs"}</p>
     </Header>
   </HeaderWrapper>
 );
