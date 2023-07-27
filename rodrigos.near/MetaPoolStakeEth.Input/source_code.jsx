@@ -56,7 +56,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
-    gap: 20px;
+    gap: 0px;
 
     padding: 16px;
     border-radius: 16px;
