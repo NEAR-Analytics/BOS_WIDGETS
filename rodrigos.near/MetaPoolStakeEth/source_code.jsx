@@ -527,10 +527,7 @@ return (
           }}
         />
       ) : (
-        <Web3Connect
-          className="LidoStakeFormSubmitContainer"
-          connectLabel="Connect with Web3"
-        />
+        <Web3Connect connectLabel="Connect with Ethereum wallet" />
       )}
     </StakeFormWrapper>
     <Widget
