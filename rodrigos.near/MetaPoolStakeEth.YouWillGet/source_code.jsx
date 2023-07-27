@@ -5,7 +5,6 @@ const Wrapper = styled.div`
     justify-content: space-between;
     flex-direction: column;
 
-    gap: 20px;
     padding: 16px;
     border-radius: 16px;
     background: rgb(247, 249, 251);
@@ -96,7 +95,8 @@ const mpETHImage = (
 
 const RightContainer = styled.div`
     display: flex;
-    align-items: center;
+    align-items: end;
+    justify-content: end;
     flex-direction: row;
     gap: 10px;
     font-size: 32px;
@@ -110,7 +110,6 @@ const Top = styled.div`
     flex-direction: row;
 
     gap: 20px;
-    padding: 16px;
     border-radius: 16px;
     background: rgb(247, 249, 251);
     width: 100%;
@@ -169,7 +168,7 @@ return (
     </Top>
     <Bottom>
       <div>1 mpETH = {props.price.toFixed(5) || 0} ETH</div>
-      <div>{props.iconName}</div>
+      <div styled={{ textAlign: "end" }}>{props.iconName}</div>
     </Bottom>
   </Wrapper>
 );
