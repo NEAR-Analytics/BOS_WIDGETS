@@ -34,7 +34,7 @@ const metadata = {
   tags: options.tags ? state.metadata.tags : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
 
-  platform: "nearpad",
+  platform: "jutsu.ai",
 };
 
 if (
