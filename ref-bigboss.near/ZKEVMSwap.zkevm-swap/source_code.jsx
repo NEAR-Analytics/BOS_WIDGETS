@@ -739,6 +739,8 @@ const onCallTxComple = (tx) => {
   });
 };
 
+console.log("state", state.sender, selectedChainId);
+
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
     ? "zkEvm Swap"
