@@ -1,5 +1,14 @@
 const { title, tags, accountId, subtitle, profile, navegateTo } = props;
 /*
+====================================================Tags example==================================================
+    tags: [
+        {
+            text: string,
+            href: string,
+        },
+    ]
+==========(When modified to be web app we should delete action to replace it with a propper State.update)=========
+
 ==================================================Subtitle example================================================
     subtitle: {
         text: string,
@@ -67,6 +76,8 @@ const CardContainer = styled.a`
     cursor: pointer;
     with: fit-content;
     min-width: 18rem;
+    display: flex;
+    flex-wrap: nowrap;
 
     &:hover {
         color: white;
@@ -74,7 +85,6 @@ const CardContainer = styled.a`
         background: linear-gradient(90deg, rgba(147,51,234,1) 0%, rgba(79,70,229,1) 100%);
     }
 `;
-
 //============================================End styled components==============================================
 
 return (
@@ -82,7 +92,7 @@ return (
     <CardContainer
       onMouseEnter={State.update({ hover: true })}
       onMouseLeave={State.update({ hover: false })}
-      className="p-3 rounded row d-flex justify-content-center"
+      className="p-3 rounded row"
     >
       <div className="d-flex col flex-grow-1">
         {props.tooltip ? (
@@ -109,6 +119,26 @@ return (
             </a>
           )}
         </div>
+      </div>
+      <div className="d-flex justify-content-center align-items-center flex-wrap p-2 w-50 bg-light rounded">
+        {tags.map((tag) => {
+          if (!tag.href || !tag.text) {
+            return <p className="text-danger">Wrong props</p>;
+          }
+          return (
+            <a className="m-1" href={tag.href}>
+              <Widget
+                src="rubycop.near/widget/NDC.StyledComponents"
+                props={{
+                  Tag: {
+                    title: tag.text,
+                    className: "white",
+                  },
+                }}
+              />
+            </a>
+          );
+        })}
       </div>
     </CardContainer>
   </div>
