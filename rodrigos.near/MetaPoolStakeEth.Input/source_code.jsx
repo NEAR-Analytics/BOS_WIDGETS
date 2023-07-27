@@ -64,11 +64,8 @@ const Wrapper = styled.div`
 
 `;
 
-const Left = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  button {
+const Button = styled.div`
+    align-self: start;
     border-radius: 1000px;
     height: 34px;
     padding: 8px 16px;
@@ -85,7 +82,7 @@ const Left = styled.div`
       line-height: 1.2;
       color: black;
     }
-  }
+  
 `;
 
 const Right = styled.div`
@@ -93,7 +90,7 @@ const Right = styled.div`
     align-items: flex-end;
     flex-direction: column;
     width: 100%;
-    gap: 10px;
+    gap: 0px;
     input {
       text-align: end;
       outline: none;
@@ -117,25 +114,27 @@ const Right = styled.div`
       }
     }
 `;
+
 const Highlight = styled.div`
+align-self: start;
   font-weight: bold;
+
 `;
 
 return (
   <Wrapper>
-    <Left>
-      <Highlight>{props.placeholder}</Highlight>
-      <button onClick={() => props.onClickMax()}>Max</button>
-    </Left>
     <Right>
+      <Highlight>{props.placeholder || "Enter ETH amount"}</Highlight>
       <input
         disabled={disabledInput}
         type="number"
         placeholder="0"
         value={props.value}
         onChange={props.onChange}
+        style={{ lineHeight: 0, padding: 0 }}
       />
-      <div>USD 0</div>
+      <Button onClick={() => props.onClickMax()}>Max</Button>
+      <div>USD {props.usdETH || 0}</div>
     </Right>
   </Wrapper>
 );
