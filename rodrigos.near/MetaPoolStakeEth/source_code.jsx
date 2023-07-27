@@ -20,7 +20,7 @@ if (state.chainId !== undefined && state.chainId !== 5) {
   return <p>Switch to Ethereum Goerli</p>;
 }
 
-// FETCH Stake ABI
+// FETCH STAKING ABI
 
 const stakingAddress = "0x748c905130CC15b92B97084Fd1eEBc2d2419146f";
 const tokenDecimals = 18;
@@ -68,7 +68,7 @@ const metapoolAbi = [
 
 const iface = new ethers.utils.Interface(metapoolAbi);
 
-// FETCH Stake STAKING APR
+// FETCH STAKING APY
 
 if (state.metrics === undefined) {
   const resp = fetch("https://eth-metapool.narwallets.com/metrics_json");
@@ -123,10 +123,10 @@ const submitEthers = (strEther, _referral) => {
           State.update({ openModal: true, loading: false, strEther: 0 })
         );
     })
-    .catch((waitResp) => State.update({ loading: false }));
+    .catch((e) => console.error(e));
 };
 
-// DETECT SENDER
+// DETECT USER
 
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -136,9 +136,7 @@ if (state.sender === undefined) {
   }
 }
 
-//if (!state.sender)  return "Please login first";
-
-// FETCH SENDER BALANCE
+// GET USER ETH BALANCE
 
 if (state.balance === undefined && state.sender) {
   Ethers.provider()
@@ -148,35 +146,13 @@ if (state.balance === undefined && state.sender) {
     });
 }
 
-// FETCH SENDER STETH BALANCE
+// GET USER MPETH BALANCE
 
 if (state.stakedBalance === undefined && state.sender) {
   getStakedBalance(state.sender).then((stakedBalance) => {
     State.update({ stakedBalance });
   });
 }
-
-// FETCH CSS
-
-const cssFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
-).body;
-const css = fetch(
-  "https://pluminite.mypinata.cloud/ipfs/Qmboz8aoSvVXLeP5pZbRtNKtDD3kX5D9DEnfMn2ZGSJWtP"
-).body;
-
-if (!cssFont || !css) return "";
-
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-    font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    ${cssFont}
-    ${css}
-`,
-  });
-}
-const Theme = state.theme;
 
 // OUTPUT UI
 
