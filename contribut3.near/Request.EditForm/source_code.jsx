@@ -157,8 +157,6 @@ const validateForm = () => {
   );
 };
 
-console.log(props);
-
 if (!state.projectIsFetched) {
   Near.asyncView(
     ownerId,
@@ -167,7 +165,7 @@ if (!state.projectIsFetched) {
     "final",
     false
   ).then((project) => {
-    State.set({ project, projectIsFetched: true });
+    State.update({ project, projectIsFetched: true });
   });
   Near.asyncView(
     ownerId,
@@ -176,7 +174,7 @@ if (!state.projectIsFetched) {
     "final",
     false
   ).then((request) => {
-    State.set({
+    State.update({
       title: request.title,
       description: request.description,
       requestType: request.request_type,
