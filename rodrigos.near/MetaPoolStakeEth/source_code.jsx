@@ -374,9 +374,7 @@ return (
             </div>
           </div>
         </div>
-        <Widget
-          src={`pierre-dev.near/widget/MetaPool.Element.TitleAndDescription`}
-        />
+        <Widget src={`rodrigos.near/widget/MetaPoolStakeEth.Title`} />
       </Header>
 
       <LidoForm>
