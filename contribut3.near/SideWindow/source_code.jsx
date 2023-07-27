@@ -88,7 +88,6 @@ const Button = styled("Dialog.Trigger")`
   line-height: 1em;
   text-align: center;
   white-space: nowrap;
-  width: 100%;
 `;
 
 const Description = styled.div`
