@@ -115,7 +115,7 @@ const DevHub = {
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
 const communityData = DevHub.get_community({ handle: props.handle });
-console.log(communityData);
+console.log(communityData.telegram_handle);
 
 if (communityData === null) {
   return <div>Loading...</div>;
