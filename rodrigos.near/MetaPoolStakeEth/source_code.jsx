@@ -512,13 +512,13 @@ return (
               }}
             />
             <Widget
-              src={`pierre-dev.near/widget/MetaPool.Element.YouWillGet`}
+              src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
               props={{
                 value:
                   state.strEther && state.metrics
                     ? (state.strEther * state.metrics.mpethPrice).toFixed(2)
                     : 0,
-                price: 1,
+                price: state.metrics ? state.metrics.mpethPrice : 1,
                 iconName: "mpETH",
                 iconUrl:
                   "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
