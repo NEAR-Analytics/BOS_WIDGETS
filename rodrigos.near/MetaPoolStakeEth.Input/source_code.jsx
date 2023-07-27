@@ -56,7 +56,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
-    gap: 0px;
+    gap: 20px;
 
     padding: 16px;
     border-radius: 16px;
@@ -64,8 +64,11 @@ const Wrapper = styled.div`
 
 `;
 
-const Button = styled.div`
-    align-self: start;
+const Left = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  button {
     border-radius: 1000px;
     height: 34px;
     padding: 8px 16px;
@@ -82,7 +85,7 @@ const Button = styled.div`
       line-height: 1.2;
       color: black;
     }
-  
+  }
 `;
 
 const Right = styled.div`
@@ -90,7 +93,7 @@ const Right = styled.div`
     align-items: flex-end;
     flex-direction: column;
     width: 100%;
-    gap: 0px important!;
+    gap: 10px;
     input {
       text-align: end;
       outline: none;
@@ -114,27 +117,25 @@ const Right = styled.div`
       }
     }
 `;
-
 const Highlight = styled.div`
-align-self: start;
   font-weight: bold;
-
 `;
 
 return (
   <Wrapper>
-    <Right style={{ gap: "0px important!" }}>
-      <Highlight>{props.placeholder || "Enter ETH amount"}</Highlight>
+    <Left>
+      <Highlight>{props.placeholder}</Highlight>
+      <button onClick={() => props.onClickMax()}>Max</button>
+    </Left>
+    <Right>
       <input
         disabled={disabledInput}
         type="number"
         placeholder="0"
         value={props.value}
         onChange={props.onChange}
-        style={{ lineHeight: 0, padding: 0 }}
       />
-      <Button onClick={() => props.onClickMax()}>Max</Button>
-      <div>USD {props.usdETH || 0}</div>
+      <div>USD 0</div>
     </Right>
   </Wrapper>
 );
