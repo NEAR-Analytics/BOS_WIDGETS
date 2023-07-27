@@ -135,7 +135,7 @@ return (
         value={props.value}
         onChange={props.onChange}
       />
-      <div>USD 0</div>
+      <div>USD {props.ethUsdPrice || 0}</div>
     </Right>
   </Wrapper>
 );
