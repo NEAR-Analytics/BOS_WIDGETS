@@ -67,6 +67,15 @@ const Status = styled.div`
       font-weight: 400;
       line-height: 1.1rem; /* 146.667% */
     }
+
+    &.closed {
+      color: var(--danger-500, #f64e60);
+      font-family: "Mona Sans";
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.1rem; /* 146.667% */
+    }
   }
 `;
 
@@ -102,7 +111,9 @@ return (
       >
         <circle cx="3.5" cy="4" r="3.5" fill="#12B76A" />
       </svg>
-      <span>{state.request.open ? "Receiving proposals" : "Closed"}</span>
+      <span className={state.request.open ? "open" : "closed"}>
+        {state.request.open ? "Receiving proposals" : "Closed"}
+      </span>
     </Status>
   </Container>
 );
