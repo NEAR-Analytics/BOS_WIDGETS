@@ -210,23 +210,43 @@ return (
                 </li>
               )
             )}
+          {accountId &&
+            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+              <div className="d-block d-md-none">
+                <StylessATag href={getLink()}>
+                  <Widget
+                    src="rubycop.near/widget/NDC.StyledComponents"
+                    props={{
+                      Button: {
+                        size: "big",
+                        onClick: () => {},
+                        text: "+ Create Article",
+                        className: "primary dark",
+                      },
+                    }}
+                  />
+                </StylessATag>
+              </div>
+            )}
         </ul>
       </div>
       {accountId &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
-          <StylessATag href={getLink()}>
-            <Widget
-              src="rubycop.near/widget/NDC.StyledComponents"
-              props={{
-                Button: {
-                  size: "big",
-                  onClick: () => {},
-                  text: "+ Create Article",
-                  className: "primary dark",
-                },
-              }}
-            />
-          </StylessATag>
+          <div className="d-none d-md-block">
+            <StylessATag href={getLink()}>
+              <Widget
+                src="rubycop.near/widget/NDC.StyledComponents"
+                props={{
+                  Button: {
+                    size: "big",
+                    onClick: () => {},
+                    text: "+ Create Article",
+                    className: "primary dark",
+                  },
+                }}
+              />
+            </StylessATag>
+          </div>
         )}
     </div>
   </div>
