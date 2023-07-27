@@ -154,9 +154,32 @@ const tokens = [
     address: "0xA8CE8aee21bC2A48a5EF670afCc9274C7bbbC035",
     chainId: 1101,
     symbol: "USDC",
-    decimals: 18,
+    decimals: 6,
     logoURI:
       "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png",
+  },
+  {
+    address: "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
+    chainId: 1101,
+    symbol: "USDT",
+    decimals: 6,
+    logoURI: "https://assets.coingecko.com/coins/images/325/small/Tether.png",
+  },
+  {
+    address: "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4",
+    chainId: 1101,
+    symbol: "DAI",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png",
+  },
+  {
+    address: "0xEA034fb02eB1808C2cc3adbC15f447B93CbE08e1",
+    chainId: 1101,
+    symbol: "WBTC",
+    decimals: 8,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png",
   },
 ];
 
