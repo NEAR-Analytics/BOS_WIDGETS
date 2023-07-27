@@ -99,6 +99,7 @@ const RightContainer = styled.div`
     align-items: center;
     flex-direction: row;
     gap: 10px;
+    font-size: 32px;
 `;
 
 const Icon = ({ iconUrl }) => (
@@ -113,7 +114,7 @@ return (
   <Wrapper>
     <Left>
       <Highlight>You'll get</Highlight>
-      <div>1 stNEAR = {props.price.toFixed(2) || 0}</div>
+      <div>1 mpETH = {props.price.toFixed(5) || 0} ETH</div>
     </Left>
     <Right>
       <RightContainer>
