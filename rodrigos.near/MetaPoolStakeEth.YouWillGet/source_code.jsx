@@ -96,7 +96,7 @@ const mpETHImage = (
 
 const RightContainer = styled.div`
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: end;
     flex-direction: row;
     gap: 10px;
@@ -164,7 +164,7 @@ return (
               fill="#0C2246"
             />
           </svg>{" "}
-          <div style={{ alignSelf: "end" }}>{props.value || 0}</div>
+          <div>{props.value || 0}</div>
         </RightContainer>
       </Right>
     </Top>
