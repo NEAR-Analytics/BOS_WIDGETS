@@ -4,4 +4,5 @@ const hello = () => {
 
 return {
   hello,
+  hi: context.accountId,
 };
