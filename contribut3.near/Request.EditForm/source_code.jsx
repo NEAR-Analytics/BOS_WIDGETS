@@ -197,7 +197,7 @@ if (!state.projectIsFetched) {
       description: request.description,
       requestType: { value: request.request_type },
       paymentType: { value: request.payment_type },
-      paymentSource: { value: request.payment_source },
+      paymentSource: { value: request.source },
       budget: request.budget,
       deadline: createDate(Number(request.deadline)),
     });
