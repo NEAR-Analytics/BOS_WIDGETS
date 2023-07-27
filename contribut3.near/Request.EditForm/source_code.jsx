@@ -195,9 +195,9 @@ if (!state.projectIsFetched) {
     State.update({
       title: request.title,
       description: request.description,
-      requestType: request.request_type,
-      paymentType: request.payment_type,
-      paymentSource: request.payment_source,
+      requestType: { value: request.request_type },
+      paymentType: { value: request.payment_type },
+      paymentSource: { value: request.payment_source },
       budget: request.budget,
       deadline: createDate(Number(request.deadline)),
     });
