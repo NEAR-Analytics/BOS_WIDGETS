@@ -19,6 +19,7 @@ State.init({
   currentSection: 0,
   index: null,
   article: null,
+  showMenu: false,
 });
 
 State.update({
@@ -61,11 +62,24 @@ getIndex();
 const Main = styled.div`
     display:flex;
     position:relative;
+    overflow:hidden;
 `;
 
 const SideBarWrapper = styled.div`
   min-width:250px;
   position:relative;
+  z-index:99999;
+
+  @media screen and (max-width:800px) {
+    position:absolute;
+    left:0;
+    background-color:#fff;
+    display:none;
+  }
+
+  &.show {
+    display:block;
+  }
 `;
 
 const SideBar = styled.div`
@@ -77,6 +91,11 @@ const SideBar = styled.div`
     border-right:1px solid rgba(0,0,0,.05);
     box-sizing:border-box;
     padding:1.5rem;
+    background-color:#fff;
+
+    @media screen and (max-width:800px) {
+      width:100%;
+    }
 
     h1 {
       font-size:1.4rem;
@@ -185,6 +204,10 @@ const Content = styled.div`
     padding:2rem;
     min-height:100vh;
 
+    @media screen and (min-width:800px) {
+      padding:1.2rem;
+    }
+
     h1 {
         font-weight:bold;
     }
@@ -259,6 +282,7 @@ const ControlButton = styled.a`
   cursor:pointer;
   align-items:center;
   justify-content:center;
+  flex-wrap:wrap;
   width:250px;
   height:100px;
   border-radius:10px;
@@ -340,99 +364,148 @@ const ControlButton = styled.a`
   }
 `;
 
+const Header = styled.div`
+  display:none;
+  position:relative;
+  box-sizing:border-box;
+  padding:1rem;
+  align-items:center;
+  background-color:rgba(0,0,0,.02);
+
+  > p {
+    margin:0;
+    padding:0;
+    margin-left:10px;
+    font-weight:bold;
+  }
+
+  @media screen and (max-width:800px) {
+    display:flex;
+  }
+`;
+
+const MenuButton = styled.div`
+    cursor:pointer;
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background-color:rgba(0,0,0,.05);
+    background-image:url(https://ipfs.near.social/ipfs/bafkreiexzn4c2sc53i5k5u7zaazdkf6j2zhzvifsxp7skcucwaxm46aggi);
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:20px 20px;
+    transition: all .2s;
+    border: 2px solid rgba(0,0,0,.0);
+
+    &:hover {
+        transition: all .2s;
+        box-shadow: 0 0 10px 5px rgba(0,0,0,.02);
+        border: 2px solid rgba(0,0,0,.02);
+    }
+
+`;
+
 return (
-  <Main>
-    <SideBarWrapper>
-      <SideBar>
-        <div>
-          <h1>{state.article.articleId}</h1>
-          <ul>
-            {state.index.map((obj, key) => (
-              <li
-                onClick={() => State.update({ currentSection: key })}
-                className={key === state.currentSection ? "selected" : ""}
-              >
-                <a href={`#${obj.contentStart}`}>
-                  <h2>{obj.title}</h2>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <ArticleDetails>
-          <p className="title">Published by</p>
-          <p>@{state.article.author}</p>
-          <p className="title">Last edit by</p>
-          <p>@{state.article.lastEditor}</p>
-          <p className="title">Modified on</p>
-          <p>{getDate(state.article.timeLastEdit)}</p>
-          <p className="title">Version</p>
-          <p>#{state.article.version}</p>
-        </ArticleDetails>
-      </SideBar>
-    </SideBarWrapper>
-    <Content>
-      <Wrapper>
-        {state.index.map((content) => (
-          <div id={content.contentStart} className="markdown">
-            <div
-              className="link"
-              onClick={() =>
-                clipboard.writeText(`${path}#${content.contentStart}`)
-              }
-            >
-              🔗
-            </div>
-            <Markdown
-              text={state.article.body
-                .split("\n")
-                .slice(
-                  content.contentStart,
-                  content.contentEnd || state.article.body.split("\n").length
-                )
-                .join("\n")}
-            />
+  <>
+    <Header>
+      <MenuButton
+        onClick={() => State.update({ showMenu: !state.showMenu })}
+      ></MenuButton>
+      <p>NDCDocs</p>
+    </Header>
+    <Main>
+      <SideBarWrapper className={state.showMenu ? "show" : ""}>
+        <SideBar>
+          <div>
+            <h1>{state.article.articleId}</h1>
+            <ul>
+              {state.index.map((obj, key) => (
+                <li
+                  onClick={() => State.update({ currentSection: key })}
+                  className={key === state.currentSection ? "selected" : ""}
+                >
+                  <a href={`#${obj.contentStart}`}>
+                    <h2>{obj.title}</h2>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        ))}
-        {(previousArticle || nextArticle) && (
-          <Controls>
-            {previousArticle && (
-              <ControlButton href={previousArticle.link} className="previous">
-                <div>
-                  <img
-                    src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
-                    style={{
-                      maxWidth: "20px",
-                      maxHeight: "20px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <p>Previous</p>
-                  <p>{previousArticle.title}</p>
-                </div>
-              </ControlButton>
-            )}
-            {nextArticle && (
-              <ControlButton href={nextArticle.link} className="next">
-                <div>
-                  <img
-                    src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
-                    style={{
-                      maxWidth: "20px",
-                      maxHeight: "20px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <p>Next</p>
-                  <p>{nextArticle.title}</p>
-                </div>
-              </ControlButton>
-            )}
-          </Controls>
-        )}
-      </Wrapper>
-    </Content>
-  </Main>
+          <ArticleDetails>
+            <p className="title">Published by</p>
+            <p>@{state.article.author}</p>
+            <p className="title">Last edit by</p>
+            <p>@{state.article.lastEditor}</p>
+            <p className="title">Modified on</p>
+            <p>{getDate(state.article.timeLastEdit)}</p>
+            <p className="title">Version</p>
+            <p>#{state.article.version}</p>
+          </ArticleDetails>
+        </SideBar>
+      </SideBarWrapper>
+      <Content>
+        <Wrapper>
+          {state.index.map((content) => (
+            <div id={content.contentStart} className="markdown">
+              <div
+                className="link"
+                onClick={() =>
+                  clipboard.writeText(`${path}#${content.contentStart}`)
+                }
+              >
+                🔗
+              </div>
+              <Markdown
+                text={state.article.body
+                  .split("\n")
+                  .slice(
+                    content.contentStart,
+                    content.contentEnd || state.article.body.split("\n").length
+                  )
+                  .join("\n")}
+              />
+            </div>
+          ))}
+          {(previousArticle || nextArticle) && (
+            <Controls>
+              {previousArticle && (
+                <ControlButton href={previousArticle.link} className="previous">
+                  <div>
+                    <img
+                      src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+                      style={{
+                        maxWidth: "20px",
+                        maxHeight: "20px",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Previous</p>
+                    <p>{previousArticle.title}</p>
+                  </div>
+                </ControlButton>
+              )}
+              {nextArticle && (
+                <ControlButton href={nextArticle.link} className="next">
+                  <div>
+                    <img
+                      src="https://ipfs.near.social/ipfs/bafkreigygnp234eyi5ljtxf7czp5emmhihjxitbl6e4zzuol3wgxsvkhcu"
+                      style={{
+                        maxWidth: "20px",
+                        maxHeight: "20px",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <p>Next</p>
+                    <p>{nextArticle.title}</p>
+                  </div>
+                </ControlButton>
+              )}
+            </Controls>
+          )}
+        </Wrapper>
+      </Content>
+    </Main>
+  </>
 );
