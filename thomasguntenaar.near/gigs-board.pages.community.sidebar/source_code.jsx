@@ -177,15 +177,9 @@ const UserList = (users) => {
 };
 
 const Sidebar = ({ label }) => {
-  console.log({label});
   const community = DevHub.get_community({ handle: label });
   const root_members = DevHub.get_root_members() ?? null;
-  // TODO deploy with CONSOLE LOG HERE
 
-  console.log({
-    community,
-    root_members,
-  })
   if (root_members === null || community == null) {
     return <div>Loading...</div>;
   }
