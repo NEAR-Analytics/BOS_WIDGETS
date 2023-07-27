@@ -89,6 +89,7 @@ const SideBarWrapper = styled.div`
     position:absolute;
     left:0;
     background-color:#fff;
+    width:100%;
   }
 
   &.show {
@@ -257,15 +258,19 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  position:absolute;
-  top:0;
-  left:0;
+  position:relative;
   box-sizing:border-box;
   padding:1rem;
   align-items:center;
-  background-color:rgba(0,0,0,.02);
   width:100%;
   display:flex;
+  border-bottom:1px solid rgba(0,0,0,.05);
+  background-color:#fff;
+  z-index:9999;
+
+  @media screen and (max-width: 800px) {
+    position:fixed;
+  }
 
   > p {
     margin:0;
