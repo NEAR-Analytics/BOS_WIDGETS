@@ -906,7 +906,8 @@ return (
             fontWeight: 500,
           }}
         >
-          Swap
+          {/* Swap */}
+          {selectedDex}
         </div>
 
         <SwapPage>
