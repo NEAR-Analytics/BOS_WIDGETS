@@ -371,7 +371,7 @@ return (
               Near.call(ownerId, "edit_request", {
                 cid: props.cid,
                 request: {
-                  project_id: state.projectId.value,
+                  project_id: props.projectId,
                   title: state.title,
                   description: state.description,
                   open: true,
