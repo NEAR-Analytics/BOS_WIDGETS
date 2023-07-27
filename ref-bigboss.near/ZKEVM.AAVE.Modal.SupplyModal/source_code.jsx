@@ -446,6 +446,7 @@ const changeValue = (value) => {
   State.update({ amount: value });
 };
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
+const is_disabled = state.loading || Big(state.amount || 0).lte(0) || Big(balance).lte(0);
 return (
   <>
     <Widget
@@ -580,6 +581,7 @@ return (
                 config,
                 children: `Supply ${symbol}`,
                 loading: state.loading,
+                disabled: is_disabled,
                 onClick: () => {
                   const amount = Big(state.amount || 0)
                     .mul(Big(10).pow(decimals))
