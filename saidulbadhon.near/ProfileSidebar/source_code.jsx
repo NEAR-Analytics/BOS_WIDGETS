@@ -4,6 +4,7 @@ if (!accountId) return "Login or send accountId in the props";
 
 const profile = Social.getr(`${accountId}/profile`);
 
+// comments
 const name = profile?.name;
 const image = profile?.image;
 
