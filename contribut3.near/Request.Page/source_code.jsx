@@ -195,6 +195,25 @@ const Separator = styled("Separator.Root")`
   background: #eceef0;
 `;
 
+const Button = styled.button`
+  display: flex;
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 3.125rem;
+  border: 1px solid var(--ui-elements-light, #eceef0);
+  background: var(--background-light, #fafafa);
+  color: var(--error-error-default, #f44738);
+  text-align: center;
+  font-family: "Mona Sans";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 142%; /* 1.2425rem */
+`;
+
 return (
   <Container>
     <Header>
@@ -205,10 +224,25 @@ return (
         />
         <CTARow>
           {state.isAdmin ? (
-            <Widget
-              src={`${ownerId}/widget/Request.EditSideWindow`}
-              props={{ accountId, cid }}
-            />
+            <>
+              <Widget
+                src={`${ownerId}/widget/Request.EditSideWindow`}
+                props={{ accountId, cid }}
+              />
+              <Button
+                onClick={() => {
+                  Near.call(ownerId, "edit_request", {
+                    cid: props.cid,
+                    request: {
+                      ...state.request,
+                      open: false,
+                    },
+                  });
+                }}
+              >
+                Close request
+              </Button>
+            </>
           ) : (
             <Widget
               src={`${ownerId}/widget/Request.ProposeSideWindow`}
