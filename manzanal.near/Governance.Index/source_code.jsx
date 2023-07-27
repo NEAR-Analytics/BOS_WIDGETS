@@ -1,11 +1,12 @@
-const authorId = "manzanal.near";
-
+const authorId = props.authorId || "manzanal.near";
+const contractId = props.contractId || "v005.mpip.near";
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: 0.75em;
+  gap: 0.75em;
   h2 {
     font-style: normal;
     font-weight: 700;
@@ -13,6 +14,9 @@ const Header = styled.div`
     line-height: 1.5em;
     color: #000000;
   }
+  @media (max-width: 600px) {
+    flex-direction: column;
+   }
 `;
 
 const logo = (
@@ -88,6 +92,10 @@ padding: 3em;
 * {
   margin: 0;
 }
+
+@media (max-width: 768px) {
+ padding: 1.5em
+}
 `;
 
 State.init({
@@ -108,6 +116,8 @@ const getContent = {
       props={{
         tab: state.tab,
         update,
+        authorId,
+        contractId,
       }}
     />
   ),
@@ -119,6 +129,8 @@ const getContent = {
         update,
         transactionHashes: state.transactionHashes,
         transactionHashesIsHandled: state.transactionHashesIsHandled,
+        contractId,
+        authorId,
       }}
     />
   ),
@@ -131,6 +143,8 @@ const getContent = {
         mpip_id: props.mpip_id,
         transactionHashes: state.transactionHashes,
         transactionHashesIsHandled: state.transactionHashesIsHandled,
+        contractId,
+        authorId,
       }}
     />
   ),
@@ -149,7 +163,10 @@ return (
       >
         {logo}
       </a>
-      <Widget src={`${authorId}/widget/Governance.Balance`} props={{}} />
+      <Widget
+        src={`${authorId}/widget/Governance.Balance`}
+        props={{ authorId, contractId }}
+      />
     </Header>
     <ContentContainer className={isForm ? "form" : ""}>
       {getContent}
