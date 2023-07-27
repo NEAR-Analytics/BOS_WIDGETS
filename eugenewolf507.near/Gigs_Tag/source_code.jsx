@@ -1,8 +1,12 @@
 const variant = props.variant ?? "";
 const className = props.className ?? "";
 const children = props.children ?? "#tag";
-const disabled = props.children;
-const onClick = props.onClick ?? (() => {});
+const disabled = props.disabled;
+const onClick =
+  props.onClick ??
+  (() => {
+    console.log("add onClick via props");
+  });
 
 const Tag = styled.button`
 display: inline-block;
