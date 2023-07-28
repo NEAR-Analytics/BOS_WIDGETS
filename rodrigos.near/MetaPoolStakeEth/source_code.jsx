@@ -68,7 +68,7 @@ const metapoolAbi = [
 
 const iface = new ethers.utils.Interface(metapoolAbi);
 
-// FETCH STAKING APY
+// FETCH ETH METRICS
 
 if (state.metrics === undefined) {
   const resp = fetch("https://eth-metapool.narwallets.com/metrics_json");
@@ -186,7 +186,7 @@ const PageContainer = styled.div`
   margin: 0px auto;
   min-width: 400px;
   width: 100%;
-  padding: 0px 32px 32px 32px;
+  padding: 0px 12px 12px 12px;
   position: relative;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -202,7 +202,7 @@ const StakeContainer = styled.div`
 const Header = styled.div`
   font-weight: 800;
   font-size: 26px;
-  padding-top: 15px;
+  padding: 15px 20px 0 20px;
   margin-bottom: 0.2em;
   line-height: 1.2em;
   text-align: center;
