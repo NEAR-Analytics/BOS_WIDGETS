@@ -23,7 +23,10 @@ const ArticleDetails = styled.div`
     width:100%;
     box-sizing:border-box;
     padding: .5rem 0;
-    margin:0 auto 1rem;
+    margin:1rem auto;
+    padding:1rem;
+    background-color:rgba(0,0,0,.02);
+    border-radius:20px;
 
     div:first-of-type {
       display:flex;
