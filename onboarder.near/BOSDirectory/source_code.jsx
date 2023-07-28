@@ -91,6 +91,8 @@ const social = {
       description:
         "Social Data Protocol On NEAR. The first gateway. Built in social features like custom domains, reports, link previews + more!",
       category: ["NEAR", "EVM", "Social"],
+      deploy: null,
+      github: "https://github.com/NEARSocial/viewer",
     },
     {
       key: 2,
@@ -101,6 +103,8 @@ const social = {
       description:
         "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web. Built in EVM, FastAuth w/ Metatransactions",
       category: ["NEAR", "EVM", "Social"],
+      deploy: null,
+      github: "https://github.com/near/near-discovery",
     },
     {
       key: 2,
@@ -111,6 +115,8 @@ const social = {
       description:
         "A zkEVM by Quickswap featuring PancakeSwap, Quickswap, Gamma, and Balancer. ",
       category: ["DeFi", "EVM", "zkEVM"],
+      deploy: null,
+      github: "https://github.com/NearDeFi/polygon-bos-gateway",
     },
     {
       key: 5,
@@ -121,6 +127,8 @@ const social = {
       description:
         "A gateway dedicated to developers. Switch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
       category: ["Dev", "EVM"],
+      deploy: null,
+      github: null,
     },
     {
       key: 4,
@@ -131,6 +139,8 @@ const social = {
       description:
         "A viewer for NEAR Analytics powered by the Flipside Crypto API built by the NEAR Foundation",
       category: ["NEAR", "Data"],
+      deploy: null,
+      github: null,
     },
     {
       key: 7,
@@ -141,6 +151,8 @@ const social = {
       description:
         "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
       category: ["NEAR", "Sui", "Aptos"],
+      deploy: null,
+      github: null,
     },
     {
       key: 10,
@@ -150,6 +162,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreibjlc2hyxfve55gp2fg6lojf6eliptgiiawprhbg4dyc2wbpzy7tm",
       description: "Token gated rich media supported social feeds",
       category: ["NEAR", "Social", "NFT"],
+      deploy: null,
+      github: null,
     },
     {
       key: 3,
@@ -160,6 +174,8 @@ const social = {
       description:
         "An example viewer of the Canto's blockchain, CantoSwap viewer",
       category: ["DeFi", "EVM", "Canto"],
+      deploy: null,
+      github: null,
     },
     {
       key: 6,
@@ -169,6 +185,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreidx4rvihxc5ycpvlyaod7dscotlb6bmoffimjl7s2zvarhmxtymma",
       description: "A gateway dedicated to NFTs across different chains",
       category: ["NEAR", "EVM", "NFT"],
+      deploy: null,
+      github: "https://github.com/codingshot/genadrop-bos",
     },
     {
       key: 8,
@@ -178,6 +196,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
       description: "Everything +  Data Visualizations for social.near",
       category: ["NEAR", "Data", "Dev"],
+      deploy: null,
+      github: "https://github.com/near-everything/viewer/",
     },
     {
       key: 0,
@@ -187,6 +207,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
       description: "Decentralized front ends for evm chains",
       category: ["EVM", "DeFi"],
+      deploy: null,
+      github: "https://github.com/NearDeFi/bos-viewer",
     },
     {
       key: 9,
@@ -196,6 +218,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreidjmhh4yvjgn7htpymtt3lqhlaoi3ksabixsicojzwichply4oxdy",
       description: "A NEAR gateway for music + NFTs",
       category: ["NFT", "NEAR", "Music"],
+      deploy: null,
+      github: null,
     },
     {
       key: 9,
@@ -206,6 +230,8 @@ const social = {
       description:
         "A feed of vibe checks and DAO dashboard for global network of tastemakers w/ SBT + NFT integration",
       category: ["NFT", "NEAR", "Social"],
+      deploy: null,
+      github: null,
     },
     {
       key: 10,
@@ -215,6 +241,8 @@ const social = {
         "https://ipfs.io/ipfs/bafkreifx6figu3o7xurc3coshzfewhcujczl62emuf3g4gof4ftjbqkvhi",
       description: "BOS HACKS gateway and hackathon platform",
       category: ["Hackathon", "NEAR", "Social"],
+      deploy: null,
+      github: "https://github.com/codingshot/boshacks/",
     },
   ],
 };
@@ -320,6 +348,20 @@ return (
           <div class="card-body p-2 mt-3">
             <CardHeading>{item.name}</CardHeading>
             <Text class="ps-2  pb-3 text-secondary">{item.description}</Text>
+          </div>
+          <div>
+            {item.github && (
+              <Widget
+                src="ndcplug.near/widget/Deploy.GithubButton"
+                props={{ link: item.github }}
+              />
+            )}
+            {item.vercel && (
+              <Widget
+                src="ndcplug.near/widget/Deploy.VercelButton"
+                props={{ link: item.github }}
+              />
+            )}
           </div>
         </Card>
       ))}
