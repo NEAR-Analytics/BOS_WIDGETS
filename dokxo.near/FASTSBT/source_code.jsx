@@ -201,32 +201,37 @@ const validateReceiverHasSbt = () => {
 
 //Methods
 const validatedInputs = async () => {
-  //  console.log(state);
+  //local methods
   const isEmpty = (str) => str.trim() === "";
-  let isValid = false;
-  if (isEmpty(state.Dao_Contract)) {
-    //validate the user filled the Dao input
-    return State.update({
-      error_msg: "Write the DAO contract",
+  const showError = (msg) => {
+    return {
+      error_msg: msg,
       Submitdisable: true,
       FormIsValid: false,
-    });
+    };
+  };
+  const showSuccess = () => {
+    return {
+      error_msg: "",
+      Submitdisable: false,
+      FormIsValid: true,
+    };
+  };
+
+  if (isEmpty(state.Dao_Contract)) {
+    //validate the user filled the Dao input
+    console.log("showerror");
+    const res = showError("Write the DAO contract");
+    console.log("res", res);
+    return State.update(res);
   }
   if (!daos.includes(state.Dao_Contract)) {
     //validate that the DAO provided is a valid one
-    return State.update({
-      error_msg: "Is not a Dao contract",
-      Submitdisable: true,
-      FormIsValid: false,
-    });
+    return State.update(showError("Is not a Dao contract"));
   }
   if (isEmpty(state.Issuer_selected)) {
     //validate the user selected an issuer prefilled
-    return State.update({
-      error_msg: "Select an issuer",
-      Submitdisable: true,
-      FormIsValid: false,
-    });
+    return State.update(showError("Select an issuer"));
   }
 
   if (
@@ -234,19 +239,11 @@ const validatedInputs = async () => {
     isEmpty(state.Issuer_filled)
   ) {
     // the user will provide a new issuer
-    return State.update({
-      error_msg: "provide an issuer",
-      Submitdisable: true,
-      FormIsValid: false,
-    });
+    return State.update(showError("provide an issuer"));
   }
   if (isEmpty(state.Receiver)) {
     //validate the user filled the Receiver
-    return State.update({
-      error_msg: "Write the receiver",
-      Submitdisable: true,
-      FormIsValid: false,
-    });
+    return State.update(showError("Write the receiver"));
   }
   if (state.ischeckselected === true) {
     if (state.ClassIdSelected === "0") {
@@ -261,11 +258,7 @@ const validatedInputs = async () => {
 
     if (isEmpty(state.ClassIdSelected)) {
       //validate the user select a class id higher than 0
-      return State.update({
-        error_msg: "Select a token class",
-        Submitdisable: true,
-        FormIsValid: false,
-      });
+      return State.update(showError("Select a token class"));
     } else {
       if (
         (state.Receiver && state.Issuer_selected) ||
@@ -285,23 +278,17 @@ const validatedInputs = async () => {
           console.log("validateReceiverHasSbt", res);
           if (res.body) {
             //the receiver already has sbt
-            return State.update({
-              error_msg: "The receiver already has SBT",
-              Submitdisable: true,
-              FormIsValid: false,
-            });
+            return State.update(showError("The receiver already has SBT"));
           }
         });
       }
 
       //validate alll is good
-      State.update({ error_msg: "", Submitdisable: false, FormIsValid: true });
-      return state.FormIsValid;
+      return State.update(showSuccess());
     }
   }
 
-  State.update({ error_msg: "", Submitdisable: false, FormIsValid: true });
-  return state.FormIsValid;
+  return State.update(showSuccess());
 };
 
 const Submitform = () => {
