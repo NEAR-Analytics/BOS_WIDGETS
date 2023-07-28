@@ -304,14 +304,14 @@ return (
                 {state.inputBalance != null ? (
                   state.inputBalance ? (
                     <span>
-                      Balance:
+                      Balance: {state.inputBalance}
                       <span
                         class="UserBalance"
                         onClick={async () => {
                           setMaxBalance();
                         }}
                       >
-                        {state.inputBalance}
+                        MAX
                       </span>
                     </span>
                   ) : (
