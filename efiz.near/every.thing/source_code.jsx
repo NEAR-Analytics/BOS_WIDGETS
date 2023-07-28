@@ -200,7 +200,7 @@ switch (state.selectedOption) {
     const keys = Social.get(pattern, "final");
     if (keys) {
       keys = Object.entries(keys).flatMap(([k, v]) => {
-        return Object.entries(v.test[typeName]).flatMap(([ka, kn]) =>
+        return Object.entries(v.test.thing).flatMap(([ka, kn]) =>
           Object.entries(kn.categories).flatMap(([key, value]) => value)
         );
       });
