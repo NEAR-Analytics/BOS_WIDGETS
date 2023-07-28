@@ -62,6 +62,7 @@ const Avatar = styled.div`
 `;
 
 const Cover = styled.div`
+  width:100%;
   img {
     border-radius:20px;
   }
