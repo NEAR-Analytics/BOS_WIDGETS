@@ -83,7 +83,10 @@ if (!state.ethUsdPrice) {
   const resp = fetch(
     "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
   );
-  State.update({ ethUsdPrice: resp?.body?.ethereum.usd ?? "..." });
+  const ethUsdPrice = resp?.body?.ethereum.usd;
+  if (ethUsdPrice && !isNaN(ethUsdPrice)) {
+    State.update({ ethUsdPrice: ethUsdPrice });
+  }
 }
 
 // HELPER FUNCTIONS
@@ -357,8 +360,6 @@ const Spacer = styled.div`
   height: 20px;
 `;
 
-console.log(state.ethUsdPrice, parseFloat(state.strEther));
-
 return (
   <StakeContainer>
     <Header>
@@ -476,7 +477,7 @@ return (
         src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
         props={{
           ethUsdPrice:
-            state.ethUsdPrice && !isNaN(state.ethUsdPrice) && state.strEther
+            state.ethUsdPrice && state.strEther
               ? (state.ethUsdPrice * parseFloat(state.strEther)).toFixed(2)
               : "0",
           placeholder: "Enter ETH amount",
