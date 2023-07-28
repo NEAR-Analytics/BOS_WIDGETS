@@ -13,6 +13,9 @@ tabs = tabs || {
   docs: {
     text: "NDCDocs",
   },
+  nominate: {
+    text: "Nominate",
+  },
   funding: {
     text: "Funding dashboard",
   },
@@ -23,7 +26,7 @@ tabs = tabs || {
     text: "Gigs",
   },
   wg: {
-    text: "NDC Work Group",
+    text: "NDC Work Groups",
   },
 };
 
