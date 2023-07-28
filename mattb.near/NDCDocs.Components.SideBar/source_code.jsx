@@ -47,6 +47,12 @@ const SideBar = styled.div`
     h1 {
       font-size:1.4rem;
       font-weight:bold;
+
+      @media screen and (min-width:800px) {
+        text-overflow: ellipsis;
+        width: 200px;
+        overflow: hidden;
+      }
     }
 
     div:nth-child(1) {
