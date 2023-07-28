@@ -9,6 +9,8 @@ State.init({
   code,
 });
 
+console.log(path);
+
 function onChange(code) {
   State.update({
     code,
