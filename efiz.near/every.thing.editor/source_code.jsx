@@ -8,11 +8,10 @@ State.init({
 
 const Button = styled.button``;
 
-function onChange(e) {
+function onChange(code) {
   //   Storage.privateSet({ path: state.path }, e.target.value);
-  console.log(e);
   State.update({
-    code: e.target.value,
+    code,
   });
 }
 
@@ -23,24 +22,9 @@ function composeData() {
     content = {
       "": state.code,
     };
-    console.log(state.code);
+  } else {
+    content = state.code;
   }
-  //   switch (parts[1]) {
-  //     case "widget": {
-  //       content = {
-  //         "": "state.code",
-  //       };
-  //       break;
-  //     }
-  //     case "thing": {
-  //       content = state.code;
-  //       break;
-  //     }
-  //     case "type": {
-  //       content = state.code;
-  //       break;
-  //     }
-  //   }
   const data = {
     [parts[1]]: {
       [parts[2]]: content,
