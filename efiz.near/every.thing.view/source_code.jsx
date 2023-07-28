@@ -74,6 +74,20 @@ const plugins = {
     src: "efiz.near/widget/every.thing.edit",
     creatorRequired: true,
   },
+  EDITV2: {
+    state: {
+      active: {
+        icon: "bi bi-arrow-counterclockwise",
+        label: "Cancel Edit",
+      },
+      inactive: {
+        icon: "bi bi-pencil",
+        label: "Edit v2",
+      },
+    },
+    src: "efiz.near/widget/every.thing.editor",
+    creatorRequired: true,
+  },
   RAW: {
     state: {
       active: {
@@ -151,7 +165,7 @@ const plugins = {
         label: "Camera",
       },
     },
-    src: "efiz.near/widget/test",
+    src: "efiz.near/widget/Camera",
     typeRequired: "every.near/type/marketplace",
   },
 };
