@@ -294,13 +294,20 @@ return (
                 onChange={(e) => State.update({ amountInput: e.target.value })}
               />
               <div class="TokenAmountPreview">
-                {state.inputBalance != null
-                  ? `Balance: ${
-                      state.inputBalance
-                        ? parseFloat(state.inputBalance).toFixed(6)
-                        : ""
-                    }`
-                  : ""}
+                {state.inputBalance != null ? (
+                  state.inputBalance ? (
+                    <span>
+                      Balance:
+                      <span class="UserBalance">
+                        {parseFloat(state.inputBalance).toFixed(6)}
+                      </span>
+                    </span>
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  ""
+                )}
               </div>
               {!isSufficientBalance() ? (
                 <div class="TokenInsufficientBalance">Insufficient Balance</div>
