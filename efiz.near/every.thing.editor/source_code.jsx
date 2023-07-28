@@ -57,9 +57,7 @@ return (
           <Button
             onClick={() =>
               State.update({
-                path: file.path,
-                language: file.language,
-                code: file.code,
+                file,
               })
             }
           >
