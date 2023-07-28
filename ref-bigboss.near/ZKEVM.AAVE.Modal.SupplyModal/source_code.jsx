@@ -167,7 +167,7 @@ function updateGas() {
 }
 
 updateGas();
-const questionSwitch = Storage.get("zkevm-aave-question-switch");
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "ref-bigboss.near/widget/ZKEVM.switch_quest_card");
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
     tokenAddress,
