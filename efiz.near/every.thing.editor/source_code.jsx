@@ -18,7 +18,7 @@ function composeData() {
   switch (parts[1]) {
     case "widget": {
       content = {
-        "": state.code,
+        "": "state.code",
       };
       break;
     }
@@ -33,7 +33,7 @@ function composeData() {
   }
   const data = {
     [parts[1]]: {
-      [parts[2]]: content,
+      [parts[2]]: "test",
     },
   };
   return data;
