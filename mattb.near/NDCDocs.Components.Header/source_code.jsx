@@ -68,7 +68,7 @@ return (
   <HeaderWrapper>
     <Header>
       <MenuButton onClick={() => toggleMenu()}></MenuButton>
-      <p>{title || "NDCDocs"}</p>
+      <p>{title || "NDCDocs 📝"}</p>
     </Header>
   </HeaderWrapper>
 );
