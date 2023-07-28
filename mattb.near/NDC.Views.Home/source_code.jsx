@@ -212,13 +212,13 @@ let views = {
         <Section>
           <PollContainer>
             <Widget
-              src={`neardigitalcollective.near/widget/EasyPoll.Main`}
+              src={`easypoll-v0.ndc-widgets.near/widget/EasyPoll`}
               props={{
                 sharedBlockHeight: 0,
               }}
             />
             <Widget
-              src={`neardigitalcollective.near/widget/NDCDocs_OneArticle`}
+              src={`mattb.near/widget/NDCDocs.Components.Article`}
               props={{
                 lastEditor: "blaze.near",
                 blockHeight: "94478867",
