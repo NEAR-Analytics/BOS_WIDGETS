@@ -12,6 +12,33 @@ function onChange(e) {
   });
 }
 
+function composeData() {
+  const parts = state.view.path.split("/");
+  let content = {};
+  switch (parts[1]) {
+    case "widget": {
+      content = {
+        "": state.code,
+      };
+      break;
+    }
+    case "thing": {
+      content = state.code;
+      break;
+    }
+    case "type": {
+      content = state.code;
+      break;
+    }
+  }
+  const data = {
+    [parts[1]]: {
+      [parts[2]]: content,
+    },
+  };
+  return data;
+}
+
 return (
   <div>
     <div>
@@ -32,5 +59,8 @@ return (
         onChange: onChange,
       }}
     />
+    <CommitButton className="btn btn-primary" data={composeData}>
+      Save
+    </CommitButton>
   </div>
 );
