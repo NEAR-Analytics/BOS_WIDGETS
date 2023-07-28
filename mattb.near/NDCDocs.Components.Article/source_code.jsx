@@ -93,10 +93,20 @@ function getIndex() {
     }
   });
 
+  if (titles.length == 0) {
+    titles.push({
+      title: articleId,
+      contentStart: 0,
+      contentEnd: null,
+    });
+  }
+
   State.update({ index: titles });
 }
 
 getIndex();
+
+console.log(state.article);
 
 const Main = styled.div`
     display:flex;
