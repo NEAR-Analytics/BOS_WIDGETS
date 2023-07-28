@@ -5,8 +5,6 @@ const contractId = props.contractId || "v006.mpip.near";
 if (!accountId) return <></>;
 
 State.init({
-  inUseVotingPower: null,
-  inUseVotingPowerIsFetched: false,
   allVotingPower: null,
   allVotingPowerIsFetched: false,
   nearBalance: null,
@@ -38,21 +36,6 @@ if (!state.allVotingPowerIsFetched) {
   });
 }
 
-if (!state.inUseVotingPowerIsFetched) {
-  Near.asyncView(
-    contractId,
-    "get_voter_used_voting_power",
-    { voter_id: context.accountId },
-    "final",
-    false
-  ).then((inUseVotingPower) =>
-    State.update({
-      inUseVotingPower: yoctoToNear(inUseVotingPower),
-      inUseVotingPowerIsFetched: true,
-    })
-  );
-}
-
 if (!state.nearBalanceIsFetched) {
   const account = fetch("https://rpc.mainnet.near.org", {
     method: "POST",
@@ -70,6 +53,7 @@ if (!state.nearBalanceIsFetched) {
       },
     }),
   });
+
   const { amount, storage_usage } = account.body.result;
   const NEAR_DECIMALS = 24;
   const COMMON_MIN_BALANCE = 0.05;
@@ -117,19 +101,13 @@ const wallet = (
   </svg>
 );
 
-if (
-  !state.allVotingPowerIsFetched ||
-  !state.inUseVotingPowerIsFetched ||
-  !state.nearBalanceIsFetched
-)
+if (!state.allVotingPowerIsFetched || !state.nearBalanceIsFetched)
   return <>Loading...</>;
 
 return (
   <Balances>
     {wallet}
-    <span>
-      {numberWithCommas(state.allVotingPower - state.inUseVotingPower)} VP
-    </span>
+    <span>{numberWithCommas(state.allVotingPower)} VP</span>
     <span>{state.nearBalance} Ⓝ</span>
   </Balances>
 );
