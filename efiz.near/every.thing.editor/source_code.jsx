@@ -1,7 +1,9 @@
 const files = props.files;
 
+let initialFile = files[0];
+
 State.init({
-  view: files[0],
+  ...initialFile,
 });
 
 const Button = styled.button``;
@@ -50,7 +52,15 @@ return (
     <div>
       {files.map((file) => {
         return (
-          <Button onClick={() => State.update({ view: file })}>
+          <Button
+            onClick={() =>
+              State.update({
+                path: file.path,
+                language: file.language,
+                code: file.code,
+              })
+            }
+          >
             {file.path}
           </Button>
         );
@@ -59,9 +69,9 @@ return (
     <Widget
       src={"efiz.near/widget/MonacoEditor"}
       props={{
-        path: state.view.path,
-        language: state.view.language,
-        code: state.view.code,
+        path: state.path,
+        language: state.language,
+        code: state.code,
         onChange: onChange,
       }}
     />
