@@ -7,6 +7,7 @@ const writersWhiteList = props.writersWhiteList ?? [
   "blaze.near",
   "jlw.near",
   "zarmade.near",
+  "zarmade.near",
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
