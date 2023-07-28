@@ -79,8 +79,6 @@ const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
 const mode = props.mode ?? "Create";
 
-const isSponsorship = postType === "Sponsorship";
-
 const referralLabels = props.referral ? [`referral:${props.referral}`] : [];
 const labelStrings = (props.labels ?? []).concat(referralLabels);
 const labels = labelStrings.map((s) => {
@@ -99,8 +97,8 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "",
-  token: props.token ?? "Near",
-  supervisor: props.supervisor ?? "neardevgov.near",
+  token: props.token ?? "",
+  supervisor: props.supervisor ?? "",
   githubLink: props.githubLink ?? "",
   warning: "",
   draftStateApplied: false,
@@ -350,38 +348,6 @@ const nameDiv = (
   </div>
 );
 
-const descriptionDiv = (
-  <div className="col-lg-12  mb-2">
-    Description:
-    <br />
-    <textarea
-      value={state.description}
-      type="text"
-      rows={6}
-      className="form-control"
-      onInput={(event) => textareaInputHandler(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ description: event.target.value })}
-    />
-    {autocompleteEnabled && state.showAccountAutocomplete && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text.split("@").pop(),
-            onSelect: autoCompleteAccountId,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
-  </div>
-);
-
 const amountDiv = (
   <div className="col-lg-6  mb-2">
     Amount:
@@ -415,6 +381,40 @@ const supervisorDiv = (
   </div>
 );
 
+const callDescriptionDiv = () => {
+  return (
+    <div className="col-lg-12  mb-2">
+      Description:
+      <br />
+      <textarea
+        value={state.description}
+        type="text"
+        rows={6}
+        className="form-control"
+        onInput={(event) => textareaInputHandler(event.target.value)}
+        onKeyUp={(event) => {
+          if (event.key === "Escape") {
+            State.update({ showAccountAutocomplete: false });
+          }
+        }}
+        onChange={(event) => State.update({ description: event.target.value })}
+      />
+      {autocompleteEnabled && state.showAccountAutocomplete && (
+        <AutoComplete>
+          <Widget
+            src="near/widget/AccountAutocomplete"
+            props={{
+              term: state.text.split("@").pop(),
+              onSelect: autoCompleteAccountId,
+              onClose: () => State.update({ showAccountAutocomplete: false }),
+            }}
+          />
+        </AutoComplete>
+      )}
+    </div>
+  );
+};
+
 const disclaimer = (
   <p>
     <i>
@@ -429,9 +429,7 @@ const isFundraisingDiv = (
   <>
     <div class="mb-2">
       <p class="fs-6 fw-bold mb-1">
-        {isSponsorship
-          ? "Are you funding their solution?"
-          : "Are you seeking funding for your solution?"}
+        Are you seeking funding for your solution?
         <span class="text-muted fw-normal">(Optional)</span>
       </p>
       <div class="form-check form-check-inline">
@@ -489,24 +487,24 @@ const fundraisingDiv = (
       </select>
     </div>
     <div className="col-lg-6 mb-2">
-      {isSponsorship ? "Sponsored" : "Requested"} amount
+      Requested amount
       <span class="text-muted fw-normal">(Numbers Only)</span>
       <input
         type="number"
         value={parseInt(state.amount) > 0 ? state.amount : ""}
         min={0}
-        onChange={(event) =>
+        onChange={(event) => {
           State.update({
             amount: Number(
               event.target.value.toString().replace(/e/g, "")
             ).toString(),
-          })
-        }
+          });
+        }}
       />
     </div>
     <div className="col-lg-6 mb-2">
       <p class="mb-1">
-        {isSponsorship ? "Sponsor" : "Requested sponsor"}
+        Requested sponsor
         <span class="text-muted fw-normal">(Optional)</span>
       </p>
       <p style={{ fontSize: "13px" }} class="m-0 text-muted fw-light">
@@ -530,9 +528,7 @@ const fundraisingDiv = (
 );
 
 function generateDescription(text, amount, token, supervisor) {
-  const funding = isSponsorship
-    ? `###### Sponsored amount: ${amount} ${token}\n###### Sponsor: @${supervisor}\n`
-    : `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
+  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
   return text;
 }
@@ -566,14 +562,10 @@ return (
       where the title renders extra on state change. */}
       {fields.includes("githubLink") ? (
         <div className="row">
-          {githubLinkDiv}
+          {fields.includes("githubLink") && githubLinkDiv}
           {labelEditor}
           {fields.includes("name") && nameDiv}
-          {fields.includes("description") && descriptionDiv}
-          {fields.includes("fund_raising") && isFundraisingDiv}
-          {state.seekingFunding &&
-            fields.includes("fund_raising") &&
-            fundraisingDiv}
+          {fields.includes("description") && callDescriptionDiv()}
         </div>
       ) : (
         <div className="row">
@@ -582,11 +574,9 @@ return (
           {fields.includes("amount") && amountDiv}
           {fields.includes("sponsorship_token") && tokenDiv}
           {fields.includes("supervisor") && supervisorDiv}
-          {fields.includes("description") && descriptionDiv}
+          {fields.includes("description") && callDescriptionDiv()}
           {fields.includes("fund_raising") && isFundraisingDiv}
-          {state.seekingFunding &&
-            fields.includes("fund_raising") &&
-            fundraisingDiv}
+          {state.seekingFunding && fundraisingDiv}
         </div>
       )}
 
