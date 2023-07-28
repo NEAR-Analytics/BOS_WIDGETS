@@ -7,7 +7,7 @@ const thing = JSON.parse(jThing);
 const jType = Social.get(thing.type, "final");
 const jWidget = Social.get(thing.template.src, "final");
 
-if (!jThing) {
+if (!jThing || !jType || !jWidget) {
   return <></>;
 }
 
