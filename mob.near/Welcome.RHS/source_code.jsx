@@ -25,7 +25,6 @@ const defaultWidgets = [
 const widgets = (rhs && JSON.parse(rhs)) ?? defaultWidgets;
 
 const Div = styled.div`
-  margin: 0 -12px;
   position: relative;
   @media (hover: hover) {
     > .edit-link {
@@ -37,15 +36,6 @@ const Div = styled.div`
       display: inline;
     }
   }
-  .menu-item {
-    position: relative;
-    padding: 12px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #eee;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.03);
-    }
-  }
 `;
 
 return (
@@ -53,8 +43,7 @@ return (
     {context.accountId && (
       <a
         key="edit"
-        style={{ zIndex: 1 }}
-        href="/mob.near/widget/Welcome.RHS.Editor"
+        href={"#/mob.near/widget/Welcome.RHS.Editor"}
         className="edit-link position-absolute top-0 end-0 link-secondary me-2 mt-1"
       >
         <i class="bi bi-pencil" /> Edit Menu
@@ -63,18 +52,10 @@ return (
     {widgets.map(
       ({ src, requiresLogin }, i) =>
         (!requiresLogin || context.accountId) && (
-          <div key={i} className="menu-item">
+          <div key={i} className="text-bg-light rounded-4 p-3 mb-3">
             <Widget src={src} />
           </div>
         )
     )}
-    <div key="edit-item" className="menu-item pb-3">
-      <a
-        className="link-secondary stretched-link"
-        href="/mob.near/widget/Welcome.RHS.Editor"
-      >
-        <i class="bi bi-pencil" /> Edit Menu
-      </a>
-    </div>
   </Div>
 );
