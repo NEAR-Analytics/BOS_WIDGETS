@@ -14,7 +14,7 @@ return (
       path={path}
       language={language}
       value={code}
-      onChange={(e) => onChange(e)}
+      onChange={onChange}
     />
   </Container>
 );
