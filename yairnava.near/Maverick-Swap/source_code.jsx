@@ -98,6 +98,7 @@ State.init({
   amountInput: null,
   amountRecieve: 0,
   rate: 0,
+  routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
 });
 
 const switchNetwork = () => {
@@ -181,6 +182,75 @@ function getPrice(type, data) {
   });
 }
 
+const tokenInApprovaleNeededCheck = (data) => {
+  console.log(data);
+  if (data.name == "ETH") {
+    State.update({
+      approvalNeeded: false,
+    });
+  } else {
+    asyncFetch(
+      "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+    ).then((res) => {
+      const ifaceErc20 = new ethers.utils.Interface(res.body);
+      const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
+        "allowance",
+        [state.sender, state.routerContract]
+      );
+      return Ethers.provider()
+        .call({
+          to: data.address,
+          data: encodedTokenAllowancesData,
+        })
+        .then((encodedTokenAllowanceHex) => {
+          const tokenAllowance = ifaceErc20.decodeFunctionResult(
+            "allowance",
+            encodedTokenAllowanceHex
+          );
+          console.log(tokenAllowance);
+          if (tokenAllowance) {
+            console.log("Necesita approval");
+            State.update({
+              approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
+            });
+          } else {
+            State.update({
+              approvalNeeded: false,
+            });
+          }
+        });
+    });
+  }
+};
+
+const approveErc20Token = () => {
+  console.log("AQUI");
+  asyncFetch(
+    "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+  ).then((res) => {
+    const value = state.unFixedInputBalance;
+
+    const approveContract = new ethers.Contract(
+      state.tokenSendSelected.address,
+      res.body,
+      Ethers.provider().getSigner()
+    );
+
+    let gasArgs = {};
+
+    if (gweiPrice !== undefined && gasLimit !== undefined) {
+      gasArgs.gasPrice = ethers.utils.parseUnits(gweiPrice ?? "0.26", "gwei");
+      gasArgs.gasLimit = gasLimit ?? 20000000;
+    }
+
+    approveContract
+      .approve(state.routerContract, value, gasArgs)
+      .then((transactionHash) => {
+        console.log(transactionHash);
+      });
+  });
+};
+
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -192,6 +262,7 @@ if (state.sender === undefined) {
 const handleSendSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
   getPrice(true, token);
+  tokenInApprovaleNeededCheck(token);
 };
 
 const handleRecieveSelect = (data) => {
@@ -389,30 +460,43 @@ return (
         </div>
         <div class="ConfirmContainer">
           {state.sender ? (
-            <div
-              class={
-                cantSwap() && isSufficientBalance()
-                  ? "ConfirmButton"
-                  : "ConfirmButtonDisabled"
-              }
-              onClick={async () => {
-                confirmTransaction();
-              }}
-            >
+            state.approvalNeeded ? (
+              <div
+                class={"ConfirmButton"}
+                onClick={async () => {
+                  approveErc20Token();
+                }}
+              >
+                <div class={"ConfirmText"}>
+                  {`Approve ${state.tokenSendSelected.name}`}
+                </div>
+              </div>
+            ) : (
               <div
                 class={
                   cantSwap() && isSufficientBalance()
-                    ? "ConfirmText"
-                    : "ConfirmTextDisabled"
+                    ? "ConfirmButton"
+                    : "ConfirmButtonDisabled"
                 }
+                onClick={async () => {
+                  confirmTransaction();
+                }}
               >
-                {cantSwap()
-                  ? isSufficientBalance()
-                    ? "Confirm"
-                    : "Insufficient Balance"
-                  : "Select a Pair and Amount"}
+                <div
+                  class={
+                    cantSwap() && isSufficientBalance()
+                      ? "ConfirmText"
+                      : "ConfirmTextDisabled"
+                  }
+                >
+                  {cantSwap()
+                    ? isSufficientBalance()
+                      ? "Confirm"
+                      : "Insufficient Balance"
+                    : "Select a Pair and Amount"}
+                </div>
               </div>
-            </div>
+            )
           ) : (
             <Web3Connect
               className="ConfirmButton ConfirmText"
