@@ -290,32 +290,43 @@ const validatedInputs = async () => {
 
   return State.update(showSuccess());
 };
-
+//split and improve subtmit
+const createMeta = () => {
+  const meta = {
+    receiver: state.Receiver,
+    metadata: {
+      class: state.ClassIdSelected,
+    },
+    reference: state.Referencelink || null,
+    reference_hash: state.Referencehash || null,
+  };
+  return JSON.stringify(meta);
+};
+const encodeArgs = (meta) => {
+  return Buffer.from(meta, "utf-8").toString("base64");
+};
 const Submitform = () => {
-  if (validatedInputs()) {
-    const meta = JSON.stringify({
-      receiver: state.Receiver,
-      metadata: {
-        class: state.ClassIdSelected,
-      },
-      reference: state.Referencelink ? state.Referencelink : null,
-      reference_hash: state.Referencehash ? state.Referencehash : null,
-    });
+  const isValid = validatedInputs();
 
-    const argsencoded = Buffer.from(meta, "utf-8").toString("base64");
+  if (isValid) {
+    const meta = createMeta();
+    const argsencoded = encodeArgs(meta);
+
+    const { Dao_Contract, Issuer_selected, Issuer_filled } = state;
+
+    const receiver_id =
+      Issuer_selected === _type.SHOWINPUT ? Issuer_filled : Issuer_selected;
+
     Near.call([
       {
-        contractName: state.Dao_Contract,
+        contractName: Dao_Contract,
         methodName: "add_proposal",
         args: {
           proposal: {
             description: "create proposal to mint SBT",
             kind: {
               FunctionCall: {
-                receiver_id:
-                  state.Issuer_selected === _type.SHOWINPUT
-                    ? state.Issuer_filled
-                    : state.Issuer_selected,
+                receiver_id,
                 actions: [
                   {
                     method_name: "sbt_mint",
