@@ -217,6 +217,12 @@ const isSufficientBalance = () => {
   return true;
 };
 
+const setMaxBalance = () => {
+  if (state.inputBalance > 0) {
+    State.update({ amountInput: parseFloat(state.inputBalance).toFixed(6) });
+  }
+};
+
 const confirmTransaction = () => {
   console.log("Confirmando transacción");
 };
@@ -298,7 +304,12 @@ return (
                   state.inputBalance ? (
                     <span>
                       Balance:
-                      <span class="UserBalance">
+                      <span
+                        class="UserBalance"
+                        onClick={async () => {
+                          setMaxBalance();
+                        }}
+                      >
                         {parseFloat(state.inputBalance).toFixed(6)}
                       </span>
                     </span>
