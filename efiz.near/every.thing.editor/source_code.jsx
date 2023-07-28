@@ -15,25 +15,31 @@ function onChange(e) {
 function composeData() {
   const parts = state.view.path.split("/");
   let content = {};
-  switch (parts[1]) {
-    case "widget": {
-      content = {
-        "": "state.code",
-      };
-      break;
-    }
-    case "thing": {
-      content = state.code;
-      break;
-    }
-    case "type": {
-      content = state.code;
-      break;
-    }
+  if (parts[1] === "widget") {
+    content = {
+      "": state.code,
+    };
+    console.log(state.code);
   }
+  //   switch (parts[1]) {
+  //     case "widget": {
+  //       content = {
+  //         "": "state.code",
+  //       };
+  //       break;
+  //     }
+  //     case "thing": {
+  //       content = state.code;
+  //       break;
+  //     }
+  //     case "type": {
+  //       content = state.code;
+  //       break;
+  //     }
+  //   }
   const data = {
     [parts[1]]: {
-      [parts[2]]: "test",
+      [parts[2]]: content,
     },
   };
   return data;
