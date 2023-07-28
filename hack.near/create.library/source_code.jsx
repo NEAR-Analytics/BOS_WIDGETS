@@ -62,7 +62,7 @@ const handleProposal = () => {
                   method_name: "set",
                   args: proposal_args,
                   deposit: "50000000000000000000000",
-                  gas: "30000000000000",
+                  gas: "23500000000000",
                 },
               ],
             },
@@ -70,7 +70,7 @@ const handleProposal = () => {
         },
       },
       deposit: deposit,
-      gas: "300000000000000",
+      gas: "235000000000000",
     },
   ]);
 };
