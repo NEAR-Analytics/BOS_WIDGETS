@@ -232,8 +232,8 @@ return (
           }}
         />
         <CommentSection>
-          <h3>Comments</h3>
           <Wrapper>
+            <h3>Comments</h3>
             <div className="place-comment">
               <Widget
                 src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Compose`}
