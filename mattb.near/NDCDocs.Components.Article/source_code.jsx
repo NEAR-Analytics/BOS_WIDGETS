@@ -40,7 +40,7 @@ function getIndex() {
   let titles = [];
 
   state.article.body.split("\n").map((line, idx) => {
-    if (line[0] === "!") {
+    if (line[0] === "!" && idx == 0) {
       State.update({ coverImage: line.substring(0, line.length).trim() });
     }
     if (line[0] === "#" && line[1] !== "#") {
@@ -169,7 +169,7 @@ return (
             props={{
               article: state.article,
               index: state.index,
-              converImage: state.coverImage,
+              coverImage: state.coverImage,
             }}
           />
         </Wrapper>
