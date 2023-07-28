@@ -208,9 +208,7 @@ const cantSwap = () => {
 const isSufficientBalance = () => {
   if (!state.amountInput) {
     return true;
-  }
-
-  if (state.amountInput > state.inputBalance) {
+  } else if (state.amountInput > state.inputBalance) {
     return false;
   }
   return true;
