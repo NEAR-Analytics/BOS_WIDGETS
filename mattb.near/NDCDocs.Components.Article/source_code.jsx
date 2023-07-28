@@ -184,6 +184,10 @@ const CommentSection = styled.div`
     .place-comment {
         margin-bottom:2rem;
     }
+
+    h3 {
+        margin-bottom:1rem;
+    }
 `;
 
 return (
@@ -228,6 +232,7 @@ return (
           }}
         />
         <CommentSection>
+          <h3>Comments</h3>
           <Wrapper>
             <div className="place-comment">
               <Widget
