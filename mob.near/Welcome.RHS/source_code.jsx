@@ -20,12 +20,6 @@ const defaultWidgets = [
   {
     src: "mob.near/widget/People",
   },
-  {
-    src: "mob.near/widget/Welcome.FollowFeed",
-  },
-  {
-    src: "mob.near/widget/Welcome.PokeFeed",
-  },
 ];
 
 const widgets = (rhs && JSON.parse(rhs)) ?? defaultWidgets;
