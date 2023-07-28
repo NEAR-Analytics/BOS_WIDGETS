@@ -518,7 +518,7 @@ return (
           props={{
             value:
               state.strEther && state.metrics
-                ? (state.strEther * state.metrics.mpethPrice).toFixed(5)
+                ? (state.strEther / state.metrics.mpethPrice).toFixed(5)
                 : 0,
             price: state.metrics ? state.metrics.mpethPrice : 1,
             iconName: "mpETH",
