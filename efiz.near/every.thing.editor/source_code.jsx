@@ -1,20 +1,55 @@
 const path = props.path;
 const blockHeight = props.blockHeight || "final";
 
-const thing = Social.get(path, blockHeight) || "{}";
-// const type = thing.type;
+const jThing = Social.get(path, blockHeight);
 
-if (!thing) {
+if (!jThing) {
   return <></>;
 }
 
+State.init({
+  view: "WIDGET",
+});
+
+const Button = styled.button``;
+
+let language;
+let code;
+
+switch (state.view) {
+  case "THING": {
+    language = "json";
+    code = jThing;
+    break;
+  }
+  case "TYPE": {
+    language = "json";
+    const thing = JSON.parse(jThing);
+    code = Social.get(thing.type, "final");
+    break;
+  }
+  case "WIDGET": {
+    language = "javascript";
+    const thing = JSON.parse(jThing);
+    code = Social.get(thing.template.src, "final");
+    break;
+  }
+}
+
 return (
-  <Widget
-    src={"efiz.near/widget/MonacoEditor"}
-    props={{
-      path,
-      code: thing,
-      language: "javascript",
-    }}
-  />
+  <div>
+    <div>
+      <Button onClick={() => State.update({ view: "THING" })}>thing</Button>
+      <Button onClick={() => State.update({ view: "TYPE" })}>type</Button>
+      <Button onClick={() => State.update({ view: "WIDGET" })}>widget</Button>
+    </div>
+    <Widget
+      src={"efiz.near/widget/MonacoEditor"}
+      props={{
+        path,
+        code,
+        language,
+      }}
+    />
+  </div>
 );
