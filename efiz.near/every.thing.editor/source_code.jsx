@@ -38,7 +38,7 @@ function onChange(e) {
   });
 }
 
-const parts = state.path.split("/");
+// const parts = state.path.split("/");
 
 return (
   <div>
