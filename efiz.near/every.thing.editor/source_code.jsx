@@ -15,7 +15,7 @@ function onChange(code) {
   });
 }
 
-function composeData() {
+function save() {
   const parts = state.file.path.split("/");
   let content = {};
   if (parts[1] === "widget") {
@@ -30,7 +30,7 @@ function composeData() {
       [parts[2]]: content,
     },
   };
-  return data;
+  Social.set(data);
 }
 
 return (
@@ -59,8 +59,6 @@ return (
         onChange: onChange,
       }}
     />
-    <CommitButton className="btn btn-primary" data={composeData}>
-      Save
-    </CommitButton>
+    <Button onClick={save}>Save</Button>
   </div>
 );
