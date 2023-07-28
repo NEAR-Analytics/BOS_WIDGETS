@@ -16,12 +16,12 @@ const files = [
   {
     path: props.path,
     language: "json",
-    code: jThing,
+    code: JSON.stringify(JSON.parse(jThing), null, 2),
   },
   {
     path: thing.type,
     language: "json",
-    code: jType,
+    code: JSON.stringify(JSON.parse(jType), null, 2),
   },
   {
     path: thing.template.src,
