@@ -15,6 +15,7 @@ State.init({
   IssuerPropList: props.IssuerList,
   ischeckselected: true,
   Submitdisable: true,
+  FormIsValid: false,
 });
 //const
 const MAX_SAFE_INTEGER = 2e53 - 1;
@@ -24,6 +25,13 @@ const cssFont = fetch(
 const css = fetch(
   "https://raw.githubusercontent.com/dokxo96/fastSbt/master/fastsbt.css?token=GHSAT0AAAAAACEQ4SVRD7BVOYKVKF5B4FEAZF36DWQ"
 ).body;
+const httpRequestOpt = {
+  headers: {
+    "x-api-key": props.api_key
+      ? props.api_key
+      : "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+  },
+};
 if (!cssFont || !css) return "";
 if (!state.theme) {
   State.update({
@@ -39,6 +47,9 @@ const proposalKinds = {
 };
 const actions = {
   AddProposal: "AddProposal",
+};
+const _type = {
+  SHOWINPUT: "showinput",
 };
 //Custom components
 const Theme = state.theme;
@@ -99,7 +110,7 @@ border-radius:4px;
 // -- Get all the roles from the DAO policy
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
-console.log("roles", roles);
+//console.log("roles", roles);
 //Validate if the user can add a Function call to DAO
 const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
@@ -140,62 +151,157 @@ const canAddProposal = isUserAllowedTo(
 
 //Get alll daos
 const daos = Near.view("sputnik-dao.near", "get_dao_list");
-//console.log("daos", daos);
+console.log("daos", daos);
+const validAccoundAtIssuer = () => {
+  //get the issuer and class
+  const issuer =
+    state.Issuer_selected != "show"
+      ? state.Issuer_selected
+      : state.Issuer_filled;
+  const checkMintersJson = Near.view(issuer, "class_minter", {
+    class: state.ClassIdSelected,
+  });
+  const mintAuthorities = checkMintersJson.minters;
+
+  if (!mintAuthorities.includes(context.accountId)) {
+    State.update({
+      error_msg: "you are no allowed at this issuer",
+      Submitdisable: true,
+    });
+    return (isValid = false);
+  }
+};
+
+//console.log("checkMintersJson", checkMintersJson);
+const isMintAuthority = console.log("isMintAuthority", isMintAuthority);
+
+const validateReceiverHasSbt = () => {
+  const issuer =
+    state.Issuer_selected != _type.SHOWINPUT
+      ? state.Issuer_selected
+      : state.Issuer_filled;
+  const fetchlnk = `https://api.pikespeak.ai/sbt/has-sbt?holder=${
+    state.Receiver
+  }&class_id=${state.ClassIdSelected}&issuer=${issuer}&registry=${
+    props.registry ? props.registry : "registry.i-am-human.near"
+  }`;
+  console.log("fetching", fetchlnk);
+  asyncFetch(fetchlnk, httpRequestOpt).then((res) => {
+    console.log("validateReceiverHasSbt", res);
+    if (res.body) {
+      //the receiver already has sbt
+      State.update({
+        error_msg: "The receiver already has SBT",
+        Submitdisable: false,
+      });
+      return true;
+    }
+  });
+};
 
 //Methods
 const validatedInputs = async () => {
-  console.log(state);
+  //  console.log(state);
   const isEmpty = (str) => str.trim() === "";
   let isValid = false;
   if (isEmpty(state.Dao_Contract)) {
-    console.log("V:DAO filled");
-    State.update({ error_msg: "Write the DAO contract", Submitdisable: true });
-    return (isValid = false);
+    //validate the user filled the Dao input
+    return State.update({
+      error_msg: "Write the DAO contract",
+      Submitdisable: true,
+      FormIsValid: false,
+    });
   }
   if (!daos.includes(state.Dao_Contract)) {
-    console.log("V:DAO valid");
-    State.update({ error_msg: "Is not a Dao contract", Submitdisable: true });
-    return (isValid = false);
+    //validate that the DAO provided is a valid one
+    return State.update({
+      error_msg: "Is not a Dao contract",
+      Submitdisable: true,
+      FormIsValid: false,
+    });
   }
   if (isEmpty(state.Issuer_selected)) {
-    console.log("V:Issuer");
-    State.update({ error_msg: "Select an issuer", Submitdisable: true });
-    return (isValid = false);
+    //validate the user selected an issuer prefilled
+    return State.update({
+      error_msg: "Select an issuer",
+      Submitdisable: true,
+      FormIsValid: false,
+    });
   }
-  // the user will provide a new issuer
-  if (state.Issuer_selected === "showinput" && isEmpty(state.Issuer_filled)) {
-    console.log("V:META");
-    State.update({ error_msg: "provide an issuer", Submitdisable: true });
-    return (isValid = false);
+
+  if (
+    state.Issuer_selected === _type.SHOWINPUT &&
+    isEmpty(state.Issuer_filled)
+  ) {
+    // the user will provide a new issuer
+    return State.update({
+      error_msg: "provide an issuer",
+      Submitdisable: true,
+      FormIsValid: false,
+    });
   }
   if (isEmpty(state.Receiver)) {
-    console.log("V:Receiver ");
-    State.update({ error_msg: "Write the receiver", Submitdisable: true });
-    return (isValid = false);
+    //validate the user filled the Receiver
+    return State.update({
+      error_msg: "Write the receiver",
+      Submitdisable: true,
+      FormIsValid: false,
+    });
   }
   if (state.ischeckselected === true) {
-    console.log("se activo la meta", state.ClassIdSelected);
     if (state.ClassIdSelected === "0") {
-      console.log("se ingresa 0");
-      State.update({
+      //validate the user dont add a o in the class id
+      return State.update({
         ClassIdSelected: "",
         error_msg: "Select a token class",
         Submitdisable: true,
+        FormIsValid: false,
       });
-      return (isValid = false);
     }
-    if (isEmpty(state.ClassIdSelected) || state.ClassIdSelected === 0) {
-      console.log("select toke", isEmpty(state.ClassIdSelected));
-      State.update({ error_msg: "Select a token class", Submitdisable: true });
-      return (isValid = false);
+
+    if (isEmpty(state.ClassIdSelected)) {
+      //validate the user select a class id higher than 0
+      return State.update({
+        error_msg: "Select a token class",
+        Submitdisable: true,
+        FormIsValid: false,
+      });
     } else {
-      State.update({ error_msg: "", Submitdisable: false });
-      return (isValid = true);
+      if (
+        (state.Receiver && state.Issuer_selected) ||
+        (state.Issuer_selected && state.ClassIdSelected)
+      ) {
+        const issuer =
+          state.Issuer_selected != _type.SHOWINPUT
+            ? state.Issuer_selected
+            : state.Issuer_filled;
+        const fetchlnk = `https://api.pikespeak.ai/sbt/has-sbt?holder=${
+          state.Receiver
+        }&class_id=${state.ClassIdSelected}&issuer=${issuer}&registry=${
+          props.registry ? props.registry : "registry.i-am-human.near"
+        }`;
+        console.log("fetching", fetchlnk);
+        asyncFetch(fetchlnk, httpRequestOpt).then((res) => {
+          console.log("validateReceiverHasSbt", res);
+          if (res.body) {
+            //the receiver already has sbt
+            return State.update({
+              error_msg: "The receiver already has SBT",
+              Submitdisable: true,
+              FormIsValid: false,
+            });
+          }
+        });
+      }
+
+      //validate alll is good
+      State.update({ error_msg: "", Submitdisable: false, FormIsValid: true });
+      return state.FormIsValid;
     }
   }
 
-  State.update({ error_msg: "", Submitdisable: false });
-  return (isValid = true);
+  State.update({ error_msg: "", Submitdisable: false, FormIsValid: true });
+  return state.FormIsValid;
 };
 
 const Submitform = () => {
@@ -220,7 +326,7 @@ const Submitform = () => {
             kind: {
               FunctionCall: {
                 receiver_id:
-                  state.Issuer_selected === "showinput"
+                  state.Issuer_selected === _type.SHOWINPUT
                     ? state.Issuer_filled
                     : state.Issuer_selected,
                 actions: [
@@ -325,10 +431,10 @@ return (
                 ) : (
                   <></>
                 )}
-                <option value="showinput">Other -- write it.</option>
+                <option value={_type.SHOWINPUT}>Other -- write it.</option>
               </select>
             </div>
-            {state.Issuer_selected === "showinput" ? (
+            {state.Issuer_selected === _type.SHOWINPUT ? (
               <div class="Colcont">
                 <h1 class="H1styled">Enter issuer *</h1>
                 <input
