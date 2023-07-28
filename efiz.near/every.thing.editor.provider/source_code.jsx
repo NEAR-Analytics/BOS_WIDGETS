@@ -12,29 +12,29 @@ if (!jThing || !jType || !jWidget) {
   return <></>;
 }
 
-const files = {
-  THING: {
+const files = [
+  {
     path: props.path,
     language: "json",
     code: jThing,
   },
-  TYPE: {
+  {
     path: thing.type,
     language: "json",
     code: jType,
   },
-  WIDGET: {
+  {
     path: thing.template.src,
     language: "javascript",
     code: jWidget,
   },
-};
+];
 
 return (
   <Widget
     src={"efiz.near/widget/every.thing.editor"}
     props={{
-      files: files,
+      files,
     }}
   />
 );
