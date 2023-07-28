@@ -135,7 +135,7 @@ const Telegram = (
           style={{
             width: "1px",
             minWidth: "100%",
-            marginTop: "20px"
+            marginTop: "20px",
           }}
         ></iframe>
 
