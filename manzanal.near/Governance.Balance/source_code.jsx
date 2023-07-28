@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
-const contractId = props.contractId || "v005.mpip.near";
+const contractId = props.contractId || "v006.mpip.near";
 
 if (!accountId) return <></>;
 
