@@ -4,6 +4,9 @@ const blockHeight = props.blockHeight || "final";
 const jThing = Social.get(path, blockHeight);
 const thing = JSON.parse(jThing);
 
+const jType = Social.get(thing.type, "final");
+const jWidget = Social.get(thing.template.src, "final");
+
 if (!jThing) {
   return <></>;
 }
@@ -23,12 +26,12 @@ const files = {
   TYPE: {
     path: thing.type,
     language: "json",
-    code: Social.get(thing.type, "final"),
+    code: jType,
   },
   WIDGET: {
     path: thing.template.src,
     language: "javascript",
-    code: Social.get(thing.template.src, "final"),
+    code: jWidget,
   },
 };
 
