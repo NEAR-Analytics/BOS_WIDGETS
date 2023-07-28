@@ -180,6 +180,7 @@ const Wrapper = styled.div`
 const CommentSection = styled.div`
     padding-top:2rem;
     border-top: 1px solid rgba(0,0,0,.05);
+    background-color:#fff;
 
     .place-comment {
         margin-bottom:2rem;
