@@ -7,6 +7,8 @@ if (!jThing) {
   return <></>;
 }
 
+console.log(jThing);
+
 State.init({
   view: "WIDGET",
 });
@@ -25,16 +27,20 @@ switch (state.view) {
   case "TYPE": {
     language = "json";
     const thing = JSON.parse(jThing);
-    code = Social.get(thing.type, "final");
+    path = thing.type;
+    code = Social.get(path, "final");
     break;
   }
   case "WIDGET": {
     language = "javascript";
     const thing = JSON.parse(jThing);
-    code = Social.get(thing.template.src, "final");
+    path = thing.template.src;
+    code = Social.get(path, "final");
     break;
   }
 }
+
+console.log(code);
 
 return (
   <div>
