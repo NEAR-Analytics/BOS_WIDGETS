@@ -3,7 +3,7 @@ const files = props.files;
 let initialFile = files[0];
 
 State.init({
-  ...initialFile,
+  file: initialFile,
 });
 
 const Button = styled.button``;
@@ -17,7 +17,7 @@ function onChange(e) {
 }
 
 function composeData() {
-  const parts = state.view.path.split("/");
+  const parts = state.file.path.split("/");
   let content = {};
   if (parts[1] === "widget") {
     content = {
@@ -71,9 +71,9 @@ return (
     <Widget
       src={"efiz.near/widget/MonacoEditor"}
       props={{
-        path: state.path,
-        language: state.language,
-        code: state.code,
+        path: state.file.path,
+        language: state.file.language,
+        code: state.file.code,
         onChange: onChange,
       }}
     />
