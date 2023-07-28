@@ -63,19 +63,20 @@ const Avatar = styled.div`
 
 const Cover = styled.div`
   width:100%;
-  img {
-    width:100%;
-    height:unset;
-    border-radius:20px;
-  }
+  height:400px;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
 `;
 
 return (
   <>
     {coverImage && (
-      <Cover>
-        <Markdown text={coverImage} />
-      </Cover>
+      <Cover
+        style={{
+          backgroundImage: `url(${coverImage})`,
+        }}
+      ></Cover>
     )}
     <ArticleDetails>
       <div>
