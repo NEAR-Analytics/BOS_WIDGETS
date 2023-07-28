@@ -178,17 +178,25 @@ const getSender = () => {
 
 // STYLED COMPONENTS
 
-const StakeContainer = styled.div`
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   box-sizing: border-box;
   margin: 0px auto;
   min-width: 320px;
   width: 100%;
   padding: 0px 32px 32px 32px;
-  max-width: 560px;
   position: relative;
   margin-top: 8px;
   margin-bottom: 8px;
   background:  linear-gradient( rgb(206, 255, 26) 0%, rgb(206, 255, 26) 40%, rgb(247, 249, 251) 40%, rgb(247, 249, 251) 100%);
+`;
+
+const StakeContainer = styled.div`
+  width: 100%;
+  max-width: 900px;
+  align-self: center
 `;
 
 const Header = styled.div`
@@ -361,7 +369,7 @@ const Spacer = styled.div`
 `;
 
 return (
-  <StakeContainer>
+  <PageContainer>
     <Header>
       <StakeFormTopContainer>
         <StakeFormTopContainerLeft>
@@ -425,111 +433,113 @@ return (
       <Widget src={`rodrigos.near/widget/MetaPoolStakeEth.Title`} />
     </Header>
     <Spacer />
-    <StakeForm>
-      {state.sender && (
-        <StakeFormTopContainer>
-          <StakeFormTopContainerLeft>
-            <StakeFormTopContainerLeftContent1>
-              <StakeFormTopContainerLeftContent1Container>
-                <span>Available to stake</span>
-                <StakeFormTopContainerLeftContent1Circle />
-              </StakeFormTopContainerLeftContent1Container>
-            </StakeFormTopContainerLeftContent1>
-            <StakeFormTopContainerLeftContent2>
-              <span>
-                {state.balance ?? (!state.sender ? "0" : "...")}&nbsp;ETH
-              </span>
-            </StakeFormTopContainerLeftContent2>
-          </StakeFormTopContainerLeft>
+    <StakeContainer>
+      <StakeForm>
+        {state.sender && (
+          <StakeFormTopContainer>
+            <StakeFormTopContainerLeft>
+              <StakeFormTopContainerLeftContent1>
+                <StakeFormTopContainerLeftContent1Container>
+                  <span>Available to stake</span>
+                  <StakeFormTopContainerLeftContent1Circle />
+                </StakeFormTopContainerLeftContent1Container>
+              </StakeFormTopContainerLeftContent1>
+              <StakeFormTopContainerLeftContent2>
+                <span>
+                  {state.balance ?? (!state.sender ? "0" : "...")}&nbsp;ETH
+                </span>
+              </StakeFormTopContainerLeftContent2>
+            </StakeFormTopContainerLeft>
 
-          <StakeFormTopContainerCenter>
-            <StakeFormTopContainerCenterContent1>
-              <StakeFormTopContainerCenterContent1Container>
-                APY
-              </StakeFormTopContainerCenterContent1Container>
-            </StakeFormTopContainerCenterContent1>
-            <StakeFormTopContainerCenterContent2>
-              {state.metrics?.mp_eth_30_day_apy
-                ? state.metrics.mp_eth_30_day_apy.toFixed(2)
-                : "..."}
-              %
-            </StakeFormTopContainerCenterContent2>
-          </StakeFormTopContainerCenter>
+            <StakeFormTopContainerCenter>
+              <StakeFormTopContainerCenterContent1>
+                <StakeFormTopContainerCenterContent1Container>
+                  APY
+                </StakeFormTopContainerCenterContent1Container>
+              </StakeFormTopContainerCenterContent1>
+              <StakeFormTopContainerCenterContent2>
+                {state.metrics?.mp_eth_30_day_apy
+                  ? state.metrics.mp_eth_30_day_apy.toFixed(2)
+                  : "..."}
+                %
+              </StakeFormTopContainerCenterContent2>
+            </StakeFormTopContainerCenter>
 
-          <StakeFormTopContainerRight>
-            <StakeFormTopContainerRightContent1>
-              <StakeFormTopContainerRightContent1Container>
-                <span>Staked amount</span>
-              </StakeFormTopContainerRightContent1Container>
-            </StakeFormTopContainerRightContent1>
-            <StakeFormTopContainerRightContent2>
-              <span>
-                {state.stakedBalance ?? (!state.sender ? "0" : "...")}
-                &nbsp;mpETH
-              </span>
-            </StakeFormTopContainerRightContent2>
-          </StakeFormTopContainerRight>
-        </StakeFormTopContainer>
-      )}
-    </StakeForm>
-    <StakeFormWrapper>
-      <Widget
-        src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
-        props={{
-          ethUsdPrice:
-            state.ethUsdPrice && state.strEther
-              ? (state.ethUsdPrice * parseFloat(state.strEther)).toFixed(2)
-              : "0",
-          placeholder: "Enter ETH amount",
-          value: state.strEther,
-          onChange: (e) => State.update({ strEther: e.target.value }),
-          onClickMax: () => {
-            State.update({
-              strEther: (state.balance > 0.05
-                ? parseFloat(state.balance) - 0.05
-                : 0
-              ).toFixed(2),
-            });
-          },
-          inputError: state.inputError,
-          balance: nearBalance,
-          iconName: "NEAR",
-          iconUrl:
-            "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-        }}
-      />
-      <Widget
-        src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
-        props={{
-          value:
-            state.strEther && state.metrics
-              ? (state.strEther * state.metrics.mpethPrice).toFixed(5)
-              : 0,
-          price: state.metrics ? state.metrics.mpethPrice : 1,
-          iconName: "mpETH",
-          iconUrl:
-            "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-        }}
-      />
-      {!!state.sender ? (
+            <StakeFormTopContainerRight>
+              <StakeFormTopContainerRightContent1>
+                <StakeFormTopContainerRightContent1Container>
+                  <span>Staked amount</span>
+                </StakeFormTopContainerRightContent1Container>
+              </StakeFormTopContainerRightContent1>
+              <StakeFormTopContainerRightContent2>
+                <span>
+                  {state.stakedBalance ?? (!state.sender ? "0" : "...")}
+                  &nbsp;mpETH
+                </span>
+              </StakeFormTopContainerRightContent2>
+            </StakeFormTopContainerRight>
+          </StakeFormTopContainer>
+        )}
+      </StakeForm>
+      <StakeFormWrapper>
         <Widget
-          src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
+          src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
           props={{
-            onClick: () => submitEthers(state.strEther, state.sender),
-            disabled: state.loading,
-            text: state.loading ? "Wait..." : "Stake ETH",
+            ethUsdPrice:
+              state.ethUsdPrice && state.strEther
+                ? (state.ethUsdPrice * parseFloat(state.strEther)).toFixed(2)
+                : "0",
+            placeholder: "Enter ETH amount",
+            value: state.strEther,
+            onChange: (e) => State.update({ strEther: e.target.value }),
+            onClickMax: () => {
+              State.update({
+                strEther: (state.balance > 0.05
+                  ? parseFloat(state.balance) - 0.05
+                  : 0
+                ).toFixed(2),
+              });
+            },
+            inputError: state.inputError,
+            balance: nearBalance,
+            iconName: "NEAR",
+            iconUrl:
+              "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
           }}
         />
-      ) : (
-        <Web3Connect connectLabel="Connect with Ethereum wallet" />
-      )}
-    </StakeFormWrapper>
-    <Widget
-      src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
-      props={{
-        open: state.openModal,
-        onClose: () => State.update({ openModal: false }),
-      }}
-    />
-  </StakeContainer>
+        <Widget
+          src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
+          props={{
+            value:
+              state.strEther && state.metrics
+                ? (state.strEther * state.metrics.mpethPrice).toFixed(5)
+                : 0,
+            price: state.metrics ? state.metrics.mpethPrice : 1,
+            iconName: "mpETH",
+            iconUrl:
+              "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
+          }}
+        />
+        {!!state.sender ? (
+          <Widget
+            src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
+            props={{
+              onClick: () => submitEthers(state.strEther, state.sender),
+              disabled: state.loading,
+              text: state.loading ? "Wait..." : "Stake ETH",
+            }}
+          />
+        ) : (
+          <Web3Connect connectLabel="Connect with Ethereum wallet" />
+        )}
+      </StakeFormWrapper>
+      <Widget
+        src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
+        props={{
+          open: state.openModal,
+          onClose: () => State.update({ openModal: false }),
+        }}
+      />
+    </StakeContainer>
+  </PageContainer>
 );
