@@ -23,7 +23,6 @@ const sayALotWorkers = [
   "blaze.near",
   "ayelen.near",
   "kenrou-it.near",
-  "sayalot.near",
 ];
 
 if (isDebug) {
@@ -135,7 +134,7 @@ function getLastEditionsByArticle() {
   let lastestEditArticlesDataArray = newFormatArticlesData.filter(
     (articleData) => {
       const latestEditForThisArticle = newFormatArticlesData.find(
-        (newArticleData) => newArticleData.value.id === articleData.value.id
+        (newArticleData) => newArticleData.value.id
       );
       return (
         JSON.stringify(articleData) === JSON.stringify(latestEditForThisArticle)
