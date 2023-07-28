@@ -67,6 +67,7 @@ const Cover = styled.div`
   background-position:center;
   background-size:cover;
   background-repeat:no-repeat;
+  border-radius:20px;
 `;
 
 return (
