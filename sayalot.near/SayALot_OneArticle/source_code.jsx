@@ -5,7 +5,6 @@ let writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
-  "zarmade.near",
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
