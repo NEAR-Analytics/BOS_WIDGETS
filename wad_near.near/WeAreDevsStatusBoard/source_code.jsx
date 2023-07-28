@@ -82,6 +82,6 @@ const content = (
 return (
   <Widget
     src="igris.near/widget/DaisyUIWrapper"
-    props={{ children: content, daisyUiTheme: "cyberpunk" }}
+    props={{ children: content, daisyUiTheme: "fantasy" }}
   />
 );
