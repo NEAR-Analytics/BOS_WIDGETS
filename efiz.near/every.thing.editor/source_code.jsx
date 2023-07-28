@@ -20,12 +20,14 @@ switch (state.view) {
   case "THING": {
     language = "json";
     code = jThing;
+    console.log(path);
     break;
   }
   case "TYPE": {
     language = "json";
     const thing = JSON.parse(jThing);
     path = thing.type;
+    console.log(path);
     code = Social.get(path, "final");
     break;
   }
@@ -38,7 +40,7 @@ switch (state.view) {
   }
 }
 
-if (!code) {
+if (!code || !path || !language) {
   return <></>;
 }
 
