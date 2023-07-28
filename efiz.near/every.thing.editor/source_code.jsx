@@ -2,6 +2,13 @@ const path = props.path;
 const blockHeight = props.blockHeight || "final";
 
 const jThing = Social.get(path, blockHeight);
+const thing = JSON.parse(jThing);
+
+const typePath = thing.type;
+const jType = Social.get(typePath, "final");
+
+const widgetPath = thing.template.src;
+const jWidget = Social.get(widgetPath, "final");
 
 if (!jThing) {
   return <></>;
@@ -24,16 +31,14 @@ switch (state.view) {
   }
   case "TYPE": {
     language = "json";
-    const thing = JSON.parse(jThing);
-    path = thing.type;
-    code = Social.get(path, "final");
+    path = typePath;
+    code = jType;
     break;
   }
   case "WIDGET": {
     language = "javascript";
-    const thing = JSON.parse(jThing);
-    path = thing.template.src;
-    code = Social.get(path, "final");
+    path = widgetPath;
+    code = jWidget;
     break;
   }
 }
