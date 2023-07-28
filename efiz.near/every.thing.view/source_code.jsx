@@ -85,7 +85,7 @@ const plugins = {
         label: "Edit v2",
       },
     },
-    src: "efiz.near/widget/every.thing.editor",
+    src: "efiz.near/widget/every.thing.editor.provider",
     creatorRequired: true,
   },
   RAW: {
