@@ -63,7 +63,7 @@ const Avatar = styled.div`
 
 const Cover = styled.div`
   img {
-    max-height:250px;
+    max-height:400px;
     border-radius:20px;
   }
 `;
