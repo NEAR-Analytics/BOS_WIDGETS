@@ -101,14 +101,9 @@ State.init({
 });
 
 const switchNetwork = () => {
-  console.log(Ethers.provider());
   let chainId = 324;
   try {
-    console.log(Ethers.provider().getNetwork());
     Ethers.send("wallet_switchEthereumChain", [{ chainId: `0x${chainId}` }]);
-    setTimeout(() => {
-      console.log(Ethers.provider().getNetwork());
-    }, "5000");
   } catch (err) {
     console.log(err);
     Ethers.send("wallet_addEthereumChain", [
@@ -136,7 +131,9 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
       .getBalance(state.sender)
       .then((balance) => {
         State.update({
-          inputBalance: ethers.utils.formatUnits(balance, decimals),
+          inputBalance: parseFloat(
+            ethers.utils.formatUnits(balance, decimals)
+          ).toFixed(6),
         });
       });
   } else {
@@ -154,7 +151,7 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
         );
         contract.balanceOf(receiver).then((res) => {
           let balance = ethers.utils.formatUnits(res, decimals);
-          State.update({ inputBalance: balance });
+          State.update({ inputBalance: parseFloat(balance).toFixed(6) });
         });
       });
   }
@@ -211,7 +208,11 @@ const cantSwap = () => {
 const isSufficientBalance = () => {
   if (!state.amountInput) {
     return true;
-  } else if (state.amountInput > state.inputBalance) {
+  }
+  console.log("amountInput: " + state.amountInput);
+  console.log("inputBalance: " + state.inputBalance);
+
+  if (state.amountInput > state.inputBalance) {
     return false;
   }
   return true;
@@ -219,7 +220,7 @@ const isSufficientBalance = () => {
 
 const setMaxBalance = () => {
   if (state.inputBalance > 0) {
-    State.update({ amountInput: parseFloat(state.inputBalance).toFixed(6) });
+    State.update({ amountInput: state.inputBalance });
   }
 };
 
@@ -310,7 +311,7 @@ return (
                           setMaxBalance();
                         }}
                       >
-                        {parseFloat(state.inputBalance).toFixed(6)}
+                        {state.inputBalance}
                       </span>
                     </span>
                   ) : (
