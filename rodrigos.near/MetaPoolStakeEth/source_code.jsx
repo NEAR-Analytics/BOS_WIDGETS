@@ -526,7 +526,7 @@ return (
               "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
           }}
         />
-        {ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0] ? (
+        {!!state.sender ? (
           <Widget
             src={`rodrigos.near/widget/MetaPoolStakeEth.Button`}
             props={{
