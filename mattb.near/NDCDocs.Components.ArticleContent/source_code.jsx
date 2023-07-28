@@ -64,6 +64,8 @@ const Avatar = styled.div`
 const Cover = styled.div`
   width:100%;
   img {
+    width:100%;
+    height:unset;
     border-radius:20px;
   }
 `;
