@@ -466,6 +466,26 @@ return (
           <div className="d-flex flex-column mt-2">
             <div class="d-flex">
               <h1 class="H1styled">Metadata</h1>
+              <CustomCheckbox
+                onClick={() => {
+                  State.update({ ischeckselected: !state.ischeckselected });
+                  validatedInputs();
+                }}
+              >
+                {state.ischeckselected ? (
+                  <img
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      "object-fit": "cover",
+                      "vertical-align": " initial",
+                    }}
+                    src={CheckIcon}
+                  />
+                ) : (
+                  <></>
+                )}
+              </CustomCheckbox>
             </div>
             {state.ischeckselected ? (
               <div class="MetaCard">
