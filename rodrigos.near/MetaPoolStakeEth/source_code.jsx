@@ -476,7 +476,7 @@ return (
         src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
         props={{
           ethUsdPrice:
-            state.ethUsdPrice && state.strEther
+            state.ethUsdPrice && !isNaN(state.ethUsdPrice) && state.strEther
               ? (state.ethUsdPrice * parseFloat(state.strEther)).toFixed(2)
               : "0",
           placeholder: "Enter ETH amount",
