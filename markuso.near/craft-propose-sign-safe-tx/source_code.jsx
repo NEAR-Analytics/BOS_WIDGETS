@@ -1,10 +1,18 @@
+// Example addresses to use as props
+// "gnosis-chain-safe": "0x6106FB94E31B83D0A15432FCA2927B838fB6D025"
+// "owner-recipient": "0x5d5d4d04B70BFe49ad7Aac8C4454536070dAf180"
+// "gnosis-chain-USDC": "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83"
+// "mainnet-safe": "0xf7b458443B6a3e2Cd12b315Ed703c98e030b9Bba"
+
 State.init({
   chainId: null,
   baseUrl: "",
   safeAddress: null,
   recipient: "",
   value: Number(0), //initialized to 0 to avoid ethers complaints and enable valueless tx
-  data: new Uint8Array(0), //empty for now until crafting transaction calldata
+  contract: "",
+  tokenDecimals: 0,
+  data: "0x", // transaction calldata
   operation: 0,
   gasToken: "0x0000000000000000000000000000000000000000",
   safeTxGas: 0,
@@ -45,7 +53,44 @@ if (state.sender === null) {
   }
 }
 
-const getNonce = (_addr, _to, _value) => {
+const getAbi = () => {
+  // fetch abi
+  const url =
+    "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json";
+  const erc20Abi = fetch(url);
+  let iface;
+  if (erc20Abi.ok) iface = new ethers.utils.Interface(erc20Abi.body);
+
+  // get token decimals, parse units via decimals
+  const encodedData = iface.encodeFunctionData("decimals", []);
+
+  Ethers.provider()
+    .call({
+      to: state.contract,
+      data: encodedData,
+    })
+    .then((tokenDecimals) => {
+      State.update({ tokenDecimals: parseInt(Number(tokenDecimals)) });
+    });
+
+  const amount = ethers.utils.parseUnits(
+    state.value.toString(),
+    state.tokenDecimals
+  );
+
+  State.update({
+    data: iface.encodeFunctionData("transfer", [
+      state.recipient.toString(),
+      amount,
+    ]),
+  });
+};
+
+const getNonce = (_contract, _addr, _to, _value) => {
+  // support ERC20 tokens
+  const contract = _contract;
+  if (contract) getAbi();
+
   const addr = ethers.utils.getAddress(_addr); // convert input addrs to checksum
   const to = ethers.utils.getAddress(_to);
   const value = Number(_value);
@@ -55,7 +100,7 @@ const getNonce = (_addr, _to, _value) => {
   State.update({ value: value });
 
   const baseUrl = `https://safe-transaction-${state.chainId}.safe.global/api`;
-  const url = baseUrl + `/v1/safes/${addr}`;
+  const url = baseUrl + `/v1/safes/${addr}/`;
   State.update({ baseUrl: url });
 
   // http options
@@ -67,11 +112,8 @@ const getNonce = (_addr, _to, _value) => {
   };
 
   // get nonce
-  asyncFetch(url, options).then((res) => {
-    if (res.ok) {
-      State.update({ nonce: res.body.nonce + 1 });
-    }
-  });
+  const res = fetch(url, options);
+  State.update({ nonce: res.body.nonce });
 };
 
 const getAndSignTxHash = () => {
@@ -101,10 +143,12 @@ const getAndSignTxHash = () => {
     .then((res) => {
       State.update({ txHash: res });
       // sign contractTransactionHash using private key of Gnosis Safe owner (or deployer)
-      const signature = signer.signMessage(ethers.utils.arrayify(res));
-      console.log(signature);
-      return; // OWRKING
-      State.update({ signature: signature });
+      const signature = signer
+        .signMessage(ethers.utils.arrayify(res))
+        .then((sig) => {
+          const alterV = ethers.utils.hexDataSlice(sig, 0, 64) + "1f";
+          State.update({ signature: ethers.utils.hexlify(alterV) });
+        });
     });
 };
 
@@ -128,82 +172,35 @@ const postToSafeApi = () => {
     origin: state.origin,
   };
 
-  console.log(transaction);
-  return;
-
-  const transactionsUrl = state.baseUrl + `/multisig-transactions`;
-  const params = JSON.stringify({
-    data: transaction,
-    address: `${transaction.safe}`,
-  });
+  const transactionsUrl = state.baseUrl + `multisig-transactions/`;
+  const params = JSON.stringify(transaction);
   const proposalOptions = {
     method: "POST",
     headers: {
-      accept: "application/json",
+      "Content-Type": "application/json",
     },
     mode: "no-cors",
     body: params,
   };
+
   // post to gnosis API backend
-  const proposed = asyncFetch(transactionsUrl, proposalOptions);
+  const proposed = asyncFetch(transactionsUrl, proposalOptions).then((res) =>
+    console.log(res)
+  );
 };
-
-// grab proposed transactions
-// const existingTransactions = () => {
-//       const txOptions = {
-//         headers: {
-//           accept: "application/json",
-//         },
-//         mode: "no-cors",
-//         body: JSON.stringify({ address: `${transaction.safe}` }),
-//       };
-//       asyncFetch(url + "/all-transactions", txOptions);
-//     })
-//     .then((res) => {
-//       if (res.ok) {
-//         console.log(res);
-//       }
-//     });
-// };
-
-const proposeTx = (_addr, _to, _value) => {
-  getNonce(_addr, _to, _value);
-  /*.then(() => {
-    getAndSignTxHash();
-  });*/
-};
-
-//   const operation = 0; // enum where 0 == CALL, 1 == DELEGATE_CALL
-//   // refund payment parameters are irrelevant
-//   const gasToken = "0x0000000000000000000000000000000000000000";
-//   const baseGas = 0;
-//   const gasPrice = 0;
-//   const refundReceiver = "0x0000000000000000000000000000000000000000";
-//   const safeTxGas = 0;
-
-//   const data = new Uint8Array(0); // TODO !!!
-
-// transaction to propose
-//   const transaction = {
-//     safe: `${addr}`,
-//     to: `${to}`,
-//     value: value,
-//     data: data,
-//     operation: operation,
-//     gasToken: gasToken,
-//     safeTxGas: safeTxGas,
-//     baseGas: baseGas,
-//     gasPrice: gasPrice,
-//     refundReceiver: refundReceiver,
-//     nonce: 0, // Nonce of the Safe, transaction cannot be executed until Safe's nonce is accurate
-//     contractTransactionHash: "", // Contract transaction hash calculated from all the fields
-//     sender: state.sender, // must be checksummed Owner of the Safe
-//     signature: "", // One or more ECDSA signatures of the `contractTransactionHash` as an hex string
-//     origin: "NEAR Blockchain Operating System",
-//   };
 
 return (
   <div>
+    <p>
+      Leave ERC20 token address field blank if performing a native currency
+      (ETH, MATIC, xDAI) transfer
+    </p>
+    <input
+      value={state.contract}
+      onChange={(e) => State.update({ contract: e.target.value })}
+      placeholder="ERC20 address"
+      label="TokenAddressInput"
+    />
     <input
       value={state.safeAddress}
       onChange={(e) => State.update({ safeAddress: e.target.value })}
@@ -224,12 +221,18 @@ return (
     />
     <button
       onClick={() =>
-        getNonce(state.safeAddress, state.recipient, state.value).then(
-          getAndSignTxHash()
-        )
+        getNonce(
+          state.contract,
+          state.safeAddress,
+          state.recipient,
+          state.value
+        ).then(getAndSignTxHash())
       }
-      label="ProposeButton"
+      label="SignButton"
     >
+      <span>Sign Transaction</span>
+    </button>
+    <button onClick={() => postToSafeApi()} label="ProposeButton">
       <span>Propose Transaction</span>
     </button>
     <Web3Connect className="web3-connect" connectLabel="Connect Wallet" />
