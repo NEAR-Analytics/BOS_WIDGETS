@@ -302,7 +302,7 @@ return (
               />
               <div class="TokenAmountPreview">
                 {state.inputBalance != null ? (
-                  state.inputBalance ? (
+                  state.inputBalance && state.inputBalance > 0 ? (
                     <span>
                       Balance: {state.inputBalance}
                       <span
@@ -315,10 +315,10 @@ return (
                       </span>
                     </span>
                   ) : (
-                    ""
+                    "Balance: 0"
                   )
                 ) : (
-                  ""
+                  "Balance: 0"
                 )}
               </div>
               {!isSufficientBalance() ? (
