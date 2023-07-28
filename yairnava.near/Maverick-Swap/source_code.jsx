@@ -354,13 +354,18 @@ return (
             </div>
             <div class="TokenAmountSection">
               <div class="TokenAmount">
-                {(state.amountInput * state.rate).toFixed(6)}
+                {(
+                  state.amountInput * parseFloat(state.rate).toFixed(6)
+                ).toFixed(6)}
               </div>
               <div class="TokenAmountPreview">
                 {state.rate != 0
-                  ? `${(
-                      state.amountInput * state.tokenSendSelected.price
-                    ).toFixed(6)} USD`
+                  ? `${
+                      "≈ " +
+                      (
+                        state.amountInput * state.tokenSendSelected.price
+                      ).toFixed(6)
+                    } USD`
                   : ""}
               </div>
             </div>
@@ -372,7 +377,7 @@ return (
             <div class="RateFeeText">Rate</div>
             <div class="RateFeeValue">
               {state.rate != 0
-                ? `1 ${state.tokenSendSelected.name} = ${state.rate.toFixed(6)}
+                ? `1 ${state.tokenSendSelected.name} ≈ ${state.rate.toFixed(6)}
               ${state.tokenRecieveSelected.name}`
                 : ""}
             </div>
