@@ -254,7 +254,7 @@ return (
           src="nui.sking.near/widget/Input.Button"
           props={{
             children: "Edit Article",
-            variant: "secondary",
+            variant: "primary",
             className: "w-100 mt-3 mt-xl-3",
             size: "sm",
             onClick: () => {
@@ -277,11 +277,11 @@ return (
                 if (index2 === 0) {
                   return (
                     <h5
-                      className="accordion-header shadow-none py-1"
+                      className="accordion-header shadow-none py-1 text-center fs-6 "
                       id="flush-headingOne"
                     >
                       <button
-                        className="accordion collapsed border-0 bg-white text-dark shadow-none"
+                        className="accordion collapsed border-0 bg-white text-dark shadow-none fw-bold"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target={"#flush-collapseOne" + index1}
@@ -342,39 +342,43 @@ return (
         {state.editArticle && (
           <>
             <div className="d-flex justify-content-center w-100">
-              <button
-                type="button"
-                className="btn btn-outline-success mx-1"
-                style={{ minWidth: "120px" }}
-                onClick={() => {
-                  if (!state.note || article.body === state.note) return;
+              <Widget
+                src="nui.sking.near/widget/Input.Button"
+                props={{
+                  children: "Save Article",
+                  variant: "outline success",
+                  className: "me-3 me-xl-4",
+                  size: "sm",
+                  onClick: () => {
+                    if (!state.note || article.body === state.note) return;
 
-                  const args = {
-                    article_id: state?.articleId,
-                    body: state.note,
-                    navigation_id: null,
-                  };
+                    const args = {
+                      article_id: state?.articleId,
+                      body: state.note,
+                      navigation_id: null,
+                    };
 
-                  saveArticle(args);
+                    saveArticle(args);
+                  },
                 }}
-              >
-                Save Article{" "}
-              </button>
+              />
 
-              <button
-                type="button"
-                className="btn btn-outline-danger mx-1"
-                style={{ minWidth: "120px" }}
-                onClick={() => {
-                  State.update({
-                    ...state,
-                    editArticle: false,
-                    note: undefined,
-                  });
+              <Widget
+                src="nui.sking.near/widget/Input.Button"
+                props={{
+                  children: "Close",
+                  variant: "outline danger",
+                  className: "",
+                  size: "sm",
+                  onClick: () => {
+                    State.update({
+                      ...state,
+                      editArticle: false,
+                      note: undefined,
+                    });
+                  },
                 }}
-              >
-                Close
-              </button>
+              />
             </div>
             <hr />
           </>
@@ -419,28 +423,22 @@ return (
         {/* === VIEW HISTORY === */}
         {state.viewHistory && (
           <div className="mt-3 ps-5">
-            <div className="d-flex justify-content-between">
-              <i
-                className="bi bi-arrow-left"
-                style={{ cursor: "pointer", fontSize: "1.5rem" }}
-                onClick={() => {
-                  State.update({
-                    ...state,
-                    viewHistory: false,
-                  });
+            <div className="d-flex justify-content-end">
+              <Widget
+                src="nui.sking.near/widget/Input.Button"
+                props={{
+                  children: "Close",
+                  variant: "outline danger",
+                  className: "",
+                  size: "sm",
+                  onClick: () => {
+                    State.update({
+                      ...state,
+                      viewHistory: false,
+                    });
+                  },
                 }}
-              ></i>
-              <button
-                className="btn btn-outline-danger"
-                onClick={() => {
-                  State.update({
-                    ...state,
-                    viewHistory: false,
-                  });
-                }}
-              >
-                Close
-              </button>
+              />
             </div>
             <Widget
               src={`${authorForWidget}/widget/Gigs_History.History`}
