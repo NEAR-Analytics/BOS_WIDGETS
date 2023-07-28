@@ -102,6 +102,7 @@ const Main = styled.div`
     display:flex;
     position:relative;
     overflow:hidden;
+    background-color:#fff;
 `;
 
 const Content = styled.div`
