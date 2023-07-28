@@ -8,7 +8,7 @@ if (!jThing) {
 }
 
 State.init({
-  view: "WIDGET",
+  view: "THING",
 });
 
 const Button = styled.button``;
