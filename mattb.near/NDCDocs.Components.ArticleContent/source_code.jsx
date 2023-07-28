@@ -61,9 +61,20 @@ const Avatar = styled.div`
     background-repeat:no-repeat;
 `;
 
+const Cover = styled.div`
+  img {
+    max-height:250px;
+    border-radius:20px;
+  }
+`;
+
 return (
   <>
-    {coverImage && <Markdown text={coverImage} />}
+    {coverImage && (
+      <Cover>
+        <Markdown text={coverImage} />
+      </Cover>
+    )}
     <ArticleDetails>
       <div>
         <Avatar
