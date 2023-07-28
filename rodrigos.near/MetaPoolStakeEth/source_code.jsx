@@ -357,6 +357,8 @@ const Spacer = styled.div`
   height: 20px;
 `;
 
+console.log(state.ethUsdPrice, parseFloat(state.strEther));
+
 return (
   <StakeContainer>
     <Header>
