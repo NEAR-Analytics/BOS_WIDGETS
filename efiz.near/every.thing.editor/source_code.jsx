@@ -8,40 +8,49 @@ if (!jThing) {
 }
 
 State.init({
-  view: "TYPE",
+  view: "THING",
+  code: jThing,
+  path,
+  language: "json",
 });
 
 const Button = styled.button``;
 
 let language;
-let code;
 
 switch (state.view) {
   case "THING": {
-    language = "json";
-    code = jThing;
-    console.log(path);
+    State.update({ code: jThing, path: props.path, language: "json" });
     break;
   }
   case "TYPE": {
-    language = "json";
     const thing = JSON.parse(jThing);
     path = thing.type;
-    console.log(path);
-    code = Social.get(path, "final");
+    const jType = Social.get(path, "final");
+    State.update({ code: jType, path, language: "json" });
     break;
   }
   case "WIDGET": {
-    language = "javascript";
     const thing = JSON.parse(jThing);
     path = thing.template.src;
-    code = Social.get(path, "final");
+    const jWidget = Social.get(path, "final");
+    State.update({ code: jWidget, path, language: "javascript" });
     break;
   }
 }
 
-if (!code || !path || !language) {
+if (!state.code) {
   return <></>;
+}
+
+const Container = styled.div`
+    height: 500px;
+`;
+
+function onChange(code) {
+  State.update({
+    code,
+  });
 }
 
 return (
@@ -51,13 +60,13 @@ return (
       <Button onClick={() => State.update({ view: "TYPE" })}>type</Button>
       <Button onClick={() => State.update({ view: "WIDGET" })}>widget</Button>
     </div>
-    <Widget
-      src={"efiz.near/widget/MonacoEditor"}
-      props={{
-        path,
-        code,
-        language,
-      }}
-    />
+    <Container>
+      <MonacoEditor
+        path={state.path}
+        language={state.language}
+        value={state.code}
+        onChange={onChange}
+      />
+    </Container>
   </div>
 );
