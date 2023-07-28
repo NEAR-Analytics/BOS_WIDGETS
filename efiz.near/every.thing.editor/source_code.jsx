@@ -14,7 +14,7 @@ return (
     props={{
       path,
       code: thing,
-      language: "json",
+      language: "javascript",
     }}
   />
 );
