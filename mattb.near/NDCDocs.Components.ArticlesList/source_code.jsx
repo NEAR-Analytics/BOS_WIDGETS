@@ -193,6 +193,8 @@ const ArticleDetails = styled.div`
     width:100%;
     max-width:300px;
     height:30%;
+    color:#000;
+
     &.skeleton {
       h2 {
         color:transparent;
@@ -273,17 +275,47 @@ function getSkeleton() {
   );
 }
 
+const getArticleLink = (idx) => {
+  let article = state.posts[idx];
+  return article
+    ? `#/mattb.near/widget/NDCDocs.Components.Article?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}`
+    : "";
+};
+
+const getControls = (idx) => {
+  let nextArticleLink = getArticleLink(idx + 1);
+  let previousArticleLink = getArticleLink(idx - 1);
+
+  let nextArticleLinkParams = nextArticleLink
+    ? `&nextArticleLink=${nextArticleLink}&nextArticleName=${
+        state.posts[idx + 1].articleId
+      }`
+    : "";
+
+  let previousArticleLinkParams = previousArticleLink
+    ? `&previousArticleLink=${previousArticleLink}&previousArticleName=${
+        state.posts[idx - 1].articleId
+      }`
+    : "";
+
+  return nextArticleLinkParams + previousArticleLinkParams;
+};
+
+const getFullArticleLink = (idx) => {
+  let currentLink = getArticleLink(idx);
+  let controls = getControls(idx);
+
+  return `${currentLink}${controls}`;
+};
+
 return (
   <Main>
     {!state.posts.length && getSkeleton()}
     {getPosts()}
     {!!state.posts.length &&
-      state.posts.map((article) => (
+      state.posts.map((article, idx) => (
         <>
-          <ArticlePill
-            href={`#/neardigitalcollective.near/widget/NDCDocs_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
-            `}
-          >
+          <ArticlePill href={getArticleLink(idx)}>
             <ArticleTitle>
               <div>
                 <h1>{article.articleId}</h1>
