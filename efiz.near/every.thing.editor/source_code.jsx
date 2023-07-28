@@ -23,7 +23,7 @@ function composeData() {
       "": state.code,
     };
   } else {
-    content = state.code;
+    content = JSON.parse(state.code);
   }
   const data = {
     [parts[1]]: {
