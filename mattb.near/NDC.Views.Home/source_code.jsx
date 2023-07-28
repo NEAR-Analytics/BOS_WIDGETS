@@ -235,10 +235,13 @@ let views = {
       <Widget
         src={`mattb.near/widget/NDCDocs.Views.Home`}
         props={{
-          embedHeader: false
+          embedHeader: false,
         }}
       />
     </>
+  ),
+  nominate: () => (
+    <Widget src="nomination.ndctools.near/widget/NDC.Nomination.Page" />
   ),
   funding: () => (
     <>
@@ -256,14 +259,15 @@ let views = {
     </>
   ),
   wg: () => (
-    <Widget src="neardigitalcollective.near/widget/NDCDocs_OneArticle"
+    <Widget
+      src="mattb.near/widget/NDCDocs.Components.Article"
       props={{
-        "articleId": "workgroups",
-        "blockHeight": "94330352",
-        "lastEditor": "blaze.near"
+        articleId: "workgroups",
+        blockHeight: "94330352",
+        lastEditor: "blaze.near",
       }}
     />
-  )
+  ),
 };
 
 function getSkeleton() {
