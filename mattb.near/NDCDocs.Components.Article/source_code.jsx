@@ -41,7 +41,11 @@ function getIndex() {
 
   state.article.body.split("\n").map((line, idx) => {
     if (line[0] === "!" && idx == 0) {
-      State.update({ coverImage: line.substring(0, line.length).trim() });
+      State.update({
+        coverImage: line
+          .substring(line.indexOf("https"), line.length - 1)
+          .trim(),
+      });
     }
     if (line[0] === "#" && line[1] !== "#") {
       titles = titles.map((title) => {
