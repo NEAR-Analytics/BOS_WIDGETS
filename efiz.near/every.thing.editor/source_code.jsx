@@ -26,7 +26,7 @@ switch (state.view) {
     language = "json";
     const thing = JSON.parse(jThing);
     path = thing.type;
-    code = JSON.parse(Social.get(path, "final"));
+    code = Social.get(path, "final");
     break;
   }
   case "WIDGET": {
