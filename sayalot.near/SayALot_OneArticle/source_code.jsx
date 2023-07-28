@@ -57,7 +57,6 @@ const sayALotWorkers = [
   "blaze.near",
   "ayelen.near",
   "kenrou-it.near",
-  "sayalot.near",
 ];
 
 if (isDebug) {
@@ -110,21 +109,12 @@ const firstArticle =
   );
 
 const firstArticleBlockHeight = firstArticle.blockHeight;
-const indexFirstArticle = articlesIndex.find(
-  (articleIndex) => articleIndex.blockHeight === firstArticleBlockHeight
-);
 
-const realArticleId = indexFirstArticle.value.id; // May be undefined if user hasn't resaved yet
 // ======= Item for comment =======
-const commentItem = {
+const item = {
   type: "social",
   path: `${state.article.author}/${addressForArticles}/main`,
-  // blockHeight: firstArticleBlockHeight,
-  realArticleId,
-};
-const commentIndex = {
-  action: addressForComments,
-  key: commentItem,
+  blockHeight: firstArticleBlockHeight,
 };
 
 const tagsArray = state.tags ? Object.keys(state.tags) : state.article.tags;
@@ -179,7 +169,7 @@ const composeData = () => {
     data.index.tag = JSON.stringify(
       tagsArray.map((tag) => ({
         key: tag,
-        value: commentItem,
+        value: item,
       }))
     );
   }
@@ -345,12 +335,6 @@ return (
     className="container-fluid"
     style={{ backgroundColor: "rgb(230, 230, 230)", padding: "0 0 1rem 0" }}
   >
-    {!realArticleId && (
-      <h1>
-        FYI: comments and reactions are disabled until you resave once again due
-        structure change
-      </h1>
-    )}
     <Widget
       src={`${authorForWidget}/widget/SayALot_MainNavigation`}
       props={{ currentNavPill: "articles", isDebug }}
@@ -562,64 +546,56 @@ return (
             </div>
           )}
           {/* === CREATE COMMENT BUTTON === */}
-          {realArticleId && ( // Remove !realArticleId once all articles have it
-            <>
-              <span className="d-inline-flex align-items-center">
-                {blockHeight !== "now" && (
-                  <div className="mt-1 d-flex justify-content-between">
-                    <Widget
-                      src="mob.near/widget/CommentButton"
-                      props={{
-                        onClick: () =>
-                          State.update({ showReply: !state.showReply }),
-                      }}
-                    />
-                  </div>
-                )}
-                {/* === LIKE === */}
+          <span className="d-inline-flex align-items-center">
+            {blockHeight !== "now" && (
+              <div className="mt-1 d-flex justify-content-between">
                 <Widget
-                  src={`${authorForWidget}/widget/SayALot_Reactions`}
+                  src="mob.near/widget/CommentButton"
                   props={{
-                    // notifyAccountId,
-                    item: commentItem,
-                    realArticleId,
-                    isDebug,
+                    onClick: () =>
+                      State.update({ showReply: !state.showReply }),
                   }}
                 />
-              </span>
-              {/* === COMPOSE COMMENT === */}
-              <div className="mt-3 ps-5">
-                {state.showReply && (
-                  <div className="mb-2">
-                    <Widget
-                      src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
-                      props={{
-                        notifyAccountId,
-                        item: commentItem,
-                        onComment: () => State.update({ showReply: false }),
-                        realArticleId,
-                        isDebug,
-                      }}
-                    />
-                  </div>
-                )}
-                {/* === SHOW COMMENT === */}
+              </div>
+            )}
+            {/* === LIKE === */}
+            <Widget
+              src={`${authorForWidget}/widget/SayALot_Reactions`}
+              props={{
+                // notifyAccountId,
+                isDebug,
+                item,
+              }}
+            />
+          </span>
+          {/* === COMPOSE COMMENT === */}
+          <div className="mt-3 ps-5">
+            {state.showReply && (
+              <div className="mb-2">
                 <Widget
-                  src={`${authorForWidget}/widget/SayALot_Comment.Feed`}
+                  src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
                   props={{
-                    item: commentItem,
-                    highlightComment: props.highlightComment,
-                    limit: props.commentsLimit,
-                    subscribe,
-                    raw,
-                    realArticleId,
-                    index: commentIndex,
+                    notifyAccountId,
+                    item,
+                    onComment: () => State.update({ showReply: false }),
                     isDebug,
                   }}
                 />
               </div>
-            </>
-          )}
+            )}
+            {/* === SHOW COMMENT === */}
+            <Widget
+              src={`${authorForWidget}/widget/SayALot_Comment.Feed`}
+              props={{
+                item,
+                highlightComment: props.highlightComment,
+                limit: props.commentsLimit,
+                subscribe,
+                raw,
+                isDebug,
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
