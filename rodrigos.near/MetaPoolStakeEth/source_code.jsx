@@ -77,6 +77,15 @@ if (state.metrics === undefined) {
   State.update({ metrics: resp?.body ?? "..." });
 }
 
+// FETCH ETH CONTRACT DATA
+
+if (state.contractData === undefined) {
+  const resp = fetch("https://eth-metapool.narwallets.com/metrics_front");
+  console.log(resp);
+  if (!resp) return;
+  State.update({ contractData: resp?.body ?? "..." });
+}
+
 // FETCH ETH PRICE
 
 if (!state.ethUsdPrice) {
