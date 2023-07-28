@@ -228,25 +228,27 @@ return (
           }}
         />
         <CommentSection>
-          <div className="place-comment">
+          <Wrapper>
+            <div className="place-comment">
+              <Widget
+                src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Compose`}
+                props={{
+                  notifyAccountId,
+                  item,
+                }}
+              />
+            </div>
             <Widget
-              src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Compose`}
+              src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Feed`}
               props={{
-                notifyAccountId,
                 item,
+                highlightComment: props.highlightComment,
+                limit: props.commentsLimit,
+                subscribe,
+                raw,
               }}
             />
-          </div>
-          <Widget
-            src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Feed`}
-            props={{
-              item,
-              highlightComment: props.highlightComment,
-              limit: props.commentsLimit,
-              subscribe,
-              raw,
-            }}
-          />
+          </Wrapper>
         </CommentSection>
       </Content>
     </Main>
