@@ -1,4 +1,4 @@
-const { article, index } = props;
+const { article, index, coverImage } = props;
 
 function getProfileImage(accountId) {
   let image = Social.getr(`${accountId}/profile`).image || {
@@ -63,6 +63,7 @@ const Avatar = styled.div`
 
 return (
   <>
+    {coverImage && <Markdown text={coverImage} />}
     <ArticleDetails>
       <div>
         <Avatar
