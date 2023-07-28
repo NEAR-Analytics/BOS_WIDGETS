@@ -213,10 +213,6 @@ switch (state.selectedOption) {
   }
 }
 
-if (data === null) {
-  return <p>Loading</p>;
-}
-
 const processData = (data) => {
   const accounts = Object.entries(data);
 
@@ -271,7 +267,7 @@ const renderItem = (a) => {
   );
 };
 
-if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
+if (data && JSON.stringify(data) !== JSON.stringify(state.data || {})) {
   State.update({
     data,
     allItems: processData(data),
