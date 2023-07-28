@@ -163,7 +163,7 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
 function getPrice(type, data) {
   let tokenIdForCoingeckoAPI;
   tokenIdForCoingeckoAPI = data.coinGeckoId;
-  if (!type) {
+  if (type) {
     getErc20Balance(data.address, state.sender, data.decimals, data.name);
   }
   let dataUrl = `https://api.coingecko.com/api/v3/coins/${tokenIdForCoingeckoAPI}`;
