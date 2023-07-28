@@ -3,7 +3,6 @@ const authorId = props.authorId || "manzanal.near";
 const contractId = props.contractId || "v006.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const GET_VP_METHOD = "get_all_locking_positions";
-const GET_IN_USE_VP_METHOD = "get_used_voting_power";
 const proposal = props.proposal;
 
 State.init({
@@ -14,8 +13,6 @@ State.init({
   votingPowerYocto: null,
   votingPower: null,
   votingPowerIsFetched: false,
-  votingPowerInUse: null,
-  votingPowerInUseIsFetched: false,
   hasVoted: null,
   userVote: null,
   hasVotedIsFetched: false,
@@ -77,23 +74,6 @@ if (!state.votingPowerIsFetched) {
       votingPowerIsFetched: true,
     });
   });
-}
-
-if (!state.votingPowerInUseIsFetched) {
-  Near.asyncView(
-    contractId,
-    "get_voter_used_voting_power",
-    {
-      voter_id: context.accountId,
-    },
-    "final",
-    false
-  ).then((votingPowerInUse) =>
-    State.update({
-      votingPowerInUse: yoctoToNear(votingPowerInUse),
-      votingPowerInUseIsFetched: true,
-    })
-  );
 }
 
 if (!state.userVoteIsFetched) {
@@ -239,12 +219,6 @@ const Memo = styled.div`
   width: 75%;
 `;
 const voted = (type) => {
-  // const userVote =
-  //   Near.view(
-  //     contractId,
-  //     "get_my_vote",
-  //     { mpip_id: proposal.mpip_id, voter_id: accountId }
-  //   )
   return state.userVote.vote_type == type;
 };
 
@@ -281,10 +255,7 @@ if (state.hasVoted && isProposalVotingFinished()) {
   );
 }
 
-if (
-  !state.hasVoted &&
-  parseInt(state.votingPower) - parseInt(state.votingPowerInUse) <= 0
-) {
+if (!state.hasVoted && parseInt(state.votingPower) <= 0) {
   return (
     <Container>
       <Heading>
