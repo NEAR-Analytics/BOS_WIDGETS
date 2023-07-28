@@ -184,7 +184,7 @@ const PageContainer = styled.div`
   justify-content: center;
   box-sizing: border-box;
   margin: 0px auto;
-  min-width: 400px;
+  min-width: 380px;
   width: 100%;
   padding: 0px 12px 12px 12px;
   position: relative;
