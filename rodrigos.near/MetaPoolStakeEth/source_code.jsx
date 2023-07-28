@@ -219,7 +219,7 @@ const StakeForm = styled.div`
   line-height: 1.6em;
   border-radius: 20px;
   margin: 0px;
-  padding: 12px 32px 32px 32px;
+  padding: 12px 26px 32px 26px;
   box-shadow: none;
   color: #fff;    
 `;
@@ -252,14 +252,6 @@ const StakeFormTopContainerLeftContent1Container = styled.div`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-`;
-
-const StakeFormTopContainerLeftContent1Circle = styled.div`
-  background-color: #53BA95;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-left: 8px;
 `;
 
 const StakeFormTopContainerLeftContent2 = styled.div`
@@ -441,7 +433,6 @@ return (
               <StakeFormTopContainerLeftContent1>
                 <StakeFormTopContainerLeftContent1Container>
                   <span>Available to stake</span>
-                  <StakeFormTopContainerLeftContent1Circle />
                 </StakeFormTopContainerLeftContent1Container>
               </StakeFormTopContainerLeftContent1>
               <StakeFormTopContainerLeftContent2>
