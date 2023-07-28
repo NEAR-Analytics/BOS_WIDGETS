@@ -21,38 +21,23 @@ if (!blockHeight) {
   return "unknown";
 }
 
-const block = Near.block(blockHeight);
-
-if (block === null) {
+const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
+if (!res) {
   return "Loading";
 }
-
-if (!block) {
+if (!res.ok || res.body === "null") {
   return "unknown";
 }
 
-const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
-const date = new Date(timeMs);
-const title = `${date.toLocaleTimeString([], {
-  hour: "2-digit",
-  minute: "2-digit",
-})} ${date.toLocaleDateString([], {
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-})}`;
+const timeMs = parseFloat(res.body);
 
 const timeAgo = (diffSec) =>
   diffSec < 60000
-    ? `${(diffSec / 1000) | 0}s`
+    ? `${(diffSec / 1000) | 0} seconds ago`
     : diffSec < 3600000
-    ? `${(diffSec / 60000) | 0}m`
+    ? `${(diffSec / 60000) | 0} minutes ago`
     : diffSec < 86400000
-    ? `${(diffSec / 3600000) | 0}h`
-    : `${(diffSec / 86400000) | 0}d`;
+    ? `${(diffSec / 3600000) | 0} hours ago`
+    : `${(diffSec / 86400000) | 0} days ago`;
 
-return (
-  <span className={props.className} title={title}>
-    {timeAgo(Date.now() - timeMs)}
-  </span>
-);
+return timeAgo(Date.now() - timeMs);
