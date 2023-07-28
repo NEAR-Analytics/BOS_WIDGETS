@@ -36,6 +36,36 @@ State.update({
     ) || {},
 });
 
+const articlesIndex = Social.index(addressForArticles, "main", {
+  order: "asc",
+  accountId: state.article.author,
+});
+
+const resultArticles =
+  articlesIndex &&
+  articlesIndex.reduce((acc, { accountId, blockHeight }) => {
+    const postData = Social.get(
+      `${accountId}/${addressForArticles}/main`,
+      blockHeight
+    );
+    const postDataWithBlockHeight = { ...JSON.parse(postData), blockHeight };
+    return [...acc, postDataWithBlockHeight];
+  }, []);
+
+const firstArticle =
+  resultArticles &&
+  resultArticles.find(
+    (article) => article.articleId === state.article.articleId
+  );
+
+const firstArticleBlockHeight = firstArticle.blockHeight;
+
+const item = {
+  type: "social",
+  path: `${state.article.author}/${addressForArticles}/main`,
+  blockHeight: firstArticleBlockHeight,
+};
+
 function getIndex() {
   let titles = [];
 
@@ -67,8 +97,6 @@ function getIndex() {
 }
 
 getIndex();
-
-console.log(state.coverImage);
 
 const Main = styled.div`
     display:flex;
@@ -149,6 +177,15 @@ const Wrapper = styled.div`
 
 `;
 
+const CommentSection = styled.div`
+    padding-top:2rem;
+    border-top: 1px solid rgba(0,0,0,.05);
+
+    .place-comment {
+        margin-bottom:2rem;
+    }
+`;
+
 return (
   <>
     <Widget
@@ -190,6 +227,27 @@ return (
             },
           }}
         />
+        <CommentSection>
+          <div className="place-comment">
+            <Widget
+              src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Compose`}
+              props={{
+                notifyAccountId,
+                item,
+              }}
+            />
+          </div>
+          <Widget
+            src={`neardigitalcollective.near/widget/WikiOnSocialDB_Comment.Feed`}
+            props={{
+              item,
+              highlightComment: props.highlightComment,
+              limit: props.commentsLimit,
+              subscribe,
+              raw,
+            }}
+          />
+        </CommentSection>
       </Content>
     </Main>
   </>
