@@ -9,6 +9,8 @@ State.init({
 const Button = styled.button``;
 
 function onChange(e) {
+  //   Storage.privateSet({ path: state.path }, e.target.value);
+  console.log(e);
   State.update({
     code: e.target.value,
   });
