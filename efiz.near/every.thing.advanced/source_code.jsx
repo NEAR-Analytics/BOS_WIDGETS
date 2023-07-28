@@ -196,17 +196,19 @@ switch (state.selectedOption) {
   }
   case "curatedByCategory": {
     const category = "test";
-    const pattern = `*/test/thing/test/categories/${category}`;
+    const pattern = `*/test/thing/*/categories/${category}`;
     const keys = Social.get(pattern, "final");
-    keys = Object.entries(keys).flatMap(([k, v]) => {
-      return Object.entries(v.test[typeName]).flatMap(([ka, kn]) =>
-        Object.entries(kn.categories).flatMap(([key, value]) => value)
-      );
-    });
-    data = Social.keys(pattern, "final", {
-      return_type: "BlockHeight",
-      limit: 1,
-    });
+    if (keys) {
+      keys = Object.entries(keys).flatMap(([k, v]) => {
+        return Object.entries(v.test[typeName]).flatMap(([ka, kn]) =>
+          Object.entries(kn.categories).flatMap(([key, value]) => value)
+        );
+      });
+      data = Social.keys(keys, "final", {
+        return_type: "BlockHeight",
+        limit: 1,
+      });
+    }
     break;
   }
 }
