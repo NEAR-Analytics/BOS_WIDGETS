@@ -7,8 +7,6 @@ if (!jThing) {
   return <></>;
 }
 
-console.log(jThing);
-
 State.init({
   view: "WIDGET",
 });
@@ -28,7 +26,7 @@ switch (state.view) {
     language = "json";
     const thing = JSON.parse(jThing);
     path = thing.type;
-    code = Social.get(path, "final");
+    code = JSON.parse(Social.get(path, "final"));
     break;
   }
   case "WIDGET": {
@@ -40,7 +38,9 @@ switch (state.view) {
   }
 }
 
-console.log(code);
+if (!code) {
+  return <></>;
+}
 
 return (
   <div>
