@@ -86,6 +86,7 @@ const CardContainer = styled.a`
     }
 `;
 //============================================End styled components==============================================
+console.log(0, tags.length);
 
 return (
   <div className="card-body" href={navegateTo}>
@@ -120,26 +121,31 @@ return (
           )}
         </div>
       </div>
-      <div className="d-flex justify-content-center align-items-center flex-wrap p-2 w-50 bg-light rounded">
-        {tags.map((tag) => {
-          if (!tag.href || !tag.text) {
-            return <p className="text-danger">Wrong props</p>;
-          }
-          return (
-            <a className="m-1" href={tag.href}>
-              <Widget
-                src="rubycop.near/widget/NDC.StyledComponents"
-                props={{
-                  Tag: {
-                    title: tag.text,
-                    className: "white",
-                  },
-                }}
-              />
-            </a>
-          );
-        })}
-      </div>
+      {tags.length > 0 && (
+        <div
+          className="d-flex justify-content-center align-items-center flex-wrap p-2 w-50 bg-light rounded"
+          style={{ maxWidth: "fit-content" }}
+        >
+          {tags.map((tag) => {
+            if (!tag.href || !tag.text) {
+              return <p className="text-danger">Wrong props</p>;
+            }
+            return (
+              <a className="m-1" href={tag.href}>
+                <Widget
+                  src="rubycop.near/widget/NDC.StyledComponents"
+                  props={{
+                    Tag: {
+                      title: tag.text,
+                      className: "white",
+                    },
+                  }}
+                />
+              </a>
+            );
+          })}
+        </div>
+      )}
     </CardContainer>
   </div>
 );
