@@ -8,7 +8,7 @@ if (!jThing) {
 }
 
 State.init({
-  view: "TYPE",
+  view: "THING",
 });
 
 const Button = styled.button``;
