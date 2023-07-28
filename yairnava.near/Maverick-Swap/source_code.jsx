@@ -293,7 +293,7 @@ return (
               />
               <div class="TokenAmountPreview">
                 {state.inputBalance != null
-                  ? `Balance: ${state.inputBalance}`
+                  ? `Balance: ${parseFloat(state.inputBalance).toFixed(6)}`
                   : ""}
               </div>
               {!isSufficientBalance() ? (
