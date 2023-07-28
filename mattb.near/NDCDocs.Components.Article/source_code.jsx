@@ -24,6 +24,7 @@ const notifyAccountId = accountId;
 State.init({
   currentSection: 0,
   index: null,
+  coverImage: null,
   article: null,
   showMenu: false,
 });
@@ -39,6 +40,9 @@ function getIndex() {
   let titles = [];
 
   state.article.body.split("\n").map((line, idx) => {
+    if (line[0] === "!") {
+      State.update({ coverImage: line.substring(0, line.length).trim() });
+    }
     if (line[0] === "#" && line[1] !== "#") {
       titles = titles.map((title) => {
         if (title.contentEnd == null) {
@@ -59,6 +63,8 @@ function getIndex() {
 }
 
 getIndex();
+
+console.log(state.coverImage);
 
 const Main = styled.div`
     display:flex;
@@ -163,6 +169,7 @@ return (
             props={{
               article: state.article,
               index: state.index,
+              converImage: state.coverImage,
             }}
           />
         </Wrapper>
