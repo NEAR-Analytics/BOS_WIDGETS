@@ -56,9 +56,16 @@ const CardContent = styled.div`
   width: 100%;
 `;
 
+const CardFooterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const CardFooter = styled.div`
   display: grid;
   align-items: center;
+  justify-content: center;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 16px;
