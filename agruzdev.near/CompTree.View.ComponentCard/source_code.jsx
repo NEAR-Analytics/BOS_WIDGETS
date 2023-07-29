@@ -242,7 +242,7 @@ return (
 
       <CardFooter>
         <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-        {deps && deps.length === 0 ? null : (
+        {state.deps && state.deps.length === 0 ? null : (
           <ButtonLink onClick={handleShow}>
             {state.isShown ? "Close" : "Show"}
           </ButtonLink>
