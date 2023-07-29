@@ -29,7 +29,7 @@ const updateDeps = () => {
 
 State.init({ deps: null, isShown: false });
 
-state.isShown && updateDeps();
+updateDeps();
 
 const Card = styled.div`
   position: relative;
