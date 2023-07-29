@@ -226,7 +226,7 @@ const social = {
       description: "Music distribution platform on NEAR",
       category: ["NFT", "NEAR", "Music"],
       deploy:
-        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FHarmonic-Guild%2Fviewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fharmonic-guild%2Fviewer%2Ftree%2Ffathom",
       github: "https://github.com/Harmonic-Guild/viewer",
     },
     {
