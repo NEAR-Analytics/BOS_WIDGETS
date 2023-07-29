@@ -535,7 +535,7 @@ return (
                     </li>
                   )}
 
-                  {canPropose && daoIsMinter && isHuman && (
+                  {canPropose && daoIsMinter && isHuman && !isVibe && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
