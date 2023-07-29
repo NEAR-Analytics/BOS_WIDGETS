@@ -1,3 +1,7 @@
+const realArticleId = props.realArticleId;
+if (!realArticleId) {
+  return "Article id not provided";
+}
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 // It is important that 'Heart' Positive emoji is first
@@ -31,7 +35,7 @@ State.init({
 });
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const path = false ? "test_like" : "like";
+const path = isDebug ? "test_like" : "like";
 const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
@@ -171,12 +175,13 @@ const clickHandler = (emojiMessage) => {
   let data;
 
   if (isDebug) {
-    data = data = {
+    data = {
       index: {
         test_like: JSON.stringify({
           key: item,
           value: {
             type: emojiToWrite,
+            articleId: realArticleId,
           },
         }),
       },
@@ -188,6 +193,7 @@ const clickHandler = (emojiMessage) => {
           key: item,
           value: {
             type: emojiToWrite,
+            articleId: realArticleId,
           },
         }),
       },
