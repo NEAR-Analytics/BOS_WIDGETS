@@ -1,3 +1,8 @@
+const realArticleId = props.realArticleId;
+if (!realArticleId) {
+  return "Article id not provided";
+}
+
 const isDebug = props.isDebug;
 
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
@@ -69,6 +74,8 @@ return (
             props={{
               // notifyAccountId,
               item,
+              realArticleId,
+              isDebug,
             }}
           />
         </div>
