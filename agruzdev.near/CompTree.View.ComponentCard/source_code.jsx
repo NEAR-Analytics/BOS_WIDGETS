@@ -58,6 +58,7 @@ const CardContent = styled.div`
 
 const CardFooter = styled.div`
   display: grid;
+  align-items: center;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 16px;
