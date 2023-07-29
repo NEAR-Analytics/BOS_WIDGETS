@@ -20,13 +20,15 @@ const getDeps = (widget) => {
   return matches;
 };
 
-const init = () => {
+const updateDeps = () => {
   const widget = Social.get(props.src);
 
-  return getDeps(widget);
+  State.update({ deps: getDeps(widget) });
 };
 
-State.init({ deps: init() });
+State.init({ deps: null });
+
+updateDeps();
 
 const Card = styled.div`
   position: relative;
@@ -225,6 +227,7 @@ return (
 
       <CardFooter>
         <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+        <ButtonLink onClick={updateDeps}>Tree</ButtonLink>
       </CardFooter>
     </Card>
     {state.deps ? (
