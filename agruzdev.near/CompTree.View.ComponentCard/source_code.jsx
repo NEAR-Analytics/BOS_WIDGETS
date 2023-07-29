@@ -227,7 +227,6 @@ return (
 
       <CardFooter>
         <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-        <ButtonLink onClick={updateDeps}>Tree</ButtonLink>
       </CardFooter>
     </Card>
     {state.deps ? (
