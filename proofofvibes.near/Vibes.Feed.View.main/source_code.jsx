@@ -150,7 +150,7 @@ const isUserAllowedTo = (user, kind, action) => {
       continue;
     }
     if (!role.kind.Group) continue;
-    if (accountId && role.kind.Group && role.kind.Group.includes(accountId)) {
+    if (user && role.kind.Group && role.kind.Group.includes(user)) {
       userRoles.push(role);
     }
   }
