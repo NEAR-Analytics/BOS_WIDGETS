@@ -256,6 +256,25 @@ const social = {
   ],
 };
 
+State.init({ uniqueCategories: null });
+const setCategories = () => {
+  const categoriesList = [];
+  social.data.map((item) => categoriesList.push(...item.category));
+
+  // console.log(categoriesList);
+  const cats = [
+    "All",
+    ...categoriesList.filter(
+      (item, index) => categoriesList.indexOf(item) === index
+    ),
+  ];
+  console.log(cats);
+  State.update({
+    uniqueCategories: cats,
+  });
+};
+setCategories();
+
 const Cards = styled.div`
   display: flex;
   gap: 1.4rem;
@@ -346,6 +365,16 @@ return (
         </H1>
       </Container>
     </Wrapper>
+    <div class="input-group  row">
+      <Typeahead
+        options={state.uniqueCategories.slice(1)}
+        multiple
+        onChange={(value) => {
+          State.update({ choose: value });
+        }}
+        placeholder="Choose a tag to filter..."
+      />
+    </div>
     <Cards>
       {social.data.map((item) => (
         <Card key={item.key}>
