@@ -1,3 +1,6 @@
+/** to-do
+ * Add vibes map
+ */
 State.init({
   selectedTab: props.tab || "feed",
 });
