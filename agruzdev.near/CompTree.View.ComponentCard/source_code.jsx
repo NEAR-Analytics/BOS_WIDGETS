@@ -181,7 +181,7 @@ const DepsContainer = styled.div`
 
 const Dep = styled.div`
   margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 20%;
 `;
 
 return (
