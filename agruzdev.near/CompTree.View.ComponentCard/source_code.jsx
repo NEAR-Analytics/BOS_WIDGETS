@@ -1,3 +1,4 @@
+const DEFAULT_SHOWN = false;
 const [accountId, widget, widgetName] = props.src.split("/");
 const metadata = Social.get(
   `${accountId}/widget/${widgetName}/metadata/**`,
@@ -30,7 +31,7 @@ const updateDeps = () => {
   State.update({ deps: getDeps(widget) });
 };
 
-State.init({ deps: null, isShown: false });
+State.init({ deps: null, isShown: DEFAULT_SHOWN });
 
 updateDeps();
 
@@ -255,6 +256,9 @@ return (
               {state.isShown ? "Close" : "Show"}
             </ButtonLink>
             <ButtonLink
+              onClick={() => {
+                State.update({ isShown: DEFAULT_SHOWN });
+              }}
               href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}`}
               primary
             >
@@ -264,7 +268,7 @@ return (
         )}
       </CardFooter>
     </Card>
-    {state.isShown && state.deps ? (
+    {state.isShown && state.deps && state.deps.length !== 0 ? (
       <DepsContainer>
         {state.deps.map((dep) => (
           <Dep>
