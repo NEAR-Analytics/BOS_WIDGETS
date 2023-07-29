@@ -1,9 +1,9 @@
-let { view, darkmode } = props;
+let { view } = props;
 
 State.init({
   currentView: view || "home",
   render: "",
-  darkmode: darkmode || false,
+  darkmode: Storage.privateGet("darkmode") || false,
 });
 
 const DEFAULT_BACKGROUND_COLOR = state.darkmode ? "#191919" : "#fff";
@@ -289,7 +289,10 @@ return (
     <Widget
       src="mattb.near/widget/NDC.Components.Header"
       props={{
-        onRefresh: (data) => State.update(data),
+        onRefresh: (data) => {
+          State.update(data);
+          Storage.privateSet("darkmode", state.darkmode);
+        },
         darkmode: state.darkmode,
         selectedTab: state.currentView,
       }}
