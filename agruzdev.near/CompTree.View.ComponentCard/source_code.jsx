@@ -27,9 +27,9 @@ const updateDeps = () => {
   State.update({ deps: getDeps(widget) });
 };
 
-State.init({ deps: null, isShown: true });
+State.init({ deps: null, isShown: false });
 
-updateDeps();
+state.isShown && updateDeps();
 
 const Card = styled.div`
   position: relative;
