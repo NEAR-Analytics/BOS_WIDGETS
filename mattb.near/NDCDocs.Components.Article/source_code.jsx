@@ -1,11 +1,12 @@
 let {
+  embedHeader,
   previousArticleLink,
   nextArticleLink,
   previousArticleName,
   nextArticleName,
 } = props;
 
-const OWNER_ACCOUNT = "mattb.near";
+const widgetOwner = "mattb.near";
 const addressForComments = "NDCDOCS-comments";
 const addressForArticles = "ndcWikiArticle";
 const authorForWidget = "neardigitalcollective.near";
@@ -204,15 +205,17 @@ const CommentSection = styled.div`
 
 return (
   <>
-    <Widget
-      src={`${OWNER_ACCOUNT}/widget/NDCDocs.Components.Header`}
-      props={{
-        onClick: (newState) => State.update({ showMenu: newState }),
-      }}
-    />
+    {(typeof embedHeader == "undefined" || embedHeader) && (
+      <Widget
+        src={`${widgetOwner}/widget/NDCDocs.Components.Header`}
+        props={{
+          onClick: (newState) => State.update({ showMenu: newState }),
+        }}
+      />
+    )}
     <Main>
       <Widget
-        src={`${OWNER_ACCOUNT}/widget/NDCDocs.Components.SideBar`}
+        src={`${widgetOwner}/widget/NDCDocs.Components.SideBar`}
         props={{
           showMenu: state.showMenu,
           article: state.article,
@@ -222,7 +225,7 @@ return (
       <Content>
         <Wrapper>
           <Widget
-            src={`${OWNER_ACCOUNT}/widget/NDCDocs.Components.ArticleContent`}
+            src={`${widgetOwner}/widget/NDCDocs.Components.ArticleContent`}
             props={{
               article: state.article,
               index: state.index,
@@ -231,7 +234,7 @@ return (
           />
         </Wrapper>
         <Widget
-          src={`${OWNER_ACCOUNT}/widget/NDCDocs.Components.Controls`}
+          src={`${widgetOwner}/widget/NDCDocs.Components.Controls`}
           props={{
             previousArticle: {
               link: previousArticleLink,
