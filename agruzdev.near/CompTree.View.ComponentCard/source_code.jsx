@@ -8,6 +8,26 @@ const detailsUrl = `#/near/widget/ComponentDetailsPage?src=${accountId}/widget/$
 const appUrl = `#/${accountId}/widget/${widgetName}`;
 const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
+const getDeps = (widget) => {
+  const pattern = /<Widget\s+src="([^"]*)"\s*\/>/g;
+
+  let matches = [];
+  let match;
+  while ((match = pattern.exec(widget)) !== null) {
+    matches.push(match[1]);
+  }
+
+  return matches;
+};
+
+const init = () => {
+  const widget = Social.get(props.src);
+
+  return getDeps(widget);
+};
+
+State.init({ deps: init() });
+
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -146,82 +166,76 @@ const ButtonLink = styled.a`
   }
 `;
 
-const getDeps = (widget) => {
-  const pattern = /<Widget\s+src="([^"]*)"\s*\/>/g;
-
-  let matches = [];
-  let match;
-  while ((match = pattern.exec(widget)) !== null) {
-    matches.push(match[1]);
-  }
-
-  return matches;
-};
-
-const handleTreeClick = () => {
-  const widget = Social.get(props.src);
-
-  console.log(getDeps(widget));
-};
+const DepsContainer = styled.div`
+width: 50%
+`;
 
 return (
-  <Card>
-    {
-      <CardTag>
-        <i className="bi bi-clock"></i>{" "}
-        <Widget
-          src="mob.near/widget/TimeAgo"
-          props={{
-            blockHeight: props.blockHeight,
-            keyPath: `${accountId}/widget/${widgetName}`,
-          }}
-        />{" "}
-        ago
-      </CardTag>
-    }
+  <>
+    <Card>
+      {
+        <CardTag>
+          <i className="bi bi-clock"></i>{" "}
+          <Widget
+            src="mob.near/widget/TimeAgo"
+            props={{
+              blockHeight: props.blockHeight,
+              keyPath: `${accountId}/widget/${widgetName}`,
+            }}
+          />{" "}
+          ago
+        </CardTag>
+      }
 
-    <CardBody>
-      <Thumbnail href={detailsUrl}>
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: metadata.image,
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
-            alt: metadata.name,
-          }}
-        />
-      </Thumbnail>
+      <CardBody>
+        <Thumbnail href={detailsUrl}>
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: metadata.image,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
+              alt: metadata.name,
+            }}
+          />
+        </Thumbnail>
 
-      <CardContent>
-        <TextLink as="a" href={detailsUrl} bold ellipsis>
-          {metadata.name || widgetName}
-        </TextLink>
+        <CardContent>
+          <TextLink as="a" href={detailsUrl} bold ellipsis>
+            {metadata.name || widgetName}
+          </TextLink>
 
-        <TextLink small as="a" href={accountUrl} ellipsis>
-          @{accountId}
-        </TextLink>
+          <TextLink small as="a" href={accountUrl} ellipsis>
+            @{accountId}
+          </TextLink>
 
-        {tags.length > 0 && (
-          <TagsWrapper>
-            <Widget
-              src="near/widget/Tags"
-              props={{
-                tags,
-                scroll: true,
-              }}
-            />
-          </TagsWrapper>
-        )}
-      </CardContent>
-    </CardBody>
+          {tags.length > 0 && (
+            <TagsWrapper>
+              <Widget
+                src="near/widget/Tags"
+                props={{
+                  tags,
+                  scroll: true,
+                }}
+              />
+            </TagsWrapper>
+          )}
+        </CardContent>
+      </CardBody>
 
-    <CardFooter>
-      <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-      <ButtonLink href={appUrl} primary>
-        Open
-      </ButtonLink>
-      <ButtonLink onClick={handleTreeClick}>Tree</ButtonLink>
-    </CardFooter>
-  </Card>
+      <CardFooter>
+        <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+      </CardFooter>
+    </Card>
+    {state.deps ? (
+      <DepsContainer>
+        {state.deps.map((dep) => (
+          <Widget
+            src={"agruzdev.near/widget/CompTree.View.ComponentCard"}
+            props={{ src: dep }}
+          />
+        ))}
+      </DepsContainer>
+    ) : null}
+  </>
 );
