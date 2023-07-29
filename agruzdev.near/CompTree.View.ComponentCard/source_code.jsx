@@ -9,11 +9,11 @@ const appUrl = `#/${accountId}/widget/${widgetName}`;
 const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
 const getDeps = (widget) => {
-  const pattern = /<Widget\s+src="([^"]*)"\s*\/>/g;
+  const pattern = /<Widget\s+src="([^"]+)"/g;
 
   let matches = [];
   let match;
-  while ((match = pattern.exec(widget)) !== null) {
+  while ((match = pattern.exec(widget.toString())) !== null) {
     matches.push(match[1]);
   }
 
