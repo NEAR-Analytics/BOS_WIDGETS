@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "proposals",
+  selectedTab: props.tab || "feed",
 });
 const accountId = props.accountId ?? "proofofvibes.near";
 const socialProfile = Social.getr(`${accountId}/profile`);
@@ -215,17 +215,18 @@ return (
       <Content>
         <Tabs>
           <TabsButton
+            href={`${accountUrl}&tab=feed`}
+            selected={state.selectedTab === "feed"}
+          >
+            😊 Vibe Feed
+          </TabsButton>
+          <TabsButton
             href={`${accountUrl}&tab=proposals`}
             selected={state.selectedTab === "proposals"}
           >
             🗳️ Proposals
           </TabsButton>
-          <TabsButton
-            href={`${accountUrl}&tab=data`}
-            selected={state.selectedTab === "data"}
-          >
-            📊 Data
-          </TabsButton>
+
           <TabsButton
             href={`${accountUrl}&tab=members`}
             selected={state.selectedTab === "members"}
@@ -237,12 +238,6 @@ return (
             selected={state.selectedTab === "overview"}
           >
             💬 Social
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}&tab=feed`}
-            selected={state.selectedTab === "feed"}
-          >
-            😊 Vibe Feed
           </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=tastemaker`}
@@ -267,6 +262,12 @@ return (
             selected={state.selectedTab === "jobs"}
           >
             💼 Jobs
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=data`}
+            selected={state.selectedTab === "data"}
+          >
+            📊 Data
           </TabsButton>
         </Tabs>
 
