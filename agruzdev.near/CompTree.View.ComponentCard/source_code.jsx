@@ -57,6 +57,7 @@ const CardContent = styled.div`
 `;
 
 const CardFooterWrapper = styled.div`
+  border-top: 1px solid #eceef0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,12 +65,9 @@ const CardFooterWrapper = styled.div`
 
 const CardFooter = styled.div`
   display: grid;
-  align-items: center;
-  justify-content: center;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 16px;
-  border-top: 1px solid #eceef0;
 `;
 
 const CardTag = styled.p`
@@ -248,14 +246,16 @@ return (
         </CardContent>
       </CardBody>
 
-      <CardFooter>
-        <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-        {state.deps && state.deps.length === 0 ? null : (
-          <ButtonLink onClick={handleShow}>
-            {state.isShown ? "Close" : "Show"}
-          </ButtonLink>
-        )}
-      </CardFooter>
+      <CardFooterWrapper>
+        <CardFooter>
+          <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+          {state.deps && state.deps.length === 0 ? null : (
+            <ButtonLink onClick={handleShow}>
+              {state.isShown ? "Close" : "Show"}
+            </ButtonLink>
+          )}
+        </CardFooter>
+      </CardFooterWrapper>
     </Card>
     {state.deps ? (
       <DepsContainer>
