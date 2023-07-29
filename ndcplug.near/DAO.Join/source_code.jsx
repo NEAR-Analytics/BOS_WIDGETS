@@ -5,8 +5,7 @@ const role = props.role ?? "council";
 if (!accountId) {
   return "Please connect your NEAR wallet :)";
 }
-const policy = Near.view(daoId, "get_policy");
-const daoBond = policy.proposal_bond;
+
 const handleProposal = () => {
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
@@ -26,7 +25,7 @@ const handleProposal = () => {
         },
       },
       gas: gas,
-      deposit: daoBond,
+      deposit: deposit,
     },
   ]);
 };
