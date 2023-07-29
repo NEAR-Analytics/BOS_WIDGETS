@@ -58,7 +58,7 @@ const CardContent = styled.div`
 
 const CardFooter = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: ${state.deps && state.deps === 0 ? "1fr" : "1fr 1fr"};
   gap: 16px;
   padding: 16px;
   border-top: 1px solid #eceef0;
