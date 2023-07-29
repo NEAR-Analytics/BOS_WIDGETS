@@ -35,6 +35,7 @@ const renderItem = (a) =>
             a.accountId === props.highlightComment?.accountId &&
             a.blockHeight === props.highlightComment?.blockHeight,
           raw,
+          realArticleId,
         }}
       />
     </div>
