@@ -3,8 +3,6 @@ if (!realArticleId) {
   return "Article id not provided";
 }
 
-console.log(props);
-
 const isDebug = props.isDebug;
 
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
@@ -14,20 +12,16 @@ const addressForComments = isDebug
 const authorForWidget = "sayalot.near";
 State.init({ showReply: false });
 const accountId = props.accountId;
-const commentBlockHeight =
+const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
   props.content ??
   JSON.parse(
     Social.get(
       `${accountId}/${addressForArticles}/${addressForComments}`,
-      commentBlockHeight
+      blockHeight
     ) ?? "null"
   );
-
-console.log(3, content);
-console.log(4, `${accountId}/${addressForArticles}/${addressForComments}`);
-console.log(5, commentBlockHeight);
 
 const parentItem = content.item;
 const highlight = !!props.highlight;
@@ -36,15 +30,15 @@ const raw = !!props.raw;
 const item = {
   type: "social",
   path: `${accountId}/post/comment`,
-  commentBlockHeight,
+  blockHeight,
 };
 
 //TODO - adress should be changed
-const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${commentBlockHeight}`;
+const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 console.log(
   "props: ",
-  `{accountId: ${accountId}, blockHeight: ${commentBlockHeight}, link: ${link}, postType: "comment" }`
+  `{accountId: ${accountId}, blockHeight: ${blockHeight}, link: ${link}, postType: "comment" }`
 );
 
 return (
@@ -56,12 +50,7 @@ return (
     >
       <Widget
         src="mob.near/widget/MainPage.Post.Header"
-        props={{
-          accountId,
-          blockHeight: commentBlockHeight,
-          link,
-          postType: "comment",
-        }}
+        props={{ accountId, blockHeight, link, postType: "comment" }}
       />
       <div className="mt-2 text-break">
         <Widget
@@ -69,7 +58,7 @@ return (
           props={{ content, raw }}
         />
       </div>
-      {commentBlockHeight !== "now" && (
+      {blockHeight !== "now" && (
         <div className="mt-1 d-flex">
           {parentItem && (
             <Widget
@@ -98,11 +87,10 @@ return (
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
             isDebug,
-            initialText: `@${accountId}, `,
+            initialText: `${accountId}, `,
             // notifyAccountId: extractNotifyAccountId(parentItem),
             item: parentItem,
             onComment: () => State.update({ showReply: false }),
-            realArticleId,
           }}
         />
       </div>
