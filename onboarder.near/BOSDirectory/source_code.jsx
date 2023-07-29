@@ -188,7 +188,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
       description: "Everything +  Data Visualizations for social.near",
       category: ["NEAR", "Data", "Dev"],
-      deploy: null,
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnear-everything%2Fviewer%2Ftree%2Fmaster%2Fsrc",
       github: "https://github.com/near-everything/viewer/",
     },
 
