@@ -6,8 +6,6 @@ const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
   "blaze.near",
   "jlw.near",
-  "zarmade.near",
-  "zarmade.near",
   "kazanderdad.near",
   "joep.near",
   "sarahkornfeld.near",
@@ -23,6 +21,7 @@ const sayALotWorkers = [
   "blaze.near",
   "ayelen.near",
   "kenrou-it.near",
+  "sayalot.near",
 ];
 
 if (isDebug) {
