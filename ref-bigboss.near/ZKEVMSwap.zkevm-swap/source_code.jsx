@@ -106,7 +106,6 @@ State.init({
   },
   selectedDex: props.dex ?? "Pancake Swap",
   loadRes: (value) => {
-    console.log("loadRes", value);
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
       estimate: value,
@@ -138,8 +137,9 @@ const onDexDataLoad = (data) => {
     ...data,
     forceReload: false,
     sender: getEVMAccountId(),
-    inputAsset: undefined,
-    outputAsset: undefined,
+    outputAssetAmount: "",
+    // inputAsset: undefined,
+    // outputAsset: undefined,
   });
 };
 
@@ -172,6 +172,8 @@ const changeAmount = (e) => {
 };
 
 // REUSABLE UI ELEMEETS
+
+console.log("output amount", state.outputAssetAmount);
 
 const assetContainer = (
   isInputAsset,
@@ -207,7 +209,7 @@ const assetContainer = (
             <div class="input-asset-token" onClick={assetNameOnClick}>
               <div class="input-asset-token-name">
                 <div class="input-asset-token-icon">
-                  {assetData.metadata.icon ? (
+                  {assetData?.metadata.icon ? (
                     <img
                       alt={`${assetData.metadata.name} logo`}
                       src={assetData.metadata.icon}
@@ -349,6 +351,10 @@ const SwapMainContainer = styled.div`
   align-items: start;
   gap: 8px;
   font-size: 18px;
+  position: fixed;
+  left: 50%;
+  /* top: 50%; */
+  transform: translate(-50%);
 `;
 
 const NetworkList = styled.div`
@@ -465,6 +471,7 @@ const SwapPage = styled.div`
     align-items: center;
     gap: 8px;
     position: relative;
+    cursor: pointer;
     color: white;
     border: 1px solid #332c4b;
     background: linear-gradient(0deg, #222436, #222436),
@@ -739,8 +746,6 @@ const onCallTxComple = (tx) => {
   });
 };
 
-console.log("state", state.sender, selectedChainId);
-
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
     ? "zkEvm Swap"
@@ -764,7 +769,6 @@ if (!state.sender || selectedChainId !== 1101) {
     />
   );
 }
-//const prevSelectedDex =
 
 return (
   <Theme>
@@ -781,13 +785,13 @@ return (
       }}
     />
 
-    {state.network && state.inputAsset && state.inputAssetTokenId && (
+    {state.network && state.inputAssetTokenId && (
       <Widget
         src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-list"
         props={{
-          hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
           assets: state.assets,
+          hidden: state.inputAssetModalHidden,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           selectedAssets: [state.inputAssetTokenId],
           onClick: (tokenId) => {
@@ -801,14 +805,14 @@ return (
         }}
       />
     )}
-    {state.network && state.outputAsset && state.outputAssetTokenId && (
+    {state.network && state.outputAssetTokenId && (
       <Widget
         src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-asset-list"
         props={{
-          hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           network: state.network,
+          hidden: state.outputAssetModalHidden,
           selectedAssets: [state.outputAssetTokenId],
           onClick: (tokenId) => {
             State.update({
@@ -863,7 +867,7 @@ return (
       state.outputAsset.metadata?.decimals &&
       parseFloat(state.inputAssetAmount) > 0 && (
         <Widget
-          src="zavodil.near/widget/quickswap-v3-getEstimate"
+          src="ref-bigboss.near/widget/ZKEVMSwap.quickswap-v3-getEstimate"
           props={{
             loadRes: state.loadRes,
             tokenIn: state.inputAssetTokenId,
@@ -874,6 +878,7 @@ return (
               state.inputAsset.metadata.decimals
             ).toFixed(0),
             reloadPools: state.reloadPools,
+            dex: state.selectedDex,
             setReloadPools: (value) =>
               State.update({
                 reloadPools: value,
