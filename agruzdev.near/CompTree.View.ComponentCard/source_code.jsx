@@ -8,6 +8,10 @@ const detailsUrl = `#/near/widget/ComponentDetailsPage?src=${accountId}/widget/$
 const appUrl = `#/${accountId}/widget/${widgetName}`;
 const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
+function distinct(arr) {
+  return [...new Set(arr)];
+}
+
 const getDeps = (widget) => {
   const pattern = /<Widget\s+src="([^"]+)"/g;
 
@@ -17,8 +21,7 @@ const getDeps = (widget) => {
     matches.push(match[1]);
   }
 
-  console.log(widget, matches);
-  return matches;
+  return distinct(matches);
 };
 
 const updateDeps = () => {
