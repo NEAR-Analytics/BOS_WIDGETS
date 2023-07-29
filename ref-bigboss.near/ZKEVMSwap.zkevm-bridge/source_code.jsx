@@ -387,12 +387,14 @@ const handlePermit = (props) => {
     ],
   };
 
+  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
+
   const values = {
     deadline: MAX_AMOUNT,
     nonce: state.nonce || 0,
     owner: sender,
     spender: BRIDGE_CONTRACT_ADDRESS,
-    value: ethers.BigNumber.from(amount),
+    value: amountBig,
   };
 
   Ethers.provider()
@@ -454,20 +456,13 @@ const handlePermit = (props) => {
 
       const permit = erc20Iface.encodeFunctionData(
         "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
-        [
-          sender,
-          BRIDGE_CONTRACT_ADDRESS,
-          ethers.BigNumber.from(amount),
-          MAX_AMOUNT,
-          v,
-          r,
-          s,
-        ]
+        [sender, BRIDGE_CONTRACT_ADDRESS, amountBig, MAX_AMOUNT, v, r, s]
       );
 
       console.log("permitData", permit);
       handleBridge({ ...props, permit });
-    });
+    })
+    .catch(() => {});
 };
 
 const approve = (props) => {
@@ -542,24 +537,32 @@ if (!sender) {
 if (chainId === undefined) return <div />;
 
 return (
-  <Container>
-    <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
-      props={{ tokens }}
-    />
+  <>
+    <Container>
+      <Widget
+        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
+        props={{ tokens }}
+      />
 
-    <Widget
-      src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-ui"
-      props={{
-        ...props,
-        onConfirm,
-        onUpdateToken,
-        onChangeAmount,
-        tokens,
-        chainId,
-        updateChainId: (chainId) => State.update(chainId),
-      }}
-    />
+      <Widget
+        src="ref-bigboss.near/widget/ZKEVMSwap.zkevm-bridge-ui"
+        props={{
+          ...props,
+          onConfirm,
+          onUpdateToken,
+          onChangeAmount,
+          tokens,
+          chainId,
+          updateChainId: (chainId) => State.update(chainId),
+        }}
+      />
+
+      <Widget
+        src="ciocan.near/widget/toast"
+        props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+      />
+    </Container>
+
     <Widget
       src="ref-bigboss.near/widget/ZKEVMWarmUp.add-to-quest-card"
       props={{
@@ -567,9 +570,5 @@ return (
         onChangeAdd: state.onChangeAdd,
       }}
     />
-    <Widget
-      src="ciocan.near/widget/toast"
-      props={{ open: isToastOpen, variant, title, description, onOpenChange }}
-    />
-  </Container>
+  </>
 );
