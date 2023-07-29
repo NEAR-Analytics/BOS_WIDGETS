@@ -168,8 +168,20 @@ const ButtonLink = styled.a`
   }
 `;
 
+const Main = styled.div`
+
+`;
+
 const DepsContainer = styled.div`
-width: 50%
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  flex-direction: column;
+`;
+
+const Dep = styled.div`
+  margin-top: 10px;
+  margin-left: 20px;
 `;
 
 return (
@@ -232,10 +244,12 @@ return (
     {state.deps ? (
       <DepsContainer>
         {state.deps.map((dep) => (
-          <Widget
-            src={"agruzdev.near/widget/CompTree.View.ComponentCard"}
-            props={{ src: dep }}
-          />
+          <Dep>
+            <Widget
+              src={"agruzdev.near/widget/CompTree.View.ComponentCard"}
+              props={{ src: dep }}
+            />
+          </Dep>
         ))}
       </DepsContainer>
     ) : null}
