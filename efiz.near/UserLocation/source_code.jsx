@@ -13,5 +13,5 @@ if (data.ok) {
     />
   );
 } else {
-  return <p>couldn't locate you</p>;
+  return <></>;
 }
