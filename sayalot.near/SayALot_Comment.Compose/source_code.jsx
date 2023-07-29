@@ -1,4 +1,9 @@
 const isDebug = props.isDebug;
+const realArticleId = props.realArticleId;
+
+if (!realArticleId) {
+  return "Article id not provided";
+}
 
 const addressForComments = isDebug
   ? "test_sayalot-comments"
@@ -27,6 +32,7 @@ const composeCommentData = () => {
         key: item,
         value: {
           type: "md",
+          articleId: realArticleId,
         },
       }),
     },
