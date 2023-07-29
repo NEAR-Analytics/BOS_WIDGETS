@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const authorId = "manzanal.near";
+const authorId = props.authorId || "manzanal.near";
 const contractId = props.contractId || "v006.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const edit = props.edit ?? false;
@@ -22,12 +22,8 @@ State.init({
   isValid: false,
   proposalThresholdIsFetched: false,
   thresholdPassed: false,
-  inUseVotingPower: null,
-  inUseVotingPowerIsFetched: false,
   allVotingPower: null,
   allVotingPowerIsFetched: false,
-  availableVotingPower: null,
-  availableVotingPowerIsFetched: false,
   storageRequired: null,
   storageRequiredIsFetched: false,
 });
@@ -71,44 +67,21 @@ if (!state.allVotingPowerIsFetched) {
         accumulator + parseInt(lockingPosition.voting_power),
       0
     );
+    const votingPowerYocto = voting_power.toLocaleString("fullwide", {
+      useGrouping: false,
+    });
     State.update({
-      allVotingPower: yoctoToNear(voting_power),
+      allVotingPower: votingPowerYocto,
       allVotingPowerIsFetched: true,
     });
   });
 }
 
-if (!state.inUseVotingPowerIsFetched) {
-  Near.asyncView(
-    contractId,
-    "get_voter_used_voting_power",
-    { voter_id: context.accountId },
-    "final",
-    false
-  ).then((inUseVotingPower) =>
-    State.update({
-      inUseVotingPower: yoctoToNear(inUseVotingPower),
-      inUseVotingPowerIsFetched: true,
-    })
-  );
-}
-
-if (
-  !state.availableVotingPowerIsFetched &&
-  state.allVotingPowerIsFetched &&
-  state.inUseVotingPowerIsFetched
-) {
-  const availableVotingPower = nearToYocto(
-    state.allVotingPower - state.inUseVotingPower
-  );
-  State.update({ availableVotingPower, availableVotingPowerIsFetched: true });
-}
-
-if (!state.proposalThresholdIsFetched && state.availableVotingPowerIsFetched) {
+if (!state.proposalThresholdIsFetched && state.allVotingPowerIsFetched) {
   Near.asyncView(
     contractId,
     "check_proposal_threshold",
-    { voting_power: state.availableVotingPower },
+    { voting_power: state.allVotingPower },
     "final",
     false
   ).then((thresholdPassed) =>
