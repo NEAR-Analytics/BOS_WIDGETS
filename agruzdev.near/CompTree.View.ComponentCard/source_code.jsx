@@ -63,7 +63,7 @@ const CardContent = styled.div`
 const CardFooter = styled.div`
   display: grid;
   grid-template-columns: ${
-    state.deps && state.deps.length === 0 ? "1fr" : "1fr 1fr"
+    state.deps && state.deps.length === 0 ? "1fr 1fr" : "1fr 1fr 1fr"
   };
   gap: 16px;
   padding: 16px;
@@ -250,9 +250,17 @@ return (
       <CardFooter>
         <ButtonLink href={detailsUrl}>View Details</ButtonLink>
         {state.deps && state.deps.length === 0 ? null : (
-          <ButtonLink onClick={handleShow}>
-            {state.isShown ? "Close" : "Show"}
-          </ButtonLink>
+          <>
+            <ButtonLink onClick={handleShow}>
+              {state.isShown ? "Close" : "Show"}
+            </ButtonLink>
+            <ButtonLink
+              href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}`}
+              primary
+            >
+              Root
+            </ButtonLink>
+          </>
         )}
       </CardFooter>
     </Card>
