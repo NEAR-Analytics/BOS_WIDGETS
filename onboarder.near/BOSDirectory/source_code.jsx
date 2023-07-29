@@ -245,7 +245,7 @@ const social = {
       name: "Harmonic Guild",
       url: "https://gateway.harmonicguild.io/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreidjmhh4yvjgn7htpymtt3lqhlaoi3ksabixsicojzwichply4oxdy",
+        "https://ipfs.near.social/ipfs/bafkreigdysucr6zujjhgl6et3ba6sdops3hyjjwwlw7upb2byd22eht53u",
       description: "A NEAR gateway for music + NFTs",
       category: ["NFT", "NEAR", "Music"],
       deploy: null,
