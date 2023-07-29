@@ -23,7 +23,7 @@ const getDeps = (widget) => {
 const updateDeps = () => {
   const widget = Social.get(props.src);
 
-  State.update({ deps: getDeps(widget) });
+  State.update({ deps: getDeps(widget), isShown: true });
 };
 
 State.init({ deps: null });
@@ -168,10 +168,6 @@ const ButtonLink = styled.a`
   }
 `;
 
-const Main = styled.div`
-
-`;
-
 const DepsContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -183,6 +179,13 @@ const Dep = styled.div`
   margin-top: 10px;
   margin-left: 10%;
 `;
+
+const handleShow = () => {
+  console.log(state.isShown);
+  State.update({
+    isShown: false,
+  });
+};
 
 return (
   <>
@@ -239,6 +242,11 @@ return (
 
       <CardFooter>
         <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+        {deps && deps.length === 0 ? null : (
+          <ButtonLink onClick={handleShow}>
+            {state.isShown ? "Close" : "Show"}
+          </ButtonLink>
+        )}
       </CardFooter>
     </Card>
     {state.deps ? (
