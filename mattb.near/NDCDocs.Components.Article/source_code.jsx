@@ -196,6 +196,16 @@ const CommentSection = styled.div`
 
     .place-comment {
         margin-bottom:2rem;
+
+        .btn.btn-dark {
+          border:0;
+          background: linear-gradient(to right, rgba(147,51,234,1), rgba(79,70,229,1));
+        }
+
+        .btn.btn-outline-secondary:hover {
+          color:#000;
+          background:rgb(255, 213, 13);
+        }
     }
 
     h3 {
