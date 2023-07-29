@@ -194,15 +194,16 @@ const canPropose = isUserAllowedTo(
 );
 
 // IAH Verification
-const getFirstSBTToken = () => {
+const getFirstSBTToken = (issuerContract) => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: accountId,
-    issuer: "fractal.i-am-human.near",
+    issuer: issuerContract,
   });
   return view?.[0]?.[1]?.[0];
 };
 
-const isHuman = getFirstSBTToken(state.accountId) !== undefined;
+const isHuman = getFirstSBTToken("fractal.i-am-human.near") !== undefined;
+const isVibe = getFirstSBTToken("issuer.proofofvibes.near") !== undefined;
 
 const Post = styled.div`
   position: relative;
@@ -503,7 +504,7 @@ return (
                       </a>
                     </li>
                   )}
-                  {isMintAuthority && isHuman && (
+                  {isMintAuthority && isHuman && !isVibe && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
