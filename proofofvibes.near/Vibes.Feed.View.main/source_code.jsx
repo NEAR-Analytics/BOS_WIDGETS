@@ -187,12 +187,20 @@ console.log(
   "Is User Allowed To 'Add a Proposal' of type 'AddMemberToRole'?",
   isUserAllowedTo(accountId, proposalKinds.AddMemberToRole, actions.AddProposal)
 );
+// this dont work
 const canPropose = isUserAllowedTo(
   context.accountId,
   proposalKinds.FunctionCall,
   actions.AddProposal
 );
-
+const canProposeMemberAdd = isUserAllowedTo(
+  context.accountId,
+  proposalKinds.AddMemberToRole,
+  actions.AddProposal
+);
+console.log(
+  "Can loggedin user propose to add member to dao: " + canProposeMemberAdd
+);
 // IAH Verification
 const getFirstSBTToken = (issuerContract) => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
