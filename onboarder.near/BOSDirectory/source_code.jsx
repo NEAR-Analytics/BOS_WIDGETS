@@ -223,7 +223,7 @@ const social = {
       url: "https://gateway.harmonicguild.io/",
       image:
         "https://ipfs.near.social/ipfs/bafkreigdysucr6zujjhgl6et3ba6sdops3hyjjwwlw7upb2byd22eht53u",
-      description: "A NEAR gateway for music + NFTs",
+      description: "Music distribution platform on NEAR",
       category: ["NFT", "NEAR", "Music"],
       deploy:
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FHarmonic-Guild%2Fviewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
