@@ -51,321 +51,110 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-
-/* INCLUDE: "shared/mocks" */
-const communities = {
-  "zero-knowledge": {
-    overviewId: 397,
-    eventsId: 401,
-
-    icon: "https://ipfs.near.social/ipfs/bafkreiajwq6ep3n7veddozji2djv5vviyisabhycbweslvpwhsoyuzcwi4",
-
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreihgxg5kwts2juldaeasveyuddkm6tcabmrat2aaq5u6uyljtyt7lu",
-
-    title: "Zero Knowledge",
-    desc: "Building a zero knowledge ecosystem on NEAR.",
-    telegram: "NearZeroKnowledge",
-  },
-
-  protocol: {
-    overviewId: 412,
-    eventsId: 413,
-
-    icon: "https://ipfs.near.social/ipfs/bafkreidpitdafcnhkp4uyomacypdgqvxr35jtfnbxa5s6crby7qjk2nv5a",
-
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreicg4svzfz5nvllomsahndgm7u62za4sib4mmbygxzhpcl4htqwr4a",
-
-    title: "Protocol",
-    desc: "Supporting the ongoing innovation of the NEAR Protocol.",
-
-    integrations: {
-      github: {
-        boards: {
-          "18855b9c9f2-216091d-6484800b-42593f54-6102b48a": {
-            id: "18855b9c9f2-216091d-6484800b-42593f54-6102b48a",
-
-            columns: {
-              "18855f4a93e-76a9b704-14c3ebdb-1e6c0f05-22653630": {
-                id: "18855f4a93e-76a9b704-14c3ebdb-1e6c0f05-22653630",
-
-                description:
-                  "NEPs that need a moderator review or author revision.",
-
-                labelSearchTerms: ["WG-protocol", "S-draft"],
-                title: "📄 Draft",
-              },
-
-              "18877dc932c-c309c28--4b95e909--220e9bbb--51ff54c9": {
-                description:
-                  "NEPS that need a review by Subject Matter Experts.",
-
-                labelSearchTerms: ["WG-protocol", "S-review"],
-                title: "👀 Review",
-                id: "18877dc932c-c309c28--4b95e909--220e9bbb--51ff54c9",
-              },
-
-              "18877dd71e5-47d177b8-5505178-640a5937--17968e87": {
-                description:
-                  "NEPS in the final review stage that need the work group voting indications.",
-
-                labelSearchTerms: ["WG-protocol", "S-voting"],
-                title: "✔ Voting",
-                id: "18877dd71e5-47d177b8-5505178-640a5937--17968e87",
-              },
-
-              "18877e14753--5b0ca250-1edea464-523fd579--5ebde527": {
-                description:
-                  "NEPS that were reviewed and approved by a work group.",
-
-                labelSearchTerms: ["WG-protocol", "S-approved"],
-                title: "✅ Approved NEPs",
-                id: "18877e14753--5b0ca250-1edea464-523fd579--5ebde527",
-              },
-
-              "18877e2f94c-4cc0ff57--1fb016c6--39ce0459-23922e81": {
-                description:
-                  "NEPS that were reviewed and approved by a work group or NEP moderators.",
-
-                labelSearchTerms: ["WG-protocol", "A-NEP-GrammarFix"],
-                title: "🔧 Approved Fixes",
-                id: "18877e2f94c-4cc0ff57--1fb016c6--39ce0459-23922e81",
-              },
-
-              "18877e40c46--76d23f4d-578f24a8--2cfcd190--74aa77be": {
-                description:
-                  "NEPs that were retracted by the author or had no activity for over two months.",
-
-                labelSearchTerms: ["WG-protocol", "S-retracted"],
-                title: "❌ RETRACTED",
-                id: "18877e40c46--76d23f4d-578f24a8--2cfcd190--74aa77be",
-              },
-            },
-
-            dataTypesIncluded: { Issue: false, PullRequest: true },
-            description: "Latest NEAR Enhancement Proposals by status",
-            repoURL: "https://github.com/near/NEPs",
-            ticketState: "all",
-            title: "NEAR Protocol NEPs",
-          },
-        },
-      },
-    },
-
-    telegram: "NEAR_Protocol_Community_Group",
-  },
-
-  tooling: {
-    overviewId: 416,
-    eventsId: 417,
-
-    icon: "https://ipfs.near.social/ipfs/bafkreie2eaj5czmpfe6pe53kojzcspgozebdsonffwvbxtpuipnwahybvi",
-
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreiehzr7z2fhoqqmkt3z667wubccbch6sqtsnvd6msodyzpnf72cszy",
-
-    title: "Tooling",
-    desc: "Supporting the ongoing innovation of tooling.",
-
-    integrations: {
-      github: {
-        boards: {
-          "18855b9c9f2-216091d-6484800b-42593f54-6102b48a": {
-            id: "18855b9c9f2-216091d-6484800b-42593f54-6102b48a",
-
-            columns: {
-              "18855f4a93e-76a9b704-14c3ebdb-1e6c0f05-22653630": {
-                id: "18855f4a93e-76a9b704-14c3ebdb-1e6c0f05-22653630",
-
-                description:
-                  "NEPs that need a moderator review or author revision.",
-
-                labelSearchTerms: ["WG-tools", "S-draft"],
-                title: "📄 Draft",
-              },
-
-              "18877dc932c-c309c28--4b95e909--220e9bbb--51ff54c9": {
-                description:
-                  "NEPS that need a review by Subject Matter Experts.",
-
-                labelSearchTerms: ["WG-tools", "S-review"],
-                title: "👀 Review",
-                id: "18877dc932c-c309c28--4b95e909--220e9bbb--51ff54c9",
-              },
-
-              "18877dd71e5-47d177b8-5505178-640a5937--17968e87": {
-                description:
-                  "NEPS in the final review stage that need the work group voting indications.",
-
-                labelSearchTerms: ["WG-tools", "S-voting"],
-                title: "✔ Voting",
-                id: "18877dd71e5-47d177b8-5505178-640a5937--17968e87",
-              },
-
-              "18877e14753--5b0ca250-1edea464-523fd579--5ebde527": {
-                description:
-                  "NEPS that were reviewed and approved by a work group.",
-
-                labelSearchTerms: ["WG-tools", "S-approved"],
-                title: "✅ Approved NEPs",
-                id: "18877e14753--5b0ca250-1edea464-523fd579--5ebde527",
-              },
-
-              "18877e2f94c-4cc0ff57--1fb016c6--39ce0459-23922e81": {
-                description:
-                  "NEPS that were reviewed and approved by a work group or NEP moderators.",
-
-                labelSearchTerms: ["WG-tools", "A-NEP-GrammarFix"],
-                title: "🔧 Approved Fixes",
-                id: "18877e2f94c-4cc0ff57--1fb016c6--39ce0459-23922e81",
-              },
-
-              "18877e40c46--76d23f4d-578f24a8--2cfcd190--74aa77be": {
-                description:
-                  "NEPs that were retracted by the author or had no activity for over two months.",
-
-                labelSearchTerms: ["WG-tools", "S-retracted"],
-                title: "❌ RETRACTED",
-                id: "18877e40c46--76d23f4d-578f24a8--2cfcd190--74aa77be",
-              },
-            },
-
-            dataTypesIncluded: { Issue: false, PullRequest: true },
-            description: "Latest NEAR Enhancement Proposals by status",
-            repoURL: "https://github.com/near/NEPs",
-            ticketState: "all",
-            title: "NEAR Tooling NEPs",
-          },
-        },
-      },
-    },
-
-    telegram: "NEAR_Tools_Community_Group",
-  },
-
-  "contract-standards": {
-    overviewId: 414,
-    eventsId: 415,
-
-    icon: "https://ipfs.near.social/ipfs/bafkreiepgdnu7soc6xgbyd4adicbf3eyxiiwqawn6tguaix6aklfpir634",
-
-    cover:
-      "https://ipfs.near.social/ipfs/bafkreiaowjqxds24fwcliyriintjd4ucciprii2rdxjmxgi7f5dmzuscey",
-
-    title: "Contract Standards",
-    desc: "Coordinating the contribution to the NEAR dapp standards.",
-
-    integrations: {
-      github: {
-        boards: {
-          "18855b9c9f2-216091d-6484800b-42593f54-6102b48a": {
-            id: "18855b9c9f2-216091d-6484800b-42593f54-6102b48a",
-
-            columns: {
-              "18855f4a93e-76a9b704-14c3ebdb-1e6c0f05-22653630": {
-                id: "18855f4a93e-76a9b704-14c3ebdb-1e6c0f05-22653630",
-
-                description:
-                  "NEPs that need a moderator review or author revision.",
-
-                labelSearchTerms: ["WG-contract-standards", "S-draft"],
-                title: "📄 Draft",
-              },
-
-              "18877dc932c-c309c28--4b95e909--220e9bbb--51ff54c9": {
-                description:
-                  "NEPS that need a review by Subject Matter Experts.",
-
-                labelSearchTerms: ["WG-contract-standards", "S-review"],
-                title: "👀 Review",
-                id: "18877dc932c-c309c28--4b95e909--220e9bbb--51ff54c9",
-              },
-
-              "18877dd71e5-47d177b8-5505178-640a5937--17968e87": {
-                description:
-                  "NEPS in the final review stage that need the work group voting indications.",
-
-                labelSearchTerms: ["WG-contract-standards", "S-voting"],
-                title: "✔ Voting",
-                id: "18877dd71e5-47d177b8-5505178-640a5937--17968e87",
-              },
-
-              "18877e14753--5b0ca250-1edea464-523fd579--5ebde527": {
-                description:
-                  "NEPS that were reviewed and approved by a work group.",
-
-                labelSearchTerms: ["WG-contract-standards", "S-approved"],
-                title: "✅ Approved NEPs",
-                id: "18877e14753--5b0ca250-1edea464-523fd579--5ebde527",
-              },
-
-              "18877e2f94c-4cc0ff57--1fb016c6--39ce0459-23922e81": {
-                description:
-                  "NEPS that were reviewed and approved by a work group or NEP moderators.",
-
-                labelSearchTerms: ["WG-contract-standards", "A-NEP-GrammarFix"],
-                title: "🔧 Approved Fixes",
-                id: "18877e2f94c-4cc0ff57--1fb016c6--39ce0459-23922e81",
-              },
-
-              "18877e40c46--76d23f4d-578f24a8--2cfcd190--74aa77be": {
-                description:
-                  "NEPs that were retracted by the author or had no activity for over two months.",
-
-                labelSearchTerms: ["WG-contract-standards", "S-retracted"],
-                title: "❌ RETRACTED",
-                id: "18877e40c46--76d23f4d-578f24a8--2cfcd190--74aa77be",
-              },
-            },
-
-            dataTypesIncluded: { Issue: false, PullRequest: true },
-            description: "Latest NEAR Enhancement Proposals by status",
-            repoURL: "https://github.com/near/NEPs",
-            ticketState: "all",
-            title: "NEAR Contract Standards NEPs",
-          },
-        },
-      },
-    },
-
-    telegram: "nearnft",
+/* INCLUDE: "core/adapter/dev-hub" */
+const devHubAccountId =
+  props.nearDevGovGigsContractAccountId ||
+  (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
+
+const DevHub = {
+  edit_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
+    null,
+
+  get_access_control_info: () =>
+    Near.view(devHubAccountId, "get_access_control_info") ?? null,
+
+  get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
+
+  get_all_communities: () =>
+    Near.view(devHubAccountId, "get_all_communities") ?? null,
+
+  get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
+
+  get_post: ({ post_id }) =>
+    Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
+
+  get_posts_by_author: ({ author }) =>
+    Near.view(devHubAccountId, "get_posts_by_author", { author }) ?? null,
+
+  get_posts_by_label: ({ label }) =>
+    Near.view(nearDevGovGigsContractAccountId, "get_posts_by_label", {
+      label,
+    }) ?? null,
+
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params }) => {
+    const initialState = { data: null, error: null, isLoading: true };
+
+    const cacheState = useCache(
+      () =>
+        Near.asyncView(devHubAccountId, ["get", name].join("_"), params ?? {})
+          .then((response) => ({
+            ...initialState,
+            data: response ?? null,
+            isLoading: false,
+          }))
+          .catch((error) => ({
+            ...initialState,
+            error: props?.error ?? error,
+            isLoading: false,
+          })),
+
+      JSON.stringify({ name, params }),
+      { subscribe: true }
+    );
+
+    return cacheState === null ? initialState : cacheState;
   },
 };
-/* END_INCLUDE: "shared/mocks" */
+/* END_INCLUDE: "core/adapter/dev-hub" */
 
-if (!props.label) {
-  return (
-    <div class="alert alert-danger" role="alert">
-      Error: label is required
-    </div>
-  );
+const communityData = DevHub.get_community({ handle: props.handle });
+
+if (communityData === null) {
+  return <div>Loading...</div>;
 }
-
-const community = communities[props.label];
-
-const group = community.telegram;
 
 const Telegram = (
   <div>
-    <iframe
-      iframeResizer
-      src={
-        "https://j96g3uepe0.execute-api.us-east-1.amazonaws.com/groups-ui/" +
-        group
-      }
-      frameborder="0"
-      // Required by iframeResizer
-      style={{
-        width: "1px",
-        minWidth: "100%",
-      }}
-    ></iframe>
+    {communityData.telegram_handle.map((tg) => (
+      <>
+        <iframe
+          iframeResizer
+          src={
+            "https://j96g3uepe0.execute-api.us-east-1.amazonaws.com/groups-ui/" +
+            tg
+          }
+          frameborder="0"
+          // width and minWidth required by iframeResizer
+          style={{
+            width: "1px",
+            minWidth: "100%",
+            marginTop: "20px",
+          }}
+        ></iframe>
+
+        <a href={"https://t.me/" + tg} target="_blank">
+          {widget("components.atom.button", {
+            classNames: {
+              root: "btn-primary",
+            },
+
+            label: "View More",
+          })}
+        </a>
+      </>
+    ))}
   </div>
 );
 
-return widget("components.community.Layout", {
-  label: props.label,
-  tab: "Telegram",
+return widget("components.template.community-page", {
+  handle: props.handle,
+  title: "Telegram",
   children: Telegram,
 });
