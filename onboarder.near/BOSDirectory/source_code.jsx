@@ -145,18 +145,6 @@ const social = {
       github: null,
     },
     {
-      key: 7,
-      name: "Welldone Gateway",
-      url: "https://welldone-gateway.vercel.app/",
-      image:
-        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
-      description:
-        "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
-      category: ["NEAR", "Sui", "Aptos"],
-      deploy: null,
-      github: null,
-    },
-    {
       key: 10,
       name: "ShardDog Social",
       url: "https://sharddog.social/",
@@ -203,17 +191,6 @@ const social = {
       deploy: null,
       github: "https://github.com/near-everything/viewer/",
     },
-    {
-      key: 0,
-      name: "Bos.gg",
-      url: "https://bos.gg",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
-      description: "Decentralized front ends for evm chains",
-      category: ["EVM", "DeFi"],
-      deploy: null,
-      github: "https://github.com/NearDeFi/bos-viewer",
-    },
 
     {
       key: 9,
@@ -248,8 +225,32 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreigdysucr6zujjhgl6et3ba6sdops3hyjjwwlw7upb2byd22eht53u",
       description: "A NEAR gateway for music + NFTs",
       category: ["NFT", "NEAR", "Music"],
-      deploy: null,
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FHarmonic-Guild%2Fviewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
       github: "https://github.com/Harmonic-Guild/viewer",
+    },
+    {
+      key: 0,
+      name: "Bos.gg",
+      url: "https://bos.gg",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
+      description: "Decentralized front ends for evm chains",
+      category: ["EVM", "DeFi"],
+      deploy: null,
+      github: "https://github.com/NearDeFi/bos-viewer",
+    },
+    {
+      key: 7,
+      name: "Welldone Gateway",
+      url: "https://welldone-gateway.vercel.app/",
+      image:
+        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
+      description:
+        "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
+      category: ["NEAR", "Sui", "Aptos"],
+      deploy: null,
+      github: null,
     },
   ],
 };
