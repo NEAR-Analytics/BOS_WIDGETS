@@ -257,6 +257,7 @@ return (
               {state.isShown ? "Close" : "Show"}
             </ButtonLink>
             <ButtonLink
+              target={"_blank"}
               href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}&reset=true`}
               primary
             >
