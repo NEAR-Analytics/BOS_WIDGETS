@@ -9,7 +9,7 @@ const appUrl = `#/${accountId}/widget/${widgetName}`;
 const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
 const getDeps = (widget) => {
-  const pattern = /<Widget\s+src="([^"]*)"\s*\/>/g;
+  const pattern = /<Widget\s+src="([^"]+)"(?:\s|\n|.)+?\/>/s;
 
   let matches = [];
   let match;
@@ -17,6 +17,7 @@ const getDeps = (widget) => {
     matches.push(match[1]);
   }
 
+  console.log(widget, matches);
   return matches;
 };
 
@@ -26,9 +27,9 @@ const updateDeps = () => {
   State.update({ deps: getDeps(widget) });
 };
 
-State.init({ deps: null, isShown: true });
+State.init({ deps: null, isShown: false });
 
-updateDeps();
+state.isShown && updateDeps();
 
 const Card = styled.div`
   position: relative;
