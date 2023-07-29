@@ -23,10 +23,10 @@ const getDeps = (widget) => {
 const updateDeps = () => {
   const widget = Social.get(props.src);
 
-  State.update({ deps: getDeps(widget), isShown: true });
+  State.update({ deps: getDeps(widget) });
 };
 
-State.init({ deps: null });
+State.init({ deps: null, isShown: true });
 
 updateDeps();
 
@@ -183,9 +183,10 @@ const Dep = styled.div`
 `;
 
 const handleShow = () => {
-  console.log(state.isShown);
-  State.update({
-    isShown: false,
+  State.update((prev) => {
+    return {
+      isShown: !prev.isShown,
+    };
   });
 };
 
@@ -251,7 +252,7 @@ return (
         )}
       </CardFooter>
     </Card>
-    {state.deps ? (
+    {state.isShown && state.deps ? (
       <DepsContainer>
         {state.deps.map((dep) => (
           <Dep>
