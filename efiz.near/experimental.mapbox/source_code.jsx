@@ -29,10 +29,16 @@ zoom: 9 // starting zoom
 </html>
   `;
 
+const Container = styled.div`
+    height: 100vh;
+`;
+
 return (
-  <iframe
-    className="w-100 h-100"
-    srcDoc={code}
-    style={{ height, backgroundColor }}
-  />
+  <Container>
+    <iframe
+      className="w-100 h-100"
+      srcDoc={code}
+      style={{ height, backgroundColor }}
+    />
+  </Container>
 );
