@@ -47,6 +47,14 @@ const Grid = styled.div`
     display: grid;
     grid-template-columns: 290px calc(100% - 290px);
     gap: 16px;
+
+    @media screen and (max-width: 800px) {
+      display:block;
+      flex-direction:column;
+      & > div:first-of-type {
+        display:none;
+      }
+    }
 `;
 
 const Section = styled.div`
@@ -223,6 +231,7 @@ let views = {
                 lastEditor: "blaze.near",
                 blockHeight: "94478867",
                 articleId: "TheNDC",
+                embedHeader: false,
               }}
             />
           </PollContainer>
@@ -265,6 +274,7 @@ let views = {
         articleId: "workgroups",
         blockHeight: "94330352",
         lastEditor: "blaze.near",
+        embedHeader: false,
       }}
     />
   ),
