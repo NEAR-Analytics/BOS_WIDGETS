@@ -188,17 +188,16 @@ if (profile === null) {
 return (
   <Wrapper>
     <BackgroundImage>
-      {profile.backgroundImage && (
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: profile.backgroundImage,
-            alt: "profile background image",
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreidcmajif3wgkl5f5u66d6bzjinxlticp7vqufzsc7eaz5ytat72pi",
-          }}
-        />
-      )}
+      (
+      <Widget
+        src="mob.near/widget/Image"
+        props={{
+          image: profile.BackgroundImage,
+          alt: "profile background image",
+          fallbackUrl:
+            "https://ipfs.near.social/ipfs/bafybeia4ulzl63j7uuy5hbwdj352qmxsjyy2iypyzv7hvxawl64psh5454",
+        }}
+      />
     </BackgroundImage>
 
     <Main>
