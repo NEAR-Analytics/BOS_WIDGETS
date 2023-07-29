@@ -88,7 +88,7 @@ const Navigation = styled.div`
         list-style:none;
         flex-wrap:wrap;
 
-        @media screen and (max-width:700px) {
+        @media screen and (max-width:1000px) {
             z-index:9999;
             display:block;
             position:absolute;
@@ -112,7 +112,7 @@ const Navigation = styled.div`
                 margin-right:1rem;
             }
 
-            @media screen and (max-width:700px) {
+            @media screen and (max-width:1000px) {
                 width:100%;
                 text-align:center;
                 margin-bottom:20px;
@@ -146,7 +146,7 @@ const Navigation = styled.div`
                     opacity:1;
                 }
 
-                @media screen and (max-width:700px) {
+                @media screen and (max-width:1000px) {
                     background-color:transparent;
                     padding:inherit 0;
 
