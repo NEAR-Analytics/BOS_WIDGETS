@@ -1,4 +1,5 @@
-const DEFAULT_SHOWN = false;
+const DEFAULT_OPEN = false;
+
 const [accountId, widget, widgetName] = props.src.split("/");
 const metadata = Social.get(
   `${accountId}/widget/${widgetName}/metadata/**`,
@@ -31,7 +32,7 @@ const updateDeps = () => {
   State.update({ deps: getDeps(widget) });
 };
 
-State.init({ deps: null, isShown: DEFAULT_SHOWN });
+State.init({ deps: null, isShown: DEFAULT_OPEN });
 
 updateDeps();
 
@@ -256,10 +257,7 @@ return (
               {state.isShown ? "Close" : "Show"}
             </ButtonLink>
             <ButtonLink
-              onClick={() => {
-                State.update({ isShown: DEFAULT_SHOWN });
-              }}
-              href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}`}
+              href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}&reset=true`}
               primary
             >
               Root
