@@ -5,6 +5,8 @@ State.init({
 });
 
 const accountId = props.daoId ?? props.accountId ?? "refi.sputnik-dao.near";
+
+const daoId = accountId;
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 
@@ -44,6 +46,106 @@ const accountFollowsYouData = Social.keys(
 );
 const accountFollowsYou = Object.keys(accountFollowsYouData || {}).length > 0;
 
+const proposalKinds = {
+  ChangeConfig: "config",
+  ChangePolicy: "policy",
+  AddMemberToRole: "add_member_to_role",
+  RemoveMemberFromRole: "remove_member_from_role",
+  FunctionCall: "call",
+  UpgradeSelf: "upgrade_self",
+  UpgradeRemote: "upgrade_remote",
+  Transfer: "transfer",
+  SetStakingContract: "set_vote_token",
+  AddBounty: "add_bounty",
+  BountyDone: "bounty_done",
+  Vote: "vote",
+  FactoryInfoUpdate: "factory_info_update",
+  ChangePolicyAddOrUpdateRole: "policy_add_or_update_role",
+  ChangePolicyRemoveRole: "policy_remove_role",
+  ChangePolicyUpdateDefaultVotePolicy: "policy_update_default_vote_policy",
+  ChangePolicyUpdateParameters: "policy_update_parameters",
+};
+
+const actions = {
+  AddProposal: "AddProposal",
+  VoteApprove: "VoteApprove",
+  VoteReject: "VoteReject",
+  VoteRemove: "VoteRemove",
+};
+
+// -- Get all the roles from the DAO policy
+let roles = Near.view(daoId, "get_policy");
+roles = roles === null ? [] : roles.roles;
+
+const isUserAllowedTo = (user, kind, action) => {
+  // -- Filter the user roles
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      userRoles.push(role);
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (user && role.kind.Group && role.kind.Group.includes(user)) {
+      userRoles.push(role);
+    }
+  }
+
+  // -- Check if the user is allowed to perform the action
+  let allowed = false;
+
+  userRoles
+    .filter(({ permissions }) => {
+      const allowedRole =
+        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
+        permissions.includes(`${kind.toString()}:*`) ||
+        permissions.includes(`*:${action.toString()}`) ||
+        permissions.includes("*:*");
+      allowed = allowed || allowedRole;
+      return allowedRole;
+    })
+    .map((role) => role.name);
+
+  return allowed;
+};
+
+const canProposeToAddMember = isUserAllowedTo(
+  context.accountId,
+  proposalKinds.AddMemberToRole,
+  actions.AddProposal
+);
+
+const canProposeFunctionCall = isUserAllowedTo(
+  context.accountId,
+  proposalKinds.FunctionCall,
+  actions.AddProposal
+);
+console.log(
+  "Is User Allowed To 'Add a Proposal' of type 'FunctionCall'?",
+  isUserAllowedTo(
+    context.accountId,
+    proposalKinds.FunctionCall,
+    actions.AddProposal
+  )
+);
+
+console.log(
+  "Is User Allowed To 'Vote Yes' on a proposal of type 'FunctionCall'?",
+  isUserAllowedTo(
+    context.accountId,
+    proposalKinds.FunctionCall,
+    actions.VoteApprove
+  )
+);
+
+console.log(
+  "Is User Allowed To 'Add a Proposal' of type 'AddMemberToRole'?",
+  isUserAllowedTo(
+    context.accountId,
+    proposalKinds.AddMemberToRole,
+    actions.AddProposal
+  )
+);
 const Wrapper = styled.div`
   display: grid;
   gap: 40px;
@@ -312,20 +414,6 @@ return (
         ) : (
           <></>
         )}
-      </Actions>
-      <Actions>
-        {isLoggedIn && (
-          <FollowButtonWrapper>
-            <Widget
-              src="hack.near/widget/DAO.Join"
-              props={{
-                daoId: accountId,
-                role,
-              }}
-            />
-          </FollowButtonWrapper>
-        )}
-
         <OverlayTrigger
           placement="top"
           overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
@@ -351,7 +439,21 @@ return (
           </button>
         </OverlayTrigger>
       </Actions>
-      {isLoggedIn && (
+
+      <Actions>
+        {isLoggedIn && (
+          <FollowButtonWrapper>
+            <Widget
+              src="ndcplug.near/widget/DAO.Join"
+              props={{
+                daoId: accountId,
+                role,
+              }}
+            />
+          </FollowButtonWrapper>
+        )}
+      </Actions>
+      {isLoggedIn && canProposeFunctionCall && (
         <a
           className="button button--primary"
           href={`#/nearefi.near/widget/ReFi.DAO.Propose.profileUpdate?daoId=${accountId}`}
@@ -362,7 +464,7 @@ return (
           Propose Edit Profile
         </a>
       )}
-      {isLoggedIn && (
+      {isLoggedIn && canProposeFunctionCall && (
         <a
           className="button button--primary"
           href={`#/nearefi.near/widget/ReFi.DAO.Propose.post?daoId=${accountId}`}
