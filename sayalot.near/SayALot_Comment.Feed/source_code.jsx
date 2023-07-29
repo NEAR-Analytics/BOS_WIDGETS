@@ -3,8 +3,12 @@ if (!realArticleId) {
   return "Article id not provided";
 }
 
-const addressForComments = "sayalot-comments";
-const addressForArticles = "sayALotArticle";
+const isDebug = props.isDebug;
+
+const addressForComments = isDebug
+  ? "test_sayalot-comments"
+  : "sayalot-comments";
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const authorForWidget = "sayalot.near";
 const index = {
   action: addressForComments,
