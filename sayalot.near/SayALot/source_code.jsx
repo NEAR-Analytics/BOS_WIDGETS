@@ -21,6 +21,7 @@ const sayALotWorkers = [
   "blaze.near",
   "ayelen.near",
   "kenrou-it.near",
+  "sayalot.near",
 ];
 
 if (isDebug) {
