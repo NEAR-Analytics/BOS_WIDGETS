@@ -249,7 +249,7 @@ const social = {
       description: "A NEAR gateway for music + NFTs",
       category: ["NFT", "NEAR", "Music"],
       deploy: null,
-      github: null,
+      github: "https://github.com/Harmonic-Guild/viewer",
     },
   ],
 };
