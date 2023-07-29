@@ -183,7 +183,7 @@ const DepsContainer = styled.div`
 
 const Dep = styled.div`
   margin-top: 10px;
-  margin-left: 10%;
+  margin-left: 20%;
 `;
 
 const handleShow = () => {
