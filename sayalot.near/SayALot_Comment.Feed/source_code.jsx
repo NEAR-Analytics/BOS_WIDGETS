@@ -1,3 +1,8 @@
+const realArticleId = props.realArticleId;
+if (!realArticleId) {
+  return "Article id not provided";
+}
+
 const addressForComments = "sayalot-comments";
 const addressForArticles = "sayALotArticle";
 const authorForWidget = "sayalot.near";
@@ -41,6 +46,7 @@ return (
         renderItem,
         nextLimit: 10,
         loadMoreText: "Show earlier comments...",
+        realArticleId,
       }}
     />
   </div>
