@@ -1,4 +1,11 @@
-const { embedHeader, accountId, profile } = props;
+const { embedHeader, accountId, profile, view } = props;
+
+State.init({
+  currentView: view || "articles",
+});
+
+const widgetOwner = "mattb.near";
+
 const addressForArticles = "ndcWikiArticle";
 const authorsWhitelist = [
   "neardigitalcollective.near",
@@ -12,13 +19,31 @@ const authorsWhitelist = [
   "psalm.near",
   "fiftycent.near",
 ];
-const authorForWidget = "neardigitalcollective.near";
 accountId = accountId || context.accountId;
 profile = profile || Social.getr(`${accountId}/profile`);
 
-if (profile === null) {
-  return "Loading";
+if (!profile) {
+  return "Loading...";
 }
+
+let views = {
+  articles: (
+    <>
+      <Widget
+        src={`${widgetOwner}/widget/NDCDocs.Components.ArticlesList`}
+        props={{ writersWhiteList }}
+      />
+    </>
+  ),
+  authors: (
+    <>
+      <Widget
+        src={`${widgetOwner}/widget/NDCDocs.Components.AuthorsList`}
+        props={{ writersWhiteList }}
+      />
+    </>
+  ),
+};
 
 return (
   <div
@@ -29,8 +54,9 @@ return (
   >
     {(typeof embedHeader == "undefined" || !!embedHeader) && (
       <Widget
-        src="mattb.near/widget/NDC.Components.Header"
+        src={`${widgetOwner}/widget/NDC.Components.Header`}
         props={{
+          onRefresh: (data) => State.update(data),
           tabs: {
             articles: {
               text: "Articles",
@@ -51,10 +77,7 @@ return (
         padding: "2rem",
       }}
     >
-      <Widget
-        src={`mattb.near/widget/NDCDocs.Components.ArticlesList`}
-        props={{ writersWhiteList }}
-      />
+      {state.currentView in views ? views[state.currentView] : "404"}
     </div>
   </div>
 );
