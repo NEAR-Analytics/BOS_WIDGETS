@@ -35,8 +35,8 @@ State.init({
 });
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const likePath = isDebug ? "test_like" : "like";
-const unfilteredLikes = Social.index(likePath, item, {
+const path = isDebug ? "test_like" : "like";
+const unfilteredLikes = Social.index(path, item, {
   order: "desc",
 });
 
@@ -58,13 +58,9 @@ const arrayLastLikeForEachUser =
   });
 
 // ========= GET USER EMOJI =========
-let userEmoji = arrayLastLikeForEachUser.find((obj) => {
+const userEmoji = arrayLastLikeForEachUser.find((obj) => {
   return obj.accountId === accountThatIsLoggedIn;
 });
-
-if (!userEmoji) {
-  userEmoji = state.emoji;
-}
 
 // ========= GET LIKES STATISTICS =========
 const getLikeStats = (acc, likeObj) => {
@@ -127,11 +123,14 @@ const updateLikesStatisticsIfUserVoted = (newEmoji) => {
     (item) => item.accountId === accountThatIsLoggedIn
   );
   if (!resObject) {
-    arrayLastLikeForEachUser.push({
-      accountId: accountThatIsLoggedIn,
-      blockHeight: item.blockHeight,
-      value: { type: newEmoji },
-    });
+    arrayLastLikeForEachUser = [
+      ...arrayLastLikeForEachUser,
+      {
+        accountId: accountThatIsLoggedIn,
+        blockHeight: item.blockHeight,
+        value: { type: newEmoji },
+      },
+    ];
   } else {
     arrayLastLikeForEachUser =
       arrayLastLikeForEachUser &&
@@ -178,7 +177,19 @@ const clickHandler = (emojiMessage) => {
   if (isDebug) {
     data = {
       index: {
-        [likePath]: JSON.stringify({
+        test_like: JSON.stringify({
+          key: item,
+          value: {
+            type: emojiToWrite,
+            articleId: realArticleId,
+          },
+        }),
+      },
+    };
+  } else {
+    data = {
+      index: {
+        like: JSON.stringify({
           key: item,
           value: {
             type: emojiToWrite,
@@ -224,7 +235,7 @@ const Button = styled.button`
 `;
 
 const SmallReactButton = styled.button`
-  background: #e6e4f580;
+  background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: start;
@@ -234,9 +245,9 @@ const SmallReactButton = styled.button`
   margin: 2px 0;
   border: 0;
   border-radius: .375rem;
-  outline: 1px solid #C6C7C8;
   :hover {
     background: #EBEBEB; 
+    outline: 1px solid #C6C7C8;
   }
 `;
 
@@ -305,7 +316,7 @@ box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
   }
 `;
 
-//   NEW JSX ===============!!!!!!!!
+// =============== NEW JSX ===============!!!!!!!!
 const Overlay = () => (
   <EmojiListWrapper
     onMouseEnter={handleOnMouseEnter}
@@ -359,20 +370,21 @@ const renderReaction = (item, isInButton) => {
 
 return (
   <EmojiWrapper>
-    <span onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
-      {userEmoji ? (
-        <SmallReactButton>
-          {state.loading && <Spinner />}
-          {state.likesStatistics &&
-            state.likesStatistics.map((item) => renderReaction(item, true))}
-        </SmallReactButton>
-      ) : (
-        <Button>
-          {state.loading && <Spinner />}
-          {initialEmoji}
-        </Button>
-      )}
-    </span>
+    {!userEmoji ? (
+      <Button
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+      >
+        {state.loading && <Spinner />}
+        {initialEmoji}
+      </Button>
+    ) : (
+      <SmallReactButton>
+        {state.loading && <Spinner />}
+        {state.likesStatistics &&
+          state.likesStatistics.map((item) => renderReaction(item, true))}
+      </SmallReactButton>
+    )}
     <Overlay />
     {state.likesStatistics &&
       state.likesStatistics.map((item) => renderReaction(item, false))}
