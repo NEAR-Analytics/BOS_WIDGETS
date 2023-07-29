@@ -91,7 +91,8 @@ const social = {
       description:
         "Social Data Protocol On NEAR. The first gateway. Built in social features like custom domains, reports, link previews + more!",
       category: ["NEAR", "EVM", "Social"],
-      deploy: null,
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnearsocial%2Fviewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
       github: "https://github.com/NEARSocial/viewer",
     },
     {
@@ -115,7 +116,8 @@ const social = {
       description:
         "A zkEVM by Quickswap featuring PancakeSwap, Quickswap, Gamma, and Balancer. ",
       category: ["DeFi", "EVM", "zkEVM"],
-      deploy: null,
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build",
       github: "https://github.com/NearDeFi/polygon-bos-gateway",
     },
     {
@@ -162,8 +164,9 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreibjlc2hyxfve55gp2fg6lojf6eliptgiiawprhbg4dyc2wbpzy7tm",
       description: "Token gated rich media supported social feeds",
       category: ["NEAR", "Social", "NFT"],
-      deploy: null,
-      github: null,
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjoe-rlo%2FNearSocial-viewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/joe-rlo/NearSocial-viewer",
     },
     {
       key: 3,
@@ -185,7 +188,8 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreidx4rvihxc5ycpvlyaod7dscotlb6bmoffimjl7s2zvarhmxtymma",
       description: "A gateway dedicated to NFTs across different chains",
       category: ["NEAR", "EVM", "NFT"],
-      deploy: null,
+      deploy:
+        "https://vercel.com/new/clone/hidden?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fgenadrop-bos&build-command=npm+run+build&install-command=npm+--force+install&output-directory=dist",
       github: "https://github.com/codingshot/genadrop-bos",
     },
     {
@@ -210,6 +214,32 @@ const social = {
       deploy: null,
       github: "https://github.com/NearDeFi/bos-viewer",
     },
+
+    {
+      key: 9,
+      name: "Proof Of Vibes",
+      url: "https://app.ProofOfVibes.com/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreievzivskwxnjqetpr2yc2yaxjzvpdn5w3fvmp67vknjvz5eotpfjq",
+      description:
+        "A feed of vibe checks and DAO dashboard for global network of tastemakers w/ SBT + NFT integration",
+      category: ["NFT", "NEAR", "Social"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnearbos%2Fvibes-bos&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/nearbos/vibes-bos",
+    },
+    {
+      key: 10,
+      name: "BOS HACKS",
+      url: "https://boshacks.com/",
+      image:
+        "https://ipfs.io/ipfs/bafkreifx6figu3o7xurc3coshzfewhcujczl62emuf3g4gof4ftjbqkvhi",
+      description: "BOS HACKS gateway and hackathon platform",
+      category: ["Hackathon", "NEAR", "Social"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fboshacks&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/codingshot/boshacks/",
+    },
     {
       key: 9,
       name: "Harmonic Guild",
@@ -220,29 +250,6 @@ const social = {
       category: ["NFT", "NEAR", "Music"],
       deploy: null,
       github: null,
-    },
-    {
-      key: 9,
-      name: "Proof Of Vibes",
-      url: "https://app.ProofOfVibes.com/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreievzivskwxnjqetpr2yc2yaxjzvpdn5w3fvmp67vknjvz5eotpfjq",
-      description:
-        "A feed of vibe checks and DAO dashboard for global network of tastemakers w/ SBT + NFT integration",
-      category: ["NFT", "NEAR", "Social"],
-      deploy: null,
-      github: null,
-    },
-    {
-      key: 10,
-      name: "BOS HACKS",
-      url: "https://boshacks.com/",
-      image:
-        "https://ipfs.io/ipfs/bafkreifx6figu3o7xurc3coshzfewhcujczl62emuf3g4gof4ftjbqkvhi",
-      description: "BOS HACKS gateway and hackathon platform",
-      category: ["Hackathon", "NEAR", "Social"],
-      deploy: null,
-      github: "https://github.com/codingshot/boshacks/",
     },
   ],
 };
@@ -349,19 +356,23 @@ return (
             <CardHeading>{item.name}</CardHeading>
             <Text class="ps-2  pb-3 text-secondary">{item.description}</Text>
           </div>
-          <div>
-            {item.github && (
-              <Widget
-                src="ndcplug.near/widget/Deploy.GithubButton"
-                props={{ link: item.github }}
-              />
-            )}
-            {item.vercel && (
-              <Widget
-                src="ndcplug.near/widget/Deploy.VercelButton"
-                props={{ link: item.github }}
-              />
-            )}
+          <div className="row">
+            <div className="d-flex justify-content-between">
+              <div className="float-left">
+                {item.github && (
+                  <Widget
+                    src="ndcplug.near/widget/Deploy.GithubButton"
+                    props={{ link: item.github }}
+                  />
+                )}
+              </div>
+              {item.deploy && (
+                <Widget
+                  src="ndcplug.near/widget/Deploy.VercelButton"
+                  props={{ link: item.deploy }}
+                />
+              )}
+            </div>
           </div>
         </Card>
       ))}
