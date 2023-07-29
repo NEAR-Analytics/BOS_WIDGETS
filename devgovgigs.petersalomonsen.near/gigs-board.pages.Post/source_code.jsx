@@ -93,8 +93,8 @@ try {
 if (is_edit_or_add_post_transaction) {
   return (
     <p class="text-secondary">
-      Post {transaction_method_name == "edit_post" ? "edited" : "added"} . Back
-      to{" "}
+      Post {transaction_method_name == "edit_post" ? "edited" : "added"}{" "}
+      successfully. Back to{" "}
       <a
         style={{
           color: "#3252A6",
