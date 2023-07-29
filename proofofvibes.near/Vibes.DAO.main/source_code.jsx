@@ -1,9 +1,5 @@
-/** to-do
- * Add vibes map, fix hashtag
- * Add pov link to doc
- */
 State.init({
-  selectedTab: props.tab || "feed",
+  selectedTab: props.tab || "proposals",
 });
 const accountId = props.accountId ?? "proofofvibes.near";
 const socialProfile = Social.getr(`${accountId}/profile`);
@@ -37,96 +33,6 @@ if (page === null) {
   return "Loading...";
 }
 
-// const isTastemaker = (
-//   <Widget src="proofofvibes.near/widget/Vibes.isTastemaker" />
-// );
-// console.log(isTastemaker);
-
-const roleCheckThisUser = props.roleCheckThisUser ?? context.accountId; // maybe make conditional if not in dao
-
-const isTastemaker = false;
-const roleToCheck = props.roleToCheck ?? "tastemaker";
-
-const proposalKinds = {
-  ChangeConfig: "config",
-  ChangePolicy: "policy",
-  AddMemberToRole: "add_member_to_role",
-  RemoveMemberFromRole: "remove_member_from_role",
-  FunctionCall: "call",
-  UpgradeSelf: "upgrade_self",
-  UpgradeRemote: "upgrade_remote",
-  Transfer: "transfer",
-  SetStakingContract: "set_vote_token",
-  AddBounty: "add_bounty",
-  BountyDone: "bounty_done",
-  Vote: "vote",
-  FactoryInfoUpdate: "factory_info_update",
-  ChangePolicyAddOrUpdateRole: "policy_add_or_update_role",
-  ChangePolicyRemoveRole: "policy_remove_role",
-  ChangePolicyUpdateDefaultVotePolicy: "policy_update_default_vote_policy",
-  ChangePolicyUpdateParameters: "policy_update_parameters",
-};
-
-const actions = {
-  AddProposal: "AddProposal",
-  VoteApprove: "VoteApprove",
-  VoteReject: "VoteReject",
-  VoteRemove: "VoteRemove",
-};
-
-// -- Get all the roles from the DAO policy
-let roles = Near.view(daoId, "get_policy");
-roles = roles === null ? [] : roles.roles;
-
-const getUserRoles = (user) => {
-  const userRoles = [];
-  for (const role of roles) {
-    if (role.kind === "Everyone") {
-      continue;
-    }
-    if (!role.kind.Group) continue;
-    if (user && role.kind.Group && role.kind.Group.includes(user)) {
-      userRoles.push(role.name);
-    }
-  }
-  return userRoles;
-};
-
-const isUserAllowedTo = (user, kind, action) => {
-  // -- Filter the user roles
-  const userRoles = [];
-  for (const role of roles) {
-    if (role.kind === "Everyone") {
-      userRoles.push(role);
-      continue;
-    }
-    if (!role.kind.Group) continue;
-    if (user && role.kind.Group && role.kind.Group.includes(user)) {
-      userRoles.push(role);
-    }
-  }
-
-  // -- Check if the user is allowed to perform the action
-  let allowed = false;
-
-  userRoles
-    .filter(({ permissions }) => {
-      const allowedRole =
-        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
-        permissions.includes(`${kind.toString()}:*`) ||
-        permissions.includes(`*:${action.toString()}`) ||
-        permissions.includes("*:*");
-      allowed = allowed || allowedRole;
-      return allowedRole;
-    })
-    .map((role) => role.name);
-
-  return allowed;
-};
-const userRoles = roleCheckThisUser ? getUserRoles(roleCheckThisUser) : [];
-isTastemaker = userRoles.includes(roleToCheck);
-const isVibee = userRoles.includes("vibee");
-
 const feed = state.accountId
   ? Social.get(`${state.accountId}/settings/dao/feed`)
   : undefined;
@@ -145,12 +51,6 @@ const widgetOwner = "proofofvibes.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
 const accountUrl = `#/${widgetOwner}/widget/Vibes.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
 
-const DEFAULT_BACKGROUND_COLOR = state.darkmode ? "#191919" : "#fff";
-const DEFAULT_COMPONENT_COLOR = state.darkmode ? "rgba(0,0,0,.8)" : "#fff";
-const DEFAULT_GRADIENT =
-  "linear-gradient(90deg, rgb(147, 51, 234) 0%, rgb(79, 70, 229) 100%)";
-
-const DEFAULT_TEXT_COLOR = state.darkmode ? "#fff" : "#000";
 const Wrapper = styled.div`
   padding-bottom: 48px;
 `;
@@ -280,93 +180,6 @@ const Bio = styled.div`
     margin-bottom: 48px;
   }
 `;
-const ScoreBoard = styled.a`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    border-radius:10px;
-    box-sizing:border-box;
-    padding: .8rem;
-    background-color:${DEFAULT_COMPONENT_COLOR};
-    border: 2px solid rgba(0,0,0,.05);
-    margin-bottom:.8rem;
-    cursor:pointer;
-    transition: all .2s;
-    color:${DEFAULT_TEXT_COLOR};
-    text-decoration:none!important;
-    
-    &:hover {
-        transition: all .2s;
-        border: 2px solid rgb(79, 70, 229);
-        background: linear-gradient(90deg, rgba(147, 51, 234, 0.08) 0%, rgba(79, 70, 229, 0.08) 100%);
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 30px;
-    }
-
-    & > div {
-        h1 {
-            font-size:.9rem;
-            font-weight:bold;
-            letter-spacing:-.5px
-        }
-
-        p {
-            font-size:.8rem;
-            margin:0;
-            padding:0;
-        }
-    }
-`;
-const VIBES_LOGO_URL =
-  "https://ipfs.near.social/ipfs/bafkreibyhg5a2vcjxtg4fospq6qe5cadi2653jb7lvbyoez4p65btfeppa";
-const Logo = styled.img` max-width:30px; `;
-
-const Info = styled.div`
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 30px;
-    border-radius: 10px;
-    border: 1px solid rgb(79, 70, 229);
-    background: ${DEFAULT_GRADIENT};
-    color: #fff;
-    box-sizing:border-box;
-    padding:.8rem;
-    margin-bottom:.8rem;
-    box-shadow:0 0 20px 5px rgba(0,0,0,.1);
-        & a:hover {
-        transition: all .2s;
-        border: 2px solid rgb(79, 70, 229);
-        background: black;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 30px;
-    }
-
-    h1 {
-        font-size:.9rem;
-        font-weight:bold;
-        letter-spacing:-.5px
-    }
-
-    p {
-        font-size:.8rem;
-    }
-
-    a {
-        font-size:.8rem;
-        border:0;
-        letter-spacing:-.5px;
-        padding:.5rem 1rem;
-        text-decoration:none;
-    }
-
-    a.primary {
-        background-color:#fff!important;
-        color:rgb(147, 51, 234)!important;
-        border:2px solid #fff;
-    }
-
-    a.secondary {
-        color:#fff;
-        border:2px solid #fff;
-    }
-`;
 
 if (profile === null) {
   return "Loading...";
@@ -374,9 +187,8 @@ if (profile === null) {
 
 return (
   <Wrapper>
-    {false && <Widget src="proofofvibes.near/widget/Vibes.Countdown" />}
-
     <BackgroundImage>
+      (
       <Widget
         src="mob.near/widget/Image"
         props={{
@@ -396,106 +208,24 @@ return (
             daoId: daoId,
             profile,
             role: role,
-            showLinks: false,
-            showSearchDAOs: false,
           }}
         />
-        <Info>
-          <h1>Join the 🌍 Global Vibes Community</h1>
-          <p>
-            "Tap-in" in to an exclusive event by a tastemaker to be part of the
-            rewards program for good vibes, or do a permisionless vibe-check on
-            our feed to get Veri-vibed locally.
-          </p>
-          <a
-            className="btn primary"
-            target="_blank"
-            href="https://ProofOfVibes.com/telegram"
-          >
-            Join the community
-          </a>
-          <a
-            className="btn secondary"
-            target="_blank"
-            href="https://ProofOfVibes.com"
-          >
-            Learn more
-          </a>
-        </Info>
-        <ScoreBoard href="https://ProofOfVibes.com/feedback" target="_blank">
-          <div>
-            <h1>
-              <Logo
-                src={VIBES_LOGO_URL}
-                style={{
-                  maxWidth: "30px",
-                }}
-              />{" "}
-              Feedback = Good Vibes
-            </h1>
-            <div></div>
-            <p>
-              Want to improve the Vibes Protocol? Click this tile to post
-              constructive vibes on our public feedback board
-            </p>
-          </div>
-        </ScoreBoard>
-        <ScoreBoard href="https://twitter.com/VibesProof" target="_blank">
-          <div>
-            <h1>
-              <Logo
-                src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg"
-                style={{
-                  maxWidth: "30px",
-                }}
-              />{" "}
-              We Tweet Vibes Too
-            </h1>
-            <div></div>
-            <p>
-              Lol web2 vibes, but we automate on chain so its chill. Get the
-              best of both vibes.
-            </p>
-          </div>
-        </ScoreBoard>
-        <ScoreBoard
-          href="https://ProofofVibes.com/apple-worldwide-playlist"
-          target="_blank"
-        >
-          <div>
-            <h1>
-              <Logo
-                src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Apple_Music_icon.svg"
-                style={{
-                  maxWidth: "30px",
-                }}
-              />{" "}
-              Listen to the Vibes
-            </h1>
-            <div></div>
-            <p>
-              Our community also curates vibes you can listen too of course.
-              Remember to hop on our telegram for dat curation governance
-            </p>
-          </div>
-        </ScoreBoard>
       </SidebarWrapper>
 
       <Content>
         <Tabs>
-          <TabsButton
-            href={`${accountUrl}&tab=feed`}
-            selected={state.selectedTab === "feed"}
-          >
-            😊 Feed
-          </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=proposals`}
             selected={state.selectedTab === "proposals"}
           >
             🗳️ Proposals
           </TabsButton>
-
+          <TabsButton
+            href={`${accountUrl}&tab=data`}
+            selected={state.selectedTab === "data"}
+          >
+            📊 Data
+          </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=members`}
             selected={state.selectedTab === "members"}
@@ -508,23 +238,18 @@ return (
           >
             💬 Social
           </TabsButton>
-          {isTastemaker && (
-            <TabsButton
-              href={`${accountUrl}&tab=tastemaker`}
-              selected={state.selectedTab === "tastemaker"}
-            >
-              🥂 Tastemaker Code
-            </TabsButton>
-          )}
-          {isVibee && (
-            <TabsButton
-              href={`${accountUrl}&tab=map`}
-              selected={state.selectedTab === "map"}
-            >
-              🗺️ Map
-            </TabsButton>
-          )}
-
+          <TabsButton
+            href={`${accountUrl}&tab=feed`}
+            selected={state.selectedTab === "feed"}
+          >
+            😊 Vibe Feed
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=tastemaker`}
+            selected={state.selectedTab === "tastemaker"}
+          >
+            🥂 Tastemaker Code
+          </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=sbt`}
             selected={state.selectedTab === "sbt"}
@@ -542,12 +267,6 @@ return (
             selected={state.selectedTab === "jobs"}
           >
             💼 Jobs
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}&tab=data`}
-            selected={state.selectedTab === "data"}
-          >
-            📊 Data
           </TabsButton>
         </Tabs>
 
@@ -573,9 +292,6 @@ return (
             src="sking.near/widget/DAO.Proposals"
             props={{ daoId: daoId }}
           />
-        )}
-        {state.selectedTab === "map" && (
-          <Widget src="efiz.near/widget/Mapbox" props={{ daoId: daoId }} />
         )}
 
         {state.selectedTab === "data" && (
@@ -663,14 +379,7 @@ return (
         {state.selectedTab === "members" && (
           <Widget
             src="nearefi.near/widget/ReFi.DAO.members"
-            props={{
-              daoId: daoId,
-              issuer: issuer,
-              reference: reference,
-              classId: classId,
-              humanRequiredForSbt: true,
-              registry: "registry.i-am-human.near",
-            }}
+            props={{ daoId: daoId, issuer: issuer, reference: reference }}
           />
         )}
 
