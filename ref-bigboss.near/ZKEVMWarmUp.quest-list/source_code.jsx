@@ -148,7 +148,7 @@ const uuid = Storage.get("zkevm-warm-up-uuid");
 
 const quest_url = `https://bos-api.ref-finance.com/get-action-by-account?account_id=${
   sender || ""
-}&account_info=${uuid}`;
+}&account_info=`;
 
 const noQuestTip = (
   <NoQuestWrapper>
