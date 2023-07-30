@@ -117,6 +117,9 @@ State.init({
 });
 
 const refReferralId = props.refReferralId ?? "ukraine";
+
+const { source } = props;
+
 const forceNetwork = NETWORK_ZKEVM;
 
 const getEVMAccountId = () => {
@@ -692,6 +695,7 @@ console.log("swap params: ", params);
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
     State.update({
+      storeParams: params,
       inputAssetAmount: params.amount,
       approvalNeeded: undefined,
       inputAssetTokenId: params.assetId,
@@ -752,6 +756,8 @@ const onCallTxComple = (tx) => {
     });
   });
 };
+
+console.log("state.storeParams: ", state.storeParams, state);
 
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
@@ -1007,12 +1013,25 @@ return (
     <Widget
       src="ref-bigboss.near/widget/ZKEVMWarmUp.add-to-quest-card"
       props={{
+        ...props,
         add: state.add,
         onChangeAdd: (value) => {
           State.update({
             add: value,
           });
         },
+        hide:
+          !state?.outputAsset ||
+          !state?.inputAssetAmount ||
+          !state?.inputAsset ||
+          !state?.selectedDex ||
+          (source === "quest-card" &&
+            state.storeParams &&
+            state.storeParams.amount === state.inputAssetAmount &&
+            state.storeParams.assetId.toLowerCase() ===
+              state.inputAssetTokenId.toLowerCase() &&
+            state.storeParams.dexName === state.selectedDex &&
+            state.storeParams.symbol === state?.inputAsset?.metadata?.symbol),
       }}
     />
   </Theme>
