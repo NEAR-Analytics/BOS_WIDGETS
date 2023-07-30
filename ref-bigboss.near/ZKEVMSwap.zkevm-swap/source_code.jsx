@@ -113,6 +113,7 @@ State.init({
     });
   },
   add: false,
+  hasGetStorage: false,
 });
 
 const refReferralId = props.refReferralId ?? "ukraine";
@@ -688,7 +689,7 @@ const params = Storage.get(
 );
 console.log("swap params: ", params);
 
-if (params && selectedChainId === 1101) {
+if (params && selectedChainId === 1101 && hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
     State.update({
       inputAssetAmount: params.amount,
@@ -704,10 +705,10 @@ if (params && selectedChainId === 1101) {
   if (!!params?.dexName) {
     switchNetwork(1101, params.dexName);
   }
-}
 
-if (params) {
-  Storage.set("zk-evm-swap-params", {});
+  State.update({
+    hasGetStorage: true,
+  });
 }
 
 function add_action(param_body) {
