@@ -1,9 +1,10 @@
 const defaultFilters = props.defaultFilters ?? {};
+const defaultType = props.defaultType || "thing";
 
 const Button = styled.button``;
 
 State.init({
-  typeName: "thing",
+  typeName: defaultType,
 });
 
 const renderHeader = () => (
