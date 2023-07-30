@@ -48,8 +48,6 @@ return (
       padding: "0 8px",
     }}
   >
-    {JSON.stringify(props, null, 4)}
-
     <img
       style={{
         height: "100%",
