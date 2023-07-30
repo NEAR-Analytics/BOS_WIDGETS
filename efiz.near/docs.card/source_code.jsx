@@ -155,9 +155,6 @@ return (
     <div className="d-flex justify-content-between m-1">
       <div>
         <h3>{shorten(thingName || "", 14)}</h3>
-        <div className="flex-grow-1 text-truncate">
-          <Widget src="mob.near/widget/Profile" props={{ accountId }} />
-        </div>
         <p className="text-muted overflow-hidden small my-3 mx-1">
           {shorten(description || "", 100)}
           {(!description || description?.length < 1) && "No description"}
@@ -168,8 +165,7 @@ return (
       <div className="row">
         <div className="mb-2">
           <div className="d-flex justify-content-between align-items-center">
-            <div className="text-muted">Creator Tags</div>
-            {context.accountId === accountId && (
+            {state.showInput && context.accountId === accountId ? (
               <div className="d-flex gap-2">
                 <input
                   value={state.tagValue}
@@ -179,9 +175,19 @@ return (
                   className="btn btn-secondary btn-sm"
                   onClick={() => setTag()}
                 >
-                  +
+                  add
                 </button>
               </div>
+            ) : (
+              <div className="text-muted">Creator Tags</div>
+            )}
+            {context.accountId === accountId && (
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={() => State.update({ showInput: !state.showInput })}
+              >
+                +
+              </button>
             )}
           </div>
           {tags.length > 0 &&
@@ -195,8 +201,7 @@ return (
             })}
         </div>
         <div className="d-flex justify-content-between align-items-center">
-          <div className="text-muted">Community Tags</div>
-          {context.accountId !== accountId && (
+          {state.showInput && context.accountId !== accountId ? (
             <div className="d-flex gap-2">
               <input
                 value={state.tagValue}
@@ -205,10 +210,21 @@ return (
               <button
                 className="btn btn-secondary btn-sm"
                 onClick={() => setTag()}
+                disabled={!state.tag}
               >
-                +
+                add
               </button>
             </div>
+          ) : (
+            <div className="text-muted">Community Tags</div>
+          )}
+          {context.accountId !== accountId && (
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={() => State.update({ showInput: !state.showInput })}
+            >
+              +
+            </button>
           )}
         </div>
         {communityTags.length > 0 && (
@@ -262,31 +278,12 @@ return (
         <i className="bi me-1 bi-pencil-square" />
         Edit
       </a>
-      {/**
-      
-      <a href="test">
-        <i className="bi me-1 bi-question-circle" />
-        Star
-      </a>
-       */}
     </div>
 
     <div className="d-flex gap-2 justify-content-between">
-      {/**
-      <Widget
-        src="nui.sking.near/widget/Input.Button"
-        props={{
-          variant: "info outline flex-1 w-100",
-          size: "lg",
-          buttonProps: {
-            style: {
-              fontWeight: 500,
-            },
-          },
-          children: <>View Profile</>,
-        }}
-      />
-       */}
+      <div className="flex-grow-1 text-truncate">
+        <Widget src="mob.near/widget/Profile" props={{ accountId }} />
+      </div>
       {type === "widget" && (
         <Widget
           src="hack.near/widget/star.button"
