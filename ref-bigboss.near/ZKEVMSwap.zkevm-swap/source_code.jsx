@@ -682,7 +682,10 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   );
 }
 
-const params = Storage.get("zk-evm-swap-params");
+const params = Storage.get(
+  "zk-evm-swap-params",
+  "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
+);
 console.log("swap params: ", params);
 
 if (params && selectedChainId === 1101) {
