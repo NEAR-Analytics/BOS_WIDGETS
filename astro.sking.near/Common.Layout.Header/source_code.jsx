@@ -217,6 +217,7 @@ return (
               <div key={i} className="group">
                 <ul>
                   {item.map((subItem, j) => {
+                    if (subItem.hidden) return null;
                     return (
                       <li
                         key={j}
@@ -246,6 +247,7 @@ return (
               </div>
             );
           } else {
+            if (item.hidden) return null;
             return (
               <li key={i} className={item.active && "active"}>
                 {item.href ? (
