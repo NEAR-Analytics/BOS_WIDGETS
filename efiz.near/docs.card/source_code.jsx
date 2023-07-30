@@ -164,7 +164,7 @@ return (
     <div className="justify-content-between mt-auto">
       <div className="row">
         <div className="mb-2">
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center gap-2">
             {state.showInput && context.accountId === accountId ? (
               <div className="d-flex gap-2">
                 <input
@@ -200,7 +200,7 @@ return (
               return tagBadge;
             })}
         </div>
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center gap-2">
           {state.showInput && context.accountId !== accountId ? (
             <div className="d-flex gap-2">
               <input
