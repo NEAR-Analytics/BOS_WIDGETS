@@ -19,7 +19,7 @@ if (
 if (state.chainId !== undefined && state.chainId !== 5) {
   return <p>Switch to Ethereum Goerli</p>;
 }
-
+console.log(window.screen.width);
 // FETCH STAKING ABI
 
 const stakingAddress = "0x748c905130CC15b92B97084Fd1eEBc2d2419146f";
@@ -252,7 +252,7 @@ const updateData = () => {
   getUserMpethBalance();
 };
 
-if (!state.dataIntervalStarted && false) {
+if (!state.dataIntervalStarted) {
   State.update({ dataIntervalStarted: true });
 
   setInterval(() => {
@@ -260,36 +260,36 @@ if (!state.dataIntervalStarted && false) {
   }, 10000);
 }
 
-if (
-  !state.mpEthPriceIntervalStarted &&
-  state.stakedBalance &&
-  state.ethUsdPrice
-) {
-  State.update({ mpEthPriceIntervalStarted: true });
+// if (
+//   !state.mpEthPriceIntervalStarted &&
+//   state.stakedBalance &&
+//   state.ethUsdPrice
+// ) {
+//   State.update({ mpEthPriceIntervalStarted: true });
 
-  setInterval(() => {
-    const bigMpEthPrice = Big(getMpETHPrice());
+//   setInterval(() => {
+//     const bigMpEthPrice = Big(getMpETHPrice());
 
-    const mpEthPrice = bigMpEthPrice
-      .div(Big(10).pow(tokenDecimals))
-      .toFixed(11)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+//     const mpEthPrice = bigMpEthPrice
+//       .div(Big(10).pow(tokenDecimals))
+//       .toFixed(11)
+//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
-    const userMpEthInEth = bigMpEthPrice
-      .mul(parseFloat(state.stakedBalance))
-      .div(Big(10).pow(tokenDecimals))
-      .toFixed(11)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+//     const userMpEthInEth = bigMpEthPrice
+//       .mul(parseFloat(state.stakedBalance))
+//       .div(Big(10).pow(tokenDecimals))
+//       .toFixed(11)
+//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
-    const userMpEthUsd = bigMpEthPrice
-      .mul(state.ethUsdPrice)
-      .div(Big(10).pow(tokenDecimals))
-      .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+//     const userMpEthUsd = bigMpEthPrice
+//       .mul(state.ethUsdPrice)
+//       .div(Big(10).pow(tokenDecimals))
+//       .toFixed(2)
+//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
-    State.update({ mpEthPrice, userMpEthInEth, userMpEthUsd });
-  }, 500);
-}
+//     State.update({ mpEthPrice, userMpEthInEth, userMpEthUsd });
+//   }, 500);
+// }
 
 // STYLED COMPONENTS
 
@@ -310,7 +310,7 @@ const PageContainer = styled.div`
 
 const StakeContainer = styled.div`
   width: 100%;
-  max-width: 900px;
+  max-width: 700px;
   align-self: center
 `;
 
@@ -592,7 +592,7 @@ return (
         )}
       </StakeForm>
       <StakeFormWrapper>
-        {true && (
+        {false && (
           <div
             style={{
               display: "flex",
@@ -605,7 +605,7 @@ return (
           >
             <div
               style={{
-                width: "400px",
+                width: "300px",
               }}
             >
               <div
@@ -630,17 +630,19 @@ return (
                 <div>Your mpETH/ETH:</div>
                 <div>{state.userMpEthInEth}</div>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                <div>Your mpETH/USD:</div>
-                <div>{state.userMpEthUsd} $</div>
-              </div>
+              {false && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    textAlign: "center",
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  <div>Your mpETH/USD:</div>
+                  <div>{state.userMpEthUsd} $</div>
+                </div>
+              )}
             </div>
           </div>
         )}
