@@ -599,7 +599,7 @@ return (
               justifyContent: "center",
               padding: "0 16px",
               width: "100%",
-              border: "gray 1px solid",
+              border: "#D7E0E4 1px solid",
               borderRadius: "16px",
             }}
           >
