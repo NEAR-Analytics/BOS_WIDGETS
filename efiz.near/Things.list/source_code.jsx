@@ -263,7 +263,10 @@ const processData = (data) => {
   return allItems;
 };
 
-const things = processData(data) || [];
+let things = [];
+if (data) {
+  things = processData(data);
+}
 
 let filteredThings = [];
 let paginatedThings = [];
