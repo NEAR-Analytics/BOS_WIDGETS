@@ -375,6 +375,11 @@ const onSaveParams = () => {
       symbol,
       chain,
     });
+
+    console.log(
+      "Storage.get('zk-evm-bridge-params'): ",
+      Storage.get("zk-evm-bridge-params")
+    );
   }
 
   if (isSwap) {
