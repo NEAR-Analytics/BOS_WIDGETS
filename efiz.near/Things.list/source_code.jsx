@@ -12,7 +12,17 @@ State.init({
 });
 
 function handleFilter({ accountId, tag }) {
-  State.update({ accountId, tag, filtersOpen: false });
+  if (tag && state.selectedOption === "all") {
+    // this is a hack for now
+    State.update({
+      accountId,
+      tag,
+      selectedOption: "taggedByCreator",
+      filtersOpen: false,
+    });
+  } else {
+    State.update({ accountId, tag, filtersOpen: false });
+  }
 }
 
 const handleRadioChange = (event) => {
