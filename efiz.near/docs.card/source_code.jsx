@@ -263,19 +263,22 @@ return (
       </div>
     </div>
     <div className="d-flex gap-2 justify-content-around gap-3 my-3">
-      <a href={`/${thingPath}`}>
+      <a href={`/${path}`} target="_blank">
         <i className="bi me-1 bi-eye" />
         View
       </a>
-      <a href={`/mob.near/widget/WidgetSource?src=${thingPath}`}>
+      <a href={`/mob.near/widget/WidgetSource?src=${path}`} target="_blank">
         <i className="bi me-1 bi-file-earmark-code" />
         Source
       </a>
-      <a href={`/bozon.near/widget/WidgetHistory?widgetPath=${path}`}>
+      <a
+        href={`/bozon.near/widget/WidgetHistory?widgetPath=${path}`}
+        target="_blank"
+      >
         <i className="bi me-1 bi-clock-history" />
         History
       </a>
-      <a href={`https://nearpad.dev/editor/${widgetPath}`}>
+      <a href={`https://nearpad.dev/editor/${path}`} target="_blank">
         <i className="bi me-1 bi-pencil-square" />
         Edit
       </a>
