@@ -878,30 +878,43 @@ const token = tokens.find((t) => t.symbol === selectedToken);
 
 const { isToastOpen, variant, title, description } = state;
 
+const { source } = props;
+
 const params = Storage.get(
   "zk-evm-bridge-params",
   "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
 );
 const storedSymbol = params?.symbol;
+console.log(
+  "params: ",
+  params,
+  selectedToken,
+  chainId,
+  source === "quest-card",
+  params.symbol === selectedToken,
+  (params?.chain === "Ethereum" && chainId === 1) ||
+    (params?.chain?.toLowerCase() === "zkevm" && chainId === 1101)
+);
 
-if (storedSymbol) {
-  State.update({
-    selectedToken: storedSymbol,
-  });
-  Storage.set("zk-evm-bridge-params", {
-    symbol: "",
-  });
+const hideCondition =
+  params &&
+  source === "quest-card" &&
+  params.symbol === selectedToken &&
+  ((params?.chain === "Ethereum" && chainId === 1) ||
+    (params?.chain?.toLowerCase() === "zkevm" && chainId === 1101));
+console.log("hideCondition: ", hideCondition);
+
+if (!hideCondition) {
+  props.updateHide(false);
+} else {
+  props.updateHide(true);
 }
+
 if (
   (params?.chain === "Ethereum" && chainId !== 1) ||
-  (params?.chain === "ZkEvm" && chainId !== 1101)
+  (params?.chain?.toLowerCase() === "zkevm" && chainId !== 1101)
 ) {
   const chainId = params?.chain === "Ethereum" ? 1 : 1101;
-
-  Storage.set("zk-evm-bridge-params", {
-    symbol: "",
-    chain: "",
-  });
 
   switchNetwork(chainId);
 }
