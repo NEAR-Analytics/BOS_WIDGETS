@@ -143,24 +143,26 @@ return (
         </div>
       </div>
       <div className="col">
+        <small className="text-muted d-flex justify-content-end">
+          <i className="bi bi-clock me-1"></i>
+          <Widget
+            src="mob.near/widget/TimeAgo"
+            props={{ keyPath: thingPath, now: metadata, blockHeight }}
+          />
+        </small>
+      </div>
+    </div>
+    <div className="d-flex justify-content-between m-1">
+      <div>
         <h3>{shorten(thingName || "", 14)}</h3>
+        <div className="flex-grow-1 text-truncate">
+          <Widget src="mob.near/widget/Profile" props={{ accountId }} />
+        </div>
         <p className="text-muted overflow-hidden small my-3 mx-1">
           {shorten(description || "", 100)}
           {(!description || description?.length < 1) && "No description"}
         </p>
       </div>
-    </div>
-    <div className="d-flex justify-content-between m-1">
-      <div className="flex-grow-1 text-truncate">
-        <Widget src="mob.near/widget/ProfileLine" props={{ accountId }} />
-      </div>
-      <small className="text-muted">
-        <i className="bi bi-clock me-1"></i>
-        <Widget
-          src="mob.near/widget/TimeAgo"
-          props={{ keyPath: thingPath, now: metadata, blockHeight }}
-        />
-      </small>
     </div>
     <div className="justify-content-between mt-auto">
       <div className="row">
