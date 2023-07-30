@@ -1,12 +1,12 @@
 const label = props.label;
 const placeholder = props.placeholder ?? "Placeholder";
-const value = props.value ?? "";
+const value = props.value;
 const onChange = props.onChange ?? (() => {});
 const validate = props.validate ?? (() => {});
-const error = props.error ?? "";
+const error = props.error;
 const textarea = props.textarea ?? false;
 const inputProps = props.inputProps ?? {};
-const disabled = props.disabled ?? "";
+const disabled = props.disabled;
 const icon = props.icon;
 const size = props.size ?? "md"; // sm, md, lg
 const className = props.className ?? "";
