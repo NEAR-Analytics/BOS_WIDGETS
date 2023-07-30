@@ -117,7 +117,7 @@ const social = {
         "A zkEVM by Quickswap featuring PancakeSwap, Quickswap, Gamma, and Balancer. ",
       category: ["DeFi", "EVM", "zkEVM"],
       deploy:
-        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build",
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fpolygon-bos-gateway%2Fblob%2Fmain%2F.env.example",
       github: "https://github.com/NearDeFi/polygon-bos-gateway",
     },
     {
@@ -256,19 +256,19 @@ const social = {
   ],
 };
 
-State.init({ uniqueCategories: null });
+State.init({ uniqueCategories: null, searchValue: null });
 const setCategories = () => {
   const categoriesList = [];
-  social.data.map((item) => categoriesList.push(...item.category));
+  social.data.map((gateway) => categoriesList.push(...gateway.category));
 
   // console.log(categoriesList);
   const cats = [
     "All",
     ...categoriesList.filter(
-      (item, index) => categoriesList.indexOf(item) === index
+      (gateway, index) => categoriesList.indexOf(gateway) === index
     ),
   ];
-  console.log(cats);
+  //   console.log(cats);
   State.update({
     uniqueCategories: cats,
   });
@@ -346,6 +346,90 @@ const ImageCard = styled.div`
   }
 `;
 
+const displayCategories = (value) => {
+  state.searchValue !== null;
+  value = value.join(" ");
+  State.update({ searchValue: value });
+  console.log("search value", state.searchValue);
+
+  const newArray = social.data.filter((item) =>
+    item.category.join(" ").includes(state.searchValue)
+  );
+  //   social.data.filter((item) =>
+  //     item.category.some((cat) => {
+  //       //   console.log("cat", cat);
+  //       return cat.includes(state?.searchValue);
+  //     })
+  //   );
+  console.log(
+    "searched",
+    // social.data.filter((item) =>
+    //   item.category.join(" ").includes(state.searchValue)
+    // )
+    // currentCat.filter((cat) => cat.includes(state.searchValue))
+    newArray
+  );
+  const dataNow = allCategories(newArray);
+  //   console.log(
+  //     "data:",
+  //     social.data.map((item) => item.category.join(" "))
+  //   );
+  State.update({
+    viewableCats: dataNow,
+  });
+};
+
+const words = ["hello", "world", "hi", "there"];
+const search = "hello";
+
+const result = words.filter((word) => search.includes(word));
+console.log(result);
+
+const allCategories = (filteredCats) =>
+  filteredCats.map((gateway) => (
+    <Card key={gateway.key}>
+      <ImageCard>
+        <a href={gateway.url} target="_blank" rel="noopener noreferrer">
+          <img src={gateway.image} alt="..." />
+        </a>
+      </ImageCard>
+      <div className="card-body p-2 mt-3">
+        <CardHeading>{gateway.name}</CardHeading>
+        <Text className="pb-3 text-secondary">
+          {`${gateway.description.trim().slice(0, 36)}...`}
+        </Text>
+      </div>
+      {false && <div>{gateway.category.map((cat) => cat).join(" ")}</div>}
+
+      <div className="row my-3">
+        <div className="d-flex justify-content-between">
+          <div className="float-left mx-3">
+            {gateway.github && (
+              <Widget
+                src="ndcplug.near/widget/Deploy.GithubButton"
+                props={{ link: gateway.github }}
+              />
+            )}
+          </div>
+          {gateway.deploy && (
+            <Widget
+              src="ndcplug.near/widget/Deploy.VercelButton"
+              props={{ link: gateway.deploy }}
+            />
+          )}
+        </div>
+      </div>
+    </Card>
+  ));
+
+const dispData = null;
+if (!state.searchValue || state.searchValue === "") {
+  dispData = allCategories(social.data);
+} else if (state.viewableCats.length > 0) {
+  dispData = state.viewableCats;
+} else {
+  dispData = "No gateways found with all these categories";
+}
 return (
   <div className="row">
     <Wrapper>
@@ -365,48 +449,16 @@ return (
         </H1>
       </Container>
     </Wrapper>
-    <div class="input-group  row">
+    <div className="input-group  row w-75 text-center mx-auto">
       <Typeahead
         options={state.uniqueCategories.slice(1)}
         multiple
         onChange={(value) => {
-          State.update({ choose: value });
+          displayCategories(value);
         }}
         placeholder="Choose a tag to filter..."
       />
     </div>
-    <Cards>
-      {social.data.map((item) => (
-        <Card key={item.key}>
-          <ImageCard>
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              <img src={item.image} alt="..." />
-            </a>
-          </ImageCard>
-          <div class="card-body p-2 mt-3">
-            <CardHeading>{item.name}</CardHeading>
-            <Text class="ps-2  pb-3 text-secondary">{item.description}</Text>
-          </div>
-          <div className="row">
-            <div className="d-flex justify-content-between">
-              <div className="float-left">
-                {item.github && (
-                  <Widget
-                    src="ndcplug.near/widget/Deploy.GithubButton"
-                    props={{ link: item.github }}
-                  />
-                )}
-              </div>
-              {item.deploy && (
-                <Widget
-                  src="ndcplug.near/widget/Deploy.VercelButton"
-                  props={{ link: item.deploy }}
-                />
-              )}
-            </div>
-          </div>
-        </Card>
-      ))}
-    </Cards>
+    <Cards>{dispData}</Cards>
   </div>
 );
