@@ -70,25 +70,31 @@ const iface = new ethers.utils.Interface(metapoolAbi);
 
 // FETCH ETH METRICS
 
-if (state.metrics === undefined) {
+const fetchEthMetrics = () => {
   const resp = fetch("https://eth-metapool.narwallets.com/metrics_json");
-  console.log(resp);
   if (!resp) return;
   State.update({ metrics: resp?.body ?? "..." });
+};
+
+if (state.metrics === undefined) {
+  fetchEthMetrics();
 }
 
-// FETCH ETH CONTRACT DATA
+// FETCH CONTRACT DATA
 
-if (state.contractData === undefined) {
+const fetchContractData = () => {
   const resp = fetch("https://eth-metapool.narwallets.com/metrics_front");
-  console.log(resp);
   if (!resp) return;
   State.update({ contractData: resp?.body ?? "..." });
+};
+
+if (state.contractData === undefined) {
+  fetchContractData();
 }
 
 // FETCH ETH PRICE
 
-if (!state.ethUsdPrice) {
+const fetchEthPrice = () => {
   const resp = fetch(
     "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
   );
@@ -96,10 +102,11 @@ if (!state.ethUsdPrice) {
   if (ethUsdPrice && !isNaN(ethUsdPrice)) {
     State.update({ ethUsdPrice: ethUsdPrice });
   }
-}
+};
 
-console.log(Big(state.contractData?.totalUnderlying).toString());
-console.log(Big(10000000).div(5).toString());
+if (state.ethUsdPrice === undefined) {
+  fetchEthPrice();
+}
 
 // HELPER FUNCTIONS
 
@@ -141,15 +148,19 @@ const submitEthers = (strEther, _referral) => {
   erc20
     .depositETH(state.sender, { value: amount })
     .then((txResp) => {
-      txResp
-        .wait()
-        .then((waitResp) =>
-          State.update({ openModal: true, loading: false, strEther: 0 })
-        );
+      txResp.wait().then((waitResp) => {
+        fetchEthPrice();
+        fetchContractData();
+        fetchEthMetrics();
+        getUserEthBalance();
+        getUserMpethBalance();
+        State.update({ openModal: true, loading: false, strEther: 0 });
+      });
     })
     .catch((e) => {
       State.update({ loading: false, strEther: 0 });
       console.error(e);
+      fetchEthPrice();
     });
 };
 
@@ -159,31 +170,38 @@ if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
   }
 }
 
 // GET USER ETH BALANCE
 
-if (state.balance === undefined && state.sender) {
+const getUserEthBalance = () => {
   Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
     });
+};
+
+if (state.balance === undefined && state.sender) {
+  getUserEthBalance();
 }
 
 // GET USER MPETH BALANCE
 
-if (state.stakedBalance === undefined && state.sender) {
+const getUserMpethBalance = () => {
   getStakedBalance(state.sender).then((stakedBalance) => {
     State.update({ stakedBalance });
   });
+};
+
+if (state.stakedBalance === undefined && state.sender) {
+  getUserMpethBalance();
 }
 
-// OUTPUT UI
+// USER ADDRESS OUTPUT UI
 
-const getSender = () => {
+const getUserAddress = () => {
   return !state.sender
     ? ""
     : state.sender.substring(0, 8) +
@@ -375,6 +393,10 @@ const Spacer = styled.div`
   height: 20px;
 `;
 
+const ButtonConnectContainer = styled.div`
+  ${".buttonClass{ width: 100%;  border-radius: 1000px;  font-size: 20px;  font-weight: bold;  padding: 8px 0;  /* transition: all 0.3s ease-in-out;*/display: inline-flex;  align-items: center;  justify-content: center;  user-select: none;  position: relative;  white-space: nowrap;  vertical-align: middle;  line-height: 1.2;  border-radius: 1000px;  font-weight: 400;  min-height: 48px;  text-align: center;  box-sizing: border-box;  padding: 0 24px;  color: rgb(255, 255, 255);  background: rgb(12, 34, 70);  border: 2px solid transparent;  &:disabled { background: rgb(12, 34, 70);    color: white;    cursor: not-allowed } &:hover { border: 4px solid rgb(12, 34, 70);    color:  rgb(12, 34, 70);    background: transparent;    }}"}
+`;
+
 return (
   <PageContainer>
     <Header>
@@ -432,7 +454,7 @@ return (
         </StakeFormTopContainerLeft>
         {state.sender && (
           <StakeFormTopContainerRightContent1Text>
-            {getSender()}
+            {getUserAddress()}
           </StakeFormTopContainerRightContent1Text>
         )}
       </StakeFormTopContainer>
@@ -536,7 +558,12 @@ return (
             }}
           />
         ) : (
-          <Web3Connect connectLabel="Connect with Ethereum wallet" />
+          <ButtonConnectContainer>
+            <Web3Connect
+              connectLabel="Connect with Ethereum wallet"
+              className="buttonClass"
+            />
+          </ButtonConnectContainer>
         )}
       </StakeFormWrapper>
       <Widget
