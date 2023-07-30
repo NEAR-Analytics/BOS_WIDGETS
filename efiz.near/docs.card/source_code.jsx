@@ -90,37 +90,16 @@ const getTags = () => {
 const communityTags = getTags();
 
 const Wrapper = styled.div`
-  border: 1px solid transparent;
+  border-radius: 12px;
+  border: 1px solid #eceef0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  
+  transform: translateY(0);
+  transition: transform 0.2s ease;
 
   &:hover {
-    border: 1px solid #4498e0;
-  }
-
-  .dao-card-stats {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    column-gap: 0.5rem;
-    row-gap: 0.2rem;
-
-    & > p:nth-child(1),
-    & > p:nth-child(2),
-    & > p:nth-child(3) {
-      font-size: 0.8rem;
-      color: #4498e0;
-      margin: 0;
-    }
-
-    & > p:nth-child(4),
-    & > p:nth-child(5),
-    & > p:nth-child(6) {
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin: 0;
-    }
-
-    p > b {
-      font-size: 1.15rem;
-    }
+    transform: translateY(-3px);
   }
 
   a {
