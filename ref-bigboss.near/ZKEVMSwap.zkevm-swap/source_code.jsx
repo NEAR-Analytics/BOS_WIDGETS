@@ -683,6 +683,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
 }
 
 const params = Storage.get("zk-evm-swap-params");
+console.log("swap params: ", params);
 
 if (params && selectedChainId === 1101) {
   if (!!params?.amount && !!params?.assetId) {
