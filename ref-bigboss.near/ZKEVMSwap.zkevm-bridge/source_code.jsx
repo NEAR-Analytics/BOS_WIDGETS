@@ -155,6 +155,7 @@ State.init({
   onChangeAdd: (add) => {
     State.update({ add });
   },
+  hide: true,
 });
 
 const {
@@ -554,6 +555,7 @@ return (
           tokens,
           chainId,
           updateChainId: (chainId) => State.update(chainId),
+          updateHide: (hide) => State.update({ hide }),
         }}
       />
 
@@ -568,6 +570,8 @@ return (
       props={{
         add: state.add,
         onChangeAdd: state.onChangeAdd,
+        hide: state.hide,
+        source: props.source,
       }}
     />
   </>
