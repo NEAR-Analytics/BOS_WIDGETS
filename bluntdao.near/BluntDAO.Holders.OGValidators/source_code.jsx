@@ -1,10 +1,11 @@
 const limit = 20;
 const series = props.series ?? "124"; // add series filter
-const title = props.title ?? "Total Holders";
+const title = props.title ?? "Total OG BluntDAO";
 const showHeader = props.showHeader ?? true;
-const showImage = props.showImage ?? true;
+const showImage = props.showImage ?? false;
 // add what nft they have and then add filter of unique people, add link to collection
 // add condition if no props fetch all collection
+// fix limit
 State.init({
   offset: 0,
   tokens: [],
@@ -23,7 +24,7 @@ function fetchTokens() {
       query: `
           query MyQuery {
             mb_views_nft_tokens(
-                limit: ${limit},
+               
                 offset: ${state.offset}
               where: { nft_contract_id: { _eq: "bluntdao.snft.near" } }
               order_by: {minted_timestamp: desc}
