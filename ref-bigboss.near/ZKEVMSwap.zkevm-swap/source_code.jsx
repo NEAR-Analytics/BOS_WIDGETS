@@ -704,7 +704,9 @@ if (params && selectedChainId === 1101) {
   if (!!params?.dexName) {
     switchNetwork(1101, params.dexName);
   }
+}
 
+if (params) {
   Storage.set("zk-evm-swap-params", {});
 }
 
