@@ -84,7 +84,7 @@ const Hero = styled.div`
   border-radius: 15px;
   text-align: center;
   justify-content: center;
-  padding: 15px;
+  padding: .75rem;
   background-color: #0c0c1f;
   color: #fff;
 `;
@@ -170,26 +170,28 @@ return (
       flexFlow: "column",
       alignItems: "space-evenly",
       backgroundColor: "#0e0e1e",
-      padding: "20px",
     }}
   >
     <Hero>
-      <div
+      <a
+        href={Mainnet.url}
+        target="_blank"
+        rel="noopener noreferrer"
         style={{
-          display: "flex",
-          flexFlow: "column",
-          alignItems: "space-evenly",
-          backgroundColor: "#0e0e1e",
-          padding: "20px",
+          textDecoration: "none",
+          color: "inherit",
+          marginBottom: "2rem",
+          textAlign: "center",
         }}
       >
-        <Cover
-          src={WidgetImages[0].url}
-          alt={WidgetImages[0].title}
-          style={{ width: "100%" }}
-        />
-      </div>
-    </Hero>
+        <img
+          style={{
+            width: "100%",
+          }}
+          src={`https://user-images.githubusercontent.com/93423666/238831499-d56223f0-749f-4ddb-b6b9-d1c9a393b554.png`}
+        />{" "}
+      </a>{" "}
+    </Hero>{" "}
     <Widget src="jay100.near/widget/CTTDescription" props={widget_title} />{" "}
     <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />{" "}
     <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
