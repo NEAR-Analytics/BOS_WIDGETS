@@ -684,7 +684,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
 
 const params = Storage.get("zk-evm-swap-params");
 
-if (params && !!state.sender && selectedChainId === 1101) {
+if (params && selectedChainId === 1101) {
   if (!!params?.amount && !!params?.assetId) {
     State.update({
       inputAssetAmount: params.amount,
