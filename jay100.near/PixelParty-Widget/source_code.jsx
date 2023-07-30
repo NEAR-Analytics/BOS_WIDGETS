@@ -29,6 +29,28 @@ const button_data = [
     link: "https://www.mintbase.xyz/contract/mjr.mintbase1.near/token/0",
   },
 ];
+
+const slide_data = [
+  {
+    img_url: "https://pd.marmaj.org/pixelparty2.jpg",
+    title: "Who made Pixelparty?",
+    description:
+      "PixelParty was created by a talented team of developers and artists who poured their passion and expertise into bringing this extraordinary NFT Frame showcase to life. The collective efforts of these visionary individuals, fueled by their unwavering dedication and innovative spirit, culminated in the birth of PixelParty, an immersive platform that seamlessly blends technology, art, and creativity to redefine the boundaries of the NFT space.",
+  },
+  {
+    img_url:
+      "https://user-images.githubusercontent.com/93423666/238833011-3538bfcb-082f-41bb-8a12-8670735f6b12.png",
+    description:
+      "Each token you possess grants you the privilege of unleashing your creative prowess on a well designed canvas, carefully measured at 20x20px, affording you the space to weave your artistic vision, imprinting a mesmerizing tapestry of boundless imagination and boundless possibilities.",
+  },
+  {
+    img_url:
+      "https://user-images.githubusercontent.com/93423666/238837072-34abe80a-a9c5-4ade-8b52-5cd359c7d723.png",
+    description:
+      "Should the bounds of a singular 20x20px frame fail to contain your grand vision, fear not, for a world of expansive artistic possibilities beckons. By acquiring multiple interconnected frames, seamlessly merging together in harmonious unity, you transcend the limitations of a confined canvas, creating a vast expanse where your creativity knows no bounds. With each additional frame, your artistic dominion expands, allowing you to fashion a larger, more captivating frame that embodies the magnitude of your imagination, enabling your artistic dreams to unfurl on an awe-inspiring scale that leaves onlookers spellbound in wonderment.",
+  },
+];
+
 const Title = styled.h5`
   color: #fff;
   font-weight: 700;
@@ -194,6 +216,7 @@ return (
     </Hero>{" "}
     <Widget src="jay100.near/widget/CTTDescription" props={widget_title} />{" "}
     <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />{" "}
+    <Widget src="jay100.near/widget/Carousel" props={slide_data} />{" "}
     <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
   </div>
 );
