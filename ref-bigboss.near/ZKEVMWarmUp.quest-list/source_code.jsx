@@ -1,5 +1,4 @@
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-console.log("sender on quest list: ", sender);
 const searchTip = (
   <svg
     width="215"
