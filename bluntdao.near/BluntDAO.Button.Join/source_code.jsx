@@ -10,7 +10,7 @@ if (!accountId) {
 
 const handleProposal = () => {
   const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
+  const deposit = 10000000000000000000000;
   Near.call([
     {
       contractName: daoId,
