@@ -140,7 +140,7 @@ State.init({
   add: false,
 });
 
-const { add, onChangeAdd } = props;
+const { add, onChangeAdd, source, hide } = props;
 
 const onAdd = () => {
   onChangeAdd(true);
@@ -150,9 +150,13 @@ const onCancel = () => {
   onChangeAdd(false);
 };
 
+if (hide) return <div />;
+
 return (
   <Layout>
-    {!add && <div className="tip-wrapper">{addToQuestTip}</div>}
+    {!add && source !== "quest-card" && (
+      <div className="tip-wrapper">{addToQuestTip}</div>
+    )}
 
     <Wrapper>
       <div>
