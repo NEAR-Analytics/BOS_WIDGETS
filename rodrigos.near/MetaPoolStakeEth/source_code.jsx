@@ -209,6 +209,28 @@ const getUserAddress = () => {
         state.sender.substring(state.sender.length - 6, state.sender.length);
 };
 
+// UPDATE DATA
+
+const updateData = () => {
+  fetchEthPrice();
+  fetchContractData();
+  fetchEthMetrics();
+  getUserEthBalance();
+  getUserMpethBalance();
+};
+
+if (!state.intervalStarted) {
+  State.update({ intervalStarted: true });
+
+  setInterval(() => {
+    fetchEthPrice();
+    fetchContractData();
+    fetchEthMetrics();
+    getUserEthBalance();
+    getUserMpethBalance();
+  }, 10000);
+}
+
 // STYLED COMPONENTS
 
 const PageContainer = styled.div`
