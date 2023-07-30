@@ -260,22 +260,35 @@ if (!state.dataIntervalStarted && false) {
   }, 10000);
 }
 
-// if (!state.mpEthPriceIntervalStarted) {
-//   State.update({ mpEthPriceIntervalStarted: true });
+if (
+  !state.mpEthPriceIntervalStarted &&
+  state.stakedBalance &&
+  state.ethUsdPrice
+) {
+  State.update({ mpEthPriceIntervalStarted: true });
 
-//   setInterval(() => {
-//     const mpEthPrice = Big(getMpETHPrice())
-//       .div(Big(10).pow(tokenDecimals))
-//       .toFixed(11)
-//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-//     State.update({ mpEthPrice: mpEthPrice });
-//   }, 500);
-if (!state.mpEthPrice) {
-  const mpEthPrice = Big(getMpETHPrice())
-    .div(Big(10).pow(tokenDecimals))
-    .toFixed(11)
-    .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-  State.update({ mpEthPrice: mpEthPrice });
+  setInterval(() => {
+    const bigMpEthPrice = Big(getMpETHPrice());
+
+    const mpEthPrice = bigMpEthPrice
+      .div(Big(10).pow(tokenDecimals))
+      .toFixed(11)
+      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+    const userMpEthInEth = bigMpEthPrice
+      .mul(parseFloat(state.stakedBalance))
+      .div(Big(10).pow(tokenDecimals))
+      .toFixed(11)
+      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+    const userMpEthUsd = bigMpEthPrice
+      .mul(state.ethUsdPrice)
+      .div(Big(10).pow(tokenDecimals))
+      .toFixed(2)
+      .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+    State.update({ mpEthPrice, userMpEthInEth, userMpEthUsd });
+  }, 500);
 }
 
 // STYLED COMPONENTS
@@ -579,7 +592,7 @@ return (
         )}
       </StakeForm>
       <StakeFormWrapper>
-        {false && (
+        {true && (
           <div
             style={{
               padding: "0 16px",
@@ -596,12 +609,12 @@ return (
               <div>{state.mpEthPrice}</div>
             </div>
             <div style={{ textAlign: "center", padding: "0 8px" }}>
-              <div>mpETH/ETH Price:</div>
-              <div>{state.mpEthPrice}</div>
+              <div>Your mpETH/ETH:</div>
+              <div>{state.userMpEthInEth}</div>
             </div>
             <div style={{ textAlign: "center", padding: "0 8px" }}>
-              <div>mpETH/ETH Price:</div>
-              <div>{state.mpEthPrice}</div>
+              <div>Your mpETH/USD:</div>
+              <div>{state.userMpEthUsd} $</div>
             </div>
           </div>
         )}
