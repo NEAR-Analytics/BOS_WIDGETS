@@ -115,7 +115,7 @@ const Wrapper = styled.div`
 `;
 
 const shorten = (str, len) => {
-  if (str.length <= len) {
+  if (str.includes(" ") || str.length <= len) {
     return str;
   }
   return str.slice(0, len) + "...";
@@ -155,7 +155,7 @@ return (
     </div>
     <div className="d-flex justify-content-between m-1">
       <div>
-        <h3>{name || thingName}</h3>
+        <h3>{shorten(name || thingName, 16)}</h3>
         <p className="text-muted overflow-hidden small my-3 mx-1">
           {shorten(description || "", 100)}
           {(!description || description?.length < 1) && "No description"}
