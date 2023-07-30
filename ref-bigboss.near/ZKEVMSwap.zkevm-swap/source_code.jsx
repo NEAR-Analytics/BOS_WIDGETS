@@ -689,7 +689,7 @@ const params = Storage.get(
 );
 console.log("swap params: ", params);
 
-if (params && selectedChainId === 1101 && hasGetStorage === false) {
+if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
     State.update({
       inputAssetAmount: params.amount,
