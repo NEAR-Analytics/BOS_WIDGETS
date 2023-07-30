@@ -82,7 +82,7 @@ const addToQuestTip = <svg width="289" height="96" viewBox="0 0 289 96" fill="no
 </defs>
 </svg>
 
-const questionSwitch = Storage.get("zkevm-aave-question-switch", "ref-bigboss.near/widget/ZKEVM.switch_quest_card");
+const questionSwitch = Storage.get("zkevm-aave-question-switch");
 if (questionSwitch !== null) {
   State.init({
     switch: questionSwitch == 'on' ? true: false,
@@ -107,7 +107,7 @@ return <Container>
     {
       !state.switch && addToQuestTip
     }
-    Add to <a className="highlight" href="/warmup">ZkEVM Warm up [My Quest]</a> after transaction
+    Sync to <a className="highlight" href="/warmup">ZkEVM Warm up [My Quest]</a> after transaction
     {!state.switch && (
         <div className="button-dark" onClick={onAdd}>
           <div className="button-dark-circle"></div>
