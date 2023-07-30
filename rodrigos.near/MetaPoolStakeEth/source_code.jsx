@@ -176,11 +176,13 @@ if (state.sender === undefined) {
 // GET USER ETH BALANCE
 
 const getUserEthBalance = () => {
-  Ethers.provider()
-    .getBalance(state.sender)
-    .then((balance) => {
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
-    });
+  if (state.sender) {
+    Ethers.provider()
+      .getBalance(state.sender)
+      .then((balance) => {
+        State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
+      });
+  }
 };
 
 if (state.balance === undefined && state.sender) {
@@ -190,9 +192,11 @@ if (state.balance === undefined && state.sender) {
 // GET USER MPETH BALANCE
 
 const getUserMpethBalance = () => {
-  getStakedBalance(state.sender).then((stakedBalance) => {
-    State.update({ stakedBalance });
-  });
+  if (state.sender) {
+    getStakedBalance(state.sender).then((stakedBalance) => {
+      State.update({ stakedBalance });
+    });
+  }
 };
 
 if (state.stakedBalance === undefined && state.sender) {
