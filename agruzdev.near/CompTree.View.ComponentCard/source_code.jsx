@@ -1,40 +1,64 @@
-const DEFAULT_OPEN = false;
+const DEFAULT_OPEN = false
 
-const [accountId, widget, widgetName] = props.src.split("/");
+const [accountId, widget, widgetName] = props.src.split('/')
 const metadata = Social.get(
   `${accountId}/widget/${widgetName}/metadata/**`,
-  "final"
-);
-const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `#/near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`;
-const appUrl = `#/${accountId}/widget/${widgetName}`;
-const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+  'final'
+)
+
+const tags = Object.keys(metadata.tags || {})
+const detailsUrl = `#/near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`
+const appUrl = `#/${accountId}/widget/${widgetName}`
+const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`
 
 function distinct(arr) {
-  return [...new Set(arr)];
+  return [...new Set(arr)]
 }
 
-const getDeps = (widget) => {
-  const pattern = /<Widget\s+src="([^"]+)"/g;
+const filterDeps = (widget) => {
+  const pattern = /<Widget\s+src="([^"]+)"/g
 
-  let matches = [];
-  let match;
+  let matches = []
+  let match
   while ((match = pattern.exec(widget.toString())) !== null) {
-    matches.push(match[1]);
+    matches.push(match[1])
   }
 
-  return distinct(matches);
-};
+  return distinct(matches)
+}
 
 const updateDeps = () => {
-  const widget = Social.get(props.src);
+  setLoading(true)
+  const widget = Social.get(props.src)
 
-  State.update({ deps: getDeps(widget) });
-};
+  if (!widget) return
 
-State.init({ deps: null, isShown: DEFAULT_OPEN });
+  setDeps(filterDeps(widget))
+  setLoading(false)
+}
 
-updateDeps();
+const deps = state.deps
+const setDeps = (value) => {
+  State.update({ deps: value })
+}
+
+const loading = state.loading
+const setLoading = (value) => {
+  State.update({ loading: value })
+}
+
+const isShown = state.isShown
+const toggleShown = () => {
+  State.update((prev) => {
+    return {
+      isShown: !prev.isShown,
+    }
+  })
+}
+
+State.init({ deps: null, isShown: DEFAULT_OPEN, loading: false })
+
+!deps && updateDeps()
 
 const Card = styled.div`
   position: relative;
@@ -45,7 +69,7 @@ const Card = styled.div`
   box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
-`;
+`
 
 const CardBody = styled.div`
   padding: 16px;
@@ -56,21 +80,21 @@ const CardBody = styled.div`
   > * {
     min-width: 0;
   }
-`;
+`
 
 const CardContent = styled.div`
   width: 100%;
-`;
+`
 
 const CardFooter = styled.div`
   display: grid;
-  grid-template-columns: ${
-    state.deps && state.deps.length === 0 ? "1fr" : "1fr 1fr 1fr"
-  };
+  grid-template-columns: ${state.deps && state.deps.length === 0
+    ? '1fr'
+    : '1fr 1fr 1fr'};
   gap: 16px;
   padding: 16px;
   border-top: 1px solid #eceef0;
-`;
+`
 
 const CardTag = styled.p`
   margin: 0;
@@ -89,18 +113,18 @@ const CardTag = styled.p`
   i {
     margin-right: 3px;
   }
-`;
+`
 
 const TextLink = styled.a`
   display: block;
   margin: 0;
   font-size: 14px;
   line-height: 18px;
-  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "12px" : "14px")};
-  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
-  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
+  color: ${(p) => (p.bold ? '#11181C !important' : '#687076 !important')};
+  font-weight: ${(p) => (p.bold ? '600' : '400')};
+  font-size: ${(p) => (p.small ? '12px' : '14px')};
+  overflow: ${(p) => (p.ellipsis ? 'hidden' : 'visible')};
+  text-overflow: ${(p) => (p.ellipsis ? 'ellipsis' : 'unset')};
   white-space: nowrap;
   outline: none;
 
@@ -108,23 +132,23 @@ const TextLink = styled.a`
   &:hover {
     text-decoration: underline;
   }
-`;
+`
 
 const Text = styled.p`
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "12px" : "14px")};
-  overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
-  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
+  color: ${(p) => (p.bold ? '#11181C' : '#687076')};
+  font-weight: ${(p) => (p.bold ? '600' : '400')};
+  font-size: ${(p) => (p.small ? '12px' : '14px')};
+  overflow: ${(p) => (p.ellipsis ? 'hidden' : '')};
+  text-overflow: ${(p) => (p.ellipsis ? 'ellipsis' : '')};
   white-space: nowrap;
 
   i {
     margin-right: 3px;
   }
-`;
+`
 
 const Thumbnail = styled.a`
   display: block;
@@ -147,12 +171,12 @@ const Thumbnail = styled.a`
     width: 100%;
     height: 100%;
   }
-`;
+`
 
 const TagsWrapper = styled.div`
   position: relative;
   margin-top: 4px;
-`;
+`
 
 const ButtonLink = styled.a`
   padding: 8px;
@@ -164,7 +188,7 @@ const ButtonLink = styled.a`
   line-height: 15px;
   text-align: center;
   cursor: pointer;
-  color: ${(p) => (p.primary ? "#006ADC" : "#11181C")} !important;
+  color: ${(p) => (p.primary ? '#006ADC' : '#11181C')} !important;
   background: #fbfcfd;
   white-space: nowrap;
 
@@ -174,110 +198,108 @@ const ButtonLink = styled.a`
     text-decoration: none;
     outline: none;
   }
-`;
+`
 
 const DepsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 80%;
   flex-direction: column;
-`;
+`
 
 const Dep = styled.div`
   margin-top: 10px;
   margin-left: 20%;
-`;
-
-const handleShow = () => {
-  State.update((prev) => {
-    return {
-      isShown: !prev.isShown,
-    };
-  });
-};
+`
 
 return (
   <>
-    <Card>
-      {
-        <CardTag>
-          <i className="bi bi-clock"></i>{" "}
-          <Widget
-            src="mob.near/widget/TimeAgo"
-            props={{
-              blockHeight: props.blockHeight,
-              keyPath: `${accountId}/widget/${widgetName}`,
-            }}
-          />{" "}
-          ago
-        </CardTag>
-      }
-
-      <CardBody>
-        <Thumbnail href={detailsUrl}>
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: metadata.image,
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
-              alt: metadata.name,
-            }}
-          />
-        </Thumbnail>
-
-        <CardContent>
-          <TextLink as="a" href={detailsUrl} bold ellipsis>
-            {metadata.name || widgetName}
-          </TextLink>
-
-          <TextLink small as="a" href={accountUrl} ellipsis>
-            @{accountId}
-          </TextLink>
-
-          {tags.length > 0 && (
-            <TagsWrapper>
+    {!loading ? (
+      <>
+        <Card>
+          {
+            <CardTag>
+              <i className="bi bi-clock"></i>{' '}
               <Widget
-                src="near/widget/Tags"
+                src="mob.near/widget/TimeAgo"
                 props={{
-                  tags,
-                  scroll: true,
+                  blockHeight: props.blockHeight,
+                  keyPath: `${accountId}/widget/${widgetName}`,
+                }}
+              />{' '}
+              ago
+            </CardTag>
+          }
+
+          <CardBody>
+            <Thumbnail href={detailsUrl}>
+              <Widget
+                src="mob.near/widget/Image"
+                props={{
+                  image: metadata.image,
+                  fallbackUrl:
+                    'https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu',
+                  alt: metadata.name,
                 }}
               />
-            </TagsWrapper>
-          )}
-        </CardContent>
-      </CardBody>
+            </Thumbnail>
 
-      <CardFooter>
-        <ButtonLink href={detailsUrl}>View Details</ButtonLink>
-        {state.deps && state.deps.length !== 0 ? (
-          <>
-            <ButtonLink onClick={handleShow}>
-              {state.isShown ? "Close" : "Show"}
-            </ButtonLink>
-            <ButtonLink
-              target={"_blank"}
-              href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}&reset=true`}
-              primary
-            >
-              Root
-            </ButtonLink>
-          </>
+            <CardContent>
+              <TextLink as="a" href={detailsUrl} bold ellipsis>
+                {metadata.name || widgetName}
+              </TextLink>
+
+              <TextLink small as="a" href={accountUrl} ellipsis>
+                @{accountId}
+              </TextLink>
+
+              {tags.length > 0 && (
+                <TagsWrapper>
+                  <Widget
+                    src="near/widget/Tags"
+                    props={{
+                      tags,
+                      scroll: true,
+                    }}
+                  />
+                </TagsWrapper>
+              )}
+            </CardContent>
+          </CardBody>
+
+          <CardFooter>
+            <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+            {deps && deps.length !== 0 ? (
+              <>
+                <ButtonLink onClick={toggleShown}>
+                  {isShown ? 'Close' : 'Show'}
+                </ButtonLink>
+                <ButtonLink
+                  target={'_blank'}
+                  href={`#/agruzdev.near/widget/CompTree.View.ComponentCard?src=${props.src}&reset=true`}
+                  primary
+                >
+                  Root
+                </ButtonLink>
+              </>
+            ) : null}
+          </CardFooter>
+        </Card>
+        {isShown && deps && deps.length !== 0 ? (
+          <DepsContainer>
+            {deps.map((dep) => (
+              <Dep>
+                <Widget
+                  src={'agruzdev.near/widget/CompTree.View.ComponentCard'}
+                  props={{ src: dep }}
+                />
+              </Dep>
+            ))}
+          </DepsContainer>
         ) : null}
-      </CardFooter>
-    </Card>
-    {state.isShown && state.deps && state.deps.length !== 0 ? (
-      <DepsContainer>
-        {state.deps.map((dep) => (
-          <Dep>
-            <Widget
-              src={"agruzdev.near/widget/CompTree.View.ComponentCard"}
-              props={{ src: dep }}
-            />
-          </Dep>
-        ))}
-      </DepsContainer>
-    ) : null}
+      </>
+    ) : (
+      <Widget src={'nui.sking.near/widget/Feedback.Spinner'} />
+    )}
   </>
-);
+)
