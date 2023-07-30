@@ -1,3 +1,34 @@
+const wiki_description = {
+  title: "NFT Frame Showcase",
+  description: `PixelParty, a groundbreaking and innovative NFT Frame showcase
+          meticulously constructed on the NEAR Protocol, embodies the fusion of
+          cutting-edge technology and artistic brilliance, boasting a truly
+          remarkable total supply of 600 tokens that serve as a testament to its
+          exceptional rarity and exclusivity.`,
+};
+
+const widget_title = {
+  title: "Pixel Party",
+};
+
+const button_data = [
+  {
+    title: "Play Now",
+    link: "https://pixelparty.marmaj.org/",
+  },
+  {
+    title: "TestNet",
+    link: "https://testnet.pixelparty.marmaj.org/",
+  },
+  {
+    title: "Wiki",
+    link: "https://github.com/MarmaJFoundation/pixelparty-wiki/wiki",
+  },
+  {
+    title: "NFT",
+    link: "https://www.mintbase.xyz/contract/mjr.mintbase1.near/token/0",
+  },
+];
 const Title = styled.h5`
   color: #fff;
   font-weight: 700;
@@ -9,7 +40,6 @@ const Title = styled.h5`
 const Cover = styled.img`
   border-radius: 5px;
   width: 150px;
-  height: 150px;
   object-fit: cover;
 `;
 
@@ -158,69 +188,10 @@ return (
           alt={WidgetImages[0].title}
           style={{ width: "100%" }}
         />
-        <h1 style={{ marginBottom: "10px", textAlign: "center" }}>
-          <a
-            href="https://pixelparty.marmaj.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            PIXEL PARTY
-          </a>
-        </h1>
-        <p
-          style={{
-            marginBottom: "20px",
-            fontSize: "1.3em",
-            fontWeight: "bold",
-          }}
-        >
-          NFT FRAME SHOWCASE
-        </p>
-
-        <Description
-          style={{ marginBottom: "20px", width: "100%", textAlign: "justify" }}
-        >
-          PixelParty, a groundbreaking and innovative NFT Frame showcase
-          meticulously constructed on the NEAR Protocol, embodies the fusion of
-          cutting-edge technology and artistic brilliance, boasting a truly
-          remarkable total supply of 600 tokens that serve as a testament to its
-          exceptional rarity and exclusivity.
-        </Description>
       </div>
     </Hero>
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        marginLeft: "15px",
-      }}
-    >
-      <FakeButton
-        href={Mainnet[0].url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {" "}
-        Play{" "}
-      </FakeButton>
-      <FakeButton
-        href={Testnet[0].url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {" "}
-        Test{" "}
-      </FakeButton>
-      <FakeButton href={Wiki[0].url} target="_blank" rel="noopener noreferrer">
-        {" "}
-        Wiki{" "}
-      </FakeButton>
-      <FakeButton href={NFT[0].url} target="_blank" rel="noopener noreferrer">
-        {" "}
-        NFT{" "}
-      </FakeButton>
-    </div>
+    <Widget src="jay100.near/widget/CTTDescription" props={widget_title} />{" "}
+    <Widget src="jay100.near/widget/CTTDescription" props={wiki_description} />{" "}
+    <Widget src="jay100.near/widget/CTT-Button" props={button_data} />
   </div>
 );
