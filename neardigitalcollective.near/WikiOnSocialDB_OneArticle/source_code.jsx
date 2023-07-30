@@ -27,9 +27,11 @@ const authorsWhiteList = [
   "blaze.near",
   "jlw.near",
   "kazanderdad.near",
-  "joep.near",
   "sarahkornfeld.near",
   "yuensid.near",
+  "psalm.near",
+  "fiftycent.near",
+  "vikash.near",
   "rahulgoel.near",
 ];
 const doesUserCanEditArticle = () => {
