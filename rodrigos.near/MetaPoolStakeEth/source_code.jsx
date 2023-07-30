@@ -613,6 +613,7 @@ return (
                   display: "flex",
                   justifyContent: "space-between",
                   textAlign: "center",
+                  fontVariantNumeric: "tabular-nums",
                 }}
               >
                 <div>mpETH/ETH Price:</div>
@@ -623,6 +624,7 @@ return (
                   display: "flex",
                   justifyContent: "space-between",
                   textAlign: "center",
+                  fontVariantNumeric: "tabular-nums",
                 }}
               >
                 <div>Your mpETH/ETH:</div>
@@ -633,6 +635,7 @@ return (
                   display: "flex",
                   justifyContent: "space-between",
                   textAlign: "center",
+                  fontVariantNumeric: "tabular-nums",
                 }}
               >
                 <div>Your mpETH/USD:</div>
