@@ -395,6 +395,11 @@ const onSaveParams = () => {
       dexName: dexName1 + (dexName2 ? " " + dexName2 : ""),
       assetId: token.address,
     });
+
+    console.log(
+      "Storage.get('zk-evm-swap-params'): ",
+      Storage.get("zk-evm-swap-params")
+    );
   }
 };
 
