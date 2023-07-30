@@ -59,7 +59,7 @@ const toggleShown = () => {
 
 State.init({ deps: null, isShown: DEFAULT_OPEN, loading: false });
 
-!deps && updateDeps();
+updateDeps();
 
 const Card = styled.div`
   position: relative;
