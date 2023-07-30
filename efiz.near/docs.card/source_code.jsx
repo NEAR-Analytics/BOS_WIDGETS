@@ -148,7 +148,7 @@ return (
           <i className="bi bi-clock me-1"></i>
           <Widget
             src="mob.near/widget/TimeAgo"
-            props={{ keyPath: thingPath, now: metadata, blockHeight }}
+            props={{ keyPath: path, blockHeight }}
           />
         </small>
       </div>
