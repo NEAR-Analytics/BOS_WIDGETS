@@ -595,26 +595,49 @@ return (
         {true && (
           <div
             style={{
-              padding: "0 16px",
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "center",
+              padding: "0 16px",
               width: "100%",
               border: "gray 1px solid",
-              borderRadius: 1000000,
-              fontSize: "13px",
+              borderRadius: "16px",
             }}
           >
-            <div style={{ textAlign: "center", padding: "0 8px" }}>
-              <div>mpETH/ETH Price:</div>
-              <div>{state.mpEthPrice}</div>
-            </div>
-            <div style={{ textAlign: "center", padding: "0 8px" }}>
-              <div>Your mpETH/ETH:</div>
-              <div>{state.userMpEthInEth}</div>
-            </div>
-            <div style={{ textAlign: "center", padding: "0 8px" }}>
-              <div>Your mpETH/USD:</div>
-              <div>{state.userMpEthUsd} $</div>
+            <div
+              style={{
+                width: "400px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  textAlign: "center",
+                }}
+              >
+                <div>mpETH/ETH Price:</div>
+                <div>{state.mpEthPrice}</div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  textAlign: "center",
+                }}
+              >
+                <div>Your mpETH/ETH:</div>
+                <div>{state.userMpEthInEth}</div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  textAlign: "center",
+                }}
+              >
+                <div>Your mpETH/USD:</div>
+                <div>{state.userMpEthUsd} $</div>
+              </div>
             </div>
           </div>
         )}
