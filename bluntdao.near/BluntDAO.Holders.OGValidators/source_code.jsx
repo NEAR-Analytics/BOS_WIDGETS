@@ -1,5 +1,5 @@
 const limit = 20;
-const series = props.series ?? "124"; // add series filter
+const series = props.series ?? "1"; // add series filter
 const title = props.title ?? "Total OG BluntDAO";
 const showHeader = props.showHeader ?? true;
 const showImage = props.showImage ?? false;
@@ -26,7 +26,7 @@ function fetchTokens() {
             mb_views_nft_tokens(
                
                 offset: ${state.offset}
-              where: { nft_contract_id: { _eq: "bluntdao.snft.near" } }
+              where: { nft_contract_id: { _eq: "bluntdao.snft.near" } token_id: {_regex: "^${series}:"}}
               order_by: {minted_timestamp: desc}
             ) {
               media
