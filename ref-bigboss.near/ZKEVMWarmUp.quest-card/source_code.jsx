@@ -369,6 +369,7 @@ const onSaveParams = () => {
   console.log("on save params");
 
   if (isBridge) {
+    console.log("isBridge: ", isBridge);
     const [action_type, symbol, from, chain] = arr;
 
     Storage.set("zk-evm-bridge-params", {
