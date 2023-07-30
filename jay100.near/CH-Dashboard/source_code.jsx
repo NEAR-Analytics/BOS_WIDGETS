@@ -41,8 +41,6 @@ const PlayerDashboard = () => {
     {}
   ).decimals;
 
-  console.log(characters_data);
-
   const DashBoardContainer = styled.div`
     font-family: "Pixel Emulator", "Press Start 2P", "Courier new", "monospace";
     ${pixelFont}
