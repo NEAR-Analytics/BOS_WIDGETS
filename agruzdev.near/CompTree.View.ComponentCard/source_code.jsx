@@ -15,7 +15,6 @@ function distinct(arr) {
 }
 
 const getDeps = (widget) => {
-  console.log(widget);
   const pattern = /<Widget\s+src="([^"]+)"/g;
 
   let matches = [];
