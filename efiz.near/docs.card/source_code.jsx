@@ -2,60 +2,51 @@ const path = props.path ?? "mob.near/widget/WidgetSource";
 const [accountId, type, thingName] = path.split("/");
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${path}/metadata`);
+const tags = Object.keys(metadata.tags ?? {});
 
 const image = metadata.image;
-
+const description = metadata.description;
 const handleProposal = () => {};
-
 const handleCreate = () => {};
-
-const Card = styled.div`
-  position: relative;
-  border-radius: 12px;
-  justify-content: center;
-  background: #fff;
-  border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
-    0px 1px 2px rgba(16, 24, 40, 0.06);
-  overflow: hidden;
-  textOverflow: "ellipsis";
-  whiteSpace: "nowrap";
-  padding: 23px;
-`;
-
-const StarButton = styled.div`
-  position: absolute;
-  top: 23px;
-  right: 17px;
-`;
-
-const ForkButton = styled.div`
-  position: absolute;
-  bottom: 23px;
-  right: 19px;
-`;
 
 State.init({
   tag: "",
 });
 
 function setTag() {
-  Social.set({
-    every: {
+  const data = {};
+  const tag = state.tag.toLowerCase();
+  if (context.accountId === accountId) {
+    data = {
       [type]: {
-        // widget, thing, type, etc
-        [accountId]: {
-          // owner/creator
-          [thingName]: {
-            // name
+        [thingName]: {
+          // name
+          metadata: {
             tags: {
-              [state.tag]: "",
+              [tag]: "",
             },
           },
         },
       },
-    },
-  });
+    };
+  } else {
+    data = {
+      every: {
+        [type]: {
+          [accountId]: {
+            [thingName]: {
+              metadata: {
+                tags: {
+                  [tag]: "",
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+  }
+  Social.set(data);
 }
 
 const tagsPattern = `*/every/${type}/${accountId}/${thingName}/tags/*`;
@@ -96,103 +87,231 @@ const getTags = () => {
   });
 };
 
-const publicTags = getTags();
+const communityTags = getTags();
+
+const Wrapper = styled.div`
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid #4498e0;
+  }
+
+  .dao-card-stats {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: 0.5rem;
+    row-gap: 0.2rem;
+
+    & > p:nth-child(1),
+    & > p:nth-child(2),
+    & > p:nth-child(3) {
+      font-size: 0.8rem;
+      color: #4498e0;
+      margin: 0;
+    }
+
+    & > p:nth-child(4),
+    & > p:nth-child(5),
+    & > p:nth-child(6) {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    p > b {
+      font-size: 1.15rem;
+    }
+  }
+
+  a {
+    color: #4498e0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: #4498e0cc;
+  }
+`;
+
+const shorten = (str, len) => {
+  if (str.length <= len) {
+    return str;
+  }
+  return str.slice(0, len) + "...";
+};
 
 return (
-  <>
-    <Card>
+  <Wrapper className="shadow p-4 d-flex flex-column gap-2 h-100">
+    <div className="row">
+      <div className="col">
+        <div
+          className="d-inline-block m-auto"
+          style={{ width: "8em", height: "8em" }}
+        >
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image,
+              className: "w-100 h-100",
+              style: { objectFit: "cover", borderRadius: "2em" },
+              thumbnail: false,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e",
+              alt: thingName,
+            }}
+          />
+        </div>
+      </div>
+      <div className="col">
+        <h3>{shorten(thingName || "", 14)}</h3>
+        <p className="text-muted overflow-hidden small my-3 mx-1">
+          {shorten(description || "", 100)}
+          {(!description || description?.length < 1) && "No description"}
+        </p>
+      </div>
+    </div>
+    <div className="d-flex justify-content-between m-1">
+      <div className="flex-grow-1 text-truncate">
+        <Widget src="mob.near/widget/ProfileLine" props={{ accountId }} />
+      </div>
+      <small className="text-muted">
+        <i className="bi bi-clock me-1"></i>
+        <Widget
+          src="mob.near/widget/TimeAgo"
+          props={{ keyPath: thingPath, now: metadata, blockHeight }}
+        />
+      </small>
+    </div>
+    <div className="justify-content-between mt-auto">
       <div className="row">
-        <div className="col-8">
-          <div className="m-1 mb-3 text-truncate">
-            <Widget
-              src="mob.near/widget/ProfileLine"
-              props={{ accountId, link: "" }}
-            />
-          </div>
-          <div className="m-1 position-relative">
-            <h5 className="card-title mb-2">{name}</h5>
-            <div className="text-truncate mb-1">
-              <a className="stretched-link" href={`#/${path}`}>
-                <i className="bi bi-box-arrow-up-right text-secondary me-1" />
-                {path}
-              </a>
-            </div>
-          </div>
-          <div className="card-text">
-            <a
-              href={`#/mob.near/widget/WidgetSource?src=${path}`}
-              className="btn btn-sm btn-outline-secondary border-0"
-              target="_blank"
-            >
-              <i className="bi bi-code me-1"></i>source
-            </a>
-            <a
-              href={`#/bozon.near/widget/WidgetHistory?widgetPath=${path}`}
-              className="btn btn-sm btn-outline-secondary border-0"
-              target="_blank"
-            >
-              <i className="bi bi-clock me-1"></i>history
-            </a>
-            <small className="text-nowrap text-muted m-1">
-              <i className="bi bi-hourglass me-1"></i>
-              <Widget
-                src="mob.near/widget/TimeAgo"
-                props={{ keyPath: path, now: props.metadata, blockHeight }}
-              />
-            </small>
-          </div>
-        </div>
-      </div>
-      {publicTags &&
-        publicTags.map((tag) => (
-          <div>
-            <span
-              className={"badge bg-success position-relative"}
-              title={tag.title}
-              style={
-                tag.count > 1
-                  ? {
-                      marginRight: "0.9em",
-                      paddingRight: "0.85em",
-                    }
-                  : { marginRight: "0.25em" }
-              }
-            >
-              #{tag.name}
-              {tag.count > 1 && (
-                <span
-                  className={`badge translate-middle rounded-pill bg-danger position-absolute top-50 start-100`}
+        <div className="mb-2">
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="text-muted">Creator Tags</div>
+            {context.accountId === accountId && (
+              <div className="d-flex gap-2">
+                <input
+                  value={state.tagValue}
+                  onChange={(e) => State.update({ tag: e.target.value })}
+                />
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setTag()}
                 >
-                  {tag.count}
-                </span>
-              )}
-            </span>
+                  +
+                </button>
+              </div>
+            )}
           </div>
-        ))}
-      <div className="col-3">
-        <StarButton>
-          <a className="btn btn-success" href={`#/${path}`}>
-            <i className="bi bi-eye-fill me-1"></i>
-            view
-          </a>
-        </StarButton>
-        <div className="">
-          <input onChange={(e) => State.update({ tag: e.target.value })} />
-          <button onClick={() => setTag()}>tag</button>
+          {tags.length > 0 &&
+            tags.map((tag, i) => {
+              const tagBadge = (
+                <span key={i} className="me-1 mb-1 badge bg-secondary">
+                  #{tag}
+                </span>
+              );
+              return tagBadge;
+            })}
         </div>
-        <ForkButton>
-          <a className="btn btn-outline-success" href={`#/edit/${path}`}>
-            <i className="bi bi-git me-1"></i>
-            {accountId === context.accountId ? "edit" : "fork"}
-          </a>
-        </ForkButton>
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="text-muted">Community Tags</div>
+          {context.accountId !== accountId && (
+            <div className="d-flex gap-2">
+              <input
+                value={state.tagValue}
+                onChange={(e) => State.update({ tag: e.target.value })}
+              />
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={() => setTag()}
+              >
+                +
+              </button>
+            </div>
+          )}
+        </div>
+        {communityTags.length > 0 && (
+          <div>
+            {communityTags.map((tag, i) => {
+              const tagBadge = (
+                <div>
+                  <span
+                    className={"badge bg-success position-relative"}
+                    title={tag.title}
+                    style={
+                      tag.count > 1
+                        ? {
+                            marginRight: "0.9em",
+                            paddingRight: "0.85em",
+                          }
+                        : { marginRight: "0.25em" }
+                    }
+                  >
+                    #{tag.name}
+                    {tag.count > 1 && (
+                      <span
+                        className={`badge translate-middle rounded-pill bg-danger position-absolute top-50 start-100`}
+                      >
+                        {tag.count}
+                      </span>
+                    )}
+                  </span>
+                </div>
+              );
+              return tagBadge;
+            })}
+          </div>
+        )}
       </div>
-    </Card>
-    {/**
-    <Modal isOpen={false} onClose={() => State.update({ modalIsOpen: false })}>
-      <h2>This is the Modal Content</h2>
-      <p>Feel free to add any content here!</p>
-    </Modal>
-    */}
-  </>
+    </div>
+    <div className="d-flex gap-2 justify-content-around gap-3 my-3">
+      <a href={`/${thingPath}`}>
+        <i className="bi me-1 bi-eye" />
+        View
+      </a>
+      <a href={`/mob.near/widget/WidgetSource?src=${thingPath}`}>
+        <i className="bi me-1 bi-file-earmark-code" />
+        Source
+      </a>
+      <a href={`/bozon.near/widget/WidgetHistory?widgetPath=${path}`}>
+        <i className="bi me-1 bi-clock-history" />
+        History
+      </a>
+      <a href={`https://nearpad.dev/editor/${widgetPath}`}>
+        <i className="bi me-1 bi-pencil-square" />
+        Edit
+      </a>
+      {/**
+      
+      <a href="test">
+        <i className="bi me-1 bi-question-circle" />
+        Star
+      </a>
+       */}
+    </div>
+
+    <div className="d-flex gap-2 justify-content-between">
+      {/**
+      <Widget
+        src="nui.sking.near/widget/Input.Button"
+        props={{
+          variant: "info outline flex-1 w-100",
+          size: "lg",
+          buttonProps: {
+            style: {
+              fontWeight: 500,
+            },
+          },
+          children: <>View Profile</>,
+        }}
+      />
+       */}
+      {type === "widget" && (
+        <Widget
+          src="hack.near/widget/star.button"
+          props={{ widgetPath, accountId }}
+        />
+      )}
+    </div>
+  </Wrapper>
 );
