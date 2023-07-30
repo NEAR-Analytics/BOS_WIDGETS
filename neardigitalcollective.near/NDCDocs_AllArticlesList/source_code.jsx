@@ -11,7 +11,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "psalm.near",
   "fiftycent.near",
   "matthewsiegel.near",
-  "kdot.near",
   "vikash.near",
   "rahulgoel.near",
 ];
