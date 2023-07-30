@@ -1022,6 +1022,9 @@ return (
         },
         hide:
           !state?.outputAsset ||
+          !state?.inputAssetAmount ||
+          !state?.inputAsset ||
+          !state?.selectedDex ||
           (source === "quest-card" &&
             state.storeParams &&
             state.storeParams.amount === state.inputAssetAmount &&
