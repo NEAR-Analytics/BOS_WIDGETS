@@ -2,7 +2,12 @@ const children = props.children ?? "Button";
 const onClick = props.onClick ?? (() => {});
 const href = props.href;
 const disabled = props.disabled;
-const variant = props.variant ?? ""; // can have many separated by space similar to className: primary, secondary, danger, success, outline, rounded, disabled, icon
+const variant =
+  typeof props.variant === "string"
+    ? props.variant
+    : Array.isArray(props.variant)
+    ? props.variant.join(" ")
+    : ""; // can have many, can be an array or separated by space similar to className: primary, secondary, danger, success, info, outline, rounded, disabled, icon
 const size = props.size ?? "md"; // sm, md, lg
 const className = props.className ?? "";
 const buttonProps = props.buttonProps ?? {};
@@ -55,7 +60,8 @@ const Wrapper = styled[tag]`
     align-items: center;
   }
 
-  &.primary {
+  &.primary,
+  &.primary:hover {
     color: #11181c;
     background: #ffd50d;
     border-color: #ffd50d;
@@ -67,7 +73,8 @@ const Wrapper = styled[tag]`
     }
   }
 
-  &.secondary {
+  &.secondary,
+  &.secondary:hover {
     color: #fff;
     background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
     border-color: transparent;
@@ -101,7 +108,8 @@ const Wrapper = styled[tag]`
     // }
   }
 
-  &.danger {
+  &.danger,
+  &.danger:hover {
     border-color: #e5484d;
     background: #e5484d;
     color: #fff;
@@ -113,7 +121,8 @@ const Wrapper = styled[tag]`
     }
   }
 
-  &.success {
+  &.success,
+  &.success:hover {
     background: #00ec97;
     color: #11181c;
     border-color: #00ec97;
@@ -122,6 +131,19 @@ const Wrapper = styled[tag]`
       background: transparent;
       color: #00ec97;
       border-color: #00ec97;
+    }
+  }
+
+  &.info,
+  &.info:hover {
+    background: #4498e0;
+    color: #fff;
+    border-color: #4498e0;
+
+    &.outline {
+      background: transparent;
+      color: #4498e0;
+      border-color: #4498e0;
     }
   }
 
