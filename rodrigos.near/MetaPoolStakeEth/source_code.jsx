@@ -149,11 +149,7 @@ const submitEthers = (strEther, _referral) => {
     .depositETH(state.sender, { value: amount })
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
-        fetchEthPrice();
-        fetchContractData();
-        fetchEthMetrics();
-        getUserEthBalance();
-        getUserMpethBalance();
+        updateData();
         State.update({ openModal: true, loading: false, strEther: 0 });
       });
     })
@@ -203,6 +199,39 @@ if (state.stakedBalance === undefined && state.sender) {
   getUserMpethBalance();
 }
 
+// GET MPETH PRICE
+
+const getMpETHPrice = () => {
+  if (
+    !state.contractData ||
+    Big(state.contractData.stakingData.totalSupply).eq(0) ||
+    Big(state.contractData.stakingData.totalUnderlying).eq(0)
+  ) {
+    return Big("1000000000000000000").toString();
+  }
+
+  const rewardsSinceUpdate = Big(
+    state.contractData.stakingData.estimatedRewardsPerSecond
+  )
+    .mul(
+      Math.floor(Date.now()) -
+        (Big(state.contractData.stakingData.submitReportUnlockTime).toNumber() -
+          Big(state.contractData.stakingData.submitReportTimelock).toNumber()) *
+          1000
+    )
+    .div(1000);
+
+  const assets = Big(state.contractData.stakingData.totalUnderlying).add(
+    rewardsSinceUpdate
+  );
+
+  return assets
+    .mul(Big("1000000000000000000"))
+    .div(Big(state.contractData.stakingData.totalSupply))
+    .toString()
+    .split(".")[0];
+};
+
 // USER ADDRESS OUTPUT UI
 
 const getUserAddress = () => {
@@ -223,16 +252,30 @@ const updateData = () => {
   getUserMpethBalance();
 };
 
-if (!state.intervalStarted) {
-  State.update({ intervalStarted: true });
+if (!state.dataIntervalStarted && false) {
+  State.update({ dataIntervalStarted: true });
 
   setInterval(() => {
-    fetchEthPrice();
-    fetchContractData();
-    fetchEthMetrics();
-    getUserEthBalance();
-    getUserMpethBalance();
+    updateData();
   }, 10000);
+}
+
+// if (!state.mpEthPriceIntervalStarted) {
+//   State.update({ mpEthPriceIntervalStarted: true });
+
+//   setInterval(() => {
+//     const mpEthPrice = Big(getMpETHPrice())
+//       .div(Big(10).pow(tokenDecimals))
+//       .toFixed(11)
+//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+//     State.update({ mpEthPrice: mpEthPrice });
+//   }, 500);
+if (!state.mpEthPrice) {
+  const mpEthPrice = Big(getMpETHPrice())
+    .div(Big(10).pow(tokenDecimals))
+    .toFixed(11)
+    .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  State.update({ mpEthPrice: mpEthPrice });
 }
 
 // STYLED COMPONENTS
@@ -536,6 +579,32 @@ return (
         )}
       </StakeForm>
       <StakeFormWrapper>
+        {false && (
+          <div
+            style={{
+              padding: "0 16px",
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              border: "gray 1px solid",
+              borderRadius: 1000000,
+              fontSize: "13px",
+            }}
+          >
+            <div style={{ textAlign: "center", padding: "0 8px" }}>
+              <div>mpETH/ETH Price:</div>
+              <div>{state.mpEthPrice}</div>
+            </div>
+            <div style={{ textAlign: "center", padding: "0 8px" }}>
+              <div>mpETH/ETH Price:</div>
+              <div>{state.mpEthPrice}</div>
+            </div>
+            <div style={{ textAlign: "center", padding: "0 8px" }}>
+              <div>mpETH/ETH Price:</div>
+              <div>{state.mpEthPrice}</div>
+            </div>
+          </div>
+        )}
         <Widget
           src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
           props={{
