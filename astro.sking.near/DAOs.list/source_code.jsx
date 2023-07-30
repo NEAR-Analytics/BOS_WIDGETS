@@ -38,7 +38,7 @@ const renderSubheader = () => (
             });
           }, 1500);
         },
-        value: null,
+        value: state.search,
         inputProps: {
           autoFocus: true,
         },
