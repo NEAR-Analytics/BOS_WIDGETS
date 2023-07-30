@@ -424,8 +424,10 @@ const allCategories = (filteredCats) =>
 const dispData = null;
 if (!state.searchValue || state.searchValue === "") {
   dispData = allCategories(social.data);
-} else {
+} else if (state.viewableCats.length > 0) {
   dispData = state.viewableCats;
+} else {
+  dispData = "No gateways found with all these categories";
 }
 return (
   <div className="row">
