@@ -1,5 +1,5 @@
 const currentPage = props.page ?? 1;
-const resPerPage = props.resPerPage ?? 16;
+const resPerPage = props.resPerPage ?? 12;
 const typeName = props.typeName || "widget";
 const metadataTemplate = props.metadataTemplate || "efiz.near/widget/docs.card";
 
