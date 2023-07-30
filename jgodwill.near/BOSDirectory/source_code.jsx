@@ -91,6 +91,9 @@ const social = {
       description:
         "Social Data Protocol On NEAR. The first gateway. Built in social features like custom domains, reports, link previews + more!",
       category: ["NEAR", "EVM", "Social"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnearsocial%2Fviewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/NEARSocial/viewer",
     },
     {
       key: 2,
@@ -101,6 +104,8 @@ const social = {
       description:
         "A new category that enables visionaries, builders, and believers to deliver on the promise of the Open Web. Built in EVM, FastAuth w/ Metatransactions",
       category: ["NEAR", "EVM", "Social"],
+      deploy: null,
+      github: "https://github.com/near/near-discovery",
     },
     {
       key: 2,
@@ -111,6 +116,9 @@ const social = {
       description:
         "A zkEVM by Quickswap featuring PancakeSwap, Quickswap, Gamma, and Balancer. ",
       category: ["DeFi", "EVM", "zkEVM"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build",
+      github: "https://github.com/NearDeFi/polygon-bos-gateway",
     },
     {
       key: 5,
@@ -121,6 +129,8 @@ const social = {
       description:
         "A gateway dedicated to developers. Switch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
       category: ["Dev", "EVM"],
+      deploy: null,
+      github: null,
     },
     {
       key: 4,
@@ -131,16 +141,8 @@ const social = {
       description:
         "A viewer for NEAR Analytics powered by the Flipside Crypto API built by the NEAR Foundation",
       category: ["NEAR", "Data"],
-    },
-    {
-      key: 7,
-      name: "Welldone Gateway",
-      url: "https://welldone-gateway.vercel.app/",
-      image:
-        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
-      description:
-        "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
-      category: ["NEAR", "Sui", "Aptos"],
+      deploy: null,
+      github: null,
     },
     {
       key: 10,
@@ -150,6 +152,9 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreibjlc2hyxfve55gp2fg6lojf6eliptgiiawprhbg4dyc2wbpzy7tm",
       description: "Token gated rich media supported social feeds",
       category: ["NEAR", "Social", "NFT"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjoe-rlo%2FNearSocial-viewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/joe-rlo/NearSocial-viewer",
     },
     {
       key: 3,
@@ -160,6 +165,8 @@ const social = {
       description:
         "An example viewer of the Canto's blockchain, CantoSwap viewer",
       category: ["DeFi", "EVM", "Canto"],
+      deploy: null,
+      github: null,
     },
     {
       key: 6,
@@ -169,6 +176,9 @@ const social = {
         "https://ipfs.near.social/ipfs/bafkreidx4rvihxc5ycpvlyaod7dscotlb6bmoffimjl7s2zvarhmxtymma",
       description: "A gateway dedicated to NFTs across different chains",
       category: ["NEAR", "EVM", "NFT"],
+      deploy:
+        "https://vercel.com/new/clone/hidden?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fgenadrop-bos&build-command=npm+run+build&install-command=npm+--force+install&output-directory=dist",
+      github: "https://github.com/codingshot/genadrop-bos",
     },
     {
       key: 8,
@@ -178,25 +188,11 @@ const social = {
         "https://ipfs.near.social/ipfs/bafybeibfjlibj5bubf4sbwcis3wpmbmwhnpicsncniuzhe4ywpwp5muxqy",
       description: "Everything +  Data Visualizations for social.near",
       category: ["NEAR", "Data", "Dev"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnear-everything%2Fviewer%2Ftree%2Fmaster%2Fsrc",
+      github: "https://github.com/near-everything/viewer/",
     },
-    {
-      key: 0,
-      name: "Bos.gg",
-      url: "https://bos.gg",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
-      description: "Decentralized front ends for evm chains",
-      category: ["EVM", "DeFi"],
-    },
-    {
-      key: 9,
-      name: "Harmonic Guild",
-      url: "https://gateway.harmonicguild.io/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreidjmhh4yvjgn7htpymtt3lqhlaoi3ksabixsicojzwichply4oxdy",
-      description: "A NEAR gateway for music + NFTs",
-      category: ["NFT", "NEAR", "Music"],
-    },
+
     {
       key: 9,
       name: "Proof Of Vibes",
@@ -206,9 +202,78 @@ const social = {
       description:
         "A feed of vibe checks and DAO dashboard for global network of tastemakers w/ SBT + NFT integration",
       category: ["NFT", "NEAR", "Social"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnearbos%2Fvibes-bos&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/nearbos/vibes-bos",
+    },
+    {
+      key: 10,
+      name: "BOS HACKS",
+      url: "https://boshacks.com/",
+      image:
+        "https://ipfs.io/ipfs/bafkreifx6figu3o7xurc3coshzfewhcujczl62emuf3g4gof4ftjbqkvhi",
+      description: "BOS HACKS gateway and hackathon platform",
+      category: ["Hackathon", "NEAR", "Social"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fboshacks&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/codingshot/boshacks/",
+    },
+    {
+      key: 9,
+      name: "Harmonic Guild",
+      url: "https://gateway.harmonicguild.io/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreigdysucr6zujjhgl6et3ba6sdops3hyjjwwlw7upb2byd22eht53u",
+      description: "Music distribution platform on NEAR",
+      category: ["NFT", "NEAR", "Music"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fharmonic-guild%2Fviewer%2Ftree%2Ffathom",
+      github: "https://github.com/Harmonic-Guild/viewer",
+    },
+    {
+      key: 0,
+      name: "Bos.gg",
+      url: "https://bos.gg",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
+      description: "Decentralized front ends for evm chains",
+      category: ["EVM", "DeFi"],
+      deploy: null,
+      github: "https://github.com/NearDeFi/bos-viewer",
+    },
+    {
+      key: 7,
+      name: "Welldone Gateway",
+      url: "https://welldone-gateway.vercel.app/",
+      image:
+        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
+      description:
+        "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
+      category: ["NEAR", "Sui", "Aptos"],
+      deploy: null,
+      github: null,
     },
   ],
 };
+
+State.init({ uniqueCategories: null, searchValue: null });
+const setCategories = () => {
+  const categoriesList = [];
+  social.data.map((gateway) => categoriesList.push(...gateway.category));
+
+  // console.log(categoriesList);
+  const cats = [
+    "All",
+    ...categoriesList.filter(
+      (gateway, index) => categoriesList.indexOf(gateway) === index
+    ),
+  ];
+  //   console.log(cats);
+  State.update({
+    uniqueCategories: cats,
+  });
+};
+setCategories();
 
 const Cards = styled.div`
   display: flex;
@@ -281,24 +346,87 @@ const ImageCard = styled.div`
   }
 `;
 
-const setCategories = () => {
-  const categoriesList = [];
-  social.data.map((item) => categoriesList.push(...item.category));
+const displayCategories = (value) => {
+  state.searchValue !== null;
+  value = value.join(" ");
+  State.update({ searchValue: value });
+  console.log("search value", state.searchValue);
 
-  // console.log(categoriesList);
-  const cats = [
-    "All",
-    ...categoriesList.filter(
-      (item, index) => categoriesList.indexOf(item) === index
-    ),
-  ];
-  console.log(cats);
-  State.init({
-    uniqueCategories: cats,
+  const newArray = social.data.filter((item) =>
+    item.category.join(" ").includes(state.searchValue)
+  );
+  //   social.data.filter((item) =>
+  //     item.category.some((cat) => {
+  //       //   console.log("cat", cat);
+  //       return cat.includes(state?.searchValue);
+  //     })
+  //   );
+  console.log(
+    "searched",
+    // social.data.filter((item) =>
+    //   item.category.join(" ").includes(state.searchValue)
+    // )
+    // currentCat.filter((cat) => cat.includes(state.searchValue))
+    newArray
+  );
+  const dataNow = allCategories(newArray);
+  //   console.log(
+  //     "data:",
+  //     social.data.map((item) => item.category.join(" "))
+  //   );
+  State.update({
+    viewableCats: dataNow,
   });
 };
-setCategories();
 
+const words = ["hello", "world", "hi", "there"];
+const search = "hello";
+
+const result = words.filter((word) => search.includes(word));
+console.log(result);
+
+const allCategories = (filteredCats) =>
+  filteredCats.map((gateway) => (
+    <Card key={gateway.key}>
+      <ImageCard>
+        <a href={gateway.url} target="_blank" rel="noopener noreferrer">
+          <img src={gateway.image} alt="..." />
+        </a>
+      </ImageCard>
+      <div className="card-body p-2 mt-3">
+        <CardHeading>{gateway.name}</CardHeading>
+        <Text className="pb-3 text-secondary">
+          {`${gateway.description.trim().slice(0, 36)}...`}
+        </Text>
+      </div>
+      <div>{gateway.category.map((cat) => cat).join(" ")}</div>
+      <div className="row my-3">
+        <div className="d-flex justify-content-between">
+          <div className="float-left mx-3">
+            {gateway.github && (
+              <Widget
+                src="ndcplug.near/widget/Deploy.GithubButton"
+                props={{ link: gateway.github }}
+              />
+            )}
+          </div>
+          {gateway.deploy && (
+            <Widget
+              src="ndcplug.near/widget/Deploy.VercelButton"
+              props={{ link: gateway.deploy }}
+            />
+          )}
+        </div>
+      </div>
+    </Card>
+  ));
+
+const dispData = null;
+if (!state.searchValue || state.searchValue === "") {
+  dispData = allCategories(social.data);
+} else {
+  dispData = state.viewableCats;
+}
 return (
   <div className="row">
     <Wrapper>
@@ -318,43 +446,16 @@ return (
         </H1>
       </Container>
     </Wrapper>
-    <div class="input-group mb-3">
-      <select
-        class="btn btn-outline-secondary dropdown-toggle"
-        // type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <option selected disabled>
-          Filter
-        </option>
-        {state.uniqueCategories.map((i) => (
-          <option value={i}>{i}</option>
-        ))}
-      </select>
+    <div className="input-group  row w-75 text-center mx-auto">
       <Typeahead
         options={state.uniqueCategories.slice(1)}
         multiple
         onChange={(value) => {
-          State.update({ choose: value });
+          displayCategories(value);
         }}
         placeholder="Choose a tag to filter..."
       />
     </div>
-    <Cards>
-      {social.data.map((item) => (
-        <Card key={item.key}>
-          <ImageCard>
-            <a href={item.url} target="_blank" rel="noopener noreferrer">
-              <img src={item.image} alt="..." />
-            </a>
-          </ImageCard>
-          <div class="card-body p-2 mt-3">
-            <CardHeading>{item.name}</CardHeading>
-            <Text class="ps-2  pb-3 text-secondary">{item.description}</Text>
-          </div>
-        </Card>
-      ))}
-    </Cards>
+    <Cards>{dispData}</Cards>
   </div>
 );
