@@ -4,6 +4,7 @@ const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${path}/metadata`);
 const tags = Object.keys(metadata.tags ?? {});
 
+const name = metadata.name;
 const image = metadata.image;
 const description = metadata.description;
 const handleProposal = () => {};
@@ -154,7 +155,7 @@ return (
     </div>
     <div className="d-flex justify-content-between m-1">
       <div>
-        <h3>{shorten(thingName || "", 14)}</h3>
+        <h3>{name || thingName}</h3>
         <p className="text-muted overflow-hidden small my-3 mx-1">
           {shorten(description || "", 100)}
           {(!description || description?.length < 1) && "No description"}
