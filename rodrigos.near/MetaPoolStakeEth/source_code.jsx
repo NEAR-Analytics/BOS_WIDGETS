@@ -133,7 +133,7 @@ const getStakedBalance = (receiver) => {
 };
 
 const submitEthers = (strEther, _referral) => {
-  if (!strEther || isNaN(parseFloat(strEther)) || parseFloat(strEther) <= 0) {
+  if (!strEther || isNaN(parseFloat(strEther)) || parseFloat(strEther) === 0) {
     State.update({
       openModal: true,
       modalTitle: "Error!",
