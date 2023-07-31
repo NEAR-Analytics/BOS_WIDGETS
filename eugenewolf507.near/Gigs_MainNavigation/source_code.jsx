@@ -1,3 +1,4 @@
+//TODO !!!!!! update authorForWidget, writersWhiteList!!!
 const currentPill = props.currentNavPill ?? "";
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
