@@ -142,8 +142,6 @@ const onDexDataLoad = (data) => {
     forceReload: false,
     sender: getEVMAccountId(),
     outputAssetAmount: "",
-    // inputAsset: undefined,
-    // outputAsset: undefined,
   });
 };
 
@@ -695,10 +693,9 @@ const params_from_question_list = Storage.get(
   "ref-bigboss.near/widget/ZKEVM.QuestionList"
 );
 
-if (props.source == 'question_list' && params_from_question_list) {
+if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
 }
-console.log("swap params: ", params);
 
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
@@ -766,8 +763,6 @@ const onCallTxComple = (tx) => {
     });
   });
 };
-
-console.log("state.storeParams: ", state.storeParams, state);
 
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
