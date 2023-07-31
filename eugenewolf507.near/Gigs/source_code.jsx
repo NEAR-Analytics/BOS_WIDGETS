@@ -22,8 +22,8 @@ const writersWhiteList = [
   "ndcplug.near",
   "eugenewolf507.near",
 ];
-const authorForWidget1 = "neardigitalcollective.near";
-const authorForWidget2 = "eugenewolf507.near";
+// const authorForWidget = "neardigitalcollective.near";
+const authorForWidget = "eugenewolf507.near";
 const accountId = props.accountId ?? context.accountId;
 // if (!accountId) {
 //   return "No account ID";
@@ -40,12 +40,12 @@ const Wrapper = styled.div`
 return (
   <Wrapper className="container-fluid">
     <Widget
-      src={`${authorForWidget1}/widget/Gigs_MainNavigation`}
+      src={`${authorForWidget}/widget/Gigs_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
     />
     <div style={{ margin: "0 auto", width: "98%", minWidth: "360px" }}>
       <Widget
-        src={`${authorForWidget2}/widget/Gigs_AllArticlesList`}
+        src={`${authorForWidget}/widget/Gigs_AllArticlesList`}
         props={{ writersWhiteList }}
       />
     </div>
