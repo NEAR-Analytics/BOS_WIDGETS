@@ -142,8 +142,6 @@ const onDexDataLoad = (data) => {
     forceReload: false,
     sender: getEVMAccountId(),
     outputAssetAmount: "",
-    // inputAsset: undefined,
-    // outputAsset: undefined,
   });
 };
 
@@ -686,11 +684,18 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   );
 }
 
-const params = Storage.get(
+let params = Storage.get(
   "zk-evm-swap-params",
   "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
 );
-console.log("swap params: ", params);
+const params_from_question_list = Storage.get(
+  "zk-evm-swap-params",
+  "ref-bigboss.near/widget/ZKEVM.QuestionList"
+);
+
+if (props.source == "question_list" && params_from_question_list) {
+  params = params_from_question_list;
+}
 
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
@@ -728,8 +733,10 @@ function add_action(param_body) {
 const onCallTxComple = (tx) => {
   console.log("transactionHash", tx);
 
-  const uuid = Storage.get("zkevm-warm-up-uuid");
-  console.log("uuid: ", uuid);
+  const uuid = Storage.get(
+    "zkevm-warm-up-uuid",
+    "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
+  );
 
   if (!state.add) return;
 
@@ -756,8 +763,6 @@ const onCallTxComple = (tx) => {
     });
   });
 };
-
-console.log("state.storeParams: ", state.storeParams, state);
 
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
