@@ -3,7 +3,7 @@ const title = props.title || "Success!";
 const description = props.description || "Tokens staked successfully.";
 const showClose = props.showClose || false;
 const onClose = props.onClose || (() => {});
-const Overlay = styled.div`
+const DialogOverlay = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -11,7 +11,7 @@ const Overlay = styled.div`
   z-index: 10;
 `;
 
-const Content = styled.div`
+const DialogContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -35,13 +35,13 @@ const Content = styled.div`
   }
 `;
 
-const Container = styled.div`
+const DialogContainer = styled.div`
   &.focus-visible {
     outline: none !important;
   }
 `;
 
-const Footer = styled.div`
+const DialogFooter = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -63,24 +63,26 @@ const CloseButton = styled.a`
   color: #101828;
 `;
 
+const { Root, Trigger, Overlay, Content, Close, Title, Description } = Dialog;
+
 return (
-  <Container>
-    <Dialog.Root open={props.open}>
-      <Dialog.Trigger asChild>
+  <DialogContainer>
+    <Root open={props.open}>
+      <Trigger asChild>
         <div style={{ display: "none" }} />
-      </Dialog.Trigger>
-      <Dialog.Overlay asChild>
-        <Overlay />
-      </Dialog.Overlay>
-      <Dialog.Content asChild>
-        <Content>
-          <Dialog.Title>{title}</Dialog.Title>
-          <Dialog.Description>{description}</Dialog.Description>
-          <Footer>
+      </Trigger>
+      <Overlay asChild>
+        <DialogOverlay />
+      </Overlay>
+      <Content asChild>
+        <DialogContent>
+          <Title>{title}</Title>
+          <Description>{description}</Description>
+          <DialogFooter>
             {showClose && (
-              <Dialog.Close asChild>
+              <Close asChild>
                 <CloseButton href="/">Close</CloseButton>
-              </Dialog.Close>
+              </Close>
             )}
             <Widget
               src={`${authorId}/widget/MetaPoolStakeEth.Button`}
@@ -91,9 +93,9 @@ return (
                 text: "Close",
               }}
             />
-          </Footer>
-        </Content>
-      </Dialog.Content>
-    </Dialog.Root>
-  </Container>
+          </DialogFooter>
+        </DialogContent>
+      </Content>
+    </Root>
+  </DialogContainer>
 );
