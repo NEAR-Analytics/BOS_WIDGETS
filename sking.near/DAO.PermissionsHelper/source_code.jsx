@@ -1,5 +1,5 @@
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? context.accountId ?? "infinity.near";
 
 const proposalKinds = {
   ChangeConfig: "config",
@@ -31,6 +31,20 @@ const actions = {
 // -- Get all the roles from the DAO policy
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
+
+const getUserRoles = (user) => {
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (user && role.kind.Group && role.kind.Group.includes(user)) {
+      userRoles.push(role.name);
+    }
+  }
+  return userRoles;
+};
 
 const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
@@ -79,6 +93,12 @@ console.log(
   isUserAllowedTo(accountId, proposalKinds.AddMemberToRole, actions.AddProposal)
 );
 
+const userRoles = accountId ? getUserRoles(accountId) : [];
+
+console.log("Is User a Council", userRoles.includes("council"));
+
+console.log("Is User part of the DAO", userRoles.length > 0);
+
 return (
   <div className="d-flex flex-column gap-2">
     <div>
@@ -116,5 +136,11 @@ return (
         ).toString()}
       </div>
     </div>
+    <h3>{accountId} roles: </h3>
+    <ul>
+      {userRoles.map((role) => {
+        return <li>{role}</li>;
+      })}
+    </ul>
   </div>
 );
