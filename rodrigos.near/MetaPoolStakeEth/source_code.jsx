@@ -755,6 +755,20 @@ return (
           </ButtonConnectContainer>
         )}
       </StakeFormWrapper>
+      <Widget
+        src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
+        props={{
+          open: state.openModal,
+          title: state.modalTitle,
+          description: state.modalDescription,
+          onClose: () =>
+            State.update({
+              openModal: false,
+              modalTitle: "",
+              modalDescription: "",
+            }),
+        }}
+      />
     </StakeContainer>
   </PageContainer>
 );
