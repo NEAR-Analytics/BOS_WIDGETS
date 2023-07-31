@@ -33,12 +33,8 @@ if (profile === null) {
   return "Loading";
 }
 
-const Wrapper = styled.div`
-  padding: 30px;
-`;
-
 return (
-  <Wrapper className="container-fluid">
+  <div className="container-fluid">
     <Widget
       src={`${authorForWidget}/widget/Gigs_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
@@ -49,5 +45,5 @@ return (
         props={{ writersWhiteList }}
       />
     </div>
-  </Wrapper>
+  </div>
 );
