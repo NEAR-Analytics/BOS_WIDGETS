@@ -8,7 +8,6 @@ const {
 } = props;
 
 cardType = cardType.toLowerCase();
-console.log("data: ", data);
 
 const accountId = data.author ?? context.accountId;
 
