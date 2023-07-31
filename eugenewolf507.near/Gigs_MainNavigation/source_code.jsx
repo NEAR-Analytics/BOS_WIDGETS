@@ -72,30 +72,32 @@ return (
           {accountId &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
               <div className="d-block d-md-none">
-                <a
-                  className="btn btn-outline-dark"
-                  href={`#/${authorForWidget}/widget/Gigs_CreateArticle`}
-                >
-                  + Create Gig
-                </a>
+                <Widget
+                  src="nui.sking.near/widget/Input.Button"
+                  props={{
+                    children: "+ Create Gig",
+                    variant: "primary",
+                    className: "me-3 me-xl-4",
+                    size: "sm",
+                    href: `#/${authorForWidget}/widget/Gigs_CreateArticle`,
+                  }}
+                />
               </div>
             )}
         </ul>
       </div>
       {accountId &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
-          <>
-            <Widget
-              src="nui.sking.near/widget/Input.Button"
-              props={{
-                children: "+ Create Gig",
-                variant: "primary",
-                className: "me-3 me-xl-4",
-                size: "sm",
-                href: `#/${authorForWidget}/widget/Gigs_CreateArticle`,
-              }}
-            />
-          </>
+          <Widget
+            src="nui.sking.near/widget/Input.Button"
+            props={{
+              children: "+ Create Gig",
+              variant: "primary",
+              className: "me-3 me-xl-4",
+              size: "sm",
+              href: `#/${authorForWidget}/widget/Gigs_CreateArticle`,
+            }}
+          />
         )}
       <div className="d-none d-md-block">
         <Widget
