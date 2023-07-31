@@ -709,7 +709,7 @@ return (
           <KeyIssuesHeader>
             <KeyIssuesTitle>
               {cardType == "nomination" && Platform}
-              {cardType == "sayalot" && title}
+              {cardType == "sayalot" && data.articleId}
             </KeyIssuesTitle>
           </KeyIssuesHeader>
           <KeyIssuesContainer>
