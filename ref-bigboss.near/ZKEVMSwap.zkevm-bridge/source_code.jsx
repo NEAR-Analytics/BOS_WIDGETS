@@ -281,7 +281,10 @@ const handleBridge = (props) => {
 
         if (!state.add) return;
 
-        const uuid = Storage.get("zkevm-warm-up-uuid");
+        const uuid = Storage.get(
+          "zkevm-warm-up-uuid",
+          "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
+        );
 
         add_action({
           action_title: `Bridge ${token.symbol} from ${
