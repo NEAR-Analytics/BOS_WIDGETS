@@ -686,10 +686,18 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   );
 }
 
-const params = Storage.get(
+let params = Storage.get(
   "zk-evm-swap-params",
   "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
 );
+const params_from_question_list = Storage.get(
+  "zk-evm-swap-params",
+  "ref-bigboss.near/widget/ZKEVM.QuestionList"
+);
+
+if (props.source == 'question_list' && params_from_question_list) {
+  params = params_from_question_list;
+}
 console.log("swap params: ", params);
 
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
@@ -728,10 +736,8 @@ function add_action(param_body) {
 const onCallTxComple = (tx) => {
   console.log("transactionHash", tx);
 
-  const uuid = Storage.get(
-    "zkevm-warm-up-uuid",
-    "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
-  );
+  const uuid = Storage.get("zkevm-warm-up-uuid");
+  console.log("uuid: ", uuid);
 
   if (!state.add) return;
 
