@@ -144,11 +144,14 @@ const CardListWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const uuid = Storage.get("zkevm-warm-up-uuid");
+const uuid = Storage.get(
+  "zkevm-warm-up-uuid",
+  "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
+);
 
 const quest_url = `https://bos-api.ref-finance.com/get-action-by-account?account_id=${
   sender || ""
-}&account_info=`;
+}&account_info=${uuid}`;
 
 const noQuestTip = (
   <NoQuestWrapper>
