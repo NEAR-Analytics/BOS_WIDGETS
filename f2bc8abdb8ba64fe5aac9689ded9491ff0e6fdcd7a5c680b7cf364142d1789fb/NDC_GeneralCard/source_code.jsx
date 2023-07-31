@@ -5,11 +5,11 @@ const {
   election_contract,
   api_key,
   cardType,
-  startTimestamp,
-  author,
 } = props;
 
 cardType = cardType.toLowerCase();
+
+const accountId = data.author ?? context.accountId;
 
 State.init({
   verified: false,
@@ -84,7 +84,7 @@ function getComponentURL() {
 const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
 const item = {
   type: "social",
-  path: `${state.article.author}/${addressForArticles}/main`,
+  path: `${data.author}/${addressForArticles}/main`,
   blockHeight: firstArticleBlockHeight,
 };
 
@@ -544,7 +544,14 @@ const renderTags = () => {
 const canUpvote = () =>
   state.verified && context.accountId != data.indexerData?.nominee;
 
-const getShortUserName = (userId) => {
+const getShortUserName = () => {
+  const userId =
+    cardType == "nomination"
+      ? data.nominationData?.profileAccount
+      : cardType == "sayalot"
+      ? accountId
+      : "";
+
   if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
   const name = userId.slice(0, -5); // truncate .near
 
@@ -566,6 +573,13 @@ function getPublicationDate(creationTimestamp) {
     return "Creation timestamp passed wrong";
   }
   return new Date(creationTimestamp).toDateString();
+}
+
+function getUserName() {
+  const profile = Social.getr(`${accountId}/profile`);
+
+  if (cardType == "nomination") data.profileData?.name;
+  if (cardType == "sayalot") profile.name;
 }
 
 const keyIssues = [
@@ -645,10 +659,8 @@ return (
               />
             )}
             <HeaderContentText>
-              <NominationName>{data.profileData?.name}</NominationName>
-              <NominationUser>
-                {getShortUserName(data.nominationData?.profileAccount)}
-              </NominationUser>
+              <NominationName>{getUserName()}</NominationName>
+              <NominationUser>{getShortUserName()}</NominationUser>
             </HeaderContentText>
           </HeaderContent>
         </div>
@@ -740,14 +752,14 @@ return (
                       cardType == "nomination"
                         ? data.indexerData.timestamp
                         : cardType == "sayalot"
-                        ? startTimestamp
+                        ? data.timeLastEdit
                         : 0
                     )}
                   </span>
                   <span>by</span>
                   <b>
                     {cardType == "nomination" && data.indexerData.nominee}
-                    {cardType == "sayalot" && author}
+                    {cardType == "sayalot" && data.author}
                   </b>
                 </TimestampText>
               )}
