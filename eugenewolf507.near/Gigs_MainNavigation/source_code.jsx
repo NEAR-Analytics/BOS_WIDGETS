@@ -11,7 +11,8 @@ const writersWhiteList = props.writersWhiteList ?? [
   "ndcplug.near",
   "eugenewolf507.near",
 ];
-const authorForWidget = "neardigitalcollective.near";
+// const authorForWidget = "neardigitalcollective.near";
+const authorForWidget = "eugenewolf507.near";
 const pills = [
   // {
   //   id: "articles",
