@@ -514,31 +514,28 @@ const inner = (
   </div>
 );
 
+let tagsData;
+if (cardType == "nomination") {
+  tagsData = data.nominationData.tags.trim().split(",");
+} else if (cardType == "sayalot") {
+  tagsData = data.tags;
+}
+
 const renderTags = () => {
-  let tagsData;
-  if (cardType == "nomination") {
-    tagsData = data.nominationData.tags.trim().split(",");
-  } else if (cardType == "sayalot") {
-    tagsData = data.tags;
-  }
-
-  console.log("tagsData: ", tagsData);
-
   return (
     <>
-      {tagsData.length > 0 &&
-        tagsData.map((data) => (
-          <>
-            {data && (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Tag: { title: data },
-                }}
-              />
-            )}
-          </>
-        ))}
+      {tagsData.map((data) => (
+        <>
+          {data && (
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Tag: { title: data },
+              }}
+            />
+          )}
+        </>
+      ))}
     </>
   );
 };
@@ -733,16 +730,18 @@ return (
       </KeyIssues>
       <LowerSection>
         <LowerSectionContainer>
-          <KeyIssues>
-            <KeyIssuesContent>
-              <KeyIssuesHeader>
-                <KeyIssuesTitle>Tags</KeyIssuesTitle>
-              </KeyIssuesHeader>
-              <div className="d-flex w-100">
-                <TagSection>{renderTags()}</TagSection>
-              </div>
-            </KeyIssuesContent>
-          </KeyIssues>
+          {tagsData.length > 0 && (
+            <KeyIssues>
+              <KeyIssuesContent>
+                <KeyIssuesHeader>
+                  <KeyIssuesTitle>Tags</KeyIssuesTitle>
+                </KeyIssuesHeader>
+                <div className="d-flex w-100">
+                  <TagSection>{renderTags()}</TagSection>
+                </div>
+              </KeyIssuesContent>
+            </KeyIssues>
+          )}
           <ButtonsLowerSection>
             <TextLowerSectionContainer className="align-items-center">
               <i className="bi bi-clock"></i>
