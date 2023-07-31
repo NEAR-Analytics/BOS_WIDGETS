@@ -1,4 +1,5 @@
-// TODO update authorForWidget2 with authorForWidget2 for widget/Gigs_Tag
+// TODO update authorsWhiteList
+// TODO update authorForWidget2 with authorForWidget for widget/Gigs_Tag (row 192 in this code)
 // TODO delete authorForWidget2
 const addressForComments = "gig-comments";
 const addressForArticles = "ndcGigArticle";
@@ -158,30 +159,6 @@ const handleHeaderClick = (index1, index2) => {
 // ========== UTILS ==========
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-// ========== STYLED ==========
-const Button = styled.button`
-  width: 100%;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
-  
-  border: 2px solid transparent;
-  font-weight: 500;
-  padding: 0.3rem 0.5rem;
-  background-color: #010A2D;
-  border-radius: 12px;
-  color: white;
-  text-decoration: none;
-
-  &:hover {
-    color: #010A2D;
-    background-color: white;
-  }
-`;
-
 // ========== JSX ==========
 const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
   <div className="d-xxl-flex flex-row flex-nowrap justify-content-between px-2 pb-3 ">
@@ -193,7 +170,6 @@ const StatusTagGroup = ({ activeStatus, articleId, showButtons }) => (
             children: `#${tag}`,
             variant: activeStatus === tag ? "" : "outline",
             onClick: () => {
-              console.log("sadfsadf");
               statusChangeHandler(activeStatus, tag, articleId);
             },
             disabled: activeStatus === tag,
