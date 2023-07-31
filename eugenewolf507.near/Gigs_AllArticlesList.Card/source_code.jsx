@@ -78,7 +78,7 @@ const ModalWrapper = styled.div`
   z-index:100;
 `;
 const ModalStyles = styled.div`
-  height: calc(100% - 3rem);
+  height: 100%;
   background: #fff;
   border-radius: .375rem;
   overflow-y: scroll !important;
