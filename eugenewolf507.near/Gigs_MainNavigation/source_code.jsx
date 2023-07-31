@@ -1,4 +1,3 @@
-//TODO !!!!!! update authorForWidget, writersWhiteList!!!
 const currentPill = props.currentNavPill ?? "";
 const writersWhiteList = props.writersWhiteList ?? [
   "neardigitalcollective.near",
@@ -12,8 +11,7 @@ const writersWhiteList = props.writersWhiteList ?? [
   "ndcplug.near",
   "eugenewolf507.near",
 ];
-// const authorForWidget = "neardigitalcollective.near";
-const authorForWidget = "eugenewolf507.near";
+const authorForWidget = "neardigitalcollective.near";
 const pills = [
   // {
   //   id: "articles",
@@ -74,32 +72,30 @@ return (
           {accountId &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
               <div className="d-block d-md-none">
-                <Widget
-                  src="nui.sking.near/widget/Input.Button"
-                  props={{
-                    children: "+ Create Gig",
-                    variant: "primary",
-                    className: "me-3 me-xl-4",
-                    size: "sm",
-                    href: `#/${authorForWidget}/widget/Gigs_CreateArticle`,
-                  }}
-                />
+                <a
+                  className="btn btn-outline-dark"
+                  href={`#/${authorForWidget}/widget/Gigs_CreateArticle`}
+                >
+                  + Create Gig
+                </a>
               </div>
             )}
         </ul>
       </div>
       {accountId &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
-          <Widget
-            src="nui.sking.near/widget/Input.Button"
-            props={{
-              children: "+ Create Gig",
-              variant: "primary",
-              className: "me-3 me-xl-4",
-              size: "sm",
-              href: `#/${authorForWidget}/widget/Gigs_CreateArticle`,
-            }}
-          />
+          <>
+            <Widget
+              src="nui.sking.near/widget/Input.Button"
+              props={{
+                children: "+ Create Gig",
+                variant: "primary",
+                className: "me-3 me-xl-4",
+                size: "sm",
+                href: `#/${authorForWidget}/widget/Gigs_CreateArticle`,
+              }}
+            />
+          </>
         )}
       <div className="d-none d-md-block">
         <Widget
