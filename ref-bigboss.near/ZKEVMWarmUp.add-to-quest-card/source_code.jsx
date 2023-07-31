@@ -179,7 +179,5 @@ return (
         </div>
       )}
     </Wrapper>
-
-    <Widget src="ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid" />
   </Layout>
 );
