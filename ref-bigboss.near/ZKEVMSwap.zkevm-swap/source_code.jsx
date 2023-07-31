@@ -728,8 +728,10 @@ function add_action(param_body) {
 const onCallTxComple = (tx) => {
   console.log("transactionHash", tx);
 
-  const uuid = Storage.get("zkevm-warm-up-uuid");
-  console.log("uuid: ", uuid);
+  const uuid = Storage.get(
+    "zkevm-warm-up-uuid",
+    "ref-bigboss.near/widget/ZKEVMWarmUp.generage-uuid"
+  );
 
   if (!state.add) return;
 
