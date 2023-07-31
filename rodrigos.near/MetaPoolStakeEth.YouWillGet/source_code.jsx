@@ -55,8 +55,8 @@ const AmountContainer = styled.div`
       justify-content: end;
       flex-direction: row;
       font-size: 32px;
-      padding:0px;
-      margin:-5px 0;
+      padding: 0;
+      margin: 0;
   `;
 
 const Bottom = styled.div`
