@@ -5,10 +5,10 @@ const {
   election_contract,
   api_key,
   cardType,
-  tags,
 } = props;
 
 cardType = cardType.toLowerCase();
+console.log("data: ", data);
 
 const accountId = data.author ?? context.accountId;
 
@@ -520,7 +520,7 @@ const renderTags = () => {
   if (cardType == "nomination") {
     tagsData = data.nominationData.tags.trim().split(",");
   } else if (cardType == "sayalot") {
-    tagsData = tags;
+    tagsData = data.tags;
   }
 
   console.log("tagsData: ", tagsData);
