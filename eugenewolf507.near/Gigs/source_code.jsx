@@ -1,3 +1,4 @@
+//TODO !!!!!! update authorForWidget, writersWhiteList and authorsWhitelist!!!
 const addressForArticles = "ndcGigsArticle";
 // const authorsWhitelist = [
 //   "neardigitalcollective.near",
