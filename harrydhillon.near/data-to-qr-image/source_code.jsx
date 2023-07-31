@@ -20,6 +20,6 @@ dataToEndcode();
 
 return (
   <div>
-    <img style={{ width: 300 }} src={state.img} />
+    <img style={{ width: 200 }} src={state.img} />
   </div>
 );
