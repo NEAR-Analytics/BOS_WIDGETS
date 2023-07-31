@@ -8,7 +8,6 @@ const openModalHandler = props.openModalHandler;
 const closeModalHandler = props.closeModalHandler;
 const cardWithOpenModal = props.cardWithOpenModal;
 const statusTagsArr = props.statusTagsArr;
-// const sharedArticleId = props.sharedArticleId;
 const doesUserCanChangeStatus = props.doesUserCanChangeStatus;
 const mainPartForSharingGig = `https://near.social/#/${authorForWidget}/widget/Gigs_AllArticlesList`;
 const shareUrl = `${mainPartForSharingGig}?articleId=${article.articleId}`;
