@@ -577,7 +577,7 @@ function getPublicationDate(creationTimestamp) {
 
 function getUserName() {
   const profile = Social.getr(`${accountId}/profile`);
-  console.log(1, profile);
+  console.log("profile.name", profile.name);
 
   if (cardType == "nomination") data.profileData?.name;
   if (cardType == "sayalot") profile.name;
