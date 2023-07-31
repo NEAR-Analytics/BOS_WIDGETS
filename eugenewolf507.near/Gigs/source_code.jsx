@@ -39,7 +39,7 @@ return (
       src={`${authorForWidget}/widget/Gigs_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
     />
-    <div style={{ margin: "0 auto", width: "98%", minWidth: "360px" }}>
+    <div style={{ margin: "0 auto", minWidth: "360px" }}>
       <Widget
         src={`${authorForWidget}/widget/Gigs_AllArticlesList`}
         props={{ writersWhiteList }}
