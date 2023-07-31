@@ -76,12 +76,12 @@ const ModalWrapper = styled.div`
   border-radius: .375rem;
   background: rgba(100, 100, 100, 0.7); 
   z-index:100;
-  overflow-y: scroll !important;
 `;
 const ModalStyles = styled.div`
   height: calc(100% - 3rem);
   background: #fff;
   border-radius: .375rem;
+  overflow-y: scroll !important;
 `;
 
 const ShareButtonWrapper = styled.span` 
