@@ -545,12 +545,11 @@ const canUpvote = () =>
   state.verified && context.accountId != data.indexerData?.nominee;
 
 const getShortUserName = () => {
-  const userId =
-    cardType == "nomination"
-      ? data.nominationData?.profileAccount
-      : cardType == "sayalot"
-      ? accountId
-      : "";
+  return cardType == "nomination"
+    ? data.nominationData?.profileAccount
+    : cardType == "sayalot"
+    ? accountId
+    : "";
 
   if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
   const name = userId.slice(0, -5); // truncate .near
@@ -577,7 +576,6 @@ function getPublicationDate(creationTimestamp) {
 
 function getUserName() {
   const profile = Social.getr(`${accountId}/profile`);
-  console.log("profile.name", profile.name);
 
   if (cardType == "nomination") data.profileData?.name;
   if (cardType == "sayalot") profile.name;
