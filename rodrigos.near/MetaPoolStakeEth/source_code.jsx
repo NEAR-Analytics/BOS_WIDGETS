@@ -728,7 +728,7 @@ return (
           src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
           props={{
             value:
-              state.strEther && state.metrics
+              state.metrics && state.strEther && parseFloat(state.strEther) > 0
                 ? (state.strEther / state.metrics.mpethPrice).toFixed(5)
                 : 0,
             price: state.metrics ? state.metrics.mpethPrice : 1,
