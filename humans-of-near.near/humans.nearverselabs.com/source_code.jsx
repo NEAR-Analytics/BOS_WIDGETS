@@ -146,7 +146,7 @@ const Card = styled.div`
    & img{
     width: 100%;
     height: 100%;
-    object-fit:cover;
+    background:black;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
    }
