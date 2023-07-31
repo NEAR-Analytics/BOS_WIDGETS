@@ -545,7 +545,7 @@ const canUpvote = () =>
   state.verified && context.accountId != data.indexerData?.nominee;
 
 const getShortUserName = () => {
-  constuserId =
+  const userId =
     cardType == "nomination"
       ? data.nominationData?.profileAccount
       : cardType == "sayalot"
