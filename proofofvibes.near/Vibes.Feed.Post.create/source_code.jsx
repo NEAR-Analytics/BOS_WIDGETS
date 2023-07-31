@@ -101,15 +101,15 @@ function composeData() {
     state.diversity +
     "/" +
     maxSliderPoints;
+  content.metadata = {
+    friendliness: state.friendliness,
+    energy: state.energy,
+    density: state.density,
+    diversity: state.diversity,
+  };
   const data = {
     post: {
       main: JSON.stringify(content),
-      metadata: {
-        friendliness: state.friendliness,
-        energy: state.energy,
-        density: state.density,
-        diversity: state.diversity,
-      },
     },
     index: {
       post: JSON.stringify({
