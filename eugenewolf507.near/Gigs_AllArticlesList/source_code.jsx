@@ -14,7 +14,6 @@ const authorsWhitelist = props.writersWhiteList ?? [
   "james.near",
   "ndcplug.near",
   "eugenewolf507.near",
-  "inc4social.near",
 ];
 // const authorsWhitelist = props.writersWhiteList ?? [
 // "neardigitalcollective.near",
