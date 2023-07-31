@@ -22,6 +22,7 @@ const writersWhiteList = [
   "james.near",
   "ndcplug.near",
   "eugenewolf507.near",
+  "inc4social.near",
 ];
 // const authorForWidget = "neardigitalcollective.near";
 const authorForWidget = "eugenewolf507.near";
