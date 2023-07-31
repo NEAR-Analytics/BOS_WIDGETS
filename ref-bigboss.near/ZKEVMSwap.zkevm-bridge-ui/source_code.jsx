@@ -880,10 +880,18 @@ const { isToastOpen, variant, title, description } = state;
 
 const { source } = props;
 
-const params = Storage.get(
+let params = Storage.get(
   "zk-evm-bridge-params",
   "ref-bigboss.near/widget/ZKEVMWarmUp.quest-card"
 );
+const params_from_question_list = Storage.get(
+  "zk-evm-swap-params",
+  "ref-bigboss.near/widget/ZKEVM.QuestionList"
+);
+
+if (props.source == 'question_list' && params_from_question_list) {
+  params = params_from_question_list;
+}
 const storedSymbol = params?.symbol;
 console.log(
   "params: ",
