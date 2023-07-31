@@ -1,6 +1,7 @@
 State.init({
   openModal: false,
   loading: false,
+  validation: "",
 });
 
 if (
@@ -132,9 +133,24 @@ const getStakedBalance = (receiver) => {
 };
 
 const submitEthers = (strEther, _referral) => {
-  if (!strEther) {
-    return console.log("Amount is missing");
+  if (!strEther || isNaN(parseFloat(strEther)) || parseFloat(strEther) <= 0) {
+    State.update({
+      openModal: true,
+      modalTitle: "Error!",
+      modalDescription: "Amount is missing.",
+    });
+    return;
   }
+
+  if (state.validation !== "") {
+    State.update({
+      openModal: true,
+      modalTitle: "Error!",
+      modalDescription: state.validation,
+    });
+    return;
+  }
+
   const erc20 = new ethers.Contract(
     stakingAddress,
     metapoolAbi,
@@ -150,14 +166,46 @@ const submitEthers = (strEther, _referral) => {
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
         updateData();
-        State.update({ openModal: true, loading: false, strEther: 0 });
+        State.update({
+          openModal: true,
+          modalTitle: "Success!",
+          modalDescription: "Tokens staked successfully.",
+          loading: false,
+          strEther: 0,
+        });
       });
     })
     .catch((e) => {
-      State.update({ loading: false, strEther: 0 });
+      State.update({
+        loading: false,
+        openModal: true,
+        modalTitle: "Error!",
+        modalDescription:
+          "An Error Has Occurred. Please Try Again, And If The Problem Persists, Contact The System Administrator.",
+      });
       console.error(e);
-      fetchEthPrice();
+      updateData();
     });
+};
+
+const handleInput = (e) => {
+  if (
+    (parseFloat(e.target.value) < 0.01 && parseFloat(e.target.value) > 0) ||
+    parseFloat(e.target.value) < 0
+  ) {
+    State.update({
+      validation: "The minimum amount is 0.01 ETH.",
+    });
+  } else if (parseFloat(e.target.value) > parseFloat(state.balance)) {
+    State.update({
+      validation: "You dont have enough ETH.",
+    });
+  } else {
+    State.update({
+      validation: "",
+    });
+  }
+  State.update({ strEther: e.target.value });
 };
 
 // DETECT USER
@@ -371,7 +419,7 @@ const StakeFormTopContainerLeftContent1Container = styled.div`
 
 const StakeFormTopContainerLeftContent2 = styled.div`
   margin-top: 2px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.4em;
   font-weight: 800;
   white-space: nowrap;
@@ -403,7 +451,7 @@ const StakeFormTopContainerCenterContent1Container = styled.div`
 
 const StakeFormTopContainerCenterContent2 = styled.div`
   margin-top: 2px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.4em;
   font-weight: 800;
   white-space: nowrap;
@@ -446,7 +494,7 @@ const StakeFormTopContainerRightContent1Text = styled.div`
 
 const StakeFormTopContainerRightContent2 = styled.div`
   margin-top: 2px;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.4em;
   font-weight: 800;
   white-space: nowrap;
@@ -655,7 +703,7 @@ return (
                 : "0",
             placeholder: "Enter ETH amount",
             value: state.strEther,
-            onChange: (e) => State.update({ strEther: e.target.value }),
+            onChange: handleInput,
             onClickMax: () => {
               State.update({
                 strEther: (state.balance > 0.05
@@ -664,13 +712,18 @@ return (
                 ).toFixed(2),
               });
             },
-            inputError: state.inputError,
+            inputError: state.validation !== "",
             balance: nearBalance,
             iconName: "NEAR",
             iconUrl:
               "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
           }}
         />
+        {state.validation !== "" && (
+          <div style={{ fontWeight: 600, color: "red" }}>
+            {state.validation}
+          </div>
+        )}
         <Widget
           src={`rodrigos.near/widget/MetaPoolStakeEth.YouWillGet`}
           props={{
@@ -706,7 +759,14 @@ return (
         src={"rodrigos.near/widget/MetaPoolStakeEth.PopUp"}
         props={{
           open: state.openModal,
-          onClose: () => State.update({ openModal: false }),
+          title: state.modalTitle,
+          description: state.modalDescription,
+          onClose: () =>
+            State.update({
+              openModal: false,
+              modalTitle: "",
+              modalDescription: "",
+            }),
         }}
       />
     </StakeContainer>
