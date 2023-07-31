@@ -56,7 +56,7 @@ const AmountContainer = styled.div`
       flex-direction: row;
       font-size: 32px;
       padding: 0;
-      margin: 0;
+      margin:-5px 0;
   `;
 
 const Bottom = styled.div`
@@ -80,8 +80,8 @@ return (
       <Highlight>You'll get</Highlight>
       <AmountContainer>
         <svg
-          width="32"
-          height="32"
+          width="26"
+          height="26"
           viewBox="0 0 204 204"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
