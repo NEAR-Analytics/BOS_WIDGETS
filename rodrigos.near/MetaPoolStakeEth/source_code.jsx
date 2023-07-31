@@ -353,7 +353,7 @@ const PageContainer = styled.div`
   position: relative;
   margin-top: 8px;
   margin-bottom: 8px;
-  background:  linear-gradient( rgb(206, 255, 26) 0%, rgb(206, 255, 26) 40%, rgb(247, 249, 251) 40%, rgb(247, 249, 251) 100%);
+  background:  linear-gradient( rgb(206, 255, 26) 0%, rgb(206, 255, 26) 270px, rgb(247, 249, 251) 270px, rgb(247, 249, 251) 100%);
 `;
 
 const StakeContainer = styled.div`
