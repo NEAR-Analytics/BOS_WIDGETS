@@ -183,7 +183,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="hack.near/widget/DAO.Page.Sidebar"
+          src="xvii.near/widget/DAO.Page.Sidebar.UpdatedRole"
           props={{
             daoId,
             profile,
