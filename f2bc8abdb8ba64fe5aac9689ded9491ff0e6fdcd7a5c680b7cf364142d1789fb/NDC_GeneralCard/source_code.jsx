@@ -5,6 +5,7 @@ const {
   election_contract,
   api_key,
   cardType,
+  tags,
 } = props;
 
 cardType = cardType.toLowerCase();
