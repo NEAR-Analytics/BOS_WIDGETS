@@ -63,26 +63,24 @@ const CloseButton = styled.a`
   color: #101828;
 `;
 
-const { Root, Trigger, Overlay, Content, Close, Title, Description } = Dialog;
-
 return (
   <DialogContainer>
-    <Root open={props.open}>
-      <Trigger asChild>
+    <Dialog.Root open={props.open}>
+      <Dialog.Trigger asChild>
         <div style={{ display: "none" }} />
-      </Trigger>
-      <Overlay asChild>
+      </Dialog.Trigger>
+      <Dialog.Overlay asChild>
         <DialogOverlay />
-      </Overlay>
-      <Content asChild>
+      </Dialog.Overlay>
+      <Dialog.Content asChild>
         <DialogContent>
-          <Title>{title}</Title>
-          <Description>{description}</Description>
+          <Dialog.Title>{title}</Dialog.Title>
+          <Dialog.Description>{description}</Dialog.Description>
           <DialogFooter>
             {showClose && (
-              <Close asChild>
+              <Dialog.Close asChild>
                 <CloseButton href="/">Close</CloseButton>
-              </Close>
+              </Dialog.Close>
             )}
             <Widget
               src={`${authorId}/widget/MetaPoolStakeEth.Button`}
@@ -95,7 +93,7 @@ return (
             />
           </DialogFooter>
         </DialogContent>
-      </Content>
-    </Root>
+      </Dialog.Content>
+    </Dialog.Root>
   </DialogContainer>
 );
