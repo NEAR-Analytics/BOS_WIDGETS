@@ -1,4 +1,5 @@
 const disabledInput = props.disabled || false;
+const inputError = props.inputError || false;
 
 const Wrapper = styled.div`
     display: block;
@@ -66,8 +67,11 @@ return (
       placeholder="0"
       value={props.value}
       onChange={props.onChange}
+      style={{ color: inputError ? "red" : "inherit" }}
     />
     <button onClick={() => props.onClickMax()}>Max</button>
-    <div style={{ textAlign: "end" }}>USD {props.ethUsdPrice || 0}</div>
+    <div style={{ textAlign: "end", color: inputError ? "red" : "inherit" }}>
+      USD {props.ethUsdPrice || 0}
+    </div>
   </Wrapper>
 );
