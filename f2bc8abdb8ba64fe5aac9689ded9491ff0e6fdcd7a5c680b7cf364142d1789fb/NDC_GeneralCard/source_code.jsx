@@ -522,6 +522,8 @@ const renderTags = () => {
     tagsData = tags;
   }
 
+  console.log("tagsData: ", tagsData);
+
   return (
     <>
       {tagsData.length > 0 &&
