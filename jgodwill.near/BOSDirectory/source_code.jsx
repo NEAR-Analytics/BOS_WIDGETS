@@ -347,13 +347,13 @@ const ImageCard = styled.div`
 `;
 
 const displayCategories = (value) => {
-  state.searchValue !== null;
-  value = value.join(" ");
+  // state.searchValue !== null;
+  // value = value.join(" ");
   State.update({ searchValue: value });
   console.log("search value", state.searchValue);
 
   const newArray = social.data.filter((item) =>
-    item.category.join(" ").includes(state.searchValue)
+    item.category.join(" ").includes(state.searchValue.join(" "))
   );
   //   social.data.filter((item) =>
   //     item.category.some((cat) => {
@@ -420,15 +420,18 @@ const allCategories = (filteredCats) =>
       </div>
     </Card>
   ));
-
-const dispData = null;
-if (!state.searchValue || state.searchValue === "") {
-  dispData = allCategories(social.data);
-} else if (state.viewableCats.length > 0) {
-  dispData = state.viewableCats;
-} else {
-  dispData = "No gateways found with all these categories";
-}
+const showCategories = () => {
+  const dispData = null;
+  if (!state.searchValue || state.searchValue === "") {
+    dispData = allCategories(social.data);
+  } else if (state.viewableCats.length > 0) {
+    dispData = state.viewableCats;
+    // console.log(state.viewableCats);
+  } else {
+    dispData = "No gateways found with all these categories";
+  }
+  return dispData;
+};
 return (
   <div className="row">
     <Wrapper>
@@ -458,6 +461,6 @@ return (
         placeholder="Choose a tag to filter..."
       />
     </div>
-    <Cards>{dispData}</Cards>
+    <Cards>{showCategories()}</Cards>
   </div>
 );
