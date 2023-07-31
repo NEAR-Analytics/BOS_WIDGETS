@@ -1,3 +1,4 @@
+//TODO !!!!!! update authorForWidget!!!
 const addressForArticles = "ndcGigArticle";
 const authorForWidget = "eugenewolf507.near";
 // const authorForWidget = "neardigitalcollective.near";
