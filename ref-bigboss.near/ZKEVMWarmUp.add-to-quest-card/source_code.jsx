@@ -160,11 +160,11 @@ return (
 
     <Wrapper>
       <div>
-        Add to{" "}
+        Sync to{" "}
         <a className="highlight" href="/warmup">
           ZkEvm Warm up [My Quest]
         </a>{" "}
-        after successful transaction
+        after transaction
       </div>
 
       {!add && (
