@@ -34,7 +34,7 @@ const data = fetch("https://graph.mintbase.xyz", {
 const styles = {
   container: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     //justifyContent: "center",
     alignItems: "center",
     padding: "1rem",
@@ -42,7 +42,7 @@ const styles = {
   },
   innerContainer: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     backgroundColor: "#F8F8F8",
     borderColor: "#F5F5F5",
     borderRadius: "0.5rem",
@@ -63,7 +63,7 @@ const styles = {
   },
   songListContainer: {
     width: "24rem",
-    height: "24rem",
+    height: "12rem",
     overflowY: "auto",
     padding: "1rem",
   },
@@ -215,8 +215,15 @@ return (
             </button>
           </div>
         </div>
+        <h3
+          className="font-bold"
+          style={{
+            paddingLeft: "1rem",
+          }}
+        >
+          Songs
+        </h3>
         <div style={styles.songListContainer}>
-          <h3 className="font-bold">Songs</h3>
           {songs.map((song, i) => (
             <Widget
               src="efiz.near/widget/MusicPlayer-Harmonic.Track"
