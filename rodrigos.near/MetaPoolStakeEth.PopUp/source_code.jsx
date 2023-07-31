@@ -3,7 +3,7 @@ const title = props.title || "Success!";
 const description = props.description || "Tokens staked successfully.";
 const showClose = props.showClose || false;
 const onClose = props.onClose || (() => {});
-const DialogOverlay = styled.div`
+const Overlay = styled.div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
@@ -11,7 +11,7 @@ const DialogOverlay = styled.div`
   z-index: 10;
 `;
 
-const DialogContent = styled.div`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -35,13 +35,13 @@ const DialogContent = styled.div`
   }
 `;
 
-const DialogContainer = styled.div`
+const Container = styled.div`
   &.focus-visible {
     outline: none !important;
   }
 `;
 
-const DialogFooter = styled.div`
+const Footer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -64,19 +64,19 @@ const CloseButton = styled.a`
 `;
 
 return (
-  <DialogContainer>
+  <Container>
     <Dialog.Root open={props.open}>
       <Dialog.Trigger asChild>
         <div style={{ display: "none" }} />
       </Dialog.Trigger>
       <Dialog.Overlay asChild>
-        <DialogOverlay />
+        <Overlay />
       </Dialog.Overlay>
       <Dialog.Content asChild>
-        <DialogContent>
+        <Content>
           <Dialog.Title>{title}</Dialog.Title>
           <Dialog.Description>{description}</Dialog.Description>
-          <DialogFooter>
+          <Footer>
             {showClose && (
               <Dialog.Close asChild>
                 <CloseButton href="/">Close</CloseButton>
@@ -91,9 +91,9 @@ return (
                 text: "Close",
               }}
             />
-          </DialogFooter>
-        </DialogContent>
+          </Footer>
+        </Content>
       </Dialog.Content>
     </Dialog.Root>
-  </DialogContainer>
+  </Container>
 );
