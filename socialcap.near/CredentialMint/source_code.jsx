@@ -2,14 +2,21 @@ let accountId = context.accountId;
 const mintButton = props.mintButton ?? "Mint Credential";
 const showDetails = props.showDetails ?? true;
 const receiver = props.receiver ?? accountId;
-const apiUrl = props.apiUrl ?? "http://localhost:3080/api";
-const credentialUid = props.uid ?? "caaaaff63a48400a9ce57f3ad6960001";
+const credentialUid = props.uid;
+
 if (!accountId) {
-  return "Please, login";
+  console.log("Please login");
+  State.update({
+    showAlert: true,
+    toastMessage: "Please log in before continuing",
+  });
 }
 
 if (!credentialUid) {
-  return "Please include a Credential Account to verify proof";
+  State.update({
+    showAlert: true,
+    toastMessage: "Please include a Credential Account to verify proof",
+  });
 }
 
 const profile = socialGetr(`${accountId}/profile`);
@@ -20,9 +27,7 @@ if (profile === null) {
 }
 
 const getCredential = fetch(
-  `${apiUrl}/query/get_credential?params=${JSON.stringify({
-    uid: credentialUid,
-  })}`,
+  `http://localhost:3080/api/query/get_credential?uid=${credentialUid}`,
   {
     method: "GET",
   }
@@ -44,31 +49,7 @@ State.init({
   receiver: receiver,
   showAlert: false,
   toastMessage: "",
-  openModal: false,
 });
-
-if (props.transactionHashes) {
-  const statusResult = fetch("https://rpc.mainnet.near.org", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: "dontcare",
-      method: "tx",
-      params: [props.transactionHashes, accountId],
-    }),
-  });
-  //check status and open modal
-
-  if (
-    statusResult.body.result.status &&
-    Object.keys(statusResult.body.result.status)[0] == "SuccessValue"
-  ) {
-    State.update({ openModal: true });
-  }
-}
 
 const handleMint = () => {
   if (!state.cid) {
@@ -267,18 +248,6 @@ const TextArea = styled.textarea`
 // state.cid
 return (
   <Main className="container-fluid">
-    <Widget
-      src={`manzanal.near/widget/Common.Modal.RedirectModal`}
-      props={{
-        open: state.openModal,
-        title: "Minting Credential Succes",
-        description:
-          "Credential minting was successful. Would you like to be redirected to your profile and see the NFT?",
-        href: `/near/widget/ProfilePage?accountId=${accountId}&tab=nfts`,
-        showClose: true,
-        accept: () => console.log("REDIRECT TO NFT PAGE"),
-      }}
-    />
     <div>
       <Card className="d-flex flex-column align-items-center">
         <ImageCard>
@@ -292,7 +261,7 @@ return (
       </Card>
       {showDetails && (
         <Card>
-          <h5>Credential Details</h5>
+          <h5>Crecential Details</h5>
           <Card>
             Title:
             <Input type="text" disabled value={state.title} />
