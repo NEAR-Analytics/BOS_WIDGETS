@@ -103,7 +103,7 @@ const nftMint = () => {
   } else {
     const metadata = {
       name: state.title,
-      description: state.description,
+      description: `${state.description.trim().slice(0, 140)}...`,
       properties: [],
       image: `${state.imageUrl}`,
 
