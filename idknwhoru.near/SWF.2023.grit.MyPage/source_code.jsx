@@ -158,6 +158,7 @@ const PlayingWrapper = styled.div`
     .league-nav-button {
         padding: 10px 20px;
         border-radius: 25px;
+        margin-bottom: 40px;
     }
 
     .field-wrapper {
