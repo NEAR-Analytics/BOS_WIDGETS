@@ -227,6 +227,12 @@ const DetailPageWrapper = styled.div`
     .plan-content-wrapper {
         color: #000;
     }
+
+    .nav-back {
+      font-size: 24px;
+      margin-bottom: 40px;
+      cursor: pointer;
+    }
     `;
 
 return (
@@ -271,11 +277,12 @@ return (
     ) : (
       <DetailPageWrapper>
         <h1
+          className="nav-back"
           onClick={() => {
             State.update({ page: 0 });
           }}
         >
-          &lt; 돌아가기
+          돌아가기
         </h1>
         <Widget
           src={`idknwhoru.near/widget/SWF.2023.grit.Player`}
