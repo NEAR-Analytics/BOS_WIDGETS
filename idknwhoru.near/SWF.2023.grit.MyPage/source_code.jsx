@@ -13,9 +13,16 @@ const images = [
   "https://ipfs.near.social/ipfs/bafkreiew5g7eizlh6ms7al5y23g7juioejle2bhv3cbyqoq55upxt2dlyu",
 ];
 
-const address = "0x8EBb9B46A1743179607645F73aba40777b5C501E";
+const address = "0xBBF09A10B1B8f1825cAdB58d34E0672A9Ee69c2d";
 
 const abi = [
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "getDonorsCount",
+    inputs: [],
+  },
   {
     type: "function",
     stateMutability: "view",
@@ -32,6 +39,7 @@ const abi = [
           { type: "uint256", name: "amount", internalType: "uint256" },
           { type: "address", name: "donor", internalType: "address" },
           { type: "bool", name: "isPlaying", internalType: "bool" },
+          { type: "string", name: "photoUrl", internalType: "string" },
         ],
       },
     ],
@@ -313,11 +321,10 @@ const Player = () => {
           <ContentWrapper>
             <CardSelectWrapper>
               {state.players.map((player, idx) => {
-                console.log(player[6]);
                 return (
                   <CardWrapper isPlaying={player[6]}>
                     <div className="card-wrapper">
-                      <img className="card-image" src={images[idx]} />
+                      <img className="card-image" src={player[7]} />
                       <div className="player-info">
                         <div className="player-label">
                           <div className="flex-item flex-start">
