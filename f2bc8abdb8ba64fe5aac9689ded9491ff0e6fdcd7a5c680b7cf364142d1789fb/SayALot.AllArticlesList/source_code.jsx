@@ -1,7 +1,15 @@
 //===============================================INITIALIZATION=====================================================
 
-let { isTest, stateUpdate, finalArticles, tabs, widgets, addressForArticles } =
-  props;
+let {
+  isTest,
+  stateUpdate,
+  finalArticles,
+  tabs,
+  widgets,
+  addressForArticles,
+  handleFilterArticles,
+  handleOpenArticle,
+} = props;
 
 State.init({ start: Date.now() });
 
@@ -22,17 +30,6 @@ function getDateLastEdit(timestamp) {
   return dateString;
 }
 
-function handleOpenArticle(article) {
-  return () =>
-    stateUpdate({
-      displayedTabId: tabs.SHOW_ARTICLE.id,
-      infoToRenderArticle: {
-        articleId: article.articleId,
-        blockHeight: article.blockHeight,
-        lastEditor: article.lastEditor,
-      },
-    });
-}
 //================================================END FUNCTIONS=====================================================
 
 return (
@@ -51,6 +48,7 @@ return (
               widgets,
               addressForArticles,
               handleOpenArticle,
+              handleFilterArticles,
             }}
           />
         );
