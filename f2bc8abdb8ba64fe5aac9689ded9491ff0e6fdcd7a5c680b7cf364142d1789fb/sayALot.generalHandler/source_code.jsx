@@ -46,7 +46,7 @@ const sayALotWorkers = [
   "kenrou-it.near",
 ];
 
-if (isDebug) {
+if (isTest) {
   writersWhiteList = sayALotWorkers;
 }
 
