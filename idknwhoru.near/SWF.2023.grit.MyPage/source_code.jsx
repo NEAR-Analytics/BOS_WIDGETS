@@ -155,12 +155,12 @@ const PlayingWrapper = styled.div`
         justify-content: center;
     }
 
-    .league-nav-wrapper button {
+    .league-nav-button {
         padding: 10px 20px;
-        border: 1px solid #fff;
+        border: 1px solid blue;
         border-radius: 25px;
-        background-color: #fff;
-        color: blue;
+        background-color: blue;
+        color: #fff;
     }
 
     .field-wrapper {
@@ -254,6 +254,7 @@ const Player = () => {
             <PlayingWrapper>
               <div className="league-nav-wrapper">
                 <button
+                  className="league-nav-button"
                   onClick={() => {
                     State.update({ page: 1 });
                   }}
