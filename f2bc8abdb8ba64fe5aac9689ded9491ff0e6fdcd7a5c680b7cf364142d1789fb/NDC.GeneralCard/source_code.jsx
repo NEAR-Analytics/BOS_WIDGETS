@@ -621,7 +621,7 @@ const renderArticleBody = () => {
   return (
     <>
       <span>{displayedContent}</span>
-      {state.sliceContent && (
+      {state.sliceContent && content.length > 1000 && (
         <Widget
           src={widgets.styledComponents}
           props={{
