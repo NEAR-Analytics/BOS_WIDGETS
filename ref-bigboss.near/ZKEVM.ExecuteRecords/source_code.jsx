@@ -319,7 +319,7 @@ function get_my_records_list_by_condition() {
   // account_info todo
   const params_str = `account_id=${eth_account_id}&page_number=${state.current_page}&page_size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=`;
   asyncFetch(
-    `https://bos-api.ref-finance.com/get-action-records-by-account?${params_str}`
+    `https://bos-api.delink.one/get-action-records-by-account?${params_str}`
   ).then((res) => {
     const { action_list, page_number, total_page, total_size } =
       JSON.parse(res.body || {}).data || {};
