@@ -31,9 +31,9 @@ return (
       army to position yourself as the master tactician.`,
       }}
     />
-    <Widget src={"shemar268abel.near/widget/PixelParty"} />
-    <Widget src={"ihyshan.near/widget/MJG-Widget"} />
-    <Widget src={"quan15.near/widget/MJG-Widget"} />
+    <Widget src={"jay100.near/widget/PixelParty-Widget"} />
+    <Widget src={"jay100.near/widget/PixelPets-Widget"} />
+    <Widget src={"jay100.near/widget/CH-Widget"} />
     <Widget src={"jay100.near/widget/CTT-Widget"} />
     <Widget />
   </Container>
