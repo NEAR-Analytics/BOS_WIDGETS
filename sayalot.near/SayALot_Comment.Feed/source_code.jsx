@@ -18,6 +18,7 @@ const index = {
     subscribe: props.subscribe,
   },
 };
+console.log(1, index);
 const raw = !!props.raw;
 const renderItem = (a) =>
   a.value.type === "md" && (
