@@ -27,6 +27,7 @@ const content =
 
 console.log(3, content);
 console.log(4, `${accountId}/${addressForArticles}/${addressForComments}`);
+console.log(5, blockHeight);
 
 const parentItem = content.item;
 const highlight = !!props.highlight;
