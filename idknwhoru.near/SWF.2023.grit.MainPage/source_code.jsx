@@ -46,6 +46,8 @@ const ButtonWrapper = styled.div`
 
   ul {
     display: flex;
+    height: 100%;
+    align-items: center;
     gap: 45px;
   }
 
