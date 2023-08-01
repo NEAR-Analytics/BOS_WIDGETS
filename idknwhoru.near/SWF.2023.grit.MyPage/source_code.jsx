@@ -233,7 +233,7 @@ const Player = () => {
   if (state.players.length === 0) {
     return (
       <MyPageWrapper>
-        <h1 className="my-page-title">후원한 선수가 없습니다.</h1>
+        <h1 className="my-page-title">투자한 선수가 없습니다.</h1>
       </MyPageWrapper>
     );
   }
