@@ -176,7 +176,7 @@ return (
               return (
                 <>
                   {!pill.id || !pill.title ? (
-                    <p className="text-danger">Pill passed wrong</p>
+                    <p className="text-danger border">Pill passed wrong</p>
                   ) : (
                     <li className="nav-item">
                       <Pill
@@ -201,7 +201,7 @@ return (
               <>
                 {navigationButtons.map((button) =>
                   !button.id || !button.title ? (
-                    <p className="text-danger">Button passed wrong</p>
+                    <p className="text-danger border">Button passed wrong</p>
                   ) : (
                     <div className="d-block d-md-none">
                       {renderButton(button)}
