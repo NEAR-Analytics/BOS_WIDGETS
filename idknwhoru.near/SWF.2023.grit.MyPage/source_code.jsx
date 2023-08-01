@@ -120,7 +120,9 @@ const CardWrapper = styled.div`
 
     .playing-tag {
         min-width: 60px;
-        background-color: blue;
+        background-color: ${({ isPlaying }) =>
+          isPlaying === ture ? "blue" : "yellow"};
+        color: ${({ isPlaying }) => (isPlaying === ture ? "#fff" : "#666")};
         text-align: center;
         border: 1px solid blue;
         border-radius: 7px;
@@ -146,7 +148,7 @@ const Player = () => {
         {state.players.map((player, idx) => {
           console.log(player[6]);
           return (
-            <CardWrapper>
+            <CardWrapper isPlaying={player[6]}>
               <div className="card-wrapper">
                 <img className="card-image" src={images[idx]} />
                 <div className="player-info">
