@@ -10,17 +10,17 @@ if (profile === null) {
   return "Loading";
 }
 
-const minaCredential = fetch(
+const getCredential = fetch(
   `http://localhost:3080/api/query/get_credential?uid=${credentialUid}`,
   {
     method: "GET",
   }
 );
-if (!minaCredential) {
+if (!getCredential) {
   return "Loading...";
 }
-console.log("minaCredential", minaCredential);
-const credential = minaCredential.body;
+console.log("getCredential", getCredential);
+const credential = getCredential.body.data;
 
 State.init({
   cid: credential.image,
