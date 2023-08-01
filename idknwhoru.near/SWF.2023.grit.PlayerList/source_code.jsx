@@ -71,10 +71,51 @@ if (state.players === undefined) {
 console.log(state.players);
 
 const Card = styled.div`
+    color: #fff;
     width: 25%;
     height: 100%;
     border: solid 1px #bbb;
     cursor: pointer;
+
+    h1 {
+      font-size: 16px;
+    }
+`;
+
+const BSNWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+    h2 {
+      font-size: 11px;
+    }
+
+    h3 {
+      font-size: 11px;
+    }
+`;
+
+const PersonalWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+
+  h2 {
+    width: 40px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px #E3DAFF;
+    background-color: #E3DAFF;
+    color: blue;
+    font-size: 11px;
+    border-radius: 30px;
+  }
+
+  h3 {
+    font-size: 11px;
+  }
 `;
 
 const Cards = () => {
@@ -89,10 +130,14 @@ const Cards = () => {
             <Card>
               <img src={images[idx]} width={"100%"}></img>
               <h1>{player[1]}</h1>
-              <h2>{ethers.utils.formatEther(player[6])} CRO</h2>
-              <h3>{player[5]}</h3>
-              <h3>{player[4]}</h3>
-              <h3>{player[3]}</h3>
+              <BSNWrapper>
+                <h2>{ethers.utils.formatEther(player[6])} CRO</h2>
+                <h3>{player[5]}</h3>
+              </BSNWrapper>
+              <PersonalWrapper>
+                <h2>{player[4]}</h2>
+                <h3>{player[3]}</h3>
+              </PersonalWrapper>
             </Card>
           );
         })}
