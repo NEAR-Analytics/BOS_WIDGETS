@@ -60,59 +60,57 @@ if (!state.mpEthPriceIntervalStarted && stakedBalance && ethUsdPrice) {
   }, 500);
 }
 
-{
-  false && (
+return (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      padding: "0 16px",
+      width: "100%",
+      border: "#D7E0E4 1px solid",
+      borderRadius: "16px",
+    }}
+  >
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "0 16px",
-        width: "100%",
-        border: "#D7E0E4 1px solid",
-        borderRadius: "16px",
+        width: "300px",
       }}
     >
       <div
         style={{
-          width: "300px",
+          display: "flex",
+          justifyContent: "space-between",
+          textAlign: "center",
+          fontVariantNumeric: "tabular-nums",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            textAlign: "center",
-            fontVariantNumeric: "tabular-nums",
-          }}
-        >
-          <div>mpETH/ETH Price:</div>
-          <div>{state.mpEthPrice}</div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            textAlign: "center",
-            fontVariantNumeric: "tabular-nums",
-          }}
-        >
-          <div>Your mpETH/ETH:</div>
-          <div>{state.userMpEthInEth}</div>
-        </div>
-        {false && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              textAlign: "center",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
-            <div>Your mpETH/USD:</div>
-            <div>{state.userMpEthUsd} $</div>
-          </div>
-        )}
+        <div>mpETH/ETH Price:</div>
+        <div>{state.mpEthPrice}</div>
       </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          textAlign: "center",
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        <div>Your mpETH/ETH:</div>
+        <div>{state.userMpEthInEth}</div>
+      </div>
+      {false && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            textAlign: "center",
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          <div>Your mpETH/USD:</div>
+          <div>{state.userMpEthUsd} $</div>
+        </div>
+      )}
     </div>
-  );
-}
+  </div>
+);
