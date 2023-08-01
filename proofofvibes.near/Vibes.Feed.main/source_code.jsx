@@ -1,20 +1,48 @@
-const location = props.location || "Paris";
+const location = props.location;
+// const firstGetLocation = () => {
+//   asyncFetch(
+//     "https://api.geoapify.com/v1/ipinfo?&apiKey=0485481476634b4d98f7d337d4821f52"
+//   ).then((data) => {
+//     if (data.body.city.name) {
+//       return data.body.city.name;
+//     }
+//   });
+// };
+// location = firstGetLocation();
+console.log("Location: " + location);
 const hashtag = props.hashtag || "ProofOfVibes";
-const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
-hashtags.push(location);
-
-const mention = props.mention || "";
-const mentions = mention && mention.split(",")?.map((it) => it.trim());
 
 // Vibes Enter lookcation proofofvibes.near/widget/Vibes.Feed.main // add location
 
-// add style devs
-const thisComponent = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${mention}&location=${location}`; // need to onchange to this
+// make sure shows in hastag
+// need to put automatic location in the hastag
 // Suggested location. use onChange like for nft selector
 
-State.init({ location, thisComponent, mention });
+State.init({ thisComponent, mention });
 // location enter field
 
+const findLocation = () => {
+  asyncFetch(
+    "https://api.geoapify.com/v1/ipinfo?&apiKey=0485481476634b4d98f7d337d4821f52"
+  ).then((data) => {
+    console.log("Location from request: " + data.body.city.name);
+    location = data.body.city.name;
+    State.update({
+      location: data.body.city.name,
+      // location: data.body.city.name + ", " + data.body.country.name,
+    });
+  });
+};
+findLocation();
+console.log("Location after find location: " + location);
+
+const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
+hashtags.push(state.location);
+const mention = props.mention || "";
+const mentions = mention && mention.split(",")?.map((it) => it.trim());
+const thisComponent = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`; // need to onchange to this
+
+State.init({ thisComponent, mention });
 const onChangeLocation = (location) => {
   State.update({
     location,
@@ -90,8 +118,7 @@ const Wrapper = styled.div`
     background: #ffffff;
     border-radius: 100px;
   }
-
-  .join-button {
+    .location-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -118,47 +145,47 @@ const Wrapper = styled.div`
 
     i {
       display: inline-block;
-      transform: rotate(90deg);
+
       color: #7E868C;
     }
   }
+  
 `;
 
 return (
   <div>
     <Card>
-      {false && (
-        <div className="location-ticker">
-          📍 Suggested Location:
-          <Widget src="proofofvibes.near/widget/Vibes.Feed.Post.Location" />
+      <div className="row">
+        <div className="col-9">
+          <Input
+            type="text"
+            onChange={(e) => onChangeLocation(e.target.value)}
+            placeholder={"Current Location: " + state.location}
+          />
         </div>
-      )}
-      <div className="col">
-        <Input
-          type="text"
-          onChange={(e) => onChangeLocation(e.target.value)}
-          placeholder={"Current Selected Location: " + state.location}
-        />
-        <Actions>
-          <Wrapper>
-            <a href={state.thisComponent} target="_blank">
-              <button
-                disabled={context.loading}
-                onClick={donate}
-                className="join-button"
-              >
-                <i className="bi bi-pin"></i>
-                Update Location
-              </button>
-            </a>
-          </Wrapper>
-        </Actions>
+        <div className="col-3">
+          <Actions>
+            <Wrapper>
+              <a href={state.thisComponent} target="_blank">
+                <button
+                  disabled={context.loading}
+                  onClick={donate}
+                  className="location-button"
+                >
+                  <i className="bi-geo-fill"></i>
+                  Update Location
+                </button>
+              </a>
+            </Wrapper>
+          </Actions>
+        </div>
       </div>
     </Card>
 
     <Widget
       src="efiz.near/widget/every.feed.view"
       props={{
+        location: state.location,
         data: {
           hashtagWhitelist: hashtags,
           typeWhitelist: ["md"],
