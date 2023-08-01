@@ -29,17 +29,16 @@ const {
 ============(When modified to be web app we should delete action to replace it with a propper State.update)============
 */
 
-console -
-  log(
-    "brand.homePageId:",
-    brand.homePageId,
-    "navigationButtons.id:",
-    navigationButtons.id,
-    "navigationButtons.id:",
-    navigationButtons.id,
-    "navigationButtons.title:",
-    navigationButtons.title
-  );
+console.log(
+  "brand.homePageId:",
+  brand.homePageId,
+  "navigationButtons.id:",
+  navigationButtons.id,
+  "navigationButtons.id:",
+  navigationButtons.id,
+  "navigationButtons.title:",
+  navigationButtons.title
+);
 
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
