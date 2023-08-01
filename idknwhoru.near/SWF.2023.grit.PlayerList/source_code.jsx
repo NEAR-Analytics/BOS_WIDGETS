@@ -198,9 +198,6 @@ const Cards = () => {
 };
 
 const PlayListWrapper = styled.div`
-  .playlist-label {
-    color: #fff;
-  }
 `;
 
 const SelectableButton = styled.button`
@@ -246,7 +243,7 @@ return (
   <>
     {state.page === 0 ? (
       <PlayListWrapper>
-        <h1 className="playlist-label">가장 핫한 선수</h1>
+        <h1 className="playlist-label">모두가 핫한 선수</h1>
         <SelectableButton
           mode={0}
           onClick={(_) => {
