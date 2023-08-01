@@ -11,7 +11,7 @@ if (profile === null) {
 }
 
 const minaCredential = fetch(
-  `https://localhost:3080/api/query/get_credential?uid=${credentialUid}`,
+  `http://localhost:3080/api/query/get_credential?uid=${credentialUid}`,
   {
     method: "GET",
   }
