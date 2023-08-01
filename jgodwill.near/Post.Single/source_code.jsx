@@ -43,16 +43,21 @@ State.init({
 });
 
 const hasImageInPost = state?.content?.image; // TO-DO change this to check if has image in post
-const getImageUrl = () =>
-  (state?.content?.image.ipfs_cid
+const getImageUrl = () => {
+  State.update({
+    description: state?.content?.text,
+    content: JSON.parse(
+      Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
+    ),
+  });
+  return state?.content?.image.ipfs_cid
     ? State.update({
         imageUrl: `https://ipfs.near.social/ipfs/${state?.content?.image.ipfs_cid}`,
-        description: state?.content?.text,
       })
     : State.update({
         imageUrl: state?.content?.image.url,
-        description: state?.content?.text,
-      })) || fallbackUrl;
+      }) || fallbackUrl;
+};
 
 getImageUrl();
 console.log("content: ", state.content.text);
