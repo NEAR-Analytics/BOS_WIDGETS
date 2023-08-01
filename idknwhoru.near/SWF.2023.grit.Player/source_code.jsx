@@ -1,4 +1,7 @@
-const player = props.player;
+const player = props.player ?? {
+  name: "김유철",
+  address: "0xFB6c8D00598B394798B2bbf3b66adCa608D5e08C",
+};
 
 const cronosContractAddress = "0x1D37CC6381b8B5795A6e0F54b313c54F00Bc848E";
 
@@ -81,20 +84,20 @@ return (
   <>
     {state.player !== undefined ? (
       <PlayerWrapper>
-        <h1>
+        <h1 className="player-name">
           {state.player[0]} {state.player[1]}
         </h1>
         <hr />
         <PlayerInfoWrapper>
           <div className="label-wrapper">
-            <p>포지션</p>
-            <p>소속팀</p>
-            <p>생년월일</p>
+            <p className="label-name">포지션</p>
+            <p className="label-name">소속팀</p>
+            <p className="label-name">생년월일</p>
           </div>
           <div className="content-wrapper">
-            <p>{state.player[3]}</p>
-            <p>{state.player[4]}</p>
-            <p>{state.player[2]}</p>
+            <p className="content-name">{state.player[3]}</p>
+            <p className="content-name">{state.player[4]}</p>
+            <p className="content-name">{state.player[2]}</p>
           </div>
         </PlayerInfoWrapper>
       </PlayerWrapper>
