@@ -93,6 +93,7 @@ const MyPageWrapper = styled.div`
 
 const ContentWrapper = styled.div`
     display: flex;
+    gap: 60px;
 `;
 
 const CardSelectWrapper = styled.div`
@@ -105,6 +106,7 @@ const CardSelectWrapper = styled.div`
 const CardWrapper = styled.div`
     width: 50%;
     border: 1px solid;
+    padding: 15px;
 
     .card-image {
         width: 100%;
