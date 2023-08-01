@@ -78,7 +78,7 @@ return (
       {state.mode === 0 ? (
         <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
       ) : state.mode === 1 ? (
-        <></>
+        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
       ) : (
         <Widget src={`idknwhoru.near/widget/SWF.2023.grit.MyPage`} />
       )}
