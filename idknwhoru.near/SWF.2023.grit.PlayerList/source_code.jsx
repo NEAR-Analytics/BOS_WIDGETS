@@ -80,7 +80,7 @@ const Cards = () => {
 
 return (
   <>
-    <Web3Connect connectLabel="Connect Wallet" />
+    <h1>가장 핫한 선수</h1>
     <button>전체보기</button>
     <button>공격수</button>
     <button>수비수</button>
