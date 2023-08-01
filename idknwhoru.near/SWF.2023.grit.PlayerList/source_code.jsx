@@ -1,5 +1,3 @@
-const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
-
 State.init({
   mode: 0,
   page: 0,
@@ -15,6 +13,8 @@ const images = [
   "https://ipfs.near.social/ipfs/bafkreicl2wdomm22rlz2h3gt62uilbharqgh4gmfbx7j7mbnbrkkfxq564",
   "https://ipfs.near.social/ipfs/bafkreiew5g7eizlh6ms7al5y23g7juioejle2bhv3cbyqoq55upxt2dlyu",
 ];
+
+const cronosContractAddress = "0x21Ddc0803447C70b38121766CA99C827aD6f02a8";
 
 const cronosContractABI = [
   {
