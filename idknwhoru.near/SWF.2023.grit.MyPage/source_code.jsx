@@ -1,3 +1,7 @@
+State.init({
+  page: 0,
+});
+
 const images = [
   "https://ipfs.near.social/ipfs/bafkreifdek56fab4d55vun6to66dzizhy76ly65gdy3eo6lv5vnzbxgrty",
   "https://ipfs.near.social/ipfs/bafkreibslifqs6pz37vy2mrrlmogtatlg5s2d5fc4bfiv4rzcgzubgekeu",
@@ -170,56 +174,70 @@ const PlayingWrapper = styled.div`
     }
 `;
 
+console.log(state);
+
 const Player = () => {
-  if (state.players === undefined || state.players.length === 0) {
+  if (state.players === undefined) {
+    return "선수 불러오는 중..";
+  }
+
+  if (state.players.length === 0) {
     return "후원한 선수가 없습니다.";
   }
 
   return (
-    <div>
-      <h1>마이페이지</h1>
-      <h2>5명을 선택해 라인업을 구성하세요.</h2>
-      <ContentWrapper>
-        <CardSelectWrapper>
-          {state.players.map((player, idx) => {
-            console.log(player[6]);
-            return (
-              <CardWrapper isPlaying={player[6]}>
-                <div className="card-wrapper">
-                  <img className="card-image" src={images[idx]} />
-                  <div className="player-info">
-                    <div className="player-label">
-                      <div className="flex-item flex-start">
-                        <p className="playing-tag">
-                          {player[6] === true ? "경기중" : "대기중"}
-                        </p>
+    <>
+      {state.page === 0 ? (
+        <>
+          <h1>마이페이지</h1>
+          <h2>5명을 선택해 라인업을 구성하세요.</h2>
+          <ContentWrapper>
+            <CardSelectWrapper>
+              {state.players.map((player, idx) => {
+                console.log(player[6]);
+                return (
+                  <CardWrapper isPlaying={player[6]}>
+                    <div className="card-wrapper">
+                      <img className="card-image" src={images[idx]} />
+                      <div className="player-info">
+                        <div className="player-label">
+                          <div className="flex-item flex-start">
+                            <p className="playing-tag">
+                              {player[6] === true ? "경기중" : "대기중"}
+                            </p>
+                          </div>
+                          <div className="flex-item flex-end">
+                            <p>{player[1]}</p>
+                            <p>{player[3]}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-item flex-end">
-                        <p>{player[1]}</p>
-                        <p>{player[3]}</p>
+                      <div className="player-detail-wrapper">
+                        <button>상세보기</button>
                       </div>
                     </div>
-                  </div>
-                  <div className="player-detail-wrapper">
-                    <button>상세보기</button>
-                  </div>
-                </div>
-              </CardWrapper>
-            );
-          })}
-        </CardSelectWrapper>
-        <PlayingWrapper>
-          <div className="league-nav-wrapper">
-            <button>원오원리그 바로참가하기</button>
-          </div>
-          <div className="field-wrapper">
-            <img
-              src={`https://ipfs.near.social/ipfs/bafybeifuuvunlhpvt6y442u3fjlrpsnwvpxvzvrzueyjfbyx274g5a4vfe`}
-            />
-          </div>
-        </PlayingWrapper>
-      </ContentWrapper>
-    </div>
+                  </CardWrapper>
+                );
+              })}
+            </CardSelectWrapper>
+            <PlayingWrapper>
+              <div className="league-nav-wrapper">
+                <button onClick={State.update({ page: 1 })}>
+                  원오원리그 바로참가하기
+                </button>
+              </div>
+              <div className="field-wrapper">
+                <img
+                  src={`https://ipfs.near.social/ipfs/bafybeifuuvunlhpvt6y442u3fjlrpsnwvpxvzvrzueyjfbyx274g5a4vfe`}
+                />
+              </div>
+            </PlayingWrapper>
+          </ContentWrapper>
+        </>
+      ) : (
+        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
+      )}
+    </>
   );
 };
 
