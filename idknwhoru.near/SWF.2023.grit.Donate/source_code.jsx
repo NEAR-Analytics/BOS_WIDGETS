@@ -1,7 +1,7 @@
 const player = props.player;
-const list = [0.01, 0.1, 1, 10, 100];
+const list = [1, 10, 100, 1000, 10000, 100000];
 
-const cronosContractAddress = "0x876fEF178cd0D7fF10D1512b9cff7D8C3E56B1D8";
+const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
 const cronosContractABI = [
   {
@@ -9,7 +9,7 @@ const cronosContractABI = [
     stateMutability: "payable",
     outputs: [],
     name: "donate",
-    inputs: [{ type: "string", name: "player", internalType: "string" }],
+    inputs: [{ type: "address", name: "player", internalType: "address" }],
   },
 ];
 
@@ -28,7 +28,7 @@ const donate = (_) => {
     Ethers.provider().getSigner()
   );
 
-  cronosContract.donate(player, { value: price });
+  cronosContract.donate(player.address, { value: price });
 };
 
 if (Ethers.provider()) {
@@ -73,8 +73,7 @@ const Cards = () => {
 
 return (
   <>
-    <Web3Connect connectLabel="Connect Wallet" />
-    <h1>{player}</h1>
+    <h1>{player.name}</h1>
     <button onClick={donate}>후원하기</button>
     <Cards />
   </>
