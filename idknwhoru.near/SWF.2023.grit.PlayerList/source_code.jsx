@@ -57,6 +57,9 @@ const getAllPlayers = () => {
 };
 
 if (Ethers.provider()) {
+  if (state.players === undefined) {
+    getAllPlayers();
+  }
   const signer = Ethers.provider().getSigner();
   signer
     .getAddress()
@@ -67,12 +70,6 @@ if (Ethers.provider()) {
       console.log({ err });
     });
 }
-
-if (state.players === undefined) {
-  getAllPlayers();
-}
-
-console.log(state.players);
 
 const Card = styled.div`
     color: #fff;
