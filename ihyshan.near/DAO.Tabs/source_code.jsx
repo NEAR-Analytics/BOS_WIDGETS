@@ -1,4 +1,4 @@
-const widgetProvider = "ihyshan.near";
+const widgetProvider = "frichard5.near";
 const refUrl = "https://api.stats.ref.finance/api/ft";
 
 const daoId = props.daoId ?? "research-collective.sputnik-dao.near";
