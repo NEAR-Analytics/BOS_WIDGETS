@@ -270,6 +270,13 @@ return (
       </PlayListWrapper>
     ) : (
       <DetailPageWrapper>
+        <h1
+          onClick={() => {
+            State.update({ page: 0 });
+          }}
+        >
+          &lt; 돌아가기
+        </h1>
         <Widget
           src={`idknwhoru.near/widget/SWF.2023.grit.Player`}
           props={{ player: state.player }}
