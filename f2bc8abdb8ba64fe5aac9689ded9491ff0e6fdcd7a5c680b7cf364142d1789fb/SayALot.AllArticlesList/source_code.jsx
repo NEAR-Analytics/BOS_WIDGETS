@@ -51,6 +51,7 @@ return (
               renderReactions: true,
               widgets,
               addressForArticles,
+              handleOpenArticle,
             }}
           />
         );
