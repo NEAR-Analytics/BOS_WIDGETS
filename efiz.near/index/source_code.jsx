@@ -4,9 +4,9 @@ if (!tab) {
 }
 
 let activeTab = null;
-routes.find((t) => {
-  if (Array.isArray(t)) {
-    return t.find((subTab) => {
+routes.find((route) => {
+  if (Array.isArray(route)) {
+    return route.find((subTab) => {
       if (tab === subTab.handle) {
         activeTab = subTab;
         return true;
@@ -14,12 +14,14 @@ routes.find((t) => {
       return false;
     });
   }
-  if (t.handle === tab) {
-    activeTab = t;
+  if (tab === route.handle) {
+    activeTab = route;
     return true;
   }
   return false;
 });
+
+console.log(JSON.stringify(activeTab));
 
 const tabContent = activeTab ? (
   <Widget
