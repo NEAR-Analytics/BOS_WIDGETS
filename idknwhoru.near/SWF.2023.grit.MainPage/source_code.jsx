@@ -33,7 +33,11 @@ return (
   <>
     <ThemeWrapper>
       <GNBWrapper>
-        <h1>KGRIT</h1>
+        <h1>
+          <img
+            src={`https://ipfs.near.social/ipfs/bafkreihqvsh66f4fmuuxsdplvc2biptfoseevy3jgqhye6qnmfzdzay72m`}
+          />
+        </h1>
         <ButtonWrapper>
           <ul>
             <h2
@@ -48,7 +52,7 @@ return (
                 State.update({ mode: 1 });
               }}
             >
-              AI NFT
+              원오원 리그
             </h2>
           </ul>
           <Web3Connect
