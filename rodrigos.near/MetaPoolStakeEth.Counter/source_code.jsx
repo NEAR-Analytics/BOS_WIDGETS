@@ -83,7 +83,7 @@ return (
       <div
         style={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           textAlign: "center",
         }}
       >
@@ -93,7 +93,7 @@ return (
       <div
         style={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           textAlign: "center",
         }}
       >
@@ -103,7 +103,7 @@ return (
       <div
         style={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           textAlign: "center",
         }}
       >
