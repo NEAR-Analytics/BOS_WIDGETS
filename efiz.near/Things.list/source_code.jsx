@@ -192,12 +192,29 @@ const renderLoading = () => <>loading</>;
 let data = {};
 switch (state.selectedOption) {
   case "all": {
-    const pattern = `${state.accountId ?? "*"}/${typeName}/*`;
-    data = Social.keys(pattern, "final", {
-      return_type: "BlockHeight",
-      limit: 1,
-    });
+    // This is duplicated code, a bit of a hack rn
+    if (state.tag) {
+      const pattern = `${state.accountId ?? "*"}/${typeName}/*/metadata/tags/${
+        state.tag ?? "*"
+      }`;
+      const keys = Social.keys(pattern, "final");
 
+      if (keys) {
+        keys = Object.entries(keys).flatMap(([key, value]) =>
+          Object.keys(value[typeName]).map((w) => `${key}/${typeName}/${w}`)
+        );
+        data = Social.keys(keys, "final", {
+          return_type: "BlockHeight",
+          limit: 1,
+        });
+      }
+    } else {
+      const pattern = `${state.accountId ?? "*"}/${typeName}/*`;
+      data = Social.keys(pattern, "final", {
+        return_type: "BlockHeight",
+        limit: 1,
+      });
+    }
     break;
   }
   case "taggedByCreator": {
