@@ -1,7 +1,7 @@
 const player = props.player;
 const list = [30, 20, 10];
 
-const cronosContractAddress = "0x21Ddc0803447C70b38121766CA99C827aD6f02a8";
+const cronosContractAddress = "0x1D37CC6381b8B5795A6e0F54b313c54F00Bc848E";
 
 const cronosContractABI = [
   {
