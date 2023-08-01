@@ -605,7 +605,7 @@ const renderTags = () => {
         const filter = { filterBy: "tag", value: tag };
 
         return (
-          <div onClick={handleFilterArticles(filter)}>
+          <div onClick={() => handleFilterArticles(filter)}>
             {tag && (
               <Widget
                 src={widgets.styledComponents}
