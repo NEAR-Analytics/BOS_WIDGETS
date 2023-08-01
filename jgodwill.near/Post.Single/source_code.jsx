@@ -131,7 +131,7 @@ const nftMint = () => {
             token_id: `${Date.now()}`,
             metadata: {
               title: state.title,
-              description: `${state.description.trim().slice(0, 140)}...`,
+              description: `${state.description.trim().slice(0, 100)}...`,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
               media: `${state.imageUrl}`,
