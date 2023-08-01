@@ -295,7 +295,7 @@ return (
         <Cards />
       </PlayListWrapper>
     ) : (
-      <DetailPageWrapper>
+      <DetailPageWrapper className="detail-player-wrapper">
         <h1
           className="nav-back"
           onClick={() => {
