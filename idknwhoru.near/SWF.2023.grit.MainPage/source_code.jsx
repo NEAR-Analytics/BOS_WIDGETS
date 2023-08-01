@@ -8,6 +8,28 @@ const GNBWrapper = styled.div`
   display: flex;
 `;
 
+const PlayerWrapper = styled.div`
+  .playlist-label {
+    color: #fff;
+  }
+
+  .nav-back {
+    color: #fff;
+  }
+
+  .player-name {
+    color: #fff;
+  }
+
+  .label-name  {
+    color: #fff;
+  }
+
+  .content-name  {
+    color: #fff;
+  }
+`;
+
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -109,7 +131,9 @@ return (
         </ButtonWrapper>
       </GNBWrapper>
       {state.mode === 0 ? (
-        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
+        <PlayerWrapper>
+          <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
+        </PlayerWrapper>
       ) : state.mode === 1 ? (
         <LeagueWrapper>
           <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
