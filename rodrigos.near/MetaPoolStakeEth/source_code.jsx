@@ -20,7 +20,7 @@ if (
 if (state.chainId !== undefined && state.chainId !== 5) {
   return <p>Switch to Ethereum Goerli</p>;
 }
-console.log(window.screen.width);
+
 // FETCH STAKING ABI
 
 const stakingAddress = "0x748c905130CC15b92B97084Fd1eEBc2d2419146f";
@@ -165,14 +165,16 @@ const submitEthers = (strEther, _referral) => {
     .depositETH(state.sender, { value: amount })
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
-        updateData();
         State.update({
           openModal: true,
           modalTitle: "Success!",
           modalDescription: "Tokens staked successfully.",
           loading: false,
           strEther: 0,
+          balance: "",
+          stakedBalance: "",
         });
+        updateData();
       });
     })
     .catch((e) => {
@@ -247,39 +249,6 @@ if (state.stakedBalance === undefined && state.sender) {
   getUserMpethBalance();
 }
 
-// GET MPETH PRICE
-
-const getMpETHPrice = () => {
-  if (
-    !state.contractData ||
-    Big(state.contractData.stakingData.totalSupply).eq(0) ||
-    Big(state.contractData.stakingData.totalUnderlying).eq(0)
-  ) {
-    return Big("1000000000000000000").toString();
-  }
-
-  const rewardsSinceUpdate = Big(
-    state.contractData.stakingData.estimatedRewardsPerSecond
-  )
-    .mul(
-      Math.floor(Date.now()) -
-        (Big(state.contractData.stakingData.submitReportUnlockTime).toNumber() -
-          Big(state.contractData.stakingData.submitReportTimelock).toNumber()) *
-          1000
-    )
-    .div(1000);
-
-  const assets = Big(state.contractData.stakingData.totalUnderlying).add(
-    rewardsSinceUpdate
-  );
-
-  return assets
-    .mul(Big("1000000000000000000"))
-    .div(Big(state.contractData.stakingData.totalSupply))
-    .toString()
-    .split(".")[0];
-};
-
 // USER ADDRESS OUTPUT UI
 
 const getUserAddress = () => {
@@ -308,37 +277,6 @@ if (!state.dataIntervalStarted) {
   }, 10000);
 }
 
-// if (
-//   !state.mpEthPriceIntervalStarted &&
-//   state.stakedBalance &&
-//   state.ethUsdPrice
-// ) {
-//   State.update({ mpEthPriceIntervalStarted: true });
-
-//   setInterval(() => {
-//     const bigMpEthPrice = Big(getMpETHPrice());
-
-//     const mpEthPrice = bigMpEthPrice
-//       .div(Big(10).pow(tokenDecimals))
-//       .toFixed(11)
-//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-//     const userMpEthInEth = bigMpEthPrice
-//       .mul(parseFloat(state.stakedBalance))
-//       .div(Big(10).pow(tokenDecimals))
-//       .toFixed(11)
-//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-//     const userMpEthUsd = bigMpEthPrice
-//       .mul(state.ethUsdPrice)
-//       .div(Big(10).pow(tokenDecimals))
-//       .toFixed(2)
-//       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-//     State.update({ mpEthPrice, userMpEthInEth, userMpEthUsd });
-//   }, 500);
-// }
-
 // STYLED COMPONENTS
 
 const PageContainer = styled.div`
@@ -358,7 +296,7 @@ const PageContainer = styled.div`
 
 const StakeContainer = styled.div`
   width: 100%;
-  max-width: 700px;
+  max-width: 600px;
   align-self: center
 `;
 
@@ -394,7 +332,7 @@ const StakeFormTopContainer = styled.div`
 `;
 
 const StakeFormTopContainerLeft = styled.div`
-  margin-right: 18px;
+  margin-right: 8px;
   flex-basis: 50%;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -460,7 +398,7 @@ const StakeFormTopContainerCenterContent2 = styled.div`
 `;
 
 const StakeFormTopContainerRight = styled.div`
-  margin-left: 18px;
+  margin-left: 8px;
   flex-basis: 50%;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -640,60 +578,20 @@ return (
         )}
       </StakeForm>
       <StakeFormWrapper>
-        {false && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "0 16px",
-              width: "100%",
-              border: "#D7E0E4 1px solid",
-              borderRadius: "16px",
-            }}
-          >
-            <div
-              style={{
-                width: "300px",
+        {state.contractData.stakingData &&
+          state.stakedBalance &&
+          state.ethUsdPrice &&
+          tokenDecimals && (
+            <Widget
+              src={`rodrigos.near/widget/MetaPoolStakeEth.Counter`}
+              props={{
+                stakingData: state.contractData.stakingData,
+                stakedBalance: state.stakedBalance,
+                ethUsdPrice: state.ethUsdPrice,
+                tokenDecimals,
               }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                <div>mpETH/ETH Price:</div>
-                <div>{state.mpEthPrice}</div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                <div>Your mpETH/ETH:</div>
-                <div>{state.userMpEthInEth}</div>
-              </div>
-              {false && (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    textAlign: "center",
-                    fontVariantNumeric: "tabular-nums",
-                  }}
-                >
-                  <div>Your mpETH/USD:</div>
-                  <div>{state.userMpEthUsd} $</div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+            />
+          )}
         <Widget
           src={`rodrigos.near/widget/MetaPoolStakeEth.Input`}
           props={{
@@ -731,7 +629,7 @@ return (
               state.metrics && state.strEther && parseFloat(state.strEther) > 0
                 ? (state.strEther / state.metrics.mpethPrice).toFixed(5)
                 : 0,
-            price: state.metrics ? state.metrics.mpethPrice : 1,
+            //price: state.metrics ? state.metrics.mpethPrice : 1,
             iconName: "mpETH",
             iconUrl:
               "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
