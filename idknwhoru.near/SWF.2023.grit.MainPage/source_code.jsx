@@ -15,6 +15,7 @@ const ButtonWrapper = styled.div`
 
   ul {
     display: flex;
+    gap: 15px;
   }
 
   .btn-outline-secondary {
