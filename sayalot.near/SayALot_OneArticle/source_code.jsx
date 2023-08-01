@@ -581,7 +581,7 @@ return (
                   src={`${authorForWidget}/widget/SayALot_Reactions`}
                   props={{
                     // notifyAccountId,
-                    commentItem,
+                    item: commentItem,
                     realArticleId,
                     isDebug,
                   }}
