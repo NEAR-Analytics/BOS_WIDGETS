@@ -38,10 +38,10 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  !displayedTabId ||
-  !(displayedTabId == 0) ||
+  (!displayedTabId && !(displayedTabId == 0)) ||
   !pills ||
-  (brand && (!brand.logoHref || !brand.homePageId || !(brand.homePageId == 0)))
+  (brand &&
+    (!brand.logoHref || (!brand.homePageId && !(brand.homePageId == 0))))
 ) {
   const crucialPropMissingMsg = "The following crucial props are missing:";
   return (
