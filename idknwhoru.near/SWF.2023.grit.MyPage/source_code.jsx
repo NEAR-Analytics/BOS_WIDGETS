@@ -62,10 +62,15 @@ if (Ethers.provider()) {
 
 getMyPlayers();
 
+const ContentWrapper = styled.div`
+    display: flex;
+`;
+
 const CardSelectWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 30%;
+  align-content: flex-start
 `;
 
 const CardWrapper = styled.div`
@@ -133,6 +138,30 @@ const CardWrapper = styled.div`
         display: flex;
         justify-content: center;
         margin: 3px;
+        margin-bottom: 0;
+    }
+`;
+
+const PlayingWrapper = styled.div`
+    width: 65%;
+    height: 100%;
+
+    .league-nav-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .league-nav-wrapper button {
+        padding: 10px 20px;
+        border: 1px solid #fff;
+        border-radius: 25px;
+        background-color: #fff;
+        color: blue;
+    }
+
+    .field-wrapper {
+        height: 600px;
+        border: 1px solid;
     }
 `;
 
@@ -145,36 +174,42 @@ const Player = () => {
     <div>
       <h1>마이페이지</h1>
       <h2>5명을 선택해 라인업을 구성하세요.</h2>
-      <CardSelectWrapper>
-        {state.players.map((player, idx) => {
-          console.log(player[6]);
-          return (
-            <CardWrapper isPlaying={player[6]}>
-              <div className="card-wrapper">
-                <img className="card-image" src={images[idx]} />
-                <div className="player-info">
-                  <div className="player-label">
-                    <div className="flex-item flex-start">
-                      <p className="playing-tag">
-                        {player[6] === true ? "경기중" : "대기중"}
-                      </p>
-                    </div>
-                    <div className="flex-item flex-end">
-                      <p>{player[1]}</p>
-                      <p>{player[3]}</p>
+      <ContentWrapper>
+        <CardSelectWrapper>
+          {state.players.map((player, idx) => {
+            console.log(player[6]);
+            return (
+              <CardWrapper isPlaying={player[6]}>
+                <div className="card-wrapper">
+                  <img className="card-image" src={images[idx]} />
+                  <div className="player-info">
+                    <div className="player-label">
+                      <div className="flex-item flex-start">
+                        <p className="playing-tag">
+                          {player[6] === true ? "경기중" : "대기중"}
+                        </p>
+                      </div>
+                      <div className="flex-item flex-end">
+                        <p>{player[1]}</p>
+                        <p>{player[3]}</p>
+                      </div>
                     </div>
                   </div>
+                  <div className="player-detail-wrapper">
+                    <button>상세보기</button>
+                  </div>
                 </div>
-                <div className="player-detail-wrapper">
-                  <button>상세보기</button>
-                </div>
-              </div>
-            </CardWrapper>
-          );
-        })}
-      </CardSelectWrapper>
-      {/**<button>원오원리그 바로참가하기</button>**/}
-      <div></div>
+              </CardWrapper>
+            );
+          })}
+        </CardSelectWrapper>
+        <PlayingWrapper>
+          <div className="league-nav-wrapper">
+            <button>원오원리그 바로참가하기</button>
+          </div>
+          <div className="field-wrapper"></div>
+        </PlayingWrapper>
+      </ContentWrapper>
     </div>
   );
 };
