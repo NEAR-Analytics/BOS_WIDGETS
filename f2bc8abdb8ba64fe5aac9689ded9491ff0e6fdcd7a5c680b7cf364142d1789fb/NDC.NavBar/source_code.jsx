@@ -1,0 +1,239 @@
+const {
+  stateUpdate,
+  brand,
+  pills,
+  navigationButtons,
+  isTest,
+  parentState,
+  writersWhiteList,
+} = props;
+
+/*
+======================================================PILLS EXAMPLE====================================================
+    *Note: the first pill allways has to be the first one displayed*
+    pills: [{
+        id: number,
+        title: string,
+    }]    
+============(When modified to be web app we should delete action to replace it with a propper State.update)============
+
+======================================================BRAND EXAMPLE====================================================
+    brand: {
+        homePageId: number,
+        brandName: string,
+        logoHref: string,
+        logoRemWidth: number/string,
+        logoRemHeight: number/string,
+    }
+    
+============(When modified to be web app we should delete action to replace it with a propper State.update)============
+*/
+
+const logoRemWidth = brand.logoRemWidth
+  ? brand.logoRemWidth + "rem"
+  : undefined;
+const logoRemHeight = brand.logoRemHeight
+  ? brand.logoRemHeight + "rem"
+  : undefined;
+
+if (
+  !stateUpdate ||
+  !state ||
+  !pills ||
+  (navigationButtons && (!navigationButtons.id || !navigationButtons.title)) ||
+  (brand && (!brand.logoHref || !brand.homePageId))
+) {
+  const crucialPropMissingMsg = "The following crucial props are missing:";
+  return (
+    <div>
+      <h3 className="text-danger">{crucialPropMissingMsg}</h3>
+      <ul>
+        {!stateUpdate && <li className="text-danger">stateUpdate</li>}
+
+        {!state && <li className="text-danger">state</li>}
+
+        {!pills && <li className="text-danger">pills</li>}
+
+        {brand && !brand.logoHref && (
+          <li className="text-danger">brand.logoHref</li>
+        )}
+
+        {brand && !brand.homePageId && (
+          <li className="text-danger">brand.homePageId</li>
+        )}
+
+        {navigationButtons && !navigationButtons.id && (
+          <li className="text-danger">navigationButtons.id</li>
+        )}
+
+        {navigationButtons && !navigationButtons.id && (
+          <li className="text-danger">navigationButtons.id</li>
+        )}
+
+        {navigationButtons && !navigationButtons.title && (
+          <li className="text-danger">navigationButtons.title</li>
+        )}
+      </ul>
+    </div>
+  );
+}
+
+if (!currentNavPill) {
+  currentNavPill = "";
+}
+
+const accountId = context.accountId;
+
+//============================================Styled components==================================================
+const BrandLogoContainer = styled.div`
+    width: ${logoRemWidth ?? "4rem"};
+    height: ${logoRemHeight ?? "4rem"};
+    cursor: pointer;
+`;
+
+const Pill = styled.div`
+    font-family: system-ui;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 24px;
+    color: black;
+    cursor: pointer;
+
+    &:hover {
+        color: #9333EA;
+    }
+`;
+
+const StylessATag = styled.a`
+    &:hover {
+        text-decoration: none;
+    }
+`;
+//============================================End styled components==============================================
+
+//=================================================Components====================================================
+
+const renderButton = (button) => {
+  <Widget
+    src="rubycop.near/widget/NDC.StyledComponents"
+    props={{
+      Button: {
+        size: "big",
+        onClick: () => {
+          stateUpdate({ displayedTabId: button.id });
+        },
+        text: button.title,
+        className: "primary dark",
+      },
+    }}
+  />;
+};
+//==============================================End components===================================================
+
+//==================================================FUNCTIONS====================================================
+
+function getLink(widgetName) {
+  let baseLink = widgetName
+    ? `#/${authorForWidget}/widget/${widgetName}`
+    : `#/${authorForWidget}/widget/SayALot_CreateArticle`;
+
+  if (isTest) {
+    return baseLink + "?isTest=true";
+  } else baseLink;
+}
+
+function handleArticlesListNavigation(filterBy) {
+  () => stateUpdate({ displayedTabId: brand.homePageId, listBy: filterBy });
+}
+
+//================================================END FUNCTIONS===================================================
+
+return (
+  <div className="navbar navbar-expand-md border-bottom mb-3">
+    <div className="container-fluid">
+      {brand && (
+        <BrandLogoContainer
+          className="navbar-brand text-decoration-none"
+          onClick={handleArticlesListNavigation(navigationPills[0].title)}
+        >
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              // image: metadata.image,
+              className: "w-100 h-100",
+              style: {
+                objectFit: "cover",
+              },
+              thumbnail: false,
+              fallbackUrl: brand.logoHref,
+              alt: brand.brandName ?? "",
+            }}
+          />
+        </BrandLogoContainer>
+      )}
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon"></span>
+      </button>
+      <div
+        className="collapse navbar-collapse justify-content-center"
+        id="navbarNav"
+      >
+        <ul className="navbar-nav">
+          {pills &&
+            pills.map(({ id, title }, i) =>
+              !id || !title ? (
+                <p className="text-danger">Pill passed wrong</p>
+              ) : (
+                <li className="nav-item">
+                  <Pill
+                    onClick={handleArticlesListNavigation(title)}
+                    className={`nav-link ${
+                      id === parentState.displayedTabId
+                        ? "active text-decoration-underline"
+                        : "text-decoration-none"
+                    } `}
+                  >
+                    {title}
+                  </Pill>
+                </li>
+              )
+            )}
+          {navigationButtons &&
+            accountId &&
+            writersWhiteList &&
+            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+              <>
+                {navigationButtons.map((button) => {
+                  return (
+                    <div className="d-block d-md-none">
+                      {renderButton(button)}
+                    </div>
+                  );
+                })}
+              </>
+            )}
+        </ul>
+      </div>
+      {navigationButtons &&
+        accountId &&
+        writersWhiteList &&
+        writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
+          <>
+            {navigationButtons.map((button) => {
+              return (
+                <div className="d-none d-md-block">{renderButton(button)}</div>
+              );
+            })}
+          </>
+        )}
+    </div>
+  </div>
+);
