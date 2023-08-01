@@ -58,13 +58,11 @@ return (
     {state.player !== undefined ? (
       <>
         <h1>
-          {state.player[0]} ({state.player[1]})
+          {state.player[0]} {state.player[1]}
         </h1>
-        <h2>
-          {state.player[4]}: {state.player[3]}
-        </h2>
-        <p>{state.player[2]}</p>
-        <p>{ethers.utils.formatEther(state.player[5])} CRO</p>
+        <p>포지션:{state.player[3]}</p>
+        <p>소속팀: {state.player[4]}</p>
+        <p>생년월일: {state.player[2]}</p>
       </>
     ) : null}
   </>
