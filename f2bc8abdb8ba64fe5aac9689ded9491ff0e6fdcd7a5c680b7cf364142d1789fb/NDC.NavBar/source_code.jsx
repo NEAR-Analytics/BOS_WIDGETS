@@ -177,14 +177,14 @@ return (
               ) : (
                 <li className="nav-item">
                   <Pill
-                    onClick={handleArticlesListNavigation(title)}
+                    onClick={handleArticlesListNavigation(pill.title)}
                     className={`nav-link ${
                       id === displayedTabId
                         ? "active text-decoration-underline"
                         : "text-decoration-none"
                     } `}
                   >
-                    {title}
+                    {pill.title}
                   </Pill>
                 </li>
               );
