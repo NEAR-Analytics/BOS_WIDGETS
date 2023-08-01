@@ -175,7 +175,7 @@ return (
               console.log("pill: ", pill);
               return (
                 <>
-                  {!pill.id || !pill.title ? (
+                  {(!pill.id && pill.id != 0) || !pill.title ? (
                     <p className="text-danger border">Pill passed wrong</p>
                   ) : (
                     <li className="nav-item">
