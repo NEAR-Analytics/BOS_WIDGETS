@@ -1,35 +1,39 @@
 let accountId = context.accountId;
-let cid =
-  props.cid ?? "bafkreidlgo75qhedw2vrq7yx3jww2kzuyjozw6ct5vaa5azorxlwltd6k4";
 const mintButton = props.mintButton ?? "Mint Credential";
 const showDetails = props.showDetails ?? true;
-const title = props.title ?? "Mina zkIgnite Cohort 1 Contributor Credential";
 const receiver = props.receiver ?? accountId;
-const credentialProof =
-  props.credentialProof ??
-  "B62qrnKZ7aW5jpk4xBgv6XqCT1YGx3wUBE6wEeJUW2fyDa7DEZtRk29";
-let description =
-  props.description ??
-  "Proof of Emitted Credential by SocialCap - Mina zkIgnite Cohort 1 Contributor Credential";
+const credentialUid = props.uid ?? "caaaaff63a48400a9ce57f3ad6960001";
 const profile = socialGetr(`${accountId}/profile`);
 
 if (profile === null) {
   IpfsImageUpload();
   return "Loading";
 }
+
+const minaCredential = fetch(
+  `https://localhost:3080/api/query/get_credential?uid=${credentialUid}`,
+  {
+    method: "GET",
+  }
+);
+if (!minaCredential) {
+  return "Loading...";
+}
+console.log("minaCredential", minaCredential);
+const credential = minaCredential.body;
+
 State.init({
-  cid: cid,
-  description: description,
-  title: title,
+  cid: credential.image,
+  description: credential.description,
+  title: credential.type,
+  community: credential.community,
+  userAlias: credential.alias,
+  issuedUtc: credential.issuedUtc,
+  expireUtc: credential.expiresUTC,
   receiver: receiver,
   showAlert: false,
   toastMessage: "",
 });
-
-const verifyCredentialProof = () => {
-  // ToDo call API to verify is credential account in Mina is valid
-  // as well as the credential receiver
-};
 
 const handleMint = () => {
   if (!state.cid) {
@@ -72,9 +76,9 @@ const handleMint = () => {
     const metadata = {
       name: state.title,
       description: state.description,
-      properties: [{ credentialProof: credentialProof }],
+      properties: [{ credentialUid }],
       image: `ipfs://${state.cid}`,
-      reference: credentialProof,
+      reference: credentialUid,
     };
     console.log("come", metadata);
     asyncFetch("https://ipfs.near.social/add", {
@@ -100,7 +104,7 @@ const handleMint = () => {
               title: state.title,
               description: state.description,
               media: `https://ipfs.io/ipfs/${state.cid}`,
-              reference: credentialProof,
+              reference: credentialUid,
             },
             receiver_id: state.receiver,
           },
@@ -126,7 +130,7 @@ if (!accountId) {
   });
 }
 
-if (!credentialProof) {
+if (!credentialUid) {
   console.log("NO Credential proof received");
   State.update({
     showAlert: true,
