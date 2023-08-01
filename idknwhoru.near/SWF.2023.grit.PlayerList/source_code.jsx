@@ -107,13 +107,22 @@ const PlayListWrapper = styled.div`
   }
 `;
 
+const SelectableButton = styled.button`
+  width: 110px;
+  height: 50px;
+  border: solid 1px #39324D;
+  border-radius: 30px;
+  background-color: #39324D;
+  color: #fff;
+`;
+
 return (
   <PlayListWrapper>
     <h1 className="playlist-label">가장 핫한 선수</h1>
     <button>전체보기</button>
-    <button>공격수</button>
-    <button>수비수</button>
-    <button>골키퍼</button>
+    <SelectableButton>공격수</SelectableButton>
+    <SelectableButton>수비수</SelectableButton>
+    <SelectableButton>골키퍼</SelectableButton>
     <Cards />
   </PlayListWrapper>
 );
