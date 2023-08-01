@@ -1,7 +1,7 @@
 const widgetProvider = "frichard5.near";
 const refUrl = "https://api.stats.ref.finance/api/ft";
 
-const daoId = props.daoId ?? "research-collective.sputnik-dao.near";
+const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
 const WidgetsContainer = styled.div`
 
