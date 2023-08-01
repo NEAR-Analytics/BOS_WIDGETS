@@ -52,7 +52,7 @@ if (!state.mpEthPriceIntervalStarted && stakedBalance && ethUsdPrice) {
       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
     const userMpEthUsd = bigMpEthPrice
-      .mul(ethUsdPrice)
+      .mul(stakedBalance)
       .div(Big(10).pow(tokenDecimals))
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
