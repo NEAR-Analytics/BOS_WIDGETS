@@ -73,7 +73,7 @@ return (
       <GNBWrapper>
         <h1>
           <img
-            src={`https://ipfs.near.social/ipfs/bafkreihqvsh66f4fmuuxsdplvc2biptfoseevy3jgqhye6qnmfzdzay72m`}
+            src={`https://ipfs.near.social/ipfs/bafkreifjjw45zgdvxlawo5g4qfcvd6ba7gqifbz7xsbqnvtflhrbcgkpq4`}
           />
         </h1>
         <ButtonWrapper>
