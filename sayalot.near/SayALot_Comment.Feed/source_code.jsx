@@ -1,10 +1,20 @@
-const addressForArticles = "sayALotArticle";
-const addressForComments = "sayalot-comments";
-const authorForWidget = "sayalot.near";
-const index = props.index;
-if (!index) {
-  return "props.index is not defined";
+const item = props.item;
+if (!item) {
+  return "Missing item";
 }
+
+const isDebug = props.isDebug;
+
+const addressForArticles = isDebug ? "test_sayALotArticle" : "sayALotArticle";
+const addressForComments = isDebug
+  ? "test_sayalot-comments"
+  : "sayalot-comments";
+const authorForWidget = "sayalot.near";
+const index = {
+  action: addressForComments,
+  key: item,
+  options: {},
+};
 
 const renderItem =
   props.renderItem ??
@@ -35,7 +45,11 @@ index.options.limit = Math.min(
 );
 const reverse = !!props.reverse;
 
-const initialItems = Social.index(index.action, index.key, index.options);
+const initialItems = Social.index(
+  addressForComments,
+  props.item,
+  index.options
+);
 
 if (initialItems === null) {
   return "";
