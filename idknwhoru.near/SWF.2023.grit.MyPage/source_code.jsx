@@ -192,22 +192,61 @@ const PlayingWrapper = styled.div`
     .field-formation-wrapper {
         position: absolute;
         top: 0;
+        width: 100%;
         display: flex;
         flex-direction: column;
     }
 
     .field-formation-front {
         display: flex;
-        border: solid 1px;
+        justify-content: space-evenly;
+        align-items: center;
         width: 100%;
         height: 300px;
     }
 
+    .field-front-card {
+        width: 25%;
+        height: 50%;
+    }
+
     .field-formation-end {
         display: flex;
-        border: solid 1px;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         height: 300px;
+        gap: 5%;
+    }
+
+    .field-end-card {
+        width: 25%;
+        height: 50%;
+    }
+
+    .card-label-wrapper {
+        display: flex;
+        width: 100%;
+        height: 30px;
+        background-color: #fff;
+    }
+
+    .card-label-number {
+        width: 30%;
+        height: 100%;
+        background-color: #37003C;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-label-name {
+        width: 70%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 `;
 
@@ -316,8 +355,45 @@ const Player = () => {
                   src={`https://ipfs.near.social/ipfs/bafybeifuuvunlhpvt6y442u3fjlrpsnwvpxvzvrzueyjfbyx274g5a4vfe`}
                 />
                 <div className="field-formation-wrapper">
-                  <div className="field-formation-front"></div>
-                  <div className="field-formation-end"></div>
+                  <div className="field-formation-front">
+                    <div className="field-front-card">
+                      <img src={images[1]} />
+                      <div className="card-label-wrapper">
+                        <p className="card-label-number">01</p>
+                        <p className="card-label-name">손응민</p>
+                      </div>
+                    </div>
+                    <div className="field-front-card">
+                      <img src={images[2]} />
+                      <div className="card-label-wrapper">
+                        <p className="card-label-number">02</p>
+                        <p className="card-label-name">이감인</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="field-formation-end">
+                    <div className="field-end-card">
+                      <img src={images[3]} />
+                      <div className="card-label-wrapper">
+                        <p className="card-label-number">03</p>
+                        <p className="card-label-name">박형준</p>
+                      </div>
+                    </div>
+                    <div className="field-end-card">
+                      <img src={images[4]} />
+                      <div className="card-label-wrapper">
+                        <p className="card-label-number">04</p>
+                        <p className="card-label-name">홍명보</p>
+                      </div>
+                    </div>
+                    <div className="field-end-card">
+                      <img src={images[5]} />
+                      <div className="card-label-wrapper">
+                        <p className="card-label-number">05</p>
+                        <p className="card-label-name">황휘찬</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </PlayingWrapper>
