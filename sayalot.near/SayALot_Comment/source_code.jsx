@@ -93,7 +93,7 @@ return (
           src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
           props={{
             isDebug,
-            initialText: `${accountId}, `,
+            initialText: `@${accountId}, `,
             // notifyAccountId: extractNotifyAccountId(parentItem),
             item: parentItem,
             onComment: () => State.update({ showReply: false }),
