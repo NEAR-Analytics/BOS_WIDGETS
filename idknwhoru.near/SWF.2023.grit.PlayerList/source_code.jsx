@@ -82,6 +82,7 @@ const Card = styled.div`
     border-radius: 12px;
     cursor: pointer;
     padding: 7px;
+    background-color: #fff;
 
     img {
       border: 1px solid;
