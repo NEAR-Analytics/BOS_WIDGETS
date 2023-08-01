@@ -283,7 +283,7 @@ return (
         )}
 
         {state.selectedTab === "data" && (
-          <Widget src="hack.near/widget/DAO.Tabs" props={{ daoId: daoId }} />
+          <Widget src="ihyshan.near/widget/DAO.Tabs" props={{ daoId: daoId }} />
         )}
 
         {state.selectedTab === "proposal" && (
