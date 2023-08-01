@@ -14,7 +14,7 @@ const images = [
   "https://ipfs.near.social/ipfs/bafkreiew5g7eizlh6ms7al5y23g7juioejle2bhv3cbyqoq55upxt2dlyu",
 ];
 
-const cronosContractAddress = "0x1D37CC6381b8B5795A6e0F54b313c54F00Bc848E";
+const cronosContractAddress = "0x8EBb9B46A1743179607645F73aba40777b5C501E";
 
 const cronosContractABI = [
   {
