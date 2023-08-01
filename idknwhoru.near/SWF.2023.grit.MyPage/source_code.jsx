@@ -27,6 +27,7 @@ const abi = [
           { type: "string", name: "position", internalType: "string" },
           { type: "uint256", name: "amount", internalType: "uint256" },
           { type: "address", name: "donor", internalType: "address" },
+          { type: "bool", name: "isPlaying", internalType: "bool" },
         ],
       },
     ],
@@ -90,8 +91,9 @@ const Player = () => {
           return (
             <CardWrapper>
               <img className="card-image" src={images[idx]} />
-              <p>{player[2]}</p>
+              <p>{player[1]}</p>
               <p>{player[3]}</p>
+              <p>{player[6]}</p>
               <button>상세보기</button>
             </CardWrapper>
           );
