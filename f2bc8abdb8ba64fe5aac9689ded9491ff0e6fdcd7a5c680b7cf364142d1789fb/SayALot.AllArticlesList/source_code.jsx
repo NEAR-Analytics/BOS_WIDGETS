@@ -1,6 +1,7 @@
 //===============================================INITIALIZATION=====================================================
 
-let { isTest, stateUpdate, finalArticles, tabs, widgets } = props;
+let { isTest, stateUpdate, finalArticles, tabs, widgets, addressForArticles } =
+  props;
 
 State.init({ start: Date.now() });
 
@@ -48,6 +49,7 @@ return (
               displayOverlay: true,
               renderReactions: true,
               widgets,
+              addressForArticles,
             }}
           />
         );
