@@ -12,14 +12,14 @@ const {
 ======================================================PILLS EXAMPLE====================================================
     *Note: the first pill allways has to be the first one displayed*
     pills: [{
-        id: number,
+        id: string,
         title: string,
     }]    
 ============(When modified to be web app we should delete action to replace it with a propper State.update)============
 
 ======================================================BRAND EXAMPLE====================================================
     brand: {
-        homePageId: number,
+        homePageId: string,
         brandName: string,
         logoHref: string,
         logoRemWidth: number/string,
@@ -38,10 +38,9 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  (!displayedTabId && !(displayedTabId == 0)) ||
+  !displayedTabId ||
   !pills ||
-  (brand &&
-    (!brand.logoHref || (!brand.homePageId && !(brand.homePageId == 0))))
+  (brand && (!brand.logoHref || !brand.homePageId))
 ) {
   const crucialPropMissingMsg = "The following crucial props are missing:";
   return (
@@ -58,7 +57,7 @@ if (
           <li className="text-danger">brand.logoHref</li>
         )}
 
-        {brand && !brand.homePageId && !(brand.homePageId == 0) && (
+        {brand && !brand.homePageId && (
           <li className="text-danger">brand.homePageId</li>
         )}
       </ul>
@@ -181,7 +180,7 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
-              return (!pill.id && !(pill.id == 0)) || !pill.title ? (
+              return !pill.id || !pill.title ? (
                 <p className="text-danger border">Pill passed wrong</p>
               ) : (
                 <li className="nav-item">
@@ -203,7 +202,7 @@ return (
             writersWhiteList &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
             navigationButtons.map((button) => {
-              return (!button.id && !(button.id == 0)) || !button.title ? (
+              return !button.id || !button.title ? (
                 <p className="text-danger border">Button passed wrong</p>
               ) : (
                 <div className="d-block d-md-none">{renderButton(button)}</div>
@@ -216,7 +215,7 @@ return (
         writersWhiteList &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
         navigationButtons.map((button) => {
-          return (!button.id && !(button.id == 0)) || !button.title ? (
+          return !button.id || !button.title ? (
             <p className="text-danger border">Button passed wrong</p>
           ) : (
             <div className="d-none d-md-block">{renderButton(button)}</div>
