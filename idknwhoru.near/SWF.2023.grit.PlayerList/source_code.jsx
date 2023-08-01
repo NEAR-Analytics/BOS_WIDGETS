@@ -45,6 +45,7 @@ const cronosContractABI = [
 ];
 
 const getAllPlayers = () => {
+  console.log({ provider: Ethers.provider() });
   const cronosContract = new ethers.Contract(
     cronosContractAddress,
     cronosContractABI,
