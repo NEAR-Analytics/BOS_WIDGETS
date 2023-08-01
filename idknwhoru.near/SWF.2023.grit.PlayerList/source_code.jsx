@@ -2,6 +2,7 @@ const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
 State.init({
   mode: 0,
+  page: 0,
 });
 
 const images = [
@@ -157,7 +158,11 @@ const Cards = () => {
             return null;
           }
           return (
-            <Card>
+            <Card
+              onClick={() => {
+                State.update({ page: 2 });
+              }}
+            >
               <div className="card-wrapper">
                 <img src={images[idx]} width={"100%"}></img>
                 <div className="player-info">
@@ -205,41 +210,69 @@ const SelectableButton = styled.button`
   }}
 `;
 
+const DetailPageWrapper = styled.div`
+    color: #fff;
+
+    hr {
+        border-color: #fff;
+        opacity: 1
+    }
+
+    .plan-content-wrapper {
+        color: #000;
+    }
+    `;
+
 return (
-  <PlayListWrapper>
-    <h1 className="playlist-label">가장 핫한 선수</h1>
-    <SelectableButton
-      mode={0}
-      onClick={(_) => {
-        State.update({ mode: 0 });
-      }}
-    >
-      전체보기
-    </SelectableButton>
-    <SelectableButton
-      mode={1}
-      onClick={(_) => {
-        State.update({ mode: 1 });
-      }}
-    >
-      공격수
-    </SelectableButton>
-    <SelectableButton
-      mode={2}
-      onClick={(_) => {
-        State.update({ mode: 2 });
-      }}
-    >
-      수비수
-    </SelectableButton>
-    <SelectableButton
-      mode={3}
-      onClick={(_) => {
-        State.update({ mode: 3 });
-      }}
-    >
-      골키퍼
-    </SelectableButton>
-    <Cards />
-  </PlayListWrapper>
+  <>
+    {state.page === 0 ? (
+      <PlayListWrapper>
+        <h1 className="playlist-label">가장 핫한 선수</h1>
+        <SelectableButton
+          mode={0}
+          onClick={(_) => {
+            State.update({ mode: 0 });
+          }}
+        >
+          전체보기
+        </SelectableButton>
+        <SelectableButton
+          mode={1}
+          onClick={(_) => {
+            State.update({ mode: 1 });
+          }}
+        >
+          공격수
+        </SelectableButton>
+        <SelectableButton
+          mode={2}
+          onClick={(_) => {
+            State.update({ mode: 2 });
+          }}
+        >
+          수비수
+        </SelectableButton>
+        <SelectableButton
+          mode={3}
+          onClick={(_) => {
+            State.update({ mode: 3 });
+          }}
+        >
+          골키퍼
+        </SelectableButton>
+        <Cards />
+      </PlayListWrapper>
+    ) : (
+      <DetailPageWrapper>
+        <Widget
+          src={`idknwhoru.near/widget/SWF.2023.grit.Player`}
+          props={props}
+        />
+        <Widget
+          src={`idknwhoru.near/widget/SWF.2023.grit.Donate`}
+          props={props}
+        />
+      </DetailPageWrapper>
+    )}
+  </>
 );
