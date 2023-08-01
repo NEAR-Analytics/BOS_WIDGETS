@@ -238,6 +238,11 @@ const DetailPageWrapper = styled.div`
       margin-bottom: 40px;
       cursor: pointer;
     }
+
+    .detail-card-wrapper {
+      display: flex;
+      justify-content: center;
+    }
     `;
 
 return (
@@ -289,32 +294,24 @@ return (
         >
           돌아가기
         </h1>
-        <Card
-          onClick={() => {
-            State.update({ page: 2 });
-            State.update({
-              player: {
-                name: player[1],
-                address: player[0],
-              },
-            });
-          }}
-        >
-          <div className="card-wrapper">
-            <img src={images[0]}></img>
-            <div className="player-info">
-              <h1>{state.player.name}</h1>
-              <BSNWrapper>
-                <h2>10 CRO</h2>
-                <h3>{state.player.team}</h3>
-              </BSNWrapper>
-              <PersonalWrapper>
-                <h2>{state.player.position}</h2>
-                <h3>{state.player.birthDate}</h3>
-              </PersonalWrapper>
+        <div className="detail-card-wrapper">
+          <Card>
+            <div className="card-wrapper">
+              <img src={images[0]}></img>
+              <div className="player-info">
+                <h1>{state.player.name}</h1>
+                <BSNWrapper>
+                  <h2>10 CRO</h2>
+                  <h3>{state.player.team}</h3>
+                </BSNWrapper>
+                <PersonalWrapper>
+                  <h2>{state.player.position}</h2>
+                  <h3>{state.player.birthDate}</h3>
+                </PersonalWrapper>
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
         <Widget
           src={`idknwhoru.near/widget/SWF.2023.grit.Player`}
           props={{ player: state.player }}
