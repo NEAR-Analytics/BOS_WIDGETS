@@ -1,11 +1,12 @@
 /** To-DO
  * - add slider logic, add automatic tagging for proof of vibes.near
  * - map sliders amount into emojis w markdown friednliness ❤️ diversity 🌈 desntiy 🧊 energy ⚡️
- * requrie image to post
+ * requrie image to post, put genealert
  * add mint button
  * detect change and if no change on sliders dont let post, show genalert
  * add tool tips
  */
+const location = props.location; // just adding this
 const embedHashtags = props.embedHashtags || [];
 const embedMentions = props.embedMentions || [];
 const showSliders = props.showSliders ?? true;
@@ -21,6 +22,7 @@ State.init({
   energy: 5,
   density: 5,
   diversity: 5,
+  location,
 });
 
 const handleSliderFriendliness = (event) => {
@@ -120,6 +122,11 @@ function composeData() {
         parseInt(state.energy) +
         parseInt(state.density) +
         parseInt(state.diversity),
+      friendliness: state.friendliness,
+      energy: state.energy,
+      density: state.density,
+      diversity: state.diversity,
+      location: state.location,
     },
     index: {
       post: JSON.stringify({
