@@ -2,7 +2,23 @@ let accountId = context.accountId;
 const mintButton = props.mintButton ?? "Mint Credential";
 const showDetails = props.showDetails ?? true;
 const receiver = props.receiver ?? accountId;
-const credentialUid = props.uid ?? "caaaaff63a48400a9ce57f3ad6960001";
+const credentialUid = props.uid;
+
+if (!accountId) {
+  console.log("Please login");
+  State.update({
+    showAlert: true,
+    toastMessage: "Please log in before continuing",
+  });
+}
+
+if (!credentialUid) {
+  State.update({
+    showAlert: true,
+    toastMessage: "Please include a Credential Account to verify proof",
+  });
+}
+
 const profile = socialGetr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -121,22 +137,6 @@ const onChangeReceiver = (receiver) => {
     receiver,
   });
 };
-
-if (!accountId) {
-  console.log("Please login");
-  State.update({
-    showAlert: true,
-    toastMessage: "Please log in before continuing",
-  });
-}
-
-if (!credentialUid) {
-  console.log("NO Credential proof received");
-  State.update({
-    showAlert: true,
-    toastMessage: "Please include a Credential Account to verify proof",
-  });
-}
 
 const ImageUploadCard = styled.div`
 display:flex;
