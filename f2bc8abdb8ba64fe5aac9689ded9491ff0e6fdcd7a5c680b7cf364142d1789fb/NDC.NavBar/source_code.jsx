@@ -4,7 +4,7 @@ const {
   pills,
   navigationButtons,
   isTest,
-  parentState,
+  displayedTabId,
   writersWhiteList,
 } = props;
 
@@ -47,7 +47,7 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  !parentState ||
+  !displayedTabId ||
   !pills ||
   (brand && (!brand.logoHref || (!brand.homePageId && brand.homePageId != 0)))
 ) {
@@ -58,7 +58,7 @@ if (
       <ul>
         {!stateUpdate && <li className="text-danger">stateUpdate</li>}
 
-        {!parentState && <li className="text-danger">parentState</li>}
+        {!displayedTabId && <li className="text-danger">displayedTabId</li>}
 
         {!pills && <li className="text-danger">pills</li>}
 
@@ -192,7 +192,7 @@ return (
                   <Pill
                     onClick={handleArticlesListNavigation(title)}
                     className={`nav-link ${
-                      id === parentState.displayedTabId
+                      id === displayedTabId
                         ? "active text-decoration-underline"
                         : "text-decoration-none"
                     } `}
