@@ -14,20 +14,20 @@ const addressForComments = isDebug
 const authorForWidget = "sayalot.near";
 State.init({ showReply: false });
 const accountId = props.accountId;
-const blockHeight =
+const commentBlockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
   props.content ??
   JSON.parse(
     Social.get(
       `${accountId}/${addressForArticles}/${addressForComments}`,
-      blockHeight
+      commentBlockHeight
     ) ?? "null"
   );
 
 console.log(3, content);
 console.log(4, `${accountId}/${addressForArticles}/${addressForComments}`);
-console.log(5, blockHeight);
+console.log(5, commentBlockHeight);
 
 const parentItem = content.item;
 const highlight = !!props.highlight;
@@ -36,15 +36,15 @@ const raw = !!props.raw;
 const item = {
   type: "social",
   path: `${accountId}/post/comment`,
-  realArticleId,
+  commentBlockHeight,
 };
 
 //TODO - adress should be changed
-const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${commentBlockHeight}`;
 
 console.log(
   "props: ",
-  `{accountId: ${accountId}, blockHeight: ${blockHeight}, link: ${link}, postType: "comment" }`
+  `{accountId: ${accountId}, blockHeight: ${commentBlockHeight}, link: ${link}, postType: "comment" }`
 );
 
 return (
@@ -56,7 +56,7 @@ return (
     >
       <Widget
         src="mob.near/widget/MainPage.Post.Header"
-        props={{ accountId, blockHeight, link, postType: "comment" }}
+        props={{ accountId, commentBlockHeight, link, postType: "comment" }}
       />
       <div className="mt-2 text-break">
         <Widget
@@ -64,7 +64,7 @@ return (
           props={{ content, raw }}
         />
       </div>
-      {blockHeight !== "now" && (
+      {commentBlockHeight !== "now" && (
         <div className="mt-1 d-flex">
           {parentItem && (
             <Widget
