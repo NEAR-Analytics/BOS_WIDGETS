@@ -45,6 +45,9 @@ return (
         variant: "info",
         size: "lg",
         onClick: onNext,
+        buttonProps: {
+          type: "submit",
+        },
       }}
     />
   </div>
