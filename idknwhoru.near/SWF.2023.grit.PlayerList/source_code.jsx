@@ -71,8 +71,6 @@ if (Ethers.provider()) {
     });
 }
 
-console.log({ provider: Ethers.provider() });
-
 const Card = styled.div`
     color: #fff;
     width: 25%;
