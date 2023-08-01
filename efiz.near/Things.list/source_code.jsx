@@ -152,8 +152,38 @@ const renderSubheader = () => (
         ),
       }}
     />
+    <Widget
+      src="nui.sking.near/widget/Input.Button"
+      props={{
+        children: (
+          <>
+            Share
+            <i className="bi bi-share"></i>
+          </>
+        ),
+        onClick: () => {
+          clipboard.writeText(constructURL());
+        },
+        variant: "info outline",
+        size: "md",
+      }}
+    />
   </div>
 );
+
+function constructURL() {
+  const gateway = "https://near.social/";
+  const widget = "efiz.near/widget/Things.index";
+  const standardParams = `?defaultType=${typeName}&page=${state.currentPage}`;
+  let url = `${gateway}${widget}${standardParams}`;
+  if (state.tag !== null) {
+    url += `&tag=${state.tag}`;
+  }
+  if (state.accountId !== null) {
+    url += `&accountId=${state.accountId}`;
+  }
+  return url;
+}
 
 const renderEmpty = () => (
   <div
