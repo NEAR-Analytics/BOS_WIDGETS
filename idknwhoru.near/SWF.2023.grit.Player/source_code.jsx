@@ -52,18 +52,52 @@ if (Ethers.provider()) {
 
 getPlayerInfo();
 
+const PlayerWrapper = styled.div`
+  h1 {
+    margin-left: 15px;
+  }
+`;
+
+const PlayerInfoWrapper = styled.div`
+  display: flex;
+  margin-left: 15px;
+
+  gap: 40px;
+
+  .label-wrapper {
+    width: 100px;
+  }
+
+  .content-wrapper {
+    width: 100%;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+`;
+
 return (
   <>
     {state.player !== undefined ? (
-      <>
+      <PlayerWrapper>
         <h1>
           {state.player[0]} {state.player[1]}
         </h1>
         <hr />
-        <p>포지션:{state.player[3]}</p>
-        <p>소속팀: {state.player[4]}</p>
-        <p>생년월일: {state.player[2]}</p>
-      </>
+        <PlayerInfoWrapper>
+          <div className="label-wrapper">
+            <p>포지션</p>
+            <p>소속팀</p>
+            <p>생년월일</p>
+          </div>
+          <div className="content-wrapper">
+            <p>{state.player[3]}</p>
+            <p>{state.player[4]}</p>
+            <p>{state.player[2]}</p>
+          </div>
+        </PlayerInfoWrapper>
+      </PlayerWrapper>
     ) : null}
   </>
 );
