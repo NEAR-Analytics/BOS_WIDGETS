@@ -12,6 +12,7 @@ const tabs = {
 State.init({
   displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
   infoToRenderArticle: {},
+  filterBy: {},
 });
 
 //=============================================END INITIALIZATION===================================================
@@ -238,19 +239,39 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
+function handleOpenArticle(article) {
+  return () =>
+    State.update({
+      displayedTabId: tabs.SHOW_ARTICLE.id,
+      infoToRenderArticle: {
+        articleId: article.articleId,
+        blockHeight: article.blockHeight,
+        lastEditor: article.lastEditor,
+      },
+    });
+}
+
+function handleFilterArticles(filter) {
+  State.update({
+    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+    filterBy: { parameterName: filter.filterBy, parameterValue: filter.value },
+  });
+}
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
     <Widget
       src={widgets.header}
       props={{
+        isTest,
         stateUpdate,
         brand,
         pills: navigationPills,
         navigationButtons,
-        isTest,
         displayedTabId: state.displayedTabId,
         writersWhiteList,
+        handleFilterArticles,
       }}
     />
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
@@ -258,11 +279,12 @@ return (
         src={widgets.showArticlesList}
         props={{
           isTest,
-          stateUpdate,
           finalArticles,
           tabs,
           widgets,
           addressForArticles,
+          handleOpenArticle,
+          handleFilterArticles,
         }}
       />
     )}
