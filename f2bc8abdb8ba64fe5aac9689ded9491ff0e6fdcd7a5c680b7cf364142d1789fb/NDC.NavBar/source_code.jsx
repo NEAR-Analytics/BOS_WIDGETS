@@ -217,7 +217,7 @@ return (
         writersWhiteList &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
         navigationButtons.map((button) => {
-          return !button.id || !button.title ? (
+          return !(button.id + "") || !button.title ? (
             <p className="text-danger border">Button passed wrong</p>
           ) : (
             <div className="d-none d-md-block">{renderButton(button)}</div>
