@@ -222,7 +222,11 @@ const Player = () => {
             </CardSelectWrapper>
             <PlayingWrapper>
               <div className="league-nav-wrapper">
-                <button onClick={State.update({ page: 1 })}>
+                <button
+                  onClick={() => {
+                    State.update({ page: 1 });
+                  }}
+                >
                   원오원리그 바로참가하기
                 </button>
               </div>
