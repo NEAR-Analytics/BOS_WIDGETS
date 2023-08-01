@@ -41,6 +41,10 @@ const PlayerWrapper = styled.div`
         margin-top: 40px;
         color: #fff;
     }
+
+    .detail-player-wrapper {
+        padding: 60px;
+    }
 `;
 
 const ButtonWrapper = styled.div`
@@ -147,8 +151,6 @@ if (Ethers.provider()) {
       }
     });
 }
-
-console.log(state);
 
 return (
   <>
