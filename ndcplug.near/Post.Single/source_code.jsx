@@ -38,6 +38,7 @@ State.init({
   content,
 });
 
+const hasImageInPost = true; // TO-DO change this to check if has image in post
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const nftMint = () => {
@@ -170,11 +171,16 @@ return (
                   <i className="bi bi-filetype-raw" /> View raw markdown source
                 </a>
               </li>
-              <li className="dropdown-item">
-                <a className="link-dark text-decoration-none" onClick={nftMint}>
-                  <i className="bi bi-gift" /> Send This Post to Author as NFT
-                </a>
-              </li>
+              {hasImageInPost && (
+                <li className="dropdown-item">
+                  <a
+                    className="link-dark text-decoration-none"
+                    onClick={nftMint}
+                  >
+                    <i className="bi bi-gift" /> Send This Post to Author as NFT
+                  </a>
+                </li>
+              )}
               <li>
                 <Widget
                   src="mob.near/widget/MainPage.Common.HideAccount"
