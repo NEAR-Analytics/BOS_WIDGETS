@@ -256,6 +256,23 @@ const social = {
   ],
 };
 
+const getSortedList = (social) => {
+  const sortedList = social.data.map((item) => ({
+    key: item.key,
+    name: item.name,
+    url: item.url,
+    image: item.image,
+    description: item.description,
+    category: item.category.sort(a, (b) => a - b),
+  }));
+  return sortedList;
+};
+
+const sortedList = getSortedList(social);
+
+// Copy and replace your previous array with this one.
+social.data = sortedList;
+
 State.init({ uniqueCategories: null, searchValue: null });
 const setCategories = () => {
   const categoriesList = [];
@@ -346,34 +363,64 @@ const ImageCard = styled.div`
   }
 `;
 
+// const displayCategories = (value) => {
+//   // state.searchValue !== null;
+//   value = value.sort(a, (b) => a - b);
+//   State.update({ searchValue: value });
+//   console.log("search value", state.searchValue);
+
+//   const newArray = social.data.filter((item) =>
+//     item.category.join(" ").includes(state.searchValue.join(" "))
+//   );
+//   console.log("searched", newArray);
+//   const dataNow = allCategories(newArray);
+//   State.update({
+//     viewableCats: dataNow,
+//   });
+// };
+
+// const displayCategories = (value) => {
+//   // state.searchValue !== null;
+//   value = value.sort(a, (b) => a - b);
+//   State.update({ searchValue: value });
+//   console.log("search value", state.searchValue);
+
+//   const newArray = [];
+//   for (const word of state.searchValue) {
+//     const filteredArray = social.data.filter((item) =>
+//       item.category.includes(word)
+//     );
+//     newArray.push(...filteredArray);
+//   }
+
+//   console.log("searched", newArray);
+//   const dataNow = allCategories(newArray);
+//   State.update({
+//     viewableCats: dataNow,
+//   });
+// };
 const displayCategories = (value) => {
   // state.searchValue !== null;
-  // value = value.join(" ");
+  value = value.sort(a, (b) => a - b);
   State.update({ searchValue: value });
   console.log("search value", state.searchValue);
 
-  const newArray = social.data.filter((item) =>
-    item.category.join(" ").includes(state.searchValue.join(" "))
-  );
-  //   social.data.filter((item) =>
-  //     item.category.some((cat) => {
-  //       //   console.log("cat", cat);
-  //       return cat.includes(state?.searchValue);
-  //     })
-  //   );
-  console.log(
-    "searched",
-    // social.data.filter((item) =>
-    //   item.category.join(" ").includes(state.searchValue)
-    // )
-    // currentCat.filter((cat) => cat.includes(state.searchValue))
-    newArray
-  );
+  const newArray = [];
+  const seenNames = new Set();
+  for (const word of state.searchValue) {
+    const filteredArray = social.data.filter((item) =>
+      item.category.includes(word)
+    );
+    filteredArray.forEach((item) => {
+      if (!seenNames.has(item.name)) {
+        seenNames.add(item.name);
+        newArray.push(item);
+      }
+    });
+  }
+
+  console.log("searched", newArray);
   const dataNow = allCategories(newArray);
-  //   console.log(
-  //     "data:",
-  //     social.data.map((item) => item.category.join(" "))
-  //   );
   State.update({
     viewableCats: dataNow,
   });
