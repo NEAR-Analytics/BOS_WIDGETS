@@ -1,16 +1,16 @@
 //===============================================INITIALIZATION=====================================================
 
 const {
-  stateUpdate,
   widgets,
   data,
   displayOverlay,
   renderReactions,
   handleOpenArticle,
+  handleFilterArticles,
   addressForArticles,
 } = props;
 
-const tagsData = data.tags;
+const tags = data.tags;
 const accountId = data.author;
 const title = data.articleId;
 const content = data.body;
@@ -48,7 +48,7 @@ function getPublicationDate(creationTimestamp) {
 function getUserName() {
   const profile = Social.getr(`${accountId}/profile`);
 
-  if (cardType == "sayalot") return profile.name;
+  return profile.name;
 }
 
 const getShortUserName = () => {
@@ -459,6 +459,7 @@ const TagSection = styled.div`
   gap: 4px;
   flex-wrap: wrap;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const CommentButtonDisabled = styled.button`
@@ -600,18 +601,22 @@ const inner = (
 const renderTags = () => {
   return (
     <>
-      {tagsData.map((data) => (
-        <>
-          {data && (
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Tag: { title: data },
-              }}
-            />
-          )}
-        </>
-      ))}
+      {tags.map((tag) => {
+        const filter = { filterBy: "tag", value: tag };
+
+        return (
+          <div onClick={handleFilterArticles(filter)}>
+            {tag && (
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Tag: { title: tag },
+                }}
+              />
+            )}
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -768,7 +773,7 @@ return (
       </KeyIssues>
       <LowerSection>
         <LowerSectionContainer>
-          {tagsData.length > 0 && (
+          {tags.length > 0 && (
             <KeyIssues>
               <KeyIssuesContent>
                 <KeyIssuesHeader>
