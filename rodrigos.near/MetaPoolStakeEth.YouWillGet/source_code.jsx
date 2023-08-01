@@ -105,7 +105,7 @@ return (
       </AmountContainer>
     </Top>
     <Bottom>
-      <div>1 mpETH = {props?.price.toFixed(5) || 0} ETH</div>
+      <div>{props.price ? `1 mpETH = ${props.price.toFixed(5)} ETH` : ""}</div>
       <div styled={{ textAlign: "end" }}>{props?.iconName || "mpETH"}</div>
     </Bottom>
   </Wrapper>
