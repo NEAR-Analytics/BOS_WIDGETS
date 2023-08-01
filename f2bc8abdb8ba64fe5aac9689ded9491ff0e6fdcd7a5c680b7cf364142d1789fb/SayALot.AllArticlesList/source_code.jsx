@@ -40,17 +40,17 @@ return (
       finalArticles.map((article) => {
         // If some widget posts data different than an array it will be ignored
         if (!Array.isArray(article.tags)) article.tags = [];
-        console.log(article);
-        // return(<Widget src={widgets.generalCard} props={{
-        //   tagsData: "",
-        //   accountId: "",
-        //   displayOverlay: "",
-        //   title: "",
-        //   content: "",
-        //   timeLastEdit: "",
-        //   articleAuthor: "",
-        //   renderReactions: "",
-        // }}/>)
+        return (
+          <Widget
+            src={widgets.generalCard}
+            props={{
+              data: article,
+              displayOverlay: true,
+              renderReactions: true,
+              widgets,
+            }}
+          />
+        );
         // return (
         //   <div
         //     className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
