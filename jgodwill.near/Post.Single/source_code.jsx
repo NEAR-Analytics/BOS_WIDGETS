@@ -13,7 +13,6 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
-// const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 
 const notifyAccountId = accountId;
 const item = {
@@ -21,30 +20,14 @@ const item = {
   path: `${accountId}/post/main`,
   blockHeight,
 };
-// const formatDate = (timestamp) => {
-//   const date = new Date(timestamp);
-//   const month = date.getMonth() + 1; // Months are zero-based, so we add 1
-//   const day = date.getDate();
-//   const year = date.getFullYear();
-//   return `${month}/${day}/${year}`;
-// };
-const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
-if (!res) {
-  return "Loading";
-}
-if (!res.ok || res.body === "null") {
-  return "unknown";
-}
-
-const timeMs = parseFloat(res.body);
-
-const date = new Date(timeMs);
-const postDate = `${date.toLocaleDateString([], {
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-})}`;
-// const formattedDate = formatDate(timeMs);
+const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
+};
+const formattedDate = formatDate(Date.now());
 const nftDescription = state?.content.text ?? "BOS minting powered by GenaDrop";
 
 const nftTitle = accountId + " " + formatDate;
@@ -53,38 +36,26 @@ State.init({
   toastMessage: "",
   showAlert: false,
   description: nftDescription,
-  title: nftTitle.slice(0, 20),
+  title: nftTitle,
   image,
   content,
   imageUrl: undefined,
-  profile,
-  embeddedNFT: props.embeddedNFT,
-  chainState: props.chainState,
-  tokenId: props.tokenId,
-  contractId: props.contractId,
 });
 
 const hasImageInPost = state?.content?.image; // TO-DO change this to check if has image in post
-const getImageUrl = () => {
-  State.update({
-    description: state?.content?.text,
-    profile: Social.get(`${accountId}/profile/**`, "final"),
-    content: JSON.parse(
-      Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
-    ),
-  });
-  console.log(postDate);
-  return state?.content?.image.ipfs_cid
+const getImageUrl = () =>
+  (state?.content?.image.ipfs_cid
     ? State.update({
         imageUrl: `https://ipfs.near.social/ipfs/${state?.content?.image.ipfs_cid}`,
+        description: state?.content?.text,
       })
     : State.update({
         imageUrl: state?.content?.image.url,
-      }) || fallbackUrl;
-};
+        description: state?.content?.text,
+      })) || fallbackUrl;
 
 getImageUrl();
-// console.log("content: ", state.content);
+console.log("content: ", state.content.text);
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const nftMint = () => {
@@ -126,10 +97,10 @@ const nftMint = () => {
     }, 3000);
   } else {
     const metadata = {
-      name: `${state.profile.name || accountId.split(".near")[0]} ${postDate}`,
-      description: `${state.description.trim().slice(0, 140)}...`,
+      name: state.title,
+      description: state.description,
       properties: [],
-      image: state.imageUrl,
+      image: `${state.imageUrl}`,
 
       //   image: `ipfs://${state.image.ipfs_cid}`,
       //   image: `ipfs://${state.image.cid}`,
@@ -154,13 +125,11 @@ const nftMint = () => {
           args: {
             token_id: `${Date.now()}`,
             metadata: {
-              title: `${
-                state.profile.name || accountId.split(".near")[0]
-              } ${postDate}`,
-              description: `${state.description.trim().slice(0, 140)}...`,
+              title: state.title,
+              description: state.description,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              media: state.imageUrl,
+              media: `${state.imageUrl}`,
 
               //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
@@ -175,8 +144,6 @@ const nftMint = () => {
     });
   }
 };
-
-console.log(content);
 
 return (
   <div className="border-bottom pt-3 pb-1">
@@ -254,12 +221,10 @@ return (
       </span>
     </div>
     <div className="mt-3 text-break">
-      {content.embeddedNFT.tokenId && (
-        <Widget
-          src="jgodwill.near/widget/MainPage.Post.Content"
-          props={{ content, raw }}
-        />
-      )}
+      <Widget
+        src="mob.near/widget/MainPage.Post.Content"
+        props={{ content, raw }}
+      />
     </div>
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
