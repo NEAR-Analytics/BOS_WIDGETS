@@ -170,6 +170,8 @@ const CardWrapper = styled.div`
         justify-content: center;
         margin: 3px;
         margin-bottom: 0;
+        background: #fff;
+        padding: 6px;
     }
 `;
 
