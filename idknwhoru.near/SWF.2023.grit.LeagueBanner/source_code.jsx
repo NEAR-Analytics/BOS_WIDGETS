@@ -19,7 +19,7 @@ const BannerWrapper = styled.div`
 `;
 
 return (
-  <BannerWrapper>
+  <BannerWrapper className="banner-wrapper">
     <div>
       <img
         className="banner-image"
