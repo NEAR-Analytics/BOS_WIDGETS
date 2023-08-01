@@ -1,5 +1,5 @@
 const player = props.player;
-const list = [1, 10, 100, 1000, 10000, 100000];
+const list = [1500, 1000, 500];
 
 const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
@@ -28,7 +28,9 @@ const donate = (_) => {
     Ethers.provider().getSigner()
   );
 
-  cronosContract.donate(player.address, { value: price });
+  cronosContract.donate(player.address, { value: price }).catch((err) => {
+    console.log(err);
+  });
 };
 
 if (Ethers.provider()) {
@@ -48,22 +50,46 @@ const Card = styled.div`
     height: 200px;
     border: solid 1px #bbb;
     cursor: pointer;
-    background-color: ${(cardProps) =>
-      cardProps.price === state.price ? "#bbb" : "#fff"}
+
+    .radio-button {
+      width: 20px;
+      height: 20px;
+      border: ${(cardProps) =>
+        cardProps.price === state.price ? "4px double blue" : "solid 1px"};
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+    }
+
+    .radio-content {
+      width: 100%;
+      height: 100%;
+      border: ${(cardProps) =>
+        cardProps.price === state.price ? "none" : "none"}
+        solid 1px;
+      border-radius: 50%;
+      background-color: ${(cardProps) =>
+        cardProps.price === state.price ? "blue" : "#fff"};
+    }
 `;
 
 const Cards = () => {
   if (player !== undefined) {
     return (
       <div style={{ display: "flex" }}>
-        {list.map((price) => (
+        {list.map((price, idx) => (
           <Card
             price={price}
             onClick={(_) => {
               selectPrice(price);
             }}
           >
-            {price} CRO
+            <div className="radio-button">
+              <div className="radio-content"></div>
+            </div>
+            <h1>Level {list.length - idx}</h1>
+            <h2>{price} CRO</h2>
+            <h3>1개월 마다</h3>
           </Card>
         ))}
       </div>
@@ -71,11 +97,20 @@ const Cards = () => {
   }
 };
 
+const DonateButton = styled.button`
+  width: 100%;
+  height: 50px;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+`;
+
 return (
   <>
-    <h1>{player.name}</h1>
-    <button onClick={donate}>후원하기</button>
+    <h1>투자 금액</h1>
     <Cards />
+    <DonateButton onClick={donate}>투자하기</DonateButton>
   </>
 );
 p;
