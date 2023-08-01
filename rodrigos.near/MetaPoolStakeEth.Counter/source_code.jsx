@@ -74,7 +74,8 @@ return (
   >
     <div
       style={{
-        width: "300px",
+        minWidth: "300px",
+        width: "100%",
         fontVariantNumeric: "tabular-nums",
         fontWeight: 600,
       }}
