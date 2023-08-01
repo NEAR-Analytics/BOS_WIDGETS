@@ -38,9 +38,10 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  (!displayedTabId && displayedTabId != 0) ||
+  !displayedTabId ||
+  !(displayedTabId == 0) ||
   !pills ||
-  (brand && (!brand.logoHref || (!brand.homePageId && brand.homePageId != 0)))
+  (brand && (!brand.logoHref || !brand.homePageId || !(brand.homePageId == 0)))
 ) {
   const crucialPropMissingMsg = "The following crucial props are missing:";
   return (
@@ -57,7 +58,7 @@ if (
           <li className="text-danger">brand.logoHref</li>
         )}
 
-        {brand && !brand.homePageId && brand.homePageId != 0 && (
+        {brand && !brand.homePageId && !(brand.homePageId == 0) && (
           <li className="text-danger">brand.homePageId</li>
         )}
       </ul>
@@ -180,7 +181,7 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
-              return (!pill.id && pill.id != 0) || !pill.title ? (
+              return (!pill.id && !(pill.id == 0)) || !pill.title ? (
                 <p className="text-danger border">Pill passed wrong</p>
               ) : (
                 <li className="nav-item">
@@ -202,7 +203,7 @@ return (
             writersWhiteList &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
             navigationButtons.map((button) => {
-              return (!button.id && button.id != 0) || !button.title ? (
+              return (!button.id && !(button.id == 0)) || !button.title ? (
                 <p className="text-danger border">Button passed wrong</p>
               ) : (
                 <div className="d-block d-md-none">{renderButton(button)}</div>
@@ -215,7 +216,9 @@ return (
         writersWhiteList &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
         navigationButtons.map((button) => {
-          return (
+          return (!button.id && !(button.id = 0)) || !button.title ? (
+            <p className="text-danger border">Button passed wrong</p>
+          ) : (
             <div className="d-none d-md-block">{renderButton(button)}</div>
           );
         })}
