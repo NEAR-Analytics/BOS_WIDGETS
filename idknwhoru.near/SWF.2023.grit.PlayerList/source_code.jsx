@@ -1,5 +1,9 @@
 const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
+State.init({
+  mode: 0,
+});
+
 const images = [
   "https://ipfs.near.social/ipfs/bafkreifdek56fab4d55vun6to66dzizhy76ly65gdy3eo6lv5vnzbxgrty",
   "https://ipfs.near.social/ipfs/bafkreibslifqs6pz37vy2mrrlmogtatlg5s2d5fc4bfiv4rzcgzubgekeu",
@@ -159,15 +163,25 @@ const SelectableButton = styled.button`
   border-radius: 30px;
   background-color: #39324D;
   color: #fff;
+
+  ${({ mode }) => {
+    return mode === state.mode
+      ? `
+      border: solid 1px #fff;
+      background-color: #fff;
+      color: #39324D;
+    `
+      : ``;
+  }}
 `;
 
 return (
   <PlayListWrapper>
     <h1 className="playlist-label">가장 핫한 선수</h1>
-    <button>전체보기</button>
-    <SelectableButton>공격수</SelectableButton>
-    <SelectableButton>수비수</SelectableButton>
-    <SelectableButton>골키퍼</SelectableButton>
+    <SelectableButton mode={0}>전체보기</SelectableButton>
+    <SelectableButton mode={1}>공격수</SelectableButton>
+    <SelectableButton mode={2}>수비수</SelectableButton>
+    <SelectableButton mode={3}>골키퍼</SelectableButton>
     <Cards />
   </PlayListWrapper>
 );
