@@ -42,9 +42,9 @@ const Header = styled.div`
 const CloseImage = () => (
   <img
     onClick={props.onRequestClose}
-    height={12}
-    width={12}
-    src={`${config.ipfsPrefix}/bafkreih3abysbho4sd4rkxbpzbl4yyi37phzb7jja33vrhkoufmrxqenpi`}
+    height={20}
+    width={20}
+    src={`${config.ipfsPrefix}/bafkreibxrur3pqmc4pnf5yeutvr22q2cgbtov2prwcyuammf5hxazhl52e`}
   />
 );
 
