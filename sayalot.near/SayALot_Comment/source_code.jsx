@@ -56,12 +56,7 @@ return (
     >
       <Widget
         src="mob.near/widget/MainPage.Post.Header"
-        props={{
-          accountId,
-          blockHeight: commentBlockHeight,
-          link,
-          postType: "comment",
-        }}
+        props={{ accountId, commentBlockHeight, link, postType: "comment" }}
       />
       <div className="mt-2 text-break">
         <Widget
@@ -102,6 +97,7 @@ return (
             // notifyAccountId: extractNotifyAccountId(parentItem),
             item: parentItem,
             onComment: () => State.update({ showReply: false }),
+            realArticleId,
           }}
         />
       </div>
