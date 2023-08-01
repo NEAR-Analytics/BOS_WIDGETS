@@ -79,7 +79,14 @@ const Card = styled.div`
     width: 25%;
     height: 100%;
     border: solid 1px #bbb;
+    border-radius: 12px;
     cursor: pointer;
+    padding: 7px;
+
+    img {
+      border: 1px solid;
+      border-radius: 14px;
+    }
 
     h1 {
       padding-left: 5px;
@@ -93,7 +100,7 @@ const Card = styled.div`
 
     .player-info {
       position: absolute;
-      top: 75%;
+      bottom: 0%;
       width: 100%;
     }
 `;
@@ -118,9 +125,9 @@ const PersonalWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-right: 10px;
-  margin-top: 10px;
   border-top: 1px solid #fff;
-  padding-top: 5px;
+  height: 30px;
+  align-items: center;
 
   h2 {
     width: 40px;
@@ -133,11 +140,13 @@ const PersonalWrapper = styled.div`
     color: blue;
     font-size: 11px;
     border-radius: 30px;
+    margin: 0;
     margin-left: 5px;
   }
 
   h3 {
     font-size: 11px;
+    margin: 0;
   }
 `;
 
