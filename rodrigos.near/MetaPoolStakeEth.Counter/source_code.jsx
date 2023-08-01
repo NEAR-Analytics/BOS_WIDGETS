@@ -108,7 +108,7 @@ return (
         }}
       >
         <div>Your mpETH/USD:</div>
-        <div>{state.userMpEthUsd} $</div>
+        <div>{`${state.userMpEthUsd} $`}</div>
       </div>
     </div>
   </div>
