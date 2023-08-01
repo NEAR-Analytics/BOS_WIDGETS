@@ -8,9 +8,9 @@ State.init({ start: Date.now() });
 
 //===================================================CONSTS=========================================================
 
-const 
-
 //=================================================END CONSTS=======================================================
+
+//==================================================FUNCTIONS=======================================================
 
 function getDateLastEdit(timestamp) {
   const date = new Date(Number(timestamp));
@@ -19,7 +19,7 @@ function getDateLastEdit(timestamp) {
     time: date.toLocaleTimeString(),
   };
   return dateString;
-};
+}
 
 function handleOpenArticle(article) {
   return () =>
@@ -32,6 +32,7 @@ function handleOpenArticle(article) {
       },
     });
 }
+//================================================END FUNCTIONS=====================================================
 
 return (
   <div className="row card-group py-3">
@@ -39,7 +40,7 @@ return (
       finalArticles.map((article) => {
         // If some widget posts data different than an array it will be ignored
         if (!Array.isArray(article.tags)) article.tags = [];
-        console.log(article)
+        console.log(article);
         // return(<Widget src={widgets.generalCard} props={{
         //   tagsData: "",
         //   accountId: "",
