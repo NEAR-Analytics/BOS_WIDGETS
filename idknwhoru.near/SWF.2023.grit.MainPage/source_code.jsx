@@ -79,7 +79,9 @@ return (
         <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
       ) : state.mode === 1 ? (
         <></>
-      ) : null}
+      ) : (
+        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.MyPage`} />
+      )}
     </ThemeWrapper>
   </>
 );
