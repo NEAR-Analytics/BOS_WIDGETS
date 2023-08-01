@@ -12,13 +12,13 @@ const location = props.location;
 console.log("Location: " + location);
 const hashtag = props.hashtag || "ProofOfVibes";
 
-// Vibes Enter lookcation proofofvibes.near/widget/Vibes.Feed.main // add location
-
+// Vibes Enter lookcation proofofvibes.near/widget/Vibes.Feed.main // add location,
+// need to make chain agnositc
 // make sure shows in hastag
 // need to put automatic location in the hastag
 // Suggested location. use onChange like for nft selector
 
-State.init({ thisComponent, mention });
+// State.init({ thisComponent, mention });
 // location enter field
 
 const findLocation = () => {
@@ -26,7 +26,7 @@ const findLocation = () => {
     "https://api.geoapify.com/v1/ipinfo?&apiKey=0485481476634b4d98f7d337d4821f52"
   ).then((data) => {
     console.log("Location from request: " + data.body.city.name);
-    location = data.body.city.name;
+    // location = data.body.city.name;
     State.update({
       location: data.body.city.name,
       // location: data.body.city.name + ", " + data.body.country.name,
@@ -34,7 +34,7 @@ const findLocation = () => {
   });
 };
 findLocation();
-console.log("Location after find location: " + location);
+console.log("Location after find location: " + state.location);
 
 const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
 hashtags.push(state.location);
@@ -42,7 +42,7 @@ const mention = props.mention || "";
 const mentions = mention && mention.split(",")?.map((it) => it.trim());
 const thisComponent = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`; // need to onchange to this
 
-State.init({ thisComponent, mention });
+State.update({ thisComponent, mention });
 const onChangeLocation = (location) => {
   State.update({
     location,
