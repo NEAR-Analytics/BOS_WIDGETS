@@ -29,15 +29,6 @@ const {
 ============(When modified to be web app we should delete action to replace it with a propper State.update)============
 */
 
-console.log(
-  "navigationButtons.id:",
-  navigationButtons.id,
-  "navigationButtons.id:",
-  navigationButtons.id,
-  "navigationButtons.title:",
-  navigationButtons.title
-);
-
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
   : undefined;
@@ -47,7 +38,7 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  !displayedTabId ||
+  (!displayedTabId && displayedTabId != 0) ||
   !pills ||
   (brand && (!brand.logoHref || (!brand.homePageId && brand.homePageId != 0)))
 ) {
