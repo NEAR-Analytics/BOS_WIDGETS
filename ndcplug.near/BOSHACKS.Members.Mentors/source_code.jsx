@@ -94,7 +94,7 @@ const judges = [
     image:
       "https://ipfs.near.social/ipfs/bafybeiduhfptclvhfgwawhkos5dvz2aql3xzk2blahopm5w2sel7ddflou",
     name: "Jeff Gold",
-    org: "Tomago / NEARHub",
+    org: "Tamago / NEARHub",
     accountId: "jeffgold.near",
   },
   {
