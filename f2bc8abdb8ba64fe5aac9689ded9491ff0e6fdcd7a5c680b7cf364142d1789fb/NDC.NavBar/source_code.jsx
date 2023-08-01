@@ -97,19 +97,21 @@ const StylessATag = styled.a`
 //=================================================Components====================================================
 
 const renderButton = (button) => {
-  <Widget
-    src="rubycop.near/widget/NDC.StyledComponents"
-    props={{
-      Button: {
-        size: "big",
-        onClick: () => {
-          stateUpdate({ displayedTabId: button.id });
+  return (
+    <Widget
+      src="rubycop.near/widget/NDC.StyledComponents"
+      props={{
+        Button: {
+          size: "big",
+          onClick: () => {
+            stateUpdate({ displayedTabId: button.id });
+          },
+          text: button.title,
+          className: "primary dark",
         },
-        text: button.title,
-        className: "primary dark",
-      },
-    }}
-  />;
+      }}
+    />
+  );
 };
 //==============================================End components===================================================
 
