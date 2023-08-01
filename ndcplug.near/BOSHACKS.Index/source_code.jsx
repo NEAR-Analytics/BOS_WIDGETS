@@ -1,3 +1,6 @@
+/**
+ * Change telegram tab, add resource tag
+ */
 const ownerId = "ndcplug.near";
 const availableTabs = ["home", "register", "hackathon", "people"];
 const memberTab = props.memberTab ?? "";
