@@ -172,7 +172,7 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
-              console.log(pill);
+              console.log("pill: ", pill);
               return (
                 <>
                   {!pill.id || !pill.title ? (
