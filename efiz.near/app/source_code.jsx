@@ -13,7 +13,7 @@ const data = {
         title: "DAOs",
         icon: "bi bi-grid",
         handle: "daos-all",
-        widgetSrc: "astro.sking.near/widget/DAOS.index",
+        widgetSrc: "astro.sking.near/widget/DAOs.index",
         defaultProps: {},
       },
       {
