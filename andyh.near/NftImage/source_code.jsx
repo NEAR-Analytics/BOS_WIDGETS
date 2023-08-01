@@ -36,7 +36,6 @@ const tokenMetadata =
   })?.metadata;
 
 let imageUrl = null;
-console.log({ nftMetadata, tokenMetadata });
 if (nftMetadata && tokenMetadata) {
   let tokenMedia = tokenMetadata.media || "";
 
