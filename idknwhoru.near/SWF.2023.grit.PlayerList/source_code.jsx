@@ -174,7 +174,7 @@ const Cards = () => {
                 <div className="player-info">
                   <h1>{player[1]}</h1>
                   <BSNWrapper>
-                    <h2>{ethers.utils.formatEther(player[6])} CRO</h2>
+                    <h2>10 CRO</h2>
                     <h3>{player[5]}</h3>
                   </BSNWrapper>
                   <PersonalWrapper>
@@ -229,6 +229,7 @@ const DetailPageWrapper = styled.div`
     }
 
     .nav-back {
+      padding: 15px;
       font-size: 24px;
       margin-bottom: 40px;
       cursor: pointer;
