@@ -53,13 +53,11 @@ const Card = styled.div`
     background-color: ${(cardProps) =>
       cardProps.price === state.price ? "#E5EDFE" : "#fff"};
 
-    
-
     .radio-button {
       width: 20px;
       height: 20px;
       border: ${(cardProps) =>
-        cardProps.price === state.price ? "4px double blue" : "solid 1px"};
+        cardProps.price === state.price ? "4px double blue" : "2px solid #ddd"};
       border-radius: 50%;
       display: inline-block;
       position: relative;
