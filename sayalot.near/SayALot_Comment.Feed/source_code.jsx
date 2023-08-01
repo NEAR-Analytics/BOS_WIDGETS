@@ -34,6 +34,7 @@ const renderItem = (a) =>
             a.blockHeight === props.highlightComment?.blockHeight,
           raw,
           realArticleId,
+          isDebug,
         }}
       />{" "}
     </div>
