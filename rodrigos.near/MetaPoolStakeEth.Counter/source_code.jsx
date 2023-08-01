@@ -5,6 +5,7 @@ State.init({
 const stakingData = props.stakingData || undefined;
 const stakedBalance = props.stakedBalance || undefined;
 const ethUsdPrice = props.ethUsdPrice || undefined;
+const tokenDecimals = props.tokenDecimals || undefined;
 
 const getMpETHPrice = () => {
   if (
