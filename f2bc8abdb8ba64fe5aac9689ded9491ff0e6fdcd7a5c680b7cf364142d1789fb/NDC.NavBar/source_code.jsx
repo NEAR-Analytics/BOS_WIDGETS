@@ -30,8 +30,6 @@ const {
 */
 
 console.log(
-  "brand.homePageId:",
-  brand.homePageId,
   "navigationButtons.id:",
   navigationButtons.id,
   "navigationButtons.id:",
@@ -51,8 +49,7 @@ if (
   !stateUpdate ||
   !parentState ||
   !pills ||
-  (navigationButtons && (!navigationButtons.id || !navigationButtons.title)) ||
-  (brand && (!brand.logoHref || !brand.homePageId))
+  (brand && (!brand.logoHref || (!brand.homePageId && brand.homePageId != 0)))
 ) {
   const crucialPropMissingMsg = "The following crucial props are missing:";
   return (
@@ -69,20 +66,8 @@ if (
           <li className="text-danger">brand.logoHref</li>
         )}
 
-        {brand && !brand.homePageId && (
+        {brand && !brand.homePageId && brand.homePageId != 0 && (
           <li className="text-danger">brand.homePageId</li>
-        )}
-
-        {navigationButtons && !navigationButtons.id && (
-          <li className="text-danger">navigationButtons.id</li>
-        )}
-
-        {navigationButtons && !navigationButtons.id && (
-          <li className="text-danger">navigationButtons.id</li>
-        )}
-
-        {navigationButtons && !navigationButtons.title && (
-          <li className="text-danger">navigationButtons.title</li>
         )}
       </ul>
     </div>
@@ -199,7 +184,7 @@ return (
       >
         <ul className="navbar-nav">
           {pills &&
-            pills.map(({ id, title }, i) =>
+            pills.map(({ id, title }) =>
               !id || !title ? (
                 <p className="text-danger">Pill passed wrong</p>
               ) : (
@@ -222,13 +207,15 @@ return (
             writersWhiteList &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
               <>
-                {navigationButtons.map((button) => {
-                  return (
+                {navigationButtons.map((button) =>
+                  !button.id || !button.title ? (
+                    <p className="text-danger">Button passed wrong</p>
+                  ) : (
                     <div className="d-block d-md-none">
                       {renderButton(button)}
                     </div>
-                  );
-                })}
+                  )
+                )}
               </>
             )}
         </ul>
