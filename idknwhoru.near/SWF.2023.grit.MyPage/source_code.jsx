@@ -157,10 +157,8 @@ const PlayingWrapper = styled.div`
 
     .league-nav-button {
         padding: 10px 20px;
-        border: 1px solid blue;
+        border: 1px solid;
         border-radius: 25px;
-        background-color: blue;
-        color: #fff;
     }
 
     .field-wrapper {
