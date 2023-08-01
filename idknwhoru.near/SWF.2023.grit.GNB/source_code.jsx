@@ -15,7 +15,7 @@ const ButtonWrapper = styled.div`
 
   .btn-outline-secondary {
     width: 200px;
-    border-radius: 30px;
+    border-radius: px;
     background-color: blue;
     color: #fff;
   }
