@@ -44,6 +44,7 @@ const renderThings = () => {
       src="efiz.near/widget/Things.list"
       props={{
         typeName: state.typeName,
+        ...props,
       }}
     />
   );
