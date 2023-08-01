@@ -69,7 +69,7 @@ getMyPlayers();
 const MyPageWrapper = styled.div`
     .my-page-title-wrapper {
         display: flex;
-        width: 30%;
+        width: 40%;
     }
 
     .my-page-title {
