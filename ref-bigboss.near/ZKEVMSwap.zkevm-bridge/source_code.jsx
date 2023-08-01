@@ -170,7 +170,7 @@ const {
 const isMainnet = chainId === 1 || chainId === 1101;
 
 function add_action(param_body) {
-  asyncFetch("https://bos-api.ref-finance.com/add-action-data", {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
