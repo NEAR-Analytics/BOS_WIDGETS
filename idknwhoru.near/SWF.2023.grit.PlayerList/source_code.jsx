@@ -97,6 +97,11 @@ const Card = styled.div`
       display: inline-block; 
     }
 
+    .card-wrapper img {
+      width: 100%;
+      height: 100%;
+    }
+
     .player-info {
       position: absolute;
       bottom: 0%;
@@ -170,7 +175,7 @@ const Cards = () => {
               }}
             >
               <div className="card-wrapper">
-                <img src={images[idx]} width={"100%"}></img>
+                <img src={images[idx]}></img>
                 <div className="player-info">
                   <h1>{player[1]}</h1>
                   <BSNWrapper>
