@@ -12,7 +12,7 @@ const
 
 //=================================================END CONSTS=======================================================
 
-const getDateLastEdit = (timestamp) => {
+function getDateLastEdit(timestamp) {
   const date = new Date(Number(timestamp));
   const dateString = {
     date: date.toLocaleDateString(),
