@@ -54,7 +54,6 @@ getPlayerInfo();
 
 return (
   <>
-    <Web3Connect connectLabel="Connect Wallet" />
     {state.player !== undefined ? (
       <>
         <h1>
