@@ -2,11 +2,64 @@ const ThemeWrapper = styled.div`
     background-color: #202123;
 `;
 
+const GNBWrapper = styled.div`
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+`;
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  ul {
+    display: flex;
+  }
+
+  .btn-outline-secondary {
+    width: 200px;
+    border-radius: 30px;
+    background-color: blue;
+    color: #fff;
+  }
+`;
+
+State.init({
+  mode: 0,
+});
+
 return (
   <>
     <ThemeWrapper>
-      <Widget src={`idknwhoru.near/widget/SWF.2023.grit.GNB`} />
-      <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
+      <GNBWrapper>
+        <h1>KGRIT</h1>
+        <ButtonWrapper>
+          <ul>
+            <h2
+              onClick={() => {
+                State.update({ mode: 0 });
+              }}
+            >
+              선수투자
+            </h2>
+            <h2
+              onClick={() => {
+                State.update({ mode: 1 });
+              }}
+            >
+              AI NFT
+            </h2>
+          </ul>
+          <Web3Connect
+            connectLabel="Connect To Wallet"
+            disconnectLabel="DisConnect Wallet"
+          />
+        </ButtonWrapper>
+      </GNBWrapper>
+      {state.mode === 0 ? (
+        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
+      ) : null}
     </ThemeWrapper>
   </>
 );
