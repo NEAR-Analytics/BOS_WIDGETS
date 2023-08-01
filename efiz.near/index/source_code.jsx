@@ -1,4 +1,4 @@
-let { tab, routes } = props;
+let { tab, routes, index } = props;
 if (!tab) {
   tab = "home";
 }
@@ -63,9 +63,11 @@ return (
     <Widget src={`nui.sking.near/widget/Typography.OpenSansFont`} />
     {/** customize header */}
     <Widget
-      src="astro.sking.near/widget/Common.Layout.Header"
+      src="efiz.near/widget/Common.Layout.Header"
       props={{
-        items: tabs,
+        items: routes,
+        index,
+        activeTab,
       }}
     />
     <div className="col ms-sm-4 ps-lg-5 py-3 py-md-5 overflow-hidden">
