@@ -49,10 +49,14 @@ if (isTest) {
 }
 
 const widgets = {
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
   generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/SayALot.OneArticle`,
+  reactions: "sayalot.near/widget/SayALot_Reactions",
+  addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
+  candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
 };
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -224,6 +228,7 @@ function getLastEditionsByArticle() {
   return finalArticles;
 }
 
+//TODO create function that filters this "finalArticles" by author/tag/etc depending of the requeriments of the user
 const finalArticles = getLastEditionsByArticle();
 //===============================================END GET DATA=======================================================
 
@@ -251,7 +256,14 @@ return (
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
-        props={{ isTest, stateUpdate, finalArticles, tabs, widgets }}
+        props={{
+          isTest,
+          stateUpdate,
+          finalArticles,
+          tabs,
+          widgets,
+          addressForArticles,
+        }}
       />
     )}
     {state.displayedTabId == tabs.SHOW_ARTICLE.id && (
