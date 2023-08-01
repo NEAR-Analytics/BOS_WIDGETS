@@ -1,5 +1,5 @@
 const player = props.player;
-const list = [1500, 1000, 500];
+const list = [1500, 1000, 100];
 
 const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
@@ -129,4 +129,3 @@ return (
     <DonateButton onClick={donate}>투자하기</DonateButton>
   </>
 );
-p;
