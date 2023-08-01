@@ -66,6 +66,21 @@ if (Ethers.provider()) {
 
 getMyPlayers();
 
+const MyPageWrapper = styled.div`
+    .my-page-title-wrapper {
+        display: flex;
+        width: 30%;
+    }
+
+    .my-page-title {
+        font-size: 32px;
+    }
+
+    .my-page-sub-title {
+        font-size: 24px;
+    }
+`;
+
 const ContentWrapper = styled.div`
     display: flex;
 `;
@@ -217,11 +232,13 @@ const Player = () => {
   return (
     <>
       {state.page === 0 ? (
-        <>
-          <h1 className="my-page-title">마이페이지</h1>
-          <h2 className="my-page-sub-title">
-            5명을 선택해 라인업을 구성하세요.
-          </h2>
+        <MyPageWrapper>
+          <div className="my-page-title-wrapper">
+            <h1 className="my-page-title">마이페이지</h1>
+            <h2 className="my-page-sub-title">
+              5명을 선택해 라인업을 구성하세요.
+            </h2>
+          </div>
           <ContentWrapper>
             <CardSelectWrapper>
               {state.players.map((player, idx) => {
@@ -269,7 +286,7 @@ const Player = () => {
               </div>
             </PlayingWrapper>
           </ContentWrapper>
-        </>
+        </MyPageWrapper>
       ) : (
         <LeagueWrapper>
           <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
