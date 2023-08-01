@@ -9,7 +9,7 @@ const images = [
   "https://ipfs.near.social/ipfs/bafkreiew5g7eizlh6ms7al5y23g7juioejle2bhv3cbyqoq55upxt2dlyu",
 ];
 
-const address = "0x21Ddc0803447C70b38121766CA99C827aD6f02a8";
+const address = "0x1D37CC6381b8B5795A6e0F54b313c54F00Bc848E";
 
 const abi = [
   {
