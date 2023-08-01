@@ -44,7 +44,7 @@ const getAllPlayers = () => {
   const cronosContract = new ethers.Contract(
     cronosContractAddress,
     cronosContractABI,
-    Ethers.provider().getSigner()
+    Ethers.provider()
   );
 
   cronosContract.getAllPlayers().then((players) => {
