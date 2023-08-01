@@ -178,10 +178,38 @@ const SelectableButton = styled.button`
 return (
   <PlayListWrapper>
     <h1 className="playlist-label">가장 핫한 선수</h1>
-    <SelectableButton mode={0}>전체보기</SelectableButton>
-    <SelectableButton mode={1}>공격수</SelectableButton>
-    <SelectableButton mode={2}>수비수</SelectableButton>
-    <SelectableButton mode={3}>골키퍼</SelectableButton>
+    <SelectableButton
+      mode={0}
+      onClick={(_) => {
+        State.update({ mode: 0 });
+      }}
+    >
+      전체보기
+    </SelectableButton>
+    <SelectableButton
+      mode={1}
+      onClick={(_) => {
+        State.update({ mode: 1 });
+      }}
+    >
+      공격수
+    </SelectableButton>
+    <SelectableButton
+      mode={2}
+      onClick={(_) => {
+        State.update({ mode: 2 });
+      }}
+    >
+      수비수
+    </SelectableButton>
+    <SelectableButton
+      mode={3}
+      onClick={(_) => {
+        State.update({ mode: 3 });
+      }}
+    >
+      골키퍼
+    </SelectableButton>
     <Cards />
   </PlayListWrapper>
 );
