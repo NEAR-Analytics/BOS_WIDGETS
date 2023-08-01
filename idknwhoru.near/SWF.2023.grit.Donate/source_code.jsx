@@ -91,9 +91,11 @@ const Cards = () => {
             <div className="radio-button">
               <div className="radio-content"></div>
             </div>
-            <h1>Level {list.length - idx}</h1>
-            <h2>{price} CRO</h2>
-            <h3>1개월 마다</h3>
+            <div className="plan-content-wrapper">
+              <h1>Level {list.length - idx}</h1>
+              <h2>{price} CRO</h2>
+              <h3>1개월 마다</h3>
+            </div>
           </Card>
         ))}
       </div>
