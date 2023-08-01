@@ -3,7 +3,7 @@ const player = props.player ?? {
   address: "0xFB6c8D00598B394798B2bbf3b66adCa608D5e08C",
 };
 
-const cronosContractAddress = "0x8EBb9B46A1743179607645F73aba40777b5C501E";
+const cronosContractAddress = "0xBBF09A10B1B8f1825cAdB58d34E0672A9Ee69c2d";
 
 const cronosContractABI = [
   {
@@ -16,6 +16,7 @@ const cronosContractABI = [
       { type: "string", name: "", internalType: "string" },
       { type: "string", name: "", internalType: "string" },
       { type: "uint256", name: "", internalType: "uint256" },
+      { type: "string", name: "", internalType: "string" },
     ],
     name: "getPlayerInfo",
     inputs: [{ type: "address", name: "player", internalType: "address" }],
@@ -36,7 +37,6 @@ const getPlayerInfo = (_) => {
   );
 
   cronosContract.getPlayerInfo(player.address).then((player) => {
-    console.log(player);
     State.update({ player });
   });
 };
