@@ -16,30 +16,31 @@ const PlayerWrapper = styled.div`
     .playlist-wrapper{
         padding: 100px;
     }
-  .playlist-label {
-    color: #fff;
-  }
 
-  .nav-back {
-    color: #fff;
-  }
+    .playlist-label {
+        color: #fff;
+    }
 
-  .player-name {
-    color: #fff;
-  }
+    .nav-back {
+        color: #fff;
+    }
 
-  .label-name  {
-    color: #fff;
-  }
+    .player-name {
+        color: #fff;
+    }
 
-  .content-name  {
-    color: #fff;
-  }
+    .label-name  {
+        color: #fff;
+    }
 
-  .donate-label {
-    margin-top: 40px;
-    color: #fff;
-  }
+    .content-name  {
+        color: #fff;
+    }
+
+    .donate-label {
+        margin-top: 40px;
+        color: #fff;
+    }
 `;
 
 const ButtonWrapper = styled.div`
@@ -104,6 +105,10 @@ const LeagueWrapper = styled.div`
 `;
 
 const MyPageWrapper = styled.div`
+    .my-page-wrapper {
+        padding: 55px;
+    }
+    
     .my-page-title {
       color: #fff;
     }
