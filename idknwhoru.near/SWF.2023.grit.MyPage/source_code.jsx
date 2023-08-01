@@ -1,3 +1,14 @@
+const images = [
+  "https://ipfs.near.social/ipfs/bafkreifdek56fab4d55vun6to66dzizhy76ly65gdy3eo6lv5vnzbxgrty",
+  "https://ipfs.near.social/ipfs/bafkreibslifqs6pz37vy2mrrlmogtatlg5s2d5fc4bfiv4rzcgzubgekeu",
+  "https://ipfs.near.social/ipfs/bafkreibshwzbeoxguy5mot6nilssix3ilmpt6w5xv6bazvt2edbnaa5spe",
+  "https://ipfs.near.social/ipfs/bafkreic5tco2sgvxdacogftgk3rlsjohb3ptqomr4o5vwtkrzvlfajnl7y",
+  "https://ipfs.near.social/ipfs/bafkreigpfirgs42t4rfbbixixm4w5ukqxsbflvvn2nxl7zdktalncxqh2a",
+  "https://ipfs.near.social/ipfs/bafkreias744aadzv7ivxuyoqtzwbbd6lawph5hewidapwwgyj5rnt73iri",
+  "https://ipfs.near.social/ipfs/bafkreicl2wdomm22rlz2h3gt62uilbharqgh4gmfbx7j7mbnbrkkfxq564",
+  "https://ipfs.near.social/ipfs/bafkreiew5g7eizlh6ms7al5y23g7juioejle2bhv3cbyqoq55upxt2dlyu",
+];
+
 const address = "0x21Ddc0803447C70b38121766CA99C827aD6f02a8";
 
 const abi = [
@@ -57,6 +68,11 @@ const CardSelectWrapper = styled.div`
 const CardWrapper = styled.div`
   width: 50%;
   border: 1px solid;
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Player = () => {
@@ -69,20 +85,19 @@ const Player = () => {
       <h1>마이페이지</h1>
       <h2>5명을 선택해 라인업을 구성하세요.</h2>
       <CardSelectWrapper>
-        {state.players.map((player) => {
+        {state.players.map((player, idx) => {
           console.log(player);
           return (
             <CardWrapper>
-              <p>
-                {player[1]} ({player[0]}): {ethers.utils.formatEther(player[3])}{" "}
-                CRO
-              </p>
+              <img className="card-image" src={images[idx]} />
+              <p>{player[2]}</p>
+              <p>{player[3]}</p>
               <button>상세보기</button>
             </CardWrapper>
           );
         })}
       </CardSelectWrapper>
-      <button>원오원리그 바로참가하기</button>
+      {/**<button>원오원리그 바로참가하기</button>**/}
       <div></div>
     </div>
   );
