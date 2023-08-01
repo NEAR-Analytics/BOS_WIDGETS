@@ -223,11 +223,19 @@ const LeagueWrapper = styled.div`
 
 const Player = () => {
   if (state.players === undefined) {
-    return "선수 불러오는 중..";
+    return (
+      <MyPageWrapper>
+        <h1 className="my-page-title">선수 불러오는 중..</h1>
+      </MyPageWrapper>
+    );
   }
 
   if (state.players.length === 0) {
-    return "후원한 선수가 없습니다.";
+    return (
+      <MyPageWrapper>
+        <h1 className="my-page-title">후원한 선수가 없습니다.</h1>
+      </MyPageWrapper>
+    );
   }
 
   return (
