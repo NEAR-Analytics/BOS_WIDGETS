@@ -258,7 +258,7 @@ const DetailPageWrapper = styled.div`
 return (
   <>
     {state.page === 0 ? (
-      <PlayListWrapper>
+      <PlayListWrapper className="playlist-wrapper">
         <h1 className="playlist-label">모두가 핫한 선수</h1>
         <SelectableButton
           mode={0}
