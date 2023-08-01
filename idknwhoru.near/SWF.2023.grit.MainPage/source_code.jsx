@@ -35,14 +35,19 @@ State.init({
 });
 
 const LeagueWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  
   .league-title {
     font-size: 24px;
     color: #999;
+    margin-left: 40px;
   }
 
   .league-holder-label {
     font-size: 24px;
     color: #999;
+    margin-left: 40px;
   }
 
   .league-holders {
@@ -53,6 +58,7 @@ const LeagueWrapper = styled.div`
   .league-date {
     font-size: 24px;
     color: #999;
+    margin-left: 40px;
   }
 
   hr {
