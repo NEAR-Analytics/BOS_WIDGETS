@@ -220,6 +220,7 @@ const PlayingWrapper = styled.div`
 
     .field-front-card {
         width: 25%;
+        max-width: 150px;
         height: 50%;
     }
 
@@ -234,6 +235,7 @@ const PlayingWrapper = styled.div`
 
     .field-end-card {
         width: 25%;
+        max-width: 150px;
         height: 50%;
     }
 
