@@ -7,14 +7,12 @@ const role = props.role ?? "researcher";
 // const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "research-collective.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
-const sbtTitle = props.sbtTitle ?? "";
 State.init({
   accountId: accountId,
   socialProfile: socialProfile,
   daoId: daoId,
   issuer: issuer,
   role: role,
-  sbtTitle: sbtTitle,
 });
 const changeReceiver = (receiver) => {
   State.update({
@@ -46,7 +44,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 
 const widgetOwner = "nearefi.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
-const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
+const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
