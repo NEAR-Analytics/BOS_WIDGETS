@@ -57,6 +57,10 @@ return (
                   props={{
                     children: [
                       <Widget
+                        src={`${config.ownerId}/widget/AAVE.Card.Divider`}
+                        props={{ config }}
+                      />,
+                      <Widget
                         src={`${config.ownerId}/widget/AAVE.Card.CardsBody`}
                         props={{
                           config,
