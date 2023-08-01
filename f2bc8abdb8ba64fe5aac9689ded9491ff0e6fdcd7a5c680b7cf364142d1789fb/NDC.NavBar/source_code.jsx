@@ -40,7 +40,7 @@ if (
   !stateUpdate ||
   !(displayedTabId + "") ||
   !pills ||
-  (brand && (!brand.logoHref || !brand.homePageId))
+  (brand && (!brand.logoHref || !(brand.homePageId + "")))
 ) {
   const crucialPropMissingMsg = "The following crucial props are missing:";
   return (
