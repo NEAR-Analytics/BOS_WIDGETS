@@ -621,7 +621,7 @@ const renderArticleBody = () => {
   return (
     <>
       <span>{displayedContent}</span>
-      {state.sliceContent && content.length > 1000 && (
+      {state.sliceContent && (
         <Widget
           src={widgets.styledComponents}
           props={{
@@ -807,7 +807,7 @@ return (
                       },
                       icon: (
                         <>
-                          <i className="bi bi-chat-square-text-fill"></i>+
+                          <i className="bi bi-chat-square-text-fill"></i>
                         </>
                       ),
                     },
