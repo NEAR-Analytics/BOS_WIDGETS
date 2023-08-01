@@ -116,10 +116,15 @@ const indexFirstArticle = articlesIndex.find(
 
 const realArticleId = indexFirstArticle.value.id; // May be undefined if user hasn't resaved yet
 // ======= Item for comment =======
-const item = {
+const commentItem = {
   type: "social",
   path: `${state.article.author}/${addressForArticles}/main`,
-  blockHeight: firstArticleBlockHeight,
+  // blockHeight: firstArticleBlockHeight,
+  realArticleId,
+};
+const commentIndex = {
+  action: addressForComments,
+  key: commentItem,
 };
 
 const tagsArray = state.tags ? Object.keys(state.tags) : state.article.tags;
@@ -174,7 +179,7 @@ const composeData = () => {
     data.index.tag = JSON.stringify(
       tagsArray.map((tag) => ({
         key: tag,
-        value: item,
+        value: commentItem,
       }))
     );
   }
@@ -576,7 +581,7 @@ return (
                   src={`${authorForWidget}/widget/SayALot_Reactions`}
                   props={{
                     // notifyAccountId,
-                    item,
+                    commentItem,
                     realArticleId,
                     isDebug,
                   }}
@@ -590,7 +595,7 @@ return (
                       src={`${authorForWidget}/widget/SayALot_Comment.Compose`}
                       props={{
                         notifyAccountId,
-                        item,
+                        item: commentItem,
                         onComment: () => State.update({ showReply: false }),
                         realArticleId,
                         isDebug,
@@ -602,12 +607,13 @@ return (
                 <Widget
                   src={`${authorForWidget}/widget/SayALot_Comment.Feed`}
                   props={{
-                    item,
+                    item: commentItem,
                     highlightComment: props.highlightComment,
                     limit: props.commentsLimit,
                     subscribe,
                     raw,
                     realArticleId,
+                    index: commentIndex,
                     isDebug,
                   }}
                 />
