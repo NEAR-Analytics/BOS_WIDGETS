@@ -171,24 +171,29 @@ return (
       >
         <ul className="navbar-nav">
           {pills &&
-            pills.map(({ id, title }) =>
-              !id || !title ? (
-                <p className="text-danger">Pill passed wrong</p>
-              ) : (
-                <li className="nav-item">
-                  <Pill
-                    onClick={handleArticlesListNavigation(title)}
-                    className={`nav-link ${
-                      id === displayedTabId
-                        ? "active text-decoration-underline"
-                        : "text-decoration-none"
-                    } `}
-                  >
-                    {title}
-                  </Pill>
-                </li>
-              )
-            )}
+            pills.map((pill) => {
+              console.log(pill);
+              return (
+                <>
+                  {!pill.id || !pill.title ? (
+                    <p className="text-danger">Pill passed wrong</p>
+                  ) : (
+                    <li className="nav-item">
+                      <Pill
+                        onClick={handleArticlesListNavigation(title)}
+                        className={`nav-link ${
+                          id === displayedTabId
+                            ? "active text-decoration-underline"
+                            : "text-decoration-none"
+                        } `}
+                      >
+                        {title}
+                      </Pill>
+                    </li>
+                  )}
+                </>
+              );
+            })}
           {navigationButtons &&
             accountId &&
             writersWhiteList &&
