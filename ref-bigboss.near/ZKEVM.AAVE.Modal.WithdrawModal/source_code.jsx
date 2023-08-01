@@ -36,7 +36,7 @@ const availableLiquidityAmount = Big(availableLiquidity)
   .div(Big(10).pow(decimals))
   .toFixed();
 
-const WithdrawContainer = styled.div`
+  const WithdrawContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -155,7 +155,7 @@ State.init({
 });
 
 function updateGas() {
-  if (["ETH", "WETH"].includes(symbol)) {
+  if (symbol === config.nativeCurrency.symbol) {
     withdrawETHGas().then((value) => {
       State.update({ gas: value });
     });
@@ -297,7 +297,7 @@ function allowanceForGateway(tokenAddress) {
  * @returns
  */
 function getNewHealthFactor(chainId, address, asset, action, amount) {
-  const url = `https://aave-api.pages.dev/${chainId}/health/${address}`;
+  const url = `${config.AAVE_API_BASE_URL}/${chainId}/health/${address}`;
   return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
 }
 
@@ -368,7 +368,7 @@ const updateNewHealthFactor = debounce(() => {
         "withdraw",
         state.amountInUSD
       ).then((response) => {
-        const newHealthFactor = formatHealthFactor(JSON.parse(response.body));
+        const newHealthFactor = formatHealthFactor(response.body);
         State.update({ newHealthFactor });
       });
     });
@@ -419,33 +419,33 @@ return (
               config,
               children: (
                 <>
-                   <InputContainer>
-                      <TokenTexture>
-                        <Input
-                          type="number"
-                          value={state.amount}
-                          onChange={(e) => {
-                            changeValue(e.target.value);
-                          }}
-                          placeholder="0"
-                        />
-                      </TokenTexture>
-                      <TokenWrapper>
-                          <img
-                            width={26}
-                            height={26}
-                            src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
-                          />
-                          <TokenTexture>{symbol}</TokenTexture>
-                        </TokenWrapper>
-                   </InputContainer>
-                   <BalanceContainer>
-                      <GrayTexture>${state.amountInUSD}</GrayTexture>
-                      <GrayTexture>
-                        Balance: <span className="balanceValue" onClick={() => {changeValue(shownMaxValue);}}>{Big(underlyingBalance).toFixed(3, ROUND_DOWN)}</span>
-                      </GrayTexture>
-                    </BalanceContainer>
-                </>
+                <InputContainer>
+                   <TokenTexture>
+                     <Input
+                       type="number"
+                       value={state.amount}
+                       onChange={(e) => {
+                         changeValue(e.target.value);
+                       }}
+                       placeholder="0"
+                     />
+                   </TokenTexture>
+                   <TokenWrapper>
+                       <img
+                         width={26}
+                         height={26}
+                         src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
+                       />
+                       <TokenTexture>{symbol}</TokenTexture>
+                     </TokenWrapper>
+                </InputContainer>
+                <BalanceContainer>
+                   <GrayTexture>${state.amountInUSD}</GrayTexture>
+                   <GrayTexture>
+                     Balance: <span className="balanceValue" onClick={() => {changeValue(shownMaxValue);}}>{Big(underlyingBalance).toFixed(3, ROUND_DOWN)}</span>
+                   </GrayTexture>
+                 </BalanceContainer>
+             </>
               ),
             }}
           />
@@ -462,7 +462,7 @@ return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <WhiteTexture>Remaining Supply</WhiteTexture>,
+                      left: <PurpleTexture>Remaining Supply</PurpleTexture>,
                       right: (
                         <WhiteTexture>
                           {remainingSupply} {symbol}
@@ -473,7 +473,7 @@ return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <WhiteTexture>Health Factor</WhiteTexture>,
+                      left: <PurpleTexture>Health Factor</PurpleTexture>,
                       right: (
                         <div style={{ textAlign: "right" }}>
                           <GreenTexture>
@@ -496,7 +496,7 @@ return (
               ),
             }}
           />
-          <div className="splitDiv">
+           <div className="splitDiv">
               <div className="splitLine"></div>
           </div>
           <div style={{display:'flex',justifyContent:'flex-end'}}> 
@@ -505,8 +505,7 @@ return (
               props={{ gas: state.gas, config }}
             />
           </div>
-          
-          {state.needApprove && symbol === "ETH" && (
+          {state.needApprove && symbol === config.nativeCurrency.symbol && (
             <Widget
               src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
               props={{
@@ -535,7 +534,7 @@ return (
               }}
             />
           )}
-          {!(state.needApprove && symbol === "ETH") && (
+          {!(state.needApprove && symbol === config.nativeCurrency.symbol) && (
             <Widget
               src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
               props={{
@@ -551,7 +550,7 @@ return (
                           .mul(Big(10).pow(decimals))
                           .toFixed(0, ROUND_DOWN);
                   const shownAmount = state.amount;
-                  if (symbol === "ETH" || symbol === "WETH") {
+                  if (symbol === config.nativeCurrency.symbol) {
                     // supply weth
                     withdrawETH(actualAmount, shownAmount);
                   } else {
