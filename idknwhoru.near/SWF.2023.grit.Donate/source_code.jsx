@@ -45,6 +45,12 @@ if (Ethers.provider()) {
     });
 }
 
+const DonateWrapper = styled.div`
+  .donate-label {
+    margin-left: 40px;
+  }
+`;
+
 const PlanCardWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -137,10 +143,10 @@ const DonateButton = styled.button`
 `;
 
 return (
-  <>
-    <h1>투자 금액</h1>
+  <DonateWrapper>
+    <h1 className="donate-label">투자 금액</h1>
     <hr />
     <Cards />
     <DonateButton onClick={donate}>투자하기</DonateButton>
-  </>
+  </DonateWrapper>
 );
