@@ -1,17 +1,25 @@
 const BannerWrapper = styled.div`
-    width: 100%;
+    width: 80%;
 
     .banner-image {
-        width: 80%;
+        width: 100%;
     }
 
     .league-holders-wrapper {
         display: flex;
     }
+
+    .league-join-button {
+        width: 100%;
+        height: 40px;
+        background-color: blue;
+        color: #fff;
+        border-radius: 20px;
+    }
 `;
 
 return (
-  <>
+  <BannerWrapper>
     <div>
       <img
         className="banner-image"
@@ -21,12 +29,14 @@ return (
         <h1 className="league-title">
           1등 우승: 500만원 상당의 상품권, 2등 우승: 300만원 상당의 상품권
         </h1>
+        <hr />
         <div className="league-holders-wrapper">
           <h2 className="league-holder-label">참가자들:</h2>
           <p className="league-holders">1311명</p>
         </div>
         <h3 className="league-date">우승 추첨: 2023년 8월 14일 21:00시</h3>
-        <button>참가하기</button>
+        <hr />
+        <button className="league-join-button">참가하기</button>
       </div>
       <div>
         <img
@@ -35,5 +45,5 @@ return (
         />
       </div>
     </div>
-  </>
+  </BannerWrapper>
 );
