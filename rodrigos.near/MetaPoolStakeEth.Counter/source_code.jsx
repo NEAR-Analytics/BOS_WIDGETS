@@ -75,6 +75,8 @@ return (
     <div
       style={{
         width: "300px",
+        fontVariantNumeric: "tabular-nums",
+        fontWeight: 600,
       }}
     >
       <div
@@ -82,10 +84,9 @@ return (
           display: "flex",
           justifyContent: "space-between",
           textAlign: "center",
-          fontVariantNumeric: "tabular-nums",
         }}
       >
-        <div style={{ fontWeight: 600 }}>mpETH/ETH Price:</div>
+        <div>mpETH/ETH Price:</div>
         <div>{state.mpEthPrice}</div>
       </div>
       <div
@@ -93,10 +94,9 @@ return (
           display: "flex",
           justifyContent: "space-between",
           textAlign: "center",
-          fontVariantNumeric: "tabular-nums",
         }}
       >
-        <div style={{ fontWeight: 600 }}>Your mpETH/ETH:</div>
+        <div>Your mpETH/ETH:</div>
         <div>{state.userMpEthInEth}</div>
       </div>
       <div
@@ -104,10 +104,9 @@ return (
           display: "flex",
           justifyContent: "space-between",
           textAlign: "center",
-          fontVariantNumeric: "tabular-nums",
         }}
       >
-        <div style={{ fontWeight: 600 }}>Your mpETH/USD:</div>
+        <div>Your mpETH/USD:</div>
         <div>{state.userMpEthUsd} $</div>
       </div>
     </div>
