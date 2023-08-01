@@ -1,5 +1,5 @@
 //===============================================INITIALIZATION=====================================================
-let { sharedBlockHeight, isTest, accountId, author } = props;
+let { sharedBlockHeight, isTest, accountId } = props;
 
 if (!accountId) accountId = context.accountId;
 
@@ -65,9 +65,10 @@ if (profile === null) {
   return "Loading";
 }
 
-const authorProfile = Social.getr(`${author}/profile`);
-if (author && !authorProfile) {
-  return "Loading...";
+let authorProfile;
+if (state.filterBy.parameterName == "author") {
+  authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
+  if (!authorProfile) return "Loading...";
 }
 
 const brand = {
@@ -97,7 +98,8 @@ const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
 function getLastEditionsByArticle() {
   const allArticles = Social.index(addressForArticles, "main", {
     order: "desc",
-    accountId: author,
+    accountId:
+      state.filterBy.parameterName == "author" && state.filterBy.parameterValue,
   });
 
   const oldFormatArticlesTestBasicDataArray = [
@@ -157,9 +159,10 @@ function getLastEditionsByArticle() {
     ? oldFormatArticlesTestBasicDataArray
     : oldFormatArticlesMainBasicDataArray;
 
-  if (author) {
+  if (state.filterBy.parameterName == "author") {
     oldFormatArticlesBasicDataArray = oldFormatArticlesBasicDataArray.filter(
-      (articleBasicData) => articleBasicData[0] === author
+      (articleBasicData) =>
+        articleBasicData[0] === state.filterBy.parameterValue
     );
   }
 
@@ -224,12 +227,22 @@ function getLastEditionsByArticle() {
     }
   );
 
-  let finalArticles = finalNewFormatArticles.concat(finalOldFormatArticles);
+  let finalArticlesWithoutUsersFilters = finalNewFormatArticles.concat(
+    finalOldFormatArticles
+  );
+
+  let finalArticles = finalArticlesWithoutUsersFilters.filter((article) => {
+    if (state.filterBy == "") {
+      true;
+    }
+    if (state.filterBy.parameterName == "tag") {
+      article.tags.includes(state.filterBy.parameterValue);
+    }
+  });
 
   return finalArticles;
 }
 
-//TODO create function that filters this "finalArticles" by author/tag/etc depending of the requeriments of the user
 const finalArticles = getLastEditionsByArticle();
 //===============================================END GET DATA=======================================================
 
@@ -271,7 +284,6 @@ return (
         navigationButtons,
         displayedTabId: state.displayedTabId,
         writersWhiteList,
-        handleFilterArticles,
       }}
     />
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
