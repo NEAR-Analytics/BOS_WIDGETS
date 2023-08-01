@@ -82,7 +82,19 @@ const Card = styled.div`
     cursor: pointer;
 
     h1 {
+      padding-left: 5px;
       font-size: 16px;
+    }
+
+    .card-wrapper {
+      position: relative;
+      display: inline-block; 
+    }
+
+    .player-info {
+      position: absolute;
+      top: 75%;
+      width: 100%;
     }
 `;
 
@@ -90,8 +102,11 @@ const BSNWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     padding-right: 10px;
+
     h2 {
       font-size: 11px;
+      padding-left: 5px;
+      margin-left: 5px;
     }
 
     h3 {
@@ -103,6 +118,9 @@ const PersonalWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding-right: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #fff;
+  padding-top: 5px;
 
   h2 {
     width: 40px;
@@ -115,6 +133,7 @@ const PersonalWrapper = styled.div`
     color: blue;
     font-size: 11px;
     border-radius: 30px;
+    margin-left: 5px;
   }
 
   h3 {
@@ -132,16 +151,20 @@ const Cards = () => {
           }
           return (
             <Card>
-              <img src={images[idx]} width={"100%"}></img>
-              <h1>{player[1]}</h1>
-              <BSNWrapper>
-                <h2>{ethers.utils.formatEther(player[6])} CRO</h2>
-                <h3>{player[5]}</h3>
-              </BSNWrapper>
-              <PersonalWrapper>
-                <h2>{player[4]}</h2>
-                <h3>{player[3]}</h3>
-              </PersonalWrapper>
+              <div className="card-wrapper">
+                <img src={images[idx]} width={"100%"}></img>
+                <div className="player-info">
+                  <h1>{player[1]}</h1>
+                  <BSNWrapper>
+                    <h2>{ethers.utils.formatEther(player[6])} CRO</h2>
+                    <h3>{player[5]}</h3>
+                  </BSNWrapper>
+                  <PersonalWrapper>
+                    <h2>{player[4]}</h2>
+                    <h3>{player[3]}</h3>
+                  </PersonalWrapper>
+                </div>
+              </div>
             </Card>
           );
         })}
