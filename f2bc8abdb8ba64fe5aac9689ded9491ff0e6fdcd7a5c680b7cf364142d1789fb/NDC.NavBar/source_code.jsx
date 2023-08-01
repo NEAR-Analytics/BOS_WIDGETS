@@ -172,7 +172,6 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
-              console.log("pill: ", pill);
               return (
                 <>
                   {(!pill.id && pill.id != 0) || !pill.title ? (
@@ -200,7 +199,7 @@ return (
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
               <>
                 {navigationButtons.map((button) =>
-                  !button.id || !button.title ? (
+                  (!button.id && button.id != 0) || !button.title ? (
                     <p className="text-danger border">Button passed wrong</p>
                   ) : (
                     <div className="d-block d-md-none">
