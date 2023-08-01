@@ -220,8 +220,6 @@ const SelectableButton = styled.button`
 `;
 
 const DetailPageWrapper = styled.div`
-    color: #fff;
-
     hr {
         border-color: #fff;
         opacity: 1
