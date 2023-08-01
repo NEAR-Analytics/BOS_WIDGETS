@@ -16,6 +16,7 @@ const BannerWrapper = styled.div`
         color: #fff;
         border-radius: 20px;
         margin-bottom: 40px;
+        border-color: blue;
     }
 `;
 
