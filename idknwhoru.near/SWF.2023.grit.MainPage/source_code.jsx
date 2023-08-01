@@ -34,6 +34,33 @@ State.init({
   mode: 0,
 });
 
+const LeagueWrapper = styled.div`
+  .league-title {
+    font-size: 24px;
+    color: #999;
+  }
+
+  .league-holder-label {
+    font-size: 24px;
+    color: #999;
+  }
+
+  .league-holders {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  .league-date {
+    font-size: 24px;
+    color: #999;
+  }
+
+  hr {
+    border-top: 1px solid #fff;
+    opacity: 1;
+  }
+`;
+
 return (
   <>
     <ThemeWrapper>
@@ -78,7 +105,9 @@ return (
       {state.mode === 0 ? (
         <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
       ) : state.mode === 1 ? (
-        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
+        <LeagueWrapper>
+          <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
+        </LeagueWrapper>
       ) : (
         <Widget src={`idknwhoru.near/widget/SWF.2023.grit.MyPage`} />
       )}
