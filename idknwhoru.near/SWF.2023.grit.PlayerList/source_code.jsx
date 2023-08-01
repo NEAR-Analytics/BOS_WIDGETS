@@ -95,6 +95,7 @@ const Card = styled.div`
     .card-wrapper {
       position: relative;
       display: inline-block; 
+      width: 100%;
     }
 
     .card-wrapper img {
