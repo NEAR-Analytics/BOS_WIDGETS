@@ -1,4 +1,4 @@
-const currentPage = props.page ?? 1;
+const currentPage = (props.page && parseInt(props.page)) || 1;
 const resPerPage = props.resPerPage ?? 8;
 const typeName = props.typeName || "widget";
 const metadataTemplate = props.metadataTemplate || "efiz.near/widget/docs.card";
@@ -328,7 +328,7 @@ const renderThingsRows = () => {
   );
 };
 const renderPagination = () => (
-  <div className="d-flex justify-content-center align-items-center gap-2">
+  <div className="d-flex justify-content-center align-items-center gap-2 mb-4">
     <Widget
       src="nui.sking.near/widget/Navigation.Paginate"
       props={{
