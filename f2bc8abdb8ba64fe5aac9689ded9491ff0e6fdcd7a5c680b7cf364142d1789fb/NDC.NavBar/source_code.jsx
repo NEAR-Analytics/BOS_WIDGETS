@@ -65,10 +65,6 @@ if (
   );
 }
 
-if (!currentNavPill) {
-  currentNavPill = "";
-}
-
 const accountId = context.accountId;
 
 //============================================Styled components==================================================
