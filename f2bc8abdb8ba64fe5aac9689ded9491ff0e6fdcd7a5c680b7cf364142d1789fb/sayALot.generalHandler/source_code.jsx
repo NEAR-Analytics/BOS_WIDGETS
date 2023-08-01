@@ -12,7 +12,7 @@ const tabs = {
 State.init({
   displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
   infoToRenderArticle: {},
-  filterBy: {},
+  filterBy: { parameterName: "" },
 });
 
 //=============================================END INITIALIZATION===================================================
@@ -232,7 +232,7 @@ function getLastEditionsByArticle() {
   );
 
   let finalArticles = finalArticlesWithoutUsersFilters.filter((article) => {
-    if (state.filterBy == "") {
+    if (state.filterBy.parameterName == "") {
       true;
     }
     if (state.filterBy.parameterName == "tag") {
