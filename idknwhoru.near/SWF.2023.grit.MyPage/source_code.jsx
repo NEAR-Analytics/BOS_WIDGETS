@@ -163,6 +163,11 @@ const PlayingWrapper = styled.div`
         height: 600px;
         border: 1px solid;
     }
+
+    .field-wrapper img {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 const Player = () => {
@@ -207,7 +212,11 @@ const Player = () => {
           <div className="league-nav-wrapper">
             <button>원오원리그 바로참가하기</button>
           </div>
-          <div className="field-wrapper"></div>
+          <div className="field-wrapper">
+            <img
+              src={`https://ipfs.near.social/ipfs/bafybeifuuvunlhpvt6y442u3fjlrpsnwvpxvzvrzueyjfbyx274g5a4vfe`}
+            />
+          </div>
         </PlayingWrapper>
       </ContentWrapper>
     </div>
