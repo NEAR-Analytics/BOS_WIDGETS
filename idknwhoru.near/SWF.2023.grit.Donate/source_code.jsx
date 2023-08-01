@@ -50,6 +50,10 @@ const Card = styled.div`
     height: 200px;
     border: solid 1px #bbb;
     cursor: pointer;
+    background-color: ${(cardProps) =>
+      cardProps.price === state.price ? "#E5EDFE" : "#fff"};
+
+    
 
     .radio-button {
       width: 20px;
