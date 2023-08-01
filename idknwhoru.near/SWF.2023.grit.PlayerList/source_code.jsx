@@ -14,7 +14,7 @@ const images = [
   "https://ipfs.near.social/ipfs/bafkreiew5g7eizlh6ms7al5y23g7juioejle2bhv3cbyqoq55upxt2dlyu",
 ];
 
-const cronosContractAddress = "0x8EBb9B46A1743179607645F73aba40777b5C501E";
+const cronosContractAddress = "0xBBF09A10B1B8f1825cAdB58d34E0672A9Ee69c2d";
 
 const cronosContractABI = [
   {
@@ -37,6 +37,7 @@ const cronosContractABI = [
             name: "totalDonationAmount",
             internalType: "uint256",
           },
+          { type: "string", name: "photoUrl", internalType: "string" },
         ],
       },
     ],
@@ -174,12 +175,13 @@ const Cards = () => {
                     team: player[5],
                     position: player[4],
                     birthDate: player[3],
+                    photoUrl: player[7],
                   },
                 });
               }}
             >
               <div className="card-wrapper">
-                <img src={images[idx]}></img>
+                <img src={player[7]}></img>
                 <div className="player-info">
                   <h1>{player[1]}</h1>
                   <BSNWrapper>
@@ -306,7 +308,7 @@ return (
         <div className="detail-card-wrapper">
           <Card>
             <div className="card-wrapper">
-              <img src={images[0]}></img>
+              <img src={state.player.photoUrl}></img>
               <div className="player-info">
                 <h1>{state.player.name}</h1>
                 <BSNWrapper>
