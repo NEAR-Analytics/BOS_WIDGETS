@@ -132,7 +132,13 @@ function handleArticlesListNavigation(filterBy) {
 }
 
 //================================================END FUNCTIONS===================================================
-
+console.log(
+  1,
+  navigationButtons &&
+    accountId &&
+    writersWhiteList &&
+    writersWhiteList.some((whiteAddr) => whiteAddr === accountId)
+);
 return (
   <div className="navbar navbar-expand-md border-bottom mb-3">
     <div className="container-fluid">
