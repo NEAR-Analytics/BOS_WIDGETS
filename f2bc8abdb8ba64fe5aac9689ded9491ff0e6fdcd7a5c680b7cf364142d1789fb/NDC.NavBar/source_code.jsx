@@ -38,7 +38,7 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  !displayedTabId ||
+  !(displayedTabId + "") ||
   !pills ||
   (brand && (!brand.logoHref || !brand.homePageId))
 ) {
@@ -49,7 +49,9 @@ if (
       <ul>
         {!stateUpdate && <li className="text-danger">stateUpdate</li>}
 
-        {!displayedTabId && <li className="text-danger">displayedTabId</li>}
+        {!(displayedTabId + "") && (
+          <li className="text-danger">displayedTabId</li>
+        )}
 
         {!pills && <li className="text-danger">pills</li>}
 
@@ -57,7 +59,7 @@ if (
           <li className="text-danger">brand.logoHref</li>
         )}
 
-        {brand && !brand.homePageId && (
+        {brand && !(brand.homePageId + "") && (
           <li className="text-danger">brand.homePageId</li>
         )}
       </ul>
@@ -180,7 +182,7 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
-              return !pill.id || !pill.title ? (
+              return !(pill.id + "") || !pill.title ? (
                 <p className="text-danger border">Pill passed wrong</p>
               ) : (
                 <li className="nav-item">
@@ -202,7 +204,7 @@ return (
             writersWhiteList &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
             navigationButtons.map((button) => {
-              return !button.id || !button.title ? (
+              return !(button.id + "") || !button.title ? (
                 <p className="text-danger border">Button passed wrong</p>
               ) : (
                 <div className="d-block d-md-none">{renderButton(button)}</div>
