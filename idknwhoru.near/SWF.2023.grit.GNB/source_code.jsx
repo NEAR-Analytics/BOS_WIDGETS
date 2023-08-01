@@ -1,5 +1,5 @@
 const GNBWrapper = styled.div`
-  width: 100vw;
+  width: 100%;
   background-color: #fff;
   display: flex;
 `;
