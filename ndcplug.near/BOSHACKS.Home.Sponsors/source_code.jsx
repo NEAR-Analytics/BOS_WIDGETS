@@ -83,6 +83,12 @@ const judges = [
 ];
 const sponsors = [
   {
+    url: "https://creativesdao.org",
+    name: "CreativesDAO",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreibb4m4rszlhf46wgob25lhpuxgfbjpc23swd4qne5e6y7eccinkge",
+  },
+  {
     url: "https://osec.io",
     name: "Ottersec",
     image:
@@ -93,6 +99,12 @@ const sponsors = [
     name: "GenaDrop",
     image:
       "https://ipfs.near.social/ipfs/bafkreib2sswfwxwwsaaegzhuc454rgkdyycg6dx4gprxgwk5vy6ysrkfpm",
+  },
+  {
+    url: "https://mailchain.xyz",
+    name: "Mailchain",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreicq46boifskg476ln4zz5psijyojixizkhxd6uzeoabdtoutxvoni",
   },
 
   {
@@ -232,7 +244,7 @@ return (
         <Widget
           src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
           props={{
-            text: "🧑🏿‍🏫 See Mentors + Judges",
+            text: "🧑🏿‍🏫 See More",
             href: "http://nearbuilders.com/people",
           }}
         />
