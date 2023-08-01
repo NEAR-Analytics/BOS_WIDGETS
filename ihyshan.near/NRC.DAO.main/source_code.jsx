@@ -1,7 +1,7 @@
 State.init({
   selectedTab: props.tab || "proposals",
 });
-const accountId = props.accountId ?? "ihyshan.near";
+const accountId = props.accountId ?? "research-collective.near";
 const socialProfile = Social.getr(`${accountId}/profile`);
 const role = props.role ?? "researcher";
 // const accountId = props.accountId ?? context.accountId;
