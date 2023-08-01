@@ -29,6 +29,18 @@ const {
 ============(When modified to be web app we should delete action to replace it with a propper State.update)============
 */
 
+console -
+  log(
+    "brand.homePageId:",
+    brand.homePageId,
+    "navigationButtons.id:",
+    navigationButtons.id,
+    "navigationButtons.id:",
+    navigationButtons.id,
+    "navigationButtons.title:",
+    navigationButtons.title
+  );
+
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
   : undefined;
@@ -38,7 +50,7 @@ const logoRemHeight = brand.logoRemHeight
 
 if (
   !stateUpdate ||
-  !state ||
+  !parentState ||
   !pills ||
   (navigationButtons && (!navigationButtons.id || !navigationButtons.title)) ||
   (brand && (!brand.logoHref || !brand.homePageId))
@@ -50,7 +62,7 @@ if (
       <ul>
         {!stateUpdate && <li className="text-danger">stateUpdate</li>}
 
-        {!state && <li className="text-danger">state</li>}
+        {!parentState && <li className="text-danger">parentState</li>}
 
         {!pills && <li className="text-danger">pills</li>}
 
