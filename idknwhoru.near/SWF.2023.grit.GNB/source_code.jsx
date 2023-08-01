@@ -12,6 +12,13 @@ const ButtonWrapper = styled.div`
   ul {
     display: flex;
   }
+
+  .btn-outline-secondary {
+    width: 200px;
+    border-radius: 30px;
+    background-color: blue;
+    color: #fff;
+  }
 `;
 
 return (
@@ -22,7 +29,10 @@ return (
         <h2>선수투자</h2>
         <h2>AI NFT</h2>
       </ul>
-      <Web3Connect connectLabel="Connect To Wallet" />
+      <Web3Connect
+        connectLabel="Connect To Wallet"
+        disconnectLabel="DisConnect Wallet"
+      />
     </ButtonWrapper>
   </GNBWrapper>
 );
