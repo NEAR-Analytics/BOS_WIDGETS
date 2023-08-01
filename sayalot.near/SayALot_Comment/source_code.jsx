@@ -36,7 +36,7 @@ const raw = !!props.raw;
 const item = {
   type: "social",
   path: `${accountId}/post/comment`,
-  blockHeight,
+  realArticleId,
 };
 
 //TODO - adress should be changed
