@@ -26,8 +26,21 @@ const ButtonWrapper = styled.div`
 `;
 
 State.init({
-  mode: 0,
+  mode: 1,
 });
+
+const DetailPageWrapper = styled.div`
+    color: #fff;
+
+    hr {
+        border-color: #fff;
+        opacity: 1
+    }
+
+    .plan-content-wrapper {
+        color: #000;
+    }
+    `;
 
 return (
   <>
@@ -59,6 +72,19 @@ return (
       </GNBWrapper>
       {state.mode === 0 ? (
         <Widget src={`idknwhoru.near/widget/SWF.2023.grit.PlayerList`} />
+      ) : state.mode === 1 ? (
+        <>
+          <DetailPageWrapper>
+            <Widget
+              src={`idknwhoru.near/widget/SWF.2023.grit.Player`}
+              props={props}
+            />
+            <Widget
+              src={`idknwhoru.near/widget/SWF.2023.grit.Donate`}
+              props={props}
+            />
+          </DetailPageWrapper>
+        </>
       ) : null}
     </ThemeWrapper>
   </>
