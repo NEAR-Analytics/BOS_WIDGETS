@@ -1,3 +1,4 @@
+const { tab } = props;
 const data = {
   index: "efiz.near/widget/index",
   routes: [
@@ -59,5 +60,8 @@ const data = {
 };
 
 return (
-  <Widget src={data.index} props={{ routes: data.routes, index: data.index }} />
+  <Widget
+    src={data.index}
+    props={{ routes: data.routes, index: data.index, tab }}
+  />
 );
