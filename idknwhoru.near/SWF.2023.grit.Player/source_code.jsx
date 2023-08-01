@@ -54,13 +54,13 @@ getPlayerInfo();
 
 const PlayerWrapper = styled.div`
   h1 {
-    margin-left: 15px;
+    margin-left: 40px;
   }
 `;
 
 const PlayerInfoWrapper = styled.div`
   display: flex;
-  margin-left: 15px;
+  margin-left: 40px;
 
   gap: 40px;
 
