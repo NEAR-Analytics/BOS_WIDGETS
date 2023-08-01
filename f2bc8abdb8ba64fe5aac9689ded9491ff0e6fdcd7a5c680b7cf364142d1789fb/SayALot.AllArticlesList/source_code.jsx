@@ -45,7 +45,6 @@ return (
           <Widget
             src={widgets.generalCard}
             props={{
-              stateUpdate,
               data: article,
               displayOverlay: true,
               renderReactions: true,
