@@ -145,6 +145,7 @@ const BalanceContainer = styled.div`
   margin-top: 10px;
 `;
 
+
 State.init({
   amount: "",
   amountInUSD: "0.00",
@@ -155,7 +156,7 @@ State.init({
 });
 
 function updateGas() {
-  if (["ETH", "WETH"].includes(symbol)) {
+  if (symbol === config.nativeCurrency.symbol) {
     borrowETHGas().then((value) => {
       State.update({ gas: value });
     });
@@ -167,10 +168,10 @@ function updateGas() {
 }
 
 updateGas();
-const questionSwitch = Storage.get("zkevm-aave-question-switch", "ref-bigboss.near/widget/ZKEVM.switch_quest_card");
-
 const maxValue = Big(availableBorrows).toFixed(decimals);
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "ref-bigboss.near/widget/ZKEVM.switch_quest_card");
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
+
 /**
  *
  * @param {string} chainId
@@ -181,7 +182,7 @@ const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
  * @returns
  */
 function getNewHealthFactor(chainId, address, asset, action, amount) {
-  const url = `https://aave-api.pages.dev/${chainId}/health/${address}`;
+  const url = `${config.AAVE_API_BASE_URL}/${chainId}/health/${address}`;
   return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
 }
 
@@ -243,7 +244,7 @@ const updateNewHealthFactor = debounce(() => {
         "borrow",
         state.amountInUSD
       ).then((response) => {
-        const newHealthFactor = formatHealthFactor(JSON.parse(response.body));
+        const newHealthFactor = formatHealthFactor(response.body);
         State.update({ newHealthFactor });
       });
     });
@@ -316,12 +317,22 @@ function borrowERC20(amount) {
           account_id: eth_account_id,
           account_info: "",
           template: "AAVE",
+          action_switch: questionSwitch == "on" ? '1': '0',
           action_status: status === 1 ? "Success" : "Failed",
           tx_id: transactionHash,
         });
       });
     })
     .catch(() => State.update({ loading: false }));
+}
+function add_action(param_body) {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(param_body),
+  });
 }
 function borrowETH(amount) {
   const wrappedTokenGateway = new ethers.Contract(
@@ -367,24 +378,13 @@ function borrowETH(amount) {
           account_id: eth_account_id,
           account_info: "",
           template: "AAVE",
+          action_switch: questionSwitch == "on" ? '1': '0',
           action_status: status === 1 ? "Success" : "Failed",
           tx_id: transactionHash,
         });
       });
     })
     .catch(() => State.update({ loading: false }));
-}
-
-function add_action(param_body) {
-  if (questionSwitch == "on") {
-    asyncFetch("https://bos-api.ref-finance.com/add-action-data", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param_body),
-    });
-  }
 }
 
 function update() {
@@ -412,7 +412,15 @@ function update() {
     State.update({ needApprove: false });
   }
 }
-
+function add_action(param_body) {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(param_body),
+    });
+}
 update();
 const is_disabled = state.loading || Big(state.amount || 0).lte(0) || Big(availableBorrows || 0).lte(0);
 return (
@@ -431,43 +439,43 @@ return (
                 config,
                 children: (
                   <>
-                    <InputContainer>
-                      <TokenTexture>
-                        <Input
-                          type="number"
-                          value={state.amount}
-                          onChange={(e) => {
-                            changeValue(e.target.value);
-                          }}
-                          placeholder="0"
-                        />
-                      </TokenTexture>
-                      <TokenWrapper>
-                        <img
-                          width={22}
-                          height={22}
-                          src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
-                        />
-                        <TokenTexture>{symbol}</TokenTexture>
-                      </TokenWrapper>
-                    </InputContainer>
-                    <BalanceContainer>
-                      <GrayTexture>${state.amountInUSD}</GrayTexture>,
-                      <GrayTexture>
-                        Available:{" "}
-                        <span
-                          onClick={() => {
-                            changeValue(maxValue);
-                          }}
-                          className="balanceValue"
-                        >
-                          {isValid(availableBorrows) && availableBorrows !== "-"
-                            ? Big(availableBorrows).toFixed(7)
-                            : availableBorrows}
-                        </span>
-                      </GrayTexture>
-                    </BalanceContainer>
-                  </>
+                  <InputContainer>
+                    <TokenTexture>
+                      <Input
+                        type="number"
+                        value={state.amount}
+                        onChange={(e) => {
+                          changeValue(e.target.value);
+                        }}
+                        placeholder="0"
+                      />
+                    </TokenTexture>
+                    <TokenWrapper>
+                      <img
+                        width={22}
+                        height={22}
+                        src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
+                      />
+                      <TokenTexture>{symbol}</TokenTexture>
+                    </TokenWrapper>
+                  </InputContainer>
+                  <BalanceContainer>
+                    <GrayTexture>${state.amountInUSD}</GrayTexture>
+                    <GrayTexture>
+                      Available:{" "}
+                      <span
+                        onClick={() => {
+                          changeValue(maxValue);
+                        }}
+                        className="balanceValue"
+                      >
+                        {isValid(availableBorrows) && availableBorrows !== "-"
+                          ? Big(availableBorrows).toFixed(7)
+                          : availableBorrows}
+                      </span>
+                    </GrayTexture>
+                  </BalanceContainer>
+                </>
                 ),
               }}
             />
@@ -484,7 +492,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <WhiteTexture>Health Factor</WhiteTexture>,
+                        left: <PurpleTexture>Health Factor</PurpleTexture>,
                         right: (
                           <div style={{ textAlign: "right" }}>
                             <GreenTexture>
@@ -508,7 +516,7 @@ return (
                 ),
               }}
             />
-            <div className="splitDiv">
+             <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <div
@@ -522,7 +530,7 @@ return (
                 props={{ gas: state.gas, config }}
               />
             </div>
-            {state.needApprove && symbol === "ETH" && (
+            {state.needApprove && symbol === config.nativeCurrency.symbol && (
               <Widget
                 src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
                 props={{
@@ -555,7 +563,9 @@ return (
                 }}
               />
             )}
-            {!(state.needApprove && symbol === "ETH") && (
+            {!(
+              state.needApprove && symbol === config.nativeCurrency.symbol
+            ) && (
               <Widget
                 src={`ref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
                 props={{
@@ -564,10 +574,10 @@ return (
                   loading: state.loading,
                   disabled: is_disabled,
                   onClick: () => {
-                    const amount = Big(state.amount || 0)
+                    const amount = Big(state.amount)
                       .mul(Big(10).pow(decimals))
                       .toFixed(0);
-                    if (symbol === "ETH" || symbol === "WETH") {
+                    if (symbol === config.nativeCurrency.symbol) {
                       // borrow weth
                       borrowETH(amount);
                     } else {
