@@ -158,7 +158,7 @@ const PersonalWrapper = styled.div`
 const Cards = () => {
   if (state.players !== undefined) {
     return (
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div className="card-list-wrapper">
         {state.players.map((player, idx) => {
           if (idx > 7) {
             return null;
@@ -201,6 +201,14 @@ const Cards = () => {
 };
 
 const PlayListWrapper = styled.div`
+  .playlist-label {
+    margin-bottom: 40px;
+  }
+  .card-list-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
 `;
 
 const SelectableButton = styled.button`
