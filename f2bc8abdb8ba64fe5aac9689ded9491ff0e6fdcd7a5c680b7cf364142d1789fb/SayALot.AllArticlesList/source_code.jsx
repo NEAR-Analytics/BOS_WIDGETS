@@ -1,9 +1,16 @@
 //===============================================INITIALIZATION=====================================================
-let { isTest, stateUpdate, finalArticles } = props;
+
+let { isTest, stateUpdate, finalArticles, tabs, widgets } = props;
 
 State.init({ start: Date.now() });
 
 //=============================================END INITIALIZATION===================================================
+
+//===================================================CONSTS=========================================================
+
+const 
+
+//=================================================END CONSTS=======================================================
 
 const getDateLastEdit = (timestamp) => {
   const date = new Date(Number(timestamp));
@@ -14,75 +21,92 @@ const getDateLastEdit = (timestamp) => {
   return dateString;
 };
 
+function handleOpenArticle(article) {
+  return () =>
+    stateUpdate({
+      displayedTabId: tabs.SHOW_ARTICLE.id,
+      infoToRenderArticle: {
+        articleId: article.articleId,
+        blockHeight: article.blockHeight,
+        lastEditor: article.lastEditor,
+      },
+    });
+}
+
 return (
   <div className="row card-group py-3">
     {finalArticles.length > 0 &&
       finalArticles.map((article) => {
         // If some widget posts data different than an array it will be ignored
         if (!Array.isArray(article.tags)) article.tags = [];
-        return (
-          <div
-            className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
-            key={article.articleId}
-          >
-            <div className="card h-100">
-              <div
-                className="text-decoration-none text-dark"
-                href={
-                  isDebug
-                    ? `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}&isDebug=true
-            `
-                    : `#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${article.articleId}&blockHeight=${article.blockHeight}&lastEditor=${article.lastEditor}
-            `
-                }
-              >
-                <div className="card-body">
-                  <div className="row d-flex justify-content-center">
-                    <h5 className="card-title text-center pb-2 border-bottom">
-                      {article.articleId}
-                    </h5>
-                    <div className="col flex-grow-1">
-                      <Widget
-                        src="mob.near/widget/Profile.ShortInlineBlock"
-                        props={{ accountId: article.author, tooltip: true }}
-                      />
-                    </div>
-                    <div className="col flex-grow-0">
-                      <p className="card-subtitle text-muted text-end">
-                        {getDateLastEdit(article.timeCreate).date}
-                      </p>{" "}
-                      <p className="card-subtitle text-muted text-end">
-                        {getDateLastEdit(article.timeCreate).time}
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    className="mt-3 alert alert-secondary"
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <div>
-                      Last edit by{" "}
-                      <a
-                        href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
-                        style={{ textDecoration: "underline" }}
-                      >
-                        {article.lastEditor}
-                      </a>
-                      <br />
-                      Edited on {getDateLastEdit(article.timeLastEdit).date}
-                      <br />
-                      Edit versions: {article.version}
-                    </div>
-                    <Widget
-                      src={`${authorForWidget}/widget/SayALot_TagList`}
-                      props={{ tags: article.tags, isDebug }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        console.log(article)
+        // return(<Widget src={widgets.generalCard} props={{
+        //   tagsData: "",
+        //   accountId: "",
+        //   displayOverlay: "",
+        //   title: "",
+        //   content: "",
+        //   timeLastEdit: "",
+        //   articleAuthor: "",
+        //   renderReactions: "",
+        // }}/>)
+        // return (
+        //   <div
+        //     className="col-sm-12 col-lg-6 col-2xl-4 gy-3"
+        //     key={article.articleId}
+        //   >
+        //     <div className="card h-100">
+        //       <div
+        //         className="text-decoration-none text-dark"
+        //         onClick={handleOpenArticle(article)}
+        //       >
+        //         <div className="card-body">
+        //           <div className="row d-flex justify-content-center">
+        //             <h5 className="card-title text-center pb-2 border-bottom">
+        //               {article.articleId}
+        //             </h5>
+        //             <div className="col flex-grow-1">
+        //               <Widget
+        //                 src="mob.near/widget/Profile.ShortInlineBlock"
+        //                 props={{ accountId: article.author, tooltip: true }}
+        //               />
+        //             </div>
+        //             <div className="col flex-grow-0">
+        //               <p className="card-subtitle text-muted text-end">
+        //                 {getDateLastEdit(article.timeCreate).date}
+        //               </p>{" "}
+        //               <p className="card-subtitle text-muted text-end">
+        //                 {getDateLastEdit(article.timeCreate).time}
+        //               </p>
+        //             </div>
+        //           </div>
+        //           <div
+        //             className="mt-3 alert alert-secondary"
+        //             style={{ backgroundColor: "white" }}
+        //           >
+        //             <div>
+        //               Last edit by{" "}
+        //               <a
+        //                 href={`https://near.social/#/mob.near/widget/ProfilePage?accountId=${article.lastEditor}`}
+        //                 style={{ textDecoration: "underline" }}
+        //               >
+        //                 {article.lastEditor}
+        //               </a>
+        //               <br />
+        //               Edited on {getDateLastEdit(article.timeLastEdit).date}
+        //               <br />
+        //               Edit versions: {article.version}
+        //             </div>
+        //             <Widget
+        //               src={`${authorForWidget}/widget/SayALot_TagList`}
+        //               props={{ tags: article.tags, isDebug }}
+        //             />
+        //           </div>
+        //         </div>
+        //       </div>
+        //     </div>
+        //   </div>
+        // );
       })}
   </div>
 );
