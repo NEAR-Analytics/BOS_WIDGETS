@@ -18,6 +18,10 @@ const ButtonWrapper = styled.div`
     gap: 15px;
   }
 
+  ul h2 {
+    cursor: pointer;
+  }
+
   .btn-outline-secondary {
     width: 200px;
     border-radius: 30px;
@@ -56,10 +60,19 @@ return (
               원오원 리그
             </h2>
           </ul>
-          <Web3Connect
-            connectLabel="Connect To Wallet"
-            disconnectLabel="DisConnect Wallet"
-          />
+          <ul>
+            <h2
+              onClick={() => {
+                State.update({ mode: 2 });
+              }}
+            >
+              마이페이지
+            </h2>
+            <Web3Connect
+              connectLabel="Connect To Wallet"
+              disconnectLabel="DisConnect Wallet"
+            />
+          </ul>
         </ButtonWrapper>
       </GNBWrapper>
       {state.mode === 0 ? (
