@@ -1,8 +1,10 @@
 /** To-DO
  * - add slider logic, add automatic tagging for proof of vibes.near
  * - map sliders amount into emojis w markdown friednliness ❤️ diversity 🌈 desntiy 🧊 energy ⚡️
+ * requrie image to post
  * add mint button
- * detect change and if no change on sliders dont let post
+ * detect change and if no change on sliders dont let post, show genalert
+ * add tool tips
  */
 const embedHashtags = props.embedHashtags || [];
 const embedMentions = props.embedMentions || [];
@@ -83,79 +85,85 @@ const extractHashtags = (text) => {
 };
 
 function composeData() {
-  content.text =
-    content.text +
-    " Friendliness: " +
-    state.friendliness +
-    "/" +
-    maxSliderPoints +
-    " Energy: " +
-    state.energy +
-    "/" +
-    maxSliderPoints +
-    " Density: " +
-    state.density +
-    "/" +
-    maxSliderPoints +
-    " Diversity: " +
-    state.diversity +
-    "/" +
-    maxSliderPoints;
-  content.metadata = {
-    friendliness: state.friendliness,
-    energy: state.energy,
-    density: state.density,
-    diversity: state.diversity,
-  };
-  const data = {
-    post: {
-      main: JSON.stringify(content),
-    },
-    index: {
-      post: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-    },
-  };
-
-  const hashtags = extractHashtags(content.text);
-  hashtags = hashtags.concat(embedHashtags);
-
-  const item = {
-    type: "social",
-    path: `${context.accountId}/post/main`,
-  };
-  if (hashtags.length) {
-    data.index.hashtag = JSON.stringify(
-      hashtags.map((hashtag) => ({
-        key: hashtag,
-        value: item,
-      }))
-    );
-  }
-
-  const notifications = extractTagNotifications(state.text, item);
-
-  if (embedMentions.length) {
-    const mentions = embedMentions.map((accountId) => ({
-      key: accountId,
-      value: {
-        type: "mention",
-        item,
+  if (content.image === undefined) {
+    <Widget
+      src="jgodwill.near/widget/genalert"
+      props={{ toastMessage: "you must upload an image to do a vibe check" }}
+    />;
+  } else {
+    content.text =
+      content.text +
+      " Friendliness: " +
+      state.friendliness +
+      "/" +
+      maxSliderPoints +
+      " Energy: " +
+      state.energy +
+      "/" +
+      maxSliderPoints +
+      " Density: " +
+      state.density +
+      "/" +
+      maxSliderPoints +
+      " Diversity: " +
+      state.diversity +
+      "/" +
+      maxSliderPoints;
+    const data = {
+      post: {
+        main: JSON.stringify(content),
+        rating:
+          parseInt(state.friendliness) +
+          parseInt(state.energy) +
+          parseInt(state.density) +
+          parseInt(state.diversity),
       },
-    }));
-    notifications = notifications.concat(mentions);
-  }
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
-  }
+      index: {
+        post: JSON.stringify({
+          key: "main",
+          value: {
+            type: "md",
+          },
+        }),
+      },
+    };
 
-  return data;
+    const hashtags = extractHashtags(content.text);
+    hashtags = hashtags.concat(embedHashtags);
+
+    const item = {
+      type: "social",
+      path: `${context.accountId}/post/main`,
+    };
+    if (hashtags.length) {
+      data.index.hashtag = JSON.stringify(
+        hashtags.map((hashtag) => ({
+          key: hashtag,
+          value: item,
+        }))
+      );
+    }
+
+    const notifications = extractTagNotifications(state.text, item);
+
+    if (embedMentions.length) {
+      const mentions = embedMentions.map((accountId) => ({
+        key: accountId,
+        value: {
+          type: "mention",
+          item,
+        },
+      }));
+      notifications = notifications.concat(mentions);
+    }
+    if (notifications.length) {
+      data.index.notify = JSON.stringify(
+        notifications.length > 1 ? notifications : notifications[0]
+      );
+    }
+
+    return data;
+  }
 }
 
 function onCommit() {
@@ -525,6 +533,7 @@ return (
               <i className="bi bi-eye-fill" />
             )}
           </button>
+
           <CommitButton
             disabled={!state.text}
             force
