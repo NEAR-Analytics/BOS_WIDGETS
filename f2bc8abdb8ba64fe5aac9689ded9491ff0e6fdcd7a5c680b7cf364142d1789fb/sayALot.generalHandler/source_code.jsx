@@ -11,6 +11,7 @@ const tabs = {
 
 State.init({
   displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+  infoToRenderArticle: {},
 });
 
 //=============================================END INITIALIZATION===================================================
@@ -50,6 +51,7 @@ if (isTest) {
 const widgets = {
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/SayALot.OneArticle`,
 };
 
@@ -249,7 +251,7 @@ return (
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
-        props={{ isTest, stateUpdate, finalArticles }}
+        props={{ isTest, stateUpdate, finalArticles, tabs, widgets }}
       />
     )}
     {state.displayedTabId == tabs.SHOW_ARTICLE.id && (
