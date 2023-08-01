@@ -172,57 +172,43 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
-              return (
-                <>
-                  {(!pill.id && pill.id != 0) || !pill.title ? (
-                    <p className="text-danger border">Pill passed wrong</p>
-                  ) : (
-                    <li className="nav-item">
-                      <Pill
-                        onClick={handleArticlesListNavigation(title)}
-                        className={`nav-link ${
-                          id === displayedTabId
-                            ? "active text-decoration-underline"
-                            : "text-decoration-none"
-                        } `}
-                      >
-                        {title}
-                      </Pill>
-                    </li>
-                  )}
-                </>
+              (!pill.id && pill.id != 0) || !pill.title ? (
+                <p className="text-danger border">Pill passed wrong</p>
+              ) : (
+                <li className="nav-item">
+                  <Pill
+                    onClick={handleArticlesListNavigation(title)}
+                    className={`nav-link ${
+                      id === displayedTabId
+                        ? "active text-decoration-underline"
+                        : "text-decoration-none"
+                    } `}
+                  >
+                    {title}
+                  </Pill>
+                </li>
               );
             })}
           {navigationButtons &&
             accountId &&
             writersWhiteList &&
-            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
-              <>
-                {navigationButtons.map((button) =>
-                  (!button.id && button.id != 0) || !button.title ? (
-                    <p className="text-danger border">Button passed wrong</p>
-                  ) : (
-                    <div className="d-block d-md-none">
-                      {renderButton(button)}
-                    </div>
-                  )
-                )}
-              </>
+            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
+            navigationButtons.map((button) =>
+              (!button.id && button.id != 0) || !button.title ? (
+                <p className="text-danger border">Button passed wrong</p>
+              ) : (
+                <div className="d-block d-md-none">{renderButton(button)}</div>
+              )
             )}
         </ul>
       </div>
       {navigationButtons &&
         accountId &&
         writersWhiteList &&
-        writersWhiteList.some((whiteAddr) => whiteAddr === accountId) && (
-          <>
-            {navigationButtons.map((button) => {
-              return (
-                <div className="d-none d-md-block">{renderButton(button)}</div>
-              );
-            })}
-          </>
-        )}
+        writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
+        navigationButtons.map((button) => (
+          <div className="d-none d-md-block">{renderButton(button)}</div>
+        ))}
     </div>
   </div>
 );
