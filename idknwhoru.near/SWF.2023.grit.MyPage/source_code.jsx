@@ -178,6 +178,8 @@ const PlayingWrapper = styled.div`
     }
 
     .field-wrapper {
+        position: relative;
+        display: inline-block;
         height: 600px;
         border: 1px solid;
     }
@@ -185,6 +187,27 @@ const PlayingWrapper = styled.div`
     .field-wrapper img {
         width: 100%;
         height: 100%;
+    }
+
+    .field-formation-wrapper {
+        position: absolute;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .field-formation-front {
+        display: flex;
+        border: solid 1px;
+        width: 100%;
+        height: 300px;
+    }
+
+    .field-formation-end {
+        display: flex;
+        border: solid 1px;
+        width: 100%;
+        height: 300px;
     }
 `;
 
@@ -292,6 +315,10 @@ const Player = () => {
                 <img
                   src={`https://ipfs.near.social/ipfs/bafybeifuuvunlhpvt6y442u3fjlrpsnwvpxvzvrzueyjfbyx274g5a4vfe`}
                 />
+                <div className="field-formation-wrapper">
+                  <div className="field-formation-front"></div>
+                  <div className="field-formation-end"></div>
+                </div>
               </div>
             </PlayingWrapper>
           </ContentWrapper>
