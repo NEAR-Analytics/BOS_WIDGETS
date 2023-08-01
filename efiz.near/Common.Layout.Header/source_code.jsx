@@ -232,7 +232,7 @@ return (
                         }}
                       >
                         {subItem.handle ? (
-                          <a href={`/#/${index}?tab=${subItem.handle}`}>
+                          <a href={`?tab=${subItem.handle}`}>
                             <i className={subItem.icon} />
                             {subItem.title}
                           </a>
@@ -253,7 +253,7 @@ return (
             return (
               <li key={i} className={item === activeTab && "active"}>
                 {item.handle ? (
-                  <a href={`/#/${index}?tab=${item.handle}`}>
+                  <a href={`?tab=${item.handle}`}>
                     <i className={item.icon} />
                     {item.title}
                   </a>
