@@ -101,14 +101,20 @@ const Cards = () => {
   }
 };
 
+const PlayListWrapper = styled.div`
+  .playlist-label {
+    color: #fff;
+  }
+`;
+
 return (
-  <>
-    <h1>가장 핫한 선수</h1>
+  <PlayListWrapper>
+    <h1 className="playlist-label">가장 핫한 선수</h1>
     <button>전체보기</button>
     <button>공격수</button>
     <button>수비수</button>
     <button>골키퍼</button>
     <Cards />
-  </>
+  </PlayListWrapper>
 );
 p;
