@@ -220,8 +220,10 @@ const Player = () => {
     <>
       {state.page === 0 ? (
         <>
-          <h1>마이페이지</h1>
-          <h2>5명을 선택해 라인업을 구성하세요.</h2>
+          <h1 className="my-page-title">마이페이지</h1>
+          <h2 className="my-page-sub-title">
+            5명을 선택해 라인업을 구성하세요.
+          </h2>
           <ContentWrapper>
             <CardSelectWrapper>
               {state.players.map((player, idx) => {
