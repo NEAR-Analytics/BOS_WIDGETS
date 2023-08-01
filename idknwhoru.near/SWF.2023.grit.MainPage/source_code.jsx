@@ -13,6 +13,9 @@ const GNBWrapper = styled.div`
 `;
 
 const PlayerWrapper = styled.div`
+    .playlist-wrapper{
+        padding: 100px;
+    }
   .playlist-label {
     color: #fff;
   }
