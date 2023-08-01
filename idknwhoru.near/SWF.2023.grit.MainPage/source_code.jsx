@@ -72,43 +72,47 @@ State.init({
 });
 
 const LeagueWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
   
-  .league-title {
-    font-size: 24px;
-    color: #999;
-    margin-left: 40px;
-  }
+    .banner-wrapper{
+        padding: 0 225px;
+    }
 
-  .league-holder-label {
-    font-size: 24px;
-    color: #999;
-    margin-left: 40px;
-  }
+    .league-title {
+        font-size: 24px;
+        color: #999;
+        margin-left: 40px;
+    }
 
-  .league-holders {
-    font-size: 24px;
-    color: #fff;
-  }
+    .league-holder-label {
+        font-size: 24px;
+        color: #999;
+        margin-left: 40px;
+    }
 
-  .league-date {
-    font-size: 24px;
-    color: #999;
-    margin-left: 40px;
-  }
+    .league-holders {
+        font-size: 24px;
+        color: #fff;
+    }
 
-  hr {
-    border-top: 1px solid #fff;
-    opacity: 1;
-  }
+    .league-date {
+        font-size: 24px;
+        color: #999;
+        margin-left: 40px;
+    }
+
+    hr {
+        border-top: 1px solid #fff;
+        opacity: 1;
+    }
 `;
 
 const MyPageWrapper = styled.div`
     .my-page-wrapper {
         padding: 55px;
     }
-    
+
     .my-page-title {
       color: #fff;
     }
