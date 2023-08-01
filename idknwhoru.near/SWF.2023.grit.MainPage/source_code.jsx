@@ -87,6 +87,7 @@ const LeagueWrapper = styled.div`
         font-size: 24px;
         color: #999;
         margin-left: 40px;
+        margin-top: 40px;
     }
 
     .league-holder-label {
