@@ -28,6 +28,11 @@ const PlayerWrapper = styled.div`
   .content-name  {
     color: #fff;
   }
+
+  .donate-label {
+    margin-top: 40px;
+    color: #fff;
+  }
 `;
 
 const ButtonWrapper = styled.div`
