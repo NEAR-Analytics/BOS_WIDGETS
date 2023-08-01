@@ -56,7 +56,12 @@ return (
     >
       <Widget
         src="mob.near/widget/MainPage.Post.Header"
-        props={{ accountId, commentBlockHeight, link, postType: "comment" }}
+        props={{
+          accountId,
+          blockHeight: commentBlockHeight,
+          link,
+          postType: "comment",
+        }}
       />
       <div className="mt-2 text-break">
         <Widget
