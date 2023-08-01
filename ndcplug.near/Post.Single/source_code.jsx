@@ -2,7 +2,11 @@
 // maybe add testing variable
 // const blockHeight =
 //   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
-const blockHeight = 97835986;
+// https://social.near.page/p/readylayerone.near/95080094
+// https://social.near.page/p/readylayerone.near/95862539
+// const blockHeight = 97835986;
+const blockHeight = 95080094;
+// const blockHeight = 95862539;
 const accountId = "readylayerone.near";
 const content =
   props.content ??
@@ -24,10 +28,9 @@ const formatDate = (timestamp) => {
   return `${month}/${day}/${year}`;
 };
 const formattedDate = formatDate(Date.now());
+const nftDescription = state?.content.text ?? "BOS minting powered by GenaDrop";
 
 const nftTitle = accountId + " " + formatDate;
-const nftDescription =
-  props.nftDescription ?? "BOS minting powered by GenaDrop";
 State.init({
   receiver: accountId,
   toastMessage: "",
@@ -36,15 +39,29 @@ State.init({
   title: nftTitle,
   image,
   content,
+  imageUrl: undefined,
 });
 
-const hasImageInPost = true; // TO-DO change this to check if has image in post
+const hasImageInPost = state?.content?.image; // TO-DO change this to check if has image in post
+const getImageUrl = () =>
+  (state?.content?.image.ipfs_cid
+    ? State.update({
+        imageUrl: `https://ipfs.near.social/ipfs/${state?.content?.image.ipfs_cid}`,
+        description: state?.content?.text,
+      })
+    : State.update({
+        imageUrl: state?.content?.image.url,
+        description: state?.content?.text,
+      })) || fallbackUrl;
+
+getImageUrl();
+console.log("content: ", state.content.text);
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const nftMint = () => {
-  //   if (!state.image.cid) {
-  //     return;
-  //   }
+  if (!hasImageInPost) {
+    return;
+  }
   if (!accountId) {
     console.log("Please login"); // add share dogvwallet
     State.update({
@@ -83,7 +100,7 @@ const nftMint = () => {
       name: state.title,
       description: state.description,
       properties: [],
-      image: `${state.image.url}`,
+      image: `${state.imageUrl}`,
 
       //   image: `ipfs://${state.image.ipfs_cid}`,
       //   image: `ipfs://${state.image.cid}`,
@@ -112,7 +129,7 @@ const nftMint = () => {
               description: state.description,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              media: `${state.content.image}`,
+              media: `${state.imageUrl}`,
 
               //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
