@@ -51,6 +51,7 @@ return (
         nextLimit: 10,
         loadMoreText: "Show earlier comments...",
         realArticleId,
+        isDebug,
       }}
     />{" "}
   </div>
