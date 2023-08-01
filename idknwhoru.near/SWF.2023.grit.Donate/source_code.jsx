@@ -45,7 +45,7 @@ if (Ethers.provider()) {
     });
 }
 
-const Card = styled.div`
+const PlanCard = styled.div`
     width: 150px;
     height: 200px;
     border: solid 1px #bbb;
@@ -73,6 +73,18 @@ const Card = styled.div`
       background-color: ${(cardProps) =>
         cardProps.price === state.price ? "blue" : "#fff"};
     }
+
+    .plan-content-wrapper h1{
+      font-size: 12px;
+    }
+
+    .plan-content-wrapper h2{
+      font-size: 24px;
+    }
+
+    .plan-content-wrapper h3{
+      font-size: 12px;
+    }
 `;
 
 const Cards = () => {
@@ -80,7 +92,7 @@ const Cards = () => {
     return (
       <div style={{ display: "flex" }}>
         {list.map((price, idx) => (
-          <Card
+          <PlanCard
             price={price}
             onClick={(_) => {
               selectPrice(price);
@@ -94,7 +106,7 @@ const Cards = () => {
               <h2>{price} CRO</h2>
               <h3>1개월 마다</h3>
             </div>
-          </Card>
+          </PlanCard>
         ))}
       </div>
     );
