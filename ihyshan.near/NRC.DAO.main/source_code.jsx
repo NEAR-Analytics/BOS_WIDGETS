@@ -44,7 +44,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 
 const widgetOwner = "nearefi.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
-const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}`;
+const accountUrl = `ihyshan.near/widget/NRC.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
