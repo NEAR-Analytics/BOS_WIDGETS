@@ -45,7 +45,6 @@ const cronosContractABI = [
 ];
 
 const getAllPlayers = () => {
-  console.log({ provider: Ethers.provider() });
   const cronosContract = new ethers.Contract(
     cronosContractAddress,
     cronosContractABI,
@@ -71,6 +70,8 @@ if (Ethers.provider()) {
       console.log({ err });
     });
 }
+
+console.log({ provider: Ethers.provider() });
 
 const Card = styled.div`
     color: #fff;
