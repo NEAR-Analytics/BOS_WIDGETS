@@ -101,6 +101,10 @@ return (
                     props={{
                       children: [
                         <Widget
+                          src={`${config.ownerId}/widget/AAVE.Card.Divider`}
+                          props={{ config }}
+                        />,
+                        <Widget
                           src={`${config.ownerId}/widget/AAVE.Card.CardsBody`}
                           props={{
                             config,
@@ -149,7 +153,7 @@ return (
                                     </div>,
                                     <div className="card-data-row">
                                       <div className="card-data-key">
-                                      APY(variable)
+                                        APY, variable
                                       </div>
                                       <div className="card-data-value">{`${(
                                         Number(row.variableBorrowAPY) * 100
