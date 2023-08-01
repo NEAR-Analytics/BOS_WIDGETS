@@ -64,6 +64,7 @@ getMyPlayers();
 
 const CardSelectWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 30%;
 `;
 
