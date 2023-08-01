@@ -70,6 +70,7 @@ const MyPageWrapper = styled.div`
     .my-page-title-wrapper {
         display: flex;
         width: 40%;
+        justify-content: space-between
     }
 
     .my-page-title {
