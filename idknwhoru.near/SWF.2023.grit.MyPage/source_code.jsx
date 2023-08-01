@@ -174,7 +174,38 @@ const PlayingWrapper = styled.div`
     }
 `;
 
-console.log(state);
+const LeagueWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  
+  .league-title {
+    font-size: 24px;
+    color: #999;
+    margin-left: 40px;
+  }
+
+  .league-holder-label {
+    font-size: 24px;
+    color: #999;
+    margin-left: 40px;
+  }
+
+  .league-holders {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  .league-date {
+    font-size: 24px;
+    color: #999;
+    margin-left: 40px;
+  }
+
+  hr {
+    border-top: 1px solid #fff;
+    opacity: 1;
+  }
+`;
 
 const Player = () => {
   if (state.players === undefined) {
@@ -239,7 +270,9 @@ const Player = () => {
           </ContentWrapper>
         </>
       ) : (
-        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
+        <LeagueWrapper>
+          <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
+        </LeagueWrapper>
       )}
     </>
   );
