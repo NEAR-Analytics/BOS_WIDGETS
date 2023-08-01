@@ -312,7 +312,7 @@ const Player = () => {
   return (
     <>
       {state.page === 0 ? (
-        <MyPageWrapper>
+        <MyPageWrapper className="my-page-wrapper">
           <div className="my-page-title-wrapper">
             <h1 className="my-page-title">마이페이지</h1>
             <h2 className="my-page-sub-title">
