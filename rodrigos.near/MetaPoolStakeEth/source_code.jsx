@@ -190,15 +190,15 @@ const submitEthers = (strEther, _referral) => {
     });
 };
 
-const handleInput = (e) => {
+const handleInput = (value) => {
   if (
-    (parseFloat(e.target.value) < 0.01 && parseFloat(e.target.value) > 0) ||
-    parseFloat(e.target.value) < 0
+    (parseFloat(value) < 0.01 && parseFloat(value) > 0) ||
+    parseFloat(value) < 0
   ) {
     State.update({
       validation: "The minimum amount is 0.01 ETH.",
     });
-  } else if (parseFloat(e.target.value) > parseFloat(state.balance)) {
+  } else if (parseFloat(value) > parseFloat(state.balance)) {
     State.update({
       validation: "You dont have enough ETH.",
     });
@@ -207,7 +207,7 @@ const handleInput = (e) => {
       validation: "",
     });
   }
-  State.update({ strEther: e.target.value });
+  State.update({ strEther: value });
 };
 
 // DETECT USER
@@ -601,14 +601,13 @@ return (
                 : "0",
             placeholder: "Enter ETH amount",
             value: state.strEther,
-            onChange: handleInput,
+            onChange: (e) => handleInput(e.target.value),
             onClickMax: () => {
-              State.update({
-                strEther: (state.balance > 0.05
-                  ? parseFloat(state.balance) - 0.05
-                  : 0
-                ).toFixed(2),
-              });
+              const value =
+                state.balance > 0.05
+                  ? (parseFloat(state.balance) - 0.05).toFixed(2)
+                  : "0";
+              handleInput(value);
             },
             inputError: state.validation !== "",
             balance: nearBalance,
