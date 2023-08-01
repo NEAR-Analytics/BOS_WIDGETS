@@ -1,15 +1,21 @@
 const player = props.player;
-const list = [1, 10, 100];
 
-const cronosContractAddress = "0xCf10F98bA9044175a828462e991F48f01aF9BB73";
+const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
 const cronosContractABI = [
   {
     type: "function",
-    stateMutability: "payable",
-    outputs: [],
-    name: "donate",
-    inputs: [{ type: "string", name: "player", internalType: "string" }],
+    stateMutability: "view",
+    outputs: [
+      { type: "string", name: "", internalType: "string" },
+      { type: "string", name: "", internalType: "string" },
+      { type: "string", name: "", internalType: "string" },
+      { type: "string", name: "", internalType: "string" },
+      { type: "string", name: "", internalType: "string" },
+      { type: "uint256", name: "", internalType: "uint256" },
+    ],
+    name: "getPlayerInfo",
+    inputs: [{ type: "address", name: "player", internalType: "address" }],
   },
 ];
 
@@ -19,17 +25,17 @@ const selectPrice = (price) => {
   });
 };
 
-const donate = (_) => {
-  const price = ethers.utils.parseEther(state.price.toString()).toString();
-
-  console.log(price);
+const getPlayerInfo = (_) => {
   const cronosContract = new ethers.Contract(
     cronosContractAddress,
     cronosContractABI,
     Ethers.provider().getSigner()
   );
 
-  cronosContract.donate(player, { value: price });
+  cronosContract.getPlayerInfo(player.address).then((player) => {
+    console.log(player);
+    State.update({ player });
+  });
 };
 
 if (Ethers.provider()) {
@@ -44,40 +50,23 @@ if (Ethers.provider()) {
     });
 }
 
-const Card = styled.div`
-    width: 150px;
-    height: 200px;
-    border: solid 1px #bbb;
-    cursor: pointer;
-    background-color: ${(cardProps) =>
-      cardProps.price === state.price ? "#bbb" : "#fff"}
-`;
-
-const Cards = () => {
-  if (player !== undefined) {
-    return (
-      <div style={{ display: "flex" }}>
-        {list.map((price) => (
-          <Card
-            price={price}
-            onClick={(_) => {
-              selectPrice(price);
-            }}
-          >
-            {price} CRO
-          </Card>
-        ))}
-      </div>
-    );
-  }
-};
+getPlayerInfo();
 
 return (
   <>
     <Web3Connect connectLabel="Connect Wallet" />
-    <h1>{player}</h1>
-    <button onClick={donate}>후원하기</button>
-    <Cards />
+    {state.player !== undefined ? (
+      <>
+        <h1>
+          {state.player[0]} ({state.player[1]})
+        </h1>
+        <h2>
+          {state.player[4]}: {state.player[3]}
+        </h2>
+        <p>{state.player[2]}</p>
+        <p>{ethers.utils.formatEther(state.player[5])} CRO</p>
+      </>
+    ) : null}
   </>
 );
 p;
