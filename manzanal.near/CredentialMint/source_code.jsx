@@ -26,6 +26,11 @@ State.init({
   toastMessage: "",
 });
 
+const verifyCredentialProof = () => {
+  // ToDo call API to verify is credential account in Mina is valid
+  // as well as the credential receiver
+};
+
 const handleMint = () => {
   if (!state.cid) {
     return;
@@ -107,20 +112,9 @@ const handleMint = () => {
   }
 };
 
-const onChangeTitle = (title) => {
-  State.update({
-    title,
-  });
-};
 const onChangeReceiver = (receiver) => {
   State.update({
     receiver,
-  });
-};
-
-const onChangeDesc = (description) => {
-  State.update({
-    description,
   });
 };
 
@@ -252,36 +246,25 @@ return (
   <Main className="container-fluid">
     <div>
       <Card className="d-flex flex-column align-items-center">
-        {!!state.cid ?? (
-          <ImageCard>
-            <img
-              src={`https://ipfs.io/ipfs/` + state.cid}
-              alt="uploaded image"
-              width="100%"
-              height="100%"
-              className="rounded-3"
-            />
-          </ImageCard>
-        )}
+        <ImageCard>
+          <img
+            src={`https://ipfs.io/ipfs/` + state.cid}
+            alt="credential mage"
+            width="100%"
+            height="100%"
+          />
+        </ImageCard>
       </Card>
       {showDetails && (
         <Card>
           <h5>Crecential Details</h5>
           <Card>
             Title:
-            <Input
-              type="text"
-              onChange={(e) => onChangeTitle(e.target.value)}
-              value={state.title}
-            />
+            <Input type="text" disabled value={state.title} />
           </Card>
           <Card>
             Description:
-            <TextArea
-              type="text"
-              onChange={(e) => onChangeDesc(e.target.value)}
-              value={state.description}
-            />
+            <TextArea type="text" disabled value={state.description} />
           </Card>
           <Card>
             Receiver:
