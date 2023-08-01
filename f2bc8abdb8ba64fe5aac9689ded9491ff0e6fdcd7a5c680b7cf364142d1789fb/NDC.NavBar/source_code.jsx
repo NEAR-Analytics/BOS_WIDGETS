@@ -6,6 +6,7 @@ const {
   isTest,
   displayedTabId,
   writersWhiteList,
+  handleFilterArticles,
 } = props;
 
 /*
