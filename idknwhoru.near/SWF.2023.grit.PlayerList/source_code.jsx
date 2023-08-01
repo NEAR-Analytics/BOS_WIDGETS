@@ -161,6 +161,12 @@ const Cards = () => {
             <Card
               onClick={() => {
                 State.update({ page: 2 });
+                State.update({
+                  player: {
+                    name: player[1],
+                    address: player[0],
+                  },
+                });
               }}
             >
               <div className="card-wrapper">
@@ -266,11 +272,11 @@ return (
       <DetailPageWrapper>
         <Widget
           src={`idknwhoru.near/widget/SWF.2023.grit.Player`}
-          props={props}
+          props={{ player: state.player }}
         />
         <Widget
           src={`idknwhoru.near/widget/SWF.2023.grit.Donate`}
-          props={props}
+          props={{ player: state.player }}
         />
       </DetailPageWrapper>
     )}
