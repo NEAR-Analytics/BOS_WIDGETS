@@ -64,16 +64,73 @@ getMyPlayers();
 
 const CardSelectWrapper = styled.div`
   display: flex;
+  width: 30%;
 `;
 
 const CardWrapper = styled.div`
-  width: 50%;
-  border: 1px solid;
+    width: 50%;
+    border: 1px solid;
 
-  .card-image {
-    width: 100%;
-    height: 100%;
-  }
+    .card-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .card-wrapper {
+        position: relative;
+        display: inline-block; 
+        width: 100%;
+    }
+
+    .card-wrapper img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .player-info {
+      position: absolute;
+      top: 0px;
+      width: 100%;
+      height: Calc(100% - 40px);
+      color: #fff;
+    }
+
+    .player-label {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .flex-item {
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .flex-start {
+        justify-content: start;
+        align-items: start;
+    }
+
+    .flex-end {
+        align-items: end;
+    }
+
+    .playing-tag {
+        min-width: 60px;
+        background-color: blue;
+        text-align: center;
+        border: 1px solid blue;
+        border-radius: 7px;
+    }
+
+    .player-detail-wrapper {
+        display: flex;
+        justify-content: center;
+        margin: 3px;
+    }
 `;
 
 const Player = () => {
@@ -87,14 +144,28 @@ const Player = () => {
       <h2>5명을 선택해 라인업을 구성하세요.</h2>
       <CardSelectWrapper>
         {state.players.map((player, idx) => {
-          console.log(player);
+          console.log(player[6]);
           return (
             <CardWrapper>
-              <img className="card-image" src={images[idx]} />
-              <p>{player[1]}</p>
-              <p>{player[3]}</p>
-              <p>{player[6]}</p>
-              <button>상세보기</button>
+              <div className="card-wrapper">
+                <img className="card-image" src={images[idx]} />
+                <div className="player-info">
+                  <div className="player-label">
+                    <div className="flex-item flex-start">
+                      <p className="playing-tag">
+                        {player[6] === true ? "경기중" : "대기중"}
+                      </p>
+                    </div>
+                    <div className="flex-item flex-end">
+                      <p>{player[1]}</p>
+                      <p>{player[3]}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="player-detail-wrapper">
+                  <button>상세보기</button>
+                </div>
+              </div>
             </CardWrapper>
           );
         })}
