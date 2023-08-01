@@ -83,87 +83,89 @@ const extractHashtags = (text) => {
     match[1].toLowerCase()
   );
 };
-
-function composeData() {
+function checkImage() {
   if (content.image === undefined) {
     <Widget
       src="jgodwill.near/widget/genalert"
       props={{ toastMessage: "you must upload an image to do a vibe check" }}
     />;
-  } else {
-    content.text =
-      content.text +
-      " Friendliness: " +
-      state.friendliness +
-      "/" +
-      maxSliderPoints +
-      " Energy: " +
-      state.energy +
-      "/" +
-      maxSliderPoints +
-      " Density: " +
-      state.density +
-      "/" +
-      maxSliderPoints +
-      " Diversity: " +
-      state.diversity +
-      "/" +
-      maxSliderPoints;
-    const data = {
-      post: {
-        main: JSON.stringify(content),
-        rating:
-          parseInt(state.friendliness) +
-          parseInt(state.energy) +
-          parseInt(state.density) +
-          parseInt(state.diversity),
-      },
-      index: {
-        post: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-          },
-        }),
-      },
-    };
-
-    const hashtags = extractHashtags(content.text);
-    hashtags = hashtags.concat(embedHashtags);
-
-    const item = {
-      type: "social",
-      path: `${context.accountId}/post/main`,
-    };
-    if (hashtags.length) {
-      data.index.hashtag = JSON.stringify(
-        hashtags.map((hashtag) => ({
-          key: hashtag,
-          value: item,
-        }))
-      );
-    }
-
-    const notifications = extractTagNotifications(state.text, item);
-
-    if (embedMentions.length) {
-      const mentions = embedMentions.map((accountId) => ({
-        key: accountId,
-        value: {
-          type: "mention",
-          item,
-        },
-      }));
-      notifications = notifications.concat(mentions);
-    }
-    if (notifications.length) {
-      data.index.notify = JSON.stringify(
-        notifications.length > 1 ? notifications : notifications[0]
-      );
-    }
-
-    return data;
   }
+}
+checkImage();
+
+function composeData() {
+  content.text =
+    content.text +
+    " Friendliness: " +
+    state.friendliness +
+    "/" +
+    maxSliderPoints +
+    " Energy: " +
+    state.energy +
+    "/" +
+    maxSliderPoints +
+    " Density: " +
+    state.density +
+    "/" +
+    maxSliderPoints +
+    " Diversity: " +
+    state.diversity +
+    "/" +
+    maxSliderPoints;
+  const data = {
+    post: {
+      main: JSON.stringify(content),
+      rating:
+        parseInt(state.friendliness) +
+        parseInt(state.energy) +
+        parseInt(state.density) +
+        parseInt(state.diversity),
+    },
+    index: {
+      post: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+        },
+      }),
+    },
+  };
+
+  const hashtags = extractHashtags(content.text);
+  hashtags = hashtags.concat(embedHashtags);
+
+  const item = {
+    type: "social",
+    path: `${context.accountId}/post/main`,
+  };
+  if (hashtags.length) {
+    data.index.hashtag = JSON.stringify(
+      hashtags.map((hashtag) => ({
+        key: hashtag,
+        value: item,
+      }))
+    );
+  }
+
+  const notifications = extractTagNotifications(state.text, item);
+
+  if (embedMentions.length) {
+    const mentions = embedMentions.map((accountId) => ({
+      key: accountId,
+      value: {
+        type: "mention",
+        item,
+      },
+    }));
+    notifications = notifications.concat(mentions);
+  }
+  if (notifications.length) {
+    data.index.notify = JSON.stringify(
+      notifications.length > 1 ? notifications : notifications[0]
+    );
+  }
+
+  return data;
 }
 
 function onCommit() {
