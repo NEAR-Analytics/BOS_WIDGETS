@@ -135,7 +135,7 @@ const PersonalWrapper = styled.div`
   align-items: center;
 
   h2 {
-    width: 40px;
+    width: 50px;
     height: 20px;
     display: flex;
     justify-content: center;
@@ -242,6 +242,7 @@ const DetailPageWrapper = styled.div`
     .detail-card-wrapper {
       display: flex;
       justify-content: center;
+      margin-bottom: 40px;
     }
     `;
 
