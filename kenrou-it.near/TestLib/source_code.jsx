@@ -5,6 +5,10 @@ if (functionName === "get1") {
   stateUpdate({
     [key]: 1,
   });
+} else if (functionName === "getWritersWhitelist") {
+  stateUpdate({
+    [key]: ["kenrou-it.near", "ayelen.near", "martinbarba.near"],
+  });
 }
 
 return <></>;
