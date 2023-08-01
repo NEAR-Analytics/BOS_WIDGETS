@@ -89,6 +89,22 @@ const LeagueWrapper = styled.div`
   }
 `;
 
+const MyPageWrapper = styled.div`
+    .my-page-title {
+      color: #fff;
+    }
+
+    .my-page-sub-title {
+      color: #fff;
+    }
+
+    .league-nav-button {
+        border-color: #fff;
+        background-color: #fff;
+        color: blue;
+    }
+`;
+
 return (
   <>
     <ThemeWrapper>
@@ -139,7 +155,9 @@ return (
           <Widget src={`idknwhoru.near/widget/SWF.2023.grit.LeagueBanner`} />
         </LeagueWrapper>
       ) : (
-        <Widget src={`idknwhoru.near/widget/SWF.2023.grit.MyPage`} />
+        <MyPageWrapper>
+          <Widget src={`idknwhoru.near/widget/SWF.2023.grit.MyPage`} />
+        </MyPageWrapper>
       )}
     </ThemeWrapper>
   </>
