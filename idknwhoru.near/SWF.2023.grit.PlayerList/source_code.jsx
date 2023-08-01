@@ -1,10 +1,29 @@
-const cronosContractAddress = "0xCf10F98bA9044175a828462e991F48f01aF9BB73";
+const cronosContractAddress = "0xC6A3f8A89136fede4BD4CA36a1864bDA811937c9";
 
 const cronosContractABI = [
   {
     type: "function",
     stateMutability: "view",
-    outputs: [{ type: "string[]", name: "", internalType: "string[]" }],
+    outputs: [
+      {
+        type: "tuple[]",
+        name: "",
+        internalType: "struct MyERC20.PlayerInfo[]",
+        components: [
+          { type: "address", name: "playerAddress", internalType: "address" },
+          { type: "string", name: "koreanName", internalType: "string" },
+          { type: "string", name: "englishName", internalType: "string" },
+          { type: "string", name: "birthDate", internalType: "string" },
+          { type: "string", name: "position", internalType: "string" },
+          { type: "string", name: "team", internalType: "string" },
+          {
+            type: "uint256",
+            name: "totalDonationAmount",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
     name: "getAllPlayers",
     inputs: [],
   },
@@ -38,6 +57,8 @@ if (state.players === undefined) {
   getAllPlayers();
 }
 
+console.log(state.players);
+
 const Card = styled.div`
     width: 150px;
     height: 200px;
@@ -45,14 +66,12 @@ const Card = styled.div`
     cursor: pointer;
 `;
 
-console.log(state);
-
 const Cards = () => {
   if (state.players !== undefined) {
     return (
       <div style={{ display: "flex" }}>
         {state.players.map((player) => {
-          return <Card>{player}</Card>;
+          return <Card>{player[1]}</Card>;
         })}
       </div>
     );
@@ -62,7 +81,10 @@ const Cards = () => {
 return (
   <>
     <Web3Connect connectLabel="Connect Wallet" />
-    <h1>Players</h1>
+    <button>전체보기</button>
+    <button>공격수</button>
+    <button>수비수</button>
+    <button>골키퍼</button>
     <Cards />
   </>
 );
