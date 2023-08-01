@@ -2,21 +2,15 @@ let accountId = context.accountId;
 const mintButton = props.mintButton ?? "Mint Credential";
 const showDetails = props.showDetails ?? true;
 const receiver = props.receiver ?? accountId;
+const apiUrl = props.apiUrl ?? "http://localhost:3080/api";
 const credentialUid = props.uid;
 
 if (!accountId) {
-  console.log("Please login");
-  State.update({
-    showAlert: true,
-    toastMessage: "Please log in before continuing",
-  });
+  return "Please, login";
 }
 
 if (!credentialUid) {
-  State.update({
-    showAlert: true,
-    toastMessage: "Please include a Credential Account to verify proof",
-  });
+  return "Please include a Credential Account to verify proof";
 }
 
 const profile = socialGetr(`${accountId}/profile`);
@@ -27,7 +21,7 @@ if (profile === null) {
 }
 
 const getCredential = fetch(
-  `http://localhost:3080/api/query/get_credential?uid=${credentialUid}`,
+  `${apiUrl}/query/get_credential?uid=${credentialUid}`,
   {
     method: "GET",
   }
