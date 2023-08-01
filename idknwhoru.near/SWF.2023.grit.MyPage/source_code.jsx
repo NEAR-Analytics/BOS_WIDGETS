@@ -76,9 +76,10 @@ getMyPlayers();
 
 const MyPageWrapper = styled.div`
     .my-page-title-wrapper {
+        width: 50%;
         display: flex;
-        width: 40%;
-        justify-content: space-between
+        gap: 55px;
+        align-items: center;
     }
 
     .my-page-title {
