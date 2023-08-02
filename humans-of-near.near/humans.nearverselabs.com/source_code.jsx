@@ -85,7 +85,7 @@ const social = {
     {
       key: 1,
       name: "HUMANS of near - Under Construction",
-      url: "https://humans.nearverselabs.com",
+      url: "https://cdn.pixabay.com/photo/2017/10/26/17/51/under-construction-2891888_1280.jpg",
       image:
         "https://humans.nearverselabs.com/static/media/logo.00ce86b56e35961cfdc360d439c05fb7.svg",
       description: "Work in Progress. Reach out to Punter for questions",
