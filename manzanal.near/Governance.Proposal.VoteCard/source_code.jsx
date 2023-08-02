@@ -19,13 +19,83 @@ State.init({
   userVoteIsFetched: false,
 });
 
-const yoctoToNear = (amountYocto) =>
-  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  gap: 1em;
+  width: 100%;
+  padding: 1.25em 0.85em;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  border-radius: 16px;
+  background: #ffffff;
+  & h4 {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #797777;
+  }
+`;
 
-const isProposalVotingFinished = () =>
-  proposal.status !== "Draft" &&
-  proposal.status !== Active &&
-  proposal.status !== "VotingProcess";
+const VotesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0;
+  gap: 1em;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const Heading = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+  width: 100%;
+
+  & div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+
+    & > h2 {
+      font-family: "FK Grotesk";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 25px;
+      line-height: 36px;
+      color: #11181c;
+    }
+
+    & > span {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 19px;
+      line-height: 23px;
+      color: #7e868c;
+    }
+  }
+`;
+
+const Memo = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  padding: 0px;
+  width: 75%;
+`;
 
 if (!accountId) {
   return (
@@ -39,6 +109,14 @@ if (!accountId) {
     </Container>
   );
 }
+
+const yoctoToNear = (amountYocto) =>
+  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+
+const isProposalVotingFinished = () =>
+  proposal.status !== "Draft" &&
+  proposal.status !== Active &&
+  proposal.status !== "VotingProcess";
 
 if (!state.proposalVotesAreFetched) {
   Near.asyncView(
@@ -138,83 +216,6 @@ const handleVote = (vote) => {
   }
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0;
-  gap: 1em;
-  width: 100%;
-  padding: 1.25em 0.85em;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
-  border-radius: 16px;
-  background: #ffffff;
-  & h4 {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    color: #797777;
-  }
-`;
-
-const VotesContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 0;
-  gap: 1em;
-  width: 100%;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-const Heading = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 16px;
-  width: 100%;
-
-  & div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 16px;
-
-    & > h2 {
-      font-family: "FK Grotesk";
-      font-style: normal;
-      font-weight: 700;
-      font-size: 25px;
-      line-height: 36px;
-      color: #11181c;
-    }
-
-    & > span {
-      font-family: "Inter";
-      font-style: normal;
-      font-weight: 500;
-      font-size: 19px;
-      line-height: 23px;
-      color: #7e868c;
-    }
-  }
-`;
-
-const Memo = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  padding: 0px;
-  width: 75%;
-`;
 const voted = (type) => {
   return state.userVote.vote_type == type;
 };
