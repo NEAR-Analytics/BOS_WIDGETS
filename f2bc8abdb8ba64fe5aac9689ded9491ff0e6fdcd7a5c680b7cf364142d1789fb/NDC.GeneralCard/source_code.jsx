@@ -48,7 +48,7 @@ function getPublicationDate(creationTimestamp) {
 function getUserName() {
   const profile = Social.getr(`${accountId}/profile`);
 
-  return profile.name ?? accountId;
+  return profile.name ?? getShortUserName();
 }
 
 const getShortUserName = () => {
