@@ -147,7 +147,7 @@ return (
             ),
           }}
         >
-          <td>NFT Tokens</td>
+          <td>NFT Tokens (max 100)</td>
           <td>{nftTokens}</td>
         </tr>
         <tr
@@ -159,7 +159,7 @@ return (
             ),
           }}
         >
-          <td>Stake Actions</td>
+          <td>Stake Actions (max 50)</td>
           <td>{stakeDeposit}</td>
         </tr>
         <tr
@@ -171,7 +171,7 @@ return (
             ),
           }}
         >
-          <td>Contract Interacts</td>
+          <td>Contract Interacts (max 50)</td>
           <td>{functionCall}</td>
         </tr>
       </tbody>
