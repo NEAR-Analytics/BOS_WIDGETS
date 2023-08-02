@@ -250,7 +250,8 @@ return (
             borderRadius: "0.25rem",
           }}
         >
-          Your picks have been successfully submitted!
+          Your picks MIGHT have been submitted! Refresh the page to make sure
+          they went through.
         </p>
       ) : (
         <></>
