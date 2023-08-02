@@ -127,7 +127,7 @@ return (
         </div>
       </Flex>
     </Container>
-
+    <Widget src="yousouf.near/widget/Navbar" />
     <div className="m-2">
       <Widget
         src="mob.near/widget/ProfilePage"
