@@ -1,44 +1,4 @@
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-
-const { innerWidth } = props;
-
-State.init({
-  showSwitch: false,
-  myQuestList: [],
-  forceReload: false,
-  questLoadDone: false,
-});
-
-const arrowDown = (
-  <svg
-    width="8"
-    height="15"
-    viewBox="0 0 8 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M3.64645 14.3536C3.84171 14.5488 4.15829 14.5488 4.35355 14.3536L7.53553 11.1716C7.7308 10.9763 7.7308 10.6597 7.53553 10.4645C7.34027 10.2692 7.02369 10.2692 6.82843 10.4645L4 13.2929L1.17157 10.4645C0.97631 10.2692 0.659728 10.2692 0.464466 10.4645C0.269203 10.6597 0.269203 10.9763 0.464466 11.1716L3.64645 14.3536ZM3.5 -2.18557e-08L3.5 14L4.5 14L4.5 2.18557e-08L3.5 -2.18557e-08Z"
-      fill="#EBF479"
-    />
-  </svg>
-);
-
-const arrowUp = (
-  <svg
-    width="8"
-    height="15"
-    viewBox="0 0 8 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M3.64645 0.646446C3.84171 0.451184 4.15829 0.451184 4.35355 0.646446L7.53553 3.82843C7.7308 4.02369 7.7308 4.34027 7.53553 4.53553C7.34027 4.7308 7.02369 4.7308 6.82843 4.53553L4 1.70711L1.17157 4.53553C0.97631 4.7308 0.659728 4.7308 0.464466 4.53553C0.269203 4.34027 0.269203 4.02369 0.464466 3.82843L3.64645 0.646446ZM3.5 15L3.5 1L4.5 1L4.5 15L3.5 15Z"
-      fill="#EBF479"
-    />
-  </svg>
-);
-
 const searchTip = (
   <svg
     width="215"
@@ -144,12 +104,10 @@ const trendsTip = (
     </defs>
   </svg>
 );
-
-const switchIcon =
-  "https://ipfs.near.social/ipfs/bafkreigkkvqns7dxrbopcf22gvkpi4uvopladrr2p6arcvon7pzul7iiry";
-
-const closeIcon =
-  "https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq";
+State.init({
+  forceReload: false,
+  questLoadDone: false,
+});
 
 const NoQuestWrapper = styled.div`
   .no-quest-tip {
@@ -177,15 +135,6 @@ const NoQuestWrapper = styled.div`
       top: 36px;
     }
   }
-  @media (max-width: 900px) {
-    .search-tip {
-      display: none;
-    }
-
-    .trends-tip {
-      display: none;
-    }
-  }
 `;
 
 const CardListWrapper = styled.div`
@@ -193,279 +142,53 @@ const CardListWrapper = styled.div`
   align-items: center;
   gap: 18px;
   flex-wrap: wrap;
-  .CardListWrapper-title {
-    display: none;
-  }
-  @media (max-width: 900px) {
-    display: block;
-    .CardListWrapper-title {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 16px;
-      margin-bottom: 18px;
-      .CardListWrapper-title-text {
-        align-self: flex-start;
-        font-size: 18px;
-        color: #ffffff;
-      }
-      .CardListWrapper-title-btn {
-        align-self: flex-start;
-        display: flex;
-        .execute-records {
-          color: #ecf488;
-          border: 1px solid #ecf488;
-          background: rgba(55, 58, 83, 0.5);
-          width: 133px;
-          border-radius: 8px;
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          font-size: 14px;
-          height: 32px;
-          line-height: 32px;
-          :hover {
-            text-decoration: none;
-          }
-        }
-        .title-btn-icon {
-          margin-left: 10px;
-          width: 32px;
-          height: 32px;
-          line-height: 32px;
-          background: rgba(55, 58, 83, 0.5);
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 8px;
-          img {
-            width: 16px;
-            height: 13px;
-          }
-        }
-      }
-    }
-  }
-`;
-
-const OperationWrapper = styled.div`
-  position: relative;
-  margin-top: 16px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-
-  .delete-card {
-    width: 250px;
-    border-radius: 16px;
-    background: linear-gradient(0deg, #1e202f, #1e202f);
-    border: 1px solid #ff61d34d;
-    box-shadow: 0px 0px 16px 0px #00000040;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 14px;
-    color: white;
-    position: absolute;
-    /* top: 150px; */
-    right: 0;
-    top: 30px;
-    z-index: 9999;
-    padding: 12px;
-    padding-top: 18px;
-
-    .delete-card-mobile {
-      display: none;
-    }
-
-    .delete-card-operation {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-
-      .delete-card-cancel-button {
-        color: #979abe;
-        width: 108px;
-        height: 32px;
-        border-radius: 8px;
-        border: 1px;
-        cursor: pointer;
-        border: 1px solid #979abe;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .delete-card-delete-button {
-        width: 108px;
-        height: 32px;
-        border-radius: 8px;
-        border: 1px;
-        cursor: pointer;
-        background: #ff61d3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-  }
-
-  .show-all {
-    width: 158px;
-    height: 33px;
-    border-radius: 20px;
-    border: 1px solid #ecf488;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ebf479;
-    cursor: pointer;
-    .down-icon {
-      padding-left: 8px;
-    }
-
-    .up-icon {
-      padding-left: 8px;
-      transform: rotate(180deg);
-    }
-  }
-
-  .remove-all {
-    width: 121px;
-    height: 33px;
-    border-radius: 20px;
-    background: #292c3f;
-    color: #979abe;
-
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    :hover {
-      color: #ff61d3;
-
-      .delete-icon {
-        color: #ff61d3;
-        border: 2px solid #ff61d3;
-
-        .row-bar {
-          background: #ff61d3;
-        }
-      }
-    }
-
-    cursor: pointer;
-
-    .delete-icon {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 100%;
-      border: 2px solid #7c7f96;
-      width: 16px;
-      height: 16px;
-
-      .row-bar {
-        width: 75%;
-        height: 2px;
-        background: #7c7f96;
-        border-radius: 6px;
-      }
-    }
-  }
-`;
-
-const Seperator = styled.div`
-  border: 1px solid rgba(30, 31, 41, 1);
-  height: 1px;
-  width: 100%;
-  margin: 20px 0px;
 `;
 
 const uuid = Storage.get(
   "zkevm-warm-up-uuid",
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-const quest_url = `/dapdap/api/action/get-action-by-account?account_id=${
+
+const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
   sender || ""
-}&account_info=${uuid}&action_network_id=zkEVM`;
+}&account_info=${uuid}`;
 
-const storeOrderList = Storage.privateGet("quest-list-order");
+const noQuestTip = (
+  <NoQuestWrapper>
+    <div className="no-quest-tip">
+      <span className="no-quest-tip-text">
+        You can add a quest when making transaction, and the quest will be
+        listed here after successful transaction.
+      </span>
+      <div className="search-tip">{searchTip}</div>
 
-if (storeOrderList !== null && !state.storeDone) {
-  State.update({
-    storeOrderList: storeOrderList,
-    storeDone: true,
-  });
+      <div className="trends-tip">{trendsTip}</div>
+    </div>
+  </NoQuestWrapper>
+);
+
+const fetchBody = fetch(quest_url).body;
+
+if (!fetchBody) {
+  return noQuestTip;
 }
 
-useEffect(() => {
-  if (!AccessKey) retrun;
-  asyncFetch(quest_url, {
-    headers: {
-      Authorization: AccessKey,
-    },
-  }).then((res) => {
-    const raw = res.body;
-    const rawList = raw?.data || [];
+const response = JSON.parse(fetchBody);
+console.log("response: ", response);
 
-    if (storeOrderList === undefined) {
-      Storage.privateSet("quest-list-order", rawList);
-    }
+if (!response) {
+  return noQuestTip;
+}
 
-    if (storeOrderList) {
-      rawList.forEach((item) => {
-        if (
-          !storeOrderList.find((sitem) => sitem.action_id === item.action_id)
-        ) {
-          storeOrderList.push(item);
-        }
-      });
-    }
+const myQuestList = JSON.parse(fetchBody)?.data || [];
 
-    let displayList = [];
-
-    if (
-      storeOrderList &&
-      storeOrderList.length > 0 &&
-      storeOrderList !== null
-    ) {
-      storeOrderList.forEach((sitem) => {
-        if (rawList.find((ritem) => ritem.action_id === sitem.action_id)) {
-          displayList.push(sitem);
-        }
-      });
-    } else {
-      displayList = rawList;
-    }
-
-    State.update({
-      myQuestList: displayList,
-    });
-  });
-}, [AccessKey]);
-
-const myQuestList = state.myQuestList;
+console.log("myQuestList: ", myQuestList);
 
 const onDelete = (action_id) => {
-  asyncFetch("/dapdap/api/action/delete-action-by-id", {
+  asyncFetch("https://bos-api.delink.one/delete-action-by_id", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey,
     },
     body: JSON.stringify({
       action_id,
@@ -482,68 +205,16 @@ const onDelete = (action_id) => {
   });
 };
 
-const itemWidth = 259;
-
-const itemMargin = 10;
-
-const size = Math.floor(innerWidth / (itemWidth + itemMargin)) * 2;
-
-const baseList = myQuestList.filter((item) => {
+const realList = myQuestList.filter((item) => {
   return !state.notShowing?.[item.action_id];
 });
 
-const realList = baseList.slice(0, !innerWidth ? baseList.length : size);
-
-const { showSwitch } = state;
-
-const haveMoreCard = baseList.length > realList.length;
-
-function showSwitchUpdate() {
-  State.update({
-    showSwitch: !showSwitch,
-  });
+if (realList.length === 0) {
+  return noQuestTip;
 }
 
-function handleRemoveAll() {
-  const action_id_list = state.myQuestList.map((item) =>
-    item.action_id.toString()
-  );
-
-  asyncFetch("/dapdap/api/action/batch-delete-action", {
-    method: "delete",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify({ action_id_list }),
-  }).then((res) => {
-    if (res.ok) {
-      State.update({
-        myQuestList: [],
-        showRemoveAll: false,
-      });
-    }
-  });
-}
-
-return state.myQuestList.length && realList.length ? (
+return (
   <CardListWrapper>
-    <div className="CardListWrapper-title">
-      <div className="CardListWrapper-title-text">
-        {myQuestList.length} Quests
-      </div>
-      <div className="CardListWrapper-title-btn">
-        <a
-          href="/guessme.near/widget/ZKEVM.ExecuteRecords"
-          className="execute-records"
-        >
-          Execute Records
-        </a>
-        <div className="title-btn-icon" onClick={showSwitchUpdate}>
-          <img src={showSwitch ? closeIcon : switchIcon} alt="Icon" />
-        </div>
-      </div>
-    </div>
     {realList.map((item, index) => {
       return (
         <Widget
@@ -552,131 +223,9 @@ return state.myQuestList.length && realList.length ? (
           props={{
             item,
             onDelete: onDelete,
-            showPopup: showSwitch || false,
           }}
         />
       );
     })}
-
-    {haveMoreCard &&
-      state.showAll &&
-      baseList.slice(size, baseList.length).map((item, index) => {
-        return (
-          <Widget
-            key={item.action_id + "-" + index}
-            src="guessme.near/widget/ZKEVMWarmUp.quest-card"
-            props={{
-              item,
-              onDelete: onDelete,
-              showPopup: false,
-              isInMoreList: true,
-              onStickyTop: () => {
-                const curList = state.myQuestList;
-                const curIndex = curList.findIndex(
-                  (curItem) => curItem.action_id === item.action_id
-                );
-                const newList = [
-                  curList[curIndex],
-                  ...curList.slice(0, curIndex),
-                  ...curList.slice(curIndex + 1),
-                ];
-
-                State.update({
-                  myQuestList: newList,
-                });
-                Storage.privateSet("quest-list-order", newList);
-              },
-            }}
-          />
-        );
-      })}
-
-    <OperationWrapper>
-      {haveMoreCard && (
-        <div
-          className="show-all"
-          onClick={() => {
-            State.update({
-              showAll: !state.showAll,
-            });
-          }}
-        >
-          <span>
-            {state.showAll ? "Hide more quests" : "Show all quests"}
-            <span className={`down-icon`}>
-              {state.showAll ? arrowUp : arrowDown}
-            </span>
-          </span>
-        </div>
-      )}
-
-      <div
-        className="remove-all"
-        style={{
-          color: state.showRemoveAll ? "#FF61D3" : "",
-        }}
-        onClick={() => {
-          State.update({
-            showRemoveAll: !state.showRemoveAll,
-          });
-        }}
-      >
-        Remove all
-        <div
-          className="delete-icon"
-          style={{
-            border: state.showRemoveAll ? "2px solid #ff61d3" : "",
-          }}
-        >
-          <div
-            className="row-bar"
-            style={{
-              background: state.showRemoveAll ? "#ff61d3" : "",
-            }}
-          ></div>
-        </div>
-      </div>
-
-      {state.showRemoveAll && (
-        <div className="delete-card">
-          <span>Are you sure you want to remove all quests?</span>
-
-          <div className="delete-card-operation">
-            <div
-              className="delete-card-cancel-button"
-              onClick={() => {
-                State.update({
-                  showRemoveAll: false,
-                });
-              }}
-            >
-              Cancel
-            </div>
-
-            <div
-              className="delete-card-delete-button"
-              onClick={() => {
-                handleRemoveAll();
-              }}
-            >
-              Remove all
-            </div>
-          </div>
-        </div>
-      )}
-    </OperationWrapper>
-    <Seperator />
   </CardListWrapper>
-) : (
-  <NoQuestWrapper>
-    <div className="no-quest-tip">
-      <span className="no-quest-tip-text">
-        You can add a quest when making transaction, and the quest will be
-        listed here after successful transaction.
-      </span>
-      <div className="search-tip">{searchTip}</div>
-
-      <div className="trends-tip">{trendsTip}</div>
-    </div>
-  </NoQuestWrapper>
 );
