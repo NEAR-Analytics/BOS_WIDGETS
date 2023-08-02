@@ -122,7 +122,7 @@ const nftMint = () => {
     }, 3000);
   } else {
     const metadata = {
-      name: `${state.profile.name || accountId.split(".near")[0]}${postDate}`,
+      name: `${state.profile.name || accountId.split(".near")[0]} ${postDate}`,
       description: `${state.description.trim().slice(0, 140)}...`,
       properties: [],
       image: state.imageUrl,
@@ -152,7 +152,7 @@ const nftMint = () => {
             metadata: {
               title: `${
                 state.profile.name || accountId.split(".near")[0]
-              }${postDate}`,
+              } ${postDate}`,
               description: `${state.description.trim().slice(0, 140)}...`,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
