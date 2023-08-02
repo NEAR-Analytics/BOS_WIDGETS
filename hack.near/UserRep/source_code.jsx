@@ -1,5 +1,7 @@
+const accountId = props.accountId ?? context.accountId;
+
 State.init({
-  wallet: props.accountId ?? "",
+  wallet: accountId ?? "",
   data: null,
 });
 
