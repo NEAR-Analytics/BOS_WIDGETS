@@ -7,7 +7,7 @@ const debug = props.debug ?? false;
 
 const css = `
 * {
-    font-family: 'Inter custom', sans-serif;
+    font-family: 'Inter custom',sans-serif;
 }
 .asset-item-debug-container{
     background-color: rgb(255, 255, 255);
@@ -190,7 +190,7 @@ return (
   <>
     {!assetData && tokenId && (
       <Widget
-        src="guessme.near/widget/ZKEVMSwap.zkevm-token-data"
+        src="zavodil.near/widget/TokenData"
         props={{
           tokenId,
           coinGeckoTokenId,
