@@ -1,20 +1,15 @@
-const { oneProtocol, defaultDex } = props;
-console.log("defaultDex: ", defaultDex, oneProtocol);
-
-const ethAddress = "0x0000000000000000000000000000000000000000";
-
 const NETWORKS = [
   {
     name: "ZKEVM",
     chainId: 1101,
     dex: "QuickSwap",
-    icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxyZWN0IHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjEwIiBmaWxsPSIjMEYxMTI2Ii8+CjxyZWN0IHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjEwIiBmaWxsPSJ1cmwoI3BhdHRlcm4wKSIvPgo8ZGVmcz4KPHBhdHRlcm4gaWQ9InBhdHRlcm4wIiBwYXR0ZXJuQ29udGVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgd2lkdGg9IjEiIGhlaWdodD0iMSI+Cjx1c2UgeGxpbms6aHJlZj0iI2ltYWdlMF81MV82MTUiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMzEyNSkiLz4KPC9wYXR0ZXJuPgo8aW1hZ2UgaWQ9ImltYWdlMF81MV82MTUiIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFDQUFBQUFnQ0FZQUFBQnplbnIwQUFBSzJtbERRMUJKUTBNZ1VISnZabWxzWlFBQVNJbVZsd2RVRTlrYWdPL01wQmRhQUFFcG9YZWtFMEJLNktFSTBrRlVRaEpJS0NFbUJCVlJVVmxjd2JXZ0lnTHFpcTZLS0xpNkFySVd4SUp0VWJEWERiSUlxT3Rpd1lhYW5jQWo3TzQ3Nzczei9uUHUzTy84ODkrLzNIUHZuSDhBb0lheFJhSmNXQTJBUEdHQk9EWTBnSjZja2tySER3SUlZQUVKbUFLRXpaR0ltREV4a1FDVnlmbnY4dTQyYW8zS0RYdUZyMzkvLzE5Rmc4dVRjQUNBMGxETzRFbzRlU2gzb09NWlJ5UXVBQUE1aU9wTkZ4YUlGSHdkWlUweG1pREt2eWs0YTRJL0tEaGpuREdVY1p2NDJFQ1U2UUFRS0d5Mk9Bc0FpaDJxcHhkeXNsQS9GRVVOamtLdVFJaHlNY3ErSEQ2YmkvSUpsTzN5OHZJVlBJU3lGV292QW9DSzdnNWdaUHpGWjliZi9HY28vYlBaV1VxZXFHdGNDRUVDaVNpWHZmai8zSnIvTFhtNTBza1lGdWlnOE1WaHNZcDQ2UDdkemNtUFVMSXdZMWIwSkF1NEV6a3BtQzhOUzVoa2ppUXdkWks1N0tBSTVkcmNXWkdUbkNrSVlTbjlGTERpSjVrbkNZNmJaSEYrckRKV3BqaVFPY2xzOFhoY0Vzb3lhVTZDVXMvbnNaVCtpL2p4U1pOY0tFaWNOY21TbkxpSUtadEFwVjRzalZYbXp4T0dCa3pGRFZIV25pZjVTNzBDbG5KdEFUOCtURms3ZXlwL25wQTU1Vk9Tck15Tnl3c0tuckpKVU5xTENnS1VzVVM1TVVwN1htNm9VaThwakZPdUxVQVA1OVRhR09VZVpyUERZeVlaQ0VBVVlBTU9YWFdTQUNqZ0xTcFFGQktZTDFvc0ZtVHhDK2hNOUxieDZDd2h4OEdPN3V6bzdBS0E0dTVPSEllUmErTjNFdEpWbjlLVmJRTEFEeXVYeTF1bWRHR1hBVGhTQVFEWmRVcG5pUjVVRmZUY1h3emdTTVdGRXpxTTRxSDRJcWdDVGFBTERORXZneFd3Qjg3QUhYZ0RmeEFNd2tFMGlBY3BZQjZhS3gva0FURllDSXJCQ2xBR0tzQUdzQVhVZ0oxZ045Z1BEb0Vqb0JXY0FHZkFCWEFGWEFlM3dBTWdBd1BnT1JnQjc4QVlCRUY0aUFyUklGM0lDREtIYkNGbmlBSDVRc0ZRSkJRTHBVRHBVQllraEtSUU1iUUtxb0Fxb1Jwb0Y5UUEvUWdkaDg1QWw2QWU2QjdVQncxRHI2RlBNQUpUWUUzWUFMYUFaOEFNbUFsSHdQSHdYRGdMWGdBWHdhWHdPcmdhcm9jUHdpM3dHZmdLZkF1V3djL2hVUVFnWkVRYk1VYnNFUVlTaUVRanFVZ21Ja2FXSWVWSUZWS1BOQ0h0U0JkeUE1RWhMNUNQR0J5R2hxRmo3REhlbURCTUFvYURXWUJaaGxtTHFjSHN4N1Jnem1GdVlQb3dJNWl2V0NwV0gydUw5Y0t5c01uWUxPeENiQm0yQ3JzWGV3eDdIbnNMTzRCOWg4UGh0SEdXT0E5Y0dDNEZsNDFiZ2x1TDI0NXJ4blhnZW5EOXVGRThIcStMdDhYNzRLUHhiSHdCdmd5L0RYOFFmeHJmaXgvQWZ5Q1FDVVlFWjBJSUlaVWdKS3drVkJFT0VFNFJlZ21EaERHaUd0R2M2RVdNSm5LSmk0bnJpWHVJN2NScnhBSGlHRW1kWkVueUljV1Rza2tyU05Xa0p0SjUwa1BTR3pLWmJFTDJKTThtQzhnbDVHcnlZZkpGY2gvNUkwV0RZa01KcEtSUnBKUjFsSDJVRHNvOXloc3FsV3BCOWFlbVVndW82NmdOMUxQVXg5UVBLalFWQnhXV0NsZGx1VXF0U290S3I4cExWYUtxdVNwVGRaNXFrV3FWNmxIVmE2b3YxSWhxRm1xQmFteTFaV3ExYXNmVjdxaU5xdFBVbmRTajFmUFUxNm9mVUwra1BxU0IxN0RRQ05iZ2FwUnE3Tlk0cTlGUFEyaW10RUFhaDdhS3RvZDJuamFnaWRPMDFHUnBabXRXYUI3UzdOWWMwZExRY3RWSzFGcWtWYXQxVWt1bWpXaGJhTE8wYzdYWGF4L1J2cTM5YVpyQk5PWTAzclExMDVxbTlVNTdyek5keDErSHAxT3UwNnh6UytlVExsMDNXRGRIZDZOdXErNGpQWXllamQ1c3ZZVjZPL1RPNjcyWXJqbmRlenBuZXZuMEk5UHY2OFA2TnZxeCtrdjBkK3RmMVI4MU1EUUlOUkFaYkRNNGEvRENVTnZRM3pEYmNMUGhLY05oSTVxUnI1SEFhTFBSYWFObmRDMDZrNTVMcjZhZm80OFk2eHVIR1V1TmR4bDNHNCtaV0pva21LdzBhVFo1WkVveVpaaG1tbTQyN1RRZE1UTXlpeklyTm1zMHUyOU9OR2VZODgyM21uZVp2N2V3dEVpeVdHM1JhakZrcVdQSnNpeXliTFI4YUVXMThyTmFZRlZ2ZGRNYVo4Mnd6ckhlYm4zZEJyWnhzK0hiMU5wY3M0VnQzVzBGdHR0dGUreXdkcDUyUXJ0NnV6djJGSHVtZmFGOW8zMmZnN1pEcE1OS2gxYUhselBNWnFUTzJEaWphOFpYUnpmSFhNYzlqZytjTkp6Q25WWTZ0VHU5ZHJaeDVqalhPdDkwb2JxRXVDeDNhWE41NVdycnluUGQ0WHJYamVZVzViYmFyZFB0aTd1SHU5aTl5WDNZdzh3ajNhUE80dzVEa3hIRFdNdTQ2SW4xRFBCYzdubkM4Nk9YdTFlQjF4R3ZQN3p0dlhPOEQzZ1B6YlNjeVp1NVoyYS9qNGtQMjJlWGo4eVg3cHZ1KzcydnpNL1lqKzFYNy9mRTM5U2Y2Ny9YZjVCcHpjeG1IbVMrREhBTUVBY2NDM2dmNkJXNE5MQWpDQWtLRFNvUDZnN1dDRTRJcmdsK0hHSVNraFhTR0RJUzZoYTZKTFFqREJzV0ViWXg3QTdMZ01WaE5iQkd3ajNDbDRhZmk2QkV4RVhVUkR5SnRJa1VSN1pId1ZIaFVadWlIczR5bnlXYzFSb05vbG5SbTZJZnhWakdMSWo1ZVRadWRzenMydGxQWTUxaWkyTzc0bWh4OCtNT3hMMkxENGhmSC84Z3dTcEJtdENacUpxWWx0aVErRDRwS0treVNaWThJM2xwOHBVVXZSUkJTbHNxUGpVeGRXL3E2SnpnT1Z2bURLUzVwWldsM1o1ck9YZlIzRXZ6OU9ibHpqczVYM1UrZS83UmRHeDZVdnFCOU0vc2FIWTllelNEbFZHWE1jSUo1R3psUE9mNmN6ZHpoM2srdkVyZVlLWlBabVhtVUpaUDFxYXNZYjRmdjRyL1FoQW9xQkc4eWc3TDNwbjlQaWM2WjErT1BEY3B0em1Qa0plZWQxeW9JY3dSbnNzM3pGK1UzeU95RlpXSlpBdThGbXhaTUNLT0VPK1ZRSks1a3JZQ1RiUkp1aXExa240ajdTdjBMYXd0L0xBd2NlSFJSZXFMaEl1dUxyWlp2R2J4WUZGSTBROUxNRXM0U3pxTGpZdFhGUGN0WlM3ZHRReGFsckdzYzducDh0TGxBeVdoSmZ0WGtGYmtyUGhscGVQS3lwVnZWeVd0YWk4MUtDMHA3ZjhtOUp2R01wVXljZG1kMWQ2cmQzNkwrVmJ3YmZjYWx6WGIxbnd0NTVaZnJuQ3NxS3I0dkphejl2SjNUdDlWZnlkZmw3bXVlNzM3K2gwYmNCdUVHMjV2OU51NHYxSzlzcWl5ZjFQVXBwYk45TTNsbTk5dW1iL2xVcFZyMWM2dHBLM1NyYkxxeU9xMmJXYmJObXo3WE1PdnVWVWJVTnRjcDErM3B1NzlkdTcyM2gzK081cDJHdXlzMlBucGU4SDNkM2VGN21xcHQ2aXYybzNiWGJqNzZaN0VQVjAvTUg1bzJLdTN0Mkx2bDMzQ2ZiTDlzZnZQTlhnME5CelFQN0MrRVc2VU5nNGZURHQ0L1ZEUW9iWW0rNlpkemRyTkZZZkJZZW5oWnorbS8zajdTTVNSenFPTW8wMC9tZjlVZDR4MnJMd0ZhbG5jTXRMS2I1VzFwYlQxSEE4LzN0bnUzWDdzWjRlZjk1MHdQbEY3VXV2aytsT2tVNlduNUtlTFRvOTJpRHBlbk1rNjA5ODV2L1BCMmVTek44L05QdGQ5UHVMOHhRc2hGODUyTWJ0T1gvUzVlT0tTMTZYamx4bVhXNis0WDJtNTZuYjEyQzl1dnh6cmR1OXV1ZVp4cmUyNjUvWDJucGs5cDNyOWVzL2NDTHB4NFNicjVwVmJzMjcxM0U2NGZmZE8yaDNaWGU3ZG9YdTU5MTdkTDd3LzlxRGtJZlpoK1NPMVIxV1A5Ui9YLzJyOWE3UE1YWGF5TDZqdjZwTzRKdy82T2YzUGY1UDg5bm1nOUNuMWFkV2cwV0REa1BQUWllR1E0ZXZQNWp3YmVDNTZQdmFpN0hmMTMrdGVXcjM4NlEvL1A2Nk9KSThNdkJLL2tyOWUrMGIzemI2M3JtODdSMk5HSDcvTGV6ZjJ2dnlEN29mOUh4a2Z1ejRsZlJvY1cvZ1ovN242aS9XWDlxOFJYeC9LOCtSeUVWdk1IbThGRUhUQW1aa0F2TjZIOXNZcEFORFF2cHcwWjZLM0hoZG80bjlnbk1CLzRvbitlMXpjQVdoQ0owVmI1TjhCd0ZGRk8rdVAraTRCSUJxZDQvMEI3T0tpSFA4U1NhYUw4NFF2bFVZQThNWnkrZXQ4QUlqbytCd3FsNC9GeU9WZjZ0Qmtid0p3YW1paXAxY0lEdTNsbTJqblg2dnllcitXbElCL3lFUy8vNWNhL3prRFJRYXU0Si96bi9SNkdmK3ZQbk92QUFBQU9HVllTV1pOVFFBcUFBQUFDQUFCaDJrQUJBQUFBQUVBQUFBYUFBQUFBQUFDb0FJQUJBQUFBQUVBQUFBZ29BTUFCQUFBQUFFQUFBQWdBQUFBQUk5T1FNa0FBQWM5U1VSQlZGZ0p4VmQ3VkZSMUh2ODRnTUJNekRBOEZIRFVPUzZ2aUN4cmEyMUJnOVhDc21RMWQ4dWpFclcyNW5iY090dXV0bjkwMnJMTzhiVFdtbVV1QitxVVlabXZ6ZGN1U0NUSHdKT3RydmtBa1dFRlNoaEJuZ01ETXpFTWV6Ky80WGU3TTQ2cGYrM3ZuUHY0ZmQvdjM3M0EvM21OdTFIOVJVVkZQOHZMeTd0MWNIRFFPand5RWtQK3NKQ1FicjFlMzF4ZVhuNW01Y3FWeDI1VTVqWHBxZlRVbVRQdkRnd01kQTBQRDQ5ZWJSRkhHdEtTNTVxQ3IwV1FsWlVWWmJQWlNnZWNReU5YVXhvTWZ2eEU3U2lOSVM5bFhFdFBVRHc5b0RlQkNpNzNEWTFXMTNlT2JpcHI4cnNJSTQ3Ry9tMVRxY3BHR1Q4V2phQTFjUGp3NFdYWjJka2ZoWWFHcXNiVm5PL0M3bVB0T05udUZMRFFFQi9PTStJUisyN1hDR1ltNlBGemZSTWFXdnZ3MnBvQ2xkZmo4YUMxdGZVcHE5VmFvZ0xIWG5TQmdFRGxuUTRYL3JDMURyL2JZVU9idzQwWkV3M2ltaFlWZ3RqeHdLTHA4VUlFbGIvMmFDcU8vNmNKVmQxbXdVTmVMam95YWRLa1lzb1dBTTB0UlBNT2hpby9QLytmMG5PYnZSOFBiVG1EQ01YTTJWWVQ0bThhRDdmSEM2ZmJnd3Y5STdndjNZelZlVmFZdzNYNDQ4UEpxS3c4aHZjT25vZDUray9SMXU5R1VZMGRjMU5OaUkwS2gwNm5nOFZpV2FSY1pRY09IR2lWZXYxUzBOYlcxcENZbUpoQ0pKVXZMcW5GbktsR21DSkQwVGZrRVlyNzNDUElTakZqeVQwSmlETkdDRG5PUVpkMy9WLy9ydHV3K1N1a3JuNE9NUkUvK01YVTdGcHhDMUlTZmJYb2REcTdsVGEyMXRUVTlKTlpUY0haczJmWFNPVU0zVzlMNjBWT3Rjb040YUY0cCtCbXJKcGpRVTFERDE1OGVhTXdJTnFVcTR1TmljZm5YMjdHS3c5TVJZNFNMU3JtUldNb1M2YkRZRERFRkJjWHJ4V015azJOQUt1VlNDSmUzdG1BNnUrY3lKNXN1TUp6aG54bDhXbU1yLzhDNjljOTdhMnZ2NkF6bVl4SS9vbEZ5aFJQUnVYOUx5L3A5cHkrTEF4WmxCNkRsMzZWcXVMeTdwOGJ6U2dJQTdTRnB3MDljNTA1eFlnYVc0OWdYREl6QVZtcFppZ1o4UnIwckl3ckZ6MXRhYnlBZ1FHWFVuZ1QwTzZKRk4xVDJlTHdTMFZMUzR2b0N0RkxTbUhNazRWWGRyb0xFd3poUWpLVlB6a3J3VHNsTmx4SHhUTG5DbElvYi96dlJVRVhIUitIYUgyb3FIYlN4TjJSSVVKKzVJc2oyRkw4RDh5OE93MHprMzZCajZ2dFNoUjh0ZUQxZW4rcE1KZUlDTWp3TTJ5L2VmK2N6aFR1SzZMTlQyVGdyVStQNHZtbHM0VWkzdGpUY2pXM1hNTGNSNTZIczdzVHViTm1ZUDZEczdCNFlaNWZkQmpSd3JlcUJNdGtpMFhVRUkya25MQ3dzSEhqT0NxcnE2c2RwQ0F4QzJhaUVtTWFVZlRVZE1ISXNCN2NYNDdHeGlhY2I3aUlubDRuek5FR3BLVmF3T0xiWEhJQ2ZRNG4rcDE5bUpnMGlnODNyY1c5cys4UXZMeVJmMG5KT1hRNDNXb2FhRUJPVGs0NlU1REVEVlBRNGZoZUZBd05ZTHR4Ylh4N0cvNjhiaitpRENheG41ak9Zak9oK1d3UHFvNmVVNVIrQlV0aUVreEdnN2d3Q3N5ZDh3eEtQbmdCankvTkZ6ejArQy96cDRoaFJoMHBpUUtNZ29LQ2FGRURNditkL2Q4TFRKZnk0SWg5N0oyVE9LRjRSK1dXZSs5RTdQUzdmSnhqZDlMMDFaNUUvOGw2UDdnMTR4NnNLRndQNitUSmFpU3kwbUtWdG02RjFDRVpoQUV5QXJxT0N3bzhSQ2duUWJzeWZLeVBMOGRnaDYvWTVOeVh6SHpTcU9IMmRyamFmSjBpY1RSaThiSS80ZkszbFJLRUIyZjR4allCMG1tL1ZrcEtNTU43dEFMeW9DRWhsZW9uV01URmZiQmx2TzEyVVFPQnVBRlhQUFo4ZGtnRloweTZDWEZSeWdHaUxEcTlkZXZXWHAweURNNUxDZzZVUzdWVnd1TkFJNEo1TC9tR0x0bEZBY3E5ZkxJMnR1Lzh3UUN6SVF4cGlRYUJaZ1NvVzBTZ3VibjVhMEt0VXhOdys2MnBhQzByRlo1cmpaQkNBNTgwclB1YlNyVkkyUTNhdGIvQ2x6N0N4SXdZT3ovc2RydU5NR0dBMiszZXpRMnRtajh2RzYyMTM2SnAyNFlySWtFYXVhUnhGMHMvRVhOZ2RLUVJ2VDJuSkZwOWVucGEvR2FIUlBUMjl1N2d1eGhFeWl4SUt6LzBlUjNISzN2MjVzejVrZzRKdCtTQU9SNGZtNkRDK01McXArY2NRdG8xTGlUWjE0NWp3SXYyTmd4MWJOZVNDSU00QTVnQzlURGk5MXR5Y3ZKU1VuNjRiYTlvbytoRXZXRHN0UStDNzRhWU9LRlE3djJram0wQ0RTRFlkdXBOUDlLbXBxYUQwNlpOZTRoQXRRc0tDd3RYY1JRVHlBR3k4TmRab0NJdWFZajBWdTRGVW5NTFZNNTZlR2JGblJvS1gvVlhWRlNzazBBMUFnUm9UMFcyeVFQNXExRjE2QnZWQU1rVTdCbW9uRFFNZjJmekIzNW5RMjF0N2RyTXpNelhwUXcxQWdUazV1YVdLaDJ4amU4c3lJcURXL0QwN3g5VkkwRjRzQlZNT2IwdjI3VUcybU9ib2RjcXB5dy9Bd2hJU1VsWlJrSytjNzM5eG5QWXMzZURhRStaRXNKWkQxUWNiYjdOcitpb09DTEpqSC90ZmxZZHc2U256T1hMbHkvaHUzYjVwVUNMNE45TlJucjZLamt5V1IvSGo5ZnBkdTA5Z3FxNmZqRjZaYy96SUtMU25Jd281VmpPUU43OXM5V3dNNVdNS2gzVHlyK3VkOVpFc0o4VC9uellHcjhiMVY3OEtRbGNwS09NNjFKMk5TSitML0NETlpnaGdRcmxuclIxZFhXdlhzOXYyVlZURU13Zy9qY3NXTEJnM3REUTBGMFJFUkdwUnFNeGxuUU9oNlBMNVhJMVJFWkcvbnZmdm4xbE4vS0gvRC93c3k4cHFET2lWUUFBQUFCSlJVNUVya0pnZ2c9PSIvPgo8L2RlZnM+Cjwvc3ZnPgo=",
+    icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
   },
   {
     name: "ZKEVM",
     chainId: 1101,
     dex: "Balancer",
-    icon: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxyZWN0IHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgcng9IjEwIiBmaWxsPSJ1cmwoI3BhdHRlcm4wKSIvPgo8ZGVmcz4KPHBhdHRlcm4gaWQ9InBhdHRlcm4wIiBwYXR0ZXJuQ29udGVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgd2lkdGg9IjEiIGhlaWdodD0iMSI+Cjx1c2UgeGxpbms6aHJlZj0iI2ltYWdlMF81MV82MzciIHRyYW5zZm9ybT0ic2NhbGUoMC4wMzEyNSkiLz4KPC9wYXR0ZXJuPgo8aW1hZ2UgaWQ9ImltYWdlMF81MV82MzciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFDQUFBQUFnQ0FJQUFBRDhHTzJqQUFBSzJtbERRMUJKUTBNZ1VISnZabWxzWlFBQVNJbVZsd2RVRTlrYWdPL01wQmRhQUFFcG9YZWtFMEJLNktFSTBrRlVRaEpJS0NFbUJCVlJVVmxjd2JXZ0lnTHFpcTZLS0xpNkFySVd4SUp0VWJEWERiSUlxT3Rpd1lhYW5jQWo3TzQ3Nzczei9uUHUzTy84ODkrLzNIUHZuSDhBb0lheFJhSmNXQTJBUEdHQk9EWTBnSjZja2tySER3SUlZQUVKbUFLRXpaR0ltREV4a1FDVnlmbnY4dTQyYW8zS0RYdUZyMzkvLzE5Rmc4dVRjQUNBMGxETzRFbzRlU2gzb09NWlJ5UXVBQUE1aU9wTkZ4YUlGSHdkWlUweG1pREt2eWs0YTRJL0tEaGpuREdVY1p2NDJFQ1U2UUFRS0d5Mk9Bc0FpaDJxcHhkeXNsQS9GRVVOamtLdVFJaHlNY3ErSEQ2YmkvSUpsTzN5OHZJVlBJU3lGV292QW9DSzdnNWdaUHpGWjliZi9HY28vYlBaV1VxZXFHdGNDRUVDaVNpWHZmai8zSnIvTFhtNTBza1lGdWlnOE1WaHNZcDQ2UDdkemNtUFVMSXdZMWIwSkF1NEV6a3BtQzhOUzVoa2ppUXdkWks1N0tBSTVkcmNXWkdUbkNrSVlTbjlGTERpSjVrbkNZNmJaSEYrckRKV3BqaVFPY2xzOFhoY0Vzb3lhVTZDVXMvbnNaVCtpL2p4U1pOY0tFaWNOY21TbkxpSUtadEFwVjRzalZYbXp4T0dCa3pGRFZIV25pZjVTNzBDbG5KdEFUOCtURms3ZXlwL25wQTU1Vk9Tck15Tnl3c0tuckpKVU5xTENnS1VzVVM1TVVwN1htNm9VaThwakZPdUxVQVA1OVRhR09VZVpyUERZeVlaQ0VBVVlBTU9YWFdTQUNqZ0xTcFFGQktZTDFvc0ZtVHhDK2hNOUxieDZDd2h4OEdPN3V6bzdBS0E0dTVPSEllUmErTjNFdEpWbjlLVmJRTEFEeXVYeTF1bWRHR1hBVGhTQVFEWmRVcG5pUjVVRmZUY1h3emdTTVdGRXpxTTRxSDRJcWdDVGFBTERORXZneFd3Qjg3QUhYZ0RmeEFNd2tFMGlBY3BZQjZhS3gva0FURllDSXJCQ2xBR0tzQUdzQVhVZ0oxZ045Z1BEb0Vqb0JXY0FHZkFCWEFGWEFlM3dBTWdBd1BnT1JnQjc4QVlCRUY0aUFyUklGM0lDREtIYkNGbmlBSDVRc0ZRSkJRTHBVRHBVQllraEtSUU1iUUtxb0Fxb1Jwb0Y5UUEvUWdkaDg1QWw2QWU2QjdVQncxRHI2RlBNQUpUWUUzWUFMYUFaOEFNbUFsSHdQSHdYRGdMWGdBWHdhWHdPcmdhcm9jUHdpM3dHZmdLZkF1V3djL2hVUVFnWkVRYk1VYnNFUVlTaUVRanFVZ21Ja2FXSWVWSUZWS1BOQ0h0U0JkeUE1RWhMNUNQR0J5R2hxRmo3REhlbURCTUFvYURXWUJaaGxtTHFjSHN4N1Jnem1GdVlQb3dJNWl2V0NwV0gydUw5Y0t5c01uWUxPeENiQm0yQ3JzWGV3eDdIbnNMTzRCOWg4UGh0SEdXT0E5Y0dDNEZsNDFiZ2x1TDI0NXJ4blhnZW5EOXVGRThIcStMdDhYNzRLUHhiSHdCdmd5L0RYOFFmeHJmaXgvQWZ5Q1FDVVlFWjBJSUlaVWdKS3drVkJFT0VFNFJlZ21EaERHaUd0R2M2RVdNSm5LSmk0bnJpWHVJN2NScnhBSGlHRW1kWkVueUljV1Rza2tyU05Xa0p0SjUwa1BTR3pLWmJFTDJKTThtQzhnbDVHcnlZZkpGY2gvNUkwV0RZa01KcEtSUnBKUjFsSDJVRHNvOXloc3FsV3BCOWFlbVVndW82NmdOMUxQVXg5UVBLalFWQnhXV0NsZGx1VXF0U290S3I4cExWYUtxdVNwVGRaNXFrV3FWNmxIVmE2b3YxSWhxRm1xQmFteTFaV3ExYXNmVjdxaU5xdFBVbmRTajFmUFUxNm9mVUwra1BxU0IxN0RRQ05iZ2FwUnE3Tlk0cTlGUFEyaW10RUFhaDdhS3RvZDJuamFnaWRPMDFHUnBabXRXYUI3UzdOWWMwZExRY3RWSzFGcWtWYXQxVWt1bWpXaGJhTE8wYzdYWGF4L1J2cTM5YVpyQk5PWTAzclExMDVxbTlVNTdyek5keDErSHAxT3UwNnh6UytlVExsMDNXRGRIZDZOdXErNGpQWXllamQ1c3ZZVjZPL1RPNjcyWXJqbmRlenBuZXZuMEk5UHY2OFA2TnZxeCtrdjBkK3RmMVI4MU1EUUlOUkFaYkRNNGEvRENVTnZRM3pEYmNMUGhLY05oSTVxUnI1SEFhTFBSYWFObmRDMDZrNTVMcjZhZm80OFk2eHVIR1V1TmR4bDNHNCtaV0pva21LdzBhVFo1WkVveVpaaG1tbTQyN1RRZE1UTXlpeklyTm1zMHUyOU9OR2VZODgyM21uZVp2N2V3dEVpeVdHM1JhakZrcVdQSnNpeXliTFI4YUVXMThyTmFZRlZ2ZGRNYVo4Mnd6ckhlYm4zZEJyWnhzK0hiMU5wY3M0VnQzVzBGdHR0dGUreXdkcDUyUXJ0NnV6djJGSHVtZmFGOW8zMmZnN1pEcE1OS2gxYUhselBNWnFUTzJEaWphOFpYUnpmSFhNYzlqZytjTkp6Q25WWTZ0VHU5ZHJaeDVqalhPdDkwb2JxRXVDeDNhWE41NVdycnluUGQ0WHJYamVZVzViYmFyZFB0aTd1SHU5aTl5WDNZdzh3ajNhUE80dzVEa3hIRFdNdTQ2SW4xRFBCYzdubkM4Nk9YdTFlQjF4R3ZQN3p0dlhPOEQzZ1B6YlNjeVp1NVoyYS9qNGtQMjJlWGo4eVg3cHZ1KzcydnpNL1lqKzFYNy9mRTM5U2Y2Ny9YZjVCcHpjeG1IbVMrREhBTUVBY2NDM2dmNkJXNE5MQWpDQWtLRFNvUDZnN1dDRTRJcmdsK0hHSVNraFhTR0RJUzZoYTZKTFFqREJzV0ViWXg3QTdMZ01WaE5iQkd3ajNDbDRhZmk2QkV4RVhVUkR5SnRJa1VSN1pId1ZIaFVadWlIczR5bnlXYzFSb05vbG5SbTZJZnhWakdMSWo1ZVRadWRzenMydGxQWTUxaWkyTzc0bWh4OCtNT3hMMkxENGhmSC84Z3dTcEJtdENacUpxWWx0aVErRDRwS0treVNaWThJM2xwOHBVVXZSUkJTbHNxUGpVeGRXL3E2SnpnT1Z2bURLUzVwWldsM1o1ck9YZlIzRXZ6OU9ibHpqczVYM1UrZS83UmRHeDZVdnFCOU0vc2FIWTllelNEbFZHWE1jSUo1R3psUE9mNmN6ZHpoM2srdkVyZVlLWlBabVhtVUpaUDFxYXNZYjRmdjRyL1FoQW9xQkc4eWc3TDNwbjlQaWM2WjErT1BEY3B0em1Qa0plZWQxeW9JY3dSbnNzM3pGK1UzeU95RlpXSlpBdThGbXhaTUNLT0VPK1ZRSks1a3JZQ1RiUkp1aXExa240ajdTdjBMYXd0L0xBd2NlSFJSZXFMaEl1dUxyWlp2R2J4WUZGSTBROUxNRXM0U3pxTGpZdFhGUGN0WlM3ZHRReGFsckdzYzducDh0TGxBeVdoSmZ0WGtGYmtyUGhscGVQS3lwVnZWeVd0YWk4MUtDMHA3ZjhtOUp2R01wVXljZG1kMWQ2cmQzNkwrVmJ3YmZjYWx6WGIxbnd0NTVaZnJuQ3NxS3I0dkphejl2SjNUdDlWZnlkZmw3bXVlNzM3K2gwYmNCdUVHMjV2OU51NHYxSzlzcWl5ZjFQVXBwYk45TTNsbTk5dW1iL2xVcFZyMWM2dHBLM1NyYkxxeU9xMmJXYmJObXo3WE1PdnVWVWJVTnRjcDErM3B1NzlkdTcyM2gzK081cDJHdXlzMlBucGU4SDNkM2VGN21xcHQ2aXYybzNiWGJqNzZaN0VQVjAvTUg1bzJLdTN0Mkx2bDMzQ2ZiTDlzZnZQTlhnME5CelFQN0MrRVc2VU5nNGZURHQ0L1ZEUW9iWW0rNlpkemRyTkZZZkJZZW5oWnorbS8zajdTTVNSenFPTW8wMC9tZjlVZDR4MnJMd0ZhbG5jTXRMS2I1VzFwYlQxSEE4LzN0bnUzWDdzWjRlZjk1MHdQbEY3VXV2aytsT2tVNlduNUtlTFRvOTJpRHBlbk1rNjA5ODV2L1BCMmVTek44L05QdGQ5UHVMOHhRc2hGODUyTWJ0T1gvUzVlT0tTMTZYamx4bVhXNis0WDJtNTZuYjEyQzl1dnh6cmR1OXV1ZVp4cmUyNjUvWDJucGs5cDNyOWVzL2NDTHB4NFNicjVwVmJzMjcxM0U2NGZmZE8yaDNaWGU3ZG9YdTU5MTdkTDd3LzlxRGtJZlpoK1NPMVIxV1A5Ui9YLzJyOWE3UE1YWGF5TDZqdjZwTzRKdy82T2YzUGY1UDg5bm1nOUNuMWFkV2cwV0REa1BQUWllR1E0ZXZQNWp3YmVDNTZQdmFpN0hmMTMrdGVXcjM4NlEvL1A2Nk9KSThNdkJLL2tyOWUrMGIzemI2M3JtODdSMk5HSDcvTGV6ZjJ2dnlEN29mOUh4a2Z1ejRsZlJvY1cvZ1ovN242aS9XWDlxOFJYeC9LOCtSeUVWdk1IbThGRUhUQW1aa0F2TjZIOXNZcEFORFF2cHcwWjZLM0hoZG80bjlnbk1CLzRvbitlMXpjQVdoQ0owVmI1TjhCd0ZGRk8rdVAraTRCSUJxZDQvMEI3T0tpSFA4U1NhYUw4NFF2bFVZQThNWnkrZXQ4QUlqbytCd3FsNC9GeU9WZjZ0Qmtid0p3YW1paXAxY0lEdTNsbTJqblg2dnllcitXbElCL3lFUy8vNWNhL3prRFJRYXU0Si96bi9SNkdmK3ZQbk92QUFBQU9HVllTV1pOVFFBcUFBQUFDQUFCaDJrQUJBQUFBQUVBQUFBYUFBQUFBQUFDb0FJQUJBQUFBQUVBQUFBZ29BTUFCQUFBQUFFQUFBQWdBQUFBQUk5T1FNa0FBQUtwU1VSQlZFZ043VmJQYnlsUkZOWStHd2xkVklTb1JnaUpZQ0ZJYWtNclltM0R3dHJLenJZci80Q0ZoYi9BUmlMK2hRWWJpVlJVR20wMHRCWmE0a2VGUkVoRTZuMDZ5Y3lZdWRQbjhlemVUU2E1Yys0NTMzZm5uUFBkT3lmcjlWb2tNTHJkYmlhVHFkVnFyVmFyMld4K2ZuN1Nqbks1M0dnMEdnd0dtODBXRG9mVmFqVzl4SjJBZ0QvdTcrOERnUURYVmZnOUZBclY2M1UrRGl3aXZqV2J6UXBEQ2E2SXhlSjhQczlITytWSFBEdzg4STEvdEt4V3EwS2hRSERqY3lMWGY1VWZDaFJabWt3bWZEUkNpaWdubENFU2lVaWxVc0ttV0NaVU94cU5DaFVBVUNkNFdQNkVhYnZkYmpRYWIyOXZ3K0dRWGxZb0ZIcTkzbVF5NlhRNjJraWNrQWtXaTBVdWx5c1dpNlBSQ0JCMnUvM3k4cElUMytsMHF0WHE0K01qSEs2dnI0UEJvRVFpNGZoc1hqbFpTNlZTRG9jRExVRncvZEdFRUpmTGxVNm5PWUFNQVdwcnRWcC9CTmxwRVRUeitaeW1ZUWpRQmpzQjdPQ0VzdE1FakE3T3pzNTJpTjNKWmJsY01uNDAxY2ZIeDhYRkJiT3c3d3dneURZTnk2UUlKaWpsOXZaMmJ4cWNmZkY0bkYwQVlKTGI5T25wQ2JwSG01WktKWHpaRHg4RFVGVFY3WGI3L1g2aUpzZ0ViTVRwZFByKy9zNVdHYldxMVdwVktoVzU5MW54V3dUajhiaGNMbGNxRld3ZlI0WEZZc0h1T0NxREJtZXoyV0F3Z0hPdjEzdjVIdjErMytQeDNOemNPSjNPcTZ1cjgvTnpob0txQms2Q1BRNDRCb1UxZytMUThVZ3NoYndwY2l3VzIwTzZMRXpDRklBb09NQi9JY1hKWlBMcjY0dmdkWUFKZ09nUm1Vd20yanhIRytpQ1U1VGxhUGdpczlrc1FqWFF5OGZnQU94R1E2Z0RCSXpMNngvV0dWQm9IRXJTekZHQkF5U1JTS0R4RC9rYXI5ZUxHNFY5T1c4SmpZS0dndTd1N3ZCdjhmejgvUHI2aWtzTkF6OE5IR0pzVTZsVW9vd2FqUWEvWDFDbHorZmJrdGgzQUlHQUEzVGdLM01mSEFna0ZQNmZRQ2d6dFAzb0tmb054cWxNdUNzc242SUFBQUFBU1VWT1JLNUNZSUk9Ii8+CjwvZGVmcz4KPC9zdmc+Cg==",
+    icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
   },
   {
     name: "ZKEVM",
@@ -50,13 +45,6 @@ const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
   top: 12px;
-
-  @media (max-width: 1023px) {
-    top: 4px;
-    right: 12px;
-
-    transform: scale(0.9);
-  }
 `;
 
 const exchangeIcon = (
@@ -98,11 +86,9 @@ State.init({
   reloadPools: false,
   hoverOnChain: "",
   estimate: {},
-  inputAssetTokenId: "0x0000000000000000000000000000000000000000",
-  outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+  inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+  outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
   coinGeckoTokenIds: {
-    "0x0000000000000000000000000000000000000000":
-      "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
       "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
@@ -118,7 +104,7 @@ State.init({
     "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
       "0x6b175474e89094c44da98b954eedeac495271d0f",
   },
-  selectedDex: defaultDex || props.dex || "QuickSwap",
+  selectedDex: props.dex ?? "Pancake Swap",
   loadRes: (value) => {
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
@@ -128,10 +114,7 @@ State.init({
   },
   add: false,
   hasGetStorage: false,
-  noPool: false,
 });
-
-console.log("selectedDex: ", state.selectedDex);
 
 const refReferralId = props.refReferralId ?? "ukraine";
 
@@ -162,10 +145,16 @@ const onDexDataLoad = (data) => {
   });
 };
 
+const Theme = styled.div`
+  font-size: 18px;
+`;
+
 const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
+  console.log("state: ", state);
+
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -183,6 +172,10 @@ const changeAmount = (e) => {
 
   State.update({ inputAssetAmount: amount });
 };
+
+// REUSABLE UI ELEMEETS
+
+console.log("output amount", state.outputAssetAmount);
 
 const assetContainer = (
   isInputAsset,
@@ -210,11 +203,7 @@ const assetContainer = (
             <Input
               type="text"
               placeholder="0"
-              value={
-                state.noPool && amountName === "outputAssetAmount"
-                  ? ""
-                  : state[amountName]
-              }
+              value={state[amountName]}
               readOnly={amountName === "outputAssetAmount"}
               onChange={changeAmount}
             />
@@ -227,11 +216,16 @@ const assetContainer = (
                       alt={`${assetData.metadata.name} logo`}
                       src={assetData.metadata.icon}
                       class="input-asset-token-icon-img"
+                      style={{
+                        width: "32px",
+                      }}
                     />
                   ) : (
                     <div
-                      className="input-asset-token-icon-img"
+                      className=""
                       style={{
+                        width: "30px",
+                        height: "30px",
                         borderRadius: "100%",
                       }}
                     ></div>
@@ -277,69 +271,50 @@ const assetContainer = (
   );
 };
 
+// SWAP METHODS
+
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
 
 const tokenInApprovaleNeededCheck = () => {
-  if (
-    state.inputAssetTokenId === ethAddress ||
-    (state.outputAssetTokenId === ethAddress &&
-      state.inputAssetTokenId === wethAddress)
-  ) {
-    State.update({
-      approvalNeeded: false,
-    });
+  if (state.approvalNeeded === undefined) {
+    if (
+      getEVMAccountId() &&
+      state.erc20Abi !== undefined &&
+      state.routerContract !== undefined &&
+      [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
+    ) {
+      const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
-    return;
-  }
+      const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
+        "allowance",
+        [getEVMAccountId(), state.routerContract]
+      );
 
-  if (
-    state.sender &&
-    state.erc20Abi !== undefined &&
-    state.routerContract !== undefined &&
-    [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
-  ) {
-    const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
+      return Ethers.provider()
+        .call({
+          to: state.inputAssetTokenId,
+          data: encodedTokenAllowancesData,
+        })
+        .then((encodedTokenAllowanceHex) => {
+          const tokenAllowance = ifaceErc20.decodeFunctionResult(
+            "allowance",
+            encodedTokenAllowanceHex
+          );
 
-    const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
-      "allowance",
-      [state.sender, state.routerContract]
-    );
-
-    return Ethers.provider()
-      .call({
-        to: state.inputAssetTokenId,
-        data: encodedTokenAllowancesData,
-      })
-      .then((encodedTokenAllowanceHex) => {
-        const tokenAllowance = ifaceErc20.decodeFunctionResult(
-          "allowance",
-          encodedTokenAllowanceHex
-        );
-
-        console.log(
-          "tokenAllowance: ",
-          Big(tokenAllowance)
-            .div(Big(10).pow(state.inputAsset.metadata.decimals))
-            .toFixed(),
-          state.inputAssetAmount
-        );
-
-        if (tokenAllowance) {
-          State.update({
-            approvalNeeded: Big(tokenAllowance)
-              .div(Big(10).pow(state.inputAsset.metadata.decimals))
-              .lt(state.inputAssetAmount),
-          });
-        }
-      })
-      .catch(() => {});
-  } else {
-    State.update({ approvalNeeded: false });
+          if (tokenAllowance) {
+            State.update({
+              approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
+            });
+          }
+        })
+        .catch(() => {});
+    } else {
+      State.update({ approvalNeeded: false });
+    }
   }
 };
-console.log("state.approvalNeeded: ", state.approvalNeeded);
 
 if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)) {
   tokenInApprovaleNeededCheck();
@@ -350,12 +325,6 @@ const canSwap =
   Number(state.inputAsset.balance_hr_full) >= Number(state.inputAssetAmount) &&
   Number(state.inputAssetAmount || 0) > 0 &&
   state.inputAssetTokenId !== state.outputAssetTokenId;
-
-const insufficientBalance =
-  Number(state.inputAsset.balance_hr_full) < Number(state.inputAssetAmount) &&
-  state.inputAssetTokenId !== state.outputAssetTokenId &&
-  state.network &&
-  Number(state.inputAssetAmount || 0) > 0;
 
 const ExchangeWrapper = () => {
   return (
@@ -379,34 +348,15 @@ const ExchangeWrapper = () => {
   );
 };
 
-const { layout } = props;
-
 const SwapMainContainer = styled.div`
   display: flex;
   align-items: start;
   gap: 8px;
   font-size: 18px;
-
-  @media (max-width: 1023px) {
-    flex-direction: column;
-    .swap-selected-dex {
-      display: none;
-    }
-    padding-top: 0px;
-  }
-
-  justify-content: center;
-  padding-top: 10px;
-
-  .invalid-pool-tip {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    letter-spacing: 0em;
-    text-align: center;
-    color: #ff61d3;
-    padding-bottom: 5px;
-  }
+  position: fixed;
+  left: 50%;
+  /* top: 50%; */
+  transform: translate(-50%);
 `;
 
 const NetworkList = styled.div`
@@ -423,19 +373,6 @@ const NetworkList = styled.div`
     linear-gradient(0deg, #332c4b, #332c4b);
   border: 1px solid #332c4b;
   overflow: hidden;
-
-  @media (max-width: 1023px) {
-    border: none;
-    flex-direction: row;
-    background: none;
-    height: auto;
-    overflow: auto;
-    padding: 8px;
-    width: 378px;
-
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
 `;
 
 const NetWorkItem = styled.li`
@@ -447,30 +384,17 @@ const NetWorkItem = styled.li`
   border-radius: 12px;
   opacity: 0.5;
   cursor: pointer;
-
   img {
     padding-top: 4px;
   }
   .network-name {
     font-size: 16px;
     color: #979abe;
-    white-space: nowrap;
   }
   .network-dex {
     font-size: 18px;
     color: white;
     font-weight: bold;
-
-    white-space: nowrap;
-  }
-
-  @media (max-width: 1023px) {
-    .network-name {
-      font-size: 13px;
-    }
-    .network-dex {
-      font-size: 15px;
-    }
   }
 
   &:hover {
@@ -488,21 +412,10 @@ const Seperator = styled.div`
   width: 327px;
   position: absolute;
   bottom: 0px;
-
-  @media (max-width: 1023px) {
-    width: 100%;
-  }
 `;
 
 const SwapPage = styled.div`
   width: 560px;
-
-  margin-bottom: 8px;
-
-  @media (max-width: 1023px) {
-    width: 100%;
-    padding: 16px;
-  }
 
   .swap-button {
     font-size: bold;
@@ -510,20 +423,10 @@ const SwapPage = styled.div`
     width: 100%;
     height: 100%;
     padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @media (max-width: 1023px) {
-      height: 40px;
-    }
   }
 
   .swap-button-text {
     font-size: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .swap-button-enabled {
@@ -542,19 +445,7 @@ const SwapPage = styled.div`
     background: none;
   }
 
-  min-height: 451px;
-
-  @media (max-width: 1023px) {
-    min-height: 423px;
-    .swap-button {
-      height: 40px;
-    }
-
-    button {
-      height: 40px;
-    }
-  }
-
+  height: 451px;
   padding: 28px;
   background: linear-gradient(0deg, #181a27, #181a27),
     linear-gradient(0deg, #332c4b, #332c4b);
@@ -590,28 +481,6 @@ const SwapPage = styled.div`
     padding: 8px;
     width: 159px;
     border-radius: 23px;
-
-    .input-asset-token-icon-img {
-      width: 32px;
-    }
-
-    .input-asset-token-ticker {
-      font-size: 18px;
-    }
-
-    @media (max-width: 1023px) {
-      width: 115px;
-
-      padding: 4px 6px;
-
-      .input-asset-token-icon-img {
-        width: 22px;
-      }
-
-      .input-asset-token-ticker {
-        font-size: 15px;
-      }
-    }
   }
   .input-asset-details-row {
     display: flex;
@@ -672,7 +541,7 @@ const Input = styled.input`
 const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
-const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
+const switchNetwork = (chainId, dex) => {
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
@@ -680,9 +549,6 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: ethAddress,
-    outputAssetTokenId:
-      tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
 };
 
@@ -753,15 +619,10 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
   let network = networks[chainKey];
 
   const light = selectedDex === network.dex;
-
+  console.log("selectedDex: ", selectedDex);
   return (
     <NetWorkItem
-      onClick={() => {
-        switchNetwork(Number(network.chainId), network.dex ?? "");
-        State.update({
-          noPool: false,
-        });
-      }}
+      onClick={() => switchNetwork(Number(network.chainId), network.dex ?? "")}
       onMouseEnter={() => {
         State.update({
           hoverOnChain: chainKey,
@@ -775,7 +636,7 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
       key={chainKey}
       style={{
         background: light ? "#794fdd" : "",
-        opacity: light ? 1 : "",
+        opacity: light ? 1 : "none",
       }}
     >
       {network.icon}
@@ -793,7 +654,7 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
             color: light ? "white" : "",
           }}
         >
-          Polygon zkEVM
+          {network.name}
         </div>
 
         <div className="network-dex">{network.dex}</div>
@@ -804,25 +665,22 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
 
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
-    <SwapMainContainer
-      class=""
-      style={{
-        justifyContent: layout == "left" ? "start" : "center",
-      }}
-    >
-      To proceed, kindly switch to zkEVM.
-      <Widget
-        src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
-        props={{
-          title: "Polygon zkEVM Swap",
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-          imgStyle: {
-            width: "528px",
-            // height: "216px",
-          },
-        }}
-      />
-    </SwapMainContainer>
+    <Theme>
+      <SwapMainContainer class="">
+        To proceed, kindly switch to {forceNetwork}.
+        <Widget
+          src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
+          props={{
+            title: "zkEvm Swap",
+            src: "https://assets.ref.finance/images/zkevm-swap.png",
+            imgStyle: {
+              width: "528px",
+              height: "216px",
+            },
+          }}
+        />
+      </SwapMainContainer>
+    </Theme>
   );
 }
 
@@ -830,20 +688,10 @@ let params = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVMWarmUp.quest-card"
 );
-
 const params_from_question_list = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVM.QuestionList"
 );
-
-const params_from_trend_card = Storage.get(
-  "zk-evm-swap-params",
-  "guessme.near/widget/ZKEVMWarmUp.trend-card"
-);
-
-if (props.source == "trend" && params_from_trend_card) {
-  params = params_from_trend_card;
-}
 
 if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
@@ -851,28 +699,20 @@ if (props.source == "question_list" && params_from_question_list) {
 
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
-    const toAssetId =
-      params.toAssetId ||
-      (params.assetId === state.outputAssetTokenId
-        ? state.inputAssetTokenId
-        : state.outputAssetTokenId);
-
     State.update({
       storeParams: params,
       inputAssetAmount: params.amount,
       approvalNeeded: undefined,
       inputAssetTokenId: params.assetId,
-      outputAssetTokenId: toAssetId,
+      outputAssetTokenId:
+        params.assetId === state.outputAssetTokenId
+          ? state.inputAssetTokenId
+          : state.outputAssetTokenId,
     });
+  }
 
-    if (!!params?.dexName) {
-      switchNetwork(
-        1101,
-        defaultDex || params.dexName,
-        params.assetId,
-        toAssetId
-      );
-    }
+  if (!!params?.dexName) {
+    switchNetwork(1101, params.dexName);
   }
 
   State.update({
@@ -880,16 +720,11 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   });
 }
 
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add", {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -903,15 +738,13 @@ const onCallTxComple = (tx) => {
     "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
   );
 
+  if (!state.add) return;
+
   tx.wait().then((receipt) => {
     const { status, transactionHash } = receipt;
 
     add_action({
-      action_title: `Swap ${
-        Number(state.inputAssetAmount) < 0.000001
-          ? "<0.000001"
-          : new Big(state.inputAssetAmount).toFixed(6)
-      }   ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
+      action_title: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
       action_type: "Swap",
       action_tokens: JSON.stringify([
         `${state.inputAsset.metadata.symbol}`,
@@ -919,11 +752,9 @@ const onCallTxComple = (tx) => {
       ]),
       action_amount: state.inputAssetAmount,
       account_id: state.sender,
-      action_network_id: "zkEVM",
       account_info: uuid,
-      template: selectedDex,
+      template: "ZkEvm",
       action_status: status === 1 ? "Success" : "Failed",
-      action_switch: state.add ? 1 : 0,
       tx_id: transactionHash,
     });
 
@@ -935,11 +766,11 @@ const onCallTxComple = (tx) => {
 
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
-    ? "Polygon zkEVM Swap"
-    : ` To proceed, kindly switch to zkEVM.`;
+    ? "zkEvm Swap"
+    : ` To proceed, kindly switch to ${forceNetwork}.`;
 
   if (!!state.sender && selectedChainId !== 1101) {
-    switchNetwork(1101, defaultDex || "QuickSwap");
+    switchNetwork(1101, "Pancake Swap");
   }
 
   return (
@@ -958,7 +789,7 @@ if (!state.sender || selectedChainId !== 1101) {
 }
 
 return (
-  <>
+  <Theme>
     <Widget
       src="guessme.near/widget/ZKEVMSwap.zkevm-dexData"
       props={{
@@ -969,7 +800,6 @@ return (
         forceReload: state.forceReload ?? false,
         DEX: selectedDex,
         sender,
-        onShowNoPool: () => State.update({ noPool: true }),
       }}
     />
 
@@ -987,7 +817,6 @@ return (
               inputAssetModalHidden: true,
               inputAssetTokenId: tokenId,
               approvalNeeded: undefined,
-              noPool: false,
             });
           },
           onClose: () => State.update({ inputAssetModalHidden: true }),
@@ -1008,7 +837,6 @@ return (
               outputAssetModalHidden: true,
               outputAssetTokenId: tokenId,
               outputAsset: null,
-              noPool: false,
             });
           },
           onClose: () => State.update({ outputAssetModalHidden: true }),
@@ -1024,6 +852,7 @@ return (
         NETWORK_ZKEVM,
         onLoad: (inputAsset) => {
           console.log("TokenData onLoad inputAsset", inputAsset);
+          inputAsset.metadata.symbol = inputAsset.metadata.symbol.toUpperCase();
           State.update({ inputAsset });
         },
       }}
@@ -1039,6 +868,8 @@ return (
         NETWORK_POLYGON,
         onLoad: (outputAsset) => {
           console.log("TokenData onLoad outputAsset", outputAsset);
+          outputAsset.metadata.symbol =
+            outputAsset.metadata.symbol.toUpperCase();
           State.update({ outputAsset });
         },
       }}
@@ -1074,19 +905,9 @@ return (
         />
       )}
 
-    <SwapMainContainer
-      style={{
-        justifyContent: layout == "left" ? "start" : "center",
-      }}
-    >
-      {state.network && state.dexName && !oneProtocol && (
-        <div
-          className=""
-          style={{
-            maxWidth: "100%",
-            overflow: "auto",
-          }}
-        >
+    <SwapMainContainer>
+      {state.network && state.dexName && (
+        <div>
           <div
             style={{
               color: "#794FDD",
@@ -1096,9 +917,7 @@ return (
           >
             Chain & Dapp
           </div>
-          <NetworkList className="network-drop-down-container">
-            {networksDropDown}
-          </NetworkList>
+          <NetworkList>{networksDropDown}</NetworkList>
         </div>
       )}
 
@@ -1109,7 +928,6 @@ return (
             paddingLeft: "12px",
             fontWeight: 500,
           }}
-          className="swap-selected-dex"
         >
           {/* Swap */}
           {selectedDex}
@@ -1146,33 +964,16 @@ return (
                     } ${state.outputAsset.metadata.symbol}`}
               </div>
             </div>
-            {state.noPool && state.inputAsset && state.outputAsset && (
-              <div className="invalid-pool-tip">
-                {`No pool available to make a swap from ${state.inputAsset.metadata.symbol}-> ${state.outputAsset.metadata.symbol} for the amount ${state.inputAssetAmount}`}
-              </div>
-            )}
-
-            <div
-              class="swap-button-container"
-              notEnough={insufficientBalance && !state.approvalNeeded}
-              style={{
-                background:
-                  insufficientBalance && !state.approvalNeeded
-                    ? "#FF61D3"
-                    : "#794fdd",
-                opacity: insufficientBalance && !state.approvalNeeded ? 0.5 : 1,
-              }}
-            >
-              {state.approvalNeeded && !insufficientBalance && (
+            <div class="swap-button-container">
+              {state.approvalNeeded && (
                 <button
                   class={"swap-button"}
-                  onClick={(tx) => {
+                  onClick={() => {
                     state.callTokenApproval(
                       state,
-                      (tx) => {
+                      () => {
                         State.update({
                           outputAsset: undefined,
-                          forceReloadApprove: !state.forceReloadApprove,
                         });
                         tokenInApprovaleNeededCheck();
                       },
@@ -1186,10 +987,10 @@ return (
                   </div>
                 </button>
               )}
-              {(insufficientBalance || !state.approvalNeeded) && (
+              {!state.approvalNeeded && (
                 <button
                   class={"swap-button-enabled"}
-                  disabled={!canSwap || state.noPool}
+                  disabled={!canSwap}
                   onClick={() => {
                     if (canSwap) {
                       try {
@@ -1197,7 +998,7 @@ return (
                           state,
                           onCallTxComple,
                           "2.09",
-                          400000,
+                          3000000,
                           "0",
                           state.estimate.path
                         );
@@ -1205,42 +1006,38 @@ return (
                     }
                   }}
                 >
-                  <div class="swap-button-text">
-                    {insufficientBalance ? "insufficient Balance" : "Swap"}
-                  </div>
+                  <div class="swap-button-text">Swap</div>
                 </button>
               )}
             </div>
           </div>
         </SwapPage>
-
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            ...props,
-            add: state.add,
-            onChangeAdd: (value) => {
-              State.update({
-                add: value,
-              });
-            },
-            hide:
-              !state?.outputAsset ||
-              !state?.inputAssetAmount ||
-              !state?.inputAsset ||
-              !state?.selectedDex ||
-              (source === "quest-card" &&
-                state.storeParams &&
-                state.storeParams.amount === state.inputAssetAmount &&
-                state.storeParams.assetId.toLowerCase() ===
-                  state.inputAssetTokenId.toLowerCase() &&
-                state.storeParams.dexName === state.selectedDex &&
-                state.storeParams.symbol ===
-                  state?.inputAsset?.metadata?.symbol),
-          }}
-        />
       </div>
     </SwapMainContainer>
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
-  </>
+
+    <Widget
+      src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+      props={{
+        ...props,
+        add: state.add,
+        onChangeAdd: (value) => {
+          State.update({
+            add: value,
+          });
+        },
+        hide:
+          !state?.outputAsset ||
+          !state?.inputAssetAmount ||
+          !state?.inputAsset ||
+          !state?.selectedDex ||
+          (source === "quest-card" &&
+            state.storeParams &&
+            state.storeParams.amount === state.inputAssetAmount &&
+            state.storeParams.assetId.toLowerCase() ===
+              state.inputAssetTokenId.toLowerCase() &&
+            state.storeParams.dexName === state.selectedDex &&
+            state.storeParams.symbol === state?.inputAsset?.metadata?.symbol),
+      }}
+    />
+  </Theme>
 );
