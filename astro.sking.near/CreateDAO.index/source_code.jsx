@@ -113,11 +113,11 @@ const validatePrimitive = (type, value, options) => {
         };
       if (options?.type) {
         for (let v of value) {
-          const result = validatePrimitive(options.type, v, options);
+          const result = validatePrimitive(options.type, v);
           if (!result.valid) {
             return {
               valid: false,
-              message: `An item in the array is invalid: ${result.error}`,
+              message: `An item in the array is invalid: ${result.message}`,
             };
           }
         }
@@ -206,7 +206,7 @@ const handleStepComplete = (value) => {
       (p) => p.name === key
     );
     const validation = validate(properties.type, value[key], properties);
-    console.log(key, validation);
+    console.log(key, value, validation);
     if (validation.valid === false) {
       State.update({
         errors: {
@@ -294,9 +294,26 @@ return (
     <Widget
       src={`astro.sking.near/widget/CreateDAO.Step${state.step + 1}`}
       props={{
-        form: j,
+        formState: state.form,
         onComplete: handleStepComplete,
         errors: state.errors,
+        renderFooter: (stepState) => (
+          <Widget
+            src={`astro.sking.near/widget/CreateDAO.Footer`}
+            props={{
+              isLast: state.step >= steps.length - 1,
+              hasPrevious: state.step > 0,
+              onNext: () => {
+                handleStepComplete(stepState);
+              },
+              onPrevious: () => {
+                State.update({
+                  step: state.step - 1,
+                });
+              },
+            }}
+          />
+        ),
       }}
     />
   </>
