@@ -100,7 +100,7 @@ const StylessATag = styled.a`
 
 //=================================================Components====================================================
 
-const renderButton = (button) => {
+const renderButton = (button, i) => {
   return (
     <Widget
       src="rubycop.near/widget/NDC.StyledComponents"
@@ -108,7 +108,7 @@ const renderButton = (button) => {
         Button: {
           size: "big",
           onClick: () => {
-            if (button.id == 0) {
+            if (i == 0) {
               const filter = { filterBy: "" };
               handleFilterArticles(filter);
             } else {
@@ -203,11 +203,13 @@ return (
             accountId &&
             writersWhiteList &&
             writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
-            navigationButtons.map((button) => {
+            navigationButtons.map((button, i) => {
               return !(button.id + "") || !button.title ? (
                 <p className="text-danger border">Button passed wrong</p>
               ) : (
-                <div className="d-block d-md-none">{renderButton(button)}</div>
+                <div className="d-block d-md-none">
+                  {renderButton(button, i)}
+                </div>
               );
             })}
         </ul>
