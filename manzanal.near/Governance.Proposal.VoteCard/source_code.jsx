@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const authorId = props.authorId || "manzanal.near";
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "v005.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const GET_VP_METHOD = "get_all_locking_positions";
 const proposal = props.proposal;
@@ -117,23 +117,7 @@ const handleVote = (vote) => {
         args: {
           mpip_id: props.proposal.mpip_id,
           vote,
-          voting_power: "2520219905500000000000000000000",
           memo: state.memo,
-        },
-        gas: 300000000000000,
-      },
-    ]);
-  }
-};
-
-const withdrawVotingPower = () => {
-  if (isProposalVotingFinished) {
-    Near.call([
-      {
-        contractName: contractId,
-        methodName: "withdraw_voting_power",
-        args: {
-          mpip_id: props.proposal.mpip_id,
         },
         gas: 300000000000000,
       },
@@ -227,33 +211,6 @@ const totalVotes =
   state.proposalVotes.for_votes +
   state.proposalVotes.againstVotes +
   state.proposalVotes.abstainVotes;
-if (state.hasVoted && isProposalVotingFinished()) {
-  return (
-    <Container>
-      <Heading>
-        <div>
-          <h2>Vote</h2>
-        </div>
-      </Heading>
-      <VotesContainer>
-        <Widget
-          src={`${authorId}/widget/Common.Button`}
-          props={{
-            children: (
-              <>
-                <i class="bi bi-box-arrow-down" />
-                Withdraw Voting Power
-              </>
-            ),
-            onClick: () => withdrawVotingPower(),
-            className: "mt-2",
-            variant: "primary",
-          }}
-        />
-      </VotesContainer>
-    </Container>
-  );
-}
 
 if (!state.hasVoted && parseInt(state.votingPower) <= 0) {
   return (
@@ -276,7 +233,20 @@ if (proposal.status != "VotingProcess") {
           <h2>Vote</h2>
         </div>
       </Heading>
-      <h5>Not Open to Voting.</h5>
+      <h5>Not open to voting.</h5>
+    </Container>
+  );
+}
+
+if (!accountId) {
+  return (
+    <Container>
+      <Heading>
+        <div>
+          <h2>Vote</h2>
+        </div>
+      </Heading>
+      <h5>You must login to vote.</h5>
     </Container>
   );
 }
