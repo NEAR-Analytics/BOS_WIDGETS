@@ -61,4 +61,6 @@ const option = {
   ],
 };
 
-<Widget src={`nearpavel.near/widget/EChart`} props={{ definition: option }} />;
+return (
+  <Widget src={`nearpavel.near/widget/EChart`} props={{ definition: option }} />
+);
