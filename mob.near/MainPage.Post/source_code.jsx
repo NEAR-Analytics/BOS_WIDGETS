@@ -14,7 +14,7 @@ const item = {
   blockHeight,
 };
 
-const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 return (
   <div className="border-bottom pt-3 pb-1">
