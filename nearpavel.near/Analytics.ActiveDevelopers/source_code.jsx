@@ -4,14 +4,17 @@ const fetchResult = fetch(
 if (!fetchResult.ok) {
   return "failed to fetch data";
 }
-const data = JSON.parse(fetchResult.body).sort(
+const parsed = JSON.parse(fetchResult.body);
+const data = parsed.data.sort(
   (a, b) => a.collected_for_day - b.collected_for_day
 );
 
 const option = {
   title: {
     text: "NEAR BOS Active Developers",
-    subtext: "subtext",
+    subtext: `Executed by ${parsed.executed_by} at ${new Date(
+      parsed.executed_at
+    ).toLocaleString()}`,
   },
   tooltip: {
     trigger: "axis",
