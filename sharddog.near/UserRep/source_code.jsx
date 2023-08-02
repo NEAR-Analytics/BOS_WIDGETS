@@ -178,7 +178,7 @@ return (
         <tr
           style={{
             backgroundColor: getBackgroundColor(
-              functionCall,
+              nominationInteractions,
               (v) => v > 20,
               (v) => v >= 3 && v <= 20
             ),
