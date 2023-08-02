@@ -765,7 +765,7 @@ const body = loading ? (
   <>
     <Body>
     <Widget
-          src={`guessme.near/widget/ZKEVM.AAVE.NetworkSwitcher`}
+          src={`${config.ownerId}/widget/AAVE.NetworkSwitcher`}
           props={{
             chainId: state.chainId,
             config,
@@ -775,6 +775,14 @@ const body = loading ? (
           }}
         />
       <TopContainer>
+        <Widget
+          src={`guessme.near/widget/ZKEVM.AAVE.TabSwitcher`}
+          props={{
+            config,
+            select: state.selectTab,
+            setSelect: (tabName) => State.update({ selectTab: tabName }),
+          }}
+        />
         <Widget
           src={`guessme.near/widget/ZKEVM.AAVE.HeroData`}
           props={{
@@ -798,14 +806,6 @@ const body = loading ? (
               state.yourBorrows &&
               state.yourBorrows.debts &&
               state.yourBorrows.debts.length > 0,
-          }}
-        />
-        <Widget
-          src={`guessme.near/widget/ZKEVM.AAVE.TabSwitcher`}
-          props={{
-            config,
-            select: state.selectTab,
-            setSelect: (tabName) => State.update({ selectTab: tabName }),
           }}
         />
       </TopContainer>
@@ -905,21 +905,18 @@ const body = loading ? (
 );
 
 return (
-  <>
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
-    <AAVEContainer>
-      {/* Component Head */}
-      <Widget
-        src={`${config.ownerId}/widget/Utils.Import`}
-        props={{ modules, onLoad: importFunctions }}
-      />
-      {/* Component Body */}
-      {body}
-      {
-        !loading ? <div className="tip"><Widget
-        src={`guessme.near/widget/ZKEVM.switch_quest_card`}
-      /></div>: null
-      }
-    </AAVEContainer>
-  </>
+  <AAVEContainer>
+    {/* Component Head */}
+    <Widget
+      src={`${config.ownerId}/widget/Utils.Import`}
+      props={{ modules, onLoad: importFunctions }}
+    />
+    {/* Component Body */}
+    {body}
+    {
+      !loading ? <div className="tip"><Widget
+      src={`guessme.near/widget/ZKEVM.switch_quest_card`}
+    /></div>: null
+    }
+  </AAVEContainer>
 );
