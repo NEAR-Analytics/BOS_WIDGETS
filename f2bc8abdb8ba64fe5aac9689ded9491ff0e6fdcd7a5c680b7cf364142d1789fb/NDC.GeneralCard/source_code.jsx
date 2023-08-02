@@ -12,10 +12,6 @@ const {
 
 const tags = data.tags;
 const accountId = data.author;
-const profile = Social.getr(`${accountId}/profile`);
-if (!profile) {
-  return "Loading...";
-}
 const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
@@ -47,6 +43,12 @@ function getPublicationDate(creationTimestamp) {
     return "Creation timestamp passed wrong";
   }
   return new Date(creationTimestamp).toDateString();
+}
+
+function getUserName() {
+  const profile = Social.getr(`${accountId}/profile`);
+
+  return profile.name;
 }
 
 const getShortUserName = () => {
@@ -697,7 +699,7 @@ return (
               // )
             }
             <HeaderContentText>
-              <NominationName>{profile.name}</NominationName>
+              <NominationName>{getUserName()}</NominationName>
               <NominationUser>{getShortUserName()}</NominationUser>
             </HeaderContentText>
           </HeaderContent>
