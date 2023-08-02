@@ -88,7 +88,7 @@ const social = {
       url: "https://cdn.pixabay.com/photo/2017/10/26/17/51/under-construction-2891888_1280.jpg",
       image:
         "https://humans.nearverselabs.com/static/media/logo.00ce86b56e35961cfdc360d439c05fb7.svg",
-      description: "Work in Progress. Reach out to Punter for questions",
+      description: "DM Punter if you have questions",
       category: ["NEAR", "HUMANS", "Social"],
       // deploy:
       //   "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnearsocial%2Fviewer&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
