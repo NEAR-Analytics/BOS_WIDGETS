@@ -60,7 +60,7 @@ const getImageUrl = () => {
 };
 
 getImageUrl();
-console.log("content: ", state.content.text);
+console.log("content: ", state.content.image);
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const nftMint = () => {
@@ -105,7 +105,7 @@ const nftMint = () => {
       name: state.title,
       description: `${state.description.trim().slice(0, 140)}...`,
       properties: [],
-      image: `${state.imageUrl}`,
+      image: `ipfs://${state?.content?.image.ipfs_cid}`,
 
       //   image: `ipfs://${state.image.ipfs_cid}`,
       //   image: `ipfs://${state.image.cid}`,
