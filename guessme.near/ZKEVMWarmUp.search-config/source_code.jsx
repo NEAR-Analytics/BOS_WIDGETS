@@ -144,9 +144,9 @@ const mapBridgeTokens = bridgeTokens.map((token) => {
   return {
     ...token,
     highlight: `Bridge ${token.symbol} from ${
-      token.chainId === 1 ? "Ethereum" : "Polygon zkEVM"
+      token.chainId === 1 ? "Ethereum" : "ZkEvm"
     }`,
-    network: token.chainId === 1 ? "Ethereum" : "Polygon zkEVM",
+    network: token.chainId === 1 ? "Ethereum" : "ZkEvm",
   };
 });
 
@@ -156,7 +156,7 @@ const mapSwapTokensQuick = SwapTokens.map((token) => {
     highlight: `Swap 1 ${token.symbol} on QuickSwap`,
     network: "QuickSwap",
     dappName: "QuickSwap",
-    chainName: "zkEVM",
+    chainName: "ZKEvm",
   };
 });
 
@@ -166,7 +166,7 @@ const mapSwapTokensBalancer = SwapTokens.map((token) => {
     highlight: `Swap 1 ${token.symbol} on Balancer`,
     network: "Balancer",
     dappName: "Balancer",
-    chainName: "zkEVM",
+    chainName: "ZKEvm",
   };
 });
 
@@ -176,7 +176,7 @@ const mapSwapTokensPancake = SwapTokens.filter((t) => !t.extra).map((token) => {
     highlight: `Swap 1 ${token.symbol} on PancakeSwap`,
     network: "PancakeSwap",
     dappName: "Pancake Swap",
-    chainName: "zkEVM",
+    chainName: "ZKEvm",
   };
 });
 
@@ -196,18 +196,14 @@ const isActionBorrow = "borrow".includes(action.toLowerCase());
 
 const isActionRepay = "repay".includes(action.toLowerCase());
 
-const isActionWithdraw = "withdraw".includes(action.toLowerCase());
-
-const isDepositGamma = "deposit".includes(action.toLowerCase());
+console.log("isActionSwap: ", isActionSwap, isActonBridge);
 
 if (
   !isActionSwap &&
   !isActonBridge &&
   !isActionBorrow &&
   !isActionSupply &&
-  !isActionRepay &&
-  !isActionWithdraw &&
-  !isDepositGamma
+  !isActionRepay
 ) {
   onLoad([]);
 
@@ -217,6 +213,7 @@ if (
 if (isActonBridge) {
   const hintList = mapBridgeTokens.map((token) => {
     let highlightArray = token.highlight.split(" ");
+    console.log("highlightArray: ", highlightArray);
 
     const matchOnSymbol =
       quantityOrSymbol &&
@@ -241,10 +238,6 @@ if (isActonBridge) {
         return acc + (matchOnNetwork ? `from ${cur} ` : "");
       }
 
-      if (index === 4) {
-        return acc + (matchOnNetwork ? cur : "");
-      }
-
       return acc;
     }, "");
 
@@ -253,7 +246,7 @@ if (isActonBridge) {
       highlight,
       full: token.highlight,
       left: token.highlight.substring(highlight.length, token.highlight.length),
-      dappName: "native bridge",
+      dappName: "ZkEvm-bridge",
       matched:
         (matchOnSymbol || !quantityOrSymbol) &&
         (matchOnNetwork || !onOrNetwork),
@@ -277,6 +270,7 @@ if (isActionSwap) {
     }
 
     let highlightArray = token.highlight.split(" ");
+    console.log("highlightArray: ", highlightArray);
 
     const matchOnSymbol =
       symbolOrOn &&
@@ -333,9 +327,9 @@ if (isActionSwap) {
 if (isActionSupply) {
   const hintList = [
     {
-      full: "Supply on 0vix",
-      highlight: "Supply on 0vix",
-      dexName: "0vix",
+      full: "Supply on AAVE",
+      highlight: "Supply on AAVE",
+      dexName: "AAVE",
     },
   ];
   const matchOnDex =
@@ -346,7 +340,7 @@ if (isActionSupply) {
     return {
       full: item.full,
       highlight: matchOnDex ? item.highlight : "Supply",
-      left: matchOnDex ? "" : "on 0vix",
+      left: matchOnDex ? "" : "on AAVE",
       dappName: item.dexName,
       matched: true,
     };
@@ -358,9 +352,9 @@ if (isActionSupply) {
 if (isActionBorrow) {
   const hintList = [
     {
-      full: "Borrow on 0vix",
-      highlight: "Borrow on 0vix",
-      dexName: "0vix",
+      full: "Borrow on AAVE",
+      highlight: "Borrow on AAVE",
+      dexName: "AAVE",
     },
   ];
   const matchOnDex =
@@ -371,7 +365,7 @@ if (isActionBorrow) {
     return {
       full: item.full,
       highlight: matchOnDex ? item.highlight : "Borrow",
-      left: matchOnDex ? "" : "on 0vix",
+      left: matchOnDex ? "" : "on AAVE",
       dappName: item.dexName,
       matched: true,
     };
@@ -383,9 +377,9 @@ if (isActionBorrow) {
 if (isActionRepay) {
   const hintList = [
     {
-      full: "Repay on 0vix",
-      highlight: "Repay on 0vix",
-      dexName: "0vix",
+      full: "Repay on AAVE",
+      highlight: "Repay on AAVE",
+      dexName: "AAVE",
     },
   ];
   const matchOnDex =
@@ -396,66 +390,7 @@ if (isActionRepay) {
     return {
       full: item.full,
       highlight: matchOnDex ? item.highlight : "Repay",
-      left: matchOnDex ? "" : "on 0vix",
-      dappName: item.dexName,
-      matched: true,
-    };
-  });
-  onLoad(list);
-
-  return <div />;
-}
-
-if (isActionWithdraw) {
-  const hintList = [
-    {
-      full: "Withdraw on 0vix",
-      highlight: "Withdraw on 0vix",
-      dexName: "0vix",
-    },
-
-    {
-      full: "Withdraw on Gamma",
-      highlight: "Withdraw on Gamma",
-      dexName: "Gamma",
-    },
-  ];
-
-  const list = hintList.map((item) => {
-    const matchOnDex =
-      symbolOrOn &&
-      item.dexName.toLowerCase().includes(symbolOrOn.toLowerCase());
-
-    return {
-      full: item.full,
-      highlight: matchOnDex ? item.highlight : "Withdraw",
-      left: matchOnDex ? "" : `on ${item.dexName}`,
-      dappName: item.dexName,
-      matched: matchOnDex || !symbolOrOn,
-    };
-  });
-  onLoad(list);
-
-  return <div />;
-}
-
-if (isDepositGamma) {
-  const hintList = [
-    {
-      full: "Deposit on Gamma",
-      highlight: "Deposit on Gamma",
-      dexName: "Gamma",
-    },
-  ];
-  const matchOnDex =
-    symbolOrOn &&
-    hintList[0].dexName.toLowerCase().includes(symbolOrOn.toLowerCase());
-
-  const list = hintList.map((item) => {
-    return {
-      full: item.full,
-      highlight: matchOnDex ? item.highlight : "Deposit",
-      left: matchOnDex ? "" : "on Gamma",
+      left: matchOnDex ? "" : "on AAVE",
       dappName: item.dexName,
       matched: true,
     };
