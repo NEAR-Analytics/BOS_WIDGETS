@@ -108,7 +108,7 @@ const renderButton = (button) => {
           size: "big",
           onClick: () => {
             if (button.id == 0) {
-              const filter = { filterBy: "", value: button.id };
+              const filter = { filterBy: "" };
               handleFilterArticles(filter);
             } else {
               stateUpdate({ displayedTabId: button.id });
