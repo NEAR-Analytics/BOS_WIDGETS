@@ -462,7 +462,7 @@ return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <WhiteTexture>Remaining Supply</WhiteTexture>,
+                      left: <PurpleTexture>Remaining Supply</PurpleTexture>,
                       right: (
                         <WhiteTexture>
                           {remainingSupply} {symbol}
@@ -473,7 +473,7 @@ return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <WhiteTexture>Health Factor</WhiteTexture>,
+                      left: <PurpleTexture>Health Factor</PurpleTexture>,
                       right: (
                         <div style={{ textAlign: "right" }}>
                           <GreenTexture>
