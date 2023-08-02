@@ -1,39 +1,11 @@
-const {
-  tokenIn: tokenInProp,
-  tokenOut: tokenOutProp,
-  amountIn,
-  tokenOutDecimals,
-  loadRes,
-  dex,
-} = props;
-
-const ethAddress = "0x0000000000000000000000000000000000000000";
-
-const tokenIn =
-  tokenInProp === ethAddress
-    ? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9"
-    : tokenInProp;
-
-const tokenOut =
-  tokenOutProp === ethAddress
-    ? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9"
-    : tokenOutProp;
+const { tokenIn, tokenOut, amountIn, tokenOutDecimals, loadRes, dex } = props;
 
 State.init({ res: { tokenIn, tokenOut, amountIn, dex } });
-
-if (tokenIn === tokenOut) {
-  loadRes({
-    estimate: Big(amountIn).div(Big(10).pow(18)).toFixed(),
-  });
-
-  return "";
-}
 
 const middlePool =
   props.middlePool ?? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
 
-// const useMiddlePool = tokenIn !== middlePool && tokenOut !== middlePool;
-const useMiddlePool = false;
+const useMiddlePool = tokenIn !== middlePool && tokenOut !== middlePool;
 
 const optionDirectSwap = {
   name: `directSwap`,
@@ -65,6 +37,8 @@ if (state.res.amountIn !== amountIn || state.res.dex !== dex) {
   });
 }
 
+console.log("swapOptions: ", swapOptions);
+
 const quoterContractId =
   props.quoterContractId ?? "0x55BeE1bD3Eb9986f6d2d963278de09eE92a3eF1D";
 const sqrtPriceLimitX96 = props.sqrtPriceLimitX96 ?? 0;
@@ -94,7 +68,9 @@ const getEstimate = (path, name) => {
       data: encodedData,
     })
     .then((data) => {
+      console.log("dataquote: ", data);
       const decodedData = iface.decodeFunctionResult("quoteExactInput", data);
+
       // decodedData = [amountOut, fee]
       const amountOut = decodedData[0];
       const fee = decodedData[1];
@@ -111,22 +87,11 @@ const getEstimate = (path, name) => {
     });
 };
 
-const qs = `${amountIn}-${tokenIn}-${tokenOut}-${dex}`;
-if (qs === state.qs && !!state.res?.[option.name]) {
-  return "";
-} else {
-  State.update({
-    qs,
-  });
-
-  if (swapOptions.some((option) => !option.path)) {
-    return;
-  }
-
-  swapOptions.map((option) => {
+swapOptions.map((option) => {
+  if (state.res[option.name] === undefined) {
     getEstimate(option.path, option.name);
-  });
-}
+  }
+});
 
 const allDataReceived = swapOptions.reduce(
   (accumulator, option) => accumulator && state.res[option.name] !== undefined,
@@ -153,4 +118,6 @@ if (state.res !== undefined && allDataReceived) {
   }
 }
 
-return "";
+console.log("on final return");
+
+return <div />;
