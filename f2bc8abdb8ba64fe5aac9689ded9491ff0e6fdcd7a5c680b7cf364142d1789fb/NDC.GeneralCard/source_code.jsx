@@ -48,6 +48,10 @@ function getPublicationDate(creationTimestamp) {
 function getUserName() {
   const profile = Social.getr(`${accountId}/profile`);
 
+  if (!profile) {
+    return "Loading...";
+  }
+
   return profile.name;
 }
 
