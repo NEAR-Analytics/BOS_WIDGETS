@@ -1,4 +1,4 @@
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "v005.mpip.near";
 const accountId = props.accountId ?? context.accountId;
 const authorId = props.authorId || "manzanal.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
@@ -471,19 +471,18 @@ return (
         />
       </WrapperLeft>
       <WrapperRight>
-        {accountId && (
-          <div className="w-100">
-            <Widget
-              src={`${authorId}/widget/Governance.Proposal.VoteCard`}
-              props={{
-                proposal: { ...state.proposal, status: state.status },
-                authorId,
-                contractId,
-              }}
-            />
-          </div>
-        )}
-
+        (
+        <div className="w-100">
+          <Widget
+            src={`${authorId}/widget/Governance.Proposal.VoteCard`}
+            props={{
+              proposal: { ...state.proposal, status: state.status },
+              authorId,
+              contractId,
+            }}
+          />
+        </div>
+        )
         <div className="w-100">
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
