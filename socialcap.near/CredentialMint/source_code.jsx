@@ -3,7 +3,7 @@ const mintButton = props.mintButton ?? "Mint Credential";
 const showDetails = props.showDetails ?? true;
 const receiver = props.receiver ?? accountId;
 const apiUrl = props.apiUrl ?? "http://localhost:3080/api";
-const credentialUid = props.uid;
+const credentialUid = props.uid ?? "caaaaff63a48400a9ce57f3ad6960001";
 
 if (!accountId) {
   return "Please, login";
@@ -20,12 +20,10 @@ if (profile === null) {
   return "Loading";
 }
 
-const getCredential = fetch(
-  `${apiUrl}/query/get_credential?uid=${credentialUid}`,
-  {
-    method: "GET",
-  }
-);
+const getCredential = fetch(`${apiUrl}/query/get_credential`, {
+  method: "GET",
+  body: JSON.stringify({ params: { uid: credentialUid } }),
+});
 if (!getCredential) {
   return "Loading...";
 }
