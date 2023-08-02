@@ -4,8 +4,8 @@
 //   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 // https://social.near.page/p/readylayerone.near/95080094
 // https://social.near.page/p/readylayerone.near/95862539
-// const blockHeight = 97835986;
-const blockHeight = 95080094;
+const blockHeight = 97835986;
+// const blockHeight = 95080094;
 // const blockHeight = 95862539;
 const accountId = "readylayerone.near";
 const content =
@@ -21,14 +21,30 @@ const item = {
   path: `${accountId}/post/main`,
   blockHeight,
 };
-const formatDate = (timestamp) => {
-  const date = new Date(timestamp);
-  const month = date.getMonth() + 1; // Months are zero-based, so we add 1
-  const day = date.getDate();
-  const year = date.getFullYear();
-  return `${month}/${day}/${year}`;
-};
-const formattedDate = formatDate(Date.now());
+// const formatDate = (timestamp) => {
+//   const date = new Date(timestamp);
+//   const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+//   const day = date.getDate();
+//   const year = date.getFullYear();
+//   return `${month}/${day}/${year}`;
+// };
+const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
+if (!res) {
+  return "Loading";
+}
+if (!res.ok || res.body === "null") {
+  return "unknown";
+}
+
+const timeMs = parseFloat(res.body);
+
+const date = new Date(timeMs);
+const postDate = `${date.toLocaleDateString([], {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+})}`;
+// const formattedDate = formatDate(timeMs);
 const nftDescription = state?.content.text ?? "BOS minting powered by GenaDrop";
 
 const nftTitle = accountId + " " + formatDate;
@@ -53,6 +69,7 @@ const getImageUrl = () => {
       Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
     ),
   });
+  console.log(postDate);
   return state?.content?.image.ipfs_cid
     ? State.update({
         imageUrl: `https://ipfs.near.social/ipfs/${state?.content?.image.ipfs_cid}`,
@@ -63,7 +80,7 @@ const getImageUrl = () => {
 };
 
 getImageUrl();
-console.log("content: ", state.content.image);
+// console.log("content: ", state.content);
 const link = `#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const nftMint = () => {
@@ -105,7 +122,7 @@ const nftMint = () => {
     }, 3000);
   } else {
     const metadata = {
-      name: state.profile.name || accountId.split(".near")[0],
+      name: `${state.profile.name || accountId.split(".near")[0]}${postDate}`,
       description: `${state.description.trim().slice(0, 140)}...`,
       properties: [],
       image: state.imageUrl,
