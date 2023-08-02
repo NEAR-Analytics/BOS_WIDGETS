@@ -1,81 +1,37 @@
-const contractId = props.contractId || "v006.mpip.near";
-const accountId = props.accountId ?? context.accountId;
+const accountId = context.accountId;
 const authorId = props.authorId || "manzanal.near";
+const contractId = props.contractId || "v006.mpip.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
-const transactionHashes = props.transactionHashes;
-const transactionHashesIsHandled = props.transactionHashesIsHandled;
-const mpip_id = props.mpip_id ? parseInt(props.mpip_id) : null;
-const update = props.update;
-if (mpip_id == null) return "Proposal Id not defined";
+const GET_VP_METHOD = "get_all_locking_positions";
+const proposal = props.proposal;
 
-const commentItemIndex = { contractId, mpip: `MPIP-${mpip_id}` };
-const initState = {
-  proposal: {},
-  proposalIsFetched: false,
-  status: null,
-  statusIsFetched: false,
-  proposalVotes: {},
+State.init({
+  memo: "",
+  memoError: "",
+  proposalVotes: null,
   proposalVotesAreFetched: false,
-  proposalIsEditable: false,
-  proposalIsEditableIsFetched: false,
-  isQuorumReached: false,
-  isQuorumReachedIsFetched: false,
-  isProposalSucceeded: false,
-  isProposalSucceededIsFetched: false,
-  isProposalActiveOrDraft: false,
-  isProposalActiveOrDraftIsFetched: false,
-  showReply: false,
-  totalVotingPower: null,
-  totalVotingPowerIsFetched: false,
-};
-State.init(initState);
-if (transactionHashesIsHandled && transactionHashes == false)
-  return <>Loading...</>;
+  votingPowerYocto: null,
+  votingPower: null,
+  votingPowerIsFetched: false,
+  hasVoted: null,
+  userVote: null,
+  hasVotedIsFetched: false,
+  userVoteIsFetched: false,
+});
 
-if (transactionHashes && !transactionHashesIsHandled) {
-  const statusResult = fetch("https://rpc.mainnet.near.org", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: "dontcare",
-      method: "tx",
-      params: [transactionHashes, accountId],
-    }),
-  });
+const yoctoToNear = (amountYocto) =>
+  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
 
-  if (
-    statusResult.body.result.status &&
-    Object.keys(statusResult.body.result.status)[0] == "SuccessValue"
-  ) {
-    update({ transactionHashesIsHandled: true });
-    State.update({ ...initState });
-  }
-}
-
-if (!state.proposalIsFetched) {
-  Near.asyncView(contractId, "get_proposal", { mpip_id }, "final", false).then(
-    (proposal) => State.update({ proposal, proposalIsFetched: true })
-  );
-}
-
-if (!state.statusIsFetched) {
-  Near.asyncView(
-    contractId,
-    "get_proposal_state",
-    { mpip_id },
-    "final",
-    false
-  ).then((status) => State.update({ status, statusIsFetched: true }));
-}
+const isProposalVotingFinished = () =>
+  proposal.status !== "Draft" &&
+  proposal.status !== Active &&
+  proposal.status !== "VotingProcess";
 
 if (!state.proposalVotesAreFetched) {
   Near.asyncView(
     contractId,
     "get_proposal_votes",
-    { mpip_id },
+    { mpip_id: proposal.mpip_id },
     "final",
     false
   ).then((proposalVotes) =>
@@ -83,441 +39,302 @@ if (!state.proposalVotesAreFetched) {
   );
 }
 
-if (!state.proposalIsEditableIsFetched) {
+if (!state.hasVotedIsFetched) {
   Near.asyncView(
     contractId,
-    "get_proposal_is_active_or_draft",
-    { mpip_id },
+    "has_voted",
+    { mpip_id: proposal.mpip_id, voter_id: accountId },
     "final",
     false
-  ).then((proposalIsEditable) =>
-    State.update({ proposalIsEditable, proposalIsEditableIsFetched: true })
-  );
+  ).then((hasVoted) => State.update({ hasVoted, hasVotedIsFetched: true }));
 }
 
-if (!state.isQuorumReachedIsFetched) {
-  Near.asyncView(
-    contractId,
-    "get_quorum_reached",
-    { mpip_id },
-    "final",
-    false
-  ).then((isQuorumReached) =>
-    State.update({ isQuorumReached, isQuorumReachedIsFetched: true })
-  );
-}
-
-if (!state.isProposalSucceededIsFetched) {
-  Near.asyncView(
-    contractId,
-    "get_proposal_vote_succeeded",
-    { mpip_id },
-    "final",
-    false
-  ).then((isProposalSucceeded) =>
-    State.update({ isProposalSucceeded, isProposalSucceededIsFetched: true })
-  );
-}
-
-if (!state.totalVotingPowerIsFetched) {
+if (!state.votingPowerIsFetched) {
   Near.asyncView(
     META_VOTE_CONTRACT_ID,
-    "get_total_voting_power",
-    {},
+    GET_VP_METHOD,
+    {
+      voter_id: context.accountId,
+    },
     "final",
     false
-  ).then((totalVotingPower) =>
-    State.update({ totalVotingPower, totalVotingPowerIsFetched: true })
-  );
+  ).then((allLockingPositions) => {
+    const votingPower = allLockingPositions.reduce(
+      (accumulator, lockingPosition) =>
+        accumulator + parseInt(lockingPosition.voting_power),
+      0
+    );
+    const votingPowerYocto = votingPower.toLocaleString("fullwide", {
+      useGrouping: false,
+    });
+    State.update({
+      votingPower: yoctoToNear(votingPowerYocto),
+      votingPowerYocto:
+        yoctoToNear(votingPowerYocto) + "000000000000000000000000",
+      votingPowerIsFetched: true,
+    });
+  });
 }
 
-if (!state.isProposalActiveOrDraftIsFetched) {
+if (!state.userVoteIsFetched) {
   Near.asyncView(
     contractId,
-    "get_proposal_is_active_or_draft",
-    { mpip_id },
+    "get_my_vote",
+    { mpip_id: proposal.mpip_id, voter_id: accountId },
     "final",
     false
-  ).then((isProposalActiveOrDraft) =>
-    State.update({
-      isProposalActiveOrDraft,
-      isProposalActiveOrDraftIsFetched: true,
-    })
-  );
+  ).then((userVote) => State.update({ userVote, userVoteIsFetched: true }));
 }
 
-const onVotingPeriod = () => state.status == "VotingProcess";
+if (
+  !state.proposalVotesAreFetched ||
+  !state.votingPowerIsFetched ||
+  !state.hasVotedIsFetched ||
+  !state.userVoteIsFetched
+)
+  return <>Loading...</>;
 
-const formatStatus = (status) => {
-  switch (status) {
-    case "VotingProcess":
-      return "IN PROGRESS";
-    case "Draft":
-      return "DRAFT";
-    case "Active":
-      return "ACTIVE";
-    case "Accepted":
-      return "SUCCEEDED";
-    case "Rejected":
-      return "REJECTED";
-    case "Canceled":
-      return "CANCELED";
+const handleVote = (vote) => {
+  // check if user already vote
+  if (state.hasVoted) {
+    if (state.userVote.vote_type == vote && !isProposalVotingFinished()) {
+      Near.call([
+        {
+          contractName: contractId,
+          methodName: "remove_vote_proposal",
+          args: {
+            mpip_id: props.proposal.mpip_id,
+          },
+          gas: 300000000000000,
+        },
+      ]);
+    }
+  } else {
+    Near.call([
+      {
+        contractName: contractId,
+        methodName: "vote_proposal",
+        args: {
+          mpip_id: props.proposal.mpip_id,
+          vote,
+          memo: state.memo,
+        },
+        gas: 300000000000000,
+      },
+    ]);
   }
 };
 
-const statusColor =
-  state.status === "Accepted" || state.status == "Executed"
-    ? "#28a930"
-    : state.status === "VotingProcess"
-    ? "#58a1ff"
-    : state.status === "Rejected" || state.status == "Canceled"
-    ? "#dc3545"
-    : "#6c757d";
-
 const Container = styled.div`
-  margin: 16px auto; 
-  width:100%;
   display: flex;
   flex-direction: column;
-  min-height: 500px;
-  justify-content: start; 
+  align-items: flex-start;
+  padding: 0;
+  gap: 1em;
+  width: 100%;
+  padding: 1.25em 0.85em;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  border-radius: 16px;
+  background: #ffffff;
+  & h4 {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #797777;
+  }
 `;
 
-const ContentContainer = styled.div`
-  width:100%;
+const VotesContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 24px;
-  min-height: 500px;
+  justify-content: space-around;
+  padding: 0;
+  gap: 1em;
+  width: 100%;
 
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
-
-  .status {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    color: ${statusColor};
-  }
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
-const WrapperLeft = styled.div`
-  margin: 16px auto;
-  width:100%;
-  background-color: #fff;
-  padding: 24px;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-height: 500px;
 
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
-
-  .status {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    color: ${statusColor};
-  }
-`;
-
-const WrapperRight = styled.div`
-  margin: 16px auto;
-  width:100%;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-height: 500px;
-
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
-
-  .status {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    color: ${statusColor};
-  }
-`;
-
-const BackButton = styled.button`
-  border: none;
-  background: none;
-  color: #7e868c;
-  transform: translate(1em, -1em);
-`;
-
-const ButtonsContainer = styled.div`
+const Heading = styled.div`
   display: flex;
   flex-direction: row;
-  @media (max-width: 768px) {
-    flex-direction: column;  
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+  width: 100%;
+
+  & div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+
+    & > h2 {
+      font-family: "FK Grotesk";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 25px;
+      line-height: 36px;
+      color: #11181c;
+    }
+
+    & > span {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 19px;
+      line-height: 23px;
+      color: #7e868c;
+    }
   }
 `;
 
-const onStartVotingButtonClick = () => {
-  Near.call([
-    {
-      contractName: contractId,
-      methodName: "start_voting_period",
-      args: {
-        mpip_id,
-      },
-      gas: 300000000000000,
-    },
-  ]);
+const Memo = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  padding: 0px;
+  width: 75%;
+`;
+const voted = (type) => {
+  return state.userVote.vote_type == type;
 };
 
-const onCancelButtonClick = () => {
-  Near.call([
-    {
-      contractName: contractId,
-      methodName: "cancel_proposal",
-      args: {
-        mpip_id,
-      },
-      gas: 300000000000000,
-    },
-  ]);
-};
+const voteButtonText = state.hasVoted ? "Remove Vote" : "Vote";
+const totalVotes =
+  state.proposalVotes.for_votes +
+  state.proposalVotes.againstVotes +
+  state.proposalVotes.abstainVotes;
 
-const isProposalCreator = () => {
-  return state.proposal.creator_id == accountId;
-};
+if (!state.hasVoted && parseInt(state.votingPower) <= 0) {
+  return (
+    <Container>
+      <Heading>
+        <div>
+          <h2>Vote</h2>
+        </div>
+      </Heading>
+      <h5>Not Enough Voting Power to Vote.</h5>
+    </Container>
+  );
+}
 
-if (
-  !state.proposalIsFetched ||
-  !state.statusIsFetched ||
-  !state.proposalVotesAreFetched ||
-  !state.proposalIsEditableIsFetched
-)
-  return <>Loading...</>;
+if (proposal.status != "VotingProcess") {
+  return (
+    <Container>
+      <Heading>
+        <div>
+          <h2>Vote</h2>
+        </div>
+      </Heading>
+      <h5>Not open to voting.</h5>
+    </Container>
+  );
+}
+
+if (!accountId) {
+  return (
+    <Container>
+      <Heading>
+        <div>
+          <h2>Vote</h2>
+        </div>
+      </Heading>
+      <h5>You must login to vote.</h5>
+    </Container>
+  );
+}
 
 return (
   <Container>
-    <div>
+    <Heading>
+      <div>
+        <h2>Vote</h2>
+      </div>
+    </Heading>
+    <Memo>
+      {state.hasVoted ? (
+        <h5>memo: {state.userVote.memo}</h5>
+      ) : (
+        <Widget
+          src={`${authorId}/widget/Common.Inputs.Text`}
+          props={{
+            label: "memo",
+            placeholder: "Write a memo for your vote (optional)",
+            value: state.memo,
+            onChange: (memo) => State.update({ memo }),
+            validate: () => {
+              if (state.memo.length > 40) {
+                State.update({
+                  memoError: "Memo must be less than 40 characters",
+                });
+                return;
+              }
+              State.update({ memoError: "" });
+            },
+            error: state.memoError,
+          }}
+        />
+      )}
+    </Memo>
+    <VotesContainer>
       <Widget
         src={`${authorId}/widget/Common.Button`}
         props={{
+          disabled: state.hasVoted && !voted("For"),
           children: (
             <>
-              <i class="bi bi-arrow-left" />
-              Back
+              <i class="bi bi-envelope-check" />
+              {state.hasVoted && voted("For") ? "Remove Vote For" : "Vote For"}
             </>
           ),
-          onClick: () => State.update({ tabs: "home", content: "" }),
+          onClick: () => handleVote("For"),
           className: "mt-2",
           variant: "primary",
-          href: `/${authorId}/widget/Governance.Index?tab=home`,
         }}
       />
-    </div>
-    <ContentContainer>
-      <WrapperLeft>
-        {state.proposalIsEditable && isProposalCreator() && (
-          <ButtonsContainer>
-            <Widget
-              src={`${authorId}/widget/Common.Button`}
-              props={{
-                children: (
-                  <>
-                    <i class="bi bi-pencil-square" />
-                    Edit
-                  </>
-                ),
-                onClick: () => State.update({ mpip_id }),
-                className: "mt-2",
-                variant: "primary",
-                href: `/${authorId}/widget/Governance.Proposal.Create.Index?edit=true&mpip_id=${mpip_id}`,
-              }}
-            />
-            <Widget
-              src={`${authorId}/widget/Common.Button`}
-              props={{
-                children: (
-                  <>
-                    <i class="bi bi-trash" />
-                    Cancel
-                  </>
-                ),
-                onClick: () => () => onCancelButtonClick(),
-                className: "mt-2",
-                variant: "primary",
-              }}
-            />
-            <Widget
-              src={`${authorId}/widget/Common.Button`}
-              props={{
-                children: (
-                  <>
-                    <i class="bi bi-envelope-open" />
-                    Start Voting
-                  </>
-                ),
-                onClick: () => onStartVotingButtonClick(),
-                className: "mt-2",
-                variant: "primary",
-              }}
-            />
-          </ButtonsContainer>
-        )}
 
-        <div className="d-flex justify-content-end align-items-center">
-          <div className="d-flex justify-content-between align-items-center">
-            <span className="status">{formatStatus(state.status)}</span>
-          </div>
-        </div>
+      <Widget
+        src={`${authorId}/widget/Common.Button`}
+        props={{
+          disabled: state.hasVoted && !voted("Abstain"),
+          children: (
+            <>
+              <i class="bi bi-envelope" />
+              {state.hasVoted && voted("Abstain")
+                ? "Remove Vote Abstain"
+                : "Vote Abstain"}
+            </>
+          ),
+          onClick: () => handleVote("Abstain"),
+          className: "mt-2",
+          variant: "primary",
+        }}
+      />
 
-        <div className="d-flex flex-row gap-1 justify-content-between">
-          <h3>
-            Prop {state.proposal.mpip_id} - {state.proposal.title}
-          </h3>
-        </div>
-        <div>
-          <h4>{state.proposal.short_description}</h4>
-        </div>
-        <div className="d-flex flex-row gap-1 align-items-center">
-          <h5>by </h5>
-          <Widget
-            src="mob.near/widget/Profile.ShortInlineBlock"
-            props={{ accountId: state.proposal.creator_id, tooltip: true }}
-          />
-        </div>
-        <div>
-          <h5>Description</h5>
-          <p>{state.proposal.body}</p>
-        </div>
-        <div
-          className="d-flex flex-wrap align-items-start"
-          style={{
-            rowGap: "16px",
-            columnGap: "48px",
-          }}
-        ></div>
-        <Widget
-          src={`${authorId}/widget/Governance.Proposal.DiscussionCard`}
-          props={{
-            commentsOpen: state.isProposalActiveOrDraft,
-            blockHeight: blockHeight,
-            onCommentButtonClick: () =>
-              State.update({ showReply: !state.showReply }),
-            onComment: () => State.update({ showReply: false }),
-            showReply: state.showReply,
-            commentItemIndex: commentItemIndex,
-            highlightComment: props.highlightComment,
-            commentsLimit: props.commentsLimit,
-            authorId,
-            contractId,
-          }}
-        />
-      </WrapperLeft>
-      <WrapperRight>
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VoteCard`}
-            props={{
-              proposal: { ...state.proposal, status: state.status },
-              authorId,
-              contractId,
-            }}
-          />
-        </div>
-
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
-            props={{
-              startDate: state.proposal.vote_start_timestamp,
-              endDate: state.proposal.vote_end_timestamp,
-              authorId,
-              contractId,
-            }}
-          />
-        </div>
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotingResultsCard`}
-            props={{
-              yesVotes: state.proposalVotes.for_votes,
-              noVotes: state.proposalVotes.against_votes,
-              abstainVotes: state.proposalVotes.abstain_votes,
-              quorum: state.proposal.v_power_quorum_to_reach,
-              isQuorumReached: state.isQuorumReached,
-              isProposalSucceeded: state.isProposalSucceeded,
-              onVotingPeriod,
-              authorId,
-              contractId,
-            }}
-          />
-        </div>
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotesCard`}
-            props={{
-              accountVotes: state.proposalVotes.has_voted,
-            }}
-          />
-        </div>
-      </WrapperRight>
-    </ContentContainer>
+      <Widget
+        src={`${authorId}/widget/Common.Button`}
+        props={{
+          disabled: state.hasVoted && !voted("Against"),
+          children: (
+            <>
+              <i class="bi bi-envelope-dash" />
+              {state.hasVoted && voted("Against")
+                ? "Remove Vote Against"
+                : "Vote Against"}
+            </>
+          ),
+          onClick: () => handleVote("Against"),
+          className: "mt-2",
+          variant: "primary",
+        }}
+      />
+    </VotesContainer>
   </Container>
 );
