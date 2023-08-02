@@ -67,7 +67,6 @@ if (props.transactionHashes) {
     Object.keys(statusResult.body.result.status)[0] == "SuccessValue"
   ) {
     State.update({ openModal: true });
-    update({ transactionHashesIsHandled: true });
   }
 }
 
