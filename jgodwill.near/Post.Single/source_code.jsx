@@ -150,7 +150,9 @@ const nftMint = () => {
           args: {
             token_id: `${Date.now()}`,
             metadata: {
-              title: state.profile.name || accountId.split(".near")[0],
+              title: `${
+                state.profile.name || accountId.split(".near")[0]
+              }${postDate}`,
               description: `${state.description.trim().slice(0, 140)}...`,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
