@@ -172,10 +172,7 @@ function updateGas() {
 
 updateGas();
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
-const questionSwitch = Storage.get(
-  "zkevm-aave-question-switch",
-  "guessme.near/widget/ZKEVM.switch_quest_card"
-);
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "guessme.near/widget/ZKEVM.switch_quest_card");
 
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
@@ -256,10 +253,7 @@ function supplyWithPermit(user, reserve, amount, deadline, rawSig) {
     "supplyWithPermit(address,uint256,address,uint16,uint256,uint8,bytes32,bytes32)"
   ](reserve, amount, user, 0, deadline, sig.v, sig.r, sig.s);
 }
-const uuid = Storage.get(
-  "zkevm-warm-up-uuid",
-  "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-);
+
 function depositETH(amount) {
   State.update({
     loading: true,
@@ -310,11 +304,10 @@ function depositETH(amount) {
           action_tokens: JSON.stringify([`${symbol}`]),
           action_amount: null,
           account_id: eth_account_id,
-          account_info: uuid,
+          account_info: "",
           template: "AAVE",
-          action_switch: questionSwitch == "on" ? "1" : "0",
+          action_switch: questionSwitch == "on" ? '1': '0',
           action_status: status === 1 ? "Success" : "Failed",
-          action_network_id: "zkEVM",
           tx_id: transactionHash,
         });
       });
@@ -396,8 +389,7 @@ function update() {
 }
 
 update();
-const is_disabled =
-  state.loading || Big(state.amount || 0).lte(0) || Big(balance).lte(0);
+const is_disabled = state.loading || Big(state.amount || 0).lte(0) || Big(balance).lte(0);
 function depositErc20(amount) {
   State.update({
     loading: true,
@@ -438,11 +430,10 @@ function depositErc20(amount) {
                 action_tokens: JSON.stringify([`${symbol}`]),
                 action_amount: null,
                 account_id: eth_account_id,
-                account_info: uuid,
+                account_info: "",
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? "1" : "0",
+                action_switch: questionSwitch == "on" ? '1': '0',
                 action_status: status === 1 ? "Success" : "Failed",
-                action_network_id: "zkEVM",
                 tx_id: transactionHash,
               });
             });
@@ -488,11 +479,10 @@ function depositErc20(amount) {
                 action_tokens: JSON.stringify([`${symbol}`]),
                 action_amount: null,
                 account_id: eth_account_id,
-                account_info: uuid,
+                account_info: "",
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? "1" : "0",
+                action_switch: questionSwitch == "on" ? '1': '0',
                 action_status: status === 1 ? "Success" : "Failed",
-                action_network_id: "zkEVM",
                 tx_id: transactionHash,
               });
             });
@@ -576,19 +566,14 @@ const changeValue = (value) => {
   }
   State.update({ amount: value });
 };
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(param_body),
+    });
 }
 return (
   <>
@@ -637,8 +622,8 @@ return (
                           }}
                         >
                           {isValid(balance) && balance !== "-"
-                            ? Big(balance).toFixed(7)
-                            : balance}
+                              ? Big(balance).toFixed(7)
+                              : balance}
                         </span>
                       </GrayTexture>
                     </BalanceContainer>
@@ -646,7 +631,7 @@ return (
                 ),
               }}
             />
-            <div className="splitDiv">
+             <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <Widget
@@ -659,7 +644,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <WhiteTexture>Supply APY</WhiteTexture>,
+                        left: <PurpleTexture>Supply APY</PurpleTexture>,
                         right: (
                           <WhiteTexture>
                             {(Number(supplyAPY) * 100).toFixed(2)}%
@@ -670,7 +655,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <WhiteTexture>Collateralization</WhiteTexture>,
+                        left: <PurpleTexture>Collateralization</PurpleTexture>,
                         right: usageAsCollateralEnabled ? (
                           <GreenTexture>Enabled</GreenTexture>
                         ) : (
@@ -681,7 +666,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <WhiteTexture>Health Factor</WhiteTexture>,
+                        left: <PurpleTexture>Health Factor</PurpleTexture>,
                         right: (
                           <div style={{ textAlign: "right" }}>
                             <GreenTexture>
