@@ -1,7 +1,7 @@
 const ModalOverlay = styled.div`
   position: absolute;
   left: 58px;
-  top: 170px;
+  top: 200px;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   z-index: 100;
