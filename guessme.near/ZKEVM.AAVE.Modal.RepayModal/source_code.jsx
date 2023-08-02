@@ -40,16 +40,15 @@ const RepayContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  .splitDiv {
-    height: 1px;
-    .splitLine {
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: 100%;
-      border-top: 1px solid #332c4b;
-    }
-  }
+  .splitDiv{
+    height:1px;
+   .splitLine{
+     position:absolute;
+     left:0;
+     right:0;
+     width:100%;
+     border-top:1px solid #332C4B;
+   }
 `;
 
 const TokenTexture = styled.div`
@@ -172,10 +171,7 @@ function updateGas() {
 }
 
 updateGas();
-const questionSwitch = Storage.get(
-  "zkevm-aave-question-switch",
-  "guessme.near/widget/ZKEVM.switch_quest_card"
-);
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "guessme.near/widget/ZKEVM.switch_quest_card");
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 
 function bigMin(_a, _b) {
@@ -402,10 +398,7 @@ function signERC20Approval(user, reserve, tokenName, amount, deadline) {
     return Ethers.provider().send("eth_signTypedData_v4", [user, dataToSign]);
   });
 }
-const uuid = Storage.get(
-  "zkevm-warm-up-uuid",
-  "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-);
+
 /**
  *
  * @param {*} rawSig signature from signERC20Approval
@@ -453,11 +446,10 @@ function repayERC20(shownAmount, actualAmount) {
                 action_tokens: JSON.stringify([`${symbol}`]),
                 action_amount: null,
                 account_id: eth_account_id,
-                account_info: uuid,
+                account_info: "",
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? "1" : "0",
+                action_switch: questionSwitch == "on" ? '1': '0',
                 action_status: status === 1 ? "Success" : "Failed",
-                action_network_id: "zkEVM",
                 tx_id: transactionHash,
               });
             });
@@ -516,11 +508,10 @@ function repayERC20(shownAmount, actualAmount) {
                   action_tokens: JSON.stringify([`${symbol}`]),
                   action_amount: null,
                   account_id: eth_account_id,
-                  account_info: uuid,
+                  account_info: "",
                   template: "AAVE",
-                  action_switch: questionSwitch == "on" ? "1" : "0",
+                  action_switch: questionSwitch == "on" ? '1': '0',
                   action_status: status === 1 ? "Success" : "Failed",
-                  action_network_id: "zkEVM",
                   tx_id: transactionHash,
                 });
               });
@@ -580,11 +571,10 @@ function repayETH(shownAmount, actualAmount) {
               action_tokens: JSON.stringify([`${symbol}`]),
               action_amount: null,
               account_id: eth_account_id,
-              account_info: uuid,
+              account_info: "",
               template: "AAVE",
-              action_switch: questionSwitch == "on" ? "1" : "0",
+              action_switch: questionSwitch == "on" ? '1': '0',
               action_status: status === 1 ? "Success" : "Failed",
-              action_network_id: "zkEVM",
               tx_id: transactionHash,
             });
           });
@@ -593,22 +583,16 @@ function repayETH(shownAmount, actualAmount) {
     })
     .catch(() => State.update({ loading: false }));
 }
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add", {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
 }
-const is_disabled =
-  state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
+const is_disabled = state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
 return (
   <>
     <Widget
@@ -678,7 +662,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <WhiteTexture>Remaining Debt</WhiteTexture>,
+                        left: <PurpleTexture>Remaining Debt</PurpleTexture>,
                         right: (
                           <div style={{ textAlign: "right" }}>
                             <DeepPurpleTexture>
@@ -725,7 +709,7 @@ return (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <WhiteTexture>Health Factor</WhiteTexture>,
+                        left: <PurpleTexture>Health Factor</PurpleTexture>,
                         right: (
                           <div style={{ textAlign: "right" }}>
                             <GreenTexture>
@@ -749,7 +733,7 @@ return (
                 ),
               }}
             />
-            <div className="splitDiv">
+           <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -760,7 +744,7 @@ return (
             </div>
             {state.needApprove && (
               <Widget
-                src={`guessme.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
+                src={`rref-bigboss.near/widget/ZKEVM.AAVE.ModalPrimaryButton`}
                 props={{
                   config,
                   loading: state.loading,
@@ -797,7 +781,7 @@ return (
                   config,
                   children: `Repay ${symbol}`,
                   loading: state.loading,
-                  disabled: is_disabled,
+                  disabled:is_disabled,
                   onClick: () => {
                     const actualAmount = Big(
                       state.amount === shownMaxValue
