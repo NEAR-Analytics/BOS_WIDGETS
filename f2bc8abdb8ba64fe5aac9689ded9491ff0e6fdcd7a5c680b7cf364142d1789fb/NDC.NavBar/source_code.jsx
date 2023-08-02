@@ -109,6 +109,7 @@ const renderButton = (button, i) => {
           size: "big",
           onClick: () => {
             if (i == 0) {
+              console.log("in");
               const filter = { filterBy: "" };
               handleFilterArticles(filter);
             } else {
