@@ -36,6 +36,14 @@ const Button = styled.button`
   background-color:white;
   color: #191a1a;
   border-radius: 6px;
+  &:hover {
+    background-color: grey;
+    color: #191a1a;
+  }
+  &:active {
+    background-color: grey;
+    color: #191a1a;
+  }
 `;
 
 const TextField = styled.input`
