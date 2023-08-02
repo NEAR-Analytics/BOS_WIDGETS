@@ -1,5 +1,5 @@
 console.log({ props });
-const component = await props.renderComponent("i am the child", () =>
+const component = props.renderComponent("i am the child", () =>
   console.log("all done")
 );
 return (
