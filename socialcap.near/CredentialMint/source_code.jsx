@@ -20,10 +20,14 @@ if (profile === null) {
   return "Loading";
 }
 
-const getCredential = fetch(`${apiUrl}/query/get_credential`, {
-  method: "GET",
-  body: JSON.stringify({ params: { uid: credentialUid } }),
-});
+const getCredential = fetch(
+  `${apiUrl}/query/get_credential?params=${JSON.stringify({
+    uid: credentialUid,
+  })}`,
+  {
+    method: "GET",
+  }
+);
 if (!getCredential) {
   return "Loading...";
 }
