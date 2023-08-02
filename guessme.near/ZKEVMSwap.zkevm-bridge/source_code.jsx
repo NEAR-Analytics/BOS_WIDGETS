@@ -1,14 +1,12 @@
-const { layout, from } = props;
-
 const Container = styled.div`
   display: flex;
   gap: 8px;
+  width: 560px;
   flex-direction: column;
-  /* position: fixed; */
-  align-items: center;
-
-  z-index: 0;
-  width: 100%;
+  position: fixed;
+  left: 50%;
+  /* top: 50%; */
+  transform: translate(-50%);
 `;
 
 const tokens = [
@@ -150,19 +148,42 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-useEffect(() => {
-  State.init({
-    gasLimit: ethers.BigNumber.from("300000"),
-    add: false,
-    onChangeAdd: (add) => {
-      State.update({ add });
-    },
-    hide: true,
-  });
-}, []);
+State.init({
+  gasLimit: ethers.BigNumber.from("300000"),
+  isToastOpen: false,
+  add: false,
+  onChangeAdd: (add) => {
+    State.update({ add });
+  },
+  hide: true,
+});
 
-const { chainId, name, isContractAllowedToSpendToken } = state;
+const {
+  chainId,
+  name,
+  isContractAllowedToSpendToken,
+  variant,
+  title,
+  description,
+  isToastOpen,
+} = state;
 const isMainnet = chainId === 1 || chainId === 1101;
+
+function add_action(param_body) {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(param_body),
+  });
+}
+
+const onOpenChange = (v) => {
+  State.update({
+    isToastOpen: false,
+  });
+};
 
 const BRIDGE_CONTRACT_ADDRESS = isMainnet
   ? "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
@@ -188,25 +209,22 @@ const bridgeAbi = [
   },
 ];
 
-useEffect(() => {
-  if (!sender) return;
+if (sender) {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
       State.update({ chainId });
     })
     .catch((e) => {});
-}, [sender]);
+}
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
-const updateGasLimit = (params) => {
-  const { amount, token, network } = params;
+const updateGasLimit = (props) => {
+  console.log("updateGasLimit", props);
+  const { amount, token, network } = props;
   if (network !== "ethereum") return;
-  const amountBig = ethers.utils.parseUnits(
-    Big(amount).toString(),
-    token.decimals
-  );
+  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
 
   const bridgeContract = new ethers.Contract(
     BRIDGE_CONTRACT_ADDRESS,
@@ -223,24 +241,12 @@ const updateGasLimit = (params) => {
     });
 };
 
-const handleBridge = (params) => {
-  console.log("handleBridge", params);
-  const chainNames =
-    chainId === 1
-      ? ["Ethereum", "Polygon zkEVM"]
-      : ["Polygon zkEVM", "Ethereum"];
-  const toastText = `Bridge ${amount} ${token.symbol} from ${chainNames[0]} to ${chainNames[1]}`;
-
-  const toastId = props.toast?.loading({
-    title: toastText,
-  });
-  const { amount, token, network, permit } = params;
+const handleBridge = (props) => {
+  console.log("handleBridge", props);
+  const { amount, token, network, permit } = props;
   const networkId = network === "ethereum" ? 1 : 0;
 
-  const amountBig = ethers.utils.parseUnits(
-    Big(amount).toString(),
-    token.decimals
-  );
+  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
   // const permitData = permit || "0x";
   const permitData = "0x";
 
@@ -249,7 +255,7 @@ const handleBridge = (params) => {
     [networkId, sender, amountBig, token.address, true, permitData]
   );
 
-  updateGasLimit(params);
+  updateGasLimit(props);
 
   Ethers.provider()
     .getSigner()
@@ -257,51 +263,41 @@ const handleBridge = (params) => {
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
       value: token.symbol === "ETH" ? amountBig : "0",
-      gasLimit: 300000,
+      gasLimit,
     })
     .then((tx) => {
-      console.log("tx: ", tx);
-      tx.wait()
-        .then((receipt) => {
-          const { transactionHash, status } = receipt;
-
-          props.addAction?.({
-            type: "Bridge",
-            fromChainId: chainId,
-            toChainId: chainId === 1 ? 1101 : 1,
-            token: token,
-            amount: amount,
-            template: "native bridge",
-            add: state.add,
-            status,
-            transactionHash,
-          });
-          props.toast?.dismiss(toastId);
-          props.toast?.success({
-            title: "Bridge Successfully!",
-            text: toastText,
-            tx: transactionHash,
-            chainId,
-          });
-        })
-        .catch((err) => {
-          props.toast?.dismiss(toastId);
-          props.toast?.fail({
-            title: "Bridge Failed!",
-            text: toastText,
-            tx: tx.hash,
-            chainId,
-          });
-        });
+      consle.log("tx111111:", tx);
     })
-    .catch((err) => {
-      props.toast?.dismiss(toastId);
-      props.toast?.fail({
-        title: "Bridge Failed!",
-        text: err?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : toastText,
-      });
+    .catch((e) => {
+      console.log("bridge error:", e);
+      if (!e.code) {
+        State.update({
+          isToastOpen: true,
+          variant: "success",
+          title: "Asset bridged",
+          description:
+            "Please allow a few seconds and press the 'refresh list' button",
+        });
+
+        if (!state.add) return;
+
+        const uuid = Storage.get(
+          "zkevm-warm-up-uuid",
+          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
+        );
+
+        add_action({
+          action_title: `Bridge ${token.symbol} from ${
+            chainId === 1 ? "Ethereum" : "ZKEVM"
+          }`,
+          action_type: "Bridge",
+          action_tokens: JSON.stringify([`${token.symbol}`]),
+          action_amount: amount,
+          account_id: sender,
+          account_info: uuid,
+          template: "ZkEvm-bridge",
+        });
+      }
     });
 };
 
@@ -349,9 +345,9 @@ const setIsContractAllowedToSpendToken = ({ token, amount }) => {
     });
 };
 
-const setNonce = (params) => {
-  console.log("setNonce", params);
-  const { token } = params;
+const setNonce = (props) => {
+  console.log("setNonce", props);
+  const { token } = props;
   const signer = Ethers.provider().getSigner();
 
   const abi = [
@@ -374,9 +370,9 @@ const setNonce = (params) => {
     });
 };
 
-const handlePermit = (params) => {
-  console.log("handlePermit", params);
-  const { amount, token, network } = params;
+const handlePermit = (props) => {
+  console.log("handlePermit", props);
+  const { amount, token, network } = props;
 
   const domain = {
     chainId,
@@ -384,12 +380,6 @@ const handlePermit = (params) => {
     verifyingContract: token.address,
     version: "1",
   };
-
-  const toastText = `Permit ${amount} ${token.symbol}`;
-
-  const toastId = props.toast?.loading({
-    title: toastText,
-  });
 
   const types = {
     Permit: [
@@ -401,10 +391,7 @@ const handlePermit = (params) => {
     ],
   };
 
-  const amountBig = ethers.utils.parseUnits(
-    Big(amount).toString(),
-    token.decimals
-  );
+  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
 
   const values = {
     deadline: MAX_AMOUNT,
@@ -418,7 +405,10 @@ const handlePermit = (params) => {
     .getSigner()
     ._signTypedData(domain, types, values)
     .then((signature) => {
+      console.log("signature", signature);
       const { r, s, v } = ethers.utils.splitSignature(signature);
+
+      console.log({ r, s, v });
 
       const erc20Abi = [
         {
@@ -472,22 +462,15 @@ const handlePermit = (params) => {
         "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
         [sender, BRIDGE_CONTRACT_ADDRESS, amountBig, MAX_AMOUNT, v, r, s]
       );
-      props.toast?.dismiss(toastId);
+
+      console.log("permitData", permit);
       handleBridge({ ...props, permit });
     })
-    .catch((err) => {
-      props.toast?.dismiss(toastId);
-      props.toast?.fail({
-        title: "Permit Failed!",
-        text: err?.message?.includes("user rejected transaction")
-          ? "User rejected transaction"
-          : toastText,
-      });
-    });
+    .catch(() => {});
 };
 
-const approve = (params) => {
-  const { token, network, amount } = params;
+const approve = (props) => {
+  const { token, network, amount } = props;
   if (isContractAllowedToSpendToken) return;
 
   const abi = [
@@ -501,39 +484,43 @@ const approve = (params) => {
 
   return erc20contract.approve(
     BRIDGE_CONTRACT_ADDRESS,
-    Big(amount).times(Big(10).pow(token.decimals)).toFixed(0)
+    ethers.BigNumber.from(MAX_AMOUNT)
   );
 };
 
-const onConfirm = (params) => {
-  const { token, network, amount } = params;
+const onConfirm = (props) => {
+  const { token, network, amount } = props;
   if (token.symbol !== "ETH" && network === "ethereum") {
-    const res = approve();
+    const res = approve(props);
+    console.log("approve response:", res);
     if (res) {
       res
         .then((tx) => {
-          handlePermit();
+          console.log("approve", tx);
+          handlePermit(props);
         })
-        .catch((e) => {});
+        .catch((e) => {
+          console.log("approve err", e);
+        });
     } else {
-      handlePermit(params);
+      handlePermit(props);
     }
   } else {
-    handleBridge(params);
+    handleBridge(props);
   }
 };
 
-const onChangeAmount = (params) => {
-  console.log("onChangeAmount", params);
-  setIsContractAllowedToSpendToken(params);
+const onChangeAmount = (props) => {
+  console.log("onChangeAmount", props);
+  setIsContractAllowedToSpendToken(props);
 };
 
-const onUpdateToken = (params) => {
-  console.log("props: ", params);
-  console.log("onUpdateToken", params);
-  setIsContractAllowedToSpendToken(params);
-  setName(params.token);
-  setNonce(params);
+const onUpdateToken = (props) => {
+  console.log("props: ", props);
+  console.log("onUpdateToken", props);
+  setIsContractAllowedToSpendToken(props);
+  setName(props.token);
+  setNonce(props);
 };
 
 if (!sender) {
@@ -541,11 +528,11 @@ if (!sender) {
     <Widget
       src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
-        title: "Polygon zkEVM-Ethereum Bridge",
+        title: "zkEvm-Ethereum Bridge",
         src: "https://assets.ref.finance/images/zkevm-bridge.png",
         imgStyle: {
           width: "403px",
-          // height: "93px",
+          height: "93px",
         },
       }}
     />
@@ -555,11 +542,12 @@ if (chainId === undefined) return <div />;
 
 return (
   <>
-    <Container
-      style={{
-        alignItems: layout == "left" ? "start" : "center",
-      }}
-    >
+    <Container>
+      <Widget
+        src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
+        props={{ tokens }}
+      />
+
       <Widget
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-ui"
         props={{
@@ -573,21 +561,21 @@ return (
           updateHide: (hide) => State.update({ hide }),
         }}
       />
+
       <Widget
-        src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
-        props={{ tokens }}
+        src="ciocan.near/widget/toast"
+        props={{ open: isToastOpen, variant, title, description, onOpenChange }}
       />
-      {from !== "landing" && (
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            add: state.add,
-            onChangeAdd: state.onChangeAdd,
-            hide: state.hide,
-            source: props.source,
-          }}
-        />
-      )}
     </Container>
+
+    <Widget
+      src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+      props={{
+        add: state.add,
+        onChangeAdd: state.onChangeAdd,
+        hide: state.hide,
+        source: props.source,
+      }}
+    />
   </>
 );
