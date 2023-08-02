@@ -471,7 +471,6 @@ return (
         />
       </WrapperLeft>
       <WrapperRight>
-        (
         <div className="w-100">
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VoteCard`}
@@ -482,7 +481,7 @@ return (
             }}
           />
         </div>
-        )
+
         <div className="w-100">
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
