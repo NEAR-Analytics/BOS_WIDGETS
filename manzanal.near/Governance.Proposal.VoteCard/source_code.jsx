@@ -27,6 +27,19 @@ const isProposalVotingFinished = () =>
   proposal.status !== Active &&
   proposal.status !== "VotingProcess";
 
+if (!accountId) {
+  return (
+    <Container>
+      <Heading>
+        <div>
+          <h2>Vote</h2>
+        </div>
+      </Heading>
+      <h5>You must login to vote.</h5>
+    </Container>
+  );
+}
+
 if (!state.proposalVotesAreFetched) {
   Near.asyncView(
     contractId,
@@ -234,19 +247,6 @@ if (proposal.status != "VotingProcess") {
         </div>
       </Heading>
       <h5>Not open to voting.</h5>
-    </Container>
-  );
-}
-
-if (!accountId) {
-  return (
-    <Container>
-      <Heading>
-        <div>
-          <h2>Vote</h2>
-        </div>
-      </Heading>
-      <h5>You must login to vote.</h5>
     </Container>
   );
 }
