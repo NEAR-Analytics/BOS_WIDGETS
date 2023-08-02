@@ -36,7 +36,7 @@ State.init({
   toastMessage: "",
   showAlert: false,
   description: nftDescription,
-  title: nftTitle,
+  title: nftTitle.slice(0, 20),
   image,
   content,
   imageUrl: undefined,
