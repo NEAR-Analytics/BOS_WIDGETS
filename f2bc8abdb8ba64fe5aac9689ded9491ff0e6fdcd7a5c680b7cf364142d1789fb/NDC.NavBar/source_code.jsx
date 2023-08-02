@@ -84,6 +84,7 @@ const Pill = styled.div`
     line-height: 24px;
     color: black;
     cursor: pointer;
+    user-select: none;
 
     &:hover {
         color: #9333EA;
