@@ -156,7 +156,7 @@ const nftMint = () => {
               description: `${state.description.trim().slice(0, 140)}...`,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              media: `${state.imageUrl}`,
+              media: state.imageUrl,
 
               //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
