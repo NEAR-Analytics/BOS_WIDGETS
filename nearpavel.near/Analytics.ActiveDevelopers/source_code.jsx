@@ -43,7 +43,7 @@ const option = {
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: data.map((r) => new Date(r.collected_for_day).toLocaleDateString()),
+    data: data.map((r) => new Date(r.collected_for_day).toDateString()),
   },
   yAxis: {
     type: "value",
@@ -52,19 +52,16 @@ const option = {
     {
       name: "full_time_devs",
       type: "line",
-      stack: "Total",
       data: data.map((r) => r.full_time_devs),
     },
     {
       name: "part_time_devs",
       type: "line",
-      stack: "Total",
       data: data.map((r) => r.part_time_devs),
     },
     {
       name: "one_time_devs",
       type: "line",
-      stack: "Total",
       data: data.map((r) => r.one_time_devs),
     },
     {
