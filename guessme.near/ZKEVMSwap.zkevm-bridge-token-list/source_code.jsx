@@ -39,10 +39,6 @@ const CurrentToken = styled.div`
     position: absolute;
     right: 12px;
     top: 7px;
-
-    @media (max-width: 1023px) {
-      transform: scale(0.9);
-    }
   }
 `;
 
@@ -76,50 +72,11 @@ const BoxWrapper = styled.div`
     :hover {
       background: rgba(24, 26, 39, 0.3);
     }
-    &.disabled {
-      opacity: 0.3;
-    }
+
     span {
       position: absolute;
       right: 20px;
       top: 12px;
-    }
-  }
-
-  .overlay {
-    display: none;
-  }
-
-  .BoxWrapper-closeIcon {
-    display: none;
-  }
-
-  @media (max-width: 1023px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    .overlay {
-      position: fixed;
-      display: block;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: black;
-      opacity: 0.5;
-    }
-    .BoxWrapper-closeIcon {
-      display: block;
-      width: 100%;
-      text-align: right;
-      border-bottom: 1px solid #2e3046;
-      height: 40px;
-      padding: 0 30px;
-      img {
-        width: 12px;
-        height: 12px;
-      }
     }
   }
 `;
@@ -140,9 +97,6 @@ const arrowDown = (
     />
   </svg>
 );
-
-const closeIcon =
-  "https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq";
 
 const Img = styled.img`
   width: 32px;
@@ -182,23 +136,12 @@ return (
 
     {state.isListOpen && (
       <BoxWrapper>
-        <div className="overlay"></div>
-        <div className="BoxWrapper-closeIcon" onClick={onClose}>
-          <img src={closeIcon} alt="" />
-        </div>
         {tokens.map((t) => {
           return (
             <div
               key={"zkrvm-bridge-list-item-" + t.symbol}
-              className={`list-item ${
-                balances?.[t.symbol] && Big(balances[t.symbol]).eq(0)
-                  ? "disabled"
-                  : ""
-              }`}
+              className="list-item"
               onClick={() => {
-                if (balances?.[t.symbol] && Big(balances[t.symbol]).eq(0)) {
-                  return;
-                }
                 onSelect(t.symbol);
                 onClose();
               }}
