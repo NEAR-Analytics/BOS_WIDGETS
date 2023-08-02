@@ -13,6 +13,7 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
+// const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 
 const notifyAccountId = accountId;
 const item = {
@@ -40,12 +41,14 @@ State.init({
   image,
   content,
   imageUrl: undefined,
+  profile,
 });
 
 const hasImageInPost = state?.content?.image; // TO-DO change this to check if has image in post
 const getImageUrl = () => {
   State.update({
     description: state?.content?.text,
+    profile: Social.get(`${accountId}/profile/**`, "final"),
     content: JSON.parse(
       Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
     ),
@@ -102,10 +105,10 @@ const nftMint = () => {
     }, 3000);
   } else {
     const metadata = {
-      name: state.title,
+      name: state.profile.name || accountId.split(".near")[0],
       description: `${state.description.trim().slice(0, 140)}...`,
       properties: [],
-      image: `ipfs://${state?.content?.image.ipfs_cid}`,
+      image: state.imageUrl,
 
       //   image: `ipfs://${state.image.ipfs_cid}`,
       //   image: `ipfs://${state.image.cid}`,
@@ -130,7 +133,7 @@ const nftMint = () => {
           args: {
             token_id: `${Date.now()}`,
             metadata: {
-              title: state.title,
+              title: state.profile.name || accountId.split(".near")[0],
               description: `${state.description.trim().slice(0, 140)}...`,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
