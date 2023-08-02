@@ -29,10 +29,6 @@ const ModalContainer = styled.div`
   background: linear-gradient(0deg, #181a27, #181a27),
     linear-gradient(0deg, #332c4b, #332c4b);
 
-  @media (max-width: 1023px) {
-    width: 100%;
-  }
-
   color: white;
   padding-top: 16px;
   z-index: 999;
@@ -43,7 +39,7 @@ const ModalContainer = styled.div`
   padding-bottom: 8px;
   border: 1px solid #332c4b;
 
-  padding: 20px 30px;
+  padding: 20px;
 `;
 
 const ModalBackdrop = styled.div`
@@ -107,6 +103,7 @@ const assetList = assets
           },
           assetData: state.cache[tokenId],
           onClick: () => {
+            console.log(`${tokenId} selected`);
             if (props.onClick) {
               props.onClick(tokenId);
             }
