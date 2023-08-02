@@ -232,15 +232,12 @@ function getLastEditionsByArticle() {
   );
 
   let finalArticles = finalArticlesWithoutUsersFilters.filter((article) => {
-    if (state.filterBy.parameterName == "") {
-      true;
-    }
-    if (state.filterBy.parameterName == "tag") {
-      article.tags.includes(state.filterBy.parameterValue);
-    }
+    return article.tags.includes(state.filterBy.parameterValue);
   });
 
-  return finalArticles;
+  return state.filterBy.parameterName == "tag"
+    ? finalArticles
+    : finalArticlesWithoutUsersFilters;
 }
 
 const finalArticles = getLastEditionsByArticle();
@@ -263,6 +260,7 @@ function handleOpenArticle(article) {
       },
     });
 }
+a;
 
 function handleFilterArticles(filter) {
   State.update({
@@ -284,6 +282,7 @@ return (
         navigationButtons,
         displayedTabId: state.displayedTabId,
         writersWhiteList,
+        handleFilterArticles,
       }}
     />
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
