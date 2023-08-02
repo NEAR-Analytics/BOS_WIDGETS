@@ -107,7 +107,12 @@ const renderButton = (button) => {
         Button: {
           size: "big",
           onClick: () => {
-            stateUpdate({ displayedTabId: button.id });
+            if (button.id == 0) {
+              const filter = { filterBy: "", value: button.id };
+              handleFilterArticles(filter);
+            } else {
+              stateUpdate({ displayedTabId: button.id });
+            }
           },
           text: button.title,
           className: "primary dark",
