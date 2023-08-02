@@ -292,7 +292,7 @@ return (
       </Card>
       {showDetails && (
         <Card>
-          <h5>Crecential Details</h5>
+          <h5>Credential Details</h5>
           <Card>
             Title:
             <Input type="text" disabled value={state.title} />
