@@ -100,7 +100,7 @@ const StylessATag = styled.a`
 
 //=================================================Components====================================================
 
-const renderButton = (button, i) => {
+const renderButton = (button) => {
   return (
     <Widget
       src="rubycop.near/widget/NDC.StyledComponents"
@@ -108,13 +108,7 @@ const renderButton = (button, i) => {
         Button: {
           size: "big",
           onClick: () => {
-            console.log("in", i);
-            if (i == 0) {
-              const filter = { filterBy: "" };
-              handleFilterArticles(filter);
-            } else {
-              stateUpdate({ displayedTabId: button.id });
-            }
+            stateUpdate({ displayedTabId: button.id });
           },
           text: button.title,
           className: "primary dark",
@@ -188,7 +182,15 @@ return (
               ) : (
                 <li className="nav-item">
                   <Pill
-                    onClick={handleArticlesListNavigation(pill.title)}
+                    onClick={() => {
+                      //First one is set to be de "Home" one
+                      if (pill.id == 0) {
+                        const filter = { filterBy: "" };
+                        handleFilterArticles(filter);
+                      } else {
+                        handleArticlesListNavigation(pill.title);
+                      }
+                    }}
                     className={`nav-link ${
                       id === displayedTabId
                         ? "active text-decoration-underline"
