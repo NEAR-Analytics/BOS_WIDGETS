@@ -82,7 +82,8 @@ return (
           <b>NEAR Türkiye QUIZ</b>
         </h2>
         <h4>
-          Her biri 50 TL Değerinde 5 Soru İle Toplamda 250 TL Kazanma Şansı 🎁{" "}
+          Her biri 0,5 Near değerinde 5 soru ile toplamda 2,5NEAR kazanma şansı
+          🎁{" "}
         </h4>
       </div>
       <div className="m-2">
