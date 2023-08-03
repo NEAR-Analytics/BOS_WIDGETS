@@ -64,7 +64,9 @@ if (!state.allVotingPowerIsFetched) {
   ).then((allLockingPositions) => {
     const voting_power = allLockingPositions.reduce(
       (accumulator, lockingPosition) =>
-        accumulator + parseInt(lockingPosition.voting_power),
+        lockingPosition.is_locked
+          ? accumulator + parseInt(lockingPosition.voting_power)
+          : accumulator,
       0
     );
     const votingPowerYocto = voting_power.toLocaleString("fullwide", {
