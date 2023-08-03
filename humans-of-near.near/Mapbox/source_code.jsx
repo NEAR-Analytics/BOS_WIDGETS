@@ -49,9 +49,12 @@ const code = `
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
         console.log(markersData,"==>markersData");
+        
+        markersData.forEach(marker => {
+          
         const el = document.createElement('div');
         el.className = 'marker';
-        markersData.forEach(marker => {
+
         new mapboxgl.Marker(el)
             .setLngLat([marker.longitude, marker.latitude])
             .setPopup(
