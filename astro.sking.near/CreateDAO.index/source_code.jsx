@@ -1,11 +1,24 @@
 // -- Read and process types from SocialDB + helper functions
+
+const isPrimitiveType = (type) =>
+  ["string", "number", "boolean"].includes(type);
+
+const isComplexType = (type) =>
+  Array.isArray(type)
+    ? "typesArray"
+    : type === "array"
+    ? "array"
+    : typeof type === "object"
+    ? "object"
+    : typeof type === "string" && !isPrimitiveType(type)
+    ? "custom"
+    : null;
+
 const rawTypes = Social.get("astro.sking.near/type/*", "final");
 if (rawTypes === null) return null;
 
-const primitives = ["string", "number", "boolean", "object", "array"];
-const types = {};
-
-function parseType(type, depth) {
+// It finds custom types in the type definitions and fetches them from SocialDB.
+function getCustomTypes(type, depth) {
   depth = depth || 0;
   if (depth > 10) {
     throw {
@@ -18,303 +31,196 @@ function parseType(type, depth) {
 
   type.properties.forEach((prop) => {
     (Array.isArray(prop.type) ? prop.type : [prop.type]).forEach((type) => {
-      if (!primitives.includes(type)) {
-        if (types[type]) return;
+      if (isComplexType(type) === "custom" && !types[type]) {
         const rawType = Social.get(`${type}`, "final");
         if (rawType) {
           types[type] = JSON.parse(rawType);
-          parseType(types[type], depth + 1);
+          getCustomTypes(types[type], depth + 1);
         }
       }
     });
   });
 }
 
-const typeToObj = ({ properties }) => {
-  const obj = {};
-  properties.forEach((prop) => {
-    const type = Array.isArray(prop.type) ? prop.type[0] : prop.type;
-    if (!primitives.includes(type)) {
-      if (typeof type === "object" && type.properties) {
-        obj[prop.name] = typeToObj(type);
-      } else if (typeof type === "string" && types[type].properties) {
-        obj[prop.name] = typeToObj(types[type]);
-      } else {
-        // unknown type, just set to empty string
-        obj[prop.name] = "";
-      }
-      return;
-    }
-    if (type === "array") {
-      obj[prop.name] = [];
-    } else if (type === "object") {
-      obj[prop.name] = {};
-    } else {
-      obj[prop.name] = prop.default ?? "";
-    }
-  });
-  return obj;
-};
-
-const validatePrimitive = (type, value, options) => {
-  switch (type) {
-    case "string":
-      if (typeof value !== "string")
-        return { valid: false, message: "Expected a string." };
-      if (options?.min && value.length < options.min)
-        return {
-          valid: false,
-          message: `Expected at least ${options.min} characters.`,
-        };
-      if (options?.max && value.length > options.max)
-        return {
-          valid: false,
-          message: `Expected at most ${options.max} characters.`,
-        };
-      if (options?.pattern && !value.match(options.pattern))
-        return {
-          valid: false,
-          message: `Does not match expected pattern: ${options.pattern}`,
-        };
-      return { valid: true };
-
-    case "number":
-      if (typeof value !== "number")
-        return { valid: false, message: "Expected a number." };
-      if (options?.min && value < options.min)
-        return {
-          valid: false,
-          message: `Expected a number greater than or equal to ${options.min}.`,
-        };
-      if (options?.max && value > options.max)
-        return {
-          valid: false,
-          message: `Expected a number less than or equal to ${options.max}.`,
-        };
-      return { valid: true };
-
-    case "boolean":
-      if (typeof value !== "boolean")
-        return { valid: false, message: "Expected a boolean." };
-      return { valid: true };
-
-    case "array":
-      if (!Array.isArray(value))
-        return { valid: false, message: "Expected an array." };
-      if (options?.min && value.length < options.min)
-        return {
-          valid: false,
-          message: `Expected at least ${options.min} items.`,
-        };
-      if (options?.max && value.length > options.max)
-        return {
-          valid: false,
-          message: `Expected at most ${options.max} items.`,
-        };
-      if (options?.type) {
-        for (let v of value) {
-          const result = validatePrimitive(options.type, v);
-          if (!result.valid) {
-            return {
-              valid: false,
-              message: `An item in the array is invalid: ${result.message}`,
-            };
-          }
-        }
-      }
-      return { valid: true };
-
-    case "object":
-      if (typeof value !== "object")
-        return { valid: false, message: "Expected an object." };
-      if (options?.min && Object.keys(value).length < options.min)
-        return {
-          valid: false,
-          message: `Expected at least ${options.min} properties.`,
-        };
-      if (options?.max && Object.keys(value).length > options.max)
-        return {
-          valid: false,
-          message: `Expected at most ${options.max} properties.`,
-        };
-      return { valid: true };
-  }
-};
-
-const validate = (type, value, parent) => {
-  if (value === undefined || value === "" || value === null) {
-    if (parent.required) {
-      return { valid: false, message: "This field is required." };
-    }
-    return {
-      valid: true,
-    };
-  }
-
-  if (Array.isArray(type)) {
-    return type.some((t) => validate(t, value, parent));
-  }
-  if (typeof type === "object") {
-    if (type.properties) {
-      return type.properties.every((prop) => {
-        if (prop.required && value[prop.name] === undefined)
-          return {
-            valid: false,
-            message: "This field is required.",
-          };
-        const val = value[prop.name];
-        if (val === undefined)
-          return {
-            valid: true,
-          };
-        return validate(prop.type, val, prop);
-      });
-    }
-  }
-  if (typeof type === "string") {
-    if (primitives.includes(type)) {
-      return validatePrimitive(type, value, parent[type]);
-    }
-    if (types[type]) {
-      return validate(types[type], value, parent);
-    }
-  }
-  return { valid: true };
-};
-
 Object.keys(rawTypes).forEach((key) => {
   const type = JSON.parse(rawTypes[key]);
   types["astro.sking.near/type/" + key] = type;
-  parseType(type);
+  getCustomTypes(type);
 });
 
-// --
+const PRIMITIVE_VALIDATIONS = {
+  string: (value, { min, max, pattern }) => {
+    if (typeof value !== "string")
+      return `Expected a string, got ${typeof value}.`;
 
-// -- form state
-const initialFormState = typeToObj(types["astro.sking.near/type/dao"]);
+    if (min && value.length < min)
+      return `Must be at least ${min} characters long.`;
 
-State.init({
-  step: 0,
-  form: initialFormState,
-  errors: null,
-});
+    if (max && value.length > max)
+      return `Must be at most ${max} characters long.`;
 
-const handleStepComplete = (value) => {
-  const stepValid = true;
-  Object.keys(value).forEach((key) => {
-    const properties = types["astro.sking.near/type/dao"].properties.find(
-      (p) => p.name === key
-    );
-    const validation = validate(properties.type, value[key], properties);
-    console.log(key, value, validation);
-    if (validation.valid === false) {
-      State.update({
-        errors: {
-          ...state.errors,
-          [key]: validation.message,
-        },
-      });
-      stepValid = false;
-    } else {
-      State.update({
-        errors: {
-          ...state.errors,
-          [key]: null,
-        },
-      });
+    if (pattern && !value.match(pattern))
+      return `The value "${value}" does not match expected pattern: ${pattern}`;
+  },
+  number: (value, { min, max }) => {
+    if (typeof value !== "number")
+      return `Expected a number, got ${typeof value}.`;
+
+    if (min && value < min) return `Must be at least ${min}.`;
+
+    if (max && value > max) return `Must be at most ${max}.`;
+  },
+  boolean: (value) => {
+    if (typeof value !== "boolean")
+      return `Expected a boolean, got ${typeof value}.`;
+  },
+};
+
+function validatePrimitiveType(type, value, constraints) {
+  if (!isPrimitiveType(type))
+    throw {
+      message: `Unknown primitive type: ${type}`,
+      type,
+      value,
+    };
+
+  return PRIMITIVE_VALIDATIONS[type](value, constraints);
+}
+
+function validateType(type, value, parent) {
+  if (value === undefined || value === "" || value === null) {
+    if (parent.required) {
+      return `This field is required but missing.`;
     }
-  });
+    return;
+  }
 
-  if (stepValid) {
-    State.update({
-      step: state.step + 1,
-      form: {
-        ...state.form,
-        ...value,
-      },
+  if (isPrimitiveType(type))
+    return validatePrimitiveType(type, value, parent[type].validation);
+
+  if (isComplexType(type) === "typesArray") {
+    const errors = [];
+    for (const subType of type) {
+      const error = validateType(subType, value, parent[subType]);
+      if (!error) return; // Stop if a valid type is found
+      errors.push(error);
+    }
+    if (errors.length === type.length) {
+      // only return the deepest error
+      for (const error of errors) {
+        if (typeof error === "object") return error;
+      }
+      return errors[errors.length - 1];
+    }
+  }
+
+  if (isComplexType(type) === "array") {
+    if (!Array.isArray(value)) {
+      return `Expected an array, got ${typeof value}.`;
+    }
+
+    if (
+      parent["array"].validation.min &&
+      value.length < parent["array"].validation.min
+    ) {
+      return `Must have at least ${parent["array"].validation.min} items.`;
+    }
+
+    if (
+      parent["array"].validation.max &&
+      value.length > parent["array"].validation.max
+    ) {
+      return `Must have at most ${parent["array"].validation.max} items.`;
+    }
+
+    for (const item of value) {
+      const error = validateType(parent["array"].type, item, parent["array"]);
+      if (error)
+        return {
+          [value.indexOf(item)]: error,
+        };
+    }
+  }
+
+  if (isComplexType(type) === "object") {
+    if (typeof value !== "object" || Array.isArray(value)) {
+      return `Expected an object, got ${typeof value}.`;
+    }
+
+    // Validate properties of the object
+    for (const property of type.properties) {
+      const propName = property.name;
+      const propType = property.type;
+      const propValue = value[propName];
+
+      if (property.required && propValue === undefined) {
+        return `Property ${propName} is required but missing.`;
+      }
+
+      if (propValue !== undefined) {
+        const error = validateType(propType, propValue, property);
+        if (error)
+          return {
+            [propName]: error,
+          };
+      }
+    }
+  }
+
+  if (isComplexType(type) === "custom") {
+    return validateType(types[type], value);
+  }
+}
+
+const typeToEmptyData = (type) => {
+  if (isPrimitiveType(type)) {
+    switch (type) {
+      case "string":
+        return "";
+      case "number":
+        return null;
+      case "boolean":
+        return null;
+    }
+  }
+  if (isComplexType(type) === "array") {
+    return [];
+  }
+  if (isComplexType(type) === "typesArray") {
+    return typeToEmptyData(type[0]);
+  }
+  if (isComplexType(type) === "object") {
+    const obj = {};
+
+    type.properties.forEach((prop) => {
+      const propType =
+        isComplexType(prop.type) === "typesArray" ? prop.type[0] : prop.type;
+
+      if (isPrimitiveType(propType)) {
+        obj[prop.name] = typeToEmptyData(propType);
+      } else if (isComplexType(propType) === "array") {
+        obj[prop.name] = typeToEmptyData(propType);
+      } else if (isComplexType(propType) === "object") {
+        obj[prop.name] = typeToEmptyData(prop[propType]);
+      } else if (isComplexType(propType) === "custom") {
+        obj[prop.name] = typeToEmptyData(types[propType]);
+      }
     });
+
+    return obj;
+  }
+  if (isComplexType(type) === "custom") {
+    return typeToEmptyData(types[type]);
   }
 };
 
-console.log("render", state);
-
-const steps = [
-  {
-    title: "DAO Info & KYC",
-    active: state.step === 0,
-    icon: state.step > 0 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 0 ? "active-outline" : undefined,
-  },
-  {
-    title: "Links & Socials",
-    active: state.step === 1,
-    icon: state.step > 1 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 1 ? "active-outline" : undefined,
-  },
-  {
-    title: "Cool Down Period",
-    active: state.step === 2,
-    icon: state.step > 2 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 2 ? "active-outline" : undefined,
-  },
-  {
-    title: "Add Groups & Members",
-    active: state.step === 3,
-    icon: state.step > 3 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 3 ? "active-outline" : undefined,
-  },
-  {
-    title: "Proposal & Voting Permission",
-    active: state.step === 4,
-    icon: state.step > 4 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 4 ? "active-outline" : undefined,
-  },
-  {
-    title: "DAO Assets",
-    active: state.step === 5,
-    icon: state.step > 5 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 5 ? "active-outline" : undefined,
-  },
-];
-
 return (
-  <>
-    <h1 className="h3 fw-bold mb-4">Create a new DAO</h1>
-    <Widget
-      src={`nui.sking.near/widget/Navigation.Steps`}
-      props={{
-        steps: steps,
-        onClick: (i) => {
-          State.update({
-            step: i,
-          });
-        },
-      }}
-    />
-    <Widget
-      src={`astro.sking.near/widget/CreateDAO.Step${state.step + 1}`}
-      props={{
-        formState: state.form,
-        onComplete: handleStepComplete,
-        errors: state.errors,
-        renderFooter: (stepState) => (
-          <Widget
-            src={`astro.sking.near/widget/CreateDAO.Footer`}
-            props={{
-              isLast: state.step >= steps.length - 1,
-              hasPrevious: state.step > 0,
-              onNext: () => {
-                handleStepComplete(stepState);
-              },
-              onPrevious: () => {
-                State.update({
-                  step: state.step - 1,
-                });
-              },
-            }}
-          />
-        ),
-      }}
-    />
-  </>
+  <Widget
+    src="astro.sking.near/widget/CreateDAO.form"
+    props={{
+      validateType,
+      typeToEmptyData,
+      types,
+    }}
+  />
 );
