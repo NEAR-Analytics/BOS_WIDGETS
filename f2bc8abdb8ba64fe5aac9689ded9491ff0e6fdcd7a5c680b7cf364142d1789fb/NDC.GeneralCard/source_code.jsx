@@ -632,7 +632,6 @@ const renderArticleBody = () => {
   let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
   return (
     <ArticleBodyContainer>
-      {/*<span>displayedContent</span>*/}
       <Widget
         src="mob.near/widget/SocialMarkdown"
         props={{
@@ -855,7 +854,7 @@ return (
                     className: "primary w-100 justify-content-center",
                     icon: <i className="bi bi-eye fs-6"></i>,
                     onClick: () => {
-                      handleOpenArticle();
+                      handleOpenArticle(data);
                     },
                   },
                 }}
