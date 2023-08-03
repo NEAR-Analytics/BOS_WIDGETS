@@ -216,6 +216,7 @@ function getLastEditionsByArticle() {
       if (article) {
         articleParsed = JSON.parse(article);
         articleParsed.blockHeight = latestEditArticle.blockHeight;
+        articleParsed.realArticleId = latestEditArticle.value.articleId;
       }
 
       return articleParsed;
