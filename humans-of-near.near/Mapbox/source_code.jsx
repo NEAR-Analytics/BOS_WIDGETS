@@ -41,7 +41,7 @@ const code = `
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
         markersData.forEach(marker => {
-        new mapboxgl.Marker()
+        new mapboxgl.Marker("<a>123123</a>")
             .setLngLat([marker.lng, marker.lat])
             .addTo(map);
         });
