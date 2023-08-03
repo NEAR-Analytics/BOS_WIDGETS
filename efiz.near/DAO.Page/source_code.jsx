@@ -314,7 +314,7 @@ return (
         )}
 
         {state.selectedTab === "events" && (
-          <Widget src="efiz.near/widget/Calendar" props={{ daoId }} />
+          <Widget src="evrything.near/widget/Calendar" props={{ daoId }} />
         )}
 
         {state.selectedTab === "bounty" && (
