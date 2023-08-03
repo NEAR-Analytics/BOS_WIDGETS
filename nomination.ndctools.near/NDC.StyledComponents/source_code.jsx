@@ -1,4 +1,6 @@
-const { Button, Dropdown, TextArea, Input, Link, Tag } = props;
+const { Button, Dropdown, TextArea, Input, Link, Tag, _contract } = props;
+
+const contract = _contract ?? "nomination.ndctools.near";
 
 const Styled = {
   Button: styled.button`
@@ -11,12 +13,6 @@ const Styled = {
     line-height: 24px;
     text-align: center;
     border: 0;
-
-    &.danger {
-      border: 1px solid #c23f38;
-      background: #f1d6d5;
-      color: #c23f38;
-    }
 
     &.primary {
       background: #ffd50d;
@@ -45,6 +41,11 @@ const Styled = {
           color: #828688;
         }
       }
+
+      &.danger {
+        background: #dd5e56;
+        color: #fff;
+      }
     }
 
     &.secondary {
@@ -66,6 +67,12 @@ const Styled = {
           border-color: ${(props) => (Button.inverse ? "#fff" : "#2f2a87")};
           color: ${(props) => (Button.inverse ? "#fff" : "#2f2a87")};
         }
+      }
+
+      &.danger {
+        border: 1px solid #c23f38;
+        background: #f1d6d5;
+        color: #c23f38;
       }
 
       &:disabled {
@@ -103,12 +110,6 @@ const Styled = {
       color: black;
     }
 
-    &.danger {
-      border: 1px solid #c23f38;
-      background: #f1d6d5;
-      color: #c23f38;
-    }
-
     &.primary {
       background: #ffd50d;
 
@@ -123,6 +124,11 @@ const Styled = {
         &:hover {
           background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
         }
+      }
+
+      &.danger {
+        background: #dd5e56;
+        color: #fff;
       }
 
       &:disabled {
@@ -153,14 +159,16 @@ const Styled = {
         }
       }
 
+      &.danger {
+        border: 1px solid #c23f38;
+        background: #f1d6d5;
+        color: #c23f38;
+      }
+
       &:disabled {
         border-color: #c3cace;
         color: #828688;
       }
-    }
-
-    i {
-      margin: 0 0 0 5px;
     }
   `,
 
@@ -198,8 +206,8 @@ const Styled = {
     justify-content: center;
     align-items: center;
     padding: 4px 8px;
-    border: 1px solid #9333ea;
-    color: #9333ea;
+    border: 1px solid rgb(79, 70, 229);
+    color: rgb(79, 70, 229);
     background: linear-gradient(
       90deg,
       rgba(147, 51, 234, 0.1) 0%,
@@ -243,13 +251,15 @@ if (Link)
   return (
     <Styled.Link
       size={Link.size}
-      className={`align-items-center d-flex ${Link.className ?? "primary"}`}
+      className={`align-items-center d-flex ${
+        Link.className ?? "primary"
+      } gap-1`}
       href={Link.href}
       target="_blank"
       disabled={Link.disabled}
       inverse={Link.inverse}
     >
-      <div>{Link.text}</div>
+      {Link.text && <div>{Link.text}</div>}
       {Link.icon && (
         <div className={`${Link.size === "sm" ? "fs-7" : "fs-6"}`}>
           {Link.icon}
@@ -262,13 +272,15 @@ if (Button)
   return (
     <Styled.Button
       size={Button.size}
-      className={`align-items-center d-flex ${Button.className ?? "primary"}`}
+      className={`align-items-center d-flex ${
+        Button.className ?? "primary"
+      } gap-1`}
       onClick={Button.onClick}
       disabled={Button.disabled}
       text={Button.text}
       inverse={Button.inverse}
     >
-      <div>{Button.text}</div>
+      {Button.text && <div>{Button.text}</div>}
       {Button.icon && (
         <div className={`${Button.size === "sm" ? "fs-7" : "fs-6"}`}>
           {Button.icon}
@@ -283,7 +295,7 @@ if (Button)
             style: {
               height: "20px",
               objectFit: "cover",
-              margin: "0 0 3px 5px",
+              margin: "0 0 3px 3px",
             },
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
@@ -379,7 +391,7 @@ const WidgetButton = ({
   inverse,
 }) => (
   <Widget
-    src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+    src={`${contract}/widget/NDC.StyledComponents`}
     props={{
       [type ?? "Button"]: {
         size,
@@ -396,7 +408,7 @@ const WidgetButton = ({
 
 const WidgetSelect = () => (
   <Widget
-    src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+    src={`${contract}/widget/NDC.StyledComponents`}
     props={{
       Dropdown: {
         label: "Select label",
@@ -415,7 +427,7 @@ const WidgetInput = ({ type }) => {
 
   return (
     <Widget
-      src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+      src={`${contract}/widget/NDC.StyledComponents`}
       props={{
         [type]: {
           label: "Select label",
@@ -482,6 +494,16 @@ return (
         className="danger"
         icon={<i class="bi bi-trash" />}
       />
+      <WidgetButton
+        text="Danger"
+        className="danger secondary"
+        icon={<i class="bi bi-trash" />}
+      />
+      <WidgetButton
+        text="Danger"
+        className="danger primary"
+        icon={<i class="bi bi-trash" />}
+      />
     </div>
 
     <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
@@ -515,15 +537,15 @@ return (
     <h4>Tag</h4>
     <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <Widget
-        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+        src={`${contract}/widget/NDC.StyledComponents`}
         props={{ Tag: { title: "Lorem ipsum", className: "dark" } }}
       />
       <Widget
-        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+        src={`${contract}/widget/NDC.StyledComponents`}
         props={{ Tag: { title: "Lorem ipsum" } }}
       />
       <Widget
-        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+        src={`${contract}/widget/NDC.StyledComponents`}
         props={{
           Tag: {
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
