@@ -39,11 +39,11 @@ return (
   <>
     {context.accountId && (
       <div className="mb-3">
-        <Widget src="jgodwill.near/widget/MainPage.Compose" props={{}} />
+        <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
       </div>
     )}
     <ul className="nav nav-pills mb-3">
-      {options.reverse().map((option, i) => (
+      {options.map((option, i) => (
         <li className="nav-item" key={i}>
           <button
             className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
