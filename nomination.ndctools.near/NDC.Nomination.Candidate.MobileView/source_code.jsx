@@ -594,6 +594,7 @@ return (
               Link: {
                 text: `Watch Video`,
                 className: "primary dark",
+                icon: <i class="bi bi-play-circle ml-2"></i>,
                 href: props.data.nominations.video,
               },
             }}
