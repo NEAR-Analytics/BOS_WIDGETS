@@ -173,8 +173,9 @@ function getLastEditionsByArticle() {
         oldFormatBasicArticleData[1]
       );
 
+      let articleParsed = undefined;
       if (article) {
-        let articleParsed = JSON.parse(article);
+        articleParsed = JSON.parse(article);
         articleParsed.blockHeight = oldFormatBasicArticleData[1];
       }
 
@@ -210,8 +211,10 @@ function getLastEditionsByArticle() {
         `${latestEditArticle.accountId}/${addressForArticles}/main`,
         latestEditArticle.blockHeight
       );
+
+      let articleParsed = undefined;
       if (article) {
-        let articleParsed = JSON.parse(article);
+        articleParsed = JSON.parse(article);
         articleParsed.blockHeight = latestEditArticle.blockHeight;
       }
 
@@ -261,7 +264,6 @@ function handleOpenArticle(article) {
       },
     });
 }
-a;
 
 function handleFilterArticles(filter) {
   State.update({
