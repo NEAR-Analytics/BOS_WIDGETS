@@ -132,11 +132,14 @@ const defaultPair = {
 const Wrapper = styled.div`
     display:flex;
     align-items: start;
-    flex-wrap:wrap;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 24px;
 `;
 const VStack = styled.div`
   display: flex;
+    align-items: start;
+    justify-content: center;
   flex-direction: column;
   gap: 4px;
 `;
@@ -152,6 +155,7 @@ const Button = styled.button`
     font-size: 14px;
     position: relative;
     min-height: 37px;
+    margin: auto;
     &:hover {
       background: #2b2a2b;
     }
