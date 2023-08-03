@@ -8,11 +8,14 @@ const Container = styled.div`
     width: 100%;
 `;
 
-const QRImage = styled.img`
+const QRContainer = styled.div`
     width:40%;
       @media (max-width: 768px) {
     width:100%;
   }
+  display:flex;
+  align-items:center;
+  justify-content:center;
 `;
 
 const TicketContent = styled.div`
@@ -80,7 +83,19 @@ return (
       style={{ width: "100%" }}
     />
     <Container style={{ width: "100%" }}>
-      <QRImage src="https://i.ibb.co/4fSfR6f/Group-104.png" />
+      <QRContainer>
+        <Widget
+          src="harrydhillon.near/widget/data-to-qr-image"
+          props={{
+            width: 35,
+            height: 35,
+            link: "www.youtube.com",
+            svgProps: {
+              width: "100%",
+            },
+          }}
+        />
+      </QRContainer>
       <TicketContent>
         <TicketHeading>
           This page is not only your ticket, but your portal into the NEARCON
