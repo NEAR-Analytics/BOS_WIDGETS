@@ -184,7 +184,13 @@ return (
 
     <Widget
       src={`${Owner}/widget/Mapbox`}
-      props={{ accessToken: MAP_TOKEN, styleUrl: MAP_STYLE, center, zoom }}
+      props={{
+        accessToken: MAP_TOKEN,
+        styleUrl: MAP_STYLE,
+        center,
+        zoom,
+        markers: state.loocations,
+      }}
     />
   </Wrapper>
 );
