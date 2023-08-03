@@ -7,43 +7,52 @@ if (metadata === null) {
   return "Loading";
 }
 
-console.log("XXXXXXXXX");
+const ccc = "cccc";
+
+const kkk = () => {
+  console.log("kkk");
+  console.log("onChange", onChange);
+  // onChange({});
+};
 
 return (
-  <Widget
-    key={widgetPath}
-    src="golas.near/widget/MetadataEditor-fork"
-    props={{
-      initialMetadata: metadata,
-      onChange,
-      options: {
-        name: { label: "Titlex" },
-        image: { label: "Icon" },
-        description: { label: "Description" },
-        tags: {
-          label: (
-            <>
-              Tags{" "}
-              <span className="text-secondary">
-                {" "}
-                (add relevant tags to ensure the best discoverability of your
-                app/component)
-              </span>
-            </>
-          ),
-          pattern: "*/widget/*/metadata/tags/*",
-          placeholder: "profile, editor, social, finance, app, image, nft",
+  <div>
+    <div onClick={kkk}>+++</div>
+    <Widget
+      key={widgetPath}
+      src="golas.near/widget/MetadataEditor-fork"
+      props={{
+        initialMetadata: metadata,
+        onChange,
+        options: {
+          name: { label: "Titlex" },
+          image: { label: "Icon" },
+          description: { label: "Description" },
+          tags: {
+            label: (
+              <>
+                Tags{" "}
+                <span className="text-secondary">
+                  {" "}
+                  (add relevant tags to ensure the best discoverability of your
+                  app/component)
+                </span>
+              </>
+            ),
+            pattern: "*/widget/*/metadata/tags/*",
+            placeholder: "profile, editor, social, finance, app, image, nft",
+          },
+          linktree: {
+            links: [
+              {
+                label: "Website",
+                prefix: "https://",
+                name: "website",
+              },
+            ],
+          },
         },
-        linktree: {
-          links: [
-            {
-              label: "Website",
-              prefix: "https://",
-              name: "website",
-            },
-          ],
-        },
-      },
-    }}
-  />
+      }}
+    />
+  </div>
 );
