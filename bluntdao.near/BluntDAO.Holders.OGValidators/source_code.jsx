@@ -94,7 +94,7 @@ const isUserAllowedTo = (user, kind, action) => {
 
   return allowed;
 };
-const userRoles = accountId ? getUserRoles(accountId) : [];
+const userRoles = accountId ? getUserRoles(roleCheckThisUser) : [];
 isOG = userRoles.includes(roleToCheck);
 
 function fetchTokens() {
