@@ -370,8 +370,8 @@ return (
             }}
           />
         </div>
-        <Toolbar>
-          {state.og && (
+        {state.og && (
+          <Toolbar>
             <ButtonNominateContainer>
               {state.selfNomination ? (
                 <Widget
@@ -398,8 +398,8 @@ return (
                 />
               )}
             </ButtonNominateContainer>
-          )}
-        </Toolbar>
+          </Toolbar>
+        )}
       </Filter>
       <Container className="d-flex row justify-content-between w-100">
         <Left className="col-lg">
