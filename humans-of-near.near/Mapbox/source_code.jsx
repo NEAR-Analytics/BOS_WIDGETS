@@ -33,6 +33,13 @@ const code = `
         margin:0;
         font-size: 16px;
       }
+
+      .mapboxgl-popup-content{
+        background: rgb(25, 26, 26);
+        color: white;
+        border: 1px solid;
+        border-radius: 9px;
+      }
     </style>
   </head>
   <body>
@@ -60,7 +67,7 @@ const code = `
        } else {
           title = row.user.accountId.slice(0, 12);
        }
-       const HTML = '<div style="padding: 20px; display:flex; gap:12px">'+
+       const HTML = '<div style="padding: 10px; display:flex; gap:12px">'+
           '<img src="https://humans.nearverselabs.com/Human.png" style="width:48px; height:60px;" />'+
           '<div style="display:flex; gap:14px; flex-direction:column;">'+
             '<h6>'+title+'</h6>'+
