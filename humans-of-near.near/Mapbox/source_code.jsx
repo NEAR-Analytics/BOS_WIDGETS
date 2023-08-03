@@ -130,7 +130,7 @@ const code = `
       accountId && edit
         ? `map.on('click', function(event) {
         const { lngLat } = event;
-        
+        window.selectedItem = lngLat;
         new mapboxgl.Marker(myel)
             .setLngLat([lngLat.lng, lngLat.lat])
             .addTo(map);
