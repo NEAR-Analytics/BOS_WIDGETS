@@ -23,10 +23,10 @@ const Styled = {
 
       &.dark {
         color: #fff;
-        background: #4BA6EE;
+        background: #4ba6ee;
 
         &:hover {
-          background: #3B86CB;
+          background: #3b86cb;
         }
       }
 
@@ -47,7 +47,7 @@ const Styled = {
         color: #fff;
 
         &:hover {
-          background: #C23F38;
+          background: #c23f38;
         }
       }
     }
@@ -74,12 +74,12 @@ const Styled = {
       }
 
       &.danger {
-        border: 1px solid #c23f38;
-        background: #f1d6d5;
-        color: #c23f38;
+        border: 1px solid #dd5e56;
+        color: #dd5e56;
 
         &:hover {
-          background: #C23F38;
+          border-color: #c23f38;
+          color: #c23f38;
         }
       }
 
@@ -127,16 +127,20 @@ const Styled = {
 
       &.dark {
         color: #fff;
-        background: #4BA6EE;
+        background: #4ba6ee;
 
         &:hover {
-          background: #3B86CB;
+          background: #3b86cb;
         }
       }
 
       &.danger {
         background: #dd5e56;
         color: #fff;
+
+        &:hover {
+          background: #c23f38;
+        }
       }
 
       &:disabled {
@@ -168,9 +172,13 @@ const Styled = {
       }
 
       &.danger {
-        border: 1px solid #c23f38;
-        background: #f1d6d5;
-        color: #c23f38;
+        border: 1px solid #dd5e56;
+        color: #dd5e56;
+
+        &:hover {
+          border-color: #c23f38;
+          color: #c23f38;
+        }
       }
 
       &:disabled {
@@ -219,13 +227,13 @@ const Styled = {
     justify-content: center;
     align-items: center;
     padding: 4px 8px;
-    border: 1px solid #4BA6EE;
-    color: #4BA6EE;
+    border: 1px solid #4ba6ee;
+    color: #4ba6ee;
     border-radius: 100px;
 
     &.dark {
       color: #fff;
-      background: #4BA6EE;
+      background: #4ba6ee;
     }
 
     p {
