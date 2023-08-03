@@ -12,6 +12,7 @@ const disabled = props.disabled;
 const icon = props.icon;
 const size = props.size ?? "md"; // sm, md, lg
 const className = props.className ?? "";
+const useTimeout = props.useTimeout ?? false; // Uses a timeout beween typing event and calling onChange
 
 if (!state) {
   State.init({
@@ -129,13 +130,28 @@ return (
         placeholder={placeholder}
         value={value ?? state.value}
         onChange={(e) => {
-          clearTimeout(state.timeout);
-          State.update({
-            value: e.target.value,
-            timeout: setTimeout(() => {
-              onChange(state.value);
-            }, 300),
-          });
+          if (useTimeout) {
+            clearTimeout(state.timeout);
+            const newTimeout = setTimeout(
+              () => {
+                onChange(state.value);
+                console.log(
+                  "Input.ExperimentalText: Called input onChange because of timeout with the id:",
+                  newTimeout
+                );
+              },
+              typeof useTimeout === "number" ? useTimeout : 300
+            );
+            State.update({
+              value: e.target.value,
+              timeout: newTimeout,
+            });
+          } else {
+            State.update({
+              value: e.target.value,
+            });
+            onChange(state.value);
+          }
         }}
         onBlur={() => validate()}
         disabled={disabled}
