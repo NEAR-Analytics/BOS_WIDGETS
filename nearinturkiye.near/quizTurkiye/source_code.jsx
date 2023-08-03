@@ -204,11 +204,16 @@ return (
           <div>
             <br />
             <h5>TEBRIKLER 🎉</h5>
-            <p>doğru cevapladın!</p>
+            <p>
+              doğru cevapladın! Ödül için bizimle iletişime geç 👇
+              <a href="https://t.me/near_tr" target="_blank">
+                <h3>Near Türkiye Telegram</h3>
+              </a>
+            </p>
             <p>
               BOS, geliştiricilerin akıllı sözleşmelerle kullanıcı
               etkileşimlerini kolaylaştırmasını kolaylaştırsa da, sütunlardan
-              biri olarak kabul edilmez. Ancak şimdi, SocialDB sözleşmesini
+              biri olarak kabul edilmez. Ancak şimdi, Social DB sözleşmesini
               anlama yolculuğuna çıkın...
             </p>
             <Widget
