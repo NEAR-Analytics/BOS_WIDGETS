@@ -2,8 +2,6 @@ const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
 
-console.log(props);
-
 State.init({
   initialMetadata,
   metadata: initialMetadata,
