@@ -61,6 +61,17 @@ const BtnStyle2 = {
   zIndex: 1,
 };
 
+const BtnStyle2_act = {
+  background: "white",
+  padding: "10px 22px",
+  borderRadius: "6px",
+  border: "1px solid rgb(255, 255, 255)",
+  color: "#191a1a",
+  position: "absolute",
+  bottom: 50,
+  zIndex: 1,
+};
+
 const getMyData = () => {
   return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
     (res) => {
@@ -150,7 +161,7 @@ return (
     >
       <button
         class="btn"
-        style={BtnStyle2}
+        style={state.edit ? BtnStyle2_act : BtnStyle2}
         onClick={() => {
           State.update({ edit: true });
         }}
@@ -189,7 +200,7 @@ return (
         styleUrl: MAP_STYLE,
         center,
         zoom,
-        markers: state.loocations,
+        markers: state.locations,
       }}
     />
   </Wrapper>
