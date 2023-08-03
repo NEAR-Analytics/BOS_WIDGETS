@@ -361,6 +361,11 @@ const KeyIssuesContainer = styled.div`
   height: 250px;
   width: 100%;
 `;
+
+const ArticleBodyContainer = styled.div`
+  margin-right: 0.5rem;
+`;
+
 const KeyIssueTitle = styled.p`
   font-weight: 500;
   font-size: 11px;
@@ -626,7 +631,7 @@ const renderTags = () => {
 const renderArticleBody = () => {
   let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
   return (
-    <div style={{ marginRight: "0.5rem" }}>
+    <ArticleBodyContainer>
       <Widget
         src="mob.near/widget/SocialMarkdown"
         props={{
@@ -663,7 +668,7 @@ const renderArticleBody = () => {
           }}
         />
       )}
-    </div>
+    </ArticleBodyContainer>
   );
 };
 
