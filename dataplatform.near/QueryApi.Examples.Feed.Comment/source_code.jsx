@@ -171,7 +171,7 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="mob.near/widget/LikeButton"
+            src="near/widget/LikeButton"
             props={{
               item: {
                 type: "social",
