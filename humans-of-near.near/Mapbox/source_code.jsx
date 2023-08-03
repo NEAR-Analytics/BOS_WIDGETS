@@ -23,8 +23,8 @@ const code = `
       .marker {
         background-image: url('https://humans.nearverselabs.com/Human.png');
         background-size: cover;
-        width: 50px;
-        height: 50px;
+        width: 27px;
+        height: 34px;
         border-radius: 50%;
         cursor: pointer;
       }
