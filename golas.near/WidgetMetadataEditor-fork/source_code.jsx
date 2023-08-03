@@ -15,7 +15,7 @@ return (
       initialMetadata: metadata,
       onChange,
       options: {
-        name: { label: "Title" },
+        name: { label: "Titlex" },
         image: { label: "Icon" },
         description: { label: "Description" },
         tags: {
