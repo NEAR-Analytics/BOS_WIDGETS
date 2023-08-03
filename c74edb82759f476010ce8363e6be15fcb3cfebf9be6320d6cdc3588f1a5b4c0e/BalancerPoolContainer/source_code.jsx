@@ -254,6 +254,9 @@ function getTransformedData() {
     const filteredTokens = sortedTokens.filter(
       (token) => token.address !== pool.address
     );
+    const tokensList = pool.tokensList.filter(
+      (token) => token !== pool.address
+    );
     const tokens = filteredTokens;
     console.log({
       flattenedTokens,
@@ -270,6 +273,7 @@ function getTransformedData() {
       tokens,
       totalValueLocked,
       tokenWeights,
+      tokensList,
       owner,
     };
   });
