@@ -1,3 +1,4 @@
+//This widget cames from NDC.Nomination.Page
 const { isTest, writersWhiteList, articleToRenderData } = props;
 
 const addressForArticles = isTest ? "test_sayALotArticle" : "sayALotArticle";
