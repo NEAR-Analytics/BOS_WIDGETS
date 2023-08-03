@@ -91,6 +91,12 @@ return (
           src="mob.near/widget/Profile"
           props={{ accountId: "nearinturkiye.near" }}
         />
+        <br></br>
+        <Widget
+          src="near/widget/ShareButton"
+          props={{ accountId: "nearinturkiye.near" }}
+        />
+        Sosyal Medyada PAYLAS
       </div>
     </div>
     <hr />
