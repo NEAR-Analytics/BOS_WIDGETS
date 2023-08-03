@@ -2,11 +2,11 @@ State.init({
   selectedTab: Storage.privateGet("selectedTab") || "all",
 });
 
-const daoId = props.daoId ?? "b12th graders";
+const daoId = props.daoId ?? "12th graders";
 
-const domains = ["dev", "gov", "edu", "art", "fun"];
+const domains = ["stress", "chem", "phy", "bio", "math", "fun", "memes"];
 
-const hashtags = ["near", "bos"];
+const hashtags = ["fun", "study"];
 
 const previousSelectedTab = Storage.privateGet("selectedTab");
 
@@ -213,7 +213,7 @@ return (
 
         <h2 className="mb-3">explore</h2>
         <div className="mt-3 mb-3">
-          <Text>check out what the other bbclan members are up to</Text>
+          <Text>check out what the other 12th graders are up to</Text>
         </div>
 
         <FilterWrapper>
@@ -270,7 +270,7 @@ return (
         <Flex>
           <div className="mt-3">
             <TextLarge style={{ maxWidth: "600px" }}>
-              Please log-in to post and explore chat by bbclan members.
+              Please log-in to post and explore chat by 12th graderss.
             </TextLarge>
           </div>
         </Flex>
