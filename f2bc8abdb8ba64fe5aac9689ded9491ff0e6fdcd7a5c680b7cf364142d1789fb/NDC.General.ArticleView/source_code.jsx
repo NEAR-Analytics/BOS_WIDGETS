@@ -3,7 +3,7 @@
 const { widgets, handleBackButton, articleToRenderData, authorForWidget } =
   props;
 
-accountId = articleToRenderData.author ?? context.accountId;
+let accountId = articleToRenderData.author ?? context.accountId;
 
 // State.init({
 //   verified: false,
