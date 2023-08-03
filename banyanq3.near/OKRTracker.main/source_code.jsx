@@ -24,7 +24,7 @@ let quarter = props.quarter ?? "Q3";
 let dates = props.dates ?? "July 1 - Sep 30"; // pass in quarter range
 let accountId = props.accountId ?? "banyanq3.near";
 let followerTarget = (props.followerTarget = 100); // fix this
-let startOfQuarterFollowers = props.startOfQuarterFollower ?? 0; // 47; // to keep track of followers
+let startOfQuarterFollowers = props.startOfQuarterFollower ?? 47; // 47; // to keep track of followers
 let builderTarget = props.builderTarget ?? 30;
 let componentTarget = props.componentTarget ?? 30;
 let nycSubscribers = Social.keys(`*/graph/follow/nycdao.near`, "final", {
