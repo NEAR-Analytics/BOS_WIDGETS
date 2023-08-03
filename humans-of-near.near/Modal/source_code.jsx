@@ -70,15 +70,19 @@ color: white;
 `;
 
 const saveMyProfile = () => {
-  const formData = new FormData();
-  formData.append("accountId", accountId);
-  formData.append("name", state.name);
-  formData.append("social", state.social);
-  formData.append("twitter", state.twitter);
+  const data = {
+    accountId,
+    name: state.name,
+    social: state.social,
+    twitter: state.twitter,
+  };
 
   return asyncFetch(API_URL + `/auth/account`, {
     method: "POST",
-    body: formData,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   }).then((res) => {
     if (res.ok) {
       getMyInfor();
