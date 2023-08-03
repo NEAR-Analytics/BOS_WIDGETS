@@ -173,8 +173,8 @@ function getLastEditionsByArticle() {
         oldFormatBasicArticleData[1]
       );
 
-      let articleParsed = JSON.parse(article);
-      if (articleParsed) {
+      if (article) {
+        let articleParsed = JSON.parse(article);
         articleParsed.blockHeight = oldFormatBasicArticleData[1];
       }
 
@@ -210,9 +210,10 @@ function getLastEditionsByArticle() {
         `${latestEditArticle.accountId}/${addressForArticles}/main`,
         latestEditArticle.blockHeight
       );
-
-      let articleParsed = JSON.parse(article);
-      articleParsed.blockHeight = latestEditArticle.blockHeight;
+      if (article) {
+        let articleParsed = JSON.parse(article);
+        articleParsed.blockHeight = latestEditArticle.blockHeight;
+      }
 
       return articleParsed;
     }
