@@ -175,10 +175,14 @@ const NavSelected = styled.div`
     color: #0d99ff;
 `;
 
+State.init({
+  tab: "",
+});
+
 const navItem = ({ text, icon, id, iconSelected }) => (
-  <NavItem onClick={() => props.update({ tab: id })}>
-    {id === props.tab ? iconSelected : icon}
-    {id === props.tab ? <NavSelected>{text}</NavSelected> : <span>{text}</span>}
+  <NavItem onClick={() => State.update({ tab: id })}>
+    {id === state.tab ? iconSelected : icon}
+    {id === state.tab ? <NavSelected>{text}</NavSelected> : <span>{text}</span>}
   </NavItem>
 );
 
