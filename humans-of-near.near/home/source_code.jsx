@@ -110,6 +110,11 @@ const onClose = () => {
   State.update({ showModal: false });
 };
 
+const handleSaveLocation = () => {
+  console.log(window.location.selectedItem, "===>window.selectedItem");
+  State.update({ edit: !state.edit });
+};
+
 getMyInfor();
 getLocationsData();
 
@@ -119,74 +124,76 @@ return (
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
 
-    <div>
-      <button
-        class="btn"
-        style={BtnStyle}
-        onClick={() => {
-          State.update({ showModal: true });
-        }}
-      >
-        {`Profile`}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 48 48"
+    {accountId && (
+      <div>
+        <button
+          class="btn"
+          style={BtnStyle}
+          onClick={() => {
+            State.update({ showModal: true });
+          }}
         >
-          <mask id="ipSDownOne0">
-            <path
-              fill="#fff"
-              stroke="#fff"
-              stroke-linejoin="round"
-              stroke-width="4"
-              d="M36 19L24 31L12 19h24Z"
-            />
-          </mask>
-          <path
-            fill="currentColor"
-            d="M0 0h48v48H0z"
-            mask="url(#ipSDownOne0)"
-          />
-        </svg>
-      </button>
-    </div>
-
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <button
-        class="btn"
-        style={state.edit ? BtnStyle2_act : BtnStyle2}
-        onClick={() => {
-          State.update({ edit: !state.edit });
-        }}
-      >
-        {`${!state.edit ? "Edit" : "Save"} location`}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <g
-            fill="none"
-            stroke="currentColor"
-            stroke-linejoin="round"
-            stroke-width="2"
+          {`Profile`}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 48 48"
           >
-            <path d="M13 9a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z" />
-            <path d="M17.5 9.5c0 3.038-2 6.5-5.5 10.5c-3.5-4-5.5-7.462-5.5-10.5a5.5 5.5 0 1 1 11 0Z" />
-          </g>
-        </svg>
-      </button>
-    </div>
+            <mask id="ipSDownOne0">
+              <path
+                fill="#fff"
+                stroke="#fff"
+                stroke-linejoin="round"
+                stroke-width="4"
+                d="M36 19L24 31L12 19h24Z"
+              />
+            </mask>
+            <path
+              fill="currentColor"
+              d="M0 0h48v48H0z"
+              mask="url(#ipSDownOne0)"
+            />
+          </svg>
+        </button>
+      </div>
+    )}
 
-    {state.showModal && (
+    {accountId && (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <button
+          class="btn"
+          style={state.edit ? BtnStyle2_act : BtnStyle2}
+          onClick={handleSaveLocation}
+        >
+          {`${!state.edit ? "Edit" : "Save"} location`}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-linejoin="round"
+              stroke-width="2"
+            >
+              <path d="M13 9a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z" />
+              <path d="M17.5 9.5c0 3.038-2 6.5-5.5 10.5c-3.5-4-5.5-7.462-5.5-10.5a5.5 5.5 0 1 1 11 0Z" />
+            </g>
+          </svg>
+        </button>
+      </div>
+    )}
+
+    {accountId && state.showModal && (
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
@@ -201,6 +208,7 @@ return (
         center,
         zoom,
         markers: state.locations,
+        edit: state.edit,
       }}
     />
   </Wrapper>
