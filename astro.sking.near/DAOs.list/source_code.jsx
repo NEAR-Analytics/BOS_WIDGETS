@@ -42,6 +42,7 @@ const renderSubheader = () => (
         inputProps: {
           autoFocus: true,
         },
+        useTimeout: 600,
       }}
     />
     <Widget
