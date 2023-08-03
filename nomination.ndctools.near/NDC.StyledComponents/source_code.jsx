@@ -89,7 +89,7 @@ const Styled = {
 
     i {
       margin: 0;
-      margin-left: ${(props) => (props.text ? "5px" : "0")};
+      margin-left: ${(props) => (Button.text ? "5px" : "0")};
     }
   `,
 
@@ -173,7 +173,7 @@ const Styled = {
 
     i {
       margin: 0;
-      margin-left: ${(props) => (props.text ? "5px" : "0")};
+      margin-left: ${(props) => (Link.text ? "5px" : "0")};
     }
   `,
 
