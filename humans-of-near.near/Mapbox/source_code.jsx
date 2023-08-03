@@ -54,7 +54,7 @@ const code = `
         const markersData = ${JSON.stringify(markers)};
         const el = document.createElement('div');
         el.className = 'marker';
-        el.innerHTML = ${icon};
+        el.innerHTML = '${icon}';
         
         markersData.forEach(marker => {
         new mapboxgl.Marker(el)
