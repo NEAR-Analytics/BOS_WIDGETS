@@ -16,6 +16,7 @@ State.init({
     social: "",
     twitter: "",
   },
+  loocations: [],
 });
 
 //Styles
@@ -70,10 +71,26 @@ const getMyData = () => {
   );
 };
 
+const getLocations = () => {
+  return asyncFetch(API_URL + `/location`).then((res) => {
+    if (res.ok) {
+      return res.body;
+    }
+  });
+};
+
 const getMyInfor = async () => {
   getMyData().then((user) => {
     State.update({
       user,
+    });
+  });
+};
+
+const getLocationsData = async () => {
+  getLocations().then((data) => {
+    State.update({
+      locations: data,
     });
   });
 };
@@ -83,6 +100,7 @@ const onClose = () => {
 };
 
 getMyInfor();
+getLocationsData();
 
 return (
   <Wrapper>
@@ -165,7 +183,7 @@ return (
     )}
 
     <Widget
-      src={`efiz.near/widget/Mapbox`}
+      src={`${Owner}/widget/Mapbox`}
       props={{ accessToken: MAP_TOKEN, styleUrl: MAP_STYLE, center, zoom }}
     />
   </Wrapper>
