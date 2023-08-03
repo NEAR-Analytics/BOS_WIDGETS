@@ -70,7 +70,7 @@ const code = `
             new mapboxgl.Marker(myel)
                 .setLngLat([lngLat.lng, lngLat.lat])
                .addTo(map);
-            });
+            
           });     
     `
         : ``
