@@ -35,8 +35,8 @@ State.init({
 });
 
 // ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const path = isDebug ? "test_like" : "like";
-const unfilteredLikes = Social.index(path, item, {
+const likePath = isDebug ? "test_like" : "like";
+const unfilteredLikes = Social.index(likePath, item, {
   order: "desc",
 });
 
@@ -177,19 +177,7 @@ const clickHandler = (emojiMessage) => {
   if (isDebug) {
     data = {
       index: {
-        test_like: JSON.stringify({
-          key: item,
-          value: {
-            type: emojiToWrite,
-            articleId: realArticleId,
-          },
-        }),
-      },
-    };
-  } else {
-    data = {
-      index: {
-        like: JSON.stringify({
+        [likePath]: JSON.stringify({
           key: item,
           value: {
             type: emojiToWrite,
