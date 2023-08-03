@@ -280,6 +280,7 @@ const CommentCandidate = () => {
     //The fields are incomplete
   }
 };
+
 const CommenttoReplay = () => {
   //Validate the Data outPut
   if (state.reply != null) {
@@ -418,7 +419,7 @@ return (
         ) : (
           <></>
         )}
-        <div class="w-100 col">
+        <div className="w-100 col">
           <Widget
             src={widgets.styledComponents}
             props={{
