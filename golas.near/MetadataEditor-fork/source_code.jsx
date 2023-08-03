@@ -33,18 +33,23 @@ const metadata = {
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
 };
 
+const ccc = "0";
+
 if (
   onChange &&
   JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
 ) {
+  ccc = "1";
   State.update({
     reportedMetadata: metadata,
   });
   onChange(metadata);
+  ccc = "2";
 }
 
 return (
   <>
+    <div>{ccc}</div>
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
