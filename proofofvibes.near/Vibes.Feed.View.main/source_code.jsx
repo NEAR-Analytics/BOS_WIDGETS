@@ -1,8 +1,6 @@
 /**
  * Do tastemaker check, see if toast notifcation works, add to nft, add default cid for minting images, add title with day
  * add human check
- * Check is tastemaker
- * Set amount based on how much bond. check proposal for this
  */
 const path = props.path;
 const blockHeight =
@@ -10,8 +8,6 @@ const blockHeight =
 const subscribe = !!props.subscribe;
 const parts = path.split("/");
 const accountId = parts[0] || props.accountId;
-// const accountId=jeanrocha.near;
-// const blockHeight=98038817;
 const notifyAccountId = accountId;
 const issuer = props.issuer ?? "issuer.proofofvibes.near";
 const receiver = props.receiver ?? accountId; // for sbt receiver // default the poster
@@ -125,6 +121,7 @@ const hasImageInPost = content.image; // need to check if image in post
 console.log("hasImage?", content.image);
 // need to get image url
 
+const isTasteMaker = true;
 // const accountId = context.accountId;
 
 const post_args = JSON.stringify({
@@ -139,7 +136,7 @@ const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
 //   const deposit = 80000000000000000000000; // 0.008 //
 const policy = Near.view(daoId, "get_policy");
 // const accountId = props.accountId ?? context.accountId;
-const daoBond = policy.proposal_bond;
+
 const proposalKinds = {
   ChangeConfig: "config",
   ChangePolicy: "policy",
@@ -171,19 +168,6 @@ const actions = {
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
 
-const getUserRoles = (user) => {
-  const userRoles = [];
-  for (const role of roles) {
-    if (role.kind === "Everyone") {
-      continue;
-    }
-    if (!role.kind.Group) continue;
-    if (user && role.kind.Group && role.kind.Group.includes(user)) {
-      userRoles.push(role.name);
-    }
-  }
-  return userRoles;
-};
 const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
   const userRoles = [];
@@ -243,18 +227,6 @@ const canProposeMemberAdd = isUserAllowedTo(
 );
 console.log(
   "Can loggedin user propose to add member to dao: " + canProposeMemberAdd
-);
-const userRoles = accountId ? getUserRoles(accountId) : [];
-const isPosterTastemaker = userRoles.includes("tastemaker");
-const isPosterVibee = userRoles.includes("vibee");
-const isPosterCouncil = userRoles.includes("council");
-console.log(
-  `Is ${accountId} a tastemaker: ` +
-    isPosterTastemaker +
-    `Is ${accountId} a vibee: ` +
-    isPosterVibee +
-    `Is ${accountId} a council: ` +
-    isPosterCouncil
 );
 // IAH Verification
 const getFirstSBTToken = (issuerContract) => {
@@ -381,7 +353,7 @@ const isMintAuthority = mintAuthorities.includes(context.accountId);
 const daoIsMinter = mintAuthorities.includes(daoId);
 const proposeVibee = () => {
   const gas = 200000000000000;
-  const deposit = 10000000000000000000000;
+  const deposit = 100000000000000000000000;
   Near.call([
     {
       contractName: daoId,
@@ -392,36 +364,13 @@ const proposeVibee = () => {
           kind: {
             AddMemberToRole: {
               member_id: accountId,
-              role: "vibee",
+              role: role,
             },
           },
         },
       },
       gas: gas,
-      deposit: daoBond,
-    },
-  ]);
-};
-const proposeTastemaker = () => {
-  const gas = 200000000000000;
-  const deposit = 10000000000000000000000;
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "Recommended as a tastemaker",
-          kind: {
-            AddMemberToRole: {
-              member_id: accountId,
-              role: "tastemaker",
-            },
-          },
-        },
-      },
-      gas: gas,
-      deposit: daoBond,
+      deposit: deposit,
     },
   ]);
 };
@@ -555,7 +504,7 @@ const sbtDAOMint = () => {
           },
         },
       },
-      deposit: daoBond,
+      deposit: deposit,
       gas: "219000000000000",
     },
   ]);
@@ -578,9 +527,6 @@ return (
         </div>
 
         <span className="text-nowrap text-muted">
-          |{isPosterTastemaker && <>🥂</>}
-          {isPosterCouncil && <>🏛️</>}
-          {isPosterVibee && <>🌈</>}|
           {badges.map((badge) => (
             <Widget
               src="proofofvibes.near/widget/sbtEmojiHelper"
@@ -629,7 +575,7 @@ return (
                     </li>
                   )}
 
-                  {canPropose && !isPosterVibee && (
+                  {canPropose && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
@@ -637,17 +583,6 @@ return (
                       >
                         <i className="bi bi-emoji-sunglasses" /> Recommend as
                         Vibee
-                      </a>
-                    </li>
-                  )}
-                  {canPropose && !isPosterTastemaker && (
-                    <li className="dropdown-item row">
-                      <a
-                        className="link-dark text-decoration-none"
-                        onClick={proposeTastemaker}
-                      >
-                        <i className="bi bi-cup-straw" /> Recommend as
-                        Tastemaker
                       </a>
                     </li>
                   )}
