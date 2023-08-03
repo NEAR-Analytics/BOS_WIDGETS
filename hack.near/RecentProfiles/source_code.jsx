@@ -1,6 +1,6 @@
 const data = Social.keys("*/profile", "final");
 
-const limit = props.limit || 21;
+const limit = props.limit || 1;
 
 if (!data) {
   return "Loading";
