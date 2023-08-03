@@ -40,6 +40,11 @@ const code = `
         border-radius: 50%;
         cursor: pointer;
       }
+
+      h6 {
+        margin:0;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
