@@ -53,16 +53,12 @@ if (isTest) {
 }
 
 const widgets = {
-  mobile: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.MobileView",
-  desktop:
-    "nomination.ndctools.near/widget/NDC.Nomination.Candidate.DesktopView",
-
   thisWidget: `${authorForWidget}/widget/${thisWidgetName}`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
   generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
-  oneArticle: `${authorForWidget}/widget/SayALot.OneArticle`,
+  oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
   reactions: "sayalot.near/widget/SayALot_Reactions",
   addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
   candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
@@ -263,12 +259,13 @@ function stateUpdate(obj) {
 }
 
 function handleOpenArticle(articleToRenderData) {
-  return () =>
-    State.update({
-      displayedTabId: tabs.SHOW_ARTICLE.id,
-      articleToRenderData,
-    });
+  State.update({
+    displayedTabId: tabs.SHOW_ARTICLE.id,
+    articleToRenderData,
+  });
 }
+
+console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ", state.displayedTabId);
 
 function handleFilterArticles(filter) {
   State.update({
@@ -320,8 +317,9 @@ return (
         src={widgets.oneArticle}
         props={{
           isTest,
-          articleToRenderData: state.articleToRenderData,
           handleBackButton,
+          articleToRenderData: state.articleToRenderData,
+          authorForWidget,
         }}
       />
     )}
