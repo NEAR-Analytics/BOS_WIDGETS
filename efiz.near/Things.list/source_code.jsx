@@ -49,6 +49,7 @@ const renderSubheader = () => (
         onChange: (v) => {
           State.update({
             search: v,
+            currentPage: 1,
           });
         },
         value: state.search,
