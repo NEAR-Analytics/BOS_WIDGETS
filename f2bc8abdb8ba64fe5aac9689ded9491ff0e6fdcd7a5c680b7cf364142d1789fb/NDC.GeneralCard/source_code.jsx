@@ -646,7 +646,7 @@ const renderArticleBody = () => {
 };
 
 //===============================================END COMPONENTS====================================================
-
+console.log("data: ", data);
 return (
   <div className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
