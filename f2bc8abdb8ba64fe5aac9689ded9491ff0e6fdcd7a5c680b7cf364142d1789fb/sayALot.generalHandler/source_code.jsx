@@ -11,7 +11,7 @@ const tabs = {
 
 State.init({
   displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-  infoToRenderArticle: {},
+  articleToRenderData: {},
   filterBy: tagShared
     ? { parameterName: "tag", parameterValue: tagShared }
     : { parameterName: "" },
@@ -53,6 +53,10 @@ if (isTest) {
 }
 
 const widgets = {
+  mobile: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.MobileView",
+  desktop:
+    "nomination.ndctools.near/widget/NDC.Nomination.Candidate.DesktopView",
+
   thisWidget: `${authorForWidget}/widget/${thisWidgetName}`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
@@ -258,15 +262,11 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
-function handleOpenArticle(article) {
+function handleOpenArticle(articleToRenderData) {
   return () =>
     State.update({
       displayedTabId: tabs.SHOW_ARTICLE.id,
-      infoToRenderArticle: {
-        articleId: article.articleId,
-        blockHeight: article.blockHeight,
-        lastEditor: article.lastEditor,
-      },
+      articleToRenderData,
     });
 }
 
@@ -309,7 +309,10 @@ return (
       />
     )}
     {state.displayedTabId == tabs.SHOW_ARTICLE.id && (
-      <Widget src={widgets.oneArticle} props={{ isTest }} />
+      <Widget
+        src={widgets.oneArticle}
+        props={{ isTest, articleToRenderData: state.articleToRenderData }}
+      />
     )}
   </>
 );
