@@ -1,5 +1,7 @@
 const accountId = context.accountId;
 
+if (!accountId) return;
+
 State.init({
   social: "",
   twitter: "",
@@ -77,7 +79,7 @@ getMyData().then(({ social, twitter, name }) => {
   State.update({
     social,
     twitter,
-    name,
+    name: name ? name : accountId,
   });
 });
 
