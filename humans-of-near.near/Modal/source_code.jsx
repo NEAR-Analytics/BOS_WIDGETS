@@ -58,7 +58,7 @@ color: white;
 `;
 
 const getMyData = () => {
-  return asyncFetch(props.BaseUrl + `/auth?accountId=${accountId}`).then(
+  return asyncFetch(props.API_URL + `/auth?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
         return res.body;
