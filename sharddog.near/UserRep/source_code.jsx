@@ -74,6 +74,7 @@ const cellStyle = {
 const cardStyle = {
   padding: "10px",
   width: "680px",
+  maxWidth: "100%",
   background: "rgba(251, 249, 245, 0.85)",
   filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15))",
   height: "1000px",
@@ -91,7 +92,7 @@ const centered = {
   transform: "translate(-50%, -50%)",
   zIndex: "1000",
   fontWeight: "900",
-  fontSize: "38px",
+  fontSize: "1.2rem",
   color: "#f0f0f0",
   textShadow: "1px 4px 4px #555",
 };
