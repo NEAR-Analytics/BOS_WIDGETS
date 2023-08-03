@@ -23,10 +23,10 @@ const Styled = {
 
       &.dark {
         color: #fff;
-        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+        background: #4BA6EE;
 
         &:hover {
-          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+          background: #3B86CB;
         }
       }
 
@@ -45,6 +45,10 @@ const Styled = {
       &.danger {
         background: #dd5e56;
         color: #fff;
+
+        &:hover {
+          background: #C23F38;
+        }
       }
     }
 
@@ -60,12 +64,12 @@ const Styled = {
       }
 
       &.dark {
-        border-color: ${(props) => (Button.inverse ? "#fff" : "#4f46e5")};
-        color: ${(props) => (Button.inverse ? "#fff" : "#4f46e5")};
+        border-color: ${(props) => (Button.inverse ? "#fff" : "#4BA6EE")};
+        color: ${(props) => (Button.inverse ? "#fff" : "#4BA6EE")};
 
         &:hover {
-          border-color: ${(props) => (Button.inverse ? "#fff" : "#2f2a87")};
-          color: ${(props) => (Button.inverse ? "#fff" : "#2f2a87")};
+          border-color: ${(props) => (Button.inverse ? "#fff" : "#3B86CB")};
+          color: ${(props) => (Button.inverse ? "#fff" : "#3B86CB")};
         }
       }
 
@@ -73,6 +77,10 @@ const Styled = {
         border: 1px solid #c23f38;
         background: #f1d6d5;
         color: #c23f38;
+
+        &:hover {
+          background: #C23F38;
+        }
       }
 
       &:disabled {
@@ -119,10 +127,10 @@ const Styled = {
 
       &.dark {
         color: #fff;
-        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+        background: #4BA6EE;
 
         &:hover {
-          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+          background: #3B86CB;
         }
       }
 
@@ -150,12 +158,12 @@ const Styled = {
       }
 
       &.dark {
-        border-color: ${(props) => (Link.inverse ? "#fff" : "#4f46e5")};
-        color: ${(props) => (Link.inverse ? "#fff" : "#4f46e5")};
+        border-color: ${(props) => (Link.inverse ? "#fff" : "#4BA6EE")};
+        color: ${(props) => (Link.inverse ? "#fff" : "#4BA6EE")};
 
         &:hover {
-          border-color: ${(props) => (Link.inverse ? "#fff" : "#2f2a87")};
-          color: ${(props) => (Link.inverse ? "#fff" : "#2f2a87")};
+          border-color: ${(props) => (Link.inverse ? "#fff" : "#3B86CB")};
+          color: ${(props) => (Link.inverse ? "#fff" : "#3B86CB")};
         }
       }
 
@@ -211,18 +219,13 @@ const Styled = {
     justify-content: center;
     align-items: center;
     padding: 4px 8px;
-    border: 1px solid rgb(79, 70, 229);
-    color: rgb(79, 70, 229);
-    background: linear-gradient(
-      90deg,
-      rgba(147, 51, 234, 0.1) 0%,
-      rgba(79, 70, 229, 0.1) 100%
-    );
+    border: 1px solid #4BA6EE;
+    color: #4BA6EE;
     border-radius: 100px;
 
     &.dark {
       color: #fff;
-      background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+      background: #4BA6EE;
     }
 
     p {
