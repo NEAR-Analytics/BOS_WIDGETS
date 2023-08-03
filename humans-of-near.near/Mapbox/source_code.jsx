@@ -6,6 +6,7 @@ const center = props.center || [-87.6298, 41.8781]; // starting position [lng, l
 const zoom = props.zoom || 9; // starting zoom
 const accountId = context.accountId;
 const markers = props.markers || [];
+const edit = props.edit || false;
 
 const code = `
 <!DOCTYPE html>
@@ -126,7 +127,7 @@ const code = `
     populateMarkers();
 
     ${
-      accountId
+      accountId && edit
         ? `map.on('click', function(event) {
         const { lngLat } = event;
         
