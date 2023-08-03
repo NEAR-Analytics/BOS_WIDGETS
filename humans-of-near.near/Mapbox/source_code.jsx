@@ -54,7 +54,14 @@ const code = `
         markersData.forEach(marker => {
         new mapboxgl.Marker(el)
             .setLngLat([marker.longitude, marker.latitude])
-            .addTo(map);
+            .setPopup(
+                new mapboxgl.Popup({ offset: 25 }) // add popups
+                  .setHTML(
+                    <div style="padding: 20px;">
+                        tiltle
+                    </div>
+              )
+            ).addTo(map);
         });
     }
 
