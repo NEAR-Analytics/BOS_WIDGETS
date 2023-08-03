@@ -81,10 +81,6 @@ return (
         <h2>
           <b>NEAR Türkiye QUIZ</b>
         </h2>
-        <h4>
-          Her biri 0.5 Near değerinde 5 soru ile toplamda 2.5 NEAR kazanma şansı
-          🎁{" "}
-        </h4>
       </div>
       <div className="m-2">
         <Widget
