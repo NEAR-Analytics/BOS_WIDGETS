@@ -452,7 +452,7 @@ return (
               Button: {
                 text: "Submit",
                 onClick: () => {
-                  candidateOrReplay ? CommentCandidate() : CommenttoReplay();
+                  //   candidateOrReplay ? CommentCandidate() : CommenttoReplay();
                 },
               },
             }}
