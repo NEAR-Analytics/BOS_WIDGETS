@@ -95,13 +95,13 @@ const code = `
            '</div>'+
           '</div>'+
         '</div>';
+      console.log(HTML,"==>HTML");
         return HTML;
     };
 
     // Function to populate markers to the map
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
-        console.log(markersData,"==>markersData");
         
         markersData.forEach(marker => {
           
