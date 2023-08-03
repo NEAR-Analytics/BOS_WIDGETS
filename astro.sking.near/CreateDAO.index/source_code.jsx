@@ -17,6 +17,8 @@ const isComplexType = (type) =>
 const rawTypes = Social.get("astro.sking.near/type/*", "final");
 if (rawTypes === null) return null;
 
+const types = {};
+
 // It finds custom types in the type definitions and fetches them from SocialDB.
 function getCustomTypes(type, depth) {
   depth = depth || 0;
