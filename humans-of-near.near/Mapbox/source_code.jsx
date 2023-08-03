@@ -4,7 +4,11 @@ const ACCESS_TOKEN =
 const styleUrl = props.styleUrl || "mapbox://styles/mapbox/streets-v12"; // see https://docs.mapbox.com/api/maps/styles/#mapbox-styles
 const center = props.center || [-87.6298, 41.8781]; // starting position [lng, lat]
 const zoom = props.zoom || 9; // starting zoom
-const markers = props.markers || []; // map markers, array of objects that look like: { lng: -87.641, lat: 41.874 }
+const accountId = context.accountId;
+
+State.init({
+  markers: props.markers || [],
+});
 
 const code = `
 <!DOCTYPE html>
@@ -56,13 +60,21 @@ const code = `
         center: [${center[0]}, ${center[1]}], 
         zoom: ${zoom}
     });
-
-    map.on('click', function(e) {
-
-    console.log(e);
-  
-
-    });
+    const myel = document.createElement('div');
+    myel.className = 'marker';
+    ${
+      accountId
+        ? `map.on('click', function(event) {
+            const { lngLat } = event;
+            
+            new mapboxgl.Marker(myel)
+                .setLngLat([lngLat.lng, lngLat.lat])
+               .addTo(map);
+            });
+          });     
+    `
+        : ``
+    }
 
     function getDetail (row) {
       const user = row.user;
@@ -108,7 +120,7 @@ const code = `
 
     // Function to populate markers to the map
     function populateMarkers() {
-        const markersData = ${JSON.stringify(markers)};
+        const markersData = ${JSON.stringify(state.markers)};
         
         markersData.forEach(marker => {
           
