@@ -11,6 +11,7 @@ const getBackgroundColor = (value, goodCondition, warningCondition) => {
 
 const handleWalletChange = (event) => {
   State.update({ wallet: event.target.value });
+  fetchData();
 };
 
 function fetchData() {
@@ -250,6 +251,11 @@ return (
             </tr>
           </tbody>
         </table>
+        <p>
+          <small>
+            <i>Data may take a couple seconds to populate</i>
+          </small>
+        </p>
       </div>
     </div>
   </div>
