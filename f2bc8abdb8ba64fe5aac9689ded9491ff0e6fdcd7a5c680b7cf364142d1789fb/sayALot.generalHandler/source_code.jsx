@@ -302,6 +302,7 @@ return (
           addressForArticles,
           handleOpenArticle,
           handleFilterArticles,
+          authorForWidget,
         }}
       />
     )}
