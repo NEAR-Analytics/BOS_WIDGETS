@@ -1,6 +1,7 @@
 const accountId = props.accountId;
 const senderId = context.accountId;
 const userProfile = Social.get(`${accountId}/profile/**`, "final");
+const senderProfile = Social.get(`${senderId}/profile/**`, "final");
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -18,7 +19,7 @@ const item = {
 
 State.init({
   receiver: accountId,
-  sender: senderId,
+  sender: `${senderProfile.name || senderId.split(".near")[0]}`,
   description: nftDescription,
   title,
   image,
@@ -26,6 +27,8 @@ State.init({
   imageUrl: undefined,
   profile: userProfile,
 });
+
+console.log("sender: ", state.sender);
 
 const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
 if (!res) {
