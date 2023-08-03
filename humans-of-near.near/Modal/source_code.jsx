@@ -107,6 +107,7 @@ getMyData().then(({ social, twitter, name }) => {
 const changeName = async (e) => {
   if (e.target.value.length <= 12)
     State.update({
+      ...state,
       name: e.target.value,
     });
 };
@@ -114,6 +115,7 @@ const changeName = async (e) => {
 const changeSocial = async (e) => {
   if (e.target.value.indexOf(SOCIAL) === 0)
     State.update({
+      ...state,
       social: e.target.value,
     });
 };
@@ -121,6 +123,7 @@ const changeSocial = async (e) => {
 const changeTwitter = async (e) => {
   if (e.target.value.indexOf(TWITTER) === 0)
     State.update({
+      ...state,
       twitter: e.target.value,
     });
 };
