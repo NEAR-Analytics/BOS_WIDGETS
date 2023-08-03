@@ -80,6 +80,67 @@ const judges = [
     image:
       "https://ipfs.near.social/ipfs/bafkreidaqjryugkdvmwiereey7rc6zwix3bausjsvjxujbfsovkmbjnnwa",
   },
+  {
+    url: "https://neardevhub.org/",
+    name: "NEAR DevHub",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreid4hwxj7krtddzda53hwpekqmamlkqev46ghf337b27wmghdzpocy",
+  },
+  {
+    url: "https://near.foundation",
+    name: "NEAR Foundation",
+    image:
+      "https://pbs.twimg.com/profile_images/1509554611841114124/ma08E72p_400x400.jpg",
+  },
+
+  {
+    url: "https://near.org/#/devgovgigs.near/widget/gigs-board.pages.community.activity?handle=akaia",
+    name: "Akaia DAO",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreie6yimk4of3amrxsswue7gnhtodxe5ziilxqa7raepaglr4uvvzv4",
+  },
+  {
+    url: "https://mintbase.xyz",
+    name: "Mintbase",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreibldlfof5iskk7rjdd327mml3mquqn4bssmy2yyeg7elbiqwhsjlm",
+  },
+  {
+    url: "https://keypom.xyz",
+    name: "Keypom",
+    image:
+      "https://ipfs.near.social/ipfs/bafybeiacxpryfxmpy5s257kxvli3myumwlffyoxi4pcpfcia6oam55uylm",
+  },
+  {
+    url: "https://www.metaweb.vc/",
+    name: "MetaWeb Ventures",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreicvclt6x75y7vi6z4rifaqlk4ufz2ftbdzc45l2f22pfjfbrtcfdm",
+  },
+  {
+    url: "https://near.org/horizon",
+    name: "NEAR Horizon",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreihszpflge5j3g35td67xh7fw5z37rgyumh75uzabqrfnpcjfag2we",
+  },
+  {
+    url: "https://metapool.app",
+    name: "Meta Pool",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreigfcftswq4eyvw4miwt5dncb6gnrvrw3gbxgciwugdf4iwghfctwm",
+  },
+  {
+    url: "https://linktr.ee/nearvietnamhub",
+    name: "NEAR Vietnam",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreiaka3spk3f6bizas4472g52tl4v6ms3oykrkzso7uagjqlmd35fy4",
+  },
+  {
+    url: "https://nearhub.club",
+    name: "NEARHub",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreigll53omi7xolt7lhujid4lzxvz6vjuxxqulosftigvhcz46s4x5u",
+  },
 ];
 const sponsors = [
   {
@@ -167,12 +228,6 @@ const partners = [
   },
 
   {
-    url: "https://near.foundation",
-    name: "NEAR Foundation",
-    image:
-      "https://pbs.twimg.com/profile_images/1509554611841114124/ma08E72p_400x400.jpg",
-  },
-  {
     url: "https://minorityprogrammers.org",
     name: "Minority Programmers",
     image:
@@ -190,6 +245,13 @@ const partners = [
     image:
       "https://ipfs.near.social/ipfs/bafkreicxkl63msjcqn37ooqq6wxz5xrjwralwtraldcj2e3tmhgftsu4fm",
   },
+  {
+    url: "https://twitter.com/nearafrica_",
+    name: "NEAR Africa",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreibt22qsg26xfneui7unxmbq7yeesjj5z2d4vdlawnzuf67knpooja",
+  },
+
   // {
   //   url: "https://nearweek.com",
   //   name: "NEARWEEK",
@@ -224,7 +286,7 @@ return (
         <Widget
           src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
           props={{
-            text: "🤝 Become a Sponsor/Partner",
+            text: "🤝 Sponsor/Partner",
             href: "http://nearbuilders.com/sponsor",
           }}
         />
@@ -245,7 +307,7 @@ return (
           src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
           props={{
             text: "🧑🏿‍🏫 See More",
-            href: "http://nearbuilders.com/people",
+            href: "https://nearbuilders.com/people",
           }}
         />
       </div>
