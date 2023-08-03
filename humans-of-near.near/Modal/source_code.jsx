@@ -1,3 +1,5 @@
+const accountId = context.accountId;
+
 const ModalOverlay = styled.div`
   position: absolute;
   left: 58px;
@@ -54,6 +56,24 @@ border: 2px solid rgb(255, 255, 255);
 background-color: #191a1a;
 color: white;
 `;
+
+const getMyData = () => {
+  return asyncFetch(props.BaseUrl + `/auth?accountId=${accountId}`).then(
+    (res) => {
+      if (res.ok) {
+        return res.body;
+      }
+    }
+  );
+};
+
+getMyData().then(({ social, twitter, name }) => {
+  State.update({
+    social,
+    twitter,
+    name,
+  });
+});
 
 return (
   <ModalOverlay>
