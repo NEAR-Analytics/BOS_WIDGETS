@@ -22,6 +22,7 @@ State.init({
 //const authorForWidget = "sayalot.near";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const thisWidgetName = "sayALot.generalHandler";
 
 let writersWhiteList = [
   "neardigitalcollective.near",
@@ -50,6 +51,7 @@ if (isTest) {
 }
 
 const widgets = {
+  thisWidget: `${authorForWidget}/widget/${thisWidgetName}`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
