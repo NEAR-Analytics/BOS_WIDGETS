@@ -11,6 +11,11 @@ const accountId = context.accountId;
 State.init({
   showModal: false,
   edit: false,
+  user: {
+    name: "",
+    social: "",
+    twitter: "",
+  },
 });
 
 //Styles
@@ -55,9 +60,29 @@ const BtnStyle2 = {
   zIndex: 1,
 };
 
+const getMyData = () => {
+  return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
+    (res) => {
+      if (res.ok) {
+        return res.body.user;
+      }
+    }
+  );
+};
+
+const getMyInfor = async () => {
+  getMyData().then((user) => {
+    State.update({
+      user,
+    });
+  });
+};
+
 const onClose = () => {
   State.update({ showModal: false });
 };
+
+getMyInfor();
 
 return (
   <Wrapper>
@@ -133,7 +158,10 @@ return (
     </div>
 
     {state.showModal && (
-      <Widget src={`${Owner}/widget/Modal`} props={{ onClose, API_URL }} />
+      <Widget
+        src={`${Owner}/widget/Modal`}
+        props={{ onClose, API_URL, user: state.user, getMyInfor }}
+      />
     )}
 
     <Widget
