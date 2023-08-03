@@ -626,7 +626,7 @@ const renderTags = () => {
 const renderArticleBody = () => {
   let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
   return (
-    <div className="mx-1">
+    <div className="mr-2">
       <Widget
         src="mob.near/widget/SocialMarkdown"
         props={{
