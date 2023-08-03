@@ -131,6 +131,7 @@ const code = `
         ? `map.on('click', function(event) {
         const { lngLat } = event;
         window.selectedItem = lngLat;
+          console.log(window.selectedItem, "===>window.selectedItem");
         new mapboxgl.Marker(myel)
             .setLngLat([lngLat.lng, lngLat.lat])
             .addTo(map);
