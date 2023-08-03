@@ -647,7 +647,6 @@ const renderArticleBody = () => {
           ),
         }}
       />
-      <span>{displayedContent}</span>
       {state.sliceContent && content.length > 1000 && (
         <Widget
           src={widgets.styledComponents}
@@ -856,7 +855,6 @@ return (
                 }}
               />
             </div>
-            )
           </div>
         </LowerSectionContainer>
       </LowerSection>
