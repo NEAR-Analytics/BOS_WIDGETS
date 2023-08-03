@@ -115,7 +115,10 @@ return (
         <GrayBackground>
           <TicketSolutionText>Tickets Solution By</TicketSolutionText>
           <div style={{ width: "fit-content", margin: "auto" }}>
-            <img src="https://i.ibb.co/3kkqvwm/Frame-13509.png" />
+            <img
+              style={{ width: "100%" }}
+              src="https://i.ibb.co/3kkqvwm/Frame-13509.png"
+            />
           </div>
         </GrayBackground>
       </TicketContent>
