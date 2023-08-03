@@ -97,7 +97,7 @@ return (
       {context.accountId ? (
         <Widget
           src="hack.near/widget/connect.button"
-          props={{ accountId: "nearinturkiye.near" }}
+          props={{ accountId: "academy.near" }}
         />
       ) : (
         <Widget
