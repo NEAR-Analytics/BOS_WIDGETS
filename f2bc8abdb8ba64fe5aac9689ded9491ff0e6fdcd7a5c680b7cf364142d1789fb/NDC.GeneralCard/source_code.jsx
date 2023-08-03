@@ -8,6 +8,7 @@ const {
   handleOpenArticle,
   handleFilterArticles,
   addressForArticles,
+  authorForWidget,
 } = props;
 
 const tags = data.tags;
@@ -626,6 +627,26 @@ const renderArticleBody = () => {
   let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
   return (
     <>
+      <Widget
+        src="mob.near/widget/SocialMarkdown"
+        props={{
+          text: displayedContent,
+          onHashtag: (hashtag) => (
+            <span
+              key={hashtag}
+              className="d-inline-flex"
+              style={{ fontWeight: 500 }}
+            >
+              <a
+                href={`https://near.social/${authorForWidget}/widget/${widgets.thisWidget}?tagShared=${hashtag}`}
+                target="_blank"
+              >
+                #{hashtag}
+              </a>
+            </span>
+          ),
+        }}
+      />
       <span>{displayedContent}</span>
       {state.sliceContent && content.length > 1000 && (
         <Widget
@@ -799,44 +820,43 @@ return (
           </ButtonsLowerSection>
           {/*TODO review buttons functionality in sayALot*/}
           <div className="d-flex w-100 align-items-center">
-            {true && (
-              <div className="d-flex w-100 gap-2 justify-content-between">
-                <Widget
-                  src={widgets.styledComponents}
-                  //TODO review the button text
-                  props={{
-                    Button: {
-                      text: `+${data.upVoteData.comments.length ?? 0} Comments`,
-                      disabled: !state.verified,
-                      size: "sm",
-                      className: "secondary dark w-100 justify-content-center",
-                      onClick: () => {
-                        true ? State.update({ showModal: true }) : "";
-                      },
-                      icon: (
-                        <>
-                          <i className="bi bi-chat-square-text-fill"></i>
-                        </>
-                      ),
+            <div className="d-flex w-100 gap-2 justify-content-between">
+              <Widget
+                src={widgets.styledComponents}
+                //TODO review the button text
+                props={{
+                  Button: {
+                    text: `+${data.upVoteData.comments.length ?? 0} Comments`,
+                    disabled: !state.verified,
+                    size: "sm",
+                    className: "secondary dark w-100 justify-content-center",
+                    onClick: () => {
+                      State.update({ showModal: true });
                     },
-                  }}
-                />
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      text: "View",
-                      size: "sm",
-                      className: "primary w-100 justify-content-center",
-                      icon: <i className="bi bi-eye fs-6"></i>,
-                      onClick: () => {
-                        handleOpenArticle();
-                      },
+                    icon: (
+                      <>
+                        <i className="bi bi-chat-square-text-fill"></i>
+                      </>
+                    ),
+                  },
+                }}
+              />
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    text: "View",
+                    size: "sm",
+                    className: "primary w-100 justify-content-center",
+                    icon: <i className="bi bi-eye fs-6"></i>,
+                    onClick: () => {
+                      handleOpenArticle();
                     },
-                  }}
-                />
-              </div>
-            )}
+                  },
+                }}
+              />
+            </div>
+            )
           </div>
         </LowerSectionContainer>
       </LowerSection>
