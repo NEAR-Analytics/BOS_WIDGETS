@@ -170,6 +170,11 @@ const Styled = {
         color: #828688;
       }
     }
+
+    i {
+      margin: 0;
+      margin-left: ${(props) => (props.text ? "5px" : "0")};
+    }
   `,
 
   Select: styled.select`
