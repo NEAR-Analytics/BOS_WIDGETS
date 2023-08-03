@@ -1,6 +1,10 @@
 const accountId = context.accountId;
-
 if (!accountId) return;
+
+const SOCIAL = "https://social.near.page/u/";
+const TWITTER = "https://twitter.com/";
+
+const { API_URL, onClose } = props;
 
 State.init({
   social: "",
@@ -66,13 +70,30 @@ color: white;
 `;
 
 const getMyData = () => {
-  return asyncFetch(props.API_URL + `/auth?accountId=${accountId}`).then(
+  return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
         return res.body.user;
       }
     }
   );
+};
+
+const saveMyProfile = () => {
+  const data = {
+    accountId,
+    name: state.name,
+    social: state.name,
+    twitter: state.twitter,
+  };
+  return asyncFetch(API_URL + `/auth/account`, {
+    method: "POST",
+    body: data,
+  }).then((res) => {
+    if (res.ok) {
+      onClose();
+    }
+  });
 };
 
 getMyData().then(({ social, twitter, name }) => {
@@ -83,21 +104,57 @@ getMyData().then(({ social, twitter, name }) => {
   });
 });
 
+const changeName = async (e) => {
+  if (e.target.value.length <= 12)
+    State.update({
+      name: e.target.value,
+    });
+};
+
+const changeSocial = async (e) => {
+  if (e.target.value.indexOf(SOCIAL) === 0)
+    State.update({
+      social: e.target.value,
+    });
+};
+
+const changeTwitter = async (e) => {
+  if (e.target.value.indexOf(TWITTER) === 0)
+    State.update({
+      twitter: e.target.value,
+    });
+};
+
 return (
   <ModalOverlay>
     <ModalContent>
-      <button onClick={props.onClose}>X</button>
+      <button onClick={onClose}>X</button>
       <ModalTitle>{`Your Profile`}</ModalTitle>
       <p>{`Be careful with your public data.`}</p>
       <h5>{`Display Name`}</h5>
-      <TextField type="text" placeholder="display name" value={state.name} />
+      <TextField
+        type="text"
+        placeholder="display name"
+        value={state.name}
+        onChange={changeName}
+      />
       <h5>{`Near Social`}</h5>
-      <TextField type="text" placeholder="Near Social" value={state.social} />
+      <TextField
+        type="text"
+        placeholder="Near Social"
+        value={state.social}
+        onChange={changeSocial}
+      />
       <h5>{`Twitter`}</h5>
-      <TextField type="text" placeholder="Twitter Link" value={state.twitter} />
+      <TextField
+        type="text"
+        placeholder="Twitter Link"
+        value={state.twitter}
+        onChange={changeTwitter}
+      />
     </ModalContent>
     <ModalAction>
-      <Button className="btn">{`Save`}</Button>
+      <Button className="btn" onClick={saveMyProfile}>{`Save`}</Button>
     </ModalAction>
   </ModalOverlay>
 );
