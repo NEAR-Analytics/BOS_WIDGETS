@@ -1,22 +1,4 @@
-const accountId = props.accountId || "";
-const senderId = context.accountId;
-
-// State.init({
-//   blockHeight: "now",
-//   content: {
-//     type: "md",
-//     text: "Gunna",
-//     image: undefined,
-//     embeddedNFT: {
-//       contractId: "nft.genadrop.near1664304736705",
-//       tokenId: 1664304736705,
-//       chain: "Near",
-//     },
-//   },
-// });
-// console.log("content", state.content);
-const userProfile = Social.get(`${accountId}/profile/**`, "final");
-const senderProfile = Social.get(`${senderId}/profile/**`, "final");
+const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -24,35 +6,6 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
-const sender =
-  senderId &&
-  `${
-    senderProfile.name ||
-    (senderId.endsWith(".near")
-      ? `@${
-          senderId.length > 20
-            ? `${senderId.slice(0, 10)}...${senderId.slice(
-                senderId.length - 4
-              )}`
-            : `${senderId}`
-        }`
-      : `@${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`)
-  }`;
-const receiver =
-  accountId &&
-  `${
-    state.profile?.name ||
-    (accountId.endsWith(".near")
-      ? `@${
-          accountId.length > 20
-            ? `${accountId.slice(0, 10)}...${accountId.slice(
-                accountId.length - 4
-              )}`
-            : `${accountId}`
-        }`
-      : `@${accountId.slice(0, 10)}...${accountId.slice(accountId.length - 4)}`)
-  }`;
-const nftDescription = content?.text ?? "BOS minting powered by GenaDrop";
 
 const notifyAccountId = accountId;
 const item = {
@@ -61,47 +14,63 @@ const item = {
   blockHeight,
 };
 
-console.log("sender: ", sender);
+State.init({
+  receiver: accountId,
+  sender: context.accountId,
+  description: nftDescription,
+  title,
+  image,
+  content,
+  imageUrl: undefined,
+  profile,
+});
 
 const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
 if (!res) {
   return "Loading";
 }
-if (!res?.ok || res?.body === "null") {
+if (!res.ok || res.body === "null") {
   return "unknown";
 }
 
-const timeMs = parseFloat(res?.body);
+const timeMs = parseFloat(res.body);
 
 const date = new Date(timeMs);
-const postDate = `${date?.toLocaleDateString([], {
+const postDate = `${date.toLocaleDateString([], {
   day: "numeric",
   month: "short",
   year: "numeric",
 })}`;
 // const formattedDate = formatDate(timeMs);
+const nftDescription = state?.content.text ?? "BOS minting powered by GenaDrop";
 console.log("post date", postDate);
 
 const hasImageInPost = content?.image;
 // console.log("content", content);
-// console.log("receiver", receiver.length);
 
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-State.update({
-  description: `${nftDescription.trim().slice(0, 120)}...`,
-  title: `${receiver} ${postDate} 💖 from ${sender}`,
-  profile: userProfile,
-  content: JSON.parse(
-    Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
-  ),
-});
-content?.image?.ipfs_cid
-  ? State.update({
-      imageUrl: `https://ipfs.near.social/ipfs/${content?.image?.ipfs_cid}`,
-    })
-  : State.update({
-      imageUrl: content?.image?.url,
-    }) || fallbackUrl;
+
+const getData = () => {
+  State.update({
+    description: `${state?.content?.text.trim().slice(0, 140)}... 💖 from ${
+      state.sender
+    }`,
+    title: `${state.profile.name || accountId.split(".near")[0]} ${postDate}`,
+    profile: Social.get(`${accountId}/profile/**`, "final"),
+    content: JSON.parse(
+      Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
+    ),
+  });
+  return state?.content?.image.ipfs_cid
+    ? State.update({
+        imageUrl: `https://ipfs.near.social/ipfs/${state?.content?.image.ipfs_cid}`,
+      })
+    : State.update({
+        imageUrl: state?.content?.image.url,
+      }) || fallbackUrl;
+};
+
+getData();
 
 const nftMint = () => {
   if (!hasImageInPost) {
@@ -122,7 +91,7 @@ const nftMint = () => {
   } else {
     const metadata = {
       name: state.title,
-      description: state.description,
+      description: `${state.description.trim().slice(0, 140)}...`,
       properties: [],
       image: state.imageUrl,
 
@@ -169,103 +138,86 @@ const nftMint = () => {
   }
 };
 
-// console.log(content);
 return (
-  <>
-    {state && (
-      <div className="border-bottom pt-3 pb-1">
-        <Widget
-          src="jgodwill.near/widget/MainPage.Post.Header"
-          props={{
-            accountId,
-            hasImageInPost,
-            blockHeight,
-            nftMint,
-            link,
-            postType: "post",
-            flagItem: item,
-          }}
-        />
-        <div className="mt-3 text-break">
+  <div className="border-bottom pt-3 pb-1">
+    <Widget
+      src="jgodwill.near/widget/MainPage.Post.Header"
+      props={{
+        accountId,
+        hasImageInPost,
+        blockHeight,
+        nftMint,
+        link,
+        postType: "post",
+        flagItem: item,
+      }}
+    />
+    <div className="mt-3 text-break">
+      <Widget
+        src="mob.near/widget/MainPage.Post.Content"
+        props={{ content, raw }}
+      />
+    </div>
+    {blockHeight !== "now" && (
+      <div className="mt-1 d-flex justify-content-between">
+        <div className="me-4">
           <Widget
-            src="jgodwill.near/widget/MainPage.Post.Content"
-            props={{ content, raw }}
+            src="mob.near/widget/CommentButton"
+            props={{
+              onClick: () =>
+                !state.showReply && State.update({ showReply: true }),
+            }}
           />
         </div>
-        {/*        {content.embeddedNFT && (
-          <div key="content-img" className="mt-2">
-            <Widget
-              src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
-              props={{
-                contractId: content.embeddedNFT.contractId,
-                tokenId: content.embeddedNFT.tokenId,
-                chainState: content.embeddedNFT.chain?.toLowerCase(),
-              }}
-            />
-          </div>
-        )}*/}
-        {blockHeight !== "now" && (
-          <div className="mt-1 d-flex justify-content-between">
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/CommentButton"
-                props={{
-                  onClick: () =>
-                    !state.showReply && State.update({ showReply: true }),
-                }}
-              />
-            </div>
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/RepostButton"
-                props={{
-                  notifyAccountId,
-                  item,
-                }}
-              />
-            </div>
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/LikeButton"
-                props={{
-                  notifyAccountId,
-                  item,
-                }}
-              />
-            </div>
-            <div>
-              <Widget
-                src="mob.near/widget/MainPage.Post.ShareButton"
-                props={{ accountId, blockHeight, postType: "post" }}
-              />
-            </div>
-          </div>
-        )}
-        <div className="mt-3 ps-5">
-          {state.showReply && (
-            <div className="mb-2">
-              <Widget
-                src="mob.near/widget/MainPage.Comment.Compose"
-                props={{
-                  notifyAccountId,
-                  item,
-                  onComment: () => State.update({ showReply: false }),
-                }}
-              />
-            </div>
-          )}
+        <div className="me-4">
           <Widget
-            src="mob.near/widget/MainPage.Comment.Feed"
+            src="mob.near/widget/RepostButton"
             props={{
+              notifyAccountId,
               item,
-              highlightComment: props.highlightComment,
-              limit: props.commentsLimit,
-              subscribe,
-              raw,
             }}
+          />
+        </div>
+        <div className="me-4">
+          <Widget
+            src="mob.near/widget/LikeButton"
+            props={{
+              notifyAccountId,
+              item,
+            }}
+          />
+        </div>
+        <div>
+          <Widget
+            src="mob.near/widget/MainPage.Post.ShareButton"
+            props={{ accountId, blockHeight, postType: "post" }}
           />
         </div>
       </div>
     )}
-  </>
+    <div className="mt-3 ps-5">
+      {state.showReply && (
+        <div className="mb-2">
+          <Widget
+            src="mob.near/widget/MainPage.Comment.Compose"
+            props={{
+              notifyAccountId,
+              item,
+              onComment: () => State.update({ showReply: false }),
+            }}
+          />
+        </div>
+      )}
+      <Widget
+        src="mob.near/widget/MainPage.Comment.Feed"
+        props={{
+          item,
+          highlightComment: props.highlightComment,
+          limit: props.commentsLimit,
+          subscribe,
+          raw,
+        }}
+      />
+    </div>
+  </div>
 );
