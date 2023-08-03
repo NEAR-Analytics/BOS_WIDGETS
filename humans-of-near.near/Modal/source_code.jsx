@@ -118,7 +118,17 @@ const changeTwitter = async (e) => {
 return (
   <ModalOverlay>
     <ModalContent>
-      <button onClick={onClose}>X</button>
+      <button
+        style={{
+          width: 40,
+          position: "absolute",
+          right: 25,
+          background: "unset",
+        }}
+        onClick={onClose}
+      >
+        X
+      </button>
       <ModalTitle>{`Your Profile`}</ModalTitle>
       <p>{`Be careful with your public data.`}</p>
       <h5>{`Display Name`}</h5>
