@@ -160,7 +160,7 @@ if (reverse) {
   items.reverse();
 }
 
-const renderedItems = await Promise.all(items.map(cachedRenderItem));
+const renderedItems = items.map(cachedRenderItem);
 return props.manual ? (
   <>
     {reverse && fetchMore}
