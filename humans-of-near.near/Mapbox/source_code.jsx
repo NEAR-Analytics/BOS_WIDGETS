@@ -21,7 +21,7 @@ const code = `
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
       .marker {
-        background-image: url('https://https://humans.nearverselabs.com/Human.png');
+        background-image: url('https://humans.nearverselabs.com/Human.png');
         background-size: cover;
         width: 50px;
         height: 50px;
