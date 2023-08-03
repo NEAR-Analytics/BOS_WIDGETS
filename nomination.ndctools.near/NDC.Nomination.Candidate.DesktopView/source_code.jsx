@@ -550,7 +550,7 @@ return (
                     Link: {
                       text: `Watch Video`,
                       className: "primary dark",
-                      icon: <i class="bi bi-play-circle"></i>,
+                      icon: <i class="bi bi-play-circle ml-2"></i>,
                       href: data.nominations.video,
                     },
                   }}
