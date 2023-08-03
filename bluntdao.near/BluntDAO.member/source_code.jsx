@@ -2,6 +2,7 @@ const accountId = props.accountId ?? "bluntdao.near";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const isOG = props.isOG ?? false;
 
 State.init({
   show: false,
@@ -112,7 +113,7 @@ return (
         )}
       </div>
     </CardLeft>
-    {!!context.accountId && (
+    {!!context.accountId && !isOG && (
       <Widget
         src="bluntdao.near/widget/BluntDAO.Button.Join"
         props={{ newMember: accountId, accountId: context.accountId }}
