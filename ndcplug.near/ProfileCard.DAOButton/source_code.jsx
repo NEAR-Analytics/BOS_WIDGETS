@@ -6,7 +6,98 @@ const description =
   props.description ?? `Add ${receiver} as a ${role} to ${daoId}`;
 const buttonName = props.buttonName ?? "Propose to Add to DAO";
 
-const proposeToAddToDAO = () => {};
+const proposeToAddToDAO = () => {
+  const gas = 200000000000000;
+  const deposit = 100000000000000000000000;
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: description,
+          kind: {
+            AddMemberToRole: {
+              member_id: receiver,
+              role: role,
+            },
+          },
+        },
+      },
+      gas: gas,
+      deposit: deposit,
+    },
+  ]);
+};
+
+const proposalKinds = {
+  ChangeConfig: "config",
+  ChangePolicy: "policy",
+  AddMemberToRole: "add_member_to_role",
+  RemoveMemberFromRole: "remove_member_from_role",
+  FunctionCall: "call",
+  UpgradeSelf: "upgrade_self",
+  UpgradeRemote: "upgrade_remote",
+  Transfer: "transfer",
+  SetStakingContract: "set_vote_token",
+  AddBounty: "add_bounty",
+  BountyDone: "bounty_done",
+  Vote: "vote",
+  FactoryInfoUpdate: "factory_info_update",
+  ChangePolicyAddOrUpdateRole: "policy_add_or_update_role",
+  ChangePolicyRemoveRole: "policy_remove_role",
+  ChangePolicyUpdateDefaultVotePolicy: "policy_update_default_vote_policy",
+  ChangePolicyUpdateParameters: "policy_update_parameters",
+};
+
+const actions = {
+  AddProposal: "AddProposal",
+  VoteApprove: "VoteApprove",
+  VoteReject: "VoteReject",
+  VoteRemove: "VoteRemove",
+};
+
+// -- Get all the roles from the DAO policy
+let roles = Near.view(daoId, "get_policy");
+roles = roles === null ? [] : roles.roles;
+
+const isUserAllowedTo = (user, kind, action) => {
+  // -- Filter the user roles
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      userRoles.push(role);
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (user && role.kind.Group && role.kind.Group.includes(user)) {
+      userRoles.push(role);
+    }
+  }
+
+  // -- Check if the user is allowed to perform the action
+  let allowed = false;
+
+  userRoles
+    .filter(({ permissions }) => {
+      const allowedRole =
+        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
+        permissions.includes(`${kind.toString()}:*`) ||
+        permissions.includes(`*:${action.toString()}`) ||
+        permissions.includes("*:*");
+      allowed = allowed || allowedRole;
+      return allowedRole;
+    })
+    .map((role) => role.name);
+
+  return allowed;
+};
+
+const canProposeAddMember = isUserAllowedTo(
+  context.accountId,
+  proposalKinds.AddMemberToRole,
+  actions.AddProposal
+);
 const Wrapper = styled.div`
   .follow-button {
     display: inline-flex;
@@ -45,8 +136,10 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper className={props.className}>
-    <button className="follow-button" onClick={proposeToAddToDAO}>
-      {buttonName}
-    </button>
+    {canProposeAddMember && (
+      <button className="follow-button" onClick={proposeToAddToDAO}>
+        {buttonName}
+      </button>
+    )}
   </Wrapper>
 );
