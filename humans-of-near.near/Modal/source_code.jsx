@@ -67,12 +67,13 @@ const getMyData = () => {
   );
 };
 
-getMyData().then(({ social, twitter, name }) => {
-  State.update({
-    social,
-    twitter,
-    name,
-  });
+getMyData().then((res) => {
+  console.log(res);
+  // State.update({
+  //   social,
+  //   twitter,
+  //   name,
+  // });
 });
 
 return (
