@@ -107,8 +107,16 @@ if (
 
 const isEmpty = (string) =>
   string == undefined || string == null || string == "";
+
+function removeCommentsFromMarkdown(markdownString) {
+  const lines = markdownString.split("\n");
+  const cleanedLines = lines.filter((line) => !line.trim().startsWith("#"));
+  const cleanedMarkdown = cleanedLines.join("\n");
+  return cleanedMarkdown;
+}
+
 const handleProposal = () => {
-  if (!state.description.description) {
+  if (!state.description) {
     State.update({
       error: "Please enter a description",
     });
@@ -123,7 +131,7 @@ const handleProposal = () => {
         mpip_id: mpip_id ? parseInt(mpip_id) : null,
         title: state.title,
         short_description: state.shortDescription,
-        body: state.description.description,
+        body: removeCommentsFromMarkdown(state.description),
         data: "",
         extra: "",
       },
@@ -138,7 +146,7 @@ const handleFormValid = () => {
   const isValid =
     !isEmpty(state.title) &&
     !isEmpty(state.shortDescription) &&
-    !isEmpty(state.description.description) &&
+    !isEmpty(state.description) &&
     isEmpty(state.titleError) &&
     isEmpty(state.descriptionError) &&
     isEmpty(state.shortDescriptionError) &&
@@ -167,7 +175,7 @@ const onChangeTitle = (title) => {
 
 const defaultDescription = state.description
   ? state.description
-  : "# [Your Title Here]\n\n## Description\n\n[Detailed description of what the proposal is about.]\n\n## Why This Proposal?\n\n[Explanation of why this proposal is necessary or beneficial.]\n\n## Execution Plan\n\n[Description of how the proposal will be implemented.]\n\n## Timeline\n\n[Proposed timeline for the execution of the proposal.]";
+  : "# [Your Title Here]\n\n## Description\n\n## [Detailed description of what the proposal is about.]\n\n## Why This Proposal?\n\n## [Explanation of why this proposal is necessary or beneficial.]\n\n## Execution Plan\n\n## [Description of how the proposal will be implemented.]\n\n## Timeline\n\n## [Proposed timeline for the execution of the proposal.]";
 
 const Label = styled.label`
     font-style: normal;
@@ -241,7 +249,7 @@ return (
     <Widget
       src="mob.near/widget/MarkdownEditorIframe"
       props={{
-        onChange: (description) => onChangeDescription({ description }),
+        onChange: (description) => onChangeDescription(description),
         height: "400px",
         initialText: defaultDescription,
       }}
