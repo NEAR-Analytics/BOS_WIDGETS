@@ -156,7 +156,11 @@ return (
         <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Judges`} />
       )}
 
-      {state.selectedTab === "mentors" && <></>}
+      {state.selectedTab === "mentors" && (
+        <>
+          <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Mentors`} />
+        </>
+      )}
     </Content>
   </Wrapper>
 );
