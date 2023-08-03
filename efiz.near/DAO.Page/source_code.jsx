@@ -3,7 +3,7 @@ State.init({
 });
 
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "liberty.sputnik-dao.near";
+const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -28,7 +28,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/efiz.near/widget/DAO.Page?`;
+const accountUrl = `#/sking.near/widget/DAO.Page?daoId=${daoId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -226,51 +226,45 @@ return (
       <Content>
         <Tabs>
           <TabsButton
-            href={`${accountUrl}tab=discussion`}
+            href={`${accountUrl}&tab=discussion`}
             selected={state.selectedTab === "discussion"}
           >
             Discussion
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}tab=proposals`}
+            href={`${accountUrl}&tab=proposals`}
             selected={state.selectedTab === "proposals"}
           >
             Proposals
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}tab=members`}
+            href={`${accountUrl}&tab=members`}
             selected={state.selectedTab === "members"}
           >
             Members
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}tab=projects`}
+            href={`${accountUrl}&tab=projects`}
             selected={state.selectedTab === "projects"}
           >
             Projects
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}tab=followers`}
+            href={`${accountUrl}&tab=followers`}
             selected={state.selectedTab === "followers"}
           >
             Followers
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}tab=bounties`}
+            href={`${accountUrl}&tab=bounties`}
             selected={state.selectedTab === "bounties"}
           >
             Bounties
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=events`}
-            selected={state.selectedTab === "events"}
-          >
-            Events
           </TabsButton>
         </Tabs>
 
@@ -296,10 +290,7 @@ return (
         )}
 
         {state.selectedTab === "projects" && (
-          <Widget
-            src="nearhorizon.near/widget/Project.ListPage"
-            props={{ daoId }}
-          />
+          <Widget src="efiz.near/widget/Gigs.Board" props={{ daoId }} />
         )}
 
         {state.selectedTab === "followers" && (
@@ -311,10 +302,6 @@ return (
 
         {state.selectedTab === "bounties" && (
           <Widget src="sking.near/widget/DAO.Bounties" props={{ daoId }} />
-        )}
-
-        {state.selectedTab === "events" && (
-          <Widget src="evrything.near/widget/Calendar" props={{ daoId }} />
         )}
 
         {state.selectedTab === "bounty" && (
