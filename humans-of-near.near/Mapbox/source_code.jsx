@@ -62,19 +62,7 @@ const code = `
     });
     const myel = document.createElement('div');
     myel.className = 'marker';
-    ${
-      accountId
-        ? `map.on('click', function(event) {
-            const { lngLat } = event;
-            
-            new mapboxgl.Marker(myel)
-                .setLngLat([lngLat.lng, lngLat.lat])
-               .addTo(map);
-            
-          });     
-    `
-        : ``
-    }
+
 
     function getDetail (row) {
       const user = row.user;
@@ -139,6 +127,20 @@ const code = `
     }
 
     populateMarkers();
+
+    ${
+      accountId
+        ? `map.on('click', function(event) {
+        const { lngLat } = event;
+        
+        new mapboxgl.Marker(myel)
+            .setLngLat([lngLat.lng, lngLat.lat])
+            .addTo(map);
+        
+      });     
+`
+        : ``
+    }
     
     </script>
   </body>
