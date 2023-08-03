@@ -3,7 +3,7 @@
 const { widgets, handleBackButton, articleToRenderData, authorForWidget } =
   props;
 
-let accountId = articleToRenderData.author ?? context.accountId;
+const accountId = articleToRenderData.author ?? context.accountId;
 
 // State.init({
 //   verified: false,
@@ -62,6 +62,10 @@ const tabs = [
   { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
   { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
 ];
+
+const BackLink = styled.div`
+  cursor: pointer;
+`;
 
 const DetailContent = styled.div`
   display: inline-flex;
@@ -496,348 +500,361 @@ const titles = [
 ];
 
 return (
-  <Container className="row">
-    <div className="col-9" style={{ "margin-right": "5px", width: "950px" }}>
-      <div className="row" style={{ "margin-inline": "5px" }}>
-        <div
-          className="col-12 p-0 w-100"
-          style={{
-            background: "#F8F8F9",
-            "border-radius": "8px",
-          }}
-        >
-          <div className="w-100 p-3 d-flex justify-content-between align-items-start">
-            <div className="d-flex">
-              <Widget
-                src="mob.near/widget/ProfileImage"
-                props={{
-                  accountId,
-                  imageClassName: "rounded-circle w-100 h-100",
-                  style: {
-                    width: "100px",
-                    height: "100px",
-                    marginRight: "15px",
-                  },
-                }}
-              />
-              <div className="d-flex flex-column">
-                <TagContainer>
-                  <Widget
-                    src={widgets.styledComponents}
-                    props={{
-                      Tag: {
-                        title:
-                          house == "HouseOfMerit"
-                            ? "House of Merit"
-                            : house == "CouncilOfAdvisors"
-                            ? "Council of Advisors"
-                            : "Transparency Commission",
-                        className: "dark",
-                      },
-                    }}
-                  />
-                </TagContainer>
-                <NominationTitleContainer>
-                  <UserLink
-                    href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
-                  >
-                    <NominationTitle>
-                      {articleToRenderData.articleId}
-                    </NominationTitle>
-                    <NominationUser>
-                      {articleToRenderData.author}
-                    </NominationUser>
-                  </UserLink>
-                  <TagContainer>
-                    {articleToRenderData.tags.map((tag) => {
-                      return tag && tag != "" ? (
-                        <Widget
-                          src={widgets.styledComponents}
-                          props={{
-                            Tag: { title: tag },
-                          }}
-                        />
-                      ) : null;
-                    })}
-                  </TagContainer>
-                </NominationTitleContainer>
-              </div>
-            </div>
-            <div className="d-flex gap-3">
-              {
-                //   data.nominations.video.length > 0 && (
-                //   <Widget
-                //     src={widgets.styledComponents}
-                //     props={{
-                //       Link: {
-                //         text: `Watch Video`,
-                //         className: "primary dark",
-                //         icon: <i className="bi bi-play-circle ml-2"></i>,
-                //         href: data.nominations.video,
-                //       },
-                //     }}
-                //   />
-                // )
-              }
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Button: {
-                    text: `+${data.comments[0].upvotes ?? 0}`,
-                    disabled:
-                      !context.accountId ||
-                      !state.verified ||
-                      context.accountId === accountId,
-                    className: `${
-                      context.accountId && state.voted ? "primary" : "secondary"
-                    } dark`,
-                    onClick: () => console.log("upvote button clicked"),
-                    icon: <i className="bi bi-hand-thumbs-up"></i>,
-                  },
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        {
-          //   <div
-          //   className="col-5"
-          //   style={{
-          //     "margin-top": "10px",
-          //     "padding-left": "0",
-          //     "padding-right": "0",
-          //     width: "330px",
-          //   }}
-          // >
-          //   <div>
-          //     <CandidateCard
-          //       style={{
-          //         "border-radius": "8px",
-          //         background: "#F8F8F9",
-          //       }}
-          //     >
-          //       <CandidateContent>
-          //         <ContentHeader>
-          //           <ContentHeaderText>
-          //             {articleToRenderData.articleId}
-          //           </ContentHeaderText>
-          //         </ContentHeader>
-          //         {
-          //             afilations.map((data) => (
-          //             <CandidateInfoDiv>
-          //               <CandidateInfoHeader className="d-flex align-items-center">
-          //                 <CandidateImage
-          //                   src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-          //                   alt="pic"
-          //                 ></CandidateImage>
-          //                 <CandidateInfoData>
-          //                   <Widget
-          //                     src={widgets.styledComponents}
-          //                     props={{
-          //                       Tag: { title: data.company_name },
-          //                     }}
-          //                   />
-          //                   <CandidateTime>
-          //                     {data.start_date} - {data.end_date}
-          //                   </CandidateTime>
-          //                 </CandidateInfoData>
-          //               </CandidateInfoHeader>
-          //               <CandidateTextInfo>
-          //                 <SectionTitle>Role Description</SectionTitle>
-          //                 <SectionDescription>
-          //                   <Widget
-          //                     src="mob.near/widget/SocialMarkdown"
-          //                     props={{
-          //                       text: data.role,
-          //                     }}
-          //                   />
-          //                 </SectionDescription>
-          //               </CandidateTextInfo>
-          //             </CandidateInfoDiv>
-          //           ))
-          //         }
-          //       </CandidateContent>
-          //     </CandidateCard>
-          //   </div>
-          // </div>
-        }
-        <div
-          className="col-12"
-          style={{
-            "border-radius": "8px",
-            margin: "10px 0 0 10px",
-            width: "600px",
-            background: "#F8F8F9",
-            padding: "20px",
-          }}
-        >
-          <PlatformCard>
-            <PlatformContent>
-              <ContentHeader>
-                <ContentHeaderText>
-                  {articleToRenderData.articleId}
-                </ContentHeaderText>
-              </ContentHeader>
-
-              <Widget
-                src="mob.near/widget/SocialMarkdown"
-                props={{
-                  text: articleToRenderData.body,
-                  onHashtag: (hashtag) => (
-                    <span
-                      key={hashtag}
-                      className="d-inline-flex"
-                      style={{ fontWeight: 500 }}
-                    >
-                      <a
-                        href={`https://near.social/${authorForWidget}/widget/${widgets.thisWidget}?tagShared=${hashtag}`}
-                        target="_blank"
-                      >
-                        #{hashtag}
-                      </a>
-                    </span>
-                  ),
-                }}
-              />
-            </PlatformContent>
-          </PlatformCard>
-        </div>
-      </div>
+  <>
+    <div className="my-3">
+      <BackLink onClick={handleBackButton}>
+        <i className="bi bi-chevron-left mr-2"></i>
+        Back
+      </BackLink>
     </div>
-    <div
-      className="col-3"
-      style={{
-        width: "350px",
-        background: "#F8F8F9",
-        "border-radius": "8px",
-        padding: "20px",
-      }}
-    >
-      <>
-        <ul className="nav nav-pills nav-fill">
-          {tabs.map(({ id, title, icon }, i) => (
-            <li className="nav-item" role="presentation" key={i}>
-              <Tab
-                active={state.tabSelected === id}
-                onClick={() => State.update({ tabSelected: id })}
-              >
-                <i
-                  className={`${icon} ${
-                    state.tabSelected == "declaration" ? "text-secondary" : ""
-                  }`}
-                />
-                {title}
-              </Tab>
-            </li>
-          ))}
-        </ul>
-        <div>
-          {state.tabSelected == "declaration" ? (
-            <DeclarationCard>
-              <SectionTitle className="mt-4 mb-3">
-                Declaration of Transparency and Accountability
-              </SectionTitle>
-
-              <SectionDescription>
-                I hereby declare my unwavering commitment to transparency,
-                accountability, and the resolution of critical ecosystem
-                challenges as a candidate seeking election to the NEAR Digital
-                Collective. It is my utmost goal to instill faith and prosperity
-                in our ecosystem. In the event of my election, I pledge to
-                support and promote the operation and development of the NEAR
-                Digital Collective.
-                <br />
-                <br />
-                Transparency stands as the cornerstone of a thriving governance
-                framework and as a candidate, I strongly believe in leading by
-                example. I vow to disclose comprehensive information about my
-                previous affiliations, partnerships, and associations that may
-                influence my decision-making or impact the public interest. This
-                includes openly sharing any conflicts of interest, financial
-                relationships, or external influences that could compromise my
-                ability to serve with impartiality and integrity.
-                <br />
-                <br />
-                Moreover, I fully recognize the numerous challenges that our
-                NEAR ecosystem currently faces, demanding immediate attention
-                and effective solutions. As a responsible candidate, I am deeply
-                committed to identifying, addressing, and resolving these issues
-                to the best of my abilities. I acknowledge the gravity of these
-                problems and understand that superficial fixes and empty
-                promises are insufficient. Therefore, I pledge to conduct
-                thorough research, seek input from experts, and engage with
-                stakeholders to devise sustainable, equitable strategies. In the
-                event of my election, my top priorities will be focused on
-                addressing critical ecosystem challenges.
-                <br />
-                <br />
-                I recognize that vote buying is considered a harmful practice
-                because it undermines the fundamental principles of democracy
-                and fair elections. Vote buying manipulates and influences
-                voters by offering financial incentives or other material
-                benefits in exchange for their votes. This undermines the free
-                will and independent decision-making of individuals, as their
-                choices become influenced solely by personal gain rather than
-                informed judgment or shared values. Vote buying distorts the
-                true preferences and opinions of the electorate, and reinforces
-                inequality. Finally vote buying erodes trust and confidence. By
-                engaging in vote buying, candidates and political actors are
-                more likely to prioritize the interests of those who provided
-                financial support over the interests of the wider public. This
-                diminishes accountability and weakens the democratic principle
-                of serving the common good. I promise that I will not engage in
-                this and other nefarious acts during the election process.
-                <br />
-                <br />I recognize that this declaration is not merely a symbolic
-                gesture, but a solemn commitment to the NEAR ecosystem. I
-                understand the weight of the expectations. I pledge to honor the
-                trust placed in me with unwavering dedication, determination,
-                and integrity. Through this declaration, I affirm my commitment
-                to transparency, accountability, and the resolve to actualize my
-                pledges to the best of my abilities if elected. Together, let us
-                embark on a journey towards a brighter future of the NEAR
-                ecosystem.
-              </SectionDescription>
-            </DeclarationCard>
-          ) : (
-            <CommentSection style={{ padding: "0px" }}>
-              {state.showModal && (
+    <Container className="row">
+      <div className="col-9" style={{ "margin-right": "5px", width: "950px" }}>
+        <div className="row" style={{ "margin-inline": "5px" }}>
+          <div
+            className="col-12 p-0 w-100"
+            style={{
+              background: "#F8F8F9",
+              "border-radius": "8px",
+            }}
+          >
+            <div className="w-100 p-3 d-flex justify-content-between align-items-start">
+              <div className="d-flex">
                 <Widget
-                  src={widgets.addComment}
+                  src="mob.near/widget/ProfileImage"
                   props={{
-                    candidateOrReplay: true,
-                    username: accountId,
-                    onClickConfirm: () => State.update({ showModal: false }),
-                    onClickCancel: () => State.update({ showModal: false }),
-                    // nomination_contract,
+                    accountId,
+                    imageClassName: "rounded-circle w-100 h-100",
+                    style: {
+                      width: "100px",
+                      height: "100px",
+                      marginRight: "15px",
+                    },
                   }}
                 />
-              )}
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Button: {
-                    text: "Add a Comment",
-                    disabled:
-                      !context.accountId ||
-                      !state.verified ||
-                      context.accountId === accountId,
-                    className: "primary w-100 mt-4 mb-2 justify-content-center",
-                    onClick: () => State.update({ showModal: true }),
-                    icon: <i className="bi bi-plus-lg"></i>,
-                  },
-                }}
-              />
-              {comments.map((data) => (
+                <div className="d-flex flex-column">
+                  <TagContainer>
+                    <Widget
+                      src={widgets.styledComponents}
+                      props={{
+                        Tag: {
+                          title:
+                            house == "HouseOfMerit"
+                              ? "House of Merit"
+                              : house == "CouncilOfAdvisors"
+                              ? "Council of Advisors"
+                              : "Transparency Commission",
+                          className: "dark",
+                        },
+                      }}
+                    />
+                  </TagContainer>
+                  <NominationTitleContainer>
+                    <UserLink
+                      href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
+                    >
+                      <NominationTitle>
+                        {articleToRenderData.articleId}
+                      </NominationTitle>
+                      <NominationUser>
+                        {articleToRenderData.author}
+                      </NominationUser>
+                    </UserLink>
+                    <TagContainer>
+                      {articleToRenderData.tags.map((tag) => {
+                        return tag && tag != "" ? (
+                          <Widget
+                            src={widgets.styledComponents}
+                            props={{
+                              Tag: { title: tag },
+                            }}
+                          />
+                        ) : null;
+                      })}
+                    </TagContainer>
+                  </NominationTitleContainer>
+                </div>
+              </div>
+              <div className="d-flex gap-3">
+                {
+                  //   data.nominations.video.length > 0 && (
+                  //   <Widget
+                  //     src={widgets.styledComponents}
+                  //     props={{
+                  //       Link: {
+                  //         text: `Watch Video`,
+                  //         className: "primary dark",
+                  //         icon: <i className="bi bi-play-circle ml-2"></i>,
+                  //         href: data.nominations.video,
+                  //       },
+                  //     }}
+                  //   />
+                  // )
+                }
                 <Widget
-                  props={{ data, nomination_contract }}
-                  src={widgets.comment}
+                  src={widgets.styledComponents}
+                  props={{
+                    Button: {
+                      text: `+${data.comments[0].upvotes ?? 0}`,
+                      disabled:
+                        !context.accountId ||
+                        !state.verified ||
+                        context.accountId === accountId,
+                      className: `${
+                        context.accountId && state.voted
+                          ? "primary"
+                          : "secondary"
+                      } dark`,
+                      onClick: () => console.log("upvote button clicked"),
+                      icon: <i className="bi bi-hand-thumbs-up"></i>,
+                    },
+                  }}
                 />
-              ))}
-            </CommentSection>
-          )}
+              </div>
+            </div>
+          </div>
+          {
+            //   <div
+            //   className="col-5"
+            //   style={{
+            //     "margin-top": "10px",
+            //     "padding-left": "0",
+            //     "padding-right": "0",
+            //     width: "330px",
+            //   }}
+            // >
+            //   <div>
+            //     <CandidateCard
+            //       style={{
+            //         "border-radius": "8px",
+            //         background: "#F8F8F9",
+            //       }}
+            //     >
+            //       <CandidateContent>
+            //         <ContentHeader>
+            //           <ContentHeaderText>
+            //             {articleToRenderData.articleId}
+            //           </ContentHeaderText>
+            //         </ContentHeader>
+            //         {
+            //             afilations.map((data) => (
+            //             <CandidateInfoDiv>
+            //               <CandidateInfoHeader className="d-flex align-items-center">
+            //                 <CandidateImage
+            //                   src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+            //                   alt="pic"
+            //                 ></CandidateImage>
+            //                 <CandidateInfoData>
+            //                   <Widget
+            //                     src={widgets.styledComponents}
+            //                     props={{
+            //                       Tag: { title: data.company_name },
+            //                     }}
+            //                   />
+            //                   <CandidateTime>
+            //                     {data.start_date} - {data.end_date}
+            //                   </CandidateTime>
+            //                 </CandidateInfoData>
+            //               </CandidateInfoHeader>
+            //               <CandidateTextInfo>
+            //                 <SectionTitle>Role Description</SectionTitle>
+            //                 <SectionDescription>
+            //                   <Widget
+            //                     src="mob.near/widget/SocialMarkdown"
+            //                     props={{
+            //                       text: data.role,
+            //                     }}
+            //                   />
+            //                 </SectionDescription>
+            //               </CandidateTextInfo>
+            //             </CandidateInfoDiv>
+            //           ))
+            //         }
+            //       </CandidateContent>
+            //     </CandidateCard>
+            //   </div>
+            // </div>
+          }
+          <div
+            className="col-12"
+            style={{
+              "border-radius": "8px",
+              margin: "10px 0 0 10px",
+              width: "600px",
+              background: "#F8F8F9",
+              padding: "20px",
+            }}
+          >
+            <PlatformCard>
+              <PlatformContent>
+                <ContentHeader>
+                  <ContentHeaderText>
+                    {articleToRenderData.articleId}
+                  </ContentHeaderText>
+                </ContentHeader>
+
+                <Widget
+                  src="mob.near/widget/SocialMarkdown"
+                  props={{
+                    text: articleToRenderData.body,
+                    onHashtag: (hashtag) => (
+                      <span
+                        key={hashtag}
+                        className="d-inline-flex"
+                        style={{ fontWeight: 500 }}
+                      >
+                        <a
+                          href={`https://near.social/${authorForWidget}/widget/${widgets.thisWidget}?tagShared=${hashtag}`}
+                          target="_blank"
+                        >
+                          #{hashtag}
+                        </a>
+                      </span>
+                    ),
+                  }}
+                />
+              </PlatformContent>
+            </PlatformCard>
+          </div>
         </div>
-      </>
-    </div>
-  </Container>
+      </div>
+      <div
+        className="col-3"
+        style={{
+          width: "350px",
+          background: "#F8F8F9",
+          "border-radius": "8px",
+          padding: "20px",
+        }}
+      >
+        <>
+          <ul className="nav nav-pills nav-fill">
+            {tabs.map(({ id, title, icon }, i) => (
+              <li className="nav-item" role="presentation" key={i}>
+                <Tab
+                  active={state.tabSelected === id}
+                  onClick={() => State.update({ tabSelected: id })}
+                >
+                  <i
+                    className={`${icon} ${
+                      state.tabSelected == "declaration" ? "text-secondary" : ""
+                    }`}
+                  />
+                  {title}
+                </Tab>
+              </li>
+            ))}
+          </ul>
+          <div>
+            {state.tabSelected == "declaration" ? (
+              <DeclarationCard>
+                <SectionTitle className="mt-4 mb-3">
+                  Declaration of Transparency and Accountability
+                </SectionTitle>
+
+                <SectionDescription>
+                  I hereby declare my unwavering commitment to transparency,
+                  accountability, and the resolution of critical ecosystem
+                  challenges as a candidate seeking election to the NEAR Digital
+                  Collective. It is my utmost goal to instill faith and
+                  prosperity in our ecosystem. In the event of my election, I
+                  pledge to support and promote the operation and development of
+                  the NEAR Digital Collective.
+                  <br />
+                  <br />
+                  Transparency stands as the cornerstone of a thriving
+                  governance framework and as a candidate, I strongly believe in
+                  leading by example. I vow to disclose comprehensive
+                  information about my previous affiliations, partnerships, and
+                  associations that may influence my decision-making or impact
+                  the public interest. This includes openly sharing any
+                  conflicts of interest, financial relationships, or external
+                  influences that could compromise my ability to serve with
+                  impartiality and integrity.
+                  <br />
+                  <br />
+                  Moreover, I fully recognize the numerous challenges that our
+                  NEAR ecosystem currently faces, demanding immediate attention
+                  and effective solutions. As a responsible candidate, I am
+                  deeply committed to identifying, addressing, and resolving
+                  these issues to the best of my abilities. I acknowledge the
+                  gravity of these problems and understand that superficial
+                  fixes and empty promises are insufficient. Therefore, I pledge
+                  to conduct thorough research, seek input from experts, and
+                  engage with stakeholders to devise sustainable, equitable
+                  strategies. In the event of my election, my top priorities
+                  will be focused on addressing critical ecosystem challenges.
+                  <br />
+                  <br />
+                  I recognize that vote buying is considered a harmful practice
+                  because it undermines the fundamental principles of democracy
+                  and fair elections. Vote buying manipulates and influences
+                  voters by offering financial incentives or other material
+                  benefits in exchange for their votes. This undermines the free
+                  will and independent decision-making of individuals, as their
+                  choices become influenced solely by personal gain rather than
+                  informed judgment or shared values. Vote buying distorts the
+                  true preferences and opinions of the electorate, and
+                  reinforces inequality. Finally vote buying erodes trust and
+                  confidence. By engaging in vote buying, candidates and
+                  political actors are more likely to prioritize the interests
+                  of those who provided financial support over the interests of
+                  the wider public. This diminishes accountability and weakens
+                  the democratic principle of serving the common good. I promise
+                  that I will not engage in this and other nefarious acts during
+                  the election process.
+                  <br />
+                  <br />I recognize that this declaration is not merely a
+                  symbolic gesture, but a solemn commitment to the NEAR
+                  ecosystem. I understand the weight of the expectations. I
+                  pledge to honor the trust placed in me with unwavering
+                  dedication, determination, and integrity. Through this
+                  declaration, I affirm my commitment to transparency,
+                  accountability, and the resolve to actualize my pledges to the
+                  best of my abilities if elected. Together, let us embark on a
+                  journey towards a brighter future of the NEAR ecosystem.
+                </SectionDescription>
+              </DeclarationCard>
+            ) : (
+              <CommentSection style={{ padding: "0px" }}>
+                {state.showModal && (
+                  <Widget
+                    src={widgets.addComment}
+                    props={{
+                      candidateOrReplay: true,
+                      username: accountId,
+                      onClickConfirm: () => State.update({ showModal: false }),
+                      onClickCancel: () => State.update({ showModal: false }),
+                      // nomination_contract,
+                    }}
+                  />
+                )}
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Button: {
+                      text: "Add a Comment",
+                      disabled:
+                        !context.accountId ||
+                        !state.verified ||
+                        context.accountId === accountId,
+                      className:
+                        "primary w-100 mt-4 mb-2 justify-content-center",
+                      onClick: () => State.update({ showModal: true }),
+                      icon: <i className="bi bi-plus-lg"></i>,
+                    },
+                  }}
+                />
+                {comments.map((data) => (
+                  <Widget
+                    props={{ data, nomination_contract }}
+                    src={widgets.comment}
+                  />
+                ))}
+              </CommentSection>
+            )}
+          </div>
+        </>
+      </div>
+    </Container>
+  </>
 );
