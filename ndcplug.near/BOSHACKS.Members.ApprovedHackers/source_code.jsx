@@ -336,7 +336,7 @@ return (
     <div className="d-flex gap-1 flex-wrap">
       {users.map((user, i) => (
         <Widget
-          src="near/widget/AccountProfileCard"
+          src="ndcplug.near/widget/ProfileCard.mintNFT"
           props={{
             accountId: user,
           }}
