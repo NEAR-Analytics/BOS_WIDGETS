@@ -9,6 +9,8 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
+const sender = `${senderProfile.name || senderId.split(".near")[0]}`;
+const nftDescription = content?.text ?? "BOS minting powered by GenaDrop";
 
 const notifyAccountId = accountId;
 const item = {
@@ -17,35 +19,25 @@ const item = {
   blockHeight,
 };
 
-const sender = `${senderProfile.name || senderId.split(".near")[0]}`;
-State.init({
-  description: nftDescription,
-  title,
-  image,
-  imageUrl: undefined,
-  profile: userProfile,
-});
-
 console.log("sender: ", sender);
 
 const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
 if (!res) {
   return "Loading";
 }
-if (!res.ok || res.body === "null") {
+if (!res?.ok || res?.body === "null") {
   return "unknown";
 }
 
-const timeMs = parseFloat(res.body);
+const timeMs = parseFloat(res?.body);
 
 const date = new Date(timeMs);
-const postDate = `${date.toLocaleDateString([], {
+const postDate = `${date?.toLocaleDateString([], {
   day: "numeric",
   month: "short",
   year: "numeric",
 })}`;
 // const formattedDate = formatDate(timeMs);
-const nftDescription = content.text ?? "BOS minting powered by GenaDrop";
 console.log("post date", postDate);
 
 const hasImageInPost = content?.image;
@@ -53,25 +45,21 @@ console.log("content", content);
 
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-const getData = () => {
-  State.update({
-    description: `${content?.text?.trim().slice(0, 140)}... 💖 from ${sender}`,
-    title: `${state.profile.name || accountId.split(".near")[0]} ${postDate}`,
-    profile: userProfile,
-    content: JSON.parse(
-      Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
-    ),
-  });
-  return content?.image.ipfs_cid
-    ? State.update({
-        imageUrl: `https://ipfs.near.social/ipfs/${content?.image.ipfs_cid}`,
-      })
-    : State.update({
-        imageUrl: content?.image.url,
-      }) || fallbackUrl;
-};
-
-getData();
+State.update({
+  description: `${nftDescription.trim().slice(0, 140)}... 💖 from ${sender}`,
+  title: `${state?.profile?.name || accountId.split(".near")[0]} ${postDate}`,
+  profile: userProfile,
+  content: JSON.parse(
+    Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
+  ),
+});
+content?.image?.ipfs_cid
+  ? State.update({
+      imageUrl: `https://ipfs.near.social/ipfs/${content?.image?.ipfs_cid}`,
+    })
+  : State.update({
+      imageUrl: content?.image?.url,
+    }) || fallbackUrl;
 
 const nftMint = () => {
   if (!hasImageInPost) {
