@@ -290,7 +290,10 @@ return (
         )}
 
         {state.selectedTab === "projects" && (
-          <Widget src="efiz.near/widget/Gigs.Board" props={{ daoId }} />
+          <Widget
+            src="nearhorizon.near/widget/Project.ListPage"
+            props={{ daoId }}
+          />
         )}
 
         {state.selectedTab === "followers" && (
