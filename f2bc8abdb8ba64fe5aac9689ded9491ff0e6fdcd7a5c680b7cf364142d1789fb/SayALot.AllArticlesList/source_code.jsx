@@ -9,6 +9,7 @@ let {
   addressForArticles,
   handleFilterArticles,
   handleOpenArticle,
+  authorForWidget,
 } = props;
 
 State.init({ start: Date.now() });
@@ -49,6 +50,7 @@ return (
               addressForArticles,
               handleOpenArticle,
               handleFilterArticles,
+              authorForWidget,
             }}
           />
         );
