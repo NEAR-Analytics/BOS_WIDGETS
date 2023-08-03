@@ -97,7 +97,6 @@ const Styled = {
 
     i {
       margin: 0;
-      margin-left: ${(props) => (Button.text ? "5px" : "0")};
     }
   `,
 
