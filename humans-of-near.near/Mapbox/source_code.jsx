@@ -57,9 +57,9 @@ const code = `
             .setPopup(
                 new mapboxgl.Popup({ offset: 25 }) // add popups
                   .setHTML(
-                    <div style="padding: 20px;">
+                    ${JSON.stringify(`<div style="padding: 20px;">
                         tiltle
-                    </div>
+                    </div>`)}
               )
             ).addTo(map);
         });
