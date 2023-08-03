@@ -95,7 +95,7 @@ const isUserAllowedTo = (user, kind, action) => {
 
   return allowed;
 };
-const userRoles = roleCheckThisUser ? getUserRoles(roleCheckThisUser) : [];
+const userRoles = accountId ? getUserRoles(accountId) : [];
 isHacker = userRoles.includes(roleToCheck);
 const Card = styled.div`
   display: flex;
