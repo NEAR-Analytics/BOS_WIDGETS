@@ -76,7 +76,7 @@ const option = {
   },
   yAxis: {
     type: "value",
-    name: "Number of Users",
+    name: "Number of Actions",
     nameLocation: "center",
     nameGap: 45,
   },
