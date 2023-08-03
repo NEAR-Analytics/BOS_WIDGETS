@@ -100,7 +100,7 @@ getMyData().then(({ social, twitter, name }) => {
   State.update({
     social,
     twitter,
-    name: name ? name : accountId,
+    name,
   });
 });
 
@@ -134,7 +134,7 @@ return (
       <h5>{`Display Name`}</h5>
       <TextField
         type="text"
-        placeholder="display name"
+        placeholder={accountId}
         value={state.name}
         onChange={changeName}
       />
