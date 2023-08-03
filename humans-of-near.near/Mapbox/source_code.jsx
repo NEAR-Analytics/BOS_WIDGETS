@@ -109,7 +109,7 @@ const code = `
     // Function to populate markers to the map
     function populateMarkers() {
         const markersData = ${JSON.stringify(state.markers)};
-        
+        console.log(markersData,"==markersData");
         markersData.forEach(marker => {
           
         const el = document.createElement('div');
@@ -128,6 +128,19 @@ const code = `
 
     populateMarkers();
 
+    ${
+      accountId
+        ? `map.on('click', function(event) {
+        const { lngLat } = event;
+        
+        new mapboxgl.Marker(myel)
+            .setLngLat([lngLat.lng, lngLat.lat])
+            .addTo(map);
+        
+      });     
+`
+        : ``
+    }
     
     </script>
   </body>
