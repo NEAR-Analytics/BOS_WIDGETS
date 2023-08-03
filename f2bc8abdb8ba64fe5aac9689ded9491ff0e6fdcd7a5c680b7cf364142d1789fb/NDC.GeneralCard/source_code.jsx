@@ -632,9 +632,7 @@ const renderArticleBody = () => {
   let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
   return (
     <ArticleBodyContainer>
-      <span>displayedContent</span>
-      {/*
-      //TODO test this
+      {/*<span>displayedContent</span>*/}
       <Widget
         src="mob.near/widget/SocialMarkdown"
         props={{
@@ -654,7 +652,7 @@ const renderArticleBody = () => {
             </span>
           ),
         }}
-      />*/}
+      />
       {state.sliceContent && content.length > 1000 && (
         <Widget
           src={widgets.styledComponents}
