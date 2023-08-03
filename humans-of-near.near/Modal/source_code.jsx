@@ -4,12 +4,12 @@ if (!accountId) return;
 const SOCIAL = "https://social.near.page/u/";
 const TWITTER = "https://twitter.com/";
 
-const { API_URL, onClose } = props;
+const { API_URL, onClose, user } = props;
 
 State.init({
-  social: "",
-  twitter: "",
-  name: "",
+  social: user.social,
+  twitter: user.twitter,
+  name: user.name,
 });
 
 const ModalOverlay = styled.div`
@@ -69,16 +69,6 @@ background-color: #191a1a;
 color: white;
 `;
 
-const getMyData = () => {
-  return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
-    (res) => {
-      if (res.ok) {
-        return res.body.user;
-      }
-    }
-  );
-};
-
 const saveMyProfile = () => {
   const data = {
     accountId,
@@ -95,14 +85,6 @@ const saveMyProfile = () => {
     }
   });
 };
-
-getMyData().then(({ social, twitter, name }) => {
-  State.update({
-    social,
-    twitter,
-    name,
-  });
-});
 
 const changeName = async (e) => {
   if (e.target.value.length <= 12)
