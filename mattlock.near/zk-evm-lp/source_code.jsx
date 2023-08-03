@@ -149,6 +149,7 @@ const Theme = styled.div`
     > p {
       font-size: 0.8rem;
       color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 32px;
       margin-bottom: 64px;
     }
   }
@@ -406,7 +407,7 @@ return (
               )}
 
               {component === "gamma" && (
-                <Widget src="james-cordova423.near/widget/gamma-zkevm-app" />
+                <Widget src="mattlock.near/widget/gamma-zkevm-app" />
               )}
             </>
           )}
