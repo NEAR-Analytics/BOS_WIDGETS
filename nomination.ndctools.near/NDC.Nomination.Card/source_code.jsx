@@ -228,7 +228,7 @@ const KeyIssuesContainer = styled.div`
   padding: 0px;
   gap: 8px;
   overflow-y: scroll;
-  height: 250px;
+  height: 140px;
   width: 100%;
 `;
 const KeyIssueTitle = styled.p`
@@ -442,7 +442,7 @@ const keyIssues = [
 ];
 
 return (
-  <Wrapper className="px-2 col-lg-4 col-md-6 col-sm-12">
+  <Wrapper className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
