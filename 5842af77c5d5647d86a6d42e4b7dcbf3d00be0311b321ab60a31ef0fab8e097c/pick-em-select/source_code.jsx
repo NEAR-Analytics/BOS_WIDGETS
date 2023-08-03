@@ -106,7 +106,7 @@ const onTeamSelect = (team, matchIndex) => {
 
 const onSubmit = () => {
   Near.call("pickem.near", "bulkPick", state.selections, {
-    gas: 600,
+    gas: "300 Tgas",
   });
   State.update({ picksMade: true });
 };
