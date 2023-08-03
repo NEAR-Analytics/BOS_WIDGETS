@@ -108,13 +108,6 @@ if (
 const isEmpty = (string) =>
   string == undefined || string == null || string == "";
 
-function removeCommentsFromMarkdown(markdownString) {
-  const lines = markdownString.split("\n");
-  const cleanedLines = lines.filter((line) => !line.trim().startsWith("#"));
-  const cleanedMarkdown = cleanedLines.join("\n");
-  return cleanedMarkdown;
-}
-
 const handleProposal = () => {
   if (!state.description) {
     State.update({
@@ -131,7 +124,7 @@ const handleProposal = () => {
         mpip_id: mpip_id ? parseInt(mpip_id) : null,
         title: state.title,
         short_description: state.shortDescription,
-        body: removeCommentsFromMarkdown(state.description),
+        body: state.description,
         data: "",
         extra: "",
       },
@@ -172,10 +165,6 @@ const onChangeTitle = (title) => {
   State.update({ title });
   handleFormValid();
 };
-
-const defaultDescription = state.description
-  ? state.description
-  : "# [Your Title Here]\n\n## Description\n\n## [Detailed description of what the proposal is about.]\n\n## Why This Proposal?\n\n## [Explanation of why this proposal is necessary or beneficial.]\n\n## Execution Plan\n\n## [Description of how the proposal will be implemented.]\n\n## Timeline\n\n## [Proposed timeline for the execution of the proposal.]";
 
 const Label = styled.label`
     font-style: normal;
@@ -250,8 +239,7 @@ return (
       src="mob.near/widget/MarkdownEditorIframe"
       props={{
         onChange: (description) => onChangeDescription(description),
-        height: "400px",
-        initialText: defaultDescription,
+        height: "600px",
       }}
     />
     {state.descriptionError && (
