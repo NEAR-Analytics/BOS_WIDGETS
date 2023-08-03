@@ -277,6 +277,13 @@ function handleFilterArticles(filter) {
   });
 }
 
+function handleBackButton() {
+  State.update({
+    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+    articleToRenderData: {},
+  });
+}
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
@@ -311,7 +318,11 @@ return (
     {state.displayedTabId == tabs.SHOW_ARTICLE.id && (
       <Widget
         src={widgets.oneArticle}
-        props={{ isTest, articleToRenderData: state.articleToRenderData }}
+        props={{
+          isTest,
+          articleToRenderData: state.articleToRenderData,
+          handleBackButton,
+        }}
       />
     )}
   </>
