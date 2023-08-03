@@ -6,6 +6,7 @@ const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 
 State.init({
+  hasBeenFlagged: false,
   content: JSON.parse(props.content) ?? undefined,
   notifyAccountId: undefined,
 });
@@ -21,7 +22,7 @@ const extractNotifyAccountId = (parentItem) => {
   return `${accountId}/post/main` === parentItem.path ? accountId : undefined;
 };
 
-const commentUrl = `https://alpha.near.org/#/${APP_OWNER}/widget/QueryApi.Examples.Feed.PostPage?accountId=${accountId}&commentBlockHeight=${blockHeight}`;
+const commentUrl = `https://near.org/#/${APP_OWNER}/widget/QueryApi.Examples.Feed.PostPage?accountId=${accountId}&commentBlockHeight=${blockHeight}`;
 
 if (!state.content && accountId && blockHeight !== "now") {
   const commentQuery = `
@@ -122,6 +123,14 @@ const Actions = styled.div`
   margin: -6px -6px 6px;
 `;
 
+if (state.hasBeenFlagged) {
+  return (
+    <div className="alert alert-secondary">
+      <i className="bi bi-flag" /> This content has been flagged for moderation
+    </div>
+  );
+}
+
 return (
   <Comment>
     <Header>
@@ -194,6 +203,19 @@ return (
             src="calebjacob.near/widget/CopyUrlButton"
             props={{
               url: commentUrl,
+            }}
+          />
+          <Widget
+            src="near/widget/FlagButton"
+            props={{
+              item: {
+                type: "social",
+                path: `${accountId}/post/comment`,
+                blockHeight,
+              },
+              onFlag: () => {
+                State.update({ hasBeenFlagged: true });
+              },
             }}
           />
         </Actions>
