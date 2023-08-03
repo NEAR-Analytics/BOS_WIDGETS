@@ -33,72 +33,22 @@ const metadata = {
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
 };
 
-const ccc = "0";
-
-// if (
-//   onChange &&
-//   JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
-// ) {
-//   ccc = "1";
-//   State.update({
-//     reportedMetadata: metadata,
-//   });
-//   onChange(metadata);
-//   ccc = "2";
-// }
-
-const onClickX = () => {
-  console.log("PPP-1");
-  console.log("state.reportedMetadata", state.reportedMetadata);
-  console.log("metadata", metadata);
-  onChange(metadata);
-};
-
-const handleOnChange = (e) => {
-  console.log("e", e);
-  const { id, value } = e.target;
-  const newMetadata = { ...metadata, [id]: value };
-
-  console.log("id", id);
-  console.log("value", value);
-  console.log("newMetadata", newMetadata);
-
-  onChange(newMetadata);
+if (
+  onChange &&
+  JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
+) {
   State.update({
-    metadata: newMetadata,
+    reportedMetadata: metadata,
   });
-};
-
-const handleImage = (image) => {
-  const newMetadata = { ...metadata, image };
-  State.update({ metadata: newMetadata });
-  onChange(newMetadata);
-};
-
-const handleBackgroundImage = (backgroundImage) => {
-  const newMetadata = { ...metadata, backgroundImage };
-  State.update({ metadata: newMetadata });
-  onChange(newMetadata);
-};
-
-const handleTags = (tags) => {
-  const newMetadata = { ...metadata, tags };
-  State.update({ metadata: newMetadata });
-  onChange(newMetadata);
-};
+  onChange(metadata);
+}
 
 return (
   <>
-    <div onClick={onClickX}>{ccc}</div>
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
-        <input
-          onChange={handleOnChange}
-          id="name"
-          type="text"
-          value={state.metadata.name}
-        />
+        <input type="text" value={state.metadata.name} />
       </div>
     )}
     {options.image && (
@@ -108,7 +58,7 @@ return (
           src="mob.near/widget/ImageEditorTabs"
           props={{
             image: state.image,
-            onChange: handleImage,
+            onChange: (image) => State.update({ image }),
           }}
         />
       </div>
@@ -120,7 +70,7 @@ return (
           src="mob.near/widget/ImageEditorTabs"
           props={{
             image: state.backgroundImage,
-            onChange: handleBackgroundImage,
+            onChange: (backgroundImage) => State.update({ backgroundImage }),
           }}
         />
       </div>
@@ -132,9 +82,11 @@ return (
         <textarea
           className="form-control"
           rows={5}
-          id="description"
           value={state.metadata.description}
-          onChange={handleOnChange}
+          onChange={(e) => {
+            state.metadata.description = e.target.value;
+            State.update();
+          }}
         />
       </div>
     )}
@@ -149,7 +101,10 @@ return (
             placeholder:
               options.tags.placeholder ??
               "rust, engineer, artist, humanguild, nft, learner, founder",
-            setTagsObject: handleTags,
+            setTagsObject: (tags) => {
+              state.metadata.tags = tags;
+              State.update();
+            },
           }}
         />
       </div>
