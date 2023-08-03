@@ -646,7 +646,8 @@ const renderArticleBody = () => {
 };
 
 //===============================================END COMPONENTS====================================================
-console.log("data: ", data);
+
+//===================================================RENDER========================================================
 return (
   <div className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
@@ -655,7 +656,7 @@ return (
           src={widgets.addComment}
           props={{
             candidateOrReplay: true,
-            username: data.indexerData.nominee,
+            username: data.author,
             onClickConfirm: () => State.update({ showModal: false }),
             onClickCancel: () => State.update({ showModal: false }),
           }}
@@ -796,10 +797,11 @@ return (
           </ButtonsLowerSection>
           {/*TODO review buttons functionality in sayALot*/}
           <div className="d-flex w-100 align-items-center">
-            {!data.preview && (
+            {true && (
               <div className="d-flex w-100 gap-2 justify-content-between">
                 <Widget
                   src={widgets.styledComponents}
+                  //TODO review the button text
                   props={{
                     Button: {
                       text: `+${data.upVoteData.comments.length ?? 0} Comments`,
@@ -807,7 +809,7 @@ return (
                       size: "sm",
                       className: "secondary dark w-100 justify-content-center",
                       onClick: () => {
-                        !data.preview ? State.update({ showModal: true }) : "";
+                        true ? State.update({ showModal: true }) : "";
                       },
                       icon: (
                         <>
