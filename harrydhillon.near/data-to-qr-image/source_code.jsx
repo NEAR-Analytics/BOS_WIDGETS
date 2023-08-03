@@ -24,6 +24,7 @@ return (
   <div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      {...props.svgProps}
       viewBox={`0 0 ${props.width ?? "100"} ${props.height ?? "100"}`}
       shape-rendering="crispEdges"
     >
