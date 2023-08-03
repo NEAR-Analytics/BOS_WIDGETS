@@ -50,10 +50,9 @@ const code = `
         const markersData = ${JSON.stringify(markers)};
         const el = document.createElement('div');
         el.className = 'marker';
-        console.log(markersData,"==>markersData");
         markersData.forEach(marker => {
         new mapboxgl.Marker(el)
-            .setLngLat([marker.lng, marker.lat])
+            .setLngLat([marker.longitude, marker.latitude])
             .addTo(map);
         });
     }
