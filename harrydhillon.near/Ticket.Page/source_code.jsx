@@ -87,12 +87,7 @@ return (
         <Widget
           src="harrydhillon.near/widget/data-to-qr-image"
           props={{
-            width: 35,
-            height: 35,
-            link: "www.youtube.com",
-            svgProps: {
-              width: "100%",
-            },
+            link: "www.nearpad.dev",
           }}
         />
       </QRContainer>
