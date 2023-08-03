@@ -12,7 +12,6 @@ const dataToEndcode = async () => {
     }
   ).then((res) => {
     const { qrcodedata } = res.body;
-    console.log("as", qrcodedata);
     if (!state.img) State.update({ img: qrcodedata });
   });
 };
@@ -21,14 +20,15 @@ dataToEndcode();
 console.log(state);
 
 return (
-  <div>
+  <div style={{ width: 300 }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       {...props.svgProps}
-      viewBox={`0 0 ${props.width ?? "100"} ${props.height ?? "100"}`}
+      width="100%"
+      height="auto"
+      viewBox="0 0 34 34"
       shape-rendering="crispEdges"
     >
-      <path fill="#ffffff" d="M0 0h33v33H0z" />
       <path stroke="#000000" d={state.img} />
     </svg>
   </div>
