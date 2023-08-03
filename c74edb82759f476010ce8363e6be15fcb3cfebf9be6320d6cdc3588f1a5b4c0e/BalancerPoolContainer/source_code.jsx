@@ -1,3 +1,25 @@
+//@ts-check
+
+/** @typedef {Object} SBalancer @property {string} id @property {number} poolCount @property {string} totalLiquidity */
+/** @typedef {Object} SToken @property {string} name @property {string} symbol @property {string} address @property {number} decimals @property {string} totalBalanceUSD @property {string} totalBalanceNotional @property {string} totalVolumeUSD @property {string} totalVolumeNotional @property {string | null} latestUSDPrice @property {SLatestPrice | null} latestPrice */
+/** @typedef {Object} SLatestPrice @property {string} pricingAsset @property {string} price @property {SPoolId} poolId */
+/** @typedef {Object} SPoolId @property {string} totalWeight */
+/** @typedef {Object} SPool @property {string} id @property {string} address @property {string[]} tokensList @property {string} totalWeight @property {string} totalShares @property {string} holdersCount @property {string} totalLiquidity @property {string} poolType @property {number} poolTypeVersion @property {{ token: SToken }[]} tokens @property {string} owner @property {number} createTime*/
+/** @typedef {Object} SBalancerGQLResponse @property {SBalancer[]} balancers @property {SPool[]} pools */
+/** @typedef {Object} TokenWeights @property {string} address @property {number} weight */
+/** @typedef {Object} TransformedPool @property {string} totalValueLocked @property {TokenWeights[]} tokenWeights @property {string} id @property {string} address @property {string[]} tokensList @property {string} totalWeight @property {string} totalShares @property {string} holdersCount @property {string} poolType @property {number} poolTypeVersion @property {SToken[]} tokens @property {string} owner @property {number} createTime*/
+/** @typedef {Object} TransformedData @property {SBalancer[]} balancers @property {TransformedPool[]} pools */
+/** @typedef {Object} StatePool @property {string} id @property {boolean} approved @property {boolean} depositing @property {boolean} withdrawing @property {boolean} approving @property {boolean} loading */
+/** @typedef {Object} PoolAndBalance @property {string} poolAddress @property {string | undefined} balance */
+
+/**
+ * @name formatAndAbbreviateNumber
+ * @description Formats a number with commas as thousands separators and abbreviates it with a letter suffix
+ * @param {number} num - The number to format and abbreviate
+ * @returns {string} The formatted and abbreviated number as a string
+ * @example const formattedNumber = formatAndAbbreviateNumber(1234567.89);
+ * console.log(formattedNumber); // "1.23M"
+ */
 function formatAndAbbreviateNumber(num) {
   let counter = 0;
   const abbreviations = ["", "K", "M", "B", "T", "Quadrillion", "Quintillion"];
@@ -17,28 +39,16 @@ function formatAndAbbreviateNumber(num) {
   return parts.join(".") + abbreviations[counter];
 }
 
-function calculateTokenWeights(pool) {
-  const totalValueLocked = calculateTotalValueLocked(pool);
-  const getWeight = (
-    /** @type {number} */ value,
-    /** @type {number} */ decimals
-  ) => value / (Number(totalValueLocked.num) * Number("1e" + decimals));
-  const weights = pool.tokens.map((_token) => {
-    const { token } = _token;
-    const floated = parseFloat(token.totalBalanceUSD);
-    const weight = floated === 0 ? 0 : getWeight(floated, token.decimals);
-    return {
-      address: token.address,
-      weight: parseFloat(weight.toFixed(1)),
-      token,
-    };
-  });
-  return weights;
-}
-
-function calculateTotalValueLocked(pool) {
-  const totalLiquidity = pool.tokens.reduce((acc, _token) => {
-    const { token } = _token;
+/**
+ * @name calculateTotalValueLocked
+ * @description Calculate the total value locked in a pool
+ * @param {SToken[]} tokens
+ * @returns {{ num: number, str: string }} The total value locked as a number and a string
+ * @example const totalValueLocked = calculateTotalValueLocked(pool);
+ * console.log(totalValueLocked);
+ */
+function calculateTotalValueLocked(tokens) {
+  const totalLiquidity = tokens.reduce((acc, token) => {
     const usdBalance =
       parseFloat(token.totalBalanceUSD) / Number("1e" + token.decimals);
     if (usdBalance) {
@@ -52,6 +62,46 @@ function calculateTotalValueLocked(pool) {
   };
 }
 
+/**
+ * @name calculateTokenWeights
+ * @description Calculate the token weights in a pool
+ * @param {SToken[]} tokens
+ * @returns {{
+ * address: string,
+ * weight: number
+ * }[]}
+ * @example const tokenWeights = calculateTokenWeights(pool, tokens);
+ * console.log(tokenWeights);
+ */
+function calculateTokenWeights(tokens) {
+  const totalValueLocked = calculateTotalValueLocked(tokens);
+  const getWeight = (
+    /** @type {number} */ value,
+    /** @type {number} */ decimals
+  ) => value / (Number(totalValueLocked.num) * Number("1e" + decimals));
+  const weights = tokens.map((token) => {
+    const floated = parseFloat(token.totalBalanceUSD);
+    const weight = floated === 0 ? 0 : getWeight(floated, token.decimals);
+    return {
+      address: token.address,
+      weight: parseFloat(weight.toFixed(1)),
+      token,
+    };
+  });
+  return weights;
+}
+
+// const zkEVMGraphQLUri =
+//   // "https://api.studio.thegraph.com/query/24660/balancer-polygon-zk-v2/version/latest";
+//   "https://api.studio.thegraph.com/proxy/24660/balancer-sepolia-v2/version/latest";
+
+/**
+ * @name getGraphQlQuerySync
+ * @description Synchronously sends a GraphQL query to the specified URI and returns the response data
+ * @param {string} query - The GraphQL query to send
+ * @returns {SBalancerGQLResponse} The response data from the GraphQL query
+ * @example const data = getGraphQlQuerySync(query);
+ */
 function getGraphQlQuerySync(query) {
   const options = {
     method: "POST",
@@ -64,6 +114,13 @@ function getGraphQlQuerySync(query) {
   return body.data;
 }
 
+/**
+ * @name getOnlyPoolIds
+ * @description Get only the pool IDs from the Balancer subgraph
+ * @returns {{ pools: { id: string }[] }}
+ * @example const poolIds = getOnlyPoolIds();
+ * console.log(poolIds);
+ */
 function getOnlyPoolIds() {
   const query = `{
     pools( where: { totalLiquidity_gt: 0 } ) {
@@ -74,6 +131,12 @@ function getOnlyPoolIds() {
   return data;
 }
 
+/**
+ * @name runAllInOneQuery
+ * @description Get the pool data from the Balancer subgraph
+ * @returns {SBalancerGQLResponse}
+ * @example const data = runAllInOneQuery();
+ */
 function runAllInOneQuery(hideZeroBalances) {
   const page = state.page || 0;
   const query = `{
@@ -129,10 +192,23 @@ function runAllInOneQuery(hideZeroBalances) {
   return data;
 }
 
+/**
+ * @name hexToNumString
+ * @description Convert a hex string to a number string
+ * @param {string} hex - The hex string to convert
+ * @returns {string} The number string
+ * @example const numString = hexToNumString(hex);
+ * console.log(numString);
+ */
 function hexToNumString(hex) {
   return ethers.BigNumber.from(hex).toString();
 }
 
+/**
+ * @param {string} chainId
+ * @param {string} poolId
+ * @returns {APRApiResponse | undefined}
+ */
 const getAPIData = (chainId, poolId) => {
   const url = `https://api.balancer.fi/pools/${hexToNumString(
     chainId
@@ -141,6 +217,14 @@ const getAPIData = (chainId, poolId) => {
   const res = fetch(url).body;
   return res;
 };
+
+/**
+ * @name getTransformedData
+ * @description Get the transformed data from the Balancer subgraph data and the calculations
+ * @returns {TransformedData}
+ * @example const data = getTransformedData();
+ * console.log(data);
+ */
 
 function getTransformedData() {
   const data = runAllInOneQuery(!state.showZeroLiquidity);
@@ -160,17 +244,24 @@ function getTransformedData() {
         ? parseFloat(graphLiquidity)
         : 0
     );
-
-    const tokenWeights = calculateTokenWeights(pool);
-    const flattenedTokens = pool.tokens.map((_token) => {
-      const { token } = _token;
-      return token;
-    });
-    const tokens = flattenedTokens.sort((a, b) => {
+    const flattenTokens = ({ token }) => token;
+    const flattenedTokens = pool.tokens.map(flattenTokens);
+    const sortedTokens = flattenedTokens.sort((a, b) => {
       const aBalance = parseFloat(a.totalBalanceUSD);
       const bBalance = parseFloat(b.totalBalanceUSD);
       return bBalance - aBalance;
     });
+    const filteredTokens = sortedTokens.filter(
+      (token) => token.address !== pool.address
+    );
+    const tokens = filteredTokens;
+    console.log({
+      flattenedTokens,
+      sortedTokens,
+      filteredTokens,
+      tokens,
+    });
+    const tokenWeights = calculateTokenWeights(tokens);
     const owner = pool.owner ?? "0x0000000000000000000000000000000000000000";
 
     // fill in the rest of the data
@@ -190,6 +281,15 @@ function getTransformedData() {
   return transformedData;
 }
 
+/**
+ * @typedef {Object} State
+ * @property {string | undefined} userAddress - The user's address
+ * @property {string | undefined} chainId - The chain ID
+ * @property {number} page - The current page
+ * @property {boolean} forceMaxPage - Whether to force the max page
+ * @property {number} forcedMaxPage - The forced max page
+ * @property {boolean} showZeroLiquidity - Whether to hide pools with zero liquidity
+ */
 State.init({
   userAddress: undefined,
   chainId: undefined,
@@ -199,9 +299,11 @@ State.init({
   showZeroLiquidity: false,
 });
 
+/**@type {string | undefined} */
 const userAddress = Ethers?.send?.("eth_requestAccounts", [])?.[0];
 if (userAddress) State.update({ userAddress });
 
+/** @type {ChainInfoObject} */
 const chainInfoObject = {
   "0x1": {
     name: "Ethereum Mainnet",
@@ -290,12 +392,16 @@ const chainInfoObject = {
       "https://api.studio.thegraph.com/query/24660/balancer-sepolia-v2/version/latest",
   },
 };
+/**
+ * @param {string} hexString
+ */
 function removeLeadingZero(hexString) {
   if (hexString.startsWith("0x")) {
     return "0x" + parseInt(hexString, 16).toString(16);
   }
 }
 
+// get ethers chain id and update state
 function getNetwork() {
   const getNetworkReq = Ethers?.provider?.()?.getNetwork?.();
   getNetworkReq
@@ -316,6 +422,7 @@ try {
   console.log("2nd TryCatch (promise?): Error while getting network", error);
 }
 
+// if we don't have a chain id yet, try to get it before calling getTransformedData
 if (!state.chainId) {
   setTimeout(() => {
     try {
@@ -339,6 +446,7 @@ function ConnectButton() {
         style={{
           filter: "hue-rotate(40deg) saturate(80%) brightness(115%)",
         }}
+        // style={{ height: "40px" }}
       >
         {userAddress
           ? "Disconnect | Switch Network"
@@ -349,8 +457,10 @@ function ConnectButton() {
         style={{
           width: "max-content",
           zIndex: 1000,
+          // backgroundColor: "#1e1e1e",
           backgroundColor: "#f1f1f1",
           borderRadius: "8px",
+          // apply some deep shadow
           boxShadow: "0px 0px 20px 0px rgba(0,0,0,0.75)",
         }}
       >
@@ -557,8 +667,13 @@ function MainExport() {
     transformedData?.balancers?.length > 0
   ) {
     State.update({ forceMaxPage: true });
+    // we've reached the end of the list, so this is the max page
     State.update({ forcedMaxPage: state.page + 1 });
   }
+  // if (transformedData?.pools?.length === 10) {
+  //   State.update({ forceMaxPage: false });
+  //   State.update({ forcedMaxPage: 0 });
+  // }
   return (
     <div className="bg-dark d-flex flex-column align-items-center text-light pt-3">
       <ConnectButton />
@@ -572,6 +687,7 @@ function MainExport() {
           <LoadingComponent />
         </div>
       )}
+      {/* toggle to see if user wants to hide pools that have zero liquidity, light switch type right left */}
       <div className="form-check form-switch mb-3">
         <input
           className={
@@ -657,6 +773,7 @@ function MainExport() {
                       src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/BalancerPoolTableRow"
                       props={{
                         pool,
+                        // this is an error in the widget, as both stake and unstake are supported in one widget
                         operation: "stake",
                         vaultAddress: chainInfoObject[chainId].vaultAddress,
                         balancerQueriesAddress:
@@ -681,4 +798,5 @@ function MainExport() {
   );
 }
 
+//@ts-ignore
 return <MainExport />;
