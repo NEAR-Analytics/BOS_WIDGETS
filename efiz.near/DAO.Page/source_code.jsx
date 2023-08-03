@@ -28,7 +28,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/efiz.near/widget/DAO.Page`;
+const accountUrl = `#/efiz.near/widget/DAO.Page?`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -226,42 +226,42 @@ return (
       <Content>
         <Tabs>
           <TabsButton
-            href={`${accountUrl}&tab=discussion`}
+            href={`${accountUrl}tab=discussion`}
             selected={state.selectedTab === "discussion"}
           >
             Discussion
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=proposals`}
+            href={`${accountUrl}tab=proposals`}
             selected={state.selectedTab === "proposals"}
           >
             Proposals
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=members`}
+            href={`${accountUrl}tab=members`}
             selected={state.selectedTab === "members"}
           >
             Members
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=projects`}
+            href={`${accountUrl}tab=projects`}
             selected={state.selectedTab === "projects"}
           >
             Projects
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=followers`}
+            href={`${accountUrl}tab=followers`}
             selected={state.selectedTab === "followers"}
           >
             Followers
           </TabsButton>
 
           <TabsButton
-            href={`${accountUrl}&tab=bounties`}
+            href={`${accountUrl}tab=bounties`}
             selected={state.selectedTab === "bounties"}
           >
             Bounties
