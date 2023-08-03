@@ -1,4 +1,5 @@
 const accountId = props.accountId;
+const senderId = context.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -16,7 +17,7 @@ const item = {
 
 State.init({
   receiver: accountId,
-  sender: context.accountId,
+  sender: senderId,
   description: nftDescription,
   title,
   image,
@@ -52,8 +53,8 @@ const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHe
 
 const getData = () => {
   State.update({
-    description: `${state?.content?.text.trim().slice(0, 140)}... 💖 from ${
-      state.sender
+    description: `${state?.content?.text?.trim().slice(0, 140)}... 💖 from ${
+      state?.sender
     }`,
     title: `${state.profile.name || accountId.split(".near")[0]} ${postDate}`,
     profile: Social.get(`${accountId}/profile/**`, "final"),
