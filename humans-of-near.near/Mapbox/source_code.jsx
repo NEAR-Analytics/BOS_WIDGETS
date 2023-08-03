@@ -128,19 +128,6 @@ const code = `
 
     populateMarkers();
 
-    ${
-      accountId
-        ? `map.on('click', function(event) {
-        const { lngLat } = event;
-        
-        new mapboxgl.Marker(myel)
-            .setLngLat([lngLat.lng, lngLat.lat])
-            .addTo(map);
-        
-      });     
-`
-        : ``
-    }
     
     </script>
   </body>
