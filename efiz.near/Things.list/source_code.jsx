@@ -19,9 +19,10 @@ function handleFilter({ accountId, tag }) {
       tag,
       selectedOption: "taggedByCreator",
       filtersOpen: false,
+      currentPage: 1,
     });
   } else {
-    State.update({ accountId, tag, filtersOpen: false });
+    State.update({ accountId, tag, filtersOpen: false, currentPage: 1 });
   }
 }
 
