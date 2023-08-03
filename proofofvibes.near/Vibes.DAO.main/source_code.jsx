@@ -41,7 +41,7 @@ if (page === null) {
 // );
 // console.log(isTastemaker);
 
-const roleCheckThisUser = props.accountId ?? context.accountId; // maybe make conditional if not in dao
+const roleCheckThisUser = props.roleCheckThisUser ?? context.accountId; // maybe make conditional if not in dao
 
 const isTastemaker = false;
 const roleToCheck = props.roleToCheck ?? "tastemaker";
