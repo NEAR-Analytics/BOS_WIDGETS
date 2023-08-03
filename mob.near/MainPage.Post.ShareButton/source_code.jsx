@@ -1,9 +1,9 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const postType = props.postType ?? "post";
-const externalLink = `https://social.near.page/${
-  postType === "post" ? "p" : "c"
-}/${accountId}/${blockHeight}`;
+const externalLink = `https://near.social/mob.near/widget/${
+  postType === "post" ? "MainPage.Post.Page" : "MainPage.Comment.Page"
+}?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const clickbaitPrompt =
   props.clickbaitPrompt ??
