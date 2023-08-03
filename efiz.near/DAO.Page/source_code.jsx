@@ -266,6 +266,12 @@ return (
           >
             Bounties
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}tab=events`}
+            selected={state.selectedTab === "events"}
+          >
+            Events
+          </TabsButton>
         </Tabs>
 
         {state.selectedTab === "discussion" && (
@@ -305,6 +311,10 @@ return (
 
         {state.selectedTab === "bounties" && (
           <Widget src="sking.near/widget/DAO.Bounties" props={{ daoId }} />
+        )}
+
+        {state.selectedTab === "events" && (
+          <Widget src="efiz.near/widget/Calendar" props={{ daoId }} />
         )}
 
         {state.selectedTab === "bounty" && (
