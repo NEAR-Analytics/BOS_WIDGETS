@@ -443,8 +443,7 @@ return (
           />
         </div>
         <div>
-          <h5>Description</h5>
-          <p>{state.proposal.body}</p>
+          <Markdown text={state.proposal.body} />
         </div>
         <div
           className="d-flex flex-wrap align-items-start"
