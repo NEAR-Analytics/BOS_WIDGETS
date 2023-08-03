@@ -65,7 +65,7 @@ if (profile === null) {
   return "Loading";
 }
 
-let authorProfile;
+let authorProfile = {};
 if (state.filterBy.parameterName == "author") {
   authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
   if (!authorProfile) return "Loading...";
@@ -240,7 +240,7 @@ function getLastEditionsByArticle() {
     : finalArticlesWithoutUsersFilters;
 }
 
-const finalArticles = getLastEditionsByArticle();
+const finalArticles = getLastEditionsByArticle() ?? [];
 //===============================================END GET DATA=======================================================
 
 //=================================================FUNCTIONS========================================================
