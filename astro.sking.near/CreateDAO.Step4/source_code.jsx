@@ -127,7 +127,6 @@ const finalState = {
   },
 };
 
-
 return (
   <div className="mt-4 ndc-card p-4">
     <div className="d-flex flex-column gap-4">
@@ -242,6 +241,7 @@ return (
             );
           const trueMemberIndex =
             member !== null &&
+            trueRoleIndex !== -1 &&
             finalState.policy.roles[trueRoleIndex].kind.Group.findIndex(
               (m) => m === member.name
             );
