@@ -63,7 +63,7 @@ let userEmoji = arrayLastLikeForEachUser.find((obj) => {
 });
 
 if (!userEmoji) {
-  userEmoji = state.userEmoji;
+  userEmoji = state.emoji;
 }
 
 // ========= GET LIKES STATISTICS =========
