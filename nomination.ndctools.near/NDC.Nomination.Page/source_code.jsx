@@ -328,7 +328,7 @@ return (
             )}
           </div>
         </Left>
-        <Center className="col-lg-9 gap-1 d-flex flex-row flex-wrap">
+        <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
           {state.loading ? (
             <Loader />
           ) : state.nominations.length > 0 ? (
