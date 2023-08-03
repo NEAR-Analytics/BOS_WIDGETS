@@ -4,10 +4,10 @@
  */
 const path = props.path;
 const blockHeight =
-  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+  props?.blockHeight === "now" ? "now" : parseInt(props?.blockHeight);
 const subscribe = !!props.subscribe;
 const parts = path.split("/");
-const accountId = parts[0];
+const accountId = parts[0] || props.accountId;
 const notifyAccountId = accountId;
 const issuer = props.issuer ?? "issuer.proofofvibes.near";
 const receiver = props.receiver ?? accountId; // for sbt receiver // default the poster
@@ -34,13 +34,15 @@ if (!!profile) {
 const daoId = props.daoId ?? "vibes.sputnik-dao.near";
 const role = props.role ?? "vibee";
 const badges = ["og", "vibes", "regen", "human"];
-const formatDate = (timestamp) => {
-  const date = new Date(timestamp);
-  const month = date.getMonth() + 1; // Months are zero-based, so we add 1
-  const day = date.getDate();
-  const year = date.getFullYear();
-  return `${month}/${day}/${year}`;
-};
+
+// const formatDate = (timestamp) => {
+//   const date = new Date(timestamp);
+//   const month = date.getMonth() + 1; // Months are zero-based, so we add 1
+//   const day = date.getDate();
+//   const year = date.getFullYear();
+//   return `${month}/${day}/${year}`;
+// };
+
 const formatDateBlockHeight = (blockHeight) => {
   const block = Near.block(blockHeight);
   console.log("Block: " + block);
@@ -52,17 +54,38 @@ const formatDateBlockHeight = (blockHeight) => {
 
 const formattedPostDate = formatDateBlockHeight(blockHeight); // this is showing as error
 
-const formattedDate = formatDate(Date.now());
+// const formattedDate = formatDate(Date.now());
+
+const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
+if (!res) {
+  return "Loading";
+}
+if (!res.ok || res.body === "null") {
+  return "unknown";
+}
+
+const timeMs = parseFloat(res.body);
+
+const date = new Date(timeMs);
+const postDate = `${date.toLocaleDateString([], {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+})}`;
 
 // const titleWithDate = "Proof of Vibes " + accountId + " " + formattedDate; // add event later
-const titleWithDate = "Proof of Vibes " + profileName + " " + formattedPostDate;
-// const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
+const titleWithDate = `${
+  profile.name || accountId.split(".near")[0]
+} ${postDate}`;
 
-const hasImageInPost = content.image != null; // need to check if image in post
-// need to get image url
-const content = props.content ?? JSON.parse(Social.get(path, blockHeight));
+const nftTitle = props.nftTitle ?? titleWithDate; // see about adding title and person that vibes them // also date should be when post was posted
+
+const content =
+  props.content ??
+  JSON.parse(Social.get(path || `${accountId}/post/main`, blockHeight));
 const image = content.image;
 const type = content.type;
+console.log("content", content);
 console.log("Content type: " + type);
 const metadata = content.metadata;
 console.log("Content Metadata: " + metadata);
@@ -70,7 +93,7 @@ if (content.text) {
   State.update({
     description: content.text,
   });
-  console.log("Content Text: " + context.text);
+  console.log("Content Text: " + content.text);
 }
 
 const item = {
@@ -93,6 +116,10 @@ State.init({
   image,
   content,
 });
+
+const hasImageInPost = content.image; // need to check if image in post
+console.log("hasImage?", content.image);
+// need to get image url
 
 const isTasteMaker = true;
 // const accountId = context.accountId;
@@ -264,6 +291,26 @@ const Actions = styled.div`
   margin: -6px -6px 6px;
 `;
 
+const getImageUrl = () => {
+  State.update({
+    description: state?.content?.text,
+    profile: Social.get(`${accountId}/profile/**`, "final"),
+    content: JSON.parse(
+      Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
+    ),
+  });
+  console.log(postDate);
+  return state?.content?.image.ipfs_cid
+    ? State.update({
+        imageUrl: `https://ipfs.near.social/ipfs/${state?.content?.image.ipfs_cid}`,
+      })
+    : State.update({
+        imageUrl: state?.content?.image.url,
+      }) || fallbackUrl;
+};
+
+getImageUrl();
+
 function renderContent() {
   console.log(
     "Content Image: Type: " + typeof content.image + " Image " + content.image
@@ -292,6 +339,11 @@ function renderContent() {
   }
 }
 
+console.log("title", nftTitle);
+
+State.update({
+  title: nftTitle,
+});
 // may need to comment out
 // need to check role if tastemaker
 
@@ -380,8 +432,8 @@ const nftMint = () => {
     }, 3000);
   } else {
     const metadata = {
-      name: state.title,
-      description: state.description,
+      name: state?.title,
+      description: state?.description,
       properties: [],
       image: `${state.image.url}`,
 
@@ -412,7 +464,7 @@ const nftMint = () => {
               description: state.description,
               //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
               // media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              media: `${state.content.image}`,
+              media: `${state.imageUrl}`,
 
               //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
