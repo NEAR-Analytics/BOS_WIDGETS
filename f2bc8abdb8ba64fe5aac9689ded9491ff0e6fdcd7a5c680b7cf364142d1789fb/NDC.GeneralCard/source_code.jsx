@@ -16,8 +16,10 @@ const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
 
+//TODO ask Dani how are we handling this "verified"
+
 State.init({
-  verified: false,
+  verified: true,
   start: true,
   voted: false,
   shareText: "Copy link to the clipboard",
