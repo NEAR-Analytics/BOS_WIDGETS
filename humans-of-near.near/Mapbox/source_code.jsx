@@ -130,8 +130,8 @@ const code = `
       accountId && edit
         ? `map.on('click', function(event) {
         const { lngLat } = event;
-        sessionStorage.setItem("selectedItem", lngLat);
-          console.log(sessionStorage.getItem("selectedItem"), "===>window.selectedItem");
+        window.sessionStorage.setItem("selectedItem", lngLat);
+          console.log(window.sessionStorage.getItem("selectedItem"), "===>window.selectedItem");
         new mapboxgl.Marker(myel)
             .setLngLat([lngLat.lng, lngLat.lat])
             .addTo(map);
