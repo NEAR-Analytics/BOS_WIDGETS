@@ -46,8 +46,10 @@ console.log("content", content);
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 State.update({
-  description: `${nftDescription.trim().slice(0, 140)}... 💖 from ${sender}`,
-  title: `${state?.profile?.name || accountId.split(".near")[0]} ${postDate}`,
+  description: `${nftDescription.trim().slice(0, 140)}...`,
+  title: `${
+    state?.profile?.name || accountId.split(".near")[0]
+  } ${postDate} 💖 from ${sender}`,
   profile: userProfile,
   content: JSON.parse(
     Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
