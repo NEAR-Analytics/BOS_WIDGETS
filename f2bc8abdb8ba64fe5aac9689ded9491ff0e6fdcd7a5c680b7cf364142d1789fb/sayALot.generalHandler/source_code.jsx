@@ -1,5 +1,5 @@
 //===============================================INITIALIZATION=====================================================
-let { sharedBlockHeight, isTest, accountId } = props;
+let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
 if (!accountId) accountId = context.accountId;
 
@@ -12,7 +12,9 @@ const tabs = {
 State.init({
   displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
   infoToRenderArticle: {},
-  filterBy: { parameterName: "" },
+  filterBy: tagShared
+    ? { parameterName: "tag", parameterValue: tagShared }
+    : { parameterName: "" },
 });
 
 //=============================================END INITIALIZATION===================================================
