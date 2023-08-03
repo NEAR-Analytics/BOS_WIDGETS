@@ -26,12 +26,11 @@ State.init({
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-
-//TODO review this
+//TODO pass this
 const item = {
   type: "social",
   path: `${data.author}/${addressForArticles}/main`,
-  blockHeight: firstArticleBlockHeight ?? data.blockHeight,
+  realArticleId: data.realArticleId,
 };
 
 //=================================================END CONSTS=======================================================
