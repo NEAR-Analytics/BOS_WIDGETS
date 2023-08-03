@@ -66,7 +66,7 @@ if (state.answer2.toLowerCase() === "javascript") {
   showQuestion3 = true;
 }
 
-if (state.answer3 === "hack.near/widget/quiz.bos") {
+if (state.answer3 === "nearinturkiye.near/widget/quizTurkiye") {
   showQuestion4 = true;
 }
 
