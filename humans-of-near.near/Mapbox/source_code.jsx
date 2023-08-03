@@ -57,6 +57,13 @@ const code = `
         zoom: ${zoom}
     });
 
+    map.on('click', function(e) {
+
+    console.log(e);
+  
+
+    });
+
     function getDetail (row) {
       const user = row.user;
        var title = "";
