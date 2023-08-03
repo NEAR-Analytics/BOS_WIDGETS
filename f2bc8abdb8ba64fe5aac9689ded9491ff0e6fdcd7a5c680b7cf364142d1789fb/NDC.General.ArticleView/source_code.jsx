@@ -1,5 +1,6 @@
-//This widget cames from NDC.Nomination.Page
-const { isTest, writersWhiteList, articleToRenderData } = props;
+//This widget cames from NDC.Nomination.Candidate.Page
+const { isTest, writersWhiteList, articleToRenderData, handleBackButton } =
+  props;
 
 const addressForArticles = isTest ? "test_sayALotArticle" : "sayALotArticle";
 // const authorForWidget = "sayalot.near";
@@ -30,26 +31,18 @@ const canUserEditArticle = () => {
   }
 };
 
+const BackButton = styled.div`
+  cursor: pointer;
+`;
+
 return (
   <div>
-    <div className="d-flex justify-content-center">
-      <div>
-        <Widget
-          src={widgets.header}
-          props={{
-            startTime: time[0],
-            endTime: time[1],
-            type: "Nomination",
-          }}
-        />
-      </div>
-    </div>
     <div className="row">
       <div className="my-3">
-        <span>
+        <BackButton onClick={handleBackButton}>
           <i className="bi bi-chevron-left mr-2"></i>
           Back
-        </span>
+        </BackButton>
       </div>
     </div>
     <div>
