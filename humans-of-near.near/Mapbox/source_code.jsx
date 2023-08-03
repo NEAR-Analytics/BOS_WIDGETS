@@ -102,7 +102,7 @@ const code = `
            '</div>'+
           '</div>'+
         '</div>';
-      console.log(HTML,"==>HTML");
+        
         return HTML;
     };
 
