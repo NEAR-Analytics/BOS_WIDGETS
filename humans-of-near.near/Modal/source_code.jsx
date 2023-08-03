@@ -1,5 +1,11 @@
 const accountId = context.accountId;
 
+State.init({
+  social: "",
+  twitter: "",
+  name: "",
+});
+
 const ModalOverlay = styled.div`
   position: absolute;
   left: 58px;
@@ -61,19 +67,18 @@ const getMyData = () => {
   return asyncFetch(props.API_URL + `/auth?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
-        return res.body;
+        return res.body.user;
       }
     }
   );
 };
 
-getMyData().then((res) => {
-  alert(JSON.stringify(res));
-  // State.update({
-  //   social,
-  //   twitter,
-  //   name,
-  // });
+getMyData().then(({ social, twitter, name }) => {
+  State.update({
+    social,
+    twitter,
+    name,
+  });
 });
 
 return (
@@ -83,11 +88,11 @@ return (
       <ModalTitle>{`Your Profile`}</ModalTitle>
       <p>{`Be careful with your public data.`}</p>
       <h5>{`Display Name`}</h5>
-      <TextField type="text" placeholder="display name" />
+      <TextField type="text" placeholder="display name" value={state.name} />
       <h5>{`Near Social`}</h5>
-      <TextField type="text" placeholder="Near Social" />
+      <TextField type="text" placeholder="Near Social" value={state.social} />
       <h5>{`Twitter`}</h5>
-      <TextField type="text" placeholder="Twitter Link" />
+      <TextField type="text" placeholder="Twitter Link" value={state.twitter} />
     </ModalContent>
     <ModalAction>
       <Button className="btn">{`Save`}</Button>
