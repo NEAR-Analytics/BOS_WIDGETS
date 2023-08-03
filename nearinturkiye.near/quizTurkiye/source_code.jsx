@@ -117,7 +117,7 @@ return (
       <p>"BOS" kısaltması ne anlama geliyor?</p>
       <input
         className="form-control"
-        placeholder="Your answer goes here :)"
+        placeholder="Cevabınızı buraya yazın :)"
         defaultValue={state.answer1}
         onChange={(e) => {
           State.update({
