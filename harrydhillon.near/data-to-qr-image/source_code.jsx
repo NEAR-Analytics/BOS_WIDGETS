@@ -23,11 +23,11 @@ return (
   <div style={{ width: 300 }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      {...props.svgProps}
       width="100%"
       height="auto"
       viewBox="0 0 34 34"
       shape-rendering="crispEdges"
+      {...props.svgProps}
     >
       <path stroke="#000000" d={state.img} />
     </svg>
