@@ -1,5 +1,6 @@
 const accountId = props.accountId;
 const senderId = context.accountId;
+const userProfile = Social.get(`${accountId}/profile/**`, "final");
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const content =
@@ -23,7 +24,7 @@ State.init({
   image,
   content,
   imageUrl: undefined,
-  profile,
+  profile: userProfile,
 });
 
 const res = fetch(`https://api.near.social/time?blockHeight=${blockHeight}`);
@@ -57,7 +58,7 @@ const getData = () => {
       state?.sender
     }`,
     title: `${state.profile.name || accountId.split(".near")[0]} ${postDate}`,
-    profile: Social.get(`${accountId}/profile/**`, "final"),
+    profile: userProfile,
     content: JSON.parse(
       Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
     ),
