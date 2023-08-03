@@ -163,10 +163,10 @@ return (
         class="btn"
         style={state.edit ? BtnStyle2_act : BtnStyle2}
         onClick={() => {
-          State.update({ edit: true });
+          State.update({ edit: !state.edit });
         }}
       >
-        {`Edit location`}
+        {`${!state.edit ? "Edit" : "Save"} location`}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
