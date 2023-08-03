@@ -4,7 +4,7 @@ if (!accountId) return;
 const SOCIAL = "https://social.near.page/u/";
 const TWITTER = "https://twitter.com/";
 
-const { API_URL, onClose, user } = props;
+const { API_URL, onClose, user, getMyInfor } = props;
 
 State.init({
   social: user.social,
@@ -81,6 +81,7 @@ const saveMyProfile = () => {
     body: data,
   }).then((res) => {
     if (res.ok) {
+      getMyInfor();
       onClose();
     }
   });
