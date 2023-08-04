@@ -49,7 +49,7 @@ if (
 
 return (
   <>
-    <div>{ccc}</div>
+    <div onClick={onChange}>{ccc}</div>
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
