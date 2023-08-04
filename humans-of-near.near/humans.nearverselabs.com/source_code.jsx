@@ -29,6 +29,7 @@ const Wrapper = styled.div`
   align-items: stretch;
   flex-direction: column;
   background: black;
+  overflow: auto;
 `;
 
 const Header = styled.div`
@@ -145,7 +146,7 @@ return (
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
 
-    {accountId && (
+    {accountId && hasSBTToken && (
       <div>
         <button
           class="btn"
@@ -214,7 +215,7 @@ return (
       </div>
     )}
 
-    {accountId && state.showModal && (
+    {accountId && hasSBTToken && state.showModal && (
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
