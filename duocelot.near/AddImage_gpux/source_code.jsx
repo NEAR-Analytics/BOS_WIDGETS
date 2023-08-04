@@ -51,7 +51,7 @@ if (!accountId) {
         Please connect with your near wallet or create one for free
       </h3>
       <a
-        href="https://shard.dog/go?url=https://app.jumpdefi.xyz"
+        href="https://shard.dog/humansofbrazil"
         style={{
           fontFamily: "Press Start 2P",
           fontSize: "14px",
@@ -106,7 +106,7 @@ function rollImageCOMPLEX() {
 var imgSrc =
   "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44";
 if (state.seed) {
-  imgSrc = `https://explorer.gpux.ai/api/inference/gpux/sd15?return_grid=true&seed=${state.seed}&scale=${state.scale}&image_count=1&steps=8&prompt=${state.prompt}`;
+  imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=8&prompt=${state.prompt}`;
 }
 
 const shadow = {
@@ -213,20 +213,7 @@ return (
           style={{ width: "180px", height: "auto" }}
         />
       </div>
-      <div
-        style={{
-          backgroundImage:
-            "url(https://ipfs.fleek.co/ipfs/bafybeiffwmpcednhwtbzuo5bn7j2hu3vdbo3sdi3r4mknzynjcklco3vee)",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "81px",
-          color: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <div>
         <div style={{ width: "auto" }}>
           <input
             type="text"
@@ -284,46 +271,7 @@ return (
             margin: "0px 60px 0px 0px",
           }}
         >
-          <input
-            type="range"
-            min={1.1}
-            max={25}
-            value={value}
-            step={0.1}
-            onBlur={(e) => {
-              state.scale = e.target.value;
-              State.update(state);
-            }}
-            style={{
-              width: "200px",
-              backgroundColor: "black",
-              color: "white",
-              fontFamily: '"Press Start 2P", sans-serif',
-              margin: "10px 10px 10px 10px",
-              border: "1px solid #3a0201",
-            }}
-          />
-          <input
-            type="range"
-            min={1.1}
-            max={25}
-            value={value}
-            step={0.1}
-            onBlur={(e) => {
-              state.scale = e.target.value;
-              State.update(state);
-            }}
-            style={{
-              width: "200px",
-              backgroundColor: "black",
-              color: "white",
-              fontFamily: '"Press Start 2P", sans-serif',
-              fontSize: "12px",
-              margin: "10px 10px 10px 10px",
-              border: "1px solid #3a0201",
-            }}
-          />{" "}
-        </div>
+         
         <div>
           <a
             className="btn btn-outline-primary"
@@ -408,25 +356,7 @@ return (
             margin: "0px 0px 0px 0px",
           }}
         >
-          <input
-            type="range"
-            min={1.1}
-            max={25}
-            value={value}
-            step={0.1}
-            onBlur={(e) => {
-              state.scale = e.target.value;
-              State.update(state);
-            }}
-            style={{
-              width: "200px",
-              backgroundColor: "black",
-              color: "white",
-              fontFamily: '"Press Start 2P", sans-serif',
-              margin: "0px 5px 0px 0px",
-              border: "1px solid #3a0201",
-            }}
-          />
+          
         </div>
         <a
           className="btn btn-outline-primary"
