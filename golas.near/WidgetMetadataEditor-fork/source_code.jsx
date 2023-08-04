@@ -10,7 +10,7 @@ if (metadata === null) {
 return (
   <Widget
     key={widgetPath}
-    src="mob.near/widget/MetadataEditor"
+    src="near/widget/MetadataEditor"
     props={{
       initialMetadata: metadata,
       onChange,
