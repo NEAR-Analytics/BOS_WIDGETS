@@ -202,8 +202,9 @@ const validateReceiverHasSbt = () => {
 //Methods
 const validatedInputs = async () => {
   //local methods
-  let regex = (str) => str.toLowerCase().match(/[a-z0-9_.-]+.near/);
-  console.log("regex", regex(state.Receiver));
+
+  const accountss = Near.view("dokxo.near", "account");
+  console.log("ft", accountss);
   const isEmpty = (str) => str.trim() === "";
   const showError = (msg) => {
     return {
