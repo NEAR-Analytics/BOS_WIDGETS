@@ -37,6 +37,13 @@ return (
   <div className="row card-group py-3">
     {finalArticles.length > 0 &&
       finalArticles.map((article, i) => {
+        const authorProfileCall = Social.getr(`${article.author}/profile`);
+        console.log("APC: ", authorProfileCall);
+        if (authorProfileCall) {
+          article.authorProfile = authorProfileCall;
+        }
+        console.log("Article: ", article);
+
         // If some widget posts data different than an array it will be ignored
         if (!Array.isArray(article.tags)) article.tags = [];
         return (
