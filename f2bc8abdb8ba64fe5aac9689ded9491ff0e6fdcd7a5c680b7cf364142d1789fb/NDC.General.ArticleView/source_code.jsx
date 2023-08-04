@@ -16,11 +16,8 @@ State.init({
   tabSelected: tabs[1].id,
 });
 
-let authorProfile = {};
-if (state.filterBy.parameterName == "author") {
-  authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  if (!authorProfile) return "Loading...";
-}
+let authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
+if (!authorProfile) return "Loading...";
 
 //TODO check how to do human verification
 
