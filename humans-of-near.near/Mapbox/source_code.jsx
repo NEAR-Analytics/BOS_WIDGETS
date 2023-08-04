@@ -174,7 +174,7 @@ const code = `
 
 const Container = styled.div`
     height: 100%;
-    display:flex;
+    display: flex;
 `;
 
 return (
