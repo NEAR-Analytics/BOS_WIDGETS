@@ -202,7 +202,9 @@ const validateReceiverHasSbt = () => {
 //Methods
 const validatedInputs = async () => {
   //local methods
-  let regex = new RegExp("[a-z0-9]+.near");
+  let regex = new RegExp("[a-z0-9_.-]+.near");
+
+  console.log("regex", regex.test(state.Receiver));
   const isEmpty = (str) => str.trim() === "";
   const showError = (msg) => {
     return {
