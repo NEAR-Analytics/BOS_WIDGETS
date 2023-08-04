@@ -202,6 +202,7 @@ const validateReceiverHasSbt = () => {
 //Methods
 const validatedInputs = async () => {
   //local methods
+  let regex = new RegExp("[a-z0-9]+@[a-z]+.near");
   const isEmpty = (str) => str.trim() === "";
   const showError = (msg) => {
     return {
@@ -244,6 +245,10 @@ const validatedInputs = async () => {
   if (isEmpty(state.Receiver)) {
     //validate the user filled the Receiver
     return State.update(showError("Write the receiver"));
+  }
+  if (regex.test(state.Receiver)) {
+    //validate the user filled the Receiver
+    return State.update(showError("Receiver is not a valid account"));
   }
   if (state.ischeckselected === true) {
     if (state.ClassIdSelected === "0") {
