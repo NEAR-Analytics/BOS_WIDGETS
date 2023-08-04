@@ -1,8 +1,3 @@
-if (props.item === "liquity") {
-  console.log("Yes yes yes");
-  openTrove();
-}
-
 const setcoll = (depositChangeEvent) => {
   const coll = Number(depositChangeEvent.target.value);
   const { totalcoll } = state;
@@ -187,6 +182,11 @@ if (
     const isOpenTrove = ethers.utils.formatEther(res).includes("1");
     State.update({ isOpenTrove });
   });
+}
+
+if (props.item === "liquity") {
+  console.log("Yes yes yes");
+  openTrove();
 }
 
 return <div></div>;
