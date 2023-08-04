@@ -12,7 +12,7 @@ const ccc = "cccc";
 const kkk = () => {
   console.log("kkk");
   console.log("onChange", onChange);
-  props.onChange({ title: "kkkkkkkkkkk" });
+  props.onChange({ name: "kkkkkkkkkkk" });
 };
 
 return (
@@ -23,7 +23,7 @@ return (
       src="golas.near/widget/MetadataEditor-fork"
       props={{
         initialMetadata: metadata,
-        onChange,
+        onChange: kkk,
         options: {
           name: { label: "Titlex" },
           image: { label: "Icon" },
