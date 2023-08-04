@@ -1,1 +1,1 @@
-return <div style={{ color: "white", background: "black" }}>Hello Near</div>;
+return <p>Hello Near BOS</p>
