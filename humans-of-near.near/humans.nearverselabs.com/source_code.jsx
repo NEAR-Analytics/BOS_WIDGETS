@@ -36,7 +36,6 @@ const Header = styled.div`
   width: 100%;
   flex-direction: column;
   position: absolute;
-  padding: 30px 40px;
 `;
 
 const BtnStyle = {
