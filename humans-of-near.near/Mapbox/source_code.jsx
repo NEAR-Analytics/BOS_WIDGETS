@@ -135,13 +135,7 @@ const code = `
 
     function openWin() {
       myWindow = window.open("", "myWindow", "width=200,height=100");
-      myWindow.document.write(
-          "<p>This is 'myWindow'</p>"
-          +"<script>"
-          +"function closeWindow()\{"
-          +"window.close();"
-          +"}</script>"
-      );    
+      myWindow.document.write("<p>This is 'myWindow'</p>");    
     }
 
     openWin();
