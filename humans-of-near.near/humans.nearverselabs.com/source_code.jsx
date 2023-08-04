@@ -145,7 +145,7 @@ return (
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
 
-    {accountId && hasSBTToken && (
+    {accountId && (
       <div>
         <button
           class="btn"
@@ -214,7 +214,7 @@ return (
       </div>
     )}
 
-    {accountId && hasSBTToken && state.showModal && (
+    {accountId && state.showModal && (
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
