@@ -547,24 +547,27 @@ return (
                   }}
                 />
                 <div className="d-flex flex-column">
-                  <TagContainer>
-                    <Widget
-                      src={widgets.styledComponents}
-                      props={{
-                        Tag: {
-                          title:
-                            house == "HouseOfMerit"
-                              ? "House of Merit"
-                              : house == "CouncilOfAdvisors"
-                              ? "Council of Advisors"
-                              : "Transparency Commission",
-                          className: "dark",
-                        },
-                      }}
-                    />
-                  </TagContainer>
+                  {
+                    //   <TagContainer>
+                    //   <Widget
+                    //     src={widgets.styledComponents}
+                    //     props={{
+                    //       Tag: {
+                    //         title:
+                    //           house == "HouseOfMerit"
+                    //             ? "House of Merit"
+                    //             : house == "CouncilOfAdvisors"
+                    //             ? "Council of Advisors"
+                    //             : "Transparency Commission",
+                    //         className: "dark",
+                    //       },
+                    //     }}
+                    //   />
+                    // </TagContainer>
+                  }
                   <NominationTitleContainer>
                     <UserLink
+                      target="_blank"
                       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
                     >
                       <NominationTitle>
@@ -575,16 +578,17 @@ return (
                       </NominationUser>
                     </UserLink>
                     <TagContainer>
-                      {articleToRenderData.tags.map((tag) => {
-                        return tag && tag != "" ? (
-                          <Widget
-                            src={widgets.styledComponents}
-                            props={{
-                              Tag: { title: tag },
-                            }}
-                          />
-                        ) : null;
-                      })}
+                      {articleToRenderData.tags.length > 0 &&
+                        articleToRenderData.tags.map((tag) => {
+                          return (
+                            <Widget
+                              src={widgets.styledComponents}
+                              props={{
+                                Tag: { title: tag },
+                              }}
+                            />
+                          );
+                        })}
                     </TagContainer>
                   </NominationTitleContainer>
                 </div>
