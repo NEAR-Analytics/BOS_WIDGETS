@@ -20,6 +20,8 @@ State.init({
   tabSelected: tabs[1].id,
 });
 
+console.log("tle: ", new Date(articleToRenderData.timeLastEdit));
+
 //TODO check how to do human verification
 
 // function getVerifiedHuman() {
@@ -870,9 +872,7 @@ return (
                 </div>
                 <div>
                   <DescriptionSubtitle>Edited on:</DescriptionSubtitle>
-                  <DescriptionInfoSpan>
-                    {new Date(articleToRenderData.timeLastEdit)}
-                  </DescriptionInfoSpan>
+                  <DescriptionInfoSpan>{}</DescriptionInfoSpan>
                 </div>
                 <div>
                   <DescriptionSubtitle>Edit versions:</DescriptionSubtitle>
