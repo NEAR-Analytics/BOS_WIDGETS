@@ -280,6 +280,18 @@ function handleBackButton() {
   });
 }
 
+function handleGoHomeButton() {
+  State.update({
+    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+    articleToRenderData: {},
+    filterBy: { parameterName: "", parameterValue: {} },
+  });
+}
+
+function handleArticlesListNavigation(filterBy) {
+  () => stateUpdate({ displayedTabId: brand.homePageId, listBy: filterBy });
+}
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
@@ -288,6 +300,8 @@ return (
       props={{
         isTest,
         stateUpdate,
+        handleGoHomeButton,
+        handleArticlesListNavigation,
         brand,
         pills: navigationPills,
         navigationButtons,
