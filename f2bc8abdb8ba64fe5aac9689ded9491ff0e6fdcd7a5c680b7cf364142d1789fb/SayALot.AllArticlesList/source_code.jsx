@@ -37,6 +37,7 @@ return (
   <div className="row card-group py-3">
     {finalArticles.length > 0 &&
       finalArticles.map((article) => {
+        article.authorProfile = Social.getr(`${accountId}/profile`);
         // If some widget posts data different than an array it will be ignored
         if (!Array.isArray(article.tags)) article.tags = [];
         return (
