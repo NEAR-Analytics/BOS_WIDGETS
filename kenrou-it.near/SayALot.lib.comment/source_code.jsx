@@ -42,6 +42,7 @@ function getComments(args) {
 }
 
 function setComment(args) {
+  console.log(2);
   const { realArticleId, comment } = args;
   const data = {
     index: {
