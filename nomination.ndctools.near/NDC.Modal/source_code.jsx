@@ -56,7 +56,7 @@ return (
     <ComponentWrapper>
       <ModalContent>
         <div className="w-100 d-flex justify-content-end">
-          <div className="pb-3" onClick={Button.CancelOnClick}>
+          <div className="pb-3" onClick={Button.onCancel}>
             <i class="bi bi-x-lg"></i>
           </div>
         </div>
@@ -69,8 +69,8 @@ return (
             props={{
               Button: {
                 className: "secondary dark",
-                text: Button.CancelTitle,
-                onClick: Button.CancelOnClick,
+                text: "Cancel",
+                onClick: Button.onCancel,
               },
             }}
           />
@@ -78,8 +78,8 @@ return (
             src={widgets.styledComponents}
             props={{
               Button: {
-                text: Button.SubmitTitle,
-                onClick: Button.SubmitOnClick,
+                text: Button.title,
+                onClick: Button.onSubmit,
               },
             }}
           />
