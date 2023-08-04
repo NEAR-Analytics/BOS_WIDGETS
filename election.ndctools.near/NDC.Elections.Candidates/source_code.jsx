@@ -589,7 +589,7 @@ return (
             </>
           ),
           content: (
-            <Section className="d-flex justify-content-center w-100">
+            <Section className="d-flex justify-content-center w-100 my-4">
               <Checkbox
                 type="checkbox"
                 value={state.tosAgreement}
@@ -597,7 +597,7 @@ return (
                   State.update({ tosAgreement: !state.tosAgreement })
                 }
               />
-              <ALink title="Fair Voting Policy." href="" />
+              I agree with <ALink title="Fair Voting Policy." href="" />
             </Section>
           ),
           Button: {
@@ -637,7 +637,7 @@ return (
             </>
           ),
           content: (
-            <Section className="d-flex d-flex justify-content-center w-100">
+            <Section className="d-flex d-flex justify-content-center w-100 my-4">
               I understand the{" "}
               <ALink title="Whistleblower Bounty Program" href="" />.
             </Section>
