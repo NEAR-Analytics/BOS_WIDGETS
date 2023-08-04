@@ -559,7 +559,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: false, //state.selectedCandidates.length === 0,
+          disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () => State.update({ showToSModal: true }),
         },
@@ -568,7 +568,7 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-const Link = ({ title, href }) => (
+const ALink = ({ title, href }) => (
   <a href={href} target={"_blank"} rel={"noopener"}>
     {title}
   </a>
@@ -584,7 +584,7 @@ return (
           description: (
             <>
               Please make sure to read and understand the{" "}
-              <Link title="Fair Voting Policy." href="" />
+              <ALink title="Fair Voting Policy." href="" />
               which outlines the responsibilities of each voter.
             </>
           ),
@@ -597,13 +597,14 @@ return (
                   State.update({ tosAgreement: !state.tosAgreement })
                 }
               />
-              <Link title="Fair Voting Policy." href="" />
+              <ALink title="Fair Voting Policy." href="" />
             </Section>
           ),
           Button: {
             title: "Agree to Fair Voting Policy",
             disabled: !state.tosAgreement,
-            onCancel: () => State.update({ showToSModal: false }),
+            onCancel: () =>
+              State.update({ showToSModal: false, tosAgreement: false }),
             onSubmit: handleAcceptToS,
           },
         }}
@@ -618,11 +619,11 @@ return (
             <>
               <p>
                 Do you know about the{" "}
-                <Link title="Whistleblower Bounty Program" href="" />? The
+                <ALink title="Whistleblower Bounty Program" href="" />? The
                 Whistleblower Bounty Program offers up to 2,000 NEAR for
                 whistleblowers who come forward to share instances of vote
                 buying, account buying, election fraud, and other violations of
-                the <Link title="Fair Voting Policy." href="" />.
+                the <ALink title="Fair Voting Policy." href="" />.
               </p>
               <p>
                 You will be bonding xN during the election period. This bond
@@ -638,7 +639,7 @@ return (
           content: (
             <Section className="d-flex">
               I understand the{" "}
-              <Link title="Whistleblower Bounty Program" href="" />.
+              <ALink title="Whistleblower Bounty Program" href="" />.
             </Section>
           ),
           Button: {
