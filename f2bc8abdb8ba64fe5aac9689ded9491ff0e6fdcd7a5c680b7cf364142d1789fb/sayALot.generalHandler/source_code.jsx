@@ -92,7 +92,7 @@ const navigationPills = [
 ];
 
 const navigationButtons = [
-  { id: ARTICLE_WORKSHOP.id, title: "+Create article" },
+  { id: tabs.ARTICLE_WORKSHOP.id, title: "+Create article" },
 ];
 
 const initialBody = `# h1 Heading 8-) 
