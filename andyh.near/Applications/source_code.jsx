@@ -19,7 +19,7 @@ return (
         {state.apps.map((app, i) => (
           <div key={i}>
             <Widget
-              src="mob.near/widget/ComponentSearch.Item"
+              src="andyh.near/widget/ComponentSearch.Item"
               props={{
                 link: `#/${app.widgetSrc}`,
                 accountId: app.accountId,
