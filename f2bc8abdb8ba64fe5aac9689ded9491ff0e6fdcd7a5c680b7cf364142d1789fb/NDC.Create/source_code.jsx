@@ -2,7 +2,7 @@ const {
   isTest,
   addressForArticles,
   authorForWidget,
-  initialCreateArticleState,
+  initialCreateState,
   createHandler,
   createIsSaving,
   createErrorId,
@@ -20,7 +20,7 @@ const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
   errTextDublicatedId = "ERROR: there is article with such name";
 
-State.init(initialCreateArticleState);
+State.init(initialCreateState);
 const tagsArray = state.tags ? Object.keys(state.tags) : [];
 
 const Button = styled.button` 
