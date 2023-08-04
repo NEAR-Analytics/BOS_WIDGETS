@@ -15,6 +15,7 @@ State.init({
   filterBy: tagShared
     ? { parameterName: "tag", parameterValue: tagShared }
     : { parameterName: "" },
+  authorsProfiles: [],
 });
 
 //=============================================END INITIALIZATION===================================================
@@ -315,7 +316,9 @@ return (
         src={widgets.oneArticle}
         props={{
           isTest,
+          widgets,
           handleBackButton,
+          handleFilterArticles,
           articleToRenderData: state.articleToRenderData,
           authorForWidget,
         }}
