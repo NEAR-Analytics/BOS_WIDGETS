@@ -68,20 +68,22 @@ const endpoints = {
 };
 
 function getVerifiedHuman() {
-  asyncFetch(endpoints.sbt, httpRequestOpt).then((res) => {
-    if (res.body.length > 0) {
-      State.update({ sbt: true });
-    }
+  let selfNomination = false;
+  const sbtTokens = Near.view(registryContract, "sbt_tokens", {
+    issuer: "fractal.i-am-human.near",
   });
-  asyncFetch(endpoints.og, httpRequestOpt).then((res) => {
-    if (res.body.length > 0) {
-      State.update({ og: true });
-    }
+  const ogTokens = Near.view(registryContract, "sbt_tokens", {
+    issuer,
   });
+
   asyncFetch(endpoints.candidateComments, httpRequestOpt).then((res) => {
-    if (res.body.length > 0) {
-      State.update({ selfNomination: true });
-    }
+    if (res.body.length > 0) selfNomination = true;
+  });
+
+  State.update({
+    og: ogTokens.some((sbt) => sbt.owner === context.accountId),
+    sbt: sbtTokens.some((sbt) => sbt.owner === context.accountId),
+    selfNomination,
   });
 }
 
@@ -89,6 +91,7 @@ function getNominationInfo(house) {
   let nominationsArr = [];
 
   State.update({ loading: true });
+
   asyncFetch(endpoints.houseNominations(house), httpRequestOpt).then((res) => {
     if (res.body.length <= 0) {
       State.update({ nominations: [], loading: false });
@@ -138,14 +141,6 @@ function getNominationInfo(house) {
   });
 }
 
-if (state.start) {
-  getNominationInfo("HouseOfMerit");
-  getVerifiedHuman();
-  State.update({
-    start: false,
-  });
-}
-
 const handleSelect = (item) => {
   console.log("id", item.id);
   switch (item.id) {
@@ -162,7 +157,7 @@ const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
 };
 
-function handleFilter(e) {
+const handleFilter = (e) => {
   const text = e.target.value;
 
   State.update({ candidateId: text });
@@ -190,7 +185,10 @@ function handleFilter(e) {
   } else {
     State.update({ nominations: state.originNominations });
   }
-}
+};
+
+getNominationInfo("HouseOfMerit");
+getVerifiedHuman();
 
 const Container = styled.div`
   padding: 30px 0;
