@@ -567,7 +567,9 @@ return (
                     <UserLink
                       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
                     >
-                      <NominationTitle>{authorProfile.name}</NominationTitle>
+                      <NominationTitle>
+                        {articleToRenderData.authorProfile.name}
+                      </NominationTitle>
                       <NominationUser>
                         {articleToRenderData.author}
                       </NominationUser>
