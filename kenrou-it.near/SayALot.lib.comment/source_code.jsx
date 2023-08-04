@@ -42,26 +42,34 @@ function getComments(args) {
 }
 
 function setComment(args) {
-  console.log(2);
-  const { realArticleId, text } = args;
+  const { realArticleId, text, previousCommentId } = args;
   const data = {
     index: {
       [action]: JSON.stringify({
         key: realArticleId,
         value: {
           text,
+          id: `${realArticleId}-${Date.now()}`,
+          previousCommentId,
         },
       }),
     },
   };
   Social.set(data);
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "setComment";
+  });
+
+  return text;
 }
 
 const updateObj = {};
+const resultLibCalls = [...libCalls];
 libCalls.forEach((call) => {
   updateObj[call.key] = libCall(call);
 });
 
-stateUpdate(updateObj);
-
+updateObj.libCalls = resultLibCalls(updateObj);
+stateUpdate;
 return <></>;
