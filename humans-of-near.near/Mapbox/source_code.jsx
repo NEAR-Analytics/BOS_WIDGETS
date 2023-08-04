@@ -182,7 +182,7 @@ return (
       id="myMap"
       className="w-100 h-100"
       srcDoc={code}
-      sandbox="allow-same-origin || allow-scripts || allow-top-navigation || allow-popups"
+      sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox allow-scripts"
     />
   </Container>
 );
