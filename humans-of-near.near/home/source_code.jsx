@@ -111,8 +111,15 @@ const onClose = () => {
 };
 
 const handleSaveLocation = () => {
-  console.log(window.location.selectedItem, "===>window.selectedItem");
-  State.update({ edit: !state.edit });
+  asyncFetch(`${API_URL}/location/bos`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ accountId }),
+  }).then((res) => {
+    State.update({ edit: !state.edit });
+  });
 };
 
 getMyInfor();
