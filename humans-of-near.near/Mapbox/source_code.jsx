@@ -48,6 +48,10 @@ const code = `
         border: 1px solid;
         border-radius: 9px;
       }
+
+      .mapboxgl-popup-close-button{
+        color: white;
+      }
     </style>
   </head>
   <body>
