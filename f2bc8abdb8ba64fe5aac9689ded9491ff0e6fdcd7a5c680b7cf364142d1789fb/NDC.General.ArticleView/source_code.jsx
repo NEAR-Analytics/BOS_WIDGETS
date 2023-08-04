@@ -85,17 +85,6 @@ const DetailContent = styled.div`
   gap: 12px;
 `;
 
-const DetailCard = styled.div`
-  display: flex;
-  width: 358px;
-  padding: 16px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  border-radius: 10px;
-  background: #f8f8f9;
-`;
-
 const TagContainer = styled.div`
   display: flex;
   align-items: flex-start;
@@ -256,7 +245,6 @@ const PlatformInfoDiv = styled.div`
 
 const PlatformInfoHeader = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
@@ -271,7 +259,6 @@ const PlatInforHeadText = styled.p`
 `;
 
 const PlatInfoHeadSeparator = styled.hr`
-  width: 302px;
   height: 0px;
   margin: 8px 0 0 0;
 
@@ -280,7 +267,6 @@ const PlatInfoHeadSeparator = styled.hr`
 
 const KeyIssuesContainer = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
@@ -317,7 +303,6 @@ const CandidateCard = styled.div`
 
 const CandidateContent = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -447,6 +432,7 @@ const CommentSection = styled.div`
 
 const Container = styled.div`
   display: flex;
+  margin-right: 5px;
   justify-content: center;
 `;
 
@@ -480,7 +466,6 @@ const Tab = styled.div`
 
 const TH = styled.th`
   border: 1px solid rgba(208, 214, 217, 0.4) !important;
-  width: ${(props) => props.width} !important;
   text-align: left !important;
   padding: 15px 20px !important;
 `;
@@ -559,10 +544,7 @@ return (
       </CursorPointer>
     </div>
     <Container className="row">
-      <div
-        className="col-lg-9 col-sm-12"
-        style={{ "margin-right": "5px", width: "950px" }}
-      >
+      <div className="col-lg-9 col-sm-12">
         <div className="row" style={{ "margin-inline": "5px" }}>
           <div
             className="col-12 p-0 w-100"
