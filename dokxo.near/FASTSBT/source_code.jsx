@@ -202,8 +202,9 @@ const validateReceiverHasSbt = () => {
 //Methods
 const validatedInputs = async () => {
   //local methods
+
   const regexPattern = /^[a-z0-9_.-]+\.near$/;
-  function validarFormato(inputString) {
+  function validateAccount(inputString) {
     return regexPattern.test(inputString.toLowerCase());
   }
 
@@ -225,7 +226,7 @@ const validatedInputs = async () => {
 
   if (isEmpty(state.Dao_Contract)) {
     //validate the user filled the Dao input
-    console.log("showerror");
+
     const res = showError("Write the DAO contract");
     console.log("res", res);
     return State.update(res);
@@ -250,9 +251,17 @@ const validatedInputs = async () => {
     //validate the user filled the Receiver
     return State.update(showError("Write the receiver"));
   }
-  if (!validarFormato(state.Receiver)) {
+  if (!validateAccount(state.Receiver)) {
     //validate the user filled the Receiver
     return State.update(showError("Receiver is not a valid account"));
+  }
+  if (validateAccount(state.Receiver)) {
+    //validate the user filled the Receiver
+    console.log("its valid", state.Receiver);
+    console.log(
+      "account",
+      asyncFetch("https://explorer.mainnet.near.org/accounts/dokxo.near")
+    );
   }
   if (state.ischeckselected === true) {
     if (state.ClassIdSelected === "0") {
