@@ -176,11 +176,19 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          objectFit: "contain", // preserve the aspect ratio of the image
+          position: "relative", // add this line
         }}
       >
         <img
           src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
-          style={{ position: "absolute", zIndex: 1 }}
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            width: "100%", // ensure the image takes up the full width of its container
+            height: "100%", // ensure the image takes up the full height of its container
+            objectFit: "contain", // preserve the aspect ratio of the image
+          }}
         />
         <img
           src={imgSrc}
