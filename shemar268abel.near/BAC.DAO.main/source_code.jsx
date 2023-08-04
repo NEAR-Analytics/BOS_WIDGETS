@@ -277,7 +277,7 @@ return (
             </a>
             <hr />
             <Widget
-              src={feed ?? "bac-inc.near/widget/DAO.Social"}
+              src={feed ?? "hack.near/widget/DAO.Social"}
               props={{ daoId: daoId }}
             />
           </>
