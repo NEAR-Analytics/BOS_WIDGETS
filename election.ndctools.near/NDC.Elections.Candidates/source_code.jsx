@@ -559,7 +559,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: state.selectedCandidates.length === 0,
+          disabled: false, //state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () => State.update({ showToSModal: true }),
         },
@@ -589,7 +589,7 @@ return (
             </>
           ),
           content: (
-            <Section className="d-flex">
+            <Section className="d-flex justify-content-center w-100">
               <Checkbox
                 type="checkbox"
                 value={state.tosAgreement}
@@ -637,7 +637,7 @@ return (
             </>
           ),
           content: (
-            <Section className="d-flex">
+            <Section className="d-flex d-flex justify-content-center w-100">
               I understand the{" "}
               <ALink title="Whistleblower Bounty Program" href="" />.
             </Section>
