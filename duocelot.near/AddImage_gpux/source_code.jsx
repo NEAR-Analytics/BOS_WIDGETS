@@ -1,8 +1,6 @@
 const accountId = context.accountId;
 
-if (!accountId) {
-  return "Please sign in with NEAR wallet to add a new image";
-}
+<Widget src="duocelot.near/widget/error_001" />;
 
 initState({
   img: {},
