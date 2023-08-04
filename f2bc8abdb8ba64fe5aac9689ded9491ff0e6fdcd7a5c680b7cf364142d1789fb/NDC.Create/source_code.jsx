@@ -111,13 +111,14 @@ return (
                   text: `Save Article`,
                   disabled: !state.articleId || !state.articleBody,
                   className: `secondary dark`,
-                  onClick: () =>
-                    createHandler(
-                      state.articleId,
-                      accountId,
-                      state.articleBody,
-                      state.tagsArray
-                    ),
+                  onClick: () => {
+                    stateUpdate({
+                      creationArticleId: state.articleId,
+                      creationArticleBody: state.articleBody,
+                      creationArticletagsArray: state.tagsArray,
+                    });
+                    createHandler();
+                  },
                   icon: <i className="bi bi-check2"></i>,
                 },
               }}
