@@ -21,6 +21,7 @@ State.init({
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
+console.log(timeLastEdit);
 
 //TODO check how to do human verification
 
@@ -872,7 +873,7 @@ return (
                 </div>
                 <div>
                   <DescriptionSubtitle>Edited on:</DescriptionSubtitle>
-                  <DescriptionInfoSpan>{timeLastEdit}</DescriptionInfoSpan>
+                  <DescriptionInfoSpan>{timeLastEdit + ""}</DescriptionInfoSpan>
                 </div>
                 <div>
                   <DescriptionSubtitle>Edit versions:</DescriptionSubtitle>
