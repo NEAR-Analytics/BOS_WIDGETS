@@ -437,7 +437,7 @@ const Tab = styled.div`
 
   i {
     &::before {
-      color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
+      color: ${(props) => (props.active ? "#4BA6EE" : "#ababab")};
     }
     margin-right: 5px;
   }
