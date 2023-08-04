@@ -214,6 +214,12 @@ const Icon = styled.img`
   width: 17px;
   height: 17px;
 `;
+const BodyContainer = styled.div`
+  border-radius: 8px;
+  margin: 10px 0;
+  background: #F8F8F9;
+  padding: 20px;
+`;
 
 const PlatformCard = styled.div`
   display: flex;
@@ -693,16 +699,7 @@ return (
             //   </div>
             // </div>
           }
-          <div
-            className="col-12"
-            style={{
-              "border-radius": "8px",
-              margin: "10px 0 0 10px",
-              width: "600px",
-              background: "#F8F8F9",
-              padding: "20px",
-            }}
-          >
+          <BodyContainer className="col-12">
             <PlatformCard>
               <PlatformContent>
                 <ContentHeader>
@@ -733,7 +730,7 @@ return (
                 />
               </PlatformContent>
             </PlatformCard>
-          </div>
+          </BodyContainer>
         </div>
       </div>
       <div
