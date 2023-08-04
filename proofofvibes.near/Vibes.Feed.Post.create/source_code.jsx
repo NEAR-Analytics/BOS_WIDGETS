@@ -98,19 +98,20 @@ checkImage();
 function composeData() {
   content.text =
     content.text +
-    " Friendliness: " +
+    "# Vibe-rating  " +
+    "❤️ Friendliness: " +
     state.friendliness +
     "/" +
     maxSliderPoints +
-    " Energy: " +
+    "⚡️ Energy: " +
     state.energy +
     "/" +
     maxSliderPoints +
-    " Density: " +
+    "🧊 Density: " +
     state.density +
     "/" +
     maxSliderPoints +
-    " Diversity: " +
+    "🌈 Diversity: " +
     state.diversity +
     "/" +
     maxSliderPoints;
