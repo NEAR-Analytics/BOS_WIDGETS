@@ -21,7 +21,6 @@ State.init({
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
-console.log(timeLastEdit);
 
 //TODO check how to do human verification
 
@@ -438,7 +437,7 @@ const DeclarationCard = styled.div`
 
 const CommentSection = styled.div`
   display: flex;
-  padding: 16px;
+  padding: 0;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
@@ -869,7 +868,9 @@ return (
                 <SectionTitle className="mt-4 mb-3"></SectionTitle>
                 <div>
                   <DescriptionSubtitle>Created by:</DescriptionSubtitle>
-                  <DescriptionInfoSpan>{accountId}</DescriptionInfoSpan>
+                  <DescriptionInfoSpan>
+                    {getShortUserName()}
+                  </DescriptionInfoSpan>
                 </div>
                 <div>
                   <DescriptionSubtitle>Edited on:</DescriptionSubtitle>
@@ -883,7 +884,7 @@ return (
                 </div>
               </DeclarationCard>
             ) : (
-              <CommentSection style={{ padding: "0px" }}>
+              <CommentSection>
                 {state.showModal && (
                   <Widget
                     src={widgets.addComment}
