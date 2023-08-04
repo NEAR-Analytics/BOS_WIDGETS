@@ -7,6 +7,7 @@ const {
   createIsSaving,
   createErrorId,
   createErrorBody,
+  initialBody,
 } = props;
 
 const accountId = context.accountId;
@@ -22,29 +23,6 @@ const errTextNoBody = "ERROR: no article Body",
 
 State.init(initialCreateState);
 const tagsArray = state.tags ? Object.keys(state.tags) : [];
-
-const Button = styled.button` 
-  margin: 0px 1rem; 
-  display: inline-block; 
-  text-align: center; 
-  vertical-align: middle; 
-  cursor: pointer; 
-  user-select: none; 
-  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
- 
-  border: 2px solid transparent; 
-  font-weight: 500; 
-  padding: 0.3rem 0.5rem; 
-  background-color: #010A2D; 
-  border-radius: 12px; 
-  color: white; 
-  text-decoration: none;   
- 
-  &:hover { 
-    color: #010A2D; 
-    background-color: white; 
-  } 
-`;
 
 const GeneralContainer = styled.div`
   background-color: rgb(230, 230, 230);
@@ -114,17 +92,7 @@ return (
       <h1 className="mb-3">Create Article</h1>
       <div>
         <div>
-          <Button
-            type="submit"
-            onClick={() =>
-              createHandler(
-                state.articleId,
-                accountId,
-                state.articleBody,
-                state.tagsArray
-              )
-            }
-          >
+          <div>
             {createIsSaving && (
               <SpinnerContainer
                 className="spinner-border text-secondary"
@@ -133,8 +101,27 @@ return (
                 <span className="sr-only" title="Loading..."></span>
               </SpinnerContainer>
             )}
-            Save Article
-          </Button>
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Button: {
+                  text: `Save Article`,
+                  disabled: !state.articleId || !state.articleBody,
+                  className: `${
+                    context.accountId && state.voted ? "primary" : "secondary"
+                  } dark`,
+                  onClick: () =>
+                    createHandler(
+                      state.articleId,
+                      accountId,
+                      state.articleBody,
+                      state.tagsArray
+                    ),
+                  icon: <i className="bi bi-hand-thumbs-up"></i>,
+                },
+              }}
+            />
+          </div>
         </div>
         <div className="d-flex flex-column pt-3">
           <label for="inputArticleId">
