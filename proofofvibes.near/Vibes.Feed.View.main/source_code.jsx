@@ -1,6 +1,7 @@
 /**
  * Do tastemaker check, see if toast notifcation works, add to nft, add default cid for minting images, add title with day
  * add human check
+ * Check is tastemaker
  */
 const path = props.path;
 const blockHeight =
@@ -8,6 +9,8 @@ const blockHeight =
 const subscribe = !!props.subscribe;
 const parts = path.split("/");
 const accountId = parts[0] || props.accountId;
+// const accountId=jeanrocha.near;
+// const blockHeight=98038817;
 const notifyAccountId = accountId;
 const issuer = props.issuer ?? "issuer.proofofvibes.near";
 const receiver = props.receiver ?? accountId; // for sbt receiver // default the poster
@@ -121,7 +124,6 @@ const hasImageInPost = content.image; // need to check if image in post
 console.log("hasImage?", content.image);
 // need to get image url
 
-const isTasteMaker = true;
 // const accountId = context.accountId;
 
 const post_args = JSON.stringify({
@@ -227,6 +229,15 @@ const canProposeMemberAdd = isUserAllowedTo(
 );
 console.log(
   "Can loggedin user propose to add member to dao: " + canProposeMemberAdd
+);
+const userRoles = accountId ? getUserRoles(accountId) : [];
+const isPosterTastemaker = userRoles.includes("tastemaker");
+const isPosterVibee = userRoles.includes("vibee");
+console.log(
+  "Is poster a tastemaker: " +
+    isPosterTastemaker +
+    " is poster a vibee: " +
+    isPosterVibee
 );
 // IAH Verification
 const getFirstSBTToken = (issuerContract) => {
@@ -351,7 +362,7 @@ const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); 
 const mintAuthorities = checkMintersJson.minters;
 const isMintAuthority = mintAuthorities.includes(context.accountId);
 const daoIsMinter = mintAuthorities.includes(daoId);
-const proposeVibee = () => {
+const proposeVibee = (role) => {
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
   Near.call([
@@ -579,7 +590,7 @@ return (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
-                        onClick={proposeVibee}
+                        onClick={proposeVibee("vibee")}
                       >
                         <i className="bi bi-emoji-sunglasses" /> Recommend as
                         Vibee
