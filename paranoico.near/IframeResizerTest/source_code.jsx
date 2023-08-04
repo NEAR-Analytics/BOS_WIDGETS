@@ -7,7 +7,7 @@ return (
         },
       }}
       onLoad={() => console.log("iframe loaded")}
-      src="https://davidjbradshaw.com/iframe-resizer/example/frame.content.html"
+      src="https://humans.nearverselabs.com/"
     />
   </div>
 );
