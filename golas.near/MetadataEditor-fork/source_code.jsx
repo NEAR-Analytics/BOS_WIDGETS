@@ -60,7 +60,7 @@ return (
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
-        <input type="text" value={state.metadata.name} />
+        <input onChange={onChange} type="text" value={state.metadata.name} />
       </div>
     )}
     {options.image && (
