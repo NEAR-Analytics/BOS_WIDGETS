@@ -176,6 +176,28 @@ return (
           />
           <a>CFG {state.scale}</a>
         </div>
+        <div>
+          <input
+            type="range"
+            min={1}
+            max={150}
+            value={state.steps}
+            onChange={(e) => {
+              state.steps = e.target.value;
+              State.update(state);
+            }}
+            style={{
+              width: "100px",
+              backgroundColor: "black",
+              color: "white",
+              fontFamily: '"Press Start 2P", sans-serif',
+              margin: "10px 10px 10px 10px",
+              border: "1px solid #3a0201",
+            }}
+          />
+          <a>STEPS {state.steps}</a>
+        </div>
+
         <button
           onClick={(e) => rollImage()}
           style={{
