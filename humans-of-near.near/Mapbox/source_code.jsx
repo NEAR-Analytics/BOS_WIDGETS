@@ -1,3 +1,4 @@
+const API_URL = props.API_URL || "";
 const ACCESS_TOKEN =
   props.accessToken ||
   "pk.eyJ1IjoiZWpsYnJhZW0iLCJhIjoiY2xrbmIwaW53MGE0NTNtbGsydWd2MmpyZSJ9.m1ZfEqv2fGet2zblGknT8A";
@@ -5,8 +6,8 @@ const styleUrl = props.styleUrl || "mapbox://styles/mapbox/streets-v12"; // see 
 const center = props.center || [-87.6298, 41.8781]; // starting position [lng, lat]
 const zoom = props.zoom || 9; // starting zoom
 const accountId = context.accountId;
-const markers = props.markers || [];
 const edit = props.edit || false;
+const markers = props.markers || [];
 
 const code = `
 <!DOCTYPE html>
@@ -130,12 +131,23 @@ const code = `
       accountId && edit
         ? `map.on('click', function(event) {
         const { lngLat } = event;
-        document.selectedItem = lngLat;
-        //window.sessionStorage.setItem("selectedItem", lngLat);
-          console.log(document.selectedItem, "===>window.selectedItem");
+
         new mapboxgl.Marker(myel)
             .setLngLat([lngLat.lng, lngLat.lat])
             .addTo(map);
+
+          const data = {
+            lngLat,
+            accountId : ${accountId}
+          };
+
+          asyncFetch(${API_URL}/bosLocation, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
         
       });     
 `
