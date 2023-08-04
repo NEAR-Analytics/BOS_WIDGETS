@@ -66,7 +66,7 @@ return (
         {options.name.label ?? "Name"}
         <input
           onChange={handleOnChange}
-          name="name"
+          id="name"
           type="text"
           value={state.metadata.name}
         />
