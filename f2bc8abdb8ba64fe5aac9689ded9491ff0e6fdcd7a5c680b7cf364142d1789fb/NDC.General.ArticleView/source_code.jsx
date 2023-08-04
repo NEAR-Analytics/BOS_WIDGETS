@@ -65,12 +65,12 @@ const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
 // }
 
 const tabs = [
-  { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
   {
     id: "generalInfo",
     title: "Post info",
     icon: "bi bi-info-circle",
   },
+  { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
   { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
 ];
 
