@@ -103,24 +103,74 @@ return (
     <Text>
       <h2>Learn, build, win</h2>
 
-      <p>Win prizes for shipping on BOS.</p>
+      <p>
+        Win over $15,000 in prizes for shipping decentralized frontends and
+        on-chain components.
+      </p>
       <ul>
-        <li>Join 200+ builders shipping on BOS</li>
         <li>
-          Learn via Build DAO Daily office hours and our 24/7 mentor support
+          Learn everything you need to build fully decentralized frontends and
+          multi-chain applications all in JavaScrip
         </li>
-        <li>Win $10,000 in prizes</li>
+        <li>
+          Receive mentorship from top BOS builders via daily office hours and
+          24/7 chat Telegram support
+        </li>
+        <li>
+          General: Build anything you want on BOS for the chance to win general
+          prizes.
+        </li>
       </ul>
       <ButtonContainer>
         <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
-        <Widget src={`${ownerId}/widget/BOSHACKS.Home.SpeakerButton`} />
       </ButtonContainer>
     </Text>
-    <Visual>
-      <img
-        src={mapImage(visual)}
-        alt="NEARCON Day 3 Layer 1 Stage Evolving NEAR Ecosystem Governence"
-      />
-    </Visual>
+    {false && (
+      <Visual>
+        <img src={mapImage(visual)} alt="Illia Talking" />
+      </Visual>
+    )}
+
+    <Text>
+      <p>Builder Tracks Include</p>
+      <ul>
+        <li>
+          📱 Social & NFTs: Integrate digital assets, ship integrations with
+          other social networks, build better discovery tools, and streamline
+          user onboarding experiences
+        </li>
+        <li>
+          🏛️ Impact & Governance: build composable regenerative and
+          decentralized governance systems{" "}
+        </li>
+        <li>
+          ⛓️ Multichain & DeFi: Leverage multichain integrations & rebuild the
+          frontends of top DeFi apps on BOS and connect them to their original
+          contracts on any EVM chain.
+        </li>
+        <li>
+          🛠️ Dev Experience: Enhance the BOS developer experience by building
+          tools that make it faster, cheaper, and more straightforward to ship
+          on-chain components on Near and Ethereum
+        </li>
+        <li>
+          Check out a list of project ideas
+          <a href="https://nearbuilders.com/bounty" target="_blank">
+            here
+          </a>
+        </li>
+      </ul>
+      {false && (
+        <ButtonContainer>
+          <Widget src={`${ownerId}/widget/BOSHACKS.Home.SpeakerButton`} />
+        </ButtonContainer>
+      )}
+    </Text>
+
+    {false && (
+      <Visual>
+        <img src={mapImage(visual)} alt="Illia Talking" />
+      </Visual>
+    )}
   </Container>
 );
