@@ -130,24 +130,24 @@ const code = `
     ${
       accountId && edit
         ? `map.on('click', function(event) {
-        const { lngLat } = event;
+            const { lngLat } = event;
 
-        new mapboxgl.Marker(myel)
-            .setLngLat([lngLat.lng, lngLat.lat])
-            .addTo(map);
+            new mapboxgl.Marker(myel)
+                .setLngLat([lngLat.lng, lngLat.lat])
+                .addTo(map);
 
-          const data = {
-            lngLat,
-            accountId : ${accountId}
-          };
+            const data = {
+              lngLat,
+              accountId : ${accountId}
+            };
 
-          asyncFetch("${API_URL}/location/bos", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
+            asyncFetch("${API_URL}/location/bos", {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
         
       });     
 `
