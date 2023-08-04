@@ -1,5 +1,5 @@
 const limit = 20;
-
+const nftContract = props.nftContract ?? "nft.genadrop.near";
 State.init({
   offset: 0,
   tokens: [],
@@ -20,7 +20,7 @@ function fetchTokens() {
             mb_views_nft_tokens(
                 limit: ${limit},
                 offset: ${state.offset}
-              where: { nft_contract_id: { _eq: "nft.genadrop.near" }}
+              where: { nft_contract_id: { _eq: "${nftContract}" }}
               order_by: {minted_timestamp: desc}
             ) {
               media
