@@ -49,6 +49,8 @@ if (
 
 const onClickX = () => {
   console.log("PPP-1");
+  console.log("state.reportedMetadata", state.reportedMetadata);
+  console.log("metadata", metadata);
 };
 
 return (
