@@ -221,6 +221,23 @@ const Section = styled.div`
   margin-bottom: 10px;
 `;
 
+const Checkbox = styled.input`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px 0px;
+  gap: 10px;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 1px solid #d0d6d9;
+  border-radius: 4px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
 const UserLink = ({ title, src }) => (
   <>
     <StyledLink href={src} target="_blank">
@@ -542,7 +559,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: false, //state.selectedCandidates.length === 0,
+          disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () => State.update({ showToSModal: true }),
         },
@@ -558,39 +575,7 @@ const Link = ({ title, href }) => (
 );
 
 return (
-  <Container>
-    <h1>{housesMapping[typ]}</h1>
-    {state.candidates.length > 0 ? (
-      <>
-        <Filters />
-        <CandidatesContainer>
-          {state.candidates.map(([candidateId, votes], index) => (
-            <CandidateList
-              candidateId={candidateId}
-              votes={votes}
-              key={index}
-            />
-          ))}
-        </CandidatesContainer>
-      </>
-    ) : (
-      <div className="d-flex p-5 justify-content-center">
-        There are no candidates found
-      </div>
-    )}
-    <div>
-      {isIAmHuman ? (
-        <CastVotes />
-      ) : (
-        <Widget
-          src={widgets.verifyHuman}
-          props={{
-            title: "Want to vote?",
-            description: "Click on Verify as a Human to proceed.",
-          }}
-        />
-      )}
-    </div>
+  <>
     {state.showToSModal && (
       <Widget
         src={widgets.modal}
@@ -664,5 +649,40 @@ return (
         }}
       />
     )}
-  </Container>
+
+    <Container>
+      <h1>{housesMapping[typ]}</h1>
+      {state.candidates.length > 0 ? (
+        <>
+          <Filters />
+          <CandidatesContainer>
+            {state.candidates.map(([candidateId, votes], index) => (
+              <CandidateList
+                candidateId={candidateId}
+                votes={votes}
+                key={index}
+              />
+            ))}
+          </CandidatesContainer>
+        </>
+      ) : (
+        <div className="d-flex p-5 justify-content-center">
+          There are no candidates found
+        </div>
+      )}
+      <div>
+        {isIAmHuman ? (
+          <CastVotes />
+        ) : (
+          <Widget
+            src={widgets.verifyHuman}
+            props={{
+              title: "Want to vote?",
+              description: "Click on Verify as a Human to proceed.",
+            }}
+          />
+        )}
+      </div>
+    </Container>
+  </>
 );
