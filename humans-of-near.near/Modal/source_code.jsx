@@ -14,8 +14,8 @@ State.init({
 
 const ModalOverlay = styled.div`
   position: absolute;
-  left: 58px;
-  top: 144px;
+  right: 50px;
+  top: 60px;
   background-color: #191a1a;
   border-radius: 12px;
   border: 1px solid rgb(255, 255, 255);
