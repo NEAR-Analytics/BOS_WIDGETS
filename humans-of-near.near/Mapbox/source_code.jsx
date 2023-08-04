@@ -176,6 +176,18 @@ const Container = styled.div`
     height: 100vh;
 `;
 
+const init = () => {
+  var iframe = document.getElementById("myMap");
+  var doc = iframe.contentDocument
+    ? iframe.contentDocument
+    : iframe.contentWindow.document;
+
+  var anchors = doc.getElementsByTagName("a");
+  for (var i = 0; i < anchors.length; i++) anchors[i].target = "_parent";
+};
+
+init();
+
 return (
   <Container>
     <iframe id="myMap" className="w-100 h-100" srcDoc={code} />
