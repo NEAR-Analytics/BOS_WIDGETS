@@ -265,8 +265,6 @@ function handleOpenArticle(articleToRenderData) {
   });
 }
 
-console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ", state.displayedTabId);
-
 function handleFilterArticles(filter) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
