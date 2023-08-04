@@ -65,7 +65,7 @@ const handleOnChange = (e) => {
 
   onChange(newMetadata);
   State.update({
-    reportedMetadata: newMetadata,
+    metadata: newMetadata,
   });
 };
 
