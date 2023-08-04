@@ -314,7 +314,7 @@ const handleVote = () =>
   ).then((data) => State.update({ bountyProgramModal: false }));
 
 const handleAcceptToS = () => {
-  State.update({ showToSModal: true });
+  State.update({ loading: true });
 
   Social.set(
     {
@@ -331,6 +331,11 @@ const handleAcceptToS = () => {
         State.update({
           showToSModal: false,
           bountyProgramModal: true,
+          loading: false,
+        }),
+      onCancel: () =>
+        State.update({
+          loading: false,
         }),
     }
   );
@@ -580,7 +585,14 @@ return (
       <Widget
         src={widgets.modal}
         props={{
-          title: "Before you vote, please review the Fair Voting Policy.",
+          title: (
+            <div>
+              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+              <span className="mt-2">
+                Before you vote, please review the Fair Voting Policy.
+              </span>
+            </div>
+          ),
           description: (
             <>
               Please make sure to read and understand the{" "}
@@ -601,7 +613,11 @@ return (
             </Section>
           ),
           Button: {
-            title: "Agree to Fair Voting Policy",
+            title: state.loading ? (
+              <Loader />
+            ) : (
+              <>Agree to Fair Voting Policy</>
+            ),
             disabled: !state.tosAgreement,
             onCancel: () =>
               State.update({ showToSModal: false, tosAgreement: false }),
@@ -614,7 +630,12 @@ return (
       <Widget
         src={widgets.modal}
         props={{
-          title: "You are about to cast your votes.",
+          title: (
+            <div>
+              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+              <span className="mt-2">You are about to cast your votes.</span>
+            </div>
+          ),
           description: (
             <>
               <p>
