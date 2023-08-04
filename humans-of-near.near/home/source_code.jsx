@@ -203,6 +203,7 @@ return (
     <Widget
       src={`${Owner}/widget/Mapbox`}
       props={{
+        API_URL,
         accessToken: MAP_TOKEN,
         styleUrl: MAP_STYLE,
         center,
