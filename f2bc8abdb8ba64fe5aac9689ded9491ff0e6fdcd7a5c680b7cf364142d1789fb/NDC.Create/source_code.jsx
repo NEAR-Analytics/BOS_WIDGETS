@@ -1,7 +1,4 @@
-const { isTest, addressForArticles, authorForWidget, stateUpdate, widgets } =
-  props;
-
-const accountId = context.accountId;
+const { isTest, addressForArticles, authorForWidget, stateUpdate } = props;
 
 const initialBody = `# h1 Heading 8-) 
 ## h2 Heading 
@@ -225,7 +222,7 @@ const initialCreateArticleState = {
   articleBody: initialBody,
   errorId: "",
   errorBody: "",
-  tags: {},
+  tags: [],
   saveComplete: false,
 };
 
@@ -311,11 +308,11 @@ const saveHandler = (e) => {
       Social.set(newData, {
         force: true,
         onCommit: () => {
-          State.update({ saveComplete: true, saving: false });
           stateUpdate({
             displayedTabId: tabs.SHOW_ARTICLE.id,
             renderLastOfThisAccountId: accountId,
           });
+          State.update({ saveComplete: true, saving: false });
         },
         onCancel: () => {
           State.update({ saving: false });
@@ -434,33 +431,37 @@ return (
       <h1 className="mb-3"> Create Article</h1>
       <div>
         <div>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Button: {
-                text: `Save article`,
-                className: "w-100 justify-content-center",
-                onClick: () => {
-                  saveHandler;
-                },
-                icon: <i className="bi bi-check2"></i>,
-              },
-            }}
-          />
           {
-            // <Button type="submit" onClick={saveHandler}>
-            //   {state.saving && (
-            //     <div
-            //       className="spinner-border text-secondary"
-            //       style={{ height: "1rem", width: "1rem" }}
-            //       role="status"
-            //     >
-            //       <span className="sr-only" title="Loading..."></span>
-            //     </div>
-            //   )}
-            //   Save Article
-            // </Button>
+            //   <Widget
+            //   src={"rubycop.near/widget/NDC.StyledComponents"}
+            //   props={{
+            //     Button: {
+            //       className: "primary dark",
+            //       disable: state.articleId > 0 || state.articleBody > 0,
+            //       text: "Save article",
+            //       onClick: saveHandler,
+            //       icon: <i className="bi bi-check2"></i>,
+            //     },
+            //   }}
+            // />
           }
+
+          <Button
+            type="submit"
+            disable={state.articleId > 0 || state.articleBody > 0}
+            onClick={saveHandler}
+          >
+            {state.saving && (
+              <div
+                className="spinner-border text-secondary"
+                style={{ height: "1rem", width: "1rem" }}
+                role="status"
+              >
+                <span className="sr-only" title="Loading..."></span>
+              </div>
+            )}
+            Save Article
+          </Button>
         </div>
         <div className="d-flex flex-column pt-3">
           <label for="inputArticleId">
