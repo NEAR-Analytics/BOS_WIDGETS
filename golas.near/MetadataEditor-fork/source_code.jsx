@@ -71,19 +71,19 @@ const handleOnChange = (e) => {
 
 const handleImage = (image) => {
   const newMetadata = { ...metadata, image };
-  State.update(newMetadata);
+  State.update(metadata: newMetadata,);
   onChange(newMetadata);
 };
 
 const handleBackgroundImage = (backgroundImage) => {
   const newMetadata = { ...metadata, backgroundImage };
-  State.update(newMetadata);
+  State.update(metadata: newMetadata,);
   onChange(newMetadata);
 };
 
 const handleTags = (tags) => {
   const newMetadata = { ...metadata, tags };
-  State.update(newMetadata);
+  State.update(metadata: newMetadata,);
   onChange(newMetadata);
 };
 
