@@ -9,10 +9,10 @@ if (metadata === null) {
 
 const ccc = "cccc";
 
-const kkk = () => {
+const kkk = (metadata) => {
   console.log("kkk");
   console.log("onChange", onChange);
-  props.onChange({ name: "kkkkkkkkkkk" });
+  props.onChange(metadata);
 };
 
 return (
