@@ -56,6 +56,12 @@ const onClickX = () => {
 
 const handleOnChange = (e) => {
   console.log("e", e);
+  const { id, value } = e.target;
+  const newMetadata = { ...metadata, [id]: value };
+  onChange(newMetadata);
+  State.update({
+    reportedMetadata: newMetadata,
+  });
 };
 
 return (
