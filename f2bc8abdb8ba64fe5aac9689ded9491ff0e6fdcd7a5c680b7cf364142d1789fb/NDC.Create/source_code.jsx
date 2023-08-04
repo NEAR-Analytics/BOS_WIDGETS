@@ -47,8 +47,6 @@ const SpinnerContainer = styled.div`
   width: 1rem;
 `;
 
-console.log("?:", createIsSaving);
-
 return (
   <GeneralContainer className="container-fluid">
     {
@@ -95,14 +93,16 @@ return (
       <div>
         <div>
           <div>
-            {createIsSaving && (
-              <SpinnerContainer
-                className="spinner-border text-secondary"
-                role="status"
-              >
-                <span className="sr-only" title="Loading..."></span>
-              </SpinnerContainer>
-            )}
+            {
+              //   createIsSaving && (
+              //   <SpinnerContainer
+              //     className="spinner-border text-secondary"
+              //     role="status"
+              //   >
+              //     <span className="sr-only" title="Loading..."></span>
+              //   </SpinnerContainer>
+              // )
+            }
             <Widget
               src={widgets.styledComponents}
               props={{
