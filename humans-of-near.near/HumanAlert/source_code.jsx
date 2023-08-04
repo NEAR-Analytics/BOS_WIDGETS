@@ -1,16 +1,19 @@
 const { onClose } = props;
 
 const ModalOverlay = styled.div`
-  position: absolute;
   background-color: #191a1a;
   border-radius: 12px;
   border: 1px solid rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: 100;
-  width: 400px;
 `;
 
 const ModalContent = styled.div`
