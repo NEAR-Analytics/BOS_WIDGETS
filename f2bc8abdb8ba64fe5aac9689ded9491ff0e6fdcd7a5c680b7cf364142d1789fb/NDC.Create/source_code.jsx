@@ -115,7 +115,7 @@ return (
                       state.articleBody,
                       state.tagsArray
                     ),
-                  icon: <i className="bi bi-hand-thumbs-up"></i>,
+                  icon: <i className="bi bi-check2"></i>,
                 },
               }}
             />
