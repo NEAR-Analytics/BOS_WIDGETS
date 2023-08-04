@@ -3,7 +3,7 @@ return (
     <h5>Applications</h5>
     <div className="mb-2">
       <Widget
-        src="mob.near/widget/ComponentSearch"
+        src="andyh.near/widget/ComponentSearch"
         props={{
           boostedTag: "app",
           placeholder: "🔍 Search Applications",
