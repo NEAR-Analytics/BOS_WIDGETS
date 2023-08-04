@@ -588,9 +588,9 @@ return (
           title: (
             <div>
               <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <span className="mt-2">
+              <div className="mt-4">
                 Before you vote, please review the Fair Voting Policy.
-              </span>
+              </div>
             </div>
           ),
           description: (
@@ -633,7 +633,7 @@ return (
           title: (
             <div>
               <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <span className="mt-2">You are about to cast your votes.</span>
+              <div className="mt-4">You are about to cast your votes.</div>
             </div>
           ),
           description: (
