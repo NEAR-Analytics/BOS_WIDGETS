@@ -23,6 +23,7 @@ const code = `
     <style>
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
       .marker {
         background-image: url('https://humans.nearverselabs.com/Human.png');
         background-size: cover;
@@ -30,6 +31,10 @@ const code = `
         height: 34px;
         border-radius: 50%;
         cursor: pointer;
+      }
+
+      #mymarker {
+        background-image: url('https://humans.nearverselabs.com/active.svg') !important;
       }
 
       h6 {
@@ -59,8 +64,7 @@ const code = `
         center: [${center[0]}, ${center[1]}], 
         zoom: ${zoom}
     });
-    const myel = document.createElement('div');
-    myel.className = 'marker';
+    
 
 
     function getDetail (row) {
@@ -113,7 +117,11 @@ const code = `
           
         const el = document.createElement('div');
         el.className = 'marker';
-
+        ${
+          accountId
+            ? `if(marker.user.accountId === ${accountId}) el.id = 'mymarker';`
+            : ``
+        }
         new mapboxgl.Marker(el)
             .setLngLat([marker.longitude, marker.latitude])
             .setPopup(
@@ -132,6 +140,11 @@ const code = `
         ? `map.on('click', function(event) {
             const { lngLat } = event;
 
+            const _el = document.getElementById("mymarker");
+            const myel = _el ? _el : document.createElement('div');
+            myel.className = 'marker';
+            myel.id = 'mymarker';
+            
             new mapboxgl.Marker(myel)
                 .setLngLat([lngLat.lng, lngLat.lat])
                 .addTo(map);
