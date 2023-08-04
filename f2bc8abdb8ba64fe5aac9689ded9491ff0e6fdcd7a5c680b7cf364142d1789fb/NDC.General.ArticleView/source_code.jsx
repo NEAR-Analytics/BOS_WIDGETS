@@ -5,6 +5,10 @@ const { widgets, handleBackButton, articleToRenderData, authorForWidget } =
 
 const accountId = articleToRenderData.author;
 
+let authorProfile = Social.getr(`${accountId}/profile`);
+if (!authorProfile) {
+  return "Loading...";
+}
 // State.init({
 //   verified: false,
 //   start: true,
@@ -15,9 +19,6 @@ State.init({
   showDeclaration: false,
   tabSelected: tabs[1].id,
 });
-
-let authorProfile = Social.getr(`${accountId}/profile`);
-if (!authorProfile) return "Loading...";
 
 //TODO check how to do human verification
 
@@ -465,42 +466,42 @@ const afiilationsSort = afilations
   .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
   .reverse();
 
-const issues = [
-  {
-    description: CandidateProps.HAYInvolve,
-    title:
-      "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
-  },
-  {
-    description: CandidateProps.WIYStrategy,
-    title: "What is your strategy to develop the NEAR ecosystem?",
-  },
-  {
-    description: CandidateProps.Key_Issue_1,
-    title:
-      "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
-  },
-  {
-    description: CandidateProps.Key_Issue_2,
-    title:
-      "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
-  },
-  {
-    description: CandidateProps.Key_Issue_3,
-    title:
-      "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
-  },
-  { description: CandidateProps.addition_platform, title: "Other Platform" },
-];
+// const issues = [
+//   {
+//     description: CandidateProps.HAYInvolve,
+//     title:
+//       "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
+//   },
+//   {
+//     description: CandidateProps.WIYStrategy,
+//     title: "What is your strategy to develop the NEAR ecosystem?",
+//   },
+//   {
+//     description: CandidateProps.Key_Issue_1,
+//     title:
+//       "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
+//   },
+//   {
+//     description: CandidateProps.Key_Issue_2,
+//     title:
+//       "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
+//   },
+//   {
+//     description: CandidateProps.Key_Issue_3,
+//     title:
+//       "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
+//   },
+//   { description: CandidateProps.addition_platform, title: "Other Platform" },
+// ];
 
-const titles = [
-  "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
-  "What is your strategy to develop the NEAR ecosystem?",
-  "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
-  "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
-  "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
-  "Other Platform",
-];
+// const titles = [
+//   "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
+//   "What is your strategy to develop the NEAR ecosystem?",
+//   "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
+//   "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
+//   "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
+//   "Other Platform",
+// ];
 
 return (
   <>
