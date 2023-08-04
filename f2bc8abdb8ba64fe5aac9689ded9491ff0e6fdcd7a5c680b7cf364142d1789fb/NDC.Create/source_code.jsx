@@ -108,8 +108,6 @@ return (
               props={{
                 Button: {
                   text: `Save Article`,
-                  disabled: !state.articleId || !state.articleBody,
-                  className: `secondary dark`,
                   onClick: () =>
                     createHandler(
                       state.articleId,
