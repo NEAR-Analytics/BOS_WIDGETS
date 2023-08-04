@@ -104,25 +104,50 @@ return (
               //   </SpinnerContainer>
               // )
             }
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Button: {
-                  text: `Save Article`,
-                  disabled: !state.articleId || !state.articleBody,
-                  className: `secondary dark`,
-                  onClick: () => {
-                    stateUpdate({
-                      creationArticleId: state.articleId,
-                      creationArticleBody: state.articleBody,
-                      creationArticletagsArray: state.tagsArray,
-                    });
-                    createHandler();
-                  },
-                  icon: <i className="bi bi-check2"></i>,
-                },
+            <Button
+              type="submit"
+              disabled={!state.articleId || !state.articleBody}
+              onClick={() => {
+                stateUpdate({
+                  creationArticleId: state.articleId,
+                  creationArticleBody: state.articleBody,
+                  creationArticletagsArray: state.tagsArray,
+                });
+                createHandler();
               }}
-            />
+            >
+              {createIsSaving && (
+                <div
+                  className="spinner-border text-secondary"
+                  style={{ height: "1rem", width: "1rem" }}
+                  role="status"
+                >
+                  <span className="sr-only" title="Loading..."></span>
+                </div>
+              )}
+              <i className="bi bi-check2"></i> Save Article
+            </Button>
+            {
+              //   <Widget
+              //   src={widgets.styledComponents}
+              //   props={{
+              //     Button: {
+              //       text: `Save Article`,
+              //       disabled: !state.articleId || !state.articleBody,
+              //       className: `secondary dark`,
+              //       onClick: () => {
+              //         stateUpdate({
+              //           creationArticleId: state.articleId,
+              //           creationArticleBody: state.articleBody,
+              //           creationArticletagsArray: state.tagsArray,
+              //         });
+              //         createHandler();
+              //       },
+              //       icon: <i className="bi bi-check2"></i>,
+              //     },
+              //   }}
+              // />
+            }
           </div>
         </div>
         <div className="d-flex flex-column pt-3">
