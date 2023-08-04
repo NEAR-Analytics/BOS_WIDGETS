@@ -5,6 +5,8 @@ const {
   initialCreateArticleState,
   createHandler,
   createIsSaving,
+  createErrorId,
+  createErrorBody,
 } = props;
 
 const accountId = context.accountId;
@@ -139,7 +141,7 @@ return (
             Input article id (case-sensitive, without spaces):
           </label>
           <label for="inputArticleId" className="small text-danger">
-            {state.errorId}
+            {createErrorId ? createErrorId : ""}
           </label>
           <Widget
             src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
@@ -170,7 +172,7 @@ return (
             Input article body (in makrdown format):
           </label>
           <label for="textareaArticleBody" className="small text-danger">
-            {state.errorBody}
+            {createErrorBody ? createErrorBody : ""}
           </label>
           <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
             <div className="w-50">
