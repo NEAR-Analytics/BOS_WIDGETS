@@ -2,6 +2,7 @@ const {
   isTest,
   addressForArticles,
   authorForWidget,
+  widgets,
   initialCreateState,
   createHandler,
   createIsSaving,
@@ -108,6 +109,8 @@ return (
               props={{
                 Button: {
                   text: `Save Article`,
+                  disabled: !state.articleId || !state.articleBody,
+                  className: `secondary dark`,
                   onClick: () =>
                     createHandler(
                       state.articleId,
