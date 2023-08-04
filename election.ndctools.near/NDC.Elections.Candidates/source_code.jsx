@@ -564,7 +564,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: false, //state.selectedCandidates.length === 0,
+          disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () => State.update({ showToSModal: true }),
         },
@@ -644,7 +644,7 @@ return (
                 Whistleblower Bounty Program offers up to 2,000 NEAR for
                 whistleblowers who come forward to share instances of vote
                 buying, account buying, election fraud, and other violations of
-                the <ALink title="Fair Voting Policy." href="" />.
+                the <ALink title="Fair Voting Policy" href="" />.
               </p>
               <p>
                 You will be bonding xN during the election period. This bond
