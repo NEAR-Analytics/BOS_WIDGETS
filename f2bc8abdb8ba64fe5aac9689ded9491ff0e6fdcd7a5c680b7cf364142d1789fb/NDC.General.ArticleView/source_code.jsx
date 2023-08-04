@@ -604,11 +604,10 @@ return (
                       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
                     >
                       <NominationTitle>
-                        {articleToRenderData.authorProfile.name}
+                        {articleToRenderData.authorProfile.name ??
+                          getShortUserName()}
                       </NominationTitle>
-                      <NominationUser>
-                        {articleToRenderData.author}
-                      </NominationUser>
+                      <NominationUser>{getShortUserName()}</NominationUser>
                     </UserLink>
                     <TagContainer>
                       {articleToRenderData.tags.length > 0 &&
@@ -869,7 +868,8 @@ return (
                 <div>
                   <DescriptionSubtitle>Created by:</DescriptionSubtitle>
                   <DescriptionInfoSpan>
-                    {getShortUserName()}
+                    {articleToRenderData.authorProfile.name ??
+                      getShortUserName()}
                   </DescriptionInfoSpan>
                 </div>
                 <div>
