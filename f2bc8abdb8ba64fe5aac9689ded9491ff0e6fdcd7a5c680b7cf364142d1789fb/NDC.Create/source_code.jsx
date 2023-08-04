@@ -48,6 +48,29 @@ const SpinnerContainer = styled.div`
   width: 1rem;
 `;
 
+const Button = styled.button` 
+  margin: 0px 1rem; 
+  display: inline-block; 
+  text-align: center; 
+  vertical-align: middle; 
+  cursor: pointer; 
+  user-select: none; 
+  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
+ 
+  border: 2px solid transparent; 
+  font-weight: 500; 
+  padding: 0.3rem 0.5rem; 
+  background-color: #010A2D; 
+  border-radius: 12px; 
+  color: white; 
+  text-decoration: none;   
+ 
+  &:hover { 
+    color: #010A2D; 
+    background-color: white; 
+  } 
+`;
+
 return (
   <GeneralContainer className="container-fluid">
     {
