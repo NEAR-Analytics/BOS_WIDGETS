@@ -47,8 +47,8 @@ const BtnStyle = {
   border: "1px solid rgb(255, 255, 255)",
   color: "white",
   position: "absolute",
-  left: "58px",
-  top: "95px",
+  right: "50px",
+  top: "30px",
   zIndex: 1,
 };
 
