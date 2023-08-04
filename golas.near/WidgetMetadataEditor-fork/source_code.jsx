@@ -23,7 +23,7 @@ return (
       src="golas.near/widget/MetadataEditor-fork"
       props={{
         initialMetadata: metadata,
-        onChange: kkk,
+        onChange,
         options: {
           name: { label: "Titlex" },
           image: { label: "Icon" },
