@@ -151,7 +151,7 @@ const canAddProposal = isUserAllowedTo(
 
 //Get alll daos
 const daos = Near.view("sputnik-dao.near", "get_dao_list");
-console.log("daos", daos);
+//console.log("daos", daos);
 const validAccoundAtIssuer = () => {
   //get the issuer and class
   const issuer =
@@ -173,7 +173,7 @@ const validAccoundAtIssuer = () => {
 };
 
 //console.log("checkMintersJson", checkMintersJson);
-const isMintAuthority = console.log("isMintAuthority", isMintAuthority);
+//const isMintAuthority = console.log("isMintAuthority", isMintAuthority);
 
 const validateReceiverHasSbt = () => {
   const issuer =
@@ -353,6 +353,7 @@ const validateReference = (link) => {
     if (state.Referencelink.length > 0) {
       //fetch the link
       asyncFetch(state.Referencelink).then((response) => {
+        console.log(response);
         //validate if its a JSON
         if (response.contentType.trim() === "application/json") {
           // convert to Uft8 the body content
