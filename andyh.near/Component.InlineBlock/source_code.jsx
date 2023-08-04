@@ -6,7 +6,7 @@ const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
 
 const name = metadata?.name ?? widgetName;
 const description = metadata?.description;
-const tags = Object.keys(metadata.tags ?? {});
+const tags = Object.keys(metadata?.tags ?? {});
 
 return (
   <div className="d-flex flex-row">
