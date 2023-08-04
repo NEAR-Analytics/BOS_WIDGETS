@@ -202,9 +202,11 @@ const validateReceiverHasSbt = () => {
 //Methods
 const validatedInputs = async () => {
   //local methods
+  const regexPattern = /^[a-z0-9_.-]+\.near$/;
+  function validarFormato(inputString) {
+    return regexPattern.test(inputString.toLowerCase());
+  }
 
-  const accountss = Near.view("dokxo.near", "account");
-  console.log("ft", accountss);
   const isEmpty = (str) => str.trim() === "";
   const showError = (msg) => {
     return {
@@ -248,7 +250,7 @@ const validatedInputs = async () => {
     //validate the user filled the Receiver
     return State.update(showError("Write the receiver"));
   }
-  if (regex.test(state.Receiver)) {
+  if (!validarFormato(state.Receiver)) {
     //validate the user filled the Receiver
     return State.update(showError("Receiver is not a valid account"));
   }
