@@ -170,6 +170,19 @@ const actions = {
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
 
+const getUserRoles = (user) => {
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (user && role.kind.Group && role.kind.Group.includes(user)) {
+      userRoles.push(role.name);
+    }
+  }
+  return userRoles;
+};
 const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
   const userRoles = [];
