@@ -1,1 +1,1 @@
-return <p>Hello Near BOS</p>
+return "Hello Near"
