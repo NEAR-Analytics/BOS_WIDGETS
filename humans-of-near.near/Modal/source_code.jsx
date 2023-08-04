@@ -124,6 +124,7 @@ return (
           position: "absolute",
           right: 25,
           background: "unset",
+          borderColor: "white",
         }}
         onClick={onClose}
       >
