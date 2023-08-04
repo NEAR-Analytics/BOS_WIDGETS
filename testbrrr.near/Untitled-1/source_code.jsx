@@ -1,5 +1,6 @@
 if (props.item === "liquity") {
   console.log("Yes yes yes");
+  openTrove();
 }
 
 const setcoll = (depositChangeEvent) => {
