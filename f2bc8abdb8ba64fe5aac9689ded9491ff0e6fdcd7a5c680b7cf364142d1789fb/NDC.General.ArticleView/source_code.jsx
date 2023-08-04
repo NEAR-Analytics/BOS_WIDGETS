@@ -1,7 +1,12 @@
 //This code comes from NDC.Nomination.Candidate.Page > NDC.Nomination.Candidate.DesktopView
 
-const { widgets, handleBackButton, articleToRenderData, authorForWidget } =
-  props;
+const {
+  widgets,
+  handleBackButton,
+  handleFilterArticles,
+  articleToRenderData,
+  authorForWidget,
+} = props;
 
 const accountId = articleToRenderData.author;
 // State.init({
@@ -62,7 +67,7 @@ const tabs = [
   { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
 ];
 
-const BackLink = styled.div`
+const CursorPointer = styled.div`
   cursor: pointer;
 `;
 
@@ -523,10 +528,10 @@ const getShortUserName = () => {
 return (
   <>
     <div className="my-3">
-      <BackLink onClick={handleBackButton}>
+      <CursorPointer onClick={handleBackButton}>
         <i className="bi bi-chevron-left mr-2"></i>
         Back
-      </BackLink>
+      </CursorPointer>
     </div>
     <Container className="row">
       <div className="col-9" style={{ "margin-right": "5px", width: "950px" }}>
@@ -586,13 +591,19 @@ return (
                     <TagContainer>
                       {articleToRenderData.tags.length > 0 &&
                         articleToRenderData.tags.map((tag) => {
+                          const filter = { filterBy: "tag", value: tag };
+
                           return (
-                            <Widget
-                              src={widgets.styledComponents}
-                              props={{
-                                Tag: { title: tag },
-                              }}
-                            />
+                            <CursorPointer
+                              onClick={() => handleFilterArticles(filter)}
+                            >
+                              <Widget
+                                src={widgets.styledComponents}
+                                props={{
+                                  Tag: { title: tag },
+                                }}
+                              />
+                            </CursorPointer>
                           );
                         })}
                     </TagContainer>
