@@ -54,14 +54,14 @@ const _search = (term) => {
       const widgetSrc = `${accountId}/widget/${componentId}`;
       const widgetSrcScore = computeScore(widgetSrc);
       const componentIdScore = computeScore(componentId);
-      const metadata = allMetadata[accountId]?.widget[componentId]?.metadata;
-      const name = metadata?.name || componentId;
-      if (requiredTag && !(metadata?.tags && requiredTag in metadata?.tags)) {
+      const metadata = allMetadata[accountId].widget[componentId].metadata;
+      const name = metadata.name || componentId;
+      if (requiredTag && !(metadata.tags && requiredTag in metadata.tags)) {
         return;
       }
       const boosted =
-        boostedTag && metadata?.tags && boostedTag in metadata?.tags;
-      const tags = Object.keys(metadata?.tags || {}).slice(0, 10);
+        boostedTag && metadata.tags && boostedTag in metadata.tags;
+      const tags = Object.keys(metadata.tags || {}).slice(0, 10);
       const nameScore = computeScore(name);
       const tagsScore = Math.min(
         MaxSingleScore,
@@ -159,7 +159,7 @@ const Wrapper = styled.div`
     width: 100%;
   }
 `;
-
+console.log({ state });
 return (
   <Wrapper>
     <i className="bi bi-search"></i>
