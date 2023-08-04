@@ -176,7 +176,7 @@ const Container = styled.div`
     height: 100vh;
 `;
 
-const init = () => {
+const init = async () => {
   var iframe = document.getElementById("myMap");
   var doc = iframe.contentDocument
     ? iframe.contentDocument
@@ -186,7 +186,7 @@ const init = () => {
   for (var i = 0; i < anchors.length; i++) anchors[i].target = "_parent";
 };
 
-init();
+await init();
 
 return (
   <Container>
