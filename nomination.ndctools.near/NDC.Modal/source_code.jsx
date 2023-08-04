@@ -48,6 +48,8 @@ const ModalContent = styled.div`
 
   h6 {
     font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
   }
 `;
 
