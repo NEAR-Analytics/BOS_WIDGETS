@@ -13,11 +13,37 @@ initState({
   width: "auto",
 });
 
+async function uploadGeneratedImageToIpfs(imgSrc) {
+  const response = await fetch(imgSrc);
+  const blob = await response.blob();
+  const formData = new FormData();
+  formData.append("file", blob);
+
+  const ipfsResponse = await fetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+    body: formData,
+  });
+
+  const ipfsData = await ipfsResponse.json();
+  State.update({
+    img: {
+      cid: ipfsData.cid,
+    },
+  });
+}
+
 function rollImage() {
   var seed = Math.trunc(Math.random() * 100000000);
   state.seed = seed;
   state.blur = 3;
   State.update(state);
+
+  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&image_count=1&steps=8&prompt=${state.prompt}`;
+
+  uploadGeneratedImageToIpfs(imgSrc);
 }
 
 var imgSrc =
@@ -34,6 +60,8 @@ return (
       background: "linear-gradient(to right, black, #3a0201, black)",
       backgroundSize: "100% 100%",
       backgroundPosition: "center",
+      position: "relative", // add this line
+      overflow: "hidden", // add this line
     }}
   >
     <div>
@@ -69,6 +97,8 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative", // add this line
+          overflow: "hidden", // add this line
         }}
       >
         <div style={{ width: "auto" }}>
@@ -101,6 +131,8 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative", // add this line
+          overflow: "hidden", // add this line
         }}
       ></div>
       <div
@@ -115,6 +147,8 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative", // add this line
+          overflow: "hidden", // add this line
         }}
       >
         <div>
@@ -162,22 +196,23 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative", // add this line
+          overflow: "hidden", // add this line
         }}
       ></div>
       <div
         style={{
           backgroundImage:
             "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
-          backgroundSize: "auto",
+          backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           height: "526px",
           color: "#333",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          objectFit: "contain", // preserve the aspect ratio of the image
           position: "relative", // add this line
+          overflow: "hidden", // add this line
         }}
       >
         <img
@@ -185,9 +220,7 @@ return (
           style={{
             position: "absolute",
             zIndex: 1,
-            width: "100%", // ensure the image takes up the full width of its container
-            height: "100%", // ensure the image takes up the full height of its container
-            objectFit: "contain", // preserve the aspect ratio of the image
+            objectFit: "cover", // preserve the aspect ratio of the image
           }}
         />
         <img
@@ -198,11 +231,8 @@ return (
           }}
           style={{
             filter: `blur(${state.blur}px)`,
-            position: "relative",
             zIndex: 0,
-            width: "100%", // ensure the image takes up the full width of its container
-            height: "100%", // ensure the image takes up the full height of its container
-            objectFit: "contain", // preserve the aspect ratio of the image
+            objectFit: "cover", // preserve the aspect ratio of the image
           }}
         />
       </div>
