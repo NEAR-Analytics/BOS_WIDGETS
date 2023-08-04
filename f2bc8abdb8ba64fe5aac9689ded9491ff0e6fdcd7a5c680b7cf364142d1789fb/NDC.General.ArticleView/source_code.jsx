@@ -8,6 +8,8 @@ const {
   authorForWidget,
 } = props;
 
+console.log("ATRD: ", articleToRenderData);
+
 const accountId = articleToRenderData.author;
 // State.init({
 //   verified: false,
@@ -63,8 +65,13 @@ State.init({
 // }
 
 const tabs = [
-  { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
   { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
+  {
+    id: "generalInfo",
+    title: "Post info",
+    icon: "bi bi-info-circle",
+  },
+  { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
 ];
 
 const CursorPointer = styled.div`
@@ -402,6 +409,21 @@ const SectionTitle = styled.h5`
 `;
 
 const SectionDescription = styled.p`
+  font-size: 12px;
+  line-height: 18px;
+  margin: 0px;
+  text-align: justify;
+  color: #828688;
+`;
+
+const DescriptionSubtitle = styled.h5`
+  display: inline-block;
+  font-size: 12px;
+  line-height: 120%;
+  margin-right: 0.3rem;
+`;
+
+const DescriptionInfoSpan = styled.span`
   font-size: 12px;
   line-height: 18px;
   margin: 0px;
@@ -840,6 +862,22 @@ return (
                   best of my abilities if elected. Together, let us embark on a
                   journey towards a brighter future of the NEAR ecosystem.
                 </SectionDescription>
+              </DeclarationCard>
+            ) : state.tabSelected == "generalInfo" ? (
+              <DeclarationCard>
+                <SectionTitle className="mt-4 mb-3"></SectionTitle>
+                <div>
+                  <DescriptionSubtitle>Created by:</DescriptionSubtitle>
+                  <DescriptionInfoSpan>{accountId}</DescriptionInfoSpan>
+                </div>
+                <div>
+                  <DescriptionSubtitle>Edited on:</DescriptionSubtitle>
+                  <DescriptionInfoSpan>{}</DescriptionInfoSpan>
+                </div>
+                <div>
+                  <DescriptionSubtitle>Edit versions:</DescriptionSubtitle>
+                  <DescriptionInfoSpan>3</DescriptionInfoSpan>
+                </div>
               </DeclarationCard>
             ) : (
               <CommentSection style={{ padding: "0px" }}>
