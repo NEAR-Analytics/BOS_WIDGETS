@@ -25,7 +25,7 @@ State.init({
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 190px);
   align-items: stretch;
   flex-direction: column;
   background: black;
