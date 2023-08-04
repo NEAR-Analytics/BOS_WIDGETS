@@ -43,13 +43,13 @@ function getComments(args) {
 
 function setComment(args) {
   console.log(2);
-  const { realArticleId, comment } = args;
+  const { realArticleId, text } = args;
   const data = {
     index: {
       [action]: JSON.stringify({
         key: realArticleId,
         value: {
-          text: comment,
+          text,
         },
       }),
     },
