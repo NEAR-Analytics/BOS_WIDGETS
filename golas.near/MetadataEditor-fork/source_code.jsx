@@ -35,17 +35,17 @@ const metadata = {
 
 const ccc = "0";
 
-if (
-  onChange &&
-  JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
-) {
-  ccc = "1";
-  State.update({
-    reportedMetadata: metadata,
-  });
-  onChange(metadata);
-  ccc = "2";
-}
+// if (
+//   onChange &&
+//   JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
+// ) {
+//   ccc = "1";
+//   State.update({
+//     reportedMetadata: metadata,
+//   });
+//   onChange(metadata);
+//   ccc = "2";
+// }
 
 const onClickX = () => {
   console.log("PPP-1");
@@ -58,6 +58,11 @@ const handleOnChange = (e) => {
   console.log("e", e);
   const { id, value } = e.target;
   const newMetadata = { ...metadata, [id]: value };
+
+  console.log("id", id);
+  console.log("value", value);
+  console.log("newMetadata", newMetadata);
+
   onChange(newMetadata);
   State.update({
     reportedMetadata: newMetadata,
