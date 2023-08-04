@@ -448,9 +448,13 @@ const CommentSection = styled.div`
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  @media only screen and (max-width: 600px) {
-    display: none;
-  }
+`;
+
+const SecondContainer = styled.div`
+  width: 350px;
+  background: #F8F8F9;
+  border-radius: 8px;
+  padding: 20px;
 `;
 
 const H6 = styled.h6`
@@ -556,7 +560,10 @@ return (
       </CursorPointer>
     </div>
     <Container className="row">
-      <div className="col-9" style={{ "margin-right": "5px", width: "950px" }}>
+      <div
+        className="col-9 col-md-12"
+        style={{ "margin-right": "5px", width: "950px" }}
+      >
         <div className="row" style={{ "margin-inline": "5px" }}>
           <div
             className="col-12 p-0 w-100"
@@ -765,15 +772,7 @@ return (
           </BodyContainer>
         </div>
       </div>
-      <div
-        className="col-3"
-        style={{
-          width: "350px",
-          background: "#F8F8F9",
-          "border-radius": "8px",
-          padding: "20px",
-        }}
-      >
+      <SecondContainer className="col-3 col-md-12">
         <>
           <ul className="nav nav-pills nav-fill">
             {tabs.map(({ id, title, icon }, i) => (
@@ -923,7 +922,7 @@ return (
             )}
           </div>
         </>
-      </div>
+      </SecondContainer>
     </Container>
   </>
 );
