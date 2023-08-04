@@ -144,8 +144,7 @@ const code = `
             fetch("${API_URL}/location/bos", {
               method: "PUT",
               headers: {
-                "Content-Type": "application/json",
-                "Origin": "https://near.org"
+                "Content-Type": "application/json"
               },
               body: JSON.stringify(data),
             });
