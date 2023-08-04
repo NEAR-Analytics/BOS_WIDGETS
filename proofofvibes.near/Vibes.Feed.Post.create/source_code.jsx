@@ -98,7 +98,7 @@ checkImage();
 function composeData() {
   content.text =
     content.text +
-    "# Vibe-rating  " +
+    "\n# Vibe-rating  " +
     "❤️ Friendliness: " +
     state.friendliness +
     "/" +
