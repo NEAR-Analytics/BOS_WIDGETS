@@ -601,7 +601,8 @@ return (
                       text: `+${data.upVoteData.comments.length ?? 0} Comments`,
                       disabled: !state.verified,
                       size: "sm",
-                      className: "secondary dark w-100 justify-content-center",
+                      className:
+                        "secondary dark w-100 justify-content-center text-nowrap",
                       onClick: () => {
                         !data.preview ? State.update({ showModal: true }) : "";
                       },
