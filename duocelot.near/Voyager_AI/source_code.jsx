@@ -4,6 +4,7 @@ const accountId = context.accountId;
 
 initState({
   img: {},
+  imgRaw: null,
   prompt:
     "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
   seed: null,
@@ -11,10 +12,11 @@ initState({
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
   blur: 0,
   width: "auto",
+  scale: 0,
 });
 
-async function uploadGeneratedImageToIpfs(imgSrc) {
-  const response = await fetch(imgSrc);
+async function uploadImageToIpfs() {
+  const response = await fetch(state.imgRaw);
   const blob = await response.blob();
   const formData = new FormData();
   formData.append("file", blob);
@@ -28,11 +30,7 @@ async function uploadGeneratedImageToIpfs(imgSrc) {
   });
 
   const ipfsData = await ipfsResponse.json();
-  State.update({
-    img: {
-      cid: ipfsData.cid,
-    },
-  });
+  console.log(ipfsData);
 }
 
 function rollImage() {
@@ -41,15 +39,16 @@ function rollImage() {
   state.blur = 3;
   State.update(state);
 
-  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=8&prompt=${state.prompt}`;
+  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=20&prompt=${state.prompt}`;
 
-  uploadGeneratedImageToIpfs(imgSrc);
+  // Instead of uploading to IPFS right away, save the generated image to the state
+  state.imgRaw = imgSrc;
+  State.update(state);
 }
 
-var imgSrc =
-  "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44";
-if (state.seed) {
-  imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&image_count=1&steps=30&prompt=${state.prompt}`;
+function deleteImage() {
+  state.imgRaw = null;
+  State.update(state);
 }
 
 return (
@@ -60,8 +59,8 @@ return (
       background: "linear-gradient(to right, black, #3a0201, black)",
       backgroundSize: "100% 100%",
       backgroundPosition: "center",
-      position: "relative", // add this line
-      overflow: "hidden", // add this line
+      position: "relative",
+      overflow: "hidden",
       zIndex: 0,
     }}
   >
@@ -100,8 +99,8 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative", // add this line
-          overflow: "hidden", // add this line
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <div style={{ width: "auto" }}>
@@ -135,8 +134,8 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative", // add this line
-          overflow: "hidden", // add this line
+          position: "relative",
+          overflow: "hidden",
         }}
       ></div>
       <div
@@ -152,17 +151,20 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative", // add this line
-          overflow: "hidden", // add this line
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <div>
           <input
             type="range"
             min={0}
-            max={25}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            max={20}
+            value={state.scale}
+            onChange={(e) => {
+              state.scale = e.target.value;
+              State.update(state);
+            }}
             style={{
               width: "100px",
               backgroundColor: "black",
@@ -172,10 +174,9 @@ return (
               border: "1px solid #3a0201",
             }}
           />
-          <a>{value}</a>
+          <a>CFG {state.scale}</a>
         </div>
-        <a
-          className="btn btn-outline-primary"
+        <button
           onClick={(e) => rollImage()}
           style={{
             width: "200px",
@@ -187,7 +188,7 @@ return (
           }}
         >
           Generate
-        </a>
+        </button>
       </div>
       <div
         style={{
@@ -202,8 +203,8 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative", // add this line
-          overflow: "hidden", // add this line
+          position: "relative",
+          overflow: "hidden",
         }}
       ></div>
       <div
@@ -217,20 +218,12 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative", // add this line
-          overflow: "hidden", // add this line
+          position: "relative",
+          overflow: "hidden",
         }}
       >
         <img
-          src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            objectFit: "cover", // preserve the aspect ratio of the image
-          }}
-        />
-        <img
-          src={imgSrc}
+          src={state.imgRaw}
           onLoad={(e) => {
             state.blur = 0;
             State.update(state);
@@ -238,38 +231,16 @@ return (
           style={{
             filter: `blur(${state.blur}px)`,
             zIndex: 0,
-            objectFit: "cover", // preserve the aspect ratio of the image
+            objectFit: "cover",
           }}
         />
+        {state.imgRaw && (
+          <div>
+            <button onClick={uploadImageToIpfs}>Upload to IPFS</button>
+            <button onClick={deleteImage}>Delete</button>
+          </div>
+        )}
       </div>
     </div>
-    <div
-      style={{
-        backgroundImage:
-          "url(https://ipfs.fleek.co/ipfs/bafybeihm5fiwy6dos2f4hiz67yaan3jafkndw5zkh23mb5rnue7qu6rh2y)",
-        backgroundSize: "auto",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        height: "123px",
-        color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    ></div>
-    <div
-      style={{
-        backgroundImage:
-          "url(https://ipfs.fleek.co/ipfs/bafybeiamgwdx5uhhbgt7usn2wjxybn2b265mubicdj7bkyawgzjrmb22l4)",
-        backgroundSize: "auto",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        height: "523px",
-        color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    ></div>
   </div>
 );
