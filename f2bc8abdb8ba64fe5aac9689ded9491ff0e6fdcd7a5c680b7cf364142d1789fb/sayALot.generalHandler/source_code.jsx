@@ -311,7 +311,7 @@ Term 2
 const initialCreateState = {
   articleId: "",
   articleBody: initialBody,
-  tags: {},
+  tags: [],
   saveComplete: false,
 };
 
@@ -488,115 +488,115 @@ if (
 //===============================================END GET DATA=======================================================
 
 //=================================================FUNCTIONS========================================================
-//==Post creation funtcions
-const getCreateData = (articleId, accountId, articleBody, tagsArray) => {
-  const args = {
-    articleId: articleId,
-    author: accountId,
-    lastEditor: accountId,
-    timeLastEdit: Date.now(),
-    timeCreate: Date.now(),
-    body: articleBody,
-    version: 0,
-    navigation_id: null,
-    tags: tagsArray,
-  };
-  return args;
-};
+// //==Post creation funtcions
+// const getCreateData = () => {
+//   const args = {
+//     articleId: state.creationArticleId,
+//     author: accountId,
+//     lastEditor: accountId,
+//     timeLastEdit: Date.now(),
+//     timeCreate: Date.now(),
+//     body: state.creationArticleBody,
+//     version: 0,
+//     navigation_id: null,
+//     tags: state.creationArticletagsArray,
+//   };
+//   return args;
+// };
 
-const composeData = (articleId, accountId, articleBody, tagsArray) => {
-  let data;
-  if (isTest) {
-    data = {
-      test_sayALotArticle: {
-        main: JSON.stringify(
-          getCreateData(articleId, accountId, articleBody, tagsArray)
-        ),
-      },
-      index: {
-        test_sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-            id: `${context.accountId}-${Date.now()}`,
-          },
-        }),
-      },
-    };
-  } else {
-    data = {
-      sayALotArticle: {
-        main: JSON.stringify(getArticleData()),
-      },
-      index: {
-        sayALotArticle: JSON.stringify({
-          key: "main",
-          value: {
-            type: "md",
-            id: `${context.accountId}-${Date.now()}`,
-          },
-        }),
-      },
-    };
-  }
+// const composeData = () => {
+//   let data;
+//   if (isTest) {
+//     data = {
+//       test_sayALotArticle: {
+//         main: JSON.stringify(getCreateData()),
+//       },
+//       index: {
+//         test_sayALotArticle: JSON.stringify({
+//           key: "main",
+//           value: {
+//             type: "md",
+//             id: `${context.accountId}-${Date.now()}`,
+//           },
+//         }),
+//       },
+//     };
+//   } else {
+//     data = {
+//       sayALotArticle: {
+//         main: JSON.stringify(getArticleData()),
+//       },
+//       index: {
+//         sayALotArticle: JSON.stringify({
+//           key: "main",
+//           value: {
+//             type: "md",
+//             id: `${context.accountId}-${Date.now()}`,
+//           },
+//         }),
+//       },
+//     };
+//   }
 
-  if (tagsArray.length) {
-    data.index.tag = JSON.stringify(
-      tagsArray.map((tag) => ({
-        key: tag,
-        value: item,
-      }))
-    );
-  }
+//   if (tagsArray.length) {
+//     data.index.tag = JSON.stringify(
+//       tagsArray.map((tag) => ({
+//         key: tag,
+//         value: item,
+//       }))
+//     );
+//   }
 
-  return data;
-};
+//   return data;
+// };
 
-const createHandler = (e, articleId, accountId, articleBody, tagsArray) => {
-  State.update({
-    createErrorId: "",
-    createErrorBody: "",
-  });
-  if (state.articleId && state.articleBody) {
-    // TODO check it automaticle
-    const isArticleIdDublicated = false;
+// function createHandler(e) {
+//   () => {
+//     State.update({
+//       createErrorId: "",
+//       createErrorBody: "",
+//     });
+//     if (state.articleId && state.articleBody) {
+//       // TODO check it automaticle
+//       const isArticleIdDublicated = false;
 
-    if (!isArticleIdDublicated) {
-      const newData = composeData(articleId, accountId, articleBody, tagsArray);
+//       if (!isArticleIdDublicated) {
+//         const newData = composeData();
 
-      State.update({ createIsSaving: true });
+//         State.update({ createIsSaving: true });
 
-      Social.set(newData, {
-        force: true,
-        onCommit: () => {
-          State.update({
-            createIsSaving: false,
-            displayedTabId: tabs.SHOW_ARTICLE.id,
-            renderLastOfThisAccountId: accountId,
-          });
-        },
-        onCancel: () => {
-          State.update({ createIsSaving: false });
-        },
-      });
-    } else {
-      State.update({
-        createErrorId: errTextDublicatedId,
-      });
-    }
-  } else {
-    if (!articleId || articleId == "") {
-      State.update({
-        createErrorId: errTextNoId,
-      });
-    }
-    if (!articleBody || articleBody == "") {
-      State.update({ createErrorBody: errTextNoBody });
-    }
-  }
-};
+//         Social.set(newData, {
+//           force: true,
+//           onCommit: () => {
+//             State.update({
+//               createIsSaving: false,
+//               displayedTabId: tabs.SHOW_ARTICLE.id,
+//               renderLastOfThisAccountId: accountId,
+//             });
+//           },
+//           onCancel: () => {
+//             State.update({ createIsSaving: false });
+//           },
+//         });
+//       } else {
+//         State.update({
+//           createErrorId: errTextDublicatedId,
+//         });
+//       }
+//     } else {
+//       if (!articleId || articleId == "") {
+//         State.update({
+//           createErrorId: errTextNoId,
+//         });
+//       }
+//       if (!articleBody || articleBody == "") {
+//         State.update({ createErrorBody: errTextNoBody });
+//       }
+//     }
+//   };
+// }
 
-//==End post creation functions
+// //==End post creation functions
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -689,11 +689,8 @@ return (
           isTest,
           addressForArticles,
           authorForWidget,
-          initialCreateState,
-          createHandler,
-          createIsSaving: state.createIsSaving,
-          createErrorId: createErrorId,
-          createErrorBody: createErrorBody,
+          stateUpdate,
+          widgets,
         }}
       />
     )}
