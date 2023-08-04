@@ -551,6 +551,7 @@ return (
         </div>
 
         <span className="text-nowrap text-muted">
+          {isPosterTastemaker && <>🥂</>}
           {badges.map((badge) => (
             <Widget
               src="proofofvibes.near/widget/sbtEmojiHelper"
