@@ -16,7 +16,8 @@ const {
 
 const widgets = {
   voters: "election.ndctools.near/widget/NDC.Elections.Voters",
-  button: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  modal: "nomination.ndctools.near/widget/NDC.Modal",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
 
@@ -47,6 +48,9 @@ State.init({
     my_votes: false,
   },
   voters: [],
+  showToSModal: false,
+  bountyProgramModal: false,
+  tosAgreement: false,
 });
 
 const filteredCandidates = result.filter(([candidate, _vote], _index) =>
@@ -212,6 +216,11 @@ const Winner = styled.i`
   font-size: 14px;
 `;
 
+const Section = styled.div`
+  gap: 8px;
+  margin-bottom: 10px;
+`;
+
 const UserLink = ({ title, src }) => (
   <>
     <StyledLink href={src} target="_blank">
@@ -278,13 +287,35 @@ const handleBookmarkCandidate = (candidateId) => {
   );
 };
 
-const handleVote = () => {
+const handleVote = () =>
   Near.call(
     electionContract,
     "vote",
     { prop_id: id, vote: state.selectedCandidates },
     "70000000000000",
     2000000000000000000000
+  ).then((data) => State.update({ bountyProgramModal: false }));
+
+const handleAcceptToS = () => {
+  State.update({ showToSModal: true });
+
+  Social.set(
+    {
+      index: {
+        [currentUser]: JSON.stringify({
+          key: "ndc_election_tos",
+          value: true,
+        }),
+      },
+    },
+    {
+      force: true,
+      onCommit: () =>
+        State.update({
+          showToSModal: false,
+          bountyProgramModal: true,
+        }),
+    }
   );
 };
 
@@ -389,7 +420,7 @@ const CandidateList = ({ candidateId, votes }) => (
       </div>
       <div className="d-flex">
         <Widget
-          src={widgets.button}
+          src={widgets.styledComponents}
           props={{
             Link: {
               size: "sm",
@@ -486,7 +517,7 @@ const CastVotes = () => (
         <span className="text-secondary">votes left</span>
         {state.selectedCandidates.length > 0 && (
           <Widget
-            src={widgets.button}
+            src={widgets.styledComponents}
             props={{
               Button: {
                 size: "sm",
@@ -508,16 +539,22 @@ const CastVotes = () => (
       </Info>
     </div>
     <Widget
-      src={widgets.button}
+      src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: state.selectedCandidates.length < seats,
+          disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
-          onClick: handleVote,
+          onClick: () => State.update({ showToSModal: true }),
         },
       }}
     />
   </CastVotesSection>
+);
+
+const Link = ({ title, href }) => (
+  <a href={href} target={"_blank"} rel={"noopener"}>
+    {title}
+  </a>
 );
 
 return (
@@ -554,5 +591,78 @@ return (
         />
       )}
     </div>
+    {state.showToSModal && (
+      <Widget
+        src={widgets.modal}
+        props={{
+          title: "Before you vote, please review the Fair Voting Policy.",
+          description: (
+            <>
+              Please make sure to read and understand the{" "}
+              <Link title="Fair Voting Policy." href="" />
+              which outlines the responsibilities of each voter.
+            </>
+          ),
+          content: (
+            <Section className="d-flex">
+              <Checkbox
+                type="checkbox"
+                value={state.tosAgreement}
+                onChange={() =>
+                  State.update({ tosAgreement: !state.tosAgreement })
+                }
+              />
+              <Link title="Fair Voting Policy." href="" />
+            </Section>
+          ),
+          Button: {
+            title: "Agree to Fair Voting Policy",
+            disabled: !state.tosAgreement,
+            onCancel: () => State.update({ showToSModal: false }),
+            onSubmit: handleAcceptToS,
+          },
+        }}
+      />
+    )}
+    {state.bountyProgramModal && (
+      <Widget
+        src={widgets.modal}
+        props={{
+          title: "You are about to cast your votes.",
+          description: (
+            <>
+              <p>
+                Do you know about the{" "}
+                <Link title="Whistleblower Bounty Program" href="" />? The
+                Whistleblower Bounty Program offers up to 2,000 NEAR for
+                whistleblowers who come forward to share instances of vote
+                buying, account buying, election fraud, and other violations of
+                the <Link title="Fair Voting Policy." href="" />.
+              </p>
+              <p>
+                You will be bonding xN during the election period. This bond
+                will be returned to you after the election results are reviewed
+                and validated.
+              </p>
+              <p>
+                Make sure you vote for all the seats in this house. You can only
+                vote once and past votes cannot be changed.
+              </p>
+            </>
+          ),
+          content: (
+            <Section className="d-flex">
+              I understand the{" "}
+              <Link title="Whistleblower Bounty Program" href="" />.
+            </Section>
+          ),
+          Button: {
+            title: "Cast Votes",
+            onCancel: () => State.update({ bountyProgramModal: false }),
+            onSubmit: handleVote,
+          },
+        }}
+      />
+    )}
   </Container>
 );
