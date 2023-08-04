@@ -112,7 +112,6 @@ const code = `
     // Function to populate markers to the map
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
-        console.log(markersData,"==markersData");
         markersData.forEach(marker => {
           
         const el = document.createElement('div');
