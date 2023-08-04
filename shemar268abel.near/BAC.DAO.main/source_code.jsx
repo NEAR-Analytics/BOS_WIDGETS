@@ -3,7 +3,7 @@ State.init({
 });
 const accountId = props.accountId ?? "bac-inc.near";
 const socialProfile = Social.getr(`${accountId}/profile`);
-const role = props.role ?? "regens";
+const role = props.role ?? "hackers";
 // const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "marmaj-research.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
@@ -44,9 +44,9 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const widgetOwner = "nearefi.near";
+const widgetOwner = "shemar268abel.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
-const accountUrl = `#/${widgetOwner}/widget/ReFi.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
+const accountUrl = `#/${widgetOwner}/widget/BAC.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -201,7 +201,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="ndcplug.near/widget/DAO.main.sidebar"
+          src="shemar268abel.near/widget/DAO.main.sidebar"
           props={{
             daoId: daoId,
             profile,
@@ -277,7 +277,7 @@ return (
             </a>
             <hr />
             <Widget
-              src={feed ?? "hack.near/widget/DAO.Social"}
+              src={feed ?? "bac-inc.near/widget/DAO.Social"}
               props={{ daoId: daoId }}
             />
           </>
