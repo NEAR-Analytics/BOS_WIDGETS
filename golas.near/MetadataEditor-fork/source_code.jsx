@@ -54,13 +54,22 @@ const onClickX = () => {
   onChange(metadata);
 };
 
+const handleOnChange = (e) => {
+  console.log("e", e);
+};
+
 return (
   <>
     <div onClick={onClickX}>{ccc}</div>
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
-        <input onChange={onChange} type="text" value={state.metadata.name} />
+        <input
+          onChange={handleOnChange}
+          name="name"
+          type="text"
+          value={state.metadata.name}
+        />
       </div>
     )}
     {options.image && (
