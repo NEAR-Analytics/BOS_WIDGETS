@@ -1,5 +1,7 @@
 const {
   stateUpdate,
+  handleGoHomeButton,
+  handleArticlesListNavigation,
   brand,
   pills,
   navigationButtons,
@@ -131,10 +133,6 @@ function getLink(widgetName) {
   } else baseLink;
 }
 
-function handleArticlesListNavigation(filterBy) {
-  () => stateUpdate({ displayedTabId: brand.homePageId, listBy: filterBy });
-}
-
 //================================================END FUNCTIONS===================================================
 return (
   <div className="navbar navbar-expand-md border-bottom mb-3">
@@ -142,7 +140,7 @@ return (
       {brand && (
         <BrandLogoContainer
           className="navbar-brand text-decoration-none"
-          onClick={handleArticlesListNavigation(navigationPills[0].title)}
+          onClick={handleGoHomeButton}
         >
           <Widget
             src="mob.near/widget/Image"
