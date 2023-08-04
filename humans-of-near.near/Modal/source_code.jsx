@@ -32,7 +32,7 @@ const ModalContent = styled.div`
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  gap:15px;
+  gap:5px;
 `;
 
 const ModalAction = styled.div`
