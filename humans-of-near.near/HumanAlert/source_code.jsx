@@ -48,7 +48,7 @@ const ModalTitle = styled.h4`
 const Button = styled.a`
   padding: 10px 22px;
   background-color:white;
-  text-decoration: none;
+  text-decoration: none !important;
   color: #191a1a;
   border-radius: 6px;
   &:hover {
