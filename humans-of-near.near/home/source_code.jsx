@@ -17,6 +17,7 @@ State.init({
     twitter: "",
   },
   loocations: [],
+  humanAlert: true,
 });
 
 //Styles
@@ -120,6 +121,10 @@ const onClose = () => {
   State.update({ showModal: false });
 };
 
+const onHumanClose = () => {
+  State.update({ humanAlert: false });
+};
+
 const handleSaveLocation = () => {
   asyncFetch(`${API_URL}/location/bos`, {
     method: "POST",
@@ -214,6 +219,13 @@ return (
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
+      />
+    )}
+
+    {accountId && !hasSBTToken && state.humanAlert && (
+      <Widget
+        src={`${Owner}/widget/HumanAlert`}
+        props={{ onClose: onHumanClose }}
       />
     )}
 
