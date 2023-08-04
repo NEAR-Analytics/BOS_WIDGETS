@@ -3,7 +3,7 @@
 const { widgets, handleBackButton, articleToRenderData, authorForWidget } =
   props;
 
-const accountId = articleToRenderData.author ?? context.accountId;
+const accountId = articleToRenderData.author;
 
 // State.init({
 //   verified: false,
@@ -15,6 +15,12 @@ State.init({
   showDeclaration: false,
   tabSelected: tabs[1].id,
 });
+
+let authorProfile = {};
+if (state.filterBy.parameterName == "author") {
+  authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
+  if (!authorProfile) return "Loading...";
+}
 
 //TODO check how to do human verification
 
@@ -552,9 +558,7 @@ return (
                     <UserLink
                       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
                     >
-                      <NominationTitle>
-                        {articleToRenderData.articleId}
-                      </NominationTitle>
+                      <NominationTitle>{authorProfile}</NominationTitle>
                       <NominationUser>
                         {articleToRenderData.author}
                       </NominationUser>
