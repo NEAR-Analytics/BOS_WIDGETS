@@ -4,11 +4,6 @@ const { widgets, handleBackButton, articleToRenderData, authorForWidget } =
   props;
 
 const accountId = articleToRenderData.author;
-
-let authorProfile = Social.getr(`${accountId}/profile`);
-if (!authorProfile) {
-  return "Loading...";
-}
 // State.init({
 //   verified: false,
 //   start: true,
@@ -454,17 +449,18 @@ const TH = styled.th`
   padding: 15px 20px !important;
 `;
 
+//TODO check this
 const CandidateProps = props.data.nominations ?? {
   name: accountId,
   tags: ["test", "test2", "martintest3"],
 };
 const comments = props.data.comments[0].comments ?? [];
 
-const afilations = JSON.parse(CandidateProps.afiliation) ?? [];
+// const afilations = JSON.parse(CandidateProps.afiliation) ?? [];
 
-const afiilationsSort = afilations
-  .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
-  .reverse();
+// const afiilationsSort = afilations
+//   .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
+//   .reverse();
 
 // const issues = [
 //   {
@@ -502,6 +498,21 @@ const afiilationsSort = afilations
 //   "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
 //   "Other Platform",
 // ];
+
+function getUserName() {
+  const profile = data.authorProfile;
+
+  return profile.name ?? getShortUserName();
+}
+
+const getShortUserName = () => {
+  const userId = accountId;
+
+  if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
+  const name = userId.slice(0, -5); // truncate .near
+
+  return name.length > 20 ? `${name.slice(0, 20)}...` : name;
+};
 
 return (
   <>
@@ -556,7 +567,7 @@ return (
                     <UserLink
                       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
                     >
-                      <NominationTitle>{authorProfile}</NominationTitle>
+                      <NominationTitle>{authorProfile.name}</NominationTitle>
                       <NominationUser>
                         {articleToRenderData.author}
                       </NominationUser>
