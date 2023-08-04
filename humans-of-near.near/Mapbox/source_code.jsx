@@ -138,9 +138,9 @@ const code = `
       myWindow.document.write(
           "<p>This is 'myWindow'</p>"
           +"<script>"
-          +"function closeWindow()\{" // sample injected function
+          +"function closeWindow()\{"
           +"window.close();"
-          +"\}</script>"
+          +"}</script>"
       );    
     }
 
