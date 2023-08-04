@@ -1,15 +1,26 @@
 const fetchResult = fetch(
   "https://storage.googleapis.com/databricks-near-query-runner/output/near_bos_monthly_active_developers_ec.json"
 );
+if (!fetchResult) {
+  return "Loading data...";
+}
 if (!fetchResult.ok) {
-  return "failed to fetch data";
+  return "Failed to fetch data";
 }
 const parsed = JSON.parse(fetchResult.body);
-const data = parsed.data.sort(
-  (a, b) => a.collected_for_day - b.collected_for_day
-);
+const dataset = parsed.data
+  .sort((a, b) => a.collected_for_day - b.collected_for_day)
+  .map((row) => ({
+    "Full Time": row.full_time,
+    "Part Time": row.part_time,
+    "One Time": row.one_time,
+    "Monthly Active": row.mau,
+    Date: new Date(row.collected_for_day).toISOString().substring(0, 10),
+  }));
 
-const option = {
+//return <div>{JSON.stringify(data)}</div>;
+const colsToShow = ["Full Time", "Part Time", "One Time", "Monthly Active"];
+const definition = {
   title: {
     text: "NEAR BOS Active Developers",
     subtext: `Executed by ${parsed.executed_by} at ${new Date(
@@ -20,12 +31,7 @@ const option = {
     trigger: "axis",
   },
   legend: {
-    data: [
-      "full_time_devs",
-      "part_time_devs",
-      "one_time_devs",
-      "monthly_active_devs",
-    ],
+    data: colsToShow,
     top: "50",
   },
   grid: {
@@ -43,40 +49,20 @@ const option = {
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: data.map((r) => new Date(r.collected_for_day).toDateString()),
+    data: dataset.map((r) => r.Date),
   },
   yAxis: {
     type: "value",
   },
-  series: [
-    {
-      name: "full_time_devs",
-      type: "line",
-      data: data.map((r) => r.full_time_devs),
-    },
-    {
-      name: "part_time_devs",
-      type: "line",
-      data: data.map((r) => r.part_time_devs),
-    },
-    {
-      name: "one_time_devs",
-      type: "line",
-      data: data.map((r) => r.one_time_devs),
-    },
-    {
-      name: "monthly_active_devs",
-      type: "line",
-      data: data.map((r) => r.monthly_active_devs),
-    },
-  ],
+  series: colsToShow.map((col) => ({
+    name: col,
+    type: "line",
+    data: dataset.map((r) => r[col]),
+  })),
 };
 
 return (
   <div>
-    <Widget
-      src={`nearpavel.near/widget/EChart`}
-      props={{ definition: option }}
-    />
+    <Widget src={`nearpavel.near/widget/EChart`} props={{ definition }} />
   </div>
 );
