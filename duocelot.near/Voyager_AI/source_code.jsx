@@ -62,9 +62,10 @@ return (
       backgroundPosition: "center",
       position: "relative", // add this line
       overflow: "hidden", // add this line
+      zIndex: 0,
     }}
   >
-    <div>
+    <div style={{ width: "100%" }}>
       <div
         style={{
           backgroundImage:
@@ -73,6 +74,7 @@ return (
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           height: "162px",
+          width: "100%",
           color: "#fff",
           display: "flex",
           alignItems: "center",
@@ -93,6 +95,7 @@ return (
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           height: "81px",
+          width: "100%",
           color: "#fff",
           display: "flex",
           alignItems: "center",
@@ -127,6 +130,7 @@ return (
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           height: "15px",
+          width: "100%",
           color: "#fff",
           display: "flex",
           alignItems: "center",
@@ -143,6 +147,7 @@ return (
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           height: "81px",
+          width: "100%",
           color: "#fff",
           display: "flex",
           alignItems: "center",
@@ -192,6 +197,7 @@ return (
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           height: "8px",
+          width: "100%",
           color: "#fff",
           display: "flex",
           alignItems: "center",
