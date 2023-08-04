@@ -167,6 +167,12 @@ const sponsors = [
     image:
       "https://ipfs.near.social/ipfs/bafkreicq46boifskg476ln4zz5psijyojixizkhxd6uzeoabdtoutxvoni",
   },
+  {
+    url: "https://neardc.org",
+    name: "NDC GWG",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreicdzm3aop7qrbzuwinafbf26p7oq3fmjqnwbyz2clvelxglbazjdm",
+  },
 
   {
     url: "https://proofofvibes.com",
@@ -245,6 +251,13 @@ const partners = [
     image:
       "https://ipfs.near.social/ipfs/bafkreicxkl63msjcqn37ooqq6wxz5xrjwralwtraldcj2e3tmhgftsu4fm",
   },
+  {
+    url: "https://republiccrypto.com/",
+    name: "Republic Crypto",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreih6g3q3zt3br5hhzbpdlik4guekxp3owxhkfgocomr2aof2sm766e",
+  },
+
   {
     url: "https://twitter.com/nearafrica_",
     name: "NEAR Africa",
