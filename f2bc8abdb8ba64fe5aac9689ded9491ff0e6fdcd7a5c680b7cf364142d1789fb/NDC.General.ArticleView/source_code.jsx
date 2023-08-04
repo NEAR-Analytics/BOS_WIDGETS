@@ -451,7 +451,6 @@ const Container = styled.div`
 `;
 
 const SecondContainer = styled.div`
-  width: 350px;
   background: #F8F8F9;
   border-radius: 8px;
   padding: 20px;
