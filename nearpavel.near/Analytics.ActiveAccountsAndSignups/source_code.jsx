@@ -1,8 +1,11 @@
 const fetchResult = fetch(
   "https://storage.googleapis.com/databricks-near-query-runner/output/near_bos_active_users_signups_daily.json"
 );
+if (!fetchResult) {
+  return "Loading data...";
+}
 if (!fetchResult.ok) {
-  return "failed to fetch data";
+  return "Failed to fetch data";
 }
 const parsed = JSON.parse(fetchResult.body);
 const data = parsed.data.sort(
