@@ -375,7 +375,7 @@ const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); 
 const mintAuthorities = checkMintersJson.minters;
 const isMintAuthority = mintAuthorities.includes(context.accountId);
 const daoIsMinter = mintAuthorities.includes(daoId);
-const proposeVibee = (role) => {
+const proposeVibee = () => {
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
   Near.call([
@@ -388,7 +388,30 @@ const proposeVibee = (role) => {
           kind: {
             AddMemberToRole: {
               member_id: accountId,
-              role: role,
+              role: "vibee",
+            },
+          },
+        },
+      },
+      gas: gas,
+      deposit: deposit,
+    },
+  ]);
+};
+const proposeTastemaker = () => {
+  const gas = 200000000000000;
+  const deposit = 100000000000000000000000;
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "Recommended as a tastemaker",
+          kind: {
+            AddMemberToRole: {
+              member_id: accountId,
+              role: "tastemaker",
             },
           },
         },
@@ -600,14 +623,25 @@ return (
                     </li>
                   )}
 
-                  {canPropose && (
+                  {canPropose && !isPosterVibee && (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
-                        onClick={proposeVibee("vibee")}
+                        onClick={proposeVibee}
                       >
                         <i className="bi bi-emoji-sunglasses" /> Recommend as
                         Vibee
+                      </a>
+                    </li>
+                  )}
+                  {canPropose && !isPosterTastemaker && (
+                    <li className="dropdown-item row">
+                      <a
+                        className="link-dark text-decoration-none"
+                        onClick={proposeTastemaker("tastemaker")}
+                      >
+                        <i className="bi bi-emoji-sunglasses" /> Recommend as
+                        Tastemaker
                       </a>
                     </li>
                   )}
