@@ -639,9 +639,9 @@ return (
                     <li className="dropdown-item row">
                       <a
                         className="link-dark text-decoration-none"
-                        onClick={proposeTastemaker("tastemaker")}
+                        onClick={proposeTastemaker}
                       >
-                        <i className="bi bi-emoji-sunglasses" /> Recommend as
+                        <i className="bi bi-cup-straw" /> Recommend as
                         Tastemaker
                       </a>
                     </li>
