@@ -69,6 +69,13 @@ const handleOnChange = (e) => {
   });
 };
 
+const handleImage = (image) => State.update({ image });
+
+const handleBackgroundImage = (backgroundImage) =>
+  State.update({ backgroundImage });
+
+const handleTags = (tags) => State.update({ tags });
+
 return (
   <>
     <div onClick={onClickX}>{ccc}</div>
@@ -90,7 +97,7 @@ return (
           src="mob.near/widget/ImageEditorTabs"
           props={{
             image: state.image,
-            onChange: (image) => State.update({ image }),
+            onChange: handleImage,
           }}
         />
       </div>
@@ -102,7 +109,7 @@ return (
           src="mob.near/widget/ImageEditorTabs"
           props={{
             image: state.backgroundImage,
-            onChange: (backgroundImage) => State.update({ backgroundImage }),
+            onChange: handleBackgroundImage,
           }}
         />
       </div>
@@ -114,11 +121,9 @@ return (
         <textarea
           className="form-control"
           rows={5}
+          id="description"
           value={state.metadata.description}
-          onChange={(e) => {
-            state.metadata.description = e.target.value;
-            State.update();
-          }}
+          onChange={handleOnChange}
         />
       </div>
     )}
@@ -133,10 +138,7 @@ return (
             placeholder:
               options.tags.placeholder ??
               "rust, engineer, artist, humanguild, nft, learner, founder",
-            setTagsObject: (tags) => {
-              state.metadata.tags = tags;
-              State.update();
-            },
+            setTagsObject: handleTags,
           }}
         />
       </div>
