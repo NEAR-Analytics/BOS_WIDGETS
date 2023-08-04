@@ -141,7 +141,7 @@ const code = `
               accountId : "${accountId}"
             };
 
-            asyncFetch("${API_URL}/location/bos", {
+            fetch("${API_URL}/location/bos", {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
