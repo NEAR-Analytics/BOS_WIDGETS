@@ -192,6 +192,9 @@ return (
             filter: `blur(${state.blur}px)`,
             position: "relative",
             zIndex: 0,
+            width: "100%", // ensure the image takes up the full width of its container
+            height: "100%", // ensure the image takes up the full height of its container
+            objectFit: "contain", // preserve the aspect ratio of the image
           }}
         />
       </div>
