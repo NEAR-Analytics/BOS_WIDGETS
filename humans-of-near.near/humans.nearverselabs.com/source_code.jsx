@@ -48,7 +48,7 @@ const BtnStyle = {
   color: "white",
   position: "absolute",
   left: "58px",
-  top: "130px",
+  top: "95px",
   zIndex: 1,
 };
 
