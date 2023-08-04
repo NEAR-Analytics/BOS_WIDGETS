@@ -78,6 +78,7 @@ return (
             src={widgets.styledComponents}
             props={{
               Button: {
+                disabled: Button.disabled,
                 text: Button.title,
                 onClick: Button.onSubmit,
               },
