@@ -176,21 +176,11 @@ const Container = styled.div`
     height: 100vh;
 `;
 
-const main = () => {
-  const mymap = document.getElementById("myMap");
-  if (mymap)
-    mymap.setAttribute(
-      "sandbox",
-      "allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox"
-    );
-};
-
 return (
   <Container>
     <iframe
       id="myMap"
       className="w-100 h-100"
-      onload={main}
       sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox"
       srcDoc={code}
     />
