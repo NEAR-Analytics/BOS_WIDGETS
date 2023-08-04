@@ -107,9 +107,7 @@ return (
                 Button: {
                   text: `Save Article`,
                   disabled: !state.articleId || !state.articleBody,
-                  className: `${
-                    context.accountId && state.voted ? "primary" : "secondary"
-                  } dark`,
+                  className: `secondary dark`,
                   onClick: () =>
                     createHandler(
                       state.articleId,
