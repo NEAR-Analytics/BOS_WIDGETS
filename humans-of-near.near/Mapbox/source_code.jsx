@@ -140,7 +140,7 @@ const code = `
           +"<script>"
           +"function closeWindow()\{" // sample injected function
           +"window.close();"
-          +"\}<\/script>"
+          +"\}</script>"
       );    
     }
 
