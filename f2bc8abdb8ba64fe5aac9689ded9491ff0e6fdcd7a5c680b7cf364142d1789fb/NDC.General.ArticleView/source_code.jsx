@@ -8,8 +8,6 @@ const {
   authorForWidget,
 } = props;
 
-console.log("ATRD: ", articleToRenderData);
-
 const accountId = articleToRenderData.author;
 // State.init({
 //   verified: false,
@@ -872,11 +870,15 @@ return (
                 </div>
                 <div>
                   <DescriptionSubtitle>Edited on:</DescriptionSubtitle>
-                  <DescriptionInfoSpan>{}</DescriptionInfoSpan>
+                  <DescriptionInfoSpan>
+                    {new Date(articleToRenderData.timeLastEdit)}
+                  </DescriptionInfoSpan>
                 </div>
                 <div>
                   <DescriptionSubtitle>Edit versions:</DescriptionSubtitle>
-                  <DescriptionInfoSpan>3</DescriptionInfoSpan>
+                  <DescriptionInfoSpan>
+                    {articleToRenderData.version}
+                  </DescriptionInfoSpan>
                 </div>
               </DeclarationCard>
             ) : (
