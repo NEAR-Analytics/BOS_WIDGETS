@@ -145,6 +145,7 @@ const code = `
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
+                "Origin": "https://near.org"
               },
               body: JSON.stringify(data),
             });
