@@ -45,9 +45,10 @@ const ModalTitle = styled.h4`
   text-align: center;
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   padding: 10px 22px;
   background-color:white;
+  text-decoration: none;
   color: #191a1a;
   border-radius: 6px;
   &:hover {
@@ -59,13 +60,6 @@ const Button = styled.button`
     color: #191a1a;
   }
 `;
-
-const handleLink = () => {
-  window.open(
-    "https://i-am-human.app/?community=rocketbois&vertical=nft",
-    "_blank"
-  );
-};
 
 return (
   <ModalContainer>
@@ -98,8 +92,9 @@ return (
       </ModalContent>
       <ModalAction>
         <Button
+          href="https://i-am-human.app/?community=rocketbois&vertical=nft"
+          target="_blank"
           className="btn"
-          onClick={handleLink}
         >{`I-AM-Human Verification`}</Button>
       </ModalAction>
     </ModalOverlay>
