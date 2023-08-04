@@ -55,7 +55,7 @@ if (isTest) {
 
 const widgets = {
   thisWidget: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widgets/NDC.Create`,
+  create: `${authorForWidget}/widget/NDC.Create`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
