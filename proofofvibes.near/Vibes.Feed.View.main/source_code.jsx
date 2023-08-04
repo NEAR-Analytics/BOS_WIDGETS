@@ -247,9 +247,9 @@ const userRoles = accountId ? getUserRoles(accountId) : [];
 const isPosterTastemaker = userRoles.includes("tastemaker");
 const isPosterVibee = userRoles.includes("vibee");
 console.log(
-  "Is poster a tastemaker: " +
+  `Is ${accountId} a tastemaker: ` +
     isPosterTastemaker +
-    " is poster a vibee: " +
+    `Is ${accountId} a vibee: ` +
     isPosterVibee
 );
 // IAH Verification
