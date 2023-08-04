@@ -37,24 +37,6 @@ return (
   <div className="row card-group py-3">
     {finalArticles.length > 0 &&
       finalArticles.map((article, i) => {
-        const authorProfileCall = Social.getr(`${accountId}/profile`);
-
-        // if (authorProfileCall) {
-        //   article.authorProfile = state.authorsProfiles[i];
-        // }
-        if (
-          authorProfileCall &&
-          JSON.stringify(authorProfileCall) !=
-            JSON.stringify(state.authorsProfiles[i])
-        ) {
-          let newAuthorsProfiles = state.authorsProfiles;
-          newAuthorsProfiles[i] = authorProfileCall;
-
-          State.update({ authorsProfiles: newAuthorsProfiles });
-
-          article.authorProfile = state.authorsProfiles[i];
-        }
-
         // If some widget posts data different than an array it will be ignored
         if (!Array.isArray(article.tags)) article.tags = [];
         return (
