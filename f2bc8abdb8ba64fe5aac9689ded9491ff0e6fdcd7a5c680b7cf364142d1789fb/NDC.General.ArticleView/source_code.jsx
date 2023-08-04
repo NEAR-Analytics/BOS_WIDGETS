@@ -561,7 +561,7 @@ return (
     </div>
     <Container className="row">
       <div
-        className="col-9 col-md-12"
+        className="col-lg-9 col-sm-12"
         style={{ "margin-right": "5px", width: "950px" }}
       >
         <div className="row" style={{ "margin-inline": "5px" }}>
@@ -772,7 +772,7 @@ return (
           </BodyContainer>
         </div>
       </div>
-      <SecondContainer className="col-3 col-md-12">
+      <SecondContainer className="col-lg-3 col-sm-12">
         <>
           <ul className="nav nav-pills nav-fill">
             {tabs.map(({ id, title, icon }, i) => (
