@@ -138,7 +138,7 @@ const code = `
 
             const data = {
               lngLat,
-              accountId : ${accountId}
+              accountId : "${accountId}"
             };
 
             asyncFetch("${API_URL}/location/bos", {
