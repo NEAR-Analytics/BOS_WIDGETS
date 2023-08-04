@@ -178,6 +178,6 @@ const Container = styled.div`
 
 return (
   <Container>
-    <iframe className="w-100 h-100" srcDoc={code} />
+    <iframe id="myMap" className="w-100 h-100" srcDoc={code} />
   </Container>
 );
