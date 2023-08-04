@@ -7,7 +7,7 @@ return (
         },
       }}
       onLoad={() => console.log("iframe loaded")}
-      src="https://humans.nearverselabs.com/"
+      src="https://helloworld.org/"
     />
   </div>
 );
