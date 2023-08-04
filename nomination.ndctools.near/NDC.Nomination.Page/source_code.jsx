@@ -129,10 +129,13 @@ function getNominationInfo(house) {
             ...objCard,
           };
           nominationsArr.push(objCard);
-          console.log(nominationsArr);
+
+          const sortedNominations = nominationsArr.sort(
+            (a, b) => b.indexerData.timestamp - a.indexerData.timestamp
+          );
           State.update({
-            nominations: nominationsArr,
-            originNominations: nominationsArr,
+            nominations: sortedNominations,
+            originNominations: sortedNominations,
             loading: false,
           });
         }, 1000);
