@@ -119,7 +119,7 @@ const code = `
         el.className = 'marker';
         ${
           accountId
-            ? `if(marker.user.accountId === ${accountId}) el.id = 'mymarker';`
+            ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
             : ``
         }
         new mapboxgl.Marker(el)
