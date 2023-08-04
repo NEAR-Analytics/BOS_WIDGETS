@@ -47,9 +47,13 @@ if (
   ccc = "2";
 }
 
+const onClickX = () => {
+  console.log("PPP-1");
+};
+
 return (
   <>
-    <div onClick={onChange}>{ccc}</div>
+    <div onClick={onClickX}>{ccc}</div>
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
