@@ -76,9 +76,6 @@ function getVerifiedHuman() {
     issuer,
   });
 
-  console.log(sbtTokens);
-  console.log(ogTokens);
-
   asyncFetch(endpoints.candidateComments, httpRequestOpt).then((res) => {
     if (res.body.length > 0) selfNomination = true;
   });
@@ -132,7 +129,7 @@ function getNominationInfo(house) {
             ...objCard,
           };
           nominationsArr.push(objCard);
-
+          console.log(nominationsArr);
           State.update({
             nominations: nominationsArr,
             originNominations: nominationsArr,
