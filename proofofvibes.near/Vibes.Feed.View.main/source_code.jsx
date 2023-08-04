@@ -2,6 +2,7 @@
  * Do tastemaker check, see if toast notifcation works, add to nft, add default cid for minting images, add title with day
  * add human check
  * Check is tastemaker
+ * Set amount based on how much bond. check proposal for this
  */
 const path = props.path;
 const blockHeight =
@@ -377,7 +378,7 @@ const isMintAuthority = mintAuthorities.includes(context.accountId);
 const daoIsMinter = mintAuthorities.includes(daoId);
 const proposeVibee = () => {
   const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
+  const deposit = 10000000000000000000000;
   Near.call([
     {
       contractName: daoId,
@@ -400,7 +401,7 @@ const proposeVibee = () => {
 };
 const proposeTastemaker = () => {
   const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
+  const deposit = 10000000000000000000000;
   Near.call([
     {
       contractName: daoId,
