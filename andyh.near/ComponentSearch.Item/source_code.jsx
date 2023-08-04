@@ -9,14 +9,6 @@ const image = metadata?.image;
 const onHide = props.onHide;
 const link = props.link;
 
-const renderExtraButtons = useComponentCallback(props.extraButtons, {
-  accountId,
-  widgetName,
-  widgetPath,
-  metadata,
-  onHide,
-});
-
 return (
   <div>
     <div className="d-flex justify-content-between align-items-center mb-3">
@@ -24,18 +16,27 @@ return (
         {link ? (
           <a href={link} className="text-decoration-none link-dark">
             <Widget
-              src="andyh.near/widget/Component.InlineBlock"
+              src="mob.near/widget/Component.InlineBlock"
               props={{ accountId, widgetName }}
             />
           </a>
         ) : (
           <Widget
-            src="andyh.near/widget/Component.InlineBlock"
+            src="mob.near/widget/Component.InlineBlock"
             props={{ accountId, widgetName }}
           />
         )}
       </div>
-      <div className="text-nowrap">{renderExtraButtons()}</div>
+      <div className="text-nowrap">
+        {props.extraButtons &&
+          props.extraButtons({
+            accountId,
+            widgetName,
+            widgetPath,
+            metadata,
+            onHide,
+          })}
+      </div>
     </div>
   </div>
 );
