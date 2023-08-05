@@ -1,5 +1,5 @@
 const onChange = props.onChange ?? (() => {});
-const src = props.value ?? null;
+const src = props.value && props.value !== "" ? props.value : null;
 
 const uploadButton =
   props.uploadButton ?? (() => <button>Upload an Image</button>);
