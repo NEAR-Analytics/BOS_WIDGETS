@@ -44,6 +44,7 @@ const Profile = styled.button`
   background: #191a1a;
   right: 50px;
   top: 30px;
+  padding: 10px 22px;
   @media (max-width: 510px) {
     padding: 6px 15px;
   }
@@ -52,13 +53,13 @@ const Profile = styled.button`
 const Location = styled.button`
   background: unset;
   bottom: 50px;
+  padding: 10px 22px;
   @media (max-width: 510px) {
     padding: 6px 15px;
   }
 `;
 
 const BtnStyle = {
-  padding: "10px 22px",
   borderRadius: "6px",
   border: "1px solid rgb(255, 255, 255)",
   color: "white",
@@ -68,7 +69,6 @@ const BtnStyle = {
 
 const BtnStyle2 = {
   background: "white",
-  padding: "10px 22px",
   borderRadius: "6px",
   border: "1px solid rgb(255, 255, 255)",
   color: "#191a1a",
