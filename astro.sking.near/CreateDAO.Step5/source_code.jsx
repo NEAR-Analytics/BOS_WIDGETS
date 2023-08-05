@@ -1,188 +1,280 @@
-const examplePolicy = {
-  roles: [
-    {
-      name: "council",
-      kind: { Group: ["infinity.near"] },
-      permissions: [
-        "add_member_to_role:AddProposal",
-        "bounty_done:VoteApprove",
-        "add_bounty:VoteReject",
-        "add_bounty:AddProposal",
-        "config:VoteReject",
-        "add_bounty:VoteApprove",
-        "remove_member_from_role:VoteReject",
-        "policy:VoteRemove",
-        "transfer:VoteRemove",
-        "vote:VoteApprove",
-        "upgrade_self:VoteApprove",
-        "call:VoteRemove",
-        "upgrade_self:AddProposal",
-        "upgrade_remote:AddProposal",
-        "upgrade_remote:VoteReject",
-        "upgrade_remote:VoteApprove",
-        "vote:AddProposal",
-        "add_member_to_role:VoteReject",
-        "bounty_done:VoteReject",
-        "call:AddProposal",
-        "upgrade_self:VoteRemove",
-        "add_bounty:VoteRemove",
-        "remove_member_from_role:VoteRemove",
-        "config:VoteRemove",
-        "call:VoteApprove",
-        "add_member_to_role:VoteRemove",
-        "policy:AddProposal",
-        "add_member_to_role:VoteApprove",
-        "policy:VoteApprove",
-        "transfer:VoteApprove",
-        "config:AddProposal",
-        "*:Finalize",
-        "remove_member_from_role:VoteApprove",
-        "set_vote_token:VoteReject",
-        "bounty_done:AddProposal",
-        "set_vote_token:AddProposal",
-        "policy:VoteReject",
-        "set_vote_token:VoteRemove",
-        "remove_member_from_role:AddProposal",
-        "transfer:VoteReject",
-        "transfer:AddProposal",
-        "call:VoteReject",
-        "upgrade_remote:VoteRemove",
-        "upgrade_self:VoteReject",
-        "vote:VoteReject",
-        "bounty_done:VoteRemove",
-        "vote:VoteRemove",
-        "set_vote_token:VoteApprove",
-        "config:VoteApprove",
-      ],
-      vote_policy: {},
-    },
-    {
-      name: "community",
-      kind: { Group: ["hack.near", "gov.near"] },
-      permissions: [
-        "policy:AddProposal",
-        "remove_member_from_role:AddProposal",
-        "add_bounty:AddProposal",
-        "bounty_done:VoteApprove",
-        "remove_member_from_role:VoteReject",
-        "transfer:VoteApprove",
-        "config:VoteReject",
-        "upgrade_self:VoteReject",
-        "upgrade_self:VoteRemove",
-        "config:VoteRemove",
-        "upgrade_remote:VoteRemove",
-        "vote:AddProposal",
-        "vote:VoteApprove",
-        "upgrade_self:VoteApprove",
-        "bounty_done:AddProposal",
-        "set_vote_token:VoteReject",
-        "add_bounty:VoteReject",
-        "call:AddProposal",
-        "add_member_to_role:VoteReject",
-        "bounty_done:VoteReject",
-        "policy:VoteApprove",
-        "vote:VoteReject",
-        "*:Finalize",
-        "call:VoteRemove",
-        "bounty_done:VoteRemove",
-        "add_member_to_role:AddProposal",
-        "set_vote_token:VoteRemove",
-        "set_vote_token:VoteApprove",
-        "upgrade_self:AddProposal",
-        "add_bounty:VoteRemove",
-        "remove_member_from_role:VoteRemove",
-        "add_member_to_role:VoteApprove",
-        "upgrade_remote:VoteApprove",
-        "vote:VoteRemove",
-        "policy:VoteRemove",
-        "transfer:AddProposal",
-        "call:VoteApprove",
-        "transfer:VoteReject",
-        "transfer:VoteRemove",
-        "add_member_to_role:VoteRemove",
-        "add_bounty:VoteApprove",
-        "config:AddProposal",
-        "call:VoteReject",
-        "policy:VoteReject",
-        "remove_member_from_role:VoteApprove",
-        "set_vote_token:AddProposal",
-        "config:VoteApprove",
-        "upgrade_remote:VoteReject",
-        "upgrade_remote:AddProposal",
-      ],
-      vote_policy: {},
-    },
-    {
-      name: "all",
-      kind: "Everyone",
-      permissions: [
-        "policy:AddProposal",
-        "set_vote_token:AddProposal",
-        "bounty_done:AddProposal",
-        "upgrade_self:AddProposal",
-        "upgrade_remote:AddProposal",
-        "transfer:AddProposal",
-        "remove_member_from_role:AddProposal",
-        "add_member_to_role:AddProposal",
-        "call:AddProposal",
-        "vote:VoteApprove",
-        "config:AddProposal",
-        "vote:VoteRemove",
-        "vote:VoteReject",
-        "vote:AddProposal",
-        "add_bounty:AddProposal",
-      ],
-      vote_policy: {},
-    },
-  ],
-  default_vote_policy: {
-    weight_kind: "RoleWeight",
-    quorum: "0",
-    threshold: [1, 2],
-  },
-  proposal_bond: "100000000000000000000000",
-  proposal_period: "604800000000000",
-  bounty_bond: "100000000000000000000000",
-  bounty_forgiveness_period: "604800000000000",
+const { formState, errors, renderFooter } = props;
+const { accountId } = context;
+
+const initialAnswers = {
+  policy: formState.policy,
 };
+
+State.init({
+  answers: initialAnswers,
+});
+
+// -- roles
+const rolesArray = [...state.answers.policy.roles.map((role) => role.name)];
 
 const proposalKinds = {
   ChangeDAOConfig: {
     title: "Change DAO Config",
+    key: "config",
   },
   ChangeDAOPolicy: {
     title: "Change DAO Policy",
+    key: "policy",
   },
   Bounty: {
     title: "Bounty",
+    key: "add_bounty",
   },
   BountyDone: {
     title: "Bounty Done",
+    key: "bounty_done",
   },
   Transfer: {
     title: "Transfer",
+    key: "transfer",
   },
   Polls: {
     title: "Polls",
+    key: "vote",
   },
   RemoveMembers: {
     title: "Remove Members",
+    key: "remove_member_from_role",
   },
   AddMembers: {
     title: "Add Members",
+    key: "add_member_to_role",
   },
   FunctionCall: {
     title: "Function Call",
+    key: "call",
   },
   UpgradeSelf: {
     title: "Upgrade Self",
+    key: "upgrade_self",
   },
   UpgradeRemote: {
     title: "Upgrade Remote",
+    key: "upgrade_remote",
   },
   SetVoteToken: {
     title: "Set Vote Token",
+    key: "set_vote_token",
   },
+};
+
+const proposalActions = {
+  AddProposal: {
+    title: "Add Proposal",
+    key: "AddProposal",
+  },
+  VoteApprove: {
+    title: "Vote Approve",
+    key: "VoteApprove",
+  },
+  VoteReject: {
+    title: "Vote Reject",
+    key: "VoteReject",
+  },
+  VoteRemove: {
+    title: "Vote Remove",
+    key: "VoteRemove",
+  },
+};
+
+const allActionArray = Object.keys(proposalActions).map(
+  (key) => proposalActions[key].key
+);
+const allProposalKindArray = Object.keys(proposalKinds).map(
+  (key) => proposalKinds[key].key
+);
+
+const hasPermission = (role, proposalKind, permissionType) => {
+  const roleObj = state.answers.policy.roles.find((r) => r.name === role);
+
+  if (roleObj) {
+    const permission = `${proposalKind}:${permissionType}`;
+    return roleObj.permissions.some(
+      (p) =>
+        p === permission ||
+        p === "*:*" ||
+        p === `${proposalKind}:*` ||
+        p === `*:${permissionType}`
+    );
+  } else {
+    return false;
+  }
+};
+
+const cleanPermissions = (permissions) => {
+  // if there is a *:* permission, remove all other permissions
+  if (permissions.includes("*:*")) return ["*:*"];
+
+  // if there is a *:proposalAction, remove all other permissions with the same action except *:proposalAction
+  allActionArray.forEach((action) => {
+    if (permissions.some((p) => p === `*:${action}`)) {
+      permissions = permissions.filter(
+        (p) => !p.endsWith(`:${action}`) || p === `*:${action}`
+      );
+    }
+  });
+
+  // if there is a proposalKind:*, remove all other permissions with the same proposalKind except proposalKind:*
+  allProposalKindArray.forEach((kind) => {
+    if (permissions.some((p) => p === `${kind}:*`)) {
+      permissions = permissions.filter(
+        (p) => !p.startsWith(`${kind}:`) || p === `${kind}:*`
+      );
+    }
+  });
+
+  // Check for proposalKind:[allProposalActions], if true remove them and add proposalKind:*
+  allProposalKindArray.forEach((kind) => {
+    if (
+      allActionArray.every((action) =>
+        permissions.includes(`${kind}:${action}`)
+      )
+    ) {
+      permissions = permissions.filter(
+        (p) => !p.startsWith(`${kind}:`) || p === `${kind}:*`
+      );
+      permissions.push(`${kind}:*`);
+    }
+  });
+
+  // Check for [allProposalKinds]:proposalAction, if true remove them and add *:proposalAction
+  allActionArray.forEach((action) => {
+    if (
+      allProposalKindArray.every((kind) =>
+        permissions.includes(`${kind}:${action}`)
+      )
+    ) {
+      permissions = permissions.filter(
+        (p) => !p.endsWith(`:${action}`) || p === `*:${action}`
+      );
+      permissions.push(`*:${action}`);
+    }
+  });
+
+  // if there is a [allProposalKinds]:[allProposalActions], remove all other permissions and add *:*
+  if (
+    allProposalKindArray.every((kind) => permissions.includes(`${kind}:*`)) &&
+    allActionArray.every((action) => permissions.includes(`*:${action}`))
+  ) {
+    permissions = ["*:*"];
+  }
+
+  return permissions;
+};
+
+const popActionWildCard = (permissions) => {
+  let expandedPermissions = [];
+  permissions.forEach((permission) => {
+    const [proposalKind, action] = permission.split(":");
+    if (action === "*") {
+      expandedPermissions.push(
+        ...allActionArray.map((a) => `${proposalKind}:${a}`)
+      );
+    } else {
+      expandedPermissions.push(permission);
+    }
+  });
+  return [...new Set(expandedPermissions)]; // Remove duplicates
+};
+
+const popProposalKindWildCard = (permissions) => {
+  let expandedPermissions = [];
+  permissions.forEach((permission) => {
+    const [proposalKind, action] = permission.split(":");
+    if (proposalKind === "*") {
+      expandedPermissions.push(
+        ...allProposalKindArray.map((k) => `${k}:${action}`)
+      );
+    } else {
+      expandedPermissions.push(permission);
+    }
+  });
+  return [...new Set(expandedPermissions)]; // Remove duplicates
+};
+
+const popAllWildCards = (permissions) => {
+  permissions = popActionWildCard(permissions);
+  permissions = popProposalKindWildCard(permissions);
+  return permissions;
+};
+
+const setPermission = (role, proposalKind, permissionType, value) => {
+  const roleObj = role;
+
+  const permission = `${proposalKind}:${permissionType}`;
+
+  // if true add permission
+  if (value) {
+    // if permission already exists or there is a wildcard, do nothing
+    if (hasPermission(role.name, proposalKind, permissionType)) {
+      return roleObj;
+    }
+    // if permission does not exist, add it
+    roleObj.permissions.push(permission);
+    // clean up permissions and add wildcards if needed
+    roleObj.permissions = cleanPermissions(roleObj.permissions);
+  }
+  // if false remove permission
+  else {
+    // if permission does not exist, do nothing
+    if (!hasPermission(role.name, proposalKind, permissionType)) {
+      return roleObj;
+    }
+    // if permission exists, make sure to pop all wildcards
+    roleObj.permissions = popAllWildCards(roleObj.permissions);
+    // remove permission
+    roleObj.permissions = roleObj.permissions.filter((p) => p !== permission);
+    // clean up permissions and add wildcards back if needed
+    roleObj.permissions = cleanPermissions(roleObj.permissions);
+  }
+  return roleObj;
+};
+
+const setCreatePermission = (roleName, proposalKind, value) => {
+  const role = state.answers.policy.roles.find((r) => r.name === roleName);
+
+  const newRole = setPermission(role, proposalKind, "AddProposal", value);
+
+  const newRoles = state.answers.policy.roles.map((r) =>
+    r.name === roleName ? newRole : r
+  );
+
+  State.update({
+    answers: {
+      ...state.answers,
+      policy: {
+        ...state.answers.policy,
+        roles: newRoles,
+      },
+    },
+  });
+};
+
+const setVotePermission = (roleName, proposalKind, value) => {
+  const role = state.answers.policy.roles.find((r) => r.name === roleName);
+
+  let newRole = setPermission(role, proposalKind, "VoteApprove", value);
+  newRole = setPermission(newRole, proposalKind, "VoteReject", value);
+  newRole = setPermission(newRole, proposalKind, "VoteRemove", value);
+
+  const newRoles = state.answers.policy.roles.map((r) =>
+    r.name === roleName ? newRole : r
+  );
+
+  State.update({
+    answers: {
+      ...state.answers,
+      policy: {
+        ...state.answers.policy,
+        roles: newRoles,
+      },
+    },
+  });
 };
 
 const Table = styled.ul`
@@ -263,7 +355,7 @@ const Table = styled.ul`
   }
 `;
 
-const renderTable = (roles, rows) => {
+const renderTable = (roles, rows, action) => {
   return (
     <Table>
       <li className="fw-bold">
@@ -280,7 +372,19 @@ const renderTable = (roles, rows) => {
               src="nui.sking.near/widget/Input.Checkbox"
               props={{
                 label: role,
-                onChange: (checked) => {},
+                onChange: (checked) => {
+                  if (action === "Vote") {
+                    setVotePermission(role, rows[key].key, checked);
+                  } else if (action === "AddProposal") {
+                    setCreatePermission(role, rows[key].key, checked);
+                  }
+                },
+                checked:
+                  action === "Vote"
+                    ? hasPermission(role, rows[key].key, "VoteApprove") ||
+                      hasPermission(role, rows[key].key, "VoteReject") ||
+                      hasPermission(role, rows[key].key, "VoteRemove")
+                    : hasPermission(role, rows[key].key, action),
               }}
             />
           ))}
@@ -291,36 +395,40 @@ const renderTable = (roles, rows) => {
 };
 
 return (
-  <div className="d-flex flex-column gap-4">
-    <h2 className="h5 fw-bold mb-2">
-      <span
-        className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
-        style={{
-          width: "48px",
-          height: "48px",
-          border: "1px solid #82E299",
-        }}
-      >
-        5
-      </span>
-      Proposal and permissions
-    </h2>
+  <div className="mt-4 ndc-card p-4">
+    <div className="d-flex flex-column gap-4">
+      <h2 className="h5 fw-bold mb-2">
+        <span
+          className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
+          style={{
+            width: "48px",
+            height: "48px",
+            border: "1px solid #82E299",
+          }}
+        >
+          5
+        </span>
+        Proposal and permissions
+      </h2>
 
-    <div>
-      <h3 className="h6 fw-bold mb-0">Proposal creation</h3>
-      <p className="text-black-50 fw-light small">
-        Choose what creation rights you give DAO groups. This can be changed in
-        settings later.
-      </p>
-      {renderTable(["All", "Council", "Dev"], proposalKinds)}
+      <div>
+        <h3 className="h6 fw-bold mb-0">Proposal creation</h3>
+        <p className="text-black-50 fw-light small">
+          Choose what creation rights you give DAO groups. This can be changed
+          in settings later.
+        </p>
+        {renderTable(rolesArray, proposalKinds, "AddProposal")}
+      </div>
+
+      <div>
+        <h3 className="h6 fw-bold mb-0">Voting Permissions</h3>
+        <p className="text-black-50 fw-light small">
+          Choose what voting permissions you give DAO groups.
+        </p>
+        {renderTable(rolesArray, proposalKinds, "Vote")}
+      </div>
     </div>
 
-    <div>
-      <h3 className="h6 fw-bold mb-0">Voting Permissions</h3>
-      <p className="text-black-50 fw-light small">
-        Choose what voting permissions you give DAO groups.
-      </p>
-      {renderTable(["All", "Council", "Dev"], proposalKinds)}
-    </div>
+    {renderFooter(state.answers)}
   </div>
 );
