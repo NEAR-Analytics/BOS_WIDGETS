@@ -9,6 +9,10 @@ const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
 
+const handleLink = (newLink) => {
+  window.open(newLink, "_blank");
+};
+
 const code = `
 <!DOCTYPE html>
 <html>
@@ -105,9 +109,8 @@ const code = `
     
     function onCopy  (e, text)  {
       console.log(e,"==>e", text);
-      const onOpen = ${window.open};
-      console.log(_win);
-      onOpen(newLink, "_blank");
+      const onOpen = ${handleLink};
+      onOpen(newLink);
       // navigator.clipboard.writeText(text);
     }
 
