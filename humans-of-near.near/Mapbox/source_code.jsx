@@ -105,9 +105,9 @@ const code = `
     
     function onCopy  (e, text)  {
       console.log(e,"==>e", text);
-      const _win = ${window};
+      const onOpen = ${window.open};
       console.log(_win);
-      _win.open(newLink, "_blank");
+      onOpen(newLink, "_blank");
       // navigator.clipboard.writeText(text);
     }
 
