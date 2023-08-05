@@ -74,7 +74,7 @@ if (winner) {
 
 return (
   <div>
-    <h1> TIC TAC TOE - NEAR TÜRKIYE</h1>
+    <h1>NEAR TÜRKIYE GAMES</h1>
     <div
       style={{
         marginBottom: 10,
