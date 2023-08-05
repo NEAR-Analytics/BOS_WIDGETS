@@ -47,6 +47,7 @@ const code = `
         color: white;
         border: 1px solid;
         border-radius: 9px;
+        padding: 10px;
       }
 
       .mapboxgl-popup-close-button{
@@ -69,6 +70,15 @@ const code = `
           width:36px; 
           height:50px;
         }        
+      }
+
+      .gap-16{
+        display:flex; 
+        align-items:center;
+        gap: 16px;
+        @media (max-width: 510px) {
+          gap: 3px;
+        } 
       }
     </style>
   </head>
@@ -117,7 +127,7 @@ const code = `
           '<img src="https://humans.nearverselabs.com/Human.png" class="logo" />'+
           '<div style="display:flex; gap:14px; flex-direction:column;">'+
             '<h6>'+title+'</h6>'+
-            '<div style="display:flex; gap:16px; align-items:center;">'+
+            '<div class="gap-16">'+
             (state.social? '<a href="'+user.social+'" target="_blank">' : '') +
             '<svg width="29" height="12" viewBox="0 0 29 12" fill="'+(state.social?'white':'grey')+'" xmlns="http://www.w3.org/2000/svg"><path d="M0.240133 7.38517V4.85885L10.3454 0.409091V3.31579L3.42674 6.0933L3.52004 5.94258V6.30144L3.42674 6.15072L10.3454 8.92823V11.8349L0.240133 7.38517ZM28.7599 7.38517L18.6546 11.8349V8.92823L25.5733 6.15072L25.48 6.30144V5.94258L25.5733 6.0933L18.6546 3.31579V0.409091L28.7599 4.85885V7.38517Z"></path></svg>'+
              (state.social? '</a>' : '') +
