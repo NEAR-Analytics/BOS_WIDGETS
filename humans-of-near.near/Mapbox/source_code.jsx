@@ -52,6 +52,15 @@ const code = `
       .mapboxgl-popup-close-button{
         color: white;
       }
+
+      .popup{
+          padding: 10px; 
+          display:flex; 
+          gap:12px;
+          @media (max-width: 510px) {
+            padding: 0;
+          }
+      }
     </style>
   </head>
   <body>
@@ -95,7 +104,7 @@ const code = `
         state.social = true
       }
 
-       const HTML = '<div style="padding: 10px; display:flex; gap:12px">'+
+       const HTML = '<div class="popup">'+
           '<img src="https://humans.nearverselabs.com/Human.png" style="width:48px; height:60px;" />'+
           '<div style="display:flex; gap:14px; flex-direction:column;">'+
             '<h6>'+title+'</h6>'+
