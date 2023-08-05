@@ -51,11 +51,11 @@ const onChangeDAO = (newDaoId) => {
 return (
   <>
     <div>
-      <h3>Available Rewards</h3>
+      <h3>NEAR TÜRKIYE ÖDÜLLERI 🎁 </h3>
       <div className="mb-2">
         <input
           type="text"
-          placeholder="example.sputnik-dao.near"
+          placeholder="nearprotocol-turkiye.sputnik-dao.near"
           onChange={(e) => onChangeDAO(e.target.value)}
         />
       </div>
@@ -65,7 +65,7 @@ return (
           {state.bounties.map((bounty, i) => (
             <Widget
               key={i}
-              src={WIDGET_AUTHOR + "/widget/DAO.Reward"}
+              src={"hack.near/widget/DAO.Reward"}
               props={{ daoId: state.daoId, bounty: bounty }}
             />
           ))}
