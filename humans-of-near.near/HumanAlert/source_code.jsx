@@ -22,6 +22,9 @@ const ModalOverlay = styled.div`
   width: 464px;
   position: relative;
   padding: 40px;
+  @media (max-width: 510px) {
+    width: 90%;
+  }
 `;
 
 const ModalContent = styled.div`
