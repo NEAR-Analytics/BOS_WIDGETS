@@ -79,6 +79,8 @@ const BrandLogoContainer = styled.div`
     cursor: pointer;
 `;
 
+const activeColor = "#9333EA";
+
 const Pill = styled.div`
     font-family: system-ui;
     font-weight: 500;
@@ -89,7 +91,7 @@ const Pill = styled.div`
     user-select: none;
 
     &:hover {
-        color: #9333EA;
+        color: ${activeColor};
     }
 `;
 
@@ -180,6 +182,9 @@ return (
               ) : (
                 <li className="nav-item">
                   <Pill
+                    style={
+                      displayedTabId == pill.id ? { color: activeColor } : {}
+                    }
                     onClick={() => {
                       //First one is set to be de "Home" one
                       if (pill.id == 0) {
