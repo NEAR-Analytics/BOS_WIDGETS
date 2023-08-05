@@ -10,6 +10,7 @@ const initialAnswers = {
 const initialMembers = [];
 
 for (const role of initialAnswers.policy.roles) {
+  if (!role.kind.Group) continue;
   for (const member of role.kind.Group) {
     initialMembers.push({
       role: role.name,
@@ -21,7 +22,7 @@ for (const role of initialAnswers.policy.roles) {
 const initialState = {
   roles: initialAnswers.policy.roles.length
     ? initialAnswers.policy.roles.map((r) => r.name)
-    : ["council"],
+    : ["all", "council"],
   members: initialMembers.length
     ? initialMembers
     : [{ role: "council", name: accountId }],
@@ -111,19 +112,28 @@ const finalState = {
     ...formState.policy,
     roles: state.answers.roles
       .filter((role, i) => role !== null && role !== "")
-      .map((role, i) => ({
-        name: role,
-        kind: {
-          Group: state.answers.members
-            .filter((m) => m.role === role && m !== null && m.name !== "")
-            .map((m) => m.name),
-        },
-        permissions:
-          formState.policy.roles[i]?.permissions || role === "council"
-            ? ["*:*"]
-            : [],
-        vote_policy: formState.policy.roles[i]?.vote_policy || {},
-      })),
+      .map((role, i) => {
+        if (role === "all")
+          return {
+            name: role,
+            permissions: formState.policy.roles[i]?.permissions || [],
+            kind: "Everyone",
+            vote_policy: formState.policy.roles[i]?.vote_policy || {},
+          };
+        return {
+          name: role,
+          kind: {
+            Group: state.answers.members
+              .filter((m) => m.role === role && m !== null && m.name !== "")
+              .map((m) => m.name),
+          },
+          permissions:
+            formState.policy.roles[i]?.permissions || role === "council"
+              ? ["*:*"]
+              : [],
+          vote_policy: formState.policy.roles[i]?.vote_policy || {},
+        };
+      }),
   },
 };
 
@@ -177,8 +187,8 @@ return (
               props={{
                 placeholder: "Group 1",
                 size: "lg",
-                disabled: r === "council",
-                value: r === "council" ? "council" : undefined,
+                disabled: i < 2,
+                value: i < 2 ? r : undefined,
                 onChange: (v) => onSetRoleName(i, v),
                 useTimeout: true,
                 error:
@@ -189,7 +199,7 @@ return (
                 inputProps: { defaultValue: r },
               }}
             />
-            {r !== "council" && (
+            {i > 1 && (
               <Widget
                 src="nui.sking.near/widget/Input.Button"
                 props={{
@@ -242,9 +252,11 @@ return (
           const trueMemberIndex =
             member !== null &&
             trueRoleIndex !== -1 &&
-            finalState.policy.roles[trueRoleIndex].kind.Group.findIndex(
-              (m) => m === member.name
-            );
+            typeof finalState.policy.roles[trueRoleIndex].kind === "object"
+              ? finalState.policy.roles[trueRoleIndex].kind.Group.findIndex(
+                  (m) => m === member.name
+                )
+              : null;
 
           return (
             <div
@@ -264,6 +276,7 @@ return (
                   onChange: (v) => onSetMemberName(i, v),
                   disabled: i === 0,
                   error:
+                    trueMemberIndex !== null &&
                     errors.policy.roles[trueRoleIndex].kind.Group[
                       trueMemberIndex
                     ],
@@ -275,7 +288,7 @@ return (
                   placeholder: "Role",
                   size: "lg",
                   options: state.answers.roles
-                    .filter((r) => r !== null && r !== "")
+                    .filter((r) => r !== null && r !== "" && r !== "all")
                     .map((r) => ({
                       title: r,
                       value: r,
