@@ -105,6 +105,7 @@ const code = `
     
     function onCopy  (e, text)  {
       console.log(e,"==>e", text);
+      copy(text);
       navigator.clipboard.writeText(text);
     }
 
@@ -218,16 +219,16 @@ const Container = styled.div`
     display: flex;
 `;
 
-function init() {
-  setTimeout(() => {
-    document.getElementById("myMap").sandbox.value =
-      "allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox";
-    document.getElementById("myMap").allow = "geolocation *;";
-    //document.getElementById('myMap').contentWindow.location.reload();
-  }, 1000);
-}
+// function init() {
+//   setTimeout(() => {
+//     document.getElementById("myMap").sandbox.value =
+//       "allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox";
+//     document.getElementById("myMap").allow = "geolocation *;";
+//     //document.getElementById('myMap').contentWindow.location.reload();
+//   }, 1000);
+// }
 
-init();
+// init();
 
 return (
   <Container>
