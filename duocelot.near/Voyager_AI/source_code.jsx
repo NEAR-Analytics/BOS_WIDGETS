@@ -2,78 +2,22 @@ const accountId = context.accountId;
 
 <Widget src="duocelot.near/widget/error_001" />;
 
-// Array of possible choices for each part of the prompt
-const imageTypes = [
-  "a poster",
-  "a painting",
-  "a photo",
-  "a 3D render",
-  "a sketch",
-  "a portrait",
-  "a sculpture",
-];
-const subjects = [
-  "a human",
-  "a monster",
-  "an animal",
-  "a nature element",
-  "a flower",
-  "a dragon",
-  "a dog",
-  "a cat",
-  "a lizard",
-];
-const actions = [
-  "playing",
-  "jumping",
-  "posing",
-  "flying",
-  "running",
-  "standing",
-  "sitting",
-  "dancing",
-  "singing",
-];
-const orientations = [
-  "facing forward",
-  "to the left",
-  "to the right",
-  "upwards",
-  "downwards",
-  "at an angle",
-];
-
-// Function to generate a random integer between min and max (inclusive)
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-// Function to generate a random prompt
-function generatePrompt() {
-  const imageType = imageTypes[getRandomInt(0, imageTypes.length - 1)];
-  const subject = subjects[getRandomInt(0, subjects.length - 1)];
-  const action = actions[getRandomInt(0, actions.length - 1)];
-  const orientation = orientations[getRandomInt(0, orientations.length - 1)];
-
-  return `${imageType} of ${subject} ${action} and ${orientation}`;
-}
-
 initState({
   img: {},
-  prompt: generatePrompt(),
+  imgRaw: null,
+  prompt:
+    "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
   blur: 0,
   width: "auto",
-  steps: 20,
   scale: 7,
+  steps: 20,
 });
 
-async function uploadGeneratedImageToIpfs(imgSrc) {
-  const response = await fetch(imgSrc);
+async function uploadImageToIpfs() {
+  const response = await fetch(state.imgRaw);
   const blob = await response.blob();
   const formData = new FormData();
   formData.append("file", blob);
@@ -87,11 +31,7 @@ async function uploadGeneratedImageToIpfs(imgSrc) {
   });
 
   const ipfsData = await ipfsResponse.json();
-  State.update({
-    img: {
-      cid: ipfsData.cid,
-    },
-  });
+  console.log(ipfsData);
 }
 
 function rollImage() {
@@ -100,16 +40,11 @@ function rollImage() {
   state.blur = 3;
   State.update(state);
 
-  var encodedPrompt = encodeURIComponent(state.prompt);
-  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=${state.steps}&prompt=${encodedPrompt}`;
+  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=20&prompt=${state.prompt}`;
 
-  uploadGeneratedImageToIpfs(imgSrc);
-}
-
-var imgSrc =
-  "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44";
-if (state.seed) {
-  imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&image_count=1&steps=${state.steps}&prompt=${state.prompt}`;
+  // Instead of uploading to IPFS right away, save the generated image to the state
+  state.imgRaw = imgSrc;
+  State.update(state);
 }
 
 function deleteImage() {
@@ -295,63 +230,38 @@ return (
           overflow: "hidden",
         }}
       ></div>
-      <div>
-        <div
-          style={{
-            backgroundImage:
-              "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
-            backgroundSize: "auto",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            height: "526px",
-            color: "#333",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+      <div
+        style={{
+          backgroundImage:
+            "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
+          backgroundSize: "auto",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "526px",
+          color: "#333",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
+          style={{ position: "absolute", zIndex: 1 }}
+        />
+        <img
+          src={state.imgRaw}
+          onLoad={(e) => {
+            state.blur = 0;
+            State.update(state);
           }}
-        >
-          <div
-            style={{
-              border: "2px solid red",
-              backgroundImage:
-                "url(https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44)",
-              backgroundSize: "auto",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              height: "524px",
-              width: "524px",
-              color: "#333",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
-              style={{ position: "absolute", zIndex: 1 }}
-            />
-            <img
-              src={state.imgRaw}
-              onLoad={(e) => {
-                state.blur = 0;
-                State.update(state);
-              }}
-              style={{
-                filter: `blur(${state.blur}px)`,
-                zIndex: 0,
-                objectFit: "cover",
-                width: "524px",
-                height: "524px",
-              }}
-            />
-          </div>
-          {state.imgRaw && (
-            <div>
-              <button onClick={uploadImageToIpfs}>Upload to IPFS</button>
-              <button onClick={deleteImage}>Delete</button>
-            </div>
-          )}
-        </div>
+          style={{
+            filter: `blur(${state.blur}px)`,
+            zIndex: 0,
+            objectFit: "contain", // ensure that the aspect ratio of the image is maintained
+            maxHeight: "500px", // maximum height of the image
+            maxWidth: "500px", // maximum width of the image
+          }}
+        />
       </div>
       <div
         style={{
