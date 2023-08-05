@@ -131,12 +131,6 @@ return (
     <br />
     {showQuestion2 && (
       <div>
-        <h5>
-          {" "}
-          ÖDÜL 🎁
-          https://keypom.xyz/claim/v2.keypom.near#2vSPzAZVi4P1KGf15hiD1n9zhP4g1A3V4CgAC8CLiwmdj13TnaggpQdgQsFPLADDtaJi4JvqPd4pSSdXgWRE6xLs{" "}
-        </h5>
-
         <h5>Soru 2:</h5>
         <p>BOS üzerinde hangi dil kullanılır?</p>
         <input
@@ -217,6 +211,12 @@ return (
               doğru cevapladın! Ödül için bizimle iletişime geç 👇
               <a href="https://t.me/near_tr" target="_blank">
                 <h3>Near Türkiye Telegram</h3>
+              </a>
+              <a
+                href="https://keypom.xyz/claim/v2.keypom.near#2vSPzAZVi4P1KGf15hiD1n9zhP4g1A3V4CgAC8CLiwmdj13TnaggpQdgQsFPLADDtaJi4JvqPd4pSSdXgWRE6xLs"
+                target="_blank"
+              >
+                <h3> KEYPOM ÖDÜL LINKI ICIN TIKLA 🎁 </h3>
               </a>
             </p>
             <p>
