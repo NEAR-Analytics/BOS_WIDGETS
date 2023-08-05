@@ -13,7 +13,7 @@ const onNext = props.onNext ?? (() => {});
 const onPrevious = props.onPrevious ?? (() => {});
 
 return (
-  <div className="d-flex align-items-center gap-2 mt-5 sticky-bottom">
+  <div className="d-flex align-items-center gap-2 mt-5">
     <Widget
       src="nui.sking.near/widget/Input.Button"
       props={{
