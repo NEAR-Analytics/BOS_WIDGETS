@@ -6,7 +6,7 @@ initState({
   img: {},
   imgRaw: null,
   prompt:
-    "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
+    "a cyborgue at a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
@@ -291,7 +291,10 @@ return (
           }}
           style={{
             backgroundImage:
-              "https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
+              "url(https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44)",
+            backgroundSize: "auto",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
             filter: `blur(${state.blur}px)`,
             zIndex: 0,
             objectFit: "contain", // ensure that the aspect ratio of the image is maintained
