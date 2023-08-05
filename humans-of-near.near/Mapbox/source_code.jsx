@@ -104,7 +104,8 @@ const code = `
     });
     
     function onCopy  (e, text)  {
-      console.log(e,"==>e", text)
+      console.log(e,"==>e", text);
+      navigator.clipboard.writeText(text);
     }
 
     function getDetail (row) {
