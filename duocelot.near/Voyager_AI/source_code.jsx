@@ -5,8 +5,7 @@ const accountId = context.accountId;
 initState({
   img: {},
   imgRaw: null,
-  prompt:
-    "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
+  prompt: "a cyborg",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
@@ -53,16 +52,27 @@ function deleteImage() {
 }
 
 function uploadImageToIpfs() {
-  asyncFetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-    body: state.imgRaw,
-  })
-    .then((res) => {
-      const cid = res.body.cid;
-      console.log(res.body);
+  // Fetch image data from URL
+  fetch(state.imgRaw)
+    .then((response) => response.blob())
+    .then((blob) => {
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("file", blob, "image.png");
+
+      // Upload to IPFS
+      return fetch("https://ipfs.near.social/add", {
+        method: "POST",
+        body: formData,
+      });
+    })
+    .then((ipfsResponse) => ipfsResponse.json())
+    .then((ipfsData) => {
+      console.log(ipfsData);
+
+      // Save the IPFS CID to the state
+      state.ipfsCid = ipfsData.cid;
+      State.update(state);
     })
     .catch((error) => {
       console.error("Error:", error);
