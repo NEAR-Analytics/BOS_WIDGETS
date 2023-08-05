@@ -31,7 +31,7 @@ const {
     
 ============(When modified to be web app we should delete action to replace it with a propper State.update)============
 */
-
+State.init({ selectedPillIndex: 0 });
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
   : undefined;
@@ -176,15 +176,14 @@ return (
       >
         <ul className="navbar-nav">
           {pills &&
-            pills.map((pill) => {
-              console.log("this: ", displayedTabId, pill.id);
+            pills.map((pill, i) => {
               return !(pill.id + "") || !pill.title ? (
                 <p className="text-danger border">Pill passed wrong</p>
               ) : (
                 <li className="nav-item">
                   <Pill
                     style={
-                      displayedTabId == pill.id ? { color: activeColor } : {}
+                      state.selectedPillIndex == i ? { color: activeColor } : {}
                     }
                     onClick={() => {
                       //First one is set to be de "Home" one
@@ -194,6 +193,7 @@ return (
                       } else {
                         handleArticlesListNavigation(pill.title);
                       }
+                      State.update({ selectedPillIndex: i });
                     }}
                     className={`nav-link ${
                       id === displayedTabId
