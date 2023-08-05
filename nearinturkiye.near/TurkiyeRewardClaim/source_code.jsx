@@ -4,7 +4,6 @@ if (!accountId) {
   return "Please connect your NEAR wallet :)";
 }
 
-const WIDGET_AUTHOR = "hack.near";
 const daoId = props.daoId ?? "nearprotocol-turkiye.sputnik-dao.near";
 const bountiesPerPage = props.bountiesPerPage ?? 5; // Number of bounties to fetch at a time
 
