@@ -76,6 +76,12 @@ const code = `
         display:flex; 
         align-items:center;
         gap: 16px;
+      }
+
+      .gap-14{
+        display:flex; 
+        gap: 14px;
+        flex-direction:column;
         @media (max-width: 510px) {
           gap: 3px;
         } 
@@ -125,7 +131,7 @@ const code = `
 
        const HTML = '<div class="popup">'+
           '<img src="https://humans.nearverselabs.com/Human.png" class="logo" />'+
-          '<div style="display:flex; gap:14px; flex-direction:column;">'+
+          '<div class="gap-14">'+
             '<h6>'+title+'</h6>'+
             '<div class="gap-16">'+
             (state.social? '<a href="'+user.social+'" target="_blank">' : '') +
