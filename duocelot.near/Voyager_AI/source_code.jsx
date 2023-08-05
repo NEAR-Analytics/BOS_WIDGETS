@@ -5,8 +5,7 @@ const accountId = context.accountId;
 initState({
   img: {},
   imgRaw: null,
-  prompt:
-    "a cyborgue at a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
+  prompt: "a cyborgue",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
@@ -16,24 +15,6 @@ initState({
   steps: 20,
 });
 
-async function uploadImageToIpfs() {
-  const response = await fetch(state.imgRaw);
-  const blob = await response.blob();
-  const formData = new FormData();
-  formData.append("file", blob);
-
-  const ipfsResponse = await fetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-    body: formData,
-  });
-
-  const ipfsData = await ipfsResponse.json();
-  console.log(ipfsData);
-}
-
 function rollImage() {
   var seed = Math.trunc(Math.random() * 100000000);
   state.seed = seed;
@@ -41,38 +22,25 @@ function rollImage() {
   State.update(state);
 
   var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=20&prompt=${state.prompt}`;
-
-  // Instead of uploading to IPFS right away, save the generated image to the state
-  state.imgRaw = imgSrc;
-  State.update(state);
-}
-
-function deleteImage() {
-  state.imgRaw = null;
-  State.update(state);
+  asyncFetch(imgSrc, { responseType: "blob" }).then((res) => {
+    state.imgRaw = res.body;
+    state.imgSrc = URL.createObjectURL(res.body);
+    State.update(state);
+  });
 }
 
 function uploadImageToIpfs() {
-  const data = new FormData();
-  data.append("file", state.imgRaw);
-
-  const options = {
+  asyncFetch("https://ipfs.near.social/add", {
     method: "POST",
-    body: data,
-  };
-
-  fetch("https://ipfs.near.social/add", options)
-    .then((res) => res.json())
-    .then((res) => {
-      if (res && res.cid) {
-        console.log(`Image uploaded to IPFS with CID: ${res.cid}`);
-      } else {
-        console.log("Failed to upload image to IPFS");
-      }
-    })
-    .catch((err) => console.log("IPFS upload error: ", err));
+    headers: {
+      Accept: "application/json",
+    },
+    body: state.imgRaw,
+  }).then((res) => {
+    const cid = res.body.cid;
+    console.log(res.body);
+  });
 }
-
 return (
   <div
     style={{
