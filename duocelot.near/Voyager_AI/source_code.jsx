@@ -52,27 +52,21 @@ function deleteImage() {
   State.update(state);
 }
 
-async function uploadImageToIpfs() {
-  // Fetch image data from URL
-  const response = await fetch(state.imgRaw);
-  const blob = await response.blob();
-
-  // Prepare form data
-  const formData = new FormData();
-  formData.append("file", blob, "image.png");
-
-  // Upload to IPFS
-  const ipfsResponse = await fetch("https://ipfs.near.social/add", {
+function uploadImageToIpfs() {
+  asyncFetch("https://ipfs.near.social/add", {
     method: "POST",
-    body: formData,
-  });
-
-  const ipfsData = await ipfsResponse.json();
-  console.log(ipfsData);
-
-  // Save the IPFS CID to the state
-  state.ipfsCid = ipfsData.cid;
-  State.update(state);
+    headers: {
+      Accept: "application/json",
+    },
+    body: state.imgRaw,
+  })
+    .then((res) => {
+      const cid = res.body.cid;
+      console.log(res.body);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 
 return (
