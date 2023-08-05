@@ -64,7 +64,7 @@ return (
           {state.bounties.map((bounty, i) => (
             <Widget
               key={i}
-              src={"hack.near/widget/DAO.Reward"}
+              src={"nearinturkiye.near/widget/Turkiye.Reward"}
               props={{ daoId: state.daoId, bounty: bounty }}
             />
           ))}
