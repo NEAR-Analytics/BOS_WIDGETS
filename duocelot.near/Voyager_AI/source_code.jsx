@@ -233,17 +233,20 @@ return (
         style={{
           backgroundImage:
             "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
-          backgroundSize: "cover",
+          backgroundSize: "auto",
           backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           height: "526px",
           color: "#333",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
-          overflow: "hidden",
         }}
       >
+        <img
+          src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
+          style={{ position: "absolute", zIndex: 1 }}
+        />
         <img
           src={state.imgRaw}
           onLoad={(e) => {
@@ -263,6 +266,34 @@ return (
           </div>
         )}
       </div>
+      <div
+        style={{
+          backgroundImage:
+            "url(https://ipfs.fleek.co/ipfs/bafybeihm5fiwy6dos2f4hiz67yaan3jafkndw5zkh23mb5rnue7qu6rh2y)",
+          backgroundSize: "auto",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "123px",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      ></div>
+      <div
+        style={{
+          backgroundImage:
+            "url(https://ipfs.fleek.co/ipfs/bafybeiamgwdx5uhhbgt7usn2wjxybn2b265mubicdj7bkyawgzjrmb22l4)",
+          backgroundSize: "auto",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "523px",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      ></div>
     </div>
   </div>
 );
