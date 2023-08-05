@@ -95,7 +95,7 @@ const navigationButtons = [
   { id: tabs.ARTICLE_WORKSHOP.id, title: "+Create article" },
 ];
 
-const initialBody = `# h1 Heading 8-) 
+const initialBodyAtCreation = `# h1 Heading 8-) 
 ## h2 Heading 
 ### h3 Heading 
 #### h4 Heading 
@@ -312,7 +312,6 @@ const initialCreateState = {
   articleId: "",
   articleBody: initialBody,
   tags: [],
-  saveComplete: false,
 };
 
 //=================================================END CONSTS=======================================================
@@ -463,7 +462,10 @@ function getLastEditionsByArticle() {
   );
 
   let finalArticles = finalArticlesWithoutUsersFilters.filter((article) => {
-    return article.tags.includes(state.filterBy.parameterValue);
+    return (
+      Array.isArray(article.tags) &&
+      article.tags.includes(state.filterBy.parameterValue)
+    );
   });
 
   return state.filterBy.parameterName == "tag"
@@ -488,7 +490,7 @@ if (
 //===============================================END GET DATA=======================================================
 
 //=================================================FUNCTIONS========================================================
-// //==Post creation funtcions
+// //==Post creation functions
 // const getCreateData = () => {
 //   const args = {
 //     articleId: state.creationArticleId,
@@ -691,6 +693,8 @@ return (
           authorForWidget,
           stateUpdate,
           widgets,
+          initialBody: initialBodyAtCreation,
+          initialCreateState,
         }}
       />
     )}
