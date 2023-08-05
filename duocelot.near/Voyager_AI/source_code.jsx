@@ -15,24 +15,6 @@ initState({
   steps: 20,
 });
 
-async function uploadImageToIpfs() {
-  const response = await fetch(state.imgRaw);
-  const blob = await response.blob();
-  const formData = new FormData();
-  formData.append("file", blob);
-
-  const ipfsResponse = await fetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-    body: formData,
-  });
-
-  const ipfsData = await ipfsResponse.json();
-  console.log(ipfsData);
-}
-
 function rollImage() {
   var seed = Math.trunc(Math.random() * 100000000);
   state.seed = seed;
