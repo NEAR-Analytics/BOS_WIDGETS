@@ -5,8 +5,7 @@ const accountId = context.accountId;
 initState({
   img: {},
   imgRaw: null,
-  prompt:
-    "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
+  prompt: "a rusty cyborg at a bio mechanical environment ",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
