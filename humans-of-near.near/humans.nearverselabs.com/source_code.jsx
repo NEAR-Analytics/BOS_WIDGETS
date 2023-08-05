@@ -47,6 +47,8 @@ const Profile = styled.button`
   padding: 10px 22px;
   @media (max-width: 510px) {
     padding: 6px 15px;
+    right: 15px;
+    top: 15px;
   }
 `;
 
@@ -56,6 +58,7 @@ const Location = styled.button`
   padding: 10px 22px;
   @media (max-width: 510px) {
     padding: 6px 15px;
+    bottom: 15px;
   }
 `;
 
