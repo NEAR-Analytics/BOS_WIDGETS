@@ -46,7 +46,7 @@ const Button = styled.button`
   border: 1px solid rgb(255, 255, 255);
   color: white;
   position: absolute;
-  z-index: 1,
+  z-index: 1;
   @media (max-width: 510px) {
     padding: 6px 15px;
   }
