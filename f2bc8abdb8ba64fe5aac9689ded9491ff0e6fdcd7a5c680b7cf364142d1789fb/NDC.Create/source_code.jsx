@@ -147,7 +147,7 @@ const Button = styled.button`
 const CreationContainer = styled.div`
   background-color: rgb(230, 230, 230);
   border-radius: 20px;
-  padding: 0 0 1rem 0;
+  padding: 1rem 0;
   position: relative;
 `;
 
