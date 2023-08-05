@@ -3,7 +3,7 @@ const Logo = styled.img`
   top: 20px;
   left: 40px;
   @media (max-width: 510px) {
-    width: 30%;
+    width: 140px;
     top: 10px;
     left: 20px;
   }
