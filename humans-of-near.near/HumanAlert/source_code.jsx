@@ -20,7 +20,6 @@ const ModalOverlay = styled.div`
   display: flex;
   flex-direction: column;
   width: 464px;
-  height: 316px;
   position: relative;
   padding: 40px;
 `;
