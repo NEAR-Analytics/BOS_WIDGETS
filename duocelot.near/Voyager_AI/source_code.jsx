@@ -2,10 +2,67 @@ const accountId = context.accountId;
 
 <Widget src="duocelot.near/widget/error_001" />;
 
+// Array of possible choices for each part of the prompt
+const imageTypes = [
+  "a poster",
+  "a painting",
+  "a photo",
+  "a 3D render",
+  "a sketch",
+  "a portrait",
+  "a sculpture",
+];
+const subjects = [
+  "a human",
+  "a monster",
+  "an animal",
+  "a nature element",
+  "a flower",
+  "a dragon",
+  "a dog",
+  "a cat",
+  "a lizard",
+];
+const actions = [
+  "playing",
+  "jumping",
+  "posing",
+  "flying",
+  "running",
+  "standing",
+  "sitting",
+  "dancing",
+  "singing",
+];
+const orientations = [
+  "facing forward",
+  "to the left",
+  "to the right",
+  "upwards",
+  "downwards",
+  "at an angle",
+];
+
+// Function to generate a random integer between min and max (inclusive)
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Function to generate a random prompt
+function generatePrompt() {
+  const imageType = imageTypes[getRandomInt(0, imageTypes.length - 1)];
+  const subject = subjects[getRandomInt(0, subjects.length - 1)];
+  const action = actions[getRandomInt(0, actions.length - 1)];
+  const orientation = orientations[getRandomInt(0, orientations.length - 1)];
+
+  return `${imageType} of ${subject} ${action} and ${orientation}`;
+}
+
 initState({
   img: {},
-  prompt:
-    "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
+  prompt: generatePrompt(),
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
@@ -43,7 +100,8 @@ function rollImage() {
   state.blur = 3;
   State.update(state);
 
-  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=${state.steps}&prompt=${state.prompt}`;
+  var encodedPrompt = encodeURIComponent(state.prompt);
+  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=${state.steps}&prompt=${encodedPrompt}`;
 
   uploadGeneratedImageToIpfs(imgSrc);
 }
