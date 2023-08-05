@@ -1,7 +1,7 @@
 const { formState, errors, renderFooter } = props;
 
 const initialAnswers = {
-  coolDownPeriod: formState.coolDownPeriod,
+  gracePeriod: formState.gracePeriod,
 };
 
 State.init({
@@ -48,11 +48,11 @@ return (
             type: "number",
             min: 0,
             max: 3650,
-            name: "coolDownPeriod",
-            defaultValue: state.answers.coolDownPeriod,
+            name: "gracePeriod",
+            defaultValue: state.answers.gracePeriod,
           },
-          error: errors["coolDownPeriod"],
-          onChange: (v) => update("coolDownPeriod", parseInt(v)),
+          error: errors["gracePeriod"],
+          onChange: (v) => update("gracePeriod", parseInt(v)),
         }}
       />
     </div>
