@@ -286,7 +286,7 @@ return (
           }}
           style={{
             backgroundImage:
-              "https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
+              "url(https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44)",
             filter: `blur(${state.blur}px)`,
             zIndex: 0,
             objectFit: "contain", // ensure that the aspect ratio of the image is maintained
