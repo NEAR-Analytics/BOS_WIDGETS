@@ -221,7 +221,7 @@ const Container = styled.div`
 return (
   <Container>
     <iframe
-      id="myMap1"
+      id="myMap"
       className="w-100 h-100"
       sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox"
       srcDoc={code}
