@@ -5,7 +5,7 @@ const accountId = context.accountId;
 initState({
   img: {},
   imgRaw: null,
-  prompt: "a rusty cyborg at a bio mechanical environment ",
+  prompt: "a rusty cyborg at a mechanical enviroment, 3D render",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
@@ -276,7 +276,7 @@ return (
       >
         <img
           src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
-          style={{ position: "absolute", zIndex: 1 }}
+          style={{ position: "absolute", zIndex: 0 }}
         />
         <img
           src={state.imgRaw}
