@@ -23,6 +23,10 @@ const ModalOverlay = styled.div`
   flex-direction: column;
   z-index: 100;
   width: 400px;
+  @media (max-width: 510px) {
+    right: 10px;
+    top: 54px;
+  }
 `;
 
 const ModalContent = styled.div`
