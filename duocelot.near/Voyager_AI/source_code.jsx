@@ -4,7 +4,6 @@ const accountId = context.accountId;
 
 initState({
   img: {},
-  imgRaw: null,
   prompt:
     "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
   seed: null,
@@ -12,11 +11,12 @@ initState({
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
   blur: 0,
   width: "auto",
-  scale: 0,
+  steps: 20,
+  scale: 7,
 });
 
-async function uploadImageToIpfs() {
-  const response = await fetch(state.imgRaw);
+async function uploadGeneratedImageToIpfs(imgSrc) {
+  const response = await fetch(imgSrc);
   const blob = await response.blob();
   const formData = new FormData();
   formData.append("file", blob);
@@ -30,7 +30,11 @@ async function uploadImageToIpfs() {
   });
 
   const ipfsData = await ipfsResponse.json();
-  console.log(ipfsData);
+  State.update({
+    img: {
+      cid: ipfsData.cid,
+    },
+  });
 }
 
 function rollImage() {
@@ -39,11 +43,15 @@ function rollImage() {
   state.blur = 3;
   State.update(state);
 
-  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=20&prompt=${state.prompt}`;
+  var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=${state.steps}&prompt=${state.prompt}`;
 
-  // Instead of uploading to IPFS right away, save the generated image to the state
-  state.imgRaw = imgSrc;
-  State.update(state);
+  uploadGeneratedImageToIpfs(imgSrc);
+}
+
+var imgSrc =
+  "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44";
+if (state.seed) {
+  imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&image_count=1&steps=${state.steps}&prompt=${state.prompt}`;
 }
 
 function deleteImage() {
@@ -229,42 +237,63 @@ return (
           overflow: "hidden",
         }}
       ></div>
-      <div
-        style={{
-          backgroundImage:
-            "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "526px",
-          color: "#333",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <img
-          src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
-          style={{ position: "absolute", zIndex: 1 }}
-        />
-        <img
-          src={state.imgRaw}
-          onLoad={(e) => {
-            state.blur = 0;
-            State.update(state);
-          }}
+      <div>
+        <div
           style={{
-            filter: `blur(${state.blur}px)`,
-            zIndex: 0,
-            objectFit: "cover",
+            backgroundImage:
+              "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
+            backgroundSize: "auto",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            height: "526px",
+            color: "#333",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        />
-        {state.imgRaw && (
-          <div>
-            <button onClick={uploadImageToIpfs}>Upload to IPFS</button>
-            <button onClick={deleteImage}>Delete</button>
+        >
+          <div
+            style={{
+              border: "2px solid red",
+              backgroundImage:
+                "url(https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44)",
+              backgroundSize: "auto",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              height: "524px",
+              width: "524px",
+              color: "#333",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
+              style={{ position: "absolute", zIndex: 1 }}
+            />
+            <img
+              src={state.imgRaw}
+              onLoad={(e) => {
+                state.blur = 0;
+                State.update(state);
+              }}
+              style={{
+                filter: `blur(${state.blur}px)`,
+                zIndex: 0,
+                objectFit: "cover",
+                width: "524px",
+                height: "524px",
+              }}
+            />
           </div>
-        )}
+          {state.imgRaw && (
+            <div>
+              <button onClick={uploadImageToIpfs}>Upload to IPFS</button>
+              <button onClick={deleteImage}>Delete</button>
+            </div>
+          )}
+        </div>
       </div>
       <div
         style={{
