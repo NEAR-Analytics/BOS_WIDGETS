@@ -12,8 +12,7 @@ const errTextNoBody = "ERROR: no article Body",
   errTextDublicatedId = "ERROR: there is article with such name";
 
 State.init(initialCreateState);
-const tagsArray = state.tags ? Object.keys(state.tags) : [];
-console.log(tagsArray);
+const tagsArray = state.tags;
 
 const getArticleData = () => {
   const args = {
@@ -98,7 +97,8 @@ const saveHandler = (e) => {
             displayedTabId: tabs.SHOW_ARTICLE.id,
             renderLastOfThisAccountId: accountId,
           });
-          State.update({ saveComplete: true, saving: false });
+          // State.update({ saveComplete: true, saving: false });
+          State.update({ saving: false });
         },
         onCancel: () => {
           State.update({ saving: false });
@@ -144,27 +144,24 @@ const Button = styled.button`
   } 
 `;
 
+const CreationContainer = styled.div`
+  background-color: rgb(230, 230, 230);
+  border-radius: 20px;
+  padding: 0 0 1rem 0;
+  position: relative;
+`;
+
+const SecondContainer = styled.div`
+  margin: 0 auto;
+  width: 90%;
+  min-width: 360px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 20px;
+`;
+
 return (
-  <div
-    className="container-fluid"
-    style={
-      state.saveComplete
-        ? {
-            backgroundColor: "rgb(230, 230, 230)",
-            borderRadius: "20px",
-            padding: "0 0 1rem 0 ",
-            position: "relative",
-            overflow: "hidden",
-            height: "80vh",
-          }
-        : {
-            backgroundColor: "rgb(230, 230, 230)",
-            borderRadius: "20px",
-            padding: "0 0 1rem 0 ",
-            position: "relative",
-          }
-    }
-  >
+  <CreationContainer className="container-fluid">
     {
       //   state.saveComplete && (
       //   <a
@@ -204,17 +201,8 @@ return (
       //   </a>
       // )
     }
-    <div
-      style={{
-        margin: "0 auto",
-        width: "90%",
-        minWidth: "360px",
-        backgroundColor: "white",
-        padding: "1rem",
-        borderRadius: "20px",
-      }}
-    >
-      <h1 className="mb-3"> Create Article</h1>
+    <SecondContainer>
+      <h1 className="mb-3">Create Article</h1>
       <div>
         <div>
           <Widget
@@ -266,19 +254,17 @@ return (
           />
         </div>
         <div className="d-flex flex-column pt-3">
-          {!state.saveComplete && (
-            <Widget
-              src={`${authorForWidget}/widget/TagsEditor`}
-              props={{
-                initialTagsObject: state.tags,
-                placeholder: "Input tags",
-                setTagsObject: (tags) => {
-                  state.tags = tags;
-                  State.update();
-                },
-              }}
-            />
-          )}
+          <Widget
+            src={`${authorForWidget}/widget/TagsEditor`}
+            props={{
+              initialTagsObject: state.tags,
+              placeholder: "Input tags",
+              setTagsObject: (tags) => {
+                state.tags = tags;
+                State.update();
+              },
+            }}
+          />
         </div>
         <div className="d-flex flex-column pt-3">
           <label for="textareaArticleBody">
@@ -306,6 +292,6 @@ return (
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </SecondContainer>
+  </CreationContainer>
 );
