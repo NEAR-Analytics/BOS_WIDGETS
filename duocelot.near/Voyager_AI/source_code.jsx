@@ -5,7 +5,8 @@ const accountId = context.accountId;
 initState({
   img: {},
   imgRaw: null,
-  prompt: "a cyborgue",
+  prompt:
+    "a landscape mythical, clouds, sunset, sunrays, flare, 8k photorealistic, watercolor, cinematic lighting, HD, high details, atmospheric",
   seed: null,
   rollImg:
     "https://ipfs.fleek.co/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
@@ -15,6 +16,24 @@ initState({
   steps: 20,
 });
 
+async function uploadImageToIpfs() {
+  const response = await fetch(state.imgRaw);
+  const blob = await response.blob();
+  const formData = new FormData();
+  formData.append("file", blob);
+
+  const ipfsResponse = await fetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+    body: formData,
+  });
+
+  const ipfsData = await ipfsResponse.json();
+  console.log(ipfsData);
+}
+
 function rollImage() {
   var seed = Math.trunc(Math.random() * 100000000);
   state.seed = seed;
@@ -22,25 +41,40 @@ function rollImage() {
   State.update(state);
 
   var imgSrc = `https://i.gpux.ai/gpux/sdxl?return_grid=true&prompt=${state.seed}&scale=${state.scale}&image_count=1&steps=20&prompt=${state.prompt}`;
-  asyncFetch(imgSrc, { responseType: "blob" }).then((res) => {
-    state.imgRaw = res.body;
-    state.imgSrc = URL.createObjectURL(res.body);
-    State.update(state);
-  });
+
+  // Instead of uploading to IPFS right away, save the generated image to the state
+  state.imgRaw = imgSrc;
+  State.update(state);
 }
 
-function uploadImageToIpfs() {
-  asyncFetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-    body: state.imgRaw,
-  }).then((res) => {
-    const cid = res.body.cid;
-    console.log(res.body);
-  });
+function deleteImage() {
+  state.imgRaw = null;
+  State.update(state);
 }
+
+async function uploadImageToIpfs() {
+  // Fetch image data from URL
+  const response = await fetch(state.imgRaw);
+  const blob = await response.blob();
+
+  // Prepare form data
+  const formData = new FormData();
+  formData.append("file", blob, "image.png");
+
+  // Upload to IPFS
+  const ipfsResponse = await fetch("https://ipfs.near.social/add", {
+    method: "POST",
+    body: formData,
+  });
+
+  const ipfsData = await ipfsResponse.json();
+  console.log(ipfsData);
+
+  // Save the IPFS CID to the state
+  state.ipfsCid = ipfsData.cid;
+  State.update(state);
+}
+
 return (
   <div
     style={{
@@ -259,10 +293,7 @@ return (
           }}
           style={{
             backgroundImage:
-              "url(https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44)",
-            backgroundSize: "auto",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
+              "https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
             filter: `blur(${state.blur}px)`,
             zIndex: 0,
             objectFit: "contain", // ensure that the aspect ratio of the image is maintained
