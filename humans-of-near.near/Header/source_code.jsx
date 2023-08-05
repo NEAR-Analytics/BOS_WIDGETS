@@ -2,7 +2,11 @@ const Logo = styled.img`
   position: absolute;
   top: 20px;
   left: 40px;
-  
+  @media (max-width: 510px) {
+    width: 30%;
+    top: 10px;
+    left: 20px;
+  }
 `;
 
 return (
