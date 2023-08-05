@@ -184,9 +184,10 @@ if (
   });
 }
 
-if (props.item === "liquity") {
-  console.log("Yes yes yes");
+if (props.action === "borrow") {
   openTrove();
+} else if (props.action === "repay") {
+  closeTrove();
 }
 
 return <div></div>;
