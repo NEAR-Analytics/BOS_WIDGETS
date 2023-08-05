@@ -61,6 +61,15 @@ const code = `
             padding: 0;
           }
       }
+
+      .logo{
+        width:48px; 
+        height:60px;
+        @media (max-width: 510px) {
+          width:36px; 
+          height:50px;
+        }        
+      }
     </style>
   </head>
   <body>
@@ -105,7 +114,7 @@ const code = `
       }
 
        const HTML = '<div class="popup">'+
-          '<img src="https://humans.nearverselabs.com/Human.png" style="width:48px; height:60px;" />'+
+          '<img src="https://humans.nearverselabs.com/Human.png" class="logo" />'+
           '<div style="display:flex; gap:14px; flex-direction:column;">'+
             '<h6>'+title+'</h6>'+
             '<div style="display:flex; gap:16px; align-items:center;">'+
