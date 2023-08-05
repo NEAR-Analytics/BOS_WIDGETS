@@ -177,6 +177,7 @@ return (
         <ul className="navbar-nav">
           {pills &&
             pills.map((pill) => {
+              console.log("this: ", displayedTabId, pill.id);
               return !(pill.id + "") || !pill.title ? (
                 <p className="text-danger border">Pill passed wrong</p>
               ) : (
