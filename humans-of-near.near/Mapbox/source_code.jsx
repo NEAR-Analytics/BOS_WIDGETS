@@ -103,7 +103,9 @@ const code = `
         zoom: ${zoom}
     });
     
-
+    function onCopy  (e, text)  {
+      console.log(e,"==>e", text)
+    }
 
     function getDetail (row) {
       const user = row.user;
@@ -129,9 +131,6 @@ const code = `
         state.social = true
       }
 
-      const onCopy = (e, text) => {
-        console.log(e,"==>e", text)
-      }
 
        const HTML = '<div class="popup">'+
           '<img src="https://humans.nearverselabs.com/Human.png" class="logo" />'+
