@@ -52,6 +52,27 @@ function deleteImage() {
   State.update(state);
 }
 
+function uploadImageToIpfs() {
+  const data = new FormData();
+  data.append("file", state.imgRaw);
+
+  const options = {
+    method: "POST",
+    body: data,
+  };
+
+  fetch("https://ipfs.near.social/add", options)
+    .then((res) => res.json())
+    .then((res) => {
+      if (res && res.cid) {
+        console.log(`Image uploaded to IPFS with CID: ${res.cid}`);
+      } else {
+        console.log("Failed to upload image to IPFS");
+      }
+    })
+    .catch((err) => console.log("IPFS upload error: ", err));
+}
+
 return (
   <div
     style={{
@@ -212,6 +233,20 @@ return (
         >
           Generate
         </button>
+        <a
+          className="btn btn-outline-primary"
+          onClick={(e) => uploadImageToIpfs()}
+          style={{
+            width: "200px",
+            backgroundColor: "black",
+            color: "white",
+            fontFamily: '"Press Start 2P", sans-serif',
+            margin: "20px 20px 20px 20px",
+            border: "1px solid #3a0201",
+          }}
+        >
+          Upload to IPFS
+        </a>
       </div>
       <div
         style={{
@@ -255,6 +290,8 @@ return (
             State.update(state);
           }}
           style={{
+            backgroundImage:
+              "https://fleek.ipfs.io/ipfs/bafybeih7tutznkvbuecy3nfmpwo7q5w7kzyqwdvlipjtcyqevnkpz2jf44",
             filter: `blur(${state.blur}px)`,
             zIndex: 0,
             objectFit: "contain", // ensure that the aspect ratio of the image is maintained
