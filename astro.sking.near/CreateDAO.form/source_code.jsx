@@ -4,6 +4,10 @@ const initialFormState = typeToEmptyData(types["astro.sking.near/type/dao"]);
 
 // Set default values here
 initialFormState.gracePeriod = 1;
+initialFormState.profileImage =
+  "https://ipfs.near.social/ipfs/bafkreiad5c4r3ngmnm7q6v52joaz4yti7kgsgo6ls5pfbsjzclljpvorsu";
+initialFormState.coverImage =
+  "https://ipfs.near.social/ipfs/bafkreicd7wmjfizslx72ycmnsmo7m7mnvfsyrw6wghsaseq45ybslbejvy";
 
 State.init({
   step: 0,
