@@ -120,7 +120,7 @@ const renderAssetsEditor = (hideEditButtons) => {
         </div>
       </BG>
       <div
-        className="avatar rounded-5 border border-2 border-white ratio ratio-1x1 position-relative z-1"
+        className="avatar rounded-4 border border-2 border-white ratio ratio-1x1 position-relative z-1"
         style={{
           backgroundImage: `url(${state.answers.profileImage})`,
         }}
