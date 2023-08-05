@@ -1,334 +1,451 @@
+const SquareButton = styled.button`
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+`;
+
+const borderRow = {
+  clear: "both",
+  content: "",
+  display: "table",
+};
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
+
+State.init({
+  squares: Array(9).fill(null),
+  xIsNext: true,
+});
+
+function handleClick(i) {
+  const squares = state.squares.slice();
+  if (calculateWinner(squares) || squares[i]) {
+    return;
+  }
+  squares[i] = state.xIsNext ? "X" : "O";
+  State.update({
+    squares: squares,
+    xIsNext: !state.xIsNext,
+  });
+}
+
+function renderSquare(i) {
+  return (
+    <SquareButton onClick={() => handleClick(i)}>
+      {state.squares[i]}
+    </SquareButton>
+  );
+}
+
+const winner = calculateWinner(state.squares);
+let status;
+if (winner) {
+  status = "Winner: " + winner;
+} else {
+  status = "Next player: " + (state.xIsNext ? "X" : "O");
+}
+const srcCode = `
+
+<div class="canvas_wrap">
+	<canvas id="tetris" width="240" height="400"></canvas>
+	<button type="button" id="start_game">Start</button>
+</div>
+
+<style>
+body {
+  background-color: black;
+  background-image: radial-gradient(
+    rgba(0, 150, 0, 0.75), black 120%
+  );
+  height: 100vh;
+
+}
+*{
+	margin:0;
+	padding:0;
+}
+.canvas_wrap{
+	display:block;
+	margin:0 auto;
+	padding-top:25px;
+}
+.canvas_wrap>*{
+	display:block;
+	margin:0 auto;
+}
+.canvas_wrap>button{
+	font-family:Inconsolata, monospace;
+	font-size:22px;
+	color:#000000
+	background-color:black;
+	border:none;
+	cursor:pointer;
+	transition-duration: .5s;
+	border-radius: 12px;
+	padding: 5px 12px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.canvas_wrap>button:hover {
+  background-color: black;
+  color: white;
+}
+
+}
+</style>
+
+<script>
+
+(function(){
+	"use strict";
+	const canvas=document.getElementById("tetris");
+	const context=canvas.getContext("2d");
+	context.scale(20,20);
+	let makeMatrix=function(w,h){
+		const matrix=[];
+		while(h--){
+			matrix.push(new Array(w).fill(0));
+		}
+		return matrix;
+	};
+	let makePiece=function(type){
+		if(type==="t"){
+			return [
+				[0,0,0],
+				[5,5,5],
+				[0,5,0]
+			];
+		}
+		else if(type==="o"){
+			return [
+				[7,7],
+				[7,7]
+			];
+		}
+		else if(type==="l"){
+			return [
+				[0,4,0],
+				[0,4,0],
+				[0,4,4]
+			];
+		}
+		else if(type==="j"){
+			return [
+				[0,1,0],
+				[0,1,0],
+				[1,1,0]
+			];
+		}
+		else if(type==="i"){
+			return [
+				[0,2,0,0],
+				[0,2,0,0],
+				[0,2,0,0],
+				[0,2,0,0]
+			];
+		}
+		else if(type==="s"){
+			return [
+				[0,3,3],
+				[3,3,0],
+				[0,0,0]
+			];
+		}
+		else if(type==="z"){
+			return [
+				[6,6,0],
+				[0,6,6],
+				[0,0,0]
+			];
+		}
+	};
+	let points=function(){
+		let rowCount=1;
+		outer:for(let y=area.length-1;y>0;--y){
+			for(let x=0;x<area[y].length;++x){
+				if(area[y][x]===0){
+					continue outer;
+				}
+			}
+			const row=area.splice(y,1)[0].fill(0);
+			area.unshift(row);
+			++y;
+			player.score+=rowCount*100;
+			rowCount*=2;
+		}
+	}
+	let collide=function(area,player){
+		const [m,o]=[player.matrix,player.pos];
+		for(let y=0;y<m.length;++y){
+			for(let x=0;x<m[y].length;++x){
+				if(m[y][x]!==0&&(area[y+o.y]&&area[y+o.y][x+o.x])!==0){
+					return true;
+				}
+			}
+		}
+		return false;
+	};
+	let drawMatrix=function(matrix,offset){
+		matrix.forEach((row,y)=>{
+			row.forEach((value,x)=>{
+				if(value!==0){
+					// context.fillStyle=colors[value];
+					// context.fillRect(x+offset.x,y+offset.y,1,1);
+					let imgTag=document.createElement("IMG");
+					imgTag.src=colors[value];
+					context.drawImage(imgTag,x+offset.x,y+offset.y,1,1);
+				}
+			});
+		});
+	};
+	let merge=function(area,player){
+		player.matrix.forEach((row,y)=>{
+			row.forEach((value,x)=>{
+				if(value!==0){
+					area[y+player.pos.y][x+player.pos.x]=value;
+				}
+			});
+		});
+	};
+	let rotate=function(matrix,dir){
+		for(let y=0;y<matrix.length;++y){
+			for(let x=0;x<y;++x){
+				[
+					matrix[x][y],
+					matrix[y][x]
+				]=[
+					matrix[y][x],
+					matrix[x][y],
+				]
+			}
+		}
+		if(dir>0){
+			matrix.forEach(row=>row.reverse());
+		}
+		else{
+			matrix.reverse();
+		}
+	};
+	let playerReset=function(){
+		const pieces="ijlostz";
+		player.matrix=makePiece(pieces[Math.floor(Math.random()*pieces.length)]);
+		player.pos.y=0;
+		player.pos.x=(Math.floor(area[0].length/2))-(Math.floor(player.matrix[0].length/2));
+		if(collide(area,player)){
+			area.forEach(row=>row.fill(0));
+			player.score=0;
+			gameRun=false;
+		}
+	};
+	let playerDrop=function(){
+		player.pos.y++;
+		if(collide(area,player)){
+			player.pos.y--;
+			merge(area,player);
+			points();
+			playerReset();
+			updateScore();
+		}
+	};
+	let playerMove=function(dir){
+		player.pos.x+=dir;
+		if(collide(area,player)){
+			player.pos.x-=dir;
+		}
+	};
+	let playerRotate=function(dir){
+		const pos=player.pos.x;
+		let offset=1;
+		rotate(player.matrix,dir);
+		while(collide(area,player)){
+			player.pos.x+=offset;
+			offset=-(offset+(offset>0?1:-1));
+			if(offset>player.matrix[0].length){
+				rotate(player.matrix,-dir);
+				player.pos.x=pos;
+				return;
+			}
+		}
+	};
+	let draw=function(){
+		context.clearRect(0,0,canvas.width,canvas.height);
+		context.fillStyle="#000000";
+		context.fillRect(0,0,canvas.width,canvas.height);
+		updateScore();
+		drawMatrix(area,{x:0,y:0});
+		drawMatrix(player.matrix,player.pos);
+	};
+	let dropInter=100;
+	let time=0;
+	let update=function(){
+		time++;
+		if(time>=dropInter){
+			playerDrop();
+			time=0;
+		}
+		draw();
+	};
+	let updateScore=function(){
+		context.font="bold 1px Inconsolata, monospace";
+		context.fillStyle="#ffffff";
+		context.textAlign="left";
+		context.textBaseline="top";
+		context.fillText(player.score,0.2,0);
+	};
+	let gameOver=function(){
+		clearInterval(gameLoop);
+		context.font="1.5px Inconsolata, monospace";
+		context.fillStyle="#ffffff";
+		context.textAlign="center";
+		context.textBaseline="middle";
+		context.fillText("game over",(canvas.width/20)/2,(canvas.width/20)/2);
+		context.font="4px Inconsolata, monospace";
+		context.fillText("😢",(canvas.width/20)/1.9,(canvas.width/20)/1);
+		document.getElementById("start_game").disabled=false;
+	};
+	const colors=[
+		null,
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5/hPwAIAgL/4d1j8wAAAABJRU5ErkJggg==",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkuP//PwAFpALfeqlbzwAAAABJRU5ErkJggg==",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8fwHwAFLwIOh28W+gAAAABJRU5ErkJggg==",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN0ecnwHwAE1AIuZgovtgAAAABJRU5ErkJggg==",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8v4rhPwAHAwKqSbSAoQAAAABJRU5ErkJggg==",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN0Yvj/HwAEDwJCMmgnsgAAAABJRU5ErkJggg==",
+		"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOcxvD/PwAFXwKWLuL4TAAAAABJRU5ErkJggg=="
+	];
+	const area=makeMatrix(12,20);
+	const player={
+		pos:{
+			x:0,
+			y:0
+		},
+		matrix:null,
+		score:0
+	};
+	const move=1;
+	let gameLoop;
+	let gameRun=false;
+	playerReset();
+	draw();
+	gameOver();
+	document.addEventListener('keydown',function(e){
+		if(e.keyCode===37){
+			playerMove(-move);
+		}
+		else if(e.keyCode===39){
+			playerMove(+move);
+		}
+		else if(e.keyCode===40){
+			console.log(player.pos);
+			if(gameRun){
+				playerDrop();
+			}
+		}
+		else if(e.keyCode===38){
+			playerRotate(-move);
+		}
+	});
+	document.getElementById("start_game").onclick=function(){
+		gameRun=true;
+		playerReset();
+		console.log(player.pos);
+		gameLoop=setInterval(function(){
+			if(gameRun){
+				update();
+			}
+			else{
+				gameOver();
+			}
+		},10);
+		this.disabled=true;
+	};
+})();
+
+</script>
+
+`;
+
 return (
-  <div class="wrapper">
-    <div class="content-box">
-      <div class="typing-text">
-        <p></p>
-      </div>
-      <div class="content">
-        <ul class="result-details">
-          <li class="time">
-            <p>Time Left:</p>
-            <span>
-              <b>60</b>s
-            </span>
-          </li>
-          <li class="mistake">
-            <p>Mistakes:</p>
-            <span>0</span>
-          </li>
-          <li class="wpm">
-            <p>WPM:</p>
-            <span>0</span>
-          </li>
-          <li class="cpm">
-            <p>CPM:</p>
-            <span>0</span>
-          </li>
-        </ul>
-        <button>Try Again</button>
-      </div>
+  <div>
+    <h1>NEAR TÜRKIYE GAMES</h1>
+    <h2> TIC TAC TOE </h2>
+    <div
+      style={{
+        marginBottom: 10,
+      }}
+    >
+      <button
+        className="btn btn-outline-primary btn-sm"
+        onClick={() =>
+          State.update({
+            squares: Array(9).fill(null),
+            xIsNext: true,
+          })
+        }
+      >
+        Reset Game
+      </button>
     </div>
+    <div
+      style={{
+        marginBottom: 10,
+      }}
+    >
+      {status}
+    </div>
+    <div style={borderRow}>
+      {renderSquare(0)}
+      {renderSquare(1)}
+      {renderSquare(2)}
+    </div>
+    <div style={borderRow}>
+      {renderSquare(3)}
+      {renderSquare(4)}
+      {renderSquare(5)}
+    </div>
+    <div style={borderRow}>
+      {renderSquare(6)}
+      {renderSquare(7)}
+      {renderSquare(8)}
+    </div>
+    <br></br>
+    <br></br>
+    <h2>TETRIS</h2>
+    <iframe
+      srcDoc={srcCode}
+      style={{
+        height: "55vh",
+        width: "50%",
+      }}
+    ></iframe>
+    );
   </div>
 );
-
-const SwitchRoot = styled("Switch.Root")`
-margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-body{
-  display: flex;
-  padding: 0 10px;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #17A2B8;
-}
-::selection{
-  color: #fff;
-  background: #17A2B8;
-}
-.wrapper{
-  width: 770px;
-  padding: 35px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-}
-.wrapper .input-field{
-  opacity: 0;
-  z-index: -999;
-  position: absolute;
-}
-.wrapper .content-box{
-  padding: 13px 20px 0;
-  border-radius: 10px;
-  border: 1px solid #bfbfbf;
-}
-.content-box .typing-text{
-  overflow: hidden;
-  max-height: 256px;
-}
-.typing-text::-webkit-scrollbar{
-  width: 0;
-}
-.typing-text p{
-  font-size: 21px;
-  text-align: justify;
-  letter-spacing: 1px;
-  word-break: break-all;
-}
-.typing-text p span{
-  position: relative;
-}
-.typing-text p span.correct{
-  color: #56964f;
-}
-.typing-text p span.incorrect{
-  color: #cb3439;
-  outline: 1px solid #fff;
-  background: #ffc0cb;
-  border-radius: 4px;
-}
-.typing-text p span.active{
-  color: #17A2B8;
-}
-.typing-text p span.active::before{
-  position: absolute;
-  content: "";
-  height: 2px;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  opacity: 0;
-  border-radius: 5px;
-  background: #17A2B8;
-  animation: blink 1s ease-in-out infinite;
-}
-@keyframes blink{
-  50%{ 
-    opacity: 1; 
-  }
-}
-.content-box .content{
-  margin-top: 17px;
-  display: flex;
-  padding: 12px 0;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #bfbfbf;
-}
-.content button{
-  outline: none;
-  border: none;
-  width: 105px;
-  color: #fff;
-  padding: 8px 0;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  background: #17A2B8;
-  transition: transform 0.3s ease;
-}
-.content button:active{
-  transform: scale(0.97);
-}
-.content .result-details{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  width: calc(100% - 140px);
-  justify-content: space-between;
-}
-.result-details li{
-  display: flex;
-  height: 20px;
-  list-style: none;
-  position: relative;
-  align-items: center;
-}
-.result-details li:not(:first-child){
-  padding-left: 22px;
-  border-left: 1px solid #bfbfbf;
-}
-.result-details li p{
-  font-size: 19px;
-}
-.result-details li span{
-  display: block;
-  font-size: 20px;
-  margin-left: 10px;
-}
-li span b{
-  font-weight: 500;
-}
-li:not(:first-child) span{
-  font-weight: 500;
-}
-@media (max-width: 745px) {
-  .wrapper{
-    padding: 20px;
-  }
-  .content-box .content{
-    padding: 20px 0;
-  }
-  .content-box .typing-text{
-    max-height: 100%;
-  }
-  .typing-text p{
-    font-size: 19px;
-    text-align: left;
-  }
-  .content button{
-    width: 100%;
-    font-size: 15px;
-    padding: 10px 0;
-    margin-top: 20px;
-  }
-  .content .result-details{
-    width: 100%;
-  }
-  .result-details li:not(:first-child){
-    border-left: 0;
-    padding: 0;
-  }
-  .result-details li p, 
-  .result-details li span{
-    font-size: 17px;
-  }
-}
-@media (max-width: 518px) {
-  .wrapper .content-box{
-    padding: 10px 15px 0;
-  }
-  .typing-text p{
-    font-size: 18px;
-  }
-  .result-details li{
-    margin-bottom: 10px;
-  }
-  .content button{
-    margin-top: 10px;
-  }
-  }
-`;
-const paragraphs = [
-  "Authors often misinterpret the lettuce as a folklore rabbi, when in actuality it feels more like an uncursed bacon. Pursued distances show us how mother-in-laws can be charleses. Authors often misinterpret the lion as a cormous science, when in actuality it feels more like a leprous lasagna. Recent controversy aside, their band was, in this moment, a racemed suit. The clutch of a joke becomes a togaed chair. The first pickled chess is.",
-  "In modern times the first scrawny kitten is, in its own way, an input. An ostrich is the beginner of a roast. An appressed exhaust is a gun of the mind. A recorder is a grade from the right perspective. A hygienic is the cowbell of a skin. Few can name a dun brazil that isn't a highbrow playroom. The unwished beast comes from a thorny oxygen. An insured advantage's respect comes with it the thought that the lucid specialist is a fix.",
-  "In ancient times the legs could be said to resemble stroppy vegetables. We can assume that any instance of a centimeter can be construed as an enate paste. One cannot separate pairs from astute managers. Those americas are nothing more than fish. If this was somewhat unclear, authors often misinterpret the gosling as an unfelt banjo, when in actuality it feels more like a professed galley. A bow of the squirrel is assumed.",
-  "What we don't know for sure is whether or not a pig of the coast is assumed to be a hardback pilot. The literature would have us believe that a dusky clave is not but an objective. Few can name a limbate leo that isn't a sunlit silver. The bow is a mitten. However, the drawer is a bay. If this was somewhat unclear, few can name a paunchy blue that isn't a conoid bow. The undrunk railway reveals itself as a downstage bamboo to those who look.",
-  "Their politician was, in this moment, a notour paperback. The first armless grouse is, in its own way, a gear. The coat is a wash. However, a cake is the llama of a caravan. Snakelike armies show us how playgrounds can be viscoses. Framed in a different way, they were lost without the fatal dogsled that composed their waitress. Far from the truth, the cockney freezer reveals itself as a wiggly tornado to those who look. The first hawklike sack.",
-  "An aunt is a bassoon from the right perspective. As far as we can estimate, some posit the melic myanmar to be less than kutcha. One cannot separate foods from blowzy bows. The scampish closet reveals itself as a sclerous llama to those who look. A hip is the skirt of a peak. Some hempy laundries are thought of simply as orchids. A gum is a trumpet from the right perspective. A freebie flight is a wrench of the mind. Some posit the croupy.",
-  "A baby is a shingle from the right perspective. Before defenses, collars were only operations. Bails are gleesome relatives. An alloy is a streetcar's debt. A fighter of the scarecrow is assumed to be a leisured laundry. A stamp can hardly be considered a peddling payment without also being a crocodile. A skill is a meteorology's fan. Their scent was, in this moment, a hidden feeling. The competitor of a bacon becomes a boxlike cougar.",
-  "A broadband jam is a network of the mind. One cannot separate chickens from glowing periods. A production is a faucet from the right perspective. The lines could be said to resemble zincoid females. A deborah is a tractor's whale. Cod are elite japans. Some posit the wiglike norwegian to be less than plashy. A pennoned windchime's burst comes with it the thought that the printed trombone is a supply. Relations are restless tests.",
-  "In recent years, some teeming herons are thought of simply as numbers. Nowhere is it disputed that an unlaid fur is a marble of the mind. Far from the truth, few can name a glossy lier that isn't an ingrate bone. The chicken is a giraffe. They were lost without the abscessed leek that composed their fowl. An interviewer is a tussal bomb. Vanward maracas show us how scarfs can be doubts. Few can name an unguled punch that isn't pig.",
-  "A cough is a talk from the right perspective. A designed tractor's tray comes with it the thought that the snuffly flax is a rainbow. Their health was, in this moment, an earthy passbook. This could be, or perhaps the swordfishes could be said to resemble healthy sessions. A capricorn is a helium from the right perspective. However, a sled is a mailman's tennis. The competitor of an alarm becomes a toeless raincoat. Their twist was, in this moment.",
-  "Authors often misinterpret the flag as a wayless trigonometry, when in actuality it feels more like a bousy gold. Few can name a jasp oven that isn't a stutter grape. They were lost without the huffy religion that composed their booklet. Those waves are nothing more than pedestrians. Few can name a quartered semicolon that isn't a rounding scooter. Though we assume the latter, the literature would have us believe.",
-  "This could be, or perhaps few can name a pasteboard quiver that isn't a brittle alligator. A swordfish is a death's numeric. Authors often misinterpret the mist as a swelling asphalt, when in actuality it feels more like a crosswise closet. Some posit the tonal brother-in-law to be less than newborn. We know that the sizes could be said to resemble sleepwalk cycles. Before seasons, supplies were only fighters. Their stew was, in this moment.",
-  "The vision of an attempt becomes a lawny output. Dibbles are mis womens. The olden penalty reveals itself as a bustled field to those who look. Few can name a chalky force that isn't a primate literature. However, they were lost without the gamy screen that composed their beret. Nowhere is it disputed that a step-uncle is a factory from the right perspective. One cannot separate paints from dreary windows. What we don't know for sure is whether.",
-  "A tramp is a siamese from the right perspective. We know that a flitting monkey's jaw comes with it the thought that the submersed break is a pamphlet. Their cream was, in this moment, a seedy daffodil. The nest is a visitor. Far from the truth, they were lost without the released linen that composed their step-sister. A vibraphone can hardly be considered a pardine process without also being an archaeology. The bay of a hyacinth becomes.",
-  "The frosts could be said to resemble backstage chards. One cannot separate colleges from pinkish bacons. Far from the truth, the mom of a rooster becomes a chordal hydrogen. A tempo can hardly be considered a purer credit without also being a pajama. The first combined ease is, in its own way, a pantyhose. Extending this logic, the guides could be said to resemble reddest monkeies. Framed in a different way, an addle hemp is a van.",
-  "Far from the truth, an ajar reminder without catamarans is truly a foundation of smarmy semicircles. An alike board without harps is truly a satin of fated pans. A hubcap sees a parent as a painful beautician. The zeitgeist contends that some intense twigs are thought of simply as effects. A cross is a poppied tune. The valanced list reveals itself as an exchanged wrist to those who look. Recent controversy aside.",
-  "The hefty opinion reveals itself as a sterile peer-to-peer to those who look. This could be, or perhaps the watch of a diamond becomes a bosom baboon. In recent years, some posit the unstuffed road to be less than altern. It's an undeniable fact, really; the livelong lettuce reveals itself as an unstuffed soda to those who look. In ancient times a bit is a balance's season. The popcorn of a morning becomes a moonless beauty.",
-  "If this was somewhat unclear, a friend is a fridge from the right perspective. An upset carriage is a stitch of the mind. To be more specific, a temper is a pair from the right perspective. Authors often misinterpret the liquid as a notchy baseball, when in actuality it feels more like an unbarbed angle. Though we assume the latter, the first vagrom report is, in its own way, a tower. We know that the octopus of a cd becomes an unrent dahlia.",
-  "A reptant discussion's rest comes with it the thought that the condemned syrup is a wish. The drake of a wallaby becomes a sonant harp. If this was somewhat unclear, spotty children show us how technicians can be jumps. Their honey was, in this moment, an intime direction. A ship is the lion of a hate. They were lost without the croupous jeep that composed their lily. In modern times a butcher of the birth is assumed to be a spiral bean.",
-  "Those cowbells are nothing more than elements. This could be, or perhaps before stockings, thoughts were only opinions. A coil of the exclamation is assumed to be a hurtless toy. A board is the cast of a religion. In ancient times the first stinko sailboat is, in its own way, an exchange. Few can name a tutti channel that isn't a footless operation. Extending this logic, an oatmeal is the rooster of a shake. Those step-sons are nothing more than matches.",
-];
-
-const typingText = document.querySelector(".typing-text p"),
-  inpField = document.querySelector(".wrapper .input-field"),
-  tryAgainBtn = document.querySelector(".content button"),
-  timeTag = document.querySelector(".time span b"),
-  mistakeTag = document.querySelector(".mistake span"),
-  wpmTag = document.querySelector(".wpm span"),
-  cpmTag = document.querySelector(".cpm span");
-
-let timer,
-  maxTime = 60,
-  timeLeft = maxTime,
-  charIndex = (mistakes = isTyping = 0);
-
-function loadParagraph() {
-  const ranIndex = Math.floor(Math.random() * paragraphs.length);
-  typingText.innerHTML = "";
-  paragraphs[ranIndex].split("").forEach((char) => {
-    let span = `<span>${char}</span>`;
-    typingText.innerHTML += span;
-  });
-  typingText.querySelectorAll("span")[0].classList.add("active");
-  document.addEventListener("keydown", () => inpField.focus());
-  typingText.addEventListener("click", () => inpField.focus());
-}
-
-function initTyping() {
-  let characters = typingText.querySelectorAll("span");
-  let typedChar = inpField.value.split("")[charIndex];
-  if (charIndex < characters.length - 1 && timeLeft > 0) {
-    if (!isTyping) {
-      timer = setInterval(initTimer, 1000);
-      isTyping = true;
-    }
-    if (typedChar == null) {
-      if (charIndex > 0) {
-        charIndex--;
-        if (characters[charIndex].classList.contains("incorrect")) {
-          mistakes--;
-        }
-        characters[charIndex].classList.remove("correct", "incorrect");
-      }
-    } else {
-      if (characters[charIndex].innerText == typedChar) {
-        characters[charIndex].classList.add("correct");
-      } else {
-        mistakes++;
-        characters[charIndex].classList.add("incorrect");
-      }
-      charIndex++;
-    }
-    characters.forEach((span) => span.classList.remove("active"));
-    characters[charIndex].classList.add("active");
-
-    let wpm = Math.round(
-      ((charIndex - mistakes) / 5 / (maxTime - timeLeft)) * 60
-    );
-    wpm = wpm < 0 || !wpm || wpm === Infinity ? 0 : wpm;
-
-    wpmTag.innerText = wpm;
-    mistakeTag.innerText = mistakes;
-    cpmTag.innerText = charIndex - mistakes;
-  } else {
-    clearInterval(timer);
-    inpField.value = "";
-  }
-}
-
-function initTimer() {
-  if (timeLeft > 0) {
-    timeLeft--;
-    timeTag.innerText = timeLeft;
-    let wpm = Math.round(
-      ((charIndex - mistakes) / 5 / (maxTime - timeLeft)) * 60
-    );
-    wpmTag.innerText = wpm;
-  } else {
-    clearInterval(timer);
-  }
-}
-
-function resetGame() {
-  loadParagraph();
-  clearInterval(timer);
-  timeLeft = maxTime;
-  charIndex = mistakes = isTyping = 0;
-  inpField.value = "";
-  timeTag.innerText = timeLeft;
-  wpmTag.innerText = 0;
-  mistakeTag.innerText = 0;
-  cpmTag.innerText = 0;
-}
-
-loadParagraph();
-inpField.addEventListener("input", initTyping);
-tryAgainBtn.addEventListener("click", resetGame);
