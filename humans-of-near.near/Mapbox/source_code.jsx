@@ -110,7 +110,7 @@ const code = `
     function onCopy  (e, text)  {
       console.log(e,"==>e", text);
       const onOpen = ${handleLink};
-      onOpen(newLink);
+      onOpen(text);
       // navigator.clipboard.writeText(text);
     }
 
