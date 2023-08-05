@@ -40,27 +40,27 @@ const Header = styled.div`
   position: absolute;
 `;
 
+const Button = styled.button`
+  padding: 10px 22px;
+  border-radius: 6px;
+  border: 1px solid rgb(255, 255, 255);
+  color: white;
+  position: absolute;
+  z-index: 1,
+  @media (max-width: 510px) {
+    padding: 6px 15px;
+  }
+`;
+
 const BtnStyle = {
   background: "#191a1a",
-  padding: "10px 22px",
-  borderRadius: "6px",
-  border: "1px solid rgb(255, 255, 255)",
-  color: "white",
-  position: "absolute",
   right: "50px",
   top: "30px",
-  zIndex: 1,
 };
 
 const BtnStyle2 = {
   background: "unset",
-  padding: "10px 22px",
-  borderRadius: "6px",
-  border: "1px solid rgb(255, 255, 255)",
-  color: "white",
-  position: "absolute",
   bottom: 50,
-  zIndex: 1,
 };
 
 const BtnStyle2_act = {
@@ -149,7 +149,7 @@ return (
 
     {accountId && hasSBTToken && (
       <div>
-        <button
+        <Button
           class="btn"
           style={BtnStyle}
           onClick={() => {
@@ -178,7 +178,7 @@ return (
               mask="url(#ipSDownOne0)"
             />
           </svg>
-        </button>
+        </Button>
       </div>
     )}
 
@@ -190,7 +190,7 @@ return (
           alignItems: "center",
         }}
       >
-        <button
+        <Button
           class="btn"
           style={state.edit ? BtnStyle2_act : BtnStyle2}
           onClick={handleSaveLocation}
@@ -212,7 +212,7 @@ return (
               <path d="M17.5 9.5c0 3.038-2 6.5-5.5 10.5c-3.5-4-5.5-7.462-5.5-10.5a5.5 5.5 0 1 1 11 0Z" />
             </g>
           </svg>
-        </button>
+        </Button>
       </div>
     )}
 
