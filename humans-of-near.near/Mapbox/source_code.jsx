@@ -112,6 +112,7 @@ const code = `
        { action: "link", target: "https://www.google.com" },
        "*"
       );
+      console.log(text);
     }
 
     function getDetail (row) {
