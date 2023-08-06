@@ -273,7 +273,6 @@ const handleBookmarkCandidate = (candidateId) => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
         State.update({ bookmarked: selectedItems, loading: false });
-        State.update({ bookmarked: selectedItems, loading: false });
       },
       onCancel: () => State.update({ loading: false }),
     }
@@ -386,15 +385,18 @@ const CandidateList = ({ candidateId, votes }) => (
             {state.loading === candidateId ? (
               <Loader />
             ) : (
-              <i
-                id="bookmark"
-                onClick={() => handleBookmarkCandidate(candidateId)}
-                className={`bi ${
-                  state.bookmarked.includes(candidateId)
-                    ? "bi-bookmark-fill"
-                    : "bi-bookmark"
-                }`}
-              />
+              <>
+                {state.bookmarked}
+                <i
+                  id="bookmark"
+                  onClick={() => handleBookmarkCandidate(candidateId)}
+                  className={`bi ${
+                    state.bookmarked.includes(candidateId)
+                      ? "bi-bookmark-fill"
+                      : "bi-bookmark"
+                  }`}
+                />
+              </>
             )}
           </Bookmark>
         )}
