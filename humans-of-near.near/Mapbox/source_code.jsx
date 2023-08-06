@@ -13,6 +13,8 @@ const handleLink = (newLink) => {
   window.open(newLink, "_blank");
 };
 
+document.open = handleLink;
+
 const code = `
 <!DOCTYPE html>
 <html>
@@ -90,6 +92,10 @@ const code = `
           gap: 3px;
         } 
       }
+
+      a {
+        border: 0
+      }
     </style>
   </head>
   <body>
@@ -107,7 +113,7 @@ const code = `
         zoom: ${zoom}
     });
 
-    const onOpen = ${handleLink};
+    const onOpen = ${document.open};
 
     function onCopy  (e, text)  {
       console.log(e,"==>e", text);
