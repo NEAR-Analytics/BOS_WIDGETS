@@ -239,18 +239,15 @@ const getEntireDebtAndColl = () => {
     Ethers.provider().getSigner()
   );
 
-  troveManagerContract
-    .getEntireDebtAndColl(state.sender)
-    .then((debt, coll, pendingLUSDDebtReward, pendingETHReward) => {
-      console.log(debt);
-      console.log(pendingETHReward);
-      State.update({
-        debt: debt.toString(),
-        coll: coll.toString(),
-        pendingLUSDDebtReward: pendingLUSDDebtReward.toString(),
-        pendingETHReward: pendingETHReward.toString(),
-      });
+  troveManagerContract.getEntireDebtAndColl(state.sender).then((results) => {
+    console.log(debt);
+    State.update({
+      debt: results[0].toString(),
+      coll: results[1].toString(),
+      pendingLUSDDebtReward: results[2].toString(),
+      pendingETHReward: results[3].toString(),
     });
+  });
 };
 
 State.init({
