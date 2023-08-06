@@ -197,10 +197,10 @@ const filteredCandidates = () => {
           alreadyVoted(candidateId)
         )
       : result;
-
-  candidates = candidates.filter(([candidate, _vote], _index) =>
-    candidate.toLowerCase().includes(candidateId.toLowerCase())
-  );
+  if (candidateId)
+    candidates = result.filter(([candidate, _vote], _index) =>
+      candidate.toLowerCase().includes(candidateId.toLowerCase())
+    );
 
   return candidates;
 };
