@@ -345,9 +345,10 @@ if (!state.init) {
       _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
         ? _tosAccepted[_tosAccepted.length - 1].value
         : false,
-    init: true,
   });
 }
+
+State.update({ init: true });
 
 const UserLink = ({ title, src }) => (
   <>
