@@ -53,13 +53,13 @@ function href(widgetName, linkProps) {
 /* END_INCLUDE: "common.jsx" */
 
 const CommunityGithubPage = ({ handle }) =>
-  widget("components.template.community-page", {
+  widget("entity.community.layout", {
     handle,
     title: "GitHub",
 
     children: (
       <div className="d-flex flex-column">
-        {widget("feature.github-integration.kanban-board-editor", {
+        {widget("feature.project.github-view-configurator", {
           communityHandle: handle,
           pageURL: "near.org" + href("community.github", { handle }),
         })}
