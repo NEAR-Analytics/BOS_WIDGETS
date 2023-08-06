@@ -50,7 +50,7 @@ return (
             aria-controls="vertical-tab-with-border-1"
             role="tab"
           >
-            Tab 1
+            Home
           </button>
           <button
             type="button"
