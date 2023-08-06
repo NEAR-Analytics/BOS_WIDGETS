@@ -151,7 +151,9 @@ return (
     <Header>
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
-
+    <a id="mylink" href="https://humans.nearverselabs.com/" target="_blank">
+      mylink
+    </a>
     {accountId && hasSBTToken && (
       <div>
         <Profile
