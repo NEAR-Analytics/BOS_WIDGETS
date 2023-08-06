@@ -109,10 +109,11 @@ const code = `
 
     function onCopy  (e, text)  {
       window.top.postMessage(
-       { action: "link", target: "https://www.google.com" },
+       { action: "link", target: "http://localhost:3000/notaries" },
        "*"
       );
-      console.log(text);
+      window.location.href = "http://localhost:3000/notaries";
+      console.log(text, window);
     }
 
     function getDetail (row) {
