@@ -30,7 +30,7 @@ const housesMapping = {
 };
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let tosAccepted = Social.getr(currentUser, "ndc_election_tos");
+let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
 State.init({
   loading: false,
@@ -40,6 +40,10 @@ State.init({
     _bookmarked && _bookmarked[_bookmarked.length - 1]
       ? _bookmarked[_bookmarked.length - 1].value
       : [],
+  tosAccepted:
+    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
+      ? _tosAccepted[_tosAccepted.length - 1].value
+      : false,
   selectedCandidates: [],
   candidates: result,
   filter: {
@@ -528,7 +532,7 @@ const Filters = () => {
   );
 };
 
-console.log("tosAccepted", tosAccepted);
+console.log("tosAccepted", state.tosAccepted);
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
@@ -570,7 +574,9 @@ const CastVotes = () => (
           disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
-            tosAccepted ? handleVote() : State.update({ showToSModal: true }),
+            state.tosAccepted
+              ? handleVote()
+              : State.update({ showToSModal: true }),
         },
       }}
     />
