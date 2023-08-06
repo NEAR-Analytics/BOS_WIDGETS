@@ -53,7 +53,7 @@ State.init({
   showToSModal: false,
   bountyProgramModal: false,
 });
-
+console.log(state.bookmarked);
 const filteredCandidates = result.filter(([candidate, _vote], _index) =>
   candidate.toLowerCase().includes(candidateId.toLowerCase())
 );
