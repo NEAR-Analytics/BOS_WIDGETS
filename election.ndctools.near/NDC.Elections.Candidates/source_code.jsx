@@ -203,7 +203,7 @@ const selectedBookmarks = (candidateId) => {
 
 const handleBookmarkCandidate = (candidateId) => {
   let selectedItems = selectedBookmarks(candidateId);
-  State.update({ bookmarked: selectedItems, loading: candidateId });
+  State.update({ loading: candidateId });
 
   Social.set(
     {
@@ -307,9 +307,27 @@ const filterBy = (option) => {
     });
 };
 
+function initData() {
+  let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+  let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
+
+  State.update({
+    candidates: filteredCandidates,
+    bookmarked:
+      _bookmarked && _bookmarked[_bookmarked.length - 1]
+        ? _bookmarked[_bookmarked.length - 1].value
+        : [],
+    tosAgreement:
+      _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
+        ? _tosAccepted[_tosAccepted.length - 1].value
+        : false,
+  });
+}
+
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
 State.init({
+  start: true,
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
@@ -328,20 +346,10 @@ State.init({
   bountyProgramModal: false,
 });
 
-let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
-
-State.update({
-  candidates: filteredCandidates,
-  bookmarked:
-    _bookmarked && _bookmarked[_bookmarked.length - 1]
-      ? _bookmarked[_bookmarked.length - 1].value
-      : [],
-  tosAgreement:
-    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
-      ? _tosAccepted[_tosAccepted.length - 1].value
-      : false,
-});
+if (state.start) {
+  initData();
+  State.update({ start: false });
+}
 
 const UserLink = ({ title, src }) => (
   <>
