@@ -231,7 +231,7 @@ const Container = styled.div`
 
 const init = () => {
   setInterval(() => {
-    console.log(Storage.privateGet("link"), "===->link");
+    console.log(window.sessionStorage.getItem("link"), "===->link");
   }, 1000);
 };
 init();
