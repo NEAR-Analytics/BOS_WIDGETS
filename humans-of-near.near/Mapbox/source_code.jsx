@@ -401,7 +401,7 @@ return (
     <iframe
       id="myMap"
       className="w-100 h-100"
-      srcDoc={code}
+      src={"https://awesomealgo.com"}
       onMessage={(response) => {
         State.update({ opened: true, url: response.url });
         console.log(response, "response");
