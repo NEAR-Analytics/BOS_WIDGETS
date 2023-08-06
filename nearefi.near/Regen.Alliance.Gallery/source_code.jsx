@@ -54,7 +54,7 @@ function Sharddog({ owner, media, token }) {
 
   return (
     <a
-      href={`mob.near/widget/NftImage?tokenId=${token}&contractId=${nftContract}`}
+      href={`/mob.near/widget/NftImage?tokenId=${token}&contractId=${nftContract}`}
       target="_blank"
     >
       <Widget
