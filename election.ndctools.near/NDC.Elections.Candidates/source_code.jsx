@@ -175,9 +175,17 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 
-const filteredCandidates = result.filter(([candidate, _vote], _index) =>
-  candidate.toLowerCase().includes(candidateId.toLowerCase())
-);
+const filteredCandidates = () => {
+  let candidates = result.filter(([candidate, _vote], _index) =>
+    candidate.toLowerCase().includes(candidateId.toLowerCase())
+  );
+  if (state.filter.votes)
+    candidates = candidates.sort((a, b) =>
+      state.filter.votes ? a[1] - b[1] : b[1] - a[1]
+    );
+
+  return candidates;
+};
 
 const handleSelectCandidate = (candidateId) => {
   const selectedItems = state.selectedCandidates.includes(candidateId)
@@ -281,11 +289,7 @@ const filterBy = (option) => {
         filter: { bookmark: false },
       });
   else if (option.votes) {
-    console.log(state.candidates);
     State.update({
-      candidates: state.candidates.sort((a, b) =>
-        state.filter.votes ? a[1] - b[1] : b[1] - a[1]
-      ),
       filter: { votes: !state.filter.votes },
     });
   } else if (option.my_votes)
@@ -309,7 +313,7 @@ const filterBy = (option) => {
 };
 
 const loadInitData = () => {
-  State.update({ candidates: filteredCandidates });
+  State.update({ candidates: filteredCandidates() });
 };
 
 const loadSocialDBData = () => {
