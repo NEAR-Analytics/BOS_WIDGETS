@@ -386,7 +386,7 @@ const CandidateList = ({ candidateId, votes }) => (
               <Loader />
             ) : (
               <>
-                {state.bookmarked}
+                {console.log(state.bookmarked)}
                 <i
                   id="bookmark"
                   onClick={() => handleBookmarkCandidate(candidateId)}
