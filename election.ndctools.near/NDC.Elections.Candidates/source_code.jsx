@@ -477,7 +477,11 @@ const Filters = () => (
           onClick={() => filterBy({ bookmark: true })}
         >
           <small>Bookmark</small>
-          <i className="bi bi-funnel" />
+          <i
+            className={`bi ${
+              state.filter.votes ? "bi-funnel-fill" : "bi-funnel"
+            }`}
+          />
         </Bookmark>
       )}
       <div className="text-secondary">
@@ -507,7 +511,11 @@ const Filters = () => (
           onClick={() => filterBy({ my_votes: true })}
         >
           <small>My votes</small>
-          <i className="bi bi-funnel" />
+          <i
+            className={`bi ${
+              state.filter.my_votes ? "bi-funnel-fill" : "bi-funnel"
+            }`}
+          />
         </Action>
       )}
     </div>
