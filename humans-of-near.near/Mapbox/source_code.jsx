@@ -146,7 +146,7 @@ const code = `
         state.social = true
       }
 
-
+        console.log(${handleLink("123")});
        const HTML = '<div class="popup">'+
           '<img src="https://humans.nearverselabs.com/Human.png" class="logo" />'+
           '<div class="gap-14">'+
