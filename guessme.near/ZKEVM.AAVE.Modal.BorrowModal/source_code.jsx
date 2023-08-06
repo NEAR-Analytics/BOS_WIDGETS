@@ -145,6 +145,7 @@ const BalanceContainer = styled.div`
   margin-top: 10px;
 `;
 
+
 State.init({
   amount: "",
   amountInUSD: "0.00",
@@ -168,10 +169,7 @@ function updateGas() {
 
 updateGas();
 const maxValue = Big(availableBorrows).toFixed(decimals);
-const questionSwitch = Storage.get(
-  "zkevm-aave-question-switch",
-  "guessme.near/widget/ZKEVM.switch_quest_card"
-);
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "guessme.near/widget/ZKEVM.switch_quest_card");
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 
 /**
@@ -322,25 +320,19 @@ function borrowERC20(amount) {
           account_id: eth_account_id,
           account_info: uuid,
           template: "AAVE",
-          action_switch: questionSwitch == "on" ? "1" : "0",
+          action_switch: questionSwitch == "on" ? '1': '0',
           action_status: status === 1 ? "Success" : "Failed",
           tx_id: transactionHash,
-          action_network_id: "zkEVM",
         });
       });
     })
     .catch(() => State.update({ loading: false }));
 }
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add", {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -389,9 +381,8 @@ function borrowETH(amount) {
           account_id: eth_account_id,
           account_info: uuid,
           template: "AAVE",
-          action_switch: questionSwitch == "on" ? "1" : "0",
+          action_switch: questionSwitch == "on" ? '1': '0',
           action_status: status === 1 ? "Success" : "Failed",
-          action_network_id: "zkEVM",
           tx_id: transactionHash,
         });
       });
@@ -425,20 +416,16 @@ function update() {
   }
 }
 function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(param_body),
+    });
 }
 update();
-const is_disabled =
-  state.loading ||
-  Big(state.amount || 0).lte(0) ||
-  Big(availableBorrows || 0).lte(0);
+const is_disabled = state.loading || Big(state.amount || 0).lte(0) || Big(availableBorrows || 0).lte(0);
 return (
   <>
     <Widget
@@ -455,43 +442,43 @@ return (
                 config,
                 children: (
                   <>
-                    <InputContainer>
-                      <TokenTexture>
-                        <Input
-                          type="number"
-                          value={state.amount}
-                          onChange={(e) => {
-                            changeValue(e.target.value);
-                          }}
-                          placeholder="0"
-                        />
-                      </TokenTexture>
-                      <TokenWrapper>
-                        <img
-                          width={22}
-                          height={22}
-                          src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
-                        />
-                        <TokenTexture>{symbol}</TokenTexture>
-                      </TokenWrapper>
-                    </InputContainer>
-                    <BalanceContainer>
-                      <GrayTexture>${state.amountInUSD}</GrayTexture>
-                      <GrayTexture>
-                        Available:{" "}
-                        <span
-                          onClick={() => {
-                            changeValue(maxValue);
-                          }}
-                          className="balanceValue"
-                        >
-                          {isValid(availableBorrows) && availableBorrows !== "-"
-                            ? Big(availableBorrows).toFixed(7)
-                            : availableBorrows}
-                        </span>
-                      </GrayTexture>
-                    </BalanceContainer>
-                  </>
+                  <InputContainer>
+                    <TokenTexture>
+                      <Input
+                        type="number"
+                        value={state.amount}
+                        onChange={(e) => {
+                          changeValue(e.target.value);
+                        }}
+                        placeholder="0"
+                      />
+                    </TokenTexture>
+                    <TokenWrapper>
+                      <img
+                        width={22}
+                        height={22}
+                        src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
+                      />
+                      <TokenTexture>{symbol}</TokenTexture>
+                    </TokenWrapper>
+                  </InputContainer>
+                  <BalanceContainer>
+                    <GrayTexture>${state.amountInUSD}</GrayTexture>
+                    <GrayTexture>
+                      Available:{" "}
+                      <span
+                        onClick={() => {
+                          changeValue(maxValue);
+                        }}
+                        className="balanceValue"
+                      >
+                        {isValid(availableBorrows) && availableBorrows !== "-"
+                          ? Big(availableBorrows).toFixed(7)
+                          : availableBorrows}
+                      </span>
+                    </GrayTexture>
+                  </BalanceContainer>
+                </>
                 ),
               }}
             />
@@ -532,7 +519,7 @@ return (
                 ),
               }}
             />
-            <div className="splitDiv">
+             <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <div
