@@ -357,11 +357,7 @@ State.init({
   bountyProgramModal: false,
 });
 
-if (state.start) {
-  initData();
-
-  State.update({ start: false });
-}
+initData();
 
 const UserLink = ({ title, src }) => (
   <>
