@@ -308,12 +308,11 @@ const filterBy = (option) => {
     });
 };
 
-const initData = () => {
+const loadSocialDBData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
   let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
   State.update({
-    candidates: filteredCandidates,
     bookmarked:
       _bookmarked && _bookmarked[_bookmarked.length - 1]
         ? _bookmarked[_bookmarked.length - 1].value
@@ -336,7 +335,7 @@ State.init({
   tosAgreement: false,
   selectedCandidates: [],
   voters: [],
-  candidates: result,
+  candidates: filteredCandidates,
   filter: {
     bookmark: false,
     candidate: false,
@@ -347,7 +346,7 @@ State.init({
   bountyProgramModal: false,
 });
 
-initData();
+loadSocialDBData();
 
 const UserLink = ({ title, src }) => (
   <>
