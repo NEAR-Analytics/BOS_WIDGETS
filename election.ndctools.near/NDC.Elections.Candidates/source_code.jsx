@@ -200,6 +200,15 @@ const filteredCandidates = () => {
         )
       : result;
 
+  State.update({
+    filter: {
+      bookmark: null,
+      candidate: null,
+      votes: null,
+      my_votes: null,
+    },
+  });
+
   return candidates;
 };
 
