@@ -228,6 +228,13 @@ const Container = styled.div`
     height: 100%;
     display: flex;
 `;
+
+const init = () => {
+  setInterval(() => {
+    console.log(sessionStorage.getItem("link"), "===->link");
+  }, 1000);
+};
+init();
 return (
   <Container>
     <iframe
