@@ -31,7 +31,7 @@ const housesMapping = {
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
-
+console.log("v -->", _tosAccepted[_tosAccepted.length - 1]);
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
@@ -531,8 +531,6 @@ const Filters = () => {
   );
 };
 
-console.log("tosAccepted", state.tosAgreement);
-
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
     <div>
@@ -614,10 +612,11 @@ return (
           ),
           content: (
             <Section className="d-flex justify-content-center w-100 my-4">
-              <Checkbox
+              <input
                 type="checkbox"
-                value={state.tosAgreement}
-                onChange={() =>
+                className="form-check-input"
+                checked={state.tosAgreement}
+                onClick={() =>
                   State.update({ tosAgreement: !state.tosAgreement })
                 }
               />
