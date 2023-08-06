@@ -174,62 +174,9 @@ const housesMapping = {
   HouseOfMerit: "House of Merit",
   TransparencyCommission: "Transparency Commission",
 };
-const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
-
-State.init({
-  loading: false,
-  availableVotes: seats - myVotesForHouse().length,
-  selected: null,
-  bookmarked: [],
-  tosAgreement: false,
-  selectedCandidates: [],
-  voters: [],
-  candidates: result,
-  filter: {
-    bookmark: false,
-    candidate: false,
-    votes: false,
-    my_votes: false,
-  },
-  showToSModal: false,
-  bountyProgramModal: false,
-});
 
 const filteredCandidates = result.filter(([candidate, _vote], _index) =>
   candidate.toLowerCase().includes(candidateId.toLowerCase())
-);
-
-State.update({
-  candidates: filteredCandidates,
-  bookmarked:
-    _bookmarked && _bookmarked[_bookmarked.length - 1]
-      ? _bookmarked[_bookmarked.length - 1].value
-      : [],
-  tosAgreement:
-    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
-      ? _tosAccepted[_tosAccepted.length - 1].value
-      : false,
-});
-
-const UserLink = ({ title, src }) => (
-  <>
-    <StyledLink href={src} target="_blank">
-      {title}
-    </StyledLink>
-    <div>
-      <Icon className="bi bi-arrow-up-right" />
-    </div>
-  </>
-);
-
-const Loader = () => (
-  <span
-    className="spinner-grow spinner-grow-sm me-1"
-    role="status"
-    aria-hidden="true"
-  />
 );
 
 const handleSelectCandidate = (candidateId) => {
@@ -272,7 +219,7 @@ const handleBookmarkCandidate = (candidateId) => {
       onCommit: () => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
-        State.update({ loading: false });
+        State.update({ bookmarked: selectedItems, loading: false });
       },
       onCancel: () => State.update({ loading: false }),
     }
@@ -361,6 +308,60 @@ const filterBy = (option) => {
       filter: { bookmark: false, my_votes: false },
     });
 };
+
+const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
+let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
+
+State.init({
+  loading: false,
+  availableVotes: seats - myVotesForHouse().length,
+  selected: null,
+  bookmarked: [],
+  tosAgreement: false,
+  selectedCandidates: [],
+  voters: [],
+  candidates: result,
+  filter: {
+    bookmark: false,
+    candidate: false,
+    votes: false,
+    my_votes: false,
+  },
+  showToSModal: false,
+  bountyProgramModal: false,
+});
+
+State.update({
+  candidates: filteredCandidates,
+  bookmarked:
+    _bookmarked && _bookmarked[_bookmarked.length - 1]
+      ? _bookmarked[_bookmarked.length - 1].value
+      : [],
+  tosAgreement:
+    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
+      ? _tosAccepted[_tosAccepted.length - 1].value
+      : false,
+});
+
+const UserLink = ({ title, src }) => (
+  <>
+    <StyledLink href={src} target="_blank">
+      {title}
+    </StyledLink>
+    <div>
+      <Icon className="bi bi-arrow-up-right" />
+    </div>
+  </>
+);
+
+const Loader = () => (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
 
 const CandidateList = ({ candidateId, votes }) => (
   <div>
@@ -458,54 +459,52 @@ const CandidateList = ({ candidateId, votes }) => (
   </div>
 );
 
-const Filters = () => {
-  return (
-    <FilterRow className="d-flex align-items-center justify-content-between">
-      <div className="d-flex">
-        {isIAmHuman && (
-          <Bookmark
-            role="button"
-            className="text-secondary"
-            onClick={() => filterBy({ bookmark: true })}
-          >
-            <small>Bookmark</small>
-            <i className="bi bi-funnel" />
-          </Bookmark>
-        )}
-        <div className="text-secondary">
-          <small>Candidate</small>
-        </div>
-      </div>
-      <div className="d-flex">
-        <Nomination className="text-secondary text-end text-md-start">
-          <small>Nomination</small>
-        </Nomination>
-        <Votes
+const Filters = () => (
+  <FilterRow className="d-flex align-items-center justify-content-between">
+    <div className="d-flex">
+      {isIAmHuman && (
+        <Bookmark
           role="button"
           className="text-secondary"
-          onClick={() => filterBy({ votes: true })}
+          onClick={() => filterBy({ bookmark: true })}
         >
-          <small>Total votes</small>
-          <i
-            className={`bi ${
-              state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
-            }`}
-          />
-        </Votes>
-        {isIAmHuman && (
-          <Action
-            role="button"
-            className="text-secondary"
-            onClick={() => filterBy({ my_votes: true })}
-          >
-            <small>My votes</small>
-            <i className="bi bi-funnel" />
-          </Action>
-        )}
+          <small>Bookmark</small>
+          <i className="bi bi-funnel" />
+        </Bookmark>
+      )}
+      <div className="text-secondary">
+        <small>Candidate</small>
       </div>
-    </FilterRow>
-  );
-};
+    </div>
+    <div className="d-flex">
+      <Nomination className="text-secondary text-end text-md-start">
+        <small>Nomination</small>
+      </Nomination>
+      <Votes
+        role="button"
+        className="text-secondary"
+        onClick={() => filterBy({ votes: true })}
+      >
+        <small>Total votes</small>
+        <i
+          className={`bi ${
+            state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
+          }`}
+        />
+      </Votes>
+      {isIAmHuman && (
+        <Action
+          role="button"
+          className="text-secondary"
+          onClick={() => filterBy({ my_votes: true })}
+        >
+          <small>My votes</small>
+          <i className="bi bi-funnel" />
+        </Action>
+      )}
+    </div>
+  </FilterRow>
+);
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
