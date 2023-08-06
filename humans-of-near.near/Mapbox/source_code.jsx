@@ -9,14 +9,6 @@ const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
 
-const handleLink = ({ e }) => {
-  return (
-    <Link to="/michaelpeter.near/widget/HelloWorld" target="_blank">
-      {e}
-    </Link>
-  );
-};
-
 const code = `
 <!DOCTYPE html>
 <html>
@@ -145,8 +137,7 @@ const code = `
       if(user.social !== "https://social.near.page/u/"){
         state.social = true
       }
-
-        console.log(${handleLink("123")});
+      
        const HTML = '<div class="popup">'+
           '<img src="https://humans.nearverselabs.com/Human.png" class="logo" />'+
           '<div class="gap-14">'+
