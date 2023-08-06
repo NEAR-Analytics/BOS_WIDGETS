@@ -29,8 +29,8 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
 State.init({
   loading: false,
@@ -40,10 +40,7 @@ State.init({
     _bookmarked && _bookmarked[_bookmarked.length - 1]
       ? _bookmarked[_bookmarked.length - 1].value
       : [],
-  tosAgreement:
-    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
-      ? _tosAccepted[_tosAccepted.length - 1].value
-      : false,
+  tosAgreement: false,
   selectedCandidates: [],
   voters: [],
   candidates: result,
@@ -56,9 +53,6 @@ State.init({
   showToSModal: false,
   bountyProgramModal: false,
 });
-
-console.log("value -->", _tosAccepted[_tosAccepted.length - 1].value);
-console.log("state -->", state.tosAgreement);
 
 const filteredCandidates = result.filter(([candidate, _vote], _index) =>
   candidate.toLowerCase().includes(candidateId.toLowerCase())
@@ -574,7 +568,7 @@ const CastVotes = () => (
           // disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
-            state.tosAgreement
+            _tosAccepted && _tosAccepted[_tosAccepted.length - 1].value
               ? handleVote()
               : State.update({ showToSModal: true }),
         },
