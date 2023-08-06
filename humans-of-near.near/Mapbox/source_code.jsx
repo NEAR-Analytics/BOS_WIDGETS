@@ -108,12 +108,12 @@ const code = `
     });
 
     function onCopy  (e, text)  {
+      console.log(text, window);
       window.top.postMessage(
-       { action: "link", target: "http://localhost:3000/notaries" },
+       { action: "link", target: text },
        "*"
       );
-      window.location.href = "http://localhost:3000/notaries";
-      console.log(text, window);
+       window.open(text, "_blank");
     }
 
     function getDetail (row) {
