@@ -9,6 +9,9 @@ const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
 
+const myel = document.getElementById("mylink");
+console.log(myel, "===>myel");
+
 const code = `
 <!DOCTYPE html>
 <html>
