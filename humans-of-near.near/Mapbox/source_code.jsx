@@ -402,11 +402,10 @@ return (
       id="myMap"
       className="w-100 h-100"
       srcDoc={code}
-      onMessage={(response) =>{
-        State.update({ opened: true, url: response.url };
-        console.log(response,"response");
-      }
-      }
+      onMessage={(response) => {
+        State.update({ opened: true, url: response.url });
+        console.log(response, "response");
+      }}
     />
   </Container>
 );
