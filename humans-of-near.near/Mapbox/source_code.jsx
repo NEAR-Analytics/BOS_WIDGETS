@@ -231,7 +231,7 @@ return (
       id="myMap"
       className="w-100 h-100"
       sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox"
-      src="https://humans.nearverselabs.com/"
+      src="https://near.org/near/widget/ProfilePage?accountId=michaelpeter.near&tab=apps"
       target="_parent"
       allow="geolocation *;"
     />
