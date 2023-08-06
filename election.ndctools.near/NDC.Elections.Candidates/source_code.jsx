@@ -289,11 +289,12 @@ const handleAcceptToS = () => {
 };
 
 const filterBy = (option) => {
-  let filter = { bookmark: false, my_votes: false };
+  let filter = {};
 
   if (option.bookmark) filter = { bookmark: !state.filter.bookmark };
-  if (option.votes) filter = { votes: !state.filter.votes };
-  if (option.my_votes) filter = { my_votes: !state.filter.my_votes };
+  else if (option.votes) filter = { votes: !state.filter.votes };
+  else if (option.my_votes) filter = { my_votes: !state.filter.my_votes };
+  else filter = { bookmark: false, my_votes: false };
 
   State.update({ filter });
 };
