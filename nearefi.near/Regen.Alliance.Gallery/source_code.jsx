@@ -1,4 +1,4 @@
-const limit = 475;
+const limit = props.limit ?? 475;
 const nftContract = props.nftContract ?? "nft.regens.near";
 State.init({
   offset: 0,
