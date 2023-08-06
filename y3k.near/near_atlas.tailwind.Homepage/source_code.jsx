@@ -13,14 +13,7 @@ if (profile === null) {
 const name = profile.name;
 const image = profile.image;
 
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Documents", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
-];
+const navigation = [{ name: "Dashboard", href: "#", current: true }];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
