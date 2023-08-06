@@ -92,7 +92,7 @@ const code = `
       }
 
       a {
-        border: 0
+        outline: 0;
       }
     </style>
   </head>
