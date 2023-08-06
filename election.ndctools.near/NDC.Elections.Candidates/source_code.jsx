@@ -310,8 +310,6 @@ const filterBy = (option) => {
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
 State.init({
   init: false,
@@ -333,7 +331,10 @@ State.init({
   bountyProgramModal: false,
 });
 
-if (state.init === undefined || !state.init) {
+if (!state.init) {
+  let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+  let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
+
   State.update({
     candidates: filteredCandidates,
     bookmarked:
@@ -344,8 +345,8 @@ if (state.init === undefined || !state.init) {
       _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
         ? _tosAccepted[_tosAccepted.length - 1].value
         : false,
+    init: true,
   });
-  State.update({ init: true });
 }
 
 const UserLink = ({ title, src }) => (
