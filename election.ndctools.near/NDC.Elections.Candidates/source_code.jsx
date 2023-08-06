@@ -40,11 +40,12 @@ State.init({
     _bookmarked && _bookmarked[_bookmarked.length - 1]
       ? _bookmarked[_bookmarked.length - 1].value
       : [],
-  tosAccepted:
+  tosAgreement:
     _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
       ? _tosAccepted[_tosAccepted.length - 1].value
       : false,
   selectedCandidates: [],
+  voters: [],
   candidates: result,
   filter: {
     bookmark: false,
@@ -52,10 +53,8 @@ State.init({
     votes: false,
     my_votes: false,
   },
-  voters: [],
   showToSModal: false,
   bountyProgramModal: false,
-  tosAgreement: false,
 });
 
 const filteredCandidates = result.filter(([candidate, _vote], _index) =>
@@ -532,7 +531,7 @@ const Filters = () => {
   );
 };
 
-console.log("tosAccepted", _tosAccepted);
+console.log("tosAccepted", state.tosAccepted);
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
@@ -571,10 +570,10 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: state.selectedCandidates.length === 0,
+          // disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
-            state.tosAccepted
+            state.tosAgreement
               ? handleVote()
               : State.update({ showToSModal: true }),
         },
