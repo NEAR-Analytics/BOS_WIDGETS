@@ -345,7 +345,7 @@ if (!state.init) {
         ? _tosAccepted[_tosAccepted.length - 1].value
         : false,
   });
-  State, update({ init: true });
+  State.update({ init: true });
 }
 
 const UserLink = ({ title, src }) => (
