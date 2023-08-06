@@ -235,7 +235,7 @@ const claimCollateral = () => {
 const getEntireDebtAndColl = () => {
   const troveManagerContract = new ethers.Contract(
     troveManagerAddress,
-    troveManagerAbi.body.result,
+    troveManagerAbi.body,
     Ethers.provider().getSigner()
   );
 
