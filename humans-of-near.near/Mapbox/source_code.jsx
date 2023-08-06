@@ -9,6 +9,10 @@ const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
 
+state = State.init({
+  opened: false,
+});
+
 const code = `
 <!DOCTYPE html>
 <html>
@@ -227,12 +231,38 @@ const Container = styled.div`
 
 return (
   <Container>
+    <Dialog.Root open={state.opened}>
+      <Dialog.Overlay className="DialogOverlay" />
+      <Dialog.Content className="DialogContent">
+        <Dialog.Title className="DialogTitle">Redirect</Dialog.Title>
+        <Dialog.Description className="DialogDescription">
+          Click{" "}
+          <a href={state.url} target="_blank">
+            {" "}
+            here{" "}
+          </a>{" "}
+          to open the link in new tab.
+        </Dialog.Description>
+        <Dialog.Close asChild>
+          <button
+            className="IconButton"
+            aria-label="Close"
+            onClick={() => {
+              State.update({ opened: false });
+            }}
+          >
+            X
+          </button>
+        </Dialog.Close>
+      </Dialog.Content>
+    </Dialog.Root>
     <iframe
       id="myMap"
       className="w-100 h-100"
-      sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox"
-      target="_parent"
-      allow="geolocation *;"
+      srcDoc={code}
+      onMessage={(response) =>
+        State.update({ opened: true, url: response.url })
+      }
     />
   </Container>
 );
