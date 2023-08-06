@@ -131,9 +131,10 @@ const sendPrompt = () => {
   // console.log("getNamesForOwner raw res", res.body);
 
   const inference = res.body;
+  console.log(inference);
   const parsed = JSON.parse(inference);
-  if (parsed) {
-    console.log(parsed);
+  if (!parsed.error) {
+    console.log(parsed.action);
     const widget = (
       <Widget
         src="testbrrr.near/widget/Untitled-1"
@@ -145,7 +146,8 @@ const sendPrompt = () => {
     );
     State.update({ response: parsed.text, widget: widget });
   } else {
-    State.update({ response: inference });
+    console.log(parsed.action);
+    State.update({ response: parsed.text });
   }
 };
 
@@ -172,7 +174,7 @@ return (
       />
     </div>
 
-    <p>{state.response.text ? state.response.text : null}</p>
+    <p>{state.response ? state.response : null}</p>
 
     <Button onClick={() => sendPrompt()}>Send</Button>
   </CreatePrompt>
