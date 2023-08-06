@@ -175,14 +175,30 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 
+const alreadyVoted = (candidateId) =>
+  myVotes.some((voter) => voter.candidate === candidateId);
+
 const filteredCandidates = () => {
   let candidates = result.filter(([candidate, _vote], _index) =>
     candidate.toLowerCase().includes(candidateId.toLowerCase())
   );
-  if (state.filter.votes)
+
+  if (state.filter.votes !== null)
     candidates = candidates.sort((a, b) =>
       state.filter.votes ? a[1] - b[1] : b[1] - a[1]
     );
+  if (state.filter.bookmark !== null)
+    candidates = state.filter.bookmark
+      ? state.candidates.filter(([candidateId, _votes], _index) =>
+          state.bookmarked.includes(candidateId)
+        )
+      : result;
+  if (state.filter.my_votes !== null)
+    candidates = state.filter.my_votes
+      ? state.candidates.filter(([candidateId, _votes], _index) =>
+          alreadyVoted(candidateId)
+        )
+      : result;
 
   return candidates;
 };
@@ -271,45 +287,14 @@ const handleAcceptToS = () => {
   );
 };
 
-const alreadyVoted = (candidateId) =>
-  myVotes.some((voter) => voter.candidate === candidateId);
-
 const filterBy = (option) => {
-  if (option.bookmark)
-    if (!state.filter.bookmark)
-      State.update({
-        candidates: state.candidates.filter(([candidateId, _votes], _index) =>
-          state.bookmarked.includes(candidateId)
-        ),
-        filter: { bookmark: true },
-      });
-    else
-      State.update({
-        candidates: result,
-        filter: { bookmark: false },
-      });
-  else if (option.votes) {
-    State.update({
-      filter: { votes: !state.filter.votes },
-    });
-  } else if (option.my_votes)
-    if (!state.filter.my_votes)
-      State.update({
-        candidates: state.candidates.filter(([candidateId, _votes], _index) =>
-          alreadyVoted(candidateId)
-        ),
-        filter: { my_votes: true },
-      });
-    else
-      State.update({
-        candidates: result,
-        filter: { my_votes: false },
-      });
-  else
-    State.update({
-      candidates: result,
-      filter: { bookmark: false, my_votes: false },
-    });
+  let filter = { bookmark: false, my_votes: false };
+
+  if (option.bookmark) filter = { bookmark: !state.filter.bookmark };
+  if (option.votes) filter = { votes: !state.filter.votes };
+  if (option.my_votes) filter = { my_votes: !state.filter.my_votes };
+
+  State.update({ filter });
 };
 
 const loadInitData = () => {
@@ -345,10 +330,10 @@ State.init({
   voters: [],
   candidates: result,
   filter: {
-    bookmark: false,
-    candidate: false,
-    votes: false,
-    my_votes: false,
+    bookmark: null,
+    candidate: null,
+    votes: null,
+    my_votes: null,
   },
   showToSModal: false,
   bountyProgramModal: false,
