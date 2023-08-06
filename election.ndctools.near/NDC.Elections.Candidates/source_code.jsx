@@ -179,9 +179,7 @@ const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
 
 const filteredCandidates = () => {
-  let candidates = result.filter(([candidate, _vote], _index) =>
-    candidate.toLowerCase().includes(candidateId.toLowerCase())
-  );
+  let candidates = result;
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
@@ -199,6 +197,10 @@ const filteredCandidates = () => {
           alreadyVoted(candidateId)
         )
       : result;
+
+  candidates = candidates.filter(([candidate, _vote], _index) =>
+    candidate.toLowerCase().includes(candidateId.toLowerCase())
+  );
 
   return candidates;
 };
