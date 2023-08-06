@@ -239,6 +239,8 @@ const getEntireDebtAndColl = () => {
     Ethers.provider().getSigner()
   );
 
+  console.log("yes");
+
   troveManagerContract
     .getEntireDebtAndColl(state.sender)
     .then((debt, coll, pendingLUSDDebtReward, pendingETHReward) => {
