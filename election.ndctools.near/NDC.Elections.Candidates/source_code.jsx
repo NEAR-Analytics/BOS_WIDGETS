@@ -532,7 +532,7 @@ const Filters = () => {
   );
 };
 
-console.log("tosAccepted", state.tosAccepted);
+console.log("tosAccepted", _tosAccepted);
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
