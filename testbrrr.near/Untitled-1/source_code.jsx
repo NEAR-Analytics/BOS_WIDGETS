@@ -342,9 +342,9 @@ if (props.action === "borrow") {
 
 return (
   <div>
-    <p>{state.debt}</p>
-    <p>{state.pendingETHReward}</p>
-    <p>{state.pendingLUSDDebtReward}</p>
-    <p>{state.coll}</p>
+    <p>Debt: {state.debt} LUSD</p>
+    <p>Collateral: {state.coll} ETH</p>
+    <p>Pending ETH Reward: {state.pendingETHReward} ETH</p>
+    <p>Pending LUSD Debt Reward: {state.pendingLUSDDebtReward} LUSD</p>
   </div>
 );
