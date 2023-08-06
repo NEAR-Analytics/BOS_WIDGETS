@@ -29,19 +29,27 @@ const AttractableImage = styled.img`
 
 const Tile = ({
   children,
-  id,
+  fullWidth,
   headerSlotRight,
   heading,
   headingAdornment,
+  id,
   noFrame,
   minHeight,
+  noBorder,
+  borderRadius,
 }) => (
   <AttractableDiv
     className={[
-      "d-flex flex-column gap-3 shadow-sm border rounded-4 w-100",
+      "d-flex flex-column gap-3 shadow-sm w-100",
+      !borderRadius ? "rounded-4" : borderRadius,
+      !noBorder ? "border" : "",
       !noFrame ? "p-4" : "",
     ].join(" ")}
-    style={{ maxWidth: 896, minHeight: minHeight ?? 240 }}
+    style={{
+      maxWidth: !(fullWidth ?? false) ? 896 : null,
+      minHeight: minHeight ?? 240,
+    }}
     {...{ id }}
   >
     {!noFrame && (
