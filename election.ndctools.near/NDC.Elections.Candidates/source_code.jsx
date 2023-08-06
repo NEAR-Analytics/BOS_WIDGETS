@@ -29,8 +29,9 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
+
+let _bookmarked = await Social.index(currentUser, `${ndcOrganization}/${typ}`);
+let _tosAccepted = await Social.index(currentUser, "ndc_election_tos");
 
 State.init({
   loading: false,
