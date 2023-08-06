@@ -30,7 +30,7 @@ const housesMapping = {
 };
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let tosAccepted = Social.index(currentUser, "ndc_election_tos");
+let tosAccepted = Social.getr(currentUser, "ndc_election_tos");
 
 State.init({
   loading: false,
