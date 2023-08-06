@@ -21,45 +21,6 @@ const widgets = {
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
 
-const currentUser = context.accountId;
-
-const housesMapping = {
-  CouncilOfAdvisors: "Council Of Advisors",
-  HouseOfMerit: "House of Merit",
-  TransparencyCommission: "Transparency Commission",
-};
-const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
-
-State.init({
-  loading: false,
-  availableVotes: seats - myVotesForHouse().length,
-  selected: null,
-  bookmarked:
-    _bookmarked && _bookmarked[_bookmarked.length - 1]
-      ? _bookmarked[_bookmarked.length - 1].value
-      : [],
-  tosAgreement: false,
-  selectedCandidates: [],
-  voters: [],
-  candidates: result,
-  filter: {
-    bookmark: false,
-    candidate: false,
-    votes: false,
-    my_votes: false,
-  },
-  showToSModal: false,
-  bountyProgramModal: false,
-});
-console.log(state.bookmarked);
-const filteredCandidates = result.filter(([candidate, _vote], _index) =>
-  candidate.toLowerCase().includes(candidateId.toLowerCase())
-);
-
-State.update({ candidates: filteredCandidates });
-
 const H4 = styled.h4`
   margin-bottom: 0;
 `;
@@ -164,21 +125,6 @@ const Icon = styled.i`
   font-size: 14px;
 `;
 
-const PrimaryLink = styled.a`
-  padding: 8px 20px;
-  background: #ffd50d;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  color: inherit;
-
-  &:hover {
-    text-decoration: none;
-    color: inherit;
-  }
-`;
-
 const CastVotesSection = styled.div`
   background: #fdfeff;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
@@ -222,22 +168,50 @@ const Section = styled.div`
   margin-bottom: 10px;
 `;
 
-const Checkbox = styled.input`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px 0px;
-  gap: 10px;
-  width: 16px;
-  height: 16px;
-  background: #ffffff;
-  border: 1px solid #d0d6d9;
-  border-radius: 4px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-`;
+const currentUser = context.accountId;
+const housesMapping = {
+  CouncilOfAdvisors: "Council Of Advisors",
+  HouseOfMerit: "House of Merit",
+  TransparencyCommission: "Transparency Commission",
+};
+const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
+let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
+let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
+
+State.init({
+  loading: false,
+  availableVotes: seats - myVotesForHouse().length,
+  selected: null,
+  bookmarked: [],
+  tosAgreement: false,
+  selectedCandidates: [],
+  voters: [],
+  candidates: result,
+  filter: {
+    bookmark: false,
+    candidate: false,
+    votes: false,
+    my_votes: false,
+  },
+  showToSModal: false,
+  bountyProgramModal: false,
+});
+
+const filteredCandidates = result.filter(([candidate, _vote], _index) =>
+  candidate.toLowerCase().includes(candidateId.toLowerCase())
+);
+
+State.update({
+  candidates: filteredCandidates,
+  bookmarked:
+    _bookmarked && _bookmarked[_bookmarked.length - 1]
+      ? _bookmarked[_bookmarked.length - 1].value
+      : [],
+  tosAgreement:
+    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
+      ? _tosAccepted[_tosAccepted.length - 1].value
+      : false,
+});
 
 const UserLink = ({ title, src }) => (
   <>
@@ -565,10 +539,10 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          disabled: state.selectedCandidates.length === 0,
+          // disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
-            _tosAccepted && _tosAccepted[_tosAccepted.length - 1].value
+            state.tosAgreement
               ? handleVote()
               : State.update({ showToSModal: true }),
         },
