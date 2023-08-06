@@ -92,7 +92,7 @@ const openTrove = () => {
 
   borrowerOperationContract.openTrove(
     ethers.BigNumber.from(5000000000000000),
-    ethers.BigNumber.from(props.borrow * 100)
+    ethers.BigNumber.from(props.lusdAmount * 100)
       .mul("10000000000000000")
       .toString(),
     // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
@@ -100,7 +100,7 @@ const openTrove = () => {
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     {
       value: ethers.BigNumber.from(
-        (props.coll * 1000000000000000000).toString()
+        (props.ethCollateralAmount * 1000000000000000000).toString()
       ),
       // gasPrice: state.gasPrice,
       // gasLimit: 25000000,
