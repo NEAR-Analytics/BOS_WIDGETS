@@ -248,7 +248,7 @@ const getEntireDebtAndColl = () => {
 };
 
 State.init({
-  coll: 0,
+  coll: null,
   borrow: 0,
   borrowingFee: 0,
   totalcoll: 200,
@@ -261,6 +261,9 @@ State.init({
   price: 0,
   isOpenTrove: undefined,
   isBlocked: true,
+  debt: null,
+  pendingLUSDDebtReward: null,
+  pendingETHReward: null,
 });
 
 if (state.sender === undefined) {
@@ -334,4 +337,11 @@ if (props.action === "borrow") {
   getEntireDebtAndColl();
 }
 
-return <div></div>;
+return (
+  <div>
+    <p>{state.debt}</p>
+    <p>{state.pendingETHReward}</p>
+    <p>{state.pendingLUSDDebtReward}</p>
+    <p>{state.coll}</p>
+  </div>
+);
