@@ -256,6 +256,8 @@ const selectedBookmarks = (candidateId) => {
 
 const handleBookmarkCandidate = (candidateId) => {
   let selectedItems = selectedBookmarks(candidateId);
+
+  console.log(selectedItems);
   State.update({ loading: candidateId });
 
   Social.set(
@@ -270,6 +272,7 @@ const handleBookmarkCandidate = (candidateId) => {
     {
       force: true,
       onCommit: () => {
+        console.log("--->", selectedItems);
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
         State.update({ bookmarked: selectedItems, loading: false });
