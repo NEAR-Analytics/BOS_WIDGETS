@@ -111,15 +111,6 @@ const code = `
         zoom: ${zoom}
     });
 
-    function onCopy  (e, text)  {
-      console.log(text, window);
-      window.top.postMessage(
-       { action: "link", target: text },
-       "*"
-      );
-       window.open(text, "_blank");
-    }
-
     function getDetail (row) {
       const user = row.user;
        var title = "";
@@ -149,7 +140,7 @@ const code = `
           '<div class="gap-14">'+
             '<h6>'+title+'</h6>'+
             '<div class="gap-16">'+
-            (state.social? "<a href='"+user.social+"' target='_blank' onclick='onCopy( this, "+JSON.stringify(user.social)+")' >" : '') +
+            (state.social? "<a href='"+user.social+"' target='_blank'>" : '') +
             '<svg width="29" height="12" viewBox="0 0 29 12" fill="'+(state.social?'white':'grey')+'" xmlns="http://www.w3.org/2000/svg"><path d="M0.240133 7.38517V4.85885L10.3454 0.409091V3.31579L3.42674 6.0933L3.52004 5.94258V6.30144L3.42674 6.15072L10.3454 8.92823V11.8349L0.240133 7.38517ZM28.7599 7.38517L18.6546 11.8349V8.92823L25.5733 6.15072L25.48 6.30144V5.94258L25.5733 6.0933L18.6546 3.31579V0.409091L28.7599 4.85885V7.38517Z"></path></svg>'+
              (state.social? '</a>' : '') +
              (state.twitter? '<a href="'+user.twitter+'" target="_blank">' : '') +
