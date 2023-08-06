@@ -103,7 +103,7 @@ const openTrove = () => {
         (props.ethCollateralAmount * 1000000000000000000).toString()
       ),
       // gasPrice: state.gasPrice,
-      // gasLimit: 25000000,
+      gasLimit: 25000000,
     }
   );
 };
