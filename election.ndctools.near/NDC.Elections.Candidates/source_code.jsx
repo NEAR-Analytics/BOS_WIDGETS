@@ -531,7 +531,7 @@ const Filters = () => {
   );
 };
 
-console.log("tosAccepted", state.tosAccepted);
+console.log("tosAccepted", state.tosAgreement);
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between">
