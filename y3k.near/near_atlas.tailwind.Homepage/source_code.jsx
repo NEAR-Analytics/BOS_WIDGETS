@@ -21,6 +21,9 @@ const navigation = [
   { name: "Documents", href: "#", current: false },
   { name: "Reports", href: "#", current: false },
 ];
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 return (
   <div>
