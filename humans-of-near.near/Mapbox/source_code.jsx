@@ -227,6 +227,9 @@ const Container = styled.div`
     display: flex;
 `;
 
+const myel = document.getElementById("mylink");
+console.log(myel, "===>myel");
+
 return (
   <Container>
     <iframe
