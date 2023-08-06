@@ -333,7 +333,7 @@ State.init({
   bountyProgramModal: false,
 });
 
-if (true) {
+if (state.init === undefined || !state.init) {
   State.update({
     candidates: filteredCandidates,
     bookmarked:
