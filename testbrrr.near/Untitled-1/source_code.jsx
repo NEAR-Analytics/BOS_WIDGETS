@@ -242,8 +242,8 @@ const getEntireDebtAndColl = () => {
   troveManagerContract.getEntireDebtAndColl(state.sender).then((results) => {
     console.log(debt);
     State.update({
-      debt: results[0].toString(),
-      coll: results[1].toString(),
+      debt: results[0].div("10000000000000000").toString(),
+      coll: ethers.utils.formatEther(results[1].toString()),
       pendingLUSDDebtReward: results[2].toString(),
       pendingETHReward: results[3].toString(),
     });
