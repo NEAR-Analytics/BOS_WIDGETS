@@ -31,7 +31,7 @@ const housesMapping = {
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
-console.log("v -->", _tosAccepted[_tosAccepted.length - 1]);
+
 State.init({
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
@@ -56,6 +56,9 @@ State.init({
   showToSModal: false,
   bountyProgramModal: false,
 });
+
+console.log("value -->", _tosAccepted[_tosAccepted.length - 1].value);
+console.log("state -->", state.tosAgreement);
 
 const filteredCandidates = result.filter(([candidate, _vote], _index) =>
   candidate.toLowerCase().includes(candidateId.toLowerCase())
