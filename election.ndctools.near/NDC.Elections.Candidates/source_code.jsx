@@ -314,7 +314,7 @@ let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
 State.init({
-  init: true,
+  init: false,
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
@@ -333,9 +333,9 @@ State.init({
   bountyProgramModal: false,
 });
 
-if (state.init)
+if (!state.init)
   State.update({
-    init: false,
+    init: true,
     candidates: filteredCandidates,
     bookmarked:
       _bookmarked && _bookmarked[_bookmarked.length - 1]
