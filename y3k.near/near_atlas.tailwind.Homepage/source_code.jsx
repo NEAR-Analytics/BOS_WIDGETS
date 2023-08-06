@@ -17,7 +17,7 @@ return (
   <div>
     <div>
       {accountId && !name && (
-        <div className="alert alert-warning rounded-4 mb-3">
+        <div classNameName="alert alert-warning rounded-4 mb-3">
           <p>Your profile is missing a name.</p>
           {editProfileButton}
         </div>
@@ -27,24 +27,24 @@ return (
         !image.ipfs_cid &&
         (!image.nft.contractId || !image.nft.tokenId) &&
         !image.url && (
-          <div className="alert alert-warning rounded-4 mb-3">
+          <div classNameName="alert alert-warning rounded-4 mb-3">
             <p>Your profile is missing a picture.</p>
             {editProfileButton}
           </div>
         )}
     </div>
 
-    <div class="flex flex-wrap">
-      <div class="border-r border-gray-200 dark:border-gray-700">
+    <div className="flex flex-wrap">
+      <div className="border-r border-gray-200 dark:border-gray-700">
         <nav
-          class="flex flex-col space-y-2"
+          className="flex flex-col space-y-2"
           aria-label="Tabs"
           role="tablist"
           data-hs-tabs-vertical="true"
         >
           <button
             type="button"
-            class="hs-tab-active:border-blue-500 hs-tab-active:text-blue-600 dark:hs-tab-active:text-blue-600 py-1 pr-4 inline-flex items-center gap-2 border-r-[3px] border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 active"
+            className="hs-tab-active:border-blue-500 hs-tab-active:text-blue-600 dark:hs-tab-active:text-blue-600 py-1 pr-4 inline-flex items-center gap-2 border-r-[3px] border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 active"
             id="vertical-tab-with-border-item-1"
             data-hs-tab="#vertical-tab-with-border-1"
             aria-controls="vertical-tab-with-border-1"
@@ -54,7 +54,7 @@ return (
           </button>
           <button
             type="button"
-            class="hs-tab-active:border-blue-500 hs-tab-active:text-blue-600 dark:hs-tab-active:text-blue-600 py-1 pr-4 inline-flex items-center gap-2 border-r-[3px] border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 dark:hover:text-gray-300"
+            className="hs-tab-active:border-blue-500 hs-tab-active:text-blue-600 dark:hs-tab-active:text-blue-600 py-1 pr-4 inline-flex items-center gap-2 border-r-[3px] border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 dark:hover:text-gray-300"
             id="vertical-tab-with-border-item-2"
             data-hs-tab="#vertical-tab-with-border-2"
             aria-controls="vertical-tab-with-border-2"
@@ -64,7 +64,7 @@ return (
           </button>
           <button
             type="button"
-            class="hs-tab-active:border-blue-500 hs-tab-active:text-blue-600 dark:hs-tab-active:text-blue-600 py-1 pr-4 inline-flex items-center gap-2 border-r-[3px] border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 dark:hover:text-gray-300"
+            className="hs-tab-active:border-blue-500 hs-tab-active:text-blue-600 dark:hs-tab-active:text-blue-600 py-1 pr-4 inline-flex items-center gap-2 border-r-[3px] border-transparent text-sm whitespace-nowrap text-gray-500 hover:text-blue-600 dark:hover:text-gray-300"
             id="vertical-tab-with-border-item-3"
             data-hs-tab="#vertical-tab-with-border-3"
             aria-controls="vertical-tab-with-border-3"
@@ -75,15 +75,15 @@ return (
         </nav>
       </div>
 
-      <div class="ml-3">
+      <div className="ml-3">
         <div
           id="vertical-tab-with-border-1"
           role="tabpanel"
           aria-labelledby="vertical-tab-with-border-item-1"
         >
-          <p class="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400">
             This is the{" "}
-            <em class="font-semibold text-gray-800 dark:text-gray-200">
+            <em className="font-semibold text-gray-800 dark:text-gray-200">
               first
             </em>{" "}
             item's tab body.
@@ -91,13 +91,13 @@ return (
         </div>
         <div
           id="vertical-tab-with-border-2"
-          class="hidden"
+          className="hidden"
           role="tabpanel"
           aria-labelledby="vertical-tab-with-border-item-2"
         >
-          <p class="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400">
             This is the{" "}
-            <em class="font-semibold text-gray-800 dark:text-gray-200">
+            <em className="font-semibold text-gray-800 dark:text-gray-200">
               second
             </em>{" "}
             item's tab body.
@@ -105,13 +105,13 @@ return (
         </div>
         <div
           id="vertical-tab-with-border-3"
-          class="hidden"
+          className="hidden"
           role="tabpanel"
           aria-labelledby="vertical-tab-with-border-item-3"
         >
-          <p class="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400">
             This is the{" "}
-            <em class="font-semibold text-gray-800 dark:text-gray-200">
+            <em className="font-semibold text-gray-800 dark:text-gray-200">
               third
             </em>{" "}
             item's tab body.
