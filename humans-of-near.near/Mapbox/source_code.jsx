@@ -224,17 +224,6 @@ const Container = styled.div`
     display: flex;
 `;
 
-// function init() {
-//   setTimeout(() => {
-//     document.getElementById("myMap").sandbox.value =
-//       "allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox";
-//     document.getElementById("myMap").allow = "geolocation *;";
-//     //document.getElementById('myMap').contentWindow.location.reload();
-//   }, 1000);
-// }
-
-// init();
-
 return (
   <Container>
     <iframe
@@ -242,6 +231,7 @@ return (
       className="w-100 h-100"
       sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-popups-to-escape-sandbox"
       srcDoc={code}
+      target="_parent"
       allow="geolocation *;"
     />
   </Container>
