@@ -116,7 +116,10 @@ const code = `
     });
 
     function onCopy  (e, text)  {
-      sessionStorage.setItem("link", text);
+      window.top.postMessage(
+       { action: "link", target: "https://www.google.com" },
+       "*"
+      );
     }
 
     function getDetail (row) {
@@ -229,12 +232,6 @@ const Container = styled.div`
     display: flex;
 `;
 
-const init = () => {
-  setInterval(() => {
-    console.log(window.sessionStorage.getItem("link"), "===->link");
-  }, 1000);
-};
-init();
 return (
   <Container>
     <iframe
