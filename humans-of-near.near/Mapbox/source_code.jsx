@@ -9,9 +9,6 @@ const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
 
-// const myel = document.getElementById("mylink");
-// console.log(myel, "===>myel");
-
 const code = `
 <!DOCTYPE html>
 <html>
@@ -226,10 +223,6 @@ const Container = styled.div`
     height: 100%;
     display: flex;
 `;
-
-const myel = document.getElementById("mylink").click;
-console.log(myel, "===>myel");
-
 return (
   <Container>
     <iframe
