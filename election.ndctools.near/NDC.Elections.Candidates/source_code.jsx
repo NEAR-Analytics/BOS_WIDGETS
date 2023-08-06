@@ -314,6 +314,7 @@ let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
 State.init({
+  init: true,
   loading: false,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
@@ -332,17 +333,19 @@ State.init({
   bountyProgramModal: false,
 });
 
-State.update({
-  candidates: filteredCandidates,
-  bookmarked:
-    _bookmarked && _bookmarked[_bookmarked.length - 1]
-      ? _bookmarked[_bookmarked.length - 1].value
-      : [],
-  tosAgreement:
-    _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
-      ? _tosAccepted[_tosAccepted.length - 1].value
-      : false,
-});
+if (state.init)
+  State.update({
+    init: false,
+    candidates: filteredCandidates,
+    bookmarked:
+      _bookmarked && _bookmarked[_bookmarked.length - 1]
+        ? _bookmarked[_bookmarked.length - 1].value
+        : [],
+    tosAgreement:
+      _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
+        ? _tosAccepted[_tosAccepted.length - 1].value
+        : false,
+  });
 
 const UserLink = ({ title, src }) => (
   <>
@@ -388,18 +391,15 @@ const CandidateList = ({ candidateId, votes }) => (
             {state.loading === candidateId ? (
               <Loader />
             ) : (
-              <>
-                {console.log(state.bookmarked)}
-                <i
-                  id="bookmark"
-                  onClick={() => handleBookmarkCandidate(candidateId)}
-                  className={`bi ${
-                    state.bookmarked.includes(candidateId)
-                      ? "bi-bookmark-fill"
-                      : "bi-bookmark"
-                  }`}
-                />
-              </>
+              <i
+                id="bookmark"
+                onClick={() => handleBookmarkCandidate(candidateId)}
+                className={`bi ${
+                  state.bookmarked.includes(candidateId)
+                    ? "bi-bookmark-fill"
+                    : "bi-bookmark"
+                }`}
+              />
             )}
           </Bookmark>
         )}
