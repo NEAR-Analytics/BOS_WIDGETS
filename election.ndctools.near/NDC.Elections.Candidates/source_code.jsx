@@ -596,7 +596,10 @@ return (
           description: (
             <>
               Please make sure to read and understand the{" "}
-              <ALink title="Fair Voting Policy." href="" />
+              <ALink
+                title="Fair Voting Policy."
+                href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
+              />
               which outlines the responsibilities of each voter.
             </>
           ),
@@ -609,7 +612,11 @@ return (
                   State.update({ tosAgreement: !state.tosAgreement })
                 }
               />
-              I agree with <ALink title="Fair Voting Policy." href="" />
+              I agree with{" "}
+              <ALink
+                title="Fair Voting Policy."
+                href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
+              />
             </Section>
           ),
           Button: {
@@ -640,11 +647,19 @@ return (
             <>
               <p>
                 Do you know about the{" "}
-                <ALink title="Whistleblower Bounty Program" href="" />? The
-                Whistleblower Bounty Program offers up to 2,000 NEAR for
+                <ALink
+                  title="Whistleblower Bounty Program"
+                  href="https://www.notion.so/NDC-Whistleblower-Program-and-Bounty-Framework-for-the-Election-b91e8d34a8cb4f17a6b9a9a7e7b5fa5c"
+                />
+                ? The Whistleblower Bounty Program offers up to 2,000 NEAR for
                 whistleblowers who come forward to share instances of vote
                 buying, account buying, election fraud, and other violations of
-                the <ALink title="Fair Voting Policy" href="" />.
+                the{" "}
+                <ALink
+                  title="Fair Voting Policy"
+                  href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
+                />
+                .
               </p>
               <p>
                 You will be bonding xN during the election period. This bond
@@ -660,7 +675,11 @@ return (
           content: (
             <Section className="d-flex d-flex justify-content-center w-100 my-4">
               I understand the{" "}
-              <ALink title="Whistleblower Bounty Program" href="" />.
+              <ALink
+                title="Whistleblower Bounty Program"
+                href="https://www.notion.so/NDC-Whistleblower-Program-and-Bounty-Framework-for-the-Election-b91e8d34a8cb4f17a6b9a9a7e7b5fa5c"
+              />
+              .
             </Section>
           ),
           Button: {
