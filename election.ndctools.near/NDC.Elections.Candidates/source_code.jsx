@@ -280,14 +280,15 @@ const filterBy = (option) => {
         candidates: result,
         filter: { bookmark: false },
       });
-  else if (option.votes)
+  else if (option.votes) {
+    console.log(state.filter);
     State.update({
       candidates: state.candidates.sort((a, b) =>
         state.filter.votes ? a[1] - b[1] : b[1] - a[1]
       ),
       filter: { votes: !state.filter.votes },
     });
-  else if (option.my_votes)
+  } else if (option.my_votes)
     if (!state.filter.my_votes)
       State.update({
         candidates: state.candidates.filter(([candidateId, _votes], _index) =>
@@ -311,17 +312,6 @@ const initData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
   let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
-  State.update({
-    candidates: filteredCandidates,
-    bookmarked:
-      _bookmarked && _bookmarked[_bookmarked.length - 1]
-        ? _bookmarked[_bookmarked.length - 1].value
-        : [],
-    tosAgreement:
-      _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
-        ? _tosAccepted[_tosAccepted.length - 1].value
-        : false,
-  });
   State.update({
     candidates: filteredCandidates,
     bookmarked:
