@@ -183,23 +183,22 @@ const filteredCandidates = () => {
     candidate.toLowerCase().includes(candidateId.toLowerCase())
   );
 
-  if (state.filter.bookmark !== null)
+  if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
       ? state.candidates.filter(([candidateId, _votes], _index) =>
           state.bookmarked.includes(candidateId)
         )
       : result;
-  else if (state.filter.votes !== null)
+  if (state.filterOption === "votes")
     candidates = candidates.sort((a, b) =>
       state.filter.votes ? a[1] - b[1] : b[1] - a[1]
     );
-  else if (state.filter.my_votes !== null)
+  if (state.filterOption === "my_votes")
     candidates = state.filter.my_votes
       ? state.candidates.filter(([candidateId, _votes], _index) =>
           alreadyVoted(candidateId)
         )
       : result;
-  else candidates = result;
 
   return candidates;
 };
@@ -289,14 +288,23 @@ const handleAcceptToS = () => {
 };
 
 const filterBy = (option) => {
+  let filterOption = "";
   let filter = {};
 
-  if (option.bookmark) filter = { bookmark: !state.filter.bookmark };
-  else if (option.votes) filter = { votes: !state.filter.votes };
-  else if (option.my_votes) filter = { my_votes: !state.filter.my_votes };
-  else filter = { bookmark: false, my_votes: false };
+  if (option.bookmark) {
+    filterOption = "bookmark";
+    filter = { bookmark: !state.filter.bookmark };
+  }
+  if (option.votes) {
+    filterOption = "votes";
+    filter = { votes: !state.filter.votes };
+  }
+  if (option.my_votes) {
+    filterOption = "my_votes";
+    filter = { my_votes: !state.filter.my_votes };
+  }
 
-  State.update({ filter });
+  State.update({ filterOption, filter });
 };
 
 const loadInitData = () => {
@@ -332,11 +340,12 @@ State.init({
   voters: [],
   candidates: result,
   filter: {
-    bookmark: null,
-    candidate: null,
-    votes: null,
-    my_votes: null,
+    bookmark: false,
+    candidate: false,
+    votes: false,
+    my_votes: false,
   },
+  filterOption: "",
   showToSModal: false,
   bountyProgramModal: false,
 });
