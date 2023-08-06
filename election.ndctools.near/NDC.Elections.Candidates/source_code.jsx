@@ -565,7 +565,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          // disabled: state.selectedCandidates.length === 0,
+          disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
             _tosAccepted && _tosAccepted[_tosAccepted.length - 1].value
