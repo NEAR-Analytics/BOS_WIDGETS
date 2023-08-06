@@ -41,10 +41,6 @@ text-decoration: none !important;
 	--bs-btn-disabled-bg: #0551604a;
 }
 
-&[class*="btn-outline-"] {
-	border-width: 2px;
-}
-
 &.btn-outline-primary {
 	--bs-btn-disabled-color: #6c757d8f;
 }
