@@ -281,7 +281,7 @@ const filterBy = (option) => {
         filter: { bookmark: false },
       });
   else if (option.votes) {
-    console.log(state.filter);
+    console.log(state.candidates);
     State.update({
       candidates: state.candidates.sort((a, b) =>
         state.filter.votes ? a[1] - b[1] : b[1] - a[1]
