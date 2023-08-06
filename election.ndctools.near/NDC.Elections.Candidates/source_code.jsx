@@ -333,9 +333,8 @@ State.init({
   bountyProgramModal: false,
 });
 
-if (!state.init)
+if (!state.init) {
   State.update({
-    init: true,
     candidates: filteredCandidates,
     bookmarked:
       _bookmarked && _bookmarked[_bookmarked.length - 1]
@@ -346,6 +345,8 @@ if (!state.init)
         ? _tosAccepted[_tosAccepted.length - 1].value
         : false,
   });
+  State, update({ init: true });
+}
 
 const UserLink = ({ title, src }) => (
   <>
