@@ -183,16 +183,16 @@ const filteredCandidates = () => {
     candidate.toLowerCase().includes(candidateId.toLowerCase())
   );
 
-  if (state.filter.votes !== null)
-    candidates = candidates.sort((a, b) =>
-      state.filter.votes ? a[1] - b[1] : b[1] - a[1]
-    );
   if (state.filter.bookmark !== null)
     candidates = state.filter.bookmark
       ? state.candidates.filter(([candidateId, _votes], _index) =>
           state.bookmarked.includes(candidateId)
         )
       : result;
+  if (state.filter.votes !== null)
+    candidates = candidates.sort((a, b) =>
+      state.filter.votes ? a[1] - b[1] : b[1] - a[1]
+    );
   if (state.filter.my_votes !== null)
     candidates = state.filter.my_votes
       ? state.candidates.filter(([candidateId, _votes], _index) =>
