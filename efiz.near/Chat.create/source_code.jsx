@@ -7,6 +7,7 @@ function createRoom() {
   const feeds = chatroom.rooms;
   let data = {
     thing: {},
+    index: {},
   };
 
   switch (state.chatType) {
