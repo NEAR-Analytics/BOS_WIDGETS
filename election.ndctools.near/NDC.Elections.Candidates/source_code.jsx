@@ -307,7 +307,7 @@ const filterBy = (option) => {
     });
 };
 
-function initData() {
+const initData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
   let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
@@ -322,7 +322,18 @@ function initData() {
         ? _tosAccepted[_tosAccepted.length - 1].value
         : false,
   });
-}
+  State.update({
+    candidates: filteredCandidates,
+    bookmarked:
+      _bookmarked && _bookmarked[_bookmarked.length - 1]
+        ? _bookmarked[_bookmarked.length - 1].value
+        : [],
+    tosAgreement:
+      _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
+        ? _tosAccepted[_tosAccepted.length - 1].value
+        : false,
+  });
+};
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
@@ -348,6 +359,7 @@ State.init({
 
 if (state.start) {
   initData();
+
   State.update({ start: false });
 }
 
