@@ -6,8 +6,6 @@ const showHumanBadge = options.showHumanBadge ?? true;
 const showImage = options.showImage ?? true;
 const showSocialName = options.showSocialName ?? true;
 const size = options.size ?? "md";
-const shortenLength = options.shortenLength ?? 50;
-const fontSize = options.fontSize;
 
 let profile = Social.getr(`${accountId}/profile`);
 if (profile) {
@@ -39,8 +37,8 @@ const A = styled.a`
 `;
 
 function makeAccountIdShorter(accountId) {
-  if (accountId.length > shortenLength) {
-    return accountId.slice(0, shortenLength) + "...";
+  if (accountId.length > 50) {
+    return accountId.slice(0, 50) + "...";
   }
   return accountId;
 }
@@ -76,7 +74,7 @@ return (
       <p
         style={{
           fontWeight: "700",
-          fontSize: fontSize ?? (size === "sm" ? 12 : 15),
+          fontSize: size === "sm" ? 12 : 15,
           textDecotarion: "none",
           color: "#000",
         }}
@@ -115,7 +113,7 @@ return (
               margin: "0",
               fontWeight: "500",
               textDecoration: "none",
-              fontSize: fontSize ?? (size === "sm" ? 12 : 15),
+              fontSize: size === "sm" ? 12 : 15,
               color: "#828688",
               opacity: 0.8,
               lineHeight: 0.85,
