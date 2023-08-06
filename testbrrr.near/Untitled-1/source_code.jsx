@@ -242,7 +242,8 @@ const getEntireDebtAndColl = () => {
   troveManagerContract
     .getEntireDebtAndColl(state.sender)
     .then((debt, coll, pendingLUSDDebtReward, pendingETHReward) => {
-      console.log(debt, coll, pendingLUSDDebtReward, pendingETHReward);
+      console.log(debt);
+      console.log(pendingETHReward);
       State.update({
         debt: debt.toString(),
         coll: coll.toString(),
