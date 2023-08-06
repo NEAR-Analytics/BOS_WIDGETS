@@ -227,7 +227,7 @@ const Container = styled.div`
     display: flex;
 `;
 
-const myel = document.getElementById("mylink");
+const myel = document.getElementById("mylink").click;
 console.log(myel, "===>myel");
 
 return (
