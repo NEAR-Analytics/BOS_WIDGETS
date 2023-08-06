@@ -243,7 +243,12 @@ const getEntireDebtAndColl = () => {
     .getEntireDebtAndColl(state.sender)
     .then((debt, coll, pendingLUSDDebtReward, pendingETHReward) => {
       console.log(debt, coll, pendingLUSDDebtReward, pendingETHReward);
-      State.update({ debt, coll, pendingLUSDDebtReward, pendingETHReward });
+      State.update({
+        debt: debt.toString(),
+        coll: coll.toString(),
+        pendingLUSDDebtReward: pendingLUSDDebtReward.toString(),
+        pendingETHReward: pendingETHReward.toString(),
+      });
     });
 };
 
