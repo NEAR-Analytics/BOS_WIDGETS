@@ -203,7 +203,7 @@ const selectedBookmarks = (candidateId) => {
 
 const handleBookmarkCandidate = (candidateId) => {
   let selectedItems = selectedBookmarks(candidateId);
-  State.update({ loading: candidateId });
+  State.update({ bookmarked: selectedItems, loading: candidateId });
 
   Social.set(
     {
@@ -224,8 +224,6 @@ const handleBookmarkCandidate = (candidateId) => {
       onCancel: () => State.update({ loading: false }),
     }
   );
-
-  State.update({ bookmarked: selectedItems });
 };
 
 const handleVote = () =>
