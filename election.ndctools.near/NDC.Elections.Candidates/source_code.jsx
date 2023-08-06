@@ -272,11 +272,13 @@ const handleBookmarkCandidate = (candidateId) => {
       onCommit: () => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
-        State.update({ bookmarked: selectedItems, loading: false });
+        State.update({ loading: false });
       },
       onCancel: () => State.update({ loading: false }),
     }
   );
+
+  State.update({ bookmarked: selectedItems });
 };
 
 const handleVote = () =>
