@@ -479,7 +479,7 @@ const Filters = () => (
           <small>Bookmark</small>
           <i
             className={`bi ${
-              state.filter.votes ? "bi-funnel-fill" : "bi-funnel"
+              state.filter.bookmark ? "bi-funnel-fill" : "bi-funnel"
             }`}
           />
         </Bookmark>
