@@ -90,7 +90,7 @@ const Expand = styled.div`
   cursor: pointer;
 
   @media (max-width: 400px) {
-    width: auto;
+    width: 20px;
     margin-right: 10px;
   }
 `;
