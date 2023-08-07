@@ -149,6 +149,10 @@ const CastVotesSection = styled.div`
   border-radius: 8px;
   padding: 16px;
 
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
+
   h3,
   h4 {
     margin: 0 3px;
@@ -561,8 +565,8 @@ const Filters = () => (
 );
 
 const CastVotes = () => (
-  <CastVotesSection className="d-flex align-items-center justify-content-between">
-    <div>
+  <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
+    <div className="w-100">
       <div className="d-flex align-items-end">
         <H3>
           {seats - myVotesForHouse().length - state.selectedCandidates.length}
@@ -597,6 +601,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
+          className: "w-100 justify-content-center primary",
           disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
