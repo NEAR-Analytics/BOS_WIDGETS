@@ -315,7 +315,7 @@ return (
         </div>
         {console.log(formatText(kudo.message))}
         <Description className="text-secondary">
-          {kudo.message.normalize("NFD")}
+          {`${kudo.message}`}
         </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
