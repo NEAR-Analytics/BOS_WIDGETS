@@ -12,9 +12,13 @@ State.init({
   openModal: false,
   validation: "",
   nearUsdPrice: null,
+  nearUsdPriceIsFetched: false,
   metrics: null,
+  metricsIsFetched: false,
   nearBalance: null,
+  nearBalanceIsFetched: false,
   stNearBalance: null,
+  stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
 });
 
@@ -29,12 +33,8 @@ const fetchMetrics = () => {
   const resp = fetch("https://validators.narwallets.com/metrics_json");
   if (!resp) return;
   console.log("@metrics", resp?.body);
-  State.update({ metrics: resp?.body ?? "..." });
+  State.update({ metrics: resp?.body ?? "...", metricsIsFetched: true });
 };
-
-if (state.metrics === null) {
-  fetchMetrics();
-}
 
 const fetchNearPrice = () => {
   const resp = fetch(
@@ -43,7 +43,7 @@ const fetchNearPrice = () => {
   const nearUsdPrice = resp?.body?.near.usd;
   if (nearUsdPrice && !isNaN(nearUsdPrice)) {
     console.log("@nearPrice", nearUsdPrice);
-    State.update({ nearUsdPrice });
+    State.update({ nearUsdPrice, nearUsdPriceIsFetched: true });
   }
 };
 
@@ -62,6 +62,7 @@ function getStNearBalance(subscribe) {
   console.log("@stNEAR balance", balance.lt(0) ? "0" : balance.toFixed());
   State.update({
     stNearBalance: balance.lt(0) ? "0" : balance.toFixed(),
+    stNearBalanceIsFetched: true,
   });
 }
 
@@ -100,6 +101,7 @@ function getNearBalance(onInvalidate) {
     console.log("@near balance", newBalance);
     State.update({
       nearBalance: newBalance,
+      nearBalanceIsFetched: true,
     });
     if (onInvalidate) {
       onInvalidate(nearBalance, newBalance);
@@ -120,7 +122,7 @@ const handleInput = (value) => {
     State.update({
       validation: "The minimum amount is 1 NEAR.",
     });
-  } else if (parseFloat(value) > parseFloat(state.balance)) {
+  } else if (parseFloat(value) > parseFloat(state.nearBalance)) {
     State.update({
       validation: "You don't have enough NEAR.",
     });
@@ -133,13 +135,20 @@ const handleInput = (value) => {
 };
 
 const getUserAddress = () => {
-  return !accountId
-    ? ""
-    : accountId.length > 15
+  if (!accountId) return "";
+  return accountId.length > 20
     ? accountId.substring(0, 8) +
-      "..." +
-      accountId.substring(accountId.length - 6, accountId.length)
+        "..." +
+        accountId.substring(accountId.length - 6, accountId.length)
     : accountId;
+};
+
+const onClickMax = () => {
+  const value =
+    state.nearBalance > 0.1
+      ? (parseFloat(state.nearBalance) - 0.1).toFixed(2)
+      : "0";
+  handleInput(value);
 };
 
 // UPDATE DATA
@@ -346,6 +355,13 @@ const Spacer = styled.div`
 const ButtonConnectContainer = styled.div`
     ${".buttonClass{ width: 100%;  border-radius: 1000px;  font-size: 20px;  font-weight: bold;  padding: 8px 0;  /* transition: all 0.3s ease-in-out;*/display: inline-flex;  align-items: center;  justify-content: center;  user-select: none;  position: relative;  white-space: nowrap;  vertical-align: middle;  line-height: 1.2;  border-radius: 1000px;  font-weight: 400;  min-height: 48px;  text-align: center;  box-sizing: border-box;  padding: 0 24px;  color: rgb(255, 255, 255);  background: rgb(12, 34, 70);  border: 2px solid transparent;  &:disabled { background: rgb(12, 34, 70);    color: white;    cursor: not-allowed } &:hover { border: 4px solid rgb(12, 34, 70);    color:  rgb(12, 34, 70);    background: transparent;    }}"}
   `;
+if (
+  !state.metricsIsFetched ||
+  !state.nearUsdPriceIsFetched ||
+  !state.nearBalanceIsFetched ||
+  !state.stNearBalanceIsFetched
+)
+  return "Loading..";
 
 return (
   <PageContainer>
@@ -402,11 +418,9 @@ return (
             </div>
           </StakeFormTopContainerLeftContent1>
         </StakeFormTopContainerLeft>
-        {state.sender && (
-          <StakeFormTopContainerRightContent1Text>
-            {getUserAddress()}
-          </StakeFormTopContainerRightContent1Text>
-        )}
+        <StakeFormTopContainerRightContent1Text>
+          {getUserAddress()}
+        </StakeFormTopContainerRightContent1Text>
       </StakeFormTopContainer>
       <Spacer />
       <Widget src={`${authorId}/widget/MetaPoolStake.Common.Title`} />
@@ -424,7 +438,7 @@ return (
               </StakeFormTopContainerLeftContent1>
               <StakeFormTopContainerLeftContent2>
                 <span>
-                  {state.balance ?? (!accountId ? "0" : "...")}&nbsp;NEAR
+                  {state.nearBalance ?? (!accountId ? "0" : "...")}&nbsp;NEAR
                 </span>
               </StakeFormTopContainerLeftContent2>
             </StakeFormTopContainerLeft>
@@ -470,13 +484,7 @@ return (
             placeholder: "Enter NEAR amount",
             value: state.value,
             onChange: (e) => handleInput(e.target.value),
-            onClickMax: () => {
-              const value =
-                state.balance > 0.05
-                  ? (parseFloat(state.balance) - 0.05).toFixed(2)
-                  : "0";
-              handleInput(value);
-            },
+            onClickMax,
             inputError: state.validation !== "",
             balance: state.nearBalance ?? "-",
             iconName: "NEAR",
