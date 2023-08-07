@@ -1,6 +1,6 @@
 return (
-    <Widget
-        src="astraplusplus.ndctools.near/widget/DAO.Bounties.index"
-        props={{ accountId: props.daoId }}
-    />
+  <Widget
+    src={`sking.near/widget/DAO.Bounties`}
+    props={{ daoId: props.daoId }}
+  />
 );
