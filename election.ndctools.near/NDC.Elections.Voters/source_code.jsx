@@ -86,8 +86,8 @@ const UserLink = ({ title, src }) => (
 return (
   <VotersContainer>
     {state.voters.map((voter) => (
-      <VoterItem className="d-flex align-items-center gap-4 justify-content-between">
-        <div className="d-flex align-items-center">
+      <VoterItem className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center w-100">
           <Expand />
           {isIAmHuman && <Bookmark />}
           <Widget
@@ -103,7 +103,7 @@ return (
             title={voter.voter}
           />
         </div>
-        <TxnSection className="d-flex align-items-center">
+        <TxnSection className="d-flex align-items-center w-100">
           <TxnLink
             role="button"
             target="_blank"
