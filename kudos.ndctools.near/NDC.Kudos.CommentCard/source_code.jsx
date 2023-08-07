@@ -1,7 +1,7 @@
 const { kudo, comment, isIAmHuman, kudosContract } = props;
 
 const widgets = {
-  styledComponents: "kudos.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   addComment: "kudos.ndctools.near/widget/NDC.Kudos.Kudo.AddComment",
 };
 
@@ -104,7 +104,7 @@ const UserProfile = ({ secondary, ownerId }) => {
           />
           <StyledLink
             secondary={secondary}
-            href={`https://www.near.org/near/widget/ProfilePage?accountId=${ownerId}`}
+            href={`https://near.org/near/widget/ProfilePage?accountId=${ownerId}`}
           >
             {ownerId}
           </StyledLink>
