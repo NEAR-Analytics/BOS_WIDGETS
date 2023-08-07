@@ -411,7 +411,7 @@ const CandidateList = ({ candidateId, votes }) => (
       selected={state.selected === candidateId}
       winnerId={winnerIds.includes(candidateId)}
     >
-      <div className="d-flex w-100 justify-content-around">
+      <div className="d-flex w-100">
         <Expand>
           <i
             className={`${
@@ -507,7 +507,7 @@ const CandidateList = ({ candidateId, votes }) => (
 
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
-    <div className="d-flex w-100 justify-content-around">
+    <div className="d-flex w-100">
       <Expand />
       {isIAmHuman && (
         <Bookmark
