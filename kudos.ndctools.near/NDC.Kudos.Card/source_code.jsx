@@ -234,7 +234,10 @@ const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const replaceFunc = (a, b) => String.fromCodePoint(`0x${b}`);
 
-const formatText = (msg) => msg.replace("\\\\u", "\\u");
+const formatText = (msg) => {
+  const _msg = msg.replace("\\\\u", "\\u");
+  return _msg.replace(/\\u([0-9A-F]{4})/gi, replaceFunc);
+};
 
 return (
   <>
