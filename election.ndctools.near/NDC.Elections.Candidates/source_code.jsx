@@ -503,7 +503,7 @@ const CandidateList = ({ candidateId, votes }) => (
 
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
-    <div className="d-flex">
+    <div className="d-flex w-100 justify-content-around">
       <Expand />
       {isIAmHuman && (
         <Bookmark
@@ -531,7 +531,7 @@ const Filters = () => (
         />
       </div>
     </div>
-    <div className="d-flex justify-content-around">
+    <div className="d-flex w-100 justify-content-around">
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
