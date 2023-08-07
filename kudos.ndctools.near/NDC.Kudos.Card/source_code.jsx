@@ -233,7 +233,11 @@ State.init({
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatText = (msg) => {
-  return msg.replace(/\\u([0-9a-zA-Z]{4})/gi, "0x$1");
+  let str = msg.replace(/\\u([0-9a-zA-Z]{4})/gi, ">emoji>$1>emoji>");
+  const arr = str.split(">emoji>");
+  return arr
+    .map((el) => (el.length === 4 ? String.fromCharCode("0x" + el) : el))
+    .join("");
 };
 
 return (
