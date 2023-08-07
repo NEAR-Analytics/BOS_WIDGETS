@@ -90,7 +90,7 @@ const UserProfile = ({ secondary, ownerId }) => {
             props={{
               accountId: ownerId,
               imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "32px", height: "32px", marginRight: 5 },
+              style: { width: size, height: size },
             }}
           />
           <StyledLink
