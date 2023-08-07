@@ -1,7 +1,7 @@
 const ownerId = "ndcplug.near";
 
 const Title = styled.div`
-padding: 1em;
+padding: 3em;
 `;
 const Container = styled.div`
   display: flex;
@@ -9,8 +9,8 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
-  padding-left: 3em;
-    padding-right: 3m;
+  padding-left: 3.5em;
+    padding-right: 3.5em;
   gap: 3em;
   background: #fff;
 
@@ -142,7 +142,7 @@ return (
           <li>🏆 General</li>
           <li>📱 Social & NFTs</li>
           <li>🏛️ Impact & Governance:</li>
-          <li>⛓️ Multichain & DeFi:</li>
+          <li>⛓️ Multichain & DeFi</li>
           <li>🛠️ Dev Experience</li>
         </ul>
         <p>
