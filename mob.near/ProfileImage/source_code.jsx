@@ -12,8 +12,20 @@ const image = profile.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
+const fast = !!props.fast;
 
-const inner = (
+const inner = fast ? (
+  <div className={className} style={style}>
+    <img
+      className={imageClassName}
+      style={imageStyle}
+      src={`https://i.near.social/magic/${
+        thumbnail || "large"
+      }/https://near.social/magic/img/account/${accountId}`}
+      alt={title}
+    />
+  </div>
+) : (
   <div className={className} style={style}>
     <Widget
       src="mob.near/widget/Image"
