@@ -235,7 +235,7 @@ const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 const replaceFunc = (a, b) => String.fromCodePoint(`0x${b}`);
 
 const formatText = (msg) => {
-  return msg.replace(/\u([0-9a-zA-Z]{4})/gi, replaceFunc);
+  return msg.replace(/\\u([0-9a-zA-Z]{4})/gi, replaceFunc);
 };
 
 return (
