@@ -13,7 +13,7 @@ const IMPORTANT_DING_UPVOTES = 2;
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   kudoPage: "#/kudos.ndctools.near/widget/NDC.Kudos.Kudo.Page",
-  addComment: "kudos.ndctools.near/widget/NDC.Kudos.Kudo.AddComment",
+  addComment: "kudos.ndctools.near/widget/NDC.Kudos.AddComment",
   mintSbt: "kudos.ndctools.near/widget/NDC.Kudos.Kudo.MintSbt",
 };
 
