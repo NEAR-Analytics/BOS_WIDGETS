@@ -23,9 +23,8 @@ State.init({
 
 let kudo;
 
-setTimeout(() => {
-  kudo = Social.getr(`${kudosContract}/kudos/${accountId}/${kudoId}`);
-}, 2000);
+kudo = Social.getr(`${kudosContract}/kudos/${accountId}/${kudoId}`);
+kudo = Social.getr(`${kudosContract}/kudos/${accountId}/${kudoId}`);
 
 kudo = {
   created_at: kudo.created_at,
