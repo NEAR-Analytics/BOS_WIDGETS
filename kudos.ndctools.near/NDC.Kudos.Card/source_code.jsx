@@ -310,7 +310,7 @@ return (
               )}
           </div>
         </div>
-        {console.log(kudo.message)}
+        {console.log(formatText(kudo.message))}
         <Description className="text-secondary">
           {formatText(`${kudo.message}`)}
         </Description>
