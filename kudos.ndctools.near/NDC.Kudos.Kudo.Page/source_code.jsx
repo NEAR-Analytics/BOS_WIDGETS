@@ -22,11 +22,9 @@ State.init({
 
 let kudo = Social.getr(`${kudosContract}/kudos/${accountId}/${kudoId}`);
 
-console.log("kudo", kudo);
-
 kudo = {
   created_at: kudo.created_at,
-  icon: kudo.icon,
+  icon: kudo.icon || null,
   kind: kudo.kind,
   message: kudo.message,
   sender_id: kudo.sender_id,
@@ -36,8 +34,6 @@ kudo = {
   comments: kudo.comments ? Object.entries(kudo.comments) : [],
   upvotes: kudo.upvotes ? Object.keys(kudo.upvotes).length : 0,
 };
-
-console.log("new_kudo", kudo);
 
 const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
