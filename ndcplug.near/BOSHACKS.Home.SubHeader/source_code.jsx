@@ -69,11 +69,11 @@ const Text = styled.div`
 `;
 
 const Visual = styled.div`
-  width: 100%;
+  width: 70%;
   border-radius: 20px;
 
   img {
-    width: 75%;
+    width: 100%;
   }
 `;
 
