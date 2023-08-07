@@ -535,6 +535,7 @@ return (
               modalTitle: "",
               modalDescription: "",
             }),
+          authorId,
         }}
       />
     </StakeContainer>
