@@ -89,15 +89,11 @@ const Expand = styled.div`
   }
 `;
 
-const Votes = styled.div`
+const Votes = styled.div``;
 
-`;
+const Action = styled.div``;
 
-const Action = styled.div`
-`;
-
-const Nomination = styled.div`
-`;
+const Nomination = styled.div``;
 
 const FilterRow = styled.div`
   padding: 15px 20px;
@@ -451,7 +447,7 @@ const CandidateList = ({ candidateId, votes }) => (
             props={{
               accountId: candidateId,
               imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "24px", height: "24px", marginRight: 4 },
+              style: { width: "24px", height: "24px", marginRight: 5 },
             }}
           />
           <UserLink
@@ -498,7 +494,7 @@ const CandidateList = ({ candidateId, votes }) => (
       </div>
     </CandidateItem>
     {state.selected === candidateId && (
-      <Widget src={widgets.voters} props={{ candidateId }} />
+      <Widget src={widgets.voters} props={{ candidateId, isIAmHuman }} />
     )}
   </div>
 );
@@ -533,7 +529,7 @@ const Filters = () => (
         />
       </div>
     </div>
-    <div className="d-flex">
+    <div className="d-flex justify-content-around">
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
