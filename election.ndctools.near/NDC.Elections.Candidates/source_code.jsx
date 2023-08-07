@@ -589,7 +589,7 @@ const CastVotes = () => (
         Make sure you selected all {seats} candidates
       </Info>
     </div>
-    <div className="flex gap-2">
+    <div className="d-flex gap-2">
       {state.selectedCandidates.length > 0 && (
         <Widget
           src={widgets.styledComponents}
