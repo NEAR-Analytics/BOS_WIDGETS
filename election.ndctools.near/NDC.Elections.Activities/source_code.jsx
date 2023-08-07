@@ -64,7 +64,12 @@ return (
             >
               {vote.candidate}
             </StyledLink>
-            <small className="text-secondary">{vote.timestamp}</small>
+            <small className="text-secondary">
+              {vote.timestamp.toLocaleDateString("en-US", {
+                day: "2-digit",
+                month: "short",
+              })}
+            </small>
           </div>
         </div>
         <Badge>{vote.house}</Badge>
