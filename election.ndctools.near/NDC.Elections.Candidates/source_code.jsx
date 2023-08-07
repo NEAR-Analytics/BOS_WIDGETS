@@ -70,6 +70,10 @@ const CandidateItem = styled.div`
   }
 `;
 
+const Candidates = styled.div`
+  cursor: pointer;
+`;
+
 const Bookmark = styled.div`
   width: 90px;
   cursor: pointer;
@@ -523,7 +527,7 @@ const Filters = () => (
           />
         </Bookmark>
       )}
-      <div
+      <Candidates
         className="text-secondary"
         onClick={() => filterBy({ candidates: true })}
       >
@@ -533,7 +537,7 @@ const Filters = () => (
             state.filter.candidates ? "bi-arrow-down" : "bi-arrow-up"
           }`}
         />
-      </div>
+      </Candidates>
     </div>
     <div className="d-flex w-100 align-items-center justify-content-between">
       <Nomination className="text-secondary text-end text-md-start">
