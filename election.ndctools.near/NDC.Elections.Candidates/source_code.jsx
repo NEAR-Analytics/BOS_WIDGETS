@@ -81,6 +81,15 @@ const Bookmark = styled.div`
   }
 `;
 
+const Expand = styled.div`
+  width: 50px;
+
+  @media (max-width: 400px) {
+    width: auto;
+    margin-right: 10px;
+  }
+`;
+
 const Votes = styled.div`
   width: 90px;
   margin-left: 20px;
@@ -422,19 +431,21 @@ const CandidateList = ({ candidateId, votes }) => (
   <div>
     <CandidateItem
       className="d-flex align-items-center justify-content-between"
-      onClick={(e) => {
-        if (
-          !["input", "bookmark", "link"].includes(e.target.id) &&
-          !e.target.href
-        )
-          State.update({
-            selected: state.selected === candidateId ? null : candidateId,
-          });
-      }}
       selected={state.selected === candidateId}
       winnerId={winnerIds.includes(candidateId)}
     >
       <div className="d-flex">
+        <Expand>
+          <i
+            className="bi bi-chevron-right expand"
+            onClick={(e) =>
+              State.update({
+                selected: state.selected === candidateId ? null : candidateId,
+              })
+            }
+          />
+        </Expand>
+
         {isIAmHuman && (
           <Bookmark
             selected={state.selected === candidateId}
@@ -455,7 +466,7 @@ const CandidateList = ({ candidateId, votes }) => (
             )}
           </Bookmark>
         )}
-        <div className="d-flex align-items-center" id="link">
+        <div className="d-flex align-items-center">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
