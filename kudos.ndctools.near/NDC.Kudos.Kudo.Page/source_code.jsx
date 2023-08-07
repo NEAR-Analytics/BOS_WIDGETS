@@ -10,7 +10,7 @@ const widgets = {
   commentCard: "kudos.ndctools.near/widget/NDC.Kudos.CommentCard",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   addKudo: "kudos.ndctools.near/widget/NDC.Kudos.AddKudo",
-  back: "#/kudos.ndctools.near/widget/NDC.Kudos.Main",
+  back: "https://near.org/kudos.ndctools.near/widget/NDC.Kudos.Main",
 };
 
 State.init({
