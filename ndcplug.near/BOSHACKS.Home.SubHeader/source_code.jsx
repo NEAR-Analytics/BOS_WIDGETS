@@ -69,12 +69,8 @@ const Text = styled.div`
 `;
 
 const Visual = styled.div`
-  width: 55%;
+  width: 100%;
   border-radius: 20px;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
 
   img {
     width: 100%;
@@ -127,17 +123,6 @@ return (
             24/7 chat Telegram support.
           </li>
         </ul>
-        <ButtonContainer>
-          <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
-        </ButtonContainer>
-      </Text>
-      {false && (
-        <Visual>
-          <img src={mapImage(visual)} alt="Illia Talking" />
-        </Visual>
-      )}
-
-      <Text>
         <p>Builder Tracks Include: </p>
         <ul>
           <li>🏆 General</li>
@@ -153,14 +138,11 @@ return (
             here
           </a>
         </p>
-        {false && (
-          <ButtonContainer>
-            <Widget src={`${ownerId}/widget/BOSHACKS.Home.SpeakerButton`} />
-          </ButtonContainer>
-        )}
+        <ButtonContainer>
+          <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
+        </ButtonContainer>
       </Text>
-
-      {false && (
+      {true && (
         <Visual>
           <img src={mapImage(visual)} alt="Illia Talking" />
         </Visual>
