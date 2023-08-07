@@ -10,7 +10,7 @@ const widgets = {
   card: "kudos.ndctools.near/widget/NDC.Kudos.Card",
   addKudo: "kudos.ndctools.near/widget/NDC.Kudos.AddKudo",
   congratsMintModal: "kudos.ndctools.near/widget/NDC.Kudos.CongratsMintModal",
-  styledComponents: "kudos.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
 State.init({
