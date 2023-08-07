@@ -21,15 +21,6 @@ const Description = styled.div`
   margin: ${(props) => (props.secondary ? "5px 0 0 0" : "12px 0")};
 `;
 
-const ImageTag = styled.div`
-  height: 250px;
-  width: 100%;
-  background: url(${(props) => props.src}) no-repeat center center;
-  background-size: cover;
-  overflow: hidden;
-  margin: 0 0 12px 0;
-`;
-
 const CreatedAt = styled.div`
   font-size: 12px;
   font-style: italic;
@@ -98,7 +89,7 @@ const UserProfile = ({ secondary, ownerId }) => {
             src="mob.near/widget/ProfileImage"
             props={{
               accountId: ownerId,
-              imageClassName: "rounded-circle w-100 h-100",
+              imageClassName: "rounded-circle w-10 h-100",
               style: { width: size, height: size, marginRight: 5 },
             }}
           />
