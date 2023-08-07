@@ -2,7 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 const className = props.className ?? "profile-image d-inline-block";
 const style = props.style ?? { width: "3em", height: "3em" };
 const imageStyle = props.imageStyle ?? { objectFit: "cover" };
-const imageClassName = props.imageClassName ?? "rounded-circle w-100 h-100";
+const imageClassName = props.imageClassName ?? "rounded w-100 h-100";
 const thumbnail = props.thumbnail ?? "thumbnail";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -12,43 +12,22 @@ const image = profile.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
-const fast = props.fast || (!props.profile && !!accountId);
-if (accountId !== state.accountId) {
-  State.update({
-    fastImageUrl: `https://i.near.social/magic/${
-      thumbnail || "large"
-    }/https://near.social/magic/img/account/${accountId}`,
-    accountId,
-  });
-}
-const fallbackUrl =
-  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
+const fast = !!props.fast;
 
 const inner = fast ? (
-  <div className={className} style={style} key={state.fastImageUrl}>
+  <div className={className} style={style}>
     <img
       className={imageClassName}
       style={imageStyle}
-      src={state.fastImageUrl}
+      src={`https://i.near.social/magic/${
+        thumbnail || "large"
+      }/https://near.social/magic/img/account/${accountId}`}
       alt={title}
-      onError={() => {
-        if (state.fastImageUrl !== fallbackUrl) {
-          State.update({
-            fastImageUrl: fallbackUrl,
-          });
-        }
-      }}
     />
   </div>
 ) : (
-  <div className={className} style={style} key={JSON.stringify(image)}>
+  <div className={className} style={style}>
     <Widget
-      loading={
-        <div
-          className={`d-inline-block ${imageClassName}`}
-          style={imgWrapperStyle}
-        />
-      }
       src="mob.near/widget/Image"
       props={{
         image,
@@ -56,7 +35,8 @@ const inner = fast ? (
         className: imageClassName,
         style: imageStyle,
         thumbnail,
-        fallbackUrl,
+        fallbackUrl:
+          "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
       }}
     />
   </div>
@@ -64,7 +44,6 @@ const inner = fast ? (
 
 return props.tooltip ? (
   <Widget
-    loading={inner}
     src="mob.near/widget/Profile.OverlayTrigger"
     props={{ accountId, children: inner }}
   />
