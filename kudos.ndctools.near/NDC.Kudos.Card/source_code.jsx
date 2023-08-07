@@ -232,14 +232,11 @@ State.init({
 
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
-const formatText = (msg) => {
-  const res = msg.replace(/([\w\d]{4})/gi, (_, g) =>
-    String.fromCodePoint(`0x${g}`)
-  );
+const replaceFunc = (a, b) => String.fromCodePoint(`0x${b}`);
 
-  console.log(_msg);
-  console.log(res);
-  return res;
+const formatText = (msg) => {
+  const reg = new RegExp(/\u([0-9A-Z]{4})/gi, "u");
+  return msg.replace(reg, replaceFunc);
 };
 
 return (
