@@ -501,7 +501,9 @@ const Filters = () => (
         <small>Candidate</small>
         <i
           className={`bi ${
-            state.filter.candidates ? "bi-arrow-down" : "bi-arrow-up"
+            state.filter.candidates
+              ? "bi-sort-alpha-down-alt"
+              : "bi-sort-alpha-up"
           }`}
         />
       </div>
@@ -518,7 +520,9 @@ const Filters = () => (
         <small>Total votes</small>
         <i
           className={`bi ${
-            state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
+            state.filter.votes
+              ? "bi-sort-numeric-down-alt"
+              : "bi-sort-numeric-up"
           }`}
         />
       </Votes>
