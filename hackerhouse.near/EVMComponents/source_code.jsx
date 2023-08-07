@@ -79,7 +79,12 @@ return (
           props={{ src: "ref-admin.near/widget/ZKEVM.AAVE" }}
         />
       </Item>
-
+      <Item>
+        <Widget
+          src="near/widget/ComponentCard"
+          props={{ src: "meta-pool-official.near/widget/MetaPoolStakeEth" }}
+        />
+      </Item>
       <Item>
         <Widget
           src="near/widget/ComponentCard"
