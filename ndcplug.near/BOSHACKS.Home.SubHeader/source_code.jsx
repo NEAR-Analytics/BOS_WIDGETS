@@ -145,7 +145,10 @@ return (
       </Text>
       {true && (
         <Visual>
-          <img src={mapImage(visual)} alt="Illia Talking" />
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreicea6j7t23wuakldwekrtjtdvcuikmnme3tsvbtixuhspeoe4mph4"
+            alt="Illia Talking"
+          />
         </Visual>
       )}
     </Container>
