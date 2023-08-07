@@ -233,12 +233,14 @@ State.init({
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatText = (msg) => {
-  const _msg = msg.replace("\u", "--emoji--");
-  const res = _msg.replace(/--emoji--([\w\d]{4})/gi, (_, g) => String.fromCodePoint(`0x${g}`));
-  
-  console.log(_msg) 
-  console.log(res)
-  return res
+  const _msg = msg.replace("\\", "&#39;");
+  const res = _msg.replace(/&#39;u([\w\d]{4})/gi, (_, g) =>
+    String.fromCodePoint(`0x${g}`)
+  );
+
+  console.log(_msg);
+  console.log(res);
+  return res;
 };
 
 return (
