@@ -1,7 +1,7 @@
 const { onHide } = props;
 
 const widgets = {
-  styledComponents: "kudos.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
 const Modal = styled.div`
