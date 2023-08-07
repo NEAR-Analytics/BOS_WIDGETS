@@ -15,6 +15,17 @@ const accountId = articleToRenderData.author;
 //   voted: false,
 //   showDeclaration: false,
 // });
+
+const tabs = [
+  {
+    id: "generalInfo",
+    title: "Post info",
+    icon: "bi bi-info-circle",
+  },
+  { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
+  { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
+];
+
 State.init({
   showDeclaration: false,
   tabSelected: tabs[1].id,
@@ -63,16 +74,6 @@ const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
 //     state.voted ? 0 : 1000000000000000000000
 //   );
 // }
-
-const tabs = [
-  {
-    id: "generalInfo",
-    title: "Post info",
-    icon: "bi bi-info-circle",
-  },
-  { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
-  { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
-];
 
 const CursorPointer = styled.div`
   cursor: pointer;
