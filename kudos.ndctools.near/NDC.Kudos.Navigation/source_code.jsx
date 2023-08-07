@@ -76,7 +76,7 @@ const Nav = ({ itemType, mobile }) => (
   <div className="d-flex align-items-center">
     <ImgContainer mobile={mobile}>
       <Widget
-        src="rubycoptest.testnet/widget/Image"
+        src="mob.near/widget/Image"
         props={{
           image: {
             url:
