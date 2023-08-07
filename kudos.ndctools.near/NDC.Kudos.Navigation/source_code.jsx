@@ -3,19 +3,19 @@ const { selectedItem, handleSelect } = props;
 const items = {
   Latest: {
     title: "Recent",
-    src: "https://bafkreiew4nucfvlgjy3tz7fop66zd7qz6g57j4uf4ufjcxokwjxefwqyim.ipfs.nftstorage.link/",
+    src: "https://bafkreibyoqwxexke7agytjxvztsiezcfpkxkagbatqmp3tt6u4mv3ub7bi.ipfs.nftstorage.link/",
     srcSelected:
       "https://bafkreif4clvv3j4dyyxuowyosyklnh5c62emnh23e55gip3clsgkto3qi4.ipfs.nftstorage.link/",
   },
   Trending: {
     title: "Trending",
-    src: "https://bafkreidoyevrc2jtisbvh5ii4l4siiflwr7d42vgj52tknwcnpjcjt72sa.ipfs.nftstorage.link",
+    src: "https://bafkreiekyoaz3zz6i6ietcudab47u5a7btdhco6srdg6sgbmtgjhaexr2q.ipfs.nftstorage.link",
     srcSelected:
       "https://bafkreieeoqtjoyp64oxwvzu2qtjdxzapbpug5l6kgwfsnb7y43mpjhm52e.ipfs.nftstorage.link",
   },
   My: {
     title: "My",
-    src: "https://bafkreihtxbozr3tpmzyijzvgmnzjhfnvfudu5twxi5e736omfor6rrbcde.ipfs.nftstorage.link",
+    src: "https://bafkreicdwy5kpbid7qn2q4yt4lx6oo24kosa7t2ravqg54pmpb62mp64eq.ipfs.nftstorage.link",
     srcSelected:
       "https://bafkreibchxu3obfelbn3dhwpucfvc4yqopodp2khlcnzyw2mcr7zpg2mpi.ipfs.nftstorage.link",
   },
