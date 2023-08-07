@@ -68,6 +68,7 @@ const CandidateItem = styled.div`
 
 const Bookmark = styled.div`
   width: 90px;
+  cursor: pointer;
 
   #bookmark.bi-bookmark-fill {
     color: ${(props) =>
@@ -82,6 +83,7 @@ const Bookmark = styled.div`
 
 const Expand = styled.div`
   width: 35px;
+  cursor: pointer;
 
   @media (max-width: 400px) {
     width: auto;
