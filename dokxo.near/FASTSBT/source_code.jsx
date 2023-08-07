@@ -67,7 +67,7 @@ padding: 8px 12px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-color:#000;
+color:${state.Submitdisable ? "#606060" : "#000000"};
 display: flex;
 width: 107px;
 padding: 8px 12px;
@@ -76,12 +76,12 @@ align-items: center;
 gap: 10px;
 border-radius: 10px;
  border-width: 1px;
-  border: solid 1px transparent;
+  border: solid 1px  ${state.Submitdisable ? "darkgray" : "transparent"};
  
  
   background-image: ${
     state.Submitdisable
-      ? "linear-gradient(#a4a39e, #cbcac8), radial-gradient(circle at top left,#000000, #000000);"
+      ? "linear-gradient(rgba(0, 0, 0,0), rgba(0, 0, 0,0))), radial-gradient(circle at top left,rgba(0, 0, 0,0),rgba(0, 0, 0,0));"
       : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
   }
   background-origin: border-box;
