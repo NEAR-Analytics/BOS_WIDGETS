@@ -46,7 +46,7 @@ if (state.nearUsdPrice === null) {
   fetchNearPrice();
 }
 
-function getStNearBalance(accountId, subscribe) {
+function getStNearBalance(subscribe) {
   const stNearBalanceRaw = Near.view(
     contractId,
     "ft_balance_of",
@@ -61,7 +61,7 @@ function getStNearBalance(accountId, subscribe) {
   return balance.lt(0) ? "0" : balance.toFixed();
 }
 
-function getNearBalance(accountId, onInvalidate) {
+function getNearBalance(onInvalidate) {
   const options = {
     method: "POST",
     headers: {
@@ -104,10 +104,10 @@ function getNearBalance(accountId, onInvalidate) {
 const nearBalance = accountId ? state.nearBalance : "-";
 // Initial fetch of account NEAR balance
 if (accountId && !isValid(nearBalance)) {
-  getNearBalance(accountId);
+  getNearBalance();
 }
 
-const stNearBalance = accountId ? getStNearBalance(accountId) : "-";
+const stNearBalance = accountId ? getStNearBalance() : "-";
 
 const onSubmit = () => {
   const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
