@@ -463,7 +463,7 @@ const CandidateList = ({ candidateId, votes }) => (
           )}
         </div>
       </div>
-      <div className="d-flex w-100 justify-content-between">
+      <div className="d-flex w-100 justify-content-around">
         <Widget
           src={widgets.styledComponents}
           props={{
