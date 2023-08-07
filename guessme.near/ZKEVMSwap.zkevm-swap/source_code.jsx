@@ -1,8 +1,3 @@
-const { oneProtocol, defaultDex } = props;
-console.log("defaultDex: ", defaultDex, oneProtocol);
-
-const ethAddress = "0x0000000000000000000000000000000000000000";
-
 const NETWORKS = [
   {
     name: "ZKEVM",
@@ -50,13 +45,6 @@ const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
   top: 12px;
-
-  @media (max-width: 1023px) {
-    top: 4px;
-    right: 12px;
-
-    transform: scale(0.9);
-  }
 `;
 
 const exchangeIcon = (
@@ -98,11 +86,9 @@ State.init({
   reloadPools: false,
   hoverOnChain: "",
   estimate: {},
-  inputAssetTokenId: "0x0000000000000000000000000000000000000000",
-  outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+  inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+  outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
   coinGeckoTokenIds: {
-    "0x0000000000000000000000000000000000000000":
-      "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
       "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
@@ -118,7 +104,7 @@ State.init({
     "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
       "0x6b175474e89094c44da98b954eedeac495271d0f",
   },
-  selectedDex: defaultDex || props.dex || "QuickSwap",
+  selectedDex: props.dex ?? "Pancake Swap",
   loadRes: (value) => {
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
@@ -130,8 +116,6 @@ State.init({
   hasGetStorage: false,
   noPool: false,
 });
-
-console.log("selectedDex: ", state.selectedDex);
 
 const refReferralId = props.refReferralId ?? "ukraine";
 
@@ -162,10 +146,16 @@ const onDexDataLoad = (data) => {
   });
 };
 
+const Theme = styled.div`
+  font-size: 18px;
+`;
+
 const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
+  console.log("state: ", state);
+
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -183,6 +173,10 @@ const changeAmount = (e) => {
 
   State.update({ inputAssetAmount: amount });
 };
+
+// REUSABLE UI ELEMEETS
+
+console.log("output amount", state.outputAssetAmount);
 
 const assetContainer = (
   isInputAsset,
@@ -210,11 +204,7 @@ const assetContainer = (
             <Input
               type="text"
               placeholder="0"
-              value={
-                state.noPool && amountName === "outputAssetAmount"
-                  ? ""
-                  : state[amountName]
-              }
+              value={state[amountName]}
               readOnly={amountName === "outputAssetAmount"}
               onChange={changeAmount}
             />
@@ -227,11 +217,16 @@ const assetContainer = (
                       alt={`${assetData.metadata.name} logo`}
                       src={assetData.metadata.icon}
                       class="input-asset-token-icon-img"
+                      style={{
+                        width: "32px",
+                      }}
                     />
                   ) : (
                     <div
-                      className="input-asset-token-icon-img"
+                      className=""
                       style={{
+                        width: "30px",
+                        height: "30px",
                         borderRadius: "100%",
                       }}
                     ></div>
@@ -277,69 +272,50 @@ const assetContainer = (
   );
 };
 
+// SWAP METHODS
+
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
 
 const tokenInApprovaleNeededCheck = () => {
-  if (
-    state.inputAssetTokenId === ethAddress ||
-    (state.outputAssetTokenId === ethAddress &&
-      state.inputAssetTokenId === wethAddress)
-  ) {
-    State.update({
-      approvalNeeded: false,
-    });
+  if (state.approvalNeeded === undefined) {
+    if (
+      getEVMAccountId() &&
+      state.erc20Abi !== undefined &&
+      state.routerContract !== undefined &&
+      [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
+    ) {
+      const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
-    return;
-  }
+      const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
+        "allowance",
+        [getEVMAccountId(), state.routerContract]
+      );
 
-  if (
-    state.sender &&
-    state.erc20Abi !== undefined &&
-    state.routerContract !== undefined &&
-    [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
-  ) {
-    const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
+      return Ethers.provider()
+        .call({
+          to: state.inputAssetTokenId,
+          data: encodedTokenAllowancesData,
+        })
+        .then((encodedTokenAllowanceHex) => {
+          const tokenAllowance = ifaceErc20.decodeFunctionResult(
+            "allowance",
+            encodedTokenAllowanceHex
+          );
 
-    const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
-      "allowance",
-      [state.sender, state.routerContract]
-    );
-
-    return Ethers.provider()
-      .call({
-        to: state.inputAssetTokenId,
-        data: encodedTokenAllowancesData,
-      })
-      .then((encodedTokenAllowanceHex) => {
-        const tokenAllowance = ifaceErc20.decodeFunctionResult(
-          "allowance",
-          encodedTokenAllowanceHex
-        );
-
-        console.log(
-          "tokenAllowance: ",
-          Big(tokenAllowance)
-            .div(Big(10).pow(state.inputAsset.metadata.decimals))
-            .toFixed(),
-          state.inputAssetAmount
-        );
-
-        if (tokenAllowance) {
-          State.update({
-            approvalNeeded: Big(tokenAllowance)
-              .div(Big(10).pow(state.inputAsset.metadata.decimals))
-              .lt(state.inputAssetAmount),
-          });
-        }
-      })
-      .catch(() => {});
-  } else {
-    State.update({ approvalNeeded: false });
+          if (tokenAllowance) {
+            State.update({
+              approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
+            });
+          }
+        })
+        .catch(() => {});
+    } else {
+      State.update({ approvalNeeded: false });
+    }
   }
 };
-console.log("state.approvalNeeded: ", state.approvalNeeded);
 
 if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)) {
   tokenInApprovaleNeededCheck();
@@ -379,24 +355,15 @@ const ExchangeWrapper = () => {
   );
 };
 
-const { layout } = props;
-
 const SwapMainContainer = styled.div`
   display: flex;
   align-items: start;
   gap: 8px;
   font-size: 18px;
-
-  @media (max-width: 1023px) {
-    flex-direction: column;
-    .swap-selected-dex {
-      display: none;
-    }
-    padding-top: 0px;
-  }
-
-  justify-content: center;
-  padding-top: 10px;
+  position: fixed;
+  left: 50%;
+  /* top: 50%; */
+  transform: translate(-50%);
 
   .invalid-pool-tip {
     font-size: 18px;
@@ -423,19 +390,6 @@ const NetworkList = styled.div`
     linear-gradient(0deg, #332c4b, #332c4b);
   border: 1px solid #332c4b;
   overflow: hidden;
-
-  @media (max-width: 1023px) {
-    border: none;
-    flex-direction: row;
-    background: none;
-    height: auto;
-    overflow: auto;
-    padding: 8px;
-    width: 378px;
-
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
 `;
 
 const NetWorkItem = styled.li`
@@ -447,30 +401,17 @@ const NetWorkItem = styled.li`
   border-radius: 12px;
   opacity: 0.5;
   cursor: pointer;
-
   img {
     padding-top: 4px;
   }
   .network-name {
     font-size: 16px;
     color: #979abe;
-    white-space: nowrap;
   }
   .network-dex {
     font-size: 18px;
     color: white;
     font-weight: bold;
-
-    white-space: nowrap;
-  }
-
-  @media (max-width: 1023px) {
-    .network-name {
-      font-size: 13px;
-    }
-    .network-dex {
-      font-size: 15px;
-    }
   }
 
   &:hover {
@@ -488,21 +429,10 @@ const Seperator = styled.div`
   width: 327px;
   position: absolute;
   bottom: 0px;
-
-  @media (max-width: 1023px) {
-    width: 100%;
-  }
 `;
 
 const SwapPage = styled.div`
   width: 560px;
-
-  margin-bottom: 8px;
-
-  @media (max-width: 1023px) {
-    width: 100%;
-    padding: 16px;
-  }
 
   .swap-button {
     font-size: bold;
@@ -510,20 +440,10 @@ const SwapPage = styled.div`
     width: 100%;
     height: 100%;
     padding: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @media (max-width: 1023px) {
-      height: 40px;
-    }
   }
 
   .swap-button-text {
     font-size: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .swap-button-enabled {
@@ -543,18 +463,6 @@ const SwapPage = styled.div`
   }
 
   min-height: 451px;
-
-  @media (max-width: 1023px) {
-    min-height: 423px;
-    .swap-button {
-      height: 40px;
-    }
-
-    button {
-      height: 40px;
-    }
-  }
-
   padding: 28px;
   background: linear-gradient(0deg, #181a27, #181a27),
     linear-gradient(0deg, #332c4b, #332c4b);
@@ -590,28 +498,6 @@ const SwapPage = styled.div`
     padding: 8px;
     width: 159px;
     border-radius: 23px;
-
-    .input-asset-token-icon-img {
-      width: 32px;
-    }
-
-    .input-asset-token-ticker {
-      font-size: 18px;
-    }
-
-    @media (max-width: 1023px) {
-      width: 115px;
-
-      padding: 4px 6px;
-
-      .input-asset-token-icon-img {
-        width: 22px;
-      }
-
-      .input-asset-token-ticker {
-        font-size: 15px;
-      }
-    }
   }
   .input-asset-details-row {
     display: flex;
@@ -672,7 +558,7 @@ const Input = styled.input`
 const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
-const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
+const switchNetwork = (chainId, dex) => {
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
@@ -680,9 +566,6 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: ethAddress,
-    outputAssetTokenId:
-      tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
 };
 
@@ -793,7 +676,7 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
             color: light ? "white" : "",
           }}
         >
-          Polygon zkEVM
+          {network.name}
         </div>
 
         <div className="network-dex">{network.dex}</div>
@@ -804,25 +687,22 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
 
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
-    <SwapMainContainer
-      class=""
-      style={{
-        justifyContent: layout == "left" ? "start" : "center",
-      }}
-    >
-      To proceed, kindly switch to zkEVM.
-      <Widget
-        src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
-        props={{
-          title: "Polygon zkEVM Swap",
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-          imgStyle: {
-            width: "528px",
-            // height: "216px",
-          },
-        }}
-      />
-    </SwapMainContainer>
+    <Theme>
+      <SwapMainContainer class="">
+        To proceed, kindly switch to {forceNetwork}.
+        <Widget
+          src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
+          props={{
+            title: "zkEvm Swap",
+            src: "https://assets.ref.finance/images/zkevm-swap.png",
+            imgStyle: {
+              width: "528px",
+              height: "216px",
+            },
+          }}
+        />
+      </SwapMainContainer>
+    </Theme>
   );
 }
 
@@ -830,20 +710,10 @@ let params = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVMWarmUp.quest-card"
 );
-
 const params_from_question_list = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVM.QuestionList"
 );
-
-const params_from_trend_card = Storage.get(
-  "zk-evm-swap-params",
-  "guessme.near/widget/ZKEVMWarmUp.trend-card"
-);
-
-if (props.source == "trend" && params_from_trend_card) {
-  params = params_from_trend_card;
-}
 
 if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
@@ -851,28 +721,20 @@ if (props.source == "question_list" && params_from_question_list) {
 
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
-    const toAssetId =
-      params.toAssetId ||
-      (params.assetId === state.outputAssetTokenId
-        ? state.inputAssetTokenId
-        : state.outputAssetTokenId);
-
     State.update({
       storeParams: params,
       inputAssetAmount: params.amount,
       approvalNeeded: undefined,
       inputAssetTokenId: params.assetId,
-      outputAssetTokenId: toAssetId,
+      outputAssetTokenId:
+        params.assetId === state.outputAssetTokenId
+          ? state.inputAssetTokenId
+          : state.outputAssetTokenId,
     });
+  }
 
-    if (!!params?.dexName) {
-      switchNetwork(
-        1101,
-        defaultDex || params.dexName,
-        params.assetId,
-        toAssetId
-      );
-    }
+  if (!!params?.dexName) {
+    switchNetwork(1101, params.dexName);
   }
 
   State.update({
@@ -880,16 +742,11 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   });
 }
 
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add", {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -903,15 +760,13 @@ const onCallTxComple = (tx) => {
     "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
   );
 
+  if (!state.add) return;
+
   tx.wait().then((receipt) => {
     const { status, transactionHash } = receipt;
 
     add_action({
-      action_title: `Swap ${
-        Number(state.inputAssetAmount) < 0.000001
-          ? "<0.000001"
-          : new Big(state.inputAssetAmount).toFixed(6)
-      }   ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
+      action_title: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
       action_type: "Swap",
       action_tokens: JSON.stringify([
         `${state.inputAsset.metadata.symbol}`,
@@ -919,11 +774,9 @@ const onCallTxComple = (tx) => {
       ]),
       action_amount: state.inputAssetAmount,
       account_id: state.sender,
-      action_network_id: "zkEVM",
       account_info: uuid,
-      template: selectedDex,
+      template: "ZkEvm",
       action_status: status === 1 ? "Success" : "Failed",
-      action_switch: state.add ? 1 : 0,
       tx_id: transactionHash,
     });
 
@@ -935,11 +788,11 @@ const onCallTxComple = (tx) => {
 
 if (!state.sender || selectedChainId !== 1101) {
   const title = !state.sender
-    ? "Polygon zkEVM Swap"
-    : ` To proceed, kindly switch to zkEVM.`;
+    ? "zkEvm Swap"
+    : ` To proceed, kindly switch to ${forceNetwork}.`;
 
   if (!!state.sender && selectedChainId !== 1101) {
-    switchNetwork(1101, defaultDex || "QuickSwap");
+    switchNetwork(1101, "Pancake Swap");
   }
 
   return (
@@ -958,7 +811,7 @@ if (!state.sender || selectedChainId !== 1101) {
 }
 
 return (
-  <>
+  <Theme>
     <Widget
       src="guessme.near/widget/ZKEVMSwap.zkevm-dexData"
       props={{
@@ -1024,6 +877,7 @@ return (
         NETWORK_ZKEVM,
         onLoad: (inputAsset) => {
           console.log("TokenData onLoad inputAsset", inputAsset);
+          inputAsset.metadata.symbol = inputAsset.metadata.symbol.toUpperCase();
           State.update({ inputAsset });
         },
       }}
@@ -1039,6 +893,8 @@ return (
         NETWORK_POLYGON,
         onLoad: (outputAsset) => {
           console.log("TokenData onLoad outputAsset", outputAsset);
+          outputAsset.metadata.symbol =
+            outputAsset.metadata.symbol.toUpperCase();
           State.update({ outputAsset });
         },
       }}
@@ -1074,19 +930,9 @@ return (
         />
       )}
 
-    <SwapMainContainer
-      style={{
-        justifyContent: layout == "left" ? "start" : "center",
-      }}
-    >
-      {state.network && state.dexName && !oneProtocol && (
-        <div
-          className=""
-          style={{
-            maxWidth: "100%",
-            overflow: "auto",
-          }}
-        >
+    <SwapMainContainer>
+      {state.network && state.dexName && (
+        <div>
           <div
             style={{
               color: "#794FDD",
@@ -1096,9 +942,7 @@ return (
           >
             Chain & Dapp
           </div>
-          <NetworkList className="network-drop-down-container">
-            {networksDropDown}
-          </NetworkList>
+          <NetworkList>{networksDropDown}</NetworkList>
         </div>
       )}
 
@@ -1109,7 +953,6 @@ return (
             paddingLeft: "12px",
             fontWeight: 500,
           }}
-          className="swap-selected-dex"
         >
           {/* Swap */}
           {selectedDex}
@@ -1163,16 +1006,15 @@ return (
                 opacity: insufficientBalance && !state.approvalNeeded ? 0.5 : 1,
               }}
             >
-              {state.approvalNeeded && !insufficientBalance && (
+              {state.approvalNeeded && (
                 <button
                   class={"swap-button"}
-                  onClick={(tx) => {
+                  onClick={() => {
                     state.callTokenApproval(
                       state,
-                      (tx) => {
+                      () => {
                         State.update({
                           outputAsset: undefined,
-                          forceReloadApprove: !state.forceReloadApprove,
                         });
                         tokenInApprovaleNeededCheck();
                       },
@@ -1186,10 +1028,10 @@ return (
                   </div>
                 </button>
               )}
-              {(insufficientBalance || !state.approvalNeeded) && (
+              {!state.approvalNeeded && (
                 <button
                   class={"swap-button-enabled"}
-                  disabled={!canSwap || state.noPool}
+                  disabled={!canSwap}
                   onClick={() => {
                     if (canSwap) {
                       try {
@@ -1197,7 +1039,7 @@ return (
                           state,
                           onCallTxComple,
                           "2.09",
-                          400000,
+                          3000000,
                           "0",
                           state.estimate.path
                         );
@@ -1213,34 +1055,32 @@ return (
             </div>
           </div>
         </SwapPage>
-
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            ...props,
-            add: state.add,
-            onChangeAdd: (value) => {
-              State.update({
-                add: value,
-              });
-            },
-            hide:
-              !state?.outputAsset ||
-              !state?.inputAssetAmount ||
-              !state?.inputAsset ||
-              !state?.selectedDex ||
-              (source === "quest-card" &&
-                state.storeParams &&
-                state.storeParams.amount === state.inputAssetAmount &&
-                state.storeParams.assetId.toLowerCase() ===
-                  state.inputAssetTokenId.toLowerCase() &&
-                state.storeParams.dexName === state.selectedDex &&
-                state.storeParams.symbol ===
-                  state?.inputAsset?.metadata?.symbol),
-          }}
-        />
       </div>
     </SwapMainContainer>
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
-  </>
+
+    <Widget
+      src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+      props={{
+        ...props,
+        add: state.add,
+        onChangeAdd: (value) => {
+          State.update({
+            add: value,
+          });
+        },
+        hide:
+          !state?.outputAsset ||
+          !state?.inputAssetAmount ||
+          !state?.inputAsset ||
+          !state?.selectedDex ||
+          (source === "quest-card" &&
+            state.storeParams &&
+            state.storeParams.amount === state.inputAssetAmount &&
+            state.storeParams.assetId.toLowerCase() ===
+              state.inputAssetTokenId.toLowerCase() &&
+            state.storeParams.dexName === state.selectedDex &&
+            state.storeParams.symbol === state?.inputAsset?.metadata?.symbol),
+      }}
+    />
+  </Theme>
 );
