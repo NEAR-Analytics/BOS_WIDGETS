@@ -278,7 +278,7 @@ return (
               <Widget
                 src="mob.near/widget/MarkdownEditorIframe"
                 props={{
-                  initialText: initialBody,
+                  initialText: state.initialBody,
                   onChange: (articleBody) => State.update({ articleBody }),
                 }}
               />
