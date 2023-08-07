@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-wrap: nowrap;
   padding-left: 3.5em;
     padding-right: 3.5em;
+    margin-bottom: 3em;
   gap: 3em;
   background: #fff;
 
