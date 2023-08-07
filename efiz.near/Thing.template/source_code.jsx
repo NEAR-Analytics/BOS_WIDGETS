@@ -1,3 +1,7 @@
+State.init({
+  currentFolder: props.rootFolder,
+});
+
 const Container = styled.div`
   border: 1px solid #ccc;
   height: fit-content;
@@ -83,11 +87,14 @@ const renderDocuments = (folder) => {
 };
 
 const renderFolders = (folder) => {
-  return folder.folders.map((subfolder) => (
-    <FolderItem key={subfolder.id} onClick={() => openFolder(subfolder)}>
-      {subfolder.name}
-    </FolderItem>
-  ));
+  return (
+    folder &&
+    folder.folders.map((subfolder) => (
+      <FolderItem key={subfolder.id} onClick={() => openFolder(subfolder)}>
+        {subfolder.name}
+      </FolderItem>
+    ))
+  );
 };
 
 const handleCreateDocument = () => {
@@ -102,7 +109,7 @@ const handleCreateDocument = () => {
 
 const handleCreateFolder = () => {
   if (state.currentFolder) {
-    props.createFolder(currentFolder.id, "New Folder");
+    props.createFolder(state.currentFolder.id, "New Folder");
   }
 };
 
