@@ -235,7 +235,7 @@ const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 const replaceFunc = (a, b) => String.fromCodePoint(`0x${b}`);
 
 const formatText = (msg) => {
-  return decodeURIComponent(encodeURIComponent(msg));
+  return JSON.parse(msg);
 };
 
 return (
@@ -313,6 +313,7 @@ return (
               )}
           </div>
         </div>
+        {console.log(formatText(kudo.message))}
         <Description className="text-secondary">
           {formatText(kudo.message)}
         </Description>
