@@ -142,7 +142,7 @@ return (
         <ul>
           <li>🏆 General</li>
           <li>📱 Social & NFTs</li>
-          <li>🏛️ Impact & Governance:</li>
+          <li>🏛️ Impact & Governance</li>
           <li>⛓️ Multichain & DeFi</li>
           <li>🛠️ Dev Experience</li>
         </ul>
