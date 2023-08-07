@@ -310,7 +310,7 @@ Term 2
 
 const initialCreateState = {
   articleId: "",
-  articleBody: initialBody,
+  articleBody: initialBodyAtCreation,
   tags: [],
 };
 
