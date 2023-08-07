@@ -232,11 +232,11 @@ State.init({
 
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
-const replaceFunc = (a, b) => String.fromCodePoint(`0x${b}`);
-
 const formatText = (msg) => {
   const _msg = msg.replace("\\\\u", "--emoji--");
-  return _msg.replace(/--emoji--([0-9A-F]{4})/gi, replaceFunc);
+  return _msg.replace(/--emoji--([\w\d]{4})/gi, (_, g) =>
+    String.fromCodePoint(`0x${g}`)
+  );
 };
 
 return (
