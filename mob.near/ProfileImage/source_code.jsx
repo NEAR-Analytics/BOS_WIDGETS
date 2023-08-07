@@ -12,7 +12,7 @@ const image = profile.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
-const fast = !props.profile;
+const fast = !props.profile && !!accountId;
 
 const inner = fast ? (
   <div className={className} style={style}>
