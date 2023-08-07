@@ -56,6 +56,13 @@ const Hr = styled.div`
   margin-right: 10px;
 `;
 
+const UserProfileDiv = styled.div`
+  .userImg {
+    width: 32px;
+    height: 32px;
+  }
+`;
+
 const getDateAgo = () => {
   const now = new Date().getTime();
   const current = new Date(parseInt(comment.created_at)).getTime();
@@ -78,32 +85,28 @@ const handleShare = (e) => e.preventDefault();
 
 State.init({ isOpen: false });
 
-const UserProfile = ({ secondary, ownerId }) => {
-  const size = secondary ? "24px" : "32px";
-
-  return (
-    <div className="d-flex justify-content-between align-items-center">
-      <div className="d-flex justify-content-between align-items-center w-100">
-        <div className="d-flex gap-2 align-items-center">
-          <Widget
-            src="mob.near/widget/ProfileImage"
-            props={{
-              accountId: ownerId,
-              imageClassName: "rounded-circle w-100 mh-100",
-              style: { width: size, height: size },
-            }}
-          />
-          <StyledLink
-            secondary={secondary}
-            href={`https://near.org/near/widget/ProfilePage?accountId=${ownerId}`}
-          >
-            {ownerId}
-          </StyledLink>
-        </div>
+const UserProfile = ({ secondary, ownerId }) => (
+  <UserProfileDiv className="d-flex justify-content-between align-items-center">
+    <div className="d-flex justify-content-between align-items-center w-100">
+      <div className="d-flex gap-2 align-items-center">
+        <Widget
+          src="mob.near/widget/ProfileImage"
+          props={{
+            accountId: ownerId,
+            imageClassName: "userImg",
+            style: { width: "32px", height: "32px" },
+          }}
+        />
+        <StyledLink
+          secondary={secondary}
+          href={`https://near.org/near/widget/ProfilePage?accountId=${ownerId}`}
+        >
+          {ownerId}
+        </StyledLink>
       </div>
     </div>
-  );
-};
+  </UserProfileDiv>
+);
 
 const trimMessage = (message) => {
   const postfix = message.length > 20 ? "..." : "";
