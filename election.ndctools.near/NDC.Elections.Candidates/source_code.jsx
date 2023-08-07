@@ -52,24 +52,15 @@ const CandidateItem = styled.div`
   margin-bottom: 8px;
   border: 1px solid;
   background: ${(props) =>
-    props.winnerId
-      ? "#239F28"
-      : props.selected
-      ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"
-      : "#F8F8F9"};
+    props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#F8F8F9"};
   border-color: ${(props) =>
-    props.selected ? "#4F46E5" : props.winnerId ? "#239F28" : "#F8F8F9"};
+    props.selected ? "#4aa6ee" : props.winnerId ? "#239F28" : "#F8F8F9"};
   color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
 
   &:hover {
     cursor: pointer;
     background: ${(props) =>
-      props.selected
-        ? "linear-gradient(90deg, #9333EA 0%, #4F46E5 100%)"
-        : props.winnerId
-        ? "#239F28"
-        : "linear-gradient(90deg, rgba(147, 51, 234, 0.08) 0%, rgba(79, 70, 229, 0.08) 100%)"};
-  }
+      props.selected ? "#4aa6ee" : props.winnerId ? "#239F28" : "#d4e4f461"}
 `;
 
 const Bookmark = styled.div`
