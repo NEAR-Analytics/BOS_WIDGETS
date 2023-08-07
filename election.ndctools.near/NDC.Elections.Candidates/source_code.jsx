@@ -192,6 +192,12 @@ const Section = styled.div`
   margin-bottom: 10px;
 `;
 
+const ActionSection = styled.div`
+  @media (max-width: 400px) {
+    width: 100%;
+  }
+`;
+
 const currentUser = context.accountId;
 const housesMapping = {
   CouncilOfAdvisors: "Council Of Advisors",
@@ -589,13 +595,13 @@ const CastVotes = () => (
         Make sure you selected all {seats} candidates
       </Info>
     </div>
-    <div className="d-flex gap-2">
+    <ActionSection className="d-flex gap-2">
       {state.selectedCandidates.length > 0 && (
         <Widget
           src={widgets.styledComponents}
           props={{
             Button: {
-              className: "secondary dark",
+              className: "secondary dark justify-content-center text-nowrap",
               text: "Reset Selection",
               onClick: () =>
                 State.update({
@@ -620,7 +626,7 @@ const CastVotes = () => (
           },
         }}
       />
-    </div>
+    </ActionSection>
   </CastVotesSection>
 );
 
