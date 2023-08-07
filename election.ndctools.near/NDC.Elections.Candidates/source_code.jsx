@@ -589,7 +589,7 @@ const CastVotes = () => (
             props={{
               Button: {
                 size: "sm",
-                className: "secondary",
+                className: "secondary dark",
                 text: "Reset Selection",
                 onClick: () =>
                   State.update({
