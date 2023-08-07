@@ -5,7 +5,7 @@ const widget = {
 };
 
 const Header = styled.div`
-  background: #4ba6ee;
+  background: black;
 `;
 
 return (
