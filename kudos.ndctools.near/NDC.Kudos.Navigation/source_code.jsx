@@ -32,16 +32,8 @@ const ImgContainer = styled.div`
 const DesktopNav = styled.div`
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
-  border: 1px solid;
   background: ${(props) => (props.selected ? "#4ba6ee" : "#FFFFFF")};
-  border-color: ${(props) => (props.selected ? "#4ba6ee" : "#ffffff")};
   color: ${(props) => (props.selected ? "white" : "inherit")};
-
-  &:hover {
-    border: 1px solid #4ba6ee;
-    background: ${(props) => (props.selected ? "#4ba6ee" : "#fff")};
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
-  }
 `;
 
 const MobileNav = styled.div`
