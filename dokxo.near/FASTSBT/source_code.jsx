@@ -713,9 +713,7 @@ return (
                   Submit{" "}
                 </SubmitBtn>
               ) : (
-                <SubmitBtn disabled onClick={() => {}}>
-                  Connect
-                </SubmitBtn>
+                <SubmitBtn disabled>Connect</SubmitBtn>
               )}
             </div>
           </div>
