@@ -137,7 +137,7 @@ const NavItem = styled.a`
   position: relative;
   cursor: pointer;
   padding: 0.5em;
-  margin: 0.25em 0;
+  margin: 1.5em 0;
   font-style: normal;
   font-weight: 600;
   font-size: 0.8em;
@@ -167,12 +167,18 @@ const NavItem = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 16px;
     text-align: center;
   }
 `;
 
 const NavSelected = styled.div`
     color: #0d99ff;
+     display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-align: center;
 `;
 
 State.init({
@@ -191,6 +197,9 @@ const NavContainer = styled.div`
   flex-direction: column;
   margin-right: 2.5em;
   gap: 0.8em;
+   background: linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
+  background: -webkit-linear-gradient(180deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
+  background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -277,6 +286,7 @@ const Root = styled("Collapsible.Root")`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
+  
   transition: all 0.25s ease-in-out;
   gap: 1.5em;
   width: 100%;
