@@ -49,12 +49,13 @@ asyncFetch(
   if (resp.body) State.update({ humanVoted: resp.body });
 });
 
-asyncFetch(
-  `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
-  { headers: { "x-api-key": apiKey } }
-).then((resp) => {
-  if (resp.body) State.update({ myVotes: resp.body });
-});
+if (context.accountId)
+  asyncFetch(
+    `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) State.update({ myVotes: resp.body });
+  });
 
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
