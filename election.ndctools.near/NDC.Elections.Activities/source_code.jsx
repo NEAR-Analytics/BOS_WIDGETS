@@ -65,7 +65,7 @@ return (
               {vote.candidate}
             </StyledLink>
             <small className="text-secondary">
-              {new Date(vote.timestamp).toLocaleDateString("en-US", {
+              {Date.parse(vote.timestamp).toLocaleDateString("en-US", {
                 day: "2-digit",
                 month: "short",
               })}
