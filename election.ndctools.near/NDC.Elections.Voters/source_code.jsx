@@ -1,4 +1,4 @@
-const { candidateId } = props;
+const { candidateId, isIAmHuman } = props;
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -22,7 +22,17 @@ const Bookmark = styled.div`
   width: 100px;
 
   @media (max-width: 400px) {
-    width: 0;
+    width: auto;
+    margin-right: 15px;
+  }
+`;
+
+const Expand = styled.div`
+  width: 35px;
+
+  @media (max-width: 400px) {
+    width: auto;
+    margin-right: 10px;
   }
 `;
 
@@ -39,10 +49,16 @@ const VoterItem = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 100px;
+  width: 90px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 14px;
+  padding-top: 2px;
+
+  @media (max-width: 400px) {
+    width: 60px;
+  }
 `;
 
 const TxnSection = styled.div`
@@ -72,7 +88,8 @@ return (
     {state.voters.map((voter) => (
       <VoterItem className="d-flex align-items-center gap-2 justify-content-between">
         <div className="d-flex align-items-center">
-          <Bookmark />
+          <Expand />
+          {isIAmHuman && <Bookmark />}
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
