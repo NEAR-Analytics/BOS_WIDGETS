@@ -43,7 +43,10 @@ const fetchNearPrice = () => {
   const nearUsdPrice = resp?.body?.near.usd;
   if (nearUsdPrice && !isNaN(nearUsdPrice)) {
     console.log("@nearPrice", nearUsdPrice);
-    State.update({ nearUsdPrice, nearUsdPriceIsFetched: true });
+    State.update({
+      nearUsdPrice: Number(nearUsdPrice),
+      nearUsdPriceIsFetched: true,
+    });
   }
 };
 
@@ -477,7 +480,7 @@ return (
         <Widget
           src={`${authorId}/widget/MetaPoolStake.Common.Input`}
           props={{
-            price:
+            usdPrice:
               state.nearUsdPrice && state.value
                 ? (state.nearUsdPrice * parseFloat(state.value)).toFixed(2)
                 : "0",
