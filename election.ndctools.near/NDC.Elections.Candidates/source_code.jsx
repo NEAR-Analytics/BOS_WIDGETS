@@ -465,7 +465,7 @@ const CandidateList = ({ candidateId, votes }) => (
             }}
           />
           <UserLink
-            src={`https://www.near.org/near/widget/ProfilePage?accountId=${candidateId}`}
+            src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
             title={candidateId}
           />
           {winnerIds.includes(candidateId) && (
