@@ -187,6 +187,10 @@ const filteredCandidates = () => {
           state.bookmarked.includes(candidateId)
         )
       : result;
+  if (state.filterOption === "candidates")
+    candidates = candidates.sort((a, b) =>
+      state.filter.candidates ? a[0] - b[0] : b[0] - a[0]
+    );
   if (state.filterOption === "votes")
     candidates = candidates.sort((a, b) =>
       state.filter.votes ? a[1] - b[1] : b[1] - a[1]
@@ -297,6 +301,10 @@ const filterBy = (option) => {
     filterOption = "bookmark";
     filter = { bookmark: !state.filter.bookmark };
   }
+  if (option.candidates) {
+    filterOption = "candidates";
+    filter = { candidates: !state.filter.candidates };
+  }
   if (option.votes) {
     filterOption = "votes";
     filter = { votes: !state.filter.votes };
@@ -343,7 +351,7 @@ State.init({
   candidates: result,
   filter: {
     bookmark: false,
-    candidate: false,
+    candidates: false,
     votes: false,
     my_votes: false,
   },
@@ -484,8 +492,16 @@ const Filters = () => (
           />
         </Bookmark>
       )}
-      <div className="text-secondary">
+      <div
+        className="text-secondary"
+        onClick={() => filterBy({ candidates: true })}
+      >
         <small>Candidate</small>
+        <i
+          className={`bi ${
+            state.filter.candidates ? "bi-arrow-down" : "bi-arrow-up"
+          }`}
+        />
       </div>
     </div>
     <div className="d-flex">
