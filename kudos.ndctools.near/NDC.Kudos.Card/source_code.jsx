@@ -237,9 +237,13 @@ const formatText = (msg) => {
   const arr = str.split(">emoji>");
   console.log(str);
   console.log(arr);
-  return arr
-    .map((el) => (el.length === 4 ? String.fromCharCode("0x" + el) : el))
+  const res = arr
+    .map((el) => {
+      return el.length === 4 ? String.fromCharCode("0x" + el) : el;
+    })
     .join("");
+  console.log(res);
+  return res;
 };
 
 return (
