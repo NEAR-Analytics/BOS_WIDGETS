@@ -46,7 +46,7 @@ return (
     </div>
 
     <ul
-      className="flex flex-1 flex-col block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+      className="flex flex-1 flex-col"
       id="pills-tab"
       role="tablist"
       aria-label="Sidebar"
@@ -73,7 +73,7 @@ return (
       ))}
     </ul>
 
-    <div class="-mb-px flex space-x-8" aria-label="Tabs">
+    <div className="tab-content" id="pills-tabContent">
       <div
         className="tab-pane fade "
         id="pills-posts"
