@@ -43,6 +43,10 @@ const StyledLink = styled.a`
   text-overflow: ellipsis;
   font-size: 14px;
   padding-top: 2px;
+
+  @media (max-width: 400px) {
+    width: 60px;
+  }
 `;
 
 const CandidateItem = styled.div`
@@ -71,9 +75,9 @@ const Bookmark = styled.div`
       props.winnerId || props.selected ? "#fff" : "#4F46E5"};
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 400px) {
     width: auto;
-    margin-right: 5px
+    margin-right: 15px
   }
 `;
 
@@ -82,10 +86,10 @@ const Votes = styled.div`
   margin-left: 20px;
   text-align: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 400px) {
     width: auto;
     margin: 0;
-    margin-left: 5px;
+    margin-left: 15px;
   }
 `;
 
@@ -95,20 +99,20 @@ const Action = styled.div`
   margin-left: 20px;
   text-align: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 400px) {
     width: auto;
     margin: 0;
-    margin-left: 5px;
+    margin-left: 15px;
   }
 `;
 
 const Nomination = styled.div`
   width: 102px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 400px) {
     width: auto;
     margin: 0;
-    margin-left: 5px;
+    margin-left: 15px;
   }
 `;
 
