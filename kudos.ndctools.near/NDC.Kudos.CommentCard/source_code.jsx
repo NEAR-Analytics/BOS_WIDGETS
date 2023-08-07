@@ -89,8 +89,8 @@ const UserProfile = ({ secondary, ownerId }) => {
             src="mob.near/widget/ProfileImage"
             props={{
               accountId: ownerId,
-              imageClassName: "rounded-circle w-10 h-100",
-              style: { width: size, height: size, marginRight: 5 },
+              imageClassName: "rounded-circle w-100 h-100",
+              style: { width: "32px", height: "32px", marginRight: 5 },
             }}
           />
           <StyledLink
