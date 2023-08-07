@@ -412,7 +412,7 @@ const CandidateList = ({ candidateId, votes }) => (
             )}
           </Bookmark>
         )}
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center" id="link">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
@@ -430,7 +430,7 @@ const CandidateList = ({ candidateId, votes }) => (
           )}
         </div>
       </div>
-      <div className="d-flex">
+      <div className="d-flex" id="link">
         <Widget
           src={widgets.styledComponents}
           props={{
@@ -438,7 +438,7 @@ const CandidateList = ({ candidateId, votes }) => (
               size: "sm",
               className: "secondary dark",
               text: "Nomination",
-              icon: <i id="link" className="bi bi-arrow-up-right" />,
+              icon: <i className="bi bi-arrow-up-right" />,
               href: ref_link,
               inverse:
                 state.selected === candidateId ||
