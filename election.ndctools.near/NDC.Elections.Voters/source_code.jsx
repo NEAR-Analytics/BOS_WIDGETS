@@ -20,16 +20,12 @@ const VotersContainer = styled.div`
 
 const Bookmark = styled.div`
   width: 100px;
-
-  #bookmark.bi-bookmark-fill {
-    color: ${(props) => (props.selected ? "#fff" : "#4F46E5")};
-  }
 `;
 
 const VoterItem = styled.div`
   font-size: 14px;
   padding: 0 20px;
-  height: 48px;
+  height: 44px;
   border-bottom: 1px solid #d0d6d9;
 
   &:last-child {
