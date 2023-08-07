@@ -77,7 +77,7 @@ const Bookmark = styled.div`
 
   @media (max-width: 400px) {
     width: auto;
-    margin-right: 15px
+    margin-right: 15px;
   }
 `;
 
@@ -151,6 +151,18 @@ const CastVotesSection = styled.div`
 
   @media (max-width: 400px) {
     flex-direction: column;
+  }
+
+  .wrapper {
+    @media (max-width: 400px) {
+      widht: 100%;
+    }
+  }
+
+  button {
+    @media (max-width: 400px) {
+      width: 100%;
+    }
   }
 
   h3,
@@ -566,7 +578,7 @@ const Filters = () => (
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
-    <div className="w-100">
+    <div className="wrapper">
       <div className="d-flex align-items-end">
         <H3>
           {seats - myVotesForHouse().length - state.selectedCandidates.length}
@@ -601,7 +613,6 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
-          className: "w-100 justify-content-center primary",
           disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
