@@ -89,7 +89,7 @@ const UserProfile = ({ secondary, ownerId }) => {
             src="mob.near/widget/ProfileImage"
             props={{
               accountId: ownerId,
-              imageClassName: "rounded-circle w-100",
+              imageClassName: "rounded-circle w-100 mh-100",
               style: { width: size, height: size },
             }}
           />
