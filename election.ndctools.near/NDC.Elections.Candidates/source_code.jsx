@@ -52,23 +52,15 @@ const CandidateItem = styled.div`
   margin-bottom: 8px;
   border: 1px solid;
   background: ${(props) =>
-    (props.winnerId && props.selected) || props.winnerId
-      ? "#239F28"
-      : props.selected
-      ? "#4aa6ee"
-      : "#F8F8F9"};
+    props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#F8F8F9"};
   border-color: ${(props) =>
-    (props.winnerId && props.selected) || props.winnerId
-      ? "#239F28"
-      : props.selected
-      ? "#4aa6ee"
-      : "#F8F8F9"};
+    props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#F8F8F9"};
   color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
 
   &:hover {
     cursor: pointer;
     background: ${(props) =>
-      props.selected ? "#4aa6ee" : props.winnerId ? "#239F28" : "#d4e4f461"}
+      props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#d4e4f461"}
 `;
 
 const Bookmark = styled.div`
