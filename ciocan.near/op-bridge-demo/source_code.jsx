@@ -81,6 +81,10 @@ function getDeposits() {
     .queryFilter(bridgeContract.filters.ETHDepositInitiated(sender))
     .then((events) => {
       console.log(events);
+      events.forEach((ev) => {
+        ev.getTransaction().then((tx) => console.log("tx", tx));
+        ev.getTransactionReceipt().then((tx) => console.log("txr", tx));
+      });
     });
 }
 
