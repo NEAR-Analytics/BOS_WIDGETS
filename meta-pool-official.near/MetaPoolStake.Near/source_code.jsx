@@ -13,6 +13,8 @@ State.init({
   validation: "",
   nearUsdPrice: null,
   metrics: null,
+  nearBalance: null,
+  stNearBalance: null,
 });
 
 function isValid(a) {
@@ -58,7 +60,9 @@ function getStNearBalance(subscribe) {
   );
   if (!stNearBalanceRaw) return "-";
   const balance = Big(stNearBalanceRaw).div(Big(10).pow(tokenDecimals));
-  return balance.lt(0) ? "0" : balance.toFixed();
+  State.update({
+    stNearBalance: balance.lt(0) ? "0" : balance.toFixed(),
+  });
 }
 
 function getNearBalance(onInvalidate) {
@@ -100,14 +104,6 @@ function getNearBalance(onInvalidate) {
     }
   });
 }
-
-const nearBalance = accountId ? state.nearBalance : "-";
-// Initial fetch of account NEAR balance
-if (accountId && !isValid(nearBalance)) {
-  getNearBalance();
-}
-
-const stNearBalance = accountId ? getStNearBalance() : "-";
 
 const onSubmit = () => {
   const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
@@ -480,7 +476,7 @@ return (
               handleInput(value);
             },
             inputError: state.validation !== "",
-            balance: nearBalance,
+            balance: state.nearBalance ?? "-",
             iconName: "NEAR",
             iconUrl:
               "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
