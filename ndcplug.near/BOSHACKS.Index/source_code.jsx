@@ -1,5 +1,6 @@
 /**
  * Change telegram tab, add resource tag
+ * fix alignment on subheader
  */
 const ownerId = "ndcplug.near";
 const availableTabs = ["home", "register", "hackathon", "people"];
