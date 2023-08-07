@@ -63,7 +63,11 @@ const CandidateItem = styled.div`
 
   &:hover {
     background: ${(props) =>
-      props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#d4e4f461"}
+      props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#d4e4f461"};
+  
+  @media (max-width: 400px) {
+    padding: 0 10px;
+  }
 `;
 
 const Bookmark = styled.div`
