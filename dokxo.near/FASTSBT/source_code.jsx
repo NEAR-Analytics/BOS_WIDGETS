@@ -12,6 +12,7 @@ State.init({
   Referencelink_valid: false,
   Referencelink_json: false,
   Referencehash: "",
+  JsonBody: "",
   IssuerPropList: props.IssuerList,
   ischeckselected: true,
   Submitdisable: true,
@@ -85,9 +86,7 @@ border-radius: 10px;
   }
   background-origin: border-box;
   background-clip: padding-box, border-box;
-@media only screen and (max-width: 480px) {
- 
-}
+
 `;
 
 const CustomCheckbox = styled.div`
@@ -106,7 +105,14 @@ border: medium solid ${
 border-radius:4px;
  
 `;
-
+const CardPreview = styled.div`
+  width: 20%;
+  margin: auto 0px !important;
+ @media only screen and (max-width: 480px) {
+  width: 100%;
+  margin: 0;
+}
+`;
 // -- Get all the roles from the DAO policy
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
@@ -373,7 +379,10 @@ const validateReference = (link) => {
       asyncFetch(state.Referencelink).then((response) => {
         console.log(response);
         //validate if its a JSON
-        if (response.contentType.trim() === "application/json") {
+        if (
+          response.contentType.trim() === "application/json" &&
+          response.body != undefined
+        ) {
           // convert to Uft8 the body content
           const toUtf8 = ethers.utils.toUtf8Bytes(
             JSON.stringify(response.body)
@@ -390,6 +399,15 @@ const validateReference = (link) => {
             Referencelink_valid: true,
             Referencelink_json: true,
             Referencehash: bodyEncoded,
+            //previe the body content
+            JsonBody: JSON.stringify(response.body),
+          });
+        } else {
+          State.update({
+            Referencelink_valid: false,
+            Referencelink_json: false,
+            Referencehash: "",
+            JsonBody: "",
           });
         }
       });
@@ -410,193 +428,252 @@ return (
         <img src={NDCicon} />
         <label class="Headerlabel">SBT DAO minter</label>
       </div>
-      <div class="CardStyled" name="card">
-        <div class=" BodyForm mx-auto">
-          <div class="Rowcont">
-            <div class="Colcont">
-              <h1 class="H1styled">Minter DAO *</h1>
-              <input
-                class="InputStyled"
-                type="text"
-                placeholder="Input DAO contract address"
-                value={state.Dao_Contract}
-                onChange={(e) => {
-                  State.update({ Dao_Contract: e.target.value });
 
-                  validatedInputs();
-                }}
-              />
-            </div>
-            <div class="Colcont">
-              <h1 class="H1styled">Issuer *</h1>
-              <select
-                class="Dropdown"
-                placeholder="Input DAO contract address "
-                value={state.Issuer_selected}
-                onChange={(e) => {
-                  State.update({ Issuer_selected: e.target.value });
-                  validatedInputs();
-                }}
-              >
-                <option default value="">
-                  Select issuer
-                </option>
-                {props.IssuerList ? (
-                  props.IssuerList.map((item) => {
-                    return <option value={item.value}> {item.label}</option>;
-                  })
+      <div class="d-flex row col-sm-12 ">
+        {state.Referencelink_valid && (
+          <CardPreview class="CardPreview" name="cardPreview">
+            <div class=" BodyForm mx-auto">
+              <div className="d-flex flex-column mt-2">
+                {state.ischeckselected ? (
+                  <div class="MetaCard">
+                    <div class="row  col-sm-12   mx-2  gap-1   ">
+                      <div class="" name="Metarow">
+                        <div class="MetaTitles">{"Json preview."}</div>
+                        <div style={{ "font-size": "10px" }}>
+                          <textarea
+                            class="FormInput"
+                            style={{ width: "93%", height: "195px" }}
+                            disabled
+                            value={state.JsonBody}
+                            placeholder="the json preview goes here"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ) : (
-                  <></>
+                  <div class="Separator"></div>
                 )}
-                <option value={_type.SHOWINPUT}>Other -- write it.</option>
-              </select>
+              </div>
             </div>
-            {state.Issuer_selected === _type.SHOWINPUT ? (
+          </CardPreview>
+        )}
+
+        <div class="CardStyled" name="card">
+          <div class=" BodyForm mx-auto">
+            <div class="Rowcont">
               <div class="Colcont">
-                <h1 class="H1styled">Enter issuer *</h1>
+                <h1 class="H1styled">Minter DAO *</h1>
                 <input
                   class="InputStyled"
                   type="text"
-                  placeholder="Input Issuer"
-                  value={state.Issuer_filled}
+                  placeholder="Input DAO contract address"
+                  value={state.Dao_Contract}
                   onChange={(e) => {
-                    State.update({ Issuer_filled: e.target.value });
+                    State.update({ Dao_Contract: e.target.value });
+
                     validatedInputs();
                   }}
                 />
               </div>
-            ) : (
-              <></>
-            )}
-            <div class="Colcont">
-              <h1 class="H1styled">Receiver *</h1>
-              <input
-                class="InputStyled"
-                type="text"
-                placeholder="dokxo.near"
-                value={state.Receiver}
-                onChange={(e) => {
-                  State.update({ Receiver: e.target.value });
-                  validatedInputs();
-                }}
-              />
-            </div>
-          </div>
-          <div className="d-flex flex-column mt-2">
-            <div class="d-flex">
-              <h1 class="H1styled">Metadata</h1>
-              <CustomCheckbox
-                onClick={() => {
-                  State.update({ ischeckselected: !state.ischeckselected });
-                  validatedInputs();
-                }}
-              >
-                {state.ischeckselected ? (
-                  <img
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      "object-fit": "cover",
-                      "vertical-align": " initial",
+              <div class="Colcont">
+                <h1 class="H1styled">Issuer *</h1>
+                <select
+                  class="Dropdown"
+                  placeholder="Input DAO contract address "
+                  value={state.Issuer_selected}
+                  onChange={(e) => {
+                    State.update({ Issuer_selected: e.target.value });
+                    validatedInputs();
+                  }}
+                >
+                  <option default value="">
+                    Select issuer
+                  </option>
+                  {props.IssuerList ? (
+                    props.IssuerList.map((item) => {
+                      return <option value={item.value}> {item.label}</option>;
+                    })
+                  ) : (
+                    <></>
+                  )}
+                  <option value={_type.SHOWINPUT}>Other -- write it.</option>
+                </select>
+              </div>
+              {state.Issuer_selected === _type.SHOWINPUT ? (
+                <div class="Colcont">
+                  <h1 class="H1styled">Enter issuer *</h1>
+                  <input
+                    class="InputStyled"
+                    type="text"
+                    placeholder="Input Issuer"
+                    value={state.Issuer_filled}
+                    onChange={(e) => {
+                      State.update({ Issuer_filled: e.target.value });
+                      validatedInputs();
                     }}
-                    src={CheckIcon}
                   />
-                ) : (
-                  <></>
-                )}
-              </CustomCheckbox>
+                </div>
+              ) : (
+                <></>
+              )}
+              <div class="Colcont">
+                <h1 class="H1styled">Receiver *</h1>
+                <input
+                  class="InputStyled"
+                  type="text"
+                  placeholder="dokxo.near"
+                  value={state.Receiver}
+                  onChange={(e) => {
+                    State.update({ Receiver: e.target.value });
+                    validatedInputs();
+                  }}
+                />
+              </div>
             </div>
-            {state.ischeckselected ? (
-              <div class="MetaCard">
-                <div class="row  col-sm-12  mx-0  gap-1   ">
-                  <div class="Metarow" name="Classid">
-                    <div class="MetaTitles">{"Class id *"}</div>
-                    <div>
-                      <input
-                        class="Dropdown"
-                        type="number"
-                        placeholder="write the class id"
-                        min={1}
-                        max={MAX_SAFE_INTEGER}
-                        step="1"
-                        value={state.ClassIdSelected}
-                        onChange={(e) => {
-                          State.update({ ClassIdSelected: e.target.value });
-                          validatedInputs();
-                        }}
-                      ></input>
-                    </div>
-                  </div>
-
-                  <div class="Metarow">
-                    <div class="MetaTitles">
-                      {"Reference = link to a JSON file (eg, IPFS)."}
-                    </div>
-                    <div>
-                      <input
-                        class="FormInput"
-                        value={state.Referencelink}
-                        placeholder="Write your reference (optional)"
-                        onChange={(e) => {
-                          State.update({ Referencelink: e.target.value });
-                          validateReference(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div
+            <div className="d-flex flex-column mt-2">
+              <div class="d-flex">
+                <h1 class="H1styled">Metadata</h1>
+                <CustomCheckbox
+                  onClick={() => {
+                    State.update({ ischeckselected: !state.ischeckselected });
+                    validatedInputs();
+                  }}
+                >
+                  {state.ischeckselected ? (
+                    <img
                       style={{
-                        "justify-content": " end",
-                        gap: "1rem",
-                        margin: "4px 2px 0px",
-                        display: "flex",
-                        "font-size": "10px",
+                        width: "100%",
+                        height: "100%",
+                        "object-fit": "cover",
+                        "vertical-align": " initial",
                       }}
-                    >
-                      <a
+                      src={CheckIcon}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </CustomCheckbox>
+              </div>
+              {state.ischeckselected ? (
+                <div class="MetaCard">
+                  <div class="row  col-sm-12  mx-0  gap-1   ">
+                    <div class="Metarow" name="Classid">
+                      <div class="MetaTitles">{"Class id *"}</div>
+                      <div>
+                        <input
+                          class="Dropdown"
+                          type="number"
+                          placeholder="write the class id"
+                          min={1}
+                          max={MAX_SAFE_INTEGER}
+                          step="1"
+                          value={state.ClassIdSelected}
+                          onChange={(e) => {
+                            State.update({ ClassIdSelected: e.target.value });
+                            validatedInputs();
+                          }}
+                        ></input>
+                      </div>
+                    </div>
+
+                    <div class="Metarow">
+                      <div class="MetaTitles">
+                        {"Reference = link to a JSON file (eg, IPFS)."}
+                      </div>
+                      <div>
+                        <input
+                          class="FormInput"
+                          value={state.Referencelink}
+                          placeholder="Write your reference (optional)"
+                          onChange={(e) => {
+                            State.update({ Referencelink: e.target.value });
+                            validateReference(e.target.value);
+                          }}
+                        />
+                      </div>
+                      <div
                         style={{
-                          color: state.Referencelink_json
-                            ? "#008500"
-                            : "#FF0000",
+                          "justify-content": " end",
+                          gap: "1rem",
+                          margin: "4px 2px 0px",
+                          display: "flex",
                           "font-size": "10px",
                         }}
                       >
-                        valid json
-                      </a>
+                        <a
+                          style={{
+                            color: state.Referencelink_json
+                              ? "#008500"
+                              : "#FF0000",
+                            "font-size": "10px",
+                          }}
+                        >
+                          valid json
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                  <div class="Metarow">
-                    <div class="MetaTitles">
-                      {"Reference hash = Base64-encoded sha256 hash of JSON."}
-                    </div>
-                    <div style={{ "font-size": "10px" }}>
-                      <input
-                        class="FormInput"
-                        disabled
-                        value={state.Referencehash}
-                        placeholder="Write your reference hash (optional)"
-                        onChange={(e) => {
-                          State.update({ Referencehash: e.target.value });
-                        }}
-                      />
+                    <div class="Metarow">
+                      <div class="MetaTitles">
+                        {"Reference hash = Base64-encoded sha256 hash of JSON."}
+                      </div>
+                      <div style={{ "font-size": "10px" }}>
+                        <input
+                          class="FormInput"
+                          disabled
+                          value={state.Referencehash}
+                          placeholder="Write your reference hash (optional)"
+                          onChange={(e) => {
+                            State.update({ Referencehash: e.target.value });
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
+              ) : (
+                <div class="Separator"></div>
+              )}
+              <div className="d-flex flex-column mt-2">
+                <h1 class="H1styled">Memo </h1>
+                <input
+                  class="InputStyled"
+                  type="text"
+                  placeholder="Write a memo"
+                  value={state.Memo}
+                  onChange={(e) => {
+                    State.update({ Memo: e.target.value.substring(0, 200) });
+                    validatedInputs();
+                  }}
+                />
+                <div
+                  style={{
+                    "justify-content": " end",
+                    gap: "1rem",
+                    margin: "4px 2px 0px",
+                    display: "flex",
+                    "font-size": "10px",
+                  }}
+                >
+                  <a
+                    style={{
+                      color:
+                        state.Memo.length < 200 ||
+                        state.Memo.length === undefined
+                          ? "#008500"
+                          : "#FF0000",
+                      "font-size": "10px",
+                    }}
+                  >
+                    {state.Memo.length === undefined ? 0 : state.Memo.length} of
+                    200
+                  </a>
+                </div>
               </div>
-            ) : (
-              <div class="Separator"></div>
-            )}
-            <div className="d-flex flex-column mt-2">
-              <h1 class="H1styled">Memo </h1>
-              <input
-                class="InputStyled"
-                type="text"
-                placeholder="Write a memo"
-                value={state.Memo}
-                onChange={(e) => {
-                  State.update({ Memo: e.target.value.substring(0, 200) });
-                  validatedInputs();
-                }}
-              />
+            </div>
+          </div>
+          <div class="FooterForm" name="Footerform">
+            {!canAddProposal && (
               <div
                 style={{
                   "justify-content": " end",
@@ -608,65 +685,39 @@ return (
               >
                 <a
                   style={{
-                    color:
-                      state.Memo.length < 200 || state.Memo.length === undefined
-                        ? "#008500"
-                        : "#FF0000",
+                    color: "#850000",
                     "font-size": "10px",
                   }}
                 >
-                  {state.Memo.length === undefined ? 0 : state.Memo.length} of
-                  200
+                  You are not allowed to do a FunctionCall
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="FooterForm" name="Footerform">
-          {!canAddProposal && (
-            <div
-              style={{
-                "justify-content": " end",
-                gap: "1rem",
-                margin: "4px 2px 0px",
-                display: "flex",
-                "font-size": "10px",
-              }}
-            >
+            )}
+            <div class="Submitcontainer">
               <a
                 style={{
                   color: "#850000",
                   "font-size": "10px",
                 }}
               >
-                You are not allowed to do a FunctionCall
+                {state.error_msg}
               </a>
+              {context.accountId ? (
+                <SubmitBtn
+                  disabled={state.Submitdisable && canAddProposal}
+                  onClick={() => {
+                    Submitform();
+                  }}
+                >
+                  {" "}
+                  Submit{" "}
+                </SubmitBtn>
+              ) : (
+                <SubmitBtn disabled onClick={() => {}}>
+                  Connect
+                </SubmitBtn>
+              )}
             </div>
-          )}
-          <div class="Submitcontainer">
-            <a
-              style={{
-                color: "#850000",
-                "font-size": "10px",
-              }}
-            >
-              {state.error_msg}
-            </a>
-            {context.accountId ? (
-              <SubmitBtn
-                disabled={state.Submitdisable && canAddProposal}
-                onClick={() => {
-                  Submitform();
-                }}
-              >
-                {" "}
-                Submit{" "}
-              </SubmitBtn>
-            ) : (
-              <SubmitBtn disabled onClick={() => {}}>
-                Connect
-              </SubmitBtn>
-            )}
           </div>
         </div>
       </div>
