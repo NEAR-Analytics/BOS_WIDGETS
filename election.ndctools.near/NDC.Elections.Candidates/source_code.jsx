@@ -81,7 +81,7 @@ const Bookmark = styled.div`
 `;
 
 const Expand = styled.div`
-  width: 50px;
+  width: 35px;
 
   @media (max-width: 400px) {
     width: auto;
@@ -90,38 +90,13 @@ const Expand = styled.div`
 `;
 
 const Votes = styled.div`
-  width: 90px;
-  margin-left: 20px;
-  text-align: center;
 
-  @media (max-width: 400px) {
-    width: auto;
-    margin: 0;
-    margin-left: 15px;
-  }
 `;
 
 const Action = styled.div`
-  width: 90px;
-  min-width: 20px;
-  margin-left: 20px;
-  text-align: center;
-
-  @media (max-width: 400px) {
-    width: auto;
-    margin: 0;
-    margin-left: 15px;
-  }
 `;
 
 const Nomination = styled.div`
-  width: 102px;
-
-  @media (max-width: 400px) {
-    width: auto;
-    margin: 0;
-    margin-left: 15px;
-  }
 `;
 
 const FilterRow = styled.div`
@@ -488,7 +463,7 @@ const CandidateList = ({ candidateId, votes }) => (
           )}
         </div>
       </div>
-      <div className="d-flex" id="link">
+      <div className="d-flex w-100 justify-content-between">
         <Widget
           src={widgets.styledComponents}
           props={{
@@ -496,7 +471,7 @@ const CandidateList = ({ candidateId, votes }) => (
               size: "sm",
               className: "secondary dark",
               text: "Nomination",
-              icon: <i className="bi bi-arrow-up-right" />,
+              icon: <i className="bi bi-box-arrow-up-right" />,
               href: ref_link,
               inverse:
                 state.selected === candidateId ||
