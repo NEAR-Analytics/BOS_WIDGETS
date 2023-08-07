@@ -1,12 +1,7 @@
 //This code comes from NDC.Nomination.Candidate.Page > NDC.Nomination.Candidate.DesktopView
 
-const {
-  widgets,
-  handleBackButton,
-  handleFilterArticles,
-  articleToRenderData,
-  authorForWidget,
-} = props;
+const { widgets, handleFilterArticles, articleToRenderData, authorForWidget } =
+  props;
 
 const accountId = articleToRenderData.author;
 // State.init({
