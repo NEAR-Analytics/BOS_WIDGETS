@@ -309,7 +309,7 @@ return (
         </div>
         <Description className="text-secondary">
           {kudo.message.replace(/\\u([0-9A-F]{4})/gi, (_, g) =>
-            String.fromCharCode(`0x${g}`)
+            String.fromCodePoint(`0x${g}`)
           )}
         </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
