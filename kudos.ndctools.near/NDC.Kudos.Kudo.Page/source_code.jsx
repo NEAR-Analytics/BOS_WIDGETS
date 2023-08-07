@@ -18,21 +18,25 @@ State.init({
   isIAmHuman: false,
   isOpen: false,
   kind: "",
+  loading: false,
 });
 
 let kudo = Social.getr(`${kudosContract}/kudos/${accountId}/${kudoId}`);
-kudo = {
-  created_at: kudo.created_at,
-  icon: kudo.icon || null,
-  kind: kudo.kind,
-  message: kudo.message,
-  sender_id: kudo.sender_id,
-  receiver_id: accountId,
-  tags: kudo.tags,
-  id: kudoId,
-  comments: kudo.comments ? Object.entries(kudo.comments) : [],
-  upvotes: kudo.upvotes ? Object.keys(kudo.upvotes).length : 0,
-};
+
+setTimeout(() => {
+  kudo = {
+    created_at: kudo.created_at,
+    icon: kudo.icon || null,
+    kind: kudo.kind,
+    message: kudo.message,
+    sender_id: kudo.sender_id,
+    receiver_id: accountId,
+    tags: kudo.tags,
+    id: kudoId,
+    comments: kudo.comments ? Object.entries(kudo.comments) : [],
+    upvotes: kudo.upvotes ? Object.keys(kudo.upvotes).length : 0,
+  };
+}, 2000);
 
 const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
