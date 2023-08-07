@@ -70,12 +70,23 @@ const Bookmark = styled.div`
     color: ${(props) =>
       props.winnerId || props.selected ? "#fff" : "#4F46E5"};
   }
+
+  @media (max-width: 768px) {
+    width: auto;
+    margin-right: 5px
+  }
 `;
 
 const Votes = styled.div`
   width: 90px;
   margin-left: 20px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    width: auto;
+    margin: 0;
+    margin-left: 5px;
+  }
 `;
 
 const Action = styled.div`
@@ -83,10 +94,22 @@ const Action = styled.div`
   min-width: 20px;
   margin-left: 20px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    width: auto;
+    margin: 0;
+    margin-left: 5px;
+  }
 `;
 
 const Nomination = styled.div`
   width: 102px;
+
+  @media (max-width: 768px) {
+    width: auto;
+    margin: 0;
+    margin-left: 5px;
+  }
 `;
 
 const FilterRow = styled.div`
