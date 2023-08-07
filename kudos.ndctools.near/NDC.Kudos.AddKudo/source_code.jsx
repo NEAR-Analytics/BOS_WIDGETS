@@ -102,7 +102,7 @@ return (
               src={widgets.styledComponents}
               props={{
                 TextArea: {
-                  label: "Add a Kudo Description",
+                  label: `Add a ${kind === "k" ? "Kudo" : "Ding"} Description`,
                   value: state.message,
                   handleChange: (e) =>
                     State.update({ message: e.target.value }),
