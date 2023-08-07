@@ -31,7 +31,7 @@ const Expand = styled.div`
   width: 35px;
 
   @media (max-width: 400px) {
-    width: auto;
+    width: 20px;
     margin-right: 10px;
   }
 `;
