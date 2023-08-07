@@ -38,7 +38,7 @@ const InputField = styled.div`
 
 const Mint = styled.div`
   padding: 10px 0;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  background: #4ba6ee;
   border-radius: 8px 8px 0 0;
   font-size: 14px;
   cursor: pointer;
@@ -117,19 +117,6 @@ const CreatedAt = styled.div`
   b {
     font-weight: 500;
   }
-`;
-
-const Tag = styled.div`
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 100px;
-  color: #9333ea;
-  border: 1px solid #9333ea;
-  background: linear-gradient(
-    90deg,
-    rgba(147, 51, 234, 0.1) 0%,
-    rgba(79, 70, 229, 0.1) 100%
-  );
 `;
 
 const KudoLink = styled.a`
