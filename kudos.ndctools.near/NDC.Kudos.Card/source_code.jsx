@@ -235,6 +235,8 @@ const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 const formatText = (msg) => {
   let str = msg.replace(/\\u([0-9a-zA-Z]{4})/gi, ">emoji>$1>emoji>");
   const arr = str.split(">emoji>");
+  console.log(str);
+  console.log(arr);
   return arr
     .map((el) => (el.length === 4 ? String.fromCharCode("0x" + el) : el))
     .join("");
