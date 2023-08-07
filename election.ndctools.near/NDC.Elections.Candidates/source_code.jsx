@@ -386,7 +386,7 @@ loadInitData();
 loadSocialDBData();
 
 const UserLink = ({ title, src }) => (
-  <div className="mr-3">
+  <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
       {title}
     </StyledLink>
