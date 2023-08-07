@@ -437,7 +437,11 @@ const CandidateList = ({ candidateId, votes }) => (
       <div className="d-flex">
         <Expand>
           <i
-            className="bi bi-chevron-right expand"
+            className={`${
+              state.selected === candidateId
+                ? "bi bi-chevron-down"
+                : "bi bi-chevron-right"
+            }`}
             onClick={(e) =>
               State.update({
                 selected: state.selected === candidateId ? null : candidateId,
