@@ -18,6 +18,11 @@ State.init({
   isOpen: false,
   kind: "",
   loading: false,
+  kudo: null,
+});
+
+const isHuman = Near.view(registryContract, "is_human", {
+  account: context.accountId,
 });
 
 let kudo = Social.getr(`${kudosContract}/kudos/${accountId}/${kudoId}`);
@@ -35,11 +40,7 @@ kudo = {
   upvotes: kudo.upvotes ? Object.keys(kudo.upvotes).length : 0,
 };
 
-const isHuman = Near.view(registryContract, "is_human", {
-  account: context.accountId,
-});
-
-State.update({ isIAmHuman: isHuman[0][1].length > 0 });
+State.update({ isIAmHuman: isHuman[0][1].length > 0, kudo });
 
 const BackLink = styled.a`
   color: black;
