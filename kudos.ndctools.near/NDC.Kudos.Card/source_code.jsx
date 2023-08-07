@@ -231,13 +231,7 @@ State.init({
 });
 
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
-
-const formatText = (msg) => {
-  return msg.replace(/\\u([0-9a-zA-Z]{4})/gi, (a, b) =>
-    String.fromCharCode("0x" + b)
-  );
-};
-
+console.log(kudo);
 return (
   <>
     <Container
