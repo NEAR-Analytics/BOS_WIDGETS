@@ -189,7 +189,9 @@ const filteredCandidates = () => {
       : result;
   if (state.filterOption === "candidates")
     candidates = candidates.sort((a, b) =>
-      state.filter.candidates ? a[0] - b[0] : b[0] - a[0]
+      state.filter.candidates
+        ? a[0].localeCompare(b[0])
+        : b[0].localeCompare(a[0])
     );
   if (state.filterOption === "votes")
     candidates = candidates.sort((a, b) =>
