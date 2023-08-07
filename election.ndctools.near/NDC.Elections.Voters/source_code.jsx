@@ -20,6 +20,10 @@ const VotersContainer = styled.div`
 
 const Bookmark = styled.div`
   width: 100px;
+
+  @media (max-width: 400px) {
+    width: 0;
+  }
 `;
 
 const VoterItem = styled.div`
@@ -39,6 +43,11 @@ const StyledLink = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const TxnSection = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const TxnLink = styled.a`
@@ -61,7 +70,7 @@ const UserLink = ({ title, src }) => (
 return (
   <VotersContainer>
     {state.voters.map((voter) => (
-      <VoterItem className="d-flex align-items-center justify-content-between">
+      <VoterItem className="d-flex align-items-center gap-2 justify-content-between">
         <div className="d-flex align-items-center">
           <Bookmark />
           <Widget
@@ -77,7 +86,7 @@ return (
             title={voter.voter}
           />
         </div>
-        <div className="d-flex align-items-center">
+        <TxnSection className="d-flex align-items-center">
           <TxnLink
             role="button"
             target="_blank"
@@ -88,7 +97,7 @@ return (
           <span>
             <i class="bi bi-arrow-up-right" />
           </span>
-        </div>
+        </TxnSection>
       </VoterItem>
     ))}
   </VotersContainer>
