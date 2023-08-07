@@ -7,9 +7,6 @@ const VoteRow = styled.a`
     font-weight: 400;
     font-size: 12px;
   }
-  .row {
-    width: min-content;
-  }
 `;
 
 const StyledLink = styled.a`
@@ -71,7 +68,7 @@ return (
               })}
               &middot;
               {new Date(vote.timestamp).toLocaleTimeString("en-US", {
-                hour: "2-digit",
+                hour: "1-digit",
               })}
             </small>
           </div>
