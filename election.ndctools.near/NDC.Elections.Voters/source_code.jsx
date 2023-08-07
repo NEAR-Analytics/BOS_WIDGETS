@@ -19,7 +19,7 @@ const VotersContainer = styled.div`
 `;
 
 const Bookmark = styled.div`
-  width: 100px;
+  width: 90px;
 
   @media (max-width: 400px) {
     width: auto;
@@ -86,7 +86,7 @@ const UserLink = ({ title, src }) => (
 return (
   <VotersContainer>
     {state.voters.map((voter) => (
-      <VoterItem className="d-flex align-items-center gap-2 justify-content-between">
+      <VoterItem className="d-flex align-items-center gap-4 justify-content-between">
         <div className="d-flex align-items-center">
           <Expand />
           <Bookmark />
@@ -95,7 +95,7 @@ return (
             props={{
               accountId: voter.voter,
               imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "24px", height: "24px", marginRight: 4 },
+              style: { width: "24px", height: "24px", marginRight: 5 },
             }}
           />
           <UserLink
