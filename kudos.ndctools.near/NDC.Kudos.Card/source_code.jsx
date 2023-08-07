@@ -311,7 +311,9 @@ return (
           </div>
         </div>
         <Description className="text-secondary">
-          {formatText(kudo.message)}
+          {formatText(
+            "Thanks for being such an awesome Product Lead and \u26f5\u26f4\ufe0f\ud83d\udea2\ud83d\udef3\ufe0f\ud83d\ude80ing constantly \ud83d\ude4f\ud83c\udffd\ud83e\udd70. The Near Ecosystem is lucky to have you."
+          )}
         </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
