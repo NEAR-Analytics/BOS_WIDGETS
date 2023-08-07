@@ -583,43 +583,44 @@ const CastVotes = () => (
         <span>/</span>
         <H4>{seats}</H4>
         <span className="text-secondary">votes left</span>
-        {state.selectedCandidates.length > 0 && (
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Button: {
-                size: "sm",
-                className: "secondary dark",
-                text: "Reset Selection",
-                onClick: () =>
-                  State.update({
-                    selectedCandidates: [],
-                    availableVotes: seats - myVotesForHouse().length,
-                  }),
-              },
-            }}
-          />
-        )}
       </div>
       <Info className="text-secondary">
         <i class="bi bi-info-circle"></i>
         Make sure you selected all {seats} candidates
       </Info>
     </div>
-    <Widget
-      src={widgets.styledComponents}
-      props={{
-        Button: {
-          className: "primary justify-content-center",
-          disabled: state.selectedCandidates.length === 0,
-          text: `Cast ${state.selectedCandidates.length || ""} Votes`,
-          onClick: () =>
-            state.tosAgreement
-              ? handleVote()
-              : State.update({ showToSModal: true }),
-        },
-      }}
-    />
+    <div className="flex gap-2">
+      {state.selectedCandidates.length > 0 && (
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              className: "secondary dark",
+              text: "Reset Selection",
+              onClick: () =>
+                State.update({
+                  selectedCandidates: [],
+                  availableVotes: seats - myVotesForHouse().length,
+                }),
+            },
+          }}
+        />
+      )}
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Button: {
+            className: "primary justify-content-center",
+            disabled: state.selectedCandidates.length === 0,
+            text: `Cast ${state.selectedCandidates.length || ""} Votes`,
+            onClick: () =>
+              state.tosAgreement
+                ? handleVote()
+                : State.update({ showToSModal: true }),
+          },
+        }}
+      />
+    </div>
   </CastVotesSection>
 );
 
