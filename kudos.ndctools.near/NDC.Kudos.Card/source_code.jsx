@@ -233,17 +233,9 @@ State.init({
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatText = (msg) => {
-  let str = msg.replace(/\\u([0-9a-zA-Z]{4})/gi, ">emoji>$1>emoji>");
-  const arr = str.split(">emoji>");
-  console.log(str);
-  console.log(arr);
-  const res = arr
-    .map((el) => {
-      return el.length === 4 ? el : el;
-    })
-    .join("");
-  console.log(res);
-  return res;
+  return msg.replace(/\\u([0-9a-zA-Z]{4})/gi, (a, b) =>
+    String.fromCharCode("0x" + b)
+  );
 };
 
 return (
@@ -290,38 +282,36 @@ return (
                 <span>To {kudo.receiver_id}</span>
               </KudoLink>
             </div>
-            {isIAmHuman &&
-              kudo.receiver_id !== context.accountId &&
-              kudo.sender_id !== context.accountId && (
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      text: kudo.upvotes.length,
-                      disabled: kudo.upvotes.includes(context.accountId),
-                      className:
+            {isIAmHuman && (
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    text: kudo.upvotes.length,
+                    disabled:
+                      kudo.upvotes.includes(context.accountId) ||
+                      kudo.receiver_id === context.accountId ||
+                      kudo.sender_id === context.accountId,
+                    className:
+                      kudo.kind === "k" ? "secondary dark" : "secondary danger",
+                    onClick: (e) => handleUpvote(kudo),
+                    image: {
+                      url:
                         kudo.kind === "k"
-                          ? "secondary dark"
-                          : "secondary danger",
-                      onClick: (e) => handleUpvote(kudo),
-                      image: {
-                        url:
-                          kudo.kind === "k"
-                            ? isIAmHuman &&
-                              kudo.receiver_id !== context.accountId &&
-                              kudo.sender_id !== context.accountId &&
-                              !kudo.upvotes.includes(context.accountId)
-                              ? "https://bafkreicdwy5kpbid7qn2q4yt4lx6oo24kosa7t2ravqg54pmpb62mp64eq.ipfs.nftstorage.link"
-                              : "https://bafkreidz6ybnsss2ulwg236fvp3cm5ksdqpsfziwhvnx4ee7maqpcl2jde.ipfs.nftstorage.link/"
-                            : "https://bafkreia6ux4wzaktmwxxnkzd7tbhpuxhlp352twzsunc6vetza76u6clwy.ipfs.nftstorage.link/",
-                      },
+                          ? isIAmHuman &&
+                            kudo.receiver_id !== context.accountId &&
+                            kudo.sender_id !== context.accountId &&
+                            !kudo.upvotes.includes(context.accountId)
+                            ? "https://bafkreicdwy5kpbid7qn2q4yt4lx6oo24kosa7t2ravqg54pmpb62mp64eq.ipfs.nftstorage.link"
+                            : "https://bafkreidz6ybnsss2ulwg236fvp3cm5ksdqpsfziwhvnx4ee7maqpcl2jde.ipfs.nftstorage.link/"
+                          : "https://bafkreia6ux4wzaktmwxxnkzd7tbhpuxhlp352twzsunc6vetza76u6clwy.ipfs.nftstorage.link/",
                     },
-                  }}
-                />
-              )}
+                  },
+                }}
+              />
+            )}
           </div>
         </div>
-        {console.log(formatText(kudo.message))}
         <Description className="text-secondary">{kudo.message}</Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
