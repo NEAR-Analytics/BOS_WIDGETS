@@ -1,9 +1,29 @@
-// In order to debug, use the code version with comments & types
-// Find it here: https://github.com/dredshep/balancer-pools-bos/blob/master/Widgets/BalancerPool/BalancerPool-table-row.jsx
+// @ts-check
 
-const erc20ABI = fetch(
-  "https://raw.githubusercontent.com/dredshep/dev/main/abi.json"
-).body;
+/** @typedef {Object} SBalancer @property {string} id @property {number} poolCount @property {string} totalLiquidity */
+/** @typedef {Object} SToken @property {string} name @property {string} symbol @property {string} address @property {number} decimals @property {string} totalBalanceUSD @property {string} totalBalanceNotional @property {string} totalVolumeUSD @property {string} totalVolumeNotional @property {string | null} latestUSDPrice @property {SLatestPrice | null} latestPrice */
+/** @typedef {Object} SLatestPrice @property {string} pricingAsset @property {string} price @property {SPoolId} poolId */
+/** @typedef {Object} SPoolId @property {string} totalWeight */
+/** @typedef {Object} SPool @property {string} id @property {string} address @property {string[]} tokensList @property {string} totalWeight @property {string} totalShares @property {string} holdersCount @property {string} totalLiquidity @property {string} poolType @property {number} poolTypeVersion @property {{ token: SToken }[]} tokens @property {string} owner @property {number} createTime*/
+/** @typedef {Object} SBalancerGQLResponse @property {SBalancer[]} balancers @property {SPool[]} pools */
+/** @typedef {Object} TokenWeights @property {string} address @property {number} weight */
+/** @typedef {Object} TransformedPool @property {string} totalValueLocked @property {TokenWeights[]} tokenWeights @property {string} id @property {string} address @property {string[]} tokensList @property {string} totalWeight @property {string} totalShares @property {string} holdersCount @property {string} poolType @property {number} poolTypeVersion @property {SToken[]} tokens @property {string} owner @property {number} createTime*/
+/** @typedef {Object} TransformedData @property {SBalancer[]} balancers @property {TransformedPool[]} pools */
+/** @typedef {Object} StatePool @property {string} id @property {boolean} approved @property {boolean} depositing @property {boolean} withdrawing @property {boolean} approving @property {boolean} loading */
+/** @typedef {Object} PoolAndBalance @property {string} poolAddress @property {string | undefined} balance */
+
+const erc20ABI =
+  // @ts-ignore
+  fetch("https://raw.githubusercontent.com/dredshep/dev/main/abi.json").body;
+
+/**
+ * @typedef {Object} State
+ * @property {string | undefined} poolBalance - The user's balance of the pool's tokens
+ * @property {string | undefined} errorGettingBalance - Error message when trying to get the user's balance, if any.
+ * @property {string | undefined} userAddress - The user's address
+ * @property {number} refreshTick - A number that triggers a refresh of the data when it changes
+ * @property {boolean} seeMore - Whether the user has clicked the "see more" button
+ */
 
 State.init({
   poolBalance: undefined,
@@ -22,26 +42,54 @@ if (state.errorGettingBalance)
 
 const missingProps = [];
 
+// @ts-ignore
 if (!props.pool) missingProps.push("pool (TransformedPool)");
+// @ts-ignore
 if (!props.operation) missingProps.push('operation ("stake" | "unstake")');
+// @ts-ignore
 if (!props.vaultAddress) missingProps.push("vaultAddress (string)");
+// @ts-ignore
 if (!props.balancerQueriesAddress)
   missingProps.push("balancerQueriesAddress (string)");
+// @ts-ignore
 if (props.pool && !props.pool.id)
   missingProps.push("pool has no id, check type (TransformedPool)");
+// @ts-ignore
 if (props.pool && !props.pool.owner)
   missingProps.push("pool has no owner, check type (TransformedPool)");
+// @ts-ignore
 if (props.pool && !props.pool.createTime)
   missingProps.push("pool has no createTime, check type (TransformedPool)");
+// @ts-ignore
 if (!props.chainId) missingProps.push("chainId (number | string)");
+// @ts-ignore
+if (!props.balancerTokens)
+  missingProps.push(`balancerTokens (APRApiResponse["tokens"])`);
 
-const pool = props.pool;
+/** @type {TransformedPool} */
+const pool =
+  // @ts-ignore
+  props.pool;
 
-const VAULT_ADDRESS = props.vaultAddress;
+/** @type {string} */
+const VAULT_ADDRESS =
+  // @ts-ignore
+  props.vaultAddress;
 
-const BALANCER_QUERIES_ADDRESS = props.balancerQueriesAddress;
+/** @type {string} */
+const BALANCER_QUERIES_ADDRESS =
+  // @ts-ignore
+  props.balancerQueriesAddress;
 
-const CHAIN_ID = props.chainId;
+/** @type {number | string} */
+const CHAIN_ID =
+  // @ts-ignore
+  props.chainId;
+
+/** @type {APRApiResponse["tokens"]} */
+const BALANCER_TOKENS =
+  // @ts-ignore
+  props.balancerTokens;
 
 function MissingPropsWarning({ missingProps }) {
   return (
@@ -70,6 +118,7 @@ function MissingPropsWarning({ missingProps }) {
 }
 
 if (missingProps.length) {
+  // @ts-ignore
   return <MissingPropsWarning missingProps={missingProps} />;
 }
 
@@ -100,6 +149,10 @@ function formatAndAbbreviateNumber(num) {
 const userAddress = Ethers.send("eth_requestAccounts", [])[0];
 State.update({ userAddress });
 
+/**
+ * @param {string} poolAddress
+ * @param {string} userAddress
+ */
 function getUserBalance(poolAddress, userAddress) {
   if (!Ethers.provider()?.getSigner?.()) {
     State.update({
@@ -116,10 +169,12 @@ function getUserBalance(poolAddress, userAddress) {
       Ethers.provider().getSigner()
     );
     if (!userAddress) return;
-    const balance = erc20.balanceOf(userAddress).then((balance) => {
-      const formattedBalance = ethers.utils.formatUnits(balance, 18);
-      return formattedBalance;
-    });
+    const balance = erc20
+      .balanceOf(userAddress)
+      .then((/** @type {{ toString: () => string; }} */ balance) => {
+        const formattedBalance = ethers.utils.formatUnits(balance, 18);
+        return formattedBalance;
+      });
     return balance;
   } catch (e) {
     return `Error in getUserBalance(). params:
@@ -129,6 +184,10 @@ function getUserBalance(poolAddress, userAddress) {
   }
 }
 
+/**
+ * @param {string | undefined} poolAddress
+ * @param {string | undefined} userAddress
+ */
 function getUserBalanceOnceAndUpdateState(poolAddress, userAddress) {
   if (!userAddress) {
     console.log("No user address, exiting getUserBalanceOnceAndUpdateState()");
@@ -201,6 +260,15 @@ const VerticalPair = ({ title, value, end }) => {
   );
 };
 
+/**
+ * @typedef {Object} StakeUnstakeButtonAndFormProps
+ * @property {"stake"|"unstake"} operation
+ * @property {TransformedPool} pool
+ * @property {string} vaultAddress
+ * @property {string} balancerQueriesAddress
+ */
+
+/** @type {StakeUnstakeButtonAndFormProps} */
 const stakeWidgetProps = {
   pool,
   operation: "stake",
@@ -208,6 +276,7 @@ const stakeWidgetProps = {
   balancerQueriesAddress: BALANCER_QUERIES_ADDRESS,
 };
 
+/** @type {StakeUnstakeButtonAndFormProps} */
 const unstakeWidgetProps = {
   pool,
   operation: "unstake",
@@ -268,6 +337,7 @@ const ImageWithPlaceholder = ({
   length,
   alt,
 }) => {
+  // @ts-ignore
   const imageExists = fetch(imageUrl)?.body;
   const zIndex = length - index;
   const marginLeft = index === 0 ? "" : "-7px";
@@ -299,10 +369,19 @@ function stringNumToFixed2(stringNum) {
   return stringNum === undefined ? undefined : parseFloat(stringNum).toFixed(2);
 }
 
+/**
+ * Converts Unix timestamp to ISO date format.
+ * @param {number} unixTime - Unix timestamp in seconds.
+ * @returns {string} - ISO date format string (yyyy-mm-dd). Example: "2021-01-23"
+ */
 function unixTimeToISO(unixTime) {
   return new Date(unixTime * 1000).toISOString().slice(0, 10);
 }
 
+/**
+ * @param {string} address - hex address
+ * @returns {string} 3 comma-separated hex colors. Example: "ff0000,00ff00,0000ff"
+ */
 function addressTo3Colors(address) {
   const hexColors = address.slice(2);
   const color1 = hexColors.slice(0, 6);
@@ -315,6 +394,7 @@ function CoolTr() {
   return (
     <tr
       onClick={() => {
+        /* implement your on click function here */
         toggleSeeMore();
       }}
     >
@@ -349,6 +429,7 @@ function CoolTr() {
         {stringNumToFixed2(state.poolBalance) ?? "-"}
         {state.poolBalance ? "BPT" : ""}
       </td>
+      {/* view more with quotes to the right like >> but curved */}
       <Popover.Root>
         <HoverableTd
           style={{
@@ -364,8 +445,10 @@ function CoolTr() {
               style={{
                 zIndex: "3",
                 backgroundColor: "#393e41",
+                // maxWidth: "472px",
               }}
             >
+              {/* title bar with close button */}
               <div className="d-flex justify-content-between align-items-center pb-4 border-bottom border-secondary pt-4 px-4">
                 <div>
                   <h5 className="text-light fw-bold d-flex p-0 m-0">
@@ -378,7 +461,26 @@ function CoolTr() {
                   </Popover.Close>
                 </div>
               </div>
-              <div className="d-flex w-100 gap-3 col-12 p-4">
+              <div
+                style={
+                  {
+                    // width: "100%",
+                    // display: "flex",
+                    // flexDirection: "column",
+                    // make the flex have 2 items at most per row
+                  }
+                }
+                // make the flex wrap
+                className="d-flex w-100 gap-3 col-12 p-4"
+              >
+                {/* <div className="d-flex justify-content-between border-bottom-1 p-2">
+            <div className="fw-bold">Amount of Holders</div>
+            <div>{pool.holdersCount}</div>
+          </div>
+          <div className="d-flex justify-content-between">
+            <div className="fw-bold">Pool Type</div>
+            <div>{pool.poolType}</div>
+          </div> */}
                 <div className="col-md-6">
                   <VerticalPair
                     end={false}
@@ -394,6 +496,7 @@ function CoolTr() {
                         target="_blank"
                         rel="noreferrer"
                       >
+                        {/* shorten it like this: 0x12...321514 */}
                         {pool.owner.slice(0, 6) +
                           "..." +
                           pool.owner.slice(pool.owner.length - 6)}
@@ -402,6 +505,18 @@ function CoolTr() {
                   />
                 </div>
                 <div className="col-md-6">
+                  {/* <VerticalPair
+                    end={false}
+                    title="Token Balance"
+                    value={pool.tokens.reduce(
+                      (acc, token) =>
+                        acc +
+                          parseFloat(
+                            stringNumToFixed2(token.totalBalanceNotional) || "0"
+                          ) || 0,
+                      0
+                    )}
+                  /> */}
                   <VerticalPair
                     end={false}
                     title="Pool Type"
@@ -413,15 +528,34 @@ function CoolTr() {
                     value={unixTimeToISO(pool.createTime)}
                   />
                 </div>
+                {/* <div className="col-md-6">
+                <VerticalPair
+                  end={false}
+                  title="Pool Type"
+                  value={`${pool.poolType} ${pool.poolTypeVersion}`}
+                />
+              </div> */}
               </div>
 
               <div className="d-flex justify-content-between text-light fw-bold rounded-top align-items-center px-4">
                 <div>
                   {/* 2x2 grid with some info like amount of holders, pool type, token composition (weights) */}
                   <PrettyTable className="col-md-6">
-                    <table
+                    {/* <VerticalPair
+                end={false}
+                title="Amount of Holders"
+                value={`${pool.holdersCount}`}
+              /> */}
+                    <Widget
+                      src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/BalancerAPITokenTable"
+                      props={{
+                        tokens: BALANCER_TOKENS,
+                      }}
+                    />
+                    {/* <table
                       className="table table-sm table-transparent text-light"
                       style={{
+                        // max size is like 150px
                         maxWidth: "200px",
                         marginTop: "-0.25rem",
                       }}
@@ -463,7 +597,7 @@ function CoolTr() {
                           </tr>
                         ))}
                       </tbody>
-                    </table>
+                    </table> */}
                   </PrettyTable>
                 </div>
               </div>
@@ -484,6 +618,8 @@ function CoolTr() {
                     >
                       <i className="bi bi-arrow-clockwise"></i>
                     </button>
+                    {/* <Web3Connect /> */}
+                    {/* <div> */}
                     <div style={{ maxWidth: "150px" }}>
                       <Widget
                         src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/StakeUnstakeButtonAndForm"
@@ -498,15 +634,29 @@ function CoolTr() {
                         key={(state.refreshTick + 2).toString()}
                       />
                     </div>
+                    {/* </div> */}
                   </div>
                 )}
               </div>
+              {/* <Popover.Arrow
+          style={{
+            fill: "var(--bs-secondary)",
+          }}
+        /> */}
             </div>
           </Popover.Content>
+          {/* <div
+            className="d-flex justify-content-center align-items-center bg-secondary"
+            style={{
+              height: "100%",
+              width: "100%",
+            }}
+          > */}
           <Popover.Trigger
             className="d-flex justify-content-center align-items-center"
             asChild
             style={{
+              // marginBottom: "-1px",
               height: "100%",
               width: "100%",
             }}
@@ -518,10 +668,61 @@ function CoolTr() {
               }}
             ></i>
           </Popover.Trigger>
+          {/* </div> */}
         </HoverableTd>
       </Popover.Root>
     </tr>
   );
 }
 
+function Table() {
+  return (
+    <PrettyTable>
+      <table className="table table-sm table-transparent text-light bg-dark">
+        <thead>
+          <tr>
+            <th className="fw-bold">
+              <div className="d-flex">
+                <i className="bi bi-circle-fill text-secondary"></i>
+                <i
+                  className="bi bi-circle-fill text-secondary"
+                  style={{ marginLeft: "-7px" }}
+                ></i>
+                <i
+                  className="bi bi-circle-fill text-secondary"
+                  style={{ marginLeft: "-7px" }}
+                ></i>
+              </div>
+            </th>
+            <th className="fw-bold">Tokens</th>
+            <th className="fw-bold">APR</th>
+            <th className="fw-bold">Pool value</th>
+            <th className="fw-bold">Your balance</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <CoolTr />
+          <CoolTr />
+          <CoolTr />
+          <CoolTr />
+        </tbody>
+      </table>
+    </PrettyTable>
+  );
+}
+
+function MainComponent() {
+  return (
+    <div>
+      <Web3Connect />
+      <Table />
+    </div>
+  );
+}
+
+// @ts-ignore
+// return <MainComponent />;
+
+// @ts-ignore
 return <CoolTr />;
