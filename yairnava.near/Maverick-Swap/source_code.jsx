@@ -92,7 +92,89 @@ const TOKENS = [
   },
 ];
 
+const POOLS = [
+  { name: "ETH-USDC", address: "0x41C8cf74c27554A8972d3bf3D2BD4a14D8B604AB" },
+  { name: "ETH-MUTE", address: "0x83c90b99FDF00b6203529fF6F2354a57E9F6EeC5" },
+  { name: "ETH-COMBO", address: "" },
+  { name: "ETH-PERP", address: "" },
+  { name: "ETH-LUSD", address: "0xB1338207DE233aE6a9A6D63309221b577F8Cd6E8" },
+  { name: "ETH-DVF", address: "" },
+  { name: "ETH-WOO", address: "" },
+  { name: "ETH-DERI", address: "" },
+  { name: "ETH-DEXTF", address: "" },
+  { name: "ETH-GOVI", address: "" },
+  { name: "ETH-1INCH", address: "" },
+  { name: "ETH-PEPE", address: "" },
+  { name: "USDC-MUTE", address: "0xF4bc5bf7cc54a48b6c0ABFafa2836376e10eccE9" },
+  { name: "USDC-COMBO", address: "" },
+  { name: "USDC-PERP", address: "" },
+  { name: "USDC-LUSD", address: "0x6A9143A5f9BaF73841992DCB737844e5ad16A283" },
+  { name: "USDC-DVF", address: "" },
+  { name: "USDC-WOO", address: "" },
+  { name: "USDC-DERI", address: "" },
+  { name: "USDC-DEXTF", address: "" },
+  { name: "USDC-GOVI", address: "" },
+  { name: "USDC-1INCH", address: "" },
+  { name: "USDC-PEPE", address: "" },
+  { name: "MUTE-COMBO", address: "" },
+  { name: "MUTE-PERP", address: "" },
+  { name: "MUTE-LUSD", address: "" },
+  { name: "MUTE-DVF", address: "" },
+  { name: "MUTE-WOO", address: "" },
+  { name: "MUTE-DERI", address: "" },
+  { name: "MUTE-DEXTF", address: "" },
+  { name: "MUTE-GOVI", address: "" },
+  { name: "MUTE-1INCH", address: "" },
+  { name: "MUTE-PEPE", address: "" },
+  { name: "COMBO-PERP", address: "" },
+  { name: "COMBO-LUSD", address: "" },
+  { name: "COMBO-DVF", address: "" },
+  { name: "COMBO-WOO", address: "" },
+  { name: "COMBO-DERI", address: "" },
+  { name: "COMBO-DEXTF", address: "" },
+  { name: "COMBO-GOVI", address: "" },
+  { name: "COMBO-1INCH", address: "" },
+  { name: "COMBO-PEPE", address: "" },
+  { name: "PERP-LUSD", address: "" },
+  { name: "PERP-DVF", address: "" },
+  { name: "PERP-WOO", address: "" },
+  { name: "PERP-DERI", address: "" },
+  { name: "PERP-DEXTF", address: "" },
+  { name: "PERP-GOVI", address: "" },
+  { name: "PERP-1INCH", address: "" },
+  { name: "PERP-PEPE", address: "" },
+  { name: "LUSD-DVF", address: "" },
+  { name: "LUSD-WOO", address: "" },
+  { name: "LUSD-DERI", address: "" },
+  { name: "LUSD-DEXTF", address: "" },
+  { name: "LUSD-GOVI", address: "" },
+  { name: "LUSD-1INCH", address: "" },
+  { name: "LUSD-PEPE", address: "" },
+  { name: "DVF-WOO", address: "" },
+  { name: "DVF-DERI", address: "" },
+  { name: "DVF-DEXTF", address: "" },
+  { name: "DVF-GOVI", address: "" },
+  { name: "DVF-1INCH", address: "" },
+  { name: "DVF-PEPE", address: "" },
+  { name: "WOO-DERI", address: "" },
+  { name: "WOO-DEXTF", address: "" },
+  { name: "WOO-GOVI", address: "" },
+  { name: "WOO-1INCH", address: "" },
+  { name: "WOO-PEPE", address: "" },
+  { name: "DERI-DEXTF", address: "" },
+  { name: "DERI-GOVI", address: "" },
+  { name: "DERI-1INCH", address: "" },
+  { name: "DERI-PEPE", address: "" },
+  { name: "DEXTF-GOVI", address: "" },
+  { name: "DEXTF-1INCH", address: "" },
+  { name: "DEXTF-PEPE", address: "" },
+  { name: "GOVI-1INCH", address: "" },
+  { name: "GOVI-PEPE", address: "" },
+  { name: "1INCH-PEPE", address: "" },
+];
+
 State.init({
+  init: true,
   tokenSendSelected: null,
   tokenRecieveSelected: null,
   amountInput: null,
@@ -127,7 +209,6 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
     return;
   }
   if (asset == "ETH") {
-    console.log("ETH");
     Ethers.provider()
       .getBalance(state.sender)
       .then((balance) => {
@@ -187,7 +268,6 @@ function getPrice(type, data) {
 }
 
 const tokenInApprovaleNeededCheck = (data) => {
-  console.log(data);
   if (data.name == "ETH") {
     State.update({
       approvalNeeded: false,
@@ -211,7 +291,6 @@ const tokenInApprovaleNeededCheck = (data) => {
             "allowance",
             encodedTokenAllowanceHex
           );
-          console.log(tokenAllowance);
           if (tokenAllowance) {
             console.log("Necesita approval");
             State.update({
@@ -264,12 +343,32 @@ if (state.sender === undefined) {
 
 const handleSendSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
+  console.log("SS: " + token.name);
+  console.log("TR: " + state.tokenRecieveSelected.name);
+  if (token.name == state.tokenRecieveSelected.name) {
+    console.log("Tokens Iguales");
+    if (state.tokenSendSelected.name) {
+      console.log("Rotar Tokens");
+    } else {
+      console.log("Poner Combo de Receive en vacio");
+    }
+  }
   getPrice(true, token);
   tokenInApprovaleNeededCheck(token);
 };
 
 const handleRecieveSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
+  console.log("RS: " + token.name);
+  console.log("TS: " + state.tokenSendSelected.name);
+  if (token.name == state.tokenSendSelected.name) {
+    console.log("Tokens Iguales");
+    if (state.tokenRecieveSelected.name) {
+      console.log("Rotar Tokens");
+    } else {
+      console.log("Poner Combo de Receive en vacio");
+    }
+  }
   getPrice(false, token);
 };
 
@@ -277,6 +376,23 @@ const cantSwap = () => {
   return (
     state.tokenSendSelected && state.tokenRecieveSelected && state.amountInput
   );
+};
+
+const existPool = () => {
+  const poolName1 = `${state.tokenSendSelected.name}-${state.tokenRecieveSelected.name}`;
+  const poolName2 = `${state.tokenRecieveSelected.name}-${state.tokenSendSelected.name}`;
+
+  if (!state.tokenSendSelected.name || !state.tokenRecieveSelected.name) {
+    return true;
+  }
+
+  const pool = POOLS.find((p) => p.name === poolName1 || p.name === poolName2);
+
+  if (pool && pool.address != "") {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 const isSufficientBalance = () => {
@@ -295,7 +411,7 @@ const setMaxBalance = () => {
 };
 
 const confirmTransaction = () => {
-  console.log("Confirmando transacción");
+  console.log("Swap");
 };
 
 const css = fetch(
@@ -346,7 +462,7 @@ return (
                   select={state.tokenSendSelected}
                   onChange={handleSendSelect}
                 >
-                  {!state.tokenSendSelected ? (
+                  {!state.tokenSendSelected.name ? (
                     <option>Select Token</option>
                   ) : null}
                   {TOKENS.map((token) => {
@@ -409,7 +525,7 @@ return (
                   select={state.tokenRecieveSelected}
                   onChange={handleRecieveSelect}
                 >
-                  {!state.tokenRecieveSelected ? (
+                  {state.tokenRecieveSelected == null ? (
                     <option>Select Token</option>
                   ) : null}
                   {TOKENS.map((token) => {
@@ -474,29 +590,23 @@ return (
                   {`Approve ${state.tokenSendSelected.name}`}
                 </div>
               </div>
-            ) : (
+            ) : cantSwap() && isSufficientBalance() && existPool() ? (
               <div
-                class={
-                  cantSwap() && isSufficientBalance()
-                    ? "ConfirmButton"
-                    : "ConfirmButtonDisabled"
-                }
+                class={"ConfirmButton"}
                 onClick={async () => {
                   confirmTransaction();
                 }}
               >
-                <div
-                  class={
-                    cantSwap() && isSufficientBalance()
-                      ? "ConfirmText"
-                      : "ConfirmTextDisabled"
-                  }
-                >
-                  {cantSwap()
+                <div class={"ConfirmText"}>Confirm</div>
+              </div>
+            ) : (
+              <div class={"ConfirmButtonDisabled"}>
+                <div class={"ConfirmTextDisabled"}>
+                  {existPool()
                     ? isSufficientBalance()
-                      ? "Confirm"
+                      ? "Select a Pair and Amount"
                       : "Insufficient Balance"
-                    : "Select a Pair and Amount"}
+                    : "Pool Not Deployed"}
                 </div>
               </div>
             )
