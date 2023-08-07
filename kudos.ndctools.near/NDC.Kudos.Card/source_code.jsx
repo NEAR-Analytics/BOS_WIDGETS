@@ -307,7 +307,11 @@ return (
               )}
           </div>
         </div>
-        <Description className="text-secondary">{kudo.message}</Description>
+        <Description className="text-secondary">
+          {kudo.message.replace(/\{([^}]*)\}/g, (_, g) =>
+            String.fromCodePoint(`0x${g}`)
+          )}
+        </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
           <Tags className="d-flex gap-2">
