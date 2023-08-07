@@ -1,110 +1,66 @@
-const ownerId = "nearcon23.near";
-const availableTabs = ["home", "register", "hackathon", "speakers"];
-
-const getTab = (tab) => {
-  if (!tab || !availableTabs.includes(tab)) {
-    return "home";
-  }
-
-  return tab;
-};
+const { apiKey, component } = props;
 
 State.init({
-  tab: getTab(props.tab),
+  data: [],
+  hasError: false,
+  isLoading: false,
+  isRunning: false,
+  queryId: "",
 });
 
-const showSidebar = ![].includes(state.tab);
-const isForm = [].includes(state.tab);
+if (!apiKey) {
+  return <div>Empty apiKey!</div>;
+}
 
-const update = (state) => State.update(state);
+const getQueryResult = async () => {};
 
-const tabContentWidget = {
-  home: "Home.Page",
-  register: "Register.Page",
-  hackathon: "Hackathon.Page",
-  speakers: "Speakers.Page",
-}[state.tab];
+const getQueryStatus = async () => {};
 
-const tabContent = (
-  <Widget src={`${ownerId}/widget/${tabContentWidget}`} props={{ update }} />
-);
+const runQuery = async (sql) => {
+  console.log("here2");
+  let body = {
+    jsonrpc: "2.0",
+    method: "createQueryRun",
+    params: [
+      {
+        resultTTLHours: 1,
+        maxAgeMinutes: 0,
+        sql: "SELECT date_trunc('''hour''', block_timestamp) as hourly_datetime, count(distinct tx_hash) as tx_count from ethereum.core.fact_transactions where block_timestamp >= getdate() - interval'''1 month''' group by 1 order by 1 desc",
+        tags: {
+          source: "postman-demo",
+          env: "test",
+        },
+        dataSource: "snowflake-default",
+        dataProvider: "flipside",
+      },
+    ],
+    id: 1,
+  };
 
-const ContentContainer = styled.div`
-  width: 100%;
-  background: #ffffff;
-  border: 1px solid #eceef0;
-  border-radius: 24px;
-  padding: 0;
-  overflow: hidden;
+  console.log("here");
+  let ret = await fetch("", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-api-key": apiKey },
+    body,
+  });
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
+  console.log(ret);
+  return ret.body;
+};
 
-  &.form {
-    border: none;
-    background: #fafafa;
-  }
-
-  * {
-    margin: 0;
-  }
-`;
-
-const Sidebar = styled.div`
-  display: ${({ show }) => (show ? "flex" : "none")};
-  flex-direction: row;
-  position: sticky;
-  top: 0;
-
-  @media screen and (max-width: 768px) {
-    & > div {
-      &:last-child {
-        display: none;
-      }
-    }
-  }
-
-  @media screen and (min-width: 768px) {
-    & > div {
-      &:first-child {
-        display: none;
-      }
-    }
-  }
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  width: 100%;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-const Container = styled.div``;
-
+const cancelQuery = async () => {};
 return (
-  <Container>
-    <Widget src={`${ownerId}/widget/Navbar`} props={{ update }} />
-    <Content>
-      <Sidebar show={showSidebar}>
-        <Widget
-          src={`${ownerId}/widget/Sidebar`}
-          props={{ tab: state.tab, update, collapsible: true }}
-        />
-        <Widget
-          src={`${ownerId}/widget/Sidebar`}
-          props={{ tab: state.tab, update, collapsible: false }}
-        />
-      </Sidebar>
-      <ContentContainer className={isForm ? "form" : ""}>
-        {tabContent}
-        <Widget src={`${ownerId}/widget/Footer`} />
-      </ContentContainer>
-    </Content>
-  </Container>
+  <div>
+    <div>Rendering Child: </div>
+    <>
+      {component({
+        data,
+        hasError,
+        isLoading,
+        isRunning,
+        runQuery,
+        cancelQuery,
+      })}
+    </>
+  </div>
 );
