@@ -314,9 +314,7 @@ return (
           </div>
         </div>
         {console.log(formatText(kudo.message))}
-        <Description className="text-secondary">
-          {formatText(kudo.message)}
-        </Description>
+        <Description className="text-secondary">{kudo.message}</Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
           <Tags className="d-flex gap-2">
