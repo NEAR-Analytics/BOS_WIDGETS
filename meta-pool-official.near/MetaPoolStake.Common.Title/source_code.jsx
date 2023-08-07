@@ -1,4 +1,4 @@
-const title = props.title ?? "Stake ETH";
+const title = props.title ?? "Stake NEAR";
 const Title = styled.h1`
   font-size: 40px;
   font-weight: bold;
