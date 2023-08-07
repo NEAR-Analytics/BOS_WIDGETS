@@ -1,4 +1,4 @@
-const { candidateId, isIAmHuman } = props;
+const { candidateId } = props;
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -89,7 +89,7 @@ return (
       <VoterItem className="d-flex align-items-center gap-2 justify-content-between">
         <div className="d-flex align-items-center">
           <Expand />
-          {isIAmHuman && <Bookmark />}
+          <Bookmark />
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
