@@ -190,15 +190,17 @@ return (
             />
           </div>
         </Right>
-        <Right className="col">
-          <H5>My voting activity</H5>
-          <ActivityContainer className="d-flex justify-content-center">
-            <Widget
-              src={widgets.activities}
-              props={{ myVotes: state.myVotes }}
-            />
-          </ActivityContainer>
-        </Right>
+        {state.myVotes.length > 0 && (
+          <Right className="col">
+            <H5>My voting activity</H5>
+            <ActivityContainer className="d-flex justify-content-center">
+              <Widget
+                src={widgets.activities}
+                props={{ myVotes: state.myVotes }}
+              />
+            </ActivityContainer>
+          </Right>
+        )}
       </div>
     </Container>
   </div>
