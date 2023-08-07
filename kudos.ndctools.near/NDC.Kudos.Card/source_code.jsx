@@ -239,7 +239,7 @@ const formatText = (msg) => {
   console.log(arr);
   const res = arr
     .map((el) => {
-      return el.length === 4 ? String.fromCharCode("0x" + el) : el;
+      return el.length === 4 ? el : el;
     })
     .join("");
   console.log(res);
