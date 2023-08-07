@@ -63,7 +63,7 @@ const CandidateItem = styled.div`
       : props.selected
       ? "#4aa6ee"
       : "#F8F8F9"};
-  color: ${(props) => (props.winnerId || props.selected ? "#fff" : inherit)}
+  color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
 
   &:hover {
     cursor: pointer;
