@@ -5,7 +5,7 @@ const registryContract = "registry.i-am-human.near";
 
 const widgets = {
   header: "kudos.ndctools.near/widget/NDC.Kudos.Header",
-  filter: "kudos.ndctools.near/widget/NDC.Kudos.Filter",
+  filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   navigation: "kudos.ndctools.near/widget/NDC.Kudos.Navigation",
   card: "kudos.ndctools.near/widget/NDC.Kudos.Card",
   addKudo: "kudos.ndctools.near/widget/NDC.Kudos.AddKudo",
