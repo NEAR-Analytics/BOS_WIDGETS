@@ -66,7 +66,7 @@ return (
   <VotersContainer>
     {state.voters.map((voter) => (
       <VoterItem className="d-flex align-items-center justify-content-between">
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           <Bookmark />
           <Widget
             src="mob.near/widget/ProfileImage"
