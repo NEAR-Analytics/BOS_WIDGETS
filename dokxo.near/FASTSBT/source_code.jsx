@@ -490,6 +490,15 @@ return (
                   <option default value="">
                     Select issuer
                   </option>
+                  <option default value="registry.i-am-human.near">
+                    registry.i-am-human.near
+                  </option>
+                  <option default value="registry-v1.gwg-testing.near">
+                    registry-v1.gwg-testing.near
+                  </option>
+                  <option default value="fractal.i-am-human.near">
+                    fractal.i-am-human.near
+                  </option>
                   {props.IssuerList ? (
                     props.IssuerList.map((item) => {
                       return <option value={item.value}> {item.label}</option>;
