@@ -411,7 +411,7 @@ const CandidateList = ({ candidateId, votes }) => (
       selected={state.selected === candidateId}
       winnerId={winnerIds.includes(candidateId)}
     >
-      <div className="d-flex">
+      <div className="d-flex w-100 justify-content-around">
         <Expand>
           <i
             className={`${
