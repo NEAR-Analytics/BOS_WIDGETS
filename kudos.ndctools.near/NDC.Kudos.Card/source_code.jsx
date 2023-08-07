@@ -234,9 +234,13 @@ const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatText = (msg) => {
   const _msg = msg.replace("\\\\u", "--emoji--");
-  return _msg.replace(/--emoji--([\w\d]{4})/gi, (_, g) =>
+  const res = _msg.replace(/--emoji--([\w\d]{4})/gi, (_, g) =>
     String.fromCodePoint(`0x${g}`)
   );
+
+  console.log(_msg);
+  console.log(res);
+  return res;
 };
 
 return (
@@ -314,11 +318,6 @@ return (
               )}
           </div>
         </div>
-        {console.log(kudo.message)}
-        {console.log(
-          "Thanks for being such an awesome Product Lead and \u26f5\u26f4\ufe0f\ud83d\udea2\ud83d\udef3\ufe0f\ud83d\ude80ing constantly \ud83d\ude4f\ud83c\udffd\ud83e\udd70. The Near Ecosystem is lucky to have you."
-        )}
-
         <Description className="text-secondary">
           {formatText(kudo.message)}
         </Description>
