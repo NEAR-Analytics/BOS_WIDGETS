@@ -412,7 +412,7 @@ const CandidateList = ({ candidateId, votes }) => (
             )}
           </Bookmark>
         )}
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
