@@ -73,7 +73,7 @@ const Visual = styled.div`
   border-radius: 20px;
 
   img {
-    width: 100%;
+    width: 75%;
   }
 `;
 
