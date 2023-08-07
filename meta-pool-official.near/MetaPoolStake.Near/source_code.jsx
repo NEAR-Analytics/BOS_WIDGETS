@@ -15,6 +15,7 @@ State.init({
   metrics: null,
   nearBalance: null,
   stNearBalance: null,
+  dataIntervalStarted: false,
 });
 
 function isValid(a) {
@@ -27,6 +28,7 @@ function isValid(a) {
 const fetchMetrics = () => {
   const resp = fetch("https://validators.narwallets.com/metrics_json");
   if (!resp) return;
+  console.log("@metrics", resp?.body);
   State.update({ metrics: resp?.body ?? "..." });
 };
 
@@ -40,13 +42,10 @@ const fetchNearPrice = () => {
   );
   const nearUsdPrice = resp?.body?.near.usd;
   if (nearUsdPrice && !isNaN(nearUsdPrice)) {
+    console.log("@nearPrice", nearUsdPrice);
     State.update({ nearUsdPrice });
   }
 };
-
-if (state.nearUsdPrice === null) {
-  fetchNearPrice();
-}
 
 function getStNearBalance(subscribe) {
   const stNearBalanceRaw = Near.view(
@@ -60,6 +59,7 @@ function getStNearBalance(subscribe) {
   );
   if (!stNearBalanceRaw) return "-";
   const balance = Big(stNearBalanceRaw).div(Big(10).pow(tokenDecimals));
+  console.log("@stNEAR balance", balance.lt(0) ? "0" : balance.toFixed());
   State.update({
     stNearBalance: balance.lt(0) ? "0" : balance.toFixed(),
   });
@@ -83,7 +83,8 @@ function getNearBalance(onInvalidate) {
     }),
   };
   asyncFetch("https://rpc.mainnet.near.org", options).then((res) => {
-    const { amount, storage_usage } = res.body.result;
+    console.log("@rpc view account", res);
+    const { amount, storage_usage } = res?.body?.result;
     const COMMON_MIN_BALANCE = 0.05;
 
     let newBalance = "-";
@@ -96,6 +97,7 @@ function getNearBalance(onInvalidate) {
         .minus(COMMON_MIN_BALANCE);
       newBalance = balance.lt(0) ? "0" : balance.toFixed(5, BIG_ROUND_DOWN);
     }
+    console.log("@near balance", newBalance);
     State.update({
       nearBalance: newBalance,
     });
