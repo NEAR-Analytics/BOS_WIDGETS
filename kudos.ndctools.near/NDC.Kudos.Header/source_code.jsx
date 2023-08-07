@@ -1,7 +1,7 @@
 const { isIAmHuman } = props;
 
 const widget = {
-  styledComponents: "kudos.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
 const Header = styled.div`
