@@ -5,7 +5,7 @@ const widget = {
 };
 
 const Header = styled.div`
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  background: #4ba6ee;
 `;
 
 return (
