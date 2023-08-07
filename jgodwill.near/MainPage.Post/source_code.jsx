@@ -46,7 +46,7 @@ console.log("content", content);
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 State.update({
-  description: `${nftDescription.trim().slice(0, 140)}...`,
+  description: `${nftDescription.trim().slice(0, 70)}...`,
   title: `${
     state?.profile?.name || accountId.split(".near")[0]
   } ${postDate} 💖 from ${sender}`,
