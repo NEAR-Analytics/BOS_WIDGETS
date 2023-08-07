@@ -37,7 +37,7 @@ kudo = {
   tags: kudo.tags,
   id: kudoId,
   comments: kudo.comments ? Object.entries(kudo.comments) : [],
-  upvotes: kudo.upvotes ? Object.keys(kudo.upvotes).length : 0,
+  upvotes: kudo.upvotes ? Object.keys(kudo.upvotes) : [],
 };
 
 State.update({ isIAmHuman: isHuman[0][1].length > 0, kudo });
