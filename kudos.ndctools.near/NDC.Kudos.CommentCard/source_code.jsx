@@ -2,7 +2,7 @@ const { kudo, comment, isIAmHuman, kudosContract } = props;
 
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
-  addComment: "kudos.ndctools.near/widget/NDC.Kudos.Kudo.AddComment",
+  addComment: "kudos.ndctools.near/widget/NDC.Kudos.AddComment",
 };
 
 const Container = styled.div`
