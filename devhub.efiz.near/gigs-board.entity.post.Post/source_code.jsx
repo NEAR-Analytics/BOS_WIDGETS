@@ -545,15 +545,13 @@ const tokenMapping = {
   // Add more tokens here as needed
 };
 
-const reverseTokenMapping = {};
-for (const key in tokenMapping) {
+const reverseTokenMapping = Object.keys(tokenMapping).reduce((reverseMap, key) => {
   const value = tokenMapping[key];
   if (typeof value === 'object') {
-    reverseTokenMapping[JSON.stringify(value)] = key;
-  } else {
-    reverseTokenMapping[value] = key;
+    reverseMap[JSON.stringify(value)] = key;
   }
-}
+  return reverseMap;
+}, {});
 
 function tokenResolver(token) {
   if (typeof token === 'string') {
