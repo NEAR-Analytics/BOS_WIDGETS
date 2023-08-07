@@ -155,7 +155,7 @@ const CastVotesSection = styled.div`
 
   .wrapper {
     @media (max-width: 400px) {
-      widht: 100%;
+      width: 100%;
     }
   }
 
@@ -613,6 +613,7 @@ const CastVotes = () => (
       src={widgets.styledComponents}
       props={{
         Button: {
+          className: "primary justify-content-center",
           disabled: state.selectedCandidates.length === 0,
           text: `Cast ${state.selectedCandidates.length || ""} Votes`,
           onClick: () =>
