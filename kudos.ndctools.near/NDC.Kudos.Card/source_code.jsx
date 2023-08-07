@@ -231,8 +231,9 @@ State.init({
 });
 
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
-// const formatText = (msg) =>
-//   msg.replace(/\\u([0-9A-F]{4})/gi, (_a, g) => String.fromCodePoint(`0x${g}`));
+
+const formatText = (msg) =>
+  msg.replace(/\\u([0-9A-F]{4})/gi, (_a, g) => String.fromCodePoint(`0x${g}`));
 
 return (
   <>
@@ -299,7 +300,7 @@ return (
                               kudo.receiver_id !== context.accountId &&
                               kudo.sender_id !== context.accountId &&
                               !kudo.upvotes.includes(context.accountId)
-                              ? "https://bafkreihtxbozr3tpmzyijzvgmnzjhfnvfudu5twxi5e736omfor6rrbcde.ipfs.nftstorage.link"
+                              ? "https://bafkreicdwy5kpbid7qn2q4yt4lx6oo24kosa7t2ravqg54pmpb62mp64eq.ipfs.nftstorage.link"
                               : "https://bafkreidz6ybnsss2ulwg236fvp3cm5ksdqpsfziwhvnx4ee7maqpcl2jde.ipfs.nftstorage.link/"
                             : "https://bafkreia6ux4wzaktmwxxnkzd7tbhpuxhlp352twzsunc6vetza76u6clwy.ipfs.nftstorage.link/",
                       },
