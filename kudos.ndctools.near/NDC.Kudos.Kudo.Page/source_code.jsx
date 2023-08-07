@@ -35,6 +35,8 @@ kudo = {
   upvotes: kudo.upvotes ? Object.keys(kudo.upvotes).length : 0,
 };
 
+console.log("kudo", kudo);
+
 const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
 });
