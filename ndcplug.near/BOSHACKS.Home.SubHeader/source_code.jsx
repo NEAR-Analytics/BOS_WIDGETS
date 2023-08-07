@@ -1,17 +1,24 @@
 const ownerId = "ndcplug.near";
 
+const Title = styled.div`
+padding: 1em;
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
-  padding: 3.5em 3.5em 4.5em;
+  padding-left: 3em;
+    padding-right: 3m;
   gap: 3em;
   background: #fff;
 
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
+  }
+  .title {
+    flex-direction: row;
   }
 `;
 
@@ -21,7 +28,7 @@ const Text = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 45%;
-  gap: 2em;
+  gap: 0.5em;
   padding: 0;
 
   @media screen and (max-width: 768px) {
@@ -99,78 +106,64 @@ const visual = "bafkreifvatnpked4a364btyyyjmn46jngd44msyjyml5ik2qyvbop55msu";
 const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
 return (
-  <Container>
-    <Text>
-      <h2>Learn, build, win</h2>
+  <>
+    <Title>
+      <h2 className="title">Learn, build, win</h2>
+    </Title>
+    <Container>
+      <Text>
+        <ul>
+          <li>
+            Win over $15,000 in prizes for shipping decentralized frontends and
+            on-chain components.
+          </li>
+          <li>
+            Learn everything you need to build fully decentralized frontends and
+            multi-chain applications all in JavaScript.
+          </li>
+          <li>
+            Receive mentorship from top BOS builders via daily office hours and
+            24/7 chat Telegram support.
+          </li>
+        </ul>
+        <ButtonContainer>
+          <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
+        </ButtonContainer>
+      </Text>
+      {false && (
+        <Visual>
+          <img src={mapImage(visual)} alt="Illia Talking" />
+        </Visual>
+      )}
 
-      <p>
-        Win over $15,000 in prizes for shipping decentralized frontends and
-        on-chain components.
-      </p>
-      <ul>
-        <li>
-          Learn everything you need to build fully decentralized frontends and
-          multi-chain applications all in JavaScrip
-        </li>
-        <li>
-          Receive mentorship from top BOS builders via daily office hours and
-          24/7 chat Telegram support
-        </li>
-        <li>
-          General: Build anything you want on BOS for the chance to win general
-          prizes.
-        </li>
-      </ul>
-      <ButtonContainer>
-        <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
-      </ButtonContainer>
-    </Text>
-    {false && (
-      <Visual>
-        <img src={mapImage(visual)} alt="Illia Talking" />
-      </Visual>
-    )}
-
-    <Text>
-      <p>Builder Tracks Include</p>
-      <ul>
-        <li>
-          📱 Social & NFTs: Integrate digital assets, ship integrations with
-          other social networks, build better discovery tools, and streamline
-          user onboarding experiences
-        </li>
-        <li>
-          🏛️ Impact & Governance: build composable regenerative and
-          decentralized governance systems{" "}
-        </li>
-        <li>
-          ⛓️ Multichain & DeFi: Leverage multichain integrations & rebuild the
-          frontends of top DeFi apps on BOS and connect them to their original
-          contracts on any EVM chain.
-        </li>
-        <li>
-          🛠️ Dev Experience: Enhance the BOS developer experience by building
-          tools that make it faster, cheaper, and more straightforward to ship
-          on-chain components on Near and Ethereum
-        </li>
-        <li>
-          Check out a list of project ideas
+      <Text>
+        <p>Builder Tracks Include: </p>
+        <ul>
+          <li>🏆 General</li>
+          <li>📱 Social & NFTs</li>
+          <li>🏛️ Impact & Governance:</li>
+          <li>⛓️ Multichain & DeFi:</li>
+          <li>🛠️ Dev Experience</li>
+        </ul>
+        <p>
+          {" "}
+          Learn more
           <a href="https://nearbuilders.com/bounty" target="_blank">
             here
           </a>
-        </li>
-      </ul>
-      {false && (
-        <ButtonContainer>
-          <Widget src={`${ownerId}/widget/BOSHACKS.Home.SpeakerButton`} />
-        </ButtonContainer>
-      )}
-    </Text>
+        </p>
+        {false && (
+          <ButtonContainer>
+            <Widget src={`${ownerId}/widget/BOSHACKS.Home.SpeakerButton`} />
+          </ButtonContainer>
+        )}
+      </Text>
 
-    {false && (
-      <Visual>
-        <img src={mapImage(visual)} alt="Illia Talking" />
-      </Visual>
-    )}
-  </Container>
+      {false && (
+        <Visual>
+          <img src={mapImage(visual)} alt="Illia Talking" />
+        </Visual>
+      )}
+    </Container>
+  </>
 );
