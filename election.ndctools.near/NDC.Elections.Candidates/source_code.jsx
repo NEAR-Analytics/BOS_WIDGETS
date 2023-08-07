@@ -52,10 +52,18 @@ const CandidateItem = styled.div`
   margin-bottom: 8px;
   border: 1px solid;
   background: ${(props) =>
-    props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#F8F8F9"};
+    (props.winnerId && props.selected) || props.winnerId
+      ? "#239F28"
+      : props.selected
+      ? "#4aa6ee"
+      : "#F8F8F9"};
   border-color: ${(props) =>
-    props.selected ? "#4aa6ee" : props.winnerId ? "#239F28" : "#F8F8F9"};
-  color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
+    (props.winnerId && props.selected) || props.winnerId
+      ? "#239F28"
+      : props.selected
+      ? "#4aa6ee"
+      : "#F8F8F9"};
+  color: ${(props) => (props.winnerId || props.selected ? "#fff" : inherit)}
 
   &:hover {
     cursor: pointer;
@@ -68,7 +76,7 @@ const Bookmark = styled.div`
 
   #bookmark.bi-bookmark-fill {
     color: ${(props) =>
-      props.selected || props.winnerId ? "#fff" : "#4F46E5"};
+      props.winnerId || props.selected ? "#fff" : "#4F46E5"};
   }
 `;
 
@@ -440,7 +448,9 @@ const CandidateList = ({ candidateId, votes }) => (
               text: "Nomination",
               icon: <i id="link" className="bi bi-arrow-up-right" />,
               href: ref_link,
-              inverse: state.selected === candidateId,
+              inverse:
+                state.selected === candidateId ||
+                winnerIds.includes(candidateId),
             },
           }}
         />
