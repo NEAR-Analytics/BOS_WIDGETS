@@ -67,7 +67,7 @@ const CandidateItem = styled.div`
 `;
 
 const Bookmark = styled.div`
-  width: 100px;
+  width: 90px;
 
   #bookmark.bi-bookmark-fill {
     color: ${(props) =>
