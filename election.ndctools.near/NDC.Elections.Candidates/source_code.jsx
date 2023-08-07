@@ -386,14 +386,14 @@ loadInitData();
 loadSocialDBData();
 
 const UserLink = ({ title, src }) => (
-  <>
+  <div className="mr-3">
     <StyledLink href={src} target="_blank">
       {title}
     </StyledLink>
     <div>
       <Icon className="bi bi-arrow-up-right" />
     </div>
-  </>
+  </div>
 );
 
 const Loader = () => (
@@ -411,7 +411,7 @@ const CandidateList = ({ candidateId, votes }) => (
       selected={state.selected === candidateId}
       winnerId={winnerIds.includes(candidateId)}
     >
-      <div className="d-flex w-100">
+      <div className="d-flex w-100 align-items-center">
         <Expand>
           <i
             className={`${
@@ -465,7 +465,7 @@ const CandidateList = ({ candidateId, votes }) => (
           )}
         </div>
       </div>
-      <div className="d-flex w-100 justify-content-around">
+      <div className="d-flex w-100 align-items-center justify-content-between">
         <Widget
           src={widgets.styledComponents}
           props={{
@@ -507,7 +507,7 @@ const CandidateList = ({ candidateId, votes }) => (
 
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
-    <div className="d-flex w-100">
+    <div className="d-flex align-items-center w-100">
       <Expand />
       {isIAmHuman && (
         <Bookmark
@@ -535,7 +535,7 @@ const Filters = () => (
         />
       </div>
     </div>
-    <div className="d-flex w-100 justify-content-around">
+    <div className="d-flex w-100 align-items-center justify-content-between">
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
