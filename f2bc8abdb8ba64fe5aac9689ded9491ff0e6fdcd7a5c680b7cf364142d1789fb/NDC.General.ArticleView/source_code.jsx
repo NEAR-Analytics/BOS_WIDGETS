@@ -538,12 +538,6 @@ const getShortUserName = () => {
 
 return (
   <>
-    <div className="my-3">
-      <CursorPointer onClick={handleBackButton}>
-        <i className="bi bi-chevron-left mr-2"></i>
-        Back
-      </CursorPointer>
-    </div>
     <Container className="row">
       <div className="col-lg-9 col-sm-12">
         <div className="row" style={{ "margin-inline": "5px" }}>
