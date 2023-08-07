@@ -21,7 +21,6 @@ const Container = styled.div`
     font-size: 1.25em;
     line-height: 140%;
     color: #00ec97;
-    max-width: 13em;
   }
 `;
 
