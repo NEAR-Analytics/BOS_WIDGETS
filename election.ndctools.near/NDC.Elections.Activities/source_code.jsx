@@ -68,7 +68,7 @@ return (
               })}
               &middot;
               {new Date(vote.timestamp).toLocaleTimeString("en-US", {
-                hour: "1-digit",
+                hour: "2-digit",
               })}
             </small>
           </div>
