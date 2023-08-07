@@ -6,7 +6,7 @@ if (!accountId) {
 const link =
   props.link &&
   (props.link === true
-    ? `https://social.near.page/u/${accountId}`
+    ? `https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`
     : props.link);
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
