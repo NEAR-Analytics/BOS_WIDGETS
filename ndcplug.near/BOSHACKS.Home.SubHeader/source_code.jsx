@@ -71,6 +71,7 @@ const Text = styled.div`
 const Visual = styled.div`
   width: 50%;
   border-radius: 20px;
+  margin-left: 3em;
 
   img {
     width: 75%;
