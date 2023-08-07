@@ -62,7 +62,6 @@ const CandidateItem = styled.div`
   color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
 
   &:hover {
-    cursor: pointer;
     background: ${(props) =>
       props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#d4e4f461"}
 `;
@@ -127,6 +126,7 @@ const Nomination = styled.div`
 
 const FilterRow = styled.div`
   padding: 15px 20px;
+  font-size: 13px;
 `;
 
 const Info = styled.i`
@@ -531,6 +531,7 @@ const CandidateList = ({ candidateId, votes }) => (
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex">
+      <Expand />
       {isIAmHuman && (
         <Bookmark
           role="button"
