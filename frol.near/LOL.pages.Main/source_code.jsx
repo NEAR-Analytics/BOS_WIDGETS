@@ -131,9 +131,7 @@ const myTokens = context.accountId
     }).filter(({ token_id }) => !(token_id in tokensOnSale))
   : null;
 
-const allBalances = context.accountId
-  ? Near.view("lolcoin.qbit.near", "ft_balances", {})
-  : null;
+const allBalances = Near.view("lolcoin.qbit.near", "ft_balances", {});
 
 const allTokens = Near.view("lolmarket.qbit.near", "nft_tokens", {});
 
@@ -191,17 +189,23 @@ const Tokens = ({ tokens }) => (
         <b>
           {token.metadata.title} / {token.metadata.description}
         </b>
-        {token.owner_id !== context.accountId ||
-        token.token_id in tokensOnSale ? null : (
-          <button onClick={() => sellForOne(token.token_id)}>
-            Виставити на продаж за ціною 1 ЛОЛ
-          </button>
-        )}
-        {token.owner_id !== context.accountId &&
-        token.token_id in tokensOnSale ? (
-          <button onClick={() => buy(tokenId, tokensOnSale[token.token_id])}>
-            Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
-          </button>
+        {context.accountId ? (
+          <>
+            {token.owner_id !== context.accountId ||
+            token.token_id in tokensOnSale ? null : (
+              <button onClick={() => sellForOne(token.token_id)}>
+                Виставити на продаж за ціною 1 ЛОЛ
+              </button>
+            )}
+            {token.owner_id !== context.accountId &&
+            token.token_id in tokensOnSale ? (
+              <button
+                onClick={() => buy(tokenId, tokensOnSale[token.token_id])}
+              >
+                Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
+              </button>
+            ) : null}
+          </>
         ) : null}
       </Flex>
     ))}
