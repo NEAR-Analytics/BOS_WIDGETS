@@ -499,6 +499,12 @@ return (
                   <option default value="fractal.i-am-human.near">
                     fractal.i-am-human.near
                   </option>
+                  <option default value="issuer.regens.near">
+                    issuer.regens.near
+                  </option>
+                  <option default value="issuer.proofofvibes.near">
+                    issuer.proofofvibes.near
+                  </option>
                   {props.IssuerList ? (
                     props.IssuerList.map((item) => {
                       return <option value={item.value}> {item.label}</option>;
