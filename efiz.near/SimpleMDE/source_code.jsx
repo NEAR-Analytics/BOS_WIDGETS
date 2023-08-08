@@ -134,10 +134,15 @@ function MarkdownEditor(props) {
             initialValue: value,
         });
 
+        const updateIframeHeight = () => {
+            const iframeHeight = document.body.scrollHeight;
+            window.parent.postMessage({ handler: "resize", height: iframeHeight }, "*");
+        };
+
         simplemde.codemirror.on('change', () => {
             const content = simplemde.value();
             window.parent.postMessage({ handler: "update", content }, "*");
-
+            updateIframeHeight();
         });
     }, []);
 
@@ -148,9 +153,15 @@ const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
-    root.render(React.createElement(MarkdownEditor, {
-        initialText: event.data.content,
-    }));
+    if (event.data.handler === "resize") {
+        const iframe = document.getElementById("markdown-iframe");
+        if (iframe) {
+        iframe.style.height = event.data.height + 20 + "px";
+        }
+    } else {
+        root.render(React.createElement(MarkdownEditor, {
+        initialText: event.data.content }));
+    }
 });
 </script>
 `;
