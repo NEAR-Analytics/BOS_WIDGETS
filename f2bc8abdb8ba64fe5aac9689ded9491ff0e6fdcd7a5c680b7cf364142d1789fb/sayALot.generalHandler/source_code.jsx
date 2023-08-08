@@ -7,6 +7,7 @@ const tabs = {
   SHOW_ARTICLES_LIST: { id: 0 },
   SHOW_ARTICLE: { id: 1 },
   ARTICLE_WORKSHOP: { id: 2 },
+  SHOW_ARTICLES_LIST_BY_AUTHORS: { id: 3 },
 };
 
 State.init({
@@ -59,6 +60,8 @@ const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  showArticlesListSortedByAuthors: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
   reactions: "sayalot.near/widget/SayALot_Reactions",
@@ -88,7 +91,7 @@ const brand = {
 
 const navigationPills = [
   { id: tabs.SHOW_ARTICLES_LIST.id, title: "Articles" },
-  { id: tabs.SHOW_ARTICLES_LIST.id, title: "Authors" },
+  { id: tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id, title: "Authors" },
 ];
 
 const navigationButtons = [
@@ -633,8 +636,8 @@ function handleGoHomeButton() {
   });
 }
 
-function handleArticlesListNavigation(filterBy) {
-  () => stateUpdate({ displayedTabId: brand.homePageId, listBy: filterBy });
+function handlePillNavigation(navegateTo) {
+  stateUpdate({ displayedTabId: navegateTo });
 }
 
 //===============================================END FUNCTIONS======================================================
@@ -646,7 +649,7 @@ return (
         isTest,
         stateUpdate,
         handleGoHomeButton,
-        handleArticlesListNavigation,
+        handlePillNavigation,
         brand,
         pills: navigationPills,
         navigationButtons,
@@ -655,10 +658,12 @@ return (
         handleFilterArticles,
       }}
     />
-    {((state.filterBy.parameterName == "tag" &&
+    {(((state.filterBy.parameterName == "tag" ||
+      state.filterBy.parameterName == "author") &&
       state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id) ||
       state.displayedTabId == tabs.SHOW_ARTICLE.id ||
-      state.displayedTabId == tabs.ARTICLE_WORKSHOP.id) && (
+      state.displayedTabId == tabs.ARTICLE_WORKSHOP.id ||
+      state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id) && (
       <div
         style={{ cursor: "pointer" }}
         onClick={
@@ -695,6 +700,21 @@ return (
           widgets,
           handleFilterArticles,
           articleToRenderData: state.articleToRenderData,
+          authorForWidget,
+        }}
+      />
+    )}
+
+    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
+      <Widget
+        src={widgets.showArticlesListSortedByAuthors}
+        props={{
+          isTest,
+          finalArticles,
+          tabs,
+          widgets,
+          handleOpenArticle,
+          handleFilterArticles,
           authorForWidget,
         }}
       />
