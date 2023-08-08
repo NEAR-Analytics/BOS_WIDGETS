@@ -234,10 +234,7 @@ const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatMsg = (msg) => {
   const newMsg = msg.replace(/(\\u[0-9a-zA-Z]{4})/gi, (a, b) => `___$1___`);
-  const res = newMsg
-    .split("___")
-    .map((el) => <span>{el}</span>)
-    .join("");
+  const res = newMsg.split("___").map((el) => <span>{el}</span>);
   console.log(newMsg);
   console.log(res);
   return <div>{res}</div>;
