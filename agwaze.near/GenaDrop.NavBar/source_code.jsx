@@ -183,7 +183,7 @@ const NavSelected = styled.div`
 
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    // href={`#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
+    href={`#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
