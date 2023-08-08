@@ -9,9 +9,13 @@ function defaultOnChange(content) {
 
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
-const height = props.height ?? "450px";
+const height = props.height ?? "450";
 const fontFamily = props.fontFamily ?? "Arial, sans-serif";
 const fontSize = props.fontSize ?? "14px";
+
+State.init({
+  iframeHeight: height,
+});
 
 // SIMPLE MDE CONFIG //
 const autoFocus = props.autoFocus ?? true;
@@ -153,15 +157,8 @@ const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
-    if (event.data.handler === "resize") {
-        const iframe = document.getElementById("markdown-iframe");
-        if (iframe) {
-        iframe.style.height = event.data.height + 20 + "px";
-        }
-    } else {
-        root.render(React.createElement(MarkdownEditor, {
+    root.render(React.createElement(MarkdownEditor, {
         initialText: event.data.content }));
-    }
 });
 </script>
 `;
@@ -169,7 +166,7 @@ return (
   <iframe
     className="w-100"
     style={{
-      height,
+      height: `${state.iframeHeight}px`,
     }}
     srcDoc={code}
     message={data.content ?? ""}
@@ -177,6 +174,9 @@ return (
       switch (e.handler) {
         case "update": {
           onChange(e.content);
+        }
+        case "resize": {
+          State.update({ iframeHeight: e.height + 20 });
         }
       }
     }}
