@@ -224,7 +224,7 @@ const Button = styled.button`
 `;
 
 const SmallReactButton = styled.button`
-  background: transparent;
+  background: #e6e4f580;
   display: inline-flex;
   align-items: center;
   justify-content: start;
@@ -234,9 +234,9 @@ const SmallReactButton = styled.button`
   margin: 2px 0;
   border: 0;
   border-radius: .375rem;
+  outline: 1px solid #C6C7C8;
   :hover {
     background: #EBEBEB; 
-    outline: 1px solid #C6C7C8;
   }
 `;
 
