@@ -41,9 +41,11 @@ return (
       </div>
     )}
 
+    {/*
     <Widget
       src="andyh.near/widget/WidgetIcons"
       props={{ tag: "app", limit: 24 }}
     />
+    */}
   </div>
 );
