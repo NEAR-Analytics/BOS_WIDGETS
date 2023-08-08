@@ -36,7 +36,9 @@ const inner = (
 );
 
 return tooltip ? (
-  <OverlayTrigger placement="auto">{inner}</OverlayTrigger>
+  <OverlayTrigger placement="auto" /*overlay={<Tooltip>{title}</Tooltip>}*/>
+    {inner}
+  </OverlayTrigger>
 ) : (
   inner
 );
