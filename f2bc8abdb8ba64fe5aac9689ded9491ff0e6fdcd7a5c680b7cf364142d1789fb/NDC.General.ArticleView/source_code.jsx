@@ -21,6 +21,13 @@ const tabs = [
   { id: "declaration", title: "Declaration", icon: "bi bi-trophy-fill" },
 ];
 
+//TODO check this
+const item = {
+  type: "social",
+  path: `${state.article.author}/${addressForArticles}/main`,
+  blockHeight: firstArticleBlockHeight,
+};
+
 State.init({
   showDeclaration: false,
   tabSelected: tabs[1].id,
@@ -625,23 +632,33 @@ return (
                   //   />
                   // )
                 }
+                {data.comments[0].upvotes && (
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Button: {
+                        text: `+${data.comments[0].upvotes ?? 0}`,
+                        disabled:
+                          !context.accountId ||
+                          !state.verified ||
+                          context.accountId === accountId,
+                        className: `${
+                          context.accountId && state.voted
+                            ? "primary"
+                            : "secondary"
+                        } dark`,
+                        onClick: () => console.log("upvote button clicked"),
+                        icon: <i className="bi bi-hand-thumbs-up"></i>,
+                      },
+                    }}
+                  />
+                )}
                 <Widget
-                  src={widgets.styledComponents}
+                  src={widgets.reactions}
                   props={{
-                    Button: {
-                      text: `+${data.comments[0].upvotes ?? 0}`,
-                      disabled:
-                        !context.accountId ||
-                        !state.verified ||
-                        context.accountId === accountId,
-                      className: `${
-                        context.accountId && state.voted
-                          ? "primary"
-                          : "secondary"
-                      } dark`,
-                      onClick: () => console.log("upvote button clicked"),
-                      icon: <i className="bi bi-hand-thumbs-up"></i>,
-                    },
+                    widgets,
+                    isTest,
+                    item,
                   }}
                 />
               </div>
