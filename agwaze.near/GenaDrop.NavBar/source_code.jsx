@@ -181,14 +181,14 @@ const NavSelected = styled.div`
     text-align: center;
 `;
 
-State.init({
-  tab: "",
-});
-
 const navItem = ({ text, icon, id, iconSelected }) => (
-  <NavItem onClick={() => State.update({ tab: id })}>
-    {id === state.tab ? iconSelected : icon}
-    {id === state.tab ? <NavSelected>{text}</NavSelected> : <span>{text}</span>}
+  <NavItem
+    onClick={() => {
+      () => props.update({ tab: id });
+    }}
+  >
+    {id === props.tab ? iconSelected : icon}
+    {id === props.tab ? <NavSelected>{text}</NavSelected> : <span>{text}</span>}
   </NavItem>
 );
 
