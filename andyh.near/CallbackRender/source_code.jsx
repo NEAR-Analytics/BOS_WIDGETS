@@ -23,8 +23,12 @@ return (
       }}
     />
     <Widget
-      src="andyh.near/widget/Component.InlineBlock"
-      props={{ accountId: "dataplatform.near", widgetName: "QueryApi.App" }}
+      src="andyh.near/widget/ComponentSearch"
+      props={{
+        boostedTag: "app",
+        placeholder: "🔍 Search Applications",
+        limit: 10,
+      }}
     />
   </div>
 );
