@@ -60,6 +60,7 @@ const code = `
 body {  
     margin: auto;
     font-family: ${fontFamily};
+    overflow: hidden;
 }
 
 .editor-toolbar {
@@ -199,23 +200,29 @@ window.addEventListener("message", (event) => {
 </script>
 `;
 return (
-  <iframe
-    className="w-100"
-    style={{
-      height: `${state.iframeHeight}px`,
-    }}
-    srcDoc={code}
-    message={data ?? { content: "" }}
-    onMessage={(e) => {
-      switch (e.handler) {
-        case "update": {
-          onChange(e.content);
+  <>
+    <iframe
+      className="w-100"
+      style={{
+        height: `${state.iframeHeight}px`,
+      }}
+      srcDoc={code}
+      message={data ?? { content: "" }}
+      onMessage={(e) => {
+        switch (e.handler) {
+          case "update": {
+            onChange(e.content);
+          }
+          case "resize": {
+            const offset = 0;
+            if (statusConfig.length) {
+              offset = 10;
+            }
+            State.update({ iframeHeight: e.height + offset });
+          }
         }
-        case "resize": {
-          // the + 35 is a hack to stop the scroll from showing up. Better solutions are welcome
-          State.update({ iframeHeight: e.height + 35 });
-        }
-      }
-    }}
-  />
+      }}
+    />
+    <p>bottom</p>
+  </>
 );
