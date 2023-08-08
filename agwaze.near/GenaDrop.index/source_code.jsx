@@ -10,7 +10,7 @@ const getTab = (tab) => {
 };
 
 State.init({
-  tab: getTab(props.tab),
+  tab: getTab(state.tab),
 });
 
 const update = (state) => State.update(state);
