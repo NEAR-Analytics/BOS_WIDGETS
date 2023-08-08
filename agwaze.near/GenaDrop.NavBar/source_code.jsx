@@ -183,6 +183,7 @@ const NavSelected = styled.div`
 
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
+    href={`#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
     onClick={() => {
       () => props.update({ tab: id });
     }}
@@ -324,13 +325,13 @@ const content = (
     })}
     {navItem({
       text: "Near NFTS",
-      id: "explore-near",
+      id: "nearNFts",
       icon: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
       iconSelected: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
     })}
     {navItem({
       text: "EVM NFTS",
-      id: "explore-evm",
+      id: "evmNFTs",
       icon: speakers,
       iconSelected: speakers,
     })}
