@@ -540,19 +540,19 @@ function CoolTr() {
               <div className="d-flex justify-content-between text-light fw-bold rounded-top align-items-center px-4">
                 <div>
                   {/* 2x2 grid with some info like amount of holders, pool type, token composition (weights) */}
-                  <PrettyTable className="col-md-6">
-                    {/* <VerticalPair
+                  {/*<PrettyTable className="col-md-6">*/}
+                  {/* <VerticalPair
                 end={false}
                 title="Amount of Holders"
                 value={`${pool.holdersCount}`}
               /> */}
-                    <Widget
-                      src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/BalancerAPITokenTable"
-                      props={{
-                        tokens: BALANCER_TOKENS,
-                      }}
-                    />
-                    {/* <table
+                  <Widget
+                    src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/BalancerAPITokenTable"
+                    props={{
+                      tokens: BALANCER_TOKENS,
+                    }}
+                  />
+                  {/* <table
                       className="table table-sm table-transparent text-light"
                       style={{
                         // max size is like 150px
@@ -598,7 +598,7 @@ function CoolTr() {
                         ))}
                       </tbody>
                     </table> */}
-                  </PrettyTable>
+                  {/*</PrettyTable>*/}
                 </div>
               </div>
               <div className="d-flex justify-content-end gap-3 pb-4 px-4">
