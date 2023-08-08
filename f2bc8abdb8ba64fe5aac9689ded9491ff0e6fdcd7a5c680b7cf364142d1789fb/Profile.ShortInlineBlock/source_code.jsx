@@ -4,7 +4,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
 const maxNameLength = props.maxNameLength ?? 16;
 
-let name = profile.name ?? accountId.slice(0, maxNameLength);
+let name = profile.name ?? accountId.slice(0, maxNameLength) + "...";
 
 const maxWidth = props.maxWidth ?? "60%";
 
