@@ -21,6 +21,16 @@ const abbreviateNumber = (num) => {
   return (num / Math.pow(k, i)).toFixed(2) + (sizes[i - 1] ?? "");
 };
 
+const calculateTokenValue = (token) => {
+  // If there are nested tokens, ignore them and return the value of this token
+  if (token.token?.pool?.tokens) {
+    return token.balance * token.priceRate;
+  }
+
+  // If there are no nested tokens, calculate the value as usual
+  return token.balance * token.priceRate;
+};
+
 const StyledTable = styled.table`
   color: #fff;
   background-color: #333;
@@ -45,15 +55,43 @@ const StyledCell = styled.td`
   background-color: #333;
 `;
 
+const getBorderColor = (level) => {
+  const colors = [
+    "#88C0D0",
+    "#5E81AC",
+    "#BF616A",
+    "#D08770",
+    "#EBCB8B",
+    "#A3BE8C",
+    "#B48EAD",
+    "#8FBCBB",
+    "#4C566A",
+  ];
+  return colors[level <= 8 ? level - 1 : 8];
+};
+
+const cellStyles = `
+  background-color: #333;
+  padding: 20px 10px;
+`;
+
+const StyledCellWithBorder = styled.td`
+  padding: 20px 10px;
+  background-color: #333;
+  border-left: ${(props) =>
+    `${2 + props.level * 2}px solid ${getBorderColor(props.level + 1)}`};
+  padding-left: ${(props) => `${1 + props.level * 0.5}em`};
+`;
+
 const StyledRow = styled.tr`
   &:nth-child(even) {
-    ${StyledCell} {
+    ${StyledCell}, ${StyledCellWithBorder} {
       background-color: #444;
     }
   }
 
   &:hover {
-    ${StyledCell} {
+    ${StyledCell}, ${StyledCellWithBorder} {
       background-color: #555;
     }
   }
@@ -64,12 +102,15 @@ const RenderRow = ({ token, level, parentAddress }) => {
 
   if (token.address === parentAddress) return null;
 
+  const value = calculateTokenValue(token);
+
   return (
     <Fragment key={token.symbol}>
       <StyledRow>
-        <StyledCell style={{ paddingLeft: `${1 + level}em` }}>
+        <StyledCellWithBorder level={level * 2}>
           {token.symbol}
-        </StyledCell>
+          {level}
+        </StyledCellWithBorder>
         {hasNestedTokens ? (
           <StyledCell></StyledCell>
         ) : (
@@ -83,9 +124,7 @@ const RenderRow = ({ token, level, parentAddress }) => {
         <StyledCell>
           {token.weight ? token.weight * 100 + "%" : <></>}
         </StyledCell>
-        <StyledCell>
-          ${abbreviateNumber(token.token?.latestUSDPrice * token.balance)}
-        </StyledCell>
+        <StyledCell>${value.toFixed(2)}</StyledCell>
       </StyledRow>
       {hasNestedTokens &&
         token.token.pool.tokens.map((nestedToken) => (
