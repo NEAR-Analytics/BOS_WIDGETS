@@ -124,6 +124,8 @@ const isUserAllowedTo = (user, kind, action) => {
 };
 const userRoles = roleCheckThisUser ? getUserRoles(roleCheckThisUser) : [];
 isTastemaker = userRoles.includes(roleToCheck);
+const isVibee = userRoles.includes("vibee");
+
 const feed = state.accountId
   ? Social.get(`${state.accountId}/settings/dao/feed`)
   : undefined;
@@ -279,7 +281,6 @@ if (profile === null) {
 return (
   <Wrapper>
     <BackgroundImage>
-      (
       <Widget
         src="mob.near/widget/Image"
         props={{
@@ -338,6 +339,14 @@ return (
               🥂 Tastemaker Code
             </TabsButton>
           )}
+          {isVibee && (
+            <TabsButton
+              href={`${accountUrl}&tab=map`}
+              selected={state.selectedTab === "map"}
+            >
+              🗺️ Map
+            </TabsButton>
+          )}
 
           <TabsButton
             href={`${accountUrl}&tab=sbt`}
@@ -387,6 +396,9 @@ return (
             src="sking.near/widget/DAO.Proposals"
             props={{ daoId: daoId }}
           />
+        )}
+        {state.selectedTab === "map" && (
+          <Widget src="efiz.near/widget/Mapbox" props={{ daoId: daoId }} />
         )}
 
         {state.selectedTab === "data" && (
