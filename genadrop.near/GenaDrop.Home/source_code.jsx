@@ -52,7 +52,9 @@ return (
         aria-labelledby="pills-explore-tab"
       >
         {" "}
-        {true && <Widget src="mob.near/widget/Welcome.RHS" props={props} />}
+        {true && (
+          <Widget src="genadrop.near/widget/GenaDrop.RightSide" props={props} />
+        )}
       </div>
     </div>
   </>
