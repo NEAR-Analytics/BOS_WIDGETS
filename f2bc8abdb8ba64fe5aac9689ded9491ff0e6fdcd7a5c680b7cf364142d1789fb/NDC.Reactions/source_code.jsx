@@ -301,7 +301,7 @@ border-radius: 1rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
 position: absolute;
 right: 0;
-width: 360px;
+width: 370px;
 max-width: 50vw;
 flex-wrap: wrap;
 display: ${({ show }) => (show ? "flex" : "none")};
