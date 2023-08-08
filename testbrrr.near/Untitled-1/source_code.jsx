@@ -331,13 +331,19 @@ if (
   });
 }
 
-if (props.action === "borrow") {
+if (
+  props.action === "borrow" &&
+  props.lusdAmount.isInteger() &&
+  props.ethCollateralAmount.isInteger()
+) {
   openTrove();
 } else if (props.action === "repay") {
   closeTrove();
 } else if (props.action === "display") {
   console.log("This stuff");
   getEntireDebtAndColl();
+} else {
+  props.resendPrompt(props);
 }
 
 return (
