@@ -139,7 +139,7 @@ function MarkdownEditor(props) {
         });
 
         const updateIframeHeight = () => {
-            const iframeHeight = document.documentElement.scrollHeight;
+            const iframeHeight = document.body.scrollHeight;
             window.parent.postMessage({ handler: "resize", height: iframeHeight }, "*");
         };
 
@@ -176,6 +176,7 @@ return (
           onChange(e.content);
         }
         case "resize": {
+          // the + 35 is a hack to stop the scroll from showing up. Better solutions are welcome
           State.update({ iframeHeight: e.height + 35 });
         }
       }
