@@ -74,7 +74,7 @@ function MarkdownEditor(props) {
                             const cursorPos = editor.codemirror.getCursor();
                             const lineText = editor.codemirror.getLine(cursorPos.line);
                             if (lineText.trim() === "") {
-                                editor.codemirror.replaceRange("- [ ] ", cursorPos);
+                                editor.codemirror.replaceRange(" - [ ] ", cursorPos);
                             } else {
                                 editor.codemirror.replaceRange("\\n - [ ] ", cursorPos);
                             }
@@ -131,7 +131,7 @@ function MarkdownEditor(props) {
             autofocus: ${autoFocus},
             renderingConfig: ${renderingConfig},
             toolbar: generateToolbarItems(),
-            initialValue: value
+            initialValue: value,
         });
 
         simplemde.codemirror.on('change', () => {
