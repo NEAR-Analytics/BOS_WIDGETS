@@ -9,6 +9,7 @@ const accountId = loggedIn
   ? context.accountId ?? "ndcplug.near"
   : props.accountId ?? "ndcplug.near";
 
+const theme = props.theme ?? "default"; // will add themes later
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
