@@ -48,6 +48,8 @@ const getKudos = () => {
     });
   }
 
+  console.log(formattedKudos);
+
   if (formattedKudos.length === 0) {
     State.update({ kudos: [], emptyResult: false });
     return;
