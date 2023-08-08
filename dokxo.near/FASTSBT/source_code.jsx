@@ -365,6 +365,7 @@ const Submitform = () => {
         },
         deposit: 100000000000000000000000,
         gas: "150000000000000",
+        amount: 1,
       },
     ]);
   } else {
