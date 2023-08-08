@@ -64,6 +64,8 @@ function setComment(args) {
   return text;
 }
 
+console.log(libCalls);
+
 const updateObj = {};
 const resultLibCalls = [...libCalls];
 libCalls.forEach((call) => {
