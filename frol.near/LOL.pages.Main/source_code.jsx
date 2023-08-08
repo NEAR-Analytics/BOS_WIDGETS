@@ -188,23 +188,20 @@ const Tokens = ({ tokens }) => (
         </div>
         <b>{token.metadata.title}</b>
         <div style={{ textAlign: "right" }}>{token.metadata.description}</div>
-        {context.accountId ? (
-          <>
-            {token.owner_id !== context.accountId ||
-            token.token_id in tokensOnSale ? null : (
-              <button onClick={() => sellForOne(token.token_id)}>
-                Виставити на продаж за ціною 1 ЛОЛ
-              </button>
-            )}
-            {token.owner_id !== context.accountId &&
-            token.token_id in tokensOnSale ? (
-              <button
-                onClick={() => buy(tokenId, tokensOnSale[token.token_id])}
-              >
-                Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
-              </button>
-            ) : null}
-          </>
+        {(context.accountId && token.owner_id !== context.accountId) ||
+        token.token_id in tokensOnSale ? null : (
+          <button onClick={() => sellForOne(token.token_id)}>
+            Виставити на продаж за ціною 1 ЛОЛ
+          </button>
+        )}
+        {token.owner_id !== context.accountId &&
+        token.token_id in tokensOnSale ? (
+          <button
+            disabled={!context.accountId}
+            onClick={() => buy(tokenId, tokensOnSale[token.token_id])}
+          >
+            Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
+          </button>
         ) : null}
       </Flex>
     ))}
