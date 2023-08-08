@@ -1,9 +1,10 @@
 const widgetOwner = props.widgetOwner ?? "astro.sking.near";
+props.daoId = "marmaj-research.sputnik-dao.near";
 
 State.init({
   tab: props.tab ?? "home",
   accountId: props.accountId ?? context.accountId,
-  daoId: "marmaj-research.sputnik-dao.near",
+  daoId: props.daoId,
   proposalId: props.proposalId,
 });
 
