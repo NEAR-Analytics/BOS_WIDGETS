@@ -159,7 +159,7 @@ const Wrapper = styled.div`
     width: 100%;
   }
 `;
-console.log({ state: ...state });
+
 return (
   <Wrapper>
     <i className="bi bi-search"></i>
