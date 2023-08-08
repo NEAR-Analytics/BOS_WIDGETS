@@ -1,7 +1,6 @@
 const DataStorage = styled.div`
     width: 100%;
     align-item: start;
-    background-color: black;
 
     .tableStyle{
         text-align: center;
