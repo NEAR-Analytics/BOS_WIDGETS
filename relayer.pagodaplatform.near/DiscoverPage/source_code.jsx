@@ -3,10 +3,15 @@ const DiscoverPage = styled.div`
 `;
 
 return (
-  <div className="w-100">
-    <div className="d-flex flex-row">
-      <div></div>
-      <div className="d-flex flex-column">
+  <div className="w-100 container-fluid">
+    <div className="d-flex flex-row row">
+      <div className="col-lg-4">
+        <img
+          src={`https://ipfs.near.social/ipfs/bafybeifemkrxbsify74bvnvxklukkz4q7om4cpo7cvtm6igdsqducp345u`}
+          alt="uploaded"
+        />
+      </div>
+      <div className="d-flex flex-column col-lg-8">
         <h1>Welcome to CLOUDY</h1>
         <p>
           Cloudy is a free platform for everyone to share, exchange and
