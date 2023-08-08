@@ -10,8 +10,7 @@ function defaultOnChange(content) {
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
 const height = props.height ?? "405";
-const fontFamily = props.fontFamily ?? "Arial, sans-serif";
-const fontSize = props.fontSize ?? "14px";
+const fontFamily = props.fontFamily ?? "sans-serif";
 
 State.init({
   iframeHeight: height,
@@ -52,10 +51,7 @@ const code = `
 <style>
 body {  
     margin: auto;
-}
-#react-root {
     font-family: ${fontFamily};
-    font-size: ${fontSize}; 
 }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
