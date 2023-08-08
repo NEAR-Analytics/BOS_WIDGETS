@@ -346,7 +346,7 @@ if (
 } else {
   console.log("yes");
   console.log(props);
-  props.resendPrompt(props);
+  // props.resendPrompt(props);
 }
 
 return (
