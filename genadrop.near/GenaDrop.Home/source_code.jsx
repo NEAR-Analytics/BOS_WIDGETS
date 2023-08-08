@@ -1,3 +1,4 @@
+// add navbar
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
