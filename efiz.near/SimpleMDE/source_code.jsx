@@ -6,9 +6,6 @@ const data = props.data;
 const onChange = props.onChange;
 const height = props.height ?? "500px";
 
-function togglePreview() {
-  State.update({ showPreview: !state.showPreview });
-}
 const code = `
 <style>
 #react-root {
@@ -90,7 +87,7 @@ function MarkdownEditor(props) {
         });
 
         setValue(props.initialText || "");
-    }, []);
+    }, [props.initialText]);
 
     return React.createElement('textarea', { id: 'markdown-input', value: value });
 }
@@ -106,32 +103,19 @@ window.addEventListener("message", (event) => {
 </script>
 `;
 return (
-  <>
-    {state.showPreview ? (
-      <Widget
-        src="efiz.near/widget/SocialMarkdown"
-        props={{ text: data.content }}
-      />
-    ) : (
-      <iframe
-        className="w-100"
-        style={{
-          height: height,
-        }}
-        srcDoc={code}
-        message={data.content ?? ""}
-        onMessage={(e) => {
-          console.log(e.handler);
-          switch (e.handler) {
-            case "update": {
-              onChange(event.content);
-            }
-            case "preview": {
-              togglePreview();
-            }
-          }
-        }}
-      />
-    )}
-  </>
+  <iframe
+    className="w-100"
+    style={{
+      height: height,
+    }}
+    srcDoc={code}
+    message={data.content ?? ""}
+    onMessage={(e) => {
+      switch (e.handler) {
+        case "update": {
+          onChange(event.content);
+        }
+      }
+    }}
+  />
 );
