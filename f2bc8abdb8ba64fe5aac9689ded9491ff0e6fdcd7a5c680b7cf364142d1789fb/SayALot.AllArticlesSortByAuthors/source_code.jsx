@@ -18,8 +18,6 @@ authors.map((author) => {
   articlesByAuthorsArray.push(thisAuthorArtciles);
 });
 
-console.log("ABAA: ", articlesByAuthorsArray);
-
 return (
   <div className="container-fluid">
     <h6>Total authors: {articlesByAuthorsArray.length}</h6>
