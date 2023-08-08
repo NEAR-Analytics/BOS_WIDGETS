@@ -1,7 +1,7 @@
 const {
   stateUpdate,
   handleGoHomeButton,
-  handleArticlesListNavigation,
+  handlePillNavigation,
   brand,
   pills,
   navigationButtons,
@@ -191,7 +191,7 @@ return (
                         const filter = { filterBy: "" };
                         handleFilterArticles(filter);
                       } else {
-                        handleArticlesListNavigation(pill.title);
+                        handlePillNavigation(pill.id);
                       }
                       State.update({ selectedPillIndex: i });
                     }}
