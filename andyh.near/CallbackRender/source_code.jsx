@@ -24,8 +24,12 @@ return (
       }}
     />
     <Widget
-      src="andyh.near/widget/WidgetIcons"
-      props={{ tag: "app", limit: 1 }}
+      src="andyh.near/widget/WidgetImage"
+      props={{
+        tooltip: true,
+        accountId: "zavodil.near",
+        widgetName: "hot-or-bot",
+      }}
     />
     {/*
     <Widget
