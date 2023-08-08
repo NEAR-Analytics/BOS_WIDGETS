@@ -186,9 +186,8 @@ const Tokens = ({ tokens }) => (
             }}
           />
         </div>
-        <b>
-          {token.metadata.title} / {token.metadata.description}
-        </b>
+        <b>{token.metadata.title}</b>
+        <div style={{ textAlign: "right" }}>{token.metadata.description}</div>
         {context.accountId ? (
           <>
             {token.owner_id !== context.accountId ||
