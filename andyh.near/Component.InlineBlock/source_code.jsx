@@ -11,7 +11,7 @@ const tags = Object.keys(metadata?.tags ?? {});
 return (
   <div className="d-flex flex-row">
     <Widget
-      src="mob.near/widget/WidgetImage"
+      src="andyh.near/widget/WidgetImage"
       props={{
         metadata,
         accountId,
