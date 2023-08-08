@@ -104,7 +104,7 @@ const StylessATag = styled.a`
 
 //=================================================Components====================================================
 
-const renderButton = (button) => {
+const renderButton = (button, i) => {
   return (
     <Widget
       src="rubycop.near/widget/NDC.StyledComponents"
@@ -112,10 +112,15 @@ const renderButton = (button) => {
         Button: {
           size: "big",
           onClick: () => {
-            stateUpdate({ displayedTabId: button.id });
+            handlePillNavigation(button.id);
+            State.update({
+              selectedPillIndex: undefined,
+              selectedButtonIndex: i,
+            });
           },
           text: button.title,
-          className: "primary dark",
+          className:
+            state.selectedButtonIndex == i ? "primary light" : "primary dark",
         },
       }}
     />
@@ -124,16 +129,6 @@ const renderButton = (button) => {
 //==============================================End components===================================================
 
 //==================================================FUNCTIONS====================================================
-
-function getLink(widgetName) {
-  let baseLink = widgetName
-    ? `#/${authorForWidget}/widget/${widgetName}`
-    : `#/${authorForWidget}/widget/SayALot_CreateArticle`;
-
-  if (isTest) {
-    return baseLink + "?isTest=true";
-  } else baseLink;
-}
 
 //================================================END FUNCTIONS===================================================
 return (
@@ -193,7 +188,10 @@ return (
                       } else {
                         handlePillNavigation(pill.id);
                       }
-                      State.update({ selectedPillIndex: i });
+                      State.update({
+                        selectedPillIndex: i,
+                        selectedButtonIndex: undefined,
+                      });
                     }}
                     className={`nav-link ${
                       id === displayedTabId
@@ -225,11 +223,11 @@ return (
         accountId &&
         writersWhiteList &&
         writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
-        navigationButtons.map((button) => {
+        navigationButtons.map((button, i) => {
           return !(button.id + "") || !button.title ? (
             <p className="text-danger border">Button passed wrong</p>
           ) : (
-            <div className="d-none d-md-block">{renderButton(button)}</div>
+            <div className="d-none d-md-block">{renderButton(button, i)}</div>
           );
         })}
     </div>
